@@ -225,6 +225,9 @@
     <ClInclude Include="Config\Roguelike\RoguelikeCopilotConfig.h">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Config\Roguelike\RoguelikeMapConfig.h">
+      <Filter>Source\Resource\Roguelike</Filter>
+    </ClInclude>
     <ClInclude Include="Config\Roguelike\RoguelikeRecruitConfig.h">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClInclude>
@@ -456,6 +459,12 @@
     <ClInclude Include="Task\Roguelike\RoguelikeBattleTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Roguelike\Map\RoguelikeMap.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\Map\RoguelikeRoutingTask.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeConfig.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
@@ -639,6 +648,9 @@
     <ClInclude Include="Vision\Miscellaneous\OperBoxImageAnalyzer.h">
       <Filter>Source\Vision\Miscellaneous</Filter>
     </ClInclude>
+    <ClInclude Include="Vision\Miscellaneous\BrightPointAnalyzer.h">
+      <Filter>Source\Vision\Miscellaneous</Filter>
+    </ClInclude>
     <ClInclude Include="Vision\Config\MatcherConfig.h">
       <Filter>Source\Vision\Config</Filter>
     </ClInclude>
@@ -789,6 +801,9 @@
       <Filter>Source\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Config\Roguelike\RoguelikeCopilotConfig.cpp">
+      <Filter>Source\Resource\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Roguelike\RoguelikeMapConfig.cpp">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Config\Roguelike\RoguelikeRecruitConfig.cpp">
@@ -968,6 +983,12 @@
     <ClCompile Include="Task\Roguelike\RoguelikeBattleTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
+    <ClCompile Include="Task\Roguelike\Map\RoguelikeMap.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\Map\RoguelikeRoutingTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeConfig.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
@@ -1125,6 +1146,9 @@
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Vision\Miscellaneous\OperBoxImageAnalyzer.cpp">
+      <Filter>Source\Vision\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Vision\Miscellaneous\BrightPointAnalyzer.cpp">
       <Filter>Source\Vision\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Vision\Config\MatcherConfig.cpp">

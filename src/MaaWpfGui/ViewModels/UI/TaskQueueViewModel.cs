@@ -116,7 +116,6 @@ namespace MaaWpfGui.ViewModels.UI
             await Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript"));
             var actions = TaskSettingDataContext.PostActionSetting;
 
-
             if (actions.BackToAndroidHome)
             {
                 Instances.AsstProxy.AsstBackToHome();
@@ -125,7 +124,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else if (actions.ExitArknights)
             {
-                if (!Instances.AsstProxy.AsstStartCloseDown())
+                var mode = Instances.SettingsViewModel.ClientType;
+                if (!Instances.AsstProxy.AsstStartCloseDown(mode))
                 {
                     AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
                 }
@@ -197,12 +197,16 @@ namespace MaaWpfGui.ViewModels.UI
                 // 休眠提示
                 AddLog(LocalizationHelper.GetString("HibernatePrompt"), UiLogColor.Error);
 
+                /*
                 // 休眠不能加时间参数，https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1133
                 Process.Start("shutdown.exe", "-h");
+                */
+                PowerManagement.Hibernate();
             }
 
-            void DoShutDown()
+            async void DoShutDown()
             {
+                /*
                 Process.Start("shutdown.exe", "-s -t 60");
 
                 // 关机询问
@@ -211,6 +215,17 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     Process.Start("shutdown.exe", "-a");
                 }
+                */
+                if (await TimerCanceledAsync(
+                        LocalizationHelper.GetString("Shutdown"),
+                        LocalizationHelper.GetString("AboutToShutdown"),
+                        LocalizationHelper.GetString("Cancel"),
+                        60))
+                {
+                    return;
+                }
+
+                PowerManagement.Shutdown();
             }
         }
 
@@ -432,7 +447,11 @@ namespace MaaWpfGui.ViewModels.UI
                     Instances.MainWindowManager?.Show();
                 }
 
-                if (await TimerCanceledAsync())
+                if (await TimerCanceledAsync(
+                        LocalizationHelper.GetString("ForceScheduledStart"),
+                        LocalizationHelper.GetString("ForceScheduledStartTip"),
+                        LocalizationHelper.GetString("Cancel"),
+                        10))
                 {
                     return;
                 }
@@ -442,7 +461,8 @@ namespace MaaWpfGui.ViewModels.UI
                     await Stop();
                 }
 
-                if (!Instances.AsstProxy.AsstAppendCloseDown())
+                var mode = Instances.SettingsViewModel.ClientType;
+                if (!Instances.AsstProxy.AsstAppendCloseDown(mode))
                 {
                     AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
                 }
@@ -455,13 +475,13 @@ namespace MaaWpfGui.ViewModels.UI
             LinkStart();
         }
 
-        private static async Task<bool> TimerCanceledAsync()
+        private static async Task<bool> TimerCanceledAsync(string content = "", string tipContent = "", string buttonContent="", int seconds = 10)
         {
-            var delay = TimeSpan.FromSeconds(10);
+            var delay = TimeSpan.FromSeconds(seconds);
             var dialogUserControl = new Views.UserControl.TextDialogWithTimerUserControl(
-                LocalizationHelper.GetString("ForceScheduledStart"),
-                LocalizationHelper.GetString("ForceScheduledStartTip"),
-                LocalizationHelper.GetString("Cancel"),
+                content,
+                tipContent,
+                buttonContent,
                 delay.TotalMilliseconds);
             var dialog = HandyControl.Controls.Dialog.Show(dialogUserControl, nameof(Views.UI.RootView));
             var canceled = false;
@@ -491,7 +511,7 @@ namespace MaaWpfGui.ViewModels.UI
                 "AutoRoguelike",
             ];
 
-            if (Instances.SettingsViewModel.ClientType is "" or "Official" or "Bilibili")
+            if (!(Instances.SettingsViewModel.ClientType is "txwy"))
             {
                 taskList.Add("ReclamationAlgorithm2");
             }
@@ -1451,7 +1471,7 @@ namespace MaaWpfGui.ViewModels.UI
             return Instances.AsstProxy.AsstAppendMall(
                 !string.IsNullOrEmpty(this.Stage) && Instances.SettingsViewModel.CreditFightTaskEnabled,
                 Instances.SettingsViewModel.CreditFightSelectFormation,
-                Instances.SettingsViewModel.CreditVisitFriends,
+                Instances.SettingsViewModel.CreditVisitFriendsEnabled,
                 Instances.SettingsViewModel.CreditShopping,
                 buyFirst.ToArray(),
                 blackList.ToArray(),
@@ -2536,7 +2556,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (value >= CustomInfrastPlanInfoList.Count || value < 0)
                 {
                     var count = CustomInfrastPlanInfoList.Count;
-                    value = (value % count + count) % count;
+                    value = ((value % count) + count) % count;
                     _logger.Warning($"CustomInfrastPlanIndex out of range, reset to Index % Count: {value}");
                 }
 

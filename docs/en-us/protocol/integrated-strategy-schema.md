@@ -48,11 +48,11 @@ Split operators in different ***groups*** according to your understanding of the
 
 1. Operators and summons within the same group must be deployed in the same way (i.e. both melee or ranged)
 
-2. Allows the same operator or summon to be sorted in different groups, depending on its usage.
+2. Allows the same operator or summon to be sorted into different groups, depending on its usage.
 
 3. Please do not change the name of an existing group, as this may cause previous versions of the task to be unavailable when MAA is updated!
 
-4. Please try not to add new group, instead try to implement new operators added to the task, into existing groups according to the usage
+4. Please try not to add new groups, instead try to implement new operators added to the task, into existing groups according to the usage
 :::
 
 ::: tip
@@ -86,7 +86,7 @@ By default, only E1 Level 55 operators will be recruited
 
 1. Introduction to existing groups
 
-    Take Phantom's I.S. as an example: operator's are mainly divided in
+    Take Phantom's I.S. as an example: operators are mainly divided in
     | Group  | Considerations | Class | Operators |  
     | :--- | :--- | :--- | :--- |
     | ***Ground block***  | 站场和清杂  | 重装, 近卫 | 奶盾, 基石, 羽毛笔, 山, M3, 令和稀音的召唤物, 斑点, 重装预备干员 |
@@ -103,13 +103,13 @@ By default, only E1 Level 55 operators will be recruited
     In addition to those general groups, sometimes we need more custom tweaks for some operators or types such as
     | Group | Operators | Features |
     | :--- | :--- | :--- |
-    | Thorns | Thorns, Horn | Long range melee, many maps have good spots |
+    | Thorns | Thorns, Horn | Long-range melee, many maps have good spots |
     | Summoners | Kal'tsit, Ling, Scene | Melee blocking, some maps need deployment prioritization, summons can be used as blocks or fodder |
-    | Agent | Cantabile, Ines | Has DP recovery, deals DPS and it's single block |
+    | Agent | Cantabile, Ines | Has DP recovery, deals DPS and is single block |
     | Skadi Alter | Skadi the Corrupting Heart | Low DP cost, special range, some maps have optimal spots |
-    | Reed Alter | Reed the Flame Shadow | In Sami I.S. she's commonly used as opening caster, DPS and healing, some maps have optimal spots |
-    | SilverAsh | SilverAsh, Młynar | Ground operators with large range , very useful against bosses |
-    | Surtr | Surtr | Since Surtr always carries the 3rd skill, her positioning ability is almost zero, deployment priority is extremely low |
+    | Reed Alter | Reed the Flame Shadow | In Sami I.S. she's commonly used as an opening caster, DPS and healing, some maps have optimal spots |
+    | SilverAsh | SilverAsh, Młynar | Ground operators with large range, very useful against bosses |
+    | Surtr | Surtr | Since Surtr always carries the 3rd skill, her positioning ability is almost zero and deployment priority is extremely low |
     | Dice | Dice | In Mizuki I.S. the dice needs to be operated separately |
 
 ::: info
@@ -137,7 +137,7 @@ So don't set the threshold number too high, it is recommended that the number of
                 "C-team"
             ],
             "threshold": 1           // How many of these operators are needed?
-        },                           //(This indicates a need for an officer from the C-team on the high platform)
+        },                           //(This indicates a need for an operator from the C-team on the high platform)
         {
             "groups": [
                 "Thorns",              //(A minimum of 2 operators are required from Thorns, GroundBlock, Ground1Block, Fodder)
@@ -216,7 +216,7 @@ So don't set the threshold number too high, it is recommended that the number of
    }
    ```
 
-3. Add groups and opeators as you see fit
+3. Add groups and operators as you see fit
 
     When you add a new group, you can copy the operator from an existing group. Refer to the ratings already given by the devs, and modify them on that basis
 
@@ -226,33 +226,33 @@ So don't set the threshold number too high, it is recommended that the number of
 
 ### Basic I.S. fighting logic of MAA
 
-1. Perform basic combat operations based on the grid type of the map
+1. Perform basic combat operations based on the tile grid of the map
 
-    - MAA performs basic combat operations based on whether the grid on the map is a blue or red gate, whether it's a high platform or ground, and whether it can be deployed or not.
+    - MAA performs basic combat operations based on whether the grid on the map is a blue or red box, whether it's a high platform or ground, and whether it can be deployed or not.
 
     - MAA decides which job to use based on the name or number of the map only, and does not judge the map's **Standard**, **Emergency**, **Road Network**, **Classified Board Use**, etc.
 
     - MAA does not judge **in combat the situation of undefined squares on the map**, e.g. the position of the altar in the `Taming Hut`, the `follower effect` of monsters coming out of the left side or the right side.
 
-   So in the future, you need to try to design a set of combat logic that can cope with **all the different scenarios of a map name** (the above mentioned scenarios), and be careful of being hung up on the issue that this map operates in Emergency Mode.
+   So in the future, you need to try to design a set of combat logic that can cope with **all the different scenarios of a map name** (the above-mentioned scenarios), and be careful of being hung up on the issue that this map operates in Emergency Mode.
 
 2. MAA's Basic Battle Strategy -- Blocking the Blue Entry Point
 
-    1. Ground Crews are preferentially deployed on (or around) the grid of the Blue Gate (why the grid, scroll down), orientated towards the Red Gate (auto-calculated), and are not deployed on the Red Gate
+    1. Ground Crews are preferably deployed on (or around) the grid of the Blue Box (why the grid, scroll down), orientated towards the Red box (auto-calculated), and are not deployed on the Red box
 
-    2. Prioritise the ground before healing and ranged, in a circle from the blue gate to the perimeter
+    2. Prioritise the ground units before healers and ranged operators, in a circle from the blue box to the perimeter
 
     3. It will keep deploying things that can be deployed according to the logic above (operators, summons, support items, etc.)
 
 ### Optimise basic combat strategies
 
-1. Blue Gate Alternative
+1. Blue box Alternative
 
-    It's obviously not smart to just pile up your operators in front of the blue door, some levels have grids where you can't get through, and the defence is obviously very efficient here
+    It's obviously not smart to just pile up your operators in front of the blue box, some levels have tiles where you can't get through, and the defence is very efficient here
 
-    Or if there are levels with multiple blue gates, and the MAA doesn't know which blue gate corresponds to which red gate, they may deploy randomly
+    Or if there are levels with multiple blue boxes, and the MAA doesn't know which blue box corresponds to which red box, they may deploy randomly
 
-    At this point you'll need to open the [map wiki](https://map.ark-nights.com/areas?coord_override=maa) while imagining the battle in your head
+    At this point, you'll need to open the [map wiki](https://map.ark-nights.com/areas?coord_override=maa) while imagining the battle in your head
 
     Use this link, otherwise switch the `Coordinate Display` to `MAA` in `Settings`
 
@@ -261,7 +261,7 @@ So don't set the threshold number too high, it is recommended that the number of
     ```json
     {
         "stage_name": "蓄水池",        // Level name (In chinese)
-        "replacement_home": [         // Entry points (blue gates replacement points),  
+        "replacement_home": [         // Entry points (blue boxes replacement points),  
                                       // at least 1 to be complete
             {
                 "location": [         // Grid coordinates, obtained from the map wiki
@@ -278,13 +278,13 @@ So don't set the threshold number too high, it is recommended that the number of
         ...
     ```
 
-2. Deployment grid blacklist
+2. Deployment tile blacklist
 
     There are points of priority for defence and points of priority for not deploying operators, such as where the fireball passes through, under the boss's feet, and some locations that are not good for output.
 
-    At this point we introduce `blacklist_location` to blacklist the grids that we don't want MAA to deploy operators on.
+    At this point, we introduce `blacklist_location` to blacklist the tiles that we don't want MAA to deploy operators on.
     ::: info
-    The grids added here will not be deployed on even if they are included in the deployment strategy later on.
+    The tiles added here will not be used, even if they are included in the deployment strategy later on.
     :::
 
     ```json
@@ -304,18 +304,18 @@ So don't set the threshold number too high, it is recommended that the number of
 
 3. Alternative map strategies
 
-    For example, if there is a monster at the blue door in Mizuki I.S. should we use the dice to ease the pressure of stacking monsters?
+    For example, if there is a monster in the blue box in Mizuki I.S. should we use the dice to ease the pressure of stacking monsters?
 
     ```json
-        "not_use_dice_Doc": "When the Blue Gate operator is retreated does MAA need to use the dice. Defaults to false if empty",
+        "not_use_dice_Doc": "When the Blue box operator is retreated does MAA need to use the dice. Defaults to false if empty",
         "not_use_dice": false,
     ```
 
-### Or is it Emergency Operation? It's time to show your true while skills - customised combat strategies!
+### Or is it an Emergency Operation? It's time to show your true while skills - customised combat strategies!
 
 Customisation using `"deploy_plan"` and `"retreat_plan"`
 
-The customised strategy takes precedence over the basic combat strategy, and when all the steps in the customised strategy have been attempted, the saved or fallen re-deployed operator will be deployed in accordance with the basic combat strategy.
+The customised strategy takes precedence over the basic combat strategy, and when all the steps in the customised strategy have been attempted, the saved or fallen re-deployed operator will be deployed per the basic combat strategy.
 
 There is no need to set up too many customised plans when there is a problem. It may be better to hand over to MAA after completing the key steps, or a combination of both.
 
@@ -344,9 +344,9 @@ There is no need to set up too many customised plans when there is a problem. It
     ```
 
     ::: info
-    MAA flattens all deployment commands and then executes the highest priority deployment operations
+    MAA flattens all deployment commands and then executes the highest-priority deployment operations
     Example: deploys [ "Gavial", "Cornerstone", "GroundC"] on [6,4], deploys [ "Cornerstone", "GroundC"] on [6,3], then MAA will flatten the deployment commands to [ "Gavial", "Cornerstone", "GroundC", "Cornerstone", "GroundC"]
-    If a "Gavial" operator on [6,4] is retreated during battle, the "Cornerstone" operator in hand, if avaiable, will be deployed on [6,4], instead of [6,3]
+    If a "Gavial" operator on [6,4] is retreated during battle, the "Cornerstone" operator in hand, if available, will be deployed on [6,4], instead of [6,3]
     :::
 
 2. Deployment of operators at a point in time
@@ -438,9 +438,9 @@ There is no need to set up too many customised plans when there is a problem. It
 
 ### Have a special understanding of an operator's playing style? -- Refined operation of specific operators
 
-Please group this officer separately
+Please group this operator separately
 
-When writing assignments, please consider the sequential priority of this officer in relation to existing assignments
+When writing assignments, please consider the sequential priority of this operator with existing assignments
 
 Or you could just forget about it, and write a combat logic for this agent alone
 
@@ -456,13 +456,13 @@ Reference examples: 1. Thorns in Phantom I.S. 2. Texas the Omertosa in Mizuki I.
 
 ### MAA currently has a method for judging Encounters
 
-OCR recognises Encounters, but the option is to operate on a fixed position.
+OCR recognises Encounters, but the option is operated in a fixed position.
 
 If the Encounter is not recognized, it will click the choice at the bottom
 
 Generally, it only requires slight adjustment or no adjustment at all (the devs have already taken care of this)
 
-### Optimise the priority of the Encouter options
+### Optimise the priority of the Encounter options
 
 Please refer to [prts.wiki](https://prts.wiki/w/%E9%9B%86%E6%88%90%E6%88%98%E7%95%A5) to see the effects of each Encouter's options, note that the options are not necessarily fixed.
 
@@ -512,7 +512,7 @@ The Encounter options can be modified to guide MAA towards special endings
     "priority": [                                             // Order is the priority
                                                               // The higher the order, the higher the priority to buy.,
                                                               // However, the priority judgment is before the screening of chars and roles.
-                                                              // It may happen that high-priority products are screened out and nothing is purchased.
+                                                              //high-priority products may be screened out and nothing is purchased.
         {
             "name": "Golden Chalice",                          // Collectible name (In this case Golden Caliche)
             "no_longer_buy": true,                             // true means don't spend money on the item after getting it
@@ -521,7 +521,7 @@ The Encounter options can be modified to guide MAA towards special endings
                                                                // that is, it will be bought
                                                                // False or omitted, means that the store has it.
             "effect": "每有5源石锭, 所有我方单位的攻击速度+7",    // Collectible effect (does not affect the operation, useful for convenient sorting)
-            "no": 167                                          // Collectible number (can be foundo in the wiki, does not affect the opration)
+            "no": 167                                          // Collectible number (can be found in the wiki, does not affect the operation)
         },
         
         ...
@@ -565,7 +565,7 @@ The Encounter options can be modified to guide MAA towards special endings
 
 ### Optimising the pathfinding algorithm
 
-For example, you can achieve more battles in the first three levels and less battles in the later ones, so that the development will be better
+For example, you can achieve more battles in the first three levels and fewer battles in the later ones, so that the development will be better
 
 ### Skill Retention
 
@@ -573,6 +573,6 @@ The operator deployed in a certain frame, wait x seconds for the skill to turn o
 
 ### Skills Shutdown
 
-Useful for operators that have ammo skills
+Useful for operators who have ammo skills
 
 <!-- markdownlint-disable-file MD026 -->

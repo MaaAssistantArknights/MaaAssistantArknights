@@ -1,4 +1,7 @@
 {
+    "HS-Open": {
+        "baseTask": "SS-Open"
+    },
     "Mizuki@Roguelike@ChooseDifficultyConfirm": {
         "text": ["Select"]
     },
@@ -23,6 +26,15 @@
     "SideStoryReopen": {
         "text": ["Rerun", "Retrospection"],
         "roi": [0, 500, 500, 150]
+    },
+    "HS-9": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-8": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-7": {
+        "sub": ["HS-Open", "HSChapterToHS"]
     },
     "HS-OpenOcr": {
         "text": ["Here", "People", "Sows"]
@@ -1926,12 +1938,12 @@
         "fullMatch": true,
         "ocrReplace": [
             ["<", ""],
-            [".", ""],
+            ["\\.", ""],
             ["Camp", "扎营"],
             ["The Kind Puppet", "善良的木偶"],
             ["Teller of Tales", "讲故事的人"],
             ["Adventurer Comm[ission]*", "委托冒险者"],
-            ["Royal Rumble", "皇家争执"],
+            [".*Royal Rumble'?", "皇家争执"],
             ["Advance Squad", "先遣小队"],
             ["Gaulish Veteran", "高卢老兵"],
             ["Hallucinatory Candlelights", "迷幻烛火"],
@@ -2110,6 +2122,7 @@
         "templThreshold": 0.95
     },
     "Phantom@Roguelike@StrategyChange_mode0": {
+        "roi": [541, 5, 241, 71],
         "text": ["_aggressive", "_pragmatic", "_default"],
         "ocrReplace": [
             ["Mist-stricken Missteps", "_aggressive"],
@@ -2121,6 +2134,7 @@
         ]
     },
     "Phantom@Roguelike@StrategyChange_mode4": {
+        "roi": [541, 5, 241, 71],
         "text": ["_default", "_exit"],
         "ocrReplace": [
             ["Mist-stricken Missteps", "_default"],
@@ -2138,6 +2152,7 @@
         "templThreshold": 0.7
     },
     "Mizuki@Roguelike@GetDropSelectRecruit": {
+        "templThreshold": 0.8,
         "template": "Mizuki@Roguelike@GetDropSelectRecruit.png"
     },
     "Mizuki@Roguelike@NextLevel": {
@@ -2182,8 +2197,6 @@
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms": {
-        "action": "DoNothing",
-        "cache": false,
         "ocrReplace": [
             ["De-quantification", "去量化"],
             ["Intensified De-quantification", "去量深化"],
@@ -2205,30 +2218,16 @@
             ["Complete Cecity", "睁眼瞎"],
             ["Image Corruption", "图像损坏"],
             ["Image Blackout", "一抹黑"]
-        ],
-        "algorithm": "OcrDetect",
-        "text": [
-            "去量化",
-            "去量深化",
-            "实质性坍缩",
-            "蔓延性坍缩",
-            "非线性移动",
-            "非线性行动",
-            "情绪实体",
-            "恐怖实体",
-            "泛社会悖论",
-            "泛文明悖论",
-            "气压异常",
-            "气压失序",
-            "触发性损伤",
-            "触发性危殆",
-            "趋同性消耗",
-            "趋同性缺失",
-            "目空一些",
-            "睁眼瞎",
-            "图像损坏",
-            "一抹黑"
         ]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigmsOnBanner": {
+        "ocrReplace": [
+            ["Collapsal Paradigm intensifies", "坍缩范式加深"],
+            ["Collapsal Paradigm wanes", "坍缩范式消退"]
+        ]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigmsOnPanel": {
+        "ocrReplace": [["Current Collapse Value", "当前坍缩值"]]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_loading": {
         "action": "DoNothing",
@@ -2237,25 +2236,6 @@
         "text": ["正在提交反馈至神经"],
         "ocrReplace": [["Submitting feedback to the neural network", "正在提交反馈至神经"]],
         "roi": [720, 645, 355, 45]
-    },
-    "Sami@Roguelike@CheckCollapsalParadigms_onBanner": {
-        "action": "DoNothing",
-        "cache": false,
-        "ocrReplace": [
-            ["Collapsal Paradigm intensifies", "坍缩范式加深"],
-            ["Collapsal Paradigm wanes", "坍缩范式消退"]
-        ],
-        "algorithm": "OcrDetect",
-        "text": ["坍缩范式加深", "坍缩范式消退"],
-        "roi": [945, 60, 335, 660]
-    },
-    "Sami@Roguelike@CheckCollapsalParadigms_panel": {
-        "action": "DoNothing",
-        "algorithm": "OcrDetect",
-        "cache": false,
-        "ocrReplace": [["Current Collapse Value", "当前坍缩值"]],
-        "text": ["当前坍缩值"],
-        "roi": [350, 120, 310, 520]
     },
     "Sami@Roguelike@ContinueClick": {
         "text": [
@@ -2430,85 +2410,200 @@
             [".*Secluded ?Passage", "_SKIP_"]
         ]
     },
-    "Reclamation@BuyWaterProcedure": {
-        "text": ["Skip", "Building materials", "Fresh Water", "Skip"]
+    "Reclamation2Begin": {
+        "text": ["Commence"]
     },
-    "Reclamation@ConfirmStart": {
-        "text": ["COMMENCE", "ALGORITHM"]
+    "Reclamation2BeginContinue": {
+        "text": ["Resume"]
     },
-    "Reclamation@DoManufacture": {
+    "Reclamation2BeginStage": {
+        "text": ["Gathering Grounds", "Base Camp"]
+    },
+    "Reclamation2Birdland": {
+        "text": ["Gathering of Feathers", "Hunting Zone"]
+    },
+    "Reclamation2ClickDrop": {
+        "text": ["MISSION RESULTS"]
+    },
+    "Reclamation2CopiousCoppice": {
+        "text": ["Shrubbery Galore", "Resource", "Zone"]
+    },
+    "Reclamation2DeleteArchiveEnterConfirm": {
+        "text": ["Wipe Save"]
+    },
+    "Reclamation2DeleteArchiveLastConfirm": {
+        "text": ["Confirm Wipe"]
+    },
+    "Reclamation2ExAssemblyStationOcr": {
+        "text": ["Workbench"]
+    },
+    "Reclamation2ExBegin": {
+        "text": ["Resume"]
+    },
+    "Reclamation2ExClickProduct": {
+        "text": ["Glow Stick"]
+    },
+    "Reclamation2ExDeleteArchiveConfirm": {
+        "text": ["Confirm Wipe"]
+    },
+    "Reclamation2ExDeleteArchiveEnter": {
+        "text": ["Wipe Save"]
+    },
+    "Reclamation2ExManufactureConfirm": {
         "text": ["Craft"]
     },
-    "Reclamation@EmptyInitUnits": {
+    "Reclamation2ExManufactureConfirmClickToContinue": {
+        "text": ["Tap anywhere to continue"]
+    },
+    "Reclamation2ExReadArchiveConfirm": {
+        "text": ["Confirm"]
+    },
+    "Reclamation2ExReadArchiveEnter": {
+        "doc": "Needs to be edited if confirmation window is removed later",
+        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
+        "text": ["Load Save"],
+        "sub": [
+            "Reclamation2ExReadArchiveConfirm*2",
+            "Reclamation2ExReadArchiveSelectDay",
+            "Reclamation2ExReadArchiveSelectDayConfirm"
+        ]
+    },
+    "Reclamation2ExReadArchiveSelectDay": {
+        "text": ["Days"]
+    },
+    "Reclamation2ExReadArchiveSelectDayConfirm": {
+        "text": ["Confirm"]
+    },
+    "Reclamation2ExSkipDays2ExSkipTime": {
+        "text": ["Skip Day"]
+    },
+    "Reclamation2ExSkipDays2ExSkipTimeConfig": {
+        "text": ["Confirm"]
+    },
+    "Reclamation2ExSkipDaysAward2": {
+        "text": ["Tap anywhere to continue"]
+    },
+    "Reclamation2ExSkipDaysBeginNewDay": {
+        "text": ["Start Today"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveEnterConfirm": {
+        "text": ["Wipe Save"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm1": {
+        "text": ["Confirm Wipe"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
+        "text": ["Confirm Wipe"]
+    },
+    "Reclamation2ProsperityMaxSkipDayBeginNewDay": {
+        "text": ["Start Today"]
+    },
+    "Reclamation2ProsperityMaxSkipDayClickContinue": {
+        "text": ["Tap anywhere to continue"]
+    },
+    "Reclamation2SkipDayBeginNewDay": {
+        "text": ["Start Today"]
+    },
+    "Reclamation2SkipDayClickContinue": {
+        "text": ["Tap anywhere to continue"]
+    },
+    "Reclamation2SkipTimeSkip": {
+        "text": ["Skip Day"]
+    },
+    "Reclamation2SkipTimeSkipConfirm": {
+        "text": ["Confirm"]
+    },
+    "Reclamation2StageEnter": {
+        "text": ["Start"]
+    },
+    "Reclamation2StageFight": {
+        "text": ["Start"]
+    },
+    "Reclamation2StageFightConfirm": {
+        "text": ["Confirm"]
+    },
+    "Reclamation2StageLeaveConfirm": {
+        "text": ["Are you sure you"]
+    },
+    "Fire@Reclamation@BuyWaterProcedure": {
+        "text": ["Skip", "Building materials", "Fresh Water", "Skip"]
+    },
+    "Fire@Reclamation@ConfirmStart": {
+        "text": ["COMMENCE", "ALGORITHM"]
+    },
+    "Fire@Reclamation@DoManufacture": {
+        "text": ["Craft"]
+    },
+    "Fire@Reclamation@EmptyInitUnits": {
         "roi": [349, 598, 563, 120],
         "text": ["Choose the Operators", "you wish to begin", "the Algorithm with"]
     },
-    "Reclamation@EnterResearchLab": {
+    "Fire@Reclamation@EnterResearchLab": {
         "text": ["Research", "Development"]
     },
-    "Reclamation@EnterSmeltGoldPage": {
+    "Fire@Reclamation@EnterSmeltGoldPage": {
         "roi": [0, 31, 1280, 175],
         "text": ["Crude", "Gold"]
     },
-    "Reclamation@ExitLevelConfirm": {
+    "Fire@Reclamation@ExitLevelConfirm": {
         "text": ["Are you sure you", "want to leave?"]
     },
-    "Reclamation@GiveupAlgorithm": {
+    "Fire@Reclamation@GiveupAlgorithm": {
         "text": ["ABANDON"]
     },
-    "Reclamation@GiveupCheckRemainItems": {
+    "Fire@Reclamation@GiveupCheckRemainItems": {
         "text": ["Check", "Supplies"]
     },
-    "Reclamation@GiveupClickEmergencyExit": {
+    "Fire@Reclamation@GiveupClickEmergencyExit": {
         "text": ["Confirm", "Evacuation"]
     },
-    "Reclamation@GiveupCrossdomainPageFlag": {
+    "Fire@Reclamation@GiveupCrossdomainPageFlag": {
         "text": ["Select supplies", "to keep", "and manually tap", "Emergency", "Evacua"]
     },
-    "Reclamation@GiveupTakeNothing": {
+    "Fire@Reclamation@GiveupTakeNothing": {
         "text": ["Confirm", "Evacuation"]
     },
-    "Reclamation@LabClickAssembleable": {
+    "Fire@Reclamation@LabClickAssembleable": {
         "text": ["Craftable"]
     },
-    "Reclamation@LabClickDetailView": {
+    "Fire@Reclamation@LabClickDetailView": {
         "text": ["View", "Details"]
     },
-    "Reclamation@LevelComplete": {
+    "Fire@Reclamation@LevelComplete": {
         "text": ["Results"]
     },
-    "Reclamation@Liaison": {
+    "Fire@Reclamation@Liaison": {
         "text": ["Liaison"]
     },
-    "Reclamation@ManufactureDecrease": {
+    "Fire@Reclamation@ManufactureDecrease": {
         "text": ["Insufficient", "materials"]
     },
-    "Reclamation@ManufactureIncrease": {
+    "Fire@Reclamation@ManufactureIncrease": {
         "text": ["Craft"]
     },
-    "Reclamation@ManufactureInsufficientMaterial": {
+    "Fire@Reclamation@ManufactureInsufficientMaterial": {
         "text": ["Insufficient", "materials"]
     },
-    "Reclamation@ManufactureStatus": {
+    "Fire@Reclamation@ManufactureStatus": {
         "roi": [1021, 336, 259, 109],
         "text": []
     },
-    "Reclamation@ManufactureSufficientMaterial": {
+    "Fire@Reclamation@ManufactureSufficientMaterial": {
         "text": ["Craft"]
     },
-    "Reclamation@PrepareAction": {
+    "Fire@Reclamation@PrepareAction": {
         "text": ["Prepare for", "Battle"]
     },
-    "Reclamation@SkipAnnounce": {
+    "Fire@Reclamation@SkipAnnounce": {
         "text": ["SKIP"]
     },
-    "Reclamation@SkipDailyReport": {
+    "Fire@Reclamation@SkipDailyReport": {
         "text": ["Today's News"]
     },
-    "Reclamation@StartActionEnter": {
+    "Fire@Reclamation@StartActionEnter": {
         "text": ["Start"]
     },
-    "Reclamation@TodoEnter": {
+    "Fire@Reclamation@TodoEnter": {
         "text": ["FIRE", "WITHIN", "THE", "SAND"]
     }
 }

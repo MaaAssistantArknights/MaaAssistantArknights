@@ -119,6 +119,8 @@ MAA 使用一系列的格式化工具来保证仓库中的代码和资源文件�
     pre-commit install
     ```
 
+如果pip安装后依然无法运行pre-commit，请确认pip安装地址已被添加到PATH
+
 接下来，每次提交时都将会自动运行格式化工具，来确保你的代码格式符合规范
 
 ### 在 Visual Studio 中启用 clang-format

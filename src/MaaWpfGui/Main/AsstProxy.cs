@@ -265,7 +265,7 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("GpuDeprecatedMessage"), x.GpuInfo?.Description), UiLogColor.Warning);
                 }
 
-                _logger.Debug("Using GPU {0} (Driver {1} {2})", x.GpuInfo?.Description, x.GpuInfo?.DriverVersion, x.GpuInfo?.DriverDate?.ToString("yyyy-MM-dd"));
+                _logger.Information("Using GPU {0} (Driver {1} {2})", x.GpuInfo?.Description, x.GpuInfo?.DriverVersion, x.GpuInfo?.DriverDate?.ToString("yyyy-MM-dd"));
 
                 AsstSetStaticOption(AsstStaticOptionKey.GpuOCR, x.Index.ToString());
             }
@@ -386,6 +386,8 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.Running = true;
                     goto case AsstMsg.TaskChainExtraInfo; // fallthrough
                 case AsstMsg.AllTasksCompleted:
+                case AsstMsg.AsyncCallInfo:
+                case AsstMsg.Destroyed:
                 case AsstMsg.TaskChainError:
                 case AsstMsg.TaskChainCompleted:
                 case AsstMsg.TaskChainStopped:
@@ -491,6 +493,7 @@ namespace MaaWpfGui.Main
                     {
                         string costString = details["details"]?["cost"]?.ToString() ?? "???";
                         string method = details["details"]?["method"]?.ToString() ?? "???";
+                        Instances.SettingsViewModel.ScreencapMethod = method;
 
                         StringBuilder fastestScreencapStringBuilder = new();
                         string color = UiLogColor.Trace;
@@ -513,20 +516,40 @@ namespace MaaWpfGui.Main
                             color = UiLogColor.Error;
                         }
 
-                        fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString, method));
-                        Instances.TaskQueueViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color);
-                        Instances.CopilotViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color, showTime: false);
-
+                        var needToStop = false;
                         switch (Instances.SettingsViewModel.ConnectConfig)
                         {
                             case "MuMuEmulator12":
                                 if (Instances.SettingsViewModel.MuMuEmulator12Extras.Enable && method != "MumuExtras")
                                 {
-                                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage"), UiLogColor.Warning);
-                                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage"), UiLogColor.Warning, showTime: false);
+                                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage"), UiLogColor.Error);
+                                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage"), UiLogColor.Error, showTime: false);
+                                    needToStop = true;
+                                }
+                                else if (timeCost < 100)
+                                {
+                                    color = UiLogColor.MuMuSpecialScreenshot;
+                                    method = "MuMuExtras";
                                 }
 
                                 break;
+                        }
+
+                        fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString, method));
+                        var fastestScreencapString = fastestScreencapStringBuilder.ToString();
+                        Instances.SettingsViewModel.ScreencapTestCost = fastestScreencapString;
+                        Instances.TaskQueueViewModel.AddLog(fastestScreencapString, color);
+                        Instances.CopilotViewModel.AddLog(fastestScreencapString, color, showTime: false);
+
+                        // 截图增强未生效禁止启动
+                        if (needToStop)
+                        {
+                            Execute.OnUIThreadAsync(async () =>
+                            {
+                                Connected = false;
+                                await Instances.TaskQueueViewModel.Stop();
+                                Instances.TaskQueueViewModel.SetStopped();
+                            });
                         }
                     }
 
@@ -687,6 +710,12 @@ namespace MaaWpfGui.Main
                                 {
                                     Instances.SettingsViewModel.LastCreditFightTaskTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("CreditFight"));
+                                }
+
+                                if (Instances.SettingsViewModel.CreditVisitFriendsEnabled)
+                                {
+                                    Instances.SettingsViewModel.LastCreditVisitFriendsTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("Visiting"));
                                 }
 
                                 break;
@@ -854,6 +883,12 @@ namespace MaaWpfGui.Main
                 case AsstMsg.ConnectionInfo:
                     break;
 
+                case AsstMsg.AsyncCallInfo:
+                    break;
+
+                case AsstMsg.Destroyed:
+                    break;
+
                 case AsstMsg.SubTaskError:
                     break;
 
@@ -941,6 +976,10 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FailedToOpenClient"), UiLogColor.Error);
                     break;
 
+                case "StopGameTask":
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
+                    break;
+
                 case "AutoRecruitTask":
                     {
                         var whyStr = details.TryGetValue("why", out var why) ? why.ToString() : LocalizationHelper.GetString("ErrorOccurred");
@@ -971,7 +1010,8 @@ namespace MaaWpfGui.Main
                             var missingOpers = details["details"]?["opers"]?.ToObject<List<List<string>>>();
                             if (missingOpers is not null)
                             {
-                                var missingOpersStr = "[" + string.Join("]; [", missingOpers.Select(opers => string.Join(", ", opers))) + "]";
+                                var missingOpersStr = "[" + string.Join("]; [", missingOpers.Select(opers =>
+                                    string.Join(", ", opers.Select(oper => DataHelper.GetLocalizedCharacterName(oper))))) + "]";
                                 Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissingOperators") + missingOpersStr, UiLogColor.Error);
                             }
                             else
@@ -1393,11 +1433,12 @@ namespace MaaWpfGui.Main
                     }
 
                 case "BattleFormation":
-                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleFormation") + "\n" + JsonConvert.SerializeObject(subTaskDetails!["formation"]));
+                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleFormation") + "\n[" +
+                        string.Join(", ", subTaskDetails!["formation"]?.ToObject<List<string>>().Select(oper => DataHelper.GetLocalizedCharacterName(oper))) + "]");
                     break;
 
                 case "BattleFormationSelected":
-                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleFormationSelected") + subTaskDetails!["selected"]);
+                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleFormationSelected") + DataHelper.GetLocalizedCharacterName(subTaskDetails!["selected"]?.ToString()));
                     break;
 
                 case "CopilotAction":
@@ -1583,27 +1624,29 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + $" {subTaskDetails!["current_account"]} -->> {subTaskDetails["account_name"]}", UiLogColor.Info);
                     break;
                 case "RoguelikeCollapsalParadigms":
-                    string deepen_or_weaken_str = subTaskDetails["deepen_or_weaken"]?.ToString() ?? "Unknown";
-                    if (int.TryParse(deepen_or_weaken_str, out int deepen_or_weaken))
+                    string deepen_or_weaken_str = subTaskDetails!["deepen_or_weaken"]?.ToString() ?? "Unknown";
+                    if (!int.TryParse(deepen_or_weaken_str, out int deepen_or_weaken))
                     {
-                        string cur = subTaskDetails["cur"]?.ToString() ?? "UnKnown";
-                        string prev = subTaskDetails["prev"]?.ToString() ?? "UnKnown";
-                        if (deepen_or_weaken == 1 && prev == string.Empty)
-                        {
-                            Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeGainParadigm"), cur, prev), UiLogColor.Info);
-                        }
-                        else if (deepen_or_weaken == 1 && prev != string.Empty)
-                        {
-                            Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeDeepenParadigm"), cur, prev), UiLogColor.Info);
-                        }
-                        else if (deepen_or_weaken == -1 && cur == string.Empty)
-                        {
-                            Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeLoseParadigm"), cur, prev), UiLogColor.Info);
-                        }
-                        else if (deepen_or_weaken == -1 && cur != string.Empty)
-                        {
-                            Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeWeakenParadigm"), cur, prev), UiLogColor.Info);
-                        }
+                        break;
+                    }
+
+                    string cur = subTaskDetails["cur"]?.ToString() ?? "UnKnown";
+                    string prev = subTaskDetails["prev"]?.ToString() ?? "UnKnown";
+                    if (deepen_or_weaken == 1 && prev == string.Empty)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeGainParadigm"), cur), UiLogColor.Info);
+                    }
+                    else if (deepen_or_weaken == 1 && prev != string.Empty)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeDeepenParadigm"), cur, prev), UiLogColor.Info);
+                    }
+                    else if (deepen_or_weaken == -1 && cur == string.Empty)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeLoseParadigm"), string.Empty, prev), UiLogColor.Info);
+                    }
+                    else if (deepen_or_weaken == -1 && cur != string.Empty)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeWeakenParadigm"), cur, prev), UiLogColor.Info);
                     }
 
                     break;
@@ -1654,7 +1697,7 @@ namespace MaaWpfGui.Main
         /// </summary>
         /// <param name="address">连接地址。</param>
         /// <returns>是否有效。</returns>
-        private static bool IfPortEstablished(string address)
+        private static bool IfPortEstablished(string? address)
         {
             if (string.IsNullOrEmpty(address) || !address.Contains(':'))
             {
@@ -1711,46 +1754,7 @@ namespace MaaWpfGui.Main
 
             if (Instances.SettingsViewModel.AutoDetectConnection)
             {
-                string bsHvAddress = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
-
-                if (string.Equals(Instances.SettingsViewModel.ConnectAddress, bsHvAddress))
-                {
-                    // 防止bsHvAddress和connectAddress重合
-                    bsHvAddress = string.Empty;
-                }
-
-                // tcp连接测试端口是否有效，超时时间500ms
-                // 如果是本地设备，没有冒号
-                bool adbResult =
-                    (!Instances.SettingsViewModel.ConnectAddress.Contains(':') &&
-                    !string.IsNullOrEmpty(Instances.SettingsViewModel.ConnectAddress)) ||
-                    IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
-                bool bsResult = IfPortEstablished(bsHvAddress);
-
-                if (adbResult)
-                {
-                    error = string.Empty;
-                }
-                else if (bsResult)
-                {
-                    if (string.IsNullOrEmpty(Instances.SettingsViewModel.AdbPath))
-                    {
-                        Instances.SettingsViewModel.DetectAdbConfig(ref error);
-                    }
-
-                    Instances.SettingsViewModel.ConnectAddress = bsHvAddress;
-                    if (string.IsNullOrEmpty(error))
-                    {
-                        error = string.Empty;
-                    }
-                }
-                else if (Instances.SettingsViewModel.DetectAdbConfig(ref error))
-                {
-                    // https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8547
-                    // DetectAdbConfig 会把 ConnectAddress 变成第一个不是 emulator 开头的地址，可能会存在多开问题
-                    error = string.Empty;
-                }
-                else
+                if (!AutoDetectConnection(ref error))
                 {
                     return false;
                 }
@@ -1812,19 +1816,58 @@ namespace MaaWpfGui.Main
                 }
             }
 
-            if (ret)
-            {
-                if (!Instances.SettingsViewModel.AlwaysAutoDetectConnection)
-                {
-                    Instances.SettingsViewModel.AutoDetectConnection = false;
-                }
-            }
-            else
+            if (!ret)
             {
                 error = LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("CheckSettings");
             }
+            else if (Instances.SettingsViewModel.AutoDetectConnection && !Instances.SettingsViewModel.AlwaysAutoDetectConnection)
+            {
+                Instances.SettingsViewModel.AutoDetectConnection = false;
+            }
 
             return ret;
+        }
+
+        private static bool AutoDetectConnection(ref string error)
+        {
+            string bsHvAddress = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
+
+            // tcp连接测试端口是否有效，超时时间500ms
+            // 如果是本地设备，没有冒号
+            bool adbResult =
+                (!Instances.SettingsViewModel.ConnectAddress.Contains(':') &&
+                 !string.IsNullOrEmpty(Instances.SettingsViewModel.ConnectAddress)) ||
+                IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
+
+            if (adbResult)
+            {
+                error = string.Empty;
+                return true;
+            }
+
+            bool bsResult = IfPortEstablished(bsHvAddress);
+
+            if (bsResult)
+            {
+                error = string.Empty;
+                if (string.IsNullOrEmpty(Instances.SettingsViewModel.AdbPath) && Instances.SettingsViewModel.DetectAdbConfig(ref error))
+                {
+                    return string.IsNullOrEmpty(error);
+                }
+                Instances.SettingsViewModel.ConnectAddress = bsHvAddress;
+                return true;
+            }
+
+
+            if (Instances.SettingsViewModel.DetectAdbConfig(ref error))
+            {
+                // https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8547
+                // DetectAdbConfig 会把 ConnectAddress 变成第一个不是 emulator 开头的地址，可能会存在多开问题
+                error = string.Empty;
+                return true;
+            }
+
+            return false;
         }
 
         private AsstTaskId AsstAppendTaskWithEncoding(string type, JObject? taskParams = null)
@@ -2008,14 +2051,18 @@ namespace MaaWpfGui.Main
             return id != 0;
         }
 
-        public bool AsstAppendCloseDown()
+        public bool AsstAppendCloseDown(string clientType)
         {
+            var taskParams = new JObject
+            {
+                ["client_type"] = clientType,
+            };
             if (!AsstStop())
             {
                 _logger.Warning("Failed to stop Asst");
             }
 
-            AsstTaskId id = AsstAppendTaskWithEncoding("CloseDown");
+            AsstTaskId id = AsstAppendTaskWithEncoding("CloseDown", taskParams);
             _latestTaskId[TaskType.CloseDown] = id;
             return id != 0;
         }
@@ -2023,10 +2070,11 @@ namespace MaaWpfGui.Main
         /// <summary>
         /// <c>CloseDown</c> 任务。
         /// </summary>
+        /// <param name="clientType">客户端版本。</param>
         /// <returns>是否成功。</returns>
-        public bool AsstStartCloseDown()
+        public bool AsstStartCloseDown(string clientType)
         {
-            return AsstAppendCloseDown() && AsstStart();
+            return AsstAppendCloseDown(clientType) && AsstStart();
         }
 
         public bool AsstBackToHome()
@@ -2644,6 +2692,16 @@ namespace MaaWpfGui.Main
         /// 全部任务完成。
         /// </summary>
         AllTasksCompleted,
+
+        /// <summary>
+        /// 外部异步调用信息
+        /// </summary>
+        AsyncCallInfo,
+
+        /// <summary>
+        /// 实例已销毁
+        /// </summary>
+        Destroyed,
 
         /* TaskChain Info */
 

@@ -30,6 +30,7 @@ namespace MaaWpfGui.Constants
         public const string ConfigurationCron = "Cron";
 
         public const string Localization = "GUI.Localization";
+        public const string OperNameLanguage = "GUI.OperNameLanguage";
         public const string UseTray = "GUI.UseTray";
         public const string MinimizeToTray = "GUI.MinimizeToTray";
         public const string HideCloseButton = "GUI.HideCloseButton";
@@ -137,10 +138,6 @@ namespace MaaWpfGui.Constants
         public const string Reclamation2ExEnable = "Reclamation.Reclamation2ExEnable";
         public const string Reclamation2ExProduct = "Reclamation.Reclamation2ExProduct";
 
-        public const string LastCreditFightTaskTime = "Visit.LastCreditFightTaskTime";
-        public const string CreditFightTaskEnabled = "Visit.CreditFightTaskEnabled";
-        public const string CreditFightSelectFormation = "Visit.CreditFightSelectFormation";
-
         public const string RecruitMaxTimes = "AutoRecruit.MaxTimes";
         public const string AutoRecruitFirstList = "AutoRecruit.AutoRecruitFirstList";
         public const string RefreshLevel3 = "AutoRecruit.RefreshLevel3";
@@ -153,7 +150,13 @@ namespace MaaWpfGui.Constants
         public const string RecruitChooseLevel4 = "AutoRecruit.ChooseLevel4";
         public const string RecruitChooseLevel5 = "AutoRecruit.ChooseLevel5";
 
-        public const string CreditVisitFriends = "Mall.CreditVisitFriends";
+        public const string LastCreditFightTaskTime = "Visit.LastCreditFightTaskTime";
+        public const string CreditFightTaskEnabled = "Visit.CreditFightTaskEnabled";
+        public const string CreditFightSelectFormation = "Visit.CreditFightSelectFormation";
+
+        public const string LastCreditVisitFriendsTime = "Mall.LastCreditVisitFriendsTime";
+        public const string CreditVisitOnceADay = "Mall.CreditVisitOnceADay";
+        public const string CreditVisitFriendsEnabled = "Mall.CreditVisitFriendsEnabled";
         public const string CreditShopping = "Mall.CreditShopping";
         public const string CreditFirstListNew = "Mall.CreditFirstListNew";
         public const string CreditBlackListNew = "Mall.CreditBlackListNew";
@@ -172,6 +175,7 @@ namespace MaaWpfGui.Constants
         public const string CopilotLoopTimes = "Copilot.LoopTimes";
         public const string CopilotTaskList = "Copilot.CopilotTaskList";
         public const string UpdateProxy = "VersionUpdate.Proxy";
+        public const string ProxyType = "VersionUpdate.ProxyType";
         public const string VersionType = "VersionUpdate.VersionType";
         public const string UpdateCheck = "VersionUpdate.UpdateCheck";
         public const string UpdateAutoCheck = "VersionUpdate.ScheduledUpdateCheck";

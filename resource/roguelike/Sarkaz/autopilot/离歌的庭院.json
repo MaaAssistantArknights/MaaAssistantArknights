@@ -6,7 +6,6 @@
             "direction": "down"
         }
     ],
-    "blacklist_location": [],
     "deploy_plan": [
         {
             "groups": ["高台输出"],
@@ -38,6 +37,5 @@
             "location": [6, 2],
             "direction": "left"
         }
-    ],
-    "retreat_plan": []
+    ]
 }
