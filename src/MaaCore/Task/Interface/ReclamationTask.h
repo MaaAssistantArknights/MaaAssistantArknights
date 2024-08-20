@@ -9,7 +9,7 @@ class ReclamationConfig;
 class ReclamationTask : public InterfaceTask
 {
 public:
-    inline static constexpr std::string_view TaskType = "ReclamationAlgorithm";
+    inline static constexpr std::string_view TaskType = "Reclamation";
 
     ReclamationTask(const AsstCallback& callback, Assistant* inst);
     virtual ~ReclamationTask() override = default;

@@ -33,7 +33,7 @@ namespace MaaWpfGui.Models
         private bool _mall;
         private bool _mission;
         private bool _autoRoguelike;
-        private bool _reclamation2;
+        private bool _reclamation;
         private bool _afterAction;
 
         public bool WakeUp { get => _wakeUp; set => SetAndNotify(ref _wakeUp, value); }
@@ -50,7 +50,7 @@ namespace MaaWpfGui.Models
 
         public bool AutoRoguelike { get => _autoRoguelike; set => SetAndNotify(ref _autoRoguelike, value); }
 
-        public bool Reclamation2 { get => _reclamation2; set => SetAndNotify(ref _reclamation2, value); }
+        public bool Reclamation { get => _reclamation; set => SetAndNotify(ref _reclamation, value); }
 
         public bool AfterAction { get => _afterAction; set => SetAndNotify(ref _afterAction, value); }
 
@@ -87,8 +87,8 @@ namespace MaaWpfGui.Models
                 case "AutoRoguelike":
                     AutoRoguelike = enable;
                     break;
-                case "ReclamationAlgorithm2":
-                    Reclamation2 = enable;
+                case "Reclamation":
+                    Reclamation = enable;
                     break;
                 case "AfterAction":
                     AfterAction = enable;
