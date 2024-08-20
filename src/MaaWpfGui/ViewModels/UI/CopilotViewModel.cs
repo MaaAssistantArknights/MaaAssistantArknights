@@ -409,7 +409,8 @@ namespace MaaWpfGui.ViewModels.UI
                         if (json.TryGetValue("buff", out var buffValue))
                         {
                             string buffLog = LocalizationHelper.GetString("DirectiveECTerm");
-                            AddLog(buffLog + DataHelper.GetLocalizedCharacterName((string?)buffValue), UiLogColor.Message, showTime: false);
+                            string? localizedBuffName = DataHelper.GetLocalizedCharacterName((string?)buffValue);
+                            AddLog(buffLog + (string.IsNullOrEmpty(localizedBuffName) ? (string?)buffValue : localizedBuffName), UiLogColor.Message, showTime: false);
                         }
 
                         if (json.TryGetValue("tool_men", out var toolMenValue))
