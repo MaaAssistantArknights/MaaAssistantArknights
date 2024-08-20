@@ -215,6 +215,15 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                     if (strategy.location == strategy_reset.location) {
                         for (auto& same_location_strategy : (it->second)) {
                             if ((*same_location_strategy).index == strategy_reset.index) {
+                                bool skip = false;
+                                for (auto& [role, quantity] : (*same_location_strategy).tool_men) {
+                                    if (role == Role::Drone || role == Role::Unknown) {
+                                        skip = true;
+                                    }
+                                }
+                                if (skip) {
+                                    continue;
+                                }
                                 strategy_reset = *same_location_strategy;
                                 break;
                             }
