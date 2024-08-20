@@ -26,7 +26,7 @@ namespace MaaWpfGui.ViewModels.UI
     // ReSharper disable once ClassNeverInstantiated.Global
     public class AnnouncementViewModel : Screen
     {
-        private string _announcementInfo = ConfigurationHelper.GetValue(ConfigurationKeys.AnnouncementInfo, string.Empty);
+        private string _announcementInfo = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AnnouncementInfo, string.Empty);
 
         /// <summary>
         /// Gets the announcement info.
@@ -38,11 +38,11 @@ namespace MaaWpfGui.ViewModels.UI
             private set
             {
                 SetAndNotify(ref _announcementInfo, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AnnouncementInfo, value);
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.AnnouncementInfo, value);
             }
         }
 
-        private bool _doNotRemindThisAnnouncementAgain = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DoNotRemindThisAnnouncementAgain, bool.FalseString));
+        private bool _doNotRemindThisAnnouncementAgain = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.DoNotRemindThisAnnouncementAgain, bool.FalseString));
 
         public bool DoNotRemindThisAnnouncementAgain
         {
@@ -50,11 +50,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _doNotRemindThisAnnouncementAgain, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.DoNotRemindThisAnnouncementAgain, value.ToString());
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.DoNotRemindThisAnnouncementAgain, value.ToString());
             }
         }
 
-        private bool _doNotShowAnnouncement = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DoNotShowAnnouncement, bool.FalseString));
+        private bool _doNotShowAnnouncement = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.DoNotShowAnnouncement, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to show the update.
@@ -65,7 +65,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _doNotShowAnnouncement, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.DoNotShowAnnouncement, value.ToString());
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.DoNotShowAnnouncement, value.ToString());
             }
         }
 
