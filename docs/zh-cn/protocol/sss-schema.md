@@ -76,7 +76,7 @@ icon: game-icons:prisoner
             // 请勿使用 code（例如 LT-1），因为会和其他保全关卡冲突
             "strategies": [
                 // 必选
-                // 执行顺序为自上而下，当前 strategy 若没有 core 且所有 tool__men 的费用均不足，则尝试执行下一个 strategy
+                // 执行顺序为自上而下，当前 strategy 若没有 core 且所有 tool_men 的费用均不足，则尝试执行下一个 strategy
                 // 若同一个 location 之前的 tool_men 和 core 没有完成放置，则轮到该 location 时会跳过
                 // 若当前 strategy 有 core 则在放完所有 tool_man 后等待费用充足放 core
                 // 所有 location 的当前 strategy 的 tool_men 一并以待部署区中的费用顺序执行
