@@ -77,8 +77,13 @@ icon: game-icons:prisoner
             "strategies": [
                 // 必选
                 // 执行顺序为自上而下，当前 strategy 若没有 core 且所有 tool_men 的费用均不足，则尝试执行下一个 strategy
-                // 若同一个 location 之前的 tool_men 和 core 没有完成放置，则轮到该 location 时会跳过
                 // 若当前 strategy 有 core 则在放完所有 tool_man 后等待费用充足放 core
+                // 同一个 location 只执行第一个未执行的 strategy，此后的 strategy 均跳过
+                // 
+                // 同一个位置可以写多个 core
+                // 若当前 core 并非当前位置的最后一个 core，则继续执行当前位置之后的 strategy（此 core 作为过牌）
+                // 同一个 core 干员不要写在多个位置，若写了则只有最先出现的生效
+                // 
                 // 所有 location 的当前 strategy 的 tool_men 一并以待部署区中的费用顺序执行
                 // 每次放置后会重新从第一个 strategy 开始判断是否未执行
                 // 每次放置当前 location 的最后一个 core 后，若该 core 回到待部署区，则重置此 location 所有放置情况为未执行（仅限干员）
