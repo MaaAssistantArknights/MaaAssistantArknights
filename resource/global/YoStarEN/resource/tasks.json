@@ -2602,5 +2602,38 @@
     },
     "Fire@Reclamation@TodoEnter": {
         "text": ["FIRE", "WITHIN", "THE", "SAND"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@Commence": {
+        "text": ["Commence"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@ClickBaseCamp": {
+        "text": ["Gathering Grounds", "Base Camp"]
+    },
+    "Tales@Reclamation@EnterNode": {
+        "text": ["Start"]
+    },
+    "Tales@Reclamation@CancelEnterBuildMode": {
+        "text": ["Enter Build Mode"]
+    },
+    "Tales@Reclamation@NavigateToZone@ShrubberyGalore": {
+        "text": ["Shrubbery Galore", "Resource", "Zone"]
+    },
+    "Tales@Reclamation@ConfirmSquad": {
+        "text": ["Start"]
+    },
+    "Tales@Reclamation@NavigateToZone@GatheringOfFeathers": {
+        "text": ["Gathering of Feathers", "Hunting Zone"]
+    },
+    "Tales@Reclamation@FinishCalculation": {
+        "text": ["Tap anywhere to continue"]
+    },
+    "Tales@Reclamation@ProsperityInSave@Resume": {
+        "text": ["Resume"]
+    },
+    "Tales@Reclamation@ResourceGained": {
+        "text": ["Tap anywhere to continue"]
+    },
+    "Tales@Reclamation@ConfirmToLoadSave": {
+        "text": ["Confirm"]
     }
 }
