@@ -244,12 +244,11 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                 break;
             }
             strategy.core_deployed = true;
-            if (strategies_of_current_location.size() >= 2) {
-                if ((*(strategies_of_current_location.front())).index < (**(std::next(strategies_of_current_location.begin(), 1))).index) {
-                    // 若当前位置出现多 core 的情况，则将 core 当作过牌干员
-                    (strategies_of_current_location).emplace_back((strategies_of_current_location).front());
-                    (strategies_of_current_location).erase((strategies_of_current_location).begin());
-                }
+            if (strategies_of_current_location.size() >= 2 &&
+                strategies_of_current_location[0]->index < strategies_of_current_location[1]->index) {
+                // 若当前位置出现多 core 的情况，则将 core 当作过牌干员
+                (strategies_of_current_location).emplace_back((strategies_of_current_location).front());
+                (strategies_of_current_location).erase((strategies_of_current_location).begin());
             }
             // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
             return deploy_oper(strategy.core, strategy.location, strategy.direction) && update_deployment();
