@@ -222,7 +222,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                     if (strategy.location != strategy_reset.location) {
                         continue;
                     }
-                    // 复用基于 m_sss_combat_data.order 的当前 location 的策略指针的迭代器，寻找对应的strategy备份
+                    // 复用基于 m_sss_combat_data.order 的当前 location 的策略指针的迭代器，寻找对应的 strategy 备份
                     auto same_index_strategy = 
                         ranges::find_if(strategies_of_current_location,
                         [&strategy_reset](const auto& same_location_strategy){
