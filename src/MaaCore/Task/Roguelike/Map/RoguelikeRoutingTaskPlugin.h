@@ -31,8 +31,6 @@ private:
     size_t m_selected_column = 0; // 当前选中节点所在列
     int m_selected_x = 0;         // 当前选中节点的横坐标 (Rect.x)
 
-    Point m_swipe_source = { 0, 0 };                                     // 生成地图时向左滑动起点
-    Point m_swipe_target = { 0, 0 };                                     // 生成地图时向左滑动终点
     int m_origin_x = 0;                                                  // 第一列节点的默认横坐标 (Rect.x)
     int m_middle_x = 0;                                                  // 中间列节点的默认横坐标 (Rect.x)
     int m_last_x = 0;                                                    // 最后列节点的默认横坐标 (Rect.x)
