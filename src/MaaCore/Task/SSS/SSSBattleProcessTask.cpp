@@ -199,7 +199,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
     }
 
     for (auto& strategy : m_sss_combat_data.strategies) {
-        // 步骤(strategy)间锁，以部署位置为key，保证core不被顶替
+        // 步骤(strategy)锁，同格子强制顺序执行
         auto it = m_sss_combat_data.order.find(strategy.location);
         if (*(it->second.front()) != strategy) {
             continue;
@@ -209,7 +209,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                             !strategy.core.empty() && exist_core.contains(strategy.core);
         if (use_the_core) {
             const auto& core = exist_core.at(strategy.core);
-            // 全局保留core以备暴毙等情况
+            // 全局保留core以备暴毙、多位置放置相同core等情况
             if (strategy.core_deployed && core.role != Role::Drone && core.role != Role::Unknown) {
                 strategy.core_deployed = false;
                 for (auto& strategy_reset : m_sss_combat_data.strategies) {

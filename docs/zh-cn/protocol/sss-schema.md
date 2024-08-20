@@ -76,7 +76,12 @@ icon: game-icons:prisoner
             // 请勿使用 code（例如 LT-1），因为会和其他保全关卡冲突
             "strategies": [
                 // 必选
-                // 会按部署各 object 里的 tool_men，如果当前手牌都没有，才会部署下一个 object 里的
+                // 执行顺序为自上而下，当前 strategy 若没有 core 且所有 tool__men 的费用均不足，则尝试执行下一个 strategy
+                // 若当前 strategy 有 core 则在放完所有 tool_man 后等待费用充足放 core
+                // 同一个 strategy 的 tool_men 以待部署区中的费用顺序执行
+                // 每次放置后会重新从第一个 strategy 开始判断
+                // 每次放置 core 后会刷新当前 location 的所有放置情况（仅限干员）
+                // 若同一个 location 之前的 tool_men 和 core 没有完成放置，则轮到该 location 时会跳过
                 {
                     "core": "棘刺",
                     "tool_men": {

@@ -89,9 +89,7 @@ namespace asst::battle
 
             { "drone", Role::Drone },        { "DRONE", Role::Drone },        { "Drone", Role::Drone },
             { "无人机", Role::Drone },       { "SUMMON", Role::Drone },       { "summon", Role::Drone },
-            { "Summon", Role::Drone },       { "召唤物", Role::Drone },       { "CEMENT", Role::Drone },
-            { "cement", Role::Drone },       { "Cement", Role::Drone },       { "超重绝缘水泥", Role::Drone },
-            { "水泥", Role::Drone },
+            { "Summon", Role::Drone },       { "召唤物", Role::Drone },
         };
         if (auto iter = NameToRole.find(role_name); iter != NameToRole.end()) {
             return iter->second;
