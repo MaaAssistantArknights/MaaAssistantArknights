@@ -30,7 +30,7 @@ internal class NotificationImplWinRT : INotificationPoster, IDisposable
     public void Dispose()
     {
         ToastNotificationManagerCompat.OnActivated -= OnWinRTActivated;
-        ToastNotificationManagerCompat.History.Clear();
+        //ToastNotificationManagerCompat.History.Clear();
     }
 
     private void OnWinRTActivated(ToastNotificationActivatedEventArgsCompat args)
