@@ -244,7 +244,7 @@ namespace asst::battle
             }
         };
 
-        using StrategyOrderLock = std::unordered_map<Point, std::vector<std::shared_ptr<Strategy>>, Point::Hash>;
+        using StrategyOrderLock = std::unordered_map<Point, std::vector<std::shared_ptr<Strategy>>>;
 
         struct CombatData : public copilot::CombatData
         {

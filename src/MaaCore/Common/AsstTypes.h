@@ -90,16 +90,6 @@ namespace asst
         int x = 0;
         int y = 0;
 
-        struct Hash
-        {
-            size_t operator()(const Point& p) const noexcept
-            {
-                auto h1 = std::hash<int> {}(p.x);
-                auto h2 = std::hash<int> {}(p.y);
-                return h1 ^ (h2 << 1); // Combine hash values
-            }
-        };
-
         // clang-format off
 #define DEFINE_ASST_POINT_BINARY_OP_AND_ARG_ASSIGN(Op)                    \
     friend Point operator Op(const Point& lhs, const Point& rhs) noexcept \
