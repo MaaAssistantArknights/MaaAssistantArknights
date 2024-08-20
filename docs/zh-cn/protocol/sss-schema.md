@@ -81,7 +81,7 @@ icon: game-icons:prisoner
                 // 若当前 strategy 有 core 则在放完所有 tool_man 后等待费用充足放 core
                 // 所有 location 的当前 strategy 的 tool_men 一并以待部署区中的费用顺序执行
                 // 每次放置后会重新从第一个 strategy 开始判断是否未执行
-                // 每次放置当前 location 的最后一个 core 后会重置此location所有放置情况为未执行（仅限干员）
+                // 每次放置当前 location 的最后一个 core 后，若该 core 回到待部署区，则重置此 location 所有放置情况为未执行（仅限干员）
                 {
                     "core": "棘刺",
                     "tool_men": {
