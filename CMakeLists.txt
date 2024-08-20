@@ -48,7 +48,10 @@ else ()
     if (CMAKE_CXX_COMPILER_ID MATCHES "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 13)
         target_compile_options(MaaCore PRIVATE "-Wno-restrict")
     endif()
-    if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 16)
+    # LLVM clang 16 will failed with `error: no member named 'join' in namespace 'std::ranges::views'`, but Apple clang 16 won't
+    # value defined in https://cmake.org/cmake/help/latest/variable/CMAKE_LANG_COMPILER_ID.html
+    if ((CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 16)
+        OR (CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND (NOT CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang") AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 17))
         target_compile_options(MaaCore PRIVATE "-fexperimental-library")
     endif ()
 endif ()
