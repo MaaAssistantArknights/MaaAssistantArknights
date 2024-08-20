@@ -617,23 +617,49 @@ namespace MaaWpfGui.ViewModels.UI
             List<Tuple<string, int>> operHave = [];
             List<Tuple<string, int>> operNotHave = [];
 
-            string localizedName = ConfigurationHelper.GetValue(ConfigurationKeys.OperNameLanguage, string.Empty) == "OperNameLanguageClient" ?
-                ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty) switch
+            string localizedName;
+            string operNameLanguage = ConfigurationHelper.GetValue(ConfigurationKeys.OperNameLanguage, string.Empty);
+
+            if (operNameLanguage == "OperNameLanguageClient")
             {
-                "Official" => "name",
-                "Bilibili" => "name",
-                "YoStarJP" => "name_jp",
-                "YoStarKR" => "name_kr",
-                "txwy" => "name_tw",
-                _ => "name_en",
-            } : ConfigurationHelper.GetValue(ConfigurationKeys.Localization, string.Empty) switch
+                localizedName = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty) switch
+                {
+                    "Official" => "name",
+                    "Bilibili" => "name",
+                    "YoStarJP" => "name_jp",
+                    "YoStarKR" => "name_kr",
+                    "txwy" => "name_tw",
+                    _ => "name_en",
+                };
+            }
+            else
             {
-                "zh-cn" => "name",
-                "ja-jp" => "name_jp",
-                "ko-kr" => "name_kr",
-                "zh-tw" => "name_tw",
-                _ => "name_en",
-            };
+                string localization = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, string.Empty);
+                if (operNameLanguage.Contains('.'))
+                {
+                    if (operNameLanguage.Split('.')[0] == "OperNameLanguageForce")
+                    {
+                        localization = operNameLanguage.Split('.')[1] switch
+                        {
+                            "zh-cn" => "zh-cn",
+                            "en-us" => "en-us",
+                            "ja-jp" => "ja-jp",
+                            "ko-kr" => "ko-kr",
+                            "zh-tw" => "zh-tw",
+                            _ => localization,
+                        };
+                    }
+                }
+
+                localizedName = localization switch
+                {
+                    "zh-cn" => "name",
+                    "ja-jp" => "name_jp",
+                    "ko-kr" => "name_kr",
+                    "zh-tw" => "name_tw",
+                    _ => "name_en",
+                };
+            }
 
             foreach (JObject operBox in operBoxes.Cast<JObject>())
             {
