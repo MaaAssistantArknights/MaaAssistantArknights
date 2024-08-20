@@ -229,7 +229,8 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                         return *same_location_strategy == strategy_reset;
                         });
                     // 若 strategy 中有 水泥 等非干员对象，则跳过该 strategy
-                    if (ranges::all_of((**same_index_strategy).tool_men | views::keys, [](const auto& role) {
+                    if (same_index_strategy != strategies_of_current_location.cend() &&
+                            ranges::all_of((**same_index_strategy).tool_men | views::keys, [](const auto& role) {
                         return role != Role::Drone && role != Role::Unknown;})) {
                         strategy_reset = **same_index_strategy;
                     }
@@ -249,6 +250,9 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                 // 若当前位置出现多 core 的情况，则将 core 当作过牌干员
                 (strategies_of_current_location).emplace_back((strategies_of_current_location).front());
                 (strategies_of_current_location).erase((strategies_of_current_location).begin());
+            }
+            if (auto iter = m_all_cores.find(strategy.core); iter != m_all_cores.end()) {
+                m_all_cores.erase(iter);
             }
             // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
             return deploy_oper(strategy.core, strategy.location, strategy.direction) && update_deployment();
