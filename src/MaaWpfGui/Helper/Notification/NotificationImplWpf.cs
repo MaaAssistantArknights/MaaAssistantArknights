@@ -26,8 +26,8 @@ namespace MaaWpfGui.Helper.Notification;
 
 internal class NotificationImplWpf : INotificationPoster
 {
-    private NotificationManager _notificationManager = new NotificationManager();
-    private BrushConverter _brushConverter = new BrushConverter();
+    private readonly NotificationManager _notificationManager = new();
+    private readonly BrushConverter _brushConverter = new();
 
     public event EventHandler<string> ActionActivated;
 
