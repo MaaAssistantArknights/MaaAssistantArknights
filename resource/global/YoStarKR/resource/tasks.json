@@ -2395,7 +2395,7 @@
         "text": ["작전", "개시"]
     },
     "Tales@Reclamation@CancelEnterBuildMode": {
-        "text": ["进入建造"]
+        "text": ["건설", "하기"]
     },
     "Tales@Reclamation@NavigateToZone@ShrubberyGalore": {
         "text": ["채집터", "우거진", "숲"],
