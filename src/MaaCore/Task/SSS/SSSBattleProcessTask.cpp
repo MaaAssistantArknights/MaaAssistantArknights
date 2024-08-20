@@ -199,10 +199,49 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
     }
 
     for (auto& strategy : m_sss_combat_data.strategies) {
+        // 步骤(strategy)锁，同格子强制顺序执行，逻辑详见文档"strategies"
+        // it->first 是 key（Point）
+        // it->second 是 value（std::vector<std::shared_ptr<Strategy>>）
+        const auto& it = m_sss_combat_data.order.find(strategy.location);
+        if (it == m_sss_combat_data.order.cend() || it->second.size() == 0 || *it->second.front() != strategy) {
+            continue; // 这里定义的等于比较方法只比较index
+        }
+        auto& strategies_of_current_location = it->second;
+
+        auto is_plain_oper = [&](Role role) {
+            return role != Role::Drone && role != Role::Unknown;
+        };
         bool use_the_core = ranges::all_of(strategy.tool_men, [](const auto& pair) { return pair.second <= 0; }) &&
                             !strategy.core.empty() && exist_core.contains(strategy.core);
         if (use_the_core) {
             const auto& core = exist_core.at(strategy.core);
+            // 全局保留core以备暴毙等情况
+            if (strategy.core_deployed) {
+                strategy.core_deployed = false;
+                for (auto& strategy_reset : m_sss_combat_data.strategies) {
+                    // 基于 m_sss_combat_data.strategies 遍历所有策略，对与当前 location 相同的 strategy 进行操作
+                    if (strategy.location != strategy_reset.location) {
+                        continue;
+                    }
+                    auto same_index_strategy =
+                        ranges::find_if(strategies_of_current_location, [&](const auto& same_location_strategy) {
+                            // 复用基于 m_sss_combat_data.order 的当前 location 的迭代器，寻找对应的 strategy 备份
+                            return *same_location_strategy == strategy_reset &&
+                                   ranges::all_of(
+                                       (*same_location_strategy).tool_men | views::keys,
+                                       is_plain_oper); // 若 strategy 中有水泥等非干员对象，则跳过该 strategy
+                        });
+                    if (same_index_strategy != strategies_of_current_location.cend()) {
+                        // 用 m_sss_combat_data.order 中的备份，
+                        // 替换被修改 quantity 的 m_sss_combat_data.strategies 中的相同策略
+                        strategy_reset = **same_index_strategy;
+                    }
+                }
+                strategies_of_current_location.emplace_back(strategies_of_current_location.front());
+                strategies_of_current_location.erase(strategies_of_current_location.begin());
+                return false;
+            }
+
             if (!core.available) {
                 // 直接返回，等费用，等下次循环处理部署逻辑
                 break;
@@ -223,20 +262,31 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             Role role_for_lambda = role;
 
             // 如果有可用的干员，直接使用
-            auto available_iter = ranges::find_if(
-                tool_men, [&](const DeploymentOper& oper) { return oper.available && oper.role == role_for_lambda; });
+            auto available_iter = ranges::find_if(tool_men, [&](const DeploymentOper& oper) {
+                return oper.available && oper.role == role_for_lambda && !m_all_cores.contains(oper.name);
+            });
             if (available_iter != tool_men.cend()) {
                 --quantity;
+                // 每个 tool_men 用尽之后删除 m_sss_combat_data.strategies 中 tool_men 的当前元素
+                // 重新执行该 location 所有策略时用 m_sss_combat_data.order 进行恢复
+                if (quantity <= 0) {
+                    strategy.tool_men.erase(role);
+                    if (strategy.tool_men.empty() && strategy.core.empty()) {
+                        strategies_of_current_location.emplace_back(strategies_of_current_location.front());
+                        strategies_of_current_location.erase(strategies_of_current_location.begin());
+                    }
+                }
                 // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
                 return deploy_oper(available_iter->name, strategy.location, strategy.direction) && update_deployment();
             }
 
-            auto not_available_iter =
-                ranges::find_if(tool_men, [&](const DeploymentOper& oper) { return oper.role == role_for_lambda; });
+            auto not_available_iter = ranges::find_if(tool_men, [&](const DeploymentOper& oper) {
+                return oper.role == role_for_lambda && !m_all_cores.contains(oper.name);
+            });
             if (not_available_iter == tool_men.cend()) {
                 continue;
             }
-            // 如果有对应职业干员，但费用没转好，就等他转好，而不是部署下一个策略中的 tool_men
+            // 所有 location 的当前 strategy 的 tool_men 一并以待部署区中的费用顺序执行
             // 直接返回出去，后续逻辑交给下次循环处理
             skip = true;
             break;
