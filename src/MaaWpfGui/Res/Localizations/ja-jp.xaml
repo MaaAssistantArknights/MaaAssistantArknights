@@ -410,6 +410,7 @@
     <system:String x:Key="OperNameLanguage">オペレーター名の表示言語</system:String>
     <system:String x:Key="OperNameLanguageMAA">MAAをフォローする</system:String>
     <system:String x:Key="OperNameLanguageClient">ゲームクライアントをフォローする</system:String>
+    <system:String x:Key="OperNameLanguageForce">指定された言語を強制的に使用する</system:String>
     <system:String x:Key="Light">ライトモード</system:String>
     <system:String x:Key="Dark">ダークモード</system:String>
     <system:String x:Key="SyncWithOs">OSと同期する</system:String>
