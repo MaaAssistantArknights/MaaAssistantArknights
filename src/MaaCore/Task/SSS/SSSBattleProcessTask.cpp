@@ -243,8 +243,8 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                 // 直接返回，等费用，等下次循环处理部署逻辑
                 break;
             }
-            if (auto it = m_all_cores.find(strategy.core); it != m_all_cores.end()) {
-                m_all_cores.erase(it);
+            if (auto iter = m_all_cores.find(strategy.core); iter != m_all_cores.end()) {
+                m_all_cores.erase(iter);
             }
             // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
             return deploy_oper(strategy.core, strategy.location, strategy.direction) && update_deployment();
