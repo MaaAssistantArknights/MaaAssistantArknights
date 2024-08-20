@@ -2432,27 +2432,62 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region 生息演算设置
 
-        private bool _reclamation2ExEnable = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Reclamation2ExEnable, bool.FalseString));
+        /// <summary>
+        /// Gets the list of reclamation themes.
+        /// </summary>
+        public List<CombinedData> ReclamationThemeList { get; } =
+            [
+                new() { Display = LocalizationHelper.GetString("ReclamationThemeTales"), Value = "Tales" },
+            ];
 
-        public bool Reclamation2ExEnable
+        private string _reclamationTheme = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationStrategy, "Tales");
+
+        /// <summary>
+        /// Gets or sets the Reclamation theme.
+        /// </summary>
+        public string ReclamationTheme
         {
-            get => _reclamation2ExEnable;
+            get => _reclamationTheme;
             set
             {
-                SetAndNotify(ref _reclamation2ExEnable, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.Reclamation2ExEnable, value.ToString());
+                SetAndNotify(ref _reclamationTheme, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationTheme, value);
             }
         }
 
-        private string _reclamation2ExProduct = ConfigurationHelper.GetValue(ConfigurationKeys.Reclamation2ExProduct, string.Empty);
+        /// <summary>
+        /// Gets the list of reclamation strategies.
+        /// </summary>
+        public List<CombinedData> ReclamationStrategyList { get; } =
+            [
+                new() { Display = LocalizationHelper.GetString("ReclamationStrategyProsperityNoSave"), Value = "0" },
+                new() { Display = LocalizationHelper.GetString("ReclamationStrategyProsperityInSave"), Value = "1" },
+            ];
 
-        public string Reclamation2ExProduct
+        private string _reclamationStrategy = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationStrategy, "1");
+
+        /// <summary>
+        /// Gets or sets 策略，无存档刷生息点数 / 有存档刷生息点数
+        /// </summary>
+        public string ReclamationStrategy
         {
-            get => _reclamation2ExProduct;
+            get => _reclamationStrategy;
             set
             {
-                SetAndNotify(ref _reclamation2ExProduct, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.Reclamation2ExProduct, value);
+                SetAndNotify(ref _reclamationStrategy, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationStrategy, value);
+            }
+        }
+
+        private string _reclamationToolToCraft = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationToolToCraft, "荧光棒");
+
+        public string ReclamationToolToCraft
+        {
+            get => _reclamationToolToCraft;
+            set
+            {
+                SetAndNotify(ref _reclamationToolToCraft, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationToolToCraft, value);
             }
         }
 

@@ -405,8 +405,11 @@
     <system:String x:Key="Mall">FP獲得と交換</system:String>
     <system:String x:Key="Mission">報酬受取</system:String>
     <system:String x:Key="AutoRoguelike">自動ローグ</system:String>
-    <system:String x:Key="ReclamationAlgorithm">生息演算「砂中の火」</system:String>
-    <system:String x:Key="ReclamationAlgorithm2">生息演算「熱砂秘聞」</system:String>
+    <system:String x:Key="Reclamation">生息演算</system:String>
+    <system:String x:Key="ReclamationTheme">主題</system:String>
+    <system:String x:Key="ReclamationThemeTales">熱砂秘聞</system:String>
+    <system:String x:Key="ReclamationStrategyProsperityNoSave">セーブせずに、出入りを繰り返して生息ポイントを稼ぐ</system:String>
+    <system:String x:Key="ReclamationStrategyProsperityInSave">セーブしながら、支援アイテムを合成して生息ポイントを稼ぐ</system:String>
     <system:String x:Key="OperNameLanguage">オペレーター名の表示言語</system:String>
     <system:String x:Key="OperNameLanguageMAA">MAAをフォローする</system:String>
     <system:String x:Key="OperNameLanguageClient">ゲームクライアントをフォローする</system:String>
@@ -866,7 +869,7 @@
     </system:String>
     <system:String x:Key="ReclamationBePatient">改善するのが待ちきれません！また急いでいます</system:String>
     <system:String x:Key="Reclamation2ExEnable">道具作りでポイントを得る</system:String>
-    <system:String x:Key="Reclamation2ExProductTip">支援道具名</system:String>
-    <system:String x:Key="Reclamation2ExProductPlaceholder">ケミカルライト</system:String>
+    <system:String x:Key="ReclamationToolToCraftTip">支援道具名</system:String>
+    <system:String x:Key="ReclamationToolToCraftPlaceholder">ケミカルライト</system:String>
     <!--  !Reclamation  -->
 </ResourceDictionary>
