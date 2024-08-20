@@ -213,6 +213,9 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             if (strategy.core_deployed && core.role != Role::Drone && core.role != Role::Unknown) {
                 strategy.core_deployed = false;
                 for (auto& strategy_reset : m_sss_combat_data.strategies) {
+                    if (core.name == strategy_reset.core) {
+                        continue;
+                    }
                     if (strategy.location == strategy_reset.location) {
                         for (auto& same_location_strategy : (it->second)) {
                             if ((*same_location_strategy).index == strategy_reset.index) {
@@ -239,6 +242,9 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             if (!core.available) {
                 // 直接返回，等费用，等下次循环处理部署逻辑
                 break;
+            }
+            if (auto it = m_all_cores.find(strategy.core); it != m_all_cores.end()) {
+                m_all_cores.erase(it);
             }
             // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
             return deploy_oper(strategy.core, strategy.location, strategy.direction) && update_deployment();
