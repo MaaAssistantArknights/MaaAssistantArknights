@@ -9454,14 +9454,6 @@
         "template": "empty.png",
         "specialParams": [321, 341, 586, 138, 47, 450, 32, 15, 7]
     },
-    "Sarkaz@Roguelike@RoutingSwipeRight": {
-        "doc": "生成地图时向左滑动",
-        "algorithm": "JustReturn",
-        "action": "Swipe",
-        "specificRect": [1000, 360, 0, 0],
-        "rectMove": [570, 360, 0, 0],
-        "specialParams": [200, 1]
-    },
     "Sarkaz@Roguelike@RoutingContinue": {
         "template": "Sarkaz@Roguelike@Continue.png",
         "roi": [1050, 550, 210, 100],
@@ -9514,6 +9506,14 @@
         "baseTask": "LoadingText",
         "postDelay": 300,
         "next": ["Sarkaz@Roguelike@RoutingRefreshNodeWaiting", "Sarkaz@Roguelike@RoutingRefreshNodeCompleted"]
+    },
+    "Sarkaz@Roguelike@RoutingSwipeRight": {
+        "doc": "生成地图时向左滑动",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [1000, 360, 0, 0],
+        "rectMove": [570, 360, 0, 0],
+        "specialParams": [200, 1]
     },
     "Sarkaz@Roguelike@SelectTheme": {
         "text": ["假说辑录"]
