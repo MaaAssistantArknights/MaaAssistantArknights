@@ -11577,7 +11577,7 @@
         "algorithm": "JustReturn",
         "next": ["Tales@Reclamation@ProsperityNoSave@Commence", "Tales@Reclamation@ProsperityNoSave@Navigation"]
     },
-    "Tales@Reclamation@ProsperityNoSave@Navigation":{
+    "Tales@Reclamation@ProsperityNoSave@Navigation": {
         "algorithm": "JustReturn",
         "next": ["Tales@Reclamation@ProsperityNoSave"]
     },
@@ -11662,7 +11662,8 @@
         "next": [
             "Tales@Reclamation@CancelEnterBuildMode",
             "Tales@Reclamation@Origin",
-            "Tales@Reclamation@ReturnToOrigin"]
+            "Tales@Reclamation@ReturnToOrigin"
+        ]
     },
     "Tales@Reclamation@ReturnToOrigin@CancelEnterBuildMode": {
         "doc": "在右下角存在 <进入建造> 按钮时点击左下角取消进入建造",
@@ -11812,9 +11813,7 @@
         "doc": "点击右上角箭头进入下一个生息日, 若在量定日则进行量定结算",
         "baseTask": "Tales@Reclamation@NextDay",
         "template": "Tales@Reclamation@NextDay.png",
-        "next": [
-            "Tales@Reclamation@ProsperityNoSave@SkipToCalculation@CalculationOrNextDay@AfterLoadingText"
-        ]
+        "next": ["Tales@Reclamation@ProsperityNoSave@SkipToCalculation@CalculationOrNextDay@AfterLoadingText"]
     },
     "Tales@Reclamation@NextDay": {
         "doc": "模板任务: 点击右上角箭头进入下一个生息日, 若在量定日则进行量定结算",
@@ -11939,17 +11938,13 @@
         "doc": "生息点数达到上限, 点击右下角删除存档图标, 确认删除存档, 仍要删除存档",
         "baseTask": "Tales@Reclamation@SwipeSave",
         "template": "Tales@Reclamation@SwipeSave.png",
-        "sub": [
-            "Tales@Reclamation@DialogConfirmRed*2"
-        ]
+        "sub": ["Tales@Reclamation@DialogConfirmRed*2"]
     },
     "Tales@Reclamation@ProsperityNoSave@ProsperityNotReachLimit@SwipeSave": {
         "doc": "生息点数未达到上限, 点击右下角删除存档图标, 确认删除存档, 仍要删除存档",
         "baseTask": "Tales@Reclamation@SwipeSave",
         "template": "Tales@Reclamation@SwipeSave.png",
-        "sub": [
-            "Tales@Reclamation@DialogConfirmRed*2"
-        ],
+        "sub": ["Tales@Reclamation@DialogConfirmRed*2"],
         "next": ["Tales@Reclamation@ProsperityNoSave@AfterLoadingText"]
     },
     "Tales@Reclamation@SwipeSave": {
@@ -11963,9 +11958,10 @@
         "next": [
             "Tales@Reclamation@ProsperityInSave@Resume",
             "Tales@Reclamation@ProsperityInSave@Workbench",
-            "Tales@Reclamation@ProsperityInSave@Navigation"]
+            "Tales@Reclamation@ProsperityInSave@Navigation"
+        ]
     },
-    "Tales@Reclamation@ProsperityInSave@Navigation":{
+    "Tales@Reclamation@ProsperityInSave@Navigation": {
         "algorithm": "JustReturn",
         "next": ["Tales@Reclamation@ProsperityInSave"]
     },
@@ -12069,9 +12065,7 @@
         "doc": "点击右上角箭头进入下一个生息日, 若在量定日则进行量定结算",
         "baseTask": "Tales@Reclamation@NextDay",
         "template": "Tales@Reclamation@NextDay.png",
-        "next": [
-            "Tales@Reclamation@ProsperityInSave@SkipToCalculation@CalculationOrNextDay@AfterLoadingText"
-        ]
+        "next": ["Tales@Reclamation@ProsperityInSave@SkipToCalculation@CalculationOrNextDay@AfterLoadingText"]
     },
     "Tales@Reclamation@ProsperityInSave@SkipToCalculation@CalculationOrNextDay": {
         "doc": "等待, 可能进入量定结算或驻扎地产出结算, 若进入驻扎地产出结算则可能点击确认符号跳过等待",
