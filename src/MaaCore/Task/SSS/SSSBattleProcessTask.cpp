@@ -240,9 +240,6 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                 // 直接返回，等费用，等下次循环处理部署逻辑
                 break;
             }
-            if (auto iter = m_all_cores.find(strategy.core); iter != m_all_cores.end()) {
-                m_all_cores.erase(iter);
-            }
             strategy.core_deployed = true;
             if (it->second.size() >= 2) {
                 if ((*(it->second.front())).index < (**(std::next(it->second.begin(), 1))).index) {
