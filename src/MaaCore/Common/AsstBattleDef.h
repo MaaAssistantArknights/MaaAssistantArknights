@@ -233,16 +233,7 @@ namespace asst::battle
             RoleCounts tool_men;
             Point location;
             DeployDirection direction = DeployDirection::None;
-            // 以下为非json解析字段
-            int index;
-            bool core_deployed = false; // 全局保core，再次识别到core则同location全部重置
-            bool operator==(const Strategy& other) const
-            {
-                return index == other.index;
-            }
         };
-
-        using StrategyOrderLock = std::unordered_map<Point, std::vector<std::shared_ptr<Strategy>>, Point::Hash>;
 
         struct CombatData : public copilot::CombatData
         {
@@ -250,7 +241,6 @@ namespace asst::battle
             bool draw_as_possible = false;
             int retry_times = 0;
             std::vector<std::string> order_of_drops;
-            StrategyOrderLock order;
         };
 
         enum class EquipmentType
