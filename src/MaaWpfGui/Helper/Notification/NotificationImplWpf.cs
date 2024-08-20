@@ -66,7 +66,6 @@ internal class NotificationImplWpf : INotificationPoster
 
     #endregion 通知基本字体样式和内容模板
 
-
     public void ShowNotification(NotificationContent content)
     {
         var wpfcontent = new global::Notification.Wpf.NotificationContent()
