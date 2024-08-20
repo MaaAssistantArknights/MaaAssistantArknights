@@ -141,7 +141,8 @@ bool asst::SSSBattleProcessTask::wait_until_start(bool weak)
     int replace_count;     // 替换干员数量，装置不计数
     int replace_limit = 4; // 替换数量限制，最多替换4个
     int cost_limit = 29;   // 费用阈值，低于该费用的干员不替换
-    if (m_all_action_opers.contains("超重绝缘水泥")) {
+    // 暂时写死凑合一下
+    if (m_all_action_opers.contains("超重绝缘水泥") || m_all_cores.contains("超重绝缘水泥")) {
         replace_count = 1; // 只换水泥+1个，以防换出水泥
     }
     else {
@@ -206,7 +207,9 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                 // 直接返回，等费用，等下次循环处理部署逻辑
                 break;
             }
-            m_all_cores.erase(strategy.core);
+            if (auto it = m_all_cores.find(strategy.core); it != m_all_cores.end()) {
+                m_all_cores.erase(it);
+            }
             // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
             return deploy_oper(strategy.core, strategy.location, strategy.direction) && update_deployment();
         }
