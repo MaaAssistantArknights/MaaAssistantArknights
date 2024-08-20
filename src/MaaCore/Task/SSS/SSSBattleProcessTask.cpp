@@ -209,7 +209,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
         if (use_the_core) {
             const auto& core = exist_core.at(strategy.core);
             // 全局保留core以备暴毙等情况
-            if (strategy.core_deployed) {
+            if (strategy.core_deployed && core.role != Role::Drone && core.role != Role::Unknown) {
                 strategy.core_deployed = false;
                 for (auto& strategy_reset : m_sss_combat_data.strategies) {
                     if (strategy.location == strategy_reset.location) {
