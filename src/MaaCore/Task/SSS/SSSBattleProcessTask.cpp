@@ -213,15 +213,18 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             if (strategy.core_deployed && core.role != Role::Drone && core.role != Role::Unknown) {
                 strategy.core_deployed = false;
                 for (auto& strategy_reset : m_sss_combat_data.strategies) {
+                    // 基于m_sss_combat_data.strategies遍历所有策略，对与当前location相同的strategy进行操作
                     if (strategy.location != strategy_reset.location) {
                         continue;
                     }
                     for (auto& same_location_strategy : (it->second)) {
-                        if ((*same_location_strategy).index != strategy_reset.index) {
+                        // 复用基于m_sss_combat_data.order的当前location的迭代器，寻找对应的strategy备份
+                        if (*same_location_strategy != strategy_reset) {
                             continue;
                         }
                         bool skip = false;
                         for (auto& [role, quantity] : (*same_location_strategy).tool_men) {
+                            // 若strategy中有水泥等非干员对象，则跳过该strategy
                             if (role == Role::Drone || role == Role::Unknown) {
                                 skip = true;
                             }
@@ -229,6 +232,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                         if (skip) {
                             continue;
                         }
+                        // 用m_sss_combat_data.order中的备份，替换被修改quantity的m_sss_combat_data.strategies中的相同策略
                         strategy_reset = *same_location_strategy;
                         break;
                     }
