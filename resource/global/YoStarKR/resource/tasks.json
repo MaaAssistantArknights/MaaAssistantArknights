@@ -2387,5 +2387,42 @@
     },
     "Reclamation2StageLeaveConfirm": {
         "text": ["확인"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@Commence": {
+        "text": ["연", "산", "시", "작"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@ClickBaseCamp": {
+        "text": ["캠프", "만남", "광장"]
+    },
+    "Tales@Reclamation@EnterNode": {
+        "text": ["작전", "개시"]
+    },
+    "Tales@Reclamation@CancelEnterBuildMode": {
+        "text": ["进入建造"]
+    },
+    "Tales@Reclamation@NavigateToZone@ShrubberyGalore": {
+        "text": ["채집터", "우거진", "숲"],
+        "ocrReplace": [
+            [".+터", "채집터"],
+            [".*거진.*", "우거진숲"]
+        ]
+    },
+    "Tales@Reclamation@ConfirmSquad": {
+        "text": ["작전", "개시"]
+    },
+    "Tales@Reclamation@NavigateToZone@GatheringOfFeathers": {
+        "text": ["사냥터", "파울비스트의", "땅"]
+    },
+    "Tales@Reclamation@FinishCalculation": {
+        "text": ["탭하여", "계", "속"]
+    },
+    "Tales@Reclamation@ProsperityInSave@Resume": {
+        "text": ["계", "속", "하", "기"]
+    },
+    "Tales@Reclamation@ResourceGained": {
+        "text": ["탭하여", "계", "속"]
+    },
+    "Tales@Reclamation@ConfirmToLoadSave": {
+        "text": ["확인"]
     }
 }

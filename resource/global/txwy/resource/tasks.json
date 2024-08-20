@@ -1977,5 +1977,38 @@
     },
     "Fire@Reclamation@StartActionEnter": {
         "text": ["開始行動", "決斷"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@Commence": {
+        "text": ["演算", "開始"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@ClickBaseCamp": {
+        "text": ["众人会聚之地"]
+    },
+    "Tales@Reclamation@EnterNode": {
+        "text": ["开始行动"]
+    },
+    "Tales@Reclamation@CancelEnterBuildMode": {
+        "text": ["进入建造"]
+    },
+    "Tales@Reclamation@NavigateToZone@ShrubberyGalore": {
+        "text": ["丰饶灌木林"]
+    },
+    "Tales@Reclamation@ConfirmSquad": {
+        "text": ["开始行动"]
+    },
+    "Tales@Reclamation@NavigateToZone@GatheringOfFeathers": {
+        "text": ["聚羽之地"]
+    },
+    "Tales@Reclamation@FinishCalculation": {
+        "text": ["点击任意处继续"]
+    },
+    "Tales@Reclamation@ProsperityInSave@Resume": {
+        "text": ["继续演算"]
+    },
+    "Tales@Reclamation@ResourceGained": {
+        "text": ["点击空白处继续"]
+    },
+    "Tales@Reclamation@ConfirmToLoadSave": {
+        "text": ["点击确认"]
     }
 }
