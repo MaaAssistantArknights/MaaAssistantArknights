@@ -278,7 +278,7 @@
     <ClCompile Include="Task\Reclamation\ReclamationConclusionReportPlugin.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationBattlePlugin.cpp" />
     <ClCompile Include="Task\Interface\ReclamationTask.cpp" />
-    <ClInclude Include="Task\Reclamation\ReclamationConfig.cpp" />
+    <ClCompile Include="Task\Reclamation\ReclamationConfig.cpp" />
     <ClCompile Include="Task\BattleHelper.cpp" />
     <ClCompile Include="Task\Interface\SingleStepTask.cpp" />
     <ClCompile Include="Task\Interface\SSSCopilotTask.cpp" />
