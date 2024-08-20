@@ -11874,9 +11874,13 @@
         "next": ["Tales@Reclamation@ProsperityNoSave@SkipToCalculation@NextDay@AfterLoadingText"]
     },
     "Tales@Reclamation@ProsperityNoSave@FinishCalculation": {
-        "doc": "已完成生存周期, 点击 <点击任意处继续> 文字位置",
+        "doc": "已完成生存周期",
         "baseTask": "Tales@Reclamation@FinishCalculation",
-        "next": ["Tales@Reclamation@ProsperityNoSave@StartToday@AfterMerelyWaiting"]
+        "action": "DoNothing",
+        "next": [
+            "Tales@Reclamation@ProsperityNoSave@ProsperityReachLimit",
+            "Tales@Reclamation@ProsperityNoSave@ProsperityNotReachLimit"
+        ]
     },
     "Tales@Reclamation@FinishCalculation": {
         "doc": "模板任务: 已完成生存周期, 点击 <点击任意处继续> 文字位置",
@@ -11885,45 +11889,73 @@
         "roi": [554, 657, 172, 41],
         "action": "ClickSelf"
     },
-    "Tales@Reclamation@ProsperityNoSave@StartToday": {
-        "doc": "在驻扎地产出结算界面点击确认符号开启今日",
+    "Tales@Reclamation@ProsperityNoSave@ProsperityReachLimit": {
+        "doc": "已完成生存周期, 生息点数达到上限, 点击 MAX 图案位置",
+        "baseTask": "Tales@Reclamation@ProsperityReachLimit",
+        "template": "Tales@Reclamation@Max",
+        "next": ["Tales@Reclamation@ProsperityNoSave@ProsperityReachLimit@StartToday@AfterMerelyWaiting"]
+    },
+    "Tales@Reclamation@ProsperityReachLimit": {
+        "doc": "模板任务: 已完成生存周期, 生息点数达到上限, 点击 MAX 图案位置",
+        "template": "Tales@Reclamation@Max",
+        "roi": [836, 516, 59, 40],
+        "action": "ClickSelf"
+    },
+    "Tales@Reclamation@ProsperityNoSave@ProsperityNotReachLimit": {
+        "doc": "已完成生存周期, 生息点数未达到上限, 点击 <点击任意处继续> 文字位置",
+        "baseTask": "Tales@Reclamation@FinishCalculation",
+        "next": ["Tales@Reclamation@ProsperityNoSave@ProsperityNotReachLimit@StartToday@AfterMerelyWaiting"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@ProsperityReachLimit@StartToday": {
+        "doc": "生息点数达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
         "baseTask": "Tales@Reclamation@StartToday",
         "template": ["Tales@Reclamation@StartTodayConfirmHollow.png", "Tales@Reclamation@StartTodayConfirmYellow.png"],
-        "next": ["Tales@Reclamation@ProsperityNoSave@Dots@AfterLoadingText"]
+        "next": ["Tales@Reclamation@ProsperityNoSave@ProsperityReachLimit@Dots@AfterLoadingText"]
     },
-    "Tales@Reclamation@ProsperityNoSave@Dots": {
-        "doc": "点击右下角 Dots",
+    "Tales@Reclamation@ProsperityNoSave@ProsperityNotReachLimit@StartToday": {
+        "doc": "生息点数未达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
+        "baseTask": "Tales@Reclamation@StartToday",
+        "template": ["Tales@Reclamation@StartTodayConfirmHollow.png", "Tales@Reclamation@StartTodayConfirmYellow.png"],
+        "next": ["Tales@Reclamation@ProsperityNoSave@ProsperityNotReachLimit@Dots@AfterLoadingText"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@ProsperityReachLimit@Dots": {
+        "doc": "生息点数达到上限, 点击右下角 Dots",
         "baseTask": "Tales@Reclamation@Dots",
         "template": "Tales@Reclamation@Dots.png",
-        "next": ["Tales@Reclamation@ProsperityNoSave@SwipeSave"]
+        "next": ["Tales@Reclamation@ProsperityNoSave@ProsperityReachLimit@SwipeSave"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@ProsperityNotReachLimit@Dots": {
+        "doc": "生息点数未达到上限, 点击右下角 Dots",
+        "baseTask": "Tales@Reclamation@Dots",
+        "template": "Tales@Reclamation@Dots.png",
+        "next": ["Tales@Reclamation@ProsperityNoSave@ProsperityNotReachLimit@SwipeSave"]
     },
     "Tales@Reclamation@Dots": {
         "doc": "模板任务: 点击右下角 Dots",
         "roi": [1001, 658, 61, 28],
         "action": "ClickSelf"
     },
-    "Tales@Reclamation@ProsperityNoSave@SwipeSave": {
-        "doc": "点击右下角删除存档图标",
+    "Tales@Reclamation@ProsperityNoSave@ProsperityReachLimit@SwipeSave": {
+        "doc": "生息点数达到上限, 点击右下角删除存档图标, 确认删除存档, 仍要删除存档",
         "baseTask": "Tales@Reclamation@SwipeSave",
         "template": "Tales@Reclamation@SwipeSave.png",
-        "next": ["Tales@Reclamation@ProsperityNoSave@ConfirmToSwipeSave"]
+        "sub": [
+            "Tales@Reclamation@DialogConfirmRed*2"
+        ]
+    },
+    "Tales@Reclamation@ProsperityNoSave@ProsperityNotReachLimit@SwipeSave": {
+        "doc": "生息点数未达到上限, 点击右下角删除存档图标, 确认删除存档, 仍要删除存档",
+        "baseTask": "Tales@Reclamation@SwipeSave",
+        "template": "Tales@Reclamation@SwipeSave.png",
+        "sub": [
+            "Tales@Reclamation@DialogConfirmRed*2"
+        ],
+        "next": ["Tales@Reclamation@ProsperityNoSave@AfterLoadingText"]
     },
     "Tales@Reclamation@SwipeSave": {
         "doc": "模板任务: 点击右下角删除存档图标, 仅支持驻扎地等级2及以下",
         "roi": [1088, 550, 91, 50],
         "action": "ClickSelf"
-    },
-    "Tales@Reclamation@ProsperityNoSave@ConfirmToSwipeSave": {
-        "doc": "确认删除存档",
-        "baseTask": "Tales@Reclamation@DialogConfirmRed",
-        "template": "Tales@Reclamation@DialogConfirmRed.png",
-        "next": ["Tales@Reclamation@ProsperityNoSave@SureToSwipeSave"]
-    },
-    "Tales@Reclamation@ProsperityNoSave@SureToSwipeSave": {
-        "doc": "仍要删除存档",
-        "baseTask": "Tales@Reclamation@DialogConfirmRed",
-        "template": "Tales@Reclamation@DialogConfirmRed.png",
-        "next": ["Tales@Reclamation@ProsperityNoSave@AfterLoadingText"]
     },
     "Tales@Reclamation@ProsperityInSave": {
         "doc": "生息演算「沙洲遗闻」有存档刷生息点数 <ProsperityInSave> 任务入口",
@@ -12010,13 +12042,13 @@
         "action": "ClickSelf"
     },
     "Tales@Reclamation@ProsperityInSave@LeaveWorkbench": {
-        "doc": "点击左上角箭头退出组装台",
-        "baseTask": "Tales@Reclamation@Back",
-        "template": "Tales@Reclamation@Back.png",
+        "doc": "点击左上角深色箭头退出组装台",
+        "baseTask": "Tales@Reclamation@BackDark",
+        "template": "Tales@Reclamation@BackDark.png",
         "next": ["Tales@Reclamation@ProsperityInSave@SkipToCalculation"]
     },
-    "Tales@Reclamation@Back": {
-        "doc": "模板任务: 点击左上角箭头返回",
+    "Tales@Reclamation@BackDark": {
+        "doc": "模板任务: 点击左上角深色箭头返回",
         "roi": [7, 6, 41, 56],
         "action": "ClickSelf"
     },
@@ -12076,29 +12108,65 @@
         "next": ["Tales@Reclamation@ProsperityInSave@SkipToCalculation@NextDay@AfterLoadingText"]
     },
     "Tales@Reclamation@ProsperityInSave@FinishCalculation": {
-        "doc": "已完成生存周期, 点击 <点击任意处继续> 文字位置",
+        "doc": "已完成生存周期",
         "baseTask": "Tales@Reclamation@FinishCalculation",
-        "next": ["Tales@Reclamation@ProsperityInSave@StartToday@AfterMerelyWaiting"]
+        "action": "DoNothing",
+        "next": [
+            "Tales@Reclamation@ProsperityInSave@ProsperityReachLimit",
+            "Tales@Reclamation@ProsperityInSave@ProsperityNotReachLimit"
+        ]
     },
-    "Tales@Reclamation@ProsperityInSave@StartToday": {
-        "doc": "在驻扎地产出结算界面点击确认符号开启今日",
+    "Tales@Reclamation@ProsperityInSave@ProsperityReachLimit": {
+        "doc": "已完成生存周期, 生息点数达到上限, 点击 MAX 图案位置",
+        "baseTask": "Tales@Reclamation@ProsperityReachLimit",
+        "template": "Tales@Reclamation@Max",
+        "next": ["Tales@Reclamation@ProsperityInSave@ProsperityReachLimit@StartToday@AfterMerelyWaiting"]
+    },
+    "Tales@Reclamation@ProsperityInSave@ProsperityNotReachLimit": {
+        "doc": "已完成生存周期, 生息点数未达到上限, 点击 <点击任意处继续> 文字位置",
+        "baseTask": "Tales@Reclamation@FinishCalculation",
+        "next": ["Tales@Reclamation@ProsperityInSave@ProsperityNotReachLimit@StartToday@AfterMerelyWaiting"]
+    },
+    "Tales@Reclamation@ProsperityInSave@ProsperityReachLimit@StartToday": {
+        "doc": "生息点数达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
         "baseTask": "Tales@Reclamation@StartToday",
         "template": ["Tales@Reclamation@StartTodayConfirmHollow.png", "Tales@Reclamation@StartTodayConfirmYellow.png"],
-        "next": ["Tales@Reclamation@ProsperityInSave@Dots@AfterLoadingText"]
+        "next": ["Tales@Reclamation@ProsperityInSave@ProsperityReachLimit@Dots@AfterLoadingText"]
     },
-    "Tales@Reclamation@ProsperityInSave@Dots": {
-        "doc": "点击右下角 Dots",
+    "Tales@Reclamation@ProsperityInSave@ProsperityNotReachLimit@StartToday": {
+        "doc": "生息点数未达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
+        "baseTask": "Tales@Reclamation@StartToday",
+        "template": ["Tales@Reclamation@StartTodayConfirmHollow.png", "Tales@Reclamation@StartTodayConfirmYellow.png"],
+        "next": ["Tales@Reclamation@ProsperityInSave@ProsperityReachLimit@Dots@AfterLoadingText"]
+    },
+    "Tales@Reclamation@ProsperityInSave@ProsperityReachLimit@Dots": {
+        "doc": "生息点数达到上限, 点击右下角 Dots",
         "baseTask": "Tales@Reclamation@Dots",
         "template": "Tales@Reclamation@Dots.png",
-        "next": ["Tales@Reclamation@ProsperityInSave@LoadSave"]
+        "next": ["Tales@Reclamation@ProsperityInSave@ProsperityReachLimit@LoadSave"]
     },
-    "Tales@Reclamation@ProsperityInSave@LoadSave": {
-        "doc": "点击右下角读取存档图标",
+    "Tales@Reclamation@ProsperityInSave@ProsperityNotReachLimit@Dots": {
+        "doc": "生息点数未达到上限, 点击右下角 Dots",
+        "baseTask": "Tales@Reclamation@Dots",
+        "template": "Tales@Reclamation@Dots.png",
+        "next": ["Tales@Reclamation@ProsperityInSave@ProsperityNotReachLimit@LoadSave"]
+    },
+    "Tales@Reclamation@ProsperityInSave@ProsperityReachLimit@LoadSave": {
+        "doc": "生息点数达到上限, 点击右下角读取存档图标, 选择从右往左第二个存档或仅存的存档, 点击 <点击确认> 文字位置确认读取存档",
         "baseTask": "Tales@Reclamation@LoadSave",
         "template": "Tales@Reclamation@LoadSave.png",
+        "sub": ["Tales@Reclamation@SelectSecondLastSave", "Tales@Reclamation@ConfirmToLoadSave"],
         "next": [
-            "Tales@Reclamation@ProsperityInSave@LoadSave@SelectMiddleSave",
-            "Tales@Reclamation@ProsperityInSave@LoadSave@SelectLeftSave"
+            "Tales@Reclamation@ProsperityInSave@ProsperityReachLimit@LoadSave@StartToday@AfterMerelyWaiting@AfterLoadingText"
+        ]
+    },
+    "Tales@Reclamation@ProsperityInSave@ProsperityNotReachLimit@LoadSave": {
+        "doc": "生息点数未达到上限, 点击右下角读取存档图标, 选择从右往左第二个存档或仅存的存档, 点击 <点击确认> 文字位置确认读取存档",
+        "baseTask": "Tales@Reclamation@LoadSave",
+        "template": "Tales@Reclamation@LoadSave.png",
+        "sub": ["Tales@Reclamation@SelectSecondLastSave", "Tales@Reclamation@ConfirmToLoadSave"],
+        "next": [
+            "Tales@Reclamation@ProsperityInSave@ProsperityNotReachLimit@LoadSave@StartToday@AfterMerelyWaiting@AfterLoadingText"
         ]
     },
     "Tales@Reclamation@LoadSave": {
@@ -12106,17 +12174,16 @@
         "roi": [1030, 542, 118, 66],
         "action": "ClickSelf"
     },
+    "Tales@Reclamation@SelectSecondLastSave": {
+        "doc": "模板任务: 选择从右往左第二个存档或仅存的存档",
+        "algorithm": "JustReturn",
+        "next": ["Tales@Reclamation@SelectMiddleSave", "Tales@Reclamation@SelectLeftSave"]
+    },
     "Tales@Reclamation@SelectRightSave": {
         "doc": "模板任务: 选择右侧的存档读取",
         "template": "Tales@Reclamation@ActsLeft2.png",
         "roi": [767, 488, 196, 32],
         "action": "ClickSelf"
-    },
-    "Tales@Reclamation@ProsperityInSave@LoadSave@SelectMiddleSave": {
-        "doc": "选择中间的存档读取",
-        "baseTask": "Tales@Reclamation@SelectMiddleSave",
-        "template": "Tales@Reclamation@ActsLeft2.png",
-        "next": ["Tales@Reclamation@ProsperityInSave@LoadSave@ConfirmToLoadSave"]
     },
     "Tales@Reclamation@SelectMiddleSave": {
         "doc": "模板任务: 选择中间的存档读取",
@@ -12124,22 +12191,11 @@
         "roi": [617, 488, 46, 32],
         "action": "ClickSelf"
     },
-    "Tales@Reclamation@ProsperityInSave@LoadSave@SelectLeftSave": {
-        "doc": "选择左侧的存档读取",
-        "baseTask": "Tales@Reclamation@SelectLeftSave",
-        "template": "Tales@Reclamation@ActsLeft2.png",
-        "next": ["Tales@Reclamation@ProsperityInSave@LoadSave@ConfirmToLoadSave"]
-    },
     "Tales@Reclamation@SelectLeftSave": {
         "doc": "模板任务: 选择左侧的存档读取",
         "template": "Tales@Reclamation@ActsLeft2.png",
         "roi": [317, 488, 196, 32],
         "action": "ClickSelf"
-    },
-    "Tales@Reclamation@ProsperityInSave@LoadSave@ConfirmToLoadSave": {
-        "doc": "点击 <点击确认> 文字位置确认读取存档",
-        "baseTask": "Tales@Reclamation@ConfirmToLoadSave",
-        "next": ["Tales@Reclamation@ProsperityInSave@LoadSave@StartToday@AfterMerelyWaiting@AfterLoadingText"]
     },
     "Tales@Reclamation@ConfirmToLoadSave": {
         "doc": "模板任务: 点击 <点击确认> 文字位置确认读取存档",
@@ -12148,8 +12204,20 @@
         "roi": [583, 529, 115, 43],
         "action": "ClickSelf"
     },
-    "Tales@Reclamation@ProsperityInSave@LoadSave@StartToday": {
-        "doc": "在驻扎地产出结算界面点击确认符号开启今日",
+    "Tales@Reclamation@ProsperityInSave@ProsperityReachLimit@LoadSave@StartToday": {
+        "doc": "生息点数未达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
+        "baseTask": "Tales@Reclamation@StartToday",
+        "template": ["Tales@Reclamation@StartTodayConfirmHollow.png", "Tales@Reclamation@StartTodayConfirmYellow.png"],
+        "sub": ["Tales@Reclamation@BackLight"],
+        "next": ["Tales@Reclamation@ProsperityInSave@Stop"]
+    },
+    "Tales@Reclamation@BackLight": {
+        "doc": "模板任务: 点击左上角浅色箭头返回",
+        "roi": [0, 7, 40, 56],
+        "action": "ClickSelf"
+    },
+    "Tales@Reclamation@ProsperityInSave@ProsperityNotReachLimit@LoadSave@StartToday": {
+        "doc": "生息点数未达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
         "baseTask": "Tales@Reclamation@StartToday",
         "template": ["Tales@Reclamation@StartTodayConfirmHollow.png", "Tales@Reclamation@StartTodayConfirmYellow.png"],
         "next": ["Tales@Reclamation@ProsperityInSave@AfterLoadingText"]
