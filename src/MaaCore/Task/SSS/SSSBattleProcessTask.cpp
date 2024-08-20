@@ -208,7 +208,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             *it->second.front() != strategy) {
             continue;  // 这里定义的等于比较方法只比较index
         }
-        auto& strategies_of_current_location = it->second;
+        const auto& strategies_of_current_location = it->second;
 
         bool use_the_core = ranges::all_of(strategy.tool_men, [](const auto& pair) { return pair.second <= 0; }) &&
                             !strategy.core.empty() && exist_core.contains(strategy.core);
