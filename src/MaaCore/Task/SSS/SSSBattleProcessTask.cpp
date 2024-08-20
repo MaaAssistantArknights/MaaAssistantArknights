@@ -213,9 +213,6 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             if (strategy.core_deployed && core.role != Role::Drone && core.role != Role::Unknown) {
                 strategy.core_deployed = false;
                 for (auto& strategy_reset : m_sss_combat_data.strategies) {
-                    if (core.name == strategy_reset.core) {
-                        continue;
-                    }
                     if (strategy.location == strategy_reset.location) {
                         for (auto& same_location_strategy : (it->second)) {
                             if ((*same_location_strategy).index == strategy_reset.index) {
