@@ -215,8 +215,8 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                             !strategy.core.empty() && exist_core.contains(strategy.core);
         if (use_the_core) {
             const auto& core = exist_core.at(strategy.core);
-            // 全局保留core以备暴毙等情况
-            if (strategy.core_deployed) {
+            // 全局保留 core 以备暴毙、同位置多 core 的情况
+            if (strategy.core_deployed && is_plain_oper(core.role)) {
                 strategy.core_deployed = false;
                 for (auto& strategy_reset : m_sss_combat_data.strategies) {
                     // 基于 m_sss_combat_data.strategies 遍历所有策略，对与当前 location 相同的 strategy 进行操作
