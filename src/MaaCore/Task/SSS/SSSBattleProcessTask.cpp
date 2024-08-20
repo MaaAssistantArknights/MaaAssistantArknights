@@ -200,39 +200,42 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
 
     for (auto& strategy : m_sss_combat_data.strategies) {
         // 步骤(strategy)锁，同格子强制顺序执行，逻辑详见文档"strategies"
-        // strategies_of_current_location->first 是 key（Point）
-        // strategies_of_current_location->second 是 value（std::vector<std::shared_ptr<Strategy>>）
-        auto strategies_of_current_location = m_sss_combat_data.order.find(strategy.location);
-        if (*(strategies_of_current_location->second.front()) != strategy) {
+        // it->first 是 key（Point）
+        // it->second 是 value（std::vector<std::shared_ptr<Strategy>>）
+        const auto& it = m_sss_combat_data.order.find(strategy.location);
+        if (it == m_sss_combat_data.order.cend() || 
+            it->second.size() == 0 || 
+            *it->second.front() != strategy) {
             continue;  // 这里定义的等于比较方法只比较index
         }
+        auto& strategies_of_current_location = it->second;
 
         bool use_the_core = ranges::all_of(strategy.tool_men, [](const auto& pair) { return pair.second <= 0; }) &&
                             !strategy.core.empty() && exist_core.contains(strategy.core);
         if (use_the_core) {
             const auto& core = exist_core.at(strategy.core);
-            // 全局保留core以备暴毙、同位置多core的情况
+            // 全局保留 core 以备暴毙、同位置多 core 的情况
             if (strategy.core_deployed && core.role != Role::Drone && core.role != Role::Unknown) {
                 strategy.core_deployed = false;
                 for (auto& strategy_reset : m_sss_combat_data.strategies) {
-                    // 基于m_sss_combat_data.strategies遍历所有策略，对与当前location相同的strategy进行操作
+                    // 基于 m_sss_combat_data.strategies 遍历所有策略，对与当前 location 相同的 strategy 进行操作
                     if (strategy.location != strategy_reset.location) {
                         continue;
                     }
-                    // 复用基于m_sss_combat_data.order的当前location的迭代器，寻找对应的strategy备份
+                    // 复用基于 m_sss_combat_data.order 的当前 location 的策略指针的迭代器，寻找对应的strategy备份
                     auto same_index_strategy = 
-                        ranges::find_if(strategies_of_current_location->second,
+                        ranges::find_if(strategies_of_current_location,
                         [&strategy_reset](const auto& same_location_strategy){
                         return *same_location_strategy == strategy_reset;
-                    });
+                        });
+                    // 若 strategy 中有 水泥 等非干员对象，则跳过该 strategy
                     if (ranges::all_of((**same_index_strategy).tool_men | views::keys, [](const auto& role) {
                         return role != Role::Drone && role != Role::Unknown;})) {
-                        // 若strategy中有水泥等非干员对象，则跳过该strategy
                         strategy_reset = **same_index_strategy;
                     }
                 }
-                (strategies_of_current_location->second).emplace_back((strategies_of_current_location->second).front());
-                (strategies_of_current_location->second).erase((strategies_of_current_location->second).begin());
+                (strategies_of_current_location).emplace_back((strategies_of_current_location).front());
+                (strategies_of_current_location).erase((strategies_of_current_location).begin());
                 return false;
             }
 
@@ -241,11 +244,11 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                 break;
             }
             strategy.core_deployed = true;
-            if (strategies_of_current_location->second.size() >= 2) {
-                if ((*(strategies_of_current_location->second.front())).index < (**(std::next(strategies_of_current_location->second.begin(), 1))).index) {
-                    // 若当前位置出现多core的情况，则将core当作过牌干员
-                    (strategies_of_current_location->second).emplace_back((strategies_of_current_location->second).front());
-                    (strategies_of_current_location->second).erase((strategies_of_current_location->second).begin());
+            if (strategies_of_current_location.size() >= 2) {
+                if ((*(strategies_of_current_location.front())).index < (**(std::next(strategies_of_current_location.begin(), 1))).index) {
+                    // 若当前位置出现多 core 的情况，则将 core 当作过牌干员
+                    (strategies_of_current_location).emplace_back((strategies_of_current_location).front());
+                    (strategies_of_current_location).erase((strategies_of_current_location).begin());
                 }
             }
             // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
@@ -266,13 +269,13 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             });
             if (available_iter != tool_men.cend()) {
                 --quantity;
-                // 每个tool_men用尽之后删除m_sss_combat_data.strategies中tool_men的当前元素
-                // 重新执行该location所有策略时用m_sss_combat_data.order进行恢复
+                // 每个 tool_men 用尽之后删除 m_sss_combat_data.strategies 中 tool_men 的当前元素
+                // 重新执行该 location 所有策略时用 m_sss_combat_data.order 进行恢复
                 if (quantity <= 0) {
                     strategy.tool_men.erase(role);
                     if (strategy.tool_men.empty() && strategy.core.empty()) {
-                        (strategies_of_current_location->second).emplace_back((strategies_of_current_location->second).front());
-                        (strategies_of_current_location->second).erase((strategies_of_current_location->second).begin());
+                        (strategies_of_current_location).emplace_back((strategies_of_current_location).front());
+                        (strategies_of_current_location).erase((strategies_of_current_location).begin());
                     }
                 }
                 // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
