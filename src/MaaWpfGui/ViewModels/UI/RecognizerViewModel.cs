@@ -514,8 +514,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 未实装干员，但在battle_data中，
         /// </summary>
-        private static readonly HashSet<string> _virtuallyOpers = new HashSet<string>
-        {
+        private static readonly HashSet<string?> _virtuallyOpers =
+        [
             "char_504_rguard",
             "char_505_rcast",
             "char_506_rmedic",
@@ -527,8 +527,8 @@ namespace MaaWpfGui.ViewModels.UI
             "char_509_acast",
             "char_508_aguard",
             "char_1001_amiya2",
-            "char_1037_amiya3",
-        };
+            "char_1037_amiya3"
+        ];
 
         private string _operBoxInfo = LocalizationHelper.GetString("OperBoxRecognitionTip");
 
@@ -585,11 +585,6 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get
             {
-                if (OperBoxDataArray == null)
-                {
-                    return null;
-                }
-
                 if (_operBoxPotential != null)
                 {
                     return _operBoxPotential;
@@ -612,65 +607,26 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool OperBoxParse(JObject details)
         {
-            var operBoxes = (JArray)details["all_opers"];
+            var operBoxes = (JArray?)details["all_opers"];
+
+            if (operBoxes == null)
+            {
+                return false;
+            }
 
             List<Tuple<string, int>> operHave = [];
             List<Tuple<string, int>> operNotHave = [];
 
-            string localizedName;
-            string operNameLanguage = ConfigurationHelper.GetValue(ConfigurationKeys.OperNameLanguage, string.Empty);
-
-            if (operNameLanguage == "OperNameLanguageClient")
-            {
-                localizedName = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty) switch
-                {
-                    "Official" => "name",
-                    "Bilibili" => "name",
-                    "YoStarJP" => "name_jp",
-                    "YoStarKR" => "name_kr",
-                    "txwy" => "name_tw",
-                    _ => "name_en",
-                };
-            }
-            else
-            {
-                string localization = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, string.Empty);
-                if (operNameLanguage.Contains('.'))
-                {
-                    if (operNameLanguage.Split('.')[0] == "OperNameLanguageForce")
-                    {
-                        localization = operNameLanguage.Split('.')[1] switch
-                        {
-                            "zh-cn" => "zh-cn",
-                            "en-us" => "en-us",
-                            "ja-jp" => "ja-jp",
-                            "ko-kr" => "ko-kr",
-                            "zh-tw" => "zh-tw",
-                            _ => localization,
-                        };
-                    }
-                }
-
-                localizedName = localization switch
-                {
-                    "zh-cn" => "name",
-                    "ja-jp" => "name_jp",
-                    "ko-kr" => "name_kr",
-                    "zh-tw" => "name_tw",
-                    _ => "name_en",
-                };
-            }
-
             foreach (JObject operBox in operBoxes.Cast<JObject>())
             {
-                var tuple = new Tuple<string, int>((string)operBox[localizedName], (int)operBox["rarity"]);
+                var tuple = new Tuple<string, int>(DataHelper.GetLocalizedCharacterName((string?)operBox["name"]) ?? "???", (int)(operBox["rarity"] ?? -1));
 
-                if (_virtuallyOpers.Contains((string)operBox["id"]))
+                if (_virtuallyOpers.Contains((string?)operBox["id"]))
                 {
                     continue;
                 }
 
-                if ((bool)operBox["own"])
+                if ((bool)(operBox["own"] ?? false))
                 {
                     /*已拥有干员*/
                     operHave.Add(tuple);
@@ -714,13 +670,13 @@ namespace MaaWpfGui.ViewModels.UI
                 newlineFlag = 0;
             }
 
-            bool done = (bool)details["done"];
+            bool done = (bool)(details["done"] ?? false);
             if (done)
             {
                 OperBoxInfo = LocalizationHelper.GetString("IdentificationCompleted") + "\n" + LocalizationHelper.GetString("OperBoxRecognitionTip");
                 OperBoxResult = string.Format(LocalizationHelper.GetString("OperBoxRecognitionResult"), operNotHave.Count, operNotHaveNames, operHave.Count, operHaveNames);
-                OperBoxExportData = details["own_opers"].ToString();
-                OperBoxDataArray = (JArray)details["own_opers"];
+                OperBoxExportData = details["own_opers"]?.ToString() ?? string.Empty;
+                OperBoxDataArray = (JArray)(details["own_opers"] ?? new JArray());
                 OperBoxDone = true;
             }
             else
