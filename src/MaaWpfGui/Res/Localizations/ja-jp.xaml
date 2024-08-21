@@ -408,8 +408,8 @@
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="ReclamationTheme">主題</system:String>
     <system:String x:Key="ReclamationThemeTales">熱砂秘聞</system:String>
-    <system:String x:Key="ReclamationStrategyProsperityNoSave">セーブせずに、出入りを繰り返して生息ポイントを稼ぐ</system:String>
-    <system:String x:Key="ReclamationStrategyProsperityInSave">セーブしながら、支援アイテムを合成して生息ポイントを稼ぐ</system:String>
+    <system:String x:Key="ReclamationModeProsperityNoSave">セーブせずに、出入りを繰り返して生息ポイントを稼ぐ</system:String>
+    <system:String x:Key="ReclamationModeProsperityInSave">セーブしながら、支援アイテムを合成して生息ポイントを稼ぐ</system:String>
     <system:String x:Key="OperNameLanguage">オペレーター名の表示言語</system:String>
     <system:String x:Key="OperNameLanguageMAA">MAAをフォローする</system:String>
     <system:String x:Key="OperNameLanguageClient">ゲームクライアントをフォローする</system:String>

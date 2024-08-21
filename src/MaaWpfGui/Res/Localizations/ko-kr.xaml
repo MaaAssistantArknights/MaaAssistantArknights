@@ -408,8 +408,8 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="Reclamation">생존연산</system:String>
     <system:String x:Key="ReclamationTheme">생식 계산 주제</system:String>
     <system:String x:Key="ReclamationThemeTales">사막 이야기</system:String>
-    <system:String x:Key="ReclamationStrategyProsperityNoSave">세이브 없이, 스테이지를 반복해서 출입하며 생식 포인트를 획득한다</system:String>
-    <system:String x:Key="ReclamationStrategyProsperityInSave">세이브하면서, 지원 아이템을 합성하여 생식 포인트를 획득한다</system:String>
+    <system:String x:Key="ReclamationModeProsperityNoSave">세이브 없이, 스테이지를 반복해서 출입하며 생식 포인트를 획득한다</system:String>
+    <system:String x:Key="ReclamationModeProsperityInSave">세이브하면서, 지원 아이템을 합성하여 생식 포인트를 획득한다</system:String>
     <system:String x:Key="OperNameLanguage">간부 이름 표시 언어</system:String>
     <system:String x:Key="OperNameLanguageMAA">MAA 따라가기</system:String>
     <system:String x:Key="OperNameLanguageClient">게임 클라이언트 따라가기</system:String>
