@@ -176,74 +176,129 @@ bool asst::SSSBattleProcessTask::wait_until_start(bool weak)
 
 bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
 {
+    /* 即使没 core 应该也能打吧
     if (m_all_cores.empty()) {
         return false;
     }
+    */
 
     cv::Mat image = reusable.empty() ? ctrler()->get_image() : reusable;
     if (!update_deployment_with_skip(image)) {
         return false;
     }
 
-    std::unordered_map<std::string, DeploymentOper> exist_core;
+    std::unordered_map<std::string, DeploymentOper> exist_core; // 在待部署区的 core
     std::vector<DeploymentOper> tool_men;
     for (const auto& oper : m_cur_deployment_opers) {
         if (m_all_cores.contains(oper.name)) {
             exist_core.emplace(oper.name, oper);
         }
-        else if (oper.is_unusual_location && !m_all_action_opers.contains(oper.name)) {
+        else if (oper.is_usual_location && !m_all_action_opers.contains(oper.name)) {
             tool_men.emplace_back(oper);
             // 工具人的技能一概好了就用
             m_skill_usage.try_emplace(oper.name, SkillUsage::Possibly);
         }
     }
 
+    auto plain_oper = [&](Role role) -> bool {
+        return role != Role::Drone && role != Role::Unknown;
+    };
+    auto tool_men_done = [&](const RoleCounts& tool_men) -> bool {
+        return ranges::all_of(tool_men | views::values, [](int counts) { return counts <= 0; });
+    };
+
+    for (Strategy& strategy :
+         m_sss_combat_data.loc_stragegies | views::values | views::transform([&](const auto& locs) -> Strategy& {
+             return m_sss_combat_data.strategies[locs.back()]; // 仅检查同格子最靠后的 strategy 的部署情况
+         })) {
+        if (strategy.core_deployed &&                          // 当前 strategy 已经完毕
+            !strategy.core.empty() &&                          // 存在 core
+            exist_core.contains(strategy.core) &&              // core 在待部署区
+            plain_oper(exist_core.at(strategy.core).role)) {   // core 是干员
+            // 已经部署过的干员 core 出现在待部署区，可能是暴毙，重置当前格子的所有 strategies 信息
+            Log.warn(__FUNCTION__, "| Core", strategy.core, "is already deployed, reset all strategies in location", strategy.location);
+            for (int x : m_sss_combat_data.loc_stragegies[strategy.location]) {
+                auto& strategy_reset = m_sss_combat_data.strategies[x];
+                strategy_reset.core_deployed = false;
+                strategy_reset.required_tool_men = strategy_reset.origin_tool_men;
+            }
+        }
+    }
+
+    // 同格子是否已经存在顺位靠前但未执行完毕的 strategy
+    std::unordered_set<asst::Point> loc_with_strategy;
     for (auto& strategy : m_sss_combat_data.strategies) {
-        bool use_the_core = ranges::all_of(strategy.tool_men, [](const auto& pair) { return pair.second <= 0; }) &&
-                            !strategy.core.empty() && exist_core.contains(strategy.core);
+        if (strategy.core_deployed) {
+            // 跳过已经执行完毕的 strategy
+            continue;
+        }
+        if (loc_with_strategy.contains(strategy.location)) {
+            // 跳过同格子存在未执行完毕的 strategy
+            continue;
+        }
+        loc_with_strategy.emplace(strategy.location);
+#ifdef ASST_DEBUG
+        Log.debug(
+            __FUNCTION__,
+            "| Checking strategy at",
+            strategy.location,
+            "with core",
+            strategy.core,
+            "and tool_men",
+            strategy.required_tool_men | views::transform([](const auto& rolecounts) {
+                return asst::enum_to_string(rolecounts.first) + ": " + std::to_string(rolecounts.second);
+            }));
+#endif
+        bool use_the_core =
+            !strategy.core.empty() && exist_core.contains(strategy.core) && tool_men_done(strategy.required_tool_men);
         if (use_the_core) {
             const auto& core = exist_core.at(strategy.core);
             if (!core.available) {
+                Log.trace(__FUNCTION__, "| Core", core.name, "is not available, waiting");
                 // 直接返回，等费用，等下次循环处理部署逻辑
                 break;
             }
-            if (auto it = m_all_cores.find(strategy.core); it != m_all_cores.end()) {
-                m_all_cores.erase(it);
-            }
+            strategy.core_deployed = true;
+            Log.info(__FUNCTION__, "| Deploy core", strategy.core, "at", strategy.location);
+
             // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
             return deploy_oper(strategy.core, strategy.location, strategy.direction) && update_deployment();
         }
 
-        bool skip = false;
-        for (auto& [role, quantity] : strategy.tool_men) {
-            if (quantity <= 0) {
-                continue;
-            }
-            // for apple-clang build error
-            Role role_for_lambda = role;
+        auto required_roles_view = strategy.required_tool_men |
+                                   views::filter([](const auto& tool_man) { return tool_man.second > 0; }) |
+                                   views::keys;
+        auto required_roles = std::unordered_set(required_roles_view.begin(), required_roles_view.end());
 
-            // 如果有可用的干员，直接使用
-            auto available_iter = ranges::find_if(
-                tool_men, [&](const DeploymentOper& oper) { return oper.available && oper.role == role_for_lambda; });
-            if (available_iter != tool_men.cend()) {
-                --quantity;
-                // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
-                return deploy_oper(available_iter->name, strategy.location, strategy.direction) && update_deployment();
-            }
+        // 如果有费用转好的干员，直接使用
+        if (auto available_iter = ranges::find_if(
+                tool_men,
+                [&](const DeploymentOper& oper) {
+                    return required_roles.contains(oper.role) && // 职业匹配
+                           oper.available &&                     // 干员费用已经转好
+                           !m_all_cores.contains(oper.name);     // 避免把 core 当作工具人部署
+                });
+            available_iter != tool_men.end()) {
+            --strategy.required_tool_men[available_iter->role];
 
-            auto not_available_iter =
-                ranges::find_if(tool_men, [&](const DeploymentOper& oper) { return oper.role == role_for_lambda; });
-            if (not_available_iter == tool_men.cend()) {
-                continue;
+            if (strategy.core.empty() && tool_men_done(strategy.required_tool_men)) {
+                // 如果没有 core，且所有工具人都用完了，就直接算执行完毕
+                strategy.core_deployed = true;
             }
-            // 如果有对应职业干员，但费用没转好，就等他转好，而不是部署下一个策略中的 tool_men
-            // 直接返回出去，后续逻辑交给下次循环处理
-            skip = true;
-            break;
+            Log.info(__FUNCTION__, "| Deploy tool_man", available_iter->name, "at", strategy.location);
+
+            // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
+            return deploy_oper(available_iter->name, strategy.location, strategy.direction) && update_deployment();
         }
-        if (skip) {
-            break;
+
+        if (ranges::any_of(tool_men, [&](const auto& oper) {
+                return required_roles.contains(oper.role) && !m_all_cores.contains(oper.name);
+            })) {
+            // 如果待部署区有符合要求的干员，但是费用还没转好，就等待
+            return false;
         }
+
+        // 如果在此 strategy 没有部署干员，而且不是在等待 core 部署，就尝试下一个 strategy
     }
 
     return false;

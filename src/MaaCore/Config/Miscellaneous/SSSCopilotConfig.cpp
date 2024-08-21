@@ -69,10 +69,13 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
         for (const auto& strategy_info : stage.at("strategies").as_array()) {
             Strategy strategy;
             strategy.core = strategy_info.get("core", std::string());
-            strategy.tool_men = CopilotConfig::parse_role_counts(strategy_info.at("tool_men"));
+            strategy.origin_tool_men = strategy.required_tool_men =
+                CopilotConfig::parse_role_counts(strategy_info.at("tool_men"));
             strategy.location.x = strategy_info.at("location").at(0).as_integer();
             strategy.location.y = strategy_info.at("location").at(1).as_integer();
             strategy.direction = CopilotConfig::string_to_direction(strategy_info.get("direction", "Right"));
+            stage_data.loc_stragegies[strategy.location].emplace_back(
+                static_cast<int>(stage_data.strategies.size()) /*index*/);
             stage_data.strategies.emplace_back(std::move(strategy));
         }
         std::string ocr_code;

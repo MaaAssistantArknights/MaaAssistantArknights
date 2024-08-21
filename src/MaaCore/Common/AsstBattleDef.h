@@ -56,40 +56,38 @@ namespace asst::battle
     inline static Role get_role_type(const std::string& role_name)
     {
         static const std::unordered_map<std::string, Role> NameToRole = {
-            { "warrior", Role::Warrior },    { "WARRIOR", Role::Warrior },    { "Warrior", Role::Warrior },
-            { "近卫", Role::Warrior },       { "GUARD", Role::Warrior },      { "guard", Role::Warrior },
-            { "Guard", Role::Warrior },
+            { "WARRIOR", Role::Warrior },    { "Warrior", Role::Warrior },    { "warrior", Role::Warrior },
+            { "GUARD", Role::Warrior },      { "Guard", Role::Warrior },      { "guard", Role::Warrior },
+            { "近卫", Role::Warrior },
 
-            { "pioneer", Role::Pioneer },    { "PIONEER", Role::Pioneer },    { "Pioneer", Role::Pioneer },
-            { "先锋", Role::Pioneer },       { "VANGUARD", Role::Pioneer },   { "vanguard", Role::Pioneer },
-            { "Vanguard", Role::Pioneer },
+            { "PIONEER", Role::Pioneer },    { "Pioneer", Role::Pioneer },    { "pioneer", Role::Pioneer },
+            { "VANGUARD", Role::Pioneer },   { "Vanguard", Role::Pioneer },   { "vanguard", Role::Pioneer },
+            { "先锋", Role::Pioneer },
 
-            { "medic", Role::Medic },        { "MEDIC", Role::Medic },        { "Medic", Role::Medic },
+            { "MEDIC", Role::Medic },        { "Medic", Role::Medic },        { "medic", Role::Medic },
             { "医疗", Role::Medic },
 
-            { "tank", Role::Tank },          { "TANK", Role::Tank },          { "Tank", Role::Tank },
-            { "重装", Role::Tank },          { "DEFENDER", Role::Tank },      { "defender", Role::Tank },
-            { "Defender", Role::Tank },      { "坦克", Role::Tank },
+            { "TANK", Role::Tank },          { "Tank", Role::Tank },          { "tank", Role::Tank },
+            { "DEFENDER", Role::Tank },      { "Defender", Role::Tank },      { "defender", Role::Tank },
+            { "重装", Role::Tank },          { "坦克", Role::Tank },
 
-            { "sniper", Role::Sniper },      { "SNIPER", Role::Sniper },      { "Sniper", Role::Sniper },
+            { "SNIPER", Role::Sniper },      { "Sniper", Role::Sniper },      { "sniper", Role::Sniper },
             { "狙击", Role::Sniper },
 
-            { "caster", Role::Caster },      { "CASTER", Role::Caster },
+            { "CASTER", Role::Caster },      { "Caster", Role::Caster },      { "caster", Role::Caster },
+            { "术师", Role::Caster },        { "术士", Role::Caster },        { "法师", Role::Caster },
 
-            { "Caster", Role::Caster },      { "术师", Role::Caster },        { "术士", Role::Caster },
-            { "法师", Role::Caster },
-
-            { "support", Role::Support },    { "SUPPORT", Role::Support },    { "Support", Role::Support },
-            { "supporter", Role::Support },  { "SUPPORTER", Role::Support },  { "Supporter", Role::Support },
+            { "SUPPORT", Role::Support },    { "Support", Role::Support },    { "support", Role::Support },
+            { "SUPPORTER", Role::Support },  { "Supporter", Role::Support },  { "supporter", Role::Support },
             { "辅助", Role::Support },       { "支援", Role::Support },
 
-            { "special", Role::Special },    { "SPECIAL", Role::Special },    { "Special", Role::Special },
-            { "特种", Role::Special },       { "SPECIALIST", Role::Special }, { "specialist", Role::Special },
-            { "Specialist", Role::Special },
+            { "SPECIAL", Role::Special },    { "Special", Role::Special },    { "special", Role::Special },
+            { "SPECIALIST", Role::Special }, { "Specialist", Role::Special }, { "specialist", Role::Special },
+            { "特种", Role::Special },
 
-            { "drone", Role::Drone },        { "DRONE", Role::Drone },        { "Drone", Role::Drone },
-            { "无人机", Role::Drone },       { "SUMMON", Role::Drone },       { "summon", Role::Drone },
-            { "Summon", Role::Drone },       { "召唤物", Role::Drone },
+            { "DRONE", Role::Drone },        { "Drone", Role::Drone },        { "drone", Role::Drone },
+            { "SUMMON", Role::Drone },       { "Summon", Role::Drone },       { "summon", Role::Drone },
+            { "无人机", Role::Drone },       { "召唤物", Role::Drone },
         };
         if (auto iter = NameToRole.find(role_name); iter != NameToRole.end()) {
             return iter->second;
@@ -143,7 +141,7 @@ namespace asst::battle
         cv::Mat avatar;
         std::string name;
         LocationType location_type = LocationType::None;
-        bool is_unusual_location = false; // 地面辅助，高台先锋等
+        bool is_usual_location = false; // 用于判断地面辅助，高台先锋（unusual 时此值为 false）等
     };
     struct OperProps
     {
@@ -230,14 +228,18 @@ namespace asst::battle
         struct Strategy
         {
             std::string core;
-            RoleCounts tool_men;
+            RoleCounts origin_tool_men; // 初始需要多少工具人
             Point location;
             DeployDirection direction = DeployDirection::None;
+
+            mutable RoleCounts required_tool_men; // 当前还需要多少工具人才能部署 core，初始时与 tool_men 相同
+            mutable bool core_deployed = false; // 当前 strategy 是否已经完成，存在 core 时即 core 是否已经部署
         };
 
         struct CombatData : public copilot::CombatData
         {
-            std::vector<Strategy> strategies;
+            std::vector</*const*/ Strategy> strategies;                 // 按顺序存储的 strategies
+            std::unordered_map<Point, std::vector<int>> loc_stragegies; // 按格子存储的 strategies (index)
             bool draw_as_possible = false;
             int retry_times = 0;
             std::vector<std::string> order_of_drops;
@@ -336,3 +338,20 @@ namespace asst::battle
         };
     } // namespace roguelike
 } // namespace asst::battle
+
+namespace asst
+{
+inline std::string enum_to_string(asst::battle::Role role)
+{
+    using asst::battle::Role;
+    static const std::unordered_map<Role, std::string> RoleToName = {
+        { Role::Warrior, "近卫" }, { Role::Pioneer, "先锋" }, { Role::Medic, "医疗" },
+        { Role::Tank, "重装" },    { Role::Sniper, "狙击" },  { Role::Caster, "术师" },
+        { Role::Support, "辅助" }, { Role::Special, "特种" }, { Role::Drone, "无人机" },
+    };
+    if (auto iter = RoleToName.find(role); iter != RoleToName.end()) {
+        return iter->second;
+    }
+    return "Unknown";
+}
+}
