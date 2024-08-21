@@ -33,7 +33,7 @@ bool asst::ReclamationTask::set_params(const json::value& params)
     }
 
     const std::string& theme = m_config_ptr->get_theme();
-    const ReclamationStrategy& strategy = m_config_ptr->get_strategy();
+    const ReclamationMode& mode = m_config_ptr->get_mode();
 
     if (theme == ReclamationTheme::Fire) {
         Log.info(__FUNCTION__, "Reclamation Algorithm theme", theme, "is no longer available");
@@ -41,11 +41,11 @@ bool asst::ReclamationTask::set_params(const json::value& params)
         return true;
     }
 
-    switch (strategy) {
-    case ReclamationStrategy::ProsperityNoSave:
+    switch (mode) {
+    case ReclamationMode::ProsperityNoSave:
         m_reclamation_task_ptr->set_tasks({ theme + "@Reclamation@ProsperityNoSave" });
         break;
-    case ReclamationStrategy::ProsperityInSave:
+    case ReclamationMode::ProsperityInSave:
         m_reclamation_task_ptr->set_tasks({ theme + "@Reclamation@ProsperityInSave" });
         const std::string& tool_to_craft = m_config_ptr->get_tool_to_craft();
         Task.get<OcrTaskInfo>(theme + "@Reclamation@ProsperityInSave@ClickTool")->text = { tool_to_craft };
