@@ -2209,32 +2209,24 @@
         "roi": [700, 600, 300, 120],
         "next": ["LoadingText", "#next", "#back"]
     },
-    "RecogniseLoadingText": {
+    "NextAfterLoadingText": {
         "baseTask": "LoadingText",
-        "next": ["AfterLoadingText"]
-    },
-    "AfterLoadingText": {
-        "algorithm": "JustReturn",
-        "next": ["RecogniseLoadingText", "#back"]
+        "next": ["NextAfterLoadingText", "#next"]
     },
     "LoadingIcon": {
         "Doc": "开始唤醒最后阶段的黑色正三角加载画面",
         "roi": [480, 210, 320, 280],
         "next": ["LoadingIcon", "#next", "#back"]
     },
-    "RecogniseLoadingIcon": {
+    "NextAfterLoadingIcon": {
         "baseTask": "LoadingIcon",
         "template": "LoadingIcon.png",
-        "next": ["AfterLoadingIcon"]
+        "next": ["NextAfterLoadingIcon", "#next"]
     },
-    "AfterLoadingIcon": {
-        "algorithm": "JustReturn",
-        "next": ["RecogniseLoadingIcon", "#back"]
-    },
-    "AfterMerelyWaiting": {
+    "NextAfterMerelyWaiting": {
         "algorithm": "JustReturn",
         "postDelay": 500,
-        "next": ["#back", "AfterMerelyWaiting"]
+        "next": ["#next", "NextAfterMerelyWaiting"]
     },
     "ReturnButtons": {
         "algorithm": "JustReturn",
@@ -11587,7 +11579,10 @@
         "action": "ClickSelf",
         "text": ["开始演算"],
         "roi": [1084, 620, 131, 50],
-        "next": ["Tales@Reclamation@ProsperityNoSave@OpeningAnimation@AfterLoadingText"]
+        "next": [
+            "Tales@Reclamation@ProsperityNoSave@Commence@NextAfterLoadingText",
+            "Tales@Reclamation@ProsperityNoSave@OpeningAnimation"
+        ]
     },
     "Tales@Reclamation@ProsperityNoSave@OpeningAnimation": {
         "doc": "等待开启新游戏后的过场动画",
@@ -11641,7 +11636,11 @@
         "doc": "确认离开 <后舍: 众人会聚之地>",
         "baseTask": "Tales@Reclamation@DialogConfirmYellow",
         "template": "Tales@Reclamation@DialogConfirmYellow.png",
-        "next": ["Tales@Reclamation@ProsperityNoSave@ClickShrubberyGalore@AfterLoadingIcon@AfterLoadingText"]
+        "next": [
+            "Tales@Reclamation@ProsperityNoSave@ConfirmToLeaveBaseCamp@NextAfterLoadingIcon",
+            "Tales@Reclamation@ProsperityNoSave@ConfirmToLeaveBaseCamp@NextAfterLoadingText",
+            "Tales@Reclamation@ProsperityNoSave@ClickShrubberyGalore"
+        ]
     },
     "Tales@Reclamation@DialogConfirmYellow": {
         "doc": "模板任务: 在普通对话框点击确认图标",
@@ -11718,7 +11717,11 @@
         "doc": "在 <资源区: 丰饶灌木林> 编队界面点击 <开始行动> 后点击 <确认>",
         "baseTask": "Tales@Reclamation@DialogConfirmRed",
         "template": "Tales@Reclamation@DialogConfirmRed.png",
-        "next": ["Tales@Reclamation@ProsperityNoSave@LeaveShrubberyGalore@AfterMerelyWaiting@AfterLoadingText"]
+        "next": [
+            "Tales@Reclamation@ProsperityNoSave@LeaveShrubberyGalore",
+            "Tales@Reclamation@ProsperityNoSave@ShrubberyGaloreDoubleCheckSquad@NextAfterLoadingText",
+            "Tales@Reclamation@ProsperityNoSave@ShrubberyGaloreDoubleCheckSquad@NextAfterMerelyWaiting"
+        ]
     },
     "Tales@Reclamation@DialogConfirmRed": {
         "doc": "模板任务: 在警告对话框点击确认图标",
@@ -11735,13 +11738,19 @@
         "doc": "确认离开 <资源区: 丰饶灌木林>",
         "baseTask": "Tales@Reclamation@DialogConfirmYellow",
         "template": "Tales@Reclamation@DialogConfirmYellow.png",
-        "next": ["Tales@Reclamation@ProsperityNoSave@ShrubberyGaloreMissionResults@AfterLoadingText"]
+        "next": [
+            "Tales@Reclamation@ProsperityNoSave@ShrubberyGaloreMissionResults",
+            "Tales@Reclamation@ProsperityNoSave@ConfirmToLeaveShrubberyGalore@NextAfterLoadingText"
+        ]
     },
     "Tales@Reclamation@ProsperityNoSave@ShrubberyGaloreMissionResults": {
         "doc": "在 <资源区: 丰饶灌木林> 行动结束界面点击左下角 <物资将送往仓库> 图标返回",
         "baseTask": "Tales@Reclamation@MissionResults",
         "template": "Tales@Reclamation@SentToWarehouse.png",
-        "next": ["Tales@Reclamation@ProsperityNoSave@ClickGatheringOfFeathers@AfterLoadingIcon"]
+        "next": [
+            "Tales@Reclamation@ProsperityNoSave@ShrubberyGaloreMissionResults@NextAfterLoadingIcon",
+            "Tales@Reclamation@ProsperityNoSave@ClickGatheringOfFeathers"
+        ]
     },
     "Tales@Reclamation@MissionResults": {
         "doc": "模板任务: 在行动结束界面点击左下角 <物资将送往仓库> 图标返回",
@@ -11776,7 +11785,11 @@
         "doc": "在 <捕猎区: 聚羽之地> 编队界面点击 <开始行动> 后点击 <确认>",
         "baseTask": "Tales@Reclamation@DialogConfirmRed",
         "template": "Tales@Reclamation@DialogConfirmRed.png",
-        "next": ["Tales@Reclamation@ProsperityNoSave@LeaveGatheringOfFeathers@AfterMerelyWaiting@AfterLoadingText"]
+        "next": [
+            "Tales@Reclamation@ProsperityNoSave@LeaveGatheringOfFeathers",
+            "Tales@Reclamation@ProsperityNoSave@GatheringOfFeathersDoubleCheckSquad@NextAfterLoadingText",
+            "Tales@Reclamation@ProsperityNoSave@GatheringOfFeathersDoubleCheckSquad@NextAfterMerelyWaiting"
+        ]
     },
     "Tales@Reclamation@ProsperityNoSave@LeaveGatheringOfFeathers": {
         "doc": "在行动中点击左上角离开 <捕猎区: 聚羽之地>",
@@ -11788,13 +11801,19 @@
         "doc": "确认离开 <捕猎区: 聚羽之地>",
         "baseTask": "Tales@Reclamation@DialogConfirmYellow",
         "template": "Tales@Reclamation@DialogConfirmYellow.png",
-        "next": ["Tales@Reclamation@ProsperityNoSave@GatheringOfFeathersMissionResults@AfterLoadingText"]
+        "next": [
+            "Tales@Reclamation@ProsperityNoSave@GatheringOfFeathersMissionResults",
+            "Tales@Reclamation@ProsperityNoSave@ConfirmToLeaveGatheringOfFeathers@NextAfterLoadingText"
+        ]
     },
     "Tales@Reclamation@ProsperityNoSave@GatheringOfFeathersMissionResults": {
         "doc": "在 <捕猎区: 聚羽之地> 行动结束界面点击左下角 <物资将送往仓库> 图标返回",
         "baseTask": "Tales@Reclamation@MissionResults",
         "template": "Tales@Reclamation@SentToWarehouse.png",
-        "next": ["Tales@Reclamation@ProsperityNoSave@SkipToCalculation@AfterLoadingIcon"]
+        "next": [
+            "Tales@Reclamation@ProsperityNoSave@SkipToCalculation",
+            "Tales@Reclamation@ProsperityNoSave@GatheringOfFeathersMissionResults@NextAfterLoadingIcon"
+        ]
     },
     "Tales@Reclamation@ProsperityNoSave@SkipToCalculation": {
         "doc": "跳到下一次量定结算",
@@ -11813,7 +11832,10 @@
         "doc": "点击右上角箭头进入下一个生息日, 若在量定日则进行量定结算",
         "baseTask": "Tales@Reclamation@NextDay",
         "template": "Tales@Reclamation@NextDay.png",
-        "next": ["Tales@Reclamation@ProsperityNoSave@SkipToCalculation@CalculationOrNextDay@AfterLoadingText"]
+        "next": [
+            "Tales@Reclamation@ProsperityNoSave@SkipToCalculation@NextDay@NextAfterLoadingText",
+            "Tales@Reclamation@ProsperityNoSave@SkipToCalculation@CalculationOrNextDay"
+        ]
     },
     "Tales@Reclamation@NextDay": {
         "doc": "模板任务: 点击右上角箭头进入下一个生息日, 若在量定日则进行量定结算",
@@ -11870,7 +11892,10 @@
         "doc": "确认跳过这一日",
         "baseTask": "Tales@Reclamation@DialogConfirmYellow",
         "template": "Tales@Reclamation@DialogConfirmYellow.png",
-        "next": ["Tales@Reclamation@ProsperityNoSave@SkipToCalculation@NextDay@AfterLoadingText"]
+        "next": [
+            "Tales@Reclamation@ProsperityNoSave@SkipToCalculation@NextDay",
+            "Tales@Reclamation@ProsperityNoSave@SkipToCalculation@ConfirmToSkipDay@NextAfterLoadingText"
+        ]
     },
     "Tales@Reclamation@ProsperityNoSave@FinishCalculation": {
         "doc": "已完成生存周期",
@@ -11892,7 +11917,10 @@
         "doc": "已完成生存周期, 生息点数达到上限, 点击 MAX 图案位置",
         "baseTask": "Tales@Reclamation@ProsperityReachLimit",
         "template": "Tales@Reclamation@Max",
-        "next": ["Tales@Reclamation@ProsperityNoSave@ProsperityReachLimit@StartToday@AfterMerelyWaiting"]
+        "next": [
+            "Tales@Reclamation@ProsperityNoSave@ProsperityReachLimit@StartToday",
+            "Tales@Reclamation@ProsperityNoSave@ProsperityReachLimit@NextAfterMerelyWaiting"
+        ]
     },
     "Tales@Reclamation@ProsperityReachLimit": {
         "doc": "模板任务: 已完成生存周期, 生息点数达到上限, 点击 MAX 图案位置",
@@ -11903,19 +11931,28 @@
     "Tales@Reclamation@ProsperityNoSave@ProsperityNotReachLimit": {
         "doc": "已完成生存周期, 生息点数未达到上限, 点击 <点击任意处继续> 文字位置",
         "baseTask": "Tales@Reclamation@FinishCalculation",
-        "next": ["Tales@Reclamation@ProsperityNoSave@ProsperityNotReachLimit@StartToday@AfterMerelyWaiting"]
+        "next": [
+            "Tales@Reclamation@ProsperityNoSave@ProsperityNotReachLimit@StartToday",
+            "Tales@Reclamation@ProsperityNoSave@ProsperityNotReachLimit@NextAfterMerelyWaiting"
+        ]
     },
     "Tales@Reclamation@ProsperityNoSave@ProsperityReachLimit@StartToday": {
         "doc": "生息点数达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
         "baseTask": "Tales@Reclamation@StartToday",
         "template": ["Tales@Reclamation@StartTodayConfirmHollow.png", "Tales@Reclamation@StartTodayConfirmYellow.png"],
-        "next": ["Tales@Reclamation@ProsperityNoSave@ProsperityReachLimit@Dots@AfterLoadingText"]
+        "next": [
+            "Tales@Reclamation@ProsperityNoSave@ProsperityReachLimit@Dots",
+            "Tales@Reclamation@ProsperityNoSave@ProsperityReachLimit@StartToday@NextAfterLoadingText"
+        ]
     },
     "Tales@Reclamation@ProsperityNoSave@ProsperityNotReachLimit@StartToday": {
         "doc": "生息点数未达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
         "baseTask": "Tales@Reclamation@StartToday",
         "template": ["Tales@Reclamation@StartTodayConfirmHollow.png", "Tales@Reclamation@StartTodayConfirmYellow.png"],
-        "next": ["Tales@Reclamation@ProsperityNoSave@ProsperityNotReachLimit@Dots@AfterLoadingText"]
+        "next": [
+            "Tales@Reclamation@ProsperityNoSave@ProsperityNotReachLimit@Dots",
+            "Tales@Reclamation@ProsperityNoSave@ProsperityNotReachLimit@StartToday@NextAfterLoadingText"
+        ]
     },
     "Tales@Reclamation@ProsperityNoSave@ProsperityReachLimit@Dots": {
         "doc": "生息点数达到上限, 点击右下角 Dots",
@@ -11945,7 +11982,10 @@
         "baseTask": "Tales@Reclamation@SwipeSave",
         "template": "Tales@Reclamation@SwipeSave.png",
         "sub": ["Tales@Reclamation@DialogConfirmRed*2"],
-        "next": ["Tales@Reclamation@ProsperityNoSave@AfterLoadingText"]
+        "next": [
+            "Tales@Reclamation@ProsperityNoSave@ProsperityNotReachLimit@SwipeSave@NextAfterLoadingText",
+            "Tales@Reclamation@ProsperityNoSave"
+        ]
     },
     "Tales@Reclamation@SwipeSave": {
         "doc": "模板任务: 点击右下角删除存档图标, 仅支持驻扎地等级2及以下",
@@ -11971,7 +12011,10 @@
         "action": "ClickSelf",
         "text": ["继续演算"],
         "roi": [1084, 620, 131, 50],
-        "next": ["Tales@Reclamation@ProsperityInSave@Workbench@AfterLoadingText"]
+        "next": [
+            "Tales@Reclamation@ProsperityInSave@Workbench",
+            "Tales@Reclamation@ProsperityInSave@Resume@NextAfterLoadingText"
+        ]
     },
     "Tales@Reclamation@ProsperityInSave@Workbench": {
         "doc": "点击进入组装台",
@@ -12018,7 +12061,10 @@
         "doc": "点击开始组装图标",
         "baseTask": "Tales@Reclamation@Craft",
         "template": "Tales@Reclamation@Craft.png",
-        "next": ["Tales@Reclamation@ProsperityInSave@ResourceGained@AfterLoadingText"]
+        "next": [
+            "Tales@Reclamation@ProsperityInSave@ResourceGained",
+            "Tales@Reclamation@ProsperityInSave@Craft@NextAfterLoadingText"
+        ]
     },
     "Tales@Reclamation@Craft": {
         "doc": "模板任务: 点击开始组装图标",
@@ -12065,7 +12111,10 @@
         "doc": "点击右上角箭头进入下一个生息日, 若在量定日则进行量定结算",
         "baseTask": "Tales@Reclamation@NextDay",
         "template": "Tales@Reclamation@NextDay.png",
-        "next": ["Tales@Reclamation@ProsperityInSave@SkipToCalculation@CalculationOrNextDay@AfterLoadingText"]
+        "next": [
+            "Tales@Reclamation@ProsperityInSave@SkipToCalculation@NextDay@NextAfterLoadingText",
+            "Tales@Reclamation@ProsperityInSave@SkipToCalculation@CalculationOrNextDay"
+        ]
     },
     "Tales@Reclamation@ProsperityInSave@SkipToCalculation@CalculationOrNextDay": {
         "doc": "等待, 可能进入量定结算或驻扎地产出结算, 若进入驻扎地产出结算则可能点击确认符号跳过等待",
@@ -12099,7 +12148,10 @@
         "doc": "确认跳过这一日",
         "baseTask": "Tales@Reclamation@DialogConfirmYellow",
         "template": "Tales@Reclamation@DialogConfirmYellow.png",
-        "next": ["Tales@Reclamation@ProsperityInSave@SkipToCalculation@NextDay@AfterLoadingText"]
+        "next": [
+            "Tales@Reclamation@ProsperityInSave@SkipToCalculation@NextDay",
+            "Tales@Reclamation@ProsperityInSave@SkipToCalculation@ConfirmToSkipDay@NextAfterLoadingText"
+        ]
     },
     "Tales@Reclamation@ProsperityInSave@FinishCalculation": {
         "doc": "已完成生存周期",
@@ -12114,24 +12166,36 @@
         "doc": "已完成生存周期, 生息点数达到上限, 点击 MAX 图案位置",
         "baseTask": "Tales@Reclamation@ProsperityReachLimit",
         "template": "Tales@Reclamation@Max",
-        "next": ["Tales@Reclamation@ProsperityInSave@ProsperityReachLimit@StartToday@AfterMerelyWaiting"]
+        "next": [
+            "Tales@Reclamation@ProsperityInSave@ProsperityReachLimit@StartToday",
+            "Tales@Reclamation@ProsperityInSave@ProsperityReachLimit@NextAfterMerelyWaiting"
+        ]
     },
     "Tales@Reclamation@ProsperityInSave@ProsperityNotReachLimit": {
         "doc": "已完成生存周期, 生息点数未达到上限, 点击 <点击任意处继续> 文字位置",
         "baseTask": "Tales@Reclamation@FinishCalculation",
-        "next": ["Tales@Reclamation@ProsperityInSave@ProsperityNotReachLimit@StartToday@AfterMerelyWaiting"]
+        "next": [
+            "Tales@Reclamation@ProsperityInSave@ProsperityNotReachLimit@StartToday",
+            "Tales@Reclamation@ProsperityInSave@ProsperityNotReachLimit@NextAfterMerelyWaiting"
+        ]
     },
     "Tales@Reclamation@ProsperityInSave@ProsperityReachLimit@StartToday": {
         "doc": "生息点数达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
         "baseTask": "Tales@Reclamation@StartToday",
         "template": ["Tales@Reclamation@StartTodayConfirmHollow.png", "Tales@Reclamation@StartTodayConfirmYellow.png"],
-        "next": ["Tales@Reclamation@ProsperityInSave@ProsperityReachLimit@Dots@AfterLoadingText"]
+        "next": [
+            "Tales@Reclamation@ProsperityInSave@ProsperityReachLimit@Dots",
+            "Tales@Reclamation@ProsperityInSave@ProsperityReachLimit@StartToday@NextAfterLoadingText"
+        ]
     },
     "Tales@Reclamation@ProsperityInSave@ProsperityNotReachLimit@StartToday": {
         "doc": "生息点数未达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
         "baseTask": "Tales@Reclamation@StartToday",
         "template": ["Tales@Reclamation@StartTodayConfirmHollow.png", "Tales@Reclamation@StartTodayConfirmYellow.png"],
-        "next": ["Tales@Reclamation@ProsperityInSave@ProsperityReachLimit@Dots@AfterLoadingText"]
+        "next": [
+            "Tales@Reclamation@ProsperityInSave@ProsperityReachLimit@Dots",
+            "Tales@Reclamation@ProsperityInSave@ProsperityNotReachLimit@StartToday@NextAfterLoadingText"
+        ]
     },
     "Tales@Reclamation@ProsperityInSave@ProsperityReachLimit@Dots": {
         "doc": "生息点数达到上限, 点击右下角 Dots",
@@ -12151,7 +12215,9 @@
         "template": "Tales@Reclamation@LoadSave.png",
         "sub": ["Tales@Reclamation@SelectSecondLastSave", "Tales@Reclamation@ConfirmToLoadSave"],
         "next": [
-            "Tales@Reclamation@ProsperityInSave@ProsperityReachLimit@LoadSave@StartToday@AfterMerelyWaiting@AfterLoadingText"
+            "Tales@Reclamation@ProsperityInSave@ProsperityReachLimit@LoadSave@StartToday",
+            "Tales@Reclamation@ProsperityInSave@ProsperityReachLimit@LoadSave@NextAfterLoadingText",
+            "Tales@Reclamation@ProsperityInSave@ProsperityReachLimit@LoadSave@NextAfterMerelyWaiting"
         ]
     },
     "Tales@Reclamation@ProsperityInSave@ProsperityNotReachLimit@LoadSave": {
@@ -12160,7 +12226,9 @@
         "template": "Tales@Reclamation@LoadSave.png",
         "sub": ["Tales@Reclamation@SelectSecondLastSave", "Tales@Reclamation@ConfirmToLoadSave"],
         "next": [
-            "Tales@Reclamation@ProsperityInSave@ProsperityNotReachLimit@LoadSave@StartToday@AfterMerelyWaiting@AfterLoadingText"
+            "Tales@Reclamation@ProsperityInSave@ProsperityNotReachLimit@LoadSave@StartToday",
+            "Tales@Reclamation@ProsperityInSave@ProsperityNotReachLimit@LoadSave@NextAfterLoadingText",
+            "Tales@Reclamation@ProsperityInSave@ProsperityNotReachLimit@LoadSave@NextAfterMerelyWaiting"
         ]
     },
     "Tales@Reclamation@LoadSave": {
@@ -12214,6 +12282,9 @@
         "doc": "生息点数未达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
         "baseTask": "Tales@Reclamation@StartToday",
         "template": ["Tales@Reclamation@StartTodayConfirmHollow.png", "Tales@Reclamation@StartTodayConfirmYellow.png"],
-        "next": ["Tales@Reclamation@ProsperityInSave@AfterLoadingText"]
+        "next": [
+            "Tales@Reclamation@ProsperityInSave@ProsperityNotReachLimit@LoadSave@StartToday@NextAfterLoadingText",
+            "Tales@Reclamation@ProsperityInSave"
+        ]
     }
 }
