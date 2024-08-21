@@ -378,7 +378,12 @@ namespace MaaWpfGui.ViewModels.UI
             get => _remoteControlGetTaskEndpointUri;
             set
             {
-                SetAndNotify(ref _remoteControlGetTaskEndpointUri, value);
+                if (!SetAndNotify(ref _remoteControlGetTaskEndpointUri, value))
+                {
+                    return;
+                }
+
+                Instances.RemoteControlService.InitializePollJobTask();
                 ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, value);
             }
         }
