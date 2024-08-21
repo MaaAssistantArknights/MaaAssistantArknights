@@ -1610,11 +1610,11 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static bool AppendReclamation()
         {
-            _ = int.TryParse(Instances.SettingsViewModel.ReclamationStrategy, out var strategy);
+            _ = int.TryParse(Instances.SettingsViewModel.ReclamationMode, out var mode);
 
             return Instances.AsstProxy.AsstAppendReclamation(
                 Instances.SettingsViewModel.ReclamationTheme,
-                strategy,
+                mode,
                 Instances.SettingsViewModel.ReclamationToolToCraft);
         }
 

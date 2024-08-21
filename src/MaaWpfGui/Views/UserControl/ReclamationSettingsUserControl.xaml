@@ -38,8 +38,8 @@
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource Strategy}"
                 IsHitTestVisible="{Binding Path=Idle}"
-                ItemsSource="{Binding ReclamationStrategyList}"
-                SelectedValue="{Binding ReclamationStrategy}"
+                ItemsSource="{Binding ReclamationModeList}"
+                SelectedValue="{Binding ReclamationMode}"
                 SelectedValuePath="Value"
                 Style="{StaticResource ComboBoxExtend}" />
             <TextBox
@@ -48,7 +48,7 @@
                 Style="{StaticResource TextBoxExtend}"
                 Margin="0,10"
                 VerticalContentAlignment="Center"
-                IsEnabled="{c:Binding 'ReclamationStrategy == &quot;1&quot;' }"
+                IsEnabled="{c:Binding 'ReclamationMode == &quot;1&quot;' }"
                 Text="{Binding ReclamationToolToCraft}" />
             <!--<controls:TextBlock
                 Margin="5,50,5,10"

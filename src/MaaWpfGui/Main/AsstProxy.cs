@@ -2438,7 +2438,7 @@ namespace MaaWpfGui.Main
         /// 自动生息演算。
         /// </summary>
         /// <param name="theme">生息演算主题["Tales"]</param>
-        /// <param name="strategy">
+        /// <param name="mode">
         /// 策略。可用值包括：
         /// <list type="bullet">
         ///     <item>
@@ -2453,12 +2453,12 @@ namespace MaaWpfGui.Main
         /// </param>
         /// <param name="toolToCraft">要合成的支援道具。</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendReclamation(string theme = "Tales", int strategy = 1, string toolToCraft = "荧光棒")
+        public bool AsstAppendReclamation(string theme = "Tales", int mode = 1, string toolToCraft = "荧光棒")
         {
             var taskParams = new JObject
             {
                 ["theme"] = theme,
-                ["strategy"] = strategy,
+                ["mode"] = mode,
                 ["tool_to_craft"] = toolToCraft,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding("Reclamation", taskParams);

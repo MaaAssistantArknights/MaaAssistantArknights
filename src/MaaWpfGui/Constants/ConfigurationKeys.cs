@@ -136,7 +136,7 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeDeploymentWithPause = "Roguelike.DeploymentWithPause";
         public const string RoguelikeStopAtFinalBoss = "Roguelike.ExitAtFinalBoss";
         public const string ReclamationTheme = "Reclamation.Theme";
-        public const string ReclamationStrategy = "Reclamation.Strategy";
+        public const string ReclamationMode = "Reclamation.Mode";
         public const string ReclamationToolToCraft = "Reclamation.ToolToCraft";
 
         public const string RecruitMaxTimes = "AutoRecruit.MaxTimes";

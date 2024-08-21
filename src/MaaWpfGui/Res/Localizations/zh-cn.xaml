@@ -413,8 +413,8 @@
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="ReclamationTheme">生息演算主题</system:String>
     <system:String x:Key="ReclamationThemeTales">沙洲遗闻</system:String>
-    <system:String x:Key="ReclamationStrategyProsperityNoSave">无存档，通过进出关卡刷生息点数</system:String>
-    <system:String x:Key="ReclamationStrategyProsperityInSave">有存档，通过合成支援道具刷生息点数</system:String>
+    <system:String x:Key="ReclamationModeProsperityNoSave">无存档，通过进出关卡刷生息点数</system:String>
+    <system:String x:Key="ReclamationModeProsperityInSave">有存档，通过合成支援道具刷生息点数</system:String>
     <system:String x:Key="OperNameLanguage">干员名称显示语言</system:String>
     <system:String x:Key="OperNameLanguageMAA">跟随MAA</system:String>
     <system:String x:Key="OperNameLanguageClient">跟随游戏客户端</system:String>

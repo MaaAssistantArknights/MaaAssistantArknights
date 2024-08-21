@@ -2494,7 +2494,7 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = LocalizationHelper.GetString("ReclamationThemeTales"), Value = "Tales" },
             ];
 
-        private string _reclamationTheme = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationStrategy, "Tales");
+        private string _reclamationTheme = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMode, "Tales");
 
         /// <summary>
         /// Gets or sets the Reclamation theme.
@@ -2510,26 +2510,26 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /// <summary>
-        /// Gets the list of reclamation strategies.
+        /// Gets the list of reclamation modes.
         /// </summary>
-        public List<CombinedData> ReclamationStrategyList { get; } =
+        public List<CombinedData> ReclamationModeList { get; } =
             [
-                new() { Display = LocalizationHelper.GetString("ReclamationStrategyProsperityNoSave"), Value = "0" },
-                new() { Display = LocalizationHelper.GetString("ReclamationStrategyProsperityInSave"), Value = "1" },
+                new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityNoSave"), Value = "0" },
+                new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityInSave"), Value = "1" },
             ];
 
-        private string _reclamationStrategy = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationStrategy, "1");
+        private string _reclamationMode = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMode, "1");
 
         /// <summary>
         /// Gets or sets 策略，无存档刷生息点数 / 有存档刷生息点数
         /// </summary>
-        public string ReclamationStrategy
+        public string ReclamationMode
         {
-            get => _reclamationStrategy;
+            get => _reclamationMode;
             set
             {
-                SetAndNotify(ref _reclamationStrategy, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationStrategy, value);
+                SetAndNotify(ref _reclamationMode, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationMode, value);
             }
         }
 
