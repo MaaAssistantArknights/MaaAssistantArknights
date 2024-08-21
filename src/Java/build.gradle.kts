@@ -1,13 +1,13 @@
-val ktor_version = "2.0.2"
-val kotlin_version = "1.6.10"
-val logback_version = "1.2.11"
+val ktor_version = "2.3.12"
+val kotlin_version = "2.0.10"
+val logback_version = "1.5.7"
 val appName = "Maa-HTTP"
 
 plugins {
     application
-    kotlin("jvm") version "1.6.10"
-    kotlin("plugin.serialization") version "1.6.10"
-    id("edu.sc.seis.launch4j") version "2.5.3"
+    kotlin("jvm") version "2.0.10"
+    kotlin("plugin.serialization") version "2.0.10"
+    id("edu.sc.seis.launch4j") version "3.0.6"
 }
 
 group = "com.iguigui"
@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    implementation("net.java.dev.jna:jna:5.11.0")
+    implementation("net.java.dev.jna:jna:5.14.0")
     implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-netty-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-content-negotiation:$ktor_version")
@@ -36,7 +36,7 @@ dependencies {
     implementation("io.ktor:ktor-server-double-receive:$ktor_version")
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
 }
 
 
