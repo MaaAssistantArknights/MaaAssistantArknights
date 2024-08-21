@@ -119,7 +119,7 @@
         "roi": [856, 511, 247, 159]
     },
     "FC-OpenOcr": {
-        "text": ["Event <What the Firelight Casts> is now", "open"]
+        "text": ["What the Firelight Casts", "open"]
     },
     "FCChapterToFC": {
         "text": ["SWAMP", "MISTS"]
