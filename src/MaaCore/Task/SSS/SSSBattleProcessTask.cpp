@@ -19,8 +19,10 @@ bool asst::SSSBattleProcessTask::set_stage_name(const std::string& stage_name)
         return false;
     }
     m_sss_combat_data = SSSCopilot.get_data(stage_name);
-    ranges::transform(m_sss_combat_data.strategies, std::inserter(m_all_cores, m_all_cores.begin()),
-                      [](const auto& strategy) { return strategy.core; });
+    ranges::transform(
+        m_sss_combat_data.strategies,
+        std::inserter(m_all_cores, m_all_cores.begin()),
+        [](const auto& strategy) { return strategy.core; });
     for (const auto& action : m_sss_combat_data.actions) {
         if (action.type == battle::copilot::ActionType::Deploy) {
             m_all_action_opers.emplace(action.name);
@@ -58,7 +60,8 @@ bool asst::SSSBattleProcessTask::update_deployment_with_skip(const cv::Mat& reus
     }
 
     if (ranges::equal(
-            m_cur_deployment_opers, old_deployment_opers,
+            m_cur_deployment_opers,
+            old_deployment_opers,
             [](const DeploymentOper& oper1, const DeploymentOper& oper2) { return oper1.name == oper2.name; })) {
         if (std::chrono::duration_cast<std::chrono::milliseconds>(now - last_same_time).count() > 30000) {
             // 30s 能回 60 费，基本上已经到了挂机的时候，放缓检查的速度
@@ -100,8 +103,7 @@ bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
     static const auto min_frame_interval = std::chrono::milliseconds(Config.get_options().sss_fight_screencap_interval);
 
     // prevent our program from consuming too much CPU
-    if (const auto now = std::chrono::steady_clock::now();
-        prev_frame_time > now - min_frame_interval) [[unlikely]] {
+    if (const auto now = std::chrono::steady_clock::now(); prev_frame_time > now - min_frame_interval) [[unlikely]] {
         Log.debug("Sleeping for framerate limit");
         std::this_thread::sleep_for(min_frame_interval - (now - prev_frame_time));
     }
@@ -147,8 +149,9 @@ bool asst::SSSBattleProcessTask::wait_until_start(bool weak)
     }
     else {
         replace_count = 4;
-        if (ranges::count_if(m_cur_deployment_opers,
-                             [](const auto& oper) { return oper.role == Role::Pioneer; }) /* 先锋数量 */
+        if (ranges::count_if(
+                m_cur_deployment_opers,
+                [](const auto& oper) { return oper.role == Role::Pioneer; }) /* 先锋数量 */
             < 2) {
             cost_limit = 25; // 先锋低于2个时，降低费用阈值，以试图换出先锋
         }
@@ -216,7 +219,12 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             exist_core.contains(strategy.core) &&              // core 在待部署区
             plain_oper(exist_core.at(strategy.core).role)) {   // core 是干员
             // 已经部署过的干员 core 出现在待部署区，可能是暴毙，重置当前格子的所有 strategies 信息
-            Log.warn(__FUNCTION__, "| Core", strategy.core, "is already deployed, reset all strategies in location", strategy.location);
+            Log.warn(
+                __FUNCTION__,
+                "| Core",
+                strategy.core,
+                "is already deployed, reset all strategies in location",
+                strategy.location);
             for (int x : m_sss_combat_data.loc_stragegies[strategy.location]) {
                 auto& strategy_reset = m_sss_combat_data.strategies[x];
                 strategy_reset.core_deployed = false;
