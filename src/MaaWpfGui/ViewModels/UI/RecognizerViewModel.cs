@@ -538,14 +538,6 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _operBoxInfo, value);
         }
 
-        private string _operBoxResult;
-
-        public string OperBoxResult
-        {
-            get => _operBoxResult;
-            set => SetAndNotify(ref _operBoxResult, value);
-        }
-
         private bool _operBoxDone = true;
 
         /// <summary>
@@ -605,6 +597,28 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private ObservableCollection<string> _operBoxHaveList = [];
+
+        public ObservableCollection<string> OperBoxHaveList
+        {
+            get => _operBoxHaveList;
+            set
+            {
+                SetAndNotify(ref _operBoxHaveList, value);
+            }
+        }
+
+        private ObservableCollection<string> _operBoxNotHaveList = [];
+
+        public ObservableCollection<string> OperBoxNotHaveList
+        {
+            get => _operBoxNotHaveList;
+            set
+            {
+                SetAndNotify(ref _operBoxNotHaveList, value);
+            }
+        }
+
         public bool OperBoxParse(JObject details)
         {
             var operBoxes = (JArray?)details["all_opers"];
@@ -641,47 +655,16 @@ namespace MaaWpfGui.ViewModels.UI
             operHave.Sort((x, y) => y.Item2.CompareTo(x.Item2));
             operNotHave.Sort((x, y) => y.Item2.CompareTo(x.Item2));
 
-            int newlineFlag = 0;
-            string operNotHaveNames = "\t";
-
-            foreach (var name in operNotHave.Select(tuple => tuple.Item1))
-            {
-                operNotHaveNames += PadRightEx(name, 12) + "\t";
-                if (newlineFlag++ != 3)
-                {
-                    continue;
-                }
-
-                operNotHaveNames += "\n\t";
-                newlineFlag = 0;
-            }
-
-            newlineFlag = 0;
-            string operHaveNames = "\t";
-            foreach (var name in operHave.Select(tuple => tuple.Item1))
-            {
-                operHaveNames += PadRightEx(name, 12) + "\t";
-                if (newlineFlag++ != 3)
-                {
-                    continue;
-                }
-
-                operHaveNames += "\n\t";
-                newlineFlag = 0;
-            }
+            OperBoxHaveList = new ObservableCollection<string>(operHave.Select(tuple => tuple.Item1));
+            OperBoxNotHaveList = new ObservableCollection<string>(operNotHave.Select(tuple => tuple.Item1));
 
             bool done = (bool)(details["done"] ?? false);
             if (done)
             {
                 OperBoxInfo = LocalizationHelper.GetString("IdentificationCompleted") + "\n" + LocalizationHelper.GetString("OperBoxRecognitionTip");
-                OperBoxResult = string.Format(LocalizationHelper.GetString("OperBoxRecognitionResult"), operNotHave.Count, operNotHaveNames, operHave.Count, operHaveNames);
                 OperBoxExportData = details["own_opers"]?.ToString() ?? string.Empty;
                 OperBoxDataArray = (JArray)(details["own_opers"] ?? new JArray());
                 OperBoxDone = true;
-            }
-            else
-            {
-                OperBoxResult = operHaveNames;
             }
 
             return true;
