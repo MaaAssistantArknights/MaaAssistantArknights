@@ -4935,16 +4935,18 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get
             {
-                if (_operNameLanguage.Contains('.'))
+                if (!_operNameLanguage.Contains('.'))
                 {
-                    if (_operNameLanguage.Split('.')[0] == "OperNameLanguageForce" && LocalizationHelper.SupportedLanguages.ContainsKey(_operNameLanguage.Split('.')[1]))
-                    {
-                        OperNameLanguageModeList.Add(new() { Display = LocalizationHelper.GetString("OperNameLanguageForce"), Value = "OperNameLanguageForce" });
-                        return "OperNameLanguageForce";
-                    }
+                    return _operNameLanguage;
                 }
 
-                return _operNameLanguage;
+                if (_operNameLanguage.Split('.')[0] != "OperNameLanguageForce" || !LocalizationHelper.SupportedLanguages.ContainsKey(_operNameLanguage.Split('.')[1]))
+                {
+                    return _operNameLanguage;
+                }
+
+                OperNameLanguageModeList.Add(new CombinedData { Display = LocalizationHelper.GetString("OperNameLanguageForce"), Value = "OperNameLanguageForce" });
+                return "OperNameLanguageForce";
             }
 
             set
@@ -4996,15 +4998,17 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (_operNameLanguage == "OperNameLanguageClient")
                 {
-                    return _clientLanguageMapper[ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty)];
+                    return _clientLanguageMapper[_clientType];
                 }
 
-                if (_operNameLanguage.Contains('.'))
+                if (!_operNameLanguage.Contains('.'))
                 {
-                    if (_operNameLanguage.Split('.')[0] == "OperNameLanguageForce" && LocalizationHelper.SupportedLanguages.ContainsKey(_operNameLanguage.Split('.')[1]))
-                    {
-                        return _operNameLanguage.Split('.')[1];
-                    }
+                    return _language;
+                }
+
+                if (_operNameLanguage.Split('.')[0] == "OperNameLanguageForce" && LocalizationHelper.SupportedLanguages.ContainsKey(_operNameLanguage.Split('.')[1]))
+                {
+                    return _operNameLanguage.Split('.')[1];
                 }
 
                 return _language;
