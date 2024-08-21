@@ -1,5 +1,6 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:interactivity="clr-namespace:HandyControl.Interactivity;assembly=HandyControl">
@@ -9,7 +10,7 @@
         BasedOn="{StaticResource ButtonDefault}"
         TargetType="Button">
         <Setter Property="MinWidth" Value="88" />
-        <Setter Property="Visibility" Value="{Binding IsEnabled, RelativeSource={RelativeSource Self}, Converter={StaticResource Boolean2VisibilityConverter}}" />
+        <Setter Property="Visibility" Value="{c:Binding IsEnabled, RelativeSource={RelativeSource Self}}" />
         <Setter Property="Margin" Value="5,0" />
     </Style>
 
@@ -18,7 +19,7 @@
         BasedOn="{StaticResource ButtonPrimary}"
         TargetType="Button">
         <Setter Property="MinWidth" Value="88" />
-        <Setter Property="Visibility" Value="{Binding IsEnabled, RelativeSource={RelativeSource Self}, Converter={StaticResource Boolean2VisibilityConverter}}" />
+        <Setter Property="Visibility" Value="{c:Binding IsEnabled, RelativeSource={RelativeSource Self}}" />
         <Setter Property="Margin" Value="5,0" />
     </Style>
 
@@ -144,8 +145,7 @@
                                         Data="{TemplateBinding Image}"
                                         Fill="{TemplateBinding ImageBrush}"
                                         Stretch="Uniform"
-                                        Visibility="{TemplateBinding ShowImage,
-                                                                     Converter={StaticResource Boolean2VisibilityConverter}}" />
+                                        Visibility="{c:Binding ShowImage}" />
                                     <ScrollViewer
                                         Grid.Row="0"
                                         Grid.Column="1"
