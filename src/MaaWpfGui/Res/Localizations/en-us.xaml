@@ -411,6 +411,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="OperNameLanguage">Operator display language</system:String>
     <system:String x:Key="OperNameLanguageMAA">Follow MAA</system:String>
     <system:String x:Key="OperNameLanguageClient">Follow game client</system:String>
+    <system:String x:Key="OperNameLanguageForce">Force use of specified language</system:String>
     <system:String x:Key="Light">Light</system:String>
     <system:String x:Key="Dark">Dark</system:String>
     <system:String x:Key="SyncWithOs">Sync with OS</system:String>

@@ -4572,9 +4572,9 @@ namespace MaaWpfGui.ViewModels.UI
         public List<CombinedData> LanguageList { get; set; }
 
         /// <summary>
-        /// Gets the list of operator name language settings
+        /// Gets or sets the list of operator name language settings
         /// </summary>
-        public List<CombinedData> OperNameLanguageModeList { get; } =
+        public List<CombinedData> OperNameLanguageModeList { get; set; } =
             [
                 new() { Display = LocalizationHelper.GetString("OperNameLanguageMAA"), Value = "OperNameLanguageMAA" },
                 new() { Display = LocalizationHelper.GetString("OperNameLanguageClient"), Value = "OperNameLanguageClient" }
@@ -4926,15 +4926,32 @@ namespace MaaWpfGui.ViewModels.UI
             { "txwy", "zh-tw" },
         };
 
+        /// <summary>
+        /// Opername display language, can set force display when it was set as "OperNameLanguageForce.en-us"
+        /// </summary>
         private string _operNameLanguage = ConfigurationHelper.GetValue(ConfigurationKeys.OperNameLanguage, "OperNameLanguageMAA");
 
         public string OperNameLanguage
         {
-            get => _operNameLanguage;
+            get
+            {
+                if (!_operNameLanguage.Contains('.'))
+                {
+                    return _operNameLanguage;
+                }
+
+                if (_operNameLanguage.Split('.')[0] != "OperNameLanguageForce" || !LocalizationHelper.SupportedLanguages.ContainsKey(_operNameLanguage.Split('.')[1]))
+                {
+                    return _operNameLanguage;
+                }
+
+                OperNameLanguageModeList.Add(new CombinedData { Display = LocalizationHelper.GetString("OperNameLanguageForce"), Value = "OperNameLanguageForce" });
+                return "OperNameLanguageForce";
+            }
 
             set
             {
-                if (value == _operNameLanguage)
+                if (value == _operNameLanguage.Split('.')[0])
                 {
                     return;
                 }
@@ -4981,7 +4998,17 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (_operNameLanguage == "OperNameLanguageClient")
                 {
-                    return _clientLanguageMapper[ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty)];
+                    return _clientLanguageMapper[_clientType];
+                }
+
+                if (!_operNameLanguage.Contains('.'))
+                {
+                    return _language;
+                }
+
+                if (_operNameLanguage.Split('.')[0] == "OperNameLanguageForce" && LocalizationHelper.SupportedLanguages.ContainsKey(_operNameLanguage.Split('.')[1]))
+                {
+                    return _operNameLanguage.Split('.')[1];
                 }
 
                 return _language;

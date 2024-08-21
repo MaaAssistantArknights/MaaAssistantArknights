@@ -410,6 +410,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="OperNameLanguage">간부 이름 표시 언어</system:String>
     <system:String x:Key="OperNameLanguageMAA">MAA 따라가기</system:String>
     <system:String x:Key="OperNameLanguageClient">게임 클라이언트 따라가기</system:String>
+    <system:String x:Key="OperNameLanguageForce">지정된 언어를 강제로 사용</system:String>
     <system:String x:Key="Light">라이트</system:String>
     <system:String x:Key="Dark">다크</system:String>
     <system:String x:Key="SyncWithOs">시스템 연동</system:String>
