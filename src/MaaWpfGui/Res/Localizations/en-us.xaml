@@ -730,7 +730,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="ThisFacility" xml:space="preserve">Current Facility: </system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">Match Group: </system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">Failed to match operator groups, group list: </system:String>
-    <system:String x:Key="RoomOperators" xml:space="preserve">preferred operators: </system:String>
+    <system:String x:Key="RoomOperators" xml:space="preserve">Preferred operators: </system:String>
     <system:String x:Key="ProductIncorrect">Product does NOT match the configuration.</system:String>
     <system:String x:Key="ProductUnknown">Unknown Product</system:String>
     <system:String x:Key="ProductChanged">Product has changed</system:String>
