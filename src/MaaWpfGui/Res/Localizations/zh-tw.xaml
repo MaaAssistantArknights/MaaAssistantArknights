@@ -6,6 +6,7 @@
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="GeneralSettings">常規設定</system:String>
     <system:String x:Key="AdvancedSettings">高級設定</system:String>
+    <system:String x:Key="PerformanceSettings">性能設定</system:String>
     <system:String x:Key="GameSettings">遊戲設定</system:String>
     <system:String x:Key="BaseSettings">基建設定</system:String>
     <system:String x:Key="RoguelikeSettings">肉鴿設定</system:String>
@@ -47,6 +48,11 @@
     <system:String x:Key="ExternalNotificationDiscordUserId">用戶 ID</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">機器人 Token</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">聊天 ID</system:String>
+    <system:String x:Key="UseGpuForInference">使用 GPU 加速推理</system:String>
+    <system:String x:Key="GpuOptionDisable">不使用</system:String>
+    <system:String x:Key="GpuOptionSystemDefault">系統預設 GPU</system:String>
+    <system:String x:Key="GpuDeprecatedMessage">不推薦使用當前選擇的推理加速 GPU（{0}）。\n\n您可以前往「設置 - 性能設置」選擇其他 GPU 或禁用此消息。</system:String>
+    <system:String x:Key="GpuAllowDeprecated">允許使用不推薦的 GPU</system:String>
     <!--  設定指引  -->
     <system:String x:Key="TaskSettings">任務設定</system:String>
     <system:String x:Key="SettingsGuide">設定指引</system:String>
@@ -275,6 +281,8 @@
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="StartsWithScript">開始前腳本</system:String>
     <system:String x:Key="EndsWithScript">結束後腳本</system:String>
+    <system:String x:Key="CopilotWithScript">自動戰鬥時啟用上述腳本</system:String>
+    <system:String x:Key="ManualStopWithScript">手動暫停時啟用上述腳本</system:String>
     <system:String x:Key="BlockSleep">運行任務時阻止休眠</system:String>
     <system:String x:Key="BlockSleepWithScreenOn">阻止休眠時保持螢幕常亮</system:String>
     <system:String x:Key="ScreencapCost">截圖耗時 min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
@@ -359,6 +367,8 @@
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">所選檔案名稱不包含 ADB，請檢查是否選擇了錯誤的檔案或誤選成了模擬器本體。</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorImSure">我確定沒選錯</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorSelectAgain">好的，我會重新選擇</system:String>
+    <system:String x:Key="ConnectionAddress">連接地址</system:String>
+    <system:String x:Key="ConnectionAddressTip">若遇到問題可嘗試手動修改</system:String>
     <system:String x:Key="ConnectionPreset">連接配置</system:String>
     <system:String x:Key="ScreenshotTest">截圖測試</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">啟用 MuMu 截圖增強模式</system:String>
@@ -844,22 +854,17 @@
     <system:String x:Key="CheckAndDownloadAnnouncement">查看公告</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">不再提示此公告</system:String>
     <!--  !Announcement  -->
-    <system:String x:Key="ConnectionAddressTip">若遇到問題可嘗試手動修改</system:String>
-    <system:String x:Key="ConnectionAddress">連接地址</system:String>
-    <system:String x:Key="UseGpuForInference">使用 GPU 加速推理</system:String>
-    <system:String x:Key="PerformanceSettings">性能設定</system:String>
-    <system:String x:Key="CopilotWithScript">自動戰鬥時啟用上述腳本</system:String>
-    <system:String x:Key="GpuOptionDisable">不使用</system:String>
-    <system:String x:Key="GpuOptionSystemDefault">系統預設 GPU</system:String>
-    <system:String x:Key="ManualStopWithScript">手動暫停時啟用上述腳本</system:String>
+    <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">可通過高級設定中的選項切換模式
 
 目前生息演算的支援仍處於早期階段，使用時請注意以下幾點：
 
- 无存檔通過開局刷點數：
-  1. 不能在已經有存檔的情況下使用（刪除現有存檔即可）
-  2. 不能在生息演算的編隊中有幹員的情況下使用（把生息演算中的當前編隊清空即可，特別是打完浪潮之後）
-  3. 必須在生息演算主介面開始任務（導航還沒寫）
+ 通過開局刷點數：(小心已有存檔被刪除)
+  0. 點數刷滿後會輸出“任務完成”，自動停止任務
+  1. 理論上可以在生息演算開局刷點數流程的任意位置開始任務，不論是否有存檔
+  2. 理論上編隊內可以有幹員，但沒測試，不推薦
+  3. 導航還沒寫，不能從生息演算以外的位置開始任務
+  4. 如果任務過程中報錯、點數沒刷滿就任務完成，請前往GitHub提交issue
 
  有存檔通過製造刷點數（高級設定）：
   1. 要求是結算後的第一天，且後續三天沒有敵襲進入駐紮地
@@ -870,4 +875,5 @@
     <system:String x:Key="Reclamation2ExEnable">透過製造刷點數</system:String>
     <system:String x:Key="Reclamation2ExProductTip">支援道具名稱</system:String>
     <system:String x:Key="Reclamation2ExProductPlaceholder">螢光棒</system:String>
+    <!--  !Reclamation  -->
 </ResourceDictionary>
