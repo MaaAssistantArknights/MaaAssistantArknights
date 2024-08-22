@@ -529,7 +529,8 @@
     <!--  干员识别  -->
     <system:String x:Key="OperBoxRecognition">干员识别</system:String>
     <system:String x:Key="OperBoxRecognitionTip">特别关注会影响干员识别准确率，如有特别关注干员识别错误请自行判断。\n该功能尚处于测试阶段，若统计有误，欢迎打包 debug/oper 文件后向我们提交issue ~</system:String>
-    <system:String x:Key="OperBoxRecognitionResult">未拥有: {0} 名: \n\n{1}\n\n已拥有: {2} 名: \n\n{3}</system:String>
+    <system:String x:Key="OperBoxHaveList">已拥有: {0} 名</system:String>
+    <system:String x:Key="OperBoxNotHaveList">未拥有: {0} 名</system:String>
     <system:String x:Key="StartToOperBoxRecognition">开始识别</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">复制到剪切板</system:String>
     <!--  !干员识别  -->

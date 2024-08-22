@@ -519,7 +519,8 @@
     <!--  日誌  -->
     <system:String x:Key="OperBoxRecognition">幹員辨識</system:String>
     <system:String x:Key="OperBoxRecognitionTip">特別關注會影響幹員識別準確率，如有特別關注幹員識別錯誤請自行判斷。\n該功能尚處於測試階段，若統計有誤，歡迎打包 debug/oper 文件後向我們提交 issue ~</system:String>
-    <system:String x:Key="OperBoxRecognitionResult">未擁有: {0} 名: \n\n{1}\n\n已擁有: {2} 名: \n\n{3}</system:String>
+    <system:String x:Key="OperBoxHaveList">已擁有: {0} 名</system:String>
+    <system:String x:Key="OperBoxNotHaveList">未擁有: {0} 名</system:String>
     <system:String x:Key="StartToOperBoxRecognition">開始辨識</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">複製到剪貼簿</system:String>
     <!--  !日誌  -->

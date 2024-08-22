@@ -530,7 +530,8 @@ Only once가 체크되면 실행 후 Only once가 체크되기 전 상태로 작
     <!--  오퍼레이터 인식  -->
     <system:String x:Key="OperBoxRecognition">오퍼레이터 인식</system:String>
     <system:String x:Key="OperBoxRecognitionTip">시작하기 전에 등록된 「선호」오퍼레이터를 등록 해제하세요.\n이 기능은 현재 테스트 중입니다. 만약 오류가 있다면 MAA 경로 내 debug 폴더 안의 oper 폴더 전체를 압축해서 Github의 issue로 올려주세요~</system:String>
-    <system:String x:Key="OperBoxRecognitionResult">미보유: {0}\n목록:\n\n{1}\n보유: {2}\n목록:\n\n{3}</system:String>
+    <system:String x:Key="OperBoxHaveList">보유: {0}</system:String>
+    <system:String x:Key="OperBoxNotHaveList">미보유: {0}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">인식 시작</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">클립보드에 복사</system:String>
     <!--  !오퍼레이터 인식  -->
