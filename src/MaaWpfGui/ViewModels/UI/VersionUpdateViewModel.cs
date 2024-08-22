@@ -700,6 +700,8 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
+            await _runningState.UntilIdleAsync(10000);
+
             var result = MessageBoxHelper.Show(
                 LocalizationHelper.GetString("NewVersionDownloadCompletedDesc"),
                 LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"),
