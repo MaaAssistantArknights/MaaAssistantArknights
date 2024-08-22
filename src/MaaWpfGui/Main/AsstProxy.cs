@@ -1454,7 +1454,7 @@ namespace MaaWpfGui.Main
                             string.Format(
                                 LocalizationHelper.GetString("CurrentSteps"),
                                 subTaskDetails["action"],
-                                subTaskDetails["target"]));
+                                DataHelper.GetLocalizedCharacterName(subTaskDetails["target"]?.ToString())));
 
                         break;
                     }
