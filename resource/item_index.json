@@ -1479,6 +1479,14 @@
         "sortId": -10000,
         "usage": "用于对遏制单元进行数据迭代。"
     },
+    "act1collection_point_token": {
+        "classifyType": "NONE",
+        "description": "为了激励前往舒巴特-阿尔萨兰地区建设基地的外勤干员，罗德岛发放了一定量的特殊奖励兑换点数。干员凭借兑换点数可兑换急需的物资。",
+        "icon": "act1collection_point_token.png",
+        "name": "“探索者”兑换点数",
+        "sortId": -10000,
+        "usage": "用于兑换相应的阶段性活动奖励。"
+    },
     "act1lock_point_reward": {
         "classifyType": "NONE",
         "description": "通过击破假想敌队伍获得的赛事积分，将以奖章形式颁发给参赛队伍。由米诺斯工匠制作的奖牌上，刻有“英雄都是从普通人做起”的谚语。",
