@@ -959,7 +959,7 @@ namespace MaaWpfGui.ViewModels.UI
             // match case 1: DEBUG VERSION
             // match case 2: v{Major}.{Minor}.{Patch}-{CommitDistance}-g{CommitHash}
             // match case 3: {CommitHash}
-            return Regex.IsMatch(version, @"^(.*DEBUG.*|v\d+(\.\d+){1,3}-\d+-g[0-9a-f]{7,}|[^v][0-9a-f]{7,})$");
+            return Regex.IsMatch(version, @"^(.*DEBUG.*|v\d+(\.\d+){1,3}-\d+-g[0-9a-f]{6,}|[^v][0-9a-f]{6,})$");
         }
 
         public bool IsStdVersion(string? version = null)
