@@ -48,9 +48,11 @@
     <system:String x:Key="ExternalNotificationDiscordUserId">ユーザーID</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">ボットトークン</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">チャットID</system:String>
-    <system:String x:Key="UseGpuForInference">処理の加速のためにGPUを使用する</system:String>
+    <system:String x:Key="UseGpuForInference">推論加速のためにGPUを使用する</system:String>
     <system:String x:Key="GpuOptionDisable">使用しない</system:String>
     <system:String x:Key="GpuOptionSystemDefault">システムデフォルトGPU</system:String>
+    <system:String x:Key="GpuDeprecatedMessage">現在選択されている推論加速 GPU ({0})は推奨されません。\n\n「設定」-「パフォーマンス設定」で別の GPU を選択するか、このメッセージを無効にできます。</system:String>
+    <system:String x:Key="GpuAllowDeprecated">非推奨 GPU の使用を許可する</system:String>
     <!--  設定ガイド  -->
     <system:String x:Key="TaskSettings">タスク設定</system:String>
     <system:String x:Key="SettingsGuide">設定ガイド</system:String>
@@ -376,8 +378,7 @@
         以下の情報を記入してください：\n\n
         1. エミュレーターパス：（例：C:\\Program Files\\Netease\\MuMuPlayer-12.0）\n
         エミュレーターパスは、エミュレーターアプリケーションの親フォルダーパスを記入してください。例えば、アプリケーションのパスが\n
-        「C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe」\n
-        の場合、\n
+        「C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe」の場合、\n
         「C:\\Program Files\\Netease\\MuMuPlayer-12.0」\n
         を記入してください。\n\n
         2. インスタンス番号：（例：0）\n
@@ -425,7 +426,9 @@
     <system:String x:Key="Hibernate">休止状態にする</system:String>
     <system:String x:Key="Shutdown">シャットダウン</system:String>
     <system:String x:Key="Once">1回のみ*</system:String>
-    <system:String x:Key="PostActionOnceTip">有効にすると、変更は次回の実行まで保存されません。</system:String>
+    <system:String x:Key="PostActionOnceTip" xml:space="preserve">1回のみ実行するには、まず1回のみチェックしてください
+チェックが1回のみの場合、動作を実行すると1回のみをチェック前の状態に戻ります
+下のアクションを右クリックすると、1回だけ選択状態が同期してアクティブ/キャンセルされます</system:String>
     <system:String x:Key="IfNoOtherMaa">他のMAAがない場合</system:String>
     <system:String x:Key="BackToAndroidHome">エミュレータのホーム画面に戻る</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
@@ -856,12 +859,14 @@
 
 生息演算のサポートはまだ初期段階にありますので、ご利用の際は以下の点にご注意ください：
 
- セーブファイルなし: 初期設定でポイントを稼ぐ。
-  1. すでにセーブデータがある場合は使用できません（既存のセーブデータを削除します）
-  2. 生息演算の編成にオペレーターがいる場合は使用できません（特に戦闘の後は、現在の編成を空にするだけで十分です）
-  3. タスクは生息演算のメイン画面で開始する必要があります（ナビゲーションはまだ書かれていません）
+ 初期設定でポイントを稼ぐ：（既存のセーブデータが削除されることに注意してください）
+  0.ポイントがいっぱいになると「タスク完了」が出力され、タスクは自動的に停止します
+  1. 理論的には、タスクは、セーブデータの有無に関係なく、ポイント獲得のためのどの時点からでもタスクを開始できる。
+  2. 生息演算の編成にオペレーターを入れることができるが、テストしていないのでお勧めしない。
+  3. ナビゲーションがまだ書かれていないので、生息演算の画面以外の場所からタスクを開始することはできない。
+  4. タスク中にエラーが出たり、ポイントが満杯なかたでタスクが完了した場合は、GitHubにissueを提出してください。
 
- セーブファイルあり: クラフトでポイントを稼ぐ(高度な設定)。
+ セーブデータあり、支援道具組立でポイントを稼ぐ（高度な設定）：
   1. 条件は、決算後初日と、その後3日間、敵襲がないこと。
   2. 大地図のインターフェースに入った後に開始する必要があります（駐屯地を見ることができるページ）
   3. 作れる数字がちょうど99の倍数の場合、スタックしてしまうので、セーブする前に少し使い切り、後で修正することができる。
