@@ -1041,7 +1041,7 @@
     "SL-Open": {
         "baseTask": "SS-OpenOcr",
         "text": ["火山", "旅梦"],
-        "roi": [105, 538, 159, 26],
+        "roi": [505, 57, 462, 628],
         "next": ["SLChapterToSL"]
     },
     "SL-OpenOcr": {
