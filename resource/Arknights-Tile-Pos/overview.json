@@ -11150,6 +11150,15 @@
         "stageId": "camp_r_23",
         "width": 13
     },
+    "camp_r_24-obt/campaign/level_camp_r_24": {
+        "code": "谢拉格",
+        "filename": "camp_r_24-obt-campaign-level_camp_r_24.json",
+        "height": 8,
+        "levelId": "obt/campaign/level_camp_r_24",
+        "name": "冰封雪谷",
+        "stageId": "camp_r_24",
+        "width": 13
+    },
     "easy_09-01-obt/main/level_easy_09-01": {
         "code": "9-2",
         "filename": "easy_09-01-obt-main-level_easy_09-01.json",
