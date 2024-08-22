@@ -70,7 +70,7 @@ namespace MaaWpfGui.Helper
                 "ko-kr" or "YoStarKR" =>
                     v => CharacterNames.Add(v.NameKr ?? string.Empty),
                 _ =>
-                    v => CharacterNames.Add(v.Name ?? string.Empty)
+                    v => CharacterNames.Add(v.Name ?? string.Empty),
             };
         }
 
