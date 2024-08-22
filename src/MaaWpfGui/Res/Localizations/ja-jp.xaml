@@ -526,7 +526,8 @@
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">オペレーター</system:String>
     <system:String x:Key="OperBoxRecognitionTip">「戦術要員」は、オペレーター識別の正確性に影響します。戦術要員のオペレーターの識別が誤っている場合は、自己判断してください。\nこの機能はまだテスト中です。もし統計情報に問題があれば、debug/depotフォルダを圧縮し、issueを提出してください~</system:String>
-    <system:String x:Key="OperBoxRecognitionResult">所有していない: {0} : \n\n{1}\n\n所有している: {2} : \n\n{3}</system:String>
+    <system:String x:Key="OperBoxHaveList">所有している: {0}</system:String>
+    <system:String x:Key="OperBoxNotHaveList">所有していない: {0}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">認識開始</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">クリップボードにコピー</system:String>
     <!--  !Operator Recognition  -->

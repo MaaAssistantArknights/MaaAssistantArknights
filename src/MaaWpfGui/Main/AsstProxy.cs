@@ -1204,11 +1204,11 @@ namespace MaaWpfGui.Main
             switch (taskChain)
             {
                 case "Depot":
-                    Instances.RecognizerViewModel.DepotParse((JObject)subTaskDetails);
+                    Instances.RecognizerViewModel.DepotParse((JObject?)subTaskDetails);
                     break;
 
                 case "OperBox":
-                    Instances.RecognizerViewModel.OperBoxParse((JObject)subTaskDetails);
+                    Instances.RecognizerViewModel.OperBoxParse((JObject?)subTaskDetails);
                     break;
             }
 
