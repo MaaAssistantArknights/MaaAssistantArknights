@@ -1021,25 +1021,32 @@
     },
     "SL-8": {
         "algorithm": "JustReturn",
-        "sub": ["SL-Open"],
+        "sub": ["SL-OpenOpt"],
         "next": ["SL-8@SideStoryStage", "SL-8@SwipeToStage"]
     },
     "SL-7": {
         "algorithm": "JustReturn",
-        "sub": ["SL-Open"],
+        "sub": ["SL-OpenOpt"],
         "next": ["SL-7@SideStoryStage", "SL-7@SwipeToStage"]
     },
     "SL-6": {
         "algorithm": "JustReturn",
-        "sub": ["SL-Open"],
+        "sub": ["SL-OpenOpt"],
         "next": ["SL-6@SideStoryStage", "SL-6@SwipeToStage"]
     },
+    "SL-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["SL-OpenOcr", "SL-Open"]
+    },
     "SL-Open": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
-        "text": ["火山", "旅梦", "已开放"],
-        "postDelay": 2000,
-        "roi": [710, 234, 128, 36],
+        "baseTask": "SS-OpenOcr",
+        "text": ["火山", "旅梦"],
+        "roi": [105, 538, 159, 26],
+        "next": ["SLChapterToSL"]
+    },
+    "SL-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["火山", "旅梦"],
         "next": ["SLChapterToSL"]
     },
     "SLChapterToSL": {
