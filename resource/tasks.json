@@ -10628,7 +10628,7 @@
     },
     "Reclamation2StageSquadClear": {
         "action": "ClickSelf",
-        "roi": [1091, 0, 189, 145],
+        "roi": [1107, 0, 134, 137],
         "next": ["Reclamation2StageSquadClearConfirm", "Reclamation2StageSquadClear"]
     },
     "Reclamation2StageSquadClearConfirm": {
