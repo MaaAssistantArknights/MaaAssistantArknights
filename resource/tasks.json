@@ -3185,16 +3185,24 @@
         "next": ["Mall@ReturnButtons#next", "Mall", "Mall@CloseAnnos#next"]
     },
     "Mall": {
-        "algorithm": "OcrDetect",
+        "template": [
+            "Mall.png",
+            "MallDark.png",
+            "MallSami.png",
+            "MallMistCity.png",
+            "MallSiege.png",
+            "MallSarkaz.png"
+        ],
         "action": "ClickSelf",
-        "ocrReplace": [["米购", "采购"]],
-        "text": ["采购", "购中", "中心", "到期"],
-        "roi": [740, 440, 200, 100],
+        "roi": [772, 407, 186, 171],
         "next": ["CreditStoreOcr", "Mall", "Mall@CloseAnnos#next"],
-        "postDelay": 500
+        "postDelay": 500,
+        "crop_doc": {
+            "roi": [822, 457, 86, 71],
+            "mask": []
+        }
     },
     "CreditStoreOcr": {
-        "algorithm": "OcrDetect",
         "text": ["信用交易所"],
         "roi": [1000, 0, 280, 300],
         "action": "ClickSelf",

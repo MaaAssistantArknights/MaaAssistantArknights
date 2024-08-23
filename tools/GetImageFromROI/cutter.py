@@ -39,6 +39,7 @@ task_list = [
     "Recruit",        # Recruit.png
     "Visit",          # Friends.png
     "DepotEnter",     # DepotEnter.png
+    "Mall",           # Mall.png
 ]
 
 src_path = Path("./src")
