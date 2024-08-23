@@ -753,7 +753,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="UseFormation">Use formation</system:String>
     <system:String x:Key="Current">Current</system:String>
     <system:String x:Key="BattleFormation">Start formation</system:String>
-    <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selection of operator: </system:String>
+    <system:String x:Key="BattleFormationSelected" xml:space="preserve">Operator selected: </system:String>
     <system:String x:Key="CurrentSteps">Current step: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">Unsupported stage, please check the level name or go to「Settings - Update - Check update」and try updating the resource version!</system:String>
     <system:String x:Key="ResourceUpdatePaused">Due to server resource constraints, resource version updates are temporarily suspended. Please manually import the level file or wait for a new version release</system:String>
