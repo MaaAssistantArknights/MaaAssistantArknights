@@ -3916,7 +3916,8 @@
     "InfrastClue": {
         "template": "Clue.png",
         "maskRange": [1, 255],
-        "roi": [800, 0, 480, 720]
+        "roi": [800, 0, 480, 720],
+        "postDelay": 1000
     },
     "InfrastClueSelfMaybeFull": {
         "Doc": "有一种情况是，自己的线索满了，但是却没有new的标记",
