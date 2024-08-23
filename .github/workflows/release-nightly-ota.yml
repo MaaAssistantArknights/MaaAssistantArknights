@@ -75,9 +75,9 @@ jobs:
           }
           if ($ids.length -eq 4) {
             $dist = `printf "%03d"` $ids[2]
-            $pre_version = "$($ids[0])""-""$($ids[1])"
-            echo "tag=$($ids[0])-$($ids[1]).d$($dist).$($ids[3])" >> $env:GITHUB_OUTPUT
+            $pre_version = "$($ids[0])-$($ids[1])"
             echo "pre_version=$pre_version" >> $env:GITHUB_OUTPUT
+            echo "tag=$pre_version.d$($dist).$($ids[3])" >> $env:GITHUB_OUTPUT
             exit 0
           }
           exit 1
