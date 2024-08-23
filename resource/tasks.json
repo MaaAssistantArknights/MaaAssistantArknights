@@ -3196,6 +3196,7 @@
         }
     },
     "CreditStoreOcr": {
+        "algorithm": "OcrDetect",
         "text": ["信用交易所"],
         "roi": [1000, 0, 280, 300],
         "action": "ClickSelf",
