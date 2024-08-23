@@ -3185,14 +3185,7 @@
         "next": ["Mall@ReturnButtons#next", "Mall", "Mall@CloseAnnos#next"]
     },
     "Mall": {
-        "template": [
-            "Mall.png",
-            "MallDark.png",
-            "MallSami.png",
-            "MallMistCity.png",
-            "MallSiege.png",
-            "MallSarkaz.png"
-        ],
+        "template": ["Mall.png", "MallDark.png", "MallSami.png", "MallMistCity.png", "MallSiege.png", "MallSarkaz.png"],
         "action": "ClickSelf",
         "roi": [772, 407, 186, 171],
         "next": ["CreditStoreOcr", "Mall", "Mall@CloseAnnos#next"],
