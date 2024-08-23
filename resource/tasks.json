@@ -10520,7 +10520,7 @@
         "maskRange": [1, 255],
         "templThreshold": 0.7,
         "postDelay": 4000,
-        "next": ["Reclamation2ProsperityMax", "Reclamation2SkipDayClickContinue", "Reclamation2SkipDayWait"]
+        "next": ["Reclamation2SkipDayClickContinue", "Reclamation2SkipDayWait"]
     },
     "Reclamation2SkipDayBeginNewDay": {
         "algorithm": "OcrDetect",
