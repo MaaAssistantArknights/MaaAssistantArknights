@@ -157,7 +157,8 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Top"
                             Text="{c:Binding OperBoxNotHaveList.Count,
-                                             StringFormat={StaticResource OperBoxNotHaveList}}" />
+                                             StringFormat={StaticResource OperBoxNotHaveList}}"
+                            Visibility="{c:Binding 'OperBoxNotHaveList.Count != 0'}" />
                         <DataGrid
                             Grid.Row="1"
                             Width="680"
@@ -168,7 +169,8 @@
                             IsReadOnly="True"
                             ItemsSource="{Binding OperBoxNotHaveList}"
                             ScrollViewer.CanContentScroll="True"
-                            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            Visibility="{c:Binding 'OperBoxNotHaveList.Count != 0'}">
                             <DataGrid.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel HorizontalAlignment="Center" />
@@ -189,7 +191,8 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Top"
                             Text="{c:Binding OperBoxHaveList.Count,
-                                             StringFormat={StaticResource OperBoxHaveList}}" />
+                                             StringFormat={StaticResource OperBoxHaveList}}"
+                            Visibility="{c:Binding 'OperBoxHaveList.Count != 0'}" />
                         <DataGrid
                             Grid.Row="3"
                             Width="680"
@@ -200,7 +203,8 @@
                             IsReadOnly="True"
                             ItemsSource="{Binding OperBoxHaveList}"
                             ScrollViewer.CanContentScroll="True"
-                            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            Visibility="{c:Binding 'OperBoxHaveList.Count != 0'}">
                             <DataGrid.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel HorizontalAlignment="Center" />
