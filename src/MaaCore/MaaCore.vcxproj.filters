@@ -462,6 +462,9 @@
     <ClInclude Include="Task\Roguelike\Map\RoguelikeMap.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
+    <ClCompile Include="Task\Roguelike\Map\RoguelikeRoutingTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
     <ClInclude Include="Task\Roguelike\Map\RoguelikeRoutingTask.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
