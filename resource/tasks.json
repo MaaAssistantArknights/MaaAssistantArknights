@@ -10636,7 +10636,7 @@
         "action": "ClickSelf",
         "text": ["确认"],
         "roi": [646, 447, 631, 64],
-        "next": ["Reclamation2StageSquadQuit"]
+        "next": ["Reclamation2StageSquadQuit", "Reclamation2StageSquadClearConfirm"]
     },
     "Reclamation2StageSquadQuit": {
         "action": "ClickSelf",
