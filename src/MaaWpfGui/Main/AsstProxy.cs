@@ -1454,7 +1454,7 @@ namespace MaaWpfGui.Main
                             string.Format(
                                 LocalizationHelper.GetString("CurrentSteps"),
                                 subTaskDetails["action"],
-                                subTaskDetails["target"]));
+                                DataHelper.GetLocalizedCharacterName(subTaskDetails["target"]?.ToString())));
 
                         break;
                     }
@@ -1497,7 +1497,7 @@ namespace MaaWpfGui.Main
 
                 case "CustomInfrastRoomOperators":
                     string nameStr = (subTaskDetails!["names"] ?? new JArray())
-                        .Aggregate(string.Empty, (current, name) => current + name + ", ");
+                        .Aggregate(string.Empty, (current, name) => current + DataHelper.GetLocalizedCharacterName(name.ToString()) + ", ");
 
                     if (nameStr != string.Empty)
                     {
