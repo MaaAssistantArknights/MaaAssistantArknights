@@ -248,7 +248,7 @@ PR로도 알려져 있으며, "풀 리퀘스트"라는 용어는 너무 길고 �
     ::: tip 기여자
     개발/테스트에 참여한 모든 친구들에게 감사드립니다. 여러분의 도움으로 MAA가 점점 더 좋아지고 있습니다! (\*´▽ ｀)ノノ
 
-    [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=114514&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
+    [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
     :::
 
 14. 다음에 다른 PR을 제출하려면 먼저 dev 브랜치로 전환한 다음 아래 그림과 같이 진행하세요.

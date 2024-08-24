@@ -251,7 +251,7 @@ Conflictを解決するのは少し面倒ですが、ここでは概念につい
     ::: tip 貢献/参加者
     開発/テストに参加してくれたすべての友人たちに感謝します。皆さんの助けでMAAはますます良くなります！ (\*´▽ ｀)ノノ
 
-    [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=114514&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
+    [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
     :::
 
 14. 次回別のPRを提出する場合は、まずdevブランチに切り替えて、以下の図のように直接操作してください。  

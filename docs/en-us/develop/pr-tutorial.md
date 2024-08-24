@@ -269,5 +269,5 @@ Now we have a conflict, as both of you have modified the A file but in different
 ::: tip Contributors/Participators
 Thank you to everyone involved in development and testing. Your help is going to ~~Make MAA Great Again~~! (\*´▽ ｀)ノノ
 
-[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=114514&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
+[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
 :::
