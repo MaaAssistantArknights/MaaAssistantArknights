@@ -2723,10 +2723,14 @@
         "text": ["作戦", "開始"]
     },
     "Reclamation2StageFightConfirm": {
-        "text": ["確定"]
+        "text": ["確定", "はい"],
+        "ocrReplace": [["にい", "はい"]]
     },
     "Reclamation2StageLeaveConfirm": {
         "text": ["離脱する", "離脱"]
+    },
+    "Reclamation2StageSquadClearConfirm": {
+        "text": ["確定"]
     },
     "Fire@Reclamation@ClickAnyZoneOcr": {
         "roi": [308, 73, 739, 567],
