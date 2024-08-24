@@ -244,7 +244,6 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             // 跳过同格子存在未执行完毕的 strategy
             continue;
         }
-        loc_with_strategy.emplace(strategy.location);
 #ifdef ASST_DEBUG
         Log.debug(
             __FUNCTION__,
@@ -264,7 +263,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             if (!core.available) {
                 Log.trace(__FUNCTION__, "| Core", core.name, "is not available, waiting");
                 // 直接返回，等费用，等下次循环处理部署逻辑
-                break;
+                return false;
             }
             strategy.core_deployed = true;
             Log.info(__FUNCTION__, "| Deploy core", strategy.core, "at", strategy.location);
@@ -306,7 +305,15 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             return false;
         }
 
+        // 若有 core，则没有执行完毕时忽略同一格后续策略
+        if (!strategy.core.empty()) {
+            loc_with_strategy.emplace(strategy.location);
+        }
+        // 若没有 core，则允许在待部署区没有所需工具人时（不论费用是否转好），允许继续检查同一格后续策略
+        // else { continue; }
+
         // 如果在此 strategy 没有部署干员，而且不是在等待 core 部署，就尝试下一个 strategy
+        // continue;
     }
 
     return false;
