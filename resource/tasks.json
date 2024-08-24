@@ -10501,11 +10501,10 @@
         "roi": [820, 406, 308, 146]
     },
     "Reclamation2ProsperityMaxSkipDayBeginNewDay": {
-        "algorithm": "OcrDetect",
+        "template": "Reclamation2SkipDayBeginNewDay.png",
         "action": "ClickSelf",
-        "text": ["开", "启", "今", "日"],
-        "roi": [519, 525, 261, 144],
-        "next": ["Reclamation2ProsperityMaxDeleteArchiveEnter"]
+        "roi": [ 495, 571, 293, 60 ],
+        "next": [ "Reclamation2ProsperityMaxDeleteArchiveEnter", "Reclamation2ProsperityMaxSkipDayBeginNewDay" ]
     },
     "Reclamation2ProsperityMaxSkipDayClickContinue": {
         "algorithm": "OcrDetect",
@@ -10524,11 +10523,9 @@
         "next": ["Reclamation2ProsperityMax", "Reclamation2SkipDayClickContinue", "Reclamation2SkipDayWait"]
     },
     "Reclamation2SkipDayBeginNewDay": {
-        "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["开", "启", "今", "日"],
-        "roi": [519, 525, 261, 144],
-        "next": ["Reclamation2DeleteArchiveEnter"]
+        "roi": [495, 571, 293, 60],
+        "next": ["Reclamation2DeleteArchiveEnter", "Reclamation2SkipDayBeginNewDay"]
     },
     "Reclamation2SkipDayClickContinue": {
         "algorithm": "OcrDetect",
