@@ -2808,7 +2808,7 @@
     "Tales@RA@CancelEnterBuildMode": {
         "text": ["进入建造"]
     },
-    "Tales@RA@GoTo-ShrubberyGalore": {
+    "Tales@RA@ClickShrubberyGalore": {
         "text": ["豊かな", "低木林", "資源エリア"],
         "ocrReplace": [
             ["(予|青)原(工|正)", "資源エリア"],
@@ -2819,7 +2819,7 @@
     "Tales@RA@ConfirmSquad": {
         "text": ["作戦", "開始"]
     },
-    "Tales@RA@GoTo-GatheringOfFeathers": {
+    "Tales@RA@ClickGatheringOfFeathers": {
         "text": ["羽獣", "集う地", "狩猟エリア"]
     },
     "Tales@RA@FinishCalc": {

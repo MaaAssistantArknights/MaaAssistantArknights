@@ -11647,7 +11647,7 @@
         "next": [
             "Tales@RA@PNS-ConfirmToLeaveBaseCamp@NextAfterLoadingIcon",
             "Tales@RA@PNS-ConfirmToLeaveBaseCamp@NextAfterLoadingText",
-            "Tales@RA@PNS-ClickShrubberyGalore"
+            "Tales@RA@PNS-GoTo-ShrubberyGalore"
         ]
     },
     "Tales@RA@DialogConfirmYellow": {
@@ -11655,11 +11655,11 @@
         "roi": [879, 457, 53, 52],
         "action": "ClickSelf"
     },
-    "Tales@RA@PNS-ClickShrubberyGalore": {
+    "Tales@RA@PNS-GoTo-ShrubberyGalore": {
         "doc": "前往并点击 <资源区: 丰饶灌木林>, 未来改由 GoTo 插件实现",
         "algorithm": "JustReturn",
-        "sub": ["Tales@RA@ReturnToOrigin", "Tales@RA@GoTo-ShrubberyGalore"],
-        "next": ["Tales@RA@PNS-EnterShrubberyGalore"]
+        "sub": ["Tales@RA@ReturnToOrigin", "Tales@RA@ClickShrubberyGalore"],
+        "next": ["Tales@RA@PNS-EnterShrubberyGaloreThenLeave"]
     },
     "Tales@RA@ReturnToOrigin": {
         "doc": "让地图视图重置到原始位置",
@@ -11692,7 +11692,7 @@
         "template": "Tales@RA@Headquarters.png",
         "roi": [559, 262, 162, 153]
     },
-    "Tales@RA@GoTo-ShrubberyGalore": {
+    "Tales@RA@ClickShrubberyGalore": {
         "doc": "模板任务: 点击 <资源区: 丰饶灌木林>",
         "algorithm": "OcrDetect",
         "text": ["丰饶灌木林"],
@@ -11700,11 +11700,27 @@
         "roi": [223, 129, 114, 48],
         "action": "ClickSelf"
     },
-    "Tales@RA@PNS-EnterShrubberyGalore": {
-        "doc": "点击 <资源区: 丰饶灌木林> 后点击 <开始行动>",
+    "Tales@RA@PNS-EnterShrubberyGaloreThenLeave": {
+        "doc": "进入 <资源区: 丰饶灌木林> 后直接退出",
+        "baseTask": "Tales@RA@PNS-EnterNodeThenLeave",
+        "next": [
+            "Tales@RA@PNS-EnterShrubberyGaloreThenLeave@NextAfterLoadingIcon",
+            "Tales@RA@PNS-GoTo-GatheringOfFeathers"
+        ]
+    },
+    "Tales@RA@PNS-EnterNodeThenLeave": {
+        "doc": "任务链: 进入区块节点, 如果当前编队规模大于等于7人则清空当前编队, 在编队界面点击 <开始行动> 后点击 <确认>",
         "baseTask": "Tales@RA@EnterNode",
-        "sub": ["Tales@RA@PNS-ClearSquadIfSizeGE7"],
-        "next": ["Tales@RA@PNS-ShrubberyGalore-ConfirmSquad"]
+        "sub": [
+            "Tales@RA@PNS-ClearSquadIfSizeGE7",
+            "Tales@RA@ConfirmSquad",
+            "Tales@RA@DialogConfirmRed"
+        ],
+        "next": [
+            "Tales@RA@PNS-LeaveNode",
+            "Tales@RA@PNS-EnterNodeThenLeave@NextAfterLoadingText",
+            "Tales@RA@PNS-EnterNodeThenLeave@NextAfterMerelyWaiting"
+        ]
     },
     "Tales@RA@PNS-ClearSquadIfSizeGE7": {
         "doc": "如果当前编队规模大于等于7人则清空当前编队",
@@ -11722,11 +11738,6 @@
         "action": "ClickSelf",
         "next": ["Tales@RA@DialogConfirmRed"]
     },
-    "Tales@RA@PNS-ShrubberyGalore-ConfirmSquad": {
-        "doc": "在 <资源区: 丰饶灌木林> 编队界面点击 <开始行动>",
-        "baseTask": "Tales@RA@ConfirmSquad",
-        "next": ["Tales@RA@PNS-ShrubberyGalore-DoubleCheckSquad"]
-    },
     "Tales@RA@ConfirmSquad": {
         "doc": "模板任务: 在编队界面点击 <开始行动>",
         "algorithm": "OcrDetect",
@@ -11734,44 +11745,17 @@
         "roi": [1132, 654, 120, 45],
         "action": "ClickSelf"
     },
-    "Tales@RA@PNS-ShrubberyGalore-DoubleCheckSquad": {
-        "doc": "在 <资源区: 丰饶灌木林> 编队界面点击 <开始行动> 后点击 <确认>",
-        "baseTask": "Tales@RA@DialogConfirmRed",
-        "template": "Tales@RA@DialogConfirmRed.png",
-        "next": [
-            "Tales@RA@PNS-LeaveShrubberyGalore",
-            "Tales@RA@PNS-ShrubberyGalore-DoubleCheckSquad@NextAfterLoadingText",
-            "Tales@RA@PNS-ShrubberyGalore-DoubleCheckSquad@NextAfterMerelyWaiting"
-        ]
-    },
     "Tales@RA@DialogConfirmRed": {
         "doc": "模板任务: 在警告对话框点击确认图标",
         "roi": [879, 457, 53, 52],
         "action": "ClickSelf"
     },
-    "Tales@RA@PNS-LeaveShrubberyGalore": {
-        "doc": "在行动中点击左上角离开 <资源区: 丰饶灌木林>",
+    "Tales@RA@PNS-LeaveNode": {
+        "doc": "任务链: 在行动中点击左上角离开当前区块, 确认, 在行动结束界面点击左下角 <物资将送往仓库> 图标返回",
         "baseTask": "Tales@RA@LeaveCurrentZone",
         "template": "Tales@RA@LeaveCurrentZone.png",
-        "next": ["Tales@RA@PNS-ConfirmToLeaveShrubberyGalore"]
-    },
-    "Tales@RA@PNS-ConfirmToLeaveShrubberyGalore": {
-        "doc": "确认离开 <资源区: 丰饶灌木林>",
-        "baseTask": "Tales@RA@DialogConfirmYellow",
-        "template": "Tales@RA@DialogConfirmYellow.png",
-        "next": [
-            "Tales@RA@PNS-ShrubberyGalore-MissionResults",
-            "Tales@RA@PNS-ConfirmToLeaveShrubberyGalore@NextAfterLoadingText"
-        ]
-    },
-    "Tales@RA@PNS-ShrubberyGalore-MissionResults": {
-        "doc": "在 <资源区: 丰饶灌木林> 行动结束界面点击左下角 <物资将送往仓库> 图标返回",
-        "baseTask": "Tales@RA@MissionResults",
-        "template": "Tales@RA@SentToWarehouse.png",
-        "next": [
-            "Tales@RA@PNS-ShrubberyGalore-MissionResults@NextAfterLoadingIcon",
-            "Tales@RA@PNS-ClickGatheringOfFeathers"
-        ]
+        "sub": ["Tales@RA@DialogConfirmYellow"],
+        "next": ["Tales@RA@MissionResults", "Tales@RA@PNS-LeaveNode@NextAfterLoadingText"]
     },
     "Tales@RA@MissionResults": {
         "doc": "模板任务: 在行动结束界面点击左下角 <物资将送往仓库> 图标返回",
@@ -11779,60 +11763,23 @@
         "roi": [48, 469, 87, 51],
         "action": "ClickSelf"
     },
-    "Tales@RA@PNS-ClickGatheringOfFeathers": {
+    "Tales@RA@PNS-GoTo-GatheringOfFeathers": {
         "doc": "前往并点击 <捕猎区: 聚羽之地>, 未来改由 GoTo 插件实现",
         "algorithm": "JustReturn",
-        "sub": ["Tales@RA@ReturnToOrigin", "Tales@RA@GoTo-GatheringOfFeathers"],
-        "next": ["Tales@RA@PNS-EnterGatheringOfFeathers"]
+        "sub": ["Tales@RA@ReturnToOrigin", "Tales@RA@ClickGatheringOfFeathers"],
+        "next": ["Tales@RA@PNS-EnterGatheringOfFeathersThenLeave"]
     },
-    "Tales@RA@GoTo-GatheringOfFeathers": {
+    "Tales@RA@ClickGatheringOfFeathers": {
         "doc": "模板任务: 点击 <捕猎区: 聚羽之地>",
         "algorithm": "OcrDetect",
         "text": ["聚羽之地"],
         "roi": [141, 337, 106, 56],
         "action": "ClickSelf"
     },
-    "Tales@RA@PNS-EnterGatheringOfFeathers": {
-        "doc": "点击 <捕猎区: 聚羽之地> 后点击 <开始行动>",
-        "baseTask": "Tales@RA@EnterNode",
-        "sub": ["Tales@RA@PNS-ClearSquadIfSizeGE7"],
-        "next": ["Tales@RA@PNS-GatheringOfFeathers-ConfirmSquad"]
-    },
-    "Tales@RA@PNS-GatheringOfFeathers-ConfirmSquad": {
-        "doc": "在 <捕猎区: 聚羽之地> 编队界面点击 <开始行动>",
-        "baseTask": "Tales@RA@ConfirmSquad",
-        "next": ["Tales@RA@PNS-GatheringOfFeathers-DoubleCheckSquad"]
-    },
-    "Tales@RA@PNS-GatheringOfFeathers-DoubleCheckSquad": {
-        "doc": "在 <捕猎区: 聚羽之地> 编队界面点击 <开始行动> 后点击 <确认>",
-        "baseTask": "Tales@RA@DialogConfirmRed",
-        "template": "Tales@RA@DialogConfirmRed.png",
-        "next": [
-            "Tales@RA@PNS-LeaveGatheringOfFeathers",
-            "Tales@RA@PNS-GatheringOfFeathers-DoubleCheckSquad@NextAfterLoadingText",
-            "Tales@RA@PNS-GatheringOfFeathers-DoubleCheckSquad@NextAfterMerelyWaiting"
-        ]
-    },
-    "Tales@RA@PNS-LeaveGatheringOfFeathers": {
-        "doc": "在行动中点击左上角离开 <捕猎区: 聚羽之地>",
-        "baseTask": "Tales@RA@LeaveCurrentZone",
-        "template": "Tales@RA@LeaveCurrentZone.png",
-        "next": ["Tales@RA@PNS-ConfirmToLeaveGatheringOfFeathers"]
-    },
-    "Tales@RA@PNS-ConfirmToLeaveGatheringOfFeathers": {
-        "doc": "确认离开 <捕猎区: 聚羽之地>",
-        "baseTask": "Tales@RA@DialogConfirmYellow",
-        "template": "Tales@RA@DialogConfirmYellow.png",
-        "next": [
-            "Tales@RA@PNS-GatheringOfFeathers-MissionResults",
-            "Tales@RA@PNS-ConfirmToLeaveGatheringOfFeathers@NextAfterLoadingText"
-        ]
-    },
-    "Tales@RA@PNS-GatheringOfFeathers-MissionResults": {
-        "doc": "在 <捕猎区: 聚羽之地> 行动结束界面点击左下角 <物资将送往仓库> 图标返回",
-        "baseTask": "Tales@RA@MissionResults",
-        "template": "Tales@RA@SentToWarehouse.png",
-        "next": ["Tales@RA@PNS-SkipToCalc", "Tales@RA@PNS-GatheringOfFeathers-MissionResults@NextAfterLoadingIcon"]
+    "Tales@RA@PNS-EnterGatheringOfFeathersThenLeave": {
+        "doc": "进入 <捕猎区: 聚羽之地> 后直接退出",
+        "baseTask": "Tales@RA@PNS-EnterNodeThenLeave",
+        "next": ["Tales@RA@PNS-SkipToCalc", "Tales@RA@PNS-EnterGatheringOfFeathersThenLeave@NextAfterLoadingIcon"]
     },
     "Tales@RA@PNS-SkipToCalc": {
         "doc": "跳到下一次量定结算",

@@ -2397,7 +2397,7 @@
     "Tales@RA@CancelEnterBuildMode": {
         "text": ["건설", "하기"]
     },
-    "Tales@RA@GoTo-ShrubberyGalore": {
+    "Tales@RA@ClickShrubberyGalore": {
         "text": ["채집터", "우거진", "숲"],
         "ocrReplace": [
             [".+터", "채집터"],
@@ -2407,7 +2407,7 @@
     "Tales@RA@ConfirmSquad": {
         "text": ["작전", "개시"]
     },
-    "Tales@RA@GoTo-GatheringOfFeathers": {
+    "Tales@RA@ClickGatheringOfFeathers": {
         "text": ["사냥터", "파울비스트의", "땅"]
     },
     "Tales@RA@FinishCalc": {

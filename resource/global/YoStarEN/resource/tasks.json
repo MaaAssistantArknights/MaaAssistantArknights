@@ -2615,13 +2615,13 @@
     "Tales@RA@CancelEnterBuildMode": {
         "text": ["Enter Build Mode"]
     },
-    "Tales@RA@GoTo-ShrubberyGalore": {
+    "Tales@RA@ClickShrubberyGalore": {
         "text": ["Shrubbery Galore", "Resource", "Zone"]
     },
     "Tales@RA@ConfirmSquad": {
         "text": ["Start"]
     },
-    "Tales@RA@GoTo-GatheringOfFeathers": {
+    "Tales@RA@ClickGatheringOfFeathers": {
         "text": ["Gathering of Feathers", "Hunting Zone"]
     },
     "Tales@RA@FinishCalc": {
