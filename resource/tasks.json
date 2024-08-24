@@ -10614,8 +10614,32 @@
             "Reclamation2StageLeave",
             "Reclamation2BeginStageTalk",
             "Reclamation2StageFightConfirm",
+            "Reclamation2StageSquadCookingQuit",
             "Reclamation2StageLoading"
         ]
+    },
+    "Reclamation2StageSquadCookingQuit": {
+        "action": "ClickSelf",
+        "roi": [6, 0, 146, 143],
+        "next": ["Reclamation2StageSquadClear", "Reclamation2StageSquadCookingQuit"]
+    },
+    "Reclamation2StageSquadClear": {
+        "action": "ClickSelf",
+        "roi": [1107, 0, 134, 137],
+        "next": ["Reclamation2StageSquadClearConfirm", "Reclamation2StageSquadClear"]
+    },
+    "Reclamation2StageSquadClearConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["确认"],
+        "roi": [646, 447, 631, 64],
+        "next": ["Reclamation2StageSquadQuit", "Reclamation2StageSquadClearConfirm"]
+    },
+    "Reclamation2StageSquadQuit": {
+        "action": "ClickSelf",
+        "roi": [0, 0, 130, 138],
+        "postDelay": 1000,
+        "next": ["Reclamation2StageSquadQuit", "Reclamation2DeleteArchiveEnter"]
     },
     "Fire@Reclamation": {
         "doc": [
