@@ -11711,11 +11711,7 @@
     "Tales@RA@PNS-EnterNodeThenLeave": {
         "doc": "任务链: 进入区块节点, 如果当前编队规模大于等于7人则清空当前编队, 在编队界面点击 <开始行动> 后点击 <确认>",
         "baseTask": "Tales@RA@EnterNode",
-        "sub": [
-            "Tales@RA@PNS-ClearSquadIfSizeGE7",
-            "Tales@RA@ConfirmSquad",
-            "Tales@RA@DialogConfirmRed"
-        ],
+        "sub": ["Tales@RA@PNS-ClearSquadIfSizeGE7", "Tales@RA@ConfirmSquad", "Tales@RA@DialogConfirmRed"],
         "next": [
             "Tales@RA@PNS-LeaveNode",
             "Tales@RA@PNS-EnterNodeThenLeave@NextAfterLoadingText",
