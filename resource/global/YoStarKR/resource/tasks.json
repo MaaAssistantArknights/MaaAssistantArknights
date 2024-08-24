@@ -2381,5 +2381,8 @@
     },
     "Reclamation2StageLeaveConfirm": {
         "text": ["확인"]
+    },
+    "Reclamation2StageSquadClearConfirm": {
+        "text": ["확인"]
     }
 }
