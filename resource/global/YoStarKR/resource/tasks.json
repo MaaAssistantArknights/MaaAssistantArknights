@@ -2358,14 +2358,8 @@
     "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
         "text": ["확인"]
     },
-    "Reclamation2ProsperityMaxSkipDayBeginNewDay": {
-        "text": ["시", "작", "하", "기"]
-    },
     "Reclamation2ProsperityMaxSkipDayClickContinue": {
         "text": ["탭하여", "계", "속"]
-    },
-    "Reclamation2SkipDayBeginNewDay": {
-        "text": ["시", "작", "하", "기"]
     },
     "Reclamation2SkipDayClickContinue": {
         "text": ["탭하여", "계", "속"]
