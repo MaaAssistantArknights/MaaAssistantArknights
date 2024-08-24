@@ -11861,6 +11861,7 @@
         "algorithm": "OcrDetect",
         "text": ["点击任意处继续"],
         "roi": [554, 657, 172, 41],
+        "preDelay": 500,
         "action": "ClickSelf"
     },
     "Tales@RA@PNS-ProsperityReachLimit": {
