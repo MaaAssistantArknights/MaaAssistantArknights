@@ -2495,14 +2495,8 @@
     "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
         "text": ["Confirm Wipe"]
     },
-    "Reclamation2ProsperityMaxSkipDayBeginNewDay": {
-        "text": ["Start Today"]
-    },
     "Reclamation2ProsperityMaxSkipDayClickContinue": {
         "text": ["Tap anywhere to continue"]
-    },
-    "Reclamation2SkipDayBeginNewDay": {
-        "text": ["Start Today"]
     },
     "Reclamation2SkipDayClickContinue": {
         "text": ["Tap anywhere to continue"]

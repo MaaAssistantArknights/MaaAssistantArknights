@@ -2698,14 +2698,8 @@
     "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
         "text": ["削除する", "削除"]
     },
-    "Reclamation2ProsperityMaxSkipDayBeginNewDay": {
-        "text": ["次へ"]
-    },
     "Reclamation2ProsperityMaxSkipDayClickContinue": {
         "text": ["タップ", "続く"]
-    },
-    "Reclamation2SkipDayBeginNewDay": {
-        "text": ["次へ"]
     },
     "Reclamation2SkipDayClickContinue": {
         "text": ["タップ", "続く"]
