@@ -11703,7 +11703,24 @@
     "Tales@RA@PNS-EnterShrubberyGalore": {
         "doc": "点击 <资源区: 丰饶灌木林> 后点击 <开始行动>",
         "baseTask": "Tales@RA@EnterNode",
+        "sub": ["Tales@RA@PNS-ClearSquadIfSizeGE7"],
         "next": ["Tales@RA@PNS-ShrubberyGalore-ConfirmSquad"]
+    },
+    "Tales@RA@PNS-ClearSquadIfSizeGE7": {
+        "doc": "如果当前编队规模大于等于7人则清空当前编队",
+        "algorithm": "JustReturn",
+        "next": ["Tales@RA-SquadSizeLE6", "Tales@RA@ClearSquad"]
+    },
+    "Tales@RA-SquadSizeLE6": {
+        "doc": "模板任务: 当前编队规模小于等于6人",
+        "template": "Tales@RA@SquadSizeIndicator0.png",
+        "roi": [811, 647, 60, 60]
+    },
+    "Tales@RA@ClearSquad": {
+        "doc": "模板任务: 清空当前编队",
+        "roi": [1150, 12, 47, 46],
+        "action": "ClickSelf",
+        "next": ["Tales@RA@DialogConfirmRed"]
     },
     "Tales@RA@PNS-ShrubberyGalore-ConfirmSquad": {
         "doc": "在 <资源区: 丰饶灌木林> 编队界面点击 <开始行动>",
@@ -11778,6 +11795,7 @@
     "Tales@RA@PNS-EnterGatheringOfFeathers": {
         "doc": "点击 <捕猎区: 聚羽之地> 后点击 <开始行动>",
         "baseTask": "Tales@RA@EnterNode",
+        "sub": ["Tales@RA@PNS-ClearSquadIfSizeGE7"],
         "next": ["Tales@RA@PNS-GatheringOfFeathers-ConfirmSquad"]
     },
     "Tales@RA@PNS-GatheringOfFeathers-ConfirmSquad": {
