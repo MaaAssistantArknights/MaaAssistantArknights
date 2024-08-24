@@ -11630,10 +11630,7 @@
         "roi": [27, 14, 64, 51],
         "action": "ClickRect",
         "specificRect": [901, 422, 360, 51],
-        "next": [
-            "Tales@RA@ProsperityNoSave@OpeningDialogue",
-            "Tales@RA@ProsperityNoSave@LeaveBaseCamp"
-        ]
+        "next": ["Tales@RA@ProsperityNoSave@OpeningDialogue", "Tales@RA@ProsperityNoSave@LeaveBaseCamp"]
     },
     "Tales@RA@ProsperityNoSave@LeaveBaseCamp": {
         "doc": "在行动中点击左上角离开 <后舍: 众人会聚之地>",
@@ -11672,11 +11669,7 @@
         "baseTask": "Tales@RA@ClickHeadquartersButton",
         "template": "Tales@RA@HeadquartersButton.png",
         "postDelay": 500,
-        "next": [
-            "Tales@RA@CancelEnterBuildMode",
-            "Tales@RA@Origin",
-            "Tales@RA@ReturnToOrigin"
-        ]
+        "next": ["Tales@RA@CancelEnterBuildMode", "Tales@RA@Origin", "Tales@RA@ReturnToOrigin"]
     },
     "Tales@RA@ReturnToOrigin@CancelEnterBuildMode": {
         "doc": "在右下角存在 <进入建造> 按钮时点击左下角取消进入建造",
@@ -11831,11 +11824,7 @@
     },
     "Tales@RA@ProsperityNoSave@SkipToCalculation": {
         "doc": "跳到下一次量定结算",
-        "template": [
-            "Tales@RA@ActsLeft2.png",
-            "Tales@RA@ActsLeft1.png",
-            "Tales@RA@NextDay.png"
-        ],
+        "template": ["Tales@RA@ActsLeft2.png", "Tales@RA@ActsLeft1.png", "Tales@RA@NextDay.png"],
         "roi": [1152, 45, 54, 98],
         "next": [
             "Tales@RA@ProsperityNoSave@SkipToCalculation@NextDay",
@@ -11915,10 +11904,7 @@
         "doc": "已完成生存周期",
         "baseTask": "Tales@RA@FinishCalculation",
         "action": "DoNothing",
-        "next": [
-            "Tales@RA@ProsperityNoSave@ProsperityReachLimit",
-            "Tales@RA@ProsperityNoSave@ProsperityNotReachLimit"
-        ]
+        "next": ["Tales@RA@ProsperityNoSave@ProsperityReachLimit", "Tales@RA@ProsperityNoSave@ProsperityNotReachLimit"]
     },
     "Tales@RA@FinishCalculation": {
         "doc": "模板任务: 已完成生存周期, 点击 <点击任意处继续> 文字位置",
@@ -12025,10 +12011,7 @@
         "action": "ClickSelf",
         "text": ["继续演算"],
         "roi": [1084, 620, 131, 50],
-        "next": [
-            "Tales@RA@ProsperityInSave@Workbench",
-            "Tales@RA@ProsperityInSave@Resume@NextAfterLoadingText"
-        ]
+        "next": ["Tales@RA@ProsperityInSave@Workbench", "Tales@RA@ProsperityInSave@Resume@NextAfterLoadingText"]
     },
     "Tales@RA@ProsperityInSave@Workbench": {
         "doc": "点击进入组装台",
@@ -12075,10 +12058,7 @@
         "doc": "点击开始组装图标",
         "baseTask": "Tales@RA@Craft",
         "template": "Tales@RA@Craft.png",
-        "next": [
-            "Tales@RA@ProsperityInSave@ResourceGained",
-            "Tales@RA@ProsperityInSave@Craft@NextAfterLoadingText"
-        ]
+        "next": ["Tales@RA@ProsperityInSave@ResourceGained", "Tales@RA@ProsperityInSave@Craft@NextAfterLoadingText"]
     },
     "Tales@RA@Craft": {
         "doc": "模板任务: 点击开始组装图标",
@@ -12110,11 +12090,7 @@
     },
     "Tales@RA@ProsperityInSave@SkipToCalculation": {
         "doc": "跳到下一次量定结算",
-        "template": [
-            "Tales@RA@ActsLeft2.png",
-            "Tales@RA@ActsLeft1.png",
-            "Tales@RA@NextDay.png"
-        ],
+        "template": ["Tales@RA@ActsLeft2.png", "Tales@RA@ActsLeft1.png", "Tales@RA@NextDay.png"],
         "roi": [1152, 45, 54, 98],
         "next": [
             "Tales@RA@ProsperityInSave@SkipToCalculation@NextDay",
@@ -12171,10 +12147,7 @@
         "doc": "已完成生存周期",
         "baseTask": "Tales@RA@FinishCalculation",
         "action": "DoNothing",
-        "next": [
-            "Tales@RA@ProsperityInSave@ProsperityReachLimit",
-            "Tales@RA@ProsperityInSave@ProsperityNotReachLimit"
-        ]
+        "next": ["Tales@RA@ProsperityInSave@ProsperityReachLimit", "Tales@RA@ProsperityInSave@ProsperityNotReachLimit"]
     },
     "Tales@RA@ProsperityInSave@ProsperityReachLimit": {
         "doc": "已完成生存周期, 生息点数达到上限, 点击 MAX 图案位置",
