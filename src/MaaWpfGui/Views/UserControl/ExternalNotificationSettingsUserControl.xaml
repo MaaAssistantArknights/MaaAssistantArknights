@@ -30,6 +30,7 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <StackPanel
@@ -398,6 +399,83 @@
                     Margin="10"
                     Block.TextAlignment="Center"
                     Text="{DynamicResource ExternalNotificationBarkServer}"
+                    TextWrapping="Wrap" />
+            </Grid>
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="7"
+            Grid.Column="0"
+            Visibility="{c:Binding 'EnabledExternalNotificationProvider == &quot;Qmsg&quot;'}"
+            Orientation="Horizontal">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="35" />
+                    <ColumnDefinition Width="70" />
+                    <ColumnDefinition Width="180" />
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="180" />
+                    <ColumnDefinition Width="30" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    x:Name="QmsgServer"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Height="30"
+                    Margin="10"
+                    Text="{c:Binding QmsgServer}" />
+                <controls:TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource ExternalNotificationQmsgServer}"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    x:Name="QmsgKey"
+                    Grid.Row="0"
+                    Grid.Column="4"
+                    Height="30"
+                    Margin="10"
+                    Text="{c:Binding QmsgKey}" />
+                <controls:TextBlock
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource ExternalNotificationQmsgKey}"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    x:Name="QmsgUser"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Height="30"
+                    Margin="10"
+                    Text="{c:Binding QmsgUser}" />
+                <controls:TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource ExternalNotificationQmsgUser}"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    x:Name="QmsgBot"
+                    Grid.Row="1"
+                    Grid.Column="4"
+                    Height="30"
+                    Margin="10"
+                    Text="{c:Binding QmsgBot}" />
+                <controls:TextBlock
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource ExternalNotificationQmsgBot}"
                     TextWrapping="Wrap" />
             </Grid>
         </StackPanel>

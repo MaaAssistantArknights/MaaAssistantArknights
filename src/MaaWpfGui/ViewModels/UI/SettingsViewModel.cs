@@ -440,7 +440,8 @@ namespace MaaWpfGui.ViewModels.UI
             new CombinedData { Display = "Telegram", Value = "Telegram" },
             new CombinedData { Display = "Discord", Value = "Discord" },
             new CombinedData { Display = "SMTP", Value = "SMTP" },
-            new CombinedData { Display = "Bark", Value = "Bark" }
+            new CombinedData { Display = "Bark", Value = "Bark" },
+            new CombinedData { Display = "Qmsg", Value = "Qmsg" }
         ];
 
         private string _enabledExternalNotificationProvider = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnabled, "Off");
@@ -632,6 +633,54 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _telegramChatId, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationTelegramChatId, value);
+            }
+        }
+
+        private string _qmsgServer = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgServer, string.Empty);
+
+        public string QmsgServer
+        {
+            get => _qmsgServer;
+            set
+            {
+                SetAndNotify(ref _qmsgServer, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgServer, value);
+            }
+        }
+
+        private string _qmsgKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgKey, string.Empty);
+
+        public string QmsgKey
+        {
+            get => _qmsgKey;
+            set
+            {
+                SetAndNotify(ref _qmsgKey, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgKey, value);
+            }
+        }
+
+        private string _qmsgUser = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgUser, string.Empty);
+
+        public string QmsgUser
+        {
+            get => _qmsgUser;
+            set
+            {
+                SetAndNotify(ref _qmsgUser, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgUser, value);
+            }
+        }
+
+        private string _qmsgBot = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgBot, string.Empty);
+
+        public string QmsgBot
+        {
+            get => _qmsgBot;
+            set
+            {
+                SetAndNotify(ref _qmsgBot, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgBot, value);
             }
         }
 

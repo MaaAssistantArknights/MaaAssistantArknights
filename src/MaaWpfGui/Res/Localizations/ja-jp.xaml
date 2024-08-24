@@ -48,6 +48,10 @@
     <system:String x:Key="ExternalNotificationDiscordUserId">ユーザーID</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">ボットトークン</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">チャットID</system:String>
+    <system:String x:Key="ExternalNotificationQmsgServer">サーバ</system:String>
+    <system:String x:Key="ExternalNotificationQmsgKey">Qmsg Key</system:String>
+    <system:String x:Key="ExternalNotificationQmsgUser">ユーザーQQ</system:String>
+    <system:String x:Key="ExternalNotificationQmsgBot">ボットを送信するQQ</system:String>
     <system:String x:Key="UseGpuForInference">推論加速のためにGPUを使用する</system:String>
     <system:String x:Key="GpuOptionDisable">使用しない</system:String>
     <system:String x:Key="GpuOptionSystemDefault">システムデフォルトGPU</system:String>

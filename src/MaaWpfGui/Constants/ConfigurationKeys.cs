@@ -237,6 +237,10 @@ namespace MaaWpfGui.Constants
         public const string ExternalNotificationTelegramChatId = "ExternalNotification.Telegram.ChatId";
         public const string ExternalNotificationBarkSendKey = "ExternalNotification.Bark.SendKey";
         public const string ExternalNotificationBarkServer = "ExternalNotification.Bark.Server";
+        public const string ExternalNotificationQmsgServer = "ExternalNotification.Qmsg.Server";
+        public const string ExternalNotificationQmsgKey = "ExternalNotification.Qmsg.Key";
+        public const string ExternalNotificationQmsgUser = "ExternalNotification.Qmsg.User";
+        public const string ExternalNotificationQmsgBot = "ExternalNotification.Qmsg.Bot";
 
         public const string PerformanceUseGpu = "Performance.UseGpu";
         public const string PerformancePreferredGpuDescription = "Performance.PreferredGpuDescription";
