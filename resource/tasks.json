@@ -11901,16 +11901,16 @@
         ]
     },
     "Tales@RA@PNS-ProsperityReachLimit-Dots": {
-        "doc": "生息点数达到上限, 点击右下角 Dots",
+        "doc": "生息点数达到上限, 点击右下角 Dots, 跳过可能的对话事件",
         "baseTask": "Tales@RA@Dots",
         "template": "Tales@RA@Dots.png",
-        "next": ["Tales@RA@PNS-ProsperityReachLimit-SwipeSave"]
+        "next": ["Tales@RA@PNS-ProsperityReachLimit-SwipeSave", "Tales@RA@PNS-ProsperityReachLimit-Dots"]
     },
     "Tales@RA@PNS-ProsperityBelowLimit-Dots": {
-        "doc": "生息点数未达到上限, 点击右下角 Dots",
+        "doc": "生息点数未达到上限, 点击右下角 Dots, 跳过可能的对话事件",
         "baseTask": "Tales@RA@Dots",
         "template": "Tales@RA@Dots.png",
-        "next": ["Tales@RA@PNS-ProsperityBelowLimit-SwipeSave"]
+        "next": ["Tales@RA@PNS-ProsperityBelowLimit-SwipeSave", "Tales@RA@PNS-ProsperityBelowLimit-Dots"]
     },
     "Tales@RA@Dots": {
         "doc": "模板任务: 点击右下角 Dots",
