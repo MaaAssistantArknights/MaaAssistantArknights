@@ -2717,8 +2717,8 @@
         "text": ["作戦", "開始"]
     },
     "Reclamation2StageFightConfirm": {
-        "text": ["確定", "はい"],
-        "ocrReplace": [["にい", "はい"]]
+        "ocrReplace": [["にい", "はい"]],
+        "text": ["確定", "はい"]
     },
     "Reclamation2StageLeaveConfirm": {
         "text": ["離脱する", "離脱"]
