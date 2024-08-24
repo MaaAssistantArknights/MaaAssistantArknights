@@ -10503,8 +10503,8 @@
     "Reclamation2ProsperityMaxSkipDayBeginNewDay": {
         "template": "Reclamation2SkipDayBeginNewDay.png",
         "action": "ClickSelf",
-        "roi": [ 495, 571, 293, 60 ],
-        "next": [ "Reclamation2ProsperityMaxDeleteArchiveEnter", "Reclamation2ProsperityMaxSkipDayBeginNewDay" ]
+        "roi": [495, 571, 293, 60],
+        "next": ["Reclamation2ProsperityMaxDeleteArchiveEnter", "Reclamation2ProsperityMaxSkipDayBeginNewDay"]
     },
     "Reclamation2ProsperityMaxSkipDayClickContinue": {
         "algorithm": "OcrDetect",
