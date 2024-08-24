@@ -11612,7 +11612,11 @@
     "Tales@RA@PNS-EnterBaseCamp": {
         "doc": "点击 <后舍: 众人会聚之地> 后点击 <开始行动>",
         "baseTask": "Tales@RA@EnterNode",
-        "next": ["Tales@RA@PNS-OpeningDialogue"]
+        "next": [
+            "Tales@RA@PNS-OpeningDialogue",
+            "Tales@RA@PNS-EnterBaseCamp@NextAfterLoadingText",
+            "Tales@RA@PNS-EnterBaseCamp@NextAfterMerelyWaiting"
+        ]
     },
     "Tales@RA@EnterNode": {
         "doc": "模板任务: 点击区块节点后点击 <开始行动>",
@@ -11860,7 +11864,7 @@
         "doc": "模板任务: 已完成生存周期, 点击 <点击任意处继续> 文字位置",
         "algorithm": "OcrDetect",
         "text": ["点击任意处继续"],
-        "roi": [554, 657, 172, 41],
+        "roi": [526, 657, 228, 41],
         "preDelay": 500,
         "action": "ClickSelf"
     },
