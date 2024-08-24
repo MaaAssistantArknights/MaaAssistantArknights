@@ -51,7 +51,7 @@ namespace MaaWpfGui.Views.UI
             startMenu.Click += StartTask;
             stopMenu.Click += StopTask;
             forceShowMenu.Click += ForceShow;
-            useTrayMenu.Click += UseTray;
+            hideTrayMenu.Click += HideTray;
             restartMenu.Click += App_restart;
             exitMenu.Click += App_exit;
 
@@ -118,8 +118,10 @@ namespace MaaWpfGui.Views.UI
             _logger.Information("WindowManager force show.");
         }
 
-        private static void UseTray(object sender, RoutedEventArgs e)
+        private static void HideTray(object sender, RoutedEventArgs e)
         {
+            Instances.MainWindowManager?.Show();
+
             Instances.SettingsViewModel.UseTray = !Instances.SettingsViewModel.UseTray;
             _logger.Information("Use tray icon: {0}", Instances.SettingsViewModel.UseTray);
         }
@@ -140,12 +142,10 @@ namespace MaaWpfGui.Views.UI
             }
         }
 
-        // ReSharper disable UnusedParameter.Local
         private static void App_show(object sender, RoutedEventArgs e)
         {
             Instances.MainWindowManager?.Show();
         }
-        // ReSharper restore UnusedParameter.Local
 
         private static void OnNotifyIconDoubleClick(object sender, RoutedEventArgs e)
         {
