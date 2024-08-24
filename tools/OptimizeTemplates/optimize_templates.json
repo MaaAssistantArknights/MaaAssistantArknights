@@ -2742,5 +2742,9 @@
     "YoStarEN/ClueVacancyNo6": "c92a1bf86bb6030bb868c3fbc14e09e53136e19f77a5bf0c9b242429d01d96e8",
     "YoStarEN/ClueVacancyNo7": "6b717ce71ad4b55c203d8653a5019f26219cd04b8aa35c6db156b9516a2619fc",
     "YoStarEN/ClueVacancyNo2": "659381e1a77c16c5f21dba51e054778654f70bfd247fc48b7c38d4c9ce0a9e22",
-    "YoStarEN/ClueVacancyNo3": "f54fde4324eb838ce3e18b8eb6ea199e5b7e7d8973c004039a60219ae2188401"
+    "YoStarEN/ClueVacancyNo3": "f54fde4324eb838ce3e18b8eb6ea199e5b7e7d8973c004039a60219ae2188401",
+    "official/Reclamation2StageSquadClear": "4d4fdb7e9708c5db35832f18ef39caf48108d580efa5869fcbb3f106061cf062",
+    "official/Reclamation2StageSquadCookingQuit": "a32ae0d5c718f98953bdbaf049ee7990f8985e254487a52e78db34e4d7409121",
+    "official/Reclamation2SkipDayBeginNewDay": "a9f4f63d6cfa0dbd81dbd904747c3cb411e5323887f48a83a3c658ca2af9f2c4",
+    "official/Reclamation2StageSquadQuit": "9e12cdc7908268c9233cf79cc0a6180625220445391af8684c47223d3c85b53e"
 }
