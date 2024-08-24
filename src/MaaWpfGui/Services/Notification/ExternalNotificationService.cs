@@ -37,6 +37,7 @@ namespace MaaWpfGui.Services.Notification
                 "Discord" => new DiscordNotificationProvider(Instances.HttpService),
                 "SMTP" => new SmtpNotificationProvider(),
                 "Bark" => new BarkNotificationProvider(Instances.HttpService),
+                "Qmsg" => new QmsgNotificationProvider(Instances.HttpService),
                 _ => new DummyNotificationProvider(),
             };
 

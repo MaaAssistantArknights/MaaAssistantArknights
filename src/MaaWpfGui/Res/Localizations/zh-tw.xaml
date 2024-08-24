@@ -48,6 +48,10 @@
     <system:String x:Key="ExternalNotificationDiscordUserId">用戶 ID</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">機器人 Token</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">聊天 ID</system:String>
+    <system:String x:Key="ExternalNotificationQmsgServer">伺服器地址</system:String>
+    <system:String x:Key="ExternalNotificationQmsgKey">Qmsg Key</system:String>
+    <system:String x:Key="ExternalNotificationQmsgUser">用戶QQ</system:String>
+    <system:String x:Key="ExternalNotificationQmsgBot">機器人 QQ</system:String>
     <system:String x:Key="UseGpuForInference">使用 GPU 加速推理</system:String>
     <system:String x:Key="GpuOptionDisable">不使用</system:String>
     <system:String x:Key="GpuOptionSystemDefault">系統預設 GPU</system:String>
