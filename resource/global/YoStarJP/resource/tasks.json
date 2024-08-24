@@ -2806,7 +2806,7 @@
         "text": ["行動", "開始"]
     },
     "Tales@RA@CancelEnterBuildMode": {
-        "text": ["进入建造"]
+        "text": ["建設開始"]
     },
     "Tales@RA@ClickShrubberyGalore": {
         "text": ["豊かな", "低木林", "資源エリア"],
