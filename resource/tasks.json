@@ -11702,7 +11702,9 @@
     },
     "Tales@RA@PNS-EnterShrubberyGaloreThenLeave": {
         "doc": "进入 <资源区: 丰饶灌木林> 后直接退出",
-        "baseTask": "Tales@RA@PNS-EnterNodeThenLeave",
+        "baseTask": "Tales@RA@EnterNode",
+        "action": "DoNothing",
+        "sub": ["Tales@RA@PNS-EnterNodeThenLeave"],
         "next": [
             "Tales@RA@PNS-EnterShrubberyGaloreThenLeave@NextAfterLoadingIcon",
             "Tales@RA@PNS-GoTo-GatheringOfFeathers"
@@ -11774,7 +11776,9 @@
     },
     "Tales@RA@PNS-EnterGatheringOfFeathersThenLeave": {
         "doc": "进入 <捕猎区: 聚羽之地> 后直接退出",
-        "baseTask": "Tales@RA@PNS-EnterNodeThenLeave",
+        "baseTask": "Tales@RA@EnterNode",
+        "action": "DoNothing",
+        "sub": ["Tales@RA@PNS-EnterNodeThenLeave"],
         "next": ["Tales@RA@PNS-SkipToCalc", "Tales@RA@PNS-EnterGatheringOfFeathersThenLeave@NextAfterLoadingIcon"]
     },
     "Tales@RA@PNS-SkipToCalc": {

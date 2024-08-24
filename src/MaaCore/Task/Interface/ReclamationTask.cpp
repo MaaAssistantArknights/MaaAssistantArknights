@@ -43,10 +43,10 @@ bool asst::ReclamationTask::set_params(const json::value& params)
 
     switch (mode) {
     case ReclamationMode::ProsperityNoSave:
-        m_reclamation_task_ptr->set_tasks({ theme + "@Reclamation@ProsperityNoSave" });
+        m_reclamation_task_ptr->set_tasks({ theme + "@RA@ProsperityNoSave" });
         break;
     case ReclamationMode::ProsperityInSave:
-        m_reclamation_task_ptr->set_tasks({ theme + "@Reclamation@ProsperityInSave" });
+        m_reclamation_task_ptr->set_tasks({ theme + "@RA@ProsperityInSave" });
         const std::string& tool_to_craft = m_config_ptr->get_tool_to_craft();
         Task.get<OcrTaskInfo>(theme + "@Reclamation@ProsperityInSave@ClickTool")->text = { tool_to_craft };
         break;
