@@ -1978,37 +1978,37 @@
     "Fire@Reclamation@StartActionEnter": {
         "text": ["開始行動", "決斷"]
     },
-    "Tales@Reclamation@ProsperityNoSave@Commence": {
+    "Tales@RA@ProsperityNoSave@Commence": {
         "text": ["演算", "開始"]
     },
-    "Tales@Reclamation@ProsperityNoSave@ClickBaseCamp": {
+    "Tales@RA@ProsperityNoSave@ClickBaseCamp": {
         "text": ["众人会聚之地"]
     },
-    "Tales@Reclamation@EnterNode": {
+    "Tales@RA@EnterNode": {
         "text": ["开始行动"]
     },
-    "Tales@Reclamation@CancelEnterBuildMode": {
+    "Tales@RA@CancelEnterBuildMode": {
         "text": ["进入建造"]
     },
-    "Tales@Reclamation@NavigateToZone@ShrubberyGalore": {
+    "Tales@RA@NavigateToZone@ShrubberyGalore": {
         "text": ["丰饶灌木林"]
     },
-    "Tales@Reclamation@ConfirmSquad": {
+    "Tales@RA@ConfirmSquad": {
         "text": ["开始行动"]
     },
-    "Tales@Reclamation@NavigateToZone@GatheringOfFeathers": {
+    "Tales@RA@NavigateToZone@GatheringOfFeathers": {
         "text": ["聚羽之地"]
     },
-    "Tales@Reclamation@FinishCalculation": {
+    "Tales@RA@FinishCalculation": {
         "text": ["点击任意处继续"]
     },
-    "Tales@Reclamation@ProsperityInSave@Resume": {
+    "Tales@RA@ProsperityInSave@Resume": {
         "text": ["继续演算"]
     },
-    "Tales@Reclamation@ResourceGained": {
+    "Tales@RA@ResourceGained": {
         "text": ["点击空白处继续"]
     },
-    "Tales@Reclamation@ConfirmToLoadSave": {
+    "Tales@RA@ConfirmToLoadSave": {
         "text": ["点击确认"]
     }
 }
