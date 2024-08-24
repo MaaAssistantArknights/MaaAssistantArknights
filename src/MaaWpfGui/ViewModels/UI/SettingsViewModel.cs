@@ -4610,6 +4610,11 @@ namespace MaaWpfGui.ViewModels.UI
             get => _useTray;
             set
             {
+                if (!value)
+                {
+                    MinimizeToTray = false;
+                }
+
                 SetAndNotify(ref _useTray, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.UseTray, value.ToString());
                 Instances.MainWindowManager.SetUseTrayIcon(value);
@@ -4628,7 +4633,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _minimizeToTray, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.MinimizeToTray, value.ToString());
-                Instances.MainWindowManager.SetMinimizeToTaskBar(value);
+                Instances.MainWindowManager.SetMinimizeToTray(value);
             }
         }
 
