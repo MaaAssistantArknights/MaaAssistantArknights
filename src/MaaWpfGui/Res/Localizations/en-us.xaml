@@ -857,10 +857,12 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
 
 The support for reclamation algorithm is still under development at present. Please mind the following:
 
-Without save file: farm points through initial setup.
-  1. Cannot be used when a save already exists. (simply delete the current save)
-  2. Cannot be used when squads are not empty. (simply clear the current squad)
-  3. Can only be started at the main nav page of reclamation algorithm.
+Farm points through initial setup: (Be careful that existing save files might be deleted)
+  0. After reaching the maximum points, it will output 'Task Completed' and automatically stop the task.
+  1. Theoretically, the task can be started at any point in the point farming process, regardless of whether there is a save file.
+  2. Theoretically, operators can be included in the team, but NOT recommended.
+  3. Navigation is not yet implemented, so the task cannot be started from locations outside the Reclamation mode.
+  4. If an error occurs during the task or the task completes without reaching the maximum points, please submit an issue on GitHub.
 
 With save file: farm points through crafting (advanced).
   1. It must be the first day after settlement, and there should be no enemy attacks entering the stationed area for the next three days.
