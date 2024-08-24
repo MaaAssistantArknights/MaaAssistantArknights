@@ -10505,7 +10505,7 @@
         "action": "ClickSelf",
         "text": ["开", "启", "今", "日"],
         "roi": [519, 525, 261, 144],
-        "next": ["Reclamation2ProsperityMaxDeleteArchiveEnter"]
+        "next": ["Reclamation2ProsperityMaxDeleteArchiveEnter", "Reclamation2ProsperityMaxSkipDayBeginNewDay"]
     },
     "Reclamation2ProsperityMaxSkipDayClickContinue": {
         "algorithm": "OcrDetect",
