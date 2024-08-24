@@ -30,6 +30,7 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <StackPanel
@@ -403,7 +404,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="6"
+            Grid.Row="7"
             Grid.Column="0"
             Visibility="{c:Binding 'EnabledExternalNotificationProvider == &quot;Qmsg&quot;'}"
             Orientation="Horizontal">
