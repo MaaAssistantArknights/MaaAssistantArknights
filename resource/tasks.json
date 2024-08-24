@@ -11581,41 +11581,41 @@
     "Tales@RA@ProsperityNoSave": {
         "doc": "生息演算「沙洲遗闻」无存档刷生息点数 <ProsperityNoSave> 任务入口",
         "algorithm": "JustReturn",
-        "next": ["Tales@RA@ProsperityNoSave@Commence", "Tales@RA@ProsperityNoSave@Navigation"]
+        "next": ["Tales@RA@PNS-Commence", "Tales@RA@PNS-Navigation"]
     },
-    "Tales@RA@ProsperityNoSave@Navigation": {
+    "Tales@RA@PNS-Navigation": {
         "algorithm": "JustReturn",
         "next": ["Tales@RA@ProsperityNoSave"]
     },
-    "Tales@RA@ProsperityNoSave@Commence": {
+    "Tales@RA@PNS-Commence": {
         "doc": "在主题入口界面点击 <开始演算> 开启新游戏",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["开始演算"],
         "roi": [1084, 620, 131, 50],
         "next": [
-            "Tales@RA@ProsperityNoSave@Commence@NextAfterLoadingText",
-            "Tales@RA@ProsperityNoSave@OpeningAnimation"
+            "Tales@RA@PNS-Commence@NextAfterLoadingText",
+            "Tales@RA@PNS-OpeningAnimation"
         ]
     },
-    "Tales@RA@ProsperityNoSave@OpeningAnimation": {
+    "Tales@RA@PNS-OpeningAnimation": {
         "doc": "等待开启新游戏后的过场动画",
         "algorithm": "JustReturn",
         "postDelay": 7500,
-        "next": ["Tales@RA@ProsperityNoSave@ClickBaseCamp"]
+        "next": ["Tales@RA@PNS-ClickBaseCamp"]
     },
-    "Tales@RA@ProsperityNoSave@ClickBaseCamp": {
+    "Tales@RA@PNS-ClickBaseCamp": {
         "doc": "点击 <后舍: 众人会聚之地>",
         "algorithm": "OcrDetect",
         "text": ["众人会聚之地"],
         "roi": [732, 295, 127, 54],
         "action": "ClickSelf",
-        "next": ["Tales@RA@ProsperityNoSave@EnterBaseCamp"]
+        "next": ["Tales@RA@PNS-EnterBaseCamp"]
     },
-    "Tales@RA@ProsperityNoSave@EnterBaseCamp": {
+    "Tales@RA@PNS-EnterBaseCamp": {
         "doc": "点击 <后舍: 众人会聚之地> 后点击 <开始行动>",
         "baseTask": "Tales@RA@EnterNode",
-        "next": ["Tales@RA@ProsperityNoSave@OpeningDialogue"]
+        "next": ["Tales@RA@PNS-OpeningDialogue"]
     },
     "Tales@RA@EnterNode": {
         "doc": "模板任务: 点击区块节点后点击 <开始行动>",
@@ -11624,33 +11624,33 @@
         "roi": [956, 540, 304, 72],
         "action": "ClickSelf"
     },
-    "Tales@RA@ProsperityNoSave@OpeningDialogue": {
+    "Tales@RA@PNS-OpeningDialogue": {
         "doc": "点击右下角对话选项位置，跳过引导对话",
         "template": "DialogueLog",
         "roi": [27, 14, 64, 51],
         "action": "ClickRect",
         "specificRect": [901, 422, 360, 51],
-        "next": ["Tales@RA@ProsperityNoSave@OpeningDialogue", "Tales@RA@ProsperityNoSave@LeaveBaseCamp"]
+        "next": ["Tales@RA@PNS-OpeningDialogue", "Tales@RA@PNS-LeaveBaseCamp"]
     },
-    "Tales@RA@ProsperityNoSave@LeaveBaseCamp": {
+    "Tales@RA@PNS-LeaveBaseCamp": {
         "doc": "在行动中点击左上角离开 <后舍: 众人会聚之地>",
         "baseTask": "Tales@RA@LeaveCurrentZone",
         "template": "Tales@RA@LeaveCurrentZone.png",
-        "next": ["Tales@RA@ProsperityNoSave@ConfirmToLeaveBaseCamp"]
+        "next": ["Tales@RA@PNS-ConfirmToLeaveBaseCamp"]
     },
     "Tales@RA@LeaveCurrentZone": {
         "doc": "模板任务: 在行动中点击左上角离开当前区块",
         "roi": [41, 22, 78, 71],
         "action": "ClickSelf"
     },
-    "Tales@RA@ProsperityNoSave@ConfirmToLeaveBaseCamp": {
+    "Tales@RA@PNS-ConfirmToLeaveBaseCamp": {
         "doc": "确认离开 <后舍: 众人会聚之地>",
         "baseTask": "Tales@RA@DialogConfirmYellow",
         "template": "Tales@RA@DialogConfirmYellow.png",
         "next": [
-            "Tales@RA@ProsperityNoSave@ConfirmToLeaveBaseCamp@NextAfterLoadingIcon",
-            "Tales@RA@ProsperityNoSave@ConfirmToLeaveBaseCamp@NextAfterLoadingText",
-            "Tales@RA@ProsperityNoSave@ClickShrubberyGalore"
+            "Tales@RA@PNS-ConfirmToLeaveBaseCamp@NextAfterLoadingIcon",
+            "Tales@RA@PNS-ConfirmToLeaveBaseCamp@NextAfterLoadingText",
+            "Tales@RA@PNS-ClickShrubberyGalore"
         ]
     },
     "Tales@RA@DialogConfirmYellow": {
@@ -11658,11 +11658,11 @@
         "roi": [879, 457, 53, 52],
         "action": "ClickSelf"
     },
-    "Tales@RA@ProsperityNoSave@ClickShrubberyGalore": {
-        "doc": "前往并点击 <资源区: 丰饶灌木林>, 未来改由 NavigateToZone 插件实现",
+    "Tales@RA@PNS-ClickShrubberyGalore": {
+        "doc": "前往并点击 <资源区: 丰饶灌木林>, 未来改由 GoTo 插件实现",
         "algorithm": "JustReturn",
-        "sub": ["Tales@RA@ReturnToOrigin", "Tales@RA@NavigateToZone@ShrubberyGalore"],
-        "next": ["Tales@RA@ProsperityNoSave@EnterShrubberyGalore"]
+        "sub": ["Tales@RA@ReturnToOrigin", "Tales@RA@GoTo-ShrubberyGalore"],
+        "next": ["Tales@RA@PNS-EnterShrubberyGalore"]
     },
     "Tales@RA@ReturnToOrigin": {
         "doc": "让地图视图重置到原始位置",
@@ -11695,7 +11695,7 @@
         "template": "Tales@RA@Headquarters.png",
         "roi": [559, 262, 162, 153]
     },
-    "Tales@RA@NavigateToZone@ShrubberyGalore": {
+    "Tales@RA@GoTo-ShrubberyGalore": {
         "doc": "模板任务: 点击 <资源区: 丰饶灌木林>",
         "algorithm": "OcrDetect",
         "text": ["丰饶灌木林"],
@@ -11703,15 +11703,15 @@
         "roi": [223, 129, 114, 48],
         "action": "ClickSelf"
     },
-    "Tales@RA@ProsperityNoSave@EnterShrubberyGalore": {
+    "Tales@RA@PNS-EnterShrubberyGalore": {
         "doc": "点击 <资源区: 丰饶灌木林> 后点击 <开始行动>",
         "baseTask": "Tales@RA@EnterNode",
-        "next": ["Tales@RA@ProsperityNoSave@ShrubberyGaloreConfirmSquad"]
+        "next": ["Tales@RA@PNS-ShrubberyGalore-ConfirmSquad"]
     },
-    "Tales@RA@ProsperityNoSave@ShrubberyGaloreConfirmSquad": {
+    "Tales@RA@PNS-ShrubberyGalore-ConfirmSquad": {
         "doc": "在 <资源区: 丰饶灌木林> 编队界面点击 <开始行动>",
         "baseTask": "Tales@RA@ConfirmSquad",
-        "next": ["Tales@RA@ProsperityNoSave@ShrubberyGaloreDoubleCheckSquad"]
+        "next": ["Tales@RA@PNS-ShrubberyGalore-DoubleCheckSquad"]
     },
     "Tales@RA@ConfirmSquad": {
         "doc": "模板任务: 在编队界面点击 <开始行动>",
@@ -11720,14 +11720,14 @@
         "roi": [1132, 654, 120, 45],
         "action": "ClickSelf"
     },
-    "Tales@RA@ProsperityNoSave@ShrubberyGaloreDoubleCheckSquad": {
+    "Tales@RA@PNS-ShrubberyGalore-DoubleCheckSquad": {
         "doc": "在 <资源区: 丰饶灌木林> 编队界面点击 <开始行动> 后点击 <确认>",
         "baseTask": "Tales@RA@DialogConfirmRed",
         "template": "Tales@RA@DialogConfirmRed.png",
         "next": [
-            "Tales@RA@ProsperityNoSave@LeaveShrubberyGalore",
-            "Tales@RA@ProsperityNoSave@ShrubberyGaloreDoubleCheckSquad@NextAfterLoadingText",
-            "Tales@RA@ProsperityNoSave@ShrubberyGaloreDoubleCheckSquad@NextAfterMerelyWaiting"
+            "Tales@RA@PNS-LeaveShrubberyGalore",
+            "Tales@RA@PNS-ShrubberyGalore-DoubleCheckSquad@NextAfterLoadingText",
+            "Tales@RA@PNS-ShrubberyGalore-DoubleCheckSquad@NextAfterMerelyWaiting"
         ]
     },
     "Tales@RA@DialogConfirmRed": {
@@ -11735,28 +11735,28 @@
         "roi": [879, 457, 53, 52],
         "action": "ClickSelf"
     },
-    "Tales@RA@ProsperityNoSave@LeaveShrubberyGalore": {
+    "Tales@RA@PNS-LeaveShrubberyGalore": {
         "doc": "在行动中点击左上角离开 <资源区: 丰饶灌木林>",
         "baseTask": "Tales@RA@LeaveCurrentZone",
         "template": "Tales@RA@LeaveCurrentZone.png",
-        "next": ["Tales@RA@ProsperityNoSave@ConfirmToLeaveShrubberyGalore"]
+        "next": ["Tales@RA@PNS-ConfirmToLeaveShrubberyGalore"]
     },
-    "Tales@RA@ProsperityNoSave@ConfirmToLeaveShrubberyGalore": {
+    "Tales@RA@PNS-ConfirmToLeaveShrubberyGalore": {
         "doc": "确认离开 <资源区: 丰饶灌木林>",
         "baseTask": "Tales@RA@DialogConfirmYellow",
         "template": "Tales@RA@DialogConfirmYellow.png",
         "next": [
-            "Tales@RA@ProsperityNoSave@ShrubberyGaloreMissionResults",
-            "Tales@RA@ProsperityNoSave@ConfirmToLeaveShrubberyGalore@NextAfterLoadingText"
+            "Tales@RA@PNS-ShrubberyGalore-MissionResults",
+            "Tales@RA@PNS-ConfirmToLeaveShrubberyGalore@NextAfterLoadingText"
         ]
     },
-    "Tales@RA@ProsperityNoSave@ShrubberyGaloreMissionResults": {
+    "Tales@RA@PNS-ShrubberyGalore-MissionResults": {
         "doc": "在 <资源区: 丰饶灌木林> 行动结束界面点击左下角 <物资将送往仓库> 图标返回",
         "baseTask": "Tales@RA@MissionResults",
         "template": "Tales@RA@SentToWarehouse.png",
         "next": [
-            "Tales@RA@ProsperityNoSave@ShrubberyGaloreMissionResults@NextAfterLoadingIcon",
-            "Tales@RA@ProsperityNoSave@ClickGatheringOfFeathers"
+            "Tales@RA@PNS-ShrubberyGalore-MissionResults@NextAfterLoadingIcon",
+            "Tales@RA@PNS-ClickGatheringOfFeathers"
         ]
     },
     "Tales@RA@MissionResults": {
@@ -11765,79 +11765,79 @@
         "roi": [48, 469, 87, 51],
         "action": "ClickSelf"
     },
-    "Tales@RA@ProsperityNoSave@ClickGatheringOfFeathers": {
-        "doc": "前往并点击 <捕猎区: 聚羽之地>, 未来改由 NavigateToZone 插件实现",
+    "Tales@RA@PNS-ClickGatheringOfFeathers": {
+        "doc": "前往并点击 <捕猎区: 聚羽之地>, 未来改由 GoTo 插件实现",
         "algorithm": "JustReturn",
-        "sub": ["Tales@RA@ReturnToOrigin", "Tales@RA@NavigateToZone@GatheringOfFeathers"],
-        "next": ["Tales@RA@ProsperityNoSave@EnterGatheringOfFeathers"]
+        "sub": ["Tales@RA@ReturnToOrigin", "Tales@RA@GoTo-GatheringOfFeathers"],
+        "next": ["Tales@RA@PNS-EnterGatheringOfFeathers"]
     },
-    "Tales@RA@NavigateToZone@GatheringOfFeathers": {
+    "Tales@RA@GoTo-GatheringOfFeathers": {
         "doc": "模板任务: 点击 <捕猎区: 聚羽之地>",
         "algorithm": "OcrDetect",
         "text": ["聚羽之地"],
         "roi": [141, 337, 106, 56],
         "action": "ClickSelf"
     },
-    "Tales@RA@ProsperityNoSave@EnterGatheringOfFeathers": {
+    "Tales@RA@PNS-EnterGatheringOfFeathers": {
         "doc": "点击 <捕猎区: 聚羽之地> 后点击 <开始行动>",
         "baseTask": "Tales@RA@EnterNode",
-        "next": ["Tales@RA@ProsperityNoSave@GatheringOfFeathersConfirmSquad"]
+        "next": ["Tales@RA@PNS-GatheringOfFeathers-ConfirmSquad"]
     },
-    "Tales@RA@ProsperityNoSave@GatheringOfFeathersConfirmSquad": {
+    "Tales@RA@PNS-GatheringOfFeathers-ConfirmSquad": {
         "doc": "在 <捕猎区: 聚羽之地> 编队界面点击 <开始行动>",
         "baseTask": "Tales@RA@ConfirmSquad",
-        "next": ["Tales@RA@ProsperityNoSave@GatheringOfFeathersDoubleCheckSquad"]
+        "next": ["Tales@RA@PNS-GatheringOfFeathers-DoubleCheckSquad"]
     },
-    "Tales@RA@ProsperityNoSave@GatheringOfFeathersDoubleCheckSquad": {
+    "Tales@RA@PNS-GatheringOfFeathers-DoubleCheckSquad": {
         "doc": "在 <捕猎区: 聚羽之地> 编队界面点击 <开始行动> 后点击 <确认>",
         "baseTask": "Tales@RA@DialogConfirmRed",
         "template": "Tales@RA@DialogConfirmRed.png",
         "next": [
-            "Tales@RA@ProsperityNoSave@LeaveGatheringOfFeathers",
-            "Tales@RA@ProsperityNoSave@GatheringOfFeathersDoubleCheckSquad@NextAfterLoadingText",
-            "Tales@RA@ProsperityNoSave@GatheringOfFeathersDoubleCheckSquad@NextAfterMerelyWaiting"
+            "Tales@RA@PNS-LeaveGatheringOfFeathers",
+            "Tales@RA@PNS-GatheringOfFeathers-DoubleCheckSquad@NextAfterLoadingText",
+            "Tales@RA@PNS-GatheringOfFeathers-DoubleCheckSquad@NextAfterMerelyWaiting"
         ]
     },
-    "Tales@RA@ProsperityNoSave@LeaveGatheringOfFeathers": {
+    "Tales@RA@PNS-LeaveGatheringOfFeathers": {
         "doc": "在行动中点击左上角离开 <捕猎区: 聚羽之地>",
         "baseTask": "Tales@RA@LeaveCurrentZone",
         "template": "Tales@RA@LeaveCurrentZone.png",
-        "next": ["Tales@RA@ProsperityNoSave@ConfirmToLeaveGatheringOfFeathers"]
+        "next": ["Tales@RA@PNS-ConfirmToLeaveGatheringOfFeathers"]
     },
-    "Tales@RA@ProsperityNoSave@ConfirmToLeaveGatheringOfFeathers": {
+    "Tales@RA@PNS-ConfirmToLeaveGatheringOfFeathers": {
         "doc": "确认离开 <捕猎区: 聚羽之地>",
         "baseTask": "Tales@RA@DialogConfirmYellow",
         "template": "Tales@RA@DialogConfirmYellow.png",
         "next": [
-            "Tales@RA@ProsperityNoSave@GatheringOfFeathersMissionResults",
-            "Tales@RA@ProsperityNoSave@ConfirmToLeaveGatheringOfFeathers@NextAfterLoadingText"
+            "Tales@RA@PNS-GatheringOfFeathers-MissionResults",
+            "Tales@RA@PNS-ConfirmToLeaveGatheringOfFeathers@NextAfterLoadingText"
         ]
     },
-    "Tales@RA@ProsperityNoSave@GatheringOfFeathersMissionResults": {
+    "Tales@RA@PNS-GatheringOfFeathers-MissionResults": {
         "doc": "在 <捕猎区: 聚羽之地> 行动结束界面点击左下角 <物资将送往仓库> 图标返回",
         "baseTask": "Tales@RA@MissionResults",
         "template": "Tales@RA@SentToWarehouse.png",
         "next": [
-            "Tales@RA@ProsperityNoSave@SkipToCalculation",
-            "Tales@RA@ProsperityNoSave@GatheringOfFeathersMissionResults@NextAfterLoadingIcon"
+            "Tales@RA@PNS-SkipToCalc",
+            "Tales@RA@PNS-GatheringOfFeathers-MissionResults@NextAfterLoadingIcon"
         ]
     },
-    "Tales@RA@ProsperityNoSave@SkipToCalculation": {
+    "Tales@RA@PNS-SkipToCalc": {
         "doc": "跳到下一次量定结算",
         "template": ["Tales@RA@ActsLeft2.png", "Tales@RA@ActsLeft1.png", "Tales@RA@NextDay.png"],
         "roi": [1152, 45, 54, 98],
         "next": [
-            "Tales@RA@ProsperityNoSave@SkipToCalculation@NextDay",
-            "Tales@RA@ProsperityNoSave@SkipToCalculation@NonZeroActsLeft"
+            "Tales@RA@PNS-SkipToCalc-NextDay",
+            "Tales@RA@PNS-SkipToCalc-NonZeroActsLeft"
         ]
     },
-    "Tales@RA@ProsperityNoSave@SkipToCalculation@NextDay": {
+    "Tales@RA@PNS-SkipToCalc-NextDay": {
         "doc": "点击右上角箭头进入下一个生息日, 若在量定日则进行量定结算",
         "baseTask": "Tales@RA@NextDay",
         "template": "Tales@RA@NextDay.png",
         "next": [
-            "Tales@RA@ProsperityNoSave@SkipToCalculation@NextDay@NextAfterLoadingText",
-            "Tales@RA@ProsperityNoSave@SkipToCalculation@CalculationOrNextDay"
+            "Tales@RA@PNS-SkipToCalc-NextDay@NextAfterLoadingText",
+            "Tales@RA@PNS-SkipToCalc-CalcOrNextDay"
         ]
     },
     "Tales@RA@NextDay": {
@@ -11845,21 +11845,21 @@
         "roi": [1152, 45, 54, 98],
         "action": "ClickSelf"
     },
-    "Tales@RA@ProsperityNoSave@SkipToCalculation@CalculationOrNextDay": {
+    "Tales@RA@PNS-SkipToCalc-CalcOrNextDay": {
         "doc": "等待, 可能进入量定结算或驻扎地产出结算, 若进入驻扎地产出结算则可能点击确认符号跳过等待",
         "algorithm": "JustReturn",
         "next": [
-            "Tales@RA@ProsperityNoSave@FinishCalculation",
-            "Tales@RA@ProsperityNoSave@SkipToCalculation@StartToday",
-            "Tales@RA@ProsperityNoSave@SkipToCalculation",
-            "Tales@RA@ProsperityNoSave@SkipToCalculation@CalculationOrNextDay"
+            "Tales@RA@PNS-FinishCalc",
+            "Tales@RA@PNS-SkipToCalc-StartToday",
+            "Tales@RA@PNS-SkipToCalc",
+            "Tales@RA@PNS-SkipToCalc-CalcOrNextDay"
         ]
     },
-    "Tales@RA@ProsperityNoSave@SkipToCalculation@StartToday": {
+    "Tales@RA@PNS-SkipToCalc-StartToday": {
         "doc": "在驻扎地产出结算界面点击确认符号开启今日",
         "baseTask": "Tales@RA@StartToday",
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
-        "next": ["Tales@RA@ProsperityNoSave@SkipToCalculation"]
+        "next": ["Tales@RA@PNS-SkipToCalc"]
     },
     "Tales@RA@StartToday": {
         "doc": "模板任务: 在驻扎地产出结算界面点击确认符号开启今日",
@@ -11868,11 +11868,11 @@
         "preDelay": 500,
         "action": "ClickSelf"
     },
-    "Tales@RA@ProsperityNoSave@SkipToCalculation@NonZeroActsLeft": {
+    "Tales@RA@PNS-SkipToCalc-NonZeroActsLeft": {
         "doc": "点击右上角剩余决断次数",
         "baseTask": "Tales@RA@NonZeroActsLeft",
         "template": ["Tales@RA@ActsLeft2.png", "Tales@RA@ActsLeft1.png"],
-        "next": ["Tales@RA@ProsperityNoSave@SkipToCalculation@SkipDay"]
+        "next": ["Tales@RA@PNS-SkipToCalc-SkipDay"]
     },
     "Tales@RA@NonZeroActsLeft": {
         "doc": "模板任务: 点击右上角剩余决断次数",
@@ -11880,46 +11880,46 @@
         "roi": [1152, 104, 47, 34],
         "action": "ClickSelf"
     },
-    "Tales@RA@ProsperityNoSave@SkipToCalculation@SkipDay": {
+    "Tales@RA@PNS-SkipToCalc-SkipDay": {
         "doc": "点击右上角 <消磨时间> 箭头",
         "baseTask": "Tales@RA@SkipDay",
         "template": "Tales@RA@SkipDay.png",
-        "next": ["Tales@RA@ProsperityNoSave@SkipToCalculation@ConfirmToSkipDay"]
+        "next": ["Tales@RA@PNS-SkipToCalc-ConfirmToSkipDay"]
     },
     "Tales@RA@SkipDay": {
         "doc": "模板任务: 点击右上角 <消磨时间> 箭头",
         "roi": [1194, 143, 37, 49],
         "action": "ClickSelf"
     },
-    "Tales@RA@ProsperityNoSave@SkipToCalculation@ConfirmToSkipDay": {
+    "Tales@RA@PNS-SkipToCalc-ConfirmToSkipDay": {
         "doc": "确认跳过这一日",
         "baseTask": "Tales@RA@DialogConfirmYellow",
         "template": "Tales@RA@DialogConfirmYellow.png",
         "next": [
-            "Tales@RA@ProsperityNoSave@SkipToCalculation@NextDay",
-            "Tales@RA@ProsperityNoSave@SkipToCalculation@ConfirmToSkipDay@NextAfterLoadingText"
+            "Tales@RA@PNS-SkipToCalc-NextDay",
+            "Tales@RA@PNS-SkipToCalc-ConfirmToSkipDay@NextAfterLoadingText"
         ]
     },
-    "Tales@RA@ProsperityNoSave@FinishCalculation": {
+    "Tales@RA@PNS-FinishCalc": {
         "doc": "已完成生存周期",
-        "baseTask": "Tales@RA@FinishCalculation",
+        "baseTask": "Tales@RA@FinishCalc",
         "action": "DoNothing",
-        "next": ["Tales@RA@ProsperityNoSave@ProsperityReachLimit", "Tales@RA@ProsperityNoSave@ProsperityNotReachLimit"]
+        "next": ["Tales@RA@PNS-ProsperityReachLimit", "Tales@RA@PNS-ProsperityBelowLimit"]
     },
-    "Tales@RA@FinishCalculation": {
+    "Tales@RA@FinishCalc": {
         "doc": "模板任务: 已完成生存周期, 点击 <点击任意处继续> 文字位置",
         "algorithm": "OcrDetect",
         "text": ["点击任意处继续"],
         "roi": [554, 657, 172, 41],
         "action": "ClickSelf"
     },
-    "Tales@RA@ProsperityNoSave@ProsperityReachLimit": {
+    "Tales@RA@PNS-ProsperityReachLimit": {
         "doc": "已完成生存周期, 生息点数达到上限, 点击 MAX 图案位置",
         "baseTask": "Tales@RA@ProsperityReachLimit",
         "template": "Tales@RA@Max",
         "next": [
-            "Tales@RA@ProsperityNoSave@ProsperityReachLimit@StartToday",
-            "Tales@RA@ProsperityNoSave@ProsperityReachLimit@NextAfterMerelyWaiting"
+            "Tales@RA@PNS-ProsperityReachLimit-StartToday",
+            "Tales@RA@PNS-ProsperityReachLimit@NextAfterMerelyWaiting"
         ]
     },
     "Tales@RA@ProsperityReachLimit": {
@@ -11928,62 +11928,62 @@
         "roi": [836, 516, 59, 40],
         "action": "ClickSelf"
     },
-    "Tales@RA@ProsperityNoSave@ProsperityNotReachLimit": {
+    "Tales@RA@PNS-ProsperityBelowLimit": {
         "doc": "已完成生存周期, 生息点数未达到上限, 点击 <点击任意处继续> 文字位置",
-        "baseTask": "Tales@RA@FinishCalculation",
+        "baseTask": "Tales@RA@FinishCalc",
         "next": [
-            "Tales@RA@ProsperityNoSave@ProsperityNotReachLimit@StartToday",
-            "Tales@RA@ProsperityNoSave@ProsperityNotReachLimit@NextAfterMerelyWaiting"
+            "Tales@RA@PNS-ProsperityBelowLimit-StartToday",
+            "Tales@RA@PNS-ProsperityBelowLimit@NextAfterMerelyWaiting"
         ]
     },
-    "Tales@RA@ProsperityNoSave@ProsperityReachLimit@StartToday": {
+    "Tales@RA@PNS-ProsperityReachLimit-StartToday": {
         "doc": "生息点数达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
         "baseTask": "Tales@RA@StartToday",
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
         "next": [
-            "Tales@RA@ProsperityNoSave@ProsperityReachLimit@Dots",
-            "Tales@RA@ProsperityNoSave@ProsperityReachLimit@StartToday@NextAfterLoadingText"
+            "Tales@RA@PNS-ProsperityReachLimit-Dots",
+            "Tales@RA@PNS-ProsperityReachLimit-StartToday@NextAfterLoadingText"
         ]
     },
-    "Tales@RA@ProsperityNoSave@ProsperityNotReachLimit@StartToday": {
+    "Tales@RA@PNS-ProsperityBelowLimit-StartToday": {
         "doc": "生息点数未达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
         "baseTask": "Tales@RA@StartToday",
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
         "next": [
-            "Tales@RA@ProsperityNoSave@ProsperityNotReachLimit@Dots",
-            "Tales@RA@ProsperityNoSave@ProsperityNotReachLimit@StartToday@NextAfterLoadingText"
+            "Tales@RA@PNS-ProsperityBelowLimit-Dots",
+            "Tales@RA@PNS-ProsperityBelowLimit-StartToday@NextAfterLoadingText"
         ]
     },
-    "Tales@RA@ProsperityNoSave@ProsperityReachLimit@Dots": {
+    "Tales@RA@PNS-ProsperityReachLimit-Dots": {
         "doc": "生息点数达到上限, 点击右下角 Dots",
         "baseTask": "Tales@RA@Dots",
         "template": "Tales@RA@Dots.png",
-        "next": ["Tales@RA@ProsperityNoSave@ProsperityReachLimit@SwipeSave"]
+        "next": ["Tales@RA@PNS-ProsperityReachLimit-SwipeSave"]
     },
-    "Tales@RA@ProsperityNoSave@ProsperityNotReachLimit@Dots": {
+    "Tales@RA@PNS-ProsperityBelowLimit-Dots": {
         "doc": "生息点数未达到上限, 点击右下角 Dots",
         "baseTask": "Tales@RA@Dots",
         "template": "Tales@RA@Dots.png",
-        "next": ["Tales@RA@ProsperityNoSave@ProsperityNotReachLimit@SwipeSave"]
+        "next": ["Tales@RA@PNS-ProsperityBelowLimit-SwipeSave"]
     },
     "Tales@RA@Dots": {
         "doc": "模板任务: 点击右下角 Dots",
         "roi": [1001, 658, 61, 28],
         "action": "ClickSelf"
     },
-    "Tales@RA@ProsperityNoSave@ProsperityReachLimit@SwipeSave": {
+    "Tales@RA@PNS-ProsperityReachLimit-SwipeSave": {
         "doc": "生息点数达到上限, 点击右下角删除存档图标, 确认删除存档, 仍要删除存档",
         "baseTask": "Tales@RA@SwipeSave",
         "template": "Tales@RA@SwipeSave.png",
         "sub": ["Tales@RA@DialogConfirmRed*2"]
     },
-    "Tales@RA@ProsperityNoSave@ProsperityNotReachLimit@SwipeSave": {
+    "Tales@RA@PNS-ProsperityBelowLimit-SwipeSave": {
         "doc": "生息点数未达到上限, 点击右下角删除存档图标, 确认删除存档, 仍要删除存档",
         "baseTask": "Tales@RA@SwipeSave",
         "template": "Tales@RA@SwipeSave.png",
         "sub": ["Tales@RA@DialogConfirmRed*2"],
         "next": [
-            "Tales@RA@ProsperityNoSave@ProsperityNotReachLimit@SwipeSave@NextAfterLoadingText",
+            "Tales@RA@PNS-ProsperityBelowLimit-SwipeSave@NextAfterLoadingText",
             "Tales@RA@ProsperityNoSave"
         ]
     },
@@ -11996,28 +11996,28 @@
         "doc": "生息演算「沙洲遗闻」有存档刷生息点数 <ProsperityInSave> 任务入口",
         "algorithm": "JustReturn",
         "next": [
-            "Tales@RA@ProsperityInSave@Resume",
-            "Tales@RA@ProsperityInSave@Workbench",
-            "Tales@RA@ProsperityInSave@Navigation"
+            "Tales@RA@PIS-Resume",
+            "Tales@RA@PIS-Workbench",
+            "Tales@RA@PIS-Navigation"
         ]
     },
-    "Tales@RA@ProsperityInSave@Navigation": {
+    "Tales@RA@PIS-Navigation": {
         "algorithm": "JustReturn",
         "next": ["Tales@RA@ProsperityInSave"]
     },
-    "Tales@RA@ProsperityInSave@Resume": {
+    "Tales@RA@PIS-Resume": {
         "doc": "在主题入口界面点击 <继续演算> 开启新游戏",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["继续演算"],
         "roi": [1084, 620, 131, 50],
-        "next": ["Tales@RA@ProsperityInSave@Workbench", "Tales@RA@ProsperityInSave@Resume@NextAfterLoadingText"]
+        "next": ["Tales@RA@PIS-Workbench", "Tales@RA@PIS-Resume@NextAfterLoadingText"]
     },
-    "Tales@RA@ProsperityInSave@Workbench": {
+    "Tales@RA@PIS-Workbench": {
         "doc": "点击进入组装台",
         "baseTask": "Tales@RA@Workbench",
         "template": "Tales@RA@WorkbenchButton.png",
-        "next": ["Tales@RA@ProsperityInSave@SelectTool"]
+        "next": ["Tales@RA@PIS-SelectTool"]
     },
     "Tales@RA@Workbench": {
         "doc": "模板任务: 点击进入组装台",
@@ -12025,50 +12025,50 @@
         "roi": [615, 645, 133, 55],
         "action": "ClickSelf"
     },
-    "Tales@RA@ProsperityInSave@SelectTool": {
+    "Tales@RA@PIS-SelectTool": {
         "doc": "选择要合成的道具",
         "template": "Tales@RA@WorkbenchIcon.png",
         "roi": [50, 5, 60, 60],
-        "next": ["Tales@RA@ProsperityInSave@ClickTool", "Tales@RA@ProsperityInSave@ScrollDown"]
+        "next": ["Tales@RA@PIS-ClickTool", "Tales@RA@PIS-ScrollDown"]
     },
-    "Tales@RA@ProsperityInSave@ClickTool": {
+    "Tales@RA@PIS-ClickTool": {
         "doc": "识别到要合成的道具后点击",
         "algorithm": "OcrDetect",
         "text": ["荧光棒"],
         "roi": [274, 68, 960, 571],
         "action": "ClickSelf",
         "sub": ["Tales@RA@IncreaseCraftAmount*99"],
-        "next": ["Tales@RA@ProsperityInSave@Craft"]
+        "next": ["Tales@RA@PIS-Craft"]
     },
-    "Tales@RA@ProsperityInSave@ScrollDown": {
+    "Tales@RA@PIS-ScrollDown": {
         "doc": "在组装台界面向下滑动屏幕",
         "algorithm": "JustReturn",
         "action": "Swipe",
         "specificRect": [753, 620, 0, 0],
         "rectMove": [753, 80, 0, 0],
         "specialParams": [500, 0, 3, 0],
-        "next": ["Tales@RA@ProsperityInSave@SelectTool"]
+        "next": ["Tales@RA@PIS-SelectTool"]
     },
     "Tales@RA@IncreaseCraftAmount": {
         "doc": "模板任务: 点击加号增加合成数量",
         "roi": [860, 489, 73, 73],
         "action": "ClickSelf"
     },
-    "Tales@RA@ProsperityInSave@Craft": {
+    "Tales@RA@PIS-Craft": {
         "doc": "点击开始组装图标",
         "baseTask": "Tales@RA@Craft",
         "template": "Tales@RA@Craft.png",
-        "next": ["Tales@RA@ProsperityInSave@ResourceGained", "Tales@RA@ProsperityInSave@Craft@NextAfterLoadingText"]
+        "next": ["Tales@RA@PIS-ResourceGained", "Tales@RA@PIS-Craft@NextAfterLoadingText"]
     },
     "Tales@RA@Craft": {
         "doc": "模板任务: 点击开始组装图标",
         "roi": [982, 500, 51, 50],
         "action": "ClickSelf"
     },
-    "Tales@RA@ProsperityInSave@ResourceGained": {
+    "Tales@RA@PIS-ResourceGained": {
         "doc": "获得物资, 点击 <点击空白处继续> 文字位置",
         "baseTask": "Tales@RA@ResourceGained",
-        "next": ["Tales@RA@ProsperityInSave@LeaveWorkbench"]
+        "next": ["Tales@RA@PIS-LeaveWorkbench"]
     },
     "Tales@RA@ResourceGained": {
         "doc": "模板任务: 获得物资, 点击 <点击空白处继续> 文字位置",
@@ -12077,145 +12077,145 @@
         "roi": [554, 445, 172, 41],
         "action": "ClickSelf"
     },
-    "Tales@RA@ProsperityInSave@LeaveWorkbench": {
+    "Tales@RA@PIS-LeaveWorkbench": {
         "doc": "点击左上角深色箭头退出组装台",
         "baseTask": "Tales@RA@BackDark",
         "template": "Tales@RA@BackDark.png",
-        "next": ["Tales@RA@ProsperityInSave@SkipToCalculation"]
+        "next": ["Tales@RA@PIS-SkipToCalc"]
     },
     "Tales@RA@BackDark": {
         "doc": "模板任务: 点击左上角深色箭头返回",
         "roi": [7, 6, 41, 56],
         "action": "ClickSelf"
     },
-    "Tales@RA@ProsperityInSave@SkipToCalculation": {
+    "Tales@RA@PIS-SkipToCalc": {
         "doc": "跳到下一次量定结算",
         "template": ["Tales@RA@ActsLeft2.png", "Tales@RA@ActsLeft1.png", "Tales@RA@NextDay.png"],
         "roi": [1152, 45, 54, 98],
         "next": [
-            "Tales@RA@ProsperityInSave@SkipToCalculation@NextDay",
-            "Tales@RA@ProsperityInSave@SkipToCalculation@NonZeroActsLeft"
+            "Tales@RA@PIS-SkipToCalc-NextDay",
+            "Tales@RA@PIS-SkipToCalc-NonZeroActsLeft"
         ]
     },
-    "Tales@RA@ProsperityInSave@SkipToCalculation@NextDay": {
+    "Tales@RA@PIS-SkipToCalc-NextDay": {
         "doc": "点击右上角箭头进入下一个生息日, 若在量定日则进行量定结算",
         "baseTask": "Tales@RA@NextDay",
         "template": "Tales@RA@NextDay.png",
         "next": [
-            "Tales@RA@ProsperityInSave@SkipToCalculation@NextDay@NextAfterLoadingText",
-            "Tales@RA@ProsperityInSave@SkipToCalculation@CalculationOrNextDay"
+            "Tales@RA@PIS-SkipToCalc-NextDay@NextAfterLoadingText",
+            "Tales@RA@PIS-SkipToCalc-CalcOrNextDay"
         ]
     },
-    "Tales@RA@ProsperityInSave@SkipToCalculation@CalculationOrNextDay": {
+    "Tales@RA@PIS-SkipToCalc-CalcOrNextDay": {
         "doc": "等待, 可能进入量定结算或驻扎地产出结算, 若进入驻扎地产出结算则可能点击确认符号跳过等待",
         "algorithm": "JustReturn",
         "next": [
-            "Tales@RA@ProsperityInSave@FinishCalculation",
-            "Tales@RA@ProsperityInSave@SkipToCalculation@StartToday",
-            "Tales@RA@ProsperityInSave@SkipToCalculation",
-            "Tales@RA@ProsperityInSave@SkipToCalculation@CalculationOrNextDay"
+            "Tales@RA@PIS-FinishCalc",
+            "Tales@RA@PIS-SkipToCalc-StartToday",
+            "Tales@RA@PIS-SkipToCalc",
+            "Tales@RA@PIS-SkipToCalc-CalcOrNextDay"
         ]
     },
-    "Tales@RA@ProsperityInSave@SkipToCalculation@StartToday": {
+    "Tales@RA@PIS-SkipToCalc-StartToday": {
         "doc": "在驻扎地产出结算界面点击确认符号开启今日",
         "baseTask": "Tales@RA@StartToday",
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
-        "next": ["Tales@RA@ProsperityInSave@SkipToCalculation"]
+        "next": ["Tales@RA@PIS-SkipToCalc"]
     },
-    "Tales@RA@ProsperityInSave@SkipToCalculation@NonZeroActsLeft": {
+    "Tales@RA@PIS-SkipToCalc-NonZeroActsLeft": {
         "doc": "点击右上角剩余决断次数",
         "baseTask": "Tales@RA@NonZeroActsLeft",
         "template": ["Tales@RA@ActsLeft2.png", "Tales@RA@ActsLeft1.png"],
-        "next": ["Tales@RA@ProsperityInSave@SkipToCalculation@SkipDay"]
+        "next": ["Tales@RA@PIS-SkipToCalc-SkipDay"]
     },
-    "Tales@RA@ProsperityInSave@SkipToCalculation@SkipDay": {
+    "Tales@RA@PIS-SkipToCalc-SkipDay": {
         "doc": "点击右上角 <消磨时间> 箭头",
         "baseTask": "Tales@RA@SkipDay",
         "template": "Tales@RA@SkipDay.png",
-        "next": ["Tales@RA@ProsperityInSave@SkipToCalculation@ConfirmToSkipDay"]
+        "next": ["Tales@RA@PIS-SkipToCalc-ConfirmToSkipDay"]
     },
-    "Tales@RA@ProsperityInSave@SkipToCalculation@ConfirmToSkipDay": {
+    "Tales@RA@PIS-SkipToCalc-ConfirmToSkipDay": {
         "doc": "确认跳过这一日",
         "baseTask": "Tales@RA@DialogConfirmYellow",
         "template": "Tales@RA@DialogConfirmYellow.png",
         "next": [
-            "Tales@RA@ProsperityInSave@SkipToCalculation@NextDay",
-            "Tales@RA@ProsperityInSave@SkipToCalculation@ConfirmToSkipDay@NextAfterLoadingText"
+            "Tales@RA@PIS-SkipToCalc-NextDay",
+            "Tales@RA@PIS-SkipToCalc-ConfirmToSkipDay@NextAfterLoadingText"
         ]
     },
-    "Tales@RA@ProsperityInSave@FinishCalculation": {
+    "Tales@RA@PIS-FinishCalc": {
         "doc": "已完成生存周期",
-        "baseTask": "Tales@RA@FinishCalculation",
+        "baseTask": "Tales@RA@FinishCalc",
         "action": "DoNothing",
-        "next": ["Tales@RA@ProsperityInSave@ProsperityReachLimit", "Tales@RA@ProsperityInSave@ProsperityNotReachLimit"]
+        "next": ["Tales@RA@PIS-ProsperityReachLimit", "Tales@RA@PIS-ProsperityBelowLimit"]
     },
-    "Tales@RA@ProsperityInSave@ProsperityReachLimit": {
+    "Tales@RA@PIS-ProsperityReachLimit": {
         "doc": "已完成生存周期, 生息点数达到上限, 点击 MAX 图案位置",
         "baseTask": "Tales@RA@ProsperityReachLimit",
         "template": "Tales@RA@Max",
         "next": [
-            "Tales@RA@ProsperityInSave@ProsperityReachLimit@StartToday",
-            "Tales@RA@ProsperityInSave@ProsperityReachLimit@NextAfterMerelyWaiting"
+            "Tales@RA@PIS-ProsperityReachLimit-StartToday",
+            "Tales@RA@PIS-ProsperityReachLimit@NextAfterMerelyWaiting"
         ]
     },
-    "Tales@RA@ProsperityInSave@ProsperityNotReachLimit": {
+    "Tales@RA@PIS-ProsperityBelowLimit": {
         "doc": "已完成生存周期, 生息点数未达到上限, 点击 <点击任意处继续> 文字位置",
-        "baseTask": "Tales@RA@FinishCalculation",
+        "baseTask": "Tales@RA@FinishCalc",
         "next": [
-            "Tales@RA@ProsperityInSave@ProsperityNotReachLimit@StartToday",
-            "Tales@RA@ProsperityInSave@ProsperityNotReachLimit@NextAfterMerelyWaiting"
+            "Tales@RA@PIS-ProsperityBelowLimit-StartToday",
+            "Tales@RA@PIS-ProsperityBelowLimit@NextAfterMerelyWaiting"
         ]
     },
-    "Tales@RA@ProsperityInSave@ProsperityReachLimit@StartToday": {
+    "Tales@RA@PIS-ProsperityReachLimit-StartToday": {
         "doc": "生息点数达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
         "baseTask": "Tales@RA@StartToday",
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
         "next": [
-            "Tales@RA@ProsperityInSave@ProsperityReachLimit@Dots",
-            "Tales@RA@ProsperityInSave@ProsperityReachLimit@StartToday@NextAfterLoadingText"
+            "Tales@RA@PIS-ProsperityReachLimit-Dots",
+            "Tales@RA@PIS-ProsperityReachLimit-StartToday@NextAfterLoadingText"
         ]
     },
-    "Tales@RA@ProsperityInSave@ProsperityNotReachLimit@StartToday": {
+    "Tales@RA@PIS-ProsperityBelowLimit-StartToday": {
         "doc": "生息点数未达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
         "baseTask": "Tales@RA@StartToday",
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
         "next": [
-            "Tales@RA@ProsperityInSave@ProsperityReachLimit@Dots",
-            "Tales@RA@ProsperityInSave@ProsperityNotReachLimit@StartToday@NextAfterLoadingText"
+            "Tales@RA@PIS-ProsperityReachLimit-Dots",
+            "Tales@RA@PIS-ProsperityBelowLimit-StartToday@NextAfterLoadingText"
         ]
     },
-    "Tales@RA@ProsperityInSave@ProsperityReachLimit@Dots": {
+    "Tales@RA@PIS-ProsperityReachLimit-Dots": {
         "doc": "生息点数达到上限, 点击右下角 Dots",
         "baseTask": "Tales@RA@Dots",
         "template": "Tales@RA@Dots.png",
-        "next": ["Tales@RA@ProsperityInSave@ProsperityReachLimit@LoadSave"]
+        "next": ["Tales@RA@PIS-ProsperityReachLimit-LoadSave"]
     },
-    "Tales@RA@ProsperityInSave@ProsperityNotReachLimit@Dots": {
+    "Tales@RA@PIS-ProsperityBelowLimit-Dots": {
         "doc": "生息点数未达到上限, 点击右下角 Dots",
         "baseTask": "Tales@RA@Dots",
         "template": "Tales@RA@Dots.png",
-        "next": ["Tales@RA@ProsperityInSave@ProsperityNotReachLimit@LoadSave"]
+        "next": ["Tales@RA@PIS-ProsperityBelowLimit-LoadSave"]
     },
-    "Tales@RA@ProsperityInSave@ProsperityReachLimit@LoadSave": {
+    "Tales@RA@PIS-ProsperityReachLimit-LoadSave": {
         "doc": "生息点数达到上限, 点击右下角读取存档图标, 选择从右往左第二个存档或仅存的存档, 点击 <点击确认> 文字位置确认读取存档",
         "baseTask": "Tales@RA@LoadSave",
         "template": "Tales@RA@LoadSave.png",
         "sub": ["Tales@RA@SelectSecondLastSave", "Tales@RA@ConfirmToLoadSave"],
         "next": [
-            "Tales@RA@ProsperityInSave@ProsperityReachLimit@LoadSave@StartToday",
-            "Tales@RA@ProsperityInSave@ProsperityReachLimit@LoadSave@NextAfterLoadingText",
-            "Tales@RA@ProsperityInSave@ProsperityReachLimit@LoadSave@NextAfterMerelyWaiting"
+            "Tales@RA@PIS-ProsperityReachLimit-StartTodayAfterLoadSave",
+            "Tales@RA@PIS-ProsperityReachLimit-LoadSave@NextAfterLoadingText",
+            "Tales@RA@PIS-ProsperityReachLimit-LoadSave@NextAfterMerelyWaiting"
         ]
     },
-    "Tales@RA@ProsperityInSave@ProsperityNotReachLimit@LoadSave": {
+    "Tales@RA@PIS-ProsperityBelowLimit-LoadSave": {
         "doc": "生息点数未达到上限, 点击右下角读取存档图标, 选择从右往左第二个存档或仅存的存档, 点击 <点击确认> 文字位置确认读取存档",
         "baseTask": "Tales@RA@LoadSave",
         "template": "Tales@RA@LoadSave.png",
         "sub": ["Tales@RA@SelectSecondLastSave", "Tales@RA@ConfirmToLoadSave"],
         "next": [
-            "Tales@RA@ProsperityInSave@ProsperityNotReachLimit@LoadSave@StartToday",
-            "Tales@RA@ProsperityInSave@ProsperityNotReachLimit@LoadSave@NextAfterLoadingText",
-            "Tales@RA@ProsperityInSave@ProsperityNotReachLimit@LoadSave@NextAfterMerelyWaiting"
+            "Tales@RA@PIS-ProsperityBelowLimit-StartTodayAfterLoadSave",
+            "Tales@RA@PIS-ProsperityBelowLimit-LoadSave@NextAfterLoadingText",
+            "Tales@RA@PIS-ProsperityBelowLimit-LoadSave@NextAfterMerelyWaiting"
         ]
     },
     "Tales@RA@LoadSave": {
@@ -12253,24 +12253,24 @@
         "roi": [583, 529, 115, 43],
         "action": "ClickSelf"
     },
-    "Tales@RA@ProsperityInSave@ProsperityReachLimit@LoadSave@StartToday": {
-        "doc": "生息点数未达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
+    "Tales@RA@PIS-ProsperityReachLimit-StartTodayAfterLoadSave": {
+        "doc": "生息点数达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
         "baseTask": "Tales@RA@StartToday",
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
         "sub": ["Tales@RA@BackLight"],
-        "next": ["Tales@RA@ProsperityInSave@Stop"]
+        "next": ["Stop"]
     },
     "Tales@RA@BackLight": {
         "doc": "模板任务: 点击左上角浅色箭头返回",
         "roi": [0, 7, 40, 56],
         "action": "ClickSelf"
     },
-    "Tales@RA@ProsperityInSave@ProsperityNotReachLimit@LoadSave@StartToday": {
+    "Tales@RA@PIS-ProsperityBelowLimit-StartTodayAfterLoadSave": {
         "doc": "生息点数未达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
         "baseTask": "Tales@RA@StartToday",
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
         "next": [
-            "Tales@RA@ProsperityInSave@ProsperityNotReachLimit@LoadSave@StartToday@NextAfterLoadingText",
+            "Tales@RA@PIS-ProsperityBelowLimit-StartTodayAfterLoadSave@NextAfterLoadingText",
             "Tales@RA@ProsperityInSave"
         ]
     }

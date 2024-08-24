@@ -2603,10 +2603,10 @@
     "Fire@Reclamation@TodoEnter": {
         "text": ["FIRE", "WITHIN", "THE", "SAND"]
     },
-    "Tales@RA@ProsperityNoSave@Commence": {
+    "Tales@RA@PNS-Commence": {
         "text": ["Commence"]
     },
-    "Tales@RA@ProsperityNoSave@ClickBaseCamp": {
+    "Tales@RA@PNS-ClickBaseCamp": {
         "text": ["Gathering Grounds", "Base Camp"]
     },
     "Tales@RA@EnterNode": {
@@ -2615,19 +2615,19 @@
     "Tales@RA@CancelEnterBuildMode": {
         "text": ["Enter Build Mode"]
     },
-    "Tales@RA@NavigateToZone@ShrubberyGalore": {
+    "Tales@RA@GoTo-ShrubberyGalore": {
         "text": ["Shrubbery Galore", "Resource", "Zone"]
     },
     "Tales@RA@ConfirmSquad": {
         "text": ["Start"]
     },
-    "Tales@RA@NavigateToZone@GatheringOfFeathers": {
+    "Tales@RA@GoTo-GatheringOfFeathers": {
         "text": ["Gathering of Feathers", "Hunting Zone"]
     },
-    "Tales@RA@FinishCalculation": {
+    "Tales@RA@FinishCalc": {
         "text": ["Tap anywhere to continue"]
     },
-    "Tales@RA@ProsperityInSave@Resume": {
+    "Tales@RA@PIS-Resume": {
         "text": ["Resume"]
     },
     "Tales@RA@ResourceGained": {

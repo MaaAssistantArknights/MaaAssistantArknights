@@ -2796,10 +2796,10 @@
         "text": ["WITHIN", "砂", "中", "の", "火"],
         "roi": [686, 164, 207, 133]
     },
-    "Tales@RA@ProsperityNoSave@Commence": {
+    "Tales@RA@PNS-Commence": {
         "text": ["開", "始"]
     },
-    "Tales@RA@ProsperityNoSave@ClickBaseCamp": {
+    "Tales@RA@PNS-ClickBaseCamp": {
         "text": ["人々", "が集う", "集会場"]
     },
     "Tales@RA@EnterNode": {
@@ -2808,7 +2808,7 @@
     "Tales@RA@CancelEnterBuildMode": {
         "text": ["进入建造"]
     },
-    "Tales@RA@NavigateToZone@ShrubberyGalore": {
+    "Tales@RA@GoTo-ShrubberyGalore": {
         "text": ["豊かな", "低木林", "資源エリア"],
         "ocrReplace": [
             ["(予|青)原(工|正)", "資源エリア"],
@@ -2819,13 +2819,13 @@
     "Tales@RA@ConfirmSquad": {
         "text": ["作戦", "開始"]
     },
-    "Tales@RA@NavigateToZone@GatheringOfFeathers": {
+    "Tales@RA@GoTo-GatheringOfFeathers": {
         "text": ["羽獣", "集う地", "狩猟エリア"]
     },
-    "Tales@RA@FinishCalculation": {
+    "Tales@RA@FinishCalc": {
         "text": ["タップ", "続く"]
     },
-    "Tales@RA@ProsperityInSave@Resume": {
+    "Tales@RA@PIS-Resume": {
         "text": ["継", "続"]
     },
     "Tales@RA@ResourceGained": {

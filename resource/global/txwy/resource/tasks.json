@@ -1978,10 +1978,10 @@
     "Fire@Reclamation@StartActionEnter": {
         "text": ["開始行動", "決斷"]
     },
-    "Tales@RA@ProsperityNoSave@Commence": {
+    "Tales@RA@PNS-Commence": {
         "text": ["演算", "開始"]
     },
-    "Tales@RA@ProsperityNoSave@ClickBaseCamp": {
+    "Tales@RA@PNS-ClickBaseCamp": {
         "text": ["众人会聚之地"]
     },
     "Tales@RA@EnterNode": {
@@ -1990,19 +1990,19 @@
     "Tales@RA@CancelEnterBuildMode": {
         "text": ["进入建造"]
     },
-    "Tales@RA@NavigateToZone@ShrubberyGalore": {
+    "Tales@RA@GoTo-ShrubberyGalore": {
         "text": ["丰饶灌木林"]
     },
     "Tales@RA@ConfirmSquad": {
         "text": ["开始行动"]
     },
-    "Tales@RA@NavigateToZone@GatheringOfFeathers": {
+    "Tales@RA@GoTo-GatheringOfFeathers": {
         "text": ["聚羽之地"]
     },
-    "Tales@RA@FinishCalculation": {
+    "Tales@RA@FinishCalc": {
         "text": ["点击任意处继续"]
     },
-    "Tales@RA@ProsperityInSave@Resume": {
+    "Tales@RA@PIS-Resume": {
         "text": ["继续演算"]
     },
     "Tales@RA@ResourceGained": {
