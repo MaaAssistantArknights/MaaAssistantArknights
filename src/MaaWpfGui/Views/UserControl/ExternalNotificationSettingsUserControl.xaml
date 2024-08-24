@@ -31,16 +31,12 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel
+        <controls:TextBlock
             Grid.Row="0"
-            HorizontalAlignment="Center"
-            Orientation="Horizontal">
-            <controls:TextBlock
-                Margin="10"
-                Block.TextAlignment="Center"
-                Text="{DynamicResource ExternalNotificationTips}"
-                TextWrapping="Wrap" />
-        </StackPanel>
+            Width="450"
+            Margin="10"
+            Text="{DynamicResource ExternalNotificationTips}"
+            TextWrapping="Wrap" />
 
         <StackPanel
             Grid.Row="1"
