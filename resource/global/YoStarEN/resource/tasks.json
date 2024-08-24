@@ -2520,10 +2520,13 @@
         "text": ["Start"]
     },
     "Reclamation2StageFightConfirm": {
-        "text": ["Confirm"]
+        "text": ["Confirm", "Proceed"]
     },
     "Reclamation2StageLeaveConfirm": {
         "text": ["Are you sure you"]
+    },
+    "Reclamation2StageSquadClearConfirm": {
+        "text": ["Confirm"]
     },
     "Fire@Reclamation@BuyWaterProcedure": {
         "text": ["Skip", "Building materials", "Fresh Water", "Skip"]
