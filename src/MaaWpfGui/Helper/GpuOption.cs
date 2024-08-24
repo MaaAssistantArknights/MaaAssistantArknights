@@ -206,9 +206,12 @@ namespace MaaWpfGui.Helper
         private static bool CheckD3D12Support(IDXGIAdapter1 adapter, bool requireFL12 = false)
         {
             // using the same feature level as onnxruntime does
-            var hr = PInvoke.D3D12CreateDevice(adapter, requireFL12 ? D3D_FEATURE_LEVEL.D3D_FEATURE_LEVEL_12_0 : D3D_FEATURE_LEVEL.D3D_FEATURE_LEVEL_11_0, typeof(ID3D12Device).GUID, out Unsafe.NullRef<object>());
+            var hr = D3D12CreateDevice(adapter, requireFL12 ? D3D_FEATURE_LEVEL.D3D_FEATURE_LEVEL_12_0 : D3D_FEATURE_LEVEL.D3D_FEATURE_LEVEL_11_0, typeof(ID3D12Device).GUID, 0);
 
             return hr == HRESULT.S_FALSE;
+
+            [DllImport("d3d12.dll", ExactSpelling = true)]
+            static extern HRESULT D3D12CreateDevice([MarshalAs(UnmanagedType.IUnknown)] object pAdapter, D3D_FEATURE_LEVEL MinimumFeatureLevel, in Guid riid, nint ppDevice);
         }
 
         private static unsafe string? GetAdapterInstancePath(LUID luid)
