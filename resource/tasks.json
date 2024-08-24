@@ -10528,7 +10528,7 @@
         "action": "ClickSelf",
         "text": ["开", "启", "今", "日"],
         "roi": [519, 525, 261, 144],
-        "next": ["Reclamation2DeleteArchiveEnter"]
+        "next": ["Reclamation2DeleteArchiveEnter", "Reclamation2SkipDayBeginNewDay"]
     },
     "Reclamation2SkipDayClickContinue": {
         "algorithm": "OcrDetect",
