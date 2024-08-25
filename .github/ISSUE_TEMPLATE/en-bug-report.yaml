@@ -53,8 +53,9 @@ body:
       label: Log and config files
       description: >-
         **After closing MAA, upload the following three files:**
-        - the `asst.log` and `gui.log` log file in the `debug` folder, and indicate the approximate point in time when the problem occurred.
-        - the `gui.json` config file in the `config` folder
+        1. The `asst.log` and `gui.log` log file in the `debug` folder, and indicate the approximate point in time when the problem occurred.
+           If the asst.log file is less than 10 KB, you also need to upload the asst.log.bak file.
+        2. The `gui.json` config file in the `config` folder
         **Please drag and drop the full file in, not your own cuttings or copies;**
         **compress it before uploading if too large.**
       placeholder: |
@@ -74,9 +75,9 @@ body:
   - type: textarea
     id: screenshots
     attributes:
-      label: Screenshots
+      label: Screenshots or recordings
       description: >-
-        If available, add screenshots to help explain your problem,
+        If available, upload screenshots and recordings to help explain your problem,
         including but not limited to screenshots of MAA software,
         screenshots of game screens.
 
