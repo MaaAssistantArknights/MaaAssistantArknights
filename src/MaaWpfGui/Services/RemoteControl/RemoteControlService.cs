@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -40,18 +41,37 @@ namespace MaaWpfGui.Services.RemoteControl
     // ReSharper disable once ClassNeverInstantiated.Global
     public class RemoteControlService
     {
-        private readonly Task _pollJobTask = Task.CompletedTask;
+        private Task _pollJobTask = Task.CompletedTask;
         private readonly List<string> _enqueueTaskIds = new List<string>();
         private readonly ConcurrentQueue<JObject> _sequentialTaskQueue = new ConcurrentQueue<JObject>();
         private readonly ConcurrentQueue<JObject> _instantTaskQueue = new ConcurrentQueue<JObject>();
-        private readonly Task _executeSequentialJobTask = Task.CompletedTask;
-        private readonly Task _executeInstantJobTask = Task.CompletedTask;
+        private Task _executeSequentialJobTask = Task.CompletedTask;
+        private Task _executeInstantJobTask = Task.CompletedTask;
         private readonly RunningState _runningState;
+        private bool _inited = false;
 
         private string _currentSequentialTaskId = string.Empty;
 
         public RemoteControlService()
         {
+            InitializePollJobTask();
+            _runningState = RunningState.Instance;
+        }
+
+        public void InitializePollJobTask()
+        {
+            if (_inited)
+            {
+                return;
+            }
+
+            if (!IsEndpointValid(Instances.SettingsViewModel.RemoteControlGetTaskEndpointUri))
+            {
+                return;
+            }
+
+            _inited = true;
+
             _pollJobTask = _pollJobTask.ContinueWith(async _ =>
             {
                 while (true)
@@ -59,6 +79,13 @@ namespace MaaWpfGui.Services.RemoteControl
                     await Task.Delay(1000);
                     try
                     {
+                        if (!IsEndpointValid(Instances.SettingsViewModel.RemoteControlGetTaskEndpointUri))
+                        {
+                            Log.Logger.Information("RemoteControlGetTaskEndpointUri is not valid, return");
+                            _inited = false;
+                            return;
+                        }
+
                         await PollJobTaskLoop();
                     }
                     catch (Exception ex)
@@ -77,6 +104,12 @@ namespace MaaWpfGui.Services.RemoteControl
                     await Task.Delay(1000);
                     try
                     {
+                        if (!IsEndpointValid(Instances.SettingsViewModel.RemoteControlGetTaskEndpointUri))
+                        {
+                            Log.Logger.Information("RemoteControlGetTaskEndpointUri is not valid, return");
+                            return;
+                        }
+
                         await ExecuteSequentialJobLoop();
                     }
                     catch (Exception ex)
@@ -95,6 +128,12 @@ namespace MaaWpfGui.Services.RemoteControl
                     await Task.Delay(1000);
                     try
                     {
+                        if (!IsEndpointValid(Instances.SettingsViewModel.RemoteControlGetTaskEndpointUri))
+                        {
+                            Log.Logger.Information("RemoteControlGetTaskEndpointUri is not valid, return");
+                            return;
+                        }
+
                         await ExecuteInstantJobLoop();
                     }
                     catch (Exception ex)
@@ -105,8 +144,6 @@ namespace MaaWpfGui.Services.RemoteControl
 
                 // ReSharper disable once FunctionNeverReturns
             });
-
-            _runningState = RunningState.Instance;
         }
 
         #region Private Method Invoker
