@@ -39,6 +39,8 @@ namespace asst
         bool update_kills(const cv::Mat& reusable = cv::Mat());
         bool update_cost(const cv::Mat& reusable = cv::Mat());
 
+        cv::Mat get_top_view(const cv::Mat& cam_img, bool side = true);
+
         bool deploy_oper(const std::string& name, const Point& loc, battle::DeployDirection direction);
         bool retreat_oper(const std::string& name);
         bool retreat_oper(const Point& loc, bool manually = true);
