@@ -1,0 +1,26 @@
+// GpuOption
+CreateDXGIFactory2
+IDXGIFactory4
+DXGI_ERROR_NOT_FOUND
+IDXGIAdapter1
+D3D12CreateDevice
+ID3D12Device
+S_FALSE
+DisplayConfigGetDeviceInfo
+DISPLAYCONFIG_ADAPTER_NAME
+CM_Get_Device_Interface_Property
+CM_Get_DevNode_Property
+CM_Locate_DevNode
+CONFIGRET
+CM_LOCATE_DEVNODE_FLAGS
+DEVPKEY_Device_InstanceId
+DEVPKEY_Device_DriverDate
+DEVPKEY_Device_DriverVersion
+
+// MessageBoxHelper
+TaskDialogIndirect
+TD_INFORMATION_ICON
+TD_ERROR_ICON
+TD_WARNING_ICON
+TD_INFORMATION_ICON
+SHGetStockIconInfo
