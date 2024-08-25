@@ -10193,7 +10193,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["众人", "汇聚", "后舍"],
-        "roi": [633, 239, 275, 156],
+        "roi": [671, 285, 181, 63],
         "next": ["Reclamation2BeginStage", "Reclamation2StageEnter"]
     },
     "Reclamation2BeginStageLoading": {
