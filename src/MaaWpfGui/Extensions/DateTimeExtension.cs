@@ -55,5 +55,10 @@ namespace MaaWpfGui.Extensions
         {
             return dt is { Month: 4, Day: 1 };
         }
+
+        public static DateTime ToDateTime(this System.Runtime.InteropServices.ComTypes.FILETIME filetime)
+        {
+            return DateTime.FromFileTime(((long)filetime.dwHighDateTime << 32) | (uint)filetime.dwLowDateTime);
+        }
     }
 }
