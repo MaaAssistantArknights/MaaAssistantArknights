@@ -6516,7 +6516,8 @@
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
-        "roi": [0, 483, 1280, 200]
+        "roi": [0, 483, 1280, 200],
+        "postDelay": 500
     },
     "Roguelike@SquadDefault": {
         "Doc": "base_task",
