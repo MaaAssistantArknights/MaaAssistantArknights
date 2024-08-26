@@ -219,12 +219,8 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             exist_core.contains(strategy.core) &&              // core 在待部署区
             plain_oper(exist_core.at(strategy.core).role)) {   // core 是干员
             // 已经部署过的干员 core 出现在待部署区，可能是暴毙，重置当前格子的所有 strategies 信息
-            Log.warn(
-                __FUNCTION__,
-                "| Core",
-                strategy.core,
-                "is already deployed, reset all strategies in location",
-                strategy.location);
+            LogWarn << __FUNCTION__ << "| Core" << strategy.core
+                    << "is already deployed, reset all strategies in location" << strategy.location;
             for (int x : m_sss_combat_data.loc_stragegies[strategy.location]) {
                 auto& strategy_reset = m_sss_combat_data.strategies[x];
                 strategy_reset.core_deployed = false;
@@ -245,16 +241,11 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             continue;
         }
 #ifdef ASST_DEBUG
-        Log.debug(
-            __FUNCTION__,
-            "| Checking strategy at",
-            strategy.location,
-            "with core",
-            strategy.core,
-            "and tool_men",
-            strategy.required_tool_men | views::transform([](const auto& rolecounts) {
-                return asst::enum_to_string(rolecounts.first) + ": " + std::to_string(rolecounts.second);
-            }));
+        LogDebug << __FUNCTION__ << "| Checking strategy at" << strategy.location << "with core" << strategy.core
+                 << "and tool_men"
+                 << (strategy.required_tool_men | views::transform([](const auto& rolecounts) {
+                         return asst::enum_to_string(rolecounts.first) + ": " + std::to_string(rolecounts.second);
+                     }));
 #endif
         bool use_the_core =
             !strategy.core.empty() && exist_core.contains(strategy.core) && tool_men_done(strategy.required_tool_men);
