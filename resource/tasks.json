@@ -3051,8 +3051,9 @@
         "maskRange": [1, 255]
     },
     "DailyTask": {
-        "action": "ClickSelf",
-        "roi": [400, 0, 880, 100],
+        "baseTask": "WeeklyTask",
+        "template": "WeeklyTask",
+        "rectMove": [-150, 0, 100, 30],
         "next": ["ReceiveAward", "WeeklyTask"]
     },
     "WeeklyTask": {
