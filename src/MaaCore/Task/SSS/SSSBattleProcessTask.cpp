@@ -203,13 +203,14 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
         }
     }
 
-    auto plain_oper = [&](Role role) -> bool {
-        return role != Role::Drone && role != Role::Unknown;
-    };
     auto tool_men_done = [&](const RoleCounts& tool_men) -> bool {
         return ranges::all_of(tool_men | views::values, [](int counts) { return counts <= 0; });
     };
 
+    /* 不再检查干员是否暴毙
+    auto plain_oper = [&](Role role) -> bool {
+        return role != Role::Drone && role != Role::Unknown;
+    };
     for (Strategy& strategy :
          m_sss_combat_data.loc_stragegies | views::values | views::transform([&](const auto& locs) -> Strategy& {
              return m_sss_combat_data.strategies[locs.back()]; // 仅检查同格子最靠后的 strategy 的部署情况
@@ -228,6 +229,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             }
         }
     }
+    */
 
     // 同格子是否已经存在顺位靠前但未执行完毕的 strategy
     std::unordered_set<asst::Point> loc_with_strategy;
@@ -243,12 +245,12 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
 #ifdef ASST_DEBUG
         LogDebug << __FUNCTION__ << "| Checking strategy at" << strategy.location << "with core" << strategy.core
                  << "and tool_men"
-                 << (strategy.required_tool_men | views::transform([](const auto& rolecounts) {
+                 << (strategy.tool_men | views::transform([](const auto& rolecounts) {
                          return asst::enum_to_string(rolecounts.first) + ": " + std::to_string(rolecounts.second);
                      }));
 #endif
         bool use_the_core =
-            !strategy.core.empty() && exist_core.contains(strategy.core) && tool_men_done(strategy.required_tool_men);
+            !strategy.core.empty() && exist_core.contains(strategy.core) && tool_men_done(strategy.tool_men);
         if (use_the_core) {
             const auto& core = exist_core.at(strategy.core);
             if (!core.available) {
@@ -263,7 +265,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             return deploy_oper(strategy.core, strategy.location, strategy.direction) && update_deployment();
         }
 
-        auto required_roles_view = strategy.required_tool_men |
+        auto required_roles_view = strategy.tool_men |
                                    views::filter([](const auto& tool_man) { return tool_man.second > 0; }) |
                                    views::keys;
         auto required_roles = std::unordered_set(required_roles_view.begin(), required_roles_view.end());
@@ -277,9 +279,9 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                            !m_all_cores.contains(oper.name);     // 避免把 core 当作工具人部署
                 });
             available_iter != tool_men.end()) {
-            --strategy.required_tool_men[available_iter->role];
+            --strategy.tool_men[available_iter->role];
 
-            if (strategy.core.empty() && tool_men_done(strategy.required_tool_men)) {
+            if (strategy.core.empty() && tool_men_done(strategy.tool_men)) {
                 // 如果没有 core，且所有工具人都用完了，就直接算执行完毕
                 strategy.core_deployed = true;
             }

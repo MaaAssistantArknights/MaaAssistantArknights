@@ -229,18 +229,16 @@ namespace sss // 保全派驻
 struct Strategy
 {
     std::string core;
-    RoleCounts origin_tool_men; // 初始需要多少工具人
+    RoleCounts tool_men; // 初始需要多少工具人
     Point location;
     DeployDirection direction = DeployDirection::None;
 
-    mutable RoleCounts required_tool_men; // 当前还需要多少工具人才能部署 core，初始时与 tool_men 相同
-    mutable bool core_deployed = false; // 当前 strategy 是否已经完成，存在 core 时即 core 是否已经部署
+    bool core_deployed = false; // 当前 strategy 是否已经完成，存在 core 时即 core 是否已经部署
 };
 
 struct CombatData : public copilot::CombatData
 {
     std::vector</*const*/ Strategy> strategies;                 // 按顺序存储的 strategies
-    std::unordered_map<Point, std::vector<int>> loc_stragegies; // 按格子存储的 strategies (index)
     bool draw_as_possible = false;
     int retry_times = 0;
     std::vector<std::string> order_of_drops;
