@@ -2748,5 +2748,6 @@
     "official/Reclamation2SkipDayBeginNewDay": "a9f4f63d6cfa0dbd81dbd904747c3cb411e5323887f48a83a3c658ca2af9f2c4",
     "official/Reclamation2StageSquadQuit": "9e12cdc7908268c9233cf79cc0a6180625220445391af8684c47223d3c85b53e",
     "official/BattleSkillStopOnClick-TopView": "96380df6e33919e1f6846b02ca3b7077ce103ac69ce45d75442dd398fa769cc4",
-    "official/BattleSkillReadyOnClick-TopView": "f538a224cb8d02360d88687a7b09f95d65b47973aa31ab55c74c509a0fb1a696"
+    "official/BattleSkillReadyOnClick-TopView": "f538a224cb8d02360d88687a7b09f95d65b47973aa31ab55c74c509a0fb1a696",
+    "official/BattleSkillReadyOnClick-TopView2": "9de4d366eab581c30dfde35346a94197727a6397e7c8f99da07a828f70b89607"
 }
