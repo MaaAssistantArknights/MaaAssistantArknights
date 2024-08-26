@@ -20,9 +20,9 @@ bool asst::SSSBattleProcessTask::set_stage_name(const std::string& stage_name)
     }
     m_sss_combat_data = SSSCopilot.get_data(stage_name);
     ranges::transform(
-        m_sss_combat_data.strategies,
+        m_sss_combat_data.strategies | views::filter([](const auto& strategy) { return strategy.core.has_value(); }),
         std::inserter(m_all_cores, m_all_cores.begin()),
-        [](const auto& strategy) { return strategy.core; });
+        [](const auto& strategy) { return strategy.core.value(); });
     for (const auto& action : m_sss_combat_data.actions) {
         if (action.type == battle::copilot::ActionType::Deploy) {
             m_all_action_opers.emplace(action.name);
@@ -179,11 +179,9 @@ bool asst::SSSBattleProcessTask::wait_until_start(bool weak)
 
 bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
 {
-    /* 即使没 core 应该也能打吧
     if (m_all_cores.empty()) {
         return false;
     }
-    */
 
     cv::Mat image = reusable.empty() ? ctrler()->get_image() : reusable;
     if (!update_deployment_with_skip(image)) {
@@ -234,7 +232,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
     // 同格子是否已经存在顺位靠前但未执行完毕的 strategy
     std::unordered_set<asst::Point> loc_with_strategy;
     for (auto& strategy : m_sss_combat_data.strategies) {
-        if (strategy.core_deployed) {
+        if (strategy.all_deployed) {
             // 跳过已经执行完毕的 strategy
             continue;
         }
@@ -243,26 +241,35 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             continue;
         }
 #ifdef ASST_DEBUG
-        LogDebug << __FUNCTION__ << "| Checking strategy at" << strategy.location << "with core" << strategy.core
+        LogDebug << __FUNCTION__ << "| Checking strategy at" << strategy.location << "with core"
+                 << strategy.core.value_or("(empty)")
                  << "and tool_men"
                  << (strategy.tool_men | views::transform([](const auto& rolecounts) {
                          return asst::enum_to_string(rolecounts.first) + ": " + std::to_string(rolecounts.second);
                      }));
 #endif
         bool use_the_core =
-            !strategy.core.empty() && exist_core.contains(strategy.core) && tool_men_done(strategy.tool_men);
+            strategy.core.has_value() && exist_core.contains(strategy.core.value()) && tool_men_done(strategy.tool_men);
         if (use_the_core) {
-            const auto& core = exist_core.at(strategy.core);
+            const auto& core = exist_core.at(strategy.core.value());
             if (!core.available) {
                 Log.trace(__FUNCTION__, "| Core", core.name, "is not available, waiting");
                 // 直接返回，等费用，等下次循环处理部署逻辑
                 return false;
             }
-            strategy.core_deployed = true;
-            Log.info(__FUNCTION__, "| Deploy core", strategy.core, "at", strategy.location);
+            strategy.all_deployed = true;
+            strategy.core.reset();
+            Log.info(__FUNCTION__, "| Deploy core", strategy.core.value(), "at", strategy.location);
 
             // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
-            return deploy_oper(strategy.core, strategy.location, strategy.direction) && update_deployment();
+            if (auto it = m_all_cores.find(core.name); it != m_all_cores.end()) {
+                m_all_cores.erase(it);
+            }
+            else {
+                Log.error(__FUNCTION__, "| Core", core.name, " in strategy, but not found in all_cores");
+            }
+
+            return deploy_oper(strategy.core.value(), strategy.location, strategy.direction) && update_deployment();
         }
 
         auto required_roles_view = strategy.tool_men |
@@ -281,9 +288,9 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             available_iter != tool_men.end()) {
             --strategy.tool_men[available_iter->role];
 
-            if (strategy.core.empty() && tool_men_done(strategy.tool_men)) {
+            if (!strategy.core.has_value() && tool_men_done(strategy.tool_men)) {
                 // 如果没有 core，且所有工具人都用完了，就直接算执行完毕
-                strategy.core_deployed = true;
+                strategy.all_deployed = true;
             }
             Log.info(__FUNCTION__, "| Deploy tool_man", available_iter->name, "at", strategy.location);
 
@@ -299,7 +306,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
         }
 
         // 若有 core，则没有执行完毕时忽略同一格后续策略
-        if (!strategy.core.empty()) {
+        if (strategy.core.has_value()) {
             loc_with_strategy.emplace(strategy.location);
         }
         // 若没有 core，则允许在待部署区没有所需工具人时（不论费用是否转好），允许继续检查同一格后续策略

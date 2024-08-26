@@ -3,6 +3,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <optional>
 
 #include "AsstTypes.h"
 #include "Utils/NoWarningCVMat.h"
@@ -228,17 +229,17 @@ namespace sss // 保全派驻
 {
 struct Strategy
 {
-    std::string core;
+    std::optional<std::string> core;
     RoleCounts tool_men; // 初始需要多少工具人
     Point location;
     DeployDirection direction = DeployDirection::None;
 
-    bool core_deployed = false; // 当前 strategy 是否已经完成，存在 core 时即 core 是否已经部署
+    bool all_deployed = false; // 当前 strategy 是否已经完成
 };
 
 struct CombatData : public copilot::CombatData
 {
-    std::vector</*const*/ Strategy> strategies;                 // 按顺序存储的 strategies
+    std::vector</*const*/ Strategy> strategies; // 按顺序存储的 strategies
     bool draw_as_possible = false;
     int retry_times = 0;
     std::vector<std::string> order_of_drops;
