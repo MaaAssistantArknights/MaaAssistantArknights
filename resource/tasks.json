@@ -4641,7 +4641,7 @@
             "BattleSkillReadyOnClick-TopView2.png",
             "BattleSkillStopOnClick-TopView.png"
         ],
-        "templThreshold": [0.8, 0.9, 0.8]
+        "templThreshold": [0.8, 0.95, 0.8]
     },
     "BattleUseOper": {
         "algorithm": "JustReturn",
