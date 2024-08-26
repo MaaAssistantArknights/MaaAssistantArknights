@@ -454,3 +454,6 @@ tools/RoguelikeRecruitmentTool/output
 
 # 链接检查缓存
 .lycheecache
+
+# MaaDeps
+/MaaDeps/*
