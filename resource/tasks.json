@@ -6849,6 +6849,7 @@
         "next": ["Roguelike@Stages#next"]
     },
     "Roguelike@StageTraderRefreshWithDice": {
+        "template": "Roguelike@StageTraderRefresh.png",
         "action": "ClickSelf",
         "roi": [230, 47, 211, 139],
         "next": [
@@ -8510,11 +8511,13 @@
         "exceededNext": ["Sami@Roguelike@ExitThenAbandon", "Sami@Roguelike@NextLevelThenExit"]
     },
     "Sami@Roguelike@StageTraderRefresh": {
+        "template": "Roguelike@StageTraderRefresh.png",
         "action": "ClickSelf",
         "roi": [230, 73, 212, 141],
         "next": ["Sami@Roguelike@StageTraderRefreshConfirm"]
     },
     "Sami@Roguelike@StageTraderRefreshConfirm": {
+        "template": "Roguelike@StageTraderRefreshConfirm.png",
         "action": "ClickSelf",
         "postDelay": 500,
         "roi": [640, 414, 504, 154]
@@ -9933,11 +9936,13 @@
         "exceededNext": ["Sarkaz@Roguelike@ExitThenAbandon"]
     },
     "Sarkaz@Roguelike@StageTraderRefresh": {
+        "template": "Roguelike@StageTraderRefresh.png",
         "action": "ClickSelf",
         "roi": [230, 73, 212, 141],
         "next": ["Sarkaz@Roguelike@StageTraderRefreshConfirm"]
     },
     "Sarkaz@Roguelike@StageTraderRefreshConfirm": {
+        "template": "Roguelike@StageTraderRefreshConfirm.png",
         "action": "ClickSelf",
         "postDelay": 500,
         "roi": [640, 414, 504, 154]
