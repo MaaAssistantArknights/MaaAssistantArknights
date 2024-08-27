@@ -817,6 +817,20 @@
                     ]
                 },
                 {
+                    "name": "娜仁图亚",
+                    "skill": 2,
+                    "is_key": true,
+                    "recruit_priority": 581,
+                    "promote_priority": 500,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["水陈", "速狙", "益达"],
+                            "threshold": 1,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
                     "name": "能天使",
                     "skill": 3,
                     "alternate_skill": 2,
@@ -2895,6 +2909,9 @@
                 },
                 {
                     "name": "假日威龙陈"
+                },
+                {
+                    "name": "娜仁图亚"
                 },
                 {
                     "name": "能天使"
