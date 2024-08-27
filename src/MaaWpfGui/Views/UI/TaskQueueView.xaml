@@ -272,7 +272,7 @@
                     <userControl:ReclamationSettingsUserControl
                         s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
                         DataContext="{Binding TaskSettingDataContext}"
-                        Visibility="{c:Binding TaskSettingVisibilities.Reclamation2}" />
+                        Visibility="{c:Binding TaskSettingVisibilities.Reclamation}" />
                     <userControl:AfterActionUserControl
                         s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
                         DataContext="{Binding TaskSettingDataContext}"

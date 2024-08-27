@@ -560,7 +560,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (!(Instances.SettingsViewModel.ClientType is "txwy"))
             {
-                taskList.Add("ReclamationAlgorithm2");
+                taskList.Add("Reclamation");
             }
 
             var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[taskList.Count]);
@@ -801,8 +801,7 @@ namespace MaaWpfGui.ViewModels.UI
                 switch (item.OriginalName)
                 {
                     case "AutoRoguelike":
-                    case "ReclamationAlgorithm":
-                    case "ReclamationAlgorithm2":
+                    case "Reclamation":
                         continue;
                 }
 
@@ -905,8 +904,7 @@ namespace MaaWpfGui.ViewModels.UI
                     switch (item.OriginalName)
                     {
                         case "AutoRoguelike":
-                        case "ReclamationAlgorithm":
-                        case "ReclamationAlgorithm2":
+                        case "Reclamation":
                             item.IsChecked = false;
                             continue;
                     }
@@ -1117,12 +1115,8 @@ namespace MaaWpfGui.ViewModels.UI
                         taskRet &= AppendRoguelike();
                         break;
 
-                    case "ReclamationAlgorithm":
+                    case "Reclamation":
                         taskRet &= AppendReclamation();
-                        break;
-
-                    case "ReclamationAlgorithm2":
-                        taskRet &= AppendReclamation2();
                         break;
 
                     default:
@@ -1616,14 +1610,12 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static bool AppendReclamation()
         {
-            return Instances.AsstProxy.AsstAppendReclamation();
-        }
+            _ = int.TryParse(Instances.SettingsViewModel.ReclamationMode, out var mode);
 
-        private static bool AppendReclamation2()
-        {
-            return Instances.AsstProxy.AsstAppendReclamation2(
-                Instances.SettingsViewModel.Reclamation2ExEnable ? 1 : 0,
-                Instances.SettingsViewModel.Reclamation2ExProduct);
+            return Instances.AsstProxy.AsstAppendReclamation(
+                Instances.SettingsViewModel.ReclamationTheme,
+                mode,
+                Instances.SettingsViewModel.ReclamationToolToCraft);
         }
 
         [DllImport("User32.dll", EntryPoint = "FindWindow")]

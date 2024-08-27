@@ -89,6 +89,7 @@
     <ClInclude Include="Task\Reclamation\ReclamationConclusionReportPlugin.h" />
     <ClInclude Include="Task\Reclamation\ReclamationBattlePlugin.h" />
     <ClInclude Include="Task\Interface\ReclamationTask.h" />
+    <ClInclude Include="Task\Reclamation\ReclamationConfig.h" />
     <ClInclude Include="Task\BattleHelper.h" />
     <ClInclude Include="Task\Interface\SingleStepTask.h" />
     <ClInclude Include="Task\Interface\SSSCopilotTask.h" />
@@ -277,6 +278,7 @@
     <ClCompile Include="Task\Reclamation\ReclamationConclusionReportPlugin.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationBattlePlugin.cpp" />
     <ClCompile Include="Task\Interface\ReclamationTask.cpp" />
+    <ClCompile Include="Task\Reclamation\ReclamationConfig.cpp" />
     <ClCompile Include="Task\BattleHelper.cpp" />
     <ClCompile Include="Task\Interface\SingleStepTask.cpp" />
     <ClCompile Include="Task\Interface\SSSCopilotTask.cpp" />

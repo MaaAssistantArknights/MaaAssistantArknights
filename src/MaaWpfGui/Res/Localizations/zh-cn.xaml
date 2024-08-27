@@ -410,8 +410,11 @@
     <system:String x:Key="Mall">获取信用及购物</system:String>
     <system:String x:Key="Mission">领取奖励</system:String>
     <system:String x:Key="AutoRoguelike">自动肉鸽</system:String>
-    <system:String x:Key="ReclamationAlgorithm">生息演算·沙中之火</system:String>
-    <system:String x:Key="ReclamationAlgorithm2">生息演算·沙洲遗闻</system:String>
+    <system:String x:Key="Reclamation">生息演算</system:String>
+    <system:String x:Key="ReclamationTheme">生息演算主题</system:String>
+    <system:String x:Key="ReclamationThemeTales">沙洲遗闻</system:String>
+    <system:String x:Key="ReclamationModeProsperityNoSave">无存档，通过进出关卡刷生息点数</system:String>
+    <system:String x:Key="ReclamationModeProsperityInSave">有存档，通过合成支援道具刷生息点数</system:String>
     <system:String x:Key="OperNameLanguage">干员名称显示语言</system:String>
     <system:String x:Key="OperNameLanguageMAA">跟随MAA</system:String>
     <system:String x:Key="OperNameLanguageClient">跟随游戏客户端</system:String>
@@ -877,7 +880,7 @@
     </system:String>
     <system:String x:Key="ReclamationBePatient">牛牛，我太想进步了！你看，又急</system:String>
     <system:String x:Key="Reclamation2ExEnable">通过制造刷点数</system:String>
-    <system:String x:Key="Reclamation2ExProductTip">支援道具名称</system:String>
-    <system:String x:Key="Reclamation2ExProductPlaceholder">荧光棒</system:String>
+    <system:String x:Key="ReclamationToolToCraftTip">支援道具名称</system:String>
+    <system:String x:Key="ReclamationToolToCraftPlaceholder">荧光棒</system:String>
     <!--  !Reclamation  -->
 </ResourceDictionary>

@@ -2384,5 +2384,52 @@
     },
     "Reclamation2StageSquadClearConfirm": {
         "text": ["확인"]
+    },
+    "Tales@RA@PNS-Commence": {
+        "text": ["연", "산", "시", "작"]
+    },
+    "Tales@RA@PNS-ClickBaseCamp": {
+        "text": ["캠프", "만남", "광장"]
+    },
+    "Tales@RA@EnterNode": {
+        "text": ["작전", "개시"]
+    },
+    "Tales@RA@CancelEnterBuildMode": {
+        "text": ["건설", "하기"]
+    },
+    "Tales@RA@ClickShrubberyGalore": {
+        "text": ["채집터", "우거진", "숲"],
+        "ocrReplace": [
+            [".+터", "채집터"],
+            [".*거진.*", "우거진숲"]
+        ]
+    },
+    "Tales@RA@ConfirmSquad": {
+        "text": ["작전", "개시"]
+    },
+    "Tales@RA@ClickGatheringOfFeathers": {
+        "text": ["사냥터", "파울비스트의", "땅"]
+    },
+    "Tales@RA@FinishCalc": {
+        "text": ["탭하여", "계", "속"]
+    },
+    "Tales@RA@PIS-Resume": {
+        "text": ["계", "속", "하", "기"]
+    },
+    "Tales@RA@ResourceGained": {
+        "text": ["탭하여", "계", "속"]
+    },
+    "Tales@RA@ConfirmToLoadSave": {
+        "text": ["확인"]
+    },
+    "Tales@RA@PIS-ProsperityReachLimit-LoadSave": {
+        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
+        "doc": "Needs to be edited if confirmation window is removed later",
+        "sub": [
+            "Tales@RA@DialogConfirmYellow",
+            "Tales@RA@DialogConfirmRed",
+            "Tales@RA@SelectSecondLastSave",
+            "Tales@RA@ConfirmToLoadSave"
+        ]
     }
 }
