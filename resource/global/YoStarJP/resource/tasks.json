@@ -2833,5 +2833,15 @@
     },
     "Tales@RA@ConfirmToLoadSave": {
         "text": ["確定"]
+    },
+    "Tales@RA@PIS-ProsperityReachLimit-LoadSave": {
+        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
+        "doc": "Needs to be edited if confirmation window is removed later",
+        "sub": [
+            "Tales@RA@DialogConfirmYellow",
+            "Tales@RA@DialogConfirmRed",
+            "Tales@RA@SelectSecondLastSave",
+            "Tales@RA@ConfirmToLoadSave"
+        ]
     }
 }
