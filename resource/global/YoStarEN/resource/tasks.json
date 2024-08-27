@@ -2603,17 +2603,11 @@
     "Fire@Reclamation@TodoEnter": {
         "text": ["FIRE", "WITHIN", "THE", "SAND"]
     },
-    "Tales@RA@PNS-Commence": {
-        "text": ["Commence"]
-    },
-    "Tales@RA@PNS-ClickBaseCamp": {
-        "text": ["Gathering Grounds", "Base Camp"]
-    },
-    "Tales@RA@EnterNode": {
-        "text": ["Start"]
-    },
     "Tales@RA@CancelEnterBuildMode": {
         "text": ["Enter Build Mode"]
+    },
+    "Tales@RA@ClickGatheringOfFeathers": {
+        "text": ["Gathering of Feathers", "Hunting Zone"]
     },
     "Tales@RA@ClickShrubberyGalore": {
         "text": ["Shrubbery Galore", "Resource", "Zone"]
@@ -2621,20 +2615,14 @@
     "Tales@RA@ConfirmSquad": {
         "text": ["Start"]
     },
-    "Tales@RA@ClickGatheringOfFeathers": {
-        "text": ["Gathering of Feathers", "Hunting Zone"]
+    "Tales@RA@ConfirmToLoadSave": {
+        "text": ["Confirm"]
+    },
+    "Tales@RA@EnterNode": {
+        "text": ["Start"]
     },
     "Tales@RA@FinishCalc": {
         "text": ["Tap anywhere to continue"]
-    },
-    "Tales@RA@PIS-Resume": {
-        "text": ["Resume"]
-    },
-    "Tales@RA@ResourceGained": {
-        "text": ["Tap anywhere to continue"]
-    },
-    "Tales@RA@ConfirmToLoadSave": {
-        "text": ["Confirm"]
     },
     "Tales@RA@PIS-ProsperityReachLimit-LoadSave": {
         "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
@@ -2645,5 +2633,17 @@
             "Tales@RA@SelectSecondLastSave",
             "Tales@RA@ConfirmToLoadSave"
         ]
+    },
+    "Tales@RA@PIS-Resume": {
+        "text": ["Resume"]
+    },
+    "Tales@RA@PNS-ClickBaseCamp": {
+        "text": ["Gathering Grounds", "Base Camp"]
+    },
+    "Tales@RA@PNS-Commence": {
+        "text": ["Commence"]
+    },
+    "Tales@RA@ResourceGained": {
+        "text": ["Tap anywhere to continue"]
     }
 }
