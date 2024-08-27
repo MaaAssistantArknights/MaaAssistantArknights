@@ -1,11 +1,11 @@
 {
     "type": "SSS",
     "stage_name": "交战荒野",
-    "minimum_required": "v4.28.2",
+    "minimum_required": "v5.6.0",
     "doc": {
-        "title": "保全派驻-交战荒野-维什戴尔-澄闪-浊蒂-纯烬艾雅法拉兼容应急",
+        "title": "SSS_交战荒野-维什戴尔+澄闪+浊心斯卡蒂+纯烬艾雅法拉or流明-皇家科学院望远镜",
         "title_color": "dark",
-        "details": "注意：使用本作业需更新MAA资源版本到最新，不懂怎么更新加群1003478193，不更新用不了\n应急一命通关视频已上传，求三连\n目前只能手动编队，所有工具人请尽量选择费用低的干员，练度最好精二，最低精一满级\n请在确认导能原件选择【皇家科学院望远镜】、战术装备全选A、手动编队并阵容确认后，再点击开始\n作业作者：萨拉托加\n作业视频：【MAA保全派驻 交战荒野 维什戴尔+澄闪】 https://www.bilibili.com/video/BV14RpyeWEU8/?share_source=copy_web&vd_source=3fd5040fe25f6a00e19e6072bcccfa4e\nJSON作者：萨拉托加\n不包括核心选择的额外干员：\n先锋3（尽量不要选投锋，技能选不需要接敌就能自动回费的技能）\n术士6（尽量选20费左右的术士，如果选群法要带减费模组）\n重装4（优先选奶盾）\n狙击3（优先选速狙）\n有问题反馈进群1003478193，评论区反馈不一定能及时回复\n部分核心可根据自己需求修改作业文件替换（比如流明可替奶羊），但不可发上作业站，用此作业默认同意",
+        "details": "作业站代码：maa://40451\n应急一命通关视频已上传，求三连\n目前只能手动编队，所有工具人请尽量选择费用低的干员，练度最好精二，最低精一满级\n请在确认导能原件选择【皇家科学院望远镜】、战术装备全选A、手动编队并阵容确认后，再点击开始\n作业作者：萨拉托加\n作业视频：【MAA保全派驻 交战荒野 维什戴尔+澄闪】 https://www.bilibili.com/video/BV14RpyeWEU8/?share_source=copy_web&vd_source=3fd5040fe25f6a00e19e6072bcccfa4e\nJSON作者：萨拉托加\n不包括核心选择的额外干员：\n先锋3（选有不需要接敌就能回费的技能的先锋，不要选接敌回费的）\n术士6（尽量选20费左右的术士，如果选群法要带减费模组）\n重装4（优先选奶盾）\n狙击3（优先选速狙）\n如需完成其他导能原件任务，请在普通难度下选择对应的其他导能原件及对应干员（莱茵生命工具人选塞雷娅，伊芙利特，星源，道中抓麦哲伦，淬羽赫默，梅尔或替换掉一个工具人）\n有问题反馈进群1003478193，评论区反馈不一定能及时回复\n部分核心可根据自己需求修改作业文件替换（比如流明可替奶羊），但不可发上作业站，用此作业默认同意",
         "details_color": "dark"
     },
     "buff": "皇家科学院望远镜",
@@ -43,52 +43,28 @@
         "supporter": 0,
         "specialist": 0
     },
-    "drops": ["辅助", "无需增调干员", "重装", "狙击", "术师", "先锋", "战备激活阀", "专业显示模块"],
+    "drops": [
+        "无需增调干员",
+        "辅助",
+        "重装",
+        "狙击",
+        "术师",
+        "先锋",
+        "战备激活阀",
+        "专业显示模块",
+        "机密联络存储",
+        "加急许可条款"
+    ],
     "blacklist": [
         "罗比菈塔",
         "掠风",
         "白铁",
-        "桃金娘",
-        "极境",
-        "琴柳",
-        "风笛",
         "伺夜",
         "豆苗",
         "夜半",
         "缪尔赛思",
         "森蚺",
         "极光",
-        "梅尔",
-        "玛恩纳",
-        "龙舌兰",
-        "耀骑士临光",
-        "幽灵鲨",
-        "极境",
-        "焰影苇草",
-        "凯尔希",
-        "闪灵",
-        "夜莺",
-        "白面鸮",
-        "华法琳",
-        "赫默",
-        "蜜莓",
-        "刺玫",
-        "桑葚",
-        "明椒",
-        "图耶",
-        "微风",
-        "锡兰",
-        "絮雨",
-        "亚叶",
-        "濯尘芙蓉",
-        "调香师",
-        "褐果",
-        "嘉维尔",
-        "末药",
-        "清流",
-        "苏苏洛",
-        "安赛尔",
-        "芙蓉",
         "迷迭香",
         "早露",
         "菲亚梅塔",
@@ -133,6 +109,17 @@
         "石棉",
         "坚雷",
         "阿米娅",
+        "风笛",
+        "黑键",
+        "伊内丝",
+        "晓歌",
+        "格拉尼",
+        "苇草",
+        "野鬃",
+        "历阵锐枪芬",
+        "谜图",
+        "红豆",
+        "翎羽",
         "W",
         "U-Official",
         "12F",
@@ -157,6 +144,18 @@
                     "direction": "Up"
                 },
                 {
+                    "core": "皇家科学院望远镜",
+                    "tool_men": {},
+                    "location": [5, 5],
+                    "direction": "None"
+                },
+                {
+                    "core": "尖端研究成果共享终端",
+                    "tool_men": {},
+                    "location": [4, 5],
+                    "direction": "None"
+                },
+                {
                     "tool_men": {
                         "caster": 1
                     },
@@ -193,6 +192,12 @@
                     "direction": "Up"
                 },
                 {
+                    "core": "保全人才合作协议",
+                    "tool_men": {},
+                    "location": [6, 5],
+                    "direction": "Up"
+                },
+                {
                     "tool_men": {
                         "defender": 1
                     },
@@ -209,15 +214,7 @@
                 },
                 {
                     "tool_men": {
-                        "vanguard": 1,
-                        "defender": 1
-                    },
-                    "location": [1, 2],
-                    "direction": "Up"
-                },
-                {
-                    "tool_men": {
-                        "defender": 1
+                        "defender": 99
                     },
                     "location": [1, 2],
                     "direction": "Up"
@@ -242,13 +239,6 @@
             "actions": [
                 {
                     "type": "二倍速"
-                },
-                {
-                    "type": "Deploy",
-                    "name": "皇家科学院望远镜",
-                    "location": [3, 5],
-                    "direction": "None",
-                    "kills": 5
                 }
             ],
             "retry_times": 9
@@ -271,6 +261,18 @@
                     "direction": "Left"
                 },
                 {
+                    "core": "皇家科学院望远镜",
+                    "tool_men": {},
+                    "location": [5, 5],
+                    "direction": "None"
+                },
+                {
+                    "core": "尖端研究成果共享终端",
+                    "tool_men": {},
+                    "location": [4, 5],
+                    "direction": "None"
+                },
+                {
                     "tool_men": {
                         "vanguard": 1
                     },
@@ -309,6 +311,12 @@
                     "direction": "Left"
                 },
                 {
+                    "core": "保全人才合作协议",
+                    "tool_men": {},
+                    "location": [6, 3],
+                    "direction": "Right"
+                },
+                {
                     "core": "浊心斯卡蒂",
                     "tool_men": {
                         "caster": 1
@@ -318,15 +326,7 @@
                 },
                 {
                     "tool_men": {
-                        "vanguard": 1,
-                        "defender": 2
-                    },
-                    "location": [7, 3],
-                    "direction": "Left"
-                },
-                {
-                    "tool_men": {
-                        "defender": 1
+                        "defender": 99
                     },
                     "location": [7, 3],
                     "direction": "Left"
@@ -354,10 +354,15 @@
                 },
                 {
                     "type": "Deploy",
-                    "name": "皇家科学院望远镜",
-                    "location": [5, 5],
-                    "direction": "None",
-                    "kills": 5
+                    "name": "纯烬艾雅法拉",
+                    "location": [1, 5],
+                    "direction": "Left"
+                },
+                {
+                    "type": "SkillUsage",
+                    "name": "纯烬艾雅法拉",
+                    "skill_usage": 2,
+                    "skill_times": 1
                 }
             ],
             "retry_times": 9
@@ -380,6 +385,18 @@
                     "direction": "Up"
                 },
                 {
+                    "core": "皇家科学院望远镜",
+                    "tool_men": {},
+                    "location": [5, 5],
+                    "direction": "None"
+                },
+                {
+                    "core": "尖端研究成果共享终端",
+                    "tool_men": {},
+                    "location": [5, 6],
+                    "direction": "None"
+                },
+                {
                     "core": "澄闪",
                     "tool_men": {
                         "caster": 1,
@@ -387,6 +404,12 @@
                     },
                     "location": [3, 4],
                     "direction": "Up"
+                },
+                {
+                    "core": "保全人才合作协议",
+                    "tool_men": {},
+                    "location": [4, 1],
+                    "direction": "Down"
                 },
                 {
                     "core": "浊心斯卡蒂",
@@ -406,9 +429,7 @@
                 },
                 {
                     "core": "战备激活阀",
-                    "tool_men": {
-                        "caster": 0
-                    },
+                    "tool_men": {},
                     "location": [2, 3],
                     "direction": "Right"
                 },
@@ -421,7 +442,7 @@
                 },
                 {
                     "tool_men": {
-                        "defender": 2
+                        "defender": 99
                     },
                     "location": [4, 2],
                     "direction": "Up"
@@ -446,13 +467,6 @@
             "actions": [
                 {
                     "type": "二倍速"
-                },
-                {
-                    "type": "Deploy",
-                    "name": "皇家科学院望远镜",
-                    "location": [5, 5],
-                    "direction": "None",
-                    "kills": 5
                 }
             ],
             "retry_times": 9
@@ -475,18 +489,16 @@
                     "direction": "Right"
                 },
                 {
-                    "tool_men": {
-                        "caster": 1
-                    },
-                    "location": [3, 2],
-                    "direction": "Right"
+                    "core": "专业显示模块",
+                    "tool_men": {},
+                    "location": [4, 5],
+                    "direction": "None"
                 },
                 {
-                    "tool_men": {
-                        "supporter": 1
-                    },
-                    "location": [3, 1],
-                    "direction": "Right"
+                    "core": "尖端研究成果共享终端",
+                    "tool_men": {},
+                    "location": [4, 7],
+                    "direction": "None"
                 },
                 {
                     "tool_men": {
@@ -503,19 +515,38 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "战备激活阀",
+                    "core": "浊心斯卡蒂",
                     "tool_men": {
-                        "caster": 0
+                        "caster": 1
                     },
-                    "location": [3, 3],
-                    "direction": "Up"
+                    "location": [3, 1],
+                    "direction": "Right"
                 },
                 {
                     "core": "维什戴尔",
                     "tool_men": {
-                        "caster": 2
+                        "caster": 3
                     },
                     "location": [3, 2],
+                    "direction": "Right"
+                },
+                {
+                    "core": "战备激活阀",
+                    "tool_men": {},
+                    "location": [4, 6],
+                    "direction": "Left"
+                },
+                {
+                    "core": "加急许可条款",
+                    "tool_men": {},
+                    "location": [4, 6],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 1
+                    },
+                    "location": [2, 5],
                     "direction": "Right"
                 },
                 {
@@ -527,28 +558,11 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "浊心斯卡蒂",
-                    "tool_men": {
-                        "caster": 1
-                    },
-                    "location": [2, 5],
-                    "direction": "Right"
-                },
-                {
-                    "tool_men": {
-                        "vanguard": 1
-                    },
-                    "location": [4, 3],
-                    "direction": "Right",
-                    "kills": 19
-                },
-                {
                     "tool_men": {
                         "defender": 2
                     },
                     "location": [4, 3],
-                    "direction": "Right",
-                    "kills": 19
+                    "direction": "Right"
                 },
                 {
                     "tool_men": {
@@ -562,21 +576,20 @@
                         "defender": 99
                     },
                     "location": [4, 3],
-                    "direction": "Right",
-                    "kills": 19
+                    "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "supporter": 99
                     },
-                    "location": [3, 1],
+                    "location": [2, 5],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "caster": 99
                     },
-                    "location": [3, 1],
+                    "location": [2, 5],
                     "direction": "Right"
                 }
             ],
@@ -584,13 +597,6 @@
             "actions": [
                 {
                     "type": "二倍速"
-                },
-                {
-                    "type": "Deploy",
-                    "name": "专业显示模块",
-                    "location": [4, 5],
-                    "direction": "None",
-                    "kills": 1
                 }
             ],
             "retry_times": 9
@@ -609,8 +615,20 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [5, 5],
-                    "direction": "Up"
+                    "location": [5, 3],
+                    "direction": "Down"
+                },
+                {
+                    "core": "专业显示模块",
+                    "tool_men": {},
+                    "location": [9, 4],
+                    "direction": "None"
+                },
+                {
+                    "core": "尖端研究成果共享终端",
+                    "tool_men": {},
+                    "location": [9, 5],
+                    "direction": "None"
                 },
                 {
                     "core": "澄闪",
@@ -638,11 +656,9 @@
                 },
                 {
                     "core": "战备激活阀",
-                    "tool_men": {
-                        "caster": 0
-                    },
-                    "location": [6, 5],
-                    "direction": "Left"
+                    "tool_men": {},
+                    "location": [5, 2],
+                    "direction": "Down"
                 },
                 {
                     "tool_men": {
@@ -656,8 +672,14 @@
                     "tool_men": {
                         "caster": 2
                     },
-                    "location": [5, 5],
-                    "direction": "Up"
+                    "location": [5, 3],
+                    "direction": "Down"
+                },
+                {
+                    "core": "加急许可条款",
+                    "tool_men": {},
+                    "location": [2, 4],
+                    "direction": "Right"
                 },
                 {
                     "tool_men": {
@@ -668,7 +690,21 @@
                 },
                 {
                     "tool_men": {
-                        "defender": 2
+                        "defender": 1
+                    },
+                    "location": [3, 4],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "defender": 1
+                    },
+                    "location": [2, 5],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "defender": 1
                     },
                     "location": [3, 4],
                     "direction": "Right"
@@ -724,10 +760,15 @@
                 },
                 {
                     "type": "Deploy",
-                    "name": "专业显示模块",
-                    "location": [4, 4],
-                    "direction": "None",
-                    "kills": 5
+                    "name": "纯烬艾雅法拉",
+                    "location": [5, 6],
+                    "direction": "Left"
+                },
+                {
+                    "type": "SkillUsage",
+                    "name": "纯烬艾雅法拉",
+                    "skill_usage": 2,
+                    "skill_times": 2
                 }
             ],
             "retry_times": 9
@@ -778,41 +819,43 @@
                     "direction": "Down"
                 },
                 {
-                    "tool_men": {
-                        "vanguard": 1
-                    },
-                    "location": [3, 6],
-                    "direction": "Right"
+                    "core": "专业显示模块",
+                    "tool_men": {},
+                    "location": [1, 3],
+                    "direction": "None"
                 },
                 {
+                    "core": "尖端研究成果共享终端",
+                    "tool_men": {},
+                    "location": [1, 6],
+                    "direction": "None"
+                },
+                {
+                    "core": "澄闪",
                     "tool_men": {
+                        "sniper": 2,
                         "caster": 1
-                    },
-                    "location": [3, 5],
-                    "direction": "Right"
-                },
-                {
-                    "core": "纯烬艾雅法拉",
-                    "tool_men": {
-                        "caster": 0
                     },
                     "location": [2, 5],
                     "direction": "Right"
                 },
                 {
-                    "core": "战备激活阀",
-                    "tool_men": {
-                        "caster": 0
-                    },
-                    "location": [3, 4],
+                    "core": "加急许可条款",
+                    "tool_men": {},
+                    "location": [4, 2],
                     "direction": "Down"
                 },
                 {
-                    "core": "浊心斯卡蒂",
+                    "core": "纯烬艾雅法拉",
+                    "tool_men": {},
+                    "location": [2, 4],
+                    "direction": "Right"
+                },
+                {
                     "tool_men": {
-                        "caster": 2
+                        "vanguard": 1
                     },
-                    "location": [3, 4],
+                    "location": [3, 6],
                     "direction": "Right"
                 },
                 {
@@ -823,20 +866,32 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "维什戴尔",
                     "tool_men": {
-                        "caster": 2
+                        "caster": 1
+                    },
+                    "location": [3, 4],
+                    "direction": "Right"
+                },
+                {
+                    "core": "浊心斯卡蒂",
+                    "tool_men": {
+                        "caster": 1
                     },
                     "location": [3, 5],
                     "direction": "Right"
                 },
                 {
-                    "core": "澄闪",
+                    "core": "维什戴尔",
                     "tool_men": {
-                        "caster": 1,
-                        "sniper": 2
+                        "caster": 2
                     },
-                    "location": [2, 4],
+                    "location": [3, 4],
+                    "direction": "Right"
+                },
+                {
+                    "core": "战备激活阀",
+                    "tool_men": {},
+                    "location": [1, 5],
                     "direction": "Right"
                 },
                 {
@@ -914,13 +969,6 @@
             ],
             "draw_as_possible": true,
             "actions": [
-                {
-                    "type": "Deploy",
-                    "name": "专业显示模块",
-                    "location": [4, 4],
-                    "direction": "None",
-                    "kills": 1
-                },
                 {
                     "type": "二倍速",
                     "kills": 20
