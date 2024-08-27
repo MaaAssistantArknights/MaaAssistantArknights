@@ -274,6 +274,7 @@ Roguelike@MissionCompletedFlag.png
 Roguelike@StageEncounterGiveUpRecruitConfirm.png
 Roguelike@StageTraderInvest-Arrow.png
 Roguelike@StageTraderInvestSystemError.png
+Roguelike@StageTraderRefreshConfirm.png
 Roguelike@StageTraderRefreshWithDiceConfirm.png
 Roguelike@StageTraderRefreshWithDiceDoubleConfirm.png
 Roguelike@StageVerticalConfirm.png
