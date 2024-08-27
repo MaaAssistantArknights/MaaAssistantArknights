@@ -11592,7 +11592,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["开始演算"],
-        "roi": [1084, 620, 131, 50],
+        "roi": [1064, 620, 171, 50],
         "next": ["Tales@RA@PNS-Commence@NextAfterLoadingText", "Tales@RA@PNS-OpeningAnimation"]
     },
     "Tales@RA@PNS-OpeningAnimation": {
@@ -11881,7 +11881,7 @@
         "doc": "模板任务: 已完成生存周期, 点击 <点击任意处继续> 文字位置",
         "algorithm": "OcrDetect",
         "text": ["点击任意处继续"],
-        "roi": [526, 657, 228, 41],
+        "roi": [516, 647, 248, 61],
         "preDelay": 500,
         "action": "ClickSelf"
     },
@@ -11975,7 +11975,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["继续演算"],
-        "roi": [1084, 620, 131, 50],
+        "roi": [1064, 620, 171, 50],
         "next": ["Tales@RA@PIS-Workbench", "Tales@RA@PIS-Resume@NextAfterLoadingText"]
     },
     "Tales@RA@PIS-Workbench": {
