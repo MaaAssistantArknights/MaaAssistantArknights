@@ -332,7 +332,7 @@ namespace MaaWpfGui.Services.RemoteControl
                         case "LinkStart-Mall":
                         case "LinkStart-Mission":
                         case "LinkStart-AutoRoguelike":
-                        case "LinkStart-ReclamationAlgorithm":
+                        case "LinkStart-Reclamation":
                         case "Toolbox-GachaOnce":
                         case "Toolbox-GachaTenTimes":
                         case "CaptureImage":
@@ -389,7 +389,7 @@ namespace MaaWpfGui.Services.RemoteControl
                     case "LinkStart-Mall":
                     case "LinkStart-Mission":
                     case "LinkStart-AutoRoguelike":
-                    case "LinkStart-ReclamationAlgorithm":
+                    case "LinkStart-Reclamation":
                         {
                             await LinkStart(new[] { type.Split('-')[1] });
                             break;
@@ -680,12 +680,8 @@ namespace MaaWpfGui.Services.RemoteControl
                             taskRet &= InvokeStaticFunction<bool>(Instances.TaskQueueViewModel.GetType(), "AppendRoguelike");
                             break;
 
-                        case "ReclamationAlgorithm":
+                        case "Reclamation":
                             taskRet &= InvokeStaticFunction<bool>(Instances.TaskQueueViewModel.GetType(), "AppendReclamation");
-                            break;
-
-                        case "ReclamationAlgorithm2":
-                            taskRet &= InvokeStaticFunction<bool>(Instances.TaskQueueViewModel.GetType(), "AppendReclamation2");
                             break;
 
                         default:

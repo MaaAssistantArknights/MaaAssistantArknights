@@ -410,8 +410,11 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="Mall">Credit Store</system:String>
     <system:String x:Key="Mission">Collect Rewards</system:String>
     <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>
-    <system:String x:Key="ReclamationAlgorithm">Reclamation Algorithm</system:String>
-    <system:String x:Key="ReclamationAlgorithm2">Reclamation Algorithm 2</system:String>
+    <system:String x:Key="Reclamation">Reclamation Algorithm</system:String>
+    <system:String x:Key="ReclamationTheme">Reclamation Algorithm Theme</system:String>
+    <system:String x:Key="ReclamationThemeTales">Tales Within The Sand</system:String>
+    <system:String x:Key="ReclamationModeProsperityNoSave">I do not have a save, let's farm prosperity points by repeatedly entering and exiting stages.</system:String>
+    <system:String x:Key="ReclamationModeProsperityInSave">I do have a save, let's farm prosperity points by crafting tools.</system:String>
     <system:String x:Key="OperNameLanguage">Operator display language</system:String>
     <system:String x:Key="OperNameLanguageMAA">Follow MAA</system:String>
     <system:String x:Key="OperNameLanguageClient">Follow game client</system:String>
@@ -875,7 +878,7 @@ With save file: farm points through crafting (advanced).
     </system:String>
     <system:String x:Key="ReclamationBePatient">Chill and relax, please be patient</system:String>
     <system:String x:Key="Reclamation2ExEnable">Farm points through crafting</system:String>
-    <system:String x:Key="Reclamation2ExProductTip">Support prop name</system:String>
-    <system:String x:Key="Reclamation2ExProductPlaceholder">Glow Stick</system:String>
+    <system:String x:Key="ReclamationToolToCraftTip">Support prop name</system:String>
+    <system:String x:Key="ReclamationToolToCraftPlaceholder">Glow Stick</system:String>
     <!--  !Reclamation  -->
 </ResourceDictionary>

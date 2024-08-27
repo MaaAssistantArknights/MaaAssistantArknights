@@ -411,8 +411,11 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="Mall">크레딧 수급 및 상점</system:String>
     <system:String x:Key="Mission">보상 수령</system:String>
     <system:String x:Key="AutoRoguelike">통합전략</system:String>
-    <system:String x:Key="ReclamationAlgorithm">생존연산·모래 속의 불</system:String>
-    <system:String x:Key="ReclamationAlgorithm2">생존연산·사막 이야기</system:String>
+    <system:String x:Key="Reclamation">생존연산</system:String>
+    <system:String x:Key="ReclamationTheme">생존연산 테마</system:String>
+    <system:String x:Key="ReclamationThemeTales">사막 이야기</system:String>
+    <system:String x:Key="ReclamationModeProsperityNoSave">세이브 X, 스테이지 반복으로 번영의 선물 획득</system:String>
+    <system:String x:Key="ReclamationModeProsperityInSave">세이브 O, 도구 제작으로 번영의 선물 획득</system:String>
     <system:String x:Key="OperNameLanguage">간부 이름 표시 언어</system:String>
     <system:String x:Key="OperNameLanguageMAA">MAA 따라가기</system:String>
     <system:String x:Key="OperNameLanguageClient">게임 클라이언트 따라가기</system:String>
@@ -864,19 +867,19 @@ Only once가 체크되면 실행 후 Only once가 체크되기 전 상태로 작
 
 현재 생존연산 기능은 초기 단계이며, 다음 사항을 주의하세요:
 
- 저장 데이터 있음: 초회 상태에서 포인트를 모으기
+생존연산 메인 화면에서 작업을 시작해야 합니다
+
+ 세이브 O: 스테이지 반복으로 번영의 선물 획득
   1. 기존 데이터가 있는 경우 사용할 수 없습니다 (현재 데이터를 지우세요)
   2. 편성창이 비워있지 않으면 사용할 수 없습니다 (편성창을 비우세요)
-  3. 생존연산 메인 화면에서 작업을 시작해야 합니다
 
- 저장 데이터 없음: 제작을 통해 포인트를 모으기 (고급 설정)
+ 세이브 X: 도구 제작으로 번영의 선물 획득
   1. 결산 후 첫 번째 날이어야 하며, 이후 3일 이내에 적의 침입이 없어야 합니다
-  2. 반드시 지도 화면에서 실행해야 합니다 (주둔지가 보여야합니다)
-  3. 제조 가능한 수량이 99의 배수일 경우 멈출 수 있습니다. 저장하기 전에 재료를 약간 사용한 후에 다시 시도하세요
+  2. 제조 가능한 수량이 99의 배수일 경우 멈출 수 있습니다. 저장하기 전에 재료를 약간 사용한 후에 다시 시도하세요
     </system:String>
     <system:String x:Key="ReclamationBePatient">빨리 발전하고 싶어요! 또 급해져버렸네요</system:String>
     <system:String x:Key="Reclamation2ExEnable">제작 점수 획득 모드</system:String>
-    <system:String x:Key="Reclamation2ExProductTip">제작할 도구 이름</system:String>
-    <system:String x:Key="Reclamation2ExProductPlaceholder">형광봉 (荧光棒)</system:String>
+    <system:String x:Key="ReclamationToolToCraftTip">제작할 도구 이름</system:String>
+    <system:String x:Key="ReclamationToolToCraftPlaceholder">형광봉 (荧光棒)</system:String>
     <!--  !Reclamation  -->
 </ResourceDictionary>
