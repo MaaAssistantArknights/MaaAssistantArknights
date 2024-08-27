@@ -11715,7 +11715,13 @@
         ]
     },
     "Tales@RA@PNS-EnterNodeThenLeave": {
-        "doc": "进入区块节点, 如果当前编队规模大于等于7人则清空当前编队, 在编队界面点击 <开始行动> 后点击 <确认>",
+        "doc": [
+            "任务链",
+            "Step 1: 进入区块节点, 如果当前编队规模大于等于7人则清空当前编队, 在编队界面点击 <开始行动> 后点击 <确认>",
+            "Step 2: 在行动中点击左上角离开当前区块",
+            "Step 3: 确认离开当前区块",
+            "Step 4: 在行动结束界面点击左下角 <物资将送往仓库> 图标返回"
+        ],
         "baseTask": "Tales@RA@EnterNode",
         "sub": ["Tales@RA@PNS-ClearSquadIfSizeGE7", "Tales@RA@ConfirmSquad", "Tales@RA@DialogConfirmRed"],
         "next": [
