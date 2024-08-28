@@ -20,7 +20,7 @@ exclude:
       - scan/__tests__
       - vsts/lib
       - vsts/QodanaScan
-      - src/MaaWpfGui/Views
+      #- src/MaaWpfGui/Views
       - src/MaaCore
       - src/MaaWpfGui/MaaWpfGui.csproj
       - src/MaaWpfGui/app.manifest
