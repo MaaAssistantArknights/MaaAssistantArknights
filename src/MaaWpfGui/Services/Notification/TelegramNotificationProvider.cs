@@ -14,7 +14,6 @@
 #nullable enable
 
 using System;
-using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;

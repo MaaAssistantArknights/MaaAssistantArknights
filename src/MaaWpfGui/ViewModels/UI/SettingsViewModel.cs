@@ -465,7 +465,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _enabledExternalNotificationProviders, value);
                 var validProviders = value
-                    .Where(provider => ExternalNotificationProviders.Contains(provider?.ToString() ?? string.Empty))
+                    .Where(provider => ExternalNotificationProviders.Contains(provider.ToString() ?? string.Empty))
                     .Select(provider => provider.ToString())
                     .Distinct();
 

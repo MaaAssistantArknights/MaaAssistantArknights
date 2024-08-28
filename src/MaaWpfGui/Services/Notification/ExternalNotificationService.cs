@@ -14,7 +14,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Serilog;
 
@@ -59,8 +58,8 @@ namespace MaaWpfGui.Services.Notification
                 }
 
                 using var toast = new ToastNotification(
-                    LocalizationHelper.GetString(
-                        result ? "ExternalNotificationSendSuccess" : "ExternalNotificationSendFail"));
+                    enabledProvider + " " +
+                    LocalizationHelper.GetString(result ? "ExternalNotificationSendSuccess" : "ExternalNotificationSendFail"));
                 toast.Show();
             }
         }

@@ -5,15 +5,10 @@
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
-    xmlns:u="clr-namespace:MaaWpfGui.Utilities"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
-    xmlns:vm="clr-namespace:MaaWpfGui"
     d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
     mc:Ignorable="d">
     <Grid
@@ -43,8 +38,9 @@
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <hc:CheckComboBox
-                Width="300"
+                Width="200"
                 Margin="10"
+                HorizontalContentAlignment="Center"
                 hc:InfoElement.Placeholder="{DynamicResource Off}"
                 hc:InfoElement.Title="{DynamicResource ExternalNotificationEnabled}"
                 hc:InfoElement.TitlePlacement="Top"
