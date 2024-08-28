@@ -360,7 +360,8 @@
                 },
                 {
                     "name": "娜仁图亚",
-                    "skill": 2,
+                    "skill": 1,
+                    "skill_usage": 2,
                     "is_key": true,
                     "recruit_priority": 741,
                     "promote_priority": 700,
