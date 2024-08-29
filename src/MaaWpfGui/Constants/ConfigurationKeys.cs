@@ -266,8 +266,8 @@ namespace MaaWpfGui.Constants
         public const string ShowWindowBeforeForceScheduledStart = "Timer.ShowWindowBeforeForceScheduledStart";
         public const string CustomConfig = "Timer.CustomConfig";
 
-        public const string AnnouncementInfo = "Announcement.AnnouncementInfo";
-        public const string DoNotRemindThisAnnouncementAgain = "Announcement.DoNotRemindThisAnnouncementAgain";
-        public const string DoNotShowAnnouncement = "Announcement.DoNotShowAnnouncement";
+        // public const string AnnouncementInfo = "Announcement.AnnouncementInfo";// 已迁移
+        // public const string DoNotRemindThisAnnouncementAgain = "Announcement.DoNotRemindThisAnnouncementAgain";// 已迁移
+        // public const string DoNotShowAnnouncement = "Announcement.DoNotShowAnnouncement";// 已迁移
     }
 }
