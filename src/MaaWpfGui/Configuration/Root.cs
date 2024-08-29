@@ -28,6 +28,8 @@ namespace MaaWpfGui.Configuration
         [JsonInclude]
         public ObservableDictionary<int, Timer> Timers { get; private set; } = new ObservableDictionary<int, Timer>();
 
+        public int ConfigVersion { get; set; } = 5;
+
         public string Current { get; set; } = "Default";
 
         [JsonInclude]

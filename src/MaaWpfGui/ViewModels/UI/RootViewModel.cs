@@ -15,6 +15,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -114,7 +115,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _windowTitleScrollable, value);
         }
 
-        private bool _showCloseButton = !Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideCloseButton, bool.FalseString));
+        private bool _showCloseButton = !ConfigFactory.CurrentConfig.GUI.HideCloseButton;
 
         /// <summary>
         /// Gets or sets a value indicating whether to show close button.
