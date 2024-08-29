@@ -558,7 +558,7 @@ namespace MaaWpfGui.ViewModels.UI
                 "AutoRoguelike",
             ];
 
-            if (!(Instances.SettingsViewModel.ClientType is "txwy"))
+            if (Instances.SettingsViewModel.ClientType is not "txwy")
             {
                 taskList.Add("Reclamation");
             }
@@ -570,7 +570,11 @@ namespace MaaWpfGui.ViewModels.UI
                 var task = taskList[i];
                 bool parsed = int.TryParse(ConfigurationHelper.GetTaskOrder(task, "-1"), out var order);
 
-                var vm = new DragItemViewModel(LocalizationHelper.GetString(task), task, "TaskQueue.");
+                DragItemViewModel vm = new DragItemViewModel(
+                    LocalizationHelper.GetString(task),
+                    task,
+                    "TaskQueue.",
+                    task is not ("AutoRoguelike" or "Reclamation"));
 
                 if (task == TaskSettingVisibilityInfo.DefaultVisibleTaskSetting)
                 {
