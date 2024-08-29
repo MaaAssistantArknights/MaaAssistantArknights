@@ -68,7 +68,8 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
 
         for (const auto& strategy_info : stage.at("strategies").as_array()) {
             Strategy strategy;
-            strategy.core = strategy_info.get("core", std::string());
+            auto core = strategy_info.get("core", "");
+            strategy.core = core.empty() ? std::nullopt : std::make_optional(std::move(core));
             strategy.tool_men = CopilotConfig::parse_role_counts(strategy_info.at("tool_men"));
             strategy.location.x = strategy_info.at("location").at(0).as_integer();
             strategy.location.y = strategy_info.at("location").at(1).as_integer();
