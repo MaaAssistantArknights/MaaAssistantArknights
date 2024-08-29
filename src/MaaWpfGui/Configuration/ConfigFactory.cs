@@ -25,6 +25,7 @@ using ObservableCollections;
 using Serilog;
 
 [assembly: PropertyChanged.FilterType("MaaWpfGui.Configuration.")]
+
 namespace MaaWpfGui.Configuration
 {
     public static class ConfigFactory
@@ -46,7 +47,7 @@ namespace MaaWpfGui.Configuration
         // ReSharper disable once EventNeverSubscribedTo.Global
         public static event ConfigurationUpdateEventHandler ConfigurationUpdateEvent;
 
-        private static readonly JsonSerializerOptions _options = new JsonSerializerOptions { WriteIndented = true, Converters = { new JsonStringEnumConverter() } };
+        private static readonly JsonSerializerOptions _options = new() { WriteIndented = true, Converters = { new JsonStringEnumConverter() }, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
 
         private static readonly Lazy<Root> _rootConfig = new Lazy<Root>(() =>
         {
