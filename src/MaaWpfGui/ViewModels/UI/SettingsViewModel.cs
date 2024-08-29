@@ -4042,7 +4042,7 @@ namespace MaaWpfGui.ViewModels.UI
                 get => _emulatorPath;
                 set
                 {
-                    if (_enable && !Directory.Exists(value))
+                    if (_enable && !string.IsNullOrEmpty(value) && !Directory.Exists(value))
                     {
                         MessageBoxHelper.Show("MuMu Emulator 12 Path Not Found");
                         value = string.Empty;
