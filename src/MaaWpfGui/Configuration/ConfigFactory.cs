@@ -128,6 +128,7 @@ namespace MaaWpfGui.Configuration
 
                 parsed.Timers.CollectionChanged += OnCollectionChangedFactory<int, Timer>("Root.Timers.");
                 parsed.VersionUpdate.PropertyChanged += OnPropertyChangedFactory();
+                parsed.AnnouncementInfo.PropertyChanged += OnPropertyChangedFactory();
 
                 foreach (var keyValue in parsed.Configurations)
                 {
