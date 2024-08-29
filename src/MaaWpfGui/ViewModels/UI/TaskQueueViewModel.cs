@@ -522,7 +522,7 @@ namespace MaaWpfGui.ViewModels.UI
             LinkStart();
         }
 
-        private static async Task<bool> TimerCanceledAsync(string content = "", string tipContent = "", string buttonContent="", int seconds = 10)
+        private static async Task<bool> TimerCanceledAsync(string content = "", string tipContent = "", string buttonContent = "", int seconds = 10)
         {
             var delay = TimeSpan.FromSeconds(seconds);
             var dialogUserControl = new Views.UserControl.TextDialogWithTimerUserControl(
