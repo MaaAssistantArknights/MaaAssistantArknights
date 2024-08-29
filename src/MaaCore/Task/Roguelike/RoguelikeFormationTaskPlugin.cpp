@@ -188,7 +188,7 @@ bool asst::RoguelikeFormationTaskPlugin::analyze()
     });
     auto result_oper_list = formation_analyze_result | unique_filter | append_page_proj;
     ranges::move(result_oper_list, std::back_inserter(oper_list));
-    return reach_last_column;
+    return !reach_last_column;
 }
 
 bool asst::RoguelikeFormationTaskPlugin::select(RoguelikeFormationImageAnalyzer::FormationOper oper)
