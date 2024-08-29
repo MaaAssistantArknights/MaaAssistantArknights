@@ -559,7 +559,7 @@ comments:
     skip-if:
       - "Log upload failed"
   - name: Check Link
-    regexes: '(https?://(?!([^/]+\.)?(maa\.plus|prts\.plus|github\.com)(/|$|\s)).+|^(?=.*http)(?=.*(gcc\.|changeme)).+$)'
+    regexes: '(https?://(?!([^/]+\.)?(maa\.plus|prts\.plus|github\.com)(/|$|\s)).+|(?=.*http)(?=.*(gcc\.|changeme)))'
     content: "> [!Caution]\n存在未确认的链接，请谨慎访问。\n\
       There are unconfirmed links, please visit with caution.\n\n${body}"
     mode: update
