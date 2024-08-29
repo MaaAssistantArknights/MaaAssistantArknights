@@ -145,7 +145,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
     auto set_oper_name = [&](DeploymentOper& oper, const std::string& name) {
         oper.name = name;
         oper.location_type = BattleData.get_location_type(name);
-        oper.is_unusual_location = battle::get_role_usual_location(oper.role) == oper.location_type;
+        oper.is_usual_location = battle::get_role_usual_location(oper.role) == oper.location_type;
     };
 
     auto& cur_opers = oper_result_opt->deployment;
