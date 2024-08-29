@@ -259,7 +259,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             }
             strategy.all_deployed = true;
             strategy.core.reset();
-            Log.info(__FUNCTION__, "| Deploy core", strategy.core.value(), "at", strategy.location);
+            Log.info(__FUNCTION__, "| Deploy core", core.name, "at", strategy.location);
 
             // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
             if (auto it = m_all_cores.find(core.name); it != m_all_cores.end()) {
@@ -269,7 +269,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                 Log.error(__FUNCTION__, "| Core", core.name, " in strategy, but not found in all_cores");
             }
 
-            return deploy_oper(strategy.core.value(), strategy.location, strategy.direction) && update_deployment();
+            return deploy_oper(core.name, strategy.location, strategy.direction) && update_deployment();
         }
 
         auto required_roles_view = strategy.tool_men |
