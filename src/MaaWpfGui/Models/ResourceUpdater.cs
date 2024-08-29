@@ -20,6 +20,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -102,7 +103,7 @@ namespace MaaWpfGui.Models
 
         private static async Task<string> GetResourceApiAsync()
         {
-            string mirror = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ResourceApi, MaaUrls.MaaResourceApi);
+            string mirror = string.IsNullOrEmpty(ConfigFactory.Root.VersionUpdate.ResourceApi) ? MaaUrls.MaaResourceApi : ConfigFactory.Root.VersionUpdate.ResourceApi;
             if (mirror != MaaUrls.MaaResourceApi && await IsMirrorAccessibleAsync(mirror))
             {
                 return mirror;
@@ -132,7 +133,7 @@ namespace MaaWpfGui.Models
 
             if (mirror != MaaUrls.MaaResourceApi)
             {
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ResourceApi, mirror);
+                ConfigFactory.Root.VersionUpdate.ResourceApi = mirror;
             }
 
             return mirror;

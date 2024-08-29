@@ -14,7 +14,7 @@
 
 using System.ComponentModel;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Models;
+using MaaWpfGui.Models;using static MaaWpfGui.ViewModels.UI.TaskQueueViewModel;
 
 namespace MaaWpfGui.Configuration
 {
@@ -22,7 +22,7 @@ namespace MaaWpfGui.Configuration
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DarkModeType DarkMode { get; set; } = DarkModeType.SyncWithOs;
+        public DarkModeType DarkMode { get; set; } = DarkModeType.Light;
 
         public bool UseNotify { get; set; } = true;
 
@@ -30,9 +30,9 @@ namespace MaaWpfGui.Configuration
 
         public bool MinimizeToTray { get; set; } = false;
 
-        public bool HideCloseButton { get; set; } = false;
+        public bool MinimizeDirectly { get; set; } = false;
 
-        public bool UseLogItemDateFormat { get; set; } = false;
+        public bool HideCloseButton { get; set; } = false;
 
         public string LogItemDateFormat { get; set; } = "HH:mm:ss";
 
@@ -48,15 +48,13 @@ namespace MaaWpfGui.Configuration
 
         public bool CustomStageCode { get; set; } = false;
 
+        public ActionType ActionAfterCompleted { get; set; } = ActionType.DoNothing;
+
         public InverseClearType InverseClearMode { get; set; } = InverseClearType.Clear;
 
-        public string WindowTitlePrefix { get; set; } = string.Empty;
+        public InverseClearType InverseClearShow { get; set; } = InverseClearType.Clear;
 
-        // ReSharper disable once UnusedMember.Global
-        public void OnPropertyChanged(string propertyName, object before, object after)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));
-        }
+        public string WindowTitlePrefix { get; set; } = string.Empty;
 
         /// <summary>
         /// 表示深色模式的类型。
@@ -81,9 +79,26 @@ namespace MaaWpfGui.Configuration
 
         public enum InverseClearType
         {
+            /// <summary>
+            /// 清空
+            /// </summary>
             Clear = 0,
+
+            /// <summary>
+            /// 反选
+            /// </summary>
             Inverse,
+
+            /// <summary>
+            /// 二者可切
+            /// </summary>
             ClearInverse,
+        }
+
+        // ReSharper disable once UnusedMember.Global
+        public void OnPropertyChanged(string propertyName, object before, object after)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));
         }
     }
 }

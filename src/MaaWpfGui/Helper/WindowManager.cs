@@ -14,10 +14,9 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Windows;
-using MaaWpfGui.Constants;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Models;
 using MaaWpfGui.Views.UI;
-using Newtonsoft.Json;
 using Serilog;
 using Stylet;
 using Rect = MaaWpfGui.Models.Rect;
@@ -33,10 +32,10 @@ namespace MaaWpfGui.Helper
 
         private static readonly ILogger _logger = Log.ForContext<WindowManager>();
 
-        private readonly bool _loadWindowPlacement = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.LoadWindowPlacement, bool.TrueString));
-        private readonly bool _saveWindowPlacement = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.SaveWindowPlacement, bool.TrueString));
-        private readonly bool _minimizeDirectly = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeDirectly, bool.FalseString));
-        private readonly bool _minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
+        private readonly bool _loadWindowPlacement = ConfigFactory.CurrentConfig.GUI.LoadWindowPlacement;
+        private readonly bool _saveWindowPlacement = ConfigFactory.CurrentConfig.GUI.SaveWindowPlacement;
+        private readonly bool _minimizeDirectly = ConfigFactory.CurrentConfig.GUI.MinimizeDirectly;
+        private readonly bool _minimizeToTray = ConfigFactory.CurrentConfig.GUI.MinimizeToTray;
 
         /// <summary>
         /// Center other windows in MaaWpfGui.RootView
@@ -110,43 +109,19 @@ namespace MaaWpfGui.Helper
 
         private bool SetConfiguration(WindowPlacement wp)
         {
-            try
-            {
-                // 请在配置文件中修改该部分配置，暂不支持从GUI设置
-                // Please modify this part of configuration in the configuration file.
-                ConfigurationHelper.SetValue(ConfigurationKeys.LoadWindowPlacement, _loadWindowPlacement.ToString());
-                ConfigurationHelper.SetValue(ConfigurationKeys.SaveWindowPlacement, _saveWindowPlacement.ToString());
+            // 请在配置文件中修改该部分配置，暂不支持从GUI设置
+            // Please modify this part of configuration in the configuration file.
+            ConfigFactory.CurrentConfig.GUI.LoadWindowPlacement = _loadWindowPlacement;
+            ConfigFactory.CurrentConfig.GUI.SaveWindowPlacement = _saveWindowPlacement;
 
-                return ConfigurationHelper.SetValue(ConfigurationKeys.WindowPlacement, JsonConvert.SerializeObject(wp));
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e, "Failed to serialize json string to {Key}", ConfigurationKeys.WindowPlacement);
-            }
-
-            return false;
+            ConfigFactory.CurrentConfig.GUI.WindowPlacement = wp;
+            return true;
         }
 
         private static bool GetConfiguration(out WindowPlacement wp)
         {
-            wp = default;
-            var jsonStr = ConfigurationHelper.GetValue(ConfigurationKeys.WindowPlacement, string.Empty);
-            if (string.IsNullOrEmpty(jsonStr))
-            {
-                return false;
-            }
-
-            try
-            {
-                wp = JsonConvert.DeserializeObject<WindowPlacement?>(jsonStr) ?? throw new Exception("Failed to parse json string");
-                return true;
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e, "Failed to deserialize json string from {Key}", ConfigurationKeys.WindowPlacement);
-            }
-
-            return false;
+            wp = ConfigFactory.CurrentConfig.GUI.WindowPlacement ?? default;
+            return ConfigFactory.CurrentConfig.GUI.WindowPlacement == null;
         }
 
         public bool ForceShow(Window window)

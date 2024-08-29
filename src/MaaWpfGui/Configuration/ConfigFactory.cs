@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using MaaWpfGui.Helper;
 using ObservableCollections;
 using Serilog;
+using static MaaWpfGui.Configuration.SpecificConfig;
 
 [assembly: PropertyChanged.FilterType("MaaWpfGui.Configuration.")]
 
@@ -30,7 +31,7 @@ namespace MaaWpfGui.Configuration
 {
     public static class ConfigFactory
     {
-        private static readonly string _configurationFile = Path.Combine(Environment.CurrentDirectory, "config/gui.new.json");
+        private static readonly string _configurationFile = Path.Combine(Environment.CurrentDirectory, "config/gui_v5.json");
 
         // TODO: write backup method. WIP: https://github.com/Cryolitia/MaaAssistantArknights/tree/config
         // ReSharper disable once UnusedMember.Local
@@ -136,7 +137,7 @@ namespace MaaWpfGui.Configuration
                     keyValue.Value.GUI.PropertyChanged += OnPropertyChangedFactory(key);
                     keyValue.Value.DragItemIsChecked.CollectionChanged += OnCollectionChangedFactory<string, bool>(key + nameof(SpecificConfig.DragItemIsChecked) + ".");
                     keyValue.Value.InfrastOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.InfrastOrder) + ".");
-                    keyValue.Value.TaskQueueOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.TaskQueueOrder) + ".");
+                    keyValue.Value.TaskQueue.CollectionChanged += OnCollectionChangedFactory<BaseTask>(key + nameof(SpecificConfig.TaskQueue) + ".");
                 }
 
                 return parsed;
@@ -171,11 +172,11 @@ namespace MaaWpfGui.Configuration
             };
         }
 
-        private static NotifyCollectionChangedEventHandler<KeyValuePair<T1, T2>> OnCollectionChangedFactory<T1, T2>(string key)
+        private static NotifyCollectionChangedEventHandler<T> OnCollectionChangedFactory<T>(string key)
         {
-            return (in NotifyCollectionChangedEventArgs<KeyValuePair<T1, T2>> args) =>
+            return (in NotifyCollectionChangedEventArgs<T> args) =>
             {
-                OnPropertyChanged(key + args.NewItem.Key, null, args.NewItem.Value);
+                OnPropertyChanged(key + args.NewStartingIndex, null, args.NewItem);
             };
         }
 
@@ -198,7 +199,7 @@ namespace MaaWpfGui.Configuration
             }
         }
 
-        private static bool Save(string file = null)
+        public static bool Save(string file = null)
         {
             lock (_lock)
             {

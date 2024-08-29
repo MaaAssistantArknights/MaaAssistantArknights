@@ -33,6 +33,8 @@ namespace MaaWpfGui.Configuration
 
         public UpdateVersionType VersionType { get; set; } = UpdateVersionType.Stable;
 
+        public string ResourceApi { get; set; } = string.Empty;
+
         public bool UpdateCheck { get; set; } = true;
 
         public bool UpdateAutoCheck { get; set; } = false;
@@ -61,7 +63,7 @@ namespace MaaWpfGui.Configuration
             /// <summary>
             /// 开发版
             /// </summary>
-            Beta
+            Beta,
         }
     }
 }

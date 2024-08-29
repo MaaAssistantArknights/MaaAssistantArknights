@@ -12,6 +12,7 @@
 // </copyright>
 
 using System.Collections.Generic;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Helper;
 
 namespace MaaWpfGui.Constants
@@ -55,7 +56,7 @@ namespace MaaWpfGui.Constants
         public const string AdbMaaMirrorDownloadUrl = "https://ota.maa.plus/MaaAssistantArknights/api/binaries/adb-windows.zip";
         public const string GoogleAdbFilename = "adb-windows.zip";
 
-        private static string Language => ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
+        private static string Language => ConfigFactory.CurrentConfig.GUI.Localization;
 
         private const string MaaDocs = "https://maa.plus/docs";
 

@@ -12,10 +12,13 @@
 // </copyright>
 
 using System;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
+using static MaaWpfGui.Configuration.SpecificConfig;
+using static MaaWpfGui.Models.MaaTask;
 
 namespace MaaWpfGui.Models
 {
@@ -29,7 +32,7 @@ namespace MaaWpfGui.Models
         private bool _wakeUp;
         private bool _recruiting;
         private bool _base;
-        private bool _combat;
+        private bool _fight;
         private bool _mall;
         private bool _mission;
         private bool _autoRoguelike;
@@ -42,7 +45,7 @@ namespace MaaWpfGui.Models
 
         public bool Base { get => _base; set => SetAndNotify(ref _base, value); }
 
-        public bool Combat { get => _combat; set => SetAndNotify(ref _combat, value); }
+        public bool Combat { get => _fight; set => SetAndNotify(ref _fight, value); }
 
         public bool Mall { get => _mall; set => SetAndNotify(ref _mall, value); }
 
@@ -54,7 +57,61 @@ namespace MaaWpfGui.Models
 
         public bool AfterAction { get => _afterAction; set => SetAndNotify(ref _afterAction, value); }
 
-        public static TaskSettingVisibilityInfo Current { get; } = new();
+        public int CurrentIndex { get; set; }
+
+        public static TaskSettingVisibilityInfo Current { get; } = new TaskSettingVisibilityInfo();
+
+        public void Set(int taskIndex, bool enable)
+        {
+            CurrentIndex = taskIndex;
+            if (Guide && enable)
+            {
+                // TODO Config修复引导
+                // _currentEnableSetting = taskName;
+                enable = false;
+            }
+
+            switch (ConfigFactory.CurrentConfig.TaskQueue[taskIndex].TaskType)
+            {
+                case TaskTypeEnum.StartUp:
+                    WakeUp = enable;
+                    break;
+                case TaskTypeEnum.Recruit:
+                    Recruiting = enable;
+                    break;
+                case TaskTypeEnum.Infrast:
+                    Base = enable;
+                    break;
+                case TaskTypeEnum.Fight:
+                    Combat = enable;
+                    break;
+                case TaskTypeEnum.Mall:
+                    Mall = enable;
+                    break;
+                case TaskTypeEnum.Award:
+                    Mission = enable;
+                    break;
+                case TaskTypeEnum.Roguelike:
+                    AutoRoguelike = enable;
+                    break;
+            }
+
+            EnableAdvancedSettings = false;
+            if (Mission || WakeUp)
+            {
+                AdvancedSettingsVisibility = false;
+            }
+            else
+            {
+                AdvancedSettingsVisibility = true;
+            }
+
+            if (enable)
+            {
+                // Instances.SettingsViewModel.Refresh();
+                Instances.SettingsViewModel.RefreshUI(ConfigFactory.CurrentConfig.TaskQueue[taskIndex].TaskType);
+            }
+        }
 
         public void Set(string taskName, bool enable)
         {

@@ -19,6 +19,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 
@@ -71,7 +72,7 @@ namespace MaaWpfGui.Views.UI
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ExceptionDetails)));
             ShouldExit = shouldExit;
 
-            var isZhCn = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage) == "zh-cn";
+            var isZhCn = ConfigFactory.CurrentConfig.GUI.Localization == "zh-cn";
             ErrorQqGroupLink.Visibility = isZhCn ? Visibility.Visible : Visibility.Collapsed;
         }
 
