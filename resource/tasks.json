@@ -9351,9 +9351,7 @@
             "Sarkaz@Roguelike@GetDropSelect"
         ]
     },
-    "Sarkaz@Roguelike@GetDropSelectRecruit": {
-        "template": "Sarkaz@Roguelike@Recruit.png"
-    },
+    "Sarkaz@Roguelike@GetDropSelectRecruit": {},
     "Sarkaz@Roguelike@GetDropSelectReward": {},
     "Sarkaz@Roguelike@GetDrops": {
         "next": [
