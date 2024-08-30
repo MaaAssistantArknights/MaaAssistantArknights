@@ -1,16 +1,9 @@
 #include "ReclamationTask.h"
 
-#include "Common/AsstBattleDef.h"
-#include "Config/TaskData.h"
 #include "Task/ProcessTask.h"
 
 // 通用配置及插件
 #include "Task/Reclamation/ReclamationConfig.h"
-
-// 尚未启用的配置及插件
-#include "Task/Reclamation/ReclamationBattlePlugin.h"
-#include "Task/Reclamation/ReclamationConclusionReportPlugin.h"
-#include "Task/Reclamation/ReclamationControlTask.h"
 
 #include "Utils/Logger.hpp"
 
@@ -47,8 +40,6 @@ bool asst::ReclamationTask::set_params(const json::value& params)
         break;
     case ReclamationMode::ProsperityInSave:
         m_reclamation_task_ptr->set_tasks({ theme + "@RA@ProsperityInSave" });
-        const std::string& tool_to_craft = m_config_ptr->get_tool_to_craft();
-        Task.get<OcrTaskInfo>(theme + "@RA@PIS-ClickTool")->text = { tool_to_craft };
         break;
     }
 
