@@ -540,21 +540,23 @@
     <ClInclude Include="Task\Interface\SingleStepTask.h">
       <Filter>Source\Task\Interface</Filter>
     </ClInclude>
+    <!-- 生息演算 .h Begin -->
     <ClInclude Include="Task\Interface\ReclamationTask.h">
       <Filter>Source\Task\Interface</Filter>
     </ClInclude>
     <ClInclude Include="Task\Reclamation\ReclamationConfig.h">
       <Filter>Source\Task\Reclamation</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Reclamation\ReclamationBattlePlugin.h">
-      <Filter>Source\Task\Reclamation</Filter>
+    <ClInclude Include="Task\Reclamation\Deprecated\ReclamationBattlePlugin.h">
+      <Filter>Source\Task\Reclamation\Deprecated</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Reclamation\ReclamationConclusionReportPlugin.h">
-      <Filter>Source\Task\Reclamation</Filter>
+    <ClInclude Include="Task\Reclamation\Deprecated\ReclamationConclusionReportPlugin.h">
+      <Filter>Source\Task\Reclamation\Deprecated</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Reclamation\ReclamationControlTask.h">
-      <Filter>Source\Task\Reclamation</Filter>
+    <ClInclude Include="Task\Reclamation\Deprecated\ReclamationControlTask.h">
+      <Filter>Source\Task\Reclamation\Deprecated</Filter>
     </ClInclude>
+    <!-- 生息演算 .h End -->
     <ClInclude Include="Utils\File.hpp">
       <Filter>Source\Utils</Filter>
     </ClInclude>
@@ -1064,21 +1066,23 @@
     <ClCompile Include="Task\Interface\SingleStepTask.cpp">
       <Filter>Source\Task\Interface</Filter>
     </ClCompile>
+    <!-- 生息演算 .cpp Begin -->
     <ClCompile Include="Task\Interface\ReclamationTask.cpp">
       <Filter>Source\Task\Interface</Filter>
     </ClCompile>
     <ClCompile Include="Task\Reclamation\ReclamationConfig.cpp">
       <Filter>Source\Task\Reclamation</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Reclamation\ReclamationBattlePlugin.cpp">
-      <Filter>Source\Task\Reclamation</Filter>
+    <ClCompile Include="Task\Reclamation\Deprecated\ReclamationBattlePlugin.cpp">
+      <Filter>Source\Task\Reclamation\Deprecated</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Reclamation\ReclamationConclusionReportPlugin.cpp">
-      <Filter>Source\Task\Reclamation</Filter>
+    <ClCompile Include="Task\Reclamation\Deprecated\ReclamationConclusionReportPlugin.cpp">
+      <Filter>Source\Task\Reclamation\Deprecated</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Reclamation\ReclamationControlTask.cpp">
-      <Filter>Source\Task\Reclamation</Filter>
+    <ClCompile Include="Task\Reclamation\Deprecated\ReclamationControlTask.cpp">
+      <Filter>Source\Task\Reclamation\Deprecated</Filter>
     </ClCompile>
+    <!-- 生息演算 .cpp End -->
     <ClCompile Include="Controller\Controller.cpp">
       <Filter>Source\Controller</Filter>
     </ClCompile>
