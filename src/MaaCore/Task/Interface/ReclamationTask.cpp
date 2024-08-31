@@ -43,5 +43,13 @@ bool asst::ReclamationTask::set_params(const json::value& params)
         break;
     }
 
+    // 各生息演算插件根据 params 设置插件专用参数, 停用不应被启用的插件
+    for (const TaskPluginPtr& plugin : m_reclamation_task_ptr->get_plugins()) {
+        if (const auto& reclamation_task_plugin = std::dynamic_pointer_cast<AbstractReclamationTaskPlugin>(plugin);
+            reclamation_task_plugin != nullptr) {
+            reclamation_task_plugin->set_enable(reclamation_task_plugin->load_params(params));
+        }
+    }
+
     return true;
 }
