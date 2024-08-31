@@ -1,4 +1,4 @@
-﻿// <copyright file="VersionUpdate.cs" company="MaaAssistantArknights">
+// <copyright file="VersionUpdate.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -42,6 +42,8 @@ namespace MaaWpfGui.Configuration
         public bool AutoDownloadUpdatePackage { get; set; } = true;
 
         public bool AutoInstallUpdatePackage { get; set; } = false;
+
+        public bool DoNotShowUpdate { get; set; } = false;
 
         public void OnPropertyChanged(string propertyName, object before, object after)
         {

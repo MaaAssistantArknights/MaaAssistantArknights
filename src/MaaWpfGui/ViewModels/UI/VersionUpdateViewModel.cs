@@ -27,7 +27,6 @@ using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
-using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using MaaWpfGui.States;
 using Newtonsoft.Json;
@@ -181,9 +180,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         public bool CheckAndUpdateNow()
         {
-            if (UpdateTag == string.Empty
-                || UpdatePackageName == string.Empty
-                || !File.Exists(UpdatePackageName))
+            if (string.IsNullOrEmpty(UpdateTag) || string.IsNullOrEmpty(UpdatePackageName) || !File.Exists(UpdatePackageName))
             {
                 return false;
             }
@@ -422,7 +419,7 @@ namespace MaaWpfGui.ViewModels.UI
             Native,
         }
 
-        private bool _doNotShowUpdate = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateDoNotShowUpdate, bool.FalseString));
+        private bool _doNotShowUpdate = ConfigFactory.Root.VersionUpdate.DoNotShowUpdate;
 
         /// <summary>
         /// Gets or sets a value indicating whether to show the update.
@@ -433,7 +430,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _doNotShowUpdate, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdateDoNotShowUpdate, value.ToString());
+                ConfigFactory.Root.VersionUpdate.DoNotShowUpdate = value;
             }
         }
 
@@ -539,7 +536,8 @@ namespace MaaWpfGui.ViewModels.UI
                         {
                             Process.Start(new ProcessStartInfo(UpdateUrl) { UseShellExecute = true });
                         }
-                    });
+                    }
+                );
                 _ = Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification((otaFound ? LocalizationHelper.GetString("NewVersionFoundTitle") : LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);
