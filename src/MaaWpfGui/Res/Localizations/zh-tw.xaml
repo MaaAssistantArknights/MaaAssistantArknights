@@ -446,7 +446,7 @@
     <system:String x:Key="WaitAndStop">等待 &amp; 停止</system:String>
     <!--  戰鬥設定  -->
     <system:String x:Key="UseSanityPotion">吃理智藥</system:String>
-    <system:String x:Key="UseOriginitePrime">吃源石*</system:String>
+    <system:String x:Key="UseOriginitePrime">吃源石</system:String>
     <system:String x:Key="PerformBattles">指定次數</system:String>
     <system:String x:Key="AssignedMaterial">指定材料</system:String>
     <system:String x:Key="Quantity">刷取數量</system:String>

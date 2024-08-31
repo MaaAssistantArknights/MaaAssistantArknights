@@ -2880,6 +2880,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        public static string UseStoneString => LocalizationHelper.GetString("UseOriginitePrime");
+
         private bool? _useStoneWithNull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, bool.FalseString)) &&
                                           Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseStone, bool.FalseString));
 

@@ -447,7 +447,7 @@ Only once가 체크되면 실행 후 Only once가 체크되기 전 상태로 작
     <system:String x:Key="WaitAndStop">대기 &amp; 중지</system:String>
     <!--  작전 설정  -->
     <system:String x:Key="UseSanityPotion">이성 회복제 사용</system:String>
-    <system:String x:Key="UseOriginitePrime">순오리지늄 사용*</system:String>
+    <system:String x:Key="UseOriginitePrime">순오리지늄 사용</system:String>
     <system:String x:Key="PerformBattles">횟수 제한</system:String>
     <system:String x:Key="AssignedMaterial">드롭 제한</system:String>
     <system:String x:Key="Quantity">드롭 수</system:String>

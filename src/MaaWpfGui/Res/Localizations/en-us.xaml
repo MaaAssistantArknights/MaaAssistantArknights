@@ -444,7 +444,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="WaitAndStop">Wait &amp; Stop</system:String>
     <!--  FightSettings  -->
     <system:String x:Key="UseSanityPotion">Use Sanity Potion</system:String>
-    <system:String x:Key="UseOriginitePrime">Use Originium*</system:String>
+    <system:String x:Key="UseOriginitePrime">Use Originium</system:String>
     <system:String x:Key="PerformBattles">Perform Battles</system:String>
     <system:String x:Key="AssignedMaterial">Material</system:String>
     <system:String x:Key="Quantity">Quantity</system:String>

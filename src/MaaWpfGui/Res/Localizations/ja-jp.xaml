@@ -446,7 +446,7 @@
     <system:String x:Key="WaitAndStop">待機 &amp; 停止</system:String>
     <!--  戦闘設定  -->
     <system:String x:Key="UseSanityPotion">理性剤使用数</system:String>
-    <system:String x:Key="UseOriginitePrime">割る源石の数*</system:String>
+    <system:String x:Key="UseOriginitePrime">割る源石の数</system:String>
     <system:String x:Key="PerformBattles">周回数指定</system:String>
     <system:String x:Key="AssignedMaterial">素材の指定</system:String>
     <system:String x:Key="Quantity">ドロップ数</system:String>

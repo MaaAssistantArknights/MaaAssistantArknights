@@ -42,7 +42,7 @@
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
-                        Content="{DynamicResource UseOriginitePrime}"
+                        Content="{c:Binding 'UseStoneString + (TaskSettingDataContext.AllowUseStoneSave ? &quot;&quot; : &quot;*&quot;)'}"
                         IsChecked="{Binding UseStoneWithNull}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
