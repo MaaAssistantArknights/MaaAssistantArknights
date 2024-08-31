@@ -7,13 +7,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
-    xmlns:local="clr-namespace:MaaWpfGui"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
-    xmlns:vm="clr-namespace:MaaWpfGui"
     d:DataContext="{d:DesignInstance {x:Type ui:TaskQueueViewModel}}"
     d:DesignWidth="220"
     mc:Ignorable="d">
@@ -145,7 +141,7 @@
                         Value="{Binding DropsQuantity, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </Grid>
-            <Grid Grid.Row="2" Visibility="{c:Binding !HideSeries}">
+            <Grid Grid.Row="2" Visibility="{c:Binding !TaskSettingDataContext.HideSeries}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="100" />
                     <ColumnDefinition />
@@ -186,7 +182,7 @@
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
                     </Grid>
-                    <Grid Height="42" Visibility="{c:Binding UseAlternateStage}">
+                    <Grid Height="42" Visibility="{c:Binding TaskSettingDataContext.UseAlternateStage}">
                         <controls:TextBlock
                             Margin="6"
                             HorizontalAlignment="Center"
@@ -195,7 +191,7 @@
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
                     </Grid>
-                    <Grid Height="42" Visibility="{c:Binding UseAlternateStage}">
+                    <Grid Height="42" Visibility="{c:Binding TaskSettingDataContext.UseAlternateStage}">
                         <!--  a placeholder  -->
                         <controls:TextBlock
                             Margin="6"
@@ -230,9 +226,9 @@
                             SelectedValue="{Binding Stage1}"
                             SelectedValuePath="Value" />
                         <StackPanel
-                            IsEnabled="{c:Binding !UseAlternateStage}"
+                            IsEnabled="{c:Binding TaskSettingDataContext.UseAlternateStage}"
                             Orientation="Vertical"
-                            Visibility="{c:Binding !UseAlternateStage}">
+                            Visibility="{c:Binding TaskSettingDataContext.UseAlternateStage}">
                             <ComboBox
                                 Height="30"
                                 Margin="6"
@@ -277,9 +273,9 @@
                             Text="{Binding Stage1, UpdateSourceTrigger=PropertyChanged}"
                             ToolTip="{DynamicResource CustomStageCodeTip}" />
                         <StackPanel
-                            IsEnabled="{c:Binding UseAlternateStage}"
+                            IsEnabled="{c:Binding TaskSettingDataContext.UseAlternateStage}"
                             Orientation="Vertical"
-                            Visibility="{c:Binding UseAlternateStage}">
+                            Visibility="{c:Binding TaskSettingDataContext.UseAlternateStage}">
                             <TextBox
                                 Height="30"
                                 Margin="6"

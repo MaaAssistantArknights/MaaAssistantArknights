@@ -2499,8 +2499,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public static bool UseAlternateStage => TaskSettingDataContext.UseAlternateStage;
-
         private bool _useRemainingSanityStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, bool.TrueString));
 
         public bool UseRemainingSanityStage
@@ -2882,8 +2880,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public static bool AllowUseStoneSave => TaskSettingDataContext.AllowUseStoneSave;
-
         private bool? _useStoneWithNull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, bool.FalseString)) &&
                                           Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseStone, bool.FalseString));
 
@@ -2895,7 +2891,7 @@ namespace MaaWpfGui.ViewModels.UI
             get => _useStoneWithNull;
             set
             {
-                if (!AllowUseStoneSave && value == true)
+                if (!TaskSettingDataContext.AllowUseStoneSave && value == true)
                 {
                     value = null;
                 }
@@ -2914,7 +2910,7 @@ namespace MaaWpfGui.ViewModels.UI
                 NotifyOfPropertyChange(nameof(UseStone));
 
                 SetFightParams();
-                if (AllowUseStoneSave)
+                if (TaskSettingDataContext.AllowUseStoneSave)
                 {
                     ConfigurationHelper.SetValue(ConfigurationKeys.UseStone, (value ?? false).ToString());
                 }
@@ -2998,8 +2994,6 @@ namespace MaaWpfGui.ViewModels.UI
                 ConfigurationHelper.SetValue(ConfigurationKeys.TimesLimitedQuantity, MaxTimes);
             }
         }
-
-        public static bool HideSeries => TaskSettingDataContext.HideSeries;
 
         private string _series = ConfigurationHelper.GetValue(ConfigurationKeys.SeriesQuantity, "1");
 
