@@ -2451,7 +2451,7 @@ namespace MaaWpfGui.Main
         ///     </item>
         /// </list>
         /// </param>
-        /// <param name="toolToCraft">要合成的支援道具。</param>
+        /// <param name="toolToCraft">要组装的支援道具。</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendReclamation(string theme = "Tales", int mode = 1, string toolToCraft = "荧光棒")
         {
