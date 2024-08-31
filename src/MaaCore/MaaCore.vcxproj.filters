@@ -821,10 +821,10 @@
       <Filter>Source\Resource\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Config\Roguelike\Sami\RoguelikeFoldartalConfig.cpp">
-      <Filter>Source\Resource\Roguelike</Filter>
+      <Filter>Source\Resource\Roguelike\Sami</Filter>
     </ClCompile>
     <ClCompile Include="Config\Roguelike\Sami\RoguelikeCollapsalParadigmConfig.cpp">
-      <Filter>Source\Resource\Roguelike</Filter>
+      <Filter>Source\Resource\Roguelike\Sami</Filter>
     </ClCompile>
     <ClCompile Include="Config\Miscellaneous\BattleDataConfig.cpp">
       <Filter>Source\Resource\Miscellaneous</Filter>
