@@ -547,6 +547,9 @@
     <ClInclude Include="Task\Reclamation\ReclamationConfig.h">
       <Filter>Source\Task\Reclamation</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Reclamation\AbstractReclamationTaskPlugin.h">
+      <Filter>Source\Task\Reclamation</Filter>
+    </ClInclude>
     <ClInclude Include="Task\Reclamation\Deprecated\ReclamationBattlePlugin.h">
       <Filter>Source\Task\Reclamation\Deprecated</Filter>
     </ClInclude>
@@ -1071,6 +1074,9 @@
       <Filter>Source\Task\Interface</Filter>
     </ClCompile>
     <ClCompile Include="Task\Reclamation\ReclamationConfig.cpp">
+      <Filter>Source\Task\Reclamation</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Reclamation\AbstractReclamationTaskPlugin.cpp">
       <Filter>Source\Task\Reclamation</Filter>
     </ClCompile>
     <ClCompile Include="Task\Reclamation\Deprecated\ReclamationBattlePlugin.cpp">
