@@ -11682,7 +11682,7 @@
         "action": "ClickSelf"
     },
     "Tales@RA@IncreaseCraftAmount": {
-        "doc": "模板任务: 点击加号增加合成数量",
+        "doc": "模板任务: 点击加号增加组装数量",
         "roi": [860, 489, 73, 73],
         "action": "ClickSelf"
     },
@@ -11719,7 +11719,7 @@
         "roi": [559, 262, 162, 153]
     },
     "Tales@RA@PIS-ClickTool": {
-        "doc": "识别到要合成的道具后点击",
+        "doc": "识别到要组装的道具后点击",
         "algorithm": "OcrDetect",
         "text": ["荧光棒"],
         "roi": [274, 68, 960, 571],
@@ -11857,7 +11857,7 @@
         "next": ["Tales@RA@PIS-SelectTool"]
     },
     "Tales@RA@PIS-SelectTool": {
-        "doc": "选择要合成的道具",
+        "doc": "选择要组装的道具",
         "template": "Tales@RA@WorkbenchIcon.png",
         "roi": [50, 5, 60, 60],
         "next": ["Tales@RA@PIS-ClickTool", "Tales@RA@PIS-ScrollDown"]

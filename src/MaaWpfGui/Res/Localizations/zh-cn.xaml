@@ -415,7 +415,7 @@
     <system:String x:Key="ReclamationThemeFire">沙中之火</system:String>
     <system:String x:Key="ReclamationThemeTales">沙洲遗闻</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">无存档，通过进出关卡刷生息点数</system:String>
-    <system:String x:Key="ReclamationModeProsperityInSave">有存档，通过合成支援道具刷生息点数</system:String>
+    <system:String x:Key="ReclamationModeProsperityInSave">有存档，通过组装支援道具刷生息点数</system:String>
     <system:String x:Key="OperNameLanguage">干员名称显示语言</system:String>
     <system:String x:Key="OperNameLanguageMAA">跟随MAA</system:String>
     <system:String x:Key="OperNameLanguageClient">跟随游戏客户端</system:String>
