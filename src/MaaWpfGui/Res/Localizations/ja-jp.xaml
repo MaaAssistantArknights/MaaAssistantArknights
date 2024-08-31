@@ -412,6 +412,7 @@
     <system:String x:Key="AutoRoguelike">自動ローグ</system:String>
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="ReclamationTheme">主題</system:String>
+    <system:String x:Key="ReclamationThemeFire">砂中の火</system:String>
     <system:String x:Key="ReclamationThemeTales">熱砂秘聞</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">セーブせずに、出入りを繰り返して生息ポイントを稼ぐ</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">セーブしながら、支援アイテムを合成して生息ポイントを稼ぐ</system:String>

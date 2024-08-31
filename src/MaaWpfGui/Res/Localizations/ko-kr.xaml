@@ -413,6 +413,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="AutoRoguelike">통합전략</system:String>
     <system:String x:Key="Reclamation">생존연산</system:String>
     <system:String x:Key="ReclamationTheme">생존연산 테마</system:String>
+    <system:String x:Key="ReclamationThemeFire">모래 속의 불</system:String>
     <system:String x:Key="ReclamationThemeTales">사막 이야기</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">세이브 X, 스테이지 반복으로 번영의 선물 획득</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">세이브 O, 도구 제작으로 번영의 선물 획득</system:String>
