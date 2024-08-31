@@ -2494,7 +2494,7 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = LocalizationHelper.GetString("ReclamationThemeTales"), Value = "Tales" },
             ];
 
-        private string _reclamationTheme = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMode, "Tales");
+        private string _reclamationTheme = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationTheme, "Tales");
 
         /// <summary>
         /// Gets or sets the Reclamation theme.
