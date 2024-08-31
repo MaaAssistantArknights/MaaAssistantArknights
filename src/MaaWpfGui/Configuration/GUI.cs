@@ -14,7 +14,9 @@
 
 using System.ComponentModel;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Models;using static MaaWpfGui.ViewModels.UI.TaskQueueViewModel;
+using MaaWpfGui.Models;
+using static MaaWpfGui.Models.PostActionSetting;
+using static MaaWpfGui.ViewModels.UI.TaskQueueViewModel;
 
 namespace MaaWpfGui.Configuration
 {
@@ -48,7 +50,7 @@ namespace MaaWpfGui.Configuration
 
         public bool CustomStageCode { get; set; } = false;
 
-        public ActionType ActionAfterCompleted { get; set; } = ActionType.DoNothing;
+        public PostActions PostActions { get; set; } = PostActions.None;
 
         public InverseClearType InverseClearMode { get; set; } = InverseClearType.Clear;
 

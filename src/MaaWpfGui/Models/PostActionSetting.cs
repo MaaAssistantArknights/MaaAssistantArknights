@@ -15,9 +15,8 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Input;
-using MaaWpfGui.Constants;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Helper;
-using Newtonsoft.Json;
 using Stylet;
 
 namespace MaaWpfGui.Models;
@@ -391,13 +390,13 @@ public class PostActionSetting : PropertyChangedBase
     {
         if (!_once)
         {
-            ConfigurationHelper.SetValue(ConfigurationKeys.PostActions, JsonConvert.SerializeObject(_postActions));
+            ConfigFactory.CurrentConfig.GUI.PostActions = _postActions;
         }
     }
 
     public void LoadPostActions()
     {
-        _postActions = JsonConvert.DeserializeObject<PostActions>(ConfigurationHelper.GetValue(ConfigurationKeys.PostActions, "0"));
+        _postActions = ConfigFactory.CurrentConfig.GUI.PostActions;
         ExitArknights = _postActions.HasFlag(PostActions.ExitArknights);
         BackToAndroidHome = _postActions.HasFlag(PostActions.BackToAndroidHome);
         ExitEmulator = _postActions.HasFlag(PostActions.ExitEmulator);

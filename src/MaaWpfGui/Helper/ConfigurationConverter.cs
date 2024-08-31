@@ -23,7 +23,7 @@ using Serilog;
 using static MaaWpfGui.Configuration.GUI;
 using static MaaWpfGui.Configuration.VersionUpdate;
 using static MaaWpfGui.Models.MaaTask;
-using static MaaWpfGui.ViewModels.UI.TaskQueueViewModel;
+using static MaaWpfGui.Models.PostActionSetting;
 
 namespace MaaWpfGui.Helper
 {
@@ -97,7 +97,6 @@ namespace MaaWpfGui.Helper
                 ConfigFactory.Root.VersionUpdate.Package = ConfigurationHelper.GetValue(ConfigurationKeys.VersionUpdatePackage, string.Empty);
                 ConfigFactory.Root.VersionUpdate.VersionType = Enum.Parse<UpdateVersionType>(ConfigurationHelper.GetValue(ConfigurationKeys.VersionType, UpdateVersionType.Stable.ToString()));
 
-
                 // 不完全迁移，缺少Proxy更新后监听
                 ConfigFactory.Root.VersionUpdate.Proxy = ConfigurationHelper.GetValue(ConfigurationKeys.UpdateProxy, string.Empty);
                 ConfigFactory.Root.VersionUpdate.UpdateCheck = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UpdateCheck, bool.TrueString));
@@ -105,9 +104,8 @@ namespace MaaWpfGui.Helper
                 ConfigFactory.Root.VersionUpdate.ResourceApi = ConfigurationHelper.GetValue(ConfigurationKeys.ResourceApi, string.Empty);
                 ConfigFactory.Root.VersionUpdate.AutoInstallUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoInstallUpdatePackage, bool.FalseString));
                 ConfigFactory.Root.VersionUpdate.AutoDownloadUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoDownloadUpdatePackage, bool.TrueString));
+                ConfigFactory.Root.VersionUpdate.DoNotShowUpdate = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateDoNotShowUpdate, bool.FalseString));
             }
-
-            ConfigFactory.Root.AnnouncementInfo.Info = ConfigurationHelper.GetValue(ConfigurationKeys.AnnouncementInfo, string.Empty);
 
             foreach (var configName in ConfigurationHelper.GetConfigurationList())
             {
@@ -122,10 +120,7 @@ namespace MaaWpfGui.Helper
                     ConfigFactory.CurrentConfig.GUI.MinimizeToTray = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
                     ConfigFactory.CurrentConfig.GUI.MinimizeDirectly = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeDirectly, bool.FalseString));
 
-                    if (Enum.TryParse<ActionType>(ConfigurationHelper.GetValue(ConfigurationKeys.ActionAfterCompleted, ActionType.DoNothing.ToString()), true, out var actionAfterCompletedResult))
-                    {
-                        ConfigFactory.CurrentConfig.GUI.ActionAfterCompleted = actionAfterCompletedResult;
-                    }
+                    ConfigFactory.CurrentConfig.GUI.PostActions = JsonConvert.DeserializeObject<PostActions>(ConfigurationHelper.GetValue(ConfigurationKeys.PostActions, "0"));
 
                     if (Enum.TryParse<InverseClearType>(ConfigurationHelper.GetValue(ConfigurationKeys.InverseClearMode, "Clear"), true, out var inverseClearModeResult))
                     {
@@ -148,7 +143,7 @@ namespace MaaWpfGui.Helper
                     }
                     else
                     {
-                        ConfigFactory.CurrentConfig.GUI.LogItemDateFormat = "MM-dd HH:mm:ss";
+                        ConfigFactory.CurrentConfig.GUI.LogItemDateFormat = "HH:mm:ss";
                     }
 
                     var jsonStr = ConfigurationHelper.GetValue(ConfigurationKeys.WindowPlacement, string.Empty);
