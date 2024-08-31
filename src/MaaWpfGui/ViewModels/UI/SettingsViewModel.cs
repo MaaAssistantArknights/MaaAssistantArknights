@@ -2490,9 +2490,10 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets the list of reclamation themes.
         /// </summary>
         public List<CombinedData> ReclamationThemeList { get; } =
-            [
-                new() { Display = LocalizationHelper.GetString("ReclamationThemeTales"), Value = "Tales" },
-            ];
+        [
+            new() { Display = $"{LocalizationHelper.GetString("ReclamationThemeFire")} ({LocalizationHelper.GetString("ClosedStage")})", Value = "Fire" },
+            new() { Display = LocalizationHelper.GetString("ReclamationThemeTales"), Value = "Tales" },
+        ];
 
         private string _reclamationTheme = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationTheme, "Tales");
 

@@ -412,6 +412,7 @@
     <system:String x:Key="AutoRoguelike">自動肉鴿</system:String>
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="ReclamationTheme">生息演算主題</system:String>
+    <system:String x:Key="ReclamationThemeFire">沙中之火</system:String>
     <system:String x:Key="ReclamationThemeTales">沙洲遺聞</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">無存檔，通過進出關卡刷生息點數</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">有存檔，通過合成支援道具刷生息點數</system:String>
