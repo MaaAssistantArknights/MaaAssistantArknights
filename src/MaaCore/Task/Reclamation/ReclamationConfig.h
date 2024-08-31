@@ -6,8 +6,8 @@ namespace asst
 class ReclamationTheme
 {
 public:
-    static constexpr std::string_view Fire = "Fire";   // Fire Within The Sand
-    static constexpr std::string_view Tales = "Tales"; // Tales Within The Sand
+    static constexpr std::string_view Fire = "Fire";   // Fire Within the Sand
+    static constexpr std::string_view Tales = "Tales"; // Tales Within the Sand
 };
 
 enum class ReclamationMode // 对应 Roguelike Mode
