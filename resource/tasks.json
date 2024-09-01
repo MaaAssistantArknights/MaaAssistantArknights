@@ -11730,7 +11730,12 @@
         "doc": "点击开始组装图标",
         "baseTask": "Tales@RA@Craft",
         "template": "Tales@RA@Craft.png",
-        "next": ["Tales@RA@ResourceGained", "Tales@RA@PIS-Craft@NextAfterLoadingText"]
+        "next": ["Tales@RA@PIS-ResourceGained", "Tales@RA@PIS-Craft@NextAfterLoadingText"]
+    },
+    "Tales@RA@PIS-ResourceGained": {
+        "doc": "获得物资, 点击 <点击空白处继续> 文字位置",
+        "baseTask": "Tales@RA@ResourceGained",
+        "next": ["#self", "Stop"]
     },
     "Tales@RA@PIS-CraftAmountOcr": {
         "baseTask": "NumberOcrReplace",
