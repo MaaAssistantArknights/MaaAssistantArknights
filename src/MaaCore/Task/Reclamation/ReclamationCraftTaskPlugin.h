@@ -16,10 +16,18 @@ protected:
     virtual bool _run() override;
 
 private:
+    void increase_craft_amount(const int& amount = 99);
     bool calc_craft_amount(int& value);
 
     // ———————— constants and variables ———————————————————————————————————————————————
-    std::string m_tool_to_craft; // 要组装的支援道具
-    int m_num_craft_batches = 0; // 支援道具组装批次数, 每批组装 99 个
+    enum class IncrementMode     // 点击加号按钮增加组装数量的方式
+    {
+        Click = 0,
+        Hold = 1
+    };
+
+    std::string m_tool_to_craft = "荧光棒";                 // 要组装的支援道具
+    int m_num_craft_batches = 16;                          // 支援道具组装批次数, 每批组装 99 个
+    IncrementMode m_increment_mode = IncrementMode::Click; // 点击加号按钮增加组装数量的方式
 };
 } // namespace asst
