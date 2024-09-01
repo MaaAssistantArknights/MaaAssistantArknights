@@ -343,6 +343,8 @@
     <system:String x:Key="PromptRestartForSettingsChange">変更を適用するためにすぐに再起動しますか？</system:String>
     <system:String x:Key="SwitchResolutionTip">エミュレータの解像度を1920x1080に変更!</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">エミュレータが1920x1080に設定されていることを確認してください</system:String>
+    <system:String x:Key="AllowUseStoneSave">源石の数を割る保存状態を許可</system:String>
+    <system:String x:Key="AllowUseStoneSaveWarning">この機能は危険な機能と見なされます。「確認」ボタンを押すと、リスクを理解し、受け入れることに同意したと見なされます。</system:String>
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
     <system:String x:Key="UseRemainingSanityStage">余剰理性の使用</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">メインタスク終了後に指定されたステージを選択しても、理性剤も源石も使わない</system:String>
@@ -441,7 +443,7 @@
     <system:String x:Key="WaitAndStop">待機 &amp; 停止</system:String>
     <!--  戦闘設定  -->
     <system:String x:Key="UseSanityPotion">理性剤使用数</system:String>
-    <system:String x:Key="UseOriginitePrime">割る源石の数*</system:String>
+    <system:String x:Key="UseOriginitePrime">割る源石の数</system:String>
     <system:String x:Key="PerformBattles">周回数指定</system:String>
     <system:String x:Key="AssignedMaterial">素材の指定</system:String>
     <system:String x:Key="Quantity">ドロップ数</system:String>

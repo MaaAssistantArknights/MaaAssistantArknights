@@ -23,7 +23,6 @@ using System.IO.Compression;
 using System.Linq;
 using System.Management;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text.RegularExpressions;
@@ -3151,7 +3150,6 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _useAlternateStage, value);
-                Instances.TaskQueueViewModel.UseAlternateStage = value;
                 ConfigurationHelper.SetValue(ConfigurationKeys.UseAlternateStage, value.ToString());
                 if (value)
                 {
@@ -3170,6 +3168,18 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _useRemainingSanityStage, value);
                 Instances.TaskQueueViewModel.UseRemainingSanityStage = value;
                 ConfigurationHelper.SetValue(ConfigurationKeys.UseRemainingSanityStage, value.ToString());
+            }
+        }
+
+        private bool _allowUseStoneSave = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowUseStoneSave, bool.FalseString));
+
+        public bool AllowUseStoneSave
+        {
+            get => _allowUseStoneSave;
+            set
+            {
+                SetAndNotify(ref _allowUseStoneSave, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.AllowUseStoneSave, value.ToString());
             }
         }
 
@@ -3219,7 +3229,6 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _hideSeries, value);
-                Instances.TaskQueueViewModel.HideSeries = value;
                 ConfigurationHelper.SetValue(ConfigurationKeys.HideSeries, value.ToString());
             }
         }

@@ -343,6 +343,8 @@
     <system:String x:Key="PromptRestartForSettingsChange">是否立刻重啟應用更改？</system:String>
     <system:String x:Key="SwitchResolutionTip">將模擬器解析度更改為 1920x1080！</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">請確保模擬器設定為 1920x1080</system:String>
+    <system:String x:Key="AllowUseStoneSave">允許吃源石保存狀態</system:String>
+    <system:String x:Key="AllowUseStoneSaveWarning">該功能屬於危險功能。按下「確認」鍵即視為你了解並願意承擔可能出現的風險。</system:String>
     <system:String x:Key="UseAlternateStage">使用備選關卡</system:String>
     <system:String x:Key="UseRemainingSanityStage">使用剩餘理智</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">在完成主任務後刷取指定關卡，不使用理智藥 / 碎石</system:String>
@@ -441,7 +443,7 @@
     <system:String x:Key="WaitAndStop">等待 &amp; 停止</system:String>
     <!--  戰鬥設定  -->
     <system:String x:Key="UseSanityPotion">吃理智藥</system:String>
-    <system:String x:Key="UseOriginitePrime">吃源石*</system:String>
+    <system:String x:Key="UseOriginitePrime">吃源石</system:String>
     <system:String x:Key="PerformBattles">指定次數</system:String>
     <system:String x:Key="AssignedMaterial">指定材料</system:String>
     <system:String x:Key="Quantity">刷取數量</system:String>

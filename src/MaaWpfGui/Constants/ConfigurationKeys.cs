@@ -41,6 +41,7 @@ namespace MaaWpfGui.Constants
         public const string LoadWindowPlacement = "GUI.Placement.Load";
         public const string SaveWindowPlacement = "GUI.Placement.SaveOnClosing";
         public const string UseAlternateStage = "GUI.UseAlternateStage";
+        public const string AllowUseStoneSave = "GUI.AllowUseStoneSave";
         public const string HideUnavailableStage = "GUI.HideUnavailableStage";
         public const string HideSeries = "GUI.HideSeries";
         public const string CustomStageCode = "GUI.CustomStageCode";
@@ -208,6 +209,7 @@ namespace MaaWpfGui.Constants
         public const string Stage3 = "MainFunction.Stage3";
         public const string UseMedicine = "MainFunction.UseMedicine";
         public const string UseMedicineQuantity = "MainFunction.UseMedicine.Quantity";
+        public const string UseStone = "MainFunction.UseStone";
         public const string UseStoneQuantity = "MainFunction.UseStone.Quantity";
         public const string TimesLimited = "MainFunction.TimesLimited";
         public const string TimesLimitedQuantity = "MainFunction.TimesLimited.Quantity";
