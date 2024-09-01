@@ -1,8 +1,6 @@
 #include "AbstractReclamationTaskPlugin.h"
 
-using namespace asst;
-
-AbstractReclamationTaskPlugin::AbstractReclamationTaskPlugin(
+asst::AbstractReclamationTaskPlugin::AbstractReclamationTaskPlugin(
     const AsstCallback& callback,
     Assistant* inst,
     std::string_view task_chain,
