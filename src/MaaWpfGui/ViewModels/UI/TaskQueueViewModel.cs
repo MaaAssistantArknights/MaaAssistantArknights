@@ -2501,17 +2501,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _useAlternateStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseAlternateStage, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to use alternate stage.
-        /// </summary>
-        public bool UseAlternateStage
-        {
-            get => _useAlternateStage;
-            set => SetAndNotify(ref _useAlternateStage, value);
-        }
-
         private bool _useRemainingSanityStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, bool.TrueString));
 
         public bool UseRemainingSanityStage
@@ -2893,7 +2882,10 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool? _useStoneWithNull = false;
+        public static string UseStoneString => LocalizationHelper.GetString("UseOriginitePrime");
+
+        private bool? _useStoneWithNull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, bool.FalseString)) &&
+                                          Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseStone, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use originiums with null.
@@ -2903,19 +2895,29 @@ namespace MaaWpfGui.ViewModels.UI
             get => _useStoneWithNull;
             set
             {
+                if (!TaskSettingDataContext.AllowUseStoneSave && value == true)
+                {
+                    value = null;
+                }
+
                 SetAndNotify(ref _useStoneWithNull, value);
                 if (value != false)
                 {
                     MedicineNumber = "999";
                     if (!UseMedicine)
                     {
-                        UseMedicineWithNull = null;
+                        UseMedicineWithNull = value;
                     }
                 }
 
+                // IsEnabled="{c:Binding UseStone}"
                 NotifyOfPropertyChange(nameof(UseStone));
 
                 SetFightParams();
+                if (TaskSettingDataContext.AllowUseStoneSave)
+                {
+                    ConfigurationHelper.SetValue(ConfigurationKeys.UseStone, (value ?? false).ToString());
+                }
             }
         }
 
@@ -3017,17 +3019,6 @@ namespace MaaWpfGui.ViewModels.UI
                 SetFightParams();
                 ConfigurationHelper.SetValue(ConfigurationKeys.SeriesQuantity, value);
             }
-        }
-
-        private bool _hideSeries = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideSeries, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to hide series.
-        /// </summary>
-        public bool HideSeries
-        {
-            get => _hideSeries;
-            set => SetAndNotify(ref _hideSeries, value);
         }
 
         #region Drops
