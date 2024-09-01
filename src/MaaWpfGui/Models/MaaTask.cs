@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
 using System.Text.Json.Serialization;
 using MaaWpfGui.Helper;
 
@@ -194,24 +195,76 @@ namespace MaaWpfGui.Models
             /// </summary>
             StartUp = 0,
 
+            /// <summary>
+            /// 关闭明日方舟
+            /// </summary>
             CloseDown,
 
             /// <summary>
-            /// 刷理智。
+            /// 刷理智
             /// </summary>
             Fight,
+
+            /// <summary>
+            /// 领取奖励
+            /// </summary>
             Award,
+
+            /// <summary>
+            /// 信用商店
+            /// </summary>
             Mall,
+
+            /// <summary>
+            /// 基建
+            /// </summary>
             Infrast,
+
+            /// <summary>
+            /// 招募
+            /// </summary>
             Recruit,
+
+            /// <summary>
+            /// 肉鸽
+            /// </summary>
             Roguelike,
+
+            /// <summary>
+            /// 自动战斗
+            /// </summary>
             Copilot,
+
+            /// <summary>
+            /// 自动战斗-保全ver
+            /// </summary>
             SSSCopilot,
+
             SingleStep,
+
+            /// <summary>
+            /// 视频识别
+            /// </summary>
             VideoRecognition,
+
+            /// <summary>
+            /// 仓库识别
+            /// </summary>
             Depot,
+
+            /// <summary>
+            /// 干员识别
+            /// </summary>
             OperBox,
+
+            /// <summary>
+            /// 生息演算
+            /// </summary>
             Reclamation,
+
+            /// <summary>
+            /// 自定义任务
+            /// </summary>
             Custom,
         }
     }

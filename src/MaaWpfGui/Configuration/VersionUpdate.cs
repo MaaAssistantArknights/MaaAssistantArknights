@@ -10,15 +10,16 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-
+#nullable enable
 using System;
 using System.ComponentModel;
+using MaaWpfGui.Constants;
 
 namespace MaaWpfGui.Configuration
 {
     public class VersionUpdate : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         // The following should not be modified manually
         public string Name { get; set; } = string.Empty;
@@ -33,7 +34,7 @@ namespace MaaWpfGui.Configuration
 
         public UpdateVersionType VersionType { get; set; } = UpdateVersionType.Stable;
 
-        public string ResourceApi { get; set; } = string.Empty;
+        public string ResourceApi { get; set; } = MaaUrls.MaaResourceApi;
 
         public bool UpdateCheck { get; set; } = true;
 
