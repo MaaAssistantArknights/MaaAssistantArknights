@@ -32,9 +32,10 @@
                 IsChecked="{Binding UseTray}" />
             <CheckBox
                 Margin="10"
-                Visibility="{c:Binding UseTray,FalseToVisibility=Collapsed}"
                 Content="{DynamicResource MinimizeToTray}"
-                IsChecked="{Binding MinimizeToTray}" />
+                IsChecked="{Binding MinimizeToTray}"
+                Visibility="{c:Binding UseTray,
+                                       FalseToVisibility=Collapsed}" />
             <CheckBox
                 Margin="10"
                 Content="{DynamicResource SystemNotification}"
