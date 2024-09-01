@@ -1,9 +1,9 @@
-// <copyright file="ConfigurationConvert.cs" company="MaaAssistantArknights">
+// <copyright file="ConfigurationConverter.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -72,7 +73,7 @@ namespace MaaWpfGui.Helper
 
                 return result;
             }
-            else if (parsed["ConfigVersion"].Type == JTokenType.Integer)
+            else if (parsed["ConfigVersion"]?.Type == JTokenType.Integer)
             {
                 // 暂无意义
                 return true;
@@ -101,7 +102,7 @@ namespace MaaWpfGui.Helper
                 ConfigFactory.Root.VersionUpdate.Proxy = ConfigurationHelper.GetValue(ConfigurationKeys.UpdateProxy, string.Empty);
                 ConfigFactory.Root.VersionUpdate.UpdateCheck = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UpdateCheck, bool.TrueString));
                 ConfigFactory.Root.VersionUpdate.UpdateAutoCheck = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UpdateAutoCheck, bool.FalseString));
-                ConfigFactory.Root.VersionUpdate.ResourceApi = ConfigurationHelper.GetValue(ConfigurationKeys.ResourceApi, string.Empty);
+                ConfigFactory.Root.VersionUpdate.ResourceApi = ConfigurationHelper.GetValue(ConfigurationKeys.ResourceApi, MaaUrls.MaaResourceApi);
                 ConfigFactory.Root.VersionUpdate.AutoInstallUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoInstallUpdatePackage, bool.FalseString));
                 ConfigFactory.Root.VersionUpdate.AutoDownloadUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoDownloadUpdatePackage, bool.TrueString));
                 ConfigFactory.Root.VersionUpdate.DoNotShowUpdate = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateDoNotShowUpdate, bool.FalseString));
@@ -188,7 +189,7 @@ namespace MaaWpfGui.Helper
             return true;
         }
 
-        private static JObject ParseJsonFile(string filePath)
+        private static JObject? ParseJsonFile(string filePath)
         {
             if (File.Exists(filePath) is false)
             {
@@ -199,7 +200,7 @@ namespace MaaWpfGui.Helper
 
             try
             {
-                var obj = (JObject)JsonConvert.DeserializeObject(str);
+                var obj = (JObject?)JsonConvert.DeserializeObject(str);
                 return obj ?? throw new Exception("Failed to parse json file");
             }
             catch (Exception ex)
