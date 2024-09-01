@@ -852,10 +852,6 @@
     "VisitNextOcr": {
         "text": ["다음", "방문"]
     },
-    "Mall": {
-        "ocrReplace": [["구매센.*", "구매센터"]],
-        "text": ["구매센터"]
-    },
     "CreditStoreOcr": {
         "ocrReplace": [["크레.+", "크레딧"]],
         "text": ["크레딧"]
