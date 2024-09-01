@@ -33,6 +33,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using HandyControl.Controls;
 using HandyControl.Data;
+using HandyControl.Tools.Extension;
 using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
@@ -437,28 +438,109 @@ namespace MaaWpfGui.ViewModels.UI
                 true);
         }
 
-        public static List<CombinedData> ExternalNotificationProviders =>
+        public static readonly List<string> ExternalNotificationProviders =
         [
-            new CombinedData { Display = LocalizationHelper.GetString("Off"), Value = "Off" },
-            new CombinedData { Display = "Server Chan", Value = "ServerChan" },
-            new CombinedData { Display = "Telegram", Value = "Telegram" },
-            new CombinedData { Display = "Discord", Value = "Discord" },
-            new CombinedData { Display = "SMTP", Value = "SMTP" },
-            new CombinedData { Display = "Bark", Value = "Bark" },
-            new CombinedData { Display = "Qmsg", Value = "Qmsg" }
+            "ServerChan",
+            "Telegram",
+            "Discord",
+            "SMTP",
+            "Bark",
+            "Qmsg",
         ];
 
-        private string _enabledExternalNotificationProvider = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnabled, "Off");
+        public static List<string> ExternalNotificationProvidersShow => ExternalNotificationProviders;
 
-        public string EnabledExternalNotificationProvider
+        private object[] _enabledExternalNotificationProviders =
+            ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnabled, string.Empty)
+            .Split(',')
+            .Where(s => ExternalNotificationProviders.Contains(s.ToString()))
+            .Distinct()
+            .ToArray();
+
+        public object[] EnabledExternalNotificationProviders
         {
-            get => _enabledExternalNotificationProvider;
+            get => _enabledExternalNotificationProviders;
             set
             {
-                SetAndNotify(ref _enabledExternalNotificationProvider, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationEnabled, value);
+                SetAndNotify(ref _enabledExternalNotificationProviders, value);
+                var validProviders = value
+                    .Where(provider => ExternalNotificationProviders.Contains(provider.ToString() ?? string.Empty))
+                    .Select(provider => provider.ToString())
+                    .Distinct();
+
+                var config = string.Join(",", validProviders);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationEnabled, config);
+                UpdateExternalNotificationProvider();
             }
         }
+
+        public string[] EnabledExternalNotificationProviderList => EnabledExternalNotificationProviders
+            .Select(s => s.ToString() ?? string.Empty)
+            .ToArray();
+
+        #region External Enable
+
+        private bool _serverChanEnabled = false;
+
+        public bool ServerChanEnabled
+        {
+            get => _serverChanEnabled;
+            set => SetAndNotify(ref _serverChanEnabled, value);
+        }
+
+        private bool _telegramEnabled = false;
+
+        public bool TelegramEnabled
+        {
+            get => _telegramEnabled;
+            set => SetAndNotify(ref _telegramEnabled, value);
+        }
+
+        private bool _discordEnabled = false;
+
+        public bool DiscordEnabled
+        {
+            get => _discordEnabled;
+            set => SetAndNotify(ref _discordEnabled, value);
+        }
+
+        private bool _smtpEnabled = false;
+
+        public bool SmtpEnabled
+        {
+            get => _smtpEnabled;
+            set => SetAndNotify(ref _smtpEnabled, value);
+        }
+
+        private bool _barkEnabled = false;
+
+        public bool BarkEnabled
+        {
+            get => _barkEnabled;
+            set => SetAndNotify(ref _barkEnabled, value);
+        }
+
+        private bool _qmsgEnabled = false;
+
+        public bool QmsgEnabled
+        {
+            get => _qmsgEnabled;
+            set => SetAndNotify(ref _qmsgEnabled, value);
+        }
+
+        public void UpdateExternalNotificationProvider()
+        {
+            ServerChanEnabled = _enabledExternalNotificationProviders.Contains("ServerChan");
+            TelegramEnabled = _enabledExternalNotificationProviders.Contains("Telegram");
+            DiscordEnabled = _enabledExternalNotificationProviders.Contains("Discord");
+            SmtpEnabled = _enabledExternalNotificationProviders.Contains("SMTP");
+            BarkEnabled = _enabledExternalNotificationProviders.Contains("Bark");
+            QmsgEnabled = _enabledExternalNotificationProviders.Contains("Qmsg");
+        }
+
+        #endregion External Enable
+
+        #region External Notification Config
 
         private string _serverChanSendKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, string.Empty);
 
@@ -687,6 +769,8 @@ namespace MaaWpfGui.ViewModels.UI
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgBot, value);
             }
         }
+
+        #endregion External Notification Config
 
         #endregion External Notifications
 
@@ -4943,7 +5027,11 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _windowTitleAllShowList, value);
         }
 
-        private object[] _windowTitleSelectShowList = ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitleSelectShowList, "1 2 3 4").Split(' ').Select(s => _windowTitleAllShowDict.FirstOrDefault(pair => pair.Value == s).Key).ToArray();
+        private object[] _windowTitleSelectShowList = ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitleSelectShowList, "1 2 3 4")
+            .Split(' ')
+            .Where(s => _windowTitleAllShowDict.ContainsValue(s.ToString()))
+            .Select(s => _windowTitleAllShowDict.FirstOrDefault(pair => pair.Value == s).Key)
+            .ToArray();
 
         public object[] WindowTitleSelectShowList
         {

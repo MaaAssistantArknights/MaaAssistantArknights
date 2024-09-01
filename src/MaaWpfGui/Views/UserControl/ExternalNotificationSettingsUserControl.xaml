@@ -5,15 +5,10 @@
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
-    xmlns:u="clr-namespace:MaaWpfGui.Utilities"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
-    xmlns:vm="clr-namespace:MaaWpfGui"
     d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
     mc:Ignorable="d">
     <Grid
@@ -42,16 +37,16 @@
             Grid.Row="1"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
-            <hc:ComboBox
-                Width="300"
-                Height="30"
+            <hc:CheckComboBox
+                Width="200"
                 Margin="10"
                 HorizontalContentAlignment="Center"
+                hc:InfoElement.Placeholder="{DynamicResource Off}"
                 hc:InfoElement.Title="{DynamicResource ExternalNotificationEnabled}"
-                DisplayMemberPath="Display"
-                ItemsSource="{Binding ExternalNotificationProviders}"
-                SelectedValue="{Binding EnabledExternalNotificationProvider}"
-                SelectedValuePath="Value" />
+                hc:InfoElement.TitlePlacement="Top"
+                hc:ListBoxAttach.SelectedItems="{Binding EnabledExternalNotificationProviders}"
+                ItemsSource="{Binding ExternalNotificationProvidersShow}"
+                Style="{StaticResource CheckComboBoxExtend}" />
             <Button
                 Margin="5"
                 Command="{s:Action ExternalNotificationSendTest}"
@@ -62,7 +57,8 @@
         <StackPanel
             Grid.Row="2"
             Orientation="Vertical"
-            Visibility="{c:Binding 'EnabledExternalNotificationProvider == &quot;ServerChan&quot;'}">
+            Visibility="{c:Binding ServerChanEnabled}">
+            <hc:Divider Content="Server Chan" />
             <hc:TextBox
                 x:Name="ServerChanSendKey"
                 Width="400"
@@ -74,8 +70,51 @@
 
         <StackPanel
             Grid.Row="3"
+            Orientation="Vertical"
+            Visibility="{c:Binding TelegramEnabled}">
+            <hc:Divider Content="Telegram bot" />
+            <hc:TextBox
+                x:Name="TelegramBotToken"
+                Width="400"
+                Height="30"
+                Margin="10"
+                hc:InfoElement.Title="{DynamicResource ExternalNotificationTelegramBotToken}"
+                Text="{c:Binding TelegramBotToken}" />
+            <hc:TextBox
+                x:Name="TelegramChatId"
+                Width="400"
+                Height="30"
+                Margin="10"
+                hc:InfoElement.Title="{DynamicResource ExternalNotificationTelegramChatId}"
+                Text="{c:Binding TelegramChatId}" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="4"
+            Orientation="Vertical"
+            Visibility="{c:Binding DiscordEnabled}">
+            <hc:Divider Content="Discord" />
+            <hc:TextBox
+                x:Name="DiscordBotToken"
+                Width="400"
+                Height="30"
+                Margin="10"
+                hc:InfoElement.Title="{DynamicResource ExternalNotificationDiscordBotToken}"
+                Text="{c:Binding DiscordBotToken}" />
+            <hc:TextBox
+                x:Name="DiscordUserId"
+                Width="400"
+                Height="30"
+                Margin="10"
+                hc:InfoElement.Title="{DynamicResource ExternalNotificationDiscordUserId}"
+                Text="{c:Binding DiscordUserId}" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="5"
             HorizontalAlignment="Center"
-            Visibility="{c:Binding 'EnabledExternalNotificationProvider == &quot;SMTP&quot;'}">
+            Visibility="{c:Binding SmtpEnabled}">
+            <hc:Divider Content="SMPT" />
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -209,49 +248,10 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="4"
-            Orientation="Vertical"
-            Visibility="{c:Binding 'EnabledExternalNotificationProvider == &quot;Discord&quot;'}">
-            <hc:TextBox
-                x:Name="DiscordBotToken"
-                Width="400"
-                Height="30"
-                Margin="10"
-                hc:InfoElement.Title="{DynamicResource ExternalNotificationDiscordBotToken}"
-                Text="{c:Binding DiscordBotToken}" />
-            <hc:TextBox
-                x:Name="DiscordUserId"
-                Width="400"
-                Height="30"
-                Margin="10"
-                hc:InfoElement.Title="{DynamicResource ExternalNotificationDiscordUserId}"
-                Text="{c:Binding DiscordUserId}" />
-        </StackPanel>
-
-        <StackPanel
-            Grid.Row="5"
-            Orientation="Vertical"
-            Visibility="{c:Binding 'EnabledExternalNotificationProvider == &quot;Telegram&quot;'}">
-            <hc:TextBox
-                x:Name="TelegramBotToken"
-                Width="400"
-                Height="30"
-                Margin="10"
-                hc:InfoElement.Title="{DynamicResource ExternalNotificationTelegramBotToken}"
-                Text="{c:Binding TelegramBotToken}" />
-            <hc:TextBox
-                x:Name="TelegramChatId"
-                Width="400"
-                Height="30"
-                Margin="10"
-                hc:InfoElement.Title="{DynamicResource ExternalNotificationTelegramChatId}"
-                Text="{c:Binding TelegramChatId}" />
-        </StackPanel>
-
-        <StackPanel
             Grid.Row="6"
             Orientation="Vertical"
-            Visibility="{c:Binding 'EnabledExternalNotificationProvider == &quot;Bark&quot;'}">
+            Visibility="{c:Binding BarkEnabled}">
+            <hc:Divider Content="Bark" />
             <hc:TextBox
                 x:Name="BarkServer"
                 Width="400"
@@ -270,8 +270,9 @@
 
         <StackPanel
             Grid.Row="7"
-            Orientation="Horizontal"
-            Visibility="{c:Binding 'EnabledExternalNotificationProvider == &quot;Qmsg&quot;'}">
+            Orientation="Vertical"
+            Visibility="{c:Binding QmsgEnabled}">
+            <hc:Divider Content="Qmsg" />
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
