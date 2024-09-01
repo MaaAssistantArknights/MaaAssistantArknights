@@ -893,9 +893,6 @@
     "VisitNextOcr": {
         "text": ["Visit Next"]
     },
-    "Mall": {
-        "text": ["Store", "STORE"]
-    },
     "CreditStoreOcr": {
         "text": ["Credit Store"]
     },
