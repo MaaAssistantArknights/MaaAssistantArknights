@@ -2,9 +2,7 @@
 
 #include "Utils/Logger.hpp"
 
-using namespace asst;
-
-bool ReclamationConfig::verify_and_load_params(const json::value& params)
+bool asst::ReclamationConfig::verify_and_load_params(const json::value& params)
 {
     LogTraceFunction;
 
