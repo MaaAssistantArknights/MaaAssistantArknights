@@ -2534,11 +2534,20 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _reclamationToolToCraft = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationToolToCraft, "荧光棒");
+        private string _reclamationToolToCraft = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationToolToCraft, string.Empty);
 
         public string ReclamationToolToCraft
         {
-            get => _reclamationToolToCraft;
+            get
+            {
+                if (string.IsNullOrEmpty(_reclamationToolToCraft))
+                {
+                    return LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", _clientLanguageMapper[_clientType]);
+                }
+
+                return _reclamationToolToCraft;
+            }
+
             set
             {
                 SetAndNotify(ref _reclamationToolToCraft, value);
