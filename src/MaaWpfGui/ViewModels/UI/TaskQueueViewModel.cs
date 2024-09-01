@@ -225,6 +225,7 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
+                Bootstrapper.Release();
                 PowerManagement.Shutdown();
             }
         }
