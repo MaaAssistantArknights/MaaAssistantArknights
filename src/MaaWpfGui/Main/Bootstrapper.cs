@@ -217,15 +217,7 @@ namespace MaaWpfGui.Main
             */
 
             // MessageBox.Show("O(∩_∩)O 拜拜");
-            ETagCache.Save();
-            Instances.SettingsViewModel.Sober();
-            Instances.MaaHotKeyManager.Release();
-
-            // 关闭程序时清理操作中心中的通知
-            ToastNotification.Cleanup();
-
-            ConfigurationHelper.Release();
-            ConfigFactory.Release();
+            Release();
 
             _logger.Information("MaaAssistantArknights GUI exited");
             _logger.Information(string.Empty);
@@ -248,6 +240,19 @@ namespace MaaWpfGui.Main
             };
 
             Process.Start(startInfo);
+        }
+
+        public static void Release()
+        {
+            ETagCache.Save();
+            Instances.SettingsViewModel.Sober();
+            Instances.MaaHotKeyManager.Release();
+
+            // 关闭程序时清理操作中心中的通知
+            ToastNotification.Cleanup();
+
+            ConfigurationHelper.Release();
+            ConfigFactory.Release();
         }
 
         private static bool _isRestartingWithoutArgs;
