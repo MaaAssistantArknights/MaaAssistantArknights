@@ -2814,7 +2814,7 @@
         "text": ["作戦", "開始"]
     },
     "Tales@RA@ConfirmToLoadSave": {
-        "text": ["確定"]
+        "text": ["確認"]
     },
     "Tales@RA@EnterNode": {
         "text": ["行動", "開始"]
@@ -2842,6 +2842,7 @@
         "text": ["開", "始"]
     },
     "Tales@RA@ResourceGained": {
-        "text": ["空白", "箇所", "タップ", "続ける"]
+        "text": ["空白", "箇所", "タップ", "続ける"],
+        "roi": [480, 444, 320, 48]
     }
 }
