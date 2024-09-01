@@ -8,6 +8,7 @@
 * GetLocalizedNames for Infrast and Copilot output (#10335) @Constrat
 * Reclamation for YostarJP (#10414) @Manicsteiner
 * 生息演算添加沙中之火选择项 @ABA2396
+* 适配「词祭」界面主题 (#10331) @Constrat @ManicSteiner @HX3N @SherkeyXD
 
 ### 改进 | Improved
 
