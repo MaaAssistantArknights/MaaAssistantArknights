@@ -462,12 +462,6 @@
     <ClInclude Include="Task\Roguelike\Map\RoguelikeMap.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
-    <ClCompile Include="Task\Roguelike\Map\RoguelikeRoutingTaskPlugin.h">
-      <Filter>Source\Task\Roguelike</Filter>
-    </ClCompile>
-    <ClInclude Include="Task\Roguelike\Map\RoguelikeRoutingTask.h">
-      <Filter>Source\Task\Roguelike</Filter>
-    </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeControlTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
@@ -552,15 +546,6 @@
     </ClInclude>
     <ClInclude Include="Task\Reclamation\ReclamationCraftTaskPlugin.h">
       <Filter>Source\Task\Reclamation</Filter>
-    </ClInclude>
-    <ClInclude Include="Task\Reclamation\Deprecated\ReclamationBattlePlugin.h">
-      <Filter>Source\Task\Reclamation\Deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="Task\Reclamation\Deprecated\ReclamationConclusionReportPlugin.h">
-      <Filter>Source\Task\Reclamation\Deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="Task\Reclamation\Deprecated\ReclamationControlTask.h">
-      <Filter>Source\Task\Reclamation\Deprecated</Filter>
     </ClInclude>
     <!-- 生息演算 .h End -->
     <ClInclude Include="Utils\File.hpp">
@@ -740,6 +725,7 @@
     <ClInclude Include="Vision\Roguelike\RoguelikeParameterAnalyzer.h">
       <Filter>Source\Vision\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Roguelike\Map\RoguelikeRoutingTaskPlugin.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -825,12 +811,6 @@
     </ClCompile>
     <ClCompile Include="Config\Roguelike\RoguelikeStageEncounterConfig.cpp">
       <Filter>Source\Resource\Roguelike</Filter>
-    </ClCompile>
-    <ClCompile Include="Config\Roguelike\Sami\RoguelikeFoldartalConfig.cpp">
-      <Filter>Source\Resource\Roguelike\Sami</Filter>
-    </ClCompile>
-    <ClCompile Include="Config\Roguelike\Sami\RoguelikeCollapsalParadigmConfig.cpp">
-      <Filter>Source\Resource\Roguelike\Sami</Filter>
     </ClCompile>
     <ClCompile Include="Config\Miscellaneous\BattleDataConfig.cpp">
       <Filter>Source\Resource\Miscellaneous</Filter>
@@ -1085,15 +1065,6 @@
     <ClCompile Include="Task\Reclamation\ReclamationCraftTaskPlugin.cpp">
       <Filter>Source\Task\Reclamation</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Reclamation\Deprecated\ReclamationBattlePlugin.cpp">
-      <Filter>Source\Task\Reclamation\Deprecated</Filter>
-    </ClCompile>
-    <ClCompile Include="Task\Reclamation\Deprecated\ReclamationConclusionReportPlugin.cpp">
-      <Filter>Source\Task\Reclamation\Deprecated</Filter>
-    </ClCompile>
-    <ClCompile Include="Task\Reclamation\Deprecated\ReclamationControlTask.cpp">
-      <Filter>Source\Task\Reclamation\Deprecated</Filter>
-    </ClCompile>
     <!-- 生息演算 .cpp End -->
     <ClCompile Include="Controller\Controller.cpp">
       <Filter>Source\Controller</Filter>
@@ -1241,6 +1212,12 @@
     </ClCompile>
     <ClCompile Include="Vision\Roguelike\RoguelikeParameterAnalyzer.cpp">
       <Filter>Source\Vision\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Roguelike\Sami\RoguelikeCollapsalParadigmConfig.cpp">
+      <Filter>Source\Resource\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Roguelike\Sami\RoguelikeFoldartalConfig.cpp">
+      <Filter>Source\Resource\Roguelike</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
