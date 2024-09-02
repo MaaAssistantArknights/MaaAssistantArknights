@@ -726,7 +726,7 @@
       <Filter>Source\Vision\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="Task\Roguelike\Map\RoguelikeRoutingTaskPlugin.h">
-      <Filter>Source\Task\Reclamation</Filter>
+      <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
