@@ -2567,6 +2567,18 @@ namespace MaaWpfGui.ViewModels.UI
             new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeHold"), Value = "1" },
         ];
 
+        private string _reclamationMaxCraftCountPerRound = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, "16");
+
+        public int ReclamationMaxCraftCountPerRound
+        {
+            get => int.Parse(_reclamationMaxCraftCountPerRound);
+            set
+            {
+                SetAndNotify(ref _reclamationMaxCraftCountPerRound, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, value.ToString());
+            }
+        }
+
         #endregion
 
         #region 信用相关设置

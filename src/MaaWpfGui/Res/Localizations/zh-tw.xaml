@@ -419,6 +419,7 @@
     <system:String x:Key="ReclamationIncrementMode">增加方式</system:String>
     <system:String x:Key="ReclamationIncrementModeClick">連點</system:String>
     <system:String x:Key="ReclamationIncrementModeHold">長按</system:String>
+    <system:String x:Key="ReclamationMaxCraftCountPerRound">單次最大組裝輪數</system:String>
     <system:String x:Key="OperNameLanguage">幹員名稱顯示語言</system:String>
     <system:String x:Key="OperNameLanguageMAA">跟隨MAA</system:String>
     <system:String x:Key="OperNameLanguageClient">跟隨遊戲客戶端</system:String>

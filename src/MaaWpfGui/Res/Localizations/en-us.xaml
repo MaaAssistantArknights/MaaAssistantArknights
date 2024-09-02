@@ -419,6 +419,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="ReclamationIncrementMode">Increment Mode</system:String>
     <system:String x:Key="ReclamationIncrementModeClick">Click</system:String>
     <system:String x:Key="ReclamationIncrementModeHold">Hold</system:String>
+    <system:String x:Key="ReclamationMaxCraftCountPerRound">Max Craft Count Per Round</system:String>
     <system:String x:Key="OperNameLanguage">Operator display language</system:String>
     <system:String x:Key="OperNameLanguageMAA">Follow MAA</system:String>
     <system:String x:Key="OperNameLanguageClient">Follow game client</system:String>
