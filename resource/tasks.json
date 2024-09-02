@@ -594,32 +594,32 @@
         "text": ["泰拉饭", "走遍泰拉"],
         "next": ["DTChapterToDT"]
     },
-   "DTChapterToDT": {
+    "DTChapterToDT": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["品尝魔物","品尝","尝魔","魔物"],
+        "text": ["品尝魔物", "品尝", "尝魔", "魔物"],
         "preDelay": 3000,
         "roi": [1034, 466, 117, 35],
         "next": ["#self", "ChapterSwipeToTheRight"]
     },
     "DT-8@SideStoryStage": {
         "isAscii": false,
-        "text": ["罗","德","岛"],
+        "text": ["罗", "德", "岛"],
         "roi": [726, 395, 33, 33]
     },
     "DT-7@SideStoryStage": {
         "isAscii": false,
-        "text": ["健","康"],
+        "text": ["健", "康"],
         "roi": [730, 387, 37, 35]
     },
     "DT-6@SideStoryStage": {
         "isAscii": false,
-        "text": ["海","鲜"],
+        "text": ["海", "鲜"],
         "roi": [733, 359, 40, 33]
     },
     "DT-3@SideStoryStage": {
         "isAscii": false,
-        "text": ["黄","金"],
+        "text": ["黄", "金"],
         "roi": [744, 264, 38, 35]
     },
     "BP-5": {
