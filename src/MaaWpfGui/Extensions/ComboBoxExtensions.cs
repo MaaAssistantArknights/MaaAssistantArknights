@@ -31,7 +31,7 @@ namespace MaaWpfGui.Extensions
         /// <param name="targetComboBox">Target <seealso cref="ComboBox"/></param>
         public static void MakeComboBoxSearchable(this ComboBox targetComboBox)
         {
-            if (!(targetComboBox?.Template.FindName("PART_EditableTextBox", targetComboBox) is TextBox targetTextBox))
+            if (targetComboBox?.Template.FindName("PART_EditableTextBox", targetComboBox) is not TextBox targetTextBox)
             {
                 return;
             }

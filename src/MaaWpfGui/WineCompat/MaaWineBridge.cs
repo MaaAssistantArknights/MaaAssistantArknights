@@ -33,14 +33,7 @@ internal static class MaaWineBridge
 
         try
         {
-            if (dl_has_maacore() != 0)
-            {
-                Availability = WineBridgeAvailability.Operational;
-            }
-            else
-            {
-                Availability = WineBridgeAvailability.Faulted;
-            }
+            Availability = dl_has_maacore() != 0 ? WineBridgeAvailability.Operational : WineBridgeAvailability.Faulted;
         }
         catch
         {
