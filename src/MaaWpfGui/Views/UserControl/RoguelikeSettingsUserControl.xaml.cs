@@ -14,9 +14,7 @@
 
 using System;
 using System.Globalization;
-using System.Reflection;
 using System.Windows.Controls;
-using System.Windows.Data;
 using MaaWpfGui.Helper;
 
 namespace MaaWpfGui.Views.UserControl

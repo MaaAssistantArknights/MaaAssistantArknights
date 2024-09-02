@@ -3,9 +3,6 @@
 // Copyright (C) 2021 MistEO and Contributors
 // </copyright>
 #pragma warning disable CS0649
-using System;
-using System.Runtime.InteropServices;
-
 namespace MaaWpfGui.WineCompat.FontConfig;
 
 internal enum FcResult
