@@ -559,6 +559,69 @@
         ],
         "roi": [0, 60, 1280, 550]
     },
+    "DT-8": {
+        "algorithm": "JustReturn",
+        "sub": ["DT-OpenOpt"],
+        "next": ["DT-8@SideStoryStage", "DT-8@SwipeToStage"]
+    },
+    "DT-7": {
+        "algorithm": "JustReturn",
+        "sub": ["DT-OpenOpt"],
+        "next": ["DT-7@SideStoryStage", "DT-7@SwipeToStage"]
+    },
+    "DT-6": {
+        "algorithm": "JustReturn",
+        "sub": ["DT-OpenOpt"],
+        "next": ["DT-6@SideStoryStage", "DT-6@SwipeToStage"]
+    },
+    "DT-3": {
+        "algorithm": "JustReturn",
+        "sub": ["DT-OpenOpt"],
+        "next": ["DT-3@SideStoryStage", "DT-3@SwipeToStage"]
+    },
+    "DT-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["DT-OpenOcr", "DT-Open"]
+    },
+    "DT-Open": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["泰拉饭", "走遍泰拉"],
+        "roi": [93, 533, 297, 43],
+        "next": ["DTChapterToDT"]
+    },
+    "DT-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["泰拉饭", "走遍泰拉"],
+        "next": ["DTChapterToDT"]
+    },
+   "DTChapterToDT": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["品尝魔物","品尝","尝魔","魔物"],
+        "preDelay": 3000,
+        "roi": [1034, 466, 117, 35],
+        "next": ["#self", "ChapterSwipeToTheRight"]
+    },
+    "DT-8@SideStoryStage": {
+        "isAscii": false,
+        "text": ["罗","德","岛"],
+        "roi": [726, 395, 33, 33]
+    },
+    "DT-7@SideStoryStage": {
+        "isAscii": false,
+        "text": ["健","康"],
+        "roi": [730, 387, 37, 35]
+    },
+    "DT-6@SideStoryStage": {
+        "isAscii": false,
+        "text": ["海","鲜"],
+        "roi": [733, 359, 40, 33]
+    },
+    "DT-3@SideStoryStage": {
+        "isAscii": false,
+        "text": ["黄","金"],
+        "roi": [744, 264, 38, 35]
+    },
     "BP-5": {
         "algorithm": "JustReturn",
         "sub": ["BP-OpenOpt"],
