@@ -115,7 +115,7 @@ void asst::ReclamationCraftTaskPlugin::increase_craft_amount(const int& amount)
 
     switch (m_increment_mode) {
     case IncrementMode::Click:
-        for (int i = 0; i < amount; ++i) {
+        for (int i = 0; !need_exit() && i < amount; ++i) {
             ProcessTask(*this, { theme + "@RA@IncreaseCraftAmount" }).run();
         }
         break;
