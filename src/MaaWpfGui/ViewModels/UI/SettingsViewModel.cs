@@ -3295,6 +3295,22 @@ namespace MaaWpfGui.ViewModels.UI
             get => _allowUseStoneSave;
             set
             {
+                if (value)
+                {
+                    var result = MessageBoxHelper.Show(
+                        LocalizationHelper.GetString("AllowUseStoneSaveWarning"),
+                        LocalizationHelper.GetString("Warning"),
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Warning,
+                        no: LocalizationHelper.GetString("Confirm"),
+                        yes: LocalizationHelper.GetString("Cancel"),
+                        iconBrushKey: "DangerBrush");
+                    if (result != MessageBoxResult.No)
+                    {
+                        return;
+                    }
+                }
+
                 SetAndNotify(ref _allowUseStoneSave, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.AllowUseStoneSave, value.ToString());
             }
