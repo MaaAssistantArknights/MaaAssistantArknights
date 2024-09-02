@@ -420,6 +420,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="ReclamationIncrementMode">증가 방식</system:String>
     <system:String x:Key="ReclamationIncrementModeClick">연타</system:String>
     <system:String x:Key="ReclamationIncrementModeHold">길게 누르기</system:String>
+    <system:String x:Key="ReclamationMaxCraftCountPerRound">한 번의 최대 제작 횟수</system:String>
     <system:String x:Key="OperNameLanguage">간부 이름 표시 언어</system:String>
     <system:String x:Key="OperNameLanguageMAA">MAA 따라가기</system:String>
     <system:String x:Key="OperNameLanguageClient">게임 클라이언트 따라가기</system:String>

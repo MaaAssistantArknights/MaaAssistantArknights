@@ -1620,7 +1620,8 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.SettingsViewModel.ReclamationTheme,
                 mode,
                 Instances.SettingsViewModel.ReclamationToolToCraft,
-                Instances.SettingsViewModel.ReclamationIncrementMode);
+                Instances.SettingsViewModel.ReclamationIncrementMode,
+                Instances.SettingsViewModel.ReclamationMaxCraftCountPerRound);
         }
 
         [DllImport("User32.dll", EntryPoint = "FindWindow")]

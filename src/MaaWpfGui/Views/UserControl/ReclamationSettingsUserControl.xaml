@@ -59,6 +59,13 @@
                 SelectedValue="{Binding ReclamationIncrementMode}"
                 SelectedValuePath="Value"
                 Style="{StaticResource ComboBoxExtend}" />
+            <hc:NumericUpDown
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource ReclamationMaxCraftCountPerRound}"
+                IsEnabled="{c:Binding 'ReclamationMode == &quot;1&quot;'}"
+                Minimum="0"
+                Style="{StaticResource NumericUpDownExtend}"
+                Value="{Binding ReclamationMaxCraftCountPerRound}" />
             <!--<controls:TextBlock
                 Margin="5,50,5,10"
                 FontSize="40"
