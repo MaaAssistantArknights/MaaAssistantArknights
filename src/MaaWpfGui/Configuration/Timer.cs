@@ -1,4 +1,4 @@
-﻿// <copyright file="Timer.cs" company="MaaAssistantArknights">
+// <copyright file="Timer.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
 using System.Text.Json.Serialization;
 
 namespace MaaWpfGui.Configuration
@@ -34,12 +35,16 @@ namespace MaaWpfGui.Configuration
             Minute = 0;
         }
 
-        [JsonInclude] public bool Enable { get; set; }
+        [JsonInclude]
+        public bool Enable { get; set; }
 
-        [JsonInclude] public string Config { get; set; }
+        [JsonInclude]
+        public string Config { get; set; }
 
-        [JsonInclude] public int Hour { get; set; }
+        [JsonInclude]
+        public int Hour { get; set; }
 
-        [JsonInclude] public int Minute { get; set; }
+        [JsonInclude]
+        public int Minute { get; set; }
     }
 }

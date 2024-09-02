@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
 using System.Text.Json.Serialization;
 using ObservableCollections;
 using static MaaWpfGui.Models.MaaTask;
@@ -32,8 +33,8 @@ namespace MaaWpfGui.Configuration
         [JsonInclude]
         public ObservableDictionary<string, bool> DragItemIsChecked { get; private set; } = new();
 
-        public object ToolBox { get; private set; } = new(); // ³é¿¨¡¢É¨²Ö¿â¡¢×Ô¶¯Õ½¶·
-        public object Íâ²¿Í¨Öª { get; private set; } = new();
-        public object Cache { get; private set; } = new(); // ÀíÖÇ¡¢µ±Ìì´òOF-1
+        public object ToolBox { get; private set; } = new(); // æŠ½å¡ã€æ‰«ä»“åº“ã€è‡ªåŠ¨æˆ˜æ–—
+        public object å¤–éƒ¨é€šçŸ¥ { get; private set; } = new();
+        public object Cache { get; private set; } = new(); // ç†æ™ºã€å½“å¤©æ‰“OF-1
     }
 }
