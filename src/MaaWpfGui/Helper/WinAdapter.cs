@@ -29,7 +29,7 @@ namespace MaaWpfGui.Helper
 
         private static readonly Dictionary<string, string> _emulatorIdDict = new Dictionary<string, string>
         {
-            { "HD-Player",  "BlueStacks" },
+            { "HD-Player", "BlueStacks" },
             { "dnplayer", "LDPlayer" },
             { "Nox", "Nox" },
             { "MuMuPlayer", "MuMuEmulator12" }, // MuMu 12
@@ -48,14 +48,14 @@ namespace MaaWpfGui.Helper
             { "LDPlayer", new List<string> { @".\adb.exe" } },
             { "Nox", new List<string> { @".\nox_adb.exe" } },
             {
-                "MuMuEmulator12",  new List<string>
+                "MuMuEmulator12", new List<string>
                 {
                     @"..\vmonitor\bin\adb_server.exe",
                     @"..\..\MuMu\emulator\nemu\vmonitor\bin\adb_server.exe",
                     @".\adb.exe",
                 }
             },
-            { "XYAZ",  new List<string> { @".\adb.exe" } },
+            { "XYAZ", new List<string> { @".\adb.exe" } },
         };
 
         private readonly Dictionary<string, string> _adbAbsolutePathDict = new Dictionary<string, string>();

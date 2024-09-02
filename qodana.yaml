@@ -20,16 +20,19 @@ exclude:
       - scan/__tests__
       - vsts/lib
       - vsts/QodanaScan
-      #- src/MaaWpfGui/Views
+      - README.md
+      - src/Cpp
       - src/MaaCore
-      - src/MaaWpfGui/MaaWpfGui.csproj
       - src/MaaWpfGui/app.manifest
-      - src/MaaWpfGui/.editorconfig
-  - name: ArrangeTrailingCommaInMultilineLists
-  - name: ArrangeTrailingCommaInSinglelineLists
-  - name: CppUnreachableCode
-  - name: CppUnusedIncludeDirective
+  #- name: ArrangeTrailingCommaInMultilineLists
+  #- name: ArrangeTrailingCommaInSinglelineLists
+  - name: CppInconsistentNaming
+  - name: EditorConfigNoMatchingFiles
+  - name: EditorConfigKeyCorrectness
+  - name: EditorConfigPartialOverride
+  #- name: CppUnreachableCode
+  #- name: CppUnusedIncludeDirective
   - name: InvalidXmlDocComment
-  - name: RedundantArgumentDefaultValue
-  - name: Xaml.RedundantNamespaceAlias
-  - name: Xaml.UnexpectedTextToken
+  #- name: RedundantArgumentDefaultValue
+  #- name: Xaml.RedundantNamespaceAlias
+  #- name: Xaml.UnexpectedTextToken

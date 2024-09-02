@@ -399,12 +399,7 @@ namespace MaaWpfGui.Helper
                     _ => default,
                 };
 
-                if (devid_blacklist.Contains((ushort)desc.DeviceId))
-                {
-                    return true;
-                }
-
-                return false;
+                return devid_blacklist.Contains((ushort)desc.DeviceId);
             }
 
             deprecated = IsGpuDeprecated(ref desc);

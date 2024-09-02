@@ -2626,12 +2626,9 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get
             {
-                if (string.IsNullOrEmpty(_reclamationToolToCraft))
-                {
-                    return LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", _clientLanguageMapper[_clientType]);
-                }
-
-                return _reclamationToolToCraft;
+                return string.IsNullOrEmpty(_reclamationToolToCraft) 
+                    ? LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", _clientLanguageMapper[_clientType])
+                    : _reclamationToolToCraft;
             }
 
             set
