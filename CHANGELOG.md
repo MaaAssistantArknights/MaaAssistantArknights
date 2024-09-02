@@ -21,6 +21,8 @@
 * 重构定时器和重启询问 (#10078) @ABA2396
 * Win10以上系统在退出时Wpf不再清除Toast (#10307) @status102
 * 第一次启动时默认不勾选肉鸽和生息演算 @ABA2396
+* 优化动编队日志输出 @ABA2396
+* 优化生息演算 (#10411) @Alan-Charred @status102 @ABA2396
 
 ### 修复 | Fix
 
@@ -40,6 +42,7 @@
 * 修复保全战斗在core干员重复时只会放1次bug (#10306) @status102
 * ProxyType 重启不生效 @ABA2396
 * EN needs templates for clue exchange the number font is different, score too low @Constrat
+* sarkaz 仓库识别错误 @ABA2396
 
 ### 文档 | Docs
 
