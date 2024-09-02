@@ -1425,15 +1425,21 @@ namespace MaaWpfGui.Main
 
                 case "PenguinId":
                     {
-                        string id = subTaskDetails!["id"]?.ToString();
+                        string id = subTaskDetails!["id"]?.ToString() ?? string.Empty;
                         Instances.SettingsViewModel.PenguinId = id;
 
                         break;
                     }
 
                 case "BattleFormation":
-                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleFormation") + "\n[" +
-                        string.Join(", ", subTaskDetails!["formation"]?.ToObject<List<string>>().Select(oper => DataHelper.GetLocalizedCharacterName(oper))) + "]");
+                    Instances.CopilotViewModel.AddLog(
+                        LocalizationHelper.GetString("BattleFormation") +
+                        "\n[" +
+                        string.Join(
+                            ", ",
+                            (subTaskDetails!["formation"]?.ToObject<List<string?>>() ?? [])
+                                .Select(oper => DataHelper.GetLocalizedCharacterName(oper))
+                                .Where(oper => !string.IsNullOrEmpty(oper))) + "]");
                     break;
 
                 case "BattleFormationSelected":
