@@ -67,7 +67,7 @@ internal class NotificationImplLibNotify : INotificationPoster
 
     public void ShowNotification(NotificationContent content)
     {
-        var notification = new LibNotifyNotification(content.Summary, content.Body, "");
+        var notification = new LibNotifyNotification(content.Summary, content.Body, string.Empty);
         notification.SetImageFromPixbuf(_icon);
         foreach (var action in content.Actions)
         {

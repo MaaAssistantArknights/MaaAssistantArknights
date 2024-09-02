@@ -221,11 +221,11 @@ namespace MaaWpfGui.Helper
         {
             EnsureConfigDirectoryExists();
 
-            // Load configuration file
-            if (!ParseConfig(out var parsed))
-            {
-                return false;
-            }
+                // Load configuration file
+                if (!ParseConfig(out var parsed))
+                {
+                    return false;
+                }
 
             SetKvOrMigrate(parsed);
 
