@@ -504,7 +504,8 @@
             "TerminalDark.png",
             "TerminalSami.png",
             "TerminalMistCity.png",
-            "TerminalSiege.png"
+            "TerminalSiege.png",
+            "TerminalSarkaz.png"
         ],
         "maxTimes": 3,
         "exceededNext": ["Stop"],
@@ -1021,25 +1022,32 @@
     },
     "SL-8": {
         "algorithm": "JustReturn",
-        "sub": ["SL-Open"],
+        "sub": ["SL-OpenOpt"],
         "next": ["SL-8@SideStoryStage", "SL-8@SwipeToStage"]
     },
     "SL-7": {
         "algorithm": "JustReturn",
-        "sub": ["SL-Open"],
+        "sub": ["SL-OpenOpt"],
         "next": ["SL-7@SideStoryStage", "SL-7@SwipeToStage"]
     },
     "SL-6": {
         "algorithm": "JustReturn",
-        "sub": ["SL-Open"],
+        "sub": ["SL-OpenOpt"],
         "next": ["SL-6@SideStoryStage", "SL-6@SwipeToStage"]
     },
+    "SL-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["SL-OpenOcr", "SL-Open"]
+    },
     "SL-Open": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
-        "text": ["火山", "旅梦", "已开放"],
-        "postDelay": 2000,
-        "roi": [710, 234, 128, 36],
+        "baseTask": "SS-OpenOcr",
+        "text": ["火山", "旅梦"],
+        "roi": [505, 57, 462, 628],
+        "next": ["SLChapterToSL"]
+    },
+    "SL-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["火山", "旅梦"],
         "next": ["SLChapterToSL"]
     },
     "SLChapterToSL": {
@@ -1916,6 +1924,7 @@
             ["^一煌$", "煌"],
             ["^一山$", "山"],
             [".*甜蜜狂搅.*", "“甜蜜狂搅”"],
+            ["^尖端研究成果共享.*", "尖端研究成果共享终端"],
             ["^年.?$", "年"],
             ["^w$", "W"],
             ["维获", "维荻"],
@@ -1956,7 +1965,8 @@
             "TerminalDark.png",
             "TerminalSami.png",
             "TerminalMistCity.png",
-            "TerminalSiege.png"
+            "TerminalSiege.png",
+            "TerminalSarkaz.png"
         ],
         "baseTask": "StartUp",
         "next": ["Settings"]
@@ -2134,7 +2144,8 @@
             "TerminalDark.png",
             "TerminalSami.png",
             "TerminalMistCity.png",
-            "TerminalSiege.png"
+            "TerminalSiege.png",
+            "TerminalSarkaz.png"
         ],
         "next": ["Home", "StartUpBegin"],
         "postDelay_Doc": "等待以防万一（StartUp还有双倍的任务延迟等待，默认0.5s x2",
@@ -2156,7 +2167,8 @@
             "TerminalDark.png",
             "TerminalSami.png",
             "TerminalMistCity.png",
-            "TerminalSiege.png"
+            "TerminalSiege.png",
+            "TerminalSarkaz.png"
         ],
         "roi": [844, 58, 268, 272],
         "Doc": "有时候明明已经在主界面了，停了一小会又弹个窗。多检测几次，一直在主界面才算完成",
@@ -2209,10 +2221,24 @@
         "roi": [700, 600, 300, 120],
         "next": ["LoadingText", "#next", "#back"]
     },
+    "NextAfterLoadingText": {
+        "baseTask": "LoadingText",
+        "next": ["NextAfterLoadingText", "#next"]
+    },
     "LoadingIcon": {
         "Doc": "开始唤醒最后阶段的黑色正三角加载画面",
         "roi": [480, 210, 320, 280],
         "next": ["LoadingIcon", "#next", "#back"]
+    },
+    "NextAfterLoadingIcon": {
+        "baseTask": "LoadingIcon",
+        "template": "LoadingIcon.png",
+        "next": ["NextAfterLoadingIcon", "#next"]
+    },
+    "NextAfterMerelyWaiting": {
+        "algorithm": "JustReturn",
+        "postDelay": 500,
+        "next": ["#next", "NextAfterMerelyWaiting"]
     },
     "ReturnButtons": {
         "algorithm": "JustReturn",
@@ -2688,7 +2714,8 @@
             "TerminalDark.png",
             "TerminalSami.png",
             "TerminalMistCity.png",
-            "TerminalSiege.png"
+            "TerminalSiege.png",
+            "TerminalSarkaz.png"
         ],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
@@ -2714,7 +2741,14 @@
         ]
     },
     "Recruit": {
-        "template": ["Recruit.png", "RecruitDark.png", "RecruitSami.png", "RecruitMistCity.png", "RecruitSiege.png"],
+        "template": [
+            "Recruit.png",
+            "RecruitDark.png",
+            "RecruitSami.png",
+            "RecruitMistCity.png",
+            "RecruitSiege.png",
+            "RecruitSarkaz.png"
+        ],
         "action": "ClickSelf",
         "roi": [900, 450, 200, 150],
         "crop_doc": {
@@ -2787,7 +2821,8 @@
             "TerminalDark.png",
             "TerminalSami.png",
             "TerminalMistCity.png",
-            "TerminalSiege.png"
+            "TerminalSiege.png",
+            "TerminalSarkaz.png"
         ],
         "next": ["MiningActivities", "Stop"]
     },
@@ -2827,7 +2862,8 @@
             "TerminalDark.png",
             "TerminalSami.png",
             "TerminalMistCity.png",
-            "TerminalSiege.png"
+            "TerminalSiege.png",
+            "TerminalSarkaz.png"
         ],
         "next": ["OrundumActivities", "Stop"]
     },
@@ -2841,7 +2877,6 @@
         "onErrorNext": ["Stop"]
     },
     "OrundumActivitiesChoose": {
-        "action": "DoNothing",
         "algorithm": "OcrDetect",
         "text": ["请选择", "选择"],
         "roi": [1023, 504, 198, 81],
@@ -2891,7 +2926,8 @@
             "TerminalDark.png",
             "TerminalSami.png",
             "TerminalMistCity.png",
-            "TerminalSiege.png"
+            "TerminalSiege.png",
+            "TerminalSarkaz.png"
         ],
         "next": ["RecruitingActivities", "Stop"]
     },
@@ -2964,7 +3000,8 @@
             "TerminalDark.png",
             "TerminalSami.png",
             "TerminalMistCity.png",
-            "TerminalSiege.png"
+            "TerminalSiege.png",
+            "TerminalSarkaz.png"
         ],
         "next": ["SpecialAccessActivities", "Stop"]
     },
@@ -3007,7 +3044,7 @@
         ]
     },
     "Award": {
-        "template": ["Task.png", "TaskDark.png", "TaskSami.png", "TaskMistCity.png", "TaskSiege.png"],
+        "template": ["Task.png", "TaskDark.png", "TaskSami.png", "TaskMistCity.png", "TaskSiege.png", "TaskSarkaz.png"],
         "maskRange": [1, 255],
         "templThreshold": 0.7,
         "action": "ClickSelf",
@@ -3045,8 +3082,9 @@
         "maskRange": [1, 255]
     },
     "DailyTask": {
-        "action": "ClickSelf",
-        "roi": [400, 0, 880, 100],
+        "baseTask": "WeeklyTask",
+        "template": "WeeklyTask",
+        "rectMove": [-150, 0, 100, 30],
         "next": ["ReceiveAward", "WeeklyTask"]
     },
     "WeeklyTask": {
@@ -3065,7 +3103,8 @@
             "TerminalDark.png",
             "TerminalSami.png",
             "TerminalMistCity.png",
-            "TerminalSiege.png"
+            "TerminalSiege.png",
+            "TerminalSarkaz.png"
         ],
         "action": "DoNothing",
         "next": ["Mail", "MailWithoutAward"]
@@ -3107,7 +3146,14 @@
         ]
     },
     "Visit": {
-        "template": ["Friends.png", "FriendsDark.png", "FriendsSami.png", "FriendsMistCity.png", "FriendsSiege.png"],
+        "template": [
+            "Friends.png",
+            "FriendsDark.png",
+            "FriendsSami.png",
+            "FriendsMistCity.png",
+            "FriendsSiege.png",
+            "FriendsSarkaz.png"
+        ],
         "templThreshold": 0.7,
         "maskRange": [1, 255],
         "action": "ClickSelf",
@@ -3155,13 +3201,15 @@
         "next": ["Mall@ReturnButtons#next", "Mall", "Mall@CloseAnnos#next"]
     },
     "Mall": {
-        "algorithm": "OcrDetect",
+        "template": ["Mall.png", "MallDark.png", "MallSami.png", "MallMistCity.png", "MallSiege.png", "MallSarkaz.png"],
         "action": "ClickSelf",
-        "ocrReplace": [["米购", "采购"]],
-        "text": ["采购", "购中", "中心", "到期"],
-        "roi": [740, 440, 200, 100],
+        "roi": [772, 407, 186, 171],
         "next": ["CreditStoreOcr", "Mall", "Mall@CloseAnnos#next"],
-        "postDelay": 500
+        "postDelay": 500,
+        "crop_doc": {
+            "roi": [822, 457, 86, 71],
+            "mask": []
+        }
     },
     "CreditStoreOcr": {
         "algorithm": "OcrDetect",
@@ -3207,7 +3255,8 @@
             "TerminalDark.png",
             "TerminalSami.png",
             "TerminalMistCity.png",
-            "TerminalSiege.png"
+            "TerminalSiege.png",
+            "TerminalSarkaz.png"
         ],
         "action": "Stop",
         "roi": [844, 58, 268, 272],
@@ -3357,7 +3406,8 @@
             "EnterInfrastDark.png",
             "EnterInfrastSami.png",
             "EnterInfrastMistCity.png",
-            "EnterInfrastSiege.png"
+            "EnterInfrastSiege.png",
+            "EnterInfrastSarkaz.png"
         ],
         "maskRange": [1, 255],
         "roi": [930, 540, 230, 180],
@@ -3910,7 +3960,8 @@
     "InfrastClue": {
         "template": "Clue.png",
         "maskRange": [1, 255],
-        "roi": [800, 0, 480, 720]
+        "roi": [800, 0, 480, 720],
+        "postDelay": 1000
     },
     "InfrastClueSelfMaybeFull": {
         "Doc": "有一种情况是，自己的线索满了，但是却没有new的标记",
@@ -4627,29 +4678,13 @@
     "BattleSkillReady": {
         "rectMove": [-28, -140, 64, 64]
     },
-    "BattleSkillReadyOnClick": {
-        "roi": [748, 414, 210, 118],
-        "templThreshold": 0.7,
-        "action": "ClickSelf",
-        "rectMove": [0, -110, 90, 90],
-        "postDelay": 300,
-        "next": ["#self", "Stop"]
-    },
-    "BattleSkillReadyOnClick-SquareMap": {
-        "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillReadyOnClick-SquareMap.png"
-    },
-    "BattleSkillStopOnClick": {
-        "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillStopOnClick.png"
-    },
-    "BattleSkillStopOnClick-MiddleMap": {
-        "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillStopOnClick-MiddleMap.png"
-    },
-    "BattleSkillStopOnClick-SquareMap": {
-        "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillStopOnClick-SquareMap.png"
+    "BattleSkillReadyOnClick-TopView": {
+        "template": [
+            "BattleSkillReadyOnClick-TopView.png",
+            "BattleSkillReadyOnClick-TopView2.png",
+            "BattleSkillStopOnClick-TopView.png"
+        ],
+        "templThreshold": [0.8, 0.95, 0.8]
     },
     "BattleUseOper": {
         "algorithm": "JustReturn",
@@ -4947,11 +4982,16 @@
             "DepotEnterDark.png",
             "DepotEnterSami.png",
             "DepotEnterMistCity.png",
-            "DepotEnterSiege.png"
+            "DepotEnterSiege.png",
+            "DepotEnterSarkaz.png"
         ],
         "maskRange": [1, 255],
         "roi": [1109, 560, 171, 160],
-        "next": ["DepotMaterialTab"]
+        "next": ["DepotMaterialTab"],
+        "crop_doc": {
+            "roi": [1153, 592, 77, 79],
+            "mask": []
+        }
     },
     "DepotAllTab": {
         "action": "ClickSelf",
@@ -5020,7 +5060,8 @@
             "OperBoxEnterDark.png",
             "OperBoxEnterSami.png",
             "OperBoxEnterMistCity.png",
-            "OperBoxEnterSiege.png"
+            "OperBoxEnterSiege.png",
+            "OperBoxEnterSarkaz.png"
         ],
         "action": "ClickSelf",
         "maskRange": [1, 255],
@@ -5495,7 +5536,8 @@
             "GachaEnterDark.png",
             "GachaEnterSami.png",
             "GachaEnterMistCity.png",
-            "GachaEnterSiege.png"
+            "GachaEnterSiege.png",
+            "GachaEnterSarkaz.png"
         ],
         "roi": [1052, 443, 228, 156],
         "next": ["GachaEnter", "GachaEnter@LoadingText", "DoGacha"],
@@ -5576,7 +5618,8 @@
             "TerminalDark.png",
             "TerminalSami.png",
             "TerminalMistCity.png",
-            "TerminalSiege.png"
+            "TerminalSiege.png",
+            "TerminalSarkaz.png"
         ],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
@@ -5704,7 +5747,6 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [525, 549, 16, 25],
-        "postDelay": 0,
         "next": ["RoguelikeRecruitLazyClick2"]
     },
     "RoguelikeRecruitLazyClick2": {
@@ -6525,7 +6567,8 @@
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
-        "roi": [0, 483, 1280, 200]
+        "roi": [0, 483, 1280, 200],
+        "postDelay": 500
     },
     "Roguelike@SquadDefault": {
         "Doc": "base_task",
@@ -6856,6 +6899,7 @@
         "next": ["Roguelike@Stages#next"]
     },
     "Roguelike@StageTraderRefreshWithDice": {
+        "template": "Roguelike@StageTraderRefresh.png",
         "action": "ClickSelf",
         "roi": [230, 47, 211, 139],
         "next": [
@@ -7572,7 +7616,6 @@
     "Mizuki@Roguelike@StageDreadfulFoe": {},
     "Mizuki@Roguelike@StageDreadfulFoe-5": {
         "baseTask": "Mizuki@Roguelike@Stage",
-        "template": "Mizuki@Roguelike@StageDreadfulFoe-5.png",
         "templThreshold": 0.85,
         "exceededNext": ["RoguelikeControlTaskPlugin-Stop"],
         "next": [
@@ -7917,12 +7960,10 @@
     },
     "Sami@Roguelike@CollapsalParadigmTaskBannerCheckConfig": {
         "doc": [
-            "————————————————————————————————————————————————————————————————",
             "RoguelikeCollapsalParadigmTaskPlugin用参数",
-            "————————————————————————————————————————————————————————————————",
-            "text: 坍缩范式加深时 banner 通知第一行的文字",
-            "sub: 在 SubTaskStart 时触发 banner check 的任务",
-            "next: 在 SubTaskCompleted 时触发 banner check 的任务"
+            "| text: 坍缩范式加深时 banner 通知第一行的文字",
+            "| sub: 在 SubTaskStart 时触发 banner check 的任务",
+            "| next: 在 SubTaskCompleted 时触发 banner check 的任务"
         ],
         "algorithm": "OcrDetect",
         "text": ["坍缩范式加深"],
@@ -7939,11 +7980,9 @@
     },
     "Sami@Roguelike@CollapsalParadigmTaskPanelCheckConfig": {
         "doc": [
-            "————————————————————————————————————————————————————————————————",
             "RoguelikeCollapsalParadigmTaskPlugin用参数",
-            "————————————————————————————————————————————————————————————————",
-            "sub: 在 SubTaskStart 时触发 panek check 的任务",
-            "ocrReplace: 从温度模版名到区域名的映射"
+            "| sub: 在 SubTaskStart 时触发 panek check 的任务",
+            "| ocrReplace: 从温度模版名到区域名的映射"
         ],
         "algorithm": "OcrDetect",
         "sub": [
@@ -8050,7 +8089,6 @@
     },
     "Sami@Roguelike@FoldartalGain": {
         "doc": "本任务注册插件RoguelikeFoldartalGain",
-        "template": "Sami@Roguelike@FoldartalGain.png",
         "action": "ClickRect",
         "specificRect": [611, 496, 60, 51],
         "postDelay": 500,
@@ -8296,10 +8334,8 @@
         "text": ["科考记录"]
     },
     "Sami@Roguelike@SpecialValRecognition": {
-        "algorithm": "OcrDetect",
         "Doc": "特殊值识别，如抗干扰值，需修改对应主题的roi",
-        "text": [],
-        "roi": [615, 0, 80, 45]
+        "text": []
     },
     "Sami@Roguelike@SquadConfirm": {
         "template": "Sami@Roguelike@LastRewardConfirm.png",
@@ -8371,7 +8407,6 @@
     "Sami@Roguelike@StageDreadfulFoe-5": {
         "Doc": "第五层的boss关卡",
         "baseTask": "Sami@Roguelike@Stage",
-        "template": "Sami@Roguelike@StageDreadfulFoe-5.png",
         "templThreshold": 0.85,
         "exceededNext": ["RoguelikeControlTaskPlugin-Stop"],
         "next": [
@@ -8522,11 +8557,13 @@
         "exceededNext": ["Sami@Roguelike@ExitThenAbandon", "Sami@Roguelike@NextLevelThenExit"]
     },
     "Sami@Roguelike@StageTraderRefresh": {
+        "template": "Roguelike@StageTraderRefresh.png",
         "action": "ClickSelf",
         "roi": [230, 73, 212, 141],
         "next": ["Sami@Roguelike@StageTraderRefreshConfirm"]
     },
     "Sami@Roguelike@StageTraderRefreshConfirm": {
+        "template": "Roguelike@StageTraderRefreshConfirm.png",
         "action": "ClickSelf",
         "postDelay": 500,
         "roi": [640, 414, 504, 154]
@@ -9350,9 +9387,7 @@
             "Sarkaz@Roguelike@GetDropSelect"
         ]
     },
-    "Sarkaz@Roguelike@GetDropSelectRecruit": {
-        "template": "Sarkaz@Roguelike@Recruit.png"
-    },
+    "Sarkaz@Roguelike@GetDropSelectRecruit": {},
     "Sarkaz@Roguelike@GetDropSelectReward": {},
     "Sarkaz@Roguelike@GetDrops": {
         "next": [
@@ -9449,23 +9484,18 @@
     },
     "Sarkaz@Roguelike@RoutingConfig": {
         "doc": [
-            "————————————————————————————————————————————————————————————————",
             "RoguelikeRoutingTaskPlugin用参数",
-            "————————————————————————————————————————————————————————————————",
-            "(roi.x, roi.y): 生成地图时向左滑动起点",
-            "(roi.width, roi.height): 生成地图时向左滑动终点",
-            "specialParams[0]: 第一列节点的默认横坐标 (Rect.x)",
-            "specialParams[1]: 中间列节点的默认横坐标 (Rect.x)",
-            "specialParams[2]: 最后列节点的默认横坐标 (Rect.x)",
-            "specialParams[3]: 节点 Rect.width",
-            "specialParams[4]: 节点 Rect.height",
-            "specialParams[5]: 两列节点之间的距离",
-            "specialParams[6]: 节点 Rect 下边缘到节点铭牌下边缘的距离",
-            "specialParams[7]: roi 时的 margin offset",
-            "specialParams[8]: 节点间连线方向判定的阈值"
+            "| specialParams[0]: 第一列节点的默认横坐标 (Rect.x)",
+            "| specialParams[1]: 中间列节点的默认横坐标 (Rect.x)",
+            "| specialParams[2]: 最后列节点的默认横坐标 (Rect.x)",
+            "| specialParams[3]: 节点 Rect.width",
+            "| specialParams[4]: 节点 Rect.height",
+            "| specialParams[5]: 两列节点之间的距离",
+            "| specialParams[6]: 节点 Rect 下边缘到节点铭牌下边缘的距离",
+            "| specialParams[7]: roi 时的 margin offset",
+            "| specialParams[8]: 节点间连线方向判定的阈值"
         ],
         "template": "empty.png",
-        "roi": [1000, 360, 570, 360],
         "specialParams": [321, 341, 586, 138, 47, 450, 32, 15, 7]
     },
     "Sarkaz@Roguelike@RoutingContinue": {
@@ -9521,11 +9551,18 @@
         "postDelay": 300,
         "next": ["Sarkaz@Roguelike@RoutingRefreshNodeWaiting", "Sarkaz@Roguelike@RoutingRefreshNodeCompleted"]
     },
+    "Sarkaz@Roguelike@RoutingSwipeRight": {
+        "doc": "生成地图时向左滑动",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [1000, 360, 0, 0],
+        "rectMove": [570, 360, 0, 0],
+        "specialParams": [200, 1]
+    },
     "Sarkaz@Roguelike@SelectTheme": {
         "text": ["假说辑录"]
     },
     "Sarkaz@Roguelike@SpecialValRecognition": {
-        "algorithm": "OcrDetect",
         "Doc": "特殊值识别，构想数量",
         "text": [],
         "roi": [848, 686, 46, 26]
@@ -9650,7 +9687,6 @@
     "Sarkaz@Roguelike@StageDreadfulFoe": {},
     "Sarkaz@Roguelike@StageDreadfulFoe-5": {
         "baseTask": "Sarkaz@Roguelike@Stage",
-        "template": "Sarkaz@Roguelike@StageDreadfulFoe-5.png",
         "templThreshold": 0.85,
         "exceededNext": ["RoguelikeControlTaskPlugin-Stop"],
         "next": [
@@ -9740,7 +9776,6 @@
         "next": ["Sarkaz@Roguelike@StageFilterTruthChooseCollection", "Sarkaz@Roguelike@StageFilterTruthConfirm"]
     },
     "Sarkaz@Roguelike@StageFilterTruthCannotCombine": {
-        "action": "DoNothing",
         "templThreshold": 0.95,
         "roi": [279, 374, 155, 170],
         "next": ["Sarkaz@Roguelike@StageFilterTruthLeave"]
@@ -9943,11 +9978,13 @@
         "exceededNext": ["Sarkaz@Roguelike@ExitThenAbandon"]
     },
     "Sarkaz@Roguelike@StageTraderRefresh": {
+        "template": "Roguelike@StageTraderRefresh.png",
         "action": "ClickSelf",
         "roi": [230, 73, 212, 141],
         "next": ["Sarkaz@Roguelike@StageTraderRefreshConfirm"]
     },
     "Sarkaz@Roguelike@StageTraderRefreshConfirm": {
+        "template": "Roguelike@StageTraderRefreshConfirm.png",
         "action": "ClickSelf",
         "postDelay": 500,
         "roi": [640, 414, 504, 154]
@@ -10147,11 +10184,7 @@
     },
     "Sarkaz@RoguelikeSettlementConfirm": {},
     "Reclamation2": {
-        "doc": [
-            "————————————————————————————————————————————————————————————————",
-            "生息演算：沙中遗闻",
-            "————————————————————————————————————————————————————————————————"
-        ],
+        "doc": "生息演算「沙洲遗闻」",
         "algorithm": "JustReturn",
         "Doc": "此处为cpp入口，出口直接将任务的next设为空即可",
         "next": [
@@ -10502,11 +10535,10 @@
         "roi": [820, 406, 308, 146]
     },
     "Reclamation2ProsperityMaxSkipDayBeginNewDay": {
-        "algorithm": "OcrDetect",
+        "template": "Reclamation2SkipDayBeginNewDay.png",
         "action": "ClickSelf",
-        "text": ["开", "启", "今", "日"],
-        "roi": [519, 525, 261, 144],
-        "next": ["Reclamation2ProsperityMaxDeleteArchiveEnter"]
+        "roi": [495, 571, 293, 60],
+        "next": ["Reclamation2ProsperityMaxDeleteArchiveEnter", "Reclamation2ProsperityMaxSkipDayBeginNewDay"]
     },
     "Reclamation2ProsperityMaxSkipDayClickContinue": {
         "algorithm": "OcrDetect",
@@ -10525,11 +10557,9 @@
         "next": ["Reclamation2ProsperityMax", "Reclamation2SkipDayClickContinue", "Reclamation2SkipDayWait"]
     },
     "Reclamation2SkipDayBeginNewDay": {
-        "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["开", "启", "今", "日"],
-        "roi": [519, 525, 261, 144],
-        "next": ["Reclamation2DeleteArchiveEnter"]
+        "roi": [495, 571, 293, 60],
+        "next": ["Reclamation2DeleteArchiveEnter", "Reclamation2SkipDayBeginNewDay"]
     },
     "Reclamation2SkipDayClickContinue": {
         "algorithm": "OcrDetect",
@@ -10573,7 +10603,7 @@
         "text": ["开始", "行动"],
         "roi": [1128, 540, 139, 69],
         "postDelay": 1000,
-        "next": ["Reclamation2StageFight", "Reclamation2StageFightConfirm", "Reclamation2BeginStageLoading"]
+        "next": ["Reclamation2StageFight", "Reclamation2StageFightConfirm", "Reclamation2StageLoading"]
     },
     "Reclamation2StageFight": {
         "algorithm": "OcrDetect",
@@ -10618,21 +10648,42 @@
             "Reclamation2StageLeave",
             "Reclamation2BeginStageTalk",
             "Reclamation2StageFightConfirm",
+            "Reclamation2StageSquadCookingQuit",
             "Reclamation2StageLoading"
         ]
     },
+    "Reclamation2StageSquadClear": {
+        "action": "ClickSelf",
+        "roi": [1107, 0, 134, 137],
+        "next": ["Reclamation2StageSquadClearConfirm", "Reclamation2StageSquadClear"]
+    },
+    "Reclamation2StageSquadClearConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["确认"],
+        "roi": [646, 447, 631, 64],
+        "next": ["Reclamation2StageSquadQuit", "Reclamation2StageSquadClearConfirm"]
+    },
+    "Reclamation2StageSquadCookingQuit": {
+        "action": "ClickSelf",
+        "roi": [6, 0, 146, 143],
+        "next": ["Reclamation2StageSquadClear", "Reclamation2StageSquadCookingQuit"]
+    },
+    "Reclamation2StageSquadQuit": {
+        "action": "ClickSelf",
+        "roi": [0, 0, 130, 138],
+        "postDelay": 1000,
+        "next": ["Reclamation2StageSquadQuit", "Reclamation2DeleteArchiveEnter"]
+    },
     "Fire@Reclamation": {
-        "doc": [
-            "————————————————————————————————————————————————————————————————",
-            "生息演算：沙中之火",
-            "————————————————————————————————————————————————————————————————"
-        ],
+        "doc": "生息演算「沙中之火」",
         "template": [
             "Terminal.png",
             "TerminalDark.png",
             "TerminalSami.png",
             "TerminalMistCity.png",
-            "TerminalSiege.png"
+            "TerminalSiege.png",
+            "TerminalSarkaz.png"
         ],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
@@ -10697,11 +10748,6 @@
     "Fire@Reclamation@BattlePackIconTemplate": {
         "template": "Fire@Reclamation@ClickExitLevel.png",
         "roi": [100, 0, 164, 166]
-    },
-    "Fire@Reclamation@BattleSkillReadyOnClick": {
-        "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillReadyOnClick.png",
-        "roi": [439, 76, 841, 644]
     },
     "Fire@Reclamation@BattleStart": {
         "baseTask": "Fire@Reclamation@BattlePackIconTemplate",
@@ -11168,7 +11214,8 @@
             "TerminalDark.png",
             "TerminalSami.png",
             "TerminalMistCity.png",
-            "TerminalSiege.png"
+            "TerminalSiege.png",
+            "TerminalSarkaz.png"
         ],
         "next": [
             "Fire@Reclamation@NavigateHome",
@@ -11572,5 +11619,673 @@
         "template": "Fire@Reclamation@BetweenDayFlag.png",
         "postDelay": 500,
         "next": ["Stop"]
+    },
+    "Tales@RA-SquadSizeLE6": {
+        "doc": "模板任务: 当前编队规模小于等于6人",
+        "template": "Tales@RA@SquadSizeIndicator0.png",
+        "roi": [811, 647, 60, 60]
+    },
+    "Tales@RA@BackDark": {
+        "doc": "模板任务: 点击左上角深色箭头返回",
+        "roi": [7, 6, 41, 56],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@BackLight": {
+        "doc": "模板任务: 点击左上角浅色箭头返回",
+        "roi": [0, 7, 40, 56],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@CancelCraft": {
+        "doc": "模板任务: 在组装数量选择界面, 点击空白处取消组装",
+        "baseTask": "Tales@RA@Craft",
+        "template": "Tales@RA@Craft.png",
+        "action": "ClickRect",
+        "specificRect": [1200, 360, 0, 0]
+    },
+    "Tales@RA@CancelEnterBuildMode": {
+        "doc": "模板任务: 在右下角存在 <进入建造> 按钮时点击左下角取消进入建造",
+        "algorithm": "OcrDetect",
+        "text": ["进入建造"],
+        "roi": [956, 540, 304, 72],
+        "action": "ClickRect",
+        "specificRect": [36, 634, 68, 76]
+    },
+    "Tales@RA@ClearSquad": {
+        "doc": "模板任务: 清空当前编队",
+        "roi": [1150, 12, 47, 46],
+        "action": "ClickSelf",
+        "next": ["Tales@RA@DialogConfirmRed"]
+    },
+    "Tales@RA@ClickGatheringOfFeathers": {
+        "doc": "模板任务: 点击 <捕猎区: 聚羽之地>",
+        "algorithm": "OcrDetect",
+        "text": ["聚羽之地"],
+        "roi": [141, 337, 106, 56],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@ClickHeadquartersButton": {
+        "doc": "模板任务: 点击左下角驻扎地图标",
+        "template": "Tales@RA@HeadquartersButton.png",
+        "roi": [36, 634, 68, 76],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@ClickShrubberyGalore": {
+        "doc": "模板任务: 点击 <资源区: 丰饶灌木林>",
+        "algorithm": "OcrDetect",
+        "text": ["丰饶灌木林"],
+        "ocrReplace": [["灌木林", "丰饶灌木林"]],
+        "roi": [223, 129, 114, 48],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@ConfirmSquad": {
+        "doc": "模板任务: 在编队界面点击 <开始行动>",
+        "algorithm": "OcrDetect",
+        "text": ["开始行动"],
+        "roi": [1132, 654, 120, 45],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@ConfirmToLoadSave": {
+        "doc": "模板任务: 点击 <点击确认> 文字位置确认读取存档",
+        "algorithm": "OcrDetect",
+        "text": ["点击确认"],
+        "roi": [583, 529, 115, 43],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@Craft": {
+        "doc": "模板任务: 点击开始组装图标",
+        "roi": [982, 500, 51, 50],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@DialogConfirmRed": {
+        "doc": "模板任务: 在警告对话框点击确认图标",
+        "roi": [879, 457, 53, 52],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@DialogConfirmYellow": {
+        "doc": "模板任务: 在普通对话框点击确认图标",
+        "roi": [879, 457, 53, 52],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@Dots": {
+        "doc": "模板任务: 点击右下角 Dots",
+        "roi": [1001, 658, 61, 28],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@EnterNode": {
+        "doc": "模板任务: 点击区块节点后点击 <开始行动>",
+        "algorithm": "OcrDetect",
+        "text": ["开始行动"],
+        "roi": [956, 540, 304, 72],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@FinishCalc": {
+        "doc": "模板任务: 已完成生存周期, 点击 <点击任意处继续> 文字位置",
+        "algorithm": "OcrDetect",
+        "text": ["点击任意处继续"],
+        "roi": [516, 647, 248, 61],
+        "preDelay": 500,
+        "action": "ClickSelf"
+    },
+    "Tales@RA@IncreaseCraftAmount": {
+        "doc": "模板任务: 点击加号增加组装数量",
+        "roi": [860, 489, 73, 73],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@LeaveCurrentZone": {
+        "doc": "模板任务: 在行动中点击左上角离开当前区块, 注意左上角离开按钮渐变出现, 期间点击无效",
+        "roi": [41, 22, 78, 71],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@LoadSave": {
+        "doc": "模板任务: 点击右下角读取存档图标",
+        "roi": [1030, 542, 118, 66],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@MissionResults": {
+        "doc": "模板任务: 在行动结束界面点击左下角 <物资将送往仓库> 图标返回, 注意战利品列表加载期间点击无效",
+        "template": "Tales@RA@SentToWarehouse.png",
+        "roi": [48, 469, 87, 51],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@NextDay": {
+        "doc": "模板任务: 点击右上角箭头进入下一个生息日, 若在量定日则进行量定结算",
+        "roi": [1152, 45, 54, 98],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@NonZeroActsLeft": {
+        "doc": "模板任务: 点击右上角剩余决断次数",
+        "template": ["Tales@RA@ActsLeft2.png", "Tales@RA@ActsLeft1.png"],
+        "roi": [1152, 104, 47, 34],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@Origin": {
+        "doc": "模板任务: 确认地图视图已经重置到原始位置",
+        "template": "Tales@RA@Headquarters.png",
+        "roi": [559, 262, 162, 153]
+    },
+    "Tales@RA@PIS-ClickTool": {
+        "doc": "识别到要组装的道具后点击",
+        "algorithm": "OcrDetect",
+        "text": ["荧光棒"],
+        "roi": [274, 68, 960, 571],
+        "action": "ClickSelf",
+        "postDelay": 500
+    },
+    "Tales@RA@PIS-Craft": {
+        "doc": "点击开始组装图标",
+        "baseTask": "Tales@RA@Craft",
+        "template": "Tales@RA@Craft.png",
+        "next": ["Tales@RA@PIS-ResourceGained", "Tales@RA@PIS-Craft@NextAfterLoadingText"]
+    },
+    "Tales@RA@PIS-CraftAmountOcr": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [745, 494, 125, 63]
+    },
+    "Tales@RA@PIS-CraftTool": {
+        "doc": "调用 ReclamationCraftTaskPlugin 组装支援道具",
+        "template": "Tales@RA@WorkbenchIcon.png",
+        "roi": [50, 5, 60, 60],
+        "next": ["Tales@RA@PIS-LeaveWorkbench"]
+    },
+    "Tales@RA@PIS-FinishCalc": {
+        "doc": "已完成生存周期",
+        "baseTask": "Tales@RA@FinishCalc",
+        "action": "DoNothing",
+        "next": ["Tales@RA@PIS-ProsperityReachLimit", "Tales@RA@PIS-ProsperityBelowLimit"]
+    },
+    "Tales@RA@PIS-LeaveWorkbench": {
+        "doc": "点击左上角深色箭头退出组装台",
+        "baseTask": "Tales@RA@BackDark",
+        "template": "Tales@RA@BackDark.png",
+        "next": ["Tales@RA@PIS-SkipToCalc"]
+    },
+    "Tales@RA@PIS-Navigation": {
+        "algorithm": "JustReturn",
+        "next": ["Tales@RA@ProsperityInSave"]
+    },
+    "Tales@RA@PIS-ProsperityBelowLimit": {
+        "doc": "已完成生存周期, 生息点数未达到上限, 点击 <点击任意处继续> 文字位置",
+        "baseTask": "Tales@RA@FinishCalc",
+        "next": [
+            "Tales@RA@PIS-ProsperityBelowLimit-StartToday",
+            "Tales@RA@PIS-ProsperityBelowLimit@NextAfterMerelyWaiting"
+        ]
+    },
+    "Tales@RA@PIS-ProsperityBelowLimit-Dots": {
+        "doc": "生息点数未达到上限, 点击右下角 Dots",
+        "baseTask": "Tales@RA@Dots",
+        "template": "Tales@RA@Dots.png",
+        "next": ["Tales@RA@PIS-ProsperityBelowLimit-LoadSave"]
+    },
+    "Tales@RA@PIS-ProsperityBelowLimit-LoadSave": {
+        "doc": "生息点数未达到上限, 点击右下角读取存档图标, 选择从右往左第二个存档或仅存的存档, 点击 <点击确认> 文字位置确认读取存档",
+        "baseTask": "Tales@RA@LoadSave",
+        "template": "Tales@RA@LoadSave.png",
+        "sub": ["Tales@RA@SelectSecondLastSave", "Tales@RA@ConfirmToLoadSave"],
+        "next": [
+            "Tales@RA@PIS-ProsperityBelowLimit-StartTodayAfterLoadSave",
+            "Tales@RA@PIS-ProsperityBelowLimit-LoadSave@NextAfterLoadingText",
+            "Tales@RA@PIS-ProsperityBelowLimit-LoadSave@NextAfterMerelyWaiting"
+        ]
+    },
+    "Tales@RA@PIS-ProsperityBelowLimit-StartToday": {
+        "doc": "生息点数未达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
+        "baseTask": "Tales@RA@StartToday",
+        "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
+        "next": [
+            "Tales@RA@PIS-ProsperityReachLimit-Dots",
+            "Tales@RA@PIS-ProsperityBelowLimit-StartToday@NextAfterLoadingText"
+        ]
+    },
+    "Tales@RA@PIS-ProsperityBelowLimit-StartTodayAfterLoadSave": {
+        "doc": "生息点数未达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
+        "baseTask": "Tales@RA@StartToday",
+        "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
+        "next": [
+            "Tales@RA@PIS-ProsperityBelowLimit-StartTodayAfterLoadSave@NextAfterLoadingText",
+            "Tales@RA@ProsperityInSave"
+        ]
+    },
+    "Tales@RA@PIS-ProsperityReachLimit": {
+        "doc": "已完成生存周期, 生息点数达到上限, 点击 MAX 图案位置",
+        "baseTask": "Tales@RA@ProsperityReachLimit",
+        "template": "Tales@RA@Max",
+        "next": [
+            "Tales@RA@PIS-ProsperityReachLimit-StartToday",
+            "Tales@RA@PIS-ProsperityReachLimit@NextAfterMerelyWaiting"
+        ]
+    },
+    "Tales@RA@PIS-ProsperityReachLimit-Dots": {
+        "doc": "生息点数达到上限, 点击右下角 Dots",
+        "baseTask": "Tales@RA@Dots",
+        "template": "Tales@RA@Dots.png",
+        "next": ["Tales@RA@PIS-ProsperityReachLimit-LoadSave", "#self"]
+    },
+    "Tales@RA@PIS-ProsperityReachLimit-LoadSave": {
+        "doc": "生息点数达到上限, 点击右下角读取存档图标, 选择从右往左第二个存档或仅存的存档, 点击 <点击确认> 文字位置确认读取存档",
+        "baseTask": "Tales@RA@LoadSave",
+        "template": "Tales@RA@LoadSave.png",
+        "sub": ["Tales@RA@SelectSecondLastSave", "Tales@RA@ConfirmToLoadSave"],
+        "next": [
+            "Tales@RA@PIS-ProsperityReachLimit-StartTodayAfterLoadSave",
+            "Tales@RA@PIS-ProsperityReachLimit-LoadSave@NextAfterLoadingText",
+            "Tales@RA@PIS-ProsperityReachLimit-LoadSave@NextAfterMerelyWaiting"
+        ]
+    },
+    "Tales@RA@PIS-ProsperityReachLimit-StartToday": {
+        "doc": "生息点数达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
+        "baseTask": "Tales@RA@StartToday",
+        "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
+        "next": [
+            "Tales@RA@PIS-ProsperityReachLimit-Dots",
+            "Tales@RA@PIS-ProsperityReachLimit-StartToday@NextAfterLoadingText"
+        ]
+    },
+    "Tales@RA@PIS-ProsperityReachLimit-StartTodayAfterLoadSave": {
+        "doc": "生息点数达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
+        "baseTask": "Tales@RA@StartToday",
+        "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
+        "sub": ["Tales@RA@BackLight"],
+        "next": ["Stop"]
+    },
+    "Tales@RA@PIS-ResourceGained": {
+        "doc": "获得物资, 点击 <点击空白处继续> 文字位置",
+        "baseTask": "Tales@RA@ResourceGained",
+        "next": ["#self", "Stop"]
+    },
+    "Tales@RA@PIS-Resume": {
+        "doc": "在主题入口界面点击 <继续演算> 开启新游戏",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["继续演算"],
+        "roi": [1064, 620, 171, 50],
+        "next": ["Tales@RA@PIS-Workbench", "Tales@RA@PIS-Resume@NextAfterLoadingText"]
+    },
+    "Tales@RA@PIS-ScrollDown": {
+        "doc": "在组装台界面向下滑动屏幕",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [753, 620, 0, 0],
+        "rectMove": [753, 80, 0, 0],
+        "specialParams": [500, 0, 3, 0],
+        "next": ["Tales@RA@PIS-SelectTool"]
+    },
+    "Tales@RA@PIS-SelectTool": {
+        "doc": "选择要组装的道具",
+        "template": "Tales@RA@WorkbenchIcon.png",
+        "roi": [50, 5, 60, 60],
+        "next": ["Tales@RA@PIS-ClickTool", "Tales@RA@PIS-ScrollDown"]
+    },
+    "Tales@RA@PIS-SkipToCalc": {
+        "doc": "跳到下一次量定结算",
+        "template": ["Tales@RA@ActsLeft2.png", "Tales@RA@ActsLeft1.png", "Tales@RA@NextDay.png"],
+        "roi": [1152, 45, 54, 98],
+        "next": ["Tales@RA@PIS-SkipToCalc-NextDay", "Tales@RA@PIS-SkipToCalc-NonZeroActsLeft"]
+    },
+    "Tales@RA@PIS-SkipToCalc-CalcOrNextDay": {
+        "doc": "等待, 可能进入量定结算或驻扎地产出结算, 若进入驻扎地产出结算则可能点击确认符号跳过等待",
+        "algorithm": "JustReturn",
+        "next": [
+            "Tales@RA@PIS-FinishCalc",
+            "Tales@RA@PIS-SkipToCalc-StartToday",
+            "Tales@RA@PIS-SkipToCalc",
+            "Tales@RA@PIS-SkipToCalc-CalcOrNextDay"
+        ]
+    },
+    "Tales@RA@PIS-SkipToCalc-ConfirmToSkipDay": {
+        "doc": "确认跳过这一日",
+        "baseTask": "Tales@RA@DialogConfirmYellow",
+        "template": "Tales@RA@DialogConfirmYellow.png",
+        "next": ["Tales@RA@PIS-SkipToCalc-NextDay", "Tales@RA@PIS-SkipToCalc-ConfirmToSkipDay@NextAfterLoadingText"]
+    },
+    "Tales@RA@PIS-SkipToCalc-NextDay": {
+        "doc": "点击右上角箭头进入下一个生息日, 若在量定日则进行量定结算",
+        "baseTask": "Tales@RA@NextDay",
+        "template": "Tales@RA@NextDay.png",
+        "next": ["Tales@RA@PIS-SkipToCalc-NextDay@NextAfterLoadingText", "Tales@RA@PIS-SkipToCalc-CalcOrNextDay"]
+    },
+    "Tales@RA@PIS-SkipToCalc-NonZeroActsLeft": {
+        "doc": "点击右上角剩余决断次数",
+        "baseTask": "Tales@RA@NonZeroActsLeft",
+        "template": ["Tales@RA@ActsLeft2.png", "Tales@RA@ActsLeft1.png"],
+        "next": ["Tales@RA@PIS-SkipToCalc-SkipDay"]
+    },
+    "Tales@RA@PIS-SkipToCalc-SkipDay": {
+        "doc": "点击右上角 <消磨时间> 箭头",
+        "baseTask": "Tales@RA@SkipDay",
+        "template": "Tales@RA@SkipDay.png",
+        "next": ["Tales@RA@PIS-SkipToCalc-ConfirmToSkipDay"]
+    },
+    "Tales@RA@PIS-SkipToCalc-StartToday": {
+        "doc": "在驻扎地产出结算界面点击确认符号开启今日",
+        "baseTask": "Tales@RA@StartToday",
+        "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
+        "next": ["Tales@RA@PIS-SkipToCalc"]
+    },
+    "Tales@RA@PIS-Workbench": {
+        "doc": "点击进入组装台",
+        "baseTask": "Tales@RA@Workbench",
+        "template": "Tales@RA@WorkbenchButton.png",
+        "next": ["Tales@RA@PIS-CraftTool"]
+    },
+    "Tales@RA@PNS-ClearSquadIfSizeGE7": {
+        "doc": "如果当前编队规模大于等于7人则清空当前编队",
+        "algorithm": "JustReturn",
+        "next": ["Tales@RA-SquadSizeLE6", "Tales@RA@ClearSquad"]
+    },
+    "Tales@RA@PNS-ClickBaseCamp": {
+        "doc": "点击 <后舍: 众人会聚之地>",
+        "algorithm": "OcrDetect",
+        "text": ["众人会聚之地"],
+        "roi": [732, 295, 127, 54],
+        "action": "ClickSelf",
+        "next": ["Tales@RA@PNS-EnterBaseCamp"]
+    },
+    "Tales@RA@PNS-Commence": {
+        "doc": "在主题入口界面点击 <开始演算> 开启新游戏",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["开始演算"],
+        "roi": [1064, 620, 171, 50],
+        "next": ["Tales@RA@PNS-Commence@NextAfterLoadingText", "Tales@RA@PNS-OpeningAnimation"]
+    },
+    "Tales@RA@PNS-ConfirmToLeaveBaseCamp": {
+        "doc": "确认离开 <后舍: 众人会聚之地>",
+        "baseTask": "Tales@RA@DialogConfirmYellow",
+        "template": "Tales@RA@DialogConfirmYellow.png",
+        "next": [
+            "Tales@RA@PNS-ConfirmToLeaveBaseCamp@NextAfterLoadingIcon",
+            "Tales@RA@PNS-ConfirmToLeaveBaseCamp@NextAfterLoadingText",
+            "Tales@RA@PNS-GoTo-ShrubberyGalore"
+        ]
+    },
+    "Tales@RA@PNS-ConfirmToLeaveNode": {
+        "doc": "确认离开当前区块",
+        "baseTask": "Tales@RA@DialogConfirmYellow",
+        "template": "Tales@RA@DialogConfirmYellow.png",
+        "next": ["Tales@RA@PNS-MissionResults", "Tales@RA@PNS-ConfirmToLeaveNode@NextAfterLoadingText"]
+    },
+    "Tales@RA@PNS-EnterBaseCamp": {
+        "doc": "点击 <后舍: 众人会聚之地> 后点击 <开始行动>",
+        "baseTask": "Tales@RA@EnterNode",
+        "next": [
+            "Tales@RA@PNS-OpeningDialogue",
+            "Tales@RA@PNS-EnterBaseCamp@NextAfterLoadingText",
+            "Tales@RA@PNS-EnterBaseCamp@NextAfterMerelyWaiting"
+        ]
+    },
+    "Tales@RA@PNS-EnterGatheringOfFeathersThenLeave": {
+        "doc": "进入 <捕猎区: 聚羽之地> 后直接退出",
+        "baseTask": "Tales@RA@EnterNode",
+        "action": "DoNothing",
+        "sub": ["Tales@RA@PNS-EnterNodeThenLeave"],
+        "next": ["Tales@RA@PNS-SkipToCalc", "Tales@RA@PNS-EnterGatheringOfFeathersThenLeave@NextAfterLoadingIcon"]
+    },
+    "Tales@RA@PNS-EnterNodeThenLeave": {
+        "doc": [
+            "任务链",
+            "Step 1: 进入区块节点, 如果当前编队规模大于等于7人则清空当前编队, 在编队界面点击 <开始行动> 后点击 <确认>",
+            "Step 2: 在行动中点击左上角离开当前区块",
+            "Step 3: 确认离开当前区块",
+            "Step 4: 在行动结束界面点击左下角 <物资将送往仓库> 图标返回"
+        ],
+        "baseTask": "Tales@RA@EnterNode",
+        "sub": ["Tales@RA@PNS-ClearSquadIfSizeGE7", "Tales@RA@ConfirmSquad", "Tales@RA@DialogConfirmRed"],
+        "next": [
+            "Tales@RA@PNS-LeaveNode",
+            "Tales@RA@PNS-EnterNodeThenLeave@NextAfterLoadingText",
+            "Tales@RA@PNS-EnterNodeThenLeave@NextAfterMerelyWaiting"
+        ]
+    },
+    "Tales@RA@PNS-EnterShrubberyGaloreThenLeave": {
+        "doc": "进入 <资源区: 丰饶灌木林> 后直接退出",
+        "baseTask": "Tales@RA@EnterNode",
+        "action": "DoNothing",
+        "sub": ["Tales@RA@PNS-EnterNodeThenLeave"],
+        "next": [
+            "Tales@RA@PNS-EnterShrubberyGaloreThenLeave@NextAfterLoadingIcon",
+            "Tales@RA@PNS-GoTo-GatheringOfFeathers"
+        ]
+    },
+    "Tales@RA@PNS-FinishCalc": {
+        "doc": "已完成生存周期",
+        "baseTask": "Tales@RA@FinishCalc",
+        "action": "DoNothing",
+        "next": ["Tales@RA@PNS-ProsperityReachLimit", "Tales@RA@PNS-ProsperityBelowLimit"]
+    },
+    "Tales@RA@PNS-GoTo-GatheringOfFeathers": {
+        "doc": "前往并点击 <捕猎区: 聚羽之地>, 未来改由 GoTo 插件实现",
+        "algorithm": "JustReturn",
+        "sub": ["Tales@RA@ReturnToOrigin", "Tales@RA@ClickGatheringOfFeathers"],
+        "next": ["Tales@RA@PNS-EnterGatheringOfFeathersThenLeave"]
+    },
+    "Tales@RA@PNS-GoTo-ShrubberyGalore": {
+        "doc": "前往并点击 <资源区: 丰饶灌木林>, 未来改由 GoTo 插件实现",
+        "algorithm": "JustReturn",
+        "sub": ["Tales@RA@ReturnToOrigin", "Tales@RA@ClickShrubberyGalore"],
+        "next": ["Tales@RA@PNS-EnterShrubberyGaloreThenLeave"]
+    },
+    "Tales@RA@PNS-LeaveBaseCamp": {
+        "doc": "在行动中点击左上角离开 <后舍: 众人会聚之地>",
+        "baseTask": "Tales@RA@LeaveCurrentZone",
+        "template": "Tales@RA@LeaveCurrentZone.png",
+        "next": ["Tales@RA@PNS-ConfirmToLeaveBaseCamp"]
+    },
+    "Tales@RA@PNS-LeaveNode": {
+        "doc": "在行动中点击左上角离开当前区块, 注意左上角离开按钮渐变出现, 期间点击无效",
+        "baseTask": "Tales@RA@LeaveCurrentZone",
+        "template": "Tales@RA@LeaveCurrentZone.png",
+        "next": ["Tales@RA@PNS-ConfirmToLeaveNode", "Tales@RA@PNS-LeaveNode"]
+    },
+    "Tales@RA@PNS-MissionResults": {
+        "doc": "在行动结束界面点击左下角 <物资将送往仓库> 图标返回, 注意战利品列表加载期间点击无效",
+        "baseTask": "Tales@RA@MissionResults",
+        "template": "Tales@RA@SentToWarehouse.png",
+        "next": ["Tales@RA@PNS-MissionResults", "Stop"]
+    },
+    "Tales@RA@PNS-Navigation": {
+        "algorithm": "JustReturn",
+        "next": ["Tales@RA@ProsperityNoSave"]
+    },
+    "Tales@RA@PNS-OpeningAnimation": {
+        "doc": "等待开启新游戏后的过场动画",
+        "algorithm": "JustReturn",
+        "postDelay": 7500,
+        "next": ["Tales@RA@PNS-ClickBaseCamp"]
+    },
+    "Tales@RA@PNS-OpeningDialogue": {
+        "doc": "点击右下角对话选项位置，跳过引导对话",
+        "template": "DialogueLog",
+        "roi": [27, 14, 64, 51],
+        "action": "ClickRect",
+        "specificRect": [901, 422, 360, 51],
+        "next": ["Tales@RA@PNS-OpeningDialogue", "Tales@RA@PNS-LeaveBaseCamp"]
+    },
+    "Tales@RA@PNS-ProsperityBelowLimit": {
+        "doc": "已完成生存周期, 生息点数未达到上限, 点击 <点击任意处继续> 文字位置",
+        "baseTask": "Tales@RA@FinishCalc",
+        "next": [
+            "Tales@RA@PNS-ProsperityBelowLimit-StartToday",
+            "Tales@RA@PNS-ProsperityBelowLimit@NextAfterMerelyWaiting"
+        ]
+    },
+    "Tales@RA@PNS-ProsperityBelowLimit-Dots": {
+        "doc": "生息点数未达到上限, 点击右下角 Dots, 跳过可能的对话事件",
+        "baseTask": "Tales@RA@Dots",
+        "template": "Tales@RA@Dots.png",
+        "next": ["Tales@RA@PNS-ProsperityBelowLimit-SwipeSave", "Tales@RA@PNS-ProsperityBelowLimit-Dots"]
+    },
+    "Tales@RA@PNS-ProsperityBelowLimit-StartToday": {
+        "doc": "生息点数未达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
+        "baseTask": "Tales@RA@StartToday",
+        "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
+        "next": [
+            "Tales@RA@PNS-ProsperityBelowLimit-Dots",
+            "Tales@RA@PNS-ProsperityBelowLimit-StartToday@NextAfterLoadingText"
+        ]
+    },
+    "Tales@RA@PNS-ProsperityBelowLimit-SwipeSave": {
+        "doc": "生息点数未达到上限, 点击右下角删除存档图标, 确认删除存档, 仍要删除存档",
+        "baseTask": "Tales@RA@SwipeSave",
+        "template": "Tales@RA@SwipeSave.png",
+        "sub": ["Tales@RA@DialogConfirmRed*2"],
+        "next": ["Tales@RA@PNS-ProsperityBelowLimit-SwipeSave@NextAfterLoadingText", "Tales@RA@ProsperityNoSave"]
+    },
+    "Tales@RA@PNS-ProsperityReachLimit": {
+        "doc": "已完成生存周期, 生息点数达到上限, 点击 MAX 图案位置",
+        "baseTask": "Tales@RA@ProsperityReachLimit",
+        "template": "Tales@RA@Max",
+        "next": [
+            "Tales@RA@PNS-ProsperityReachLimit-StartToday",
+            "Tales@RA@PNS-ProsperityReachLimit@NextAfterMerelyWaiting"
+        ]
+    },
+    "Tales@RA@PNS-ProsperityReachLimit-Dots": {
+        "doc": "生息点数达到上限, 点击右下角 Dots, 跳过可能的对话事件",
+        "baseTask": "Tales@RA@Dots",
+        "template": "Tales@RA@Dots.png",
+        "next": ["Tales@RA@PNS-ProsperityReachLimit-SwipeSave", "Tales@RA@PNS-ProsperityReachLimit-Dots"]
+    },
+    "Tales@RA@PNS-ProsperityReachLimit-StartToday": {
+        "doc": "生息点数达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
+        "baseTask": "Tales@RA@StartToday",
+        "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
+        "next": [
+            "Tales@RA@PNS-ProsperityReachLimit-Dots",
+            "Tales@RA@PNS-ProsperityReachLimit-StartToday@NextAfterLoadingText"
+        ]
+    },
+    "Tales@RA@PNS-ProsperityReachLimit-SwipeSave": {
+        "doc": "生息点数达到上限, 点击右下角删除存档图标, 确认删除存档, 仍要删除存档",
+        "baseTask": "Tales@RA@SwipeSave",
+        "template": "Tales@RA@SwipeSave.png",
+        "sub": ["Tales@RA@DialogConfirmRed*2"]
+    },
+    "Tales@RA@PNS-SkipToCalc": {
+        "doc": "跳到下一次量定结算",
+        "template": ["Tales@RA@ActsLeft2.png", "Tales@RA@ActsLeft1.png", "Tales@RA@NextDay.png"],
+        "roi": [1152, 45, 54, 98],
+        "next": ["Tales@RA@PNS-SkipToCalc-NextDay", "Tales@RA@PNS-SkipToCalc-NonZeroActsLeft"]
+    },
+    "Tales@RA@PNS-SkipToCalc-CalcOrNextDay": {
+        "doc": "等待, 可能进入量定结算或驻扎地产出结算, 若进入驻扎地产出结算则可能点击确认符号跳过等待",
+        "algorithm": "JustReturn",
+        "next": [
+            "Tales@RA@PNS-FinishCalc",
+            "Tales@RA@PNS-SkipToCalc-StartToday",
+            "Tales@RA@PNS-SkipToCalc",
+            "Tales@RA@PNS-SkipToCalc-CalcOrNextDay"
+        ]
+    },
+    "Tales@RA@PNS-SkipToCalc-ConfirmToSkipDay": {
+        "doc": "确认跳过这一日",
+        "baseTask": "Tales@RA@DialogConfirmYellow",
+        "template": "Tales@RA@DialogConfirmYellow.png",
+        "next": ["Tales@RA@PNS-SkipToCalc-NextDay", "Tales@RA@PNS-SkipToCalc-ConfirmToSkipDay@NextAfterLoadingText"]
+    },
+    "Tales@RA@PNS-SkipToCalc-NextDay": {
+        "doc": "点击右上角箭头进入下一个生息日, 若在量定日则进行量定结算",
+        "baseTask": "Tales@RA@NextDay",
+        "template": "Tales@RA@NextDay.png",
+        "next": ["Tales@RA@PNS-SkipToCalc-NextDay@NextAfterLoadingText", "Tales@RA@PNS-SkipToCalc-CalcOrNextDay"]
+    },
+    "Tales@RA@PNS-SkipToCalc-NonZeroActsLeft": {
+        "doc": "点击右上角剩余决断次数",
+        "baseTask": "Tales@RA@NonZeroActsLeft",
+        "template": ["Tales@RA@ActsLeft2.png", "Tales@RA@ActsLeft1.png"],
+        "next": ["Tales@RA@PNS-SkipToCalc-SkipDay"]
+    },
+    "Tales@RA@PNS-SkipToCalc-SkipDay": {
+        "doc": "点击右上角 <消磨时间> 箭头",
+        "baseTask": "Tales@RA@SkipDay",
+        "template": "Tales@RA@SkipDay.png",
+        "next": ["Tales@RA@PNS-SkipToCalc-ConfirmToSkipDay"]
+    },
+    "Tales@RA@PNS-SkipToCalc-StartToday": {
+        "doc": "在驻扎地产出结算界面点击确认符号开启今日",
+        "baseTask": "Tales@RA@StartToday",
+        "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
+        "next": ["Tales@RA@PNS-SkipToCalc"]
+    },
+    "Tales@RA@ProsperityInSave": {
+        "doc": "生息演算「沙洲遗闻」有存档刷生息点数 <ProsperityInSave> 任务入口",
+        "algorithm": "JustReturn",
+        "next": ["Tales@RA@PIS-Resume", "Tales@RA@PIS-Workbench", "Tales@RA@PIS-Navigation"]
+    },
+    "Tales@RA@ProsperityNoSave": {
+        "doc": "生息演算「沙洲遗闻」无存档刷生息点数 <ProsperityNoSave> 任务入口",
+        "algorithm": "JustReturn",
+        "next": ["Tales@RA@PNS-Commence", "Tales@RA@PNS-Navigation"]
+    },
+    "Tales@RA@ProsperityReachLimit": {
+        "doc": "模板任务: 已完成生存周期, 生息点数达到上限, 点击 MAX 图案位置",
+        "template": "Tales@RA@Max",
+        "roi": [836, 516, 59, 40],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@ResourceGained": {
+        "doc": "模板任务: 获得物资, 点击 <点击空白处继续> 文字位置",
+        "algorithm": "OcrDetect",
+        "text": ["点击空白处继续"],
+        "roi": [554, 445, 172, 41],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@ReturnToOrigin": {
+        "doc": "让地图视图重置到原始位置",
+        "baseTask": "Tales@RA@ClickHeadquartersButton",
+        "template": "Tales@RA@HeadquartersButton.png",
+        "postDelay": 500,
+        "next": ["Tales@RA@CancelEnterBuildMode", "Tales@RA@Origin", "Tales@RA@ReturnToOrigin"]
+    },
+    "Tales@RA@ReturnToOrigin@CancelEnterBuildMode": {
+        "doc": "在右下角存在 <进入建造> 按钮时点击左下角取消进入建造",
+        "baseTask": "Tales@RA@CancelEnterBuildMode",
+        "next": ["Tales@RA@ReturnToOrigin"]
+    },
+    "Tales@RA@SelectLeftSave": {
+        "doc": "模板任务: 选择左侧的存档读取",
+        "template": "Tales@RA@ActsLeft2.png",
+        "roi": [317, 488, 196, 32],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@SelectMiddleSave": {
+        "doc": "模板任务: 选择中间的存档读取",
+        "template": "Tales@RA@ActsLeft2.png",
+        "roi": [617, 488, 46, 32],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@SelectRightSave": {
+        "doc": "模板任务: 选择右侧的存档读取",
+        "template": "Tales@RA@ActsLeft2.png",
+        "roi": [767, 488, 196, 32],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@SelectSecondLastSave": {
+        "doc": "模板任务: 选择从右往左第二个存档或仅存的存档",
+        "algorithm": "JustReturn",
+        "next": ["Tales@RA@SelectMiddleSave", "Tales@RA@SelectLeftSave"]
+    },
+    "Tales@RA@SkipDay": {
+        "doc": "模板任务: 点击右上角 <消磨时间> 箭头",
+        "roi": [1194, 143, 37, 49],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@StartToday": {
+        "doc": "模板任务: 在驻扎地产出结算界面点击确认符号开启今日",
+        "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
+        "roi": [568, 561, 112, 81],
+        "preDelay": 500,
+        "action": "ClickSelf"
+    },
+    "Tales@RA@SwipeSave": {
+        "doc": "模板任务: 点击右下角删除存档图标, 仅支持驻扎地等级2及以下",
+        "roi": [1088, 550, 91, 50],
+        "action": "ClickSelf"
+    },
+    "Tales@RA@Workbench": {
+        "doc": "模板任务: 点击进入组装台",
+        "template": "Tales@RA@WorkbenchButton.png",
+        "roi": [615, 645, 133, 55],
+        "action": "ClickSelf"
     }
 }

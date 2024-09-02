@@ -73,7 +73,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 下載地址
 
-- [穩定版 / 公測版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
+[Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## 使用說明
 
@@ -157,7 +157,7 @@ MAA 以中文（簡體）為第一語言，翻譯詞條皆以中文（簡體）�
 
 感謝所有參與到開發 / 測試中的朋友們，是大家的幫助讓 MAA 越來越好！ (\*´▽｀)ノノ
 
-[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=114514&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
+[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
 
 ## 開發相關
 

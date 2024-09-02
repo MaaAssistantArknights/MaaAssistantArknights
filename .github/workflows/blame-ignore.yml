@@ -1,0 +1,38 @@
+name: Blame Ignore Commit
+
+on:
+  workflow_dispatch:
+
+jobs:
+  blame-ignore:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false # Needed to bypass protection rules in Push changes
+
+      - name: Get last checked commit
+        run: |
+          LAST_CHECKED_COMMIT=$(cat .last-checked-commit 2>/dev/null || git rev-list --max-parents=0 HEAD)
+          echo "LAST_CHECKED_COMMIT=$LAST_CHECKED_COMMIT" >> $GITHUB_ENV
+
+      - name: Process commits and update blame ignore list
+        run: |
+          git log ${{ env.LAST_CHECKED_COMMIT }}..HEAD --pretty=format:"%H %s" --grep="\[blame ignore\]" | awk '{print $1}' >> .git-blame-ignore-revs
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git rev-parse HEAD > .last-checked-commit
+
+          git add .last-checked-commit .git-blame-ignore-revs
+          git commit -m "chore: auto blame ignore" -m "[skip changelog]"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          branch: ${{ github.ref }}
+          github_token: ${{ secrets.MAA_RESOURCE_SYNC }}

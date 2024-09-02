@@ -1,7 +1,4 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  Settings  -->
     <system:String x:Key="Settings">Settings</system:String>
     <system:String x:Key="GeneralSettings">General</system:String>
@@ -48,6 +45,10 @@
     <system:String x:Key="ExternalNotificationDiscordUserId">User ID</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">Bot Token</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">Chat ID</system:String>
+    <system:String x:Key="ExternalNotificationQmsgServer">Qmsg Server</system:String>
+    <system:String x:Key="ExternalNotificationQmsgKey">Qmsg Key</system:String>
+    <system:String x:Key="ExternalNotificationQmsgUser">User QQ</system:String>
+    <system:String x:Key="ExternalNotificationQmsgBot">Bot QQ</system:String>
     <system:String x:Key="UseGpuForInference">Use GPU for inference acceleration</system:String>
     <system:String x:Key="GpuOptionDisable">Don’t use</system:String>
     <system:String x:Key="GpuOptionSystemDefault">System default GPU</system:String>
@@ -342,6 +343,8 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">Restart immediately to apply changes?</system:String>
     <system:String x:Key="SwitchResolutionTip">Change the emulator resolution to 1920x1080!</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">Make sure the emulator is set to 1920x1080</system:String>
+    <system:String x:Key="AllowUseStoneSave">Allow Use Originium Save</system:String>
+    <system:String x:Key="AllowUseStoneSaveWarning">This function is considered dangerous. Pressing the "Confirm" button indicates that you understand and are willing to assume the potential risks.</system:String>
     <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
     <system:String x:Key="UseRemainingSanityStage">Use remaining sanity stage</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">Brush the specified stage after completing the main task, won't use sanity potion or stone</system:String>
@@ -406,11 +409,20 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="Mall">Credit Store</system:String>
     <system:String x:Key="Mission">Collect Rewards</system:String>
     <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>
-    <system:String x:Key="ReclamationAlgorithm">Reclamation Algorithm</system:String>
-    <system:String x:Key="ReclamationAlgorithm2">Reclamation Algorithm 2</system:String>
+    <system:String x:Key="Reclamation">Reclamation Algorithm</system:String>
+    <system:String x:Key="ReclamationTheme">Reclamation Algorithm Theme</system:String>
+    <system:String x:Key="ReclamationThemeFire">Fire Within the Sand</system:String>
+    <system:String x:Key="ReclamationThemeTales">Tales Within the Sand</system:String>
+    <system:String x:Key="ReclamationModeProsperityNoSave">I do not have a save, let's farm prosperity points by repeatedly entering and exiting stages.</system:String>
+    <system:String x:Key="ReclamationModeProsperityInSave">I do have a save, let's farm prosperity points by crafting tools.</system:String>
+    <system:String x:Key="ReclamationIncrementMode">Increment Mode</system:String>
+    <system:String x:Key="ReclamationIncrementModeClick">Click</system:String>
+    <system:String x:Key="ReclamationIncrementModeHold">Hold</system:String>
+    <system:String x:Key="ReclamationMaxCraftCountPerRound">Max Craft Count Per Round</system:String>
     <system:String x:Key="OperNameLanguage">Operator display language</system:String>
     <system:String x:Key="OperNameLanguageMAA">Follow MAA</system:String>
     <system:String x:Key="OperNameLanguageClient">Follow game client</system:String>
+    <system:String x:Key="OperNameLanguageForce">Force use of specified language</system:String>
     <system:String x:Key="Light">Light</system:String>
     <system:String x:Key="Dark">Dark</system:String>
     <system:String x:Key="SyncWithOs">Sync with OS</system:String>
@@ -433,7 +445,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="WaitAndStop">Wait &amp; Stop</system:String>
     <!--  FightSettings  -->
     <system:String x:Key="UseSanityPotion">Use Sanity Potion</system:String>
-    <system:String x:Key="UseOriginitePrime">Use Originium*</system:String>
+    <system:String x:Key="UseOriginitePrime">Use Originium</system:String>
     <system:String x:Key="PerformBattles">Perform Battles</system:String>
     <system:String x:Key="AssignedMaterial">Material</system:String>
     <system:String x:Key="Quantity">Quantity</system:String>
@@ -526,7 +538,8 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">Operator</system:String>
     <system:String x:Key="OperBoxRecognitionTip">"Marked" operators can't be recognized. Please unmark them before starting.\nThis function is still in testing. If you encounter any unexpected results, please zip the 「debug/oper」 folder in the installation path and submit an issue on GitHub</system:String>
-    <system:String x:Key="OperBoxRecognitionResult">Not owned: {0}\n\n{1}\n\nOwned: {2}\n\n{3}</system:String>
+    <system:String x:Key="OperBoxHaveList">Owned: {0}</system:String>
+    <system:String x:Key="OperBoxNotHaveList">Not owned: {0}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">Start to Identify</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">Copy to Clipboard</system:String>
     <!--  !Operator Recognition  -->
@@ -728,7 +741,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="ThisFacility" xml:space="preserve">Current Facility: </system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">Match Group: </system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">Failed to match operator groups, group list: </system:String>
-    <system:String x:Key="RoomOperators" xml:space="preserve">preferred operators: </system:String>
+    <system:String x:Key="RoomOperators" xml:space="preserve">Preferred operators: </system:String>
     <system:String x:Key="ProductIncorrect">Product does NOT match the configuration.</system:String>
     <system:String x:Key="ProductUnknown">Unknown Product</system:String>
     <system:String x:Key="ProductChanged">Product has changed</system:String>
@@ -751,7 +764,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="UseFormation">Use formation</system:String>
     <system:String x:Key="Current">Current</system:String>
     <system:String x:Key="BattleFormation">Start formation</system:String>
-    <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selection of operator: </system:String>
+    <system:String x:Key="BattleFormationSelected" xml:space="preserve">Operator selected: </system:String>
     <system:String x:Key="CurrentSteps">Current step: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">Unsupported stage, please check the level name or go to「Settings - Update - Check update」and try updating the resource version!</system:String>
     <system:String x:Key="ResourceUpdatePaused">Due to server resource constraints, resource version updates are temporarily suspended. Please manually import the level file or wait for a new version release</system:String>
@@ -855,10 +868,12 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
 
 The support for reclamation algorithm is still under development at present. Please mind the following:
 
-Without save file: farm points through initial setup.
-  1. Cannot be used when a save already exists. (simply delete the current save)
-  2. Cannot be used when squads are not empty. (simply clear the current squad)
-  3. Can only be started at the main nav page of reclamation algorithm.
+Farm points through initial setup: (Be careful that existing save files might be deleted)
+  1. After reaching the maximum points, it will output 'Task Completed' and automatically stop the task.
+  2. Cannot be used when squads are not empty (simply clear the current squad).
+  3. Manually check and delete save files to prevent MAA from deleting your valuable saves.
+  4. Navigation is not yet implemented, so the task cannot be started from locations outside the Reclamation mode.
+  5. If an error occurs during the task or the task completes without reaching the maximum points, please submit an issue on GitHub.
 
 With save file: farm points through crafting (advanced).
   1. It must be the first day after settlement, and there should be no enemy attacks entering the stationed area for the next three days.
@@ -867,7 +882,7 @@ With save file: farm points through crafting (advanced).
     </system:String>
     <system:String x:Key="ReclamationBePatient">Chill and relax, please be patient</system:String>
     <system:String x:Key="Reclamation2ExEnable">Farm points through crafting</system:String>
-    <system:String x:Key="Reclamation2ExProductTip">Support prop name</system:String>
-    <system:String x:Key="Reclamation2ExProductPlaceholder">Glow Stick</system:String>
+    <system:String x:Key="ReclamationToolToCraftTip">Support prop name</system:String>
+    <system:String x:Key="ReclamationToolToCraftPlaceholder">Glow Stick</system:String>
     <!--  !Reclamation  -->
 </ResourceDictionary>

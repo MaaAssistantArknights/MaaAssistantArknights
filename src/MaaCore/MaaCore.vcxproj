@@ -85,10 +85,12 @@
     <ClInclude Include="Task\Miscellaneous\OperBoxRecognitionTask.h" />
     <ClInclude Include="Task\Miscellaneous\AccountSwitchTask.h" />
     <ClInclude Include="Task\Miscellaneous\TaskFileReloadTask.h" />
-    <ClInclude Include="Task\Reclamation\ReclamationControlTask.h" />
-    <ClInclude Include="Task\Reclamation\ReclamationConclusionReportPlugin.h" />
-    <ClInclude Include="Task\Reclamation\ReclamationBattlePlugin.h" />
+    <!-- 生息演算 .h Begin -->
     <ClInclude Include="Task\Interface\ReclamationTask.h" />
+    <ClInclude Include="Task\Reclamation\ReclamationConfig.h" />
+    <ClInclude Include="Task\Reclamation\AbstractReclamationTaskPlugin.h" />
+    <ClInclude Include="Task\Reclamation\ReclamationCraftTaskPlugin.h" />
+    <!-- 生息演算 .h End -->
     <ClInclude Include="Task\BattleHelper.h" />
     <ClInclude Include="Task\Interface\SingleStepTask.h" />
     <ClInclude Include="Task\Interface\SSSCopilotTask.h" />
@@ -273,10 +275,12 @@
     <ClCompile Include="Task\Miscellaneous\OperBoxRecognitionTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\AccountSwitchTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\TaskFileReloadTask.cpp" />
-    <ClCompile Include="Task\Reclamation\ReclamationControlTask.cpp" />
-    <ClCompile Include="Task\Reclamation\ReclamationConclusionReportPlugin.cpp" />
-    <ClCompile Include="Task\Reclamation\ReclamationBattlePlugin.cpp" />
+    <!-- 生息演算 .cpp Begin -->
     <ClCompile Include="Task\Interface\ReclamationTask.cpp" />
+    <ClCompile Include="Task\Reclamation\ReclamationConfig.cpp" />
+    <ClCompile Include="Task\Reclamation\AbstractReclamationTaskPlugin.cpp" />
+    <ClCompile Include="Task\Reclamation\ReclamationCraftTaskPlugin.cpp" />
+    <!-- 生息演算 .cpp End -->
     <ClCompile Include="Task\BattleHelper.cpp" />
     <ClCompile Include="Task\Interface\SingleStepTask.cpp" />
     <ClCompile Include="Task\Interface\SSSCopilotTask.cpp" />

@@ -71,7 +71,7 @@ Talk is cheap. Show me the pictures!
 
 ## Download
 
-[Stable/Beta](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)
+[Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## How to Use
 
@@ -198,7 +198,7 @@ Check [Issue Bot Usage](./develop/issue-bot-usage.md).
 
 Thanks to all friends who contribute to development/testing for making MAA better! (\*´▽｀)ノノ
 
-[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=114514&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
+[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
 
 ## Disclaimer
 

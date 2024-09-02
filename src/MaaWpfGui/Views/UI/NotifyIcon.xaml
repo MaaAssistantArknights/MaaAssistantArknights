@@ -20,7 +20,7 @@
                 <MenuItem Name="stopMenu" Header="{DynamicResource Stop}" />
                 <MenuItem Name="switchLangMenu" Header="{DynamicResource SwitchLanguage}" />
                 <MenuItem Name="forceShowMenu" Header="{DynamicResource ForceShow}" />
-                <MenuItem Name="useTrayMenu" Header="{DynamicResource HideTray}" />
+                <MenuItem Name="hideTrayMenu" Header="{DynamicResource HideTray}" />
                 <MenuItem Name="restartMenu" Header="{DynamicResource Restart}" />
                 <MenuItem Name="exitMenu" Header="{DynamicResource Exit}" />
             </ContextMenu>

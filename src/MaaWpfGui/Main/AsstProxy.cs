@@ -767,8 +767,7 @@ namespace MaaWpfGui.Main
                             TaskType.Mall,
                             TaskType.Award,
                             TaskType.Roguelike,
-                            TaskType.ReclamationAlgorithm,
-                            TaskType.ReclamationAlgorithm2,
+                            TaskType.Reclamation,
                         };
 
                         // 仅有一个任务且为 CloseDown 时，不执行任务链结束后操作
@@ -1204,11 +1203,11 @@ namespace MaaWpfGui.Main
             switch (taskChain)
             {
                 case "Depot":
-                    Instances.RecognizerViewModel.DepotParse((JObject)subTaskDetails);
+                    Instances.RecognizerViewModel.DepotParse((JObject?)subTaskDetails);
                     break;
 
                 case "OperBox":
-                    Instances.RecognizerViewModel.OperBoxParse((JObject)subTaskDetails);
+                    Instances.RecognizerViewModel.OperBoxParse((JObject?)subTaskDetails);
                     break;
             }
 
@@ -1426,15 +1425,21 @@ namespace MaaWpfGui.Main
 
                 case "PenguinId":
                     {
-                        string id = subTaskDetails!["id"]?.ToString();
+                        string id = subTaskDetails!["id"]?.ToString() ?? string.Empty;
                         Instances.SettingsViewModel.PenguinId = id;
 
                         break;
                     }
 
                 case "BattleFormation":
-                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleFormation") + "\n[" +
-                        string.Join(", ", subTaskDetails!["formation"]?.ToObject<List<string>>().Select(oper => DataHelper.GetLocalizedCharacterName(oper))) + "]");
+                    Instances.CopilotViewModel.AddLog(
+                        LocalizationHelper.GetString("BattleFormation") +
+                        "\n[" +
+                        string.Join(
+                            ", ",
+                            (subTaskDetails!["formation"]?.ToObject<List<string?>>() ?? [])
+                                .Select(oper => DataHelper.GetLocalizedCharacterName(oper) ?? oper)
+                                .Where(oper => !string.IsNullOrEmpty(oper))) + "]");
                     break;
 
                 case "BattleFormationSelected":
@@ -1454,7 +1459,7 @@ namespace MaaWpfGui.Main
                             string.Format(
                                 LocalizationHelper.GetString("CurrentSteps"),
                                 subTaskDetails["action"],
-                                subTaskDetails["target"]));
+                                DataHelper.GetLocalizedCharacterName(subTaskDetails["target"]?.ToString())));
 
                         break;
                     }
@@ -1497,7 +1502,7 @@ namespace MaaWpfGui.Main
 
                 case "CustomInfrastRoomOperators":
                     string nameStr = (subTaskDetails!["names"] ?? new JArray())
-                        .Aggregate(string.Empty, (current, name) => current + name + ", ");
+                        .Aggregate(string.Empty, (current, name) => current + DataHelper.GetLocalizedCharacterName(name.ToString()) + ", ");
 
                     if (nameStr != string.Empty)
                     {
@@ -1905,8 +1910,7 @@ namespace MaaWpfGui.Main
             Depot,
             OperBox,
             Gacha,
-            ReclamationAlgorithm,
-            ReclamationAlgorithm2,
+            Reclamation,
             Custom,
         }
 
@@ -2439,30 +2443,36 @@ namespace MaaWpfGui.Main
         /// <summary>
         /// 自动生息演算。
         /// </summary>
+        /// <param name="theme">生息演算主题["Tales"]</param>
+        /// <param name="mode">
+        /// 策略。可用值包括：
+        /// <list type="bullet">
+        ///     <item>
+        ///         <term><c>0</c></term>
+        ///         <description>无存档时通过进出关卡刷生息点数</description>
+        ///     </item>
+        ///     <item>
+        ///         <term><c>1</c></term>
+        ///         <description>有存档时通过合成支援道具刷生息点数</description>
+        ///     </item>
+        /// </list>
+        /// </param>
+        /// <param name="toolToCraft">要组装的支援道具。</param>
+        /// <param name="incrementMode">点击类型：0 连点；1 长按</param>
+        /// <param name="numCraftBatches">单次最大制造轮数</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendReclamation()
-        {
-            AsstTaskId id = AsstAppendTaskWithEncoding("ReclamationAlgorithm");
-            _latestTaskId[TaskType.ReclamationAlgorithm] = id;
-            return id != 0;
-        }
-
-        /// <summary>
-        /// 自动生息演算。
-        /// </summary>
-        /// <param name="mode">是否通过制造刷点数。</param>
-        /// <param name="product">制造产物。</param>
-        /// <returns>是否成功。</returns>
-        public bool AsstAppendReclamation2(int mode = 0, string product = "")
+        public bool AsstAppendReclamation(string theme = "Tales", int mode = 1, string toolToCraft = "", int incrementMode = 0, int numCraftBatches = 16)
         {
             var taskParams = new JObject
             {
-                ["theme"] = 1,
+                ["theme"] = theme,
                 ["mode"] = mode,
-                ["product"] = product,
+                ["tool_to_craft"] = toolToCraft,
+                ["increment_mode"] = incrementMode,
+                ["num_craft_batches"] = numCraftBatches,
             };
-            AsstTaskId id = AsstAppendTaskWithEncoding("ReclamationAlgorithm", taskParams);
-            _latestTaskId[TaskType.ReclamationAlgorithm2] = id;
+            AsstTaskId id = AsstAppendTaskWithEncoding("Reclamation", taskParams);
+            _latestTaskId[TaskType.Reclamation] = id;
             return id != 0;
         }
 

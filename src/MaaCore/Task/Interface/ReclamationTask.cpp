@@ -1,90 +1,61 @@
-#include "Task/Interface/ReclamationTask.h"
+#include "ReclamationTask.h"
 
-#include "Common/AsstBattleDef.h"
-#include "Status.h"
-#include "Config/TaskData.h"
 #include "Task/ProcessTask.h"
+
+// 通用配置及插件
+#include "Task/Reclamation/ReclamationConfig.h"
+
+// ReclamationMode::ProsperityInSave 专用配置及插件
+#include "Task/Reclamation/ReclamationCraftTaskPlugin.h"
+
 #include "Utils/Logger.hpp"
 
-#include "Task/Reclamation/ReclamationBattlePlugin.h"
-#include "Task/Reclamation/ReclamationConclusionReportPlugin.h"
-#include "Task/Reclamation/ReclamationControlTask.h"
-
-auto asst::ReclamationTask::init_reclamation_fire_within_the_sand()
-{
-    auto ptr = std::make_shared<fire_within_the_sand_task>(m_callback, m_inst, TaskType);
-    ptr->register_plugin<ReclamationConclusionReportPlugin>();
-    m_subtasks = { ptr };
-    m_reclamation_task_ptr = ptr;
-    return ptr;
-}
-
-auto asst::ReclamationTask::init_reclamation_tales_within_the_sand(const bool enable_ex)
-{
-    auto ptr = std::make_shared<tales_within_the_sand_task>(m_callback, m_inst, TaskType);
-    if (enable_ex) {
-        ptr->set_tasks({ "Reclamation2Ex" });
-    } else {
-        ptr->set_tasks({ "Reclamation2" });
-    }
-    m_subtasks = { ptr };
-    m_reclamation_task_ptr = ptr;
-    return ptr;
-}
-
-asst::ReclamationTask::ReclamationTask(const AsstCallback& callback, Assistant* inst)
-    : InterfaceTask(callback, inst, TaskType)
+asst::ReclamationTask::ReclamationTask(const AsstCallback& callback, Assistant* inst) :
+    InterfaceTask(callback, inst, TaskType),
+    m_reclamation_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
+    m_config_ptr(std::make_shared<ReclamationConfig>())
 {
     LogTraceFunction;
-    init_reclamation_tales_within_the_sand(false);
+
+    // ReclamationMode::ProsperityInSave 专用参数
+    m_reclamation_task_ptr->register_plugin<ReclamationCraftTaskPlugin>(m_config_ptr);
+
+    m_subtasks.emplace_back(m_reclamation_task_ptr);
 }
 
 bool asst::ReclamationTask::set_params(const json::value& params)
 {
     LogTraceFunction;
 
-    switch (int theme = params.get("theme", 1)) {
-    case 0: // 沙中之火
-    {
-        if (m_current_theme != TaskTheme::FireWithinTheSand) {
-            m_reclamation_task_ptr = init_reclamation_fire_within_the_sand();
-            m_current_theme = TaskTheme::FireWithinTheSand;
-        }
-        const auto ptr = std::static_pointer_cast<fire_within_the_sand_task>(m_reclamation_task_ptr);
-        // 0 - 刷分与建造点，进入战斗直接退出
-        // 1 - 刷赤金，联络员买水后基地锻造
-        switch (int mode = params.get("mode", 0)) {
-        case 0:
-            ptr->set_task_mode(ReclamationTaskMode::GiveupUponFight);
-            break;
-        case 1:
-            ptr->set_task_mode(ReclamationTaskMode::SmeltGold);
-            break;
-        default:
-            Log.error(__FUNCTION__, "| Unknown mode", mode);
-            return false;
-        }
-        break;
-    }
-    case 1: // 沙洲遗闻
-    {
-        const int enable_ex = params.get("mode", 0);
-        if (m_current_theme != TaskTheme::TalesWithinTheSand) {
-            m_current_theme = TaskTheme::TalesWithinTheSand;
-        }
-        m_reclamation_task_ptr = init_reclamation_tales_within_the_sand(enable_ex);
-        auto ptr = std::static_pointer_cast<tales_within_the_sand_task>(m_reclamation_task_ptr);
-        if (const std::string product = params.get("product", "荧光棒"); !product.empty()) {
-            Task.get<OcrTaskInfo>("Reclamation2ExClickProduct")->text = { product };
-        }
-        else {
-            Task.get<OcrTaskInfo>("Reclamation2ExClickProduct")->text = { "荧光棒" };
-        }
-        break;
-    }
-    default:
-        Log.error(__FUNCTION__, "Unknown theme", theme);
+    if (!m_config_ptr->verify_and_load_params(params)) {
         return false;
     }
+
+    const std::string& theme = m_config_ptr->get_theme();
+    const ReclamationMode& mode = m_config_ptr->get_mode();
+
+    if (theme == ReclamationTheme::Fire) {
+        Log.info(__FUNCTION__, "Reclamation Algorithm theme", theme, "is no longer available");
+        m_reclamation_task_ptr->set_tasks({ "Stop" });
+        return true;
+    }
+
+    switch (mode) {
+    case ReclamationMode::ProsperityNoSave:
+        m_reclamation_task_ptr->set_tasks({ theme + "@RA@ProsperityNoSave" });
+        break;
+    case ReclamationMode::ProsperityInSave:
+        m_reclamation_task_ptr->set_tasks({ theme + "@RA@ProsperityInSave" });
+        break;
+    }
+
+    // 各生息演算插件根据 params 设置插件专用参数, 停用不应被启用的插件
+    for (const TaskPluginPtr& plugin : m_reclamation_task_ptr->get_plugins()) {
+        if (const auto& reclamation_task_plugin = std::dynamic_pointer_cast<AbstractReclamationTaskPlugin>(plugin);
+            reclamation_task_plugin != nullptr) {
+            reclamation_task_plugin->set_enable(reclamation_task_plugin->load_params(params));
+        }
+    }
+
     return true;
 }

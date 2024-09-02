@@ -126,43 +126,103 @@
             </Grid>
         </TabItem>
         <TabItem Header="{DynamicResource OperBoxRecognition}">
-            <Grid
-                Width="600"
-                Margin="20,0,20,20"
-                IsEnabled="{Binding Idle}">
+            <Grid Margin="20,0,20,20" IsEnabled="{Binding Idle}">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="150" />
                 </Grid.RowDefinitions>
-                <hc:ScrollViewer
+
+                <controls:TextBlock
                     Grid.Row="0"
-                    Margin="10,0"
+                    Margin="10"
+                    HorizontalAlignment="Center"
                     VerticalAlignment="Top"
-                    IsInertiaEnabled="True"
-                    PanningMode="Both">
-                    <StackPanel>
+                    Focusable="True"
+                    FontSize="14"
+                    Style="{StaticResource TextBlockDefaultBold}"
+                    Text="{Binding OperBoxInfo}"
+                    TextWrapping="Wrap" />
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
                         <controls:TextBlock
+                            Grid.Row="0"
                             Margin="10"
-                            HorizontalAlignment="Left"
+                            HorizontalAlignment="Center"
                             VerticalAlignment="Top"
-                            Focusable="True"
-                            FontSize="14"
-                            Style="{StaticResource TextBlockDefaultBold}"
-                            Text="{Binding OperBoxInfo}"
-                            TextWrapping="Wrap" />
-                        <TextBox
-                            Margin="10"
-                            HorizontalAlignment="Stretch"
-                            BorderThickness="0"
-                            FontFamily="SimSun, Global Monospace"
-                            FontSize="14"
+                            Text="{c:Binding OperBoxNotHaveList.Count,
+                                             StringFormat={StaticResource OperBoxNotHaveList}}"
+                            Visibility="{c:Binding 'OperBoxNotHaveList.Count != 0'}" />
+                        <DataGrid
+                            Grid.Row="1"
+                            Width="680"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Stretch"
+                            AutoGenerateColumns="False"
+                            HeadersVisibility="None"
                             IsReadOnly="True"
-                            Text="{Binding OperBoxResult}"
-                            TextWrapping="Wrap" />
-                    </StackPanel>
-                </hc:ScrollViewer>
+                            ItemsSource="{Binding OperBoxNotHaveList}"
+                            ScrollViewer.CanContentScroll="True"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            Visibility="{c:Binding 'OperBoxNotHaveList.Count != 0'}">
+                            <DataGrid.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel HorizontalAlignment="Center" />
+                                </ItemsPanelTemplate>
+                            </DataGrid.ItemsPanel>
+                            <DataGrid.Resources>
+                                <Style BasedOn="{StaticResource {x:Type DataGrid}}" TargetType="{x:Type DataGrid}">
+                                    <EventSetter Event="PreviewMouseWheel" Handler="DataGrid_PreviewMouseWheel" />
+                                </Style>
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <controls:TextBlock
+                            Grid.Row="2"
+                            Margin="10"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            Text="{c:Binding OperBoxHaveList.Count,
+                                             StringFormat={StaticResource OperBoxHaveList}}"
+                            Visibility="{c:Binding 'OperBoxHaveList.Count != 0'}" />
+                        <DataGrid
+                            Grid.Row="3"
+                            Width="680"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Stretch"
+                            AutoGenerateColumns="False"
+                            HeadersVisibility="None"
+                            IsReadOnly="True"
+                            ItemsSource="{Binding OperBoxHaveList}"
+                            ScrollViewer.CanContentScroll="True"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            Visibility="{c:Binding 'OperBoxHaveList.Count != 0'}">
+                            <DataGrid.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel HorizontalAlignment="Center" />
+                                </ItemsPanelTemplate>
+                            </DataGrid.ItemsPanel>
+                            <DataGrid.Resources>
+                                <Style BasedOn="{StaticResource {x:Type DataGrid}}" TargetType="{x:Type DataGrid}">
+                                    <EventSetter Event="PreviewMouseWheel" Handler="DataGrid_PreviewMouseWheel" />
+                                </Style>
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </ScrollViewer>
                 <StackPanel
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Margin="27,0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -195,7 +255,7 @@
                     <controls:TextBlock
                         Height="36"
                         Margin="10"
-                        HorizontalAlignment="Left"
+                        HorizontalAlignment="Center"
                         VerticalAlignment="Top"
                         Focusable="True"
                         FontSize="14"
@@ -215,7 +275,7 @@
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <DataGrid.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <WrapPanel  HorizontalAlignment="Center"/>
+                            <WrapPanel HorizontalAlignment="Center" />
                         </ItemsPanelTemplate>
                     </DataGrid.ItemsPanel>
                     <DataGrid.Columns>

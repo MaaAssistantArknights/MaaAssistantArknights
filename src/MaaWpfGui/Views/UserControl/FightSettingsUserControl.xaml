@@ -7,13 +7,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
-    xmlns:local="clr-namespace:MaaWpfGui"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
-    xmlns:vm="clr-namespace:MaaWpfGui"
     d:DataContext="{d:DesignInstance {x:Type ui:TaskQueueViewModel}}"
     d:DesignWidth="220"
     mc:Ignorable="d">
@@ -46,9 +42,7 @@
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
-                        Click="{s:Action ToggleCheckBoxNullOnLeftClick,
-                                         Target={x:Type helper:CheckBoxHelper}}"
-                        Content="{DynamicResource UseOriginitePrime}"
+                        Content="{c:Binding 'UseStoneString + (TaskSettingDataContext.AllowUseStoneSave ? &quot;&quot; : &quot;*&quot;)'}"
                         IsChecked="{Binding UseStoneWithNull}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
@@ -135,7 +129,6 @@
                         SelectedValuePath="Value"
                         Text="{Binding DropsItemName}" />
                     <hc:NumericUpDown
-                        Width="Auto"
                         Height="30"
                         MinWidth="60"
                         Margin="6"
@@ -148,7 +141,7 @@
                         Value="{Binding DropsQuantity, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </Grid>
-            <Grid Grid.Row="2" Visibility="{c:Binding !HideSeries}">
+            <Grid Grid.Row="2" Visibility="{c:Binding !TaskSettingDataContext.HideSeries}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="100" />
                     <ColumnDefinition />
@@ -189,7 +182,7 @@
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
                     </Grid>
-                    <Grid Height="42" Visibility="{c:Binding UseAlternateStage}">
+                    <Grid Height="42" Visibility="{c:Binding TaskSettingDataContext.UseAlternateStage}">
                         <controls:TextBlock
                             Margin="6"
                             HorizontalAlignment="Center"
@@ -198,7 +191,7 @@
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
                     </Grid>
-                    <Grid Height="42" Visibility="{c:Binding UseAlternateStage}">
+                    <Grid Height="42" Visibility="{c:Binding TaskSettingDataContext.UseAlternateStage}">
                         <!--  a placeholder  -->
                         <controls:TextBlock
                             Margin="6"
@@ -219,87 +212,95 @@
                     </Grid>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Vertical">
-                    <ComboBox
-                        Height="30"
-                        Margin="6"
-                        VerticalContentAlignment="Center"
-                        DisplayMemberPath="Display"
+                    <StackPanel
                         IsEnabled="{c:Binding !CustomStageCode}"
-                        IsHitTestVisible="{c:Binding !FightTaskRunning}"
-                        ItemsSource="{Binding StageList}"
-                        SelectedValue="{Binding Stage1}"
-                        SelectedValuePath="Value"
-                        Visibility="{c:Binding !CustomStageCode}" />
-                    <ComboBox
-                        Height="30"
-                        Margin="6"
-                        VerticalContentAlignment="Center"
-                        DisplayMemberPath="Display"
-                        IsEnabled="{c:Binding '!CustomStageCode and UseAlternateStage'}"
-                        IsHitTestVisible="{c:Binding !FightTaskRunning}"
-                        ItemsSource="{Binding AlternateStageList}"
-                        SelectedValue="{Binding Stage2}"
-                        SelectedValuePath="Value"
-                        Visibility="{c:Binding '!CustomStageCode and UseAlternateStage'}" />
-                    <ComboBox
-                        Height="30"
-                        Margin="6"
-                        VerticalContentAlignment="Center"
-                        DisplayMemberPath="Display"
-                        IsEnabled="{c:Binding '!CustomStageCode and UseAlternateStage'}"
-                        IsHitTestVisible="{c:Binding !FightTaskRunning}"
-                        ItemsSource="{Binding AlternateStageList}"
-                        SelectedValue="{Binding Stage3}"
-                        SelectedValuePath="Value"
-                        Visibility="{c:Binding '!CustomStageCode and UseAlternateStage'}" />
-                    <ComboBox
-                        Height="30"
-                        Margin="6"
-                        VerticalContentAlignment="Center"
-                        DisplayMemberPath="Display"
-                        IsEnabled="{c:Binding '!CustomStageCode and UseRemainingSanityStage'}"
-                        IsHitTestVisible="{c:Binding !FightTaskRunning}"
-                        ItemsSource="{Binding RemainingSanityStageList}"
-                        SelectedValue="{Binding RemainingSanityStage}"
-                        SelectedValuePath="Value"
-                        ToolTip="{DynamicResource UseRemainingSanityStageTip}"
-                        Visibility="{c:Binding '!CustomStageCode and UseRemainingSanityStage'}" />
-                    <TextBox
-                        Height="30"
-                        Margin="6"
-                        VerticalContentAlignment="Center"
+                        Orientation="Vertical"
+                        Visibility="{c:Binding !CustomStageCode}">
+                        <ComboBox
+                            Height="30"
+                            Margin="6"
+                            VerticalContentAlignment="Center"
+                            DisplayMemberPath="Display"
+                            IsHitTestVisible="{c:Binding !FightTaskRunning}"
+                            ItemsSource="{Binding StageList}"
+                            SelectedValue="{Binding Stage1}"
+                            SelectedValuePath="Value" />
+                        <StackPanel
+                            IsEnabled="{c:Binding TaskSettingDataContext.UseAlternateStage}"
+                            Orientation="Vertical"
+                            Visibility="{c:Binding TaskSettingDataContext.UseAlternateStage}">
+                            <ComboBox
+                                Height="30"
+                                Margin="6"
+                                VerticalContentAlignment="Center"
+                                DisplayMemberPath="Display"
+                                IsHitTestVisible="{c:Binding !FightTaskRunning}"
+                                ItemsSource="{Binding AlternateStageList}"
+                                SelectedValue="{Binding Stage2}"
+                                SelectedValuePath="Value" />
+                            <ComboBox
+                                Height="30"
+                                Margin="6"
+                                VerticalContentAlignment="Center"
+                                DisplayMemberPath="Display"
+                                IsHitTestVisible="{c:Binding !FightTaskRunning}"
+                                ItemsSource="{Binding AlternateStageList}"
+                                SelectedValue="{Binding Stage3}"
+                                SelectedValuePath="Value" />
+                        </StackPanel>
+                        <ComboBox
+                            Height="30"
+                            Margin="6"
+                            VerticalContentAlignment="Center"
+                            DisplayMemberPath="Display"
+                            IsEnabled="{c:Binding UseRemainingSanityStage}"
+                            IsHitTestVisible="{c:Binding !FightTaskRunning}"
+                            ItemsSource="{Binding RemainingSanityStageList}"
+                            SelectedValue="{Binding RemainingSanityStage}"
+                            SelectedValuePath="Value"
+                            ToolTip="{DynamicResource UseRemainingSanityStageTip}"
+                            Visibility="{c:Binding UseRemainingSanityStage}" />
+                    </StackPanel>
+                    <StackPanel
                         IsEnabled="{c:Binding CustomStageCode}"
-                        IsHitTestVisible="{c:Binding !FightTaskRunning}"
-                        Text="{Binding Stage1, UpdateSourceTrigger=PropertyChanged}"
-                        ToolTip="{DynamicResource CustomStageCodeTip}"
-                        Visibility="{c:Binding CustomStageCode}" />
-                    <TextBox
-                        Height="30"
-                        Margin="6"
-                        VerticalContentAlignment="Center"
-                        IsEnabled="{c:Binding CustomStageCode}"
-                        IsHitTestVisible="{c:Binding !FightTaskRunning}"
-                        Text="{Binding Stage2, UpdateSourceTrigger=PropertyChanged}"
-                        ToolTip="{DynamicResource CustomStageCodeTip}"
-                        Visibility="{c:Binding 'CustomStageCode and UseAlternateStage'}" />
-                    <TextBox
-                        Height="30"
-                        Margin="6"
-                        VerticalContentAlignment="Center"
-                        IsEnabled="{c:Binding 'CustomStageCode and UseAlternateStage'}"
-                        IsHitTestVisible="{c:Binding !FightTaskRunning}"
-                        Text="{Binding Stage3, UpdateSourceTrigger=PropertyChanged}"
-                        ToolTip="{DynamicResource CustomStageCodeTip}"
-                        Visibility="{c:Binding 'CustomStageCode and UseAlternateStage'}" />
-                    <TextBox
-                        Height="30"
-                        Margin="6"
-                        VerticalContentAlignment="Center"
-                        IsEnabled="{c:Binding 'CustomStageCode and UseRemainingSanityStage'}"
-                        IsHitTestVisible="{c:Binding !FightTaskRunning}"
-                        Text="{Binding RemainingSanityStage, UpdateSourceTrigger=PropertyChanged}"
-                        ToolTip="{DynamicResource UseRemainingSanityStageTip}"
-                        Visibility="{c:Binding 'CustomStageCode and UseRemainingSanityStage'}" />
+                        Orientation="Vertical"
+                        Visibility="{c:Binding CustomStageCode}">
+                        <TextBox
+                            Height="30"
+                            Margin="6"
+                            VerticalContentAlignment="Center"
+                            IsHitTestVisible="{c:Binding !FightTaskRunning}"
+                            Text="{Binding Stage1, UpdateSourceTrigger=PropertyChanged}"
+                            ToolTip="{DynamicResource CustomStageCodeTip}" />
+                        <StackPanel
+                            IsEnabled="{c:Binding TaskSettingDataContext.UseAlternateStage}"
+                            Orientation="Vertical"
+                            Visibility="{c:Binding TaskSettingDataContext.UseAlternateStage}">
+                            <TextBox
+                                Height="30"
+                                Margin="6"
+                                VerticalContentAlignment="Center"
+                                IsHitTestVisible="{c:Binding !FightTaskRunning}"
+                                Text="{Binding Stage2, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="{DynamicResource CustomStageCodeTip}" />
+                            <TextBox
+                                Height="30"
+                                Margin="6"
+                                VerticalContentAlignment="Center"
+                                IsHitTestVisible="{c:Binding !FightTaskRunning}"
+                                Text="{Binding Stage3, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="{DynamicResource CustomStageCodeTip}" />
+                        </StackPanel>
+                        <TextBox
+                            Height="30"
+                            Margin="6"
+                            VerticalContentAlignment="Center"
+                            IsEnabled="{c:Binding UseRemainingSanityStage}"
+                            IsHitTestVisible="{c:Binding !FightTaskRunning}"
+                            Text="{Binding RemainingSanityStage, UpdateSourceTrigger=PropertyChanged}"
+                            ToolTip="{DynamicResource UseRemainingSanityStageTip}"
+                            Visibility="{c:Binding UseRemainingSanityStage}" />
+                    </StackPanel>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="4" Visibility="{c:Binding 'CustomInfrastEnabled and TaskSettingVisibilities.CustomInfrastPlanShowInFightSettings'}">
@@ -355,6 +356,11 @@
                 Content="{DynamicResource UseRemainingSanityStage}"
                 IsChecked="{Binding UseRemainingSanityStage}"
                 ToolTip="{DynamicResource UseRemainingSanityStageTip}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource AllowUseStoneSave}"
+                IsChecked="{Binding AllowUseStoneSave}"
+                ToolTip="{DynamicResource UseRemainingSanityStageTip}" />
             <CheckBox Margin="0,10" IsChecked="{Binding UseExpiringMedicine}">
                 <TextBlock
                     Block.TextAlignment="Left"
@@ -378,8 +384,8 @@
                 Content="{DynamicResource EnablePenguin}"
                 IsChecked="{Binding EnablePenguin}" />
             <TextBox
-                hc:InfoElement.Title="{DynamicResource PenguinId}"
                 Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource PenguinId}"
                 InputMethod.IsInputMethodEnabled="False"
                 Style="{StaticResource TextBoxExtend}"
                 Text="{Binding PenguinId}"

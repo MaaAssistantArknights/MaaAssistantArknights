@@ -138,7 +138,7 @@
                         Grid.Row="3"
                         Margin="5"
                         Orientation="Horizontal"
-                        VerticalAlignment="Center">
+                        HorizontalAlignment="Center">
                         <Button
                             Margin="5"
                             Command="{s:Action ManualUpdate}"

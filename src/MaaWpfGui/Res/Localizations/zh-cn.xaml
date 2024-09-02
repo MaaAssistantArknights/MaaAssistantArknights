@@ -1,7 +1,4 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  设置  -->
     <system:String x:Key="Settings">设置</system:String>
     <system:String x:Key="GeneralSettings">常规设置</system:String>
@@ -48,6 +45,10 @@
     <system:String x:Key="ExternalNotificationDiscordUserId">用户 ID</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">机器人 Token</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">聊天 ID</system:String>
+    <system:String x:Key="ExternalNotificationQmsgServer">Server</system:String>
+    <system:String x:Key="ExternalNotificationQmsgKey">Key</system:String>
+    <system:String x:Key="ExternalNotificationQmsgUser">用户QQ</system:String>
+    <system:String x:Key="ExternalNotificationQmsgBot">机器人QQ</system:String>
     <system:String x:Key="UseGpuForInference">使用 GPU 加速推理</system:String>
     <system:String x:Key="GpuOptionDisable">不使用</system:String>
     <system:String x:Key="GpuOptionSystemDefault">系统默认 GPU</system:String>
@@ -342,6 +343,8 @@
     <system:String x:Key="PromptRestartForSettingsChange">是否立刻重启应用更改？</system:String>
     <system:String x:Key="SwitchResolutionTip">将模拟器分辨率更改为1920x1080！</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">确保模拟器设置为1920x1080</system:String>
+    <system:String x:Key="AllowUseStoneSave">允许吃源石保存状态</system:String>
+    <system:String x:Key="AllowUseStoneSaveWarning">该功能属于危险功能。按下「确认」键即视为你了解并愿意承担可能出现的风险。</system:String>
     <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
     <system:String x:Key="UseRemainingSanityStage">使用剩余理智</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">在完成主任务后刷取指定关卡，不使用理智药/碎石</system:String>
@@ -406,11 +409,20 @@
     <system:String x:Key="Mall">获取信用及购物</system:String>
     <system:String x:Key="Mission">领取奖励</system:String>
     <system:String x:Key="AutoRoguelike">自动肉鸽</system:String>
-    <system:String x:Key="ReclamationAlgorithm">生息演算·沙中之火</system:String>
-    <system:String x:Key="ReclamationAlgorithm2">生息演算·沙洲遗闻</system:String>
+    <system:String x:Key="Reclamation">生息演算</system:String>
+    <system:String x:Key="ReclamationTheme">生息演算主题</system:String>
+    <system:String x:Key="ReclamationThemeFire">沙中之火</system:String>
+    <system:String x:Key="ReclamationThemeTales">沙洲遗闻</system:String>
+    <system:String x:Key="ReclamationModeProsperityNoSave">无存档，通过进出关卡刷生息点数</system:String>
+    <system:String x:Key="ReclamationModeProsperityInSave">有存档，通过组装支援道具刷生息点数</system:String>
+    <system:String x:Key="ReclamationIncrementMode">增加方式</system:String>
+    <system:String x:Key="ReclamationIncrementModeClick">连点</system:String>
+    <system:String x:Key="ReclamationIncrementModeHold">长按</system:String>
+    <system:String x:Key="ReclamationMaxCraftCountPerRound">单次最大组装轮数</system:String>
     <system:String x:Key="OperNameLanguage">干员名称显示语言</system:String>
     <system:String x:Key="OperNameLanguageMAA">跟随MAA</system:String>
     <system:String x:Key="OperNameLanguageClient">跟随游戏客户端</system:String>
+    <system:String x:Key="OperNameLanguageForce">强制使用指定语言</system:String>
     <system:String x:Key="Light">亮色</system:String>
     <system:String x:Key="Dark">暗色</system:String>
     <system:String x:Key="SyncWithOs">与系统同步</system:String>
@@ -435,7 +447,7 @@
     <system:String x:Key="WaitAndStop">等待 &amp; 停止</system:String>
     <!--  战斗设置  -->
     <system:String x:Key="UseSanityPotion">吃理智药</system:String>
-    <system:String x:Key="UseOriginitePrime">吃源石*</system:String>
+    <system:String x:Key="UseOriginitePrime">吃源石</system:String>
     <system:String x:Key="PerformBattles">指定次数</system:String>
     <system:String x:Key="AssignedMaterial">指定材料</system:String>
     <system:String x:Key="Quantity">刷取数量</system:String>
@@ -528,7 +540,8 @@
     <!--  干员识别  -->
     <system:String x:Key="OperBoxRecognition">干员识别</system:String>
     <system:String x:Key="OperBoxRecognitionTip">特别关注会影响干员识别准确率，如有特别关注干员识别错误请自行判断。\n该功能尚处于测试阶段，若统计有误，欢迎打包 debug/oper 文件后向我们提交issue ~</system:String>
-    <system:String x:Key="OperBoxRecognitionResult">未拥有: {0} 名: \n\n{1}\n\n已拥有: {2} 名: \n\n{3}</system:String>
+    <system:String x:Key="OperBoxHaveList">已拥有: {0} 名</system:String>
+    <system:String x:Key="OperBoxNotHaveList">未拥有: {0} 名</system:String>
     <system:String x:Key="StartToOperBoxRecognition">开始识别</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">复制到剪切板</system:String>
     <!--  !干员识别  -->
@@ -858,11 +871,11 @@
 目前生息演算的支持仍处于中期阶段，使用时请注意以下几点：
 
  通过开局刷点数：(小心已有存档被删除)
-  0. 点数刷满后会输出“任务完成”，自动停止任务
-  1. 理论上可以在生息演算开局刷点数流程的任意位置开始任务，不论是否有存档
-  2. 理论上编队内可以有干员，但没测试，不推荐
-  3. 导航还没写，不能从生息演算以外的位置开始任务
-  4. 如果任务过程中报错、点数没刷满就任务完成，请前往GitHub提交issue
+  1. 点数刷满后会输出“任务完成”，自动停止任务
+  2. 不要在生息演算的编队中有干员的情况下使用
+  3. 手动确认存档情况并删除，以免 MAA 删除你的珍贵存档
+  4. 导航还没写，不能从生息演算以外的位置开始任务
+  5. 如果任务过程中报错、点数没刷满就任务完成，请前往 GitHub 提交 issue
 
  有存档通过制造刷点数（高级设置）：
   1. 要求是结算后的第一天，且后续三天没有敌袭进入驻扎地
@@ -871,7 +884,7 @@
     </system:String>
     <system:String x:Key="ReclamationBePatient">牛牛，我太想进步了！你看，又急</system:String>
     <system:String x:Key="Reclamation2ExEnable">通过制造刷点数</system:String>
-    <system:String x:Key="Reclamation2ExProductTip">支援道具名称</system:String>
-    <system:String x:Key="Reclamation2ExProductPlaceholder">荧光棒</system:String>
+    <system:String x:Key="ReclamationToolToCraftTip">支援道具名称</system:String>
+    <system:String x:Key="ReclamationToolToCraftPlaceholder">荧光棒</system:String>
     <!--  !Reclamation  -->
 </ResourceDictionary>

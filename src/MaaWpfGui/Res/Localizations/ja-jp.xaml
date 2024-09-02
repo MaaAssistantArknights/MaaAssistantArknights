@@ -1,7 +1,4 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="GeneralSettings">一般設定</system:String>
@@ -48,9 +45,15 @@
     <system:String x:Key="ExternalNotificationDiscordUserId">ユーザーID</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">ボットトークン</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">チャットID</system:String>
-    <system:String x:Key="UseGpuForInference">処理の加速のためにGPUを使用する</system:String>
+    <system:String x:Key="ExternalNotificationQmsgServer">サーバ</system:String>
+    <system:String x:Key="ExternalNotificationQmsgKey">Qmsg Key</system:String>
+    <system:String x:Key="ExternalNotificationQmsgUser">ユーザーQQ</system:String>
+    <system:String x:Key="ExternalNotificationQmsgBot">ボットを送信するQQ</system:String>
+    <system:String x:Key="UseGpuForInference">推論加速のためにGPUを使用する</system:String>
     <system:String x:Key="GpuOptionDisable">使用しない</system:String>
     <system:String x:Key="GpuOptionSystemDefault">システムデフォルトGPU</system:String>
+    <system:String x:Key="GpuDeprecatedMessage">現在選択されている推論加速 GPU ({0})は推奨されません。\n\n「設定」-「パフォーマンス設定」で別の GPU を選択するか、このメッセージを無効にできます。</system:String>
+    <system:String x:Key="GpuAllowDeprecated">非推奨 GPU の使用を許可する</system:String>
     <!--  設定ガイド  -->
     <system:String x:Key="TaskSettings">タスク設定</system:String>
     <system:String x:Key="SettingsGuide">設定ガイド</system:String>
@@ -340,6 +343,8 @@
     <system:String x:Key="PromptRestartForSettingsChange">変更を適用するためにすぐに再起動しますか？</system:String>
     <system:String x:Key="SwitchResolutionTip">エミュレータの解像度を1920x1080に変更!</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">エミュレータが1920x1080に設定されていることを確認してください</system:String>
+    <system:String x:Key="AllowUseStoneSave">源石の数を割る保存状態を許可</system:String>
+    <system:String x:Key="AllowUseStoneSaveWarning">この機能は危険な機能と見なされます。「確認」ボタンを押すと、リスクを理解し、受け入れることに同意したと見なされます。</system:String>
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
     <system:String x:Key="UseRemainingSanityStage">余剰理性の使用</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">メインタスク終了後に指定されたステージを選択しても、理性剤も源石も使わない</system:String>
@@ -376,8 +381,7 @@
         以下の情報を記入してください：\n\n
         1. エミュレーターパス：（例：C:\\Program Files\\Netease\\MuMuPlayer-12.0）\n
         エミュレーターパスは、エミュレーターアプリケーションの親フォルダーパスを記入してください。例えば、アプリケーションのパスが\n
-        「C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe」\n
-        の場合、\n
+        「C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe」の場合、\n
         「C:\\Program Files\\Netease\\MuMuPlayer-12.0」\n
         を記入してください。\n\n
         2. インスタンス番号：（例：0）\n
@@ -405,11 +409,20 @@
     <system:String x:Key="Mall">FP獲得と交換</system:String>
     <system:String x:Key="Mission">報酬受取</system:String>
     <system:String x:Key="AutoRoguelike">自動ローグ</system:String>
-    <system:String x:Key="ReclamationAlgorithm">生息演算「砂中の火」</system:String>
-    <system:String x:Key="ReclamationAlgorithm2">生息演算「熱砂秘聞」</system:String>
+    <system:String x:Key="Reclamation">生息演算</system:String>
+    <system:String x:Key="ReclamationTheme">主題</system:String>
+    <system:String x:Key="ReclamationThemeFire">砂中の火</system:String>
+    <system:String x:Key="ReclamationThemeTales">熱砂秘聞</system:String>
+    <system:String x:Key="ReclamationModeProsperityNoSave">セーブせずに、出入りを繰り返して生息ポイントを稼ぐ</system:String>
+    <system:String x:Key="ReclamationModeProsperityInSave">セーブしながら、支援アイテムを組み立てて生息ポイントを稼ぐ</system:String>
+    <system:String x:Key="ReclamationIncrementMode">増加方式</system:String>
+    <system:String x:Key="ReclamationIncrementModeClick">連打</system:String>
+    <system:String x:Key="ReclamationIncrementModeHold">長押し</system:String>
+    <system:String x:Key="ReclamationMaxCraftCountPerRound">1回の最大クラフト回数</system:String>
     <system:String x:Key="OperNameLanguage">オペレーター名の表示言語</system:String>
     <system:String x:Key="OperNameLanguageMAA">MAAをフォローする</system:String>
     <system:String x:Key="OperNameLanguageClient">ゲームクライアントをフォローする</system:String>
+    <system:String x:Key="OperNameLanguageForce">指定された言語を強制的に使用する</system:String>
     <system:String x:Key="Light">ライトモード</system:String>
     <system:String x:Key="Dark">ダークモード</system:String>
     <system:String x:Key="SyncWithOs">OSと同期する</system:String>
@@ -424,7 +437,9 @@
     <system:String x:Key="Hibernate">休止状態にする</system:String>
     <system:String x:Key="Shutdown">シャットダウン</system:String>
     <system:String x:Key="Once">1回のみ*</system:String>
-    <system:String x:Key="PostActionOnceTip">有効にすると、変更は次回の実行まで保存されません。</system:String>
+    <system:String x:Key="PostActionOnceTip" xml:space="preserve">1回のみ実行するには、まず1回のみチェックしてください
+チェックが1回のみの場合、動作を実行すると1回のみをチェック前の状態に戻ります
+下のアクションを右クリックすると、1回だけ選択状態が同期してアクティブ/キャンセルされます</system:String>
     <system:String x:Key="IfNoOtherMaa">他のMAAがない場合</system:String>
     <system:String x:Key="BackToAndroidHome">エミュレータのホーム画面に戻る</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
@@ -432,7 +447,7 @@
     <system:String x:Key="WaitAndStop">待機 &amp; 停止</system:String>
     <!--  戦闘設定  -->
     <system:String x:Key="UseSanityPotion">理性剤使用数</system:String>
-    <system:String x:Key="UseOriginitePrime">割る源石の数*</system:String>
+    <system:String x:Key="UseOriginitePrime">割る源石の数</system:String>
     <system:String x:Key="PerformBattles">周回数指定</system:String>
     <system:String x:Key="AssignedMaterial">素材の指定</system:String>
     <system:String x:Key="Quantity">ドロップ数</system:String>
@@ -525,7 +540,8 @@
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">オペレーター</system:String>
     <system:String x:Key="OperBoxRecognitionTip">「戦術要員」は、オペレーター識別の正確性に影響します。戦術要員のオペレーターの識別が誤っている場合は、自己判断してください。\nこの機能はまだテスト中です。もし統計情報に問題があれば、debug/depotフォルダを圧縮し、issueを提出してください~</system:String>
-    <system:String x:Key="OperBoxRecognitionResult">所有していない: {0} : \n\n{1}\n\n所有している: {2} : \n\n{3}</system:String>
+    <system:String x:Key="OperBoxHaveList">所有している: {0}</system:String>
+    <system:String x:Key="OperBoxNotHaveList">所有していない: {0}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">認識開始</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">クリップボードにコピー</system:String>
     <!--  !Operator Recognition  -->
@@ -854,19 +870,21 @@
 
 生息演算のサポートはまだ初期段階にありますので、ご利用の際は以下の点にご注意ください：
 
- セーブファイルなし: 初期設定でポイントを稼ぐ。
-  1. すでにセーブデータがある場合は使用できません（既存のセーブデータを削除します）
-  2. 生息演算の編成にオペレーターがいる場合は使用できません（特に戦闘の後は、現在の編成を空にするだけで十分です）
-  3. タスクは生息演算のメイン画面で開始する必要があります（ナビゲーションはまだ書かれていません）
+ 初期設定でポイントを稼ぐ：（既存のセーブデータが削除されることに注意してください）
+  0.ポイントがいっぱいになると「タスク完了」が出力され、タスクは自動的に停止します
+  1. 理論的には、タスクは、セーブデータの有無に関係なく、ポイント獲得のためのどの時点からでもタスクを開始できる。
+  2. 生息演算の編成にオペレーターを入れることができるが、テストしていないのでお勧めしない。
+  3. ナビゲーションがまだ書かれていないので、生息演算の画面以外の場所からタスクを開始することはできない。
+  4. タスク中にエラーが出たり、ポイントが満杯なかたでタスクが完了した場合は、GitHubにissueを提出してください。
 
- セーブファイルあり: クラフトでポイントを稼ぐ(高度な設定)。
+ セーブデータあり、支援道具組立でポイントを稼ぐ（高度な設定）：
   1. 条件は、決算後初日と、その後3日間、敵襲がないこと。
   2. 大地図のインターフェースに入った後に開始する必要があります（駐屯地を見ることができるページ）
   3. 作れる数字がちょうど99の倍数の場合、スタックしてしまうので、セーブする前に少し使い切り、後で修正することができる。
     </system:String>
     <system:String x:Key="ReclamationBePatient">改善するのが待ちきれません！また急いでいます</system:String>
     <system:String x:Key="Reclamation2ExEnable">道具作りでポイントを得る</system:String>
-    <system:String x:Key="Reclamation2ExProductTip">支援道具名</system:String>
-    <system:String x:Key="Reclamation2ExProductPlaceholder">ケミカルライト</system:String>
+    <system:String x:Key="ReclamationToolToCraftTip">支援道具名</system:String>
+    <system:String x:Key="ReclamationToolToCraftPlaceholder">ケミカルライト</system:String>
     <!--  !Reclamation  -->
 </ResourceDictionary>

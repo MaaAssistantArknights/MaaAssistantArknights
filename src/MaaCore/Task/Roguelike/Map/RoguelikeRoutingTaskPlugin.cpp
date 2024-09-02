@@ -24,10 +24,6 @@ bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::
 
     const std::shared_ptr<MatchTaskInfo> config = Task.get<MatchTaskInfo>(theme + "@Roguelike@RoutingConfig");
 
-    m_swipe_source.x = config->roi.x;
-    m_swipe_source.y = config->roi.y;
-    m_swipe_target.x = config->roi.width;
-    m_swipe_target.y = config->roi.height;
     m_origin_x = config->special_params.at(0);
     m_middle_x = config->special_params.at(1);
     m_last_x = config->special_params.at(2);
@@ -119,7 +115,7 @@ void asst::RoguelikeRoutingTaskPlugin::generate_map()
             const size_t node = m_map.create_and_insert_node(type, curr_col, rect.y).value();
             generate_edges(node, image, rect.x);
         }
-        ctrler()->swipe(m_swipe_source, m_swipe_target, 200, true);
+        ProcessTask(*this, { theme + "@Roguelike@RoutingSwipeRight" }).run();
         sleep(200);
         image = ctrler()->get_image();
         node_analyzer.set_image(image);

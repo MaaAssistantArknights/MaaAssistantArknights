@@ -77,9 +77,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 下载地址
 
-前往[官网](https://maa.plus)自动匹配镜像源并下载稳定版，或：
-
-[稳定版/公测版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
+[官网](https://maa.plus) 或 [Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## 使用说明
 
@@ -97,7 +95,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 下载到一半提示“登陆”/“鉴权”；
 - 连接正常，任务开始了，但是没反应。
 
-请参阅 [常见问题](https://maa.plus/docs/zh-cn/manual/faq.html)
+请参阅 [常见问题](https://maa.plus/docs/zh-cn/manual/faq.html)。
 
 ### 外服支持
 
@@ -203,7 +201,7 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 
 感谢所有参与到开发/测试中的朋友们，是大家的帮助让 MAA 越来越好！ (\*´▽｀)ノノ
 
-[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=114514&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
+[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
 
 ## 声明
 

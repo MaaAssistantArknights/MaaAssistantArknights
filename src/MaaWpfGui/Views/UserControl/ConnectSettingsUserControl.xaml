@@ -130,7 +130,7 @@
                 Width="420"
                 Height="30"
                 Margin="10"
-                hc:InfoElement.Placeholder="C:\Program Files\Netease\MuMuPlayer-12.0"
+                hc:InfoElement.Placeholder="Example: C:\Program Files\Netease\MuMuPlayer-12.0"
                 hc:TitleElement.Title="{DynamicResource MuMu12EmulatorPath}"
                 hc:TitleElement.TitlePlacement="Left"
                 Text="{Binding MuMuEmulator12Extras.EmulatorPath}"

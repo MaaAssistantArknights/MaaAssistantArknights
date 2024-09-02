@@ -225,7 +225,9 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
+                Bootstrapper.Release();
                 PowerManagement.Shutdown();
+                Bootstrapper.Shutdown();
             }
         }
 
@@ -338,47 +340,76 @@ namespace MaaWpfGui.ViewModels.UI
             DateTime currentTime = DateTime.Now;
             currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, currentTime.Minute, 0);
 
-            if (NeedToUpdateDatePrompt())
-            {
-                UpdateDatePrompt();
-                UpdateStageList(false);
-
-                // 随机延迟，防止同时更新
-                var delayTime = new Random().Next(0, 60 * 60 * 1000);
-                _ = Task.Run(async () =>
-                {
-                    await Task.Delay(delayTime);
-                    await _runningState.UntilIdleAsync(60000);
-                    await _stageManager.UpdateStageWeb();
-                    UpdateDatePrompt();
-                    UpdateStageList(false);
-                });
-            }
-
-            if (NeedToCheckForUpdates())
-            {
-                if (Instances.SettingsViewModel.UpdateAutoCheck)
-                {
-                    // 随机延迟，防止同时更新
-                    var delayTime = new Random().Next(0, 60 * 60 * 1000);
-                    _ = Task.Run(async () =>
-                    {
-                        await Task.Delay(delayTime);
-                        _ = Instances.SettingsViewModel.ManualUpdate();
-                    });
-                }
-            }
+            HandleDatePromptUpdate();
+            HandleCheckForUpdates();
 
             RefreshCustomInfrastPlanIndexByPeriod();
 
-            if (!_runningState.GetIdle() && !Instances.SettingsViewModel.ForceScheduledStart && !Instances.SettingsViewModel.CustomConfig)
+            await HandleTimerLogic(currentTime);
+        }
+
+        private static int CalculateRandomDelay()
+        {
+            Random random = new Random();
+            int delayTime = random.Next(0, 60 * 60 * 1000);
+            return delayTime;
+        }
+
+        private bool _isUpdatingDatePrompt;
+
+        private void HandleDatePromptUpdate()
+        {
+            if (!NeedToUpdateDatePrompt() || _isUpdatingDatePrompt)
             {
                 return;
             }
 
-            var timeToStart = false;
-            var timeToChangeConfig = false;
-            var configIndex = 0;
+            _isUpdatingDatePrompt = true;
+            UpdateDatePrompt();
+            UpdateStageList(false);
+
+            var delayTime = CalculateRandomDelay();
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(delayTime);
+                await _runningState.UntilIdleAsync(60000);
+                await _stageManager.UpdateStageWeb();
+                UpdateDatePrompt();
+                UpdateStageList(false);
+                _isUpdatingDatePrompt = false;
+            });
+        }
+
+        private bool _isCheckingForUpdates;
+
+        private void HandleCheckForUpdates()
+        {
+            if (!NeedToCheckForUpdates() || _isCheckingForUpdates)
+            {
+                return;
+            }
+
+            if (!Instances.SettingsViewModel.UpdateAutoCheck)
+            {
+                return;
+            }
+
+            _isCheckingForUpdates = true;
+            var delayTime = CalculateRandomDelay();
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(delayTime);
+                await Instances.SettingsViewModel.ManualUpdate();
+                _isCheckingForUpdates = false;
+            });
+        }
+
+        private static (bool timeToStart, bool timeToChangeConfig, int configIndex) CheckTimers(DateTime currentTime)
+        {
+            bool timeToStart = false;
+            bool timeToChangeConfig = false;
+            int configIndex = 0;
+
             for (int i = 0; i < 8; ++i)
             {
                 if (!Instances.SettingsViewModel.TimerModels.Timers[i].IsOn)
@@ -417,28 +448,46 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            if (timeToChangeConfig)
-            {
-                if (Instances.SettingsViewModel.CustomConfig &&
-                    (_runningState.GetIdle() || Instances.SettingsViewModel.ForceScheduledStart))
-                {
-                    // CurrentConfiguration设置后会重启
-                    Instances.SettingsViewModel.CurrentConfiguration = Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig;
-                    return;
-                }
-            }
-
-            if (!timeToStart)
+            return (timeToStart, timeToChangeConfig, configIndex);
+        }
+        private async Task HandleTimerLogic(DateTime currentTime)
+        {
+            if (!_runningState.GetIdle() && !Instances.SettingsViewModel.ForceScheduledStart)
             {
                 return;
             }
 
+            var (timeToStart, timeToChangeConfig, configIndex) = CheckTimers(currentTime);
+
+            if (timeToChangeConfig)
+            {
+                HandleConfigChange(configIndex);
+                return;
+            }
+
+            if (timeToStart)
+            {
+                await HandleScheduledStart(configIndex);
+            }
+        }
+
+        private void HandleConfigChange(int configIndex)
+        {
+            if (Instances.SettingsViewModel.CustomConfig &&
+                (_runningState.GetIdle() || Instances.SettingsViewModel.ForceScheduledStart))
+            {
+                Instances.SettingsViewModel.CurrentConfiguration = Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig;
+            }
+        }
+
+        private async Task HandleScheduledStart(int configIndex)
+        {
             if (Instances.SettingsViewModel.ForceScheduledStart)
             {
-                // 什么时候会遇到这种情况？
                 if (Instances.SettingsViewModel.CustomConfig &&
                     Instances.SettingsViewModel.CurrentConfiguration != Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig)
                 {
+                    _logger.Warning($"Scheduled start skipped: Custom configuration is enabled, but the current configuration does not match the scheduled timer configuration (Timer Index: {configIndex}). Current Configuration: {Instances.SettingsViewModel.CurrentConfiguration}, Scheduled Configuration: {Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig}");
                     return;
                 }
 
@@ -475,7 +524,7 @@ namespace MaaWpfGui.ViewModels.UI
             LinkStart();
         }
 
-        private static async Task<bool> TimerCanceledAsync(string content = "", string tipContent = "", string buttonContent="", int seconds = 10)
+        private static async Task<bool> TimerCanceledAsync(string content = "", string tipContent = "", string buttonContent = "", int seconds = 10)
         {
             var delay = TimeSpan.FromSeconds(seconds);
             var dialogUserControl = new Views.UserControl.TextDialogWithTimerUserControl(
@@ -511,9 +560,9 @@ namespace MaaWpfGui.ViewModels.UI
                 "AutoRoguelike",
             ];
 
-            if (!(Instances.SettingsViewModel.ClientType is "txwy"))
+            if (Instances.SettingsViewModel.ClientType is not "txwy")
             {
-                taskList.Add("ReclamationAlgorithm2");
+                taskList.Add("Reclamation");
             }
 
             var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[taskList.Count]);
@@ -523,7 +572,11 @@ namespace MaaWpfGui.ViewModels.UI
                 var task = taskList[i];
                 bool parsed = int.TryParse(ConfigurationHelper.GetTaskOrder(task, "-1"), out var order);
 
-                var vm = new DragItemViewModel(LocalizationHelper.GetString(task), task, "TaskQueue.");
+                DragItemViewModel vm = new DragItemViewModel(
+                    LocalizationHelper.GetString(task),
+                    task,
+                    "TaskQueue.",
+                    task is not ("AutoRoguelike" or "Reclamation"));
 
                 if (task == TaskSettingVisibilityInfo.DefaultVisibleTaskSetting)
                 {
@@ -754,8 +807,7 @@ namespace MaaWpfGui.ViewModels.UI
                 switch (item.OriginalName)
                 {
                     case "AutoRoguelike":
-                    case "ReclamationAlgorithm":
-                    case "ReclamationAlgorithm2":
+                    case "Reclamation":
                         continue;
                 }
 
@@ -858,8 +910,7 @@ namespace MaaWpfGui.ViewModels.UI
                     switch (item.OriginalName)
                     {
                         case "AutoRoguelike":
-                        case "ReclamationAlgorithm":
-                        case "ReclamationAlgorithm2":
+                        case "Reclamation":
                             item.IsChecked = false;
                             continue;
                     }
@@ -1070,12 +1121,8 @@ namespace MaaWpfGui.ViewModels.UI
                         taskRet &= AppendRoguelike();
                         break;
 
-                    case "ReclamationAlgorithm":
+                    case "Reclamation":
                         taskRet &= AppendReclamation();
-                        break;
-
-                    case "ReclamationAlgorithm2":
-                        taskRet &= AppendReclamation2();
                         break;
 
                     default:
@@ -1569,14 +1616,14 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static bool AppendReclamation()
         {
-            return Instances.AsstProxy.AsstAppendReclamation();
-        }
+            _ = int.TryParse(Instances.SettingsViewModel.ReclamationMode, out var mode);
 
-        private static bool AppendReclamation2()
-        {
-            return Instances.AsstProxy.AsstAppendReclamation2(
-                Instances.SettingsViewModel.Reclamation2ExEnable ? 1 : 0,
-                Instances.SettingsViewModel.Reclamation2ExProduct);
+            return Instances.AsstProxy.AsstAppendReclamation(
+                Instances.SettingsViewModel.ReclamationTheme,
+                mode,
+                Instances.SettingsViewModel.ReclamationToolToCraft,
+                Instances.SettingsViewModel.ReclamationIncrementMode,
+                Instances.SettingsViewModel.ReclamationMaxCraftCountPerRound);
         }
 
         [DllImport("User32.dll", EntryPoint = "FindWindow")]
@@ -2456,17 +2503,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _useAlternateStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseAlternateStage, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to use alternate stage.
-        /// </summary>
-        public bool UseAlternateStage
-        {
-            get => _useAlternateStage;
-            set => SetAndNotify(ref _useAlternateStage, value);
-        }
-
         private bool _useRemainingSanityStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, bool.TrueString));
 
         public bool UseRemainingSanityStage
@@ -2848,7 +2884,10 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool? _useStoneWithNull = false;
+        public static string UseStoneString => LocalizationHelper.GetString("UseOriginitePrime");
+
+        private bool? _useStoneWithNull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, bool.FalseString)) &&
+                                          Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseStone, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use originiums with null.
@@ -2858,19 +2897,29 @@ namespace MaaWpfGui.ViewModels.UI
             get => _useStoneWithNull;
             set
             {
+                if (!TaskSettingDataContext.AllowUseStoneSave && value == true)
+                {
+                    value = null;
+                }
+
                 SetAndNotify(ref _useStoneWithNull, value);
                 if (value != false)
                 {
                     MedicineNumber = "999";
                     if (!UseMedicine)
                     {
-                        UseMedicineWithNull = null;
+                        UseMedicineWithNull = value;
                     }
                 }
 
+                // IsEnabled="{c:Binding UseStone}"
                 NotifyOfPropertyChange(nameof(UseStone));
 
                 SetFightParams();
+                if (TaskSettingDataContext.AllowUseStoneSave)
+                {
+                    ConfigurationHelper.SetValue(ConfigurationKeys.UseStone, (value ?? false).ToString());
+                }
             }
         }
 
@@ -2972,17 +3021,6 @@ namespace MaaWpfGui.ViewModels.UI
                 SetFightParams();
                 ConfigurationHelper.SetValue(ConfigurationKeys.SeriesQuantity, value);
             }
-        }
-
-        private bool _hideSeries = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideSeries, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to hide series.
-        /// </summary>
-        public bool HideSeries
-        {
-            get => _hideSeries;
-            set => SetAndNotify(ref _hideSeries, value);
         }
 
         #region Drops

@@ -41,6 +41,7 @@ namespace MaaWpfGui.Constants
         public const string LoadWindowPlacement = "GUI.Placement.Load";
         public const string SaveWindowPlacement = "GUI.Placement.SaveOnClosing";
         public const string UseAlternateStage = "GUI.UseAlternateStage";
+        public const string AllowUseStoneSave = "GUI.AllowUseStoneSave";
         public const string HideUnavailableStage = "GUI.HideUnavailableStage";
         public const string HideSeries = "GUI.HideSeries";
         public const string CustomStageCode = "GUI.CustomStageCode";
@@ -135,8 +136,11 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeStopWhenInvestmentFull = "Roguelike.StopWhenInvestmentFull";
         public const string RoguelikeDeploymentWithPause = "Roguelike.DeploymentWithPause";
         public const string RoguelikeStopAtFinalBoss = "Roguelike.ExitAtFinalBoss";
-        public const string Reclamation2ExEnable = "Reclamation.Reclamation2ExEnable";
-        public const string Reclamation2ExProduct = "Reclamation.Reclamation2ExProduct";
+        public const string ReclamationTheme = "Reclamation.Theme";
+        public const string ReclamationMode = "Reclamation.Mode";
+        public const string ReclamationToolToCraft = "Reclamation.ToolToCraft";
+        public const string ReclamationIncrementMode = "Reclamation.ReclamationIncrementMode";
+        public const string ReclamationMaxCraftCountPerRound = "Reclamation.ReclamationMaxCraftCountPerRound";
 
         public const string RecruitMaxTimes = "AutoRecruit.MaxTimes";
         public const string AutoRecruitFirstList = "AutoRecruit.AutoRecruitFirstList";
@@ -207,6 +211,7 @@ namespace MaaWpfGui.Constants
         public const string Stage3 = "MainFunction.Stage3";
         public const string UseMedicine = "MainFunction.UseMedicine";
         public const string UseMedicineQuantity = "MainFunction.UseMedicine.Quantity";
+        public const string UseStone = "MainFunction.UseStone";
         public const string UseStoneQuantity = "MainFunction.UseStone.Quantity";
         public const string TimesLimited = "MainFunction.TimesLimited";
         public const string TimesLimitedQuantity = "MainFunction.TimesLimited.Quantity";
@@ -237,6 +242,10 @@ namespace MaaWpfGui.Constants
         public const string ExternalNotificationTelegramChatId = "ExternalNotification.Telegram.ChatId";
         public const string ExternalNotificationBarkSendKey = "ExternalNotification.Bark.SendKey";
         public const string ExternalNotificationBarkServer = "ExternalNotification.Bark.Server";
+        public const string ExternalNotificationQmsgServer = "ExternalNotification.Qmsg.Server";
+        public const string ExternalNotificationQmsgKey = "ExternalNotification.Qmsg.Key";
+        public const string ExternalNotificationQmsgUser = "ExternalNotification.Qmsg.User";
+        public const string ExternalNotificationQmsgBot = "ExternalNotification.Qmsg.Bot";
 
         public const string PerformanceUseGpu = "Performance.UseGpu";
         public const string PerformancePreferredGpuDescription = "Performance.PreferredGpuDescription";
@@ -261,8 +270,8 @@ namespace MaaWpfGui.Constants
         public const string ShowWindowBeforeForceScheduledStart = "Timer.ShowWindowBeforeForceScheduledStart";
         public const string CustomConfig = "Timer.CustomConfig";
 
-        public const string AnnouncementInfo = "Announcement.AnnouncementInfo";
-        public const string DoNotRemindThisAnnouncementAgain = "Announcement.DoNotRemindThisAnnouncementAgain";
-        public const string DoNotShowAnnouncement = "Announcement.DoNotShowAnnouncement";
+        // public const string AnnouncementInfo = "Announcement.AnnouncementInfo";// 已迁移
+        // public const string DoNotRemindThisAnnouncementAgain = "Announcement.DoNotRemindThisAnnouncementAgain";// 已迁移
+        // public const string DoNotShowAnnouncement = "Announcement.DoNotShowAnnouncement";// 已迁移
     }
 }

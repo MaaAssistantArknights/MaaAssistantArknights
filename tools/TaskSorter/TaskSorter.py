@@ -16,7 +16,7 @@ def sort_tasks(res: dict[str, any]):
         "Reclamation...": [],
         "Reclamation@...": [],
         "Fire@Reclamation...": [],
-        "Tales@Reclamation...": [],
+        "Tales@RA...": [],
         "...@Reclamation...": []
     }
     unclassified_list = []
@@ -32,7 +32,7 @@ def sort_tasks(res: dict[str, any]):
         (r"^Reclamation@", classified_lists["Reclamation@..."]),
         (r"^Reclamation", classified_lists["Reclamation..."]),
         (r"^Fire@Reclamation", classified_lists["Fire@Reclamation..."]),
-        (r"^Tales@Reclamation", classified_lists["Tales@Reclamation..."]),
+        (r"^Tales@RA", classified_lists["Tales@RA..."]),
         (r"^(\w+)@Reclamation", classified_lists["...@Reclamation..."]),
         (r"", unclassified_list)
     ]
