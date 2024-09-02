@@ -30,6 +30,12 @@
     "SideStoryReopen": {
         "text": ["재개방"]
     },
+    "CR-OpenOcr": {
+        "text": ["스테이지", "개방"]
+    },
+    "CRChapterToCR": {
+        "text": ["전시", "회", "관람"]
+    },
     "HS-9": {
         "sub": ["HS-Open", "HSChapterToHS"]
     },
