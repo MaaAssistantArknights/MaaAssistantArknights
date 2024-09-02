@@ -725,7 +725,9 @@
     <ClInclude Include="Vision\Roguelike\RoguelikeParameterAnalyzer.h">
       <Filter>Source\Vision\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Roguelike\Map\RoguelikeRoutingTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\Map\RoguelikeRoutingTaskPlugin.h">
+      <Filter>Source\Task\Reclamation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
