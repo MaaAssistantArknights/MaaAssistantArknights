@@ -11720,7 +11720,7 @@
         "action": "ClickSelf"
     },
     "Tales@RA@IncreaseCraftAmount": {
-        "doc": "模板任务: 点击加号增加合成数量",
+        "doc": "模板任务: 点击加号增加组装数量",
         "roi": [860, 489, 73, 73],
         "action": "ClickSelf"
     },
@@ -11757,19 +11757,27 @@
         "roi": [559, 262, 162, 153]
     },
     "Tales@RA@PIS-ClickTool": {
-        "doc": "识别到要合成的道具后点击",
+        "doc": "识别到要组装的道具后点击",
         "algorithm": "OcrDetect",
         "text": ["荧光棒"],
         "roi": [274, 68, 960, 571],
         "action": "ClickSelf",
-        "sub": ["Tales@RA@IncreaseCraftAmount*99"],
-        "next": ["Tales@RA@PIS-Craft"]
+        "postDelay": 500
     },
     "Tales@RA@PIS-Craft": {
         "doc": "点击开始组装图标",
         "baseTask": "Tales@RA@Craft",
         "template": "Tales@RA@Craft.png",
         "next": ["Tales@RA@PIS-ResourceGained", "Tales@RA@PIS-Craft@NextAfterLoadingText"]
+    },
+    "Tales@RA@PIS-ResourceGained": {
+        "doc": "获得物资, 点击 <点击空白处继续> 文字位置",
+        "baseTask": "Tales@RA@ResourceGained",
+        "next": ["#self", "Stop"]
+    },
+    "Tales@RA@PIS-CraftAmountOcr": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [745, 494, 125, 63]
     },
     "Tales@RA@PIS-FinishCalc": {
         "doc": "已完成生存周期",
@@ -11872,11 +11880,6 @@
         "sub": ["Tales@RA@BackLight"],
         "next": ["Stop"]
     },
-    "Tales@RA@PIS-ResourceGained": {
-        "doc": "获得物资, 点击 <点击空白处继续> 文字位置",
-        "baseTask": "Tales@RA@ResourceGained",
-        "next": ["Tales@RA@PIS-LeaveWorkbench"]
-    },
     "Tales@RA@PIS-Resume": {
         "doc": "在主题入口界面点击 <继续演算> 开启新游戏",
         "algorithm": "OcrDetect",
@@ -11895,7 +11898,7 @@
         "next": ["Tales@RA@PIS-SelectTool"]
     },
     "Tales@RA@PIS-SelectTool": {
-        "doc": "选择要合成的道具",
+        "doc": "选择要组装的道具",
         "template": "Tales@RA@WorkbenchIcon.png",
         "roi": [50, 5, 60, 60],
         "next": ["Tales@RA@PIS-ClickTool", "Tales@RA@PIS-ScrollDown"]
@@ -11950,7 +11953,13 @@
         "doc": "点击进入组装台",
         "baseTask": "Tales@RA@Workbench",
         "template": "Tales@RA@WorkbenchButton.png",
-        "next": ["Tales@RA@PIS-SelectTool"]
+        "next": ["Tales@RA@PIS-CraftTool"]
+    },
+    "Tales@RA@PIS-CraftTool": {
+        "doc": "调用 ReclamationCraftTaskPlugin 组装支援道具",
+        "template": "Tales@RA@WorkbenchIcon.png",
+        "roi": [50, 5, 60, 60],
+        "next": ["Tales@RA@PIS-LeaveWorkbench"]
     },
     "Tales@RA@PNS-ClearSquadIfSizeGE7": {
         "doc": "如果当前编队规模大于等于7人则清空当前编队",
@@ -12213,6 +12222,13 @@
         "text": ["点击空白处继续"],
         "roi": [554, 445, 172, 41],
         "action": "ClickSelf"
+    },
+    "Tales@RA@CancelCraft": {
+        "doc": "模板任务: 在组装数量选择界面, 点击空白处取消组装",
+        "baseTask": "Tales@RA@Craft",
+        "template": "Tales@RA@Craft.png",
+        "action": "ClickRect",
+        "specificRect": [1200, 360, 0, 0]
     },
     "Tales@RA@ReturnToOrigin": {
         "doc": "让地图视图重置到原始位置",

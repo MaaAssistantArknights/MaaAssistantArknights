@@ -2,9 +2,7 @@
 
 #include "Utils/Logger.hpp"
 
-namespace asst
-{
-bool ReclamationConfig::verify_and_load_params(const json::value& params)
+bool asst::ReclamationConfig::verify_and_load_params(const json::value& params)
 {
     LogTraceFunction;
 
@@ -26,11 +24,5 @@ bool ReclamationConfig::verify_and_load_params(const json::value& params)
     }
     m_mode = mode;
 
-    // ———————— ReclamationMode::ProsperityInSave 专用参数 ————————————————————————————
-    if (m_mode == ReclamationMode::ProsperityInSave) {
-        m_tool_to_craft = params.get("tool_to_craft", "荧光棒");
-    }
-
     return true;
 }
-} // namespace asst
