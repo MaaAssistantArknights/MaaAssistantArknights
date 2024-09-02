@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 struct AsstExtAPI;
-typedef struct AsstExtAPI* AsstHandle;
+typedef AsstExtAPI* AsstHandle;
 
 typedef uint8_t AsstBool;
 typedef uint64_t AsstSize;
