@@ -14,6 +14,12 @@
     "ClickChapter3": {
         "text": ["残映"]
     },
+    "CR-OpenOcr": {
+        "text": ["オペレーション", "ルーセント", "アローヘッド", "イベント開催中", "降下作戦", "ステージ開放中"]
+    },
+    "CRChapterToCR": {
+        "text": ["アート探訪", "アート", "探訪"]
+    },
     "HS-9": {
         "sub": ["HS-Open", "HSChapterToHS"]
     },
