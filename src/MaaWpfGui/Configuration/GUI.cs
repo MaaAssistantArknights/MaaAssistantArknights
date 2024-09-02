@@ -1,5 +1,4 @@
 // <copyright file="GUI.cs" company="MaaAssistantArknights">
-// <copyright file="GUI.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -11,7 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-
+#nullable enable
 using System.ComponentModel;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
@@ -22,7 +21,7 @@ namespace MaaWpfGui.Configuration
 {
     public class GUI : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public DarkModeType DarkMode { get; set; } = DarkModeType.Light;
 

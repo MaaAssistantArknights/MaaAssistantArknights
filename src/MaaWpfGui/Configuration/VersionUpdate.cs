@@ -11,7 +11,6 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
-using System;
 using System.ComponentModel;
 using MaaWpfGui.Constants;
 
