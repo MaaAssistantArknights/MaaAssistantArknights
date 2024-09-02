@@ -943,6 +943,14 @@
         "sortId": 40003,
         "usage": "罗德岛人事部特别批发的许可书，在特殊的时间点上招揽特殊的人才，一次可招聘十位干员。"
     },
+    "LINKAGE_TKT_GACHA_10_5401": {
+        "classifyType": "NORMAL",
+        "description": "为了确保人才扩展而应博士要求准备的应急手段，该批寻访条目具有一定的针对性与时效性，以及，小小的风险。",
+        "icon": "LINKAGE_TKT_GACHA_10_5401.png",
+        "name": "好好吃饭寻访凭证",
+        "sortId": 40003,
+        "usage": "罗德岛人事部特别批发的许可书，在特殊的时间点上招揽特殊的人才，一次可招聘十位干员。"
+    },
     "LMTGS_COIN_1401": {
         "classifyType": "NORMAL",
         "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
@@ -1710,6 +1718,14 @@
         "name": "流光之沙",
         "sortId": -10000,
         "usage": "星星点点闪烁的宝石细沙。它比“辉煌之城”更古老，比古老秘藏更辉煌。"
+    },
+    "act36side_token_recipe": {
+        "classifyType": "NONE",
+        "description": "需要提醒部分干员——尤其是小刻，食谱推荐的餐食就是正餐，不要再问是零食还是小吃这种问题了！",
+        "icon": "act36side_token_recipe.png",
+        "name": "今日食谱",
+        "sortId": -10000,
+        "usage": "送往森西迷宫食堂的今日食谱，保证营养均衡就能获得奖品。如果不清楚怎么搭配食材，可以询问角峰、古米和芙蓉。"
     },
     "act38d1_token_coin": {
         "classifyType": "NONE",
