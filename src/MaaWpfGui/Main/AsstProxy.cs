@@ -1438,7 +1438,7 @@ namespace MaaWpfGui.Main
                         string.Join(
                             ", ",
                             (subTaskDetails!["formation"]?.ToObject<List<string?>>() ?? [])
-                                .Select(oper => DataHelper.GetLocalizedCharacterName(oper))
+                                .Select(oper => DataHelper.GetLocalizedCharacterName(oper) ?? oper)
                                 .Where(oper => !string.IsNullOrEmpty(oper))) + "]");
                     break;
 
