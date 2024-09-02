@@ -20,6 +20,7 @@ indent_size = 2
 [*.{csproj,xml}]
 indent_size = 2
 
+# JSON indentation
 [*.json]
 indent_size = 2
 
