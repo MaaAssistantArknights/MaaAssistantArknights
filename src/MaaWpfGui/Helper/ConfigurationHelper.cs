@@ -227,7 +227,6 @@ namespace MaaWpfGui.Helper
                     return false;
                 }
 
-
                 SetKvOrMigrate(parsed);
 
                 return true;
