@@ -11,11 +11,6 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System.Reflection;
-using System.Windows;
-using System.Windows.Input;
-using MaaWpfGui.Helper;
-
 namespace MaaWpfGui.Views.UserControl
 {
     /// <summary>

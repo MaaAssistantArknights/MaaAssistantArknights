@@ -15,7 +15,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Windows;
@@ -23,7 +22,6 @@ using HandyControl.Data;
 using Windows.Win32;
 using Windows.Win32.UI.Controls;
 using Windows.Win32.UI.Shell;
-using Windows.Win32.UI.WindowsAndMessaging;
 
 [assembly: SecurityCritical]
 [assembly: SecurityTreatAsSafe]

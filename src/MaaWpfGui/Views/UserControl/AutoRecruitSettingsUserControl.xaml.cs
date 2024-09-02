@@ -11,8 +11,6 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System.Reflection;
-
 namespace MaaWpfGui.Views.UserControl
 {
     /// <summary>
