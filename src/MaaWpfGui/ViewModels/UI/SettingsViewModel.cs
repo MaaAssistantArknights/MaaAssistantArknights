@@ -2597,10 +2597,10 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets the list of reclamation modes.
         /// </summary>
         public List<CombinedData> ReclamationModeList { get; } =
-            [
-                new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityNoSave"), Value = "0" },
-                new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityInSave"), Value = "1" },
-            ];
+        [
+            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityNoSave"), Value = "0" },
+            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityInSave"), Value = "1" },
+        ];
 
         private string _reclamationMode = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMode, "1");
 
@@ -2635,6 +2635,39 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _reclamationToolToCraft, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationToolToCraft, value);
+            }
+        }
+
+        private int _reclamationIncrementMode = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationIncrementMode, "0"));
+
+        public int ReclamationIncrementMode
+        {
+            get => _reclamationIncrementMode;
+            set
+            {
+                SetAndNotify(ref _reclamationIncrementMode, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationIncrementMode, value.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Gets the list of reclamation increment modes.
+        /// </summary>
+        public List<CombinedData> ReclamationIncrementModeList { get; } =
+        [
+            new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeClick"), Value = "0" },
+            new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeHold"), Value = "1" },
+        ];
+
+        private string _reclamationMaxCraftCountPerRound = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, "16");
+
+        public int ReclamationMaxCraftCountPerRound
+        {
+            get => int.Parse(_reclamationMaxCraftCountPerRound);
+            set
+            {
+                SetAndNotify(ref _reclamationMaxCraftCountPerRound, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, value.ToString());
             }
         }
 

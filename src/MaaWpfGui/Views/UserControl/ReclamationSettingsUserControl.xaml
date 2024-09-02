@@ -37,19 +37,35 @@
             <ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource Strategy}"
-                IsHitTestVisible="{Binding Path=Idle}"
+                IsHitTestVisible="{Binding Idle}"
                 ItemsSource="{Binding ReclamationModeList}"
                 SelectedValue="{Binding ReclamationMode}"
                 SelectedValuePath="Value"
                 Style="{StaticResource ComboBoxExtend}" />
             <TextBox
-                hc:InfoElement.Title="{DynamicResource ReclamationToolToCraftTip}"
-                hc:InfoElement.Placeholder="{DynamicResource ReclamationToolToCraftPlaceholder}"
-                Style="{StaticResource TextBoxExtend}"
                 Margin="0,10"
                 VerticalContentAlignment="Center"
-                IsEnabled="{c:Binding 'ReclamationMode == &quot;1&quot;' }"
+                hc:InfoElement.Placeholder="{DynamicResource ReclamationToolToCraftPlaceholder}"
+                hc:InfoElement.Title="{DynamicResource ReclamationToolToCraftTip}"
+                IsEnabled="{c:Binding 'ReclamationMode == &quot;1&quot;'}"
+                Style="{StaticResource TextBoxExtend}"
                 Text="{Binding ReclamationToolToCraft}" />
+            <ComboBox
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource ReclamationIncrementMode}"
+                IsEnabled="{c:Binding 'ReclamationMode == &quot;1&quot;'}"
+                IsHitTestVisible="{Binding Idle}"
+                ItemsSource="{Binding ReclamationIncrementModeList}"
+                SelectedValue="{Binding ReclamationIncrementMode}"
+                SelectedValuePath="Value"
+                Style="{StaticResource ComboBoxExtend}" />
+            <hc:NumericUpDown
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource ReclamationMaxCraftCountPerRound}"
+                IsEnabled="{c:Binding 'ReclamationMode == &quot;1&quot;'}"
+                Minimum="0"
+                Style="{StaticResource NumericUpDownExtend}"
+                Value="{Binding ReclamationMaxCraftCountPerRound}" />
             <!--<controls:TextBlock
                 Margin="5,50,5,10"
                 FontSize="40"

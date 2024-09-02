@@ -6,8 +6,8 @@ namespace asst
 class ReclamationTheme
 {
 public:
-    static constexpr std::string_view Fire = "Fire";   // Fire Within The Sand
-    static constexpr std::string_view Tales = "Tales"; // Tales Within The Sand
+    static constexpr std::string_view Fire = "Fire";   // Fire Within the Sand
+    static constexpr std::string_view Tales = "Tales"; // Tales Within the Sand
 };
 
 enum class ReclamationMode // 对应 Roguelike Mode
@@ -31,12 +31,9 @@ public:
 
     bool verify_and_load_params(const json::value& params);
 
-    static constexpr bool is_valid_theme(std::string_view theme)
-    {
-        return theme == ReclamationTheme::Fire || theme == ReclamationTheme::Tales;
-    }
+    static constexpr bool is_valid_theme(const std::string_view theme) { return theme == ReclamationTheme::Tales; }
 
-    static constexpr bool is_valid_mode(const ReclamationMode& mode, [[maybe_unused]] const std::string_view& theme)
+    static constexpr bool is_valid_mode(const ReclamationMode& mode, [[maybe_unused]] const std::string_view theme)
     {
         return mode == ReclamationMode::ProsperityNoSave || mode == ReclamationMode::ProsperityInSave;
     }
@@ -60,12 +57,10 @@ private:
     ReclamationMode m_mode = ReclamationMode::ProsperityInSave;            // 策略
     ReclamationDifficulty m_difficulty = ReclamationDifficulty::Challenge; // 难度模式
 
-    // ———————— ReclamationMode::ProsperityInSave 专用参数 ————————————————————————————
-public:
-    void set_tool_to_craft(const std::string& tool) { m_tool_to_craft = tool; };
-    [[nodiscard]] std::string get_tool_to_craft() const { return m_tool_to_craft; }
-private:
-    std::string m_tool_to_craft; // 要组装的支援道具
-
+    // 以下注释列出了插件专用参数, 以便于快速检阅。这些参数的具体声明与使用请参考各插件。
+    // ———————— ReclamationCraftTaskPlugin 专用参数 ———————————————————————————————————————
+    // std::string m_tool_to_craft = "荧光棒";                 // 要组装的支援道具
+    // int m_num_craft_batches = 16;                          // 支援道具组装批次数, 每批组装 99 个
+    // IncrementMode m_increment_mode = IncrementMode::Click; // 点击加号按钮增加组装数量的方式
 };
 } // namespace asst

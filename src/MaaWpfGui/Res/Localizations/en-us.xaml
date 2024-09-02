@@ -411,10 +411,14 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>
     <system:String x:Key="Reclamation">Reclamation Algorithm</system:String>
     <system:String x:Key="ReclamationTheme">Reclamation Algorithm Theme</system:String>
-    <system:String x:Key="ReclamationThemeFire">Fire Within The Sand</system:String>
-    <system:String x:Key="ReclamationThemeTales">Tales Within The Sand</system:String>
+    <system:String x:Key="ReclamationThemeFire">Fire Within the Sand</system:String>
+    <system:String x:Key="ReclamationThemeTales">Tales Within the Sand</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">I do not have a save, let's farm prosperity points by repeatedly entering and exiting stages.</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">I do have a save, let's farm prosperity points by crafting tools.</system:String>
+    <system:String x:Key="ReclamationIncrementMode">Increment Mode</system:String>
+    <system:String x:Key="ReclamationIncrementModeClick">Click</system:String>
+    <system:String x:Key="ReclamationIncrementModeHold">Hold</system:String>
+    <system:String x:Key="ReclamationMaxCraftCountPerRound">Max Craft Count Per Round</system:String>
     <system:String x:Key="OperNameLanguage">Operator display language</system:String>
     <system:String x:Key="OperNameLanguageMAA">Follow MAA</system:String>
     <system:String x:Key="OperNameLanguageClient">Follow game client</system:String>

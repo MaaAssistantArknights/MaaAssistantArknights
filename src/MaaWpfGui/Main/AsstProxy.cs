@@ -2457,15 +2457,19 @@ namespace MaaWpfGui.Main
         ///     </item>
         /// </list>
         /// </param>
-        /// <param name="toolToCraft">要合成的支援道具。</param>
+        /// <param name="toolToCraft">要组装的支援道具。</param>
+        /// <param name="incrementMode">点击类型：0 连点；1 长按</param>
+        /// <param name="numCraftBatches">单次最大制造轮数</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendReclamation(string theme = "Tales", int mode = 1, string toolToCraft = "荧光棒")
+        public bool AsstAppendReclamation(string theme = "Tales", int mode = 1, string toolToCraft = "", int incrementMode = 0, int numCraftBatches = 16)
         {
             var taskParams = new JObject
             {
                 ["theme"] = theme,
                 ["mode"] = mode,
                 ["tool_to_craft"] = toolToCraft,
+                ["increment_mode"] = incrementMode,
+                ["num_craft_batches"] = numCraftBatches,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding("Reclamation", taskParams);
             _latestTaskId[TaskType.Reclamation] = id;
