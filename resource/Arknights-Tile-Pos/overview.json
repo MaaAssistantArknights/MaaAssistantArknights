@@ -10349,6 +10349,87 @@
         "stageId": "act35side_tr01",
         "width": 9
     },
+    "act36side_01-activities/act36side/level_act36side_01": {
+        "code": "DT-1",
+        "filename": "act36side_01-activities-act36side-level_act36side_01.json",
+        "height": 7,
+        "levelId": "activities/act36side/level_act36side_01",
+        "name": "源石虫农家乐",
+        "stageId": "act36side_01",
+        "width": 11
+    },
+    "act36side_02-activities/act36side/level_act36side_02": {
+        "code": "DT-2",
+        "filename": "act36side_02-activities-act36side-level_act36side_02.json",
+        "height": 7,
+        "levelId": "activities/act36side/level_act36side_02",
+        "name": "雨林解毒炖汤",
+        "stageId": "act36side_02",
+        "width": 11
+    },
+    "act36side_03-activities/act36side/level_act36side_03": {
+        "code": "DT-3",
+        "filename": "act36side_03-activities-act36side-level_act36side_03.json",
+        "height": 8,
+        "levelId": "activities/act36side/level_act36side_03",
+        "name": "黄金萝卜",
+        "stageId": "act36side_03",
+        "width": 10
+    },
+    "act36side_04-activities/act36side/level_act36side_04": {
+        "code": "DT-4",
+        "filename": "act36side_04-activities-act36side-level_act36side_04.json",
+        "height": 9,
+        "levelId": "activities/act36side/level_act36side_04",
+        "name": "烤串与预言",
+        "stageId": "act36side_04",
+        "width": 11
+    },
+    "act36side_05-activities/act36side/level_act36side_05": {
+        "code": "DT-5",
+        "filename": "act36side_05-activities-act36side-level_act36side_05.json",
+        "height": 8,
+        "levelId": "activities/act36side/level_act36side_05",
+        "name": "会饮图",
+        "stageId": "act36side_05",
+        "width": 13
+    },
+    "act36side_06-activities/act36side/level_act36side_06": {
+        "code": "DT-6",
+        "filename": "act36side_06-activities-act36side-level_act36side_06.json",
+        "height": 7,
+        "levelId": "activities/act36side/level_act36side_06",
+        "name": "海鲜拼盘",
+        "stageId": "act36side_06",
+        "width": 11
+    },
+    "act36side_07-activities/act36side/level_act36side_07": {
+        "code": "DT-7",
+        "filename": "act36side_07-activities-act36side-level_act36side_07.json",
+        "height": 7,
+        "levelId": "activities/act36side/level_act36side_07",
+        "name": "健康零食",
+        "stageId": "act36side_07",
+        "width": 10
+    },
+    "act36side_08-activities/act36side/level_act36side_08": {
+        "code": "DT-8",
+        "filename": "act36side_08-activities-act36side-level_act36side_08.json",
+        "height": 7,
+        "levelId": "activities/act36side/level_act36side_08",
+        "name": "罗德岛大食堂",
+        "stageId": "act36side_08",
+        "width": 11
+    },
+    "act36side_tr01-activities/act36side/level_act36side_tr01": {
+        "code": "DT-TR-1",
+        "filename": "act36side_tr01-activities-act36side-level_act36side_tr01.json",
+        "height": 6,
+        "levelId": "activities/act36side/level_act36side_tr01",
+        "name": "美食指南",
+        "stageId": "act36side_tr01",
+        "width": 8
+    },
     "act3bossrush_01-activities/act3bossrush/level_bossrush3_01": {
         "code": "TN-1",
         "filename": "act3bossrush_01-activities-act3bossrush-level_bossrush3_01.json",
@@ -11148,6 +11229,15 @@
         "levelId": "obt/campaign/level_camp_r_23",
         "name": "燃烧街区",
         "stageId": "camp_r_23",
+        "width": 13
+    },
+    "camp_r_24-obt/campaign/level_camp_r_24": {
+        "code": "谢拉格",
+        "filename": "camp_r_24-obt-campaign-level_camp_r_24.json",
+        "height": 8,
+        "levelId": "obt/campaign/level_camp_r_24",
+        "name": "冰封雪谷",
+        "stageId": "camp_r_24",
         "width": 13
     },
     "easy_09-01-obt/main/level_easy_09-01": {

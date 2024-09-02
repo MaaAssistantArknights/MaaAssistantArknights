@@ -247,7 +247,7 @@ icon: mingcute:git-pull-request-fill
     ::: tip 貢獻 / 參與者
     感謝所有參與到開發 / 測試中的朋友們，是大家的幫助讓 MAA 越來越好！ (*´▽｀)ノノ
 
-    [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=114514&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
+    [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
     :::
 
 14. 下次如果還想提別的 PR，請先切換到 dev 分支，然後直接如下圖操作  

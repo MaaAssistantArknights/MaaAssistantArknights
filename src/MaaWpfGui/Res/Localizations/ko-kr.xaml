@@ -1,7 +1,4 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  설정  -->
     <system:String x:Key="Settings">설정</system:String>
     <system:String x:Key="GeneralSettings">일반 설정</system:String>
@@ -48,9 +45,15 @@
     <system:String x:Key="ExternalNotificationDiscordUserId">사용자 ID</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">봇 토큰</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">채팅 ID</system:String>
+    <system:String x:Key="ExternalNotificationQmsgServer">섬기는 사람</system:String>
+    <system:String x:Key="ExternalNotificationQmsgKey">Qmsg Key</system:String>
+    <system:String x:Key="ExternalNotificationQmsgUser">사용자 QQ</system:String>
+    <system:String x:Key="ExternalNotificationQmsgBot">봇 보내기 QQ</system:String>
     <system:String x:Key="UseGpuForInference">추론 가속화를 위해 GPU 사용</system:String>
     <system:String x:Key="GpuOptionDisable">사용안함</system:String>
     <system:String x:Key="GpuOptionSystemDefault">시스템 기본 GPU</system:String>
+    <system:String x:Key="GpuDeprecatedMessage">추론 가속을 위해 현재 선택된 GPU({0})의 사용이 권장되지 않습니다\n\n「설정 - 성능 설정」에서 다른 GPU를 선택하거나 이 메시지를 비활성화할 수 있습니다</system:String>
+    <system:String x:Key="GpuAllowDeprecated">권장되지 않는 GPU 사용 허용</system:String>
     <!--  설정 가이드  -->
     <system:String x:Key="TaskSettings">작업 설정</system:String>
     <system:String x:Key="SettingsGuide">설정 가이드</system:String>
@@ -340,6 +343,8 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">변경 사항을 적용을 위해 즉시 다시 시작하시겠습니까?</system:String>
     <system:String x:Key="SwitchResolutionTip">에뮬레이터 해상도를 1920x1080으로 변경!</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">에뮬레이터가 1920x1080으로 설정되어 있는지 확인하세요</system:String>
+    <system:String x:Key="AllowUseStoneSave">순오리지늄 사용 상태 저장 허용</system:String>
+    <system:String x:Key="AllowUseStoneSaveWarning">이 기능은 위험할 수 있습니다. "확인" 버튼을 누르면 잠재적인 위험을 이해하고 감수하는 것으로 간주됩니다.</system:String>
     <system:String x:Key="UseAlternateStage">대체 스테이지 사용</system:String>
     <system:String x:Key="UseRemainingSanityStage">남은 이성 활용</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">주 작업을 완료한 후 지정된 스테이지를 실행하며, 이성 회복제/오리지늄을 사용하지 않습니다</system:String>
@@ -405,11 +410,20 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="Mall">크레딧 수급 및 상점</system:String>
     <system:String x:Key="Mission">보상 수령</system:String>
     <system:String x:Key="AutoRoguelike">통합전략</system:String>
-    <system:String x:Key="ReclamationAlgorithm">생존연산·모래 속의 불</system:String>
-    <system:String x:Key="ReclamationAlgorithm2">생존연산·사막 이야기</system:String>
+    <system:String x:Key="Reclamation">생존연산</system:String>
+    <system:String x:Key="ReclamationTheme">생존연산 테마</system:String>
+    <system:String x:Key="ReclamationThemeFire">모래 속의 불</system:String>
+    <system:String x:Key="ReclamationThemeTales">사막 이야기</system:String>
+    <system:String x:Key="ReclamationModeProsperityNoSave">세이브 X, 스테이지 반복으로 번영의 선물 획득</system:String>
+    <system:String x:Key="ReclamationModeProsperityInSave">세이브 O, 도구 조립으로 번영의 선물 획득</system:String>
+    <system:String x:Key="ReclamationIncrementMode">증가 방식</system:String>
+    <system:String x:Key="ReclamationIncrementModeClick">연타</system:String>
+    <system:String x:Key="ReclamationIncrementModeHold">길게 누르기</system:String>
+    <system:String x:Key="ReclamationMaxCraftCountPerRound">한 번의 최대 제작 횟수</system:String>
     <system:String x:Key="OperNameLanguage">간부 이름 표시 언어</system:String>
     <system:String x:Key="OperNameLanguageMAA">MAA 따라가기</system:String>
     <system:String x:Key="OperNameLanguageClient">게임 클라이언트 따라가기</system:String>
+    <system:String x:Key="OperNameLanguageForce">지정된 언어를 강제로 사용</system:String>
     <system:String x:Key="Light">라이트</system:String>
     <system:String x:Key="Dark">다크</system:String>
     <system:String x:Key="SyncWithOs">시스템 연동</system:String>
@@ -434,7 +448,7 @@ Only once가 체크되면 실행 후 Only once가 체크되기 전 상태로 작
     <system:String x:Key="WaitAndStop">대기 &amp; 중지</system:String>
     <!--  작전 설정  -->
     <system:String x:Key="UseSanityPotion">이성 회복제 사용</system:String>
-    <system:String x:Key="UseOriginitePrime">순오리지늄 사용*</system:String>
+    <system:String x:Key="UseOriginitePrime">순오리지늄 사용</system:String>
     <system:String x:Key="PerformBattles">횟수 제한</system:String>
     <system:String x:Key="AssignedMaterial">드롭 제한</system:String>
     <system:String x:Key="Quantity">드롭 수</system:String>
@@ -527,7 +541,8 @@ Only once가 체크되면 실행 후 Only once가 체크되기 전 상태로 작
     <!--  오퍼레이터 인식  -->
     <system:String x:Key="OperBoxRecognition">오퍼레이터 인식</system:String>
     <system:String x:Key="OperBoxRecognitionTip">시작하기 전에 등록된 「선호」오퍼레이터를 등록 해제하세요.\n이 기능은 현재 테스트 중입니다. 만약 오류가 있다면 MAA 경로 내 debug 폴더 안의 oper 폴더 전체를 압축해서 Github의 issue로 올려주세요~</system:String>
-    <system:String x:Key="OperBoxRecognitionResult">미보유: {0}\n목록:\n\n{1}\n보유: {2}\n목록:\n\n{3}</system:String>
+    <system:String x:Key="OperBoxHaveList">보유: {0}</system:String>
+    <system:String x:Key="OperBoxNotHaveList">미보유: {0}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">인식 시작</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">클립보드에 복사</system:String>
     <!--  !오퍼레이터 인식  -->
@@ -856,19 +871,19 @@ Only once가 체크되면 실행 후 Only once가 체크되기 전 상태로 작
 
 현재 생존연산 기능은 초기 단계이며, 다음 사항을 주의하세요:
 
- 저장 데이터 있음: 초회 상태에서 포인트를 모으기
+생존연산 메인 화면에서 작업을 시작해야 합니다
+
+ 세이브 O: 스테이지 반복으로 번영의 선물 획득
   1. 기존 데이터가 있는 경우 사용할 수 없습니다 (현재 데이터를 지우세요)
   2. 편성창이 비워있지 않으면 사용할 수 없습니다 (편성창을 비우세요)
-  3. 생존연산 메인 화면에서 작업을 시작해야 합니다
 
- 저장 데이터 없음: 제작을 통해 포인트를 모으기 (고급 설정)
+ 세이브 X: 도구 제작으로 번영의 선물 획득
   1. 결산 후 첫 번째 날이어야 하며, 이후 3일 이내에 적의 침입이 없어야 합니다
-  2. 반드시 지도 화면에서 실행해야 합니다 (주둔지가 보여야합니다)
-  3. 제조 가능한 수량이 99의 배수일 경우 멈출 수 있습니다. 저장하기 전에 재료를 약간 사용한 후에 다시 시도하세요
+  2. 제조 가능한 수량이 99의 배수일 경우 멈출 수 있습니다. 저장하기 전에 재료를 약간 사용한 후에 다시 시도하세요
     </system:String>
     <system:String x:Key="ReclamationBePatient">빨리 발전하고 싶어요! 또 급해져버렸네요</system:String>
     <system:String x:Key="Reclamation2ExEnable">제작 점수 획득 모드</system:String>
-    <system:String x:Key="Reclamation2ExProductTip">제작할 도구 이름</system:String>
-    <system:String x:Key="Reclamation2ExProductPlaceholder">형광봉 (荧光棒)</system:String>
+    <system:String x:Key="ReclamationToolToCraftTip">제작할 도구 이름</system:String>
+    <system:String x:Key="ReclamationToolToCraftPlaceholder">형광봉 (荧光棒)</system:String>
     <!--  !Reclamation  -->
 </ResourceDictionary>

@@ -100,7 +100,7 @@
         "text": ["三山奇聞"]
     },
     "FC-OpenOcr": {
-        "text": ["ステージ", "開放"]
+        "text": ["この炎", "照らす", "イベント復刻開催中"]
     },
     "FCChapterToFC": {
         "text": ["沼", "たなびく", "煙"]
@@ -181,6 +181,7 @@
             ["サ.*ージ", "暴行"],
             [".*イビーク", "柏喙"],
             ["フランカ", "芙兰卡"],
+            ["(ラ|フ)ラ(ジ|ン)カ", "芙兰卡"],
             ["シデロカ", "铸铁"],
             ["^スワイヤー", "诗怀雅"],
             ["ウィスラッシュ", "鞭刃"],
@@ -433,7 +434,7 @@
             [".*ミ(ミ|=)", "特米米"],
             ["ビーズワクス", "蜜蜡"],
             ["^カシャ", "卡达"],
-            ["^カ(ツ|シ)(ャ|セ|)", "卡达"],
+            ["^カ(ツ|シ)(ャ|セ|$)", "卡达"],
             ["レオンハルト", "莱恩哈特"],
             ["レオ.*ハルト", "莱恩哈特"],
             [".*オンハルト", "莱恩哈特"],
@@ -804,7 +805,7 @@
             ["スチームサイダー", "水汽汽水瓶"],
             ["純燼エイヤフィヤトラ", "纯烬艾雅法拉"],
             ["純燼エイヤ", "纯烬艾雅法拉"],
-            ["[燼植場増]エイヤフィ", "纯烬艾雅法拉"],
+            ["[燼植場増壊]エイヤフィ", "纯烬艾雅法拉"],
             ["景観噴水", "景观喷泉"],
             ["琳琅スワイヤー", "琳琅诗怀雅"],
             ["林.*スワ", "琳琅诗怀雅"],
@@ -1012,9 +1013,6 @@
     },
     "VisitNextOcr": {
         "text": ["次を訪問"]
-    },
-    "Mall": {
-        "text": ["購買"]
     },
     "CreditStoreOcr": {
         "text": ["FP交換所"]
@@ -2286,7 +2284,7 @@
             ["最高の友達", "最好的朋友"],
             ["深淵を前に", "深渊入口"],
             ["手当たり次第に", "随到随取"],
-            ["手当た.*次第.*", "随到随取"],
+            ["手当た.*第.*", "随到随取"],
             ["定期メンテナンス", "定期维护"],
             ["暗い部屋", "昏黑之室"],
             ["癒しの儀", "疗愈仪式"],
@@ -2624,9 +2622,9 @@
     "Reclamation2CopiousCoppice": {
         "text": ["豊かな", "低木林", "資源エリア"],
         "ocrReplace": [
-            ["(予|青)原(工|正)", "資源エリア"],
+            ["(予|青|諸)(原|厚)(工|正)", "資源エリア"],
             ["夢方.?な", "豊かな"],
-            ["豊方", "豊かな"]
+            ["豊.+", "豊かな"]
         ]
     },
     "Reclamation2DeleteArchiveEnterConfirm": {
@@ -2697,14 +2695,8 @@
     "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
         "text": ["削除する", "削除"]
     },
-    "Reclamation2ProsperityMaxSkipDayBeginNewDay": {
-        "text": ["次へ"]
-    },
     "Reclamation2ProsperityMaxSkipDayClickContinue": {
         "text": ["タップ", "続く"]
-    },
-    "Reclamation2SkipDayBeginNewDay": {
-        "text": ["次へ"]
     },
     "Reclamation2SkipDayClickContinue": {
         "text": ["タップ", "続く"]
@@ -2722,10 +2714,14 @@
         "text": ["作戦", "開始"]
     },
     "Reclamation2StageFightConfirm": {
-        "text": ["確定"]
+        "ocrReplace": [["にい", "はい"]],
+        "text": ["確定", "はい"]
     },
     "Reclamation2StageLeaveConfirm": {
         "text": ["離脱する", "離脱"]
+    },
+    "Reclamation2StageSquadClearConfirm": {
+        "text": ["確定"]
     },
     "Fire@Reclamation@ClickAnyZoneOcr": {
         "roi": [308, 73, 739, 567],
@@ -2796,5 +2792,54 @@
         "algorithm": "OcrDetect",
         "text": ["WITHIN", "砂", "中", "の", "火"],
         "roi": [686, 164, 207, 133]
+    },
+    "Tales@RA@CancelEnterBuildMode": {
+        "text": ["建設開始"]
+    },
+    "Tales@RA@ClickGatheringOfFeathers": {
+        "text": ["羽獣", "集う地", "狩猟エリア"]
+    },
+    "Tales@RA@ClickShrubberyGalore": {
+        "text": ["豊かな", "低木林", "資源エリア"],
+        "ocrReplace": [
+            ["(予|青)(原|厚)(工|正)", "資源エリア"],
+            ["夢方.?な", "豊かな"],
+            ["豊方", "豊かな"]
+        ]
+    },
+    "Tales@RA@ConfirmSquad": {
+        "text": ["作戦", "開始"]
+    },
+    "Tales@RA@ConfirmToLoadSave": {
+        "text": ["確認"]
+    },
+    "Tales@RA@EnterNode": {
+        "text": ["行動", "開始"]
+    },
+    "Tales@RA@FinishCalc": {
+        "text": ["タップ", "続く"]
+    },
+    "Tales@RA@PIS-ProsperityReachLimit-LoadSave": {
+        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
+        "doc": "Needs to be edited if confirmation window is removed later",
+        "sub": [
+            "Tales@RA@DialogConfirmYellow",
+            "Tales@RA@DialogConfirmRed",
+            "Tales@RA@SelectSecondLastSave",
+            "Tales@RA@ConfirmToLoadSave"
+        ]
+    },
+    "Tales@RA@PIS-Resume": {
+        "text": ["継", "続"]
+    },
+    "Tales@RA@PNS-ClickBaseCamp": {
+        "text": ["人々", "が集う", "集会場"]
+    },
+    "Tales@RA@PNS-Commence": {
+        "text": ["開", "始"]
+    },
+    "Tales@RA@ResourceGained": {
+        "text": ["空白", "箇所", "タップ", "続ける"],
+        "roi": [480, 444, 320, 48]
     }
 }

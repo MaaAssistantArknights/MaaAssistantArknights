@@ -527,28 +527,25 @@ asst::AutoRecruitTask::calc_task_result_type
         const auto& final_combination = result_vec.front();
 
         {
-            json::value results_json;
+            json::object results_json;
             results_json["result"] = json::array();
             results_json["level"] = final_combination.min_level;
-            std::vector<json::value> result_json_vector;
             for (const auto& comb : result_vec) {
-                json::value comb_json;
-                comb_json["tags"] = json::array(get_tag_names(comb.tags));
-
-                std::vector<json::value> opers_json_vector;
-                for (const Recruitment& oper_info :
-                     ranges::reverse_view(comb.opers)) { // print reversely
-                    json::value oper_json;
-                    oper_json["name"] = oper_info.name;
-                    oper_json["id"] = oper_info.id;
-                    oper_json["level"] = oper_info.level;
-                    opers_json_vector.emplace_back(std::move(oper_json));
+                json::array opers_json;
+                for (const Recruitment& oper_info : comb.opers | views::reverse) { // print reversely
+                    opers_json.emplace_back(json::object {
+                        { "name", oper_info.name },
+                        { "id", oper_info.id },
+                        { "level", oper_info.level },
+                    });
                 }
-                comb_json["opers"] = json::array(std::move(opers_json_vector));
-                comb_json["level"] = comb.min_level;
-                results_json["result"].as_array().emplace_back(std::move(comb_json));
+                results_json["result"].as_array().emplace_back(json::object {
+                    { "tags", json::array(get_tag_names(comb.tags)) },
+                    { "opers", opers_json },
+                    { "level", comb.min_level },
+                });
             }
-            info["details"] |= results_json.as_object();
+            info["details"] |= results_json;
 
             json::value cb_info = info;
             cb_info["what"] = "RecruitResult";
@@ -606,10 +603,7 @@ asst::AutoRecruitTask::calc_task_result_type
                     { "refresh_limit", refresh_limit },
                 };
                 callback(AsstMsg::SubTaskExtraInfo, cb_info);
-                Log.trace(
-                    "recruit tags refreshed",
-                    std::to_string(refresh_count),
-                    " times, rerunning recruit task");
+                Log.trace("recruit tags refreshed", refresh_count, "times, rerunning recruit task");
             }
 
             // desired retry, not an error
@@ -720,6 +714,9 @@ asst::AutoRecruitTask::calc_task_result_type
         result.tags_selected = static_cast<int>(final_combination.tags.size());
         return result;
     }
+
+    Log.error("Failed to analyze recruit tags.");
+    save_img(utils::path("debug") / utils::path("recruit"));
     return {};
 }
 

@@ -119,7 +119,7 @@
         "roi": [856, 511, 247, 159]
     },
     "FC-OpenOcr": {
-        "text": ["Event <What the Firelight Casts> is now", "open"]
+        "text": ["What the Firelight Casts", "open"]
     },
     "FCChapterToFC": {
         "text": ["SWAMP", "MISTS"]
@@ -893,9 +893,6 @@
     "VisitNextOcr": {
         "text": ["Visit Next"]
     },
-    "Mall": {
-        "text": ["Store", "STORE"]
-    },
     "CreditStoreOcr": {
         "text": ["Credit Store"]
     },
@@ -1512,12 +1509,12 @@
             ["'?Focus'?", "“聚焦”"],
             ["Iron Guard[- ]*Impenetrable", "铁卫-无锋"],
             ["Rhodes Island Tactical Transceiver", "罗德岛战术电台"],
-            ["Fortification Contract[- ]*Phalanx", "堡垒协议-方阵"],
-            ["Fortification Contract[- ]*Resolution", "堡垒协议-固守"],
-            ["Long-Range Contract[- ]*Remote Strike", "远程协议-遥击"],
-            ["Long-Range Contract[- ]*Assassination", "远程协议-克敌"],
-            ["Sabotage Co-op[- ]*Elimination", "破坏协议-消除"],
-            ["Sabotage Co-op[- ]*Suppression", "破坏协议-压制"],
+            ["(?:Fortification Contract[- ]*)?Phalanx", "堡垒协议-方阵"],
+            ["(?:Fortification Contract[- ]*)?Resolution", "堡垒协议-固守"],
+            ["(?:Long-Range Contract[- ]*)?Remote Strike", "远程协议-遥击"],
+            ["(?:Long-Range Contract[- ]*)?Assassination", "远程协议-克敌"],
+            ["(?:Sabotage Co-op[- ]*)?Elimination", "破坏协议-消除"],
+            ["(?:Sabotage Co-op[- ]*)?Suppression", "破坏协议-压制"],
             ["Blunt Claws[- ]*Advancement", "钝爪-突破"],
             ["Blunt Claws[- ]*Burst", "钝爪-爆发"],
             ["Specialist Promotion Voucher", "特种进阶券"],
@@ -1716,7 +1713,7 @@
             ["Seaweed Salad", "凉拌海草"],
             ["Orange Storm", "橙味风暴"],
             ["Coffee Plains Coffee Candy", "咖啡平原咖啡糖"],
-            ["Acahuallan Bowl", "阿卡胡拉饭碗"],
+            ["Acahuallan Bowl?", "阿卡胡拉饭碗"],
             ["Three-Dimensional Art[ Display]*", "立体艺术装置"],
             ["'?Multipurpose' Hair Clip", "“多功能”发夹"],
             ["Pitt's Assorted Fruits", "皮特水果什锦"],
@@ -2495,14 +2492,8 @@
     "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
         "text": ["Confirm Wipe"]
     },
-    "Reclamation2ProsperityMaxSkipDayBeginNewDay": {
-        "text": ["Start Today"]
-    },
     "Reclamation2ProsperityMaxSkipDayClickContinue": {
         "text": ["Tap anywhere to continue"]
-    },
-    "Reclamation2SkipDayBeginNewDay": {
-        "text": ["Start Today"]
     },
     "Reclamation2SkipDayClickContinue": {
         "text": ["Tap anywhere to continue"]
@@ -2520,10 +2511,13 @@
         "text": ["Start"]
     },
     "Reclamation2StageFightConfirm": {
-        "text": ["Confirm"]
+        "text": ["Confirm", "Proceed"]
     },
     "Reclamation2StageLeaveConfirm": {
         "text": ["Are you sure you"]
+    },
+    "Reclamation2StageSquadClearConfirm": {
+        "text": ["Confirm"]
     },
     "Fire@Reclamation@BuyWaterProcedure": {
         "text": ["Skip", "Building materials", "Fresh Water", "Skip"]
@@ -2605,5 +2599,48 @@
     },
     "Fire@Reclamation@TodoEnter": {
         "text": ["FIRE", "WITHIN", "THE", "SAND"]
+    },
+    "Tales@RA@CancelEnterBuildMode": {
+        "text": ["Enter Build Mode"]
+    },
+    "Tales@RA@ClickGatheringOfFeathers": {
+        "text": ["Gathering of Feathers", "Hunting Zone"]
+    },
+    "Tales@RA@ClickShrubberyGalore": {
+        "text": ["Shrubbery Galore", "Resource", "Zone"]
+    },
+    "Tales@RA@ConfirmSquad": {
+        "text": ["Start"]
+    },
+    "Tales@RA@ConfirmToLoadSave": {
+        "text": ["Confirm"]
+    },
+    "Tales@RA@EnterNode": {
+        "text": ["Start"]
+    },
+    "Tales@RA@FinishCalc": {
+        "text": ["Tap anywhere to continue"]
+    },
+    "Tales@RA@PIS-ProsperityReachLimit-LoadSave": {
+        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
+        "doc": "Needs to be edited if confirmation window is removed later",
+        "sub": [
+            "Tales@RA@DialogConfirmYellow",
+            "Tales@RA@DialogConfirmRed",
+            "Tales@RA@SelectSecondLastSave",
+            "Tales@RA@ConfirmToLoadSave"
+        ]
+    },
+    "Tales@RA@PIS-Resume": {
+        "text": ["Resume"]
+    },
+    "Tales@RA@PNS-ClickBaseCamp": {
+        "text": ["Gathering Grounds", "Base Camp"]
+    },
+    "Tales@RA@PNS-Commence": {
+        "text": ["Commence"]
+    },
+    "Tales@RA@ResourceGained": {
+        "text": ["Tap anywhere to continue"]
     }
 }

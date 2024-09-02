@@ -3,6 +3,7 @@
 #include <future>
 #include <thread>
 
+#include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/AvatarCacheManager.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
@@ -11,16 +12,19 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
+#include "Utils/Time.hpp"
 #include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/BestMatcher.h"
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
 
+#include "Arknights-Tile-Pos/TileCalc2.hpp"
+
 using namespace asst::battle;
 
-asst::BattleHelper::BattleHelper(Assistant* inst)
-    : m_inst_helper(inst)
+asst::BattleHelper::BattleHelper(Assistant* inst) :
+    m_inst_helper(inst)
 {
 }
 
@@ -54,10 +58,7 @@ void asst::BattleHelper::clear()
     m_used_tiles.clear();
 }
 
-bool asst::BattleHelper::calc_tiles_info(
-    const std::string& stage_name,
-    double shift_x,
-    double shift_y)
+bool asst::BattleHelper::calc_tiles_info(const std::string& stage_name, double shift_x, double shift_y)
 {
     LogTraceFunction;
 
@@ -99,7 +100,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
     LogTraceFunction;
 
     if (init) {
-        AvatarCache.remove_avatars(Role::Drone);// 移除小龙等不同技能很像的召唤物，防止错误识别
+        AvatarCache.remove_avatars(Role::Drone); // 移除小龙等不同技能很像的召唤物，防止错误识别
         wait_until_start(false);
     }
 
@@ -144,7 +145,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
     auto set_oper_name = [&](DeploymentOper& oper, const std::string& name) {
         oper.name = name;
         oper.location_type = BattleData.get_location_type(name);
-        oper.is_unusual_location = battle::get_role_usual_location(oper.role) == oper.location_type;
+        oper.is_usual_location = battle::get_role_usual_location(oper.role) == oper.location_type;
     };
 
     auto& cur_opers = oper_result_opt->deployment;
@@ -157,14 +158,12 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
             Log.trace("start matching cooling", oper.index);
             static const auto cooling_threshold =
                 Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_thresholds.front();
-            static const auto cooling_mask_range =
-                Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_ranges;
+            static const auto cooling_mask_range = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_ranges;
             avatar_analyzer.set_threshold(cooling_threshold);
             avatar_analyzer.set_mask_ranges(cooling_mask_range, true, true);
         }
         else {
-            static const auto threshold =
-                Task.get<MatchTaskInfo>("BattleAvatarData")->templ_thresholds.front();
+            static const auto threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_thresholds.front();
             static const auto drone_threshold =
                 Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_thresholds.front();
             avatar_analyzer.set_threshold(oper.role == Role::Drone ? drone_threshold : threshold);
@@ -208,8 +207,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
         }
     }
 
-    if (ranges::count_if(unknown_opers, [](const DeploymentOper& it) { return !it.cooling; }) > 0
-        || init) {
+    if (ranges::count_if(unknown_opers, [](const DeploymentOper& it) { return !it.cooling; }) > 0 || init) {
         // 一个都没匹配上的，挨个点开来看一下
         LogTraceScope("rec unknown opers");
 
@@ -285,6 +283,38 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
     return check_in_battle(image);
 }
 
+// if side = true, get top view of the selected operator, tile size is 5x5
+cv::Mat asst::BattleHelper::get_top_view(const cv::Mat& cam_img, bool side)
+{
+    if (!side) {
+        return cv::Mat {}; // TODO
+    }
+
+    const std::vector<cv::Point2f> world_points {
+        { -2.5, -2.5 },
+        { 2.5, -2.5 },
+        { -2.5, 2.5 },
+        { 2.5, 2.5 },
+    };
+    const std::vector<cv::Point2f> dst_points {
+        { 0, 0 },
+        { 500, 0 },
+        { 0, 500 },
+        { 500, 500 },
+    };
+    std::vector<cv::Point2f> screen_points;
+    for (const auto& point : world_points) {
+        cv::Vec3d temp { point.x, -point.y, -0.3967874050140381 };
+        auto screen_pt = Map::TileCalc2::world_to_screen(m_map_data, temp, true);
+        screen_points.push_back(screen_pt);
+    }
+
+    const auto xform = cv::getPerspectiveTransform(screen_points, dst_points);
+    cv::Mat result;
+    cv::warpPerspective(cam_img, result, xform, cv::Size(500, 500));
+    return result;
+}
+
 bool asst::BattleHelper::update_kills(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
@@ -314,10 +344,7 @@ bool asst::BattleHelper::update_cost(const cv::Mat& reusable)
     return true;
 }
 
-bool asst::BattleHelper::deploy_oper(
-    const std::string& name,
-    const Point& loc,
-    DeployDirection direction)
+bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, DeployDirection direction)
 {
     LogTraceFunction;
 
@@ -337,9 +364,8 @@ bool asst::BattleHelper::deploy_oper(
     }
     Point target_point = target_iter->second.pos;
 
-    int dist = static_cast<int>(Point::distance(
-        target_point,
-        { oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2 }));
+    int dist = static_cast<int>(
+        Point::distance(target_point, { oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2 }));
 
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
     int duration = static_cast<int>(dist / 1000.0 * swipe_oper_task_ptr->pre_delay);
@@ -347,9 +373,8 @@ bool asst::BattleHelper::deploy_oper(
     if (int min_duration = swipe_oper_task_ptr->special_params.at(4); duration < min_duration) {
         duration = min_duration;
     }
-    bool deploy_with_pause = ControlFeat::support(
-        m_inst_helper.ctrler()->support_features(),
-        ControlFeat::SWIPE_WITH_PAUSE);
+    bool deploy_with_pause =
+        ControlFeat::support(m_inst_helper.ctrler()->support_features(), ControlFeat::SWIPE_WITH_PAUSE);
     Point oper_point(oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2);
     m_inst_helper.ctrler()->swipe(
         oper_point,
@@ -447,9 +472,7 @@ bool asst::BattleHelper::retreat_oper(const Point& loc, bool manually)
 
     m_used_tiles.erase(loc);
     if (manually) {
-        std::erase_if(m_battlefield_opers, [&loc](const auto& pair) -> bool {
-            return pair.second == loc;
-        });
+        std::erase_if(m_battlefield_opers, [&loc](const auto& pair) -> bool { return pair.second == loc; });
     }
     return true;
 }
@@ -611,10 +634,7 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
     return used;
 }
 
-bool asst::BattleHelper::check_and_use_skill(
-    const std::string& name,
-    bool& has_error,
-    const cv::Mat& reusable)
+bool asst::BattleHelper::check_and_use_skill(const std::string& name, bool& has_error, const cv::Mat& reusable)
 {
     auto oper_iter = m_battlefield_opers.find(name);
     if (oper_iter == m_battlefield_opers.cend()) {
@@ -624,10 +644,7 @@ bool asst::BattleHelper::check_and_use_skill(
     return check_and_use_skill(oper_iter->second, has_error, reusable);
 }
 
-bool asst::BattleHelper::check_and_use_skill(
-    const Point& loc,
-    bool& has_error,
-    const cv::Mat& reusable)
+bool asst::BattleHelper::check_and_use_skill(const Point& loc, bool& has_error, const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     BattlefieldClassifier skill_analyzer(image);
@@ -658,14 +675,7 @@ void asst::BattleHelper::save_map(const cv::Mat& image)
     auto draw = image.clone();
     for (const auto& [loc, info] : m_normal_tile_info) {
         cv::circle(draw, cv::Point(info.pos.x, info.pos.y), 5, cv::Scalar(0, 255, 0), -1);
-        cv::putText(
-            draw,
-            loc.to_string(),
-            cv::Point(info.pos.x - 30, info.pos.y),
-            1,
-            1.2,
-            cv::Scalar(0, 0, 255),
-            2);
+        cv::putText(draw, loc.to_string(), cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
     }
 
     std::string suffix;
@@ -732,9 +742,8 @@ bool asst::BattleHelper::click_oper_on_battlefield(const Point& loc)
 bool asst::BattleHelper::click_retreat()
 {
     LogTraceFunction;
-    bool deploy_with_pause = ControlFeat::support(
-        m_inst_helper.ctrler()->support_features(),
-        ControlFeat::SWIPE_WITH_PAUSE);
+    bool deploy_with_pause =
+        ControlFeat::support(m_inst_helper.ctrler()->support_features(), ControlFeat::SWIPE_WITH_PAUSE);
 
     if (deploy_with_pause) {
         ProcessTask(this_task(), { "BattlePause" }).run();
@@ -748,39 +757,48 @@ bool asst::BattleHelper::click_retreat()
     return ret;
 }
 
-// TODO: use m_skill_button_pos
 bool asst::BattleHelper::click_skill(bool keep_waiting)
 {
     LogTraceFunction;
-    bool deploy_with_pause = ControlFeat::support(
-        m_inst_helper.ctrler()->support_features(),
-        ControlFeat::SWIPE_WITH_PAUSE);
+    bool deploy_with_pause =
+        ControlFeat::support(m_inst_helper.ctrler()->support_features(), ControlFeat::SWIPE_WITH_PAUSE);
 
+    bool pausing = false;
     if (!keep_waiting && deploy_with_pause) {
-        ProcessTask(this_task(), { "BattlePause" }).run();
+        pausing = ProcessTask(this_task(), { "BattlePause" }).run();
     }
-    ProcessTask skill_task(
-        this_task(),
-        { "BattleSkillReadyOnClick",
-          "BattleSkillReadyOnClick-SquareMap",
-          "BattleSkillStopOnClick",
-          "BattleSkillStopOnClick-MiddleMap",
-          "BattleSkillStopOnClick-SquareMap" });
-    skill_task.set_task_delay(0);
 
-    if (keep_waiting) {
-        return skill_task.set_retry_times(1000).run();
-    }
-    else {
-        bool ret = skill_task.set_retry_times(5).run();
-        if (!ret) {
-            cancel_oper_selection();
+    cv::Mat top_view;
+    for (int retry = 0; retry < (keep_waiting ? 1000 : 5); ++retry) {
+        top_view = get_top_view(m_inst_helper.ctrler()->get_image(), true);
+        Matcher skill_analyzer { top_view };
+        skill_analyzer.set_task_info("BattleSkillReadyOnClick-TopView");
+        skill_analyzer.set_roi({ 250, 250, 250, 250 });
+        if (skill_analyzer.analyze()) {
+            m_inst_helper.ctrler()->click(m_skill_button_pos);
+            if (pausing) {
+                ProcessTask(this_task(), { "BattlePauseCancel" }).run();
+            }
+            return true;
         }
-        if (deploy_with_pause) {
-            ProcessTask(this_task(), { "BattlePauseCancel" }).run();
-        }
-        return ret;
+        m_inst_helper.sleep(Config.get_options().task_delay);
     }
+
+    // this means false positive in skill ready detection
+
+#ifdef ASST_DEBUG
+    if (!top_view.empty()) {
+        using namespace asst::utils::path_literals;
+        asst::imwrite(
+            "debug"_p / "skill"_p / asst::utils::path(m_stage_name + '_' + utils::get_time_filestem() + ".png"),
+            top_view);
+    }
+#endif
+    cancel_oper_selection();
+    if (pausing) {
+        ProcessTask(this_task(), { "BattlePauseCancel" }).run();
+    }
+    return false;
 }
 
 bool asst::BattleHelper::cancel_oper_selection()
@@ -828,8 +846,7 @@ void asst::BattleHelper::fix_swipe_out_of_limit(
     };
 
     // 旋转后偏移值会不够，计算补偿比例
-    double adjust_more =
-        std::get<0>(adjust_scale) * direct.x + std::get<1>(adjust_scale) * direct.y;
+    double adjust_more = std::get<0>(adjust_scale) * direct.x + std::get<1>(adjust_scale) * direct.y;
 
     Point adjust = {
         static_cast<int>(std::get<0>(adjust_scale) / adjust_more * distance),
@@ -843,14 +860,7 @@ void asst::BattleHelper::fix_swipe_out_of_limit(
         };
     }
 
-    Log.info(
-        __FUNCTION__,
-        "swipe end_point out of limit, start:",
-        p1,
-        ", end:",
-        p2,
-        ", adjust:",
-        adjust);
+    Log.info(__FUNCTION__, "swipe end_point out of limit, start:", p1, ", end:", p2, ", adjust:", adjust);
     p1 += adjust;
     p2 += adjust;
 }
@@ -905,14 +915,11 @@ std::string asst::BattleHelper::analyze_detail_page_oper_name(const cv::Mat& ima
     return BattleData.is_name_invalid(det_name) ? std::string() : det_name;
 }
 
-std::optional<asst::Rect>
-    asst::BattleHelper::get_oper_rect_on_deployment(const std::string& name) const
+std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const std::string& name) const
 {
     LogTraceFunction;
 
-    auto oper_iter = ranges::find_if(m_cur_deployment_opers, [&](const auto& oper) {
-        return oper.name == name;
-    });
+    auto oper_iter = ranges::find_if(m_cur_deployment_opers, [&](const auto& oper) { return oper.name == name; });
     if (oper_iter == m_cur_deployment_opers.end()) {
         Log.error("No oper", name);
         return std::nullopt;

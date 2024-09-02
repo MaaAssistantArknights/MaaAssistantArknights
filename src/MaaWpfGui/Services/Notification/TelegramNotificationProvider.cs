@@ -40,7 +40,7 @@ public class TelegramNotificationProvider(IHttpService httpService) : IExternalN
 
         if (response is not null)
         {
-            return true;
+            return !response.Contains("\"ok\":false");
         }
 
         _logger.Warning("Failed to send message.");

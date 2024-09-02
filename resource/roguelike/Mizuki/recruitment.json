@@ -344,6 +344,35 @@
                     ]
                 },
                 {
+                    "name": "艾拉",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "is_key": true,
+                    "recruit_priority": 742,
+                    "promote_priority": 700,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["高台C", "玛恩纳", "号角"],
+                            "threshold": 2,
+                            "offset": -200
+                        }
+                    ]
+                },
+                {
+                    "name": "娜仁图亚",
+                    "skill": 2,
+                    "is_key": true,
+                    "recruit_priority": 741,
+                    "promote_priority": 700,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["高台C", "玛恩纳", "号角"],
+                            "threshold": 2,
+                            "offset": -200
+                        }
+                    ]
+                },
+                {
                     "name": "黑",
                     "skill": 3,
                     "alternate_skill": 2,
