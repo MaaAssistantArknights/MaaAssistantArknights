@@ -3615,6 +3615,12 @@ namespace MaaWpfGui.ViewModels.UI
             var currentTime = (ulong)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             var poolTime = (ulong?)versionJson?["gacha"]?["time"]; // 卡池的开始时间
             var activityTime = (ulong?)versionJson?["activity"]?["time"]; // 活动的开始时间
+            var lastUpdated = (string?)versionJson?["last_updated"]; // 最后更新时间
+            string dateOnly = string.Empty;
+            if (DateTime.TryParse(lastUpdated, out DateTime parsedDateTime))
+            {
+                dateOnly = parsedDateTime.ToString("yy.MM.dd");
+            }
 
             if ((currentTime < poolTime) && (currentTime < activityTime))
             {
@@ -3637,7 +3643,7 @@ namespace MaaWpfGui.ViewModels.UI
                 versionName = versionJson?["activity"]?["name"]?.ToString() ?? string.Empty;
             }
 
-            return versionName;
+            return versionName + dateOnly;
         }
 
         private UpdateVersionType _versionType = (UpdateVersionType)Enum.Parse(
