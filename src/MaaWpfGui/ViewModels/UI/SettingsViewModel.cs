@@ -3669,7 +3669,9 @@ namespace MaaWpfGui.ViewModels.UI
             string dateOnly = string.Empty;
             if (DateTime.TryParse(lastUpdated, out DateTime parsedDateTime))
             {
-                dateOnly = parsedDateTime.ToString("yy.MM.dd");
+                dateOnly = LocalizationHelper.DefaultLanguage == "en-us"
+                    ? parsedDateTime.ToString("dd/MM/yyyy")
+                    : parsedDateTime.ToString("yy.MM.dd");
             }
 
             if ((currentTime < poolTime) && (currentTime < activityTime))
@@ -3693,7 +3695,7 @@ namespace MaaWpfGui.ViewModels.UI
                 versionName = versionJson?["activity"]?["name"]?.ToString() ?? string.Empty;
             }
 
-            return versionName + dateOnly;
+            return dateOnly + " - " + versionName;
         }
 
         private UpdateVersionType _versionType = (UpdateVersionType)Enum.Parse(
