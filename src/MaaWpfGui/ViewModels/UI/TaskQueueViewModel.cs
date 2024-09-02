@@ -1619,7 +1619,8 @@ namespace MaaWpfGui.ViewModels.UI
             return Instances.AsstProxy.AsstAppendReclamation(
                 Instances.SettingsViewModel.ReclamationTheme,
                 mode,
-                Instances.SettingsViewModel.ReclamationToolToCraft);
+                Instances.SettingsViewModel.ReclamationToolToCraft,
+                Instances.SettingsViewModel.ReclamationIncrementMode);
         }
 
         [DllImport("User32.dll", EntryPoint = "FindWindow")]

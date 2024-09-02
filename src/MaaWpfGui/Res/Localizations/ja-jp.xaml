@@ -416,6 +416,9 @@
     <system:String x:Key="ReclamationThemeTales">熱砂秘聞</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">セーブせずに、出入りを繰り返して生息ポイントを稼ぐ</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">セーブしながら、支援アイテムを組み立てて生息ポイントを稼ぐ</system:String>
+    <system:String x:Key="ReclamationIncrementMode">増加方式</system:String>
+    <system:String x:Key="ReclamationIncrementModeClick">連打</system:String>
+    <system:String x:Key="ReclamationIncrementModeHold">長押し</system:String>
     <system:String x:Key="OperNameLanguage">オペレーター名の表示言語</system:String>
     <system:String x:Key="OperNameLanguageMAA">MAAをフォローする</system:String>
     <system:String x:Key="OperNameLanguageClient">ゲームクライアントをフォローする</system:String>
