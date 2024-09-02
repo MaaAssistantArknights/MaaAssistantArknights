@@ -27,6 +27,12 @@
         "text": ["Rerun", "Retrospection"],
         "roi": [0, 500, 500, 150]
     },
+    "CR-OpenOcr": {
+        "text": ["Operation", "Lucent", "Arrowhead"]
+    },
+    "CRChapterToCR": {
+        "text": ["Roam", "Exhibition", "ROAM", "EXHIBITION"]
+    },
     "HS-9": {
         "sub": ["HS-Open", "HSChapterToHS"]
     },
