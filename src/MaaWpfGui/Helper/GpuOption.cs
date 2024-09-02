@@ -245,7 +245,7 @@ namespace MaaWpfGui.Helper
                 }
 
                 var buf = ArrayPool<byte>.Shared.Rent((int)size);
-                string? result = null;
+                string? result;
 
                 fixed (byte* ptr = buf)
                 {
@@ -338,10 +338,10 @@ namespace MaaWpfGui.Helper
             }
 
             var buf = new byte[size];
-            string? driverVersion = null;
+            string? driverVersion;
             fixed (byte* ptr = buf)
             {
-                err = PInvoke.CM_Get_DevNode_Property(devinst, PInvoke.DEVPKEY_Device_DriverVersion, out _, ptr, ref size, 0);
+                PInvoke.CM_Get_DevNode_Property(devinst, PInvoke.DEVPKEY_Device_DriverVersion, out _, ptr, ref size, 0);
                 driverVersion = Marshal.PtrToStringUni((nint)ptr);
             }
 
