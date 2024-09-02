@@ -509,8 +509,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (await TimerCanceledAsync(
                         LocalizationHelper.GetString("ForceScheduledStart"),
                         LocalizationHelper.GetString("ForceScheduledStartTip"),
-                        LocalizationHelper.GetString("Cancel"),
-                        10))
+                        LocalizationHelper.GetString("Cancel")))
                 {
                     return;
                 }
