@@ -13,7 +13,9 @@
 
 #nullable enable
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
@@ -88,8 +90,6 @@ namespace MaaWpfGui.Helper
         {
             ConfigurationHelper.Load();
 
-            var currentConfigName = ConfigurationHelper.GetCurrentConfiguration();
-
             // VersionUpdate部分
             {
                 ConfigFactory.Root.VersionUpdate.Name = ConfigurationHelper.GetValue(ConfigurationKeys.VersionName, string.Empty);
@@ -108,6 +108,7 @@ namespace MaaWpfGui.Helper
                 ConfigFactory.Root.VersionUpdate.DoNotShowUpdate = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateDoNotShowUpdate, bool.FalseString));
             }
 
+            var currentConfigName = ConfigurationHelper.GetCurrentConfiguration();
             foreach (var configName in ConfigurationHelper.GetConfigurationList())
             {
                 ConfigurationHelper.SwitchConfiguration(configName);
@@ -165,7 +166,7 @@ namespace MaaWpfGui.Helper
                 {
                     var startUpTask = new StartUpTask();
                     var fightTask = new FightTask();
-                    var fightTask2 = new FightTask();
+                    var fightTask2 = new FightTask(); // 剩余理智
                     var awardTask = new AwardTask();
                     var mallTask = new MallTask();
                     var infrastTask = new InfrastTask();

@@ -2029,7 +2029,6 @@ namespace MaaWpfGui.ViewModels.UI
         #endregion 基建设置
 
         #region 肉鸽设置
-        private string _roguelikeTheme = ;
 
         private void UpdateRoguelikeDifficultyList()
         {
