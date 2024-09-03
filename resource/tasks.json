@@ -4651,6 +4651,13 @@
     "BattleStartSimulation": {
         "action": "ClickSelf",
         "roi": [955, 86, 136, 606],
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [99, 200, 160],
+                [99, 255, 255]
+            ]
+        ],
         "postDelay": 2000
     },
     "BattleStartPlot": {
