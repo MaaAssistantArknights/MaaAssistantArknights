@@ -770,17 +770,19 @@ namespace MaaWpfGui.ViewModels.UI
             string errMsg = string.Empty;
             GachaInfo = LocalizationHelper.GetString("ConnectingToEmulator");
             bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-            if (!caught)
-            {
-                GachaInfo = errMsg;
-                _runningState.SetIdle(true);
-                return;
-            }
 
-            if (!Instances.AsstProxy.AsstStartGacha(once))
-            {
-                return;
-            }
+            // TEST
+            //if (!caught)
+            //{
+            //    GachaInfo = errMsg;
+            //    _runningState.SetIdle(true);
+            //    return;
+            //}
+
+            //if (!Instances.AsstProxy.AsstStartGacha(once))
+            //{
+            //    return;
+            //}
 
             _gachaImageTimer.Interval = TimeSpan.FromMilliseconds(500);
             _gachaImageTimer.Tick += RefreshGachaImage;
@@ -799,20 +801,23 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _gachaImage, value);
         }
 
+        private DateTime _lastTipUpdateTime = DateTime.MinValue;
+
         private void RefreshGachaImage(object? sender, EventArgs? e)
         {
             lock (_lock)
             {
-                var image = Instances.AsstProxy.AsstGetImage();
-                if (GachaImage.IsEqual(image))
+                GachaImage = Instances.AsstProxy.AsstGetFreshImage();
+
+                var now = DateTime.Now;
+                if ((now - _lastTipUpdateTime).TotalSeconds < 5)
                 {
                     return;
                 }
 
-                GachaImage = image;
-
                 var rd = new Random();
-                GachaInfo = LocalizationHelper.GetString("GachaTip" + rd.Next(1, 18).ToString());
+                GachaInfo = LocalizationHelper.GetString("GachaTip" + rd.Next(1, 18));
+                _lastTipUpdateTime = now;
             }
         }
 

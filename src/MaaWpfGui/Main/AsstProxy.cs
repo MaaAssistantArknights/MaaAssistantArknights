@@ -194,6 +194,12 @@ namespace MaaWpfGui.Main
             return AsstGetImage(_handle);
         }
 
+        public BitmapImage? AsstGetFreshImage()
+        {
+            MaaService.AsstAsyncScreencap(_handle, true);
+            return AsstGetImage(_handle);
+        }
+
         private readonly MaaService.CallbackDelegate _callback;
 
         /// <summary>
