@@ -2,6 +2,7 @@
 order: 4
 icon: material-symbols:task
 ---
+
 # 任務流程協議
 
 `resource/tasks.json` 的使用方法及各欄位說明
@@ -97,8 +98,30 @@ icon: material-symbols:task
         "templThreshold": 0.8,              // 可選項，圖片範本匹配得分的閾值，超過閾值才認為辨識到了。
                                             // 預設 0.8，可根據日誌查看實際得分是多少
 
-        "maskRange": [ 1, 255 ],            // 可選項，灰階遮罩範圍。例如將圖片不需要辨識的部分塗成黑色（灰階值為 0）
+        "maskRange": [ 1, 255 ],            // 可選項，灰階遮罩範圍。
+                                            // 例如將圖片不需要辨識的部分塗成黑色（灰階值為 0）
                                             // 然後設定 "maskRange" 的範圍為 [ 1, 255 ]，匹配的時候立刻忽略塗黑的部分
+
+        "colorScales": [                    // 當 method 為 HSVCount 或 RGBCount 時有效且必選，數色掩碼範圍。
+            [                               // list<array<array<int, 3>, 2> | array<int, 2>>
+                [23, 150, 40],              // 結構為 [[lower1, upper1], [lower2, upper2], ...]
+                [25, 230, 150]              //     內層為 int 時是灰度，
+            ],                              //     　　為 array<int, 3> 時是三通道顏色，method 決定其是 RGB 或 HSV；
+            ...                             //     中間一層的 array<*, 2> 是顏色（或灰度）下限與上限：
+        ],                                  //     最外層代表不同的顏色範圍，待識別區域為它們對應在模板圖片上掩碼的併集。
+
+        "colorWithClose": true,             // 可選項，當 method 為 HSVCount 或 RGBCount 時有效，默認為 true
+                                            // 數色時是否先用閉運算處理掩碼範圍。
+                                            // 閉運算可以填補小黑點，一般會提高數色匹配效果，但若圖片中包含文字建議設為 false
+
+        "method": "Ccoeff",                 // 可選項，模板匹配算法，可以是列表
+                                            // 不填寫時默認為 Ccoeff
+                                            //      - Ccoeff:       對顏色不敏感的模板匹配算法，對應 cv::TM_CCOEFF_NORMED
+                                            //      - RGBCount:     對顏色敏感的模板匹配算法，
+                                            //                      先將待匹配區域和模板圖片依據 maskRange 二值化，
+                                            //                      以 F1-score 為指標計算 RGB 顏色空間內的相似度，
+                                            //                      再將結果與 Ccoeff 的結果點積
+                                            //      - HSVCount:     類似 RGBCount，顏色空間換為 HSV
 
         /* 以下欄位僅當 algorithm 為 OcrDetect 時有效 */
 
