@@ -3,15 +3,19 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def calc_mask_from_ranges(image, mask_ranges, color=None):
-    if color is None:
-        image_for_mask = image
+def convert_color(image, color):
+    if color.lower() == 'luv':
+        return cv2.cvtColor(image, cv2.COLOR_BGR2Luv)
     elif color.lower() == 'hsv':
-        image_for_mask = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+        return cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     elif color.lower() == 'rgb':
-        image_for_mask = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        return cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     else:
-        raise RuntimeError("Invalid param `color` in function calc_mask_from_ranges")
+        raise RuntimeError("Invalid param `color` in function convert_color")
+
+
+def calc_mask_from_ranges(image, mask_ranges, color=None, mask_close=False):
+    image_for_mask = image if color is None else convert_color(image, color)
 
     if mask_ranges is None:
         return None
@@ -24,17 +28,16 @@ def calc_mask_from_ranges(image, mask_ranges, color=None):
             mask = cv2.bitwise_or(mask, cv2.inRange(image_for_mask, (l0, l1, l2), (u0, u1, u2)))
         else:
             mask = cv2.inRange(image_for_mask, (l0, l1, l2), (u0, u1, u2))
+
+    if mask_close:
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+        mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
+
     return mask
 
 
 def show_image_mask(image, mask, color, hist_mask=None):
-    if color.lower() == 'hsv':
-        image_for_hist = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    elif color.lower() == 'rgb':
-        image_for_hist = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    else:
-        raise RuntimeError("Invalid param `color` in function show_image_mask")
-
+    image_for_hist = convert_color(image, color)
     image_with_mask = cv2.bitwise_and(image, image, mask=mask)
 
     fig, axs = plt.subplots(2, 3, figsize=(15, 8))
@@ -75,12 +78,7 @@ def show_image_mask(image, mask, color, hist_mask=None):
 
 
 def generate_mask_ranges(image, color, base_mask_ranges=None, thresholds=None):
-    if color.lower() == 'hsv':
-        image_for_mask = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    elif color.lower() == 'rgb':
-        image_for_mask = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    else:
-        raise RuntimeError("Invalid param `color` in function generate_mask_ranges")
+    image_for_mask = convert_color(image, color)
 
     if thresholds is None:
         thresholds = [0.6] * 3
@@ -118,17 +116,15 @@ def generate_mask_ranges(image, color, base_mask_ranges=None, thresholds=None):
     print(f'Recommand {color.upper()} Mask Range: {mask_ranges}')
     show_image_mask(image, calc_mask_from_ranges(image, mask_ranges, color), color, base_mask)
 
+    return mask_ranges
 
-def compare_2_image_with_mask_ranges(image1, image2, mask_ranges, color):
-    if color.lower() == 'hsv':
-        image1_for_mask = cv2.cvtColor(image1, cv2.COLOR_BGR2HSV)
-        image2_for_mask = cv2.cvtColor(image2, cv2.COLOR_BGR2HSV)
-    elif color.lower() == 'rgb':
-        image1_for_mask = cv2.cvtColor(image1, cv2.COLOR_BGR2RGB)
-        image2_for_mask = cv2.cvtColor(image2, cv2.COLOR_BGR2RGB)
 
-    mask1 = calc_mask_from_ranges(image1_for_mask, mask_ranges)
-    mask2 = calc_mask_from_ranges(image2_for_mask, mask_ranges)
+def compare_2_image_with_mask_ranges(image1, image2, mask_ranges, color, mask_close=False):
+    image1_for_mask = convert_color(image1, color)
+    image2_for_mask = convert_color(image2, color)
+
+    mask1 = calc_mask_from_ranges(image1_for_mask, mask_ranges, None, mask_close)
+    mask2 = calc_mask_from_ranges(image2_for_mask, mask_ranges, None, mask_close)
 
     image1_with_mask = cv2.bitwise_and(image1, image1, mask=mask1)
     image2_with_mask = cv2.bitwise_and(image2, image2, mask=mask2)
