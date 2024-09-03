@@ -830,7 +830,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 _receiveAward = awardTask.Award;
                 _receiveMail = awardTask.Mail;
-                _receiveFreeRecruit = awardTask.FreeRecruit;
+                _receiveFreeRecruit = awardTask.FreeGacha;
                 _receiveOrundum = awardTask.Orundum;
                 _receiveMining = awardTask.Mining;
                 _receiveReceiveSpecialAccess = awardTask.SpecialAccess;
@@ -3128,7 +3128,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 SetAndNotify(ref _receiveFreeRecruit, value);
-                ((AwardTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).FreeRecruit = value;
+                ((AwardTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).FreeGacha = value;
             }
         }
 

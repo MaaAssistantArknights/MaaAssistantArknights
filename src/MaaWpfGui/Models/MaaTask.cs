@@ -63,7 +63,7 @@ namespace MaaWpfGui.Models
             /// <summary>
             /// Gets or sets a value indicating whether 领取每日免费一抽
             /// </summary>
-            public bool FreeRecruit { get; set; }
+            public bool FreeGacha { get; set; }
 
             /// <summary>
             /// Gets or sets a value indicating whether 领取幸运墙合成玉
