@@ -1145,7 +1145,7 @@
         "roi": [1020, 410, 170, 210]
     },
     "BattleStartSimulation": {
-        "Doc": "Change roi when paradox update comes PR#10439",
+        "Doc": "Delete the template and remove this modified roi task when paradox update comes PR#10439",
         "roi": [417, 567, 444, 153]
     },
     "StageDrops-Quantity": {
