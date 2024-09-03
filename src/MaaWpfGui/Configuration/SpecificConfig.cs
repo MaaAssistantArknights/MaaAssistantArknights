@@ -25,13 +25,13 @@ namespace MaaWpfGui.Configuration
         public GUI GUI { get; private set; } = new();
 
         [JsonInclude]
-        public ObservableDictionary<string, int> InfrastOrder { get; private set; } = new();
+        public ObservableDictionary<string, int> InfrastOrder { get; private set; } = [];
 
         [JsonInclude]
-        public ObservableList<BaseTask> TaskQueue { get; private set; } = new();
+        public ObservableList<BaseTask> TaskQueue { get; private set; } = [];
 
         [JsonInclude]
-        public ObservableDictionary<string, bool> DragItemIsChecked { get; private set; } = new();
+        public ObservableDictionary<string, bool> DragItemIsChecked { get; private set; } = [];
 
         public object ToolBox { get; private set; } = new(); // 抽卡、扫仓库、自动战斗
         public object 外部通知 { get; private set; } = new();

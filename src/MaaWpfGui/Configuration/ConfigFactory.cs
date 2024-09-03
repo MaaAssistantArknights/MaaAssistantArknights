@@ -45,10 +45,10 @@ namespace MaaWpfGui.Configuration
 
         private static readonly SemaphoreSlim _semaphore = new(1, 1);
 
-        public delegate void ConfigurationUpdateEventHandler(string key, object oldValue, object newValue);
+        public delegate void ConfigurationUpdateEventHandler(string key, object? oldValue, object? newValue);
 
         // ReSharper disable once EventNeverSubscribedTo.Global
-        public static event ConfigurationUpdateEventHandler ConfigurationUpdateEvent;
+        public static event ConfigurationUpdateEventHandler? ConfigurationUpdateEvent;
 
         private static readonly JsonSerializerOptions _options = new() { WriteIndented = true, Converters = { new JsonStringEnumConverter() }, Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.CjkUnifiedIdeographs), DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
 
@@ -177,7 +177,7 @@ namespace MaaWpfGui.Configuration
         {
             return (o, args) =>
             {
-                object after = null;
+                object? after = null;
                 if (args is PropertyChangedEventDetailArgs detailArgs)
                 {
                     after = detailArgs.NewValue;
@@ -200,7 +200,7 @@ namespace MaaWpfGui.Configuration
 
         public static readonly SpecificConfig CurrentConfig = Root.CurrentConfig;
 
-        private static async void OnPropertyChanged(string key, object oldValue, object newValue)
+        private static async void OnPropertyChanged(string key, object? oldValue, object? newValue)
         {
             var result = await SaveAsync();
             if (result)
@@ -214,7 +214,7 @@ namespace MaaWpfGui.Configuration
             }
         }
 
-        public static bool Save(string file = null)
+        public static bool Save(string? file = null)
         {
             lock (_lock)
             {
@@ -232,7 +232,7 @@ namespace MaaWpfGui.Configuration
             }
         }
 
-        private static async Task<bool> SaveAsync(string file = null)
+        private static async Task<bool> SaveAsync(string? file = null)
         {
             await _semaphore.WaitAsync();
             try
