@@ -559,7 +559,12 @@ comments:
     skip-if:
       - "Log upload failed"
   - name: Check Link
-    regexes: '(?<!.*(changeme|gcc).*)https?://(?!([^/]+\.)?(maa\.plus|prts\.plus|github\.com)(/|$|\s))(?!.*(changeme|gcc).*)'
+    url_mode: allow_only
+    url_list:
+      - hostname: ^(?:.+\.)?github\.com$
+        pathname: ^/MaaAssistantArknights/
+      - hostname: ^(?:.+\.)?maa\.plus$
+      - hostname: ^(?:.+\.)?prts\.plus$
     content: "> [!warning]\n存在未确认的链接，请谨慎访问。\n\
       There are unconfirmed links, please visit with caution.\n\n${body}"
     mode: update
