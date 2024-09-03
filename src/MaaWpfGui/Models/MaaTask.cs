@@ -59,6 +59,26 @@ namespace MaaWpfGui.Models
             /// Gets or sets a value indicating whether 领取邮件奖励
             /// </summary>
             public bool Mail { get; set; }
+
+            /// <summary>
+            /// Gets or sets a value indicating whether 领取每日免费一抽
+            /// </summary>
+            public bool FreeRecruit { get; set; }
+
+            /// <summary>
+            /// Gets or sets a value indicating whether 领取幸运墙合成玉
+            /// </summary>
+            public bool Orundum { get; set; }
+
+            /// <summary>
+            /// Gets or sets a value indicating whether 领挖矿合成玉
+            /// </summary>
+            public bool Mining { get; set; }
+
+            /// <summary>
+            /// Gets or sets a value indicating whether 5周年特殊月卡
+            /// </summary>
+            public bool SpecialAccess { get; set; }
         }
 
         public class MallTask : BaseTask
