@@ -23,7 +23,6 @@ using System.IO.Compression;
 using System.Linq;
 using System.Management;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text.RegularExpressions;
@@ -1950,7 +1949,6 @@ namespace MaaWpfGui.ViewModels.UI
         #endregion
 
         #region 肉鸽设置
-        private string _roguelikeTheme = ;
 
         private void UpdateRoguelikeModeList()
         {

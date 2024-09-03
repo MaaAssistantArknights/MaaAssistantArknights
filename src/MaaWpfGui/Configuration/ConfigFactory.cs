@@ -25,7 +25,7 @@ using System.Threading.Tasks;
 using MaaWpfGui.Helper;
 using ObservableCollections;
 using Serilog;
-using static MaaWpfGui.Configuration.SpecificConfig;
+using static MaaWpfGui.Models.MaaTask;
 
 [assembly: PropertyChanged.FilterType("MaaWpfGui.Configuration.")]
 
