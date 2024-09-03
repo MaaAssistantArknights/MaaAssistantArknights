@@ -23,7 +23,7 @@ namespace MaaWpfGui.Models
         {
             public StartUpTask()
             {
-                TaskType = TaskTypeEnum.StartUp;
+                TaskType = TaskType.StartUp;
             }
         }
 
@@ -31,7 +31,7 @@ namespace MaaWpfGui.Models
         {
             public CloseDownTask()
             {
-                TaskType = TaskTypeEnum.CloseDown;
+                TaskType = TaskType.CloseDown;
             }
         }
 
@@ -39,7 +39,7 @@ namespace MaaWpfGui.Models
         {
             public FightTask()
             {
-                TaskType = TaskTypeEnum.Fight;
+                TaskType = TaskType.Fight;
             }
         }
 
@@ -47,11 +47,17 @@ namespace MaaWpfGui.Models
         {
             public AwardTask()
             {
-                TaskType = TaskTypeEnum.Award;
+                TaskType = TaskType.Award;
             }
 
+            /// <summary>
+            /// Gets or sets a value indicating whether 领取日常奖励
+            /// </summary>
             public bool Award { get; set; } = true;
 
+            /// <summary>
+            /// Gets or sets a value indicating whether 领取邮件奖励
+            /// </summary>
             public bool Mail { get; set; }
         }
 
@@ -59,7 +65,7 @@ namespace MaaWpfGui.Models
         {
             public MallTask()
             {
-                TaskType = TaskTypeEnum.Mall;
+                TaskType = TaskType.Mall;
             }
 
             public bool Shopping { get; set; } = true;
@@ -75,7 +81,7 @@ namespace MaaWpfGui.Models
         {
             public InfrastTask()
             {
-                TaskType = TaskTypeEnum.Infrast;
+                TaskType = TaskType.Infrast;
             }
         }
 
@@ -83,7 +89,7 @@ namespace MaaWpfGui.Models
         {
             public RecruitTask()
             {
-                TaskType = TaskTypeEnum.Recruit;
+                TaskType = TaskType.Recruit;
             }
         }
 
@@ -91,7 +97,7 @@ namespace MaaWpfGui.Models
         {
             public RoguelikeTask()
             {
-                TaskType = TaskTypeEnum.Roguelike;
+                TaskType = TaskType.Roguelike;
             }
 
             public string Theme { get; set; } = "Sami";
@@ -101,7 +107,7 @@ namespace MaaWpfGui.Models
         {
             public CopilotTask()
             {
-                TaskType = TaskTypeEnum.Copilot;
+                TaskType = TaskType.Copilot;
             }
         }
 
@@ -109,7 +115,7 @@ namespace MaaWpfGui.Models
         {
             public SSSCopilotTask()
             {
-                TaskType = TaskTypeEnum.SSSCopilot;
+                TaskType = TaskType.SSSCopilot;
             }
         }
 
@@ -117,7 +123,7 @@ namespace MaaWpfGui.Models
         {
             public SingleStepTask()
             {
-                TaskType = TaskTypeEnum.SingleStep;
+                TaskType = TaskType.SingleStep;
             }
         }
 
@@ -125,7 +131,7 @@ namespace MaaWpfGui.Models
         {
             public VideoRecognition()
             {
-                TaskType = TaskTypeEnum.VideoRecognition;
+                TaskType = TaskType.VideoRecognition;
             }
         }
 
@@ -133,7 +139,7 @@ namespace MaaWpfGui.Models
         {
             public DepotTask()
             {
-                TaskType = TaskTypeEnum.Depot;
+                TaskType = TaskType.Depot;
             }
         }
 
@@ -141,7 +147,7 @@ namespace MaaWpfGui.Models
         {
             public OperBoxTask()
             {
-                TaskType = TaskTypeEnum.OperBox;
+                TaskType = TaskType.OperBox;
             }
         }
 
@@ -149,7 +155,7 @@ namespace MaaWpfGui.Models
         {
             public ReclamationTask()
             {
-                TaskType = TaskTypeEnum.Reclamation;
+                TaskType = TaskType.Reclamation;
             }
         }
 
@@ -157,7 +163,7 @@ namespace MaaWpfGui.Models
         {
             public CustomTask()
             {
-                TaskType = TaskTypeEnum.Custom;
+                TaskType = TaskType.Custom;
             }
         }
 
@@ -182,13 +188,13 @@ namespace MaaWpfGui.Models
             public string Name { get; set; } = string.Empty;
 
             [JsonInclude]
-            public bool IsChecked { get; set; } = false;
+            public bool? IsChecked { get; set; } = false;
 
             [JsonInclude]
-            public TaskTypeEnum TaskType { get; set; }
+            public TaskType TaskType { get; set; }
         }
 
-        public enum TaskTypeEnum
+        public enum TaskType
         {
             /// <summary>
             /// 开始唤醒。

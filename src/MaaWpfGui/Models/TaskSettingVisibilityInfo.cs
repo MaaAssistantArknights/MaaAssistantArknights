@@ -17,7 +17,6 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
-using static MaaWpfGui.Configuration.SpecificConfig;
 using static MaaWpfGui.Models.MaaTask;
 
 namespace MaaWpfGui.Models
@@ -63,7 +62,6 @@ namespace MaaWpfGui.Models
 
         public void Set(int taskIndex, bool enable)
         {
-            CurrentIndex = taskIndex;
             if (Guide && enable)
             {
                 // TODO Config修复引导
@@ -71,29 +69,46 @@ namespace MaaWpfGui.Models
                 enable = false;
             }
 
-            switch (ConfigFactory.CurrentConfig.TaskQueue[taskIndex].TaskType)
+            if (enable)
             {
-                case TaskTypeEnum.StartUp:
+                CurrentIndex = taskIndex;
+            }
+
+            if (enable || ConfigFactory.CurrentConfig.TaskQueue[taskIndex].GetType() != ConfigFactory.CurrentConfig.TaskQueue[CurrentIndex].GetType())
+            {
+                var task = ConfigFactory.CurrentConfig.TaskQueue[taskIndex];
+                if (task is StartUpTask)
+                {
                     WakeUp = enable;
-                    break;
-                case TaskTypeEnum.Recruit:
+                }
+                else if (task is RecruitTask)
+                {
                     Recruiting = enable;
-                    break;
-                case TaskTypeEnum.Infrast:
+                }
+                else if (task is InfrastTask)
+                {
                     Base = enable;
-                    break;
-                case TaskTypeEnum.Fight:
+                }
+                else if (task is FightTask)
+                {
                     Combat = enable;
-                    break;
-                case TaskTypeEnum.Mall:
+                }
+                else if (task is MallTask)
+                {
                     Mall = enable;
-                    break;
-                case TaskTypeEnum.Award:
+                }
+                else if (task is AwardTask)
+                {
                     Mission = enable;
-                    break;
-                case TaskTypeEnum.Roguelike:
+                }
+                else if (task is RoguelikeTask)
+                {
                     AutoRoguelike = enable;
-                    break;
+                }
+                else if (task is ReclamationTask)
+                {
+                    Reclamation = enable;
+                }
             }
 
             EnableAdvancedSettings = false;
@@ -109,7 +124,7 @@ namespace MaaWpfGui.Models
             if (enable)
             {
                 // Instances.SettingsViewModel.Refresh();
-                Instances.SettingsViewModel.RefreshUI(ConfigFactory.CurrentConfig.TaskQueue[taskIndex].TaskType);
+                Instances.SettingsViewModel.RefreshUI(ConfigFactory.CurrentConfig.TaskQueue[taskIndex]);
             }
         }
 
