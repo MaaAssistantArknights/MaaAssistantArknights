@@ -94,8 +94,30 @@ Usage of `resource/tasks.json` and description of each field
         "templThreshold": 0.8,              // Optional, a threshold value for image template matching score, above which the image is considered recognized.
                                             // default 0.8, you can check the actual score according to the log
 
-        "maskRange": [ 1, 255 ], // Optional, the grayscale mask range. For example, the part of the image that does not need to be recognized will be painted black (grayscale value of 0)
+        "maskRange": [ 1, 255 ],            // Optional, the grayscale mask range.
+                                            // For example, the part of the image that does not need to be recognized will be painted black (grayscale value of 0)
                                             // Then set "maskRange" to [ 1, 255 ], to instantly ignore the blacked-out parts when matching
+
+        "colorScales": [                    // Effective and required when method is HSVCount or RGBCount, color mask range. 
+            [                               // list<array<array<int, 3>, 2> | array<int, 2>>
+                [23, 150, 40],              // Structure is [[lower1, upper1], [lower2, upper2], ...]
+                [25, 230, 150]              //     Inner layer is int if grayscale,
+            ],                              //     　　is array<int, 3> if three-channel color, method determines whether it is RGB or HSV;
+            ...                             //     Middle layer array<*, 2> is the color (or grayscale) lower and upper limits:
+        ],                                  //     Outer layer represents different color ranges, the region to be identified is the union of their corresponding masks on the template image.
+
+        "colorWithClose": true,             // Optional, effective when method is HSVCount or RGBCount, default is true
+                                            // Whether to first apply morphological closing to the mask range when counting colors.
+                                            // Morphological closing can fill small black spots, generally improving color counting matching results, but if the image contains text, it is recommended to set it to false
+
+        "method": "Ccoeff",                 // Optional, template matching algorithm, can be a list
+                                            // Default is Ccoeff if not specified
+                                            //      - Ccoeff:       Template matching algorithm insensitive to color, corresponds to cv::TM_CCOEFF_NORMED
+                                            //      - RGBCount:     Template matching algorithm sensitive to color,
+                                            //                      First binarize the region to be matched and the template image based on maskRange,
+                                            //                      Calculate the similarity in RGB color space using F1-score as the indicator,
+                                            //                      Then dot the result with the Ccoeff result
+                                            //      - HSVCount:     Similar to RGBCount, but the color space is changed to HSV
 
         /* The following fields are only valid if the algorithm is OcrDetect */
 
