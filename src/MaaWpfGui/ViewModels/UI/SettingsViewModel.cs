@@ -34,6 +34,7 @@ using System.Windows.Media.Imaging;
 using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Configuration;
+using MaaWpfGui.Configuration.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -724,19 +725,12 @@ namespace MaaWpfGui.ViewModels.UI
             // 选择了任务后，刷新对应任务类型UI的值
             if (task is AwardTask awardTask)
             {
-                _receiveAward = awardTask.Award;
-                _receiveMail = awardTask.Mail;
-                _receiveFreeRecruit = awardTask.FreeGacha;
-                _receiveOrundum = awardTask.Orundum;
-                _receiveMining = awardTask.Mining;
-                _receiveReceiveSpecialAccess = awardTask.SpecialAccess;
-
-                NotifyOfPropertyChange(nameof(ReceiveAward));
-                NotifyOfPropertyChange(nameof(ReceiveMail));
-                NotifyOfPropertyChange(nameof(ReceiveFreeRecruit));
-                NotifyOfPropertyChange(nameof(ReceiveOrundum));
-                NotifyOfPropertyChange(nameof(ReceiveMining));
-                NotifyOfPropertyChange(nameof(ReceiveSpecialAccess));
+                SetAndNotify(ref _receiveAward, awardTask.Award, nameof(ReceiveAward));
+                SetAndNotify(ref _receiveMail, awardTask.Mail, nameof(ReceiveMail));
+                SetAndNotify(ref _receiveFreeRecruit, awardTask.FreeGacha, nameof(ReceiveFreeRecruit));
+                SetAndNotify(ref _receiveOrundum, awardTask.Orundum, nameof(ReceiveOrundum));
+                SetAndNotify(ref _receiveMining, awardTask.Mining, nameof(ReceiveMining));
+                SetAndNotify(ref _receiveReceiveSpecialAccess, awardTask.SpecialAccess, nameof(ReceiveSpecialAccess));
             }
             else if (task is MallTask mallTask)
             {

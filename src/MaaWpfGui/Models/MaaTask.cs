@@ -12,7 +12,10 @@
 // </copyright>
 
 #nullable enable
+using System.ComponentModel;
 using System.Text.Json.Serialization;
+using MaaWpfGui.Configuration;
+using MaaWpfGui.Configuration.MaaTask;
 using MaaWpfGui.Helper;
 
 namespace MaaWpfGui.Models
@@ -41,44 +44,6 @@ namespace MaaWpfGui.Models
             {
                 TaskType = TaskType.Fight;
             }
-        }
-
-        public class AwardTask : BaseTask
-        {
-            public AwardTask()
-            {
-                TaskType = TaskType.Award;
-            }
-
-            /// <summary>
-            /// Gets or sets a value indicating whether 领取日常奖励
-            /// </summary>
-            public bool Award { get; set; } = true;
-
-            /// <summary>
-            /// Gets or sets a value indicating whether 领取邮件奖励
-            /// </summary>
-            public bool Mail { get; set; }
-
-            /// <summary>
-            /// Gets or sets a value indicating whether 领取每日免费一抽
-            /// </summary>
-            public bool FreeGacha { get; set; }
-
-            /// <summary>
-            /// Gets or sets a value indicating whether 领取幸运墙合成玉
-            /// </summary>
-            public bool Orundum { get; set; }
-
-            /// <summary>
-            /// Gets or sets a value indicating whether 领挖矿合成玉
-            /// </summary>
-            public bool Mining { get; set; }
-
-            /// <summary>
-            /// Gets or sets a value indicating whether 5周年特殊月卡
-            /// </summary>
-            public bool SpecialAccess { get; set; }
         }
 
         public class MallTask : BaseTask
@@ -203,15 +168,21 @@ namespace MaaWpfGui.Models
         [JsonDerivedType(typeof(OperBoxTask), typeDiscriminator: "OperBoxTask")]
         [JsonDerivedType(typeof(ReclamationTask), typeDiscriminator: "ReclamationTask")]
         [JsonDerivedType(typeof(CustomTask), typeDiscriminator: "CustomTask")]
-        public class BaseTask
+        public class BaseTask : INotifyPropertyChanged
         {
+            public event PropertyChangedEventHandler? PropertyChanged;
+
             public string Name { get; set; } = string.Empty;
 
-            [JsonInclude]
             public bool? IsChecked { get; set; } = false;
 
-            [JsonInclude]
             public TaskType TaskType { get; set; }
+
+            // ReSharper disable once UnusedMember.Global
+            public void OnPropertyChanged(string propertyName, object before, object after)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));
+            }
         }
 
         public enum TaskType
