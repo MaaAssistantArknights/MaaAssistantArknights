@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using MaaWpfGui.Configuration;
+using MaaWpfGui.Configuration.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
