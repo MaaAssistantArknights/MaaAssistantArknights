@@ -585,7 +585,8 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
     static constexpr auto min_frame_interval = std::chrono::milliseconds(1000);
 
     bool used = false;
-    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    const auto now = std::chrono::steady_clock::now();
+    const cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     for (const auto& [name, loc] : m_battlefield_opers) {
         auto& usage = m_skill_usage[name];
         auto& retry = m_skill_error_count[name];
@@ -595,7 +596,6 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
             continue;
         }
 
-        const auto now = std::chrono::steady_clock::now();
         if (auto interval = now - last_use_time; min_frame_interval > interval) {
             Log.debug(
                 name,
