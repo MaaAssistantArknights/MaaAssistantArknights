@@ -4650,7 +4650,7 @@
     },
     "BattleStartSimulation": {
         "action": "ClickSelf",
-        "roi": [417, 567, 444, 153],
+        "roi": [955, 86, 136, 606],
         "postDelay": 2000
     },
     "BattleStartPlot": {

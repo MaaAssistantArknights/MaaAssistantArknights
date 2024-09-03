@@ -1270,6 +1270,9 @@
     "BattleStartOCR": {
         "text": ["行動", "開始"]
     },
+    "BattleStartSimulation": {
+        "roi": [417, 567, 444, 153]
+    },
     "BattleOperName": {
         "roi": [5, 177, 280, 37]
     },
