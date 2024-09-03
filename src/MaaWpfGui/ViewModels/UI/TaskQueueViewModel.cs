@@ -38,6 +38,7 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using StyletIoC;
+using static MaaWpfGui.Models.MaaTask;
 using Application = System.Windows.Application;
 using ComboBox = System.Windows.Controls.ComboBox;
 using Screen = Stylet.Screen;
@@ -916,12 +917,12 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 switch (ConfigFactory.CurrentConfig.TaskQueue[item.Index].TaskType)
                 {
-                    case SpecificConfig.TaskTypeEnum.Roguelike:
-                    case SpecificConfig.TaskTypeEnum.Reclamation:
+                    case TaskType.Roguelike:
+                    case TaskType.Reclamation:
                         continue;
                 }
 
-                item.en = true;
+                item.IsCheckedWithNull = true;
             }
         }
 
@@ -1016,22 +1017,23 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 foreach (var item in TaskItemViewModels)
                 {
-                    switch (item.OriginalName)
+                    switch (ConfigFactory.CurrentConfig.TaskQueue[item.Index].TaskType)
                     {
-                        case "AutoRoguelike":
-                        case "Reclamation":
-                            item.IsChecked = false;
-                            continue;
+                        case TaskType.Roguelike:
+                        case TaskType.Reclamation:
+                            item.IsCheckedWithNull = false;
+                            break;
+                        default:
+                            item.IsCheckedWithNull = !item.IsCheckedWithNull ?? false;
+                            break;
                     }
-
-                    item.IsChecked = !item.IsChecked;
                 }
             }
             else
             {
                 foreach (var item in TaskItemViewModels)
                 {
-                    item.IsChecked = false;
+                    item.IsCheckedWithNull = false;
                 }
             }
         }
@@ -1043,12 +1045,9 @@ namespace MaaWpfGui.ViewModels.UI
         {
             foreach (var item in TaskItemViewModels)
             {
-                if (item.IsCheckedWithNull == null)
-                {
-                    item.IsChecked = false;
+                item.IsCheckedWithNull ??= false;
                 }
             }
-        }
 
         private async Task<bool> ConnectToEmulator()
         {
@@ -1235,50 +1234,49 @@ namespace MaaWpfGui.ViewModels.UI
             int count = 0;
             foreach (var item in TaskItemViewModels)
             {
-                if (item.IsChecked == false)
+                if (item.IsCheckedWithNull is false)
                 {
                     continue;
                 }
 
                 ++count;
-                switch (item.OriginalName)
+                var task = ConfigFactory.CurrentConfig.TaskQueue[item.Index];
+                if (task is InfrastTask)
                 {
-                    case "Base":
                         taskRet &= AppendInfrast();
-                        break;
-
-                    case "WakeUp":
+                }
+                else if (task is StartUpTask)
+                {
                         taskRet &= AppendStart();
-                        break;
-
-                    case "Combat":
+                }
+                else if (task is FightTask)
+                {
                         taskRet &= AppendFight();
-                        break;
-
-                    case "Recruiting":
+                }
+                else if (task is RecruitTask)
+                {
                         taskRet &= AppendRecruit();
-                        break;
-
-                    case "Mall":
+                }
+                else if (task is MallTask)
+                {
                         taskRet &= AppendMall();
-                        break;
-
-                    case "Mission":
+                }
+                else if (task is AwardTask)
+                {
                         taskRet &= AppendAward();
-                        break;
-
-                    case "AutoRoguelike":
+                }
+                else if (task is RoguelikeTask)
+                {
                         taskRet &= AppendRoguelike();
-                        break;
-
-                    case "Reclamation":
+                }
+                else if (task is ReclamationTask)
+                {
                         taskRet &= AppendReclamation();
-                        break;
-
-                    default:
-                        --count;
-                        _logger.Error("Unknown task: " + item.OriginalName);
-                        break;
+                }
+                else
+                {
+                    --count;
+                    _logger.Error("Unknown task: " + ConfigFactory.CurrentConfig.TaskQueue[item.Index].GetType().Name);
                 }
 
                 if (taskRet)
@@ -1286,7 +1284,7 @@ namespace MaaWpfGui.ViewModels.UI
                     continue;
                 }
 
-                AddLog(item.OriginalName + "Error", UiLogColor.Error);
+                AddLog(ConfigFactory.CurrentConfig.TaskQueue[item.Index].GetType().Name + $"[{item.Index}]Error", UiLogColor.Error);
                 taskRet = true;
                 --count;
             }

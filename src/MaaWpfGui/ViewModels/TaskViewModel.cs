@@ -18,12 +18,34 @@ namespace MaaWpfGui.ViewModels
 {
     public class TaskViewModel : PropertyChangedBase
     {
-        private bool _isChecked;
-
-        public bool IsChecked
+        public TaskViewModel(int index, string name, bool? isCheckedWithNull)
         {
-            get => _isChecked;
-            set => SetAndNotify(ref _isChecked, value);
+            _index = index;
+            _name = name;
+            _isCheckedWithNull = isCheckedWithNull;
+        }
+
+        private string _name;
+
+        public string Name
+        {
+            get => _name;
+            set => SetAndNotify(ref _name, value);
+        }
+
+        private bool? _isCheckedWithNull;
+
+        public bool? IsCheckedWithNull
+        {
+            get => _isCheckedWithNull;
+            set
+            {
+                SetAndNotify(ref _isCheckedWithNull, value);
+                value ??= false;
+
+                // TODO 保存任务链的状态
+                // 保存任务链的状态
+            }
         }
 
         private int _index;

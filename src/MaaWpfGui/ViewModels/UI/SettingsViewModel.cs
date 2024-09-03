@@ -823,12 +823,40 @@ namespace MaaWpfGui.ViewModels.UI
 
         #endregion Performance
 
+        public void RefreshUI(BaseTask task)
+        {
+            // 选择了任务后，刷新对应任务类型UI的值
+            if (task is AwardTask awardTask)
+            {
+                _receiveAward = awardTask.Award;
+                _receiveMail = awardTask.Mail;
 
-        public void RefreshUI(TaskTypeEnum taskType)
-        { // 选择了任务后，刷新对应任务类型UI的值
+                NotifyOfPropertyChange(nameof(ReceiveAward));
+                NotifyOfPropertyChange(nameof(ReceiveMail));
+            }
+            else if (task is MallTask mallTask)
+            {
+                _creditShopping = mallTask.Shopping;
+                _creditForceShoppingIfCreditFull = mallTask.ShoppingWhenCreditFull;
+                _creditFirstList = mallTask.WhiteList;
+                _creditBlackList = mallTask.BlackList;
+
+                NotifyOfPropertyChange(nameof(CreditShopping));
+                NotifyOfPropertyChange(nameof(CreditForceShoppingIfCreditFull));
+                NotifyOfPropertyChange(nameof(CreditFirstList));
+                NotifyOfPropertyChange(nameof(CreditBlackList));
+            }
+            else if (task is RoguelikeTask roguelikeTask)
+            {
+                _roguelikeTheme = roguelikeTask.Theme;
+
+                NotifyOfPropertyChange(nameof(RoguelikeTheme));
+            }
+
+            /*
             switch (taskType)
             {
-                case TaskTypeEnum.Award:
+                case TaskType.Award:
                     if (ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex] is AwardTask awardTask)
                     {
                         _receiveAward = awardTask.Award;
@@ -838,7 +866,7 @@ namespace MaaWpfGui.ViewModels.UI
                     NotifyOfPropertyChange(nameof(ReceiveAward));
                     NotifyOfPropertyChange(nameof(ReceiveMail));
                     break;
-                case TaskTypeEnum.Mall:
+                case TaskType.Mall:
                     if (ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex] is MallTask mallTask)
                     {
                         _creditShopping = mallTask.Shopping;
@@ -852,7 +880,7 @@ namespace MaaWpfGui.ViewModels.UI
                     NotifyOfPropertyChange(nameof(CreditFirstList));
                     NotifyOfPropertyChange(nameof(CreditBlackList));
                     break;
-                case TaskTypeEnum.Roguelike:
+                case TaskType.Roguelike:
                     if (ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex] is RoguelikeTask roguelikeTask)
                     {
                         _roguelikeTheme = roguelikeTask.Theme;
@@ -860,8 +888,8 @@ namespace MaaWpfGui.ViewModels.UI
 
                     NotifyOfPropertyChange(nameof(RoguelikeTheme));
                     break;
+            }*/
             }
-        }
 
         #region 启动设置
         /* 启动设置 */
