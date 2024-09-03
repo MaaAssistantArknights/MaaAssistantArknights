@@ -10,7 +10,7 @@
     ],
     "replacement_home": [
         {
-            "location": [9, 2],
+            "location": [9, 4],
             "direction": "left"
         },
         {
@@ -18,7 +18,7 @@
             "direction": "left"
         },
         {
-            "location": [9, 4],
+            "location": [9, 2],
             "direction": "left"
         }
     ],
