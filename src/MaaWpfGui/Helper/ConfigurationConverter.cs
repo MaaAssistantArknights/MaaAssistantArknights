@@ -173,8 +173,12 @@ namespace MaaWpfGui.Helper
                     var roguelikeTask = new RoguelikeTask();
                     var reclamationTask = new ReclamationTask();
 
-                    awardTask.Award = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveAward, true.ToString()));
-                    awardTask.Mail = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveMail, false.ToString()));
+                    awardTask.Award = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveAward, bool.TrueString));
+                    awardTask.Mail = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveMail, bool.FalseString));
+                    awardTask.FreeRecruit = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveFreeRecruit, bool.FalseString));
+                    awardTask.Orundum = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveOrundum, bool.FalseString));
+                    awardTask.Mining = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveMining, bool.FalseString));
+                    awardTask.SpecialAccess = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveSpecialAccess, bool.FalseString));
 
                     mallTask.Shopping = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.CreditShopping, true.ToString()));
                     mallTask.WhiteList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFirstListNew, LocalizationHelper.GetString("HighPriorityDefault"));
