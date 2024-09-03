@@ -2813,7 +2813,10 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public void ResetFightVariables()
         {
-            UseStone = false;
+            if (UseMedicineWithNull == null)
+            {
+                UseStone = false;
+            }
 
             if (UseMedicineWithNull == null)
             {
