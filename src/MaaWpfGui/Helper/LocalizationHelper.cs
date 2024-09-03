@@ -69,7 +69,7 @@ namespace MaaWpfGui.Helper
             }
         }
 
-        private static string _culture => ConfigFactory.CurrentConfig.GUI.Localization;
+        private static string _culture => ConfigFactory.CurrentConfig?.GUI.Localization ?? LocalizationHelper.DefaultLanguage;
 
         /// <summary>
         /// Loads localizations.

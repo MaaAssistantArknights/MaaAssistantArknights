@@ -61,7 +61,7 @@ namespace MaaWpfGui.Configuration
                     Directory.CreateDirectory("config");
                 }
 
-                Root parsed = null;
+                Root? parsed = null;
                 if (File.Exists(_configurationFile))
                 {
                     try
