@@ -2604,7 +2604,9 @@ namespace MaaWpfGui.Main
             {
                 ["task_names"] = new JArray
                 {
-                    once ? "GachaOnce" : "GachaTenTimes",
+                    // once ? "GachaOnce" : "GachaTenTimes",
+                    // TEST
+                    "Block",
                 },
             };
             AsstTaskId id = AsstAppendTaskWithEncoding("Custom", taskParams);

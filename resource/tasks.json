@@ -1,4 +1,9 @@
 {
+    "Block": {
+        "algorithm": "JustReturn",
+        "postDelay": 1000,
+        "next": ["#self"]
+    },
     "SlowlySwipeToTheLeft": {
         "algorithm": "JustReturn",
         "action": "Swipe",

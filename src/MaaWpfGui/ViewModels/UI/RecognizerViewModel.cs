@@ -770,21 +770,19 @@ namespace MaaWpfGui.ViewModels.UI
             string errMsg = string.Empty;
             GachaInfo = LocalizationHelper.GetString("ConnectingToEmulator");
             bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            if (!caught)
+            {
+                GachaInfo = errMsg;
+                _runningState.SetIdle(true);
+                return;
+            }
 
-            // TEST
-            //if (!caught)
-            //{
-            //    GachaInfo = errMsg;
-            //    _runningState.SetIdle(true);
-            //    return;
-            //}
+            if (!Instances.AsstProxy.AsstStartGacha(once))
+            {
+                return;
+            }
 
-            //if (!Instances.AsstProxy.AsstStartGacha(once))
-            //{
-            //    return;
-            //}
-
-            _gachaImageTimer.Interval = TimeSpan.FromMilliseconds(500);
+            _gachaImageTimer.Interval = TimeSpan.FromMilliseconds(30);
             _gachaImageTimer.Tick += RefreshGachaImage;
             _gachaImageTimer.Start();
         }
