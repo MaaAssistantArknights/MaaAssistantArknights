@@ -1026,6 +1026,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _blockSleep, value);
+                SleepManagement.SetBlockSleep(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.BlockSleep, value.ToString());
             }
         }
@@ -1038,6 +1039,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _blockSleepWithScreenOn, value);
+                SleepManagement.SetBlockSleepWithScreenOn(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.BlockSleepWithScreenOn, value.ToString());
             }
         }
@@ -5481,17 +5483,6 @@ namespace MaaWpfGui.ViewModels.UI
         public void SetAcknowledgedNightlyWarning()
         {
             HasAcknowledgedNightlyWarning = true;
-        }
-
-        public void SetupSleepManagement()
-        {
-            if (!BlockSleep)
-            {
-                return;
-            }
-
-            SleepManagement.BlockSleep(BlockSleepWithScreenOn);
-            _logger.Information("Blocking sleep.");
         }
     }
 }
