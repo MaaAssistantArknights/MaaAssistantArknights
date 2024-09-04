@@ -65,7 +65,7 @@
             <CheckBox
                 Margin="0,8"
                 IsChecked="{Binding PostActionSetting.IfNoOtherMaa}"
-                IsEnabled="{c:Binding 'PostActionSetting.Hibernate || PostActionSetting.Shutdown'}">
+                IsEnabled="{c:Binding 'PostActionSetting.Hibernate || PostActionSetting.Shutdown || PostActionSetting.Sleep'}">
                 <controls:TextBlock Text="{DynamicResource IfNoOtherMaa}" TextWrapping="Wrap" />
             </CheckBox>
 
