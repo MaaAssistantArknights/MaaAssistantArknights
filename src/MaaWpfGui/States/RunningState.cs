@@ -13,7 +13,6 @@
 
 using System;
 using System.Threading.Tasks;
-using MaaWpfGui.Helper;
 using MaaWpfGui.Utilities;
 
 namespace MaaWpfGui.States
@@ -57,7 +56,7 @@ namespace MaaWpfGui.States
                 }
                 else
                 {
-                    Instances.SettingsViewModel.SetupSleepManagement();
+                    SleepManagement.BlockSleep();
                 }
 
                 OnIdleChanged(value);
