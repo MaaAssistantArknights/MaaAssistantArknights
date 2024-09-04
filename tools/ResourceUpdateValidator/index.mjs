@@ -29,7 +29,7 @@ for (const [server, list] of Object.entries(listPerServer)) {
     let localDiff = false;
     let localHasPngDiff = false;
     for (const [added, deleted, pathname] of list) {
-        if (path.extname(pathname) === ".png") {
+        if (path.posix.extname(pathname) === ".png") {
             localHasPngDiff = true;
             localDiff = true;
             log(`Valid PNG changed: ${pathname}, no more check against the list.`);
@@ -40,7 +40,7 @@ for (const [server, list] of Object.entries(listPerServer)) {
             localDiff = true;
             break;
         }
-        if (path.basename(pathname) === "version.json") {
+        if (path.posix.basename(pathname) === "version.json") {
             const { stdout: versionDiff } = await exec(`git diff --unified=0 HEAD -- ${pathname}`);
             const addedLine = versionDiff.split(/\r*\n+/).filter((line) => line.startsWith("+") && !line.startsWith("+++ "));
             const deletedLine = versionDiff.split(/\r*\n+/).filter((line) => line.startsWith("-") && !line.startsWith("--- "));
