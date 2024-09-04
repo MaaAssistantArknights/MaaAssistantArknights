@@ -12360,12 +12360,12 @@
         "baseTask": "Tales@RA@ClickHeadquartersButton",
         "template": "Tales@RA@HeadquartersButton.png",
         "postDelay": 500,
-        "next": ["Tales@RA@CancelEnterBuildMode", "Tales@RA@Origin", "Tales@RA@ReturnToOrigin"]
+        "next": ["Tales@RA@ReturnToOrigin-CancelEnterBuildMode", "Tales@RA@Origin", "Tales@RA@ReturnToOrigin"]
     },
-    "Tales@RA@ReturnToOrigin@CancelEnterBuildMode": {
+    "Tales@RA@ReturnToOrigin-CancelEnterBuildMode": {
         "doc": "在右下角存在 <进入建造> 按钮时点击左下角取消进入建造",
         "baseTask": "Tales@RA@CancelEnterBuildMode",
-        "next": ["Tales@RA@ReturnToOrigin"]
+        "next": ["Tales@RA@Origin", "Tales@RA@ReturnToOrigin-CancelEnterBuildMode", "Tales@RA@ReturnToOrigin"]
     },
     "Tales@RA@SelectLeftSave": {
         "doc": "模板任务: 选择左侧的存档读取",
