@@ -32,13 +32,13 @@ for (const [server, list] of Object.entries(listPerServer)) {
         if (path.posix.extname(pathname) === ".png") {
             localHasPngDiff = true;
             localDiff = true;
-            log(`Valid PNG changed: ${pathname}, no more check against the list.`);
-            break;
+            log(`PNG changed: ${pathname}, valid.`);
+            continue;
         }
         if (added > 1 || added !== deleted) {
-            log(`Valid file changed: ${pathname}, no more check against the list.`);
+            log(`File changed: ${pathname}, valid.`);
             localDiff = true;
-            break;
+            continue;
         }
         if (path.posix.basename(pathname) === "version.json") {
             const { stdout: versionDiff } = await exec(`git diff --unified=0 HEAD -- ${pathname}`);
@@ -49,10 +49,11 @@ for (const [server, list] of Object.entries(listPerServer)) {
                 && deletedLine.length === 1 && /^\s*"last_updated":/.test(deletedLine[0])
             ) {
                 log(`Version-only changed: ${pathname}, not valid.`);
+                continue;
             } else {
-                log(`Valid file changed: ${pathname}, no more check against the list.`);
+                log(`File changed: ${pathname}, valid.`);
                 localDiff = true;
-                break;
+                continue;
             }
         }
     }
