@@ -33,8 +33,9 @@ namespace MaaWpfGui.Helper
 {
     public class ConfigurationConverter
     {
-        private static readonly string _configurationOldFile = Path.Combine(Environment.CurrentDirectory, "config/gui.json.old");
-        private static readonly string _configurationFile = Path.Combine(Environment.CurrentDirectory, "config/gui.json");
+        private static readonly string _configurationNewFile = Path.Combine(Environment.CurrentDirectory, "config/gui_v5.json");
+        private static readonly string _configurationOldBakFile = Path.Combine(Environment.CurrentDirectory, "config/gui.json.old");
+        private static readonly string _configurationOldFile = Path.Combine(Environment.CurrentDirectory, "config/gui.json");
         private static readonly ILogger _logger = Log.ForContext<ConfigurationHelper>();
 
         public static bool ConvertConfig()
@@ -45,18 +46,21 @@ namespace MaaWpfGui.Helper
             }
 
             // Load configuration file
-            var parsed = ParseJsonFile(_configurationFile);
-            if (parsed is null)
+            var parsedOld = ParseJsonFile(_configurationOldFile);
+            if (parsedOld is null)
             {
                 return false;
             }
 
-            if (parsed["ConfigVersion"] is null)
+            var parsedNew = ParseJsonFile(_configurationNewFile);
+            parsedNew?.Remove("ConfigVersion");
+
+            if (parsedNew?.TryGetValue("ConfigVersion", out JToken? configVersion) is not true || configVersion.Type is not JTokenType.Integer)
             {
                 // v4 to v5
                 try
                 {
-                    File.Copy(_configurationFile, _configurationOldFile, true);
+                    File.Copy(_configurationOldFile, _configurationOldBakFile, true);
                 }
                 catch (Exception e)
                 {
@@ -67,18 +71,19 @@ namespace MaaWpfGui.Helper
 
                 try
                 {
-                    File.Delete(_configurationFile);
+                    File.Delete(_configurationOldFile);
                 }
                 catch (Exception e)
                 {
-                    _logger.Error(e, "Failed to remove " + _configurationFile);
+                    _logger.Error(e, "Failed to remove " + _configurationOldFile);
                 }
 
                 return result;
             }
-            else if (parsed["ConfigVersion"]?.Type == JTokenType.Integer)
+            else if (configVersion.Type is JTokenType.Integer)
             {
-                // 暂无意义
+                // TODO 后续需要移除，暂时兼容一下未迁移的选项
+                ConfigurationHelper.Load();
                 return true;
             }
             else
@@ -114,6 +119,7 @@ namespace MaaWpfGui.Helper
             {
                 ConfigurationHelper.SwitchConfiguration(configName);
                 ConfigFactory.AddConfiguration(configName);
+                ConfigFactory.SwitchConfig(configName);
 
                 // GUI部分
                 {
@@ -188,6 +194,78 @@ namespace MaaWpfGui.Helper
                     mallTask.ShoppingWhenCreditFull = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.CreditForceShoppingIfCreditFull, false.ToString()));
 
                     roguelikeTask.Theme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, "Sami");
+
+                    // 任务导入排序
+                    List<(string OldName, int Index, bool IsEnable)> taskList = [("WakeUp", 0, true), ("Recruiting", 1, true), ("Base", 2, true), ("Combat", 3, true), ("Mall", 4, true), ("Mission", 5, true), ("AutoRoguelike", 6, false)];
+                    if (ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty) is not "txwy")
+                    {
+                        taskList.Add(("Reclamation", 7, false));
+                    }
+
+                    for (int i = 0; i != taskList.Count; ++i)
+                    {
+                        var isEnable = Convert.ToBoolean(ConfigurationHelper.GetValue($"TaskQueue.{taskList[i].OldName}.IsChecked", bool.FalseString));
+                        if (int.TryParse(ConfigurationHelper.GetTaskOrder(taskList[i].OldName, "-1"), out var order))
+                        {
+                            taskList[i] = (taskList[i].OldName, order, isEnable);
+                        }
+                        else
+                        {
+                            taskList[i] = (taskList[i].OldName, taskList[i].Index, isEnable);
+                        }
+                    }
+
+                    ConfigFactory.CurrentConfig.TaskQueue.Clear();
+                    var local = ConfigFactory.CurrentConfig.GUI.Localization;
+                    taskList.OrderBy(x => x.Index).ToList().ForEach(task =>
+                    {
+                        switch (task.OldName)
+                        {
+                            case "WakeUp":
+                                startUpTask.Name = LocalizationHelper.GetString(task.OldName, local);
+                                startUpTask.IsEnable = task.IsEnable;
+                                ConfigFactory.CurrentConfig.TaskQueue.Add(startUpTask);
+                                break;
+                            case "Combat":
+                                fightTask.Name = LocalizationHelper.GetString(task.OldName, local);
+                                fightTask2.Name = LocalizationHelper.GetString("RemainingSanityStage", local);
+                                fightTask.IsEnable = task.IsEnable;
+                                fightTask2.IsEnable = task.IsEnable;
+                                ConfigFactory.CurrentConfig.TaskQueue.Add(fightTask);
+                                ConfigFactory.CurrentConfig.TaskQueue.Add(fightTask2);
+                                break;
+                            case "Mission":
+                                awardTask.Name = LocalizationHelper.GetString(task.OldName, local);
+                                awardTask.IsEnable = task.IsEnable;
+                                ConfigFactory.CurrentConfig.TaskQueue.Add(awardTask);
+                                break;
+                            case "Mall":
+                                mallTask.Name = LocalizationHelper.GetString(task.OldName, local);
+                                mallTask.IsEnable = task.IsEnable;
+                                ConfigFactory.CurrentConfig.TaskQueue.Add(mallTask);
+                                break;
+                            case "Base":
+                                infrastTask.Name = LocalizationHelper.GetString(task.OldName, local);
+                                infrastTask.IsEnable = task.IsEnable;
+                                ConfigFactory.CurrentConfig.TaskQueue.Add(infrastTask);
+                                break;
+                            case "Recruiting":
+                                recruitTask.Name = LocalizationHelper.GetString(task.OldName, local);
+                                recruitTask.IsEnable = task.IsEnable;
+                                ConfigFactory.CurrentConfig.TaskQueue.Add(recruitTask);
+                                break;
+                            case "AutoRoguelike":
+                                roguelikeTask.Name = LocalizationHelper.GetString(task.OldName, local);
+                                roguelikeTask.IsEnable = task.IsEnable;
+                                ConfigFactory.CurrentConfig.TaskQueue.Add(roguelikeTask);
+                                break;
+                            case "Reclamation":
+                                reclamationTask.Name = LocalizationHelper.GetString(task.OldName, local);
+                                reclamationTask.IsEnable = task.IsEnable;
+                                ConfigFactory.CurrentConfig.TaskQueue.Add(reclamationTask);
+                                break;
+                        }
+                    });
                 }
             }
 
