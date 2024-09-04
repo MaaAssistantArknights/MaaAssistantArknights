@@ -37,3 +37,4 @@ exclude:
   #- name: Xaml.RedundantNamespaceAlias
   #- name: Xaml.UnexpectedTextToken
   - name: Xaml.StaticResourceNotResolved
+  - name: BadListLineBreaks
