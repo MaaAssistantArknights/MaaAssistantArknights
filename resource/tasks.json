@@ -12176,8 +12176,19 @@
     "Tales@RA@PNS-GoTo-ShrubberyGalore": {
         "doc": "前往并点击 <资源区: 丰饶灌木林>, 未来改由 GoTo 插件实现",
         "algorithm": "JustReturn",
-        "sub": ["Tales@RA@ReturnToOrigin", "Tales@RA@ClickShrubberyGalore"],
+        "sub": ["Tales@RA@PNS-WaitForHeadquartersButton", "Tales@RA@ReturnToOrigin", "Tales@RA@ClickShrubberyGalore"],
         "next": ["Tales@RA@PNS-EnterShrubberyGaloreThenLeave"]
+    },
+    "Tales@RA@PNS-WaitForHeadquartersButton": {
+        "doc": "等待直到识别到左下角驻扎地图标",
+        "algorithm": "JustReturn",
+        "next": ["Tales@RA@PNS-RecogniseHeadquartersButton", "Tales@RA@PNS-WaitForHeadquartersButton"]
+    },
+    "Tales@RA@PNS-RecogniseHeadquartersButton": {
+        "doc": "识别到左下角驻扎地图标",
+        "baseTask": "Tales@RA@ClickHeadquartersButton",
+        "template": "Tales@RA@HeadquartersButton.png",
+        "action": "DoNothing"
     },
     "Tales@RA@PNS-LeaveBaseCamp": {
         "doc": "在行动中点击左上角离开 <后舍: 众人会聚之地>",
