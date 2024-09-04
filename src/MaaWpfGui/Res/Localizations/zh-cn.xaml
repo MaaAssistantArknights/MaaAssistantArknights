@@ -435,6 +435,7 @@
     <system:String x:Key="ExitSelf">退出 MAA</system:String>
     <system:String x:Key="ExitEmulator">退出 模拟器</system:String>
     <system:String x:Key="Hibernate">休眠</system:String>
+    <system:String x:Key="HibernateTip">需在 Windows 电源选项中启用休眠功能，否则该功能无效。</system:String>
     <system:String x:Key="Sleep">睡眠</system:String>
     <system:String x:Key="Shutdown">关机</system:String>
     <system:String x:Key="Once">仅一次*</system:String>

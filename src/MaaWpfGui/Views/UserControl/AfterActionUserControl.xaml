@@ -73,7 +73,9 @@
                 Margin="0,8"
                 s:View.ActionTarget="{Binding PostActionSetting}"
                 IsChecked="{Binding PostActionSetting.Hibernate}"
-                MouseRightButtonUp="{s:Action PostActionsAndOnce}">
+                MouseRightButtonUp="{s:Action PostActionsAndOnce}"
+                ToolTip="{DynamicResource HibernateTip}"
+                ToolTipService.InitialShowDelay="0">
                 <controls:TextBlock Text="{DynamicResource Hibernate}" TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox
