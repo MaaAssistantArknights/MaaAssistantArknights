@@ -53,7 +53,7 @@ namespace MaaWpfGui.Configuration
         private static readonly JsonSerializerOptions _options = new() { WriteIndented = true, Converters = { new JsonStringEnumConverter() }, Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.CjkUnifiedIdeographs, UnicodeRanges.CjkSymbolsandPunctuation, UnicodeRanges.HalfwidthandFullwidthForms), DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
 
         // TODO: 参考 ConfigurationHelper ，拆几个函数出来
-        private static readonly Lazy<Root> _rootConfig = new Lazy<Root>(() =>
+        private static readonly Lazy<Root> _rootConfig = new(() =>
         {
             lock (_lock)
             {
@@ -109,9 +109,12 @@ namespace MaaWpfGui.Configuration
                     parsed = new Root();
                 }
 
-                parsed.CurrentConfig ??= new SpecificConfig();
-
                 parsed.PropertyChanged += OnPropertyChangedFactory("Root.");
+                parsed.Timers.CollectionChanged += OnCollectionChangedFactory<int, Timer>("Root.Timers.");
+                parsed.VersionUpdate.PropertyChanged += OnPropertyChangedFactory();
+                parsed.AnnouncementInfo.PropertyChanged += OnPropertyChangedFactory();
+
+                parsed.CurrentConfig ??= new SpecificConfig();
                 parsed.Configurations.CollectionChanged += (in NotifyCollectionChangedEventArgs<KeyValuePair<string, SpecificConfig>> args) =>
                 {
                     switch (args.Action)
@@ -120,13 +123,15 @@ namespace MaaWpfGui.Configuration
                         case NotifyCollectionChangedAction.Replace:
                             if (args.IsSingleItem)
                             {
-                                args.NewItem.Value.GUI.PropertyChanged += OnPropertyChangedFactory("Root.Configurations." + args.NewItem.Key, JsonSerializer.Serialize(args.NewItem.Value, _options), null);
+                                // args.NewItem.Value.GUI.PropertyChanged += OnPropertyChangedFactory("Root.Configurations." + args.NewItem.Key, JsonSerializer.Serialize(args.NewItem.Value, _options), null);
+                                SpesificConfigBind(args.NewItem.Key, args.NewItem.Value);
                             }
                             else
                             {
-                                foreach (var value in args.NewItems)
+                                foreach (var pair in args.NewItems)
                                 {
-                                    value.Value.GUI.PropertyChanged += OnPropertyChangedFactory("Root.Configurations." + value.Key, JsonSerializer.Serialize(value.Value, _options), null);
+                                    // pair.Value.GUI.PropertyChanged += OnPropertyChangedFactory("Root.Configurations." + pair.Key, JsonSerializer.Serialize(pair.Value, _options), null);
+                                    SpesificConfigBind(pair.Key, pair.Value);
                                 }
                             }
 
@@ -142,19 +147,22 @@ namespace MaaWpfGui.Configuration
                     OnPropertyChanged("Root.Configurations", null, null);
                 };
 
-                parsed.Timers.CollectionChanged += OnCollectionChangedFactory<int, Timer>("Root.Timers.");
-                parsed.VersionUpdate.PropertyChanged += OnPropertyChangedFactory();
-                parsed.AnnouncementInfo.PropertyChanged += OnPropertyChangedFactory();
-
                 foreach (var keyValue in parsed.Configurations)
                 {
-                    var key = "Root.Configurations." + keyValue.Key + ".";
-                    keyValue.Value.GUI.PropertyChanged += OnPropertyChangedFactory(key);
-                    keyValue.Value.DragItemIsChecked.CollectionChanged += OnCollectionChangedFactory<string, bool>(key + nameof(SpecificConfig.DragItemIsChecked) + ".");
-                    keyValue.Value.InfrastOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.InfrastOrder) + ".");
+                    SpesificConfigBind(keyValue.Key, keyValue.Value);
+                }
+
+                return parsed;
+
+                void SpesificConfigBind(string name, SpecificConfig config)
+                {
+                    var key = "Root.Configurations." + name + ".";
+                    config.GUI.PropertyChanged += OnPropertyChangedFactory(key);
+                    config.DragItemIsChecked.CollectionChanged += OnCollectionChangedFactory<string, bool>(key + nameof(SpecificConfig.DragItemIsChecked) + ".");
+                    config.InfrastOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.InfrastOrder) + ".");
 
                     // keyValue.Value.TaskQueue.CollectionChanged += OnCollectionChangedFactory<BaseTask>(key + nameof(SpecificConfig.TaskQueue) + ".");
-                    keyValue.Value.TaskQueue.CollectionChanged += (in NotifyCollectionChangedEventArgs<BaseTask> args) =>
+                    config.TaskQueue.CollectionChanged += (in NotifyCollectionChangedEventArgs<BaseTask> args) =>
                     {
                         switch (args.Action)
                         {
@@ -181,13 +189,11 @@ namespace MaaWpfGui.Configuration
                                 throw new ArgumentOutOfRangeException();
                         }
                     };
-                    foreach (var task in keyValue.Value.TaskQueue)
+                    foreach (var task in config.TaskQueue)
                     {
                         task.PropertyChanged += OnPropertyChangedFactory(key + ".zdjd.");
                     }
                 }
-
-                return parsed;
             }
         });
 
