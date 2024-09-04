@@ -943,6 +943,12 @@
     "BattleStartOCR": {
         "text": ["行動", "開始"]
     },
+    "BattleStartSimulation": {
+        "Doc": "Delete the template and remove this modified roi task when paradox update comes PR#10439",
+        "method": "Ccoeff",
+        "colorScales": [],
+        "roi": [417, 567, 444, 153]
+    },
     "SSSBegin": {
         "text": ["開始保全作戰"]
     },
