@@ -1144,6 +1144,12 @@
         "text": ["작전", "개시"],
         "roi": [1020, 410, 170, 210]
     },
+    "BattleStartSimulation": {
+        "Doc": "Delete the template and remove this modified roi task when paradox update comes PR#10439",
+        "method": "Ccoeff",
+        "colorScales": [],
+        "roi": [417, 567, 444, 153]
+    },
     "StageDrops-Quantity": {
         "maskRange": [200, 255],
         "template": "empty.png",
