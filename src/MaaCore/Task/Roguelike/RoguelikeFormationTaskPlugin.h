@@ -23,6 +23,7 @@ namespace asst
         void clear_and_reselect();
         bool analyze();
         bool select(RoguelikeFormationImageAnalyzer::FormationOper oper);
+        void swipe_to_first_page();
 
     private:
         int cur_page = 0;
