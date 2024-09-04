@@ -97,7 +97,10 @@ void asst::RoguelikeFormationTaskPlugin::clear_and_reselect()
 
     m_last_detected_oper_names.clear();
     oper_list.clear();
-    swipe_to_first_page();
+
+    if (cur_page > 1) {
+        swipe_to_first_page(); 
+    }
 
     while (analyze()) { // 返回true说明新增了干员，可能还有下一页
         ProcessTask(*this, { "RoguelikeRecruitOperListSlowlySwipeToTheRight" }).run();
