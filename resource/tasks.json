@@ -12027,6 +12027,7 @@
         "doc": "跳到下一次量定结算",
         "template": ["Tales@RA@ActsLeft2.png", "Tales@RA@ActsLeft1.png", "Tales@RA@NextDay.png"],
         "roi": [1152, 45, 54, 98],
+        "postDelay": 500,
         "next": ["Tales@RA@PIS-SkipToCalc-NextDay", "Tales@RA@PIS-SkipToCalc-NonZeroActsLeft"]
     },
     "Tales@RA@PIS-SkipToCalc-CalcOrNextDay": {
@@ -12035,7 +12036,6 @@
         "next": [
             "Tales@RA@PIS-FinishCalc",
             "Tales@RA@PIS-SkipToCalc-StartToday",
-            "Tales@RA@PIS-SkipToCalc",
             "Tales@RA@PIS-SkipToCalc-CalcOrNextDay"
         ]
     },
@@ -12290,6 +12290,7 @@
         "doc": "跳到下一次量定结算",
         "template": ["Tales@RA@ActsLeft2.png", "Tales@RA@ActsLeft1.png", "Tales@RA@NextDay.png"],
         "roi": [1152, 45, 54, 98],
+        "postDelay": 500,
         "next": ["Tales@RA@PNS-SkipToCalc-NextDay", "Tales@RA@PNS-SkipToCalc-NonZeroActsLeft"]
     },
     "Tales@RA@PNS-SkipToCalc-CalcOrNextDay": {
@@ -12298,7 +12299,6 @@
         "next": [
             "Tales@RA@PNS-FinishCalc",
             "Tales@RA@PNS-SkipToCalc-StartToday",
-            "Tales@RA@PNS-SkipToCalc",
             "Tales@RA@PNS-SkipToCalc-CalcOrNextDay"
         ]
     },
