@@ -12131,18 +12131,25 @@
     "Tales@RA@PNS-EnterNodeThenLeave": {
         "doc": [
             "任务链",
-            "Step 1: 进入区块节点, 如果当前编队规模大于等于7人则清空当前编队, 在编队界面点击 <开始行动> 后点击 <确认>",
+            "Step 1: 进入区块节点, 如果当前编队规模大于等于7人则清空当前编队, 在编队界面点击 <开始行动>",
+            "        若弹出 <确认不携带任何干员进入战斗吗?> 或者 <确认进入战斗吗?> 的对话框, 则点击 <确定>",
             "Step 2: 在行动中点击左上角离开当前区块",
             "Step 3: 确认离开当前区块",
             "Step 4: 在行动结束界面点击左下角 <物资将送往仓库> 图标返回"
         ],
         "baseTask": "Tales@RA@EnterNode",
-        "sub": ["Tales@RA@PNS-ClearSquadIfSizeGE7", "Tales@RA@ConfirmSquad", "Tales@RA@DialogConfirmRed"],
+        "sub": ["Tales@RA@PNS-ClearSquadIfSizeGE7", "Tales@RA@PNS-ConfirmSquad"],
         "next": [
             "Tales@RA@PNS-LeaveNode",
             "Tales@RA@PNS-EnterNodeThenLeave@NextAfterLoadingText",
             "Tales@RA@PNS-EnterNodeThenLeave@NextAfterMerelyWaiting"
         ]
+    },
+    "Tales@RA@PNS-ConfirmSquad": {
+        "doc": "在编队界面点击 <开始行动>, 若弹出 <确认不携带任何干员进入战斗吗?> 或者 <确认进入战斗吗?> 的对话框, 则点击 <确定>",
+        "baseTask": "Tales@RA@ConfirmSquad",
+        "postDelay": 500,
+        "next": ["Tales@RA@DialogConfirmRed", "Stop"]
     },
     "Tales@RA@PNS-EnterShrubberyGaloreThenLeave": {
         "doc": "进入 <资源区: 丰饶灌木林> 后直接退出",
