@@ -1043,8 +1043,6 @@ namespace MaaWpfGui.ViewModels.UI
 
             _runningState.SetIdle(false);
 
-            Instances.SettingsViewModel.SetupSleepManagement();
-
             // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
             TaskItemSelectionChanged();
             Instances.SettingsViewModel.InfrastOrderSelectionChanged();
