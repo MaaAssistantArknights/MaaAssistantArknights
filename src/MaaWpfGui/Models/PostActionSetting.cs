@@ -366,7 +366,7 @@ public class PostActionSetting : PropertyChangedBase
 
         if (Sleep)
         {
-            actions.Add(LocalizationHelper.GetString("Sleep"));
+            actions.Add(prefix + LocalizationHelper.GetString("Sleep"));
         }
 
         ActionDescription = actions.Count == 0
