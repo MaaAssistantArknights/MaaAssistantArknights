@@ -50,7 +50,7 @@ namespace MaaWpfGui.Configuration
         // ReSharper disable once EventNeverSubscribedTo.Global
         public static event ConfigurationUpdateEventHandler? ConfigurationUpdateEvent;
 
-        private static readonly JsonSerializerOptions _options = new() { WriteIndented = true, Converters = { new JsonStringEnumConverter() }, Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.CjkUnifiedIdeographs), DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
+        private static readonly JsonSerializerOptions _options = new() { WriteIndented = true, Converters = { new JsonStringEnumConverter() }, Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.CjkUnifiedIdeographs, UnicodeRanges.CjkSymbolsandPunctuation, UnicodeRanges.HalfwidthandFullwidthForms), DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
 
         // TODO: 参考 ConfigurationHelper ，拆几个函数出来
         private static readonly Lazy<Root> _rootConfig = new Lazy<Root>(() =>

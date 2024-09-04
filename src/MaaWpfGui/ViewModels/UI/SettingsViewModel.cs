@@ -5727,21 +5727,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region HotKey
 
-        /// <summary>
-
-        好像删了
-        /// Gets or sets a value indicating whether to hangover.
-        /// </summary>
-        public bool Hangover
-        {
-            get => _hangover;
-            set
-            {
-                SetAndNotify(ref _hangover, value);
-                ConfigurationHelper.SetValue("GUI.Hangover", value.ToString());
-            }
-        }
-
         private static void SetPallasLanguage()
         {
             ConfigFactory.CurrentConfig.GUI.Localization = PallasLangKey;
