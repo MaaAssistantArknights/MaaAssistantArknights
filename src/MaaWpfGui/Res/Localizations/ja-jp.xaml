@@ -435,6 +435,7 @@
     <system:String x:Key="ExitSelf">MAAを終了する</system:String>
     <system:String x:Key="ExitEmulator">エミュレータを終了する</system:String>
     <system:String x:Key="Hibernate">休止状態にする</system:String>
+    <system:String x:Key="HibernateTip">Windows の電源オプションで休止状態を有効にする必要があります。そうしないと、この機能は無効になります。</system:String>
     <system:String x:Key="Sleep">スリープ</system:String>
     <system:String x:Key="Shutdown">シャットダウン</system:String>
     <system:String x:Key="Once">1回のみ*</system:String>

@@ -436,6 +436,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="ExitSelf">MAA를 종료</system:String>
     <system:String x:Key="ExitEmulator">에뮬레이터를 종료</system:String>
     <system:String x:Key="Hibernate">절전 모드</system:String>
+    <system:String x:Key="HibernateTip">Windows の電源オプションで休止状態を有効にする必要があります。そうしないと、この機能は無効になります。</system:String>
     <system:String x:Key="Sleep">절전</system:String>
     <system:String x:Key="Shutdown">시스템 종료</system:String>
     <system:String x:Key="Once">한 번만*</system:String>
