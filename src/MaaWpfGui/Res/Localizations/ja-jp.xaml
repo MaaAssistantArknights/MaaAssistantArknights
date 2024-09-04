@@ -434,6 +434,8 @@
     <system:String x:Key="ExitSelf">MAAを終了する</system:String>
     <system:String x:Key="ExitEmulator">エミュレータを終了する</system:String>
     <system:String x:Key="Hibernate">休止状態にする</system:String>
+    <system:String x:Key="HibernateTip">Windows の電源オプションで休止状態を有効にする必要があります。そうしないと、この機能は無効になります。</system:String>
+    <system:String x:Key="Sleep">スリープ</system:String>
     <system:String x:Key="Shutdown">シャットダウン</system:String>
     <system:String x:Key="Once">1回のみ*</system:String>
     <system:String x:Key="PostActionOnceTip" xml:space="preserve">1回のみ実行するには、まず1回のみチェックしてください
@@ -510,6 +512,7 @@
     <system:String x:Key="AboutToShutdown">完了しました。シャットダウンしようとしています。キャンセルしますか？</system:String>
     <system:String x:Key="ShutdownPrompt">ヒント</system:String>
     <system:String x:Key="HibernatePrompt">完了しました。休止状態にしようとしています</system:String>
+    <system:String x:Key="SleepPrompt">完了しました、スリープ状態に入ります</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">未知の終了動作</system:String>
     <system:String x:Key="AnnihilationTaskTip">ステージ選択が殲滅任務になっています。任務終了後、残りの代替ステージが試されます。一部の戦闘設定は有効になりません。</system:String>
     <system:String x:Key="AnnihilationTaskFailed">殲滅戦に失敗、代替ステージを使用しますが、一部の戦闘設定が有効ではありません</system:String>

@@ -434,6 +434,8 @@
     <system:String x:Key="ExitSelf">退出 MAA</system:String>
     <system:String x:Key="ExitEmulator">退出 模擬器</system:String>
     <system:String x:Key="Hibernate">休眠</system:String>
+    <system:String x:Key="HibernateTip">需要在 Windows 電源選項中啟用休眠功能，否則該功能無效。</system:String>
+    <system:String x:Key="Sleep">睡眠</system:String>
     <system:String x:Key="Shutdown">關機</system:String>
     <system:String x:Key="Once">僅一次*</system:String>
     <system:String x:Key="PostActionOnceTip" xml:space="preserve">如想只執行一次，請先勾選僅一次
@@ -510,6 +512,7 @@
     <system:String x:Key="AboutToShutdown">已刷完，即將關機，是否取消？</system:String>
     <system:String x:Key="ShutdownPrompt">提示</system:String>
     <system:String x:Key="HibernatePrompt">已刷完，即將休眠</system:String>
+    <system:String x:Key="SleepPrompt">已刷完，即將睡眠</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">未知的結束動作</system:String>
     <system:String x:Key="AnnihilationTaskTip">關卡選擇為剿滅任務，任務結束後將嘗試使用剩餘備選關卡，部分戰鬥設置將不生效。</system:String>
     <system:String x:Key="AnnihilationTaskFailed">剿滅任務失敗，將嘗試使用剩餘備選關卡，部分戰鬥設定將不生效。</system:String>

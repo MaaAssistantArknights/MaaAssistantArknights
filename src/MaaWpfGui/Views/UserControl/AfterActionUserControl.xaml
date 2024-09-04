@@ -65,15 +65,25 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding PostActionSetting.IfNoOtherMaa}"
-                IsEnabled="{c:Binding 'PostActionSetting.Hibernate || PostActionSetting.Shutdown'}">
+                IsEnabled="{c:Binding 'PostActionSetting.Hibernate || PostActionSetting.Shutdown || PostActionSetting.Sleep'}">
                 <controls:TextBlock Text="{DynamicResource IfNoOtherMaa}" TextWrapping="Wrap" />
             </CheckBox>
 
             <CheckBox
                 Margin="0,10"
                 s:View.ActionTarget="{Binding PostActionSetting}"
-                IsChecked="{Binding PostActionSetting.Hibernate}"
+                IsChecked="{Binding PostActionSetting.Sleep}"
                 MouseRightButtonUp="{s:Action PostActionsAndOnce}">
+                <controls:TextBlock Text="{DynamicResource Sleep}" TextWrapping="Wrap" />
+            </CheckBox>
+
+            <CheckBox
+                Margin="0,10"
+                s:View.ActionTarget="{Binding PostActionSetting}"
+                IsChecked="{Binding PostActionSetting.Hibernate}"
+                MouseRightButtonUp="{s:Action PostActionsAndOnce}"
+                ToolTip="{DynamicResource HibernateTip}"
+                ToolTipService.InitialShowDelay="0">
                 <controls:TextBlock Text="{DynamicResource Hibernate}" TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox
