@@ -122,6 +122,15 @@
                                 Text="{Binding ResourceVersion, Mode=OneWay}"
                                 TextWrapping="Wrap" />
                         </hc:Shield>
+                        <hc:Shield
+                            Margin="0,5"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            hc:FloatingBlock.Content="{Binding ResourceDateTime}"
+                            PreviewMouseDown="ResourceVersionClick"
+                            Status="{Binding ResourceDateTime, Mode=OneWay}"
+                            Subject="资源日期"
+                            Color="#6969AA" />
                         <Grid HorizontalAlignment="Center">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
@@ -198,6 +207,15 @@
                                     TextWrapping="Wrap" />
                             </Border>
                         </Grid>
+                        <hc:Shield
+                            Margin="0,5"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            hc:FloatingBlock.Content="{Binding BuildDateTime}"
+                            PreviewMouseDown="CoreVersionClick"
+                            Status="{Binding BuildDateTime, Mode=OneWay}"
+                            Subject="构建日期"
+                            Color="#6969AA" />
                     </StackPanel>
                     <StackPanel
                         Grid.Row="3"

@@ -42,6 +42,12 @@
     <InformationalVersion>0.0.1</InformationalVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <AssemblyAttribute Include="MaaWpfGui.Properties.BuildDateTime">
+      <_Parameter1>$([System.DateTime]::UtcNow.ToString("yyyy-MM-ddTHH:mm:ss"))</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
   <!-- Info -->
   <PropertyGroup>
     <ApplicationIcon>newlogo.ico</ApplicationIcon>

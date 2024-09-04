@@ -33,13 +33,13 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using HandyControl.Controls;
 using HandyControl.Data;
-using HandyControl.Tools.Extension;
 using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
+using MaaWpfGui.Properties;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Notification;
@@ -1484,7 +1484,9 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _clientType, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ClientType, value);
-                ResourceVersion = GetResourceVersionByClientType(_clientType);
+                _resourceInfo = GetResourceVersionByClientType(_clientType);
+                ResourceVersion = _resourceInfo.VersionName;
+                ResourceDateTime = _resourceInfo.DateTime;
                 UpdateWindowTitle(); // 每次修改客户端时更新WindowTitle
                 Instances.TaskQueueViewModel.UpdateStageList(true);
                 Instances.TaskQueueViewModel.UpdateDatePrompt();
@@ -3634,7 +3636,13 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public static string UiVersion { get; } = _uiVersion == "0.0.1" ? "DEBUG VERSION" : _uiVersion;
 
-        private static string _resourceVersion = GetResourceVersionByClientType(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty));
+        private static readonly DateTime _buildDateTime = Assembly.GetExecutingAssembly().GetCustomAttribute<BuildDateTimeAttribute>()?.BuildDateTime ?? DateTime.MinValue;
+
+        public DateTime BuildDateTime { get; } = _buildDateTime;
+
+        private static (DateTime DateTime, string VersionName) _resourceInfo = GetResourceVersionByClientType(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty));
+
+        private static string _resourceVersion = _resourceInfo.VersionName;
 
         /// <summary>
         /// Gets or sets the resource version.
@@ -3645,7 +3653,15 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _resourceVersion, value);
         }
 
-        private static string GetResourceVersionByClientType(string clientType)
+        private static DateTime _resourceDateTime = _resourceInfo.DateTime;
+
+        public DateTime ResourceDateTime
+        {
+            get => _resourceDateTime;
+            set => SetAndNotify(ref _resourceDateTime, value);
+        }
+
+        private static (DateTime DateTime, string VersionName) GetResourceVersionByClientType(string clientType)
         {
             const string OfficialClientType = "Official";
             const string BilibiliClientType = "Bilibili";
@@ -3655,10 +3671,10 @@ namespace MaaWpfGui.ViewModels.UI
                 jsonPath = $"resource/global/{clientType}/resource/version.json";
             }
 
-            string versionName = string.Empty;
+            string versionName;
             if (!File.Exists(jsonPath))
             {
-                return versionName;
+                return (DateTime.MinValue, string.Empty);
             }
 
             var versionJson = (JObject?)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
@@ -3666,13 +3682,9 @@ namespace MaaWpfGui.ViewModels.UI
             var poolTime = (ulong?)versionJson?["gacha"]?["time"]; // 卡池的开始时间
             var activityTime = (ulong?)versionJson?["activity"]?["time"]; // 活动的开始时间
             var lastUpdated = (string?)versionJson?["last_updated"]; // 最后更新时间
-            string dateOnly = string.Empty;
-            if (DateTime.TryParse(lastUpdated, out DateTime parsedDateTime))
-            {
-                dateOnly = LocalizationHelper.DefaultLanguage == "en-us"
-                    ? parsedDateTime.ToString("dd/MM/yyyy")
-                    : parsedDateTime.ToString("yy.MM.dd");
-            }
+            var dateTime = lastUpdated == null
+                ? DateTime.MinValue
+                : DateTime.ParseExact(lastUpdated, "yyyy-MM-dd HH:mm:ss.fff", null);
 
             if ((currentTime < poolTime) && (currentTime < activityTime))
             {
@@ -3695,7 +3707,7 @@ namespace MaaWpfGui.ViewModels.UI
                 versionName = versionJson?["activity"]?["name"]?.ToString() ?? string.Empty;
             }
 
-            return dateOnly + " - " + versionName;
+            return (dateTime, versionName);
         }
 
         private UpdateVersionType _versionType = (UpdateVersionType)Enum.Parse(
@@ -4613,7 +4625,13 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            string resourceVersion = !string.IsNullOrEmpty(ResourceVersion) ? $" - {ResourceVersion}" : string.Empty;
+            string resourceVersion = !string.IsNullOrEmpty(ResourceVersion)
+                ? LocalizationHelper.DefaultLanguage switch
+                {
+                    "en-us" => $" - {ResourceDateTime:dd/MM} {ResourceVersion}",
+                    _ => $" - {ResourceVersion}{ResourceDateTime:#ddMM}",
+                }
+                : string.Empty;
             rvm.WindowTitle = $"{prefix}MAA{currentConfiguration} - {CoreVersion}{resourceVersion}{connectConfigName}{connectAddress}{clientName}";
         }
 
