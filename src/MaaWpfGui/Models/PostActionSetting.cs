@@ -66,6 +66,11 @@ public class PostActionSetting : PropertyChangedBase
         /// 关机
         /// </summary>
         Shutdown = 64,
+
+        /// <summary>
+        /// 睡眠
+        /// </summary>
+        Sleep = 128,
     }
 
     private PostActions _postActions;
@@ -218,8 +223,9 @@ public class PostActionSetting : PropertyChangedBase
             if (value)
             {
                 Shutdown = false;
+                Sleep = false;
             }
-            else if (!Shutdown)
+            else if (!Shutdown && !Sleep)
             {
                 IfNoOtherMaa = false;
             }
@@ -242,16 +248,42 @@ public class PostActionSetting : PropertyChangedBase
 
             if (value)
             {
-                ExitArknights = false;
-                BackToAndroidHome = false;
+                ExitEmulator = true;
                 Hibernate = false;
+                Sleep = false;
             }
-            else if (!Hibernate)
+            else if (!Hibernate && !Sleep)
             {
                 IfNoOtherMaa = false;
             }
 
             UpdatePostAction(PostActions.Shutdown, value);
+        }
+    }
+
+    private bool _sleep;
+
+    public bool Sleep
+    {
+        get => _sleep;
+        set
+        {
+            if (!SetAndNotify(ref _sleep, value))
+            {
+                return;
+            }
+
+            if (value)
+            {
+                Hibernate = false;
+                Shutdown = false;
+            }
+            else if (!Hibernate && !Shutdown)
+            {
+                IfNoOtherMaa = false;
+            }
+
+            UpdatePostAction(PostActions.Sleep, value);
         }
     }
 
@@ -332,6 +364,11 @@ public class PostActionSetting : PropertyChangedBase
             actions.Add(prefix + LocalizationHelper.GetString("Shutdown"));
         }
 
+        if (Sleep)
+        {
+            actions.Add(LocalizationHelper.GetString("Sleep"));
+        }
+
         ActionDescription = actions.Count == 0
             ? LocalizationHelper.GetString("DoNothing")
             : string.Join(" -> ", actions);
@@ -370,6 +407,7 @@ public class PostActionSetting : PropertyChangedBase
         IfNoOtherMaa = _postActions.HasFlag(PostActions.IfNoOtherMaa);
         Hibernate = _postActions.HasFlag(PostActions.Hibernate);
         Shutdown = _postActions.HasFlag(PostActions.Shutdown);
+        Sleep = _postActions.HasFlag(PostActions.Sleep);
         Once = false;
     }
 

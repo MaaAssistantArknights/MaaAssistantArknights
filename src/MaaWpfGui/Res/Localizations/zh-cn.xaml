@@ -435,6 +435,7 @@
     <system:String x:Key="ExitSelf">退出 MAA</system:String>
     <system:String x:Key="ExitEmulator">退出 模拟器</system:String>
     <system:String x:Key="Hibernate">休眠</system:String>
+    <system:String x:Key="Sleep">睡眠</system:String>
     <system:String x:Key="Shutdown">关机</system:String>
     <system:String x:Key="Once">仅一次*</system:String>
     <system:String x:Key="PostActionOnceTip" xml:space="preserve">如想只执行一次，请先勾选仅一次
@@ -511,6 +512,7 @@
     <system:String x:Key="AboutToShutdown">已刷完，即将关机，是否取消？</system:String>
     <system:String x:Key="ShutdownPrompt">提示</system:String>
     <system:String x:Key="HibernatePrompt">已刷完，即将休眠</system:String>
+    <system:String x:Key="SleepPrompt">已刷完，即将睡眠</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">未知的结束动作</system:String>
     <system:String x:Key="AnnihilationTaskTip">关卡选择为剿灭任务，任务结束后将尝试使用剩余备选关卡，部分战斗设置将不生效。</system:String>
     <system:String x:Key="AnnihilationTaskFailed">剿灭任务失败，将尝试使用剩余备选关卡，部分战斗设置将不生效。</system:String>
