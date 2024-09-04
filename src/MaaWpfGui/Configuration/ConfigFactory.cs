@@ -139,7 +139,39 @@ namespace MaaWpfGui.Configuration
                     keyValue.Value.GUI.PropertyChanged += OnPropertyChangedFactory(key);
                     keyValue.Value.DragItemIsChecked.CollectionChanged += OnCollectionChangedFactory<string, bool>(key + nameof(SpecificConfig.DragItemIsChecked) + ".");
                     keyValue.Value.InfrastOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.InfrastOrder) + ".");
-                    keyValue.Value.TaskQueue.CollectionChanged += OnCollectionChangedFactory<BaseTask>(key + nameof(SpecificConfig.TaskQueue) + ".");
+
+                    // keyValue.Value.TaskQueue.CollectionChanged += OnCollectionChangedFactory<BaseTask>(key + nameof(SpecificConfig.TaskQueue) + ".");
+                    keyValue.Value.TaskQueue.CollectionChanged += (in NotifyCollectionChangedEventArgs<BaseTask> args) =>
+                    {
+                        switch (args.Action)
+                        {
+                            case NotifyCollectionChangedAction.Add:
+                            case NotifyCollectionChangedAction.Replace:
+                                if (args.IsSingleItem)
+                                {
+                                    args.NewItem.PropertyChanged += OnPropertyChangedFactory(key + args.NewItem.GetType().Name + ".");
+                                }
+                                else
+                                {
+                                    foreach (var value in args.NewItems)
+                                    {
+                                        value.PropertyChanged += OnPropertyChangedFactory(key + value.GetType().Name + ".");
+                                    }
+                                }
+
+                                break;
+                            case NotifyCollectionChangedAction.Remove:
+                            case NotifyCollectionChangedAction.Move:
+                            case NotifyCollectionChangedAction.Reset:
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
+                    };
+                    foreach (var task in keyValue.Value.TaskQueue)
+                    {
+                        task.PropertyChanged += OnPropertyChangedFactory(key + ".zdjd.");
+                    }
                 }
 
                 return parsed;

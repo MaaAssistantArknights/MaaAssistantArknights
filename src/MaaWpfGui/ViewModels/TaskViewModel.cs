@@ -11,6 +11,8 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
+using System.Threading.Tasks;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Models;
 using Stylet;
 
@@ -30,7 +32,11 @@ namespace MaaWpfGui.ViewModels
         public string Name
         {
             get => _name;
-            set => SetAndNotify(ref _name, value);
+            set
+            {
+                SetAndNotify(ref _name, value);
+                ConfigFactory.CurrentConfig.TaskQueue[_index].Name = value;
+            }
         }
 
         private bool? _isCheckedWithNull;
@@ -41,10 +47,7 @@ namespace MaaWpfGui.ViewModels
             set
             {
                 SetAndNotify(ref _isCheckedWithNull, value);
-                value ??= false;
-
-                // TODO 保存任务链的状态
-                // 保存任务链的状态
+                ConfigFactory.CurrentConfig.TaskQueue[_index].IsEnable = value;
             }
         }
 

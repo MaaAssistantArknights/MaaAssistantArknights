@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -78,16 +79,13 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once MemberCanBePrivate.Global
         public void TaskItemSelectionChanged()
         {
+            Task.Run(() => ConfigFactory.Save());
+            /*
             Execute.OnUIThread(() =>
             {
-                int index = 0;
-                foreach (var item in TaskItemViewModels)
-                {
-                    ConfigurationHelper.SetTaskOrder(item.OriginalName, index.ToString());
-                    ++index;
+                Task.Run(() => ConfigFactory.Save());
+            });*/
                 }
-            });
-        }
 
         /// <summary>
         /// Gets or private sets the view models of log items.
@@ -566,6 +564,7 @@ namespace MaaWpfGui.ViewModels.UI
                 taskList.Add("Reclamation");
             }
 
+            /* 禁用任务index排序
             {
                 var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[taskList.Count]);
                 var nonOrderList = new List<DragItemViewModel>();
@@ -605,12 +604,35 @@ namespace MaaWpfGui.ViewModels.UI
 
                     tempOrderList[i] = newVm;
                 }
-            }
+            }*/
 
             var tempOrderList = new List<TaskViewModel>(new TaskViewModel[ConfigFactory.CurrentConfig.TaskQueue.Count]);
-            int i = 0;
-            tempOrderList.ForEach(x => x.Index = i++);
+
+            int i = -1;
+            tempOrderList = tempOrderList.Select(x => new TaskViewModel(++i, ConfigFactory.CurrentConfig.TaskQueue[i].Name, ConfigFactory.CurrentConfig.TaskQueue[i].IsEnable)).ToList();
             TaskItemViewModels = new ObservableCollection<TaskViewModel>(tempOrderList);
+            TaskItemViewModels.CollectionChanged += (o, e) =>
+            {
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Move:
+                        ConfigFactory.CurrentConfig.TaskQueue.Move(e.OldStartingIndex, e.NewStartingIndex);
+                        break;
+                    case NotifyCollectionChangedAction.Add:
+                    case NotifyCollectionChangedAction.Remove:
+                    case NotifyCollectionChangedAction.Replace:
+                    case NotifyCollectionChangedAction.Reset:
+                        break;
+                }
+
+                Task.Run(() => ConfigFactory.Save());
+                int index = 0;
+                foreach (var item in TaskItemViewModels)
+                {
+                    item.Index = index;
+                    ++index;
+                }
+            };
 
             InitDrops();
             NeedToUpdateDatePrompt();
@@ -810,15 +832,11 @@ namespace MaaWpfGui.ViewModels.UI
         {
             foreach (var item in TaskItemViewModels)
             {
-                switch (ConfigFactory.CurrentConfig.TaskQueue[item.Index].TaskType)
+                if (ConfigFactory.CurrentConfig.TaskQueue[item.Index] is not RoguelikeTask and not ReclamationTask)
                 {
-                    case TaskType.Roguelike:
-                    case TaskType.Reclamation:
-                        continue;
-                }
-
                 item.IsCheckedWithNull = true;
             }
+        }
         }
 
         private bool _inverseMode = ConfigFactory.CurrentConfig.GUI.InverseClearShow == GUI.InverseClearType.Inverse;
@@ -912,15 +930,13 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 foreach (var item in TaskItemViewModels)
                 {
-                    switch (ConfigFactory.CurrentConfig.TaskQueue[item.Index].TaskType)
+                    if (ConfigFactory.CurrentConfig.TaskQueue[item.Index] is RoguelikeTask or ReclamationTask)
                     {
-                        case TaskType.Roguelike:
-                        case TaskType.Reclamation:
                             item.IsCheckedWithNull = false;
-                            break;
-                        default:
+                    }
+                    else
+                    {
                             item.IsCheckedWithNull = !item.IsCheckedWithNull ?? false;
-                            break;
                     }
                 }
             }
