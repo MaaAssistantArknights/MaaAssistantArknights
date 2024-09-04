@@ -97,7 +97,6 @@
     <system:String x:Key="153Time3">153 一天3换</system:String>
     <system:String x:Key="243Time3">243 一天3换</system:String>
     <system:String x:Key="243Time4">243 一天4换</system:String>
-    <system:String x:Key="252Time3">252 一天3换</system:String>
     <system:String x:Key="333Time3">333 一天3换</system:String>
     <system:String x:Key="CustomInfrastFile">自定义基建配置文件</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">自定义基建配置文件解析错误！</system:String>
