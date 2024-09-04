@@ -435,6 +435,8 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="ExitSelf">MAA를 종료</system:String>
     <system:String x:Key="ExitEmulator">에뮬레이터를 종료</system:String>
     <system:String x:Key="Hibernate">절전 모드</system:String>
+    <system:String x:Key="HibernateTip">Windows の電源オプションで休止状態を有効にする必要があります。そうしないと、この機能は無効になります。</system:String>
+    <system:String x:Key="Sleep">절전</system:String>
     <system:String x:Key="Shutdown">시스템 종료</system:String>
     <system:String x:Key="Once">한 번만*</system:String>
     <system:String x:Key="PostActionOnceTip" xml:space="preserve">한 번만 실행하려면 먼저 Only once를 체크하세요.
@@ -511,6 +513,7 @@ Only once가 체크되면 실행 후 Only once가 체크되기 전 상태로 작
     <system:String x:Key="AboutToShutdown">작업을 완료했습니다. 시스템이 곧 종료됩니다. 취소하시겠습니까?</system:String>
     <system:String x:Key="ShutdownPrompt">알림</system:String>
     <system:String x:Key="HibernatePrompt">작업을 완료했습니다. 곧 절전 모드에 진입합니다</system:String>
+    <system:String x:Key="SleepPrompt">완료되었습니다, 절전 모드로 전환합니다</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">알 수 없는 종료 동작</system:String>
     <system:String x:Key="AnnihilationTaskTip">선택한 스테이지는 섬멸 임무입니다. 임무 완료 후 남은 대체 스테이지가 시도됩니다. 일부 전투 설정은 적용되지 않습니다.</system:String>
     <system:String x:Key="AnnihilationTaskFailed">섬멸 작전에 실패하여 대체 스테이지를 진행합니다. 일부 전투 설정이 무시될 수 있습니다</system:String>

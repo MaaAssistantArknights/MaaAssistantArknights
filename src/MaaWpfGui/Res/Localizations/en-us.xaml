@@ -434,6 +434,8 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="ExitSelf">Exit MAA</system:String>
     <system:String x:Key="ExitEmulator">Exit Emulator</system:String>
     <system:String x:Key="Hibernate">Hibernate</system:String>
+    <system:String x:Key="HibernateTip">You need to enable the hibernate feature in Windows power options, otherwise this feature will be invalid.</system:String>
+    <system:String x:Key="Sleep">Sleep</system:String>
     <system:String x:Key="Shutdown">Shutdown</system:String>
     <system:String x:Key="Once">Only once*</system:String>
     <system:String x:Key="PostActionOnceTip">If active, changes will NOT be saved until next run.</system:String>
@@ -508,6 +510,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="AboutToShutdown">All tasks have been completed: shutting down. Do you want to cancel?</system:String>
     <system:String x:Key="ShutdownPrompt">Tip</system:String>
     <system:String x:Key="HibernatePrompt">Task(s) completed, about to hibernate</system:String>
+    <system:String x:Key="SleepPrompt">Completed, about to sleep</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">Unknown ending action</system:String>
     <system:String x:Key="AnnihilationTaskTip">The stage selected is an annihilation task. After the task is completed, the remaining alternative stages will be attempted. Some battle settings will not take effect.</system:String>
     <system:String x:Key="AnnihilationTaskFailed">Annihilation task failed, will try to use alternate stage, some combat settings will not be effective.</system:String>
