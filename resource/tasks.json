@@ -11932,7 +11932,7 @@
         "baseTask": "Tales@RA@StartToday",
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
         "next": [
-            "Tales@RA@PIS-ProsperityReachLimit-Dots",
+            "Tales@RA@PIS-ProsperityBelowLimit-Dots",
             "Tales@RA@PIS-ProsperityBelowLimit-StartToday@NextAfterLoadingText"
         ]
     },
