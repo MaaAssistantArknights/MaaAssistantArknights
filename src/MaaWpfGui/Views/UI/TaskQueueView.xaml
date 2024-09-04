@@ -231,6 +231,7 @@
             </Grid.RowDefinitions>
             <hc:ScrollViewer
                 Grid.Row="0"
+                Grid.RowSpan="{c:Binding 'TaskSettingVisibilities.AfterAction ? 2:1'}"
                 Margin="10"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
@@ -283,7 +284,8 @@
                 Grid.Row="1"
                 Width="220"
                 Margin="0,0,10,0"
-                Orientation="Horizontal">
+                Orientation="Horizontal"
+                Visibility="{c:Binding !TaskSettingVisibilities.AfterAction, FalseToVisibility=Hidden}">
                 <RadioButton
                     Content="{DynamicResource GeneralSettings}"
                     IsChecked="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}"

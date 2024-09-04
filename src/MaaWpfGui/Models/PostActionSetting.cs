@@ -35,42 +35,42 @@ public class PostActionSetting : PropertyChangedBase
         /// <summary>
         /// 退出明日方舟
         /// </summary>
-        ExitArknights = 1,
+        ExitArknights = 1 << 0,
 
         /// <summary>
         /// 返回模拟器首页
         /// </summary>
-        BackToAndroidHome = 2,
+        BackToAndroidHome = 1 << 1,
 
         /// <summary>
         /// 退出模拟器
         /// </summary>
-        ExitEmulator = 4,
+        ExitEmulator = 1 << 2,
 
         /// <summary>
         /// 退出MAA
         /// </summary>
-        ExitSelf = 8,
+        ExitSelf = 1 << 3,
 
         /// <summary>
         /// 如果没有其他MAA
         /// </summary>
-        IfNoOtherMaa = 16,
+        IfNoOtherMaa = 1 << 4,
 
         /// <summary>
         /// 休眠
         /// </summary>
-        Hibernate = 32,
+        Hibernate = 1 << 5,
 
         /// <summary>
         /// 关机
         /// </summary>
-        Shutdown = 64,
+        Shutdown = 1 << 6,
 
         /// <summary>
         /// 睡眠
         /// </summary>
-        Sleep = 128,
+        Sleep = 1 << 7,
     }
 
     private PostActions _postActions;
@@ -93,7 +93,6 @@ public class PostActionSetting : PropertyChangedBase
             }
 
             ActionTitle = value ? $"{LocalizationHelper.GetString("PostActions")} ({LocalizationHelper.GetString("Once")})" : LocalizationHelper.GetString("PostActions");
-            RefreshDescription();
         }
     }
 
@@ -248,7 +247,8 @@ public class PostActionSetting : PropertyChangedBase
 
             if (value)
             {
-                ExitEmulator = true;
+                ExitArknights = false;
+                BackToAndroidHome = false;
                 Hibernate = false;
                 Sleep = false;
             }
