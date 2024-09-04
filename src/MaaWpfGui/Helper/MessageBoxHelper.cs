@@ -159,7 +159,7 @@ namespace MaaWpfGui.Helper
             }
         }
 
-        private unsafe readonly ref struct DisposablePin<T>
+        private readonly unsafe ref struct DisposablePin<T>
             where T : unmanaged
         {
             private readonly GCHandle _handle;
@@ -195,7 +195,7 @@ namespace MaaWpfGui.Helper
             using var instructionPin = new DisposablePin<char>(mainInstruction);
             using var titlePin = new DisposablePin<char>(windowTitle);
 
-            var config = new TASKDIALOGCONFIG()
+            var config = new TASKDIALOGCONFIG
             {
                 pszContent = contentPin.AddrOfPinnedObject,
                 pszMainInstruction = instructionPin.AddrOfPinnedObject,

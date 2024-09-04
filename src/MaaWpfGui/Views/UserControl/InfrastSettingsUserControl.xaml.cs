@@ -40,7 +40,7 @@ namespace MaaWpfGui.Views.UserControl
             e.Handled = true;
             var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
             {
-                RoutedEvent = UIElement.MouseWheelEvent
+                RoutedEvent = MouseWheelEvent
             };
             var parent = ((Control)sender).Parent as UIElement;
             parent?.RaiseEvent(eventArg);
