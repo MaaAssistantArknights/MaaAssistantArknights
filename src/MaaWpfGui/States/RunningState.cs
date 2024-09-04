@@ -13,6 +13,8 @@
 
 using System;
 using System.Threading.Tasks;
+using MaaWpfGui.Helper;
+using MaaWpfGui.Utilities;
 
 namespace MaaWpfGui.States
 {
@@ -48,6 +50,16 @@ namespace MaaWpfGui.States
                 }
 
                 _idle = value;
+
+                if (value)
+                {
+                    SleepManagement.AllowSleep();
+                }
+                else
+                {
+                    Instances.SettingsViewModel.SetupSleepManagement();
+                }
+
                 OnIdleChanged(value);
             }
         }
