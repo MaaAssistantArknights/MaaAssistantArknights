@@ -46,22 +46,6 @@ namespace MaaWpfGui.Models
             }
         }
 
-        public class MallTask : BaseTask
-        {
-            public MallTask()
-            {
-                TaskType = TaskType.Mall;
-            }
-
-            public bool Shopping { get; set; } = true;
-
-            public bool ShoppingWhenCreditFull { get; set; }
-
-            public string WhiteList { get; set; } = LocalizationHelper.GetString("HighPriorityDefault");
-
-            public string BlackList { get; set; } = LocalizationHelper.GetString("BlacklistDefault");
-        }
-
         public class InfrastTask : BaseTask
         {
             public InfrastTask()

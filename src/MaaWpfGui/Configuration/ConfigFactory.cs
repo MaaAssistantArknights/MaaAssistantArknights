@@ -225,11 +225,11 @@ namespace MaaWpfGui.Configuration
             };
         }
 
-        private static NotifyCollectionChangedEventHandler<T> OnCollectionChangedFactory<T>(string key)
+        private static NotifyCollectionChangedEventHandler<KeyValuePair<T1, T2>> OnCollectionChangedFactory<T1, T2>(string key)
         {
-            return (in NotifyCollectionChangedEventArgs<T> args) =>
+            return (in NotifyCollectionChangedEventArgs<KeyValuePair<T1, T2>> args) =>
             {
-                OnPropertyChanged(key + args.NewStartingIndex, null, args.NewItem);
+                OnPropertyChanged(key + args.NewItem.Key, null, args.NewItem.Value);
             };
         }
 

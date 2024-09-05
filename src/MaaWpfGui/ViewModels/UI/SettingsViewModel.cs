@@ -838,15 +838,18 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else if (task is MallTask mallTask)
             {
-                _creditShopping = mallTask.Shopping;
-                _creditForceShoppingIfCreditFull = mallTask.ShoppingWhenCreditFull;
-                _creditFirstList = mallTask.WhiteList;
-                _creditBlackList = mallTask.BlackList;
-
-                NotifyOfPropertyChange(nameof(CreditShopping));
-                NotifyOfPropertyChange(nameof(CreditForceShoppingIfCreditFull));
-                NotifyOfPropertyChange(nameof(CreditFirstList));
-                NotifyOfPropertyChange(nameof(CreditBlackList));
+                SetAndNotify(ref _creditShopping, mallTask.Shopping, nameof(CreditShopping));
+                SetAndNotify(ref _creditForceShoppingIfCreditFull, mallTask.ShoppingIgnoreBlackListWhenFull, nameof(CreditForceShoppingIfCreditFull));
+                SetAndNotify(ref _creditFirstList, mallTask.FirstList, nameof(CreditFirstList));
+                SetAndNotify(ref _creditBlackList, mallTask.BlackList, nameof(CreditBlackList));
+                SetAndNotify(ref _creditOnlyBuyDiscount, mallTask.OnlyBuyDiscount, nameof(CreditOnlyBuyDiscount));
+                SetAndNotify(ref _creditReserveMaxCredit, mallTask.ReserveMaxCredit, nameof(CreditReserveMaxCredit));
+                SetAndNotify(ref _creditFightTaskEnabled, mallTask.CreditFight, nameof(CreditFightTaskEnabled));
+                SetAndNotify(ref _creditFightSelectFormation, mallTask.CreditFightFormation, nameof(CreditFightSelectFormation));
+                SetAndNotify(ref _lastCreditFightTaskTime, mallTask.CreditFightLastTime, nameof(LastCreditFightTaskTime));
+                SetAndNotify(ref _creditVisitFriendsEnabled, mallTask.VisitFriends, nameof(CreditVisitFriendsEnabled));
+                SetAndNotify(ref _creditVisitOnceADay, mallTask.VisitFriendsOnceADay, nameof(CreditVisitOnceADay));
+                SetAndNotify(ref _lastCreditVisitFriendsTime, mallTask.VisitFriendsLastTime, nameof(LastCreditVisitFriendsTime));
             }
             else if (task is RoguelikeTask roguelikeTask)
             {
@@ -2801,7 +2804,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region 信用相关设置
 
-        private string _lastCreditFightTaskTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditFightTaskTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
+        private string _lastCreditFightTaskTime;
 
         public string LastCreditFightTaskTime
         {
@@ -2809,52 +2812,19 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _lastCreditFightTaskTime, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.LastCreditFightTaskTime, value);
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).CreditFightLastTime = value;
             }
         }
 
-        private bool _creditFightTaskEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightTaskEnabled, bool.FalseString));
+        private bool _creditFightTaskEnabled;
 
-        /// <summary>
-        /// Gets or sets a value indicating whether credit fight task is enabled.
-        /// </summary>
         public bool CreditFightTaskEnabled
         {
-            get
-            {
-                try
-                {
-                    if (DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(_lastCreditFightTaskTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
-                    {
-                        return _creditFightTaskEnabled;
-                    }
-                }
-                catch
-                {
-                    return _creditFightTaskEnabled;
-                }
-
-                return false;
-            }
-
+            get => _creditFightTaskEnabled;
             set
             {
                 SetAndNotify(ref _creditFightTaskEnabled, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CreditFightTaskEnabled, value.ToString());
-            }
-        }
-
-        public bool CreditFightTaskEnabledDisplay
-        {
-            get
-            {
-                return _creditFightTaskEnabled;
-            }
-
-            set
-            {
-                SetAndNotify(ref _creditFightTaskEnabled, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CreditFightTaskEnabled, value.ToString());
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).CreditFight = value;
             }
         }
 
@@ -2871,7 +2841,7 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = "4", Value = "4" },
             ];
 
-        private string _lastCreditVisitFriendsTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditVisitFriendsTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
+        private string _lastCreditVisitFriendsTime;
 
         public string LastCreditVisitFriendsTime
         {
@@ -2879,11 +2849,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _lastCreditVisitFriendsTime, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.LastCreditVisitFriendsTime, value);
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).VisitFriendsLastTime = value;
             }
         }
 
-        private bool _creditVisitOnceADay = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitOnceADay, bool.FalseString));
+        private bool _creditVisitOnceADay;
 
         /// <summary>
         /// Gets or sets a value indicating whether to bypass the daily limit.
@@ -2894,57 +2864,23 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditVisitOnceADay, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CreditVisitOnceADay, value.ToString());
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).VisitFriendsOnceADay = value;
             }
         }
 
-        private bool _creditVisitFriendsEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitFriendsEnabled, bool.TrueString));
+        private bool _creditVisitFriendsEnabled;
 
-        /// <summary>
-        /// Gets or sets a value indicating whether visiting friends task is enabled.
-        /// </summary>
         public bool CreditVisitFriendsEnabled
         {
-            get
-            {
-                if (!_creditVisitOnceADay)
-                {
-                    return _creditVisitFriendsEnabled;
-                }
-
-                try
-                {
-                    return DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(_lastCreditVisitFriendsTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture)
-                           && _creditVisitFriendsEnabled;
-                }
-                catch
-                {
-                    return _creditVisitFriendsEnabled;
-                }
-            }
-
+            get => _creditVisitFriendsEnabled;
             set
             {
                 SetAndNotify(ref _creditVisitFriendsEnabled, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CreditVisitFriendsEnabled, value.ToString());
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).VisitFriends = value;
             }
         }
 
-        public bool CreditVisitFriendsEnabledDisplay
-        {
-            get
-            {
-                return _creditVisitFriendsEnabled;
-            }
-
-            set
-            {
-                SetAndNotify(ref _creditVisitFriendsEnabled, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CreditVisitFriendsEnabled, value.ToString());
-            }
-        }
-
-        private int _creditFightSelectFormation = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightSelectFormation, "0"));
+        private int _creditFightSelectFormation;
 
         /// <summary>
         /// Gets or sets a value indicating which formation will be select in credit fight.
@@ -2955,7 +2891,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditFightSelectFormation, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CreditFightSelectFormation, value.ToString());
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).CreditFightFormation = value;
             }
         }
 
@@ -2970,12 +2906,9 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditShopping, value);
-                if (ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex] is MallTask task)
-                {
-                    task.Shopping = value;
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).Shopping = value;
                 }
             }
-        }
 
         private string _creditFirstList;
 
@@ -2988,12 +2921,9 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditFirstList, value);
-                if (ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex] is MallTask task)
-                {
-                    task.WhiteList = value;
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).FirstList = value;
                 }
             }
-        }
 
         private string _creditBlackList;
 
@@ -3006,12 +2936,9 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditBlackList, value);
-                if (ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex] is MallTask task)
-                {
-                    task.BlackList = value;
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).BlackList = value;
                 }
             }
-        }
 
         private bool _creditForceShoppingIfCreditFull;
 
@@ -3024,14 +2951,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditForceShoppingIfCreditFull, value);
-                if (ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex] is MallTask task)
-                {
-                    task.ShoppingWhenCreditFull = value;
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).ShoppingIgnoreBlackListWhenFull = value;
                 }
             }
-        }
 
-        private bool _creditOnlyBuyDiscount = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditOnlyBuyDiscount, bool.FalseString));
+        private bool _creditOnlyBuyDiscount;
 
         /// <summary>
         /// Gets or sets a value indicating whether only buy discount is enabled.
@@ -3042,11 +2966,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditOnlyBuyDiscount, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CreditOnlyBuyDiscount, value.ToString());
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).OnlyBuyDiscount = value;
             }
         }
 
-        private bool _creditReserveMaxCredit = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditReserveMaxCredit, bool.FalseString));
+        private bool _creditReserveMaxCredit;
 
         /// <summary>
         /// Gets or sets a value indicating whether reserve max credit is enabled.
@@ -3057,7 +2981,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditReserveMaxCredit, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CreditReserveMaxCredit, value.ToString());
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).ReserveMaxCredit = value;
             }
         }
 
