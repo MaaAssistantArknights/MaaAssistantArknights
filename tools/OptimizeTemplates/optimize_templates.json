@@ -2831,5 +2831,8 @@
     "YoStarJP/MallSiege": "e2f9bd3542705884495ae8e2bbd3e547eafcff48aa2a411532fad5d72442bb2f",
     "YoStarKR/GachaEnterSiege": "4610db7baea5d05d73532a7bde1bf722d91c565bd81e65ceb159cd997a3c2729",
     "YoStarKR/RecruitSiege": "a82f4a5a03c1e2f9aa77d83d21d352d3099f927bbf4585f3ed4d8bd68875d5d0",
-    "YoStarKR/MallSiege": "cb2d92747572ebad269cd760a1bfd74ad28448b91fbec043267e4cac46397227"
+    "YoStarKR/MallSiege": "cb2d92747572ebad269cd760a1bfd74ad28448b91fbec043267e4cac46397227",
+    "YoStarEN/GachaEnterSiege": "b54fcec1ff2168026ff8ec4048a9cad81d948c2395edb85dda85405516baee82",
+    "YoStarEN/RecruitSiege": "5281539bf3aad440c19c03cca4d30c0c08d971245e0658e464fab12017ca2ddf",
+    "YoStarEN/MallSiege": "495e497a1084bc2712402992d5162f956ca6cdef6f6575447da09291585715e1"
 }
