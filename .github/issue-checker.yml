@@ -563,6 +563,7 @@ comments:
     url_list:
       - hostname: ^(?:.+\.)?github\.com$
         pathname: ^/MaaAssistantArknights/
+      - hostname: ^(?:.+\.)?private-user-images.githubusercontent.com$
       - hostname: ^(?:.+\.)?maa\.plus$
       - hostname: ^(?:.+\.)?prts\.plus$
     content: "> [!warning]\n存在未确认的链接，请谨慎访问。\n\
