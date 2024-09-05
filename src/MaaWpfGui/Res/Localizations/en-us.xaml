@@ -18,6 +18,7 @@
     <system:String x:Key="HotKeySettings">HotKeys</system:String>
     <system:String x:Key="UpdateSettings">Update</system:String>
     <system:String x:Key="AboutUs">About us</system:String>
+    <system:String x:Key="MAAVersion">MAA Version</system:String>
     <system:String x:Key="CoreVersion">Core Version</system:String>
     <system:String x:Key="UiVersion">UI Version</system:String>
     <system:String x:Key="ResourceVersion">Resource Version</system:String>

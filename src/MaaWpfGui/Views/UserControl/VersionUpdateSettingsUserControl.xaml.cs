@@ -49,6 +49,11 @@ namespace MaaWpfGui.Views.UserControl
             Interval = new TimeSpan(0, 0, 6),
         };
 
+        private void MAAVersionClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboardAsync("UI Version: " + SettingsViewModel.UiVersion + "\nCore Version: " + SettingsViewModel.CoreVersion);
+        }
+
         private void CoreVersionClick(object sender, MouseButtonEventArgs e)
         {
             CopyToClipboardAsync("Core Version: " + SettingsViewModel.CoreVersion);
