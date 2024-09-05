@@ -15,7 +15,7 @@ let diff = false;
 let hasPngDiff = false;
 const listPerServer = {};
 const mainlandChina = Symbol("mainlandChina");
-for (const line of stdout.split(/\r*\n+/)) {
+for (const line of stdout.trim().split(/\r*\n+/)) {
     const [added, deleted, pathname] = line.split(/\s+/);
     const server = pathname.startsWith("resource/global/") ? pathname.split("/")[2] : mainlandChina;
     if (!Reflect.has(listPerServer, server)) {
