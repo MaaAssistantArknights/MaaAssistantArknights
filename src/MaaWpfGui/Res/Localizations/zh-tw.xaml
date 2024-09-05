@@ -18,6 +18,7 @@
     <system:String x:Key="HotKeySettings">熱鍵設定</system:String>
     <system:String x:Key="UpdateSettings">軟體更新</system:String>
     <system:String x:Key="AboutUs">關於我們</system:String>
+    <system:String x:Key="MAAVersion">MAA 版本號</system:String>
     <system:String x:Key="CoreVersion">Core 版本號</system:String>
     <system:String x:Key="UiVersion">UI 版本號</system:String>
     <system:String x:Key="ResourceVersion">資源版本號</system:String>

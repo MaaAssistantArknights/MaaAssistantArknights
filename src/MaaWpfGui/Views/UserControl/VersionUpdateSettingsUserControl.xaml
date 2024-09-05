@@ -122,15 +122,6 @@
                                 Text="{Binding ResourceVersion, Mode=OneWay}"
                                 TextWrapping="Wrap" />
                         </hc:Shield>
-                        <hc:Shield
-                            Margin="0,5"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            hc:FloatingBlock.Content="{Binding ResourceDateTimeLong}"
-                            PreviewMouseDown="ResourceVersionClick"
-                            Status="{Binding ResourceDateTimeLong, Mode=OneWay}"
-                            Subject="资源日期"
-                            Color="#6969AA" />
                         <Grid HorizontalAlignment="Center">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
@@ -139,13 +130,50 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition />
+                                <RowDefinition />
                             </Grid.RowDefinitions>
                             <Border
                                 Grid.Row="0"
                                 Grid.Column="0"
                                 Margin="0,5,0,5"
                                 Background="#555555"
-                                CornerRadius="3,0,0,3">
+                                CornerRadius="3,0,0,3"
+                                Visibility="{c:Binding 'UiVersion == CoreVersion'}">
+                                <TextBlock
+                                    Padding="5,3,5,3"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    hc:FloatingBlock.Content="{Binding UiVersion}"
+                                    Foreground="White"
+                                    PreviewMouseDown="MAAVersionClick"
+                                    Text="{DynamicResource MAAVersion}"
+                                    TextWrapping="Wrap" />
+                            </Border>
+                            <Border
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="0,5,0,5"
+                                Background="#6969AA"
+                                CornerRadius="0,3,3,0"
+                                Visibility="{c:Binding 'UiVersion == CoreVersion'}">
+                                <TextBlock
+                                    MinWidth="50"
+                                    Padding="5,3,5,3"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    hc:FloatingBlock.Content="{Binding UiVersion}"
+                                    Foreground="White"
+                                    PreviewMouseDown="MAAVersionClick"
+                                    Text="{Binding UiVersion, Mode=OneWay}"
+                                    TextWrapping="Wrap" />
+                            </Border>
+                            <Border
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Margin="0,5,0,5"
+                                Background="#555555"
+                                CornerRadius="3,0,0,3"
+                                Visibility="{c:Binding 'UiVersion != CoreVersion'}">
                                 <TextBlock
                                     Padding="5,3,5,3"
                                     HorizontalAlignment="Center"
@@ -157,11 +185,12 @@
                                     TextWrapping="Wrap" />
                             </Border>
                             <Border
-                                Grid.Row="0"
+                                Grid.Row="1"
                                 Grid.Column="1"
                                 Margin="0,5,0,5"
                                 Background="#6969AA"
-                                CornerRadius="0,3,3,0">
+                                CornerRadius="0,3,3,0"
+                                Visibility="{c:Binding 'UiVersion != CoreVersion'}">
                                 <TextBlock
                                     MinWidth="50"
                                     Padding="5,3,5,3"
@@ -174,6 +203,86 @@
                                     TextWrapping="Wrap" />
                             </Border>
                             <Border
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Margin="0,5,0,5"
+                                Background="#555555"
+                                CornerRadius="3,0,0,3"
+                                Visibility="{c:Binding 'UiVersion != CoreVersion'}">
+                                <TextBlock
+                                    Padding="5,3,5,3"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    hc:FloatingBlock.Content="{Binding CoreVersion}"
+                                    Foreground="White"
+                                    PreviewMouseDown="CoreVersionClick"
+                                    Text="{DynamicResource CoreVersion}"
+                                    TextWrapping="Wrap" />
+                            </Border>
+                            <Border
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Margin="0,5,0,5"
+                                Background="#6969AA"
+                                CornerRadius="0,3,3,0"
+                                Visibility="{c:Binding 'UiVersion != CoreVersion'}">
+                                <TextBlock
+                                    MinWidth="50"
+                                    Padding="5,3,5,3"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    hc:FloatingBlock.Content="{Binding CoreVersion}"
+                                    Foreground="White"
+                                    PreviewMouseDown="CoreVersionClick"
+                                    Text="{Binding CoreVersion, Mode=OneWay}"
+                                    TextWrapping="Wrap" />
+                            </Border>
+                        </Grid>
+
+                        <Grid HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Border
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Margin="0,5,0,5"
+                                Background="#555555"
+                                CornerRadius="3,0,0,3">
+                                <TextBlock
+                                    Padding="5,3,5,3"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    hc:FloatingBlock.Content="{Binding ResourceDateTimeLong}"
+                                    Foreground="White"
+                                    PreviewMouseDown="ResourceVersionClick"
+                                    Text="资源日期"
+                                    TextWrapping="Wrap" />
+                            </Border>
+                            <Border
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="0,5,0,5"
+                                Background="#6969AA"
+                                CornerRadius="0,3,3,0">
+                                <TextBlock
+                                    MinWidth="50"
+                                    Padding="5,3,5,3"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    hc:FloatingBlock.Content="{Binding ResourceDateTimeLong}"
+                                    Foreground="White"
+                                    PreviewMouseDown="ResourceVersionClick"
+                                    Text="{Binding ResourceDateTimeLong, Mode=OneWay}"
+                                    TextWrapping="Wrap" />
+                            </Border>
+                            <Border
                                 Grid.Row="1"
                                 Grid.Column="0"
                                 Margin="0,5,0,5"
@@ -183,10 +292,10 @@
                                     Padding="5,3,5,3"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    hc:FloatingBlock.Content="{Binding CoreVersion}"
+                                    hc:FloatingBlock.Content="{Binding BuildDateTimeLong}"
                                     Foreground="White"
                                     PreviewMouseDown="CoreVersionClick"
-                                    Text="{DynamicResource CoreVersion}"
+                                    Text="构建日期"
                                     TextWrapping="Wrap" />
                             </Border>
                             <Border
@@ -200,22 +309,13 @@
                                     Padding="5,3,5,3"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
-                                    hc:FloatingBlock.Content="{Binding CoreVersion}"
+                                    hc:FloatingBlock.Content="{Binding BuildDateTimeLong}"
                                     Foreground="White"
                                     PreviewMouseDown="CoreVersionClick"
-                                    Text="{Binding CoreVersion, Mode=OneWay}"
+                                    Text="{Binding BuildDateTimeLong, Mode=OneWay}"
                                     TextWrapping="Wrap" />
                             </Border>
                         </Grid>
-                        <hc:Shield
-                            Margin="0,5"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            hc:FloatingBlock.Content="{Binding BuildDateTimeLong}"
-                            PreviewMouseDown="CoreVersionClick"
-                            Status="{Binding BuildDateTimeLong, Mode=OneWay}"
-                            Subject="构建日期"
-                            Color="#6969AA" />
                     </StackPanel>
                     <StackPanel
                         Grid.Row="3"
