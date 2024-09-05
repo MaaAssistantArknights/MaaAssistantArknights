@@ -3636,11 +3636,9 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public static string UiVersion { get; } = _uiVersion == "0.0.1" ? "DEBUG VERSION" : _uiVersion;
 
-        private static readonly DateTime _buildDateTime = Assembly.GetExecutingAssembly().GetCustomAttribute<BuildDateTimeAttribute>()?.BuildDateTime ?? DateTime.MinValue;
+        public static DateTime BuildDateTime { get; } = Assembly.GetExecutingAssembly().GetCustomAttribute<BuildDateTimeAttribute>()?.BuildDateTime ?? DateTime.MinValue;
 
-        public static DateTime BuildDateTime => _buildDateTime.ToLocalTime();
-
-        public static string BuildDateTimeLong => BuildDateTime.ToString("yyyy-MM-dd HH:mm");
+        public static string BuildDateTimeCurrentCultureString => BuildDateTime.ToLocalTimeString();
 
         private static (DateTime DateTime, string VersionName) _resourceInfo = GetResourceVersionByClientType(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty));
 
@@ -3663,7 +3661,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _resourceDateTime, value);
         }
 
-        public string ResourceDateTimeLong => ResourceDateTime.ToString("yyyy-MM-dd HH:mm");
+        public string ResourceDateTimeCurrentCultureString => ResourceDateTime.ToLocalTimeString();
 
         private static (DateTime DateTime, string VersionName) GetResourceVersionByClientType(string clientType)
         {
