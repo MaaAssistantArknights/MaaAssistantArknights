@@ -52,6 +52,8 @@ namespace asst
         virtual bool check_in_battle(const cv::Mat& reusable = cv::Mat(), bool weak = true);
         virtual bool wait_until_start(bool weak = true);
         bool wait_until_end(bool weak = true);
+        bool click_location(const Point& location);
+        bool click_coordinate(const Point& location);
         bool use_all_ready_skill(const cv::Mat& reusable = cv::Mat());
         bool check_and_use_skill(const std::string& name, bool& has_error, const cv::Mat& reusable = cv::Mat());
         bool check_and_use_skill(const Point& loc, bool& has_error, const cv::Mat& reusable = cv::Mat());

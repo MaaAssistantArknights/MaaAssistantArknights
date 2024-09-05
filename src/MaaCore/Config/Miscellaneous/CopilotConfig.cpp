@@ -169,6 +169,18 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
             { "摆完挂机", ActionType::SkillDaemon },
             { "开摆", ActionType::SkillDaemon },
 
+            { "ClickLocation", ActionType::ClickLocation },
+            { "clicklocation", ActionType::ClickLocation },
+            { "CLICKLOCATION", ActionType::ClickLocation },
+            { "Clicklocation", ActionType::ClickLocation },
+            { "点击地图坐标", ActionType::ClickLocation },
+
+            { "ClickCoordinate", ActionType::ClickCoordinate },
+            { "clickcoordinate", ActionType::ClickCoordinate },
+            { "CLICKCOORDINATE", ActionType::ClickCoordinate },
+            { "Clickcoordinate", ActionType::ClickCoordinate },
+            { "点击像素坐标", ActionType::ClickCoordinate },
+
             { "MoveCamera", ActionType::MoveCamera },
             { "movecamera", ActionType::MoveCamera },
             { "MOVECAMERA", ActionType::MoveCamera },

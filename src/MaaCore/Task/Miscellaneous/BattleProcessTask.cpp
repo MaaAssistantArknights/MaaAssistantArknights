@@ -237,6 +237,14 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
     case ActionType::SkillDaemon:
         ret = wait_until_end();
         break;
+
+    case ActionType::ClickLocation:
+        ret = click_location(location);
+        break;
+
+    case ActionType::ClickCoordinate:
+        ret = click_coordinate(location);
+        break;
     default:
         ret = do_derived_action(action, index);
         break;
@@ -264,6 +272,8 @@ void asst::BattleProcessTask::notify_action(const battle::copilot::Action& actio
         { ActionType::UseSkill, "UseSkill" },
         { ActionType::Retreat, "Retreat" },
         { ActionType::SkillDaemon, "SkillDaemon" },
+        { ActionType::ClickLocation, "ClickLocation" },
+        { ActionType::ClickCoordinate, "ClickCoordinate" },
         { ActionType::SwitchSpeed, "SwitchSpeed" },
         { ActionType::SkillUsage, "SkillUsage" },
         { ActionType::BulletTime, "BulletTime" },

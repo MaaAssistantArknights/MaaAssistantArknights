@@ -573,6 +573,34 @@ bool asst::BattleHelper::wait_until_end(bool weak)
     return true;
 }
 
+bool asst::BattleHelper::click_location(const Point& location)
+{
+    LogTraceFunction;
+
+    auto target_iter = m_normal_tile_info.find(location);
+    if (target_iter == m_normal_tile_info.end()) {
+        Log.error("Can't find this location in this map", location);
+        return false;
+    }
+    const Point& target_point = target_iter->second.pos;
+    m_inst_helper.ctrler()->click(target_point);
+
+    return true;
+}
+
+bool asst::BattleHelper::click_coordinate(const Point& location)
+{
+    LogTraceFunction;
+
+    if (location.x > 1280 || location.x < 0 || location.y > 720 || location.y < 0) {
+        Log.error("This coordinate is outside the screen", location);
+        return false;
+    }
+    m_inst_helper.ctrler()->click(location);
+
+    return true;
+}
+
 bool asst::BattleHelper::do_strategic_action(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
