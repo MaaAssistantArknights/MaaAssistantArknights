@@ -18,7 +18,7 @@
     <system:String x:Key="HotKeySettings">단축키 설정</system:String>
     <system:String x:Key="UpdateSettings">업데이트</system:String>
     <system:String x:Key="AboutUs">정보</system:String>
-    <system:String x:Key="MAAVersion">MAA 버전</system:String>
+    <system:String x:Key="MaaVersion">MAA 버전</system:String>
     <system:String x:Key="CoreVersion">Core 버전</system:String>
     <system:String x:Key="UiVersion">UI 버전</system:String>
     <system:String x:Key="ResourceVersion">Resource 버전</system:String>

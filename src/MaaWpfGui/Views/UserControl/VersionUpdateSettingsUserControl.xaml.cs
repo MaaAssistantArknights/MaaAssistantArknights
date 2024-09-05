@@ -49,9 +49,9 @@ namespace MaaWpfGui.Views.UserControl
             Interval = new TimeSpan(0, 0, 6),
         };
 
-        private void MAAVersionClick(object sender, MouseButtonEventArgs e)
+        private void MaaVersionClick(object sender, MouseButtonEventArgs e)
         {
-            CopyToClipboardAsync("UI Version: " + SettingsViewModel.UiVersion + "\nCore Version: " + SettingsViewModel.CoreVersion);
+            CopyToClipboardAsync($"UI Version: {SettingsViewModel.UiVersion}\nCore Version: {SettingsViewModel.CoreVersion}\nBuild Time: {SettingsViewModel.BuildDateTimeCurrentCultureString}");
         }
 
         private void CoreVersionClick(object sender, MouseButtonEventArgs e)
@@ -67,7 +67,7 @@ namespace MaaWpfGui.Views.UserControl
 
         private void ResourceVersionClick(object sender, MouseButtonEventArgs e)
         {
-            CopyToClipboardAsync("Resource Version: " + Instances.SettingsViewModel.ResourceVersion);
+            CopyToClipboardAsync($"Resource Version: {Instances.SettingsViewModel.ResourceVersion}\nResource Time: {Instances.SettingsViewModel.ResourceDateTimeCurrentCultureString}");
         }
 
         private static void CopyToClipboardAsync(string text)

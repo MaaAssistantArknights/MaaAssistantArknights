@@ -145,8 +145,8 @@
                                     VerticalAlignment="Center"
                                     hc:FloatingBlock.Content="{Binding UiVersion}"
                                     Foreground="White"
-                                    PreviewMouseDown="MAAVersionClick"
-                                    Text="{DynamicResource MAAVersion}"
+                                    PreviewMouseDown="MaaVersionClick"
+                                    Text="{DynamicResource MaaVersion}"
                                     TextWrapping="Wrap" />
                             </Border>
                             <Border
@@ -163,7 +163,7 @@
                                     VerticalAlignment="Center"
                                     hc:FloatingBlock.Content="{Binding UiVersion}"
                                     Foreground="White"
-                                    PreviewMouseDown="MAAVersionClick"
+                                    PreviewMouseDown="MaaVersionClick"
                                     Text="{Binding UiVersion, Mode=OneWay}"
                                     TextWrapping="Wrap" />
                             </Border>
@@ -259,7 +259,7 @@
                                     Padding="5,3,5,3"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    hc:FloatingBlock.Content="{Binding ResourceDateTimeLong}"
+                                    hc:FloatingBlock.Content="{Binding ResourceDateTimeCurrentCultureString}"
                                     Foreground="White"
                                     PreviewMouseDown="ResourceVersionClick"
                                     Text="资源日期"
@@ -276,10 +276,10 @@
                                     Padding="5,3,5,3"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
-                                    hc:FloatingBlock.Content="{Binding ResourceDateTimeLong}"
+                                    hc:FloatingBlock.Content="{Binding ResourceDateTimeCurrentCultureString}"
                                     Foreground="White"
                                     PreviewMouseDown="ResourceVersionClick"
-                                    Text="{Binding ResourceDateTimeLong, Mode=OneWay}"
+                                    Text="{Binding ResourceDateTimeCurrentCultureString, Mode=OneWay}"
                                     TextWrapping="Wrap" />
                             </Border>
                             <Border
@@ -294,7 +294,7 @@
                                     VerticalAlignment="Center"
                                     hc:FloatingBlock.Content="{Binding BuildDateTimeCurrentCultureString}"
                                     Foreground="White"
-                                    PreviewMouseDown="CoreVersionClick"
+                                    PreviewMouseDown="MaaVersionClick"
                                     Text="构建日期"
                                     TextWrapping="Wrap" />
                             </Border>
@@ -311,7 +311,7 @@
                                     VerticalAlignment="Center"
                                     hc:FloatingBlock.Content="{Binding BuildDateTimeCurrentCultureString}"
                                     Foreground="White"
-                                    PreviewMouseDown="CoreVersionClick"
+                                    PreviewMouseDown="MaaVersionClick"
                                     Text="{Binding BuildDateTimeCurrentCultureString, Mode=OneWay}"
                                     TextWrapping="Wrap" />
                             </Border>
