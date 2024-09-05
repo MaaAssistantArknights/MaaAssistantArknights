@@ -3638,7 +3638,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static readonly DateTime _buildDateTime = Assembly.GetExecutingAssembly().GetCustomAttribute<BuildDateTimeAttribute>()?.BuildDateTime ?? DateTime.MinValue;
 
-        public DateTime BuildDateTime { get; } = _buildDateTime;
+        public static DateTime BuildDateTime => _buildDateTime.ToLocalTime();
+
+        public static string BuildDateTimeLong => BuildDateTime.ToString("yyyy-MM-dd HH:mm");
 
         private static (DateTime DateTime, string VersionName) _resourceInfo = GetResourceVersionByClientType(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty));
 
@@ -3660,6 +3662,8 @@ namespace MaaWpfGui.ViewModels.UI
             get => _resourceDateTime;
             set => SetAndNotify(ref _resourceDateTime, value);
         }
+
+        public string ResourceDateTimeLong => ResourceDateTime.ToString("yyyy-MM-dd HH:mm");
 
         private static (DateTime DateTime, string VersionName) GetResourceVersionByClientType(string clientType)
         {
@@ -4629,7 +4633,7 @@ namespace MaaWpfGui.ViewModels.UI
                 ? LocalizationHelper.DefaultLanguage switch
                 {
                     "en-us" => $" - {ResourceDateTime:dd/MM} {ResourceVersion}",
-                    _ => $" - {ResourceVersion}{ResourceDateTime:#ddMM}",
+                    _ => $" - {ResourceVersion}{ResourceDateTime:#MMdd}",
                 }
                 : string.Empty;
             rvm.WindowTitle = $"{prefix}MAA{currentConfiguration} - {CoreVersion}{resourceVersion}{connectConfigName}{connectAddress}{clientName}";
