@@ -12,11 +12,12 @@
 // </copyright>
 
 #nullable enable
+using System;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 using MaaWpfGui.Configuration;
 using MaaWpfGui.Configuration.MaaTask;
-using MaaWpfGui.Helper;
+using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.Models
 {
@@ -24,116 +25,59 @@ namespace MaaWpfGui.Models
     {
         public class StartUpTask : BaseTask
         {
-            public StartUpTask()
-            {
-                TaskType = TaskType.StartUp;
-            }
         }
 
         public class CloseDownTask : BaseTask
         {
-            public CloseDownTask()
-            {
-                TaskType = TaskType.CloseDown;
-            }
         }
 
         public class FightTask : BaseTask
         {
-            public FightTask()
-            {
-                TaskType = TaskType.Fight;
-            }
         }
 
         public class InfrastTask : BaseTask
         {
-            public InfrastTask()
-            {
-                TaskType = TaskType.Infrast;
-            }
         }
 
         public class RecruitTask : BaseTask
         {
-            public RecruitTask()
-            {
-                TaskType = TaskType.Recruit;
-            }
         }
 
         public class RoguelikeTask : BaseTask
         {
-            public RoguelikeTask()
-            {
-                TaskType = TaskType.Roguelike;
-            }
-
             public string Theme { get; set; } = "Sami";
         }
 
         public class CopilotTask : BaseTask
         {
-            public CopilotTask()
-            {
-                TaskType = TaskType.Copilot;
-            }
         }
 
         public class SSSCopilotTask : BaseTask
         {
-            public SSSCopilotTask()
-            {
-                TaskType = TaskType.SSSCopilot;
-            }
         }
 
         public class SingleStepTask : BaseTask
         {
-            public SingleStepTask()
-            {
-                TaskType = TaskType.SingleStep;
-            }
         }
 
         public class VideoRecognition : BaseTask
         {
-            public VideoRecognition()
-            {
-                TaskType = TaskType.VideoRecognition;
-            }
         }
 
         public class DepotTask : BaseTask
         {
-            public DepotTask()
-            {
-                TaskType = TaskType.Depot;
-            }
         }
 
         public class OperBoxTask : BaseTask
         {
-            public OperBoxTask()
-            {
-                TaskType = TaskType.OperBox;
-            }
         }
 
         public class ReclamationTask : BaseTask
         {
-            public ReclamationTask()
-            {
-                TaskType = TaskType.Reclamation;
-            }
         }
 
         public class CustomTask : BaseTask
         {
-            public CustomTask()
-            {
-                TaskType = TaskType.Custom;
-            }
         }
 
         [JsonDerivedType(typeof(StartUpTask), typeDiscriminator: "StartUpTask")]
@@ -160,7 +104,11 @@ namespace MaaWpfGui.Models
 
             public bool? IsEnable { get; set; } = false;
 
-            public TaskType TaskType { get; set; }
+            // public TaskType TaskType { get; set; }
+            public virtual JObject SerializeJsonTask()
+            {
+                throw new NotImplementedException();
+            }
 
             // ReSharper disable once UnusedMember.Global
             public void OnPropertyChanged(string propertyName, object before, object after)
