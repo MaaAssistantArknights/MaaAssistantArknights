@@ -38,6 +38,10 @@ body:
         UI Version: 
         Core Version: 
         MuMu 版本号:
+        或
+        Resource Version:
+        MAA Version:
+        MuMu 版本号:
     validations:
       required: true
   - type: textarea

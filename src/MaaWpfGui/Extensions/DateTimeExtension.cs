@@ -11,9 +11,11 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 
@@ -25,7 +27,7 @@ namespace MaaWpfGui.Extensions
 
         private static string ClientType => ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty);
 
-        private static readonly Dictionary<string, int> _clientTypeTimezone = new Dictionary<string, int>
+        private static readonly Dictionary<string, int> _clientTypeTimezone = new()
         {
             { string.Empty, 8 },
             { "Official", 8 },
@@ -54,6 +56,15 @@ namespace MaaWpfGui.Extensions
         public static bool IsAprilFoolsDay(this DateTime dt)
         {
             return dt is { Month: 4, Day: 1 };
+        }
+
+        public static CultureInfo CustomCultureInfo => LocalizationHelper.CustomCultureInfo;
+
+        public static string ToLocalTimeString(this DateTime dt, string? format = null)
+        {
+            return string.IsNullOrEmpty(format)
+                ? dt.ToLocalTime().ToString($"{CustomCultureInfo.DateTimeFormat.ShortDatePattern} HH:mm:ss", CustomCultureInfo)
+                : dt.ToLocalTime().ToString(format, CustomCultureInfo);
         }
 
         public static DateTime ToDateTime(this System.Runtime.InteropServices.ComTypes.FILETIME filetime)

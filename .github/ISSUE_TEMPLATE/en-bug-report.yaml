@@ -48,6 +48,9 @@ body:
         Resource Version:
         UI Version:
         Core Version:
+        OR
+        Resource Version:
+        MAA Version:
     validations:
       required: true
   - type: textarea
