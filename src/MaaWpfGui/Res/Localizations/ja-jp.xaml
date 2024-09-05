@@ -222,7 +222,7 @@
 4. 内部テスト版の更新方法を非開発ユーザーに共有しないでください。不要な混乱とリスクを避けるためです。
 
 設定 - About us - フィードバックのリンクをクリックして、このポップアップをキャンセルできます。ご理解とご協力をお願いいたします！</system:String>
-    <system:String x:Key="UpdateCheck">Update version</system:String>
+    <system:String x:Key="UpdateCheck">更新バージョン</system:String>
     <system:String x:Key="DownloadWithAria2">aria2を使う</system:String>
     <system:String x:Key="UpdateCheckNow">アップデートを確認する</system:String>
     <system:String x:Key="ShowChangelog">変更履歴</system:String>

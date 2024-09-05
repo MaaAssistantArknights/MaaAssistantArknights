@@ -3636,7 +3636,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the UI version.
         /// </summary>
-        public static string UiVersion { get; } = _uiVersion == "0.0.1" ? "v5.6.0-beta.2.d035.g773a5ceff" : _uiVersion;
+        public static string UiVersion { get; } = _uiVersion == "0.0.1" ? "DEBUG VERSION" : _uiVersion;
 
         public static string UiVersionDisplay => string.Join("\u200B", UiVersion.ToCharArray());
 

@@ -25,7 +25,7 @@
             TextAlignment="Center" />
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
@@ -59,19 +59,16 @@
                         VerticalAlignment="Center"
                         Content="{DynamicResource AutoInstallUpdatePackage}"
                         IsChecked="{Binding AutoInstallUpdatePackage}" />
-                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                        <controls:TextBlock
-                            Margin="10,10,0,10"
-                            Block.TextAlignment="Center"
-                            Text="{DynamicResource UpdateCheck}" />
-                        <ComboBox
-                            Width="120"
-                            Margin="10"
-                            DisplayMemberPath="Display"
-                            ItemsSource="{Binding VersionTypeList}"
-                            SelectedValue="{Binding VersionType}"
-                            SelectedValuePath="Value" />
-                    </StackPanel>
+                    <hc:ComboBox
+                        Width="150"
+                        Margin="10"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        hc:TitleElement.Title="{DynamicResource UpdateCheck}"
+                        DisplayMemberPath="Display"
+                        ItemsSource="{Binding VersionTypeList}"
+                        SelectedValue="{Binding VersionType}"
+                        SelectedValuePath="Value" />
                 </StackPanel>
             </StackPanel>
             <StackPanel
