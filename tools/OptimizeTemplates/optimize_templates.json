@@ -2825,5 +2825,11 @@
     "official/MallDelicious": "439977d8a757819e01b01787a7f20a9f574dc052d6145b898b88558b6178be97",
     "official/GachaEnterDelicious": "adb8455d443fdc941a2d04c76e8d24843d5322230726626338815d1977b7598d",
     "official/TaskDelicious": "7b53ca96e6dd8c53cccdf844a5fecb099b8bac9f40ad27feeefad9e4a1a779ac",
-    "official/DepotEnterDelicious": "a9b4cab187f1f2dbb1f896587361f3a89f8c16ad19ccdf9f685afa454b41d131"
+    "official/DepotEnterDelicious": "a9b4cab187f1f2dbb1f896587361f3a89f8c16ad19ccdf9f685afa454b41d131",
+    "YoStarJP/GachaEnterSiege": "91dd45e6a1081dc253aef85352891d123d27e324705d2fb8621b32e1cf646226",
+    "YoStarJP/RecruitSiege": "ff215aad2f85328a0a76ad1c23492c2d632d8225a22cdad64ddd7b3dd17a45c9",
+    "YoStarJP/MallSiege": "e2f9bd3542705884495ae8e2bbd3e547eafcff48aa2a411532fad5d72442bb2f",
+    "YoStarKR/GachaEnterSiege": "4610db7baea5d05d73532a7bde1bf722d91c565bd81e65ceb159cd997a3c2729",
+    "YoStarKR/RecruitSiege": "a82f4a5a03c1e2f9aa77d83d21d352d3099f927bbf4585f3ed4d8bd68875d5d0",
+    "YoStarKR/MallSiege": "cb2d92747572ebad269cd760a1bfd74ad28448b91fbec043267e4cac46397227"
 }
