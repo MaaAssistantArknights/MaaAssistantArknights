@@ -292,7 +292,7 @@
                                     Padding="5,3,5,3"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    hc:FloatingBlock.Content="{Binding BuildDateTimeLong}"
+                                    hc:FloatingBlock.Content="{Binding BuildDateTimeCurrentCultureString}"
                                     Foreground="White"
                                     PreviewMouseDown="CoreVersionClick"
                                     Text="构建日期"
@@ -309,10 +309,10 @@
                                     Padding="5,3,5,3"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
-                                    hc:FloatingBlock.Content="{Binding BuildDateTimeLong}"
+                                    hc:FloatingBlock.Content="{Binding BuildDateTimeCurrentCultureString}"
                                     Foreground="White"
                                     PreviewMouseDown="CoreVersionClick"
-                                    Text="{Binding BuildDateTimeLong, Mode=OneWay}"
+                                    Text="{Binding BuildDateTimeCurrentCultureString, Mode=OneWay}"
                                     TextWrapping="Wrap" />
                             </Border>
                         </Grid>
