@@ -52,6 +52,8 @@ namespace MaaWpfGui.Constants
         public const string Cheers = "GUI.Cheers";
         public const string Hangover = "GUI.Hangover";
         public const string LastBuyWineTime = "GUI.LastBuyWineTime";
+        public const string DateTimeShortDatePattern = "GUI.DateTimeShortDatePattern";
+        public const string DateTimeLongTimePattern = "GUI.DateTimeLongTimePattern";
 
         public const string AddressHistory = "Connect.AddressHistory";
         public const string AutoDetect = "Connect.AutoDetect";
