@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 
@@ -57,33 +58,28 @@ namespace MaaWpfGui.Extensions
             return dt is { Month: 4, Day: 1 };
         }
 
-        public static string DateTimeShortDatePattern => ConfigurationHelper.GetGlobalValue(ConfigurationKeys.DateTimeShortDatePattern, string.Empty);
-
-        public static string DateTimeLongTimePattern => ConfigurationHelper.GetGlobalValue(ConfigurationKeys.DateTimeLongTimePattern, string.Empty);
-
-        public static string ToLocalTimeString(this DateTime dt, string? format = null, string? shortDatePattern = null, string? longTimePattern = null)
+        public static CultureInfo CustomCulture
         {
-            if (!string.IsNullOrEmpty(format))
+            get
             {
-                return dt.ToLocalTime().ToString(format, CultureInfo.CurrentCulture);
-            }
+                string cultureName = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.CustomCulture, string.Empty);
+                if (string.IsNullOrEmpty(cultureName))
+                {
+                    return CultureInfo.CurrentCulture;
+                }
 
-            if (string.IsNullOrEmpty(shortDatePattern))
-            {
-                shortDatePattern = !string.IsNullOrEmpty(DateTimeShortDatePattern)
-                    ? DateTimeShortDatePattern
-                    : CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
+                return CultureInfo.GetCultures(CultureTypes.AllCultures)
+                    .Any(c => c.Name.Equals(cultureName, StringComparison.OrdinalIgnoreCase))
+                    ? new CultureInfo(cultureName)
+                    : CultureInfo.CurrentCulture;
             }
+        }
 
-            if (string.IsNullOrEmpty(longTimePattern))
-            {
-                longTimePattern = !string.IsNullOrEmpty(DateTimeLongTimePattern)
-                    ? DateTimeLongTimePattern
-                    : "HH:mm:ss";
-            }
-
-            format = $"{shortDatePattern} {longTimePattern}";
-            return dt.ToLocalTime().ToString(format, CultureInfo.CurrentCulture);
+        public static string ToLocalTimeString(this DateTime dt, string? format = null)
+        {
+            return string.IsNullOrEmpty(format)
+                ? dt.ToLocalTime().ToString(CustomCulture)
+                : dt.ToLocalTime().ToString(format, CustomCulture);
         }
 
         public static DateTime ToDateTime(this System.Runtime.InteropServices.ComTypes.FILETIME filetime)
