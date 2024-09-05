@@ -119,10 +119,10 @@ namespace MaaWpfGui.ViewModels.UI
             if (actions.BackToAndroidHome)
             {
                 Instances.AsstProxy.AsstBackToHome();
-
                 await Task.Delay(1000);
             }
-            else if (actions.ExitArknights)
+
+            if (actions.ExitArknights)
             {
                 var mode = Instances.SettingsViewModel.ClientType;
                 if (!Instances.AsstProxy.AsstStartCloseDown(mode))
@@ -136,11 +136,10 @@ namespace MaaWpfGui.ViewModels.UI
             if (actions.ExitEmulator)
             {
                 DoKillEmulator();
-
                 await Task.Delay(1000);
             }
 
-            if (actions.ExitSelf && !(actions.Hibernate || actions.Shutdown))
+            if (actions.ExitSelf && !(actions.Hibernate || actions.Shutdown || actions.Sleep))
             {
                 Bootstrapper.Shutdown();
             }
@@ -153,12 +152,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
                 else
                 {
-                    DoHibernate();
-                }
-
-                if (actions.ExitSelf)
-                {
-                    Bootstrapper.Shutdown();
+                    await DoHibernate();
                 }
             }
 
@@ -170,8 +164,25 @@ namespace MaaWpfGui.ViewModels.UI
                 }
                 else
                 {
-                    DoShutDown();
+                    await DoShutDown();
                 }
+            }
+
+            if (actions.Sleep)
+            {
+                if (actions.IfNoOtherMaa && HasOtherMaa())
+                {
+                    Bootstrapper.Shutdown();
+                }
+                else
+                {
+                    await DoSleep();
+                }
+            }
+
+            if (actions.ExitSelf)
+            {
+                Bootstrapper.Shutdown();
             }
 
             actions.LoadPostActions();
@@ -179,7 +190,9 @@ namespace MaaWpfGui.ViewModels.UI
 
             bool HasOtherMaa()
             {
-                return Process.GetProcessesByName("MAA").Length > 1;
+                var processesCount = Process.GetProcessesByName("MAA").Length;
+                _logger.Information($"MAA processes count: {processesCount}");
+                return processesCount > 1;
             }
 
             void DoKillEmulator()
@@ -190,44 +203,41 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            void DoHibernate()
+            async Task DoHibernate()
             {
                 actions.LoadPostActions();
 
                 // 休眠提示
                 AddLog(LocalizationHelper.GetString("HibernatePrompt"), UiLogColor.Error);
-
-                /*
-                // 休眠不能加时间参数，https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1133
-                Process.Start("shutdown.exe", "-h");
-                */
+                await Task.Delay(10000);
                 PowerManagement.Hibernate();
             }
 
-            async void DoShutDown()
+            async Task DoShutDown()
             {
-                /*
-                Process.Start("shutdown.exe", "-s -t 60");
+                Process.Start("shutdown.exe", "-s -t 70");
 
-                // 关机询问
-                var shutdownResult = MessageBoxHelper.Show(LocalizationHelper.GetString("AboutToShutdown"), LocalizationHelper.GetString("ShutdownPrompt"), MessageBoxButton.OK, MessageBoxImage.Question, ok: LocalizationHelper.GetString("Cancel"));
-                if (shutdownResult == MessageBoxResult.OK)
-                {
-                    Process.Start("shutdown.exe", "-a");
-                }
-                */
                 if (await TimerCanceledAsync(
                         LocalizationHelper.GetString("Shutdown"),
                         LocalizationHelper.GetString("AboutToShutdown"),
                         LocalizationHelper.GetString("Cancel"),
                         60))
                 {
+                    Process.Start("shutdown.exe", "-a");
                     return;
                 }
 
-                Bootstrapper.Release();
-                PowerManagement.Shutdown();
                 Bootstrapper.Shutdown();
+            }
+
+            async Task DoSleep()
+            {
+                actions.LoadPostActions();
+
+                // 休眠提示
+                AddLog(LocalizationHelper.GetString("SleepPrompt"), UiLogColor.Error);
+                await Task.Delay(10000);
+                PowerManagement.Sleep();
             }
         }
 
@@ -1033,8 +1043,6 @@ namespace MaaWpfGui.ViewModels.UI
 
             _runningState.SetIdle(false);
 
-            Instances.SettingsViewModel.SetupSleepManagement();
-
             // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
             TaskItemSelectionChanged();
             Instances.SettingsViewModel.InfrastOrderSelectionChanged();
@@ -1043,22 +1051,31 @@ namespace MaaWpfGui.ViewModels.UI
 
             ClearLog();
 
+            var buildDateTimeLong = SettingsViewModel.BuildDateTimeCurrentCultureString;
+            var resourceDateTimeLong = Instances.SettingsViewModel.ResourceDateTimeCurrentCultureString;
+            AddLog($"Build Time:\n{buildDateTimeLong}\nResource Time:\n{resourceDateTimeLong}");
+
             var uiVersion = SettingsViewModel.UiVersion;
             var coreVersion = SettingsViewModel.CoreVersion;
             if (uiVersion != coreVersion &&
                 Instances.VersionUpdateViewModel.IsStdVersion(uiVersion) &&
                 Instances.VersionUpdateViewModel.IsStdVersion(coreVersion))
             {
-                AddLog(string.Format(LocalizationHelper.GetString("VersionMismatch"), uiVersion, coreVersion), UiLogColor.Warning);
+                AddLog(string.Format(LocalizationHelper.GetString("VersionMismatch"), uiVersion, coreVersion), UiLogColor.Error);
+                return;
             }
 
             await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript"));
 
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
+
+            /*
+            // 现在的主流模拟器都已经更新过自带的 adb 了，不再需要替换
             if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
             {
                 AddLog(LocalizationHelper.GetString("AdbReplacementTips"), UiLogColor.Info);
             }
+            */
 
             // 一般是点了“停止”按钮了
             if (Stopping)
@@ -1269,10 +1286,14 @@ namespace MaaWpfGui.ViewModels.UI
             await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript"));
 
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
+
+            /*
+            // 现在的主流模拟器都已经更新过自带的 adb 了，不再需要替换
             if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
             {
                 AddLog(LocalizationHelper.GetString("AdbReplacementTips"), UiLogColor.Info);
             }
+            */
 
             // 一般是点了“停止”按钮了
             if (Stopping)
@@ -2813,7 +2834,10 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public void ResetFightVariables()
         {
-            UseStone = false;
+            if (UseMedicineWithNull == null)
+            {
+                UseStone = false;
+            }
 
             if (UseMedicineWithNull == null)
             {

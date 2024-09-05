@@ -18,9 +18,12 @@
     <system:String x:Key="HotKeySettings">ホットキー設定</system:String>
     <system:String x:Key="UpdateSettings">アップデート設定</system:String>
     <system:String x:Key="AboutUs">About us</system:String>
+    <system:String x:Key="MaaVersion">MAA バージョン</system:String>
+    <system:String x:Key="BuildDateTime">ビルド日付</system:String>
     <system:String x:Key="CoreVersion">Core バージョン</system:String>
     <system:String x:Key="UiVersion">UI バージョン</system:String>
     <system:String x:Key="ResourceVersion">リソースバーション</system:String>
+    <system:String x:Key="ResourceDateTime">リソース日付</system:String>
     <system:String x:Key="Off">シャットダウン</system:String>
     <system:String x:Key="ExternalNotificationTips">注:外部通知機能は現在、「すべてのタスクが完了しました」という通知のみを送信します。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
@@ -97,7 +100,6 @@
     <system:String x:Key="153Time3">153 3周/日</system:String>
     <system:String x:Key="243Time3">243 3周/日</system:String>
     <system:String x:Key="243Time4">243 4周/日</system:String>
-    <system:String x:Key="252Time3">252 3周/日</system:String>
     <system:String x:Key="333Time3">333 3周/日</system:String>
     <system:String x:Key="CustomInfrastFile">基地構成ファイルの指定</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">基地構成ファイルのパースエラー！</system:String>
@@ -220,7 +222,7 @@
 4. 内部テスト版の更新方法を非開発ユーザーに共有しないでください。不要な混乱とリスクを避けるためです。
 
 設定 - About us - フィードバックのリンクをクリックして、このポップアップをキャンセルできます。ご理解とご協力をお願いいたします！</system:String>
-    <system:String x:Key="UpdateCheck">Update version</system:String>
+    <system:String x:Key="UpdateCheck">更新バージョン</system:String>
     <system:String x:Key="DownloadWithAria2">aria2を使う</system:String>
     <system:String x:Key="UpdateCheckNow">アップデートを確認する</system:String>
     <system:String x:Key="ShowChangelog">変更履歴</system:String>
@@ -435,6 +437,8 @@
     <system:String x:Key="ExitSelf">MAAを終了する</system:String>
     <system:String x:Key="ExitEmulator">エミュレータを終了する</system:String>
     <system:String x:Key="Hibernate">休止状態にする</system:String>
+    <system:String x:Key="HibernateTip">Windows の電源オプションで休止状態を有効にする必要があります。そうしないと、この機能は無効になります。</system:String>
+    <system:String x:Key="Sleep">スリープ</system:String>
     <system:String x:Key="Shutdown">シャットダウン</system:String>
     <system:String x:Key="Once">1回のみ*</system:String>
     <system:String x:Key="PostActionOnceTip" xml:space="preserve">1回のみ実行するには、まず1回のみチェックしてください
@@ -511,6 +515,7 @@
     <system:String x:Key="AboutToShutdown">完了しました。シャットダウンしようとしています。キャンセルしますか？</system:String>
     <system:String x:Key="ShutdownPrompt">ヒント</system:String>
     <system:String x:Key="HibernatePrompt">完了しました。休止状態にしようとしています</system:String>
+    <system:String x:Key="SleepPrompt">完了しました、スリープ状態に入ります</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">未知の終了動作</system:String>
     <system:String x:Key="AnnihilationTaskTip">ステージ選択が殲滅任務になっています。任務終了後、残りの代替ステージが試されます。一部の戦闘設定は有効になりません。</system:String>
     <system:String x:Key="AnnihilationTaskFailed">殲滅戦に失敗、代替ステージを使用しますが、一部の戦闘設定が有効ではありません</system:String>

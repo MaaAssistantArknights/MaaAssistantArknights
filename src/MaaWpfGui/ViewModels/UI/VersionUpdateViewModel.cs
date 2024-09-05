@@ -222,26 +222,6 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            // 如果是 Framework48，把 MAA.exe 复制一份，重命名为 MAA_win7.exe
-            if (RuntimeInformation.FrameworkDescription.Contains("Framework"))
-            {
-                File.Copy(System.Windows.Forms.Application.ExecutablePath, Path.Combine(curDir, "MAA_win7.exe"), true);
-                const string CmdFileContent = "@echo off\r\nif exist MAA.exe (\r\n    ren MAA.exe MAA_v5.exe\r\n)\r\nstart \"\" .\\MAA_win7.exe";
-                File.WriteAllText("启动旧版.cmd", CmdFileContent);
-            }
-            else
-            {
-                if (File.Exists("MAA_win7.exe"))
-                {
-                    File.Delete("MAA_win7.exe");
-                }
-
-                if (File.Exists("启动旧版.cmd"))
-                {
-                    File.Delete("启动旧版.cmd");
-                }
-            }
-
             string removeListFile = Path.Combine(extractDir, "removelist.txt");
             if (File.Exists(removeListFile))
             {
@@ -538,7 +518,8 @@ namespace MaaWpfGui.ViewModels.UI
                         {
                             Process.Start(new ProcessStartInfo(UpdateUrl) { UseShellExecute = true });
                         }
-                    });
+                    }
+                );
                 _ = Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification((otaFound ? LocalizationHelper.GetString("NewVersionFoundTitle") : LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);

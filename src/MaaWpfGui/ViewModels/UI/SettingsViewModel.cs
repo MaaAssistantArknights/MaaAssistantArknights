@@ -33,13 +33,13 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using HandyControl.Controls;
 using HandyControl.Data;
-using HandyControl.Tools.Extension;
 using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
+using MaaWpfGui.Properties;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Notification;
@@ -1026,6 +1026,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _blockSleep, value);
+                SleepManagement.SetBlockSleep(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.BlockSleep, value.ToString());
             }
         }
@@ -1038,6 +1039,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _blockSleepWithScreenOn, value);
+                SleepManagement.SetBlockSleepWithScreenOn(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.BlockSleepWithScreenOn, value.ToString());
             }
         }
@@ -1482,7 +1484,9 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _clientType, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ClientType, value);
-                ResourceVersion = GetResourceVersionByClientType(_clientType);
+                _resourceInfo = GetResourceVersionByClientType(_clientType);
+                ResourceVersion = _resourceInfo.VersionName;
+                ResourceDateTime = _resourceInfo.DateTime;
                 UpdateWindowTitle(); // 每次修改客户端时更新WindowTitle
                 Instances.TaskQueueViewModel.UpdateStageList(true);
                 Instances.TaskQueueViewModel.UpdateDatePrompt();
@@ -1567,7 +1571,6 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = LocalizationHelper.GetString("153Time3"), Value = "153_layout_3_times_a_day.json" },
                 new() { Display = LocalizationHelper.GetString("243Time3"), Value = "243_layout_3_times_a_day.json" },
                 new() { Display = LocalizationHelper.GetString("243Time4"), Value = "243_layout_4_times_a_day.json" },
-                new() { Display = LocalizationHelper.GetString("252Time3"), Value = "252_layout_3_times_a_day.json" },
                 new() { Display = LocalizationHelper.GetString("333Time3"), Value = "333_layout_for_Orundum_3_times_a_day.json" },
             ];
 
@@ -3295,6 +3298,22 @@ namespace MaaWpfGui.ViewModels.UI
             get => _allowUseStoneSave;
             set
             {
+                if (value)
+                {
+                    var result = MessageBoxHelper.Show(
+                        LocalizationHelper.GetString("AllowUseStoneSaveWarning"),
+                        LocalizationHelper.GetString("Warning"),
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Warning,
+                        no: LocalizationHelper.GetString("Confirm"),
+                        yes: LocalizationHelper.GetString("Cancel"),
+                        iconBrushKey: "DangerBrush");
+                    if (result != MessageBoxResult.No)
+                    {
+                        return;
+                    }
+                }
+
                 SetAndNotify(ref _allowUseStoneSave, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.AllowUseStoneSave, value.ToString());
             }
@@ -3610,6 +3629,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public static string CoreVersion { get; } = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
 
+        public static string CoreVersionDisplay => string.Join("\u200B", CoreVersion.ToCharArray());
+
         private static readonly string _uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
 
         /// <summary>
@@ -3617,7 +3638,15 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public static string UiVersion { get; } = _uiVersion == "0.0.1" ? "DEBUG VERSION" : _uiVersion;
 
-        private static string _resourceVersion = GetResourceVersionByClientType(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty));
+        public static string UiVersionDisplay => string.Join("\u200B", UiVersion.ToCharArray());
+
+        public static DateTime BuildDateTime { get; } = Assembly.GetExecutingAssembly().GetCustomAttribute<BuildDateTimeAttribute>()?.BuildDateTime ?? DateTime.MinValue;
+
+        public static string BuildDateTimeCurrentCultureString => BuildDateTime.ToLocalTimeString();
+
+        private static (DateTime DateTime, string VersionName) _resourceInfo = GetResourceVersionByClientType(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty));
+
+        private static string _resourceVersion = _resourceInfo.VersionName;
 
         /// <summary>
         /// Gets or sets the resource version.
@@ -3628,7 +3657,17 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _resourceVersion, value);
         }
 
-        private static string GetResourceVersionByClientType(string clientType)
+        private static DateTime _resourceDateTime = _resourceInfo.DateTime;
+
+        public DateTime ResourceDateTime
+        {
+            get => _resourceDateTime;
+            set => SetAndNotify(ref _resourceDateTime, value);
+        }
+
+        public string ResourceDateTimeCurrentCultureString => ResourceDateTime.ToLocalTimeString();
+
+        private static (DateTime DateTime, string VersionName) GetResourceVersionByClientType(string clientType)
         {
             const string OfficialClientType = "Official";
             const string BilibiliClientType = "Bilibili";
@@ -3638,10 +3677,10 @@ namespace MaaWpfGui.ViewModels.UI
                 jsonPath = $"resource/global/{clientType}/resource/version.json";
             }
 
-            string versionName = string.Empty;
+            string versionName;
             if (!File.Exists(jsonPath))
             {
-                return versionName;
+                return (DateTime.MinValue, string.Empty);
             }
 
             var versionJson = (JObject?)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
@@ -3649,11 +3688,9 @@ namespace MaaWpfGui.ViewModels.UI
             var poolTime = (ulong?)versionJson?["gacha"]?["time"]; // 卡池的开始时间
             var activityTime = (ulong?)versionJson?["activity"]?["time"]; // 活动的开始时间
             var lastUpdated = (string?)versionJson?["last_updated"]; // 最后更新时间
-            string dateOnly = string.Empty;
-            if (DateTime.TryParse(lastUpdated, out DateTime parsedDateTime))
-            {
-                dateOnly = parsedDateTime.ToString("yy.MM.dd");
-            }
+            var dateTime = lastUpdated == null
+                ? DateTime.MinValue
+                : DateTime.ParseExact(lastUpdated, "yyyy-MM-dd HH:mm:ss.fff", null);
 
             if ((currentTime < poolTime) && (currentTime < activityTime))
             {
@@ -3676,7 +3713,7 @@ namespace MaaWpfGui.ViewModels.UI
                 versionName = versionJson?["activity"]?["name"]?.ToString() ?? string.Empty;
             }
 
-            return versionName + dateOnly;
+            return (dateTime, versionName);
         }
 
         private UpdateVersionType _versionType = (UpdateVersionType)Enum.Parse(
@@ -4594,7 +4631,14 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            string resourceVersion = !string.IsNullOrEmpty(ResourceVersion) ? $" - {ResourceVersion}" : string.Empty;
+            string resourceVersion = !string.IsNullOrEmpty(ResourceVersion)
+                ? LocalizationHelper.CustomCultureInfo.Name.ToLowerInvariant() switch
+                {
+                    "zh-cn" => $" - {ResourceVersion}{ResourceDateTime:#MMdd}",
+                    "zh-tw" => $" - {ResourceVersion}{ResourceDateTime:#MMdd}",
+                    _ => $" - {ResourceDateTime.ToString(LocalizationHelper.CustomCultureInfo.DateTimeFormat.ShortDatePattern.Replace("yyyy", string.Empty).Trim('/', '.'))} {ResourceVersion}",
+                }
+                : string.Empty;
             rvm.WindowTitle = $"{prefix}MAA{currentConfiguration} - {CoreVersion}{resourceVersion}{connectConfigName}{connectAddress}{clientName}";
         }
 
@@ -5465,17 +5509,6 @@ namespace MaaWpfGui.ViewModels.UI
         public void SetAcknowledgedNightlyWarning()
         {
             HasAcknowledgedNightlyWarning = true;
-        }
-
-        public void SetupSleepManagement()
-        {
-            if (!BlockSleep)
-            {
-                return;
-            }
-
-            SleepManagement.BlockSleep(BlockSleepWithScreenOn);
-            _logger.Information("Blocking sleep.");
         }
     }
 }

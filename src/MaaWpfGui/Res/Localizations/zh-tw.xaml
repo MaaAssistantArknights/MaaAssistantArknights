@@ -18,9 +18,12 @@
     <system:String x:Key="HotKeySettings">熱鍵設定</system:String>
     <system:String x:Key="UpdateSettings">軟體更新</system:String>
     <system:String x:Key="AboutUs">關於我們</system:String>
-    <system:String x:Key="CoreVersion">Core 版本號</system:String>
-    <system:String x:Key="UiVersion">UI 版本號</system:String>
-    <system:String x:Key="ResourceVersion">資源版本號</system:String>
+    <system:String x:Key="MaaVersion">MAA 版本</system:String>
+    <system:String x:Key="BuildDateTime">構建日期</system:String>
+    <system:String x:Key="CoreVersion">Core 版本</system:String>
+    <system:String x:Key="UiVersion">UI 版本</system:String>
+    <system:String x:Key="ResourceVersion">資源版本</system:String>
+    <system:String x:Key="ResourceDateTime">資源日期</system:String>
     <system:String x:Key="Off">關閉</system:String>
     <system:String x:Key="ExternalNotificationTips">請注意：外部通知功能目前僅會發送「所有任務完成」 的通知。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
@@ -97,7 +100,6 @@
     <system:String x:Key="153Time3">153 一天 3 換</system:String>
     <system:String x:Key="243Time3">243 一天 3 換</system:String>
     <system:String x:Key="243Time4">243 一天 4 換</system:String>
-    <system:String x:Key="252Time3">252 一天 3 換</system:String>
     <system:String x:Key="333Time3">333 一天 3 換</system:String>
     <system:String x:Key="CustomInfrastFile">自定義基建配置文件</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">自定義基建配置文件解析錯誤！</system:String>
@@ -435,6 +437,8 @@
     <system:String x:Key="ExitSelf">退出 MAA</system:String>
     <system:String x:Key="ExitEmulator">退出 模擬器</system:String>
     <system:String x:Key="Hibernate">休眠</system:String>
+    <system:String x:Key="HibernateTip">需要在 Windows 電源選項中啟用休眠功能，否則該功能無效。</system:String>
+    <system:String x:Key="Sleep">睡眠</system:String>
     <system:String x:Key="Shutdown">關機</system:String>
     <system:String x:Key="Once">僅一次*</system:String>
     <system:String x:Key="PostActionOnceTip" xml:space="preserve">如想只執行一次，請先勾選僅一次
@@ -511,6 +515,7 @@
     <system:String x:Key="AboutToShutdown">已刷完，即將關機，是否取消？</system:String>
     <system:String x:Key="ShutdownPrompt">提示</system:String>
     <system:String x:Key="HibernatePrompt">已刷完，即將休眠</system:String>
+    <system:String x:Key="SleepPrompt">已刷完，即將睡眠</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">未知的結束動作</system:String>
     <system:String x:Key="AnnihilationTaskTip">關卡選擇為剿滅任務，任務結束後將嘗試使用剩餘備選關卡，部分戰鬥設置將不生效。</system:String>
     <system:String x:Key="AnnihilationTaskFailed">剿滅任務失敗，將嘗試使用剩餘備選關卡，部分戰鬥設定將不生效。</system:String>

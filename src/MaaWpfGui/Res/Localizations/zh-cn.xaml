@@ -18,9 +18,12 @@
     <system:String x:Key="HotKeySettings">热键设置</system:String>
     <system:String x:Key="UpdateSettings">软件更新</system:String>
     <system:String x:Key="AboutUs">关于我们</system:String>
+    <system:String x:Key="MaaVersion">MAA 版本</system:String>
+    <system:String x:Key="BuildDateTime">构建日期</system:String>
     <system:String x:Key="CoreVersion">核心版本</system:String>
     <system:String x:Key="UiVersion">界面版本</system:String>
     <system:String x:Key="ResourceVersion">资源版本</system:String>
+    <system:String x:Key="ResourceDateTime">资源日期</system:String>
     <system:String x:Key="Off">关闭</system:String>
     <system:String x:Key="ExternalNotificationTips">请注意：外部通知功能目前仅会发送“所有任务完成”的通知。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
@@ -97,7 +100,6 @@
     <system:String x:Key="153Time3">153 一天3换</system:String>
     <system:String x:Key="243Time3">243 一天3换</system:String>
     <system:String x:Key="243Time4">243 一天4换</system:String>
-    <system:String x:Key="252Time3">252 一天3换</system:String>
     <system:String x:Key="333Time3">333 一天3换</system:String>
     <system:String x:Key="CustomInfrastFile">自定义基建配置文件</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">自定义基建配置文件解析错误！</system:String>
@@ -435,6 +437,8 @@
     <system:String x:Key="ExitSelf">退出 MAA</system:String>
     <system:String x:Key="ExitEmulator">退出 模拟器</system:String>
     <system:String x:Key="Hibernate">休眠</system:String>
+    <system:String x:Key="HibernateTip">需在 Windows 电源选项中启用休眠功能，否则该功能无效。</system:String>
+    <system:String x:Key="Sleep">睡眠</system:String>
     <system:String x:Key="Shutdown">关机</system:String>
     <system:String x:Key="Once">仅一次*</system:String>
     <system:String x:Key="PostActionOnceTip" xml:space="preserve">如想只执行一次，请先勾选仅一次
@@ -511,6 +515,7 @@
     <system:String x:Key="AboutToShutdown">已刷完，即将关机，是否取消？</system:String>
     <system:String x:Key="ShutdownPrompt">提示</system:String>
     <system:String x:Key="HibernatePrompt">已刷完，即将休眠</system:String>
+    <system:String x:Key="SleepPrompt">已刷完，即将睡眠</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">未知的结束动作</system:String>
     <system:String x:Key="AnnihilationTaskTip">关卡选择为剿灭任务，任务结束后将尝试使用剩余备选关卡，部分战斗设置将不生效。</system:String>
     <system:String x:Key="AnnihilationTaskFailed">剿灭任务失败，将尝试使用剩余备选关卡，部分战斗设置将不生效。</system:String>

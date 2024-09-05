@@ -35,37 +35,42 @@ public class PostActionSetting : PropertyChangedBase
         /// <summary>
         /// 退出明日方舟
         /// </summary>
-        ExitArknights = 1,
+        ExitArknights = 1 << 0,
 
         /// <summary>
         /// 返回模拟器首页
         /// </summary>
-        BackToAndroidHome = 2,
+        BackToAndroidHome = 1 << 1,
 
         /// <summary>
         /// 退出模拟器
         /// </summary>
-        ExitEmulator = 4,
+        ExitEmulator = 1 << 2,
 
         /// <summary>
         /// 退出MAA
         /// </summary>
-        ExitSelf = 8,
+        ExitSelf = 1 << 3,
 
         /// <summary>
         /// 如果没有其他MAA
         /// </summary>
-        IfNoOtherMaa = 16,
+        IfNoOtherMaa = 1 << 4,
 
         /// <summary>
         /// 休眠
         /// </summary>
-        Hibernate = 32,
+        Hibernate = 1 << 5,
 
         /// <summary>
         /// 关机
         /// </summary>
-        Shutdown = 64,
+        Shutdown = 1 << 6,
+
+        /// <summary>
+        /// 睡眠
+        /// </summary>
+        Sleep = 1 << 7,
     }
 
     private PostActions _postActions;
@@ -88,7 +93,6 @@ public class PostActionSetting : PropertyChangedBase
             }
 
             ActionTitle = value ? $"{LocalizationHelper.GetString("PostActions")} ({LocalizationHelper.GetString("Once")})" : LocalizationHelper.GetString("PostActions");
-            RefreshDescription();
         }
     }
 
@@ -218,8 +222,9 @@ public class PostActionSetting : PropertyChangedBase
             if (value)
             {
                 Shutdown = false;
+                Sleep = false;
             }
-            else if (!Shutdown)
+            else if (!Shutdown && !Sleep)
             {
                 IfNoOtherMaa = false;
             }
@@ -245,13 +250,40 @@ public class PostActionSetting : PropertyChangedBase
                 ExitArknights = false;
                 BackToAndroidHome = false;
                 Hibernate = false;
+                Sleep = false;
             }
-            else if (!Hibernate)
+            else if (!Hibernate && !Sleep)
             {
                 IfNoOtherMaa = false;
             }
 
             UpdatePostAction(PostActions.Shutdown, value);
+        }
+    }
+
+    private bool _sleep;
+
+    public bool Sleep
+    {
+        get => _sleep;
+        set
+        {
+            if (!SetAndNotify(ref _sleep, value))
+            {
+                return;
+            }
+
+            if (value)
+            {
+                Hibernate = false;
+                Shutdown = false;
+            }
+            else if (!Hibernate && !Shutdown)
+            {
+                IfNoOtherMaa = false;
+            }
+
+            UpdatePostAction(PostActions.Sleep, value);
         }
     }
 
@@ -332,9 +364,12 @@ public class PostActionSetting : PropertyChangedBase
             actions.Add(prefix + LocalizationHelper.GetString("Shutdown"));
         }
 
-        ActionDescription = actions.Count == 0
-            ? LocalizationHelper.GetString("DoNothing")
-            : string.Join(" -> ", actions);
+        if (Sleep)
+        {
+            actions.Add(prefix + LocalizationHelper.GetString("Sleep"));
+        }
+
+        ActionDescription = actions.Count == 0 ? LocalizationHelper.GetString("DoNothing") : string.Join(" -> ", actions);
     }
 
     private void UpdatePostAction(PostActions postActions, bool value)
@@ -370,6 +405,7 @@ public class PostActionSetting : PropertyChangedBase
         IfNoOtherMaa = _postActions.HasFlag(PostActions.IfNoOtherMaa);
         Hibernate = _postActions.HasFlag(PostActions.Hibernate);
         Shutdown = _postActions.HasFlag(PostActions.Shutdown);
+        Sleep = _postActions.HasFlag(PostActions.Sleep);
         Once = false;
     }
 

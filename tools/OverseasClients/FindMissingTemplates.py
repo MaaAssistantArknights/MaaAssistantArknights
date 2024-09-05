@@ -36,8 +36,9 @@ ignore_list_file_name = "ignore_list_of_templates.txt"
 regex_ignore_list = [
     #Wait for Overseas release
     "Siege",
+    "Delicious",
     #New I.S. 5
-    "Sarkaz"
+    "Sarkaz",
 ]
 
 server_list = [

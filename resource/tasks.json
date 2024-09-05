@@ -505,7 +505,8 @@
             "TerminalSami.png",
             "TerminalMistCity.png",
             "TerminalSiege.png",
-            "TerminalSarkaz.png"
+            "TerminalSarkaz.png",
+            "TerminalDelicious.png"
         ],
         "maxTimes": 3,
         "exceededNext": ["Stop"],
@@ -557,6 +558,69 @@
             ["-1O$", "-10$"]
         ],
         "roi": [0, 60, 1280, 550]
+    },
+    "DT-8": {
+        "algorithm": "JustReturn",
+        "sub": ["DT-OpenOpt"],
+        "next": ["DT-8@SideStoryStage", "DT-8@SwipeToStage"]
+    },
+    "DT-7": {
+        "algorithm": "JustReturn",
+        "sub": ["DT-OpenOpt"],
+        "next": ["DT-7@SideStoryStage", "DT-7@SwipeToStage"]
+    },
+    "DT-6": {
+        "algorithm": "JustReturn",
+        "sub": ["DT-OpenOpt"],
+        "next": ["DT-6@SideStoryStage", "DT-6@SwipeToStage"]
+    },
+    "DT-3": {
+        "algorithm": "JustReturn",
+        "sub": ["DT-OpenOpt"],
+        "next": ["DT-3@SideStoryStage", "DT-3@SwipeToStage"]
+    },
+    "DT-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["DT-OpenOcr", "DT-Open"]
+    },
+    "DT-Open": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["泰拉饭", "走遍泰拉"],
+        "roi": [93, 533, 297, 43],
+        "next": ["DTChapterToDT"]
+    },
+    "DT-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["泰拉饭", "走遍泰拉"],
+        "next": ["DTChapterToDT"]
+    },
+    "DTChapterToDT": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["品尝魔物", "品尝", "尝魔", "魔物"],
+        "preDelay": 3000,
+        "roi": [1034, 466, 117, 35],
+        "next": ["#self", "ChapterSwipeToTheRight"]
+    },
+    "DT-8@SideStoryStage": {
+        "isAscii": false,
+        "text": ["罗", "德", "岛"],
+        "roi": [726, 395, 33, 33]
+    },
+    "DT-7@SideStoryStage": {
+        "isAscii": false,
+        "text": ["健", "康"],
+        "roi": [730, 387, 37, 35]
+    },
+    "DT-6@SideStoryStage": {
+        "isAscii": false,
+        "text": ["海", "鲜"],
+        "roi": [733, 359, 40, 33]
+    },
+    "DT-3@SideStoryStage": {
+        "isAscii": false,
+        "text": ["黄", "金"],
+        "roi": [744, 264, 38, 35]
     },
     "BP-5": {
         "algorithm": "JustReturn",
@@ -1930,6 +1994,7 @@
             ["维获", "维荻"],
             [".*ancet-2", "Lancet-2"],
             ["[CcOo0]ast.*le-3", "Castle-3"],
+            ["phonoR-0", "PhonoR-0"],
             [".*HRM-EX$", "THRM-EX"],
             [".*心斯卡蒂$", "浊心斯卡蒂"],
             ["^预备干员-近.*", "预备干员-近战"],
@@ -1947,7 +2012,8 @@
             ["崖心.+", "崖心"],
             [".*芙利特$", "伊芙利特"],
             ["^提非$", "提丰"],
-            ["^华琳$", "华法琳"]
+            ["^华琳$", "华法琳"],
+            ["^宝箱的肉.*", "宝箱的肉？"]
         ]
     },
     "SwitchAccount@StartUpBegin": {
@@ -1966,7 +2032,8 @@
             "TerminalSami.png",
             "TerminalMistCity.png",
             "TerminalSiege.png",
-            "TerminalSarkaz.png"
+            "TerminalSarkaz.png",
+            "TerminalDelicious.png"
         ],
         "baseTask": "StartUp",
         "next": ["Settings"]
@@ -2145,7 +2212,8 @@
             "TerminalSami.png",
             "TerminalMistCity.png",
             "TerminalSiege.png",
-            "TerminalSarkaz.png"
+            "TerminalSarkaz.png",
+            "TerminalDelicious.png"
         ],
         "next": ["Home", "StartUpBegin"],
         "postDelay_Doc": "等待以防万一（StartUp还有双倍的任务延迟等待，默认0.5s x2",
@@ -2168,7 +2236,8 @@
             "TerminalSami.png",
             "TerminalMistCity.png",
             "TerminalSiege.png",
-            "TerminalSarkaz.png"
+            "TerminalSarkaz.png",
+            "TerminalDelicious.png"
         ],
         "roi": [844, 58, 268, 272],
         "Doc": "有时候明明已经在主界面了，停了一小会又弹个窗。多检测几次，一直在主界面才算完成",
@@ -2715,7 +2784,8 @@
             "TerminalSami.png",
             "TerminalMistCity.png",
             "TerminalSiege.png",
-            "TerminalSarkaz.png"
+            "TerminalSarkaz.png",
+            "TerminalDelicious.png"
         ],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
@@ -2747,7 +2817,8 @@
             "RecruitSami.png",
             "RecruitMistCity.png",
             "RecruitSiege.png",
-            "RecruitSarkaz.png"
+            "RecruitSarkaz.png",
+            "RecruitDelicious.png"
         ],
         "action": "ClickSelf",
         "roi": [900, 450, 200, 150],
@@ -2822,7 +2893,8 @@
             "TerminalSami.png",
             "TerminalMistCity.png",
             "TerminalSiege.png",
-            "TerminalSarkaz.png"
+            "TerminalSarkaz.png",
+            "TerminalDelicious.png"
         ],
         "next": ["MiningActivities", "Stop"]
     },
@@ -2863,7 +2935,8 @@
             "TerminalSami.png",
             "TerminalMistCity.png",
             "TerminalSiege.png",
-            "TerminalSarkaz.png"
+            "TerminalSarkaz.png",
+            "TerminalDelicious.png"
         ],
         "next": ["OrundumActivities", "Stop"]
     },
@@ -2927,7 +3000,8 @@
             "TerminalSami.png",
             "TerminalMistCity.png",
             "TerminalSiege.png",
-            "TerminalSarkaz.png"
+            "TerminalSarkaz.png",
+            "TerminalDelicious.png"
         ],
         "next": ["RecruitingActivities", "Stop"]
     },
@@ -3001,7 +3075,8 @@
             "TerminalSami.png",
             "TerminalMistCity.png",
             "TerminalSiege.png",
-            "TerminalSarkaz.png"
+            "TerminalSarkaz.png",
+            "TerminalDelicious.png"
         ],
         "next": ["SpecialAccessActivities", "Stop"]
     },
@@ -3044,7 +3119,15 @@
         ]
     },
     "Award": {
-        "template": ["Task.png", "TaskDark.png", "TaskSami.png", "TaskMistCity.png", "TaskSiege.png", "TaskSarkaz.png"],
+        "template": [
+            "Task.png",
+            "TaskDark.png",
+            "TaskSami.png",
+            "TaskMistCity.png",
+            "TaskSiege.png",
+            "TaskSarkaz.png",
+            "TaskDelicious.png"
+        ],
         "maskRange": [1, 255],
         "templThreshold": 0.7,
         "action": "ClickSelf",
@@ -3104,7 +3187,8 @@
             "TerminalSami.png",
             "TerminalMistCity.png",
             "TerminalSiege.png",
-            "TerminalSarkaz.png"
+            "TerminalSarkaz.png",
+            "TerminalDelicious.png"
         ],
         "action": "DoNothing",
         "next": ["Mail", "MailWithoutAward"]
@@ -3152,7 +3236,8 @@
             "FriendsSami.png",
             "FriendsMistCity.png",
             "FriendsSiege.png",
-            "FriendsSarkaz.png"
+            "FriendsSarkaz.png",
+            "FriendsDelicious.png"
         ],
         "templThreshold": 0.7,
         "maskRange": [1, 255],
@@ -3201,7 +3286,15 @@
         "next": ["Mall@ReturnButtons#next", "Mall", "Mall@CloseAnnos#next"]
     },
     "Mall": {
-        "template": ["Mall.png", "MallDark.png", "MallSami.png", "MallMistCity.png", "MallSiege.png", "MallSarkaz.png"],
+        "template": [
+            "Mall.png",
+            "MallDark.png",
+            "MallSami.png",
+            "MallMistCity.png",
+            "MallSiege.png",
+            "MallSarkaz.png",
+            "MallDelicious.png"
+        ],
         "action": "ClickSelf",
         "roi": [772, 407, 186, 171],
         "next": ["CreditStoreOcr", "Mall", "Mall@CloseAnnos#next"],
@@ -3256,7 +3349,8 @@
             "TerminalSami.png",
             "TerminalMistCity.png",
             "TerminalSiege.png",
-            "TerminalSarkaz.png"
+            "TerminalSarkaz.png",
+            "TerminalDelicious.png"
         ],
         "action": "Stop",
         "roi": [844, 58, 268, 272],
@@ -3407,7 +3501,8 @@
             "EnterInfrastSami.png",
             "EnterInfrastMistCity.png",
             "EnterInfrastSiege.png",
-            "EnterInfrastSarkaz.png"
+            "EnterInfrastSarkaz.png",
+            "EnterInfrastDelicious.png"
         ],
         "maskRange": [1, 255],
         "roi": [930, 540, 230, 180],
@@ -4557,7 +4652,14 @@
     },
     "BattleStartSimulation": {
         "action": "ClickSelf",
-        "roi": [417, 567, 444, 153],
+        "roi": [955, 86, 136, 606],
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [99, 200, 160],
+                [99, 255, 255]
+            ]
+        ],
         "postDelay": 2000
     },
     "BattleStartPlot": {
@@ -4983,7 +5085,8 @@
             "DepotEnterSami.png",
             "DepotEnterMistCity.png",
             "DepotEnterSiege.png",
-            "DepotEnterSarkaz.png"
+            "DepotEnterSarkaz.png",
+            "DepotEnterDelicious.png"
         ],
         "maskRange": [1, 255],
         "roi": [1109, 560, 171, 160],
@@ -5061,7 +5164,8 @@
             "OperBoxEnterSami.png",
             "OperBoxEnterMistCity.png",
             "OperBoxEnterSiege.png",
-            "OperBoxEnterSarkaz.png"
+            "OperBoxEnterSarkaz.png",
+            "OperBoxEnterDelicious.png"
         ],
         "action": "ClickSelf",
         "maskRange": [1, 255],
@@ -5537,7 +5641,8 @@
             "GachaEnterSami.png",
             "GachaEnterMistCity.png",
             "GachaEnterSiege.png",
-            "GachaEnterSarkaz.png"
+            "GachaEnterSarkaz.png",
+            "GachaEnterDelicious.png"
         ],
         "roi": [1052, 443, 228, 156],
         "next": ["GachaEnter", "GachaEnter@LoadingText", "DoGacha"],
@@ -5619,7 +5724,8 @@
             "TerminalSami.png",
             "TerminalMistCity.png",
             "TerminalSiege.png",
-            "TerminalSarkaz.png"
+            "TerminalSarkaz.png",
+            "TerminalDelicious.png"
         ],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
@@ -10683,7 +10789,8 @@
             "TerminalSami.png",
             "TerminalMistCity.png",
             "TerminalSiege.png",
-            "TerminalSarkaz.png"
+            "TerminalSarkaz.png",
+            "TerminalDelicious.png"
         ],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
@@ -11215,7 +11322,8 @@
             "TerminalSami.png",
             "TerminalMistCity.png",
             "TerminalSiege.png",
-            "TerminalSarkaz.png"
+            "TerminalSarkaz.png",
+            "TerminalDelicious.png"
         ],
         "next": [
             "Fire@Reclamation@NavigateHome",
@@ -11722,7 +11830,7 @@
         "doc": "模板任务: 已完成生存周期, 点击 <点击任意处继续> 文字位置",
         "algorithm": "OcrDetect",
         "text": ["点击任意处继续"],
-        "roi": [516, 647, 248, 61],
+        "roi": [506, 609, 272, 111],
         "preDelay": 500,
         "action": "ClickSelf"
     },
@@ -11833,7 +11941,7 @@
         "baseTask": "Tales@RA@StartToday",
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
         "next": [
-            "Tales@RA@PIS-ProsperityReachLimit-Dots",
+            "Tales@RA@PIS-ProsperityBelowLimit-Dots",
             "Tales@RA@PIS-ProsperityBelowLimit-StartToday@NextAfterLoadingText"
         ]
     },
