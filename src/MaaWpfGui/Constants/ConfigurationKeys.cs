@@ -178,8 +178,8 @@ namespace MaaWpfGui.Constants
         public const string ReceiveMail = "Mission.ReceiveMail"; // 迁移
         public const string ReceiveFreeRecruit = "Mission.ReceiveFreeRecruit"; // 迁移
         public const string ReceiveOrundum = "Mission.ReceiveOrundum"; // 迁移
-        public const string ReceiveMining = "Mission.Mining"; // 迁移
-        public const string ReceiveSpecialAccess = "Mission.SpecialAccess"; // 迁移
+        public const string ReceiveMining = "Mission.ReceiveMining"; // 迁移
+        public const string ReceiveSpecialAccess = "Mission.ReceiveSpecialAccess"; // 迁移
         public const string CopilotAddUserAdditional = "Copilot.AddUserAdditional";
         public const string CopilotUserAdditional = "Copilot.UserAdditional";
         public const string CopilotLoopTimes = "Copilot.LoopTimes";
