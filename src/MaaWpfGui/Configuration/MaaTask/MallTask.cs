@@ -137,7 +137,7 @@ namespace MaaWpfGui.Configuration.MaaTask
         {
             return new JObject
             {
-                // 差一个当前/上次检查
+                // TODO 差一个当前/上次检查
                 ["credit_fight"] = IsCreditFightAvailable(this),
                 ["select_formation"] = CreditFightFormation,
                 ["visit_friends"] = IsVisitFriendsAvailable(this),

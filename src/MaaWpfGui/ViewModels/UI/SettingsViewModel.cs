@@ -374,7 +374,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             string[] wineList = ["酒", "liquor", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶"];
-            return wineList.Any(CreditFirstList.Contains);
+            return wineList.Any(wine => ConfigFactory.CurrentConfig.TaskQueue.Where(t => t is MallTask).Any(t => ((MallTask)t).FirstList.Contains(wine)));
         }
 
         #endregion EasterEggs
