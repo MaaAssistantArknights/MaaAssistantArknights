@@ -755,7 +755,12 @@
             ["전달자우편함", "信使邮筒"],
             ["^사서함$", "讯息匣"],
             ["언밸런스디퓨저", "失衡异香"],
-            ["^게시판$", "告示牌"]
+            ["^게시판$", "告示牌"],
+            ["Doc", "医生"],
+            ["Ela", "艾拉"],
+            ["Iana", "双月"],
+            ["Fuze", "导火索"],
+            ["GRZMOT 지뢰", "雷鸣地雷"]
         ]
     },
     "StartUpThemes": {
@@ -1146,9 +1151,9 @@
     },
     "BattleStartSimulation": {
         "Doc": "Delete the template and remove this modified roi task when paradox update comes PR#10439",
+        "roi": [417, 567, 444, 153],
         "method": "Ccoeff",
-        "colorScales": [],
-        "roi": [417, 567, 444, 153]
+        "colorScales": []
     },
     "StageDrops-Quantity": {
         "maskRange": [200, 255],
