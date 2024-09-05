@@ -4632,10 +4632,11 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             string resourceVersion = !string.IsNullOrEmpty(ResourceVersion)
-                ? LocalizationHelper.DefaultLanguage switch
+                ? LocalizationHelper.CustomCultureInfo.Name.ToLowerInvariant() switch
                 {
-                    "en-us" => $" - {ResourceDateTime:dd/MM} {ResourceVersion}",
-                    _ => $" - {ResourceVersion}{ResourceDateTime:#MMdd}",
+                    "zh-cn" => $" - {ResourceVersion}{ResourceDateTime:#MMdd}",
+                    "zh-tw" => $" - {ResourceVersion}{ResourceDateTime:#MMdd}",
+                    _ => $" - {ResourceDateTime.ToString(LocalizationHelper.CustomCultureInfo.DateTimeFormat.ShortDatePattern.Replace("yyyy", string.Empty).Trim('/', '.'))} {ResourceVersion}",
                 }
                 : string.Empty;
             rvm.WindowTitle = $"{prefix}MAA{currentConfiguration} - {CoreVersion}{resourceVersion}{connectConfigName}{connectAddress}{clientName}";
