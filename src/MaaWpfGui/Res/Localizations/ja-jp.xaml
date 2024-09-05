@@ -19,9 +19,11 @@
     <system:String x:Key="UpdateSettings">アップデート設定</system:String>
     <system:String x:Key="AboutUs">About us</system:String>
     <system:String x:Key="MaaVersion">MAA バージョン</system:String>
+    <system:String x:Key="BuildDateTime">ビルド日付</system:String>
     <system:String x:Key="CoreVersion">Core バージョン</system:String>
     <system:String x:Key="UiVersion">UI バージョン</system:String>
     <system:String x:Key="ResourceVersion">リソースバーション</system:String>
+    <system:String x:Key="ResourceDateTime">リソース日付</system:String>
     <system:String x:Key="Off">シャットダウン</system:String>
     <system:String x:Key="ExternalNotificationTips">注:外部通知機能は現在、「すべてのタスクが完了しました」という通知のみを送信します。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>

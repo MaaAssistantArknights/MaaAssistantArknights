@@ -18,10 +18,12 @@
     <system:String x:Key="HotKeySettings">熱鍵設定</system:String>
     <system:String x:Key="UpdateSettings">軟體更新</system:String>
     <system:String x:Key="AboutUs">關於我們</system:String>
-    <system:String x:Key="MaaVersion">MAA 版本號</system:String>
-    <system:String x:Key="CoreVersion">Core 版本號</system:String>
-    <system:String x:Key="UiVersion">UI 版本號</system:String>
-    <system:String x:Key="ResourceVersion">資源版本號</system:String>
+    <system:String x:Key="MaaVersion">MAA 版本</system:String>
+    <system:String x:Key="BuildDateTime">構建日期</system:String>
+    <system:String x:Key="CoreVersion">Core 版本</system:String>
+    <system:String x:Key="UiVersion">UI 版本</system:String>
+    <system:String x:Key="ResourceVersion">資源版本</system:String>
+    <system:String x:Key="ResourceDateTime">資源日期</system:String>
     <system:String x:Key="Off">關閉</system:String>
     <system:String x:Key="ExternalNotificationTips">請注意：外部通知功能目前僅會發送「所有任務完成」 的通知。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
