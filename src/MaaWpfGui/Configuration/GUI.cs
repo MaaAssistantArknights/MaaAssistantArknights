@@ -10,12 +10,12 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+
 #nullable enable
 using System.ComponentModel;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using static MaaWpfGui.Models.PostActionSetting;
-using static MaaWpfGui.ViewModels.UI.TaskQueueViewModel;
 
 namespace MaaWpfGui.Configuration
 {

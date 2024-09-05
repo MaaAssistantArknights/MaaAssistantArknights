@@ -10,6 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+
 #nullable enable
 using System;
 using System.Collections.Generic;
@@ -87,38 +88,43 @@ namespace MaaWpfGui.Configuration.MaaTask
         /// </summary>
         public bool ReserveMaxCredit { get; set; }
 
-        public static bool IsCreditFightAvailable(MallTask task)
+        public bool IsCreditFightAvailable
         {
-            try
+            get
             {
-                if (DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(task.CreditFightLastTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
+                try
                 {
-                    return task.CreditFight;
+                    if (DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(CreditFightLastTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
+                    {
+                        return CreditFight;
+                    }
                 }
-            }
-            catch
-            {
-                return task.CreditFight;
-            }
+                catch
+                {
+                    return CreditFight;
+                }
 
-            return false;
+                return false;
+            }
         }
 
-        public static bool IsVisitFriendsAvailable(MallTask task)
+        public bool IsVisitFriendsAvailable
         {
-            if (!task.VisitFriendsOnceADay)
+            get
             {
-                return true;
-            }
+                if (!VisitFriendsOnceADay)
+                {
+                    return true;
+                }
 
-            try
-            {
-                return DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(task.VisitFriendsLastTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture)
-                       && task.VisitFriends;
-            }
-            catch
-            {
-                return task.VisitFriends;
+                try
+                {
+                    return DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(VisitFriendsLastTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) && VisitFriends;
+                }
+                catch
+                {
+                    return VisitFriends;
+                }
             }
         }
 
@@ -133,14 +139,13 @@ namespace MaaWpfGui.Configuration.MaaTask
             { "txwy", new[] { "訊使", "嘉維爾", "堅雷" } },
         };
 
-        public override JObject SerializeJsonTask()
-        {
-            return new JObject
+        public override JObject SerializeJsonTask() =>
+            new()
             {
                 // TODO 差一个当前/上次检查
-                ["credit_fight"] = IsCreditFightAvailable(this),
+                ["credit_fight"] = IsCreditFightAvailable,
                 ["select_formation"] = CreditFightFormation,
-                ["visit_friends"] = IsVisitFriendsAvailable(this),
+                ["visit_friends"] = IsVisitFriendsAvailable,
                 ["shopping"] = Shopping,
                 ["buy_first"] = new JArray(FirstList.Split(';', '；').Select(s => s.Trim()).ToArray()),
                 ["blacklist"] = new JArray(BlackList.Split(';', '；').Select(s => s.Trim()).Union(BlackCharacterListMapping[Instances.SettingsViewModel.ClientType]).ToArray()),
@@ -148,6 +153,5 @@ namespace MaaWpfGui.Configuration.MaaTask
                 ["only_buy_discount"] = OnlyBuyDiscount,
                 ["reserve_max_credit"] = ReserveMaxCredit,
             };
-        }
     }
 }
