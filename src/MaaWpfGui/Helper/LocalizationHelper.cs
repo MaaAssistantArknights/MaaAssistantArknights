@@ -70,6 +70,24 @@ namespace MaaWpfGui.Helper
 
         private static readonly string _culture = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, DefaultLanguage);
 
+        private static readonly string _customCulture = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.CustomCulture, string.Empty);
+
+        public static CultureInfo CustomCultureInfo
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_customCulture))
+                {
+                    return CultureInfo.CurrentCulture;
+                }
+
+                return CultureInfo.GetCultures(CultureTypes.AllCultures)
+                    .Any(c => c.Name.Equals(_customCulture, StringComparison.OrdinalIgnoreCase))
+                    ? new CultureInfo(_customCulture)
+                    : CultureInfo.CurrentCulture;
+            }
+        }
+
         /// <summary>
         /// Loads localizations.
         /// </summary>
@@ -114,7 +132,9 @@ namespace MaaWpfGui.Helper
 
             try
             {
-                Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(_culture);
+                Thread.CurrentThread.CurrentCulture = !string.IsNullOrEmpty(_customCulture)
+                    ? CustomCultureInfo
+                    : CultureInfo.GetCultureInfo(_culture);
                 FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(Thread.CurrentThread.CurrentCulture.Name)));
             }
             catch

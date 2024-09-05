@@ -58,28 +58,13 @@ namespace MaaWpfGui.Extensions
             return dt is { Month: 4, Day: 1 };
         }
 
-        public static CultureInfo CustomCulture
-        {
-            get
-            {
-                string cultureName = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.CustomCulture, string.Empty);
-                if (string.IsNullOrEmpty(cultureName))
-                {
-                    return CultureInfo.CurrentCulture;
-                }
-
-                return CultureInfo.GetCultures(CultureTypes.AllCultures)
-                    .Any(c => c.Name.Equals(cultureName, StringComparison.OrdinalIgnoreCase))
-                    ? new CultureInfo(cultureName)
-                    : CultureInfo.CurrentCulture;
-            }
-        }
+        public static CultureInfo CustomCultureInfo => LocalizationHelper.CustomCultureInfo;
 
         public static string ToLocalTimeString(this DateTime dt, string? format = null)
         {
             return string.IsNullOrEmpty(format)
-                ? dt.ToLocalTime().ToString(CustomCulture)
-                : dt.ToLocalTime().ToString(format, CustomCulture);
+                ? dt.ToLocalTime().ToString($"{CustomCultureInfo.DateTimeFormat.ShortDatePattern} HH:mm:ss", CustomCultureInfo)
+                : dt.ToLocalTime().ToString(format, CustomCultureInfo);
         }
 
         public static DateTime ToDateTime(this System.Runtime.InteropServices.ComTypes.FILETIME filetime)
