@@ -57,9 +57,33 @@ namespace MaaWpfGui.Extensions
             return dt is { Month: 4, Day: 1 };
         }
 
-        public static string ToLocalTimeString(this DateTime dt, string? format = null, string? shortDatePattern = null, string? longTimePattern = "HH:mm:ss")
+        public static string DateTimeShortDatePattern => ConfigurationHelper.GetGlobalValue(ConfigurationKeys.DateTimeShortDatePattern, string.Empty);
+
+        public static string DateTimeLongTimePattern => ConfigurationHelper.GetGlobalValue(ConfigurationKeys.DateTimeLongTimePattern, string.Empty);
+
+        public static string ToLocalTimeString(this DateTime dt, string? format = null, string? shortDatePattern = null, string? longTimePattern = null)
         {
-            return dt.ToLocalTime().ToString(format ?? $"{shortDatePattern ?? CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern} {longTimePattern}", CultureInfo.CurrentCulture);
+            if (!string.IsNullOrEmpty(format))
+            {
+                return dt.ToLocalTime().ToString(format, CultureInfo.CurrentCulture);
+            }
+
+            if (string.IsNullOrEmpty(shortDatePattern))
+            {
+                shortDatePattern = !string.IsNullOrEmpty(DateTimeShortDatePattern)
+                    ? DateTimeShortDatePattern
+                    : CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
+            }
+
+            if (string.IsNullOrEmpty(longTimePattern))
+            {
+                longTimePattern = !string.IsNullOrEmpty(DateTimeLongTimePattern)
+                    ? DateTimeLongTimePattern
+                    : "HH:mm:ss";
+            }
+
+            format = $"{shortDatePattern} {longTimePattern}";
+            return dt.ToLocalTime().ToString(format, CultureInfo.CurrentCulture);
         }
 
         public static DateTime ToDateTime(this System.Runtime.InteropServices.ComTypes.FILETIME filetime)
