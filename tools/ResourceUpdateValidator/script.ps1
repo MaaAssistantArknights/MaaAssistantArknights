@@ -101,6 +101,8 @@ foreach ($server in $listPerServer.Keys) {
 
 Write-Output "-------------------------------------------------------------------------------------------"
 
-Write-Output "Diff check result: { hasPngDiff = $hasPngDiff, diff = $diff }"
+Write-Output "Diff check result:"
+Write-Output "hasPngDiff: $hasPngDiff"
+Write-Output "diff: $diff"
 Write-Output "contains_png=$hasPngDiff" >> $env:GITHUB_OUTPUT
 Write-Output "changes=$diff" >> $env:GITHUB_OUTPUT
