@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -25,7 +26,7 @@ namespace MaaWpfGui.Extensions
 
         private static string ClientType => ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty);
 
-        private static readonly Dictionary<string, int> _clientTypeTimezone = new Dictionary<string, int>
+        private static readonly Dictionary<string, int> _clientTypeTimezone = new()
         {
             { string.Empty, 8 },
             { "Official", 8 },
@@ -56,10 +57,9 @@ namespace MaaWpfGui.Extensions
             return dt is { Month: 4, Day: 1 };
         }
 
-        public static string ToLocalTimeString(this DateTime dt)
+        public static string ToLocalTimeString(this DateTime dt, string? format = null, string? shortDatePattern = null, string? longTimePattern = "HH:mm:ss")
         {
-            var dateTimeFormat = CultureInfo.CurrentCulture.DateTimeFormat;
-            return dt.ToLocalTime().ToString(dateTimeFormat.ShortDatePattern + " HH:mm:ss");
+            return dt.ToLocalTime().ToString(format ?? $"{shortDatePattern ?? CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern} {longTimePattern}", CultureInfo.CurrentCulture);
         }
 
         public static DateTime ToDateTime(this System.Runtime.InteropServices.ComTypes.FILETIME filetime)
