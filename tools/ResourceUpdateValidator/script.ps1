@@ -77,7 +77,8 @@ foreach ($server in $listPerServer.Keys) {
                 continue
             }
         }
-    }    if ($localHasPngDiff) {
+    }
+    if ($localHasPngDiff) {
         $hasPngDiff = $true
     }
     if ($localDiff) {
