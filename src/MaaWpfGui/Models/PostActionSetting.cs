@@ -369,9 +369,7 @@ public class PostActionSetting : PropertyChangedBase
             actions.Add(prefix + LocalizationHelper.GetString("Sleep"));
         }
 
-        ActionDescription = actions.Count == 0
-            ? LocalizationHelper.GetString("DoNothing")
-            : string.Join(" -> ", actions);
+        ActionDescription = actions.Count == 0 ? LocalizationHelper.GetString("DoNothing") : string.Join(" -> ", actions);
     }
 
     private void UpdatePostAction(PostActions postActions, bool value)
