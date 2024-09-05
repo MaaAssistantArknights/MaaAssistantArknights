@@ -5630,20 +5630,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region HotKey
 
-        private static void SetPallasLanguage()
-        {
-            ConfigFactory.CurrentConfig.GUI.Localization = PallasLangKey;
-            var result = MessageBoxHelper.Show(
-                LocalizationHelper.GetString("DrunkAndStaggering"),
-                LocalizationHelper.GetString("Burping"),
-                iconKey: "DrunkAndStaggeringGeometry",
-                iconBrushKey: "PallasBrush");
-            if (result == MessageBoxResult.OK)
-            {
-                Bootstrapper.ShutdownAndRestartWithoutArgs();
-            }
-        }
-
         /// <summary>
         /// Gets or sets the hotkey: ShowGui.
         /// </summary>
