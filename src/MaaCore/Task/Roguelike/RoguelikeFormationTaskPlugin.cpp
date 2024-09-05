@@ -95,19 +95,13 @@ void asst::RoguelikeFormationTaskPlugin::clear_and_reselect()
     // 清空并退出游戏会自动按等级重新排序
     ProcessTask(*this, { "RoguelikeQuickFormationClearAndReselect" }).run();
 
-    m_last_detected_oper_names.clear();
-    oper_list.clear();
-
-    if (cur_page > 1) {
-        swipe_to_first_page(); 
+    scan_oper();
+    // 如果新识别出的干员页数没有之前的多，说明没在最左侧开始识别
+    if (max_page > cur_page) {
+        cur_page = max_page;
+        swipe_to_first_page();
+        scan_oper();
     }
-
-    while (analyze()) { // 返回true说明新增了干员，可能还有下一页
-        ProcessTask(*this, { "RoguelikeRecruitOperListSlowlySwipeToTheRight" }).run();
-        cur_page++;
-    }
-
-    cur_page--; // 最后多划了一下，退回最后一页的页码
     max_page = cur_page;
 
     // 将oper_list的每个干员重置为未选择
@@ -226,4 +220,18 @@ void asst::RoguelikeFormationTaskPlugin::swipe_to_first_page()
     }
     ProcessTask(*this, { "SleepAfterOperListQuickSwipe" }).run();
     cur_page = 1;
+}
+
+void asst::RoguelikeFormationTaskPlugin::scan_oper()
+{
+    m_last_detected_oper_names.clear();
+    oper_list.clear();
+    cur_page = 1;
+
+    while (analyze()) { // 返回true说明新增了干员，可能还有下一页
+        ProcessTask(*this, { "RoguelikeRecruitOperListSlowlySwipeToTheRight" }).run();
+        cur_page++;
+    }
+
+    cur_page--; // 最后多划了一下，退回最后一页的页码
 }
