@@ -935,6 +935,14 @@
         "sortId": 40003,
         "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
     },
+    "LINKAGE_TKT_GACHA_10_4801": {
+        "classifyType": "NORMAL",
+        "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
+        "icon": "LINKAGE_TKT_GACHA_10_4801.png",
+        "name": "Expert Headhunting Permit",
+        "sortId": 40003,
+        "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
+    },
     "LMTGS_COIN_1401": {
         "classifyType": "NORMAL",
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
@@ -1654,6 +1662,14 @@
         "name": "Sky Pole",
         "sortId": -10000,
         "usage": "An agricultural drone developed by the Tianshi Bureaus, which people occasionally leave lying in the fields after they malfunction. If you pick any up, you can exchange them for goods at Shennong Market."
+    },
+    "act32side_token_stamp": {
+        "classifyType": "NONE",
+        "description": "Upon seeing these cards, Tecno indifferently thumbs at a row of halved radishes in the corner of her workshop, each cross-section dyed through in seal ink and ready to go.",
+        "icon": "act32side_token_stamp.png",
+        "name": "Galería Stamp Card",
+        "sortId": -10000,
+        "usage": "A card for the Galería stamp rally. The more stamps, the more prizes you get. Despite each and every card bearing the limited-daily ultra-rare secret stamps, Reynell will still gladly exchange them for goods. In his words, 'my small token of respect to our anonymous seal-forger supreme.'"
     },
     "act38d1_token_coin": {
         "classifyType": "NONE",
