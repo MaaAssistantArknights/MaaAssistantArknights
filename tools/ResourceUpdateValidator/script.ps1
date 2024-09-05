@@ -64,7 +64,7 @@ foreach ($server in $listPerServer.Keys) {
             continue
         }
         if ($pathname -like "*/version.json") {
-            $versionDiff = git diff --unified=0 HEAD -- $pathname      
+            $versionDiff = git diff --unified=0 HEAD -- $pathname 2>$null
             $addedLines = @($versionDiff -split "`n" | Where-Object { $_ -match "^\+" -and $_ -notmatch "^\+\+\+" })
             $deletedLines = @($versionDiff -split "`n" | Where-Object { $_ -match "^\-" -and $_ -notmatch "^\-\-\-" })
             if ($addedLines.Count -eq 1 -and $deletedLines.Count -eq 1 -and $addedLines[0] -match "^\+\s*`"last_updated`":" -and $deletedLines[0] -match "^\-\s*`"last_updated`":") {
