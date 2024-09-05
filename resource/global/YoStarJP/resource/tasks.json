@@ -944,7 +944,12 @@
             ["郵便ポスト", "信使邮筒"],
             ["情報ボックス", "讯息匣"],
             ["眩暈のお香", "失衡异香"],
-            ["看板", "告示牌"]
+            ["看板", "告示牌"],
+            ["Doc", "医生"],
+            ["Ela", "艾拉"],
+            ["Iana", "双月"],
+            ["Fuze", "导火索"],
+            ["GRZMOTマイン", "雷鸣地雷"]
         ]
     },
     "StartToWakeUp": {
@@ -1272,9 +1277,9 @@
     },
     "BattleStartSimulation": {
         "Doc": "Delete the template and remove this modified roi task when paradox update comes PR#10439",
+        "roi": [417, 567, 444, 153],
         "method": "Ccoeff",
-        "colorScales": [],
-        "roi": [417, 567, 444, 153]
+        "colorScales": []
     },
     "BattleOperName": {
         "roi": [5, 177, 280, 37]
