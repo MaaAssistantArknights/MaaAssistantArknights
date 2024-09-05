@@ -3629,12 +3629,16 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public static string CoreVersion { get; } = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
 
+        public static string CoreVersionDisplay => string.Join("\u200B", UiVersion.ToCharArray());
+
         private static readonly string _uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
 
         /// <summary>
         /// Gets the UI version.
         /// </summary>
         public static string UiVersion { get; } = _uiVersion == "0.0.1" ? "DEBUG VERSION" : _uiVersion;
+
+        public static string UiVersionDisplay => string.Join("\u200B", UiVersion.ToCharArray());
 
         public static DateTime BuildDateTime { get; } = Assembly.GetExecutingAssembly().GetCustomAttribute<BuildDateTimeAttribute>()?.BuildDateTime ?? DateTime.MinValue;
 
