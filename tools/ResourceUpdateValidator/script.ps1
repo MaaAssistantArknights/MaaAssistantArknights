@@ -3,6 +3,8 @@ Write-Output "Check git status..."
 $gitStatus = git status
 Write-Output $gitStatus
 
+Write-Output "-------------------------------------------------------------------------------------------"
+
 # Start to diff the file changes
 Write-Output "Start to diff the file changes..."
 $gitdiff = git diff --numstat HEAD 2>$null | findstr -i resource
@@ -11,6 +13,8 @@ if ($LASTEXITCODE -ne 0) {
     exit 0
 }
 Write-Output $gitdiff
+
+Write-Output "-------------------------------------------------------------------------------------------"
 
 $diff = $false
 $hasPngDiff = $false
@@ -31,6 +35,8 @@ foreach ($line in $diffLines) {
     $listPerServer[$server] += , @($added, $deleted, $pathname)
 }
 
+Write-Output "-------------------------------------------------------------------------------------------"
+
 # Improved logging for parsed diff
 Write-Output "Parsed diff result:"
 foreach ($server in $listPerServer.Keys) {
@@ -41,7 +47,7 @@ foreach ($server in $listPerServer.Keys) {
     Write-Output "]`n"
 }
 
-Write-Output "`n"
+Write-Output "-------------------------------------------------------------------------------------------"
 
 # Process each server's changes
 foreach ($server in $listPerServer.Keys) {
@@ -94,6 +100,8 @@ foreach ($server in $listPerServer.Keys) {
     }
     Write-Output "$serverName Server check result: { localHasPngDiff = $localHasPngDiff, localDiff = $localDiff }`n"
 }
+
+Write-Output "-------------------------------------------------------------------------------------------"
 
 Write-Output "Diff check result: { hasPngDiff = $hasPngDiff, diff = $diff }"
 Write-Output "contains_png=$hasPngDiff" >> $env:GITHUB_OUTPUT
