@@ -806,7 +806,12 @@
             ["Mail Box", "信使邮筒"],
             ["Message Casket", "讯息匣"],
             ["Overspeed Spice", "失衡异香"],
-            ["Billboard", "告示牌"]
+            ["Billboard", "告示牌"],
+            ["Doc", "医生"],
+            ["Ela", "艾拉"],
+            ["Iana", "双月"],
+            ["Fuze", "导火索"],
+            ["Grzmot Mine", "雷鸣地雷"]
         ]
     },
     "StartToWakeUpOCR": {

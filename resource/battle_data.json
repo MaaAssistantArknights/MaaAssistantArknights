@@ -3010,7 +3010,7 @@
         },
         "char_4123_ela": {
             "name": "艾拉",
-            "name_en": "艾拉",
+            "name_en": "Ela",
             "name_jp": "Ela",
             "name_kr": "Ela",
             "name_tw": "艾拉",
@@ -3021,7 +3021,7 @@
         },
         "char_4124_iana": {
             "name": "双月",
-            "name_en": "双月",
+            "name_en": "Iana",
             "name_jp": "Iana",
             "name_kr": "Iana",
             "name_tw": "双月",
@@ -3032,7 +3032,7 @@
         },
         "char_4125_rdoc": {
             "name": "医生",
-            "name_en": "医生",
+            "name_en": "Doc",
             "name_jp": "Doc",
             "name_kr": "Doc",
             "name_tw": "医生",
@@ -3043,7 +3043,7 @@
         },
         "char_4126_fuze": {
             "name": "导火索",
-            "name_en": "导火索",
+            "name_en": "Fuze",
             "name_jp": "Fuze",
             "name_kr": "Fuze",
             "name_tw": "导火索",
@@ -4353,7 +4353,7 @@
         },
         "token_10033_ela_grzmot": {
             "name": "雷鸣地雷",
-            "name_en": "雷鸣地雷",
+            "name_en": "Grzmot Mine",
             "name_jp": "GRZMOTマイン",
             "name_kr": "GRZMOT 지뢰",
             "name_tw": "雷鸣地雷",
