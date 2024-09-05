@@ -64,7 +64,7 @@ for (const [server, list] of [...Object.entries(listPerServer), ...Object.getOwn
     if (localDiff) {
         diff = true;
     } else {
-        log(serverName, `No valid changes found in server: ${server}`);
+        log(serverName, `No valid changes found in server: ${typeof server === "symbol" ? server.description : server}`);
         log(serverName, "Revert the file changes...");
         for (const [, , pathname] of list) {
             await exec(`git checkout HEAD -- ${pathname}`);
