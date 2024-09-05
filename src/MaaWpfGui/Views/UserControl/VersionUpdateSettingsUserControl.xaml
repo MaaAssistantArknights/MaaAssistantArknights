@@ -159,12 +159,12 @@
                                 <TextBlock
                                     MinWidth="50"
                                     Padding="5,3,5,3"
-                                    HorizontalAlignment="Left"
+                                    HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     hc:FloatingBlock.Content="{Binding UiVersion}"
                                     Foreground="White"
                                     PreviewMouseDown="MaaVersionClick"
-                                    Text="{Binding UiVersion, Mode=OneWay}"
+                                    Text="{Binding UiVersionDisplay, Mode=OneWay}"
                                     TextWrapping="Wrap" />
                             </Border>
                             <Border
@@ -194,12 +194,12 @@
                                 <TextBlock
                                     MinWidth="50"
                                     Padding="5,3,5,3"
-                                    HorizontalAlignment="Left"
+                                    HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     hc:FloatingBlock.Content="{Binding UiVersion}"
                                     Foreground="White"
                                     PreviewMouseDown="UiVersionClick"
-                                    Text="{Binding UiVersion, Mode=OneWay}"
+                                    Text="{Binding UiVersionDisplay, Mode=OneWay}"
                                     TextWrapping="Wrap" />
                             </Border>
                             <Border
@@ -229,12 +229,12 @@
                                 <TextBlock
                                     MinWidth="50"
                                     Padding="5,3,5,3"
-                                    HorizontalAlignment="Left"
+                                    HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     hc:FloatingBlock.Content="{Binding CoreVersion}"
                                     Foreground="White"
                                     PreviewMouseDown="CoreVersionClick"
-                                    Text="{Binding CoreVersion, Mode=OneWay}"
+                                    Text="{Binding CoreVersionDisplay, Mode=OneWay}"
                                     TextWrapping="Wrap" />
                             </Border>
                         </Grid>
@@ -274,7 +274,7 @@
                                 <TextBlock
                                     MinWidth="50"
                                     Padding="5,3,5,3"
-                                    HorizontalAlignment="Left"
+                                    HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     hc:FloatingBlock.Content="{Binding ResourceDateTimeCurrentCultureString}"
                                     Foreground="White"
@@ -307,7 +307,7 @@
                                 <TextBlock
                                     MinWidth="50"
                                     Padding="5,3,5,3"
-                                    HorizontalAlignment="Left"
+                                    HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     hc:FloatingBlock.Content="{Binding BuildDateTimeCurrentCultureString}"
                                     Foreground="White"
