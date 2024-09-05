@@ -559,7 +559,7 @@ comments:
     skip-if:
       - "Log upload failed"
   - name: Check Link
-    url_mode: allow_only # 当评论出现下列列表中允许的模式以外的链接时触发规则
+    url_mode: allow_only # allow_only: 当评论出现下列列表中允许的模式以外的链接时触发规则；deny: 当评论出现下列列表中禁止的模式的链接时触发规则
     url_list: # 均解析为正则表达式，允许使用 URL 所有字符串属性，参见: https://developer.mozilla.org/zh-CN/docs/Web/API/URL#%E5%B1%9E%E6%80%A7
       # MAA 组织地址
       - hostname: ^(?:.+\.)?github\.com$
