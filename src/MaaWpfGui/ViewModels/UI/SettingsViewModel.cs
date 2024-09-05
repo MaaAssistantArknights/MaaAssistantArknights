@@ -730,7 +730,7 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _receiveFreeRecruit, awardTask.FreeGacha, nameof(ReceiveFreeRecruit));
                 SetAndNotify(ref _receiveOrundum, awardTask.Orundum, nameof(ReceiveOrundum));
                 SetAndNotify(ref _receiveMining, awardTask.Mining, nameof(ReceiveMining));
-                SetAndNotify(ref _receiveReceiveSpecialAccess, awardTask.SpecialAccess, nameof(ReceiveSpecialAccess));
+                SetAndNotify(ref _receiveSpecialAccess, awardTask.SpecialAccess, nameof(ReceiveSpecialAccess));
             }
             else if (task is MallTask mallTask)
             {
@@ -2904,17 +2904,17 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _receiveReceiveSpecialAccess;
+        private bool _receiveSpecialAccess;
 
         /// <summary>
         /// Gets or sets a value indicating whether to collect special access rewards.
         /// </summary>
         public bool ReceiveSpecialAccess
         {
-            get => _receiveReceiveSpecialAccess;
+            get => _receiveSpecialAccess;
             set
             {
-                SetAndNotify(ref _receiveReceiveSpecialAccess, value);
+                SetAndNotify(ref _receiveSpecialAccess, value);
                 ((AwardTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).SpecialAccess = value;
             }
         }
