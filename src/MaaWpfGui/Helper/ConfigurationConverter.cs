@@ -103,7 +103,7 @@ namespace MaaWpfGui.Helper
                 ConfigFactory.Root.VersionUpdate.Body = ConfigurationHelper.GetValue(ConfigurationKeys.VersionUpdateBody, string.Empty);
                 ConfigFactory.Root.VersionUpdate.IsFirstBoot = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.VersionUpdateIsFirstBoot, bool.FalseString));
                 ConfigFactory.Root.VersionUpdate.Package = ConfigurationHelper.GetValue(ConfigurationKeys.VersionUpdatePackage, string.Empty);
-                ConfigFactory.Root.VersionUpdate.VersionType = Enum.Parse<UpdateVersionType>(ConfigurationHelper.GetValue(ConfigurationKeys.VersionType, UpdateVersionType.Stable.ToString()));
+                ConfigFactory.Root.VersionUpdate.VersionType = Enum.Parse<UpdateVersionType>(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionType, UpdateVersionType.Stable.ToString()));
 
                 // 不完全迁移，缺少Proxy更新后监听
                 ConfigFactory.Root.VersionUpdate.Proxy = ConfigurationHelper.GetValue(ConfigurationKeys.UpdateProxy, string.Empty);

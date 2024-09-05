@@ -894,7 +894,7 @@ namespace MaaWpfGui.ViewModels.UI
                     NotifyOfPropertyChange(nameof(RoguelikeTheme));
                     break;
             }*/
-            }
+        }
 
         #region 启动设置
         /* 启动设置 */
@@ -2907,8 +2907,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _creditShopping, value);
                 ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).Shopping = value;
-                }
             }
+        }
 
         private string _creditFirstList;
 
@@ -2922,8 +2922,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _creditFirstList, value);
                 ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).FirstList = value;
-                }
             }
+        }
 
         private string _creditBlackList;
 
@@ -2937,8 +2937,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _creditBlackList, value);
                 ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).BlackList = value;
-                }
             }
+        }
 
         private bool _creditForceShoppingIfCreditFull;
 
@@ -2952,8 +2952,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _creditForceShoppingIfCreditFull, value);
                 ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).ShoppingIgnoreBlackListWhenFull = value;
-                }
             }
+        }
 
         private bool _creditOnlyBuyDiscount;
 
@@ -3001,8 +3001,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _receiveAward, value);
                 ((AwardTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).Award = value;
-                }
             }
+        }
 
         private bool _receiveMail;
 
@@ -3016,8 +3016,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _receiveMail, value);
                 ((AwardTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).Mail = value;
-                }
             }
+        }
 
         private bool _receiveFreeRecruit;
 
@@ -3782,29 +3782,10 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region 软件更新设置
 
-        public enum UpdateVersionType
-        {
-            /// <summary>
-            /// 测试版
-            /// </summary>
-            Nightly,
-
-            /// <summary>
-            /// 开发版
-            /// </summary>
-            Beta,
-
-            /// <summary>
-            /// 稳定版
-            /// </summary>
-            Stable,
-        }
-
         /// <summary>
         /// Gets the core version.
         /// </summary>
         public static string CoreVersion { get; } = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
-        private UpdateVersionType _versionType = ConfigFactory.Root.VersionUpdate.VersionType;
 
         public static string CoreVersionDisplay => string.Join("\u200B", CoreVersion.ToCharArray());
 
@@ -3893,9 +3874,7 @@ namespace MaaWpfGui.ViewModels.UI
             return (dateTime, versionName);
         }
 
-        private UpdateVersionType _versionType = (UpdateVersionType)Enum.Parse(
-            typeof(UpdateVersionType),
-            ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionType, UpdateVersionType.Stable.ToString()));
+        private UpdateVersionType _versionType = ConfigFactory.Root.VersionUpdate.VersionType;
 
         /// <summary>
         /// Gets or sets the type of version to update.
