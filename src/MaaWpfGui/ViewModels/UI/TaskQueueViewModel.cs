@@ -1051,22 +1051,31 @@ namespace MaaWpfGui.ViewModels.UI
 
             ClearLog();
 
+            var buildDateTimeLong = SettingsViewModel.BuildDateTimeCurrentCultureString;
+            var resourceDateTimeLong = Instances.SettingsViewModel.ResourceDateTimeCurrentCultureString;
+            AddLog($"Build Time:\n{buildDateTimeLong}\nResource Time:\n{resourceDateTimeLong}");
+
             var uiVersion = SettingsViewModel.UiVersion;
             var coreVersion = SettingsViewModel.CoreVersion;
             if (uiVersion != coreVersion &&
                 Instances.VersionUpdateViewModel.IsStdVersion(uiVersion) &&
                 Instances.VersionUpdateViewModel.IsStdVersion(coreVersion))
             {
-                AddLog(string.Format(LocalizationHelper.GetString("VersionMismatch"), uiVersion, coreVersion), UiLogColor.Warning);
+                AddLog(string.Format(LocalizationHelper.GetString("VersionMismatch"), uiVersion, coreVersion), UiLogColor.Error);
+                return;
             }
 
             await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript"));
 
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
+
+            /*
+            // 现在的主流模拟器都已经更新过自带的 adb 了，不再需要替换
             if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
             {
                 AddLog(LocalizationHelper.GetString("AdbReplacementTips"), UiLogColor.Info);
             }
+            */
 
             // 一般是点了“停止”按钮了
             if (Stopping)
@@ -1277,10 +1286,14 @@ namespace MaaWpfGui.ViewModels.UI
             await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript"));
 
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
+
+            /*
+            // 现在的主流模拟器都已经更新过自带的 adb 了，不再需要替换
             if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
             {
                 AddLog(LocalizationHelper.GetString("AdbReplacementTips"), UiLogColor.Info);
             }
+            */
 
             // 一般是点了“停止”按钮了
             if (Stopping)

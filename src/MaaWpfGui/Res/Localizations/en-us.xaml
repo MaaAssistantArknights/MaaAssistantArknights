@@ -18,9 +18,12 @@
     <system:String x:Key="HotKeySettings">HotKeys</system:String>
     <system:String x:Key="UpdateSettings">Update</system:String>
     <system:String x:Key="AboutUs">About us</system:String>
+    <system:String x:Key="MaaVersion">MAA Version</system:String>
+    <system:String x:Key="BuildDateTime">Build Date</system:String>
     <system:String x:Key="CoreVersion">Core Version</system:String>
     <system:String x:Key="UiVersion">UI Version</system:String>
     <system:String x:Key="ResourceVersion">Resource Version</system:String>
+    <system:String x:Key="ResourceDateTime">Resource Date</system:String>
     <system:String x:Key="Off">Off</system:String>
     <system:String x:Key="ExternalNotificationTips">Please note: The external notification feature currently only sends 「All tasks completed」 notifications.</system:String>
     <system:String x:Key="ExternalNotificationSettings">External notifications</system:String>

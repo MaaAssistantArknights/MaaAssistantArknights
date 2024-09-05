@@ -18,9 +18,12 @@
     <system:String x:Key="HotKeySettings">热键设置</system:String>
     <system:String x:Key="UpdateSettings">软件更新</system:String>
     <system:String x:Key="AboutUs">关于我们</system:String>
+    <system:String x:Key="MaaVersion">MAA 版本</system:String>
+    <system:String x:Key="BuildDateTime">构建日期</system:String>
     <system:String x:Key="CoreVersion">核心版本</system:String>
     <system:String x:Key="UiVersion">界面版本</system:String>
     <system:String x:Key="ResourceVersion">资源版本</system:String>
+    <system:String x:Key="ResourceDateTime">资源日期</system:String>
     <system:String x:Key="Off">关闭</system:String>
     <system:String x:Key="ExternalNotificationTips">请注意：外部通知功能目前仅会发送“所有任务完成”的通知。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
