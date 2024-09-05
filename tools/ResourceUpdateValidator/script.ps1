@@ -35,8 +35,6 @@ foreach ($line in $diffLines) {
     $listPerServer[$server] += , @($added, $deleted, $pathname)
 }
 
-Write-Output "-------------------------------------------------------------------------------------------"
-
 # Improved logging for parsed diff
 Write-Output "Parsed diff result:"
 foreach ($server in $listPerServer.Keys) {
