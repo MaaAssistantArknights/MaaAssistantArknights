@@ -74,9 +74,21 @@ namespace MaaWpfGui.Main
             */
 
             Directory.SetCurrentDirectory(AppContext.BaseDirectory);
-            if (Directory.Exists("debug") is false)
+            if (!Directory.Exists("debug"))
             {
                 Directory.CreateDirectory("debug");
+            }
+
+            // TODO: Remove after 5.10.0
+            string[] filesToDelete = ["MAA_win7.exe", "启动旧版.cmd"];
+            string curDir = Directory.GetCurrentDirectory();
+            foreach (var file in filesToDelete)
+            {
+                string path = Path.Combine(curDir, file);
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
             }
 
             const string LogFilename = "debug/gui.log";

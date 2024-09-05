@@ -3221,6 +3221,12 @@
                     "recruit_priority": 2
                 },
                 {
+                    "name": "玛露西尔",
+                    "skill": 2,
+                    "recruit_priority": -114514,
+                    "promote_priority": -800
+                },
+                {
                     "name": "“打字机”"
                 },
                 {

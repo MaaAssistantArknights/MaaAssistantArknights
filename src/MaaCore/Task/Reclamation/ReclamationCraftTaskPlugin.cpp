@@ -140,7 +140,7 @@ void asst::ReclamationCraftTaskPlugin::increase_craft_amount(const int& amount)
             return;
         }
         add_button_rect = add_button_analyzer.get_result().rect;
-        ctrler()->swipe(add_button_rect, add_button_rect, 12 * 1000 * amount / 100 + 1000);
+        ctrler()->swipe(add_button_rect, add_button_rect, 10 * 1000 * amount / 100 + 1000);
         break;
     default:
         Log.error(__FUNCTION__, "| unknown increment mode: ", static_cast<int>(m_increment_mode));

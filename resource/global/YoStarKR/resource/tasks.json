@@ -30,6 +30,12 @@
     "SideStoryReopen": {
         "text": ["재개방"]
     },
+    "CR-OpenOcr": {
+        "text": ["스테이지", "개방"]
+    },
+    "CRChapterToCR": {
+        "text": ["전시", "회", "관람"]
+    },
     "HS-9": {
         "sub": ["HS-Open", "HSChapterToHS"]
     },
@@ -112,7 +118,7 @@
             ["드래곤플라이F", "드래곤플라이에프"],
             ["드래곤플라이A", "드래곤플라이에이"],
             [
-                "\\b(?!(Ash|Blitz|Tachanka|Frost|.*ancet2|THRMEX|Friston3|[CcOo0]ast.*le3|[Ww]|12F|Mon3tr|Sharp|Pith|Touch|Stormeye|[JUu][O0o]f{0,2}icial))(\\w)+$",
+                "\\b(?!(Ash|Blitz|Tachanka|Frost|Ela|Doc|Fuze|Iana|.*ancet2|THRMEX|Friston3|[CcOo0]ast.*le3|[Ww]|12F|Mon3tr|Sharp|Pith|Touch|Stormeye|[JUu][O0o]f{0,2}icial))(\\w)+$",
                 ""
             ],
             ["[CcOo0]ast.*le3", "Castle-3"],
@@ -749,7 +755,12 @@
             ["전달자우편함", "信使邮筒"],
             ["^사서함$", "讯息匣"],
             ["언밸런스디퓨저", "失衡异香"],
-            ["^게시판$", "告示牌"]
+            ["^게시판$", "告示牌"],
+            ["^Doc$", "医生"],
+            ["^Ela$", "艾拉"],
+            ["^Iana$", "双月"],
+            ["^Fuze$", "导火索"],
+            ["GRZMOT지뢰", "雷鸣地雷"]
         ]
     },
     "StartUpThemes": {
@@ -1137,6 +1148,12 @@
         "ocrReplace": [["개.+", "개시"]],
         "text": ["작전", "개시"],
         "roi": [1020, 410, 170, 210]
+    },
+    "BattleStartSimulation": {
+        "Doc": "Delete the template and remove this modified roi task when paradox update comes PR#10439",
+        "roi": [417, 567, 444, 153],
+        "method": "Ccoeff",
+        "colorScales": []
     },
     "StageDrops-Quantity": {
         "maskRange": [200, 255],

@@ -27,6 +27,12 @@
         "text": ["Rerun", "Retrospection"],
         "roi": [0, 500, 500, 150]
     },
+    "CR-OpenOcr": {
+        "text": ["Operation", "Lucent", "Arrowhead"]
+    },
+    "CRChapterToCR": {
+        "text": ["Roam", "Exhibition", "ROAM", "EXHIBITION"]
+    },
     "HS-9": {
         "sub": ["HS-Open", "HSChapterToHS"]
     },
@@ -800,7 +806,12 @@
             ["Mail Box", "信使邮筒"],
             ["Message Casket", "讯息匣"],
             ["Overspeed Spice", "失衡异香"],
-            ["Billboard", "告示牌"]
+            ["Billboard", "告示牌"],
+            ["Doc", "医生"],
+            ["Ela", "艾拉"],
+            ["Iana", "双月"],
+            ["Fuze", "导火索"],
+            ["Grzmot Mine", "雷鸣地雷"]
         ]
     },
     "StartToWakeUpOCR": {
@@ -1210,7 +1221,10 @@
         "roi": [1000, 404, 210, 220]
     },
     "BattleStartSimulation": {
-        "roi": [400, 566, 481, 154]
+        "Doc": "Delete the template and remove this modified roi task when paradox update comes PR#10439",
+        "roi": [400, 566, 481, 154],
+        "method": "Ccoeff",
+        "colorScales": []
     },
     "BattleOperName": {
         "roi": [5, 177, 280, 37]
