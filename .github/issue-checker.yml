@@ -197,7 +197,7 @@ labels:
   # `module: reclamation`
   - name: reclamation
     content: "module: reclamation"
-    regexes: "生息|演算|沙洲遗闻|[Ff]ire [Ww]ithin|[Rr]eclamation"
+    regexes: "生息|演算|沙洲遗闻|[Ff]ire [Ww]ithin|[Tt]ales [Ww]ithin|[Rr]eclamation|RA2"
     skip-if:
       - skip all
       - skip module
