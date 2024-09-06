@@ -40,6 +40,6 @@ jobs:
         with:
           pr-mode: true
           post-pr-comment: true
-          args: --baseline,.github/qodana-baseline.json
+          args: --baseline,.github/qodana.sarif.json
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
