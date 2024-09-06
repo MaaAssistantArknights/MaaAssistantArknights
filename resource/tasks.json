@@ -11949,11 +11949,7 @@
         ],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
-        "next": [
-            "RA@Navigation-FromTodoList",
-            "RA@Navigation-LongTermExploration",
-            "RA@Navigation-FromMainInterface"
-        ],
+        "next": ["RA@Navigation-FromTodoList", "RA@Navigation-LongTermExploration", "RA@Navigation-FromMainInterface"],
         "postDelay": 1000
     },
     "RA@Navigation-LongTermExploration": {
