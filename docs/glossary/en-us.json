@@ -499,6 +499,9 @@
             "char_4137_udflow": "Underflow",
             "char_4139_papyrs": "Papyrus",
             "char_4140_lasher": "Sand Reckoner",
+            "char_4142_laios": "Laios",
+            "char_4143_sensi": "Senshi",
+            "char_4144_chilc": "Chilchuck",
             "char_4147_mitm": "Mitm",
             "char_4151_tinman": "Tin Man"
         },
@@ -599,6 +602,7 @@
             "char_4133_logos": "Logos",
             "char_4134_cetsyr": "Civilight Eterna",
             "char_4138_narant": "Narantuya",
+            "char_4141_marcil": "Marcille",
             "char_4145_ulpia": "Ulpianus",
             "char_4146_nymph": "Nymph"
         }
