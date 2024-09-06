@@ -243,12 +243,12 @@ jobs:
           branch: ${{ github.ref }}
           github_token: ${{ secrets.MAA_RESOURCE_SYNC }}
 
-      # - name: Update OTA resource
-      #   if: steps.add_files.outputs.have_commits == 'True'
-      #   env:
-      #     GH_TOKEN: ${{ secrets.MAA_RESOURCE_SYNC }}
-      #   run: |
-      #     gh workflow --repo MaaAssistantArknights/MaaRelease run update-resource.yml
+      - name: Update OTA resource
+        if: steps.add_files.outputs.have_commits == 'True'
+        env:
+          GH_TOKEN: ${{ secrets.MAA_RESOURCE_SYNC }}
+        run: |
+          gh workflow --repo MaaAssistantArknights/MaaRelease run update-resource.yml
 
       - name: Add cancelled status
         if: steps.check_sorted_templates.outputs.changes != 'True' || steps.add_files.outputs.have_commits != 'True'
