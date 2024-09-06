@@ -2634,7 +2634,11 @@
         "text": ["継", "続"]
     },
     "Reclamation2BeginStage": {
-        "text": ["人々", "が集う", "集会場"]
+        "text": ["人々", "が集う", "集会場"],
+        "ocrReplace": [
+            ["集会環", "集会場"],
+            ["人タカ", "人々"]
+        ]
     },
     "Reclamation2Birdland": {
         "text": ["羽獣", "集う地", "狩猟エリア"]
@@ -2825,9 +2829,9 @@
     "Tales@RA@ClickShrubberyGalore": {
         "text": ["豊かな", "低木林", "資源エリア"],
         "ocrReplace": [
-            ["(予|青)(原|厚)(工|正)", "資源エリア"],
+            ["(予|青|諸)(原|厚)(工|正)", "資源エリア"],
             ["夢方.?な", "豊かな"],
-            ["豊方", "豊かな"]
+            ["豊.+", "豊かな"]
         ]
     },
     "Tales@RA@ConfirmSquad": {
@@ -2841,6 +2845,16 @@
     },
     "Tales@RA@FinishCalc": {
         "text": ["タップ", "続く"]
+    },
+    "Tales@RA@PIS-ProsperityBelowLimit-LoadSave": {
+        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
+        "doc": "Needs to be edited if confirmation window is removed later",
+        "sub": [
+            "Tales@RA@DialogConfirmYellow",
+            "Tales@RA@DialogConfirmRed",
+            "Tales@RA@SelectSecondLastSave",
+            "Tales@RA@ConfirmToLoadSave"
+        ]
     },
     "Tales@RA@PIS-ProsperityReachLimit-LoadSave": {
         "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
@@ -2856,7 +2870,11 @@
         "text": ["継", "続"]
     },
     "Tales@RA@PNS-ClickBaseCamp": {
-        "text": ["人々", "が集う", "集会場"]
+        "text": ["人々", "が集う", "集会場"],
+        "ocrReplace": [
+            ["集会環", "集会場"],
+            ["人タカ", "人々"]
+        ]
     },
     "Tales@RA@PNS-Commence": {
         "text": ["開", "始"]

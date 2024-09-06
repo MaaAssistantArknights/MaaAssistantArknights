@@ -11923,7 +11923,7 @@
         "doc": "生息点数未达到上限, 点击右下角 Dots",
         "baseTask": "Tales@RA@Dots",
         "template": "Tales@RA@Dots.png",
-        "next": ["Tales@RA@PIS-ProsperityBelowLimit-LoadSave"]
+        "next": ["Tales@RA@PIS-ProsperityBelowLimit-LoadSave", "#self"]
     },
     "Tales@RA@PIS-ProsperityBelowLimit-LoadSave": {
         "doc": "生息点数未达到上限, 点击右下角读取存档图标, 选择从右往左第二个存档或仅存的存档, 点击 <点击确认> 文字位置确认读取存档",
