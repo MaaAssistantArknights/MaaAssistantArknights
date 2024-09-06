@@ -25,6 +25,7 @@ using System.Windows.Threading;
 using GlobalHotKey;
 using MaaWpfGui.Configuration;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Properties;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
@@ -116,6 +117,7 @@ namespace MaaWpfGui.Main
 
             var uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
             uiVersion = uiVersion == "0.0.1" ? "DEBUG VERSION" : uiVersion;
+            var builtDate = Assembly.GetExecutingAssembly().GetCustomAttribute<BuildDateTimeAttribute>()?.BuildDateTime ?? DateTime.MinValue;
             var maaEnv = Environment.GetEnvironmentVariable("MAA_ENVIRONMENT") == "Debug"
                 ? "Debug"
                 : "Production";
@@ -127,9 +129,10 @@ namespace MaaWpfGui.Main
             _logger = Log.Logger.ForContext<Bootstrapper>();
             _logger.Information("===================================");
             _logger.Information("MaaAssistantArknights GUI started");
-            _logger.Information("Version {UiVersion}", uiVersion);
-            _logger.Information("Maa ENV: {MaaEnv}", maaEnv);
-            _logger.Information("User Dir {CurrentDirectory}", Directory.GetCurrentDirectory());
+            _logger.Information($"Version {uiVersion}");
+            _logger.Information($"Built at {builtDate:O}");
+            _logger.Information($"Maa ENV: {maaEnv}");
+            _logger.Information($"User Dir {Directory.GetCurrentDirectory()}");
             if (IsUserAdministrator())
             {
                 _logger.Information("Run as Administrator");
