@@ -221,10 +221,10 @@ jobs:
           git add .
 
           $commit_msg = "${{ github.event.inputs.commit_message }}"
-          if (-not [string]::IsNullOrWhiteSpace($commit_msg)) {
-            $commit_msg = $commit_msg.Trim()
-          } else {
+          if ([string]::IsNullOrWhiteSpace($commit_msg)) {
             $commit_msg = "chore: Auto Update Game Resources - $(Get-Date -Format 'yyyy-MM-dd')"
+          } else {
+            $commit_msg = $commit_msg.Trim()
           }
 
           $run_url = "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
@@ -234,12 +234,13 @@ jobs:
             Write-Output "have_commits=True" >> $env:GITHUB_OUTPUT
           }
 
-          git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
+          git pull origin ${{ github.ref_name }} --rebase
 
       - name: Push changes
         if: steps.add_files.outputs.have_commits == 'True'
         uses: ad-m/github-push-action@master
         with:
+          branch: ${{ github.ref }}
           github_token: ${{ secrets.MAA_RESOURCE_SYNC }}
 
       - name: Update OTA resource
