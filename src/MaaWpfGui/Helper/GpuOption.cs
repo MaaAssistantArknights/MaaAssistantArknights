@@ -144,7 +144,7 @@ namespace MaaWpfGui.Helper
 
             uint i = 0;
 
-            var options = new List<GpuOption>() { Disable };
+            var options = new List<GpuOption> { Disable };
 
             while (true)
             {

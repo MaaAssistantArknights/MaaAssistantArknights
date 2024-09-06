@@ -190,7 +190,7 @@ namespace MaaWpfGui.Services
             // bool curResourceVerParsed = SemVersion.TryParse(
             //    tasksJsonClient?["ResourceVersion"]?.ToString() ?? tasksJson?["ResourceVersion"]?.ToString() ?? string.Empty,
             //    SemVersionStyles.AllowLowerV, out var curResourceVersionObj);
-            var resourceCollection = new StageActivityInfo()
+            var resourceCollection = new StageActivityInfo
             {
                 IsResourceCollection = true,
             };
@@ -235,7 +235,7 @@ namespace MaaWpfGui.Services
                                             Value = LocalizationHelper.GetString("UnsupportedStages"),
                                             Drop = LocalizationHelper.GetString("LowVersion") + '\n' +
                                                    LocalizationHelper.GetString("MinimumRequirements") + minRequiredObj,
-                                            Activity = new StageActivityInfo()
+                                            Activity = new StageActivityInfo
                                             {
                                                 Tip = stageObj?["Activity"]?["Tip"]?.ToString(),
                                                 StageName = stageObj?["Activity"]?["StageName"]?.ToString(),
@@ -261,7 +261,7 @@ namespace MaaWpfGui.Services
                             Display = stageObj?["Display"]?.ToString() ?? string.Empty,
                             Value = stageObj?["Value"]?.ToString(),
                             Drop = stageObj?["Drop"]?.ToString(),
-                            Activity = new StageActivityInfo()
+                            Activity = new StageActivityInfo
                             {
                                 Tip = stageObj?["Activity"]?["Tip"]?.ToString(),
                                 StageName = stageObj?["Activity"]?["StageName"]?.ToString(),

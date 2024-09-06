@@ -50,7 +50,7 @@ internal class NotificationImplWpf : INotificationPoster
     /// Gets basic text styles.
     /// </summary>
     /// <remarks>创建一个基本文本字体样式。</remarks>
-    public TextContentSettings BaseTextSettings => new TextContentSettings()
+    public TextContentSettings BaseTextSettings => new TextContentSettings
     {
         FontStyle = FontStyles.Normal,
         FontFamily = new FontFamily("Microsoft Yahei"),
@@ -66,7 +66,7 @@ internal class NotificationImplWpf : INotificationPoster
 
     public void ShowNotification(NotificationContent content)
     {
-        var wpfcontent = new global::Notification.Wpf.NotificationContent()
+        var wpfcontent = new global::Notification.Wpf.NotificationContent
         {
             Title = content.Summary,
             Message = content.Body,
