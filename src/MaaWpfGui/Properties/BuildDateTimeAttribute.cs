@@ -18,8 +18,6 @@ namespace MaaWpfGui.Properties
     [AttributeUsage(AttributeTargets.Assembly)]
     public class BuildDateTimeAttribute(string date) : Attribute
     {
-        private const string DateFormat = "yyyy-MM-ddTHH:mm:ss";
-
-        public DateTime BuildDateTime { get; } = DateTime.ParseExact(date, DateFormat, null);
+        public DateTime BuildDateTime { get; } = DateTime.ParseExact(date, "O", null);
     }
 }

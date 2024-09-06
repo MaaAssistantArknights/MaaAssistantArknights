@@ -44,7 +44,7 @@
 
   <ItemGroup>
     <AssemblyAttribute Include="MaaWpfGui.Properties.BuildDateTime">
-      <_Parameter1>$([System.DateTime]::UtcNow.ToString("yyyy-MM-ddTHH:mm:ss"))</_Parameter1>
+      <_Parameter1>$([System.DateTime]::UtcNow.ToString("O"))</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
 
