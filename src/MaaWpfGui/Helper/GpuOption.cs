@@ -270,12 +270,7 @@ namespace MaaWpfGui.Helper
             {
                 using var regkey = Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\Enum\" + instance_path, false);
 
-                if (regkey == null)
-                {
-                    return false;
-                }
-
-                var upperfilters = regkey.GetValue("UpperFilters");
+                var upperfilters = regkey?.GetValue("UpperFilters");
 
                 if (upperfilters == null)
                 {

@@ -615,12 +615,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool OperBoxParse(JObject? details)
         {
-            if (details == null)
-            {
-                return false;
-            }
-
-            var operBoxes = (JArray?)details["all_opers"];
+            var operBoxes = (JArray?)details?["all_opers"];
 
             if (operBoxes == null)
             {
