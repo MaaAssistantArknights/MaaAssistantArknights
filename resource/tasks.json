@@ -11727,7 +11727,7 @@
         "postDelay": 500,
         "next": ["Stop"]
     },
-    "Tales@RA-SquadSizeLE6": {
+    "Tales@RA@SquadSizeLE6": {
         "doc": "模板任务: 当前编队规模小于等于6人",
         "template": "Tales@RA@SquadSizeIndicator0.png",
         "roi": [811, 647, 60, 60]
@@ -11921,8 +11921,70 @@
         "template": "Tales@RA@BackDark.png",
         "next": ["Tales@RA@PIS-SkipToCalc"]
     },
+    "RA@Navigation": {
+        "doc": "导航到 <生息演算>",
+        "algorithm": "JustReturn",
+        "next": [
+            "RA@Navigation-ResogniseTheme",
+            "RA@ReturnButtons#next",
+            "RA@StartUpThemes#next"
+        ]
+    },
+    "RA@Navigation-ResogniseTheme": {
+        "doc": "通过识别右下角 <开始演算> 或 <继续演算> 文字判断是否已到达主题入口界面",
+        "algorithm": "OcrDetect",
+        "text": ["开始演算", "继续演算"],
+        "roi": [1064, 620, 171, 50]
+    },
+    "RA@MainThemes": {
+        "doc": "用于 <RA@StartUpThemes#next> 任务链, 标记导航到生息演算",
+        "next": ["RA@Navigation-FromMainInterface"]
+    },
+    "RA@Navigation-FromMainInterface": {
+        "doc": "模版任务: 从主界面导航到对应的生息演算主题",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png",
+            "TerminalMistCity.png",
+            "TerminalSiege.png",
+            "TerminalSarkaz.png",
+            "TerminalDelicious.png"
+        ],
+        "action": "ClickSelf",
+        "roi": [844, 58, 268, 272],
+        "next": [
+            "RA@FromTodoList",
+            "RA@Navigation-LongTermExploration",
+            "RA@Navigation-FromMainInterface"],
+        "postDelay": 1000
+    },
+    "RA@Navigation-LongTermExploration": {
+        "doc": "在 <终端> 下方导航条点击 <长期探索> 图标, 此处引用 <集成战略> 相关任务作为 baseTask",
+        "baseTask": "Roguelike@IntegratedStrategies",
+        "template": "Roguelike@IntegratedStrategies.png",
+        "next": ["RA@Navigation-EnterCurrentTheme", "RA@Navigation-LongTermExploration"]
+    },
+    "RA@Navigation-EnterCurrentTheme": {
+        "doc": "点击 <生息演算> 文字位置以进入当前主题",
+        "algorithm": "OcrDetect",
+        "text": ["生息演算"],
+        "roi": [673, 441, 348, 99],
+        "action": "ClickSelf",
+        "next": ["RA@Navigation-EnterCurrentTheme", "RA@Navigation#next"]
+    },
+    "RA@FromTodoList": {
+        "doc": "纯虚任务: 从 <终端> 的 <TO-DO LIST> 进入对应的生息演算主题",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [908, 54, 372, 500],
+        "maskRange": [1, 255],
+        "next": ["RA@Navigation#next"]
+    },
+    "Tales@RA@FromTodoList": {},
     "Tales@RA@PIS-Navigation": {
         "algorithm": "JustReturn",
+        "sub": ["RA@Navigation"],
         "next": ["Tales@RA@ProsperityInSave"]
     },
     "Tales@RA@PIS-ProsperityBelowLimit": {
@@ -12094,7 +12156,7 @@
     "Tales@RA@PNS-ClearSquadIfSizeGE7": {
         "doc": "如果当前编队规模大于等于7人则清空当前编队",
         "algorithm": "JustReturn",
-        "next": ["Tales@RA-SquadSizeLE6", "Tales@RA@ClearSquad"]
+        "next": ["Tales@RA@SquadSizeLE6", "Tales@RA@ClearSquad"]
     },
     "Tales@RA@PNS-ClickBaseCamp": {
         "doc": "点击 <后舍: 众人会聚之地>",
@@ -12234,6 +12296,7 @@
     },
     "Tales@RA@PNS-Navigation": {
         "algorithm": "JustReturn",
+        "sub": ["RA@Navigation"],
         "next": ["Tales@RA@ProsperityNoSave"]
     },
     "Tales@RA@PNS-OpeningAnimation": {
