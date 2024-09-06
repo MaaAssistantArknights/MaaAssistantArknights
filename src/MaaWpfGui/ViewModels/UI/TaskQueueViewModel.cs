@@ -1525,13 +1525,13 @@ namespace MaaWpfGui.ViewModels.UI
 
         private readonly Dictionary<string, IEnumerable<string>> _blackCharacterListMapping = new()
         {
-            { string.Empty, new[] { "讯使", "嘉维尔", "坚雷" } },
-            { "Official", new[] { "讯使", "嘉维尔", "坚雷" } },
-            { "Bilibili", new[] { "讯使", "嘉维尔", "坚雷" } },
-            { "YoStarEN", new[] { "Courier", "Gavial", "Dur-nar" } },
-            { "YoStarJP", new[] { "クーリエ", "ガヴィル", "ジュナー" } },
-            { "YoStarKR", new[] { "쿠리어", "가비알", "듀나" } },
-            { "txwy", new[] { "訊使", "嘉維爾", "堅雷" } },
+            { string.Empty, ["讯使", "嘉维尔", "坚雷"] },
+            { "Official", ["讯使", "嘉维尔", "坚雷"] },
+            { "Bilibili", ["讯使", "嘉维尔", "坚雷"] },
+            { "YoStarEN", ["Courier", "Gavial", "Dur-nar"] },
+            { "YoStarJP", ["クーリエ", "ガヴィル", "ジュナー"] },
+            { "YoStarKR", ["쿠리어", "가비알", "듀나"] },
+            { "txwy", ["訊使", "嘉維爾", "堅雷"] },
         };
 
         private bool AppendMall()

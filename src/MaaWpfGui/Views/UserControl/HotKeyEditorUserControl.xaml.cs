@@ -61,17 +61,17 @@ namespace MaaWpfGui.Views.UserControl
             }
 
             // If no actual key was pressed - return
-            if (key == Key.LeftCtrl ||
-                key == Key.RightCtrl ||
-                key == Key.LeftAlt ||
-                key == Key.RightAlt ||
-                key == Key.LeftShift ||
-                key == Key.RightShift ||
-                key == Key.LWin ||
-                key == Key.RWin ||
-                key == Key.Clear ||
-                key == Key.OemClear ||
-                key == Key.Apps)
+            if (key is Key.LeftCtrl
+                    or Key.RightCtrl
+                    or Key.LeftAlt
+                    or Key.RightAlt
+                    or Key.LeftShift
+                    or Key.RightShift
+                    or Key.LWin
+                    or Key.RWin
+                    or Key.Clear
+                    or Key.OemClear
+                    or Key.Apps)
             {
                 return;
             }

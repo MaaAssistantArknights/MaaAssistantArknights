@@ -268,7 +268,7 @@ namespace MaaWpfGui.Helper
         {
             try
             {
-                using var regkey = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Enum\\" + instance_path, false);
+                using var regkey = Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\Enum\" + instance_path, false);
 
                 if (regkey == null)
                 {
