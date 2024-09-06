@@ -404,7 +404,7 @@ namespace MaaWpfGui.ViewModels.UI
                     continue;
                 }
 
-                DepotResultDate result = new DepotResultDate()
+                DepotResultDate result = new DepotResultDate
                 {
                     Id = id,
                     Name = ItemListHelper.GetItemName(id),

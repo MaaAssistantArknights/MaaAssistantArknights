@@ -245,7 +245,6 @@ namespace MaaWpfGui.Helper
                           ?? new Dictionary<string, Dictionary<string, string>>();
                 _current = parsed[ConfigurationKeys.CurrentConfiguration]?.ToString()
                            ?? ConfigurationKeys.DefaultConfiguration;
-                _kvs = _kvsMap[_current];
             }
             else
             {
@@ -255,8 +254,9 @@ namespace MaaWpfGui.Helper
                 _kvsMap = new Dictionary<string, Dictionary<string, string>>();
                 _current = ConfigurationKeys.DefaultConfiguration;
                 _kvsMap[_current] = parsed.ToObject<Dictionary<string, string>>();
-                _kvs = _kvsMap[_current];
             }
+
+            _kvs = _kvsMap[_current];
 
             _globalKvs = hasCurrentConfig
                 ? parsed[ConfigurationKeys.GlobalConfiguration]?.ToObject<Dictionary<string, string>>()

@@ -140,23 +140,22 @@ namespace MaaWpfGui.Helper
             {
                 return ShowNative(ownerWindow, messageBoxText, null, caption, buttons, icon, MessageBoxResult.None, false, ok, cancel, yes, no);
             }
-            else
+
+            SetImage(icon, ref iconKey, ref iconBrushKey);
+            var info = new MessageBoxInfo
             {
-                SetImage(icon, ref iconKey, ref iconBrushKey);
-                var info = new MessageBoxInfo
-                {
-                    Message = messageBoxText,
-                    Caption = caption,
-                    Button = buttons,
-                    IconKey = iconKey,
-                    IconBrushKey = iconBrushKey,
-                    ConfirmContent = ok,
-                    CancelContent = cancel,
-                    YesContent = yes,
-                    NoContent = no,
-                };
-                return HandyControl.Controls.MessageBox.Show(info);
-            }
+                Message = messageBoxText,
+                Caption = caption,
+                Button = buttons,
+                IconKey = iconKey,
+                IconBrushKey = iconBrushKey,
+                ConfirmContent = ok,
+                CancelContent = cancel,
+                YesContent = yes,
+                NoContent = no,
+            };
+
+            return HandyControl.Controls.MessageBox.Show(info);
         }
 
         private readonly unsafe ref struct DisposablePin<T>
