@@ -97,9 +97,8 @@ foreach ($server in $listPerServer.Keys) {
         }
     }
     Write-Output "$serverName Server check result: { localHasPngDiff = $localHasPngDiff, localDiff = $localDiff }`n"
+    Write-Output "-------------------------------------------------------------------------------------------"
 }
-
-Write-Output "-------------------------------------------------------------------------------------------"
 
 Write-Output "Diff check result:"
 Write-Output "hasPngDiff: $hasPngDiff"
