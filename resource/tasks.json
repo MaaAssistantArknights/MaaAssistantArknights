@@ -11763,6 +11763,11 @@
         "action": "ClickSelf",
         "next": ["Tales@RA@DialogConfirmRed"]
     },
+    "Tales@RA@PNS-ClickGatheringOfFeathers": {
+        "doc": "点击 <捕猎区: 聚羽之地>",
+        "baseTask": "Tales@RA@ClickGatheringOfFeathers",
+        "next": ["Tales@RA@RecogniseEnterNodeButton", "Tales@RA@PNS-ClickGatheringOfFeathers"]
+    },
     "Tales@RA@ClickGatheringOfFeathers": {
         "doc": "模板任务: 点击 <捕猎区: 聚羽之地>",
         "algorithm": "OcrDetect",
@@ -11775,6 +11780,16 @@
         "template": "Tales@RA@HeadquartersButton.png",
         "roi": [36, 634, 68, 76],
         "action": "ClickSelf"
+    },
+    "Tales@RA@PNS-ClickShrubberyGalore": {
+        "doc": "点击 <资源区: 丰饶灌木林>",
+        "baseTask": "Tales@RA@ClickShrubberyGalore",
+        "next": ["Tales@RA@RecogniseEnterNodeButton", "Tales@RA@PNS-ClickShrubberyGalore"]
+    },
+    "Tales@RA@RecogniseEnterNodeButton": {
+        "doc": "模板任务: 通过识别右下角 <开始行动> 按钮判断是否已点击区块节点",
+        "baseTask": "Tales@RA@EnterNode",
+        "action": "DoNothing"
     },
     "Tales@RA@ClickShrubberyGalore": {
         "doc": "模板任务: 点击 <资源区: 丰饶灌木林>",
@@ -12171,13 +12186,21 @@
     "Tales@RA@PNS-GoTo-GatheringOfFeathers": {
         "doc": "前往并点击 <捕猎区: 聚羽之地>, 未来改由 GoTo 插件实现",
         "algorithm": "JustReturn",
-        "sub": ["Tales@RA@ReturnToOrigin", "Tales@RA@ClickGatheringOfFeathers"],
+        "sub": [
+            "Tales@RA@PNS-WaitForHeadquartersButton",
+            "Tales@RA@ReturnToOrigin",
+            "Tales@RA@PNS-ClickGatheringOfFeathers"
+        ],
         "next": ["Tales@RA@PNS-EnterGatheringOfFeathersThenLeave"]
     },
     "Tales@RA@PNS-GoTo-ShrubberyGalore": {
         "doc": "前往并点击 <资源区: 丰饶灌木林>, 未来改由 GoTo 插件实现",
         "algorithm": "JustReturn",
-        "sub": ["Tales@RA@PNS-WaitForHeadquartersButton", "Tales@RA@ReturnToOrigin", "Tales@RA@ClickShrubberyGalore"],
+        "sub": [
+            "Tales@RA@PNS-WaitForHeadquartersButton",
+            "Tales@RA@ReturnToOrigin",
+            "Tales@RA@PNS-ClickShrubberyGalore"
+        ],
         "next": ["Tales@RA@PNS-EnterShrubberyGaloreThenLeave"]
     },
     "Tales@RA@PNS-WaitForHeadquartersButton": {
