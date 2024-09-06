@@ -568,6 +568,15 @@ comments:
       - hostname: ^(?:.+\.)?maa\.plus$
       # 作业站
       - hostname: ^(?:.+\.)?prts\.plus$
+      # issue / pr
+      - hostname: ^github\.com$
+        pathname: ^/[^/]+/[^/]+/(?:issues|pull)/[1-9]\d*$
+      # commit
+      - hostname: ^github\.com$
+        pathname: ^/[^/]+/[^/]+/commit/[\da-fA-F]{7,}$
+      # @ 用户
+      - hostname: ^github\.com$
+        pathname: ^/[^/]+$
       # GitHub 图片地址，形如 `https://private-user-images.githubusercontent.com/55343783/364401381-34803448-400d-4c98-bd06-9ba5a259a931.png?jwt=[token]`
       - hostname: ^private-user-images\.githubusercontent\.com$
         pathname: ^/\d+/[0-9a-fA-F-]+\.([a-z\d]+)$
