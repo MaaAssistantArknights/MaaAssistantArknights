@@ -11,6 +11,8 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+namespace MaaWpfGui.WineCompat;
+
 public enum WineBridgeAvailability
 {
     Operational,

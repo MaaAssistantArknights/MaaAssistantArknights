@@ -40,7 +40,7 @@ public class AppIcon
         catch (Exception)
         {
             throw;
-            // return new BitmapImage();
+            return new BitmapImage();
         }
     }
 

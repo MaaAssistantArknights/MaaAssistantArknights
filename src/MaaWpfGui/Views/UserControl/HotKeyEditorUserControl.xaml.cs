@@ -18,7 +18,7 @@ using MaaWpfGui.Services.HotKeys;
 
 namespace MaaWpfGui.Views.UserControl
 {
-    public partial class HotKeyEditorUserControl : System.Windows.Controls.UserControl
+    public partial class HotKeyEditorUserControl
     {
         public static readonly DependencyProperty HotKeyProperty =
             DependencyProperty.Register(nameof(HotKey), typeof(MaaHotKey),

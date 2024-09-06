@@ -16,7 +16,7 @@ namespace MaaWpfGui.Views.UserControl
     /// <summary>
     /// AutoRecruitSettingsUserControl.xaml 的交互逻辑
     /// </summary>
-    public partial class AutoRecruitSettingsUserControl : System.Windows.Controls.UserControl
+    public partial class AutoRecruitSettingsUserControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AutoRecruitSettingsUserControl"/> class.

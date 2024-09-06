@@ -812,7 +812,7 @@ namespace MaaWpfGui.ViewModels.UI
                 GachaImage = image;
 
                 var rd = new Random();
-                GachaInfo = LocalizationHelper.GetString("GachaTip" + rd.Next(1, 18).ToString());
+                GachaInfo = LocalizationHelper.GetString("GachaTip" + rd.Next(1, 18));
             }
         }
 
