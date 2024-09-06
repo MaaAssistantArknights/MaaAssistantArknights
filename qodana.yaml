@@ -23,18 +23,14 @@ exclude:
       - README.md
       - src/Cpp
       - src/MaaCore
+      - src/MaaThriftController
       - src/MaaWpfGui/app.manifest
-  #- name: ArrangeTrailingCommaInMultilineLists
-  #- name: ArrangeTrailingCommaInSinglelineLists
+  - name: ArrangeTrailingCommaInSinglelineLists
+  - name: ArrangeTrailingCommaInMultilineLists
+  - name: BadListLineBreaks
   - name: CppInconsistentNaming
   - name: EditorConfigNoMatchingFiles
   - name: EditorConfigKeyCorrectness
   - name: EditorConfigPartialOverride
-  #- name: CppUnreachableCode
-  #- name: CppUnusedIncludeDirective
   - name: InvalidXmlDocComment
-  #- name: RedundantArgumentDefaultValue
-  #- name: Xaml.RedundantNamespaceAlias
-  #- name: Xaml.UnexpectedTextToken
   - name: Xaml.StaticResourceNotResolved
-  - name: BadListLineBreaks
