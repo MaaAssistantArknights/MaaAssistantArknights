@@ -70,12 +70,11 @@ namespace MaaWpfGui.Helper
             var emulators = new List<string>();
             foreach (var process in allProcess)
             {
-                if (!_emulatorIdDict.ContainsKey(process.ProcessName))
+                if (!_emulatorIdDict.TryGetValue(process.ProcessName, out var emulatorId))
                 {
                     continue;
                 }
 
-                var emulatorId = _emulatorIdDict[process.ProcessName];
                 emulators.Add(emulatorId);
                 var processPath = process.MainModule?.FileName;
                 foreach (string adbPath in _adbRelativePathDict[emulatorId]

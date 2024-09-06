@@ -20,7 +20,7 @@ namespace MaaWpfGui.Views.UserControl
     /// <summary>
     /// InfrastSettingsUserControl.xaml 的交互逻辑
     /// </summary>
-    public partial class InfrastSettingsUserControl : System.Windows.Controls.UserControl
+    public partial class InfrastSettingsUserControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="InfrastSettingsUserControl"/> class.
