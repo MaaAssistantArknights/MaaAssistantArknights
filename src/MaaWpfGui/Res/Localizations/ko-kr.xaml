@@ -18,9 +18,12 @@
     <system:String x:Key="HotKeySettings">단축키 설정</system:String>
     <system:String x:Key="UpdateSettings">업데이트</system:String>
     <system:String x:Key="AboutUs">정보</system:String>
+    <system:String x:Key="MaaVersion">MAA 버전</system:String>
+    <system:String x:Key="BuildDateTime">빌드 날짜</system:String>
     <system:String x:Key="CoreVersion">Core 버전</system:String>
     <system:String x:Key="UiVersion">UI 버전</system:String>
     <system:String x:Key="ResourceVersion">Resource 버전</system:String>
+    <system:String x:Key="ResourceDateTime">자원 날짜</system:String>
     <system:String x:Key="Off">끄기</system:String>
     <system:String x:Key="ExternalNotificationTips">팁: 외부 알림 기능은 현재 「모든 작업 완료」 알림만 보냅니다.</system:String>
     <system:String x:Key="ExternalNotificationSettings">외부 알림</system:String>

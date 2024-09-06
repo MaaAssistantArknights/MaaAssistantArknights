@@ -616,7 +616,11 @@
             ["祭壇式雷達", "祭坛式雷达"],
             ["R-45便攜式“留聲機”", "R-45便携式“留声机”"],
             ["“二踢腳”型數據收集裝置", "“二踢脚”型数据收集装置"],
-            ["勘察用自走車", "勘察用自走车"]
+            ["勘察用自走車", "勘察用自走车"],
+            ["喚血祭壇", "唤血祭坛"],
+            ["維荻", "维荻"],
+            ["瀝血王座", "沥血王座"],
+            ["炸彈載荷點", "炸弹载荷点"]
         ]
     },
     "StartToWakeUpOCR": {
@@ -945,9 +949,9 @@
     },
     "BattleStartSimulation": {
         "Doc": "Delete the template and remove this modified roi task when paradox update comes PR#10439",
+        "roi": [417, 567, 444, 153],
         "method": "Ccoeff",
-        "colorScales": [],
-        "roi": [417, 567, 444, 153]
+        "colorScales": []
     },
     "SSSBegin": {
         "text": ["開始保全作戰"]
