@@ -382,7 +382,7 @@ jobs:
           ln -vs libopencv_world4*.dylib libopencv_world4.dylib
           cp -vr ../../resource .
           cd .. || exit 1
-          zip -r "$name.zip" "$name"
+          zip -yrX9 "$name.zip" "$name"
 
       - name: Upload MAA runtime to Github
         uses: actions/upload-artifact@v4
