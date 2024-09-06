@@ -11924,17 +11924,17 @@
     "RA@Navigation": {
         "doc": "导航到 <生息演算>",
         "algorithm": "JustReturn",
-        "next": ["RA@Navigation-ResogniseTheme", "RA@ReturnButtons#next", "RA@StartUpThemes#next"]
+        "next": ["RA@Navigation-RecogniseTheme", "RA@Navigation@ReturnButtons#next", "RA@Navigation@StartUpThemes#next"]
     },
-    "RA@Navigation-ResogniseTheme": {
+    "RA@Navigation-RecogniseTheme": {
         "doc": "通过识别右下角 <开始演算> 或 <继续演算> 文字判断是否已到达主题入口界面",
         "algorithm": "OcrDetect",
         "text": ["开始演算", "继续演算"],
         "roi": [1064, 620, 171, 50]
     },
-    "RA@MainThemes": {
-        "doc": "用于 <RA@StartUpThemes#next> 任务链, 标记导航到生息演算",
-        "next": ["RA@Navigation-FromMainInterface"]
+    "RA@Navigation@MainThemes": {
+        "doc": "用于 <RA@StartUpThemes#next> 任务链, 标记导航到生息演算的所有入口",
+        "next": ["RA@Navigation-FromMainInterface", "RA@Navigation@CloseAnnos#next"]
     },
     "RA@Navigation-FromMainInterface": {
         "doc": "模版任务: 从主界面导航到对应的生息演算主题",
@@ -11949,7 +11949,11 @@
         ],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
-        "next": ["RA@FromTodoList", "RA@Navigation-LongTermExploration", "RA@Navigation-FromMainInterface"],
+        "next": [
+            "RA@Navigation-FromTodoList",
+            "RA@Navigation-LongTermExploration",
+            "RA@Navigation-FromMainInterface"
+        ],
         "postDelay": 1000
     },
     "RA@Navigation-LongTermExploration": {
@@ -11966,7 +11970,7 @@
         "action": "ClickSelf",
         "next": ["RA@Navigation-EnterCurrentTheme", "RA@Navigation#next"]
     },
-    "RA@FromTodoList": {
+    "RA@Navigation-FromTodoList": {
         "doc": "纯虚任务: 从 <终端> 的 <TO-DO LIST> 进入对应的生息演算主题",
         "template": "empty.png",
         "action": "ClickSelf",
@@ -11974,7 +11978,7 @@
         "maskRange": [1, 255],
         "next": ["RA@Navigation#next"]
     },
-    "Tales@RA@FromTodoList": {},
+    "Tales@RA@Navigation-FromTodoList": {},
     "Tales@RA@PIS-Navigation": {
         "algorithm": "JustReturn",
         "sub": ["RA@Navigation"],
