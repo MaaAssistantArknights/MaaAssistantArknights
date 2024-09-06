@@ -39,7 +39,7 @@ namespace MaaWpfGui.Services.RemoteControl
     public class RemoteControlService
     {
         private Task _pollJobTask = Task.CompletedTask;
-        private readonly List<string> _enqueueTaskIds = new List<string>();
+        private readonly List<string> _enqueueTaskIds = [];
         private readonly ConcurrentQueue<JObject> _sequentialTaskQueue = new ConcurrentQueue<JObject>();
         private readonly ConcurrentQueue<JObject> _instantTaskQueue = new ConcurrentQueue<JObject>();
         private Task _executeSequentialJobTask = Task.CompletedTask;

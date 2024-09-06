@@ -39,23 +39,21 @@ namespace MaaWpfGui.Helper
         private static readonly Dictionary<string, List<string>> _adbRelativePathDict = new Dictionary<string, List<string>>
         {
             {
-                "BlueStacks", new List<string>
-                {
+                "BlueStacks", [
                     @".\HD-Adb.exe",
-                    @".\Engine\ProgramFiles\HD-Adb.exe",
-                }
+                    @".\Engine\ProgramFiles\HD-Adb.exe"
+                ]
             },
-            { "LDPlayer", new List<string> { @".\adb.exe" } },
-            { "Nox", new List<string> { @".\nox_adb.exe" } },
+            { "LDPlayer", [@".\adb.exe"] },
+            { "Nox", [@".\nox_adb.exe"] },
             {
-                "MuMuEmulator12", new List<string>
-                {
+                "MuMuEmulator12", [
                     @"..\vmonitor\bin\adb_server.exe",
                     @"..\..\MuMu\emulator\nemu\vmonitor\bin\adb_server.exe",
-                    @".\adb.exe",
-                }
+                    @".\adb.exe"
+                ]
             },
-            { "XYAZ", new List<string> { @".\adb.exe" } },
+            { "XYAZ", [@".\adb.exe"] },
         };
 
         private readonly Dictionary<string, string> _adbAbsolutePathDict = new Dictionary<string, string>();
@@ -127,7 +125,7 @@ namespace MaaWpfGui.Helper
             catch (Exception e)
             {
                 _logger.Error(e.Message);
-                return new List<string>();
+                return [];
             }
         }
     }

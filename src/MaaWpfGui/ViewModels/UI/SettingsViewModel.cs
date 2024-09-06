@@ -1861,7 +1861,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets the list of divider vertical offset.
         /// </summary>
-        public List<double> DividerVerticalOffsetList { get; set; } = new();
+        public List<double> DividerVerticalOffsetList { get; set; } = [];
 
         private int _selectedIndex;
 
@@ -2133,7 +2133,7 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = LocalizationHelper.GetString("RoguelikeThemeSarkaz"), Value = "Sarkaz" },
             ];
 
-        private ObservableCollection<CombinedData> _roguelikeModeList = new();
+        private ObservableCollection<CombinedData> _roguelikeModeList = [];
 
         /// <summary>
         /// Gets or sets the list of roguelike modes.
@@ -2144,7 +2144,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _roguelikeModeList, value);
         }
 
-        private ObservableCollection<CombinedData> _roguelikeSquadList = new();
+        private ObservableCollection<CombinedData> _roguelikeSquadList = [];
 
         /// <summary>
         /// Gets or sets the list of roguelike squad.

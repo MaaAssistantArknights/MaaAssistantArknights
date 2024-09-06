@@ -270,7 +270,7 @@ namespace MaaWpfGui.ViewModels.UI
             _stageManager = _container.Get<StageManager>();
 
             DisplayName = LocalizationHelper.GetString("Farming");
-            LogItemViewModels = new ObservableCollection<LogItemViewModel>();
+            LogItemViewModels = [];
             InitializeItems();
             InitTimer();
         }
@@ -2336,7 +2336,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public List<string> SeriesList { get; private set; } = ["1", "2", "3", "4", "5", "6"];
 
-        private ObservableCollection<CombinedData> _stageList = new();
+        private ObservableCollection<CombinedData> _stageList = [];
 
         /// <summary>
         /// Gets or private sets the list of stages.
@@ -2347,9 +2347,9 @@ namespace MaaWpfGui.ViewModels.UI
             private set => SetAndNotify(ref _stageList, value);
         }
 
-        public ObservableCollection<CombinedData> RemainingSanityStageList { get; private set; } = new();
+        public ObservableCollection<CombinedData> RemainingSanityStageList { get; private set; } = [];
 
-        public ObservableCollection<CombinedData> AlternateStageList { get; private set; } = new();
+        public ObservableCollection<CombinedData> AlternateStageList { get; private set; } = [];
 
         /// <summary>
         /// Gets the stage.
@@ -2638,7 +2638,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public ObservableCollection<GenericCombinedData<int>> CustomInfrastPlanList { get; } = new();
+        public ObservableCollection<GenericCombinedData<int>> CustomInfrastPlanList { get; } = [];
 
         public struct CustomInfrastPlanInfo
         {
@@ -2663,7 +2663,7 @@ namespace MaaWpfGui.ViewModels.UI
             // ReSharper restore InconsistentNaming
         }
 
-        private List<CustomInfrastPlanInfo> CustomInfrastPlanInfoList { get; } = new();
+        private List<CustomInfrastPlanInfo> CustomInfrastPlanInfoList { get; } = [];
 
         private bool _customInfrastPlanHasPeriod;
         private bool _customInfrastInfoOutput;
@@ -3077,7 +3077,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the list of all drops.
         /// </summary>
-        private List<CombinedData> AllDrops { get; } = new();
+        private List<CombinedData> AllDrops { get; } = [];
 
         /// <summary>
         /// 关卡不可掉落的材料
