@@ -388,7 +388,7 @@ namespace MaaWpfGui.Services.RemoteControl
                     case "LinkStart-AutoRoguelike":
                     case "LinkStart-Reclamation":
                         {
-                            await LinkStart(new[] { type.Split('-')[1] });
+                            await LinkStart([type.Split('-')[1]]);
                             break;
                         }
 

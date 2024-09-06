@@ -656,7 +656,7 @@ namespace MaaWpfGui.ViewModels.UI
             SaveCopilotTask();
         }
 
-        private static readonly string[] _supportExt = { ".json", ".mp4", ".m4s", ".mkv", ".flv", ".avi" };
+        private static readonly string[] _supportExt = [".json", ".mp4", ".m4s", ".mkv", ".flv", ".avi"];
 
         /// <summary>
         /// Drops file.
@@ -838,7 +838,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void AddCopilotTaskToList(string? stageName, bool isRaid)
         {
-            var invalidChar = @"[:',\.\(\)\|\[\]\?，。【】｛｝；：]"; // 无效字符
+            const string invalidChar = @"[:',\.\(\)\|\[\]\?，。【】｛｝；：]"; // 无效字符
             if (string.IsNullOrEmpty(stageName) || Regex.IsMatch(stageName, invalidChar))
             {
                 AddLog("Invalid stage name for navigation", UiLogColor.Error, showTime: false);

@@ -46,7 +46,7 @@ namespace MaaWpfGui.Extensions
 
             targetTextBox.PreviewKeyDown += (se, ev) =>
             {
-                if (ev.Key == Key.Enter || ev.Key == Key.Return || ev.Key == Key.Tab)
+                if (ev.Key is Key.Enter or Key.Return or Key.Tab)
                 {
                     return;
                 }
