@@ -226,7 +226,10 @@ jobs:
           } else {
             $commit_msg = "chore: Auto Update Game Resources - $(Get-Date -Format 'yyyy-MM-dd')"
           }
-          git commit -m "$commit_msg" -m "[skip changelog]"
+
+          $run_url = "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+          git commit -m "$commit_msg" -m "$run_url" -m "[skip changelog]"
           if ($LASTEXITCODE -eq 0) {
             Write-Output "have_commits=True" >> $env:GITHUB_OUTPUT
           }
