@@ -2634,11 +2634,11 @@
         "text": ["継", "続"]
     },
     "Reclamation2BeginStage": {
-        "text": ["人々", "が集う", "集会場"],
         "ocrReplace": [
             ["集会環", "集会場"],
             ["人タカ", "人々"]
-        ]
+        ],
+        "text": ["人々", "が集う", "集会場"]
     },
     "Reclamation2Birdland": {
         "text": ["羽獣", "集う地", "狩猟エリア"]
@@ -2870,11 +2870,11 @@
         "text": ["継", "続"]
     },
     "Tales@RA@PNS-ClickBaseCamp": {
-        "text": ["人々", "が集う", "集会場"],
         "ocrReplace": [
             ["集会環", "集会場"],
             ["人タカ", "人々"]
-        ]
+        ],
+        "text": ["人々", "が集う", "集会場"]
     },
     "Tales@RA@PNS-Commence": {
         "text": ["開", "始"]
