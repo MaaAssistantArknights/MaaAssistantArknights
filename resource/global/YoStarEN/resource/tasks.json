@@ -1213,12 +1213,12 @@
     "BattleStartPre": {
         "text": ["Start", "Start Challenge"]
     },
+    "BattleStartOCR": {
+        "roi": [1000, 404, 210, 220],
+        "text": ["MISSION", "START"]
+    },
     "SkipThePreBattlePlot": {
         "maskRange": [50, 255]
-    },
-    "BattleStartOCR": {
-        "text": ["MISSION", "START"],
-        "roi": [1000, 404, 210, 220]
     },
     "BattleStartSimulation": {
         "Doc": "Delete the template and remove this modified roi task when paradox update comes PR#10439",
