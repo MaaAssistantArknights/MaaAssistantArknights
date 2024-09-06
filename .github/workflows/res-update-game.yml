@@ -234,7 +234,7 @@ jobs:
             Write-Output "have_commits=True" >> $env:GITHUB_OUTPUT
           }
 
-          git pull origin $(git rev-parse --abbrev-ref HEAD) --rebase
+          git pull origin $(git branch --show-current) --rebase
 
       - name: Push changes
         if: steps.add_files.outputs.have_commits == 'True'
