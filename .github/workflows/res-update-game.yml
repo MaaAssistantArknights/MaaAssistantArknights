@@ -180,7 +180,7 @@ jobs:
 
       - name: Check if only sorted and Templates
         id: check_sorted_templates
-        run: node tools/ResourceUpdateValidator/index.mjs
+        run: pwsh tools/ResourceUpdateValidator/script.ps1
 
       - name: Setup python
         if: steps.check_sorted_templates.outputs.contains_png == 'True'
