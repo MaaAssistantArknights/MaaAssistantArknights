@@ -623,6 +623,12 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
             continue;
         }
 
+        if (!is_skill_ready(loc, image)) {
+            continue;
+        }
+
+        Log.info("Skill", name, "is ready");
+
         if (auto interval = now - last_use_time; min_frame_interval > interval) {
             Log.info(
                 name,
@@ -631,12 +637,8 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
             continue;
         }
 
-        bool has_error = false;
-        if (!check_and_use_skill(loc, has_error, image)) {
-            continue;
-        }
         // 识别到了，但点进去发现没有。一般来说是识别错了
-        if (has_error) {
+        if (!use_skill(loc, false)) {
             Log.warn("Skill", name, "is not ready");
             constexpr int MaxRetry = 3;
             if (++retry >= MaxRetry) {
