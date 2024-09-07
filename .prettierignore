@@ -5,7 +5,7 @@ MaaDeps/
 src/maa-cli
 src/MaaMacGui
 
-.github/qodana-baseline.json
+.github/qodana.sarif.json
 website/
 resource/Arknights-Tile-Pos/
 tools/OptimizeTemplates/optimize_templates.json
