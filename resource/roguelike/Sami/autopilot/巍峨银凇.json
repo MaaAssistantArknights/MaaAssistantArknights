@@ -1,10 +1,14 @@
 {
     "stage_name": "巍峨银凇",
     "replacement_home": [
-        {
-            "location": [10, 6],
-            "direction": "up"
-        }
+       {
+  "location": [ 10, 6 ],
+  "direction": "right"
+},
+{
+  "direction": "right",
+  "location": [ 3, 6 ]
+}
     ],
     "deploy_plan": [
         {
