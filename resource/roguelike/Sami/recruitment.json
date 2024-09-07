@@ -1279,7 +1279,6 @@
             "opers": [
                 {
                     "name": "缄默德克萨斯",
-                    "is_key": true,
                     "skill": 3,
                     "alternate_skill": 2,
                     "auto_retreat": 8,
@@ -1295,7 +1294,6 @@
                 },
                 {
                     "name": "麒麟R夜刀",
-                    "is_key": true,
                     "skill": 2,
                     "auto_retreat": 6,
                     "recruit_priority": 611,
