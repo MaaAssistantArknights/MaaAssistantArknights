@@ -12157,7 +12157,7 @@
         "text": ["众人会聚之地"],
         "roi": [732, 295, 127, 54],
         "action": "ClickSelf",
-        "next": ["Tales@RA@PNS-EnterBaseCamp"]
+        "next": ["Tales@RA@PNS-EnterBaseCamp", "Tales@RA@PNS-ClickBaseCamp"]
     },
     "Tales@RA@PNS-Commence": {
         "doc": "在主题入口界面点击 <开始演算> 开启新游戏",
