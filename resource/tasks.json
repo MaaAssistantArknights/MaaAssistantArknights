@@ -12219,6 +12219,7 @@
     "Tales@RA@PNS-ConfirmSquad": {
         "doc": "在编队界面点击 <开始行动>, 若弹出 <确认不携带任何干员进入战斗吗?> 或者 <确认进入战斗吗?> 的对话框, 则点击 <确定>",
         "baseTask": "Tales@RA@ConfirmSquad",
+        "preDelay": 500,
         "postDelay": 500,
         "next": ["Tales@RA@DialogConfirmRed", "Stop"]
     },
