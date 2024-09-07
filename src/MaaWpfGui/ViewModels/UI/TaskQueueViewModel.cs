@@ -543,13 +543,15 @@ namespace MaaWpfGui.ViewModels.UI
                 buttonContent,
                 delay.TotalMilliseconds);
             var dialog = HandyControl.Controls.Dialog.Show(dialogUserControl, nameof(Views.UI.RootView));
+            var tcs = new TaskCompletionSource<bool>();
             var canceled = false;
             dialogUserControl.Click += (_, _) =>
             {
                 canceled = true;
                 dialog.Close();
+                tcs.TrySetResult(true);
             };
-            await Task.Delay(delay);
+            await Task.WhenAny(Task.Delay(delay), tcs.Task);
             dialog.Close();
             return canceled;
         }
