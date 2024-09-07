@@ -53,11 +53,14 @@ namespace MaaWpfGui.Views.UserControl
 
         private void StartingCoreCharComboBox_DropDownClosed(object sender, EventArgs e)
         {
-            if (IsValidResult)
+            if (!IsValidResult)
             {
-                var name = StartingCoreCharComboBox.Text;
-                StartingCoreCharComboBox.ItemsSource = Instances.SettingsViewModel.RoguelikeCoreCharList;
+                return;
             }
+
+            var name = StartingCoreCharComboBox.Text;
+            StartingCoreCharComboBox.ItemsSource = Instances.SettingsViewModel.RoguelikeCoreCharList;
+            StartingCoreCharComboBox.Text = name;
         }
     }
 
