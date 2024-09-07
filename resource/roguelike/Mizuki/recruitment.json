@@ -3465,11 +3465,11 @@
     ],
     "team_complete_condition": [
         {
-            "groups": ["百嘉", "号角", "玛恩纳", "地面C"],
+            "groups": ["百嘉", "号角", "地面C"],
             "threshold": 1
         },
         {
-            "groups": ["高台C", "其他高台"],
+            "groups": ["玛恩纳","高台C", "其他高台"],
             "threshold": 1
         },
         {
