@@ -11977,7 +11977,7 @@
     "Tales@RA@Navigation-FromTodoList": {},
     "Tales@RA@PIS-Navigation": {
         "algorithm": "JustReturn",
-        "sub": ["RA@Navigation"],
+        "sub": ["Tales@RA@Navigation"],
         "next": ["Tales@RA@ProsperityInSave"]
     },
     "Tales@RA@PIS-ProsperityBelowLimit": {
@@ -12290,7 +12290,7 @@
     },
     "Tales@RA@PNS-Navigation": {
         "algorithm": "JustReturn",
-        "sub": ["RA@Navigation"],
+        "sub": ["Tales@RA@Navigation"],
         "next": ["Tales@RA@ProsperityNoSave"]
     },
     "Tales@RA@PNS-OpeningAnimation": {
