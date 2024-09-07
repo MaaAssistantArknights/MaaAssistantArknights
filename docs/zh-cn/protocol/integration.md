@@ -305,15 +305,15 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 }
 ```
 
-- `ReclamationAlgorithm`  
+- `Reclamation`  
     生息演算
 
 ```json
 {
     "enable": bool,
-    "theme": int,               // 主题，可选项。默认为 1
-                                // 0 - *沙中之火*
-                                // 1 - *沙洲遗闻*
+    "theme": string,            // 主题，可选项。默认为 1
+                                // Fire  - *沙中之火*
+                                // Tales - *沙洲遗闻*
     "mode": int,                // 模式，可选项。默认为 0
                                 // 0 - 刷分与建造点，进入战斗直接退出
                                 // 1 - 沙中之火：刷赤金，联络员买水后基地锻造；

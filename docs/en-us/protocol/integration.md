@@ -275,15 +275,15 @@ For more details about auto-copilot JSON, please refer to [Copilot Schema](./cop
 }
 ```
 
-- `ReclamationAlgorithm`  
+- `Reclamation`  
     ReclamationAlgorithm
 
 ```json
 {
     "enable": bool,
-    "theme": int,               // Theme, optional, 1 by default
-                                // 0 - *Fire Within the Sand*
-                                // 1 - *Tales Within the Sand*
+    "theme": string,            // Theme, optional, 1 by default
+                                // Fire  - *Fire Within the Sand*
+                                // Tales - *Tales Within the Sand*
     "mode": int,                // Mode, optional, 0 by default
                                 // 0 - Farm badges & construction pts (exiting the stage immediately)
                                 // 1 - Fire Within the Sand: Farm Crude Gold (forging Gold at headquarter after purchasing water)
