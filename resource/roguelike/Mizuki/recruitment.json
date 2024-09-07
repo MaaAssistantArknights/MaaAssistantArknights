@@ -458,8 +458,8 @@
                     "alternate_skill": 1,
                     "is_key": true,
                     "is_start": true,
-                    "recruit_priority": 765,
-                    "promote_priority": 901
+                    "recruit_priority": 265,
+                    "promote_priority": 201
                 },
                 {
                     "name": "假日威龙陈",
