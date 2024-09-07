@@ -2013,5 +2013,8 @@
     },
     "Tales@RA@ResourceGained": {
         "text": ["点击空白处继续"]
+    },
+    "RA@Navigation-EnterCurrentTheme": {
+        "text": ["生息演算"]
     }
 }

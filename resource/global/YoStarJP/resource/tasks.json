@@ -2853,5 +2853,8 @@
     "Tales@RA@ResourceGained": {
         "text": ["空白", "箇所", "タップ", "続ける"],
         "roi": [480, 444, 320, 48]
+    },
+    "RA@Navigation-EnterCurrentTheme": {
+        "text": ["生息演算"]
     }
 }

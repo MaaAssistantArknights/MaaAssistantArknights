@@ -2439,5 +2439,8 @@
     },
     "Tales@RA@ResourceGained": {
         "text": ["탭하여", "계", "속"]
+    },
+    "RA@Navigation-EnterCurrentTheme": {
+        "text": ["生息演算"]
     }
 }
