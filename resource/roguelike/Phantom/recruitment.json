@@ -2027,8 +2027,8 @@
                     "alternate_skill": 1,
                     "is_key": true,
                     "is_start": true,
-                    "recruit_priority": 829,
-                    "promote_priority": 890,
+                    "recruit_priority": 329,
+                    "promote_priority": 290,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["提丰"],
