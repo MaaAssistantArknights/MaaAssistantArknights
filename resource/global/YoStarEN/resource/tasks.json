@@ -2654,5 +2654,8 @@
     },
     "RA@Navigation-EnterCurrentTheme": {
         "text": ["Reclamation", "Algorithm"]
+    },
+    "RA@Navigation-RecogniseTheme": {
+        "text": ["Commence", "Resume"]
     }
 }

@@ -2856,5 +2856,8 @@
     },
     "RA@Navigation-EnterCurrentTheme": {
         "text": ["生息演算"]
+    },
+    "RA@Navigation-RecogniseTheme": {
+        "text": ["開", "始", "継", "続"]
     }
 }

@@ -2442,5 +2442,8 @@
     },
     "RA@Navigation-EnterCurrentTheme": {
         "text": ["生息演算"]
+    },
+    "RA@Navigation-RecogniseTheme": {
+        "text": ["연", "산", "시", "작", "계", "속", "하", "기"]
     }
 }
