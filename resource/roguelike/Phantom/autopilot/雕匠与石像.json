@@ -1,8 +1,16 @@
 {
     "stage_name": "雕匠与石像",
+    "blacklist_location": [
+        [4, 2],
+        [4, 3],
+        [4, 4],
+        [8, 2],
+        [8, 3],
+        [8, 4]
+    ],
     "replacement_home": [
         {
-            "location": [9, 2],
+            "location": [9, 4],
             "direction": "left"
         },
         {
@@ -10,7 +18,7 @@
             "direction": "left"
         },
         {
-            "location": [9, 4],
+            "location": [9, 2],
             "direction": "left"
         }
     ],
