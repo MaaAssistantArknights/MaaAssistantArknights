@@ -1278,7 +1278,7 @@
                     ]
                 },
                 {
-                    "name": "阿米娅",
+                    "name": "阿米娅-MEDIC",
                     "is_key": true,
                     "skill": 2,
                     "alternate_skill": 2,
@@ -3101,7 +3101,7 @@
                     "name": "濯尘芙蓉"
                 },
                 {
-                    "name": "阿米娅-MADIC"
+                    "name": "阿米娅-MEDIC"
                 },
                 {
                     "name": "苏苏洛"
