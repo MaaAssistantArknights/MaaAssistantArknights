@@ -926,8 +926,8 @@
                     "name": "莱伊",
                     "skill": 3,
                     "alternate_skill": 1,
-                    "recruit_priority": 481,
-                    "promote_priority": 701,
+                    "recruit_priority": 281,
+                    "promote_priority": 201,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["水陈", "速狙", "益达"],
