@@ -1499,7 +1499,6 @@
                 {
                     "name": "麒麟R夜刀",
                     "skill": 2,
-                    "is_key": true,
                     "recruit_priority": 911,
                     "promote_priority": 955,
                     "recruit_priority_offsets": [
@@ -1581,7 +1580,6 @@
                 },
                 {
                     "name": "傀影",
-                    "is_key": true,
                     "skill": 2,
                     "recruit_priority": 720,
                     "promote_priority": 280,
