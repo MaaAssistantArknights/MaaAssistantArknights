@@ -1,13 +1,14 @@
 {
     "stage_name": "饥渴祭坛",
     "replacement_home": [
-        {
-            "location": [
-                [8, 4],
-                [7, 2]
-            ],
-            "direction": "left"
-        }
+       {
+   "location": [ 8, 4 ],
+   "direction": "left"
+ },
+ {
+   "location": [ 7, 2 ],
+   "direction": "left"
+ }
     ],
     "blacklist_location": [
         [7, 5],
