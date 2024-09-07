@@ -582,7 +582,7 @@ bool asst::BattleHelper::do_strategic_action(const cv::Mat& reusable)
 bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
 {
     // TODO: 可配置延迟时间
-    static constexpr auto min_frame_interval = std::chrono::milliseconds(1000);
+    static constexpr auto min_frame_interval = std::chrono::milliseconds(1500);
 
     bool used = false;
     const auto now = std::chrono::steady_clock::now();
@@ -597,7 +597,7 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
         }
 
         if (auto interval = now - last_use_time; min_frame_interval > interval) {
-            Log.debug(
+            Log.info(
                 name,
                 "use skill too fast, interval time:",
                 std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(interval).count()) + " ms");
