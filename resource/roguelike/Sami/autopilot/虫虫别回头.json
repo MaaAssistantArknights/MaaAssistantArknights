@@ -2,9 +2,13 @@
     "stage_name": "虫虫别回头",
     "replacement_home": [
         {
-            "location": [1, 5],
-            "direction": "right"
-        }
+   "location": [ 3, 4 ],
+   "direction": "right"
+ },
+ {
+   "location": [ 3, 5 ],
+   "direction": "right"
+ }
     ],
     "blacklist_location": [
         [5, 1],
