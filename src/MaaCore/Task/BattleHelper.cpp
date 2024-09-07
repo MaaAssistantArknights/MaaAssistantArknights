@@ -477,6 +477,33 @@ bool asst::BattleHelper::retreat_oper(const Point& loc, bool manually)
     return true;
 }
 
+bool asst::BattleHelper::is_skill_ready(const Point& loc, const cv::Mat& reusable)
+{
+    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    BattlefieldClassifier skill_analyzer(image);
+    skill_analyzer.set_object_of_interest({ .skill_ready = true });
+
+    auto target_iter = m_normal_tile_info.find(loc);
+    if (target_iter == m_normal_tile_info.end()) {
+        Log.error("No loc", loc);
+        return false;
+    }
+    const Point& battlefield_point = target_iter->second.pos;
+    skill_analyzer.set_base_point(battlefield_point);
+
+    return skill_analyzer.analyze()->skill_ready.ready;
+}
+
+bool asst::BattleHelper::is_skill_ready(const std::string& name, const cv::Mat& reusable)
+{
+    auto oper_iter = m_battlefield_opers.find(name);
+    if (oper_iter == m_battlefield_opers.cend()) {
+        Log.error("No oper", name);
+        return false;
+    }
+    return is_skill_ready(oper_iter->second, reusable);
+}
+
 bool asst::BattleHelper::use_skill(const std::string& name, bool keep_waiting)
 {
     LogTraceFunction;
@@ -646,21 +673,10 @@ bool asst::BattleHelper::check_and_use_skill(const std::string& name, bool& has_
 
 bool asst::BattleHelper::check_and_use_skill(const Point& loc, bool& has_error, const cv::Mat& reusable)
 {
-    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
-    BattlefieldClassifier skill_analyzer(image);
-    skill_analyzer.set_object_of_interest({ .skill_ready = true });
-
-    auto target_iter = m_normal_tile_info.find(loc);
-    if (target_iter == m_normal_tile_info.end()) {
-        Log.error("No loc", loc);
+    const cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    if (!is_skill_ready(loc, image)) {
         return false;
     }
-    const Point& battlefield_point = target_iter->second.pos;
-    skill_analyzer.set_base_point(battlefield_point);
-    if (!skill_analyzer.analyze()->skill_ready.ready) {
-        return false;
-    }
-
     has_error = !use_skill(loc, false);
     return true;
 }
