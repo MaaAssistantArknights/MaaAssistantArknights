@@ -12011,7 +12011,8 @@
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
         "next": [
             "Tales@RA@PIS-ProsperityBelowLimit-Dots",
-            "Tales@RA@PIS-ProsperityBelowLimit-StartToday@NextAfterLoadingText"
+            "Tales@RA@PIS-ProsperityBelowLimit-StartToday@NextAfterLoadingText",
+            "Tales@RA@PIS-ProsperityBelowLimit-StartToday"
         ]
     },
     "Tales@RA@PIS-ProsperityBelowLimit-StartTodayAfterLoadSave": {
@@ -12020,6 +12021,7 @@
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
         "next": [
             "Tales@RA@PIS-ProsperityBelowLimit-StartTodayAfterLoadSave@NextAfterLoadingText",
+            "Tales@RA@PIS-ProsperityBelowLimit-StartTodayAfterLoadSave",
             "Tales@RA@ProsperityInSave"
         ]
     },
@@ -12055,15 +12057,15 @@
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
         "next": [
             "Tales@RA@PIS-ProsperityReachLimit-Dots",
-            "Tales@RA@PIS-ProsperityReachLimit-StartToday@NextAfterLoadingText"
+            "Tales@RA@PIS-ProsperityReachLimit-StartToday@NextAfterLoadingText",
+            "Tales@RA@PIS-ProsperityReachLimit-StartToday"
         ]
     },
     "Tales@RA@PIS-ProsperityReachLimit-StartTodayAfterLoadSave": {
         "doc": "生息点数达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
         "baseTask": "Tales@RA@StartToday",
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
-        "sub": ["Tales@RA@BackLight"],
-        "next": ["Stop"]
+        "next": ["Tales@RA@BackLight", "Tales@RA@PIS-ProsperityReachLimit-StartTodayAfterLoadSave"]
     },
     "Tales@RA@PIS-ResourceGained": {
         "doc": "获得物资, 点击 <点击空白处继续> 文字位置",
@@ -12138,7 +12140,7 @@
         "doc": "在驻扎地产出结算界面点击确认符号开启今日",
         "baseTask": "Tales@RA@StartToday",
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
-        "next": ["Tales@RA@PIS-SkipToCalc"]
+        "next": ["Tales@RA@PIS-SkipToCalc", "Tales@RA@PIS-SkipToCalc-StartToday"]
     },
     "Tales@RA@PIS-Workbench": {
         "doc": "点击进入组装台",
@@ -12327,7 +12329,8 @@
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
         "next": [
             "Tales@RA@PNS-ProsperityBelowLimit-Dots",
-            "Tales@RA@PNS-ProsperityBelowLimit-StartToday@NextAfterLoadingText"
+            "Tales@RA@PNS-ProsperityBelowLimit-StartToday@NextAfterLoadingText",
+            "Tales@RA@PNS-ProsperityBelowLimit-StartToday"
         ]
     },
     "Tales@RA@PNS-ProsperityBelowLimit-SwipeSave": {
@@ -12358,7 +12361,8 @@
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
         "next": [
             "Tales@RA@PNS-ProsperityReachLimit-Dots",
-            "Tales@RA@PNS-ProsperityReachLimit-StartToday@NextAfterLoadingText"
+            "Tales@RA@PNS-ProsperityReachLimit-StartToday@NextAfterLoadingText",
+            "Tales@RA@PNS-ProsperityReachLimit-StartToday"
         ]
     },
     "Tales@RA@PNS-ProsperityReachLimit-SwipeSave": {
@@ -12411,7 +12415,7 @@
         "doc": "在驻扎地产出结算界面点击确认符号开启今日",
         "baseTask": "Tales@RA@StartToday",
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
-        "next": ["Tales@RA@PNS-SkipToCalc"]
+        "next": ["Tales@RA@PNS-SkipToCalc", "Tales@RA@PNS-SkipToCalc-StartToday"]
     },
     "Tales@RA@ProsperityInSave": {
         "doc": "生息演算「沙洲遗闻」有存档刷生息点数 <ProsperityInSave> 任务入口",
@@ -12480,7 +12484,6 @@
         "doc": "模板任务: 在驻扎地产出结算界面点击确认符号开启今日",
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
         "roi": [568, 561, 112, 81],
-        "preDelay": 500,
         "action": "ClickSelf"
     },
     "Tales@RA@SwipeSave": {
