@@ -1222,6 +1222,12 @@
     "GachaTenTimesPrefix@DoGacha": {
         "text": ["10회진행"]
     },
+    "RA@Navigation-RecogniseTheme": {
+        "text": ["연", "산", "시", "작", "계", "속", "하", "기"]
+    },
+    "RA@Navigation-EnterCurrentTheme": {
+        "text": ["생존", "연산"]
+    },
     "RoguelikeChooseSupportBtnOcr": {
         "text": ["지원"]
     },
@@ -2454,11 +2460,5 @@
     },
     "Tales@RA@ResourceGained": {
         "text": ["탭하여", "계", "속"]
-    },
-    "RA@Navigation-EnterCurrentTheme": {
-        "text": ["생존", "연산"]
-    },
-    "RA@Navigation-RecogniseTheme": {
-        "text": ["연", "산", "시", "작", "계", "속", "하", "기"]
     }
 }
