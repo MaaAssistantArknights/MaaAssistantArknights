@@ -1327,6 +1327,12 @@
     "GachaTenTimesPrefix@DoGacha": {
         "text": ["Headhunt x10"]
     },
+    "RA@Navigation-RecogniseTheme": {
+        "text": ["Commence", "Resume"]
+    },
+    "RA@Navigation-EnterCurrentTheme": {
+        "text": ["Reclamation", "Algorithm"]
+    },
     "RoguelikeChooseSupportBtnOcr": {
         "text": ["Select Support"]
     },
@@ -2666,11 +2672,5 @@
     },
     "Tales@RA@ResourceGained": {
         "text": ["Tap anywhere to continue"]
-    },
-    "RA@Navigation-EnterCurrentTheme": {
-        "text": ["Reclamation", "Algorithm"]
-    },
-    "RA@Navigation-RecogniseTheme": {
-        "text": ["Commence", "Resume"]
     }
 }

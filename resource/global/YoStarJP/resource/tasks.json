@@ -1345,6 +1345,12 @@
     "GachaTenTimesPrefix@DoGacha": {
         "text": ["10回スカウト", "10回", "スカウ"]
     },
+    "RA@Navigation-RecogniseTheme": {
+        "text": ["開", "始", "継", "続"]
+    },
+    "RA@Navigation-EnterCurrentTheme": {
+        "text": ["生息演算"]
+    },
     "RoguelikeChooseSupportBtnOcr": {
         "text": ["サポー"]
     },
@@ -2882,11 +2888,5 @@
     "Tales@RA@ResourceGained": {
         "text": ["空白", "箇所", "タップ", "続ける"],
         "roi": [480, 444, 320, 48]
-    },
-    "RA@Navigation-EnterCurrentTheme": {
-        "text": ["生息演算"]
-    },
-    "RA@Navigation-RecogniseTheme": {
-        "text": ["開", "始", "継", "続"]
     }
 }

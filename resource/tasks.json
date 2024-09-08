@@ -5717,6 +5717,59 @@
         "next": ["GachaSkip", "Stop"],
         "postDelay": 2000
     },
+    "RA@Navigation": {
+        "doc": "导航到 <生息演算>",
+        "algorithm": "JustReturn",
+        "next": ["RA@Navigation-RecogniseTheme", "RA@Navigation@ReturnButtons#next", "RA@Navigation@StartUpThemes#next"]
+    },
+    "RA@Navigation-RecogniseTheme": {
+        "doc": "通过识别右下角 <开始演算> 或 <继续演算> 文字判断是否已到达主题入口界面",
+        "algorithm": "OcrDetect",
+        "text": ["开始演算", "继续演算"],
+        "roi": [1064, 620, 171, 50]
+    },
+    "RA@Navigation@MainThemes": {
+        "doc": "用于 <RA@StartUpThemes#next> 任务链, 标记导航到生息演算的所有入口",
+        "next": ["RA@Navigation-FromMainInterface", "RA@Navigation@CloseAnnos#next"]
+    },
+    "RA@Navigation-FromMainInterface": {
+        "doc": "模版任务: 从主界面导航到对应的生息演算主题",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png",
+            "TerminalMistCity.png",
+            "TerminalSiege.png",
+            "TerminalSarkaz.png",
+            "TerminalDelicious.png"
+        ],
+        "action": "ClickSelf",
+        "roi": [844, 58, 268, 272],
+        "next": ["RA@Navigation-FromTodoList", "RA@Navigation-LongTermExploration", "RA@Navigation-FromMainInterface"],
+        "postDelay": 1000
+    },
+    "RA@Navigation-LongTermExploration": {
+        "doc": "在 <终端> 下方导航条点击 <长期探索> 图标, 此处引用 <集成战略> 相关任务作为 baseTask",
+        "baseTask": "Roguelike@IntegratedStrategies",
+        "template": "Roguelike@IntegratedStrategies.png",
+        "next": ["RA@Navigation-EnterCurrentTheme", "RA@Navigation-LongTermExploration"]
+    },
+    "RA@Navigation-EnterCurrentTheme": {
+        "doc": "点击 <生息演算> 文字位置以进入当前主题",
+        "algorithm": "OcrDetect",
+        "text": ["生息演算"],
+        "roi": [673, 441, 348, 99],
+        "action": "ClickSelf",
+        "next": ["RA@Navigation-EnterCurrentTheme", "RA@Navigation#next"]
+    },
+    "RA@Navigation-FromTodoList": {
+        "doc": "纯虚任务: 从 <终端> 的 <TO-DO LIST> 进入对应的生息演算主题",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [908, 54, 372, 500],
+        "maskRange": [1, 255],
+        "next": ["RA@Navigation#next"]
+    },
     "Roguelike": {
         "template": [
             "Terminal.png",
@@ -11728,11 +11781,6 @@
         "postDelay": 500,
         "next": ["Stop"]
     },
-    "Tales@RA@SquadSizeLE6": {
-        "doc": "模板任务: 当前编队规模小于等于6人",
-        "template": "Tales@RA@SquadSizeIndicator0.png",
-        "roi": [811, 647, 60, 60]
-    },
     "Tales@RA@BackDark": {
         "doc": "模板任务: 点击左上角深色箭头返回",
         "roi": [7, 6, 41, 56],
@@ -11764,11 +11812,6 @@
         "action": "ClickSelf",
         "next": ["Tales@RA@DialogConfirmRed"]
     },
-    "Tales@RA@PNS-ClickGatheringOfFeathers": {
-        "doc": "点击 <捕猎区: 聚羽之地>",
-        "baseTask": "Tales@RA@ClickGatheringOfFeathers",
-        "next": ["Tales@RA@RecogniseEnterNodeButton", "Tales@RA@PNS-ClickGatheringOfFeathers"]
-    },
     "Tales@RA@ClickGatheringOfFeathers": {
         "doc": "模板任务: 点击 <捕猎区: 聚羽之地>",
         "algorithm": "OcrDetect",
@@ -11781,16 +11824,6 @@
         "template": "Tales@RA@HeadquartersButton.png",
         "roi": [36, 634, 68, 76],
         "action": "ClickSelf"
-    },
-    "Tales@RA@PNS-ClickShrubberyGalore": {
-        "doc": "点击 <资源区: 丰饶灌木林>",
-        "baseTask": "Tales@RA@ClickShrubberyGalore",
-        "next": ["Tales@RA@RecogniseEnterNodeButton", "Tales@RA@PNS-ClickShrubberyGalore"]
-    },
-    "Tales@RA@RecogniseEnterNodeButton": {
-        "doc": "模板任务: 通过识别右下角 <开始行动> 按钮判断是否已点击区块节点",
-        "baseTask": "Tales@RA@EnterNode",
-        "action": "DoNothing"
     },
     "Tales@RA@ClickShrubberyGalore": {
         "doc": "模板任务: 点击 <资源区: 丰饶灌木林>",
@@ -11870,6 +11903,7 @@
         "roi": [48, 469, 87, 51],
         "action": "ClickSelf"
     },
+    "Tales@RA@Navigation-FromTodoList": {},
     "Tales@RA@NextDay": {
         "doc": "模板任务: 点击右上角箭头进入下一个生息日, 若在量定日则进行量定结算",
         "roi": [1152, 45, 54, 98],
@@ -11922,60 +11956,6 @@
         "template": "Tales@RA@BackDark.png",
         "next": ["Tales@RA@PIS-SkipToCalc"]
     },
-    "RA@Navigation": {
-        "doc": "导航到 <生息演算>",
-        "algorithm": "JustReturn",
-        "next": ["RA@Navigation-RecogniseTheme", "RA@Navigation@ReturnButtons#next", "RA@Navigation@StartUpThemes#next"]
-    },
-    "RA@Navigation-RecogniseTheme": {
-        "doc": "通过识别右下角 <开始演算> 或 <继续演算> 文字判断是否已到达主题入口界面",
-        "algorithm": "OcrDetect",
-        "text": ["开始演算", "继续演算"],
-        "roi": [1064, 620, 171, 50]
-    },
-    "RA@Navigation@MainThemes": {
-        "doc": "用于 <RA@StartUpThemes#next> 任务链, 标记导航到生息演算的所有入口",
-        "next": ["RA@Navigation-FromMainInterface", "RA@Navigation@CloseAnnos#next"]
-    },
-    "RA@Navigation-FromMainInterface": {
-        "doc": "模版任务: 从主界面导航到对应的生息演算主题",
-        "template": [
-            "Terminal.png",
-            "TerminalDark.png",
-            "TerminalSami.png",
-            "TerminalMistCity.png",
-            "TerminalSiege.png",
-            "TerminalSarkaz.png",
-            "TerminalDelicious.png"
-        ],
-        "action": "ClickSelf",
-        "roi": [844, 58, 268, 272],
-        "next": ["RA@Navigation-FromTodoList", "RA@Navigation-LongTermExploration", "RA@Navigation-FromMainInterface"],
-        "postDelay": 1000
-    },
-    "RA@Navigation-LongTermExploration": {
-        "doc": "在 <终端> 下方导航条点击 <长期探索> 图标, 此处引用 <集成战略> 相关任务作为 baseTask",
-        "baseTask": "Roguelike@IntegratedStrategies",
-        "template": "Roguelike@IntegratedStrategies.png",
-        "next": ["RA@Navigation-EnterCurrentTheme", "RA@Navigation-LongTermExploration"]
-    },
-    "RA@Navigation-EnterCurrentTheme": {
-        "doc": "点击 <生息演算> 文字位置以进入当前主题",
-        "algorithm": "OcrDetect",
-        "text": ["生息演算"],
-        "roi": [673, 441, 348, 99],
-        "action": "ClickSelf",
-        "next": ["RA@Navigation-EnterCurrentTheme", "RA@Navigation#next"]
-    },
-    "RA@Navigation-FromTodoList": {
-        "doc": "纯虚任务: 从 <终端> 的 <TO-DO LIST> 进入对应的生息演算主题",
-        "template": "empty.png",
-        "action": "ClickSelf",
-        "roi": [908, 54, 372, 500],
-        "maskRange": [1, 255],
-        "next": ["RA@Navigation#next"]
-    },
-    "Tales@RA@Navigation-FromTodoList": {},
     "Tales@RA@PIS-Navigation": {
         "algorithm": "JustReturn",
         "sub": ["Tales@RA@Navigation"],
@@ -12162,6 +12142,16 @@
         "action": "ClickSelf",
         "next": ["Tales@RA@PNS-EnterBaseCamp", "Tales@RA@PNS-ClickBaseCamp"]
     },
+    "Tales@RA@PNS-ClickGatheringOfFeathers": {
+        "doc": "点击 <捕猎区: 聚羽之地>",
+        "baseTask": "Tales@RA@ClickGatheringOfFeathers",
+        "next": ["Tales@RA@RecogniseEnterNodeButton", "Tales@RA@PNS-ClickGatheringOfFeathers"]
+    },
+    "Tales@RA@PNS-ClickShrubberyGalore": {
+        "doc": "点击 <资源区: 丰饶灌木林>",
+        "baseTask": "Tales@RA@ClickShrubberyGalore",
+        "next": ["Tales@RA@RecogniseEnterNodeButton", "Tales@RA@PNS-ClickShrubberyGalore"]
+    },
     "Tales@RA@PNS-Commence": {
         "doc": "在主题入口界面点击 <开始演算> 开启新游戏",
         "algorithm": "OcrDetect",
@@ -12169,6 +12159,13 @@
         "text": ["开始演算"],
         "roi": [1064, 620, 171, 50],
         "next": ["Tales@RA@PNS-Commence@NextAfterLoadingText", "Tales@RA@PNS-OpeningAnimation"]
+    },
+    "Tales@RA@PNS-ConfirmSquad": {
+        "doc": "在编队界面点击 <开始行动>, 若弹出 <确认不携带任何干员进入战斗吗?> 或者 <确认进入战斗吗?> 的对话框, 则点击 <确定>",
+        "baseTask": "Tales@RA@ConfirmSquad",
+        "preDelay": 500,
+        "postDelay": 500,
+        "next": ["Tales@RA@DialogConfirmRed", "Stop"]
     },
     "Tales@RA@PNS-ConfirmToLeaveBaseCamp": {
         "doc": "确认离开 <后舍: 众人会聚之地>",
@@ -12219,13 +12216,6 @@
             "Tales@RA@PNS-EnterNodeThenLeave@NextAfterMerelyWaiting"
         ]
     },
-    "Tales@RA@PNS-ConfirmSquad": {
-        "doc": "在编队界面点击 <开始行动>, 若弹出 <确认不携带任何干员进入战斗吗?> 或者 <确认进入战斗吗?> 的对话框, 则点击 <确定>",
-        "baseTask": "Tales@RA@ConfirmSquad",
-        "preDelay": 500,
-        "postDelay": 500,
-        "next": ["Tales@RA@DialogConfirmRed", "Stop"]
-    },
     "Tales@RA@PNS-EnterShrubberyGaloreThenLeave": {
         "doc": "进入 <资源区: 丰饶灌木林> 后直接退出",
         "baseTask": "Tales@RA@EnterNode",
@@ -12261,17 +12251,6 @@
             "Tales@RA@PNS-ClickShrubberyGalore"
         ],
         "next": ["Tales@RA@PNS-EnterShrubberyGaloreThenLeave"]
-    },
-    "Tales@RA@PNS-WaitForHeadquartersButton": {
-        "doc": "等待直到识别到左下角驻扎地图标",
-        "algorithm": "JustReturn",
-        "next": ["Tales@RA@PNS-RecogniseHeadquartersButton", "Tales@RA@PNS-WaitForHeadquartersButton"]
-    },
-    "Tales@RA@PNS-RecogniseHeadquartersButton": {
-        "doc": "识别到左下角驻扎地图标",
-        "baseTask": "Tales@RA@ClickHeadquartersButton",
-        "template": "Tales@RA@HeadquartersButton.png",
-        "action": "DoNothing"
     },
     "Tales@RA@PNS-LeaveBaseCamp": {
         "doc": "在行动中点击左上角离开 <后舍: 众人会聚之地>",
@@ -12372,6 +12351,12 @@
         "template": "Tales@RA@SwipeSave.png",
         "sub": ["Tales@RA@DialogConfirmRed*2"]
     },
+    "Tales@RA@PNS-RecogniseHeadquartersButton": {
+        "doc": "识别到左下角驻扎地图标",
+        "baseTask": "Tales@RA@ClickHeadquartersButton",
+        "template": "Tales@RA@HeadquartersButton.png",
+        "action": "DoNothing"
+    },
     "Tales@RA@PNS-SkipToCalc": {
         "doc": "跳到下一次量定结算",
         "template": ["Tales@RA@ActsLeft2.png", "Tales@RA@ActsLeft1.png", "Tales@RA@NextDay.png"],
@@ -12418,6 +12403,11 @@
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
         "next": ["Tales@RA@PNS-SkipToCalc", "Tales@RA@PNS-SkipToCalc-StartToday"]
     },
+    "Tales@RA@PNS-WaitForHeadquartersButton": {
+        "doc": "等待直到识别到左下角驻扎地图标",
+        "algorithm": "JustReturn",
+        "next": ["Tales@RA@PNS-RecogniseHeadquartersButton", "Tales@RA@PNS-WaitForHeadquartersButton"]
+    },
     "Tales@RA@ProsperityInSave": {
         "doc": "生息演算「沙洲遗闻」有存档刷生息点数 <ProsperityInSave> 任务入口",
         "algorithm": "JustReturn",
@@ -12433,6 +12423,11 @@
         "template": "Tales@RA@Max",
         "roi": [836, 516, 59, 40],
         "action": "ClickSelf"
+    },
+    "Tales@RA@RecogniseEnterNodeButton": {
+        "doc": "模板任务: 通过识别右下角 <开始行动> 按钮判断是否已点击区块节点",
+        "baseTask": "Tales@RA@EnterNode",
+        "action": "DoNothing"
     },
     "Tales@RA@ResourceGained": {
         "doc": "模板任务: 获得物资, 点击 <点击空白处继续> 文字位置",
@@ -12480,6 +12475,11 @@
         "doc": "模板任务: 点击右上角 <消磨时间> 箭头",
         "roi": [1194, 143, 37, 49],
         "action": "ClickSelf"
+    },
+    "Tales@RA@SquadSizeLE6": {
+        "doc": "模板任务: 当前编队规模小于等于6人",
+        "template": "Tales@RA@SquadSizeIndicator0.png",
+        "roi": [811, 647, 60, 60]
     },
     "Tales@RA@StartToday": {
         "doc": "模板任务: 在驻扎地产出结算界面点击确认符号开启今日",
