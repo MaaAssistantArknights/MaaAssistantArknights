@@ -50,9 +50,9 @@
             "direction": "left"
         },
         {
-          "groups": [ "益达" ],
-          "location": [ 6,4 ],
-          "direction": "left"
+            "groups": ["益达"],
+            "location": [6, 4],
+            "direction": "left"
         },
         {
             "groups": ["高台输出", "高台预备"],
