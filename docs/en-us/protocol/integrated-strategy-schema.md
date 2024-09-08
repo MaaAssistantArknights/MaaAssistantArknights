@@ -199,9 +199,9 @@ So don't set the threshold number too high, it is recommended that the number of
                                "GroundBlocking",
                                "Thorns"
                            ],
-                           "is_less": false,                 // True is less than, false is greater than. Default to false if empty
-                           "threshold": 2,                   // Number of conditions met
-                           "offset": -300                    // Adjustments to recruitment priorities after fulfilment
+                           "is_less": false,                 // True is less than or equal, false is greater than or equal. Default to false if empty.
+                           "threshold": 2,                   // Number of conditions met. Default to 0 if empty.
+                           "offset": -300                    // Adjustments to recruitment priorities after fulfilment. Default to 0 if empty.
                                                              // (This means that when there are 2 or more operators in Kaltsit, GroundBlocking and Thorns,
                                                              // the recruitment priority of Gavial the Invincible is reduced by 300)
                        }
