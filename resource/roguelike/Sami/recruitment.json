@@ -630,7 +630,7 @@
                         {
                             "groups": ["单奶", "群奶"],
                             "is_less": true,
-                            "offset": 200
+                            "offset": 120
                         },
                         {
                             "groups": ["凯尔希", "重装", "近卫"],
