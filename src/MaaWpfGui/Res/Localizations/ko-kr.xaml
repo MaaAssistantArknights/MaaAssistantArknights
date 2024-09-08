@@ -395,7 +395,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 에뮬레이터 경로</system:String>
     <system:String x:Key="MuMu12Index">인스턴스 번호</system:String>
     <system:String x:Key="MuMu12Display">표시 번호</system:String>
-    <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMuExtras가 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
+    <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu의 스크린샷 향상가 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 연결이 실패하면 에뮬레이터를 다시 시도합니다</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">재연결을 20회 시도해도 실패하면 에뮬레이터를 다시 시작합니다. 백그라운드 예약을 사용하고 작업이 완료되면 에뮬레이터가 종료되도록 설정하려면 반드시 선택해야 합니다</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">에뮬레이터 경로가 비어 있습니다!「연결 설정/에뮬레이터 경로」를 입력한 후 다시 선택하세요.</system:String>

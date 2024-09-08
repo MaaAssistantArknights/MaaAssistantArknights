@@ -394,7 +394,7 @@
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 エミュレータパス</system:String>
     <system:String x:Key="MuMu12Index">インスタンス番号</system:String>
     <system:String x:Key="MuMu12Display">表示番号</system:String>
-    <system:String x:Key="MuMuExtrasNotEnabledMessage">MumuExtras が有効になっていません。関連する設定を確認してください</system:String>
+    <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu スクリーンショットの強化 が有効になっていません。関連する設定を確認してください</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB接続が失敗した場合、エミュレータの起動を試みる</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">再接続に20回失敗した後、エミュレータを再起動してみてください，バックグラウンドのタイムドタスクを使用し、終了時にエミュレータを終了させるタスクを設定する場合は、必ずチェックを入れること</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">エミュレータのパスが空です！「起動設定-エミュレータのパス」を入力してから再度選択してください。</system:String>

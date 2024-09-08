@@ -394,7 +394,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 Emulator exec path</system:String>
     <system:String x:Key="MuMu12Index">Instance Number</system:String>
     <system:String x:Key="MuMu12Display">Display Number</system:String>
-    <system:String x:Key="MuMuExtrasNotEnabledMessage">MumuExtras not enabled, please check related settings</system:String>
+    <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu screenshot enhancement not enabled, please check related settings</system:String>
     <system:String x:Key="RetryOnDisconnected">Retry launching the emulator when ADB connection fails</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">Try restarting the emulator after 20 failed reconnect attempts, must be checked when using a background timed task and setting the task to close the emulator when finished</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">Emulator path is empty! Please fill in "Launch Settings - Emulator Path" and reselect.</system:String>
