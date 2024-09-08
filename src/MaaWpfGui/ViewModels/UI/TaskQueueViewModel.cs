@@ -215,6 +215,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             async Task DoShutDown()
             {
+                _logger.Information("Shutdown in 70 seconds.");
                 Process.Start("shutdown.exe", "-s -t 70");
 
                 if (await TimerCanceledAsync(
@@ -223,6 +224,7 @@ namespace MaaWpfGui.ViewModels.UI
                         LocalizationHelper.GetString("Cancel"),
                         60))
                 {
+                    _logger.Information("Shutdown canceled.");
                     Process.Start("shutdown.exe", "-a");
                     return;
                 }
