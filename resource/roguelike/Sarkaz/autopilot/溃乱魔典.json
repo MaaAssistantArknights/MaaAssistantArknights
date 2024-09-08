@@ -1,106 +1,60 @@
 {
-    "stage_name": "溃乱魔典",
-    "blacklist_location": [
-        [3, 1],
-        [3, 2],
-        [3, 3],
-        [3, 4],
-        [3, 5],
-        [4, 1],
-        [4, 2],
-        [4, 3],
-        [4, 4],
-        [4, 5],
-        [5, 1],
-        [5, 2],
-        [5, 3],
-        [5, 4],
-        [5, 5],
-        [6, 1],
-        [6, 2],
-        [6, 3],
-        [6, 4],
-        [6, 5],
-        [7, 1],
-        [7, 2],
-        [7, 3],
-        [7, 4],
-        [7, 5],
-        [1, 5],
-        [8, 4]
-    ],
-    "deploy_plan": [
-        {
-            "groups": ["回费"],
-            "location": [1, 1],
-            "direction": "right",
-            "condition": [0, 1]
-        },
-        {
-            "groups": ["地面阻挡", "其他地面"],
-            "location": [2, 1],
-            "direction": "right",
-            "condition": [0, 10]
-        },
-        {
-            "groups": ["益达", "高台输出", "狙击", "凯尔希", "其他高台"],
-            "location": [9, 1],
-            "direction": "left",
-            "condition": [0, 20]
-        },
-        {
-            "groups": ["益达", "高台输出", "狙击", "凯尔希", "其他高台"],
-            "location": [2, 2],
-            "direction": "right",
-            "condition": [0, 20]
-        },
-        {
-            "groups": ["奶", "其他高台"],
-            "location": [1, 3],
-            "direction": "up",
-            "condition": [0, 20]
-        },
-        {
-            "groups": ["益达", "高台输出", "狙击", "凯尔希", "其他高台"],
-            "location": [2, 2],
-            "direction": "right",
-            "condition": [15, 30]
-        },
-        {
-            "groups": ["奶", "其他高台"],
-            "location": [1, 3],
-            "direction": "up",
-            "condition": [15, 30]
-        },
-        {
-            "groups": ["奶", "其他高台"],
-            "location": [8, 2],
-            "direction": "down",
-            "condition": [15, 30]
-        },
-        {
-            "groups": ["益达", "高台输出", "狙击", "凯尔希", "其他高台"],
-            "location": [2, 2],
-            "direction": "right",
-            "condition": [25, 40]
-        },
-        {
-            "groups": ["奶", "其他高台"],
-            "location": [1, 3],
-            "direction": "up",
-            "condition": [25, 40]
-        },
-        {
-            "groups": ["益达", "高台输出", "狙击", "凯尔希", "其他高台"],
-            "location": [2, 2],
-            "direction": "right",
-            "condition": [35, 50]
-        },
-        {
-            "groups": ["奶", "其他高台"],
-            "location": [1, 3],
-            "direction": "up",
-            "condition": [35, 50]
-        }
-    ]
+  "stage_name": "溃乱魔典",
+  "blacklist_location": [
+    [ 3, 1 ],
+    [ 3, 2 ],
+    [ 3, 3 ],
+    [ 3, 4 ],
+    [ 3, 5 ],
+    [ 4, 1 ],
+    [ 4, 3 ],
+    [ 4, 5 ],
+    [ 5, 1 ],
+    [ 5, 2 ],
+    [ 5, 3 ],
+    [ 5, 4 ],
+    [ 5, 5 ],
+    [ 6, 1 ],
+    [ 6, 3 ],
+    [ 6, 5 ],
+    [ 7, 1 ],
+    [ 7, 2 ],
+    [ 7, 3 ],
+    [ 7, 4 ],
+    [ 7, 5 ],
+    [ 2, 4 ],
+    [ 8, 4 ]
+  ],
+  "deploy_plan": [
+    {
+      "groups": [ "回费" ],
+      "location": [ 1, 1 ],
+      "direction": "right",
+      "condition": [ 0, 1 ]
+    },
+    {
+      "groups": [ "地面阻挡", "其他地面" ],
+      "location": [ 2, 1 ],
+      "direction": "right",
+      "condition": [ 0, 10 ]
+    },
+    {
+      "groups": [ "益达"],
+      "location": [ 9, 1 ],
+      "direction": "left",
+      "condition": [ 0, 20 ]
+    },
+    {
+      "groups": [ "高台输出", "狙击", "其他高台" ],
+      "location": [ 9, 1 ],
+      "direction": "left",
+      "condition": [ 0, 20 ]
+    },
+    {
+      "groups": [ "奶", "其他高台" ],
+      "location": [ 1, 3 ],
+      "direction": "up",
+      "condition": [ 0, 20 ]
+    }
+  ]
 }
