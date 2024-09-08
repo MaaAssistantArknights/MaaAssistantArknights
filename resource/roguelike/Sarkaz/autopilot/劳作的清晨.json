@@ -1,72 +1,73 @@
 {
-  "stage_name": "劳作的清晨",
-  "blacklist_location": [
-    [ 1, 1 ],
-    [ 1, 2 ],
-    [ 1, 3 ],
-    [ 1, 4 ],
-    [ 1, 5 ]
-  ],
-  "deploy_plan": [
-    {
-      "groups": [ "回费" ],
-      "location": [ 4, 1 ],
-      "direction": "down",
-      "condition": [ 0, 1 ]
-    },
-    {
-      "groups": [ "投锋" ],
-      "location": [ 4, 2 ],
-      "direction": "down",
-      "condition": [ 0, 1 ]
-    },
-     {
-      "groups": [ "玛恩纳" ],
-      "location": [ 4, 3 ],
-      "direction": "right",
-      "condition": [ 0, 10 ]
-    },{
-      "groups": [ "地面阻挡", "其他地面" ],
-      "location": [ 4, 4 ],
-      "direction": "down",
-      "condition": [ 0, 10 ]
-    },
-   
-    {
-      "groups": [ "益达", "高台输出", "狙击", "凯尔希", "其他高台" ],
-      "location": [ 3, 3 ],
-      "direction": "right",
-      "condition": [ 0, 12 ]
-    },
-    {
-      "groups": [ "益达", "高台输出", "狙击", "凯尔希", "其他高台" ],
-      "location": [ 6, 2 ],
-      "direction": "right",
-      "condition": [ 0, 12 ]
-    },
-    {
-      "groups": [ "奶", "其他高台" ],
-      "location": [ 3, 2 ],
-      "direction": "down",
-      "condition": [ 0, 12 ]
-    },
-    {
-      "groups": [ "地面阻挡", "其他地面" ],
-      "location": [ 6, 1 ],
-      "direction": "right",
-      "condition": [ 11, 20 ]
-    },
-    {
-      "groups": [ "地面阻挡", "其他地面" ],
-      "location": [ 5, 1 ],
-      "direction": "right",
-      "condition": [ 13, 20 ]
-    },
-    {
-      "groups": [ "地面阻挡", "其他地面" ],
-      "location": [ 4, 1 ],
-      "direction": "right",
-      "condition": [ 15, 20 ]
-    }
-  ]
+    "stage_name": "劳作的清晨",
+    "blacklist_location": [
+        [1, 1],
+        [1, 2],
+        [1, 3],
+        [1, 4],
+        [1, 5]
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["回费"],
+            "location": [4, 1],
+            "direction": "down",
+            "condition": [0, 1]
+        },
+        {
+            "groups": ["投锋"],
+            "location": [4, 2],
+            "direction": "down",
+            "condition": [0, 1]
+        },
+        {
+            "groups": ["玛恩纳"],
+            "location": [4, 3],
+            "direction": "right",
+            "condition": [0, 10]
+        },
+        {
+            "groups": ["地面阻挡", "其他地面"],
+            "location": [4, 4],
+            "direction": "down",
+            "condition": [0, 10]
+        },
+
+        {
+            "groups": ["益达", "高台输出", "狙击", "凯尔希", "其他高台"],
+            "location": [3, 3],
+            "direction": "right",
+            "condition": [0, 12]
+        },
+        {
+            "groups": ["益达", "高台输出", "狙击", "凯尔希", "其他高台"],
+            "location": [6, 2],
+            "direction": "right",
+            "condition": [0, 12]
+        },
+        {
+            "groups": ["奶", "其他高台"],
+            "location": [3, 2],
+            "direction": "down",
+            "condition": [0, 12]
+        },
+        {
+            "groups": ["地面阻挡", "其他地面"],
+            "location": [6, 1],
+            "direction": "right",
+            "condition": [11, 20]
+        },
+        {
+            "groups": ["地面阻挡", "其他地面"],
+            "location": [5, 1],
+            "direction": "right",
+            "condition": [13, 20]
+        },
+        {
+            "groups": ["地面阻挡", "其他地面"],
+            "location": [4, 1],
+            "direction": "right",
+            "condition": [15, 20]
+        }
+    ]
 }
