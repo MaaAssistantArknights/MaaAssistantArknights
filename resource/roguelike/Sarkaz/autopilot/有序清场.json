@@ -43,7 +43,7 @@
         },
         {
             "groups": ["浊心斯卡蒂", "高台输出", "狙击", "凯尔希", "其他高台", "奶"],
-            "location": [9, 4],
+            "location": [8, 4],
             "direction": "left",
             "condition": [0, 9]
         },
