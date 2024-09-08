@@ -229,6 +229,7 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
+                _logger.Information("Shutdown not canceled, proceeding to exit application.");
                 Bootstrapper.Shutdown();
             }
 
