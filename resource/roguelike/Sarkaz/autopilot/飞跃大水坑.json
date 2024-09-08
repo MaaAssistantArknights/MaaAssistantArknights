@@ -1,0 +1,88 @@
+{
+  "stage_name": "飞跃大水坑",
+  "replacement_home": [
+    {
+      "location": [ 9, 6 ],
+      "direction": "up"
+    }
+  ],
+  "blacklist_location": [
+    [ 1, 1 ],
+    [ 2, 1 ],
+    [ 1, 2 ],
+    [ 2, 2 ]
+  ],
+  "deploy_plan": [
+    {
+      "groups": [ "回费", "地面阻挡", "其他地面" ],
+      "location": [ 6, 1 ],
+      "direction": "right",
+      "condition": [ 0, 10 ]
+    },
+    {
+      "groups": [ "回费", "地面阻挡", "其他地面" ],
+      "location": [ 6, 2 ],
+      "direction": "right",
+      "condition": [ 0, 10 ]
+    },
+    {
+      "groups": [ "益达", "高台输出", "狙击", "凯尔希", "其他高台" ],
+      "location": [ 7, 5 ],
+      "direction": "up",
+      "condition": [ 0, 12 ]
+    },
+    {
+      "groups": [ "补给站" ],
+      "location": [ 6, 5 ],
+      "direction": "right"
+    },
+    {
+      "groups": [ "炮灰", "处决者", "其他地面", "地面阻挡" ],
+      "location": [ 9, 5 ],
+      "direction": "up",
+      "condition": [ 0, 20 ]
+    },
+    {
+      "groups": [ "炮灰", "处决者", "其他地面", "地面阻挡" ],
+      "location": [ 6, 5 ],
+      "direction": "down",
+      "condition": [ 0, 20 ]
+    },
+    {
+      "groups": [ "无人机", "支援陷阱" ],
+      "location": [ 6, 6 ],
+      "direction": "up",
+      "condition": [ 0, 12 ]
+    },
+    {
+      "groups": [ "益达", "高台输出", "狙击", "凯尔希", "其他高台" ],
+      "location": [ 7, 4 ],
+      "direction": "left",
+      "condition": [ 0, 25 ]
+    },
+    {
+      "groups": [ "奶" ],
+      "location": [ 8, 4 ],
+      "direction": "down",
+      "condition": [ 5, 30 ]
+    },
+    {
+      "groups": [ "元素奶" ],
+      "location": [ 5, 3 ],
+      "direction": "down",
+      "condition": [ 5, 30 ]
+    },
+    {
+      "groups": [ "益达", "高台输出", "狙击", "凯尔希", "其他高台" ],
+      "location": [ 5, 5 ],
+      "direction": "right",
+      "condition": [ 5, 35 ]
+    },
+    {
+      "groups": [ "益达", "高台输出", "狙击", "凯尔希", "其他高台" ],
+      "location": [ 5, 4 ],
+      "direction": "right",
+      "condition": [ 5, 35 ]
+    }
+  ]
+}
