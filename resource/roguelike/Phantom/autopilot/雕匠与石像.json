@@ -44,6 +44,12 @@
     ],
     "deploy_plan": [
         {
+            "groups": ["凯尔希"],
+            "location": [9, 3],
+            "direction": "left",
+            "condition": [0, 10]
+        },
+        {
             "groups": ["地面单切", "情报官", "炮灰", "回费", "棘刺", "高台C", "高台输出", "梓兰", "高台预备"],
             "location": [8, 5],
             "direction": "up",
@@ -55,7 +61,7 @@
             "direction": "left"
         },
         {
-            "groups": ["益达", "凯尔希"],
+            "groups": ["益达"],
             "location": [9, 3],
             "direction": "left"
         },
