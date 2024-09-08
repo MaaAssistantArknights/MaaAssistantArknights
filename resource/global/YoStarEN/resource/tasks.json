@@ -2666,5 +2666,11 @@
     },
     "Tales@RA@ResourceGained": {
         "text": ["Tap anywhere to continue"]
+    },
+    "RA@Navigation-EnterCurrentTheme": {
+        "text": ["Reclamation", "Algorithm"]
+    },
+    "RA@Navigation-RecogniseTheme": {
+        "text": ["Commence", "Resume"]
     }
 }

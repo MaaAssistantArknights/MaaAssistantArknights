@@ -2017,5 +2017,11 @@
     },
     "Tales@RA@ResourceGained": {
         "text": ["点击空白处继续"]
+    },
+    "RA@Navigation-EnterCurrentTheme": {
+        "text": ["生息演算"]
+    },
+    "RA@Navigation-RecogniseTheme": {
+        "text": ["演算", "開始", "继续演算"]
     }
 }
