@@ -981,7 +981,7 @@
     },
     "UsingMedicineCount": {
         "specialParams_Doc": "日服缺少蓝色遮罩，导致图标过亮",
-        "specialParams": [250, 255]
+        "specialParams": [255, 255]
     },
     "MedicineExpiringTime": {
         "roi": [705, 345, 95, 30],
