@@ -1509,7 +1509,7 @@
                         {
                             "groups": ["单奶", "群奶"],
                             "is_less": true,
-                            "offset": 120
+                            "offset": 200
                         }
                     ]
                 },
@@ -1523,7 +1523,7 @@
                         {
                             "groups": ["单奶", "群奶"],
                             "is_less": true,
-                            "offset": 120
+                            "offset": 200
                         }
                     ]
                 },
