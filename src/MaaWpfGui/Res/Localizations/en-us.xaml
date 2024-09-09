@@ -687,8 +687,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="StartCombat" xml:space="preserve">Start combat: </system:String>
     <system:String x:Key="CompleteCombat">Complete combat</system:String>
     <system:String x:Key="AllTasksComplete">All task(s) completed!</system:String>
-    <system:String x:Key="SanityReport">Sanity will be full at {DateTime} (In {TimeDiff})</system:String>
-    <system:String x:Key="AllTaskCompleteContent">MAA has completed all tasks under the {Preset} configuration in {DateTime}.</system:String>
+    <system:String x:Key="SanityReport">Sanity will be full at {DateTime} (in {TimeDiff})</system:String>
+    <system:String x:Key="AllTaskCompleteContent">MAA has completed all tasks under the {Preset} configuration on {DateTime} (in {TimeDiff})</system:String>
     <system:String x:Key="BackgroundLinkStarted">Tasks started</system:String>
     <system:String x:Key="BackgroundLinkStopped">Tasks stopped</system:String>
     <system:String x:Key="FailedToOpenClient">Failed to open the client. Please check the configuration file</system:String>
