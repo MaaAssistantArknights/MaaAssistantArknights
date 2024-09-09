@@ -12174,6 +12174,7 @@
         "next": [
             "Tales@RA@PNS-ConfirmToLeaveBaseCamp@NextAfterLoadingIcon",
             "Tales@RA@PNS-ConfirmToLeaveBaseCamp@NextAfterLoadingText",
+            "Tales@RA@PNS-ConfirmToLeaveBaseCamp",
             "Tales@RA@PNS-GoTo-ShrubberyGalore"
         ]
     },
@@ -12181,7 +12182,10 @@
         "doc": "确认离开当前区块",
         "baseTask": "Tales@RA@DialogConfirmYellow",
         "template": "Tales@RA@DialogConfirmYellow.png",
-        "next": ["Tales@RA@PNS-MissionResults", "Tales@RA@PNS-ConfirmToLeaveNode@NextAfterLoadingText"]
+        "next": [
+            "Tales@RA@PNS-MissionResults",
+            "Tales@RA@PNS-ConfirmToLeaveNode@NextAfterLoadingText",
+            "Tales@RA@PNS-ConfirmToLeaveNode"]
     },
     "Tales@RA@PNS-EnterBaseCamp": {
         "doc": "点击 <后舍: 众人会聚之地> 后点击 <开始行动>",
@@ -12256,7 +12260,7 @@
         "doc": "在行动中点击左上角离开 <后舍: 众人会聚之地>",
         "baseTask": "Tales@RA@LeaveCurrentZone",
         "template": "Tales@RA@LeaveCurrentZone.png",
-        "next": ["Tales@RA@PNS-ConfirmToLeaveBaseCamp"]
+        "next": ["Tales@RA@PNS-ConfirmToLeaveBaseCamp", "Tales@RA@PNS-LeaveBaseCamp"]
     },
     "Tales@RA@PNS-LeaveNode": {
         "doc": "在行动中点击左上角离开当前区块, 注意左上角离开按钮渐变出现, 期间点击无效",
