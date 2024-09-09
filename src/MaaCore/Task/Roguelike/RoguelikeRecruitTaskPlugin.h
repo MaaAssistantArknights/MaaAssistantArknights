@@ -11,6 +11,7 @@ struct RoguelikeRecruitInfo
     int priority = 0;   // 招募优先级 (0-1000)
     int page_index = 0; // 所在页码 (用于判断翻页方向)
     bool is_alternate = false; // 是否后备干员 (允许重复招募、划到后备干员时不再往右划动)
+    bool is_temp_recruit = false;   //临时招募干员标记，在阵容未完备时启用
 };
 
 class RoguelikeRecruitTaskPlugin : public AbstractRoguelikeTaskPlugin
