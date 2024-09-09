@@ -308,7 +308,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 }
             }
 
-            // 优先级为0，且非临时招募干员，可能练度不够被忽略（加这个非临时招募条件是因为很多五星干员默认不写优先级会被直接忽略）
+            // 优先级为0，可能练度不够或未适配被忽略
             if (priority <= 0) {
                 continue;
             }
