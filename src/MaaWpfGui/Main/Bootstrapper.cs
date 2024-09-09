@@ -15,6 +15,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -282,9 +283,9 @@ namespace MaaWpfGui.Main
             Execute.OnUIThread(Application.Current.Shutdown);
         }
 
-        public static void Shutdown()
+        public static void Shutdown([CallerMemberName]string caller = "")
         {
-            _logger.Information("Shutdown");
+            _logger.Information($"Shutdown called by {caller}");
             Execute.OnUIThread(Application.Current.Shutdown);
         }
 
