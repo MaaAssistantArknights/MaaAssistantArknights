@@ -688,7 +688,7 @@
     <system:String x:Key="CompleteTask" xml:space="preserve">タスク完了: </system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">戦闘開始: </system:String>
     <system:String x:Key="CompleteCombat">戦闘完了</system:String>
-    <system:String x:Key="AllTasksComplete">すべてのタスクが完了しました！</system:String>
+    <system:String x:Key="AllTasksComplete">すべてのタスクが完了しました！\n({0} 後)</system:String>
     <system:String x:Key="SanityReport">({TimeDiff} 後)、{DateTime} に理性が完全回復します。</system:String>
     <system:String x:Key="AllTaskCompleteContent">({TimeDiff} 後) MAA は、{DateTime} の {Preset} 構成の下にあるすべてのプリセット タスクを完了しました。</system:String>
     <system:String x:Key="BackgroundLinkStarted">Tasks started</system:String>

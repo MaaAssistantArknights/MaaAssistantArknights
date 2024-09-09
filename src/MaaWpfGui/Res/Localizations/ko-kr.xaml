@@ -689,7 +689,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">작업 완료: </system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">작전 시작: </system:String>
     <system:String x:Key="CompleteCombat">작전 완료</system:String>
-    <system:String x:Key="AllTasksComplete">모든 작업이 완료되었습니다!</system:String>
+    <system:String x:Key="AllTasksComplete">모든 작업이 완료되었습니다!\n({0} 이후)</system:String>
     <system:String x:Key="SanityReport">{DateTime}에 이성이 전부 회복됩니다.({TimeDiff} 이후)</system:String>
     <system:String x:Key="AllTaskCompleteContent">MAA가 {DateTime}의 {Preset} 구성에서 모든 사전 설정 작업을 완료했습니다.({TimeDiff} 이후)</system:String>
     <system:String x:Key="BackgroundLinkStarted">작업 시작됨</system:String>
