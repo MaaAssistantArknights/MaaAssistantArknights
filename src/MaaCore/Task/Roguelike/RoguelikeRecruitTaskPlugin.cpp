@@ -122,6 +122,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             for (const std::string& group_name : condition.groups) {
                 count += group_count[group_name];
                 complete_count += group_count[group_name];
+                //注意：所有用于阵容完备度检测的编组里不能出现重复干员，否则会被多次计算
             }
             if (count < condition.threshold) {
                 complete = false;
@@ -240,19 +241,20 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                                                               recruit_info.promote_priority_when_team_full
                                                         : recruit_info.recruit_priority + recruit_info.promote_priority;
                 }
-                else if (oper_info.elite == 1 && (oper_info.level >= 50 || oper_info.level == 0)) {
-                    // 精一50级以上
+                else if (oper_info.elite == 1 && (oper_info.level >= 55 || oper_info.level == 0)) {
+                    // 精一55级以上
                     // 等级是 0 一般是识别错了，多发生于外服，一般都是一错全错，先凑合着招一个吧，比不招人强 orz
                     priority = team_full_without_rookie ? recruit_info.recruit_priority_when_team_full
                                                         : recruit_info.recruit_priority;
                 }
                 else {
-                    // 精一50级以下，默认不招募
+                    // 精一55级以下，默认不招募
                     Log.trace(__FUNCTION__, "| Ignored low level oper:", oper_info.name, oper_info.elite,
                               oper_info.level);
                 }
 
                 if (temp_recruit_exist) { // 临时招募干员具有极高抓取优先级，但是在编队时会占用前面的位置
+                    is_temp_recruit = true; // 临时招募干员标记，在阵容未完备时启用
                     priority += 600;
                     temp_recruit_exist = false;
                 }
@@ -299,12 +301,14 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                         if (!recruit_info.is_start) priority -= 1000;
                     }
                     else if (!m_team_complete) {
-                        if (!recruit_info.is_key) priority -= 1000;
+                        if (!recruit_info.is_key  && !is_temp_recruit) priority -= 1000;
+}
+                        //极大幅降低阵容未完备且非临时招募干员的招募优先级
                     }
                 }
             }
 
-            // 优先级为0，可能练度不够被忽略
+            // 优先级为0，且非临时招募干员，可能练度不够被忽略（加这个非临时招募条件是因为很多五星干员默认不写优先级会被直接忽略）
             if (priority <= 0) {
                 continue;
             }
@@ -381,15 +385,16 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             return true;
         }
 
-        //// 仍然没选，随便选个精一 50 以上的
-        // for (const auto& info : oper_list) {
-        //     if (info.elite == 0 || (info.elite == 1 && info.level < 50)) {
-        //         continue;
-        //     }
-        //     Log.trace(__FUNCTION__, "| Choose random elite 1:", info.name, info.elite, info.level);
-        //     recruit_oper(info);
-        //     return true;
-        // }
+        // 仍然没选，随便选个精一 50 以上的
+        // 原来这一段被注释掉了，为了防止某些极端情况真的一个都不招募还是选一个吧
+         for (const auto& info : oper_list) {
+             if (info.elite == 0 || (info.elite == 1 && info.level < 50)) {
+                continue;
+            }
+             Log.trace(__FUNCTION__, "| Choose random elite 1:", info.name, info.elite, info.level);
+             recruit_oper(info);
+             return true;
+         }
 
         Log.trace(__FUNCTION__, "| Did not choose oper");
         return true;
