@@ -79,7 +79,7 @@ jobs:
           git commit -m "$commit_msg"
 
       - name: Create PR
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           title: ${{ steps.extract_tag.outputs.pr_title }}
