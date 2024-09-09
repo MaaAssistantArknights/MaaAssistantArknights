@@ -12067,7 +12067,7 @@
         "action": "Swipe",
         "specificRect": [753, 460, 0, 0],
         "rectMove": [753, 80, 0, 0],
-        "specialParams": [500, 1],
+        "specialParams": [500, 0],
         "postDelay": 300,
         "next": ["Tales@RA@PIS-SelectTool"]
     },
