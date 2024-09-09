@@ -154,11 +154,11 @@
                                 CornerRadius="0,3,3,0"
                                 Visibility="{c:Binding 'UiVersion == CoreVersion'}">
                                 <TextBlock
-                                    MinWidth="50"
                                     MaxWidth="400"
                                     Padding="5,3,5,3"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
+                                    d:MinWidth="50"
                                     hc:FloatingBlock.Content="{Binding UiVersion}"
                                     Foreground="White"
                                     PreviewMouseDown="MaaVersionClick"
@@ -190,10 +190,10 @@
                                 CornerRadius="0,3,3,0"
                                 Visibility="{c:Binding 'UiVersion != CoreVersion'}">
                                 <TextBlock
-                                    MinWidth="50"
                                     Padding="5,3,5,3"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
+                                    d:MinWidth="50"
                                     hc:FloatingBlock.Content="{Binding UiVersion}"
                                     Foreground="White"
                                     PreviewMouseDown="UiVersionClick"
@@ -225,10 +225,10 @@
                                 CornerRadius="0,3,3,0"
                                 Visibility="{c:Binding 'UiVersion != CoreVersion'}">
                                 <TextBlock
-                                    MinWidth="50"
                                     Padding="5,3,5,3"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
+                                    d:MinWidth="50"
                                     hc:FloatingBlock.Content="{Binding CoreVersion}"
                                     Foreground="White"
                                     PreviewMouseDown="CoreVersionClick"
@@ -270,10 +270,10 @@
                                 Background="#6969AA"
                                 CornerRadius="0,3,3,0">
                                 <TextBlock
-                                    MinWidth="50"
                                     Padding="5,3,5,3"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
+                                    d:MinWidth="50"
                                     hc:FloatingBlock.Content="{Binding ResourceDateTimeCurrentCultureString}"
                                     Foreground="White"
                                     PreviewMouseDown="ResourceVersionClick"
@@ -303,10 +303,10 @@
                                 Background="#6969AA"
                                 CornerRadius="0,3,3,0">
                                 <TextBlock
-                                    MinWidth="50"
                                     Padding="5,3,5,3"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
+                                    d:MinWidth="50"
                                     hc:FloatingBlock.Content="{Binding BuildDateTimeCurrentCultureString}"
                                     Foreground="White"
                                     PreviewMouseDown="MaaVersionClick"
