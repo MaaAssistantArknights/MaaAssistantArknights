@@ -690,7 +690,7 @@
     <system:String x:Key="CompleteCombat">完成戰鬥</system:String>
     <system:String x:Key="AllTasksComplete">任務已全部完成！\n({0} 後)</system:String>
     <system:String x:Key="SanityReport">理智會在 {DateTime}回滿。({TimeDiff} 後)</system:String>
-    <system:String x:Key="AllTaskCompleteContent">MAA 已在 {DateTime} 完成了 {Preset} 配置下所有預設的任務。(用时 {TimeDiff})</system:String>
+    <system:String x:Key="AllTaskCompleteContent">MAA 已在 {DateTime} 完成了 {Preset} 配置下所有預設的任務。(用時 {TimeDiff})</system:String>
     <system:String x:Key="BackgroundLinkStarted">開始執行任務</system:String>
     <system:String x:Key="BackgroundLinkStopped">任務終止</system:String>
     <system:String x:Key="FailedToOpenClient">打開用戶端失敗，請檢查設定檔</system:String>
