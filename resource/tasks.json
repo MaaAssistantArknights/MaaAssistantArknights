@@ -12185,7 +12185,8 @@
         "next": [
             "Tales@RA@PNS-MissionResults",
             "Tales@RA@PNS-ConfirmToLeaveNode@NextAfterLoadingText",
-            "Tales@RA@PNS-ConfirmToLeaveNode"]
+            "Tales@RA@PNS-ConfirmToLeaveNode"
+        ]
     },
     "Tales@RA@PNS-EnterBaseCamp": {
         "doc": "点击 <后舍: 众人会聚之地> 后点击 <开始行动>",
