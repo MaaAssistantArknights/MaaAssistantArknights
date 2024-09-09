@@ -218,6 +218,7 @@ namespace MaaWpfGui.ViewModels.UI
                 _logger.Information("Shutdown in 70 seconds.");
                 Process.Start("shutdown.exe", "-s -t 70");
 
+                Instances.MainWindowManager?.Show();
                 if (await TimerCanceledAsync(
                         LocalizationHelper.GetString("Shutdown"),
                         LocalizationHelper.GetString("AboutToShutdown"),
