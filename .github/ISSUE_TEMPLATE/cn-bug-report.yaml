@@ -6,8 +6,7 @@ body:
     id: checks
     attributes:
       label: 在提问之前...
-      description: |
-        请确认自己完成了要求之后再进行勾选
+      description: 请在确认完成了要求之后再进行勾选
       options:
         - label: 我理解 Issue 是用于反馈和解决问题的，而非吐槽评论区，将尽可能提供更多信息帮助问题解决
           required: true
