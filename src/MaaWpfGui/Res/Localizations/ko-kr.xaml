@@ -376,7 +376,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="ConnectionAddressTip">문제 발생 시 직접 수정해 주세요</system:String>
     <system:String x:Key="ConnectionPreset">연결 프리셋</system:String>
     <system:String x:Key="ScreenshotTest">스크린샷 테스트</system:String>
-    <system:String x:Key="MuMu12ExtrasEnabled">MuMu의 스크린샷 향상 모드를 활성화하세요</system:String>
+    <system:String x:Key="MuMu12ExtrasEnabled">MuMu 스크린샷 향상 모드 활성화</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip">
         MuMu 12 V4.0.0 이상은 필요하며, MuMu 12 Global 에서는 지원되지 않습니다.\n
         이 기능을 활성화한 후 처음으로 사용하기 전에 스크린샷 테스트를 수행하는 것이 좋습니다.\n\n
@@ -437,16 +437,16 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="ExitArknights">명일방주를 종료</system:String>
     <system:String x:Key="ExitSelf">MAA를 종료</system:String>
     <system:String x:Key="ExitEmulator">에뮬레이터를 종료</system:String>
-    <system:String x:Key="Hibernate">절전 모드</system:String>
-    <system:String x:Key="HibernateTip">Windows の電源オプションで休止状態を有効にする必要があります。そうしないと、この機能は無効になります。</system:String>
-    <system:String x:Key="Sleep">절전</system:String>
+    <system:String x:Key="Hibernate">최대 절전 모드</system:String>
+    <system:String x:Key="HibernateTip">Windows의 전원 옵션에서 최대 절전 모드를 활성화해야 합니다. 그렇지 않으면 이 기능이 비활성화됩니다.</system:String>
+    <system:String x:Key="Sleep">절전 모드</system:String>
     <system:String x:Key="Shutdown">시스템 종료</system:String>
     <system:String x:Key="Once">한 번만*</system:String>
-    <system:String x:Key="PostActionOnceTip" xml:space="preserve">한 번만 실행하려면 먼저 Only once를 체크하세요.
-Only once가 체크되면 실행 후 Only once가 체크되기 전 상태로 작업이 복원됩니다.
-아래 작업을 마우스 오른쪽 버튼으로 클릭하면 선택한 Only once 상태가 동기적으로 활성화/취소됩니다.</system:String>
+    <system:String x:Key="PostActionOnceTip" xml:space="preserve">한 번만 실행하려면 「한 번만*」를 먼저 체크하세요.
+「한 번만*」이 체크되면 실행 후 「한 번만*」가 체크되기 전 상태로 작업이 복원됩니다.
+아래 작업을 마우스 오른쪽 버튼으로 클릭하면 선택한 「한 번만*」상태가 동기적으로 활성화/취소됩니다.</system:String>
     <system:String x:Key="IfNoOtherMaa">다른 MAA가 없는 경우</system:String>
-    <system:String x:Key="BackToAndroidHome">에뮬레이터가 홈 화면으로 돌아갑니다</system:String>
+    <system:String x:Key="BackToAndroidHome">에뮬레이터 홈 화면으로 이동</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">중지</system:String>
     <system:String x:Key="WaitAndStop">대기 &amp; 중지</system:String>
@@ -515,8 +515,8 @@ Only once가 체크되면 실행 후 Only once가 체크되기 전 상태로 작
     <system:String x:Key="ExitEmulatorFailed">에뮬레이터 종료 실패</system:String>
     <system:String x:Key="AboutToShutdown">작업을 완료했습니다. 시스템이 곧 종료됩니다. 취소하시겠습니까?</system:String>
     <system:String x:Key="ShutdownPrompt">알림</system:String>
-    <system:String x:Key="HibernatePrompt">작업을 완료했습니다. 곧 절전 모드에 진입합니다</system:String>
-    <system:String x:Key="SleepPrompt">완료되었습니다, 절전 모드로 전환합니다</system:String>
+    <system:String x:Key="HibernatePrompt">작업이 완료되었으며, 곧 최대 절전 모드로 전환됩니다</system:String>
+    <system:String x:Key="SleepPrompt">작업이 완료되었으며, 곧 절전 모드로 전환됩니다</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">알 수 없는 종료 동작</system:String>
     <system:String x:Key="AnnihilationTaskTip">선택한 스테이지는 섬멸 임무입니다. 임무 완료 후 남은 대체 스테이지가 시도됩니다. 일부 전투 설정은 적용되지 않습니다.</system:String>
     <system:String x:Key="AnnihilationTaskFailed">섬멸 작전에 실패하여 대체 스테이지를 진행합니다. 일부 전투 설정이 무시될 수 있습니다</system:String>
