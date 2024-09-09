@@ -302,6 +302,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                     }
                     else if (!m_team_complete) {
                         if (!recruit_info.is_key  && !is_temp_recruit) priority -= 1000;
+                        is_temp_recruit = false;
 }
                         //极大幅降低阵容未完备且非临时招募干员的招募优先级
                     }
