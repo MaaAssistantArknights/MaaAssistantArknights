@@ -52,6 +52,8 @@ namespace MaaWpfGui.Main
         private readonly RunningState _runningState;
         private static readonly ILogger _logger = Log.ForContext<AsstProxy>();
 
+        public DateTimeOffset StartTaskTime { get; set; }
+
         private static unsafe byte[] EncodeNullTerminatedUtf8(string s)
         {
             var enc = Encoding.UTF8.GetEncoder();
@@ -809,9 +811,12 @@ namespace MaaWpfGui.Main
 
                         var configurationPreset = ConfigurationHelper.GetCurrentConfiguration();
 
+                        var diffTaskTime = (DateTimeOffset.Now - StartTaskTime).ToString(@"h\h\ m\m\ s\s");
+
                         allTaskCompleteMessage = allTaskCompleteMessage
                             .Replace("{DateTime}", DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss"))
-                            .Replace("{Preset}", configurationPreset);
+                            .Replace("{Preset}", configurationPreset)
+                            .Replace("{TimeDiff}", diffTaskTime);
                         if (SanityReport.HasSanityReport)
                         {
                             var recoveryTime = SanityReport.ReportTime.AddMinutes(SanityReport.Sanity[0] < SanityReport.Sanity[1] ? (SanityReport.Sanity[1] - SanityReport.Sanity[0]) * 6 : 0);
