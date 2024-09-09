@@ -817,12 +817,16 @@ namespace MaaWpfGui.Main
                             .Replace("{DateTime}", DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss"))
                             .Replace("{Preset}", configurationPreset)
                             .Replace("{TimeDiff}", diffTaskTime);
+
+                        var allTaskCompleteLog = string.Format(LocalizationHelper.GetString("AllTasksComplete"), diffTaskTime);
+
                         if (SanityReport.HasSanityReport)
                         {
                             var recoveryTime = SanityReport.ReportTime.AddMinutes(SanityReport.Sanity[0] < SanityReport.Sanity[1] ? (SanityReport.Sanity[1] - SanityReport.Sanity[0]) * 6 : 0);
                             sanityReport = sanityReport.Replace("{DateTime}", recoveryTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", (recoveryTime - DateTimeOffset.Now).ToString(@"h\h\ m\m"));
 
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AllTasksComplete") + Environment.NewLine + sanityReport);
+                            allTaskCompleteLog = allTaskCompleteLog + Environment.NewLine + sanityReport;
+                            Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog);
                             ExternalNotificationService.Send(allTaskCompleteTitle, allTaskCompleteMessage + Environment.NewLine + sanityReport);
 
                             if (_toastNotificationTimer is not null)
@@ -843,7 +847,7 @@ namespace MaaWpfGui.Main
                         }
                         else
                         {
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AllTasksComplete"));
+                            Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog);
                             ExternalNotificationService.Send(allTaskCompleteTitle, allTaskCompleteMessage);
                         }
 
