@@ -12065,9 +12065,9 @@
         "doc": "在组装台界面向下滑动屏幕",
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "specificRect": [753, 460, 0, 0],
+        "specificRect": [753, 525, 0, 0],
         "rectMove": [753, 80, 0, 0],
-        "specialParams": [500, 0],
+        "specialParams": [1000, 0, 3, 0],
         "postDelay": 300,
         "next": ["Tales@RA@PIS-SelectTool"]
     },
