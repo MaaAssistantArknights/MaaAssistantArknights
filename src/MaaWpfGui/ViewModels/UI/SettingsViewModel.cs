@@ -4636,6 +4636,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     "zh-cn" => $" - {ResourceVersion}{ResourceDateTime:#MMdd}",
                     "zh-tw" => $" - {ResourceVersion}{ResourceDateTime:#MMdd}",
+                    "en-us" => $" - {ResourceDateTime:dd/MM} {ResourceVersion}",
                     _ => $" - {ResourceDateTime.ToString(LocalizationHelper.CustomCultureInfo.DateTimeFormat.ShortDatePattern.Replace("yyyy", string.Empty).Trim('/', '.'))} {ResourceVersion}",
                 }
                 : string.Empty;
