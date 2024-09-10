@@ -12103,7 +12103,11 @@
         "doc": "点击右上角箭头进入下一个生息日, 若在量定日则进行量定结算",
         "baseTask": "Tales@RA@NextDay",
         "template": "Tales@RA@NextDay.png",
-        "next": ["Tales@RA@PIS-SkipToCalc-NextDay@NextAfterLoadingText", "Tales@RA@PIS-SkipToCalc-CalcOrNextDay"]
+        "next": [
+            "Tales@RA@PIS-SkipToCalc-NextDay@NextAfterLoadingText",
+            "Tales@RA@PIS-SkipToCalc-NextDay",
+            "Tales@RA@PIS-SkipToCalc-CalcOrNextDay"
+        ]
     },
     "Tales@RA@PIS-SkipToCalc-NonZeroActsLeft": {
         "doc": "点击右上角剩余决断次数",
@@ -12388,7 +12392,11 @@
         "doc": "点击右上角箭头进入下一个生息日, 若在量定日则进行量定结算",
         "baseTask": "Tales@RA@NextDay",
         "template": "Tales@RA@NextDay.png",
-        "next": ["Tales@RA@PNS-SkipToCalc-NextDay@NextAfterLoadingText", "Tales@RA@PNS-SkipToCalc-CalcOrNextDay"]
+        "next": [
+            "Tales@RA@PNS-SkipToCalc-NextDay@NextAfterLoadingText",
+            "Tales@RA@PNS-SkipToCalc-NextDay",
+            "Tales@RA@PNS-SkipToCalc-CalcOrNextDay"
+        ]
     },
     "Tales@RA@PNS-SkipToCalc-NonZeroActsLeft": {
         "doc": "点击右上角剩余决断次数",
