@@ -49,11 +49,6 @@ const fullySupport = shuffleArray([
         link: 'https://www.xyaz.cn/',
         note: 'Fully compatible, but less tested.',
     },
-    {
-        name: 'Google Play Games (Developer)',
-        link: 'https://developer.android.com/games/playgames/emulator?hl=zh-cn',
-        note: 'Fully compatible, but less tested. Hyper-V must be turned on and you must be logged into a Google account.',
-    },
 ]);
 
 const partiallySupport = shuffleArray([
@@ -71,6 +66,11 @@ const partiallySupport = shuffleArray([
         name: 'AVD',
         link: 'https://developer.android.com/studio/run/managing-avds',
         note: 'Theoretical support.\n\n- Starting from Android 10, Minitouch is no longer available when SELinux is in `Enforcing` mode, please switch to other touch modes, or switch SELinux **temporary** to `Permissive` mode.\n- AVD is made for debugging, it is more recommended to use other emulators designed for gaming.',
+    },
+    {
+        name: 'Google Play Games (Developer)',
+        link: 'https://developer.android.com/games/playgames/emulator?hl=zh-cn',
+        note: 'Theoretical support. Hyper-V must be enabled, and a Google account must be logged in.\n\n- You need to use [custom connection](../connection.html) to connect, the ADB port is `6520`.\n- Due to the SELinux policy of Android 10 and later versions, Minitouch cannot work properly, please switch to other touch modes.\n- The first connection after each emulator startup will fail, you need to check `Attempt to kill and restart ADB process after connection failure`.',
     },
 ]);
 
