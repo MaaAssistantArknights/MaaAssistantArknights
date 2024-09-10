@@ -1179,6 +1179,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (taskRet)
             {
                 AddLog(LocalizationHelper.GetString("Running"));
+                Instances.AsstProxy.StartTaskTime = DateTimeOffset.Now;
             }
             else
             {
