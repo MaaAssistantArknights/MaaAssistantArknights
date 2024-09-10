@@ -145,10 +145,6 @@
         {
             "location": [5, 4],
             "condition": [43, 55]
-        },
-        {
-            "location": [2, 2],
-            "condition": [43, 45]
         }
     ]
 }
