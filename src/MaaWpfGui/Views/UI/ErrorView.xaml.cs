@@ -80,6 +80,12 @@ namespace MaaWpfGui.Views.UI
         private static string GetSolution(string error, string details)
         {
             _ = error; // To avoid warning
+            if (details.Contains("MaaCore.dll not found!") ||
+                details.Contains("resource folder not found!"))
+            {
+                return LocalizationHelper.GetString("ErrorSolutionMoveMaaExeOutOfFolder");
+            }
+
             if (details.Contains("AsstGetVersion()") ||
                 details.Contains("DllNotFoundException") ||
                 details.Contains("lambda_method") ||

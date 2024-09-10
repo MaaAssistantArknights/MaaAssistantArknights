@@ -174,6 +174,18 @@ namespace MaaWpfGui.Main
             ConfigurationHelper.Load();
             LocalizationHelper.Load();
             ETagCache.Load();
+
+            // 检查 MaaCore.dll 是否存在
+            if (!File.Exists("MaaCore.dll"))
+            {
+                throw new FileNotFoundException("MaaCore.dll not found!");
+            }
+
+            // 检查 resource 文件夹是否存在
+            if (!Directory.Exists("resource"))
+            {
+                throw new DirectoryNotFoundException("resource folder not found!");
+            }
         }
 
         private static bool IsUserAdministrator()

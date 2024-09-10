@@ -650,6 +650,7 @@
     <system:String x:Key="ErrorProlog">MAA に問題が発生しました</system:String>
     <system:String x:Key="ErrorDetails">詳細情報</system:String>
     <system:String x:Key="ErrorSolution">解決策</system:String>
+    <system:String x:Key="ErrorSolutionMoveMaaExeOutOfFolder">MAA.exe ファイルを単独で移動しないでください。ソフトウェアの場所を変更する必要がある場合は、フォルダー全体を移動するか、このフォルダーに MAA.exe のショートカットを作成してから、ショートカットを別の場所にドラッグしてください。</system:String>
     <system:String x:Key="ErrorSolutionCrash">ドキュメント「よくある問題 - クラッシュ」を参照してください。</system:String>
     <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">アップデートパッケージの解凍に失敗しました。ルートディレクトリにあるアップデートパッケージを手動で解凍してみてください。</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">エミュレータとADBを閉じるか、コンピューターを再起動してから、管理者権限でMAAを開いて操作してください。</system:String>

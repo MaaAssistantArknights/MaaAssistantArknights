@@ -648,6 +648,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="ErrorProlog">MAA has encountered an error</system:String>
     <system:String x:Key="ErrorDetails">Details</system:String>
     <system:String x:Key="ErrorSolution">Solution</system:String>
+    <system:String x:Key="ErrorSolutionMoveMaaExeOutOfFolder">Do not move the MAA.exe file alone. If you need to change the software location, please move the entire folder, or create a shortcut for MAA.exe in this folder and then drag the shortcut to another location.</system:String>
     <system:String x:Key="ErrorSolutionCrash">Please refer to the documentation: 「FAQ - Crashes」 to solve.</system:String>
     <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">Failed to extract the update package. Please try to manually extract the update package in the root directory.</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">Please retry after shutting down the emulator and killing ADB. Otherwise restart your computer, then run MAA as administrator without opening the emulator, finally retry it.</system:String>
