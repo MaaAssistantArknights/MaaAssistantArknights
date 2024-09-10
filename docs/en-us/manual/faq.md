@@ -18,13 +18,13 @@ MAA has been updated to .NET 8 in version 5.0. For end users, the impact is as f
 
 ### Incomplete file downloaded
 
-- If you don't have a complete package of this software already, please DO NOT download the zip files marked with `OTA` in the file name, which are for incremental update and shall not be used alone. In most cases, Windows users should download `MAA-vX.X.X-win-x64.zip`.
-- In most cases, you need x64 operating system and x64 variant of MAA, i.e. `MAA-*-win-x64.zip`. There are no support for 32-bit (x86) operating systems.
-- If the application does not run properly after an automatic update, it may be due to some bugs within the autoupdater. Please try reinstalling the application and migrating `config` directory from the old install to the new install.
+- If you don't have a complete package of this software already, please DO NOT download the zip files marked with `OTA` in the file name, which are for incremental updates and shall not be used alone. In most cases, Windows users should download `MAA-vX.X.X-win-x64.zip`.
+- In most cases, you need x64 operating system and x64 variant of MAA, i.e. `MAA-*-win-x64.zip`. There is no support for 32-bit (x86) operating systems.
+- If the application does not run properly after an automatic update, it may be due to some bugs within the auto-updater. Please try reinstalling the application and migrating `config` directory from the old install to the new install.
 
 ### Missing runtime libraries
 
-Only official sources are listed here. We can't gurantee whether some random third-party all-in-one pack can work.
+Only official sources are listed here. We can't guarantee whether some random third-party all-in-one pack can work.
 
 - Please try installing [Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe) and [.NET Desktop Runtime 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=Binaries-,Windows,-Arm64), then restart computer.
   Windows 10 or 11 users can also install using Winget by running the following command in the terminal.
@@ -41,7 +41,7 @@ Only official sources are listed here. We can't gurantee whether some random thi
 
 #### Notes on Windows 7
 
-- If you are using Windows 7, you need to check following updates before installing runtime libraries：
+- If you are using Windows 7, you need to check the following updates before installing runtime libraries：
 
   1. [Windows 7 Service Pack 1](https://support.microsoft.com/en-us/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
   2. SHA-2 code-signing update：
@@ -63,11 +63,11 @@ We cannot guarantee compatibility of future versions with Windows 7, ~~it's all 
 
 - We have no suggestion other than reinstalling Windows. Please avoid using so-called "lite" editions, or some old versions of Windows from thousands of years ago (e.g. 1809).
 
-## Connection error
+## Connection Error
 
 - Tips: please refer to the [List of the Supported Emulators](./device/) section to ensure that the emulator you are using is officially supported and that your configuration is correct.
-- If you are using softwares such as a game accelerator, please close the softwares, RESTART your computer and try again.
-- Please check your decompression software - in some cases, using uncommon software such as `7z` or _other niche decompression software_ may cause errors in Minitouch related files.
+- If you are using software such as a game accelerator, please close the software, RESTART your computer and try again.
+- Please check your decompression software - in some cases, using uncommon software such as `7z` or _other niche decompression software_ may cause errors in Minitouch-related files.
 
 ### Make sure ADB and address are correct
 
@@ -89,30 +89,30 @@ Try restarting your computer.
 
 ## Connected successfully, then stuck, not operating at all
 
-The adb version packaged with some emulators is too old and does not support minitouch. Please open MAA with administrator priviledge and navigate to `Settings` - `Connection Settings` - `Forced Replace ADB`. (It is recommended to close the emulator and restart MAA before proceeding, otherwise the replacement may not be sussessful.)
+The adb version packaged with some emulators is too old and does not support minitouch. Please open MAA with administrator privileges and navigate to `Settings` - `Connection Settings` - `Forced Replace ADB`. (It is recommended to close the emulator and restart MAA before proceeding, otherwise, the replacement may not be successful.)
 
-The emulator will reset the ADB version after updating. If the problems occurs again, please repeat the above steps. Or you can try to use the [custom connection](./connection.md) method to solve it once and for all.
+The emulator will reset the ADB version after updating. If the problems occur again, please repeat the above steps. Or you can try to use the [custom connection](./connection.md) method to solve it once and for all.
 
 If it still doesn't work, please retry after switching to `MaaTouch` from `Minitouch` in `Settings` - `Connection Settings`.
 
-## Connected successfully, but actions are slow or error are frequent
+## Connected successfully, but actions are slow or errors are frequent
 
-- The auto battle requires you to go to the screen with the `Start` button. Please confirm they are not related.
-- If you are using a non-CN client, please go to MAA Settings - Start Up Settings - Select your client version. And not all features are supported for non-CN client, please refer to docs.
-- If you are running auto-IS function, please PIN UP the IS theme you want in the game, and select IS theme in MAA `Task Settings` - `Auto I.S.`.
-- The input method `Adb Input` is natrually slow. It is recommended to use `MaaTouch` or `Minitouch` instead.
+- The auto-battle requires you to go to the screen with the `Start` button. Please confirm they are not related.
+- If you are using a non-CN client, please go to MAA Settings - Start-Up Settings - Select your client version. Not all features are currently supported for non-CN clients, please refer to docs.
+- If you are running the auto-I.S. function, please PIN UP the IS theme you want in the game, and select I.S. theme in MAA `Task Settings` - `Auto I.S.`.
+- The input method `Adb Input` is naturally slow. It is recommended to use `MaaTouch` or `Minitouch` instead.
 
 ### Prompt that the screenshot takes a long time / is too long
 
 - MAA currently supports 3 screenshot methods: `RawByNc`, `RawWithGzip`, and `Encode`. When the average screenshot time of executing a task is >400 / >800, a prompt message will be output (a single task will only be output once)
 - `Settings - Connection Settings` will display the minimum/average/maximum time taken for the last 30 screenshots, refreshed every 10 screenshots
-- Automatic combat functions (such as automatic meat pigeons) are greatly affected by the time taken to take screenshots
+- Automatic combat functions (such as I.S.) are greatly affected by the time taken to take screenshots
 - This time consumption is unrelated to MAA, but related to computer performance, current usage, or emulator. You can try cleaning up background processes, changing emulators, or upgrading computer configurations.
 
 ## The download speed is slow and the mirror site is not accessible
 
-1. Go to [Download](../readme.md) to get the link (non-mirror) to you want to download.
-2. Find the link to your file you need to download.
+1. Go to [Download](../readme.md) to get the link (non-mirror) you want to download.
+2. Find the link to the file you need to download.
 3. Right-click it and select `Copy link address`.
 4. Paste the link into your browser.
 5. Replace the `github.com` in the link with `download.fastgit.org`.

@@ -11,6 +11,10 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System.Windows.Input;
+using System.Windows;
+using System.Windows.Controls;
+
 namespace MaaWpfGui.Views.UserControl
 {
     /// <summary>
@@ -24,6 +28,22 @@ namespace MaaWpfGui.Views.UserControl
         public InfrastSettingsUserControl()
         {
             InitializeComponent();
+        }
+
+        private void ListBox_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (e.Handled)
+            {
+                return;
+            }
+
+            e.Handled = true;
+            var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
+            {
+                RoutedEvent = UIElement.MouseWheelEvent
+            };
+            var parent = ((Control)sender).Parent as UIElement;
+            parent?.RaiseEvent(eventArg);
         }
     }
 }

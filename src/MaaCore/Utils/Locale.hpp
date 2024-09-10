@@ -2,6 +2,8 @@
 
 #include <filesystem>
 #include <fstream>
+#include <iostream>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <string_view>
@@ -9,6 +11,8 @@
 #include "Meta.hpp"
 
 #ifdef _WIN32
+#include <locale.h>
+#include <io.h>
 #include "Platform/SafeWindows.h"
 
 namespace asst::utils
@@ -111,8 +115,67 @@ inline std::string load_file_without_bom(const std::filesystem::path& path)
     if (str.starts_with("\xEF\xBB\xBF")) {
         str.assign(str.begin() + 3, str.end());
     }
+
     return str;
 }
+
+
+    class utf8_scope
+    {
+#ifdef _WIN32
+        bool active;
+        int thread_mode;
+        std::string old_locale;
+
+        static bool is_console_ostream(std::ostream& ofs)
+        {
+            if (&ofs == &std::cout) {
+                return _isatty(_fileno(stdout));
+            }
+            if (&ofs == &std::cerr) {
+                return _isatty(_fileno(stderr));
+            }
+            return false;
+        }
+
+    public:
+        utf8_scope(std::nullptr_t)
+        {
+            active = false;
+            thread_mode = 0;
+        }
+
+        ~utf8_scope()
+        {
+            if (!active) return;
+            if (!old_locale.empty()) {
+                setlocale(LC_ALL, old_locale.c_str());
+            }
+            _configthreadlocale(_DISABLE_PER_THREAD_LOCALE);
+        }
+
+        utf8_scope(std::ostream& ofs)
+        {
+            if (is_console_ostream(ofs)) {
+                active = true;
+                thread_mode = _configthreadlocale(_ENABLE_PER_THREAD_LOCALE);
+                auto old_locale_ptr = setlocale(LC_ALL, ".UTF-8");
+                if (old_locale_ptr) {
+                    old_locale = old_locale_ptr;
+                }
+            }
+            else {
+                active = false;
+            }
+        }
+#else
+    public:
+        utf8_scope(std::ostream&)
+        {
+        }
+#endif
+    };
+
 } // namespace asst::utils
 
 #endif

@@ -4,7 +4,11 @@ order: 9
 
 # 自动战斗
 
-欢迎使用作业分享站 [prts.plus](https://prts.plus)，[抄作业.com](https://抄作业.com) 使用及分享作业文件。
+欢迎使用作业分享站 [prts.plus](https://prts.plus) 使用及分享作业文件。
+
+::: warning
+所有涉及到自动战斗的功能都需要至少 60 帧的稳定游戏帧数，这包括但不限于自动战斗和自动肉鸽。
+:::
 
 ## 抄作业
 
@@ -25,7 +29,7 @@ order: 9
   - 开启本功能后改为在**关卡所在的地图界面**开始自动战斗。在理智不足/战斗失败/非三星结算时将停止自动战斗队列。
   - 请确保列表中的关卡在同一区域（只通过左右滑动地图界面就可以导航到）。
 - **请务必为优质作业点赞，以提高作业评分并激励作业制作者。**  
-  ![image](https://github.com/MaaAssistantArknights/MaaAssistantArknights/assets/99072975/39e6dd67-2ff1-4023-a2b8-0018673c08aa)
+  ![image](/image/zh-cn/copilot-click-like.png)
 
 ## 写作业
 

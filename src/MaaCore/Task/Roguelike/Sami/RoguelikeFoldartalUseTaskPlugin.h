@@ -8,21 +8,12 @@ namespace asst
     class RoguelikeFoldartalUseTaskPlugin : public AbstractRoguelikeTaskPlugin
     {
     public:
-        // using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
-        RoguelikeFoldartalUseTaskPlugin(const AsstCallback& callback,
-                                             Assistant* inst,
-                                             std::string_view task_chain,
-                                             std::shared_ptr<RoguelikeConfig> config)
-                                             : AbstractRoguelikeTaskPlugin(callback, inst, task_chain, config)
-        {
-            if (RoguelikeCollapsalParadigmTaskPlugin::enabled(config)) {
-                m_clp_pd_plugin = std::make_shared<RoguelikeCollapsalParadigmTaskPlugin>(callback, inst, task_chain, config);
-            }
-        }
+        using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
         virtual ~RoguelikeFoldartalUseTaskPlugin() override = default;
 
     public:
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
+        virtual bool load_params([[maybe_unused]] const json::value& params) override;
 
     protected:
         virtual bool _run() override;
@@ -53,7 +44,6 @@ namespace asst
         void slowly_swipe(bool direction, int swipe_dist = 200) const;
         // 节点类型
         mutable std::string m_stage;
-        
-        std::shared_ptr<RoguelikeCollapsalParadigmTaskPlugin> m_clp_pd_plugin;
+        bool m_use_foldartal = true; // 是否使用密文板
     };
 }

@@ -13,9 +13,6 @@
                 },
                 {
                     "$ref": "#/definitions/OcrDetectTask"
-                },
-                {
-                    "$ref": "#/definitions/HashTask"
                 }
             ]
         }
@@ -131,9 +128,7 @@
                 }
             },
             "description": "Execute the action without identifying it",
-            "required": [
-                "algorithm"
-            ]
+            "required": ["algorithm"]
         },
         "MatchTemplateTask": {
             "allOf": [
@@ -147,10 +142,7 @@
                     "pattern": "MatchTemplate"
                 },
                 "template": {
-                    "type": [
-                        "array",
-                        "string"
-                    ],
+                    "type": ["array", "string"],
                     "items": {
                         "type": "string"
                     },
@@ -158,10 +150,7 @@
                     "description": "Optional, the file name of the image to be matched\nDefauts to \"task name.png\", If not filled"
                 },
                 "templThreshold": {
-                    "type": [
-                        "array",
-                        "number"
-                    ],
+                    "type": ["array", "number"],
                     "items": {
                         "type": "number"
                     },
@@ -175,10 +164,7 @@
                     "items": {
                         "type": "number"
                     },
-                    "default": [
-                        1,
-                        255
-                    ],
+                    "default": [1, 255],
                     "description": "Optional, grey scale mask range. For example, paint the part of the image that does not need to be recognised as black (grey value is 0), and then set [1, 255], the blackened part will be ignored when matching"
                 }
             },
@@ -221,27 +207,7 @@
                 }
             },
             "description": "Text recognition",
-            "required": [
-                "algorithm",
-                "text"
-            ]
-        },
-        "HashTask": {
-            "allOf": [
-                {
-                    "$ref": "#/definitions/BaseTask"
-                }
-            ],
-            "properties": {
-                "algorithm": {
-                    "type": "string",
-                    "pattern": "Hash"
-                }
-            },
-            "description": "Hash calculation",
-            "required": [
-                "algorithm"
-            ]
+            "required": ["algorithm", "text"]
         }
     }
 }

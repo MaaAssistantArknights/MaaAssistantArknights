@@ -437,6 +437,9 @@ tools/**/*.png
 .vscode
 enc_temp_folder/*
 
+# RoguelikeRecruitmentTool 导出的 Excel 文件
+tools/RoguelikeRecruitmentTool/output
+
 # Nuke
 .nuke/temp/*
 
@@ -448,3 +451,9 @@ enc_temp_folder/*
 # CF 活动关卡（异格夜刀），手动改的地图
 /resource/Arknights-Tile-Pos/act24side_09-activities-act24side-level_act24side_09.json
 /src/MaaWpfGui/FodyWeavers.xml
+
+# 链接检查缓存
+.lycheecache
+
+# MaaDeps
+/MaaDeps/*

@@ -1,5 +1,5 @@
 ---
-order: 3
+order: 2
 icon: material-symbols:summarize
 ---
 
@@ -26,19 +26,29 @@ maa self update
 
 **注意**：使用包管理器安装 maa-cli 的用户请使用包管理器更新 maa-cli，此命令在这些用户中无效。
 
+## 初始化配置
+
+一旦完成了 MaaCore 的安装，通常情况下，你无需额外配置就可以直接运行任务。默认配置可能不适用于所有用户，因此你可以通过以下命令来初始化配置：
+
+```bash
+maa init
+```
+
+通过这个命令，你可以交互式地配置 [MaaCore 的相关配置][config-core]。
+
 ## 运行任务
 
-一旦完成了 MaaCore 的安装，通常情况下，你无需额外配置就可以直接运行任务。默认配置可能不适用于所有用户，如果你在运行任务时遇到问题，你可以参考 [配置文档][config-core] 修改配置。
+完成 MaaCore 的安装和配置后，你可以运行任务了。maa-cli 支持两种类型的任务：预定义任务和自定义任务。
 
 ### 预定义任务
 
 对于常见任务，maa-cli 提供了一些预定义的任务：
 
-- `maa startup [client]`: 启动游戏并进入主界面，`[client]` 是客户端类型，如果留空则不会启动游戏客户端。
-- `maa closedown`: 关闭游戏客户端；
+- `maa startup [client]`: 启动游戏并进入主界面，`[client]` 是客户端类型，如果留空则不会启动游戏客户端；
+- `maa closedown [client]`: 关闭游戏客户端，`[client]` 是客户端类型，默认为 `Official`；
 - `maa fight [stage]`: 运行战斗任务，`[stage]` 是关卡名称，例如 `1-7`；留空选择上次或者当前关卡；
 - `maa copilot <maa_uri>`: 运行自动战斗任务，其中 `<maa_uri>` 是作业的 URI，其可以是 `maa://1234` 或者本地文件路径 `./1234.json`；
-- `maa roguelike [theme]`: 自动集成战略，`[theme]` 是集成战略的主题，可选值为 `Phantom`，`Mizuki` 以及 `Sami`；
+- `maa roguelike [theme]`: 自动集成战略，`[theme]` 是集成战略的主题，可选值为 `Phantom`，`Mizuki`，`Sami` 以及 `Sarkaz`；
 
 上述任务接受一些参数，你可以通过 `maa <task> --help` 来查看具体的参数。
 
@@ -87,7 +97,5 @@ maa-cli 默认会向标准误 (stderr) 输出日志。`--log-file` 选项可以�
 
 更多命令的使用方法可以通过 `maa help` 查看，具体命令的使用方法可以 通过 `maa help <command>` 查看。
 
-[config-core]: config.md#MaaCore-相关配置
+[config-core]: config.md#maacore-相关配置
 [custom-task]: config.md#自定义任务
-
-<!-- markdownlint-disable-file MD013 -->

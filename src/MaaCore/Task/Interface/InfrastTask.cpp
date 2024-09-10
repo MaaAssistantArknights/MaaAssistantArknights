@@ -32,7 +32,7 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst)
 {
     LogTraceFunction;
 
-    m_infrast_begin_task_ptr->set_tasks({ "InfrastBegin" }).set_ignore_error(true);
+    m_infrast_begin_task_ptr->set_tasks({ "InfrastBegin" }).set_ignore_error(false);
     m_replenish_task_ptr = m_mfg_task_ptr->register_plugin<ReplenishOriginiumShardTaskPlugin>();
     m_info_task_ptr->set_ignore_error(true);
     m_mfg_task_ptr->set_ignore_error(true);
@@ -143,7 +143,12 @@ bool asst::InfrastTask::set_params(const json::value& params)
     m_replenish_task_ptr->set_enable(replenish);
 
     if (is_custom && !m_running) {
-        std::string filename = params.at("filename").as_string();
+        auto filename_opt = params.find<std::string>("filename");
+        if (!filename_opt) {
+            Log.error("filename is not set while custom mode is enabled");
+            return false;
+        }
+        std::string filename = filename_opt.value();
         int index = params.get("plan_index", 0);
 
         try {

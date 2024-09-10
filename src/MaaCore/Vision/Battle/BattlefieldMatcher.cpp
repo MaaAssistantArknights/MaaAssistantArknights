@@ -190,28 +190,20 @@ bool BattlefieldMatcher::oper_cooling_analyze(const Rect& roi) const
 {
     const auto cooling_task_ptr = Task.get<MatchTaskInfo>("BattleOperCooling");
 
-    auto img_roi = m_image(make_rect<cv::Rect>(roi));
-    cv::Mat hsv;
-    cv::cvtColor(img_roi, hsv, cv::COLOR_BGR2HSV);
-    int h_low = cooling_task_ptr->mask_range.first;
-    int h_up = cooling_task_ptr->mask_range.second;
-    int s_low = cooling_task_ptr->specific_rect.x;
-    int s_up = cooling_task_ptr->specific_rect.y;
-    int v_low = cooling_task_ptr->specific_rect.width;
-    int v_up = cooling_task_ptr->specific_rect.height;
-
-    cv::Mat bin;
-    cv::inRange(hsv, cv::Scalar(h_low, s_low, v_low), cv::Scalar(h_up, s_up, v_up), bin);
-
-    int count = 0;
-    for (int i = 0; i != bin.rows; ++i) {
-        for (int j = 0; j != bin.cols; ++j) {
-            cv::uint8_t value = bin.at<cv::uint8_t>(i, j);
-            if (value) {
-                ++count;
-            }
-        }
+    if (cooling_task_ptr->color_scales.size() != 1 ||
+        !std::holds_alternative<MatchTaskInfo::ColorRange>(cooling_task_ptr->color_scales.front())) {
+        Log.error(__FUNCTION__, "| color_scales in `BattleOperCooling` is not a ColorRange");
+        return false;
     }
+
+    const auto& color_scale = std::get<MatchTaskInfo::ColorRange>(cooling_task_ptr->color_scales.front());
+    auto img_roi = m_image(make_rect<cv::Rect>(roi));
+
+    cv::Mat hsv, bin;
+    cv::cvtColor(img_roi, hsv, cv::COLOR_BGR2HSV);
+    cv::inRange(hsv, color_scale.first, color_scale.second, bin);
+    int count = cv::countNonZero(bin);
+
     // Log.trace("oper_cooling_analyze |", count);
     return count >= cooling_task_ptr->special_params.front();
 }

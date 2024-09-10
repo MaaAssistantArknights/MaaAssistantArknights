@@ -2,6 +2,7 @@
 // MaaWpfGui - A part of the MAA project
 // Copyright (C) 2021 MistEO and Contributors
 // </copyright>
+#pragma warning disable CS0649
 using System;
 using System.Runtime.InteropServices;
 

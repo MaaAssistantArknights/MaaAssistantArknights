@@ -156,23 +156,23 @@ MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当
 
 ### MuMu 截图增强模式
 
-需使用官版 MuMu 12 V3.8.13 及更新版本，并关闭后台保活。方舟专版、国际版等暂不支持。
+需使用官版或方舟专版 MuMu 12 V4.0.0 及更新版本，并关闭 MuMu 后台保活。国际版等暂不支持。<!-- V3.8.13 -->
 
 1. `设置` - `连接设置`，勾选 `启用 MuMu 截图增强模式`。
 
-2. `MuMu 模拟器路径` 填写 `MuMuPlayer-12.0` 文件夹的路径，如 `C:\Program Files\Netease\MuMuPlayer-12.0`。
+2. `MuMu 模拟器路径` 填写 `MuMuPlayer-12.0` 或 `YXArkNights-12.0` 文件夹的路径，如 `C:\Program Files\Netease\MuMuPlayer-12.0`。
 
 3. `实例编号` 填写 MuMu 多开器内对应模拟器的序号，如主多开为 `0`。
 
 4. `实例屏幕` 填 `0`。
 
-#### 关于后台保活
+#### 关于 MuMu 后台保活
 
 推荐关闭，此时实例屏幕始终为 `0`。
 
 开启时，MuMu 模拟器标签页的顺序应为实例屏幕的序号，如 `0` 为模拟器桌面，`1` 为明日方舟客户端。
 
-针对后台保活的适配非常不完善，总会出现各种各样莫名其妙的问题，非常不建议使用。
+针对 MuMu 后台保活的适配非常不完善，总会出现各种各样莫名其妙的问题，非常不建议使用。
 
 ## 触控模式
 
@@ -182,11 +182,11 @@ MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当
 
 ## ADB Lite
 
-由 MAA 独立实现的 ADB Client，相较原版 ADB 可以避免不停开启多个 ADB 进程，减少性能损耗，但部分截图方式不可用。
+由 MAA 独立实现的 ADB Client，使用 TCP 直接与 ADB Server 通信。相较原版 ADB 可以避免不停开启多个 ADB 进程，减少性能开销，但部分截图方式不可用。<sup>[PR](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/3315)</sup>
 
 推荐启用，但具体优缺点尚待反馈。~~帮我们做做测试 x2~~
 
-## 多开 MAA
+## MAA 和模拟器多开
 
 ::: info
 若需要多开模拟器同时操作，可将 MAA 文件夹复制多份，使用 **不同的 MAA**、**同一个 adb.exe**、**不同的连接地址** 来进行连接。

@@ -1,5 +1,5 @@
 ---
-order: 3
+order: 2
 icon: material-symbols:summarize
 ---
 
@@ -26,17 +26,27 @@ maa self update
 
 **Note**: Users who install maa-cli via a package manager should use the package manager to update maa-cli, this command is invalid for these users.
 
+## Initialize Configuration
+
+Once MaaCore is installed, you can run tasks directly without additional configuration. The default configuration may not be suitable for all users. Therefore, you can initialize the configuration by running the following command:
+
+```bash
+maa init
+```
+
+With this command, you can configure [the relevant configurations of MaaCore][config-core] interactively.
+
 ## Run Tasks
 
-Once MaaCore is installed, you can run tasks directly without additional configuration. The default configuration may not be suitable for all users. If you encounter problems when running tasks, you can refer to the [Configuration Document][config-core] to modify the configuration.
+After installing and configuring MaaCore, you can run tasks. maa-cli supports two types of tasks: predefined tasks and custom tasks.
 
 ### Predefined tasks
 
 - `maa startup [client]`: start the game client and enter the main screen, the `client` is the client type of game, leave it empty to don't start the game;
-- `maa closedown`: close the game client;
+- `maa closedown [client]`: close the game client, the `client` is the client type of game, default is `Official`;
 - `maa fight [stage]`: run a "fight" task, the `stage` is the stage to fight, like `1-7`, `CE-6`, etc.; if not given, the user will be prompted to input one;
 - `maa copilot <maa_uri>`: run a "copilot" task, the `maa_uri` is the URI of a copilot task; it can be `maa://1234` or local file path;
-- `maa roguelike [theme]`: run a "roguelike" task, the `theme` is the theme of roguelike, and available themes are `Phantom`, `Mizuki` and `Sami`.
+- `maa roguelike [theme]`: run a "roguelike" task, the `theme` is the theme of roguelike, and available themes are `Phantom`, `Mizuki`, `Sami` and `Sarkaz`.
 
 The above tasks accept some parameters, you can view the specific parameters by `maa <task> --help`.
 
@@ -48,8 +58,7 @@ maa startup YoStarEN && maa fight BB-7 -m 3 && maa closedown
 
 ### Custom Tasks
 
-Due to the multitude of tasks supported by MAA, maa-cli cannot provide predefined options for all tasks. Additionally, you may need to run multiple tasks as shown in the example above. To address this issue, maa-cli offers custom task functionality. Custom tasks allow for the combination of different tasks and provide finer control over the parameters of each task as well as the execution order. Furthermore, custom tasks support conditional statements, enabling you to decide whether to execute a task based on certain conditions or to execute a task with specific parameters. This can be used to automate your daily tasks.
-A custom task is defined in a configuration file. The location and format of the configuration file are described in the [Custom Task Document][custom-task]. After defining the configuration file, you can run the custom task by `maa run <task>`, where `<task>` is the name of the custom task, excluding the extension.
+Due to the multitude of tasks supported by MAA, maa-cli cannot provide predefined options for all tasks. Additionally, you may need to run multiple tasks as shown in the example above. To address this issue, maa-cli offers custom task functionality. Custom tasks allow for the combination of different tasks and provide finer control over the parameters of each task as well as the execution order. Furthermore, custom tasks support conditional statements, enabling you to decide whether to execute a task based on certain conditions or to execute a task with specific parameters. This can be used to automate your daily tasks. A custom task is defined in a configuration file. The location and format of the configuration file are described in the [Custom Task Document][custom-task]. After defining the configuration file, you can run the custom task by `maa run <task>`, where `<task>` is the name of the custom task, excluding the extension.
 
 ### Task Summary
 
@@ -85,7 +94,5 @@ Except for the above subcommands, maa-cli also provides other subcommands:
 
 More command usage can be viewed by `maa help`, and the usage of specific commands can be viewed by `maa help <command>`.
 
-[config-core]: ./config.md#maacore-related-configurations
-[custom-task]: ./config.md#custom-tasks
-
-<!-- markdownlint-disable-file MD013 -->
+[config-core]: config.md#maacore-related-configurations
+[custom-task]: config.md#custom-tasks

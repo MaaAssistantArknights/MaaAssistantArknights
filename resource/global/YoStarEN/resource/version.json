@@ -1,11 +1,11 @@
 {
     "activity": {
-        "name": "To the Grinning Valley",
-        "time": 1720544400
+        "name": "Operation Lucent Arrowhead",
+        "time": 1725555600
     },
     "gacha": {
-        "pool": "Ray of Light",
-        "time": 1720544400
+        "pool": "Storm, Reinforce, Missions Cycle",
+        "time": 1725555600
     },
-    "last_updated": "2024-07-15 20:03:33.736"
+    "last_updated": "2024-09-08 10:05:05.805"
 }

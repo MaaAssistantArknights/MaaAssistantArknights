@@ -11,14 +11,10 @@ bool asst::RoguelikeFoldartalStartTaskPlugin::verify(AsstMsg msg, const json::va
         return false;
     }
 
-    if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
-        Log.error("Roguelike name doesn't exist!");
+    if (m_config->get_theme() != RoguelikeTheme::Sami || m_config->get_difficulty() != INT_MAX || !m_start_foldartal) {
         return false;
     }
-    if (m_config->get_theme() != RoguelikeTheme::Sami || m_config->get_difficulty() != INT_MAX ||
-        !m_config->get_start_foldartal()) {
-        return false;
-    }
+
     const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
@@ -32,6 +28,35 @@ bool asst::RoguelikeFoldartalStartTaskPlugin::verify(AsstMsg msg, const json::va
     else {
         return false;
     }
+}
+
+bool asst::RoguelikeFoldartalStartTaskPlugin::load_params(const json::value& params)
+{
+    if (m_config->get_theme() != RoguelikeTheme::Sami) {
+        return false;
+    }
+
+    // 是否生活队凹开局板子
+    m_start_foldartal = (params.contains("start_foldartal_list"));
+
+    if (auto opt = params.find<json::array>("start_foldartal_list"); opt) {
+        std::vector<std::string> list;
+        for (const auto& name : *opt) {
+            if (std::string name_str = name.as_string(); !name_str.empty()) {
+                list.emplace_back(name_str);
+            }
+        }
+        /* 由于插件 load_param返回值仅决定自身是否启用，参数验证移动至他处 */
+        /*
+        if (list.empty()) {
+            Log.error(__FUNCTION__, "| Empty start_foldartal_list");
+            return false;
+        }
+        */
+        m_start_foldartal_list = (std::move(list));
+    }
+
+    return true;
 }
 
 bool asst::RoguelikeFoldartalStartTaskPlugin::_run()
@@ -52,12 +77,10 @@ bool asst::RoguelikeFoldartalStartTaskPlugin::_run()
 
 bool asst::RoguelikeFoldartalStartTaskPlugin::check_foldartals()
 {
-    // 用户输入的需要的板子字符串
-    const auto& extracted_foldartals = m_config->get_start_foldartal_list();
     const auto& all_foldartal = m_config->get_foldartal();
 
     // 查找板子
-    for (const auto& foldartal : extracted_foldartals) {
+    for (const auto& foldartal : m_start_foldartal_list) {
         if (std::find(all_foldartal.begin(), all_foldartal.end(), foldartal) == all_foldartal.end()) {
             // 如果板子没有找到，返回false
             return false;

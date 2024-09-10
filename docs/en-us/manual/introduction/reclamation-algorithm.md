@@ -2,23 +2,22 @@
 order: 8
 ---
 
-# Reclamation Algorithm
+# Reclamation Algorithm (R.A.)
 
-::: important Translation Required
-This page is outdated and maybe still in Simplified Chinese. Translation is needed.
+::: important This page may be outdated and not yet implemented for Global.
 :::
 
-目前生息演算的支持仍处于早期阶段，暂不推荐无人值守，现阶段无法保证稳定性。
+Currently, the support for Reclamation Algorithm is still in the early stages, and it is not recommended to run it unattended. Stability cannot be guaranteed at this stage.
 
-## 默认模式
+## Default Mode
 
-1. 需要在生息演算主界面开始任务 (导航还没写)
-2. 不能在已经有存档的情况下使用 (删除现有存档即可)
-3. 不能在生息演算的编队中有干员的情况下使用 (把生息演算中的当前编队清空即可，特别是打完浪潮之后)
+1. You need to start the task on the main interface of R.A.. (navigation is not yet written)
+2. Cannot be used if there is already a save file. (just delete the existing save file)
+3. Cannot be used if there are operators in the R.A. squad. (just clear the current squad in R.A., especially after finishing a wave)
 
-## 制造刷点数
+## Points farm through crafting
 
-1. 需要在进入生息演算中能看到驻扎地的页面开始
-2. 若未填写道具名称，则默认制造荧光棒
-3. 前提条件：当前为结算后的第一天，且后续三天没有敌袭进入驻扎地
-4. 如果能制造的数量刚好是 99 的倍数会卡住，在存档前可以先用掉一点，这个之后再修
+1. You need to start on the page where you can see the base camp after entering R.A..
+2. If the item name is not filled in, the default is to craft Glow Sticks.
+3. Prerequisite: It is the first day after settlement, and no enemy raids are entering the base camp for the next three days.
+4. If the number that can be manufactured is exactly a multiple of 99, it will get stuck. You can use up a bit before saving, this will be fixed later.

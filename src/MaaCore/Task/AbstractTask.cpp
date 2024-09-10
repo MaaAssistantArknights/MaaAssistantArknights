@@ -122,7 +122,7 @@ void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
         plugin->set_task_id(m_task_id);
         plugin->set_task_ptr(this);
 
-        if (!plugin->verify(msg, detail)) {
+        if (!plugin->get_enable() || !plugin->verify(msg, detail)) {
             continue;
         }
 
@@ -160,7 +160,7 @@ bool asst::AbstractTask::save_img(const std::filesystem::path& relative_dir, boo
     std::string stem = utils::get_time_filestem();
 
     if (auto_clean) {
-        // 第1次或每执行 debug.clean_files_freq(100) 次后执行清理
+        // 第1次或每执行 debug.clean_files_freq(50) 次后执行清理
         // 限制文件数量 debug.max_debug_file_num
         if (m_save_file_cnt[relative_dir] == 0) {
             filenum_ctrl(relative_dir, Config.get_options().debug.max_debug_file_num);

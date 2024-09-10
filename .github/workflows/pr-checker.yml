@@ -4,7 +4,6 @@ on:
   pull_request_target:
     types: [opened, edited, ready_for_review, reopened, synchronize]
 
-
 jobs:
   check_commit_name_in_pr:
     if: ${{ !github.event.pull_request.merged && github.base_ref != 'master' }}
@@ -39,7 +38,7 @@ jobs:
               per_page: 100
             });
 
-            const regex = /^((build|chore|ci|docs?|feat!?|fix|perf|refactor|rft|style|test|i18n|typo)[\:\.\(\,]|[Rr]evert|[Rr]elease)/;
+            const regex = /^((build|chore|ci|docs?|feat!?|fix|perf|refactor|rft|style|test|i18n|typo|debug)[\:\.\(\,]|[Rr]evert|[Rr]elease)/;
             const invalidCommits = commits.filter(commit => !regex.test(commit.commit.message) || commit.parents.length > 1);
 
             console.log(`Checked ${commits.length} commit(s)`);
@@ -52,7 +51,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.payload.pull_request.number,
-                body: `## ⚠️ Found ${invalidCommits.length} invalid commit(s):\n\n${invalidCommitInfoList}\n\n---\nPlease follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format.`
+                body: `## ⚠️ Found ${invalidCommits.length} invalid commit(s):\n\n${invalidCommitInfoList}\n\n---\nPlease follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format, and do not use merge commits.`
               });
 
               core.setFailed(`Found ${invalidCommits.length} invalid commit(s):\n${invalidCommitNames.join("\n-------------------\n")}`);

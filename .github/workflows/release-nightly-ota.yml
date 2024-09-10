@@ -14,12 +14,12 @@ on:
       limit:
         description: "Number of releases to fetch from MaaAssistantArknights"
         required: true
-        default: 30
+        default: "30"
         type: number
       limit_2:
         description: "Number of releases to fetch from MaaRelease"
         required: true
-        default: 30
+        default: "30"
         type: number
 
 jobs:
@@ -37,7 +37,7 @@ jobs:
       tag: ${{ steps.set_tag.outputs.tag }}
       pre_version: ${{ steps.set_tag.outputs.pre_version }}
       main_tag_name: ${{ steps.push_main_tag.outputs.main_tag_name }}
-      changelog: ${{ steps.generate_changelog.outputs.changelog }}
+      changelog: ${{ steps.read_changelog.outputs.content }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -75,9 +75,9 @@ jobs:
           }
           if ($ids.length -eq 4) {
             $dist = `printf "%03d"` $ids[2]
-            $pre_version = "$($ids[0])""-""$($ids[1])"
-            echo "tag=$($ids[0])-$($ids[1]).d$($dist).$($ids[3])" >> $env:GITHUB_OUTPUT
+            $pre_version = "$($ids[0])-$($ids[1])"
             echo "pre_version=$pre_version" >> $env:GITHUB_OUTPUT
+            echo "tag=$pre_version.d$($dist).$($ids[3])" >> $env:GITHUB_OUTPUT
             exit 0
           }
           exit 1
@@ -97,12 +97,16 @@ jobs:
         id: generate_changelog
         run: |
           python3 tools/ChangelogGenerator/changelog_generator.py --latest "${{ steps.set_tag.outputs.latest_tag }}" --tag "${{ steps.set_tag.outputs.tag }}"
-          $content=$(((Get-Content .\changelog.md) | Select-Object -Skip 2) -join "\n\n") 
-          echo "changelog=$content" >> $env:GITHUB_OUTPUT
-          echo $content
+          Get-Content .\changelog.md | Select-Object -Skip 2 | Out-File -FilePath changelog_notag.md -Encoding utf8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PYTHONIOENCODING: "utf-8"
+
+      - name: Read Changelog to variable
+        id: read_changelog
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./changelog_notag.md
 
       - name: Cache .nuke/temp, ~/.nuget/packages
         id: cache-nuget
@@ -212,8 +216,17 @@ jobs:
         run: |
           mkdir -pv build-ota && cd build-ota
 
-          gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 30 }} | tee ./release_maa.txt
-          gh release list --repo "${{ github.repository_owner }}/MaaRelease" --limit ${{ inputs.limit_2 || 30 }} | tee ./release_mr.txt
+          # Convert inputs to integers
+          limit=${{ inputs.limit || 30 }}
+          limit=${limit%.*}
+          echo "Parsed limit: $limit"
+
+          limit_2=${{ inputs.limit_2 || 30 }}
+          limit_2=${limit_2%.*}
+          echo "Parsed limit_2: $limit_2"
+
+          gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit $limit | tee ./release_maa.txt
+          gh release list --repo "${{ github.repository_owner }}/MaaRelease" --limit $limit_2 | tee ./release_mr.txt
           echo ${{ needs.build-win-nightly.outputs.tag }} > ./config
 
           cat ./release_maa.txt | awk '{ print $1 }' > ./tags_maa.txt
@@ -242,22 +255,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Make release body
-        id: make_release_body
-        shell: bash
-        run: |
-          pre_version=${{ needs.build-win-nightly.outputs.pre_version }}
-          cur_version=${{ needs.build-win-nightly.outputs.main_tag_name }}
-          echo -e "${{ inputs.release_body || '' }}\n\n${{ needs.build-win-nightly.outputs.changelog }}\n\n**Full Changelog**: [$pre_version -> $cur_version](https://github.com/$GITHUB_REPOSITORY/compare/$pre_version...$cur_version)" > alpha_changelog.md
-          export r=$(cat alpha_changelog.md)
-
-          # https://github.com/svenstaro/upload-release-action
-          r="${r//'%'/'%25'}"                               # Multiline escape sequences for %
-          r="${r//$'\n'/'%0A'}"                             # Multiline escape sequences for '\n'
-          r="${r//$'\r'/'%0D'}"                             # Multiline escape sequences for '\r'
-          echo $r
-          echo "full_release_body=$r" >> $GITHUB_OUTPUT
-
       - name: Upload to MaaRelease
         uses: svenstaro/upload-release-action@v2
         with:
@@ -268,7 +265,12 @@ jobs:
           tag: ${{ env.release_tag }}
           prerelease: true
           overwrite: true
-          body: ${{ steps.make_release_body.outputs.full_release_body }}
+          body: |
+            ${{ inputs.release_body || '' }}
+
+            ${{ needs.build-win-nightly.outputs.changelog }}
+
+            **Full Changelog**: [${{ needs.build-win-nightly.outputs.pre_version }} -> ${{ needs.build-win-nightly.outputs.main_tag_name }}](https://github.com/${{ github.repository }}/compare/${{ needs.build-win-nightly.outputs.pre_version }}...${{ needs.build-win-nightly.outputs.main_tag_name }})
 
       - name: Setup release mirror
         run: |

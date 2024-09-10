@@ -59,6 +59,8 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 // 對應的任務參數
 {
     "enable": bool,              // 是否啟用本任務，可選，預設為 true
+    "client_type": string,       // 用戶端版本，必選，填空則不執行
+                                 // 選項："Official" | "Bilibili" | "txwy" | "YoStarEN" | "YoStarJP" | "YoStarKR"
 }
 ```
 
@@ -96,7 +98,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 }
 ```
 
-另支援少部分資源關卡名請參考[集成範例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/tools/AutoLocalization/example/zh-cn.xaml#L260)
+另支援少部分資源關卡名請參考[集成範例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/tools/AutoLocalization/example/zh-tw.xaml#L219)
 
 - `Recruit`  
     公開招募
@@ -245,7 +247,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 }
 ```
 
-作業 JSON 請參考 [3.3-戰鬥流程協議](./3.3-戰鬥流程協議.md)
+作業 JSON 請參考 [3.3-戰鬥流程協議](./copilot-schema.md)
 
 - `SSSCopilot`  
     自動抄保全作業
@@ -258,7 +260,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 }
 ```
 
-保全作業 JSON 請參考 [3.7-保全派駐協議](./3.7-保全派駐協議.md)
+保全作業 JSON 請參考 [3.7-保全派駐協議](./sss-schema.md)
 
 - `Depot`  
     倉庫辨識
@@ -280,21 +282,25 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 }
 ```
 
-- `ReclamationAlgorithm`  
+- `Reclamation`  
     生息演算
 
 ```json
 {
     "enable": bool,
-    "theme": int,           // 主題，可選項。預設 1
-                            // 0 - *沙中之火*
-                            // 1 - *沙洲遺聞*
-    "mode": int,            // 模式，可選項。默認為 0
-                            // 0 - 刷分與建造點，進入戰鬥直接退出
-                            // 1 - 沙中之火：刷赤金，聯絡員買水後基地鍛造；
-                            //     沙洲遺聞：自動製造物品並讀檔刷貨幣
-    "product": string       // 自動製造的物品，可選項，默認為荧光棒
-                            // 建議填寫子串
+    "theme": string,            // 主題，可選項。預設 1
+                                // Fire  - *沙中之火*
+                                // Tales - *沙洲遺聞*
+    "mode": int,                // 模式，可選項。默認為 0
+                                // 0 - 刷分與建造點，進入戰鬥直接退出
+                                // 1 - 沙中之火：刷赤金，聯絡員買水後基地鍛造；
+                                //     沙洲遺聞：自動製造物品並讀檔刷貨幣
+    "tool_to_craft": string,    // 自動製造的物品，可選項，默認為荧光棒
+                                // 建議填寫子串
+    "increment_mode": int,      // 點擊類型，可選項。默認為0
+                                // 0 - 連點
+                                // 1 - 長按
+    "num_craft_batches": int    // 單次最大製造輪數，可選。默認為 16
 }
 ```
 

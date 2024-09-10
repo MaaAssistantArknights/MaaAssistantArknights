@@ -2,172 +2,78 @@
     "stage_name": "夙愿将偿",
     "replacement_home": [
         {
-            "location": [
-                7,
-                3
-            ],
+            "location": [7, 3],
             "direction": "left"
         }
     ],
     "blacklist_location": [
-        [
-            7,
-            1
-        ],
-        [
-            8,
-            1
-        ],
-        [
-            7,
-            5
-        ],
-        [
-            8,
-            5
-        ]
+        [7, 1],
+        [8, 1],
+        [7, 5],
+        [8, 5]
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "伊内丝"
-            ],
-            "location": [
-                8,
-                3
-            ],
+            "groups": ["伊内丝"],
+            "location": [8, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "回费"
-            ],
-            "location": [
-                9,
-                3
-            ],
+            "groups": ["回费"],
+            "location": [9, 3],
             "direction": "left",
-            "condition": [
-                0,
-                10
-            ]
+            "condition": [0, 10]
         },
         {
-            "groups": [
-                "焰苇",
-                "凯尔希",
-                "水陈",
-                "召唤"
-            ],
-            "location": [
-                8,
-                2
-            ],
+            "groups": ["焰苇", "凯尔希", "水陈", "召唤"],
+            "location": [8, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "处决者"
-            ],
-            "location": [
-                1,
-                1
-            ],
+            "groups": ["处决者"],
+            "location": [1, 1],
             "direction": "left",
-            "condition": [
-                0,
-                5
-            ]
+            "condition": [0, 5]
         },
         {
-            "groups": [
-                "召唤",
-                "高台输出",
-                "盾法",
-                "辅助"
-            ],
-            "location": [
-                8,
-                4
-            ],
+            "groups": ["召唤", "高台输出", "盾法", "辅助"],
+            "location": [8, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "提丰",
-                "奶",
-                "高台输出",
-                "辅助"
-            ],
-            "location": [
-                9,
-                4
-            ],
+            "groups": ["提丰", "奶", "高台输出", "辅助"],
+            "location": [9, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "处决者"
-            ],
-            "location": [
-                1,
-                5
-            ],
+            "groups": ["处决者"],
+            "location": [1, 5],
             "direction": "left",
-            "condition": [
-                0,
-                15
-            ]
+            "condition": [0, 15]
         },
         {
-            "groups": [
-                "玛恩纳",
-                "地面阻挡"
-            ],
-            "location": [
-                7,
-                3
-            ],
+            "groups": ["玛恩纳", "地面阻挡"],
+            "location": [7, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "地面远程"
-            ],
-            "location": [
-                8,
-                3
-            ],
+            "groups": ["地面远程"],
+            "location": [8, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "地刺"
-            ],
-            "location": [
-                6,
-                3
-            ],
+            "groups": ["地刺"],
+            "location": [6, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "处决者"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["处决者"],
+            "location": [5, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "处决者"
-            ],
-            "location": [
-                6,
-                3
-            ],
+            "groups": ["处决者"],
+            "location": [6, 3],
             "direction": "left"
         }
     ]

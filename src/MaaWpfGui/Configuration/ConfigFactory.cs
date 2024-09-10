@@ -18,12 +18,14 @@ using System.ComponentModel;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
 using MaaWpfGui.Helper;
 using ObservableCollections;
 using Serilog;
 
 [assembly: PropertyChanged.FilterType("MaaWpfGui.Configuration.")]
+
 namespace MaaWpfGui.Configuration
 {
     public static class ConfigFactory
@@ -36,14 +38,16 @@ namespace MaaWpfGui.Configuration
 
         private static readonly ILogger _logger = Log.ForContext<ConfigurationHelper>();
 
-        private static readonly object _lock = new object();
+        private static readonly object _lock = new();
+
+        private static readonly SemaphoreSlim _semaphore = new(1, 1);
 
         public delegate void ConfigurationUpdateEventHandler(string key, object oldValue, object newValue);
 
         // ReSharper disable once EventNeverSubscribedTo.Global
         public static event ConfigurationUpdateEventHandler ConfigurationUpdateEvent;
 
-        private static readonly JsonSerializerOptions _options = new JsonSerializerOptions { WriteIndented = true, Converters = { new JsonStringEnumConverter() } };
+        private static readonly JsonSerializerOptions _options = new() { WriteIndented = true, Converters = { new JsonStringEnumConverter() }, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
 
         private static readonly Lazy<Root> _rootConfig = new Lazy<Root>(() =>
         {
@@ -124,6 +128,7 @@ namespace MaaWpfGui.Configuration
 
                 parsed.Timers.CollectionChanged += OnCollectionChangedFactory<int, Timer>("Root.Timers.");
                 parsed.VersionUpdate.PropertyChanged += OnPropertyChangedFactory();
+                parsed.AnnouncementInfo.PropertyChanged += OnPropertyChangedFactory();
 
                 foreach (var keyValue in parsed.Configurations)
                 {
@@ -181,7 +186,7 @@ namespace MaaWpfGui.Configuration
 
         private static async void OnPropertyChanged(string key, object oldValue, object newValue)
         {
-            var result = await Save();
+            var result = await SaveAsync();
             if (result)
             {
                 ConfigurationUpdateEvent?.Invoke(key, oldValue, newValue);
@@ -193,33 +198,51 @@ namespace MaaWpfGui.Configuration
             }
         }
 
-        private static async Task<bool> Save(string file = null)
+        private static bool Save(string file = null)
         {
-            return await Task.Run(() =>
+            lock (_lock)
             {
-                lock (_lock)
+                try
                 {
-                    try
-                    {
-                        File.WriteAllText(file ?? _configurationFile, JsonSerializer.Serialize(Root, _options));
-                    }
-                    catch (Exception e)
-                    {
-                        _logger.Error(e, "Failed to save configuration file.");
-                        return false;
-                    }
-
-                    return true;
+                    File.WriteAllText(file ?? _configurationFile, JsonSerializer.Serialize(Root, _options));
                 }
-            });
+                catch (Exception e)
+                {
+                    _logger.Error(e, "Failed to save configuration file.");
+                    return false;
+                }
+
+                return true;
+            }
+        }
+
+        private static async Task<bool> SaveAsync(string file = null)
+        {
+            await _semaphore.WaitAsync();
+            try
+            {
+                var filePath = file ?? _configurationFile;
+                var jsonString = JsonSerializer.Serialize(Root, _options);
+                await File.WriteAllTextAsync(filePath, jsonString);
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Failed to save configuration file.");
+                return false;
+            }
+            finally
+            {
+                _semaphore.Release();
+            }
         }
 
         public static void Release()
         {
             lock (_lock)
             {
-                Save().Wait();
-                Save(_configurationBakFile).Wait();
+                Save();
+                Save(_configurationBakFile);
             }
         }
 

@@ -783,6 +783,7 @@ void asst::CombatRecordRecognitionTask::ananlyze_deployment_names(ClipInfo& clip
         }
         BestMatcher avatar_analyzer(oper.avatar);
         static const double threshold = Task.get<MatchTaskInfo>("BattleAvatarDataForVideo")->templ_thresholds.front();
+        avatar_analyzer.set_method(MatchMethod::Ccoeff);
         avatar_analyzer.set_threshold(threshold);
         // static const double drone_threshold = Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_threshold;
         // avatar_analyzer.set_threshold(oper.role == battle::Role::Drone ? drone_threshold : threshold);

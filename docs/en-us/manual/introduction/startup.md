@@ -4,19 +4,18 @@ order: 1
 
 # Startup
 
-::: important Translation Required
-This page is outdated and maybe still in Simplified Chinese. Translation is needed.
+::: important This page may be outdated.
 :::
 
-自动启动模拟器，自动启动客户端，自动进入游戏。
+Automatically start the emulator, start the client and enter the game.
 
-自动启动模拟器需额外设置，详见启动设置。
+Additional settings are required to automatically start the emulator. For details, see the startup settings, and enable `Retry launching the emulator when ADB connection fails` in the connection settings.
 
 ## Account Switch
 
-仅支持切换至已登录的账号，使用登录名进行查找，请保证输入内容在所有已登录账号唯一。
+Only supports switching to logged-in accounts. Use the login name to search. Please ensure that the input content is unique among all logged-in accounts. Does not work on the global version.
 
-Example：`123****8901` can be input `123****8901`、`123`、`8901`、`3****8`.
+Example CN：`123****8901` can be input `123****8901`、`123`、`8901`、`3****8`.
 
 ## Connection
 

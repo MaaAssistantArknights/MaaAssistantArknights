@@ -42,7 +42,7 @@ asst::TaskDerivedConstPtr asst::TaskData::get_raw(std::string_view name)
 
 asst::TaskPtr asst::TaskData::get(std::string_view name)
 {
-    // 普通任务 或 已经生成过的高级任务
+    // 生成过的任务
     if (auto it = m_all_tasks_info.find(name); it != m_all_tasks_info.cend()) {
         return it->second;
     }
@@ -171,6 +171,17 @@ bool asst::TaskData::lazy_parse(const json::value& json)
             check_tasklist(task->exceeded_next, "exceeded_next", enable_justreturn_check);
             check_tasklist(task->on_error_next, "on_error_next", enable_justreturn_check);
             check_tasklist(task->reduce_other_times, "reduce_other_times");
+
+            static const std::unordered_set count_methods { MatchMethod::RGBCount, MatchMethod::HSVCount };
+            if (auto match_task = std::dynamic_pointer_cast<MatchTaskInfo>(task);
+                task->algorithm == AlgorithmType::MatchTemplate &&
+                ranges::find_if(match_task->methods, [&](MatchMethod m) { return count_methods.contains(m); }) !=
+                    match_task->methods.cend() &&
+                match_task->color_scales.empty()) {
+                // RGBCount 和 HSVCount 必须有 color_scales
+                Log.error("Task", name, "with Count method has empty color_scales");
+                validity = false;
+            }
         }
         if (checking_task_set.size() > MAX_CHECKING_SIZE) {
             // 生成超出上限一般是出现了会导致无限隐式生成的任务。比如 "#self@LoadingText". 这里给个警告.
@@ -371,9 +382,6 @@ asst::TaskPtr asst::TaskData::generate_task_info(std::string_view name)
     case AlgorithmType::OcrDetect:
         task = generate_ocr_task_info(name, json, std::dynamic_pointer_cast<const OcrTaskInfo>(base));
         break;
-    case AlgorithmType::Hash:
-        task = generate_hash_task_info(name, json, std::dynamic_pointer_cast<const HashTaskInfo>(base));
-        break;
     case AlgorithmType::JustReturn:
         task = std::make_shared<TaskInfo>();
         break;
@@ -419,6 +427,16 @@ asst::TaskPtr asst::TaskData::generate_task_info(std::string_view name)
 #undef ASST_TASKDATA_GET_VALUE_OR_LAZY
 
 #ifdef ASST_DEBUG
+    if (!json.contains("roi") && base == default_task_info_ptr // 无 base 任务
+        && algorithm != asst::AlgorithmType::JustReturn        // 非 JustReturn
+        && !task->next.empty()                                 // 有 next
+        && (algorithm != asst::AlgorithmType::MatchTemplate    // template 不是 empty
+            || std::dynamic_pointer_cast<const MatchTaskInfo>(task)->templ_names
+                   != std::vector<std::string> { "empty.png" })) {
+        // 符合上述条件时，我们认为此时的隐式全屏 roi 不是期望行为，给个警告
+        Log.warn("Task", name, "has implicit fullscreen roi.");
+    }
+
     // Debug 模式下检查 roi 是否超出边界
     if (auto [x, y, w, h] = task->roi; x + w > WindowWidthDefault || y + h > WindowHeightDefault) {
         Log.warn(name, "roi is out of bounds");
@@ -479,7 +497,145 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(std::string_view name, co
         return nullptr;
     }
 
-    utils::get_and_check_value_or(name, task_json, "maskRange", match_task_info_ptr->mask_range, default_ptr->mask_range);
+    auto method_opt = task_json.find("method");
+    if (!method_opt) {
+        match_task_info_ptr->methods = default_ptr->methods;
+        match_task_info_ptr->methods.resize(match_task_info_ptr->templ_names.size(),
+                                            default_ptr->methods.back());
+    }
+    else if (method_opt->is_string()) {
+        // 单个数值时，所有模板都使用这个阈值
+        match_task_info_ptr->methods.resize(match_task_info_ptr->templ_names.size(),
+                                            get_match_method(method_opt->as_string()));
+    }
+    else if (method_opt->is_array()) {
+        ranges::copy(method_opt->as_array() |
+                     views::transform(&json::value::as_string) |
+                     views::transform(&get_match_method),
+                     std::back_inserter(match_task_info_ptr->methods));
+    }
+    else {
+        Log.error("Invalid method type in task", name);
+        return nullptr;
+    }
+
+    if (ranges::find(match_task_info_ptr->methods, MatchMethod::Invalid) != match_task_info_ptr->methods.end()) {
+        Log.error("Invalid method in task", name);
+        return nullptr;
+    }
+
+    if (match_task_info_ptr->templ_names.size() != match_task_info_ptr->methods.size()) {
+        Log.error("Template count and method count not match in task", name);
+        return nullptr;
+    }
+
+    if (match_task_info_ptr->templ_names.size() == 0 || match_task_info_ptr->methods.size() == 0) {
+        Log.error("Template or method is empty in task", name);
+        return nullptr;
+    }
+
+    if (auto mask_opt = task_json.find("maskRange"); !mask_opt) {
+        match_task_info_ptr->mask_ranges = default_ptr->mask_ranges;
+    }
+    else if (!mask_opt->is_array()) {
+        Log.error("Invalid mask_range type in task", name, ", should be `array<int, 2>`");
+        return nullptr;
+    }
+    else if (auto mask_array = mask_opt->as_array();
+             mask_array.size() == 2 && mask_array[0].is_number() && mask_array[1].is_number()) {
+        match_task_info_ptr->mask_ranges.emplace_back(
+            MatchTaskInfo::GrayRange { mask_array[0].as_integer(), mask_array[1].as_integer() });
+    }
+    else {
+        Log.error("Invalid mask_range in task", name);
+        return nullptr;
+    }
+
+    if (auto color_opt = task_json.find("colorScales"); !color_opt) {
+        match_task_info_ptr->color_scales = default_ptr->color_scales;
+    }
+    else if (!color_opt->is_array()) {
+        Log.error("Invalid color_scales type in task", name);
+        return nullptr;
+    }
+    else if (auto color_array = color_opt->as_array();
+             color_array.size() == 2 && color_array[0].is_number() && color_array[1].is_number()) {
+        // gray scale, color_array is array<int, 2>
+        Log.debug("Deprecated GrayRange color_scales in task", name, ", should be `list<pair<int, int>>`");
+        match_task_info_ptr->color_scales.emplace_back(
+            MatchTaskInfo::GrayRange { color_array[0].as_integer(), color_array[1].as_integer() });
+    }
+    else {
+        /*  [
+                [[0, 0, 0], [0, 0, 255]],
+                [[0, 0, 0], [0, 255, 0]],
+                [1, 255]
+            ]
+        */
+        match_task_info_ptr->color_scales.clear();
+        for (const auto& color_array_item : color_array) {
+            if (!color_array_item.is_array()) {
+                Log.error("Invalid color_range in task", name);
+                return nullptr;
+            }
+            const auto& color_range = color_array_item.as_array();
+            if (color_range.size() != 2) { // lower & upper, 2 elements
+                Log.error("Invalid color_range in task", name, ", should have 2 elements (lower & upper) in each array");
+                return nullptr;
+            }
+
+            const auto& lower_item = color_range[0];
+            const auto& upper_item = color_range[1];
+
+            // gray scale, color_array_item is array<int, 2> (recommended)
+            if (lower_item.is_number() && upper_item.is_number()) {
+                match_task_info_ptr->color_scales.emplace_back(
+                    MatchTaskInfo::GrayRange { lower_item.as_integer(), upper_item.as_integer() });
+                continue;
+            }
+
+            if (!lower_item.is_array() || !upper_item.is_array()) {
+                Log.error("Invalid color_range in task", name);
+                return nullptr;
+            }
+
+            // color, color_array_item is array<array<int, 3>, 2>
+            const auto& lower = lower_item.as_array();
+            const auto& upper = upper_item.as_array();
+
+            if (!ranges::all_of(std::array { lower, upper } | views::join, &json::value::is_number)) {
+                Log.error("Invalid color_range in task", name);
+                return nullptr;
+            }
+            auto lower_number = lower | views::transform(&json::value::as_integer);
+            auto upper_number = upper | views::transform(&json::value::as_integer);
+
+            if (lower_number.size() == 1 && upper_number.size() == 1) {
+                // gray scale "[..., [[0], [255]], ...]"
+                Log.debug("Not recommended GrayRange color_scales in task", name, ", should be `list<pair<int, int>>`");
+                match_task_info_ptr->color_scales.emplace_back(
+                    MatchTaskInfo::GrayRange { lower_number[0], upper_number[0] });
+                continue;
+            }
+            if (lower_number.size() == 3 && upper_number.size() == 3) {
+                // color scale "[..., [[0, 0, 0], [0, 0, 255]], ...]"
+                match_task_info_ptr->color_scales.emplace_back(
+                    MatchTaskInfo::ColorRange { std::array { lower_number[0], lower_number[1], lower_number[2] },
+                                                std::array { upper_number[0], upper_number[1], upper_number[2] } });
+                continue;
+            }
+            Log.error("Invalid color_range in task", name);
+            return nullptr;
+        }
+    }
+
+    utils::get_and_check_value_or(
+        name,
+        task_json,
+        "colorWithClose",
+        match_task_info_ptr->color_close,
+        default_ptr->color_close);
+
     return match_task_info_ptr;
 }
 
@@ -505,27 +661,6 @@ asst::TaskPtr asst::TaskData::generate_ocr_task_info(std::string_view name, cons
     utils::get_and_check_value_or(name, task_json, "replaceFull", ocr_task_info_ptr->replace_full, default_ptr->replace_full);
     utils::get_and_check_value_or(name, task_json, "ocrReplace", ocr_task_info_ptr->replace_map, default_ptr->replace_map);
     return ocr_task_info_ptr;
-}
-
-asst::TaskPtr asst::TaskData::generate_hash_task_info(std::string_view name, const json::value& task_json,
-                                                      HashTaskConstPtr default_ptr)
-{
-    if (default_ptr == nullptr) {
-        default_ptr = default_hash_task_info_ptr;
-    }
-    auto hash_task_info_ptr = std::make_shared<HashTaskInfo>();
-    // hash 不允许为字符串，必须是字符串数组，不能用 utils::get_value_or
-    auto array_opt = task_json.find<json::array>("hash");
-    hash_task_info_ptr->hashes = array_opt ? to_string_list(array_opt.value()) : default_ptr->hashes;
-#ifdef ASST_DEBUG
-    if (!array_opt && default_ptr->hashes.empty()) {
-        Log.warn("Hash task", name, "has implicit empty hashes.");
-    }
-#endif
-    utils::get_and_check_value_or(name, task_json, "threshold", hash_task_info_ptr->dist_threshold, default_ptr->dist_threshold);
-    utils::get_and_check_value_or(name, task_json, "maskRange", hash_task_info_ptr->mask_range, default_ptr->mask_range);
-    utils::get_and_check_value_or(name, task_json, "bound", hash_task_info_ptr->bound, default_ptr->bound);
-    return hash_task_info_ptr;
 }
 
 asst::ResultOrError<asst::TaskData::RawCompileResult> asst::TaskData::compile_raw_tasklist(
@@ -675,6 +810,10 @@ asst::MatchTaskConstPtr asst::TaskData::_default_match_task_info()
     auto match_task_info_ptr = std::make_shared<MatchTaskInfo>();
     match_task_info_ptr->templ_names = { "__INVALID__" };
     match_task_info_ptr->templ_thresholds = { TemplThresholdDefault };
+    match_task_info_ptr->methods = { MatchMethod::Ccoeff };
+    match_task_info_ptr->mask_ranges = {};
+    match_task_info_ptr->color_scales = {};
+    match_task_info_ptr->color_close = true;
 
     return match_task_info_ptr;
 }
@@ -688,15 +827,6 @@ asst::OcrTaskConstPtr asst::TaskData::_default_ocr_task_info()
     ocr_task_info_ptr->replace_full = false;
 
     return ocr_task_info_ptr;
-}
-
-asst::HashTaskConstPtr asst::TaskData::_default_hash_task_info()
-{
-    auto hash_task_info_ptr = std::make_shared<HashTaskInfo>();
-    hash_task_info_ptr->dist_threshold = 0;
-    hash_task_info_ptr->bound = true;
-
-    return hash_task_info_ptr;
 }
 
 asst::TaskConstPtr asst::TaskData::_default_task_info()
@@ -721,43 +851,40 @@ asst::TaskConstPtr asst::TaskData::_default_task_info()
 // 主要是处理是否包含未知键值的问题
 bool asst::TaskData::syntax_check(std::string_view task_name, const json::value& task_json)
 {
-    // clang-format off
     // 以下按字典序排序
+    // clang-format off
     static const std::unordered_map<AlgorithmType, std::unordered_set<std::string>> allowed_key_under_algorithm = {
-        { AlgorithmType::Invalid,
-          {
-              "action",      "algorithm",     "baseTask",   "cache",           "exceededNext",     "fullMatch",
-              "hash",        "isAscii",       "maskRange",  "maxTimes",        "next",             "ocrReplace",
-              "onErrorNext", "postDelay",     "preDelay",   "rectMove",        "reduceOtherTimes", "replaceFull",
-              "roi",         "specialParams", "sub",        "subErrorIgnored", "templThreshold",   "template",
-              "text",        "threshold",     "withoutDet",
-          } },
+        { AlgorithmType::Invalid, {} },
         { AlgorithmType::MatchTemplate,
           {
-              "action",           "algorithm", "baseTask",    "cache",           "exceededNext",   "maskRange",
-              "maxTimes",         "next",      "onErrorNext", "postDelay",       "preDelay",       "rectMove",
-              "reduceOtherTimes", "roi",       "sub",         "subErrorIgnored", "templThreshold", "template",
-              "specialParams",
+              // common
+              "action",        "algorithm",     "baseTask",        "exceededNext",   "maxTimes",
+              "next",          "onErrorNext",   "postDelay",       "preDelay",       "reduceOtherTimes",
+              "specialParams", "sub",           "subErrorIgnored",
+
+              // specific
+              "cache",         "colorScales",   "colorWithClose",  "maskRange",      "method",
+              "rectMove",      "roi",           "specialParams",   "templThreshold", "template",
           } },
         { AlgorithmType::OcrDetect,
           {
-              "action",          "algorithm", "baseTask",         "cache",         "exceededNext", "fullMatch",
-              "isAscii",         "maxTimes",  "next",             "ocrReplace",    "onErrorNext",  "postDelay",
-              "preDelay",        "rectMove",  "reduceOtherTimes", "replaceFull",   "roi",          "sub",     
-              "subErrorIgnored", "text",      "withoutDet",       "specialParams",
+              // common
+              "action",        "algorithm",   "baseTask",        "exceededNext", "maxTimes",
+              "next",          "onErrorNext", "postDelay",       "preDelay",     "reduceOtherTimes",
+              "specialParams", "sub",         "subErrorIgnored",
+
+              // specific
+              "cache",         "fullMatch",   "isAscii",         "ocrReplace",   "rectMove",
+              "replaceFull",   "roi",         "text",            "withoutDet",
           } },
         { AlgorithmType::JustReturn,
           {
-              "action",          "algorithm", "baseTask", "exceededNext",     "maxTimes",      "next",
-              "onErrorNext",     "postDelay", "preDelay", "reduceOtherTimes", "specialParams", "sub",
-              "subErrorIgnored",
-          } },
-        { AlgorithmType::Hash,
-          {
-              "action",    "algorithm",        "baseTask", "cache",         "exceededNext", "hash",
-              "maskRange", "maxTimes",         "next",     "onErrorNext",   "postDelay",    "preDelay",
-              "rectMove",  "reduceOtherTimes", "roi",      "specialParams", "sub",          "subErrorIgnored",
-              "threshold",
+              // common
+              "action",        "algorithm",   "baseTask",        "exceededNext", "maxTimes",
+              "next",          "onErrorNext", "postDelay",       "preDelay",     "reduceOtherTimes",
+              "specialParams", "sub",         "subErrorIgnored",
+
+              // specific
           } },
     };
     // clang-format on

@@ -9,16 +9,7 @@
         "details_color": "dark"
     },
     "buff": "能量扰动放大器",
-    "equipment": [
-        "A",
-        "A",
-        "A",
-        "A",
-        "A",
-        "A",
-        "A",
-        "A"
-    ],
+    "equipment": ["A", "A", "A", "A", "A", "A", "A", "A"],
     "strategy": "优选策略",
     "opers": [
         {
@@ -40,17 +31,7 @@
         "medic": 2,
         "supporter": 2
     },
-    "drops": [
-        "无需增调干员",
-        "辅助",
-        "狙击",
-        "术师",
-        "战备激活阀",
-        "信号阻断插件",
-        "重装",
-        "先锋",
-        "医疗"
-    ],
+    "drops": ["无需增调干员", "辅助", "狙击", "术师", "战备激活阀", "信号阻断插件", "重装", "先锋", "医疗"],
     "blacklist": [
         "罗比菈塔",
         "掠风",
@@ -80,10 +61,7 @@
                     "tool_men": {
                         "vanguard": 1
                     },
-                    "location": [
-                        6,
-                        3
-                    ],
+                    "location": [6, 3],
                     "direction": "Left"
                 },
                 {
@@ -92,30 +70,21 @@
                         "sniper": 2,
                         "caster": 3
                     },
-                    "location": [
-                        4,
-                        4
-                    ],
+                    "location": [4, 4],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "defender": 2
                     },
-                    "location": [
-                        6,
-                        3
-                    ],
+                    "location": [6, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "medic": 2
                     },
-                    "location": [
-                        5,
-                        2
-                    ],
+                    "location": [5, 2],
                     "direction": "Down"
                 },
                 {
@@ -124,10 +93,7 @@
                         "sniper": 100,
                         "caster": 100
                     },
-                    "location": [
-                        3,
-                        2
-                    ],
+                    "location": [3, 2],
                     "direction": "Right"
                 }
             ],
@@ -139,40 +105,28 @@
                 {
                     "type": "Deploy",
                     "name": "能量扰动放大器",
-                    "location": [
-                        4,
-                        3
-                    ],
+                    "location": [4, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "kills": 15,
                     "name": "超重绝缘水泥",
-                    "location": [
-                        1,
-                        1
-                    ],
+                    "location": [1, 1],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "kills": 20,
                     "name": "超重绝缘水泥",
-                    "location": [
-                        2,
-                        1
-                    ],
+                    "location": [2, 1],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "kills": 25,
                     "name": "超重绝缘水泥",
-                    "location": [
-                        3,
-                        1
-                    ],
+                    "location": [3, 1],
                     "direction": "None"
                 }
             ],
@@ -185,20 +139,14 @@
                     "tool_men": {
                         "vanguard": 1
                     },
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "defender": 1
                     },
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "Left"
                 },
                 {
@@ -207,20 +155,14 @@
                         "sniper": 2,
                         "caster": 3
                     },
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "Up"
                 },
                 {
                     "tool_men": {
                         "defender": 5
                     },
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "Left"
                 },
                 {
@@ -228,20 +170,14 @@
                     "tool_men": {
                         "sniper": 3
                     },
-                    "location": [
-                        8,
-                        2
-                    ],
+                    "location": [8, 2],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "medic": 5
                     },
-                    "location": [
-                        7,
-                        5
-                    ],
+                    "location": [7, 5],
                     "direction": "Up"
                 },
                 {
@@ -250,10 +186,7 @@
                         "sniper": 100,
                         "caster": 100
                     },
-                    "location": [
-                        8,
-                        4
-                    ],
+                    "location": [8, 4],
                     "direction": "Left"
                 }
             ],
@@ -265,40 +198,28 @@
                 {
                     "type": "Deploy",
                     "name": "能量扰动放大器",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "kills": 15,
                     "name": "超重绝缘水泥",
-                    "location": [
-                        2,
-                        2
-                    ],
+                    "location": [2, 2],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "kills": 17,
                     "name": "超重绝缘水泥",
-                    "location": [
-                        2,
-                        3
-                    ],
+                    "location": [2, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "kills": 20,
                     "name": "超重绝缘水泥",
-                    "location": [
-                        2,
-                        4
-                    ],
+                    "location": [2, 4],
                     "direction": "None"
                 }
             ],
@@ -311,20 +232,14 @@
                     "tool_men": {
                         "vanguard": 1
                     },
-                    "location": [
-                        6,
-                        4
-                    ],
+                    "location": [6, 4],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "sniper": 1
                     },
-                    "location": [
-                        6,
-                        3
-                    ],
+                    "location": [6, 3],
                     "direction": "Left"
                 },
                 {
@@ -333,20 +248,14 @@
                         "sniper": 2,
                         "caster": 3
                     },
-                    "location": [
-                        5,
-                        5
-                    ],
+                    "location": [5, 5],
                     "direction": "Up"
                 },
                 {
                     "tool_men": {
                         "medic": 1
                     },
-                    "location": [
-                        8,
-                        4
-                    ],
+                    "location": [8, 4],
                     "direction": "Left"
                 },
                 {
@@ -354,50 +263,35 @@
                     "tool_men": {
                         "sniper": 2
                     },
-                    "location": [
-                        6,
-                        3
-                    ],
+                    "location": [6, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "defender": 5
                     },
-                    "location": [
-                        5,
-                        4
-                    ],
+                    "location": [5, 4],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "medic": 5
                     },
-                    "location": [
-                        8,
-                        4
-                    ],
+                    "location": [8, 4],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "vanguard": 5
                     },
-                    "location": [
-                        6,
-                        4
-                    ],
+                    "location": [6, 4],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "supporter": 100
                     },
-                    "location": [
-                        8,
-                        4
-                    ],
+                    "location": [8, 4],
                     "direction": "Left"
                 }
             ],
@@ -409,49 +303,34 @@
                 {
                     "type": "Deploy",
                     "name": "能量扰动放大器",
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "kills": 20,
                     "name": "战备激活阀",
-                    "location": [
-                        4,
-                        4
-                    ],
+                    "location": [4, 4],
                     "direction": "Right"
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
-                    "location": [
-                        4,
-                        1
-                    ],
+                    "location": [4, 1],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "kills": 24,
                     "name": "超重绝缘水泥",
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "kills": 30,
                     "name": "超重绝缘水泥",
-                    "location": [
-                        4,
-                        3
-                    ],
+                    "location": [4, 3],
                     "direction": "None"
                 }
             ],
@@ -464,30 +343,21 @@
                     "tool_men": {
                         "vanguard": 1
                     },
-                    "location": [
-                        4,
-                        3
-                    ],
+                    "location": [4, 3],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "defender": 1
                     },
-                    "location": [
-                        4,
-                        3
-                    ],
+                    "location": [4, 3],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "medic": 2
                     },
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "Down"
                 },
                 {
@@ -496,10 +366,7 @@
                         "sniper": 2,
                         "caster": 3
                     },
-                    "location": [
-                        5,
-                        2
-                    ],
+                    "location": [5, 2],
                     "direction": "Down"
                 },
                 {
@@ -507,20 +374,14 @@
                     "tool_men": {
                         "sniper": 3
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "defender": 2
                     },
-                    "location": [
-                        4,
-                        3
-                    ],
+                    "location": [4, 3],
                     "direction": "Right"
                 },
                 {
@@ -529,10 +390,7 @@
                         "sniper": 100,
                         "caster": 100
                     },
-                    "location": [
-                        6,
-                        2
-                    ],
+                    "location": [6, 2],
                     "direction": "Down"
                 }
             ],
@@ -544,49 +402,34 @@
                 {
                     "type": "Deploy",
                     "name": "能量扰动放大器",
-                    "location": [
-                        5,
-                        4
-                    ],
+                    "location": [5, 4],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "kills": 15,
                     "name": "战备激活阀",
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "Left"
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
-                    "location": [
-                        2,
-                        2
-                    ],
+                    "location": [2, 2],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "kills": 20,
                     "name": "超重绝缘水泥",
-                    "location": [
-                        2,
-                        3
-                    ],
+                    "location": [2, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "kills": 25,
                     "name": "超重绝缘水泥",
-                    "location": [
-                        2,
-                        4
-                    ],
+                    "location": [2, 4],
                     "direction": "None"
                 }
             ],
@@ -599,50 +442,35 @@
                     "tool_men": {
                         "vanguard": 1
                     },
-                    "location": [
-                        2,
-                        3
-                    ],
+                    "location": [2, 3],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "medic": 1
                     },
-                    "location": [
-                        1,
-                        2
-                    ],
+                    "location": [1, 2],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "defender": 1
                     },
-                    "location": [
-                        2,
-                        3
-                    ],
+                    "location": [2, 3],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "defender": 1
                     },
-                    "location": [
-                        1,
-                        3
-                    ],
+                    "location": [1, 3],
                     "direction": "Right"
                 },
                 {
@@ -651,10 +479,7 @@
                         "sniper": 2,
                         "caster": 2
                     },
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "Left"
                 },
                 {
@@ -662,40 +487,28 @@
                     "tool_men": {
                         "sniper": 3
                     },
-                    "location": [
-                        5,
-                        2
-                    ],
+                    "location": [5, 2],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "defender": 1
                     },
-                    "location": [
-                        2,
-                        3
-                    ],
+                    "location": [2, 3],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "defender": 3
                     },
-                    "location": [
-                        1,
-                        3
-                    ],
+                    "location": [1, 3],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "medic": 5
                     },
-                    "location": [
-                        1,
-                        2
-                    ],
+                    "location": [1, 2],
                     "direction": "Right"
                 },
                 {
@@ -704,10 +517,7 @@
                         "sniper": 100,
                         "caster": 100
                     },
-                    "location": [
-                        3,
-                        2
-                    ],
+                    "location": [3, 2],
                     "direction": "Down"
                 }
             ],
@@ -719,49 +529,34 @@
                 {
                     "type": "Deploy",
                     "name": "能量扰动放大器",
-                    "location": [
-                        4,
-                        3
-                    ],
+                    "location": [4, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "kills": 15,
                     "name": "战备激活阀",
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Left"
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
-                    "location": [
-                        7,
-                        2
-                    ],
+                    "location": [7, 2],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "kills": 30,
                     "name": "超重绝缘水泥",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "kills": 40,
                     "name": "超重绝缘水泥",
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "None"
                 }
             ],
@@ -774,50 +569,35 @@
                     "tool_men": {
                         "vanguard": 1
                     },
-                    "location": [
-                        5,
-                        2
-                    ],
+                    "location": [5, 2],
                     "direction": "Down"
                 },
                 {
                     "tool_men": {
                         "defender": 1
                     },
-                    "location": [
-                        5,
-                        1
-                    ],
+                    "location": [5, 1],
                     "direction": "Down"
                 },
                 {
                     "tool_men": {
                         "sniper": 1
                     },
-                    "location": [
-                        7,
-                        2
-                    ],
+                    "location": [7, 2],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "vanguard": 1
                     },
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "medic": 1
                     },
-                    "location": [
-                        3,
-                        2
-                    ],
+                    "location": [3, 2],
                     "direction": "Right"
                 },
                 {
@@ -826,10 +606,7 @@
                         "sniper": 2,
                         "caster": 3
                     },
-                    "location": [
-                        6,
-                        2
-                    ],
+                    "location": [6, 2],
                     "direction": "Down"
                 },
                 {
@@ -837,40 +614,28 @@
                     "tool_men": {
                         "sniper": 2
                     },
-                    "location": [
-                        7,
-                        2
-                    ],
+                    "location": [7, 2],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "defender": 100
                     },
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "medic": 2
                     },
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "Up"
                 },
                 {
                     "tool_men": {
                         "defender": 1
                     },
-                    "location": [
-                        5,
-                        1
-                    ],
+                    "location": [5, 1],
                     "direction": "Down"
                 },
                 {
@@ -879,10 +644,7 @@
                         "sniper": 5,
                         "caster": 5
                     },
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "Right"
                 }
             ],
@@ -894,103 +656,70 @@
                 {
                     "type": "Retreat",
                     "kills": 15,
-                    "location": [
-                        5,
-                        2
-                    ]
+                    "location": [5, 2]
                 },
                 {
                     "type": "Deploy",
                     "name": "能量扰动放大器",
-                    "location": [
-                        6,
-                        3
-                    ],
+                    "location": [6, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "战备激活阀",
-                    "location": [
-                        4,
-                        1
-                    ],
+                    "location": [4, 1],
                     "direction": "Right"
                 },
                 {
                     "type": "Deploy",
                     "name": "“甜蜜狂搅”",
-                    "location": [
-                        6,
-                        1
-                    ],
+                    "location": [6, 1],
                     "direction": "Left"
                 },
                 {
                     "type": "Deploy",
                     "kills": 20,
                     "name": "“甜蜜狂搅”",
-                    "location": [
-                        4,
-                        1
-                    ],
+                    "location": [4, 1],
                     "direction": "Right"
                 },
                 {
                     "type": "Deploy",
                     "name": "“甜蜜狂搅”",
-                    "location": [
-                        5,
-                        2
-                    ],
+                    "location": [5, 2],
                     "direction": "Up"
                 },
                 {
                     "type": "Deploy",
                     "kills": 40,
                     "name": "“甜蜜狂搅”",
-                    "location": [
-                        10,
-                        3
-                    ],
+                    "location": [10, 3],
                     "direction": "Left"
                 },
                 {
                     "type": "Deploy",
                     "kills": 41,
                     "name": "“甜蜜狂搅”",
-                    "location": [
-                        6,
-                        1
-                    ],
+                    "location": [6, 1],
                     "direction": "Left"
                 },
                 {
                     "type": "Deploy",
                     "kills": 54,
                     "name": "“甜蜜狂搅”",
-                    "location": [
-                        10,
-                        3
-                    ],
+                    "location": [10, 3],
                     "direction": "Left"
                 },
                 {
                     "type": "Deploy",
                     "name": "“甜蜜狂搅”",
-                    "location": [
-                        5,
-                        2
-                    ],
+                    "location": [5, 2],
                     "direction": "Up"
                 },
                 {
                     "type": "Deploy",
                     "name": "“甜蜜狂搅”",
-                    "location": [
-                        10,
-                        3
-                    ],
+                    "location": [10, 3],
                     "direction": "Left"
                 }
             ],

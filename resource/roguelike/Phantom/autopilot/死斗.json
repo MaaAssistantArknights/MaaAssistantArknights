@@ -2,117 +2,52 @@
     "stage_name": "死斗",
     "replacement_home": [
         {
-            "location": [
-                1,
-                5
-            ],
+            "location": [1, 5],
             "direction": "up"
         },
         {
-            "location": [
-                2,
-                4
-            ],
+            "location": [2, 4],
             "direction": "up"
         },
         {
-            "location": [
-                3,
-                4
-            ],
+            "location": [3, 4],
             "direction": "up"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "棘刺",
-                "地面阻挡",
-                "情报官",
-                "回费",
-                "炮灰",
-                "银灰"
-            ],
-            "location": [
-                1,
-                4
-            ],
+            "groups": ["棘刺", "地面阻挡", "情报官", "回费", "炮灰", "银灰"],
+            "location": [1, 4],
             "direction": "up"
         },
         {
-            "groups": [
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                6,
-                4
-            ],
+            "groups": ["梓兰", "高台预备"],
+            "location": [6, 4],
             "direction": "up"
         },
         {
-            "groups": [
-                "奶",
-                "凯尔希",
-                "浊心斯卡蒂"
-            ],
-            "location": [
-                4,
-                4
-            ],
+            "groups": ["奶", "凯尔希", "浊心斯卡蒂"],
+            "location": [4, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "情报官",
-                "地面单切",
-                "炮灰",
-                "银灰",
-                "回费",
-                "史尔特尔"
-            ],
-            "location": [
-                1,
-                3
-            ],
+            "groups": ["地面阻挡", "情报官", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
+            "location": [1, 3],
             "direction": "up"
         },
         {
-            "groups": [
-                "高台C",
-                "高台输出",
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                2,
-                4
-            ],
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [2, 4],
             "direction": "up"
         },
         {
-            "groups": [
-                "高台C",
-                "高台输出",
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                3,
-                4
-            ],
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [3, 4],
             "direction": "up"
         }
     ],
     "blacklist_location": [
-        [
-            4,
-            2
-        ],
-        [
-            2,
-            1
-        ]
+        [4, 2],
+        [2, 1]
     ]
 }

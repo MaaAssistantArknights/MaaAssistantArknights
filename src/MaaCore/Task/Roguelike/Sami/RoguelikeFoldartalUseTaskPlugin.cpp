@@ -16,13 +16,10 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json
         return false;
     }
 
-    if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
-        Log.error("Roguelike name doesn't exist!");
+    if (m_config->get_theme() != RoguelikeTheme::Sami || !m_use_foldartal) {
         return false;
     }
-    if (m_config->get_theme() != RoguelikeTheme::Sami || !m_config->get_use_foldartal()) {
-        return false;
-    }
+
     auto mode = m_config->get_mode();
     std::string task_name_pre = m_config->get_theme() + "@Roguelike@Stage";
     const std::string& task = details.get("details", "task", "");
@@ -71,6 +68,18 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json
     else {
         return false;
     }
+}
+
+bool asst::RoguelikeFoldartalUseTaskPlugin::load_params(const json::value& params)
+{
+    if (m_config->get_theme() != RoguelikeTheme::Sami) {
+        return false;
+    }
+
+    // 是否使用密文版, 非CLP_PDS模式下默认为True, CLP_PDS模式下默认为False
+    m_use_foldartal = (params.get("use_foldartal", m_config->get_mode() != RoguelikeMode::CLP_PDS));
+
+    return true;
 }
 
 bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
@@ -164,11 +173,6 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(
                     list.erase(ranges::find(list, up_board));
                     list.erase(ranges::find(list, down_board));
                     Log.trace("Board pair used, up:", up_board, ", down:", down_board);
-                    
-                    if (m_clp_pd_plugin) {
-                        m_clp_pd_plugin->check_collapsal_paradigm_banner();
-                    }
-                    
                     break;
                 }
             }

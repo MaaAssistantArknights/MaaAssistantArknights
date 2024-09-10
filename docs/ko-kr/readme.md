@@ -5,9 +5,13 @@ dir:
   order: 0
 ---
 
+<!-- markdownlint-disable -->
+
 ::: center
 
-![MAA Logo](https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png =256x256)
+![MAA Logo](/image/maa-logo_512x512.png =256x256)
+
+<!-- markdownlint-restore -->
 
 # MaaAssistantArknights
 
@@ -45,41 +49,24 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 말로만 설명하기보다는 사진으로 보여드리겠습니다!
 
-<!-- markdownlint-disable -->
-
-<div class="image-ko-kr">
-  <img src="/image/ko-kr/readme/1-light.png" />
-  <img src="/image/ko-kr/readme/2-light.png" />
-</div>
-
-<style>
-  .image-ko-kr {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  .image-ko-kr > img {
-     box-sizing: border-box;
-     width: 50% !important;
-     padding: 9px;
-     border-radius: 16px;
-  }
-
-  @media (max-width: 419px){
-    .image-ko-kr > img {
-      width: 100% !important;
+```component Image2
+{
+  "imageList": [
+    {
+      "light": "image/ko-kr/readme/1-light.png",
+      "dark": "image/ko-kr/readme/1-light.png"
+    },
+    {
+      "light": "image/ko-kr/readme/2-light.png",
+      "dark": "image/ko-kr/readme/2-light.png"
     }
-  }
-</style>
-
-<!-- markdownlint-restore -->
+  ]
+}
+```
 
 ## 다운로드
 
-[안정 버전](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
-[베타 버전](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
+[Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## 사용 방법
 
@@ -117,7 +104,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 ### CLI지원
 
-MAA는 명령줄 인터페이스(CLI)를 지원하며, Linux,macOS 및 Window에서 사용할 수 있으며, 자동화 스크립트 작성 및 그래픽 인터페이스가 없는 서버에서 사용할 수 있습니다. [CLI 가이드](./manual/cli/intro.md)
+MAA는 명령줄 인터페이스(CLI)를 지원하며, Linux,macOS 및 Window에서 사용할 수 있으며, 자동화 스크립트 작성 및 그래픽 인터페이스가 없는 서버에서 사용할 수 있습니다. [CLI 가이드](./manual/cli/)
 
 ## 관련 프로젝트
 
@@ -138,7 +125,7 @@ MAA는 다국어를 지원하며, Weblate를 사용하여 로컬라이징을 관
 
 MAA는 중국어(간체)를 기본 언어로 하며, 번역 단어는 중국어(간체)를 기준으로 합니다.
 
-[![Weblate](https://weblate.maa-org.net/widgets/maa-assistant-arknights/zh_Hans/maa-wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa-assistant-arknights/zh_Hans/)
+[![Weblate](https://weblate.maa-org.net/widget/maa/wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa/)
 
 ### Windows
 
@@ -179,7 +166,7 @@ MAA는 중국어(간체)를 기본 언어로 하며, 번역 단어는 중국어(
 
 ### 개발에 기여를 원하지만, GitHub 사용이 어려운 경우?
 
-[GitHub Pull Request 가이드](./develop/pr-tutorial.md)
+[GitHub Pull Request 가이드](./develop/development.md#introduction-to-github-pull-request-flow)
 
 ### Issue bot
 
@@ -214,13 +201,13 @@ MAA는 중국어(간체)를 기본 언어로 하며, 번역 단어는 중국어(
 - ~~오퍼레이터/기반시설 데이터: [PRTS Arknights Wiki (Chinese)](http://prts.wiki/)~~
 - 스테이지 데이터: [Penguin Stats](https://penguin-stats.io/)
 - 게임 데이터/리소스: [Arknights Game Resource](https://github.com/yuanyan3060/ArknightsGameResource)
-- ~~게임 데이터: [Arknights Game Data](https://github.com/Kengxxiao/ArknightsGameData)~~
+- 게임 데이터: [Arknights Yostar Game Data](https://github.com/Kengxxiao/ArknightsGameData_YoStar)
 
 ### 기여자
 
 MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 감사드립니다! (\*´▽｀)ノノ
 
-[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=114514&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
+[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
 
 ## 주의사항
 
@@ -236,5 +223,3 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 [개발자 그룹 (QQ 그룹)](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 프로그램이 도움이 된다고 생각하시면 Star를 눌러주세요! (페이지 우측 상단의 작은 별) 저희에게 가장 큰 도움이 됩니다!
-
-<!-- markdownlint-disable-file MD034 MD041 -->

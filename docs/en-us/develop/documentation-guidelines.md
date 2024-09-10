@@ -9,7 +9,7 @@ icon: jam:write-f
 The purpose of this document is to guide document writers to better utilize the functionalities provided by the theme, thus achieving a more readable effect.
 :::
 
-Our documentation is built on [vuepress](https://github.com/vuejs/vuepress) and utilizes the [vuepress-theme-hope](https://github.com/vuepress-theme-hope/vuepress-theme-hope) theme. You can also refer to the [official documentation](https://theme-hope.vuejs.press/en/) for more detailed explanations. Here, we only introduce some common functionalities.
+Our documentation is built on [vuepress](https://github.com/vuejs/vuepress) and utilizes the [vuepress-theme-hope](https://github.com/vuepress-theme-hope/vuepress-theme-hope) theme. You can also refer to the [official documentation](https://theme-hope.vuejs.press/) for more detailed explanations. Here, we only introduce some common functionalities.
 
 ## Deploy Locally
 
@@ -107,9 +107,9 @@ You can use the `<HopeIcon />` component to add icons in markdown. This componen
 <HopeIcon icon="ic:round-home" color="#1f1e33"/>
 ```
 
-<HopeIcon icon="https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png" size="4rem" />
+<HopeIcon icon="/image/maa-logo_512x512.png" size="4rem" />
 ```markdown
-<HopeIcon icon="https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png" size="4rem" />
+<HopeIcon icon="/image/maa-logo_512x512.png" size="4rem" />
 ```
 :::
 

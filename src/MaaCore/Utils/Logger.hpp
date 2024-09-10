@@ -248,33 +248,34 @@ private:
 };
 } // namespace detail
 
-class toansi_ostream
+class console_ostream
 {
     std::reference_wrapper<std::ostream> m_ofs;
 
 public:
-    toansi_ostream(toansi_ostream&&) = default;
-    toansi_ostream(const toansi_ostream&) = default;
-    toansi_ostream& operator=(toansi_ostream&&) = default;
-    toansi_ostream& operator=(const toansi_ostream&) = default;
+    console_ostream(console_ostream&&) = default;
+    console_ostream(const console_ostream&) = default;
+    console_ostream& operator=(console_ostream&&) = default;
+    console_ostream& operator=(const console_ostream&) = default;
 
-    toansi_ostream(std::ostream& stream)
+    console_ostream(std::ostream& stream)
         : m_ofs(stream)
     {
     }
 
-    toansi_ostream(std::reference_wrapper<std::ostream> stream)
+    console_ostream(std::reference_wrapper<std::ostream> stream)
         : m_ofs(stream)
     {
     }
 
     template <typename T>
     requires has_stream_insertion_operator<std::ostream, T>
-    toansi_ostream& operator<<(T&& v)
+    console_ostream& operator<<(T&& v)
     {
 #ifdef _WIN32
         if constexpr (std::convertible_to<T, std::string_view>) {
-            m_ofs.get() << utils::utf8_to_ansi(std::forward<T>(v));
+            asst::utils::utf8_scope scope(m_ofs.get());
+            m_ofs.get() << std::forward<T>(v);
         }
         else {
             m_ofs.get() << std::forward<T>(v);
@@ -285,7 +286,7 @@ public:
         return *this;
     }
 
-    toansi_ostream& operator<<(std::ostream& (*pf)(std::ostream&))
+    console_ostream& operator<<(std::ostream& (*pf)(std::ostream&))
     {
         m_ofs.get() << pf;
         return *this;
@@ -582,7 +583,7 @@ public:
         }
         if constexpr (std::same_as<level, remove_cvref_t<T>>) {
 #ifdef ASST_DEBUG
-            return LogStream(m_trace_mutex, ostreams { toansi_ostream(std::cout), m_ofs }, arg);
+            return LogStream(m_trace_mutex, ostreams { console_ostream(std::cout), m_ofs }, arg);
 #else
             return LogStream(m_trace_mutex, m_ofs, arg);
 #endif
@@ -591,7 +592,7 @@ public:
 #ifdef ASST_DEBUG
             return LogStream(
                 m_trace_mutex,
-                ostreams { toansi_ostream(std::cout), m_ofs },
+                ostreams { console_ostream(std::cout), m_ofs },
                 level::trace,
                 arg);
 #else
@@ -669,7 +670,7 @@ public:
         (LogStream(
              std::move(lock),
 #ifdef ASST_DEBUG
-             ostreams { toansi_ostream(std::cout), m_ofs },
+             ostreams { console_ostream(std::cout), m_ofs },
 #else
              m_ofs,
 #endif

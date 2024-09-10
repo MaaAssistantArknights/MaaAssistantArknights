@@ -1,5 +1,5 @@
 ---
-order: 5
+order: 4
 icon: ph:question-fill
 ---
 
@@ -13,19 +13,3 @@ icon: ph:question-fill
 mkdir -p "$HOME/.config/maa"
 ln -s "$HOME/.config/maa" "$(maa dir config)"
 ```
-
-## 2. 运行过程中出现奇怪日志，如何关闭？
-
-MaaCore 的依赖 `fastdeploy` 会输出一些日志，因此你在运行 maa-cli 时可能会看到类似于下面的日志：
-
-```plaintext
-[INFO] ... /fastdeploy/runtime.cc(544)::Init Runtime initialized with Backend::ORT in Device::CPU.`
-```
-
-这个日志是由 `fastdeploy` 输出的，对于官方预编译的 MaaCore，这个日志无法关闭。但是如果你是使用包管理器安装的 maa-cli，你可以尝试安装包管理器提供的 MaaCore。包管理器提供的 MaaCore 使用了较新版本的 `fastdeploy`，其日志默认是关闭的。
-
-## 3. 在 macOS 下使用 maa-cli 启动的 PlayCover 游戏客户端，无法代理作战且肉鸽无法结算
-
-由于未知原因，通过终端启动的 PlayCover 游戏客户端无法代理作战，且肉鸽无法结算。但是该状况仅限于通过终端运行的 maa-cli。因此如果你是在终端交互使用，那么你可能需要手动启动游戏。如果你是通过 cron 等方式运行 maa-cli，那么该问题不会影响你的使用。
-
-<!-- markdownlint-disable-file MD013 -->

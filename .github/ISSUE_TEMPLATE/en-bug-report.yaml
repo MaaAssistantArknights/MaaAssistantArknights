@@ -2,32 +2,35 @@ name: Bug Report (in English)
 description: >-
   Recognition errors, operation abnormalities,
   connection errors, etc.
-labels: ['bug']
+labels: ["bug"]
 body:
   - type: checkboxes
     id: checks
     attributes:
       label: Before raising the issue...
+      description: |
+        Please ensure that you have completed the requirements before checking the box.
       options:
-      - label: >-
-          I understand that Issues are for feedback and problem solving,
-          not trolling the comments section, and will provide as
-          much information as possible to help solve the problem.
-        required: true
-      - label: >-
-          I filled in a short, clear title
-          so that developers could quickly identify the general problem
-          when going through the issue list.
-          Instead of "Some suggestions", "Stuck", etc.
-        required: true
-      - label: >-
-          I have checked the latest beta update and there is no mention
-          of the bug being fixed.
-        required: true
-      - label: >-
-          I have reviewed the pinned issues and confirmed that my issue
-          is not mentioned.
-        required: true
+        - label: >-
+            I understand that Issues are for feedback and problem solving,
+            not trolling the comments section, and will provide as
+            much information as possible to help solve the problem.
+          required: true
+        - label: >-
+            I filled in a short, clear title
+            so that developers could quickly identify the general problem
+            when going through the issue list.
+            Instead of "Some suggestions", "Stuck", etc.
+          required: true
+        - label: >-
+            I am using the latest version of the current update and have reviewed
+            both the updates released so far and the unreleased changes in the Pull Requests,
+            there is no mention of the bug being fixed.
+          required: true
+        - label: >-
+            I have reviewed the Pinned issue (Announcements), Open issues, and Closed issues
+            to ensure that my issue has not been mentioned.
+          required: true
   - type: textarea
     id: describe
     attributes:
@@ -45,26 +48,46 @@ body:
         Resource Version:
         UI Version:
         Core Version:
+        OR
+        Resource Version:
+        MAA Version:
     validations:
       required: true
   - type: textarea
     id: logs
     attributes:
-      label: Log files
+      label: Log and config files
       description: >-
-        **After closing the MAA, upload the `asst.log` and `gui.log` log file in the `debug` folder and**
-        **indicate the approximate point in time when the problem occurred.**
-
+        **After closing MAA, upload the following three files:**
+        1. The `asst.log` and `gui.log` log file in the `debug` folder, and indicate the approximate point in time when the problem occurred.
+           If the asst.log file is less than 10 KB, you also need to upload the asst.log.bak file.
+        2. The `gui.json` config file in the `config` folder
         **Please drag and drop the full file in, not your own cuttings or copies;**
         **compress it before uploading if too large.**
+      placeholder: |
+        Please confirm that MAA is not running before uploading files.
+    validations:
+      required: true
+  - type: textarea
+    id: configuration
+    attributes:
+      label: Configuration information
+      description: |
+        Please specify the operating system and version, emulator brand, emulator resolution, DPI, and frame rate;
+        If you are using MuMu 12, please specify whether MuMu Screenshot Enhancement is enabled;
+        Finally, please specify whether GPU accelerated inference is enabled, and if so, provide the GPU model.
     validations:
       required: true
   - type: textarea
     id: screenshots
     attributes:
-      label: Screenshots
+      label: Screenshots or recordings
       description: >-
-        If available, add screenshots to help explain your problem,
+        In the `debug` directory, within the functionally categorized folders, 
+        there are some error images captured automatically.
+        If related to this issue, please upload them together.
+
+        If available, upload screenshots and recordings to help explain your problem,
         including but not limited to screenshots of MAA software,
         screenshots of game screens.
 
@@ -72,11 +95,11 @@ body:
         the **original image** taken by the emulator's own screenshot tool
         (or via adb).
 
-        Screenshots taken with other tools may contain the frames of the window/emulator, which makes it harder for us to debug.
+        Screenshots taken with other tools may contain the frames of the window/emulator
+        and their aspect ratio and resolution are inconsistent,
+        which makes it harder for us to debug.
 
-        The `debug` folder has some automatic screenshots of the error images,
-        if you have any,
-        please upload them together.
+        If the file siz is too large, you may compress it before uploading.
 
     validations:
       required: false
@@ -84,11 +107,7 @@ body:
     id: others
     attributes:
       label: Anthing else?
-      description: >-
-        Emulator used, operating system, related configuration, links,
-        reference material, etc.
-
-        Anything that will give us more insight into the problem
-        you are having.
+      description: |
+        Anything that will give us more insight into the problem you are having.
     validations:
       required: false

@@ -915,7 +915,7 @@
         "classifyType": "NORMAL",
         "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
         "icon": "LINKAGE_TKT_GACHA_10_1701.png",
-        "name": "Elite Forces Headhunting Permit",
+        "name": "Expert Headhunting Permit",
         "sortId": 40003,
         "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
     },
@@ -932,6 +932,14 @@
         "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
         "icon": "LINKAGE_TKT_GACHA_10_3602.png",
         "name": "Collaboration Limited Ten-roll Headhunting Permit",
+        "sortId": 40003,
+        "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
+    },
+    "LINKAGE_TKT_GACHA_10_4801": {
+        "classifyType": "NORMAL",
+        "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
+        "icon": "LINKAGE_TKT_GACHA_10_4801.png",
+        "name": "Expert Headhunting Permit",
         "sortId": 40003,
         "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
     },
@@ -1037,6 +1045,14 @@
         "icon": "LMTGS_COIN_4401.png",
         "name": "Headhunting Data Contract",
         "sortId": 10022,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
+    "LMTGS_COIN_4701": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_4701.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10023,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_601": {
@@ -1639,6 +1655,22 @@
         "sortId": -10000,
         "usage": "Burdenbeast Blind Boxes—such a smash hit, Onboard Services ran out of stock for a time. That means this batch couldn't have come sooner, and the train attendants will be delighted to trade other goods for it."
     },
+    "act31side_token_box": {
+        "classifyType": "NONE",
+        "description": "The newest fruit borne of the Dahuang Tianshi Bureau's research. Simple to control, resiliently mobile. Sample-taking and soil monitoring are among its many functions. Naughty children occasionally make off with them to use in 'fowl fights.'",
+        "icon": "act31side_token_box.png",
+        "name": "Sky Pole",
+        "sortId": -10000,
+        "usage": "An agricultural drone developed by the Tianshi Bureaus, which people occasionally leave lying in the fields after they malfunction. If you pick any up, you can exchange them for goods at Shennong Market."
+    },
+    "act32side_token_stamp": {
+        "classifyType": "NONE",
+        "description": "Upon seeing these cards, Tecno indifferently thumbs at a row of halved radishes in the corner of her workshop, each cross-section dyed through in seal ink and ready to go.",
+        "icon": "act32side_token_stamp.png",
+        "name": "Galería Stamp Card",
+        "sortId": -10000,
+        "usage": "A card for the Galería stamp rally. The more stamps, the more prizes you get. Despite each and every card bearing the limited-daily ultra-rare secret stamps, Reynell will still gladly exchange them for goods. In his words, 'my small token of respect to our anonymous seal-forger supreme.'"
+    },
     "act38d1_token_coin": {
         "classifyType": "NONE",
         "description": "A chunk of flawless Originium crystal. The Sanctuary considers it a precious treasure.",
@@ -1659,6 +1691,22 @@
         "classifyType": "NONE",
         "description": "An encrypted data block. Always remember, the conversion of information often entails unavoidable wear. Make good use of your information storage devices, but do not depend on them.",
         "icon": "act3bossrush_token_relic.png",
+        "name": "Data Blackbox",
+        "sortId": -10000,
+        "usage": "Used to perform Data Iteration on Limiter Units."
+    },
+    "act4bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
+        "icon": "act4bossrush_milestone_point.png",
+        "name": "Trial EXP",
+        "sortId": -10000,
+        "usage": "Experience gained from finished trials. Upgrades trial levels."
+    },
+    "act4bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "An encrypted data block. Always remember, the conversion of information often entails unavoidable wear. Make good use of your information storage devices, but do not depend on them.",
+        "icon": "act4bossrush_token_relic.png",
         "name": "Data Blackbox",
         "sortId": -10000,
         "usage": "Used to perform Data Iteration on Limiter Units."
@@ -1790,70 +1838,6 @@
         "name": "Emergency Sanity Concentrate",
         "sortId": 30001,
         "usage": "A large dose of concentrated emergency supplement used to maintain Sanity. New active ingredients, same instant results. Possible side effect: disruption of biological clock. Please read carefully before administering."
-    },
-    "ap_supply_lt_120_2022_1": {
-        "classifyType": "CONSUME",
-        "description": "A crisp, flaky mooncake in golden brown, liable to stir anyone's appetite.",
-        "icon": "ap_supply_lt_120_2022_1.png",
-        "name": "Full Color",
-        "sortId": 30001,
-        "usage": "A flaky mooncake filled with perky sweet ground meat. Can be used to restore Sanity."
-    },
-    "ap_supply_lt_120_2022_2": {
-        "classifyType": "CONSUME",
-        "description": "A crisp, flaky mooncake in golden brown, liable to stir anyone's appetite.",
-        "icon": "ap_supply_lt_120_2022_2.png",
-        "name": "Full Moon",
-        "sortId": 30001,
-        "usage": "A flaky mooncake filled with frankincense Yunnan ham. Can be used to restore Sanity."
-    },
-    "ap_supply_lt_120_2022_3": {
-        "classifyType": "CONSUME",
-        "description": "A tender, sugary mooncake with a glossy sheen, prone to making anyone drool at the mouth.",
-        "icon": "ap_supply_lt_120_2022_3.png",
-        "name": "Smiley Face",
-        "sortId": 30001,
-        "usage": "A glazed mooncake filled with rose red bean paste. Can be used to restore Sanity."
-    },
-    "ap_supply_lt_120_2022_4": {
-        "classifyType": "CONSUME",
-        "description": "A tender, sugary mooncake with a glossy sheen, prone to making anyone drool at the mouth.",
-        "icon": "ap_supply_lt_120_2022_4.png",
-        "name": "Osmanthus",
-        "sortId": 30001,
-        "usage": "A glazed mooncake filled with spicy and salty nuts. Can be used to restore Sanity."
-    },
-    "ap_supply_lt_120_2023_1": {
-        "classifyType": "CONSUME",
-        "description": "A tasty and refreshing snowskin mooncake. Remember to properly refrigerate!",
-        "icon": "ap_supply_lt_120_2023_1.png",
-        "name": "'Radiant Courtyard'",
-        "sortId": 30001,
-        "usage": "A snowskin mooncake filled with mango and shredded coconut. Can be used to restore Sanity."
-    },
-    "ap_supply_lt_120_2023_2": {
-        "classifyType": "CONSUME",
-        "description": "A tasty and refreshing snowskin mooncake. Remember to properly refrigerate!",
-        "icon": "ap_supply_lt_120_2023_2.png",
-        "name": "'Clear Nights'",
-        "sortId": 30001,
-        "usage": "A snowskin mooncake filled with meat floss. Can be used to restore Sanity."
-    },
-    "ap_supply_lt_120_2023_3": {
-        "classifyType": "CONSUME",
-        "description": "A sweet and crisp glazed mooncake. Remember to heat prior to consumption!",
-        "icon": "ap_supply_lt_120_2023_3.png",
-        "name": "'Fragrant Osmanthus'",
-        "sortId": 30001,
-        "usage": "A glazed mooncake filled with bean paste and sweet osmanthus. Can be used to restore Sanity."
-    },
-    "ap_supply_lt_120_2023_4": {
-        "classifyType": "CONSUME",
-        "description": "A sweet and crisp glazed mooncake. Remember to heat prior to consumption!",
-        "icon": "ap_supply_lt_120_2023_4.png",
-        "name": "'Shrouded Golden Waves'",
-        "sortId": 30001,
-        "usage": "A glazed mooncake filled with salted egg yolk. Can be used to restore Sanity."
     },
     "ap_supply_lt_60": {
         "classifyType": "CONSUME",
@@ -2318,6 +2302,14 @@
         "name": "Ecological Specimens",
         "sortId": -10000,
         "usage": null
+    },
+    "sandbox_1_tokencoin": {
+        "classifyType": "NONE",
+        "description": "Each bead of sweat shed upon the barren ground will one day bear witness to the prospering of Terran civilization.",
+        "icon": "sandbox_1_tokencoin.png",
+        "name": "Prosperity Point",
+        "sortId": -10000,
+        "usage": "A voucher that can be exchanged for rewards at 'Gift of Prosperity'."
     },
     "token_Obsidian": {
         "classifyType": "NONE",

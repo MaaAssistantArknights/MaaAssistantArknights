@@ -11,8 +11,8 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System;
 using System.Threading.Tasks;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Stylet;
@@ -26,7 +26,7 @@ namespace MaaWpfGui.ViewModels.UI
     // ReSharper disable once ClassNeverInstantiated.Global
     public class AnnouncementViewModel : Screen
     {
-        private string _announcementInfo = ConfigurationHelper.GetValue(ConfigurationKeys.AnnouncementInfo, string.Empty);
+        private string _announcementInfo = ConfigFactory.Root.AnnouncementInfo.Info;
 
         /// <summary>
         /// Gets the announcement info.
@@ -38,11 +38,11 @@ namespace MaaWpfGui.ViewModels.UI
             private set
             {
                 SetAndNotify(ref _announcementInfo, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AnnouncementInfo, value);
+                ConfigFactory.Root.AnnouncementInfo.Info = value;
             }
         }
 
-        private bool _doNotRemindThisAnnouncementAgain = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DoNotRemindThisAnnouncementAgain, bool.FalseString));
+        private bool _doNotRemindThisAnnouncementAgain = ConfigFactory.Root.AnnouncementInfo.DoNotShowAgain;
 
         public bool DoNotRemindThisAnnouncementAgain
         {
@@ -50,11 +50,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _doNotRemindThisAnnouncementAgain, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.DoNotRemindThisAnnouncementAgain, value.ToString());
+                ConfigFactory.Root.AnnouncementInfo.DoNotShowAgain = value;
             }
         }
 
-        private bool _doNotShowAnnouncement = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DoNotShowAnnouncement, bool.FalseString));
+        private bool _doNotShowAnnouncement = ConfigFactory.Root.AnnouncementInfo.DoNotShow;
 
         /// <summary>
         /// Gets or sets a value indicating whether to show the update.
@@ -65,7 +65,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _doNotShowAnnouncement, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.DoNotShowAnnouncement, value.ToString());
+                ConfigFactory.Root.AnnouncementInfo.DoNotShow = value;
             }
         }
 

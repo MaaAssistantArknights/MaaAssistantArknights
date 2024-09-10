@@ -5,7 +5,9 @@ icon: bxs:bot
 
 # Issue Botの使う方
 
-Issue Botのアクションは[issue-checker](https://github.com/zzyyyl/issue-checker)になっており、設定ファイルである[issue-checker.yml](.github/issue-checker.yml)を利用します。
+Issue Botのアクションは[issue-checker](https://github.com/zzyyyl/issue-checker)になっており、設定ファイルである[issue-checker.yml][issue-checker]を利用します。
+
+[issue-checker]: https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml
 
 ::: warning
 Commitizenの仕様でコミットしていない場合、マージリクエストは`ambiguous`とマークされることに注意してください。
@@ -17,7 +19,7 @@ Commitizenの仕様でコミットしていない場合、マージリクエス�
 
 - `module`, `Client`, `ambiguous`, `translation required`などのラベルを Issue および Pull Request に追加します。  
   Issue Botは、キーワードを元にカテゴリーを追加します。  
-  キーワードは[設定ファイル](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml)を確認して下さい。
+  キーワードは[設定ファイル][issue-checker]を確認して下さい。
 - 作成者が可視性がパブリックに設定されている MAA メンバーであるの Issue と Pull Request の場合、`MAA Team`ラベルを追加しました。
 
 #### Issuesとコメント

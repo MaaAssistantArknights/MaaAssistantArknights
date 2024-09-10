@@ -5,11 +5,7 @@ icon: mdi:plug
 
 # 연결 설정
 
-:::note
-에뮬레이터가 아닌 실제 디바이스의 경우 [Android 디바이스 지원](./device/android.md)을 참고하세요.
-:::
-
-## ADB  경로
+## ADB 경로
 
 :::info 기술적 정보
 자동 감지는 에뮬레이터의 ADB를 사용하지만, 자동 감지에 문제가 있을 경우 수동 설정이 필요합니다.
@@ -57,7 +53,7 @@ MAA 폴더에 직접 압축을 푸는 것을 권장합니다. 그러면 ADB 경�
 - Bluestacks 5 에뮬레이터 설정 내에서 현재 멀티 인스턴스 포트를 확인할 수 있습니다.
 - *추가 예정*
 
-#### 대체 방법
+::: details 대체 방법
 
 - 방법 1: adb 명령어로 에뮬레이터 포트 확인
 
@@ -89,6 +85,8 @@ MAA 폴더에 직접 압축을 푸는 것을 권장합니다. 그러면 ADB 경�
   3. `네트워크` 탭으로 전환하고, 수신 대기 포트의 이름 열에서 에뮬레이터 프로세스명을 찾습니다. 예: `HD-Player.exe`.
   4. 에뮬레이터 프로세스의 모든 수신 대기 포트를 기록합니다.
   5. `TCP 연결`의 목록에서 `adb.exe`를 찾아, 원격 포트 열에서 에뮬레이터 수신 대기 포트와 일치하는 포트를 에뮬레이터 디버깅 포트로 사용합니다.
+
+:::
 
 ### Bluestacks 에뮬레이터 Hyper-V 포트 번호 변경
 
@@ -156,14 +154,89 @@ MAA는 이제 레지스트리에서 `bluestacks.conf`의 저장 위치를 읽어
 
 자세한 차이점은 [소스 코드](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L68)를 참조하세요.
 
+### MuMu 스크린샷 강화 모드
+
+중국 공식판 또는 Ark Edition MuMu 12 V4.0.0 및 이후 버전만 지원하며, MuMu의 백그라운드 유지 기능을 끕니다. 글로벌 에디션은 현재 지원되지 않습니다. <!-- V3.8.13 -->
+
+1. 설정 → 연결 설정에서 `MuMu 스크린샷 강화 모드 활성화`를 체크합니다.
+
+2. MuMu 에뮬레이터 경로에 `MuMuPlayer-12.0` 또는 `YXArkNights-12.0` 폴더의 경로를 입력합니다. 예: `C:\Program Files\Netease\MuMuPlayer-12.0`.
+
+3. `인스턴스 번호`에 MuMu 멀티플레이어에서 해당 에뮬레이터의 일련 번호를 입력합니다. 예: 주 멀티플레이어의 경우 `0`.
+
+4. `인스턴스 화면`에 `0`을 입력합니다.
+
+#### MuMu의 백그라운드 유지 기능에 대하여
+
+이 기능을 끄는 것이 좋으며, 이때 인스턴스 화면은 항상 `0`이 됩니다.
+
+기능이 켜져 있을 때 MuMu 에뮬레이터 탭의 순서는 인스턴스 화면의 인덱스 번호가 됩니다. 예: 에뮬레이터 데스크탑의 경우 `0`, 명일방주 클라이언트의 경우 `1`.
+
+백그라운드 유지 기능의 적응도는 매우 불완전하며, 다양한 문제를 유발할 수 있으므로 사용을 권장하지 않습니다.
+
 ## 터치 모드
 
 1. [Minitouch](https://github.com/DeviceFarmer/minitouch): C로 작성된 Android 터치 이벤트 핸들러로, 외부 프로그램이 터치 이벤트와 제스처를 트리거할 수 있는 소켓 인터페이스를 제공합니다. Android 10부터는 SELinux가 `Enforcing` 모드일 때 Minitouch가 더 이상 사용되지 않습니다.
-2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch):  MAA가 Java 기반으로 Minitouch를 재구현한 것입니다. 높은 버전의 Android에서도 사용 가능성이 테스트 중입니다.
-3. Adb Input: ADB 명령어를 직접 호출하여 터치 작업을 수행하며, 호환성이 가장 좋고 속도는 가장 느립니다.
+2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch): MAA가 Java 기반으로 Minitouch를 재구현한 것입니다. 높은 버전의 Android에서도 사용 가능성이 테스트 중입니다.
+3. Adb Input: ADB 명령어를 직접 호출하여 터치 작업을 수행하며, 호환성이 가장 좋지만, 속도는 가장 느립니다.
 
 ## ADB Lite
 
 MAA가 독립적으로 구현한 ADB 클라이언트로, 원본 ADB와 비교했을 때 여러 ADB 프로세스를 계속해서 실행하지 않아도 되지만, 일부 스크린샷 방식은 사용할 수 없습니다.
 
 활성화하는 것을 권장하지만, 구체적인 장단점은 피드백이 필요합니다. ~~테스트를 도와주세요~~
+
+## MAA와 에뮬레이터의 멀티 인스턴스
+
+::: info
+멀티 인스터스를 사용해 여러 에뮬레이터를 동시에 작동해야 하는 경우, MAA 폴더를 여러 번 복사한 후 **다른 MAA**, **같은 adb.exe**, **다른 연결 주소**를 사용하여 연결할 수 있습니다.
+:::
+
+### 멀티 인스턴스 에뮬레이터의 자동 시작
+
+  [BlueStacks의 글로벌 버전](./device/windows.md)을 예로 들어, 여러 에뮬레이터를 시작하는 두 가지 방법을 소개합니다.
+
+#### 추가 명령어를 통해 시작
+
+1. 하나의 에뮬레이터를
+2. 작업 관리자를 열고, 해당 에뮬레이터 프로세스를 찾아 `세부 정보` 탭으로 이동한 후, 상단의 열을 우클릭하고 `열 선택`을 클릭하여 `명령줄`을 체크합니다
+3. 새로 추가된 `명령줄` 열에서 `"...\Bluestacks_nxt\HD-Player.exe"` 이후의 내용을 찾습니다.
+4. 찾은 내용을 `--instance Nougat32`와 같이 `시작 설정` - `추가 명령어`에 입력합니다.
+
+::: note 참고
+작업이 완료된 후, `2단계`에서 열었던 `명령줄` 열을 숨겨 프리징을 방지하는 것이 좋습니다.
+:::
+
+::: details 예시
+
+```text
+멀티 인스턴스 1:
+에뮬레이터 경로: C:\Program Files\BlueStacks_nxt\HD-Player.exe
+추가 명령어: --instance Nougat32 --cmd launchApp --package "com.hypergryph.arknights"
+멀티 인스턴스 2:
+에뮬레이터 경로: C:\Program Files\BlueStacks_nxt\HD-Player.exe
+추가 명령어: --instance Nougat32_1 --cmd launchApp --package "com.hypergryph.arknights.bilibili"
+```
+
+`--cmd launchApp --package` 부분은 시작 후 지정된 패키지 이름의 애플리케이션을 자동으로 실행하며, 필요에 따라 변경할 수 있습니다.
+:::
+
+### 에뮬레이터의 바로가기를 통해 시작
+
+일부 에뮬레이터는 앱 바로가기를 생성할 수 있으며, 이를 통해 에뮬레이터를 직접 시작하고 앱 바로가기로 명일방주를 실행할 수 있습니다.
+
+1. 멀티 인스턴스 관리자를 열고 해당 에뮬레이터의 바로가기를 추가합니다.
+2. `시작 설정` - `에뮬레이터 경로`에 에뮬레이터 바로가기의 경로를 입력합니다.
+
+::: details 예시
+
+```text
+멀티 인스턴스 1:
+에뮬레이터 경로: C:\ProgramData\Microsoft\Windows\Start Menu\Programs\BlueStacks\Multi-instance 1.lnk
+멀티 인스턴스 2:
+에뮬레이터 경로: C:\ProgramData\Microsoft\Windows\Start Menu\Programs\BlueStacks\Multi-instance 2 - Arknights.lnk
+```
+
+:::
+
+멀티 인스턴스 작업에 `에뮬레이터 경로`를 사용할 경우, `시작 설정`의 `추가 명령어`는 비워 두는 것이 좋습니다.

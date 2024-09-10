@@ -57,7 +57,6 @@ namespace MaaWpfGui.Helper
 
         // 这玩意有用吗？
         // ReSharper disable once UnusedMember.Local
-
         private static INotificationPoster _notificationPoster;
 
         private static readonly string _openUrlPrefix;
@@ -97,6 +96,7 @@ namespace MaaWpfGui.Helper
             {
                 return new NotificationImplWinRT();
             }
+
             return new NotificationImplWpf();
         }
 
@@ -132,10 +132,13 @@ namespace MaaWpfGui.Helper
 
         private static void OnActionActivated(object sender, string tag)
         {
-            if (tag.StartsWith(_openUrlPrefix)) {
+            if (tag.StartsWith(_openUrlPrefix))
+            {
                 var url = tag.Substring(_openUrlPrefix.Length);
                 Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
-            } else {
+            }
+            else
+            {
                 ActionActivated?.Invoke(sender, tag);
             }
         }

@@ -256,7 +256,7 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
     RegionOCRer analyzer(m_image_resized);
     analyzer.set_task_info("NumberOcrReplace");
     analyzer.set_roi(ocr_roi);
-    analyzer.set_bin_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
+    analyzer.set_bin_threshold(task_ptr->special_params[0], task_ptr->special_params[1]);
 
     if (!analyzer.analyze()) {
         return 0;

@@ -28,6 +28,10 @@ on:
       - "!**/*.md"
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   meta:
     runs-on: ubuntu-latest
@@ -184,6 +188,8 @@ jobs:
     strategy:
       matrix:
         arch: [aarch64, x86_64]
+    permissions:
+      actions: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -199,8 +205,6 @@ jobs:
 
       - name: Setup ccache
         uses: Chocobo1/setup-ccache-action@v1
-        with:
-          remove_stale_cache: false
 
       - name: Bootstrap MaaDeps
         env:
@@ -270,9 +274,9 @@ jobs:
           cp -v tools/AppImage/io.github.maaassistantarknights.maaassistantarknights.metainfo.xml Maa.AppDir/usr/share/metainfo/
           wget "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
           # appimagetool with embedded runtime does not support cross build, till AppImage/appimagetool 7a10b8
-          wget "https://github.com/AppImage/type2-runtime/releases/download/continuous/runtime-${{ matrix.arch }}"
+          wget "https://github.com/AppImage/type2-runtime/releases/download/old/runtime-fuse3-${{ matrix.arch }}"
           chmod a+x appimagetool-x86_64.AppImage
-          ARCH=${{ matrix.arch }} ./appimagetool-x86_64.AppImage --runtime-file runtime-${{ matrix.arch }} Maa.AppDir
+          ARCH=${{ matrix.arch }} ./appimagetool-x86_64.AppImage --runtime-file runtime-fuse3-${{ matrix.arch }} Maa.AppDir
           chmod a+x MaaAssistantArknights-${{ matrix.arch }}.AppImage
           mv -v MaaAssistantArknights-${{ matrix.arch }}.AppImage $GITHUB_WORKSPACE/release/MAA-${{ needs.meta.outputs.tag }}-linux-${{ matrix.arch }}.AppImage
 
@@ -357,12 +361,34 @@ jobs:
           p12-file-base64: ${{ secrets.HGUANDL_SIGN_CERT_P12 }}
           p12-password: ${{ secrets.HGUANDL_SIGN_CERT_PASSWD }}
 
+      - name: Setup Xcode Toolchain
+        run: |
+          sudo xcode-select -s /Applications/Xcode_15.0.1.app/Contents/Developer
+
       - name: Build Universal Binaries
         run: |
           mkdir build
           for LIB_NAME in $(ls install-arm64); do
             lipo -create install-arm64/$LIB_NAME install-x86_64/$LIB_NAME -output build/$LIB_NAME
           done
+
+      - name: Archive Runtime Files
+        run: |
+          mkdir runtime && cd runtime
+          name='MAA-${{ needs.meta.outputs.tag }}-macos-runtime-universal'
+          mkdir "$name" && cd "$name"
+          cp -v ../../build/*.dylib .
+          ln -vs libonnxruntime*.dylib libonnxruntime.dylib
+          ln -vs libopencv_world4*.dylib libopencv_world4.dylib
+          cp -vr ../../resource .
+          cd .. || exit 1
+          zip -yrX9 "$name.zip" "$name"
+
+      - name: Upload MAA runtime to Github
+        uses: actions/upload-artifact@v4
+        with:
+          name: MAA-macos-runtime-universal
+          path: runtime/MAA-${{ needs.meta.outputs.tag }}-macos-runtime-universal.zip
 
       - name: Build XCFramework
         run: |
@@ -457,7 +483,7 @@ jobs:
           find . -type f | while read f; do mv -fvt . $f; done
 
       - name: Release to Github
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           body_path: CHANGELOG.md
           files: |

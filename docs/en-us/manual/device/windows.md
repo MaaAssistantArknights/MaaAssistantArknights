@@ -27,12 +27,12 @@ const fullySupport = shuffleArray([
     {
         name: 'Bluestacks 5',
         link: 'https://www.bluestacks.com/',
-        note: 'Fully compatible. Need to turn on `Allow ADB connections` in the emulator `Settings` - `Engine Settings`. Known to be compatible with Hyper-V.\n\n- Recommended to download [Offline Installer](https://support.bluestacks.com/hc/en-us/articles/4402611273485-BlueStacks-5-offline-installer) to avoid slow and bundled installation; recommend installing [Android 11](https://support.bluestacks.com/hc/en-us/articles/4402611273485-BlueStacks-5-offline-installer#:~:text=To%20install%20BlueStacks%205%20Android%2011) version; to uninstall it, please use the official [Uninstall Tool](https://support.bluestacks.com/hc/en-us/articles/360057724751-How-to-uninstall-BlueStacks-5-BlueStacks-X-and-BlueStacks-Services-completely-from-your-PC) to get rid of the residue.\n- If the adb port number keeps changing irregularly and is different every time you start it, it may be because your computer has [Hyper-V](https://support.bluestacks.com/hc/en-us/articles/4415238471053-System-requirements-for-BlueStacks-5-on-Hyper-V-enabled-Windows-10-and-11) enabled. MAA will now try to automatically read the port number within the Blue Stacker emulator configuration file, if this does not work/you have a need to multi-open/have more than one emulator kernel installed, please refer to the [Connection (TODO)](../connection.md#the-port-number-of-bluestack-emulator-hyper-v-is-different-every-time-it-is-started) to make changes. Since Hyper-V runs as administrator, operations that don\'t involve adb such as auto-shutdown of the emulator, auto-detect connection, etc. also need to run MAA as administrator.',
+        note: 'Fully compatible. Need to turn on `Allow ADB connections` in the emulator `Settings` - `Engine Settings`. Known to be compatible with Hyper-V.\n\n- Recommended to download [Offline Installer](https://support.bluestacks.com/hc/en-us/articles/4402611273485-BlueStacks-5-offline-installer) to avoid slow and bundled installation; recommend installing [Android 11](https://support.bluestacks.com/hc/en-us/articles/4402611273485-BlueStacks-5-offline-installer#:~:text=To%20install%20BlueStacks%205%20Android%2011) version; to uninstall it, please use the official [Uninstall Tool](https://support.bluestacks.com/hc/en-us/articles/360057724751-How-to-uninstall-BlueStacks-5-BlueStacks-X-and-BlueStacks-Services-completely-from-your-PC) to get rid of the residue.\n- If the adb port number keeps changing irregularly and is different every time you start it, it may be because your computer has [Hyper-V](https://support.bluestacks.com/hc/en-us/articles/4415238471053-System-requirements-for-BlueStacks-5-on-Hyper-V-enabled-Windows-10-and-11) enabled. MAA will now try to automatically read the port number within the Blue Stacker emulator configuration file, if this does not work/you have a need to multi-open/have more than one emulator kernel installed, please refer to the [Connection (TODO)](../connection.html#the-port-number-of-bluestack-emulator-hyper-v-is-different-every-time-it-is-started) to make changes. Since Hyper-V runs as administrator, operations that don\'t involve adb such as auto-shutdown of the emulator, auto-detect connection, etc. also need to run MAA as administrator.',
     },
     {
         name: 'MuMu Emulator 12',
         link: 'https://mumu.163.com/',
-        note: 'Fully compatible, with additional support for the [exclusive Extreme Control Mode](../connection.md#mumu-screenshot-enhanced-mode). Known to be compatible with Hyper-V.\n\n- The "Exit emulator when done" function may occasionally be abnormal, if you encounter it, please contact MuMu official for feedback;\n- If you are using MuMu 12 version 3.5.4 ~ 3.5.7, please disable the "Keep alive in the background" function in MuMu 12 Settings - Others. "Keep alive while hanging in the background" (see [Official Announcement](https://mumu.163.com/help/20230802/35047_1102450.html) for details);\n- You need to check the port information of the corresponding instance through the ADB button of MuMu 12 Multiple Opener when you open more than one instance, and change the port number of the connection address in MAA `Settings` - `Connection Settings` to the corresponding port.',
+        note: 'Fully compatible, with additional support for the [exclusive Extreme Control Mode](../connection.html#mumu-screenshot-enhanced-mode). Known to be compatible with Hyper-V.\n\n- The "Exit emulator when done" function may occasionally be abnormal, if you encounter it, please contact MuMu official for feedback;\n- If you are using MuMu 12 version 3.5.4 ~ 3.5.7, please disable the "Keep alive in the background" function in MuMu 12 Settings - Others. "Keep alive while hanging in the background" (see [Official Announcement](https://mumu.163.com/help/20230802/35047_1102450.html) for details);\n- You need to check the port information of the corresponding instance through the ADB button of MuMu 12 Multiple Opener when you open more than one instance, and change the port number of the connection address in MAA `Settings` - `Connection Settings` to the corresponding port.',
     },
     {
         name: 'LDPlayer',
@@ -48,11 +48,6 @@ const fullySupport = shuffleArray([
         name: 'Memu',
         link: 'https://www.xyaz.cn/',
         note: 'Fully compatible, but less tested.',
-    },
-    {
-        name: 'Google Play Games (Developer)',
-        link: 'https://developer.android.com/games/playgames/emulator?hl=zh-cn',
-        note: 'Fully compatible, but less tested. Hyper-V must be turned on and you must be logged into a Google account.',
     },
 ]);
 
@@ -71,6 +66,11 @@ const partiallySupport = shuffleArray([
         name: 'AVD',
         link: 'https://developer.android.com/studio/run/managing-avds',
         note: 'Theoretical support.\n\n- Starting from Android 10, Minitouch is no longer available when SELinux is in `Enforcing` mode, please switch to other touch modes, or switch SELinux **temporary** to `Permissive` mode.\n- AVD is made for debugging, it is more recommended to use other emulators designed for gaming.',
+    },
+    {
+        name: 'Google Play Games (Developer)',
+        link: 'https://developer.android.com/games/playgames/emulator?hl=zh-cn',
+        note: 'Theoretical support. Hyper-V must be enabled, and a Google account must be logged in.\n\n- You need to use [custom connection](../connection.html) to connect, the ADB port is `6520`.\n- Due to the SELinux policy of Android 10 and later versions, Minitouch cannot work properly, please switch to other touch modes.\n- The first connection after each emulator startup will fail, you need to check `Attempt to kill and restart ADB process after connection failure`.',
     },
 ]);
 

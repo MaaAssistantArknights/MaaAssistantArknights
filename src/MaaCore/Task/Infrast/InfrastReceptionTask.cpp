@@ -128,6 +128,7 @@ bool asst::InfrastReceptionTask::proc_clue_vacancy()
         }
         sort_by_horizontal_(*clue_result_opt);
         ctrler()->click(clue_result_opt->back().rect);
+        delay = Task.get("InfrastClue")->post_delay;
         sleep(delay);
     }
     return true;

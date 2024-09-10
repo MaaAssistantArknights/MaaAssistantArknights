@@ -47,10 +47,16 @@ namespace MaaWpfGui.Services.Managers
         WindowState GetWindowState();
 
         /// <summary>
-        /// Sets whether to minimize to taskBar.
+        /// Sets whether to minimize to tray.
         /// </summary>
-        /// <param name="shouldMinimizeToTaskBar">Whether to minimize to taskBar.</param>
-        void SetMinimizeToTaskBar(bool shouldMinimizeToTaskBar);
+        /// <param name="shouldMinimizeToTray">Whether to minimize to taskBar.</param>
+        void SetMinimizeToTray(bool shouldMinimizeToTray);
+
+        /// <summary>
+        /// Sets whether to use the tray icon.
+        /// </summary>
+        /// <param name="useTrayIcon">Whether to use the tray icon.</param>
+        void SetUseTrayIcon(bool useTrayIcon);
 
         /// <summary>
         /// Get the main window if it is visible.

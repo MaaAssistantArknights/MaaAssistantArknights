@@ -52,8 +52,8 @@ This page is outdated and maybe still in Simplified Chinese. Translation is need
   - 当期 SS 活动 后三关。在自动访问 [API](https://ota.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) 下载更新后会在界面下方显示。
   - 复刻的 SS 活动。输入 `SSReopen-<关卡前缀>` ，可一次性刷完 XX-1 ~ XX-9 关，如 `SSReopen-IC`。
 
-::: details 示例画面
-![示例画面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/assets/99072975/2d466efd-142a-4c28-9b2f-06caa08ef9f4)
+::: details 画面例
+![画面例](/image/ja-jp/combat-start-interface-example.png)
 :::
 
 ### 剿灭模式

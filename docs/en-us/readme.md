@@ -5,10 +5,13 @@ dir:
   order: 0
 ---
 
+<!-- markdownlint-disable -->
+
 ::: center
 
-![MAA Logo](https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png =256x256)
+![MAA Logo](/image/maa-logo_512x512.png =256x256)
 
+<!-- markdownlint-restore -->
 # MaaAssistantArknights
 
 ![C++](https://img.shields.io/badge/C++-20-%2300599C?logo=cplusplus)
@@ -31,19 +34,19 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿
 ## Features
 
 - Auto-battle, drop items recognition, auto-uploading to [Penguin Stats](https://penguin-stats.io/), [Yituliu](https://ark.yituliu.cn/).
-- Auto-shifting in the Base, auto efficiency calculation of operators, optimal solution in single room; also supports [customized schedule](./protocol/base-scheduling-schema.md).
+- Auto-shifting in the Base, auto efficiency calculation of operators, optimal solution in a single room; also supports [customized schedule](./protocol/base-scheduling-schema.md).
 - Auto-recruitment, support for expedited plan. Auto-uploading recruitment data to [Penguin Stats](https://penguin-stats.io/result/stage/recruit/recruit), [Yituliu](https://ark.yituliu.cn/survey/maarecruitdata).
 - Supports manual identification of the public recruitment interface to facilitate selection of high-star public recruitment.
 - Supports identifying operator lists, counting existing and unavailable operators and their potential, and displaying them in the open recruitment identification interface.
-- Depot recognition and upports exporting to [Penguin Stats Planner](https://penguin-stats.cn/planner)、[Arknight Tools](https://arkntools.app/#/material)、[ARK-NIGHTS Operator Builds](https://ark-nights.com/settings).
-- Visiting friends, collecting credits and purchasing items, collecting daily rewards, completing daily quests in one click!
+- Depot recognition and supports exporting to [Penguin Stats Planner](https://penguin-stats.cn/planner)、[Arknight Tools](https://arkntools.app/#/material)、[ARK-NIGHTS Operator Builds](https://ark-nights.com/settings).
+- Visiting friends, collecting credits and purchasing items, collecting daily rewards, and completing daily quests in one click!
 - Auto-battle for Integrated Strategy (I.S.) for collecting originium ingots and candles.
 - Importing JSON task file for auto-battle! [Video](https://www.bilibili.com/video/BV1H841177Fk/)
 - Support C, Python, Java, Rust, Golang, Java HTTP, Rust HTTP and other interfaces, easy to integrate and call, customize your MAA!
 
 Talk is cheap. Show me the pictures!
 
-```component ImageGrid
+```component Image4
 {
   "imageList": [
     {
@@ -68,8 +71,7 @@ Talk is cheap. Show me the pictures!
 
 ## Download
 
-- [Stable/Beta](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)
-- [Nightly](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
+[Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## How to Use
 
@@ -95,11 +97,11 @@ Check [FAQ](./manual/faq.md).
 ## Supports for overseas clients
 
 At present, most of the functions of the International client (US client), Japanese client, Korean client, and traditional Chinese client have been supported. However, due to the small number of overseas users and the shortage of project personnel, many functions have not been fully tested, so please experience it yourself.  
-If you encounter a bug, or have a strong demand for a certain function, welcome to [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) and [Discussions](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) to ask questions. And feel free to join us in building the MAA! Please refer to [Overseas Clients Adaptation](#overseas-clients-adaptation)
+If you encounter a bug or have a strong demand for a certain function, welcome to [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) and [Discussions](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) to ask questions. And feel free to join us in building the MAA! Please refer to [Overseas Clients Adaptation](#overseas-clients-adaptation)
 
 ### CLI Support
 
-MAA supports command line interface (CLI) operation, supports Linux, macOS and Windows, and can be used for automated scripts or on servers without graphical interfaces. Check [CLI Guide](./manual/cli/intro.md)
+MAA supports command line interface (CLI) operation, supports Linux, macOS and Windows, and can be used for automated scripts or on servers without graphical interfaces. Check [CLI Guide](./manual/cli/)
 
 ## Join us
 
@@ -120,7 +122,7 @@ MAA supports multiple languages and uses Weblate for localization management. If
 
 MAA uses Chinese (Simplified) as its first language, and all translation entries are in Chinese (Simplified).
 
-[![Weblate](https://weblate.maa-org.net/widgets/maa-assistant-arknights/zh_Hans/maa-wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa-assistant-arknights/zh_Hans/)
+[![Weblate](https://weblate.maa-org.net/widget/maa/wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa/)
 
 ### Development Related Information
 
@@ -150,7 +152,7 @@ Check [Linux Compiling Tutorial](./develop/linux-tutorial.md)
 
 #### Overseas Clients Adaptation
 
-Please refer to [Overseas clients Adaptation](./develop/overseas-client-adaptation.md). For the functions already supported by the CN client, most of the overseas clients adaptation tasks only need screenshots and simple JSON modification.
+Please refer to [Overseas clients Adaptation](./develop/overseas-client-adaptation.md). For the functions already supported by the CN client, most of the overseas client's adaptation tasks only need screenshots and simple JSON modification.
 
 #### For Novice Users of GitHub
 
@@ -190,19 +192,19 @@ Check [Issue Bot Usage](./develop/issue-bot-usage.md).
 - ~~Operators and infrastructure data: [PRTS Arknights Wiki (Chinese)](http://prts.wiki/)~~
 - Stage data: [Penguin Stats](https://penguin-stats.io/)
 - Gamedata and resources: [Arknights Game Resource](https://github.com/yuanyan3060/ArknightsGameResource)
-- ~~Gamedata: [Arknights Game Data](https://github.com/Kengxxiao/ArknightsGameData)~~
+- Gamedata: [Arknights Yostar Game Data](https://github.com/Kengxxiao/ArknightsGameData_YoStar)
 
 ### Contributors
 
 Thanks to all friends who contribute to development/testing for making MAA better! (\*´▽｀)ノノ
 
-[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=114514&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
+[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
 
 ## Disclaimer
 
 - This software is open source under the [GNU Affero General Public License v3.0 only](https://spdx.org/licenses/AGPL-3.0-only.html).
 - The logo of this software is NOT granted rights under AGPL 3.0 License. [耗毛](https://weibo.com/u/3251357314) and Vie, the two artists and all developers of the software reserves all rights. The logo of the software shall not be used without authorization even if the project has an AGPL 3.0 License. Nor shall the logo be used for commercial purposes without authorization.
-- The software is an open-source, free of charge software only for studying and communication purposes. There is no agreement or understanding between the developers of the software and the 3rd party person who uses this software as an assistant and charges you. In that case, the developers of the software is not responsible for the problems and consequences caused.
+- The software is an open-source, free of charge software only for studying and communication purposes. There is no agreement or understanding between the developers of the software and the 3rd party person who uses this software as an assistant and charges you. In that case, the developers of the software are not responsible for the problems and consequences caused.
 
 ## Advertisement
 
@@ -213,5 +215,3 @@ User Group: [Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ Group](https://ota.m
 [Dev Group(QQ Group)](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 Please click "Star" if you consider it helpful! Thank you for your support!
-
-<!-- markdownlint-disable-file MD034 MD041 -->

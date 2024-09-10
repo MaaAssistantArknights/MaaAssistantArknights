@@ -1,5 +1,5 @@
 ---
-order: 4
+order: 3
 icon: material-symbols:settings
 ---
 
@@ -268,10 +268,13 @@ params = { stage = "CE-6" }
 [tasks.variants.params.stage]
 default = "1-7" # 默认的关卡，可选（如果没有默认值，输入空值将会重新提示输入）
 description = "a stage to fight" # 描述，可选
+
+# 当输入的关卡是 1-7 时，需要输入使用理智药的数量
 [tasks.variants.params.medicine]
-# 依赖的参数，键为参数名，值为依赖的参数的预期值
-# 当设置时，只有所有的依赖参数都满足预期值时，这个参数才会被要求输入
-deps = { stage = "1-7" }
+# 参数可以设置为条件参数，这样只有满足条件时才需要输入
+# conditions 字段是一个表，其中键是同一层级下其他参数名，值是期望的值
+# 这里的条件是 stage 是 1-7， 如果存在多个条件，那么所有条件都必须满足
+conditions = { stage = "1-7" }
 default = 1000
 description = "medicine to use"
 ```
@@ -304,7 +307,7 @@ cpu_ocr = false
 gpu_ocr = 1
 
 [instance_options]
-touch_mode = "MAATouch"
+touch_mode = "MaaTouch"
 deployment_with_pause = false
 adb_lite_enabled = false
 kill_adb_on_exit = false
@@ -365,7 +368,7 @@ gpu_ocr = 1 # 使用 GPU OCR 时使用的 GPU ID，如果这个值被留空，�
 
 ```toml
 [instance_options]
-touch_mode = "ADB" # 使用的触摸模式，可选值为 "ADB"，"MiniTouch"，"MAATouch" 或者 "MacPlayTools"
+touch_mode = "ADB" # 使用的触摸模式，可选值为 "ADB"，"MiniTouch"，"MaaTouch" 或者 "MacPlayTools"
 deployment_with_pause = false # 是否在部署时暂停游戏
 adb_lite_enabled = false # 是否使用 adb-lite
 kill_adb_on_exit = false # 是否在退出时杀死 adb
@@ -424,7 +427,6 @@ url = "https://github.com/MaaAssistantArknights/MaaResource.git"
 - 资源热更新是通过 Git 来拉取远程仓库，如果后端设置为 `git` 那么 `git` 命令行工具必须可用。
 - 如果你想要使用 SSH 协议来拉取远程仓库，你必须配置 `ssh_key` 字段，这个字段应该是一个路径，指向你的 SSH 私钥。
 - 远程仓库的 `url` 设置目前只对首次安装资源有效，如果你想要更改远程仓库的地址，你需要通过 `git` 命令行工具手动更改，或者删除对应的仓库。仓库所在位置可以通过 `maa dir hot-update` 获取。
-- 远程仓库的 `url` 会根据你本机的语言自动设置，如果你的语言是简体中文，那么远程仓库的 `url` 将会被设置为国内的镜像 <https://git.maa-org.net/MAA/MaaResource.git>，在其他情况则会被设置为 GitHub。如果你在国内但是使用的不是简体中文，或者在国外使用简体中文，那么你可能需要手动设置以获得最佳的体验。
 
 ## 参考配置
 
@@ -440,13 +442,11 @@ url = "https://github.com/MaaAssistantArknights/MaaResource.git"
 - CLI 配置的 JSON Schema 文件为 [`cli.schema.json`][cli-schema]。
 
 [task-types]: ../../protocol/integration.md#任务类型一览
-[emulator-ports]: ../../manual/faq.md#模拟器调试端口
-[playcover-doc]: ../../manual/device/macos.md#-playcover原生运行最流畅-
+[emulator-ports]: ../../manual/connection.md#获取端口号
+[playcover-doc]: ../../manual/device/macos.md#✅-playcover-原生运行最流畅-🚀
 [example-config]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/config_examples
 [wangl-cc-dotfiles]: https://github.com/wangl-cc/dotfiles/tree/master/.config/maa
 [schema-dir]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/schemas/
 [task-schema]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/schemas/task.schema.json
 [asst-schema]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/schemas/asst.schema.json
 [cli-schema]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/schemas/cli.schema.json
-
-<!-- markdownlint-disable-file MD013 -->

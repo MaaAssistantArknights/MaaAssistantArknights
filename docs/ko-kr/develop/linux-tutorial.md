@@ -70,8 +70,8 @@ MAA의 빌드 방법은 여전히 논의 중입니다. 이 튜토리얼의 내�
 
 ### C
 
-[CppSample](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/CppSample/main.cpp)의 구현을 참조하세요.
+[CppSample](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Cpp/main.cpp)의 구현을 참조하세요.
 
 ### C\#
 
-[MaaWpfGui](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/MaaWpfGui/Helper/AsstProxy.cs)의 구현을 참조하세요.
+[MaaWpfGui](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/MaaWpfGui/Main/AsstProxy.cs)의 구현을 참조하세요.

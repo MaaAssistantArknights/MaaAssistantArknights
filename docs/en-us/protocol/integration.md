@@ -56,6 +56,8 @@ Appends a task.
 // Corresponding task parameters
 {
     "enable": bool,              // Whether to enable this task, optional, true by default
+    "client_type": string,       // Client version, required, no execution if left blank
+                                 // Options: "Official" | "Bilibili" | "txwy" | "YoStarEN" | "YoStarJP" | "YoStarKR"
 }
 ```
 
@@ -93,7 +95,7 @@ Appends a task.
 }
 ```
 
-Supports some of the special stages,Please refer to [autoLocalization example](..\..\..\tools\AutoLocalization\example\en-us.xaml#L260).
+Supports some of the special stages,Please refer to [autoLocalization example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/tools/AutoLocalization/example/en-us.xaml#L260).
 
 - `Recruit`  
     Recruitment
@@ -273,21 +275,25 @@ For more details about auto-copilot JSON, please refer to [Copilot Schema](./cop
 }
 ```
 
-- `ReclamationAlgorithm`  
-    ReclamationAlgorithm ( A new mode in CN client)
+- `Reclamation`  
+    ReclamationAlgorithm
 
 ```json
 {
     "enable": bool,
-    "theme": int,           // Theme, optional, 1 by default
-                            // 0 - *Fire Within the Sand*
-                            // 1 - *Tales Within the Sand*
-    "mode": int,            // Mode, optional, 0 by default
-                            // 0 - Farm badges & construction pts (exiting the stage immediately)
-                            // 1 - Fire Within the Sand: Farm Crude Gold (forging Gold at headquarter after purchasing water)
-                            //     Tales Within the Sand: Automatically craft items and load to earn currency
-    "product": string       // Automatically crafted items, optional, glow stick by default 
-                            // Suggested fill in the substring
+    "theme": string,            // Theme, optional, 1 by default
+                                // Fire  - *Fire Within the Sand*
+                                // Tales - *Tales Within the Sand*
+    "mode": int,                // Mode, optional, 0 by default
+                                // 0 - Farm badges & construction pts (exiting the stage immediately)
+                                // 1 - Fire Within the Sand: Farm Crude Gold (forging Gold at headquarter after purchasing water)
+                                //     Tales Within the Sand: Automatically craft items and load to earn currency
+    "tool_to_craft": string,    // Automatically crafted items, optional, glow stick by default 
+                                // Suggested fill in the substring
+    "increment_mode": int,      // Click type, optional. 0 by default
+                                // 0 - Rapid Click
+                                // 1 - Long Press
+    "num_craft_batches": int    // Maximum number of craft batches per session, optional. 16 by default
 }
 ```
 

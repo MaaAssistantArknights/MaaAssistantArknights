@@ -4,16 +4,15 @@ order: 5
 
 # Credit Store
 
-::: important Translation Required
-This page is outdated and maybe still in Simplified Chinese. Translation is needed.
+::: important This page may be outdated.
 :::
 
-- Automatically visit friends to obtain credit points 并前往信用交易所购物.
-- With the help of Warfarin's credit:
+- Automatically visit friends to obtain credit points and go to the credit store for shopping.
+- With the help of combat credit:
   - Use a support operator to clear the `OF-1` stage in Heart of Surging Flame. If the stage is not unlocked, please do not select this option.
   - It does not take effect when the stage selection is set to `Cur/Last`.
 
 ## Advanced Settings
 
-- Whitelist and Blacklist 都是关键字匹配，例如填 `碳` 会匹配 `碳` 和 `碳素`。
-- `Stop purchasing items when credits below 300` 即使在低于 300 时也会购买 Whitelist 商品。
+- Whitelist and Blacklist are keyword matches, for example, filling in `碳` (Carbon Stick) will match `碳` (Carbon Stick) and `碳素` (Carbon Brick). May still require only the original Chinese as input.
+- `Stop purchasing items when credits are below 300` will still purchase whitelist items even when below 300.

@@ -56,6 +56,8 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 // 해당 작업 매개변수
 {
     "enable": bool,              // 이 작업을 활성화할지 여부, 선택 사항, 기본값은 true
+    "client_type": string,       // 클라이언트 버전이 필수이며, 빈칸을 채우지 않으면 실행되지 않습니다.
+                                 // 옵션: "Official" | "Bilibili" | "txwy" | "YoStarEN" | "YoStarJP" | "YoStarKR"
 }
 ```
 
@@ -92,7 +94,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 }
 ```
 
-특수 스테이지의 일부를 지원합니다. 자세한 내용은 [자동 현지화 예제](..\..\..\tools\AutoLocalization\example\ko-kr.xaml)를 참고하세요.
+특수 스테이지의 일부를 지원합니다. 자세한 내용은 [자동 현지화 예제](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/tools/AutoLocalization/example/ko-kr.xaml#L233)를 참고하세요.
 
 - `Recruit`  
   공개모집
@@ -267,21 +269,25 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 }
 ```
 
-- `ReclamationAlgorithm`  
+- `Reclamation`  
   생명연산
 
 ```json
 {
     "enable": bool,
-    "theme": int,           // 테마, 선택사항, 기본값은 1입니다.
-                            // 0 - *모래 속의 불꽃*
-                            // 1 - *모래 안의 이야기*
-    "mode": int,            // 모드,선택사항, 기본값은 0
-                            // 0 - 점수를 획득하고 건설 점수를 얻어 전투에 진입한 후 바로 나가기
-                            // 1 - *모래 속의 불꽃*: 황금을 얻기 위해 오퍼레이터가 물을 사고 기지를 강화합니다.
-                            //     *모래 안의 이야기*: 모래 안의 이야기: 자동으로 아이템을 제작하고 로드하여 통화를 획득
-    "product": string       // 자동으로 제작되는 아이템, 선택 사항, 기본값은 형광봉
-                            // 부분 문자열을 채우는 것이 좋습니다
+    "theme": string,            // 테마, 선택사항, 기본값은 1입니다.
+                                // Fire  - *모래 속의 불꽃*
+                                // Tales - *모래 안의 이야기*
+    "mode": int,                // 모드,선택사항, 기본값은 0
+                                // 0 - 점수를 획득하고 건설 점수를 얻어 전투에 진입한 후 바로 나가기
+                                // 1 - *모래 속의 불꽃*: 황금을 얻기 위해 오퍼레이터가 물을 사고 기지를 강화합니다.
+                                //     *모래 안의 이야기*: 모래 안의 이야기: 자동으로 아이템을 제작하고 로드하여 통화를 획득
+    "tool_to_craft": string,    // 자동으로 제작되는 아이템, 선택 사항, 기본값은 형광봉
+                                // 부분 문자열을 채우는 것이 좋습니다
+    "increment_mode": int,      // 클릭 유형, 선택 사항. 기본값은 0
+                                // 0 - 연속 클릭
+                                // 1 - 길게 누르기
+    "num_craft_batches": int    // 한 번의 최대 제작 배치 수, 선택 사항. 기본값은 16
 }
 ```
 

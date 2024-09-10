@@ -3,6 +3,7 @@
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="GeneralSettings">常規設定</system:String>
     <system:String x:Key="AdvancedSettings">高級設定</system:String>
+    <system:String x:Key="PerformanceSettings">性能設定</system:String>
     <system:String x:Key="GameSettings">遊戲設定</system:String>
     <system:String x:Key="BaseSettings">基建設定</system:String>
     <system:String x:Key="RoguelikeSettings">肉鴿設定</system:String>
@@ -17,9 +18,12 @@
     <system:String x:Key="HotKeySettings">熱鍵設定</system:String>
     <system:String x:Key="UpdateSettings">軟體更新</system:String>
     <system:String x:Key="AboutUs">關於我們</system:String>
-    <system:String x:Key="CoreVersion">Core 版本號</system:String>
-    <system:String x:Key="UiVersion">UI 版本號</system:String>
-    <system:String x:Key="ResourceVersion">資源版本號</system:String>
+    <system:String x:Key="MaaVersion">MAA 版本</system:String>
+    <system:String x:Key="BuildDateTime">構建日期</system:String>
+    <system:String x:Key="CoreVersion">Core 版本</system:String>
+    <system:String x:Key="UiVersion">UI 版本</system:String>
+    <system:String x:Key="ResourceVersion">資源版本</system:String>
+    <system:String x:Key="ResourceDateTime">資源日期</system:String>
     <system:String x:Key="Off">關閉</system:String>
     <system:String x:Key="ExternalNotificationTips">請注意：外部通知功能目前僅會發送「所有任務完成」 的通知。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
@@ -44,6 +48,15 @@
     <system:String x:Key="ExternalNotificationDiscordUserId">用戶 ID</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">機器人 Token</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">聊天 ID</system:String>
+    <system:String x:Key="ExternalNotificationQmsgServer">伺服器地址</system:String>
+    <system:String x:Key="ExternalNotificationQmsgKey">Qmsg Key</system:String>
+    <system:String x:Key="ExternalNotificationQmsgUser">用戶QQ</system:String>
+    <system:String x:Key="ExternalNotificationQmsgBot">機器人 QQ</system:String>
+    <system:String x:Key="UseGpuForInference">使用 GPU 加速推理</system:String>
+    <system:String x:Key="GpuOptionDisable">不使用</system:String>
+    <system:String x:Key="GpuOptionSystemDefault">系統預設 GPU</system:String>
+    <system:String x:Key="GpuDeprecatedMessage">不推薦使用當前選擇的推理加速 GPU（{0}）。\n\n您可以前往「設置 - 性能設置」選擇其他 GPU 或禁用此消息。</system:String>
+    <system:String x:Key="GpuAllowDeprecated">允許使用不推薦的 GPU</system:String>
     <!--  設定指引  -->
     <system:String x:Key="TaskSettings">任務設定</system:String>
     <system:String x:Key="SettingsGuide">設定指引</system:String>
@@ -87,7 +100,6 @@
     <system:String x:Key="153Time3">153 一天 3 換</system:String>
     <system:String x:Key="243Time3">243 一天 3 換</system:String>
     <system:String x:Key="243Time4">243 一天 4 換</system:String>
-    <system:String x:Key="252Time3">252 一天 3 換</system:String>
     <system:String x:Key="333Time3">333 一天 3 換</system:String>
     <system:String x:Key="CustomInfrastFile">自定義基建配置文件</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">自定義基建配置文件解析錯誤！</system:String>
@@ -125,6 +137,7 @@
     <system:String x:Key="RoguelikeUseSupportUnit">「開局幹員」使用助戰</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助戰</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">在戰鬥結束前延遲「停止」動作</system:String>
+    <system:String x:Key="RoguelikeStopAtFinalBoss">在第五層 BOSS 前暫停</system:String>
     <system:String x:Key="DeploymentWithPause">暫停下幹員（同時影響肉鴿、自動戰鬥、保全）（不穩定，暫不推薦開啟）</system:String>
     <system:String x:Key="AdbLiteEnabled">使用 ADB Lite（實驗性功能）</system:String>
     <system:String x:Key="KillAdbOnExit">退出時釋放 ADB</system:String>
@@ -135,6 +148,10 @@
     <system:String x:Key="IS3NewSquad1">永恆狩獵分隊</system:String>
     <system:String x:Key="IS3NewSquad2">生活至上分隊</system:String>
     <system:String x:Key="IS3NewSquad3">科學主義分隊</system:String>
+    <system:String x:Key="IS4NewSquad1">魂靈護送分隊</system:String>
+    <system:String x:Key="IS4NewSquad2">博聞廣記分隊</system:String>
+    <system:String x:Key="IS4NewSquad3">藍圖測繪分隊</system:String>
+    <system:String x:Key="IS4NewSquad4">因地制宜分隊</system:String>
     <system:String x:Key="IS3NewSquad4">特訓分隊</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集群分隊</system:String>
@@ -195,6 +212,16 @@
     <system:String x:Key="UpdateCheckStable">穩定版</system:String>
     <system:String x:Key="UpdateCheckBeta">公測版</system:String>
     <system:String x:Key="UpdateCheckNightly">內測版</system:String>
+    <system:String x:Key="NightlyWarning" xml:space="preserve">您已啟用內測版更新。感謝您對 MAA 的支持與測試。
+
+請注意：
+
+1. 這是內測版，可能包含不穩定的功能。
+2. 如果遇到問題，請務必在 GitHub 上檢查是否已有相關 issue，若無則提交 issue，並附上日誌文件。這樣我們可以更高效地處理問題。
+3. 請不要在其他地方討論內測版問題，例如用戶群、評論區等。這會佔用公共資源且無法及時反饋和解決問題。
+4. 請勿將更新內測版的方法告知其他非開發用戶，以避免對他們造成不必要的困擾和風險。
+
+您可通過點擊 設置-關於我們-問題反饋 鏈接來取消該彈窗，感謝您的理解與配合！</system:String>
     <system:String x:Key="UpdateCheck">更新版本</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 進行下載</system:String>
     <system:String x:Key="UpdateCheckNow">檢查更新</system:String>
@@ -245,6 +272,9 @@
     <system:String x:Key="WaitForEmulator">等待模擬器啟動時間（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">等待結束</system:String>
     <system:String x:Key="EmulatorPath">模擬器路徑</system:String>
+    <system:String x:Key="EmulatorPathSelectionErrorPrompt">你也想在酒吧里點酒吧？</system:String>
+    <system:String x:Key="EmulatorPathSelectionErrorImSure">我確定沒選錯</system:String>
+    <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">好的，我會重新選擇</system:String>
     <system:String x:Key="Select">選擇</system:String>
     <system:String x:Key="ForcedReplaceAdb">強制替換 ADB</system:String>
     <system:String x:Key="TouchMode">觸控模式</system:String>
@@ -254,6 +284,8 @@
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="StartsWithScript">開始前腳本</system:String>
     <system:String x:Key="EndsWithScript">結束後腳本</system:String>
+    <system:String x:Key="CopilotWithScript">自動戰鬥時啟用上述腳本</system:String>
+    <system:String x:Key="ManualStopWithScript">手動暫停時啟用上述腳本</system:String>
     <system:String x:Key="BlockSleep">運行任務時阻止休眠</system:String>
     <system:String x:Key="BlockSleepWithScreenOn">阻止休眠時保持螢幕常亮</system:String>
     <system:String x:Key="ScreencapCost">截圖耗時 min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
@@ -261,12 +293,13 @@
     <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
     <system:String x:Key="RoguelikeThemeSami">薩米</system:String>
+    <system:String x:Key="RoguelikeThemeSarkaz">薩卡茲</system:String>
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">開始探索 N 次後停止任務</system:String>
     <system:String x:Key="GoldTimesLimit">投資 N 個源石錠後停止任務</system:String>
     <system:String x:Key="StopOnGoldLimit">儲備源石錠達到上限時停止</system:String>
     <system:String x:Key="InvestmentEnabled">投資源石錠</system:String>
-    <system:String x:Key="InvestmentWithMoreScore">投資模式啟用購物、招募</system:String>
+    <system:String x:Key="InvestmentWithMoreScore">投資模式啟用購物、招募、進2層</system:String>
     <system:String x:Key="RefreshTraderWithDice">刷新商店（指路鱗）</system:String>
     <system:String x:Key="PenguinId">企鵝物流匯報 ID（僅數字部分）</system:String>
     <system:String x:Key="EnablePenguin">上報企鵝物流</system:String>
@@ -274,6 +307,7 @@
     <system:String x:Key="DrGrandet">博朗台模式</system:String>
     <system:String x:Key="DrGrandetTip">在恢復理智確認介面等待，直到當前的 1 點理智恢復完成再立即確認。</system:String>
     <system:String x:Key="SocialPtShop">信用購物</system:String>
+    <system:String x:Key="OnlyOnceADay">一日只執行一次</system:String>
     <system:String x:Key="CreditFight">借助戰打 OF-1 賺信用</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">訪問好友後借助戰打一把 OF-1 賺 30 信用。
 一日只執行一次。
@@ -299,6 +333,8 @@
     <system:String x:Key="ReceiveMining">領取限時開採許可的每日合成玉獎勵</system:String>
     <system:String x:Key="ReceiveSpecialAccess">領取特殊贈送月卡獎勵</system:String>
     <system:String x:Key="DroneUsage">無人機用途</system:String>
+    <system:String x:Key="UseTray">顯示工作列圖標</system:String>
+    <system:String x:Key="HideTray">隱藏工作列圖標</system:String>
     <system:String x:Key="MinimizeToTray">最小化時隱藏至工作列</system:String>
     <system:String x:Key="SystemNotification">重要訊息彈出系統通知</system:String>
     <system:String x:Key="HideCloseButton">隱藏關閉按鈕</system:String>
@@ -309,6 +345,8 @@
     <system:String x:Key="PromptRestartForSettingsChange">是否立刻重啟應用更改？</system:String>
     <system:String x:Key="SwitchResolutionTip">將模擬器解析度更改為 1920x1080！</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">請確保模擬器設定為 1920x1080</system:String>
+    <system:String x:Key="AllowUseStoneSave">允許吃源石保存狀態</system:String>
+    <system:String x:Key="AllowUseStoneSaveWarning">該功能屬於危險功能。按下「確認」鍵即視為你了解並願意承擔可能出現的風險。</system:String>
     <system:String x:Key="UseAlternateStage">使用備選關卡</system:String>
     <system:String x:Key="UseRemainingSanityStage">使用剩餘理智</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">在完成主任務後刷取指定關卡，不使用理智藥 / 碎石</system:String>
@@ -334,10 +372,14 @@
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">所選檔案名稱不包含 ADB，請檢查是否選擇了錯誤的檔案或誤選成了模擬器本體。</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorImSure">我確定沒選錯</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorSelectAgain">好的，我會重新選擇</system:String>
+    <system:String x:Key="ConnectionAddress">連接地址</system:String>
+    <system:String x:Key="ConnectionAddressTip">若遇到問題可嘗試手動修改</system:String>
     <system:String x:Key="ConnectionPreset">連接配置</system:String>
+    <system:String x:Key="ScreenshotTest">截圖測試</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">啟用 MuMu 截圖增強模式</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip">
-        需使用 MuMu 12 3.8.13 及更新版本，MuMu 12 遊戲專版、Global 不支援。\n\n
+        需使用 MuMu 12 V4.0.0 及更新版本，MuMu 12 Global 不支援。\n
+        強烈建議在開啟本功能後的首次使用之前進行截圖測試。\n\n
         請填寫以下資訊：\n\n
         1. 模擬器路徑：（例如：C:\\Program Files\\Netease\\MuMuPlayer-12.0）\n
         模擬器路徑應填寫模擬器應用的上一層資料夾路徑，例如應用路徑為\n
@@ -352,7 +394,7 @@
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 模擬器路徑</system:String>
     <system:String x:Key="MuMu12Index">實例號碼</system:String>
     <system:String x:Key="MuMu12Display">螢幕號碼</system:String>
-    <system:String x:Key="MuMuExtrasNotEnabledMessage">MumuExtras 未生效，请檢查相關設定</system:String>
+    <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu 截圖增強未生效，请檢查相關設定</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 連線失敗時嘗試啟動模擬器</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">重連失敗 20 次後嘗試重開模擬器，使用後台定時任務且設定任務完成關閉模擬器時必須勾選</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">模擬器路徑為空！請填寫「啟動設定-模擬器路徑」後重新勾選。</system:String>
@@ -369,34 +411,47 @@
     <system:String x:Key="Mall">獲取信用及購物</system:String>
     <system:String x:Key="Mission">領取獎勵</system:String>
     <system:String x:Key="AutoRoguelike">自動肉鴿</system:String>
-    <system:String x:Key="ReclamationAlgorithm">生息演算·沙中之火</system:String>
-    <system:String x:Key="ReclamationAlgorithm2">生息演算·沙洲遺聞</system:String>
+    <system:String x:Key="Reclamation">生息演算</system:String>
+    <system:String x:Key="ReclamationTheme">生息演算主題</system:String>
+    <system:String x:Key="ReclamationThemeFire">沙中之火</system:String>
+    <system:String x:Key="ReclamationThemeTales">沙洲遺聞</system:String>
+    <system:String x:Key="ReclamationModeProsperityNoSave">無存檔，通過進出關卡刷生息點數</system:String>
+    <system:String x:Key="ReclamationModeProsperityInSave">有存檔，通過組裝支援道具刷生息點數</system:String>
+    <system:String x:Key="ReclamationIncrementMode">增加方式</system:String>
+    <system:String x:Key="ReclamationIncrementModeClick">連點</system:String>
+    <system:String x:Key="ReclamationIncrementModeHold">長按</system:String>
+    <system:String x:Key="ReclamationMaxCraftCountPerRound">單次最大組裝輪數</system:String>
+    <system:String x:Key="OperNameLanguage">幹員名稱顯示語言</system:String>
+    <system:String x:Key="OperNameLanguageMAA">跟隨MAA</system:String>
+    <system:String x:Key="OperNameLanguageClient">跟隨遊戲客戶端</system:String>
+    <system:String x:Key="OperNameLanguageForce">強制使用指定語言</system:String>
     <system:String x:Key="Light">亮色</system:String>
     <system:String x:Key="Dark">暗色</system:String>
     <system:String x:Key="SyncWithOs">與系統同步</system:String>
     <system:String x:Key="SelectAll">全選</system:String>
     <system:String x:Key="Inverse">反選</system:String>
     <system:String x:Key="Clear">清空</system:String>
-    <system:String x:Key="Then">完成後</system:String>
+    <system:String x:Key="PostActions">完成後</system:String>
     <system:String x:Key="DoNothing">無動作</system:String>
     <system:String x:Key="ExitArknights">退出 明日方舟</system:String>
     <system:String x:Key="ExitSelf">退出 MAA</system:String>
     <system:String x:Key="ExitEmulator">退出 模擬器</system:String>
-    <system:String x:Key="ExitEmulatorAndSelf">退出 MAA 和 模擬器</system:String>
-    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">退出 MAA 和 模擬器，並休眠</system:String>
     <system:String x:Key="Hibernate">休眠</system:String>
+    <system:String x:Key="HibernateTip">需要在 Windows 電源選項中啟用休眠功能，否則該功能無效。</system:String>
+    <system:String x:Key="Sleep">睡眠</system:String>
     <system:String x:Key="Shutdown">關機</system:String>
-    <system:String x:Key="HibernateWithoutPersist">休眠（僅一次）</system:String>
-    <system:String x:Key="ShutdownWithoutPersist">關機（僅一次）</system:String>
-    <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">退出 MAA 和 模擬器，無其他 MAA 則休眠</system:String>
-    <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">退出 MAA，無其他 MAA 則關機</system:String>
+    <system:String x:Key="Once">僅一次*</system:String>
+    <system:String x:Key="PostActionOnceTip" xml:space="preserve">如想只執行一次，請先勾選僅一次
+勾選僅一次時，執行動作後將恢復至勾選僅一次前一刻的狀態
+右鍵點選下方動作時，會同步 啟動/取消 僅一次的選取狀態</system:String>
+    <system:String x:Key="IfNoOtherMaa">無其他 MAA 時</system:String>
     <system:String x:Key="BackToAndroidHome">返回 模擬器 主荧幕</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
     <system:String x:Key="WaitAndStop">等待 &amp; 停止</system:String>
     <!--  戰鬥設定  -->
     <system:String x:Key="UseSanityPotion">吃理智藥</system:String>
-    <system:String x:Key="UseOriginitePrime">吃源石*</system:String>
+    <system:String x:Key="UseOriginitePrime">吃源石</system:String>
     <system:String x:Key="PerformBattles">指定次數</system:String>
     <system:String x:Key="AssignedMaterial">指定材料</system:String>
     <system:String x:Key="Quantity">刷取數量</system:String>
@@ -460,6 +515,7 @@
     <system:String x:Key="AboutToShutdown">已刷完，即將關機，是否取消？</system:String>
     <system:String x:Key="ShutdownPrompt">提示</system:String>
     <system:String x:Key="HibernatePrompt">已刷完，即將休眠</system:String>
+    <system:String x:Key="SleepPrompt">已刷完，即將睡眠</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">未知的結束動作</system:String>
     <system:String x:Key="AnnihilationTaskTip">關卡選擇為剿滅任務，任務結束後將嘗試使用剩餘備選關卡，部分戰鬥設置將不生效。</system:String>
     <system:String x:Key="AnnihilationTaskFailed">剿滅任務失敗，將嘗試使用剩餘備選關卡，部分戰鬥設定將不生效。</system:String>
@@ -489,7 +545,8 @@
     <!--  日誌  -->
     <system:String x:Key="OperBoxRecognition">幹員辨識</system:String>
     <system:String x:Key="OperBoxRecognitionTip">特別關注會影響幹員識別準確率，如有特別關注幹員識別錯誤請自行判斷。\n該功能尚處於測試階段，若統計有誤，歡迎打包 debug/oper 文件後向我們提交 issue ~</system:String>
-    <system:String x:Key="OperBoxRecognitionResult">未擁有: {0} 名: \n\n{1}\n\n已擁有: {2} 名: \n\n{3}</system:String>
+    <system:String x:Key="OperBoxHaveList">已擁有: {0} 名</system:String>
+    <system:String x:Key="OperBoxNotHaveList">未擁有: {0} 名</system:String>
     <system:String x:Key="StartToOperBoxRecognition">開始辨識</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">複製到剪貼簿</system:String>
     <!--  !日誌  -->
@@ -556,6 +613,12 @@
     <system:String x:Key="LoopTimes">循環次數</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">影片連結</system:String>
+    <system:String x:Key="CopilotSkill">技能</system:String>
+    <system:String x:Key="TotalOperatorsCount">共 {0} 名幹員</system:String>
+    <system:String x:Key="DirectiveECTerm">導能組件：</system:String>
+    <system:String x:Key="OtherOperators">其他幹員：</system:String>
+    <system:String x:Key="InitialEquipmentHorizontal">開局裝備（橫向）：</system:String>
+    <system:String x:Key="InitialStrategy">開局策略：</system:String>
     <!--  日誌  -->
     <system:String x:Key="CopilotTip">
         小提示: \n\n
@@ -587,6 +650,7 @@
     <system:String x:Key="ErrorProlog">MAA 遇到了問題</system:String>
     <system:String x:Key="ErrorDetails">詳細資訊</system:String>
     <system:String x:Key="ErrorSolution">解決方法</system:String>
+    <system:String x:Key="ErrorSolutionMoveMaaExeOutOfFolder">請勿單獨移動 MAA.exe 文件。若需更改軟件位置，請移動整個文件夾，或在本文件夾中創建 MAA.exe 的快捷方式，然後將快捷方式拖到其他位置。</system:String>
     <system:String x:Key="ErrorSolutionCrash">請參考文件: 常見問題 - 閃退 進行操作。</system:String>
     <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">解壓更新包失敗，請嘗試手動解壓根目錄下更新包。</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">請關閉模擬器與 ADB 或重開電腦後，使用系統管理員身分執行 MAA 進行操作。</system:String>
@@ -625,9 +689,9 @@
     <system:String x:Key="CompleteTask" xml:space="preserve">完成任務: </system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">開始戰鬥: </system:String>
     <system:String x:Key="CompleteCombat">完成戰鬥</system:String>
-    <system:String x:Key="AllTasksComplete">任務已全部完成！</system:String>
+    <system:String x:Key="AllTasksComplete">任務已全部完成！\n({0} 後)</system:String>
     <system:String x:Key="SanityReport">理智會在 {DateTime}回滿。({TimeDiff} 後)</system:String>
-    <system:String x:Key="AllTaskCompleteContent">MAA 已在 {DateTime} 完成了 {Preset} 配置下所有預設的任務。</system:String>
+    <system:String x:Key="AllTaskCompleteContent">MAA 已在 {DateTime} 完成了 {Preset} 配置下所有預設的任務。(用時 {TimeDiff})</system:String>
     <system:String x:Key="BackgroundLinkStarted">開始執行任務</system:String>
     <system:String x:Key="BackgroundLinkStopped">任務終止</system:String>
     <system:String x:Key="FailedToOpenClient">打開用戶端失敗，請檢查設定檔</system:String>
@@ -643,7 +707,7 @@
     <system:String x:Key="UnitTime">次</system:String>
     <system:String x:Key="CurrentSanity" xml:space="preserve">理智: {0}/{1}  </system:String>
     <system:String x:Key="MedicineUsedTimes" xml:space="preserve">藥: {0}  </system:String>
-    <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">藥: {0}/{1}(臨期)  </system:String>
+    <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">藥: {0},{1}(臨期)  </system:String>
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">石: {0}  </system:String>
     <system:String x:Key="MedicineUsed">已使用理智藥</system:String>
     <system:String x:Key="ExpiringMedicineUsed">已使用 48 小時內過期的理智藥</system:String>
@@ -663,8 +727,9 @@
     <system:String x:Key="RoguelikeGamePass">肉鴿通關啦！</system:String>
     <system:String x:Key="RoguelikeSpecialItemBought">購買了特殊商品！</system:String>
     <system:String x:Key="SSSGamePass">保全通關啦！</system:String>
-    <system:String x:Key="Trader">關卡: 詭意行商</system:String>
-    <system:String x:Key="SafeHouse">關卡: 安全的角落</system:String>
+    <system:String x:Key="Trader">節點: 詭意行商</system:String>
+    <system:String x:Key="SafeHouse">節點: 安全的角落</system:String>
+    <system:String x:Key="FilterTruth">節點: 去偽存真</system:String>
     <system:String x:Key="CombatDps">關卡: 普通作戰</system:String>
     <system:String x:Key="EmergencyDps">關卡: 緊急作戰</system:String>
     <system:String x:Key="DreadfulFoe">關卡: 險路惡敵</system:String>
@@ -710,6 +775,7 @@
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">選擇幹員: </system:String>
     <system:String x:Key="CurrentSteps">當前步驟: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">不支援的關卡，請檢查關卡名稱或前往「設置 - 軟體更新 - 檢查更新」，嘗試更新資源版本！</system:String>
+    <system:String x:Key="ResourceUpdatePaused">由於伺服器資源緊張，暫時停止提供資源版本更新。請手動導入關卡文件或等待新的版本發佈</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">辨識結果: </system:String>
     <system:String x:Key="ConnectFailed">連接失敗</system:String>
     <system:String x:Key="TryToReconnectByAdb">正在嘗試重连</system:String>
@@ -720,6 +786,7 @@
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">強制顯示 MAA</system:String>
+    <system:String x:Key="Restart">重啓</system:String>
     <system:String x:Key="Exit">退出</system:String>
     <!--  !TrayIcon  -->
     <!--  About  -->
@@ -804,30 +871,28 @@
     <system:String x:Key="CheckAndDownloadAnnouncement">查看公告</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">不再提示此公告</system:String>
     <!--  !Announcement  -->
-    <system:String x:Key="ConnectionAddressTip">若遇到問題可嘗試手動修改</system:String>
-    <system:String x:Key="ConnectionAddress">連接地址</system:String>
-    <system:String x:Key="UseGpuForInference">使用 GPU 加速推理</system:String>
-    <system:String x:Key="PerformanceSettings">性能設定</system:String>
-    <system:String x:Key="CopilotWithScript">自動戰鬥時啟用上述腳本</system:String>
-    <system:String x:Key="GpuOptionDisable">不使用</system:String>
-    <system:String x:Key="GpuOptionSystemDefault">系統預設 GPU</system:String>
-    <system:String x:Key="ManualStopWithScript">手動暫停時啟用上述腳本</system:String>
+    <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">可通過高級設定中的選項切換模式
 
 目前生息演算的支援仍處於早期階段，使用時請注意以下幾點：
 
- 在普通模式下：
-  1. 不能在已經有存檔的情況下使用（刪除現有存檔即可）
-  2. 不能在生息演算的編隊中有幹員的情況下使用（把生息演算中的當前編隊清空即可，特別是打完浪潮之後）
-  3. 必須在生息演算主介面開始任務（導航還沒寫）
+ 通過開局刷點數：(小心已有存檔被刪除)
+  0. 點數刷滿後會輸出“任務完成”，自動停止任務
+  1. 理論上可以在生息演算開局刷點數流程的任意位置開始任務，不論是否有存檔
+  2. 理論上編隊內可以有幹員，但沒測試，不推薦
+  3. 導航還沒寫，不能從生息演算以外的位置開始任務
+  4. 如果任務過程中報錯、點數沒刷滿就任務完成，請前往GitHub提交issue
 
- 通過製造刷點數：
+ 有存檔通過製造刷點數（高級設定）：
   1. 要求是結算後的第一天，且後續三天沒有敵襲進入駐紮地
-  2. 必須在進入生息演算中開始（能看到駐紮地的頁面）
+  2. 必须在進入大地圖後的介面開始（能看到駐紮地的介面）
   3. 如果能製造的數量剛好是 99 的倍數會卡住，在存檔前可以先用掉一點，這個之後再修
     </system:String>
     <system:String x:Key="ReclamationBePatient">牛牛，我太想進步了！你看，又急</system:String>
     <system:String x:Key="Reclamation2ExEnable">透過製造刷點數</system:String>
     <system:String x:Key="Reclamation2ExProductTip">支援道具名稱</system:String>
     <system:String x:Key="Reclamation2ExProductPlaceholder">螢光棒</system:String>
+    <system:String x:Key="ReclamationToolToCraftTip">支援道具名稱</system:String>
+    <system:String x:Key="ReclamationToolToCraftPlaceholder">螢光棒</system:String>
+    <!--  !Reclamation  -->
 </ResourceDictionary>

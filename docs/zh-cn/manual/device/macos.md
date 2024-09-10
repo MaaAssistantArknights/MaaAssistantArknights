@@ -49,7 +49,7 @@ icon: basil:apple-solid
 
 ### ✅ [夜神模拟器](https://www.yeshen.com/)
 
-完美支持。目前 mac 上 MAAX 版本还不支持模拟器自动适配，需要在 MAA `设置` - `连接设置` 中使用 ADB 连接 `127.0.0.1:62001` ，注意端口不是默认的 `5555` ，关于模拟器端口的详细说明参见[模拟器调试端口](../faq.md#模拟器调试端口)。
+完美支持。目前 mac 上 MAAX 版本还不支持模拟器自动适配，需要在 MAA `设置` - `连接设置` 中使用 ADB 连接 `127.0.0.1:62001` ，注意端口不是默认的 `5555` ，关于模拟器端口的详细说明参见[获取端口号](../connection.md#获取端口号)。
 
 补充：mac 下夜神模拟器的 ADB 二进制文件的位置为 `/Applications/NoxAppPlayer.app/Contents/MacOS/adb` ，在父目录 `MacOS` 下可使用 `adb devices` 命令查看 ADB 端口。
 

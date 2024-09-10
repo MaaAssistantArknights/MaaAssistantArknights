@@ -1,0 +1,105 @@
+<UserControl
+    x:Class="MaaWpfGui.Views.UserControl.AfterActionUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:userControl="clr-namespace:MaaWpfGui.Views.UserControl"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
+    xmlns:vm="clr-namespace:MaaWpfGui"
+    MaxWidth="220"
+    d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
+    d:DesignWidth="220"
+    mc:Ignorable="d">
+    <StackPanel>
+        <StackPanel Visibility="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}">
+            <CheckBox
+                Margin="0,10"
+                HorizontalAlignment="Left"
+                IsChecked="{Binding PostActionSetting.Once}"
+                ToolTip="{DynamicResource PostActionOnceTip}"
+                ToolTipService.InitialShowDelay="0">
+                <controls:TextBlock Text="{DynamicResource Once}" TextWrapping="Wrap" />
+            </CheckBox>
+            <hc:Divider />
+            <CheckBox
+                Margin="0,10"
+                s:View.ActionTarget="{Binding PostActionSetting}"
+                IsChecked="{Binding PostActionSetting.BackToAndroidHome}"
+                IsEnabled="{c:Binding !PostActionSetting.ExitEmulator}"
+                MouseRightButtonUp="{s:Action PostActionsAndOnce}">
+                <controls:TextBlock Text="{DynamicResource BackToAndroidHome}" TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                s:View.ActionTarget="{Binding PostActionSetting}"
+                IsChecked="{Binding PostActionSetting.ExitArknights}"
+                IsEnabled="{c:Binding !PostActionSetting.ExitEmulator}"
+                MouseRightButtonUp="{s:Action PostActionsAndOnce}">
+                <controls:TextBlock Text="{DynamicResource ExitArknights}" TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                s:View.ActionTarget="{Binding PostActionSetting}"
+                IsChecked="{Binding PostActionSetting.ExitEmulator}"
+                IsEnabled="{c:Binding !PostActionSetting.IfNoOtherMaa}"
+                MouseRightButtonUp="{s:Action PostActionsAndOnce}">
+                <controls:TextBlock Text="{DynamicResource ExitEmulator}" TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                s:View.ActionTarget="{Binding PostActionSetting}"
+                IsChecked="{Binding PostActionSetting.ExitSelf}"
+                IsEnabled="{c:Binding !PostActionSetting.IfNoOtherMaa}"
+                MouseRightButtonUp="{s:Action PostActionsAndOnce}">
+                <controls:TextBlock Text="{DynamicResource ExitSelf}" TextWrapping="Wrap" />
+            </CheckBox>
+            <hc:Divider />
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding PostActionSetting.IfNoOtherMaa}"
+                IsEnabled="{c:Binding 'PostActionSetting.Hibernate || PostActionSetting.Shutdown || PostActionSetting.Sleep'}">
+                <controls:TextBlock Text="{DynamicResource IfNoOtherMaa}" TextWrapping="Wrap" />
+            </CheckBox>
+
+            <CheckBox
+                Margin="0,10"
+                s:View.ActionTarget="{Binding PostActionSetting}"
+                IsChecked="{Binding PostActionSetting.Sleep}"
+                MouseRightButtonUp="{s:Action PostActionsAndOnce}">
+                <controls:TextBlock Text="{DynamicResource Sleep}" TextWrapping="Wrap" />
+            </CheckBox>
+
+            <CheckBox
+                Margin="0,10"
+                s:View.ActionTarget="{Binding PostActionSetting}"
+                IsChecked="{Binding PostActionSetting.Hibernate}"
+                MouseRightButtonUp="{s:Action PostActionsAndOnce}"
+                ToolTip="{DynamicResource HibernateTip}"
+                ToolTipService.InitialShowDelay="0">
+                <controls:TextBlock Text="{DynamicResource Hibernate}" TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                s:View.ActionTarget="{Binding PostActionSetting}"
+                IsChecked="{Binding PostActionSetting.Shutdown}"
+                MouseRightButtonUp="{s:Action PostActionsAndOnce}">
+                <controls:TextBlock Text="{DynamicResource Shutdown}" TextWrapping="Wrap" />
+            </CheckBox>
+
+            <Button
+                Height="30"
+                Margin="20,10,20,0"
+                s:View.ActionTarget="{Binding PostActionSetting}"
+                Command="{s:Action PostActionsClear}"
+                Content="{DynamicResource Clear}" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

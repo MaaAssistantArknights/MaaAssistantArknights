@@ -64,6 +64,8 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 // 対応するタスクのパラメータ
 {
     "enable": bool,              // このタスクを有効にするかどうか、オプション、デフォルトは true
+    "client_type": string,       // クライアントのバージョンは必須です。空白を入力すると実行されません。
+                                 // オプション："Official" | "Bilibili" | "txwy" | "YoStarEN" | "YoStarJP" | "YoStarKR"
 }
 ```
 
@@ -101,7 +103,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 }
 ```
 
-いくつかの特別ステージ名もサポートしています、[組み込み例](..\..\tools\AutoLocalization\example\ja-jp.xaml#L230)をご参照ください
+いくつかの特別ステージ名もサポートしています、[組み込み例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/tools/AutoLocalization/example/ja-jp.xaml#L230)をご参照ください
 
 - `Recruit`  
     公開求人
@@ -248,7 +250,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 }
 ```
 
-自動操縦JSONの詳細については、[自動戦闘API](./自動戦闘API.md)を参照してください
+自動操縦JSONの詳細については、[自動戦闘API](./copilot-schema.md)を参照してください
 
 - `SSSCopilot`  
   保全駐在の自動戦闘  
@@ -261,7 +263,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 }
 ```
 
-保全駐在の自動操縦JSONの詳細については、[保全駐在API](./保全駐在API.md)
+保全駐在の自動操縦JSONの詳細については、[保全駐在API](./sss-schema.md)
 
 - `Depot`
     倉庫アイテム認識
@@ -283,21 +285,25 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 }
 ```
 
-- `ReclamationAlgorithm`  
+- `Reclamation`  
     生息演算  
 
 ```json
 {
     "enable": bool,
-    "theme": int,           // テーマ、オプション、デフォルトは 1
-                            // 0 - *砂中の火*
-                            // 1 - *沙洲遺聞*
-    "mode": int,            // モード、オプション、デフォルトは 0
-                            // 0 - すぐにバトルをやめることでバッジと建設ポイントを周回
-                            // 1 - *砂中の火*：水を買ってから基地で鍛造して粗製純金を周回
-                            //     *沙洲遺聞*：アイテムを自動的に製造してロードして通貨を稼ぐ
-    "product": string       // 自動的に製造されるアイテム、オプション、デフォルトは螢光棒
-                            // サブストリングを入力することをお勧めします
+    "theme": string,            // テーマ、オプション、デフォルトは 1
+                                // Fire  - *砂中の火*
+                                // Tales - *沙洲遺聞*
+    "mode": int,                // モード、オプション、デフォルトは 0
+                                // 0 - すぐにバトルをやめることでバッジと建設ポイントを周回
+                                // 1 - *砂中の火*：水を買ってから基地で鍛造して粗製純金を周回
+                                //     *沙洲遺聞*：アイテムを自動的に製造してロードして通貨を稼ぐ
+    "tool_to_craft": string,    // 自動的に製造されるアイテム、オプション、デフォルトは螢光棒
+                                // サブストリングを入力することをお勧めします
+    "increment_mode": int,      // クリックタイプ、オプション、デフォルトは0
+                                // 0 - 連続クリック
+                                // 1 - 長押し
+    "num_craft_batches": int    // 一度の最大製造バッチ数、オプション、デフォルトは 16
 }
 ```
 

@@ -85,7 +85,36 @@ Welcome to the [GitHub Pull Request Tutorial](./pr-tutorial.md) that anyone can 
 
 Note: operations regarding Git can be done by VS2022 instead of command line tools, using the Git changes tab.
 
-## Enable clang-format in Visual Studio
+## MAA file formatting requirements
+
+MAA uses a series of formatting tools to ensure that the code and resource files in the repository are visually unified for easy maintenance and reading.
+
+Please ensure that it has been formatted before submission, or [enable Pre commit Hooks for automatic formatting](#use-pre-commit-hooks-to-automatically-format-code).
+
+The currently enabled formatting tools are as follows:
+
+|File Type | Format Tool|
+| --- | --- |
+| C++ | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
+| Json/Yaml | [Prettier](https://prettier.io/) |
+| Markdown | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
+
+### Use Pre-commit Hooks to Automatically Format Code
+
+1. Ensure that you have Python and Node environments on your computer.
+
+2. Execute the following command in the root directory of the project:
+
+    ```bash
+    pip install pre-commit
+    pre-commit install
+    ```
+
+If pre-commit still cannot be used after pip install, please check if the pip installation path has been added to the PATH.
+
+The formatting tool will automatically run every time you submit to ensure that your code format conforms to the style guide.
+
+### Enable clang-format in Visual Studio
 
 1. Install clang-format version 17 or higher.
 
@@ -97,7 +126,7 @@ Note: operations regarding Git can be done by VS2022 instead of command line too
 3. In Visual Studio, search for 'clang-format' in Tools-Options.
 4. Click `Enable ClangFormat support` and select `Use custom clang-format.exe file` and choose the `clang-format.exe` located in Step 2.
 
-![Enable clang-format in Visual Studio](https://github.com/MaaAssistantArknights/MaaAssistantArknights/assets/18511905/23ab94dd-09da-4b88-8c62-6b5f9dfad1a2)
+![Enable clang-format in Visual Studio](/image/zh-cn/development-enable-vs-clang-format.png)
 
 You are all set with the clang-format integrated in Visual Studio supporting c++20 features!
 

@@ -35,13 +35,17 @@ namespace asst
         bool speed_up();
         bool abandon();
 
-        bool update_deployment(bool init = false, const cv::Mat& reusable = cv::Mat());
+        bool update_deployment(bool init = false, const cv::Mat& reusable = cv::Mat(), bool need_oper_cost = false);
         bool update_kills(const cv::Mat& reusable = cv::Mat());
         bool update_cost(const cv::Mat& reusable = cv::Mat());
+
+        cv::Mat get_top_view(const cv::Mat& cam_img, bool side = true);
 
         bool deploy_oper(const std::string& name, const Point& loc, battle::DeployDirection direction);
         bool retreat_oper(const std::string& name);
         bool retreat_oper(const Point& loc, bool manually = true);
+        bool is_skill_ready(const Point& loc, const cv::Mat& reusable = cv::Mat());
+        bool is_skill_ready(const std::string& name, const cv::Mat& reusable = cv::Mat());
         bool use_skill(const std::string& name, bool keep_waiting = true);
         bool use_skill(const Point& loc, bool keep_waiting = true);
         bool check_pause_button(const cv::Mat& reusable = cv::Mat());

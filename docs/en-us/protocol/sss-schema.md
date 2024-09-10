@@ -8,7 +8,7 @@ icon: game-icons:prisoner
 This document is machine-translated. If you have the ability, please refer to the Chinese version. We would greatly appreciate any errors or suggestions for improvement.
 
 ::: tip
-As JSON format does not support comments, please remove the comments when using the examples below.
+As the JSON format does not support comments, please remove them when using the examples below.
 :::
 
 ```json
@@ -63,11 +63,11 @@ As JSON format does not support comments, please remove the comments when using 
         {
             "stage_name": "Swarm",          // Name of a single-level stage, required
                                            // Supports name, stageId, levelId, recommended stageId or levelId
-                                           // Please do not use codes (e.g. LT-1), which conflict with other preservation stages
+                                           // Please do not use codes (e.g. LT-1), that conflict with other preservation stages
 
 
             "strategies": [                // Required
-                                         // It will deploy the tool_men in each object according to the order. 
+                                         // It will deploy the tool_men in each object according to the order.
                                          // If the current hand does not have any tool_men, it will deploy the next object.
                 {
                     "core": "Thorns",
@@ -109,7 +109,7 @@ As JSON format does not support comments, please remove the comments when using 
             ],
             "draw_as_possible": true,   // "Deploy Operator" button. Whether to use it when available. Optional, default is true.
             "actions": [                // Optional
-                                        // It reuses the logic of copying homework. 
+                                        // It reuses the logic of copying homework.
                                         // If the condition of the action is met, the action is executed. Otherwise, the strategies above are executed.
                 {
                     "type": "Deploy Operator" // New type. Click the "Deploy Operator" button. It is invalid when "draw_as_possible" is true.
@@ -145,6 +145,4 @@ As JSON format does not support comments, please remove the comments when using 
 
 ## Example
 
-[SSS_阿卡胡拉丛林.json](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/copilot/SSS_阿卡胡拉丛林.json)
-
-[SSS_多索雷斯在建地块.json](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/copilot/SSS_多索雷斯在建地块.json)
+<https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/copilot/>

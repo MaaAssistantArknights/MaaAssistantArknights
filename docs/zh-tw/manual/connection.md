@@ -5,10 +5,6 @@ icon: mdi:plug
 
 # 連接設置
 
-:::note
-實體機相關問題請同時參閱 [Android 實體設備](./device/android.md)。
-:::
-
 ## ADB 路徑
 
 :::info 技術細節
@@ -208,9 +204,9 @@ MAA 現在會嘗試從註冊表中讀取 `bluestacks.conf` 的存儲位置，當
 
 具體區別可以閱讀[源碼](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L68)。
 
-### MuMu  截圖增強模式
+### MuMu 截圖增強模式
 
-需使用官版 MuMu 12 V3.8.13 及更新版本，並關閉後台保活。方舟專版、國際版等暫不支持。
+需使用官版 MuMu 12 V4.0.0 及更新版本，並關閉後台保活。國際版等暫不支持。
 
 1. `設置` - `連接設置`，勾選 `啟用 MuMu 截圖增強模式`。
 

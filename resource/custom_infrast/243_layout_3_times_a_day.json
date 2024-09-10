@@ -5,21 +5,13 @@
                 "trading": [
                     {
                         "product": "LMD",
-                        "operators": [
-                            "巫恋",
-                            "龙舌兰",
-                            "卡夫卡"
-                        ],
+                        "operators": ["巫恋", "龙舌兰", "卡夫卡"],
                         "sort": true,
                         "autofill": false
                     },
                     {
                         "product": "LMD",
-                        "operators": [
-                            "但书",
-                            "乌有",
-                            "黑键"
-                        ],
+                        "operators": ["但书", "乌有", "黑键"],
                         "sort": true,
                         "autofill": false
                     }
@@ -27,65 +19,43 @@
                 "manufacture": [
                     {
                         "product": "Battle Record",
-                        "operators": [
-                            "红云",
-                            "稀音",
-                            "帕拉斯"
-                        ],
+                        "operators": ["红云", "稀音", "帕拉斯"],
                         "sort": true,
                         "autofill": false
                     },
                     {
                         "product": "Battle Record",
-                        "operators": [
-                            "食铁兽",
-                            "断罪者",
-                            "槐琥"
-                        ],
+                        "operators": ["食铁兽", "断罪者", "槐琥"],
                         "sort": true,
                         "autofill": false
                     },
                     {
                         "product": "Pure Gold",
-                        "operators": [
-                            "清流",
-                            "温蒂",
-                            "森蚺"
-                        ],
+                        "operators": ["清流", "温蒂", "森蚺"],
                         "sort": true,
                         "autofill": false
                     },
                     {
                         "product": "Pure Gold",
-                        "operators": [
-                            "砾",
-                            "至简",
-                            "迷迭香"
-                        ],
+                        "operators": ["砾", "至简", "迷迭香"],
                         "sort": true,
                         "autofill": false
                     }
                 ],
                 "hire": [
                     {
-                        "operators": [
-                            "絮雨"
-                        ],
+                        "operators": ["絮雨"],
                         "autofill": false
                     }
                 ],
                 "dormitory": [
                     {
-                        "operators": [
-                            "车尔尼"
-                        ],
+                        "operators": ["车尔尼"],
                         "sort": true,
                         "autofill": true
                     },
                     {
-                        "operators": [
-                            "爱丽丝"
-                        ],
+                        "operators": ["爱丽丝"],
                         "sort": true,
                         "autofill": true
                     },
@@ -102,32 +72,20 @@
                 ],
                 "control": [
                     {
-                        "operators": [
-                            "阿米娅",
-                            "重岳",
-                            "琴柳",
-                            "令",
-                            "夕"
-                        ]
+                        "operators": ["阿米娅", "重岳", "琴柳", "令", "夕"]
                     }
                 ],
                 "power": [
                     {
-                        "operators": [
-                            "承曦格雷伊"
-                        ],
+                        "operators": ["承曦格雷伊"],
                         "autofill": false
                     },
                     {
-                        "operators": [
-                            "澄闪"
-                        ],
+                        "operators": ["澄闪"],
                         "autofill": false
                     },
                     {
-                        "operators": [
-                            "格雷伊"
-                        ],
+                        "operators": ["格雷伊"],
                         "autofill": false
                     }
                 ],
@@ -152,21 +110,13 @@
                 "trading": [
                     {
                         "product": "LMD",
-                        "operators": [
-                            "巫恋",
-                            "龙舌兰",
-                            "卡夫卡"
-                        ],
+                        "operators": ["巫恋", "龙舌兰", "卡夫卡"],
                         "sort": true,
                         "autofill": false
                     },
                     {
                         "product": "LMD",
-                        "operators": [
-                            "但书",
-                            "空弦",
-                            "黑键"
-                        ],
+                        "operators": ["但书", "空弦", "黑键"],
                         "sort": true,
                         "autofill": false
                     }
@@ -174,65 +124,43 @@
                 "manufacture": [
                     {
                         "product": "Battle Record",
-                        "operators": [
-                            "食铁兽",
-                            "断罪者",
-                            "槐琥"
-                        ],
+                        "operators": ["食铁兽", "断罪者", "槐琥"],
                         "sort": true,
                         "autofill": false
                     },
                     {
                         "product": "Battle Record",
-                        "operators": [
-                            "远牙",
-                            "野鬃",
-                            "灰毫"
-                        ],
+                        "operators": ["远牙", "野鬃", "灰毫"],
                         "sort": true,
                         "autofill": false
                     },
                     {
                         "product": "Pure Gold",
-                        "operators": [
-                            "水月",
-                            "海沫",
-                            "多萝西"
-                        ],
+                        "operators": ["水月", "海沫", "多萝西"],
                         "sort": true,
                         "autofill": false
                     },
                     {
                         "product": "Pure Gold",
-                        "operators": [
-                            "砾",
-                            "至简",
-                            "迷迭香"
-                        ],
+                        "operators": ["砾", "至简", "迷迭香"],
                         "sort": true,
                         "autofill": false
                     }
                 ],
                 "hire": [
                     {
-                        "operators": [
-                            "絮雨"
-                        ],
+                        "operators": ["絮雨"],
                         "autofill": false
                     }
                 ],
                 "dormitory": [
                     {
-                        "operators": [
-                            "车尔尼"
-                        ],
+                        "operators": ["车尔尼"],
                         "sort": true,
                         "autofill": true
                     },
                     {
-                        "operators": [
-                            "爱丽丝"
-                        ],
+                        "operators": ["爱丽丝"],
                         "sort": true,
                         "autofill": true
                     },
@@ -249,32 +177,20 @@
                 ],
                 "control": [
                     {
-                        "operators": [
-                            "阿米娅",
-                            "凯尔希",
-                            "琴柳",
-                            "焰尾",
-                            "令"
-                        ]
+                        "operators": ["阿米娅", "凯尔希", "琴柳", "焰尾", "令"]
                     }
                 ],
                 "power": [
                     {
-                        "operators": [
-                            "正义骑士号"
-                        ],
+                        "operators": ["正义骑士号"],
                         "autofill": false
                     },
                     {
-                        "operators": [
-                            "澄闪"
-                        ],
+                        "operators": ["澄闪"],
                         "autofill": false
                     },
                     {
-                        "operators": [
-                            "雷蛇"
-                        ],
+                        "operators": ["雷蛇"],
                         "autofill": false
                     }
                 ],
@@ -299,21 +215,13 @@
                 "trading": [
                     {
                         "product": "LMD",
-                        "operators": [
-                            "巫恋",
-                            "龙舌兰",
-                            "柏喙"
-                        ],
+                        "operators": ["巫恋", "龙舌兰", "柏喙"],
                         "sort": true,
                         "autofill": false
                     },
                     {
                         "product": "LMD",
-                        "operators": [
-                            "但书",
-                            "孑",
-                            "银灰"
-                        ],
+                        "operators": ["但书", "孑", "银灰"],
                         "sort": true,
                         "autofill": false
                     }
@@ -321,50 +229,32 @@
                 "manufacture": [
                     {
                         "product": "Battle Record",
-                        "operators": [
-                            "红云",
-                            "稀音",
-                            "帕拉斯"
-                        ],
+                        "operators": ["红云", "稀音", "帕拉斯"],
                         "sort": true,
                         "autofill": false
                     },
                     {
                         "product": "Battle Record",
-                        "operators": [
-                            "远牙",
-                            "野鬃",
-                            "灰毫"
-                        ],
+                        "operators": ["远牙", "野鬃", "灰毫"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "product": "Pure Gold",
-                        "operators": [
-                            "清流",
-                            "温蒂",
-                            "森蚺"
-                        ],
+                        "operators": ["清流", "温蒂", "森蚺"],
                         "sort": true,
                         "autofill": false
                     },
                     {
                         "product": "Pure Gold",
-                        "operators": [
-                            "水月",
-                            "海沫",
-                            "多萝西"
-                        ],
+                        "operators": ["水月", "海沫", "多萝西"],
                         "sort": true,
                         "autofill": false
                     }
                 ],
                 "hire": [
                     {
-                        "operators": [
-                            "斥罪"
-                        ],
+                        "operators": ["斥罪"],
                         "autofill": false
                     }
                 ],
@@ -392,32 +282,20 @@
                 ],
                 "control": [
                     {
-                        "operators": [
-                            "诗怀雅",
-                            "凯尔希",
-                            "焰尾",
-                            "灵知",
-                            "老鲤"
-                        ]
+                        "operators": ["诗怀雅", "凯尔希", "焰尾", "灵知", "老鲤"]
                     }
                 ],
                 "power": [
                     {
-                        "operators": [
-                            "承曦格雷伊"
-                        ],
+                        "operators": ["承曦格雷伊"],
                         "autofill": false
                     },
                     {
-                        "operators": [
-                            "格雷伊"
-                        ],
+                        "operators": ["格雷伊"],
                         "autofill": false
                     },
                     {
-                        "operators": [
-                            "雷蛇"
-                        ],
+                        "operators": ["雷蛇"],
                         "autofill": false
                     }
                 ],

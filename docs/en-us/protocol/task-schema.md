@@ -26,7 +26,7 @@ Usage of `resource/tasks.json` and description of each field
                                             // defaults to DoNothing if not filled in
                                             // - ClickSelf: Click on the recognized location (a random point within the recognized target range)
                                             // - ClickRand: Click on a random position in the whole screen
-                                            // - ClickRect: Click on the specified area, corresponds to the specificRect field, not recommended to use this option
+                                            // - ClickRect: Click on the specified area, that corresponds to the specificRect field, not recommended to use this option
                                             // - DoNothing: Do nothing
                                             // - Stop: Stop the current task
                                             // - Swipe: slide, corresponds to the specificRect and rectMove fields
@@ -38,10 +38,10 @@ Usage of `resource/tasks.json` and description of each field
         "subErrorIgnored": true,            // Optional, if or not to ignore subtask errors.
                                             // default false if not filled
                                             // If false, if a subtask has an error, it will not continue to execute subsequent tasks (equivalent to this task having an error)
-                                            // When true, it has no effect on whether a subtask has an error or not
+                                            // When true, it does not affect whether a subtask has an error or not
 
         "next": [ "OtherTaskName1", "OtherTaskName2" ],
-                                            // Optional, indicating the next task to be executed after the current task and the sub task are executed
+                                            // Optional, indicating the next task to be executed after the current task and the subtask are executed
                                             // will be identified from front to back, and the first matching one will be executed
                                             // default stop after the current task is executed
                                             // For the same task, the second time will not be recognized after the first recognition.
@@ -71,11 +71,11 @@ Usage of `resource/tasks.json` and description of each field
 
         "rectMove": [ 0, 0, 0, 0 ],         // Optional, target movement after recognition, not recommended Auto-scaling with 1280 * 720 as base
                                             // For example, if A is recognized, but the actual location to be clicked is somewhere in the 10 pixel 5 * 2 area below A.
-                                            // then you can fill in [ 0, 10, 5, 2 ], try to recognize the position to be clicked directly if you can, this option is not recommended
+                                            //Then you can fill in [ 0, 10, 5, 2 ], and try to recognize the position to be clicked directly if you can, this option is not recommended
                                             // Additional, valid and mandatory when action is Swipe, indicates the end of the slide.
 
         "reduceOtherTimes": [ "OtherTaskName1", "OtherTaskName2" ],
-                                            // Optional, executes to reduce the execution count of other tasks.
+                                            // Optional; executes to reduce the execution count of other tasks.
                                             // For example, if you take a sanity pill, it means that the last click on the blue start action button did not take effect, so the blue start action is -1
 
         "specificRect": [ 100, 100, 50, 50 ],
@@ -86,29 +86,51 @@ Usage of `resource/tasks.json` and description of each field
         "specialParams": [ int, ... ],      // Parameters needed for some special recognizers
                                             // extra, optional when action is Swipe, [0] for duration, [1] for whether to enable extra sliding
 
-        /* The following fields are only valid if algorithm is MatchTemplate */
+        /* The following fields are only valid if the algorithm is MatchTemplate */
 
         "template": "xxx.png",              // Optional, the name of the image file to be matched
                                             // default "TaskName.png"
 
-        "templThreshold": 0.8,              // Optional, threshold value for image template matching score, above which the image is considered recognized.
+        "templThreshold": 0.8,              // Optional, a threshold value for image template matching score, above which the image is considered recognized.
                                             // default 0.8, you can check the actual score according to the log
 
-        "maskRange": [ 1, 255 ], // Optional, the grayscale mask range. For example, the part of the image that does not need to be recognized will be painted black (grayscale value of 0)
-                                            // Then set "maskRange" to [ 1, 255 ], to instantly ignore the blacked out parts when matching
+        "maskRange": [ 1, 255 ],            // Optional, the grayscale mask range.
+                                            // For example, the part of the image that does not need to be recognized will be painted black (grayscale value of 0)
+                                            // Then set "maskRange" to [ 1, 255 ], to instantly ignore the blacked-out parts when matching
 
-        /* The following fields are only valid if algorithm is OcrDetect */
+        "colorScales": [                    // Effective and required when method is HSVCount or RGBCount, color mask range. 
+            [                               // list<array<array<int, 3>, 2> | array<int, 2>>
+                [23, 150, 40],              // Structure is [[lower1, upper1], [lower2, upper2], ...]
+                [25, 230, 150]              //     Inner layer is int if grayscale,
+            ],                              //     　　is array<int, 3> if three-channel color, method determines whether it is RGB or HSV;
+            ...                             //     Middle layer array<*, 2> is the color (or grayscale) lower and upper limits:
+        ],                                  //     Outer layer represents different color ranges, the region to be identified is the union of their corresponding masks on the template image.
+
+        "colorWithClose": true,             // Optional, effective when method is HSVCount or RGBCount, default is true
+                                            // Whether to first apply morphological closing to the mask range when counting colors.
+                                            // Morphological closing can fill small black spots, generally improving color counting matching results, but if the image contains text, it is recommended to set it to false
+
+        "method": "Ccoeff",                 // Optional, template matching algorithm, can be a list
+                                            // Default is Ccoeff if not specified
+                                            //      - Ccoeff:       Template matching algorithm insensitive to color, corresponds to cv::TM_CCOEFF_NORMED
+                                            //      - RGBCount:     Template matching algorithm sensitive to color,
+                                            //                      First binarize the region to be matched and the template image based on maskRange,
+                                            //                      Calculate the similarity in RGB color space using F1-score as the indicator,
+                                            //                      Then dot the result with the Ccoeff result
+                                            //      - HSVCount:     Similar to RGBCount, but the color space is changed to HSV
+
+        /* The following fields are only valid if the algorithm is OcrDetect */
 
         "text": [ "接管作战", "代理指挥" ],  // Required, the text content to be recognized, as long as any match is considered to be recognized
 
-        "ocrReplace": [                     // Optional, replacement for commonly misidentified text (regular support)
+        "ocrReplace": [                     // Optional, a replacement for commonly misidentified text (regular support)
             [ "千员", "干员" ],
             [ ".+击干员", "狙击干员" ]
         ],
 
         "fullMatch": false,                 // optional, whether the text recognition needs to match all words (not multiple words), default is false
-                                            // false, as long as it is a substring: for example, text: [ "start" ], the actual recognition to "start action", also considered successful.
-                                            // if true, "start" must be recognized, not one more word
+                                            // false, as long as it is a substring: for example, text: [ "start" ], the actual recognition to "start action", is also considered successful.
+                                            //If true, "start" must be recognized, not one more word
 
         "isAscii": false,                   // optional, whether the text content to be recognized is ASCII characters
                                             // default false if not filled

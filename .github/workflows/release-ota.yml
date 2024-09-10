@@ -9,12 +9,12 @@ on:
       limit:
         description: Number of releases to fetch from MaaAssistantArknights, 2 at least
         required: false
-        default: '31'
+        default: "31"
         type: number
       limit_2:
         description: Number of releases to fetch from MaaRelease
         required: false
-        default: '30'
+        default: "30"
         type: number
 
 env:
@@ -37,8 +37,18 @@ jobs:
         id: fetchReleaseInfo
         run: |
           mkdir -pv build-ota && cd build-ota
-          gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 31 }} | tee ./release_maa.txt
-          gh release list --repo "MaaAssistantArknights/MaaRelease" --limit ${{ inputs.limit_2 || 30 }} | tee ./release_mr.txt
+
+          # Convert inputs to integers
+          limit=${{ inputs.limit || 31 }}
+          limit=${limit%.*}
+          echo "Parsed limit: $limit"
+
+          limit_2=${{ inputs.limit_2 || 30 }}
+          limit_2=${limit_2%.*}
+          echo "Parsed limit_2: $limit_2"
+
+          gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit $limit | tee ./release_maa.txt
+          gh release list --repo "MaaAssistantArknights/MaaRelease" --limit $limit_2 | tee ./release_mr.txt
           head -n 1 ./release_maa.txt | awk '{ print $1 }' > ./config
 
           tail -n +1 ./release_maa.txt | awk '{ print $1 }' > ./tags_maa.txt
@@ -155,31 +165,6 @@ jobs:
       - name: Cleanup files
         run: |
           find ./packages -type f ! \( -name 'MAA-${{ needs.create-tag.outputs.release_tag }}-macos-universal.dmg' -o -name '*.delta' -o -name '*.xml' \) -print -delete
-
-      - name: Unpack the .dmg files for .dylib
-        run: |
-          cd ${{ runner.temp }}
-          mkdir -p macos-runtime-temp
-          echo ::group::Attaching release package...
-          hdiutil attach ${{ github.workspace }}/packages/MAA-${{ needs.create-tag.outputs.release_tag }}-macos-universal.dmg
-          echo ::endgroup::
-          echo ::group::Copying files...
-          cp -v /Volumes/MAA/MAA.app/Contents/Frameworks/*.dylib macos-runtime-temp/
-          cp -vr /Volumes/MAA/MAA.app/Contents/Resources/resource macos-runtime-temp/resource
-          echo ::endgroup::
-          echo ::group::Linking files...
-          libonnxruntime_file=$(basename macos-runtime-temp/libonnxruntime*.dylib)
-          ln -vs $libonnxruntime_file macos-runtime-temp/libonnxruntime.dylib
-          libopencv_world_file=$(basename macos-runtime-temp/libopencv_world*.dylib)
-          ln -vs $libopencv_world_file macos-runtime-temp/libopencv_world4.dylib
-          echo ::endgroup::
-          cd macos-runtime-temp
-          echo ::group::Compressing files...
-          zip -yrX9 ${{ github.workspace }}/packages/MAA-${{ needs.create-tag.outputs.release_tag }}-macos-runtime-universal.zip *
-          echo ::endgroup::
-          echo ::group::Detaching release package...
-          hdiutil detach /Volumes/MAA
-          echo ::endgroup::
 
       - name: Upload to MaaRelease
         uses: svenstaro/upload-release-action@v2

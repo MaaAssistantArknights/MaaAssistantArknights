@@ -248,7 +248,8 @@
             "char_4000_jnight": "ジャスティスナイト",
             "char_4077_palico": "テラ大陸調査団",
             "char_4091_ulika": "U-Official",
-            "char_4093_frston": "Friston-3"
+            "char_4093_frston": "Friston-3",
+            "char_4136_phonor": ""
         },
         "2": {
             "char_009_12fce": "12F",
@@ -337,7 +338,8 @@
             "char_4063_quartz": "クォーツ",
             "char_4067_lolxh": "羅小黒",
             "char_4100_caper": "ケイパー",
-            "char_4107_vrdant": "ヴァーダント"
+            "char_4107_vrdant": "ヴァーダント",
+            "char_4130_luton": ""
         },
         "5": {
             "char_002_amiya": "アーミヤ",
@@ -466,7 +468,7 @@
             "char_4016_kazema": "カゼマル",
             "char_4017_puzzle": "パズル",
             "char_4019_ncdeer": "九色鹿",
-            "char_4023_rfalcn": "",
+            "char_4023_rfalcn": "ケストレル",
             "char_4025_aprot2": "シャレム",
             "char_4032_provs": "プロヴァイゾ",
             "char_4036_forcer": "エンフォーサー",
@@ -487,7 +489,21 @@
             "char_4106_bryota": "ブライオファイタ",
             "char_4109_baslin": "ベースライン",
             "char_4110_delphn": "デルフィーン",
-            "char_4114_harold": "ハロルド"
+            "char_4114_harold": "ハロルド",
+            "char_4119_wanqin": "ワンチィン",
+            "char_4122_grabds": "グレインバッズ",
+            "char_4124_iana": "Iana",
+            "char_4125_rdoc": "Doc",
+            "char_4126_fuze": "Fuze",
+            "char_4131_odda": "",
+            "char_4137_udflow": "",
+            "char_4139_papyrs": "",
+            "char_4140_lasher": "",
+            "char_4142_laios": "",
+            "char_4143_sensi": "",
+            "char_4144_chilc": "",
+            "char_4147_mitm": "",
+            "char_4151_tinman": ""
         },
         "6": {
             "char_003_kalts": "ケルシー",
@@ -560,7 +576,7 @@
             "char_2015_dusk": "シー",
             "char_2023_ling": "リィン",
             "char_2024_chyue": "チョンユエ",
-            "char_2025_shu": "",
+            "char_2025_shu": "シュウ",
             "char_4009_irene": "アイリーニ",
             "char_4011_lessng": "レッシング",
             "char_4027_heyak": "ホルハイヤ",
@@ -569,16 +585,26 @@
             "char_4046_ebnhlz": "エーベンホルツ",
             "char_4048_doroth": "ドロシー",
             "char_4055_bgsnow": "パゼオンカ",
+            "char_4058_pepe": "",
             "char_4064_mlynar": "ムリナール",
             "char_4065_judge": "ペナンス",
             "char_4072_ironmn": "ステインレス",
             "char_4080_lin": "リン",
             "char_4082_qiubai": "チューバイ",
             "char_4087_ines": "イネス",
-            "char_4088_hodrer": "へドリー",
+            "char_4088_hodrer": "ヘドリー",
             "char_4098_vvana": "ヴィヴィアナ",
-            "char_4116_blkkgt": "デーゲンブレヒャー"
-            "char_4117_ray": "レイ"
+            "char_4116_blkkgt": "デーゲンブレヒャー",
+            "char_4117_ray": "レイ",
+            "char_4121_zuole": "ズオ・ラウ",
+            "char_4123_ela": "Ela",
+            "char_4132_ascln": "",
+            "char_4133_logos": "",
+            "char_4134_cetsyr": "",
+            "char_4138_narant": "",
+            "char_4141_marcil": "",
+            "char_4145_ulpia": "",
+            "char_4146_nymph": ""
         }
     }
 }

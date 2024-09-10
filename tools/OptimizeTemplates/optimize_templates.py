@@ -7,6 +7,9 @@ import hashlib
 import pathlib
 import re
 
+import numpy as np
+from PIL import Image
+
 def remove_auxiliary_data(input_file, output_file):
     with open(input_file, 'rb') as f:
         data = f.read()
@@ -40,9 +43,15 @@ def get_file_id(file_path: str):
     # resource\\template\\xxx.png-> official/xxx
     m = re.search(r"template/([^/]+)\.png", file_id)
     if m: return f"official/{m.group(1)}"
-    # resource\\PATH\\TO\\xxx.png-> other/PATH/TO/xxx
+    # resource\\PATH\\TO\\xxx.png-> resource/PATH/TO/xxx
     m = re.search(r"resource/(.*)\.png", file_id)
-    if m: return f"other/{m.group(1)}"
+    if m: return f"resource/{m.group(1)}"
+    # docs\\.vuepress\\public\\image\\PATH\\TO\\xxx.png -> docs/PATH/TO/xxx
+    m = re.search(r"docs/.vuepress/public/image/(.*)\.png", file_id)
+    if m: return f"docs/{m.group(1)}"
+    # website\\apps\\web\\PATH\\TO\\xxx.png -> web/PATH/TO/xxx
+    m = re.search(r"website/apps/web/(.*)\.png", file_id)
+    if m: return f"web/{m.group(1)}"
 
     return None
 
@@ -68,7 +77,7 @@ def check_png_need_update(file_path: str, perfect_pngs: dict, quiet: bool):
 
     return True
 
-def update_png(file_path: str, perfect_pngs: dict, quiet: bool):
+def update_png_with_optipng(file_path: str, perfect_pngs: dict, quiet: bool):
     if check_png_need_update(file_path, perfect_pngs, quiet):
         if not quiet: print("updating", file_path)
     else:
@@ -81,9 +90,9 @@ def update_png(file_path: str, perfect_pngs: dict, quiet: bool):
     input_file = output_file = file_path
     remove_auxiliary_data(input_file, output_file)
     if quiet:
-        os.system(f"optipng -quiet -o7 -zm1-9 -fix {output_file}")
+        os.system(f"optipng -quiet -o7 -zm1-9 -fix \"{output_file}\"")
     else:
-        os.system(f"optipng -o7 -zm1-9 -fix {output_file}")
+        os.system(f"optipng -o7 -zm1-9 -fix \"{output_file}\"")
 
     sz_after = os.stat(file_path).st_size
 
@@ -100,6 +109,44 @@ def update_png(file_path: str, perfect_pngs: dict, quiet: bool):
     update_perfect_png_dict(perfect_pngs)
     return sz_before - sz_after
 
+def update_png_with_oxipng(file_path: str, perfect_pngs: dict, quiet: bool):
+    if check_png_need_update(file_path, perfect_pngs, quiet):
+        if not quiet: print("updating", file_path)
+    else:
+        return False
+
+    file_path = str(pathlib.Path(file_path).resolve())
+    file_id = get_file_id(file_path)
+    sz_before = os.stat(file_path).st_size
+
+    img_before = np.array(Image.open(file_path).convert('L'))
+
+    if quiet:
+        os.system(f"oxipng -o max --fast -Z -s -q \"{file_path}\"")
+        os.system(f"oxipng -o 2 -s -q \"{file_path}\"")
+    else:
+        os.system(f"oxipng -o max --fast -Z -s \"{file_path}\"")
+        os.system(f"oxipng -o 2 -s \"{file_path}\"")
+
+    sz_after = os.stat(file_path).st_size
+
+    if not quiet:
+        print(f"before: {sz_before} Bytes, after: {sz_after} Bytes, diff: {sz_before - sz_after} Bytes")
+
+    # update file sha256
+    with open(file_path, "rb") as f:
+        data = f.read()
+        sha256 = hashlib.sha256(data).hexdigest()
+        perfect_pngs.update({file_id: sha256})
+
+    img_after = np.array(Image.open(file_path).convert('L'))
+    if not (img_before == img_after).all():
+        return -1
+
+    if not quiet: print("updated", file_path)
+    update_perfect_png_dict(perfect_pngs)
+    return sz_before - sz_after
+
 cur_dir = pathlib.Path(__file__).parent.resolve()
 perfect_pngs_path = str(cur_dir / "optimize_templates.json")
 def update_perfect_png_dict(perfect_pngs: dict):
@@ -109,7 +156,7 @@ def update_perfect_png_dict(perfect_pngs: dict):
 def ArgParser():
     parser = ArgumentParser()
     parser.add_argument("-p", "--path", dest="path", nargs="*", help="the paths of png files or folders", default=[])
-    parser.add_argument("--quiet", dest="quiet", action="store_true")
+    parser.add_argument("-q", "--quiet", dest="quiet", action="store_true")
     return parser
 
 if __name__ == '__main__':
@@ -125,12 +172,19 @@ if __name__ == '__main__':
             perfect_pngs = json.load(f)
 
     if len(paths) == 0:
+        docs_dir = cur_dir.parent.parent / "docs"
+        website_dir = cur_dir.parent.parent / "website"
         resource_dir = cur_dir.parent.parent / "resource"
-        paths = [str(resource_dir / "global"), str(resource_dir / "template")]
+        paths = [
+            str(resource_dir / "global"),
+            str(resource_dir / "template"),
+            str(docs_dir),
+            str(website_dir),
+        ]
         print("no path specified, use default paths:", paths)
 
     files = []
-    total_files_sz = 0
+    tqdm_total = 0
 
     for path in paths:
         if pathlib.Path(path).is_dir():
@@ -139,16 +193,19 @@ if __name__ == '__main__':
                     file = os.path.join(root, f)
                     if check_png_need_update(file, perfect_pngs, quiet):
                         files.append(file)
-                        total_files_sz += os.stat(file).st_size
+                        tqdm_total += os.stat(file).st_size ** 2 // 2 ** 20
         elif pathlib.Path(path).is_file():
             files.append(path)
-            total_files_sz += os.stat(file).st_size
+            tqdm_total += os.stat(path).st_size ** 2 // 2 ** 20
 
     total_diff_sz = 0
-    if quiet: t = tqdm(files, total=total_files_sz)
+    if quiet: t = tqdm(files, total=tqdm_total)
     for i, file in enumerate(files):
         cur_file_sz = os.stat(file).st_size
-        diff_sz = update_png(file, perfect_pngs, quiet)
+        diff_sz = update_png_with_oxipng(file, perfect_pngs, quiet)
+        if diff_sz == -1:
+            print("error.")
+            exit(-1)
         if diff_sz:
             total_diff_sz += diff_sz
             optimized_png_paths.append(file)
@@ -161,7 +218,7 @@ if __name__ == '__main__':
             total_diff_sz_str = f"{(total_diff_sz / 1048576):.2f} MiB"
 
         if quiet:
-            t.update(cur_file_sz)
+            t.update(cur_file_sz ** 2 // 2 ** 20)
             t.set_postfix(file_counts=f"{i+1}/{len(files)}", reduced_size=total_diff_sz_str)
             t.refresh()
         else:

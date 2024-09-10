@@ -16,6 +16,7 @@
 #include "Miscellaneous/TilePack.h"
 #include "OnnxSessions.h"
 #include "Roguelike/RoguelikeCopilotConfig.h"
+#include "Roguelike/RoguelikeMapConfig.h"
 #include "Roguelike/RoguelikeRecruitConfig.h"
 #include "Roguelike/RoguelikeShoppingConfig.h"
 #include "Roguelike/RoguelikeStageEncounterConfig.h"
@@ -171,6 +172,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "Phantom"_p / "autopilot"_p);
     LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "Mizuki"_p / "autopilot"_p);
     LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "Sami"_p / "autopilot"_p);
+    LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "Sarkaz"_p / "autopilot"_p);
 
     // –––––––– Roguelike Recruitment Config ––––––––––––––––––––––––––––––––––––––––––
     LoadResourceAndCheckRet(
@@ -182,6 +184,9 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LoadResourceAndCheckRet(
         RoguelikeRecruitConfig,
         "roguelike"_p / "Sami"_p / "recruitment.json"_p);
+    LoadResourceAndCheckRet(
+        RoguelikeRecruitConfig,
+        "roguelike"_p / "Sarkaz"_p / "recruitment.json"_p);
 
     // –––––––– Roguelike Shopping Config –––––––––––––––––––––––––––––––––––––––––––––
     LoadResourceAndCheckRet(
@@ -193,6 +198,9 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LoadResourceAndCheckRet(
         RoguelikeShoppingConfig,
         "roguelike"_p / "Sami"_p / "shopping.json"_p);
+    LoadResourceAndCheckRet(
+        RoguelikeShoppingConfig,
+        "roguelike"_p / "Sarkaz"_p / "shopping.json"_p);
 
     // –––––––– Roguelike Encounter Config ––––––––––––––––––––––––––––––––––––––––––––
     LoadResourceAndCheckRet(
@@ -206,6 +214,9 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         "roguelike"_p / "Sami"_p / "encounter"_p / "default.json"_p);
     LoadResourceAndCheckRet(
         RoguelikeStageEncounterConfig,
+        "roguelike"_p / "Sarkaz"_p / "encounter"_p / "default.json"_p);
+    LoadResourceAndCheckRet(
+        RoguelikeStageEncounterConfig,
         "roguelike"_p / "Phantom"_p / "encounter"_p / "deposit.json"_p);
     LoadResourceAndCheckRet(
         RoguelikeStageEncounterConfig,
@@ -215,7 +226,15 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         "roguelike"_p / "Sami"_p / "encounter"_p / "deposit.json"_p);
     LoadResourceAndCheckRet(
         RoguelikeStageEncounterConfig,
+        "roguelike"_p / "Sarkaz"_p / "encounter"_p / "deposit.json"_p);
+    LoadResourceAndCheckRet(
+        RoguelikeStageEncounterConfig,
         "roguelike"_p / "Sami"_p / "encounter"_p / "collapse.json"_p);
+
+    // –––––––– Roguelike Map Config ––––––––––––––––––––––––––––––––––––––––––––------
+    LoadResourceAndCheckRet(
+        RoguelikeMapConfig,
+        "roguelike"_p / "Sarkaz"_p / "map.json"_p);
 
     // –––––––– Sami Plugin Config ––––––––––––––––––––––––––––––––––––––––––––––––––––
     LoadResourceAndCheckRet(

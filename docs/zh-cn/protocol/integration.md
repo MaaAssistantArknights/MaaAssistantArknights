@@ -59,7 +59,9 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```json
 // 对应的任务参数
 {
-    "enable": bool,              // 是否启用本任务，可选，默认为 true
+    "enable": bool,              // 是否启用本任务，可选，预设为 true
+    "client_type": string,       // 客户端版本，必选，填空则不执行
+                                 // 选项："Official" | "Bilibili" | "txwy" | "YoStarEN" | "YoStarJP" | "YoStarKR"
 }
 ```
 
@@ -97,7 +99,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 }
 ```
 
-另支持少部分资源关卡名请参考[集成示例](..\..\..\tools\AutoLocalization\example\zh-cn.xaml#L260)
+另支持少部分资源关卡名请参考[集成示例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/tools/AutoLocalization/example/zh-cn.xaml#L260)
 
 - `Recruit`  
   公开招募
@@ -303,21 +305,25 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 }
 ```
 
-- `ReclamationAlgorithm`  
+- `Reclamation`  
     生息演算
 
 ```json
 {
     "enable": bool,
-    "theme": int,           // 主题，可选项。默认为 1
-                            // 0 - *沙中之火*
-                            // 1 - *沙洲遗闻*
-    "mode": int,            // 模式，可选项。默认为 0
-                            // 0 - 刷分与建造点，进入战斗直接退出
-                            // 1 - 沙中之火：刷赤金，联络员买水后基地锻造；
-                            //     沙洲遗闻：自动制造物品并读档刷货币
-    "product": string       // 自动制造的物品，可选项，默认为荧光棒
-                            // 建议填写子串
+    "theme": string,            // 主题，可选项。默认为 1
+                                // Fire  - *沙中之火*
+                                // Tales - *沙洲遗闻*
+    "mode": int,                // 模式，可选项。默认为 0
+                                // 0 - 刷分与建造点，进入战斗直接退出
+                                // 1 - 沙中之火：刷赤金，联络员买水后基地锻造；
+                                //     沙洲遗闻：自动制造物品并读档刷货币
+    "tool_to_craft": string,    // 自动制造的物品，可选项，默认为荧光棒
+                                // 建议填写子串
+    "increment_mode": int,      // 点击类型，可选项。默认为0
+                                // 0 - 连点
+                                // 1 - 长按
+    "num_craft_batches": int    // 单次最大制造轮数，可选。默认为 16
 }
 ```
 

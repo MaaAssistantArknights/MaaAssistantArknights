@@ -9,7 +9,7 @@ const blobs = [
 
 export function AnimatedBlobs() {
   return (
-    <div className="absolute h-full w-full overflow-hidden blur-[9rem] left-[-10rem] top-[-10rem]">
+    <div className="absolute h-full w-full overflow-hidden transform-gpu blur-[9rem] left-[-10rem] top-[-10rem]">
       {blobs.map((blob, i) => (
         <div key={i} className={clsx('absolute top-[50vh]', blob[1])}>
           <div

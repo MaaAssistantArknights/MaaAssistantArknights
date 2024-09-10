@@ -4,16 +4,22 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 
+asst::RoguelikeControlTaskPlugin::RoguelikeControlTaskPlugin(
+    const AsstCallback& callback,
+    Assistant* inst,
+    std::string_view task_chain,
+    const std::shared_ptr<RoguelikeConfig>& data) :
+    AbstractTaskPlugin(callback, inst, task_chain),
+    m_config(data)
+{
+}
+
 bool asst::RoguelikeControlTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
     if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
 
-    if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
-        Log.error("Roguelike name doesn't exist!");
-        return false;
-    }
     const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
@@ -32,11 +38,11 @@ bool asst::RoguelikeControlTaskPlugin::verify(AsstMsg msg, const json::value& de
     return false;
 }
 
-void asst::RoguelikeControlTaskPlugin::exit_then_stop()
+void asst::RoguelikeControlTaskPlugin::exit_then_stop(bool abandon) const
 {
     ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ExitThenAbandon" })
+        .set_times_limit("Roguelike@Abandon", abandon ? INT_MAX : 0)
         .set_times_limit("Roguelike@StartExplore", 0)
-        .set_times_limit("Roguelike@Abandon", 0)
         .run();
 }
 

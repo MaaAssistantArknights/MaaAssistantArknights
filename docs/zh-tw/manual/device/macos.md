@@ -5,7 +5,7 @@ icon: basil:apple-solid
 # Mac 模擬器
 
 ::: tip
-遇到問題請先參考 [1.2-常見問題](1.2-常見問題.md)
+遇到問題請先參考 [常見問題](../faq.md)
 :::
 
 ## Apple Silicon 晶片
@@ -48,7 +48,7 @@ icon: basil:apple-solid
 
 ### ✅ [夜神模擬器](https://www.yeshen.com/)
 
-完美支援。目前 mac 上 MAAX 版本還不支援模擬器自動適配，需要在 MAA `設定` - `連接設定` 中使用 `adb` 連接 `127.0.0.1:62001` ，注意通訊埠不是預設的 `5555` ，關於模擬器通訊埠的詳細說明，請參考 [常見模擬器 adb 通訊埠](1.2-常見問題.md#常見安卓模擬器adb通訊埠)。
+完美支援。目前 mac 上 MAAX 版本還不支援模擬器自動適配，需要在 MAA `設定` - `連接設定` 中使用 `adb` 連接 `127.0.0.1:62001` ，注意通訊埠不是預設的 `5555` ，關於模擬器通訊埠的詳細說明，請參考 [常見模擬器 adb 通訊埠](../faq.md#常見安卓模擬器adb通訊埠)。
 
 補充：mac 下夜神模擬器的 adb 二進制檔案的位置為 `/Applications/NoxAppPlayer.app/Contents/MacOS/adb`，在父目錄 `MacOS` 下可使用 `adb devices` 命令查看 adb 通訊埠。
 

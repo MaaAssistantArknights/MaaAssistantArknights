@@ -2,8 +2,9 @@
 #include <fstream>
 #include <unordered_set>
 
-#include "Utils/Ranges.hpp"
-#include "Utils/StringMisc.hpp"
+#include <meojson/json.hpp>
+#include <opencv2/opencv.hpp>
+
 #include "Utils/Time.hpp"
 
 #ifdef _MSC_VER
@@ -17,7 +18,6 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-enum-enum-conversion"
 #endif
-#include <opencv2/opencv.hpp>
 #ifdef _MSC_VER
 #pragma warning(pop)
 #elif defined(__clang__)
@@ -25,22 +25,16 @@
 #elif defined(__GNUC__)
 #pragma GCC diagnostic pop
 #endif
-#include <meojson/json.hpp>
 
 inline static void ltrim(std::string& s)
 {
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
-                return !std::isspace(ch);
-            }));
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) { return !std::isspace(ch); }));
 }
 
 // trim from end (in place)
 inline static void rtrim(std::string& s)
 {
-    s.erase(
-        std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) { return !std::isspace(ch); })
-            .base(),
-        s.end());
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) { return !std::isspace(ch); }).base(), s.end());
 }
 
 // trim from both ends (in place)
@@ -54,25 +48,15 @@ bool update_items_data(
     const std::filesystem::path& input_dir,
     const std::filesystem::path& output_dir,
     bool with_imgs = true);
-bool cvt_single_item_template(
-    const std::filesystem::path& input,
-    const std::filesystem::path& output);
-bool update_infrast_data(
-    const std::filesystem::path& input_dir,
-    const std::filesystem::path& output_dir);
-bool update_stages_data(
-    const std::filesystem::path& input_dir,
-    const std::filesystem::path& output_dir);
+bool cvt_single_item_template(const std::filesystem::path& input, const std::filesystem::path& output);
+bool update_infrast_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
+bool update_stages_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 bool update_roguelike_recruit(
     const std::filesystem::path& input_dir,
     const std::filesystem::path& output_dir,
     const std::filesystem::path& solution_dir);
-bool update_levels_json(
-    const std::filesystem::path& input_file,
-    const std::filesystem::path& output_dir);
-bool update_infrast_templates(
-    const std::filesystem::path& input_dir,
-    const std::filesystem::path& output_dir);
+bool update_levels_json(const std::filesystem::path& input_file, const std::filesystem::path& output_dir);
+bool update_infrast_templates(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 bool generate_english_roguelike_stage_name_replacement(
     const std::filesystem::path& ch_file,
     const std::filesystem::path& en_file);
@@ -80,18 +64,13 @@ bool update_battle_chars_info(
     const std::filesystem::path& input_dir,
     const std::filesystem::path& overseas_dir,
     const std::filesystem::path& output_dir);
-bool update_recruitment_data(
-    const std::filesystem::path& input_dir,
-    const std::filesystem::path& output,
-    bool is_base);
+bool update_recruitment_data(const std::filesystem::path& input_dir, const std::filesystem::path& output, bool is_base);
 bool check_roguelike_replace_for_overseas(
     const std::filesystem::path& input_dir,
     const std::filesystem::path& tasks_path,
     const std::filesystem::path& base_dir,
     const std::filesystem::path& output_dir);
-bool update_version_info(
-    const std::filesystem::path& input_dir,
-    const std::filesystem::path& output_dir);
+bool update_version_info(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 
 int main([[maybe_unused]] int argc, char** argv)
 {
@@ -125,9 +104,7 @@ int main([[maybe_unused]] int argc, char** argv)
 
     // Update levels.json from ArknightsGameResource
     std::cout << "------- Update levels.json for Official -------" << std::endl;
-    if (!update_levels_json(
-            official_data_dir / "levels.json",
-            resource_dir / "Arknights-Tile-Pos")) {
+    if (!update_levels_json(official_data_dir / "levels.json", resource_dir / "Arknights-Tile-Pos")) {
         std::cerr << "update levels.json failed" << std::endl;
         return -1;
     }
@@ -152,9 +129,7 @@ int main([[maybe_unused]] int argc, char** argv)
 
     // Update infrast templates from ArknightsGameResource
     std::cout << "------- Update infrast templates for Official -------" << std::endl;
-    if (!update_infrast_templates(
-            official_data_dir / "building_skill",
-            resource_dir / "template" / "infrast")) {
+    if (!update_infrast_templates(official_data_dir / "building_skill", resource_dir / "template" / "infrast")) {
         std::cerr << "Update infrast templates failed" << std::endl;
         return -1;
     }
@@ -183,10 +158,7 @@ int main([[maybe_unused]] int argc, char** argv)
 
     // Update battle chars info for all clients
     std::cout << "------- Update battle chars info for all clients -------" << std::endl;
-    if (!update_battle_chars_info(
-            official_data_dir / "gamedata" / "excel",
-            overseas_data_dir,
-            resource_dir)) {
+    if (!update_battle_chars_info(official_data_dir / "gamedata" / "excel", overseas_data_dir, resource_dir)) {
         std::cerr << "Update battle chars info failed" << std::endl;
         return -1;
     }
@@ -196,10 +168,7 @@ int main([[maybe_unused]] int argc, char** argv)
 
     // Update recruitment data from ArknightsGameResource
     std::cout << "------- Update recruitment data for Official -------" << std::endl;
-    if (!update_recruitment_data(
-            official_data_dir / "gamedata" / "excel",
-            resource_dir / "recruitment.json",
-            true)) {
+    if (!update_recruitment_data(official_data_dir / "gamedata" / "excel", resource_dir / "recruitment.json", true)) {
         std::cerr << "Update recruitment data failed" << std::endl;
         return -1;
     }
@@ -234,8 +203,7 @@ int main([[maybe_unused]] int argc, char** argv)
 
     // Update items template and json from ArknightsGameData_YoStar
     for (const auto& [in, out] : global_dirs) {
-        std::cout << "------- Update items template and json for " << out << "------- "
-                  << std::endl;
+        std::cout << "------- Update items template and json for " << out << "------- " << std::endl;
         if (!update_items_data(
                 overseas_data_dir / in / "gamedata" / "excel",
                 resource_dir / "global" / out / "resource",
@@ -294,13 +262,10 @@ int main([[maybe_unused]] int argc, char** argv)
 
 // ---- METHODS DEFINITIONS ----
 
-bool update_items_data(
-    const std::filesystem::path& input_dir,
-    const std::filesystem::path& output_dir,
-    bool with_imgs)
+bool update_items_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir, bool with_imgs)
 {
-    const auto input_json_path = with_imgs ? input_dir / "gamedata" / "excel" / "item_table.json"
-                                           : input_dir / "item_table.json";
+    const auto input_json_path =
+        with_imgs ? input_dir / "gamedata" / "excel" / "item_table.json" : input_dir / "item_table.json";
 
     auto parse_ret = json::open(input_json_path);
     if (!parse_ret) {
@@ -320,8 +285,9 @@ bool update_items_data(
             "renamingCard",         // 改名卡
             "ap_item_",             // 干员发邮件送的东西
             "ap_supply_lt_100_202", // 干员发邮件送的理智（注意前半段id是理智小样，不能全过滤）
-            "clue_",             // 火蓝之心活动的扭蛋什么的
-            "2020recruitment10", // 周年自选券
+            "ap_supply_lt_120_202", // Same as above in size 120 sanity
+            "clue_",                // 火蓝之心活动的扭蛋什么的
+            "2020recruitment10",    // 周年自选券
             "2021recruitment10",
             "2022recruitment10",
             "2023recruitment10",
@@ -387,9 +353,7 @@ bool update_items_data(
     return true;
 }
 
-bool cvt_single_item_template(
-    const std::filesystem::path& input,
-    const std::filesystem::path& output)
+bool cvt_single_item_template(const std::filesystem::path& input, const std::filesystem::path& output)
 {
     cv::Mat src = cv::imread(input.string(), -1);
     if (src.empty()) {
@@ -434,18 +398,15 @@ bool cvt_single_item_template(
             cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
             if (max_val > 0.95) {
-                std::cout << "Same item templ, skip: " << output.string() << ", score: " << max_val
-                          << std::endl;
+                std::cout << "Same item templ, skip: " << output.string() << ", score: " << max_val << std::endl;
                 return true;
             }
             else {
-                std::cout << "Update item templ: " << output.string() << ", score: " << max_val
-                          << std::endl;
+                std::cout << "Update item templ: " << output.string() << ", score: " << max_val << std::endl;
             }
         }
         else {
-            std::cout << "Update item templ: " << output.string() << " because sizes are different."
-                      << std::endl;
+            std::cout << "Update item templ: " << output.string() << " because sizes are different." << std::endl;
         }
     }
     else {
@@ -503,9 +464,7 @@ void remove_xml(std::string& text)
     text.erase(next_iter, text.end());
 }
 
-bool update_infrast_data(
-    const std::filesystem::path& input_dir,
-    const std::filesystem::path& output_dir)
+bool update_infrast_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir)
 {
     const auto input_file = input_dir / "building_data.json";
     const auto output_file = output_dir / "infrast.json";
@@ -597,9 +556,7 @@ bool update_infrast_data(
     return true;
 }
 
-bool update_stages_data(
-    const std::filesystem::path& input_dir,
-    const std::filesystem::path& output_dir)
+bool update_stages_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir)
 {
     // 国内访问可以改成 .cn 的域名
     const std::string PenguinAPI = R"(https://penguin-stats.io/PenguinStats/api/v2/stages?server=)";
@@ -612,22 +569,15 @@ bool update_stages_data(
         std::string item_id;
         std::string drop_type;
 
-        bool operator<(const DropInfo& rhs) const
-        {
-            return item_id + drop_type < rhs.item_id + drop_type;
-        }
+        bool operator<(const DropInfo& rhs) const { return item_id + drop_type < rhs.item_id + drop_type; }
 
-        bool operator==(const DropInfo& rhs) const
-        {
-            return item_id == rhs.item_id && drop_type == rhs.drop_type;
-        }
+        bool operator==(const DropInfo& rhs) const { return item_id == rhs.item_id && drop_type == rhs.drop_type; }
     };
 
     std::map<std::string, std::set<DropInfo>> drop_infos;
     std::map<std::string, json::value> stage_basic_infos;
     for (const auto& server : PenguinServers) {
-        int stage_request_ret =
-            system(("curl -o \"" + TempFile.string() + "\" " + PenguinAPI + server).c_str());
+        int stage_request_ret = system(("curl -o \"" + TempFile.string() + "\" " + PenguinAPI + server).c_str());
         if (stage_request_ret != 0) {
             std::cerr << "Request Penguin Stats failed" << std::endl;
             return false;
@@ -685,9 +635,7 @@ bool update_stages_data(
     return true;
 }
 
-bool update_infrast_templates(
-    const std::filesystem::path& input_dir,
-    const std::filesystem::path& output_dir)
+bool update_infrast_templates(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir)
 {
     for (auto&& entry : std::filesystem::directory_iterator(input_dir)) {
         if (entry.path().extension() != ".png") {
@@ -695,10 +643,7 @@ bool update_infrast_templates(
         }
         const std::string& stem = entry.path().stem().string();
 
-        const std::vector<std::string> BlackList = { "[style]",
-                                                     "bskill_dorm",
-                                                     "bskill_train",
-                                                     "bskill_ws" };
+        const std::vector<std::string> BlackList = { "[style]", "bskill_dorm", "bskill_train", "bskill_ws" };
 
         bool is_blacklist = false;
         for (const auto& bl : BlackList) {
@@ -739,18 +684,15 @@ bool update_infrast_templates(
                 cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
                 if (max_val > 0.95) {
-                    std::cout << "Same infrast templ, skip: " << out_file << ", score: " << max_val
-                              << std::endl;
+                    std::cout << "Same infrast templ, skip: " << out_file << ", score: " << max_val << std::endl;
                     continue;
                 }
                 else {
-                    std::cout << "Update infrast templ: " << out_file << ", score: " << max_val
-                              << std::endl;
+                    std::cout << "Update infrast templ: " << out_file << ", score: " << max_val << std::endl;
                 }
             }
             else {
-                std::cout << "Update infrast templ: " << out_file << " because sizes are different."
-                          << std::endl;
+                std::cout << "Update infrast templ: " << out_file << " because sizes are different." << std::endl;
             }
         }
         else {
@@ -769,8 +711,8 @@ bool update_roguelike_recruit(
     std::string python_cmd;
     std::filesystem::path python_file =
         solution_dir / "tools" / "RoguelikeResourceUpdater" / "generate_roguelike_recruit.py";
-    python_cmd = "python " + python_file.string() + " --input=\"" + input_dir.string()
-                 + "\" --output=\"" + output_dir.string() + "\"";
+    python_cmd = "python " + python_file.string() + " --input=\"" + input_dir.string() + "\" --output=\"" +
+                 output_dir.string() + "\"";
     int python_ret = system(python_cmd.c_str());
     if (python_ret != 0) {
         return false;
@@ -778,9 +720,7 @@ bool update_roguelike_recruit(
     return true;
 }
 
-bool update_levels_json(
-    const std::filesystem::path& input_file,
-    const std::filesystem::path& output_dir)
+bool update_levels_json(const std::filesystem::path& input_file, const std::filesystem::path& output_dir)
 {
     auto json_opt = json::open(input_file);
     if (!json_opt) {
@@ -793,8 +733,7 @@ bool update_levels_json(
     json::value overview = json::open(overview_path).value_or(json::value());
 
     for (auto& stage_info : root.as_array()) {
-        std::string stem =
-            stage_info["stageId"].as_string() + "-" + stage_info["levelId"].as_string();
+        std::string stem = stage_info["stageId"].as_string() + "-" + stage_info["levelId"].as_string();
         std::string filename = stem + ".json";
         asst::utils::string_replace_all_in_place(filename, "/", "-");
         auto filepath = output_dir / filename;
@@ -882,28 +821,25 @@ bool update_battle_chars_info(
     auto chars_kr_opt = json::open(overseas_dir / "ko_KR" / to_char_json);
     auto chars_tw_opt = json::open(overseas_dir / "zh_TW" / to_char_json);
 
-    if (!chars_cn_opt || !chars_en_opt || !chars_jp_opt || !chars_kr_opt || !chars_tw_opt
-        || !range_opt) {
+    if (!chars_cn_opt || !chars_en_opt || !chars_jp_opt || !chars_kr_opt || !chars_tw_opt || !range_opt) {
         return false;
     }
 
     auto& range_json = range_opt.value();
 
-    std::vector<std::pair<json::value, std::string>> chars_json = {
-        { chars_cn_opt.value(), "name" },
-        { chars_en_opt.value(), "name_en" },
-        { chars_jp_opt.value(), "name_jp" },
-        { chars_kr_opt.value(), "name_kr" },
-        { chars_tw_opt.value(), "name_tw" }
-    };
+    std::vector<std::pair<json::value, std::string>> chars_json = { { chars_cn_opt.value(), "name" },
+                                                                    { chars_en_opt.value(), "name_en" },
+                                                                    { chars_jp_opt.value(), "name_jp" },
+                                                                    { chars_kr_opt.value(), "name_kr" },
+                                                                    { chars_tw_opt.value(), "name_tw" } };
 
     json::value result;
     auto& range = result["ranges"].as_object();
     for (auto& [id, range_data] : range_json.as_object()) {
         if (int direction = range_data["direction"].as_integer(); direction != 1) {
             // 现在都是 1，朝右的，以后不知道会不会改，加个warning，真遇到再说
-            std::cerr << "!!!Warning!!! range_id: " << id << " 's direction is "
-                      << std::to_string(direction) << std::endl;
+            std::cerr << "!!!Warning!!! range_id: " << id << " 's direction is " << std::to_string(direction)
+                      << std::endl;
         }
         json::array points;
         for (auto& grids : range_data["grids"].as_array()) {
@@ -988,10 +924,7 @@ bool update_battle_chars_info(
     return true;
 }
 
-bool update_recruitment_data(
-    const std::filesystem::path& input_dir,
-    const std::filesystem::path& output,
-    bool is_base)
+bool update_recruitment_data(const std::filesystem::path& input_dir, const std::filesystem::path& output, bool is_base)
 {
     using asst::ranges::find_if, asst::ranges::range;
     using asst::utils::string_replace_all_in_place;
@@ -1022,24 +955,24 @@ bool update_recruitment_data(
         // 按照 ★ 分割
         recruitment_details | split(star_delim) | filter(not_empty) | transform(make_string_view) |
         // 忽略 Lancet-2 之前的东西
-        drop_while(
-            [&](std::string_view str) { return str.find("Lancet-2") == std::string_view::npos; })
-        |
+        drop_while([&](std::string_view str) { return str.find("Lancet-2") == std::string_view::npos; }) |
         // 按照 \n 分割，若非空则取第一个元素
-        transform([&](auto str) { return str | split('\n') | filter(not_empty); })
-        | filter(not_empty) | transform([&](auto strs) { return make_string_view(strs.front()); });
+        transform([&](auto str) { return str | split('\n') | filter(not_empty); }) | filter(not_empty) |
+        transform([&](auto strs) { return make_string_view(strs.front()); });
 
     for (std::string_view s : items) {
-        for (std::string_view n :
-             s | split('/') | filter(not_empty) | transform(make_string_view)) {
+        for (std::string_view n : s | split('/') | filter(not_empty) | transform(make_string_view)) {
             std::string name(n);
-            string_replace_all_in_place(
-                name,
-                "　",
-                " "); // "　" is full-width space, replacing with common " "
+            string_replace_all_in_place(name, "　",
+                                        " "); // "　" is full-width space, replacing with common " "
             trim(name);
             if (name == "Justice Knight") {
                 name = "'Justice Knight'";
+            }
+            // There seems to be an issue in the gamedata: gacha_table.json has 샤미르 while character_table.json has
+            // 샤마르
+            if (name == "샤미르") {
+                name = "샤마르";
             }
             chars_list.emplace_back(name);
         }
@@ -1056,6 +989,10 @@ bool update_recruitment_data(
     std::unordered_map</*name*/ std::string, /*id*/ std::string> chars_id_list;
 
     for (auto& [id, char_data] : operators_opt->as_object()) {
+        if (!id.starts_with("char_")) {
+            continue;
+        }
+
         if (is_base) {
             RecruitmentInfo info;
             info.rarity = char_data["rarity"].as_integer() + 1;
@@ -1103,17 +1040,19 @@ bool update_recruitment_data(
     for (const std::string& name : chars_list) {
         auto id_iter = chars_id_list.find(name);
         if (id_iter == chars_id_list.cend()) {
+            // YostarJP
+            // https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/18c55553885342b3df2ccf93cc102f448f027f4b#commitcomment-144847169
+            if (name == "サーマル-EX") {
+                std::cout << "FIX: skiping サーマル-EX as it creates issues" << std::endl;
+                continue;
+            }
             std::cerr << "Failed to find char: " << std::endl;
             std::cerr << "char: " << name << std::endl;
             return false;
         }
 
         const std::string& id = id_iter->second;
-        if (id == "trap_138_winstone") {
-            std::cout << "TEMP FIX. trap_138_winstone has the same name as the operator Flint"
-                      << std::endl;
-            continue;
-        }
+
         auto info_iter = base_chars_info.find(id);
         if (info_iter == base_chars_info.cend()) {
             std::cerr << "Failed to find char's info:" << std::endl;
@@ -1164,8 +1103,8 @@ bool check_roguelike_replace_for_overseas(
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_totem_names;
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_encounter_names;
 
-    if (base_stage_names.empty() || base_item_names.empty() || base_totem_names.empty()
-        || base_encounter_names.empty()) {
+    if (base_stage_names.empty() || base_item_names.empty() || base_totem_names.empty() ||
+        base_encounter_names.empty()) {
         auto rg_opt = json::open(base_dir / "roguelike_topic_table.json");
         if (!rg_opt) {
             std::cerr << "Failed to open roguelike_topic_table for" << base_dir << std::endl;
@@ -1174,8 +1113,7 @@ bool check_roguelike_replace_for_overseas(
         auto& rg_json = rg_opt.value();
         for (auto& [rogue_index, rogue_details] : rg_json["details"].as_object()) {
             for (auto&& [id, stage_obj] : rogue_details["stages"].as_object()) {
-                if (!id.starts_with("ro1_e_") && !id.starts_with("ro2_e_")
-                    && !id.starts_with("ro3_e_")) {
+                if (!id.starts_with("ro1_e_") && !id.starts_with("ro2_e_") && !id.starts_with("ro3_e_")) {
                     base_stage_names.emplace(id, stage_obj["name"].as_string());
                 }
             }
@@ -1183,10 +1121,9 @@ bool check_roguelike_replace_for_overseas(
                 // limits only buyable items
                 // (08/03/2024 items 516 extracted items vs 514 shopping.json items)
                 if (!id.starts_with("rogue_1_relic_c") && !id.starts_with("rogue_1_relic_m")) {
-                    if (id.starts_with(rogue_index + "_recruit")
-                        || id.starts_with(rogue_index + "_upgrade")
-                        || id.starts_with(rogue_index + "_relic")
-                        || id.starts_with(rogue_index + "_active") || id.ends_with("_item")) {
+                    if (id.starts_with(rogue_index + "_recruit") || id.starts_with(rogue_index + "_upgrade") ||
+                        id.starts_with(rogue_index + "_relic") || id.starts_with(rogue_index + "_active") ||
+                        id.ends_with("_item")) {
                         base_item_names.emplace(id, item_obj["name"].as_string());
                     }
                     if (id.starts_with(rogue_index + "_totem")) {
@@ -1198,8 +1135,7 @@ bool check_roguelike_replace_for_overseas(
                 // very complicated way to reduce dupes. Will probably brake sooner or later.
                 if (id.ends_with("_enter")) {
                     if (!id.starts_with("scene_ro3_rest")) {
-                        if (!id.starts_with("scene_ro3_portal")
-                            || id.starts_with("scene_ro3_portalsample")) {
+                        if (!id.starts_with("scene_ro3_portal") || id.starts_with("scene_ro3_portalsample")) {
                             base_encounter_names.emplace(id, encounter_obj["title"].as_string());
                         }
                     }
@@ -1237,8 +1173,7 @@ bool check_roguelike_replace_for_overseas(
     std::string encounter_nospace;
     for (auto& [rogue_index, rogue_details] : rg_json["details"].as_object()) {
         for (auto&& [id, stage_obj] : rogue_details["stages"].as_object()) {
-            if (!id.starts_with("ro1_e_") && !id.starts_with("ro2_e_")
-                && !id.starts_with("ro3_e_")) {
+            if (!id.starts_with("ro1_e_") && !id.starts_with("ro2_e_") && !id.starts_with("ro3_e_")) {
                 stage_names.emplace(id, stage_obj["name"].as_string());
             }
         }
@@ -1246,10 +1181,9 @@ bool check_roguelike_replace_for_overseas(
             // limits only buyable items
             // (08/03/2024 items 516 extracted items vs 514 shopping.json items)
             if (!id.starts_with("rogue_1_relic_c") && !id.starts_with("rogue_1_relic_m")) {
-                if (id.starts_with(rogue_index + "_recruit")
-                    || id.starts_with(rogue_index + "_upgrade")
-                    || id.starts_with(rogue_index + "_relic")
-                    || id.starts_with(rogue_index + "_active") || id.ends_with("_item")) {
+                if (id.starts_with(rogue_index + "_recruit") || id.starts_with(rogue_index + "_upgrade") ||
+                    id.starts_with(rogue_index + "_relic") || id.starts_with(rogue_index + "_active") ||
+                    id.ends_with("_item")) {
                     item_names.emplace(id, item_obj["name"].as_string());
                 }
                 if (id.starts_with(rogue_index + "_totem")) {
@@ -1261,15 +1195,11 @@ bool check_roguelike_replace_for_overseas(
             // very complicated way to reduce dupes. Will probably break sooner or later.
             if (id.ends_with("_enter")) {
                 if (!id.starts_with("scene_ro3_rest")) {
-                    if (!id.starts_with("scene_ro3_portal")
-                        || id.starts_with("scene_ro3_portalsample")) {
+                    if (!id.starts_with("scene_ro3_portal") || id.starts_with("scene_ro3_portalsample")) {
                         encounter_nospace = encounter_obj["title"].as_string();
                         if (input_dir.string().ends_with("ko_KR\\gamedata\\excel")) {
                             encounter_nospace.erase(
-                                std::remove(
-                                    encounter_nospace.begin(),
-                                    encounter_nospace.end(),
-                                    ' '),
+                                std::remove(encounter_nospace.begin(), encounter_nospace.end(), ' '),
                                 encounter_nospace.end());
                         }
                         encounter_names.emplace(id, encounter_nospace);
@@ -1327,22 +1257,10 @@ bool check_roguelike_replace_for_overseas(
 
     proc(task_json["BattleStageName"]["ocrReplace"].as_array(), base_stage_names, stage_names);
     proc(task_json["CharsNameOcrReplace"]["ocrReplace"].as_array(), base_char_names, char_names);
-    proc(
-        task_json["RoguelikeTraderShoppingOcr"]["ocrReplace"].as_array(),
-        base_item_names,
-        item_names);
-    proc(
-        task_json["Sami@Roguelike@FoldartalGainOcr"]["ocrReplace"].as_array(),
-        base_totem_names,
-        totem_names);
-    proc(
-        task_json["Sami@Roguelike@FoldartalUseOcr"]["ocrReplace"].as_array(),
-        base_totem_names,
-        totem_names);
-    proc(
-        task_json["Roguelike@StageEncounterOcr"]["ocrReplace"].as_array(),
-        base_encounter_names,
-        encounter_names);
+    proc(task_json["RoguelikeTraderShoppingOcr"]["ocrReplace"].as_array(), base_item_names, item_names);
+    proc(task_json["Sami@Roguelike@FoldartalGainOcr"]["ocrReplace"].as_array(), base_totem_names, totem_names);
+    proc(task_json["Sami@Roguelike@FoldartalUseOcr"]["ocrReplace"].as_array(), base_totem_names, totem_names);
+    proc(task_json["Roguelike@StageEncounterOcr"]["ocrReplace"].as_array(), base_encounter_names, encounter_names);
 
     std::ofstream ofs(tasks_path, std::ios::out);
     ofs << task_json.format() << std::endl;
@@ -1351,9 +1269,7 @@ bool check_roguelike_replace_for_overseas(
     return true;
 }
 
-bool update_version_info(
-    const std::filesystem::path& input_dir,
-    const std::filesystem::path& output_dir)
+bool update_version_info(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir)
 {
     uint64_t current_time = (unsigned long)time(NULL);
 

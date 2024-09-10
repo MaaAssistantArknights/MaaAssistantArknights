@@ -943,6 +943,14 @@
         "sortId": 40003,
         "usage": "罗德岛人事部特别批发的许可书，在特殊的时间点上招揽特殊的人才，一次可招聘十位干员。"
     },
+    "LINKAGE_TKT_GACHA_10_5401": {
+        "classifyType": "NORMAL",
+        "description": "为了确保人才扩展而应博士要求准备的应急手段，该批寻访条目具有一定的针对性与时效性，以及，小小的风险。",
+        "icon": "LINKAGE_TKT_GACHA_10_5401.png",
+        "name": "好好吃饭寻访凭证",
+        "sortId": 40003,
+        "usage": "罗德岛人事部特别批发的许可书，在特殊的时间点上招揽特殊的人才，一次可招聘十位干员。"
+    },
     "LMTGS_COIN_1401": {
         "classifyType": "NORMAL",
         "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
@@ -1061,6 +1069,14 @@
         "icon": "LMTGS_COIN_5001.png",
         "name": "寻访数据契约",
         "sortId": 10024,
+        "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
+    },
+    "LMTGS_COIN_5301": {
+        "classifyType": "NORMAL",
+        "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
+        "icon": "LMTGS_COIN_5301.png",
+        "name": "寻访数据契约",
+        "sortId": 10025,
         "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
     },
     "LMTGS_COIN_601": {
@@ -1471,6 +1487,14 @@
         "sortId": -10000,
         "usage": "用于对遏制单元进行数据迭代。"
     },
+    "act1collection_point_token": {
+        "classifyType": "NONE",
+        "description": "为了激励前往舒巴特-阿尔萨兰地区建设基地的外勤干员，罗德岛发放了一定量的特殊奖励兑换点数。干员凭借兑换点数可兑换急需的物资。",
+        "icon": "act1collection_point_token.png",
+        "name": "“探索者”兑换点数",
+        "sortId": -10000,
+        "usage": "用于兑换相应的阶段性活动奖励。"
+    },
     "act1lock_point_reward": {
         "classifyType": "NONE",
         "description": "通过击破假想敌队伍获得的赛事积分，将以奖章形式颁发给参赛队伍。由米诺斯工匠制作的奖牌上，刻有“英雄都是从普通人做起”的谚语。",
@@ -1687,6 +1711,22 @@
         "sortId": -10000,
         "usage": "存储了许多设计蓝图的微缩芯片，凭借它就可以在物质塑形操作终端打印出对应的实物。"
     },
+    "act35side_token_dust": {
+        "classifyType": "NONE",
+        "description": "“辉煌之城”提供的观光纪念品，据说工匠们能把它变回大个头的宝石。“曾有一位帕夏，命人将宫殿里辉耀千年的宝石全部磨制成沙，铺在花园的水池底，只为与全城的子民共赏光华。”——摘自博物馆中某干尸的展签",
+        "icon": "act35side_token_dust.png",
+        "name": "流光之沙",
+        "sortId": -10000,
+        "usage": "星星点点闪烁的宝石细沙。它比“辉煌之城”更古老，比古老秘藏更辉煌。"
+    },
+    "act36side_token_recipe": {
+        "classifyType": "NONE",
+        "description": "需要提醒部分干员——尤其是小刻，食谱推荐的餐食就是正餐，不要再问是零食还是小吃这种问题了！",
+        "icon": "act36side_token_recipe.png",
+        "name": "今日食谱",
+        "sortId": -10000,
+        "usage": "送往森西迷宫食堂的今日食谱，保证营养均衡就能获得奖品。如果不清楚怎么搭配食材，可以询问角峰、古米和芙蓉。"
+    },
     "act38d1_token_coin": {
         "classifyType": "NONE",
         "description": "纯净无瑕的源石晶体，圣所对此视若珍宝。",
@@ -1839,6 +1879,14 @@
         "sortId": 30201,
         "usage": "罗德岛采购部特别发行的提货券，凭此券可限时领取一份高级品质的精英材料。"
     },
+    "advanced_material_voucher_perm": {
+        "classifyType": "CONSUME",
+        "description": "为应对加工时部分材料紧缺的问题，采购部发行了提货券供干员们自行取用所需的材料。",
+        "icon": "advanced_material_voucher_perm.png",
+        "name": "高级材料提货券",
+        "sortId": 60005,
+        "usage": "罗德岛采购部特别发行的提货券，凭此券可领取一份高级品质的精英材料。"
+    },
     "ap_supply_lt_010": {
         "classifyType": "CONSUME",
         "description": "试用品剂量较少，请合理安排使用，若对本产品功效满意，请关注更多组合套餐。",
@@ -1862,70 +1910,6 @@
         "name": "应急理智浓缩液",
         "sortId": 30001,
         "usage": "用于临时维持理智的大剂量浓缩应急合剂，配方中新增活性成分，效果立竿见影，可能会造成生物钟紊乱，服用前请仔细阅读说明。"
-    },
-    "ap_supply_lt_120_2022_1": {
-        "classifyType": "CONSUME",
-        "description": "口口松脆的酥皮月饼，颜色焦黄，让人食指大动。",
-        "icon": "ap_supply_lt_120_2022_1.png",
-        "name": "满颜色",
-        "sortId": 30001,
-        "usage": "一份鲜甜肉馅的酥皮月饼，可用于恢复理智。"
-    },
-    "ap_supply_lt_120_2022_2": {
-        "classifyType": "CONSUME",
-        "description": "口口松脆的酥皮月饼，颜色焦黄，让人食指大动。",
-        "icon": "ap_supply_lt_120_2022_2.png",
-        "name": "正圆月",
-        "sortId": 30001,
-        "usage": "一份乳香云腿的酥皮月饼，可用于恢复理智。"
-    },
-    "ap_supply_lt_120_2022_3": {
-        "classifyType": "CONSUME",
-        "description": "口口绵润的糖皮月饼，色泽油亮，引人口水四溢。",
-        "icon": "ap_supply_lt_120_2022_3.png",
-        "name": "笑靥开",
-        "sortId": 30001,
-        "usage": "一份玫瑰豆沙的糖皮月饼，可用于恢复理智。"
-    },
-    "ap_supply_lt_120_2022_4": {
-        "classifyType": "CONSUME",
-        "description": "口口绵润的糖皮月饼，色泽油亮，引人口水四溢。",
-        "icon": "ap_supply_lt_120_2022_4.png",
-        "name": "桂子落",
-        "sortId": 30001,
-        "usage": "一份椒盐果仁的糖皮月饼，可用于恢复理智。"
-    },
-    "ap_supply_lt_120_2023_1": {
-        "classifyType": "CONSUME",
-        "description": "可口凉爽的冰皮月饼，记得冷藏保存哦！",
-        "icon": "ap_supply_lt_120_2023_1.png",
-        "name": "“满庭光”",
-        "sortId": 30001,
-        "usage": "一份芒果椰蓉馅的冰皮月饼，可用于恢复理智。"
-    },
-    "ap_supply_lt_120_2023_2": {
-        "classifyType": "CONSUME",
-        "description": "可口凉爽的冰皮月饼，记得冷藏保存哦！",
-        "icon": "ap_supply_lt_120_2023_2.png",
-        "name": "“良宵晴”",
-        "sortId": 30001,
-        "usage": "一份肉松馅的冰皮月饼，可用于恢复理智。"
-    },
-    "ap_supply_lt_120_2023_3": {
-        "classifyType": "CONSUME",
-        "description": "香甜脆爽的糖皮月饼，食用前记得加热哦！",
-        "icon": "ap_supply_lt_120_2023_3.png",
-        "name": "“飘桂香”",
-        "sortId": 30001,
-        "usage": "一份豆沙桂花馅的糖皮月饼，可用于恢复理智。"
-    },
-    "ap_supply_lt_120_2023_4": {
-        "classifyType": "CONSUME",
-        "description": "香甜脆爽的糖皮月饼，食用前记得加热哦！",
-        "icon": "ap_supply_lt_120_2023_4.png",
-        "name": "“藏金波”",
-        "sortId": 30001,
-        "usage": "一份咸蛋黄馅的糖皮月饼，可用于恢复理智。"
     },
     "ap_supply_lt_60": {
         "classifyType": "CONSUME",
@@ -2126,6 +2110,14 @@
         "name": "特级材料提货券",
         "sortId": 30200,
         "usage": "罗德岛采购部特别发行的提货券，凭此券可限时领取一份特级品质的精英材料。"
+    },
+    "premium_material_voucher_perm": {
+        "classifyType": "CONSUME",
+        "description": "为应对加工时部分材料紧缺的问题，采购部发行了提货券供干员们自行取用所需的材料。",
+        "icon": "premium_material_voucher_perm.png",
+        "name": "特级材料提货券",
+        "sortId": 60004,
+        "usage": "罗德岛采购部特别发行的提货券，凭此券可领取一份特级品质的精英材料。"
     },
     "randomDiamondShd_1": {
         "classifyType": "CONSUME",
@@ -2396,6 +2388,14 @@
         "description": null,
         "icon": "rogue_3_token_bp.png",
         "name": "生态标本",
+        "sortId": -10000,
+        "usage": null
+    },
+    "rogue_4_token_bp": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_4_token_bp.png",
+        "name": "魂灵书签",
         "sortId": -10000,
         "usage": null
     },

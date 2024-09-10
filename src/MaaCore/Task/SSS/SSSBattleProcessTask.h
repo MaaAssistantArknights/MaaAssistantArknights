@@ -1,4 +1,6 @@
 #pragma once
+#include <set>
+
 #include "Task/Miscellaneous/BattleProcessTask.h"
 
 namespace asst
@@ -26,7 +28,7 @@ namespace asst
         bool check_and_get_drops(const cv::Mat& reusable = cv::Mat());
 
         battle::sss::CombatData m_sss_combat_data;
-        std::unordered_set<std::string> m_all_cores;
+        std::multiset<std::string> m_all_cores;
         std::unordered_set<std::string> m_all_action_opers;
     };
 }
