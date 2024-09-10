@@ -81,6 +81,7 @@ jobs:
       - name: Create PR
         uses: peter-evans/create-pull-request@v7
         with:
+          sign-commits: true
           token: ${{ secrets.GITHUB_TOKEN }}
           title: ${{ steps.extract_tag.outputs.pr_title }}
           body-path: ${{ format('{0}/{1}', runner.temp, 'output' ) }}
