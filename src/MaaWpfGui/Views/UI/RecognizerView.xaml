@@ -408,8 +408,8 @@
                                                 Storyboard.TargetName="LinearGradientBrushTranslate"
                                                 Storyboard.TargetProperty="X"
                                                 From="0"
-                                                To="410"
-                                                Duration="0:0:2" />
+                                                To="4000"
+                                                Duration="0:0:20" />
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </EventTrigger>

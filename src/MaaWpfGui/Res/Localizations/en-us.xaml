@@ -645,6 +645,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  !Copilot  -->
     <!--  ErrorView  -->
     <system:String x:Key="Error">Error</system:String>
+    <system:String x:Key="ErrorCongratulations">Congratulations</system:String>
     <system:String x:Key="ErrorProlog">MAA has encountered an error</system:String>
     <system:String x:Key="ErrorDetails">Details</system:String>
     <system:String x:Key="ErrorSolution">Solution</system:String>

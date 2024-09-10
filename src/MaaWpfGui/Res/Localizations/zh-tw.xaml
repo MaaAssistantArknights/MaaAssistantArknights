@@ -647,6 +647,7 @@
     <!--  !Copilot  -->
     <!--  ErrorView  -->
     <system:String x:Key="Error">錯誤</system:String>
+    <system:String x:Key="ErrorCongratulations">喜報</system:String>
     <system:String x:Key="ErrorProlog">MAA 遇到了問題</system:String>
     <system:String x:Key="ErrorDetails">詳細資訊</system:String>
     <system:String x:Key="ErrorSolution">解決方法</system:String>
