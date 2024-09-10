@@ -4048,7 +4048,7 @@ namespace MaaWpfGui.ViewModels.UI
             get => _connectAddress;
             set
             {
-                if (ConnectAddress == value || string.IsNullOrEmpty(value))
+                if (ConnectAddress == value)
                 {
                     return;
                 }
