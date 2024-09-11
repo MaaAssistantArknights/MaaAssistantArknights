@@ -44,4 +44,5 @@
     <SolidColorBrush x:Key="RobotOperatorLogBrush" Color="Gray" />
     <SolidColorBrush x:Key="DownloadLogBrush" Color="Violet" />
     <SolidColorBrush x:Key="MuMuSpecialScreenshot" Color="#02BFFF" />
+    <SolidColorBrush x:Key="LdSpecialScreenshot" Color="#FFDD00" />
 </ResourceDictionary>
