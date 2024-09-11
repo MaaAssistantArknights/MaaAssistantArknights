@@ -397,7 +397,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu screenshot enhancement not enabled, please check related settings</system:String>
     <system:String x:Key="LdExtrasEnabled">Enable LD's screenshot enhancement mode</system:String>
     <system:String x:Key="LdExtrasEnabledTip">
-        Requires LDPlayer 9 V9.0.77 or later.\n
+        Requires LDPlayer 9 V9.0.78 or later.\n
         It is strongly recommended to perform a screenshot test before using this feature for the first time.\n\n
         Please provide the following information:\n\n
         1. Emulator path: (e.g., C:\\leidian\\LDPlayer9)\n

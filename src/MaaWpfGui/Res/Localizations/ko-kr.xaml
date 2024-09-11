@@ -398,7 +398,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu의 스크린샷 향상가 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
     <system:String x:Key="LdExtrasEnabled">LD 스크린샷 향상 모드 활성화</system:String>
     <system:String x:Key="LdExtrasEnabledTip">
-        LDPlayer 9 V9.0.77 이상 버전이 필요합니다.\n
+        LDPlayer 9 V9.0.78 이상 버전이 필요합니다.\n
         이 기능을 처음 사용하기 전에 스크린샷 테스트를 수행하는 것이 좋습니다.\n\n
         다음 정보를 입력하십시오:\n\n
         1. 에뮬레이터 경로: (예: C:\\leidian\\LDPlayer9)\n

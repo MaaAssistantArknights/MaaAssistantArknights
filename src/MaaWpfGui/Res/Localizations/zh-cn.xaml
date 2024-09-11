@@ -397,7 +397,7 @@
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu 截图增强未生效，请检查相关设置</system:String>
     <system:String x:Key="LdExtrasEnabled">启用 LD 截图增强模式</system:String>
     <system:String x:Key="LdExtrasEnabledTip">
-        需使用 LDPlayer 9 V9.0.77 及更新版本。\n
+        需使用 LDPlayer 9 V9.0.78 及更新版本。\n
         强烈建议在开启本功能后的首次使用之前进行截图测试。\n\n
         请填写以下信息：\n\n
         1. 模拟器路径：（例如：C:\\leidian\\LDPlayer9）\n
