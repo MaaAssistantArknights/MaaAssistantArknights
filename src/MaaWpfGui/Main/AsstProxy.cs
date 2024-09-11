@@ -805,16 +805,17 @@ namespace MaaWpfGui.Main
 
                     if (isMainTaskQueueAllCompleted)
                     {
-                        var allTaskCompleteTitle = LocalizationHelper.GetString("AllTasksComplete");
+                        var dateTimeNow = DateTimeOffset.Now;
+                        var diffTaskTime = (dateTimeNow - StartTaskTime).ToString(@"h\h\ m\m\ s\s");
+
+                        var allTaskCompleteTitle = string.Format(LocalizationHelper.GetString("AllTasksComplete"), diffTaskTime);
                         var allTaskCompleteMessage = LocalizationHelper.GetString("AllTaskCompleteContent");
                         var sanityReport = LocalizationHelper.GetString("SanityReport");
 
                         var configurationPreset = ConfigurationHelper.GetCurrentConfiguration();
 
-                        var diffTaskTime = (DateTimeOffset.Now - StartTaskTime).ToString(@"h\h\ m\m\ s\s");
-
                         allTaskCompleteMessage = allTaskCompleteMessage
-                            .Replace("{DateTime}", DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss"))
+                            .Replace("{DateTime}", dateTimeNow.ToString("yyyy-MM-dd HH:mm:ss"))
                             .Replace("{Preset}", configurationPreset)
                             .Replace("{TimeDiff}", diffTaskTime);
 
