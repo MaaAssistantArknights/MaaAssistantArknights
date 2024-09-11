@@ -95,13 +95,14 @@
                                         <TranslateTransform x:Name="LinearGradientBrushTranslate" />
                                     </LinearGradientBrush.Transform>
                                     <LinearGradientBrush.GradientStops>
-                                        <GradientStop Offset="0.00" Color="Red" />
-                                        <GradientStop Offset="0.17" Color="Orange" />
-                                        <GradientStop Offset="0.33" Color="Yellow" />
-                                        <GradientStop Offset="0.50" Color="Green" />
-                                        <GradientStop Offset="0.67" Color="Blue" />
-                                        <GradientStop Offset="0.83" Color="Indigo" />
-                                        <GradientStop Offset="1.00" Color="Violet" />
+                                        <GradientStop Offset="0.00" Color="#2299FF" />
+                                        <GradientStop Offset="0.16" Color="#33CCFF" />
+                                        <GradientStop Offset="0.32" Color="#00FFCC" />
+                                        <GradientStop Offset="0.48" Color="#33FF66" />
+                                        <GradientStop Offset="0.64" Color="#99FF33" />
+                                        <GradientStop Offset="0.80" Color="#66FF99" />
+                                        <GradientStop Offset="1.00" Color="#2299FF" />
+
                                     </LinearGradientBrush.GradientStops>
                                 </LinearGradientBrush>
                             </controls:TextBlock.Foreground>
@@ -122,10 +123,10 @@
                             </controls:TextBlock.Triggers>
                             <controls:TextBlock.Effect>
                                 <DropShadowEffect
-                                    BlurRadius="8"
-                                    Direction="90"
-                                    Opacity="0.6"
-                                    ShadowDepth="5"
+                                    BlurRadius="5"
+                                    Direction="0"
+                                    Opacity="1"
+                                    ShadowDepth="0"
                                     Color="Black" />
                             </controls:TextBlock.Effect>
                         </controls:TextBlock>
