@@ -7,6 +7,7 @@
 #include "Utils/Platform/SafeWindows.h"
 #include <string>
 #include <sstream>
+#include <Controller/AdbController.h>
 
 namespace asst
 {
@@ -15,17 +16,19 @@ LDExtras::~LDExtras()
     uninit();
 }
 
-bool LDExtras::init(HWND hwnd, unsigned int ld_inst_index, const std::filesystem::path& ld_path)
+bool LDExtras::init(const std::filesystem::path& ld_path, unsigned int ld_inst_index, unsigned int ld_pid, int width, int height)
 {
-    bool same = hwnd == hwnd_ && ld_inst_index == ld_inst_index_;
+    const bool same = ld_inst_index == ld_inst_index_ && ld_pid == ld_pid_;
 
     if (same && inited_) {
         return true;
     }
 
-    hwnd_ = hwnd;
     ld_inst_index_ = ld_inst_index;
     ld_path_ = ld_path;
+    ld_pid_ = ld_pid;
+    display_width_ = width;
+    display_height_ = height;
 
     inited_ = load_ld_library() && connect_ld() && init_screencap();
 
@@ -45,7 +48,7 @@ void LDExtras::uninit()
     disconnect_ld();
 }
 
-std::optional<cv::Mat> LDExtras::screencap()
+std::optional<cv::Mat> LDExtras::screencap() const
 {
     if (!screenshot_instance_) {
         LogError << "screenshot_instance_ is null";
@@ -58,13 +61,9 @@ std::optional<cv::Mat> LDExtras::screencap()
         return std::nullopt;
     }
 
-    cv::Mat raw(display_height_, display_width_, CV_8UC4, pixels);
-    cv::Mat bgr;
-    cv::cvtColor(raw, bgr, cv::COLOR_RGBA2BGR);
+    const cv::Mat raw(display_height_, display_width_, CV_8UC3, pixels);
     cv::Mat dst;
-    cv::flip(bgr, dst, 0);
-
-    screenshot_instance_->release();
+    cv::flip(raw, dst, 0);
 
     return dst;
 }
@@ -75,24 +74,6 @@ bool LDExtras::load_ld_library()
 
     if (!load_library(lib_path)) {
         LogError << "Failed to load library" << VAR(lib_path);
-        return false;
-    }
-
-    initial_gl_func_ = get_function<decltype(initialGL)>(kInitialGLFuncName);
-    if (!initial_gl_func_) {
-        LogError << "Failed to get function" << VAR(kInitialGLFuncName);
-        return false;
-    }
-
-    uninitial_gl_func_ = get_function<decltype(uninitialGL)>(kUninitialGLFuncName);
-    if (!uninitial_gl_func_) {
-        LogError << "Failed to get function" << VAR(kUninitialGLFuncName);
-        return false;
-    }
-
-    read_pixels_func_ = get_function<decltype(readPixels)>(kReadPixelsFuncName);
-    if (!read_pixels_func_) {
-        LogError << "Failed to get function" << VAR(kReadPixelsFuncName);
         return false;
     }
 
@@ -107,19 +88,9 @@ bool LDExtras::load_ld_library()
 
 bool LDExtras::connect_ld()
 {
-    LogInfo << VAR(hwnd_) << VAR(ld_inst_index_);
+    LogInfo << VAR(ld_inst_index_) << VAR(ld_pid_);
 
-    if (!initial_gl_func_) {
-        LogError << "initial_gl_func_ is null";
-        return false;
-    }
-
-    if (!initial_gl_func_(hwnd_, ld_inst_index_, nullptr)) {
-        LogError << "Failed to initialize GL" << VAR(hwnd_) << VAR(ld_inst_index_);
-        return false;
-    }
-
-    screenshot_instance_ = create_screenshot_instance_func_(ld_inst_index_, 0);
+    screenshot_instance_ = create_screenshot_instance_func_(ld_inst_index_, ld_pid_);
     if (!screenshot_instance_) {
         LogError << "Failed to create screenshot instance" << VAR(ld_inst_index_);
         return false;
@@ -135,13 +106,7 @@ bool LDExtras::init_screencap()
         return false;
     }
 
-    // 假设我们有一个方法来获取显示宽度和高度
-    display_width_ = 1280; // 请根据实际情况修改
-    display_height_ = 720; // 请根据实际情况修改
-
-    display_buffer_.resize(display_width_ * display_height_ * 4);
-
-    LogDebug << VAR(display_width_) << VAR(display_height_) << VAR(display_buffer_.size());
+    LogDebug << VAR(display_width_) << VAR(display_height_);
     return true;
 }
 

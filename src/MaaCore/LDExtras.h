@@ -25,11 +25,11 @@ public:
 
     bool inited() const { return inited_; }
 
-    bool init(HWND hwnd, unsigned int ld_inst_index, const std::filesystem::path& ld_path);
+    bool init(const std::filesystem::path& ld_path, unsigned int ld_inst_index, unsigned int ld_pid, int width, int height);
     bool reload();
     void uninit();
 
-    std::optional<cv::Mat> screencap();
+    std::optional<cv::Mat> screencap() const;
 
 private:
     bool load_ld_library();
@@ -40,6 +40,7 @@ private:
 private:
     HWND hwnd_ = nullptr;
     unsigned int ld_inst_index_ = 0;
+    unsigned int ld_pid_ = 0;
 
     IScreenShotClass* screenshot_instance_ = nullptr;
     int display_width_ = 0;
@@ -50,9 +51,6 @@ private:
 
 private:
     std::filesystem::path ld_path_;
-    inline static const std::string kInitialGLFuncName = "initialGL";
-    inline static const std::string kUninitialGLFuncName = "uninitialGL";
-    inline static const std::string kReadPixelsFuncName = "readPixels";
     inline static const std::string kCreateScreenShotInstanceFuncName = "CreateScreenShotInstance";
 
 private:

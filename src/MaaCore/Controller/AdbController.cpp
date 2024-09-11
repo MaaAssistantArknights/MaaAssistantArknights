@@ -219,15 +219,16 @@ void asst::AdbController::init_ld_extras(const AdbCfg& adb_cfg [[maybe_unused]])
 #if !ASST_WITH_EMULATOR_EXTRAS
     Log.error("MaaCore is not compiled with ASST_WITH_EMULATOR_EXTRAS");
 #else
+    // TEST
     /*if (adb_cfg.extras.empty()) {
         LogWarn << "adb_cfg.extras is empty";
         return;
     }*/
 
-    //std::filesystem::path ld_path = utils::path(adb_cfg.extras.get("path", ""));
-    std::filesystem::path ld_path = utils::path("C:\\leidian\\LDPlayer9");
-    //int ld_index = adb_cfg.extras.get("index", 0);
-    m_ld_extras.init((HWND)0x463868854, 0, ld_path);
+    std::filesystem::path ld_path = utils::path("C:\\leidian\\LDPlayer9"); // utils::path(adb_cfg.extras.get("path", ""));
+    int ld_index = 0; // adb_cfg.extras.get("index", 0);
+    int ld_pid = 5528; // adb_cfg.extras.get("pid", 0);
+    m_ld_extras.init(ld_path, ld_index, ld_pid, m_width, m_height);
 #endif
 }
 
