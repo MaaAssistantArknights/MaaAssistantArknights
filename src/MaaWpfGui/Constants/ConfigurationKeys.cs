@@ -35,6 +35,7 @@ namespace MaaWpfGui.Constants
         public const string MinimizeToTray = "GUI.MinimizeToTray";
         public const string HideCloseButton = "GUI.HideCloseButton";
         public const string WindowTitleScrollable = "GUI.WindowTitleScrollable";
+        public const string ErrorViewEnableCongratulation = "GUI.ErrorViewEnableCongratulation";
         public const string UseLogItemDateFormat = "GUI.UseLogItemDateFormat";
         public const string LogItemDateFormat = "GUI.LogItemDateFormatString";
         public const string WindowPlacement = "GUI.Placement";

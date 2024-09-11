@@ -2,7 +2,7 @@
     x:Class="MaaWpfGui.Views.UI.ErrorView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:calcBinding="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:constants="clr-namespace:MaaWpfGui.Constants"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -30,7 +30,55 @@
         </Grid.RowDefinitions>
 
         <RichTextBox
-            x:Name="RichTextBox"
+            x:Name="NormalErrorview"
+            Visibility="{c:Binding !ErrorViewEnableCongratulation}"
+            Grid.Row="0"
+            Padding="12,16,4,8"
+            hc:BorderElement.CornerRadius="0"
+            BorderThickness="0"
+            HorizontalScrollBarVisibility="Auto"
+            IsReadOnly="True"
+            VerticalScrollBarVisibility="Auto">
+            <RichTextBox.Resources>
+                <!--  This will give us a LARGER scroll bar  -->
+                <Style TargetType="ScrollViewer">
+                    <Setter Property="hc:ScrollViewerAttach.AutoHide" Value="False" />
+                </Style>
+            </RichTextBox.Resources>
+            <FlowDocument>
+                <Section>
+                    <Paragraph>
+                        <Run FontWeight="Bold" Text="{DynamicResource ErrorProlog}" />
+                    </Paragraph>
+                    <Paragraph Margin="8,0,0,0">
+                        <Run x:Name="Error" Text="{Binding ExceptionMessage, ElementName=ErrorViewWindow, Mode=OneWay}" />
+                    </Paragraph>
+                </Section>
+                <Section>
+                    <Paragraph>
+                        <Run FontWeight="Bold" Text="{DynamicResource ErrorSolution}" />
+                    </Paragraph>
+                    <Paragraph Margin="8,0,0,0">
+                        <Run
+                            x:Name="ErrorSolution"
+                            Foreground="Red"
+                            Text="{Binding PossibleSolution, ElementName=ErrorViewWindow, Mode=OneWay}" />
+                    </Paragraph>
+                </Section>
+                <Section>
+                    <Paragraph>
+                        <Run FontWeight="Bold" Text="{DynamicResource ErrorDetails}" />
+                    </Paragraph>
+                    <Paragraph Margin="8,0,0,0">
+                        <Run x:Name="ErrorDetails" Text="{Binding ExceptionDetails, ElementName=ErrorViewWindow, Mode=OneWay}" />
+                    </Paragraph>
+                </Section>
+            </FlowDocument>
+        </RichTextBox>
+
+        <RichTextBox
+            x:Name="CongratulationErrorview"
+            Visibility="{c:Binding ErrorViewEnableCongratulation}"
             Grid.Row="0"
             Padding="50,76,30,8"
             hc:BorderElement.CornerRadius="0"
@@ -62,7 +110,7 @@
                     </Paragraph>
                     <Paragraph Margin="8,0,0,0">
                         <hc:OutlineText
-                            x:Name="Error"
+                            x:Name="CongratulationError"
                             Fill="#C3141B"
                             FontWeight="Bold"
                             Stroke="#FFFF00"
@@ -144,7 +192,7 @@
                             Text="{DynamicResource ErrorDetails}" />
                     </Paragraph>
                     <Paragraph Margin="8,0,0,0">
-                        <Run x:Name="ErrorDetails" Text="{Binding ExceptionDetails, ElementName=ErrorViewWindow, Mode=OneWay}" />
+                        <Run x:Name="CongratulationErrorDetails" Text="{Binding ExceptionDetails, ElementName=ErrorViewWindow, Mode=OneWay}" />
                     </Paragraph>
                 </Section>
             </FlowDocument>
