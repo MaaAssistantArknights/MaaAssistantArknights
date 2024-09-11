@@ -56,6 +56,10 @@
                 Margin="10"
                 Content="{DynamicResource WindowTitleScrollable}"
                 IsChecked="{Binding WindowTitleScrollable}" />
+            <CheckBox
+                Margin="10"
+                Content="{DynamicResource ErrorViewEnableCongratulation}"
+                IsChecked="{Binding ErrorViewEnableCongratulation}" />
             <hc:CheckComboBox
                 x:Name="CheckComboBox"
                 Width="180"
