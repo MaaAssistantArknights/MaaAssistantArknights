@@ -169,20 +169,38 @@ namespace MaaWpfGui.ViewModels.UI
                 "Training",
             };
 
-            var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[facilityList.Length]);
+            var tempOrderList = new List<DragItemViewModel?>(new DragItemViewModel[facilityList.Length]);
+            var nonOrderList = new List<DragItemViewModel>();
             for (int i = 0; i != facilityList.Length; ++i)
             {
                 var facility = facilityList[i];
                 bool parsed = int.TryParse(ConfigurationHelper.GetFacilityOrder(facility, "-1"), out int order);
 
-                if (!parsed || order < 0)
+                DragItemViewModel vm = new DragItemViewModel(
+                    LocalizationHelper.GetString(facility),
+                    facility,
+                    "Infrast.");
+
+                if (!parsed || order < 0 || order >= tempOrderList.Count || tempOrderList[order] != null)
                 {
-                    tempOrderList[i] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
+                    nonOrderList.Add(vm);
                 }
                 else
                 {
-                    tempOrderList[order] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
+                    tempOrderList[order] = vm;
                 }
+            }
+
+            foreach (var newVm in nonOrderList)
+            {
+                int i = 0;
+                while (i < tempOrderList.Count && tempOrderList[i] != null)
+                {
+                    ++i;
+                }
+
+                tempOrderList[i] = newVm;
+                ConfigurationHelper.SetFacilityOrder(newVm.OriginalName, i.ToString());
             }
 
             InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(tempOrderList);
