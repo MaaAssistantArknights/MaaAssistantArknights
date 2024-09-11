@@ -728,6 +728,9 @@
     <ClInclude Include="Task\Roguelike\Map\RoguelikeRoutingTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="LDExtras.h">
+      <Filter>Source\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1220,6 +1223,9 @@
     </ClCompile>
     <ClCompile Include="Config\Roguelike\Sami\RoguelikeFoldartalConfig.cpp">
       <Filter>Source\Resource\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="LDExtras.cpp">
+      <Filter>Source\Controller</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
