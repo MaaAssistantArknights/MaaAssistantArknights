@@ -12,7 +12,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:styles="clr-namespace:MaaWpfGui.Styles"
     x:Name="ErrorViewWindow"
-    Title="{DynamicResource ErrorCongratulations}"
+    Title="{c:Binding 'ErrorViewEnableCongratulation ? ErrorCongratulationsString : ErrorString',
+                      ElementName=ErrorViewWindow}"
     Width="600"
     Height="480"
     MinWidth="400"
@@ -23,6 +24,15 @@
     WindowStartupLocation="CenterScreen"
     WindowStyle="SingleBorderWindow"
     mc:Ignorable="d">
+    <Window.Resources>
+        <Storyboard x:Key="FadeIn">
+            <DoubleAnimation
+                Storyboard.TargetProperty="Opacity"
+                From="0.0"
+                To="1.0"
+                Duration="0:0:1" />
+        </Storyboard>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -98,6 +108,17 @@
                     <Setter Property="hc:ScrollViewerAttach.AutoHide" Value="False" />
                 </Style>
             </RichTextBox.Resources>
+            <RichTextBox.Style>
+                <Style TargetType="RichTextBox">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{c:Binding ErrorViewEnableCongratulation, ElementName=ErrorViewWindow}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource FadeIn}" />
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </RichTextBox.Style>
             <FlowDocument>
                 <Section>
                     <Paragraph>

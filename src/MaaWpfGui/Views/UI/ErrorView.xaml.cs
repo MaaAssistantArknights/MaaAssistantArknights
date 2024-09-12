@@ -39,6 +39,10 @@ namespace MaaWpfGui.Views.UI
 
         private bool _errorViewEnableCongratulation = true;
 
+        public string ErrorString { get; set; } = LocalizationHelper.GetString("Error");
+
+        public string ErrorCongratulationsString { get; set; } = LocalizationHelper.GetString("ErrorCongratulations");
+
         /// <summary>
         /// Gets or sets a value indicating whether to enable congratulation mode for ErrorView.
         /// </summary>
