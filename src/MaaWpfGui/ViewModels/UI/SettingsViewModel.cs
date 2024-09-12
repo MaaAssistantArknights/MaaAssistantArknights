@@ -3841,28 +3841,16 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public List<CombinedData> ProxyTypeList { get; } =
-            [
-                new() { Display = "HTTP Proxy", Value = "http" },
-                new() { Display = "Socks5 Proxy", Value = "socks5" },
-            ];
-
         private string _proxyType = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ProxyType, "http");
-
-        public string ProxyType
-        {
-            get => _proxyType;
-            set
-            {
-                SetAndNotify(ref _proxyType, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ProxyType, value);
-            }
-        }
 
         public bool ProxyTypeIsHttp
         {
-            get => ProxyType == "http";
-            set => ProxyType = value ? "http" : "socks5";
+            get => _proxyType == "http";
+            set
+            {
+                SetAndNotify(ref _proxyType, value ? "http" : "socks5");
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ProxyType, _proxyType);
+            }
         }
 
         private bool _isCheckingForUpdates;
