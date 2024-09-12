@@ -1845,14 +1845,21 @@ namespace MaaWpfGui.Main
 
         private static bool AutoDetectConnection(ref string error)
         {
-            string bsHvAddress = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
-
+            // 本地设备如果选了自动检测，还是重新检测一下，不然重新插拔地址变了之后就再也不会检测了
+            /*
             // tcp连接测试端口是否有效，超时时间500ms
             // 如果是本地设备，没有冒号
-            bool adbResult =
-                (!Instances.SettingsViewModel.ConnectAddress.Contains(':') &&
-                 !string.IsNullOrEmpty(Instances.SettingsViewModel.ConnectAddress)) ||
-                IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
+            bool adbResult = !string.IsNullOrEmpty(Instances.SettingsViewModel.AdbPath) &&
+                             ((!Instances.SettingsViewModel.ConnectAddress.Contains(':') &&
+                               !string.IsNullOrEmpty(Instances.SettingsViewModel.ConnectAddress)) ||
+                              IfPortEstablished(Instances.SettingsViewModel.ConnectAddress));
+            */
+
+            var adbPath = Instances.SettingsViewModel.AdbPath;
+            bool adbResult = !string.IsNullOrEmpty(adbPath) &&
+                             File.Exists(adbPath) &&
+                             Path.GetFileName(adbPath).Contains("adb", StringComparison.InvariantCultureIgnoreCase) &&
+                             IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
 
             if (adbResult)
             {
@@ -1860,19 +1867,22 @@ namespace MaaWpfGui.Main
                 return true;
             }
 
-            bool bsResult = IfPortEstablished(bsHvAddress);
-
-            if (bsResult)
+            // 蓝叠的特殊处理
             {
-                error = string.Empty;
-                if (string.IsNullOrEmpty(Instances.SettingsViewModel.AdbPath) && Instances.SettingsViewModel.DetectAdbConfig(ref error))
+                string bsHvAddress = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress() ?? string.Empty;
+                bool bsResult = IfPortEstablished(bsHvAddress);
+                if (bsResult)
                 {
-                    return string.IsNullOrEmpty(error);
-                }
-                Instances.SettingsViewModel.ConnectAddress = bsHvAddress;
-                return true;
-            }
+                    error = string.Empty;
+                    if (string.IsNullOrEmpty(Instances.SettingsViewModel.AdbPath) && Instances.SettingsViewModel.DetectAdbConfig(ref error))
+                    {
+                        return string.IsNullOrEmpty(error);
+                    }
 
+                    Instances.SettingsViewModel.ConnectAddress = bsHvAddress;
+                    return true;
+                }
+            }
 
             if (Instances.SettingsViewModel.DetectAdbConfig(ref error))
             {

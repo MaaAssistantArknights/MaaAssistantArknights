@@ -761,7 +761,9 @@ bool asst::AdbController::connect(
         bool is_connect_success = false;
         if (connect_ret) {
             auto& connect_str = connect_ret.value();
-            is_connect_success = connect_str.find("error") == std::string::npos;
+            // 检查连接字符串是否包含 "connected" 或 "device"
+            is_connect_success = connect_str.find("connected") != std::string::npos || 
+                                 connect_str.find("device") != std::string::npos;
             if (connect_str.find("daemon started successfully") != std::string::npos
                 && connect_str.find("daemon still not running") == std::string::npos) {
             }
