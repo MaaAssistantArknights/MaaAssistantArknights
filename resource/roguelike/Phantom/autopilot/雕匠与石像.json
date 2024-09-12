@@ -19,7 +19,6 @@
         [6, 3],
         [6, 4],
         [7, 3],
-        [7, 4],
         [8, 2],
         [8, 3],
         [8, 4]
@@ -62,8 +61,8 @@
         },
         {
             "groups": ["益达"],
-            "location": [9, 3],
-            "direction": "left"
+            "location": [7, 2],
+            "direction": "down"
         },
         {
             "groups": [
@@ -86,7 +85,7 @@
             "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
             "location": [8, 5],
             "direction": "up",
-            "condition": [12, 35]
+            "condition": [13, 35]
         },
         {
             "groups": [
@@ -111,7 +110,20 @@
             "direction": "left"
         },
         {
-            "groups": ["史尔特尔", "地面单切", "情报官", "炮灰", "地面阻挡"],
+            "groups": ["地面阻挡", "情报官", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
+            "location": [7, 4],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "高台C",
+                "高台输出",
+                "梓兰",
+                "情报官",
+                "高台预备",
+                "银灰",
+                "史尔特尔"
+            ],
             "location": [4, 5],
             "direction": "up"
         },
@@ -119,22 +131,12 @@
             "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
             "location": [6, 2],
             "direction": "down"
-        },
-        {
-            "groups": ["地面阻挡", "情报官", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
-            "location": [7, 4],
-            "direction": "left"
-        },
-        {
-            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
-            "location": [4, 5],
-            "direction": "up"
         }
     ],
     "retreat_plan": [
         {
             "location": [8, 5],
-            "condition": [10, 11]
+            "condition": [10, 12]
         }
     ]
 }
