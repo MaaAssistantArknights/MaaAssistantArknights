@@ -2612,7 +2612,7 @@ namespace MaaWpfGui.Main
                 ["need_navigate"] = needNavigate,
                 ["is_raid"] = isRaid,
                 ["loop_times"] = loopTimes,
-                ["medicine"] = useSanityPotion,
+                ["medicine"] = useSanityPotion ? 999 : 0,
             };
 
             if (addUserAdditional)
