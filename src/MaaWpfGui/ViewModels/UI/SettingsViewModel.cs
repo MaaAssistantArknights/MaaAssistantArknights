@@ -4929,21 +4929,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _errorViewEnableCongratulation = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ErrorViewEnableCongratulation, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to enable congratulation mode for ErrorView.
-        /// </summary>
-        public bool ErrorViewEnableCongratulation
-        {
-            get => _errorViewEnableCongratulation;
-            set
-            {
-                SetAndNotify(ref _errorViewEnableCongratulation, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ErrorViewEnableCongratulation, value.ToString());
-            }
-        }
-
         private bool _hideCloseButton = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideCloseButton, bool.FalseString));
 
         /// <summary>

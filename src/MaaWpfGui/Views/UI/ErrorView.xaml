@@ -31,14 +31,15 @@
 
         <RichTextBox
             x:Name="NormalErrorview"
-            Visibility="{c:Binding !ErrorViewEnableCongratulation}"
             Grid.Row="0"
             Padding="12,16,4,8"
             hc:BorderElement.CornerRadius="0"
             BorderThickness="0"
             HorizontalScrollBarVisibility="Auto"
             IsReadOnly="True"
-            VerticalScrollBarVisibility="Auto">
+            VerticalScrollBarVisibility="Auto"
+            Visibility="{c:Binding !ErrorViewEnableCongratulation,
+                                   ElementName=ErrorViewWindow}">
             <RichTextBox.Resources>
                 <!--  This will give us a LARGER scroll bar  -->
                 <Style TargetType="ScrollViewer">
@@ -78,7 +79,6 @@
 
         <RichTextBox
             x:Name="CongratulationErrorview"
-            Visibility="{c:Binding ErrorViewEnableCongratulation}"
             Grid.Row="0"
             Padding="50,76,30,8"
             hc:BorderElement.CornerRadius="0"
@@ -86,7 +86,9 @@
             Foreground="Black"
             HorizontalScrollBarVisibility="Auto"
             IsReadOnly="True"
-            VerticalScrollBarVisibility="Auto">
+            VerticalScrollBarVisibility="Auto"
+            Visibility="{c:Binding ErrorViewEnableCongratulation,
+                                   ElementName=ErrorViewWindow}">
             <RichTextBox.Background>
                 <ImageBrush ImageSource="/Res/Backgrounds/Congratulations.png" Stretch="UniformToFill" />
             </RichTextBox.Background>
@@ -219,6 +221,11 @@
                             Content="{DynamicResource CopiedToClipboard}" />
                     </hc:Poptip.Instance>
                 </controls:TextBlock>
+                <CheckBox
+                    Grid.Column="1"
+                    Margin="10"
+                    Content="{DynamicResource ErrorViewEnableCongratulation}"
+                    IsChecked="{Binding ErrorViewEnableCongratulation, ElementName=ErrorViewWindow}" />
                 <WrapPanel
                     Grid.Column="2"
                     HorizontalAlignment="Right"

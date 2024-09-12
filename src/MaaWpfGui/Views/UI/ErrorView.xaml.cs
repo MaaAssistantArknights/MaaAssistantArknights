@@ -37,6 +37,21 @@ namespace MaaWpfGui.Views.UI
 
         public string ExceptionDetails { get; set; }
 
+        private bool _errorViewEnableCongratulation = true;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to enable congratulation mode for ErrorView.
+        /// </summary>
+        public bool ErrorViewEnableCongratulation
+        {
+            get => _errorViewEnableCongratulation;
+            set
+            {
+                _errorViewEnableCongratulation = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ErrorViewEnableCongratulation)));
+            }
+        }
+
         public ErrorView()
         {
             InitializeComponent();
