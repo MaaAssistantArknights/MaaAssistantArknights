@@ -473,10 +473,10 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         auto min_cost = milliseconds(LLONG_MAX);
         clear_lf_info();
 
-        auto start_time = high_resolution_clock::now();
+        auto start_time = steady_clock::now();
         if (m_support_socket && m_server_started
             && screencap(m_adb.screencap_raw_by_nc, decode_raw, allow_reconnect, true, 5000)) {
-            auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
+            auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawByNc;
                 m_inited = true;
@@ -489,9 +489,9 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         }
         clear_lf_info();
 
-        start_time = high_resolution_clock::now();
+        start_time = steady_clock::now();
         if (screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip, allow_reconnect)) {
-            auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
+            auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawWithGzip;
                 m_inited = true;
@@ -504,9 +504,9 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         }
         clear_lf_info();
 
-        start_time = high_resolution_clock::now();
+        start_time = steady_clock::now();
         if (screencap(m_adb.screencap_encode, decode_encode, allow_reconnect)) {
-            auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
+            auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::Encode;
                 m_inited = true;
@@ -520,10 +520,10 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
 
 #if ASST_WITH_EMULATOR_EXTRAS
         if (m_mumu_extras.inited()) {
-            start_time = high_resolution_clock::now();
+            start_time = steady_clock::now();
             if (m_mumu_extras.screencap()) {
                 auto duration =
-                    duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
+                    duration_cast<milliseconds>(steady_clock::now() - start_time);
                 if (duration < min_cost) {
                     m_adb.screencap_method = AdbProperty::ScreencapMethod::MumuExtras;
                     m_inited = true;
@@ -536,9 +536,9 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             }
         }
         if (m_ld_extras.inited()) {
-            start_time = high_resolution_clock::now();
+            start_time = steady_clock::now();
             if (m_ld_extras.screencap()) {
-                auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
+                auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
                 if (duration < min_cost) {
                     m_adb.screencap_method = AdbProperty::ScreencapMethod::LDExtras;
                     m_inited = true;
