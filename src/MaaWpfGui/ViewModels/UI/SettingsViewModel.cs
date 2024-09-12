@@ -3859,6 +3859,12 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        public bool ProxyTypeIsHttp
+        {
+            get => ProxyType == "http";
+            set => ProxyType = value ? "http" : "socks5";
+        }
+
         private bool _isCheckingForUpdates;
 
         /// <summary>

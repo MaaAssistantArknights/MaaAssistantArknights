@@ -84,20 +84,18 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <ComboBox
+                    <hc:ButtonGroup
                         Grid.Row="0"
-                        Width="130"
-                        Margin="0,10,0,0"
-                        HorizontalContentAlignment="Center"
-                        BorderThickness="0"
-                        DisplayMemberPath="Display"
-                        ItemsSource="{Binding ProxyTypeList}"
-                        SelectedValue="{Binding ProxyType}"
-                        SelectedValuePath="Value" />
+                        Width="180"
+                        Margin="0,0,0,0"
+                        Orientation="Horizontal">
+                        <RadioButton Content="Http Proxy" IsChecked="{c:Binding ProxyTypeIsHttp}" />
+                        <RadioButton Content="Sock5 Proxy" />
+                    </hc:ButtonGroup>
                     <TextBox
                         Grid.Row="1"
-                        Width="150"
-                        Margin="10,0,10,10"
+                        Width="180"
+                        Margin="10,5,10,5"
                         VerticalAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
                         Text="{Binding Proxy}" />
