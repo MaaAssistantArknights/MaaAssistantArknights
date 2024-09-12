@@ -450,7 +450,7 @@
             ["L-44 'Gramophone'", "L-44\"留声机\""],
             ["Offspring", "子代"],
             ["Enforcer", "见行者"],
-            ["Reinforcement Device", "加固装置"],
+            ["^Reinforcement Device$", "加固装置"],
             ["Temporary Rhodes Island Empl[oyee]*", "罗德岛临时雇员"],
             ["Goldenglow", "澄闪"],
             ["Unowned Treasure", "无主的财富"],
@@ -809,7 +809,7 @@
             ["Billboard", "告示牌"],
             ["Doc", "医生"],
             ["Ela", "艾拉"],
-            ["Iana", "双月"],
+            ["[Iil]ana", "双月"],
             ["Fuze", "导火索"],
             ["Grzmot Mine", "雷鸣地雷"]
         ]
