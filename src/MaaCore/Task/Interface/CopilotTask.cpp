@@ -80,11 +80,19 @@ bool asst::CopilotTask::set_params(const json::value& params)
             is_raid = params.get("is_adverse", false);
         }
     }
-    bool use_sanity_potion = params.get("use_sanity_potion", false); // 是否吃理智药
-    bool with_formation = params.get("formation", false);            // 是否使用自动编队
-    int select_formation = params.get("select_formation", 0);        // 选择第几个编队，0为不选择
-    bool add_trust = params.get("add_trust", false);                 // 是否自动补信赖
-    bool add_user_additional = params.contains("user_additional");   // 是否自动补用户自定义干员
+    int medicine_count = params.get("medicine", 0); // 是否吃理智药
+    if (params.contains("use_sanity_potion")) {
+        Log.warn("================  DEPRECATED  ================");
+        Log.warn("`use_sanity_potion` has been deprecated since v5.0.0-beta.3; Please use 'medicine'");
+        Log.warn("================  DEPRECATED  ================");
+        if (params.get("use_sanity_potion", false)) {
+            medicine_count = 999;
+        }
+    }
+    bool with_formation = params.get("formation", false);          // 是否使用自动编队
+    int select_formation = params.get("select_formation", 0);      // 选择第几个编队，0为不选择
+    bool add_trust = params.get("add_trust", false);               // 是否自动补信赖
+    bool add_user_additional = params.contains("user_additional"); // 是否自动补用户自定义干员
     std::string support_unit_name = params.get("support_unit_name", std::string());
 
     if (params.contains("add_user_additional")) {
@@ -139,7 +147,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     m_navigate_task_ptr->set_enable(need_navigate);
     m_change_difficulty_task_ptr->set_enable(need_navigate && is_raid);
     m_not_use_prts_task_ptr->set_enable(need_navigate); // 不使用代理指挥
-    m_medicine_task_ptr->set_enable(use_sanity_potion);
+    m_medicine_task_ptr->set_enable(medicine_count > 0);
 
     // 关卡名含有"TR"的为教学关,不需要编队
     m_formation_task_ptr->set_enable(with_formation && navigate_name.find("TR") == std::string::npos);
