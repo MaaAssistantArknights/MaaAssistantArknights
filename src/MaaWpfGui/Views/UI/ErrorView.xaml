@@ -103,7 +103,6 @@
                 <ImageBrush ImageSource="/Res/Backgrounds/Congratulations.png" Stretch="UniformToFill" />
             </RichTextBox.Background>
             <RichTextBox.Resources>
-                <!--  This will give us a LARGER scroll bar  -->
                 <Style TargetType="ScrollViewer">
                     <Setter Property="hc:ScrollViewerAttach.AutoHide" Value="False" />
                 </Style>
