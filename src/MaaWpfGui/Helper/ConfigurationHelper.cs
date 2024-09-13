@@ -189,26 +189,26 @@ namespace MaaWpfGui.Helper
             if (parsed is null && File.Exists(_configurationBakFile))
             {
                 _logger.Warning("Failed to load configuration file, trying to use backup file");
-                parsed = ParseJsonFile(_configurationFile);
+                parsed = ParseJsonFile(_configurationBakFile);
                 if (parsed is not null)
                 {
                     File.Copy(_configurationBakFile, _configurationFile, true);
                 }
             }
 
-            if (parsed is null)
+            if (parsed is not null)
             {
-                _logger.Warning("Failed to load configuration file and/or backup file, using default settings");
-
-                _kvsMap = new Dictionary<string, Dictionary<string, string>>();
-                _current = ConfigurationKeys.DefaultConfiguration;
-                _kvsMap[_current] = new Dictionary<string, string>();
-                _kvs = _kvsMap[_current];
-                _globalKvs = new Dictionary<string, string>();
-                return false;
+                return true;
             }
 
-            return true;
+            _logger.Warning("Failed to load configuration file and/or backup file, using default settings");
+
+            _kvsMap = [];
+            _current = ConfigurationKeys.DefaultConfiguration;
+            _kvsMap[_current] = [];
+            _kvs = _kvsMap[_current];
+            _globalKvs = [];
+            return false;
         }
 
         /// <summary>
@@ -227,7 +227,6 @@ namespace MaaWpfGui.Helper
                     return false;
                 }
 
-
                 SetKvOrMigrate(parsed);
 
                 return true;
@@ -236,30 +235,29 @@ namespace MaaWpfGui.Helper
 
         private static void SetKvOrMigrate(JObject parsed)
         {
-
             bool hasConfigMap = parsed.ContainsKey(ConfigurationKeys.ConfigurationMap);
-            bool hasCurrentConfig = parsed.ContainsKey(ConfigurationKeys.CurrentConfiguration);
+            bool hasGlobalConfig = parsed.ContainsKey(ConfigurationKeys.GlobalConfiguration);
             if (hasConfigMap)
             {
                 // new version
                 _kvsMap = parsed[ConfigurationKeys.ConfigurationMap]?.ToObject<Dictionary<string, Dictionary<string, string>>>()
-                          ?? new Dictionary<string, Dictionary<string, string>>();
+                          ?? [];
                 _current = parsed[ConfigurationKeys.CurrentConfiguration]?.ToString()
                            ?? ConfigurationKeys.DefaultConfiguration;
-                _kvs = _kvsMap[_current];
             }
             else
             {
                 // old version
                 _logger.Information("Configuration file is in old version, migrating to new version");
 
-                _kvsMap = new Dictionary<string, Dictionary<string, string>>();
+                _kvsMap = [];
                 _current = ConfigurationKeys.DefaultConfiguration;
                 _kvsMap[_current] = parsed.ToObject<Dictionary<string, string>>();
-                _kvs = _kvsMap[_current];
             }
 
-            _globalKvs = hasCurrentConfig
+            _kvs = _kvsMap[_current];
+
+            _globalKvs = hasGlobalConfig
                 ? parsed[ConfigurationKeys.GlobalConfiguration]?.ToObject<Dictionary<string, string>>()
                 : new Dictionary<string, string>();
         }
