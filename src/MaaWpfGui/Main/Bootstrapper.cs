@@ -108,10 +108,10 @@ namespace MaaWpfGui.Main
             // Bootstrap serilog
             var loggerConfiguration = new LoggerConfiguration()
                 .WriteTo.Debug(
-                    outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
+                    outputTemplate: "[{Timestamp:HH:mm:ss}][{Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
                 .WriteTo.File(
                     LogFilename,
-                    outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
+                    outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}][{Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
                 .Enrich.FromLogContext()
                 .Enrich.WithThreadId()
                 .Enrich.WithThreadName();
