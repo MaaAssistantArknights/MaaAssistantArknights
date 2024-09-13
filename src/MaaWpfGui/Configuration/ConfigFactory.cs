@@ -51,6 +51,7 @@ namespace MaaWpfGui.Configuration
 
         private static readonly JsonSerializerOptions _options = new() { WriteIndented = true, Converters = { new JsonStringEnumConverter() }, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
 
+        // TODO: 参考 ConfigurationHelper ，拆几个函数出来
         private static readonly Lazy<Root> _rootConfig = new Lazy<Root>(() =>
         {
             lock (_lock)
