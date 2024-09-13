@@ -12,6 +12,12 @@
 // </copyright>
 
 #nullable enable
+using FluentEmail.Core;
+using HandyControl.Controls;
+using MaaWpfGui.Helper;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Linq;
 using static MaaWpfGui.Models.MaaTask;
 
 namespace MaaWpfGui.Configuration.MaaTask
@@ -26,26 +32,39 @@ namespace MaaWpfGui.Configuration.MaaTask
         /// <summary>
         /// Gets or sets a value indicating whether 领取邮件奖励
         /// </summary>
-        public bool Mail { get; set; } = false;
+        public bool Mail { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether 领取每日免费一抽
         /// </summary>
-        public bool FreeGacha { get; set; } = false;
+        public bool FreeGacha { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether 领取幸运墙合成玉
         /// </summary>
-        public bool Orundum { get; set; } = false;
+        public bool Orundum { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether 领挖矿合成玉
         /// </summary>
-        public bool Mining { get; set; } = false;
+        public bool Mining { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether 5周年特殊月卡
         /// </summary>
-        public bool SpecialAccess { get; set; } = false;
+        public bool SpecialAccess { get; set; }
+
+        public override JObject SerializeJsonTask()
+        {
+            return new JObject
+            {
+                ["award"] = Award,
+                ["mail"] = Mail,
+                ["recruit"] = FreeGacha,
+                ["orundum"] = Orundum,
+                ["mining"] = Mining,
+                ["specialaccess"] = SpecialAccess,
+            };
+        }
     }
 }
