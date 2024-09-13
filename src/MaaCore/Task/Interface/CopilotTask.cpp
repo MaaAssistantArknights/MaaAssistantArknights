@@ -83,7 +83,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     int medicine_count = params.get("medicine", 0); // 是否吃理智药
     if (params.contains("use_sanity_potion")) {
         Log.warn("================  DEPRECATED  ================");
-        Log.warn("`use_sanity_potion` has been deprecated since v5.0.0-beta.3; Please use 'medicine'");
+        Log.warn("`use_sanity_potion` has been deprecated since v5.7.0-beta.1; Please use 'medicine'");
         Log.warn("================  DEPRECATED  ================");
         if (params.get("use_sanity_potion", false)) {
             medicine_count = 999;
