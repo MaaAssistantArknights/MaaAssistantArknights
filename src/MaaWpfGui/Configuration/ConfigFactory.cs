@@ -241,8 +241,23 @@ namespace MaaWpfGui.Configuration
         {
             lock (_lock)
             {
-                Save();
-                Save(_configurationBakFile);
+                if (Save())
+                {
+                    _logger.Information($"{_configurationFile} saved");
+                }
+                else
+                {
+                    _logger.Warning($"{_configurationFile} save failed");
+                }
+
+                if (Save(_configurationBakFile))
+                {
+                    _logger.Information($"{_configurationBakFile} saved");
+                }
+                else
+                {
+                    _logger.Warning($"{_configurationBakFile} save failed");
+                }
             }
         }
 

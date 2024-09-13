@@ -49,40 +49,46 @@ namespace MaaWpfGui.Helper
         /// <returns>The config value</returns>
         public static string GetValue(string key, string defaultValue)
         {
-            var hasValue = _kvs.TryGetValue(key, out var value);
-
-            // _logger.Debug("Read configuration key {Key} with default value {DefaultValue}, configuration hit: {HasValue}, configuration value {Value}", key, defaultValue, hasValue, value);
-            if (hasValue)
+            lock (_lock)
             {
-                return value;
-            }
+                var hasValue = _kvs.TryGetValue(key, out var value);
 
-            // return hasValue ? value : defaultValue;
-            SetValue(key, defaultValue);
-            return defaultValue;
+                // _logger.Debug("Read configuration key {Key} with default value {DefaultValue}, configuration hit: {HasValue}, configuration value {Value}", key, defaultValue, hasValue, value);
+                if (hasValue)
+                {
+                    return value;
+                }
+
+                // return hasValue ? value : defaultValue;
+                SetValue(key, defaultValue);
+                return defaultValue;
+            }
         }
 
         public static string GetGlobalValue(string key, string defaultValue)
         {
-            var hasValue = _globalKvs.TryGetValue(key, out var value);
-
-            // _logger.Debug("Read global configuration key {Key} with default value {DefaultValue}, configuration hit: {HasValue}, configuration value {Value}", key, defaultValue, hasValue, value);
-            if (hasValue)
+            lock (_lock)
             {
-                return value;
-            }
+                var hasValue = _globalKvs.TryGetValue(key, out var value);
 
-            hasValue = _kvs.TryGetValue(key, out value);
-            if (hasValue)
-            {
-                _logger.Information("Read global configuration key {Key} with current configuration value {Value}, configuration hit: {HasValue}, configuration value {Value}", key, value, true, value);
-                SetGlobalValue(key, value);
-                return value;
-            }
+                // _logger.Debug("Read global configuration key {Key} with default value {DefaultValue}, configuration hit: {HasValue}, configuration value {Value}", key, defaultValue, hasValue, value);
+                if (hasValue)
+                {
+                    return value;
+                }
 
-            // 保证有全局配置
-            SetGlobalValue(key, defaultValue);
-            return defaultValue;
+                hasValue = _kvs.TryGetValue(key, out value);
+                if (hasValue)
+                {
+                    _logger.Information("Read global configuration key {Key} with current configuration value {Value}, configuration hit: {HasValue}, configuration value {Value}", key, value, true, value);
+                    SetGlobalValue(key, value);
+                    return value;
+                }
+
+                // 保证有全局配置
+                SetGlobalValue(key, defaultValue);
+                return defaultValue;
+            }
         }
 
         /// <summary>
