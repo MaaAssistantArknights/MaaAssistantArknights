@@ -9,6 +9,9 @@ import platform
 from pathlib import Path
 import shutil
 import http.client
+import ssl
+
+ssl._create_default_https_context = ssl._create_unverified_context
 
 TARGET_TAG = "2024-08-17"
 # FIXME: temporarily hold maadeps version for windows package
