@@ -35,8 +35,6 @@ namespace MaaWpfGui.Helper
 
         private static readonly ILogger _logger = Log.ForContext<ConfigurationHelper>();
 
-        private static readonly object _lock = new();
-
         public delegate void ConfigurationUpdateEventHandler(string key, string oldValue, string newValue);
 
         public static event ConfigurationUpdateEventHandler ConfigurationUpdateEvent;
