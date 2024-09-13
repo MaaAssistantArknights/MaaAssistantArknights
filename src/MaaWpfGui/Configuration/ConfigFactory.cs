@@ -36,6 +36,8 @@ namespace MaaWpfGui.Configuration
         // ReSharper disable once UnusedMember.Local
         private static readonly string _configurationBakFile = Path.Combine(Environment.CurrentDirectory, "config/gui.new.json.bak");
 
+        private static readonly string _configurationErrorFile = Path.Combine(Environment.CurrentDirectory, "config/gui.new.error.json");
+
         private static readonly ILogger _logger = Log.ForContext<ConfigurationHelper>();
 
         private static readonly object _lock = new();
@@ -73,12 +75,19 @@ namespace MaaWpfGui.Configuration
 
                 if (parsed is null)
                 {
+                    _logger.Warning("Failed to load configuration file, copying configuration file to error file");
+                    File.Copy(_configurationFile, _configurationErrorFile, true);
                     if (File.Exists(_configurationBakFile))
                     {
-                        File.Copy(_configurationBakFile, _configurationFile, true);
+                        _logger.Information("trying to use backup file");
                         try
                         {
-                            parsed = JsonSerializer.Deserialize<Root>(File.ReadAllText(_configurationFile), _options);
+                            parsed = JsonSerializer.Deserialize<Root>(File.ReadAllText(_configurationBakFile), _options);
+                            if (parsed is not null)
+                            {
+                                _logger.Information("Backup file loaded successfully, copying backup file to configuration file");
+                                File.Copy(_configurationBakFile, _configurationFile, true);
+                            }
                         }
                         catch (Exception e)
                         {

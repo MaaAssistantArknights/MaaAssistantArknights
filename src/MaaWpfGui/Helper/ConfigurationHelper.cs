@@ -15,10 +15,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using MaaWpfGui.Constants;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
+using Stylet;
 
 namespace MaaWpfGui.Helper
 {
@@ -26,6 +28,7 @@ namespace MaaWpfGui.Helper
     {
         private static readonly string _configurationFile = Path.Combine(Environment.CurrentDirectory, "config/gui.json");
         private static readonly string _configurationBakFile = Path.Combine(Environment.CurrentDirectory, "config/gui.json.bak");
+        private static readonly string _configurationErrorFile = Path.Combine(Environment.CurrentDirectory, "config/gui.error.json");
         private static Dictionary<string, Dictionary<string, string>> _kvsMap;
         private static string _current = ConfigurationKeys.DefaultConfiguration;
         private static Dictionary<string, string> _kvs;
@@ -192,13 +195,19 @@ namespace MaaWpfGui.Helper
         private static bool ParseConfig(out JObject parsed)
         {
             parsed = ParseJsonFile(_configurationFile);
-            if (parsed is null && File.Exists(_configurationBakFile))
+            if (parsed is null)
             {
-                _logger.Warning("Failed to load configuration file, trying to use backup file");
-                parsed = ParseJsonFile(_configurationBakFile);
-                if (parsed is not null)
+                _logger.Warning("Failed to load configuration file, copying configuration file to error file");
+                File.Copy(_configurationFile, _configurationErrorFile, true);
+                if (File.Exists(_configurationBakFile))
                 {
-                    File.Copy(_configurationBakFile, _configurationFile, true);
+                    _logger.Information("trying to use backup file");
+                    parsed = ParseJsonFile(_configurationBakFile);
+                    if (parsed is not null)
+                    {
+                        _logger.Information("Backup file loaded successfully, copying backup file to configuration file");
+                        File.Copy(_configurationBakFile, _configurationFile, true);
+                    }
                 }
             }
 
