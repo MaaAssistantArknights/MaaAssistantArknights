@@ -55,11 +55,11 @@ namespace MaaWpfGui.Constants
         public const string CustomCulture = "GUI.CustomCulture";
 
         public const string AddressHistory = "Connect.AddressHistory";
-        public const string AutoDetect = "Connect.AutoDetect";
-        public const string AlwaysAutoDetect = "Connect.AlwaysAutoDetect";
+        public const string AutoDetect = "Connect.AutoDetect"; // 迁移
+        public const string AlwaysAutoDetect = "Connect.AlwaysAutoDetect"; // 迁移
         public const string MumuBridgeConnection = "Connect.MumuBridgeConnection";
-        public const string ConnectAddress = "Connect.Address";
-        public const string AdbPath = "Connect.AdbPath";
+        public const string ConnectAddress = "Connect.Address"; // 迁移
+        public const string AdbPath = "Connect.AdbPath"; // 迁移
         public const string ConnectConfig = "Connect.ConnectConfig";
         public const string MuMu12ExtrasEnabled = "Connect.MuMu12Extras.Enabled";
         public const string MuMu12EmulatorPath = "Connect.MuMu12EmulatorPath";
@@ -68,13 +68,13 @@ namespace MaaWpfGui.Constants
         public const string LdPlayerExtrasEnabled = "Connect.LdPlayerExtras.Enabled";
         public const string LdPlayerEmulatorPath = "Connect.LdPlayerEmulatorPath";
         public const string LdPlayerIndex = "Connect.LdPlayerIndex";
-        public const string RetryOnAdbDisconnected = "Connect.RetryOnDisconnected";
-        public const string AllowAdbRestart = "Connect.AllowADBRestart";
-        public const string AllowAdbHardRestart = "Connect.AllowADBHardRestart";
-        public const string AdbLiteEnabled = "Connect.AdbLiteEnabled";
-        public const string KillAdbOnExit = "Connect.KillAdbOnExit";
+        public const string RetryOnAdbDisconnected = "Connect.RetryOnDisconnected"; // 迁移
+        public const string AllowAdbRestart = "Connect.AllowADBRestart"; // 迁移
+        public const string AllowAdbHardRestart = "Connect.AllowADBHardRestart"; // 迁移
+        public const string AdbLiteEnabled = "Connect.AdbLiteEnabled"; // 迁移
+        public const string KillAdbOnExit = "Connect.KillAdbOnExit"; // 迁移
         public const string TouchMode = "Connect.TouchMode";
-        public const string AdbReplaced = "Connect.AdbReplaced";
+        public const string AdbReplaced = "Connect.AdbReplaced"; // 弃用，不进新配置
 
         public const string ClientType = "Start.ClientType";
         public const string AccountName = "Start.AccountName";

@@ -2264,7 +2264,7 @@ namespace MaaWpfGui.ViewModels.UI
         public static bool KillEmulator()
         {
             int pid = 0;
-            string address = ConfigurationHelper.GetValue(ConfigurationKeys.ConnectAddress, string.Empty);
+            string address = ConfigFactory.CurrentConfig.Connection.AdbAddress;
             var port = address.StartsWith("127") ? address.Substring(10) : "5555";
             _logger.Information($"address: {address}, port: {port}");
 

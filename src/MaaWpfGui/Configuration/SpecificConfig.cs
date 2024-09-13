@@ -33,6 +33,9 @@ namespace MaaWpfGui.Configuration
         [JsonInclude]
         public ObservableDictionary<string, bool> DragItemIsChecked { get; private set; } = [];
 
+        [JsonInclude]
+        public Connection Connection { get; private set; } = new();
+
         public object ToolBox { get; private set; } = new(); // 抽卡、扫仓库、自动战斗
         public object 外部通知 { get; private set; } = new();
         public object Cache { get; private set; } = new(); // 理智、当天打OF-1

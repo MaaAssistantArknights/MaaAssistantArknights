@@ -122,6 +122,20 @@ namespace MaaWpfGui.Helper
                 ConfigFactory.AddConfiguration(configName);
                 ConfigFactory.SwitchConfig(configName);
 
+                // Connect
+                {
+                    ConfigFactory.CurrentConfig.Connection.AutoDetect = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoDetect, bool.TrueString));
+                    ConfigFactory.CurrentConfig.Connection.AlwaysAutoDetect = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AlwaysAutoDetect, bool.FalseString));
+                    ConfigFactory.CurrentConfig.Connection.AdbPath = ConfigurationHelper.GetValue(ConfigurationKeys.AdbPath, string.Empty);
+                    ConfigFactory.CurrentConfig.Connection.AdbAddress = ConfigurationHelper.GetValue(ConfigurationKeys.ConnectAddress, string.Empty);
+
+                    ConfigFactory.CurrentConfig.Connection.RetryOnAdbDisconnected = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RetryOnAdbDisconnected, bool.FalseString));
+                    ConfigFactory.CurrentConfig.Connection.AllAdbRestart = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowAdbRestart, bool.TrueString));
+                    ConfigFactory.CurrentConfig.Connection.AllAdbHardRestart = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowAdbHardRestart, bool.TrueString));
+                    ConfigFactory.CurrentConfig.Connection.AdbLiteEnable = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AdbLiteEnabled, bool.FalseString));
+                    ConfigFactory.CurrentConfig.Connection.KillAdbWhenExit = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.KillAdbOnExit, bool.FalseString));
+                }
+
                 // GUI部分
                 {
                     ConfigFactory.CurrentConfig.GUI.Localization = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
