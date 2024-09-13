@@ -76,8 +76,12 @@ namespace MaaWpfGui.Configuration
 
                 if (parsed is null)
                 {
-                    _logger.Warning("Failed to load configuration file, copying configuration file to error file");
-                    File.Copy(_configurationFile, _configurationErrorFile, true);
+                    if (File.Exists(_configurationFile))
+                    {
+                        _logger.Warning("Failed to load configuration file, copying configuration file to error file");
+                        File.Copy(_configurationFile, _configurationErrorFile, true);
+                    }
+
                     if (File.Exists(_configurationBakFile))
                     {
                         _logger.Information("trying to use backup file");
