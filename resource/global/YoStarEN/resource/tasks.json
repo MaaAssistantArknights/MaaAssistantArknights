@@ -28,7 +28,7 @@
         "roi": [0, 500, 500, 150]
     },
     "CR-OpenOcr": {
-        "text": ["Operation", "Lucent", "Arrowhead"]
+        "text": ["Skydiving", "stages", "opened"]
     },
     "CRChapterToCR": {
         "text": ["Roam", "Exhibition", "ROAM", "EXHIBITION"]
