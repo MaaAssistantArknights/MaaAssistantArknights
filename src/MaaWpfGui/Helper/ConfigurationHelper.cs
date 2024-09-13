@@ -33,6 +33,8 @@ namespace MaaWpfGui.Helper
         private static ConcurrentDictionary<string, string> _kvs;
         private static ConcurrentDictionary<string, string> _globalKvs;
 
+        private static readonly object _lock = new();
+
         private static readonly ILogger _logger = Log.ForContext<ConfigurationHelper>();
 
         public delegate void ConfigurationUpdateEventHandler(string key, string oldValue, string newValue);
@@ -265,32 +267,35 @@ namespace MaaWpfGui.Helper
         /// <returns>The result of saving process</returns>
         private static bool Save(string file = null)
         {
-            if (Released)
+            lock (_lock)
             {
-                _logger.Warning("Attempting to save configuration file after release, this is not allowed");
-                return false;
-            }
+                if (Released)
+                {
+                    _logger.Warning("Attempting to save configuration file after release, this is not allowed");
+                    return false;
+                }
 
-            try
-            {
-                var jsonStr = JsonConvert.SerializeObject(
-                    new Dictionary<string, object>
-                    {
-                        { ConfigurationKeys.ConfigurationMap, _kvsMap },
-                        { ConfigurationKeys.CurrentConfiguration, _current },
-                        { ConfigurationKeys.GlobalConfiguration, _globalKvs },
-                    },
-                    Formatting.Indented);
+                try
+                {
+                    var jsonStr = JsonConvert.SerializeObject(
+                        new Dictionary<string, object>
+                        {
+                            { ConfigurationKeys.ConfigurationMap, _kvsMap },
+                            { ConfigurationKeys.CurrentConfiguration, _current },
+                            { ConfigurationKeys.GlobalConfiguration, _globalKvs },
+                        },
+                        Formatting.Indented);
 
-                File.WriteAllText(file ?? _configurationFile, jsonStr);
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e, "Failed to save configuration file.");
-                return false;
-            }
+                    File.WriteAllText(file ?? _configurationFile, jsonStr);
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(e, "Failed to save configuration file.");
+                    return false;
+                }
 
-            return true;
+                return true;
+            }
         }
 
         public static string GetCheckedStorage(string storageKey, string name, string defaultValue)
@@ -365,8 +370,32 @@ namespace MaaWpfGui.Helper
 
         public static void Release()
         {
-            Save();
-            Save(_configurationBakFile);
+            lock (_lock)
+            {
+                if (Released)
+                {
+                    return;
+                }
+
+                if (Save())
+                {
+                    _logger.Information($"{_configurationFile} saved");
+                }
+                else
+                {
+                    _logger.Warning($"{_configurationFile} save failed");
+                }
+
+                if (Save(_configurationBakFile))
+                {
+                    _logger.Information($"{_configurationBakFile} saved");
+                }
+                else
+                {
+                    _logger.Warning($"{_configurationBakFile} save failed");
+                }
+            }
+
             Released = true;
         }
 
