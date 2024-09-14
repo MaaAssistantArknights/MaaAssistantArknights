@@ -119,6 +119,8 @@ protected:
     struct AdbProperty
     {
         /* command */
+        std::string devices;
+        std::string address_regex;
         std::string connect;
         std::string call_minitouch;
         std::string call_maatouch;
