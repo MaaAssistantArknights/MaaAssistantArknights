@@ -21,6 +21,8 @@
 #include "Utils/Platform.hpp"
 #include "Utils/StringMisc.hpp"
 
+#include <regex>
+
 asst::AdbController::AdbController(const AsstCallback& callback, Assistant* inst, PlatformType type)
     : InstHelper(inst)
     , m_callback(callback)
@@ -754,28 +756,62 @@ bool asst::AdbController::connect(
 
     /* connect */
     {
-        m_adb.connect = cmd_replace(adb_cfg.connect);
-        m_adb.release = cmd_replace(adb_cfg.release);
-        auto connect_ret =
-            call_command(m_adb.connect, 60LL * 1000, false /* adb 连接时不允许重试 */);
-        bool is_connect_success = false;
-        if (connect_ret) {
-            auto& connect_str = connect_ret.value();
-            // 检查连接字符串是否包含 "connected" 或 "device"
-            is_connect_success = connect_str.find("connected") != std::string::npos || 
-                                 connect_str.find("device") != std::string::npos;
-            if (connect_str.find("daemon started successfully") != std::string::npos
-                && connect_str.find("daemon still not running") == std::string::npos) {
+        // 先用 devices 读取输出
+        m_adb.devices = cmd_replace(adb_cfg.devices);
+        m_adb.address_regex = cmd_replace(adb_cfg.address_regex);
+        auto devices_ret = call_command(m_adb.devices, 60LL * 1000, false);
+        bool need_connect = true;
+        if (devices_ret) {
+            auto& devices_str = devices_ret.value();
+            std::regex address_regex(m_adb.address_regex);
+            std::sregex_iterator iter(devices_str.begin(), devices_str.end(), address_regex);
+            std::sregex_iterator end;
+            while (iter != end) {
+                std::smatch match = *iter;
+                if (std::string matched_address = match[1].str();
+                    matched_address == address) {
+                    need_connect = false;
+                    break;
+                }
+                ++iter;
             }
         }
-        if (!is_connect_success) {
+
+        // 如果不包含 `:` 且需要连接，connect 命令也不会成功
+        if (address.find(':') == std::string::npos && need_connect) {
             json::value info = get_info_json()
                                | json::object {
                                      { "what", "ConnectFailed" },
-                                     { "why", "Connection command failed to exec" },
+                                     { "why", "Address does not contain ':' and no devices found" },
                                  };
             callback(AsstMsg::ConnectionInfo, info);
             return false;
+        }
+
+        if (need_connect) {
+            m_adb.connect = cmd_replace(adb_cfg.connect);
+            m_adb.release = cmd_replace(adb_cfg.release);
+            auto connect_ret =
+                call_command(m_adb.connect, 60LL * 1000, false /* adb 连接时不允许重试 */);
+            bool is_connect_success = false;
+            if (connect_ret) {
+                auto& connect_str = connect_ret.value();
+                // 检查连接字符串是否包含 "connected"
+                is_connect_success = connect_str.find("connected") != std::string::npos;
+                // NOTE:这玩意啥都没干，有什么用吗？
+                if (connect_str.find("daemon started successfully") != std::string::npos
+                    && connect_str.find("daemon still not running") == std::string::npos) {
+                }
+            }
+            if (!is_connect_success) {
+                json::value info = get_info_json()
+                                   | json::object {
+                                         { "what", "ConnectFailed" },
+                                         { "why", "Connection command failed to exec" },
+                                     };
+                callback(AsstMsg::ConnectionInfo, info);
+                return false;
+            }
         }
     }
 
