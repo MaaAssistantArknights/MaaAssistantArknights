@@ -762,18 +762,13 @@ bool asst::AdbController::connect(
         auto devices_ret = call_command(m_adb.devices, 60LL * 1000, false);
         bool need_connect = true;
         if (devices_ret) {
-            auto& devices_str = devices_ret.value();
-            std::regex address_regex(m_adb.address_regex);
-            std::sregex_iterator iter(devices_str.begin(), devices_str.end(), address_regex);
-            std::sregex_iterator end;
-            while (iter != end) {
-                std::smatch match = *iter;
-                if (std::string matched_address = match[1].str();
-                    matched_address == address) {
+            const auto& devices_str = devices_ret.value();
+            const std::regex address_regex(m_adb.address_regex);
+            for (std::sregex_iterator iter(devices_str.begin(), devices_str.end(), address_regex), end; iter != end; ++iter) {
+                if (iter->size() > 1 && iter->str(1) == address) {
                     need_connect = false;
                     break;
                 }
-                ++iter;
             }
         }
 
