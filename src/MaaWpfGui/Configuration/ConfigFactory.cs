@@ -86,6 +86,7 @@ namespace MaaWpfGui.Configuration
                         if (parsed is not null)
                         {
                             _logger.Information("Backup file loaded successfully, copying backup file to configuration file");
+                            File.Copy(_configurationBakFile, _configurationFile, true);
                         }
                         else
                         {
