@@ -12,12 +12,7 @@
 // </copyright>
 
 #nullable enable
-using FluentEmail.Core;
-using HandyControl.Controls;
-using MaaWpfGui.Helper;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
-using System.Linq;
 using static MaaWpfGui.Models.MaaTask;
 
 namespace MaaWpfGui.Configuration.MaaTask
