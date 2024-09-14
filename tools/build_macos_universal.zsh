@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-arch=$(arch)
+[[ "$(arch)" == "arm64" ]] && arch="arm64" || arch="x86_64"
 basedir=$(dirname "$0")/..
 pushd ${basedir}
 
