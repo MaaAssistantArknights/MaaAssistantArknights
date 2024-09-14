@@ -38,14 +38,12 @@ private:
     void disconnect_ld();
 
 private:
-    HWND hwnd_ = nullptr;
     unsigned int ld_inst_index_ = 0;
     unsigned int ld_pid_ = 0;
 
     IScreenShotClass* screenshot_instance_ = nullptr;
     int display_width_ = 0;
     int display_height_ = 0;
-    std::vector<unsigned char> display_buffer_;
 
     bool inited_ = false;
 
@@ -54,9 +52,6 @@ private:
     inline static const std::string kCreateScreenShotInstanceFuncName = "CreateScreenShotInstance";
 
 private:
-    std::function<decltype(initialGL)> initial_gl_func_;
-    std::function<decltype(uninitialGL)> uninitial_gl_func_;
-    std::function<decltype(readPixels)> read_pixels_func_;
     std::function<decltype(CreateScreenShotInstance)> create_screenshot_instance_func_;
 };
 }

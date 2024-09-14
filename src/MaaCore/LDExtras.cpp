@@ -118,10 +118,6 @@ void LDExtras::disconnect_ld()
         screenshot_instance_->release();
         screenshot_instance_ = nullptr;
     }
-
-    if (uninitial_gl_func_) {
-        uninitial_gl_func_();
-    }
 }
 
 }
