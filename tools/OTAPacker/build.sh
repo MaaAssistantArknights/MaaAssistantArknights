@@ -21,7 +21,7 @@ while read tag; do
         echo "Downloading $tag"
         gh release download "$tag" --repo $source_repo --pattern "MAA-$tag-win-$arch.zip" --clobber \
             || gh release download "$tag" --repo $source_repo_fallback --pattern "MAA-$tag-win-$arch.zip" --clobber \
-            || { echo "::warning:: win $arch not found in release $tag skipping."; echo "::endgroup::"; continue; }
+            || { echo "::warning:: win $arch not found in release $tag, skipping."; rm -vf MAA-$tag-win-$arch.zip ; echo "::endgroup::"; continue; }
         mv MAA-$tag-win-$arch.zip $tag
     else
         echo "$tag"/MAA-$tag-win-$arch.zip already exists

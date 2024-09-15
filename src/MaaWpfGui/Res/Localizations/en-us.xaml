@@ -1,7 +1,4 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  Settings  -->
     <system:String x:Key="Settings">Settings</system:String>
     <system:String x:Key="GeneralSettings">General</system:String>
@@ -21,9 +18,12 @@
     <system:String x:Key="HotKeySettings">HotKeys</system:String>
     <system:String x:Key="UpdateSettings">Update</system:String>
     <system:String x:Key="AboutUs">About us</system:String>
+    <system:String x:Key="MaaVersion">MAA Version</system:String>
+    <system:String x:Key="BuildDateTime">Build Date</system:String>
     <system:String x:Key="CoreVersion">Core Version</system:String>
     <system:String x:Key="UiVersion">UI Version</system:String>
     <system:String x:Key="ResourceVersion">Resource Version</system:String>
+    <system:String x:Key="ResourceDateTime">Resource Date</system:String>
     <system:String x:Key="Off">Off</system:String>
     <system:String x:Key="ExternalNotificationTips">Please note: The external notification feature currently only sends 「All tasks completed」 notifications.</system:String>
     <system:String x:Key="ExternalNotificationSettings">External notifications</system:String>
@@ -48,6 +48,10 @@
     <system:String x:Key="ExternalNotificationDiscordUserId">User ID</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">Bot Token</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">Chat ID</system:String>
+    <system:String x:Key="ExternalNotificationQmsgServer">Qmsg Server</system:String>
+    <system:String x:Key="ExternalNotificationQmsgKey">Qmsg Key</system:String>
+    <system:String x:Key="ExternalNotificationQmsgUser">User QQ</system:String>
+    <system:String x:Key="ExternalNotificationQmsgBot">Bot QQ</system:String>
     <system:String x:Key="UseGpuForInference">Use GPU for inference acceleration</system:String>
     <system:String x:Key="GpuOptionDisable">Don’t use</system:String>
     <system:String x:Key="GpuOptionSystemDefault">System default GPU</system:String>
@@ -96,7 +100,6 @@
     <system:String x:Key="153Time3">153 3 times a day</system:String>
     <system:String x:Key="243Time3">243 3 times a day</system:String>
     <system:String x:Key="243Time4">243 4 times a day</system:String>
-    <system:String x:Key="252Time3">252 3 times a day</system:String>
     <system:String x:Key="333Time3">333 3 times a day</system:String>
     <system:String x:Key="CustomInfrastFile">Base Configuration</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">Base Configuration Parsing Error!</system:String>
@@ -342,6 +345,8 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">Restart immediately to apply changes?</system:String>
     <system:String x:Key="SwitchResolutionTip">Change the emulator resolution to 1920x1080!</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">Make sure the emulator is set to 1920x1080</system:String>
+    <system:String x:Key="AllowUseStoneSave">Allow Use Originium Save</system:String>
+    <system:String x:Key="AllowUseStoneSaveWarning">This function is considered dangerous. Pressing the "Confirm" button indicates that you understand and are willing to assume the potential risks.</system:String>
     <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
     <system:String x:Key="UseRemainingSanityStage">Use remaining sanity stage</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">Brush the specified stage after completing the main task, won't use sanity potion or stone</system:String>
@@ -406,8 +411,16 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="Mall">Credit Store</system:String>
     <system:String x:Key="Mission">Collect Rewards</system:String>
     <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>
-    <system:String x:Key="ReclamationAlgorithm">Reclamation Algorithm</system:String>
-    <system:String x:Key="ReclamationAlgorithm2">Reclamation Algorithm 2</system:String>
+    <system:String x:Key="Reclamation">Reclamation Algorithm</system:String>
+    <system:String x:Key="ReclamationTheme">Reclamation Algorithm Theme</system:String>
+    <system:String x:Key="ReclamationThemeFire">Fire Within the Sand</system:String>
+    <system:String x:Key="ReclamationThemeTales">Tales Within the Sand</system:String>
+    <system:String x:Key="ReclamationModeProsperityNoSave">I do not have a save, let's farm prosperity points by repeatedly entering and exiting stages.</system:String>
+    <system:String x:Key="ReclamationModeProsperityInSave">I do have a save, let's farm prosperity points by crafting tools.</system:String>
+    <system:String x:Key="ReclamationIncrementMode">Increment Mode</system:String>
+    <system:String x:Key="ReclamationIncrementModeClick">Click</system:String>
+    <system:String x:Key="ReclamationIncrementModeHold">Hold</system:String>
+    <system:String x:Key="ReclamationMaxCraftCountPerRound">Max Craft Count Per Round</system:String>
     <system:String x:Key="OperNameLanguage">Operator display language</system:String>
     <system:String x:Key="OperNameLanguageMAA">Follow MAA</system:String>
     <system:String x:Key="OperNameLanguageClient">Follow game client</system:String>
@@ -424,6 +437,8 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="ExitSelf">Exit MAA</system:String>
     <system:String x:Key="ExitEmulator">Exit Emulator</system:String>
     <system:String x:Key="Hibernate">Hibernate</system:String>
+    <system:String x:Key="HibernateTip">You need to enable the hibernate feature in Windows power options, otherwise this feature will be invalid.</system:String>
+    <system:String x:Key="Sleep">Sleep</system:String>
     <system:String x:Key="Shutdown">Shutdown</system:String>
     <system:String x:Key="Once">Only once*</system:String>
     <system:String x:Key="PostActionOnceTip">If active, changes will NOT be saved until next run.</system:String>
@@ -434,7 +449,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="WaitAndStop">Wait &amp; Stop</system:String>
     <!--  FightSettings  -->
     <system:String x:Key="UseSanityPotion">Use Sanity Potion</system:String>
-    <system:String x:Key="UseOriginitePrime">Use Originium*</system:String>
+    <system:String x:Key="UseOriginitePrime">Use Originium</system:String>
     <system:String x:Key="PerformBattles">Perform Battles</system:String>
     <system:String x:Key="AssignedMaterial">Material</system:String>
     <system:String x:Key="Quantity">Quantity</system:String>
@@ -498,6 +513,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="AboutToShutdown">All tasks have been completed: shutting down. Do you want to cancel?</system:String>
     <system:String x:Key="ShutdownPrompt">Tip</system:String>
     <system:String x:Key="HibernatePrompt">Task(s) completed, about to hibernate</system:String>
+    <system:String x:Key="SleepPrompt">Completed, about to sleep</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">Unknown ending action</system:String>
     <system:String x:Key="AnnihilationTaskTip">The stage selected is an annihilation task. After the task is completed, the remaining alternative stages will be attempted. Some battle settings will not take effect.</system:String>
     <system:String x:Key="AnnihilationTaskFailed">Annihilation task failed, will try to use alternate stage, some combat settings will not be effective.</system:String>
@@ -857,10 +873,12 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
 
 The support for reclamation algorithm is still under development at present. Please mind the following:
 
-Without save file: farm points through initial setup.
-  1. Cannot be used when a save already exists. (simply delete the current save)
-  2. Cannot be used when squads are not empty. (simply clear the current squad)
-  3. Can only be started at the main nav page of reclamation algorithm.
+Farm points through initial setup: (Be careful that existing save files might be deleted)
+  1. After reaching the maximum points, it will output 'Task Completed' and automatically stop the task.
+  2. Cannot be used when squads are not empty (simply clear the current squad).
+  3. Manually check and delete save files to prevent MAA from deleting your valuable saves.
+  4. Navigation is not yet implemented, so the task cannot be started from locations outside the Reclamation mode.
+  5. If an error occurs during the task or the task completes without reaching the maximum points, please submit an issue on GitHub.
 
 With save file: farm points through crafting (advanced).
   1. It must be the first day after settlement, and there should be no enemy attacks entering the stationed area for the next three days.
@@ -869,7 +887,7 @@ With save file: farm points through crafting (advanced).
     </system:String>
     <system:String x:Key="ReclamationBePatient">Chill and relax, please be patient</system:String>
     <system:String x:Key="Reclamation2ExEnable">Farm points through crafting</system:String>
-    <system:String x:Key="Reclamation2ExProductTip">Support prop name</system:String>
-    <system:String x:Key="Reclamation2ExProductPlaceholder">Glow Stick</system:String>
+    <system:String x:Key="ReclamationToolToCraftTip">Support prop name</system:String>
+    <system:String x:Key="ReclamationToolToCraftPlaceholder">Glow Stick</system:String>
     <!--  !Reclamation  -->
 </ResourceDictionary>

@@ -19,7 +19,9 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Windows;
 using HandyControl.Data;
-using Vanara.PInvoke;
+using Windows.Win32;
+using Windows.Win32.UI.Controls;
+using Windows.Win32.UI.Shell;
 
 [assembly: SecurityCritical]
 [assembly: SecurityTreatAsSafe]
@@ -138,26 +140,43 @@ namespace MaaWpfGui.Helper
             {
                 return ShowNative(ownerWindow, messageBoxText, null, caption, buttons, icon, MessageBoxResult.None, false, ok, cancel, yes, no);
             }
-            else
+
+            SetImage(icon, ref iconKey, ref iconBrushKey);
+            var info = new MessageBoxInfo
             {
-                SetImage(icon, ref iconKey, ref iconBrushKey);
-                var info = new MessageBoxInfo
-                {
-                    Message = messageBoxText,
-                    Caption = caption,
-                    Button = buttons,
-                    IconKey = iconKey,
-                    IconBrushKey = iconBrushKey,
-                    ConfirmContent = ok,
-                    CancelContent = cancel,
-                    YesContent = yes,
-                    NoContent = no,
-                };
-                return HandyControl.Controls.MessageBox.Show(info);
+                Message = messageBoxText,
+                Caption = caption,
+                Button = buttons,
+                IconKey = iconKey,
+                IconBrushKey = iconBrushKey,
+                ConfirmContent = ok,
+                CancelContent = cancel,
+                YesContent = yes,
+                NoContent = no,
+            };
+
+            return HandyControl.Controls.MessageBox.Show(info);
+        }
+
+        private readonly unsafe ref struct DisposablePin<T>
+            where T : unmanaged
+        {
+            private readonly GCHandle _handle;
+
+            public DisposablePin(object obj)
+            {
+                _handle = GCHandle.Alloc(obj, GCHandleType.Pinned);
+            }
+
+            public T* AddrOfPinnedObject => (T*)_handle.AddrOfPinnedObject();
+
+            public void Dispose()
+            {
+                _handle.Free();
             }
         }
 
-        public static MessageBoxResult ShowNative(
+        public static unsafe MessageBoxResult ShowNative(
            WindowHandle ownerWindow,
            string messageBoxText,
            string mainInstruction = "",
@@ -171,41 +190,45 @@ namespace MaaWpfGui.Helper
            string yes = "",
            string no = "")
         {
-            var config = new ComCtl32.TASKDIALOGCONFIG()
+            using var contentPin = new DisposablePin<char>(messageBoxText);
+            using var instructionPin = new DisposablePin<char>(mainInstruction);
+            using var titlePin = new DisposablePin<char>(windowTitle);
+
+            var config = new TASKDIALOGCONFIG
             {
-                Content = messageBoxText,
-                MainInstruction = mainInstruction,
-                WindowTitle = windowTitle,
-                hwndParent = ownerWindow.Handle,
+                pszContent = contentPin.AddrOfPinnedObject,
+                pszMainInstruction = instructionPin.AddrOfPinnedObject,
+                pszWindowTitle = titlePin.AddrOfPinnedObject,
+                hwndParent = (Windows.Win32.Foundation.HWND)ownerWindow.Handle,
                 nDefaultButton = (int)defaultButton,
-                dwFlags = ComCtl32.TASKDIALOG_FLAGS.TDF_POSITION_RELATIVE_TO_WINDOW | ComCtl32.TASKDIALOG_FLAGS.TDF_SIZE_TO_CONTENT,
+                dwFlags = TASKDIALOG_FLAGS.TDF_POSITION_RELATIVE_TO_WINDOW | TASKDIALOG_FLAGS.TDF_SIZE_TO_CONTENT,
             };
 
             if (alwaysAllowCancel)
             {
-                config.dwFlags |= ComCtl32.TASKDIALOG_FLAGS.TDF_ALLOW_DIALOG_CANCELLATION;
+                config.dwFlags |= TASKDIALOG_FLAGS.TDF_ALLOW_DIALOG_CANCELLATION;
             }
 
             switch (icon)
             {
                 case MessageBoxImage.Information:
                     // case MessageBoxImage.Asterisk:
-                    config.mainIcon = (IntPtr)ComCtl32.TaskDialogIcon.TD_INFORMATION_ICON;
+                    config.Anonymous1.pszMainIcon = PInvoke.TD_INFORMATION_ICON;
                     break;
                 case MessageBoxImage.Hand:
                     // case MessageBoxImage.Stop:
                     // case MessageBoxImage.Error
-                    config.mainIcon = (IntPtr)ComCtl32.TaskDialogIcon.TD_ERROR_ICON;
+                    config.Anonymous1.pszMainIcon = PInvoke.TD_ERROR_ICON;
                     break;
                 case MessageBoxImage.Exclamation:
                     // case MessageBoxImage.Warning:
-                    config.mainIcon = (IntPtr)ComCtl32.TaskDialogIcon.TD_WARNING_ICON;
+                    config.Anonymous1.pszMainIcon = PInvoke.TD_WARNING_ICON;
                     break;
                 case MessageBoxImage.Question:
-                    var iconInfo = new Shell32.SHSTOCKICONINFO { cbSize = (uint)Marshal.SizeOf<Shell32.SHSTOCKICONINFO>() };
-                    Shell32.SHGetStockIconInfo(Shell32.SHSTOCKICONID.SIID_HELP, Shell32.SHGSI.SHGSI_ICON, ref iconInfo).ThrowIfFailed();
-                    config.mainIcon = iconInfo.hIcon.DangerousGetHandle();
-                    config.dwFlags |= ComCtl32.TASKDIALOG_FLAGS.TDF_USE_HICON_MAIN;
+                    var iconInfo = new SHSTOCKICONINFO { cbSize = (uint)Marshal.SizeOf<SHSTOCKICONINFO>() };
+                    PInvoke.SHGetStockIconInfo(SHSTOCKICONID.SIID_HELP, SHGSI_FLAGS.SHGSI_ICON, ref iconInfo).ThrowOnFailure();
+                    config.Anonymous1.hMainIcon = iconInfo.hIcon;
+                    config.dwFlags |= TASKDIALOG_FLAGS.TDF_USE_HICON_MAIN;
                     break;
                 case MessageBoxImage.None:
                     break;
@@ -214,7 +237,7 @@ namespace MaaWpfGui.Helper
             }
 
             bool hasOk = false, hasCancel = false, hasYes = false, hasNo = false;
-            var customButtons = new List<ComCtl32.TASKDIALOG_BUTTON>();
+            var customButtons = new List<TASKDIALOG_BUTTON>();
             var gcHandles = new List<GCHandle>();
             switch (buttons)
             {
@@ -242,13 +265,13 @@ namespace MaaWpfGui.Helper
             {
                 if (string.IsNullOrEmpty(ok))
                 {
-                    config.dwCommonButtons |= ComCtl32.TASKDIALOG_COMMON_BUTTON_FLAGS.TDCBF_OK_BUTTON;
+                    config.dwCommonButtons |= TASKDIALOG_COMMON_BUTTON_FLAGS.TDCBF_OK_BUTTON;
                 }
                 else
                 {
                     var gch = GCHandle.Alloc(ok, GCHandleType.Pinned);
                     gcHandles.Add(gch);
-                    customButtons.Add(new ComCtl32.TASKDIALOG_BUTTON { nButtonID = (int)User32.MB_RESULT.IDOK, pszButtonText = gch.AddrOfPinnedObject() });
+                    customButtons.Add(new TASKDIALOG_BUTTON { nButtonID = (int)MessageBoxResult.OK, pszButtonText = (char*)gch.AddrOfPinnedObject() });
                 }
             }
 
@@ -256,13 +279,13 @@ namespace MaaWpfGui.Helper
             {
                 if (string.IsNullOrEmpty(cancel))
                 {
-                    config.dwCommonButtons |= ComCtl32.TASKDIALOG_COMMON_BUTTON_FLAGS.TDCBF_CANCEL_BUTTON;
+                    config.dwCommonButtons |= TASKDIALOG_COMMON_BUTTON_FLAGS.TDCBF_CANCEL_BUTTON;
                 }
                 else
                 {
                     var gch = GCHandle.Alloc(cancel, GCHandleType.Pinned);
                     gcHandles.Add(gch);
-                    customButtons.Add(new ComCtl32.TASKDIALOG_BUTTON { nButtonID = (int)User32.MB_RESULT.IDCANCEL, pszButtonText = gch.AddrOfPinnedObject() });
+                    customButtons.Add(new TASKDIALOG_BUTTON { nButtonID = (int)MessageBoxResult.Cancel, pszButtonText = (char*)gch.AddrOfPinnedObject() });
                 }
             }
 
@@ -270,13 +293,13 @@ namespace MaaWpfGui.Helper
             {
                 if (string.IsNullOrEmpty(yes))
                 {
-                    config.dwCommonButtons |= ComCtl32.TASKDIALOG_COMMON_BUTTON_FLAGS.TDCBF_YES_BUTTON;
+                    config.dwCommonButtons |= TASKDIALOG_COMMON_BUTTON_FLAGS.TDCBF_YES_BUTTON;
                 }
                 else
                 {
                     var gch = GCHandle.Alloc(yes, GCHandleType.Pinned);
                     gcHandles.Add(gch);
-                    customButtons.Add(new ComCtl32.TASKDIALOG_BUTTON { nButtonID = (int)User32.MB_RESULT.IDYES, pszButtonText = gch.AddrOfPinnedObject() });
+                    customButtons.Add(new TASKDIALOG_BUTTON { nButtonID = (int)MessageBoxResult.Yes, pszButtonText = (char*)gch.AddrOfPinnedObject() });
                 }
             }
 
@@ -284,13 +307,13 @@ namespace MaaWpfGui.Helper
             {
                 if (string.IsNullOrEmpty(no))
                 {
-                    config.dwCommonButtons |= ComCtl32.TASKDIALOG_COMMON_BUTTON_FLAGS.TDCBF_NO_BUTTON;
+                    config.dwCommonButtons |= TASKDIALOG_COMMON_BUTTON_FLAGS.TDCBF_NO_BUTTON;
                 }
                 else
                 {
                     var gch = GCHandle.Alloc(no, GCHandleType.Pinned);
                     gcHandles.Add(gch);
-                    customButtons.Add(new ComCtl32.TASKDIALOG_BUTTON { nButtonID = (int)User32.MB_RESULT.IDNO, pszButtonText = gch.AddrOfPinnedObject() });
+                    customButtons.Add(new TASKDIALOG_BUTTON { nButtonID = (int)MessageBoxResult.No, pszButtonText = (char*)gch.AddrOfPinnedObject() });
                 }
             }
 
@@ -299,26 +322,19 @@ namespace MaaWpfGui.Helper
                 var array = customButtons.ToArray();
                 var gch = GCHandle.Alloc(array, GCHandleType.Pinned);
                 gcHandles.Add(gch);
-                config.pButtons = gch.AddrOfPinnedObject();
+                config.pButtons = (TASKDIALOG_BUTTON*)gch.AddrOfPinnedObject();
                 config.cButtons = (uint)customButtons.Count;
             }
 
-            ComCtl32.TaskDialogIndirect(config, out var button, out _, out _).ThrowIfFailed();
+            int button = 0;
+            PInvoke.TaskDialogIndirect(config, &button, null, null).ThrowOnFailure();
 
             foreach (var h in gcHandles)
             {
                 h.Free();
             }
 
-            return button switch
-            {
-                (int)User32.MB_RESULT.IDOK => MessageBoxResult.OK,
-                (int)User32.MB_RESULT.IDYES => MessageBoxResult.Yes,
-                (int)User32.MB_RESULT.IDNO => MessageBoxResult.No,
-                (int)User32.MB_RESULT.IDCANCEL => MessageBoxResult.Cancel,
-                0 => MessageBoxResult.None,
-                _ => (MessageBoxResult)button,
-            };
+            return (MessageBoxResult)button;
         }
     }
 }

@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
-    xmlns:local="clr-namespace:MaaWpfGui.Views.UI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -20,7 +19,7 @@
                 <MenuItem Name="stopMenu" Header="{DynamicResource Stop}" />
                 <MenuItem Name="switchLangMenu" Header="{DynamicResource SwitchLanguage}" />
                 <MenuItem Name="forceShowMenu" Header="{DynamicResource ForceShow}" />
-                <MenuItem Name="useTrayMenu" Header="{DynamicResource HideTray}" />
+                <MenuItem Name="hideTrayMenu" Header="{DynamicResource HideTray}" />
                 <MenuItem Name="restartMenu" Header="{DynamicResource Restart}" />
                 <MenuItem Name="exitMenu" Header="{DynamicResource Exit}" />
             </ContextMenu>

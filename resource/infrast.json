@@ -498,6 +498,11 @@
                 "name": ["芬芳疗养·β"],
                 "template": "Bskill_dorm_all_tired.png"
             },
+            "bskill_dorm_bd_dungeon": {
+                "desc": ["进驻宿舍时，当前宿舍每级提供1层魔物料理"],
+                "name": ["森西大食堂"],
+                "template": "Bskill_dorm_bd_dungeon.png"
+            },
             "bskill_dorm_bdnum": {
                 "desc": ["进驻宿舍时，该宿舍内每有1名干员，无声共鸣+1"],
                 "name": ["无声共鸣"],
@@ -579,6 +584,13 @@
                 ],
                 "name": ["无词颂歌"],
                 "template": "Bskill_dorm_rec_allbd.png"
+            },
+            "bskill_dorm_senshi": {
+                "desc": [
+                    "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15，如果目标是莱欧斯小队干员，则恢复效果额外+0.15（同种效果取最高）"
+                ],
+                "name": ["资深料理人"],
+                "template": "Bskill_dorm_senshi.png"
             },
             "bskill_dorm_single&one01": {
                 "desc": [
@@ -841,6 +853,16 @@
                 "name": ["掘进工程"],
                 "template": "Bskill_man_limit&cost5.png"
             },
+            "bskill_man_marcille1": {
+                "desc": ["进驻制造站时，生产力+20%"],
+                "name": ["差遣使魔·α"],
+                "template": "Bskill_man_marcille1.png"
+            },
+            "bskill_man_marcille2": {
+                "desc": ["进驻制造站时，生产力+30%"],
+                "name": ["差遣使魔·β"],
+                "template": "Bskill_man_marcille2.png"
+            },
             "bskill_man_originium1": {
                 "desc": ["进驻制造站时，源石类配方的生产力+30%", "进驻制造站时，源石类配方的生产力+30%"],
                 "efficient": {
@@ -1067,6 +1089,11 @@
                 "desc": ["进驻制造站时，每3点人间烟火+1%生产力"],
                 "name": ["稻禾厚，顺秋收"],
                 "template": "Bskill_man_spd_bd7.png"
+            },
+            "bskill_man_spd_bd_dungeon": {
+                "desc": ["进驻制造站时，每1点魔物料理+1%生产力"],
+                "name": ["意想不到的美味"],
+                "template": "Bskill_man_spd_bd_dungeon.png"
             },
             "bskill_man_spd_bd_n1": {
                 "additional": {
@@ -1927,6 +1954,11 @@
                 "name": ["交个朋友"],
                 "template": "Bskil_meet_team&char.png"
             },
+            "bskill_meet_bd_dungeon": {
+                "desc": ["进驻会客室时，每拥有1点魔物料理，线索搜集速度额外提升2%"],
+                "name": ["饱餐的干劲"],
+                "template": "Bskill_meet_bd_dungeon.png"
+            },
             "bskill_meet_blacksteel2": {
                 "desc": [
                     "进驻会客室时，线索搜集速度提升10%，且更容易获得黑钢国际线索（工作时长影响概率）",
@@ -2144,11 +2176,15 @@
                 "template": "Bskill_meet_spd1.png"
             },
             "bskill_meet_spd2": {
-                "desc": ["进驻会客室时，线索搜集速度提升15%", "进驻会客室时，线索搜集速度提升20%"],
+                "desc": [
+                    "进驻会客室时，线索搜集速度提升15%",
+                    "进驻会客室时，线索搜集速度提升20%",
+                    "进驻会客室时，线索搜集速度提升20%"
+                ],
                 "efficient": {
                     "all": 20
                 },
-                "name": ["化影", "线索搜集·β"],
+                "name": ["化影", "线索搜集·β", "好奇心"],
                 "template": "Bskill_meet_spd2.png"
             },
             "bskill_meet_spd3": {
@@ -2494,12 +2530,13 @@
                 "desc": [
                     "进驻贸易站时，订单获取效率+30%，且订单上限+1",
                     "进驻贸易站时，订单获取效率+30%，且订单上限+1",
+                    "进驻贸易站时，订单获取效率+30%，且订单上限+1",
                     "进驻贸易站时，订单获取效率+30%，且订单上限+1"
                 ],
                 "efficient": {
                     "all": 30
                 },
-                "name": ["使命必达", "少当家", "大巴扎管理学"],
+                "name": ["使命必达", "少当家", "大巴扎管理学", "半身人公会代表"],
                 "template": "Bskill_tra_spd&limit7.png"
             },
             "bskill_tra_spd&limit_down1": {
@@ -2572,6 +2609,11 @@
                 "desc": ["进驻贸易站时，每2点无声共鸣+1%订单效率"],
                 "name": ["怅惘和声"],
                 "template": "Bskill_tra_spd_bd2.png"
+            },
+            "bskill_tra_spd_bd_dungeon": {
+                "desc": ["进驻贸易站时，每1点魔物料理+1%订单效率"],
+                "name": ["熟悉的味道"],
+                "template": "Bskill_tra_spd_bd_dungeon.png"
             },
             "bskill_tra_spd_variable21": {
                 "desc": ["进驻贸易站时，当前贸易站内干员提供的每5%订单获取效率，额外提供5%效率，最多提供25%效率"],

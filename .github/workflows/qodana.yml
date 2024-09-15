@@ -38,9 +38,8 @@ jobs:
       - name: Qodana Scan
         uses: JetBrains/qodana-action@main
         with:
-          pr-mode: false
+          pr-mode: true
           post-pr-comment: true
-          upload-result: true
-          args: --baseline,.github/qodana.sarif.json
+          #args: --baseline,.github/qodana.sarif.json
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}

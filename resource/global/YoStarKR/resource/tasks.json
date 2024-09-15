@@ -30,6 +30,12 @@
     "SideStoryReopen": {
         "text": ["재개방"]
     },
+    "CR-OpenOcr": {
+        "text": ["스테이지", "개방"]
+    },
+    "CRChapterToCR": {
+        "text": ["전시", "회", "관람"]
+    },
     "HS-9": {
         "sub": ["HS-Open", "HSChapterToHS"]
     },
@@ -112,7 +118,7 @@
             ["드래곤플라이F", "드래곤플라이에프"],
             ["드래곤플라이A", "드래곤플라이에이"],
             [
-                "\\b(?!(Ash|Blitz|Tachanka|Frost|.*ancet2|THRMEX|Friston3|[CcOo0]ast.*le3|[Ww]|12F|Mon3tr|Sharp|Pith|Touch|Stormeye|[JUu][O0o]f{0,2}icial))(\\w)+$",
+                "\\b(?!(Ash|Blitz|Tachanka|Frost|Ela|Doc|Fuze|Iana|.*ancet2|THRMEX|Friston3|[CcOo0]ast.*le3|[Ww]|12F|Mon3tr|Sharp|Pith|Touch|Stormeye|[JUu][O0o]f{0,2}icial))(\\w)+$",
                 ""
             ],
             ["[CcOo0]ast.*le3", "Castle-3"],
@@ -749,7 +755,12 @@
             ["전달자우편함", "信使邮筒"],
             ["^사서함$", "讯息匣"],
             ["언밸런스디퓨저", "失衡异香"],
-            ["^게시판$", "告示牌"]
+            ["^게시판$", "告示牌"],
+            ["^Doc$", "医生"],
+            ["^Ela$", "艾拉"],
+            ["^Iana$", "双月"],
+            ["^Fuze$", "导火索"],
+            ["GRZMOT지뢰", "雷鸣地雷"]
         ]
     },
     "StartUpThemes": {
@@ -851,10 +862,6 @@
     },
     "VisitNextOcr": {
         "text": ["다음", "방문"]
-    },
-    "Mall": {
-        "ocrReplace": [["구매센.*", "구매센터"]],
-        "text": ["구매센터"]
     },
     "CreditStoreOcr": {
         "ocrReplace": [["크레.+", "크레딧"]],
@@ -1141,6 +1148,12 @@
         "ocrReplace": [["개.+", "개시"]],
         "text": ["작전", "개시"],
         "roi": [1020, 410, 170, 210]
+    },
+    "BattleStartSimulation": {
+        "Doc": "Delete the template and remove this modified roi task when paradox update comes PR#10439",
+        "roi": [417, 567, 444, 153],
+        "method": "Ccoeff",
+        "colorScales": []
     },
     "StageDrops-Quantity": {
         "maskRange": [200, 255],
@@ -2358,14 +2371,8 @@
     "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
         "text": ["확인"]
     },
-    "Reclamation2ProsperityMaxSkipDayBeginNewDay": {
-        "text": ["시", "작", "하", "기"]
-    },
     "Reclamation2ProsperityMaxSkipDayClickContinue": {
         "text": ["탭하여", "계", "속"]
-    },
-    "Reclamation2SkipDayBeginNewDay": {
-        "text": ["시", "작", "하", "기"]
     },
     "Reclamation2SkipDayClickContinue": {
         "text": ["탭하여", "계", "속"]
@@ -2387,5 +2394,55 @@
     },
     "Reclamation2StageLeaveConfirm": {
         "text": ["확인"]
+    },
+    "Reclamation2StageSquadClearConfirm": {
+        "text": ["확인"]
+    },
+    "Tales@RA@CancelEnterBuildMode": {
+        "text": ["건설", "하기"]
+    },
+    "Tales@RA@ClickGatheringOfFeathers": {
+        "text": ["사냥터", "파울비스트의", "땅"]
+    },
+    "Tales@RA@ClickShrubberyGalore": {
+        "text": ["채집터", "우거진", "숲"],
+        "ocrReplace": [
+            [".+터", "채집터"],
+            [".*거진.*", "우거진숲"]
+        ]
+    },
+    "Tales@RA@ConfirmSquad": {
+        "text": ["작전", "개시"]
+    },
+    "Tales@RA@ConfirmToLoadSave": {
+        "text": ["확인"]
+    },
+    "Tales@RA@EnterNode": {
+        "text": ["작전", "개시"]
+    },
+    "Tales@RA@FinishCalc": {
+        "text": ["탭하여", "계", "속"]
+    },
+    "Tales@RA@PIS-ProsperityReachLimit-LoadSave": {
+        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
+        "doc": "Needs to be edited if confirmation window is removed later",
+        "sub": [
+            "Tales@RA@DialogConfirmYellow",
+            "Tales@RA@DialogConfirmRed",
+            "Tales@RA@SelectSecondLastSave",
+            "Tales@RA@ConfirmToLoadSave"
+        ]
+    },
+    "Tales@RA@PIS-Resume": {
+        "text": ["계", "속", "하", "기"]
+    },
+    "Tales@RA@PNS-ClickBaseCamp": {
+        "text": ["캠프", "만남", "광장"]
+    },
+    "Tales@RA@PNS-Commence": {
+        "text": ["연", "산", "시", "작"]
+    },
+    "Tales@RA@ResourceGained": {
+        "text": ["탭하여", "계", "속"]
     }
 }

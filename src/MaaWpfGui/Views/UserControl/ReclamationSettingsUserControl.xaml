@@ -5,14 +5,9 @@
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
-    xmlns:vm="clr-namespace:MaaWpfGui"
     d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
     d:DesignWidth="220"
     mc:Ignorable="d">
@@ -26,19 +21,46 @@
         </StackPanel>
 
         <StackPanel Visibility="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}">
-            <CheckBox
-                Margin="5,10,5,10"
-                Content="{DynamicResource Reclamation2ExEnable}"
-                IsChecked="{Binding Reclamation2ExEnable}"
-                IsEnabled="{c:Binding Idle}" />
+            <ComboBox
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource ReclamationTheme}"
+                IsHitTestVisible="{Binding Idle}"
+                ItemsSource="{Binding ReclamationThemeList}"
+                SelectedValue="{Binding ReclamationTheme}"
+                SelectedValuePath="Value"
+                Style="{StaticResource ComboBoxExtend}" />
+            <ComboBox
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource Strategy}"
+                IsHitTestVisible="{Binding Idle}"
+                ItemsSource="{Binding ReclamationModeList}"
+                SelectedValue="{Binding ReclamationMode}"
+                SelectedValuePath="Value"
+                Style="{StaticResource ComboBoxExtend}" />
             <TextBox
-                hc:InfoElement.Title="{DynamicResource Reclamation2ExProductTip}"
-                hc:InfoElement.Placeholder="{DynamicResource Reclamation2ExProductPlaceholder}"
-                Style="{StaticResource TextBoxExtend}"
                 Margin="0,10"
                 VerticalContentAlignment="Center"
-                IsEnabled="{c:Binding '(Idle) and (Reclamation2ExEnable)' }"
-                Text="{Binding Reclamation2ExProduct}" />
+                hc:InfoElement.Placeholder="{DynamicResource ReclamationToolToCraftPlaceholder}"
+                hc:InfoElement.Title="{DynamicResource ReclamationToolToCraftTip}"
+                IsEnabled="{c:Binding 'ReclamationMode == &quot;1&quot;'}"
+                Style="{StaticResource TextBoxExtend}"
+                Text="{Binding ReclamationToolToCraft}" />
+            <ComboBox
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource ReclamationIncrementMode}"
+                IsEnabled="{c:Binding 'ReclamationMode == &quot;1&quot;'}"
+                IsHitTestVisible="{Binding Idle}"
+                ItemsSource="{Binding ReclamationIncrementModeList}"
+                SelectedValue="{Binding ReclamationIncrementMode}"
+                SelectedValuePath="Value"
+                Style="{StaticResource ComboBoxExtend}" />
+            <hc:NumericUpDown
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource ReclamationMaxCraftCountPerRound}"
+                IsEnabled="{c:Binding 'ReclamationMode == &quot;1&quot;'}"
+                Minimum="0"
+                Style="{StaticResource NumericUpDownExtend}"
+                Value="{Binding ReclamationMaxCraftCountPerRound}" />
             <!--<controls:TextBlock
                 Margin="5,50,5,10"
                 FontSize="40"

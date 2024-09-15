@@ -15,6 +15,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
@@ -73,9 +74,21 @@ namespace MaaWpfGui.Main
             */
 
             Directory.SetCurrentDirectory(AppContext.BaseDirectory);
-            if (Directory.Exists("debug") is false)
+            if (!Directory.Exists("debug"))
             {
                 Directory.CreateDirectory("debug");
+            }
+
+            // TODO: Remove after 5.10.0
+            string[] filesToDelete = ["MAA_win7.exe", "启动旧版.cmd"];
+            string curDir = Directory.GetCurrentDirectory();
+            foreach (var file in filesToDelete)
+            {
+                string path = Path.Combine(curDir, file);
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
             }
 
             const string LogFilename = "debug/gui.log";
@@ -216,15 +229,7 @@ namespace MaaWpfGui.Main
             */
 
             // MessageBox.Show("O(∩_∩)O 拜拜");
-            ETagCache.Save();
-            Instances.SettingsViewModel.Sober();
-            Instances.MaaHotKeyManager.Release();
-
-            // 关闭程序时清理操作中心中的通知
-            ToastNotification.Cleanup();
-
-            ConfigurationHelper.Release();
-            ConfigFactory.Release();
+            Release();
 
             _logger.Information("MaaAssistantArknights GUI exited");
             _logger.Information(string.Empty);
@@ -247,6 +252,19 @@ namespace MaaWpfGui.Main
             };
 
             Process.Start(startInfo);
+        }
+
+        public static void Release()
+        {
+            ETagCache.Save();
+            Instances.SettingsViewModel.Sober();
+            Instances.MaaHotKeyManager.Release();
+
+            // 关闭程序时清理操作中心中的通知
+            ToastNotification.Cleanup();
+
+            ConfigurationHelper.Release();
+            ConfigFactory.Release();
         }
 
         private static bool _isRestartingWithoutArgs;
@@ -285,13 +303,32 @@ namespace MaaWpfGui.Main
         /// <inheritdoc/>
         protected override void OnUnhandledException(DispatcherUnhandledExceptionEventArgs e)
         {
+            LogUnhandledException(e.Exception);
+            ShowErrorDialog(e.Exception);
+            e.Handled = true;
+        }
+
+        private static void LogUnhandledException(Exception exception)
+        {
             if (_logger != Logger.None)
             {
-                _logger.Fatal(e.Exception, "Unhandled exception");
+                _logger.Fatal(exception, "Unhandled exception occurred");
             }
+        }
 
-            var errorView = new ErrorView(e.Exception, true);
-            errorView.ShowDialog();
+        private static void ShowErrorDialog(Exception exception)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                // DragDrop.DoDragSourceMove 会导致崩溃，但不需要退出程序
+                // 这是一坨屎，但是没办法，只能这样了
+                var isDragDropException = exception is COMException && exception.ToString()!.Contains("DragDrop.DoDragSourceMove");
+
+                var shouldExit = !isDragDropException;
+
+                var errorView = new ErrorView(exception, shouldExit);
+                errorView.ShowDialog();
+            });
         }
     }
 }

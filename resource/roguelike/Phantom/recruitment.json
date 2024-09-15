@@ -726,6 +726,41 @@
             "name": "速狙",
             "opers": [
                 {
+                    "name": "艾拉",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "is_key": true,
+                    "recruit_priority": 682,
+                    "promote_priority": 801,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["水陈", "速狙", "益达"],
+                            "threshold": 1,
+                            "offset": -200
+                        },
+                        {
+                            "groups": ["凯尔希", "近卫", "重装"],
+                            "is_less": true,
+                            "threshold": 1,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "娜仁图亚",
+                    "skill": 2,
+                    "is_key": true,
+                    "recruit_priority": 681,
+                    "promote_priority": 600,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["水陈", "速狙", "益达"],
+                            "threshold": 1,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
                     "name": "能天使",
                     "skill": 3,
                     "alternate_skill": 2,
@@ -2731,9 +2766,7 @@
                     "name": "莱伊"
                 },
                 {
-                    "name": "艾拉",
-                    "skill": 3,
-                    "alternate_skill": 2
+                    "name": "艾拉"
                 },
                 {
                     "name": "林"
@@ -3569,6 +3602,12 @@
                 },
                 {
                     "name": "预备干员-狙击"
+                },
+                {
+                    "name": "玛露西尔",
+                    "skill": 2,
+                    "recruit_priority": -114514,
+                    "promote_priority": -800
                 },
                 {
                     "name": "“打字机”"

@@ -63,6 +63,7 @@ namespace MaaWpfGui.Utilities
         private const int TOKEN_QUERY = 0x0008;
         private const int EWX_SHUTDOWN = 0x00000001;
         private const int EWX_FORCE = 0x00000004;
+        private const int EWX_FORCEIFHUNG = 0x00000010;
 
         public static bool Shutdown()
         {
@@ -94,7 +95,7 @@ namespace MaaWpfGui.Utilities
                     throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error());
                 }
 
-                if (!ExitWindowsEx(EWX_SHUTDOWN | EWX_FORCE, 0))
+                if (!ExitWindowsEx(EWX_SHUTDOWN | EWX_FORCEIFHUNG, 0))
                 {
                     throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error());
                 }

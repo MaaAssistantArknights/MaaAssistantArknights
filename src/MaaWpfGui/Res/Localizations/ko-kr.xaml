@@ -1,7 +1,4 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  설정  -->
     <system:String x:Key="Settings">설정</system:String>
     <system:String x:Key="GeneralSettings">일반 설정</system:String>
@@ -21,9 +18,12 @@
     <system:String x:Key="HotKeySettings">단축키 설정</system:String>
     <system:String x:Key="UpdateSettings">업데이트</system:String>
     <system:String x:Key="AboutUs">정보</system:String>
+    <system:String x:Key="MaaVersion">MAA 버전</system:String>
+    <system:String x:Key="BuildDateTime">빌드 날짜</system:String>
     <system:String x:Key="CoreVersion">Core 버전</system:String>
     <system:String x:Key="UiVersion">UI 버전</system:String>
     <system:String x:Key="ResourceVersion">Resource 버전</system:String>
+    <system:String x:Key="ResourceDateTime">자원 날짜</system:String>
     <system:String x:Key="Off">끄기</system:String>
     <system:String x:Key="ExternalNotificationTips">팁: 외부 알림 기능은 현재 「모든 작업 완료」 알림만 보냅니다.</system:String>
     <system:String x:Key="ExternalNotificationSettings">외부 알림</system:String>
@@ -48,6 +48,10 @@
     <system:String x:Key="ExternalNotificationDiscordUserId">사용자 ID</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">봇 토큰</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">채팅 ID</system:String>
+    <system:String x:Key="ExternalNotificationQmsgServer">섬기는 사람</system:String>
+    <system:String x:Key="ExternalNotificationQmsgKey">Qmsg Key</system:String>
+    <system:String x:Key="ExternalNotificationQmsgUser">사용자 QQ</system:String>
+    <system:String x:Key="ExternalNotificationQmsgBot">봇 보내기 QQ</system:String>
     <system:String x:Key="UseGpuForInference">추론 가속화를 위해 GPU 사용</system:String>
     <system:String x:Key="GpuOptionDisable">사용안함</system:String>
     <system:String x:Key="GpuOptionSystemDefault">시스템 기본 GPU</system:String>
@@ -96,7 +100,6 @@
     <system:String x:Key="153Time3">153 1일 3회 교체</system:String>
     <system:String x:Key="243Time3">243 1일 3회 교체</system:String>
     <system:String x:Key="243Time4">243 1일 4회 교체</system:String>
-    <system:String x:Key="252Time3">252 1일 3회 교체</system:String>
     <system:String x:Key="333Time3">333 1일 3회 교체</system:String>
     <system:String x:Key="CustomInfrastFile">기반시설 구성</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">기반시설 구성 인식 실패!</system:String>
@@ -342,6 +345,8 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">변경 사항을 적용을 위해 즉시 다시 시작하시겠습니까?</system:String>
     <system:String x:Key="SwitchResolutionTip">에뮬레이터 해상도를 1920x1080으로 변경!</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">에뮬레이터가 1920x1080으로 설정되어 있는지 확인하세요</system:String>
+    <system:String x:Key="AllowUseStoneSave">순오리지늄 사용 상태 저장 허용</system:String>
+    <system:String x:Key="AllowUseStoneSaveWarning">이 기능은 위험할 수 있습니다. "확인" 버튼을 누르면 잠재적인 위험을 이해하고 감수하는 것으로 간주됩니다.</system:String>
     <system:String x:Key="UseAlternateStage">대체 스테이지 사용</system:String>
     <system:String x:Key="UseRemainingSanityStage">남은 이성 활용</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">주 작업을 완료한 후 지정된 스테이지를 실행하며, 이성 회복제/오리지늄을 사용하지 않습니다</system:String>
@@ -407,8 +412,16 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="Mall">크레딧 수급 및 상점</system:String>
     <system:String x:Key="Mission">보상 수령</system:String>
     <system:String x:Key="AutoRoguelike">통합전략</system:String>
-    <system:String x:Key="ReclamationAlgorithm">생존연산·모래 속의 불</system:String>
-    <system:String x:Key="ReclamationAlgorithm2">생존연산·사막 이야기</system:String>
+    <system:String x:Key="Reclamation">생존연산</system:String>
+    <system:String x:Key="ReclamationTheme">생존연산 테마</system:String>
+    <system:String x:Key="ReclamationThemeFire">모래 속의 불</system:String>
+    <system:String x:Key="ReclamationThemeTales">사막 이야기</system:String>
+    <system:String x:Key="ReclamationModeProsperityNoSave">세이브 X, 스테이지 반복으로 번영의 선물 획득</system:String>
+    <system:String x:Key="ReclamationModeProsperityInSave">세이브 O, 도구 조립으로 번영의 선물 획득</system:String>
+    <system:String x:Key="ReclamationIncrementMode">증가 방식</system:String>
+    <system:String x:Key="ReclamationIncrementModeClick">연타</system:String>
+    <system:String x:Key="ReclamationIncrementModeHold">길게 누르기</system:String>
+    <system:String x:Key="ReclamationMaxCraftCountPerRound">한 번의 최대 제작 횟수</system:String>
     <system:String x:Key="OperNameLanguage">간부 이름 표시 언어</system:String>
     <system:String x:Key="OperNameLanguageMAA">MAA 따라가기</system:String>
     <system:String x:Key="OperNameLanguageClient">게임 클라이언트 따라가기</system:String>
@@ -425,6 +438,8 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="ExitSelf">MAA를 종료</system:String>
     <system:String x:Key="ExitEmulator">에뮬레이터를 종료</system:String>
     <system:String x:Key="Hibernate">절전 모드</system:String>
+    <system:String x:Key="HibernateTip">Windows の電源オプションで休止状態を有効にする必要があります。そうしないと、この機能は無効になります。</system:String>
+    <system:String x:Key="Sleep">절전</system:String>
     <system:String x:Key="Shutdown">시스템 종료</system:String>
     <system:String x:Key="Once">한 번만*</system:String>
     <system:String x:Key="PostActionOnceTip" xml:space="preserve">한 번만 실행하려면 먼저 Only once를 체크하세요.
@@ -437,7 +452,7 @@ Only once가 체크되면 실행 후 Only once가 체크되기 전 상태로 작
     <system:String x:Key="WaitAndStop">대기 &amp; 중지</system:String>
     <!--  작전 설정  -->
     <system:String x:Key="UseSanityPotion">이성 회복제 사용</system:String>
-    <system:String x:Key="UseOriginitePrime">순오리지늄 사용*</system:String>
+    <system:String x:Key="UseOriginitePrime">순오리지늄 사용</system:String>
     <system:String x:Key="PerformBattles">횟수 제한</system:String>
     <system:String x:Key="AssignedMaterial">드롭 제한</system:String>
     <system:String x:Key="Quantity">드롭 수</system:String>
@@ -501,6 +516,7 @@ Only once가 체크되면 실행 후 Only once가 체크되기 전 상태로 작
     <system:String x:Key="AboutToShutdown">작업을 완료했습니다. 시스템이 곧 종료됩니다. 취소하시겠습니까?</system:String>
     <system:String x:Key="ShutdownPrompt">알림</system:String>
     <system:String x:Key="HibernatePrompt">작업을 완료했습니다. 곧 절전 모드에 진입합니다</system:String>
+    <system:String x:Key="SleepPrompt">완료되었습니다, 절전 모드로 전환합니다</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">알 수 없는 종료 동작</system:String>
     <system:String x:Key="AnnihilationTaskTip">선택한 스테이지는 섬멸 임무입니다. 임무 완료 후 남은 대체 스테이지가 시도됩니다. 일부 전투 설정은 적용되지 않습니다.</system:String>
     <system:String x:Key="AnnihilationTaskFailed">섬멸 작전에 실패하여 대체 스테이지를 진행합니다. 일부 전투 설정이 무시될 수 있습니다</system:String>
@@ -860,19 +876,19 @@ Only once가 체크되면 실행 후 Only once가 체크되기 전 상태로 작
 
 현재 생존연산 기능은 초기 단계이며, 다음 사항을 주의하세요:
 
- 저장 데이터 있음: 초회 상태에서 포인트를 모으기
+생존연산 메인 화면에서 작업을 시작해야 합니다
+
+ 세이브 O: 스테이지 반복으로 번영의 선물 획득
   1. 기존 데이터가 있는 경우 사용할 수 없습니다 (현재 데이터를 지우세요)
   2. 편성창이 비워있지 않으면 사용할 수 없습니다 (편성창을 비우세요)
-  3. 생존연산 메인 화면에서 작업을 시작해야 합니다
 
- 저장 데이터 없음: 제작을 통해 포인트를 모으기 (고급 설정)
+ 세이브 X: 도구 제작으로 번영의 선물 획득
   1. 결산 후 첫 번째 날이어야 하며, 이후 3일 이내에 적의 침입이 없어야 합니다
-  2. 반드시 지도 화면에서 실행해야 합니다 (주둔지가 보여야합니다)
-  3. 제조 가능한 수량이 99의 배수일 경우 멈출 수 있습니다. 저장하기 전에 재료를 약간 사용한 후에 다시 시도하세요
+  2. 제조 가능한 수량이 99의 배수일 경우 멈출 수 있습니다. 저장하기 전에 재료를 약간 사용한 후에 다시 시도하세요
     </system:String>
     <system:String x:Key="ReclamationBePatient">빨리 발전하고 싶어요! 또 급해져버렸네요</system:String>
     <system:String x:Key="Reclamation2ExEnable">제작 점수 획득 모드</system:String>
-    <system:String x:Key="Reclamation2ExProductTip">제작할 도구 이름</system:String>
-    <system:String x:Key="Reclamation2ExProductPlaceholder">형광봉 (荧光棒)</system:String>
+    <system:String x:Key="ReclamationToolToCraftTip">제작할 도구 이름</system:String>
+    <system:String x:Key="ReclamationToolToCraftPlaceholder">형광봉 (荧光棒)</system:String>
     <!--  !Reclamation  -->
 </ResourceDictionary>

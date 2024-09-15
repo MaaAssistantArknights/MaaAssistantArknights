@@ -27,7 +27,7 @@ namespace MaaWpfGui.Views.UserControl
     /// <summary>
     /// VersionUpdateSettingsUserControl.xaml 的交互逻辑
     /// </summary>
-    public partial class VersionUpdateSettingsUserControl : System.Windows.Controls.UserControl
+    public partial class VersionUpdateSettingsUserControl
     {
         private static readonly ILogger _logger = Log.ForContext<VersionUpdateSettingsUserControl>();
 
@@ -49,6 +49,11 @@ namespace MaaWpfGui.Views.UserControl
             Interval = new TimeSpan(0, 0, 6),
         };
 
+        private void MaaVersionClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboardAsync($"UI Version: {SettingsViewModel.UiVersion}\nCore Version: {SettingsViewModel.CoreVersion}\nBuild Time: {SettingsViewModel.BuildDateTimeCurrentCultureString}");
+        }
+
         private void CoreVersionClick(object sender, MouseButtonEventArgs e)
         {
             CopyToClipboardAsync("Core Version: " + SettingsViewModel.CoreVersion);
@@ -62,7 +67,7 @@ namespace MaaWpfGui.Views.UserControl
 
         private void ResourceVersionClick(object sender, MouseButtonEventArgs e)
         {
-            CopyToClipboardAsync("Resource Version: " + Instances.SettingsViewModel.ResourceVersion);
+            CopyToClipboardAsync($"Resource Version: {Instances.SettingsViewModel.ResourceVersion}\nResource Time: {Instances.SettingsViewModel.ResourceDateTimeCurrentCultureString}");
         }
 
         private static void CopyToClipboardAsync(string text)

@@ -14,6 +14,12 @@
     "ClickChapter3": {
         "text": ["残映"]
     },
+    "CR-OpenOcr": {
+        "text": ["オペレーション", "ルーセント", "アローヘッド", "イベント開催中", "降下作戦", "ステージ開放中"]
+    },
+    "CRChapterToCR": {
+        "text": ["アート探訪", "アート", "探訪"]
+    },
     "HS-9": {
         "sub": ["HS-Open", "HSChapterToHS"]
     },
@@ -391,6 +397,7 @@
             ["^ミェン", "年"],
             ["^ウン$", "吽"],
             ["^ウンー", "吽"],
+            ["^ウン[^チヂテデ]", "吽"],
             ["バイソン", "拜松"],
             ["^バイソ", "拜松"],
             ["ジュナー", "坚雷"],
@@ -903,7 +910,7 @@
             ["「記念」", "“纪念”"],
             ["給水ポンプ", "泵站"],
             ["キャンピングカー", "旷野房车\n"],
-            ["ワンチィン", "万顷"],
+            ["[ワウヴフブ]ンチィン", "万顷"],
             ["涼しげな泉", "灵动清泉"],
             ["バリケード", "封阻物"],
             ["ケストレル", "红隼"],
@@ -938,7 +945,17 @@
             ["郵便ポスト", "信使邮筒"],
             ["情報ボックス", "讯息匣"],
             ["眩暈のお香", "失衡异香"],
-            ["看板", "告示牌"]
+            ["看板", "告示牌"],
+            ["Doc", "医生"],
+            ["^Do[cC]", "医生"],
+            ["Ela", "艾拉"],
+            ["^El?a$", "艾拉"],
+            ["^E[iIl1]a", "艾拉"],
+            ["Iana", "双月"],
+            ["^[Iil1]?ana", "双月"],
+            ["Fuze", "导火索"],
+            ["^Fu[zZ]e", "导火索"],
+            ["GRZMOTマイン", "雷鸣地雷"]
         ]
     },
     "StartToWakeUp": {
@@ -1013,9 +1030,6 @@
     },
     "VisitNextOcr": {
         "text": ["次を訪問"]
-    },
-    "Mall": {
-        "text": ["購買"]
     },
     "CreditStoreOcr": {
         "text": ["FP交換所"]
@@ -1266,6 +1280,12 @@
     },
     "BattleStartOCR": {
         "text": ["行動", "開始"]
+    },
+    "BattleStartSimulation": {
+        "Doc": "Delete the template and remove this modified roi task when paradox update comes PR#10439",
+        "roi": [417, 567, 444, 153],
+        "method": "Ccoeff",
+        "colorScales": []
     },
     "BattleOperName": {
         "roi": [5, 177, 280, 37]
@@ -2259,7 +2279,7 @@
             ["宝埋もれし港湾", "藏宝港湾"],
             ["宝箱の舞", "宝箱之舞"],
             ["涙目の.?ッロー", "狗眼婆娑"],
-            ["涙目のペッロ.?$", "狗眼婆娑"],
+            ["(涙|戻)目のペッロ.?$", "狗眼婆娑"],
             ["ダックパワーテスト", "鸭力测试"],
             [".*クパワーテスト", "鸭力测试"],
             ["暇潰し", "打发时间"],
@@ -2269,7 +2289,7 @@
             ["騎士は未だそこにあり", "骑士仍在"],
             ["発端", "开端"],
             ["紺碧の心", "深蓝之心"],
-            ["深蓝仪式", "深蓝仪式"],
+            ["紺碧の儀", "深蓝仪式"],
             ["昇華", "升华"],
             ["賛歌", "赞歌"],
             ["セーフハウス", "安全屋"],
@@ -2625,7 +2645,7 @@
     "Reclamation2CopiousCoppice": {
         "text": ["豊かな", "低木林", "資源エリア"],
         "ocrReplace": [
-            ["(予|青|諸)原(工|正)", "資源エリア"],
+            ["(予|青|諸)(原|厚)(工|正)", "資源エリア"],
             ["夢方.?な", "豊かな"],
             ["豊.+", "豊かな"]
         ]
@@ -2698,14 +2718,8 @@
     "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
         "text": ["削除する", "削除"]
     },
-    "Reclamation2ProsperityMaxSkipDayBeginNewDay": {
-        "text": ["次へ"]
-    },
     "Reclamation2ProsperityMaxSkipDayClickContinue": {
         "text": ["タップ", "続く"]
-    },
-    "Reclamation2SkipDayBeginNewDay": {
-        "text": ["次へ"]
     },
     "Reclamation2SkipDayClickContinue": {
         "text": ["タップ", "続く"]
@@ -2723,10 +2737,14 @@
         "text": ["作戦", "開始"]
     },
     "Reclamation2StageFightConfirm": {
-        "text": ["確定"]
+        "ocrReplace": [["にい", "はい"]],
+        "text": ["確定", "はい"]
     },
     "Reclamation2StageLeaveConfirm": {
         "text": ["離脱する", "離脱"]
+    },
+    "Reclamation2StageSquadClearConfirm": {
+        "text": ["確定"]
     },
     "Fire@Reclamation@ClickAnyZoneOcr": {
         "roi": [308, 73, 739, 567],
@@ -2797,5 +2815,54 @@
         "algorithm": "OcrDetect",
         "text": ["WITHIN", "砂", "中", "の", "火"],
         "roi": [686, 164, 207, 133]
+    },
+    "Tales@RA@CancelEnterBuildMode": {
+        "text": ["建設開始"]
+    },
+    "Tales@RA@ClickGatheringOfFeathers": {
+        "text": ["羽獣", "集う地", "狩猟エリア"]
+    },
+    "Tales@RA@ClickShrubberyGalore": {
+        "text": ["豊かな", "低木林", "資源エリア"],
+        "ocrReplace": [
+            ["(予|青)(原|厚)(工|正)", "資源エリア"],
+            ["夢方.?な", "豊かな"],
+            ["豊方", "豊かな"]
+        ]
+    },
+    "Tales@RA@ConfirmSquad": {
+        "text": ["作戦", "開始"]
+    },
+    "Tales@RA@ConfirmToLoadSave": {
+        "text": ["確認"]
+    },
+    "Tales@RA@EnterNode": {
+        "text": ["行動", "開始"]
+    },
+    "Tales@RA@FinishCalc": {
+        "text": ["タップ", "続く"]
+    },
+    "Tales@RA@PIS-ProsperityReachLimit-LoadSave": {
+        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
+        "doc": "Needs to be edited if confirmation window is removed later",
+        "sub": [
+            "Tales@RA@DialogConfirmYellow",
+            "Tales@RA@DialogConfirmRed",
+            "Tales@RA@SelectSecondLastSave",
+            "Tales@RA@ConfirmToLoadSave"
+        ]
+    },
+    "Tales@RA@PIS-Resume": {
+        "text": ["継", "続"]
+    },
+    "Tales@RA@PNS-ClickBaseCamp": {
+        "text": ["人々", "が集う", "集会場"]
+    },
+    "Tales@RA@PNS-Commence": {
+        "text": ["開", "始"]
+    },
+    "Tales@RA@ResourceGained": {
+        "text": ["空白", "箇所", "タップ", "続ける"],
+        "roi": [480, 444, 320, 48]
     }
 }

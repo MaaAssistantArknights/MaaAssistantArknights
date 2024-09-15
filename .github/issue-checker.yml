@@ -558,3 +558,34 @@ comments:
     mode: add
     skip-if:
       - "Log upload failed"
+  - name: Check Link
+    url_mode: allow_only # allow_only: 当评论出现下列列表中允许的模式以外的链接时触发规则；deny: 当评论出现下列列表中禁止的模式的链接时触发规则
+    url_list: # 均解析为正则表达式，允许使用 URL 所有字符串属性，参见: https://developer.mozilla.org/zh-CN/docs/Web/API/URL#%E5%B1%9E%E6%80%A7
+      # MAA 组织地址
+      - hostname: ^(?:.+\.)?github\.com$
+        pathname: ^/MaaAssistantArknights/
+      # MAA 官网
+      - hostname: ^(?:.+\.)?maa\.plus$
+      # 作业站
+      - hostname: ^(?:.+\.)?prts\.plus$
+      # issue / pr
+      - hostname: ^github\.com$
+        pathname: ^/[^/]+/[^/]+/(?:issues|pull)/[1-9]\d*$
+      # commit
+      - hostname: ^github\.com$
+        pathname: ^/[^/]+/[^/]+/commit/[\da-fA-F]{7,}$
+      # @ 用户
+      - hostname: ^github\.com$
+        pathname: ^/[^/]+$
+      # GitHub 图片地址，形如 `https://private-user-images.githubusercontent.com/55343783/364401381-34803448-400d-4c98-bd06-9ba5a259a931.png?jwt=[token]`
+      - hostname: ^private-user-images\.githubusercontent\.com$
+        pathname: ^/\d+/[0-9a-fA-F-]+\.([a-z\d]+)$
+        search: ^\?jwt=[^&]+$
+    content: "> [!warning]\n存在未确认的链接，请谨慎访问。\n\
+      There are unconfirmed links, please visit with caution.\n\n${body}"
+    mode: update
+  - name: Hide gcc
+    regexes: "(?=.*(changeme|gcc|select the desired compiler in the installer))"
+    content: "> [!Caution]\n该评论中的链接文件含有病毒，请勿下载。\n\
+      The file linked in this comment contain a virus. Please do not download it.\n\n${body}"
+    mode: update

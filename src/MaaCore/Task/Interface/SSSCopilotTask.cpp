@@ -9,11 +9,11 @@
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
 
-asst::SSSCopilotTask::SSSCopilotTask(const AsstCallback& callback, Assistant* inst)
-    : InterfaceTask(callback, inst, TaskType),
-      m_begin_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
-      m_formation_task_ptr(std::make_shared<BattleFormationTask>(callback, inst, TaskType)),
-      m_stage_task_ptr(std::make_shared<SSSStageManagerTask>(callback, inst, TaskType))
+asst::SSSCopilotTask::SSSCopilotTask(const AsstCallback& callback, Assistant* inst) :
+    InterfaceTask(callback, inst, TaskType),
+    m_begin_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
+    m_formation_task_ptr(std::make_shared<BattleFormationTask>(callback, inst, TaskType)),
+    m_stage_task_ptr(std::make_shared<SSSStageManagerTask>(callback, inst, TaskType))
 {
     LogTraceFunction;
 
