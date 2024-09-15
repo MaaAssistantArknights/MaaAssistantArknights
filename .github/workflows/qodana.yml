@@ -40,7 +40,7 @@ jobs:
         with:
           pr-mode: false
           post-pr-comment: true
-          upload-result: true
+          upload-result: true #disable in publish
           args: --baseline,.github/qodana.sarif.json
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
