@@ -14,6 +14,8 @@
 
 using System;
 using System.Runtime.InteropServices;
+using MaaWpfGui.Constants;
+using MaaWpfGui.Helper;
 using Serilog;
 
 namespace MaaWpfGui.Utilities
@@ -25,8 +27,9 @@ namespace MaaWpfGui.Utilities
 
         private static readonly ILogger _logger = Log.ForContext("SourceContext", "SleepManagement");
 
-        private static bool _allowBlockSleep = false;
-        private static bool _blockSleepWithScreenOn = true;
+        private static bool _allowBlockSleep = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleep, bool.FalseString));
+        private static bool _blockSleepWithScreenOn = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleepWithScreenOn, bool.TrueString));
+        private static bool _isBlockingSleep = false;
 
         public static void SetBlockSleep(bool allowBlockSleep)
         {
@@ -48,6 +51,13 @@ namespace MaaWpfGui.Utilities
 
         public static void AllowSleep()
         {
+            if (!_isBlockingSleep)
+            {
+                return;
+            }
+
+            _isBlockingSleep = false;
+
             _logger.Information("Allowing system to sleep");
             SetThreadExecutionState(ExecutionState.Continuous);
         }
@@ -58,6 +68,8 @@ namespace MaaWpfGui.Utilities
             {
                 return;
             }
+
+            _isBlockingSleep = true;
 
             bool keepDisplayOn = blockSleepWithScreenOn ?? _blockSleepWithScreenOn;
             _logger.Information("Blocking system from sleeping");

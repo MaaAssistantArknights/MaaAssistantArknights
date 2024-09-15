@@ -272,6 +272,7 @@ public:
     requires has_stream_insertion_operator<std::ostream, T>
     console_ostream& operator<<(T&& v)
     {
+#ifdef _WIN32
         if constexpr (std::convertible_to<T, std::string_view>) {
             asst::utils::utf8_scope scope(m_ofs.get());
             m_ofs.get() << std::forward<T>(v);
@@ -279,6 +280,9 @@ public:
         else {
             m_ofs.get() << std::forward<T>(v);
         }
+#else
+        m_ofs.get() << std::forward<T>(v);
+#endif
         return *this;
     }
 

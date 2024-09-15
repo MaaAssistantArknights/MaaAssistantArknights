@@ -981,7 +981,7 @@
     },
     "UsingMedicineCount": {
         "specialParams_Doc": "日服缺少蓝色遮罩，导致图标过亮",
-        "specialParams": [250, 255]
+        "specialParams": [255, 255]
     },
     "MedicineExpiringTime": {
         "roi": [705, 345, 95, 30],
@@ -1344,6 +1344,12 @@
     },
     "GachaTenTimesPrefix@DoGacha": {
         "text": ["10回スカウト", "10回", "スカウ"]
+    },
+    "RA@Navigation-RecogniseTheme": {
+        "text": ["開", "始", "継", "続"]
+    },
+    "RA@Navigation-EnterCurrentTheme": {
+        "text": ["生息演算"]
     },
     "RoguelikeChooseSupportBtnOcr": {
         "text": ["サポー"]
@@ -2634,6 +2640,10 @@
         "text": ["継", "続"]
     },
     "Reclamation2BeginStage": {
+        "ocrReplace": [
+            ["集会環", "集会場"],
+            ["人タカ", "人々"]
+        ],
         "text": ["人々", "が集う", "集会場"]
     },
     "Reclamation2Birdland": {
@@ -2645,7 +2655,7 @@
     "Reclamation2CopiousCoppice": {
         "text": ["豊かな", "低木林", "資源エリア"],
         "ocrReplace": [
-            ["(予|青|諸)(原|厚)(工|正)", "資源エリア"],
+            ["(資|予|青|諸|賛|替)(源|原|厚)(工|正)", "資源エリア"],
             ["夢方.?な", "豊かな"],
             ["豊.+", "豊かな"]
         ]
@@ -2825,9 +2835,9 @@
     "Tales@RA@ClickShrubberyGalore": {
         "text": ["豊かな", "低木林", "資源エリア"],
         "ocrReplace": [
-            ["(予|青)(原|厚)(工|正)", "資源エリア"],
+            ["(資|予|青|諸|賛|替)(源|原|厚)(工|正)", "資源エリア"],
             ["夢方.?な", "豊かな"],
-            ["豊方", "豊かな"]
+            ["豊.+", "豊かな"]
         ]
     },
     "Tales@RA@ConfirmSquad": {
@@ -2841,6 +2851,16 @@
     },
     "Tales@RA@FinishCalc": {
         "text": ["タップ", "続く"]
+    },
+    "Tales@RA@PIS-ProsperityBelowLimit-LoadSave": {
+        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
+        "doc": "Needs to be edited if confirmation window is removed later",
+        "sub": [
+            "Tales@RA@DialogConfirmYellow",
+            "Tales@RA@DialogConfirmRed",
+            "Tales@RA@SelectSecondLastSave",
+            "Tales@RA@ConfirmToLoadSave"
+        ]
     },
     "Tales@RA@PIS-ProsperityReachLimit-LoadSave": {
         "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
@@ -2856,6 +2876,10 @@
         "text": ["継", "続"]
     },
     "Tales@RA@PNS-ClickBaseCamp": {
+        "ocrReplace": [
+            ["集会環", "集会場"],
+            ["人タカ", "人々"]
+        ],
         "text": ["人々", "が集う", "集会場"]
     },
     "Tales@RA@PNS-Commence": {

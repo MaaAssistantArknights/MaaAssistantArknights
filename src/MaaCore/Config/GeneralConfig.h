@@ -65,6 +65,8 @@ struct Options
 struct AdbCfg
 {
     /* command */
+    std::string devices;
+    std::string address_regex;
     std::string connect;
     std::string display_id;
     std::string uuid;

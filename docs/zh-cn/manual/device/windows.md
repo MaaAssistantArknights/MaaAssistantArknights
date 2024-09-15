@@ -50,11 +50,6 @@ const fullySupport = shuffleArray([
         link: 'https://www.xyaz.cn/',
         note: '完美支持，但测试较少。',
     },
-    {
-        name: 'Google Play 游戏（开发者）',
-        link: 'https://developer.android.com/games/playgames/emulator?hl=zh-cn',
-        note: '完美支持，但测试较少。必须开启 Hyper-V，且必须登录谷歌账户。',
-    },
 ]);
 
 const partiallySupport = shuffleArray([
@@ -72,6 +67,11 @@ const partiallySupport = shuffleArray([
         name: 'AVD',
         link: 'https://developer.android.com/studio/run/managing-avds',
         note: '理论支持。\n\n- 从 Android 10 开始，Minitouch 在 SELinux 为 `Enforcing` 模式时不再可用，请切换至其他触控模式，或将 SELinux **临时**切换为 `Permissive` 模式。\n- AVD 是为调试而生的，更建议使用其他为游戏而设计的模拟器。',
+    },
+    {
+        name: 'Google Play 游戏（开发者）',
+        link: 'https://developer.android.com/games/playgames/emulator?hl=zh-cn',
+        note: '理论支持。必须开启 Hyper-V，且必须登录谷歌账户。\n\n- 需要使用 [自定义连接](../connection.html) 的方式来连接，ADB 端口为 `6520`。\n- 由于 Android 10 及更新版本的 SELinux 策略，Minitouch 无法正常工作，请切换到其他触控模式。\n- 每次启动模拟器后的首次连接都会失败，需勾选 `连接失败后尝试关闭并重启ADB进程`。',
     },
 ]);
 

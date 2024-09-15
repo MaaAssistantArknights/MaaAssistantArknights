@@ -62,8 +62,14 @@ namespace MaaWpfGui.Extensions
 
         public static string ToLocalTimeString(this DateTime dt, string? format = null)
         {
+            var dateTimeFormat = CustomCultureInfo.Name.ToLowerInvariant() switch
+            {
+                "en-us" => "yyyy/MM/dd",
+                _ => CustomCultureInfo.DateTimeFormat.ShortDatePattern,
+            };
+
             return string.IsNullOrEmpty(format)
-                ? dt.ToLocalTime().ToString($"{CustomCultureInfo.DateTimeFormat.ShortDatePattern} HH:mm:ss", CustomCultureInfo)
+                ? dt.ToLocalTime().ToString($"{dateTimeFormat} HH:mm:ss", CustomCultureInfo)
                 : dt.ToLocalTime().ToString(format, CustomCultureInfo);
         }
 

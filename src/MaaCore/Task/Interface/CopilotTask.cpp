@@ -12,15 +12,15 @@
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
 
-asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst)
-    : InterfaceTask(callback, inst, TaskType)
-    , m_task_file_reload_task_ptr(std::make_shared<TaskFileReloadTask>(callback, inst, TaskType))
-    , m_navigate_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType))
-    , m_not_use_prts_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType))
-    , m_change_difficulty_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType))
-    , m_formation_task_ptr(std::make_shared<BattleFormationTask>(callback, inst, TaskType))
-    , m_battle_task_ptr(std::make_shared<BattleProcessTask>(callback, inst, TaskType))
-    , m_stop_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType))
+asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst) :
+    InterfaceTask(callback, inst, TaskType),
+    m_task_file_reload_task_ptr(std::make_shared<TaskFileReloadTask>(callback, inst, TaskType)),
+    m_navigate_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
+    m_not_use_prts_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
+    m_change_difficulty_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
+    m_formation_task_ptr(std::make_shared<BattleFormationTask>(callback, inst, TaskType)),
+    m_battle_task_ptr(std::make_shared<BattleProcessTask>(callback, inst, TaskType)),
+    m_stop_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType))
 {
     LogTraceFunction;
 
@@ -39,9 +39,7 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst)
     m_subtasks.emplace_back(start_1_tp);
 
     m_medicine_task_ptr = std::make_shared<ProcessTask>(callback, inst, TaskType);
-    m_medicine_task_ptr->set_tasks({ "BattleStartPre@UseMedicine" })
-        .set_retry_times(0)
-        .set_ignore_error(true);
+    m_medicine_task_ptr->set_tasks({ "BattleStartPre@UseMedicine" }).set_retry_times(0).set_ignore_error(true);
     m_medicine_task_ptr->register_plugin<MedicineCounterTaskPlugin>()->set_count(999999);
     m_subtasks.emplace_back(m_medicine_task_ptr);
 
@@ -70,8 +68,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
         return false;
     }
 
-    bool need_navigate =
-        params.get("need_navigate", false); // 是否在当前页面左右滑动寻找关卡，启用战斗列表则为true
+    bool need_navigate = params.get("need_navigate", false); // 是否在当前页面左右滑动寻找关卡，启用战斗列表则为true
     std::string navigate_name = params.get("navigate_name", std::string()); // 导航的关卡名
     bool is_raid = params.get("is_raid", false);                            // 是否为突袭关卡
     if (params.contains("is_adverse")) {
@@ -85,9 +82,9 @@ bool asst::CopilotTask::set_params(const json::value& params)
     }
     bool use_sanity_potion = params.get("use_sanity_potion", false); // 是否吃理智药
     bool with_formation = params.get("formation", false);            // 是否使用自动编队
-    int select_formation = params.get("select_formation", 0); // 选择第几个编队，0为不选择
-    bool add_trust = params.get("add_trust", false);          // 是否自动补信赖
-    bool add_user_additional = params.contains("user_additional"); // 是否自动补用户自定义干员
+    int select_formation = params.get("select_formation", 0);        // 选择第几个编队，0为不选择
+    bool add_trust = params.get("add_trust", false);                 // 是否自动补信赖
+    bool add_user_additional = params.contains("user_additional");   // 是否自动补用户自定义干员
     std::string support_unit_name = params.get("support_unit_name", std::string());
 
     if (params.contains("add_user_additional")) {
@@ -131,10 +128,8 @@ bool asst::CopilotTask::set_params(const json::value& params)
         Task.get<OcrTaskInfo>(navigate_name + "@Copilot@ClickStageName")->text = { navigate_name };
         std::string replace_navigate_name = navigate_name;
         utils::string_replace_all_in_place(replace_navigate_name, { { "-", "" } });
-        Task.get<OcrTaskInfo>(navigate_name + "@Copilot@ClickedCorrectStage")->text = {
-            navigate_name,
-            replace_navigate_name
-        };
+        Task.get<OcrTaskInfo>(navigate_name + "@Copilot@ClickedCorrectStage")->text = { navigate_name,
+                                                                                        replace_navigate_name };
         m_navigate_task_ptr->set_tasks({ navigate_name + "@Copilot@StageNavigationBegin" });
     }
     else {
@@ -147,8 +142,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     m_medicine_task_ptr->set_enable(use_sanity_potion);
 
     // 关卡名含有"TR"的为教学关,不需要编队
-    m_formation_task_ptr->set_enable(
-        with_formation && navigate_name.find("TR") == std::string::npos);
+    m_formation_task_ptr->set_enable(with_formation && navigate_name.find("TR") == std::string::npos);
     m_formation_task_ptr->set_select_formation(select_formation);
     m_formation_task_ptr->set_add_trust(add_trust);
     m_formation_task_ptr->set_add_user_additional(add_user_additional);
@@ -161,8 +155,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
             if (name.empty()) {
                 continue;
             }
-            user_additional.emplace_back(
-                std::pair<std::string, int> { std::move(name), op.get("skill", 1) });
+            user_additional.emplace_back(std::pair<std::string, int> { std::move(name), op.get("skill", 1) });
         }
         m_formation_task_ptr->set_user_additional(std::move(user_additional));
     }

@@ -26,19 +26,14 @@
     ],
     "deploy_plan": [
         {
-            "groups": ["回费"],
-            "location": [5, 3],
-            "direction": "left"
-        },
-        {
-            "groups": ["狙击", "凯尔希"],
-            "location": [8, 3],
-            "direction": "left"
-        },
-        {
-            "groups": ["召唤"],
-            "location": [4, 2],
+            "groups": ["益达"],
+            "location": [6, 2],
             "direction": "down"
+        },
+        {
+            "groups": ["玛恩纳"],
+            "location": [5, 5],
+            "direction": "up"
         },
         {
             "groups": ["回费", "地面阻挡", "处决者", "其他地面"],
@@ -46,24 +41,24 @@
             "direction": "left"
         },
         {
-            "groups": ["地面阻挡", "处决者", "其他地面"],
+            "groups": ["锏", "地面阻挡", "处决者", "其他地面"],
             "location": [5, 4],
             "direction": "left"
         },
         {
-            "groups": ["高台输出", "辅助", "盾法", "其他高台"],
+            "groups": ["高台输出", "辅助", "盾法", "召唤", "其他高台"],
             "location": [4, 2],
             "direction": "down"
         },
         {
-            "groups": ["奶"],
-            "location": [6, 2],
-            "direction": "down"
+            "groups": ["凯尔希", "单奶"],
+            "location": [8, 3],
+            "direction": "left"
         },
         {
             "groups": ["地面阻挡", "处决者", "其他地面"],
-            "location": [5, 2],
-            "direction": "down"
+            "location": [6, 3],
+            "direction": "left"
         },
         {
             "groups": ["地面阻挡", "处决者", "其他地面"],

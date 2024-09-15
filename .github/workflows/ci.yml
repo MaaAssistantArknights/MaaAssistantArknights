@@ -372,6 +372,24 @@ jobs:
             lipo -create install-arm64/$LIB_NAME install-x86_64/$LIB_NAME -output build/$LIB_NAME
           done
 
+      - name: Archive Runtime Files
+        run: |
+          mkdir runtime && cd runtime
+          name='MAA-${{ needs.meta.outputs.tag }}-macos-runtime-universal'
+          mkdir "$name" && cd "$name"
+          cp -v ../../build/*.dylib .
+          ln -vs libonnxruntime*.dylib libonnxruntime.dylib
+          ln -vs libopencv_world4*.dylib libopencv_world4.dylib
+          cp -vr ../../resource .
+          cd .. || exit 1
+          zip -yrX9 "$name.zip" "$name"
+
+      - name: Upload MAA runtime to Github
+        uses: actions/upload-artifact@v4
+        with:
+          name: MAA-macos-runtime-universal
+          path: runtime/MAA-${{ needs.meta.outputs.tag }}-macos-runtime-universal.zip
+
       - name: Build XCFramework
         run: |
           xcodebuild -create-xcframework -library libMaaCore.dylib -headers ../include -output MaaCore.xcframework

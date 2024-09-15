@@ -349,8 +349,8 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">This function is considered dangerous. Pressing the "Confirm" button indicates that you understand and are willing to assume the potential risks.</system:String>
     <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
     <system:String x:Key="UseRemainingSanityStage">Use remaining sanity stage</system:String>
-    <system:String x:Key="UseRemainingSanityStageTip">Brush the specified stage after completing the main task, won't use sanity potion or stone</system:String>
-    <system:String x:Key="UseExpiringMedicine">Unlimited use of expiring sanity potion</system:String>
+    <system:String x:Key="UseRemainingSanityStageTip">Farm the specified stage after completing the main task, won't use sanity potion or stone</system:String>
+    <system:String x:Key="UseExpiringMedicine">Unlimited use of expiring (&lt;48h) sanity potion</system:String>
     <system:String x:Key="HideUnavailableStage">Hide today's not open stages</system:String>
     <system:String x:Key="HideSeries">Hide series</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">Show Base Plan</system:String>
@@ -394,7 +394,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 Emulator exec path</system:String>
     <system:String x:Key="MuMu12Index">Instance Number</system:String>
     <system:String x:Key="MuMu12Display">Display Number</system:String>
-    <system:String x:Key="MuMuExtrasNotEnabledMessage">MumuExtras not enabled, please check related settings</system:String>
+    <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu screenshot enhancement not enabled, please check related settings</system:String>
     <system:String x:Key="RetryOnDisconnected">Retry launching the emulator when ADB connection fails</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">Try restarting the emulator after 20 failed reconnect attempts, must be checked when using a background timed task and setting the task to close the emulator when finished</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">Emulator path is empty! Please fill in "Launch Settings - Emulator Path" and reselect.</system:String>
@@ -648,6 +648,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="ErrorProlog">MAA has encountered an error</system:String>
     <system:String x:Key="ErrorDetails">Details</system:String>
     <system:String x:Key="ErrorSolution">Solution</system:String>
+    <system:String x:Key="ErrorSolutionMoveMaaExeOutOfFolder">Do not move the MAA.exe file alone. If you need to change the software location, please move the entire folder, or create a shortcut for MAA.exe in this folder and then drag the shortcut to another location.</system:String>
     <system:String x:Key="ErrorSolutionCrash">Please refer to the documentation: 「FAQ - Crashes」 to solve.</system:String>
     <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">Failed to extract the update package. Please try to manually extract the update package in the root directory.</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">Please retry after shutting down the emulator and killing ADB. Otherwise restart your computer, then run MAA as administrator without opening the emulator, finally retry it.</system:String>
@@ -686,9 +687,9 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="CompleteTask" xml:space="preserve">Complete task: </system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">Start combat: </system:String>
     <system:String x:Key="CompleteCombat">Complete combat</system:String>
-    <system:String x:Key="AllTasksComplete">All task(s) completed!</system:String>
-    <system:String x:Key="SanityReport">Sanity will be full at {DateTime} (In {TimeDiff})</system:String>
-    <system:String x:Key="AllTaskCompleteContent">MAA has completed all tasks under the {Preset} configuration in {DateTime}.</system:String>
+    <system:String x:Key="AllTasksComplete">All task(s) completed!\n(in {0})</system:String>
+    <system:String x:Key="SanityReport">Sanity will be full at {DateTime} (in {TimeDiff})</system:String>
+    <system:String x:Key="AllTaskCompleteContent">MAA has completed all tasks under the {Preset} configuration on {DateTime} (in {TimeDiff})</system:String>
     <system:String x:Key="BackgroundLinkStarted">Tasks started</system:String>
     <system:String x:Key="BackgroundLinkStopped">Tasks stopped</system:String>
     <system:String x:Key="FailedToOpenClient">Failed to open the client. Please check the configuration file</system:String>
@@ -769,8 +770,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="UseFormation">Use formation</system:String>
     <system:String x:Key="Current">Current</system:String>
     <system:String x:Key="BattleFormation">Start formation</system:String>
-    <system:String x:Key="BattleFormationSelected" xml:space="preserve">Operator selected: </system:String>
-    <system:String x:Key="CurrentSteps">Current step: {0} {1}</system:String>
+    <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selected: </system:String>
+    <system:String x:Key="CurrentSteps">Step: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">Unsupported stage, please check the level name or go to「Settings - Update - Check update」and try updating the resource version!</system:String>
     <system:String x:Key="ResourceUpdatePaused">Due to server resource constraints, resource version updates are temporarily suspended. Please manually import the level file or wait for a new version release</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results: </system:String>

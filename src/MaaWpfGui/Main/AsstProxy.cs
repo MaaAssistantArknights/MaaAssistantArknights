@@ -52,6 +52,8 @@ namespace MaaWpfGui.Main
         private readonly RunningState _runningState;
         private static readonly ILogger _logger = Log.ForContext<AsstProxy>();
 
+        public DateTimeOffset StartTaskTime { get; set; }
+
         private static unsafe byte[] EncodeNullTerminatedUtf8(string s)
         {
             var enc = Encoding.UTF8.GetEncoder();
@@ -803,21 +805,29 @@ namespace MaaWpfGui.Main
 
                     if (isMainTaskQueueAllCompleted)
                     {
-                        var allTaskCompleteTitle = LocalizationHelper.GetString("AllTasksComplete");
+                        var dateTimeNow = DateTimeOffset.Now;
+                        var diffTaskTime = (dateTimeNow - StartTaskTime).ToString(@"h\h\ m\m\ s\s");
+
+                        var allTaskCompleteTitle = string.Format(LocalizationHelper.GetString("AllTasksComplete"), diffTaskTime);
                         var allTaskCompleteMessage = LocalizationHelper.GetString("AllTaskCompleteContent");
                         var sanityReport = LocalizationHelper.GetString("SanityReport");
 
                         var configurationPreset = ConfigurationHelper.GetCurrentConfiguration();
 
                         allTaskCompleteMessage = allTaskCompleteMessage
-                            .Replace("{DateTime}", DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss"))
-                            .Replace("{Preset}", configurationPreset);
+                            .Replace("{DateTime}", dateTimeNow.ToString("yyyy-MM-dd HH:mm:ss"))
+                            .Replace("{Preset}", configurationPreset)
+                            .Replace("{TimeDiff}", diffTaskTime);
+
+                        var allTaskCompleteLog = string.Format(LocalizationHelper.GetString("AllTasksComplete"), diffTaskTime);
+
                         if (SanityReport.HasSanityReport)
                         {
                             var recoveryTime = SanityReport.ReportTime.AddMinutes(SanityReport.Sanity[0] < SanityReport.Sanity[1] ? (SanityReport.Sanity[1] - SanityReport.Sanity[0]) * 6 : 0);
                             sanityReport = sanityReport.Replace("{DateTime}", recoveryTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", (recoveryTime - DateTimeOffset.Now).ToString(@"h\h\ m\m"));
 
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AllTasksComplete") + Environment.NewLine + sanityReport);
+                            allTaskCompleteLog = allTaskCompleteLog + Environment.NewLine + sanityReport;
+                            Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog);
                             ExternalNotificationService.Send(allTaskCompleteTitle, allTaskCompleteMessage + Environment.NewLine + sanityReport);
 
                             if (_toastNotificationTimer is not null)
@@ -838,7 +848,7 @@ namespace MaaWpfGui.Main
                         }
                         else
                         {
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AllTasksComplete"));
+                            Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog);
                             ExternalNotificationService.Send(allTaskCompleteTitle, allTaskCompleteMessage);
                         }
 
@@ -1835,14 +1845,21 @@ namespace MaaWpfGui.Main
 
         private static bool AutoDetectConnection(ref string error)
         {
-            string bsHvAddress = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
-
+            // 本地设备如果选了自动检测，还是重新检测一下，不然重新插拔地址变了之后就再也不会检测了
+            /*
             // tcp连接测试端口是否有效，超时时间500ms
             // 如果是本地设备，没有冒号
-            bool adbResult =
-                (!Instances.SettingsViewModel.ConnectAddress.Contains(':') &&
-                 !string.IsNullOrEmpty(Instances.SettingsViewModel.ConnectAddress)) ||
-                IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
+            bool adbResult = !string.IsNullOrEmpty(Instances.SettingsViewModel.AdbPath) &&
+                             ((!Instances.SettingsViewModel.ConnectAddress.Contains(':') &&
+                               !string.IsNullOrEmpty(Instances.SettingsViewModel.ConnectAddress)) ||
+                              IfPortEstablished(Instances.SettingsViewModel.ConnectAddress));
+            */
+
+            var adbPath = Instances.SettingsViewModel.AdbPath;
+            bool adbResult = !string.IsNullOrEmpty(adbPath) &&
+                             File.Exists(adbPath) &&
+                             Path.GetFileName(adbPath).Contains("adb", StringComparison.InvariantCultureIgnoreCase) &&
+                             IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
 
             if (adbResult)
             {
@@ -1850,19 +1867,22 @@ namespace MaaWpfGui.Main
                 return true;
             }
 
-            bool bsResult = IfPortEstablished(bsHvAddress);
-
-            if (bsResult)
+            // 蓝叠的特殊处理
             {
-                error = string.Empty;
-                if (string.IsNullOrEmpty(Instances.SettingsViewModel.AdbPath) && Instances.SettingsViewModel.DetectAdbConfig(ref error))
+                string bsHvAddress = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress() ?? string.Empty;
+                bool bsResult = IfPortEstablished(bsHvAddress);
+                if (bsResult)
                 {
-                    return string.IsNullOrEmpty(error);
-                }
-                Instances.SettingsViewModel.ConnectAddress = bsHvAddress;
-                return true;
-            }
+                    error = string.Empty;
+                    if (string.IsNullOrEmpty(Instances.SettingsViewModel.AdbPath) && Instances.SettingsViewModel.DetectAdbConfig(ref error))
+                    {
+                        return string.IsNullOrEmpty(error);
+                    }
 
+                    Instances.SettingsViewModel.ConnectAddress = bsHvAddress;
+                    return true;
+                }
+            }
 
             if (Instances.SettingsViewModel.DetectAdbConfig(ref error))
             {

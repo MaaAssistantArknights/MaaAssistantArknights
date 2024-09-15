@@ -477,6 +477,33 @@ bool asst::BattleHelper::retreat_oper(const Point& loc, bool manually)
     return true;
 }
 
+bool asst::BattleHelper::is_skill_ready(const Point& loc, const cv::Mat& reusable)
+{
+    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    BattlefieldClassifier skill_analyzer(image);
+    skill_analyzer.set_object_of_interest({ .skill_ready = true });
+
+    auto target_iter = m_normal_tile_info.find(loc);
+    if (target_iter == m_normal_tile_info.end()) {
+        Log.error("No loc", loc);
+        return false;
+    }
+    const Point& battlefield_point = target_iter->second.pos;
+    skill_analyzer.set_base_point(battlefield_point);
+
+    return skill_analyzer.analyze()->skill_ready.ready;
+}
+
+bool asst::BattleHelper::is_skill_ready(const std::string& name, const cv::Mat& reusable)
+{
+    auto oper_iter = m_battlefield_opers.find(name);
+    if (oper_iter == m_battlefield_opers.cend()) {
+        Log.error("No oper", name);
+        return false;
+    }
+    return is_skill_ready(oper_iter->second, reusable);
+}
+
 bool asst::BattleHelper::use_skill(const std::string& name, bool keep_waiting)
 {
     LogTraceFunction;
@@ -582,7 +609,7 @@ bool asst::BattleHelper::do_strategic_action(const cv::Mat& reusable)
 bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
 {
     // TODO: 可配置延迟时间
-    static constexpr auto min_frame_interval = std::chrono::milliseconds(1000);
+    static constexpr auto min_frame_interval = std::chrono::milliseconds(1500);
 
     bool used = false;
     const auto now = std::chrono::steady_clock::now();
@@ -596,20 +623,22 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
             continue;
         }
 
+        if (!is_skill_ready(loc, image)) {
+            continue;
+        }
+
+        Log.info("Skill", name, "is ready");
+
         if (auto interval = now - last_use_time; min_frame_interval > interval) {
-            Log.debug(
+            Log.info(
                 name,
                 "use skill too fast, interval time:",
                 std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(interval).count()) + " ms");
             continue;
         }
 
-        bool has_error = false;
-        if (!check_and_use_skill(loc, has_error, image)) {
-            continue;
-        }
         // 识别到了，但点进去发现没有。一般来说是识别错了
-        if (has_error) {
+        if (!use_skill(loc, false)) {
             Log.warn("Skill", name, "is not ready");
             constexpr int MaxRetry = 3;
             if (++retry >= MaxRetry) {
@@ -646,21 +675,10 @@ bool asst::BattleHelper::check_and_use_skill(const std::string& name, bool& has_
 
 bool asst::BattleHelper::check_and_use_skill(const Point& loc, bool& has_error, const cv::Mat& reusable)
 {
-    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
-    BattlefieldClassifier skill_analyzer(image);
-    skill_analyzer.set_object_of_interest({ .skill_ready = true });
-
-    auto target_iter = m_normal_tile_info.find(loc);
-    if (target_iter == m_normal_tile_info.end()) {
-        Log.error("No loc", loc);
+    const cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    if (!is_skill_ready(loc, image)) {
         return false;
     }
-    const Point& battlefield_point = target_iter->second.pos;
-    skill_analyzer.set_base_point(battlefield_point);
-    if (!skill_analyzer.analyze()->skill_ready.ready) {
-        return false;
-    }
-
     has_error = !use_skill(loc, false);
     return true;
 }

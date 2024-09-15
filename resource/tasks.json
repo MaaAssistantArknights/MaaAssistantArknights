@@ -5092,7 +5092,7 @@
         "roi": [1109, 560, 171, 160],
         "next": ["DepotMaterialTab"],
         "crop_doc": {
-            "roi": [1153, 592, 77, 79],
+            "roi": [1153, 606, 77, 79],
             "mask": []
         }
     },
@@ -5716,6 +5716,59 @@
         "roi": [1144, 0, 136, 148],
         "next": ["GachaSkip", "Stop"],
         "postDelay": 2000
+    },
+    "RA@Navigation": {
+        "doc": "导航到 <生息演算>",
+        "algorithm": "JustReturn",
+        "next": ["RA@Navigation-RecogniseTheme", "RA@Navigation@ReturnButtons#next", "RA@Navigation@StartUpThemes#next"]
+    },
+    "RA@Navigation-RecogniseTheme": {
+        "doc": "通过识别右下角 <开始演算> 或 <继续演算> 文字判断是否已到达主题入口界面",
+        "algorithm": "OcrDetect",
+        "text": ["开始演算", "继续演算"],
+        "roi": [1064, 620, 171, 50]
+    },
+    "RA@Navigation@MainThemes": {
+        "doc": "用于 <RA@StartUpThemes#next> 任务链, 标记导航到生息演算的所有入口",
+        "next": ["RA@Navigation-FromMainInterface", "RA@Navigation@CloseAnnos#next"]
+    },
+    "RA@Navigation-FromMainInterface": {
+        "doc": "模版任务: 从主界面导航到对应的生息演算主题",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png",
+            "TerminalMistCity.png",
+            "TerminalSiege.png",
+            "TerminalSarkaz.png",
+            "TerminalDelicious.png"
+        ],
+        "action": "ClickSelf",
+        "roi": [844, 58, 268, 272],
+        "next": ["RA@Navigation-FromTodoList", "RA@Navigation-LongTermExploration", "RA@Navigation-FromMainInterface"],
+        "postDelay": 1000
+    },
+    "RA@Navigation-LongTermExploration": {
+        "doc": "在 <终端> 下方导航条点击 <长期探索> 图标, 此处引用 <集成战略> 相关任务作为 baseTask",
+        "baseTask": "Roguelike@IntegratedStrategies",
+        "template": "Roguelike@IntegratedStrategies.png",
+        "next": ["RA@Navigation-EnterCurrentTheme", "RA@Navigation-LongTermExploration"]
+    },
+    "RA@Navigation-EnterCurrentTheme": {
+        "doc": "点击 <生息演算> 文字位置以进入当前主题",
+        "algorithm": "OcrDetect",
+        "text": ["生息演算"],
+        "roi": [673, 441, 348, 99],
+        "action": "ClickSelf",
+        "next": ["RA@Navigation-EnterCurrentTheme", "RA@Navigation#next"]
+    },
+    "RA@Navigation-FromTodoList": {
+        "doc": "纯虚任务: 从 <终端> 的 <TO-DO LIST> 进入对应的生息演算主题",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [908, 54, 372, 500],
+        "maskRange": [1, 255],
+        "next": ["RA@Navigation#next"]
     },
     "Roguelike": {
         "template": [
@@ -11728,11 +11781,6 @@
         "postDelay": 500,
         "next": ["Stop"]
     },
-    "Tales@RA-SquadSizeLE6": {
-        "doc": "模板任务: 当前编队规模小于等于6人",
-        "template": "Tales@RA@SquadSizeIndicator0.png",
-        "roi": [811, 647, 60, 60]
-    },
     "Tales@RA@BackDark": {
         "doc": "模板任务: 点击左上角深色箭头返回",
         "roi": [7, 6, 41, 56],
@@ -11855,6 +11903,7 @@
         "roi": [48, 469, 87, 51],
         "action": "ClickSelf"
     },
+    "Tales@RA@Navigation-FromTodoList": {},
     "Tales@RA@NextDay": {
         "doc": "模板任务: 点击右上角箭头进入下一个生息日, 若在量定日则进行量定结算",
         "roi": [1152, 45, 54, 98],
@@ -11875,7 +11924,7 @@
         "doc": "识别到要组装的道具后点击",
         "algorithm": "OcrDetect",
         "text": ["荧光棒"],
-        "roi": [274, 68, 960, 571],
+        "roi": [274, 68, 960, 535],
         "action": "ClickSelf",
         "postDelay": 500
     },
@@ -11909,6 +11958,7 @@
     },
     "Tales@RA@PIS-Navigation": {
         "algorithm": "JustReturn",
+        "sub": ["Tales@RA@Navigation"],
         "next": ["Tales@RA@ProsperityInSave"]
     },
     "Tales@RA@PIS-ProsperityBelowLimit": {
@@ -11923,7 +11973,7 @@
         "doc": "生息点数未达到上限, 点击右下角 Dots",
         "baseTask": "Tales@RA@Dots",
         "template": "Tales@RA@Dots.png",
-        "next": ["Tales@RA@PIS-ProsperityBelowLimit-LoadSave"]
+        "next": ["Tales@RA@PIS-ProsperityBelowLimit-LoadSave", "#self"]
     },
     "Tales@RA@PIS-ProsperityBelowLimit-LoadSave": {
         "doc": "生息点数未达到上限, 点击右下角读取存档图标, 选择从右往左第二个存档或仅存的存档, 点击 <点击确认> 文字位置确认读取存档",
@@ -11942,7 +11992,8 @@
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
         "next": [
             "Tales@RA@PIS-ProsperityBelowLimit-Dots",
-            "Tales@RA@PIS-ProsperityBelowLimit-StartToday@NextAfterLoadingText"
+            "Tales@RA@PIS-ProsperityBelowLimit-StartToday@NextAfterLoadingText",
+            "Tales@RA@PIS-ProsperityBelowLimit-StartToday"
         ]
     },
     "Tales@RA@PIS-ProsperityBelowLimit-StartTodayAfterLoadSave": {
@@ -11951,6 +12002,7 @@
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
         "next": [
             "Tales@RA@PIS-ProsperityBelowLimit-StartTodayAfterLoadSave@NextAfterLoadingText",
+            "Tales@RA@PIS-ProsperityBelowLimit-StartTodayAfterLoadSave",
             "Tales@RA@ProsperityInSave"
         ]
     },
@@ -11986,15 +12038,15 @@
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
         "next": [
             "Tales@RA@PIS-ProsperityReachLimit-Dots",
-            "Tales@RA@PIS-ProsperityReachLimit-StartToday@NextAfterLoadingText"
+            "Tales@RA@PIS-ProsperityReachLimit-StartToday@NextAfterLoadingText",
+            "Tales@RA@PIS-ProsperityReachLimit-StartToday"
         ]
     },
     "Tales@RA@PIS-ProsperityReachLimit-StartTodayAfterLoadSave": {
         "doc": "生息点数达到上限, 在驻扎地产出结算界面点击确认符号开启今日",
         "baseTask": "Tales@RA@StartToday",
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
-        "sub": ["Tales@RA@BackLight"],
-        "next": ["Stop"]
+        "next": ["Tales@RA@BackLight", "Tales@RA@PIS-ProsperityReachLimit-StartTodayAfterLoadSave"]
     },
     "Tales@RA@PIS-ResourceGained": {
         "doc": "获得物资, 点击 <点击空白处继续> 文字位置",
@@ -12013,9 +12065,10 @@
         "doc": "在组装台界面向下滑动屏幕",
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "specificRect": [753, 620, 0, 0],
+        "specificRect": [753, 525, 0, 0],
         "rectMove": [753, 80, 0, 0],
-        "specialParams": [500, 0, 3, 0],
+        "specialParams": [1000, 0, 3, 0],
+        "postDelay": 300,
         "next": ["Tales@RA@PIS-SelectTool"]
     },
     "Tales@RA@PIS-SelectTool": {
@@ -12028,6 +12081,7 @@
         "doc": "跳到下一次量定结算",
         "template": ["Tales@RA@ActsLeft2.png", "Tales@RA@ActsLeft1.png", "Tales@RA@NextDay.png"],
         "roi": [1152, 45, 54, 98],
+        "postDelay": 500,
         "next": ["Tales@RA@PIS-SkipToCalc-NextDay", "Tales@RA@PIS-SkipToCalc-NonZeroActsLeft"]
     },
     "Tales@RA@PIS-SkipToCalc-CalcOrNextDay": {
@@ -12036,7 +12090,6 @@
         "next": [
             "Tales@RA@PIS-FinishCalc",
             "Tales@RA@PIS-SkipToCalc-StartToday",
-            "Tales@RA@PIS-SkipToCalc",
             "Tales@RA@PIS-SkipToCalc-CalcOrNextDay"
         ]
     },
@@ -12050,7 +12103,11 @@
         "doc": "点击右上角箭头进入下一个生息日, 若在量定日则进行量定结算",
         "baseTask": "Tales@RA@NextDay",
         "template": "Tales@RA@NextDay.png",
-        "next": ["Tales@RA@PIS-SkipToCalc-NextDay@NextAfterLoadingText", "Tales@RA@PIS-SkipToCalc-CalcOrNextDay"]
+        "next": [
+            "Tales@RA@PIS-SkipToCalc-NextDay@NextAfterLoadingText",
+            "Tales@RA@PIS-SkipToCalc-NextDay",
+            "Tales@RA@PIS-SkipToCalc-CalcOrNextDay"
+        ]
     },
     "Tales@RA@PIS-SkipToCalc-NonZeroActsLeft": {
         "doc": "点击右上角剩余决断次数",
@@ -12068,7 +12125,7 @@
         "doc": "在驻扎地产出结算界面点击确认符号开启今日",
         "baseTask": "Tales@RA@StartToday",
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
-        "next": ["Tales@RA@PIS-SkipToCalc"]
+        "next": ["Tales@RA@PIS-SkipToCalc", "Tales@RA@PIS-SkipToCalc-StartToday"]
     },
     "Tales@RA@PIS-Workbench": {
         "doc": "点击进入组装台",
@@ -12079,7 +12136,7 @@
     "Tales@RA@PNS-ClearSquadIfSizeGE7": {
         "doc": "如果当前编队规模大于等于7人则清空当前编队",
         "algorithm": "JustReturn",
-        "next": ["Tales@RA-SquadSizeLE6", "Tales@RA@ClearSquad"]
+        "next": ["Tales@RA@SquadSizeLE6", "Tales@RA@ClearSquad"]
     },
     "Tales@RA@PNS-ClickBaseCamp": {
         "doc": "点击 <后舍: 众人会聚之地>",
@@ -12087,7 +12144,17 @@
         "text": ["众人会聚之地"],
         "roi": [732, 295, 127, 54],
         "action": "ClickSelf",
-        "next": ["Tales@RA@PNS-EnterBaseCamp"]
+        "next": ["Tales@RA@PNS-EnterBaseCamp", "Tales@RA@PNS-ClickBaseCamp"]
+    },
+    "Tales@RA@PNS-ClickGatheringOfFeathers": {
+        "doc": "点击 <捕猎区: 聚羽之地>",
+        "baseTask": "Tales@RA@ClickGatheringOfFeathers",
+        "next": ["Tales@RA@RecogniseEnterNodeButton", "Tales@RA@PNS-ClickGatheringOfFeathers"]
+    },
+    "Tales@RA@PNS-ClickShrubberyGalore": {
+        "doc": "点击 <资源区: 丰饶灌木林>",
+        "baseTask": "Tales@RA@ClickShrubberyGalore",
+        "next": ["Tales@RA@RecogniseEnterNodeButton", "Tales@RA@PNS-ClickShrubberyGalore"]
     },
     "Tales@RA@PNS-Commence": {
         "doc": "在主题入口界面点击 <开始演算> 开启新游戏",
@@ -12097,6 +12164,13 @@
         "roi": [1064, 620, 171, 50],
         "next": ["Tales@RA@PNS-Commence@NextAfterLoadingText", "Tales@RA@PNS-OpeningAnimation"]
     },
+    "Tales@RA@PNS-ConfirmSquad": {
+        "doc": "在编队界面点击 <开始行动>, 若弹出 <确认不携带任何干员进入战斗吗?> 或者 <确认进入战斗吗?> 的对话框, 则点击 <确定>",
+        "baseTask": "Tales@RA@ConfirmSquad",
+        "preDelay": 500,
+        "postDelay": 500,
+        "next": ["Tales@RA@DialogConfirmRed", "Stop"]
+    },
     "Tales@RA@PNS-ConfirmToLeaveBaseCamp": {
         "doc": "确认离开 <后舍: 众人会聚之地>",
         "baseTask": "Tales@RA@DialogConfirmYellow",
@@ -12104,6 +12178,7 @@
         "next": [
             "Tales@RA@PNS-ConfirmToLeaveBaseCamp@NextAfterLoadingIcon",
             "Tales@RA@PNS-ConfirmToLeaveBaseCamp@NextAfterLoadingText",
+            "Tales@RA@PNS-ConfirmToLeaveBaseCamp",
             "Tales@RA@PNS-GoTo-ShrubberyGalore"
         ]
     },
@@ -12111,7 +12186,11 @@
         "doc": "确认离开当前区块",
         "baseTask": "Tales@RA@DialogConfirmYellow",
         "template": "Tales@RA@DialogConfirmYellow.png",
-        "next": ["Tales@RA@PNS-MissionResults", "Tales@RA@PNS-ConfirmToLeaveNode@NextAfterLoadingText"]
+        "next": [
+            "Tales@RA@PNS-MissionResults",
+            "Tales@RA@PNS-ConfirmToLeaveNode@NextAfterLoadingText",
+            "Tales@RA@PNS-ConfirmToLeaveNode"
+        ]
     },
     "Tales@RA@PNS-EnterBaseCamp": {
         "doc": "点击 <后舍: 众人会聚之地> 后点击 <开始行动>",
@@ -12132,13 +12211,14 @@
     "Tales@RA@PNS-EnterNodeThenLeave": {
         "doc": [
             "任务链",
-            "Step 1: 进入区块节点, 如果当前编队规模大于等于7人则清空当前编队, 在编队界面点击 <开始行动> 后点击 <确认>",
+            "Step 1: 进入区块节点, 如果当前编队规模大于等于7人则清空当前编队, 在编队界面点击 <开始行动>",
+            "        若弹出 <确认不携带任何干员进入战斗吗?> 或者 <确认进入战斗吗?> 的对话框, 则点击 <确定>",
             "Step 2: 在行动中点击左上角离开当前区块",
             "Step 3: 确认离开当前区块",
             "Step 4: 在行动结束界面点击左下角 <物资将送往仓库> 图标返回"
         ],
         "baseTask": "Tales@RA@EnterNode",
-        "sub": ["Tales@RA@PNS-ClearSquadIfSizeGE7", "Tales@RA@ConfirmSquad", "Tales@RA@DialogConfirmRed"],
+        "sub": ["Tales@RA@PNS-ClearSquadIfSizeGE7", "Tales@RA@PNS-ConfirmSquad"],
         "next": [
             "Tales@RA@PNS-LeaveNode",
             "Tales@RA@PNS-EnterNodeThenLeave@NextAfterLoadingText",
@@ -12164,20 +12244,28 @@
     "Tales@RA@PNS-GoTo-GatheringOfFeathers": {
         "doc": "前往并点击 <捕猎区: 聚羽之地>, 未来改由 GoTo 插件实现",
         "algorithm": "JustReturn",
-        "sub": ["Tales@RA@ReturnToOrigin", "Tales@RA@ClickGatheringOfFeathers"],
+        "sub": [
+            "Tales@RA@PNS-WaitForHeadquartersButton",
+            "Tales@RA@ReturnToOrigin",
+            "Tales@RA@PNS-ClickGatheringOfFeathers"
+        ],
         "next": ["Tales@RA@PNS-EnterGatheringOfFeathersThenLeave"]
     },
     "Tales@RA@PNS-GoTo-ShrubberyGalore": {
         "doc": "前往并点击 <资源区: 丰饶灌木林>, 未来改由 GoTo 插件实现",
         "algorithm": "JustReturn",
-        "sub": ["Tales@RA@ReturnToOrigin", "Tales@RA@ClickShrubberyGalore"],
+        "sub": [
+            "Tales@RA@PNS-WaitForHeadquartersButton",
+            "Tales@RA@ReturnToOrigin",
+            "Tales@RA@PNS-ClickShrubberyGalore"
+        ],
         "next": ["Tales@RA@PNS-EnterShrubberyGaloreThenLeave"]
     },
     "Tales@RA@PNS-LeaveBaseCamp": {
         "doc": "在行动中点击左上角离开 <后舍: 众人会聚之地>",
         "baseTask": "Tales@RA@LeaveCurrentZone",
         "template": "Tales@RA@LeaveCurrentZone.png",
-        "next": ["Tales@RA@PNS-ConfirmToLeaveBaseCamp"]
+        "next": ["Tales@RA@PNS-ConfirmToLeaveBaseCamp", "Tales@RA@PNS-LeaveBaseCamp"]
     },
     "Tales@RA@PNS-LeaveNode": {
         "doc": "在行动中点击左上角离开当前区块, 注意左上角离开按钮渐变出现, 期间点击无效",
@@ -12193,6 +12281,7 @@
     },
     "Tales@RA@PNS-Navigation": {
         "algorithm": "JustReturn",
+        "sub": ["Tales@RA@Navigation"],
         "next": ["Tales@RA@ProsperityNoSave"]
     },
     "Tales@RA@PNS-OpeningAnimation": {
@@ -12229,7 +12318,8 @@
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
         "next": [
             "Tales@RA@PNS-ProsperityBelowLimit-Dots",
-            "Tales@RA@PNS-ProsperityBelowLimit-StartToday@NextAfterLoadingText"
+            "Tales@RA@PNS-ProsperityBelowLimit-StartToday@NextAfterLoadingText",
+            "Tales@RA@PNS-ProsperityBelowLimit-StartToday"
         ]
     },
     "Tales@RA@PNS-ProsperityBelowLimit-SwipeSave": {
@@ -12260,7 +12350,8 @@
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
         "next": [
             "Tales@RA@PNS-ProsperityReachLimit-Dots",
-            "Tales@RA@PNS-ProsperityReachLimit-StartToday@NextAfterLoadingText"
+            "Tales@RA@PNS-ProsperityReachLimit-StartToday@NextAfterLoadingText",
+            "Tales@RA@PNS-ProsperityReachLimit-StartToday"
         ]
     },
     "Tales@RA@PNS-ProsperityReachLimit-SwipeSave": {
@@ -12269,10 +12360,17 @@
         "template": "Tales@RA@SwipeSave.png",
         "sub": ["Tales@RA@DialogConfirmRed*2"]
     },
+    "Tales@RA@PNS-RecogniseHeadquartersButton": {
+        "doc": "识别到左下角驻扎地图标",
+        "baseTask": "Tales@RA@ClickHeadquartersButton",
+        "template": "Tales@RA@HeadquartersButton.png",
+        "action": "DoNothing"
+    },
     "Tales@RA@PNS-SkipToCalc": {
         "doc": "跳到下一次量定结算",
         "template": ["Tales@RA@ActsLeft2.png", "Tales@RA@ActsLeft1.png", "Tales@RA@NextDay.png"],
         "roi": [1152, 45, 54, 98],
+        "postDelay": 500,
         "next": ["Tales@RA@PNS-SkipToCalc-NextDay", "Tales@RA@PNS-SkipToCalc-NonZeroActsLeft"]
     },
     "Tales@RA@PNS-SkipToCalc-CalcOrNextDay": {
@@ -12281,7 +12379,6 @@
         "next": [
             "Tales@RA@PNS-FinishCalc",
             "Tales@RA@PNS-SkipToCalc-StartToday",
-            "Tales@RA@PNS-SkipToCalc",
             "Tales@RA@PNS-SkipToCalc-CalcOrNextDay"
         ]
     },
@@ -12295,7 +12392,11 @@
         "doc": "点击右上角箭头进入下一个生息日, 若在量定日则进行量定结算",
         "baseTask": "Tales@RA@NextDay",
         "template": "Tales@RA@NextDay.png",
-        "next": ["Tales@RA@PNS-SkipToCalc-NextDay@NextAfterLoadingText", "Tales@RA@PNS-SkipToCalc-CalcOrNextDay"]
+        "next": [
+            "Tales@RA@PNS-SkipToCalc-NextDay@NextAfterLoadingText",
+            "Tales@RA@PNS-SkipToCalc-NextDay",
+            "Tales@RA@PNS-SkipToCalc-CalcOrNextDay"
+        ]
     },
     "Tales@RA@PNS-SkipToCalc-NonZeroActsLeft": {
         "doc": "点击右上角剩余决断次数",
@@ -12313,7 +12414,12 @@
         "doc": "在驻扎地产出结算界面点击确认符号开启今日",
         "baseTask": "Tales@RA@StartToday",
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
-        "next": ["Tales@RA@PNS-SkipToCalc"]
+        "next": ["Tales@RA@PNS-SkipToCalc", "Tales@RA@PNS-SkipToCalc-StartToday"]
+    },
+    "Tales@RA@PNS-WaitForHeadquartersButton": {
+        "doc": "等待直到识别到左下角驻扎地图标",
+        "algorithm": "JustReturn",
+        "next": ["Tales@RA@PNS-RecogniseHeadquartersButton", "Tales@RA@PNS-WaitForHeadquartersButton"]
     },
     "Tales@RA@ProsperityInSave": {
         "doc": "生息演算「沙洲遗闻」有存档刷生息点数 <ProsperityInSave> 任务入口",
@@ -12331,6 +12437,11 @@
         "roi": [836, 516, 59, 40],
         "action": "ClickSelf"
     },
+    "Tales@RA@RecogniseEnterNodeButton": {
+        "doc": "模板任务: 通过识别右下角 <开始行动> 按钮判断是否已点击区块节点",
+        "baseTask": "Tales@RA@EnterNode",
+        "action": "DoNothing"
+    },
     "Tales@RA@ResourceGained": {
         "doc": "模板任务: 获得物资, 点击 <点击空白处继续> 文字位置",
         "algorithm": "OcrDetect",
@@ -12343,12 +12454,12 @@
         "baseTask": "Tales@RA@ClickHeadquartersButton",
         "template": "Tales@RA@HeadquartersButton.png",
         "postDelay": 500,
-        "next": ["Tales@RA@CancelEnterBuildMode", "Tales@RA@Origin", "Tales@RA@ReturnToOrigin"]
+        "next": ["Tales@RA@ReturnToOrigin-CancelEnterBuildMode", "Tales@RA@Origin", "Tales@RA@ReturnToOrigin"]
     },
-    "Tales@RA@ReturnToOrigin@CancelEnterBuildMode": {
+    "Tales@RA@ReturnToOrigin-CancelEnterBuildMode": {
         "doc": "在右下角存在 <进入建造> 按钮时点击左下角取消进入建造",
         "baseTask": "Tales@RA@CancelEnterBuildMode",
-        "next": ["Tales@RA@ReturnToOrigin"]
+        "next": ["Tales@RA@Origin", "Tales@RA@ReturnToOrigin-CancelEnterBuildMode", "Tales@RA@ReturnToOrigin"]
     },
     "Tales@RA@SelectLeftSave": {
         "doc": "模板任务: 选择左侧的存档读取",
@@ -12378,11 +12489,15 @@
         "roi": [1194, 143, 37, 49],
         "action": "ClickSelf"
     },
+    "Tales@RA@SquadSizeLE6": {
+        "doc": "模板任务: 当前编队规模小于等于6人",
+        "template": "Tales@RA@SquadSizeIndicator0.png",
+        "roi": [811, 647, 60, 60]
+    },
     "Tales@RA@StartToday": {
         "doc": "模板任务: 在驻扎地产出结算界面点击确认符号开启今日",
         "template": ["Tales@RA@StartTodayConfirmHollow.png", "Tales@RA@StartTodayConfirmYellow.png"],
         "roi": [568, 561, 112, 81],
-        "preDelay": 500,
         "action": "ClickSelf"
     },
     "Tales@RA@SwipeSave": {
