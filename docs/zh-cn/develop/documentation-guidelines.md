@@ -34,8 +34,8 @@ icon: jam:write-f
 接受的容器内容与其默认标题如下：
 
 - `tip` 提示
-- `note` 注释
-- `info` 信息
+- `note` 注
+- `info` 相关信息
 - `warning` 注意
 - `danger` 警告
 - `details` 详情

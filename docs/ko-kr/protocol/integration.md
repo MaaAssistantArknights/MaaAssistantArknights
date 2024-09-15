@@ -269,15 +269,15 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 }
 ```
 
-- `ReclamationAlgorithm`  
+- `Reclamation`  
   생명연산
 
 ```json
 {
     "enable": bool,
-    "theme": int,               // 테마, 선택사항, 기본값은 1입니다.
-                                // 0 - *모래 속의 불꽃*
-                                // 1 - *모래 안의 이야기*
+    "theme": string,            // 테마, 선택사항, 기본값은 1입니다.
+                                // Fire  - *모래 속의 불꽃*
+                                // Tales - *모래 안의 이야기*
     "mode": int,                // 모드,선택사항, 기본값은 0
                                 // 0 - 점수를 획득하고 건설 점수를 얻어 전투에 진입한 후 바로 나가기
                                 // 1 - *모래 속의 불꽃*: 황금을 얻기 위해 오퍼레이터가 물을 사고 기지를 강화합니다.

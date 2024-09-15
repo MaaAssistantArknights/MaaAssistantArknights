@@ -10421,6 +10421,150 @@
         "stageId": "act36side_08",
         "width": 11
     },
+    "act36side_ex01#f#-activities/act36side/level_act36side_ex01": {
+        "code": "DT-EX-1",
+        "filename": "act36side_ex01#f#-activities-act36side-level_act36side_ex01.json",
+        "height": 7,
+        "levelId": "activities/act36side/level_act36side_ex01",
+        "name": "果味大丰收",
+        "stageId": "act36side_ex01#f#",
+        "width": 11
+    },
+    "act36side_ex01-activities/act36side/level_act36side_ex01": {
+        "code": "DT-EX-1",
+        "filename": "act36side_ex01-activities-act36side-level_act36side_ex01.json",
+        "height": 7,
+        "levelId": "activities/act36side/level_act36side_ex01",
+        "name": "果味大丰收",
+        "stageId": "act36side_ex01",
+        "width": 11
+    },
+    "act36side_ex02#f#-activities/act36side/level_act36side_ex02": {
+        "code": "DT-EX-2",
+        "filename": "act36side_ex02#f#-activities-act36side-level_act36side_ex02.json",
+        "height": 7,
+        "levelId": "activities/act36side/level_act36side_ex02",
+        "name": "活力沙拉",
+        "stageId": "act36side_ex02#f#",
+        "width": 10
+    },
+    "act36side_ex02-activities/act36side/level_act36side_ex02": {
+        "code": "DT-EX-2",
+        "filename": "act36side_ex02-activities-act36side-level_act36side_ex02.json",
+        "height": 7,
+        "levelId": "activities/act36side/level_act36side_ex02",
+        "name": "活力沙拉",
+        "stageId": "act36side_ex02",
+        "width": 10
+    },
+    "act36side_ex03#f#-activities/act36side/level_act36side_ex03": {
+        "code": "DT-EX-3",
+        "filename": "act36side_ex03#f#-activities-act36side-level_act36side_ex03.json",
+        "height": 9,
+        "levelId": "activities/act36side/level_act36side_ex03",
+        "name": "什锦软糖",
+        "stageId": "act36side_ex03#f#",
+        "width": 12
+    },
+    "act36side_ex03-activities/act36side/level_act36side_ex03": {
+        "code": "DT-EX-3",
+        "filename": "act36side_ex03-activities-act36side-level_act36side_ex03.json",
+        "height": 9,
+        "levelId": "activities/act36side/level_act36side_ex03",
+        "name": "什锦软糖",
+        "stageId": "act36side_ex03",
+        "width": 12
+    },
+    "act36side_ex04#f#-activities/act36side/level_act36side_ex04": {
+        "code": "DT-EX-4",
+        "filename": "act36side_ex04#f#-activities-act36side-level_act36side_ex04.json",
+        "height": 7,
+        "levelId": "activities/act36side/level_act36side_ex04",
+        "name": "冰鲜自助餐",
+        "stageId": "act36side_ex04#f#",
+        "width": 9
+    },
+    "act36side_ex04-activities/act36side/level_act36side_ex04": {
+        "code": "DT-EX-4",
+        "filename": "act36side_ex04-activities-act36side-level_act36side_ex04.json",
+        "height": 7,
+        "levelId": "activities/act36side/level_act36side_ex04",
+        "name": "冰鲜自助餐",
+        "stageId": "act36side_ex04",
+        "width": 9
+    },
+    "act36side_ex05#f#-activities/act36side/level_act36side_ex05": {
+        "code": "DT-EX-5",
+        "filename": "act36side_ex05#f#-activities-act36side-level_act36side_ex05.json",
+        "height": 7,
+        "levelId": "activities/act36side/level_act36side_ex05",
+        "name": "贪杯宴",
+        "stageId": "act36side_ex05#f#",
+        "width": 11
+    },
+    "act36side_ex05-activities/act36side/level_act36side_ex05": {
+        "code": "DT-EX-5",
+        "filename": "act36side_ex05-activities-act36side-level_act36side_ex05.json",
+        "height": 7,
+        "levelId": "activities/act36side/level_act36side_ex05",
+        "name": "贪杯宴",
+        "stageId": "act36side_ex05",
+        "width": 11
+    },
+    "act36side_ex06#f#-activities/act36side/level_act36side_ex06": {
+        "code": "DT-EX-6",
+        "filename": "act36side_ex06#f#-activities-act36side-level_act36side_ex06.json",
+        "height": 9,
+        "levelId": "activities/act36side/level_act36side_ex06",
+        "name": "壳中海洋",
+        "stageId": "act36side_ex06#f#",
+        "width": 12
+    },
+    "act36side_ex06-activities/act36side/level_act36side_ex06": {
+        "code": "DT-EX-6",
+        "filename": "act36side_ex06-activities-act36side-level_act36side_ex06.json",
+        "height": 9,
+        "levelId": "activities/act36side/level_act36side_ex06",
+        "name": "壳中海洋",
+        "stageId": "act36side_ex06",
+        "width": 12
+    },
+    "act36side_ex07#f#-activities/act36side/level_act36side_ex07": {
+        "code": "DT-EX-7",
+        "filename": "act36side_ex07#f#-activities-act36side-level_act36side_ex07.json",
+        "height": 9,
+        "levelId": "activities/act36side/level_act36side_ex07",
+        "name": "大地滋味",
+        "stageId": "act36side_ex07#f#",
+        "width": 13
+    },
+    "act36side_ex07-activities/act36side/level_act36side_ex07": {
+        "code": "DT-EX-7",
+        "filename": "act36side_ex07-activities-act36side-level_act36side_ex07.json",
+        "height": 9,
+        "levelId": "activities/act36side/level_act36side_ex07",
+        "name": "大地滋味",
+        "stageId": "act36side_ex07",
+        "width": 13
+    },
+    "act36side_ex08#f#-activities/act36side/level_act36side_ex08": {
+        "code": "DT-EX-8",
+        "filename": "act36side_ex08#f#-activities-act36side-level_act36side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act36side/level_act36side_ex08",
+        "name": "谁是大胃王",
+        "stageId": "act36side_ex08#f#",
+        "width": 13
+    },
+    "act36side_ex08-activities/act36side/level_act36side_ex08": {
+        "code": "DT-EX-8",
+        "filename": "act36side_ex08-activities-act36side-level_act36side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act36side/level_act36side_ex08",
+        "name": "谁是大胃王",
+        "stageId": "act36side_ex08",
+        "width": 13
+    },
     "act36side_tr01-activities/act36side/level_act36side_tr01": {
         "code": "DT-TR-1",
         "filename": "act36side_tr01-activities-act36side-level_act36side_tr01.json",
@@ -17180,6 +17324,15 @@
         "stageId": "mem_bison_1",
         "width": 12
     },
+    "mem_blackd_1-obt/memory/level_memory_blackd_1": {
+        "code": "mem_blackd_1",
+        "filename": "mem_blackd_1-obt-memory-level_memory_blackd_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_blackd_1",
+        "name": "影子护卫",
+        "stageId": "mem_blackd_1",
+        "width": 11
+    },
     "mem_bldsk_1-obt/memory/level_memory_bldsk_1": {
         "code": "mem_bldsk_1",
         "filename": "mem_bldsk_1-obt-memory-level_memory_bldsk_1.json",
@@ -17684,6 +17837,15 @@
         "stageId": "mem_frostl_1",
         "width": 9
     },
+    "mem_gdglow_1-obt/memory/level_memory_gdglow_1": {
+        "code": "mem_gdglow_1",
+        "filename": "mem_gdglow_1-obt-memory-level_memory_gdglow_1.json",
+        "height": 11,
+        "levelId": "obt/memory/level_memory_gdglow_1",
+        "name": "闪耀时刻",
+        "stageId": "mem_gdglow_1",
+        "width": 11
+    },
     "mem_ghost2_1-obt/memory/level_memory_ghost2_1": {
         "code": "mem_ghost2_1",
         "filename": "mem_ghost2_1-obt-memory-level_memory_ghost2_1.json",
@@ -17980,6 +18142,15 @@
         "name": "危机现场",
         "stageId": "mem_jaksel_1",
         "width": 13
+    },
+    "mem_jesca2_1-obt/memory/level_memory_jesca2_1": {
+        "code": "mem_jesca2_1",
+        "filename": "mem_jesca2_1-obt-memory-level_memory_jesca2_1.json",
+        "height": 6,
+        "levelId": "obt/memory/level_memory_jesca2_1",
+        "name": "携盾机动",
+        "stageId": "mem_jesca2_1",
+        "width": 10
     },
     "mem_jesica_1-obt/memory/level_memory_jesica_1": {
         "code": "mem_jesica_1",
@@ -19059,6 +19230,15 @@
         "levelId": "obt/memory/level_memory_zebra_1",
         "name": "犹豫不决",
         "stageId": "mem_zebra_1",
+        "width": 11
+    },
+    "mem_zumama_1-obt/memory/level_memory_zumama_1": {
+        "code": "mem_zumama_1",
+        "filename": "mem_zumama_1-obt-memory-level_memory_zumama_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_zumama_1",
+        "name": "钢铁酋长",
+        "stageId": "mem_zumama_1",
         "width": 11
     },
     "pro_a_1-obt/promote/level_promote_a_1": {
@@ -22634,6 +22814,69 @@
         "stageId": "sandbox_1_10",
         "width": 19
     },
+    "sandbox_1_100-obt/sandbox/sandbox_1/level_sandbox1_100": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_100-obt-sandbox-sandbox_1-level_sandbox1_100.json",
+        "height": 8,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_100",
+        "name": "不速之敌",
+        "stageId": "sandbox_1_100",
+        "width": 13
+    },
+    "sandbox_1_101-obt/sandbox/sandbox_1/level_sandbox1_101": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_101-obt-sandbox-sandbox_1-level_sandbox1_101.json",
+        "height": 12,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_101",
+        "name": "烟霭池",
+        "stageId": "sandbox_1_101",
+        "width": 19
+    },
+    "sandbox_1_102-obt/sandbox/sandbox_1/level_sandbox1_102": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_102-obt-sandbox-sandbox_1-level_sandbox1_102.json",
+        "height": 14,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_102",
+        "name": "暗流溶穴",
+        "stageId": "sandbox_1_102",
+        "width": 11
+    },
+    "sandbox_1_103-obt/sandbox/sandbox_1/level_sandbox1_103": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_103-obt-sandbox-sandbox_1-level_sandbox1_103.json",
+        "height": 11,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_103",
+        "name": "迷雾巷道",
+        "stageId": "sandbox_1_103",
+        "width": 15
+    },
+    "sandbox_1_104-obt/sandbox/sandbox_1/level_sandbox1_104": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_104-obt-sandbox-sandbox_1-level_sandbox1_104.json",
+        "height": 11,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_104",
+        "name": "丰腴草原",
+        "stageId": "sandbox_1_104",
+        "width": 20
+    },
+    "sandbox_1_105-obt/sandbox/sandbox_1/level_sandbox1_105": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_105-obt-sandbox-sandbox_1-level_sandbox1_105.json",
+        "height": 9,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_105",
+        "name": "蔽日密林",
+        "stageId": "sandbox_1_105",
+        "width": 17
+    },
+    "sandbox_1_106-obt/sandbox/sandbox_1/level_sandbox1_106": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_106-obt-sandbox-sandbox_1-level_sandbox1_106.json",
+        "height": 30,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_106",
+        "name": "勇者之境",
+        "stageId": "sandbox_1_106",
+        "width": 50
+    },
     "sandbox_1_11-obt/sandbox/sandbox_1/level_sandbox1_11": {
         "code": "RA-NO",
         "filename": "sandbox_1_11-obt-sandbox-sandbox_1-level_sandbox1_11.json",
@@ -23371,6 +23614,33 @@
         "name": "回廊关",
         "stageId": "sandbox_1_96",
         "width": 21
+    },
+    "sandbox_1_97-obt/sandbox/sandbox_1/level_sandbox1_97": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_97-obt-sandbox-sandbox_1-level_sandbox1_97.json",
+        "height": 12,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_97",
+        "name": "岩层轰鸣",
+        "stageId": "sandbox_1_97",
+        "width": 22
+    },
+    "sandbox_1_98-obt/sandbox/sandbox_1/level_sandbox1_98": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_98-obt-sandbox-sandbox_1-level_sandbox1_98.json",
+        "height": 9,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_98",
+        "name": "齐步走",
+        "stageId": "sandbox_1_98",
+        "width": 15
+    },
+    "sandbox_1_99-obt/sandbox/sandbox_1/level_sandbox1_99": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_99-obt-sandbox-sandbox_1-level_sandbox1_99.json",
+        "height": 12,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_99",
+        "name": "香草境",
+        "stageId": "sandbox_1_99",
+        "width": 16
     },
     "sub_02-01-obt/main/level_sub_02-01": {
         "code": "S2-1",

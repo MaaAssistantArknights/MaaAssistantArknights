@@ -394,7 +394,7 @@
     <system:String x:Key="MuMu12EmulatorPath">MuMu 安装路径</system:String>
     <system:String x:Key="MuMu12Index">实例编号</system:String>
     <system:String x:Key="MuMu12Display">屏幕编号</system:String>
-    <system:String x:Key="MuMuExtrasNotEnabledMessage">MumuExtras 未生效，请检查相关设置</system:String>
+    <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu 截图增强未生效，请检查相关设置</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 连接失败时尝试启动模拟器</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">重连失败 20 次后尝试重启模拟器，使用后台定时任务且设置任务完成关闭模拟器时请勾选</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">模拟器路径为空！请填写「启动设置-模拟器路径」后重新勾选。</system:String>
@@ -650,6 +650,7 @@
     <system:String x:Key="ErrorProlog">MAA 遇到了问题</system:String>
     <system:String x:Key="ErrorDetails">详细信息</system:String>
     <system:String x:Key="ErrorSolution">解决方案</system:String>
+    <system:String x:Key="ErrorSolutionMoveMaaExeOutOfFolder">请勿单独移动 MAA.exe 文件。若需更改软件位置，请移动整个文件夹，或在本文件夹中创建 MAA.exe 的快捷方式，然后将快捷方式拖到其他位置。</system:String>
     <system:String x:Key="ErrorSolutionCrash">请参考文档: 常见问题 - 闪退 进行操作。</system:String>
     <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">解压更新包失败，请尝试手动解压根目录下更新包。</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">请「关闭模拟器与 ADB」或「重启电脑后在未开启模拟器的情况下使用管理员权限打开 MAA」后进行操作。</system:String>
@@ -688,9 +689,9 @@
     <system:String x:Key="CompleteTask" xml:space="preserve">完成任务: </system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">开始战斗: </system:String>
     <system:String x:Key="CompleteCombat">完成战斗</system:String>
-    <system:String x:Key="AllTasksComplete">任务已全部完成！</system:String>
+    <system:String x:Key="AllTasksComplete">任务已全部完成！\n({0} 后)</system:String>
     <system:String x:Key="SanityReport">理智将在 {DateTime} 回满。({TimeDiff} 后)</system:String>
-    <system:String x:Key="AllTaskCompleteContent">MAA 已在 {DateTime} 完成了 {Preset} 配置下所有预设的任务。</system:String>
+    <system:String x:Key="AllTaskCompleteContent">MAA 已在 {DateTime} 完成了 {Preset} 配置下所有预设的任务。(用时 {TimeDiff})</system:String>
     <system:String x:Key="BackgroundLinkStarted">开始执行任务</system:String>
     <system:String x:Key="BackgroundLinkStopped">任务终止</system:String>
     <system:String x:Key="FailedToOpenClient">打开客户端失败，请检查配置文件</system:String>

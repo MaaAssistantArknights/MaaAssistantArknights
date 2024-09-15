@@ -285,15 +285,15 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 }
 ```
 
-- `ReclamationAlgorithm`  
+- `Reclamation`  
     生息演算  
 
 ```json
 {
     "enable": bool,
-    "theme": int,               // テーマ、オプション、デフォルトは 1
-                                // 0 - *砂中の火*
-                                // 1 - *沙洲遺聞*
+    "theme": string,            // テーマ、オプション、デフォルトは 1
+                                // Fire  - *砂中の火*
+                                // Tales - *沙洲遺聞*
     "mode": int,                // モード、オプション、デフォルトは 0
                                 // 0 - すぐにバトルをやめることでバッジと建設ポイントを周回
                                 // 1 - *砂中の火*：水を買ってから基地で鍛造して粗製純金を周回

@@ -83,6 +83,8 @@ bool asst::GeneralConfig::parse(const json::value& json)
         const AdbCfg& base_cfg = base_name.empty() ? AdbCfg() : m_adb_cfg.at(base_name);
 
         AdbCfg& adb = m_adb_cfg[cfg_json.at("configName").as_string()];
+        adb.devices = cfg_json.get("devices", base_cfg.devices);
+        adb.address_regex = cfg_json.get("addressRegex", base_cfg.address_regex);
         adb.connect = cfg_json.get("connect", base_cfg.connect);
         adb.display_id = cfg_json.get("displayId", base_cfg.display_id);
         adb.uuid = cfg_json.get("uuid", base_cfg.uuid);

@@ -215,18 +215,22 @@ namespace MaaWpfGui.ViewModels.UI
 
             async Task DoShutDown()
             {
+                _logger.Information("Shutdown in 70 seconds.");
                 Process.Start("shutdown.exe", "-s -t 70");
 
+                Instances.MainWindowManager?.Show();
                 if (await TimerCanceledAsync(
                         LocalizationHelper.GetString("Shutdown"),
                         LocalizationHelper.GetString("AboutToShutdown"),
                         LocalizationHelper.GetString("Cancel"),
                         60))
                 {
+                    _logger.Information("Shutdown canceled.");
                     Process.Start("shutdown.exe", "-a");
                     return;
                 }
 
+                _logger.Information("Shutdown not canceled, proceeding to exit application.");
                 Bootstrapper.Shutdown();
             }
 
@@ -543,14 +547,17 @@ namespace MaaWpfGui.ViewModels.UI
                 buttonContent,
                 delay.TotalMilliseconds);
             var dialog = HandyControl.Controls.Dialog.Show(dialogUserControl, nameof(Views.UI.RootView));
+            var tcs = new TaskCompletionSource<bool>();
             var canceled = false;
             dialogUserControl.Click += (_, _) =>
             {
                 canceled = true;
                 dialog.Close();
+                tcs.TrySetResult(true);
             };
-            await Task.Delay(delay);
+            await Task.WhenAny(Task.Delay(delay), tcs.Task);
             dialog.Close();
+            _logger.Information($"Timer canceled: {canceled}");
             return canceled;
         }
 
@@ -593,7 +600,7 @@ namespace MaaWpfGui.ViewModels.UI
                     vm.EnableSetting = true;
                 }
 
-                if (!parsed || order < 0 || order >= tempOrderList.Count)
+                if (!parsed || order < 0 || order >= tempOrderList.Count || tempOrderList[order] != null)
                 {
                     nonOrderList.Add(vm);
                 }
@@ -612,6 +619,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 tempOrderList[i] = newVm;
+                ConfigurationHelper.SetTaskOrder(newVm.OriginalName, i.ToString());
             }
 
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(tempOrderList);
@@ -1172,6 +1180,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (taskRet)
             {
                 AddLog(LocalizationHelper.GetString("Running"));
+                Instances.AsstProxy.StartTaskTime = DateTimeOffset.Now;
             }
             else
             {
@@ -2834,7 +2843,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public void ResetFightVariables()
         {
-            if (UseMedicineWithNull == null)
+            if (UseStoneWithNull == null)
             {
                 UseStone = false;
             }

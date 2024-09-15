@@ -49,6 +49,7 @@ namespace MaaWpfGui.Configuration
 
         private static readonly JsonSerializerOptions _options = new() { WriteIndented = true, Converters = { new JsonStringEnumConverter() }, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
 
+        // TODO: 参考 ConfigurationHelper ，拆几个函数出来
         private static readonly Lazy<Root> _rootConfig = new Lazy<Root>(() =>
         {
             lock (_lock)
@@ -64,6 +65,11 @@ namespace MaaWpfGui.Configuration
                     try
                     {
                         parsed = JsonSerializer.Deserialize<Root>(File.ReadAllText(_configurationFile), _options);
+                        if (parsed is null)
+                        {
+                            _logger.Warning("Failed to load configuration file, copying configuration file to error file");
+                            File.Copy(_configurationFile, _configurationFile + ".err", true);
+                        }
                     }
                     catch (Exception e)
                     {
@@ -71,19 +77,26 @@ namespace MaaWpfGui.Configuration
                     }
                 }
 
-                if (parsed is null)
+                if (parsed is null && File.Exists(_configurationBakFile))
                 {
-                    if (File.Exists(_configurationBakFile))
+                    _logger.Information("trying to use backup file");
+                    try
                     {
-                        File.Copy(_configurationBakFile, _configurationFile, true);
-                        try
+                        parsed = JsonSerializer.Deserialize<Root>(File.ReadAllText(_configurationBakFile), _options);
+                        if (parsed is not null)
                         {
-                            parsed = JsonSerializer.Deserialize<Root>(File.ReadAllText(_configurationFile), _options);
+                            _logger.Information("Backup file loaded successfully, copying backup file to configuration file");
+                            File.Copy(_configurationBakFile, _configurationFile, true);
                         }
-                        catch (Exception e)
+                        else
                         {
-                            _logger.Information("Failed to parse configuration file: " + e);
+                            _logger.Warning("Failed to load backup file, copying backup file to error file");
+                            File.Copy(_configurationBakFile, _configurationBakFile + ".err", true);
                         }
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.Information("Failed to parse configuration file: " + e);
                     }
                 }
 
@@ -241,8 +254,23 @@ namespace MaaWpfGui.Configuration
         {
             lock (_lock)
             {
-                Save();
-                Save(_configurationBakFile);
+                if (Save())
+                {
+                    _logger.Information($"{_configurationFile} saved");
+                }
+                else
+                {
+                    _logger.Warning($"{_configurationFile} save failed");
+                }
+
+                if (Save(_configurationBakFile))
+                {
+                    _logger.Information($"{_configurationBakFile} saved");
+                }
+                else
+                {
+                    _logger.Warning($"{_configurationBakFile} save failed");
+                }
             }
         }
 
