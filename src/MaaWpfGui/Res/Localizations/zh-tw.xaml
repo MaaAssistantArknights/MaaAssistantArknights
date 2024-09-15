@@ -339,7 +339,6 @@
     <system:String x:Key="SystemNotification">重要訊息彈出系統通知</system:String>
     <system:String x:Key="HideCloseButton">隱藏關閉按鈕</system:String>
     <system:String x:Key="WindowTitleScrollable">窗口標題滾動</system:String>
-    <system:String x:Key="ErrorViewEnableCongratulation">喜報</system:String>
     <system:String x:Key="TitleBarDisplayContent">標題欄顯示內容</system:String>
     <system:String x:Key="UseLogItemDateFormat">自訂日誌日期格式</system:String>
     <system:String x:Key="LogItemDateFormatString">日期格式字串</system:String>

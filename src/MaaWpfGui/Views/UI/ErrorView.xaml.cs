@@ -37,7 +37,7 @@ namespace MaaWpfGui.Views.UI
 
         public string ExceptionDetails { get; set; }
 
-        private bool _errorViewEnableCongratulation = true;
+        private bool _congratulationsOnError = true;
 
         public string ErrorString { get; set; } = LocalizationHelper.GetString("Error");
 
@@ -46,13 +46,13 @@ namespace MaaWpfGui.Views.UI
         /// <summary>
         /// Gets or sets a value indicating whether to enable congratulation mode for ErrorView.
         /// </summary>
-        public bool ErrorViewEnableCongratulation
+        public bool CongratulationsOnError
         {
-            get => _errorViewEnableCongratulation;
+            get => _congratulationsOnError;
             set
             {
-                _errorViewEnableCongratulation = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ErrorViewEnableCongratulation)));
+                _congratulationsOnError = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CongratulationsOnError)));
             }
         }
 

@@ -12,7 +12,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:styles="clr-namespace:MaaWpfGui.Styles"
     x:Name="ErrorViewWindow"
-    Title="{c:Binding 'ErrorViewEnableCongratulation ? ErrorCongratulationsString : ErrorString',
+    Title="{c:Binding 'CongratulationsOnError ? ErrorCongratulationsString : ErrorString',
                       ElementName=ErrorViewWindow}"
     Width="600"
     Height="480"
@@ -48,7 +48,7 @@
             HorizontalScrollBarVisibility="Auto"
             IsReadOnly="True"
             VerticalScrollBarVisibility="Auto"
-            Visibility="{c:Binding !ErrorViewEnableCongratulation,
+            Visibility="{c:Binding !CongratulationsOnError,
                                    ElementName=ErrorViewWindow}">
             <RichTextBox.Resources>
                 <!--  This will give us a LARGER scroll bar  -->
@@ -97,7 +97,7 @@
             HorizontalScrollBarVisibility="Auto"
             IsReadOnly="True"
             VerticalScrollBarVisibility="Auto"
-            Visibility="{c:Binding ErrorViewEnableCongratulation,
+            Visibility="{c:Binding CongratulationsOnError,
                                    ElementName=ErrorViewWindow}">
             <RichTextBox.Background>
                 <ImageBrush ImageSource="/Res/Backgrounds/Congratulations.png" Stretch="UniformToFill" />
@@ -110,7 +110,7 @@
             <RichTextBox.Style>
                 <Style TargetType="RichTextBox">
                     <Style.Triggers>
-                        <DataTrigger Binding="{c:Binding ErrorViewEnableCongratulation, ElementName=ErrorViewWindow}" Value="True">
+                        <DataTrigger Binding="{c:Binding CongratulationsOnError, ElementName=ErrorViewWindow}" Value="True">
                             <DataTrigger.EnterActions>
                                 <BeginStoryboard Storyboard="{StaticResource FadeIn}" />
                             </DataTrigger.EnterActions>
@@ -244,8 +244,8 @@
                 <CheckBox
                     Grid.Column="1"
                     Margin="10"
-                    Content="{DynamicResource ErrorViewEnableCongratulation}"
-                    IsChecked="{Binding ErrorViewEnableCongratulation, ElementName=ErrorViewWindow}" />
+                    Content="{DynamicResource ErrorCongratulations}"
+                    IsChecked="{Binding CongratulationsOnError, ElementName=ErrorViewWindow}" />
                 <WrapPanel
                     Grid.Column="2"
                     HorizontalAlignment="Right"
