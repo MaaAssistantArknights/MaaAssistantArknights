@@ -600,7 +600,7 @@ namespace MaaWpfGui.ViewModels.UI
                     vm.EnableSetting = true;
                 }
 
-                if (!parsed || order < 0 || order >= tempOrderList.Count)
+                if (!parsed || order < 0 || order >= tempOrderList.Count || tempOrderList[order] != null)
                 {
                     nonOrderList.Add(vm);
                 }
@@ -619,6 +619,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 tempOrderList[i] = newVm;
+                ConfigurationHelper.SetTaskOrder(newVm.OriginalName, i.ToString());
             }
 
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(tempOrderList);
