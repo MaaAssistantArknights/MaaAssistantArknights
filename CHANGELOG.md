@@ -2,9 +2,10 @@
 
 ### 新增 | New
 
-* time diff log output and notification (#10562) @Constrat @status102
+* 一键长草执行用时输出 (#10562) @Constrat @status102
 * new theme for txwy (#10566) @Manicsteiner
 * YostarEN Rainbow6Siege theme @Constrat
+* Reclamation for Yostar servers (#10498) @Manicsteiner
 
 ### 改进 | Improved
 
@@ -19,17 +20,16 @@
 
 ### 修复 | Fix
 
-* 重置战斗参数状态错误 @ABA2396
-* EN R6S collab regex @Constrat
-* missing parameter for system notification fix https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/10562#issuecomment-2342509182 @Constrat
-* EN EnterInfrastSiege Apparently reverting was not a fix (don't know how it worked). @Constrat
+* 刷理智重置参数错误 @ABA2396
 * 阻止休眠时保持屏幕常亮功能无效 @ABA2396
 * 将肉鸽招募的等级限制改为精一55级 @Daydreamer514
 * Reclamation scroll down (#10554) @Manicsteiner
 * 未输入完整开局干员时点选会清空已输入内容 @ABA2396
 * YostarEN EnterInfrast Siege theme without this the score is MistCity: 0.62. No idea how they are different @Constrat
-* Reclamation for Yostar servers (#10498) @Manicsteiner
+* EN EnterInfrastSiege Apparently reverting was not a fix (don't know how it worked). @Constrat
+* EN R6S collab regex @Constrat
 * 尝试修复日服理智药使用数量识别 @status102
+* missing parameter for system notification @Constrat
 
 ### 文档 | Docs
 
