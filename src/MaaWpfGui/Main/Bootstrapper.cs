@@ -108,10 +108,10 @@ namespace MaaWpfGui.Main
             // Bootstrap serilog
             var loggerConfiguration = new LoggerConfiguration()
                 .WriteTo.Debug(
-                    outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
+                    outputTemplate: "[{Timestamp:HH:mm:ss}][{Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
                 .WriteTo.File(
                     LogFilename,
-                    outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
+                    outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}][{Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
                 .Enrich.FromLogContext()
                 .Enrich.WithThreadId()
                 .Enrich.WithThreadName();
@@ -122,7 +122,8 @@ namespace MaaWpfGui.Main
             var maaEnv = Environment.GetEnvironmentVariable("MAA_ENVIRONMENT") == "Debug"
                 ? "Debug"
                 : "Production";
-            loggerConfiguration = maaEnv == "Debug"
+            var withDebugFile = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
+            loggerConfiguration = (maaEnv == "Debug" || withDebugFile)
                 ? loggerConfiguration.MinimumLevel.Verbose()
                 : loggerConfiguration.MinimumLevel.Information();
 
@@ -134,6 +135,11 @@ namespace MaaWpfGui.Main
             _logger.Information($"Built at {builtDate:O}");
             _logger.Information($"Maa ENV: {maaEnv}");
             _logger.Information($"User Dir {Directory.GetCurrentDirectory()}");
+            if (withDebugFile)
+            {
+                _logger.Information("Start with DEBUG file");
+            }
+
             if (IsUserAdministrator())
             {
                 _logger.Information("Run as Administrator");
