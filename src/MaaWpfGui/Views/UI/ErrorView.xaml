@@ -30,7 +30,7 @@
                 Storyboard.TargetProperty="Opacity"
                 From="0.0"
                 To="1.0"
-                Duration="0:0:1" />
+                Duration="0:0:3" />
         </Storyboard>
     </Window.Resources>
     <Grid>
