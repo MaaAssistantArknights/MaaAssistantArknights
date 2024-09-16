@@ -1465,11 +1465,12 @@ namespace MaaWpfGui.Main
                             Instances.CopilotViewModel.AddLog(doc, string.IsNullOrEmpty(color) ? UiLogColor.Message : color);
                         }
 
+                        var target = subTaskDetails["target"]?.ToString();
                         Instances.CopilotViewModel.AddLog(
                             string.Format(
                                 LocalizationHelper.GetString("CurrentSteps"),
                                 subTaskDetails["action"],
-                                DataHelper.GetLocalizedCharacterName(subTaskDetails["target"]?.ToString())));
+                                DataHelper.GetLocalizedCharacterName(target) ?? target));
 
                         break;
                     }
