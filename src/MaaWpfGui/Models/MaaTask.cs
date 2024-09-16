@@ -23,9 +23,6 @@ namespace MaaWpfGui.Models
 {
     public class MaaTask
     {
-        public class StartUpTask : BaseTask
-        {
-        }
 
         public class CloseDownTask : BaseTask
         {

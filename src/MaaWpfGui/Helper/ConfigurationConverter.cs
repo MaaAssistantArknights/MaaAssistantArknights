@@ -196,6 +196,12 @@ namespace MaaWpfGui.Helper
                     var roguelikeTask = new RoguelikeTask();
                     var reclamationTask = new ReclamationTask();
 
+                    startUpTask.AccountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty);
+                    if (startUpTask.AccountName == string.Empty)
+                    {
+                        startUpTask.AccountName = null;
+                    }
+
                     awardTask.Award = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveAward, bool.TrueString));
                     awardTask.Mail = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveMail, bool.FalseString));
                     awardTask.FreeGacha = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveFreeRecruit, bool.FalseString));

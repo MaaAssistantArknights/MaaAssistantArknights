@@ -827,7 +827,11 @@ namespace MaaWpfGui.ViewModels.UI
         public void RefreshUI(BaseTask task)
         {
             // 选择了任务后，刷新对应任务类型UI的值
-            if (task is AwardTask awardTask)
+            if (task is StartUpTask startUp)
+            {
+                SetAndNotify(ref _accountName, startUp.AccountName, nameof(AccountName));
+            }
+            else if (task is AwardTask awardTask)
             {
                 SetAndNotify(ref _receiveAward, awardTask.Award, nameof(ReceiveAward));
                 SetAndNotify(ref _receiveMail, awardTask.Mail, nameof(ReceiveMail));
@@ -968,15 +972,15 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _accountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty);
+        private string? _accountName;
 
-        public string AccountName
+        public string? AccountName
         {
             get => _accountName;
             set
             {
                 SetAndNotify(ref _accountName, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AccountName, value);
+                ((StartUpTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).AccountName = value == string.Empty ? null : value;
             }
         }
 
