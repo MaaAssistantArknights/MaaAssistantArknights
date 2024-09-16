@@ -184,6 +184,14 @@ namespace MaaWpfGui.Helper
                     }
                 }
 
+                // 远控
+                {
+                    ConfigFactory.CurrentConfig.RemoteControl.GetTaskUri = EmptyStringToNull(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, string.Empty));
+                    ConfigFactory.CurrentConfig.RemoteControl.ReportStatusUri = EmptyStringToNull(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlReportStatusUri, string.Empty));
+                    ConfigFactory.CurrentConfig.RemoteControl.UserId = EmptyStringToNull(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlUserIdentity, string.Empty));
+                    ConfigFactory.CurrentConfig.RemoteControl.DeviceId = EmptyStringToNull(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlDeviceIdentity, string.Empty));
+                }
+
                 // TaskQueue部分
                 {
                     var startUpTask = new StartUpTask();
@@ -196,11 +204,7 @@ namespace MaaWpfGui.Helper
                     var roguelikeTask = new RoguelikeTask();
                     var reclamationTask = new ReclamationTask();
 
-                    startUpTask.AccountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty);
-                    if (startUpTask.AccountName == string.Empty)
-                    {
-                        startUpTask.AccountName = null;
-                    }
+                    startUpTask.AccountName = EmptyStringToNull(ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty));
 
                     awardTask.Award = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveAward, bool.TrueString));
                     awardTask.Mail = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveMail, bool.FalseString));
@@ -300,6 +304,11 @@ namespace MaaWpfGui.Helper
 
             Task.Run(() => ConfigFactory.Save()).Wait();
             return true;
+
+            static string? EmptyStringToNull(string value)
+            {
+                return string.IsNullOrEmpty(value) ? null : value;
+            }
         }
 
         private static JObject? ParseJsonFile(string filePath)

@@ -395,58 +395,38 @@ namespace MaaWpfGui.ViewModels.UI
             RemoteControlService.RegenerateDeviceIdentity();
         }
 
-        private string _remoteControlGetTaskEndpointUri = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, string.Empty);
-
-        public string RemoteControlGetTaskEndpointUri
+        public string? RemoteControlGetTaskEndpointUri
         {
-            get => _remoteControlGetTaskEndpointUri;
+            get => ConfigFactory.CurrentConfig.RemoteControl.GetTaskUri;
             set
             {
-                if (!SetAndNotify(ref _remoteControlGetTaskEndpointUri, value))
+                if (ConfigFactory.CurrentConfig.RemoteControl.GetTaskUri == value)
                 {
                     return;
                 }
 
                 Instances.RemoteControlService.InitializePollJobTask();
-                ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, value);
+                ConfigFactory.CurrentConfig.RemoteControl.GetTaskUri = value == string.Empty ? null : value;
             }
         }
 
-        private string _remoteControlReportStatusUri = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlReportStatusUri, string.Empty);
-
-        public string RemoteControlReportStatusUri
+        public string? RemoteControlReportStatusUri
         {
-            get => _remoteControlReportStatusUri;
-            set
-            {
-                SetAndNotify(ref _remoteControlReportStatusUri, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlReportStatusUri, value);
+            get => ConfigFactory.CurrentConfig.RemoteControl.ReportStatusUri;
+            set => ConfigFactory.CurrentConfig.RemoteControl.ReportStatusUri = value == string.Empty ? null : value;
             }
-        }
 
-        private string _remoteControlUserIdentity = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlUserIdentity, string.Empty);
-
-        public string RemoteControlUserIdentity
+        public string? RemoteControlUserIdentity
         {
-            get => _remoteControlUserIdentity;
-            set
-            {
-                SetAndNotify(ref _remoteControlUserIdentity, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlUserIdentity, value);
+            get => ConfigFactory.CurrentConfig.RemoteControl.UserId;
+            set => ConfigFactory.CurrentConfig.RemoteControl.UserId = value == string.Empty ? null : value;
             }
-        }
 
-        private string _remoteControlDeviceIdentity = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlDeviceIdentity, string.Empty);
-
-        public string RemoteControlDeviceIdentity
+        public string? RemoteControlDeviceIdentity
         {
-            get => _remoteControlDeviceIdentity;
-            set
-            {
-                SetAndNotify(ref _remoteControlDeviceIdentity, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlDeviceIdentity, value);
+            get => ConfigFactory.CurrentConfig.RemoteControl.DeviceId;
+            set => ConfigFactory.CurrentConfig.RemoteControl.DeviceId = value == string.Empty ? null : value;
             }
-        }
 
         #endregion Remote Control
 

@@ -227,10 +227,10 @@ namespace MaaWpfGui.Constants
         public const string DropsItemName = "MainFunction.Drops.ItemName";
         public const string DropsQuantity = "MainFunction.Drops.Quantity";
 
-        public const string RemoteControlGetTaskEndpointUri = "RemoteControl.RemoteControlGetTaskEndpointUri";
-        public const string RemoteControlReportStatusUri = "RemoteControl.RemoteControlReportStatusUri";
-        public const string RemoteControlUserIdentity = "RemoteControl.RemoteControlUserIdentity";
-        public const string RemoteControlDeviceIdentity = "RemoteControl.RemoteControlDeviceIdentity";
+        public const string RemoteControlGetTaskEndpointUri = "RemoteControl.RemoteControlGetTaskEndpointUri"; // 迁移
+        public const string RemoteControlReportStatusUri = "RemoteControl.RemoteControlReportStatusUri"; // 迁移
+        public const string RemoteControlUserIdentity = "RemoteControl.RemoteControlUserIdentity"; // 迁移
+        public const string RemoteControlDeviceIdentity = "RemoteControl.RemoteControlDeviceIdentity"; // 迁移
 
         public const string ExternalNotificationEnabled = "ExternalNotification.Enabled";
         public const string ExternalNotificationSmtpServer = "ExternalNotification.Smtp.Server";
