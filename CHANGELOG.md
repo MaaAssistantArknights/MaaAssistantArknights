@@ -1,4 +1,4 @@
-## v5.6.1
+## v5.6.2
 
 ### 新增 | New
 
@@ -20,6 +20,7 @@
 
 ### 修复 | Fix
 
+* adb lite 无法连接 @ABA2396
 * 刷理智重置参数错误 @ABA2396
 * 阻止休眠时保持屏幕常亮功能无效 @ABA2396
 * 将肉鸽招募的等级限制改为精一55级 @Daydreamer514
@@ -41,6 +42,7 @@
 
 ### 其他 | Other
 
+* 更新繁中服「日間」主題介面截圖 @momomochi987
 * xaml escape character fix ee96efe @Constrat
 * Wpf版本号显示最小宽度调整 @status102
 * 重构 ProcessTask (#10001) @zzyyyl
