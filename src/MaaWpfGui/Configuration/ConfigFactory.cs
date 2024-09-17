@@ -125,14 +125,14 @@ namespace MaaWpfGui.Configuration
                             if (args.IsSingleItem)
                             {
                                 // args.NewItem.Value.GUI.PropertyChanged += OnPropertyChangedFactory("Root.Configurations." + args.NewItem.Key, JsonSerializer.Serialize(args.NewItem.Value, _options), null);
-                                SpesificConfigBind(args.NewItem.Key, args.NewItem.Value);
+                                SpecificConfigBind(args.NewItem.Key, args.NewItem.Value);
                             }
                             else
                             {
                                 foreach (var pair in args.NewItems)
                                 {
                                     // pair.Value.GUI.PropertyChanged += OnPropertyChangedFactory("Root.Configurations." + pair.Key, JsonSerializer.Serialize(pair.Value, _options), null);
-                                    SpesificConfigBind(pair.Key, pair.Value);
+                                    SpecificConfigBind(pair.Key, pair.Value);
                                 }
                             }
 
@@ -150,12 +150,12 @@ namespace MaaWpfGui.Configuration
 
                 foreach (var keyValue in parsed.Configurations)
                 {
-                    SpesificConfigBind(keyValue.Key, keyValue.Value);
+                    SpecificConfigBind(keyValue.Key, keyValue.Value);
                 }
 
                 return parsed;
 
-                void SpesificConfigBind(string name, SpecificConfig config)
+                void SpecificConfigBind(string name, SpecificConfig config)
                 {
                     var key = "Root.Configurations." + name + ".";
                     config.GUI.PropertyChanged += OnPropertyChangedFactory(key);
