@@ -1,5 +1,6 @@
 #pragma once
 #include "AbstractRoguelikeTaskPlugin.h"
+#include "Config/Roguelike/RoguelikeRecruitConfig.h"
 #include "Common/AsstBattleDef.h"
 
 namespace asst
@@ -49,6 +50,10 @@ private:
     bool recruit_appointed_char(const std::string& char_name, bool is_rtl = false);
     // 选择干员
     void select_oper(const battle::roguelike::Recruitment& oper);
+    // 找出给定的 Offset 组所有满足条件的干员
+    std::unordered_set<std::string> calculate_condition_oper(
+        const RecruitPriorityOffset& condition,
+        const std::unordered_map<std::string, RoguelikeOper>& chars_map);
 
     int m_recruit_count = 0; // 第几次招募
     bool m_starts_complete =

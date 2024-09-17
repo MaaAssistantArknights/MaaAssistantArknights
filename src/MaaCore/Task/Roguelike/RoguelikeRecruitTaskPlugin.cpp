@@ -1,7 +1,6 @@
 #include "RoguelikeRecruitTaskPlugin.h"
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
-#include "Config/Roguelike/RoguelikeRecruitConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Status.h"
@@ -52,6 +51,18 @@ bool asst::RoguelikeRecruitTaskPlugin::is_oper_melee(const std::string& name)
     return loc == battle::LocationType::Melee;
 }
 
+std::unordered_set<std::string> asst::RoguelikeRecruitTaskPlugin::calculate_condition_oper(
+    const RecruitPriorityOffset& condition,
+    const std::unordered_map<std::string, RoguelikeOper>& chars_map)
+{
+    std::unordered_set<std::string> opers; // 符合这个策略组的干员
+    for (const auto& [oper_name, oper_level] : chars_map) {
+        if (condition.opers.contains(oper_name))
+            opers.insert(oper_name);
+    }
+    return opers;
+}
+
 bool asst::RoguelikeRecruitTaskPlugin::_run()
 {
     LogTraceFunction;
@@ -94,16 +105,6 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     }
     // __________________will-be-removed-end__________________
 
-    std::unordered_map<std::string, int> group_count;
-    const auto& group_list = RoguelikeRecruit.get_group_info(m_config->get_theme());
-    for (const auto& [name, oper] : chars_map) {
-        std::vector<int> group_ids = RoguelikeRecruit.get_group_id(m_config->get_theme(), name);
-        for (const auto& group_id : group_ids) {
-            const std::string& group_name = group_list[group_id];
-            group_count[group_name]++;
-        }
-    }
-
     if (!m_starts_complete) {
         for (const auto& oper : chars_map) {
             auto& recruit_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), oper.first);
@@ -114,24 +115,26 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     if (!m_team_complete) {
         bool complete = true;
         int complete_count = 0;
-        int complete_require = 0;
-        const auto& team_complete_condition = RoguelikeRecruit.get_team_complete_info(m_config->get_theme());
-        for (const auto& condition : team_complete_condition) {
-            int count = 0;
-            complete_require += condition.threshold;
-            for (const std::string& group_name : condition.groups) {
-                count += group_count[group_name];
-                complete_count += group_count[group_name];
-            }
-            if (count < condition.threshold) {
+        const auto& team_complete_condition =
+            RoguelikeRecruit.get_team_complete_info(m_config->get_theme());
+        for (const auto& condition : team_complete_condition) { // 每个完备度的策略组
+            std::unordered_set<std::string> opers =
+                calculate_condition_oper(condition, chars_map); // 符合这个策略组的干员
+
+            complete_count += int(opers.size());
+            if (int(opers.size()) < condition.threshold) {
                 complete = false;
             }
+            Log.trace("__FUNCTION__", "groups:", condition.groups);
+            Log.trace("__FUNCTION__", "opers:", opers);
         }
         m_team_complete = complete;
-        if (complete_count <= complete_require / 2 && m_recruit_count >= 10) {
+        if (complete_count <= RoguelikeRecruit.get_team_complete_require(m_config->get_theme()) / 2
+                && m_recruit_count >= 10) {
             // 如果第10次招募还没拿到半队key干员，说明账号阵容不齐，放开招募限制，有啥用啥吧
-            m_team_complete = complete;
+            m_team_complete = true;
         }
+        Log.trace("__FUNCTION__", "complete_count:", complete_count, "m_team_complete:", m_team_complete);
     }
 
     if (m_recruit_count >= 3 && !m_starts_complete) {
@@ -277,15 +280,17 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                     // }
                     //  __________________will-be-removed-end__________________
                     for (const auto& priority_offset : recruit_info.recruit_priority_offsets) {
-                        int count = 0;
-                        for (const std::string& group_name : priority_offset.groups) {
-                            count += group_count[group_name];
-                        }
+                        std::unordered_set<std::string> opers = // 符合这个策略组的干员
+                            calculate_condition_oper(priority_offset, chars_map);
                         if (priority_offset.is_less) {
-                            if (count <= priority_offset.threshold) priority += priority_offset.offset;
+                            if (int(opers.size()) <= priority_offset.threshold) {
+                                priority += priority_offset.offset;
+                            }
                         }
                         else {
-                            if (count >= priority_offset.threshold) priority += priority_offset.offset;
+                            if (int(opers.size()) >= priority_offset.threshold) {
+                                priority += priority_offset.offset;
+                            }
                         }
                     }
                     for (const auto& priority_offset : recruit_info.collection_priority_offsets) {                        
@@ -376,7 +381,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             if (info.elite != 2) {
                 continue;
             }
-            Log.trace(__FUNCTION__, "| Choose random elite 2:", info.name, info.elite, info.level);
+            Log.trace(__FUNCTION__, "| Choose temporary recruitment elite 2:", info.name, info.elite, info.level);
             recruit_oper(info);
             return true;
         }
