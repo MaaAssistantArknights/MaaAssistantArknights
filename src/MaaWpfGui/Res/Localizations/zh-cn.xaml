@@ -647,6 +647,7 @@
     <!--  !自动战斗  -->
     <!--  ErrorView  -->
     <system:String x:Key="Error">错误</system:String>
+    <system:String x:Key="ErrorCongratulations">喜报</system:String>
     <system:String x:Key="ErrorProlog">MAA 遇到了问题</system:String>
     <system:String x:Key="ErrorDetails">详细信息</system:String>
     <system:String x:Key="ErrorSolution">解决方案</system:String>

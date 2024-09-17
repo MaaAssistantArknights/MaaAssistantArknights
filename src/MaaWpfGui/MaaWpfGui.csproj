@@ -81,6 +81,7 @@
   <ItemGroup>
     <AdditionalFiles Include="stylecop.json" />
     <Resource Include="newlogo.ico" />
+    <Resource Include="Res\Backgrounds\Congratulations.png" />
     <None Include="..\..\README.md" Pack="True" PackagePath="/" />
   </ItemGroup>
 
