@@ -136,8 +136,8 @@ void asst::RoguelikeFormationTaskPlugin::clear_and_reselect()
                 if (!oper_to_select.contains(oper.name)) {
                     sorted_oper_list.emplace_back(oper);
                     oper_to_select.emplace(oper.name);
+                    count++;
                 }
-                count++;
             }
             if (count == require) {
                 break;

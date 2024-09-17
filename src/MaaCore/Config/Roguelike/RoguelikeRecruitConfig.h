@@ -11,7 +11,7 @@
 
 namespace asst
 {
-    // 招募priority影响因子
+    // 招募 priority 影响因子
     struct RecruitPriorityOffset
     {
         std::vector<std::string> groups; // 造成优先级改变的干员组
@@ -20,7 +20,7 @@ namespace asst
         int offset = 0;                  // 优先级改变的大小
     };
 
-    // 收藏品priority影响因子
+    // 收藏品 priority 影响因子
     struct CollectionPriorityOffset
     {
         std::string collection;          // 造成优先级改变的藏品名称
@@ -70,7 +70,7 @@ namespace asst
 
         std::unordered_map<std::string, std::unordered_map<std::string, RoguelikeOperInfo>> m_all_opers;
         std::unordered_map<std::string, std::vector<std::string>> m_oper_groups;
-        std::unordered_map<std::string, std::vector<RecruitPriorityOffset>> m_team_complete_comdition;
+        std::unordered_map<std::string, std::vector<RecruitPriorityOffset>> m_team_complete_condition;
     };
 
     inline static auto& RoguelikeRecruit = RoguelikeRecruitConfig::get_instance();

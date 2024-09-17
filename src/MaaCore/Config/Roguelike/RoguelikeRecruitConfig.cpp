@@ -30,7 +30,7 @@ const std::vector<std::string> asst::RoguelikeRecruitConfig::get_group_info(cons
 const std::vector<asst::RecruitPriorityOffset> asst::RoguelikeRecruitConfig::get_team_complete_info(
     const std::string& theme) const noexcept
 {
-    return m_team_complete_comdition.at(theme);
+    return m_team_complete_condition.at(theme);
 }
 
 std::vector<int> asst::RoguelikeRecruitConfig::get_group_id(const std::string& theme,
@@ -140,7 +140,7 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
             condition.groups.emplace_back(group.as_string());
         }
         condition.threshold = condition_json.at("threshold").as_integer();
-        m_team_complete_comdition[theme].emplace_back(std::move(condition));
+        m_team_complete_condition[theme].emplace_back(std::move(condition));
     }
 
     return true;
@@ -150,5 +150,5 @@ void asst::RoguelikeRecruitConfig::clear(const std::string& key)
 {
     m_all_opers.erase(key);
     m_oper_groups.erase(key);
-    m_team_complete_comdition.erase(key);
+    m_team_complete_condition.erase(key);
 }

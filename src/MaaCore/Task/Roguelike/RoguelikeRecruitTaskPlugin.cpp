@@ -94,13 +94,13 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     }
     // __________________will-be-removed-end__________________
 
-    std::unordered_map<std::string, int> group_count;
-    const auto& group_list = RoguelikeRecruit.get_group_info(m_config->get_theme());
-    for (const auto& [name, oper] : chars_map) {
-        std::vector<int> group_ids = RoguelikeRecruit.get_group_id(m_config->get_theme(), name);
+    std::unordered_map<std::string, int> group_count; // 每个 干员组(key) 已有多少人(value)
+    const auto& group_list = RoguelikeRecruit.get_group_info(m_config->get_theme()); // 所有干员组
+    for (const auto& [name, oper] : chars_map) { // 此处仅 name 有用，oper 存的精英化和干员等级
+        std::vector<int> group_ids = RoguelikeRecruit.get_group_id(m_config->get_theme(), name); // 获取干员所在干员组的 id
         for (const auto& group_id : group_ids) {
-            const std::string& group_name = group_list[group_id];
-            group_count[group_name]++;
+            const std::string& group_name = group_list[group_id]; // 根据 id 找到干员组
+            group_count[group_name]++; // 这个干员对应的所有 干员组(key) 已有人数++(value)
         }
     }
 
@@ -114,7 +114,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     if (!m_team_complete) {
         bool complete = true;
         int complete_count = 0;
-        int complete_require = 0;
+        int complete_require = 0; // TODO: 把这东西改为成员变量，不要每次招募都算一遍
         const auto& team_complete_condition = RoguelikeRecruit.get_team_complete_info(m_config->get_theme());
         for (const auto& condition : team_complete_condition) {
             int count = 0;
@@ -130,7 +130,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         m_team_complete = complete;
         if (complete_count <= complete_require / 2 && m_recruit_count >= 10) {
             // 如果第10次招募还没拿到半队key干员，说明账号阵容不齐，放开招募限制，有啥用啥吧
-            m_team_complete = complete;
+            m_team_complete = true;
         }
     }
 
