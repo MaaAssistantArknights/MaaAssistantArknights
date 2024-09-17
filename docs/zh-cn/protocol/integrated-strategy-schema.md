@@ -28,10 +28,11 @@ icon: ri:game-fill
   - `encounter/collapse.json` 刷坍缩范式模式不期而遇逻辑
 
 ## 衍生开源项目：自动肉鸽的低练适配
+
 - 如果你的练度较低，或是肉鸽的buff树点得很少，或是想用MAA自动肉鸽打低难度刷等级，或是觉得MAA现有的招募逻辑不适合自己的账号，可以尝试使用低练版的文件代替原有文件。
 - 在使用此版本的文件前，请确保您已经详细阅读该项目下的文档和MAA的文档，并充分知晓由此可能带来的安全、资源版本、bug、代码算法漏洞风险。由于低练版的文件和原版不能共存，若使用低练版，请自觉做好数据备份。
 - 该项目的链接如下：
--  [低练版肉鸽（衍生开源项目）](https://github.com/shikakihuso/MAARoguelikeforGreeners) 
+- [低练版肉鸽（衍生开源项目）](https://github.com/shikakihuso/MAARoguelikeforGreeners)
 
 ## 肉鸽第一步——干员招募
 
