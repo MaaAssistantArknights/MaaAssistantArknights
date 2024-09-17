@@ -69,6 +69,7 @@
     <ClInclude Include="Controller\Platform\PlatformIO.h" />
     <ClInclude Include="Controller\Platform\PlatformFactory.h" />
     <ClInclude Include="InstHelper.h" />
+    <ClInclude Include="LDExtras.h" />
     <ClInclude Include="Task\Experiment\CombatRecordRecognitionTask.h" />
     <ClInclude Include="Task\Experiment\SingleStepBattleProcessTask.h" />
     <ClInclude Include="Task\Fight\FightTimesTaskPlugin.h" />
@@ -260,6 +261,7 @@
     <ClCompile Include="Controller\Platform\PosixIO.cpp" />
     <ClCompile Include="Controller\Platform\Win32IO.cpp" />
     <ClCompile Include="InstHelper.cpp" />
+    <ClCompile Include="LDExtras.cpp" />
     <ClCompile Include="Task\Experiment\CombatRecordRecognitionTask.cpp" />
     <ClCompile Include="Task\Experiment\SingleStepBattleProcessTask.cpp" />
     <ClCompile Include="Task\Fight\FightTimesTaskPlugin.cpp" />

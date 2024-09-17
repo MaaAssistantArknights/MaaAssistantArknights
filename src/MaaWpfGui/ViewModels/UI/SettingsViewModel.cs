@@ -4305,6 +4305,144 @@ namespace MaaWpfGui.ViewModels.UI
 
         public MuMuEmulator12ConnectionExtras MuMuEmulator12Extras { get; set; } = new();
 
+        public class LdPlayerConnectionExtras : PropertyChangedBase
+        {
+            private bool _enable = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerExtrasEnabled, bool.FalseString));
+
+            public bool Enable
+            {
+                get => _enable;
+                set
+                {
+                    if (!SetAndNotify(ref _enable, value))
+                    {
+                        return;
+                    }
+
+                    if (value)
+                    {
+                        MessageBoxHelper.Show(LocalizationHelper.GetString("LdExtrasEnabledTip"));
+                    }
+
+                    Instances.AsstProxy.Connected = false;
+                    ConfigurationHelper.SetValue(ConfigurationKeys.LdPlayerExtrasEnabled, value.ToString());
+                }
+            }
+
+            private static readonly string _configuredPath = ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerEmulatorPath, @"C:\leidian\LDPlayer9");
+            private string _emulatorPath = Directory.Exists(_configuredPath) ? _configuredPath : string.Empty;
+
+            /// <summary>
+            /// Gets or sets a value indicating the path of the emulator.
+            /// </summary>
+            public string EmulatorPath
+            {
+                get => _emulatorPath;
+                set
+                {
+                    if (_enable && !string.IsNullOrEmpty(value) && !Directory.Exists(value))
+                    {
+                        MessageBoxHelper.Show("LD Emulator Path Not Found");
+                        value = string.Empty;
+                    }
+
+                    Instances.AsstProxy.Connected = false;
+                    SetAndNotify(ref _emulatorPath, value);
+                    ConfigurationHelper.SetValue(ConfigurationKeys.LdPlayerEmulatorPath, value);
+                }
+            }
+
+            private string _index = ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerIndex, "0");
+
+            /// <summary>
+            /// Gets or sets the index of the emulator.
+            /// </summary>
+            public string Index
+            {
+                get => _index;
+                set
+                {
+                    Instances.AsstProxy.Connected = false;
+                    SetAndNotify(ref _index, value);
+                    ConfigurationHelper.SetValue(ConfigurationKeys.LdPlayerIndex, value);
+                }
+            }
+
+            private int GetEmulatorPid(int index)
+            {
+                string emulatorPath = $@"{EmulatorPath}\ldconsole.exe";
+                if (!File.Exists(emulatorPath))
+                {
+                    MessageBoxHelper.Show("LD Emulator Path Not Found");
+                    return 0;
+                }
+
+                ProcessStartInfo startInfo = new ProcessStartInfo
+                {
+                    FileName = emulatorPath,
+                    Arguments = "list2",
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                };
+
+                using Process? process = Process.Start(startInfo);
+                if (process == null)
+                {
+                    _logger.Warning("Failed to start ldconsole list2");
+                    return 0;
+                }
+
+                using StreamReader reader = process.StandardOutput;
+                string result = reader.ReadToEnd();
+                string[] lines = result.Split([Environment.NewLine], StringSplitOptions.RemoveEmptyEntries);
+
+                if (lines.Length <= 0)
+                {
+                    _logger.Warning("Failed to get emulator PID.");
+                    return 0;
+                }
+
+                foreach (string line in lines)
+                {
+                    string[] parts = line.Split(',');
+                    if (parts.Length < 6 || !int.TryParse(parts[0], out int currentIndex) || currentIndex != index)
+                    {
+                        continue;
+                    }
+
+                    if (int.TryParse(parts[5], out int pid))
+                    {
+                        return pid;
+                    }
+                }
+
+                _logger.Warning("Failed to get emulator PID.");
+                return 0;
+            }
+
+            public string Config
+            {
+                get
+                {
+                    if (!Enable)
+                    {
+                        return JsonConvert.SerializeObject(new JObject());
+                    }
+
+                    var configObject = new JObject
+                    {
+                        ["path"] = EmulatorPath,
+                        ["index"] = int.TryParse(Index, out var indexParse) ? indexParse : 0,
+                        ["pid"] = GetEmulatorPid(indexParse),
+                    };
+                    return JsonConvert.SerializeObject(configObject);
+                }
+            }
+        }
+
+        public LdPlayerConnectionExtras LdPlayerExtras { get; set; } = new();
+
         private bool _retryOnDisconnected = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RetryOnAdbDisconnected, bool.FalseString));
 
         /// <summary>

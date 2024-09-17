@@ -119,6 +119,11 @@ namespace MaaWpfGui.Main
             AsstSetConnectionExtras("MuMuEmulator12", extras);
         }
 
+        private static void AsstSetConnectionExtrasLdPlayer(string extras)
+        {
+            AsstSetConnectionExtras("LDPlayer", extras);
+        }
+
         private static unsafe AsstTaskId AsstAppendTask(AsstHandle handle, string type, string taskParams)
         {
             fixed (byte* ptr1 = EncodeNullTerminatedUtf8(type),
@@ -532,6 +537,20 @@ namespace MaaWpfGui.Main
                                 {
                                     color = UiLogColor.MuMuSpecialScreenshot;
                                     method = "MuMuExtras";
+                                }
+
+                                break;
+                            case "LDPlayer":
+                                if (Instances.SettingsViewModel.LdPlayerExtras.Enable && method != "LDExtras")
+                                {
+                                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("LdExtrasNotEnabledMessage"), UiLogColor.Error);
+                                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("LdExtrasNotEnabledMessage"), UiLogColor.Error, showTime: false);
+                                    needToStop = true;
+                                }
+                                else if (timeCost < 100)
+                                {
+                                    color = UiLogColor.LdSpecialScreenshot;
+                                    method = "LDExtras";
                                 }
 
                                 break;
@@ -1765,6 +1784,9 @@ namespace MaaWpfGui.Main
             {
                 case "MuMuEmulator12":
                     AsstSetConnectionExtrasMuMu12(Instances.SettingsViewModel.MuMuEmulator12Extras.Config);
+                    break;
+                case "LDPlayer":
+                    AsstSetConnectionExtrasLdPlayer(Instances.SettingsViewModel.LdPlayerExtras.Config);
                     break;
             }
 
