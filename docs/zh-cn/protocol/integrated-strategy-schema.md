@@ -21,9 +21,9 @@ icon: ri:game-fill
     - `recruitment.json` 干员招募逻辑
     - `shopping.json` 商店购买藏品逻辑
 
-- 特别地，在`Sami/`下的
-  - `foldartal.json`表示萨米肉鸽密文板的使用逻辑
-  - `collapsal_paradigms.json`表示萨米肉鸽坍缩范式的类型
+- 特别地，在 `Sami/` 下的
+  - `foldartal.json` 表示萨米肉鸽密文板的使用逻辑
+  - `collapsal_paradigms.json` 表示萨米肉鸽坍缩范式的类型
   - `autopilot/关卡名_collapse.json` 关卡的作战逻辑（刷坍缩范式模式）
   - `encounter/collapse.json` 刷坍缩范式模式不期而遇逻辑
 
