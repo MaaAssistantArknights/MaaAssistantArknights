@@ -358,12 +358,28 @@
                     Text="{Binding GachaInfo}"
                     TextWrapping="Wrap"
                     Visibility="{c:Binding !GachaShowDisclaimer}" />
-                <Image
+                <Grid
                     Grid.Row="1"
-                    Margin="10"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Source="{Binding GachaImage}" />
+                    Visibility="{c:Binding !GachaShowDisclaimer}">
+                    <Image
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Source="{Binding GachaImage}" />
+                    <Canvas>
+                        <controls:TextBlock
+                            Canvas.Left="10"
+                            Canvas.Top="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            FontWeight="Bold"
+                            Foreground="Aquamarine"
+                            Text="{Binding GachaScreenFpf, StringFormat={}{0:F2}}"
+                            Visibility="{c:Binding 'GachaImage != null'}" />
+                    </Canvas>
+                </Grid>
                 <StackPanel
                     Grid.Row="1"
                     HorizontalAlignment="Center"

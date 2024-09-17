@@ -747,6 +747,14 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _gachaInfo, value);
         }
 
+        private double _gachaScreenFpf;
+
+        public double GachaScreenFpf
+        {
+            get => _gachaScreenFpf;
+            set => SetAndNotify(ref _gachaScreenFpf, value);
+        }
+
         // xaml 中用到了
         // ReSharper disable once UnusedMember.Global
         public void GachaOnce()
@@ -782,14 +790,12 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            _gachaImageTimer.Interval = TimeSpan.FromMilliseconds(500);
+            _gachaImageTimer.Interval = TimeSpan.FromMilliseconds(10);
             _gachaImageTimer.Tick += RefreshGachaImage;
             _gachaImageTimer.Start();
         }
 
         private readonly DispatcherTimer _gachaImageTimer = new();
-
-        private static readonly object _lock = new();
 
         private BitmapImage? _gachaImage;
 
@@ -799,21 +805,31 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _gachaImage, value);
         }
 
+        private DateTime _lastTipUpdateTime = DateTime.MinValue;
+        private DateTime _lastFpsUpdateTime = DateTime.MinValue;
+        private int _frameCount;
+
         private void RefreshGachaImage(object? sender, EventArgs? e)
         {
-            lock (_lock)
+            GachaImage = Instances.AsstProxy.AsstGetFreshImage();
+
+            var now = DateTime.Now;
+            _frameCount++;
+            if ((now - _lastFpsUpdateTime).TotalSeconds >= 1)
             {
-                var image = Instances.AsstProxy.AsstGetImage();
-                if (GachaImage.IsEqual(image))
-                {
-                    return;
-                }
-
-                GachaImage = image;
-
-                var rd = new Random();
-                GachaInfo = LocalizationHelper.GetString("GachaTip" + rd.Next(1, 18).ToString());
+                GachaScreenFpf = _frameCount / (now - _lastFpsUpdateTime).TotalSeconds;
+                _frameCount = 0;
+                _lastFpsUpdateTime = now;
             }
+
+            if ((now - _lastTipUpdateTime).TotalSeconds < 5)
+            {
+                return;
+            }
+
+            var rd = new Random();
+            GachaInfo = LocalizationHelper.GetString("GachaTip" + rd.Next(1, 18));
+            _lastTipUpdateTime = now;
         }
 
         // DO NOT CHANGE
