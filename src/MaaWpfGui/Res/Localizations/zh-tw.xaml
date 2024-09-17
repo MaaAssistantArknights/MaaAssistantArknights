@@ -395,6 +395,22 @@
     <system:String x:Key="MuMu12Index">實例號碼</system:String>
     <system:String x:Key="MuMu12Display">螢幕號碼</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu 截圖增強未生效，请檢查相關設定</system:String>
+    <system:String x:Key="LdExtrasEnabled">啟用 LD 截圖增強模式</system:String>
+    <system:String x:Key="LdExtrasEnabledTip">
+        需使用 LDPlayer 9 V9.0.78 及更新版本。\n
+        強烈建議在開啟本功能後的首次使用之前進行截圖測試。\n\n
+        請填寫以下信息：\n\n
+        1. 模擬器路徑：（例如：C:\\leidian\\LDPlayer9）\n
+        模擬器路徑應填寫模擬器應用所在文件夾路徑，例如應用路徑為\n
+        「C:\\leidian\\LDPlayer9\\ldconsole.exe」\n
+        應填寫\n
+        「C:\\leidian\\LDPlayer9」。\n\n
+        2. 實例編號：（例如：0）\n
+        實例編號可在 LDPlayer 多開器中查看，默認為 0，若有多開實例，編號見 版本/編號 中的 ID。\n
+    </system:String>
+    <system:String x:Key="LdEmulatorPath">LD 模擬器路徑</system:String>
+    <system:String x:Key="LdIndex">實例號碼</system:String>
+    <system:String x:Key="LdExtrasNotEnabledMessage">LD 截圖增強未生效，请檢查相關設定</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 連線失敗時嘗試啟動模擬器</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">重連失敗 20 次後嘗試重開模擬器，使用後台定時任務且設定任務完成關閉模擬器時必須勾選</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">模擬器路徑為空！請填寫「啟動設定-模擬器路徑」後重新勾選。</system:String>

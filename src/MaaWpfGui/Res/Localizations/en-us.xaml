@@ -395,6 +395,22 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="MuMu12Index">Instance Number</system:String>
     <system:String x:Key="MuMu12Display">Display Number</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu screenshot enhancement not enabled, please check related settings</system:String>
+    <system:String x:Key="LdExtrasEnabled">Enable LD's screenshot enhancement mode</system:String>
+    <system:String x:Key="LdExtrasEnabledTip">
+        Requires LDPlayer 9 V9.0.78 or later.\n
+        It is strongly recommended to perform a screenshot test before using this feature for the first time.\n\n
+        Please provide the following information:\n\n
+        1. Emulator path: (e.g., C:\\leidian\\LDPlayer9)\n
+        The emulator path should be the folder where the emulator application is located, for example, if the application path is\n
+        "C:\\leidian\\LDPlayer9\\ldconsole.exe"\n
+        You should fill in\n
+        "C:\\leidian\\LDPlayer9".\n\n
+        2. Instance number: (e.g., 0)\n
+        The instance number can be found in the LDPlayer multi-instance manager, default is 0. If there are multiple instances, the number can be found in the ID column under Version/ID.\n
+    </system:String>
+    <system:String x:Key="LdEmulatorPath">LD Emulator exec path</system:String>
+    <system:String x:Key="LdIndex">Instance Number</system:String>
+    <system:String x:Key="LdExtrasNotEnabledMessage">LD screenshot enhancement not enabled, please check related settings</system:String>
     <system:String x:Key="RetryOnDisconnected">Retry launching the emulator when ADB connection fails</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">Try restarting the emulator after 20 failed reconnect attempts, must be checked when using a background timed task and setting the task to close the emulator when finished</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">Emulator path is empty! Please fill in "Launch Settings - Emulator Path" and reselect.</system:String>
