@@ -1043,8 +1043,6 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public async void LinkStart()
         {
-            throw new Exception("System.IO.File.InternalMove");
-            return;
             if (!_runningState.GetIdle())
             {
                 return;
