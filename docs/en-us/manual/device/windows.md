@@ -32,12 +32,12 @@ const fullySupport = shuffleArray([
     {
         name: 'MuMu Emulator 12',
         link: 'https://mumu.163.com/',
-        note: 'Fully compatible, with additional support for the [exclusive Extreme Control Mode](../connection.html#mumu-screenshot-enhanced-mode). Known to be compatible with Hyper-V.\n\n- The "Exit emulator when done" function may occasionally be abnormal, if you encounter it, please contact MuMu official for feedback;\n- If you are using MuMu 12 version 3.5.4 ~ 3.5.7, please disable the "Keep alive in the background" function in MuMu 12 Settings - Others. "Keep alive while hanging in the background" (see [Official Announcement](https://mumu.163.com/help/20230802/35047_1102450.html) for details);\n- You need to check the port information of the corresponding instance through the ADB button of MuMu 12 Multiple Opener when you open more than one instance, and change the port number of the connection address in MAA `Settings` - `Connection Settings` to the corresponding port.',
+        note: 'Fully compatible, with additional support for the [Screenshot Enhanced Mode](../connection.html#mumu-screenshot-enhanced-mode). Known to be compatible with Hyper-V.\n\n- The "Exit emulator when done" function may occasionally be abnormal, if you encounter it, please contact MuMu official for feedback;\n- If you are using MuMu 12 version 3.5.4 ~ 3.5.7, please disable the "Keep alive in the background" function in MuMu 12 Settings - Others. "Keep alive while hanging in the background" (see [Official Announcement](https://mumu.163.com/help/20230802/35047_1102450.html) for details);\n- You need to check the port information of the corresponding instance through the ADB button of MuMu 12 Multiple Opener when you open more than one instance, and change the port number of the connection address in MAA `Settings` - `Connection Settings` to the corresponding port.',
     },
     {
         name: 'LDPlayer',
         link: 'https://www.ldmnq.com/',
-        note: 'Fully compatible. Known to be compatible with Hyper-V.\n\n- LDPlayer 9 is recommended to use version 9.0.57 and above; LDPlayer 5 is recommended to use version 5.0.67 and above;\n- For versions lower than the above, you need to run `Forced ADB Replacement` in `Settings` - `Connection` in order to use efficient touch modes such as Minitouch and MaaTouch.',
+        note: 'Fully compatible, , with additional support for the [Screenshot Enhanced Mode](../connection.html#ld-screenshot-enhanced-mode). Known to be compatible with Hyper-V.\n\n- LDPlayer 9 is recommended to use version 9.0.57 and above; LDPlayer 5 is recommended to use version 5.0.67 and above;\n- For versions lower than the above, you need to run `Forced ADB Replacement` in `Settings` - `Connection` in order to use efficient touch modes such as Minitouch and MaaTouch.',
     },
     {
         name: 'Nox',
