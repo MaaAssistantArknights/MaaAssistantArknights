@@ -648,6 +648,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <!--  !Copilot  -->
     <!--  ErrorView  -->
     <system:String x:Key="Error">오류</system:String>
+    <system:String x:Key="ErrorCongratulations">축하합니다</system:String>
     <system:String x:Key="ErrorProlog">MAA에서 오류가 발생했습니다</system:String>
     <system:String x:Key="ErrorDetails">세부 정보</system:String>
     <system:String x:Key="ErrorSolution">해결 방법</system:String>
