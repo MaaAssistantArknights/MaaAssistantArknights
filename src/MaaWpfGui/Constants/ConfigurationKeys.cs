@@ -253,10 +253,10 @@ namespace MaaWpfGui.Constants
         public const string ExternalNotificationQmsgUser = "ExternalNotification.Qmsg.User";
         public const string ExternalNotificationQmsgBot = "ExternalNotification.Qmsg.Bot";
 
-        public const string PerformanceUseGpu = "Performance.UseGpu";
-        public const string PerformancePreferredGpuDescription = "Performance.PreferredGpuDescription";
-        public const string PerformancePreferredGpuInstancePath = "Performance.PreferredGpuInstancePath";
-        public const string PerformanceAllowDeprecatedGpu = "Performance.AllowDeprecatedGpu";
+        public const string PerformanceUseGpu = "Performance.UseGpu"; // 迁移
+        public const string PerformancePreferredGpuDescription = "Performance.PreferredGpuDescription"; // 迁移
+        public const string PerformancePreferredGpuInstancePath = "Performance.PreferredGpuInstancePath"; // 迁移
+        public const string PerformanceAllowDeprecatedGpu = "Performance.AllowDeprecatedGpu"; // 迁移
 
         // The following should not be modified manually
         public const string VersionName = "VersionUpdate.name"; // 迁移

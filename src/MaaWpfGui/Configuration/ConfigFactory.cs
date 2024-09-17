@@ -160,6 +160,7 @@ namespace MaaWpfGui.Configuration
                     var key = "Root.Configurations." + name + ".";
                     config.GUI.PropertyChanged += OnPropertyChangedFactory(key);
                     config.RemoteControl.PropertyChanged += OnPropertyChangedFactory(key);
+                    config.Performance.PropertyChanged += OnPropertyChangedFactory(key);
                     config.Connection.PropertyChanged += OnPropertyChangedFactory(key);
                     config.DragItemIsChecked.CollectionChanged += OnCollectionChangedFactory<string, bool>(key + nameof(SpecificConfig.DragItemIsChecked) + ".");
                     config.InfrastOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.InfrastOrder) + ".");

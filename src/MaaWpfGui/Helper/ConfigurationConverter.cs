@@ -192,6 +192,14 @@ namespace MaaWpfGui.Helper
                     ConfigFactory.CurrentConfig.RemoteControl.DeviceId = EmptyStringToNull(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlDeviceIdentity, string.Empty));
                 }
 
+                // 显卡加速
+                {
+                    ConfigFactory.CurrentConfig.Performance.UseGpu = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceUseGpu, bool.FalseString));
+                    ConfigFactory.CurrentConfig.Performance.AllowDeprecatedGpu = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceAllowDeprecatedGpu, bool.FalseString));
+                    ConfigFactory.CurrentConfig.Performance.GpuDescription = EmptyStringToNull(ConfigurationHelper.GetValue(ConfigurationKeys.PerformancePreferredGpuDescription, string.Empty));
+                    ConfigFactory.CurrentConfig.Performance.GpuInstancePath = EmptyStringToNull(ConfigurationHelper.GetValue(ConfigurationKeys.PerformancePreferredGpuInstancePath, string.Empty));
+                }
+
                 // TaskQueue部分
                 {
                     var startUpTask = new StartUpTask();
