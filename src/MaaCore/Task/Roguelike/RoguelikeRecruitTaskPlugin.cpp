@@ -98,9 +98,9 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     const auto& group_list = RoguelikeRecruit.get_group_info(m_config->get_theme()); // 所有干员组
     for (const auto& [name, oper] : chars_map) { // 此处仅 name 有用，oper 存的精英化和干员等级
         std::vector<int> group_ids = RoguelikeRecruit.get_group_id(m_config->get_theme(), name); // 获取干员所在干员组的 id
-        for (const auto& group_id : group_ids) {
+        for (const auto& group_id : group_ids) { // 这个干员对应的所有 干员组 已有人数++
             const std::string& group_name = group_list[group_id]; // 根据 id 找到干员组
-            group_count[group_name]++; // 这个干员对应的所有 干员组(key) 已有人数++(value)
+            group_count[group_name]++;
         }
     }
 

@@ -70,8 +70,8 @@ namespace asst
 
         void clear(const std::string& theme);
 
-        std::unordered_map<std::string, std::unordered_map<std::string, RoguelikeOperInfo>> m_all_opers;
-        std::unordered_map<std::string, std::vector<std::string>> m_oper_groups;
+        std::unordered_map<std::string, std::unordered_map<std::string, RoguelikeOperInfo>> m_all_opers; // <theme, <oper_name, oper_info>>
+        std::unordered_map<std::string, std::vector<std::string>> m_oper_groups; // <theme, group_names>
         std::unordered_map<std::string, std::vector<RecruitPriorityOffset>> m_team_complete_condition;
         std::unordered_map<std::string, int> m_team_complete_require; // 阵容完备所需干员总数
         
