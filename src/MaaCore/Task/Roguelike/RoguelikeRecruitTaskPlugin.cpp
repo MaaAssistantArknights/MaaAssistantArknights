@@ -52,6 +52,27 @@ bool asst::RoguelikeRecruitTaskPlugin::is_oper_melee(const std::string& name)
     return loc == battle::LocationType::Melee;
 }
 
+std::unordered_set<std::string> asst::RoguelikeRecruitTaskPlugin::calculate_condition_oper(
+    const asst::RecruitPriorityOffset& condition,
+    const std::unordered_map<std::string, asst::RoguelikeOper>& chars_map)
+{
+    std::unordered_set<std::string> opers; // 符合这个策略组的干员
+    // 这个策略组内部的每个干员组
+    for (const auto& group : condition.groups) {
+        // 当前干员组的 id
+        const auto& group_id = RoguelikeRecruit.get_group_id(m_config->get_theme(), group);
+
+        // 遍历已有干员，若干员存在于当前干员组，则对干员进行无重复计数
+        for (const auto& [name, oper] : chars_map) {
+            const auto& group_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), name);
+            if (ranges::any_of(group_info.group_id, [&](int id) { return id == group_id; }) && !opers.contains(name)) {
+                opers.emplace(name);
+            }
+        }
+    }
+    return opers;
+}
+
 bool asst::RoguelikeRecruitTaskPlugin::_run()
 {
     LogTraceFunction;
@@ -105,22 +126,9 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         bool complete = true;
         int complete_count = 0;
         const auto& team_complete_condition = RoguelikeRecruit.get_team_complete_info(m_config->get_theme());
-        for (auto& condition : team_complete_condition) { // 每个完备度的策略组
-            std::unordered_set<std::string> opers; // 符合这个策略组的干员
-
-            // 这个策略组内部的每个干员组的 id
-            for (const auto& oper_group : condition.groups) {
-                const auto& group_id = RoguelikeRecruit.get_group_ids_of_oper(m_config->get_theme(), oper_group);
-
-                // 遍历已有干员，若干员存在于当前干员组，则对干员进行无重复计数
-                for (const auto& [name, oper] : chars_map) {
-                    const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), name);
-                    if (ranges::any_of(oper_info.group_id, [&](int id) { return id == group_id; }) &&
-                        !opers.contains(name)) {
-                        opers.emplace(name);
-                    }
-                }
-            }
+        for (const auto& condition : team_complete_condition) { // 每个完备度的策略组
+            std::unordered_set<std::string> opers =
+                calculate_condition_oper(condition, chars_map); // 符合这个策略组的干员
 
             complete_count += opers.size();
             if (opers.size() < condition.threshold) {
@@ -277,13 +285,15 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                     // }
                     //  __________________will-be-removed-end__________________
                     for (const auto& priority_offset : recruit_info.recruit_priority_offsets) {
+                        std::unordered_set<std::string> opers =
+                            calculate_condition_oper(priority_offset, chars_map); // 符合这个策略组的干员
                         if (priority_offset.is_less) {
-                            if (priority_offset.opers.size() <= priority_offset.threshold) {
+                            if (opers.size() <= priority_offset.threshold) {
                                 priority += priority_offset.offset;
                             }
                         }
                         else {
-                            if (priority_offset.opers.size() >= priority_offset.threshold) {
+                            if (opers.size() >= priority_offset.threshold) {
                                 priority += priority_offset.offset;
                             }
                         }

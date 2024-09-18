@@ -26,6 +26,7 @@ namespace asst
         std::string collection;          // 造成优先级改变的藏品名称
         int offset = 0;                  // 优先级改变的大小
     };
+
     // 干员信息，战斗相关
     struct RoguelikeOperInfo
     {
@@ -52,6 +53,7 @@ namespace asst
         int auto_retreat = 0;                                                    // 部署几秒后自动撤退
     };
 
+    // 干员组信息，招募相关
     struct RoguelikeGroupInfo
     {
         std::string name;                            // 干员组名
@@ -64,9 +66,9 @@ namespace asst
         virtual ~RoguelikeRecruitConfig() override = default;
 
         const RoguelikeOperInfo& get_oper_info(const std::string& theme, const std::string& oper_name) noexcept;
-        const std::vector<std::string> get_group_info(const std::string& theme) const noexcept; // 获取该肉鸽内用到的干员组[干员组1,干员组2, ...] WILL BE REMOVED
         const std::vector<RecruitPriorityOffset> get_team_complete_info(const std::string& theme) const noexcept;
         std::vector<int> get_group_ids_of_oper(const std::string& theme, const std::string& oper_name) const noexcept;
+        const std::vector<std::string> get_group_info(const std::string& theme) const noexcept; // 获取该肉鸽内用到的干员组[干员组1,干员组2, ...] WILL BE REFACTORD
         const int get_group_id(const std::string& theme, const std::string& group_name) const noexcept;
         const std::string get_group_name(const std::string& theme, const int group_id) const noexcept;
 
