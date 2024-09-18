@@ -149,7 +149,7 @@ For specific differences, you can read the [source code](https://github.com/MaaA
 
 ### MuMu Screenshot Enhanced Mode
 
-Only support Chinese or Arknights Edition MuMu 12 V4.0.0 and later versions, and close MuMu's background keep alive. Global Edition are not supported now. <!-- Chinese V3.8.13 -->
+Only Chinese or Arknights Edition MuMu 12 V4.0.0 and later versions are supported. Please disable MuMu's background keep-alive feature. Global Edition is not supported at this time. <!-- Chinese V3.8.13 -->
 
 1. Settings → Connection Settings, enable `Enable MuMu's screenshot enhancement mode`.
 
@@ -169,7 +169,7 @@ Adaptation for background keep alive is very incomplete, there are always all ki
 
 ### LD Screenshot Enhanced Mode
 
-Only support Chinese LD Player 9 V9.**<u>0</u>**.78 and later versions. Global Edition, Arknights Edition, 9.1 Beta Edition are not supported now.
+Only Chinese LD Player 9 V9.0.78 and later versions are supported. Global Edition, Arknights Edition, and 9.1 Beta Edition are not supported at this time.
 
 1. Settings → Connection Settings, enable `Enable LD's screenshot enhancement mode`.
 
