@@ -53,8 +53,8 @@ bool asst::RoguelikeRecruitTaskPlugin::is_oper_melee(const std::string& name)
 }
 
 std::unordered_set<std::string> asst::RoguelikeRecruitTaskPlugin::calculate_condition_oper(
-    const asst::RecruitPriorityOffset& condition,
-    const std::unordered_map<std::string, asst::RoguelikeOper>& chars_map)
+    const auto& condition,
+    const std::unordered_map<std::string, asst::RoguelikeOper> chars_map)
 {
     std::unordered_set<std::string> opers; // 符合这个策略组的干员
     // 这个策略组内部的每个干员组

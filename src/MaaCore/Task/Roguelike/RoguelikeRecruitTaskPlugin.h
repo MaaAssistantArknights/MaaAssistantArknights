@@ -51,8 +51,8 @@ private:
     void select_oper(const battle::roguelike::Recruitment& oper);
     // 找出给定的 Offset 组所有满足条件的干员
     std::unordered_set<std::string> calculate_condition_oper( // help me rename it :)
-        const asst::RecruitPriorityOffset& condition,
-        const std::unordered_map<std::string, asst::RoguelikeOper>& chars_map);
+        const auto& condition,
+        const std::unordered_map<std::string, asst::RoguelikeOper> chars_map);
 
     int m_recruit_count = 0; // 第几次招募
     bool m_starts_complete =
