@@ -55,6 +55,13 @@ const int asst::RoguelikeRecruitConfig::get_group_id
 {
     return m_all_groups.at(theme).at(group_name).id;
 }
+const std::string asst::RoguelikeRecruitConfig::get_group_name
+                    (const std::string& theme, const int group_id) const noexcept
+{ // 待优化为 ranges
+    for (const auto& group : m_all_groups.at(theme))
+        if (group.second.id == group_id)
+            return group.first;
+}
 
 bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
 {
@@ -67,52 +74,59 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
     int group_id = 0;
     //{"name":干员组名, "opers":组内干员组成的array}
     for (const auto& group_json : json.at("priority").as_array()) {
-        m_oper_groups[theme].emplace_back(group_json.at("name").as_string());
+        const std::string group_name = group_json.at("name").as_string();
+        m_oper_groups[theme].emplace_back(group_name);
+
+        // 干员组信息
+        RoguelikeGroupInfo group_info;
+        group_info.name = group_name;
+        group_info.id = group_id;
+
         // 干员在组内的顺序,int
         int order_in_group = 0;
         // 遍历"opers"数组
-        for (const auto& oper_info : group_json.at("opers").as_array()) {
-            std::string name = oper_info.at("name").as_string();
+        for (const auto& oper_json : group_json.at("opers").as_array()) {
+            std::string name = oper_json.at("name").as_string();
             // 肉鸽干员招募信息
-            RoguelikeOperInfo info;
+            RoguelikeOperInfo oper_info;
             auto iter = m_all_opers[theme].find(name);
             if (iter != m_all_opers[theme].end()) {
                 // 干员已存在时仅做更新
-                info = iter->second;
+                oper_info = iter->second;
             }
-            info.name = name;
-            info.group_id.push_back(group_id);
-            info.order_in_group[group_id] = order_in_group;
-            info.recruit_priority = oper_info.get("recruit_priority", info.recruit_priority);
-            info.promote_priority = oper_info.get("promote_priority", info.promote_priority);
-            info.is_alternate = oper_info.get("is_alternate", info.is_alternate);
-            info.skill = oper_info.get("skill", info.skill);
-            info.alternate_skill = oper_info.get("alternate_skill", info.alternate_skill);
-            info.skill_usage =
-                static_cast<battle::SkillUsage>(oper_info.get("skill_usage", static_cast<int>(info.skill_usage)));
-            info.skill_times = oper_info.get("skill_times", info.skill_times);
-            info.alternate_skill_usage = static_cast<battle::SkillUsage>(
-                oper_info.get("alternate_skill_usage", static_cast<int>(info.alternate_skill_usage)));
-            info.alternate_skill_times = oper_info.get("alternate_skill_times", info.alternate_skill_times);
-            info.is_key = oper_info.get("is_key", info.is_key);
-            info.is_start = oper_info.get("is_start", info.is_start);
-            info.auto_retreat = oper_info.get("auto_retreat", info.auto_retreat);
+            oper_info.name = name;
+            oper_info.group_id.push_back(group_id);
+            oper_info.order_in_group[group_id] = order_in_group;
+            oper_info.recruit_priority = oper_json.get("recruit_priority", oper_info.recruit_priority);
+            oper_info.promote_priority = oper_json.get("promote_priority", oper_info.promote_priority);
+            oper_info.is_alternate = oper_json.get("is_alternate", oper_info.is_alternate);
+            oper_info.skill = oper_json.get("skill", oper_info.skill);
+            oper_info.alternate_skill = oper_json.get("alternate_skill", oper_info.alternate_skill);
+            oper_info.skill_usage =
+                static_cast<battle::SkillUsage>(oper_json.get("skill_usage", static_cast<int>(oper_info.skill_usage)));
+            oper_info.skill_times = oper_json.get("skill_times", oper_info.skill_times);
+            oper_info.alternate_skill_usage = static_cast<battle::SkillUsage>(
+                oper_json.get("alternate_skill_usage", static_cast<int>(oper_info.alternate_skill_usage)));
+            oper_info.alternate_skill_times = oper_json.get("alternate_skill_times", oper_info.alternate_skill_times);
+            oper_info.is_key = oper_json.get("is_key", oper_info.is_key);
+            oper_info.is_start = oper_json.get("is_start", oper_info.is_start);
+            oper_info.auto_retreat = oper_json.get("auto_retreat", oper_info.auto_retreat);
 
             // __________________will-be-removed-begin__________________
-            info.recruit_priority_when_team_full =
-                oper_info.get("recruit_priority_when_team_full", info.recruit_priority - 100);
-            info.promote_priority_when_team_full =
-                oper_info.get("promote_priority_when_team_full", info.promote_priority + 300);
-            if (auto opt = oper_info.find<json::array>("recruit_priority_offset")) {
+            oper_info.recruit_priority_when_team_full =
+                oper_json.get("recruit_priority_when_team_full", oper_info.recruit_priority - 100);
+            oper_info.promote_priority_when_team_full =
+                oper_json.get("promote_priority_when_team_full", oper_info.promote_priority + 300);
+            if (auto opt = oper_json.find<json::array>("recruit_priority_offset")) {
                 for (const auto& offset : opt.value()) {
                     std::pair<int, int> offset_pair = std::make_pair(offset[0].as_integer(), offset[1].as_integer());
-                    info.recruit_priority_offset.emplace_back(offset_pair);
+                    oper_info.recruit_priority_offset.emplace_back(offset_pair);
                 }
             }
-            info.offset_melee = oper_info.get("offset_melee", false);
+            oper_info.offset_melee = oper_json.get("offset_melee", false);
             // __________________will-be-removed-end__________________
 
-            if (auto opt = oper_info.find<json::array>("recruit_priority_offsets")) {
+            if (auto opt = oper_json.find<json::array>("recruit_priority_offsets")) {
                 for (const auto& offset_json : opt.value()) {
                     RecruitPriorityOffset offset;
                     for (const auto& group : offset_json.at("groups").as_array()) {
@@ -121,22 +135,23 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
                     offset.threshold = offset_json.get("threshold", 0);
                     offset.is_less = offset_json.get("is_less", false);
                     offset.offset = offset_json.get("offset", 0);
-                    info.recruit_priority_offsets.emplace_back(std::move(offset));
+                    oper_info.recruit_priority_offsets.emplace_back(std::move(offset));
                 }
             }
 
-            if (auto opt = oper_info.find<json::array>("collection_priority_offsets")) {
+            if (auto opt = oper_json.find<json::array>("collection_priority_offsets")) {
                 for (const auto& offset_json : opt.value()) {
                     CollectionPriorityOffset offset;
                     offset.collection = offset_json.get("collection", "");
                     offset.offset = offset_json.get("offset", 0);
-                    info.collection_priority_offsets.emplace_back(std::move(offset));
+                    oper_info.collection_priority_offsets.emplace_back(std::move(offset));
                 }
             }
 
-            m_all_opers[theme][name] = std::move(info);
+            m_all_opers[theme][name] = std::move(oper_info);
             order_in_group++;
         }
+        m_all_groups[theme][group_name] = std::move(group_info);
         group_id++;
     }
 
