@@ -50,8 +50,8 @@ std::vector<int> asst::RoguelikeRecruitConfig::get_group_ids_of_oper(const std::
     }
 }
 
-const int asst::RoguelikeRecruitConfig::get_group_id
-                    (const std::string& theme, const std::string& group_name) const noexcept
+int asst::RoguelikeRecruitConfig::get_group_id
+                    (const std::string& theme, const std::string& group_name) noexcept
 {
     return m_all_groups.at(theme).at(group_name).id;
 }

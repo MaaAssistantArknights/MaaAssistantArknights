@@ -69,7 +69,7 @@ namespace asst
         const std::vector<RecruitPriorityOffset> get_team_complete_info(const std::string& theme) const noexcept;
         std::vector<int> get_group_ids_of_oper(const std::string& theme, const std::string& oper_name) const noexcept;
         const std::vector<std::string> get_group_info(const std::string& theme) const noexcept; // 获取该肉鸽内用到的干员组[干员组1,干员组2, ...] WILL BE REFACTORD
-        const int get_group_id(const std::string& theme, const std::string& group_name) const noexcept;
+        int get_group_id(const std::string& theme, const std::string& group_name) noexcept;
         const std::string get_group_name(const std::string& theme, const int group_id) const noexcept;
 
         int get_team_complete_require(const std::string& theme) noexcept { return m_team_complete_require[theme]; }
