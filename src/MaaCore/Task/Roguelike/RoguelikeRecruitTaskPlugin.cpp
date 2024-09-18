@@ -123,13 +123,13 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
     if (!m_team_complete) {
         bool complete = true;
-        size_t complete_count = 0;
+        int complete_count = 0;
         const auto& team_complete_condition = RoguelikeRecruit.get_team_complete_info(m_config->get_theme());
         for (const auto& condition : team_complete_condition) { // 每个完备度的策略组
             std::unordered_set<std::string> opers =
                 calculate_condition_oper(condition, chars_map); // 符合这个策略组的干员
 
-            complete_count += opers.size();
+            complete_count += int(opers.size());
             if (opers.size() < condition.threshold) {
                 complete = false;
             }
@@ -287,12 +287,12 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                         std::unordered_set<std::string> opers =
                             calculate_condition_oper(priority_offset, chars_map); // 符合这个策略组的干员
                         if (priority_offset.is_less) {
-                            if (opers.size() <= priority_offset.threshold) {
+                            if (int(opers.size()) <= priority_offset.threshold) {
                                 priority += priority_offset.offset;
                             }
                         }
                         else {
-                            if (opers.size() >= priority_offset.threshold) {
+                            if (int(opers.size()) >= priority_offset.threshold) {
                                 priority += priority_offset.offset;
                             }
                         }
