@@ -62,6 +62,7 @@ const std::string asst::RoguelikeRecruitConfig::get_group_name
     for (const auto& group : m_all_groups.at(theme))
         if (group.second.id == group_id)
             return group.first;
+    return "";
 }
 
 bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
