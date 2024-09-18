@@ -5,11 +5,7 @@ icon: ri:windows-fill
 
 # Windows 模擬器
 
-::: important Translation Required
-This page is outdated and maybe still in Simplified Chinese. Translation is needed.
-:::
-
-以下模擬器排序為隨機產生，排名不分先後。
+以下模擬器排序為隨機生成，排名不分先後。
 
 <script setup>
 import MarkdownIt from 'markdown-it'
@@ -25,73 +21,73 @@ const shuffleArray = (array) => {
 
 const fullySupport = shuffleArray([
     {
-        name: '蓝叠模拟器 5',
+        name: '藍疊模擬器 5',
         link: 'https://www.bluestacks.cn/',
-        note: '完美支持。需要在模拟器 `设置` - `引擎设置` 中打开 `允许ADB连接`。',
+        note: '完美支援。需要在模擬器 `設定` - `引擎設定` 中開啟 `允許ADB連線`。',
     },
     {
-        name: '蓝叠模拟器 5 国际版',
+        name: '藍疊模擬器 5 國際版',
         link: 'https://www.bluestacks.com/tw/index.html',
-        note: '完美支持，需要在模拟器 `设定` - `进阶` 中打开 `Android调试桥`。已知兼容 Hyper-V。\n\n- 推荐下载 [离线安装包](https://support.bluestacks.com/hc/zh-tw/articles/4402611273485-BlueStacks-5-%E9%9B%A2%E7%B7%9A%E5%AE%89%E8%A3%9D%E7%A8%8B%E5%BC%8F)，避免缓慢和捆绑安装；推荐安装 [Android 11](https://support.bluestacks.com/hc/zh-tw/articles/4402611273485-BlueStacks-5-%E9%9B%A2%E7%B7%9A%E5%AE%89%E8%A3%9D%E7%A8%8B%E5%BC%8F#:~:text=%E5%AE%89%E8%A3%9D%20BlueStacks%205%20%E7%9A%84%20Android%2011) 版本；卸载请使用官方提供的 [卸载工具](https://support.bluestacks.com/hc/zh-tw/articles/360057724751-%E5%A6%82%E4%BD%95%E5%BE%9E%E6%82%A8%E7%9A%84%E9%9B%BB%E8%85%A6%E4%B8%8A%E5%AE%8C%E5%85%A8%E7%A7%BB%E9%99%A4-BlueStacks-5-BlueStacks-X-%E5%92%8C-BlueStacks-%E6%9C%8D%E5%8B%99) 以清除残留。\n- 若 ADB 端口号不断的无规律变动，每次启动都不相同，可能是因为您的电脑开启了 [Hyper-V](https://support.bluestacks.com/hc/zh-tw/articles/4415238471053-BlueStacks-5-%E6%94%AF%E6%8F%B4-Hyper-V-%E7%9A%84-Windows-10-%E5%92%8C-11-%E4%B8%8A%E7%9A%84%E9%9B%BB%E8%85%A6%E8%A6%8F%E6%A0%BC%E9%9C%80%E6%B1%82)。MAA 现在会尝试自动读取蓝叠模拟器配置文件内的端口号，若该功能失效/你有多开需求/安装了多个模拟器核心，请参考 [连接设置](../connection.html#蓝叠模拟器-hyper-v-每次启动端口号都不一样) 做出修改。由于 Hyper-V 以管理员身份运行，如自动关闭模拟器、自动检测连接等不涉及 ADB 的操作同样需要以管理员身份运行 MAA。',
+        note: '完美支援，需要在模擬器 `設定` - `進階` 中開啟 `Android除錯橋`。已知相容 Hyper-V。\n\n- 推薦下載 [離線安裝包](https://support.bluestacks.com/hc/zh-tw/articles/4402611273485-BlueStacks-5-%E9%9B%A2%E7%B7%9A%E5%AE%89%E8%A3%9D%E7%A8%8B%E5%BC%8F)，避免緩慢和捆綁安裝；推薦安裝 [Android 11](https://support.bluestacks.com/hc/zh-tw/articles/4402611273485-BlueStacks-5-%E9%9B%A2%E7%B7%9A%E5%AE%89%E8%A3%9D%E7%A8%8B%E5%BC%8F#:~:text=%E5%AE%89%E8%A3%9D%20BlueStacks%205%20%E7%9A%84%20Android%2011) 版本；解除安裝請使用官方提供的 [解除安裝工具](https://support.bluestacks.com/hc/zh-tw/articles/360057724751-%E5%A6%82%E4%BD%95%E5%BE%9E%E6%82%A8%E7%9A%84%E9%9B%BB%E8%85%A6%E4%B8%8A%E5%AE%8C%E5%85%A8%E7%A7%BB%E9%99%A4-BlueStacks-5-BlueStacks-X-%E5%92%8C-BlueStacks-%E6%9C%8D%E5%8B%99) 以清除殘留。\n- 若 ADB 埠號不斷的無規律變動，每次啟動都不相同，可能是因為您的電腦開啟了 [Hyper-V](https://support.bluestacks.com/hc/zh-tw/articles/4415238471053-BlueStacks-5-%E6%94%AF%E6%8F%B4-Hyper-V-%E7%9A%84-Windows-10-%E5%92%8C-11-%E4%B8%8A%E7%9A%84%E9%9B%BB%E8%85%A6%E8%A6%8F%E6%A0%BC%E9%9C%80%E6%B1%82)。MAA 現在會嘗試自動讀取藍疊模擬器配置檔案內的埠號，若該功能失效/你有多開需求/安裝了多個模擬器核心，請參考 [連線設定](../connection.html#藍疊模擬器-hyper-v-每次啟動埠號都不一樣) 做出修改。由於 Hyper-V 以管理員身份執行，如自動關閉模擬器、自動檢測連線等不涉及 ADB 的操作同樣需要以管理員身份執行 MAA。',
     },
     {
-        name: 'MuMu 模拟器 12',
+        name: 'MuMu 模擬器 12',
         link: 'https://mumu.163.com/',
-        note: '完美支持，且额外支持[独家截图增强模式](../connection.html#mumu-截图增强模式)。已知兼容 Hyper-V。\n\n- “完成后退出模拟器”功能可能偶现异常，如果遇到请向 MuMu 官方反馈。\n- 3.5.4 ~ 3.5.7 版本 MuMu 12 的“后台保活”功能会导致截图失败，推荐使用 3.5.7 之后的版本；若您正在使用 3.5.4 ~ 3.5.7 版本的 MuMu 12，请关闭 MuMu 12 设置 - 其他 中的“后台挂机时保活运行”（详见[官方公告](https://mumu.163.com/help/20230802/35047_1102450.html)）。',
+        note: '完美支援，且額外支援[截圖增強模式](../connection.html#mumu-截圖增強模式)。已知相容 Hyper-V。\n\n- “完成後退出模擬器”功能可能偶現異常，如果遇到請向 MuMu 官方反饋。\n- 3.5.4 ~ 3.5.7 版本 MuMu 12 的“後台保活”功能會導致截圖失敗，推薦使用 3.5.7 之後的版本；若您正在使用 3.5.4 ~ 3.5.7 版本的 MuMu 12，請關閉 MuMu 12 設定 - 其他 中的“後台掛機時保活執行”（詳見[官方公告](https://mumu.163.com/help/20230802/35047_1102450.html)）。',
     },
     {
-        name: '雷电模拟器',
+        name: '雷電模擬器',
         link: 'https://www.ldmnq.com/',
-        note: '完美支持。已知兼容 Hyper-V。\n\n- 雷电 9 推荐使用 9.0.57 及以上版本；雷电 5 推荐使用 5.0.67 及以上版本；\n- 低于上述版本则需要在 `设置` - `连接设置` 中运行 `强制替换 ADB`，才能使用 Minitouch, MaaTouch 等高效的触控模式；',
+        note: '完美支援，且額外支援[截圖增強模式](../connection.html#雷電截圖增強模式)。已知相容 Hyper-V。\n\n- 雷電 9 推薦使用 9.0.57 及以上版本；雷電 5 推薦使用 5.0.67 及以上版本；\n- 低於上述版本則需要在 `設定` - `連線設定` 中執行 `強制替換 ADB`，才能使用 Minitouch, MaaTouch 等高效的觸控模式；',
     },
     {
-        name: '夜神模拟器',
+        name: '夜神模擬器',
         link: 'https://www.yeshen.com/',
-        note: '完美支持，但测试较少。已知兼容 Hyper-V。',
+        note: '完美支援，但測試較少。已知相容 Hyper-V。',
     },
     {
-        name: '逍遥模拟器',
+        name: '逍遙模擬器',
         link: 'https://www.xyaz.cn/',
-        note: '完美支持，但测试较少。',
-    },
-    {
-        name: 'Google Play 游戏（开发者）',
-        link: 'https://developer.android.com/games/playgames/emulator?hl=zh-cn',
-        note: '完美支持，但测试较少。必须开启 Hyper-V，且必须登录谷歌账户。',
+        note: '完美支援，但測試較少。',
     },
 ]);
 
 const partiallySupport = shuffleArray([
     {
-        name: 'MuMu 模拟器 6',
+        name: 'MuMu 模擬器 6',
         link: 'https://mumu.163.com/update/win/',
-        note: '自 MAA v5.1.0 起放弃支持，网易已在 2023.8.15 停止维护。\n\n- 不再支持自动检测连接，需使用通用连接配置，并手动配置 ADB 路径和连接地址。\n- 需要在 `设置` - `连接设置` 中运行 `强制替换 ADB`，才能使用 Minitouch, MaaTouch 等高效的触控模式。\n- 需要使用管理员权限运行 MAA 才能使用“完成后退出模拟器”相关功能。\n- 不支持使用 MuMu 6 默认的几个奇葩分辨率，需要改成 `1280x720`，`1920x1080`，`2560x1440` 等 16:9 比例。\n- MuMu 6 多开使用的是同一个 ADB 端口，所以无法支持多开的 MuMu 6。',
+        note: '自 MAA v5.1.0 起放棄支援，網易已在 2023.8.15 停止維護。\n\n- 不再支援自動檢測連線，需使用通用連線配置，並手動配置 ADB 路徑和連線地址。\n- 需要在 `設定` - `連線設定` 中執行 `強制替換 ADB`，才能使用 Minitouch, MaaTouch 等高效的觸控模式。\n- 需要使用管理員許可權執行 MAA 才能使用“完成後退出模擬器”相關功能。\n- 不支援使用 MuMu 6 預設的幾個奇葩解析度，需要改成 `1280x720`，`1920x1080`，`2560x1440` 等 16:9 比例。\n- MuMu 6 多開使用的是同一個 ADB 埠，所以無法支援多開的 MuMu 6。',
     },
     {
-        name: '适用于 Android™️ 的 Windows 子系统',
+        name: '適用於 Android™️ 的 Windows 子系統',
         link: 'https://docs.microsoft.com/zh-cn/windows/android/wsa/',
-        note: '自 MAA v5.2.0 起放弃支持，微软将在 2025.3.5 停止维护。\n\n- 需要使用 [自定义连接](../connection.html) 的方式来连接。\n- WSA 2204 或更高版本（版本号在子系统设置的 `关于` 页面中），连接配置选择 `通用配置`。\n- WSA 2203 或更老版本（版本号在子系统设置页面的上方），连接配置选择 `WSA 旧版本`。\n- 由于本软件仅对 720p 以上 `16:9` 分辨率支持较好，所以请手动拖动窗口大小，尽量贴近 16:9 比例。（如果你的显示器是 16:9 的，可以直接按 `F11` 全屏）。\n- 任务运行过程中请尽量保证明日方舟在前台且无其他安卓应用同时在前台运行，否则可能导致游戏暂停运行或任务识别错误。\n- WSA 的截图经常莫名其妙截出来一个白屏，导致识别异常，还是不推荐使用。',
+        note: '自 MAA v5.2.0 起放棄支援，微軟將在 2025.3.5 停止維護。\n\n- 需要使用 [自定義連線](../connection.html) 的方式來連線。\n- WSA 2204 或更高版本（版本號在子系統設定的 `關於` 頁面中），連線配置選擇 `通用配置`。\n- WSA 2203 或更老版本（版本號在子系統設定頁面的上方），連線配置選擇 `WSA 舊版本`。\n- 由於本軟體僅對 720p 以上 `16:9` 解析度支援較好，所以請手動拖動視窗大小，儘量貼近 16:9 比例。（如果你的顯示器是 16:9 的，可以直接按 `F11` 全屏）。\n- 任務執行過程中請儘量保證明日方舟在前台且無其他安卓應用同時在前台執行，否則可能導致遊戲暫停執行或任務識別錯誤。\n- WSA 的截圖經常莫名其妙截出來一個白螢幕，導致辨識異常，還是不推薦使用。',
     },
     {
         name: 'AVD',
         link: 'https://developer.android.com/studio/run/managing-avds',
-        note: '理论支持。\n\n- 从 Android 10 开始，Minitouch 在 SELinux 为 `Enforcing` 模式时不再可用，请切换至其他触控模式，或将 SELinux **临时**切换为 `Permissive` 模式。\n- AVD 是为调试而生的，更建议使用其他为游戏而设计的模拟器。',
+        note: '理論支援。\n\n- 從 Android 10 開始，Minitouch 在 SELinux 為 `Enforcing` 模式時不再可用，請切換至其他觸控模式，或將 SELinux **臨時**切換為 `Permissive` 模式。\n- AVD 是為除錯而生的，更建議使用其他為遊戲而設計的模擬器。',
+    },
+    {
+        name: 'Google Play 遊戲（開發者）',
+        link: 'https://developer.android.com/games/playgames/emulator?hl=zh-cn',
+        note: '理論支援。必須開啟 Hyper-V，且必須登入 Gooole 帳戶。\n\n- 需要使用 [自定義連線](../connection.html) 的方式來連線，ADB 埠為 `6520`。\n- 由於 Android 10 及更新版本的 SELinux 策略，Minitouch 無法正常工作，請切換到其他觸控模式。\n- 每次啟動模擬器後的首次連線都會失敗，需勾選 `連線失敗後嘗試關閉並重啟ADB程式`。',
     },
 ]);
 
 const notSupport = shuffleArray([
     {
-        name: 'MuMu 手游助手（星云引擎）',
-        note: '不支持，未开放 ADB 端口。',
+        name: 'MuMu 手遊助手（星雲引擎）',
+        note: '不支援，未開放 ADB 埠。',
     },
     {
-        name: '腾讯手游助手',
-        note: '不支持，未开放 ADB 端口。',
+        name: '騰訊手遊助手',
+        note: '不支援，未開放 ADB 埠。',
     },
     {
-        name: 'Google Play 游戏',
+        name: 'Google Play 遊戲',
         link: 'https://play.google.com/googleplaygames',
-        note: '不支持，[玩家客户端](https://developer.android.com/games/playgames/pg-emulator?hl=zh-cn#installing-game-consumer)未开放 ADB 端口。',
+        note: '不支援，[玩家客戶端](https://developer.android.com/games/playgames/pg-emulator?hl=zh-cn#installing-game-consumer)未開放 ADB 埠。',
     },
 ]);
 
@@ -112,14 +108,14 @@ ${simulator.note}
 `).join(''));
 </script>
 
-## ✅ 完美支持
+## ✅ 完美支援
 
 <ClientOnly><div v-html="fullySupportHtml"></div></ClientOnly>
 
-## ⚠️ 部分支持
+## ⚠️ 部分支援
 
 <ClientOnly><div v-html="partiallySupportHtml"></div></ClientOnly>
 
-## 🚫 不支持
+## 🚫 不支援
 
 <ClientOnly><div v-html="notSupportHtml"></div></ClientOnly>
