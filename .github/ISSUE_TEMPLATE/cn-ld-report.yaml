@@ -1,6 +1,6 @@
-name: MuMu 截图增强反馈（使用中文）
-description: 有关 MuMu 截图增强功能的集中反馈
-labels: ["MuMu API"]
+name: 雷电截图增强反馈（使用中文）
+description: 有关雷电 9 截图增强功能的集中反馈
+labels: ["LD9 API"]
 body:
   - type: checkboxes
     id: checks
@@ -13,11 +13,11 @@ body:
           required: true
         - label: 我已检查了置顶议题（Pinned Issue），确认我的问题未被提及
           required: true
-        - label: 我正在使用最新的 MAA 公测版本和最新的官版或方舟专版 MuMu 模拟器
+        - label: 我正在使用最新的 MAA 公测版本和最新的官版雷电 9 模拟器
           required: true
-        - label: 我已参考文档确定安装路径、实例编号、屏幕编号填写正确，并确认在关闭截图增强模式后问题消失
+        - label: 我已参考文档确定安装路径、实例编号填写正确，并确认在关闭截图增强模式后问题消失
           required: true
-        - label: 我未开启后台保活，模拟器帧数为 60，显存使用策略为“画面表现更好”
+        - label: 我未开启高帧率，且模拟器帧数设置为 60
           required: false
   - type: textarea
     id: describe
@@ -31,12 +31,12 @@ body:
     attributes:
       label: Version
       description: |
-        请提供 MAA 版本和 MuMu 版本。MAA 版本可在 MAA -> 设置 -> 软件更新中找到（点击图标可复制）。
-        MuMu 版本可在右上角菜单按钮 -> 关于 MuMu 中找到。
+        请提供 MAA 版本和雷电 9 版本。MAA 版本可在 MAA -> 设置 -> 软件更新中找到（点击图标可复制）。
+        雷电 9 版本可在右上角菜单按钮 -> 关于雷电 中找到。
       placeholder: |
         Resource Version:
         MAA Version:
-        MuMu 版本号:
+        雷电 9 版本号:
     validations:
       required: true
   - type: textarea
@@ -54,12 +54,11 @@ body:
     validations:
       required: true
   - type: textarea
-    id: mumulogs
+    id: ldlogs
     attributes:
-      label: MuMu 问题诊断
+      label: 雷电 9 诊断信息
       description: |
-        **在 MuMu 右上角菜单按钮 -> 问题诊断 中点击 复制配置信息，并将全部内容粘贴进来。**
-        **注意隐去 电脑出口IP地址 等以保护个人隐私**
+        **在雷电 9 右上角菜单按钮 -> 诊断信息 中点击 复制信息，并将全部内容粘贴进来。**
     validations:
       required: true
   - type: textarea
