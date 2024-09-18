@@ -483,14 +483,8 @@ namespace MaaWpfGui.Helper
             return true;
         }
 
-        public static List<string> GetConfigurationList()
-        {
-            return _kvsMap.Keys.ToList();
-        }
+        public static List<string> GetConfigurationList() => [.. _kvsMap.Keys.OrderBy(key => key)];
 
-        public static string GetCurrentConfiguration()
-        {
-            return _current;
-        }
+        public static string GetCurrentConfiguration() => _current;
     }
 }
