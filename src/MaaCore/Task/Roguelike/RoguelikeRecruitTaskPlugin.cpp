@@ -94,16 +94,6 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     }
     // __________________will-be-removed-end__________________
 
-    std::unordered_map<std::string, int> group_count; // 每个 干员组(key) 已有多少人(value)
-    const auto& group_list = RoguelikeRecruit.get_group_info(m_config->get_theme()); // 所有干员组
-    for (const auto& [name, oper] : chars_map) { // 此处仅 name 有用，oper 存的精英化和干员等级
-        std::vector<int> group_ids = RoguelikeRecruit.get_group_id(m_config->get_theme(), name); // 获取干员所在干员组的 id
-        for (const auto& group_id : group_ids) { // 这个干员对应的所有 干员组 已有人数++
-            const std::string& group_name = group_list[group_id]; // 根据 id 找到干员组
-            group_count[group_name]++;
-        }
-    }
-
     if (!m_starts_complete) {
         for (const auto& oper : chars_map) {
             auto& recruit_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), oper.first);
@@ -115,13 +105,25 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         bool complete = true;
         int complete_count = 0;
         const auto& team_complete_condition = RoguelikeRecruit.get_team_complete_info(m_config->get_theme());
-        for (const auto& condition : team_complete_condition) {
-            int count = 0;
-            for (const std::string& group_name : condition.groups) {
-                count += group_count[group_name];
-                complete_count += group_count[group_name];
+        for (auto& condition : team_complete_condition) { // 每个完备度的策略组
+            std::unordered_set<std::string> opers; // 符合这个策略组的干员
+
+            // 这个策略组内部的每个干员组的 id
+            for (const auto& oper_group : condition.groups) {
+                const auto& group_id = RoguelikeRecruit.get_group_ids_of_oper(m_config->get_theme(), oper_group);
+
+                // 遍历已有干员，若干员存在于当前干员组，则对干员进行无重复计数
+                for (const auto& [name, oper] : chars_map) {
+                    const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), name);
+                    if (ranges::any_of(oper_info.group_id, [&](int id) { return id == group_id; }) &&
+                        !opers.contains(name)) {
+                        opers.emplace(name);
+                    }
+                }
             }
-            if (count < condition.threshold) {
+
+            complete_count += opers.size();
+            if (opers.size() < condition.threshold) {
                 complete = false;
             }
         }
@@ -275,15 +277,15 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                     // }
                     //  __________________will-be-removed-end__________________
                     for (const auto& priority_offset : recruit_info.recruit_priority_offsets) {
-                        int count = 0;
-                        for (const std::string& group_name : priority_offset.groups) {
-                            count += group_count[group_name];
-                        }
                         if (priority_offset.is_less) {
-                            if (count <= priority_offset.threshold) priority += priority_offset.offset;
+                            if (priority_offset.opers.size() <= priority_offset.threshold) {
+                                priority += priority_offset.offset;
+                            }
                         }
                         else {
-                            if (count >= priority_offset.threshold) priority += priority_offset.offset;
+                            if (priority_offset.opers.size() >= priority_offset.threshold) {
+                                priority += priority_offset.offset;
+                            }
                         }
                     }
                     for (const auto& priority_offset : recruit_info.collection_priority_offsets) {                        

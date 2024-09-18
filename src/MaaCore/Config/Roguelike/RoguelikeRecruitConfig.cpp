@@ -7,18 +7,18 @@
 #include "Utils/Logger.hpp"
 
 const asst::RoguelikeOperInfo& asst::RoguelikeRecruitConfig::get_oper_info(const std::string& theme,
-                                                                           const std::string& name) noexcept
+                                                                           const std::string& oper_name) noexcept
 {
     auto& opers = m_all_opers.at(theme);
-    if (opers.contains(name)) {
-        return opers.at(name);
+    if (opers.contains(oper_name)) {
+        return opers.at(oper_name);
     }
     else {
         RoguelikeOperInfo info;
-        info.name = name;
-        info.group_id = get_group_id(theme, name);
-        opers.emplace(name, std::move(info));
-        return opers.at(name);
+        info.name = oper_name;
+        info.group_id = get_group_ids_of_oper(theme, oper_name);
+        opers.emplace(oper_name, std::move(info));
+        return opers.at(oper_name);
     }
 }
 
@@ -33,21 +33,27 @@ const std::vector<asst::RecruitPriorityOffset> asst::RoguelikeRecruitConfig::get
     return m_team_complete_condition.at(theme);
 }
 
-std::vector<int> asst::RoguelikeRecruitConfig::get_group_id(const std::string& theme,
-                                                            const std::string& name) const noexcept
+std::vector<int> asst::RoguelikeRecruitConfig::get_group_ids_of_oper(const std::string& theme,
+                                                            const std::string& oper_name) const noexcept
 {
     auto& opers = m_all_opers.at(theme);
-    if (auto find_iter = opers.find(name); find_iter != opers.cend()) {
+    if (auto find_iter = opers.find(oper_name); find_iter != opers.cend()) {
         return find_iter->second.group_id;
     }
     else {
-        const auto& role = BattleData.get_role(name);
+        const auto& role = BattleData.get_role(oper_name);
         if (role != battle::Role::Pioneer && role != battle::Role::Tank && role != battle::Role::Warrior &&
             role != battle::Role::Special)
             return { static_cast<int>(m_oper_groups.at(theme).size()) - 2 };
         else
             return { static_cast<int>(m_oper_groups.at(theme).size()) - 1 };
     }
+}
+
+const int asst::RoguelikeRecruitConfig::get_group_id
+                    (const std::string& theme, const std::string& group_name) const noexcept
+{
+    return m_all_groups.at(theme).at(group_name).id;
 }
 
 bool asst::RoguelikeRecruitConfig::parse(const json::value& json)

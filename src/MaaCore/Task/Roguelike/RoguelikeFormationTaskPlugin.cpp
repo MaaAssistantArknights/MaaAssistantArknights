@@ -127,7 +127,7 @@ void asst::RoguelikeFormationTaskPlugin::clear_and_reselect()
         for (const std::string& group_name : condition.groups) {
             auto group_filter = views::filter([&](const auto& oper) {
                 const auto& group_ids =
-                    RoguelikeRecruit.get_group_id(m_config->get_theme(), oper.name);
+                    RoguelikeRecruit.get_group_ids_of_oper(m_config->get_theme(), oper.name);
                 return ranges::any_of(group_ids, [&](int id) {
                     return group_list[id] == group_name;
                 });
