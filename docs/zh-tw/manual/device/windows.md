@@ -38,7 +38,7 @@ const fullySupport = shuffleArray([
     {
         name: '雷電模擬器',
         link: 'https://www.ldmnq.com/',
-        note: '完美支援，且額外支援[截圖增強模式](../connection.html#雷電截圖增強模式)。已知相容 Hyper-V。\n\n- 雷電 9 推薦使用 9.0.57 及以上版本；雷電 5 推薦使用 5.0.67 及以上版本；\n- 低於上述版本則需要在 `設定` - `連線設定` 中執行 `強制替換 ADB`，才能使用 Minitouch, MaaTouch 等高效的觸控模式；',
+        note: '完美支援，且額外支援[截圖增強模式](../connection.html#雷電截圖增強模式)。已知相容 Hyper-V。\n\n- 雷電 9 安裝器在安裝過程中會自動靜默關閉 Hyper-V，若有相關需求請留意。\n- 雷電 9 推薦使用 9.0.57 及以上版本；雷電 5 推薦使用 5.0.67 及以上版本；\n- 低於上述版本則需要在 `設定` - `連線設定` 中執行 `強制替換 ADB`，才能使用 Minitouch, MaaTouch 等高效的觸控模式；',
     },
     {
         name: '夜神模擬器',
