@@ -63,7 +63,7 @@ namespace asst
         const std::vector<RecruitPriorityOffset> get_team_complete_info(const std::string& theme) const noexcept;
         std::vector<int> get_group_id(const std::string& theme, const std::string& name) const noexcept;
 
-        const int get_team_complete_require(const std::string& theme) noexcept { return m_team_complete_require[theme]; }
+        int get_team_complete_require(const std::string& theme) noexcept { return m_team_complete_require[theme]; }
 
     protected:
         virtual bool parse(const json::value& json) override;
