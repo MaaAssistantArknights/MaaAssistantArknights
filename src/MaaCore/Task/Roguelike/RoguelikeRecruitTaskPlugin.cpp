@@ -130,7 +130,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 calculate_condition_oper(condition, chars_map); // 符合这个策略组的干员
 
             complete_count += int(opers.size());
-            if (opers.size() < condition.threshold) {
+            if (int(opers.size()) < condition.threshold) {
                 complete = false;
             }
         }
