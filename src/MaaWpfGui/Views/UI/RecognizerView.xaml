@@ -233,14 +233,14 @@
                         Margin="30"
                         Command="{s:Action ExportOperBox}"
                         Content="{DynamicResource OperBoxCopyToClipboard}"
-                        IsEnabled="{Binding OperBoxDone}" />
+                        IsEnabled="{Binding Idle}" />
                     <Button
                         Width="180"
                         Height="70"
                         Margin="30"
                         Command="{s:Action StartOperBox}"
                         Content="{DynamicResource StartToOperBoxRecognition}"
-                        IsEnabled="{Binding OperBoxDone}" />
+                        IsEnabled="{Binding Idle}" />
                 </StackPanel>
             </Grid>
         </TabItem>
@@ -307,7 +307,7 @@
                         VerticalAlignment="Center"
                         Command="{s:Action ExportToArkplanner}"
                         Content="{DynamicResource ExportToArkplanner}"
-                        IsEnabled="{Binding DepotDone}" />
+                        IsEnabled="{Binding Idle}" />
                     <Button
                         Width="180"
                         Height="70"
@@ -316,7 +316,7 @@
                         VerticalAlignment="Center"
                         Command="{s:Action ExportToLolicon}"
                         Content="{DynamicResource ExportToLolicon}"
-                        IsEnabled="{Binding DepotDone}" />
+                        IsEnabled="{Binding Idle}" />
                     <Button
                         Width="180"
                         Height="70"
@@ -325,7 +325,7 @@
                         VerticalAlignment="Center"
                         Command="{s:Action StartDepot}"
                         Content="{DynamicResource StartToDepotRecognition}"
-                        IsEnabled="{Binding DepotDone}" />
+                        IsEnabled="{Binding Idle}" />
                 </StackPanel>
             </Grid>
         </TabItem>
@@ -342,7 +342,7 @@
                 TextWrapping="Wrap" />
         </TabItem>
         <TabItem Header="{DynamicResource Gacha}">
-            <Grid Margin="20,0,20,20" IsEnabled="{Binding Idle}">
+            <Grid Margin="20,0,20,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="80" />
                     <RowDefinition Height="*" />
@@ -368,16 +368,20 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Source="{Binding GachaImage}" />
-                    <Canvas>
-                        <controls:TextBlock
-                            Canvas.Left="10"
-                            Canvas.Top="10"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            FontWeight="Bold"
-                            Foreground="Aquamarine"
-                            Text="{Binding GachaScreenFpf, StringFormat={}{0:F2}}"
-                            Visibility="{c:Binding 'GachaImage != null'}" />
+                    <Canvas Visibility="{c:Binding !Idle}">
+                        <Viewbox Canvas.Left="15" Canvas.Top="15">
+                            <Border
+                                Padding="4,2"
+                                Background="#EE404040"
+                                CornerRadius="3">
+                                <controls:TextBlock
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    FontWeight="Bold"
+                                    Foreground="Aquamarine"
+                                    Text="{Binding GachaScreenFpf, StringFormat={}{0:F2} FPS}" />
+                            </Border>
+                        </Viewbox>
                     </Canvas>
                 </Grid>
                 <StackPanel
@@ -466,19 +470,27 @@
                     <Button
                         Width="180"
                         Height="70"
-                        Margin="30,0"
+                        Margin="10"
                         Command="{s:Action GachaOnce}"
                         Content="{DynamicResource GachaOnce}"
                         FontSize="16"
-                        IsEnabled="{Binding GachaDone}" />
+                        IsEnabled="{Binding Idle}" />
                     <Button
                         Width="180"
                         Height="70"
-                        Margin="30,0"
+                        Margin="10"
                         Command="{s:Action GachaTenTimes}"
                         Content="{DynamicResource GachaTenTimes}"
                         FontSize="16"
-                        IsEnabled="{Binding GachaDone}" />
+                        IsEnabled="{Binding Idle}" />
+                    <Button
+                        Width="180"
+                        Height="70"
+                        Margin="10"
+                        Command="{s:Action Block}"
+                        Content="{c:Binding 'Idle ? &quot;peep!&quot; : &quot;Stop!!!!!&quot;'}"
+                        FontSize="16"
+                        IsEnabled="True" />
                 </StackPanel>
             </Grid>
         </TabItem>

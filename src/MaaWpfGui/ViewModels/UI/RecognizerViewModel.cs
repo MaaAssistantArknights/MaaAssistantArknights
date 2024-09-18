@@ -58,20 +58,7 @@ namespace MaaWpfGui.ViewModels.UI
         public bool Idle
         {
             get => _idle;
-            set
-            {
-                SetAndNotify(ref _idle, value);
-
-                if (!value)
-                {
-                    return;
-                }
-
-                // 识别完成、主界面暂停或者连接出错时
-                GachaDone = true;
-                DepotDone = true;
-                OperBoxDone = true;
-            }
+            set => SetAndNotify(ref _idle, value);
         }
 
         #region Recruit
@@ -424,27 +411,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             DepotInfo = LocalizationHelper.GetString("IdentificationCompleted") + "\n" + LocalizationHelper.GetString("DepotRecognitionTip");
-            DepotDone = true;
 
             return true;
-        }
-
-        private bool _depotDone = true;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether depot info is parsed.
-        /// </summary>
-        public bool DepotDone
-        {
-            get => _depotDone;
-            set
-            {
-                SetAndNotify(ref _depotDone, value);
-                if (value)
-                {
-                    _runningState.SetIdle(true);
-                }
-            }
         }
 
         /// <summary>
@@ -474,7 +442,6 @@ namespace MaaWpfGui.ViewModels.UI
             DepotResult.Clear();
             ArkPlannerResult = string.Empty;
             LoliconResult = string.Empty;
-            DepotDone = false;
         }
 
         /// <summary>
@@ -530,24 +497,6 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get => _operBoxInfo;
             set => SetAndNotify(ref _operBoxInfo, value);
-        }
-
-        private bool _operBoxDone = true;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether operBox info is parsed.
-        /// </summary>
-        public bool OperBoxDone
-        {
-            get => _operBoxDone;
-            set
-            {
-                SetAndNotify(ref _operBoxDone, value);
-                if (value)
-                {
-                    _runningState.SetIdle(true);
-                }
-            }
         }
 
         public string OperBoxExportData { get; set; } = string.Empty;
@@ -615,12 +564,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool OperBoxParse(JObject? details)
         {
-            if (details == null)
-            {
-                return false;
-            }
-
-            var operBoxes = (JArray?)details["all_opers"];
+            var operBoxes = (JArray?)details?["all_opers"];
 
             if (operBoxes == null)
             {
@@ -657,14 +601,16 @@ namespace MaaWpfGui.ViewModels.UI
             OperBoxHaveList = new ObservableCollection<string>(operHave.Select(tuple => tuple.Item1));
             OperBoxNotHaveList = new ObservableCollection<string>(operNotHave.Select(tuple => tuple.Item1));
 
-            bool done = (bool)(details["done"] ?? false);
-            if (done)
+            bool done = (bool)(details?["done"] ?? false);
+            if (!done)
             {
-                OperBoxInfo = LocalizationHelper.GetString("IdentificationCompleted") + "\n" + LocalizationHelper.GetString("OperBoxRecognitionTip");
-                OperBoxExportData = details["own_opers"]?.ToString() ?? string.Empty;
-                OperBoxDataArray = (JArray)(details["own_opers"] ?? new JArray());
-                OperBoxDone = true;
+                return true;
             }
+
+            OperBoxInfo = LocalizationHelper.GetString("IdentificationCompleted") + "\n" + LocalizationHelper.GetString("OperBoxRecognitionTip");
+            OperBoxExportData = details?["own_opers"]?.ToString() ?? string.Empty;
+            OperBoxDataArray = (JArray)(details?["own_opers"] ?? new JArray());
+            _runningState.SetIdle(true);
 
             return true;
         }
@@ -677,7 +623,6 @@ namespace MaaWpfGui.ViewModels.UI
         public async void StartOperBox()
         {
             OperBoxExportData = string.Empty;
-            OperBoxDone = false;
             _runningState.SetIdle(false);
 
             string errMsg = string.Empty;
@@ -713,32 +658,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region Gacha
 
-        private bool _gachaDone = true;
-
-        public bool GachaDone
-        {
-            get => _gachaDone;
-            set
-            {
-                bool stop = value && !_gachaDone;
-                SetAndNotify(ref _gachaDone, value);
-                if (value)
-                {
-                    _runningState.SetIdle(true);
-                }
-
-                if (!stop)
-                {
-                    return;
-                }
-
-                _gachaImageTimer.Stop();
-
-                // 强制再刷一下
-                RefreshGachaImage(null, null);
-            }
-        }
-
         private string _gachaInfo = LocalizationHelper.GetString("GachaInitTip");
 
         public string GachaInfo
@@ -769,9 +688,40 @@ namespace MaaWpfGui.ViewModels.UI
             StartGacha(false);
         }
 
+        public async void Block()
+        {
+            if (!Idle)
+            {
+                await Instances.TaskQueueViewModel.Stop();
+                Instances.TaskQueueViewModel.SetStopped();
+                _gachaImageTimer.Stop();
+                return;
+            }
+
+            _runningState.SetIdle(false);
+            string errMsg = string.Empty;
+            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            if (!caught)
+            {
+                GachaInfo = errMsg;
+                _runningState.SetIdle(true);
+                return;
+            }
+
+            caught = await Task.Run(() => Instances.AsstProxy.AsstStartBlock());
+            if (!caught)
+            {
+                _runningState.SetIdle(true);
+                return;
+            }
+
+            _gachaImageTimer.Interval = TimeSpan.FromMilliseconds(10);
+            _gachaImageTimer.Tick += RefreshGachaImage;
+            _gachaImageTimer.Start();
+        }
+
         public async void StartGacha(bool once = true)
         {
-            GachaDone = false;
             GachaImage = null;
             _runningState.SetIdle(false);
 
@@ -880,6 +830,6 @@ namespace MaaWpfGui.ViewModels.UI
             GachaShowDisclaimer = false;
         }
 
-        #endregion Gacha
+#endregion Gacha
     }
 }

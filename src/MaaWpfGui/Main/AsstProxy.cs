@@ -160,13 +160,16 @@ namespace MaaWpfGui.Main
         }
         */
 
+        private static byte[]? _buffer;
+
         public static unsafe BitmapImage? AsstGetImage(AsstHandle handle)
         {
-            byte[] buff = new byte[1280 * 720 * 3];
+            _buffer ??= new byte[1280 * 720 * 3];
+
             ulong readSize;
-            fixed (byte* ptr = buff)
+            fixed (byte* ptr = _buffer)
             {
-                readSize = MaaService.AsstGetImage(handle, ptr, (ulong)buff.Length);
+                readSize = MaaService.AsstGetImage(handle, ptr, (ulong)_buffer.Length);
             }
 
             if (readSize == MaaService.AsstGetNullSize())
@@ -179,7 +182,7 @@ namespace MaaWpfGui.Main
                 // buff is a png data
                 var image = new BitmapImage();
                 image.BeginInit();
-                image.StreamSource = new MemoryStream(buff, 0, (int)readSize);
+                image.StreamSource = new MemoryStream(_buffer, 0, (int)readSize);
                 image.EndInit();
                 return image;
             }
@@ -826,7 +829,6 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.ResetFightVariables();
                     Instances.TaskQueueViewModel.ResetTaskSelection();
                     _runningState.SetIdle(true);
-                    Instances.RecognizerViewModel.GachaDone = true;
 
                     if (isMainTaskQueueAllCompleted)
                     {
@@ -1961,6 +1963,7 @@ namespace MaaWpfGui.Main
             Gacha,
             Reclamation,
             Custom,
+            Block,
         }
 
         private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = [];
