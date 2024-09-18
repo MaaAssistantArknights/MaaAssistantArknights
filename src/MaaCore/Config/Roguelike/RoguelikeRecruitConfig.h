@@ -63,6 +63,8 @@ namespace asst
         const std::vector<RecruitPriorityOffset> get_team_complete_info(const std::string& theme) const noexcept;
         std::vector<int> get_group_id(const std::string& theme, const std::string& name) const noexcept;
 
+        const int get_team_complete_require(const std::string& theme) noexcept { return m_team_complete_require[theme]; }
+
     protected:
         virtual bool parse(const json::value& json) override;
 
@@ -71,6 +73,8 @@ namespace asst
         std::unordered_map<std::string, std::unordered_map<std::string, RoguelikeOperInfo>> m_all_opers;
         std::unordered_map<std::string, std::vector<std::string>> m_oper_groups;
         std::unordered_map<std::string, std::vector<RecruitPriorityOffset>> m_team_complete_condition;
+        std::unordered_map<std::string, int> m_team_complete_require; // 阵容完备所需干员总数
+        
     };
 
     inline static auto& RoguelikeRecruit = RoguelikeRecruitConfig::get_instance();

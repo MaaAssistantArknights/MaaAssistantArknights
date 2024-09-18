@@ -140,6 +140,7 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
             condition.groups.emplace_back(group.as_string());
         }
         condition.threshold = condition_json.at("threshold").as_integer();
+        m_team_complete_require[theme] += condition.threshold;
         m_team_complete_condition[theme].emplace_back(std::move(condition));
     }
 

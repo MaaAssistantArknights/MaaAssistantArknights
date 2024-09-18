@@ -114,11 +114,9 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     if (!m_team_complete) {
         bool complete = true;
         int complete_count = 0;
-        int complete_require = 0; // TODO: 把这东西改为成员变量，不要每次招募都算一遍
         const auto& team_complete_condition = RoguelikeRecruit.get_team_complete_info(m_config->get_theme());
         for (const auto& condition : team_complete_condition) {
             int count = 0;
-            complete_require += condition.threshold;
             for (const std::string& group_name : condition.groups) {
                 count += group_count[group_name];
                 complete_count += group_count[group_name];
@@ -128,7 +126,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             }
         }
         m_team_complete = complete;
-        if (complete_count <= complete_require / 2 && m_recruit_count >= 10) {
+        if (complete_count <= RoguelikeRecruit.get_team_complete_require(m_config->get_theme()) / 2 && m_recruit_count >= 10) {
             // 如果第10次招募还没拿到半队key干员，说明账号阵容不齐，放开招募限制，有啥用啥吧
             m_team_complete = true;
         }
