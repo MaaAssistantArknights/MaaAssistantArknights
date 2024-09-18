@@ -149,7 +149,7 @@ For specific differences, you can read the [source code](https://github.com/MaaA
 
 ### MuMu Screenshot Enhanced Mode
 
-Only support official China or Ark Edition MuMu 12 V4.0.0 and later versions, and close MuMu's background keep alive. Global Edition are not supported now. <!-- official V3.8.13 -->
+Only support Chinese or Arknights MuMu 12 V4.0.0 and later versions, and close MuMu's background keep alive. Global Edition are not supported. <!-- Chinese V3.8.13 -->
 
 1. Settings → Connection Settings, enable `Enable MuMu's screenshot enhancement mode`.
 
@@ -161,7 +161,7 @@ Only support official China or Ark Edition MuMu 12 V4.0.0 and later versions, an
 
 #### About MuMu's background keep alive
 
-It is recommended to turn it off, at this time the display number is always `0`.
+We recommend to turn it off, at this time the display number is always `0`.
 
 When it is on, the order of MuMu emulator tabs should be the serial number of the display number, e.g. `0` for emulator desktop, `1` for Arknights client.
 
@@ -169,7 +169,7 @@ Adaptation for background keep alive is very incomplete, there are always all ki
 
 ### LD Screenshot Enhanced Mode
 
-Only support official LD Player 9 V9.0.78 and later versions.
+Only support Chinese LD Player 9 V9.0.78 and later versions.
 
 1. Settings → Connection Settings, enable `Enable LD's screenshot enhancement mode`.
 
