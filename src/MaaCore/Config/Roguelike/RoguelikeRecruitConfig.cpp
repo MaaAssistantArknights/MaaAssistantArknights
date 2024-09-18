@@ -55,6 +55,7 @@ const int asst::RoguelikeRecruitConfig::get_group_id
 {
     return m_all_groups.at(theme).at(group_name).id;
 }
+
 const std::string asst::RoguelikeRecruitConfig::get_group_name
                     (const std::string& theme, const int group_id) const noexcept
 { // 待优化为 ranges
