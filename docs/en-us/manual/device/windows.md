@@ -37,7 +37,7 @@ const fullySupport = shuffleArray([
     {
         name: 'LDPlayer',
         link: 'https://www.ldmnq.com/',
-        note: 'Fully compatible, , with additional support for the [Screenshot Enhanced Mode](../connection.html#ld-screenshot-enhanced-mode). Known to be compatible with Hyper-V.\n\n- LDPlayer 9 is recommended to use version 9.0.57 and above; LDPlayer 5 is recommended to use version 5.0.67 and above;\n- For versions lower than the above, you need to run `Forced ADB Replacement` in `Settings` - `Connection` in order to use efficient touch modes such as Minitouch and MaaTouch.',
+        note: 'Fully compatible, with additional support for the [Screenshot Enhanced Mode](../connection.html#ld-screenshot-enhanced-mode). Known to be compatible with Hyper-V.\n\n- LDPlayer 9 installer will automatically and silently disable Hyper-V during the installation process. Please pay attention if you have related needs.\n- LDPlayer 9 is recommended to use version 9.0.57 and above; LDPlayer 5 is recommended to use version 5.0.67 and above;\n- For versions lower than the above, you need to run `Forced ADB Replacement` in `Settings` - `Connection` in order to use efficient touch modes such as Minitouch and MaaTouch.',
     },
     {
         name: 'Nox',
