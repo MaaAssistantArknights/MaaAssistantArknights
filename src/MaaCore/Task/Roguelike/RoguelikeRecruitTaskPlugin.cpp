@@ -1,7 +1,6 @@
 #include "RoguelikeRecruitTaskPlugin.h"
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
-#include "Config/Roguelike/RoguelikeRecruitConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Status.h"
@@ -53,8 +52,8 @@ bool asst::RoguelikeRecruitTaskPlugin::is_oper_melee(const std::string& name)
 }
 
 std::unordered_set<std::string> asst::RoguelikeRecruitTaskPlugin::calculate_condition_oper(
-    const auto& condition,
-    const std::unordered_map<std::string, asst::RoguelikeOper> chars_map)
+    const RecruitPriorityOffset& condition,
+    const std::unordered_map<std::string, RoguelikeOper>& chars_map)
 {
     std::unordered_set<std::string> opers; // 符合这个策略组的干员
     // 这个策略组内部的每个干员组
@@ -124,7 +123,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
     if (!m_team_complete) {
         bool complete = true;
-        int complete_count = 0;
+        size_t complete_count = 0;
         const auto& team_complete_condition = RoguelikeRecruit.get_team_complete_info(m_config->get_theme());
         for (const auto& condition : team_complete_condition) { // 每个完备度的策略组
             std::unordered_set<std::string> opers =
