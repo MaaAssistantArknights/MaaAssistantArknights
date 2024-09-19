@@ -203,11 +203,11 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
     return true;
 }
 
-void asst::RoguelikeRecruitConfig::clear(const std::string& key)
+void asst::RoguelikeRecruitConfig::clear(const std::string& theme)
 {
-    m_all_opers.erase(key);
-    m_all_groups.erase(key);
-    m_oper_groups.erase(key);
-    m_team_complete_condition.erase(key);
-    m_team_complete_require.erase(key);
+    m_all_opers.erase(theme);
+    m_all_groups.erase(theme);
+    m_oper_groups.erase(theme);
+    m_team_complete_condition.erase(theme);
+    m_team_complete_require.erase(theme);
 }
