@@ -59,7 +59,7 @@ namespace asst
     {
         std::string name;                            // 干员组名
         std::unordered_set<std::string> opers;       // 干员组的所有干员名
-        int id = 0;                                  // 干员组 id
+        int id = -1;                                  // 干员组 id
     };
 
     class RoguelikeRecruitConfig final : public SingletonHolder<RoguelikeRecruitConfig>, public AbstractConfig

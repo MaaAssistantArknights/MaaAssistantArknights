@@ -68,7 +68,16 @@ std::vector<int> asst::RoguelikeRecruitConfig::get_group_ids_of_oper(const std::
 int asst::RoguelikeRecruitConfig::get_group_id_from_name
                     (const std::string& theme, const std::string& group_name) noexcept
 {
-    return m_all_groups.at(theme).at(group_name).id;
+    auto& groups = m_all_groups.at(theme);
+    if (groups.contains(group_name)) {
+        return groups.at(group_name).id;
+    }
+    else {
+        RoguelikeGroupInfo info;
+        info.name = group_name;
+        groups.emplace(group_name, std::move(info));
+        return groups.at(group_name).id;
+    }
 }
 
 const std::string asst::RoguelikeRecruitConfig::get_group_name_from_id
