@@ -111,6 +111,12 @@
     "FCChapterToFC": {
         "text": ["沼", "たなびく", "煙"]
     },
+    "OD-OpenOcr": {
+        "text": ["Operation", "Originium", "Dust"]
+    },
+    "ODChapterToOD": {
+        "text": ["Task", "Records", "TASK", "RECORDS"]
+    },
     "IS-Open": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
