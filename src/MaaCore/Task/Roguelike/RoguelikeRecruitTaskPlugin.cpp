@@ -63,8 +63,9 @@ std::unordered_set<std::string> asst::RoguelikeRecruitTaskPlugin::calculate_cond
 
         // 遍历已有干员，若干员存在于当前干员组，则对干员进行无重复计数
         for (const auto& [name, oper] : chars_map) {
-            const auto& group_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), name);
-            if (ranges::any_of(group_info.group_id, [&](int id) { return id == group_id; }) && !opers.contains(name)) {
+            const auto& oper_group_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), name);
+            if (ranges::any_of(oper_group_info.group_id, [&](int oper_group_id)
+                    { return oper_group_id == group_id; }) && !opers.contains(name)) {
                 opers.emplace(name);
             }
         }
@@ -124,7 +125,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     if (!m_team_complete) {
         bool complete = true;
         int complete_count = 0;
-        const auto& team_complete_condition = RoguelikeRecruit.get_team_complete_info(m_config->get_theme());
+        const auto& team_complete_condition =
+            RoguelikeRecruit.get_team_complete_info(m_config->get_theme());
         for (const auto& condition : team_complete_condition) { // 每个完备度的策略组
             std::unordered_set<std::string> opers =
                 calculate_condition_oper(condition, chars_map); // 符合这个策略组的干员
@@ -135,7 +137,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             }
         }
         m_team_complete = complete;
-        if (complete_count <= RoguelikeRecruit.get_team_complete_require(m_config->get_theme()) / 2 && m_recruit_count >= 10) {
+        if (complete_count <= RoguelikeRecruit.get_team_complete_require(m_config->get_theme()) / 2
+                && m_recruit_count >= 10) {
             // 如果第10次招募还没拿到半队key干员，说明账号阵容不齐，放开招募限制，有啥用啥吧
             m_team_complete = true;
         }
@@ -284,8 +287,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                     // }
                     //  __________________will-be-removed-end__________________
                     for (const auto& priority_offset : recruit_info.recruit_priority_offsets) {
-                        std::unordered_set<std::string> opers =
-                            calculate_condition_oper(priority_offset, chars_map); // 符合这个策略组的干员
+                        std::unordered_set<std::string> opers = // 符合这个策略组的干员
+                            calculate_condition_oper(priority_offset, chars_map);
                         if (priority_offset.is_less) {
                             if (int(opers.size()) <= priority_offset.threshold) {
                                 priority += priority_offset.offset;
