@@ -1,5 +1,5 @@
 version: "1.0"
-linter: jetbrains/qodana-dotnet:2024.1
+linter: jetbrains/qodana-dotnet:2024.2
 bootstrap: echo 123
 profile:
   name: qodana.recommended
