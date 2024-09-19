@@ -57,7 +57,8 @@ std::unordered_set<std::string> asst::RoguelikeRecruitTaskPlugin::calculate_cond
 {
     std::unordered_set<std::string> opers; // 符合这个策略组的干员
     for (const auto& [oper_name, oper_level] : chars_map) {
-        opers.insert(oper_name);
+        if (condition.opers.contains(oper_name))
+            opers.insert(oper_name);
     }
     return opers;
 }
