@@ -962,7 +962,7 @@
         "maskRange": [1, 255]
     },
     "InfrastStationedInfo": {
-        "text": ["Operator"]
+        "text": ["Operator", "Operato"]
     },
     "InfrastEnterOperList": {
         "fullMatch": true,
