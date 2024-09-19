@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -834,9 +835,19 @@ namespace MaaWpfGui.ViewModels.UI
         private readonly DispatcherTimer _peepImageTimer = new();
         private readonly DispatcherTimer _gachaTimer = new();
 
-        private void RefreshPeepImage(object? sender, EventArgs? e)
+        private int _count;
+        private int _newestCount;
+        private BitmapImage? _cacheImage;
+
+        private async void RefreshPeepImage(object? sender, EventArgs? e)
         {
-            GachaImage = Instances.AsstProxy.AsstGetFreshImage();
+            var count = Interlocked.Increment(ref _count);
+            _cacheImage = await Instances.AsstProxy.AsstGetFreshImageAsync();
+            if (count > _newestCount)
+            {
+                GachaImage = _cacheImage;
+                Interlocked.Exchange(ref _newestCount, count);
+            }
 
             var now = DateTime.Now;
             _frameCount++;

@@ -160,11 +160,15 @@ namespace MaaWpfGui.Main
         }
         */
 
+        private static readonly object _bufferLock = new();
         private static byte[]? _buffer;
 
         public static unsafe BitmapImage? AsstGetImage(AsstHandle handle)
         {
-            _buffer ??= new byte[1280 * 720 * 3];
+            lock (_bufferLock)
+            {
+                _buffer ??= new byte[1280 * 720 * 3];
+            }
 
             ulong readSize;
             fixed (byte* ptr = _buffer)
@@ -192,6 +196,37 @@ namespace MaaWpfGui.Main
             }
         }
 
+        public static async Task<BitmapImage?> AsstGetImageAsync(AsstHandle handle)
+        {
+            return await Task.Run(async () =>
+            {
+                var buffer = new byte[1280 * 720 * 3];
+
+                ulong readSize;
+                unsafe
+                {
+                    fixed (byte* ptr = buffer)
+                    {
+                        readSize = MaaService.AsstGetImage(handle, ptr, (ulong)buffer.Length);
+                    }
+                }
+
+                if (readSize == MaaService.AsstGetNullSize())
+                {
+                    return null;
+                }
+
+                return await Application.Current.Dispatcher.InvokeAsync(() =>
+                {
+                    var image = new BitmapImage();
+                    image.BeginInit();
+                    image.StreamSource = new MemoryStream(buffer, 0, (int)readSize);
+                    image.EndInit();
+                    return image;
+                });
+            });
+        }
+
         public BitmapImage? AsstGetImage()
         {
             return AsstGetImage(_handle);
@@ -201,6 +236,17 @@ namespace MaaWpfGui.Main
         {
             MaaService.AsstAsyncScreencap(_handle, true);
             return AsstGetImage(_handle);
+        }
+
+        public async Task<BitmapImage?> AsstGetImageAsync()
+        {
+            return await AsstGetImageAsync(_handle);
+        }
+
+        public async Task<BitmapImage?> AsstGetFreshImageAsync()
+        {
+            MaaService.AsstAsyncScreencap(_handle, true);
+            return await AsstGetImageAsync(_handle);
         }
 
         private readonly MaaService.CallbackDelegate _callback;
