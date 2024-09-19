@@ -125,6 +125,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             if (int(opers.size()) < condition.threshold) {
                 complete = false;
             }
+            Log.trace("__FUNCTION__", "groups:", condition.groups);
+            Log.trace("__FUNCTION__", "opers:", opers);
         }
         m_team_complete = complete;
         if (complete_count <= RoguelikeRecruit.get_team_complete_require(m_config->get_theme()) / 2
@@ -132,6 +134,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             // 如果第10次招募还没拿到半队key干员，说明账号阵容不齐，放开招募限制，有啥用啥吧
             m_team_complete = true;
         }
+        Log.trace("__FUNCTION__", "complete_count:", complete_count, "m_team_complete:", m_team_complete);
     }
 
     if (m_recruit_count >= 3 && !m_starts_complete) {
