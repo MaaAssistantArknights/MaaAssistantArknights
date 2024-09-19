@@ -191,6 +191,9 @@
     "13@EnterEpisode": {
         "text": ["EPISODE13"]
     },
+    "14@EnterEpisode": {
+        "text": ["EPISODE14"]
+    },
     "LevelOfDifficulty": {
         "Doc": "base_task",
         "algorithm": "OcrDetect",
@@ -412,7 +415,6 @@
         "sub": ["ToChapter3@StageTheme"]
     },
     "Episode14": {
-        "doc": "待出",
         "baseTask": "14@Episode",
         "sub": ["ToChapter3@StageTheme"]
     },
