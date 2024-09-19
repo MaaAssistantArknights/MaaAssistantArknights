@@ -14,10 +14,11 @@ namespace asst
     // 招募 priority 影响因子
     struct RecruitPriorityOffset
     {
-        std::vector<std::string> groups; // 造成优先级改变的干员组
-        int threshold = 0;               // 已拥有组内干员数量阈值，达到此阈值时应用优先级改变
-        bool is_less = false;            // 高于阈值时改变还是低于阈值时改变
-        int offset = 0;                  // 优先级改变的大小
+        std::vector<std::string> groups;       // 造成优先级改变的所有干员组
+        std::unordered_set<std::string> opers; // 所有干员组的所有无重复干员
+        int threshold = 0;                     // 已拥有组内干员数量阈值，达到此阈值时应用优先级改变
+        bool is_less = false;                  // 高于阈值时改变还是低于阈值时改变
+        int offset = 0;                        // 优先级改变的大小
     };
 
     // 收藏品 priority 影响因子
@@ -57,6 +58,7 @@ namespace asst
     struct RoguelikeGroupInfo
     {
         std::string name;                            // 干员组名
+        std::unordered_set<std::string> opers;       // 干员组的所有干员名
         int id = 0;                                  // 干员组 id
     };
 
@@ -66,11 +68,12 @@ namespace asst
         virtual ~RoguelikeRecruitConfig() override = default;
 
         const RoguelikeOperInfo& get_oper_info(const std::string& theme, const std::string& oper_name) noexcept;
+        const RoguelikeGroupInfo& get_group_info(const std::string& theme, const std::string& group_name) noexcept;
         const std::vector<RecruitPriorityOffset> get_team_complete_info(const std::string& theme) const noexcept;
         std::vector<int> get_group_ids_of_oper(const std::string& theme, const std::string& oper_name) const noexcept;
-        const std::vector<std::string> get_group_info(const std::string& theme) const noexcept; // 获取该肉鸽内用到的干员组[干员组1,干员组2, ...] WILL BE REFACTORD
-        int get_group_id(const std::string& theme, const std::string& group_name) noexcept;
-        const std::string get_group_name(const std::string& theme, const int group_id) const noexcept;
+        const std::vector<std::string> get_group_names(const std::string& theme) const noexcept; // 获取该肉鸽内用到的干员组[干员组1,干员组2, ...]
+        int get_group_id_from_name(const std::string& theme, const std::string& group_name) noexcept;
+        const std::string get_group_name_from_id(const std::string& theme, const int group_id) const noexcept;
 
         int get_team_complete_require(const std::string& theme) noexcept { return m_team_complete_require[theme]; }
 
@@ -81,9 +84,9 @@ namespace asst
 
         std::unordered_map<std::string, std::unordered_map<std::string, RoguelikeOperInfo>> m_all_opers; // <theme, <oper_name, oper_info>>
         std::unordered_map<std::string, std::unordered_map<std::string, RoguelikeGroupInfo>> m_all_groups; // <theme, <group_name, group_info>>
-        std::unordered_map<std::string, std::vector<std::string>> m_oper_groups; // <theme, group_names> WILL BE REMOVED
-        std::unordered_map<std::string, std::vector<RecruitPriorityOffset>> m_team_complete_condition;
-        std::unordered_map<std::string, int> m_team_complete_require; // 阵容完备所需干员总数
+        std::unordered_map<std::string, std::vector<std::string>> m_oper_groups; // <theme, group_names> 保留此变量以保证可能用到的有序性
+        std::unordered_map<std::string, std::vector<RecruitPriorityOffset>> m_team_complete_condition; // <theme, offset>
+        std::unordered_map<std::string, int> m_team_complete_require; // <theme, require> 阵容完备所需干员总数
         
     };
 

@@ -56,19 +56,8 @@ std::unordered_set<std::string> asst::RoguelikeRecruitTaskPlugin::calculate_cond
     const std::unordered_map<std::string, RoguelikeOper>& chars_map)
 {
     std::unordered_set<std::string> opers; // 符合这个策略组的干员
-    // 这个策略组内部的每个干员组
-    for (const auto& group : condition.groups) {
-        // 当前干员组的 id
-        const auto& group_id = RoguelikeRecruit.get_group_id(m_config->get_theme(), group);
-
-        // 遍历已有干员，若干员存在于当前干员组，则对干员进行无重复计数
-        for (const auto& [name, oper] : chars_map) {
-            const auto& oper_group_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), name);
-            if (ranges::any_of(oper_group_info.group_id, [&](int oper_group_id)
-                    { return oper_group_id == group_id; }) && !opers.contains(name)) {
-                opers.emplace(name);
-            }
-        }
+    for (const auto& [oper_name, oper_level] : chars_map) {
+        opers.insert(oper_name);
     }
     return opers;
 }

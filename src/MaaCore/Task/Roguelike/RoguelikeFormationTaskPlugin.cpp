@@ -119,7 +119,7 @@ void asst::RoguelikeFormationTaskPlugin::clear_and_reselect()
 
     const auto& team_complete_condition =
         RoguelikeRecruit.get_team_complete_info(m_config->get_theme());
-    const auto& group_list = RoguelikeRecruit.get_group_info(m_config->get_theme());
+    const auto& group_list = RoguelikeRecruit.get_group_names(m_config->get_theme());
 
     for (const auto& condition : team_complete_condition) { // 优先选择阵容核心干员
         int count = 0;

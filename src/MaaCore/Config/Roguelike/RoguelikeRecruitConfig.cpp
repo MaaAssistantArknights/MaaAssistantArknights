@@ -22,7 +22,22 @@ const asst::RoguelikeOperInfo& asst::RoguelikeRecruitConfig::get_oper_info(const
     }
 }
 
-const std::vector<std::string> asst::RoguelikeRecruitConfig::get_group_info(const std::string& theme) const noexcept
+const asst::RoguelikeGroupInfo& asst::RoguelikeRecruitConfig::get_group_info
+    (const std::string& theme, const std::string& group_name) noexcept
+{
+    auto& groups = m_all_groups.at(theme);
+    if (groups.contains(group_name)) {
+        return groups.at(group_name);
+    }
+    else {
+        RoguelikeGroupInfo info;
+        info.name = group_name;
+        groups.emplace(group_name, std::move(info));
+        return groups.at(group_name);
+    }
+}
+
+const std::vector<std::string> asst::RoguelikeRecruitConfig::get_group_names(const std::string& theme) const noexcept
 {
     return m_oper_groups.at(theme);
 }
@@ -50,13 +65,13 @@ std::vector<int> asst::RoguelikeRecruitConfig::get_group_ids_of_oper(const std::
     }
 }
 
-int asst::RoguelikeRecruitConfig::get_group_id
+int asst::RoguelikeRecruitConfig::get_group_id_from_name
                     (const std::string& theme, const std::string& group_name) noexcept
 {
     return m_all_groups.at(theme).at(group_name).id;
 }
 
-const std::string asst::RoguelikeRecruitConfig::get_group_name
+const std::string asst::RoguelikeRecruitConfig::get_group_name_from_id
                     (const std::string& theme, const int group_id) const noexcept
 { // 待优化为 ranges
     for (const auto& group : m_all_groups.at(theme))
@@ -89,6 +104,7 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
         // 遍历"opers"数组
         for (const auto& oper_json : group_json.at("opers").as_array()) {
             std::string name = oper_json.at("name").as_string();
+            group_info.opers.emplace(name);
             // 肉鸽干员招募信息
             RoguelikeOperInfo oper_info;
             auto iter = m_all_opers[theme].find(name);
@@ -157,10 +173,27 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
         group_id++;
     }
 
+    // 对所有存在 offset 组的干员进行初始化
+    for (auto& [oper_name, oper_info] : m_all_opers[theme]){ // 所有干员
+        if (oper_info.recruit_priority_offsets.empty()) continue;
+        for (auto& offset : oper_info.recruit_priority_offsets) { // 干员的所有 offset 策略组
+            for (auto& group : offset.groups) { // 策略组内的每个干员组
+                offset.opers.insert( // 计入这个干员组的无重复干员
+                    get_group_info(theme, group).opers.begin(),
+                    get_group_info(theme, group).opers.end());
+            }
+        }
+    }
+
     for (const auto& condition_json : json.at("team_complete_condition").as_array()) {
         RecruitPriorityOffset condition;
         for (const auto& group : condition_json.at("groups").as_array()) {
-            condition.groups.emplace_back(group.as_string());
+            std::string group_name = group.as_string();
+            condition.groups.emplace_back(group_name);
+
+            condition.opers.insert( // 计入这个干员组的无重复干员
+                get_group_info(theme, group_name).opers.begin(),
+                get_group_info(theme, group_name).opers.end());
         }
         condition.threshold = condition_json.at("threshold").as_integer();
         m_team_complete_require[theme] += condition.threshold;
@@ -173,6 +206,8 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
 void asst::RoguelikeRecruitConfig::clear(const std::string& key)
 {
     m_all_opers.erase(key);
+    m_all_groups.erase(key);
     m_oper_groups.erase(key);
     m_team_complete_condition.erase(key);
+    m_team_complete_require.erase(key);
 }
