@@ -48,6 +48,14 @@ namespace MaaWpfGui.ViewModels.UI
         private void RunningState_IdleChanged(object? sender, bool e)
         {
             Idle = e;
+            if (!Idle)
+            {
+                return;
+            }
+
+            Peeping = false;
+            IsPeepInProgress = false;
+            IsGachaInProgress = false;
         }
 
         private bool _idle;
@@ -674,6 +682,14 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _gachaScreenFpf, value);
         }
 
+        private BitmapImage? _gachaImage;
+
+        public BitmapImage? GachaImage
+        {
+            get => _gachaImage;
+            set => SetAndNotify(ref _gachaImage, value);
+        }
+
         // xaml 中用到了
         // ReSharper disable once UnusedMember.Global
         public void GachaOnce()
@@ -688,46 +704,114 @@ namespace MaaWpfGui.ViewModels.UI
             StartGacha(false);
         }
 
-        public async void Block()
+        private bool _peeping;
+
+        public bool Peeping
         {
-            if (!Idle)
+            get => _peeping;
+            set
             {
-                await Instances.TaskQueueViewModel.Stop();
-                Instances.TaskQueueViewModel.SetStopped();
-                _gachaImageTimer.Stop();
+                if (!SetAndNotify(ref _peeping, value))
+                {
+                    return;
+                }
+
+                if (!value)
+                {
+                    _peepImageTimer.Stop();
+                }
+            }
+        }
+
+        private bool _isPeepInProgress;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether由 Peep 方法启动的 Peep
+        /// </summary>
+        public bool IsPeepInProgress
+        {
+            get => _isPeepInProgress;
+            set
+            {
+                if (!SetAndNotify(ref _isPeepInProgress, value))
+                {
+                    return;
+                }
+
+                if (!value)
+                {
+                    _peepImageTimer.Stop();
+                }
+            }
+        }
+
+        private bool _isGachaInProgress;
+
+        public bool IsGachaInProgress
+        {
+            get => _isGachaInProgress;
+            set
+            {
+                if (!SetAndNotify(ref _isGachaInProgress, value))
+                {
+                    return;
+                }
+
+                if (!value)
+                {
+                    _gachaTimer.Stop();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 获取或停止获取实时截图，在抽卡时额外停止抽卡
+        /// </summary>
+        public async void Peep()
+        {
+            if (Peeping)
+            {
+                // 由 Peep 方法启动的 Peep 也需要停止，Block 不会自动停止
+                if (IsGachaInProgress || IsPeepInProgress)
+                {
+                    await Instances.TaskQueueViewModel.Stop();
+                    Instances.TaskQueueViewModel.SetStopped();
+                }
+
+                _peepImageTimer.Stop();
+                Peeping = false;
+                IsPeepInProgress = false;
                 return;
             }
 
-            _runningState.SetIdle(false);
-            string errMsg = string.Empty;
-            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-            if (!caught)
+            if (Idle)
             {
-                GachaInfo = errMsg;
-                _runningState.SetIdle(true);
-                return;
+                _runningState.SetIdle(false);
+                string errMsg = string.Empty;
+                bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg) && Instances.AsstProxy.AsstStartBlock());
+                if (!caught)
+                {
+                    GachaInfo = errMsg;
+                    _runningState.SetIdle(true);
+                    return;
+                }
+
+                IsPeepInProgress = true;
             }
 
-            caught = await Task.Run(() => Instances.AsstProxy.AsstStartBlock());
-            if (!caught)
-            {
-                _runningState.SetIdle(true);
-                return;
-            }
-
-            _gachaImageTimer.Interval = TimeSpan.FromMilliseconds(10);
-            _gachaImageTimer.Tick += RefreshGachaImage;
-            _gachaImageTimer.Start();
+            _peepImageTimer.Interval = TimeSpan.FromMilliseconds(10);
+            _peepImageTimer.Tick += RefreshPeepImage;
+            _peepImageTimer.Start();
+            Peeping = true;
         }
 
         public async void StartGacha(bool once = true)
         {
-            GachaImage = null;
             _runningState.SetIdle(false);
 
             string errMsg = string.Empty;
             GachaInfo = LocalizationHelper.GetString("ConnectingToEmulator");
-            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg) && Instances.AsstProxy.AsstStartGacha(once));
             if (!caught)
             {
                 GachaInfo = errMsg;
@@ -735,51 +819,41 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (!Instances.AsstProxy.AsstStartGacha(once))
-            {
-                return;
-            }
+            _gachaTimer.Interval = TimeSpan.FromSeconds(5);
+            _gachaTimer.Tick += RefreshGachaTip;
+            _gachaTimer.Start();
 
-            _gachaImageTimer.Interval = TimeSpan.FromMilliseconds(10);
-            _gachaImageTimer.Tick += RefreshGachaImage;
-            _gachaImageTimer.Start();
+            RefreshGachaTip(null, null);
+            IsGachaInProgress = true;
+            Peep();
         }
 
-        private readonly DispatcherTimer _gachaImageTimer = new();
-
-        private BitmapImage? _gachaImage;
-
-        public BitmapImage? GachaImage
-        {
-            get => _gachaImage;
-            set => SetAndNotify(ref _gachaImage, value);
-        }
-
-        private DateTime _lastTipUpdateTime = DateTime.MinValue;
         private DateTime _lastFpsUpdateTime = DateTime.MinValue;
         private int _frameCount;
 
-        private void RefreshGachaImage(object? sender, EventArgs? e)
+        private readonly DispatcherTimer _peepImageTimer = new();
+        private readonly DispatcherTimer _gachaTimer = new();
+
+        private void RefreshPeepImage(object? sender, EventArgs? e)
         {
             GachaImage = Instances.AsstProxy.AsstGetFreshImage();
 
             var now = DateTime.Now;
             _frameCount++;
-            if ((now - _lastFpsUpdateTime).TotalSeconds >= 1)
-            {
-                GachaScreenFpf = _frameCount / (now - _lastFpsUpdateTime).TotalSeconds;
-                _frameCount = 0;
-                _lastFpsUpdateTime = now;
-            }
-
-            if ((now - _lastTipUpdateTime).TotalSeconds < 5)
+            if ((now - _lastFpsUpdateTime).TotalSeconds < 1)
             {
                 return;
             }
 
+            GachaScreenFpf = _frameCount / (now - _lastFpsUpdateTime).TotalSeconds;
+            _frameCount = 0;
+            _lastFpsUpdateTime = now;
+        }
+
+        private void RefreshGachaTip(object? sender, EventArgs? e)
+        {
             var rd = new Random();
             GachaInfo = LocalizationHelper.GetString("GachaTip" + rd.Next(1, 18));
-            _lastTipUpdateTime = now;
         }
 
         // DO NOT CHANGE
@@ -830,6 +904,6 @@ namespace MaaWpfGui.ViewModels.UI
             GachaShowDisclaimer = false;
         }
 
-#endregion Gacha
+        #endregion Gacha
     }
 }

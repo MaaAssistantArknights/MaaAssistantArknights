@@ -487,8 +487,8 @@
                         Width="180"
                         Height="70"
                         Margin="10"
-                        Command="{s:Action Block}"
-                        Content="{c:Binding 'Idle ? &quot;peep!&quot; : &quot;Stop!!!!!&quot;'}"
+                        Command="{s:Action Peep}"
+                        Content="{c:Binding '!Peeping ? &quot;peep!&quot; : (IsGachaInProgress ? &quot;Stop!!!!!&quot; : &quot;Stop!&quot;)'}"
                         FontSize="16"
                         IsEnabled="True" />
                 </StackPanel>
