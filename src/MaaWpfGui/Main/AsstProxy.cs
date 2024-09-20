@@ -2009,7 +2009,6 @@ namespace MaaWpfGui.Main
             Gacha,
             Reclamation,
             Custom,
-            Block,
         }
 
         private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = [];

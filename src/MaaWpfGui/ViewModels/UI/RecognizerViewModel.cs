@@ -789,7 +789,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 _runningState.SetIdle(false);
                 string errMsg = string.Empty;
-                bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg) && Instances.AsstProxy.AsstStartBlock());
+                bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
                 if (!caught)
                 {
                     GachaInfo = errMsg;
