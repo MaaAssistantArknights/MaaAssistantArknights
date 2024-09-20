@@ -541,13 +541,11 @@
                         Content="{c:Binding '!Peeping ? &quot;Peep!&quot; : (IsGachaInProgress ? &quot;Stop!!!!!&quot; : &quot;Stop!&quot;)'}"
                         FontSize="16"
                         IsEnabled="True" />
-                    <hc:TextBox
+                    <hc:NumericUpDown
                         VerticalAlignment="Center"
-                        hc:InfoElement.ContentHeight="30"
-                        hc:TipElement.Placement="Top"
                         hc:TitleElement.Title="{DynamicResource PeepInterval}"
-                        Text="{Binding PeepInterval, UpdateSourceTrigger=PropertyChanged}"
-                        TextAlignment="Center" />
+                        Value="{Binding PeepInterval, UpdateSourceTrigger=PropertyChanged}"
+                        Minimum="10" />
                 </StackPanel>
             </Grid>
         </TabItem>

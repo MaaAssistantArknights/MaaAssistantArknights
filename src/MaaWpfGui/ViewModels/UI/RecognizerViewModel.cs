@@ -44,6 +44,8 @@ namespace MaaWpfGui.ViewModels.UI
             DisplayName = LocalizationHelper.GetString("Toolbox");
             _runningState = RunningState.Instance;
             _runningState.IdleChanged += RunningState_IdleChanged;
+            _peepImageTimer.Tick += RefreshPeepImageAsync;
+            _gachaTimer.Tick += RefreshGachaTip;
         }
 
         private void RunningState_IdleChanged(object? sender, bool e)
@@ -723,7 +725,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             _gachaTimer.Interval = TimeSpan.FromSeconds(5);
-            _gachaTimer.Tick += RefreshGachaTip;
             _gachaTimer.Start();
 
             RefreshGachaTip(null, null);
@@ -868,31 +869,38 @@ namespace MaaWpfGui.ViewModels.UI
         private int _frameCount;
 
         private readonly DispatcherTimer _peepImageTimer = new();
-        private readonly DispatcherTimer _gachaTimer = new();
+        private readonly DispatcherTimer _gachaTimer = new() { Interval = TimeSpan.FromSeconds(5) };
 
         private int _count;
         private int _newestCount;
 
-        private async void RefreshPeepImage(object? sender, EventArgs? e)
+        private async void RefreshPeepImageAsync(object? sender, EventArgs? e)
         {
-            var count = Interlocked.Increment(ref _count);
-            var cacheImage = await Instances.AsstProxy.AsstGetFreshImageAsync();
-            if (count > _newestCount)
+            BitmapImage? cacheImage = null;
+            await Task.Run(async () =>
             {
+                var count = Interlocked.Increment(ref _count);
+                cacheImage = await Instances.AsstProxy.AsstGetFreshImageAsync();
+                if (count <= _newestCount || cacheImage is null)
+                {
+                    return;
+                }
+
                 Interlocked.Exchange(ref _newestCount, count);
-                PeepImage = cacheImage;
-            }
+            });
+            PeepImage = cacheImage;
 
             var now = DateTime.Now;
-            _frameCount++;
-            if ((now - _lastFpsUpdateTime).TotalSeconds < 1)
+            Interlocked.Increment(ref _frameCount);
+            var totalSeconds = (now - _lastFpsUpdateTime).TotalSeconds;
+            if (totalSeconds < 1)
             {
                 return;
             }
 
-            PeepScreenFpf = _frameCount / (now - _lastFpsUpdateTime).TotalSeconds;
-            _frameCount = 0;
+            var frameCount = Interlocked.Exchange(ref _frameCount, 0);
             _lastFpsUpdateTime = now;
+            PeepScreenFpf = frameCount / totalSeconds;
         }
 
         /// <summary>
@@ -915,6 +923,8 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
+            Peeping = true;
+
             if (Idle)
             {
                 _runningState.SetIdle(false);
@@ -930,10 +940,7 @@ namespace MaaWpfGui.ViewModels.UI
                 IsPeepInProgress = true;
             }
 
-            _peepImageTimer.Interval = TimeSpan.FromMilliseconds(PeepInterval);
-            _peepImageTimer.Tick += RefreshPeepImage;
             _peepImageTimer.Start();
-            Peeping = true;
         }
 
         #endregion
