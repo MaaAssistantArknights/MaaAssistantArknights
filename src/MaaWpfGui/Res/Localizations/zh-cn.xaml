@@ -573,7 +573,7 @@
     <system:String x:Key="VideoRecognitionTips" xml:space="preserve">请打开「自动战斗」页，将攻略视频文件拖入后开始即可。
 需要视频分辨率为 16:9，且无黑边、模拟器边框、异形屏矫正等干扰因素。</system:String>
     <!--  !视频识别  -->
-    <!--  Gacha  Recognition  -->
+    <!--  牛牛抽卡  -->
     <system:String x:Key="Gacha">牛牛抽卡</system:String>
     <system:String x:Key="GachaOnce">寻访一次</system:String>
     <system:String x:Key="GachaTenTimes">寻访十次</system:String>
@@ -599,7 +599,11 @@
     <system:String x:Key="GachaDisclaimerEmphasize">真正的抽卡</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">知道了</system:String>
     <system:String x:Key="ShowDisclaimerNoMore">下次不再提示</system:String>
-    <!--  !Gacha Recognition  -->
+    <!--  !牛牛抽卡  -->
+    <!--  牛牛监控  -->
+    <system:String x:Key="Peep">牛牛监控</system:String>
+    <system:String x:Key="PeepInterval">最小截图间隔</system:String>
+    <!--  !牛牛监控  -->
     <!--  日志  -->
     <system:String x:Key="Identifying">正在识别……</system:String>
     <system:String x:Key="IdentificationCompleted">识别完成</system:String>

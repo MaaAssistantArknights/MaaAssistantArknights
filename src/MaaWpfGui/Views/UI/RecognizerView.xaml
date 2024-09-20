@@ -329,7 +329,7 @@
                 </StackPanel>
             </Grid>
         </TabItem>
-        <TabItem Header="{DynamicResource VideoRecognition}">
+        <TabItem Header="{DynamicResource VideoRecognition}" Visibility="Collapsed">
             <controls:TextBlock
                 Height="80"
                 Margin="10"
@@ -367,7 +367,7 @@
                         Margin="10"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Source="{Binding GachaImage}" />
+                        Source="{Binding PeepImage}" />
                     <Canvas Visibility="{c:Binding !Idle}">
                         <Viewbox Canvas.Left="15" Canvas.Top="15">
                             <Border
@@ -379,7 +379,7 @@
                                     VerticalAlignment="Top"
                                     FontWeight="Bold"
                                     Foreground="Aquamarine"
-                                    Text="{Binding GachaScreenFpf, StringFormat={}{0:F2} FPS}" />
+                                    Text="{Binding PeepScreenFpf, StringFormat={}{0:F2} FPS}" />
                             </Border>
                         </Viewbox>
                     </Canvas>
@@ -488,9 +488,66 @@
                         Height="70"
                         Margin="10"
                         Command="{s:Action Peep}"
-                        Content="{c:Binding '!Peeping ? &quot;peep!&quot; : (IsGachaInProgress ? &quot;Stop!!!!!&quot; : &quot;Stop!&quot;)'}"
+                        Content="{c:Binding '!Peeping ? &quot;Peep!&quot; : (IsGachaInProgress ? &quot;Stop!!!!!&quot; : &quot;Stop!&quot;)'}"
                         FontSize="16"
                         IsEnabled="True" />
+                </StackPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="{DynamicResource Peep}">
+            <Grid Margin="20,0,20,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="100" />
+                </Grid.RowDefinitions>
+                <Grid
+                    Grid.Row="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                    <Image
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Source="{Binding PeepImage}" />
+                    <Canvas Visibility="{c:Binding !Idle}">
+                        <Viewbox Canvas.Left="15" Canvas.Top="15">
+                            <Border
+                                Padding="4,2"
+                                Background="#EE404040"
+                                CornerRadius="3">
+                                <controls:TextBlock
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    FontWeight="Bold"
+                                    Foreground="Aquamarine"
+                                    Text="{Binding PeepScreenFpf, StringFormat={}{0:F2} FPS}" />
+                            </Border>
+                        </Viewbox>
+                    </Canvas>
+                </Grid>
+
+                <StackPanel
+                    Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Width="180"
+                        Height="70"
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Command="{s:Action Peep}"
+                        Content="{c:Binding '!Peeping ? &quot;Peep!&quot; : (IsGachaInProgress ? &quot;Stop!!!!!&quot; : &quot;Stop!&quot;)'}"
+                        FontSize="16"
+                        IsEnabled="True" />
+                    <hc:TextBox
+                        VerticalAlignment="Center"
+                        hc:InfoElement.ContentHeight="30"
+                        hc:TipElement.Placement="Top"
+                        hc:TitleElement.Title="{DynamicResource PeepInterval}"
+                        Text="{Binding PeepInterval, UpdateSourceTrigger=PropertyChanged}"
+                        TextAlignment="Center" />
                 </StackPanel>
             </Grid>
         </TabItem>

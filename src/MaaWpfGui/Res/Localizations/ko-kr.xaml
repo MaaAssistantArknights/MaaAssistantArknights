@@ -600,6 +600,10 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">확인</system:String>
     <system:String x:Key="ShowDisclaimerNoMore">다시 보지 않기</system:String>
     <!--  !헤드헌팅  -->
+    <!--  Peep  -->
+    <system:String x:Key="Peep">Peep</system:String>
+    <system:String x:Key="PeepInterval">최소 스크린샷 간격</system:String>
+    <!--  !Peep  -->
     <!--  로그  -->
     <system:String x:Key="Identifying">인식 중……</system:String>
     <system:String x:Key="IdentificationCompleted">인식 완료</system:String>

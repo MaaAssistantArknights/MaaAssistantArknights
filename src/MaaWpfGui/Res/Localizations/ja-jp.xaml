@@ -599,6 +599,10 @@
     <system:String x:Key="GachaAgreeDisclaimer">理解した</system:String>
     <system:String x:Key="ShowDisclaimerNoMore">再度表示しない</system:String>
     <!--  !Gacha Recognition  -->
+    <!--  Peep  -->
+    <system:String x:Key="Peep">Peep</system:String>
+    <system:String x:Key="PeepInterval">最小スクリーンショット間隔</system:String>
+    <!--  !Peep  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">認識中……</system:String>
     <system:String x:Key="IdentificationCompleted">認識完了</system:String>
