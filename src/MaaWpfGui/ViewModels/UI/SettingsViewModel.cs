@@ -4673,7 +4673,7 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public async void TestLinkAndGetImage()
         {
-            _runningState.SetIdle(false);
+            _runningState.Idle = false;
 
             string errMsg = string.Empty;
             TestLinkInfo = LocalizationHelper.GetString("ConnectingToEmulator");
@@ -4681,18 +4681,12 @@ namespace MaaWpfGui.ViewModels.UI
             if (!caught)
             {
                 TestLinkInfo = errMsg;
-                _runningState.SetIdle(true);
+                _runningState.Idle = true;
                 return;
             }
 
-            if (!Instances.AsstProxy.AsstStartTestLink())
-            {
-                return;
-            }
-
-            await Task.Delay(500);
-            TestLinkImage = Instances.AsstProxy.AsstGetImage();
-            Instances.AsstProxy.AsstStop();
+            TestLinkImage = Instances.AsstProxy.AsstGetFreshImage();
+            _runningState.Idle = true;
 
             if (TestLinkImage is null)
             {
