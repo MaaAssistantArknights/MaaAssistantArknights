@@ -549,7 +549,8 @@
     },
     "SS-Open": {
         "Doc": "base_task",
-        "template": "empty.png",
+        "template": "StageSideStory.png",
+        "template_Doc": "使用时需再次指定 template",
         "action": "ClickSelf",
         "postDelay": 2000,
         "roi": [505, 57, 462, 628]
