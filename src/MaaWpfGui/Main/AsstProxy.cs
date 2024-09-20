@@ -2615,20 +2615,6 @@ namespace MaaWpfGui.Main
             return id != 0 && AsstStart();
         }
 
-        public bool AsstStartTestLink()
-        {
-            var taskParams = new JObject
-            {
-                ["task_names"] = new JArray
-                {
-                    "Home",
-                },
-            };
-            AsstTaskId id = AsstAppendTaskWithEncoding("Custom", taskParams);
-            _latestTaskId[TaskType.Custom] = id;
-            return id != 0 && AsstStart();
-        }
-
         /// <summary>
         /// 自动抄作业。
         /// </summary>
