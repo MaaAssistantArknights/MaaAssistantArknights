@@ -26,6 +26,7 @@ using MaaWpfGui.States;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
+using Timer = System.Timers.Timer;
 
 namespace MaaWpfGui.ViewModels.UI
 {
@@ -44,7 +45,7 @@ namespace MaaWpfGui.ViewModels.UI
             DisplayName = LocalizationHelper.GetString("Toolbox");
             _runningState = RunningState.Instance;
             _runningState.IdleChanged += RunningState_IdleChanged;
-            _peepImageTimer.Tick += RefreshPeepImageAsync;
+            _peepImageTimer.Elapsed += RefreshPeepImageAsync;
             _gachaTimer.Tick += RefreshGachaTip;
         }
 
@@ -860,7 +861,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 SetAndNotify(ref _peepInterval, value);
-                _peepImageTimer.Interval = TimeSpan.FromMilliseconds(_peepInterval);
+                _peepImageTimer.Interval = _peepInterval;
                 ConfigurationHelper.SetValue(ConfigurationKeys.PeepInterval, value.ToString());
             }
         }
@@ -868,7 +869,7 @@ namespace MaaWpfGui.ViewModels.UI
         private DateTime _lastFpsUpdateTime = DateTime.MinValue;
         private int _frameCount;
 
-        private readonly DispatcherTimer _peepImageTimer = new();
+        private readonly Timer _peepImageTimer = new();
         private readonly DispatcherTimer _gachaTimer = new() { Interval = TimeSpan.FromSeconds(5) };
 
         private int _count;
@@ -876,18 +877,14 @@ namespace MaaWpfGui.ViewModels.UI
 
         private async void RefreshPeepImageAsync(object? sender, EventArgs? e)
         {
-            BitmapImage? cacheImage = null;
-            await Task.Run(async () =>
+            var count = Interlocked.Increment(ref _count);
+            var cacheImage = await Instances.AsstProxy.AsstGetFreshImageAsync();
+            if (count <= _newestCount || cacheImage is null)
             {
-                var count = Interlocked.Increment(ref _count);
-                cacheImage = await Instances.AsstProxy.AsstGetFreshImageAsync();
-                if (count <= _newestCount || cacheImage is null)
-                {
-                    return;
-                }
+                return;
+            }
 
-                Interlocked.Exchange(ref _newestCount, count);
-            });
+            Interlocked.Exchange(ref _newestCount, count);
             PeepImage = cacheImage;
 
             var now = DateTime.Now;
