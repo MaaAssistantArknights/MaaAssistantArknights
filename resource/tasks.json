@@ -1064,6 +1064,11 @@
         "sub": ["CV-Open"],
         "next": ["CV-6@SideStoryStage", "CV-6@SwipeToStage"]
     },
+    "CV-4": {
+        "algorithm": "JustReturn",
+        "sub": ["CV-Open"],
+        "next": ["CV-4@SideStoryStage", "CV-4@SwipeToStage"]
+    },
     "CV-Open": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -1088,6 +1093,9 @@
     },
     "CV-6@SideStoryStage": {
         "text": ["CV-6"]
+    },
+    "CV-4@SideStoryStage": {
+        "text": ["CV-4"]
     },
     "SL-8": {
         "algorithm": "JustReturn",
