@@ -180,8 +180,10 @@ namespace MaaWpfGui.Main
                 // buff is a png data
                 var image = new BitmapImage();
                 image.BeginInit();
-                image.StreamSource = new MemoryStream(buffer, 0, (int)readSize);
+                using var stream = new MemoryStream(buffer, 0, (int)readSize, false);
+                image.StreamSource = stream;
                 image.CacheOption = BitmapCacheOption.OnLoad;
+                image.CreateOptions = BitmapCreateOptions.IgnoreColorProfile;
                 image.EndInit();
                 image.Freeze();
                 return image;
