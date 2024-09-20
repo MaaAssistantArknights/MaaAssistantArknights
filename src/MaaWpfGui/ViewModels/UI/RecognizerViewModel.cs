@@ -837,16 +837,15 @@ namespace MaaWpfGui.ViewModels.UI
 
         private int _count;
         private int _newestCount;
-        private BitmapImage? _cacheImage;
 
         private async void RefreshPeepImage(object? sender, EventArgs? e)
         {
             var count = Interlocked.Increment(ref _count);
-            _cacheImage = await Instances.AsstProxy.AsstGetFreshImageAsync();
+            var cacheImage = await Instances.AsstProxy.AsstGetFreshImageAsync();
             if (count > _newestCount)
             {
-                GachaImage = _cacheImage;
                 Interlocked.Exchange(ref _newestCount, count);
+                GachaImage = cacheImage;
             }
 
             var now = DateTime.Now;

@@ -12,6 +12,7 @@
 // </copyright>
 #nullable enable
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -160,55 +161,15 @@ namespace MaaWpfGui.Main
         }
         */
 
-        private static readonly object _bufferLock = new();
-        private static byte[]? _buffer;
-
         public static unsafe BitmapImage? AsstGetImage(AsstHandle handle)
         {
-            lock (_bufferLock)
-            {
-                _buffer ??= new byte[1280 * 720 * 3];
-            }
-
-            ulong readSize;
-            fixed (byte* ptr = _buffer)
-            {
-                readSize = MaaService.AsstGetImage(handle, ptr, (ulong)_buffer.Length);
-            }
-
-            if (readSize == MaaService.AsstGetNullSize())
-            {
-                return null;
-            }
-
+            var buffer = ArrayPool<byte>.Shared.Rent(1280 * 720 * 3);
             try
             {
-                // buff is a png data
-                var image = new BitmapImage();
-                image.BeginInit();
-                image.StreamSource = new MemoryStream(_buffer, 0, (int)readSize);
-                image.EndInit();
-                return image;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        public static async Task<BitmapImage?> AsstGetImageAsync(AsstHandle handle)
-        {
-            return await Task.Run(async () =>
-            {
-                var buffer = new byte[1280 * 720 * 3];
-
                 ulong readSize;
-                unsafe
+                fixed (byte* ptr = buffer)
                 {
-                    fixed (byte* ptr = buffer)
-                    {
-                        readSize = MaaService.AsstGetImage(handle, ptr, (ulong)buffer.Length);
-                    }
+                    readSize = MaaService.AsstGetImage(handle, ptr, (ulong)buffer.Length);
                 }
 
                 if (readSize == MaaService.AsstGetNullSize())
@@ -216,15 +177,24 @@ namespace MaaWpfGui.Main
                     return null;
                 }
 
-                return await Application.Current.Dispatcher.InvokeAsync(() =>
-                {
-                    var image = new BitmapImage();
-                    image.BeginInit();
-                    image.StreamSource = new MemoryStream(buffer, 0, (int)readSize);
-                    image.EndInit();
-                    return image;
-                });
-            });
+                // buff is a png data
+                var image = new BitmapImage();
+                image.BeginInit();
+                image.StreamSource = new MemoryStream(buffer, 0, (int)readSize);
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.EndInit();
+                image.Freeze();
+                return image;
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(buffer);
+            }
+        }
+
+        public static async Task<BitmapImage?> AsstGetImageAsync(AsstHandle handle)
+        {
+            return await Task.Run(() => AsstGetImage(handle));
         }
 
         public BitmapImage? AsstGetImage()
