@@ -850,9 +850,14 @@ namespace MaaWpfGui.ViewModels.UI
 
         public int PeepInterval
         {
-            get => _peepInterval;
+            get => _peepInterval > 10 ? _peepInterval : 10;
             set
             {
+                if (value < 10)
+                {
+                    value = 10;
+                }
+
                 SetAndNotify(ref _peepInterval, value);
                 _peepImageTimer.Interval = TimeSpan.FromMilliseconds(_peepInterval);
                 ConfigurationHelper.SetValue(ConfigurationKeys.PeepInterval, value.ToString());
