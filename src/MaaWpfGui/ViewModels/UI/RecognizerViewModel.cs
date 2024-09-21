@@ -886,7 +886,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var count = Interlocked.Increment(ref _count);
             var cacheImage = await Instances.AsstProxy.AsstGetFreshImageAsync();
-            if (count <= _newestCount || cacheImage is null)
+            if (!Peeping || count <= _newestCount || cacheImage is null)
             {
                 return;
             }
@@ -907,44 +907,71 @@ namespace MaaWpfGui.ViewModels.UI
             PeepScreenFpf = frameCount / totalSeconds;
         }
 
+        private bool _isPeepTransitioning;
+
+        public bool IsPeepTransitioning
+        {
+            get => _isPeepTransitioning;
+            set => SetAndNotify(ref _isPeepTransitioning, value);
+        }
+
         /// <summary>
         /// 获取或停止获取实时截图，在抽卡时额外停止抽卡
         /// </summary>
         public async void Peep()
         {
-            if (Peeping)
+            if (IsPeepTransitioning)
             {
-                // 由 Peep 方法启动的 Peep 也需要停止，Block 不会自动停止
-                if (IsGachaInProgress || IsPeepInProgress)
-                {
-                    await Instances.TaskQueueViewModel.Stop();
-                    Instances.TaskQueueViewModel.SetStopped();
-                }
-
-                _peepImageTimer.Stop();
-                Peeping = false;
-                IsPeepInProgress = false;
                 return;
             }
 
-            Peeping = true;
+            IsPeepTransitioning = true;
 
-            if (Idle)
+            try
             {
-                _runningState.SetIdle(false);
-                string errMsg = string.Empty;
-                bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-                if (!caught)
+                // 正在 Peep 时，点击按钮停止 Peep
+                if (Peeping)
                 {
-                    GachaInfo = errMsg;
-                    _runningState.SetIdle(true);
+                    Peeping = false;
+                    _peepImageTimer.Stop();
+
+                    // 由 Peep() 方法启动的 Peep 也需要停止，Block 不会自动停止
+                    if (IsGachaInProgress || IsPeepInProgress)
+                    {
+                        await Instances.TaskQueueViewModel.Stop();
+                        Instances.TaskQueueViewModel.SetStopped();
+                    }
+
+                    IsPeepInProgress = false;
                     return;
                 }
 
-                IsPeepInProgress = true;
-            }
+                // 点击按钮开始 Peep
+                Peeping = true;
 
-            _peepImageTimer.Start();
+                // 如果没任务在运行，需要先连接，并标记是由 Peep() 方法启动的 Peep
+                if (Idle)
+                {
+                    _runningState.SetIdle(false);
+                    string errMsg = string.Empty;
+                    bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+                    if (!caught)
+                    {
+                        GachaInfo = errMsg;
+                        _runningState.SetIdle(true);
+                        return;
+                    }
+
+                    IsPeepInProgress = true;
+                }
+
+                PeepScreenFpf = 0;
+                _peepImageTimer.Start();
+            }
+            finally
+            {
+                IsPeepTransitioning = false;
+            }
         }
 
         #endregion

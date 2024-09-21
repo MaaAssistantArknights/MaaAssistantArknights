@@ -490,7 +490,7 @@
                         Command="{s:Action Peep}"
                         Content="{c:Binding '!Peeping ? &quot;Peep!&quot; : (IsGachaInProgress ? &quot;Stop!!!!!&quot; : &quot;Stop!&quot;)'}"
                         FontSize="16"
-                        IsEnabled="True" />
+                        IsEnabled="{c:Binding !IsPeepTransitioning}" />
                 </StackPanel>
             </Grid>
         </TabItem>
@@ -540,7 +540,7 @@
                         Command="{s:Action Peep}"
                         Content="{c:Binding '!Peeping ? &quot;Peep!&quot; : (IsGachaInProgress ? &quot;Stop!!!!!&quot; : &quot;Stop!&quot;)'}"
                         FontSize="16"
-                        IsEnabled="True" />
+                        IsEnabled="{c:Binding !IsPeepTransitioning}" />
                     <hc:NumericUpDown
                         MinWidth="50"
                         VerticalAlignment="Center"
