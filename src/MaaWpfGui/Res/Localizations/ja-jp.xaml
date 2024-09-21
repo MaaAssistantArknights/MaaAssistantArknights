@@ -395,6 +395,21 @@
     <system:String x:Key="MuMu12Index">インスタンス番号</system:String>
     <system:String x:Key="MuMu12Display">表示番号</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu スクリーンショットの強化 が有効になっていません。関連する設定を確認してください</system:String>
+    <system:String x:Key="LdExtrasEnabled">LD のスクリーンショット拡張モードを有効にする</system:String>
+    <system:String x:Key="LdExtrasEnabledTip">
+        LDPlayer 9 V9.0.78 以降のバージョンが必要です。\n
+        この機能を初めて使用する前に、スクリーンショットテストを行うことを強くお勧めします。\n\n
+        以下の情報を入力してください：\n\n
+        1. エミュレーターのパス：（例：C:\\leidian\\LDPlayer9）\n
+        エミュレーターのパスは、エミュレーターアプリケーションが存在するフォルダのパスを入力してください。例えば、アプリケーションパスが\n
+        「C:\\leidian\\LDPlayer9\\ldconsole.exe」の場合、\n
+        「C:\\leidian\\LDPlayer9」と入力してください。\n\n
+        2. インスタンス番号：（例：0）\n
+        インスタンス番号は、LDPlayerのマルチインスタンスマネージャーで確認できます。デフォルトは0です。複数のインスタンスがある場合、バージョン/番号のID列に番号が表示されます。\n
+    </system:String>
+    <system:String x:Key="LdEmulatorPath">LD エミュレータパス</system:String>
+    <system:String x:Key="LdIndex">インスタンス番号</system:String>
+    <system:String x:Key="LdExtrasNotEnabledMessage">LD スクリーンショットの強化 が有効になっていません。関連する設定を確認してください</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB接続が失敗した場合、エミュレータの起動を試みる</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">再接続に20回失敗した後、エミュレータを再起動してみてください，バックグラウンドのタイムドタスクを使用し、終了時にエミュレータを終了させるタスクを設定する場合は、必ずチェックを入れること</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">エミュレータのパスが空です！「起動設定-エミュレータのパス」を入力してから再度選択してください。</system:String>
@@ -584,6 +599,10 @@
     <system:String x:Key="GachaAgreeDisclaimer">理解した</system:String>
     <system:String x:Key="ShowDisclaimerNoMore">再度表示しない</system:String>
     <!--  !Gacha Recognition  -->
+    <!--  Peep  -->
+    <system:String x:Key="Peep">Peep</system:String>
+    <system:String x:Key="PeepTargetFps">目標フレームレート</system:String>
+    <!--  !Peep  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">認識中……</system:String>
     <system:String x:Key="IdentificationCompleted">認識完了</system:String>
@@ -647,6 +666,7 @@
     <!--  !Copilot  -->
     <!--  ErrorView  -->
     <system:String x:Key="Error">エラー</system:String>
+    <system:String x:Key="ErrorCongratulations">おめでとうございます</system:String>
     <system:String x:Key="ErrorProlog">MAA に問題が発生しました</system:String>
     <system:String x:Key="ErrorDetails">詳細情報</system:String>
     <system:String x:Key="ErrorSolution">解決策</system:String>

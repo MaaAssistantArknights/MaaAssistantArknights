@@ -395,6 +395,22 @@
     <system:String x:Key="MuMu12Index">實例號碼</system:String>
     <system:String x:Key="MuMu12Display">螢幕號碼</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu 截圖增強未生效，请檢查相關設定</system:String>
+    <system:String x:Key="LdExtrasEnabled">啟用 LD 截圖增強模式</system:String>
+    <system:String x:Key="LdExtrasEnabledTip">
+        需使用 LDPlayer 9 V9.0.78 及更新版本。\n
+        強烈建議在開啟本功能後的首次使用之前進行截圖測試。\n\n
+        請填寫以下信息：\n\n
+        1. 模擬器路徑：（例如：C:\\leidian\\LDPlayer9）\n
+        模擬器路徑應填寫模擬器應用所在文件夾路徑，例如應用路徑為\n
+        「C:\\leidian\\LDPlayer9\\ldconsole.exe」\n
+        應填寫\n
+        「C:\\leidian\\LDPlayer9」。\n\n
+        2. 實例編號：（例如：0）\n
+        實例編號可在 LDPlayer 多開器中查看，默認為 0，若有多開實例，編號見 版本/編號 中的 ID。\n
+    </system:String>
+    <system:String x:Key="LdEmulatorPath">LD 模擬器路徑</system:String>
+    <system:String x:Key="LdIndex">實例號碼</system:String>
+    <system:String x:Key="LdExtrasNotEnabledMessage">LD 截圖增強未生效，请檢查相關設定</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 連線失敗時嘗試啟動模擬器</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">重連失敗 20 次後嘗試重開模擬器，使用後台定時任務且設定任務完成關閉模擬器時必須勾選</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">模擬器路徑為空！請填寫「啟動設定-模擬器路徑」後重新勾選。</system:String>
@@ -584,6 +600,10 @@
     <system:String x:Key="GachaAgreeDisclaimer">知道了</system:String>
     <system:String x:Key="ShowDisclaimerNoMore">下次不再提示</system:String>
     <!--  !Gacha Recognition  -->
+    <!--  牛牛監控  -->
+    <system:String x:Key="Peep">牛牛監控</system:String>
+    <system:String x:Key="PeepTargetFps">目標幀率</system:String>
+    <!--  !牛牛監控  -->
     <!--  日誌  -->
     <system:String x:Key="Identifying">正在辨識……</system:String>
     <system:String x:Key="IdentificationCompleted">辨識完成</system:String>
@@ -647,6 +667,7 @@
     <!--  !Copilot  -->
     <!--  ErrorView  -->
     <system:String x:Key="Error">錯誤</system:String>
+    <system:String x:Key="ErrorCongratulations">喜報</system:String>
     <system:String x:Key="ErrorProlog">MAA 遇到了問題</system:String>
     <system:String x:Key="ErrorDetails">詳細資訊</system:String>
     <system:String x:Key="ErrorSolution">解決方法</system:String>
@@ -689,7 +710,7 @@
     <system:String x:Key="CompleteTask" xml:space="preserve">完成任務: </system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">開始戰鬥: </system:String>
     <system:String x:Key="CompleteCombat">完成戰鬥</system:String>
-    <system:String x:Key="AllTasksComplete">任務已全部完成！\n({0} 後)</system:String>
+    <system:String x:Key="AllTasksComplete">任務已全部完成！\n(用時 {0})</system:String>
     <system:String x:Key="SanityReport">理智會在 {DateTime}回滿。({TimeDiff} 後)</system:String>
     <system:String x:Key="AllTaskCompleteContent">MAA 已在 {DateTime} 完成了 {Preset} 配置下所有預設的任務。(用時 {TimeDiff})</system:String>
     <system:String x:Key="BackgroundLinkStarted">開始執行任務</system:String>

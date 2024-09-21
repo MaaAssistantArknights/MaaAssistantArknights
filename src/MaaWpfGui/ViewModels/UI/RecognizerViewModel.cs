@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -25,6 +26,7 @@ using MaaWpfGui.States;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
+using Timer = System.Timers.Timer;
 
 namespace MaaWpfGui.ViewModels.UI
 {
@@ -43,11 +45,22 @@ namespace MaaWpfGui.ViewModels.UI
             DisplayName = LocalizationHelper.GetString("Toolbox");
             _runningState = RunningState.Instance;
             _runningState.IdleChanged += RunningState_IdleChanged;
+            _peepImageTimer.Elapsed += RefreshPeepImageAsync;
+            _peepImageTimer.Interval = 1000d / PeepTargetFps;
+            _gachaTimer.Tick += RefreshGachaTip;
         }
 
         private void RunningState_IdleChanged(object? sender, bool e)
         {
             Idle = e;
+            if (!Idle)
+            {
+                return;
+            }
+
+            Peeping = false;
+            IsPeepInProgress = false;
+            IsGachaInProgress = false;
         }
 
         private bool _idle;
@@ -58,20 +71,7 @@ namespace MaaWpfGui.ViewModels.UI
         public bool Idle
         {
             get => _idle;
-            set
-            {
-                SetAndNotify(ref _idle, value);
-
-                if (!value)
-                {
-                    return;
-                }
-
-                // 识别完成、主界面暂停或者连接出错时
-                GachaDone = true;
-                DepotDone = true;
-                OperBoxDone = true;
-            }
+            set => SetAndNotify(ref _idle, value);
         }
 
         #region Recruit
@@ -424,27 +424,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             DepotInfo = LocalizationHelper.GetString("IdentificationCompleted") + "\n" + LocalizationHelper.GetString("DepotRecognitionTip");
-            DepotDone = true;
 
             return true;
-        }
-
-        private bool _depotDone = true;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether depot info is parsed.
-        /// </summary>
-        public bool DepotDone
-        {
-            get => _depotDone;
-            set
-            {
-                SetAndNotify(ref _depotDone, value);
-                if (value)
-                {
-                    _runningState.SetIdle(true);
-                }
-            }
         }
 
         /// <summary>
@@ -474,7 +455,6 @@ namespace MaaWpfGui.ViewModels.UI
             DepotResult.Clear();
             ArkPlannerResult = string.Empty;
             LoliconResult = string.Empty;
-            DepotDone = false;
         }
 
         /// <summary>
@@ -530,24 +510,6 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get => _operBoxInfo;
             set => SetAndNotify(ref _operBoxInfo, value);
-        }
-
-        private bool _operBoxDone = true;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether operBox info is parsed.
-        /// </summary>
-        public bool OperBoxDone
-        {
-            get => _operBoxDone;
-            set
-            {
-                SetAndNotify(ref _operBoxDone, value);
-                if (value)
-                {
-                    _runningState.SetIdle(true);
-                }
-            }
         }
 
         public string OperBoxExportData { get; set; } = string.Empty;
@@ -615,12 +577,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool OperBoxParse(JObject? details)
         {
-            if (details == null)
-            {
-                return false;
-            }
-
-            var operBoxes = (JArray?)details["all_opers"];
+            var operBoxes = (JArray?)details?["all_opers"];
 
             if (operBoxes == null)
             {
@@ -657,14 +614,16 @@ namespace MaaWpfGui.ViewModels.UI
             OperBoxHaveList = new ObservableCollection<string>(operHave.Select(tuple => tuple.Item1));
             OperBoxNotHaveList = new ObservableCollection<string>(operNotHave.Select(tuple => tuple.Item1));
 
-            bool done = (bool)(details["done"] ?? false);
-            if (done)
+            bool done = (bool)(details?["done"] ?? false);
+            if (!done)
             {
-                OperBoxInfo = LocalizationHelper.GetString("IdentificationCompleted") + "\n" + LocalizationHelper.GetString("OperBoxRecognitionTip");
-                OperBoxExportData = details["own_opers"]?.ToString() ?? string.Empty;
-                OperBoxDataArray = (JArray)(details["own_opers"] ?? new JArray());
-                OperBoxDone = true;
+                return true;
             }
+
+            OperBoxInfo = LocalizationHelper.GetString("IdentificationCompleted") + "\n" + LocalizationHelper.GetString("OperBoxRecognitionTip");
+            OperBoxExportData = details?["own_opers"]?.ToString() ?? string.Empty;
+            OperBoxDataArray = (JArray)(details?["own_opers"] ?? new JArray());
+            _runningState.SetIdle(true);
 
             return true;
         }
@@ -677,7 +636,6 @@ namespace MaaWpfGui.ViewModels.UI
         public async void StartOperBox()
         {
             OperBoxExportData = string.Empty;
-            OperBoxDone = false;
             _runningState.SetIdle(false);
 
             string errMsg = string.Empty;
@@ -713,32 +671,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region Gacha
 
-        private bool _gachaDone = true;
-
-        public bool GachaDone
-        {
-            get => _gachaDone;
-            set
-            {
-                bool stop = value && !_gachaDone;
-                SetAndNotify(ref _gachaDone, value);
-                if (value)
-                {
-                    _runningState.SetIdle(true);
-                }
-
-                if (!stop)
-                {
-                    return;
-                }
-
-                _gachaImageTimer.Stop();
-
-                // 强制再刷一下
-                RefreshGachaImage(null, null);
-            }
-        }
-
         private string _gachaInfo = LocalizationHelper.GetString("GachaInitTip");
 
         public string GachaInfo
@@ -761,15 +693,32 @@ namespace MaaWpfGui.ViewModels.UI
             StartGacha(false);
         }
 
+        private bool _isGachaInProgress;
+
+        public bool IsGachaInProgress
+        {
+            get => _isGachaInProgress;
+            set
+            {
+                if (!SetAndNotify(ref _isGachaInProgress, value))
+                {
+                    return;
+                }
+
+                if (!value)
+                {
+                    _gachaTimer.Stop();
+                }
+            }
+        }
+
         public async void StartGacha(bool once = true)
         {
-            GachaDone = false;
-            GachaImage = null;
             _runningState.SetIdle(false);
 
             string errMsg = string.Empty;
             GachaInfo = LocalizationHelper.GetString("ConnectingToEmulator");
-            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg) && Instances.AsstProxy.AsstStartGacha(once));
             if (!caught)
             {
                 GachaInfo = errMsg;
@@ -777,43 +726,18 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (!Instances.AsstProxy.AsstStartGacha(once))
-            {
-                return;
-            }
+            _gachaTimer.Interval = TimeSpan.FromSeconds(5);
+            _gachaTimer.Start();
 
-            _gachaImageTimer.Interval = TimeSpan.FromMilliseconds(500);
-            _gachaImageTimer.Tick += RefreshGachaImage;
-            _gachaImageTimer.Start();
+            RefreshGachaTip(null, null);
+            IsGachaInProgress = true;
+            Peep();
         }
 
-        private readonly DispatcherTimer _gachaImageTimer = new();
-
-        private static readonly object _lock = new();
-
-        private BitmapImage? _gachaImage;
-
-        public BitmapImage? GachaImage
+        private void RefreshGachaTip(object? sender, EventArgs? e)
         {
-            get => _gachaImage;
-            set => SetAndNotify(ref _gachaImage, value);
-        }
-
-        private void RefreshGachaImage(object? sender, EventArgs? e)
-        {
-            lock (_lock)
-            {
-                var image = Instances.AsstProxy.AsstGetImage();
-                if (GachaImage.IsEqual(image))
-                {
-                    return;
-                }
-
-                GachaImage = image;
-
-                var rd = new Random();
-                GachaInfo = LocalizationHelper.GetString("GachaTip" + rd.Next(1, 18).ToString());
-            }
+            var rd = new Random();
+            GachaInfo = LocalizationHelper.GetString("GachaTip" + rd.Next(1, 18));
         }
 
         // DO NOT CHANGE
@@ -865,5 +789,208 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         #endregion Gacha
+
+        #region Peep
+
+        private bool _peeping;
+
+        public bool Peeping
+        {
+            get => _peeping;
+            set
+            {
+                if (!SetAndNotify(ref _peeping, value))
+                {
+                    return;
+                }
+
+                if (!value)
+                {
+                    _peepImageTimer.Stop();
+                }
+            }
+        }
+
+        private bool _isPeepInProgress;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether由 Peep 方法启动的 Peep
+        /// </summary>
+        public bool IsPeepInProgress
+        {
+            get => _isPeepInProgress;
+            set
+            {
+                if (!SetAndNotify(ref _isPeepInProgress, value))
+                {
+                    return;
+                }
+
+                if (!value)
+                {
+                    _peepImageTimer.Stop();
+                }
+            }
+        }
+
+        private BitmapImage? _peepImage;
+
+        public BitmapImage? PeepImage
+        {
+            get => _peepImage;
+            set => SetAndNotify(ref _peepImage, value);
+        }
+
+        private double _peepScreenFpf;
+
+        public double PeepScreenFpf
+        {
+            get => _peepScreenFpf;
+            set => SetAndNotify(ref _peepScreenFpf, value);
+        }
+
+        private int _peepTargetFps = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.PeepTargetFps, "20"));
+
+        public int PeepTargetFps
+        {
+            get
+            {
+                return _peepTargetFps;
+            }
+
+            set
+            {
+                value = value switch
+                {
+                    > 60 => 60,
+                    < 1 => 1,
+                    _ => value,
+                };
+
+                SetAndNotify(ref _peepTargetFps, value);
+                _peepImageTimer.Interval = 1000d / _peepTargetFps;
+                ConfigurationHelper.SetValue(ConfigurationKeys.PeepTargetFps, value.ToString());
+            }
+        }
+
+        private DateTime _lastFpsUpdateTime = DateTime.MinValue;
+        private int _frameCount;
+
+        private readonly Timer _peepImageTimer = new();
+        private readonly DispatcherTimer _gachaTimer = new() { Interval = TimeSpan.FromSeconds(5) };
+
+        private int _peepImageCount;
+        private int _peepImageNewestCount;
+
+        private static readonly SemaphoreSlim _peepImageSemaphore = new(2, 5);
+
+        private async void RefreshPeepImageAsync(object? sender, EventArgs? e)
+        {
+            if (!await _peepImageSemaphore.WaitAsync(0))
+            {
+                _peepImageSemaphore.Release();
+                return;
+            }
+
+            try
+            {
+                var count = Interlocked.Increment(ref _peepImageCount);
+                var cacheImage = await Instances.AsstProxy.AsstGetFreshImageAsync();
+                if (!Peeping || count <= _peepImageNewestCount || cacheImage is null)
+                {
+                    return;
+                }
+
+                Interlocked.Exchange(ref _peepImageNewestCount, count);
+                PeepImage = cacheImage;
+
+                var now = DateTime.Now;
+                Interlocked.Increment(ref _frameCount);
+                var totalSeconds = (now - _lastFpsUpdateTime).TotalSeconds;
+                if (totalSeconds < 1)
+                {
+                    return;
+                }
+
+                var frameCount = Interlocked.Exchange(ref _frameCount, 0);
+                _lastFpsUpdateTime = now;
+                PeepScreenFpf = frameCount / totalSeconds;
+            }
+            finally
+            {
+                _peepImageSemaphore.Release();
+            }
+        }
+
+        private bool _isPeepTransitioning;
+
+        public bool IsPeepTransitioning
+        {
+            get => _isPeepTransitioning;
+            set => SetAndNotify(ref _isPeepTransitioning, value);
+        }
+
+        /// <summary>
+        /// 获取或停止获取实时截图，在抽卡时额外停止抽卡
+        /// </summary>
+        public async void Peep()
+        {
+            if (IsPeepTransitioning)
+            {
+                return;
+            }
+
+            IsPeepTransitioning = true;
+
+            try
+            {
+                // 正在 Peep 时，点击按钮停止 Peep
+                if (Peeping)
+                {
+                    Peeping = false;
+                    _peepImageTimer.Stop();
+
+                    // 由 Peep() 方法启动的 Peep 也需要停止，Block 不会自动停止
+                    if (IsGachaInProgress || IsPeepInProgress)
+                    {
+                        await Instances.TaskQueueViewModel.Stop();
+                        Instances.TaskQueueViewModel.SetStopped();
+                    }
+
+                    IsPeepInProgress = false;
+                    return;
+                }
+
+                // 点击按钮开始 Peep
+                Peeping = true;
+
+                // 如果没任务在运行，需要先连接，并标记是由 Peep() 方法启动的 Peep
+                if (Idle)
+                {
+                    _runningState.SetIdle(false);
+                    string errMsg = string.Empty;
+                    bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+                    if (!caught)
+                    {
+                        GachaInfo = errMsg;
+                        _runningState.SetIdle(true);
+                        return;
+                    }
+
+                    IsPeepInProgress = true;
+                }
+
+                PeepScreenFpf = 0;
+                _peepImageCount = 0;
+                _peepImageNewestCount = 0;
+                _peepImageTimer.Start();
+            }
+            finally
+            {
+                IsPeepTransitioning = false;
+            }
+        }
+
+        #endregion
     }
 }

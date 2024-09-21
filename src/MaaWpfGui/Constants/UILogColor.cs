@@ -64,6 +64,11 @@ namespace MaaWpfGui.Constants
         /// </summary>
         public const string MuMuSpecialScreenshot = "MuMuSpecialScreenshot";
 
+        /// <summary>
+        /// The recommended color for LD special screenshot.
+        /// </summary>
+        public const string LdSpecialScreenshot = "LdSpecialScreenshot";
+
         // 颜色在MaaWpfGui\Res\Themes中定义
         // Brush are defined in MaaWpfGui\Res\Themes
     }

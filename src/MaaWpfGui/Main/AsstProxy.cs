@@ -12,6 +12,7 @@
 // </copyright>
 #nullable enable
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -119,6 +120,11 @@ namespace MaaWpfGui.Main
             AsstSetConnectionExtras("MuMuEmulator12", extras);
         }
 
+        private static void AsstSetConnectionExtrasLdPlayer(string extras)
+        {
+            AsstSetConnectionExtras("LDPlayer", extras);
+        }
+
         private static unsafe AsstTaskId AsstAppendTask(AsstHandle handle, string type, string taskParams)
         {
             fixed (byte* ptr1 = EncodeNullTerminatedUtf8(type),
@@ -157,36 +163,62 @@ namespace MaaWpfGui.Main
 
         public static unsafe BitmapImage? AsstGetImage(AsstHandle handle)
         {
-            byte[] buff = new byte[1280 * 720 * 3];
-            ulong readSize;
-            fixed (byte* ptr = buff)
-            {
-                readSize = MaaService.AsstGetImage(handle, ptr, (ulong)buff.Length);
-            }
-
-            if (readSize == MaaService.AsstGetNullSize())
-            {
-                return null;
-            }
-
+            var buffer = ArrayPool<byte>.Shared.Rent(1280 * 720 * 3);
             try
             {
+                ulong readSize;
+                fixed (byte* ptr = buffer)
+                {
+                    readSize = MaaService.AsstGetImage(handle, ptr, (ulong)buffer.Length);
+                }
+
+                if (readSize == MaaService.AsstGetNullSize())
+                {
+                    return null;
+                }
+
                 // buff is a png data
                 var image = new BitmapImage();
                 image.BeginInit();
-                image.StreamSource = new MemoryStream(buff, 0, (int)readSize);
+                using var stream = new MemoryStream(buffer, 0, (int)readSize, false);
+                image.StreamSource = stream;
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.CreateOptions = BitmapCreateOptions.IgnoreColorProfile;
                 image.EndInit();
+                image.Freeze();
                 return image;
             }
-            catch (Exception)
+            finally
             {
-                return null;
+                ArrayPool<byte>.Shared.Return(buffer);
             }
+        }
+
+        public static async Task<BitmapImage?> AsstGetImageAsync(AsstHandle handle)
+        {
+            return await Task.Run(() => AsstGetImage(handle));
         }
 
         public BitmapImage? AsstGetImage()
         {
             return AsstGetImage(_handle);
+        }
+
+        public BitmapImage? AsstGetFreshImage()
+        {
+            MaaService.AsstAsyncScreencap(_handle, true);
+            return AsstGetImage(_handle);
+        }
+
+        public async Task<BitmapImage?> AsstGetImageAsync()
+        {
+            return await AsstGetImageAsync(_handle);
+        }
+
+        public async Task<BitmapImage?> AsstGetFreshImageAsync()
+        {
+            MaaService.AsstAsyncScreencap(_handle, true);
+            return await AsstGetImageAsync(_handle);
         }
 
         private readonly MaaService.CallbackDelegate _callback;
@@ -535,6 +567,20 @@ namespace MaaWpfGui.Main
                                 }
 
                                 break;
+                            case "LDPlayer":
+                                if (Instances.SettingsViewModel.LdPlayerExtras.Enable && method != "LDExtras")
+                                {
+                                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("LdExtrasNotEnabledMessage"), UiLogColor.Error);
+                                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("LdExtrasNotEnabledMessage"), UiLogColor.Error, showTime: false);
+                                    needToStop = true;
+                                }
+                                else if (timeCost < 100)
+                                {
+                                    color = UiLogColor.LdSpecialScreenshot;
+                                    method = "LDExtras";
+                                }
+
+                                break;
                         }
 
                         fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString, method));
@@ -801,7 +847,6 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.ResetFightVariables();
                     Instances.TaskQueueViewModel.ResetTaskSelection();
                     _runningState.SetIdle(true);
-                    Instances.RecognizerViewModel.GachaDone = true;
 
                     if (isMainTaskQueueAllCompleted)
                     {
@@ -1465,11 +1510,12 @@ namespace MaaWpfGui.Main
                             Instances.CopilotViewModel.AddLog(doc, string.IsNullOrEmpty(color) ? UiLogColor.Message : color);
                         }
 
+                        var target = subTaskDetails["target"]?.ToString();
                         Instances.CopilotViewModel.AddLog(
                             string.Format(
                                 LocalizationHelper.GetString("CurrentSteps"),
                                 subTaskDetails["action"],
-                                DataHelper.GetLocalizedCharacterName(subTaskDetails["target"]?.ToString())));
+                                DataHelper.GetLocalizedCharacterName(target) ?? target));
 
                         break;
                     }
@@ -1764,6 +1810,9 @@ namespace MaaWpfGui.Main
             {
                 case "MuMuEmulator12":
                     AsstSetConnectionExtrasMuMu12(Instances.SettingsViewModel.MuMuEmulator12Extras.Config);
+                    break;
+                case "LDPlayer":
+                    AsstSetConnectionExtrasLdPlayer(Instances.SettingsViewModel.LdPlayerExtras.Config);
                     break;
             }
 
@@ -2576,24 +2625,13 @@ namespace MaaWpfGui.Main
                 ["task_names"] = new JArray
                 {
                     once ? "GachaOnce" : "GachaTenTimes",
+
+                    // TEST
+                    // "Block",
                 },
             };
             AsstTaskId id = AsstAppendTaskWithEncoding("Custom", taskParams);
             _latestTaskId[TaskType.Gacha] = id;
-            return id != 0 && AsstStart();
-        }
-
-        public bool AsstStartTestLink()
-        {
-            var taskParams = new JObject
-            {
-                ["task_names"] = new JArray
-                {
-                    "Home",
-                },
-            };
-            AsstTaskId id = AsstAppendTaskWithEncoding("Custom", taskParams);
-            _latestTaskId[TaskType.Custom] = id;
             return id != 0 && AsstStart();
         }
 

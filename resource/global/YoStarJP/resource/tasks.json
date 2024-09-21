@@ -14,6 +14,12 @@
     "ClickChapter3": {
         "text": ["残映"]
     },
+    "OD-OpenOcr": {
+        "text": ["Operation", "Originium", "Dust"]
+    },
+    "ODChapterToOD": {
+        "text": ["Task", "Records", "TASK", "RECORDS"]
+    },
     "CR-OpenOcr": {
         "text": ["オペレーション", "ルーセント", "アローヘッド", "イベント開催中", "降下作戦", "ステージ開放中"]
     },
