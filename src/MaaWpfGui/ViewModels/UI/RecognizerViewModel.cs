@@ -882,12 +882,13 @@ namespace MaaWpfGui.ViewModels.UI
         private int _peepImageCount;
         private int _peepImageNewestCount;
 
-        private static readonly SemaphoreSlim _peepImageSemaphore = new(5, 5);
+        private static readonly SemaphoreSlim _peepImageSemaphore = new(2, 5);
 
         private async void RefreshPeepImageAsync(object? sender, EventArgs? e)
         {
             if (!await _peepImageSemaphore.WaitAsync(0))
             {
+                _peepImageSemaphore.Release();
                 return;
             }
 
