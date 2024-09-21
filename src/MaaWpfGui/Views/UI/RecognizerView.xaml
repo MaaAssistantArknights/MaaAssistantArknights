@@ -545,11 +545,11 @@
                         MinWidth="50"
                         VerticalAlignment="Center"
                         HorizontalContentAlignment="Center"
-                        d:Value="90"
+                        d:Value="60"
                         hc:TitleElement.HorizontalAlignment="Center"
                         hc:TitleElement.Title="{DynamicResource PeepTargetFps}"
                         hc:TitleElement.TitlePlacement="Top"
-                        Maximum="90"
+                        Maximum="60"
                         Minimum="1"
                         Style="{StaticResource NumericUpDownExtend}"
                         Value="{Binding PeepTargetFps, UpdateSourceTrigger=PropertyChanged}" />

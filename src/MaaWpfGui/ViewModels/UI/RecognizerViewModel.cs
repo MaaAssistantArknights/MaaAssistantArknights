@@ -862,7 +862,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 value = value switch
                 {
-                    > 90 => 90,
+                    > 60 => 60,
                     < 1 => 1,
                     _ => value,
                 };
@@ -882,29 +882,43 @@ namespace MaaWpfGui.ViewModels.UI
         private int _count;
         private int _newestCount;
 
+        private static readonly SemaphoreSlim _peepImageSemaphore = new(5, 5);
+
         private async void RefreshPeepImageAsync(object? sender, EventArgs? e)
         {
-            var count = Interlocked.Increment(ref _count);
-            var cacheImage = await Instances.AsstProxy.AsstGetFreshImageAsync();
-            if (!Peeping || count <= _newestCount || cacheImage is null)
+            if (!await _peepImageSemaphore.WaitAsync(0))
             {
                 return;
             }
 
-            Interlocked.Exchange(ref _newestCount, count);
-            PeepImage = cacheImage;
-
-            var now = DateTime.Now;
-            Interlocked.Increment(ref _frameCount);
-            var totalSeconds = (now - _lastFpsUpdateTime).TotalSeconds;
-            if (totalSeconds < 1)
+            try
             {
-                return;
-            }
+                var count = Interlocked.Increment(ref _count);
+                var cacheImage = await Instances.AsstProxy.AsstGetFreshImageAsync();
+                if (!Peeping || count <= _newestCount || cacheImage is null)
+                {
+                    return;
+                }
 
-            var frameCount = Interlocked.Exchange(ref _frameCount, 0);
-            _lastFpsUpdateTime = now;
-            PeepScreenFpf = frameCount / totalSeconds;
+                Interlocked.Exchange(ref _newestCount, count);
+                PeepImage = cacheImage;
+
+                var now = DateTime.Now;
+                Interlocked.Increment(ref _frameCount);
+                var totalSeconds = (now - _lastFpsUpdateTime).TotalSeconds;
+                if (totalSeconds < 1)
+                {
+                    return;
+                }
+
+                var frameCount = Interlocked.Exchange(ref _frameCount, 0);
+                _lastFpsUpdateTime = now;
+                PeepScreenFpf = frameCount / totalSeconds;
+            }
+            finally
+            {
+                _peepImageSemaphore.Release();
+            }
         }
 
         private bool _isPeepTransitioning;
