@@ -11901,6 +11901,7 @@
     "Tales@RA@LeaveCurrentZone": {
         "doc": "模板任务: 在行动中点击左上角离开当前区块, 注意左上角离开按钮渐变出现, 期间点击无效",
         "roi": [41, 22, 78, 71],
+        "templThreshold": 0.75,
         "action": "ClickSelf"
     },
     "Tales@RA@LoadSave": {
