@@ -600,7 +600,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  !Gacha Recognition  -->
     <!--  Peep  -->
     <system:String x:Key="Peep">Peep</system:String>
-    <system:String x:Key="PeepInterval">Minimum Screenshot Interval</system:String>
+    <system:String x:Key="PeepTargetFps">Target Frame Rate</system:String>
     <!--  !Peep  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">Identifying……</system:String>

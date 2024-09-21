@@ -268,7 +268,7 @@ namespace MaaWpfGui.Constants
 
         public const string GachaShowDisclaimerNoMore = "Gacha.ShowDisclaimerNoMore";
 
-        public const string PeepInterval = "Peep.Interval";
+        public const string PeepTargetFps = "Peep.TargetFps";
 
         public const string GuideStepIndex = "Guide.StepIndex";
 

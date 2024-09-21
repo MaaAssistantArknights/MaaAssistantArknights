@@ -601,7 +601,7 @@
     <!--  !Gacha Recognition  -->
     <!--  Peep  -->
     <system:String x:Key="Peep">Peep</system:String>
-    <system:String x:Key="PeepInterval">最小スクリーンショット間隔</system:String>
+    <system:String x:Key="PeepTargetFps">目標フレームレート</system:String>
     <!--  !Peep  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">認識中……</system:String>

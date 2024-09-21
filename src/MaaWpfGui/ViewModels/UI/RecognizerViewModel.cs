@@ -46,6 +46,7 @@ namespace MaaWpfGui.ViewModels.UI
             _runningState = RunningState.Instance;
             _runningState.IdleChanged += RunningState_IdleChanged;
             _peepImageTimer.Elapsed += RefreshPeepImageAsync;
+            _peepImageTimer.Interval = 1000d / PeepTargetFps;
             _gachaTimer.Tick += RefreshGachaTip;
         }
 
@@ -848,21 +849,27 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _peepScreenFpf, value);
         }
 
-        private int _peepInterval = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.PeepInterval, "16"));
+        private int _peepTargetFps = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.PeepTargetFps, "20"));
 
-        public int PeepInterval
+        public int PeepTargetFps
         {
-            get => _peepInterval > 10 ? _peepInterval : 10;
+            get
+            {
+                return _peepTargetFps;
+            }
+
             set
             {
-                if (value < 10)
+                value = value switch
                 {
-                    value = 10;
-                }
+                    > 90 => 90,
+                    < 1 => 1,
+                    _ => value,
+                };
 
-                SetAndNotify(ref _peepInterval, value);
-                _peepImageTimer.Interval = _peepInterval;
-                ConfigurationHelper.SetValue(ConfigurationKeys.PeepInterval, value.ToString());
+                SetAndNotify(ref _peepTargetFps, value);
+                _peepImageTimer.Interval = 1000d / _peepTargetFps;
+                ConfigurationHelper.SetValue(ConfigurationKeys.PeepTargetFps, value.ToString());
             }
         }
 

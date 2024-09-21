@@ -602,7 +602,7 @@
     <!--  !牛牛抽卡  -->
     <!--  牛牛监控  -->
     <system:String x:Key="Peep">牛牛监控</system:String>
-    <system:String x:Key="PeepInterval">最小截图间隔</system:String>
+    <system:String x:Key="PeepTargetFps">目标帧率</system:String>
     <!--  !牛牛监控  -->
     <!--  日志  -->
     <system:String x:Key="Identifying">正在识别……</system:String>
