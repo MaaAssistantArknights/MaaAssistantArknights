@@ -321,12 +321,6 @@ namespace MaaWpfGui.ViewModels.UI
                 return true;
             }
 
-            if (!Instances.RecognizerViewModel.GachaDone)
-            {
-                // no need to confirm if Gacha running
-                return true;
-            }
-
             var result = MessageBoxHelper.Show(
                 LocalizationHelper.GetString("ConfirmExitText"),
                 LocalizationHelper.GetString("ConfirmExitTitle"),

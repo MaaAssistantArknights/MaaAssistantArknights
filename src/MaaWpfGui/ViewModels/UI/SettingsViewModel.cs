@@ -4673,7 +4673,7 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public async void TestLinkAndGetImage()
         {
-            _runningState.Idle = false;
+            _runningState.SetIdle(false);
 
             string errMsg = string.Empty;
             TestLinkInfo = LocalizationHelper.GetString("ConnectingToEmulator");
@@ -4681,12 +4681,13 @@ namespace MaaWpfGui.ViewModels.UI
             if (!caught)
             {
                 TestLinkInfo = errMsg;
-                _runningState.Idle = true;
+                _runningState.SetIdle(true);
                 return;
             }
 
-            TestLinkImage = Instances.AsstProxy.AsstGetFreshImage();
-            _runningState.Idle = true;
+            TestLinkImage = await Instances.AsstProxy.AsstGetFreshImageAsync();
+            await Instances.TaskQueueViewModel.Stop();
+            Instances.TaskQueueViewModel.SetStopped();
 
             if (TestLinkImage is null)
             {
@@ -4713,6 +4714,7 @@ namespace MaaWpfGui.ViewModels.UI
                 Width = 800,
                 Height = 481, // (800 - 1 - 1) * 9 / 16 + 32 + 1,
                 Content = new Image { Source = TestLinkImage, },
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
             };
             popupWindow.ShowDialog();
         }
