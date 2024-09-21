@@ -600,6 +600,10 @@
     <system:String x:Key="GachaAgreeDisclaimer">知道了</system:String>
     <system:String x:Key="ShowDisclaimerNoMore">下次不再提示</system:String>
     <!--  !Gacha Recognition  -->
+    <!--  牛牛監控  -->
+    <system:String x:Key="Peep">牛牛監控</system:String>
+    <system:String x:Key="PeepTargetFps">目標幀率</system:String>
+    <!--  !牛牛監控  -->
     <!--  日誌  -->
     <system:String x:Key="Identifying">正在辨識……</system:String>
     <system:String x:Key="IdentificationCompleted">辨識完成</system:String>
