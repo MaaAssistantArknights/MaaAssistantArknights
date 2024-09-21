@@ -2,7 +2,7 @@
 
 ### 新增 | New
 
-* 喜报！ (#10578) @ABA2396 @SherkeyXD
+* 喜报！(报错界面) (#10578) @ABA2396 @SherkeyXD
 * LD 截图 (#10581) @ABA2396
 
 ### 改进 | Improved
