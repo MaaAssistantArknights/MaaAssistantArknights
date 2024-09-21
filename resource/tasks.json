@@ -186,6 +186,9 @@
     "13@EnterEpisode": {
         "text": ["EPISODE13"]
     },
+    "14@EnterEpisode": {
+        "text": ["EPISODE14"]
+    },
     "LevelOfDifficulty": {
         "Doc": "base_task",
         "algorithm": "OcrDetect",
@@ -407,7 +410,6 @@
         "sub": ["ToChapter3@StageTheme"]
     },
     "Episode14": {
-        "doc": "待出",
         "baseTask": "14@Episode",
         "sub": ["ToChapter3@StageTheme"]
     },
@@ -542,7 +544,8 @@
     },
     "SS-Open": {
         "Doc": "base_task",
-        "template": "empty.png",
+        "template": "StageSideStory.png",
+        "template_Doc": "使用时需再次指定 template",
         "action": "ClickSelf",
         "postDelay": 2000,
         "roi": [505, 57, 462, 628]
@@ -1059,6 +1062,11 @@
         "sub": ["CV-Open"],
         "next": ["CV-6@SideStoryStage", "CV-6@SwipeToStage"]
     },
+    "CV-4": {
+        "algorithm": "JustReturn",
+        "sub": ["CV-Open"],
+        "next": ["CV-4@SideStoryStage", "CV-4@SwipeToStage"]
+    },
     "CV-Open": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -1083,6 +1091,9 @@
     },
     "CV-6@SideStoryStage": {
         "text": ["CV-6"]
+    },
+    "CV-4@SideStoryStage": {
+        "text": ["CV-4"]
     },
     "SL-8": {
         "algorithm": "JustReturn",

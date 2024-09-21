@@ -99,7 +99,7 @@ namespace asst
     public:
         std::shared_ptr<Controller> ctrler() const { return m_ctrler; }
         std::shared_ptr<Status> status() const { return m_status; }
-        bool need_exit() const { return m_thread_idle; }
+        bool need_exit() const { return m_thread_idle && m_running; }
 
     private:
         void append_callback(AsstMsg msg, const json::value& detail);

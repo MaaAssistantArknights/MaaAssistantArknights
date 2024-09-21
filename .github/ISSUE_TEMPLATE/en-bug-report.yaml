@@ -46,10 +46,6 @@ body:
         Please provide the MAA version. Can be found in MAA -> Settings -> Update. (Click to copy)
       placeholder: |
         Resource Version:
-        UI Version:
-        Core Version:
-        OR
-        Resource Version:
         MAA Version:
     validations:
       required: true

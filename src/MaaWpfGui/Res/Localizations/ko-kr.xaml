@@ -396,6 +396,21 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="MuMu12Index">인스턴스 번호</system:String>
     <system:String x:Key="MuMu12Display">표시 번호</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu의 스크린샷 향상가 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
+    <system:String x:Key="LdExtrasEnabled">LD 스크린샷 향상 모드 활성화</system:String>
+    <system:String x:Key="LdExtrasEnabledTip">
+        LDPlayer 9 V9.0.78 이상 버전이 필요합니다.\n
+        이 기능을 처음 사용하기 전에 스크린샷 테스트를 수행하는 것이 좋습니다.\n\n
+        다음 정보를 입력하십시오:\n\n
+        1. 에뮬레이터 경로: (예: C:\\leidian\\LDPlayer9)\n
+        에뮬레이터 경로는 에뮬레이터 응용 프로그램이 있는 폴더 경로여야 합니다. 예를 들어, 응용 프로그램 경로가\n
+        "C:\\leidian\\LDPlayer9\\ldconsole.exe"인 경우,\n
+        "C:\\leidian\\LDPlayer9"를 입력해야 합니다。\n\n
+        2. 인스턴스 번호: (예: 0)\n
+        인스턴스 번호는 LDPlayer 다중 인스턴스 관리자에서 확인할 수 있습니다. 기본값은 0입니다. 여러 인스턴스가 있는 경우, 버전/번호의 ID 열에서 번호를 찾을 수 있습니다。\n
+    </system:String>
+    <system:String x:Key="LdEmulatorPath">LD 에뮬레이터 경로</system:String>
+    <system:String x:Key="LdIndex">인스턴스 번호</system:String>
+    <system:String x:Key="LdExtrasNotEnabledMessage">LD 의 스크린샷 향상가 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 연결이 실패하면 에뮬레이터를 다시 시도합니다</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">재연결을 20회 시도해도 실패하면 에뮬레이터를 다시 시작합니다. 백그라운드 예약을 사용하고 작업이 완료되면 에뮬레이터가 종료되도록 설정하려면 반드시 선택해야 합니다</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">에뮬레이터 경로가 비어 있습니다!「연결 설정/에뮬레이터 경로」를 입력한 후 다시 선택하세요.</system:String>
@@ -585,6 +600,10 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">확인</system:String>
     <system:String x:Key="ShowDisclaimerNoMore">다시 보지 않기</system:String>
     <!--  !헤드헌팅  -->
+    <!--  Peep  -->
+    <system:String x:Key="Peep">Peep</system:String>
+    <system:String x:Key="PeepTargetFps">목표 프레임 속도</system:String>
+    <!--  !Peep  -->
     <!--  로그  -->
     <system:String x:Key="Identifying">인식 중……</system:String>
     <system:String x:Key="IdentificationCompleted">인식 완료</system:String>
@@ -648,6 +667,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <!--  !Copilot  -->
     <!--  ErrorView  -->
     <system:String x:Key="Error">오류</system:String>
+    <system:String x:Key="ErrorCongratulations">축하합니다</system:String>
     <system:String x:Key="ErrorProlog">MAA에서 오류가 발생했습니다</system:String>
     <system:String x:Key="ErrorDetails">세부 정보</system:String>
     <system:String x:Key="ErrorSolution">해결 방법</system:String>

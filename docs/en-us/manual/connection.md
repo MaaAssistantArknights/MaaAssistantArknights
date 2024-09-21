@@ -149,23 +149,33 @@ For specific differences, you can read the [source code](https://github.com/MaaA
 
 ### MuMu Screenshot Enhanced Mode
 
-Only support official China or Ark Edition MuMu 12 V4.0.0 and later versions, and close MuMu's background keep alive. Global Edition are not supported now. <!-- V3.8.13 -->
+Only Chinese or Arknights Edition MuMu 12 V4.0.0 and later versions are supported. Please disable MuMu's background keep-alive feature. Global Edition is not supported at this time. <!-- Chinese V3.8.13 -->
 
-1. Settings → Connection Settings, tick `Enable MuMu Screenshot Enhanced Mode`.
+1. Settings → Connection Settings, enable `Enable MuMu's screenshot enhancement mode`.
 
-2. `MuMu Emulator Path` Fill in the path to the `MuMuPlayer-12.0` or `YXArkNights-12.0` folder, e.g. `C:\Program Files\Netease\MuMuPlayer-12.0`.
+2. `MuMu12 Emulator exec path` Fill in the path to the `MuMuPlayer-12.0` or `YXArkNights-12.0` folder. e.g. `C:\Program Files\Netease\MuMuPlayer-12.0`.
 
 3. `Instance Number` Fill in the serial number of the corresponding emulator in MuMu Multiplayer, e.g. `0` for Main Multiplayer.
 
-4. `Instance Screen` Fill in `0`.
+4. `Display Number` Fill in `0`.
 
 #### About MuMu's background keep alive
 
-It is recommended to turn it off, at this time the instance screen is always `0`.
+We recommend to turn it off, at this time the display number is always `0`.
 
-When it is on, the order of MuMu emulator tabs should be the serial number of the instance screen, e.g. `0` for emulator desktop, `1` for Arknights client.
+When it is on, the order of MuMu emulator tabs should be the serial number of the display number, e.g. `0` for emulator desktop, `1` for Arknights client.
 
 Adaptation for background keep alive is very incomplete, there are always all kinds of inexplicable problems and it's not recommended at all.
+
+### LD Screenshot Enhanced Mode
+
+Only Chinese LD Player 9 V9.0.78 and later versions are supported. Global Edition, Arknights Edition, and 9.1 Beta Edition are not supported at this time.
+
+1. Settings → Connection Settings, enable `Enable LD's screenshot enhancement mode`.
+
+2. `LD Emulator exec path` Fill in the path to the `LDPlayer9` folder. e.g. `C:\leidian\LDPlayer9\`。
+
+3. `Instance Number` Fill in the serial number (ID) of the corresponding emulator in LD Multiplayer. e.g. `0` for Main Multiplayer.
 
 ## Touch Mode
 

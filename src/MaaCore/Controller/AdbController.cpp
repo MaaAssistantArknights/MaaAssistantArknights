@@ -216,6 +216,23 @@ void asst::AdbController::init_mumu_extras(const AdbCfg& adb_cfg [[maybe_unused]
 #endif
 }
 
+void asst::AdbController::init_ld_extras(const AdbCfg& adb_cfg [[maybe_unused]])
+{
+#if !ASST_WITH_EMULATOR_EXTRAS
+    Log.error("MaaCore is not compiled with ASST_WITH_EMULATOR_EXTRAS");
+#else
+    if (adb_cfg.extras.empty()) {
+        LogWarn << "adb_cfg.extras is empty";
+        return;
+    }
+
+    std::filesystem::path ld_path = utils::path(adb_cfg.extras.get("path", ""));
+    int ld_index = adb_cfg.extras.get("index", 0);
+    int ld_pid = adb_cfg.extras.get("pid", 0);
+    m_ld_extras.init(ld_path, ld_index, ld_pid, m_width, m_height);
+#endif
+}
+
 void asst::AdbController::close_socket() noexcept
 {
     m_platform_io->close_socket();
@@ -458,10 +475,10 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         auto min_cost = milliseconds(LLONG_MAX);
         clear_lf_info();
 
-        auto start_time = high_resolution_clock::now();
+        auto start_time = steady_clock::now();
         if (m_support_socket && m_server_started
             && screencap(m_adb.screencap_raw_by_nc, decode_raw, allow_reconnect, true, 5000)) {
-            auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
+            auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawByNc;
                 m_inited = true;
@@ -474,9 +491,9 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         }
         clear_lf_info();
 
-        start_time = high_resolution_clock::now();
+        start_time = steady_clock::now();
         if (screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip, allow_reconnect)) {
-            auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
+            auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawWithGzip;
                 m_inited = true;
@@ -489,9 +506,9 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         }
         clear_lf_info();
 
-        start_time = high_resolution_clock::now();
+        start_time = steady_clock::now();
         if (screencap(m_adb.screencap_encode, decode_encode, allow_reconnect)) {
-            auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
+            auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::Encode;
                 m_inited = true;
@@ -505,10 +522,10 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
 
 #if ASST_WITH_EMULATOR_EXTRAS
         if (m_mumu_extras.inited()) {
-            start_time = high_resolution_clock::now();
+            start_time = steady_clock::now();
             if (m_mumu_extras.screencap()) {
                 auto duration =
-                    duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
+                    duration_cast<milliseconds>(steady_clock::now() - start_time);
                 if (duration < min_cost) {
                     m_adb.screencap_method = AdbProperty::ScreencapMethod::MumuExtras;
                     m_inited = true;
@@ -520,6 +537,22 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                 Log.info("MumuExtras is not supported");
             }
         }
+        if (m_ld_extras.inited()) {
+            start_time = steady_clock::now();
+            if (m_ld_extras.screencap()) {
+                auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
+                if (duration < min_cost) {
+                    m_adb.screencap_method = AdbProperty::ScreencapMethod::LDExtras;
+                    m_inited = true;
+                    min_cost = duration;
+                }
+                Log.info("LDExtras cost", duration.count(), "ms");
+            }
+            else {
+                Log.info("LDExtras is not supported");
+            }
+        
+        }
 #endif
 
         static const std::unordered_map<AdbProperty::ScreencapMethod, std::string> MethodName = {
@@ -529,6 +562,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             { AdbProperty::ScreencapMethod::Encode, "Encode" },
 #if ASST_WITH_EMULATOR_EXTRAS
             { AdbProperty::ScreencapMethod::MumuExtras, "MumuExtras" },
+            { AdbProperty::ScreencapMethod::LDExtras, "LDExtras" },
 #endif
         };
         Log.info(
@@ -574,6 +608,20 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             if (!screencap_ret && allow_reconnect) {
                 m_mumu_extras.reload();
                 img_opt = m_mumu_extras.screencap();
+                screencap_ret = img_opt.has_value();
+            }
+
+            if (screencap_ret) {
+                image_payload = img_opt.value();
+            }
+        } break;
+        case AdbProperty::ScreencapMethod::LDExtras: {
+            auto img_opt = m_ld_extras.screencap();
+            screencap_ret = img_opt.has_value();
+
+            if (!screencap_ret && allow_reconnect) {
+                m_ld_extras.reload();
+                img_opt = m_ld_extras.screencap();
                 screencap_ret = img_opt.has_value();
             }
 
@@ -985,6 +1033,9 @@ bool asst::AdbController::connect(
 
     if (config == "MuMuEmulator12") {
         init_mumu_extras(adb_cfg);
+    }
+    else if (config == "LDPlayer") {
+        init_ld_extras(adb_cfg);
     }
 
     if (need_exit()) {

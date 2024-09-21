@@ -64,6 +64,9 @@ namespace MaaWpfGui.Constants
         public const string MuMu12EmulatorPath = "Connect.MuMu12EmulatorPath";
         public const string MuMu12Index = "Connect.MuMu12Index";
         public const string MuMu12Display = "Connect.MuMu12Display";
+        public const string LdPlayerExtrasEnabled = "Connect.LdPlayerExtras.Enabled";
+        public const string LdPlayerEmulatorPath = "Connect.LdPlayerEmulatorPath";
+        public const string LdPlayerIndex = "Connect.LdPlayerIndex";
         public const string RetryOnAdbDisconnected = "Connect.RetryOnDisconnected";
         public const string AllowAdbRestart = "Connect.AllowADBRestart";
         public const string AllowAdbHardRestart = "Connect.AllowADBHardRestart";
@@ -264,6 +267,8 @@ namespace MaaWpfGui.Constants
         public const string OperBoxData = "OperBox.Data";
 
         public const string GachaShowDisclaimerNoMore = "Gacha.ShowDisclaimerNoMore";
+
+        public const string PeepTargetFps = "Peep.TargetFps";
 
         public const string GuideStepIndex = "Guide.StepIndex";
 
