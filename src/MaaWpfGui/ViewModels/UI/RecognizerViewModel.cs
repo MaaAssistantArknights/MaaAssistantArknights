@@ -879,8 +879,8 @@ namespace MaaWpfGui.ViewModels.UI
         private readonly Timer _peepImageTimer = new();
         private readonly DispatcherTimer _gachaTimer = new() { Interval = TimeSpan.FromSeconds(5) };
 
-        private int _count;
-        private int _newestCount;
+        private int _peepImageCount;
+        private int _peepImageNewestCount;
 
         private static readonly SemaphoreSlim _peepImageSemaphore = new(5, 5);
 
@@ -893,14 +893,14 @@ namespace MaaWpfGui.ViewModels.UI
 
             try
             {
-                var count = Interlocked.Increment(ref _count);
+                var count = Interlocked.Increment(ref _peepImageCount);
                 var cacheImage = await Instances.AsstProxy.AsstGetFreshImageAsync();
-                if (!Peeping || count <= _newestCount || cacheImage is null)
+                if (!Peeping || count <= _peepImageNewestCount || cacheImage is null)
                 {
                     return;
                 }
 
-                Interlocked.Exchange(ref _newestCount, count);
+                Interlocked.Exchange(ref _peepImageNewestCount, count);
                 PeepImage = cacheImage;
 
                 var now = DateTime.Now;
@@ -980,6 +980,8 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 PeepScreenFpf = 0;
+                _peepImageCount = 0;
+                _peepImageNewestCount = 0;
                 _peepImageTimer.Start();
             }
             finally
