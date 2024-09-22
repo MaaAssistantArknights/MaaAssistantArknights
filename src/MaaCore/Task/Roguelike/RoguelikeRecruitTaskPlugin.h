@@ -1,5 +1,6 @@
 #pragma once
 #include "AbstractRoguelikeTaskPlugin.h"
+#include "Config/Roguelike/RoguelikeRecruitConfig.h"
 #include "Common/AsstBattleDef.h"
 
 namespace asst

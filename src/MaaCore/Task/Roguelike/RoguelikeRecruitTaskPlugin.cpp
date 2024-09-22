@@ -1,7 +1,6 @@
 #include "RoguelikeRecruitTaskPlugin.h"
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
-#include "Config/Roguelike/RoguelikeRecruitConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Status.h"
