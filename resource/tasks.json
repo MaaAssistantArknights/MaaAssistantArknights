@@ -2169,6 +2169,7 @@
             "StartToWakeUpOCR",
             "StartLoginBServer",
             "StartUpConnectingFlag",
+            "StartUpdateOCR",
             "MainThemes#next",
             "CloseAnnos#next",
             "OfflineConfirm"
@@ -2213,6 +2214,13 @@
         "action": "ClickSelf",
         "roi": [0, 635, 450, 85],
         "next": ["StartUpThemes#next", "StartUpConnectingFlag@LoadingIcon"]
+    },
+    "StartUpdateOCR": {
+        "doc": "开始唤醒时遇到更新下载",
+        "algorithm": "OcrDetect",
+        "text": ["正在释放神经递质", "正在检查资源完整性"],
+        "roi": [400, 645, 600, 74],
+        "next": ["StartUpThemes#next"]
     },
     "StartAtHome": {
         "baseTask": "Home",
