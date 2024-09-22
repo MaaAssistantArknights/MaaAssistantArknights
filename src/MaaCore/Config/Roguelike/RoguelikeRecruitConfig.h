@@ -58,8 +58,11 @@ namespace asst
     struct RoguelikeGroupInfo
     {
         std::string name;                            // 干员组名
-        std::unordered_set<std::string> opers;       // 干员组的所有干员名
-        int id = -1;                                  // 干员组 id
+        std::unordered_set<std::string> opers;       // 干员组的所有干员名（用于查重）
+        int id = -1;                                 // 干员组 id
+
+        // 干员组的所有干员，后续可以基于此重构干员信息存储、作战部署
+        std::vector<std::shared_ptr<RoguelikeOperInfo>> opers_in_order; // 未初始化，暂不可用
     };
 
     class RoguelikeRecruitConfig final : public SingletonHolder<RoguelikeRecruitConfig>, public AbstractConfig
