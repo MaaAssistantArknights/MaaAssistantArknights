@@ -381,7 +381,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             if (info.elite != 2) {
                 continue;
             }
-            Log.trace(__FUNCTION__, "| Choose random elite 2:", info.name, info.elite, info.level);
+            Log.trace(__FUNCTION__, "| Choose temporary recruitment elite 2:", info.name, info.elite, info.level);
             recruit_oper(info);
             return true;
         }
