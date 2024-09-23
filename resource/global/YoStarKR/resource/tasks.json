@@ -776,6 +776,9 @@
             "OfflineConfirm"
         ]
     },
+    "GameStartUpdateOCR": {
+        "text": ["Releasing neurotransmitter", "Checking the completeness"]
+    },
     "StartToWakeUp": {
         "Doc": "CN서버보다 ROI를 크게 조절하세요",
         "roi": [540, 480, 192, 56]

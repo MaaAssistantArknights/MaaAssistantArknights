@@ -626,6 +626,9 @@
     "StartToWakeUpOCR": {
         "text": ["開始喚醒", "登錄", "登", "錄"]
     },
+    "GameStartUpdateOCR": {
+        "text": ["正在釋放神絕傳導物質", "正在检查资源完整性"]
+    },
     "TodaysSupplies": {
         "text": ["今日配給"]
     },
