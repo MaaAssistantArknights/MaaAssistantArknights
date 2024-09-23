@@ -815,7 +815,13 @@
         ]
     },
     "GameStartUpdateOCR": {
-        "text": ["Loading network configuration", "Acquiring update", "Checking the completeness"]
+        "text": [
+            "Loading network configuration",
+            "Acquiring update",
+            "Releasing neurotransmitter",
+            "Checking the completeness",
+            "of the resources"
+        ]
     },
     "StartToWakeUpOCR": {
         "text": ["START"]
