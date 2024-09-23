@@ -421,7 +421,7 @@ namespace MaaWpfGui.ViewModels.UI
             });
         }
 
-        private static (bool timeToStart, bool timeToChangeConfig, int configIndex) CheckTimers(DateTime currentTime)
+        private static (bool _timeToStart, bool _timeToChangeConfig, int _configIndex) CheckTimers(DateTime currentTime)
         {
             bool timeToStart = false;
             bool timeToChangeConfig = false;
@@ -479,12 +479,14 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (timeToChangeConfig)
             {
+                _logger.Information($"Scheduled configuration change: Timer Index: {configIndex}");
                 HandleConfigChange(configIndex);
                 return;
             }
 
             if (timeToStart)
             {
+                _logger.Information($"Scheduled start: Timer Index: {configIndex}");
                 await HandleScheduledStart(configIndex);
             }
         }
