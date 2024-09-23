@@ -21,8 +21,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
-using System.Windows.Threading;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -299,7 +299,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool Closing { get; set; }
 
-        private readonly DispatcherTimer _timer = new();
+        private readonly Timer _timer = new();
 
         public bool ConfirmExit()
         {
@@ -337,16 +337,25 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void InitTimer()
         {
-            _timer.Interval = TimeSpan.FromSeconds(59);
-            _timer.Tick += Timer1_Elapsed;
+            _timer.Interval = 50 * 1000;
+            _timer.Elapsed += Timer1_Elapsed;
             _timer.Start();
         }
+
+        private DateTime _lastTimerElapsed = DateTime.MinValue;
 
         private async void Timer1_Elapsed(object sender, EventArgs e)
         {
             // 提前记录时间，避免等待超过定时时间
             DateTime currentTime = DateTime.Now;
             currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, currentTime.Minute, 0);
+
+            if (currentTime == _lastTimerElapsed)
+            {
+                return;
+            }
+
+            _lastTimerElapsed = currentTime;
 
             HandleDatePromptUpdate();
             HandleCheckForUpdates();
@@ -458,6 +467,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             return (timeToStart, timeToChangeConfig, configIndex);
         }
+
         private async Task HandleTimerLogic(DateTime currentTime)
         {
             if (!_runningState.GetIdle() && !Instances.SettingsViewModel.ForceScheduledStart)
@@ -804,9 +814,9 @@ namespace MaaWpfGui.ViewModels.UI
         {
             Execute.OnUIThread(() =>
             {
-            LogItemViewModels.Clear();
-            _logger.Information("Main windows log clear.");
-            _logger.Information(string.Empty);
+                LogItemViewModels.Clear();
+                _logger.Information("Main windows log clear.");
+                _logger.Information(string.Empty);
             });
         }
 
