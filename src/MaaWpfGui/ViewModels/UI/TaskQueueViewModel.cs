@@ -546,24 +546,28 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static async Task<bool> TimerCanceledAsync(string content = "", string tipContent = "", string buttonContent = "", int seconds = 10)
         {
-            var delay = TimeSpan.FromSeconds(seconds);
-            var dialogUserControl = new Views.UserControl.TextDialogWithTimerUserControl(
-                content,
-                tipContent,
-                buttonContent,
-                delay.TotalMilliseconds);
-            var dialog = HandyControl.Controls.Dialog.Show(dialogUserControl, nameof(Views.UI.RootView));
-            var tcs = new TaskCompletionSource<bool>();
             var canceled = false;
-            dialogUserControl.Click += (_, _) =>
+            await await Application.Current.Dispatcher.InvokeAsync(async () =>
             {
-                canceled = true;
+                var delay = TimeSpan.FromSeconds(seconds);
+                var dialogUserControl = new Views.UserControl.TextDialogWithTimerUserControl(
+                    content,
+                    tipContent,
+                    buttonContent,
+                    delay.TotalMilliseconds);
+                var dialog = HandyControl.Controls.Dialog.Show(dialogUserControl, nameof(Views.UI.RootView));
+                var tcs = new TaskCompletionSource<bool>();
+                dialogUserControl.Click += (_, _) =>
+                {
+                    canceled = true;
+                    dialog.Close();
+                    tcs.TrySetResult(true);
+                };
+                await Task.WhenAny(Task.Delay(delay), tcs.Task);
                 dialog.Close();
-                tcs.TrySetResult(true);
-            };
-            await Task.WhenAny(Task.Delay(delay), tcs.Task);
-            dialog.Close();
-            _logger.Information($"Timer canceled: {canceled}");
+                _logger.Information($"Timer canceled: {canceled}");
+            });
+
             return canceled;
         }
 
