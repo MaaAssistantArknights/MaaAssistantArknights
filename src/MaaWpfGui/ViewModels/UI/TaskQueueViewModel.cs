@@ -802,9 +802,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         private void ClearLog()
         {
+            Execute.OnUIThread(() =>
+            {
             LogItemViewModels.Clear();
             _logger.Information("Main windows log clear.");
             _logger.Information(string.Empty);
+            });
         }
 
         /// <summary>
