@@ -6,6 +6,7 @@
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:styles="clr-namespace:MaaWpfGui.Styles"
@@ -87,23 +88,27 @@
                         Content="{Binding TimerModels.Timers[0].TimerName}"
                         IsChecked="{Binding TimerModels.Timers[0].IsOn}" />
                     <StackPanel Orientation="Horizontal">
-                        <TextBox
-                            Width="35"
+                        <hc:NumericUpDown
+                            Width="55"
                             Margin="10"
+                            d:Value="0"
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[0].IsOn}"
-                            Text="{Binding TimerModels.Timers[0].Hour, StringFormat=D2}"
-                            PreviewTextInput="NumberValidationTextBox"
-                            TextWrapping="Wrap" />
+                            Maximum="23"
+                            Minimum="0"
+                            ValueFormat="00"
+                            Value="{Binding TimerModels.Timers[0].Hour}" />
                         <controls:TextBlock Text=":" />
-                        <TextBox
-                            Width="35"
+                        <hc:NumericUpDown
+                            Width="55"
                             Margin="10"
+                            d:Value="0"
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[0].IsOn}"
-                            Text="{Binding TimerModels.Timers[0].Min, StringFormat=D2}"
-                            PreviewTextInput="NumberValidationTextBox"
-                            TextWrapping="Wrap" />
+                            Maximum="59"
+                            Minimum="0"
+                            ValueFormat="00"
+                            Value="{Binding TimerModels.Timers[0].Min}" />
                     </StackPanel>
                 </StackPanel>
                 <ComboBox
@@ -129,23 +134,27 @@
                         Content="{Binding TimerModels.Timers[1].TimerName}"
                         IsChecked="{Binding TimerModels.Timers[1].IsOn}" />
                     <StackPanel Orientation="Horizontal">
-                        <TextBox
-                            Width="35"
+                        <hc:NumericUpDown
+                            Width="55"
                             Margin="10"
+                            d:Value="3"
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[1].IsOn}"
-                            Text="{Binding TimerModels.Timers[1].Hour, StringFormat=D2}"
-                            PreviewTextInput="NumberValidationTextBox"
-                            TextWrapping="Wrap" />
+                            Maximum="23"
+                            Minimum="0"
+                            ValueFormat="00"
+                            Value="{Binding TimerModels.Timers[1].Hour}" />
                         <controls:TextBlock Text=":" />
-                        <TextBox
-                            Width="35"
+                        <hc:NumericUpDown
+                            Width="55"
                             Margin="10"
+                            d:Value="5"
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[1].IsOn}"
-                            Text="{Binding TimerModels.Timers[1].Min, StringFormat=D2}"
-                            PreviewTextInput="NumberValidationTextBox"
-                            TextWrapping="Wrap" />
+                            Maximum="59"
+                            Minimum="0"
+                            ValueFormat="00"
+                            Value="{Binding TimerModels.Timers[1].Min}" />
                     </StackPanel>
                 </StackPanel>
                 <ComboBox
@@ -171,23 +180,27 @@
                         Content="{Binding TimerModels.Timers[2].TimerName}"
                         IsChecked="{Binding TimerModels.Timers[2].IsOn}" />
                     <StackPanel Orientation="Horizontal">
-                        <TextBox
-                            Width="35"
+                        <hc:NumericUpDown
+                            Width="55"
                             Margin="10"
+                            d:Value="6"
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[2].IsOn}"
-                            Text="{Binding TimerModels.Timers[2].Hour, StringFormat=D2}"
-                            PreviewTextInput="NumberValidationTextBox"
-                            TextWrapping="Wrap" />
+                            Maximum="23"
+                            Minimum="0"
+                            ValueFormat="00"
+                            Value="{Binding TimerModels.Timers[2].Hour}" />
                         <controls:TextBlock Text=":" />
-                        <TextBox
-                            Width="35"
+                        <hc:NumericUpDown
+                            Width="55"
                             Margin="10"
+                            d:Value="10"
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[2].IsOn}"
-                            Text="{Binding TimerModels.Timers[2].Min, StringFormat=D2}"
-                            PreviewTextInput="NumberValidationTextBox"
-                            TextWrapping="Wrap" />
+                            Maximum="59"
+                            Minimum="0"
+                            ValueFormat="00"
+                            Value="{Binding TimerModels.Timers[2].Min}" />
                     </StackPanel>
                 </StackPanel>
                 <ComboBox
@@ -213,23 +226,27 @@
                         Content="{Binding TimerModels.Timers[3].TimerName}"
                         IsChecked="{Binding TimerModels.Timers[3].IsOn}" />
                     <StackPanel Orientation="Horizontal">
-                        <TextBox
-                            Width="35"
+                        <hc:NumericUpDown
+                            Width="55"
                             Margin="10"
+                            d:Value="9"
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[3].IsOn}"
-                            Text="{Binding TimerModels.Timers[3].Hour, StringFormat=D2}"
-                            PreviewTextInput="NumberValidationTextBox"
-                            TextWrapping="Wrap" />
+                            Maximum="23"
+                            Minimum="0"
+                            ValueFormat="00"
+                            Value="{Binding TimerModels.Timers[3].Hour}" />
                         <controls:TextBlock Text=":" />
-                        <TextBox
-                            Width="35"
+                        <hc:NumericUpDown
+                            Width="55"
                             Margin="10"
+                            d:Value="15"
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[3].IsOn}"
-                            Text="{Binding TimerModels.Timers[3].Min, StringFormat=D2}"
-                            PreviewTextInput="NumberValidationTextBox"
-                            TextWrapping="Wrap" />
+                            Maximum="59"
+                            Minimum="0"
+                            ValueFormat="00"
+                            Value="{Binding TimerModels.Timers[3].Min}" />
                     </StackPanel>
                 </StackPanel>
                 <ComboBox
@@ -255,23 +272,27 @@
                         Content="{Binding TimerModels.Timers[4].TimerName}"
                         IsChecked="{Binding TimerModels.Timers[4].IsOn}" />
                     <StackPanel Orientation="Horizontal">
-                        <TextBox
-                            Width="35"
+                        <hc:NumericUpDown
+                            Width="55"
                             Margin="10"
+                            d:Value="12"
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[4].IsOn}"
-                            Text="{Binding TimerModels.Timers[4].Hour, StringFormat=D2}"
-                            PreviewTextInput="NumberValidationTextBox"
-                            TextWrapping="Wrap" />
+                            Maximum="23"
+                            Minimum="0"
+                            ValueFormat="00"
+                            Value="{Binding TimerModels.Timers[4].Hour}" />
                         <controls:TextBlock Text=":" />
-                        <TextBox
-                            Width="35"
+                        <hc:NumericUpDown
+                            Width="55"
                             Margin="10"
+                            d:Value="20"
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[4].IsOn}"
-                            Text="{Binding TimerModels.Timers[4].Min, StringFormat=D2}"
-                            PreviewTextInput="NumberValidationTextBox"
-                            TextWrapping="Wrap" />
+                            Maximum="59"
+                            Minimum="0"
+                            ValueFormat="00"
+                            Value="{Binding TimerModels.Timers[4].Min}" />
                     </StackPanel>
                 </StackPanel>
                 <ComboBox
@@ -297,23 +318,27 @@
                         Content="{Binding TimerModels.Timers[5].TimerName}"
                         IsChecked="{Binding TimerModels.Timers[5].IsOn}" />
                     <StackPanel Orientation="Horizontal">
-                        <TextBox
-                            Width="35"
+                        <hc:NumericUpDown
+                            Width="55"
                             Margin="10"
+                            d:Value="15"
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[5].IsOn}"
-                            Text="{Binding TimerModels.Timers[5].Hour, StringFormat=D2}"
-                            PreviewTextInput="NumberValidationTextBox"
-                            TextWrapping="Wrap" />
+                            Maximum="23"
+                            Minimum="0"
+                            ValueFormat="00"
+                            Value="{Binding TimerModels.Timers[5].Hour}" />
                         <controls:TextBlock Text=":" />
-                        <TextBox
-                            Width="35"
+                        <hc:NumericUpDown
+                            Width="55"
                             Margin="10"
+                            d:Value="30"
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[5].IsOn}"
-                            Text="{Binding TimerModels.Timers[5].Min, StringFormat=D2}"
-                            PreviewTextInput="NumberValidationTextBox"
-                            TextWrapping="Wrap" />
+                            Maximum="59"
+                            Minimum="0"
+                            ValueFormat="00"
+                            Value="{Binding TimerModels.Timers[5].Min}" />
                     </StackPanel>
                 </StackPanel>
                 <ComboBox
@@ -339,23 +364,27 @@
                         Content="{Binding TimerModels.Timers[6].TimerName}"
                         IsChecked="{Binding TimerModels.Timers[6].IsOn}" />
                     <StackPanel Orientation="Horizontal">
-                        <TextBox
-                            Width="35"
+                        <hc:NumericUpDown
+                            Width="55"
                             Margin="10"
+                            d:Value="18"
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[6].IsOn}"
-                            Text="{Binding TimerModels.Timers[6].Hour, StringFormat=D2}"
-                            PreviewTextInput="NumberValidationTextBox"
-                            TextWrapping="Wrap" />
+                            Maximum="23"
+                            Minimum="0"
+                            ValueFormat="00"
+                            Value="{Binding TimerModels.Timers[6].Hour}" />
                         <controls:TextBlock Text=":" />
-                        <TextBox
-                            Width="35"
+                        <hc:NumericUpDown
+                            Width="55"
                             Margin="10"
+                            d:Value="59"
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[6].IsOn}"
-                            Text="{Binding TimerModels.Timers[6].Min, StringFormat=D2}"
-                            PreviewTextInput="NumberValidationTextBox"
-                            TextWrapping="Wrap" />
+                            Maximum="40"
+                            Minimum="0"
+                            ValueFormat="00"
+                            Value="{Binding TimerModels.Timers[6].Min}" />
                     </StackPanel>
                 </StackPanel>
                 <ComboBox
@@ -381,23 +410,27 @@
                         Content="{Binding TimerModels.Timers[7].TimerName}"
                         IsChecked="{Binding TimerModels.Timers[7].IsOn}" />
                     <StackPanel Orientation="Horizontal">
-                        <TextBox
-                            Width="35"
+                        <hc:NumericUpDown
+                            Width="55"
                             Margin="10"
+                            d:Value="21"
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[7].IsOn}"
-                            Text="{Binding TimerModels.Timers[7].Hour, StringFormat=D2}"
-                            PreviewTextInput="NumberValidationTextBox"
-                            TextWrapping="Wrap" />
+                            Maximum="23"
+                            Minimum="0"
+                            ValueFormat="00"
+                            Value="{Binding TimerModels.Timers[7].Hour}" />
                         <controls:TextBlock Text=":" />
-                        <TextBox
-                            Width="35"
+                        <hc:NumericUpDown
+                            Width="55"
                             Margin="10"
+                            d:Value="50"
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[7].IsOn}"
-                            Text="{Binding TimerModels.Timers[7].Min, StringFormat=D2}"
-                            PreviewTextInput="NumberValidationTextBox"
-                            TextWrapping="Wrap" />
+                            Maximum="59"
+                            Minimum="0"
+                            ValueFormat="00"
+                            Value="{Binding TimerModels.Timers[7].Min}" />
                     </StackPanel>
                 </StackPanel>
                 <ComboBox
