@@ -814,6 +814,9 @@
             ["Grzmot Mine", "雷鸣地雷"]
         ]
     },
+    "GameStartUpdateOCR": {
+        "text": ["Loading network configuration", "Acquiring update", "Checking the completeness"]
+    },
     "StartToWakeUpOCR": {
         "text": ["START"]
     },

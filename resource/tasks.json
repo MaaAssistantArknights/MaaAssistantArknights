@@ -2195,6 +2195,7 @@
     },
     "GameStartUpdateOCR": {
         "doc": "开始唤醒时遇到更新下载",
+        "docForGlobal": ["text under progress bar when downloading", "checking the completeness"],
         "algorithm": "OcrDetect",
         "text": ["正在释放神经递质", "正在检查资源完整性"],
         "roi": [400, 645, 600, 74],
