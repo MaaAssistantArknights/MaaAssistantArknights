@@ -1,3 +1,4 @@
+#include <chrono>
 #include <filesystem>
 #include <fstream>
 #include <future>
@@ -86,6 +87,7 @@ int main([[maybe_unused]] int argc, char** argv)
 
     const char* str_exec_path = argv[0];
     const auto cur_path = std::filesystem::path(str_exec_path).parent_path();
+    std::vector<std::future<bool>> futures;
 
     auto solution_dir = cur_path;
     for (int i = 0; i != 10; ++i) {
@@ -110,11 +112,7 @@ int main([[maybe_unused]] int argc, char** argv)
 
     // ---- METHODS CALLS ----
 
-    std::vector<std::future<bool>> futures;
-
-    // Update levels.json from ArknightsGameResource
-    futures.push_back(
-        run_async(update_levels_json, official_data_dir / "levels.json", resource_dir / "Arknights-Tile-Pos"));
+    auto start = std::chrono::high_resolution_clock::now();
 
     // Update stage.json from Penguin Stats
     futures.push_back(run_async(update_stages_data, cur_path, resource_dir));
@@ -498,8 +496,6 @@ bool update_stages_data(const std::filesystem::path& input_dir, const std::files
     const std::string PenguinAPI = R"(https://penguin-stats.io/PenguinStats/api/v2/stages?server=)";
     const std::vector<std::string> PenguinServers = { "CN", "US", "JP", "KR" };
 
-    const std::filesystem::path TempFile = input_dir / "stages.json";
-
     struct DropInfo
     {
         std::string item_id;
@@ -512,16 +508,35 @@ bool update_stages_data(const std::filesystem::path& input_dir, const std::files
 
     std::map<std::string, std::set<DropInfo>> drop_infos;
     std::map<std::string, json::value> stage_basic_infos;
-    for (const auto& server : PenguinServers) {
-        int stage_request_ret = system(("curl -o \"" + TempFile.string() + "\" " + PenguinAPI + server).c_str());
+
+    auto fetch_and_parse = [&](const std::string& server) -> bool {
+        std::filesystem::path temp_file = input_dir / ("stages_" + server + ".json");
+        int stage_request_ret = system(("curl -o \"" + temp_file.string() + "\" " + PenguinAPI + server).c_str());
         if (stage_request_ret != 0) {
-            std::cerr << "Request Penguin Stats failed" << '\n';
+            std::cerr << "Request Penguin Stats failed for server: " << server << '\n';
             return false;
         }
+        return true;
+    };
 
-        auto parse_ret = json::open(TempFile);
+    std::vector<std::future<bool>> futures;
+    for (const auto& server : PenguinServers) {
+        futures.push_back(std::async(std::launch::async, fetch_and_parse, server));
+    }
+
+    for (auto& future : futures) {
+        if (!future.get()) {
+            std::cerr << "One of the updates failed" << '\n';
+            return false;
+        }
+    }
+
+    // Merge data from all temporary files sequentially
+    for (const auto& server : PenguinServers) {
+        std::filesystem::path temp_file = input_dir / ("stages_" + server + ".json");
+        auto parse_ret = json::open(temp_file);
         if (!parse_ret) {
-            std::cerr << "parse stages.json failed" << '\n';
+            std::cerr << "parse stages.json failed for server: " << server << '\n';
             return false;
         }
         auto& stage_json = parse_ret.value();
