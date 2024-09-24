@@ -191,6 +191,10 @@ int main([[maybe_unused]] int argc, char** argv)
         }
     }
 
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed_seconds = end - start;
+    std::cout << "Time: " << elapsed_seconds.count() << "s" << '\n';
+
     std::cout << "------- All success -------" << '\n';
     return 0;
 }
