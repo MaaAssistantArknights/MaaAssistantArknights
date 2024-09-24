@@ -159,22 +159,22 @@ int main([[maybe_unused]] int argc, char** argv)
     //     resource_dir / "recruitment.json",
     //     true);
 
-//    // Update items template and json from ArknightsGameResource
-//     std::future<bool> a2 = run_async(update_items_data, official_data_dir, resource_dir, true);
+    //    // Update items template and json from ArknightsGameResource
+    //     std::future<bool> a2 = run_async(update_items_data, official_data_dir, resource_dir, true);
 
     // if (!a1.get() || !a2.get()) {
     //     std::cerr << "One of the dependent tasks in group A failed" << '\n';
     //     return -1;
     // }
 
-//    // Update recruitment data from ArknightsGameData_YoStar
-//     for (const auto& [in, out] : global_dirs) {
-//             futures.push_back(run_async(
-//                     update_recruitment_data,
-//                     overseas_data_dir / in / "gamedata" / "excel",
-//                     resource_dir / "global" / out / "resource" / "recruitment.json",
-//                     false));
-//     }
+    //    // Update recruitment data from ArknightsGameData_YoStar
+    //     for (const auto& [in, out] : global_dirs) {
+    //             futures.push_back(run_async(
+    //                     update_recruitment_data,
+    //                     overseas_data_dir / in / "gamedata" / "excel",
+    //                     resource_dir / "global" / out / "resource" / "recruitment.json",
+    //                     false));
+    //     }
 
     //// Update items template and json from ArknightsGameData_YoStar
     // for (const auto& [in, out] : global_dirs) {
