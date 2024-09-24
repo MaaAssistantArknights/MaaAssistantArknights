@@ -74,6 +74,16 @@
     "CVChapterToCV": {
         "text": ["蒼白", "平台"]
     },
+    "ZT-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "postDelay": 2000,
+        "text": ["特爾", "梅之","之金", "活動", "開啟"],
+        "next": ["CVChapterToCV"]
+    },
+    "ZTChapterToZT": {
+        "text": ["朝見", "雙塔"]
+    },
     "SL-Open": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
