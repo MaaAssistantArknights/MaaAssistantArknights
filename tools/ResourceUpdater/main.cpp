@@ -1,8 +1,5 @@
-#include <chrono>
 #include <filesystem>
 #include <fstream>
-#include <future>
-#include <thread>
 #include <unordered_set>
 
 #include <meojson/json.hpp>
@@ -75,19 +72,12 @@ bool check_roguelike_replace_for_overseas(
     const std::filesystem::path& output_dir);
 bool update_version_info(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 
-template <typename Func, typename... Args>
-auto run_async(Func&& func, Args&&... args)
-{
-    return std::async(std::launch::async, std::forward<Func>(func), std::forward<Args>(args)...);
-}
-
 int main([[maybe_unused]] int argc, char** argv)
 {
     // ---- PATH DECLARATION ----
 
     const char* str_exec_path = argv[0];
     const auto cur_path = std::filesystem::path(str_exec_path).parent_path();
-    std::vector<std::future<bool>> futures;
 
     auto solution_dir = cur_path;
     for (int i = 0; i != 10; ++i) {
@@ -112,88 +102,159 @@ int main([[maybe_unused]] int argc, char** argv)
 
     // ---- METHODS CALLS ----
 
-    auto start = std::chrono::high_resolution_clock::now();
-
-    // Update stage.json from Penguin Stats
-    futures.push_back(run_async(update_stages_data, cur_path, resource_dir));
-
-    // Update infrast data from ArknightsGameResource
-    futures.push_back(run_async(update_infrast_data, official_data_dir / "gamedata" / "excel", resource_dir));
-
-    // Update infrast templates from ArknightsGameResource
-    futures.push_back(run_async(
-        update_infrast_templates,
-        official_data_dir / "building_skill",
-        resource_dir / "template" / "infrast"));
-
-    // Update battle chars info for all clients
-    futures.push_back(
-        run_async(update_battle_chars_info, official_data_dir / "gamedata" / "excel", overseas_data_dir, resource_dir));
-
-    // Update roguelike replace for overseas from ArknightsGameData_YoStar
-    for (const auto& [in, out] : global_dirs) {
-        futures.push_back(run_async(
-            check_roguelike_replace_for_overseas,
-            overseas_data_dir / in / "gamedata" / "excel",
-            resource_dir / "global" / out / "resource" / "tasks.json",
-            official_data_dir / "gamedata" / "excel",
-            cur_path / in));
+    // Update levels.json from ArknightsGameResource
+    std::cout << "------- Update levels.json for Official -------" << '\n';
+    if (!update_levels_json(official_data_dir / "levels.json", resource_dir / "Arknights-Tile-Pos")) {
+        std::cerr << "update levels.json failed" << '\n';
+        return -1;
+    }
+    else {
+        std::cout << "Done" << '\n';
     }
 
-    // Update version info from ArknightsGameData
-    futures.push_back(run_async(update_version_info, official_data_dir / "gamedata" / "excel", resource_dir));
+    // 这个 en_levels.json 是自己手动生成放进去的
+    // Will never work without en_levels.json in proj_dir, commented for now
+    // generate_english_roguelike_stage_name_replacement(official_data_dir / "levels.json", cur_path
+    // / "en_levels.json");
 
-    // Update global version info from ArknightsGameData_YoStar
-    for (const auto& [in, out] : global_dirs) {
-        futures.push_back(run_async(
-            update_version_info,
-            overseas_data_dir / in / "gamedata" / "excel",
-            resource_dir / "global" / out / "resource"));
+    // Update infrast data from ArknightsGameResource
+    std::cout << "------- Update infrast data for Official -------" << '\n';
+    if (!update_infrast_data(official_data_dir / "gamedata" / "excel", resource_dir)) {
+        std::cerr << "Update infrast data failed" << '\n';
+        return -1;
+    }
+    else {
+        std::cout << "Done" << '\n';
+    }
+
+    // Update infrast templates from ArknightsGameResource
+    std::cout << "------- Update infrast templates for Official -------" << '\n';
+    if (!update_infrast_templates(official_data_dir / "building_skill", resource_dir / "template" / "infrast")) {
+        std::cerr << "Update infrast templates failed" << '\n';
+        return -1;
+    }
+    else {
+        std::cout << "Done" << '\n';
+    }
+
+    // Update roguelike recruit data from ArknightsGameResource
+    // std::cout << "------- Update roguelike recruit data -------" << '\n';
+    // if (!update_roguelike_recruit(arkbot_res_dir, resource_dir, solution_dir)) {
+    //     std::cerr << "Update roguelike recruit data failed" << '\n';
+    //     return -1;
+    // }    else {
+    //    std::cout << "Done" << '\n';
+    //}
+
+    // Update base_name.json from Penguin Stats
+    std::cout << "------- Update stage.json for Official -------" << '\n';
+    if (!update_stages_data(cur_path, resource_dir)) {
+        std::cerr << "Update stages data failed" << '\n';
+        return -1;
+    }
+    else {
+        std::cout << "Done" << '\n';
+    }
+
+    // Update battle chars info for all clients
+    std::cout << "------- Update battle chars info for all clients -------" << '\n';
+    if (!update_battle_chars_info(official_data_dir / "gamedata" / "excel", overseas_data_dir, resource_dir)) {
+        std::cerr << "Update battle chars info failed" << '\n';
+        return -1;
+    }
+    else {
+        std::cout << "Done" << '\n';
     }
 
     // Update recruitment data from ArknightsGameResource
-    std::future<bool> a1 = run_async(
-        update_recruitment_data,
-        official_data_dir / "gamedata" / "excel",
-        resource_dir / "recruitment.json",
-        true);
-
-    // Update items template and json from ArknightsGameResource
-    std::future<bool> a2 = run_async(update_items_data, official_data_dir, resource_dir, true);
-
-    if (!a1.get() || !a2.get()) {
-        std::cerr << "One of the dependent tasks in group A failed" << '\n';
+    std::cout << "------- Update recruitment data for Official -------" << '\n';
+    if (!update_recruitment_data(official_data_dir / "gamedata" / "excel", resource_dir / "recruitment.json", true)) {
+        std::cerr << "Update recruitment data failed" << '\n';
         return -1;
+    }
+    else {
+        std::cout << "Done" << '\n';
     }
 
     // Update recruitment data from ArknightsGameData_YoStar
     for (const auto& [in, out] : global_dirs) {
-        futures.push_back(run_async(
-            update_recruitment_data,
-            overseas_data_dir / in / "gamedata" / "excel",
-            resource_dir / "global" / out / "resource" / "recruitment.json",
-            false));
+        std::cout << "------- Update recruitment data for " << out << "------- " << '\n';
+        if (!update_recruitment_data(
+                overseas_data_dir / in / "gamedata" / "excel",
+                resource_dir / "global" / out / "resource" / "recruitment.json",
+                false)) {
+            std::cerr << "Update recruitment data failed" << '\n';
+            return -1;
+        }
+        else {
+            std::cout << "Done" << '\n';
+        }
+    }
+
+    // Update items template and json from ArknightsGameResource
+    std::cout << "------- Update items template and json for Official -------" << '\n';
+    if (!update_items_data(official_data_dir, resource_dir)) {
+        std::cerr << "Update items data failed" << '\n';
+        return -1;
+    }
+    else {
+        std::cout << "Done" << '\n';
     }
 
     // Update items template and json from ArknightsGameData_YoStar
     for (const auto& [in, out] : global_dirs) {
-        futures.push_back(run_async(
-            update_items_data,
-            overseas_data_dir / in / "gamedata" / "excel",
-            resource_dir / "global" / out / "resource",
-            false));
-    }
-
-    for (auto& future : futures) {
-        if (!future.get()) {
-            std::cerr << "One of the updates failed" << '\n';
+        std::cout << "------- Update items template and json for " << out << "------- " << '\n';
+        if (!update_items_data(
+                overseas_data_dir / in / "gamedata" / "excel",
+                resource_dir / "global" / out / "resource",
+                false)) {
+            std::cerr << "Update items json failed" << '\n';
             return -1;
+        }
+        else {
+            std::cout << "Done" << '\n';
         }
     }
 
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed_seconds = end - start;
-    std::cout << "Time: " << elapsed_seconds.count() << "s" << '\n';
+    // Update roguelike replace for overseas from ArknightsGameData_YoStar
+    for (const auto& [in, out] : global_dirs) {
+        std::cout << "------- Update roguelike replace for " << out << "------- " << '\n';
+        if (!check_roguelike_replace_for_overseas(
+                overseas_data_dir / in / "gamedata" / "excel",
+                resource_dir / "global" / out / "resource" / "tasks.json",
+                official_data_dir / "gamedata" / "excel",
+                cur_path / in)) {
+            std::cerr << "Update roguelike replace for overseas failed" << '\n';
+            return -1;
+        }
+        else {
+            std::cout << "Done" << '\n';
+        }
+    }
+
+    // Update version info from ArknightsGameData
+    std::cout << "------- Update version info for Official -------" << '\n';
+    if (!update_version_info(official_data_dir / "gamedata" / "excel", resource_dir)) {
+        std::cerr << "Update version info failed" << '\n';
+        return -1;
+    }
+    else {
+        std::cout << "Done" << '\n';
+    }
+
+    // Update global version info from ArknightsGameData_YoStar
+    for (const auto& [in, out] : global_dirs) {
+        std::cout << "------- Update version info for " << out << "------- " << '\n';
+        if (!update_version_info(
+                overseas_data_dir / in / "gamedata" / "excel",
+                resource_dir / "global" / out / "resource")) {
+            std::cerr << "Update version info failed" << '\n';
+            return -1;
+        }
+        else {
+            std::cout << "Done" << '\n';
+        }
+    }
 
     std::cout << "------- All success -------" << '\n';
     return 0;
@@ -205,6 +266,7 @@ bool update_items_data(const std::filesystem::path& input_dir, const std::filesy
 {
     const auto input_json_path =
         with_imgs ? input_dir / "gamedata" / "excel" / "item_table.json" : input_dir / "item_table.json";
+
     auto parse_ret = json::open(input_json_path);
     if (!parse_ret) {
         std::cerr << "parse json failed" << '\n';
@@ -500,6 +562,8 @@ bool update_stages_data(const std::filesystem::path& input_dir, const std::files
     const std::string PenguinAPI = R"(https://penguin-stats.io/PenguinStats/api/v2/stages?server=)";
     const std::vector<std::string> PenguinServers = { "CN", "US", "JP", "KR" };
 
+    const std::filesystem::path TempFile = input_dir / "stages.json";
+
     struct DropInfo
     {
         std::string item_id;
@@ -512,35 +576,16 @@ bool update_stages_data(const std::filesystem::path& input_dir, const std::files
 
     std::map<std::string, std::set<DropInfo>> drop_infos;
     std::map<std::string, json::value> stage_basic_infos;
-
-    auto fetch_and_parse = [&](const std::string& server) -> bool {
-        std::filesystem::path temp_file = input_dir / ("stages_" + server + ".json");
-        int stage_request_ret = system(("curl -o \"" + temp_file.string() + "\" " + PenguinAPI + server).c_str());
+    for (const auto& server : PenguinServers) {
+        int stage_request_ret = system(("curl -o \"" + TempFile.string() + "\" " + PenguinAPI + server).c_str());
         if (stage_request_ret != 0) {
-            std::cerr << "Request Penguin Stats failed for server: " << server << '\n';
+            std::cerr << "Request Penguin Stats failed" << '\n';
             return false;
         }
-        return true;
-    };
 
-    std::vector<std::future<bool>> futures;
-    for (const auto& server : PenguinServers) {
-        futures.push_back(std::async(std::launch::async, fetch_and_parse, server));
-    }
-
-    for (auto& future : futures) {
-        if (!future.get()) {
-            std::cerr << "One of the updates failed" << '\n';
-            return false;
-        }
-    }
-
-    // Merge data from all temporary files sequentially
-    for (const auto& server : PenguinServers) {
-        std::filesystem::path temp_file = input_dir / ("stages_" + server + ".json");
-        auto parse_ret = json::open(temp_file);
+        auto parse_ret = json::open(TempFile);
         if (!parse_ret) {
-            std::cerr << "parse stages.json failed for server: " << server << '\n';
+            std::cerr << "parse stages.json failed" << '\n';
             return false;
         }
         auto& stage_json = parse_ret.value();
