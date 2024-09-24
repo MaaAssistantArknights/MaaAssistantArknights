@@ -1,7 +1,8 @@
 $initialLocation = Get-Location
+$scriptRoot = $PSScriptRoot
 
-New-Item -ItemType Directory -Path "x64/Release/" -Force | Out-Null
-Set-Location "x64/Release/"
+New-Item -ItemType Directory -Path "$scriptRoot/x64/Release/" -Force | Out-Null
+Set-Location "$scriptRoot/x64/Release/"
 
 if (Test-Path -Path "Official") { Remove-Item "Official" -Recurse -Force }
 if (Test-Path -Path "Overseas") { Remove-Item "Overseas" -Recurse -Force }
