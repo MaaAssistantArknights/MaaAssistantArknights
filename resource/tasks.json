@@ -2171,7 +2171,8 @@
             "StartUpConnectingFlag",
             "MainThemes#next",
             "CloseAnnos#next",
-            "OfflineConfirm"
+            "OfflineConfirm",
+            "GameStartUpdateOCR"
         ]
     },
     "StartUpBegin": {
@@ -2191,6 +2192,14 @@
         "maskRange": [1, 255],
         "reduceOtherTimes": ["StartButton1", "StartButton2"],
         "next": ["StartUpThemes#next", "GameStart@LoadingIcon"]
+    },
+    "GameStartUpdateOCR": {
+        "doc": "开始唤醒时遇到更新下载",
+        "algorithm": "OcrDetect",
+        "text": ["正在释放神经递质", "MB"],
+        "roi": [340, 660, 600, 60],
+        "postDelay": 5000,
+        "next": ["#self", "StartUpThemes#next"]
     },
     "StartToWakeUp": {
         "action": "ClickSelf",
