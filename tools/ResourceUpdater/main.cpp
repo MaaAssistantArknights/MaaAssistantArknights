@@ -117,73 +117,72 @@ int main([[maybe_unused]] int argc, char** argv)
     // Update stage.json from Penguin Stats
     futures.push_back(run_async(update_stages_data, cur_path, resource_dir));
 
-    //// Update infrast data from ArknightsGameResource
-    // futures.push_back(run_async(update_infrast_data, official_data_dir / "gamedata" / "excel", resource_dir));
+    // Update infrast data from ArknightsGameResource
+    futures.push_back(run_async(update_infrast_data, official_data_dir / "gamedata" / "excel", resource_dir));
 
-    //// Update infrast templates from ArknightsGameResource
-    // futures.push_back(run_async(
-    //     update_infrast_templates,
-    //     official_data_dir / "building_skill",
-    //     resource_dir / "template" / "infrast"));
+    // Update infrast templates from ArknightsGameResource
+    futures.push_back(run_async(
+        update_infrast_templates,
+        official_data_dir / "building_skill",
+        resource_dir / "template" / "infrast"));
 
-    //// Update battle chars info for all clients
-    // futures.push_back(
-    //     run_async(update_battle_chars_info, official_data_dir / "gamedata" / "excel", overseas_data_dir,
-    //     resource_dir));
+    // Update battle chars info for all clients
+    futures.push_back(
+        run_async(update_battle_chars_info, official_data_dir / "gamedata" / "excel", overseas_data_dir, resource_dir));
 
-    //// Update roguelike replace for overseas from ArknightsGameData_YoStar
-    // for (const auto& [in, out] : global_dirs) {
-    //     futures.push_back(run_async(
-    //         check_roguelike_replace_for_overseas,
-    //         overseas_data_dir / in / "gamedata" / "excel",
-    //         resource_dir / "global" / out / "resource" / "tasks.json",
-    //         official_data_dir / "gamedata" / "excel",
-    //         cur_path / in));
-    // }
+    // Update roguelike replace for overseas from ArknightsGameData_YoStar
+    for (const auto& [in, out] : global_dirs) {
+        futures.push_back(run_async(
+            check_roguelike_replace_for_overseas,
+            overseas_data_dir / in / "gamedata" / "excel",
+            resource_dir / "global" / out / "resource" / "tasks.json",
+            official_data_dir / "gamedata" / "excel",
+            cur_path / in));
+    }
 
-    //// Update version info from ArknightsGameData
-    // futures.push_back(run_async(update_version_info, official_data_dir / "gamedata" / "excel", resource_dir));
+    // Update version info from ArknightsGameData
+    futures.push_back(run_async(update_version_info, official_data_dir / "gamedata" / "excel", resource_dir));
 
-    //// Update global version info from ArknightsGameData_YoStar
-    // for (const auto& [in, out] : global_dirs) {
-    //     futures.push_back(run_async(
-    //         update_version_info,
-    //         overseas_data_dir / in / "gamedata" / "excel",
-    //         resource_dir / "global" / out / "resource"));
-    // }
+    // Update global version info from ArknightsGameData_YoStar
+    for (const auto& [in, out] : global_dirs) {
+        futures.push_back(run_async(
+            update_version_info,
+            overseas_data_dir / in / "gamedata" / "excel",
+            resource_dir / "global" / out / "resource"));
+    }
 
-    //// Update recruitment data from ArknightsGameResource
-    // std::future<bool> a1 = run_async(
-    //     update_recruitment_data,
-    //     official_data_dir / "gamedata" / "excel",
-    //     resource_dir / "recruitment.json",
-    //     true);
+    // Update recruitment data from ArknightsGameResource
+    std::future<bool> a1 = run_async(
+        update_recruitment_data,
+        official_data_dir / "gamedata" / "excel",
+        resource_dir / "recruitment.json",
+        true);
 
-    //    // Update items template and json from ArknightsGameResource
-    //     std::future<bool> a2 = run_async(update_items_data, official_data_dir, resource_dir, true);
+    // Update items template and json from ArknightsGameResource
+    std::future<bool> a2 = run_async(update_items_data, official_data_dir, resource_dir, true);
 
-    // if (!a1.get() || !a2.get()) {
-    //     std::cerr << "One of the dependent tasks in group A failed" << '\n';
-    //     return -1;
-    // }
+    if (!a1.get() || !a2.get()) {
+        std::cerr << "One of the dependent tasks in group A failed" << '\n';
+        return -1;
+    }
 
-    //    // Update recruitment data from ArknightsGameData_YoStar
-    //     for (const auto& [in, out] : global_dirs) {
-    //             futures.push_back(run_async(
-    //                     update_recruitment_data,
-    //                     overseas_data_dir / in / "gamedata" / "excel",
-    //                     resource_dir / "global" / out / "resource" / "recruitment.json",
-    //                     false));
-    //     }
+    // Update recruitment data from ArknightsGameData_YoStar
+    for (const auto& [in, out] : global_dirs) {
+        futures.push_back(run_async(
+            update_recruitment_data,
+            overseas_data_dir / in / "gamedata" / "excel",
+            resource_dir / "global" / out / "resource" / "recruitment.json",
+            false));
+    }
 
-    //// Update items template and json from ArknightsGameData_YoStar
-    // for (const auto& [in, out] : global_dirs) {
-    //     futures.push_back(run_async(
-    //         update_items_data,
-    //         overseas_data_dir / in / "gamedata" / "excel",
-    //         resource_dir / "global" / out / "resource",
-    //         false));
-    // }
+    // Update items template and json from ArknightsGameData_YoStar
+    for (const auto& [in, out] : global_dirs) {
+        futures.push_back(run_async(
+            update_items_data,
+            overseas_data_dir / in / "gamedata" / "excel",
+            resource_dir / "global" / out / "resource",
+            false));
+    }
 
     for (auto& future : futures) {
         if (!future.get()) {
