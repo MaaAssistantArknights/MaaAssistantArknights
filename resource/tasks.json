@@ -7071,7 +7071,7 @@
     "Roguelike@StageTraderRefreshWithDice": {
         "template": "Roguelike@StageTraderRefresh.png",
         "action": "ClickSelf",
-        "roi": [230, 47, 211, 139],
+        "roi": [230, 47, 211, 182],
         "next": [
             "Roguelike@StageTraderRefreshWithDiceConfirm",
             "Roguelike@StageTraderRefreshWithDiceNotAvaiable",
