@@ -27,6 +27,8 @@
 #pragma GCC diagnostic pop
 #endif
 
+namespace fs = std::filesystem;
+
 inline static void ltrim(std::string& s)
 {
     s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) { return !std::isspace(ch); }));
@@ -45,39 +47,28 @@ inline static void trim(std::string& s)
     rtrim(s);
 }
 
-bool update_items_data(
-    const std::filesystem::path& input_dir,
-    const std::filesystem::path& output_dir,
-    bool with_imgs = true);
-bool cvt_single_item_template(const std::filesystem::path& input, const std::filesystem::path& output);
-bool update_infrast_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
-bool update_stages_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
-bool update_roguelike_recruit(
-    const std::filesystem::path& input_dir,
-    const std::filesystem::path& output_dir,
-    const std::filesystem::path& solution_dir);
-bool update_levels_json(const std::filesystem::path& input_file, const std::filesystem::path& output_dir);
-bool update_infrast_templates(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
-bool generate_english_roguelike_stage_name_replacement(
-    const std::filesystem::path& ch_file,
-    const std::filesystem::path& en_file);
-bool update_battle_chars_info(
-    const std::filesystem::path& input_dir,
-    const std::filesystem::path& overseas_dir,
-    const std::filesystem::path& output_dir);
-bool update_recruitment_data(const std::filesystem::path& input_dir, const std::filesystem::path& output, bool is_base);
+bool update_items_data(const fs::path& input_dir, const fs::path& output_dir, bool with_imgs = true);
+bool cvt_single_item_template(const fs::path& input, const fs::path& output);
+bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir);
+bool update_stages_data(const fs::path& input_dir, const fs::path& output_dir);
+bool update_roguelike_recruit(const fs::path& input_dir, const fs::path& output_dir, const fs::path& solution_dir);
+bool update_levels_json(const fs::path& input_file, const fs::path& output_dir);
+bool update_infrast_templates(const fs::path& input_dir, const fs::path& output_dir);
+bool generate_english_roguelike_stage_name_replacement(const fs::path& ch_file, const fs::path& en_file);
+bool update_battle_chars_info(const fs::path& input_dir, const fs::path& overseas_dir, const fs::path& output_dir);
+bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, bool is_base);
 bool check_roguelike_replace_for_overseas(
-    const std::filesystem::path& input_dir,
-    const std::filesystem::path& tasks_path,
-    const std::filesystem::path& base_dir);
-bool update_version_info(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
+    const fs::path& input_dir,
+    const fs::path& tasks_path,
+    const fs::path& base_dir);
+bool update_version_info(const fs::path& input_dir, const fs::path& output_dir);
 
 static void run_sequential_tasks(
-    const std::filesystem::path& cur_path,
-    const std::filesystem::path& resource_dir,
-    const std::filesystem::path& official_data_dir,
-    const std::filesystem::path& overseas_data_dir,
-    const std::unordered_map<std::filesystem::path, std::string>& global_dirs)
+    const fs::path& cur_path,
+    const fs::path& resource_dir,
+    const fs::path& official_data_dir,
+    const fs::path& overseas_data_dir,
+    const std::unordered_map<fs::path, std::string>& global_dirs)
 {
     std::cout << "------- Update infrast data -------" << '\n';
     if (!update_infrast_data(official_data_dir / "gamedata" / "excel", resource_dir)) {
@@ -91,15 +82,6 @@ static void run_sequential_tasks(
     std::cout << "------- Update infrast templates -------" << '\n';
     if (!update_infrast_templates(official_data_dir / "building_skill", resource_dir / "template" / "infrast")) {
         std::cerr << "update_infrast_templates failed" << '\n';
-        return;
-    }
-    else {
-        std::cout << ">Done" << '\n';
-    }
-
-    std::cout << "------- Update battle chars info -------" << '\n';
-    if (!update_battle_chars_info(official_data_dir / "gamedata" / "excel", overseas_data_dir, resource_dir)) {
-        std::cerr << "update_battle_chars_info failed" << '\n';
         return;
     }
     else {
@@ -179,35 +161,6 @@ static void run_sequential_tasks(
             std::cout << ">Done" << '\n';
         }
     }
-
-    std::cout << "------- Update version info for Official -------" << '\n';
-    if (!update_version_info(official_data_dir / "gamedata" / "excel", resource_dir)) {
-        std::cerr << "update_version_info failed" << '\n';
-        return;
-    }
-    else {
-        std::cout << ">Done" << '\n';
-    }
-
-    std::vector<std::thread> version_threads;
-
-    for (const auto& [in, out] : global_dirs) {
-        version_threads.emplace_back([&, in, out]() {
-            std::cout << "------- Update version info for " << out << " -------" << '\n';
-            if (!update_version_info(
-                    overseas_data_dir / in / "gamedata" / "excel",
-                    resource_dir / "global" / out / "resource")) {
-                std::cerr << "update_version_info failed for " << in << '\n';
-            }
-            else {
-                std::cout << ">Done" << '\n';
-            }
-        });
-    }
-
-    for (auto& thread : version_threads) {
-        thread.join();
-    }
 }
 
 int main([[maybe_unused]] int argc, char** argv)
@@ -215,12 +168,12 @@ int main([[maybe_unused]] int argc, char** argv)
     // ---- PATH DECLARATION ----
 
     const char* str_exec_path = argv[0];
-    const auto cur_path = std::filesystem::path(str_exec_path).parent_path();
+    const auto cur_path = fs::path(str_exec_path).parent_path();
 
     auto solution_dir = cur_path;
     for (int i = 0; i != 10; ++i) {
         solution_dir = solution_dir.parent_path();
-        if (std::filesystem::exists(solution_dir / "resource")) {
+        if (fs::exists(solution_dir / "resource")) {
             break;
         }
     }
@@ -231,7 +184,7 @@ int main([[maybe_unused]] int argc, char** argv)
     const auto overseas_data_dir = cur_path / "Overseas";
     const auto resource_dir = solution_dir / "resource";
 
-    std::unordered_map<std::filesystem::path, std::string> global_dirs = {
+    std::unordered_map<fs::path, std::string> global_dirs = {
         { "en_US", "YoStarEN" },
         { "ja_JP", "YoStarJP" },
         { "ko_KR", "YoStarKR" },
@@ -263,6 +216,48 @@ int main([[maybe_unused]] int argc, char** argv)
         }
     });
 
+    std::thread battle_thread([&]() {
+        std::cout << "------- Update battle chars info -------" << '\n';
+        if (!update_battle_chars_info(official_data_dir / "gamedata" / "excel", overseas_data_dir, resource_dir)) {
+            std::cerr << "update_battle_chars_info failed" << '\n';
+            return;
+        }
+        else {
+            std::cout << ">Done" << '\n';
+        }
+    });
+
+    std::thread version_thread([&]() {
+        std::cout << "------- Update version info for Official -------" << '\n';
+        if (!update_version_info(official_data_dir / "gamedata" / "excel", resource_dir)) {
+            std::cerr << "update_version_info failed" << '\n';
+            return;
+        }
+        else {
+            std::cout << ">Done" << '\n';
+        }
+
+        std::vector<std::thread> version_threads;
+
+        for (const auto& [in, out] : global_dirs) {
+            version_threads.emplace_back([&, in, out]() {
+                std::cout << "------- Update version info for " << out << " -------" << '\n';
+                if (!update_version_info(
+                        overseas_data_dir / in / "gamedata" / "excel",
+                        resource_dir / "global" / out / "resource")) {
+                    std::cerr << "update_version_info failed for " << in << '\n';
+                }
+                else {
+                    std::cout << ">Done" << '\n';
+                }
+            });
+        }
+
+        for (auto& thread : version_threads) {
+            thread.join();
+        }
+    });
+
     std::thread other_tasks_thread(
         run_sequential_tasks,
         cur_path,
@@ -273,6 +268,8 @@ int main([[maybe_unused]] int argc, char** argv)
 
     stages_thread.join();
     levels_thread.join();
+    battle_thread.join();
+    version_thread.join();
     other_tasks_thread.join();
 
     std::chrono::duration<double> elapsed_time = std::chrono::high_resolution_clock::now() - start;
@@ -285,7 +282,7 @@ int main([[maybe_unused]] int argc, char** argv)
 
 // ---- METHODS DEFINITIONS ----
 
-bool update_items_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir, bool with_imgs)
+bool update_items_data(const fs::path& input_dir, const fs::path& output_dir, bool with_imgs)
 {
     const auto input_json_path =
         with_imgs ? input_dir / "gamedata" / "excel" / "item_table.json" : input_dir / "item_table.json";
@@ -345,8 +342,8 @@ bool update_items_data(const std::filesystem::path& input_dir, const std::filesy
         }
 
         auto input_icon_path = input_dir / "item" / (item_info["iconId"].as_string() + ".png");
-        if (with_imgs && !std::filesystem::exists(input_icon_path)) {
-            std::cout << input_icon_path.string() << " not exist" << '\n';
+        if (with_imgs && !fs::exists(input_icon_path)) {
+            std::cout << fs::relative(input_icon_path) << " not exist" << '\n';
             continue;
         }
 
@@ -355,8 +352,8 @@ bool update_items_data(const std::filesystem::path& input_dir, const std::filesy
         if (with_imgs) {
             cvt_single_item_template(input_icon_path, output_icon_path / output_filename);
         }
-        else if (!std::filesystem::exists(output_icon_path / output_filename)) {
-            std::cout << (output_icon_path / output_filename).string() << " not exist" << '\n';
+        else if (!fs::exists(output_icon_path / output_filename)) {
+            std::cout << fs::relative((output_icon_path / output_filename)) << " not exist" << '\n';
             continue;
         }
 
@@ -376,7 +373,7 @@ bool update_items_data(const std::filesystem::path& input_dir, const std::filesy
     return true;
 }
 
-bool cvt_single_item_template(const std::filesystem::path& input, const std::filesystem::path& output)
+bool cvt_single_item_template(const fs::path& input, const fs::path& output)
 {
     cv::Mat src = cv::imread(input.string(), -1);
     if (src.empty()) {
@@ -411,7 +408,7 @@ bool cvt_single_item_template(const std::filesystem::path& input, const std::fil
     cv::cvtColor(dst_resized, dst_gray, cv::COLOR_BGR2GRAY);
     dst_resized = dst_resized(cv::boundingRect(dst_gray));
 
-    if (std::filesystem::exists(output)) {
+    if (fs::exists(output)) {
         cv::Mat pre = cv::imread(output.string());
         if (pre.size() == dst_resized.size()) {
             cv::Mat matched;
@@ -421,19 +418,19 @@ bool cvt_single_item_template(const std::filesystem::path& input, const std::fil
             cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
             if (max_val > 0.95) {
-                std::cout << "Same item templ, skip: " << output.string() << ", score: " << max_val << '\n';
+                std::cout << "Same item templ, skip: " << fs::relative(output) << ", score: " << max_val << '\n';
                 return true;
             }
             else {
-                std::cout << "Update item templ: " << output.string() << ", score: " << max_val << '\n';
+                std::cout << "Update item templ: " << fs::relative(output) << ", score: " << max_val << '\n';
             }
         }
         else {
-            std::cout << "Update item templ: " << output.string() << " because sizes are different." << '\n';
+            std::cout << "Update item templ: " << fs::relative(output) << " because sizes are different." << '\n';
         }
     }
     else {
-        std::cout << "New item templ: " << output.string() << '\n';
+        std::cout << "New item templ: " << fs::relative(output) << '\n';
     }
 
     cv::imwrite(output.string(), dst_resized);
@@ -487,7 +484,7 @@ void remove_xml(std::string& text)
     text.erase(next_iter, text.end());
 }
 
-bool update_infrast_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir)
+bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir)
 {
     const auto input_file = input_dir / "building_data.json";
     const auto output_file = output_dir / "infrast.json";
@@ -579,7 +576,7 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
     return true;
 }
 
-bool update_stages_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir)
+bool update_stages_data(const fs::path& input_dir, const fs::path& output_dir)
 {
     // 国内访问可以改成 .cn 的域名
     const std::string PenguinAPI = R"(https://penguin-stats.io/PenguinStats/api/v2/stages?server=)";
@@ -599,7 +596,7 @@ bool update_stages_data(const std::filesystem::path& input_dir, const std::files
     std::map<std::string, json::value> stage_basic_infos;
 
     auto fetch_and_parse = [&](const std::string& server) -> bool {
-        std::filesystem::path temp_file = input_dir / ("stages_" + server + ".json");
+        fs::path temp_file = input_dir / ("stages_" + server + ".json");
         int stage_request_ret = system(("curl -s -o \"" + temp_file.string() + "\" " + PenguinAPI + server).c_str());
         if (stage_request_ret != 0) {
             std::cerr << "Request Penguin Stats failed for server: " << server << '\n';
@@ -632,7 +629,7 @@ bool update_stages_data(const std::filesystem::path& input_dir, const std::files
 
     // Merge data from all temporary files sequentially
     for (const auto& server : PenguinServers) {
-        std::filesystem::path temp_file = input_dir / ("stages_" + server + ".json");
+        fs::path temp_file = input_dir / ("stages_" + server + ".json");
         auto parse_ret = json::open(temp_file);
         if (!parse_ret) {
             std::cerr << "parse stages.json failed for server: " << server << '\n';
@@ -685,9 +682,9 @@ bool update_stages_data(const std::filesystem::path& input_dir, const std::files
     return true;
 }
 
-bool update_infrast_templates(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir)
+bool update_infrast_templates(const fs::path& input_dir, const fs::path& output_dir)
 {
-    for (auto&& entry : std::filesystem::directory_iterator(input_dir)) {
+    for (auto&& entry : fs::directory_iterator(input_dir)) {
         if (entry.path().extension() != ".png") {
             continue;
         }
@@ -724,7 +721,7 @@ bool update_infrast_templates(const std::filesystem::path& input_dir, const std:
         filename[0] -= 32;
         std::string out_file = (output_dir / filename).string();
 
-        if (std::filesystem::exists(out_file)) {
+        if (fs::exists(out_file)) {
             cv::Mat pre = cv::imread(out_file);
             if (pre.size() == dst.size()) {
                 cv::Mat matched;
@@ -734,33 +731,31 @@ bool update_infrast_templates(const std::filesystem::path& input_dir, const std:
                 cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
                 if (max_val > 0.95) {
-                    std::cout << "Same infrast templ, skip: " << out_file << ", score: " << max_val << '\n';
+                    std::cout << "Same infrast templ, skip: " << fs::relative(out_file) << ", score: " << max_val
+                              << '\n';
                     continue;
                 }
                 else {
-                    std::cout << "Update infrast templ: " << out_file << ", score: " << max_val << '\n';
+                    std::cout << "Update infrast templ: " << fs::relative(out_file) << ", score: " << max_val << '\n';
                 }
             }
             else {
-                std::cout << "Update infrast templ: " << out_file << " because sizes are different." << '\n';
+                std::cout << "Update infrast templ: " << fs::relative(out_file) << " because sizes are different."
+                          << '\n';
             }
         }
         else {
-            std::cout << "New infrast templ: " << out_file << '\n';
+            std::cout << "New infrast templ: " << fs::relative(out_file) << '\n';
         }
         cv::imwrite(out_file, dst);
     }
     return true;
 }
 
-bool update_roguelike_recruit(
-    const std::filesystem::path& input_dir,
-    const std::filesystem::path& output_dir,
-    const std::filesystem::path& solution_dir)
+bool update_roguelike_recruit(const fs::path& input_dir, const fs::path& output_dir, const fs::path& solution_dir)
 {
     std::string python_cmd;
-    std::filesystem::path python_file =
-        solution_dir / "tools" / "RoguelikeResourceUpdater" / "generate_roguelike_recruit.py";
+    fs::path python_file = solution_dir / "tools" / "RoguelikeResourceUpdater" / "generate_roguelike_recruit.py";
     python_cmd = "python " + python_file.string() + " --input=\"" + input_dir.string() + "\" --output=\"" +
                  output_dir.string() + "\"";
     int python_ret = system(python_cmd.c_str());
@@ -770,7 +765,7 @@ bool update_roguelike_recruit(
     return true;
 }
 
-bool update_levels_json(const std::filesystem::path& input_file, const std::filesystem::path& output_dir)
+bool update_levels_json(const fs::path& input_file, const fs::path& output_dir)
 {
     auto json_opt = json::open(input_file);
     if (!json_opt) {
@@ -811,9 +806,7 @@ bool update_levels_json(const std::filesystem::path& input_file, const std::file
     return true;
 }
 
-bool generate_english_roguelike_stage_name_replacement(
-    const std::filesystem::path& ch_file,
-    const std::filesystem::path& en_file)
+bool generate_english_roguelike_stage_name_replacement(const fs::path& ch_file, const fs::path& en_file)
 {
     auto ch_opt = json::open(ch_file);
     auto en_opt = json::open(en_file);
@@ -857,10 +850,7 @@ bool generate_english_roguelike_stage_name_replacement(
     return true;
 }
 
-bool update_battle_chars_info(
-    const std::filesystem::path& official_dir,
-    const std::filesystem::path& overseas_dir,
-    const std::filesystem::path& output_dir)
+bool update_battle_chars_info(const fs::path& official_dir, const fs::path& overseas_dir, const fs::path& output_dir)
 {
     std::string to_char_json = "gamedata/excel/character_table.json";
 
@@ -973,7 +963,7 @@ bool update_battle_chars_info(
     return true;
 }
 
-bool update_recruitment_data(const std::filesystem::path& input_dir, const std::filesystem::path& output, bool is_base)
+bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, bool is_base)
 {
     using asst::ranges::find_if, asst::ranges::range;
     using asst::utils::string_replace_all_in_place;
@@ -1160,9 +1150,9 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
 }
 
 bool check_roguelike_replace_for_overseas(
-    const std::filesystem::path& input_dir,
-    const std::filesystem::path& tasks_path,
-    const std::filesystem::path& base_dir)
+    const fs::path& input_dir,
+    const fs::path& tasks_path,
+    const fs::path& base_dir)
 {
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_stage_names;
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_item_names;
@@ -1334,7 +1324,7 @@ bool check_roguelike_replace_for_overseas(
     return true;
 }
 
-bool update_version_info(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir)
+bool update_version_info(const fs::path& input_dir, const fs::path& output_dir)
 {
     uint64_t current_time = (unsigned long)time(NULL);
 
