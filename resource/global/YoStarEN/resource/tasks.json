@@ -1935,7 +1935,12 @@
             ["Dimensional Fluid", "维度流质"],
             ["Collapsal Seed", "坍缩之种"],
             ["Fragment of Space", "空间碎片"],
-            ["Profound Scorchmarks", "深度灼痕"]
+            ["Profound Scorchmarks", "深度灼痕"],
+            ["Respite", "歇息"],
+            ["Cry", "呼救"],
+            ["Satisfy", "满足"],
+            ["Advent", "到来"],
+            ["Departure", "离去"]
         ]
     },
     "Roguelike@ChooseDifficultyConfirm": {
