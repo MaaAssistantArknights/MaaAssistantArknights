@@ -1,3 +1,4 @@
+#include <chrono>
 #include <filesystem>
 #include <fstream>
 #include <unordered_set>
@@ -102,6 +103,8 @@ int main([[maybe_unused]] int argc, char** argv)
 
     // ---- METHODS CALLS ----
 
+    auto start = std::chrono::high_resolution_clock::now();
+
     // Update levels.json from ArknightsGameResource
     std::cout << "------- Update levels.json for Official -------" << '\n';
     if (!update_levels_json(official_data_dir / "levels.json", resource_dir / "Arknights-Tile-Pos")) {
@@ -109,7 +112,7 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
     else {
-        std::cout << "Done" << '\n';
+        std::cout << ">Done" << '\n';
     }
 
     // 这个 en_levels.json 是自己手动生成放进去的
@@ -124,7 +127,7 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
     else {
-        std::cout << "Done" << '\n';
+        std::cout << ">Done" << '\n';
     }
 
     // Update infrast templates from ArknightsGameResource
@@ -134,7 +137,7 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
     else {
-        std::cout << "Done" << '\n';
+        std::cout << ">Done" << '\n';
     }
 
     // Update roguelike recruit data from ArknightsGameResource
@@ -143,7 +146,7 @@ int main([[maybe_unused]] int argc, char** argv)
     //     std::cerr << "Update roguelike recruit data failed" << '\n';
     //     return -1;
     // }    else {
-    //    std::cout << "Done" << '\n';
+    //    std::cout << ">Done" << '\n';
     //}
 
     // Update base_name.json from Penguin Stats
@@ -153,7 +156,7 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
     else {
-        std::cout << "Done" << '\n';
+        std::cout << ">Done" << '\n';
     }
 
     // Update battle chars info for all clients
@@ -163,7 +166,7 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
     else {
-        std::cout << "Done" << '\n';
+        std::cout << ">Done" << '\n';
     }
 
     // Update recruitment data from ArknightsGameResource
@@ -173,12 +176,12 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
     else {
-        std::cout << "Done" << '\n';
+        std::cout << ">Done" << '\n';
     }
 
     // Update recruitment data from ArknightsGameData_YoStar
     for (const auto& [in, out] : global_dirs) {
-        std::cout << "------- Update recruitment data for " << out << "------- " << '\n';
+        std::cout << "------- Update recruitment data for " << out << " -------" << '\n';
         if (!update_recruitment_data(
                 overseas_data_dir / in / "gamedata" / "excel",
                 resource_dir / "global" / out / "resource" / "recruitment.json",
@@ -187,7 +190,7 @@ int main([[maybe_unused]] int argc, char** argv)
             return -1;
         }
         else {
-            std::cout << "Done" << '\n';
+            std::cout << ">Done" << '\n';
         }
     }
 
@@ -198,12 +201,12 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
     else {
-        std::cout << "Done" << '\n';
+        std::cout << ">Done" << '\n';
     }
 
     // Update items template and json from ArknightsGameData_YoStar
     for (const auto& [in, out] : global_dirs) {
-        std::cout << "------- Update items template and json for " << out << "------- " << '\n';
+        std::cout << "------- Update items template and json for " << out << " -------" << '\n';
         if (!update_items_data(
                 overseas_data_dir / in / "gamedata" / "excel",
                 resource_dir / "global" / out / "resource",
@@ -212,13 +215,13 @@ int main([[maybe_unused]] int argc, char** argv)
             return -1;
         }
         else {
-            std::cout << "Done" << '\n';
+            std::cout << ">Done" << '\n';
         }
     }
 
     // Update roguelike replace for overseas from ArknightsGameData_YoStar
     for (const auto& [in, out] : global_dirs) {
-        std::cout << "------- Update roguelike replace for " << out << "------- " << '\n';
+        std::cout << "------- Update roguelike replace for " << out << " -------" << '\n';
         if (!check_roguelike_replace_for_overseas(
                 overseas_data_dir / in / "gamedata" / "excel",
                 resource_dir / "global" / out / "resource" / "tasks.json",
@@ -228,7 +231,7 @@ int main([[maybe_unused]] int argc, char** argv)
             return -1;
         }
         else {
-            std::cout << "Done" << '\n';
+            std::cout << ">Done" << '\n';
         }
     }
 
@@ -239,12 +242,12 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
     else {
-        std::cout << "Done" << '\n';
+        std::cout << ">Done" << '\n';
     }
 
     // Update global version info from ArknightsGameData_YoStar
     for (const auto& [in, out] : global_dirs) {
-        std::cout << "------- Update version info for " << out << "------- " << '\n';
+        std::cout << "------- Update version info for " << out << " -------" << '\n';
         if (!update_version_info(
                 overseas_data_dir / in / "gamedata" / "excel",
                 resource_dir / "global" / out / "resource")) {
@@ -252,11 +255,15 @@ int main([[maybe_unused]] int argc, char** argv)
             return -1;
         }
         else {
-            std::cout << "Done" << '\n';
+            std::cout << ">Done" << '\n';
         }
     }
+    
+    std::chrono::duration<double> elapsed_time = std::chrono::high_resolution_clock::now() - start;
 
     std::cout << "------- All success -------" << '\n';
+
+    std::cout <<'\n' << "Elapsed time: " << elapsed_time.count() << " seconds" << '\n';
     return 0;
 }
 
