@@ -121,7 +121,7 @@ static void run_parallel_tasks(
 {
     std::thread stages_thread([&]() {
          std::cout << "------- update stages data -------" << '\n';
-         if (!update_stages_data(cur_path, resource_dir)) {
+         if (!update_stages_data(official_data_dir, resource_dir)) {
              std::cerr << "update_stages_data failed" << '\n';
          }
          else {
