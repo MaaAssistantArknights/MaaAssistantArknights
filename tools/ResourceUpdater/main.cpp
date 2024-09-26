@@ -47,7 +47,7 @@ inline static void trim(std::string& s)
     rtrim(s);
 }
 
-static void run_parallel_tasks(
+bool run_parallel_tasks(
     const std::filesystem::path& resource_dir,
     const std::filesystem::path& official_data_dir,
     const std::filesystem::path& overseas_data_dir,
@@ -101,11 +101,14 @@ int main([[maybe_unused]] int argc, char** argv)
 
     auto start = std::chrono::high_resolution_clock::now();
 
-    run_parallel_tasks(resource_dir, official_data_dir, overseas_data_dir, global_dirs);
+    if (run_parallel_tasks(resource_dir, official_data_dir, overseas_data_dir, global_dirs)) {
+        std::cout << '\n' << "------- All success -------" << '\n';
+    }
+    else {
+        std::cerr << '\n' << "One or more tasks failed." << '\n';
+    }
 
     std::chrono::duration<double> elapsed_time = std::chrono::high_resolution_clock::now() - start;
-
-    std::cout << "------- All success -------" << '\n';
 
     std::cout << '\n' << "Elapsed time: " << elapsed_time.count() << " seconds" << '\n';
     return 0;
@@ -113,88 +116,113 @@ int main([[maybe_unused]] int argc, char** argv)
 
 // ---- METHODS DEFINITIONS ----
 
-static void run_parallel_tasks(
+bool run_parallel_tasks(
     const std::filesystem::path& resource_dir,
     const std::filesystem::path& official_data_dir,
     const std::filesystem::path& overseas_data_dir,
     const std::unordered_map<fs::path, std::string>& global_dirs)
 {
+    std::atomic<bool> error_occurred(false);
+
     std::thread stages_thread([&]() {
-         std::cout << "------- update stages data -------" << '\n';
-         if (!update_stages_data(official_data_dir, resource_dir)) {
-             std::cerr << "update_stages_data failed" << '\n';
-         }
-         else {
-             std::cout << ">stages.json done" << '\n';
-         }
+        if (error_occurred.load()) {
+            return;
+        }
+        std::cout << "------- Update stages data -------" << '\n';
+        if (!update_stages_data(overseas_data_dir, resource_dir)) {
+            std::cerr << "update_stages_data failed" << '\n';
+            error_occurred.store(true);
+        }
+        else {
+            std::cout << ">Done stages.json" << '\n';
+        }
     });
 
     std::thread levels_thread([&]() {
-        std::cout << "------- Update levels.json for Official -------" << '\n';
-        if (!update_levels_json(official_data_dir / "levels.json", resource_dir / "Arknights-Tile-Pos")) {
-            std::cerr << "update levels.json failed" << '\n';
+        if (error_occurred.load()) {
             return;
         }
+        std::cout << "------- Update levels.json for Official -------" << '\n';
+        if (!update_levels_json(official_data_dir / "levels.json", resource_dir / "Arknights-Tile-Pos")) {
+            std::cerr << "update_levels_json failed" << '\n';
+            error_occurred.store(true);
+        }
         else {
-            std::cout << ">Levels.json Done" << '\n';
+            std::cout << ">Done levels.json" << '\n';
         }
     });
 
     std::thread infrast_data_thread([&]() {
+        if (error_occurred.load()) {
+            return;
+        }
         std::cout << "------- Update infrast data -------" << '\n';
         if (!update_infrast_data(official_data_dir / "gamedata" / "excel", resource_dir)) {
             std::cerr << "update_infrast_data failed" << '\n';
-            return;
+            error_occurred.store(true);
         }
         else {
-            std::cout << ">Done" << '\n';
+            std::cout << ">Done infrast data" << '\n';
         }
     });
 
     std::thread infrast_templates_thread([&]() {
+        if (error_occurred.load()) {
+            return;
+        }
         std::cout << "------- Update infrast templates -------" << '\n';
         if (!update_infrast_templates(official_data_dir / "building_skill", resource_dir / "template" / "infrast")) {
             std::cerr << "update_infrast_templates failed" << '\n';
-            return;
+            error_occurred.store(true);
         }
         else {
-            std::cout << ">Done" << '\n';
+            std::cout << ">Done infrast templates" << '\n';
         }
     });
 
     std::thread battle_thread([&]() {
+        if (error_occurred.load()) {
+            return;
+        }
         std::cout << "------- Update battle chars info -------" << '\n';
         if (!update_battle_chars_info(official_data_dir / "gamedata" / "excel", overseas_data_dir, resource_dir)) {
             std::cerr << "update_battle_chars_info failed" << '\n';
-            return;
+            error_occurred.store(true);
         }
         else {
-            std::cout << ">Done" << '\n';
+            std::cout << ">Done battle chars" << '\n';
         }
     });
 
     std::thread version_thread([&]() {
+        if (error_occurred.load()) {
+            return;
+        }
         std::cout << "------- Update version info for Official -------" << '\n';
         if (!update_version_info(official_data_dir / "gamedata" / "excel", resource_dir)) {
             std::cerr << "update_version_info failed" << '\n';
-            return;
+            error_occurred.store(true);
         }
         else {
-            std::cout << ">Done" << '\n';
+            std::cout << ">Done version Official" << '\n';
         }
 
         std::vector<std::thread> version_threads;
 
         for (const auto& [in, out] : global_dirs) {
             version_threads.emplace_back([&, in, out]() {
+                if (error_occurred.load()) {
+                    return;
+                }
                 std::cout << "------- Update version info for " << out << " -------" << '\n';
                 if (!update_version_info(
                         overseas_data_dir / in / "gamedata" / "excel",
                         resource_dir / "global" / out / "resource")) {
-                    std::cerr << "update_version_info failed for " << in << '\n';
+                    std::cerr << "update_version_info failed for " << out << '\n';
+                    error_occurred.store(true);
                 }
                 else {
-                    std::cout << ">Done" << '\n';
+                    std::cout << ">Done version " << out << '\n';
                 }
             });
         }
@@ -206,46 +234,56 @@ static void run_parallel_tasks(
 
     std::thread check_roguelike_thread([&]() {
         for (const auto& [in, out] : global_dirs) {
+            if (error_occurred.load()) {
+                return;
+            }
             std::cout << "------- Check roguelike replace for " << out << " -------" << '\n';
             if (!check_roguelike_replace_for_overseas(
                     overseas_data_dir / in / "gamedata" / "excel",
                     resource_dir / "global" / out / "resource" / "tasks.json",
                     official_data_dir / "gamedata" / "excel")) {
-                std::cerr << "check_roguelike_replace_for_overseas failed for " << in << '\n';
-                return;
+                std::cerr << "check_roguelike_replace_for_overseas failed for " << out << '\n';
+                error_occurred.store(true);
             }
             else {
-                std::cout << ">Done" << '\n';
+                std::cout << ">Done roguelike replace" << '\n';
             }
         }
     });
 
     std::thread recruit_thread([&]() {
+        if (error_occurred.load()) {
+            return;
+        }
         std::cout << "------- Update recruitment data for Official -------" << '\n';
         if (!update_recruitment_data(
                 official_data_dir / "gamedata" / "excel",
                 resource_dir / "recruitment.json",
                 true)) {
             std::cerr << "Update recruitment data failed" << '\n';
-            return;
+            error_occurred.store(true);
         }
         else {
-            std::cout << ">Done" << '\n';
+            std::cout << ">Done recruitment Official" << '\n';
         }
 
         std::vector<std::thread> recruitment_threads;
 
         for (const auto& [in, out] : global_dirs) {
             recruitment_threads.emplace_back([&, in, out]() {
+                if (error_occurred.load()) {
+                    return;
+                }
                 std::cout << "------- Update recruitment data for " << out << " -------" << '\n';
                 if (!update_recruitment_data(
                         overseas_data_dir / in / "gamedata" / "excel",
                         resource_dir / "global" / out / "resource" / "recruitment.json",
                         false)) {
-                    std::cerr << "update_recruitment_data failed for " << in << '\n';
+                    std::cerr << "update_recruitment_data failed for " << out << '\n';
+                    error_occurred.store(true);
                 }
                 else {
-                    std::cout << ">Done" << '\n';
+                    std::cout << ">Done recruitment " << out << '\n';
                 }
             });
         }
@@ -256,28 +294,35 @@ static void run_parallel_tasks(
     });
 
     std::thread items_data_thread([&]() {
+        if (error_occurred.load()) {
+            return;
+        }
         std::cout << "------- Update items data for Official -------" << '\n';
         if (!update_items_data(official_data_dir, resource_dir, true)) {
             std::cerr << "Update items data failed" << '\n';
-            return;
+            error_occurred.store(true);
         }
         else {
-            std::cout << ">Done" << '\n';
+            std::cout << ">Done items Official" << '\n';
         }
 
         std::vector<std::thread> items_threads;
 
         for (const auto& [in, out] : global_dirs) {
             items_threads.emplace_back([&, in, out]() {
+                if (error_occurred.load()) {
+                    return;
+                }
                 std::cout << "------- Update items data for " << out << " -------" << '\n';
                 if (!update_items_data(
                         overseas_data_dir / in / "gamedata" / "excel",
                         resource_dir / "global" / out / "resource",
                         false)) {
-                    std::cerr << "update_items_data failed for " << in << '\n';
+                    std::cerr << "update_items_data failed for " << out << '\n';
+                    error_occurred.store(true);
                 }
                 else {
-                    std::cout << ">Done" << '\n';
+                    std::cout << ">Done items " << out << '\n';
                 }
             });
         }
@@ -296,6 +341,8 @@ static void run_parallel_tasks(
     check_roguelike_thread.join();
     recruit_thread.join();
     items_data_thread.join();
+
+    return error_occurred.load() ? false : true;
 }
 
 bool update_items_data(const fs::path& input_dir, const fs::path& output_dir, bool with_imgs)
@@ -434,7 +481,8 @@ bool cvt_single_item_template(const fs::path& input, const fs::path& output)
             cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
             if (max_val > 0.95) {
-                std::cout << "Same item templ, skip: " << fs::relative(output) << ", score: " << max_val << '\n';
+                // Lock excessive logging
+                // std::cout << "Same item templ, skip: " << fs::relative(output) << ", score: " << max_val << '\n';
                 return true;
             }
             else {
@@ -594,6 +642,8 @@ bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir)
 
 bool update_stages_data(const fs::path& input_dir, const fs::path& output_dir)
 {
+    auto stages_dir = input_dir / "zh_TW" / "gamedata" / "excel";
+
     // 国内访问可以改成 .cn 的域名
     const std::string PenguinAPI = R"(https://penguin-stats.io/PenguinStats/api/v2/stages?server=)";
     const std::vector<std::string> PenguinServers = { "CN", "US", "JP", "KR" };
@@ -611,41 +661,8 @@ bool update_stages_data(const fs::path& input_dir, const fs::path& output_dir)
     std::map<std::string, std::set<DropInfo>> drop_infos;
     std::map<std::string, json::value> stage_basic_infos;
 
-    auto fetch_and_parse = [&](const std::string& server) -> bool {
-        fs::path temp_file = input_dir / ("stages_" + server + ".json");
-        int stage_request_ret = system(("curl -s -o \"" + temp_file.string() + "\" " + PenguinAPI + server).c_str());
-        if (stage_request_ret != 0) {
-            std::cerr << "Request Penguin Stats failed for server: " << server << '\n';
-            return false;
-        }
-        return true;
-    };
-
-    std::vector<std::thread> threads;
-    std::vector<bool> results(PenguinServers.size(), true);
-
-    for (size_t i = 0; i < PenguinServers.size(); ++i) {
-        threads.emplace_back([&, i]() {
-            if (!fetch_and_parse(PenguinServers[i])) {
-                results[i] = false;
-            }
-        });
-    }
-
-    for (auto& thread : threads) {
-        thread.join();
-    }
-
-    for (const auto& result : results) {
-        if (!result) {
-            std::cerr << "One of the updates failed" << '\n';
-            return false;
-        }
-    }
-
-    // Merge data from all temporary files sequentially
     for (const auto& server : PenguinServers) {
-        fs::path temp_file = input_dir / ("stages_" + server + ".json");
+        fs::path temp_file = stages_dir / ("stages_" + server + ".json");
         auto parse_ret = json::open(temp_file);
         if (!parse_ret) {
             std::cerr << "parse stages.json failed for server: " << server << '\n';
@@ -747,8 +764,9 @@ bool update_infrast_templates(const fs::path& input_dir, const fs::path& output_
                 cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
                 if (max_val > 0.95) {
-                    std::cout << "Same infrast templ, skip: " << fs::relative(out_file) << ", score: " << max_val
-                              << '\n';
+                    // Lock excessive logging
+                    // std::cout << "Same infrast templ, skip: " << fs::relative(out_file) << ", score: " << max_val
+                    //          << '\n';
                     continue;
                 }
                 else {

@@ -95,6 +95,26 @@ jobs:
           path: ./excel
           token: ${{ secrets.ARKNTOOLS_MAA_RESOURCE_UPDATER}}
 
+      - name: Download stages.json from Penguin Stats
+        run: |
+          cd "./excel"
+
+          baseUrl="https://penguin-stats.io/PenguinStats/api/v2/stages?server="
+
+          parameters=("CN" "US" "JP" "KR")
+
+          for param in "${parameters[@]}"; do
+              {
+                  if curl -s -o "stages_${param}.json" "${baseUrl}${param}"; then
+                      echo "Successfully fetched data for ${param}"
+                  else
+                      echo "Failed to fetch data for ${param}" >&2
+                      exit 1
+                  fi
+              } &
+          done
+          wait
+
       - name: Upload Official
         uses: actions/upload-artifact@v4.3.4
         with:
