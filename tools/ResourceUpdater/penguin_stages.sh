@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd "./x64/Release/Official"
+cd "./x64/Release/Overseas/zh_TW/gamedata/excel"
 
 baseUrl="https://penguin-stats.io/PenguinStats/api/v2/stages?server="
 
