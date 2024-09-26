@@ -120,13 +120,13 @@ static void run_parallel_tasks(
     const std::unordered_map<fs::path, std::string>& global_dirs)
 {
     std::thread stages_thread([&]() {
-         std::cout << "------- update stages data -------" << '\n';
-         if (!update_stages_data(official_data_dir, resource_dir)) {
-             std::cerr << "update_stages_data failed" << '\n';
-         }
-         else {
-             std::cout << ">stages.json done" << '\n';
-         }
+        std::cout << "------- Update stages data -------" << '\n';
+        if (!update_stages_data(official_data_dir, resource_dir)) {
+            std::cerr << "update_stages_data failed" << '\n';
+        }
+        else {
+            std::cout << ">Done stages.json" << '\n';
+        }
     });
 
     std::thread levels_thread([&]() {
@@ -136,7 +136,7 @@ static void run_parallel_tasks(
             return;
         }
         else {
-            std::cout << ">Levels.json Done" << '\n';
+            std::cout << ">Done levels.json " << '\n';
         }
     });
 
@@ -147,7 +147,7 @@ static void run_parallel_tasks(
             return;
         }
         else {
-            std::cout << ">Done" << '\n';
+            std::cout << ">Done infrast data" << '\n';
         }
     });
 
@@ -158,7 +158,7 @@ static void run_parallel_tasks(
             return;
         }
         else {
-            std::cout << ">Done" << '\n';
+            std::cout << ">Done infrast templates" << '\n';
         }
     });
 
@@ -169,7 +169,7 @@ static void run_parallel_tasks(
             return;
         }
         else {
-            std::cout << ">Done" << '\n';
+            std::cout << ">Done battle chars" << '\n';
         }
     });
 
@@ -180,7 +180,7 @@ static void run_parallel_tasks(
             return;
         }
         else {
-            std::cout << ">Done" << '\n';
+            std::cout << ">Done version Official" << '\n';
         }
 
         std::vector<std::thread> version_threads;
@@ -191,10 +191,10 @@ static void run_parallel_tasks(
                 if (!update_version_info(
                         overseas_data_dir / in / "gamedata" / "excel",
                         resource_dir / "global" / out / "resource")) {
-                    std::cerr << "update_version_info failed for " << in << '\n';
+                    std::cerr << "update_version_info failed for " << out << '\n';
                 }
                 else {
-                    std::cout << ">Done" << '\n';
+                    std::cout << ">Done version " << out << '\n';
                 }
             });
         }
@@ -211,11 +211,11 @@ static void run_parallel_tasks(
                     overseas_data_dir / in / "gamedata" / "excel",
                     resource_dir / "global" / out / "resource" / "tasks.json",
                     official_data_dir / "gamedata" / "excel")) {
-                std::cerr << "check_roguelike_replace_for_overseas failed for " << in << '\n';
+                std::cerr << "check_roguelike_replace_for_overseas failed for " << out << '\n';
                 return;
             }
             else {
-                std::cout << ">Done" << '\n';
+                std::cout << ">Done roguelike replace" << '\n';
             }
         }
     });
@@ -230,7 +230,7 @@ static void run_parallel_tasks(
             return;
         }
         else {
-            std::cout << ">Done" << '\n';
+            std::cout << ">Done recruitment Official" << '\n';
         }
 
         std::vector<std::thread> recruitment_threads;
@@ -242,10 +242,10 @@ static void run_parallel_tasks(
                         overseas_data_dir / in / "gamedata" / "excel",
                         resource_dir / "global" / out / "resource" / "recruitment.json",
                         false)) {
-                    std::cerr << "update_recruitment_data failed for " << in << '\n';
+                    std::cerr << "update_recruitment_data failed for " << out << '\n';
                 }
                 else {
-                    std::cout << ">Done" << '\n';
+                    std::cout << ">Done recruitment " << out << '\n';
                 }
             });
         }
@@ -262,7 +262,7 @@ static void run_parallel_tasks(
             return;
         }
         else {
-            std::cout << ">Done" << '\n';
+            std::cout << ">Done items Official" << '\n';
         }
 
         std::vector<std::thread> items_threads;
@@ -274,10 +274,10 @@ static void run_parallel_tasks(
                         overseas_data_dir / in / "gamedata" / "excel",
                         resource_dir / "global" / out / "resource",
                         false)) {
-                    std::cerr << "update_items_data failed for " << in << '\n';
+                    std::cerr << "update_items_data failed for " << out << '\n';
                 }
                 else {
-                    std::cout << ">Done" << '\n';
+                    std::cout << ">Done items " << out << '\n';
                 }
             });
         }
@@ -434,7 +434,8 @@ bool cvt_single_item_template(const fs::path& input, const fs::path& output)
             cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
             if (max_val > 0.95) {
-                std::cout << "Same item templ, skip: " << fs::relative(output) << ", score: " << max_val << '\n';
+                // Lock excessive logging
+                // std::cout << "Same item templ, skip: " << fs::relative(output) << ", score: " << max_val << '\n';
                 return true;
             }
             else {
@@ -714,8 +715,9 @@ bool update_infrast_templates(const fs::path& input_dir, const fs::path& output_
                 cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
                 if (max_val > 0.95) {
-                    std::cout << "Same infrast templ, skip: " << fs::relative(out_file) << ", score: " << max_val
-                              << '\n';
+                    // Lock excessive logging
+                    // std::cout << "Same infrast templ, skip: " << fs::relative(out_file) << ", score: " << max_val
+                    //          << '\n';
                     continue;
                 }
                 else {
