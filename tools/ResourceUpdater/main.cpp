@@ -611,39 +611,6 @@ bool update_stages_data(const fs::path& input_dir, const fs::path& output_dir)
     std::map<std::string, std::set<DropInfo>> drop_infos;
     std::map<std::string, json::value> stage_basic_infos;
 
-    auto fetch_and_parse = [&](const std::string& server) -> bool {
-        fs::path temp_file = input_dir / ("stages_" + server + ".json");
-        int stage_request_ret = system(("curl -s -o \"" + temp_file.string() + "\" " + PenguinAPI + server).c_str());
-        if (stage_request_ret != 0) {
-            std::cerr << "Request Penguin Stats failed for server: " << server << '\n';
-            return false;
-        }
-        return true;
-    };
-
-    std::vector<std::thread> threads;
-    std::vector<bool> results(PenguinServers.size(), true);
-
-    for (size_t i = 0; i < PenguinServers.size(); ++i) {
-        threads.emplace_back([&, i]() {
-            if (!fetch_and_parse(PenguinServers[i])) {
-                results[i] = false;
-            }
-        });
-    }
-
-    for (auto& thread : threads) {
-        thread.join();
-    }
-
-    for (const auto& result : results) {
-        if (!result) {
-            std::cerr << "One of the updates failed" << '\n';
-            return false;
-        }
-    }
-
-    // Merge data from all temporary files sequentially
     for (const auto& server : PenguinServers) {
         fs::path temp_file = input_dir / ("stages_" + server + ".json");
         auto parse_ret = json::open(temp_file);
