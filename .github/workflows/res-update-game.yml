@@ -200,7 +200,7 @@ jobs:
 
       - name: Check if only sorted and Templates
         id: check_sorted_templates
-        run: pwsh tools/ResourceUpdateValidator/script.ps1
+        run: pwsh tools/ResourceUpdater/validator.ps1
 
       - name: Setup python
         if: steps.check_sorted_templates.outputs.contains_png == 'True'
