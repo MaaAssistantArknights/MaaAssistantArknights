@@ -40,9 +40,8 @@ body:
     attributes:
       label: 日志和配置文件
       description: |
-        **请在关闭 MAA 后，上传以下三个文件：**
-          1. `debug` 文件夹中的 `asst.log` 和 `gui.log` 日志文件，并说明问题出现的大致时间点
-            若 asst.log 文件小于 10 KB，则需同时上传 asst.log.bak 文件
+        **请在关闭 MAA 后，上传以下 5 个文件：**
+          1. `debug` 文件夹中的 `asst.log` `gui.log` `asst.bak.log` 和 `gui.bak.log` 日志文件，并说明问题出现的大致时间点
           2. `config` 文件夹中的 `gui.json` 配置文件
 
         如果你在使用 MacBook，请点击左上角的“文件”，点击“打开日志文件夹”

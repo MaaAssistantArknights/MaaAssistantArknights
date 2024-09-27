@@ -54,9 +54,8 @@ body:
     attributes:
       label: Log and config files
       description: >-
-        **After closing MAA, upload the following three files:**
-          1. The `asst.log` and `gui.log` log file in the `debug` folder, and indicate the approximate point in time when the problem occurred.
-            If the asst.log file is less than 10 KB, you also need to upload the asst.log.bak file.
+        **After closing MAA, upload the following 5 files:**
+          1. The `asst.log` `gui.log` `asst.bak.log` and `gui.bak.log` log file in the `debug` folder, and indicate the approximate point in time when the problem occurred.
           2. The `gui.json` config file in the `config` folder
 
         If you are using MacBook, please click the "File" option in the top-left corner, then click "Open Log Folder".
