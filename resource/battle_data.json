@@ -6277,11 +6277,11 @@
             "rarity": 1
         },
         "trap_178_trrbox": {
-            "name": "\"宝箱“",
-            "name_en": "\"宝箱“",
-            "name_jp": "\"宝箱“",
-            "name_kr": "\"宝箱“",
-            "name_tw": "\"宝箱“",
+            "name": "“宝箱”",
+            "name_en": "“宝箱”",
+            "name_jp": "“宝箱”",
+            "name_kr": "“宝箱”",
+            "name_tw": "“宝箱”",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
