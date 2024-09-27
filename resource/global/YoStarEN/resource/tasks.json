@@ -7,8 +7,8 @@
     },
     "OD-Open": {
         "baseTask": "SS-Open",
-        "template": "StageSideStory.png",
-        "next": ["ODChapterToOD"]
+        "next": ["ODChapterToOD"],
+        "template": "StageSideStory.png"
     },
     "ClickChapter1": {
         "text": ["Hour of An Awakening", "Hour of An"]
