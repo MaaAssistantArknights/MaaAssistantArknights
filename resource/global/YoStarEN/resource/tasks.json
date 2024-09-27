@@ -33,6 +33,18 @@
     "CRChapterToCR": {
         "text": ["Roam", "Exhibition", "ROAM", "EXHIBITION"]
     },
+    "OD-Open": {
+        "baseTask": "SS-Open"
+    },
+    "OD-8": {
+        "sub": ["OD-Open", "ODChapterToOD"]
+    },
+    "OD-7": {
+        "sub": ["OD-Open", "ODChapterToOD"]
+    },
+    "OD-6": {
+        "sub": ["OD-Open", "ODChapterToOD"]
+    },
     "HS-9": {
         "sub": ["HS-Open", "HSChapterToHS"]
     },
