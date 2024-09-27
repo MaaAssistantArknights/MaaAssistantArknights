@@ -1,3 +1,9 @@
+# Stage changes otherwise git diff doesn't work
+git add .
+
+# Change to the root directory of the repository
+Set-Location -Path (git rev-parse --show-toplevel)
+
 # Check git status
 Write-Output "Check git status..."
 $gitStatus = git status
