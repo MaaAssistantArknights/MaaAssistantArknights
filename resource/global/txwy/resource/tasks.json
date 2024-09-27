@@ -43,6 +43,13 @@
     "Mizuki@Roguelike@ChooseDifficultyConfirm": {
         "text": ["選擇"]
     },
+    "ZT-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "next": ["CVChapterToCV"],
+        "postDelay": 2000,
+        "text": ["特爾", "梅之", "之金", "活動", "開啟"]
+    },
     "ClickChapter1": {
         "text": ["覺醒"]
     },
@@ -64,6 +71,9 @@
     "SideStoryReopen": {
         "text": ["復刻"]
     },
+    "ZTChapterToZT": {
+        "text": ["朝見", "雙塔"]
+    },
     "CV-Open": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -73,16 +83,6 @@
     },
     "CVChapterToCV": {
         "text": ["蒼白", "平台"]
-    },
-    "ZT-Open": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
-        "postDelay": 2000,
-        "text": ["特爾", "梅之","之金", "活動", "開啟"],
-        "next": ["CVChapterToCV"]
-    },
-    "ZTChapterToZT": {
-        "text": ["朝見", "雙塔"]
     },
     "SL-Open": {
         "action": "ClickSelf",
