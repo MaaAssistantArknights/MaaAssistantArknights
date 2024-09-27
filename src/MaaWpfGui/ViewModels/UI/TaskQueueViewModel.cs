@@ -513,7 +513,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (Instances.SettingsViewModel.ShowWindowBeforeForceScheduledStart)
                 {
-                    Instances.MainWindowManager?.Show();
+                    await Application.Current.Dispatcher.InvokeAsync(() => Instances.MainWindowManager?.Show());
                 }
 
                 if (await TimerCanceledAsync(
