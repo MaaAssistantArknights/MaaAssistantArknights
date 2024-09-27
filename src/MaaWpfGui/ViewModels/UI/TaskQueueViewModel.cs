@@ -218,7 +218,7 @@ namespace MaaWpfGui.ViewModels.UI
                 _logger.Information("Shutdown in 70 seconds.");
                 Process.Start("shutdown.exe", "-s -t 70");
 
-                Instances.MainWindowManager?.Show();
+                await Execute.OnUIThreadAsync(() => Instances.MainWindowManager?.Show());
                 if (await TimerCanceledAsync(
                         LocalizationHelper.GetString("Shutdown"),
                         LocalizationHelper.GetString("AboutToShutdown"),
@@ -513,7 +513,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (Instances.SettingsViewModel.ShowWindowBeforeForceScheduledStart)
                 {
-                    await Application.Current.Dispatcher.InvokeAsync(() => Instances.MainWindowManager?.Show());
+                    await Execute.OnUIThreadAsync(() => Instances.MainWindowManager?.Show());
                 }
 
                 if (await TimerCanceledAsync(
@@ -546,9 +546,16 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static async Task<bool> TimerCanceledAsync(string content = "", string tipContent = "", string buttonContent = "", int seconds = 10)
         {
-            var canceled = false;
-            await await Application.Current.Dispatcher.InvokeAsync(async () =>
+            if (Application.Current.Dispatcher.CheckAccess())
             {
+                return await ShowDialogAsync();
+            }
+
+            return await await Application.Current.Dispatcher.InvokeAsync(ShowDialogAsync);
+
+            async Task<bool> ShowDialogAsync()
+            {
+                var canceled = false;
                 var delay = TimeSpan.FromSeconds(seconds);
                 var dialogUserControl = new Views.UserControl.TextDialogWithTimerUserControl(
                     content,
@@ -566,9 +573,8 @@ namespace MaaWpfGui.ViewModels.UI
                 await Task.WhenAny(Task.Delay(delay), tcs.Task);
                 dialog.Close();
                 _logger.Information($"Timer canceled: {canceled}");
-            });
-
-            return canceled;
+                return canceled;
+            }
         }
 
         /// <summary>
