@@ -73,6 +73,8 @@ int main([[maybe_unused]] int argc, char** argv)
 {
     // ---- PATH DECLARATION ----
 
+    int result;
+
     const char* str_exec_path = argv[0];
     const auto cur_path = fs::path(str_exec_path).parent_path();
 
@@ -103,15 +105,17 @@ int main([[maybe_unused]] int argc, char** argv)
 
     if (run_parallel_tasks(resource_dir, official_data_dir, overseas_data_dir, global_dirs)) {
         std::cout << '\n' << "------- All success -------" << '\n';
+        result = 0;
     }
     else {
         std::cerr << '\n' << "One or more tasks failed." << '\n';
+        result = 1;
     }
 
     std::chrono::duration<double> elapsed_time = std::chrono::high_resolution_clock::now() - start;
 
     std::cout << '\n' << "Elapsed time: " << elapsed_time.count() << " seconds" << '\n';
-    return 0;
+    return result;
 }
 
 // ---- METHODS DEFINITIONS ----
