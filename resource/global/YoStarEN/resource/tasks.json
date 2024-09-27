@@ -6,7 +6,9 @@
         "text": ["Select"]
     },
     "OD-Open": {
-        "baseTask": "SS-Open"
+        "baseTask": "SS-Open",
+        "template": "StageSideStory.png",
+        "next": ["ODChapterToOD"]
     },
     "ClickChapter1": {
         "text": ["Hour of An Awakening", "Hour of An"]
@@ -31,13 +33,13 @@
         "roi": [0, 500, 500, 150]
     },
     "OD-8": {
-        "sub": ["OD-Open", "ODChapterToOD"]
+        "sub": ["OD-Open"]
     },
     "OD-7": {
-        "sub": ["OD-Open", "ODChapterToOD"]
+        "sub": ["OD-Open"]
     },
     "OD-6": {
-        "sub": ["OD-Open", "ODChapterToOD"]
+        "sub": ["OD-Open"]
     },
     "CR-OpenOcr": {
         "text": ["Skydiving", "stages", "opened"]
