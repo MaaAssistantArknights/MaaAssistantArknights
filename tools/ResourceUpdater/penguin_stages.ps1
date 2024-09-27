@@ -1,7 +1,9 @@
 $scriptRoot = $PSScriptRoot
 
+Push-Location
+
 # Change to the target directory
-Set-Location -Path "$scriptRoot/x64/Release/Official"
+Set-Location -Path "$scriptRoot/x64/Release/Overseas/zh_TW/gamedata/excel"
 
 # Define the base URL
 $baseUrl = "https://penguin-stats.io/PenguinStats/api/v2/stages?server="
@@ -29,3 +31,5 @@ foreach ($param in $parameters) {
 
 # Wait for all background jobs to complete
 $jobs | ForEach-Object { Receive-Job -Job $_ -Wait }
+
+Pop-Location

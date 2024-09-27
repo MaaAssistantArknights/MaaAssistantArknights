@@ -1,5 +1,6 @@
-$initialLocation = Get-Location
 $scriptRoot = $PSScriptRoot
+
+Push-Location
 
 New-Item -ItemType Directory -Path "$scriptRoot/x64/Release/" -Force | Out-Null
 Set-Location "$scriptRoot/x64/Release/"
@@ -60,5 +61,6 @@ git clone --filter=blob:none --no-checkout --depth 1 -b data-tw `
 Set-Location zh_TW/gamedata/excel
 git checkout
 
-Set-Location $initialLocation
+Pop-Location
+
 pause
