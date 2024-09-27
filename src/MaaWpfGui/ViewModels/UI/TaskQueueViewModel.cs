@@ -115,6 +115,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             await Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript"));
             var actions = TaskSettingDataContext.PostActionSetting;
+            _logger.Information("Post actions: " + actions.ActionDescription);
 
             if (actions.BackToAndroidHome)
             {
