@@ -5,6 +5,9 @@
     "Mizuki@Roguelike@ChooseDifficultyConfirm": {
         "text": ["Select"]
     },
+    "OD-Open": {
+        "baseTask": "SS-Open"
+    },
     "ClickChapter1": {
         "text": ["Hour of An Awakening", "Hour of An"]
     },
@@ -27,15 +30,6 @@
         "text": ["Rerun", "Retrospection"],
         "roi": [0, 500, 500, 150]
     },
-    "CR-OpenOcr": {
-        "text": ["Skydiving", "stages", "opened"]
-    },
-    "CRChapterToCR": {
-        "text": ["Roam", "Exhibition", "ROAM", "EXHIBITION"]
-    },
-    "OD-Open": {
-        "baseTask": "SS-Open"
-    },
     "OD-8": {
         "sub": ["OD-Open", "ODChapterToOD"]
     },
@@ -44,6 +38,12 @@
     },
     "OD-6": {
         "sub": ["OD-Open", "ODChapterToOD"]
+    },
+    "CR-OpenOcr": {
+        "text": ["Skydiving", "stages", "opened"]
+    },
+    "CRChapterToCR": {
+        "text": ["Roam", "Exhibition", "ROAM", "EXHIBITION"]
     },
     "HS-9": {
         "sub": ["HS-Open", "HSChapterToHS"]
