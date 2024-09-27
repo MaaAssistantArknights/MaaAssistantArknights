@@ -2,6 +2,9 @@
     "HS-Open": {
         "baseTask": "SS-Open"
     },
+    "OD-Open": {
+        "baseTask": "SS-Open"
+    },
     "StartUpNotificationKR": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -30,15 +33,6 @@
     "SideStoryReopen": {
         "text": ["재개방"]
     },
-    "CR-OpenOcr": {
-        "text": ["스테이지", "개방"]
-    },
-    "CRChapterToCR": {
-        "text": ["전시", "회", "관람"]
-    },
-    "OD-Open": {
-        "baseTask": "SS-Open"
-    },
     "OD-8": {
         "sub": ["OD-Open", "ODChapterToOD"]
     },
@@ -47,6 +41,12 @@
     },
     "OD-6": {
         "sub": ["OD-Open", "ODChapterToOD"]
+    },
+    "CR-OpenOcr": {
+        "text": ["스테이지", "개방"]
+    },
+    "CRChapterToCR": {
+        "text": ["전시", "회", "관람"]
     },
     "HS-9": {
         "sub": ["HS-Open", "HSChapterToHS"]
