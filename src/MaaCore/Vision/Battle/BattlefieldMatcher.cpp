@@ -32,7 +32,7 @@ BattlefieldMatcher::ResultOpt BattlefieldMatcher::analyze() const
 
     if (m_object_of_interest.flag) {
         result.pause_button = pause_button_analyze();
-        if (!result.pause_button && !hp_flag_analyze() && !kills_flag_analyze()) {
+        if (!result.pause_button && !hp_flag_analyze() && !kills_flag_analyze() && !cost_symbol_analyze()) {
             // flag 表明当前画面是在战斗场景的，不在的就没必要识别了
             return std::nullopt;
         }
@@ -318,6 +318,13 @@ std::optional<std::pair<int, int>> BattlefieldMatcher::kills_analyze() const
 
     Log.trace("Kills:", kills, "/", total_kills);
     return std::make_pair(kills, total_kills);
+}
+
+bool BattlefieldMatcher::cost_symbol_analyze() const
+{
+    Matcher flag_analyzer(m_image);
+    flag_analyzer.set_task_info("BattleCostFlag");
+    return flag_analyzer.analyze().has_value();
 }
 
 std::optional<int> BattlefieldMatcher::costs_analyze() const
