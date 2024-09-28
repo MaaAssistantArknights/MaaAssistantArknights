@@ -4894,6 +4894,10 @@
         "roi": [400, 0, 650, 60],
         "rectMove": [40, 0, 100, 35]
     },
+    "BattleCostFlag": {
+        "doc": "识别战斗部署费用数字左侧的图标，用于检测是否处于战斗界面",
+        "roi": [1160, 495, 45, 45]
+    },
     "BattleUseSkillJustClick": {
         "algorithm": "JustReturn",
         "postDelay": 100,
