@@ -2867,5 +2867,6 @@
     "txwy/TerminalMistCity": "7e3190b76ec6d4ac5668f9c9b1684fb4d198b0f70a8eeaf2492db84c0d80f8a9",
     "YoStarEN/OD-Open": "acb3b80402299a04c0329b649213f24b831b7bc3d68a2568491849fbe96a0137",
     "YoStarKR/OD-Open": "2084a178d313dfe9172db769b04226fade378bd951467411c59c8807a36b062b",
-    "resource/template/items/act1vecb_milestone_point": "92235083024f6fade44c4d6e307c1cf27a68020de798b6199a4ed7cd571adee9"
+    "resource/template/items/act1vecb_milestone_point": "92235083024f6fade44c4d6e307c1cf27a68020de798b6199a4ed7cd571adee9",
+    "official/BattleCostFlag": "06e70ba6082bb45f98c2ad372214f3e078a7a61a94d5b7d18ec1d1a991b432a6"
 }
