@@ -56,6 +56,7 @@ namespace asst
         bool oper_available_analyze(const Rect& roi) const;
 
         std::optional<std::pair<int, int>> kills_analyze() const; // 识别击杀数
+        bool cost_symbol_analyze() const;                         // 识别费用左侧图标
         std::optional<int> costs_analyze() const;                 // 识别费用
         bool in_detail_analyze() const;                           // 识别是否在详情页
         bool speed_button_analyze() const; // 识别是否有加速按钮（在详情页就没有）
