@@ -4,8 +4,8 @@
     },
     "OD-Open": {
         "baseTask": "SS-Open",
-        "template": "StageSideStory.png",
-        "next": ["ODChapterToOD"]
+        "next": ["ODChapterToOD"],
+        "template": "StageSideStory.png"
     },
     "StartUpNotificationKR": {
         "action": "ClickSelf",
