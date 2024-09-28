@@ -345,7 +345,7 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">Restart immediately to apply changes?</system:String>
     <system:String x:Key="SwitchResolutionTip">Change the emulator resolution to 1920x1080!</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">Make sure the emulator is set to 1920x1080</system:String>
-    <system:String x:Key="AllowUseStoneSave">Allow Use Originium Save</system:String>
+    <system:String x:Key="AllowUseStoneSave">Save &quot;Use Originium&quot; Setting</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">This function is considered dangerous. Pressing the "Confirm" button indicates that you understand and are willing to accept the potential risks.</system:String>
     <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
     <system:String x:Key="UseRemainingSanityStage">Use remaining sanity stage</system:String>
