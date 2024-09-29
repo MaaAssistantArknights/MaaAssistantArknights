@@ -14,7 +14,6 @@
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
     xmlns:vm="clr-namespace:MaaWpfGui"
     d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
-    d:DesignHeight="800"
     d:DesignWidth="550"
     mc:Ignorable="d">
     <Grid>
