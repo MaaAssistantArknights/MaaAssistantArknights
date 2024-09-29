@@ -4438,7 +4438,7 @@
         "action": "ClickSelf",
         "roi": [1155, 41, 125, 679],
         "templThreshold": 0.7,
-        "maskRange": [100, 255],
+        "maskRange": [100, 140],
         "postDelay": 500
     },
     "BattleQuickFormationFilter": {
