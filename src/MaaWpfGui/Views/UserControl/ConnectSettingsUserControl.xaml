@@ -77,6 +77,7 @@
             Width="300"
             Height="30"
             Margin="10"
+            HorizontalContentAlignment="Stretch"
             hc:TitleElement.Title="{DynamicResource ConnectionAddress}"
             hc:TitleElement.TitlePlacement="Left"
             IsEditable="True"
@@ -86,7 +87,7 @@
             ToolTip="{DynamicResource ConnectionAddressTip}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Width="{c:Binding 'ActualWidth - 20', RelativeSource={RelativeSource AncestorType=ComboBox}}">
+                    <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
