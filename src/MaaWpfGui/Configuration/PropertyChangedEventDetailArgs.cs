@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
 using System.ComponentModel;
 
 namespace MaaWpfGui.Configuration

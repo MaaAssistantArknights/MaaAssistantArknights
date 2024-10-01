@@ -1,4 +1,4 @@
-// <copyright file="AnnouncementInfo.cs" company="MaaAssistantArknights">
+// <copyright file="Connection.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -16,25 +16,38 @@ using System.ComponentModel;
 
 namespace MaaWpfGui.Configuration
 {
-    public class AnnouncementInfo : INotifyPropertyChanged
+    public class Connection : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
-        /// Gets or sets 公告内容
+        /// Gets or sets a value indicating whether 自动检测adb地址及端口
         /// </summary>
-        public string Info { get; set; } = string.Empty;
+        public bool AutoDetect { get; set; } = true;
 
         /// <summary>
-        /// Gets or sets a value indicating whether 下次不再显示公告
+        /// Gets or sets a value indicating whether 每次都自动检测
         /// </summary>
-        public bool DoNotShowAgain { get; set; } = false;
+        public bool AlwaysAutoDetect { get; set; }
+
+        public string AdbPath { get; set; } = string.Empty;
+
+        public string AdbAddress { get; set; } = string.Empty;
+
+        public bool RetryOnAdbDisconnected { get; set; }
+
+        public bool AllAdbRestart { get; set; } = true;
 
         /// <summary>
-        /// Gets or sets a value indicating whether 不显示公告
+        /// Gets or sets a value indicating whether allow for killing ADB process（未核对
         /// </summary>
-        public bool DoNotShow { get; set; } = false;
+        public bool AllAdbHardRestart { get; set; } = true;
 
+        public bool AdbLiteEnable { get; set; }
+
+        public bool KillAdbWhenExit { get; set; }
+
+        // ReSharper disable once UnusedMember.Global
         public void OnPropertyChanged(string propertyName, object before, object after)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));

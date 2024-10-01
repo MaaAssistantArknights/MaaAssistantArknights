@@ -34,6 +34,7 @@ using System.Windows.Media.Imaging;
 using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Configuration;
+using MaaWpfGui.Configuration.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -53,6 +54,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
+using static MaaWpfGui.Configuration.GUI;
+using static MaaWpfGui.Configuration.VersionUpdate;
+using static MaaWpfGui.Models.MaaTask;
 using ComboBox = System.Windows.Controls.ComboBox;
 using DarkModeType = MaaWpfGui.Configuration.GUI.DarkModeType;
 using Timer = System.Timers.Timer;
@@ -333,7 +337,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            ConfigurationHelper.SetValue(ConfigurationKeys.Localization, SoberLanguage);
+            ConfigFactory.CurrentConfig.GUI.Localization = SoberLanguage;
             Hangover = true;
             Cheers = false;
         }
@@ -368,7 +372,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             string[] wineList = ["酒", "liquor", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶"];
-            return wineList.Any(CreditFirstList.Contains);
+            return wineList.Any(wine => ConfigFactory.CurrentConfig.TaskQueue.Where(t => t is MallTask).Any(t => ((MallTask)t).FirstList.Contains(wine)));
         }
 
         #endregion EasterEggs
@@ -389,58 +393,38 @@ namespace MaaWpfGui.ViewModels.UI
             RemoteControlService.RegenerateDeviceIdentity();
         }
 
-        private string _remoteControlGetTaskEndpointUri = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, string.Empty);
-
-        public string RemoteControlGetTaskEndpointUri
+        public string? RemoteControlGetTaskEndpointUri
         {
-            get => _remoteControlGetTaskEndpointUri;
+            get => ConfigFactory.CurrentConfig.RemoteControl.GetTaskUri;
             set
             {
-                if (!SetAndNotify(ref _remoteControlGetTaskEndpointUri, value))
+                if (ConfigFactory.CurrentConfig.RemoteControl.GetTaskUri == value)
                 {
                     return;
                 }
 
                 Instances.RemoteControlService.InitializePollJobTask();
-                ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, value);
+                ConfigFactory.CurrentConfig.RemoteControl.GetTaskUri = value == string.Empty ? null : value;
             }
         }
 
-        private string _remoteControlReportStatusUri = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlReportStatusUri, string.Empty);
-
-        public string RemoteControlReportStatusUri
+        public string? RemoteControlReportStatusUri
         {
-            get => _remoteControlReportStatusUri;
-            set
-            {
-                SetAndNotify(ref _remoteControlReportStatusUri, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlReportStatusUri, value);
+            get => ConfigFactory.CurrentConfig.RemoteControl.ReportStatusUri;
+            set => ConfigFactory.CurrentConfig.RemoteControl.ReportStatusUri = value == string.Empty ? null : value;
             }
-        }
 
-        private string _remoteControlUserIdentity = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlUserIdentity, string.Empty);
-
-        public string RemoteControlUserIdentity
+        public string? RemoteControlUserIdentity
         {
-            get => _remoteControlUserIdentity;
-            set
-            {
-                SetAndNotify(ref _remoteControlUserIdentity, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlUserIdentity, value);
+            get => ConfigFactory.CurrentConfig.RemoteControl.UserId;
+            set => ConfigFactory.CurrentConfig.RemoteControl.UserId = value == string.Empty ? null : value;
             }
-        }
 
-        private string _remoteControlDeviceIdentity = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlDeviceIdentity, string.Empty);
-
-        public string RemoteControlDeviceIdentity
+        public string? RemoteControlDeviceIdentity
         {
-            get => _remoteControlDeviceIdentity;
-            set
-            {
-                SetAndNotify(ref _remoteControlDeviceIdentity, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlDeviceIdentity, value);
+            get => ConfigFactory.CurrentConfig.RemoteControl.DeviceId;
+            set => ConfigFactory.CurrentConfig.RemoteControl.DeviceId = value == string.Empty ? null : value;
             }
-        }
 
         #endregion Remote Control
 
@@ -818,8 +802,93 @@ namespace MaaWpfGui.ViewModels.UI
 
         #endregion Performance
 
-        #region 启动设置
+        public void RefreshUI(BaseTask task)
+        {
+            // 选择了任务后，刷新对应任务类型UI的值
+            if (task is StartUpTask startUp)
+            {
+                SetAndNotify(ref _accountName, startUp.AccountName, nameof(AccountName));
+            }
+            else if (task is AwardTask awardTask)
+            {
+                SetAndNotify(ref _receiveAward, awardTask.Award, nameof(ReceiveAward));
+                SetAndNotify(ref _receiveMail, awardTask.Mail, nameof(ReceiveMail));
+                SetAndNotify(ref _receiveFreeRecruit, awardTask.FreeGacha, nameof(ReceiveFreeRecruit));
+                SetAndNotify(ref _receiveOrundum, awardTask.Orundum, nameof(ReceiveOrundum));
+                SetAndNotify(ref _receiveMining, awardTask.Mining, nameof(ReceiveMining));
+                SetAndNotify(ref _receiveSpecialAccess, awardTask.SpecialAccess, nameof(ReceiveSpecialAccess));
+            }
+            else if (task is MallTask mallTask)
+            {
+                SetAndNotify(ref _creditShopping, mallTask.Shopping, nameof(CreditShopping));
+                SetAndNotify(ref _creditForceShoppingIfCreditFull, mallTask.ShoppingIgnoreBlackListWhenFull, nameof(CreditForceShoppingIfCreditFull));
+                SetAndNotify(ref _creditFirstList, mallTask.FirstList, nameof(CreditFirstList));
+                SetAndNotify(ref _creditBlackList, mallTask.BlackList, nameof(CreditBlackList));
+                SetAndNotify(ref _creditOnlyBuyDiscount, mallTask.OnlyBuyDiscount, nameof(CreditOnlyBuyDiscount));
+                SetAndNotify(ref _creditReserveMaxCredit, mallTask.ReserveMaxCredit, nameof(CreditReserveMaxCredit));
+                SetAndNotify(ref _creditFightTaskEnabled, mallTask.CreditFight, nameof(CreditFightTaskEnabled));
+                SetAndNotify(ref _creditFightSelectFormation, mallTask.CreditFightFormation, nameof(CreditFightSelectFormation));
+                SetAndNotify(ref _lastCreditFightTaskTime, mallTask.CreditFightLastTime, nameof(LastCreditFightTaskTime));
+                SetAndNotify(ref _creditVisitFriendsEnabled, mallTask.VisitFriends, nameof(CreditVisitFriendsEnabled));
+                SetAndNotify(ref _creditVisitOnceADay, mallTask.VisitFriendsOnceADay, nameof(CreditVisitOnceADay));
+                SetAndNotify(ref _lastCreditVisitFriendsTime, mallTask.VisitFriendsLastTime, nameof(LastCreditVisitFriendsTime));
+            }
+            else if (task is RecruitTask recruit)
+            {
+                SetAndNotify(ref _recruitUseExpedited, recruit.UseExpedited, nameof(RecruitUseExpedited));
+                SetAndNotify(ref _recruitMaxTimes, recruit.MaxTimes, nameof(RecruitMaxTimes));
+                SetAndNotify(ref _forceRefresh, recruit.ForceRefresh, nameof(ForceRefresh));
+                SetAndNotify(ref _notChooseLevel1, recruit.NotChooseLevel1, nameof(NotChooseLevel1));
+                SetAndNotify(ref _chooseLevel3, recruit.ChooseLevel3, nameof(ChooseLevel3));
+                SetAndNotify(ref _chooseLevel4, recruit.ChooseLevel4, nameof(ChooseLevel4));
+                SetAndNotify(ref _chooseLevel5, recruit.ChooseLevel5, nameof(ChooseLevel5));
+                SetAndNotify(ref _isLevel3UseShortTime, recruit.Level3Time0740, nameof(IsLevel3UseShortTime));
+                SetAndNotify(ref _isLevel3UseShortTime2, recruit.Level3Time0100, nameof(IsLevel3UseShortTime2));
+                SetAndNotify(ref _refreshLevel3, recruit.RefreshLevel3, nameof(RefreshLevel3));
+                SetAndNotify(ref _autoRecruitFirstList, recruit.Level3FirstTags, nameof(AutoRecruitFirstList));
+                SetAndNotify(ref _selectExtraTags, recruit.ExtraTagStrategy, nameof(SelectExtraTags));
+            }
 
+            /*
+            switch (taskType)
+            {
+                case TaskType.Award:
+                    if (ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex] is AwardTask awardTask)
+                    {
+                        _receiveAward = awardTask.Award;
+                        _receiveMail = awardTask.Mail;
+                    }
+
+                    NotifyOfPropertyChange(nameof(ReceiveAward));
+                    NotifyOfPropertyChange(nameof(ReceiveMail));
+                    break;
+                case TaskType.Mall:
+                    if (ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex] is MallTask mallTask)
+                    {
+                        _creditShopping = mallTask.Shopping;
+                        _creditForceShoppingIfCreditFull = mallTask.ShoppingWhenCreditFull;
+                        _creditFirstList = mallTask.WhiteList;
+                        _creditBlackList = mallTask.BlackList;
+                    }
+
+                    NotifyOfPropertyChange(nameof(CreditShopping));
+                    NotifyOfPropertyChange(nameof(CreditForceShoppingIfCreditFull));
+                    NotifyOfPropertyChange(nameof(CreditFirstList));
+                    NotifyOfPropertyChange(nameof(CreditBlackList));
+                    break;
+                case TaskType.Roguelike:
+                    if (ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex] is RoguelikeTask roguelikeTask)
+                    {
+                        _roguelikeTheme = roguelikeTask.Theme;
+                    }
+
+                    NotifyOfPropertyChange(nameof(RoguelikeTheme));
+                    break;
+            }*/
+        }
+
+        #region 启动设置
+        /* 启动设置 */
         private bool _startSelf = AutoStart.CheckStart();
 
         /// <summary>
@@ -856,7 +925,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _minimizeDirectly = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeDirectly, bool.FalseString));
+        private bool _minimizeDirectly = ConfigFactory.CurrentConfig.GUI.MinimizeDirectly;
 
         /// <summary>
         /// Gets or sets a value indicating whether to minimize directly.
@@ -867,7 +936,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _minimizeDirectly, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.MinimizeDirectly, value.ToString());
+                ConfigFactory.CurrentConfig.GUI.MinimizeDirectly = value;
             }
         }
 
@@ -890,15 +959,15 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _accountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty);
+        private string? _accountName;
 
-        public string AccountName
+        public string? AccountName
         {
             get => _accountName;
             set
             {
                 SetAndNotify(ref _accountName, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AccountName, value);
+                ((StartUpTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).AccountName = value == string.Empty ? null : value;
             }
         }
 
@@ -2200,7 +2269,10 @@ namespace MaaWpfGui.ViewModels.UI
                 UpdateRoguelikeModeList();
                 UpdateRoguelikeSquadList();
                 UpdateRoguelikeCoreCharList();
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeTheme, value);
+                if (ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex] is RoguelikeTask task)
+                {
+                    task.Theme = value;
+                }
             }
         }
 
@@ -2696,7 +2768,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region 信用相关设置
 
-        private string _lastCreditFightTaskTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditFightTaskTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
+        private string _lastCreditFightTaskTime;
 
         public string LastCreditFightTaskTime
         {
@@ -2704,52 +2776,19 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _lastCreditFightTaskTime, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.LastCreditFightTaskTime, value);
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).CreditFightLastTime = value;
             }
         }
 
-        private bool _creditFightTaskEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightTaskEnabled, bool.FalseString));
+        private bool _creditFightTaskEnabled;
 
-        /// <summary>
-        /// Gets or sets a value indicating whether credit fight task is enabled.
-        /// </summary>
         public bool CreditFightTaskEnabled
         {
-            get
-            {
-                try
-                {
-                    if (DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(_lastCreditFightTaskTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
-                    {
-                        return _creditFightTaskEnabled;
-                    }
-                }
-                catch
-                {
-                    return _creditFightTaskEnabled;
-                }
-
-                return false;
-            }
-
+            get => _creditFightTaskEnabled;
             set
             {
                 SetAndNotify(ref _creditFightTaskEnabled, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CreditFightTaskEnabled, value.ToString());
-            }
-        }
-
-        public bool CreditFightTaskEnabledDisplay
-        {
-            get
-            {
-                return _creditFightTaskEnabled;
-            }
-
-            set
-            {
-                SetAndNotify(ref _creditFightTaskEnabled, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CreditFightTaskEnabled, value.ToString());
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).CreditFight = value;
             }
         }
 
@@ -2766,7 +2805,7 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = "4", Value = "4" },
             ];
 
-        private string _lastCreditVisitFriendsTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditVisitFriendsTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
+        private string _lastCreditVisitFriendsTime;
 
         public string LastCreditVisitFriendsTime
         {
@@ -2774,11 +2813,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _lastCreditVisitFriendsTime, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.LastCreditVisitFriendsTime, value);
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).VisitFriendsLastTime = value;
             }
         }
 
-        private bool _creditVisitOnceADay = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitOnceADay, bool.FalseString));
+        private bool _creditVisitOnceADay;
 
         /// <summary>
         /// Gets or sets a value indicating whether to bypass the daily limit.
@@ -2789,57 +2828,23 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditVisitOnceADay, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CreditVisitOnceADay, value.ToString());
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).VisitFriendsOnceADay = value;
             }
         }
 
-        private bool _creditVisitFriendsEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitFriendsEnabled, bool.TrueString));
+        private bool _creditVisitFriendsEnabled;
 
-        /// <summary>
-        /// Gets or sets a value indicating whether visiting friends task is enabled.
-        /// </summary>
         public bool CreditVisitFriendsEnabled
         {
-            get
-            {
-                if (_creditVisitOnceADay)
-                {
-                    try
-                    {
-                        return DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(_lastCreditVisitFriendsTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture)
-                               && _creditVisitFriendsEnabled;
-                    }
-                    catch
-                    {
-                        return _creditVisitFriendsEnabled;
-                    }
-                }
-
-                return true;
-            }
-
+            get => _creditVisitFriendsEnabled;
             set
             {
                 SetAndNotify(ref _creditVisitFriendsEnabled, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CreditVisitFriendsEnabled, value.ToString());
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).VisitFriends = value;
             }
         }
 
-        public bool CreditVisitFriendsEnabledDisplay
-        {
-            get
-            {
-                return _creditVisitFriendsEnabled;
-            }
-
-            set
-            {
-                SetAndNotify(ref _creditVisitFriendsEnabled, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CreditVisitFriendsEnabled, value.ToString());
-            }
-        }
-
-        private int _creditFightSelectFormation = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightSelectFormation, "0"));
+        private int _creditFightSelectFormation;
 
         /// <summary>
         /// Gets or sets a value indicating which formation will be select in credit fight.
@@ -2850,11 +2855,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditFightSelectFormation, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CreditFightSelectFormation, value.ToString());
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).CreditFightFormation = value;
             }
         }
 
-        private bool _creditShopping = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditShopping, bool.TrueString));
+        private bool _creditShopping;
 
         /// <summary>
         /// Gets or sets a value indicating whether to shop with credit.
@@ -2865,11 +2870,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditShopping, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CreditShopping, value.ToString());
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).Shopping = value;
             }
         }
 
-        private string _creditFirstList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFirstListNew, LocalizationHelper.GetString("HighPriorityDefault"));
+        private string _creditFirstList;
 
         /// <summary>
         /// Gets or sets the priority item list of credit shop.
@@ -2880,11 +2885,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditFirstList, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CreditFirstListNew, value);
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).FirstList = value;
             }
         }
 
-        private string _creditBlackList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditBlackListNew, LocalizationHelper.GetString("BlacklistDefault"));
+        private string _creditBlackList;
 
         /// <summary>
         /// Gets or sets the blacklist of credit shop.
@@ -2895,11 +2900,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditBlackList, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CreditBlackListNew, value);
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).BlackList = value;
             }
         }
 
-        private bool _creditForceShoppingIfCreditFull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditForceShoppingIfCreditFull, bool.FalseString));
+        private bool _creditForceShoppingIfCreditFull;
 
         /// <summary>
         /// Gets or sets a value indicating whether save credit is enabled.
@@ -2910,11 +2915,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditForceShoppingIfCreditFull, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CreditForceShoppingIfCreditFull, value.ToString());
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).ShoppingIgnoreBlackListWhenFull = value;
             }
         }
 
-        private bool _creditOnlyBuyDiscount = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditOnlyBuyDiscount, bool.FalseString));
+        private bool _creditOnlyBuyDiscount;
 
         /// <summary>
         /// Gets or sets a value indicating whether only buy discount is enabled.
@@ -2925,11 +2930,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditOnlyBuyDiscount, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CreditOnlyBuyDiscount, value.ToString());
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).OnlyBuyDiscount = value;
             }
         }
 
-        private bool _creditReserveMaxCredit = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditReserveMaxCredit, bool.FalseString));
+        private bool _creditReserveMaxCredit;
 
         /// <summary>
         /// Gets or sets a value indicating whether reserve max credit is enabled.
@@ -2940,7 +2945,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditReserveMaxCredit, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CreditReserveMaxCredit, value.ToString());
+                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).ReserveMaxCredit = value;
             }
         }
 
@@ -2948,7 +2953,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region 领取奖励设置
 
-        private bool _receiveAward = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveAward, bool.TrueString));
+        private bool _receiveAward;
 
         /// <summary>
         /// Gets or sets a value indicating whether receive award is enabled.
@@ -2959,11 +2964,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _receiveAward, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveAward, value.ToString());
+                ((AwardTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).Award = value;
             }
         }
 
-        private bool _receiveMail = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveMail, bool.FalseString));
+        private bool _receiveMail;
 
         /// <summary>
         /// Gets or sets a value indicating whether receive mail is enabled.
@@ -2974,11 +2979,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _receiveMail, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveMail, value.ToString());
+                ((AwardTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).Mail = value;
             }
         }
 
-        private bool _receiveFreeRecruit = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveFreeRecruit, bool.FalseString));
+        private bool _receiveFreeRecruit;
 
         /// <summary>
         /// Gets or sets a value indicating whether receive mail is enabled.
@@ -3005,11 +3010,11 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 SetAndNotify(ref _receiveFreeRecruit, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveFreeRecruit, value.ToString());
+                ((AwardTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).FreeGacha = value;
             }
         }
 
-        private bool _receiveOrundum = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveOrundum, bool.FalseString));
+        private bool _receiveOrundum;
 
         /// <summary>
         /// Gets or sets a value indicating whether receive orundum is enabled.
@@ -3020,11 +3025,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _receiveOrundum, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveOrundum, value.ToString());
+                ((AwardTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).Orundum = value;
             }
         }
 
-        private bool _receiveMining = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveMining, bool.FalseString));
+        private bool _receiveMining;
 
         /// <summary>
         /// Gets or sets a value indicating whether receive mining is enabled.
@@ -3035,22 +3040,22 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _receiveMining, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveMining, value.ToString());
+                ((AwardTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).Mining = value;
             }
         }
 
-        private bool _receiveReceiveSpecialAccess = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveSpecialAccess, bool.FalseString));
+        private bool _receiveSpecialAccess;
 
         /// <summary>
         /// Gets or sets a value indicating whether to collect special access rewards.
         /// </summary>
         public bool ReceiveSpecialAccess
         {
-            get => _receiveReceiveSpecialAccess;
+            get => _receiveSpecialAccess;
             set
             {
-                SetAndNotify(ref _receiveReceiveSpecialAccess, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveSpecialAccess, value.ToString());
+                SetAndNotify(ref _receiveSpecialAccess, value);
+                ((AwardTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).SpecialAccess = value;
             }
         }
 
@@ -3408,14 +3413,29 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the list of auto recruit selecting extra tags.
         /// </summary>
-        public List<CombinedData> AutoRecruitSelectExtraTagsList { get; } =
+        public List<GenericCombinedData<int>> AutoRecruitSelectExtraTagsList { get; } =
             [
-                new() { Display = LocalizationHelper.GetString("DefaultNoExtraTags"), Value = "0" },
-                new() { Display = LocalizationHelper.GetString("SelectExtraTags"), Value = "1" },
-                new() { Display = LocalizationHelper.GetString("SelectExtraOnlyRareTags"), Value = "2" },
+                new() { Display = LocalizationHelper.GetString("DefaultNoExtraTags"), Value = 0 },
+                new() { Display = LocalizationHelper.GetString("SelectExtraTags"), Value = 1 },
+                new() { Display = LocalizationHelper.GetString("SelectExtraOnlyRareTags"), Value = 2 },
             ];
 
-        private string _autoRecruitFirstList = ConfigurationHelper.GetValue(ConfigurationKeys.AutoRecruitFirstList, string.Empty);
+        private int _selectExtraTags;
+
+        /// <summary>
+        /// Gets or sets a value indicating three tags are always selected or select only rare tags as many as possible .
+        /// </summary>
+        public int SelectExtraTags
+        {
+            get => _selectExtraTags;
+            set
+            {
+                SetAndNotify(ref _selectExtraTags, value);
+                ((RecruitTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).ExtraTagStrategy = value;
+            }
+        }
+
+        private string _autoRecruitFirstList;
 
         /// <summary>
         /// Gets or sets the priority tag list of level-3 tags.
@@ -3426,26 +3446,26 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _autoRecruitFirstList, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AutoRecruitFirstList, value);
+                ((RecruitTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).Level3FirstTags = value;
             }
         }
 
-        private string _recruitMaxTimes = ConfigurationHelper.GetValue(ConfigurationKeys.RecruitMaxTimes, "4");
+        private int _recruitMaxTimes;
 
         /// <summary>
         /// Gets or sets the maximum times of recruit.
         /// </summary>
-        public string RecruitMaxTimes
+        public int RecruitMaxTimes
         {
             get => _recruitMaxTimes;
             set
             {
                 SetAndNotify(ref _recruitMaxTimes, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RecruitMaxTimes, value);
+                ((RecruitTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).MaxTimes = value;
             }
         }
 
-        private bool _refreshLevel3 = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RefreshLevel3, bool.TrueString));
+        private bool _refreshLevel3;
 
         /// <summary>
         /// Gets or sets a value indicating whether to refresh level 3.
@@ -3456,11 +3476,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _refreshLevel3, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RefreshLevel3, value.ToString());
+                ((RecruitTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).RefreshLevel3 = value;
             }
         }
 
-        private bool _forceRefresh = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ForceRefresh, bool.TrueString));
+        private bool _forceRefresh;
 
         /// <summary>
         /// Gets or Sets a value indicating whether to refresh when recruit permit ran out.
@@ -3471,54 +3491,26 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _forceRefresh, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ForceRefresh, value.ToString());
+                ((RecruitTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).ForceRefresh = value;
             }
         }
 
-        private bool _useExpedited;
+        private bool _recruitUseExpedited;
 
         /// <summary>
         /// Gets or sets a value indicating whether to use expedited.
         /// </summary>
-        public bool UseExpedited
+        public bool RecruitUseExpedited
         {
-            get => _useExpedited;
-            set => SetAndNotify(ref _useExpedited, value);
-        }
-
-        private string _selectExtraTags = ConfigurationHelper.GetValue(ConfigurationKeys.SelectExtraTags, "0");
-
-        /// <summary>
-        /// Gets or sets a value indicating three tags are always selected or select only rare tags as many as possible .
-        /// </summary>
-        public string SelectExtraTags
-        {
-            get
-            {
-                if (int.TryParse(_selectExtraTags, out _))
-                {
-                    return _selectExtraTags;
-                }
-
-                var value = "0";
-                if (bool.TryParse(_selectExtraTags, out bool boolValue))
-                {
-                    value = boolValue ? "1" : "0";
-                }
-
-                SetAndNotify(ref _selectExtraTags, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.SelectExtraTags, value);
-                return value;
-            }
-
+            get => _recruitUseExpedited;
             set
             {
-                SetAndNotify(ref _selectExtraTags, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.SelectExtraTags, value);
+                SetAndNotify(ref _recruitUseExpedited, value);
+                ((RecruitTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).UseExpedited = value;
             }
         }
 
-        private bool _isLevel3UseShortTime = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.IsLevel3UseShortTime, bool.FalseString));
+        private bool _isLevel3UseShortTime;
 
         /// <summary>
         /// Gets or sets a value indicating whether to shorten the time for level 3.
@@ -3534,11 +3526,11 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 SetAndNotify(ref _isLevel3UseShortTime, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.IsLevel3UseShortTime, value.ToString());
+                ((RecruitTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).Level3Time0740 = value;
             }
         }
 
-        private bool _isLevel3UseShortTime2 = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.IsLevel3UseShortTime2, bool.FalseString));
+        private bool _isLevel3UseShortTime2;
 
         /// <summary>
         /// Gets or sets a value indicating whether to shorten the time for level 3.
@@ -3554,11 +3546,11 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 SetAndNotify(ref _isLevel3UseShortTime2, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.IsLevel3UseShortTime2, value.ToString());
+                ((RecruitTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).Level3Time0100 = value;
             }
         }
 
-        private bool _notChooseLevel1 = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.NotChooseLevel1, bool.TrueString));
+        private bool _notChooseLevel1;
 
         /// <summary>
         /// Gets or sets a value indicating whether not to choose level 1.
@@ -3569,11 +3561,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _notChooseLevel1, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.NotChooseLevel1, value.ToString());
+                ((RecruitTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).NotChooseLevel1 = value;
             }
         }
 
-        private bool _chooseLevel3 = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RecruitChooseLevel3, bool.TrueString));
+        private bool _chooseLevel3;
 
         /// <summary>
         /// Gets or sets a value indicating whether to choose level 3.
@@ -3584,11 +3576,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _chooseLevel3, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RecruitChooseLevel3, value.ToString());
+                ((RecruitTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).ChooseLevel3 = value;
             }
         }
 
-        private bool _chooseLevel4 = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RecruitChooseLevel4, bool.TrueString));
+        private bool _chooseLevel4;
 
         /// <summary>
         /// Gets or sets a value indicating whether to choose level 4.
@@ -3599,11 +3591,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _chooseLevel4, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RecruitChooseLevel4, value.ToString());
+                ((RecruitTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).ChooseLevel4 = value;
             }
         }
 
-        private bool _chooseLevel5 = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RecruitChooseLevel5, bool.FalseString));
+        private bool _chooseLevel5;
 
         /// <summary>
         /// Gets or sets a value indicating whether to choose level 5.
@@ -3614,31 +3606,13 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _chooseLevel5, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RecruitChooseLevel5, value.ToString());
+                ((RecruitTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).ChooseLevel5 = value;
             }
         }
 
         #endregion
 
         #region 软件更新设置
-
-        public enum UpdateVersionType
-        {
-            /// <summary>
-            /// 测试版
-            /// </summary>
-            Nightly,
-
-            /// <summary>
-            /// 开发版
-            /// </summary>
-            Beta,
-
-            /// <summary>
-            /// 稳定版
-            /// </summary>
-            Stable,
-        }
 
         /// <summary>
         /// Gets the core version.
@@ -3732,9 +3706,7 @@ namespace MaaWpfGui.ViewModels.UI
             return (dateTime, versionName);
         }
 
-        private UpdateVersionType _versionType = (UpdateVersionType)Enum.Parse(
-            typeof(UpdateVersionType),
-            ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionType, UpdateVersionType.Stable.ToString()));
+        private UpdateVersionType _versionType = ConfigFactory.Root.VersionUpdate.VersionType;
 
         /// <summary>
         /// Gets or sets the type of version to update.
@@ -3745,7 +3717,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _versionType, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionType, value.ToString());
+                ConfigFactory.Root.VersionUpdate.VersionType = value;
             }
         }
 
@@ -3794,7 +3766,7 @@ namespace MaaWpfGui.ViewModels.UI
             get => _versionType == UpdateVersionType.Beta;
         }
 
-        private bool _updateCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateCheck, bool.TrueString));
+        private bool _updateCheck = ConfigFactory.Root.VersionUpdate.UpdateCheck;
 
         /// <summary>
         /// Gets or sets a value indicating whether to check update.
@@ -3805,11 +3777,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _updateCheck, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateCheck, value.ToString());
+                ConfigFactory.Root.VersionUpdate.UpdateCheck = value;
             }
         }
 
-        private bool _updateAutoCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateAutoCheck, bool.FalseString));
+        private bool _updateAutoCheck = ConfigFactory.Root.VersionUpdate.UpdateAutoCheck;
 
         /// <summary>
         /// Gets or sets a value indicating whether to check update.
@@ -3824,7 +3796,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _proxy = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateProxy, string.Empty);
+        private string _proxy = ConfigFactory.Root.VersionUpdate.Proxy;
 
         /// <summary>
         /// Gets or sets the proxy settings.
@@ -3835,7 +3807,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _proxy, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateProxy, value);
+                ConfigFactory.Root.VersionUpdate.Proxy = value;
             }
         }
 
@@ -3871,7 +3843,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _autoDownloadUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AutoDownloadUpdatePackage, bool.TrueString));
+        private bool _autoDownloadUpdatePackage = ConfigFactory.Root.VersionUpdate.AutoDownloadUpdatePackage;
 
         /// <summary>
         /// Gets or sets a value indicating whether to auto download update package.
@@ -3882,11 +3854,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _autoDownloadUpdatePackage, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.AutoDownloadUpdatePackage, value.ToString());
+                ConfigFactory.Root.VersionUpdate.AutoDownloadUpdatePackage = value;
             }
         }
 
-        private bool _autoInstallUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AutoInstallUpdatePackage, bool.FalseString));
+        private bool _autoInstallUpdatePackage = ConfigFactory.Root.VersionUpdate.AutoInstallUpdatePackage;
 
         /// <summary>
         /// Gets or sets a value indicating whether to auto install update package.
@@ -3897,7 +3869,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _autoInstallUpdatePackage, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.AutoInstallUpdatePackage, value.ToString());
+                ConfigFactory.Root.VersionUpdate.AutoInstallUpdatePackage = value;
             }
         }
 
@@ -4013,7 +3985,7 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = LocalizationHelper.GetString("Txwy"), Value = "txwy" },
             ];
 
-        private bool _autoDetectConnection = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoDetect, bool.TrueString));
+        private bool _autoDetectConnection = ConfigFactory.CurrentConfig.Connection.AutoDetect;
 
         public bool AutoDetectConnection
         {
@@ -4025,7 +3997,7 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
-                ConfigurationHelper.SetValue(ConfigurationKeys.AutoDetect, value.ToString());
+                ConfigFactory.CurrentConfig.Connection.AutoDetect = value;
 
                 if (value)
                 {
@@ -4034,16 +4006,10 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _alwaysAutoDetectConnection = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AlwaysAutoDetect, bool.FalseString));
-
         public bool AlwaysAutoDetectConnection
         {
-            get => _alwaysAutoDetectConnection;
-            set
-            {
-                SetAndNotify(ref _alwaysAutoDetectConnection, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AlwaysAutoDetect, value.ToString());
-            }
+            get => ConfigFactory.CurrentConfig.Connection.AlwaysAutoDetect;
+            set => ConfigFactory.CurrentConfig.Connection.AlwaysAutoDetect = value;
         }
 
         private ObservableCollection<string> _connectAddressHistory = [];
@@ -4054,7 +4020,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _connectAddressHistory, value);
         }
 
-        private string _connectAddress = ConfigurationHelper.GetValue(ConfigurationKeys.ConnectAddress, string.Empty);
+        private string _connectAddress = ConfigFactory.CurrentConfig.Connection.AdbAddress;
 
         /// <summary>
         /// Gets or sets the connection address.
@@ -4075,7 +4041,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 SetAndNotify(ref _connectAddress, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.AddressHistory, JsonConvert.SerializeObject(ConnectAddressHistory));
-                ConfigurationHelper.SetValue(ConfigurationKeys.ConnectAddress, value);
+                ConfigFactory.CurrentConfig.Connection.AdbAddress = value;
                 UpdateWindowTitle(); // 每次修改客户端时更新WindowTitle
             }
         }
@@ -4108,14 +4074,12 @@ namespace MaaWpfGui.ViewModels.UI
             ConfigurationHelper.SetValue(ConfigurationKeys.AddressHistory, JsonConvert.SerializeObject(ConnectAddressHistory));
         }
 
-        private string _adbPath = ConfigurationHelper.GetValue(ConfigurationKeys.AdbPath, string.Empty);
-
         /// <summary>
         /// Gets or sets the ADB path.
         /// </summary>
         public string AdbPath
         {
-            get => _adbPath;
+            get => ConfigFactory.CurrentConfig.Connection.AdbPath;
             set
             {
                 if (!Path.GetFileName(value).ToLower().Contains("adb"))
@@ -4138,9 +4102,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 Instances.AsstProxy.Connected = false;
-
-                SetAndNotify(ref _adbPath, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AdbPath, value);
+                ConfigFactory.CurrentConfig.Connection.AdbPath = value;
             }
         }
 
@@ -4441,14 +4403,12 @@ namespace MaaWpfGui.ViewModels.UI
 
         public LdPlayerConnectionExtras LdPlayerExtras { get; set; } = new();
 
-        private bool _retryOnDisconnected = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RetryOnAdbDisconnected, bool.FalseString));
-
         /// <summary>
         /// Gets or sets a value indicating whether to retry task after ADB disconnected.
         /// </summary>
         public bool RetryOnDisconnected
         {
-            get => _retryOnDisconnected;
+            get => ConfigFactory.CurrentConfig.Connection.RetryOnAdbDisconnected;
             set
             {
                 if (string.IsNullOrEmpty(EmulatorPath))
@@ -4461,39 +4421,26 @@ namespace MaaWpfGui.ViewModels.UI
                     value = false;
                 }
 
-                SetAndNotify(ref _retryOnDisconnected, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RetryOnAdbDisconnected, value.ToString());
+                ConfigFactory.CurrentConfig.Connection.RetryOnAdbDisconnected = value;
             }
         }
-
-        private bool _allowAdbRestart = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowAdbRestart, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to retry task after ADB disconnected.
         /// </summary>
         public bool AllowAdbRestart
         {
-            get => _allowAdbRestart;
-            set
-            {
-                SetAndNotify(ref _allowAdbRestart, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AllowAdbRestart, value.ToString());
-            }
+            get => ConfigFactory.CurrentConfig.Connection.AllAdbRestart;
+            set => ConfigFactory.CurrentConfig.Connection.AllAdbRestart = value;
         }
-
-        private bool _allowAdbHardRestart = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowAdbHardRestart, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to allow for killing ADB process.
         /// </summary>
         public bool AllowAdbHardRestart
         {
-            get => _allowAdbHardRestart;
-            set
-            {
-                SetAndNotify(ref _allowAdbHardRestart, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AllowAdbHardRestart, value.ToString());
-            }
+            get => ConfigFactory.CurrentConfig.Connection.AllAdbHardRestart;
+            set => ConfigFactory.CurrentConfig.Connection.AllAdbHardRestart = value;
         }
 
         private bool _deploymentWithPause = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDeploymentWithPause, bool.FalseString));
@@ -4509,28 +4456,22 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _adbLiteEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AdbLiteEnabled, bool.FalseString));
-
         public bool AdbLiteEnabled
         {
-            get => _adbLiteEnabled;
+            get => ConfigFactory.CurrentConfig.Connection.AdbLiteEnable;
             set
             {
-                SetAndNotify(ref _adbLiteEnabled, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AdbLiteEnabled, value.ToString());
+                ConfigFactory.CurrentConfig.Connection.AdbLiteEnable = value;
                 UpdateInstanceSettings();
             }
         }
 
-        private bool _killAdbOnExit = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.KillAdbOnExit, bool.FalseString));
-
         public bool KillAdbOnExit
         {
-            get => _killAdbOnExit;
+            get => ConfigFactory.CurrentConfig.Connection.KillAdbWhenExit;
             set
             {
-                SetAndNotify(ref _killAdbOnExit, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.KillAdbOnExit, value.ToString());
+                ConfigFactory.CurrentConfig.Connection.KillAdbWhenExit = value;
                 UpdateInstanceSettings();
             }
         }
@@ -4740,7 +4681,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var rvm = (RootViewModel)this.Parent;
 
-            string prefix = ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitlePrefix, string.Empty);
+            string prefix = ConfigFactory.CurrentConfig.GUI.WindowTitlePrefix;
             if (!string.IsNullOrEmpty(prefix))
             {
                 prefix += " - ";
@@ -4851,8 +4792,8 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _touchMode, value);
-                UpdateInstanceSettings();
                 ConfigurationHelper.SetValue(ConfigurationKeys.TouchMode, value);
+                UpdateInstanceSettings();
                 AskRestartToApplySettings();
             }
         }
@@ -4986,7 +4927,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public bool AdbReplaced { get; set; } = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AdbReplaced, bool.FalseString));
+        public bool AdbReplaced { get; set; }// = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AdbReplaced, bool.FalseString));
 
         #endregion
 
@@ -5047,7 +4988,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
+        private bool _minimizeToTray = ConfigFactory.CurrentConfig.GUI.MinimizeToTray;
 
         /// <summary>
         /// Gets or sets a value indicating whether to minimize to tray.
@@ -5058,7 +4999,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _minimizeToTray, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.MinimizeToTray, value.ToString());
+                ConfigFactory.CurrentConfig.GUI.MinimizeToTray = value;
                 Instances.MainWindowManager.SetMinimizeToTray(value);
             }
         }
@@ -5080,7 +5021,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _hideCloseButton = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideCloseButton, bool.FalseString));
+        private bool _hideCloseButton = ConfigFactory.CurrentConfig.GUI.HideCloseButton;
 
         /// <summary>
         /// Gets or sets a value indicating whether to hide close button.
@@ -5091,7 +5032,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _hideCloseButton, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.HideCloseButton, value.ToString());
+                ConfigFactory.CurrentConfig.GUI.HideCloseButton = value;
                 var rvm = (RootViewModel)this.Parent;
                 rvm.ShowCloseButton = !value;
             }
@@ -5126,7 +5067,6 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _useLogItemDateFormat, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.UseLogItemDateFormat, value.ToString());
             }
         }
 
@@ -5141,7 +5081,7 @@ namespace MaaWpfGui.ViewModels.UI
             "dd.MM  HH:mm:ss",
         ];
 
-        private string _logItemDateFormatString = ConfigurationHelper.GetValue(ConfigurationKeys.LogItemDateFormat, "HH:mm:ss");
+        private string _logItemDateFormatString = ConfigFactory.CurrentConfig.GUI.LogItemDateFormat;
 
         public string LogItemDateFormatString
         {
@@ -5149,7 +5089,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _logItemDateFormatString, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.LogItemDateFormat, value);
+                ConfigFactory.CurrentConfig.GUI.LogItemDateFormat = value;
             }
         }
 
@@ -5193,17 +5133,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private enum InverseClearType
-        {
-            Clear,
-            Inverse,
-            ClearInverse,
-        }
-
-        private InverseClearType _inverseClearMode =
-            Enum.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.InverseClearMode, InverseClearType.Clear.ToString()), out InverseClearType temp)
-                ? temp
-                : InverseClearType.Clear;
+        private InverseClearType _inverseClearMode = ConfigFactory.CurrentConfig.GUI.InverseClearMode;
 
         /// <summary>
         /// Gets or sets the inverse clear mode.
@@ -5219,7 +5149,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 SetAndNotify(ref _inverseClearMode, tempEnumValue);
-                ConfigurationHelper.SetValue(ConfigurationKeys.InverseClearMode, value);
+                ConfigFactory.CurrentConfig.GUI.InverseClearMode = tempEnumValue;
                 switch (tempEnumValue)
                 {
                     case InverseClearType.Clear:
@@ -5279,7 +5209,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _language = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
+        private string _language = ConfigFactory.CurrentConfig.GUI.Localization;
 
         /// <summary>
         /// Gets or sets the language.
@@ -5306,7 +5236,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 // var backup = _language;
-                ConfigurationHelper.SetValue(ConfigurationKeys.Localization, value);
+                ConfigFactory.CurrentConfig.GUI.Localization = value;
 
                 var mainWindow = Application.Current.MainWindow;
 

@@ -23,10 +23,10 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
-using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using MaaWpfGui.States;
 using Newtonsoft.Json;
@@ -68,7 +68,7 @@ namespace MaaWpfGui.ViewModels.UI
         private readonly string _curVersion = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
         private string _latestVersion = string.Empty;
 
-        private string _updateTag = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionName, string.Empty);
+        private string _updateTag = ConfigFactory.Root.VersionUpdate.Name;
 
         /// <summary>
         /// Gets or sets the update tag.
@@ -79,11 +79,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _updateTag, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionName, value);
+                ConfigFactory.Root.VersionUpdate.Name = value;
             }
         }
 
-        private string _updateInfo = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateBody, string.Empty);
+        private string _updateInfo = ConfigFactory.Root.VersionUpdate.Body;
 
         // private static readonly MarkdownPipeline s_markdownPipeline = new MarkdownPipelineBuilder().UseXamlSupportedExtensions().Build();
 
@@ -107,7 +107,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _updateInfo, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdateBody, value);
+                ConfigFactory.Root.VersionUpdate.Body = value;
             }
         }
 
@@ -122,7 +122,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _updateUrl, value);
         }
 
-        private bool _isFirstBootAfterUpdate = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateIsFirstBoot, bool.FalseString));
+        private bool _isFirstBootAfterUpdate = ConfigFactory.Root.VersionUpdate.IsFirstBoot;
 
         /// <summary>
         /// Gets or sets a value indicating whether it is the first boot after updating.
@@ -133,11 +133,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _isFirstBootAfterUpdate, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdateIsFirstBoot, value.ToString());
+                ConfigFactory.Root.VersionUpdate.IsFirstBoot = value;
             }
         }
 
-        private string _updatePackageName = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdatePackage, string.Empty);
+        private string _updatePackageName = ConfigFactory.Root.VersionUpdate.Package;
 
         /// <summary>
         /// Gets or sets the name of the update package.
@@ -148,7 +148,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _updatePackageName, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdatePackage, value);
+                ConfigFactory.Root.VersionUpdate.Package = value;
             }
         }
 
@@ -180,9 +180,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         public bool CheckAndUpdateNow()
         {
-            if (UpdateTag == string.Empty
-                || UpdatePackageName == string.Empty
-                || !File.Exists(UpdatePackageName))
+            if (string.IsNullOrEmpty(UpdateTag) || string.IsNullOrEmpty(UpdatePackageName) || !File.Exists(UpdatePackageName))
             {
                 return false;
             }
@@ -401,7 +399,7 @@ namespace MaaWpfGui.ViewModels.UI
             Native,
         }
 
-        private bool _doNotShowUpdate = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateDoNotShowUpdate, bool.FalseString));
+        private bool _doNotShowUpdate = ConfigFactory.Root.VersionUpdate.DoNotShowUpdate;
 
         /// <summary>
         /// Gets or sets a value indicating whether to show the update.
@@ -412,7 +410,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _doNotShowUpdate, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdateDoNotShowUpdate, value.ToString());
+                ConfigFactory.Root.VersionUpdate.DoNotShowUpdate = value;
             }
         }
 
@@ -589,7 +587,7 @@ namespace MaaWpfGui.ViewModels.UI
                 var tasks = urls.ConvertAll(url => Instances.HttpService.HeadAsync(new Uri(url)));
                 var latencies = await Task.WhenAll(tasks);
 
-                var proxy = ConfigurationHelper.GetValue(ConfigurationKeys.UpdateProxy, string.Empty);
+                var proxy = ConfigFactory.Root.VersionUpdate.Proxy;
                 var hasProxy = !string.IsNullOrEmpty(proxy);
 
                 // select the fastest mirror

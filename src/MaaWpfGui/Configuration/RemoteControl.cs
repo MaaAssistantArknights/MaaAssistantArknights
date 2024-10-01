@@ -1,4 +1,4 @@
-// <copyright file="AnnouncementInfo.cs" company="MaaAssistantArknights">
+// <copyright file="RemoteControl.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -16,25 +16,19 @@ using System.ComponentModel;
 
 namespace MaaWpfGui.Configuration
 {
-    public class AnnouncementInfo : INotifyPropertyChanged
+    public class RemoteControl : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        /// <summary>
-        /// Gets or sets 公告内容
-        /// </summary>
-        public string Info { get; set; } = string.Empty;
+        public string? GetTaskUri { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether 下次不再显示公告
-        /// </summary>
-        public bool DoNotShowAgain { get; set; } = false;
+        public string? ReportStatusUri { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether 不显示公告
-        /// </summary>
-        public bool DoNotShow { get; set; } = false;
+        public string? UserId { get; set; }
 
+        public string? DeviceId { get; set; }
+
+        // ReSharper disable once UnusedMember.Global
         public void OnPropertyChanged(string propertyName, object before, object after)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));

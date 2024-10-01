@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -23,6 +24,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
+using MaaWpfGui.Configuration;
+using MaaWpfGui.Configuration.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -37,6 +40,7 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using StyletIoC;
+using static MaaWpfGui.Models.MaaTask;
 using Application = System.Windows.Application;
 using ComboBox = System.Windows.Controls.ComboBox;
 using Screen = Stylet.Screen;
@@ -59,7 +63,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or private sets the view models of task items.
         /// </summary>
-        public ObservableCollection<DragItemViewModel> TaskItemViewModels { get; private set; }
+        public ObservableCollection<TaskViewModel> TaskItemViewModels { get; private set; }
 
         /// <summary>
         /// Gets the visibility of task setting views.
@@ -75,16 +79,13 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once MemberCanBePrivate.Global
         public void TaskItemSelectionChanged()
         {
+            Task.Run(() => ConfigFactory.Save());
+            /*
             Execute.OnUIThread(() =>
             {
-                int index = 0;
-                foreach (var item in TaskItemViewModels)
-                {
-                    ConfigurationHelper.SetTaskOrder(item.OriginalName, index.ToString());
-                    ++index;
+                Task.Run(() => ConfigFactory.Save());
+            });*/
                 }
-            });
-        }
 
         /// <summary>
         /// Gets or private sets the view models of log items.
@@ -599,12 +600,14 @@ namespace MaaWpfGui.ViewModels.UI
                 taskList.Add("Reclamation");
             }
 
-            var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[taskList.Count]);
-            var nonOrderList = new List<DragItemViewModel>();
-            for (int i = 0; i != taskList.Count; ++i)
+            /* 禁用任务index排序
             {
-                var task = taskList[i];
-                bool parsed = int.TryParse(ConfigurationHelper.GetTaskOrder(task, "-1"), out var order);
+                var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[taskList.Count]);
+                var nonOrderList = new List<DragItemViewModel>();
+                for (int i = 0; i != taskList.Count; ++i)
+                {
+                    var task = taskList[i];
+                    bool parsed = int.TryParse(ConfigurationHelper.GetTaskOrder(task, "-1"), out var order);
 
                 DragItemViewModel vm = new DragItemViewModel(
                     LocalizationHelper.GetString(task),
@@ -612,34 +615,61 @@ namespace MaaWpfGui.ViewModels.UI
                     "TaskQueue.",
                     task is not ("AutoRoguelike" or "Reclamation"));
 
-                if (task == TaskSettingVisibilityInfo.DefaultVisibleTaskSetting)
-                {
-                    vm.EnableSetting = true;
+                    if (task == TaskSettingVisibilityInfo.DefaultVisibleTaskSetting)
+                    {
+                        vm.EnableSetting = true;
+                    }
+
+                    if (!parsed || order < 0 || order >= tempOrderList.Count)
+                    {
+                        nonOrderList.Add(vm);
+                    }
+                    else
+                    {
+                        tempOrderList[order] = vm;
+                    }
                 }
 
-                if (!parsed || order < 0 || order >= tempOrderList.Count || tempOrderList[order] != null)
+                foreach (var newVm in nonOrderList)
                 {
-                    nonOrderList.Add(vm);
-                }
-                else
-                {
-                    tempOrderList[order] = vm;
-                }
-            }
+                    int i = 0;
+                    while (tempOrderList[i] != null)
+                    {
+                        ++i;
+                    }
 
-            foreach (var newVm in nonOrderList)
-            {
-                int i = 0;
-                while (tempOrderList[i] != null)
-                {
-                    ++i;
+                    tempOrderList[i] = newVm;
                 }
-
-                tempOrderList[i] = newVm;
                 ConfigurationHelper.SetTaskOrder(newVm.OriginalName, i.ToString());
-            }
+            }*/
 
-            TaskItemViewModels = new ObservableCollection<DragItemViewModel>(tempOrderList);
+            var tempOrderList = new List<TaskViewModel>(new TaskViewModel[ConfigFactory.CurrentConfig.TaskQueue.Count]);
+
+            int i = -1;
+            tempOrderList = tempOrderList.Select(x => new TaskViewModel(++i, ConfigFactory.CurrentConfig.TaskQueue[i].Name, ConfigFactory.CurrentConfig.TaskQueue[i].IsEnable)).ToList();
+            TaskItemViewModels = new ObservableCollection<TaskViewModel>(tempOrderList);
+            TaskItemViewModels.CollectionChanged += (o, e) =>
+            {
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Move:
+                        ConfigFactory.CurrentConfig.TaskQueue.Move(e.OldStartingIndex, e.NewStartingIndex);
+                        break;
+                    case NotifyCollectionChangedAction.Add:
+                    case NotifyCollectionChangedAction.Remove:
+                    case NotifyCollectionChangedAction.Replace:
+                    case NotifyCollectionChangedAction.Reset:
+                        break;
+                }
+
+                Task.Run(() => ConfigFactory.Save());
+                int index = 0;
+                foreach (var item in TaskItemViewModels)
+                {
+                    item.Index = index;
+                    ++index;
+                }
+            };
 
             InitDrops();
             NeedToUpdateDatePrompt();
@@ -842,18 +872,14 @@ namespace MaaWpfGui.ViewModels.UI
         {
             foreach (var item in TaskItemViewModels)
             {
-                switch (item.OriginalName)
+                if (ConfigFactory.CurrentConfig.TaskQueue[item.Index] is not RoguelikeTask and not ReclamationTask)
                 {
-                    case "AutoRoguelike":
-                    case "Reclamation":
-                        continue;
-                }
-
-                item.IsChecked = true;
+                item.IsCheckedWithNull = true;
             }
         }
+        }
 
-        private bool _inverseMode = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, bool.FalseString));
+        private bool _inverseMode = ConfigFactory.CurrentConfig.GUI.InverseClearShow == GUI.InverseClearType.Inverse;
 
         /// <summary>
         /// Gets or sets a value indicating whether to use inverse mode.
@@ -866,7 +892,7 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _inverseMode, value);
                 InverseShowText = value ? LocalizationHelper.GetString("Inverse") : LocalizationHelper.GetString("Clear");
                 InverseMenuText = value ? LocalizationHelper.GetString("Clear") : LocalizationHelper.GetString("Inverse");
-                ConfigurationHelper.SetValue(ConfigurationKeys.MainFunctionInverseMode, value.ToString());
+                ConfigFactory.CurrentConfig.GUI.InverseClearShow = value ? GUI.InverseClearType.Inverse : GUI.InverseClearType.Clear;
             }
         }
 
@@ -875,8 +901,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public const int SelectedAllWidthWhenBoth = 80;
 
-        private int _selectedAllWidth =
-            ConfigurationHelper.GetValue(ConfigurationKeys.InverseClearMode, "Clear") == "ClearInverse" ? SelectedAllWidthWhenBoth : 85;
+        private int _selectedAllWidth = ConfigFactory.CurrentConfig.GUI.InverseClearMode == GUI.InverseClearType.ClearInverse ? SelectedAllWidthWhenBoth : 85;
 
         /// <summary>
         /// Gets or sets the width of "Select All".
@@ -887,7 +912,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _selectedAllWidth, value);
         }
 
-        private bool _showInverse = ConfigurationHelper.GetValue(ConfigurationKeys.InverseClearMode, "Clear") == "ClearInverse";
+        private bool _showInverse = ConfigFactory.CurrentConfig.GUI.InverseClearMode == GUI.InverseClearType.ClearInverse;
 
         /// <summary>
         /// Gets or sets a value indicating whether "Select inversely" is visible.
@@ -898,7 +923,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _showInverse, value);
         }
 
-        private string _inverseShowText = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, bool.FalseString))
+        private string _inverseShowText = ConfigFactory.CurrentConfig.GUI.InverseClearShow == GUI.InverseClearType.Inverse
             ? LocalizationHelper.GetString("Inverse")
             : LocalizationHelper.GetString("Clear");
 
@@ -911,7 +936,7 @@ namespace MaaWpfGui.ViewModels.UI
             private set => SetAndNotify(ref _inverseShowText, value);
         }
 
-        private string _inverseMenuText = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, bool.FalseString))
+        private string _inverseMenuText = ConfigFactory.CurrentConfig.GUI.InverseClearShow == GUI.InverseClearType.Inverse
             ? LocalizationHelper.GetString("Clear")
             : LocalizationHelper.GetString("Inverse");
 
@@ -945,22 +970,21 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 foreach (var item in TaskItemViewModels)
                 {
-                    switch (item.OriginalName)
+                    if (ConfigFactory.CurrentConfig.TaskQueue[item.Index] is RoguelikeTask or ReclamationTask)
                     {
-                        case "AutoRoguelike":
-                        case "Reclamation":
-                            item.IsChecked = false;
-                            continue;
+                            item.IsCheckedWithNull = false;
                     }
-
-                    item.IsChecked = !item.IsChecked;
+                    else
+                    {
+                            item.IsCheckedWithNull = !item.IsCheckedWithNull ?? false;
+                    }
                 }
             }
             else
             {
                 foreach (var item in TaskItemViewModels)
                 {
-                    item.IsChecked = false;
+                    item.IsCheckedWithNull = false;
                 }
             }
         }
@@ -972,12 +996,9 @@ namespace MaaWpfGui.ViewModels.UI
         {
             foreach (var item in TaskItemViewModels)
             {
-                if (item.IsCheckedWithNull == null)
-                {
-                    item.IsChecked = false;
+                item.IsCheckedWithNull ??= false;
                 }
             }
-        }
 
         private async Task<bool> ConnectToEmulator()
         {
@@ -1130,50 +1151,49 @@ namespace MaaWpfGui.ViewModels.UI
             int count = 0;
             foreach (var item in TaskItemViewModels)
             {
-                if (item.IsChecked == false)
+                if (item.IsCheckedWithNull is false)
                 {
                     continue;
                 }
 
                 ++count;
-                switch (item.OriginalName)
+                var task = ConfigFactory.CurrentConfig.TaskQueue[item.Index];
+                if (task is InfrastTask)
                 {
-                    case "Base":
                         taskRet &= AppendInfrast();
-                        break;
-
-                    case "WakeUp":
+                }
+                else if (task is StartUpTask)
+                {
                         taskRet &= AppendStart();
-                        break;
-
-                    case "Combat":
+                }
+                else if (task is FightTask)
+                {
                         taskRet &= AppendFight();
-                        break;
-
-                    case "Recruiting":
+                }
+                else if (task is RecruitTask)
+                {
                         taskRet &= AppendRecruit();
-                        break;
-
-                    case "Mall":
+                }
+                else if (task is MallTask)
+                {
                         taskRet &= AppendMall();
-                        break;
-
-                    case "Mission":
+                }
+                else if (task is AwardTask)
+                {
                         taskRet &= AppendAward();
-                        break;
-
-                    case "AutoRoguelike":
+                }
+                else if (task is RoguelikeTask)
+                {
                         taskRet &= AppendRoguelike();
-                        break;
-
-                    case "Reclamation":
+                }
+                else if (task is ReclamationTask)
+                {
                         taskRet &= AppendReclamation();
-                        break;
-
-                    default:
-                        --count;
-                        _logger.Error("Unknown task: " + item.OriginalName);
-                        break;
+                }
+                else
+                {
+                    --count;
+                    _logger.Error("Unknown task: " + ConfigFactory.CurrentConfig.TaskQueue[item.Index].GetType().Name);
                 }
 
                 if (taskRet)
@@ -1181,7 +1201,7 @@ namespace MaaWpfGui.ViewModels.UI
                     continue;
                 }
 
-                AddLog(item.OriginalName + "Error", UiLogColor.Error);
+                AddLog(ConfigFactory.CurrentConfig.TaskQueue[item.Index].GetType().Name + $"[{item.Index}]Error", UiLogColor.Error);
                 taskRet = true;
                 --count;
             }
@@ -1592,11 +1612,6 @@ namespace MaaWpfGui.ViewModels.UI
         private static bool AppendRecruit()
         {
             // for debug
-            if (!int.TryParse(Instances.SettingsViewModel.RecruitMaxTimes, out var maxTimes))
-            {
-                maxTimes = 0;
-            }
-
             var firstList = Instances.SettingsViewModel.AutoRecruitFirstList.Split(';', '；')
                 .Select(s => s.Trim());
 
@@ -1621,17 +1636,15 @@ namespace MaaWpfGui.ViewModels.UI
                 cfmList.Add(5);
             }
 
-            _ = int.TryParse(Instances.SettingsViewModel.SelectExtraTags, out var selectExtra);
-
             return Instances.AsstProxy.AsstAppendRecruit(
-                maxTimes,
+                Instances.SettingsViewModel.RecruitMaxTimes,
                 firstList.ToArray(),
                 [.. reqList],
                 [.. cfmList],
                 Instances.SettingsViewModel.RefreshLevel3,
                 Instances.SettingsViewModel.ForceRefresh,
-                Instances.SettingsViewModel.UseExpedited,
-                selectExtra,
+                Instances.SettingsViewModel.RecruitUseExpedited,
+                Instances.SettingsViewModel.SelectExtraTags,
                 Instances.SettingsViewModel.NotChooseLevel1,
                 Instances.SettingsViewModel.IsLevel3UseShortTime,
                 Instances.SettingsViewModel.IsLevel3UseShortTime2);
@@ -2141,7 +2154,7 @@ namespace MaaWpfGui.ViewModels.UI
         public static bool KillEmulator()
         {
             int pid = 0;
-            string address = ConfigurationHelper.GetValue(ConfigurationKeys.ConnectAddress, string.Empty);
+            string address = ConfigFactory.CurrentConfig.Connection.AdbAddress;
             var port = address.StartsWith("127") ? address.Substring(10) : "5555";
             _logger.Information($"address: {address}, port: {port}");
 

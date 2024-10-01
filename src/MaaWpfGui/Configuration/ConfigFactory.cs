@@ -11,18 +11,22 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Unicode;
 using System.Threading;
 using System.Threading.Tasks;
 using MaaWpfGui.Helper;
 using ObservableCollections;
 using Serilog;
+using static MaaWpfGui.Models.MaaTask;
 
 [assembly: PropertyChanged.FilterType("MaaWpfGui.Configuration.")]
 
@@ -30,7 +34,7 @@ namespace MaaWpfGui.Configuration
 {
     public static class ConfigFactory
     {
-        private static readonly string _configurationFile = Path.Combine(Environment.CurrentDirectory, "config/gui.new.json");
+        private static readonly string _configurationFile = Path.Combine(Environment.CurrentDirectory, "config/gui_v5.json");
 
         // TODO: write backup method. WIP: https://github.com/Cryolitia/MaaAssistantArknights/tree/config
         // ReSharper disable once UnusedMember.Local
@@ -42,15 +46,15 @@ namespace MaaWpfGui.Configuration
 
         private static readonly SemaphoreSlim _semaphore = new(1, 1);
 
-        public delegate void ConfigurationUpdateEventHandler(string key, object oldValue, object newValue);
+        public delegate void ConfigurationUpdateEventHandler(string key, object? oldValue, object? newValue);
 
         // ReSharper disable once EventNeverSubscribedTo.Global
-        public static event ConfigurationUpdateEventHandler ConfigurationUpdateEvent;
+        public static event ConfigurationUpdateEventHandler? ConfigurationUpdateEvent;
 
-        private static readonly JsonSerializerOptions _options = new() { WriteIndented = true, Converters = { new JsonStringEnumConverter() }, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
+        private static readonly JsonSerializerOptions _options = new() { WriteIndented = true, Converters = { new JsonStringEnumConverter() }, Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.CjkUnifiedIdeographs, UnicodeRanges.CjkSymbolsandPunctuation, UnicodeRanges.HalfwidthandFullwidthForms), DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
 
         // TODO: 参考 ConfigurationHelper ，拆几个函数出来
-        private static readonly Lazy<Root> _rootConfig = new Lazy<Root>(() =>
+        private static readonly Lazy<Root> _rootConfig = new(() =>
         {
             lock (_lock)
             {
@@ -59,7 +63,7 @@ namespace MaaWpfGui.Configuration
                     Directory.CreateDirectory("config");
                 }
 
-                Root parsed = null;
+                Root? parsed = null;
                 if (File.Exists(_configurationFile))
                 {
                     try
@@ -106,9 +110,12 @@ namespace MaaWpfGui.Configuration
                     parsed = new Root();
                 }
 
-                parsed.CurrentConfig ??= new SpecificConfig();
-
                 parsed.PropertyChanged += OnPropertyChangedFactory("Root.");
+                parsed.Timers.CollectionChanged += OnCollectionChangedFactory<int, Timer>("Root.Timers.");
+                parsed.VersionUpdate.PropertyChanged += OnPropertyChangedFactory();
+                parsed.AnnouncementInfo.PropertyChanged += OnPropertyChangedFactory();
+
+                parsed.CurrentConfig ??= new SpecificConfig();
                 parsed.Configurations.CollectionChanged += (in NotifyCollectionChangedEventArgs<KeyValuePair<string, SpecificConfig>> args) =>
                 {
                     switch (args.Action)
@@ -117,13 +124,15 @@ namespace MaaWpfGui.Configuration
                         case NotifyCollectionChangedAction.Replace:
                             if (args.IsSingleItem)
                             {
-                                args.NewItem.Value.GUI.PropertyChanged += OnPropertyChangedFactory("Root.Configurations." + args.NewItem.Key, JsonSerializer.Serialize(args.NewItem.Value, _options), null);
+                                // args.NewItem.Value.GUI.PropertyChanged += OnPropertyChangedFactory("Root.Configurations." + args.NewItem.Key, JsonSerializer.Serialize(args.NewItem.Value, _options), null);
+                                SpecificConfigBind(args.NewItem.Key, args.NewItem.Value);
                             }
                             else
                             {
-                                foreach (var value in args.NewItems)
+                                foreach (var pair in args.NewItems)
                                 {
-                                    value.Value.GUI.PropertyChanged += OnPropertyChangedFactory("Root.Configurations." + value.Key, JsonSerializer.Serialize(value.Value, _options), null);
+                                    // pair.Value.GUI.PropertyChanged += OnPropertyChangedFactory("Root.Configurations." + pair.Key, JsonSerializer.Serialize(pair.Value, _options), null);
+                                    SpecificConfigBind(pair.Key, pair.Value);
                                 }
                             }
 
@@ -139,20 +148,56 @@ namespace MaaWpfGui.Configuration
                     OnPropertyChanged("Root.Configurations", null, null);
                 };
 
-                parsed.Timers.CollectionChanged += OnCollectionChangedFactory<int, Timer>("Root.Timers.");
-                parsed.VersionUpdate.PropertyChanged += OnPropertyChangedFactory();
-                parsed.AnnouncementInfo.PropertyChanged += OnPropertyChangedFactory();
-
                 foreach (var keyValue in parsed.Configurations)
                 {
-                    var key = "Root.Configurations." + keyValue.Key + ".";
-                    keyValue.Value.GUI.PropertyChanged += OnPropertyChangedFactory(key);
-                    keyValue.Value.DragItemIsChecked.CollectionChanged += OnCollectionChangedFactory<string, bool>(key + nameof(SpecificConfig.DragItemIsChecked) + ".");
-                    keyValue.Value.InfrastOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.InfrastOrder) + ".");
-                    keyValue.Value.TaskQueueOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.TaskQueueOrder) + ".");
+                    SpecificConfigBind(keyValue.Key, keyValue.Value);
                 }
 
                 return parsed;
+
+                void SpecificConfigBind(string name, SpecificConfig config)
+                {
+                    var key = "Root.Configurations." + name + ".";
+                    config.GUI.PropertyChanged += OnPropertyChangedFactory(key);
+                    config.RemoteControl.PropertyChanged += OnPropertyChangedFactory(key);
+                    config.Performance.PropertyChanged += OnPropertyChangedFactory(key);
+                    config.Connection.PropertyChanged += OnPropertyChangedFactory(key);
+                    config.DragItemIsChecked.CollectionChanged += OnCollectionChangedFactory<string, bool>(key + nameof(SpecificConfig.DragItemIsChecked) + ".");
+                    config.InfrastOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.InfrastOrder) + ".");
+
+                    // keyValue.Value.TaskQueue.CollectionChanged += OnCollectionChangedFactory<BaseTask>(key + nameof(SpecificConfig.TaskQueue) + ".");
+                    config.TaskQueue.CollectionChanged += (in NotifyCollectionChangedEventArgs<BaseTask> args) =>
+                    {
+                        switch (args.Action)
+                        {
+                            case NotifyCollectionChangedAction.Add:
+                            case NotifyCollectionChangedAction.Replace:
+                                if (args.IsSingleItem)
+                                {
+                                    args.NewItem.PropertyChanged += OnPropertyChangedFactory(key + args.NewItem.GetType().Name + ".");
+                                }
+                                else
+                                {
+                                    foreach (var value in args.NewItems)
+                                    {
+                                        value.PropertyChanged += OnPropertyChangedFactory(key + value.GetType().Name + ".");
+                                    }
+                                }
+
+                                break;
+                            case NotifyCollectionChangedAction.Remove:
+                            case NotifyCollectionChangedAction.Move:
+                            case NotifyCollectionChangedAction.Reset:
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
+                    };
+                    foreach (var task in config.TaskQueue)
+                    {
+                        task.PropertyChanged += OnPropertyChangedFactory(key + ".zdjd.");
+                    }
+                }
             }
         });
 
@@ -174,7 +219,7 @@ namespace MaaWpfGui.Configuration
         {
             return (o, args) =>
             {
-                object after = null;
+                object? after = null;
                 if (args is PropertyChangedEventDetailArgs detailArgs)
                 {
                     after = detailArgs.NewValue;
@@ -197,7 +242,7 @@ namespace MaaWpfGui.Configuration
 
         public static readonly SpecificConfig CurrentConfig = Root.CurrentConfig;
 
-        private static async void OnPropertyChanged(string key, object oldValue, object newValue)
+        private static async void OnPropertyChanged(string key, object? oldValue, object? newValue)
         {
             var result = await SaveAsync();
             if (result)
@@ -211,7 +256,7 @@ namespace MaaWpfGui.Configuration
             }
         }
 
-        private static bool Save(string file = null)
+        public static bool Save(string? file = null)
         {
             lock (_lock)
             {
@@ -229,7 +274,7 @@ namespace MaaWpfGui.Configuration
             }
         }
 
-        private static async Task<bool> SaveAsync(string file = null)
+        private static async Task<bool> SaveAsync(string? file = null)
         {
             await _semaphore.WaitAsync();
             try

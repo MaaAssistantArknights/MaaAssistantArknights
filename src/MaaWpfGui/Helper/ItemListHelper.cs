@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Windows.Media.Imaging;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Models;
 using Serilog;
@@ -38,7 +39,7 @@ namespace MaaWpfGui.Helper
 
         static ItemListHelper()
         {
-            var language = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
+            var language = ConfigFactory.CurrentConfig.GUI.Localization;
             string filename = string.Empty;
             switch (language)
             {

@@ -1,4 +1,4 @@
-﻿// <copyright file="VersionUpdate.cs" company="MaaAssistantArknights">
+// <copyright file="VersionUpdate.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -11,14 +11,15 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System;
+#nullable enable
 using System.ComponentModel;
+using MaaWpfGui.Constants;
 
 namespace MaaWpfGui.Configuration
 {
     public class VersionUpdate : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         // The following should not be modified manually
         public string Name { get; set; } = string.Empty;
@@ -33,6 +34,8 @@ namespace MaaWpfGui.Configuration
 
         public UpdateVersionType VersionType { get; set; } = UpdateVersionType.Stable;
 
+        public string ResourceApi { get; set; } = MaaUrls.MaaResourceApi;
+
         public bool UpdateCheck { get; set; } = true;
 
         public bool UpdateAutoCheck { get; set; } = false;
@@ -40,6 +43,8 @@ namespace MaaWpfGui.Configuration
         public bool AutoDownloadUpdatePackage { get; set; } = true;
 
         public bool AutoInstallUpdatePackage { get; set; } = false;
+
+        public bool DoNotShowUpdate { get; set; } = false;
 
         public void OnPropertyChanged(string propertyName, object before, object after)
         {
@@ -61,7 +66,7 @@ namespace MaaWpfGui.Configuration
             /// <summary>
             /// 开发版
             /// </summary>
-            Beta
+            Beta,
         }
     }
 }

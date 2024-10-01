@@ -21,6 +21,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -37,7 +38,7 @@ namespace MaaWpfGui.Services.Web
         {
             get
             {
-                var proxy = Instances.SettingsViewModel.Proxy;
+                var proxy = ConfigFactory.Root.VersionUpdate.Proxy;
                 if (string.IsNullOrEmpty(proxy))
                 {
                     return string.Empty;
