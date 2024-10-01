@@ -197,6 +197,8 @@ void asst::AdbController::callback(AsstMsg msg, const json::value& details)
 
 int asst::AdbController::get_mumu_index(const std::string& address)
 {
+    LogTrace << VAR(address);
+
     auto pos = address.find(":");
     if (pos == std::string::npos) {
         Log.error("address is invalid", address);
@@ -209,8 +211,8 @@ int asst::AdbController::get_mumu_index(const std::string& address)
         return 0;
     }
     int port = std::stoi(port_str);
-    int mumu_index = (port - 16384) / 32;
-    Log.info("mumu_index", mumu_index);
+    int mumu_index = (port - 16384) / 32; // must be int
+    LogInfo << VAR(port_str) << VAR(port) << VAR(mumu_index);
     return mumu_index;
 }
 

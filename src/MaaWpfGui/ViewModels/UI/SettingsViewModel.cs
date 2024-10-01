@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -1557,7 +1558,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public string ServerType => _serverMapping[ClientType];
 
-        #endregion
+        #endregion 启动设置
 
         #region 基建设置
 
@@ -1972,7 +1973,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         #endregion 设置页面列表和滚动视图联动绑定
 
-        #endregion
+        #endregion 基建设置
 
         #region 肉鸽设置
 
@@ -2586,7 +2587,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        #endregion
+        #endregion 肉鸽设置
 
         #region 生息演算设置
 
@@ -2692,7 +2693,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        #endregion
+        #endregion 生息演算设置
 
         #region 信用相关设置
 
@@ -2944,7 +2945,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        #endregion
+        #endregion 信用相关设置
 
         #region 领取奖励设置
 
@@ -3054,7 +3055,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        #endregion
+        #endregion 领取奖励设置
 
         #region 定时设置
 
@@ -3211,7 +3212,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        #endregion
+        #endregion 定时设置
 
         #region 刷理智设置
 
@@ -3401,7 +3402,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        #endregion
+        #endregion 刷理智设置
 
         #region 自动公招设置
 
@@ -3618,7 +3619,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        #endregion
+        #endregion 自动公招设置
 
         #region 软件更新设置
 
@@ -3968,7 +3969,7 @@ namespace MaaWpfGui.ViewModels.UI
             Instances.WindowManager.ShowWindow(Instances.VersionUpdateViewModel);
         }
 
-        #endregion
+        #endregion 软件更新设置
 
         #region 连接设置
 
@@ -4249,38 +4250,6 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            private string _index = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12Index, "0");
-
-            /// <summary>
-            /// Gets or sets the index of the emulator.
-            /// </summary>
-            public string Index
-            {
-                get => _index;
-                set
-                {
-                    Instances.AsstProxy.Connected = false;
-                    SetAndNotify(ref _index, value);
-                    ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12Index, value);
-                }
-            }
-
-            private string _display = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12Display, "0");
-
-            /// <summary>
-            /// Gets or sets the display of the emulator.
-            /// </summary>
-            public string Display
-            {
-                get => _display;
-                set
-                {
-                    Instances.AsstProxy.Connected = false;
-                    SetAndNotify(ref _display, value);
-                    ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12Display, _display);
-                }
-            }
-
             public string Config
             {
                 get
@@ -4293,8 +4262,7 @@ namespace MaaWpfGui.ViewModels.UI
                     var configObject = new JObject
                     {
                         ["path"] = EmulatorPath,
-                        ["index"] = int.TryParse(Index, out var indexParse) ? indexParse : 0,
-                        ["display"] = int.TryParse(Display, out var displayParse) ? displayParse : 0,
+                        ["client_type"] = Instances.SettingsViewModel.ClientType,
                     };
                     return JsonConvert.SerializeObject(configObject);
                 }
@@ -4988,7 +4956,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool AdbReplaced { get; set; } = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AdbReplaced, bool.FalseString));
 
-        #endregion
+        #endregion 连接设置
 
         #region 界面设置
 
@@ -5396,6 +5364,7 @@ namespace MaaWpfGui.ViewModels.UI
                     case "OperNameLanguageClient":
                         ConfigurationHelper.SetValue(ConfigurationKeys.OperNameLanguage, value);
                         break;
+
                     case "OperNameLanguageMAA":
                     default:
                         ConfigurationHelper.SetValue(ConfigurationKeys.OperNameLanguage, "OperNameLanguageMAA");
@@ -5450,7 +5419,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        #endregion
+        #endregion 界面设置
 
         #region HotKey
 
@@ -5484,7 +5453,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        #endregion
+        #endregion HotKey
 
         #region 配置
 
@@ -5557,7 +5526,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        #endregion
+        #endregion 配置
 
         #region SettingsGuide
 
