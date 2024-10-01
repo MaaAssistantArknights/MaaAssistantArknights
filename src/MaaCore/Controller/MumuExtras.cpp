@@ -22,7 +22,13 @@ bool MumuExtras::init(const std::filesystem::path& mumu_path, int mumu_inst_inde
 
     mumu_path_ = mumu_path;
     mumu_inst_index_ = mumu_inst_index;
-    package_name_ = std::move(package_name);
+    if (!package_name.empty()) {
+        package_name_ = std::move(package_name);
+    }
+    else {
+        // mumu 的约定，default 给的是最前端 tab
+        package_name_ = "default";
+    }
 
     inited_ = load_mumu_library() && connect_mumu() && init_screencap();
 
@@ -49,16 +55,17 @@ std::optional<cv::Mat> MumuExtras::screencap()
         return std::nullopt;
     }
 
+    int display_id = get_display_id();
     int ret = capture_display_func_(
         mumu_handle_,
-        mumu_display_id_,
+        display_id,
         static_cast<int>(display_buffer_.size()),
         &display_width_,
         &display_height_,
         display_buffer_.data());
 
     if (ret) {
-        LogError << "Failed to capture display" << VAR(ret) << VAR(mumu_handle_) << VAR(mumu_display_id_)
+        LogError << "Failed to capture display" << VAR(ret) << VAR(mumu_handle_) << VAR(display_id)
                  << VAR(display_buffer_.size()) << VAR(display_width_) << VAR(display_height_);
         return std::nullopt;
     }
@@ -167,15 +174,14 @@ bool MumuExtras::init_screencap()
         return false;
     }
 
-    const char* pkg = package_name_.empty() ? "default" : package_name_.c_str();
-    mumu_display_id_ = get_display_id_func_(mumu_handle_, pkg, 0);
-    LogInfo << "Get display id" << VAR(mumu_display_id_) << VAR(pkg);
+    int display_id = get_display_id();
+    LogInfo << "Get display id" << VAR(display_id);
 
-    int ret = capture_display_func_(mumu_handle_, mumu_display_id_, 0, &display_width_, &display_height_, nullptr);
+    int ret = capture_display_func_(mumu_handle_, display_id, 0, &display_width_, &display_height_, nullptr);
 
     // mumu 的文档给错了，这里 0 才是成功
     if (ret) {
-        LogError << "Failed to capture display" << VAR(ret) << VAR(mumu_handle_) << VAR(mumu_display_id_);
+        LogError << "Failed to capture display" << VAR(ret) << VAR(mumu_handle_) << VAR(display_id);
         return false;
     }
 
@@ -193,5 +199,16 @@ void MumuExtras::disconnect_mumu()
         disconnect_func_(mumu_handle_);
     }
 }
+
+int MumuExtras::get_display_id()
+{
+    if (!get_display_id_func_) {
+        LogError << "get_display_id_func_ is null";
+        return 0;
+    }
+
+    return get_display_id_func_(mumu_handle_, package_name_.c_str(), 0);
 }
+} // namespace asst
+
 #endif

@@ -35,12 +35,12 @@ private:
     bool connect_mumu();
     bool init_screencap();
     void disconnect_mumu();
+    int get_display_id();
 
 private:
     std::filesystem::path mumu_path_;
     std::string package_name_;
     int mumu_inst_index_ = 0;
-    int mumu_display_id_ = 0;
 
     int mumu_handle_ = 0;
     int display_width_ = 0;
