@@ -1023,6 +1023,14 @@
         "sortId": 10021,
         "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
     },
+    "LMTGS_COIN_4401": {
+        "classifyType": "NORMAL",
+        "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
+        "icon": "LMTGS_COIN_4401.png",
+        "name": "尋訪數據契約",
+        "sortId": 10022,
+        "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
@@ -1550,6 +1558,46 @@
         "name": "劣質燃料",
         "sortId": -10000,
         "usage": "從達維鎮及周圍地區回收來的可燃物，熱值低，燃燒時會產生大量濃煙，不過能源塔旁有位老工人願意用礦廠的物資來換取這些燃料。"
+    },
+    "act29side_frag_1": {
+        "classifyType": "NONE",
+        "description": "叩響緊閉的門扉，伸出手去。我們本因歡樂而彼此聯結。",
+        "icon": "act29side_frag_1.png",
+        "name": "樂之節符",
+        "sortId": 5200001,
+        "usage": "一片剝落的回憶被術法封存，循著名為“情緒”的節拍在掌心鼓動。先於遺忘，它會被鑄成鑰匙。"
+    },
+    "act29side_frag_2": {
+        "classifyType": "NONE",
+        "description": "叩響緊閉的門扉，伸出手去。我們本因憤怒而彼此聯結。",
+        "icon": "act29side_frag_2.png",
+        "name": "怒之節符",
+        "sortId": 5200002,
+        "usage": "一片剝落的回憶被術法封存，循著名為“情緒”的節拍在掌心鼓動。先於遺忘，它會被鑄成鑰匙。"
+    },
+    "act29side_frag_3": {
+        "classifyType": "NONE",
+        "description": "叩響緊閉的門扉，伸出手去。我們本因哀傷而彼此聯結。",
+        "icon": "act29side_frag_3.png",
+        "name": "哀之節符",
+        "sortId": 5200003,
+        "usage": "一片剝落的回憶被術法封存，循著名為“情緒”的節拍在掌心鼓動。先於遺忘，它會被鑄成鑰匙。"
+    },
+    "act29side_frag_4": {
+        "classifyType": "NONE",
+        "description": "叩響緊閉的門扉，伸出手去。我們本因恐懼而彼此聯結。",
+        "icon": "act29side_frag_4.png",
+        "name": "懼之節符",
+        "sortId": 5200004,
+        "usage": "一片剝落的回憶被術法封存，循著名為“情緒”的節拍在掌心鼓動。先於遺忘，它會被鑄成鑰匙。"
+    },
+    "act29side_token_erin": {
+        "classifyType": "NONE",
+        "description": "遠去的回憶散落在萊塔尼亞的百年都城，承載它們的是支離破碎的樂段。也許同如今的萊塔尼亞一樣，它們亦需要經過調律才能被聽聞。",
+        "icon": "act29side_token_erin.png",
+        "name": "調律追憶",
+        "sortId": -10000,
+        "usage": "飄落在崔林特爾梅街巷的樹葉，時而能在其上拾到遺落的樂句。將它們交給演奏會上的尋律之人，他們會回以音樂的饋贈。"
     },
     "act2bossrush_milestone_point": {
         "classifyType": "NONE",
@@ -2110,6 +2158,14 @@
         "name": "羅德島物資補給VI",
         "sortId": 60109,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
+    },
+    "randomMaterial_leith2": {
+        "classifyType": "CONSUME",
+        "description": "“儘管內裡如心聲般各不相似，它們也足以成為你探尋真相的助力。跟隨尚未忘卻的迴響，你終會抓住那個答案。”",
+        "icon": "randomMaterial_leith2.png",
+        "name": "查訪補給",
+        "sortId": 60113,
+        "usage": "不知何人將其交予你，裝有各種物資補給，包含多種隨機材料。"
     },
     "randomMaterial_rhine2": {
         "classifyType": "CONSUME",

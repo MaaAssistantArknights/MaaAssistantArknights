@@ -359,8 +359,7 @@
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource AllowUseStoneSave}"
-                IsChecked="{Binding AllowUseStoneSave}"
-                ToolTip="{DynamicResource UseRemainingSanityStageTip}" />
+                IsChecked="{Binding AllowUseStoneSave}" />
             <CheckBox Margin="0,10" IsChecked="{Binding UseExpiringMedicine}">
                 <TextBlock
                     Block.TextAlignment="Left"

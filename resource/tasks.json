@@ -2171,7 +2171,8 @@
             "StartUpConnectingFlag",
             "MainThemes#next",
             "CloseAnnos#next",
-            "OfflineConfirm"
+            "OfflineConfirm",
+            "GameStartUpdateOCR"
         ]
     },
     "StartUpBegin": {
@@ -2191,6 +2192,14 @@
         "maskRange": [1, 255],
         "reduceOtherTimes": ["StartButton1", "StartButton2"],
         "next": ["StartUpThemes#next", "GameStart@LoadingIcon"]
+    },
+    "GameStartUpdateOCR": {
+        "doc": "开始唤醒时遇到更新下载",
+        "algorithm": "OcrDetect",
+        "text": ["正在释放神经递质", "MB"],
+        "roi": [340, 660, 600, 60],
+        "postDelay": 5000,
+        "next": ["#self", "StartUpThemes#next"]
     },
     "StartToWakeUp": {
         "action": "ClickSelf",
@@ -4429,7 +4438,7 @@
         "action": "ClickSelf",
         "roi": [1155, 41, 125, 679],
         "templThreshold": 0.7,
-        "maskRange": [100, 255],
+        "maskRange": [100, 140],
         "postDelay": 500
     },
     "BattleQuickFormationFilter": {
@@ -4884,6 +4893,10 @@
     "BattleHpFlag2": {
         "roi": [400, 0, 650, 60],
         "rectMove": [40, 0, 100, 35]
+    },
+    "BattleCostFlag": {
+        "doc": "识别战斗部署费用数字左侧的图标，用于检测是否处于战斗界面",
+        "roi": [1160, 495, 45, 45]
     },
     "BattleUseSkillJustClick": {
         "algorithm": "JustReturn",
@@ -7071,7 +7084,7 @@
     "Roguelike@StageTraderRefreshWithDice": {
         "template": "Roguelike@StageTraderRefresh.png",
         "action": "ClickSelf",
-        "roi": [230, 47, 211, 139],
+        "roi": [230, 47, 211, 182],
         "next": [
             "Roguelike@StageTraderRefreshWithDiceConfirm",
             "Roguelike@StageTraderRefreshWithDiceNotAvaiable",
@@ -11901,6 +11914,7 @@
     "Tales@RA@LeaveCurrentZone": {
         "doc": "模板任务: 在行动中点击左上角离开当前区块, 注意左上角离开按钮渐变出现, 期间点击无效",
         "roi": [41, 22, 78, 71],
+        "templThreshold": 0.75,
         "action": "ClickSelf"
     },
     "Tales@RA@LoadSave": {

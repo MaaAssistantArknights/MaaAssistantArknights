@@ -1273,6 +1273,7 @@ namespace MaaWpfGui.Main
                     {
                         string allDrops = string.Empty;
                         var statistics = subTaskDetails!["stats"] ?? new JArray();
+                        var stageInfo = subTaskDetails!["stage"] ?? new JObject();
                         int curTimes = (int)(subTaskDetails["cur_times"] ?? -1);
 
                         foreach (var item in statistics)
@@ -1283,8 +1284,8 @@ namespace MaaWpfGui.Main
                                 itemName = LocalizationHelper.GetString("FurnitureDrop");
                             }
 
-                            int totalQuantity = (int)item["quantity"];
-                            int addQuantity = (int)item["addQuantity"];
+                            int totalQuantity = (int)(item["quantity"] ?? -1);
+                            int addQuantity = (int)(item["addQuantity"] ?? -1);
 
                             allDrops += $"{itemName} : {totalQuantity:#,#}";
                             if (addQuantity > 0)
@@ -1295,15 +1296,18 @@ namespace MaaWpfGui.Main
                             allDrops += "\n";
                         }
 
+                        var stageCode = stageInfo["stageCode"]?.ToString();
                         allDrops = allDrops.EndsWith('\n') ? allDrops.TrimEnd('\n') : LocalizationHelper.GetString("NoDrop");
                         Instances.TaskQueueViewModel.AddLog(
-                            LocalizationHelper.GetString("TotalDrop") + "\n" + allDrops +
-                            (curTimes >= 0 ? $"\n{LocalizationHelper.GetString("CurTimes")} : {curTimes}" : string.Empty));
+                            $"{stageCode} {LocalizationHelper.GetString("TotalDrop")}\n" +
+                            $"{allDrops}{(curTimes >= 0
+                                ? $"\n{LocalizationHelper.GetString("CurTimes")} : {curTimes}"
+                                : string.Empty)}");
                         break;
                     }
 
                 case "EnterFacility":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") + subTaskDetails!["facility"] + " " + (int)subTaskDetails["index"]);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") + subTaskDetails!["facility"] + " " + (int)(subTaskDetails["index"] ?? -1));
                     break;
 
                 case "ProductIncorrect":

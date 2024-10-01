@@ -69,6 +69,7 @@
 
         <ComboBox
             Margin="0,5"
+            HorizontalContentAlignment="Stretch"
             hc:InfoElement.Title="{DynamicResource ConnectionAddress}"
             IsEditable="True"
             ItemsSource="{Binding ConnectAddressHistory}"
@@ -78,7 +79,7 @@
             Visibility="{c:Binding !AutoDetectConnection}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Width="{c:Binding 'ActualWidth - 20', RelativeSource={RelativeSource AncestorType=ComboBox}}">
+                    <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
