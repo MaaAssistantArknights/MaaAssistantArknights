@@ -91,7 +91,7 @@ protected:
 
     virtual void clear_info() noexcept;
     void callback(AsstMsg msg, const json::value& details);
-    int get_mumu_index(const std::string& address);
+    static int get_mumu_index(const std::string& address);
     void init_mumu_extras(const AdbCfg& adb_cfg, const std::string& address);
     void init_ld_extras(const AdbCfg& adb_cfg);
 

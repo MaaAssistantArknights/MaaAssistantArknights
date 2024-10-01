@@ -216,9 +216,11 @@ int asst::AdbController::get_mumu_index(const std::string& address)
     return mumu_index;
 }
 
-void asst::AdbController::init_mumu_extras(const AdbCfg& adb_cfg [[maybe_unused]], const std::string& address)
+void asst::AdbController::init_mumu_extras(const AdbCfg& adb_cfg, const std::string& address)
 {
 #if !ASST_WITH_EMULATOR_EXTRAS
+    std::ignore = adb_cfg;
+    std::ignore = address;
     Log.error("MaaCore is not compiled with ASST_WITH_EMULATOR_EXTRAS");
 #else
     if (adb_cfg.extras.empty()) {
