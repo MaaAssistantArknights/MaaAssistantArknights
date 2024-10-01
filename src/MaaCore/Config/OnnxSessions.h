@@ -29,6 +29,6 @@ namespace asst
         Ort::SessionOptions m_options;
         std::unordered_map<std::string, Ort::Session> m_sessions;
         std::unordered_map<std::string, std::filesystem::path> m_model_paths;
-        bool gpu_enabled;
+        bool gpu_enabled = false;
     };
 }
