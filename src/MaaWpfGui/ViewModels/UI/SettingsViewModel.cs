@@ -3112,7 +3112,6 @@ namespace MaaWpfGui.ViewModels.UI
                     get => _hour;
                     set
                     {
-                        value = value is >= 0 and <= 23 ? value : _hour;
                         SetAndNotify(ref _hour, value);
                         ConfigurationHelper.SetTimerHour(TimerId, _hour.ToString());
                     }
@@ -3128,7 +3127,6 @@ namespace MaaWpfGui.ViewModels.UI
                     get => _min;
                     set
                     {
-                        value = value is >= 0 and <= 59 ? value : _min;
                         SetAndNotify(ref _min, value);
                         ConfigurationHelper.SetTimerMin(TimerId, _min.ToString());
                     }

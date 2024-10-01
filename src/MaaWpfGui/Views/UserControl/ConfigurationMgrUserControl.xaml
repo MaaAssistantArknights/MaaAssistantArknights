@@ -27,6 +27,7 @@
             Margin="10"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
+            HorizontalContentAlignment="Stretch"
             IsEditable="True"
             IsHitTestVisible="{Binding Idle}"
             IsReadOnly="True"
@@ -35,7 +36,7 @@
             SelectedValuePath="Value">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Width="{c:Binding 'ActualWidth - 20', RelativeSource={RelativeSource AncestorType=ComboBox}}">
+                    <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />

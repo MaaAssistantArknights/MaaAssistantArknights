@@ -157,7 +157,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         private void ClearLog()
         {
-            LogItemViewModels.Clear();
+            Execute.OnUIThread(() => LogItemViewModels.Clear());
         }
 
         private string _filename = string.Empty;

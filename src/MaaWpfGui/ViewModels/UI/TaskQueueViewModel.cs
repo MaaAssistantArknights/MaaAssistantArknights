@@ -21,8 +21,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
-using System.Windows.Threading;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -115,6 +115,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             await Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript"));
             var actions = TaskSettingDataContext.PostActionSetting;
+            _logger.Information("Post actions: " + actions.ActionDescription);
 
             if (actions.BackToAndroidHome)
             {
@@ -218,7 +219,7 @@ namespace MaaWpfGui.ViewModels.UI
                 _logger.Information("Shutdown in 70 seconds.");
                 Process.Start("shutdown.exe", "-s -t 70");
 
-                Instances.MainWindowManager?.Show();
+                await Execute.OnUIThreadAsync(() => Instances.MainWindowManager?.Show());
                 if (await TimerCanceledAsync(
                         LocalizationHelper.GetString("Shutdown"),
                         LocalizationHelper.GetString("AboutToShutdown"),
@@ -299,7 +300,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool Closing { get; set; }
 
-        private readonly DispatcherTimer _timer = new();
+        private readonly Timer _timer = new();
 
         public bool ConfirmExit()
         {
@@ -337,16 +338,25 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void InitTimer()
         {
-            _timer.Interval = TimeSpan.FromSeconds(59);
-            _timer.Tick += Timer1_Elapsed;
+            _timer.Interval = 50 * 1000;
+            _timer.Elapsed += Timer1_Elapsed;
             _timer.Start();
         }
+
+        private DateTime _lastTimerElapsed = DateTime.MinValue;
 
         private async void Timer1_Elapsed(object sender, EventArgs e)
         {
             // 提前记录时间，避免等待超过定时时间
             DateTime currentTime = DateTime.Now;
             currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, currentTime.Minute, 0);
+
+            if (currentTime == _lastTimerElapsed)
+            {
+                return;
+            }
+
+            _lastTimerElapsed = currentTime;
 
             HandleDatePromptUpdate();
             HandleCheckForUpdates();
@@ -412,7 +422,7 @@ namespace MaaWpfGui.ViewModels.UI
             });
         }
 
-        private static (bool timeToStart, bool timeToChangeConfig, int configIndex) CheckTimers(DateTime currentTime)
+        private static (bool _timeToStart, bool _timeToChangeConfig, int _configIndex) CheckTimers(DateTime currentTime)
         {
             bool timeToStart = false;
             bool timeToChangeConfig = false;
@@ -458,6 +468,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             return (timeToStart, timeToChangeConfig, configIndex);
         }
+
         private async Task HandleTimerLogic(DateTime currentTime)
         {
             if (!_runningState.GetIdle() && !Instances.SettingsViewModel.ForceScheduledStart)
@@ -469,12 +480,14 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (timeToChangeConfig)
             {
+                _logger.Information($"Scheduled configuration change: Timer Index: {configIndex}");
                 HandleConfigChange(configIndex);
                 return;
             }
 
             if (timeToStart)
             {
+                _logger.Information($"Scheduled start: Timer Index: {configIndex}");
                 await HandleScheduledStart(configIndex);
             }
         }
@@ -501,7 +514,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (Instances.SettingsViewModel.ShowWindowBeforeForceScheduledStart)
                 {
-                    Instances.MainWindowManager?.Show();
+                    await Execute.OnUIThreadAsync(() => Instances.MainWindowManager?.Show());
                 }
 
                 if (await TimerCanceledAsync(
@@ -534,25 +547,35 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static async Task<bool> TimerCanceledAsync(string content = "", string tipContent = "", string buttonContent = "", int seconds = 10)
         {
-            var delay = TimeSpan.FromSeconds(seconds);
-            var dialogUserControl = new Views.UserControl.TextDialogWithTimerUserControl(
-                content,
-                tipContent,
-                buttonContent,
-                delay.TotalMilliseconds);
-            var dialog = HandyControl.Controls.Dialog.Show(dialogUserControl, nameof(Views.UI.RootView));
-            var tcs = new TaskCompletionSource<bool>();
-            var canceled = false;
-            dialogUserControl.Click += (_, _) =>
+            if (Application.Current.Dispatcher.CheckAccess())
             {
-                canceled = true;
+                return await ShowDialogAsync();
+            }
+
+            return await await Application.Current.Dispatcher.InvokeAsync(ShowDialogAsync);
+
+            async Task<bool> ShowDialogAsync()
+            {
+                var canceled = false;
+                var delay = TimeSpan.FromSeconds(seconds);
+                var dialogUserControl = new Views.UserControl.TextDialogWithTimerUserControl(
+                    content,
+                    tipContent,
+                    buttonContent,
+                    delay.TotalMilliseconds);
+                var dialog = HandyControl.Controls.Dialog.Show(dialogUserControl, nameof(Views.UI.RootView));
+                var tcs = new TaskCompletionSource<bool>();
+                dialogUserControl.Click += (_, _) =>
+                {
+                    canceled = true;
+                    dialog.Close();
+                    tcs.TrySetResult(true);
+                };
+                await Task.WhenAny(Task.Delay(delay), tcs.Task);
                 dialog.Close();
-                tcs.TrySetResult(true);
-            };
-            await Task.WhenAny(Task.Delay(delay), tcs.Task);
-            dialog.Close();
-            _logger.Information($"Timer canceled: {canceled}");
-            return canceled;
+                _logger.Information($"Timer canceled: {canceled}");
+                return canceled;
+            }
         }
 
         /// <summary>
@@ -802,9 +825,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         private void ClearLog()
         {
-            LogItemViewModels.Clear();
-            _logger.Information("Main windows log clear.");
-            _logger.Information(string.Empty);
+            Execute.OnUIThread(() =>
+            {
+                LogItemViewModels.Clear();
+                _logger.Information("Main windows log clear.");
+                _logger.Information(string.Empty);
+            });
         }
 
         /// <summary>

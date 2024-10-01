@@ -5,6 +5,11 @@
     "Mizuki@Roguelike@ChooseDifficultyConfirm": {
         "text": ["Select"]
     },
+    "OD-Open": {
+        "baseTask": "SS-Open",
+        "next": ["ODChapterToOD"],
+        "template": "StageSideStory.png"
+    },
     "ClickChapter1": {
         "text": ["Hour of An Awakening", "Hour of An"]
     },
@@ -26,6 +31,15 @@
     "SideStoryReopen": {
         "text": ["Rerun", "Retrospection"],
         "roi": [0, 500, 500, 150]
+    },
+    "OD-8": {
+        "sub": ["OD-Open"]
+    },
+    "OD-7": {
+        "sub": ["OD-Open"]
+    },
+    "OD-6": {
+        "sub": ["OD-Open"]
     },
     "CR-OpenOcr": {
         "text": ["Skydiving", "stages", "opened"]
@@ -1935,7 +1949,12 @@
             ["Dimensional Fluid", "维度流质"],
             ["Collapsal Seed", "坍缩之种"],
             ["Fragment of Space", "空间碎片"],
-            ["Profound Scorchmarks", "深度灼痕"]
+            ["Profound Scorchmarks", "深度灼痕"],
+            ["Respite", "歇息"],
+            ["Cry", "呼救"],
+            ["Satisfy", "满足"],
+            ["Advent", "到来"],
+            ["Departure", "离去"]
         ]
     },
     "Roguelike@ChooseDifficultyConfirm": {
