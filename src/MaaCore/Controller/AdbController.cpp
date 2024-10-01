@@ -195,7 +195,26 @@ void asst::AdbController::callback(AsstMsg msg, const json::value& details)
     }
 }
 
-void asst::AdbController::init_mumu_extras(const AdbCfg& adb_cfg [[maybe_unused]])
+int asst::AdbController::get_mumu_index(const std::string& address)
+{
+    auto pos = address.find(":");
+    if (pos == std::string::npos) {
+        Log.error("address is invalid", address);
+        return 0;
+    }
+
+    std::string port_str = address.substr(pos + 1);
+    if (port_str.empty() || !ranges::all_of(port_str, [](const char& c) -> bool { return std::isdigit(c); })) {
+        Log.error("port is invalid", port_str);
+        return 0;
+    }
+    int port = std::stoi(port_str);
+    int mumu_index = (port - 16384) / 32;
+    Log.info("mumu_index", mumu_index);
+    return mumu_index;
+}
+
+void asst::AdbController::init_mumu_extras(const AdbCfg& adb_cfg [[maybe_unused]], const std::string& address)
 {
 #if !ASST_WITH_EMULATOR_EXTRAS
     Log.error("MaaCore is not compiled with ASST_WITH_EMULATOR_EXTRAS");
@@ -205,10 +224,11 @@ void asst::AdbController::init_mumu_extras(const AdbCfg& adb_cfg [[maybe_unused]
         return;
     }
 
+    std::string client_type = adb_cfg.extras.get("client_type", "");
+    std::string package_name = Config.get_package_name(client_type).value_or("");
+
     std::filesystem::path mumu_path = utils::path(adb_cfg.extras.get("path", ""));
-    int mumu_index = adb_cfg.extras.get("index", 0);
-    std::string package_name = adb_cfg.extras.get("package_name", "");
-    m_mumu_extras.init(mumu_path, mumu_index, package_name);
+    m_mumu_extras.init(mumu_path, get_mumu_index(address), package_name);
 #endif
 }
 
@@ -994,7 +1014,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
     }
 
     if (config == "MuMuEmulator12") {
-        init_mumu_extras(adb_cfg);
+        init_mumu_extras(adb_cfg, address);
     }
     else if (config == "LDPlayer") {
         init_ld_extras(adb_cfg);

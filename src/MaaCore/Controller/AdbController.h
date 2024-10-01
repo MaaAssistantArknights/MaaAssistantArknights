@@ -12,14 +12,12 @@
 #include "Common/AsstMsg.h"
 #include "Config/GeneralConfig.h"
 #include "InstHelper.h"
-#include "MumuExtras.h"
 #include "LDExtras.h"
+#include "MumuExtras.h"
 
 namespace asst
 {
-class AdbController
-    : public ControllerAPI
-    , protected InstHelper
+class AdbController : public ControllerAPI, protected InstHelper
 {
 public:
     AdbController(const AsstCallback& callback, Assistant* inst, PlatformType type);
@@ -27,10 +25,7 @@ public:
     AdbController(AdbController&&) = delete;
     virtual ~AdbController();
 
-    virtual bool connect(
-        const std::string& adb_path,
-        const std::string& address,
-        const std::string& config) override;
+    virtual bool connect(const std::string& adb_path, const std::string& address, const std::string& config) override;
 
     virtual void set_kill_adb_on_exit(bool enable) noexcept override;
 
@@ -58,17 +53,11 @@ public:
         double slope_out = 1,
         bool with_pause = false) override;
 
-    virtual bool inject_input_event([[maybe_unused]] const InputEvent& event) override
-    {
-        return false;
-    }
+    virtual bool inject_input_event([[maybe_unused]] const InputEvent& event) override { return false; }
 
     virtual bool press_esc() override;
 
-    virtual ControlFeat::Feat support_features() const noexcept override
-    {
-        return ControlFeat::NONE;
-    }
+    virtual ControlFeat::Feat support_features() const noexcept override { return ControlFeat::NONE; }
 
     virtual std::pair<int, int> get_screen_res() const noexcept override;
 
@@ -84,8 +73,7 @@ protected:
         bool allow_reconnect = true,
         bool recv_by_socket = false);
 
-    virtual std::optional<std::string>
-        reconnect(const std::string& cmd, int64_t timeout, bool recv_by_socket);
+    virtual std::optional<std::string> reconnect(const std::string& cmd, int64_t timeout, bool recv_by_socket);
 
     void release();
 
@@ -103,7 +91,8 @@ protected:
 
     virtual void clear_info() noexcept;
     void callback(AsstMsg msg, const json::value& details);
-    void init_mumu_extras(const AdbCfg& adb_cfg);
+    int get_mumu_index(const std::string& address);
+    void init_mumu_extras(const AdbCfg& adb_cfg, const std::string& address);
     void init_ld_extras(const AdbCfg& adb_cfg);
 
     // 转换 data 中的 CRLF 为 LF：有些模拟器自带的 adb，exec-out 输出的 \n 会被替换成 \r\n，
