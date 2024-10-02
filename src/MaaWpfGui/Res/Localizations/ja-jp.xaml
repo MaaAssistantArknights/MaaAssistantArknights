@@ -892,8 +892,7 @@
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">このお知らせをもう表示しない</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
-    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">詳細設定のオプションでモードを切り替えることができます
-
+    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
 生息演算のサポートはまだ初期段階にありますので、ご利用の際は以下の点にご注意ください：
 
  初期設定でポイントを稼ぐ：（既存のセーブデータが削除されることに注意してください）
