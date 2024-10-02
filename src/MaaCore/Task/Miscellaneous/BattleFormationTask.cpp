@@ -431,7 +431,7 @@ bool asst::BattleFormationTask::click_role_table(battle::Role role)
         tasks = { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" };
     }
     else {
-        tasks = { "BattleQuickFormationRole-" + role_iter->second };
+        tasks = { "BattleQuickFormationRole-" + role_iter->second, "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR"};
     }
     return ProcessTask(*this, tasks).set_retry_times(0).run();
 }
