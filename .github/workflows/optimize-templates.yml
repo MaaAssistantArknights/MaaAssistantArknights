@@ -70,7 +70,7 @@ jobs:
             if [ -z "$commit_msg" ]; then
               commit_msg="chore: Auto Templates Optimization"
             fi
-            git commit -m "$commit_msg" -m "[skip changelog]"
+            git commit -m "$commit_msg" -m "Triggered by ${{github.sha}}" -m "[skip changelog]"
             git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
             echo "have_commits=True" >> $GITHUB_OUTPUT
           fi
