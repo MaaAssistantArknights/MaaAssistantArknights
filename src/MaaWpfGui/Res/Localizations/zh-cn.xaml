@@ -893,8 +893,7 @@
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">不再提示此公告</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
-    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">可通过高级设置中的选项切换模式
-
+    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
 目前生息演算的支持仍处于中期阶段，使用时请注意以下几点：
 
  通过开局刷点数：(小心已有存档被删除)

@@ -4437,8 +4437,10 @@
         "template": "empty.png",
         "action": "ClickSelf",
         "roi": [1155, 41, 125, 679],
+        "method": "RGBCount",
         "templThreshold": 0.7,
-        "maskRange": [100, 140],
+        "colorScales": [[90, 150]],
+        "colorWithClose": false,
         "postDelay": 500
     },
     "BattleQuickFormationFilter": {

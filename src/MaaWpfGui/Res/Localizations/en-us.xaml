@@ -891,8 +891,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">Do not show this announcement again</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
-    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">Different modes are available in advanced settings.
-
+    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
 The support for reclamation algorithm is still under development at present. Please mind the following:
 
 Farm points through initial setup: (Be careful that existing save files might be deleted)

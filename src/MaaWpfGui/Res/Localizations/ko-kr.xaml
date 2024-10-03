@@ -893,8 +893,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">이 공지사항을 더 이상 표시하지 않음</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
-    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">고급 설정에서 모드를 전환할 수 있습니다.
-
+    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
 현재 생존연산 기능은 초기 단계이며, 다음 사항을 주의하세요:
 
 생존연산 메인 화면에서 작업을 시작해야 합니다
