@@ -18,14 +18,6 @@
     mc:Ignorable="d">
     <StackPanel>
         <StackPanel Visibility="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}">
-            <controls:TextBlock
-                Margin="5,10,5,10"
-                Style="{StaticResource TextBlockDefault}"
-                Text="{DynamicResource ReclamationEarlyTip}"
-                TextWrapping="Wrap" />
-        </StackPanel>
-
-        <StackPanel Visibility="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}">
             <ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource ReclamationTheme}"
@@ -42,6 +34,14 @@
                 SelectedValue="{Binding ReclamationMode}"
                 SelectedValuePath="Value"
                 Style="{StaticResource ComboBoxExtend}" />
+            <controls:TextBlock
+                Margin="5,10,5,10"
+                Style="{StaticResource TextBlockDefault}"
+                Text="{DynamicResource ReclamationEarlyTip}"
+                TextWrapping="Wrap" />
+        </StackPanel>
+
+        <StackPanel Visibility="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}">
             <TextBox
                 Margin="0,10"
                 VerticalContentAlignment="Center"

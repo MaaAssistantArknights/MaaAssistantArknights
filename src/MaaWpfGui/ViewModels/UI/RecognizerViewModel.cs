@@ -20,11 +20,13 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using HandyControl.Controls;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.States;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Serilog;
 using Stylet;
 using Timer = System.Timers.Timer;
 
@@ -36,6 +38,7 @@ namespace MaaWpfGui.ViewModels.UI
     public class RecognizerViewModel : Screen
     {
         private readonly RunningState _runningState;
+        private static readonly ILogger _logger = Log.ForContext<RecognizerViewModel>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecognizerViewModel"/> class.
@@ -882,13 +885,36 @@ namespace MaaWpfGui.ViewModels.UI
         private int _peepImageCount;
         private int _peepImageNewestCount;
 
-        private static readonly SemaphoreSlim _peepImageSemaphore = new(2, 5);
+        private static int _peepImageSemaphoreCurrentCount = 2;
+        private const int PeepImageSemaphoreMaxCount = 5;
+        private static int _peepImageSemaphoreFailCount = 0;
+        private static readonly SemaphoreSlim _peepImageSemaphore = new(_peepImageSemaphoreCurrentCount, PeepImageSemaphoreMaxCount);
 
         private async void RefreshPeepImageAsync(object? sender, EventArgs? e)
         {
             if (!await _peepImageSemaphore.WaitAsync(0))
             {
-                _peepImageSemaphore.Release();
+                // 一秒内连续三次未能获取信号量，降低 FPS
+                if (++_peepImageSemaphoreFailCount < 3)
+                {
+                    return;
+                }
+
+                _peepImageSemaphoreFailCount = 0;
+
+                if (_peepImageSemaphoreCurrentCount < PeepImageSemaphoreMaxCount)
+                {
+                    _peepImageSemaphoreCurrentCount++;
+                    _peepImageSemaphore.Release();
+                    return;
+                }
+
+                _logger.Warning($"Gacha Semaphore Full, Reduce fps count to {--PeepTargetFps}");
+                _ = Execute.OnUIThreadAsync(() =>
+                {
+                    Growl.Clear();
+                    Growl.Warning($"Screenshot taking too long, reduce FPS to {PeepTargetFps}");
+                });
                 return;
             }
 
@@ -915,6 +941,7 @@ namespace MaaWpfGui.ViewModels.UI
                 var frameCount = Interlocked.Exchange(ref _frameCount, 0);
                 _lastFpsUpdateTime = now;
                 PeepScreenFpf = frameCount / totalSeconds;
+                _peepImageSemaphoreFailCount = 0;
             }
             finally
             {
