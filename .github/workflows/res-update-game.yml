@@ -195,7 +195,7 @@ jobs:
           Write-Output "gitdiff=$(git diff --name-only --diff-filter=ACM 2>$null | Select-String -Pattern '\.json$' -List)" >> $env:GITHUB_OUTPUT
 
       - name: Run prettier
-        uses: actionsx/prettier@v3
+        uses: Nerixyz/actionsx-prettier@v3-adj
         with:
           args: -w ${{ steps.task_sorting.outputs.gitdiff }}
 
