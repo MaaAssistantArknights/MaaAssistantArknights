@@ -259,12 +259,11 @@ jobs:
 
       - name: Push changes
         if: steps.add_files.outputs.have_commits == 'True'
-        env:
-          GITHUB_TOKEN: ${{ secrets.MAA_RESOURCE_SYNC }}
-        run: |
-          git remote set-url origin https://x-access-token:${{ secrets.MAA_RESOURCE_SYNC }}@github.com/${{ github.repository }}.git
-          git push 
-
+        uses: ad-m/github-push-action@master
+        with:
+          branch: ${{ github.ref }}
+          github_token: ${{ secrets.MAA_RESOURCE_SYNC }}
+  
       - name: Update OTA resource
         if: steps.add_files.outputs.have_commits == 'True'
         env:
