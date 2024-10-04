@@ -1,10 +1,9 @@
 {
-
-    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
-        "text": ["Select"]
-    },
     "HS-Open": {
         "baseTask": "SS-Open"
+    },
+    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
+        "text": ["Select"]
     },
     "OD-Open": {
         "baseTask": "SS-Open",
