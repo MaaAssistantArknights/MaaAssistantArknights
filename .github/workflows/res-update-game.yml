@@ -261,7 +261,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.MAA_RESOURCE_SYNC }}
         run: |
-          git push origin HEAD:${{ github.ref }} 
+          git push 
 
       - name: Update OTA resource
         if: steps.add_files.outputs.have_commits == 'True'
