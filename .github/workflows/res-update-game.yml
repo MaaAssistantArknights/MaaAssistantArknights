@@ -132,6 +132,7 @@ jobs:
           # actions/checkout uses ${{ secrets.GITHUB_TOKEN }} by default, meaning all steps will inherit it
           persist-credentials: false # Needed to bypass protection rules in Push changes
           show-progress: false
+          fetch-depth: 2
 
       - name: Restore ResourceUpdater.exe from cache
         id: cache-resupd
