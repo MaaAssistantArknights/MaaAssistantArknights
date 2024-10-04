@@ -1,4 +1,7 @@
 {
+    "HS-Open": {
+        "baseTask": "SS-Open"
+    },
     "Mizuki@Roguelike@ChooseDifficultyConfirm": {
         "text": ["Select"]
     },
@@ -6,9 +9,6 @@
         "baseTask": "SS-Open",
         "next": ["ODChapterToOD"],
         "template": "StageSideStory.png"
-    },
-        "HS-Open": {
-        "baseTask": "SS-Open"
     },
     "ClickChapter1": {
         "text": ["Hour of An Awakening", "Hour of An"]
