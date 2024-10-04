@@ -263,7 +263,7 @@ jobs:
         with:
           branch: ${{ github.ref }}
           github_token: ${{ secrets.MAA_RESOURCE_SYNC }}
-  
+
       - name: Update OTA resource
         if: steps.add_files.outputs.have_commits == 'True'
         env:
