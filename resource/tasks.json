@@ -11875,7 +11875,7 @@
     },
     "Tales@RA@Craft": {
         "doc": "模板任务: 点击开始组装图标",
-        "roi": [982, 500, 51, 50],
+        "roi": [982, 500, 80, 50],
         "action": "ClickSelf"
     },
     "Tales@RA@DialogConfirmRed": {
