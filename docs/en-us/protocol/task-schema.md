@@ -114,7 +114,7 @@ Usage of `resource/tasks.json` and description of each field
                                             // Default is Ccoeff if not specified
                                             //      - Ccoeff:       Template matching algorithm insensitive to color, corresponds to cv::TM_CCOEFF_NORMED
                                             //      - RGBCount:     Template matching algorithm sensitive to color,
-                                            //                      First binarize the region to be matched and the template image based on maskRange,
+                                            //                      First binarize the region to be matched and the template image based on colorScales,
                                             //                      Calculate the similarity in RGB color space using F1-score as the indicator,
                                             //                      Then dot the result with the Ccoeff result
                                             //      - HSVCount:     Similar to RGBCount, but the color space is changed to HSV
