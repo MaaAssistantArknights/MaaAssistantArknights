@@ -4320,6 +4320,38 @@ namespace MaaWpfGui.ViewModels.UI
                     if (value)
                     {
                         MessageBoxHelper.Show(LocalizationHelper.GetString("LdExtrasEnabledTip"));
+
+                        // 读取 LD 注册表地址 并填充GUI
+                        if (string.IsNullOrEmpty(EmulatorPath))
+                        {
+                            try
+                            {
+                                const string UninstallKeyPath = @"Software\leidian\ldplayer9";
+                                const string InstallDirValueName = "InstallDir";
+
+                                using RegistryKey? driverKey = Registry.CurrentUser.OpenSubKey(UninstallKeyPath);
+                                if (driverKey == null)
+                                {
+                                    EmulatorPath = string.Empty;
+                                    return;
+                                }
+
+                                string? installDir = driverKey.GetValue(InstallDirValueName) as string;
+
+                                if (string.IsNullOrEmpty(installDir))
+                                {
+                                    EmulatorPath = string.Empty;
+                                    return;
+                                }
+
+                                EmulatorPath = installDir;
+                            }
+                            catch (Exception e)
+                            {
+                                _logger.Warning($"An error occurred: {e.Message}");
+                                EmulatorPath = string.Empty;
+                            }
+                        }
                     }
 
                     Instances.AsstProxy.Connected = false;
