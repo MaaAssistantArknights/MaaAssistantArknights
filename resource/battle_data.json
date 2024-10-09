@@ -122,6 +122,18 @@
             "rangeId": ["3-3", "3-17", "3-17"],
             "rarity": 6
         },
+        "char_1019_siege2": {
+            "name": "维娜·维多利亚",
+            "name_en": "维娜·维多利亚",
+            "name_jp": "维娜·维多利亚",
+            "name_kr": "维娜·维多利亚",
+            "name_tw": "维娜·维多利亚",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": ["1-1", "1-1", "1-1"],
+            "rarity": 6,
+            "tokens": ["黄金盟誓"]
+        },
         "char_101_sora": {
             "name": "空",
             "name_en": "Sora",
@@ -3262,6 +3274,17 @@
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 5
         },
+        "char_4162_cathy": {
+            "name": "凯瑟琳",
+            "name_en": "凯瑟琳",
+            "name_jp": "凯瑟琳",
+            "name_kr": "凯瑟琳",
+            "name_tw": "凯瑟琳",
+            "position": "MELEE",
+            "profession": "SUPPORT",
+            "rangeId": ["1-1", "1-1", "1-1"],
+            "rarity": 5
+        },
         "char_416_zumama": {
             "name": "森蚺",
             "name_en": "Eunectes",
@@ -3645,6 +3668,17 @@
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": ["1-2", "1-2", "1-2"],
+            "rarity": 5
+        },
+        "char_487_bobb": {
+            "name": "波卜",
+            "name_en": "波卜",
+            "name_jp": "波卜",
+            "name_kr": "波卜",
+            "name_tw": "波卜",
+            "position": "RANGED",
+            "profession": "SUPPORT",
+            "rangeId": ["y-2", "y-2", "y-2"],
             "rarity": 5
         },
         "char_488_buildr": {
@@ -4416,6 +4450,28 @@
             "profession": "TOKEN",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 6
+        },
+        "token_10040_siege2_vlion": {
+            "name": "黄金盟誓",
+            "name_en": "黄金盟誓",
+            "name_jp": "黄金盟誓",
+            "name_kr": "黄金盟誓",
+            "name_tw": "黄金盟誓",
+            "position": "MELEE",
+            "profession": "TOKEN",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 6
+        },
+        "token_10041_cathy_catsld": {
+            "name": "爬行号·防护单元",
+            "name_en": "爬行号·防护单元",
+            "name_jp": "爬行号·防护单元",
+            "name_kr": "爬行号·防护单元",
+            "name_tw": "爬行号·防护单元",
+            "position": "ALL",
+            "profession": "TOKEN",
+            "rangeId": ["1-1", "1-1", "1-1"],
+            "rarity": 5
         },
         "trap_001_crate": {
             "name": "障碍物",
@@ -6340,6 +6396,28 @@
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
+        "trap_184_vtarsn": {
+            "name": "军工厂指令平台",
+            "name_en": "军工厂指令平台",
+            "name_jp": "军工厂指令平台",
+            "name_kr": "军工厂指令平台",
+            "name_tw": "军工厂指令平台",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
+        "trap_185_vtlntw": {
+            "name": "黄金回响",
+            "name_en": "黄金回响",
+            "name_jp": "黄金回响",
+            "name_kr": "黄金回响",
+            "name_tw": "黄金回响",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["x-1", "x-1", "x-1"],
             "rarity": 1
         },
         "trap_400_xbfarm": {

@@ -10718,6 +10718,96 @@
         "stageId": "act36side_tr01",
         "width": 8
     },
+    "act37side_01-activities/act37side/level_act37side_01": {
+        "code": "GO-1",
+        "filename": "act37side_01-activities-act37side-level_act37side_01.json",
+        "height": 7,
+        "levelId": "activities/act37side/level_act37side_01",
+        "name": "仇怨残余",
+        "stageId": "act37side_01",
+        "width": 9
+    },
+    "act37side_02-activities/act37side/level_act37side_02": {
+        "code": "GO-2",
+        "filename": "act37side_02-activities-act37side-level_act37side_02.json",
+        "height": 7,
+        "levelId": "activities/act37side/level_act37side_02",
+        "name": "痼疾缠身",
+        "stageId": "act37side_02",
+        "width": 9
+    },
+    "act37side_03-activities/act37side/level_act37side_03": {
+        "code": "GO-3",
+        "filename": "act37side_03-activities-act37side-level_act37side_03.json",
+        "height": 7,
+        "levelId": "activities/act37side/level_act37side_03",
+        "name": "议会公决",
+        "stageId": "act37side_03",
+        "width": 9
+    },
+    "act37side_04-activities/act37side/level_act37side_04": {
+        "code": "GO-4",
+        "filename": "act37side_04-activities-act37side-level_act37side_04.json",
+        "height": 7,
+        "levelId": "activities/act37side/level_act37side_04",
+        "name": "酒精与安慰剂",
+        "stageId": "act37side_04",
+        "width": 10
+    },
+    "act37side_05-activities/act37side/level_act37side_05": {
+        "code": "GO-5",
+        "filename": "act37side_05-activities-act37side-level_act37side_05.json",
+        "height": 8,
+        "levelId": "activities/act37side/level_act37side_05",
+        "name": "废铁与铆钉",
+        "stageId": "act37side_05",
+        "width": 10
+    },
+    "act37side_06-activities/act37side/level_act37side_06": {
+        "code": "GO-6",
+        "filename": "act37side_06-activities-act37side-level_act37side_06.json",
+        "height": 8,
+        "levelId": "activities/act37side/level_act37side_06",
+        "name": "“晚饭宣言”",
+        "stageId": "act37side_06",
+        "width": 11
+    },
+    "act37side_07-activities/act37side/level_act37side_07": {
+        "code": "GO-7",
+        "filename": "act37side_07-activities-act37side-level_act37side_07.json",
+        "height": 8,
+        "levelId": "activities/act37side/level_act37side_07",
+        "name": "锈王冠",
+        "stageId": "act37side_07",
+        "width": 11
+    },
+    "act37side_08-activities/act37side/level_act37side_08": {
+        "code": "GO-8",
+        "filename": "act37side_08-activities-act37side-level_act37side_08.json",
+        "height": 8,
+        "levelId": "activities/act37side/level_act37side_08",
+        "name": "战火重铸之剑",
+        "stageId": "act37side_08",
+        "width": 11
+    },
+    "act37side_09-activities/act37side/level_act37side_09": {
+        "code": "GO-9",
+        "filename": "act37side_09-activities-act37side-level_act37side_09.json",
+        "height": 8,
+        "levelId": "activities/act37side/level_act37side_09",
+        "name": "英雄的落幕",
+        "stageId": "act37side_09",
+        "width": 11
+    },
+    "act37side_tr01-activities/act37side/level_act37side_tr01": {
+        "code": "GO-TR-1",
+        "filename": "act37side_tr01-activities-act37side-level_act37side_tr01.json",
+        "height": 7,
+        "levelId": "activities/act37side/level_act37side_tr01",
+        "name": "物资难题",
+        "stageId": "act37side_tr01",
+        "width": 9
+    },
     "act3bossrush_01-activities/act3bossrush/level_bossrush3_01": {
         "code": "TN-1",
         "filename": "act3bossrush_01-activities-act3bossrush-level_bossrush3_01.json",
@@ -17243,6 +17333,15 @@
         "stageId": "mem_12fce_1",
         "width": 9
     },
+    "mem_absin_1-obt/memory/level_memory_absin_1": {
+        "code": "mem_absin_1",
+        "filename": "mem_absin_1-obt-memory-level_memory_absin_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_absin_1",
+        "name": "接力行动",
+        "stageId": "mem_absin_1",
+        "width": 8
+    },
     "mem_acdrop_1-obt/memory/level_memory_acdrop_1": {
         "code": "mem_acdrop_1",
         "filename": "mem_acdrop_1-obt-memory-level_memory_acdrop_1.json",
@@ -17413,6 +17512,15 @@
         "name": " 防卫才能",
         "stageId": "mem_ayer_1",
         "width": 10
+    },
+    "mem_baslin_1-obt/memory/level_memory_baslin_1": {
+        "code": "mem_baslin_1",
+        "filename": "mem_baslin_1-obt-memory-level_memory_baslin_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_baslin_1",
+        "name": "独当一面",
+        "stageId": "mem_baslin_1",
+        "width": 11
     },
     "mem_beewax_1-obt/memory/level_memory_beewax_1": {
         "code": "mem_beewax_1",
@@ -18276,6 +18384,15 @@
         "levelId": "obt/memory/level_memory_iris_1",
         "name": "\t童话愿望",
         "stageId": "mem_iris_1",
+        "width": 10
+    },
+    "mem_ironmn_1-obt/memory/level_memory_ironmn_1": {
+        "code": "mem_ironmn_1",
+        "filename": "mem_ironmn_1-obt-memory-level_memory_ironmn_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_ironmn_1",
+        "name": "远程火力",
+        "stageId": "mem_ironmn_1",
         "width": 10
     },
     "mem_jaksel_1-obt/memory/level_memory_jaksel_1": {
@@ -24198,6 +24315,24 @@
         "levelId": "obt/main/level_sub_09-1-2",
         "name": "背向火灼",
         "stageId": "sub_09-1-2",
+        "width": 12
+    },
+    "sub_09-1-3-obt/main/level_sub_09-1-3": {
+        "code": "S9-3",
+        "filename": "sub_09-1-3-obt-main-level_sub_09-1-3.json",
+        "height": 8,
+        "levelId": "obt/main/level_sub_09-1-3",
+        "name": "灰烬之下",
+        "stageId": "sub_09-1-3",
+        "width": 12
+    },
+    "sub_09-1-4-obt/main/level_sub_09-1-4": {
+        "code": "S9-4",
+        "filename": "sub_09-1-4-obt-main-level_sub_09-1-4.json",
+        "height": 8,
+        "levelId": "obt/main/level_sub_09-1-4",
+        "name": "退无可退",
+        "stageId": "sub_09-1-4",
         "width": 12
     },
     "tough_10-01-obt/main/level_tough_10-01": {
