@@ -5,6 +5,20 @@ icon: mdi:plug
 
 # Connection
 
+## Automatic Detection
+
+MAA can automatically detect and fill in the ADB path, connection address, and connection present through the **currently running single emulator**.
+
+As of MAA v5.7.0, the supported emulators and connection addresses for detection are as follows:
+
+- BlueStacks 5: `127.0.0.1:5555/5556/5565/5575/5585/5595/5554`
+- MuMu Emulator 12: `127.0.0.1:16384/16416/16448/16480/16512/16544/16576`
+- LDPlayer 9: `emulator-5554/5556/5558/5560`, `127.0.0.1:5555/5556/5554`
+- NoxPlayer: `127.0.0.1:62001/59865`
+- Memu: `127.0.0.1:21503`
+
+If detection fails, try launching MAA with UAC administrator privileges and retry detection. If it still fails, please refer to the manual setup below and verify whether the emulator and connection address are included in the list above.
+
 ## ADB Path
 
 :::info Technical Details
