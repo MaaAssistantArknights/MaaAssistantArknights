@@ -35,6 +35,12 @@
     "SideStoryReopen": {
         "text": ["재개방"]
     },
+    "BB-OpenOcr": {
+        "text": ["바벨", "개방", "이벤트"]
+    },
+    "BBChapterToBB": {
+        "text": ["미래", "선사", "하리라"]
+    },
     "OD-8": {
         "sub": ["OD-Open"]
     },
