@@ -62,6 +62,12 @@
     "HSChapterToHS": {
         "text": ["Agricultural", "Plate", "AGRICULTURAL", "PLATE"]
     },
+    "BB-OpenOcr": {
+        "text": ["Babel", "open", "event"]
+    },
+    "BBChapterToBB": {
+        "text": ["Future", "FUTURE", "Gifts", "Gifts"]
+    },
     "RS-OpenOcr": {
         "text": ["Rides", "Silberneherze", "Lake", "open"]
     },
