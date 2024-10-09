@@ -32,6 +32,12 @@
         "text": ["Rerun", "Retrospection"],
         "roi": [0, 500, 500, 150]
     },
+    "BB-OpenOcr": {
+        "text": ["Babel", "open", "event"]
+    },
+    "BBChapterToBB": {
+        "text": ["Future", "FUTURE", "Gifts", "Gifts"]
+    },
     "OD-8": {
         "sub": ["OD-Open"]
     },
@@ -61,12 +67,6 @@
     },
     "HSChapterToHS": {
         "text": ["Agricultural", "Plate", "AGRICULTURAL", "PLATE"]
-    },
-    "BB-OpenOcr": {
-        "text": ["Babel", "open", "event"]
-    },
-    "BBChapterToBB": {
-        "text": ["Future", "FUTURE", "Gifts", "Gifts"]
     },
     "RS-OpenOcr": {
         "text": ["Rides", "Silberneherze", "Lake", "open"]
