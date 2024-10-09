@@ -56,7 +56,7 @@ body:
       label: 配置信息
       description: |
         请说明操作系统及版本、模拟器品牌、模拟器分辨率、DPI、帧率；
-        若正在使用 MuMu 12，请说明 MuMu 截图增强是否开启；
+        若正在使用 MuMu 12 或雷电 9，请说明截图增强是否开启；
         最后请说明 GPU 加速推理是否开启，若开启请提供 GPU 型号。
     validations:
       required: true
