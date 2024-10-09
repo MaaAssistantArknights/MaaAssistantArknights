@@ -9,9 +9,9 @@ icon: basil:apple-solid
 
 ### ✅ [PlayCover](https://playcover.io) (The software runs most fluently for its nativity 🚀)
 
-Compatible in beta, plz submit issue marked with `ios` when encounter errors.
+Compatible in beta, plz submit issue marked with `MacOS` when encounter errors.
 
-P.S.: For the reason of `macOS` mechanism itself, errors might occur when `PlayCover` is minimized and you switch to others windows. The errors of screenshot might crash `MAA`. Reference 👉🏻️[issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/4371#issuecomment-1527977512)
+P.S.: For the reason of `MacOS` mechanism itself, errors might occur when `PlayCover` is minimized and you switch to others windows. The errors of screenshot might crash `MAA`. Reference 👉🏻️[issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/4371#issuecomment-1527977512)
 
 1. Requests: MAA version above v4.13.0-rc.1
 
