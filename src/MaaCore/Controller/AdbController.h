@@ -93,6 +93,7 @@ protected:
     void callback(AsstMsg msg, const json::value& details);
     static int get_mumu_index(const std::string& address);
     void init_mumu_extras(const AdbCfg& adb_cfg, const std::string& address);
+    void set_mumu_package(const std::string& client_type);
     void init_ld_extras(const AdbCfg& adb_cfg);
 
     // 转换 data 中的 CRLF 为 LF：有些模拟器自带的 adb，exec-out 输出的 \n 会被替换成 \r\n，

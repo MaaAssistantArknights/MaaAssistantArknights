@@ -24,7 +24,8 @@ public:
 
     bool inited() const { return inited_; }
 
-    bool init(const std::filesystem::path& mumu_path, int mumu_inst_index, std::string package_name);
+    bool init(const std::filesystem::path& mumu_path, int mumu_inst_index);
+    void set_package_name(const std::string& package_name);
     bool reload();
     void uninit();
 
@@ -39,8 +40,11 @@ private:
 
 private:
     std::filesystem::path mumu_path_;
-    std::string package_name_;
     int mumu_inst_index_ = 0;
+    // mumu 的约定，default 给的是最前端 tab
+    inline static std::string kDefaultPackage = "default";
+    std::string package_name_ = kDefaultPackage;
+    std::optional<int> display_id_cache_;
 
     int mumu_handle_ = 0;
     int display_width_ = 0;

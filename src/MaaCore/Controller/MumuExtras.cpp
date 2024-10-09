@@ -12,9 +12,9 @@ MumuExtras::~MumuExtras()
     uninit();
 }
 
-bool MumuExtras::init(const std::filesystem::path& mumu_path, int mumu_inst_index, std::string package_name)
+bool MumuExtras::init(const std::filesystem::path& mumu_path, int mumu_inst_index)
 {
-    bool same = mumu_path == mumu_path_ && mumu_inst_index == mumu_inst_index_ && package_name == package_name_;
+    bool same = mumu_path == mumu_path_ && mumu_inst_index == mumu_inst_index_;
 
     if (same && inited_) {
         return true;
@@ -22,17 +22,22 @@ bool MumuExtras::init(const std::filesystem::path& mumu_path, int mumu_inst_inde
 
     mumu_path_ = mumu_path;
     mumu_inst_index_ = mumu_inst_index;
-    if (!package_name.empty()) {
-        package_name_ = std::move(package_name);
-    }
-    else {
-        // mumu 的约定，default 给的是最前端 tab
-        package_name_ = "default";
-    }
 
     inited_ = load_mumu_library() && connect_mumu() && init_screencap();
 
     return inited_;
+}
+
+void MumuExtras::set_package_name(const std::string& package_name)
+{
+    display_id_cache_ = std::nullopt;
+
+    if (package_name.empty()) {
+        package_name_ = kDefaultPackage;
+    }
+    else {
+        package_name_ = package_name;
+    }
 }
 
 bool MumuExtras::reload()
@@ -202,12 +207,15 @@ void MumuExtras::disconnect_mumu()
 
 int MumuExtras::get_display_id()
 {
-    if (!get_display_id_func_) {
-        LogError << "get_display_id_func_ is null";
-        return 0;
+    if (!display_id_cache_) {
+        if (!get_display_id_func_) {
+            LogError << "get_display_id_func_ is null";
+            return 0;
+        }
+        display_id_cache_ = get_display_id_func_(mumu_handle_, package_name_.c_str(), 0);
     }
 
-    return get_display_id_func_(mumu_handle_, package_name_.c_str(), 0);
+    return *display_id_cache_;
 }
 } // namespace asst
 

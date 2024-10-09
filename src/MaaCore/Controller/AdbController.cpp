@@ -228,11 +228,21 @@ void asst::AdbController::init_mumu_extras(const AdbCfg& adb_cfg, const std::str
         return;
     }
 
-    std::string client_type = adb_cfg.extras.get("client_type", "");
-    std::string package_name = Config.get_package_name(client_type).value_or("");
+    set_mumu_package(adb_cfg.extras.get("client_type", ""));
 
     std::filesystem::path mumu_path = utils::path(adb_cfg.extras.get("path", ""));
-    m_mumu_extras.init(mumu_path, get_mumu_index(address), package_name);
+    m_mumu_extras.init(mumu_path, get_mumu_index(address));
+#endif
+}
+
+void asst::AdbController::set_mumu_package(const std::string& client_type)
+{
+#if !ASST_WITH_EMULATOR_EXTRAS
+    std::ignore = client_type;
+    Log.error("MaaCore is not compiled with ASST_WITH_EMULATOR_EXTRAS");
+#else
+    std::string package_name = Config.get_package_name(client_type).value_or("");
+    m_mumu_extras.set_package_name(package_name);
 #endif
 }
 
@@ -287,8 +297,13 @@ bool asst::AdbController::start_game(const std::string& client_type)
     if (!package_name) {
         return false;
     }
+
     std::string cur_cmd = utils::string_replace_all(m_adb.start, "[PackageName]", package_name.value());
-    return call_command(cur_cmd).has_value();
+    bool ret = call_command(cur_cmd).has_value();
+
+    set_mumu_package(client_type);
+
+    return ret;
 }
 
 bool asst::AdbController::stop_game(const std::string& client_type)
@@ -301,7 +316,11 @@ bool asst::AdbController::stop_game(const std::string& client_type)
         return false;
     }
     std::string cur_cmd = utils::string_replace_all(m_adb.stop, "[PackageName]", package_name.value());
-    return call_command(cur_cmd).has_value();
+    bool ret =  call_command(cur_cmd).has_value();
+
+    set_mumu_package("");
+
+    return ret;
 }
 
 bool asst::AdbController::click(const Point& p)
