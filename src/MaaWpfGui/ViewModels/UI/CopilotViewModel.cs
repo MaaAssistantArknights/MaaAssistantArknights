@@ -899,6 +899,15 @@ namespace MaaWpfGui.ViewModels.UI
 
         // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
+        public void SelectCopilotTask(int index)
+        {
+            Filename = CopilotItemViewModels[index].FilePath;
+            ClearLog();
+            UpdateFilename();
+        }
+
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void DeleteCopilotTask(int index)
         {
             CopilotItemViewModels.RemoveAt(index);

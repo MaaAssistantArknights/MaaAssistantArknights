@@ -211,6 +211,7 @@
                                     <ColumnDefinition />
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <CheckBox
                                     Grid.Column="0"
@@ -227,13 +228,29 @@
                                     Visibility="{c:Binding IsRaid}" />
                                 <Button
                                     Grid.Column="2"
-                                    MinWidth="30"
+                                    Margin="0"
+                                    Padding="5,6,5,6"
+                                    hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
+                                    hc:VisualElement.HighlightBackground="Transparent"
+                                    hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Command="{s:Action SelectCopilotTask}"
+                                    CommandParameter="{c:Binding Index}"
+                                    Foreground="{DynamicResource SecondaryTextBrush}"
+                                    IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}" />
+                                <Button
+                                    Grid.Column="3"
+                                    Margin="0"
+                                    Padding="5,0,10,0"
                                     hc:IconElement.Geometry="{StaticResource CloseGeometry}"
+                                    hc:VisualElement.HighlightBackground="Transparent"
+                                    hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                    Background="Transparent"
                                     BorderThickness="0"
                                     Command="{s:Action DeleteCopilotTask}"
                                     CommandParameter="{c:Binding Index}"
-                                    IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
-                                    Style="{StaticResource ButtonDashed}" />
+                                    IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
