@@ -1,4 +1,7 @@
 {
+    "Sami@Roguelike@StageEnterBattleAgain": {
+        "specificRect": [1180, 460, 30, 20]
+    },
     "HS-Open": {
         "baseTask": "SS-Open"
     },
