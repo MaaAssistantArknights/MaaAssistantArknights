@@ -5796,6 +5796,14 @@
         "maskRange": [1, 255],
         "next": ["RA@Navigation#next"]
     },
+    "RecruitSupportConfirm": {
+        "doc": "招募助战干员后点击确认按钮，注意 <Roguelike@RecruitSupportConfirm> 任务的 roi 变化",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["招募助战"],
+        "roi": [960, 740, 300, 80],
+        "preDelay": 200
+    },
     "Roguelike": {
         "template": [
             "Terminal.png",
@@ -6699,14 +6707,6 @@
             "Roguelike@ChooseOperFlag",
             "Roguelike@RecruitWithoutButton"
         ]
-    },
-    "RecruitSupportConfirm": {
-        "doc": "招募助战干员后点击确认按钮，注意 <Roguelike@RecruitSupportConfirm> 任务的 roi 变化",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["招募助战"],
-        "roi": [960, 740, 300, 80],
-        "preDelay": 200
     },
     "Roguelike@RecruitSupportConfirm": {
         "doc": "集成战略模式招募助战干员后点击确认按钮，注意 roi 变化",
