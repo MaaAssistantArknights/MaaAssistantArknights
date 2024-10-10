@@ -3066,7 +3066,7 @@
         },
         "char_4130_luton": {
             "name": "露托",
-            "name_en": "露托",
+            "name_en": "Lutonada",
             "name_jp": "ルトナダ",
             "name_kr": "루토나다",
             "name_tw": "露托",
@@ -3077,7 +3077,7 @@
         },
         "char_4131_odda": {
             "name": "奥达",
-            "name_en": "奥达",
+            "name_en": "Odda",
             "name_jp": "オッダ",
             "name_kr": "오다",
             "name_tw": "奥达",
@@ -3088,7 +3088,7 @@
         },
         "char_4132_ascln": {
             "name": "阿斯卡纶",
-            "name_en": "阿斯卡纶",
+            "name_en": "Ascalon",
             "name_jp": "アスカロン",
             "name_kr": "아스카론",
             "name_tw": "阿斯卡纶",
@@ -3430,7 +3430,7 @@
         },
         "char_446_aroma": {
             "name": "阿罗玛",
-            "name_en": "阿罗玛",
+            "name_en": "Aroma",
             "name_jp": "アロマ",
             "name_kr": "아로마",
             "name_tw": "阿罗玛",
@@ -6048,7 +6048,7 @@
         },
         "trap_147_spblls": {
             "name": "巫术弩炮",
-            "name_en": "巫术弩炮",
+            "name_en": "Witchcraft Ballista",
             "name_jp": "巫術バリスタ",
             "name_kr": "주술 발리스타",
             "name_tw": "巫术弩炮",
@@ -6059,7 +6059,7 @@
         },
         "trap_148_amblls": {
             "name": "幽影门扉",
-            "name_en": "幽影门扉",
+            "name_en": "Umbral Door",
             "name_jp": "幽影の扉",
             "name_kr": "그림자 균열",
             "name_tw": "幽影门扉",
@@ -7291,7 +7291,7 @@
         },
         "trap_482_xbblure": {
             "name": "源石虫引诱器",
-            "name_en": "源石虫引诱器",
+            "name_en": "Slug Lure",
             "name_jp": "オリジムシ捕獲トラップ",
             "name_kr": "원석충 유인 장치",
             "name_tw": "源石虫引诱器",
@@ -7302,7 +7302,7 @@
         },
         "trap_483_xbtrophy": {
             "name": "“源石虫之心”",
-            "name_en": "“源石虫之心”",
+            "name_en": "'Heart of a Slug'",
             "name_jp": "「オリジムシハート」",
             "name_kr": "'원석충의 심장'",
             "name_tw": "“源石虫之心”",
@@ -7313,7 +7313,7 @@
         },
         "trap_484_xbcp": {
             "name": "检查点",
-            "name_en": "检查点",
+            "name_en": "Checkpoint",
             "name_jp": "チェックポイント",
             "name_kr": "체크포인트",
             "name_tw": "检查点",
@@ -7324,7 +7324,7 @@
         },
         "trap_485_xbrandprop": {
             "name": "随机道具盒",
-            "name_en": "随机道具盒",
+            "name_en": "Random Item Box",
             "name_jp": "ランダムボックス",
             "name_kr": "랜덤 아이템박스",
             "name_tw": "随机道具盒",
@@ -7335,7 +7335,7 @@
         },
         "trap_486_xbspd": {
             "name": "加速块",
-            "name_en": "加速块",
+            "name_en": "Accelerator Tile",
             "name_jp": "加速ブロック",
             "name_kr": "가속 모듈",
             "name_tw": "加速块",
@@ -8127,7 +8127,7 @@
         },
         "trap_746_cdrhine": {
             "name": "尖端研究成果共享终端",
-            "name_en": "尖端研究成果共享终端",
+            "name_en": "Pinnacle Insights Port",
             "name_jp": "最新学説共有端末",
             "name_kr": "최첨단 성과 공유 단말기",
             "name_tw": "尖端研究成果共享终端",
@@ -8138,7 +8138,7 @@
         },
         "trap_747_cdrhinea": {
             "name": "尖端研究成果共享终端",
-            "name_en": "尖端研究成果共享终端",
+            "name_en": "Pinnacle Insights Port",
             "name_jp": "最新学説共有端末",
             "name_kr": "최첨단 성과 공유 단말기",
             "name_tw": "尖端研究成果共享终端",
@@ -8149,7 +8149,7 @@
         },
         "trap_748_cdrhineb": {
             "name": "尖端研究成果共享终端",
-            "name_en": "尖端研究成果共享终端",
+            "name_en": "Pinnacle Insights Port",
             "name_jp": "最新学説共有端末",
             "name_kr": "최첨단 성과 공유 단말기",
             "name_tw": "尖端研究成果共享终端",
@@ -8160,7 +8160,7 @@
         },
         "trap_749_cd1punch": {
             "name": "声波记录扩音器",
-            "name_en": "声波记录扩音器",
+            "name_en": "Sound Recording Amplifier",
             "name_jp": "音波記録増幅器",
             "name_kr": "음파 기록 증폭기",
             "name_tw": "声波记录扩音器",
@@ -8171,7 +8171,7 @@
         },
         "trap_750_cd1puncha": {
             "name": "声波记录扩音器",
-            "name_en": "声波记录扩音器",
+            "name_en": "Sound Recording Amplifier",
             "name_jp": "音波記録増幅器",
             "name_kr": "음파 기록 증폭기",
             "name_tw": "声波记录扩音器",
@@ -8182,7 +8182,7 @@
         },
         "trap_751_cd1punchb": {
             "name": "声波记录扩音器",
-            "name_en": "声波记录扩音器",
+            "name_en": "Sound Recording Amplifier",
             "name_jp": "音波記録増幅器",
             "name_kr": "음파 기록 증폭기",
             "name_tw": "声波记录扩音器",
@@ -8193,7 +8193,7 @@
         },
         "trap_752_cdcaster": {
             "name": "法术调和能量场",
-            "name_en": "法术调和能量场",
+            "name_en": "Arts Resonant Energy Field",
             "name_jp": "アーツ同調力場",
             "name_kr": "아츠 공명 에너지장",
             "name_tw": "法术调和能量场",
@@ -8204,7 +8204,7 @@
         },
         "trap_753_cdcastera": {
             "name": "法术调和能量场",
-            "name_en": "法术调和能量场",
+            "name_en": "Arts Resonant Energy Field",
             "name_jp": "アーツ同調力場",
             "name_kr": "아츠 공명 에너지장",
             "name_tw": "法术调和能量场",
@@ -8215,7 +8215,7 @@
         },
         "trap_754_cdcasterb": {
             "name": "法术调和能量场",
-            "name_en": "法术调和能量场",
+            "name_en": "Arts Resonant Energy Field",
             "name_jp": "アーツ同調力場",
             "name_kr": "아츠 공명 에너지장",
             "name_tw": "法术调和能量场",
@@ -8226,7 +8226,7 @@
         },
         "trap_755_cdsoul": {
             "name": "啸叫音响",
-            "name_en": "啸叫音响",
+            "name_en": "Squeaking Sound",
             "name_jp": "ハウリングスピーカー",
             "name_kr": "울부짖는 스피커",
             "name_tw": "啸叫音响",
@@ -8237,7 +8237,7 @@
         },
         "trap_756_cdnest": {
             "name": "“黏黏的赠品”",
-            "name_en": "“黏黏的赠品”",
+            "name_en": "'Sticky Prize'",
             "name_jp": "「ねばねばしたおまけ」",
             "name_kr": "'끈적이는 사은품'",
             "name_tw": "“黏黏的赠品”",
