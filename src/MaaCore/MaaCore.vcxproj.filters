@@ -731,6 +731,9 @@
     <ClInclude Include="LDExtras.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="Vision\Battle\BattleRecruitSupportAnalyzer.h">
+      <Filter>Source\Vision\Battle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1226,6 +1229,9 @@
     </ClCompile>
     <ClCompile Include="LDExtras.cpp">
       <Filter>Source\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Vision\Battle\BattleRecruitSupportAnalyzer.cpp">
+      <Filter>Source\Vision\Battle</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
