@@ -1074,6 +1074,21 @@ namespace MaaWpfGui.Main
                             }
                         }
 
+                        if (why == "RecruitSuppportOperator")
+                        {
+                            var supportOper = details["details"]?["opers"]?.ToObject<List<List<string>>>();
+                            if (supportOper is not null)
+                            {
+                                var supportOpersStr = "[" + string.Join("]; [", supportOper.Select(opers =>
+                                    string.Join(", ", opers.Select(oper => DataHelper.GetLocalizedCharacterName(oper))))) + "]";
+                                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("RecruitSupportOperator") + supportOpersStr, UiLogColor.Warning);
+                            }
+                            else
+                            {
+                                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("RecruitSupportOperator"), UiLogColor.Error);
+                            }
+                        }
+
                         break;
                     }
             }

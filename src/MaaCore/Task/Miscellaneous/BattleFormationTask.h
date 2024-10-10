@@ -66,6 +66,8 @@ protected:
     bool select_formation(int select_index);
     bool select_random_support_unit();
     void report_missing_operators(std::vector<OperGroup>& groups);
+    void report_recruit_support_operator(std::vector<OperGroup>& groups);
+    bool select_support_operator(const std::string name, int skill = 0);
 
     std::vector<asst::TemplDetOCRer::Result> analyzer_opers();
 
@@ -83,5 +85,6 @@ protected:
     std::string m_last_oper_name;
     int m_select_formation_index = 0;
     int m_missing_retry_times = 1; // 识别不到干员的重试次数
+    bool m_support_oper = false;   // 是否已经招募助战干员
 };
 } // namespace asst

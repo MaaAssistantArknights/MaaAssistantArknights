@@ -10,6 +10,7 @@
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
+#include "Vision/Battle/BattleRecruitSupportAnalyzer.h"
 #include "Vision/MultiMatcher.h"
 
 void asst::BattleFormationTask::append_additional_formation(AdditionalFormation formation)
@@ -69,13 +70,22 @@ bool asst::BattleFormationTask::_run()
     }
 
     if (!missing_operators.empty()) {
-        if (missing_operators.size() == 1) {
-            // TODO: 自动借助战？
+        bool support = false;
+        if (missing_operators.size() == 1 && !m_support_oper) {
+            // 记得加上 SupportUnitUsage 的壳
+            support = select_support_operator(
+                missing_operators.front().first,
+                missing_operators.front().second.front().skill);
         }
-
-        report_missing_operators(missing_operators);
-
-        return false;
+        if (support) {
+            m_support_oper = true;
+            report_recruit_support_operator(missing_operators);
+            missing_operators.clear();
+        }
+        else {
+            report_missing_operators(missing_operators);
+            return false;
+        }
     }
 
     // 对于有在干员组中存在的自定干员，无法提前得知是否成功编入，故不提前加入编队
@@ -106,11 +116,103 @@ bool asst::BattleFormationTask::_run()
     confirm_selection();
 
     // 借一个随机助战
-    if (m_support_unit_name == "_RANDOM_") {
+    if (m_support_unit_name == "_RANDOM_" && !m_support_oper) {
         if (!select_random_support_unit()) {
             return false;
         }
     }
+
+    return true;
+}
+
+bool asst::BattleFormationTask::select_support_operator(const std::string name, int skill)
+{
+    ProcessTask(*this, { "SelectSupportEnter" }).run();
+    ProcessTask(*this, { "SupportOperRole" + enum_to_string(BattleData.get_role(name), true) }).run();
+
+    // 以下来自肉鸽代码
+    // 识别所有干员，应该最多两页
+    const int MaxPageCnt = 2;
+    const int max_refresh = 10;
+
+    std::vector<battle::roguelike::RecruitSupportCharInfo> satisfied_chars;
+    for (int retry = 0; retry <= max_refresh; ++retry) {
+        if (need_exit()) {
+            return false;
+        }
+        for (int page = 0; page < MaxPageCnt; ++page) {
+            auto screen_char = ctrler()->get_image();
+            BattleRecruitSupportAnalyzer analyzer_char(screen_char);
+            analyzer_char.set_mode(battle::roguelike::SupportAnalyzeMode::AnalyzeChars);
+            analyzer_char.set_required({ name });
+            if (analyzer_char.analyze()) {
+                auto& chars_page = analyzer_char.get_result_char();
+
+                bool use_nonfriend_support = true; // TODO: 接口实现判断
+                auto check_satisfy = [&use_nonfriend_support](const battle::roguelike::RecruitSupportCharInfo& chara) {
+                    return chara.is_friend || use_nonfriend_support;
+                };
+                std::copy_if(
+                    chars_page.begin(),
+                    chars_page.end(),
+                    std::inserter(satisfied_chars, std::begin(satisfied_chars)),
+                    check_satisfy);
+
+                if (satisfied_chars.size()) {
+                    break;
+                }
+            }
+            if (page != MaxPageCnt - 1) {
+                ProcessTask(*this, { "RoguelikeSupportSwipeRight" }).run();
+            }
+        }
+        if (satisfied_chars.size()) {
+            break;
+        }
+
+        // 刷新助战
+        if (retry >= max_refresh) {
+            break;
+        }
+        auto screen_refresh = ctrler()->get_image();
+        BattleRecruitSupportAnalyzer analyzer_refresh(screen_refresh);
+        analyzer_refresh.set_mode(battle::roguelike::SupportAnalyzeMode::RefreshSupportBtn);
+        if (!analyzer_refresh.analyze()) {
+            click_return_button();
+            return false;
+        }
+        auto& refresh_info = analyzer_refresh.get_result_refresh();
+        if (refresh_info.in_cooldown) {
+            sleep(refresh_info.remain_secs * 1000);
+        }
+        ctrler()->click(refresh_info.rect);
+        sleep(Task.get("RoguelikeRefreshSupportBtnOcr")->post_delay);
+        ProcessTask(*this, { "RoguelikeSupportSwipeLeft" }).run();
+    }
+    if (satisfied_chars.empty()) {
+        // 找不到需要的助战干员，返回正常招募逻辑
+        Log.info(__FUNCTION__, "| can't find support char `", name, "`");
+        click_return_button();
+        return false;
+    }
+
+    // 点击干员并记录信息
+    auto& satisfied_char = satisfied_chars.front();
+
+    // 选择干员
+    const battle::roguelike::Recruitment& oper = satisfied_char.oper_info;
+
+    Log.info(__FUNCTION__, "| Choose support oper:", oper.name, "( elite", oper.elite, "level", oper.level, ")");
+
+    ctrler()->click(oper.rect);
+
+    // 以上来自肉鸽代码
+    sleep(1000);
+    // 选择技能
+    ProcessTask(*this, { "SelectSupportOperSkill" + std::to_string(skill) }).run();
+
+    // 确认选择
+    ProcessTask(*this, { "RecruitSupportConfirm" }).run();
 
     return true;
 }
@@ -279,6 +381,25 @@ void asst::BattleFormationTask::report_missing_operators(std::vector<OperGroup>&
     }
 
     info["why"] = "OperatorMissing";
+
+    info["details"] = json::object { { "opers", json::array(oper_names) } };
+    callback(AsstMsg::SubTaskError, info);
+}
+
+void asst::BattleFormationTask::report_recruit_support_operator(std::vector<OperGroup>& groups)
+{
+    auto info = basic_info();
+
+    std::vector<std::vector<std::string>> oper_names;
+    for (auto& group : groups) {
+        std::vector<std::string> names;
+        for (const auto& oper : group.second) {
+            names.push_back(oper.name);
+        }
+        oper_names.push_back(names);
+    }
+
+    info["why"] = "RecruitSuppportOperator";
 
     info["details"] = json::object { { "opers", json::array(oper_names) } };
     callback(AsstMsg::SubTaskError, info);
