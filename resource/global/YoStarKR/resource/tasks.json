@@ -1,7 +1,4 @@
 {
-    "Sami@Roguelike@StageEnterBattleAgain": {
-        "specificRect": [1180, 460, 30, 20]
-    },
     "HS-Open": {
         "baseTask": "SS-Open"
     },
@@ -9,6 +6,9 @@
         "baseTask": "SS-Open",
         "next": ["ODChapterToOD"],
         "template": "StageSideStory.png"
+    },
+    "Sami@Roguelike@StageEnterBattleAgain": {
+        "specificRect": [1180, 460, 30, 20]
     },
     "StartUpNotificationKR": {
         "action": "ClickSelf",
