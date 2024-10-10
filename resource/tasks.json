@@ -3503,6 +3503,37 @@
             ["^资深.+", "资深干员"]
         ]
     },
+    "SelectSupportEnter": {
+        "algorithm": "JustReturn",
+        "next": ["SelectSupportStartSelect", "SelectSupportBackToFormationPage"]
+    },
+    "SelectSupportBackToFormationPage": {
+        "action": "ClickSelf",
+        "roi": [0, 0, 144, 142],
+        "next": ["SelectSupportEnter"]
+    },
+    "SelectSupportStartSelect": {
+        "action": "ClickSelf",
+        "roi": [982, 228, 126, 176]
+    },
+    "SelectSupportOperSkill0": {
+        "algorithm": "JustReturn"
+    },
+    "SelectSupportOperSkill1": {
+        "template": "SelectSupportOperSkill.png",
+        "action": "ClickSelf",
+        "roi": [781, 320, 66, 38]
+    },
+    "SelectSupportOperSkill2": {
+        "template": "SelectSupportOperSkill.png",
+        "action": "ClickSelf",
+        "roi": [900, 320, 64, 38]
+    },
+    "SelectSupportOperSkill3": {
+        "template": "SelectSupportOperSkill.png",
+        "action": "ClickSelf",
+        "roi": [1010, 320, 70, 38]
+    },
     "RecruitRefresh": {
         "action": "ClickSelf",
         "roi": [850, 340, 220, 170],
@@ -4939,6 +4970,43 @@
     "BattleOperRoleTank": {},
     "BattleOperRoleWarrior": {},
     "BattleOperRoleDrone": {},
+    "SupportOperRoleBase": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "postDelay": 1000
+    },
+    "SupportOperRoleCaster": {
+        "baseTask": "SupportOperRoleBase",
+        "specificRect": [30, 406, 55, 50]
+    },
+    "SupportOperRoleMedic": {
+        "baseTask": "SupportOperRoleBase",
+        "specificRect": [30, 483, 55, 50]
+    },
+    "SupportOperRolePioneer": {
+        "baseTask": "SupportOperRoleBase",
+        "specificRect": [30, 102, 55, 50]
+    },
+    "SupportOperRoleSniper": {
+        "baseTask": "SupportOperRoleBase",
+        "specificRect": [30, 330, 55, 50]
+    },
+    "SupportOperRoleSpecial": {
+        "baseTask": "SupportOperRoleBase",
+        "specificRect": [30, 637, 55, 50]
+    },
+    "SupportOperRoleSupport": {
+        "baseTask": "SupportOperRoleBase",
+        "specificRect": [30, 556, 55, 50]
+    },
+    "SupportOperRoleTank": {
+        "baseTask": "SupportOperRoleBase",
+        "specificRect": [30, 252, 55, 50]
+    },
+    "SupportOperRoleWarrior": {
+        "baseTask": "SupportOperRoleBase",
+        "specificRect": [30, 174, 55, 50]
+    },
     "BattleOperCost": {
         "template": "empty.png",
         "rectMove": [-10, 12, 30, 17]
