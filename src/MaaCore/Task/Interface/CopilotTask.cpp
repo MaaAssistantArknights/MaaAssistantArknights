@@ -145,7 +145,6 @@ bool asst::CopilotTask::set_params(const json::value& params)
     m_formation_task_ptr->set_enable(with_formation && navigate_name.find("TR") == std::string::npos);
     m_formation_task_ptr->set_select_formation(select_formation);
     m_formation_task_ptr->set_add_trust(add_trust);
-    m_formation_task_ptr->set_add_user_additional(add_user_additional);
     m_formation_task_ptr->set_support_unit_name(std::move(support_unit_name));
 
     if (auto opt = params.find<json::array>("user_additional"); add_user_additional && opt) {

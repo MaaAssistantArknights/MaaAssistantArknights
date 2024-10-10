@@ -22,11 +22,6 @@ void asst::BattleFormationTask::set_support_unit_name(std::string name)
     m_support_unit_name = std::move(name);
 }
 
-void asst::BattleFormationTask::set_add_user_additional(bool add_user_additional)
-{
-    m_add_user_additional = add_user_additional;
-}
-
 void asst::BattleFormationTask::set_user_additional(std::vector<std::pair<std::string, int>> user_additional)
 {
     m_user_additional = std::move(user_additional);
@@ -42,7 +37,7 @@ void asst::BattleFormationTask::set_select_formation(int index)
     m_select_formation_index = index;
 }
 
-std::shared_ptr<std::unordered_map<std::string, std::string>>asst::BattleFormationTask::get_opers_in_formation() const
+std::shared_ptr<std::unordered_map<std::string, std::string>> asst::BattleFormationTask::get_opers_in_formation() const
 {
     return m_opers_in_formation;
 }
@@ -72,18 +67,19 @@ bool asst::BattleFormationTask::_run()
     for (auto& [role, oper_groups] : m_formation) {
         add_formation(role, oper_groups, missing_operators);
     }
-    
+
     if (!missing_operators.empty()) {
         if (missing_operators.size() == 1) {
             // TODO: 自动借助战？
         }
-        
+
         report_missing_operators(missing_operators);
 
         return false;
     }
 
-    if (m_add_user_additional) {
+    // 对于有在干员组中存在的自定干员，无法提前得知是否成功编入，故不提前加入编队
+    if (!m_user_additional.empty()) {
         auto limit = 12 - m_size_of_operators_in_formation;
         for (const auto& [name, skill] : m_user_additional) {
             if (m_opers_in_formation->contains(name)) {
@@ -96,9 +92,11 @@ bool asst::BattleFormationTask::_run()
             oper.name = name;
             oper.skill = skill;
             std::vector<asst::battle::OperUsage> usage { std::move(oper) };
-            m_user_formation.emplace_back(name, std::move(usage));
+            m_user_formation[BattleData.get_role(name)].emplace_back(name, std::move(usage));
         }
-        add_formation(battle::Role::Unknown, m_user_formation, missing_operators);
+        for (auto& [role, oper_groups] : m_user_formation) {
+            add_formation(role, oper_groups, missing_operators);
+        }
     }
 
     add_additional();
@@ -117,7 +115,10 @@ bool asst::BattleFormationTask::_run()
     return true;
 }
 
-bool asst::BattleFormationTask::add_formation(battle::Role role, std::vector<OperGroup> oper_group, std::vector<OperGroup>& missing)
+bool asst::BattleFormationTask::add_formation(
+    battle::Role role,
+    std::vector<OperGroup> oper_group,
+    std::vector<OperGroup>& missing)
 {
     LogTraceFunction;
 
@@ -145,7 +146,7 @@ bool asst::BattleFormationTask::add_formation(battle::Role role, std::vector<Ope
         }
         else {
             if (overall_swipe_times == m_missing_retry_times) {
-                 missing.insert(missing.end(), oper_group.begin(), oper_group.end());
+                missing.insert(missing.end(), oper_group.begin(), oper_group.end());
                 return true;
             }
 
@@ -224,9 +225,8 @@ bool asst::BattleFormationTask::add_trust_operators()
     ProcessTask(*this, { "BattleQuickFormationFilter-Trust" }).run();
     ProcessTask(*this, { "BattleQuickFormationFilterClose" }).run();
     // 检查特关是否开启
-    ProcessTask(*this, { 
-        "BattleQuickFormationFilter-PinUnactivated", "BattleQuickFormationFilter-PinActivated"
-    }).run();
+    ProcessTask(*this, { "BattleQuickFormationFilter-PinUnactivated", "BattleQuickFormationFilter-PinActivated" })
+        .run();
 
     // 重置职业选择，保证处于最左
     click_role_table(battle::Role::Caster);
@@ -431,7 +431,9 @@ bool asst::BattleFormationTask::click_role_table(battle::Role role)
         tasks = { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" };
     }
     else {
-        tasks = { "BattleQuickFormationRole-" + role_iter->second, "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR"};
+        tasks = { "BattleQuickFormationRole-" + role_iter->second,
+                  "BattleQuickFormationRole-All",
+                  "BattleQuickFormationRole-All-OCR" };
     }
     return ProcessTask(*this, tasks).set_retry_times(0).run();
 }
@@ -475,7 +477,8 @@ bool asst::BattleFormationTask::select_formation(int select_index)
     // 第二组是名字最左边和最右边的一块区域
     // 右边比左边窄，暂定为左边 10*58
 
-    static const std::vector<std::string> select_formation_task = { "BattleSelectFormation1", "BattleSelectFormation2",
+    static const std::vector<std::string> select_formation_task = { "BattleSelectFormation1",
+                                                                    "BattleSelectFormation2",
                                                                     "BattleSelectFormation3",
                                                                     "BattleSelectFormation4" };
 
