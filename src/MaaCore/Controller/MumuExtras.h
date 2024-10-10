@@ -24,7 +24,8 @@ public:
 
     bool inited() const { return inited_; }
 
-    bool init(const std::filesystem::path& mumu_path, int mumu_inst_index, int mumu_display_id);
+    bool init(const std::filesystem::path& mumu_path, int mumu_inst_index);
+    void set_package_name(const std::string& package_name);
     bool reload();
     void uninit();
 
@@ -35,11 +36,15 @@ private:
     bool connect_mumu();
     bool init_screencap();
     void disconnect_mumu();
+    int get_display_id();
 
 private:
     std::filesystem::path mumu_path_;
     int mumu_inst_index_ = 0;
-    int mumu_display_id_ = 0;
+    // mumu 的约定，default 给的是最前端 tab
+    inline static std::string kDefaultPackage = "default";
+    std::string package_name_ = kDefaultPackage;
+    std::optional<int> display_id_cache_;
 
     int mumu_handle_ = 0;
     int display_width_ = 0;
@@ -51,6 +56,7 @@ private:
 private:
     inline static const std::string kConnectFuncName = "nemu_connect";
     inline static const std::string kDisconnectFuncName = "nemu_disconnect";
+    inline static const std::string kGetDisplayIdFuncName = "nemu_get_display_id";
     inline static const std::string kCaptureDisplayFuncName = "nemu_capture_display";
     inline static const std::string kInputTextFuncName = "nemu_input_text";
     inline static const std::string kInputEventTouchDownFuncName = "nemu_input_event_touch_down";
@@ -61,6 +67,7 @@ private:
 private:
     std::function<decltype(nemu_connect)> connect_func_;
     std::function<decltype(nemu_disconnect)> disconnect_func_;
+    std::function<decltype(nemu_get_display_id)> get_display_id_func_;
     std::function<decltype(nemu_capture_display)> capture_display_func_;
     std::function<decltype(nemu_input_text)> input_text_func_;
     std::function<decltype(nemu_input_event_touch_down)> input_event_touch_down_func_;

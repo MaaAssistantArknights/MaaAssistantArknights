@@ -140,22 +140,6 @@
                         HorizontalAlignment="Center"
                         Orientation="Horizontal"
                         Visibility="{c:Binding MuMuEmulator12Extras.Enable}">
-                        <hc:TextBox
-                            Width="130"
-                            Height="30"
-                            Margin="10"
-                            hc:InfoElement.Placeholder="0"
-                            hc:TitleElement.Title="{DynamicResource MuMu12Index}"
-                            hc:TitleElement.TitlePlacement="Left"
-                            Text="{Binding MuMuEmulator12Extras.Index}" />
-                        <hc:TextBox
-                            Width="130"
-                            Height="30"
-                            Margin="10"
-                            hc:InfoElement.Placeholder="0"
-                            hc:TitleElement.Title="{DynamicResource MuMu12Display}"
-                            hc:TitleElement.TitlePlacement="Left"
-                            Text="{Binding MuMuEmulator12Extras.Display}" />
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Visibility="{c:Binding 'ConnectConfig==&quot;LDPlayer&quot;'}">
