@@ -71,7 +71,7 @@ body:
       label: Configuration information
       description: |
         Please specify the operating system and version, emulator brand, emulator resolution, DPI, and frame rate;
-        If you are using MuMu 12, please specify whether MuMu Screenshot Enhancement is enabled;
+        If you are using MuMu 12 or LDPlayer 9, please specify whether Screenshot Enhancement is enabled;
         Finally, please specify whether GPU accelerated inference is enabled, and if so, provide the GPU model.
     validations:
       required: true
