@@ -3448,6 +3448,26 @@
             ["^资深.+", "资深干员"]
         ]
     },
+    "SelectSupportEnter":{
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "roi": [1038, 108, 129, 206]
+    },
+    "SelectSupportOperSkill1": {
+        "template": "SelectSupportOperSkill.png",
+        "action": "ClickSelf",
+        "roi": [781, 320, 66, 38]
+    },
+    "SelectSupportOperSkill2": {
+        "template": "SelectSupportOperSkill.png",
+        "action": "ClickSelf",
+        "roi": [900, 320, 64, 38]
+    },
+    "SelectSupportOperSkill3": {
+        "template": "SelectSupportOperSkill.png",
+        "action": "ClickSelf",
+        "roi": [1010, 320, 70, 38]
+    },
     "RecruitRefresh": {
         "action": "ClickSelf",
         "roi": [850, 340, 220, 170],
