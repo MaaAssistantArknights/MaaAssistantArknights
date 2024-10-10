@@ -335,7 +335,7 @@ labels:
   # `MacGui`
   - name: MacGui
     content: "client: MacGui"
-    regexes: '(?i)mac(?:book|os|\s*(?:操作系统|系统|电脑|版))|playcover'
+    regexes: '/mac(?:book|os|\s*(?:操作系统|系统|电脑|版))|playcover/i'
     skip-if:
       - skip all
       - skip client
