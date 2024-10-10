@@ -1270,6 +1270,9 @@
     "RA@Navigation-EnterCurrentTheme": {
         "text": ["생존", "연산"]
     },
+    "RecruitSupportConfirm": {
+        "text": ["지원"]
+    },
     "RoguelikeChooseSupportBtnOcr": {
         "text": ["지원"]
     },
@@ -1881,9 +1884,6 @@
     "Roguelike@PreSelectTheme": {
         "text": ["모든테마보기", "테마", "TODO: image of //INTEGRATED STRATEGIES"],
         "roi": [450, 480, 160, 45]
-    },
-    "RecruitSupportConfirm": {
-        "text": ["지원"]
     },
     "Roguelike@StageEncounterOcr": {
         "ocrReplace": [
