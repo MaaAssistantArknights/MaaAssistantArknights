@@ -14,6 +14,11 @@
     "ClickChapter3": {
         "text": ["残映"]
     },
+    "BB-Open": {
+        "template": "StageSideStory.png",
+        "baseTask": "SS-Open",
+        "next": ["BBChapterToBB"]
+    },
     "BB-OpenOcr": {
         "text": [
             "バベル",
@@ -27,11 +32,6 @@
             "ステージ開放中"
         ],
         "roi": [0, 500, 500, 150]
-    },
-    "BB-Open": {
-        "baseTask": "SS-Open",
-        "template": "StageSideStory.png",
-        "next": ["BBChapterToBB"]
     },
     "BBChapterToBB": {
         "text": ["未来を贈らん", "未来", "贈"],
