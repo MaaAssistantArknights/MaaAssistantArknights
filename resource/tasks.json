@@ -3450,8 +3450,14 @@
     },
     "SelectSupportEnter":{
         "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [1038, 108, 129, 206]
+        "next": ["SelectSupportStartSelect", "SelectSupportBackToFormationPage"]
+    },
+    "SelectSupportBackToFormationPage":{
+        "roi": [0, 0, 144, 142],
+        "next": ["SelectSupportEnter"]
+    },
+    "SelectSupportStartSelect":{
+        "roi": [982, 228, 126, 176]
     },
     "SelectSupportOperSkill0": {
         "algorithm": "JustReturn"
