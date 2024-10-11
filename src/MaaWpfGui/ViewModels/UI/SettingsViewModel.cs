@@ -2803,20 +2803,20 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get
             {
-                if (_creditVisitOnceADay)
+                if (!_creditVisitOnceADay)
                 {
-                    try
-                    {
-                        return DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(_lastCreditVisitFriendsTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture)
-                               && _creditVisitFriendsEnabled;
-                    }
-                    catch
-                    {
-                        return _creditVisitFriendsEnabled;
-                    }
+                    return _creditVisitFriendsEnabled;
                 }
 
-                return true;
+                try
+                {
+                    return DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(_lastCreditVisitFriendsTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture)
+                           && _creditVisitFriendsEnabled;
+                }
+                catch
+                {
+                    return _creditVisitFriendsEnabled;
+                }
             }
 
             set
