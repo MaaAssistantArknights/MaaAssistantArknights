@@ -3453,6 +3453,9 @@
         "action": "ClickRect",
         "roi": [1038, 108, 129, 206]
     },
+    "SelectSupportOperSkill0": {
+        "algorithm": "JustReturn"
+    },
     "SelectSupportOperSkill1": {
         "template": "SelectSupportOperSkill.png",
         "action": "ClickSelf",
