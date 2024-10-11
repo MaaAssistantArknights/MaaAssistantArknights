@@ -4915,53 +4915,42 @@
     "BattleOperRoleTank": {},
     "BattleOperRoleWarrior": {},
     "BattleOperRoleDrone": {},
-    "SupportOperRoleCaster": {
+    "SupportOperRoleBase": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [30, 406, 55, 50],
         "postDelay": 1000
+    },
+    "SupportOperRoleCaster": {
+        "baseTask": "SupportOperRoleBase",
+        "specificRect": [30, 406, 55, 50]
     },
     "SupportOperRoleMedic": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [30, 483, 55, 50],
-        "postDelay": 1000
+        "baseTask": "SupportOperRoleBase",
+        "specificRect": [30, 483, 55, 50]
     },
     "SupportOperRolePioneer": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [30, 102, 55, 50],
-        "postDelay": 1000
+        "baseTask": "SupportOperRoleBase",
+        "specificRect": [30, 102, 55, 50]
     },
     "SupportOperRoleSniper": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [30, 330, 55, 50],
-        "postDelay": 1000
+        "baseTask": "SupportOperRoleBase",
+        "specificRect": [30, 330, 55, 50]
     },
     "SupportOperRoleSpecial": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [30, 637, 55, 50],
-        "postDelay": 1000
+        "baseTask": "SupportOperRoleBase",
+        "specificRect": [30, 637, 55, 50]
     },
     "SupportOperRoleSupport": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [30, 556, 55, 50],
-        "postDelay": 1000
+        "baseTask": "SupportOperRoleBase",
+        "specificRect": [30, 556, 55, 50]
     },
     "SupportOperRoleTank": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [30, 252, 55, 50],
-        "postDelay": 1000
+        "baseTask": "SupportOperRoleBase",
+        "specificRect": [30, 252, 55, 50]
     },
     "SupportOperRoleWarrior": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [30, 174, 55, 50],
-        "postDelay": 1000
+        "baseTask": "SupportOperRoleBase",
+        "specificRect": [30, 174, 55, 50]
     },
     "BattleOperCost": {
         "template": "empty.png",
@@ -5880,7 +5869,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["招募助战"],
-        "roi": [960, 740, 300, 80],
+        "roi": [740, 565, 300, 65],
         "preDelay": 200
     },
     "Roguelike": {
