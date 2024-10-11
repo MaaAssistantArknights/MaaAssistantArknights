@@ -22937,6 +22937,61 @@
         "stageId": "sub_09-1-3"
     },
     {
+        "apCost": 18,
+        "code": "S9-4",
+        "dropInfos": [
+            {
+                "dropType": "EXTRA_DROP",
+                "itemId": "30031"
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "itemId": "30032"
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "itemId": "30033"
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "itemId": "30051"
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "itemId": "30052"
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "itemId": "30053"
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "itemId": "30093"
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "itemId": "30103"
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "itemId": "31033"
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "itemId": "31053"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "31083"
+            },
+            {
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            }
+        ],
+        "stageId": "sub_09-1-4"
+    },
+    {
         "apCost": 21,
         "code": "10-2",
         "dropInfos": [
