@@ -107,8 +107,8 @@ bool MumuExtras::load_mumu_library()
 
     get_display_id_func_ = get_function<decltype(nemu_get_display_id)>(kGetDisplayIdFuncName);
     if (!get_display_id_func_) {
-        LogWarn << "Failed to get function" << VAR(kGetDisplayIdFuncName);
-        // 兼容一下旧版本 mumu，没这个函数
+        // 旧版本 mumu 没这个函数, 兼容一下
+        LogWarn << "Failed to get function, please update your MuMu Player" << VAR(kGetDisplayIdFuncName);
         // return false;
     }
 
@@ -210,12 +210,18 @@ int MumuExtras::get_display_id()
 {
     if (!display_id_cache_) {
         if (!get_display_id_func_) {
-            LogError << "get_display_id_func_ is null";
+            LogError << "get_display_id_func_ is null, please update your MuMu Player";
             display_id_cache_ = 0;
             return 0;
         }
+
         int id = get_display_id_func_(mumu_handle_, package_name_.c_str(), 0);
-        display_id_cache_ = id < 0 ? 0 : id;
+        if (id < 0) {
+            LogWarn << "Failed to get display id" << VAR(id) << VAR(package_name_);
+            return 0;
+        }
+
+        display_id_cache_ = id;
     }
 
     return *display_id_cache_;
