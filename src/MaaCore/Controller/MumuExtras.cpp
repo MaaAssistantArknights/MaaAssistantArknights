@@ -107,8 +107,9 @@ bool MumuExtras::load_mumu_library()
 
     get_display_id_func_ = get_function<decltype(nemu_get_display_id)>(kGetDisplayIdFuncName);
     if (!get_display_id_func_) {
-        LogError << "Failed to get function" << VAR(kGetDisplayIdFuncName);
-        return false;
+        LogWarn << "Failed to get function" << VAR(kGetDisplayIdFuncName);
+        // 兼容一下旧版本 mumu，没这个函数
+        // return false;
     }
 
     capture_display_func_ = get_function<decltype(nemu_capture_display)>(kCaptureDisplayFuncName);
@@ -174,8 +175,8 @@ bool MumuExtras::connect_mumu()
 
 bool MumuExtras::init_screencap()
 {
-    if (!capture_display_func_ || !get_display_id_func_) {
-        LogError << "capture_display_func_ or get_display_id_func_ is null";
+    if (!capture_display_func_) {
+        LogError << "capture_display_func_ is null";
         return false;
     }
 
@@ -210,9 +211,11 @@ int MumuExtras::get_display_id()
     if (!display_id_cache_) {
         if (!get_display_id_func_) {
             LogError << "get_display_id_func_ is null";
+            display_id_cache_ = 0;
             return 0;
         }
-        display_id_cache_ = get_display_id_func_(mumu_handle_, package_name_.c_str(), 0);
+        int id = get_display_id_func_(mumu_handle_, package_name_.c_str(), 0);
+        display_id_cache_ = id < 0 ? 0 : id;
     }
 
     return *display_id_cache_;
