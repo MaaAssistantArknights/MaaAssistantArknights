@@ -4915,6 +4915,54 @@
     "BattleOperRoleTank": {},
     "BattleOperRoleWarrior": {},
     "BattleOperRoleDrone": {},
+    "SupportOperRoleCaster": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [30, 406, 55, 50],
+        "postDelay": 1000
+    },
+    "SupportOperRoleMedic": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [30, 483, 55, 50],
+        "postDelay": 1000
+    },
+    "SupportOperRolePioneer": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [30, 102, 55, 50],
+        "postDelay": 1000
+    },
+    "SupportOperRoleSniper": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [30, 330, 55, 50],
+        "postDelay": 1000
+    },
+    "SupportOperRoleSpecial": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [30, 637, 55, 50],
+        "postDelay": 1000
+    },
+    "SupportOperRoleSupport": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [30, 556, 55, 50],
+        "postDelay": 1000
+    },
+    "SupportOperRoleTank": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [30, 252, 55, 50],
+        "postDelay": 1000
+    },
+    "SupportOperRoleWarrior": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [30, 174, 55, 50],
+        "postDelay": 1000
+    },
     "BattleOperCost": {
         "template": "empty.png",
         "rectMove": [-10, 12, 30, 17]

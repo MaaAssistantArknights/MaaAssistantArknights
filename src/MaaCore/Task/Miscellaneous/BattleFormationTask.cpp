@@ -12,7 +12,6 @@
 #include "Utils/Logger.hpp"
 #include "Vision/MultiMatcher.h"
 #include "Vision/Roguelike/RoguelikeRecruitSupportAnalyzer.h"
-#include "Task/Roguelike/RoguelikeRecruitTaskPlugin.h"
 
 void asst::BattleFormationTask::append_additional_formation(AdditionalFormation formation)
 {
@@ -127,7 +126,7 @@ bool asst::BattleFormationTask::_run()
 bool asst::BattleFormationTask::select_support_operator(const std::string name, int skill)
 {
     ProcessTask(*this, { "SelectSupportEnter" }).run();
-    ProcessTask(*this, { "BattleOperRole" + enum_to_string(BattleData.get_role(name), true) }).run();
+    ProcessTask(*this, { "SupportOperRole" + enum_to_string(BattleData.get_role(name), true) }).run();
 
     // 识别所有干员，应该最多两页
     const int MaxPageCnt = 2;
@@ -135,6 +134,7 @@ bool asst::BattleFormationTask::select_support_operator(const std::string name, 
 
     std::vector<battle::roguelike::RecruitSupportCharInfo> satisfied_chars;
     for (int retry = 0; retry <= max_refresh; ++retry) {
+        if (need_exit()) return false;
         for (int page = 0; page < MaxPageCnt; ++page) {
             auto screen_char = ctrler()->get_image();
             RoguelikeRecruitSupportAnalyzer analyzer_char(screen_char);
