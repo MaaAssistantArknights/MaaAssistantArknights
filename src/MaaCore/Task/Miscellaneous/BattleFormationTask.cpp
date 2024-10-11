@@ -11,7 +11,7 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/MultiMatcher.h"
-#include "Vision/Roguelike/RoguelikeRecruitSupportAnalyzer.h"
+#include "Vision/Battle/BattleRecruitSupportAnalyzer.h"
 
 void asst::BattleFormationTask::append_additional_formation(AdditionalFormation formation)
 {
@@ -137,7 +137,7 @@ bool asst::BattleFormationTask::select_support_operator(const std::string name, 
         if (need_exit()) return false;
         for (int page = 0; page < MaxPageCnt; ++page) {
             auto screen_char = ctrler()->get_image();
-            RoguelikeRecruitSupportAnalyzer analyzer_char(screen_char);
+            BattleRecruitSupportAnalyzer analyzer_char(screen_char);
             analyzer_char.set_mode(battle::roguelike::SupportAnalyzeMode::AnalyzeChars);
             analyzer_char.set_required({ name });
             if (analyzer_char.analyze()) {
@@ -170,7 +170,7 @@ bool asst::BattleFormationTask::select_support_operator(const std::string name, 
             break;
         }
         auto screen_refresh = ctrler()->get_image();
-        RoguelikeRecruitSupportAnalyzer analyzer_refresh(screen_refresh);
+        BattleRecruitSupportAnalyzer analyzer_refresh(screen_refresh);
         analyzer_refresh.set_mode(battle::roguelike::SupportAnalyzeMode::RefreshSupportBtn);
         if (!analyzer_refresh.analyze()) {
             click_return_button();
