@@ -212,7 +212,8 @@ int MumuExtras::get_display_id()
             LogError << "get_display_id_func_ is null";
             return 0;
         }
-        display_id_cache_ = get_display_id_func_(mumu_handle_, package_name_.c_str(), 0);
+        int display_id = get_display_id_func_(mumu_handle_, package_name_.c_str(), 0);
+        display_id_cache_ = (display_id < 0) ? 0 : display_id;
     }
 
     return *display_id_cache_;
