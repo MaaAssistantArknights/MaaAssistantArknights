@@ -48,20 +48,19 @@ MAA 可以通过当前**正在运行的单个模拟器**自动检测并填充 AD
 运行在本机的模拟器连接地址应该是 `127.0.0.1:<端口号>` 或 `emulator-<四位数字>`。
 :::
 
-### 获取端口号
+### 模拟器相关文档及参考地址
 
-#### 模拟器相关文档及参考端口
-
-- [Bluestacks 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631-%E5%A6%82%E4%BD%95%E5%B0%87%E6%82%A8%E7%9A%84%E6%87%89%E7%94%A8%E5%BE%9EBlueStacks-4%E8%BD%89%E7%A7%BB%E5%88%B0BlueStacks-5#%E2%80%9C2%E2%80%9D) `5555`
-- [MuMu Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html) `16384`
-- [MuMu 12](https://mumu.163.com/help/20230214/35047_1073151.html) `16384`
-- [MuMu 6](https://mumu.163.com/help/20210531/35047_951108.html) `7555`
-- [逍遥](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `21503`
-- [夜神](https://support.yeshen.com/zh-CN/qt/ml) `62001`
+- [Bluestacks 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631-%E5%A6%82%E4%BD%95%E5%B0%87%E6%82%A8%E7%9A%84%E6%87%89%E7%94%A8%E5%BE%9EBlueStacks-4%E8%BD%89%E7%A7%BB%E5%88%B0BlueStacks-5#%E2%80%9C2%E2%80%9D) `127.0.0.1:5555`
+- [MuMu 模拟器 Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html) `127.0.0.1:16384`
+- [MuMu 模拟器 12](https://mumu.163.com/help/20230214/35047_1073151.html) `127.0.0.1:16384`
+- [MuMu 模拟器 6](https://mumu.163.com/help/20210531/35047_951108.html) `127.0.0.1:7555`
+- [雷电模拟器 9](https://help.ldmnq.com/) `emulator-5554`
+- [夜神模拟器](https://support.yeshen.com/zh-CN/qt/ml) `127.0.0.1:62001`
+- [逍遥模拟器](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `127.0.0.1:21503`
 
 其他模拟器可参考 [赵青青的博客](https://www.cnblogs.com/zhaoqingqing/p/15238464.html)。
 
-#### 获取多开端口
+### 获取多开端口
 
 - MuMu 12 多开器右上角可查看正在运行的多开端口。
 - Bluestacks 5 模拟器设置内可查看当前的多开端口。
@@ -200,7 +199,7 @@ MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当
 
 ## MAA 和模拟器多开
 
-::: info
+::: info 如何实现
 若需要多开模拟器同时操作，可将 MAA 文件夹复制多份，使用 **不同的 MAA**、**同一个 adb.exe**、**不同的连接地址** 来进行连接。
 :::
 
