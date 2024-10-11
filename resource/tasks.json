@@ -593,19 +593,13 @@
     },
     "GO-OpenOcr": {
         "baseTask": "SS-OpenOcr",
-        "text": [
-           "追迹日落以西",
-           "未了往昔"
-        ],
+        "text": ["追迹日落以西", "未了往昔"],
         "next": ["GOChapterToGO"]
     },
-   "GOChapterToGO": {
+    "GOChapterToGO": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": [
-           "无名之勋",
-           "名之"
-        ],
+        "text": ["无名之勋", "名之"],
         "preDelay": 3000,
         "roi": [914, 579, 101, 34],
         "next": ["#self", "ChapterSwipeToTheRight"]
