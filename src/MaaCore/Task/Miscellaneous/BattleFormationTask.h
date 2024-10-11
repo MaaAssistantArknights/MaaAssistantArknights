@@ -64,6 +64,7 @@ namespace asst
         bool select_formation(int select_index);
         bool select_random_support_unit();
         void report_missing_operators(std::vector<OperGroup>& groups);
+        bool select_support_operator(const std::string name, int skill = 0);
 
         std::vector<asst::TemplDetOCRer::Result> analyzer_opers();
 
