@@ -3453,10 +3453,12 @@
         "next": ["SelectSupportStartSelect", "SelectSupportBackToFormationPage"]
     },
     "SelectSupportBackToFormationPage":{
+        "action": "ClickSelf",
         "roi": [0, 0, 144, 142],
         "next": ["SelectSupportEnter"]
     },
     "SelectSupportStartSelect":{
+        "action": "ClickSelf",
         "roi": [982, 228, 126, 176]
     },
     "SelectSupportOperSkill0": {
