@@ -378,18 +378,13 @@
     <system:String x:Key="ScreenshotTest">截图测试</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">启用 MuMu 截图增强模式</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip">
-        需使用官版或方舟专版 MuMu 12 V4.0.0 及更新版本。国际版等暂不支持。\n
-        强烈建议在开启本功能后的首次使用之前进行截图测试。\n\n
-        请填写以下信息：\n\n
-        1. 模拟器路径：（例如：C:\\Program Files\\Netease\\MuMuPlayer-12.0）\n
-        模拟器路径应填写模拟器应用的上一层文件夹路径，例如应用路径为\n
-        「C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe」\n
-        应填写\n
-        「C:\\Program Files\\Netease\\MuMuPlayer-12.0」。\n\n
-        2. 实例编号：（例如：0）\n
-        实例编号可在 MuMu 多开器中查看，默认为 0，若有多开实例，编号见实例前的数字。\n\n
-        3. 窗口编号：（例如：0）\n
-        注意：关闭MuMu的后台保活后填写0，如需打开后台保活，请自行探索方法。
+        需使用官版或方舟专版 MuMu 12 V4.0.0 或更新版本。国际版等暂不支持。\n
+        强烈建议在开启本功能后立刻运行一次截图测试。\n
+        MAA 会自动通过注册表获取安装路径，若获取失败则请手动填写。\n\n
+        安装路径应填写模拟器安装目录的根目录，例如模拟器进程文件路径为\n
+        C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe\n
+        则应填写\n
+        C:\\Program Files\\Netease\\MuMuPlayer-12.0。
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu 安装路径</system:String>
     <system:String x:Key="MuMu12Index">实例编号</system:String>
@@ -397,16 +392,15 @@
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu 截图增强未生效，请检查相关设置</system:String>
     <system:String x:Key="LdExtrasEnabled">启用 LD 截图增强模式</system:String>
     <system:String x:Key="LdExtrasEnabledTip">
-        需使用 LDPlayer 9 V9.0.78 及更新版本。\n
-        强烈建议在开启本功能后的首次使用之前进行截图测试。\n\n
-        请填写以下信息：\n\n
-        1. 模拟器路径：（例如：C:\\leidian\\LDPlayer9）\n
-        模拟器路径应填写模拟器应用所在文件夹路径，例如应用路径为\n
-        「C:\\leidian\\LDPlayer9\\ldconsole.exe」\n
-        应填写\n
-        「C:\\leidian\\LDPlayer9」。\n\n
-        2. 实例编号：（例如：0）\n
-        实例编号可在 LDPlayer 多开器中查看，默认为 0，若有多开实例，编号见 版本/编号 中的 ID。\n
+        需使用雷电模拟器 9 V9.0.78 或更新版本。专版、测试版等暂不支持。\n
+        强烈建议在开启本功能后立刻运行一次截图测试。\n
+        MAA 会自动通过注册表获取安装路径，若获取失败则请手动填写。\n\n
+        安装路径应填写模拟器安装目录的根目录，例如模拟器进程文件路径为\n
+        C:\\leidian\\LDPlayer9\\dnplayer.exe\n
+        则应填写\n
+        C:\\leidian\\LDPlayer9。\n\n
+        实例编号可在雷电多开器中查看，\n
+        主多开为 0，其他多开为 版本/编号 ID 后的数字。\n
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 安装路径</system:String>
     <system:String x:Key="LdIndex">实例编号</system:String>
