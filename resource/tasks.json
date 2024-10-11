@@ -562,6 +562,66 @@
         ],
         "roi": [0, 60, 1280, 550]
     },
+    "GO-9": {
+        "algorithm": "JustReturn",
+        "sub": ["GO-OpenOpt"],
+        "next": ["GO-9@SideStoryStage", "GO-9@SwipeToStage"]
+    },
+    "GO-8": {
+        "algorithm": "JustReturn",
+        "sub": ["GO-OpenOpt"],
+        "next": ["GO-8@SideStoryStage", "GO-8@SwipeToStage"]
+    },
+    "GO-7": {
+        "algorithm": "JustReturn",
+        "sub": ["GO-OpenOpt"],
+        "next": ["GO-7@SideStoryStage", "GO-7@SwipeToStage"]
+    },
+    "GO-4": {
+        "algorithm": "JustReturn",
+        "sub": ["GO-OpenOpt"],
+        "next": ["GO-4@SideStoryStage", "GO-4@SwipeToStage"]
+    },
+    "GO-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["GO-OpenOcr", "GO-Open"]
+    },
+    "GO-Open": {
+        "baseTask": "SS-Open",
+        "template": "StageSideStory.png",
+        "next": ["GOChapterToGO"]
+    },
+    "GO-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": [
+           "追迹日落以西",
+           "未了往昔"
+        ],
+        "next": ["GOChapterToGO"]
+    },
+   "GOChapterToGO": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+           "无名之勋",
+           "名之"
+        ],
+        "preDelay": 3000,
+        "roi": [914, 579, 101, 34],
+        "next": ["#self", "ChapterSwipeToTheRight"]
+    },
+    "GO-9@SideStoryStage": {
+        "text": ["GO-9"]
+    },
+    "GO-8@SideStoryStage": {
+        "text": ["GO-8"]
+    },
+    "GO-7@SideStoryStage": {
+        "text": ["GO-7"]
+    },
+    "GO-4@SideStoryStage": {
+        "text": ["GO-4"]
+    },
     "DT-8": {
         "algorithm": "JustReturn",
         "sub": ["DT-OpenOpt"],
