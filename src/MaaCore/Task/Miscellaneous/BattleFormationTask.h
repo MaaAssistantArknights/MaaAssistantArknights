@@ -48,7 +48,6 @@ namespace asst
     protected:
         using OperGroup = std::pair<std::string, std::vector<asst::battle::OperUsage>>;
 
-
         virtual bool _run() override;
         bool add_formation(battle::Role role, std::vector<OperGroup> oper_group, std::vector<OperGroup>& missing);
         // 追加附加干员（按部署费用等小分类）
