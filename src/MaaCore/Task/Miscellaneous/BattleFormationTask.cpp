@@ -11,7 +11,6 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/MultiMatcher.h"
-#include "Vision/Battle/BattleRecruitSupportAnalyzer.h"
 
 void asst::BattleFormationTask::append_additional_formation(AdditionalFormation formation)
 {
@@ -21,6 +20,11 @@ void asst::BattleFormationTask::append_additional_formation(AdditionalFormation 
 void asst::BattleFormationTask::set_support_unit_name(std::string name)
 {
     m_support_unit_name = std::move(name);
+}
+
+void asst::BattleFormationTask::set_add_user_additional(bool add_user_additional)
+{
+    m_add_user_additional = add_user_additional;
 }
 
 void asst::BattleFormationTask::set_user_additional(std::vector<std::pair<std::string, int>> user_additional)
@@ -38,7 +42,7 @@ void asst::BattleFormationTask::set_select_formation(int index)
     m_select_formation_index = index;
 }
 
-std::shared_ptr<std::unordered_map<std::string, std::string>> asst::BattleFormationTask::get_opers_in_formation() const
+std::shared_ptr<std::unordered_map<std::string, std::string>>asst::BattleFormationTask::get_opers_in_formation() const
 {
     return m_opers_in_formation;
 }
@@ -68,24 +72,18 @@ bool asst::BattleFormationTask::_run()
     for (auto& [role, oper_groups] : m_formation) {
         add_formation(role, oper_groups, missing_operators);
     }
-
+    
     if (!missing_operators.empty()) {
-        bool support = false; 
         if (missing_operators.size() == 1) {
-            // 记得加上 SupportUnitUsage 的壳
-            support = select_support_operator(
-                missing_operators.front().first,
-                missing_operators.front().second.front().skill);
+            // TODO: 自动借助战？
         }
-        if (support) return true;
         
         report_missing_operators(missing_operators);
 
         return false;
     }
 
-    // 对于有在干员组中存在的自定干员，无法提前得知是否成功编入，故不提前加入编队
-    if (!m_user_additional.empty()) {
+    if (m_add_user_additional) {
         auto limit = 12 - m_size_of_operators_in_formation;
         for (const auto& [name, skill] : m_user_additional) {
             if (m_opers_in_formation->contains(name)) {
@@ -98,11 +96,9 @@ bool asst::BattleFormationTask::_run()
             oper.name = name;
             oper.skill = skill;
             std::vector<asst::battle::OperUsage> usage { std::move(oper) };
-            m_user_formation[BattleData.get_role(name)].emplace_back(name, std::move(usage));
+            m_user_formation.emplace_back(name, std::move(usage));
         }
-        for (auto& [role, oper_groups] : m_user_formation) {
-            add_formation(role, oper_groups, missing_operators);
-        }
+        add_formation(battle::Role::Unknown, m_user_formation, missing_operators);
     }
 
     add_additional();
@@ -119,93 +115,6 @@ bool asst::BattleFormationTask::_run()
     }
 
     return true;
-}
-
-bool asst::BattleFormationTask::select_support_operator(const std::string name, int skill)
-{
-    ProcessTask(*this, { "SelectSupportEnter" }).run();
-    ProcessTask(*this, { "SupportOperRole" + enum_to_string(BattleData.get_role(name), true) }).run();
-
-    // 识别所有干员，应该最多两页
-    const int MaxPageCnt = 2;
-    const int max_refresh = 10;
-
-    std::vector<battle::roguelike::RecruitSupportCharInfo> satisfied_chars;
-    for (int retry = 0; retry <= max_refresh; ++retry) {
-        if (need_exit()) return false;
-        for (int page = 0; page < MaxPageCnt; ++page) {
-            auto screen_char = ctrler()->get_image();
-            BattleRecruitSupportAnalyzer analyzer_char(screen_char);
-            analyzer_char.set_mode(battle::roguelike::SupportAnalyzeMode::AnalyzeChars);
-            analyzer_char.set_required({ name });
-            if (analyzer_char.analyze()) {
-                auto& chars_page = analyzer_char.get_result_char();
-
-                bool use_nonfriend_support = true;
-                auto check_satisfy = [&use_nonfriend_support](const battle::roguelike::RecruitSupportCharInfo& chara) {
-                    return chara.is_friend || use_nonfriend_support;
-                };
-                std::copy_if(
-                    chars_page.begin(),
-                    chars_page.end(),
-                    std::inserter(satisfied_chars, std::begin(satisfied_chars)),
-                    check_satisfy);
-
-                if (satisfied_chars.size()) {
-                    break;
-                }
-            }
-            if (page != MaxPageCnt - 1) {
-                ProcessTask(*this, { "RoguelikeSupportSwipeRight" }).run();
-            }
-        }
-        if (satisfied_chars.size()) {
-            break;
-        }
-
-        // 刷新助战
-        if (retry >= max_refresh) {
-            break;
-        }
-        auto screen_refresh = ctrler()->get_image();
-        BattleRecruitSupportAnalyzer analyzer_refresh(screen_refresh);
-        analyzer_refresh.set_mode(battle::roguelike::SupportAnalyzeMode::RefreshSupportBtn);
-        if (!analyzer_refresh.analyze()) {
-            click_return_button();
-            return false;
-        }
-        auto& refresh_info = analyzer_refresh.get_result_refresh();
-        if (refresh_info.in_cooldown) {
-            sleep(refresh_info.remain_secs * 1000);
-        }
-        ctrler()->click(refresh_info.rect);
-        sleep(Task.get("RoguelikeRefreshSupportBtnOcr")->post_delay);
-        ProcessTask(*this, { "RoguelikeSupportSwipeLeft" }).run();
-    }
-    if (satisfied_chars.empty()) {
-        // 找不到需要的助战干员，返回正常招募逻辑
-        Log.info(__FUNCTION__, "| can't find support char `", name, "`");
-        click_return_button();
-        return false;
-    }
-
-    // 点击干员并记录信息
-    auto& satisfied_char = satisfied_chars.front();
-
-    // 选择干员
-    const battle::roguelike::Recruitment& oper = satisfied_char.oper_info;
-
-    Log.info(__FUNCTION__, "| Choose support oper:", oper.name, "( elite", oper.elite, "level", oper.level, ")");
-
-    ctrler()->click(oper.rect);
-
-    // 选择技能
-    ProcessTask(*this, { "SelectSupportOperSkill" + std::to_string(skill) }).run();
-
-    // 确认选择
-    ProcessTask(*this, { "RecruitSupportConfirm" }).run();
-
-    return false;
 }
 
 bool asst::BattleFormationTask::add_formation(battle::Role role, std::vector<OperGroup> oper_group, std::vector<OperGroup>& missing)
@@ -236,7 +145,7 @@ bool asst::BattleFormationTask::add_formation(battle::Role role, std::vector<Ope
         }
         else {
             if (overall_swipe_times == m_missing_retry_times) {
-                missing.insert(missing.end(), oper_group.begin(), oper_group.end());
+                 missing.insert(missing.end(), oper_group.begin(), oper_group.end());
                 return true;
             }
 
@@ -315,8 +224,9 @@ bool asst::BattleFormationTask::add_trust_operators()
     ProcessTask(*this, { "BattleQuickFormationFilter-Trust" }).run();
     ProcessTask(*this, { "BattleQuickFormationFilterClose" }).run();
     // 检查特关是否开启
-    ProcessTask(*this, { "BattleQuickFormationFilter-PinUnactivated", "BattleQuickFormationFilter-PinActivated" })
-        .run();
+    ProcessTask(*this, { 
+        "BattleQuickFormationFilter-PinUnactivated", "BattleQuickFormationFilter-PinActivated"
+    }).run();
 
     // 重置职业选择，保证处于最左
     click_role_table(battle::Role::Caster);
@@ -521,9 +431,7 @@ bool asst::BattleFormationTask::click_role_table(battle::Role role)
         tasks = { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" };
     }
     else {
-        tasks = { "BattleQuickFormationRole-" + role_iter->second,
-                  "BattleQuickFormationRole-All",
-                  "BattleQuickFormationRole-All-OCR" };
+        tasks = { "BattleQuickFormationRole-" + role_iter->second, "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR"};
     }
     return ProcessTask(*this, tasks).set_retry_times(0).run();
 }
@@ -567,8 +475,7 @@ bool asst::BattleFormationTask::select_formation(int select_index)
     // 第二组是名字最左边和最右边的一块区域
     // 右边比左边窄，暂定为左边 10*58
 
-    static const std::vector<std::string> select_formation_task = { "BattleSelectFormation1",
-                                                                    "BattleSelectFormation2",
+    static const std::vector<std::string> select_formation_task = { "BattleSelectFormation1", "BattleSelectFormation2",
                                                                     "BattleSelectFormation3",
                                                                     "BattleSelectFormation4" };
 
