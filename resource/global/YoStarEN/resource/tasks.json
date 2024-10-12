@@ -36,7 +36,8 @@
         "text": ["Babel", "open", "event"]
     },
     "BBChapterToBB": {
-        "text": ["Future", "FUTURE", "Gifts", "Gifts"]
+        "text": ["Future", "FUTURE", "Gifts", "Gifts"],
+        "roi": [1000, 589, 209, 131]
     },
     "OD-8": {
         "sub": ["OD-Open"]
