@@ -36,24 +36,29 @@ namespace MaaWpfGui.Services.Notification
         public async Task<bool> SendAsync(string title, string content)
         {
             var sendKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, string.Empty);
-            var url = $"https://sctapi.ftqq.com/{sendKey}.send";
+
+            // 根据 sendkey 的前缀选择不同的 API URL
+            var url = sendKey.StartsWith("sctp") 
+                ? $"https://{sendKey}.push.ft07.com/send" 
+                : $"https://sctapi.ftqq.com/{sendKey}.send";
 
             var response = await _httpService.PostAsJsonAsync(
                 new Uri(url),
-                new ServerChanPostContent { Title = title, Content = content, });
+                new ServerChanPostContent { Title = title, Content = content });
 
             var responseRoot = JsonDocument.Parse(response).RootElement;
             var hasCodeProperty = responseRoot.TryGetProperty("code", out var codeElement);
-            if (hasCodeProperty is false)
+
+            if (!hasCodeProperty)
             {
-                _logger.Warning("Failed to send ServerChan notification, unknown response, {Response}", response);
+                _logger.Warning("Failed to send ServerChan notification, unknown response: {Response}", response);
                 return false;
             }
 
             var hasCode = codeElement.TryGetInt32(out var code);
-            if (hasCode is false)
+            if (!hasCode)
             {
-                _logger.Warning("Failed to send ServerChan notification, unknown response {Response}", response);
+                _logger.Warning("Failed to send ServerChan notification, unknown code in response: {Response}", response);
                 return false;
             }
 
@@ -62,7 +67,7 @@ namespace MaaWpfGui.Services.Notification
                 return true;
             }
 
-            _logger.Warning("Failed to send ServerChan notification, code {Code}", code);
+            _logger.Warning("Failed to send ServerChan notification, code: {Code}", code);
             return false;
         }
 
