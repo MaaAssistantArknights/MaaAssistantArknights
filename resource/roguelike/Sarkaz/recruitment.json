@@ -286,7 +286,7 @@
                     "name": "维娜·维多利亚",
                     "skill": 3,
                     "alternate_skill": 1,
-                    "recruit_priority": 710,
+                    "recruit_priority": 601,
                     "promote_priority": 850,
                     "recruit_priority_offsets": [
                         {
