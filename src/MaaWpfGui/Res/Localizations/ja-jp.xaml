@@ -378,18 +378,13 @@
     <system:String x:Key="ScreenshotTest">スクリーンショットテスト</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu のスクリーンショット拡張モードを有効にする</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip">
-        MuMu 12 V4.0.0以降を利用する必要があり、MuMu 12 Arknights Globalには対応していません。\n
-        この機能を有効にした後、初めて使用する前にスクリーンショット テストを実行することを強くお勧めします。\n\n
-        以下の情報を記入してください：\n\n
-        1. エミュレーターパス：（例：C:\\Program Files\\Netease\\MuMuPlayer-12.0）\n
-        エミュレーターパスは、エミュレーターアプリケーションの親フォルダーパスを記入してください。例えば、アプリケーションのパスが\n
-        「C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe」の場合、\n
-        「C:\\Program Files\\Netease\\MuMuPlayer-12.0」\n
-        を記入してください。\n\n
-        2. インスタンス番号：（例：0）\n
-        インスタンス番号はMuMuマルチインスタンスマネージャーで確認できます。デフォルトは0です。複数のインスタンスがある場合、番号はインスタンスの前に表示されます。\n\n
-        3. ウィンドウ番号：（例：0）\n
-        注意：MuMuのバックグラウンドでのアクティブ維持を閉じた後は0を記入してください。バックグラウンドでのアクティブ維持を開始する場合は、自分で方法を探してください。
+        MuMu 12 V4.0.0 以降を利用する必要があり、MuMu 12 Arknights Global には対応していません。\n
+        この機能を有効にした後、すぐにスクリーンショットテストを実行することを強くお勧めします。\n
+        MAA はレジストリからインストールパスを自動的に取得しますが、失敗した場合は手動で入力してください。\n\n
+        インストールパスには、エミュレーターのインストールディレクトリのルートディレクトリを入力する必要があります。例えば、エミュレーターのプロセスファイルパスが\n
+        C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe\n
+        の場合、\n
+        C:\\Program Files\\Netease\\MuMuPlayer-12.0 を入力してください。
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 エミュレータパス</system:String>
     <system:String x:Key="MuMu12Index">インスタンス番号</system:String>
@@ -397,15 +392,15 @@
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu スクリーンショットの強化 が有効になっていません。関連する設定を確認してください</system:String>
     <system:String x:Key="LdExtrasEnabled">LD のスクリーンショット拡張モードを有効にする</system:String>
     <system:String x:Key="LdExtrasEnabledTip">
-        LDPlayer 9 V9.0.78 以降のバージョンが必要です。\n
-        この機能を初めて使用する前に、スクリーンショットテストを行うことを強くお勧めします。\n\n
-        以下の情報を入力してください：\n\n
-        1. エミュレーターのパス：（例：C:\\leidian\\LDPlayer9）\n
-        エミュレーターのパスは、エミュレーターアプリケーションが存在するフォルダのパスを入力してください。例えば、アプリケーションパスが\n
-        「C:\\leidian\\LDPlayer9\\ldconsole.exe」の場合、\n
-        「C:\\leidian\\LDPlayer9」と入力してください。\n\n
-        2. インスタンス番号：（例：0）\n
-        インスタンス番号は、LDPlayerのマルチインスタンスマネージャーで確認できます。デフォルトは0です。複数のインスタンスがある場合、バージョン/番号のID列に番号が表示されます。\n
+        LDPlayer 9 V9.0.78 以降のバージョンが必要です、LDPlayer Global には対応していません。\n
+        この機能を有効にした後、すぐにスクリーンショットテストを実行することを強くお勧めします。\n
+        MAA はレジストリからインストールパスを自動的に取得しますが、失敗した場合は手動で入力してください。\n\n
+        インストールパスには、エミュレーターのインストールディレクトリのルートディレクトリを入力する必要があります。例えば、エミュレーターのプロセスファイルパスが\n
+        C:\\leidian\\LDPlayer9\\dnplayer.exe\n
+        の場合、\n
+        C:\\leidian\\LDPlayer9 を入力してください。\n\n
+        インスタンス番号はLDPlayerマルチインスタンスマネージャーで確認できます。\n
+        メインインスタンスは0で、他のインスタンスはバージョン/インスタンスIDの後の番号です。
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD エミュレータパス</system:String>
     <system:String x:Key="LdIndex">インスタンス番号</system:String>

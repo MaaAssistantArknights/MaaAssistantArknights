@@ -378,18 +378,13 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="ScreenshotTest">Screenshot test</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">Enable MuMu's screenshot enhancement mode</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip">
-        MuMu 12 V4.0.0 and later is required, not supported by MuMu 12 Global.\n
-        It is strongly recommended to perform a screenshot test before using this feature for the first time after enabling it.\n\n
-        Please fill in the following information:\n\n
-        1. Emulator Path: (e.g., C:\\Program Files\\Netease\\MuMuPlayer-12.0)\n
-        The emulator path should be the parent folder path of the emulator application. For example, if the application path is\n
-        「C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe」,\n
-        you should fill in\n
-        「C:\\Program Files\\Netease\\MuMuPlayer-12.0」.\n\n
-        2. Instance Number: (e.g., 0)\n
-        The instance number can be found in the MuMu Multi-Instance Manager, default is 0. If there are multiple instances, the number is shown before the instance.\n\n
-        3. Window Number: (e.g., 0)\n
-        Note: Fill in 0 after closing MuMu's background keep-alive. If you need to open the background keep-alive, please explore the method yourself.
+        MuMu 12 V4.0.0 or later is required. Global version is not supported.\n
+        It is strongly recommended to run a screenshot test immediately after enabling this feature.\n
+        MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.\n\n
+        The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is\n
+        C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe\n
+        then it should be filled in as\n
+        C:\\Program Files\\Netease\\MuMuPlayer-12.0
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 Emulator exec path</system:String>
     <system:String x:Key="MuMu12Index">Instance Number</system:String>
@@ -397,16 +392,15 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu screenshot enhancement not enabled, please check related settings</system:String>
     <system:String x:Key="LdExtrasEnabled">Enable LD's screenshot enhancement mode</system:String>
     <system:String x:Key="LdExtrasEnabledTip">
-        Requires LDPlayer 9 V9.0.78 or later.\n
-        It is strongly recommended to perform a screenshot test before using this feature for the first time.\n\n
-        Please provide the following information:\n\n
-        1. Emulator path: (e.g., C:\\leidian\\LDPlayer9)\n
-        The emulator path should be the folder where the emulator application is located, for example, if the application path is\n
-        "C:\\leidian\\LDPlayer9\\ldconsole.exe"\n
-        You should fill in\n
-        "C:\\leidian\\LDPlayer9".\n\n
-        2. Instance number: (e.g., 0)\n
-        The instance number can be found in the LDPlayer multi-instance manager, default is 0. If there are multiple instances, the number can be found in the ID column under Version/ID.\n
+        LDPlayer 9 V9.0.78 or later is required. Global version is not supported.\n
+        It is strongly recommended to run a screenshot test immediately after enabling this feature.\n
+        MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.\n\n
+        The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is\n
+        C:\\leidian\\LDPlayer9\\dnplayer.exe\n
+        then it should be filled in as\n
+        C:\\leidian\\LDPlayer9。\n\n
+        The instance number can be viewed in LDPlayer Multi-Instance Manager,\n
+        The primary instance is 0, and other instances are the numbers after the version/instance ID.
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD Emulator exec path</system:String>
     <system:String x:Key="LdIndex">Instance Number</system:String>
