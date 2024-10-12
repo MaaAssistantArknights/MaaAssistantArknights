@@ -133,6 +133,7 @@ bool asst::BattleFormationTask::select_support_operator(const std::string name, 
     ProcessTask(*this, { "SelectSupportEnter" }).run();
     ProcessTask(*this, { "SupportOperRole" + enum_to_string(BattleData.get_role(name), true) }).run();
 
+    // 以下来自肉鸽代码
     // 识别所有干员，应该最多两页
     const int MaxPageCnt = 2;
     const int max_refresh = 10;
@@ -208,6 +209,7 @@ bool asst::BattleFormationTask::select_support_operator(const std::string name, 
 
     ctrler()->click(oper.rect);
 
+    // 以上来自肉鸽代码
     sleep(1000);
     // 选择技能
     ProcessTask(*this, { "SelectSupportOperSkill" + std::to_string(skill) }).run();
@@ -551,7 +553,9 @@ bool asst::BattleFormationTask::click_role_table(battle::Role role)
         tasks = { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" };
     }
     else {
-        tasks = { "BattleQuickFormationRole-" + role_iter->second, "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR"};
+        tasks = { "BattleQuickFormationRole-" + role_iter->second,
+                  "BattleQuickFormationRole-All",
+                  "BattleQuickFormationRole-All-OCR"};
     }
     return ProcessTask(*this, tasks).set_retry_times(0).run();
 }
@@ -595,7 +599,8 @@ bool asst::BattleFormationTask::select_formation(int select_index)
     // 第二组是名字最左边和最右边的一块区域
     // 右边比左边窄，暂定为左边 10*58
 
-    static const std::vector<std::string> select_formation_task = { "BattleSelectFormation1", "BattleSelectFormation2",
+    static const std::vector<std::string> select_formation_task = { "BattleSelectFormation1",
+                                                                    "BattleSelectFormation2",
                                                                     "BattleSelectFormation3",
                                                                     "BattleSelectFormation4" };
 
