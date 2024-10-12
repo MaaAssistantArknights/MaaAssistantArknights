@@ -31,15 +31,15 @@ bool asst::BattleRecruitSupportAnalyzer::analyze()
 
         const auto& char_name_rects = analyzer.get_result();
         const auto& task_off1 = Task.get("RoguelikeRecruitSupportOff1");
-        const auto& task_off_elite = Task.get("RoguelikeRecruitSupportEliteOff");
-        const auto& task_off_level = Task.get("RoguelikeRecruitSupportLevelOff");
+        // const auto& task_off_elite = Task.get("RoguelikeRecruitSupportEliteOff");
+        // const auto& task_off_level = Task.get("RoguelikeRecruitSupportLevelOff");
         m_char_result.clear();
         for (const auto& char_rect : char_name_rects) {
             Rect name_rect = char_rect.rect;
             name_rect.x = name_rect.x + name_rect.width / 2;
 
             // 识别等级区域
-            Rect level_roi = name_rect.move(task_off_level->rect_move);
+            // Rect level_roi = name_rect.move(task_off_level->rect_move);
             int char_level = 90; // match_level(level_roi);
             if (char_level <= 0) {
                 // 等级识别失败，可能希望不足，舍弃结果
@@ -52,7 +52,7 @@ bool asst::BattleRecruitSupportAnalyzer::analyze()
             bool is_friend = judge_is_friend(color_roi, task_off1->special_params.front());
 
             // 匹配精英化状态
-            Rect elite_roi = name_rect.move(task_off_elite->rect_move);
+            // Rect elite_roi = name_rect.move(task_off_elite->rect_move);
             int char_elite = 2; // match_elite(elite_roi, task_off_elite->special_params.front());
 
             battle::roguelike::RecruitSupportCharInfo char_info {
