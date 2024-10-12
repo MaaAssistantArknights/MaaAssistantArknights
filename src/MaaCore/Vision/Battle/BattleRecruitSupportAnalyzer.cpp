@@ -40,7 +40,7 @@ bool asst::BattleRecruitSupportAnalyzer::analyze()
 
             // 识别等级区域
             Rect level_roi = name_rect.move(task_off_level->rect_move);
-            int char_level = match_level(level_roi);
+            int char_level = 90; // match_level(level_roi);
             if (char_level <= 0) {
                 // 等级识别失败，可能希望不足，舍弃结果
                 Log.info(__FUNCTION__, "| match_level failed ", char_rect.text, char_level);
@@ -53,15 +53,18 @@ bool asst::BattleRecruitSupportAnalyzer::analyze()
 
             // 匹配精英化状态
             Rect elite_roi = name_rect.move(task_off_elite->rect_move);
-            int char_elite = match_elite(elite_roi, task_off_elite->special_params.front());
+            int char_elite = 2; // match_elite(elite_roi, task_off_elite->special_params.front());
 
             battle::roguelike::RecruitSupportCharInfo char_info {
-                { char_rect.text, char_rect.rect, char_elite, char_level },
+                {   char_rect.text,
+                    char_rect.rect,
+                    char_elite,
+                    char_level },
                 is_friend,
                 char_elite,
                 char_level
             };
-
+            /*
             // 助战招募最多精一
             int rarity = BattleData.get_rarity(char_rect.text);
             if (rarity == 0) {
@@ -78,7 +81,7 @@ bool asst::BattleRecruitSupportAnalyzer::analyze()
                     char_info.oper_info.level = 60 + 10 * (rarity - 4);
                 }
             }
-
+            */
             Log.info(
                 __FUNCTION__,
                 "| AnalyzeChars append ",

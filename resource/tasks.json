@@ -3508,8 +3508,7 @@
         "next": ["SelectSupportStartSelect", "SelectSupportBackToFormationPage"]
     },
     "SelectSupportBackToFormationPage": {
-        "action": "ClickSelf",
-        "roi": [0, 0, 144, 142],
+        "baseTask": "Return",
         "next": ["SelectSupportEnter"]
     },
     "SelectSupportStartSelect": {

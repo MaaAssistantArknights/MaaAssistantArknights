@@ -76,13 +76,18 @@ bool asst::BattleFormationTask::_run()
     
     if (!missing_operators.empty()) {
         bool support = false; 
-        if (missing_operators.size() == 1) {
+        if (missing_operators.size() == 1 && !m_support_oper) {
             // 记得加上 SupportUnitUsage 的壳
             support = select_support_operator(
                 missing_operators.front().first,
                 missing_operators.front().second.front().skill);
         }
-        if (support) return true;
+        if (support) {
+            m_support_oper = true;
+            report_recruit_support_operator(missing_operators);
+            missing_operators.clear();
+            return true;
+        }
         
         report_missing_operators(missing_operators);
 
@@ -114,7 +119,7 @@ bool asst::BattleFormationTask::_run()
     confirm_selection();
 
     // 借一个随机助战
-    if (m_support_unit_name == "_RANDOM_") {
+    if (m_support_unit_name == "_RANDOM_" && !m_support_oper) {
         if (!select_random_support_unit()) {
             return false;
         }
@@ -145,7 +150,7 @@ bool asst::BattleFormationTask::select_support_operator(const std::string name, 
             if (analyzer_char.analyze()) {
                 auto& chars_page = analyzer_char.get_result_char();
 
-                bool use_nonfriend_support = true;
+                bool use_nonfriend_support = true; // TODO: 接口实现判断
                 auto check_satisfy = [&use_nonfriend_support](const battle::roguelike::RecruitSupportCharInfo& chara) {
                     return chara.is_friend || use_nonfriend_support;
                 };
@@ -203,13 +208,14 @@ bool asst::BattleFormationTask::select_support_operator(const std::string name, 
 
     ctrler()->click(oper.rect);
 
+    sleep(1000);
     // 选择技能
     ProcessTask(*this, { "SelectSupportOperSkill" + std::to_string(skill) }).run();
 
     // 确认选择
     ProcessTask(*this, { "RecruitSupportConfirm" }).run();
 
-    return false;
+    return true;
 }
 
 bool asst::BattleFormationTask::add_formation(battle::Role role, std::vector<OperGroup> oper_group, std::vector<OperGroup>& missing)
@@ -374,6 +380,25 @@ void asst::BattleFormationTask::report_missing_operators(std::vector<OperGroup>&
     }
 
     info["why"] = "OperatorMissing";
+
+    info["details"] = json::object { { "opers", json::array(oper_names) } };
+    callback(AsstMsg::SubTaskError, info);
+}
+
+void asst::BattleFormationTask::report_recruit_support_operator(std::vector<OperGroup>& groups)
+{
+    auto info = basic_info();
+
+    std::vector<std::vector<std::string>> oper_names;
+    for (auto& group : groups) {
+        std::vector<std::string> names;
+        for (const auto& oper : group.second) {
+            names.push_back(oper.name);
+        }
+        oper_names.push_back(names);
+    }
+
+    info["why"] = "RecruitSuppportOperator";
 
     info["details"] = json::object { { "opers", json::array(oper_names) } };
     callback(AsstMsg::SubTaskError, info);
