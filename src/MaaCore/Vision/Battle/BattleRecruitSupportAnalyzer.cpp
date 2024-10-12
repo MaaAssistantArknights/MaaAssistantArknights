@@ -17,20 +17,7 @@ bool asst::BattleRecruitSupportAnalyzer::analyze()
 {
     LogTraceFunction;
 
-    if (m_mode == battle::roguelike::SupportAnalyzeMode::ChooseSupportBtn) {
-        // 识别“选择助战”
-        OCRer analyzer(m_image);
-        const auto& task = Task.get<OcrTaskInfo>("RoguelikeChooseSupportBtnOcr");
-        analyzer.set_roi(task->roi);
-        analyzer.set_required(task->text);
-        if (!analyzer.analyze()) {
-            return false;
-        }
-        m_choose_support_result = analyzer.get_result().front().rect;
-        Log.info(__FUNCTION__, "| ChooseSupportBtn");
-        return true;
-    }
-    else if (m_mode == battle::roguelike::SupportAnalyzeMode::AnalyzeChars) {
+    if (m_mode == battle::roguelike::SupportAnalyzeMode::AnalyzeChars) {
         // 识别干员
         OCRer analyzer(m_image);
         analyzer.set_roi(Task.get("RoguelikeRecruitSupportOcr")->roi);

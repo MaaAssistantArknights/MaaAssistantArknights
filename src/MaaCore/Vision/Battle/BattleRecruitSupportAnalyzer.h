@@ -24,7 +24,7 @@ public:
     const auto& get_result_refresh() { return m_refresh_result; }
 
 private:
-    battle::roguelike::SupportAnalyzeMode m_mode = battle::roguelike::SupportAnalyzeMode::ChooseSupportBtn;
+    battle::roguelike::SupportAnalyzeMode m_mode = battle::roguelike::SupportAnalyzeMode::AnalyzeChars;
     Rect m_choose_support_result;
     battle::roguelike::RefreshSupportInfo m_refresh_result;
     std::vector<battle::roguelike::RecruitSupportCharInfo> m_char_result;
