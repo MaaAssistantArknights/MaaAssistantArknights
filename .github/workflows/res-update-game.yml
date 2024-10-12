@@ -248,7 +248,7 @@ jobs:
             $commit_msg = $commit_msg.Trim()
           }
 
-          $run_url = "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          $run_url = "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ github.job}}"
 
           git commit -m "$commit_msg" -m "$run_url" -m "[skip changelog]"
           if ($LASTEXITCODE -eq 0) {
