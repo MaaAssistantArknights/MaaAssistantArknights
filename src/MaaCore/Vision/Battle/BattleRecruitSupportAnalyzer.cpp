@@ -56,10 +56,7 @@ bool asst::BattleRecruitSupportAnalyzer::analyze()
             int char_elite = 2; // match_elite(elite_roi, task_off_elite->special_params.front());
 
             battle::roguelike::RecruitSupportCharInfo char_info {
-                {   char_rect.text,
-                    char_rect.rect,
-                    char_elite,
-                    char_level },
+                { char_rect.text, char_rect.rect, char_elite, char_level },
                 is_friend,
                 char_elite,
                 char_level

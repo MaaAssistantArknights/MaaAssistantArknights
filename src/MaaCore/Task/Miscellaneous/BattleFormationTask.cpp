@@ -10,8 +10,8 @@
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/MultiMatcher.h"
 #include "Vision/Battle/BattleRecruitSupportAnalyzer.h"
+#include "Vision/MultiMatcher.h"
 
 void asst::BattleFormationTask::append_additional_formation(AdditionalFormation formation)
 {
@@ -43,7 +43,7 @@ void asst::BattleFormationTask::set_select_formation(int index)
     m_select_formation_index = index;
 }
 
-std::shared_ptr<std::unordered_map<std::string, std::string>>asst::BattleFormationTask::get_opers_in_formation() const
+std::shared_ptr<std::unordered_map<std::string, std::string>> asst::BattleFormationTask::get_opers_in_formation() const
 {
     return m_opers_in_formation;
 }
@@ -73,9 +73,9 @@ bool asst::BattleFormationTask::_run()
     for (auto& [role, oper_groups] : m_formation) {
         add_formation(role, oper_groups, missing_operators);
     }
-    
+
     if (!missing_operators.empty()) {
-        bool support = false; 
+        bool support = false;
         if (missing_operators.size() == 1 && !m_support_oper) {
             // 记得加上 SupportUnitUsage 的壳
             support = select_support_operator(
@@ -88,7 +88,7 @@ bool asst::BattleFormationTask::_run()
             missing_operators.clear();
             return true;
         }
-        
+
         report_missing_operators(missing_operators);
 
         return false;
@@ -220,7 +220,10 @@ bool asst::BattleFormationTask::select_support_operator(const std::string name, 
     return true;
 }
 
-bool asst::BattleFormationTask::add_formation(battle::Role role, std::vector<OperGroup> oper_group, std::vector<OperGroup>& missing)
+bool asst::BattleFormationTask::add_formation(
+    battle::Role role,
+    std::vector<OperGroup> oper_group,
+    std::vector<OperGroup>& missing)
 {
     LogTraceFunction;
 
@@ -248,7 +251,7 @@ bool asst::BattleFormationTask::add_formation(battle::Role role, std::vector<Ope
         }
         else {
             if (overall_swipe_times == m_missing_retry_times) {
-                 missing.insert(missing.end(), oper_group.begin(), oper_group.end());
+                missing.insert(missing.end(), oper_group.begin(), oper_group.end());
                 return true;
             }
 
@@ -327,9 +330,8 @@ bool asst::BattleFormationTask::add_trust_operators()
     ProcessTask(*this, { "BattleQuickFormationFilter-Trust" }).run();
     ProcessTask(*this, { "BattleQuickFormationFilterClose" }).run();
     // 检查特关是否开启
-    ProcessTask(*this, { 
-        "BattleQuickFormationFilter-PinUnactivated", "BattleQuickFormationFilter-PinActivated"
-    }).run();
+    ProcessTask(*this, { "BattleQuickFormationFilter-PinUnactivated", "BattleQuickFormationFilter-PinActivated" })
+        .run();
 
     // 重置职业选择，保证处于最左
     click_role_table(battle::Role::Caster);
@@ -555,7 +557,7 @@ bool asst::BattleFormationTask::click_role_table(battle::Role role)
     else {
         tasks = { "BattleQuickFormationRole-" + role_iter->second,
                   "BattleQuickFormationRole-All",
-                  "BattleQuickFormationRole-All-OCR"};
+                  "BattleQuickFormationRole-All-OCR" };
     }
     return ProcessTask(*this, tasks).set_retry_times(0).run();
 }
