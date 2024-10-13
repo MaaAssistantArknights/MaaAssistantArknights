@@ -6,7 +6,6 @@
 #include <array>
 #include <cmath>
 
-
 #include "Config/OnnxSessions.h"
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
@@ -48,12 +47,20 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
     constexpr int64_t batch_size = 1;
     std::array<int64_t, 4> input_shape { batch_size, image.channels(), image.cols, image.rows };
 
-    Ort::Value input_tensor = Ort::Value::CreateTensor<float>(memory_info, input.data(), input.size(),
-                                                              input_shape.data(), input_shape.size());
+    Ort::Value input_tensor = Ort::Value::CreateTensor<float>(
+        memory_info,
+        input.data(),
+        input.size(),
+        input_shape.data(),
+        input_shape.size());
     SkillReadyResult::Raw raw_results;
     std::array<int64_t, 2> output_shape { batch_size, SkillReadyResult::ClsSize };
-    Ort::Value output_tensor = Ort::Value::CreateTensor<float>(memory_info, raw_results.data(), raw_results.size(),
-                                                               output_shape.data(), output_shape.size());
+    Ort::Value output_tensor = Ort::Value::CreateTensor<float>(
+        memory_info,
+        raw_results.data(),
+        raw_results.size(),
+        output_shape.data(),
+        output_shape.size());
 
     auto& session = OnnxSessions::get_instance().get("skill_ready_cls");
     // 这俩是hardcode在模型里的
@@ -72,7 +79,13 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
 #ifdef ASST_DEBUG
     if (ready) {
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(roi), cv::Scalar(0, 165, 255), 2);
-        cv::putText(m_image_draw, std::to_string(score), cv::Point(roi.x, roi.y - 10), 1, 1.2, cv::Scalar(0, 165, 255),
+        cv::putText(
+            m_image_draw,
+            std::to_string(score),
+            cv::Point(roi.x, roi.y - 10),
+            1,
+            1.2,
+            cv::Scalar(0, 165, 255),
                     2);
     }
 #endif
@@ -100,13 +113,21 @@ BattlefieldClassifier::DeployDirectionResult BattlefieldClassifier::deploy_direc
     constexpr int64_t batch_size = 1;
     std::array<int64_t, 4> input_shape { batch_size, image.channels(), image.cols, image.rows };
 
-    Ort::Value input_tensor = Ort::Value::CreateTensor<float>(memory_info, input.data(), input.size(),
-                                                              input_shape.data(), input_shape.size());
+    Ort::Value input_tensor = Ort::Value::CreateTensor<float>(
+        memory_info,
+        input.data(),
+        input.size(),
+        input_shape.data(),
+        input_shape.size());
 
     DeployDirectionResult::Raw raw_results;
     std::array<int64_t, 2> output_shape { batch_size, DeployDirectionResult::ClsSize };
-    Ort::Value output_tensor = Ort::Value::CreateTensor<float>(memory_info, raw_results.data(), raw_results.size(),
-                                                               output_shape.data(), output_shape.size());
+    Ort::Value output_tensor = Ort::Value::CreateTensor<float>(
+        memory_info,
+        raw_results.data(),
+        raw_results.size(),
+        output_shape.data(),
+        output_shape.size());
 
     auto& session = OnnxSessions::get_instance().get("deploy_direction_cls");
     // 这俩是hardcode在模型里的
@@ -133,10 +154,22 @@ BattlefieldClassifier::DeployDirectionResult BattlefieldClassifier::deploy_direc
         Log.error("ClassNames.size() != prob.size()", ClassNames.size(), prob.size());
         throw std::runtime_error("ClassNames.size() != prob.size()");
     }
-    cv::putText(m_image_draw, ClassNames.at(class_id), cv::Point(roi.x, roi.y + roi.height), cv::FONT_HERSHEY_PLAIN,
-                1.2, cv::Scalar(0, 255, 0), 2);
-    cv::putText(m_image_draw, std::to_string(prob[class_id]), cv::Point(roi.x, roi.y + roi.height + 20),
-                cv::FONT_HERSHEY_PLAIN, 1.2, cv::Scalar(0, 255, 0), 2);
+    cv::putText(
+        m_image_draw,
+        ClassNames.at(class_id),
+        cv::Point(roi.x, roi.y + roi.height),
+        cv::FONT_HERSHEY_PLAIN,
+        1.2,
+        cv::Scalar(0, 255, 0),
+        2);
+    cv::putText(
+        m_image_draw,
+        std::to_string(prob[class_id]),
+        cv::Point(roi.x, roi.y + roi.height + 20),
+        cv::FONT_HERSHEY_PLAIN,
+        1.2,
+        cv::Scalar(0, 255, 0),
+        2);
 #endif
 
     return DeployDirectionResult {
