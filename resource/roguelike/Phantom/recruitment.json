@@ -163,6 +163,22 @@
             "name": "近卫",
             "opers": [
                 {
+                    "name": "乌尔比安",
+                    "skill": 2,
+                    "skill_usage": 0,
+                    "is_key": true,
+                    "is_start": true,
+                    "recruit_priority": 821,
+                    "promote_priority": 801,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["凯尔希", "近卫", "召唤"],
+                            "threshold": 1,
+                            "offset": -400
+                        }
+                    ]
+                },
+                {
                     "name": "圣约送葬人",
                     "skill": 3,
                     "alternate_skill": 2,
@@ -2235,6 +2251,9 @@
                 },
                 {
                     "name": "塞雷娅"
+                },
+                {
+                    "name": "乌尔比安"
                 },
                 {
                     "name": "煌"
