@@ -165,6 +165,7 @@
                 {
                     "name": "乌尔比安",
                     "skill": 2,
+                    "skill_usage": 0,
                     "is_key": true,
                     "is_start": true,
                     "recruit_priority": 821,
