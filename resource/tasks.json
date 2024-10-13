@@ -3505,11 +3505,11 @@
     },
     "SelectSupportEnter": {
         "algorithm": "JustReturn",
-        "next": ["SelectSupportStartSelect", "SelectSupportBackToFormationPage"]
+        "next": ["SelectSupportStartSelect", "SelectSupportConfirmToFormationPage"]
     },
-    "SelectSupportBackToFormationPage": {
-        "baseTask": "Return",
-        "template": "Return.png",
+    "SelectSupportConfirmToFormationPage": {
+        "baseTask": "BattleQuickFormationConfirm",
+        "template": "BattleQuickFormationConfirm.png",
         "next": ["SelectSupportEnter"]
     },
     "SelectSupportStartSelect": {
