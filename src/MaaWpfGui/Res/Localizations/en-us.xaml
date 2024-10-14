@@ -728,7 +728,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="GiveUpUploadingPenguins">Abort upload to Penguin Statistics</system:String>
     <system:String x:Key="TheEx">No bonus stage, stopped</system:String>
     <system:String x:Key="MissingOperators">Operators of the following operator groups are missing:</system:String>
-    <system:String x:Key="RecruitSupportOperator">Auto recruited following support operator:</system:String>
+    <system:String x:Key="UseSupportUnit">Use support unit: {0}</system:String>
     <system:String x:Key="StageQueue">Stage Queue:</system:String>
     <system:String x:Key="UnableToAgent">Unable to use PRTS</system:String>
     <system:String x:Key="MissionStart">Mission started</system:String>
