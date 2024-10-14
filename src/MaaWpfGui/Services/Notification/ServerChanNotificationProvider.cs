@@ -48,7 +48,7 @@ namespace MaaWpfGui.Services.Notification
                 new ServerChanPostContent { Title = title, Content = content },
                 headers);
 
-            // 设置请求头，指定为 application/json;charset=utf-8
+            // 设置请求头
             var headers = new Dictionary<string, string>
             {
                 { "Content-Type", "application/json;charset=utf-8" }
