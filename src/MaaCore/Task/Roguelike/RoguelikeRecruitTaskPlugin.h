@@ -1,16 +1,16 @@
 #pragma once
 #include "AbstractRoguelikeTaskPlugin.h"
-#include "Config/Roguelike/RoguelikeRecruitConfig.h"
 #include "Common/AsstBattleDef.h"
+#include "Config/Roguelike/RoguelikeRecruitConfig.h"
 
 namespace asst
 {
 // 干员招募信息
 struct RoguelikeRecruitInfo
 {
-    std::string name;   // 干员名字
-    int priority = 0;   // 招募优先级 (0-1000)
-    int page_index = 0; // 所在页码 (用于判断翻页方向)
+    std::string name;          // 干员名字
+    int priority = 0;          // 招募优先级 (0-1000)
+    int page_index = 0;        // 所在页码 (用于判断翻页方向)
     bool is_alternate = false; // 是否后备干员 (允许重复招募、划到后备干员时不再往右划动)
 };
 
@@ -55,9 +55,8 @@ private:
         const RecruitPriorityOffset& condition,
         const std::unordered_map<std::string, RoguelikeOper>& chars_map);
 
-    int m_recruit_count = 0; // 第几次招募
-    bool m_starts_complete =
-        false; // 开局干员是否已经招募，阵容中必须有开局干员，没有前仅招募start干员或预备干员
-    bool m_team_complete = false; // 阵容是否完备，阵容完备前，仅招募key干员或预备干员
+    int m_recruit_count = 0;        // 第几次招募
+    bool m_starts_complete = false; // 开局干员是否已经招募，阵容中必须有开局干员，没有前仅招募start干员或预备干员
+    bool m_team_complete = false;   // 阵容是否完备，阵容完备前，仅招募key干员或预备干员
 };
 }

@@ -6,8 +6,8 @@
 
 #include "Utils/Logger.hpp"
 
-const asst::RoguelikeOperInfo& asst::RoguelikeRecruitConfig::get_oper_info(const std::string& theme,
-                                                                           const std::string& oper_name) noexcept
+const asst::RoguelikeOperInfo&
+    asst::RoguelikeRecruitConfig::get_oper_info(const std::string& theme, const std::string& oper_name) noexcept
 {
     auto& opers = m_all_opers.at(theme);
     if (opers.contains(oper_name)) {
@@ -22,8 +22,8 @@ const asst::RoguelikeOperInfo& asst::RoguelikeRecruitConfig::get_oper_info(const
     }
 }
 
-const asst::RoguelikeGroupInfo& asst::RoguelikeRecruitConfig::get_group_info
-    (const std::string& theme, const std::string& group_name) noexcept
+const asst::RoguelikeGroupInfo&
+    asst::RoguelikeRecruitConfig::get_group_info(const std::string& theme, const std::string& group_name) noexcept
 {
     auto& groups = m_all_groups.at(theme);
     if (groups.contains(group_name)) {
@@ -42,14 +42,15 @@ const std::vector<std::string> asst::RoguelikeRecruitConfig::get_group_names(con
     return m_oper_groups.at(theme);
 }
 
-const std::vector<asst::RecruitPriorityOffset> asst::RoguelikeRecruitConfig::get_team_complete_info(
-    const std::string& theme) const noexcept
+const std::vector<asst::RecruitPriorityOffset>
+    asst::RoguelikeRecruitConfig::get_team_complete_info(const std::string& theme) const noexcept
 {
     return m_team_complete_condition.at(theme);
 }
 
-std::vector<int> asst::RoguelikeRecruitConfig::get_group_ids_of_oper(const std::string& theme,
-                                                            const std::string& oper_name) const noexcept
+std::vector<int> asst::RoguelikeRecruitConfig::get_group_ids_of_oper(
+    const std::string& theme,
+    const std::string& oper_name) const noexcept
 {
     auto& opers = m_all_opers.at(theme);
     if (auto find_iter = opers.find(oper_name); find_iter != opers.cend()) {
@@ -58,16 +59,18 @@ std::vector<int> asst::RoguelikeRecruitConfig::get_group_ids_of_oper(const std::
     else {
         const auto& role = BattleData.get_role(oper_name);
         if (role != battle::Role::Pioneer && role != battle::Role::Tank && role != battle::Role::Warrior &&
-            role != battle::Role::Special)
+            role != battle::Role::Special) {
             return { static_cast<int>(m_oper_groups.at(theme).size()) - 2 };
-        else
+        }
+        else {
             return { static_cast<int>(m_oper_groups.at(theme).size()) - 1 };
+        }
     }
 }
 
-
-int asst::RoguelikeRecruitConfig::get_group_id_from_name
-                    (const std::string& theme, const std::string& group_name) noexcept
+int asst::RoguelikeRecruitConfig::get_group_id_from_name(
+    const std::string& theme,
+    const std::string& group_name) noexcept
 {
     auto& groups = m_all_groups.at(theme);
     if (groups.contains(group_name)) {
@@ -81,12 +84,10 @@ int asst::RoguelikeRecruitConfig::get_group_id_from_name
     }
 }
 
-const std::string asst::RoguelikeRecruitConfig::get_group_name_from_id
-                    (const std::string& theme, const int group_id) const noexcept
+const std::string
+    asst::RoguelikeRecruitConfig::get_group_name_from_id(const std::string& theme, const int group_id) const noexcept
 {
-    auto it = ranges::find_if(m_all_groups.at(theme), [&](const auto& group) {
-        return group.second.id == group_id;
-    });
+    auto it = ranges::find_if(m_all_groups.at(theme), [&](const auto& group) { return group.second.id == group_id; });
     if (it != m_all_groups.at(theme).end()) {
         return it->first;
     }
@@ -187,11 +188,13 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
     }
 
     // 对所有存在 offset 组的干员进行初始化
-    for (auto& [oper_name, oper_info] : m_all_opers[theme]){ // 所有干员
-        if (oper_info.recruit_priority_offsets.empty()) continue;
+    for (auto& [oper_name, oper_info] : m_all_opers[theme]) { // 所有干员
+        if (oper_info.recruit_priority_offsets.empty()) {
+            continue;
+        }
         for (auto& offset : oper_info.recruit_priority_offsets) { // 干员的所有 offset 策略组
-            for (auto& group : offset.groups) { // 策略组内的每个干员组
-                offset.opers.insert( // 向当前策略组计入这个干员组的无重复干员
+            for (auto& group : offset.groups) {                   // 策略组内的每个干员组
+                offset.opers.insert(                              // 向当前策略组计入这个干员组的无重复干员
                     get_group_info(theme, group).opers.begin(),
                     get_group_info(theme, group).opers.end());
             }
