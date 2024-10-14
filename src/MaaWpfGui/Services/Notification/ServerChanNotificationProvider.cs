@@ -42,9 +42,17 @@ namespace MaaWpfGui.Services.Notification
                 ? $"https://{sendKey}.push.ft07.com/send" 
                 : $"https://sctapi.ftqq.com/{sendKey}.send";
 
+            // 添加header，尝试修复 data format error
             var response = await _httpService.PostAsJsonAsync(
                 new Uri(url),
-                new ServerChanPostContent { Title = title, Content = content });
+                new ServerChanPostContent { Title = title, Content = content },
+                headers);
+
+            // 设置请求头，指定为 application/json;charset=utf-8
+            var headers = new Dictionary<string, string>
+            {
+                { "Content-Type", "application/json;charset=utf-8" }
+            };
 
             var responseRoot = JsonDocument.Parse(response).RootElement;
             var hasCodeProperty = responseRoot.TryGetProperty("code", out var codeElement);
