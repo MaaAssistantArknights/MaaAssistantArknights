@@ -40,7 +40,7 @@ jobs:
           restore-keys: cache-lychee-
 
       - name: Check dead links
-        uses: lycheeverse/lychee-action@v1
+        uses: lycheeverse/lychee-action@v2
         with:
           # 仅检查内部链接和 Github 相关链接
           args: >
