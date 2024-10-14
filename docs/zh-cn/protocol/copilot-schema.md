@@ -161,3 +161,11 @@ icon: ph:sword-bold
 ## 举例
 
 [OF-1](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/copilot/OF-1_credit_fight.json)
+
+## 特殊情况
+
+- 阿米娅（name 字段）：
+  - 干员 `阿米娅` 的默认名称为 `阿米娅`，对应职业为 `术士`
+  - 若希望自动编队编入其他职业的阿米娅，请填入：（在作业站中使用自定义干员）
+    - 干员名为 `阿米娅-WARRIOR`， 对应职业为 `近卫`
+    - 干员名为 `阿米娅-MEDIC`， 对应职业为 `医疗`
