@@ -378,10 +378,10 @@
                         <hc:NumericUpDown
                             Width="55"
                             Margin="10"
-                            d:Value="59"
+                            d:Value="40"
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[6].IsOn}"
-                            Maximum="40"
+                            Maximum="59"
                             Minimum="0"
                             ValueFormat="00"
                             Value="{Binding TimerModels.Timers[6].Min}" />
