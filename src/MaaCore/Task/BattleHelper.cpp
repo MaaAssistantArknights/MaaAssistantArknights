@@ -440,6 +440,7 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
     m_used_tiles.emplace(loc, name);
     m_battlefield_opers.emplace(name, loc);
     m_last_use_skill_time.emplace(loc, std::chrono::steady_clock::time_point());
+    m_inst_helper.sleep(200); // 部署完会有 166 ms 的动画
 
     return true;
 }
@@ -521,7 +522,7 @@ bool asst::BattleHelper::use_skill(const Point& loc, bool keep_waiting)
 {
     LogTraceFunction;
 
-    return click_oper_on_battlefield(loc) && click_skill(keep_waiting);
+    return click_oper_on_battlefield(loc) && click_skill(keep_waiting) && m_inst_helper.sleep(200);
 }
 
 bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
