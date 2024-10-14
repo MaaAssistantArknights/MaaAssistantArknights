@@ -283,34 +283,6 @@
                     ]
                 },
                 {
-                    "name": "维娜·维多利亚",
-                    "skill": 3,
-                    "alternate_skill": 1,
-                    "recruit_priority": 710,
-                    "promote_priority": 850,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": ["凯尔希", "重装", "召唤", "近卫", "情报官", "挡人先锋", "其他地面"],
-                            "is_less": true,
-                            "threshold": 2,
-                            "offset": -350,
-                            "doc": "地面阻挡≤2时，维娜·维多利亚的招募优先级-350"
-                        },
-                        {
-                            "groups": ["凯尔希", "玛恩纳"],
-                            "threshold": 1,
-                            "offset": -200,
-                            "doc": "玛恩纳或凯尔希在队伍中时，维娜·维多利亚的招募优先级-200"
-                        }
-                    ],
-                    "collection_priority_offsets": [
-                        {
-                            "collection": "“文明的存续”",
-                            "offset": 120
-                        }
-                    ]
-                },
-                {
                     "name": "海沫",
                     "skill": 1,
                     "is_start": true,
@@ -456,6 +428,34 @@
                             "is_less": true,
                             "threshold": 1,
                             "offset": -80
+                        }
+                    ]
+                },
+                {
+                    "name": "维娜·维多利亚",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "recruit_priority": 601,
+                    "promote_priority": 850,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["凯尔希", "重装", "召唤", "近卫", "情报官", "挡人先锋", "其他地面"],
+                            "is_less": true,
+                            "threshold": 2,
+                            "offset": -350,
+                            "doc": "地面阻挡≤2时，维娜·维多利亚的招募优先级-350"
+                        },
+                        {
+                            "groups": ["凯尔希", "玛恩纳"],
+                            "threshold": 1,
+                            "offset": -200,
+                            "doc": "玛恩纳或凯尔希在队伍中时，维娜·维多利亚的招募优先级-200"
+                        }
+                    ],
+                    "collection_priority_offsets": [
+                        {
+                            "collection": "“文明的存续”",
+                            "offset": 120
                         }
                     ]
                 },
