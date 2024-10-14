@@ -116,7 +116,7 @@ void asst::RoguelikeFormationTaskPlugin::clear_and_reselect()
 
     const auto& team_complete_condition =
         RoguelikeRecruit.get_team_complete_info(m_config->get_theme());
-    const auto& group_list = RoguelikeRecruit.get_group_info(m_config->get_theme());
+    const auto& group_list = RoguelikeRecruit.get_group_names(m_config->get_theme());
 
     for (const auto& condition : team_complete_condition) { // 优先选择阵容核心干员
         int count = 0;
@@ -124,7 +124,7 @@ void asst::RoguelikeFormationTaskPlugin::clear_and_reselect()
         for (const std::string& group_name : condition.groups) {
             auto group_filter = views::filter([&](const auto& oper) {
                 const auto& group_ids =
-                    RoguelikeRecruit.get_group_id(m_config->get_theme(), oper.name);
+                    RoguelikeRecruit.get_group_ids_of_oper(m_config->get_theme(), oper.name);
                 return ranges::any_of(group_ids, [&](int id) {
                     return group_list[id] == group_name;
                 });
@@ -133,8 +133,8 @@ void asst::RoguelikeFormationTaskPlugin::clear_and_reselect()
                 if (!oper_to_select.contains(oper.name)) {
                     sorted_oper_list.emplace_back(oper);
                     oper_to_select.emplace(oper.name);
+                    count++;
                 }
-                count++;
             }
             if (count == require) {
                 break;

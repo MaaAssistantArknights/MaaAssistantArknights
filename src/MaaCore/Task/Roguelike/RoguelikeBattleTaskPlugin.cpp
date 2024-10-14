@@ -369,7 +369,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
     // 构造当前地图的部署指令列表
     std::vector<DeployPlanInfo> deploy_plan_list;
     // 获取当前肉鸽的分组信息[干员组1名称,干员组2名称,...]
-    const auto& groups = RoguelikeRecruit.get_group_info(m_config->get_theme());
+    const auto& groups = RoguelikeRecruit.get_group_names(m_config->get_theme());
     // 获取当前肉鸽的分组内排名信息
     // const auto& group_rank = RoguelikeRecruit.get_group_rank(rogue_theme);
     for (const auto& oper : m_cur_deployment_opers) {
@@ -384,7 +384,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
         const auto& recruit_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), oper_name);
         // 获取会用到该干员的干员组[干员组1序号,干员组2序号,...]
         std::vector<int> group_ids =
-            RoguelikeRecruit.get_group_id(m_config->get_theme(), oper_name);
+            RoguelikeRecruit.get_group_ids_of_oper(m_config->get_theme(), oper_name);
 
         for (const auto& group_id : group_ids) {
             // 当前干员组名,string类型
