@@ -722,7 +722,7 @@
     <system:String x:Key="GiveUpUploadingPenguins">放弃上传企鹅物流</system:String>
     <system:String x:Key="TheEx">无奖励关卡，已停止</system:String>
     <system:String x:Key="MissingOperators">缺少以下干员组中的干员：</system:String>
-    <system:String x:Key="RecruitSupportOperator">自动招募了以下助战干员：</system:String>
+    <system:String x:Key="UseSupportUnit">使用助战干员：{0}</system:String>
     <system:String x:Key="StageQueue">关卡队列:</system:String>
     <system:String x:Key="UnableToAgent">无法使用代理指挥</system:String>
     <system:String x:Key="MissionStart">已开始行动</system:String>
