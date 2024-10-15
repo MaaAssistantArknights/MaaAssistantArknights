@@ -54,12 +54,9 @@ jobs:
             -- './docs/**/*.md' './README.md'
 
       - name: Comment (only for PR)
-        if: github.event_name == 'pull_request' && env.lychee_exit_code != 0
+        if: failure() && github.event_name == 'pull_request'
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
             Dead links found in the documentation. Please fix them.
             Details: https://github.com/MaaAssistantArknights/MaaAssistantArknights/actions/runs/${{ github.run_id }}
-
-      - name: Exit with lychee exit code
-        run: exit ${{ env.lychee_exit_code }}
