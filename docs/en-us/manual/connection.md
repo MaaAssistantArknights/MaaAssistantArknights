@@ -51,14 +51,14 @@ The connection address of the emulator running on this computer should be `127.0
 ### Emulator documents and addressess for reference
 
 :::warning
-TODO: replace these Chinese emulators links with English ones
+The following links are Chinese websites, cuz no English websites were found. Maybe.
 :::
 
 - [Bluestacks 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631-%E5%A6%82%E4%BD%95%E5%B0%87%E6%82%A8%E7%9A%84%E6%87%89%E7%94%A8%E5%BE%9EBlueStacks-4%E8%BD%89%E7%A7%BB%E5%88%B0BlueStacks-5#%E2%80%9C2%E2%80%9D) `127.0.0.1:5555`
 - [MuMu Player Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html) `127.0.0.1:16384`
 - [MuMu Player 12](https://mumu.163.com/help/20230214/35047_1073151.html) `127.0.0.1:16384`
 - [MuMu Player 6](https://mumu.163.com/help/20210531/35047_951108.html) `127.0.0.1:7555`
-- [LD Player 9](https://help.ldmnq.com/) `emulator-5554`
+- [LD Player 9](https://help.ldmnq.com/docs/LD9adbserver) `emulator-5554`
 - [NoxPlayer](https://support.yeshen.com/zh-CN/qt/ml) `127.0.0.1:62001`
 - [Memu Play](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `127.0.0.1:21503`
 
