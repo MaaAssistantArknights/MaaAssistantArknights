@@ -2176,7 +2176,7 @@
     "AccountCurrentOCRBili": {
         "algorithm": "OcrDetect",
         "text": [],
-        "roi": [525, 280, 150, 25]
+        "roi": [407, 239, 468, 109]
     },
     "AccountManagerLoginButton": {
         "action": "ClickSelf",
