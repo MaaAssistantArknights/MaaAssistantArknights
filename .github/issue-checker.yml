@@ -324,7 +324,7 @@ labels:
 
   # `MuMu API`
   - name: MuMu API
-    regexes: "[Mm]u[Mm]u 截图增强|[Mm]u[Mm]u's screenshot enhancement"
+    regexes: "[Mm]u[Mm]u(?:'s)? ?(?:截图增强|screenshot enhancement)"
     skip-if:
       - skip all
       - skip MuMu
