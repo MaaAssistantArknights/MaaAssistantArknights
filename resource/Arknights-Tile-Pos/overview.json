@@ -10799,6 +10799,150 @@
         "stageId": "act37side_09",
         "width": 11
     },
+    "act37side_ex01#f#-activities/act37side/level_act37side_ex01": {
+        "code": "GO-EX-1",
+        "filename": "act37side_ex01#f#-activities-act37side-level_act37side_ex01.json",
+        "height": 7,
+        "levelId": "activities/act37side/level_act37side_ex01",
+        "name": "城墙机动作战",
+        "stageId": "act37side_ex01#f#",
+        "width": 9
+    },
+    "act37side_ex01-activities/act37side/level_act37side_ex01": {
+        "code": "GO-EX-1",
+        "filename": "act37side_ex01-activities-act37side-level_act37side_ex01.json",
+        "height": 7,
+        "levelId": "activities/act37side/level_act37side_ex01",
+        "name": "城墙机动作战",
+        "stageId": "act37side_ex01",
+        "width": 9
+    },
+    "act37side_ex02#f#-activities/act37side/level_act37side_ex02": {
+        "code": "GO-EX-2",
+        "filename": "act37side_ex02#f#-activities-act37side-level_act37side_ex02.json",
+        "height": 7,
+        "levelId": "activities/act37side/level_act37side_ex02",
+        "name": "秘密通道突击",
+        "stageId": "act37side_ex02#f#",
+        "width": 10
+    },
+    "act37side_ex02-activities/act37side/level_act37side_ex02": {
+        "code": "GO-EX-2",
+        "filename": "act37side_ex02-activities-act37side-level_act37side_ex02.json",
+        "height": 7,
+        "levelId": "activities/act37side/level_act37side_ex02",
+        "name": "秘密通道突击",
+        "stageId": "act37side_ex02",
+        "width": 10
+    },
+    "act37side_ex03#f#-activities/act37side/level_act37side_ex03": {
+        "code": "GO-EX-3",
+        "filename": "act37side_ex03#f#-activities-act37side-level_act37side_ex03.json",
+        "height": 7,
+        "levelId": "activities/act37side/level_act37side_ex03",
+        "name": "祭坛紧急拆除",
+        "stageId": "act37side_ex03#f#",
+        "width": 10
+    },
+    "act37side_ex03-activities/act37side/level_act37side_ex03": {
+        "code": "GO-EX-3",
+        "filename": "act37side_ex03-activities-act37side-level_act37side_ex03.json",
+        "height": 7,
+        "levelId": "activities/act37side/level_act37side_ex03",
+        "name": "祭坛紧急拆除",
+        "stageId": "act37side_ex03",
+        "width": 10
+    },
+    "act37side_ex04#f#-activities/act37side/level_act37side_ex04": {
+        "code": "GO-EX-4",
+        "filename": "act37side_ex04#f#-activities-act37side-level_act37side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act37side/level_act37side_ex04",
+        "name": "通讯频段干扰",
+        "stageId": "act37side_ex04#f#",
+        "width": 11
+    },
+    "act37side_ex04-activities/act37side/level_act37side_ex04": {
+        "code": "GO-EX-4",
+        "filename": "act37side_ex04-activities-act37side-level_act37side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act37side/level_act37side_ex04",
+        "name": "通讯频段干扰",
+        "stageId": "act37side_ex04",
+        "width": 11
+    },
+    "act37side_ex05#f#-activities/act37side/level_act37side_ex05": {
+        "code": "GO-EX-5",
+        "filename": "act37side_ex05#f#-activities-act37side-level_act37side_ex05.json",
+        "height": 7,
+        "levelId": "activities/act37side/level_act37side_ex05",
+        "name": "工厂原料保障",
+        "stageId": "act37side_ex05#f#",
+        "width": 10
+    },
+    "act37side_ex05-activities/act37side/level_act37side_ex05": {
+        "code": "GO-EX-5",
+        "filename": "act37side_ex05-activities-act37side-level_act37side_ex05.json",
+        "height": 7,
+        "levelId": "activities/act37side/level_act37side_ex05",
+        "name": "工厂原料保障",
+        "stageId": "act37side_ex05",
+        "width": 10
+    },
+    "act37side_ex06#f#-activities/act37side/level_act37side_ex06": {
+        "code": "GO-EX-6",
+        "filename": "act37side_ex06#f#-activities-act37side-level_act37side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act37side/level_act37side_ex06",
+        "name": "中央区正面对抗",
+        "stageId": "act37side_ex06#f#",
+        "width": 11
+    },
+    "act37side_ex06-activities/act37side/level_act37side_ex06": {
+        "code": "GO-EX-6",
+        "filename": "act37side_ex06-activities-act37side-level_act37side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act37side/level_act37side_ex06",
+        "name": "中央区正面对抗",
+        "stageId": "act37side_ex06",
+        "width": 11
+    },
+    "act37side_ex07#f#-activities/act37side/level_act37side_ex07": {
+        "code": "GO-EX-7",
+        "filename": "act37side_ex07#f#-activities-act37side-level_act37side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act37side/level_act37side_ex07",
+        "name": "“休止角行动”",
+        "stageId": "act37side_ex07#f#",
+        "width": 11
+    },
+    "act37side_ex07-activities/act37side/level_act37side_ex07": {
+        "code": "GO-EX-7",
+        "filename": "act37side_ex07-activities-act37side-level_act37side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act37side/level_act37side_ex07",
+        "name": "“休止角行动”",
+        "stageId": "act37side_ex07",
+        "width": 11
+    },
+    "act37side_ex08#f#-activities/act37side/level_act37side_ex08": {
+        "code": "GO-EX-8",
+        "filename": "act37side_ex08#f#-activities-act37side-level_act37side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act37side/level_act37side_ex08",
+        "name": "在王座前",
+        "stageId": "act37side_ex08#f#",
+        "width": 11
+    },
+    "act37side_ex08-activities/act37side/level_act37side_ex08": {
+        "code": "GO-EX-8",
+        "filename": "act37side_ex08-activities-act37side-level_act37side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act37side/level_act37side_ex08",
+        "name": "在王座前",
+        "stageId": "act37side_ex08",
+        "width": 11
+    },
     "act37side_tr01-activities/act37side/level_act37side_tr01": {
         "code": "GO-TR-1",
         "filename": "act37side_tr01-activities-act37side-level_act37side_tr01.json",
