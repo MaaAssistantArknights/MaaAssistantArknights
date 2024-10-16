@@ -12381,9 +12381,13 @@
         "doc": "点击右下角对话选项位置，跳过引导对话",
         "template": "DialogueLog",
         "roi": [27, 14, 64, 51],
-        "action": "ClickRect",
-        "specificRect": [901, 422, 360, 51],
+        "sub": ["Tales@RA@PNS-OpeningDialogueClick*10"],
         "next": ["Tales@RA@PNS-OpeningDialogue", "Tales@RA@PNS-LeaveBaseCamp"]
+    },
+    "Tales@RA@PNS-OpeningDialogueClick": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [901, 422, 360, 51]
     },
     "Tales@RA@PNS-ProsperityBelowLimit": {
         "doc": "已完成生存周期, 生息点数未达到上限, 点击 <点击任意处继续> 文字位置",
