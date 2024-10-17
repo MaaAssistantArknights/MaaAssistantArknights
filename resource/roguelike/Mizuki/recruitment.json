@@ -2,6 +2,20 @@
     "theme": "Mizuki",
     "priority": [
         {
+            "name": "益达",
+            "opers":[
+                {
+                    "name": "维什戴尔",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "is_key": true,
+                    "is_start": true,
+                    "recruit_priority": 999,
+                    "promote_priority": 114514
+                },
+            ]
+        },
+        {
             "name": "百嘉",
             "opers": [
                 {
@@ -261,13 +275,7 @@
             "name": "高台C",
             "opers": [
                 {
-                    "name": "维什戴尔",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "is_key": true,
-                    "is_start": true,
-                    "recruit_priority": 997,
-                    "promote_priority": 1000
+                    "name": "维什戴尔"
                 },
                 {
                     "name": "假日威龙陈",

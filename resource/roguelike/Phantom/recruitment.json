@@ -10,7 +10,7 @@
                     "alternate_skill": 2,
                     "is_key": true,
                     "is_start": true,
-                    "recruit_priority": 114514,
+                    "recruit_priority": 999,
                     "promote_priority": 114514
                 }
             ]
