@@ -377,36 +377,31 @@
     <system:String x:Key="ConnectionPreset">連接配置</system:String>
     <system:String x:Key="ScreenshotTest">截圖測試</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">啟用 MuMu 截圖增強模式</system:String>
-    <system:String x:Key="MuMu12ExtrasEnabledTip">
-        需使用 MuMu 12 V4.0.0 及更新版本，MuMu 12 Global 不支援。\n
-        強烈建議在開啟本功能後的首次使用之前進行截圖測試。\n\n
-        請填寫以下資訊：\n\n
-        1. 模擬器路徑：（例如：C:\\Program Files\\Netease\\MuMuPlayer-12.0）\n
-        模擬器路徑應填寫模擬器應用的上一層資料夾路徑，例如應用路徑為\n
-        「C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe」\n
-        應填寫\n
-        「C:\\Program Files\\Netease\\MuMuPlayer-12.0」。\n\n
-        2. 實例編號：（例如：0）\n
-        實例編號可在 MuMu 多開器中查看，預設為 0，若有多開實例，編號見實例前的數字。\n\n
-        3. 窗口編號：（例如：0）\n
-        注意：關閉MuMu的後台保活後填寫0，如需打開後台保活，請自行探索方法。
+    <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
+需使用官版或方舟專版 MuMu 12 V4.0.0 或更新版本。Global 等暫不支持。\n
+強烈建議在開啟本功能後立刻運行一次截圖測試。\n
+MAA 會自動通過註冊表獲取安裝路徑，若獲取失敗則請手動填寫。\n\n
+安裝路徑應填寫模擬器安裝目錄的根目錄，例如模擬器進程文件路徑為\n
+C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe\n
+則應填寫\n
+C:\\Program Files\\Netease\\MuMuPlayer-12.0。
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 模擬器路徑</system:String>
     <system:String x:Key="MuMu12Index">實例號碼</system:String>
     <system:String x:Key="MuMu12Display">螢幕號碼</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu 截圖增強未生效，请檢查相關設定</system:String>
     <system:String x:Key="LdExtrasEnabled">啟用 LD 截圖增強模式</system:String>
-    <system:String x:Key="LdExtrasEnabledTip">
-        需使用 LDPlayer 9 V9.0.78 及更新版本。\n
-        強烈建議在開啟本功能後的首次使用之前進行截圖測試。\n\n
-        請填寫以下信息：\n\n
-        1. 模擬器路徑：（例如：C:\\leidian\\LDPlayer9）\n
-        模擬器路徑應填寫模擬器應用所在文件夾路徑，例如應用路徑為\n
-        「C:\\leidian\\LDPlayer9\\ldconsole.exe」\n
-        應填寫\n
-        「C:\\leidian\\LDPlayer9」。\n\n
-        2. 實例編號：（例如：0）\n
-        實例編號可在 LDPlayer 多開器中查看，默認為 0，若有多開實例，編號見 版本/編號 中的 ID。\n
+    <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
+需使用雷電模擬器 9 V9.0.78 或更新版本。專版、國際版等暫不支持。\n
+強烈建議在開啟本功能後立刻運行一次截圖測試。\n
+MAA 會自動通過註冊表獲取安裝路徑，若獲取失敗則請手動填寫。\n\n
+安裝路徑應填寫模擬器安裝目錄的根目錄，例如模擬器進程文件路徑為\n
+C:\\leidian\\LDPlayer9\\dnplayer.exe\n
+則應填寫\n
+C:\\leidian\\LDPlayer9。\n\n
+實例編號可在雷電多開器中查看，\n
+主多開為 0，其他多開為版本/編號 ID 後的數字。\n\n
+注意：截至目前（V9.1.28）的版本僅支持 720P 900P 1080P 分辨率。
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 模擬器路徑</system:String>
     <system:String x:Key="LdIndex">實例號碼</system:String>
