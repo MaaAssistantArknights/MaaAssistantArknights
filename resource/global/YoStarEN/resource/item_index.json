@@ -841,7 +841,7 @@
     },
     "7002": {
         "classifyType": "NORMAL",
-        "description": "Anyone who receives this permit, please report to the Rhodes Island Human Resource Department immediately!",
+        "description": "Anyone who receives this Expedited Plan, please report to HR immediately!",
         "icon": "7002.png",
         "name": "Expedited Plan",
         "sortId": 40013,
@@ -1094,6 +1094,22 @@
         "name": "Event Crystal",
         "sortId": -10000,
         "usage": "A topological model of aggregated information. Can be used to rebuild past events."
+    },
+    "SINGLE_49_0_1_GACHA": {
+        "classifyType": "NORMAL",
+        "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
+        "icon": "SINGLE_49_0_1_GACHA.png",
+        "name": "Exclusive Headhunting Permit",
+        "sortId": 40003,
+        "usage": "A special permit from Rhodes Island HR for recruiting special talents at special points in time. Can be used to recruit one operator."
+    },
+    "SINGLE_49_0_1_GACHA_10": {
+        "classifyType": "NORMAL",
+        "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
+        "icon": "SINGLE_49_0_1_GACHA_10.png",
+        "name": "Exclusive Ten-roll Headhunting Permit",
+        "sortId": 40003,
+        "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
     },
     "SOCIAL_PT": {
         "classifyType": "NONE",
@@ -1671,6 +1687,14 @@
         "sortId": -10000,
         "usage": "A card for the Galería stamp rally. The more stamps, the more prizes you get. Despite each and every card bearing the limited-daily ultra-rare secret stamps, Reynell will still gladly exchange them for goods. In his words, 'my small token of respect to our anonymous seal-forger supreme.'"
     },
+    "act33side_token_sugar": {
+        "classifyType": "NONE",
+        "description": "Crude sugar cubes of mechanized make, a Babel wartime supply ration. Provides soldiers with ample energy and a hint of sweetness.",
+        "icon": "act33side_token_sugar.png",
+        "name": "Raw Sugar Lumps",
+        "sortId": -10000,
+        "usage": "A 'hard currency' aboard Babel. Save up enough to spare, and the nice Vampire lady down by the Engineering Team will trade for some scarcities you'll appreciate."
+    },
     "act38d1_token_coin": {
         "classifyType": "NONE",
         "description": "A chunk of flawless Originium crystal. The Sanctuary considers it a precious treasure.",
@@ -2001,11 +2025,11 @@
     },
     "mcardVoucher": {
         "classifyType": "NONE",
-        "description": null,
+        "description": "With an eye to negotiability and convenience, several new permits have risen to the task, and this just so happens to be one of them.",
         "icon": "mcardVoucher.png",
-        "name": "Monthly Card",
+        "name": "Monthly Card Exchange Permit",
         "sortId": -10000,
-        "usage": null
+        "usage": "Enables activation of Monthly Card privileges."
     },
     "mod_unlock_token": {
         "classifyType": "MATERIAL",
@@ -2044,7 +2068,7 @@
         "description": "Nobody knows who ended up footing the bill. What we do know is the hope they have for Rhodes Island.",
         "icon": "randomDiamondShd_1.png",
         "name": "Half Year Anniversary Red Envelope",
-        "sortId": 60110,
+        "sortId": 60111,
         "usage": "Red envelopes passed out to every member of Rhodes Island. The goods inside may be random, but they are always filled to the brim with blessings."
     },
     "randomDiamondShd_2": {
@@ -2052,7 +2076,7 @@
         "description": "Nobody knows who ended up footing the bill. What we do know is the hope they have for Rhodes Island.",
         "icon": "randomDiamondShd_2.png",
         "name": "Celebratory Box",
-        "sortId": 60111,
+        "sortId": 60112,
         "usage": "Gift boxes distributed to all members of Rhodes Island, random in amount, and full of the joy that comes with celebration."
     },
     "randomMaterialRune_0": {
@@ -2236,7 +2260,7 @@
         "description": "'Though the contents are as unalike as the sounds of the heart, they will help you in your search for the truth. Follow the echoes not yet forgotten, and you will eventually find the answer.'",
         "icon": "randomMaterial_leith2.png",
         "name": "Investigation Resupply",
-        "sortId": 60113,
+        "sortId": 60114,
         "usage": "Package from an unknown source containing various supplies, including random materials."
     },
     "randomMaterial_rhine2": {
@@ -2244,7 +2268,7 @@
         "description": "A materials supply crate provided by the Maylander Foundation. Allocated based on the needs of each investigated area. As such, the materials in each crate can be different.",
         "icon": "randomMaterial_rhine2.png",
         "name": "Technological Investigation Supply",
-        "sortId": 60110,
+        "sortId": 60111,
         "usage": "Filled with an assortment of supplies and materials."
     },
     "randomMaterial_siesta2": {
@@ -2252,7 +2276,7 @@
         "description": "A material resupply box from Mountaincomm Trade. We the vendor are delighted to work with such a major client, and offer these complimentary gifts to you courtesy of our partner logistics firm.",
         "icon": "randomMaterial_siesta2.png",
         "name": "Mountaincomm Trade Supplies",
-        "sortId": 60112,
+        "sortId": 60113,
         "usage": "Filled with an assortment of supplies and materials."
     },
     "return_credit_token": {

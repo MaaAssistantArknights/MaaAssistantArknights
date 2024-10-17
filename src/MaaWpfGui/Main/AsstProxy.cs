@@ -1686,7 +1686,7 @@ namespace MaaWpfGui.Main
                     break;
 
                 case "AccountSwitch":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + $" {subTaskDetails!["current_account"]} -->> {subTaskDetails["account_name"]}", UiLogColor.Info);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + $" -->> {subTaskDetails["account_name"]}", UiLogColor.Info); // subTaskDetails!["current_account"]
                     break;
                 case "RoguelikeCollapsalParadigms":
                     string deepen_or_weaken_str = subTaskDetails!["deepen_or_weaken"]?.ToString() ?? "Unknown";

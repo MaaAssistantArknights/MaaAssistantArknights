@@ -26,7 +26,6 @@ using System.Windows;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
-using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using MaaWpfGui.States;
 using Newtonsoft.Json;
@@ -719,19 +718,11 @@ namespace MaaWpfGui.ViewModels.UI
 
         private async Task<CheckUpdateRetT> CheckUpdateByMaaApi()
         {
-            string? response;
-            try
-            {
-                response = await Instances.HttpService.GetStringAsync(new Uri(MaaUpdateApi)).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex, "Failed to get update info from Maa API.");
-                return CheckUpdateRetT.FailedToGetInfo;
-            }
+            string? response = await Instances.HttpService.GetStringAsync(new Uri(MaaUpdateApi)).ConfigureAwait(false);
 
             if (string.IsNullOrEmpty(response))
             {
+                _logger.Error("Failed to get update info from Maa API.");
                 return CheckUpdateRetT.FailedToGetInfo;
             }
 
@@ -771,19 +762,11 @@ namespace MaaWpfGui.ViewModels.UI
 
         private async Task<CheckUpdateRetT> GetVersionDetailsByMaaApi(string url)
         {
-            string? response;
-            try
-            {
-                response = await Instances.HttpService.GetStringAsync(new Uri(url)).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex, "Failed to get update info from Maa API.");
-                return CheckUpdateRetT.FailedToGetInfo;
-            }
+            string? response = await Instances.HttpService.GetStringAsync(new Uri(url)).ConfigureAwait(false);
 
             if (string.IsNullOrEmpty(response))
             {
+                _logger.Error("Failed to get update info from Maa API.");
                 return CheckUpdateRetT.FailedToGetInfo;
             }
 

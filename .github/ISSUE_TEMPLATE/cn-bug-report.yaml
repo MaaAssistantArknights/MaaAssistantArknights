@@ -44,7 +44,7 @@ body:
           1. `debug` 文件夹中的 `asst.log` `gui.log` `asst.bak.log` 和 `gui.bak.log` 日志文件，并说明问题出现的大致时间点
           2. `config` 文件夹中的 `gui.json` 配置文件
 
-        如果你在使用 MacBook，请点击左上角的“文件”，点击“打开日志文件夹”
+        如果你在使用 MacBook，请点击屏幕左上角的“文件”，点击“打开日志文件夹”
         **请直接将完整的文件拖拽进来，而非自己裁切或复制的片段；若文件体积过大可压缩后再上传**
       placeholder: |
         请确认上传文件前已关闭 MAA
@@ -56,7 +56,7 @@ body:
       label: 配置信息
       description: |
         请说明操作系统及版本、模拟器品牌、模拟器分辨率、DPI、帧率；
-        若正在使用 MuMu 12，请说明 MuMu 截图增强是否开启；
+        若正在使用 MuMu 12 或雷电 9，请说明截图增强是否开启；
         最后请说明 GPU 加速推理是否开启，若开启请提供 GPU 型号。
     validations:
       required: true

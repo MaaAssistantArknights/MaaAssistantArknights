@@ -12,20 +12,22 @@
 // </copyright>
 
 using System;
+using System.IO;
+using System.Net.Http;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Services.Web;
 using Serilog;
+using MaaWpfGui.Services.Web;
 
 namespace MaaWpfGui.Services.Notification
 {
     public class ServerChanNotificationProvider : IExternalNotificationProvider
     {
         private readonly IHttpService _httpService;
-
         private readonly ILogger _logger = Log.ForContext<ServerChanNotificationProvider>();
 
         public ServerChanNotificationProvider(IHttpService httpService)
@@ -36,48 +38,62 @@ namespace MaaWpfGui.Services.Notification
         public async Task<bool> SendAsync(string title, string content)
         {
             var sendKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, string.Empty);
-            var url = $"https://sctapi.ftqq.com/{sendKey}.send";
 
-            var response = await _httpService.PostAsJsonAsync(
-                new Uri(url),
-                new ServerChanPostContent { Title = title, Content = content, });
-
-            var responseRoot = JsonDocument.Parse(response).RootElement;
-            var hasCodeProperty = responseRoot.TryGetProperty("code", out var codeElement);
-            if (hasCodeProperty is false)
+            try
             {
-                _logger.Warning("Failed to send ServerChan notification, unknown response, {Response}", response);
-                return false;
+                var url = ConstructUrl(sendKey);
+                var postData = $"text={Uri.EscapeDataString(title)}&desp={Uri.EscapeDataString(content)}";
+
+                using var httpClient = new HttpClient();
+                var request = new HttpRequestMessage(HttpMethod.Post, url)
+                {
+                    Content = new StringContent(postData, Encoding.UTF8, "application/x-www-form-urlencoded")
+                };
+
+                var response = await httpClient.SendAsync(request);
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                var responseRoot = JsonDocument.Parse(responseContent).RootElement;
+                if (responseRoot.TryGetProperty("code", out var codeElement) && codeElement.TryGetInt32(out var code))
+                {
+                    if (code == 0)
+                    {
+                        return true;
+                    }
+                    _logger.Warning("Failed to send ServerChan notification, code: {Code}", code);
+                }
+                else
+                {
+                    _logger.Warning("Failed to send ServerChan notification, unknown response: {Response}", responseContent);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Exception occurred while sending ServerChan notification.");
             }
 
-            var hasCode = codeElement.TryGetInt32(out var code);
-            if (hasCode is false)
-            {
-                _logger.Warning("Failed to send ServerChan notification, unknown response {Response}", response);
-                return false;
-            }
-
-            if (code == 0)
-            {
-                return true;
-            }
-
-            _logger.Warning("Failed to send ServerChan notification, code {Code}", code);
             return false;
         }
 
-        private class ServerChanPostContent
+        private string ConstructUrl(string sendKey)
         {
-            // 这两个没用过，不知道有没有用，之后再看看
-            [JsonPropertyName("title")]
-
-            // ReSharper disable once UnusedAutoPropertyAccessor.Local
-            public string Title { get; set; }
-
-            [JsonPropertyName("desp")]
-
-            // ReSharper disable once UnusedAutoPropertyAccessor.Local
-            public string Content { get; set; }
+            if (sendKey.StartsWith("sctp"))
+            { // Server酱3
+                var match = Regex.Match(sendKey, @"^sctp(\d+)t");
+                if (match.Success)
+                {
+                    var num = match.Groups[1].Value;
+                    return $"https://{num}.push.ft07.com/send/{sendKey}.send";
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid key format for sctp.");
+                }
+            }
+            else
+            {
+                return $"https://sctapi.ftqq.com/{sendKey}.send";
+            }
         }
     }
 }

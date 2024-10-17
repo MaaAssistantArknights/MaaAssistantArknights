@@ -324,7 +324,7 @@ labels:
 
   # `MuMu API`
   - name: MuMu API
-    regexes: "[Mm]u[Mm]u 截图增强|[Mm]u[Mm]u's screenshot enhancement"
+    regexes: "[Mm]u[Mm]u(?:'s)? ?(?:截图增强|screenshot enhancement)"
     skip-if:
       - skip all
       - skip MuMu
@@ -335,7 +335,7 @@ labels:
   # `MacGui`
   - name: MacGui
     content: "client: MacGui"
-    regexes: '[Mm]ac(?:(?:book|os|OS)|\s*(?:(?:操作|)系统|电脑|版))|[Pp]laycover'
+    regexes: '/mac(?:book|os|\s*(?:操作系统|系统|电脑|版))|playcover/i'
     skip-if:
       - skip all
       - skip client

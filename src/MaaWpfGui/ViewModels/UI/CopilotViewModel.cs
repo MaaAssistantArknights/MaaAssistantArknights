@@ -262,23 +262,21 @@ namespace MaaWpfGui.ViewModels.UI
 
         private async Task<string?> RequestCopilotServer(int copilotId)
         {
-            try
-            {
-                var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri((IsCopilotSet ? MaaUrls.PrtsPlusCopilotSetGet : MaaUrls.PrtsPlusCopilotGet) + copilotId)) ?? string.Empty;
-                var json = (JObject?)JsonConvert.DeserializeObject(jsonResponse);
-                if (json != null && json.ContainsKey("status_code") && json["status_code"]?.ToString() == "200")
-                {
-                    return (IsCopilotSet ? json["data"] : json["data"]?["content"])?.ToString();
-                }
-
-                AddLog(LocalizationHelper.GetString("CopilotNoFound"), UiLogColor.Error, showTime: false);
-                return string.Empty;
-            }
-            catch (Exception)
+            var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri((IsCopilotSet ? MaaUrls.PrtsPlusCopilotSetGet : MaaUrls.PrtsPlusCopilotGet) + copilotId)) ?? string.Empty;
+            if (jsonResponse is null)
             {
                 AddLog(LocalizationHelper.GetString("NetworkServiceError"), UiLogColor.Error, showTime: false);
                 return string.Empty;
             }
+
+            var json = (JObject?)JsonConvert.DeserializeObject(jsonResponse);
+            if (json != null && json.ContainsKey("status_code") && json["status_code"]?.ToString() == "200")
+            {
+                return (IsCopilotSet ? json["data"] : json["data"]?["content"])?.ToString();
+            }
+
+            AddLog(LocalizationHelper.GetString("CopilotNoFound"), UiLogColor.Error, showTime: false);
+            return string.Empty;
         }
 
         private const string TempCopilotFile = "cache/_temp_copilot.json";
@@ -895,6 +893,15 @@ namespace MaaWpfGui.ViewModels.UI
                 ["is_checked"] = item.IsChecked,
             }).ToList());
             ConfigurationHelper.SetValue(ConfigurationKeys.CopilotTaskList, JsonConvert.SerializeObject(jArray));
+        }
+
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public void SelectCopilotTask(int index)
+        {
+            Filename = CopilotItemViewModels[index].FilePath;
+            ClearLog();
+            UpdateFilename();
         }
 
         // UI 绑定的方法
