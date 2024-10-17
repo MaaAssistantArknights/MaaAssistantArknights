@@ -1031,6 +1031,9 @@
     "RA@Navigation-EnterCurrentTheme": {
         "text": ["生息演算"]
     },
+    "RecruitSupportConfirm": {
+        "text": ["招募助戰", "控募助戰", "招蔓訪戰"]
+    },
     "RoguelikeChooseSupportBtnOcr": {
         "text": ["選擇助戰"]
     },
@@ -1590,9 +1593,6 @@
     },
     "Roguelike@IntegratedStrategies": {
         "next": ["Roguelike@IntegratedStrategies", "Roguelike@SelectTheme"]
-    },
-    "Roguelike@RecruitSupportConfirm": {
-        "text": ["招募助戰", "控募助戰", "招蔓訪戰"]
     },
     "Roguelike@SelectTheme": {
         "roi": [0, 29, 515, 648]

@@ -32,6 +32,13 @@
         "text": ["Rerun", "Retrospection"],
         "roi": [0, 500, 500, 150]
     },
+    "BB-OpenOcr": {
+        "text": ["Babel", "open", "event"]
+    },
+    "BBChapterToBB": {
+        "text": ["Future", "FUTURE", "Gifts", "Gifts"],
+        "roi": [1000, 589, 209, 131]
+    },
     "OD-8": {
         "sub": ["OD-Open"]
     },
@@ -825,7 +832,29 @@
             ["Ela", "艾拉"],
             ["[Iil]ana", "双月"],
             ["Fuze", "导火索"],
-            ["Grzmot Mine", "雷鸣地雷"]
+            ["Grzmot Mine", "雷鸣地雷"],
+            ["Checkpoint", "检查点"],
+            ["Lutonada", "露托"],
+            ["'Heart of a Slug'", "“源石虫之心”"],
+            ["Slug Lure", "源石虫引诱器"],
+            ["Sound Recording Amplifier", "声波记录扩音器"],
+            ["Odda", "奥达"],
+            ["Ascalon", "阿斯卡纶"],
+            ["Aroma", "阿罗玛"],
+            ["'Sticky Prize'", "“黏黏的赠品”"],
+            ["Witchcraft Ballista", "巫术弩炮"],
+            ["Umbral Door", "幽影门扉"],
+            ["Arts Resonant Energy Field", "法术调和能量场"],
+            ["Random Item Box", "随机道具盒"],
+            ["Accelerator Tile", "加速块"],
+            ["Pinnacle Insights Port", "尖端研究成果共享终端"],
+            ["Pinnacle Insights Port", "尖端研究成果共享终端"],
+            ["Pinnacle Insights Port", "尖端研究成果共享终端"],
+            ["Sound Recording Amplifier", "声波记录扩音器"],
+            ["Sound Recording Amplifier", "声波记录扩音器"],
+            ["Arts Resonant Energy Field", "法术调和能量场"],
+            ["Arts Resonant Energy Field", "法术调和能量场"],
+            ["Squeaking Sound", "啸叫音响"]
         ]
     },
     "StartToWakeUpOCR": {
@@ -1346,6 +1375,9 @@
     },
     "RA@Navigation-EnterCurrentTheme": {
         "text": ["Reclamation", "Algorithm"]
+    },
+    "RecruitSupportConfirm": {
+        "text": ["Recruit support"]
     },
     "RoguelikeChooseSupportBtnOcr": {
         "text": ["Select Support"]
@@ -1966,9 +1998,6 @@
     "Roguelike@PreSelectTheme": {
         "text": ["View all Themes", "Themes", "TODO: image of //INTEGRATED STRATEGIES"],
         "roi": [450, 480, 160, 45]
-    },
-    "Roguelike@RecruitSupportConfirm": {
-        "text": ["Recruit support"]
     },
     "Roguelike@StageEncounterOcr": {
         "fullMatch": true,

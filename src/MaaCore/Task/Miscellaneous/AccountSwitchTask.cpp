@@ -33,16 +33,17 @@ bool asst::AccountSwitchTask::_run()
         return false;
     }
     // 当前账号就是想要的
-    std::string current_account;
+    bool equal = false;
 
+    Log.info(m_client_type);
     if (m_client_type == "Official") {
-        current_account = get_current_account();
+        equal = equal_current_account();
     }
     else if (m_client_type == "Bilibili") {
-        current_account = get_current_account_b();
+        equal = equal_current_account_b();
     }
 
-    if (current_account == m_account) {
+    if (equal) {
         return click_manager_login_button();
     }
     // 展开列表
@@ -50,7 +51,7 @@ bool asst::AccountSwitchTask::_run()
 
     if (swipe_and_select() || swipe_and_select(true)) {
         json::value info = basic_info_with_what("AccountSwitch");
-        info["details"]["current_account"] = current_account;
+        // info["details"]["current_account"] = current_account;
         info["details"]["account_name"] = m_target_account;
         callback(AsstMsg::SubTaskExtraInfo, info);
 
@@ -79,26 +80,26 @@ bool asst::AccountSwitchTask::navigate_to_start_page()
     return false;
 }
 
-std::string asst::AccountSwitchTask::get_current_account()
+bool asst::AccountSwitchTask::equal_current_account()
 {
-    RegionOCRer ocr(ctrler()->get_image());
+    OCRer ocr(ctrler()->get_image());
     ocr.set_task_info("AccountCurrentOCR");
+    ocr.set_required({ m_account });
     if (!ocr.analyze()) {
-        Log.info(__FUNCTION__, "current account ocr analyze failed");
-        return std::string();
+        return false;
     }
-    return ocr.get_result().text;
+    return true;
 }
 
-std::string asst::AccountSwitchTask::get_current_account_b()
+bool asst::AccountSwitchTask::equal_current_account_b()
 {
-    RegionOCRer ocr(ctrler()->get_image());
+    OCRer ocr(ctrler()->get_image());
     ocr.set_task_info("AccountCurrentOCRBili");
+    ocr.set_required({ m_account });
     if (!ocr.analyze()) {
-        Log.info(__FUNCTION__, "current account ocr analyze failed");
-        return std::string();
+        return false;
     }
-    return ocr.get_result().text;
+    return true;
 }
 
 bool asst::AccountSwitchTask::click_manager_login_button()
@@ -118,31 +119,18 @@ bool asst::AccountSwitchTask::swipe_and_select(bool to_top)
     if (need_exit()) {
         return false;
     }
-    // 下滑寻找账号，垃圾桶定位
-    std::vector<std::string> pre_result, result;
+    // 下滑寻找账号
     int repeat = 0;
     bool click = false;
     while (!need_exit()) {
-        if (m_client_type == "Official") {
-            click = select_account(result);
-        }
-        else if (m_client_type == "Bilibili") {
-            click = select_account_b(result);
-        }
+        click = select_account();
         if (click) {
             return click_manager_login_button();
         }
-        if (pre_result == result) {
-            if (repeat++ > 3) {
-                // 没找到对应账号
-                return false;
-            }
+        if (repeat++ > 10) {
+            // 没找到对应账号
+            return false;
         }
-        else {
-            repeat = 0;
-        }
-        pre_result = result;
-        result.clear();
         swipe_account_list(to_top);
     }
     return false;
@@ -153,65 +141,21 @@ void asst::AccountSwitchTask::swipe_account_list(bool to_top)
     ProcessTask(*this, { to_top ? "AccountListSwipeToTop" : "AccountListSwipe" }).run();
 }
 
-bool asst::AccountSwitchTask::select_account(std::vector<std::string>& account_list)
+bool asst::AccountSwitchTask::select_account()
 {
     LogTraceFunction;
 
     sleep(200);
     auto raw_img = ctrler()->get_image();
-    MultiMatcher matcher(raw_img);
-    matcher.set_task_info("AccountManagerTrashButton");
-    if (!matcher.analyze()) {
-        Log.error(__FUNCTION__, "unable to match trash button in account list");
+    OCRer ocr(ctrler()->get_image());
+    ocr.set_task_info("AccountListOcr");
+    ocr.set_required({ m_account });
+    if (!ocr.analyze()) {
         return false;
     }
-    for (const auto& res : matcher.get_result()) {
-        asst::Rect roi = { res.rect.x - 308, res.rect.y - 14, 124, 25 };
 
-        RegionOCRer ocr(raw_img);
-        ocr.set_task_info("AccountListOcr");
-        ocr.set_roi(roi);
-        if (!ocr.analyze()) {
-            Log.error(__FUNCTION__, "unable to analyze account");
-            continue;
-        }
-        std::string text = ocr.get_result().text;
-        if (text.find(m_account) != std::string::npos) {
-            m_target_account = std::move(text);
-            ctrler()->click(roi);
-            return true;
-        }
-        account_list.emplace_back(std::move(text));
-    }
-    return false;
-}
-
-bool asst::AccountSwitchTask::select_account_b(std::vector<std::string>& account_list)
-{
-    LogTraceFunction;
-
-    auto raw_img = ctrler()->get_image();
-    MultiMatcher matcher(raw_img);
-    matcher.set_task_info("AccountManagerTrashButtonBili");
-    if (!matcher.analyze()) {
-        Log.error(__FUNCTION__, "unable to match trash button in account list");
-        return false;
-    }
-    for (const auto& res : matcher.get_result()) {
-        asst::Rect roi = { res.rect.x - 238, res.rect.y - 18, 150, 30 };
-        RegionOCRer ocr(raw_img);
-        ocr.set_roi(roi);
-        if (!ocr.analyze()) {
-            Log.error(__FUNCTION__, "unable to analyze account");
-            continue;
-        }
-        std::string text = ocr.get_result().text;
-        if (text.find(m_account) != std::string::npos) {
-            m_target_account = std::move(text);
-            ctrler()->click(roi);
-            return true;
-        }
-        account_list.emplace_back(std::move(text));
-    }
-    return false;
+    asst::Rect roi = ocr.get_result().front().rect;
+    m_target_account = ocr.get_result().front().text;
+    ctrler()->click(roi);
+    return true;
 }

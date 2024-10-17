@@ -118,7 +118,7 @@ icon: material-symbols:task
                                             // 不填寫時默認為 Ccoeff
                                             //      - Ccoeff:       對顏色不敏感的模板匹配算法，對應 cv::TM_CCOEFF_NORMED
                                             //      - RGBCount:     對顏色敏感的模板匹配算法，
-                                            //                      先將待匹配區域和模板圖片依據 maskRange 二值化，
+                                            //                      先將待匹配區域和模板圖片依據 colorScales 二值化，
                                             //                      以 F1-score 為指標計算 RGB 顏色空間內的相似度，
                                             //                      再將結果與 Ccoeff 的結果點積
                                             //      - HSVCount:     類似 RGBCount，顏色空間換為 HSV

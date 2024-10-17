@@ -7,6 +7,9 @@
         "next": ["ODChapterToOD"],
         "template": "StageSideStory.png"
     },
+    "Sami@Roguelike@StageEnterBattleAgain": {
+        "specificRect": [1180, 460, 30, 20]
+    },
     "StartUpNotificationKR": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -34,6 +37,12 @@
     },
     "SideStoryReopen": {
         "text": ["재개방"]
+    },
+    "BB-OpenOcr": {
+        "text": ["바벨", "개방", "이벤트"]
+    },
+    "BBChapterToBB": {
+        "text": ["미래", "선사", "하리라"]
     },
     "OD-8": {
         "sub": ["OD-Open"]
@@ -774,7 +783,25 @@
             ["^사서함$", "讯息匣"],
             ["언밸런스디퓨저", "失衡异香"],
             ["^게시판$", "告示牌"],
-            ["GRZMOT지뢰", "雷鸣地雷"]
+            ["GRZMOT지뢰", "雷鸣地雷"],
+            ["체크포인트", "检查点"],
+            ["루토나다", "露托"],
+            ["원석충의심장", "“源石虫之心”"],
+            ["원석충유인장치", "源石虫引诱器"],
+            ["음파기록증폭기", "声波记录扩音器"],
+            ["^오다$", "奥达"],
+            ["아스카론", "阿斯卡纶"],
+            ["^아로마$", "阿罗玛"],
+            ["끈적이는사은품", "“黏黏的赠品”"],
+            ["주술발리스타", "巫术弩炮"],
+            ["그림자균열", "幽影门扉"],
+            ["아츠공명에너지장", "法术调和能量场"],
+            ["랜덤아이템박스", "随机道具盒"],
+            ["가속모듈", "加速块"],
+            ["최첨단성과공유단말기", "尖端研究成果共享终端"],
+            ["음파기록증폭기", "声波记录扩音器"],
+            ["아츠공명에너지장", "法术调和能量场"],
+            ["울부짖는스피커", "啸叫音响"]
         ]
     },
     "StartUpThemes": {
@@ -1241,6 +1268,9 @@
     },
     "RA@Navigation-EnterCurrentTheme": {
         "text": ["생존", "연산"]
+    },
+    "RecruitSupportConfirm": {
+        "text": ["지원"]
     },
     "RoguelikeChooseSupportBtnOcr": {
         "text": ["지원"]
@@ -1853,9 +1883,6 @@
     "Roguelike@PreSelectTheme": {
         "text": ["모든테마보기", "테마", "TODO: image of //INTEGRATED STRATEGIES"],
         "roi": [450, 480, 160, 45]
-    },
-    "Roguelike@RecruitSupportConfirm": {
-        "text": ["지원"]
     },
     "Roguelike@StageEncounterOcr": {
         "ocrReplace": [

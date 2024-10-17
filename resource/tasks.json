@@ -562,6 +562,60 @@
         ],
         "roi": [0, 60, 1280, 550]
     },
+    "GO-9": {
+        "algorithm": "JustReturn",
+        "sub": ["GO-OpenOpt"],
+        "next": ["GO-9@SideStoryStage", "GO-9@SwipeToStage"]
+    },
+    "GO-8": {
+        "algorithm": "JustReturn",
+        "sub": ["GO-OpenOpt"],
+        "next": ["GO-8@SideStoryStage", "GO-8@SwipeToStage"]
+    },
+    "GO-7": {
+        "algorithm": "JustReturn",
+        "sub": ["GO-OpenOpt"],
+        "next": ["GO-7@SideStoryStage", "GO-7@SwipeToStage"]
+    },
+    "GO-4": {
+        "algorithm": "JustReturn",
+        "sub": ["GO-OpenOpt"],
+        "next": ["GO-4@SideStoryStage", "GO-4@SwipeToStage"]
+    },
+    "GO-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["GO-OpenOcr", "GO-Open"]
+    },
+    "GO-Open": {
+        "baseTask": "SS-Open",
+        "template": "StageSideStory.png",
+        "next": ["GOChapterToGO"]
+    },
+    "GO-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["追迹日落以西", "未了往昔"],
+        "next": ["GOChapterToGO"]
+    },
+    "GOChapterToGO": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["无名之勋", "名之"],
+        "preDelay": 3000,
+        "roi": [914, 579, 101, 34],
+        "next": ["#self", "ChapterSwipeToTheRight"]
+    },
+    "GO-9@SideStoryStage": {
+        "text": ["GO-9"]
+    },
+    "GO-8@SideStoryStage": {
+        "text": ["GO-8"]
+    },
+    "GO-7@SideStoryStage": {
+        "text": ["GO-7"]
+    },
+    "GO-4@SideStoryStage": {
+        "text": ["GO-4"]
+    },
     "DT-8": {
         "algorithm": "JustReturn",
         "sub": ["DT-OpenOpt"],
@@ -2024,7 +2078,8 @@
             [".*芙利特$", "伊芙利特"],
             ["^提非$", "提丰"],
             ["^华琳$", "华法琳"],
-            ["^宝箱的肉.*", "宝箱的肉？"]
+            ["^宝箱的肉.*", "宝箱的肉？"],
+            ["维多利亚$", "维娜·维多利亚"]
         ]
     },
     "SwitchAccount@StartUpBegin": {
@@ -2107,7 +2162,10 @@
         "roi": [570, 165, 140, 80]
     },
     "AccountManagerBili": {
-        "roi": [565, 160, 145, 50]
+        "Doc": "b 服的标题大小会跟着 dpi 变，现在还没特征点匹配，识别文字",
+        "algorithm": "OcrDetect",
+        "text": ["登录记录"],
+        "roi": [237, 50, 771, 242]
     },
     "AccountCurrentOCR": {
         "algorithm": "OcrDetect",
@@ -2118,11 +2176,14 @@
     "AccountCurrentOCRBili": {
         "algorithm": "OcrDetect",
         "text": [],
-        "roi": [525, 280, 150, 25]
+        "roi": [407, 239, 468, 109]
     },
     "AccountManagerLoginButton": {
         "action": "ClickSelf",
-        "roi": [430, 410, 430, 60]
+        "algorithm": "OcrDetect",
+        "text": ["登录"],
+        "fullMatch": true,
+        "roi": [423, 329, 448, 147]
     },
     "AccountManagerLoginButtonBili": {
         "baseTask": "AccountManagerLoginButton",
@@ -2133,8 +2194,10 @@
         "roi": [770, 315, 85, 65]
     },
     "AccountManagerListAccountBili": {
-        "baseTask": "AccountManagerListAccount",
-        "roi": [770, 270, 60, 70]
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["上次登录"],
+        "roi": [311, 167, 662, 266]
     },
     "AccountManagerTrashButton": {
         "roi": [790, 375, 50, 175]
@@ -4407,7 +4470,7 @@
     "BattleSupportUnitFormationSelect": {
         "action": "ClickSelf",
         "roi": [115, 595, 1165, 75],
-        "next": ["BattleSupportUnitFormationSelect", "Stop"]
+        "next": ["BattleSupportUnitFormationSelect", "RecruitSupportConfirm", "Stop"]
     },
     "BattleQuickFormationCheck": {
         "baseTask": "BattleQuickFormation",
@@ -5796,6 +5859,14 @@
         "maskRange": [1, 255],
         "next": ["RA@Navigation#next"]
     },
+    "RecruitSupportConfirm": {
+        "doc": "招募助战干员后点击确认按钮，注意 <Roguelike@RecruitSupportConfirm> 任务的 roi 变化",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["招募助战"],
+        "roi": [740, 565, 300, 65],
+        "preDelay": 200
+    },
     "Roguelike": {
         "template": [
             "Terminal.png",
@@ -6701,11 +6772,8 @@
         ]
     },
     "Roguelike@RecruitSupportConfirm": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["招募助战"],
-        "roi": [810, 500, 200, 40],
-        "preDelay": 200
+        "doc": "集成战略模式招募助战干员后点击确认按钮，注意 roi 变化",
+        "roi": [810, 500, 200, 40]
     },
     "Roguelike@RecruitWithoutButton": {
         "algorithm": "JustReturn",
@@ -11875,7 +11943,7 @@
     },
     "Tales@RA@Craft": {
         "doc": "模板任务: 点击开始组装图标",
-        "roi": [982, 500, 51, 50],
+        "roi": [982, 500, 80, 50],
         "action": "ClickSelf"
     },
     "Tales@RA@DialogConfirmRed": {
@@ -12321,9 +12389,13 @@
         "doc": "点击右下角对话选项位置，跳过引导对话",
         "template": "DialogueLog",
         "roi": [27, 14, 64, 51],
-        "action": "ClickRect",
-        "specificRect": [901, 422, 360, 51],
+        "sub": ["Tales@RA@PNS-OpeningDialogueClick*10"],
         "next": ["Tales@RA@PNS-OpeningDialogue", "Tales@RA@PNS-LeaveBaseCamp"]
+    },
+    "Tales@RA@PNS-OpeningDialogueClick": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [901, 422, 360, 51]
     },
     "Tales@RA@PNS-ProsperityBelowLimit": {
         "doc": "已完成生存周期, 生息点数未达到上限, 点击 <点击任意处继续> 文字位置",

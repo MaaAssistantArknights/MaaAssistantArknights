@@ -13,3 +13,6 @@ updates:
       github-actions:
         patterns:
           - "*"
+    ignore:
+      - dependency-name: "Nerixyz/actionsx-prettier"
+        versions: ["3.0.0"]

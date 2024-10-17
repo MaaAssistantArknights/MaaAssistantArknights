@@ -1135,6 +1135,22 @@
         "sortId": 40003,
         "usage": "罗德岛人事部特别批发的许可书，在特殊的时间点上招揽特殊的人才，一次可招聘十位干员。"
     },
+    "SINGLE_55_0_1_GACHA": {
+        "classifyType": "NORMAL",
+        "description": "为了确保人才扩展而应博士要求准备的应急手段，该批寻访条目具有一定的针对性与时效性，以及，小小的风险。",
+        "icon": "SINGLE_55_0_1_GACHA.png",
+        "name": "未致蒙尘寻访凭证",
+        "sortId": 40003,
+        "usage": "罗德岛人事部特别批发的许可书，在特殊的时间点上招揽特殊的人才，一次可招聘一位干员。"
+    },
+    "SINGLE_55_0_1_GACHA_10": {
+        "classifyType": "NORMAL",
+        "description": "为了确保人才扩展而应博士要求准备的应急手段，该批寻访条目具有一定的针对性与时效性，以及，小小的风险。",
+        "icon": "SINGLE_55_0_1_GACHA_10.png",
+        "name": "未致蒙尘十连寻访凭证",
+        "sortId": 40003,
+        "usage": "罗德岛人事部特别批发的许可书，在特殊的时间点上招揽特殊的人才，一次可招聘十位干员。"
+    },
     "SOCIAL_PT": {
         "classifyType": "NONE",
         "description": "信用维系着各个群体间的关系，也是社会稳定的象征，有时候甚至比金钱还有用哦，请好好珍惜。",
@@ -1735,6 +1751,14 @@
         "sortId": -10000,
         "usage": "送往森西迷宫食堂的今日食谱，保证营养均衡就能获得奖品。如果不清楚怎么搭配食材，可以询问角峰、古米和芙蓉。"
     },
+    "act37side_token_nay": {
+        "classifyType": "NONE",
+        "description": "这枚徽章由议长阁下亲自赠予在战斗或者重建家园时表现卓越的市民，不论他们的身份为何，在每一项会决定伦蒂尼姆未来的提案公示期间，他们都可以用这枚徽章投出宝贵的反对票。\n请注意，议会禁止市民私下以任何形式交易或赠送这份荣誉！",
+        "icon": "act37side_token_nay.png",
+        "name": "“我反对！”",
+        "sortId": -10000,
+        "usage": "每一位值得尊敬的市民都有权对议会公开的提案表达反对，而这枚徽章则是议会对这份权利的认可。不过听说提案决议厅的某些文官愿意私下用物资来交换这份宝贵的反对权？"
+    },
     "act38d1_token_coin": {
         "classifyType": "NONE",
         "description": "纯净无瑕的源石晶体，圣所对此视若珍宝。",
@@ -2132,7 +2156,7 @@
         "description": "没有人知道到底是谁掏的腰包，只有对罗德岛满怀希望的情感是真切的。",
         "icon": "randomDiamondShd_1.png",
         "name": "罗德岛迎春红包",
-        "sortId": 60111,
+        "sortId": 60112,
         "usage": "分发给罗德岛全员的红包，数额随机，饱含着对新年的祝福。"
     },
     "randomDiamondShd_2": {
@@ -2140,7 +2164,7 @@
         "description": "没有人知道到底是谁掏的腰包，只有对罗德岛满怀希望的情感是真切的。",
         "icon": "randomDiamondShd_2.png",
         "name": "庆典礼盒",
-        "sortId": 60112,
+        "sortId": 60113,
         "usage": "分发给罗德岛全员的礼盒，数额随机，饱含着庆典到来的喜悦。"
     },
     "randomMaterialRune_0": {
@@ -2332,7 +2356,7 @@
         "description": "“尽管内里如心声般各不相似，它们也足以成为你探寻真相的助力。跟随尚未忘却的回响，你终会抓住那个答案。”",
         "icon": "randomMaterial_leith2.png",
         "name": "查访补给",
-        "sortId": 60114,
+        "sortId": 60115,
         "usage": "不知何人将其交予你，装有各种物资补给，包含多种随机材料。"
     },
     "randomMaterial_rhine2": {
@@ -2348,7 +2372,7 @@
         "description": "来自峯联贸易的材料补给箱。供货商很高兴能与大客户合作，协同物流公司为您送来这些赠品。",
         "icon": "randomMaterial_siesta2.png",
         "name": "峯联贸易物流补给",
-        "sortId": 60113,
+        "sortId": 60114,
         "usage": "装有各种物资补给，包含多种随机材料。"
     },
     "return_credit_token": {

@@ -18,8 +18,8 @@ namespace asst
 
         // 导航至账号管理页
         bool navigate_to_start_page();
-        std::string get_current_account();
-        std::string get_current_account_b();
+        bool equal_current_account();
+        bool equal_current_account_b();
         // 账号列表里面点登录
         bool click_manager_login_button();
         // 打开账号列表
@@ -28,9 +28,7 @@ namespace asst
         // 往下滑账号列表
         void swipe_account_list(bool to_top = false);
         // 识别并选择m_account
-        bool select_account(std::vector<std::string>& account_list);
-        // 识别并选择m_account
-        bool select_account_b(std::vector<std::string>& account_list);
+        bool select_account();
 
         std::string m_account;
         std::string m_target_account;
