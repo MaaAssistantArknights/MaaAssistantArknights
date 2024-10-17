@@ -78,7 +78,7 @@ namespace MaaWpfGui.Services.Notification
         private string ConstructUrl(string sendKey)
         {
             if (sendKey.StartsWith("sctp"))
-            {
+            { // Server酱3
                 var match = Regex.Match(sendKey, @"^sctp(\d+)t");
                 if (match.Success)
                 {
