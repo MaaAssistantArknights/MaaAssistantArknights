@@ -35,7 +35,7 @@
 * mumu display id error if startup ark manually (#10787) @MistEO
 * mumu display id error when ark not startup (#10786) @MistEO
 * 获取信用及购物中不勾选访问好友也会执行 @ABA2396
-* 维娜·维多利亚 OcrReplace (#10763) @Daydreamer114 @ABA2396
+* 维娜·维多利亚 OcrReplace (#10763)(#10818) @Daydreamer114 @ABA2396
 * YostarKR tweak Sami StageEnterBattleAgain specificRect (#10767) @HX3N
 * 更换确认助战 roi 时填写值错误 (#10762) @Daydreamer114
 * 为随机借助战功能添加点击确认按钮的步骤 (#10757) @Alan-Charred
@@ -43,6 +43,7 @@
 
 ### 文档 | Docs
 
+* MuMu 截图增强适配后台保活&雷电截图增强文档 (#10783) @Rbqwow @HX3N @ABA2396
 * 明确文档中的 MacOS 称呼 (#10734) @Daydreamer114 @Rbqwow @Constrat
 * 修改文档匹配算法描述错误 @ABA2396
 
