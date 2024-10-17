@@ -392,15 +392,17 @@
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu スクリーンショットの強化 が有効になっていません。関連する設定を確認してください</system:String>
     <system:String x:Key="LdExtrasEnabled">LD のスクリーンショット拡張モードを有効にする</system:String>
     <system:String x:Key="LdExtrasEnabledTip">
-        LDPlayer 9 V9.0.78 以降のバージョンが必要です、LDPlayer Global には対応していません。\n
+        雷電エミュレーター9 V9.0.78 以降のバージョンが必要です。専用版や国際版は現在サポートされていません。\n
         この機能を有効にした後、すぐにスクリーンショットテストを実行することを強くお勧めします。\n
-        MAA はレジストリからインストールパスを自動的に取得しますが、失敗した場合は手動で入力してください。\n\n
-        インストールパスには、エミュレーターのインストールディレクトリのルートディレクトリを入力する必要があります。例えば、エミュレーターのプロセスファイルパスが\n
+        MAA はレジストリから自動的にインストールパスを取得しますが、失敗した場合は手動で入力してください。\n\n
+        インストールパスはエミュレーターのインストールディレクトリのルートディレクトリを入力してください。例えば、エミュレーターのプロセスファイルパスが\n
         C:\\leidian\\LDPlayer9\\dnplayer.exe\n
         の場合、\n
-        C:\\leidian\\LDPlayer9 を入力してください。\n\n
-        インスタンス番号はLDPlayerマルチインスタンスマネージャーで確認できます。\n
-        メインインスタンスは0で、他のインスタンスはバージョン/インスタンスIDの後の番号です。
+        C:\\leidian\\LDPlayer9\n
+        と入力してください。\n\n
+        インスタンス番号は雷電マルチインスタンスマネージャーで確認できます。\n
+        メインインスタンスは 0 で、その他のインスタンスはバージョン/IDの後の番号です。\n\n
+        注意：バージョン V9.0.78 ~ V9.1.28 は 720P、900P、1080P の解像度のみをサポートします。
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD エミュレータパス</system:String>
     <system:String x:Key="LdIndex">インスタンス番号</system:String>

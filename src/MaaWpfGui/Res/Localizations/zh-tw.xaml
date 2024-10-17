@@ -392,7 +392,7 @@
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu 截圖增強未生效，请檢查相關設定</system:String>
     <system:String x:Key="LdExtrasEnabled">啟用 LD 截圖增強模式</system:String>
     <system:String x:Key="LdExtrasEnabledTip">
-        需使用雷電模擬器 9 V9.0.78 或更新版本。專版、測試版等暫不支持。\n
+        需使用雷電模擬器 9 V9.0.78 或更新版本。專版、國際版等暫不支持。\n
         強烈建議在開啟本功能後立刻運行一次截圖測試。\n
         MAA 會自動通過註冊表獲取安裝路徑，若獲取失敗則請手動填寫。\n\n
         安裝路徑應填寫模擬器安裝目錄的根目錄，例如模擬器進程文件路徑為\n
@@ -400,7 +400,8 @@
         則應填寫\n
         C:\\leidian\\LDPlayer9。\n\n
         實例編號可在雷電多開器中查看，\n
-        主多開為 0，其他多開為版本/編號 ID 後的數字。
+        主多開為 0，其他多開為版本/編號 ID 後的數字。\n\n
+        注意：V9.0.78 ~ V9.1.28 版本僅支持 720P 900P 1080P 分辨率。
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 模擬器路徑</system:String>
     <system:String x:Key="LdIndex">實例號碼</system:String>

@@ -392,7 +392,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu screenshot enhancement not enabled, please check related settings</system:String>
     <system:String x:Key="LdExtrasEnabled">Enable LD's screenshot enhancement mode</system:String>
     <system:String x:Key="LdExtrasEnabledTip">
-        LDPlayer 9 V9.0.78 or later is required. Global version is not supported.\n
+        LDPlayer 9 V9.0.78 or later is required. Ark and Global versions are not supported.\n
         It is strongly recommended to run a screenshot test immediately after enabling this feature.\n
         MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.\n\n
         The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is\n
@@ -400,7 +400,9 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
         then it should be filled in as\n
         C:\\leidian\\LDPlayer9。\n\n
         The instance number can be viewed in LDPlayer Multi-Instance Manager,\n
-        The primary instance is 0, and other instances are the numbers after the version/instance ID.
+        The primary instance is 0, and other instances are the numbers after the version/instance ID.\n\n
+        Note: V9.0.78 ~ V9.1.28 only support 720P, 900P, and 1080P resolutions.
+
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD Emulator exec path</system:String>
     <system:String x:Key="LdIndex">Instance Number</system:String>
