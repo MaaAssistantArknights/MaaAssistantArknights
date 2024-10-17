@@ -2,6 +2,7 @@
 
 #include "Utils/Ranges.hpp"
 
+#include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/Miscellaneous/SSSCopilotConfig.h"
@@ -408,6 +409,7 @@ void asst::BattleFormationTask::swipe_to_the_left(int times)
     for (int i = 0; i < times; ++i) {
         ProcessTask(*this, { "BattleFormationOperListSwipeToTheLeft" }).run();
     }
+    sleep(Config.get_options().task_delay); // 可能有界面回弹，睡一会儿
 }
 
 bool asst::BattleFormationTask::confirm_selection()
