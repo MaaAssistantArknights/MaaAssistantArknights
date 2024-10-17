@@ -377,31 +377,31 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
     <system:String x:Key="ScreenshotTest">Screenshot test</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">Enable MuMu's screenshot enhancement mode</system:String>
-    <system:String x:Key="MuMu12ExtrasEnabledTip">
-        MuMu 12 V4.0.0 or later is required. Global version is not supported.\n
-        It is strongly recommended to run a screenshot test immediately after enabling this feature.\n
-        MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.\n\n
-        The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is\n
-        C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe\n
-        then it should be filled in as\n
-        C:\\Program Files\\Netease\\MuMuPlayer-12.0
+    <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
+MuMu 12 V4.0.0 or later is required. Global version is not supported.\n
+It is strongly recommended to run a screenshot test immediately after enabling this feature.\n
+MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.\n\n
+The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is\n
+C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe\n
+then it should be filled in as\n
+C:\\Program Files\\Netease\\MuMuPlayer-12.0
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 Emulator exec path</system:String>
     <system:String x:Key="MuMu12Index">Instance Number</system:String>
     <system:String x:Key="MuMu12Display">Display Number</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu screenshot enhancement not enabled, please check related settings</system:String>
     <system:String x:Key="LdExtrasEnabled">Enable LD's screenshot enhancement mode</system:String>
-    <system:String x:Key="LdExtrasEnabledTip">
-        LDPlayer 9 V9.0.78 or later is required. Ark and Global versions are not supported.\n
-        It is strongly recommended to run a screenshot test immediately after enabling this feature.\n
-        MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.\n\n
-        The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is\n
-        C:\\leidian\\LDPlayer9\\dnplayer.exe\n
-        then it should be filled in as\n
-        C:\\leidian\\LDPlayer9。\n\n
-        The instance number can be viewed in LDPlayer Multi-Instance Manager,\n
-        The primary instance is 0, and other instances are the numbers after the version/instance ID.\n\n
-        Note: As of now (V9.1.28), only 720P, 900P, and 1080P resolutions are supported.
+    <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
+LDPlayer 9 V9.0.78 or later is required. Ark and Global versions are not supported.\n
+It is strongly recommended to run a screenshot test immediately after enabling this feature.\n
+MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.\n\n
+The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is\n
+C:\\leidian\\LDPlayer9\\dnplayer.exe\n
+then it should be filled in as\n
+C:\\leidian\\LDPlayer9。\n\n
+The instance number can be viewed in LDPlayer Multi-Instance Manager,\n
+The primary instance is 0, and other instances are the numbers after the version/instance ID.\n\n
+Note: As of now (V9.1.28), only 720P, 900P, and 1080P resolutions are supported.
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD Emulator exec path</system:String>
     <system:String x:Key="LdIndex">Instance Number</system:String>
