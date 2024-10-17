@@ -3,7 +3,7 @@
     "priority": [
         {
             "name": "益达",
-            "opers":[
+            "opers": [
                 {
                     "name": "维什戴尔",
                     "skill": 3,
@@ -12,7 +12,7 @@
                     "is_start": true,
                     "recruit_priority": 999,
                     "promote_priority": 114514
-                },
+                }
             ]
         },
         {
