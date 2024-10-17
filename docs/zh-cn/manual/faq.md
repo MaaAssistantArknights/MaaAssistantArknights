@@ -26,7 +26,7 @@ MAA 在 5.0 版本更新到了 .NET 8，对于最终用户来说，影响如下�
 
 此处仅列出官方安装方法，我们无法保证第三方整合包的可靠性。
 
-- 请安装 [Visual C++ 可再发行程序包](https://aka.ms/vs/17/release/vc_redist.x64.exe) 和 [.NET 桌面运行时 8](https://dotnet.microsoft.com/zh-cn/download/dotnet/8.0#:~:text=%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6-,Windows,-Arm64) 并重新启动计算机后再次运行 MAA。  
+- 请安装 [Visual C++ 可再发行程序包](https://aka.ms/vs/17/release/vc_redist.x64.exe) 和 [.NET 桌面运行时 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=Binaries-,Windows,-x64) 并重新启动计算机后再次运行 MAA。  
   推荐使用 Windows 10 或 11 的用户使用 winget 工具进行安装，只需在终端中运行以下命令。
 
   ```sh
