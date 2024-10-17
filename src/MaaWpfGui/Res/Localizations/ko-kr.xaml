@@ -402,7 +402,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
         을 입력해야 합니다。\n\n
         인스턴스 번호는 LD플레이어 멀티 인스턴스 매니저에서 확인할 수 있습니다.\n
         메인 인스턴스는 0이고, 다른 인스턴스는 버전/ID 뒤에 오는 숫자입니다。\n\n
-        주의: V9.0.78 ~ V9.1.28 버전은 720P, 900P, 1080P 해상도만 지원합니다。
+        주의: 현재까지 (V9.1.28) 버전은 720P, 900P, 1080P 해상도만 지원합니다.
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 에뮬레이터 경로</system:String>
     <system:String x:Key="LdIndex">인스턴스 번호</system:String>

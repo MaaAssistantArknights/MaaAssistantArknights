@@ -401,8 +401,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
         C:\\leidian\\LDPlayer9。\n\n
         The instance number can be viewed in LDPlayer Multi-Instance Manager,\n
         The primary instance is 0, and other instances are the numbers after the version/instance ID.\n\n
-        Note: V9.0.78 ~ V9.1.28 only support 720P, 900P, and 1080P resolutions.
-
+        Note: As of now (V9.1.28), only 720P, 900P, and 1080P resolutions are supported.
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD Emulator exec path</system:String>
     <system:String x:Key="LdIndex">Instance Number</system:String>

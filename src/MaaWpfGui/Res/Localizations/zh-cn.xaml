@@ -401,7 +401,7 @@
         C:\\leidian\\LDPlayer9。\n\n
         实例编号可在雷电多开器中查看，\n
         主多开为 0，其他多开为 版本/编号 ID 后的数字。\n\n
-        注意：V9.0.78 ~ V9.1.28 版本仅支持 720P 900P 1080P 分辨率。
+        注意：截至目前（V9.1.28）的版本仅支持 720P 900P 1080P 分辨率。
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 安装路径</system:String>
     <system:String x:Key="LdIndex">实例编号</system:String>
