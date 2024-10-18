@@ -355,8 +355,9 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
             info["why"] = "识别错误";
             callback(AsstMsg::SubTaskError, info);
         }
-        m_force_skipped.emplace(slot_index_from_rect(button));
-        ProcessTask(*this, { "RecruitContinue", "Return" }).run();
+        if (!ProcessTask(*this, { "RecruitContinue", "Return" }).run()) {
+            m_force_skipped.emplace(slot_index_from_rect(button));
+        }
         return false;
     }
 
