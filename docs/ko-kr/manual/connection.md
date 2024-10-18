@@ -151,7 +151,7 @@ MAA는 이제 레지스트리에서 `bluestacks.conf`의 저장 위치를 읽어
 
 해당 에뮬레이터의 구성을 선택해야 합니다. 목록에 없으면 일반 구성을 선택하세요. 일반 구성이 작동하지 않으면 다른 사용 가능한 구성을 시도하세요.
 
-자세한 차이점은 [소스 코드](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L68)를 참조하세요.
+자세한 차이점은 [소스 코드](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L65)를 참조하세요.
 
 ### MuMu 스크린샷 강화 모드
 

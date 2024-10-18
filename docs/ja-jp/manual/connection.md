@@ -203,7 +203,7 @@ MAA は現在 `bluestacks.conf` の保存場所をレジストリから読み取
 
 対応するエミュレーターの設定を選択してください。リストにない場合は汎用設定を選択してください。汎用設定が利用できない場合は他の利用可能な設定を試し、選択してください。
 
-具体的な違いについては、[ソースコード](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/4f1ef65a9c217c414f52461e88e9705115b5c338/resource/config.json#L74)をご覧ください。
+具体的な違いについては、[ソースコード](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L65)をご覧ください。
 
 ### MuMu スクリーンショット強化モード
 

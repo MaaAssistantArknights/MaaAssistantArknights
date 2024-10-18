@@ -159,7 +159,7 @@ TODO: replace these Chinese emulators links with English ones
 
 You need to select the configuration of the emulator you are using. If it is not in the list, select General Mode. If General Mode is not available please try and select any of the other available presents.
 
-For specific differences, you can read the [source code](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/4f1ef65a9c217c414f52461e88e9705115b5c338/resource/config.json#L74).
+For specific differences, you can read the [source code](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L65).
 
 ### MuMu Screenshot Enhanced Mode
 
