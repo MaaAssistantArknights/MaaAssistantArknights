@@ -868,6 +868,9 @@
     "StartRecruit": {
         "text": ["개시"]
     },
+    "RecruitContinue": {
+        "text": ["계속", "모집"]
+    },
     "RecruitFlag": {
         "text": ["공개모집"]
     },
