@@ -2,6 +2,7 @@
 
 ### 新增 | New
 
+* 支持mumu后台保活，通过包名获取display_id
 * 新增server酱3的推送逻辑 (#10805) @ClozyA
 * b服支持多分辨率多 dpi 登录 (#10817) @ABA2396
 * GO 导航 @ABA2396
