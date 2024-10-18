@@ -33,7 +33,7 @@
         "roi": [0, 500, 500, 150]
     },
     "BB-OpenOcr": {
-        "text": ["Babel", "open", "event"]
+        "text": ["Babel", "open", "event", "Past", "Ward"]
     },
     "BBChapterToBB": {
         "text": ["Future", "FUTURE", "Gifts", "Gifts"],
