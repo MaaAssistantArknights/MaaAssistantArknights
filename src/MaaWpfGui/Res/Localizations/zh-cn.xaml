@@ -434,7 +434,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ReclamationIncrementModeHold">长按</system:String>
     <system:String x:Key="ReclamationMaxCraftCountPerRound">单次最大组装轮数</system:String>
     <system:String x:Key="OperNameLanguage">干员名称显示语言</system:String>
-    <system:String x:Key="OperNameLanguageMAA">跟随MAA</system:String>
+    <system:String x:Key="OperNameLanguageMAA">跟随 MAA</system:String>
     <system:String x:Key="OperNameLanguageClient">跟随游戏客户端</system:String>
     <system:String x:Key="OperNameLanguageForce">强制使用指定语言</system:String>
     <system:String x:Key="Light">亮色</system:String>
