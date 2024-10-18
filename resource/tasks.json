@@ -599,7 +599,8 @@
     "GOChapterToGO": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["无名之勋", "名之"],
+        "text": ["无名之勋", "名之", "名"],
+        "doc": "单走一个【名】的原因：https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/10843",
         "preDelay": 3000,
         "roi": [914, 579, 101, 34],
         "next": ["#self", "ChapterSwipeToTheRight"]
