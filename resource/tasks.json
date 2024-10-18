@@ -2208,7 +2208,6 @@
     },
     "AccountListOcr": {
         "algorithm": "OcrDetect",
-        "isAscii": true,
         "text": []
     },
     "AccountListSwipe": {
