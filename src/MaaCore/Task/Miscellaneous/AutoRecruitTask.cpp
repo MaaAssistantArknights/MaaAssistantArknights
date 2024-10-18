@@ -299,6 +299,11 @@ bool asst::AutoRecruitTask::_run()
     return true;
 }
 
+void asst::AutoRecruitTask::click_return_button()
+{
+    ProcessTask(*this, { "RecruitContinue", "Return" }).run();
+}
+
 std::vector<asst::TextRect> asst::AutoRecruitTask::start_recruit_analyze(const cv::Mat& image)
 {
     OCRer start_analyzer(image);

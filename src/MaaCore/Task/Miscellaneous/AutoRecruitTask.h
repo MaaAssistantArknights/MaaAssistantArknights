@@ -36,6 +36,7 @@ namespace asst
 
     protected:
         virtual bool _run() override;
+        virtual void click_return_button() override;
 
         bool is_calc_only_task() { return m_max_times <= 0 && m_confirm_level.empty(); }
         std::optional<Rect> try_get_start_button(const cv::Mat&);
