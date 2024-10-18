@@ -6,6 +6,8 @@ from pathlib import Path
 def sort_tasks(res: dict[str, any]):
     # 暂时只对 Roguelike 和 Reclamation 任务进行类字典序排序，其他任务保持原有相对顺序
     classified_lists = {
+        "UseSupportUnit...": [],
+        "...@UseSupportUnit...": [],
         "Roguelike...": [],
         "Roguelike@...": [],
         "Phantom@Roguelike...": [],
@@ -22,6 +24,8 @@ def sort_tasks(res: dict[str, any]):
     unclassified_list = []
 
     classify_rules: list[tuple[str, list]] = [
+        (r"^UseSupportUnit", classified_lists["UseSupportUnit..."]),
+        (r"^(\w+)@UseSupportUnit", classified_lists["...@UseSupportUnit..."]),
         (r"^Roguelike@", classified_lists["Roguelike@..."]),
         (r"^Roguelike", classified_lists["Roguelike..."]),
         (r"^Phantom@Roguelike", classified_lists["Phantom@Roguelike..."]),
