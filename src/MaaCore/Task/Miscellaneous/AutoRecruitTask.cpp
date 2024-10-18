@@ -351,7 +351,7 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
             callback(AsstMsg::SubTaskError, info);
         }
         m_force_skipped.emplace(slot_index_from_rect(button));
-        click_return_button();
+        ProcessTask(*this, { "RecruitContinue", "Return" }).run();
         return false;
     }
 
