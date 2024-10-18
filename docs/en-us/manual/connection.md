@@ -5,6 +5,20 @@ icon: mdi:plug
 
 # Connection
 
+## Automatic Detection
+
+MAA can automatically detect and fill in the ADB path, connection address, and connection present through the **currently running single emulator**.
+
+As of MAA v5.7.0, the supported emulators and connection addresses for detection are as follows:
+
+- BlueStacks 5: `127.0.0.1:5555/5556/5565/5575/5585/5595/5554`
+- MuMu Player 12: `127.0.0.1:16384/16416/16448/16480/16512/16544/16576`
+- LDPlayer 9: `emulator-5554/5556/5558/5560`, `127.0.0.1:5555/5556/5554`
+- NoxPlayer: `127.0.0.1:62001/59865`
+- Memu Play: `127.0.0.1:21503`
+
+If detection fails, try launching MAA with UAC administrator privileges and retry detection. If it still fails, please refer to the manual setup below and verify whether the emulator and connection address are included in the list above.
+
 ## ADB Path
 
 :::info Technical Details
@@ -14,7 +28,7 @@ Automatic detection uses the emulator's ADB, but sometimes problems occur with a
 
 ### Use the ADB provided by the emulator
 
-Go to the simulator installation path. In Windows, when the simulator is running, right-click the process in the Task Manager and click `Open the location of the file`.
+Go to the emulator installation path. In Windows, when the emulator is running, right-click the process in the Task Manager and click `Open the location of the file`.
 
 There should be an exe file with `adb` in its name in the top-level or lower directory. You can search and select it.
 
@@ -34,30 +48,28 @@ We are recommended to extract it directly to the MAA folder, so that you can dir
 The connection address of the emulator running on this computer should be `127.0.0.1:<port>` 或 `emulator-<four numbers>`。
 :::
 
-### Obtain Port Number
-
-#### Simulator documents and ports for reference
+### Emulator documents and addressess for reference
 
 :::warning
-TODO: replace these Chinese emulators links with English ones
+The following links are Chinese websites, cuz no English websites were found. Maybe.
 :::
 
-- [Bluestacks 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631-%E5%A6%82%E4%BD%95%E5%B0%87%E6%82%A8%E7%9A%84%E6%87%89%E7%94%A8%E5%BE%9EBlueStacks-4%E8%BD%89%E7%A7%BB%E5%88%B0BlueStacks-5#%E2%80%9C2%E2%80%9D) `5555`
-- [MuMu Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html) `16384`
-- [MuMu 12](https://mumu.163.com/help/20230214/35047_1073151.html) `16384`
-- [MuMu 6](https://mumu.163.com/help/20210531/35047_951108.html) `7555`
-- [Memu](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `21503`
-- [Nox](https://support.yeshen.com/zh-CN/qt/ml) `62001`
+- [Bluestacks 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631-%E5%A6%82%E4%BD%95%E5%B0%87%E6%82%A8%E7%9A%84%E6%87%89%E7%94%A8%E5%BE%9EBlueStacks-4%E8%BD%89%E7%A7%BB%E5%88%B0BlueStacks-5#%E2%80%9C2%E2%80%9D) `127.0.0.1:5555`
+- [MuMu Player Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html) `127.0.0.1:16384`
+- [MuMu Player 12](https://mumu.163.com/help/20230214/35047_1073151.html) `127.0.0.1:16384`
+- [LD Player 9](https://help.ldmnq.com/docs/LD9adbserver) `emulator-5554`
+- [NoxPlayer](https://support.yeshen.com/zh-CN/qt/ml) `127.0.0.1:62001`
+- [Memu Play](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `127.0.0.1:21503`
 
-For other simulators, please check [Zhao Qingqing's blog](https://www.cnblogs.com/zhaoqingqing/p/15238464.html).
+For other emulators, please check [Zhao Qingqing's blog](https://www.cnblogs.com/zhaoqingqing/p/15238464.html).
 
-#### Multiple Emulators
+### Obtain Port Number
 
 - MuMu 12: The running emulator ports can be found in the upper right corner of the MultiPlayer.
 - Bluestacks 5: The current emulator ports can be viewed in the emulator settings.
 - _TODO_
 
-#### Alternatives
+::: details Alternatives
 
 - Method 1: Use the adb command to view the running port directly
 
@@ -88,7 +100,9 @@ For other simulators, please check [Zhao Qingqing's blog](https://www.cnblogs.co
   2. Press `Win+S` to open the search bar, type `Resource Monitor` and open it.
   3. Switch to the `Network` tab and look for the emulator process name in the name column of `Listening Port`, such as `HD-Player.exe`.
   4. Make a note of all listening ports for the emulator process.
-  5. Find `adb.exe` in the name column of `TCP connection`. The port in the remote port column that is consistent with the simulator listening port is the simulator debugging port.
+  5. Find `adb.exe` in the name column of `TCP connection`. The port in the remote port column that is consistent with the emulator listening port is the emulator debugging port.
+
+:::
 
 ### Automatically Start Multiple Emulators
 
@@ -143,9 +157,9 @@ TODO: replace these Chinese emulators links with English ones
 
 ## Connection Present
 
-You need to select the configuration of the simulator you are using. If it is not in the list, select General Mode. If General Mode is not available please try and select any of the other available presents.
+You need to select the configuration of the emulator you are using. If it is not in the list, select General Mode. If General Mode is not available please try and select any of the other available presents.
 
-For specific differences, you can read the [source code](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/4f1ef65a9c217c414f52461e88e9705115b5c338/resource/config.json#L74).
+For specific differences, you can read the [source code](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L65).
 
 ### MuMu Screenshot Enhanced Mode
 

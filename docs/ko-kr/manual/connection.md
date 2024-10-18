@@ -41,7 +41,6 @@ MAA 폴더에 직접 압축을 푸는 것을 권장합니다. 그러면 ADB 경�
 - [Bluestacks 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631-%E5%A6%82%E4%BD%95%E5%B0%87%E6%82%A8%E7%9A%84%E6%87%89%E7%94%A8%E5%BE%9EBlueStacks-4%E8%BD%89%E7%A7%BB%E5%88%B0BlueStacks-5#%E2%80%9C2%E2%80%9D) `5555`
 - [MuMu Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html) `16384`
 - [MuMu 12](https://mumu.163.com/help/20230214/35047_1073151.html) `16384`
-- [MuMu 6](https://mumu.163.com/help/20210531/35047_951108.html) `7555`
 - [逍遥(Xiaoyao)](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `21503`
 - [夜神(Yeshen)](https://support.yeshen.com/zh-CN/qt/ml) `62001`
 
@@ -152,7 +151,7 @@ MAA는 이제 레지스트리에서 `bluestacks.conf`의 저장 위치를 읽어
 
 해당 에뮬레이터의 구성을 선택해야 합니다. 목록에 없으면 일반 구성을 선택하세요. 일반 구성이 작동하지 않으면 다른 사용 가능한 구성을 시도하세요.
 
-자세한 차이점은 [소스 코드](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L68)를 참조하세요.
+자세한 차이점은 [소스 코드](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L65)를 참조하세요.
 
 ### MuMu 스크린샷 강화 모드
 
