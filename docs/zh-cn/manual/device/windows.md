@@ -38,7 +38,7 @@ const fullySupport = shuffleArray([
     {
         name: '雷电模拟器',
         link: 'https://www.ldmnq.com/',
-        note: '完美支持，且额外支持[截图增强模式](../connection.html#雷电截图增强模式)。已知兼容 Hyper-V。\n\n- 部分版本的雷电 9 安装器在安装过程中会自动静默关闭 Hyper-V，若有相关需求请留意。',
+        note: '完美支持，且额外支持[截图增强模式](../connection.html#雷电截图增强模式)。已知兼容 Hyper-V。\n\n- 雷电 9 安装器在安装过程中会自动静默关闭 Hyper-V，若有相关需求请留意。',
     },
     {
         name: '夜神模拟器',

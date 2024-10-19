@@ -37,7 +37,7 @@ const fullySupport = shuffleArray([
     {
         name: 'LDPlayer',
         link: 'https://www.ldmnq.com/',
-        note: 'Fully compatible, with additional support for the [Screenshot Enhanced Mode](../connection.html#ld-screenshot-enhanced-mode). Known to be compatible with Hyper-V.\n\n- Some versions of LDPlayer 9 installer will automatically and silently disable Hyper-V during the installation process. Please pay attention if you have related needs.',
+        note: 'Fully compatible, with additional support for the [Screenshot Enhanced Mode](../connection.html#ld-screenshot-enhanced-mode). Known to be compatible with Hyper-V.\n\n- LDPlayer 9 installer will automatically and silently disable Hyper-V during the installation process. Please pay attention if you have related needs.',
     },
     {
         name: 'Nox',
