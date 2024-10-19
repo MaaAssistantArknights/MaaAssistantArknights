@@ -32,12 +32,12 @@ const fullySupport = shuffleArray([
     {
         name: 'MuMu Emulator 12',
         link: 'https://mumu.163.com/',
-        note: 'Fully compatible, with additional support for the [Screenshot Enhanced Mode](../connection.html#mumu-screenshot-enhanced-mode). Known to be compatible with Hyper-V.\n\n- The "Exit emulator when done" function may occasionally be abnormal, if you encounter it, please contact MuMu official for feedback;\n- If you are using MuMu 12 version 3.5.4 ~ 3.5.7, please disable the "Keep alive in the background" function in MuMu 12 Settings - Others. "Keep alive while hanging in the background" (see [Official Announcement](https://mumu.163.com/help/20230802/35047_1102450.html) for details);\n- You need to check the port information of the corresponding instance through the ADB button of MuMu 12 Multiple Opener when you open more than one instance, and change the port number of the connection address in MAA `Settings` - `Connection Settings` to the corresponding port.',
+        note: 'Fully compatible, with additional support for the [Screenshot Enhanced Mode](../connection.html#mumu-screenshot-enhanced-mode). Known to be compatible with Hyper-V.\n\n- The "Exit emulator when done" function may occasionally be abnormal, if you encounter it, please contact MuMu official for feedback.\n- You need to check the port information of the corresponding instance through the ADB button of MuMu 12 Multiple Opener when you open more than one instance, and change the port number of the connection address in MAA `Settings` - `Connection Settings` to the corresponding port.',
     },
     {
         name: 'LDPlayer',
         link: 'https://www.ldmnq.com/',
-        note: 'Fully compatible, with additional support for the [Screenshot Enhanced Mode](../connection.html#ld-screenshot-enhanced-mode). Known to be compatible with Hyper-V.\n\n- LDPlayer 9 installer will automatically and silently disable Hyper-V during the installation process. Please pay attention if you have related needs.\n- LDPlayer 9 is recommended to use version 9.0.57 and above; LDPlayer 5 is recommended to use version 5.0.67 and above;\n- For versions lower than the above, you need to run `Forced ADB Replacement` in `Settings` - `Connection` in order to use efficient touch modes such as Minitouch and MaaTouch.',
+        note: 'Fully compatible, with additional support for the [Screenshot Enhanced Mode](../connection.html#ld-screenshot-enhanced-mode). Known to be compatible with Hyper-V.\n\n- Some versions of LDPlayer 9 installer will automatically and silently disable Hyper-V during the installation process. Please pay attention if you have related needs.',
     },
     {
         name: 'Nox',
@@ -55,12 +55,12 @@ const partiallySupport = shuffleArray([
     {
         name: 'MuMu Emulator 6',
         link: 'https://mumu.163.com/update/win/',
-        note: 'Support has been dropped since MAA v5.1.0 and NetEase has stopped maintaining it on 15-08-2023.\n\n- No longer support auto-detect connection, need to use generic connection configuration and manually configure adb path and connection address;\n- Need to run `Forced Replacement of ADB` in `Settings` - `Connection` to use efficient touch modes such as Minitouch, MaaTouch;\n- You need to run MAA with administrator privileges to use the "Exit Emulator When Done" function;\n- MuMu 6 default resolution is not supported, you need to change it to `1280x720`, `1920x1080`, `2560x1440` and other 16:9 ratio;\n- MuMu 6 multi-open uses the same adb port, so it can\'t support multi-open MuMu 6.',
+        note: 'Support has been dropped since MAA v5.1.0 and NetEase has stopped maintaining it on 15-08-2023.\n\n- No longer support auto-detect connection, need to use generic connection configuration and manually configure adb path and connection address.\n- Need to run `Forced Replacement of ADB` in `Settings` - `Connection` to use efficient touch modes such as Minitouch, MaaTouch.\n- You need to run MAA with administrator privileges to use the "Exit Emulator When Done" function.\n- MuMu 6 default resolution is not supported, you need to change it to `1280x720`, `1920x1080`, `2560x1440` and other 16:9 ratio.\n- MuMu 6 multi-open uses the same adb port, so it can\'t support multi-open MuMu 6.',
     },
     {
         name: 'Windows Subsystem for Android™️',
         link: 'https://learn.microsoft.com/en-us/windows/android/wsa/',
-        note: 'Support has been dropped since MAA v5.2.0 and will be discontinued by Microsoft on 05-03-2025.\n\n- Requires the use of [custom connection](../details.html#Custom connection) is required;\n- WSA 2204 or later (the version number is in the `About` page of the subsystem settings), select `Common Configuration` for the connection configuration;\n- WSA 2203 or older (the version number is at the top of the subsystem setup page), for the connection configuration select `WSA Older Versions`;\n- Since this software only supports 720p or higher `16:9` resolution better, please manually drag the window size as close to the 16:9 ratio as possible. (If your monitor is 16:9, you can press `F11` to go full screen);\n- Please try to make sure that Arknights is in the foreground and no other Android apps are running in the foreground at the same time, otherwise it may cause the game to pause or the task recognition error;\n- WSA\'s screenshots often somehow capture a white screen, resulting in recognition of abnormalities, or not recommended to use.',
+        note: 'Support has been dropped since MAA v5.2.0 and will be discontinued by Microsoft on 05-03-2025.\n\n- Requires the use of [custom connection](../details.html#Custom connection) is required.\n- WSA 2204 or later (the version number is in the `About` page of the subsystem settings), select `Common Configuration` for the connection configuration.\n- WSA 2203 or older (the version number is at the top of the subsystem setup page), for the connection configuration select `WSA Older Versions`.\n- Since this software only supports 720p or higher `16:9` resolution better, please manually drag the window size as close to the 16:9 ratio as possible. (If your monitor is 16:9, you can press `F11` to go full screen).\n- Please try to make sure that Arknights is in the foreground and no other Android apps are running in the foreground at the same time, otherwise it may cause the game to pause or the task recognition error.\n- WSA\'s screenshots often somehow capture a white screen, resulting in recognition of abnormalities, or not recommended to use.',
     },
     {
         name: 'AVD',
@@ -78,7 +78,7 @@ const notSupport = shuffleArray([
     {
         name: 'Google Play Games',
         link: 'https://play.google.com/googleplaygames',
-        note: 'Not supported, [Consumer Client](https://developer.android.com/games/playgames/pg-emulator#installing-game-consumer)\'s adb port is not open.',
+        note: 'Not supported, [Consumer Client](https://developer.android.com/games/playgames/pg-emulator#installing-game-consumer) cannot use ADB.',
     },
 ]);
 
