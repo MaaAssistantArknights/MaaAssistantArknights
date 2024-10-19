@@ -4577,7 +4577,9 @@
         "baseTask": "BattleQuickFormationRole"
     },
     "BattleQuickFormationRole-Special": {
-        "baseTask": "BattleQuickFormationRole"
+        "baseTask": "BattleQuickFormationRole",
+        "method": "Ccoeff",
+        "colorScales": []
     },
     "BattleQuickFormationRole-Support": {
         "baseTask": "BattleQuickFormationRole"
