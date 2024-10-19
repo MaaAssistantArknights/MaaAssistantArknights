@@ -18,6 +18,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -1068,7 +1069,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 return;
             }
-
+            
             _runningState.SetIdle(false);
 
             // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
@@ -1078,6 +1079,26 @@ namespace MaaWpfGui.ViewModels.UI
             InfrastTaskRunning = true;
 
             ClearLog();
+            using (SHA256 hash = SHA256.Create())
+            {
+                byte[] bytes = hash.ComputeHash(Encoding.UTF8.GetBytes(Instances.SettingsViewModel.ConnectAddress));
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+
+                // 利用生成的 Hash 检查是否存在相同实例，存在的话阻止运行
+                if (File.Exists(Path.Combine(Path.GetTempPath(), builder.ToString() + ".maalock")))
+                {
+                    AddLog("检测到存在单进程多开行为，如果您想要多开，请参照文档复制MAA。"); // needs i18n
+                    await Stop(60000, false);
+                    SetStopped();
+                    return;
+                }
+
+                File.Create(Path.Combine(Path.GetTempPath(), builder.ToString() + ".maalock"));
+            }
 
             var buildDateTimeLong = SettingsViewModel.BuildDateTimeCurrentCultureString;
             var resourceDateTimeLong = Instances.SettingsViewModel.ResourceDateTimeCurrentCultureString;
@@ -1215,14 +1236,36 @@ namespace MaaWpfGui.ViewModels.UI
         /// <para>This is usually done with <see cref="SetStopped()"/> Unless you are guaranteed to receive the callback message `AsstMsg.TaskChainStopped`</para>
         /// </summary>
         /// <param name="timeout">Timeout millisecond</param>
+        /// <param name="deleteLock">是否删除单进程哈希锁</param>
         /// <returns>A <see cref="Task"/>
         /// <para>尝试等待 core 成功停止运行，默认超时时间一分钟</para>
         /// <para>Try to wait for the core to stop running, the default timeout is one minute</para>
         /// </returns>
-        public async Task<bool> Stop(int timeout = 60 * 1000)
+        public async Task<bool> Stop(int timeout = 60 * 1000,bool deleteLock = true)
         {
             Stopping = true;
             AddLog(LocalizationHelper.GetString("Stopping"));
+            if (deleteLock)
+            {
+                AddLog("正在删除哈希锁"); // 调试信息，pr完成后会删除
+                using (SHA256 hash = SHA256.Create())
+                {
+                    byte[] bytes = hash.ComputeHash(Encoding.UTF8.GetBytes(Instances.SettingsViewModel.ConnectAddress));
+                    StringBuilder builder = new StringBuilder();
+                    for (int i = 0; i < bytes.Length; i++)
+                    {
+                        builder.Append(bytes[i].ToString("x2"));
+                    }
+
+                    // 删除哈希锁。
+                    if (File.Exists(Path.Combine(Path.GetTempPath(), builder.ToString() + ".maalock")))
+                    {
+                        File.Delete(Path.Combine(Path.GetTempPath(), builder.ToString() + ".maalock"));
+                        AddLog("删除哈希锁完成"); // 调试信息，pr完成后会删除
+                    }
+                }
+            }
+
             await Task.Run(() =>
             {
                 if (!Instances.AsstProxy.AsstStop())
