@@ -380,7 +380,7 @@
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
 需使用官版或方舟专版 MuMu 12 V4.0.0 或更新版本。国际版等暂不支持。\n
 强烈建议在开启本功能后立刻运行一次截图测试。\n
-目前新版 MuMu 的 7555 端口已经无法使用截图增强功能。如果截图增强模式无效，请检查连接地址的端口号是否为 MuMu 问题诊断中的 ADB 调试端口。新版 MuMu 的默认调试短端口为 16384 。\n
+目前新版 MuMu 的 7555 端口已经无法使用截图增强功能。如果截图增强模式无效，请检查连接地址的端口号是否为 MuMu 问题诊断中的 ADB 调试端口。新版 MuMu 的默认调试端口为 16384 。\n
 MAA 会自动通过注册表获取安装路径，若获取失败则请手动填写。\n\n
 安装路径应填写模拟器安装目录的根目录，例如模拟器进程文件路径为\n
 C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe\n
