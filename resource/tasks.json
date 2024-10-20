@@ -2208,6 +2208,11 @@
     },
     "AccountListOcr": {
         "algorithm": "OcrDetect",
+        "isAscii": true,
+        "text": []
+    },
+    "AccountListOcrBili": {
+        "algorithm": "OcrDetect",
         "text": []
     },
     "AccountListSwipe": {

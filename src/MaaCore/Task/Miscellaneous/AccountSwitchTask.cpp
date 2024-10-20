@@ -148,7 +148,12 @@ bool asst::AccountSwitchTask::select_account()
     sleep(200);
     auto raw_img = ctrler()->get_image();
     OCRer ocr(ctrler()->get_image());
-    ocr.set_task_info("AccountListOcr");
+    if (m_client_type == "Official") {
+        ocr.set_task_info("AccountListOcr");
+    }
+    else if (m_client_type == "Bilibili") {
+        ocr.set_task_info("AccountListOcrBili");
+    }
     ocr.set_required({ m_account });
     if (!ocr.analyze()) {
         return false;
