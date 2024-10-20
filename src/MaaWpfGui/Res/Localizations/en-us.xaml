@@ -226,6 +226,7 @@ You can cancel this popup by clicking the Settings - About Us - Issue Reporting 
     <system:String x:Key="DownloadWithAria2">Download via aria2</system:String>
     <system:String x:Key="UpdateCheckNow">Check update</system:String>
     <system:String x:Key="ShowChangelog">Changelog</system:String>
+    <system:String x:Key="ResourceUpdate">Resource update</system:String>
     <system:String x:Key="NewVersionFoundTitle">New Version Found</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">Downloading in the background……</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">Version: </system:String>
@@ -345,7 +346,7 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">Restart immediately to apply changes?</system:String>
     <system:String x:Key="SwitchResolutionTip">Change the emulator resolution to 1920x1080!</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">Make sure the emulator is set to 1920x1080</system:String>
-    <system:String x:Key="AllowUseStoneSave">Save &quot;Use Originium&quot; Setting</system:String>
+    <system:String x:Key="AllowUseStoneSave">Save "Use Originium" Setting</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">This function is considered dangerous. Pressing the "Confirm" button indicates that you understand and are willing to accept the potential risks.</system:String>
     <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
     <system:String x:Key="UseRemainingSanityStage">Use remaining sanity stage</system:String>
@@ -378,13 +379,16 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="ScreenshotTest">Screenshot test</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">Enable MuMu's screenshot enhancement mode</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
-MuMu 12 V4.0.0 or later is required. Global version is not supported.\n
-It is strongly recommended to run a screenshot test immediately after enabling this feature.\n
-MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.\n\n
-The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is\n
-C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe\n
-then it should be filled in as\n
-C:\\Program Files\\Netease\\MuMuPlayer-12.0
+MuMu 12 V4.0.0 or later is required. Global version is not supported.
+It is strongly recommended to run a screenshot test immediately after enabling this feature.
+MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.\n
+The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is
+C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe
+then it should be filled in as
+C:\\Program Files\\Netease\\MuMuPlayer-12.0\n
+Note:
+1. As of now (V4.1.0), the emulator version cannot use screenshot enhancement after enabling network bridging.
+2. If the port number of the connection address is 7555, you need to change the port number to 16384.
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 Emulator exec path</system:String>
     <system:String x:Key="MuMu12Index">Instance Number</system:String>
@@ -392,16 +396,17 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu screenshot enhancement not enabled, please check related settings</system:String>
     <system:String x:Key="LdExtrasEnabled">Enable LD's screenshot enhancement mode</system:String>
     <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
-LDPlayer 9 V9.0.78 or later is required. Ark and Global versions are not supported.\n
-It is strongly recommended to run a screenshot test immediately after enabling this feature.\n
-MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.\n\n
-The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is\n
-C:\\leidian\\LDPlayer9\\dnplayer.exe\n
-then it should be filled in as\n
-C:\\leidian\\LDPlayer9。\n\n
-The instance number can be viewed in LDPlayer Multi-Instance Manager,\n
-The primary instance is 0, and other instances are the numbers after the version/instance ID.\n\n
-Note: As of now (V9.1.28), only 720P, 900P, and 1080P resolutions are supported.
+LDPlayer 9 V9.0.78 or later is required. Ark and Global versions are not supported.
+It is strongly recommended to run a screenshot test immediately after enabling this feature.
+MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.\n
+The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is
+C:\\leidian\\LDPlayer9\\dnplayer.exe
+then it should be filled in as
+C:\\leidian\\LDPlayer9。\n
+The instance number can be viewed in LDPlayer Multi-Instance Manager,
+The primary instance is 0, and other instances are the numbers after the version/instance ID.\n
+Note:
+As of now (V9.1.28), the emulator version only supports 720P, 900P, and 1080P resolutions.
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD Emulator exec path</system:String>
     <system:String x:Key="LdIndex">Instance Number</system:String>
@@ -788,8 +793,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="BattleFormation">Start formation</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selected: </system:String>
     <system:String x:Key="CurrentSteps">Step: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">Unsupported stage, please check the level name or go to「Settings - Update - Check update」and try updating the resource version!</system:String>
-    <system:String x:Key="ResourceUpdatePaused">Due to server resource constraints, resource version updates are temporarily suspended. Please manually import the level file or wait for a new version release</system:String>
+    <system:String x:Key="UnsupportedLevel">Unsupported stage, please check the level name or go to「Settings - Update - Resource update」and try updating the resource version!</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results: </system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToReconnectByAdb">Attempting to reconnect</system:String>
@@ -906,4 +910,7 @@ With save file: farm points through crafting (advanced).
     <system:String x:Key="ReclamationToolToCraftTip">Support prop name</system:String>
     <system:String x:Key="ReclamationToolToCraftPlaceholder">Glow Stick</system:String>
     <!--  !Reclamation  -->
+    <!--  SingleInstance  -->
+    <system:String x:Key="MultiInstanceUnderSamePath">Only one instance can be launched under the same path!</system:String>
+    <!--  !SingleInstance  -->
 </ResourceDictionary>

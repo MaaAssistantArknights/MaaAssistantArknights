@@ -226,6 +226,7 @@
     <system:String x:Key="DownloadWithAria2">使用 aria2 进行下载</system:String>
     <system:String x:Key="UpdateCheckNow">检查更新</system:String>
     <system:String x:Key="ShowChangelog">更新日志</system:String>
+    <system:String x:Key="ResourceUpdate">资源更新</system:String>
     <system:String x:Key="NewVersionFoundTitle">检测到新版本</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">正在后台下载……</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">版本号: </system:String>
@@ -378,13 +379,16 @@
     <system:String x:Key="ScreenshotTest">截图测试</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">启用 MuMu 截图增强模式</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
-需使用官版或方舟专版 MuMu 12 V4.0.0 或更新版本。国际版等暂不支持。\n
-强烈建议在开启本功能后立刻运行一次截图测试。\n
-MAA 会自动通过注册表获取安装路径，若获取失败则请手动填写。\n\n
-安装路径应填写模拟器安装目录的根目录，例如模拟器进程文件路径为\n
-C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe\n
-则应填写\n
-C:\\Program Files\\Netease\\MuMuPlayer-12.0。
+需使用官版或方舟专版 MuMu 12 V4.0.0 或更新版本。国际版等暂不支持。
+强烈建议在开启本功能后立刻运行一次截图测试。
+MAA 会自动通过注册表获取安装路径，若获取失败则请手动填写。\n
+安装路径应填写模拟器安装目录的根目录，例如模拟器进程文件路径为
+C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe
+则应填写
+C:\\Program Files\\Netease\\MuMuPlayer-12.0。\n
+注意：
+1. 截至目前（V4.1.0）的模拟器版本开启网络桥接后无法使用截图增强。
+2. 若连接地址端口号为 7555，则需将端口号改为 16384。
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu 安装路径</system:String>
     <system:String x:Key="MuMu12Index">实例编号</system:String>
@@ -392,16 +396,17 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0。
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu 截图增强未生效，请检查相关设置</system:String>
     <system:String x:Key="LdExtrasEnabled">启用 LD 截图增强模式</system:String>
     <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
-需使用雷电模拟器 9 V9.0.78 或更新版本。专版、国际版等暂不支持。\n
-强烈建议在开启本功能后立刻运行一次截图测试。\n
-MAA 会自动通过注册表获取安装路径，若获取失败则请手动填写。\n\n
-安装路径应填写模拟器安装目录的根目录，例如模拟器进程文件路径为\n
-C:\\leidian\\LDPlayer9\\dnplayer.exe\n
-则应填写\n
-C:\\leidian\\LDPlayer9。\n\n
-实例编号可在雷电多开器中查看，\n
-主多开为 0，其他多开为 版本/编号 ID 后的数字。\n\n
-注意：截至目前（V9.1.28）的版本仅支持 720P 900P 1080P 分辨率。
+需使用雷电模拟器 9 V9.0.78 或更新版本。专版、国际版等暂不支持。
+强烈建议在开启本功能后立刻运行一次截图测试。
+MAA 会自动通过注册表获取安装路径，若获取失败则请手动填写。\n
+安装路径应填写模拟器安装目录的根目录，例如模拟器进程文件路径为
+C:\\leidian\\LDPlayer9\\dnplayer.exe
+则应填写
+C:\\leidian\\LDPlayer9。\n
+实例编号可在雷电多开器中查看，
+主多开为 0，其他多开为 版本/编号 ID 后的数字。\n
+注意：
+截至目前（V9.1.28）的模拟器版本仅支持 720P 900P 1080P 分辨率。
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 安装路径</system:String>
     <system:String x:Key="LdIndex">实例编号</system:String>
@@ -433,7 +438,7 @@ C:\\leidian\\LDPlayer9。\n\n
     <system:String x:Key="ReclamationIncrementModeHold">长按</system:String>
     <system:String x:Key="ReclamationMaxCraftCountPerRound">单次最大组装轮数</system:String>
     <system:String x:Key="OperNameLanguage">干员名称显示语言</system:String>
-    <system:String x:Key="OperNameLanguageMAA">跟随MAA</system:String>
+    <system:String x:Key="OperNameLanguageMAA">跟随 MAA</system:String>
     <system:String x:Key="OperNameLanguageClient">跟随游戏客户端</system:String>
     <system:String x:Key="OperNameLanguageForce">强制使用指定语言</system:String>
     <system:String x:Key="Light">亮色</system:String>
@@ -790,8 +795,7 @@ C:\\leidian\\LDPlayer9。\n\n
     <system:String x:Key="BattleFormation">开始编队</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">选择干员: </system:String>
     <system:String x:Key="CurrentSteps">当前步骤: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查关卡名或前往「设置 - 软件更新 - 检查更新」尝试更新资源版本！</system:String>
-    <system:String x:Key="ResourceUpdatePaused">由于服务器资源紧张，暂时停止提供资源版本更新。请手动导入关卡文件或等待新的版本发布</system:String>
+    <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查关卡名或前往「设置 - 软件更新 - 资源更新」尝试更新资源版本！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">识别结果: </system:String>
     <system:String x:Key="ConnectFailed">连接失败</system:String>
     <system:String x:Key="TryToReconnectByAdb">正在尝试重连</system:String>
@@ -908,4 +912,7 @@ C:\\leidian\\LDPlayer9。\n\n
     <system:String x:Key="ReclamationToolToCraftTip">支援道具名称</system:String>
     <system:String x:Key="ReclamationToolToCraftPlaceholder">荧光棒</system:String>
     <!--  !Reclamation  -->
+    <!--  SingleInstance  -->
+    <system:String x:Key="MultiInstanceUnderSamePath">同一路径下只能启动一个实例！</system:String>
+    <!--  !SingleInstance  -->
 </ResourceDictionary>

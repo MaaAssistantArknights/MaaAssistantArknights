@@ -599,7 +599,8 @@
     "GOChapterToGO": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["无名之勋", "名之"],
+        "text": ["无名之勋", "名之", "名"],
+        "doc": "单走一个【名】的原因：https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/10843",
         "preDelay": 3000,
         "roi": [914, 579, 101, 34],
         "next": ["#self", "ChapterSwipeToTheRight"]
@@ -2079,7 +2080,7 @@
             ["^提非$", "提丰"],
             ["^华琳$", "华法琳"],
             ["^宝箱的肉.*", "宝箱的肉？"],
-            ["维多利亚$", "维娜·维多利亚"]
+            [".*维多利亚$", "维娜·维多利亚"]
         ]
     },
     "SwitchAccount@StartUpBegin": {
@@ -2208,6 +2209,10 @@
     "AccountListOcr": {
         "algorithm": "OcrDetect",
         "isAscii": true,
+        "text": []
+    },
+    "AccountListOcrBili": {
+        "algorithm": "OcrDetect",
         "text": []
     },
     "AccountListSwipe": {
@@ -3557,6 +3562,14 @@
         "postDelay_Doc": "招募结束后有一瞬间还是原来的界面，有可能会点到放弃招募然后卡死",
         "next": ["RecruitConfirm@LoadingText", "Recruit@OfflineConfirm", "RecruitFlag"]
     },
+    "RecruitContinue": {
+        "doc": "检测 <继续招募> 按钮并点击",
+        "algorithm": "OcrDetect",
+        "text": ["继续招"],
+        "roi": [675, 470, 450, 50],
+        "action": "ClickSelf",
+        "postDelay": 500
+    },
     "InfrastBegin": {
         "algorithm": "JustReturn",
         "next": [
@@ -4577,7 +4590,9 @@
         "baseTask": "BattleQuickFormationRole"
     },
     "BattleQuickFormationRole-Special": {
-        "baseTask": "BattleQuickFormationRole"
+        "baseTask": "BattleQuickFormationRole",
+        "method": "Ccoeff",
+        "colorScales": []
     },
     "BattleQuickFormationRole-Support": {
         "baseTask": "BattleQuickFormationRole"
@@ -7096,6 +7111,7 @@
     "Roguelike@StageTraderInvestConfirm": {
         "doc": "绑定 RoguelikeInvestTaskPlugin 插件进行投资，本任务仅作为进入投资系统时的初始化确认",
         "roi": [852, 422, 278, 144],
+        "templThreshold": 0.72,
         "exceededNext": ["RoguelikeControlTaskPlugin-ExitThenStop"],
         "next": ["Roguelike@StageTraderInvestSystemError", "Roguelike@StageTraderInvestCancel"]
     },

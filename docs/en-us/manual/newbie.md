@@ -41,7 +41,7 @@ icon: ri:guide-fill
 
 0. If you'd like to use automatic detection, run **one** emulator and make sure no other Android devices are connected to the computer.
 
-1. Follow the setup guide to configure, and MAA will automatically detect the running emulator. If you'd like to run multiple emulators or customize your connection, please check [Connection](./connection.md).
+1. Follow the setup guide to configure, and MAA will automatically detect the running emulator. If the detection fails or you'd like to run multiple emulators, please check [Connection](./connection.md).
 
 2. ~~A hot update will be performed when MAA is run for the first time. Please close MAA and restart after prompting in the log on the right.~~
 

@@ -962,6 +962,9 @@
             ["로(봇|못|뭇)", "支援机械"]
         ]
     },
+    "RecruitContinue": {
+        "text": ["계속", "모집"]
+    },
     "InfrastReward": {
         "ocrReplace": [
             [".+퍼레.+터", "오퍼레이터"],
