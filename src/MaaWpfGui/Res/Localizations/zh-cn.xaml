@@ -909,4 +909,7 @@ C:\\leidian\\LDPlayer9。\n\n
     <system:String x:Key="ReclamationToolToCraftTip">支援道具名称</system:String>
     <system:String x:Key="ReclamationToolToCraftPlaceholder">荧光棒</system:String>
     <!--  !Reclamation  -->
+    <!--  SingleInstance  -->
+    <system:String x:Key="MultiInstanceUnderSamePath">同一路径下只能启动一个实例！</system:String>
+    <!--  !SingleInstance  -->
 </ResourceDictionary>

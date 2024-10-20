@@ -909,4 +909,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="ReclamationToolToCraftTip">支援道具名</system:String>
     <system:String x:Key="ReclamationToolToCraftPlaceholder">ケミカルライト</system:String>
     <!--  !Reclamation  -->
+    <!--  SingleInstance  -->
+    <system:String x:Key="MultiInstanceUnderSamePath">同じパスの下で1つのインスタンスしか起動できません！</system:String>
+    <!--  !SingleInstance  -->
 </ResourceDictionary>

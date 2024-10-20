@@ -18,6 +18,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
@@ -51,30 +52,13 @@ namespace MaaWpfGui.Main
         private static readonly RunningState _runningState = RunningState.Instance;
         private static ILogger _logger = Logger.None;
 
-        // private static Mutex _mutex;
+        private static Mutex _mutex;
+        private static bool hasMutex = false;
 
         /// <inheritdoc/>
         /// <remarks>初始化些啥自己加。</remarks>
         protected override void OnStart()
         {
-            /*
-            // 设置互斥量的名称
-            string mutexName = "MAA_" + Directory.GetCurrentDirectory().Replace("\\", "_").Replace(":", string.Empty);
-            _mutex = new Mutex(true, mutexName);
-
-            if (!_mutex.WaitOne(TimeSpan.Zero, true))
-            {
-                // 这里还没加载语言包，就不 GetString 了
-                MessageBox.Show("同一路径下只能启动一个实例！\n\n" +
-                                "同一路徑下只能啟動一個實例！\n\n" +
-                                "Only one instance can be launched under the same path!\n\n" +
-                                "同じパスの下で1つのインスタンスしか起動できません！\n\n" +
-                                "동일한 경로에는 하나의 인스턴스만 실행할 수 있습니다!");
-                Bootstrapper.Shutdown();
-                return;
-            }
-            */
-
             Directory.SetCurrentDirectory(AppContext.BaseDirectory);
             if (!Directory.Exists("debug"))
             {
@@ -179,6 +163,21 @@ namespace MaaWpfGui.Main
             base.OnStart();
             ConfigurationHelper.Load();
             LocalizationHelper.Load();
+
+            // 设置互斥量的名称
+            string mutexName = "MAA_" + Directory.GetCurrentDirectory().Replace("\\", "_").Replace(":", string.Empty);
+            _mutex = new Mutex(true, mutexName);
+
+            if (!_mutex.WaitOne(TimeSpan.Zero, true))
+            {
+                // 这里还没加载语言包，就不 GetString 了
+                MessageBox.Show(LocalizationHelper.GetString("MultiInstanceUnderSamePath"));
+                Bootstrapper.Shutdown();
+                return;
+            }
+
+            hasMutex = true;
+
             ETagCache.Load();
 
             // 检查 MaaCore.dll 是否存在
@@ -244,12 +243,6 @@ namespace MaaWpfGui.Main
         /// <remarks>退出时执行啥自己加。</remarks>
         protected override void OnExit(ExitEventArgs e)
         {
-            /*
-             // 释放互斥量
-            _mutex?.ReleaseMutex();
-            _mutex?.Dispose();
-            */
-
             // MessageBox.Show("O(∩_∩)O 拜拜");
             Release();
 
@@ -287,6 +280,13 @@ namespace MaaWpfGui.Main
 
             ConfigurationHelper.Release();
             ConfigFactory.Release();
+
+            // 释放互斥量
+            if (hasMutex)
+            {
+                _mutex?.ReleaseMutex();
+                _mutex?.Dispose();
+            }
         }
 
         private static bool _isRestartingWithoutArgs;
