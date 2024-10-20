@@ -677,6 +677,9 @@
     "StartRecruit": {
         "text": ["開始招"]
     },
+    "RecruitContinue": {
+        "text": ["繼續招募"]
+    },
     "RecruitFlag": {
         "text": ["公開招募"]
     },

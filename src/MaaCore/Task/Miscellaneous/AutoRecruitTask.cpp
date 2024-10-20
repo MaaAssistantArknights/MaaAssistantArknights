@@ -299,6 +299,11 @@ bool asst::AutoRecruitTask::_run()
     return true;
 }
 
+void asst::AutoRecruitTask::click_return_button()
+{
+    ProcessTask(*this, { "RecruitContinue", "Return" }).run();
+}
+
 std::vector<asst::TextRect> asst::AutoRecruitTask::start_recruit_analyze(const cv::Mat& image)
 {
     OCRer start_analyzer(image);
@@ -350,8 +355,9 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
             info["why"] = "识别错误";
             callback(AsstMsg::SubTaskError, info);
         }
-        m_force_skipped.emplace(slot_index_from_rect(button));
-        click_return_button();
+        if (!ProcessTask(*this, { "RecruitContinue", "Return" }).run()) {
+            m_force_skipped.emplace(slot_index_from_rect(button));
+        }
         return false;
     }
 

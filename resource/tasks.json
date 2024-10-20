@@ -3557,6 +3557,14 @@
         "postDelay_Doc": "招募结束后有一瞬间还是原来的界面，有可能会点到放弃招募然后卡死",
         "next": ["RecruitConfirm@LoadingText", "Recruit@OfflineConfirm", "RecruitFlag"]
     },
+    "RecruitContinue": {
+        "doc": "检测 <继续招募> 按钮并点击",
+        "algorithm": "OcrDetect",
+        "text": ["继续招"],
+        "roi": [675, 470, 450, 50],
+        "action": "ClickSelf",
+        "postDelay": 500
+    },
     "InfrastBegin": {
         "algorithm": "JustReturn",
         "next": [
