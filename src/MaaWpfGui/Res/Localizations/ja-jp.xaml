@@ -226,6 +226,7 @@
     <system:String x:Key="DownloadWithAria2">aria2を使う</system:String>
     <system:String x:Key="UpdateCheckNow">アップデートを確認する</system:String>
     <system:String x:Key="ShowChangelog">変更履歴</system:String>
+    <system:String x:Key="ResourceUpdate">リソース更新</system:String>
     <system:String x:Key="NewVersionFoundTitle">新しいバージョンが見つかりました</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">バックグラウンドでダウンロードを行います……</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">バージョン: </system:String>
@@ -795,8 +796,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormation">編成開始</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">オペレーターを選択: </system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">サポートされていないステージです。ステージ名を確認するか、設定に移動してソフトウェア更新をチェックし、リソースバージョンを更新してみてください！</system:String>
-    <system:String x:Key="ResourceUpdatePaused">サーバーリソースの制約により、リソースバージョンの更新は一時的に停止しています。レベルファイルを手動でインポートするか、新しいバージョンのリリースをお待ちください</system:String>
+    <system:String x:Key="UnsupportedLevel">サポートされていないステージです。ステージ名を確認するか、「設定 - ソフトウェア更新 - リソース更新」に移動してリソースバージョンを更新してみてください！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">認識結果: </system:String>
     <system:String x:Key="ConnectFailed">接続失敗</system:String>
     <system:String x:Key="TryToReconnectByAdb">再接続を試みています</system:String>
