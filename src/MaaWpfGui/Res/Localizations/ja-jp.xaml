@@ -385,7 +385,9 @@ MAA はレジストリからインストールパスを自動的に取得しま�
 C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe
 の場合、
 C:\\Program Files\\Netease\\MuMuPlayer-12.0 を入力してください。\n
-注意：接続アドレスのポート番号が 7555 の場合、接続アドレスをクリアし、自動検出接続を選択してください。
+注意：
+1. 現在のところ（V4.1.0）のエミュレーター版では、ネットワークブリッジを有効にした後、スクリーンショットの強化機能を使用できません。
+2. 接続アドレスのポート番号が 7555 の場合、接続アドレスをクリアし、自動検出接続を選択してください。
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 エミュレータパス</system:String>
     <system:String x:Key="MuMu12Index">インスタンス番号</system:String>
@@ -403,7 +405,8 @@ C:\\leidian\\LDPlayer9
 と入力してください。\n
 インスタンス番号は雷電マルチインスタンスマネージャーで確認できます。
 メインインスタンスは 0 で、その他のインスタンスはバージョン/IDの後の番号です。\n
-注意：現在のところ（V9.1.28）バージョンでは、720P、900P、1080P の解像度のみがサポートされています。
+注意：
+現在のところ（V9.1.28）のエミュレーター版は、720P、900P、および 1080P の解像度のみをサポートしています。
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD エミュレータパス</system:String>
     <system:String x:Key="LdIndex">インスタンス番号</system:String>

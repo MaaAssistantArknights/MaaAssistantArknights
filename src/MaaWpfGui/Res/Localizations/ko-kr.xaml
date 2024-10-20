@@ -385,7 +385,9 @@ MAA는 레지스트리를 통해 설치 경로를 자동으로 가져옵니다. 
 C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe
 라면
 C:\\Program Files\\Netease\\MuMuPlayer-12.0으로 입력해야 합니다.\n
-주의: 연결 주소의 포트 번호가 7555일 경우, 연결 주소를 비우고 자동 연결 감지를 선택해야 합니다.
+주의:
+1. 현재까지 (V4.1.0) 에뮬레이터 버전에서는 네트워크 브리지를 활성화한 후 스크린샷 향상 기능을 사용할 수 없습니다.
+2. 연결 주소의 포트 번호가 7555일 경우, 연결 주소를 비우고 자동 연결 감지를 선택해야 합니다.
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 에뮬레이터 경로</system:String>
     <system:String x:Key="MuMu12Index">인스턴스 번호</system:String>
@@ -403,7 +405,8 @@ C:\\leidian\\LDPlayer9
 을 입력해야 합니다。\n
 인스턴스 번호는 LD플레이어 멀티 인스턴스 매니저에서 확인할 수 있습니다.
 메인 인스턴스는 0이고, 다른 인스턴스는 버전/ID 뒤에 오는 숫자입니다。\n
-주의: 현재까지 (V9.1.28) 버전은 720P, 900P, 1080P 해상도만 지원합니다.
+주의:
+현재까지 (V9.1.28) 버전의 에뮬레이터는 720P, 900P, 1080P 해상도만 지원합니다.
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 에뮬레이터 경로</system:String>
     <system:String x:Key="LdIndex">인스턴스 번호</system:String>

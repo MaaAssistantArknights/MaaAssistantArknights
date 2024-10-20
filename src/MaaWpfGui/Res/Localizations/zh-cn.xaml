@@ -385,7 +385,9 @@ MAA 会自动通过注册表获取安装路径，若获取失败则请手动填�
 C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe
 则应填写
 C:\\Program Files\\Netease\\MuMuPlayer-12.0。\n
-注意：若连接地址端口号为 7555，则需清空连接地址并勾选自动检测连接。
+注意：
+1. 截至目前（V4.1.0）的模拟器版本开启网络桥接后无法使用截图增强。
+2. 若连接地址端口号为 7555，则需清空连接地址并勾选自动检测连接。
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu 安装路径</system:String>
     <system:String x:Key="MuMu12Index">实例编号</system:String>
@@ -402,7 +404,8 @@ C:\\leidian\\LDPlayer9\\dnplayer.exe
 C:\\leidian\\LDPlayer9。\n
 实例编号可在雷电多开器中查看，
 主多开为 0，其他多开为 版本/编号 ID 后的数字。\n
-注意：截至目前（V9.1.28）的版本仅支持 720P 900P 1080P 分辨率。
+注意：
+截至目前（V9.1.28）的模拟器版本仅支持 720P 900P 1080P 分辨率。
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 安装路径</system:String>
     <system:String x:Key="LdIndex">实例编号</system:String>

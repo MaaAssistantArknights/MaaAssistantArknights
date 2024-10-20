@@ -385,7 +385,9 @@ The installation path should be the root directory of the emulator installation,
 C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe
 then it should be filled in as
 C:\\Program Files\\Netease\\MuMuPlayer-12.0\n
-Note: If the port number of the connection address is 7555, you need to clear the connection address and check the option for automatic connection detection.
+Note:
+1. As of now (V4.1.0), the emulator version cannot use screenshot enhancement after enabling network bridging.
+2. If the port number of the connection address is 7555, you need to clear the connection address and check the option for automatic connection detection.
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 Emulator exec path</system:String>
     <system:String x:Key="MuMu12Index">Instance Number</system:String>
@@ -402,7 +404,8 @@ then it should be filled in as
 C:\\leidian\\LDPlayer9。\n
 The instance number can be viewed in LDPlayer Multi-Instance Manager,
 The primary instance is 0, and other instances are the numbers after the version/instance ID.\n
-Note: As of now (V9.1.28), only 720P, 900P, and 1080P resolutions are supported.
+Note:
+As of now (V9.1.28), the emulator version only supports 720P, 900P, and 1080P resolutions.
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD Emulator exec path</system:String>
     <system:String x:Key="LdIndex">Instance Number</system:String>
