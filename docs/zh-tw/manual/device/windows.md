@@ -21,11 +21,6 @@ const shuffleArray = (array) => {
 
 const fullySupport = shuffleArray([
     {
-        name: '藍疊模擬器 5',
-        link: 'https://www.bluestacks.cn/',
-        note: '完美支援。需要在模擬器 `設定` - `引擎設定` 中開啟 `允許ADB連線`。',
-    },
-    {
         name: '藍疊模擬器 5 國際版',
         link: 'https://www.bluestacks.com/tw/index.html',
         note: '完美支援，需要在模擬器 `設定` - `進階` 中開啟 `Android除錯橋`。已知相容 Hyper-V。\n\n- 推薦下載 [離線安裝包](https://support.bluestacks.com/hc/zh-tw/articles/4402611273485-BlueStacks-5-%E9%9B%A2%E7%B7%9A%E5%AE%89%E8%A3%9D%E7%A8%8B%E5%BC%8F)，避免緩慢和捆綁安裝；推薦安裝 [Android 11](https://support.bluestacks.com/hc/zh-tw/articles/4402611273485-BlueStacks-5-%E9%9B%A2%E7%B7%9A%E5%AE%89%E8%A3%9D%E7%A8%8B%E5%BC%8F#:~:text=%E5%AE%89%E8%A3%9D%20BlueStacks%205%20%E7%9A%84%20Android%2011) 版本；解除安裝請使用官方提供的 [解除安裝工具](https://support.bluestacks.com/hc/zh-tw/articles/360057724751-%E5%A6%82%E4%BD%95%E5%BE%9E%E6%82%A8%E7%9A%84%E9%9B%BB%E8%85%A6%E4%B8%8A%E5%AE%8C%E5%85%A8%E7%A7%BB%E9%99%A4-BlueStacks-5-BlueStacks-X-%E5%92%8C-BlueStacks-%E6%9C%8D%E5%8B%99) 以清除殘留。\n- 若 ADB 埠號不斷的無規律變動，每次啟動都不相同，可能是因為您的電腦開啟了 [Hyper-V](https://support.bluestacks.com/hc/zh-tw/articles/4415238471053-BlueStacks-5-%E6%94%AF%E6%8F%B4-Hyper-V-%E7%9A%84-Windows-10-%E5%92%8C-11-%E4%B8%8A%E7%9A%84%E9%9B%BB%E8%85%A6%E8%A6%8F%E6%A0%BC%E9%9C%80%E6%B1%82)。MAA 現在會嘗試自動讀取藍疊模擬器配置檔案內的埠號，若該功能失效/你有多開需求/安裝了多個模擬器核心，請參考 [連線設定](../connection.html#藍疊模擬器-hyper-v-每次啟動埠號都不一樣) 做出修改。由於 Hyper-V 以管理員身份執行，如自動關閉模擬器、自動檢測連線等不涉及 ADB 的操作同樣需要以管理員身份執行 MAA。',
@@ -33,12 +28,12 @@ const fullySupport = shuffleArray([
     {
         name: 'MuMu 模擬器 12',
         link: 'https://mumu.163.com/',
-        note: '完美支援，且額外支援[截圖增強模式](../connection.html#mumu-截圖增強模式)。已知相容 Hyper-V。\n\n- “完成後退出模擬器”功能可能偶現異常，如果遇到請向 MuMu 官方反饋。\n- 3.5.4 ~ 3.5.7 版本 MuMu 12 的“後台保活”功能會導致截圖失敗，推薦使用 3.5.7 之後的版本；若您正在使用 3.5.4 ~ 3.5.7 版本的 MuMu 12，請關閉 MuMu 12 設定 - 其他 中的“後台掛機時保活執行”（詳見[官方公告](https://mumu.163.com/help/20230802/35047_1102450.html)）。',
+        note: '完美支援，且額外支援[截圖增強模式](../connection.html#mumu-截圖增強模式)。已知相容 Hyper-V。\n\n- “完成後退出模擬器”功能可能偶現異常，如果遇到請向 MuMu 官方反饋。',
     },
     {
         name: '雷電模擬器',
         link: 'https://www.ldmnq.com/',
-        note: '完美支援，且額外支援[截圖增強模式](../connection.html#雷電截圖增強模式)。已知相容 Hyper-V。\n\n- 雷電 9 安裝器在安裝過程中會自動靜默關閉 Hyper-V，若有相關需求請留意。\n- 雷電 9 推薦使用 9.0.57 及以上版本；雷電 5 推薦使用 5.0.67 及以上版本；\n- 低於上述版本則需要在 `設定` - `連線設定` 中執行 `強制替換 ADB`，才能使用 Minitouch, MaaTouch 等高效的觸控模式；',
+        note: '完美支援，且額外支援[截圖增強模式](../connection.html#雷電截圖增強模式)。已知相容 Hyper-V。\n\n- 雷電 9 安裝器在安裝過程中會自動靜默關閉 Hyper-V，若有相關需求請留意。',
     },
     {
         name: '夜神模擬器',
@@ -76,14 +71,6 @@ const partiallySupport = shuffleArray([
 ]);
 
 const notSupport = shuffleArray([
-    {
-        name: 'MuMu 手遊助手（星雲引擎）',
-        note: '不支援，未開放 ADB 埠。',
-    },
-    {
-        name: '騰訊手遊助手',
-        note: '不支援，未開放 ADB 埠。',
-    },
     {
         name: 'Google Play 遊戲',
         link: 'https://play.google.com/googleplaygames',
