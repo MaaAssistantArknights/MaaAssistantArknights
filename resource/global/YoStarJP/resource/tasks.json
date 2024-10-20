@@ -1046,6 +1046,9 @@
     "StartRecruit": {
         "text": ["求人開始"]
     },
+    "RecruitContinue": {
+        "text": ["継続する"]
+    },
     "RecruitFlag": {
         "text": ["公開求人"]
     },

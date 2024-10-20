@@ -914,6 +914,9 @@
     "StartRecruit": {
         "text": ["Recruit Now"]
     },
+    "RecruitContinue": {
+        "text": ["Continue", "Recruitment"]
+    },
     "RecruitFlag": {
         "text": ["Recruit"]
     },
