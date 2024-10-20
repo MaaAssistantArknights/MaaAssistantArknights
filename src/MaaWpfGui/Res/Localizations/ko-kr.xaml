@@ -388,7 +388,7 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe
 C:\\Program Files\\Netease\\MuMuPlayer-12.0으로 입력해야 합니다.\n
 주의:
 1. 현재까지 (V4.1.0) 에뮬레이터 버전에서는 네트워크 브리지를 활성화한 후 스크린샷 향상 기능을 사용할 수 없습니다.
-2. 연결 주소의 포트 번호가 7555일 경우, 연결 주소를 비우고 자동 연결 감지를 선택해야 합니다.
+2. 연결 주소의 포트 번호가 7555일 경우, 포트 번호를 16384로 변경해야 합니다.
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 에뮬레이터 경로</system:String>
     <system:String x:Key="MuMu12Index">인스턴스 번호</system:String>
