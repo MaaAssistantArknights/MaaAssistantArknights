@@ -378,13 +378,16 @@
     <system:String x:Key="ScreenshotTest">スクリーンショットテスト</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu のスクリーンショット拡張モードを有効にする</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
-MuMu 12 V4.0.0 以降を利用する必要があり、MuMu 12 Arknights Global には対応していません。\n
-この機能を有効にした後、すぐにスクリーンショットテストを実行することを強くお勧めします。\n
-MAA はレジストリからインストールパスを自動的に取得しますが、失敗した場合は手動で入力してください。\n\n
-インストールパスには、エミュレーターのインストールディレクトリのルートディレクトリを入力する必要があります。例えば、エミュレーターのプロセスファイルパスが\n
-C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe\n
-の場合、\n
-C:\\Program Files\\Netease\\MuMuPlayer-12.0 を入力してください。
+MuMu 12 V4.0.0 以降を利用する必要があり、MuMu 12 Arknights Global には対応していません。
+この機能を有効にした後、すぐにスクリーンショットテストを実行することを強くお勧めします。
+MAA はレジストリからインストールパスを自動的に取得しますが、失敗した場合は手動で入力してください。\n
+インストールパスには、エミュレーターのインストールディレクトリのルートディレクトリを入力する必要があります。例えば、エミュレーターのプロセスファイルパスが
+C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe
+の場合、
+C:\\Program Files\\Netease\\MuMuPlayer-12.0 を入力してください。\n
+注意：
+1. 現在のところ（V4.1.0）のエミュレーター版では、ネットワークブリッジを有効にした後、スクリーンショットの強化機能を使用できません。
+2. 接続アドレスのポート番号が 7555 の場合、接続アドレスをクリアし、自動検出接続を選択してください。
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 エミュレータパス</system:String>
     <system:String x:Key="MuMu12Index">インスタンス番号</system:String>
@@ -392,17 +395,18 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0 を入力してください。
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu スクリーンショットの強化 が有効になっていません。関連する設定を確認してください</system:String>
     <system:String x:Key="LdExtrasEnabled">LD のスクリーンショット拡張モードを有効にする</system:String>
     <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
-雷電エミュレーター9 V9.0.78 以降のバージョンが必要です。専用版や国際版は現在サポートされていません。\n
-この機能を有効にした後、すぐにスクリーンショットテストを実行することを強くお勧めします。\n
-MAA はレジストリから自動的にインストールパスを取得しますが、失敗した場合は手動で入力してください。\n\n
-インストールパスはエミュレーターのインストールディレクトリのルートディレクトリを入力してください。例えば、エミュレーターのプロセスファイルパスが\n
-C:\\leidian\\LDPlayer9\\dnplayer.exe\n
-の場合、\n
-C:\\leidian\\LDPlayer9\n
-と入力してください。\n\n
-インスタンス番号は雷電マルチインスタンスマネージャーで確認できます。\n
-メインインスタンスは 0 で、その他のインスタンスはバージョン/IDの後の番号です。\n\n
-注意：現在のところ（V9.1.28）バージョンでは、720P、900P、1080P の解像度のみがサポートされています。
+雷電エミュレーター9 V9.0.78 以降のバージョンが必要です。専用版や国際版は現在サポートされていません。
+この機能を有効にした後、すぐにスクリーンショットテストを実行することを強くお勧めします。
+MAA はレジストリから自動的にインストールパスを取得しますが、失敗した場合は手動で入力してください。\n
+インストールパスはエミュレーターのインストールディレクトリのルートディレクトリを入力してください。例えば、エミュレーターのプロセスファイルパスが
+C:\\leidian\\LDPlayer9\\dnplayer.exe
+の場合、
+C:\\leidian\\LDPlayer9
+と入力してください。\n
+インスタンス番号は雷電マルチインスタンスマネージャーで確認できます。
+メインインスタンスは 0 で、その他のインスタンスはバージョン/IDの後の番号です。\n
+注意：
+現在のところ（V9.1.28）のエミュレーター版は、720P、900P、および 1080P の解像度のみをサポートしています。
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD エミュレータパス</system:String>
     <system:String x:Key="LdIndex">インスタンス番号</system:String>
@@ -434,7 +438,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="ReclamationIncrementModeHold">長押し</system:String>
     <system:String x:Key="ReclamationMaxCraftCountPerRound">1回の最大クラフト回数</system:String>
     <system:String x:Key="OperNameLanguage">オペレーター名の表示言語</system:String>
-    <system:String x:Key="OperNameLanguageMAA">MAAをフォローする</system:String>
+    <system:String x:Key="OperNameLanguageMAA">MAA をフォローする</system:String>
     <system:String x:Key="OperNameLanguageClient">ゲームクライアントをフォローする</system:String>
     <system:String x:Key="OperNameLanguageForce">指定された言語を強制的に使用する</system:String>
     <system:String x:Key="Light">ライトモード</system:String>

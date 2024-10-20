@@ -26,7 +26,7 @@ MAA has been updated to .NET 8 in version 5.0. For end users, the impact is as f
 
 Only official sources are listed here. We can't guarantee whether some random third-party all-in-one pack can work.
 
-- Please try installing [Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe) and [.NET Desktop Runtime 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=Binaries-,Windows,-Arm64), then restart computer.
+- Please try installing [Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe) and [.NET Desktop Runtime 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=Binaries-,Windows,-x64), then restart computer.
   Windows 10 or 11 users can also install using Winget by running the following command in the terminal.
 
   ```sh
