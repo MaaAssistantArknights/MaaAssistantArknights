@@ -7,6 +7,8 @@ icon: ri:game-fill
 
 ::: tip
 请注意 JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直接复制使用
+
+此文档的 [部分内容](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/10806) 尚未实现
 :::
 
 ## 肉鸽资源存放位置
