@@ -907,4 +907,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="ReclamationToolToCraftTip">제작할 도구 이름</system:String>
     <system:String x:Key="ReclamationToolToCraftPlaceholder">형광봉 (荧光棒)</system:String>
     <!--  !Reclamation  -->
+    <!--  SingleInstance  -->
+    <system:String x:Key="MultiInstanceUnderSamePath">동일한 경로에는 하나의 인스턴스만 실행할 수 있습니다!</system:String>
+    <!--  !SingleInstance  -->
 </ResourceDictionary>
