@@ -906,4 +906,7 @@ With save file: farm points through crafting (advanced).
     <system:String x:Key="ReclamationToolToCraftTip">Support prop name</system:String>
     <system:String x:Key="ReclamationToolToCraftPlaceholder">Glow Stick</system:String>
     <!--  !Reclamation  -->
+    <!--  SingleInstance  -->
+    <system:String x:Key="MultiInstanceUnderSamePath">Only one instance can be launched under the same path!</system:String>
+    <!--  !SingleInstance  -->
 </ResourceDictionary>
