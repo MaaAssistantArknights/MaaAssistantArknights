@@ -3962,6 +3962,34 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        public async Task ManualUpdateResource()
+        {
+            IsCheckingForUpdates = true;
+            if (await ResourceUpdater.UpdateFromGithubAsync())
+            {
+                if (Instances.SettingsViewModel.AutoInstallUpdatePackage)
+                {
+                    await Bootstrapper.RestartAfterIdleAsync();
+                }
+                else
+                {
+                    var result = MessageBoxHelper.Show(
+                        LocalizationHelper.GetString("GameResourceUpdated"),
+                        LocalizationHelper.GetString("Tip"),
+                        MessageBoxButton.OKCancel,
+                        MessageBoxImage.Question,
+                        ok: LocalizationHelper.GetString("Ok"),
+                        cancel: LocalizationHelper.GetString("ManualRestart"));
+                    if (result == MessageBoxResult.OK)
+                    {
+                        Bootstrapper.ShutdownAndRestartWithoutArgs();
+                    }
+                }
+            }
+
+            IsCheckingForUpdates = false;
+        }
+
         // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void ShowChangelog()

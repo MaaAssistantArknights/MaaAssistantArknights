@@ -226,6 +226,7 @@
     <system:String x:Key="DownloadWithAria2">aria2로 다운로드</system:String>
     <system:String x:Key="UpdateCheckNow">지금 업데이트</system:String>
     <system:String x:Key="ShowChangelog">변경 내역</system:String>
+    <system:String x:Key="ResourceUpdate">리소스 업데이트</system:String>
     <system:String x:Key="NewVersionFoundTitle">새로운 버전 확인</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">백그라운드에서 다운로드 중……</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">버전: </system:String>
@@ -795,8 +796,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormation">편성 시작</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">오퍼레이터를 선택: </system:String>
     <system:String x:Key="CurrentSteps">현재 단계: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">지원되지 않는 스테이지입니다. 스테이지 이름을 확인하거나 설정으로 이동하여 소프트웨어 업데이트를 확인하고 리소스 버전을 업데이트해보세요!</system:String>
-    <system:String x:Key="ResourceUpdatePaused">서버 리소스 제약으로 인해 리소스 버전 업데이트가 일시 중지되었습니다. 리소스 파일을 수동으로 설치하거나 새 버전 출시를 기다려 주세요</system:String>
+    <system:String x:Key="UnsupportedLevel">지원되지 않는 스테이지입니다. 스테이지 이름을 확인하거나 「설정 - 소프트웨어 업데이트 - 리소스 업데이트」로 이동하여 리소스 버전을 업데이트해 보세요!</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">인식 결과: </system:String>
     <system:String x:Key="ConnectFailed">연결 실패</system:String>
     <system:String x:Key="TryToReconnectByAdb">재접속을 시도하고 있습니다</system:String>
