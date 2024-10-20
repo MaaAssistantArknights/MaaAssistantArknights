@@ -914,9 +914,6 @@
     "StartRecruit": {
         "text": ["Recruit Now"]
     },
-    "RecruitContinue": {
-        "text": ["Continue", "Recruitment"]
-    },
     "RecruitFlag": {
         "text": ["Recruit"]
     },
@@ -993,6 +990,9 @@
             ["DP-Recovery", "费用回复"],
             ["Robot", "支援机械"]
         ]
+    },
+    "RecruitContinue": {
+        "text": ["Continue", "Recruitment"]
     },
     "InfrastReward": {
         "fullMatch": true,

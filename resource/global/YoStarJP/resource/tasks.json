@@ -1046,9 +1046,6 @@
     "StartRecruit": {
         "text": ["求人開始"]
     },
-    "RecruitContinue": {
-        "text": ["継続する"]
-    },
     "RecruitFlag": {
         "text": ["公開求人"]
     },
@@ -1123,6 +1120,9 @@
             ["C.+ST回復", "费用回复"],
             ["ロボット", "支援机械"]
         ]
+    },
+    "RecruitContinue": {
+        "text": ["継続する"]
     },
     "InfrastReward": {
         "text": ["受取可", "納品可", "信頼獲得"]

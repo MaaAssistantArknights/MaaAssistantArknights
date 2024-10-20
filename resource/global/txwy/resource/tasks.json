@@ -677,9 +677,6 @@
     "StartRecruit": {
         "text": ["開始招"]
     },
-    "RecruitContinue": {
-        "text": ["繼續招募"]
-    },
     "RecruitFlag": {
         "text": ["公開招募"]
     },
@@ -760,6 +757,9 @@
             ["費用回.+", "费用回复"],
             ["支援機械", "支援机械"]
         ]
+    },
+    "RecruitContinue": {
+        "text": ["繼續招募"]
     },
     "InfrastReward": {
         "text": ["可收穫", "訂單交付", "幹員信賴"]
