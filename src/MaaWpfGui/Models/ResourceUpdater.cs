@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -423,6 +424,106 @@ namespace MaaWpfGui.Models
                     _logItemViewModels.Add(log);
                 }
             });
+        }
+
+        // 额外加一个从 github 下载完整包的方法，老的版本先留着，看看之后增量还能不能整了
+        public static async Task<bool> UpdateFromGithubAsync()
+        {
+            await DownloadFullPackageAsync("https://github.com/MaaAssistantArknights/MaaResource/archive/refs/heads/main.zip", "MaaResource.zip").ConfigureAwait(false);
+            // 解压到 MaaResource 文件夹
+            try
+            {
+                if (Directory.Exists("MaaResource"))
+                {
+                    Directory.Delete("MaaResource", true);
+                }
+
+                ZipFile.ExtractToDirectory("MaaResource.zip", "MaaResource");
+            }
+            catch (Exception e)
+            {
+                _logger.Error("Failed to extract MaaResource.zip: " + e.Message);
+                return false;
+            }
+
+            // 把 \MaaResource-main 中的 cache 和 resource 文件夹复制到当前目录
+            try
+            {
+                string sourcePath = Path.Combine("MaaResource", "MaaResource-main");
+                string[] foldersToCopy = { "cache", "resource" };
+
+                foreach (var folder in foldersToCopy)
+                {
+                    string sourceFolder = Path.Combine(sourcePath, folder);
+                    string destinationFolder = Path.Combine(Directory.GetCurrentDirectory(), folder);
+
+                    DirectoryMerge(sourceFolder, destinationFolder);
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error("Failed to copy folders: " + e.Message);
+                return false;
+            }
+
+            // 删除 MaaResource 文件夹 和 MaaResource.zip
+            try
+            {
+                Directory.Delete("MaaResource", true);
+                File.Delete("MaaResource.zip");
+            }
+            catch (Exception e)
+            {
+                _logger.Error("Failed to delete MaaResource: " + e.Message);
+            }
+
+            return true;
+        }
+
+        private static async Task<bool> DownloadFullPackageAsync(string url, string saveTo)
+        {
+            using var response = await Instances.HttpService.GetAsync(
+                new Uri(url),
+                httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
+
+            if (response is not
+                {
+                    StatusCode: System.Net.HttpStatusCode.OK
+                })
+            {
+                return false;
+            }
+
+            return await HttpResponseHelper.SaveResponseToFileAsync(response, saveTo);
+        }
+
+        private static void DirectoryMerge(string sourceDirName, string destDirName)
+        {
+            DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+            DirectoryInfo[] dirs = dir.GetDirectories();
+
+            if (!dir.Exists)
+            {
+                throw new DirectoryNotFoundException("Source directory does not exist or could not be found: " + sourceDirName);
+            }
+
+            if (!Directory.Exists(destDirName))
+            {
+                Directory.CreateDirectory(destDirName);
+            }
+
+            FileInfo[] files = dir.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                string tempPath = Path.Combine(destDirName, file.Name);
+                file.CopyTo(tempPath, true); // 覆盖现有文件
+            }
+
+            foreach (DirectoryInfo subdir in dirs)
+            {
+                string tempPath = Path.Combine(destDirName, subdir.Name);
+                DirectoryMerge(subdir.FullName, tempPath);
+            }
         }
     }
 }

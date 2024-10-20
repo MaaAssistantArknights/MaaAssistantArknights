@@ -82,6 +82,7 @@
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
 
                     <ComboBox
@@ -331,6 +332,12 @@
                             Content="{DynamicResource ShowChangelog}"
                             IsEnabled="{c:Binding !IsCheckingForUpdates}" />
                     </StackPanel>
+                    <Button
+                        Grid.Row="4"
+                        Margin="5"
+                        Command="{s:Action ManualUpdateResource}"
+                        Content="{DynamicResource ResourceUpdate}"
+                        IsEnabled="{c:Binding !IsCheckingForUpdates}" />
                 </Grid>
             </StackPanel>
         </Grid>

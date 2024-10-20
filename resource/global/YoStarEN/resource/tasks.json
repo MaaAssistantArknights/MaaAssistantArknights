@@ -33,7 +33,7 @@
         "roi": [0, 500, 500, 150]
     },
     "BB-OpenOcr": {
-        "text": ["Babel", "open", "event"]
+        "text": ["Babel", "open", "event", "Past", "Ward"]
     },
     "BBChapterToBB": {
         "text": ["Future", "FUTURE", "Gifts", "Gifts"],
@@ -990,6 +990,9 @@
             ["DP-Recovery", "费用回复"],
             ["Robot", "支援机械"]
         ]
+    },
+    "RecruitContinue": {
+        "text": ["Continue", "Recruitment"]
     },
     "InfrastReward": {
         "fullMatch": true,
