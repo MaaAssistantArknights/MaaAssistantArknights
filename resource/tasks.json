@@ -7098,6 +7098,7 @@
     "Roguelike@StageTraderInvestConfirm": {
         "doc": "绑定 RoguelikeInvestTaskPlugin 插件进行投资，本任务仅作为进入投资系统时的初始化确认",
         "roi": [852, 422, 278, 144],
+        "templThreshold": 0.72,
         "exceededNext": ["RoguelikeControlTaskPlugin-ExitThenStop"],
         "next": ["Roguelike@StageTraderInvestSystemError", "Roguelike@StageTraderInvestCancel"]
     },
