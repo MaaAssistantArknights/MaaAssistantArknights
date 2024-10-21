@@ -528,6 +528,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (!_runningState.GetIdle())
                 {
+                    _logger.Information("Not idle, Stop and CloseDown");
                     await Stop();
                 }
 
@@ -1066,6 +1067,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             if (!_runningState.GetIdle())
             {
+                _logger.Information("Not idle, return.");
                 return;
             }
 
