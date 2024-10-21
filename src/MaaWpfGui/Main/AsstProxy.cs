@@ -1390,6 +1390,13 @@ namespace MaaWpfGui.Main
                         break;
                     }
 
+                case "UseSupportUnit":
+                    {
+                        var name = subTaskDetails!["name"]!.ToString();
+                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("UseSupportUnit"), name), UiLogColor.Info);
+                        break;
+                    }
+
                 case "RecruitTagsSelected":
                     {
                         var selected = subTaskDetails["tags"] ?? new JArray();
