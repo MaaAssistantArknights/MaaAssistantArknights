@@ -103,10 +103,18 @@ def individual_commits(commits: dict, indent: str = "") -> Tuple[str, list]:
 
 def update_commits(commit_message, sorted_commits, update_dict):
     oper = "other"
-    for key, trans in translations.items():
-        if commit_message.startswith(trans.value) or key in commit_message:
+    # 优先检查 commit_message 中是否有明确的前缀
+    for trans in Translation:
+        if commit_message.startswith(trans.value):
             oper = trans.value
             break
+    else:
+        # 如果没有明确前缀，则检查翻译的中文关键词
+        for key, trans in translations.items():
+            if key in commit_message:
+                oper = trans.value
+                break
+
     sorted_commits[oper].update(update_dict)
 
 
