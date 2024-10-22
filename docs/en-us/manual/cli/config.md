@@ -422,11 +422,24 @@ backend = "libgit2" # the backend of resource, can be "libgit2" or "git"
 
 # the remote of resource
 [resource.remote]
-branch = "main" # the branch of remote repository
-# the url of remote repository, when using ssh, you should set ssh_key field
-url = "https://github.com/MaaAssistantArknights/MaaResource.git"
-# url = "git@github.com:MaaAssistantArknights/MaaResource.git"
-# ssh_key = "~/.ssh/id_ed25519" # path to ssh key
+branch = "main" # Branch of remote resource repository
+# URL of remote resource repository, leave it empty to use the default URL
+url = "git@github.com:MaaAssistantArknights/MaaResource.git"
+# If you want to use ssh, a certificate is needed which can be "ssh-agent" or "ssh-key"
+# To use ssh-agent, set `use_ssh_agent` to true, and leave `ssh_key` and `passphrase` empty
+# use_ssh_agent = true # Use ssh-agent to authenticate
+# To use ssh-key, set `ssh_key` to path of ssh key,
+ssh_key = "~/.ssh/id_ed25519" # Path of ssh key
+# A Passphrase is needed if the ssh key is encrypted
+passphrase = "password" # Passphrase of ssh key
+# Store plain text password in configuration file is unsafe, so there are some ways to avoid it
+# 1. set `passphrase` to true, then maa-cli will prompt you to input passphrase each time
+# passphrase = true
+# 2. set `passphrase` to a environment variable, then maa-cli will use the environment variable as passphrase
+# passphrase = { env = "MAA_SSH_PASSPHRASE" }
+# 3. set `passphrase` to a command, then maa-cli will execute the command to get passphrase
+# which is useful when you use a password manager to manage your passphrase
+# passphrase = { cmd = ["pass", "show", "ssh/id_ed25519"] }
 ```
 
 **NOTE**:
