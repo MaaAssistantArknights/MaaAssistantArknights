@@ -23,8 +23,9 @@ bool asst::ItemConfig::parse(const json::value& json)
     m_ordered_material_item_id.clear();
     m_ordered_material_item_id.reserve(material_sortid.size());
     ranges::copy(material_sortid | views::keys, std::back_inserter(m_ordered_material_item_id));
-    ranges::sort(m_ordered_material_item_id, std::less {},
-                 [&](const std::string& name) -> int { return material_sortid[name]; });
+    ranges::sort(m_ordered_material_item_id, std::less {}, [&](const std::string& name) -> int {
+        return material_sortid[name];
+    });
 
     return true;
 }

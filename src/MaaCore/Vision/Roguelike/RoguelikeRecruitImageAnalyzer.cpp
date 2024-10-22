@@ -13,8 +13,9 @@ bool asst::RoguelikeRecruitImageAnalyzer::analyze()
 
     TemplDetOCRer analyzer(m_image);
     analyzer.set_task_info("RoguelikeRecruitOcrFlag", "RoguelikeRecruitOcr");
-    analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
-                         Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
+    analyzer.set_replace(
+        Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
+        Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
     analyzer.set_bin_threshold(Task.get("RoguelikeRecruitOcr")->specific_rect.x);
 
     auto result_opt = analyzer.analyze();

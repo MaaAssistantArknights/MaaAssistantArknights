@@ -2,8 +2,8 @@
 
 #include <memory>
 
-#include "Task/AbstractTaskPlugin.h"
 #include "ReclamationConfig.h"
+#include "Task/AbstractTaskPlugin.h"
 
 namespace asst
 {

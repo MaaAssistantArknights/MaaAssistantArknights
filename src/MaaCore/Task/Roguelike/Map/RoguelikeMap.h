@@ -69,19 +69,23 @@ public:
 
     // ———————— update map ————————————————————————————————————————————————————————————
     // 创建并插入一个 node，返回新 node 的 index
-    std::optional<size_t>
-        create_and_insert_node(const RoguelikeNodeType& type, const size_t& column, const int& y);
+    std::optional<size_t> create_and_insert_node(const RoguelikeNodeType& type, const size_t& column, const int& y);
 
     void add_edge(const size_t& source, const size_t& target);
     void set_curr_pos(const size_t& node_index);
+
     void set_cost_fun(const RoguelikeNodeCostFun& cost_fun) { m_cost_fun = cost_fun; }
+
     void update_node_costs();
     void reset();
 
     // ———————— get map details ———————————————————————————————————————————————————————
     size_t size() const { return m_nodes.size(); }
+
     size_t get_num_columns() const { return m_column_indices.size(); }
+
     size_t get_curr_pos() const { return m_curr_pos; }
+
     size_t get_column_begin(const size_t& column) const;
     size_t get_column_end(const size_t& column) const;
     size_t get_next_node() const;
@@ -102,7 +106,7 @@ public:
     void set_node_refresh_times(const size_t& node_index, int refresh_times);
 
     // ———————— constants and variables ———————————————————————————————————————————————
-    const size_t init_index = 0;        // 常量，既是 init 的 node index 也是它的 column index
+    const size_t init_index = 0; // 常量，既是 init 的 node index 也是它的 column index
 
 private:
     // ———————— update map ————————————————————————————————————————————————————————————
@@ -112,6 +116,8 @@ private:
     std::vector<RoguelikeNodePtr> m_nodes;
     std::vector<size_t> m_column_indices; // m_column_indices[c] 代表列 c 的 node index 的上限 (exclusive)
     size_t m_curr_pos = 0;                // 当前位置的 node index
-    RoguelikeNodeCostFun m_cost_fun = [&]([[maybe_unused]] const RoguelikeNodePtr& node) { return 0; };
+    RoguelikeNodeCostFun m_cost_fun = [&]([[maybe_unused]] const RoguelikeNodePtr& node) {
+        return 0;
+    };
 };
 }

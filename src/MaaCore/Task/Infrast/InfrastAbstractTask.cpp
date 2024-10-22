@@ -17,9 +17,11 @@
 #include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
 
-asst::InfrastAbstractTask::InfrastAbstractTask(const AsstCallback& callback, Assistant* inst,
-                                               std::string_view task_chain)
-    : AbstractTask(callback, inst, task_chain)
+asst::InfrastAbstractTask::InfrastAbstractTask(
+    const AsstCallback& callback,
+    Assistant* inst,
+    std::string_view task_chain) :
+    AbstractTask(callback, inst, task_chain)
 {
     m_retry_times = TaskRetryTimes;
 }
@@ -134,10 +136,11 @@ bool asst::InfrastAbstractTask::match_operator_groups()
     // 筛选第一个满足要求的干员组
     for (const auto& oper_group_pair : current_room_config().operator_groups) {
         if (ranges::all_of(oper_group_pair.second, [opers](const std::string& oper) { return opers.contains(oper); })) {
-
             ranges::for_each(oper_group_pair.second, [&opers](const std::string& oper) { opers.erase(oper); });
-            current_room_config().names.insert(current_room_config().names.end(), oper_group_pair.second.begin(),
-                                               oper_group_pair.second.end());
+            current_room_config().names.insert(
+                current_room_config().names.end(),
+                oper_group_pair.second.begin(),
+                oper_group_pair.second.end());
 
             json::value sanity_info = basic_info_with_what("CustomInfrastRoomGroupsMatch");
             sanity_info["details"]["group"] = oper_group_pair.first;
@@ -305,7 +308,7 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
         ++swipe_times;
         // 最后一页会触底反弹，先糊个屎避免一下
         // 总不能有成体系的干员了还没160个人吧）
-        if(swipe_times > 20) {
+        if (swipe_times > 20) {
             sleep(500);
         }
     }
@@ -345,8 +348,9 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
 /// @param origin_room_config 期望的配置
 /// @param num_of_opers_expect 期望选中的人数，空置则按names.size()判断
 /// @return 是否符合期望
-bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig const& origin_room_config,
-                                                    size_t num_of_opers_expect)
+bool asst::InfrastAbstractTask::select_opers_review(
+    infrast::CustomRoomConfig const& origin_room_config,
+    size_t num_of_opers_expect)
 {
     LogTraceFunction;
     // save_img("debug/");
@@ -354,8 +358,8 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
 
     const auto image = ctrler()->get_image();
     InfrastOperImageAnalyzer oper_analyzer(image);
-    oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected |
-                                   InfrastOperImageAnalyzer::ToBeCalced::Doing);
+    oper_analyzer.set_to_be_calced(
+        InfrastOperImageAnalyzer::ToBeCalced::Selected | InfrastOperImageAnalyzer::ToBeCalced::Doing);
     if (!oper_analyzer.analyze()) {
         Log.warn("No oper");
         return false;
@@ -364,8 +368,13 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
     const auto& oper_analyzer_res = oper_analyzer.get_result();
     size_t selected_count =
         ranges::count_if(oper_analyzer_res, [](const infrast::Oper& info) { return info.selected; });
-    Log.info("selected_count,config.names.size,num_of_opers_expect = ", selected_count, ",", room_config.names.size(),
-             ",", num_of_opers_expect);
+    Log.info(
+        "selected_count,config.names.size,num_of_opers_expect = ",
+        selected_count,
+        ",",
+        room_config.names.size(),
+        ",",
+        num_of_opers_expect);
 
     if (selected_count < num_of_opers_expect) {
         Log.warn("select opers review fail: unexpected number of selected operators ");

@@ -20,6 +20,7 @@ bool asst::OperBoxRecognitionTask::_run()
     callback_analyze_result(true);
     return ret;
 }
+
 bool asst::OperBoxRecognitionTask::swipe_and_analyze()
 {
     LogTraceFunction;

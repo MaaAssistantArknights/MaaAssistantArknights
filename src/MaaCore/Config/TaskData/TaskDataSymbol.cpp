@@ -1,7 +1,9 @@
 #include "TaskDataSymbol.h"
 
 asst::TaskDataSymbol::SymbolsOrError asst::TaskDataSymbol::append_prefix(
-    const TaskDataSymbol& symbol, const TaskDataSymbol& prefix, std::string_view self_name,
+    const TaskDataSymbol& symbol,
+    const TaskDataSymbol& prefix,
+    std::string_view self_name,
     std::function<TaskDerivedConstPtr(std::string_view)> get_raw,
     std::function<SymbolsOrError(const TaskList&)> compile_tasklist)
 {

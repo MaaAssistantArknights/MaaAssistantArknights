@@ -5,7 +5,8 @@
 
 #include "Utils/Logger.hpp"
 
-asst::Win32IO::Win32IO(Assistant* inst) : InstHelper(inst)
+asst::Win32IO::Win32IO(Assistant* inst) :
+    InstHelper(inst)
 {
     LogTraceFunction;
 
@@ -20,9 +21,13 @@ asst::Win32IO::~Win32IO()
     }
 }
 
-std::optional<int> asst::Win32IO::call_command(const std::string& cmd, bool recv_by_socket, std::string& pipe_data,
-                                               std::string& sock_data, int64_t timeout,
-                                               std::chrono::steady_clock::time_point start_time)
+std::optional<int> asst::Win32IO::call_command(
+    const std::string& cmd,
+    bool recv_by_socket,
+    std::string& pipe_data,
+    std::string& sock_data,
+    int64_t timeout,
+    std::chrono::steady_clock::time_point start_time)
 {
     using namespace std::chrono;
 
@@ -31,8 +36,14 @@ std::optional<int> asst::Win32IO::call_command(const std::string& cmd, bool recv
 
     HANDLE pipe_parent_read = INVALID_HANDLE_VALUE, pipe_child_write = INVALID_HANDLE_VALUE;
     SECURITY_ATTRIBUTES sa_inherit { .nLength = sizeof(SECURITY_ATTRIBUTES), .bInheritHandle = TRUE };
-    if (!asst::win32::CreateOverlappablePipe(&pipe_parent_read, &pipe_child_write, nullptr, &sa_inherit,
-                                             (DWORD)pipe_buffer.size(), true, false)) {
+    if (!asst::win32::CreateOverlappablePipe(
+            &pipe_parent_read,
+            &pipe_child_write,
+            nullptr,
+            &sa_inherit,
+            (DWORD)pipe_buffer.size(),
+            true,
+            false)) {
         DWORD err = GetLastError();
         Log.error("CreateOverlappablePipe failed, err", err);
         return std::nullopt;
@@ -64,15 +75,31 @@ std::optional<int> asst::Win32IO::call_command(const std::string& cmd, bool recv
         Log.error("Call `", cmd, "` InitializeProcThreadAttributeList failed, ret error code:", err);
         return std::nullopt;
     }
-    attr_success = UpdateProcThreadAttribute(si.lpAttributeList, 0, PROC_THREAD_ATTRIBUTE_HANDLE_LIST, &pipe_child_write, sizeof(HANDLE), nullptr, nullptr);
+    attr_success = UpdateProcThreadAttribute(
+        si.lpAttributeList,
+        0,
+        PROC_THREAD_ATTRIBUTE_HANDLE_LIST,
+        &pipe_child_write,
+        sizeof(HANDLE),
+        nullptr,
+        nullptr);
     if (!attr_success) {
         DWORD err = GetLastError();
         Log.error("Call `", cmd, "` UpdateProcThreadAttribute failed, ret error code:", err);
         return std::nullopt;
     }
     auto cmdline_osstr = asst::utils::to_osstring(cmd);
-    BOOL create_ret =
-        CreateProcessW(nullptr, cmdline_osstr.data(), nullptr, nullptr, TRUE, EXTENDED_STARTUPINFO_PRESENT, nullptr, nullptr, &si.StartupInfo, &process_info);
+    BOOL create_ret = CreateProcessW(
+        nullptr,
+        cmdline_osstr.data(),
+        nullptr,
+        nullptr,
+        TRUE,
+        EXTENDED_STARTUPINFO_PRESENT,
+        nullptr,
+        nullptr,
+        &si.StartupInfo,
+        &process_info);
     DeleteProcThreadAttributeList(si.lpAttributeList);
     if (!create_ret) {
         DWORD err = GetLastError();
@@ -101,9 +128,15 @@ std::optional<int> asst::Win32IO::call_command(const std::string& cmd, bool recv
         sockov.hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr);
         client_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
         DWORD dummy;
-        if (!m_server_accept_ex(m_server_sock, client_socket, sock_buffer.get(),
-                                (DWORD)sock_buffer.size() - ((sizeof(sockaddr_in) + 16) * 2), sizeof(sockaddr_in) + 16,
-                                sizeof(sockaddr_in) + 16, &dummy, &sockov)) {
+        if (!m_server_accept_ex(
+                m_server_sock,
+                client_socket,
+                sock_buffer.get(),
+                (DWORD)sock_buffer.size() - ((sizeof(sockaddr_in) + 16) * 2),
+                sizeof(sockaddr_in) + 16,
+                sizeof(sockaddr_in) + 16,
+                &dummy,
+                &sockov)) {
             DWORD err = WSAGetLastError();
             if (err == ERROR_IO_PENDING) {
                 accept_pending = true;
@@ -119,16 +152,24 @@ std::optional<int> asst::Win32IO::call_command(const std::string& cmd, bool recv
 
     while (!need_exit()) {
         wait_handles.clear();
-        if (process_running) wait_handles.push_back(process_info.hProcess);
-        if (!pipe_eof) wait_handles.push_back(pipeov.hEvent);
+        if (process_running) {
+            wait_handles.push_back(process_info.hProcess);
+        }
+        if (!pipe_eof) {
+            wait_handles.push_back(pipeov.hEvent);
+        }
         if (recv_by_socket && ((accept_pending && process_running) || !socket_eof)) {
             wait_handles.push_back(sockov.hEvent);
         }
-        if (wait_handles.empty()) break;
+        if (wait_handles.empty()) {
+            break;
+        }
         auto elapsed = steady_clock::now() - start_time;
         // TODO: 这里目前是隔 5000ms 判断一次，应该可以加一个 wait_handle 来判断外部中断（need_exit）
         auto wait_time = (std::min)(timeout - duration_cast<milliseconds>(elapsed).count(), 5LL * 1000);
-        if (wait_time < 0 || !process_running) wait_time = 0;
+        if (wait_time < 0 || !process_running) {
+            wait_time = 0;
+        }
         auto wait_result =
             WaitForMultipleObjectsEx((DWORD)wait_handles.size(), wait_handles.data(), FALSE, (DWORD)wait_time, TRUE);
         HANDLE signaled_object = INVALID_HANDLE_VALUE;
@@ -203,7 +244,9 @@ std::optional<int> asst::Win32IO::call_command(const std::string& cmd, bool recv
                 DWORD len = 0;
                 if (GetOverlappedResult(reinterpret_cast<HANDLE>(m_server_sock), &sockov, &len, FALSE)) {
                     accept_pending = false;
-                    if (recv_by_socket) sock_data.insert(sock_data.end(), sock_buffer.get(), sock_buffer.get() + len);
+                    if (recv_by_socket) {
+                        sock_data.insert(sock_data.end(), sock_buffer.get(), sock_buffer.get() + len);
+                    }
 
                     if (len == 0) {
                         socket_eof = true;
@@ -215,8 +258,12 @@ std::optional<int> asst::Win32IO::call_command(const std::string& cmd, bool recv
                         sockov = {};
                         sockov.hEvent = event;
 
-                        (void)ReadFile(reinterpret_cast<HANDLE>(client_socket), sock_buffer.get(),
-                                       (DWORD)sock_buffer.size(), nullptr, &sockov);
+                        (void)ReadFile(
+                            reinterpret_cast<HANDLE>(client_socket),
+                            sock_buffer.get(),
+                            (DWORD)sock_buffer.size(),
+                            nullptr,
+                            &sockov);
                     }
                 }
             }
@@ -224,14 +271,20 @@ std::optional<int> asst::Win32IO::call_command(const std::string& cmd, bool recv
                 // ReadFile
                 DWORD len = 0;
                 if (GetOverlappedResult(reinterpret_cast<HANDLE>(client_socket), &sockov, &len, FALSE)) {
-                    if (recv_by_socket) sock_data.insert(sock_data.end(), sock_buffer.get(), sock_buffer.get() + len);
+                    if (recv_by_socket) {
+                        sock_data.insert(sock_data.end(), sock_buffer.get(), sock_buffer.get() + len);
+                    }
                     if (len == 0) {
                         socket_eof = true;
                         ::closesocket(client_socket);
                     }
                     else {
-                        (void)ReadFile(reinterpret_cast<HANDLE>(client_socket), sock_buffer.get(),
-                                       (DWORD)sock_buffer.size(), nullptr, &sockov);
+                        (void)ReadFile(
+                            reinterpret_cast<HANDLE>(client_socket),
+                            sock_buffer.get(),
+                            (DWORD)sock_buffer.size(),
+                            nullptr,
+                            &sockov);
                     }
                 }
                 else {
@@ -283,8 +336,16 @@ std::optional<unsigned short> asst::Win32IO::init_socket(const std::string& loca
 
     DWORD dummy = 0;
     GUID guid_accept_ex = WSAID_ACCEPTEX;
-    int err = WSAIoctl(m_server_sock, SIO_GET_EXTENSION_FUNCTION_POINTER, &guid_accept_ex, sizeof(guid_accept_ex),
-                       &m_server_accept_ex, sizeof(m_server_accept_ex), &dummy, NULL, NULL);
+    int err = WSAIoctl(
+        m_server_sock,
+        SIO_GET_EXTENSION_FUNCTION_POINTER,
+        &guid_accept_ex,
+        sizeof(guid_accept_ex),
+        &m_server_accept_ex,
+        sizeof(m_server_accept_ex),
+        &dummy,
+        NULL,
+        NULL);
     if (err == SOCKET_ERROR) {
         err = WSAGetLastError();
         Log.error("failed to resolve AcceptEx, err:", err);
@@ -336,15 +397,26 @@ std::shared_ptr<asst::IOHandler> asst::Win32IO::interactive_shell(const std::str
     PROCESS_INFORMATION m_process_info = { INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, 0, 0 };
     HANDLE pipe_parent_read = INVALID_HANDLE_VALUE, pipe_child_write = INVALID_HANDLE_VALUE;
     HANDLE pipe_child_read = INVALID_HANDLE_VALUE, pipe_parent_write = INVALID_HANDLE_VALUE;
-    if (!asst::win32::CreateOverlappablePipe(&pipe_parent_read, &pipe_child_write, nullptr, &sa_attr_inherit,
-                                             PipeReadBuffSize, true, false) ||
-        !asst::win32::CreateOverlappablePipe(&pipe_child_read, &pipe_parent_write, &sa_attr_inherit, nullptr,
-                                             PipeWriteBuffSize, false, false)) {
+    if (!asst::win32::CreateOverlappablePipe(
+            &pipe_parent_read,
+            &pipe_child_write,
+            nullptr,
+            &sa_attr_inherit,
+            PipeReadBuffSize,
+            true,
+            false) ||
+        !asst::win32::CreateOverlappablePipe(
+            &pipe_child_read,
+            &pipe_parent_write,
+            &sa_attr_inherit,
+            nullptr,
+            PipeWriteBuffSize,
+            false,
+            false)) {
         DWORD err = GetLastError();
         Log.error("Failed to create pipe for minitouch, err", err);
         return nullptr;
     }
-
 
     HANDLE handles_to_inherit[] = { pipe_child_read, pipe_child_write };
     STARTUPINFOEXW si {};
@@ -371,15 +443,31 @@ std::shared_ptr<asst::IOHandler> asst::Win32IO::interactive_shell(const std::str
         Log.error("Call `", cmd, "` InitializeProcThreadAttributeList failed, ret error code:", err);
         return nullptr;
     }
-    attr_success = UpdateProcThreadAttribute(si.lpAttributeList, 0, PROC_THREAD_ATTRIBUTE_HANDLE_LIST, &handles_to_inherit, sizeof(handles_to_inherit), nullptr, nullptr);
+    attr_success = UpdateProcThreadAttribute(
+        si.lpAttributeList,
+        0,
+        PROC_THREAD_ATTRIBUTE_HANDLE_LIST,
+        &handles_to_inherit,
+        sizeof(handles_to_inherit),
+        nullptr,
+        nullptr);
     if (!attr_success) {
         DWORD err = GetLastError();
         Log.error("Call `", cmd, "` UpdateProcThreadAttribute failed, ret error code:", err);
         return nullptr;
     }
     auto cmd_osstr = utils::to_osstring(cmd);
-    BOOL create_ret =
-        CreateProcessW(NULL, cmd_osstr.data(), nullptr, nullptr, TRUE, EXTENDED_STARTUPINFO_PRESENT, nullptr, nullptr, &si.StartupInfo, &m_process_info);
+    BOOL create_ret = CreateProcessW(
+        NULL,
+        cmd_osstr.data(),
+        nullptr,
+        nullptr,
+        TRUE,
+        EXTENDED_STARTUPINFO_PRESENT,
+        nullptr,
+        nullptr,
+        &si.StartupInfo,
+        &m_process_info);
     DeleteProcThreadAttributeList(si.lpAttributeList);
 
     CloseHandle(pipe_child_write);
@@ -464,8 +552,12 @@ bool asst::IOHandlerWin32::write(std::string_view data)
         return false;
     }
     DWORD written = 0;
-    if (!WriteFile(m_write, data.data(), static_cast<DWORD>(data.size() * sizeof(std::string::value_type)), &written,
-                   NULL)) {
+    if (!WriteFile(
+            m_write,
+            data.data(),
+            static_cast<DWORD>(data.size() * sizeof(std::string::value_type)),
+            &written,
+            NULL)) {
         auto err = GetLastError();
         Log.error("Failed to write to IOHandlerWin32, err", err);
         return false;

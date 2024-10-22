@@ -7,8 +7,8 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Ranges.hpp"
 
-asst::CreditFightTask::CreditFightTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain)
-    : PackageTask(callback, inst, task_chain)
+asst::CreditFightTask::CreditFightTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain) :
+    PackageTask(callback, inst, task_chain)
 {
     auto start_up_task_ptr = std::make_shared<ProcessTask>(m_callback, m_inst, task_chain);
     auto stage_navigation_task_ptr = std::make_shared<StageNavigationTask>(m_callback, m_inst, task_chain);

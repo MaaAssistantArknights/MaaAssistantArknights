@@ -11,10 +11,10 @@ namespace socket_ops = asio::detail::socket_ops;
 asst::PlayToolsController::PlayToolsController(
     const AsstCallback& callback,
     Assistant* inst,
-    PlatformType type [[maybe_unused]])
-    : InstHelper(inst)
-    , m_callback(callback)
-    , m_socket(m_context)
+    PlatformType type [[maybe_unused]]) :
+    InstHelper(inst),
+    m_callback(callback),
+    m_socket(m_context)
 {
     LogTraceFunction;
 }
@@ -58,9 +58,7 @@ size_t asst::PlayToolsController::get_version() const noexcept
     return size_t();
 }
 
-bool asst::PlayToolsController::screencap(
-    cv::Mat& image_payload,
-    bool allow_reconnect [[maybe_unused]])
+bool asst::PlayToolsController::screencap(cv::Mat& image_payload, bool allow_reconnect [[maybe_unused]])
 {
     LogTraceFunction;
 
@@ -156,10 +154,8 @@ bool asst::PlayToolsController::swipe(
     }; // TODO: move this to math.hpp
 
     const auto progressive_move = [&](int _x1, int _y1, int _x2, int _y2, int _duration) {
-        for (int cur_time = DefaultSwipeDelay; cur_time < _duration;
-             cur_time += DefaultSwipeDelay) {
-            double progress =
-                cubic_spline(slope_in, slope_out, static_cast<double>(cur_time) / duration);
+        for (int cur_time = DefaultSwipeDelay; cur_time < _duration; cur_time += DefaultSwipeDelay) {
+            double progress = cubic_spline(slope_in, slope_out, static_cast<double>(cur_time) / duration);
             int cur_x = static_cast<int>(std::lerp(_x1, _x2, progress));
             int cur_y = static_cast<int>(std::lerp(_y1, _y2, progress));
             if (cur_x < 0 || cur_x > width || cur_y < 0 || cur_y > height) {
@@ -178,12 +174,7 @@ bool asst::PlayToolsController::swipe(
 
     if (extra_swipe && opt.minitouch_extra_swipe_duration > 0) {
         toucher_wait(opt.minitouch_swipe_extra_end_delay); // 停留终点
-        progressive_move(
-            x2,
-            y2,
-            x2,
-            y2 - opt.minitouch_extra_swipe_dist,
-            opt.minitouch_extra_swipe_duration);
+        progressive_move(x2, y2, x2, y2 - opt.minitouch_extra_swipe_dist, opt.minitouch_extra_swipe_duration);
     }
 
     return toucher_up(p2);
@@ -324,10 +315,7 @@ bool asst::PlayToolsController::fetch_screen_res()
     return true;
 }
 
-bool asst::PlayToolsController::toucher_commit(
-    const TouchPhase phase,
-    const Point& p,
-    const int delay)
+bool asst::PlayToolsController::toucher_commit(const TouchPhase phase, const Point& p, const int delay)
 {
     open();
     uint16_t x = socket_ops::host_to_network_short(static_cast<uint16_t>(p.x));

@@ -86,7 +86,7 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
             1,
             1.2,
             cv::Scalar(0, 165, 255),
-                    2);
+            2);
     }
 #endif
 
