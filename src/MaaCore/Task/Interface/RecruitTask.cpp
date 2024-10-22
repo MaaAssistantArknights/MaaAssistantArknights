@@ -4,9 +4,9 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 
-asst::RecruitTask::RecruitTask(const AsstCallback& callback, Assistant* inst)
-    : InterfaceTask(callback, inst, TaskType),
-      m_auto_recruit_task_ptr(std::make_shared<AutoRecruitTask>(callback, inst, TaskType))
+asst::RecruitTask::RecruitTask(const AsstCallback& callback, Assistant* inst) :
+    InterfaceTask(callback, inst, TaskType),
+    m_auto_recruit_task_ptr(std::make_shared<AutoRecruitTask>(callback, inst, TaskType))
 {
     LogTraceFunction;
 

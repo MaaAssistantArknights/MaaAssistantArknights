@@ -6,14 +6,14 @@
 
 #include "Utils/Logger.hpp"
 
-asst::AwardTask::AwardTask(const AsstCallback& callback, Assistant* inst)
-    : InterfaceTask(callback, inst, TaskType),
-      award_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
-      mail_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
-      recruit_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
-      orundum_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
-      mining_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
-      specialaccess_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType))
+asst::AwardTask::AwardTask(const AsstCallback& callback, Assistant* inst) :
+    InterfaceTask(callback, inst, TaskType),
+    award_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
+    mail_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
+    recruit_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
+    orundum_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
+    mining_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
+    specialaccess_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType))
 
 {
     LogTraceFunction;
@@ -24,7 +24,6 @@ asst::AwardTask::AwardTask(const AsstCallback& callback, Assistant* inst)
     orundum_task_ptr->set_tasks({ "OrundumActivitiesBegin" });
     mining_task_ptr->set_tasks({ "MiningActivitiesBegin" });
     specialaccess_task_ptr->set_tasks({ "SpecialAccessActivitiesBegin" });
-    
 
     m_subtasks.emplace_back(award_task_ptr);
     m_subtasks.emplace_back(mail_task_ptr);

@@ -22,8 +22,9 @@ void OCRerConfig::set_required(std::vector<std::string> required) noexcept
     }
 }
 
-void OCRerConfig::set_replace(const std::vector<std::pair<std::string, std::string>>& replace,
-                              bool replace_full) noexcept
+void OCRerConfig::set_replace(
+    const std::vector<std::pair<std::string, std::string>>& replace,
+    bool replace_full) noexcept
 {
     m_params.replace.clear();
     m_params.replace.reserve(replace.size());
@@ -32,12 +33,15 @@ void OCRerConfig::set_replace(const std::vector<std::pair<std::string, std::stri
         auto& ocr_config = OcrConfig::get_instance();
         std::string new_key = key;
         for (const auto& eq_class : ocr_config.get_eq_classes()) {
-            if (eq_class.size() <= 1) continue;
+            if (eq_class.size() <= 1) {
+                continue;
+            }
 
             // eq_class: [s, S] -> regex: "(?:s|S)"
             std::string eq_classes_regex = "(?:";
-            for (const auto& elem : eq_class)
+            for (const auto& elem : eq_class) {
                 (eq_classes_regex += elem) += '|';
+            }
             eq_classes_regex.pop_back();
             eq_classes_regex += ')';
             ranges::for_each(eq_class, [&](std::string_view elem) {

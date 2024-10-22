@@ -3,19 +3,19 @@
 
 namespace asst
 {
-    class RoguelikeStrategyChangeTaskPlugin : public AbstractRoguelikeTaskPlugin
-    {
-    public:
-        using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
-        virtual ~RoguelikeStrategyChangeTaskPlugin() override = default;
+class RoguelikeStrategyChangeTaskPlugin : public AbstractRoguelikeTaskPlugin
+{
+public:
+    using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
+    virtual ~RoguelikeStrategyChangeTaskPlugin() override = default;
 
-    public:
-        virtual bool verify(AsstMsg msg, const json::value& details) const override;
+public:
+    virtual bool verify(AsstMsg msg, const json::value& details) const override;
 
-    protected:
-        virtual bool _run() override;
+protected:
+    virtual bool _run() override;
 
-    private:
-        mutable json::object m_result;
-    };
+private:
+    mutable json::object m_result;
+};
 }

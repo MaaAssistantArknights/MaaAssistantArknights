@@ -3,10 +3,14 @@
 #include "Config/GeneralConfig.h"
 #include "Utils/Logger.hpp"
 
-asst::ControlScaleProxy::ControlScaleProxy(std::shared_ptr<ControllerAPI> controller, ControllerType controller_type,
-                                           ProxyCallback proxy_callback)
-    : m_controller(controller), m_controller_type(controller_type), m_callback(proxy_callback),
-      m_rand_engine(std::random_device {}())
+asst::ControlScaleProxy::ControlScaleProxy(
+    std::shared_ptr<ControllerAPI> controller,
+    ControllerType controller_type,
+    ProxyCallback proxy_callback) :
+    m_controller(controller),
+    m_controller_type(controller_type),
+    m_callback(proxy_callback),
+    m_rand_engine(std::random_device {}())
 {
     auto screen_res = m_controller->get_screen_res();
 
@@ -27,8 +31,10 @@ asst::ControlScaleProxy::ControlScaleProxy(std::shared_ptr<ControllerAPI> contro
         callback(info);
         throw std::runtime_error("Unsupported resolution");
     }
-    else if (std::fabs(static_cast<double>(WindowWidthDefault) / static_cast<double>(WindowHeightDefault) -
-                       static_cast<double>(width) / static_cast<double>(height)) > 1e-7) {
+    else if (
+        std::fabs(
+            static_cast<double>(WindowWidthDefault) / static_cast<double>(WindowHeightDefault) -
+            static_cast<double>(width) / static_cast<double>(height)) > 1e-7) {
         info["what"] = "UnsupportedResolution";
         info["why"] = "Not 16:9";
         callback(info);
@@ -58,7 +64,7 @@ bool asst::ControlScaleProxy::click(const Point& p)
     int y = static_cast<int>(p.y * m_control_scale);
 
     Log.trace("Click with scaled coordinates", p, m_control_scale);
-    
+
     return m_controller->click(Point(x, y));
 }
 
@@ -67,8 +73,14 @@ bool asst::ControlScaleProxy::click(const Rect& rect)
     return click(rand_point_in_rect(rect));
 }
 
-bool asst::ControlScaleProxy::swipe(const Point& p1, const Point& p2, int duration, bool extra_swipe, double slope_in,
-                                    double slope_out, bool with_pause)
+bool asst::ControlScaleProxy::swipe(
+    const Point& p1,
+    const Point& p2,
+    int duration,
+    bool extra_swipe,
+    double slope_in,
+    double slope_out,
+    bool with_pause)
 {
     int x1 = static_cast<int>(p1.x * m_control_scale);
     int y1 = static_cast<int>(p1.y * m_control_scale);
@@ -80,8 +92,14 @@ bool asst::ControlScaleProxy::swipe(const Point& p1, const Point& p2, int durati
     return m_controller->swipe(Point(x1, y1), Point(x2, y2), duration, extra_swipe, slope_in, slope_out, with_pause);
 }
 
-bool asst::ControlScaleProxy::swipe(const Rect& r1, const Rect& r2, int duration, bool extra_swipe, double slope_in,
-                                    double slope_out, bool with_pause)
+bool asst::ControlScaleProxy::swipe(
+    const Rect& r1,
+    const Rect& r2,
+    int duration,
+    bool extra_swipe,
+    double slope_in,
+    double slope_out,
+    bool with_pause)
 {
     auto rand_p1 = rand_point_in_rect(r1);
     auto rand_p2 = rand_point_in_rect(r2);

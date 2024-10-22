@@ -23,7 +23,9 @@ bool asst::InfrastTrainingTask::_run()
     }
     enter_facility();
 
-    if (!analyze_status()) return false;
+    if (!analyze_status()) {
+        return false;
+    }
 
     if (m_continue_training && m_level != 3) {
         click_bottom_left_tab();
@@ -96,7 +98,9 @@ bool asst::InfrastTrainingTask::analyze_status()
 
     m_continue_training = false;
 
-    if (!time_left_analyze(image)) return false;
+    if (!time_left_analyze(image)) {
+        return false;
+    }
 
     {
         json::value cb_info = basic_info_with_what("InfrastTrainingTimeLeft");
@@ -120,7 +124,9 @@ bool asst::InfrastTrainingTask::level_analyze(cv::Mat image)
         std::string level_temp_name = task_name + std::to_string(i) + ".png";
         analyzer.append_templ(level_temp_name);
     }
-    if (!analyzer.analyze()) return false;
+    if (!analyzer.analyze()) {
+        return false;
+    }
     const auto& res = analyzer.get_result();
     utils::chars_to_number(res.templ_info.name.substr(task_name.size(), 1), m_level);
     Log.info(__FUNCTION__, "level has been set to ", m_level);
@@ -143,7 +149,9 @@ bool asst::InfrastTrainingTask::time_left_analyze(cv::Mat image)
 
     for (int i = 0; i < 3; ++i) {
         progress_analyzer.set_task_info("InfrastTrainingTimeRec" + std::to_string(i));
-        if (!progress_analyzer.analyze()) return false;
+        if (!progress_analyzer.analyze()) {
+            return false;
+        }
 
         std::string raw_str = progress_analyzer.get_result().text;
         Log.info(__FUNCTION__, raw_str);
@@ -179,7 +187,11 @@ bool asst::InfrastTrainingTask::continue_train(int index)
 int asst::InfrastTrainingTask::skill_index_from_rect(const Rect& r)
 {
     int cy = r.y + r.height / 2;
-    if (cy <= 300) return 1;
-    if (cy <= 500) return 2;
+    if (cy <= 300) {
+        return 1;
+    }
+    if (cy <= 500) {
+        return 2;
+    }
     return 3;
 }

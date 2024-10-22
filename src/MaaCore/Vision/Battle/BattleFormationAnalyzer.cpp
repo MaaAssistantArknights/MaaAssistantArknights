@@ -48,8 +48,8 @@ BattleFormationAnalyzer::ResultsVecOpt BattleFormationAnalyzer::analyze() const
     return results;
 }
 
-BattleFormationAnalyzer::ResultsVec BattleFormationAnalyzer::proc_ocr_result(
-    const TemplDetOCRer::ResultsVec& ocr_result) const
+BattleFormationAnalyzer::ResultsVec
+    BattleFormationAnalyzer::proc_ocr_result(const TemplDetOCRer::ResultsVec& ocr_result) const
 {
     ResultsVec results;
 
@@ -67,8 +67,14 @@ BattleFormationAnalyzer::ResultsVec BattleFormationAnalyzer::proc_ocr_result(
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(name_res.rect), cv::Scalar(0, 255, 0), 2);
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(avatar_rect), cv::Scalar(0, 0, 255), 2);
-        cv::putText(m_image_draw, BattleData.get_id(name), cv::Point(avatar_rect.x, avatar_rect.y - 20), 1, 1.2,
-                    cv::Scalar(0, 0, 255), 2);
+        cv::putText(
+            m_image_draw,
+            BattleData.get_id(name),
+            cv::Point(avatar_rect.x, avatar_rect.y - 20),
+            1,
+            1.2,
+            cv::Scalar(0, 0, 255),
+            2);
 #endif
     }
 
