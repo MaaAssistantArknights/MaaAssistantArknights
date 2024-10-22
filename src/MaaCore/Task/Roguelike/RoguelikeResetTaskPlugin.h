@@ -3,15 +3,15 @@
 
 namespace asst
 {
-    class RoguelikeResetTaskPlugin : public AbstractRoguelikeTaskPlugin
-    {
-    public:
-        using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
-        virtual ~RoguelikeResetTaskPlugin() = default;
+class RoguelikeResetTaskPlugin : public AbstractRoguelikeTaskPlugin
+{
+public:
+    using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
+    virtual ~RoguelikeResetTaskPlugin() = default;
 
-        virtual bool verify(AsstMsg msg, const json::value& details) const override;
+    virtual bool verify(AsstMsg msg, const json::value& details) const override;
 
-    protected:
-        virtual bool _run() override;
-    };
+protected:
+    virtual bool _run() override;
+};
 }

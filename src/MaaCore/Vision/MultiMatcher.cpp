@@ -68,8 +68,13 @@ MultiMatcher::ResultsVecOpt MultiMatcher::analyze() const
 #ifdef ASST_DEBUG
     for (const auto& rect : results) {
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(rect.rect), cv::Scalar(0, 0, 255), 2);
-        cv::putText(m_image_draw, std::to_string(rect.score), cv::Point(rect.rect.x, rect.rect.y), 1, 1,
-                    cv::Scalar(0, 0, 255));
+        cv::putText(
+            m_image_draw,
+            std::to_string(rect.score),
+            cv::Point(rect.rect.x, rect.rect.y),
+            1,
+            1,
+            cv::Scalar(0, 0, 255));
     }
 #endif
 

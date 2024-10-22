@@ -44,7 +44,6 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
     Task.set_task_base("Roguelike@LastReward3", "Roguelike@LastReward_default");
     Task.set_task_base("Roguelike@LastReward4", "Roguelike@LastReward_default");
     Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_default");
-    
 
     if (m_mode == RoguelikeMode::Investment) {
         bool investment_with_more_score = params.get("investment_with_more_score", false);

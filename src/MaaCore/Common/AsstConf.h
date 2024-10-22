@@ -4,7 +4,7 @@
 #define ASST_USE_RANGES_STL
 #endif
 
-#if !defined (ASST_WITH_EMULATOR_EXTRAS)
+#if !defined(ASST_WITH_EMULATOR_EXTRAS)
 #define ASST_WITH_EMULATOR_EXTRAS 1
 #endif
 
@@ -19,7 +19,7 @@
 #ifdef _MSC_VER
 #define ASST_SUPPRESS_CV_WARNINGS_START \
     ASST_DO_PRAGMA(warning(push))       \
-    ASST_DO_PRAGMA(warning(disable : 5054 4251 4305 4275 4100 4244))
+    ASST_DO_PRAGMA(warning(disable: 5054 4251 4305 4275 4100 4244))
 #define ASST_SUPPRESS_CV_WARNINGS_END ASST_DO_PRAGMA(warning(pop))
 #elif defined(__clang__)
 #define ASST_SUPPRESS_CV_WARNINGS_START                                               \

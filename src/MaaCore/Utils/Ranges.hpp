@@ -8,8 +8,8 @@
 
 namespace asst
 {
-    namespace ranges = ::ranges;
-    namespace views = ::ranges::views;
+namespace ranges = ::ranges;
+namespace views = ::ranges::views;
 }
 
 #elif defined(ASST_USE_RANGES_STL)
@@ -18,8 +18,8 @@ namespace asst
 
 namespace asst
 {
-    namespace ranges = std::ranges;
-    namespace views = std::views;
+namespace ranges = std::ranges;
+namespace views = std::views;
 }
 
 #elif defined(ASST_USE_RANGES_BOOST)
@@ -31,8 +31,8 @@ namespace asst
 
 namespace asst
 {
-    namespace ranges = boost::range;
-    namespace views = boost::adaptors;
+namespace ranges = boost::range;
+namespace views = boost::adaptors;
 }
 
 #else

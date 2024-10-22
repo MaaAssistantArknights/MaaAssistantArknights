@@ -59,8 +59,9 @@ asst::ResultOrError<bool> asst::TaskDataSymbolStream::parse(std::string_view tas
             auto symbol = TaskDataSymbol::type(std::string_view { std::addressof(*p), 1 });
             if (symbol == TaskDataSymbol::Name) [[unlikely]] {
                 // should not happen
-                return { std::nullopt, std::string("Error when decode symbol ") + *p + " at " +
-                                           std::to_string(p - task_expr.cbegin()) + " in " += task_expr };
+                return { std::nullopt,
+                         std::string("Error when decode symbol ") + *p + " at " +
+                             std::to_string(p - task_expr.cbegin()) + " in " += task_expr };
             }
             m_symbolstream.emplace_back(symbol);
             break;
@@ -75,8 +76,8 @@ asst::ResultOrError<bool> asst::TaskDataSymbolStream::parse(std::string_view tas
     return task_changed;
 }
 
-asst::TaskDataSymbolStream::SymbolsOrError asst::TaskDataSymbolStream::decode(AppendPrefixFunc append_prefix,
-                                                                              std::string_view self_name) const
+asst::TaskDataSymbolStream::SymbolsOrError
+    asst::TaskDataSymbolStream::decode(AppendPrefixFunc append_prefix, std::string_view self_name) const
 {
     /*
     $name         = 至少一位的任务名
