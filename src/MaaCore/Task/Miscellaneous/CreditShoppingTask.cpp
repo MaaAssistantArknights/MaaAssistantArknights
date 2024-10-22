@@ -150,7 +150,7 @@ bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool cre
         auto clickCount = 0;
         do {
             ctrler()->click(commodity);
-            clickCount++
+            clickCount++;
         } while (ProcessTask(*this, { "CreditShop-BuyIt" }).run() || clickCount > 3);
 
         if (ProcessTask(*this, { "CreditShop-NoMoney" }).set_task_delay(0).set_retry_times(0).run()) {
