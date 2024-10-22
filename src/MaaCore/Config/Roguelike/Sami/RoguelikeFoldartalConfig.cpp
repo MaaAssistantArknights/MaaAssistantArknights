@@ -12,7 +12,6 @@ bool asst::RoguelikeFoldartalConfig::parse(const json::value& json)
     m_foldartal_combination.erase(theme);
 
     for (const auto& combination_json : json.at("groups").as_array()) {
-
         RoguelikeFoldartalCombination combination;
         combination.usage = combination_json.get("usage", "none");
 

@@ -3,15 +3,15 @@
 
 namespace asst
 {
-    class InfrastPowerTask final : public InfrastProductionTask
-    {
-    public:
-        using InfrastProductionTask::InfrastProductionTask;
-        virtual ~InfrastPowerTask() override = default;
+class InfrastPowerTask final : public InfrastProductionTask
+{
+public:
+    using InfrastProductionTask::InfrastProductionTask;
+    virtual ~InfrastPowerTask() override = default;
 
-        virtual size_t max_num_of_facilities() const noexcept override { return 3ULL; }
+    virtual size_t max_num_of_facilities() const noexcept override { return 3ULL; }
 
-    protected:
-        virtual bool _run() override;
-    };
+protected:
+    virtual bool _run() override;
+};
 }

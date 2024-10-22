@@ -20,9 +20,12 @@
 
 using namespace asst;
 
-AbstractTask::AbstractTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain)
-    : InstHelper(inst), m_callback(callback), m_task_chain(task_chain)
-{}
+AbstractTask::AbstractTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain) :
+    InstHelper(inst),
+    m_callback(callback),
+    m_task_chain(task_chain)
+{
+}
 
 bool asst::AbstractTask::run()
 {
@@ -199,12 +202,16 @@ size_t asst::AbstractTask::filenum_ctrl(const std::filesystem::path& relative_di
         }
     }
 
-    std::sort(filepaths.begin(), filepaths.end(),
-              [](const std::pair<std::filesystem::file_time_type, std::filesystem::path>& a,
-                 const std::pair<std::filesystem::file_time_type, std::filesystem::path>& b) {
-                  if (a.first != b.first) return a.first < b.first;
-                  return a.second < b.second;
-              });
+    std::sort(
+        filepaths.begin(),
+        filepaths.end(),
+        [](const std::pair<std::filesystem::file_time_type, std::filesystem::path>& a,
+           const std::pair<std::filesystem::file_time_type, std::filesystem::path>& b) {
+            if (a.first != b.first) {
+                return a.first < b.first;
+            }
+            return a.second < b.second;
+        });
 
     long long to_del = file_nums - max_files;
     size_t deleted = 0;

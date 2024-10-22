@@ -14,12 +14,12 @@
 #include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
 
-asst::FightTask::FightTask(const AsstCallback& callback, Assistant* inst)
-    : InterfaceTask(callback, inst, TaskType),
-      m_start_up_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
-      m_stage_navigation_task_ptr(std::make_shared<StageNavigationTask>(m_callback, m_inst, TaskType)),
-      m_fight_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
-      m_sidestory_reopen_task_ptr(std::make_shared<SideStoryReopenTask>(m_callback, m_inst, TaskType))
+asst::FightTask::FightTask(const AsstCallback& callback, Assistant* inst) :
+    InterfaceTask(callback, inst, TaskType),
+    m_start_up_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
+    m_stage_navigation_task_ptr(std::make_shared<StageNavigationTask>(m_callback, m_inst, TaskType)),
+    m_fight_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
+    m_sidestory_reopen_task_ptr(std::make_shared<SideStoryReopenTask>(m_callback, m_inst, TaskType))
 {
     LogTraceFunction;
 

@@ -4,10 +4,10 @@
 
 #if ASST_WITH_EMULATOR_EXTRAS
 
+#include "Utils/Platform/SafeWindows.h"
 #include <filesystem>
 #include <optional>
 #include <string>
-#include "Utils/Platform/SafeWindows.h"
 
 #include "LD/dnopengl/dnopengl.h"
 
@@ -25,7 +25,12 @@ public:
 
     bool inited() const { return inited_; }
 
-    bool init(const std::filesystem::path& ld_path, unsigned int ld_inst_index, unsigned int ld_pid, int width, int height);
+    bool init(
+        const std::filesystem::path& ld_path,
+        unsigned int ld_inst_index,
+        unsigned int ld_pid,
+        int width,
+        int height);
     bool reload();
     void uninit();
 

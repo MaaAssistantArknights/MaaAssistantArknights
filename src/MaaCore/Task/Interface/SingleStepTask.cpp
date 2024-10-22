@@ -5,8 +5,8 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 
-asst::SingleStepTask::SingleStepTask(const AsstCallback& callback, Assistant* inst)
-    : InterfaceTask(callback, inst, TaskType)
+asst::SingleStepTask::SingleStepTask(const AsstCallback& callback, Assistant* inst) :
+    InterfaceTask(callback, inst, TaskType)
 {
     LogTraceFunction;
 }

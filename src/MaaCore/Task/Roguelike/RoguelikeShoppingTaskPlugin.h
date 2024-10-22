@@ -3,19 +3,19 @@
 
 namespace asst
 {
-    class RoguelikeShoppingTaskPlugin : public AbstractRoguelikeTaskPlugin
-    {
-    public:
-        using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
-        virtual ~RoguelikeShoppingTaskPlugin() override = default;
+class RoguelikeShoppingTaskPlugin : public AbstractRoguelikeTaskPlugin
+{
+public:
+    using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
+    virtual ~RoguelikeShoppingTaskPlugin() override = default;
 
-        virtual bool verify(AsstMsg msg, const json::value& details) const override;
+    virtual bool verify(AsstMsg msg, const json::value& details) const override;
 
-    protected:
-        virtual bool _run() override;
-    
-    private:
-        // 购买一次
-        bool buy_once();
-    };
+protected:
+    virtual bool _run() override;
+
+private:
+    // 购买一次
+    bool buy_once();
+};
 }

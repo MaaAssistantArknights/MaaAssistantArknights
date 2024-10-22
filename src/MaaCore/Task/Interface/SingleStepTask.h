@@ -5,19 +5,19 @@
 
 namespace asst
 {
-    class SingleStepTask final : public InterfaceTask
-    {
-    public:
-        inline static constexpr std::string_view TaskType = "SingleStep";
+class SingleStepTask final : public InterfaceTask
+{
+public:
+    inline static constexpr std::string_view TaskType = "SingleStep";
 
-        SingleStepTask(const AsstCallback& callback, Assistant* inst);
-        virtual ~SingleStepTask() override = default;
+    SingleStepTask(const AsstCallback& callback, Assistant* inst);
+    virtual ~SingleStepTask() override = default;
 
-        virtual bool set_params(const json::value& params) override;
+    virtual bool set_params(const json::value& params) override;
 
-    private:
-        bool set_copilot_stage(const json::value& details);
-        bool append_copllot_start();
-        bool append_copilot_action(const json::value& details);
-    };
+private:
+    bool set_copilot_stage(const json::value& details);
+    bool append_copllot_start();
+    bool append_copilot_action(const json::value& details);
+};
 }

@@ -464,8 +464,9 @@ bool asst::InfrastProductionTask::optimal_calc()
         // necessary里的技能，一个都不能少
         // TODO necessary暂时没做hash校验。因为没有需要比hash的necessary干员（
         for (const infrast::SkillsComb& nec_skills : group.necessary) {
-            auto find_iter = ranges::find_if(cur_available_opers,
-                                             [&](const infrast::SkillsComb& arg) -> bool { return arg == nec_skills; });
+            auto find_iter = ranges::find_if(cur_available_opers, [&](const infrast::SkillsComb& arg) -> bool {
+                return arg == nec_skills;
+            });
             if (find_iter == cur_available_opers.cend()) {
                 group_unavailable = true;
                 break;
@@ -498,8 +499,10 @@ bool asst::InfrastProductionTask::optimal_calc()
         for (const infrast::SkillsComb& opt : optional) {
             auto find_iter = cur_available_opers.cbegin();
             while (cur_combs.size() != static_cast<size_t>(cur_max_num_of_opers)) {
-                find_iter = std::find_if(find_iter, cur_available_opers.cend(),
-                                         [&](const infrast::SkillsComb& arg) -> bool { return arg == opt; });
+                find_iter =
+                    std::find_if(find_iter, cur_available_opers.cend(), [&](const infrast::SkillsComb& arg) -> bool {
+                        return arg == opt;
+                    });
                 if (find_iter != cur_available_opers.cend()) {
                     bool hash_matched = false;
                     if (opt.name_filter.empty()) {
@@ -507,13 +510,13 @@ bool asst::InfrastProductionTask::optimal_calc()
                     }
                     else {
                         RegionOCRer name_analyzer(find_iter->name_img);
-                        name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
-                                                  Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
+                        name_analyzer.set_replace(
+                            Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
+                            Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
                         Log.trace("Analyze name filter");
                         if (name_analyzer.analyze()) {
                             std::string name = name_analyzer.get_result().text;
-                            hash_matched =
-                                ranges::find(opt.name_filter, name) != opt.name_filter.cend();
+                            hash_matched = ranges::find(opt.name_filter, name) != opt.name_filter.cend();
                         }
                         else {
                             hash_matched = false;
@@ -621,8 +624,9 @@ bool asst::InfrastProductionTask::opers_choose()
         auto cur_all_opers = oper_analyzer.get_result();
         Log.trace("before mood filter, opers size:", cur_all_opers.size());
         // 小于心情阈值的干员则不可用
-        std::erase_if(cur_all_opers,
-                      [&](const infrast::Oper& rhs) -> bool { return rhs.mood_ratio < m_mood_threshold; });
+        std::erase_if(cur_all_opers, [&](const infrast::Oper& rhs) -> bool {
+            return rhs.mood_ratio < m_mood_threshold;
+        });
         Log.trace("after mood filter, opers size:", cur_all_opers.size());
         for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
             Log.trace("to find", opt_iter->skills.begin()->names.front());
@@ -635,8 +639,9 @@ bool asst::InfrastProductionTask::opers_choose()
                 }
                 else {
                     RegionOCRer name_analyzer(lhs.name_img);
-                    name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
-                                              Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
+                    name_analyzer.set_replace(
+                        Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
+                        Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
                     Log.trace("Analyze name filter");
                     if (!name_analyzer.analyze()) {
                         return false;
@@ -711,8 +716,8 @@ bool asst::InfrastProductionTask::use_drone()
     return task_temp.run();
 }
 
-asst::infrast::SkillsComb asst::InfrastProductionTask::efficient_regex_calc(
-    std::unordered_set<infrast::Skill> skills) const
+asst::infrast::SkillsComb
+    asst::InfrastProductionTask::efficient_regex_calc(std::unordered_set<infrast::Skill> skills) const
 {
     infrast::SkillsComb comb(std::move(skills));
     // 根据正则，计算当前干员的实际效率

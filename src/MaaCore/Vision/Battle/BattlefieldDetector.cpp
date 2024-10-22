@@ -45,8 +45,12 @@ std::vector<BattlefieldDetector::OperatorResult> BattlefieldDetector::operator_a
     constexpr int64_t batch_size = 1;
     std::array<int64_t, 4> input_shape { batch_size, image.channels(), image.cols, image.rows };
 
-    Ort::Value input_tensor = Ort::Value::CreateTensor<float>(memory_info, input.data(), input.size(),
-                                                              input_shape.data(), input_shape.size());
+    Ort::Value input_tensor = Ort::Value::CreateTensor<float>(
+        memory_info,
+        input.data(),
+        input.size(),
+        input_shape.data(),
+        input_shape.size());
 
     auto& session = OnnxSessions::get_instance().get("operators_det");
 
@@ -57,8 +61,13 @@ std::vector<BattlefieldDetector::OperatorResult> BattlefieldDetector::operator_a
     std::vector output_names = { output_name.c_str() };
 
     Ort::RunOptions run_options;
-    auto output_tensors = session.Run(run_options, input_names.data(), &input_tensor, input_names.size(),
-                                      output_names.data(), output_names.size());
+    auto output_tensors = session.Run(
+        run_options,
+        input_names.data(),
+        &input_tensor,
+        input_names.size(),
+        output_names.data(),
+        output_names.size());
 
     const float* raw_output = output_tensors[0].GetTensorData<float>();
     // output_shape is { 1, 5, 8400 }
@@ -114,8 +123,14 @@ std::vector<BattlefieldDetector::OperatorResult> BattlefieldDetector::operator_a
         draw_rect.y += draw_offset_y;
         draw_rect.height += draw_offset_h;
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(draw_rect), cv::Scalar(0, 0, 255), 5);
-        cv::putText(m_image_draw, std::to_string(box.score), cv::Point(draw_rect.x, draw_rect.y - 10),
-                    cv::FONT_HERSHEY_PLAIN, 1.2, cv::Scalar(0, 0, 255), 2);
+        cv::putText(
+            m_image_draw,
+            std::to_string(box.score),
+            cv::Point(draw_rect.x, draw_rect.y - 10),
+            cv::FONT_HERSHEY_PLAIN,
+            1.2,
+            cv::Scalar(0, 0, 255),
+            2);
     }
 #endif
 

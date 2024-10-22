@@ -90,13 +90,14 @@ bool asst::MinitouchController::call_and_hup_minitouch()
     m_minitouch_props.y_scaling = static_cast<double>(m_minitouch_props.max_y) / m_height;
 
     m_minitoucher = std::make_unique<Minitoucher>(
-        std::bind(&MinitouchController::input_to_minitouch, this, std::placeholders::_1), m_minitouch_props);
+        std::bind(&MinitouchController::input_to_minitouch, this, std::placeholders::_1),
+        m_minitouch_props);
 
     return true;
 }
 
-std::optional<std::string> asst::MinitouchController::reconnect(const std::string& cmd, int64_t timeout,
-                                                                bool recv_by_socket)
+std::optional<std::string>
+    asst::MinitouchController::reconnect(const std::string& cmd, int64_t timeout, bool recv_by_socket)
 {
     LogTraceFunction;
 
@@ -141,12 +142,20 @@ bool asst::MinitouchController::click(const Point& p)
 
     Log.trace(m_use_maa_touch ? "maatouch" : "minitouch", "click:", p);
     bool ret = m_minitoucher->down(p.x, p.y) && m_minitoucher->up();
-    if (ret) m_minitoucher->extra_sleep();
+    if (ret) {
+        m_minitoucher->extra_sleep();
+    }
     return ret;
 }
 
-bool asst::MinitouchController::swipe(const Point& p1, const Point& p2, int duration, bool extra_swipe, double slope_in,
-                                      double slope_out, bool with_pause)
+bool asst::MinitouchController::swipe(
+    const Point& p1,
+    const Point& p2,
+    int duration,
+    bool extra_swipe,
+    double slope_in,
+    double slope_out,
+    bool with_pause)
 {
     if (!m_minitoucher) {
         Log.error("minitoucher is not initialized");
@@ -164,7 +173,9 @@ bool asst::MinitouchController::swipe(const Point& p1, const Point& p2, int dura
     }
 
     Log.trace(m_use_maa_touch ? "maatouch" : "minitouch", "swipe", p1, p2, duration, extra_swipe, slope_in, slope_out);
-    if (!m_minitoucher->down(x1, y1)) return false;
+    if (!m_minitoucher->down(x1, y1)) {
+        return false;
+    }
 
     constexpr int TimeInterval = Minitoucher::DefaultSwipeDelay;
 
@@ -188,8 +199,12 @@ bool asst::MinitouchController::swipe(const Point& p1, const Point& p2, int dura
                 need_pause = false;
                 if (m_use_maa_touch) {
                     constexpr int EscKeyCode = 111;
-                    if (!m_minitoucher->key_down(EscKeyCode)) return false;
-                    if (!m_minitoucher->key_up(EscKeyCode, 0)) return false;
+                    if (!m_minitoucher->key_down(EscKeyCode)) {
+                        return false;
+                    }
+                    if (!m_minitoucher->key_up(EscKeyCode, 0)) {
+                        return false;
+                    }
                 }
                 else {
                     pause_future = std::async(std::launch::async, [&]() { press_esc(); });
@@ -198,22 +213,33 @@ bool asst::MinitouchController::swipe(const Point& p1, const Point& p2, int dura
             if (cur_x < 0 || cur_x > m_minitouch_props.max_x || cur_y < 0 || cur_y > m_minitouch_props.max_y) {
                 continue;
             }
-            if (!m_minitoucher->move(cur_x, cur_y)) return false;
+            if (!m_minitoucher->move(cur_x, cur_y)) {
+                return false;
+            }
         }
         if (_x2 >= 0 && _x2 <= m_minitouch_props.max_x && _y2 >= 0 && _y2 <= m_minitouch_props.max_y) {
-            if (!m_minitoucher->move(_x2, _y2)) return false;
+            if (!m_minitoucher->move(_x2, _y2)) {
+                return false;
+            }
         }
         return true;
     };
 
-    if (!minitouch_move(x1, y1, x2, y2, duration ? duration : opt.minitouch_swipe_default_duration)) return false;
+    if (!minitouch_move(x1, y1, x2, y2, duration ? duration : opt.minitouch_swipe_default_duration)) {
+        return false;
+    }
 
     if (extra_swipe && opt.minitouch_extra_swipe_duration > 0) {
-        if (!m_minitoucher->wait(opt.minitouch_swipe_extra_end_delay)) return false; // 停留终点
-        if (!minitouch_move(x2, y2, x2, y2 - opt.minitouch_extra_swipe_dist, opt.minitouch_extra_swipe_duration))
+        if (!m_minitoucher->wait(opt.minitouch_swipe_extra_end_delay)) {
+            return false; // 停留终点
+        }
+        if (!minitouch_move(x2, y2, x2, y2 - opt.minitouch_extra_swipe_dist, opt.minitouch_extra_swipe_duration)) {
             return false;
+        }
     }
-    if (!m_minitoucher->up()) return false;
+    if (!m_minitoucher->up()) {
+        return false;
+    }
     m_minitoucher->extra_sleep();
     return true;
 }
@@ -267,8 +293,9 @@ void asst::MinitouchController::clear_info() noexcept
     m_minitouch_props = decltype(m_minitouch_props)();
 }
 
-bool asst::MinitouchController::probe_minitouch(const AdbCfg& adb_cfg,
-                                                std::function<std::string(const std::string&)> cmd_replace)
+bool asst::MinitouchController::probe_minitouch(
+    const AdbCfg& adb_cfg,
+    std::function<std::string(const std::string&)> cmd_replace)
 {
     LogTraceFunction;
 
@@ -295,7 +322,9 @@ bool asst::MinitouchController::probe_minitouch(const AdbCfg& adb_cfg,
     }
     Log.info("touch_program", touch_program, "orientation", m_minitouch_props.orientation);
 
-    if (touch_program.empty()) return false;
+    if (touch_program.empty()) {
+        return false;
+    }
 
     auto minitouch_cmd_rep = [&](const std::string& cfg_cmd) -> std::string {
         using namespace asst::utils::path_literals;
@@ -308,19 +337,27 @@ bool asst::MinitouchController::probe_minitouch(const AdbCfg& adb_cfg,
             });
     };
 
-    if (!call_command(minitouch_cmd_rep(adb_cfg.push_minitouch))) return false;
-    if (!call_command(minitouch_cmd_rep(adb_cfg.chmod_minitouch))) return false;
+    if (!call_command(minitouch_cmd_rep(adb_cfg.push_minitouch))) {
+        return false;
+    }
+    if (!call_command(minitouch_cmd_rep(adb_cfg.chmod_minitouch))) {
+        return false;
+    }
 
     m_adb.call_minitouch = minitouch_cmd_rep(adb_cfg.call_minitouch);
     m_adb.call_maatouch = minitouch_cmd_rep(adb_cfg.call_maatouch);
 
-    if (!call_and_hup_minitouch()) return false;
+    if (!call_and_hup_minitouch()) {
+        return false;
+    }
 
     return true;
 }
 
-bool asst::MinitouchController::connect(const std::string& adb_path, const std::string& address,
-                                        const std::string& config)
+bool asst::MinitouchController::connect(
+    const std::string& adb_path,
+    const std::string& address,
+    const std::string& config)
 {
     LogTraceFunction;
 
@@ -356,23 +393,24 @@ bool asst::MinitouchController::connect(const std::string& adb_path, const std::
     uint16_t nc_port = 0;
 
     auto cmd_replace = [&](const std::string& cfg_cmd) -> std::string {
-        return utils::string_replace_all(cfg_cmd, {
-                                                      { "[Adb]", adb_path },
-                                                      { "[AdbSerial]", address },
-                                                      { "[DisplayId]", display_id },
-                                                      { "[NcPort]", std::to_string(nc_port) },
-                                                      { "[NcAddress]", nc_address },
-                                                  });
+        return utils::string_replace_all(
+            cfg_cmd,
+            {
+                { "[Adb]", adb_path },
+                { "[AdbSerial]", address },
+                { "[DisplayId]", display_id },
+                { "[NcPort]", std::to_string(nc_port) },
+                { "[NcAddress]", nc_address },
+            });
     };
 
     auto adb_ret = Config.get_adb_cfg(config);
 
     if (!adb_ret) {
-        json::value info = get_info_json()
-                           | json::object {
-                                 { "what", "ConnectFailed" },
-                                 { "why", "ConfigNotFound" },
-                             };
+        json::value info = get_info_json() | json::object {
+            { "what", "ConnectFailed" },
+            { "why", "ConfigNotFound" },
+        };
         callback(AsstMsg::ConnectionInfo, info);
 #ifdef ASST_DEBUG
         return false;

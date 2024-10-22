@@ -107,9 +107,10 @@ bool asst::RoguelikeSettlementTaskPlugin::get_settlement_info(json::value& info,
                                    "RoguelikeSettlementOcr-Combat",     "RoguelikeSettlementOcr-Recruit",
                                    "RoguelikeSettlementOcr-Collection", "RoguelikeSettlementOcr-BOSS",
                                    "RoguelikeSettlementOcr-Emergency" };
-    static const auto text_task_name =
-        std::vector<std::string> { "RoguelikeSettlementOcr-Difficulty", "RoguelikeSettlementOcr-Score",
-                                   "RoguelikeSettlementOcr-Exp", "RoguelikeSettlementOcr-Skill" };
+    static const auto text_task_name = std::vector<std::string> { "RoguelikeSettlementOcr-Difficulty",
+                                                                  "RoguelikeSettlementOcr-Score",
+                                                                  "RoguelikeSettlementOcr-Exp",
+                                                                  "RoguelikeSettlementOcr-Skill" };
 
     ranges::for_each(battle_task_name, analyze_battle_data);
 
@@ -142,8 +143,10 @@ bool asst::RoguelikeSettlementTaskPlugin::wait_for_whole_page()
     return false;
 }
 
-void asst::RoguelikeSettlementTaskPlugin::save_img(const cv::Mat& image, const std::filesystem::path& relative_dir,
-                                                   std::string name)
+void asst::RoguelikeSettlementTaskPlugin::save_img(
+    const cv::Mat& image,
+    const std::filesystem::path& relative_dir,
+    std::string name)
 {
     if (image.empty()) {
         return;
