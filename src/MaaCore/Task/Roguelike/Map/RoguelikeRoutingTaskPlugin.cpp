@@ -34,7 +34,20 @@ bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::
     m_roi_margin = config->special_params.at(7);
     m_direction_threshold = config->special_params.at(8);
 
-    return true;
+    const RoguelikeMode& mode = m_config->get_mode();
+    const std::string squad = params.get("squad", "");
+
+    if (mode == RoguelikeMode::Investment && squad == "点刺成锭分队") {
+        m_routing_strategy = RoutingStrategy::FastInvestment;
+        return true;
+    }
+
+    if (mode == RoguelikeMode::FastPass && squad == "蓝图测绘分队") {
+        m_routing_strategy = RoutingStrategy::FastPass;
+        return true;
+    }
+
+    return false;
 }
 
 void asst::RoguelikeRoutingTaskPlugin::reset_in_run_variables()
@@ -63,16 +76,47 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    if (m_need_generate_map) {
-        generate_map();
-        m_need_generate_map = false;
+    switch (m_routing_strategy) {
+    case RoutingStrategy::FastInvestment:
+        if (m_need_generate_map) {
+            // 随机点击一个第一列的节点，先随便写写，垃圾代码迟早要重构
+            {
+                // 第一列节点
+                cv::Mat image = ctrler()->get_image();
+                MultiMatcher node_analyzer(image);
+                node_analyzer.set_task_info(m_config->get_theme() + "@Roguelike@RoutingNodeAnalyze");
+                if (!node_analyzer.analyze()) {
+                    Log.error(__FUNCTION__, "| no nodes found in the first column");
+                    return false;
+                }
+                ctrler()->click(node_analyzer.get_result().front().rect);
+            }
+            // 刷新节点
+            ProcessTask(*this, { m_config->get_theme() + "@Roguelike@RoutingRefreshNode" }).run();
+            // 不识别了，进商店，Go!
+            Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingAction-StageTraderEnter");
+            // 偷懒，直接用 m_need_generate_map 判断是否已进过商店
+            m_need_generate_map = false;
+        } else {
+            Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon");
+        }
+        break;
+    case RoutingStrategy::FastPass:
+        if (m_need_generate_map) {
+            generate_map();
+            m_need_generate_map = false;
+        }
+
+        m_selected_column = m_map.get_node_column(m_map.get_curr_pos());
+        update_selected_x();
+
+        refresh_following_combat_nodes();
+        navigate_route();
+        break;
+
+    default:
+        break;
     }
-
-    m_selected_column = m_map.get_node_column(m_map.get_curr_pos());
-    update_selected_x();
-
-    refresh_following_combat_nodes();
-    navigate_route();
 
     return true;
 }
@@ -286,7 +330,7 @@ void asst::RoguelikeRoutingTaskPlugin::navigate_route()
     const size_t next_node = m_map.get_next_node();
 
     if (m_map.get_node_cost(next_node) >= 1000) {
-        Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@ExitThenAbandon");
+        Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon");
         reset_in_run_variables();
         return;
     }
@@ -299,15 +343,15 @@ void asst::RoguelikeRoutingTaskPlugin::navigate_route()
     sleep(200);
 
     if (m_map.get_node_type(next_node) == RoguelikeNodeType::Encounter) {
-        Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingActionEncounter");
+        Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingAction-StageEncounterEnter");
         m_map.set_curr_pos(next_node);
     }
     else if (m_map.get_node_type(next_node) == RoguelikeNodeType::RogueTrader) {
-        Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingActionRogueTrader");
+        Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingAction-StageTraderEnter");
         reset_in_run_variables();
     }
     else {
-        Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@ExitThenAbandon");
+        Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon");
         reset_in_run_variables();
     }
 }

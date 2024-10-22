@@ -9750,13 +9750,19 @@
     "Sarkaz@Roguelike@RoutingAction": {
         "algorithm": "JustReturn"
     },
-    "Sarkaz@Roguelike@RoutingActionEncounter": {
+    "Sarkaz@Roguelike@RoutingAction-StageEncounterEnter": {
         "algorithm": "JustReturn",
         "next": ["Sarkaz@Roguelike@StageEncounterEnter"]
     },
-    "Sarkaz@Roguelike@RoutingActionRogueTrader": {
+    "Sarkaz@Roguelike@RoutingAction-StageTraderEnter": {
+        "doc": "用于替换 Sarkaz@Roguelike@RoutingAction 的 BaseTask",
         "algorithm": "JustReturn",
         "next": ["Sarkaz@Roguelike@StageTraderEnter"]
+    },
+    "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon": {
+        "doc": "用于替换 Sarkaz@Roguelike@RoutingAction 的 BaseTask",
+        "algorithm": "JustReturn",
+        "next": ["Sarkaz@Roguelike@ExitThenAbandon"]
     },
     "Sarkaz@Roguelike@RoutingConfig": {
         "doc": [
@@ -10354,6 +10360,19 @@
             "Sarkaz@Roguelike@StageDreadfulFoe-5"
         ]
     },
+    "Sarkaz@Roguelike@Stages_fastInvestment": {
+        "doc": "点刺成锭分队专用投资策略，调用 RoguelikeRoutingTaskPlugin",
+        "algorithm": "JustReturn",
+        "next": [
+            "Sarkaz@Roguelike@NextLevel",
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart",
+            "Sarkaz@Roguelike@DecreaseBurdenChaos",
+            "Sarkaz@Roguelike@DecreaseBurdenRetardation",
+            "Sarkaz@Roguelike@Routing"
+        ]
+    },
     "Sarkaz@Roguelike@Stages_pragmatic": {
         "Doc": "避紧急作战,3-4层策略",
         "algorithm": "JustReturn",
@@ -10447,6 +10466,19 @@
         "ocrReplace": [
             ["熔魂之始", "_default"],
             ["锻铁根须", "_default"],
+            ["灰铸迷城", "_exit"],
+            ["或然歧域", "_exit"],
+            ["虚实疆界", "_exit"],
+            ["辉光天顶", "_exit"],
+            ["诡谲断章", "_exit"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
+        "baseTask": "Sarkaz@Roguelike@StrategyChange_mode1",
+        "text": ["_fastInvestment", "_exit"],
+        "ocrReplace": [
+            ["熔魂之始", "_fastInvestment"],
+            ["锻铁根须", "_exit"],
             ["灰铸迷城", "_exit"],
             ["或然歧域", "_exit"],
             ["虚实疆界", "_exit"],

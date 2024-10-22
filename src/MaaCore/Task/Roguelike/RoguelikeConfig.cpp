@@ -36,6 +36,11 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
             Log.warn(__FUNCTION__, "No strategy for mode", static_cast<int>(mode));
         }
         Task.set_task_base(strategy_task, strategy_task_with_mode);
+
+        // 点刺成锭分队特殊策略
+        if (m_theme == "Sarkaz" && m_mode == RoguelikeMode::Investment && params.get("squad", "") == "点刺成锭分队") {
+            Task.set_task_base(strategy_task, "Sarkaz@Roguelike@StrategyChange-FastInvestment");
+        }
     }
 
     // 重置开局奖励 next，获得任意奖励均继续；烧水相关逻辑在 RoguelikeLastRewardTaskPlugin
