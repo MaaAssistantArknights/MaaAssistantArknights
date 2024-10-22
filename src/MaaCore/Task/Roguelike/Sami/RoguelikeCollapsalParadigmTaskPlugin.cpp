@@ -143,8 +143,8 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_banner()
         sort_by_vertical_(ocr_results1); // 按照垂直方向排序（从上到下）
         sort_by_vertical_(ocr_results2); // 按照垂直方向排序（从上到下）
 
-        auto  result_it1 = ocr_results1.begin();
-        auto  result_it2 = ocr_results2.begin();
+        auto result_it1 = ocr_results1.begin();
+        auto result_it2 = ocr_results2.begin();
 
         std::vector<std::string>::iterator it;
         while (result_it1 != ocr_results1.end() && result_it2 != ocr_results2.end()) {
@@ -289,7 +289,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_panel()
 #endif
     }
 
-    auto  it = prev_clp_pds.begin();
+    auto it = prev_clp_pds.begin();
     for (const std::string& cur_clp_pd : cur_clp_pds) {
         // 判断坍缩范式变动
         const unsigned int& cur_index = clp_pd_dict.at(cur_clp_pd);

@@ -3,16 +3,16 @@
 
 namespace asst
 {
-    class RoguelikeDifficultySelectionTaskPlugin : public AbstractRoguelikeTaskPlugin
-    {
-    public:
-        using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
-        virtual ~RoguelikeDifficultySelectionTaskPlugin() override = default;
+class RoguelikeDifficultySelectionTaskPlugin : public AbstractRoguelikeTaskPlugin
+{
+public:
+    using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
+    virtual ~RoguelikeDifficultySelectionTaskPlugin() override = default;
 
-    public:
-        virtual bool verify(AsstMsg msg, const json::value& details) const override;
+public:
+    virtual bool verify(AsstMsg msg, const json::value& details) const override;
 
-    protected:
-        virtual bool _run() override;
-    };
+protected:
+    virtual bool _run() override;
+};
 }

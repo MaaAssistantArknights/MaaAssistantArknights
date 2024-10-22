@@ -316,7 +316,7 @@ bool asst::AdbController::stop_game(const std::string& client_type)
         return false;
     }
     std::string cur_cmd = utils::string_replace_all(m_adb.stop, "[PackageName]", package_name.value());
-    bool ret =  call_command(cur_cmd).has_value();
+    bool ret = call_command(cur_cmd).has_value();
 
     set_mumu_package("");
 

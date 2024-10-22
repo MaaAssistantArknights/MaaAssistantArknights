@@ -9,8 +9,7 @@
 
 #include <set>
 
-bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json::value& details)
-    const
+bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json::value& details) const
 {
     if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
@@ -37,8 +36,7 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json
     if (task_view.ends_with(task_name_suf)) {
         task_view.remove_suffix(task_name_suf.length());
     }
-    if (task_view == "CombatDps" || task_view == "EmergencyDps"
-        || task_view == "FerociousPresage") {
+    if (task_view == "CombatDps" || task_view == "EmergencyDps" || task_view == "FerociousPresage") {
         if (mode == RoguelikeMode::Investment || mode == RoguelikeMode::Collectible) {
             m_stage = "SkipBattle";
         }
@@ -59,9 +57,9 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json
         m_stage = "Encounter";
         return true;
     }
-    if ((task_view == "Gambling" || task_view == "EmergencyTransportation"
-         || task_view == "WindAndRain" || task_view == "MysteriousPresage")
-        && mode == RoguelikeMode::Exp) {
+    if ((task_view == "Gambling" || task_view == "EmergencyTransportation" || task_view == "WindAndRain" ||
+         task_view == "MysteriousPresage") &&
+        mode == RoguelikeMode::Exp) {
         m_stage = "Gambling";
         return true;
     }
@@ -86,13 +84,11 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    std::vector<RoguelikeFoldartalCombination> combination =
-        RoguelikeFoldartal.get_combination(m_config->get_theme());
+    std::vector<RoguelikeFoldartalCombination> combination = RoguelikeFoldartal.get_combination(m_config->get_theme());
 
     auto foldartal_list = m_config->get_foldartal();
     Log.trace("All foldartal got yet:", foldartal_list);
-    auto filter = views::filter(
-        [&](const RoguelikeFoldartalCombination& usage) { return m_stage == usage.usage; });
+    auto filter = views::filter([&](const RoguelikeFoldartalCombination& usage) { return m_stage == usage.usage; });
     for (const auto& comb : combination | filter) {
         if (need_exit()) {
             break;
@@ -185,9 +181,7 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(
 }
 
 asst::RoguelikeFoldartalUseTaskPlugin::UseBoardResult
-    asst::RoguelikeFoldartalUseTaskPlugin::use_board(
-        const std::string& up_board,
-        const std::string& down_board) const
+    asst::RoguelikeFoldartalUseTaskPlugin::use_board(const std::string& up_board, const std::string& down_board) const
 {
     LogTraceFunction;
 
@@ -210,8 +204,7 @@ asst::RoguelikeFoldartalUseTaskPlugin::UseBoardResult
     else if (!search_and_click_stage()) {
         result = UseBoardResult::StageNotFound;
     }
-    else if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@FoldartalUseConfirm" })
-                 .run()) {
+    else if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@FoldartalUseConfirm" }).run()) {
         return UseBoardResult::UseBoardResultSuccess;
     }
     else {
@@ -240,8 +233,7 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::search_and_click_board(const std::st
             slowly_swipe(true);
         }
         else {
-            ctrler()->click(
-                analyzer.get_result().front().rect.move(Task.get(task_name)->rect_move));
+            ctrler()->click(analyzer.get_result().front().rect.move(Task.get(task_name)->rect_move));
             return true;
         }
         try_time++;
@@ -261,15 +253,13 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::search_and_click_stage() const
     sleep(1000);
 
     // 节点会闪烁，所以这里不用单次Match
-    if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@FoldartalUseOnStage" + m_stage })
-            .run()) {
+    if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@FoldartalUseOnStage" + m_stage }).run()) {
         return true;
     }
     // 滑到最右边，萨米的地图只有两页，暂时先这么糊着，出现识别不到再写循环
     ProcessTask(*this, { "SwipeToTheRight" }).run();
     sleep(1000);
-    if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@FoldartalUseOnStage" + m_stage })
-            .run()) {
+    if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@FoldartalUseOnStage" + m_stage }).run()) {
         return true;
     }
     return false;
@@ -316,10 +306,7 @@ void asst::RoguelikeFoldartalUseTaskPlugin::slowly_swipe(const bool direction, i
     const Rect& start_point = swipe_task->specific_rect;
     ctrler()->swipe(
         start_point,
-        { start_point.x + swipe_dist - start_point.width,
-          start_point.y,
-          start_point.width,
-          start_point.height },
+        { start_point.x + swipe_dist - start_point.width, start_point.y, start_point.width, start_point.height },
         swipe_task->special_params.empty() ? 0 : swipe_task->special_params.at(0),
         (swipe_task->special_params.size() < 2) ? false : swipe_task->special_params.at(1),
         (swipe_task->special_params.size() < 3) ? 1 : swipe_task->special_params.at(2),

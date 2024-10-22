@@ -27,17 +27,14 @@ auto get_all_combs(
 
     {
         rcs_with_single_tag.reserve(tags.size());
-        ranges::transform(
-            tags,
-            std::back_inserter(rcs_with_single_tag),
-            [](const RecruitConfig::TagId& t) {
-                RecruitCombs result;
-                result.tags = { t };
-                result.min_level = 6;
-                result.max_level = 0;
-                result.avg_level = 0;
-                return result;
-            });
+        ranges::transform(tags, std::back_inserter(rcs_with_single_tag), [](const RecruitConfig::TagId& t) {
+            RecruitCombs result;
+            result.tags = { t };
+            result.min_level = 6;
+            result.max_level = 0;
+            result.avg_level = 0;
+            return result;
+        });
 
         for (const auto& op : all_ops) {
             for (auto& rc : rcs_with_single_tag) {
@@ -61,8 +58,7 @@ auto get_all_combs(
 
     std::vector<RecruitCombs> result;
     const size_t tag_size = tags.size();
-    result.reserve(
-        tag_size * (tag_size * tag_size + 5) / 6); // C(size, 3) + C(size, 2) + C(size, 1)
+    result.reserve(tag_size * (tag_size * tag_size + 5) / 6); // C(size, 3) + C(size, 2) + C(size, 1)
 
     // select one tag first
     for (size_t i = 0; i < tag_size; ++i) {
@@ -94,15 +90,13 @@ auto get_all_combs(
     static constexpr std::string_view SeniorOper = "高级资深干员";
 
     for (auto comb_iter = result.begin(); comb_iter != result.end();) {
-        if (ranges::find(comb_iter->tags, RecruitConfig::TagId(SeniorOper))
-            != comb_iter->tags.end()) {
+        if (ranges::find(comb_iter->tags, RecruitConfig::TagId(SeniorOper)) != comb_iter->tags.end()) {
             ++comb_iter;
             continue;
         }
         // no senior tag, remove 6-star operators
         // assuming sorted by level
-        auto iter =
-            ranges::find_if(comb_iter->opers, [](const Recruitment& op) { return op.level >= 6; });
+        auto iter = ranges::find_if(comb_iter->opers, [](const Recruitment& op) { return op.level >= 6; });
         if (iter == comb_iter->opers.end()) {
             ++comb_iter;
             continue;
@@ -120,15 +114,13 @@ auto get_all_combs(
 }
 } // namespace asst::recruit_calc
 
-asst::AutoRecruitTask&
-    asst::AutoRecruitTask::set_select_level(std::vector<int> select_level) noexcept
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_select_level(std::vector<int> select_level) noexcept
 {
     m_select_level = std::move(select_level);
     return *this;
 }
 
-asst::AutoRecruitTask&
-    asst::AutoRecruitTask::set_confirm_level(std::vector<int> confirm_level) noexcept
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_confirm_level(std::vector<int> confirm_level) noexcept
 {
     m_confirm_level = std::move(confirm_level);
     return *this;
@@ -152,15 +144,13 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_use_expedited(bool use_or_not)
     return *this;
 }
 
-asst::AutoRecruitTask&
-    asst::AutoRecruitTask::set_select_extra_tags(ExtraTagsMode select_extra_tags_mode) noexcept
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_select_extra_tags(ExtraTagsMode select_extra_tags_mode) noexcept
 {
     m_select_extra_tags_mode = select_extra_tags_mode;
     return *this;
 }
 
-asst::AutoRecruitTask&
-    asst::AutoRecruitTask::set_first_tags(std::vector<std::string> first_tags) noexcept
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_first_tags(std::vector<std::string> first_tags) noexcept
 {
     m_first_tags = first_tags;
     return *this;
@@ -184,15 +174,13 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_force_refresh(bool force_refre
     return *this;
 }
 
-asst::AutoRecruitTask&
-    asst::AutoRecruitTask::set_recruitment_time(std::unordered_map<int, int> time_map) noexcept
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_recruitment_time(std::unordered_map<int, int> time_map) noexcept
 {
     m_desired_time_map = std::move(time_map);
     return *this;
 }
 
-asst::AutoRecruitTask&
-    asst::AutoRecruitTask::set_penguin_enabled(bool enable, std::string penguin_id) noexcept
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_penguin_enabled(bool enable, std::string penguin_id) noexcept
 {
     m_upload_to_penguin = enable;
     if (!penguin_id.empty()) {
@@ -201,8 +189,7 @@ asst::AutoRecruitTask&
     return *this;
 }
 
-asst::AutoRecruitTask&
-    asst::AutoRecruitTask::set_yituliu_enabled(bool enable, std::string yituliu_id) noexcept
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_yituliu_enabled(bool enable, std::string yituliu_id) noexcept
 {
     m_upload_to_yituliu = enable;
     if (!yituliu_id.empty()) {
@@ -398,8 +385,7 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
 }
 
 // set recruit timer and tags only
-asst::AutoRecruitTask::calc_task_result_type
-    asst::AutoRecruitTask::recruit_calc_task(slot_index index)
+asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc_task(slot_index index)
 {
     LogTraceFunction;
 
@@ -441,8 +427,8 @@ asst::AutoRecruitTask::calc_task_result_type
 
         // special tags
         const std::vector<RecruitConfig::TagId> SpecialTags = { "高级资深干员", "资深干员" };
-        if (auto special_iter = ranges::find_first_of(SpecialTags, tag_ids);
-            special_iter != SpecialTags.cend()) [[unlikely]] {
+        if (auto special_iter = ranges::find_first_of(SpecialTags, tag_ids); special_iter != SpecialTags.cend())
+            [[unlikely]] {
             has_special_tag = true;
             json::value cb_info = info;
             cb_info["what"] = "RecruitSpecialTag";
@@ -452,8 +438,7 @@ asst::AutoRecruitTask::calc_task_result_type
 
         // robot tags
         const std::vector<RecruitConfig::TagId> RobotTags = { "支援机械", "元素" };
-        if (auto robot_iter = ranges::find_first_of(RobotTags, tag_ids);
-            robot_iter != RobotTags.cend()) [[unlikely]] {
+        if (auto robot_iter = ranges::find_first_of(RobotTags, tag_ids); robot_iter != RobotTags.cend()) [[unlikely]] {
             has_robot_tag = true;
             json::value cb_info = info;
             cb_info["what"] = "RecruitSpecialTag";
@@ -485,8 +470,7 @@ asst::AutoRecruitTask::calc_task_result_type
             if (rc.min_level < 3) {
                 // find another min level (assuming operator list sorted in increment order by
                 // level)
-                auto sec =
-                    ranges::find_if(rc.opers, [](const Recruitment& op) { return op.level >= 3; });
+                auto sec = ranges::find_if(rc.opers, [](const Recruitment& op) { return op.level >= 3; });
                 if (sec != rc.opers.end()) {
                     rc.min_level = sec->level;
                     rc.avg_level = std::transform_reduce(
@@ -494,8 +478,8 @@ asst::AutoRecruitTask::calc_task_result_type
                                        rc.opers.end(),
                                        0.,
                                        std::plus<double> {},
-                                       std::mem_fn(&Recruitment::level))
-                                   / static_cast<double>(std::distance(sec, rc.opers.end()));
+                                       std::mem_fn(&Recruitment::level)) /
+                                   static_cast<double>(std::distance(sec, rc.opers.end()));
                 }
             }
         }
@@ -582,9 +566,8 @@ asst::AutoRecruitTask::calc_task_result_type
         }
 
         // refresh
-        if (m_need_refresh && m_has_refresh && !has_special_tag
-            && (final_combination.min_level == 3 && !has_preferred_tag)
-            && !(m_skip_robot && has_robot_tag)) {
+        if (m_need_refresh && m_has_refresh && !has_special_tag &&
+            (final_combination.min_level == 3 && !has_preferred_tag) && !(m_skip_robot && has_robot_tag)) {
             if (refresh_count > refresh_limit) [[unlikely]] {
                 json::value cb_info = basic_info();
                 cb_info["what"] = "RecruitError";
@@ -640,10 +623,8 @@ asst::AutoRecruitTask::calc_task_result_type
 
         if (!is_calc_only_task()) {
             // do not confirm, force skip
-            if (!(final_combination.min_level == 3 && has_preferred_tag)
-                && ranges::none_of(m_confirm_level, [&](const auto& i) {
-                       return i == final_combination.min_level;
-                   })) {
+            if (!(final_combination.min_level == 3 && has_preferred_tag) &&
+                ranges::none_of(m_confirm_level, [&](const auto& i) { return i == final_combination.min_level; })) {
                 calc_task_result_type result;
                 result.success = true;
                 result.force_skip = true;
@@ -670,8 +651,7 @@ asst::AutoRecruitTask::calc_task_result_type
             const int desired_minute_div_10 = (recruitment_time % 60) / 10;
             const int temp = desired_hour + (desired_minute_div_10 != 0);
             const int hour_delta = (1 < temp) ? (1 + 9 - temp) : (temp - 1);
-            const int minute_delta =
-                (0 < desired_minute_div_10) ? (0 + 6 - desired_minute_div_10) : (0);
+            const int minute_delta = (0 < desired_minute_div_10) ? (0 + 6 - desired_minute_div_10) : (0);
             for (int i = 0; i < hour_delta; ++i) {
                 ctrler()->click(image_analyzer.get_hour_decrement_rect());
             }
@@ -681,10 +661,8 @@ asst::AutoRecruitTask::calc_task_result_type
         }
 
         // nothing to select, leave the selection empty
-        if (!(final_combination.min_level == 3 && has_preferred_tag)
-            && ranges::none_of(m_select_level, [&](const auto& i) {
-                   return i == final_combination.min_level;
-               })) {
+        if (!(final_combination.min_level == 3 && has_preferred_tag) &&
+            ranges::none_of(m_select_level, [&](const auto& i) { return i == final_combination.min_level; })) {
             calc_task_result_type result;
             result.success = true;
             result.force_skip = false;
@@ -698,8 +676,7 @@ asst::AutoRecruitTask::calc_task_result_type
 
         // select tags
         for (const std::string& final_tag_name : final_select) {
-            auto tag_rect_iter =
-                ranges::find_if(tags, [&](const TextRect& r) { return r.text == final_tag_name; });
+            auto tag_rect_iter = ranges::find_if(tags, [&](const TextRect& r) { return r.text == final_tag_name; });
             if (tag_rect_iter != tags.cend()) {
                 ctrler()->click(tag_rect_iter->rect);
             }
@@ -708,8 +685,7 @@ asst::AutoRecruitTask::calc_task_result_type
         {
             json::value cb_info = basic_info();
             cb_info["what"] = "RecruitTagsSelected";
-            cb_info["details"] =
-                json::object { { "tags", json::array(get_tag_names(final_select)) } };
+            cb_info["details"] = json::object { { "tags", json::array(get_tag_names(final_select)) } };
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
@@ -831,8 +807,7 @@ bool asst::AutoRecruitTask::hire_all()
     return true;
 }
 
-std::vector<std::string>
-    asst::AutoRecruitTask::get_tag_names(const std::vector<RecruitConfig::TagId>& ids) const
+std::vector<std::string> asst::AutoRecruitTask::get_tag_names(const std::vector<RecruitConfig::TagId>& ids) const
 {
     std::vector<std::string> names;
     for (const RecruitConfig::TagId& id : ids) {
@@ -989,10 +964,7 @@ void asst::AutoRecruitTask::upload_to_yituliu(const json::value& details)
         .run();
 }
 
-void asst::AutoRecruitTask::report_penguin_callback(
-    AsstMsg msg,
-    const json::value& detail,
-    AbstractTask* task_ptr)
+void asst::AutoRecruitTask::report_penguin_callback(AsstMsg msg, const json::value& detail, AbstractTask* task_ptr)
 {
     LogTraceFunction;
 
@@ -1009,10 +981,7 @@ void asst::AutoRecruitTask::report_penguin_callback(
     p_this->callback(msg, detail);
 }
 
-void asst::AutoRecruitTask::report_yituliu_callback(
-    AsstMsg msg,
-    const json::value& detail,
-    AbstractTask* task_ptr)
+void asst::AutoRecruitTask::report_yituliu_callback(AsstMsg msg, const json::value& detail, AbstractTask* task_ptr)
 {
     LogTraceFunction;
 

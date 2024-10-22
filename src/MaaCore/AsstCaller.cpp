@@ -70,9 +70,7 @@ AsstBool AsstLoadResource(const char* path)
 
 AsstBool AsstSetStaticOption(AsstStaticOptionKey key, const char* value)
 {
-    return AsstExtAPI::set_static_option(static_cast<asst::StaticOptionKey>(key), value)
-               ? AsstTrue
-               : AsstFalse;
+    return AsstExtAPI::set_static_option(static_cast<asst::StaticOptionKey>(key), value) ? AsstTrue : AsstFalse;
 }
 
 AsstHandle AsstCreate()
@@ -107,25 +105,17 @@ AsstBool AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, con
         return AsstFalse;
     }
 
-    return handle->set_instance_option(static_cast<asst::InstanceOptionKey>(key), value)
-               ? AsstTrue
-               : AsstFalse;
+    return handle->set_instance_option(static_cast<asst::InstanceOptionKey>(key), value) ? AsstTrue : AsstFalse;
 }
 
-AsstBool
-    AsstConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config)
+AsstBool AsstConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config)
 {
     if (!inited() || handle == nullptr) {
-        Log.error(
-            __FUNCTION__,
-            "Cannot connect to device, asst not inited or handle is null",
-            inited(),
-            handle);
+        Log.error(__FUNCTION__, "Cannot connect to device, asst not inited or handle is null", inited(), handle);
         return AsstFalse;
     }
 
-    return handle->connect(adb_path, address, config ? config : std::string()) ? AsstTrue
-                                                                               : AsstFalse;
+    return handle->connect(adb_path, address, config ? config : std::string()) ? AsstTrue : AsstFalse;
 }
 
 AsstBool AsstStart(AsstHandle handle)
@@ -173,12 +163,8 @@ AsstBool ASSTAPI AsstBackToHome(AsstHandle handle)
     return handle->back_to_home() ? AsstTrue : AsstFalse;
 }
 
-AsstAsyncCallId AsstAsyncConnect(
-    AsstHandle handle,
-    const char* adb_path,
-    const char* address,
-    const char* config,
-    AsstBool block)
+AsstAsyncCallId
+    AsstAsyncConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config, AsstBool block)
 {
     if (!inited() || handle == nullptr) {
         return InvalidId;

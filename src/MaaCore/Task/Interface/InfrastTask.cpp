@@ -8,27 +8,27 @@
 #include "Task/Infrast/InfrastInfoTask.h"
 #include "Task/Infrast/InfrastMfgTask.h"
 #include "Task/Infrast/InfrastOfficeTask.h"
-#include "Task/Infrast/InfrastTrainingTask.h"
 #include "Task/Infrast/InfrastPowerTask.h"
 #include "Task/Infrast/InfrastProcessingTask.h"
 #include "Task/Infrast/InfrastReceptionTask.h"
 #include "Task/Infrast/InfrastTradeTask.h"
+#include "Task/Infrast/InfrastTrainingTask.h"
 #include "Task/Infrast/ReplenishOriginiumShardTaskPlugin.h"
 #include "Task/ProcessTask.h"
 
-asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst)
-    : InterfaceTask(callback, inst, TaskType),
-      m_infrast_begin_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
-      m_info_task_ptr(std::make_shared<InfrastInfoTask>(callback, inst, TaskType)),
-      m_mfg_task_ptr(std::make_shared<InfrastMfgTask>(callback, inst, TaskType)),
-      m_trade_task_ptr(std::make_shared<InfrastTradeTask>(callback, inst, TaskType)),
-      m_power_task_ptr(std::make_shared<InfrastPowerTask>(callback, inst, TaskType)),
-      m_control_task_ptr(std::make_shared<InfrastControlTask>(callback, inst, TaskType)),
-      m_reception_task_ptr(std::make_shared<InfrastReceptionTask>(callback, inst, TaskType)),
-      m_office_task_ptr(std::make_shared<InfrastOfficeTask>(callback, inst, TaskType)),
-      m_processing_task_ptr(std::make_shared<InfrastProcessingTask>(callback, inst, TaskType)),
-      m_training_task_ptr(std::make_shared<InfrastTrainingTask>(callback, inst, TaskType)),
-      m_dorm_task_ptr(std::make_shared<InfrastDormTask>(callback, inst, TaskType))
+asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
+    InterfaceTask(callback, inst, TaskType),
+    m_infrast_begin_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
+    m_info_task_ptr(std::make_shared<InfrastInfoTask>(callback, inst, TaskType)),
+    m_mfg_task_ptr(std::make_shared<InfrastMfgTask>(callback, inst, TaskType)),
+    m_trade_task_ptr(std::make_shared<InfrastTradeTask>(callback, inst, TaskType)),
+    m_power_task_ptr(std::make_shared<InfrastPowerTask>(callback, inst, TaskType)),
+    m_control_task_ptr(std::make_shared<InfrastControlTask>(callback, inst, TaskType)),
+    m_reception_task_ptr(std::make_shared<InfrastReceptionTask>(callback, inst, TaskType)),
+    m_office_task_ptr(std::make_shared<InfrastOfficeTask>(callback, inst, TaskType)),
+    m_processing_task_ptr(std::make_shared<InfrastProcessingTask>(callback, inst, TaskType)),
+    m_training_task_ptr(std::make_shared<InfrastTrainingTask>(callback, inst, TaskType)),
+    m_dorm_task_ptr(std::make_shared<InfrastDormTask>(callback, inst, TaskType))
 {
     LogTraceFunction;
 
@@ -61,7 +61,9 @@ bool asst::InfrastTask::set_params(const json::value& params)
             return false;
         }
 
-        auto append_infrast_begin = [&]() { m_subtasks.emplace_back(m_infrast_begin_task_ptr); };
+        auto append_infrast_begin = [&]() {
+            m_subtasks.emplace_back(m_infrast_begin_task_ptr);
+        };
 
         m_subtasks.clear();
         append_infrast_begin();
@@ -247,12 +249,13 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
                     // name数组此后可以作废
                     std::set<std::string> name_set;
                     name_set.insert(room_config.names.begin(), room_config.names.end());
-                    ranges::for_each(ori_operator_groups,
-                                     [name_set, &room_config](std::pair<std::string, std::vector<std::string>> pair) {
-                                         if (name_set.contains(pair.first)) {
-                                             room_config.operator_groups[pair.first] = std::move(pair.second);
-                                         }
-                                     });
+                    ranges::for_each(
+                        ori_operator_groups,
+                        [name_set, &room_config](std::pair<std::string, std::vector<std::string>> pair) {
+                            if (name_set.contains(pair.first)) {
+                                room_config.operator_groups[pair.first] = std::move(pair.second);
+                            }
+                        });
                 }
             }
 

@@ -8,31 +8,31 @@
 
 namespace asst
 {
-    struct RoguelikeGoods
-    {
-        std::string name;
-        std::vector<battle::Role> roles;
-        std::vector<std::string> chars;
-        int promotion = 0; // 晋升 N 个干员
-        bool no_longer_buy = false;
-        bool ignore_no_longer_buy = false;
-        bool decrease_collapse = false;
-    };
+struct RoguelikeGoods
+{
+    std::string name;
+    std::vector<battle::Role> roles;
+    std::vector<std::string> chars;
+    int promotion = 0; // 晋升 N 个干员
+    bool no_longer_buy = false;
+    bool ignore_no_longer_buy = false;
+    bool decrease_collapse = false;
+};
 
-    class RoguelikeShoppingConfig final : public SingletonHolder<RoguelikeShoppingConfig>, public AbstractConfig
-    {
-    public:
-        virtual ~RoguelikeShoppingConfig() override = default;
+class RoguelikeShoppingConfig final : public SingletonHolder<RoguelikeShoppingConfig>, public AbstractConfig
+{
+public:
+    virtual ~RoguelikeShoppingConfig() override = default;
 
-        const auto& get_goods(const std::string& theme) const noexcept { return m_goods.at(theme); }
+    const auto& get_goods(const std::string& theme) const noexcept { return m_goods.at(theme); }
 
-    private:
-        virtual bool parse(const json::value& json) override;
+private:
+    virtual bool parse(const json::value& json) override;
 
-        void clear();
+    void clear();
 
-        std::unordered_map<std::string, std::vector<RoguelikeGoods>> m_goods;
-    };
+    std::unordered_map<std::string, std::vector<RoguelikeGoods>> m_goods;
+};
 
-    inline static auto& RoguelikeShopping = RoguelikeShoppingConfig::get_instance();
+inline static auto& RoguelikeShopping = RoguelikeShoppingConfig::get_instance();
 }

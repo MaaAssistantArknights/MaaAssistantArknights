@@ -194,7 +194,7 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
         }
         for (auto& offset : oper_info.recruit_priority_offsets) { // 干员的所有 offset 策略组
             for (auto& group : offset.groups) {                   // 策略组内的每个干员组
-                offset.opers.insert(                              // 向当前策略组计入这个干员组的无重复干员
+                offset.opers.insert( // 向当前策略组计入这个干员组的无重复干员
                     get_group_info(theme, group).opers.begin(),
                     get_group_info(theme, group).opers.end());
             }

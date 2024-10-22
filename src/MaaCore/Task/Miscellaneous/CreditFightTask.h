@@ -10,17 +10,17 @@
 
 namespace asst
 {
-    class CreditFightTask final : public PackageTask
-    {
-    public:
-        inline static constexpr std::string_view TaskType = "CreditFight";
+class CreditFightTask final : public PackageTask
+{
+public:
+    inline static constexpr std::string_view TaskType = "CreditFight";
 
-        CreditFightTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);
-        virtual ~CreditFightTask() override = default;
+    CreditFightTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);
+    virtual ~CreditFightTask() override = default;
 
-        void set_select_formation(int index);
+    void set_select_formation(int index);
 
-    private:
-        std::shared_ptr<asst::CopilotTask> m_copilot_task_ptr = nullptr;
-    };
+private:
+    std::shared_ptr<asst::CopilotTask> m_copilot_task_ptr = nullptr;
+};
 } // namespace asst

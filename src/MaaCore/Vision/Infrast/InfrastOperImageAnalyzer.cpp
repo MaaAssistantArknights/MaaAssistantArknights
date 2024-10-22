@@ -298,8 +298,9 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
             else if (possible_skills.size() > 1) {
                 // 匹配得分最高的id作为基准，排除有识别错误，其他的技能混进来了的情况
                 // 即排除容器中，除了有同一个技能的不同等级，还有别的技能的情况
-                auto max_iter = ranges::max_element(possible_skills, std::less {},
-                                                    [](const auto& pair) { return pair.second.score; });
+                auto max_iter = ranges::max_element(possible_skills, std::less {}, [](const auto& pair) {
+                    return pair.second.score;
+                });
                 double base_score = max_iter->second.score;
                 std::string base_id = max_iter->first.id;
                 size_t level_pos = 0;
@@ -390,8 +391,14 @@ void asst::InfrastOperImageAnalyzer::doing_analyze()
         if (working_analyzer.analyze()) {
             oper.doing = infrast::Doing::Working;
 #ifdef ASST_DEBUG
-            cv::putText(m_image_draw, "Working", cv::Point(working_rect.x, working_rect.y), 1, 1, cv::Scalar(0, 0, 255),
-                        2);
+            cv::putText(
+                m_image_draw,
+                "Working",
+                cv::Point(working_rect.x, working_rect.y),
+                1,
+                1,
+                cv::Scalar(0, 0, 255),
+                2);
 #endif
         }
         // TODO: infrast::Doing::Resting的识别

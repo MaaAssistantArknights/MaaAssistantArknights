@@ -13,9 +13,7 @@
 
 namespace asst
 {
-class PlayToolsController
-    : public ControllerAPI
-    , protected InstHelper
+class PlayToolsController : public ControllerAPI, protected InstHelper
 {
 public:
     PlayToolsController(const AsstCallback& callback, Assistant* inst, PlatformType type);
@@ -23,10 +21,7 @@ public:
     PlayToolsController(PlayToolsController&&) = delete;
     virtual ~PlayToolsController();
 
-    virtual bool connect(
-        const std::string& adb_path,
-        const std::string& address,
-        const std::string& config) override;
+    virtual bool connect(const std::string& adb_path, const std::string& address, const std::string& config) override;
     virtual bool inited() const noexcept override;
 
     virtual const std::string& get_uuid() const override;
@@ -51,17 +46,11 @@ public:
         double slope_out = 1,
         bool with_pause = false) override;
 
-    virtual bool inject_input_event([[maybe_unused]] const InputEvent& event) override
-    {
-        return false;
-    }
+    virtual bool inject_input_event([[maybe_unused]] const InputEvent& event) override { return false; }
 
     virtual bool press_esc() override;
 
-    virtual ControlFeat::Feat support_features() const noexcept override
-    {
-        return ControlFeat::NONE;
-    }
+    virtual ControlFeat::Feat support_features() const noexcept override { return ControlFeat::NONE; }
 
     virtual std::pair<int, int> get_screen_res() const noexcept override;
 

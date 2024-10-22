@@ -5,9 +5,9 @@
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
 #include "Utils/Platform/SafeWindows.h"
-#include <string>
-#include <sstream>
 #include <Controller/AdbController.h>
+#include <sstream>
+#include <string>
 
 namespace asst
 {
@@ -16,7 +16,12 @@ LDExtras::~LDExtras()
     uninit();
 }
 
-bool LDExtras::init(const std::filesystem::path& ld_path, unsigned int ld_inst_index, unsigned int ld_pid, int width, int height)
+bool LDExtras::init(
+    const std::filesystem::path& ld_path,
+    unsigned int ld_inst_index,
+    unsigned int ld_pid,
+    int width,
+    int height)
 {
     const bool same = ld_inst_index == ld_inst_index_ && ld_pid == ld_pid_;
 
@@ -77,7 +82,8 @@ bool LDExtras::load_ld_library()
         return false;
     }
 
-    create_screenshot_instance_func_ = get_function<decltype(CreateScreenShotInstance)>(kCreateScreenShotInstanceFuncName);
+    create_screenshot_instance_func_ =
+        get_function<decltype(CreateScreenShotInstance)>(kCreateScreenShotInstanceFuncName);
     if (!create_screenshot_instance_func_) {
         LogError << "Failed to get function" << VAR(kCreateScreenShotInstanceFuncName);
         return false;

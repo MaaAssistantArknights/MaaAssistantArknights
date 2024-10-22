@@ -14,21 +14,21 @@
 
 namespace asst
 {
-    class OnnxSessions final : public SingletonHolder<OnnxSessions>, public AbstractResource
-    {
-    public:
-        virtual ~OnnxSessions();
-        virtual bool load(const std::filesystem::path& path) override;
+class OnnxSessions final : public SingletonHolder<OnnxSessions>, public AbstractResource
+{
+public:
+    virtual ~OnnxSessions();
+    virtual bool load(const std::filesystem::path& path) override;
 
-        Ort::Session& get(const std::string& name);
-        bool use_cpu();
-        bool use_gpu(int device_id);
+    Ort::Session& get(const std::string& name);
+    bool use_cpu();
+    bool use_gpu(int device_id);
 
-    private:
-        Ort::Env m_env;
-        Ort::SessionOptions m_options;
-        std::unordered_map<std::string, Ort::Session> m_sessions;
-        std::unordered_map<std::string, std::filesystem::path> m_model_paths;
-        bool gpu_enabled = false;
-    };
+private:
+    Ort::Env m_env;
+    Ort::SessionOptions m_options;
+    std::unordered_map<std::string, Ort::Session> m_sessions;
+    std::unordered_map<std::string, std::filesystem::path> m_model_paths;
+    bool gpu_enabled = false;
+};
 }

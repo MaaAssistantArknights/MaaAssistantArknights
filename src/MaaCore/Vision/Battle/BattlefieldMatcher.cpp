@@ -131,8 +131,13 @@ std::vector<battle::DeploymentOper> BattlefieldMatcher::deployment_analyze() con
 
 #ifdef ASST_DEBUG
         if (oper.cooling) {
-            cv::putText(m_image_draw, "cooling", cv::Point(oper.rect.x, oper.rect.y - 20), 1, 1.2,
-                        cv::Scalar(0, 0, 255));
+            cv::putText(
+                m_image_draw,
+                "cooling",
+                cv::Point(oper.rect.x, oper.rect.y - 20),
+                1,
+                1.2,
+                cv::Scalar(0, 0, 255));
         }
 #endif
 
@@ -360,9 +365,14 @@ bool BattlefieldMatcher::pause_button_analyze() const
 
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(task_ptr->roi), cv::Scalar(0, 0, 255), 2);
-    cv::putText(m_image_draw, std::to_string(count) + "/" + std::to_string(count_threshold),
-                cv::Point(task_ptr->roi.x, task_ptr->roi.y + task_ptr->roi.height + 10), cv::FONT_HERSHEY_PLAIN, 1.2,
-                cv::Scalar(255, 255, 255), 2);
+    cv::putText(
+        m_image_draw,
+        std::to_string(count) + "/" + std::to_string(count_threshold),
+        cv::Point(task_ptr->roi.x, task_ptr->roi.y + task_ptr->roi.height + 10),
+        cv::FONT_HERSHEY_PLAIN,
+        1.2,
+        cv::Scalar(255, 255, 255),
+        2);
 #endif
 
     return count > count_threshold;
@@ -410,9 +420,14 @@ bool asst::BattlefieldMatcher::speed_button_analyze() const
 
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(task_ptr->roi), cv::Scalar(0, 0, 255), 2);
-    cv::putText(m_image_draw, std::to_string(count) + "/" + std::to_string(count_threshold),
-                cv::Point(task_ptr->roi.x, task_ptr->roi.y + task_ptr->roi.height + 20), cv::FONT_HERSHEY_PLAIN, 1.2,
-                cv::Scalar(255, 255, 255), 2);
+    cv::putText(
+        m_image_draw,
+        std::to_string(count) + "/" + std::to_string(count_threshold),
+        cv::Point(task_ptr->roi.x, task_ptr->roi.y + task_ptr->roi.height + 20),
+        cv::FONT_HERSHEY_PLAIN,
+        1.2,
+        cv::Scalar(255, 255, 255),
+        2);
 #endif
 
     return count > count_threshold;
