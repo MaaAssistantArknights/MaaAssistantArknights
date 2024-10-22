@@ -3459,6 +3459,7 @@
         "template": "BuyIt.png",
         "action": "ClickSelf",
         "roi": [800, 500, 250, 150],
+        "postDelay": 1500,
         "next": ["CreditShop-Bought", "CreditShop-BuyIt@LoadingText", "CreditShop-NoMoney"]
     },
     "CreditShop-Bought": {
@@ -3466,6 +3467,7 @@
         "action": "ClickSelf",
         "roi": [544, 0, 210, 201],
         "maskRange": [1, 255],
+        "postDelay": 1500,
         "next": ["CreditShop-Bought", "Stop"]
     },
     "CreditShop-NoMoney": {

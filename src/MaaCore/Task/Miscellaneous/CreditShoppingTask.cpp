@@ -23,8 +23,8 @@ void asst::CreditShoppingTask::set_white_list(std::vector<std::string> black_lis
     m_is_white_list = true;
 }
 
-asst::CreditShoppingTask& asst::CreditShoppingTask::set_force_shopping_if_credit_full(
-    bool force_shopping_if_credit_full) noexcept
+asst::CreditShoppingTask&
+    asst::CreditShoppingTask::set_force_shopping_if_credit_full(bool force_shopping_if_credit_full) noexcept
 {
     m_force_shopping_if_credit_full = force_shopping_if_credit_full;
     return *this;
@@ -42,8 +42,7 @@ asst::CreditShoppingTask& asst::CreditShoppingTask::set_info_credit_full(bool in
     return *this;
 }
 
-asst::CreditShoppingTask& asst::CreditShoppingTask::set_reserve_max_credit(
-    bool reserve_max_credit) noexcept
+asst::CreditShoppingTask& asst::CreditShoppingTask::set_reserve_max_credit(bool reserve_max_credit) noexcept
 {
     m_reserve_max_credit = reserve_max_credit;
     return *this;
@@ -85,13 +84,17 @@ int asst::CreditShoppingTask::discount_ocr(const asst::Rect& commodity)
     discount_analyzer.set_task_info("CreditShop-DiscountOcr");
     discount_analyzer.set_roi(discount_roi);
 
-    if (!discount_analyzer.analyze()) return 0;
+    if (!discount_analyzer.analyze()) {
+        return 0;
+    }
 
     std::string discount = discount_analyzer.get_result().front().text;
 
     Log.trace("discount:", discount);
 
-    if (discount.size() != 2) return 0;
+    if (discount.size() != 2) {
+        return 0;
+    }
 
     int discount_number = 0;
 
@@ -121,9 +124,11 @@ bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool cre
         if (need_exit()) {
             return false;
         }
-        if (!m_is_white_list&&m_reserve_max_credit) {
+        if (!m_is_white_list && m_reserve_max_credit) {
             int credit = credit_ocr();
-            if (credit <= MaxCredit) break;
+            if (credit <= MaxCredit) {
+                break;
+            }
         }
 
         if (!m_is_white_list && m_only_buy_discount) {
@@ -142,9 +147,11 @@ bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool cre
             }
         }
 
-        ctrler()->click(commodity);
-
-        ProcessTask(*this, { "CreditShop-BuyIt" }).run();
+        auto clickCount = 0;
+        do {
+            ctrler()->click(commodity);
+            clickCount++
+        } while (ProcessTask(*this, { "CreditShop-BuyIt" }).run() || clickCount > 3);
 
         if (ProcessTask(*this, { "CreditShop-NoMoney" }).set_task_delay(0).set_retry_times(0).run()) {
             break;
@@ -165,8 +172,11 @@ bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool cre
 
 bool asst::CreditShoppingTask::_run()
 {
-    Log.trace("CreditShopping: m_is_white_list:", m_is_white_list,
-              " m_force_shopping_if_credit_full: ", m_force_shopping_if_credit_full);
+    Log.trace(
+        "CreditShopping: m_is_white_list:",
+        m_is_white_list,
+        " m_force_shopping_if_credit_full: ",
+        m_force_shopping_if_credit_full);
 
     if (!m_force_shopping_if_credit_full) {
         return credit_shopping(true, false);
@@ -174,7 +184,7 @@ bool asst::CreditShoppingTask::_run()
     else {
         int credit = credit_ocr(); // 识别信用值，防止信用值溢出
 
-        if (credit > MaxCredit) { // 信用值溢出
+        if (credit > MaxCredit) {  // 信用值溢出
             return credit_shopping(false, true);
         }
     }
