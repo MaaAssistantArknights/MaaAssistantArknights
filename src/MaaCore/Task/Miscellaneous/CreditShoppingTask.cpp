@@ -147,11 +147,14 @@ bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool cre
             }
         }
 
-        auto clickCount = 0;
-        do {
+        // 因动画过渡等原因，ctrler()->click(commodity) 点击商品时可能失败，共可尝试 4 次
+        // 若点击商品成功，则 CreditShop-BuyIt 的 ProcessTask 应顺利执行并返回 true
+        for (int clickCount = 0; clickCount <= 3; ++clickCount) {
             ctrler()->click(commodity);
-            clickCount++;
-        } while (ProcessTask(*this, { "CreditShop-BuyIt" }).run() || clickCount > 3);
+            if (ProcessTask(*this, { "CreditShop-BuyIt" }).run()) {
+                break;
+            }
+        }
 
         if (ProcessTask(*this, { "CreditShop-NoMoney" }).set_task_delay(0).set_retry_times(0).run()) {
             break;
