@@ -71,8 +71,15 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     LogTraceFunction;
 
     ++m_recruit_count;
+
+    if (m_config->get_theme() == "Sarkaz" && m_config->get_mode() == RoguelikeMode::Investment &&
+        m_config->get_squad() == "点刺成锭分队") {
+        ProcessTask(*this, { "Sarkaz@RoguelikeRecruit-GiveUp" }).run();
+        return true;
+    }
+
     if (m_config->get_mode() == RoguelikeMode::Investment && m_recruit_count > 1 &&
-        (m_config->get_squad() == "蓝图测绘分队" || m_config->get_squad() == "点刺成锭分队")) {
+        m_config->get_squad() == "蓝图测绘分队") {
         // 如果是投资模式，直接招募第一个干员
         lazy_recruit();
         return true;
