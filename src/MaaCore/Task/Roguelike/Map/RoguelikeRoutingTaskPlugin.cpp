@@ -80,17 +80,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
     case RoutingStrategy::FastInvestment:
         if (m_need_generate_map) {
             // 随机点击一个第一列的节点，先随便写写，垃圾代码迟早要重构
-            {
-                // 第一列节点
-                cv::Mat image = ctrler()->get_image();
-                MultiMatcher node_analyzer(image);
-                node_analyzer.set_task_info(m_config->get_theme() + "@Roguelike@RoutingNodeAnalyze");
-                if (!node_analyzer.analyze()) {
-                    Log.error(__FUNCTION__, "| no nodes found in the first column");
-                    return false;
-                }
-                ctrler()->click(node_analyzer.get_result().front().rect);
-            }
+            ProcessTask(*this, { "Sarkaz@Roguelike@Routing-CombatOps" }).run();
             // 刷新节点
             ProcessTask(*this, { m_config->get_theme() + "@Roguelike@RoutingRefreshNode" }).run();
             // 不识别了，进商店，Go!

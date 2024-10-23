@@ -9762,6 +9762,12 @@
     "Sarkaz@Roguelike@RoutingAction": {
         "algorithm": "JustReturn"
     },
+    "Sarkaz@Roguelike@Routing-CombatOps": {
+        "doc": "点击普通战斗节点",
+        "baseTask": "Sarkaz@Roguelike@StageCombatDps",
+        "template": "Sarkaz@Roguelike@StageCombatDps.png",
+        "next": []
+    },
     "Sarkaz@Roguelike@RoutingAction-StageEncounterEnter": {
         "algorithm": "JustReturn",
         "next": ["Sarkaz@Roguelike@StageEncounterEnter"]
