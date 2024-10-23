@@ -8465,6 +8465,17 @@
             "profession": "TRAP",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 1
+        },
+        "trap_779_skzth": {
+            "name": "尼卢火",
+            "name_en": "尼卢火",
+            "name_jp": "尼卢火",
+            "name_kr": "尼卢火",
+            "name_tw": "尼卢火",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["x-6", "x-6", "x-6"],
+            "rarity": 1
         }
     },
     "ranges": {

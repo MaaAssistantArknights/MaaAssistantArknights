@@ -22382,6 +22382,15 @@
         "stageId": "ro4_b_4",
         "width": 13
     },
+    "ro4_b_4_b-obt/roguelike/ro4/level_rogue4_b-4-b": {
+        "code": "ISW-DF",
+        "filename": "ro4_b_4_b-obt-roguelike-ro4-level_rogue4_b-4-b.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro4/level_rogue4_b-4-b",
+        "name": "思维矫正",
+        "stageId": "ro4_b_4_b",
+        "width": 13
+    },
     "ro4_b_5-obt/roguelike/ro4/level_rogue4_b-5": {
         "code": "ISW-DF",
         "filename": "ro4_b_5-obt-roguelike-ro4-level_rogue4_b-5.json",
@@ -22389,6 +22398,15 @@
         "levelId": "obt/roguelike/ro4/level_rogue4_b-5",
         "name": "朝谒",
         "stageId": "ro4_b_5",
+        "width": 13
+    },
+    "ro4_b_5_b-obt/roguelike/ro4/level_rogue4_b-5-b": {
+        "code": "ISW-DF",
+        "filename": "ro4_b_5_b-obt-roguelike-ro4-level_rogue4_b-5-b.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro4/level_rogue4_b-5-b",
+        "name": "魂灵朝谒",
+        "stageId": "ro4_b_5_b",
         "width": 13
     },
     "ro4_b_6-obt/roguelike/ro4/level_rogue4_b-6": {
@@ -22399,6 +22417,15 @@
         "name": "圣城",
         "stageId": "ro4_b_6",
         "width": 13
+    },
+    "ro4_b_7-obt/roguelike/ro4/level_rogue4_b-7": {
+        "code": "ISW-DF",
+        "filename": "ro4_b_7-obt-roguelike-ro4-level_rogue4_b-7.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro4/level_rogue4_b-7",
+        "name": "授法",
+        "stageId": "ro4_b_7",
+        "width": 25
     },
     "ro4_duel_1-obt/roguelike/ro4/level_rogue4_d-1": {
         "code": "ISW-NO",
@@ -22425,6 +22452,15 @@
         "levelId": "obt/roguelike/ro4/level_rogue4_d-3",
         "name": "石心双子",
         "stageId": "ro4_duel_3",
+        "width": 18
+    },
+    "ro4_duel_b-obt/roguelike/ro4/level_rogue4_d-b": {
+        "code": "ISW-NO",
+        "filename": "ro4_duel_b-obt-roguelike-ro4-level_rogue4_d-b.json",
+        "height": 6,
+        "levelId": "obt/roguelike/ro4/level_rogue4_d-b",
+        "name": "轻舟共渡",
+        "stageId": "ro4_duel_b",
         "width": 18
     },
     "ro4_e_1_1-obt/roguelike/ro4/level_rogue4_1-1": {
@@ -22508,6 +22544,15 @@
         "stageId": "ro4_e_2_5",
         "width": 11
     },
+    "ro4_e_2_6-obt/roguelike/ro4/level_rogue4_2-6": {
+        "code": "ISW-NO",
+        "filename": "ro4_e_2_6-obt-roguelike-ro4-level_rogue4_2-6.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro4/level_rogue4_2-6",
+        "name": "卡兹瀑布",
+        "stageId": "ro4_e_2_6",
+        "width": 9
+    },
     "ro4_e_3_1-obt/roguelike/ro4/level_rogue4_3-1": {
         "code": "ISW-NO",
         "filename": "ro4_e_3_1-obt-roguelike-ro4-level_rogue4_3-1.json",
@@ -22561,6 +22606,15 @@
         "name": "盲盒商场",
         "stageId": "ro4_e_3_6",
         "width": 12
+    },
+    "ro4_e_3_7-obt/roguelike/ro4/level_rogue4_3-7": {
+        "code": "ISW-NO",
+        "filename": "ro4_e_3_7-obt-roguelike-ro4-level_rogue4_3-7.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro4/level_rogue4_3-7",
+        "name": "火力小队",
+        "stageId": "ro4_e_3_7",
+        "width": 10
     },
     "ro4_e_4_1-obt/roguelike/ro4/level_rogue4_4-1": {
         "code": "ISW-NO",
@@ -22625,6 +22679,24 @@
         "stageId": "ro4_e_4_7",
         "width": 11
     },
+    "ro4_e_4_8-obt/roguelike/ro4/level_rogue4_4-8": {
+        "code": "ISW-NO",
+        "filename": "ro4_e_4_8-obt-roguelike-ro4-level_rogue4_4-8.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro4/level_rogue4_4-8",
+        "name": "神出鬼没",
+        "stageId": "ro4_e_4_8",
+        "width": 10
+    },
+    "ro4_e_4_9-obt/roguelike/ro4/level_rogue4_4-9": {
+        "code": "ISW-NO",
+        "filename": "ro4_e_4_9-obt-roguelike-ro4-level_rogue4_4-9.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro4/level_rogue4_4-9",
+        "name": "混沌",
+        "stageId": "ro4_e_4_9",
+        "width": 12
+    },
     "ro4_e_5_1-obt/roguelike/ro4/level_rogue4_5-1": {
         "code": "ISW-NO",
         "filename": "ro4_e_5_1-obt-roguelike-ro4-level_rogue4_5-1.json",
@@ -22688,6 +22760,15 @@
         "stageId": "ro4_e_5_7",
         "width": 12
     },
+    "ro4_e_5_8-obt/roguelike/ro4/level_rogue4_5-8": {
+        "code": "ISW-NO",
+        "filename": "ro4_e_5_8-obt-roguelike-ro4-level_rogue4_5-8.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro4/level_rogue4_5-8",
+        "name": "建制",
+        "stageId": "ro4_e_5_8",
+        "width": 12
+    },
     "ro4_e_6_1-obt/roguelike/ro4/level_rogue4_6-1": {
         "code": "ISW-NO",
         "filename": "ro4_e_6_1-obt-roguelike-ro4-level_rogue4_6-1.json",
@@ -22705,6 +22786,24 @@
         "name": "神圣的渴求",
         "stageId": "ro4_e_6_2",
         "width": 11
+    },
+    "ro4_e_7_1-obt/roguelike/ro4/level_rogue4_7-1": {
+        "code": "ISW-NO",
+        "filename": "ro4_e_7_1-obt-roguelike-ro4-level_rogue4_7-1.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro4/level_rogue4_7-1",
+        "name": "洞天福地",
+        "stageId": "ro4_e_7_1",
+        "width": 12
+    },
+    "ro4_e_7_2-obt/roguelike/ro4/level_rogue4_7-2": {
+        "code": "ISW-NO",
+        "filename": "ro4_e_7_2-obt-roguelike-ro4-level_rogue4_7-2.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro4/level_rogue4_7-2",
+        "name": "“外道”",
+        "stageId": "ro4_e_7_2",
+        "width": 12
     },
     "ro4_e_t_2-obt/roguelike/ro4/level_rogue4_t-2": {
         "code": "ISW-SP",
@@ -22859,6 +22958,15 @@
         "stageId": "ro4_n_2_5",
         "width": 11
     },
+    "ro4_n_2_6-obt/roguelike/ro4/level_rogue4_2-6": {
+        "code": "ISW-NO",
+        "filename": "ro4_n_2_6-obt-roguelike-ro4-level_rogue4_2-6.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro4/level_rogue4_2-6",
+        "name": "卡兹瀑布",
+        "stageId": "ro4_n_2_6",
+        "width": 9
+    },
     "ro4_n_3_1-obt/roguelike/ro4/level_rogue4_3-1": {
         "code": "ISW-NO",
         "filename": "ro4_n_3_1-obt-roguelike-ro4-level_rogue4_3-1.json",
@@ -22912,6 +23020,15 @@
         "name": "盲盒商场",
         "stageId": "ro4_n_3_6",
         "width": 12
+    },
+    "ro4_n_3_7-obt/roguelike/ro4/level_rogue4_3-7": {
+        "code": "ISW-NO",
+        "filename": "ro4_n_3_7-obt-roguelike-ro4-level_rogue4_3-7.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro4/level_rogue4_3-7",
+        "name": "火力小队",
+        "stageId": "ro4_n_3_7",
+        "width": 10
     },
     "ro4_n_4_1-obt/roguelike/ro4/level_rogue4_4-1": {
         "code": "ISW-NO",
@@ -22976,6 +23093,24 @@
         "stageId": "ro4_n_4_7",
         "width": 11
     },
+    "ro4_n_4_8-obt/roguelike/ro4/level_rogue4_4-8": {
+        "code": "ISW-NO",
+        "filename": "ro4_n_4_8-obt-roguelike-ro4-level_rogue4_4-8.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro4/level_rogue4_4-8",
+        "name": "神出鬼没",
+        "stageId": "ro4_n_4_8",
+        "width": 10
+    },
+    "ro4_n_4_9-obt/roguelike/ro4/level_rogue4_4-9": {
+        "code": "ISW-NO",
+        "filename": "ro4_n_4_9-obt-roguelike-ro4-level_rogue4_4-9.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro4/level_rogue4_4-9",
+        "name": "混沌",
+        "stageId": "ro4_n_4_9",
+        "width": 12
+    },
     "ro4_n_5_1-obt/roguelike/ro4/level_rogue4_5-1": {
         "code": "ISW-NO",
         "filename": "ro4_n_5_1-obt-roguelike-ro4-level_rogue4_5-1.json",
@@ -23039,6 +23174,15 @@
         "stageId": "ro4_n_5_7",
         "width": 12
     },
+    "ro4_n_5_8-obt/roguelike/ro4/level_rogue4_5-8": {
+        "code": "ISW-NO",
+        "filename": "ro4_n_5_8-obt-roguelike-ro4-level_rogue4_5-8.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro4/level_rogue4_5-8",
+        "name": "建制",
+        "stageId": "ro4_n_5_8",
+        "width": 12
+    },
     "ro4_n_6_1-obt/roguelike/ro4/level_rogue4_6-1": {
         "code": "ISW-NO",
         "filename": "ro4_n_6_1-obt-roguelike-ro4-level_rogue4_6-1.json",
@@ -23056,6 +23200,24 @@
         "name": "神圣的渴求",
         "stageId": "ro4_n_6_2",
         "width": 11
+    },
+    "ro4_n_7_1-obt/roguelike/ro4/level_rogue4_7-1": {
+        "code": "ISW-NO",
+        "filename": "ro4_n_7_1-obt-roguelike-ro4-level_rogue4_7-1.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro4/level_rogue4_7-1",
+        "name": "洞天福地",
+        "stageId": "ro4_n_7_1",
+        "width": 12
+    },
+    "ro4_n_7_2-obt/roguelike/ro4/level_rogue4_7-2": {
+        "code": "ISW-NO",
+        "filename": "ro4_n_7_2-obt-roguelike-ro4-level_rogue4_7-2.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro4/level_rogue4_7-2",
+        "name": "“外道”",
+        "stageId": "ro4_n_7_2",
+        "width": 12
     },
     "ro4_t_1-obt/roguelike/ro4/level_rogue4_t-1": {
         "code": "ISW-SP",
