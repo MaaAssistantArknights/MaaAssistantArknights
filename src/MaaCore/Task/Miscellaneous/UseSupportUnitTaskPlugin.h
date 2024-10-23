@@ -23,7 +23,7 @@ public:
         const int& skill = 0,
         const bool& max_spec_lvl = true, // 是否要求技能专三
         const int& max_refresh_times = 0,
-        const bool& select_skill_after_oper = false,
+        const bool& select_skill_after_oper = true,
         const bool& allow_non_friend_support_unit = false,
         const ChoiceFunc& choice_func = nullptr);
 
