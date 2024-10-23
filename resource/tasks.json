@@ -6028,8 +6028,9 @@
     },
     "Sarkaz@RoguelikeRecruit-ConfirmToGiveUp": {
         "doc": "在警告对话框点击确认图标，确认放弃招募机会",
-        "roi": [879, 457, 53, 52],
-        "action": "ClickSelf"
+        "baseTask": "Sarkaz@Roguelike@StageEncounterGiveUpRecruitConfirm",
+        "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
+        "next": []
     },
     "RoguelikeRecruitLazyClick1": {
         "Doc": "招募第一个干员时，快速由下往上依次点击，防止第一个干员无法招募",
