@@ -88,17 +88,6 @@ bool asst::RoguelikeCustomStartTaskPlugin::_run()
 
 bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
 {
-    // 投资模式下快速定位点刺成锭分队
-    if (m_config->get_theme() == "Sarkaz" && m_config->get_mode() == RoguelikeMode::Investment &&
-        m_customs[RoguelikeCustomType::Squad] == "点刺成锭分队") {
-        for (int i = 0; i < 2; ++i) {
-            ctrler()->swipe(Point(1280, 360), Point(0, 360), 300, false, 3, 0);
-            sleep(300);
-        }
-        ctrler()->swipe(Point(1280, 360), Point(350, 360), 150, false, 3, 0);
-        sleep(300);
-    }
-
     constexpr size_t SwipeTimes = 7;
     for (size_t i = 0; i != SwipeTimes; ++i) {
         auto image = ctrler()->get_image();
@@ -107,7 +96,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
         analyzer.set_required({ m_customs[RoguelikeCustomType::Squad] });
 
         if (!analyzer.analyze()) {
-            ProcessTask(*this, { "SlowlySwipeToTheRight" }).run();
+            ProcessTask(*this, { "Roguelike@SquadSlowlySwipeToTheRight" }).run();
             sleep(Task.get("RoguelikeCustom-HijackSquad")->post_delay);
             continue;
         }

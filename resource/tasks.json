@@ -6850,6 +6850,14 @@
         "text": [],
         "roi": [615, 0, 80, 45]
     },
+    "Roguelike@SquadSlowlySwipeToTheRight": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [1160, 310, 100, 100],
+        "rectMove": [0, 310, 100, 100],
+        "specialParams": [200, 1, 3, 0],
+        "postDelay": 200
+    },
     "Roguelike@SquadConfirm": {
         "Doc": "base_task",
         "template": "empty.png",
