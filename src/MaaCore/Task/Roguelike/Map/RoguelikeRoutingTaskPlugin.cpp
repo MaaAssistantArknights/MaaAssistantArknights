@@ -97,7 +97,8 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
             Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingAction-StageTraderEnter");
             // 偷懒，直接用 m_need_generate_map 判断是否已进过商店
             m_need_generate_map = false;
-        } else {
+        }
+        else {
             Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon");
         }
         break;
