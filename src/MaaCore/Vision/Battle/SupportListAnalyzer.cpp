@@ -52,13 +52,12 @@ bool asst::SupportListAnalyzer::analyze()
         // 干员精英化等级
         // ————————————————————————————————————————————————————————————————
         const Rect elite_roi = { rect.x + elite_task_ptr->roi.x,
-                                rect.y - elite_task_ptr->roi.y,
-                                elite_task_ptr->roi.width,
-                                elite_task_ptr->roi.height };
+                                 rect.y - elite_task_ptr->roi.y,
+                                 elite_task_ptr->roi.width,
+                                 elite_task_ptr->roi.height };
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(elite_roi), cv::Scalar(0, 255, 0), 2);
 #endif
-
 
         elite_analyzer.set_task_info(elite_task_ptr);
         elite_analyzer.set_roi(elite_roi);

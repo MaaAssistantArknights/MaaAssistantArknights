@@ -103,12 +103,9 @@ bool asst::BattleFormationTask::_run()
     confirm_selection();
 
     if (m_support_unit_usage == SupportUnitUsage::Specific && !m_support_unit_used) { // 使用指定助战干员
-        m_support_unit_used = m_use_support_unit_task_ptr->use_support_unit(
-            m_support_unit_role,
-            m_support_unit_name,
-            m_support_unit_skill,
-            true,
-            10);
+        m_support_unit_used =
+            m_use_support_unit_task_ptr
+                ->use_support_unit(m_support_unit_role, m_support_unit_name, m_support_unit_skill, true, 10);
     }
     else if (m_support_unit_usage == SupportUnitUsage::Random && !m_support_unit_used) { // 使用随机助战干员
         m_support_unit_used = m_use_support_unit_task_ptr->use_support_unit(battle::Role::Unknown, "", 0, false, 10);

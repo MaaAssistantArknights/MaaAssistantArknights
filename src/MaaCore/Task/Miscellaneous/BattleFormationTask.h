@@ -59,10 +59,10 @@ public:
     // ————————————————————————————————
     enum class SupportUnitUsage // 助战干员使用策略
     {
-        None = 0,       // 不使用助战干员
+        None = 0,               // 不使用助战干员
         WhenNeeded = 1, // 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队, 如果无缺失干员则不使用助战干员
-        Specific = 2,   // 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则使用指定助战干员
-        Random = 3      // 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则使用随机助战干员
+        Specific = 2, // 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则使用指定助战干员
+        Random = 3 // 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则使用随机助战干员
     };
 
     void set_support_unit_usage(const SupportUnitUsage& support_unit_usgae)
@@ -120,7 +120,7 @@ protected:
     // ————————————————————————————————
     std::shared_ptr<UseSupportUnitTaskPlugin> m_use_support_unit_task_ptr = nullptr;
     SupportUnitUsage m_support_unit_usage = SupportUnitUsage::None;
-    bool m_support_unit_used = false;   // 是否已经招募助战干员
+    bool m_support_unit_used = false; // 是否已经招募助战干员
     // ———————— 以下变量为指定助战干员设置，仅当 m_support_unit_usage == SupportUnitUsage::Specific 时有效 ————————
     battle::Role m_support_unit_role = battle::Role::Unknown;
     std::string m_support_unit_name;
