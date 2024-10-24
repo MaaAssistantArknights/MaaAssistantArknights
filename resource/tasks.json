@@ -441,7 +441,7 @@
         "baseTask": "ChapterSlowlySwipeToTheRight",
         "specialParams": [150, 0, 0.5],
         "next": ["#self"],
-        "maxTimes": 5
+        "maxTimes": 10
     },
     "SwipeToStage": {
         "Doc": "活动导航左滑找关",
