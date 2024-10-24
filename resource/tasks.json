@@ -97,7 +97,7 @@
         "action": "ClickSelf",
         "text": [],
         "roi": [142, 43, 210, 274],
-        "next": ["#back", "Stop"]
+        "next": ["#back", "#self", "Stop"]
     },
     "ClickChapter1": {
         "baseTask": "ClickChapter",
