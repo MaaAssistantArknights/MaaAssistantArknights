@@ -409,19 +409,41 @@ backend = "libgit2" # 资源热更新后端，可选值为 "git" 或者 "libgit2
 # 资源热更新远程仓库相关配置
 [resource.remote]
 branch = "main" # 远程仓库的分支，默认为 "main"
-# 远程仓库的 url，如果你想要使用 ssh，你必须配置 ssh_key 的路径
+# 远程资源仓库的 URL，留空以使用默认 URL
+# GitHub 仓库支持 HTTPS 和 SSH 两种协议访问，建议使用 HTTPS 协议，因为通常情况下不需要额外配置
 url = "https://github.com/MaaAssistantArknights/MaaResource.git"
 # url = "git@github.com:MaaAssistantArknights/MaaResource.git"
-# ssh_key = "~/.ssh/id_ed25519" # path to ssh key
+# 如果你必须使用 SSH 协议，你需要提供 SSH 密钥，最简单的方法是提供密钥的路径
+ssh_key = "~/.ssh/id_ed25519" # ssh 密钥的路径
+# maa 默认密钥是未加密的，如果你的密钥是受密码保护的，你需要提供密码来解密密钥
+# 注意：只有你使用 libgit2 后端时 maa 才会将密码传递给 libgit2
+# 当你使用 git 后端时，git 会自己提示你输入密码
+# 如果你使用 git 后端且你的密钥受密码保护，请使用 ssh-agent 来管理你的密钥
+passphrase = "password"       # ssh 密钥的密码
+# 然而在配置文件中存储明文密码是不安全的，因此有一些方法可以避免这种情况
+# 1. 将 `passphrase` 设置为 true，然后 maa-cli 将每次提示你输入密码
+# 这种方法安全但是较为繁琐且无法在 batch 模式下使用
+# passphrase = true
+# 2. 将 `passphrase` 设置为环境变量名，然后 maa-cli 将使用环境变量作为密码
+# 这种方法比明文密码更安全，但是仍然有一定的风险，因为环境变量可能被任何程序访问
+# passphrase = { env = "MAA_SSH_PASSPHRASE" }
+# 3. 将 `passphrase` 设置为命令，然后 maa-cli 将执行该命令以获取密码
+# 如果你使用了密码管理器来管理你的密码，这种方法可能是最安全的且方便的
+# passphrase = { cmd = ["pass", "show", "ssh/id_ed25519"] }
+# 4. 使用 ssh-agent 来管理你的密钥，**推荐**
+# ssh-agent 会将你的密钥保存在内存中，这样你就不需要每次输入密码
+# 注意，你需要确保 ssh-agent 已经启动并且已经添加了你的密钥，同时 SSH_AUTH_SOCK 环境变量已经设置
+# use_ssh_agent = true # 使用 ssh-agent 进行身份验证，如果设置为 true，将忽略 ssh_key 和 passphrase 字段
 ```
 
 **注意事项**：
 
 - MaaCore 的更新通道中 `Alpha` 只在 Windows 上可用；
 - 由于 CLI 默认的 API 链接和下载链接都是 GitHub 的链接，因此在国内可能会有一些问题，你可以通过配置 `api_url` 和 `download_url` 来使用镜像。
-- 即使启动了资源热更新，你依然需要安装 MaaCore 的资源，因为资源热更新并不包含所有的资源文件，只是包含部份可更新的资源文件，基础资源文件仍然需要安装。
+- 即使启动了资源热更新，你依然需要安装 MaaCore 的资源，因为资源热更新并不包含所有的资源文件，只是包含部分可更新的资源文件，基础资源文件仍然需要安装。
 - 资源热更新是通过 Git 来拉取远程仓库，如果后端设置为 `git` 那么 `git` 命令行工具必须可用。
 - 如果你想要使用 SSH 协议来拉取远程仓库，你必须配置 `ssh_key` 字段，这个字段应该是一个路径，指向你的 SSH 私钥。
+- 如果你的 SSH 私钥是受密码保护的，你需要提供密码来解密私钥，或者使用 ssh-agent 来管理你的密钥。
 - 远程仓库的 `url` 设置目前只对首次安装资源有效，如果你想要更改远程仓库的地址，你需要通过 `git` 命令行工具手动更改，或者删除对应的仓库。仓库所在位置可以通过 `maa dir hot-update` 获取。
 
 ## 参考配置

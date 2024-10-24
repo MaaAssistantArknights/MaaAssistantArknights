@@ -403,13 +403,25 @@ binary = true # maa-cli 바이너리 파일을 설치할지 여부, 기본값은
 auto_update = true  # 각 작업 실행 시 리소스를 자동 업데이트할지 여부, 기본값은 false
 backend = "libgit2" # 리소스 핫 업데이트 백엔드, 가능한 값은 "git" 또는 "libgit2", 기본값은 "git"
 
-# 리소스 핫 업데이트 원격 저장소 관련 설정
 [resource.remote]
-branch = "main" # 원격 저장소의 분기, 기본값은 "main"
-# 원격 저장소의 URL, ssh를 사용하려면 ssh_key 경로를 설정해야 함
-url = "https://github.com/MaaAssistantArknights/MaaResource.git"
-# url = "git@github.com:MaaAssistantArknights/MaaResource.git"
-# ssh_key = "~/.ssh/id_ed25519" # ssh 키 경로
+branch = "main" # 원격 저장소의 브랜치, 기본값은 "main"입니다.
+# 원격 리소스 저장소의 URL, 기본 URL을 사용하려면 비워 두세요.
+url = "git@github.com:MaaAssistantArknights/MaaResource.git"
+# ssh를 사용하려면 인증 방식을 구성해야 하며, "ssh-agent" 또는 "ssh-key" 중 하나를 사용할 수 있습니다.
+# ssh-agent를 사용하려면 `use_ssh_agent`를 true로 설정하고, `ssh_key`와 `passphrase`는 비워 두세요.
+# use_ssh_agent = true # ssh-agent를 사용하여 인증
+# ssh-key를 사용하려면 `ssh_key`에 ssh 키의 경로를 설정하세요.
+ssh_key = "~/.ssh/id_ed25519" # ssh 키의 경로
+# ssh 키가 암호화된 경우, 암호를 입력해야 합니다.
+passphrase = "password"       # ssh 키의 암호
+# 설정 파일에 평문 암호를 저장하는 것은 안전하지 않으므로 이를 방지하기 위한 방법이 있습니다.
+# 1. `passphrase`를 true로 설정하면, maa-cli가 매번 암호를 입력하라고 요청합니다.
+# passphrase = true
+# 2. `passphrase`를 환경 변수 이름으로 설정하면, maa-cli는 해당 환경 변수를 암호로 사용합니다.
+# passphrase = { env = "MAA_SSH_PASSPHRASE" }
+# 3. `passphrase`를 명령어로 설정하면, maa-cli는 해당 명령어를 실행하여 암호를 가져옵니다.
+# 이는 암호 관리자를 사용하여 암호를 관리할 때 매우 유용합니다.
+# passphrase = { cmd = ["pass", "show", "ssh/id_ed25519"] }
 ```
 
 **주의사항**：
