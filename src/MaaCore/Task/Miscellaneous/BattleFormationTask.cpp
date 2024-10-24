@@ -2,6 +2,7 @@
 
 #include "Utils/Ranges.hpp"
 
+#include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/Miscellaneous/SSSCopilotConfig.h"
@@ -12,14 +13,25 @@
 #include "Utils/Logger.hpp"
 #include "Vision/MultiMatcher.h"
 
+asst::BattleFormationTask::BattleFormationTask(
+    const AsstCallback& callback,
+    Assistant* inst,
+    std::string_view task_chain) :
+    AbstractTask(callback, inst, task_chain),
+    m_use_support_unit_task_ptr(std::make_shared<UseSupportUnitTaskPlugin>(callback, inst, task_chain))
+{
+}
+
+void asst::BattleFormationTask::set_support_unit(const std::string& name, const int& skill)
+{
+    m_support_unit_role = BattleData.get_role(name);
+    m_support_unit_name = name; // 此处可能需要对阿米娅进行特殊处理
+    m_support_unit_skill = skill;
+};
+
 void asst::BattleFormationTask::append_additional_formation(AdditionalFormation formation)
 {
     m_additional.emplace_back(std::move(formation));
-}
-
-void asst::BattleFormationTask::set_support_unit_name(std::string name)
-{
-    m_support_unit_name = std::move(name);
 }
 
 void asst::BattleFormationTask::set_user_additional(std::vector<std::pair<std::string, int>> user_additional)
@@ -68,13 +80,28 @@ bool asst::BattleFormationTask::_run()
         add_formation(role, oper_groups, missing_operators);
     }
 
-    if (!missing_operators.empty()) {
-        if (missing_operators.size() == 1) {
-            // TODO: 自动借助战？
+    // 在有且仅有一名缺失干员时尝试寻找助战干员补齐编队
+    if (use_suppprt_unit_when_needed() && missing_operators.size() == 1 && !m_support_unit_used) {
+        // 之后再重构数据结构，先凑合用
+        const std::string name = missing_operators.front().first;
+        const battle::Role role = BattleData.get_role(name);
+        const int skill = missing_operators.front().second.front().skill;
+
+        // 先退出去招募助战再回来，好蠢
+        confirm_selection();
+        // 我就是想赋值的同时判断，不懂 IDE 为什么推荐我多套一层括号 to silence this warning
+        if ((m_support_unit_used = m_use_support_unit_task_ptr->use_support_unit(role, name, skill, true, 10))) {
+            missing_operators.clear();
         }
+        if (!enter_selection_page()) {
+            save_img(utils::path("debug") / utils::path("other"));
+            return false;
+        }
+    }
 
+    // 在尝试补齐编队后依然有缺失干员，自动编队失败
+    if (!missing_operators.empty()) {
         report_missing_operators(missing_operators);
-
         return false;
     }
 
@@ -105,11 +132,13 @@ bool asst::BattleFormationTask::_run()
     }
     confirm_selection();
 
-    // 借一个随机助战
-    if (m_support_unit_name == "_RANDOM_") {
-        if (!select_random_support_unit()) {
-            return false;
-        }
+    if (m_support_unit_usage == SupportUnitUsage::Specific && !m_support_unit_used) { // 使用指定助战干员
+        m_support_unit_used =
+            m_use_support_unit_task_ptr
+                ->use_support_unit(m_support_unit_role, m_support_unit_name, m_support_unit_skill, true, 10);
+    }
+    else if (m_support_unit_usage == SupportUnitUsage::Random && !m_support_unit_used) { // 使用随机助战干员
+        m_support_unit_used = m_use_support_unit_task_ptr->use_support_unit(battle::Role::Unknown, "", 0, false, 10);
     }
 
     return true;
@@ -408,6 +437,7 @@ void asst::BattleFormationTask::swipe_to_the_left(int times)
     for (int i = 0; i < times; ++i) {
         ProcessTask(*this, { "BattleFormationOperListSwipeToTheLeft" }).run();
     }
+    sleep(Config.get_options().task_delay); // 可能有界面回弹，睡一会儿
 }
 
 bool asst::BattleFormationTask::confirm_selection()
