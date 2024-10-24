@@ -6023,14 +6023,7 @@
     "Sarkaz@RoguelikeRecruit-GiveUp": {
         "doc": "在集成战略模式招募干员界面点击右下角 <放弃> 文字左侧图标位置，放弃招募机会",
         "roi": [912, 648, 58, 58],
-        "action": "ClickSelf",
-        "next": ["Sarkaz@RoguelikeRecruit-ConfirmToGiveUp"]
-    },
-    "Sarkaz@RoguelikeRecruit-ConfirmToGiveUp": {
-        "doc": "在警告对话框点击确认图标，确认放弃招募机会",
-        "baseTask": "Sarkaz@Roguelike@StageEncounterGiveUpRecruitConfirm",
-        "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
-        "next": []
+        "action": "ClickSelf"
     },
     "RoguelikeRecruitLazyClick1": {
         "Doc": "招募第一个干员时，快速由下往上依次点击，防止第一个干员无法招募",
@@ -6319,6 +6312,15 @@
             "Roguelike@StageEncounterGiveUpRecruitConfirm",
             "Roguelike@ChooseOperConfirm",
             "Roguelike@RecruitWithoutButton"
+        ]
+    },
+    "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp": {
+        "baseTask": "Sarkaz@Roguelike@StageEncounterGiveUpRecruitConfirm",
+        "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
+        "next": [
+            "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp",
+            "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText",
+            "Sarkaz@Roguelike@RecruitSkip#next"
         ]
     },
     "Roguelike@ChooseOperFlag": {
@@ -9434,6 +9436,7 @@
             "Sarkaz@Roguelike@CloseCollectionContinue",
             "Sarkaz@Roguelike@CloseCollectionClose",
             "Sarkaz@Roguelike@ChooseOperConfirm",
+            "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp",
             "Sarkaz@Roguelike@Abandon",
             "Sarkaz@Roguelike@ChooseOperConfirm#next"
         ]
