@@ -384,7 +384,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             _isUpdatingDatePrompt = true;
             UpdateDatePrompt();
-            UpdateStageList(false);
+            UpdateStageList();
 
             var delayTime = CalculateRandomDelay();
             _ = Task.Run(async () =>
@@ -393,7 +393,7 @@ namespace MaaWpfGui.ViewModels.UI
                 await _runningState.UntilIdleAsync(60000);
                 await _stageManager.UpdateStageWeb();
                 UpdateDatePrompt();
-                UpdateStageList(false);
+                UpdateStageList();
                 _isUpdatingDatePrompt = false;
             });
         }
@@ -645,7 +645,7 @@ namespace MaaWpfGui.ViewModels.UI
             InitDrops();
             NeedToUpdateDatePrompt();
             UpdateDatePrompt();
-            UpdateStageList(true);
+            UpdateStageList();
             RefreshCustomInfrastPlan();
 
             if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
@@ -667,20 +667,30 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /// <summary>
-        /// Updates stage list.
+        /// Returns the valid stage if it is open, otherwise returns an empty string.
         /// </summary>
-        /// <param name="forceUpdate">Whether to update the stage list for selection forcibly</param>
+        /// <param name="stage">The stage to check.</param>
+        /// <returns>The valid stage or an empty string.</returns>
+        public string GetValidStage(string stage)
+        {
+            return IsStageOpen(stage) ? stage : string.Empty;
+        }
+
+        /// <summary>
+        /// Updates stage list.
+        /// 使用手动输入时，只更新关卡列表，不更新关卡选择
+        /// 使用隐藏当日不开放时，更新关卡列表，关卡选择为未开放的关卡时清空
+        /// 使用备选关卡时，更新关卡列表，关卡选择为未开放的关卡时在关卡列表中添加对应未开放关卡，避免清空导致进入上次关卡
+        /// 啥都不选时，更新关卡列表，关卡选择为未开放的关卡时在关卡列表中添加对应未开放关卡，避免清空导致进入上次关卡
+        /// 除手动输入外所有情况下，如果剩余理智为未开放的关卡，会被清空
+        /// </summary>
         // FIXME: 被注入对象只能在private函数内使用，只有Model显示之后才会被注入。如果Model还没有触发OnInitialActivate时调用函数会NullPointerException
         // 这个函数被列为public可见，意味着他注入对象前被调用
-        public void UpdateStageList(bool forceUpdate)
+        public void UpdateStageList()
         {
-            var hideUnavailableStage = Instances.SettingsViewModel.HideUnavailableStage;
-
-            // forceUpdate: initializing or actions changing, update stage list forcibly
-            if (!forceUpdate && !hideUnavailableStage)
-            {
-                return;
-            }
+            var settings = Instances.SettingsViewModel;
+            var hideUnavailableStage = settings.HideUnavailableStage;
+            var useAlternateStage = settings.UseAlternateStage;
 
             EnableSetFightParams = false;
 
@@ -697,24 +707,47 @@ namespace MaaWpfGui.ViewModels.UI
 
             RemainingSanityStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList())
             {
-                [0] = new() { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty },
+                [0] = new CombinedData { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty },
             };
 
-            // reset closed stages to "Last/Current"
-            if (!CustomStageCode)
+            if (CustomStageCode)
             {
-                stage1 = StageList.Any(x => x.Value == stage1) ? stage1 : string.Empty;
-                stage2 = AlternateStageList.Any(x => x.Value == stage2) ? stage2 : string.Empty;
-                stage3 = AlternateStageList.Any(x => x.Value == stage3) ? stage3 : string.Empty;
-                rss = RemainingSanityStageList.Any(x => x.Value == rss) ? rss : string.Empty;
+                // 7%
+                // 使用自定义的时候不做处理
+                _stage1Fallback = stage1;
+                Stage1 = stage1;
+                Stage2 = stage2;
+                Stage3 = stage3;
+                RemainingSanityStage = rss;
+
+                EnableSetFightParams = true;
+                return;
             }
-            else if (hideUnavailableStage)
+
+            if (hideUnavailableStage)
             {
-                stage1 = IsStageOpen(stage1) ? stage1 : string.Empty;
-                stage2 = IsStageOpen(stage2) ? stage2 : string.Empty;
-                stage3 = IsStageOpen(stage3) ? stage3 : string.Empty;
-                rss = IsStageOpen(rss) ? rss : string.Empty;
+                // 15%
+                stage1 = GetValidStage(stage1);
+                stage2 = GetValidStage(stage2);
+                stage3 = GetValidStage(stage3);
             }
+            else if (useAlternateStage)
+            {
+                // 11%
+                AddStagesIfNotExist([stage1, stage2, stage3]);
+            }
+            else
+            {
+                // 啥都没选
+                AddStageIfNotExist(stage1);
+
+                // 避免关闭了使用备用关卡后，始终添加备用关卡中的未开放关卡
+                stage2 = GetValidStage(stage2);
+                stage3 = GetValidStage(stage3);
+            }
+
+            // rss 如果结束后还选择了不开放的关卡，刷理智任务会报错
+            rss = IsStageOpen(rss) ? rss : string.Empty;
 
             _stage1Fallback = stage1;
             Stage1 = stage1;
@@ -723,6 +756,26 @@ namespace MaaWpfGui.ViewModels.UI
             RemainingSanityStage = rss;
 
             EnableSetFightParams = true;
+        }
+
+        private void AddStagesIfNotExist(IEnumerable<string> stages)
+        {
+            foreach (var stage in stages)
+            {
+                AddStageIfNotExist(stage);
+            }
+        }
+
+        private void AddStageIfNotExist(string stage)
+        {
+            if (StageList.Any(x => x.Value == stage))
+            {
+                return;
+            }
+
+            var stageInfo = _stageManager.GetStageInfo(stage);
+            StageList.Add(stageInfo);
+            AlternateStageList.Add(stageInfo);
         }
 
         private bool NeedToUpdateDatePrompt()
@@ -766,8 +819,7 @@ namespace MaaWpfGui.ViewModels.UI
             var builder = new StringBuilder(LocalizationHelper.GetString("TodaysStageTip") + "\n");
 
             // Closed activity stages
-            var stages = new[] { Stage1, Stage2, Stage3 };
-            foreach (var stage in stages)
+            foreach (var stage in Stages)
             {
                 if (stage == null || _stageManager.GetStageInfo(stage)?.IsActivityClosed() != true)
                 {
@@ -775,7 +827,6 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 builder.Append(stage).Append(": ").AppendLine(LocalizationHelper.GetString("ClosedStage"));
-                break;
             }
 
             // Open stages today
@@ -1065,6 +1116,10 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public async void LinkStart()
         {
+            await _stageManager.UpdateStageWeb();
+            UpdateDatePrompt();
+            UpdateStageList();
+            return;
             if (!_runningState.GetIdle())
             {
                 _logger.Information("Not idle, return.");
@@ -1426,7 +1481,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             if ((curStage == "Annihilation") && Instances.SettingsViewModel.UseAlternateStage)
             {
-                foreach (var stage in new[] { Stage1, Stage2, Stage3 })
+                foreach (var stage in Stages)
                 {
                     if (!IsStageOpen(stage) || (stage == curStage))
                     {
@@ -1548,13 +1603,13 @@ namespace MaaWpfGui.ViewModels.UI
 
         private readonly Dictionary<string, IEnumerable<string>> _blackCharacterListMapping = new()
         {
-            { string.Empty, new[] { "讯使", "嘉维尔", "坚雷" } },
-            { "Official", new[] { "讯使", "嘉维尔", "坚雷" } },
-            { "Bilibili", new[] { "讯使", "嘉维尔", "坚雷" } },
-            { "YoStarEN", new[] { "Courier", "Gavial", "Dur-nar" } },
-            { "YoStarJP", new[] { "クーリエ", "ガヴィル", "ジュナー" } },
-            { "YoStarKR", new[] { "쿠리어", "가비알", "듀나" } },
-            { "txwy", new[] { "訊使", "嘉維爾", "堅雷" } },
+            { string.Empty, ["讯使", "嘉维尔", "坚雷"] },
+            { "Official", ["讯使", "嘉维尔", "坚雷"] },
+            { "Bilibili", ["讯使", "嘉维尔", "坚雷"] },
+            { "YoStarEN", ["Courier", "Gavial", "Dur-nar"] },
+            { "YoStarJP", ["クーリエ", "ガヴィル", "ジュナー"] },
+            { "YoStarKR", ["쿠리어", "가비알", "듀나"] },
+            { "txwy", ["訊使", "嘉維爾", "堅雷"] },
         };
 
         private bool AppendMall()
@@ -2368,7 +2423,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public List<string> SeriesList { get; private set; } = ["1", "2", "3", "4", "5", "6"];
 
-        private ObservableCollection<CombinedData> _stageList = new();
+        private ObservableCollection<CombinedData> _stageList = [];
 
         /// <summary>
         /// Gets or private sets the list of stages.
@@ -2379,9 +2434,21 @@ namespace MaaWpfGui.ViewModels.UI
             private set => SetAndNotify(ref _stageList, value);
         }
 
-        public ObservableCollection<CombinedData> RemainingSanityStageList { get; private set; } = new();
+        private ObservableCollection<CombinedData> _remainingSanityStageList = [];
 
-        public ObservableCollection<CombinedData> AlternateStageList { get; private set; } = new();
+        public ObservableCollection<CombinedData> RemainingSanityStageList
+        {
+            get => _remainingSanityStageList;
+            private set => SetAndNotify(ref _remainingSanityStageList, value);
+        }
+
+        private ObservableCollection<CombinedData> _alternateStageList = [];
+
+        public ObservableCollection<CombinedData> AlternateStageList
+        {
+            get => _alternateStageList;
+            private set => SetAndNotify(ref _alternateStageList, value);
+        }
 
         /// <summary>
         /// Gets the stage.
@@ -2457,6 +2524,8 @@ namespace MaaWpfGui.ViewModels.UI
 
             return value;
         }
+
+        public string[] Stages => [Stage1, Stage2, Stage3];
 
         /// <remarks>Try to fix: issues#5742. 关卡选择为 null 时的一个补丁，可能是 StageList 改变后，wpf binding 延迟更新的问题。</remarks>
         private string _stage1Fallback = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty) ?? string.Empty;

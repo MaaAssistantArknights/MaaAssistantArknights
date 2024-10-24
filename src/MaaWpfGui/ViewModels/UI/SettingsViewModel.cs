@@ -1507,7 +1507,7 @@ namespace MaaWpfGui.ViewModels.UI
                 ResourceVersion = _resourceInfo.VersionName;
                 ResourceDateTime = _resourceInfo.DateTime;
                 UpdateWindowTitle(); // 每次修改客户端时更新WindowTitle
-                Instances.TaskQueueViewModel.UpdateStageList(true);
+                Instances.TaskQueueViewModel.UpdateStageList();
                 Instances.TaskQueueViewModel.UpdateDatePrompt();
                 Instances.AsstProxy.LoadResource();
                 AskRestartToApplySettings(_clientType is "YoStarEN");
@@ -3367,7 +3367,7 @@ namespace MaaWpfGui.ViewModels.UI
                     UseAlternateStage = false;
                 }
 
-                Instances.TaskQueueViewModel.UpdateStageList(true);
+                Instances.TaskQueueViewModel.UpdateStageList();
             }
         }
 
