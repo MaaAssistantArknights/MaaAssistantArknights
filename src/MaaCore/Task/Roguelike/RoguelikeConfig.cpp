@@ -40,12 +40,15 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
         // 点刺成锭分队特殊策略
         if (m_theme == "Sarkaz") {
             if (m_mode == RoguelikeMode::Investment && params.get("squad", "") == "点刺成锭分队") {
+                // 启用特殊策略，联动 RoguelikeRoutingTaskPlugin
                 Task.set_task_base(strategy_task, "Sarkaz@Roguelike@StrategyChange-FastInvestment");
+                // 禁用前 2 层的 <思维负荷干员编队> 功能
                 Task.set_task_base(
                     "Sarkaz@Roguelike@StageBurdenOperation",
                     "Sarkaz@Roguelike@StageBurdenOperation-None");
             }
             else {
+                // 启用前 2 层的 <思维负荷干员编队> 功能
                 Task.set_task_base(
                     "Sarkaz@Roguelike@StageBurdenOperation",
                     "Sarkaz@Roguelike@StageBurdenOperation-Start");
