@@ -3471,7 +3471,7 @@
         "roi": [544, 0, 210, 201],
         "maskRange": [1, 255],
         "action": "ClickRect",
-        "specificRect": [645, 665],
+        "specificRect": [645, 665, 0, 0],
         "postDelay": 1500,
         "next": ["CreditShop-Bought", "Stop"]
     },
@@ -10330,9 +10330,7 @@
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@CloseCollectionContinue",
             "Sarkaz@Roguelike@CloseCollectionClose",
-            "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart",
-            "Sarkaz@Roguelike@DecreaseBurdenChaos",
-            "Sarkaz@Roguelike@DecreaseBurdenRetardation",
+            "Sarkaz@Roguelike@StageBurdenOperation#next",
             "Sarkaz@Roguelike@StageBoskyPassage",
             "Sarkaz@Roguelike@StageEmergencyDps",
             "Sarkaz@Roguelike@StageCombatDps",
@@ -10356,6 +10354,22 @@
             "Sarkaz@Roguelike@StageDreadfulFoe-5"
         ]
     },
+    "Sarkaz@Roguelike@StageBurdenOperation": {
+        "doc": "#next 放入 Sarkaz@Roguelike@Stages 系列任务中，通过 set_task_base 启用/禁用 <思维负荷干员编队功能>",
+        "baseTask": "Sarkaz@Roguelike@StageBurdenOperation-Start"
+    },
+    "Sarkaz@Roguelike@StageBurdenOperation-None": {
+        "algorithm": "JustReturn",
+        "next": []
+    },
+    "Sarkaz@Roguelike@StageBurdenOperation-Start": {
+        "algorithm": "JustReturn",
+        "next": [
+            "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart",
+            "Sarkaz@Roguelike@DecreaseBurdenChaos",
+            "Sarkaz@Roguelike@DecreaseBurdenRetardation"
+        ]
+    },
     "Sarkaz@Roguelike@Stages_default": {
         "Doc": "avoid battle,其他模式和5-6层策略",
         "algorithm": "JustReturn",
@@ -10363,9 +10377,7 @@
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@CloseCollectionContinue",
             "Sarkaz@Roguelike@CloseCollectionClose",
-            "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart",
-            "Sarkaz@Roguelike@DecreaseBurdenChaos",
-            "Sarkaz@Roguelike@DecreaseBurdenRetardation",
+            "Sarkaz@Roguelike@StageBurdenOperation#next",
             "Sarkaz@Roguelike@StageBoskyPassage",
             "Sarkaz@Roguelike@StageTraderHD",
             "Sarkaz@Roguelike@StageTrader",

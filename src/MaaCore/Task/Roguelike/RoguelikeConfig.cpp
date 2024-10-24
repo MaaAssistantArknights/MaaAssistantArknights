@@ -38,8 +38,18 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
         Task.set_task_base(strategy_task, strategy_task_with_mode);
 
         // 点刺成锭分队特殊策略
-        if (m_theme == "Sarkaz" && m_mode == RoguelikeMode::Investment && params.get("squad", "") == "点刺成锭分队") {
-            Task.set_task_base(strategy_task, "Sarkaz@Roguelike@StrategyChange-FastInvestment");
+        if (m_theme == "Sarkaz") {
+            if (m_mode == RoguelikeMode::Investment && params.get("squad", "") == "点刺成锭分队") {
+                Task.set_task_base(strategy_task, "Sarkaz@Roguelike@StrategyChange-FastInvestment");
+                Task.set_task_base(
+                    "Sarkaz@Roguelike@StageBurdenOperation",
+                    "Sarkaz@Roguelike@StageBurdenOperation-None");
+            }
+            else {
+                Task.set_task_base(
+                    "Sarkaz@Roguelike@StageBurdenOperation",
+                    "Sarkaz@Roguelike@StageBurdenOperation-Start");
+            }
         }
     }
 
