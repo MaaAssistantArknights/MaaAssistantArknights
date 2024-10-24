@@ -6319,8 +6319,9 @@
         "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
         "next": [
             "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp",
-            "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText",
-            "Sarkaz@Roguelike@RecruitSkip#next"
+            "Sarkaz@Roguelike@RecruitOther",
+            "Sarkaz@Roguelike@EnterAfterRecruit",
+            "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText"
         ]
     },
     "Roguelike@ChooseOperFlag": {
@@ -9770,6 +9771,10 @@
         ],
         "next": ["Sarkaz@Roguelike@RoutingAction"]
     },
+    "Sarkaz@Roguelike@Routing-FastInvestment": {
+        "template": ["Sarkaz@Roguelike@StageCombatDps"],
+        "next": ["Sarkaz@Roguelike@RoutingAction"]
+    },
     "Sarkaz@Roguelike@RoutingAction": {
         "algorithm": "JustReturn"
     },
@@ -10408,7 +10413,7 @@
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@CloseCollectionContinue",
             "Sarkaz@Roguelike@CloseCollectionClose",
-            "Sarkaz@Roguelike@Routing"
+            "Sarkaz@Roguelike@Routing-FastInvestment"
         ]
     },
     "Sarkaz@Roguelike@Stages_pragmatic": {

@@ -64,7 +64,13 @@ bool asst::RoguelikeRoutingTaskPlugin::verify(const AsstMsg msg, const json::val
         return false;
     }
 
-    const std::string& task_name = details.get("details", "task", "");
+    std::string task_name = details.get("details", "task", "");
+
+    // trigger 任务的名字可以为 "...@Roguelike@Routing-..." 的形式
+    if (const size_t pos = task_name.find('-'); pos != std::string::npos) {
+        task_name = task_name.substr(0, pos);
+    }
+
     if (task_name == m_config->get_theme() + "@Roguelike@Routing") {
         return true;
     }
