@@ -2639,7 +2639,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _reclamationToolToCraft = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationToolToCraft, string.Empty);
+        private string _reclamationToolToCraft = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationToolToCraft, LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", _clientLanguageMapper[ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty)]));
 
         public string ReclamationToolToCraft
         {
@@ -2870,7 +2870,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _creditFirstList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFirstListNew, LocalizationHelper.GetString("HighPriorityDefault"));
+        private string _creditFirstList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFirstListNew, LocalizationHelper.GetString("HighPriorityDefault", _clientLanguageMapper[ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty)]));
 
         /// <summary>
         /// Gets or sets the priority item list of credit shop.
@@ -2885,7 +2885,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _creditBlackList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditBlackListNew, LocalizationHelper.GetString("BlacklistDefault"));
+        private string _creditBlackList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditBlackListNew, LocalizationHelper.GetString("BlacklistDefault", _clientLanguageMapper[ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty)]));
 
         /// <summary>
         /// Gets or sets the blacklist of credit shop.
