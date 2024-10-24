@@ -697,12 +697,7 @@ namespace MaaWpfGui.Main
                         // 对剿灭的特殊处理，如果刷完了剿灭还选了剿灭会因为找不到入口报错
                         if (taskChain == "Fight" && (Instances.TaskQueueViewModel.Stage == "Annihilation"))
                         {
-                            if (new[]
-                                {
-                                    Instances.TaskQueueViewModel.Stage1,
-                                    Instances.TaskQueueViewModel.Stage2,
-                                    Instances.TaskQueueViewModel.Stage3,
-                                }.Any(stage => Instances.TaskQueueViewModel.IsStageOpen(stage) && (stage != "Annihilation")))
+                            if (Instances.TaskQueueViewModel.Stages.Any(stage => Instances.TaskQueueViewModel.IsStageOpen(stage) && (stage != "Annihilation")))
                             {
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
                             }
