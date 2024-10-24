@@ -2064,6 +2064,9 @@ namespace MaaWpfGui.ViewModels.UI
                         new() { Display = LocalizationHelper.GetString("IS4NewSquad2"), Value = "博闻广记分队" },
                         new() { Display = LocalizationHelper.GetString("IS4NewSquad3"), Value = "蓝图测绘分队" },
                         new() { Display = LocalizationHelper.GetString("IS4NewSquad4"), Value = "因地制宜分队" },
+                        new() { Display = LocalizationHelper.GetString("IS4NewSquad5"), Value = "异想天开分队" },
+                        new() { Display = LocalizationHelper.GetString("IS4NewSquad6"), Value = "点刺成锭分队" },
+                        new() { Display = LocalizationHelper.GetString("IS4NewSquad7"), Value = "拟态学者分队" },
                     })
                     {
                         RoguelikeSquadList.Add(item);

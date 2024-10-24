@@ -96,12 +96,14 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
         analyzer.set_required({ m_customs[RoguelikeCustomType::Squad] });
 
         if (!analyzer.analyze()) {
-            ProcessTask(*this, { "SlowlySwipeToTheRight" }).run();
+            ProcessTask(*this, { "Roguelike@SquadSlowlySwipeToTheRight" }).run();
             sleep(Task.get("RoguelikeCustom-HijackSquad")->post_delay);
             continue;
         }
         const auto& rect = analyzer.get_result().front().rect;
         ctrler()->click(rect);
+
+        m_config->set_squad(m_customs[RoguelikeCustomType::Squad]);
         return true;
     }
     ProcessTask(*this, { "SwipeToTheLeft" }).run();
@@ -156,6 +158,5 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
     m_config->set_use_support(m_customs[RoguelikeCustomType::UseSupport] == "1");
     m_config->set_use_nonfriend_support(m_customs[RoguelikeCustomType::UseNonfriendSupport] == "1");
     m_config->set_core_char(char_name);
-    m_config->set_squad(m_customs[RoguelikeCustomType::Squad]);
     return true;
 }
