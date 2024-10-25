@@ -185,7 +185,7 @@
                     Margin="5"
                     Command="{s:Action LinkStart}"
                     Content="{DynamicResource LinkStart}"
-                    IsEnabled="{Binding Inited}"
+                    IsEnabled="{c:Binding 'Inited and !TaskSettingVisibilities.Guide'}"
                     Visibility="{c:Binding '!Inited or (Idle and !Stopping)'}" />
                 <Button
                     Width="100"
@@ -285,7 +285,8 @@
                 Width="220"
                 Margin="0,0,10,0"
                 Orientation="Horizontal"
-                Visibility="{c:Binding !TaskSettingVisibilities.AfterAction, FalseToVisibility=Hidden}">
+                Visibility="{c:Binding !TaskSettingVisibilities.AfterAction,
+                                       FalseToVisibility=Hidden}">
                 <RadioButton
                     Content="{DynamicResource GeneralSettings}"
                     IsChecked="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}"
