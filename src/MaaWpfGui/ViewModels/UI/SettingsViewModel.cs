@@ -1501,18 +1501,20 @@ namespace MaaWpfGui.ViewModels.UI
             get => _clientType;
             set
             {
-                // Related to _clientRelatedFields, search it
-                if (_creditFirstList == LocalizationHelper.GetString("HighPriorityDefault", _clientLanguageMapper[_clientType]))
+                // 以下是一些与服务器选项相关的字段，更改 ClientType 后需要一并更改
+                // 此处检测它们是否为默认值，如为默认值则改为对应服务器的内容
+                // 全部字段暂时放在 _clientRelatedFields 中，但这个变量本身并没有用
+                if (_creditFirstList == LocalizationHelper.GetString("HighPriorityDefault", _clientLanguageMapper[_clientType]) || _creditFirstList == LocalizationHelper.GetString("HighPriorityDefault"))
                 {
                     ConfigurationHelper.SetValue(ConfigurationKeys.CreditFirstListNew, LocalizationHelper.GetString("HighPriorityDefault", _clientLanguageMapper[value]));
                 }
 
-                if (_creditBlackList == LocalizationHelper.GetString("BlacklistDefault", _clientLanguageMapper[_clientType]))
+                if (_creditBlackList == LocalizationHelper.GetString("BlacklistDefault", _clientLanguageMapper[_clientType]) || _creditBlackList == LocalizationHelper.GetString("BlacklistDefault"))
                 {
                     ConfigurationHelper.SetValue(ConfigurationKeys.CreditBlackListNew, LocalizationHelper.GetString("BlacklistDefault", _clientLanguageMapper[value]));
                 }
 
-                if (_reclamationToolToCraft == LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", _clientLanguageMapper[_clientType]))
+                if (_reclamationToolToCraft == LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", _clientLanguageMapper[_clientType]) || _reclamationToolToCraft == LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder"))
                 {
                     ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationToolToCraft, LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", _clientLanguageMapper[value]));
                 }
