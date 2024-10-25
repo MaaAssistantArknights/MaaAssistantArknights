@@ -211,6 +211,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void InitRoguelike()
         {
+            UpdateRoguelikeDifficultyList();
             UpdateRoguelikeModeList();
             UpdateRoguelikeSquadList();
             UpdateRoguelikeCoreCharList();
@@ -1977,6 +1978,20 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region 肉鸽设置
 
+        private void UpdateRoguelikeDifficultyList()
+        {
+            RoguelikeDifficultyList = new ObservableCollection<CombinedData>();
+
+            if (RoguelikeTheme != "Phantom")
+            {
+                for (int i = 0; i <= 15; ++i)
+                {
+                    var value = i.ToString();
+                    RoguelikeDifficultyList.Add(new CombinedData { Display = value, Value = value });
+                }
+            }
+        }
+
         private void UpdateRoguelikeModeList()
         {
             var roguelikeMode = RoguelikeMode;
@@ -2155,6 +2170,14 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = LocalizationHelper.GetString("RoguelikeThemeSarkaz"), Value = "Sarkaz" },
             ];
 
+        private ObservableCollection<CombinedData> _roguelikeDifficultyList = new();
+
+        public ObservableCollection<CombinedData> RoguelikeDifficultyList
+        {
+            get => _roguelikeDifficultyList;
+            set => SetAndNotify(ref _roguelikeDifficultyList, value);
+        }
+
         private ObservableCollection<CombinedData> _roguelikeModeList = new();
 
         /// <summary>
@@ -2201,12 +2224,26 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _roguelikeTheme, value);
+                UpdateRoguelikeDifficultyList();
                 UpdateRoguelikeModeList();
                 UpdateRoguelikeSquadList();
                 UpdateRoguelikeCoreCharList();
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeTheme, value);
             }
         }
+        public string RoguelikeDifficulty
+        {
+            get => _roguelikeDifficulty;
+            set
+            {
+                SetAndNotify(ref _roguelikeDifficulty, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDifficulty, value);
+            }
+        }
+
+        private string _roguelikeDifficulty = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDifficulty, "0");
+
+
 
         private string _roguelikeMode = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMode, "0");
 

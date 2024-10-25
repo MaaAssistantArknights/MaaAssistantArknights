@@ -298,6 +298,7 @@
     <system:String x:Key="RoguelikeThemeMizuki">미즈키</system:String>
     <system:String x:Key="RoguelikeThemeSami">사미</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">살카즈</system:String>
+    <system:String x:Key="RoguelikeDifficulty">难度</system:String>
     <system:String x:Key="Strategy">전략</system:String>
     <system:String x:Key="StartTimesLimit">N번 시작한 후 작업 중지</system:String>
     <system:String x:Key="GoldTimesLimit">N번 투자 후 작업 중지</system:String>

@@ -120,6 +120,7 @@ namespace MaaWpfGui.Constants
         public const string RemainingSanityStage = "Fight.RemainingSanityStage";
 
         public const string RoguelikeTheme = "Roguelike.RoguelikeTheme";
+        public const string RoguelikeDifficulty = "Roguelike.Difficulty";
         public const string RoguelikeMode = "Roguelike.Mode";
         public const string RoguelikeSquad = "Roguelike.Squad";
         public const string RoguelikeRoles = "Roguelike.Roles";
