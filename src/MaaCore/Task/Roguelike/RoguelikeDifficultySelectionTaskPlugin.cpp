@@ -54,7 +54,8 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::_run()
             for (int i = 20; i >= difficulty; --i) {
                 difficulty_list.push_back(std::to_string(i));
             }
-            Task.get<OcrTaskInfo>(m_config->get_theme() + "@Roguelike@ChooseDifficulty_specified")->text = difficulty_list;
+            Task.get<OcrTaskInfo>(m_config->get_theme() + "@Roguelike@ChooseDifficulty_specified")->text =
+                difficulty_list;
             ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficulty_specified" }).run();
         }
         ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficultyConfirm" }).run();
