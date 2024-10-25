@@ -5135,6 +5135,7 @@
             ["[Oo]", "0"],
             ["[Ii]", "1"],
             ["[Ll]", "1"],
+            ["\\|", "1"],
             ["B", "8"],
             ["十", "+"],
             ["萬", "万"],
@@ -6286,6 +6287,18 @@
         "action": "ClickSelf",
         "roi": [1061, 373, 208, 71],
         "next": ["Roguelike@StartExplore"]
+    },
+    "Roguelike@ChooseDifficulty_specified": {
+        "Doc": "base_task",
+        "baseTask": "NumberOcrReplace",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "fullMatch": true,
+        "isAscii": true,
+        "roi": [400, 450, 225, 160],
+        "text": [],
+        "postDelay": 800,
+        "next": ["#self", "Stop"]
     },
     "Roguelike@ChooseDifficultyConfirm": {
         "algorithm": "OcrDetect",
@@ -7643,6 +7656,9 @@
         "roi": [1026, 470, 254, 248],
         "sub": ["SwipeToTheDown*2"]
     },
+    "Mizuki@Roguelike@ChooseDifficulty_specified": {
+        "baseTask": "Roguelike@ChooseDifficulty_specified"
+    },
     "Mizuki@Roguelike@ChooseOper": {
         "next": [
             "Mizuki@Roguelike@CloseCollectionContinue",
@@ -8191,6 +8207,9 @@
         "template": "Sami@Roguelike@StartExplore.png",
         "roi": [958, 530, 322, 189],
         "sub": ["SwipeToTheDown*2"]
+    },
+    "Sami@Roguelike@ChooseDifficulty_specified": {
+        "baseTask": "Roguelike@ChooseDifficulty_specified"
     },
     "Sami@Roguelike@ChooseOper": {
         "next": [
@@ -9416,6 +9435,9 @@
         "template": "Sarkaz@Roguelike@StartExplore.png",
         "roi": [958, 530, 322, 189],
         "sub": ["SwipeToTheDown*2"]
+    },
+    "Sarkaz@Roguelike@ChooseDifficulty_specified": {
+        "baseTask": "Roguelike@ChooseDifficulty_specified"
     },
     "Sarkaz@Roguelike@ChooseOper": {
         "next": [
