@@ -70,6 +70,10 @@ public:
 
     int get_difficulty() const { return m_difficulty; }
 
+    void set_next_difficulty(int next_difficulty) { m_next_difficulty = next_difficulty; }
+
+    int get_next_difficulty() const { return m_next_difficulty; }
+
     void set_squad(std::string squad) { m_squad = std::move(squad); }
 
     const std::string& get_squad() const { return m_squad; }
@@ -92,6 +96,7 @@ private:
     std::string m_theme;                       // 主题
     RoguelikeMode m_mode = RoguelikeMode::Exp; // 模式
     int m_difficulty = 0;                      // 难度
+    int m_next_difficulty= 0;                  // 下次开局目标难度
     std::string m_squad;                       // 分队
 
     // ------------------ 开局 ------------------

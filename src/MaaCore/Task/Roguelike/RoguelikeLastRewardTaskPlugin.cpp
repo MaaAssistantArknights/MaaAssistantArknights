@@ -60,7 +60,7 @@ bool asst::RoguelikeLastRewardTaskPlugin::_run()
     bool start_with_elite_two = m_config->get_start_with_elite_two();
     if (m_config->get_theme() != RoguelikeTheme::Phantom && mode == RoguelikeMode::Collectible) {
         if (m_is_next_hardest) {
-            m_config->set_difficulty(INT_MAX);
+            m_config->set_next_difficulty(m_config->get_difficulty());
             // 获得热水壶和演讲时停止肉鸽（凹直升则继续），获得其他奖励时重开
             std::string last_reward_stop_or_continue =
                 start_with_elite_two ? "Roguelike@LastReward_default" : "Roguelike@LastReward_stop";
@@ -71,7 +71,7 @@ bool asst::RoguelikeLastRewardTaskPlugin::_run()
             Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_restart");
         }
         else {
-            m_config->set_difficulty(0);
+            m_config->set_next_difficulty(0);
             // 重置开局奖励 next，获得任意奖励均继续
             Task.set_task_base("Roguelike@LastReward", "Roguelike@LastReward_default");
             Task.set_task_base("Roguelike@LastReward2", "Roguelike@LastReward_default");

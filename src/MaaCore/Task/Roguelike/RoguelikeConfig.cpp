@@ -20,7 +20,9 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
 
     m_theme = theme;
     m_mode = mode;
-    m_difficulty = 0;
+
+    m_difficulty = params.get("difficulty", 0);
+    m_next_difficulty = m_difficulty;
 
     // 凹指定干员开局直升
     m_start_with_elite_two = params.get("start_with_elite_two", false);

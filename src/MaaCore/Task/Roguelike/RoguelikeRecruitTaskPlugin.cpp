@@ -529,7 +529,7 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
                     else {
                         // 非只凹直升时重置难度并放弃
                         if (!only_start_with_elite_two) {
-                            m_config->set_difficulty(0);
+                            m_config->set_next_difficulty(0);
                         }
                         m_control_ptr->exit_then_stop();
                     }
