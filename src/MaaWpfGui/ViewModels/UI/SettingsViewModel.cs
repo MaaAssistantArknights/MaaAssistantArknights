@@ -1501,6 +1501,22 @@ namespace MaaWpfGui.ViewModels.UI
             get => _clientType;
             set
             {
+                // Related to _clientRelatedFields, search it
+                if (_creditFirstList == LocalizationHelper.GetString("HighPriorityDefault", _clientLanguageMapper[_clientType]))
+                {
+                    ConfigurationHelper.SetValue(ConfigurationKeys.CreditFirstListNew, LocalizationHelper.GetString("HighPriorityDefault", _clientLanguageMapper[value]));
+                }
+
+                if (_creditBlackList == LocalizationHelper.GetString("BlacklistDefault", _clientLanguageMapper[_clientType]))
+                {
+                    ConfigurationHelper.SetValue(ConfigurationKeys.CreditBlackListNew, LocalizationHelper.GetString("BlacklistDefault", _clientLanguageMapper[value]));
+                }
+
+                if (_reclamationToolToCraft == LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", _clientLanguageMapper[_clientType]))
+                {
+                    ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationToolToCraft, LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", _clientLanguageMapper[value]));
+                }
+
                 SetAndNotify(ref _clientType, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ClientType, value);
                 _resourceInfo = GetResourceVersionByClientType(_clientType);
@@ -5378,6 +5394,10 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        // 没办法使用的列表，用于提醒和 client 相关的需要修改的内容
+        // private static readonly List<string> _clientRelatedFields = new() { nameof(_reclamationToolToCraft), nameof(_creditFirstList), nameof(_creditBlackList) };
+
+        // Map of client and language
         private static readonly Dictionary<string, string> _clientLanguageMapper = new()
         {
             { string.Empty, "zh-cn" },
