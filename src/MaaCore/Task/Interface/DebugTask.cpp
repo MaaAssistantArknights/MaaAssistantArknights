@@ -9,6 +9,7 @@
 #include "Utils/NoWarningCV.h"
 #include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Battle/BattlefieldMatcher.h"
+#include "Vision/FeatureMatcher.h"
 #include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/DepotImageAnalyzer.h"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
@@ -23,6 +24,21 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
 
 bool asst::DebugTask::run()
 {
+    auto temp = imread(utils::path(
+        "D:/My_Program/Visual_Studio/MaaAssistantArknights/resource/template/AccountManagerListAccountBili2.png"));
+    auto img =
+        imread(utils::path("C:/Users/status102/Nox_share/ImageShare/Screenshots/Screenshot_20231118-220105.png"));
+    auto img2 = imread(utils::path("C:/Users/status102/Desktop/login.png"));
+
+    FeatureMatcher fm(img2);
+    fm.set_templ(temp);
+    fm.set_roi({ 760, 290, 40, 40 });
+    [[maybe_unused]] auto fres = fm.analyze();
+
+    Matcher match(img);
+    match.set_templ(temp);
+    match.set_threshold(0.7);
+    [[maybe_unused]] auto res = match.analyze();
     return true;
 }
 
