@@ -5601,10 +5601,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _guideStepIndex, value);
-                if (value == GuideMaxStep)
-                {
-                    ConfigurationHelper.SetValue(ConfigurationKeys.GuideStepIndex, value.ToString());
-                }
+                ConfigurationHelper.SetValue(ConfigurationKeys.GuideStepIndex, value.ToString());
             }
         }
 
