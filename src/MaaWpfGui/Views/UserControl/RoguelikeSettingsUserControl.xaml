@@ -29,6 +29,16 @@
                 Style="{StaticResource ComboBoxExtend}" />
             <ComboBox
                 Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource RoguelikeDifficulty}"
+                DisplayMemberPath="Display"
+                IsHitTestVisible="{Binding Path=Idle}"
+                ItemsSource="{Binding RoguelikeDifficultyList}"
+                SelectedValue="{Binding RoguelikeDifficulty}"
+                SelectedValuePath="Value"
+                Style="{StaticResource ComboBoxExtend}"
+                IsEnabled="{c:Binding 'RoguelikeTheme != &quot;Phantom&quot;'}" />
+            <ComboBox
+                Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource Strategy}"
                 DisplayMemberPath="Display"
                 IsHitTestVisible="{Binding Path=Idle}"
