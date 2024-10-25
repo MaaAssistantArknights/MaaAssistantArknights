@@ -96,7 +96,7 @@ private:
     std::string m_theme;                       // 主题
     RoguelikeMode m_mode = RoguelikeMode::Exp; // 模式
     int m_difficulty = 0;                      // 难度
-    int m_next_difficulty= 0;                  // 下次开局目标难度
+    int m_next_difficulty = 0;                 // 下次开局目标难度
     std::string m_squad;                       // 分队
 
     // ------------------ 开局 ------------------

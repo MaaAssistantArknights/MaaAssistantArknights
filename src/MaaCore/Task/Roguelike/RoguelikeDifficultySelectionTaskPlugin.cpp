@@ -92,8 +92,7 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::select_difficulty(const int d
         if (current_difficulty_analyzer.analyze()) {
             const std::string current_difficulty_text = current_difficulty_analyzer.get_result().front().text;
             Log.debug(__FUNCTION__, "| Current difficulty text is", current_difficulty_text);
-            if (!utils::chars_to_number(current_difficulty_text, m_current_difficulty))
-            {
+            if (!utils::chars_to_number(current_difficulty_text, m_current_difficulty)) {
                 Log.error("Fail to convert current difficulty text to int, reset current difficulty to -1");
                 m_current_difficulty = -1;
             }
