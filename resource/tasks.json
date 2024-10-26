@@ -96,7 +96,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [],
-        "roi": [142, 43, 210, 274],
+        "roi": [142, 43, 250, 150],
         "next": ["#back", "#self", "Stop"]
     },
     "ClickChapter1": {
@@ -113,15 +113,15 @@
     },
     "ToChapter1": {
         "algorithm": "JustReturn",
-        "next": ["ClickChapter1@ClickChapter2@ClickChapter3", "ClickChapter1@ClickChapter2", "ClickChapter1"]
+        "next": ["ClickChapter1@ClickChapter2@ClickChapter3", "ClickChapter1@ClickChapter2", "ClickChapter1", "Stop"]
     },
     "ToChapter2": {
         "algorithm": "JustReturn",
-        "next": ["ClickChapter2@ClickChapter3", "ClickChapter2"]
+        "next": ["ClickChapter2@ClickChapter3", "ClickChapter2", "Stop"]
     },
     "ToChapter3": {
         "algorithm": "JustReturn",
-        "next": ["ClickChapter3"]
+        "next": ["ClickChapter3", "Stop"]
     },
     "EpisodeOcrReplace": {
         "Doc": "base_task",
