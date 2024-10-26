@@ -679,7 +679,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorSolutionFailedToMove">ファイルが占有されています。コンピュータを再起動して再試行してください。</system:String>
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">リンクを開けませんでした。Windows 設定に移動してデフォルトのブラウザを選択してください。</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">GitHub issueを作成する</system:String>
-    <system:String x:Key="ErrorQqGroupLinkText">QQグループに参加して問題をフィードバックする</system:String>
+    <system:String x:Key="ErrorQqGroupLinkText">QQグループに入ります</system:String>
     <system:String x:Key="CopyErrorMessage">エラー情報をコピーする</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
