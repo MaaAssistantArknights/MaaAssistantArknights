@@ -915,6 +915,6 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ReclamationToolToCraftPlaceholder">螢光棒</system:String>
     <!--  !Reclamation  -->
     <!--  SingleInstance  -->
-    <system:String x:Key="MultiInstanceUnderSamePath">同一路徑下只能啟動一個實例！</system:String>
+    <system:String x:Key="MultiInstanceUnderSamePath">同一路徑下只能啟動一個實例！ 如需多開MAA，請複製一份新的MAA到其他資料夾下，並設定使用不同的MAA，相同的adb和不同的模擬器地址進行多開操作。</system:String>
     <!--  !SingleInstance  -->
 </ResourceDictionary>

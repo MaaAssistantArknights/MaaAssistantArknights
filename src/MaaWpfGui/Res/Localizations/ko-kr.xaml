@@ -912,6 +912,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationToolToCraftPlaceholder">형광봉 (荧光棒)</system:String>
     <!--  !Reclamation  -->
     <!--  SingleInstance  -->
-    <system:String x:Key="MultiInstanceUnderSamePath">동일한 경로에는 하나의 인스턴스만 실행할 수 있습니다!</system:String>
+    <system:String x:Key="MultiInstanceUnderSamePath">동일한 경로에서 하나의 인스턴스만 시작할 수 있습니다!MAA를 더 열려면 새 MAA를 다른 폴더로 복사하고 다른 MAA, 같은 adb 및 다른 에뮬레이터 주소를 사용하여 다중 열 수 있도록 설정합니다.</system:String>
     <!--  !SingleInstance  -->
 </ResourceDictionary>
