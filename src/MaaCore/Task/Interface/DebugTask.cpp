@@ -13,7 +13,10 @@
 #include "Vision/Miscellaneous/DepotImageAnalyzer.h"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
 
-asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) : InterfaceTask(callback, inst, TaskType) {}
+asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
+    InterfaceTask(callback, inst, TaskType)
+{
+}
 
 bool asst::DebugTask::run()
 {

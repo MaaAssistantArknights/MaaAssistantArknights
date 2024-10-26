@@ -48,8 +48,12 @@ bool asst::RecruitImageAnalyzer::time_analyze()
     MultiMatcher decrement_a(m_image);
     decrement_a.set_task_info("RecruitTimerDecrement");
     auto result_opt = decrement_a.analyze();
-    if (!result_opt) return false;
-    if (result_opt->size() != 2) return false; // expecting two buttons
+    if (!result_opt) {
+        return false;
+    }
+    if (result_opt->size() != 2) {
+        return false; // expecting two buttons
+    }
     sort_by_horizontal_(*result_opt);
     m_hour_decrement = result_opt->at(0).rect;
     m_minute_decrement = result_opt->at(1).rect;

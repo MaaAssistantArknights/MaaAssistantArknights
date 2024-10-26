@@ -3,9 +3,11 @@
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 
-asst::ScreenshotTaskPlugin::ScreenshotTaskPlugin(const AsstCallback& callback, Assistant* inst,
-                                                 std::string_view task_chain)
-    : AbstractTaskPlugin(callback, inst, task_chain)
+asst::ScreenshotTaskPlugin::ScreenshotTaskPlugin(
+    const AsstCallback& callback,
+    Assistant* inst,
+    std::string_view task_chain) :
+    AbstractTaskPlugin(callback, inst, task_chain)
 {
     m_screenshot_tasks.clear();
     if (auto ptr = Task.get(config_name)) {

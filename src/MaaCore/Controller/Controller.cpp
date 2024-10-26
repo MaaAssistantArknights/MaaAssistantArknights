@@ -28,10 +28,10 @@
 #include "Common/AsstTypes.h"
 #include "Utils/Logger.hpp"
 
-asst::Controller::Controller(const AsstCallback& callback, Assistant* inst)
-    : InstHelper(inst)
-    , m_callback(callback)
-    , m_rand_engine(std::random_device {}())
+asst::Controller::Controller(const AsstCallback& callback, Assistant* inst) :
+    InstHelper(inst),
+    m_callback(callback),
+    m_rand_engine(std::random_device {}())
 {
     LogTraceFunction;
 }
@@ -219,10 +219,7 @@ asst::ControlFeat::Feat asst::Controller::support_features()
     return m_controller->support_features();
 }
 
-bool asst::Controller::connect(
-    const std::string& adb_path,
-    const std::string& address,
-    const std::string& config)
+bool asst::Controller::connect(const std::string& adb_path, const std::string& address, const std::string& config)
 {
     LogTraceFunction;
 
@@ -264,8 +261,7 @@ bool asst::Controller::connect(
     };
 
     try {
-        m_scale_proxy =
-            std::make_shared<ControlScaleProxy>(m_controller, m_controller_type, proxy_callback);
+        m_scale_proxy = std::make_shared<ControlScaleProxy>(m_controller, m_controller_type, proxy_callback);
     }
     catch (const std::exception& e) {
         Log.error("Cannot create controller proxy: {}", e.what());

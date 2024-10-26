@@ -13,7 +13,7 @@ As of MAA v5.7.0, the supported emulators and connection addresses for detection
 
 - BlueStacks 5: `127.0.0.1:5555/5556/5565/5575/5585/5595/5554`
 - MuMu Player 12: `127.0.0.1:16384/16416/16448/16480/16512/16544/16576`
-- LDPlayer 9: `emulator-5554/5556/5558/5560`, `127.0.0.1:5555/5556/5554`
+- LDPlayer 9: `emulator-5554/5556/5558/5560`, `127.0.0.1:5555/5557/5559/5561`
 - NoxPlayer: `127.0.0.1:62001/59865`
 - Memu Play: `127.0.0.1:21503`
 

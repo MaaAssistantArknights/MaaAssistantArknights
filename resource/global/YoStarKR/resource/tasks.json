@@ -1273,7 +1273,8 @@
         "text": ["생존", "연산"]
     },
     "RecruitSupportConfirm": {
-        "text": ["지원"]
+        "ocrReplace": [[".?(원|운)유.?", "지원유닛"]],
+        "text": ["지원", "유닛"]
     },
     "RoguelikeChooseSupportBtnOcr": {
         "text": ["지원"]

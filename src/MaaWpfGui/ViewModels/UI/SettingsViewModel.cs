@@ -4571,7 +4571,7 @@ namespace MaaWpfGui.ViewModels.UI
             { "General", [string.Empty] },
             { "BlueStacks", ["127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5565", "127.0.0.1:5575", "127.0.0.1:5585", "127.0.0.1:5595", "127.0.0.1:5554"] },
             { "MuMuEmulator12", ["127.0.0.1:16384", "127.0.0.1:16416", "127.0.0.1:16448", "127.0.0.1:16480", "127.0.0.1:16512", "127.0.0.1:16544", "127.0.0.1:16576"] },
-            { "LDPlayer", ["emulator-5554", "emulator-5556", "emulator-5558", "emulator-5560", "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5554"] },
+            { "LDPlayer", ["emulator-5554", "emulator-5556", "emulator-5558", "emulator-5560", "127.0.0.1:5555", "127.0.0.1:5557", "127.0.0.1:5559", "127.0.0.1:5561"] },
             { "Nox", ["127.0.0.1:62001", "127.0.0.1:59865"] },
             { "XYAZ", ["127.0.0.1:21503"] },
             { "WSA", ["127.0.0.1:58526"] },
@@ -5601,10 +5601,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _guideStepIndex, value);
-                if (value == GuideMaxStep)
-                {
-                    ConfigurationHelper.SetValue(ConfigurationKeys.GuideStepIndex, value.ToString());
-                }
+                ConfigurationHelper.SetValue(ConfigurationKeys.GuideStepIndex, value.ToString());
             }
         }
 

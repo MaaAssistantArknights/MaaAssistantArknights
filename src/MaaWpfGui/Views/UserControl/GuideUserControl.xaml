@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:styles="clr-namespace:MaaWpfGui.Styles"
@@ -83,9 +84,7 @@
                         Visibility="{c:Binding 'GuideStepIndex > 2'}" />
                 </StackPanel>
 
-                <ScrollViewer
-                    VerticalScrollBarVisibility="Auto"
-                    Margin="10,20,10,20">
+                <ScrollViewer Margin="10,20,10,20" VerticalScrollBarVisibility="Auto">
                     <hc:SimplePanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <hc:TransitioningContentControl
                             Width="240"
@@ -115,9 +114,7 @@
                             </hc:UniformSpacingPanel>
                         </hc:TransitioningContentControl>
 
-                        <hc:TransitioningContentControl
-                            TransitionMode="{Binding GuideTransitionMode}"
-                            Visibility="{c:Binding 'GuideStepIndex == 1'}">
+                        <hc:TransitioningContentControl TransitionMode="{Binding GuideTransitionMode}" Visibility="{c:Binding 'GuideStepIndex == 1'}">
                             <userControl:GameClientUserControl />
                         </hc:TransitioningContentControl>
 
@@ -146,8 +143,7 @@
                                     BorderBrush="{DynamicResource BorderBrush}"
                                     BorderThickness="1"
                                     CornerRadius="4">
-                                    <TextBlock Text="{DynamicResource PerformBattles}"
-                                        ToolTip="{DynamicResource CheckBoxesNotSaved}" />
+                                    <TextBlock Text="{DynamicResource PerformBattles}" ToolTip="{DynamicResource CheckBoxesNotSaved}" />
                                 </Border>
                                 <Border
                                     Name="Task"
@@ -163,7 +159,9 @@
                                         <CheckBox
                                             Width="180"
                                             Content="{DynamicResource Combat}"
-                                            ToolTip="{DynamicResource LabelSequenceTip}" />
+                                            MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                                          Target={x:Type helper:CheckBoxHelper}}"
+                                            ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
                                         <hc:ButtonGroup>
                                             <RadioButton
                                                 hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
@@ -218,8 +216,7 @@
                                     Width="220"
                                     hc:RelativePanel.Below="{Binding ElementName=GeneralSettingsGuide}"
                                     Orientation="Horizontal">
-                                    <RadioButton Content="{DynamicResource GeneralSettings}"
-                                        IsChecked="True" />
+                                    <RadioButton Content="{DynamicResource GeneralSettings}" IsChecked="True" />
                                     <RadioButton Content="{DynamicResource AdvancedSettings}" />
                                 </hc:ButtonGroup>
                                 <TextBlock

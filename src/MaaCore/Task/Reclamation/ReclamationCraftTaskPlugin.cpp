@@ -161,7 +161,8 @@ bool asst::ReclamationCraftTaskPlugin::calc_craft_amount(int& value)
     std::string value_str;
     if (craft_amount_analyzer.analyze()) {
         value_str = craft_amount_analyzer.get_result().text;
-    } else { // 此时组装数量显示为灰色的 1
+    }
+    else { // 此时组装数量显示为灰色的 1
         value_str = "0";
     }
 

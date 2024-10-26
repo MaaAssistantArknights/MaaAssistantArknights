@@ -449,8 +449,11 @@ bool asst::CombatRecordRecognitionTask::slice_video()
     for (auto iter = m_clips.begin(); iter != m_clips.end();) {
         ClipInfo& clip = *iter;
         if (clip.end_frame_index <= clip.start_frame_index) {
-            Log.warn(__FUNCTION__, "deployment has no changes or frame error", clip.start_frame_index,
-                     clip.end_frame_index);
+            Log.warn(
+                __FUNCTION__,
+                "deployment has no changes or frame error",
+                clip.start_frame_index,
+                clip.end_frame_index);
             iter = m_clips.erase(iter);
             continue;
         }
@@ -614,8 +617,9 @@ bool asst::CombatRecordRecognitionTask::detect_operators(ClipInfo& clip, [[maybe
     }
 
     /* 取众数 */
-    auto oper_det_iter = ranges::max_element(oper_det_samping,
-                                             [&](const auto& lhs, const auto& rhs) { return lhs.second < rhs.second; });
+    auto oper_det_iter = ranges::max_element(oper_det_samping, [&](const auto& lhs, const auto& rhs) {
+        return lhs.second < rhs.second;
+    });
     if (oper_det_iter == oper_det_samping.end()) {
         Log.error(__FUNCTION__, "oper_det_samping is empty");
         callback(AsstMsg::SubTaskError, basic_info_with_what("DetectOperators"));
@@ -744,8 +748,9 @@ bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo
             m_location_operators.insert_or_assign(loc, name);
         }
     }
-    else if (pre_clip_ptr->deployment.size() < clip.deployment.size() ||
-             pre_clip_ptr->battlefield.size() > clip.battlefield.size()) {
+    else if (
+        pre_clip_ptr->deployment.size() < clip.deployment.size() ||
+        pre_clip_ptr->battlefield.size() > clip.battlefield.size()) {
         // 撤退
         for (const auto& [pre_loc, pre_oper] : pre_clip_ptr->battlefield) {
             if (clip.battlefield.contains(pre_loc)) {
@@ -766,8 +771,13 @@ bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo
         }
     }
     else {
-        Log.warn("Unknown changes, deployment:", pre_clip_ptr->deployment.size(), clip.deployment.size(),
-                 "battlefield:", pre_clip_ptr->battlefield.size(), clip.battlefield.size());
+        Log.warn(
+            "Unknown changes, deployment:",
+            pre_clip_ptr->deployment.size(),
+            clip.deployment.size(),
+            "battlefield:",
+            pre_clip_ptr->battlefield.size(),
+            clip.battlefield.size());
     }
 
     return true;

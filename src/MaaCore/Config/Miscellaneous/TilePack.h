@@ -10,9 +10,7 @@ ASST_SUPPRESS_CV_WARNINGS_END
 
 namespace asst
 {
-class TilePack final
-    : public SingletonHolder<TilePack>
-    , public AbstractConfig
+class TilePack final : public SingletonHolder<TilePack>, public AbstractConfig
 {
 public:
     using LevelKey = Map::LevelKey;
