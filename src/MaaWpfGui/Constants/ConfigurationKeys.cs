@@ -266,9 +266,9 @@ namespace MaaWpfGui.Constants
         public const string VersionUpdatePackage = "VersionUpdate.package"; // 迁移
         public const string VersionUpdateDoNotShowUpdate = "VersionUpdate.doNotShowUpdate";
 
-        public const string OperBoxData = "OperBox.Data";
+        public const string OperBoxData = "OperBox.Data"; // 迁移
 
-        public const string GachaShowDisclaimerNoMore = "Gacha.ShowDisclaimerNoMore";
+        public const string GachaShowDisclaimerNoMore = "Gacha.ShowDisclaimerNoMore"; // 迁移
 
         public const string PeepTargetFps = "Peep.TargetFps";
 

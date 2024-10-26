@@ -20,18 +20,22 @@ namespace MaaWpfGui.Configuration
 {
     public class SpecificConfig
     {
-        // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
-        [JsonInclude]
-        public GUI GUI { get; private set; } = new();
-
-        [JsonInclude]
-        public ObservableDictionary<string, int> InfrastOrder { get; private set; } = [];
 
         [JsonInclude]
         public ObservableList<BaseTask> TaskQueue { get; private set; } = [];
 
         [JsonInclude]
+        public Toolbox Toolbox { get; private set; } = new(); // 抽卡、扫仓库、自动战斗
+
+        [JsonInclude]
+        public ObservableDictionary<string, int> InfrastOrder { get; private set; } = [];
+
+        [JsonInclude]
         public ObservableDictionary<string, bool> DragItemIsChecked { get; private set; } = [];
+
+        // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
+        [JsonInclude]
+        public GUI GUI { get; private set; } = new();
 
         [JsonInclude]
         public Connection Connection { get; private set; } = new();
@@ -41,6 +45,7 @@ namespace MaaWpfGui.Configuration
 
         [JsonInclude]
         public Performance Performance { get; private set; } = new();
+
         public object 外部通知 { get; private set; } = new();
         public object Cache { get; private set; } = new(); // 理智、当天打OF-1
     }

@@ -25,10 +25,10 @@ using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.States;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
+using static MaaWpfGui.Configuration.Toolbox;
 using Timer = System.Timers.Timer;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -480,15 +480,11 @@ namespace MaaWpfGui.ViewModels.UI
 
         public string OperBoxExportData { get; set; } = string.Empty;
 
-        private JArray _operBoxDataArray = (JArray)(JsonConvert.DeserializeObject(ConfigurationHelper.GetValue(ConfigurationKeys.OperBoxData, new JArray().ToString())) ?? new JArray());
-
         public JArray OperBoxDataArray
         {
-            get => _operBoxDataArray;
             set
             {
-                SetAndNotify(ref _operBoxDataArray, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.OperBoxData, value.ToString());
+                ConfigFactory.CurrentConfig.Toolbox.OperBox = value?.ToObject<List<OperData>>() ?? [];
                 _operBoxPotential = null; // reset
             }
         }
@@ -504,14 +500,12 @@ namespace MaaWpfGui.ViewModels.UI
                     return _operBoxPotential;
                 }
 
-                _operBoxPotential = new Dictionary<string, int>();
-                foreach (JObject operBoxData in OperBoxDataArray.OfType<JObject>())
+                _operBoxPotential = [];
+                foreach (var operBoxData in ConfigFactory.CurrentConfig.Toolbox.OperBox)
                 {
-                    var id = (string?)operBoxData["id"];
-                    var potential = (int)(operBoxData["potential"] ?? -1);
-                    if (id != null)
+                    if (operBoxData.Id != null)
                     {
-                        _operBoxPotential[id] = potential;
+                        _operBoxPotential[operBoxData.Id] = operBoxData.Potential;
                     }
                 }
 
@@ -722,16 +716,10 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _gachaShowDisclaimerNoMore = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.GachaShowDisclaimerNoMore, bool.FalseString));
-
         public bool GachaShowDisclaimerNoMore
         {
-            get => _gachaShowDisclaimerNoMore;
-            set
-            {
-                SetAndNotify(ref _gachaShowDisclaimerNoMore, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.GachaShowDisclaimerNoMore, value.ToString());
-            }
+            get => ConfigFactory.CurrentConfig.Toolbox.GachaShowDisclaimerNoMore;
+            set => ConfigFactory.CurrentConfig.Toolbox.GachaShowDisclaimerNoMore = value;
         }
 
         // xaml 中用到了

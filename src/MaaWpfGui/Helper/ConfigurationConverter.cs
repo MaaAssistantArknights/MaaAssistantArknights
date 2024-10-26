@@ -26,6 +26,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using static MaaWpfGui.Configuration.GUI;
+using static MaaWpfGui.Configuration.Toolbox;
 using static MaaWpfGui.Configuration.VersionUpdate;
 using static MaaWpfGui.Models.CoreTask;
 using static MaaWpfGui.Models.PostActionSetting;
@@ -198,6 +199,12 @@ namespace MaaWpfGui.Helper
                     ConfigFactory.CurrentConfig.Performance.AllowDeprecatedGpu = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceAllowDeprecatedGpu, bool.FalseString));
                     ConfigFactory.CurrentConfig.Performance.GpuDescription = EmptyStringToNull(ConfigurationHelper.GetValue(ConfigurationKeys.PerformancePreferredGpuDescription, string.Empty));
                     ConfigFactory.CurrentConfig.Performance.GpuInstancePath = EmptyStringToNull(ConfigurationHelper.GetValue(ConfigurationKeys.PerformancePreferredGpuInstancePath, string.Empty));
+                }
+
+                // Toolbox
+                {
+                    ConfigFactory.CurrentConfig.Toolbox.OperBox = JsonConvert.DeserializeObject<List<OperData>>(ConfigurationHelper.GetValue(ConfigurationKeys.OperBoxData, new JArray().ToString())) ?? [];
+                    ConfigFactory.CurrentConfig.Toolbox.GachaShowDisclaimerNoMore = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.GachaShowDisclaimerNoMore, bool.FalseString));
                 }
 
                 // TaskQueue部分
