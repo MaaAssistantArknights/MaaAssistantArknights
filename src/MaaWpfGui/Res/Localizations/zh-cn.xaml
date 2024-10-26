@@ -374,6 +374,8 @@
     <system:String x:Key="AdbPathFileSelectionErrorImSure">我确定没选错</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorSelectAgain">好的，我会重新选择</system:String>
     <system:String x:Key="ConnectionAddress">连接地址</system:String>
+    <system:String x:Key="MuMuBridgeConnection">MuMu 网络桥接模式 </system:String>
+    <system:String x:Key="ConnectionMuMuIndex">MuMu 实例号</system:String>
     <system:String x:Key="ConnectionAddressTip">若遇到问题可尝试手动修改</system:String>
     <system:String x:Key="ConnectionPreset">连接配置</system:String>
     <system:String x:Key="ScreenshotTest">截图测试</system:String>

@@ -21,6 +21,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -108,7 +109,29 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </hc:ComboBox>
-        <StackPanel Grid.Row="3">
+        <StackPanel
+            Grid.Row="3"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <hc:TextBox
+                Width="150"
+                Height="30"
+                Margin="10"
+                hc:TitleElement.Title="{DynamicResource ConnectionMuMuIndex}"
+                hc:TitleElement.TitlePlacement="Left"
+                Visibility="{c:Binding !AutoDetectConnection}"
+                IsEnabled="{c:Binding MuMuBridgeConnection}"
+                Text="{Binding Index}" />
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Visibility="{c:Binding !AutoDetectConnection}"
+                IsEnabled="{c:Binding !AutoDetectConnection}"
+                Content="{DynamicResource MuMuBridgeConnection}"
+                IsChecked="{Binding MuMuBridgeConnection}" />
+        </StackPanel>
+        <StackPanel Grid.Row="4">
             <hc:ComboBox
                 Width="300"
                 Height="30"
@@ -182,7 +205,7 @@
                     Visibility="{c:Binding 'TestLinkInfo!=&quot;&quot;'}" />
             </StackPanel>
         </StackPanel>
-        <StackPanel Grid.Row="4" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="5" HorizontalAlignment="Center">
             <CheckBox
                 Margin="20,10"
                 Content="{DynamicResource RetryOnDisconnected}"
@@ -203,7 +226,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="5"
+            Grid.Row="6"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <hc:ComboBox
@@ -224,7 +247,7 @@
                 Content="{DynamicResource ForcedReplaceAdb}" />
         </StackPanel>
 
-        <StackPanel Grid.Row="6">
+        <StackPanel Grid.Row="7">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <CheckBox
                     Margin="20,10"
@@ -252,7 +275,7 @@
         </StackPanel>
 
         <hc:TextBox
-            Grid.Row="7"
+            Grid.Row="8"
             Width="300"
             Height="30"
             Margin="10"
@@ -263,7 +286,7 @@
             PreviewDragOver="TextBox_PreviewDragOver"
             Text="{Binding StartsWithScript}" />
         <hc:TextBox
-            Grid.Row="8"
+            Grid.Row="9"
             Width="300"
             Height="30"
             Margin="10"
@@ -274,7 +297,7 @@
             PreviewDragOver="TextBox_PreviewDragOver"
             Text="{Binding EndsWithScript}" />
         <WrapPanel
-            Grid.Row="9"
+            Grid.Row="10"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
             <CheckBox
@@ -291,7 +314,7 @@
                 IsChecked="{Binding ManualStopWithScript}" />
         </WrapPanel>
         <StackPanel
-            Grid.Row="10"
+            Grid.Row="11"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
