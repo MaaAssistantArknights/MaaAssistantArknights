@@ -678,7 +678,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ErrorSolutionFailedToMove">檔被佔用，請重開電腦後重試。</system:String>
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">打開連結失敗，請前往「Windows 設置」選擇默認瀏覽器。</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">建立 GitHub issue</system:String>
-    <system:String x:Key="ErrorQqGroupLinkText">加入 QQ 群反應問題</system:String>
+    <system:String x:Key="ErrorQqGroupLinkText">加入 QQ 群</system:String>
     <system:String x:Key="CopyErrorMessage">複製錯誤資訊</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
