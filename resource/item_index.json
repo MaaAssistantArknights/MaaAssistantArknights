@@ -2319,6 +2319,14 @@
         "sortId": 60105,
         "usage": "装有各种物资补给，包含多种随机材料。"
     },
+    "randomMaterial_5d5": {
+        "classifyType": "CONSUME",
+        "description": "罗德岛从各地采购、储备的材料补给箱。不过因为缺乏系统性的整理收纳，每一个箱子里都装着截然不同的材料。",
+        "icon": "randomMaterial_5d5.png",
+        "name": "2024感谢庆典物资补给",
+        "sortId": 60111,
+        "usage": "装有各种物资补给，包含多种随机材料。"
+    },
     "randomMaterial_6": {
         "classifyType": "CONSUME",
         "description": "罗德岛从各地采购、储备的材料补给箱。不过因为缺乏系统性的整理收纳，每一个箱子里都装着截然不同的材料。",
