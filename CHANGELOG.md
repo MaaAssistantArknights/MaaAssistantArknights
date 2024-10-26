@@ -1,4 +1,4 @@
-## v5.8.0
+## v5.8.1
 
 ### 演进之美，越进越美 | Highlight
 
@@ -53,6 +53,8 @@
 
 ### 改进 | Improved
 
+* 优化描述 @ABA2396
+* 关卡导航 @ABA2396
 * 支持mumu后台保活，通过包名获取display_id @ABA2396
 * IS Phantom Update 雕匠与石像.json (#10829) @Daydreamer114
 * 更新肉鸽 ew 优先级 (#10830) @Daydreamer114
@@ -66,6 +68,7 @@
 
 ### 修复 | Fix
 
+* 购物卡在确认界面 @ABA2396
 * b服支持多分辨率多 dpi 登录 (#10817) @ABA2396
 * 关卡导航失败 @ABA2396
 * 无法导航至关卡9-19刷理智 @ABA2396
@@ -115,6 +118,8 @@
 
 ### 其他 | Other
 
+* Translations update from MAA Weblate (#10930) @AlisaAkiron
+* 修改 QQ 群文案 @ABA2396
 * mumu display id error if startup ark manually (#10787) @MistEO
 * mumu display id error when ark not startup (#10786) @MistEO
 * 移除无效的try-catch @status102
