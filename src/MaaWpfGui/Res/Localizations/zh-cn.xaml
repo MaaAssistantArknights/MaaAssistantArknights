@@ -802,7 +802,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="TryToStartEmulator">正在尝试启动模拟器</system:String>
     <system:String x:Key="RestartAdb">正在尝试重启 ADB Server</system:String>
     <system:String x:Key="HardRestartAdb">正在尝试关闭并重启 ADB 进程</system:String>
-    <system:String x:Key="CheckSettings">请检查连接设置或尝试重启模拟器与 ADB 或重启电脑</system:String>
+    <system:String x:Key="CheckSettings">请「检查连接设置」或「尝试重启模拟器与 ADB」或「重启电脑」</system:String>
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">强制显示MAA</system:String>
