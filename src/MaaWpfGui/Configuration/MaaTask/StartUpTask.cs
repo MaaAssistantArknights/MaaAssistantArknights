@@ -14,7 +14,7 @@
 #nullable enable
 using System.Text.Json.Serialization;
 using Newtonsoft.Json.Linq;
-using static MaaWpfGui.Models.MaaTask;
+using static MaaWpfGui.Models.CoreTask;
 
 namespace MaaWpfGui.Configuration.MaaTask
 {

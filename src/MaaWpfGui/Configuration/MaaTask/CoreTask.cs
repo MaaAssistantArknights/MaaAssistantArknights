@@ -1,4 +1,4 @@
-// <copyright file="MaaTask.cs" company="MaaAssistantArknights">
+// <copyright file="CoreTask.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -21,9 +21,8 @@ using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.Models
 {
-    public class MaaTask
+    public class CoreTask
     {
-
         public class CloseDownTask : BaseTask
         {
         }
@@ -34,15 +33,6 @@ namespace MaaWpfGui.Models
 
         public class InfrastTask : BaseTask
         {
-        }
-
-        public class RecruitTask : BaseTask
-        {
-        }
-
-        public class RoguelikeTask : BaseTask
-        {
-            public string Theme { get; set; } = "Sami";
         }
 
         public class CopilotTask : BaseTask
@@ -66,10 +56,6 @@ namespace MaaWpfGui.Models
         }
 
         public class OperBoxTask : BaseTask
-        {
-        }
-
-        public class ReclamationTask : BaseTask
         {
         }
 

@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static MaaWpfGui.Models.MaaTask;
+using static MaaWpfGui.Models.CoreTask;
 
 namespace MaaWpfGui.Configuration.MaaTask;
 

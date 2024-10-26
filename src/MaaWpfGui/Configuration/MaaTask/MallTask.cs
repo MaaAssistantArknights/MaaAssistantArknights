@@ -19,7 +19,7 @@ using System.Linq;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json.Linq;
-using static MaaWpfGui.Models.MaaTask;
+using static MaaWpfGui.Models.CoreTask;
 
 namespace MaaWpfGui.Configuration.MaaTask
 {

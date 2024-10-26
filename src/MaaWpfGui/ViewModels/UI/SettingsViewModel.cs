@@ -57,7 +57,7 @@ using Serilog;
 using Stylet;
 using static MaaWpfGui.Configuration.GUI;
 using static MaaWpfGui.Configuration.VersionUpdate;
-using static MaaWpfGui.Models.MaaTask;
+using static MaaWpfGui.Models.CoreTask;
 using ComboBox = System.Windows.Controls.ComboBox;
 using DarkModeType = MaaWpfGui.Configuration.GUI.DarkModeType;
 using Timer = System.Timers.Timer;

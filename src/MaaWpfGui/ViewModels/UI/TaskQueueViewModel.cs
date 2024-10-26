@@ -41,6 +41,7 @@ using Serilog;
 using Stylet;
 using StyletIoC;
 using static MaaWpfGui.Models.MaaTask;
+using static MaaWpfGui.Models.CoreTask;
 using Application = System.Windows.Application;
 using ComboBox = System.Windows.Controls.ComboBox;
 using Screen = Stylet.Screen;
