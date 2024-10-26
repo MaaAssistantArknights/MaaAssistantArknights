@@ -6,11 +6,11 @@
 
 namespace asst
 {
-    class AbstractConfigWithTempl : public AbstractConfig
-    {
-    public:
-        virtual ~AbstractConfigWithTempl() override = default;
+class AbstractConfigWithTempl : public AbstractConfig
+{
+public:
+    virtual ~AbstractConfigWithTempl() override = default;
 
-        virtual const std::unordered_set<std::string>& get_templ_required() const noexcept = 0;
-    };
+    virtual const std::unordered_set<std::string>& get_templ_required() const noexcept = 0;
+};
 }

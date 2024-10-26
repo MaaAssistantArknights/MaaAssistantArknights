@@ -242,8 +242,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
         }
 #ifdef ASST_DEBUG
         LogDebug << __FUNCTION__ << "| Checking strategy at" << strategy.location << "with core"
-                 << strategy.core.value_or("(empty)")
-                 << "and tool_men"
+                 << strategy.core.value_or("(empty)") << "and tool_men"
                  << (strategy.tool_men | views::transform([](const auto& rolecounts) {
                          return asst::enum_to_string(rolecounts.first) + ": " + std::to_string(rolecounts.second);
                      }));
@@ -272,9 +271,8 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             return deploy_oper(core.name, strategy.location, strategy.direction) && update_deployment();
         }
 
-        auto required_roles_view = strategy.tool_men |
-                                   views::filter([](const auto& tool_man) { return tool_man.second > 0; }) |
-                                   views::keys;
+        auto required_roles_view =
+            strategy.tool_men | views::filter([](const auto& tool_man) { return tool_man.second > 0; }) | views::keys;
         auto required_roles = std::unordered_set(required_roles_view.begin(), required_roles_view.end());
 
         // 如果有费用转好的干员，直接使用

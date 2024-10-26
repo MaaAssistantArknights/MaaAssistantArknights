@@ -887,6 +887,14 @@
         "sortId": 10201,
         "usage": "完成危機合約後得到的報酬。可用於兌換補給品。"
     },
+    "CRISIS_SHOP_COIN_V2": {
+        "classifyType": "NORMAL",
+        "description": "冷酷有效的賞金機制，是危機合約系統正常運作的唯一保證。",
+        "icon": "CRISIS_SHOP_COIN_V2.png",
+        "name": "晶體合約賞金",
+        "sortId": 10202,
+        "usage": "完成危機合約後得到的報酬。可用於兌換補給品。"
+    },
     "EPGS_COIN": {
         "classifyType": "NORMAL",
         "description": "能夠考慮到這一點，多少可以證明獵頭公司的誠意。需要注意的是，如果試圖用這種手段來補充資源，恐怕會得不償失。",

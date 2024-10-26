@@ -3,12 +3,12 @@
 
 namespace asst
 {
-    class DepotTask final : public InterfaceTask
-    {
-    public:
-        inline static constexpr std::string_view TaskType = "Depot";
+class DepotTask final : public InterfaceTask
+{
+public:
+    inline static constexpr std::string_view TaskType = "Depot";
 
-        DepotTask(const AsstCallback& callback, Assistant* inst);
-        virtual ~DepotTask() override = default;
-    };
+    DepotTask(const AsstCallback& callback, Assistant* inst);
+    virtual ~DepotTask() override = default;
+};
 }

@@ -12,9 +12,7 @@
 
 namespace asst
 {
-class ResourceLoader final
-    : public SingletonHolder<ResourceLoader>
-    , public AbstractResource
+class ResourceLoader final : public SingletonHolder<ResourceLoader>, public AbstractResource
 {
 public:
     virtual ~ResourceLoader() override;
@@ -44,9 +42,7 @@ private:
 
     template <Singleton T>
     requires std::is_base_of_v<AbstractConfigWithTempl, T>
-    bool load_resource_with_templ(
-        const std::filesystem::path& path,
-        const std::filesystem::path& templ_dir)
+    bool load_resource_with_templ(const std::filesystem::path& path, const std::filesystem::path& templ_dir)
     {
         if (!load_resource<T>(path)) {
             return false;

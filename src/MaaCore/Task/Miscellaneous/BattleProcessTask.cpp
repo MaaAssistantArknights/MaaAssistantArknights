@@ -24,9 +24,11 @@
 using namespace asst::battle;
 using namespace asst::battle::copilot;
 
-asst::BattleProcessTask::BattleProcessTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain)
-    : AbstractTask(callback, inst, task_chain), BattleHelper(inst)
-{}
+asst::BattleProcessTask::BattleProcessTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain) :
+    AbstractTask(callback, inst, task_chain),
+    BattleHelper(inst)
+{
+}
 
 bool asst::BattleProcessTask::_run()
 {
@@ -85,7 +87,8 @@ void asst::BattleProcessTask::set_wait_until_end(bool wait_until_end)
     m_need_to_wait_until_end = wait_until_end;
 }
 
-void asst::BattleProcessTask::set_formation_task_ptr(std::shared_ptr<std::unordered_map<std::string, std::string>> value)
+void asst::BattleProcessTask::set_formation_task_ptr(
+    std::shared_ptr<std::unordered_map<std::string, std::string>> value)
 {
     m_formation_ptr = value;
 }
@@ -169,11 +172,11 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
     notify_action(action);
 
     thread_local auto prev_frame_time = std::chrono::steady_clock::time_point {};
-    static const auto min_frame_interval = std::chrono::milliseconds(Config.get_options().copilot_fight_screencap_interval);
+    static const auto min_frame_interval =
+        std::chrono::milliseconds(Config.get_options().copilot_fight_screencap_interval);
 
     // prevent our program from consuming too much CPU
-    if (const auto now = std::chrono::steady_clock::now();
-        prev_frame_time > now - min_frame_interval) [[unlikely]] {
+    if (const auto now = std::chrono::steady_clock::now(); prev_frame_time > now - min_frame_interval) [[unlikely]] {
         Log.debug("Sleeping for framerate limit");
         std::this_thread::sleep_for(min_frame_interval - (now - prev_frame_time));
     }
@@ -182,7 +185,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         return false;
     }
 
-     prev_frame_time = std::chrono::steady_clock::now();
+    prev_frame_time = std::chrono::steady_clock::now();
 
     if (action.pre_delay > 0) {
         sleep_and_do_strategy(action.pre_delay);
@@ -197,17 +200,23 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
     switch (action.type) {
     case ActionType::Deploy:
         ret = deploy_oper(name, location, action.direction);
-        if (ret) m_in_bullet_time = false;
+        if (ret) {
+            m_in_bullet_time = false;
+        }
         break;
 
     case ActionType::Retreat:
         ret = m_in_bullet_time ? click_retreat() : (location.empty() ? retreat_oper(name) : retreat_oper(location));
-        if (ret) m_in_bullet_time = false;
+        if (ret) {
+            m_in_bullet_time = false;
+        }
         break;
 
     case ActionType::UseSkill:
         ret = m_in_bullet_time ? click_skill() : (location.empty() ? use_skill(name) : use_skill(location));
-        if (ret) m_in_bullet_time = false;
+        if (ret) {
+            m_in_bullet_time = false;
+        }
         break;
 
     case ActionType::SwitchSpeed:
@@ -216,12 +225,16 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
 
     case ActionType::BulletTime:
         ret = enter_bullet_time(name, location);
-        if (ret) m_in_bullet_time = true;
+        if (ret) {
+            m_in_bullet_time = true;
+        }
         break;
 
     case ActionType::SkillUsage:
         m_skill_usage[name] = action.modify_usage;
-        if (action.modify_usage == SkillUsage::Times) m_skill_times[name] = action.modify_times;
+        if (action.modify_usage == SkillUsage::Times) {
+            m_skill_times[name] = action.modify_times;
+        }
         ret = true;
         break;
 

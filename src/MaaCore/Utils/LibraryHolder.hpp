@@ -13,7 +13,6 @@
 
 #include "Utils/Logger.hpp"
 
-
 namespace asst
 {
 // template for ref_count

@@ -4,9 +4,13 @@
 
 #include "Utils/Logger.hpp"
 
-std::optional<int> asst::AdbLiteIO::call_command(const std::string& cmd, bool recv_by_socket, std::string& pipe_data,
-                                                 std::string& sock_data, int64_t timeout,
-                                                 std::chrono::steady_clock::time_point start_time)
+std::optional<int> asst::AdbLiteIO::call_command(
+    const std::string& cmd,
+    bool recv_by_socket,
+    std::string& pipe_data,
+    std::string& sock_data,
+    int64_t timeout,
+    std::chrono::steady_clock::time_point start_time)
 {
     // TODO: 从上面的 call_command_win32/posix 里抽取出 socket 接收的部分
     if (recv_by_socket) {
@@ -193,7 +197,9 @@ void asst::AdbLiteIO::release_adb(const std::string& adb_release, int64_t timeou
 
 bool asst::AdbLiteIO::remove_quotes(std::string& data)
 {
-    if (data.size() < 2) return false;
+    if (data.size() < 2) {
+        return false;
+    }
 
     if (data.front() == '"' && data.back() == '"') {
         data.erase(data.begin());

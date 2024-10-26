@@ -4,28 +4,29 @@
 
 namespace asst
 {
-    template <typename T>
-    class SingletonHolder
+template <typename T>
+class SingletonHolder
+{
+public:
+    static T& get_instance()
     {
-    public:
-        static T& get_instance()
-        {
-            static T unique_instance;
-            return unique_instance;
-        }
-        virtual ~SingletonHolder() = default;
+        static T unique_instance;
+        return unique_instance;
+    }
 
-    public:
-        SingletonHolder(const SingletonHolder&) = delete;
-        SingletonHolder(SingletonHolder&&) = delete;
+    virtual ~SingletonHolder() = default;
 
-        SingletonHolder& operator=(const SingletonHolder&) = delete;
-        SingletonHolder& operator=(SingletonHolder&&) = delete;
+public:
+    SingletonHolder(const SingletonHolder&) = delete;
+    SingletonHolder(SingletonHolder&&) = delete;
 
-    protected:
-        SingletonHolder() = default;
-    };
+    SingletonHolder& operator=(const SingletonHolder&) = delete;
+    SingletonHolder& operator=(SingletonHolder&&) = delete;
 
-    template <typename T>
-    concept Singleton = std::is_base_of_v<SingletonHolder<T>, T>;
+protected:
+    SingletonHolder() = default;
+};
+
+template <typename T>
+concept Singleton = std::is_base_of_v<SingletonHolder<T>, T>;
 }

@@ -19,7 +19,8 @@
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
 
-asst::PosixIO::PosixIO(Assistant* inst) : InstHelper(inst)
+asst::PosixIO::PosixIO(Assistant* inst) :
+    InstHelper(inst)
 {
     LogTraceFunction;
 
@@ -36,9 +37,13 @@ asst::PosixIO::~PosixIO()
     }
 }
 
-std::optional<int> asst::PosixIO::call_command(const std::string& cmd, const bool recv_by_socket,
-                                               std::string& pipe_data, std::string& sock_data, const int64_t timeout,
-                                               std::chrono::steady_clock::time_point start_time)
+std::optional<int> asst::PosixIO::call_command(
+    const std::string& cmd,
+    const bool recv_by_socket,
+    std::string& pipe_data,
+    std::string& sock_data,
+    const int64_t timeout,
+    std::chrono::steady_clock::time_point start_time)
 {
     using namespace std::chrono;
 
@@ -208,7 +213,9 @@ std::shared_ptr<asst::IOHandler> asst::PosixIO::interactive_shell(const std::str
     int pipe_to_child[2];
     int pipe_from_child[2];
 
-    if (::pipe(pipe_to_child)) return nullptr;
+    if (::pipe(pipe_to_child)) {
+        return nullptr;
+    }
     if (::pipe(pipe_from_child)) {
         ::close(pipe_to_child[0]);
         ::close(pipe_to_child[1]);
@@ -283,22 +290,34 @@ void asst::PosixIO::release_adb(const std::string& adb_release, int64_t timeout)
 
 asst::IOHandlerPosix::~IOHandlerPosix()
 {
-    if (m_write_fd != -1) ::close(m_write_fd);
-    if (m_read_fd != -1) ::close(m_read_fd);
-    if (m_process > 0) ::kill(m_process, SIGTERM);
+    if (m_write_fd != -1) {
+        ::close(m_write_fd);
+    }
+    if (m_read_fd != -1) {
+        ::close(m_read_fd);
+    }
+    if (m_process > 0) {
+        ::kill(m_process, SIGTERM);
+    }
 }
 
 bool asst::IOHandlerPosix::write(std::string_view data)
 {
-    if (m_process < 0 || m_write_fd < 0) return false;
-    if (::write(m_write_fd, data.data(), data.length()) >= 0) return true;
+    if (m_process < 0 || m_write_fd < 0) {
+        return false;
+    }
+    if (::write(m_write_fd, data.data(), data.length()) >= 0) {
+        return true;
+    }
     Log.error("Failed to write to IOHandlerPosix, err", errno);
     return false;
 }
 
 std::string asst::IOHandlerPosix::read(unsigned timeout_sec)
 {
-    if (m_process < 0 || m_read_fd < 0) return {};
+    if (m_process < 0 || m_read_fd < 0) {
+        return {};
+    }
     std::string ret_str;
     constexpr int PipeReadBuffSize = 4096ULL;
 

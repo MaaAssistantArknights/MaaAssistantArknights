@@ -43,7 +43,9 @@ Ort::Session& asst::OnnxSessions::get(const std::string& name)
 
 bool asst::OnnxSessions::use_cpu()
 {
-    if (m_sessions.size() != 0) return false;
+    if (m_sessions.size() != 0) {
+        return false;
+    }
     m_options = Ort::SessionOptions();
     gpu_enabled = false;
     return true;
@@ -51,8 +53,12 @@ bool asst::OnnxSessions::use_cpu()
 
 bool asst::OnnxSessions::use_gpu(int device_id)
 {
-    if (gpu_enabled) return true;
-    if (m_sessions.size() != 0) return false;
+    if (gpu_enabled) {
+        return true;
+    }
+    if (m_sessions.size() != 0) {
+        return false;
+    }
     auto all_providers = Ort::GetAvailableProviders();
     bool support_cuda = false;
     bool support_dml = false;

@@ -16,7 +16,10 @@ ASST_SUPPRESS_CV_WARNINGS_END
 #include "Utils/Ranges.hpp"
 #include "Utils/StringMisc.hpp"
 
-asst::OcrPack::OcrPack() : m_det(nullptr), m_rec(nullptr), m_ocr(nullptr)
+asst::OcrPack::OcrPack() :
+    m_det(nullptr),
+    m_rec(nullptr),
+    m_ocr(nullptr)
 {
     LogTraceFunction;
 }
@@ -149,14 +152,21 @@ bool asst::OcrPack::check_and_load()
 
     auto det_model = asst::utils::read_file<std::string>(m_det_model_path);
     option.SetModelBuffer(det_model.data(), det_model.size(), nullptr, 0, fastdeploy::ModelFormat::ONNX);
-    m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>("dummy.onnx", std::string(), option,
-                                                                  fastdeploy::ModelFormat::ONNX);
+    m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>(
+        "dummy.onnx",
+        std::string(),
+        option,
+        fastdeploy::ModelFormat::ONNX);
 
     auto rec_model = asst::utils::read_file<std::string>(m_rec_model_path);
     std::string rec_label = asst::utils::read_file<std::string>(m_rec_label_path);
     option.SetModelBuffer(rec_model.data(), rec_model.size(), nullptr, 0, fastdeploy::ModelFormat::ONNX);
-    m_rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>("dummy.onnx", std::string(), rec_label, option,
-                                                                  fastdeploy::ModelFormat::ONNX);
+    m_rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>(
+        "dummy.onnx",
+        std::string(),
+        rec_label,
+        option,
+        fastdeploy::ModelFormat::ONNX);
 
     if (m_det && m_rec) {
         m_ocr = std::make_unique<fastdeploy::pipeline::PPOCRv3>(m_det.get(), m_rec.get());

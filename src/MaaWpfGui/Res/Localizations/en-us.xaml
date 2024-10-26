@@ -911,6 +911,6 @@ With save file: farm points through crafting (advanced).
     <system:String x:Key="ReclamationToolToCraftPlaceholder">Glow Stick</system:String>
     <!--  !Reclamation  -->
     <!--  SingleInstance  -->
-    <system:String x:Key="MultiInstanceUnderSamePath">Only one instance can be launched under the same path!</system:String>
+    <system:String x:Key="MultiInstanceUnderSamePath">Only one instance can be launched under the same path!If you want to run multiple MAA at the same time,please copy the whole MAA and start under different path with the same adb and different connect address.</system:String>
     <!--  !SingleInstance  -->
 </ResourceDictionary>

@@ -97,7 +97,7 @@
         "action": "ClickSelf",
         "text": [],
         "roi": [142, 43, 210, 274],
-        "next": ["#back", "Stop"]
+        "next": ["#back", "#self", "Stop"]
     },
     "ClickChapter1": {
         "baseTask": "ClickChapter",
@@ -441,7 +441,7 @@
         "baseTask": "ChapterSlowlySwipeToTheRight",
         "specialParams": [150, 0, 0.5],
         "next": ["#self"],
-        "maxTimes": 5
+        "maxTimes": 10
     },
     "SwipeToStage": {
         "Doc": "活动导航左滑找关",
@@ -3459,13 +3459,20 @@
         "template": "BuyIt.png",
         "action": "ClickSelf",
         "roi": [800, 500, 250, 150],
+        "postDelay": 1500,
         "next": ["CreditShop-Bought", "CreditShop-BuyIt@LoadingText", "CreditShop-NoMoney"]
     },
     "CreditShop-Bought": {
+        "doc": [
+            "在信用商店购买物品后，识别屏幕中 <获得物资> 文字上方的 Icon，并点击屏幕下方按钮靠下位置",
+            "考虑到淡入淡出动画，本任务不宜使用 ClickSelf，若识别上方 Icon 则可能点到其他商店页面，若识别下方按钮则容易点到其他商品"
+        ],
         "templThreshold": 0.7,
-        "action": "ClickSelf",
         "roi": [544, 0, 210, 201],
         "maskRange": [1, 255],
+        "action": "ClickRect",
+        "specificRect": [645, 665],
+        "postDelay": 1500,
         "next": ["CreditShop-Bought", "Stop"]
     },
     "CreditShop-NoMoney": {

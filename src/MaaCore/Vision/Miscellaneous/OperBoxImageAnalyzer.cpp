@@ -109,8 +109,14 @@ bool asst::OperBoxImageAnalyzer::opers_analyze()
 
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(flag_rect), cv::Scalar(0, 255, 0), 1);
-        cv::putText(m_image_draw, std::to_string(oper.flag_score), cv::Point(flag_rect.x, flag_rect.y - 10),
-                    cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 1);
+        cv::putText(
+            m_image_draw,
+            std::to_string(oper.flag_score),
+            cv::Point(flag_rect.x, flag_rect.y - 10),
+            cv::FONT_HERSHEY_SIMPLEX,
+            0.5,
+            cv::Scalar(0, 0, 255),
+            1);
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(oper.rect), cv::Scalar(0, 255, 0), 1);
 #endif
 
@@ -146,8 +152,14 @@ bool asst::OperBoxImageAnalyzer::level_analyze()
         box.level = level_num(level);
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(ocr_result.rect), cv::Scalar(0, 255, 0), 1);
-        cv::putText(m_image_draw, level, cv::Point(roi.x, roi.y - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5,
-                    cv::Scalar(0, 0, 255), 2);
+        cv::putText(
+            m_image_draw,
+            level,
+            cv::Point(roi.x, roi.y - 10),
+            cv::FONT_HERSHEY_SIMPLEX,
+            0.5,
+            cv::Scalar(0, 0, 255),
+            2);
 #endif // ASST_DEBUG}
     }
     return true;
@@ -179,8 +191,14 @@ bool asst::OperBoxImageAnalyzer::elite_analyze()
         box.elite = std::stoi(elite);
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(roi), cv::Scalar(0, 255, 0), 1);
-        cv::putText(m_image_draw, std::to_string(box.elite), cv::Point(roi.x, roi.y - 10), cv::FONT_HERSHEY_SIMPLEX,
-                    0.5, cv::Scalar(0, 0, 255), 2);
+        cv::putText(
+            m_image_draw,
+            std::to_string(box.elite),
+            cv::Point(roi.x, roi.y - 10),
+            cv::FONT_HERSHEY_SIMPLEX,
+            0.5,
+            cv::Scalar(0, 0, 255),
+            2);
 #endif // ASST_DEBUG
     }
     return true;
@@ -211,8 +229,14 @@ bool asst::OperBoxImageAnalyzer::potential_analyze()
         box.potential = std::stoi(potential);
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(roi), cv::Scalar(0, 255, 0), 1);
-        cv::putText(m_image_draw, std::to_string(box.potential), cv::Point(roi.x, roi.y - 10), cv::FONT_HERSHEY_SIMPLEX,
-                    0.5, cv::Scalar(0, 0, 255), 2);
+        cv::putText(
+            m_image_draw,
+            std::to_string(box.potential),
+            cv::Point(roi.x, roi.y - 10),
+            cv::FONT_HERSHEY_SIMPLEX,
+            0.5,
+            cv::Scalar(0, 0, 255),
+            2);
 #endif // ASST_DEBUG
     }
     return true;

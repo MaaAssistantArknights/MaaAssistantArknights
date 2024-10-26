@@ -4,7 +4,7 @@
 
 #ifdef _MSC_VER
 #pragma warning(push)
-#pragma warning(disable : 4245 4706)
+#pragma warning(disable: 4245 4706)
 #endif
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TBufferTransports.h>
@@ -22,8 +22,10 @@ asst::MaaThriftController::~MaaThriftController()
     close();
 }
 
-bool asst::MaaThriftController::connect([[maybe_unused]] const std::string& adb_path,
-                                        [[maybe_unused]] const std::string& address, const std::string& config)
+bool asst::MaaThriftController::connect(
+    [[maybe_unused]] const std::string& adb_path,
+    [[maybe_unused]] const std::string& address,
+    const std::string& config)
 {
     LogTraceFunction;
 
@@ -321,8 +323,14 @@ bool asst::MaaThriftController::click(const Point& p)
     return client_->click(click_param);
 }
 
-bool asst::MaaThriftController::swipe(const Point& p1, const Point& p2, int duration, bool extra_swipe, double slope_in,
-                                      double slope_out, bool with_pause)
+bool asst::MaaThriftController::swipe(
+    const Point& p1,
+    const Point& p2,
+    int duration,
+    bool extra_swipe,
+    double slope_in,
+    double slope_out,
+    bool with_pause)
 {
     if (!client_ || !transport_ || !transport_->isOpen()) {
         Log.error("client_ is not created or transport_ is not open");
@@ -484,7 +492,9 @@ std::pair<int, int> asst::MaaThriftController::get_screen_res() const noexcept
     return m_screen_size;
 }
 
-void asst::MaaThriftController::back_to_home() noexcept {}
+void asst::MaaThriftController::back_to_home() noexcept
+{
+}
 
 void asst::MaaThriftController::clear_info() noexcept
 {

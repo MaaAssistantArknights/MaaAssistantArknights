@@ -9,17 +9,18 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
     LogTraceFunction;
 
     const std::string theme = json.at("theme").as_string();
-    
+
     // m_event[(肉鸽主题,模式)] 默认继承 m_event["(肉鸽主题,std::nullopt)"]
     std::pair<std::string, int> key = std::make_pair(theme, -1);
-    std::vector<int> modes = json.get("mode", std::vector<int>{});
+    std::vector<int> modes = json.get("mode", std::vector<int> {});
     std::unordered_map<std::string, RoguelikeEvent> events;
     if (!modes.empty()) {
         events = m_events.at(key);
-    } else {
+    }
+    else {
         modes.emplace_back(-1);
     }
-    
+
     std::vector<std::string>& event_names = m_event_names[theme];
 
     for (const auto& event_json : json.at("stage").as_array()) {
@@ -42,8 +43,7 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
                         auto name = requirement_json.get("name", "");
                         if (name == "Vision") {
                             choice.vision.value = requirement_json.get("value", "");
-                            choice.vision.type =
-                                parse_comparison_type(requirement_json.get("type", ""));
+                            choice.vision.type = parse_comparison_type(requirement_json.get("type", ""));
                         }
                         else if (name == "Relic") {
                             // not supported
