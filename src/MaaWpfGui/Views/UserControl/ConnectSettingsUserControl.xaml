@@ -117,7 +117,7 @@
                 Width="150"
                 Height="30"
                 Margin="10"
-                hc:TitleElement.Title="{DynamicResource ConnectionMuMuIndex}"
+                hc:TitleElement.Title="{DynamicResource MuMu12Index}"
                 hc:TitleElement.TitlePlacement="Left"
                 Visibility="{c:Binding !AutoDetectConnection}"
                 IsEnabled="{c:Binding MuMuBridgeConnection}"

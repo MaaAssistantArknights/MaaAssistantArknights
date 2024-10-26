@@ -391,6 +391,7 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0으로 입력해야 합니다.\n
 2. 연결 주소의 포트 번호가 7555일 경우, 포트 번호를 16384로 변경해야 합니다.
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 에뮬레이터 경로</system:String>
+    <system:String x:Key="MuMuBridgeConnection">MuMu 네트워크 브리지 모드</system:String>
     <system:String x:Key="MuMu12Index">인스턴스 번호</system:String>
     <system:String x:Key="MuMu12Display">표시 번호</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu의 스크린샷 향상가 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
