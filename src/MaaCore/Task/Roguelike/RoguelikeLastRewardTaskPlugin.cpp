@@ -60,6 +60,8 @@ bool asst::RoguelikeLastRewardTaskPlugin::_run()
     bool start_with_elite_two = m_config->get_start_with_elite_two();
     if (m_config->get_theme() != RoguelikeTheme::Phantom && mode == RoguelikeMode::Collectible) {
         if (m_is_next_hardest) {
+            // 关闭烧开水 Flag，将难度调整回用户设置的数值
+            m_config->set_run_for_collectible(false);
             m_config->set_next_difficulty(m_config->get_difficulty());
             // 获得热水壶和演讲时停止肉鸽（凹直升则继续），获得其他奖励时重开
             std::string last_reward_stop_or_continue =
@@ -71,6 +73,8 @@ bool asst::RoguelikeLastRewardTaskPlugin::_run()
             Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_restart");
         }
         else {
+            // 开启烧开水 Flag，将难度设置为 0
+            m_config->set_run_for_collectible(true);
             m_config->set_next_difficulty(0);
             // 重置开局奖励 next，获得任意奖励均继续
             Task.set_task_base("Roguelike@LastReward", "Roguelike@LastReward_default");
