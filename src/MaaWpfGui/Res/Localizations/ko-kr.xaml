@@ -153,6 +153,9 @@
     <system:String x:Key="IS4NewSquad2">박학다식 분대 (博闻广记分队)</system:String>
     <system:String x:Key="IS4NewSquad3">설계도 제작 분대 (蓝图测绘分队)</system:String>
     <system:String x:Key="IS4NewSquad4">인지제의 분대 (因地制宜分队)</system:String>
+    <system:String x:Key="IS4NewSquad5">异想天开分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad6">点刺成锭分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad7">拟态学者分队（占位）</system:String>
     <system:String x:Key="LeaderSquad">지휘 분대</system:String>
     <system:String x:Key="GatheringSquad">집합 분대</system:String>
     <system:String x:Key="SupportSquad">지원 분대</system:String>
