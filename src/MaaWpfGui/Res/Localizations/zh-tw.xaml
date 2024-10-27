@@ -152,6 +152,9 @@
     <system:String x:Key="IS4NewSquad2">博聞廣記分隊</system:String>
     <system:String x:Key="IS4NewSquad3">藍圖測繪分隊</system:String>
     <system:String x:Key="IS4NewSquad4">因地制宜分隊</system:String>
+    <system:String x:Key="IS4NewSquad5">异想天开分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad6">点刺成锭分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad7">拟态学者分队（占位）</system:String>
     <system:String x:Key="IS3NewSquad4">特訓分隊</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集群分隊</system:String>
