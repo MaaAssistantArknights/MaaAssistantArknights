@@ -2874,5 +2874,6 @@
     "resource/template/items/SINGLE_55_0_1_GACHA_10": "30c2a873c28b8dfae8e19451256acea93bd3ebc752e8f3185dab3185026f796a",
     "resource/template/infrast/Trade_ord_spd&par1": "dc0e17e2dadc831cdcb42b643905e84f9aac4b3e8b44c174f533c6949972c635",
     "resource/template/infrast/Trade_ord_spd&par2": "9bcfdb3cf6955a108878807ca9251223df45a93658c9b7182fa0734b92cda851",
-    "resource/template/items/randomMaterial_5d5": "480d7a868889a5f28c624d6936be20eb91bd88eae7de73dd11c0ca22b3522695"
+    "resource/template/items/randomMaterial_5d5": "480d7a868889a5f28c624d6936be20eb91bd88eae7de73dd11c0ca22b3522695",
+    "official/Sarkaz@RoguelikeRecruit-GiveUp": "74db74a0780b0e8e33100b995bf137b401647d3f739a5609bc1e5e918bc49aba"
 }
