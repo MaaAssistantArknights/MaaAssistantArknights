@@ -121,7 +121,7 @@
                 ItemsSource="{Binding ConnectConfigList}"
                 SelectedValue="{Binding ConnectConfig}"
                 SelectedValuePath="Value" />
-            <StackPanel>
+            <StackPanel IsEnabled="{c:Binding !AutoDetectConnection}">
                 <StackPanel Visibility="{c:Binding 'ConnectConfig==&quot;MuMuEmulator12&quot;'}">
                     <CheckBox
                         Margin="10"
