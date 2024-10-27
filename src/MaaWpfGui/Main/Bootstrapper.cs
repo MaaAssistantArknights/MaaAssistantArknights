@@ -168,11 +168,18 @@ namespace MaaWpfGui.Main
             string mutexName = "MAA_" + Directory.GetCurrentDirectory().Replace("\\", "_").Replace(":", string.Empty);
             _mutex = new Mutex(true, mutexName);
 
-            if (!_mutex.WaitOne(TimeSpan.Zero, true))
+            try
             {
-                // 这里还没加载语言包，就不 GetString 了
+                if (!_mutex.WaitOne(TimeSpan.Zero, false))
+                {
+                    throw new Exception("Manually thrown exceptions. Multi Instance Under Same Path.");
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e.Message);
                 MessageBox.Show(LocalizationHelper.GetString("MultiInstanceUnderSamePath"));
-                Bootstrapper.Shutdown();
+                Shutdown();
                 return;
             }
 

@@ -917,6 +917,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationToolToCraftPlaceholder">ケミカルライト</system:String>
     <!--  !Reclamation  -->
     <!--  SingleInstance  -->
-    <system:String x:Key="MultiInstanceUnderSamePath">同じパスの下で起動できるのは1つのインスタンスのみ！MAAを複数開くには、新しいMAAを他のフォルダにコピーし、異なるMAA、同じadb、異なるシミュレータアドレスを使用して複数の操作を行うように設定します。</system:String>
+    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">
+同じパスの下で起動できるのは1つのインスタンスのみ！
+MAA を複数開くには、新しい MAA を他のフォルダにコピーし、異なる MAA、同じ adb、異なるシミュレータアドレスを使用して複数の操作を行うように設定します。
+    </system:String>
     <!--  !SingleInstance  -->
 </ResourceDictionary>
