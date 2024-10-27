@@ -114,7 +114,7 @@
             Grid.Row="5"
             HorizontalAlignment="Center"
             Visibility="{c:Binding SmtpEnabled}">
-            <hc:Divider Content="SMPT" />
+            <hc:Divider Content="SMTP" />
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
