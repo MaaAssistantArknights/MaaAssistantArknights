@@ -394,6 +394,8 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0。\n
 2. 若連接地址端口號為 7555，則需將端口號改為 16384。
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 模擬器路徑</system:String>
+    <system:String x:Key="MuMuBridgeConnection">MuMu 網路橋接模式</system:String>
+    <system:String x:Key="MuMuBridgeConnectionTip">除非你知道自己在做什麼，否則不要啟用此選項</system:String>
     <system:String x:Key="MuMu12Index">實例號碼</system:String>
     <system:String x:Key="MuMu12Display">螢幕號碼</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu 截圖增強未生效，请檢查相關設定</system:String>

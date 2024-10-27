@@ -57,6 +57,7 @@ namespace MaaWpfGui.Constants
         public const string AddressHistory = "Connect.AddressHistory";
         public const string AutoDetect = "Connect.AutoDetect";
         public const string AlwaysAutoDetect = "Connect.AlwaysAutoDetect";
+        public const string MumuBridgeConnection = "Connect.MumuBridgeConnection";
         public const string ConnectAddress = "Connect.Address";
         public const string AdbPath = "Connect.AdbPath";
         public const string ConnectConfig = "Connect.ConnectConfig";

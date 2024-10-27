@@ -231,7 +231,13 @@ void asst::AdbController::init_mumu_extras(const AdbCfg& adb_cfg, const std::str
     set_mumu_package(adb_cfg.extras.get("client_type", ""));
 
     std::filesystem::path mumu_path = utils::path(adb_cfg.extras.get("path", ""));
-    m_mumu_extras.init(mumu_path, get_mumu_index(address));
+
+    if (adb_cfg.extras.contains("index")) { // MuMu index is provided directly
+        m_mumu_extras.init(mumu_path, adb_cfg.extras.get("index", 0));
+    }
+    else {
+        m_mumu_extras.init(mumu_path, get_mumu_index(address));
+    }
 #endif
 }
 
