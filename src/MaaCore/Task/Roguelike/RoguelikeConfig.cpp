@@ -26,6 +26,11 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
     m_start_with_elite_two = params.get("start_with_elite_two", false);
     m_only_start_with_elite_two = params.get("only_start_with_elite_two", false);
 
+    if (mode != RoguelikeMode::Collectible && (m_start_with_elite_two||m_only_start_with_elite_two)) {
+        Log.error(__FUNCTION__, "| Invalid mode for start_with_elite_two", static_cast<int>(mode));
+        return false;
+    }
+
     // 设置层数选点策略，相关逻辑在 RoguelikeStrategyChangeTaskPlugin
     {
         Task.set_task_base(m_theme + "@Roguelike@Stages", m_theme + "@Roguelike@Stages_default");
@@ -76,8 +81,7 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
         m_invest_with_more_score = (investment_with_more_score);
     }
 
-    // =========================== 萨米主题专用参数 ===========================
-
+    // ------------------ 萨米主题专用参数 ------------------
     if (m_theme == RoguelikeTheme::Sami) {
         // 是否凹开局远见密文板
         m_first_floor_foldartal = params.contains("first_floor_foldartal");
