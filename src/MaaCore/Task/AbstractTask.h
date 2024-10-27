@@ -55,6 +55,18 @@ public:
         m_plugins.emplace_back(plugin);
     }
 
+    template <typename PluginType>
+    requires std::derived_from<PluginType, AbstractTaskPlugin>
+    std::shared_ptr<PluginType> find_plugin() const
+    {
+        for (const auto& plugin : m_plugins) {
+            if (auto ptr = std::dynamic_pointer_cast<PluginType>(plugin)) {
+                return ptr;
+            }
+        }
+        return nullptr;
+    }
+
     void clear_plugin() noexcept;
 
     bool get_enable() const noexcept { return m_enable; }
