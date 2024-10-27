@@ -6020,11 +6020,6 @@
     "RoguelikeRecruitElite2": {
         "baseTask": "RoguelikeRecruitElite"
     },
-    "Sarkaz@RoguelikeRecruit-GiveUp": {
-        "doc": "在集成战略模式招募干员界面点击右下角 <放弃> 文字左侧图标位置，放弃招募机会",
-        "roi": [912, 648, 58, 58],
-        "action": "ClickSelf"
-    },
     "RoguelikeRecruitLazyClick1": {
         "Doc": "招募第一个干员时，快速由下往上依次点击，防止第一个干员无法招募",
         "algorithm": "JustReturn",
@@ -6312,16 +6307,6 @@
             "Roguelike@StageEncounterGiveUpRecruitConfirm",
             "Roguelike@ChooseOperConfirm",
             "Roguelike@RecruitWithoutButton"
-        ]
-    },
-    "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp": {
-        "baseTask": "Sarkaz@Roguelike@StageEncounterGiveUpRecruitConfirm",
-        "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
-        "next": [
-            "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp",
-            "Sarkaz@Roguelike@RecruitOther",
-            "Sarkaz@Roguelike@EnterAfterRecruit",
-            "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText"
         ]
     },
     "Roguelike@ChooseOperFlag": {
@@ -6853,14 +6838,6 @@
         "text": [],
         "roi": [615, 0, 80, 45]
     },
-    "Roguelike@SquadSlowlySwipeToTheRight": {
-        "algorithm": "JustReturn",
-        "action": "Swipe",
-        "specificRect": [1160, 310, 100, 100],
-        "rectMove": [0, 310, 100, 100],
-        "specialParams": [200, 1, 3, 0],
-        "postDelay": 200
-    },
     "Roguelike@SquadConfirm": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -6874,6 +6851,14 @@
         "action": "ClickSelf",
         "roi": [0, 153, 1280, 532],
         "next": ["Roguelike@SquadConfirm"]
+    },
+    "Roguelike@SquadSlowlySwipeToTheRight": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [1160, 310, 100, 100],
+        "rectMove": [0, 310, 100, 100],
+        "specialParams": [200, 1, 3, 0],
+        "postDelay": 200
     },
     "Roguelike@Stage": {
         "Doc": "base_task",
@@ -9442,6 +9427,16 @@
             "Sarkaz@Roguelike@ChooseOperConfirm#next"
         ]
     },
+    "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp": {
+        "baseTask": "Sarkaz@Roguelike@StageEncounterGiveUpRecruitConfirm",
+        "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
+        "next": [
+            "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp",
+            "Sarkaz@Roguelike@RecruitOther",
+            "Sarkaz@Roguelike@EnterAfterRecruit",
+            "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText"
+        ]
+    },
     "Sarkaz@Roguelike@ClickToDrops": {
         "specificRect": [600, 600, 25, 25]
     },
@@ -9771,6 +9766,12 @@
         ],
         "next": ["Sarkaz@Roguelike@RoutingAction"]
     },
+    "Sarkaz@Roguelike@Routing-CombatOps": {
+        "doc": "点击普通战斗节点",
+        "baseTask": "Sarkaz@Roguelike@StageCombatDps",
+        "template": "Sarkaz@Roguelike@StageCombatDps.png",
+        "next": []
+    },
     "Sarkaz@Roguelike@Routing-FastInvestment": {
         "template": ["Sarkaz@Roguelike@StageCombatDps"],
         "next": ["Sarkaz@Roguelike@RoutingAction"]
@@ -9778,11 +9779,10 @@
     "Sarkaz@Roguelike@RoutingAction": {
         "algorithm": "JustReturn"
     },
-    "Sarkaz@Roguelike@Routing-CombatOps": {
-        "doc": "点击普通战斗节点",
-        "baseTask": "Sarkaz@Roguelike@StageCombatDps",
-        "template": "Sarkaz@Roguelike@StageCombatDps.png",
-        "next": []
+    "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon": {
+        "doc": "用于替换 Sarkaz@Roguelike@RoutingAction 的 BaseTask",
+        "algorithm": "JustReturn",
+        "next": ["Sarkaz@Roguelike@ExitThenAbandon"]
     },
     "Sarkaz@Roguelike@RoutingAction-StageEncounterEnter": {
         "algorithm": "JustReturn",
@@ -9792,11 +9792,6 @@
         "doc": "用于替换 Sarkaz@Roguelike@RoutingAction 的 BaseTask",
         "algorithm": "JustReturn",
         "next": ["Sarkaz@Roguelike@StageTraderEnter"]
-    },
-    "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon": {
-        "doc": "用于替换 Sarkaz@Roguelike@RoutingAction 的 BaseTask",
-        "algorithm": "JustReturn",
-        "next": ["Sarkaz@Roguelike@ExitThenAbandon"]
     },
     "Sarkaz@Roguelike@RoutingConfig": {
         "doc": [
@@ -9932,6 +9927,22 @@
             ]
         ],
         "next": ["Sarkaz@Roguelike@StageBoskyPassageEnter", "Sarkaz@Roguelike@StageEncounterJudgeClick"]
+    },
+    "Sarkaz@Roguelike@StageBurdenOperation": {
+        "doc": "#next 放入 Sarkaz@Roguelike@Stages 系列任务中，通过 set_task_base 启用/禁用 <思维负荷干员编队功能>",
+        "baseTask": "Sarkaz@Roguelike@StageBurdenOperation-Start"
+    },
+    "Sarkaz@Roguelike@StageBurdenOperation-None": {
+        "algorithm": "JustReturn",
+        "next": []
+    },
+    "Sarkaz@Roguelike@StageBurdenOperation-Start": {
+        "algorithm": "JustReturn",
+        "next": [
+            "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart",
+            "Sarkaz@Roguelike@DecreaseBurdenChaos",
+            "Sarkaz@Roguelike@DecreaseBurdenRetardation"
+        ]
     },
     "Sarkaz@Roguelike@StageCanDeepen": {
         "baseTask": "Sarkaz@Roguelike@StageCanReconstruct",
@@ -10359,22 +10370,6 @@
             "Sarkaz@Roguelike@StageDreadfulFoe-5"
         ]
     },
-    "Sarkaz@Roguelike@StageBurdenOperation": {
-        "doc": "#next 放入 Sarkaz@Roguelike@Stages 系列任务中，通过 set_task_base 启用/禁用 <思维负荷干员编队功能>",
-        "baseTask": "Sarkaz@Roguelike@StageBurdenOperation-Start"
-    },
-    "Sarkaz@Roguelike@StageBurdenOperation-None": {
-        "algorithm": "JustReturn",
-        "next": []
-    },
-    "Sarkaz@Roguelike@StageBurdenOperation-Start": {
-        "algorithm": "JustReturn",
-        "next": [
-            "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart",
-            "Sarkaz@Roguelike@DecreaseBurdenChaos",
-            "Sarkaz@Roguelike@DecreaseBurdenRetardation"
-        ]
-    },
     "Sarkaz@Roguelike@Stages_default": {
         "Doc": "avoid battle,其他模式和5-6层策略",
         "algorithm": "JustReturn",
@@ -10463,6 +10458,19 @@
     "Sarkaz@Roguelike@StartExplore": {
         "roi": [1014, 481, 266, 219]
     },
+    "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
+        "baseTask": "Sarkaz@Roguelike@StrategyChange_mode1",
+        "text": ["_fastInvestment", "_exit"],
+        "ocrReplace": [
+            ["熔魂之始", "_fastInvestment"],
+            ["锻铁根须", "_exit"],
+            ["灰铸迷城", "_exit"],
+            ["或然歧域", "_exit"],
+            ["虚实疆界", "_exit"],
+            ["辉光天顶", "_exit"],
+            ["诡谲断章", "_exit"]
+        ]
+    },
     "Sarkaz@Roguelike@StrategyChange_mode0": {
         "text": ["_default"],
         "ocrReplace": [
@@ -10516,22 +10524,14 @@
             ["诡谲断章", "_exit"]
         ]
     },
-    "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
-        "baseTask": "Sarkaz@Roguelike@StrategyChange_mode1",
-        "text": ["_fastInvestment", "_exit"],
-        "ocrReplace": [
-            ["熔魂之始", "_fastInvestment"],
-            ["锻铁根须", "_exit"],
-            ["灰铸迷城", "_exit"],
-            ["或然歧域", "_exit"],
-            ["虚实疆界", "_exit"],
-            ["辉光天顶", "_exit"],
-            ["诡谲断章", "_exit"]
-        ]
-    },
     "Sarkaz@Roguelike@TodoEnter": {},
     "Sarkaz@Roguelike@WaitForStartButtonClicked": {
         "template": "Roguelike@QuickFormation.png"
+    },
+    "Sarkaz@RoguelikeRecruit-GiveUp": {
+        "doc": "在集成战略模式招募干员界面点击右下角 <放弃> 文字左侧图标位置，放弃招募机会",
+        "roi": [912, 648, 58, 58],
+        "action": "ClickSelf"
     },
     "Sarkaz@RoguelikeSettlementConfirm": {},
     "Reclamation2": {
