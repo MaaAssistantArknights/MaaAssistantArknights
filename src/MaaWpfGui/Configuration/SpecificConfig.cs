@@ -20,7 +20,6 @@ namespace MaaWpfGui.Configuration
 {
     public class SpecificConfig
     {
-
         [JsonInclude]
         public ObservableList<BaseTask> TaskQueue { get; private set; } = [];
 

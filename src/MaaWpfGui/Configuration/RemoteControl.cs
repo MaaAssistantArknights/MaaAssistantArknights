@@ -16,6 +16,9 @@ using System.ComponentModel;
 
 namespace MaaWpfGui.Configuration
 {
+    /// <summary>
+    /// 远控
+    /// </summary>
     public class RemoteControl : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;

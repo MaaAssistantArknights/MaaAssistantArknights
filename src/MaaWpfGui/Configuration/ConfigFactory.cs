@@ -196,6 +196,7 @@ namespace MaaWpfGui.Configuration
                     };
                     foreach (var task in config.TaskQueue)
                     {
+                        // TODO 改名
                         task.PropertyChanged += OnPropertyChangedFactory(key + ".zdjd.");
                     }
                 }
