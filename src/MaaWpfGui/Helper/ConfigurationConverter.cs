@@ -26,6 +26,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using static MaaWpfGui.Configuration.GUI;
+using static MaaWpfGui.Configuration.MaaTask.ReclamationTask;
 using static MaaWpfGui.Configuration.Toolbox;
 using static MaaWpfGui.Configuration.VersionUpdate;
 using static MaaWpfGui.Models.CoreTask;
@@ -242,6 +243,12 @@ namespace MaaWpfGui.Helper
                     mallTask.VisitFriendsLastTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditVisitFriendsTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
 
                     roguelikeTask.Theme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, "Sami");
+
+                    reclamationTask.Theme = Enum.Parse<ReclamationTheme>(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationTheme, ReclamationTheme.Tales.ToString()));
+                    reclamationTask.Mode = Enum.Parse<ReclamationMode>(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMode, ReclamationMode.Archive.ToString()));
+                    reclamationTask.ToolToCraft = EmptyStringToNull(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationToolToCraft, string.Empty));
+                    reclamationTask.IncrementMode = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationIncrementMode, "0"));
+                    reclamationTask.MaxCraftCountPerRound = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, "16"));
 
                     // 任务导入排序
                     List<(string OldName, int Index, bool IsEnable)> taskList = [("WakeUp", 0, true), ("Recruiting", 1, true), ("Base", 2, true), ("Combat", 3, true), ("Mall", 4, true), ("Mission", 5, true), ("AutoRoguelike", 6, false)];

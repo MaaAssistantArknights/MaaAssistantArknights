@@ -56,6 +56,7 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using static MaaWpfGui.Configuration.GUI;
+using static MaaWpfGui.Configuration.MaaTask.ReclamationTask;
 using static MaaWpfGui.Configuration.VersionUpdate;
 using static MaaWpfGui.Models.CoreTask;
 using ComboBox = System.Windows.Controls.ComboBox;
@@ -841,9 +842,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 NotifyOfPropertyChange(nameof(RoguelikeTheme));
             }
-
-            /*
-            switch (taskType)
+            else if (task is RoguelikeTask roguelike)
             {
                 case TaskType.Award:
                     if (ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex] is AwardTask awardTask)
@@ -851,34 +850,15 @@ namespace MaaWpfGui.ViewModels.UI
                         _receiveAward = awardTask.Award;
                         _receiveMail = awardTask.Mail;
                     }
-
-                    NotifyOfPropertyChange(nameof(ReceiveAward));
-                    NotifyOfPropertyChange(nameof(ReceiveMail));
-                    break;
-                case TaskType.Mall:
-                    if (ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex] is MallTask mallTask)
+            else if (task is ReclamationTask reclamation)
                     {
-                        _creditShopping = mallTask.Shopping;
-                        _creditForceShoppingIfCreditFull = mallTask.ShoppingWhenCreditFull;
-                        _creditFirstList = mallTask.WhiteList;
-                        _creditBlackList = mallTask.BlackList;
+                SetAndNotify(ref _reclamationTheme, reclamation.Theme, nameof(ReclamationTheme));
+                SetAndNotify(ref _reclamationMode, reclamation.Mode, nameof(ReclamationMode));
+                SetAndNotify(ref _reclamationIncrementMode, reclamation.IncrementMode, nameof(ReclamationIncrementMode));
+                SetAndNotify(ref _reclamationToolToCraft, reclamation.ToolToCraft, nameof(ReclamationToolToCraft));
+                SetAndNotify(ref _reclamationMaxCraftCountPerRound, reclamation.MaxCraftCountPerRound, nameof(ReclamationMaxCraftCountPerRound));
                     }
-
-                    NotifyOfPropertyChange(nameof(CreditShopping));
-                    NotifyOfPropertyChange(nameof(CreditForceShoppingIfCreditFull));
-                    NotifyOfPropertyChange(nameof(CreditFirstList));
-                    NotifyOfPropertyChange(nameof(CreditBlackList));
-                    break;
-                case TaskType.Roguelike:
-                    if (ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex] is RoguelikeTask roguelikeTask)
-                    {
-                        _roguelikeTheme = roguelikeTask.Theme;
                     }
-
-                    NotifyOfPropertyChange(nameof(RoguelikeTheme));
-                    break;
-            }*/
-        }
 
         #region 启动设置
         /* 启动设置 */
@@ -2685,71 +2665,72 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the list of reclamation themes.
         /// </summary>
-        public List<CombinedData> ReclamationThemeList { get; } =
+        public List<GenericCombinedData<ReclamationTheme>> ReclamationThemeList { get; } =
         [
-            new() { Display = $"{LocalizationHelper.GetString("ReclamationThemeFire")} ({LocalizationHelper.GetString("ClosedStage")})", Value = "Fire" },
-            new() { Display = LocalizationHelper.GetString("ReclamationThemeTales"), Value = "Tales" },
+            new() { Display = $"{LocalizationHelper.GetString("ReclamationThemeFire")} ({LocalizationHelper.GetString("ClosedStage")})", Value = ReclamationTheme.Fire },
+            new() { Display = LocalizationHelper.GetString("ReclamationThemeTales"), Value = ReclamationTheme.Tales },
         ];
 
-        private string _reclamationTheme = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationTheme, "Tales");
+        private ReclamationTheme _reclamationTheme;
 
         /// <summary>
         /// Gets or sets the Reclamation theme.
         /// </summary>
-        public string ReclamationTheme
+        public ReclamationTheme ReclamationTheme
         {
             get => _reclamationTheme;
             set
             {
                 SetAndNotify(ref _reclamationTheme, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationTheme, value);
+                ((ReclamationTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).Theme = value;
             }
         }
 
         /// <summary>
         /// Gets the list of reclamation modes.
         /// </summary>
-        public List<CombinedData> ReclamationModeList { get; } =
+        public List<GenericCombinedData<ReclamationMode>> ReclamationModeList { get; } =
         [
-            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityNoSave"), Value = "0" },
-            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityInSave"), Value = "1" },
+            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityNoSave"), Value = ReclamationMode.NoArchive },
+            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityInSave"), Value = ReclamationMode.Archive },
         ];
 
-        private string _reclamationMode = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMode, "1");
+        private ReclamationMode _reclamationMode;
 
         /// <summary>
         /// Gets or sets 策略，无存档刷生息点数 / 有存档刷生息点数
         /// </summary>
-        public string ReclamationMode
+        public ReclamationMode ReclamationMode
         {
             get => _reclamationMode;
             set
             {
                 SetAndNotify(ref _reclamationMode, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationMode, value);
+                ((ReclamationTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).Mode = value;
             }
         }
 
-        private string _reclamationToolToCraft = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationToolToCraft, string.Empty);
+        private string? _reclamationToolToCraft;
 
-        public string ReclamationToolToCraft
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_reclamationToolToCraft))
+        public string? ReclamationToolToCraft
                 {
-                    return LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", _clientLanguageMapper[_clientType]);
-                }
-
-                return _reclamationToolToCraft;
-            }
-
+            get => _reclamationToolToCraft;
             set
             {
+                value = string.IsNullOrEmpty(value) ? LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder") : value;
                 SetAndNotify(ref _reclamationToolToCraft, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationToolToCraft, value);
+                ((ReclamationTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).ToolToCraft = value;
             }
         }
+
+        /// <summary>
+        /// Gets the list of reclamation increment modes.
+        /// </summary>
+        public List<GenericCombinedData<int>> ReclamationIncrementModeList { get; } =
+        [
+            new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeClick"), Value = 0 },
+            new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeHold"), Value = 1 },
+        ];
 
         private int _reclamationIncrementMode = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationIncrementMode, "0"));
 
@@ -2763,24 +2744,15 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        /// <summary>
-        /// Gets the list of reclamation increment modes.
-        /// </summary>
-        public List<CombinedData> ReclamationIncrementModeList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeClick"), Value = "0" },
-            new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeHold"), Value = "1" },
-        ];
-
-        private string _reclamationMaxCraftCountPerRound = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, "16");
+        private int _reclamationMaxCraftCountPerRound;
 
         public int ReclamationMaxCraftCountPerRound
         {
-            get => int.Parse(_reclamationMaxCraftCountPerRound);
+            get => _reclamationMaxCraftCountPerRound;
             set
             {
-                SetAndNotify(ref _reclamationMaxCraftCountPerRound, value.ToString());
-                ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, value.ToString());
+                SetAndNotify(ref _reclamationMaxCraftCountPerRound, value);
+                ((ReclamationTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).MaxCraftCountPerRound = value;
             }
         }
 

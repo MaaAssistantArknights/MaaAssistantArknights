@@ -22,7 +22,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Timers;
 using System.Windows;
 using MaaWpfGui.Configuration;
 using MaaWpfGui.Configuration.MaaTask;
@@ -302,7 +301,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool Closing { get; set; }
 
-        private readonly Timer _timer = new();
+        private readonly System.Timers.Timer _timer = new();
 
         public bool ConfirmExit()
         {
@@ -1790,11 +1789,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static bool AppendReclamation()
         {
-            _ = int.TryParse(Instances.SettingsViewModel.ReclamationMode, out var mode);
-
             return Instances.AsstProxy.AsstAppendReclamation(
-                Instances.SettingsViewModel.ReclamationTheme,
-                mode,
+                Instances.SettingsViewModel.ReclamationTheme.ToString(),
+                (int)Instances.SettingsViewModel.ReclamationMode,
                 Instances.SettingsViewModel.ReclamationToolToCraft,
                 Instances.SettingsViewModel.ReclamationIncrementMode,
                 Instances.SettingsViewModel.ReclamationMaxCraftCountPerRound);
