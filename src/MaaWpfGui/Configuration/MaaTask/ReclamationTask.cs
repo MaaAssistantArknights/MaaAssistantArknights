@@ -58,15 +58,23 @@ namespace MaaWpfGui.Configuration.MaaTask
         /// <param name="numCraftBatches">单次最大制造轮数</param>
         /// <returns>是否成功。</returns>
         /// string theme = "Tales", int mode = 1, string toolToCraft = "", int incrementMode = 0, int numCraftBatches = 16
-        public override JObject SerializeJsonTask() =>
-            new()
+        public override JObject SerializeJsonTask()
+        {
+            var json = new JObject()
             {
                 ["theme"] = Theme.ToString(),
                 ["mode"] = (int)Mode,
-                ["tool_to_craft"] = ToolToCraft ?? LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder"),
-                ["increment_mode"] = IncrementMode,
-                ["num_craft_batches"] = MaxCraftCountPerRound,
             };
+
+            if (Mode == ReclamationMode.Archive)
+            {
+                json["tool_to_craft"] = ToolToCraft ?? LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder");
+                json["increment_mode"] = IncrementMode;
+                json["num_craft_batches"] = MaxCraftCountPerRound;
+            }
+
+            return json;
+        }
 
         public enum ReclamationTheme
         {
