@@ -190,7 +190,7 @@
     <system:String x:Key="EmulatorNotFound">에뮬레이터를 찾을 수 없습니다.\n관리자 권한으로 실행하거나\n수동으로 연결을 설정해 주세요</system:String>
     <system:String x:Key="EmulatorTooMany">다수의 에뮬레이터가 실행 중입니다.\n사용하지 않는 에뮬레이터를 종료하거나\n수동으로 연결을 설정해 주세요</system:String>
     <system:String x:Key="EmulatorStartFailed">에뮬레이터를 시작하지 못했습니다.\n사용하지 않는 에뮬레이터를 종료하거나\n또는 에뮬레이터를 수동으로 시작하세요.</system:String>
-    <system:String x:Key="SwitchLanguage">언어 전환</system:String>
+    <system:String x:Key="SwitchLanguage">언어 전환 🌐</system:String>
     <system:String x:Key="Language">언어</system:String>
     <system:String x:Key="LanguageChangedTip">언어가 변경되었습니다. 지금 MAA를 재실행하여 새 설정을 적용하시겠습니까?</system:String>
     <system:String x:Key="ManualRestart">나중에</system:String>
