@@ -4075,23 +4075,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _mumuBridgeConnection = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MumuBridgeConnection, bool.TrueString));
-
-        public bool MuMuBridgeConnection
-        {
-            get => _mumuBridgeConnection;
-            set
-            {
-                if (!SetAndNotify(ref _mumuBridgeConnection, value))
-                {
-                    return;
-                }
-
-                Instances.AsstProxy.Connected = false;
-                ConfigurationHelper.SetValue(ConfigurationKeys.MumuBridgeConnection, value.ToString());
-            }
-        }
-
         private ObservableCollection<string> _connectAddressHistory = [];
 
         public ObservableCollection<string> ConnectAddressHistory
@@ -4123,22 +4106,6 @@ namespace MaaWpfGui.ViewModels.UI
                 ConfigurationHelper.SetValue(ConfigurationKeys.AddressHistory, JsonConvert.SerializeObject(ConnectAddressHistory));
                 ConfigurationHelper.SetValue(ConfigurationKeys.ConnectAddress, value);
                 UpdateWindowTitle(); // 每次修改客户端时更新WindowTitle
-            }
-        }
-
-        private string _index = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12Index, "0");
-
-        /// <summary>
-        /// Gets or sets the index of the emulator.
-        /// </summary>
-        public string Index
-        {
-            get => _index;
-            set
-            {
-                Instances.AsstProxy.Connected = false;
-                SetAndNotify(ref _index, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12Index, value);
             }
         }
 
@@ -4311,6 +4278,39 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
+            private bool _mumuBridgeConnection = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MumuBridgeConnection, bool.FalseString));
+
+            public bool MuMuBridgeConnection
+            {
+                get => _mumuBridgeConnection;
+                set
+                {
+                    if (!SetAndNotify(ref _mumuBridgeConnection, value))
+                    {
+                        return;
+                    }
+
+                    Instances.AsstProxy.Connected = false;
+                    ConfigurationHelper.SetValue(ConfigurationKeys.MumuBridgeConnection, value.ToString());
+                }
+            }
+
+            private string _index = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12Index, "0");
+
+            /// <summary>
+            /// Gets or sets the index of the emulator.
+            /// </summary>
+            public string Index
+            {
+                get => _index;
+                set
+                {
+                    Instances.AsstProxy.Connected = false;
+                    SetAndNotify(ref _index, value);
+                    ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12Index, value);
+                }
+            }
+
             public string Config
             {
                 get
@@ -4325,9 +4325,12 @@ namespace MaaWpfGui.ViewModels.UI
                         ["path"] = EmulatorPath,
                         ["client_type"] = Instances.SettingsViewModel.ClientType,
                     };
-                    if (Instances.SettingsViewModel.MuMuBridgeConnection) {
-                        configObject["index"] = int.TryParse(Instances.SettingsViewModel.Index, out var indexParse) ? indexParse : 0;
+
+                    if (MuMuBridgeConnection)
+                    {
+                        configObject["index"] = int.TryParse(Index, out var indexParse) ? indexParse : 0;
                     }
+
                     return JsonConvert.SerializeObject(configObject);
                 }
             }

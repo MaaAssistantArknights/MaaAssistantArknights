@@ -21,7 +21,6 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -109,29 +108,8 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </hc:ComboBox>
-        <StackPanel
-            Grid.Row="3"
-            HorizontalAlignment="Center"
-            Orientation="Horizontal">
-            <hc:TextBox
-                Width="150"
-                Height="30"
-                Margin="10"
-                hc:TitleElement.Title="{DynamicResource MuMu12Index}"
-                hc:TitleElement.TitlePlacement="Left"
-                Visibility="{c:Binding !AutoDetectConnection}"
-                IsEnabled="{c:Binding MuMuBridgeConnection}"
-                Text="{Binding Index}" />
-            <CheckBox
-                Margin="10"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Visibility="{c:Binding !AutoDetectConnection}"
-                IsEnabled="{c:Binding !AutoDetectConnection}"
-                Content="{DynamicResource MuMuBridgeConnection}"
-                IsChecked="{Binding MuMuBridgeConnection}" />
-        </StackPanel>
-        <StackPanel Grid.Row="4">
+
+        <StackPanel Grid.Row="3">
             <hc:ComboBox
                 Width="300"
                 Height="30"
@@ -150,19 +128,38 @@
                         HorizontalAlignment="Center"
                         Content="{DynamicResource MuMu12ExtrasEnabled}"
                         IsChecked="{Binding MuMuEmulator12Extras.Enable}" />
-                    <hc:TextBox
-                        Width="420"
-                        Height="30"
-                        Margin="10"
-                        hc:InfoElement.Placeholder="Example: C:\Program Files\Netease\MuMuPlayer-12.0"
-                        hc:TitleElement.Title="{DynamicResource MuMu12EmulatorPath}"
-                        hc:TitleElement.TitlePlacement="Left"
-                        Text="{Binding MuMuEmulator12Extras.EmulatorPath}"
-                        Visibility="{c:Binding MuMuEmulator12Extras.Enable}" />
                     <StackPanel
                         HorizontalAlignment="Center"
-                        Orientation="Horizontal"
+                        Orientation="Vertical"
                         Visibility="{c:Binding MuMuEmulator12Extras.Enable}">
+                        <hc:TextBox
+                            Width="420"
+                            Height="30"
+                            Margin="10"
+                            hc:InfoElement.Placeholder="Example: C:\Program Files\Netease\MuMuPlayer-12.0"
+                            hc:TitleElement.Title="{DynamicResource MuMu12EmulatorPath}"
+                            hc:TitleElement.TitlePlacement="Left"
+                            Text="{Binding MuMuEmulator12Extras.EmulatorPath}" />
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            Orientation="Vertical">
+                            <CheckBox
+                                Margin="10"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Visibility="{c:Binding !AutoDetectConnection}"
+                                IsEnabled="{c:Binding !AutoDetectConnection}"
+                                Content="{DynamicResource MuMuBridgeConnection}"
+                                IsChecked="{Binding MuMuEmulator12Extras.MuMuBridgeConnection}" />
+                            <hc:TextBox
+                                Height="30"
+                                Margin="10"
+                                HorizontalContentAlignment="Center"
+                                hc:TitleElement.Title="{DynamicResource MuMu12Index}"
+                                hc:TitleElement.TitlePlacement="Left"
+                                Visibility="{c:Binding MuMuEmulator12Extras.MuMuBridgeConnection}"
+                                Text="{Binding MuMuEmulator12Extras.Index}" />
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Visibility="{c:Binding 'ConnectConfig==&quot;LDPlayer&quot;'}">
@@ -205,7 +202,8 @@
                     Visibility="{c:Binding 'TestLinkInfo!=&quot;&quot;'}" />
             </StackPanel>
         </StackPanel>
-        <StackPanel Grid.Row="5" HorizontalAlignment="Center">
+
+        <StackPanel Grid.Row="4" HorizontalAlignment="Center">
             <CheckBox
                 Margin="20,10"
                 Content="{DynamicResource RetryOnDisconnected}"
@@ -226,7 +224,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="6"
+            Grid.Row="5"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <hc:ComboBox
@@ -247,7 +245,7 @@
                 Content="{DynamicResource ForcedReplaceAdb}" />
         </StackPanel>
 
-        <StackPanel Grid.Row="7">
+        <StackPanel Grid.Row="6">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <CheckBox
                     Margin="20,10"
@@ -275,7 +273,7 @@
         </StackPanel>
 
         <hc:TextBox
-            Grid.Row="8"
+            Grid.Row="7"
             Width="300"
             Height="30"
             Margin="10"
@@ -286,7 +284,7 @@
             PreviewDragOver="TextBox_PreviewDragOver"
             Text="{Binding StartsWithScript}" />
         <hc:TextBox
-            Grid.Row="9"
+            Grid.Row="8"
             Width="300"
             Height="30"
             Margin="10"
@@ -297,7 +295,7 @@
             PreviewDragOver="TextBox_PreviewDragOver"
             Text="{Binding EndsWithScript}" />
         <WrapPanel
-            Grid.Row="10"
+            Grid.Row="9"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
             <CheckBox
@@ -314,7 +312,7 @@
                 IsChecked="{Binding ManualStopWithScript}" />
         </WrapPanel>
         <StackPanel
-            Grid.Row="11"
+            Grid.Row="10"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
