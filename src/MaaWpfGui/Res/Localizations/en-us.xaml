@@ -392,6 +392,7 @@ Note:
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 Emulator exec path</system:String>
     <system:String x:Key="MuMuBridgeConnection">MuMu Network Bridge Connection</system:String>
+    <system:String x:Key="MuMuBridgeConnectionTip">Unless you know what you are doing, do not enable this option</system:String>
     <system:String x:Key="MuMu12Index">Instance Number</system:String>
     <system:String x:Key="MuMu12Display">Display Number</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu screenshot enhancement not enabled, please check related settings</system:String>

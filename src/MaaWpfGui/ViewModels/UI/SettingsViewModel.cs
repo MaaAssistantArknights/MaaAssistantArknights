@@ -4285,10 +4285,21 @@ namespace MaaWpfGui.ViewModels.UI
                 get => _mumuBridgeConnection;
                 set
                 {
-                    if (!SetAndNotify(ref _mumuBridgeConnection, value))
+                    if (_mumuBridgeConnection == value)
                     {
                         return;
                     }
+
+                    if (value)
+                    {
+                        var result = MessageBoxHelper.Show(LocalizationHelper.GetString("MuMuBridgeConnectionTip"), icon: MessageBoxImage.Information, buttons: MessageBoxButton.OKCancel);
+                        if (result != MessageBoxResult.OK)
+                        {
+                            return;
+                        }
+                    }
+
+                    SetAndNotify(ref _mumuBridgeConnection, value);
 
                     Instances.AsstProxy.Connected = false;
                     ConfigurationHelper.SetValue(ConfigurationKeys.MumuBridgeConnection, value.ToString());

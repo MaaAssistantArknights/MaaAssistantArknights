@@ -392,6 +392,7 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0으로 입력해야 합니다.\n
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 에뮬레이터 경로</system:String>
     <system:String x:Key="MuMuBridgeConnection">MuMu 네트워크 브리지 모드</system:String>
+    <system:String x:Key="MuMuBridgeConnectionTip">무엇을 하고 있는지 모른다면 이 옵션을 활성화하지 마십시오</system:String>
     <system:String x:Key="MuMu12Index">인스턴스 번호</system:String>
     <system:String x:Key="MuMu12Display">표시 번호</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu의 스크린샷 향상가 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>

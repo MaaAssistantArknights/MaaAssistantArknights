@@ -392,6 +392,7 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0。\n
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu 安装路径</system:String>
     <system:String x:Key="MuMuBridgeConnection">MuMu 网络桥接模式</system:String>
+    <system:String x:Key="MuMuBridgeConnectionTip">除非你知道自己在做什么，否则不要启用此选项</system:String>
     <system:String x:Key="MuMu12Index">实例编号</system:String>
     <system:String x:Key="MuMu12Display">屏幕编号</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu 截图增强未生效，请检查相关设置</system:String>
