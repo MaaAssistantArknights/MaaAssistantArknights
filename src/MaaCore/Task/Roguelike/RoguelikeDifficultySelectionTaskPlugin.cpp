@@ -47,12 +47,12 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    const int next_difficulty = m_config->get_next_difficulty();
-    Log.info(__FUNCTION__, "| current_difficulty:", m_current_difficulty, "next difficulty:", next_difficulty);
+    const int difficulty = m_config->get_run_for_collectible() ? 0 : m_config->get_difficulty();
+    Log.info(__FUNCTION__, "| current_difficulty:", m_current_difficulty, "next difficulty:", difficulty);
 
     // 仅在插件记录的当前难度与目标难度不一致时重新选择难度
-    if (m_current_difficulty != next_difficulty) {
-        select_difficulty(next_difficulty);
+    if (m_current_difficulty != difficulty) {
+        select_difficulty(difficulty);
     }
 
     return true;

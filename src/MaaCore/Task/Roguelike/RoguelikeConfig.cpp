@@ -22,7 +22,6 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
     m_mode = mode;
 
     m_difficulty = params.get("difficulty", 0);
-    m_next_difficulty = m_difficulty;
 
     // 凹指定干员开局直升
     m_start_with_elite_two = params.get("start_with_elite_two", false);
@@ -81,6 +80,11 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
             Log.warn("================  DEPRECATED  ================");
         }
         m_invest_with_more_score = (investment_with_more_score);
+    }
+
+    // 烧开水模式下第一轮游戏先烧水
+    if (m_mode == RoguelikeMode::Collectible) {
+        m_run_for_collectible = true;
     }
 
     // ------------------ 萨米主题专用参数 ------------------
