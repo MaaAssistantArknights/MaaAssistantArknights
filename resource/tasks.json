@@ -3471,7 +3471,7 @@
         "roi": [544, 0, 210, 201],
         "maskRange": [1, 255],
         "action": "ClickRect",
-        "specificRect": [645, 665, 0, 0],
+        "specificRect": [645, 665],
         "postDelay": 1500,
         "next": ["CreditShop-Bought", "Stop"]
     },
