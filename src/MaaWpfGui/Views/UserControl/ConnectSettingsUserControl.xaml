@@ -53,6 +53,7 @@
         <StackPanel
             Grid.Row="1"
             HorizontalAlignment="Center"
+            IsEnabled="{c:Binding !AutoDetectConnection}"
             Orientation="Horizontal">
             <hc:TextBox
                 Width="420"
@@ -60,7 +61,6 @@
                 Margin="10"
                 hc:TitleElement.Title="{DynamicResource AdbPath}"
                 hc:TitleElement.TitlePlacement="Left"
-                IsEnabled="{c:Binding !AutoDetectConnection}"
                 Text="{Binding AdbPath}" />
             <Button
                 Width="60"
@@ -68,8 +68,7 @@
                 Margin="10"
                 HorizontalAlignment="Right"
                 Command="{s:Action SelectFile}"
-                Content="{DynamicResource Select}"
-                IsEnabled="{c:Binding !AutoDetectConnection}" />
+                Content="{DynamicResource Select}" />
         </StackPanel>
 
         <hc:ComboBox
@@ -108,7 +107,8 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </hc:ComboBox>
-        <StackPanel Grid.Row="3">
+
+        <StackPanel Grid.Row="3" IsEnabled="{c:Binding !AutoDetectConnection}">
             <hc:ComboBox
                 Width="300"
                 Height="30"
@@ -116,7 +116,6 @@
                 hc:TitleElement.Title="{DynamicResource ConnectionPreset}"
                 hc:TitleElement.TitlePlacement="Left"
                 DisplayMemberPath="Display"
-                IsEnabled="{c:Binding !AutoDetectConnection}"
                 ItemsSource="{Binding ConnectConfigList}"
                 SelectedValue="{Binding ConnectConfig}"
                 SelectedValuePath="Value" />
@@ -127,19 +126,34 @@
                         HorizontalAlignment="Center"
                         Content="{DynamicResource MuMu12ExtrasEnabled}"
                         IsChecked="{Binding MuMuEmulator12Extras.Enable}" />
-                    <hc:TextBox
-                        Width="420"
-                        Height="30"
-                        Margin="10"
-                        hc:InfoElement.Placeholder="Example: C:\Program Files\Netease\MuMuPlayer-12.0"
-                        hc:TitleElement.Title="{DynamicResource MuMu12EmulatorPath}"
-                        hc:TitleElement.TitlePlacement="Left"
-                        Text="{Binding MuMuEmulator12Extras.EmulatorPath}"
-                        Visibility="{c:Binding MuMuEmulator12Extras.Enable}" />
                     <StackPanel
                         HorizontalAlignment="Center"
-                        Orientation="Horizontal"
+                        Orientation="Vertical"
                         Visibility="{c:Binding MuMuEmulator12Extras.Enable}">
+                        <hc:TextBox
+                            Width="420"
+                            Height="30"
+                            Margin="10"
+                            hc:InfoElement.Placeholder="Example: C:\Program Files\Netease\MuMuPlayer-12.0"
+                            hc:TitleElement.Title="{DynamicResource MuMu12EmulatorPath}"
+                            hc:TitleElement.TitlePlacement="Left"
+                            Text="{Binding MuMuEmulator12Extras.EmulatorPath}" />
+                        <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+                            <CheckBox
+                                Margin="10"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Content="{DynamicResource MuMuBridgeConnection}"
+                                IsChecked="{Binding MuMuEmulator12Extras.MuMuBridgeConnection}" />
+                            <hc:TextBox
+                                Height="30"
+                                Margin="10"
+                                HorizontalContentAlignment="Center"
+                                hc:TitleElement.Title="{DynamicResource MuMu12Index}"
+                                hc:TitleElement.TitlePlacement="Left"
+                                Text="{Binding MuMuEmulator12Extras.Index}"
+                                Visibility="{c:Binding MuMuEmulator12Extras.MuMuBridgeConnection}" />
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Visibility="{c:Binding 'ConnectConfig==&quot;LDPlayer&quot;'}">
@@ -182,6 +196,7 @@
                     Visibility="{c:Binding 'TestLinkInfo!=&quot;&quot;'}" />
             </StackPanel>
         </StackPanel>
+
         <StackPanel Grid.Row="4" HorizontalAlignment="Center">
             <CheckBox
                 Margin="20,10"

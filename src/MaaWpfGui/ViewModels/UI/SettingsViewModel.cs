@@ -4281,6 +4281,50 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
+            private bool _mumuBridgeConnection = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MumuBridgeConnection, bool.FalseString));
+
+            public bool MuMuBridgeConnection
+            {
+                get => _mumuBridgeConnection;
+                set
+                {
+                    if (_mumuBridgeConnection == value)
+                    {
+                        return;
+                    }
+
+                    if (value)
+                    {
+                        var result = MessageBoxHelper.Show(LocalizationHelper.GetString("MuMuBridgeConnectionTip"), icon: MessageBoxImage.Information, buttons: MessageBoxButton.OKCancel);
+                        if (result != MessageBoxResult.OK)
+                        {
+                            return;
+                        }
+                    }
+
+                    SetAndNotify(ref _mumuBridgeConnection, value);
+
+                    Instances.AsstProxy.Connected = false;
+                    ConfigurationHelper.SetValue(ConfigurationKeys.MumuBridgeConnection, value.ToString());
+                }
+            }
+
+            private string _index = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12Index, "0");
+
+            /// <summary>
+            /// Gets or sets the index of the emulator.
+            /// </summary>
+            public string Index
+            {
+                get => _index;
+                set
+                {
+                    Instances.AsstProxy.Connected = false;
+                    SetAndNotify(ref _index, value);
+                    ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12Index, value);
+                }
+            }
+
             public string Config
             {
                 get
@@ -4295,6 +4339,12 @@ namespace MaaWpfGui.ViewModels.UI
                         ["path"] = EmulatorPath,
                         ["client_type"] = Instances.SettingsViewModel.ClientType,
                     };
+
+                    if (MuMuBridgeConnection)
+                    {
+                        configObject["index"] = int.TryParse(Index, out var indexParse) ? indexParse : 0;
+                    }
+
                     return JsonConvert.SerializeObject(configObject);
                 }
             }
