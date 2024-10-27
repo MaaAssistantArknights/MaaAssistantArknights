@@ -190,7 +190,7 @@
     <system:String x:Key="EmulatorNotFound">No emulator detected\nPlease use administrator privileges to open this software\nor set connection manually</system:String>
     <system:String x:Key="EmulatorTooMany">Too many emulators detected\nPlease shutdown not needed emulators \nor set connection manually</system:String>
     <system:String x:Key="EmulatorStartFailed">Failed to start the emulator\nPlease open this software with administrator privileges \nor start the emulator manually.</system:String>
-    <system:String x:Key="SwitchLanguage">Switch Language</system:String>
+    <system:String x:Key="SwitchLanguage">Switch Language 🌐</system:String>
     <system:String x:Key="Language">Language</system:String>
     <system:String x:Key="LanguageChangedTip">The language settings have been changed, restart the app now?</system:String>
     <system:String x:Key="ManualRestart">Later</system:String>

@@ -190,7 +190,7 @@
     <system:String x:Key="EmulatorNotFound">未檢測到任何模擬器\n請使用系統管理員身分執行本軟體\n或手動設定連接</system:String>
     <system:String x:Key="EmulatorTooMany">檢測到多個模擬器\n請關閉不需要的模擬器\n或手動設定連接</system:String>
     <system:String x:Key="EmulatorStartFailed">無法成功啟動模擬器\n請使用管理員權限開啟本軟體\n或手動啟動模擬器。</system:String>
-    <system:String x:Key="SwitchLanguage">切換語言</system:String>
+    <system:String x:Key="SwitchLanguage">切換語言 🌐</system:String>
     <system:String x:Key="Language">語言</system:String>
     <system:String x:Key="LanguageChangedTip">語言設定已變更，是否現在重開 MAA 以套用語言設定？</system:String>
     <system:String x:Key="ManualRestart">稍後</system:String>
