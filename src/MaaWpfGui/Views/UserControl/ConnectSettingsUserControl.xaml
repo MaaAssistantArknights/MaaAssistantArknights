@@ -147,8 +147,6 @@
                                 Margin="10"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Visibility="{c:Binding !AutoDetectConnection}"
-                                IsEnabled="{c:Binding !AutoDetectConnection}"
                                 Content="{DynamicResource MuMuBridgeConnection}"
                                 IsChecked="{Binding MuMuEmulator12Extras.MuMuBridgeConnection}" />
                             <hc:TextBox
