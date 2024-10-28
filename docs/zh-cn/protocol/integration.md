@@ -39,7 +39,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `StartUp`  
   开始唤醒  
 
-```json
+```json5
 // 对应的任务参数
 {
     "enable": bool,              // 是否启用本任务，可选，默认为 true
@@ -56,7 +56,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `CloseDown`  
     关闭游戏  
 
-```json
+```json5
 // 对应的任务参数
 {
     "enable": bool,              // 是否启用本任务，可选，预设为 true
@@ -68,7 +68,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `Fight`  
     刷理智
 
-```json
+```json5
 // 对应的任务参数
 {
     "enable": bool,             // 是否启用本任务，可选，默认为 true
@@ -104,7 +104,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `Recruit`  
   公开招募
 
-```json
+```json5
 // 对应的任务参数
 {
     "enable": bool,             // 是否启用本任务，可选，默认为 true
@@ -148,7 +148,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `Infrast`  
     基建换班
 
-```json
+```json5
 {
     "enable": bool,         // 是否启用本任务，可选，默认为 true
     "mode": int,            // 换班工作模式，可选，默认 0
@@ -179,7 +179,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
     领取信用及商店购物。  
     会先有序的按 `buy_first` 购买一遍，再从左到右并避开 `blacklist` 购买第二遍，在信用溢出时则会无视黑名单从左到右购买第三遍直到不再溢出
 
-```json
+```json5
 // 对应的任务参数
 {
     "enable": bool,         // 是否启用本任务，可选，默认为 true
@@ -201,7 +201,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `Award`  
     领取各种奖励
 
-```json
+```json5
 // 对应的任务参数
 {
     "enable": bool,            // 是否启用本任务，可选，默认为 true
@@ -217,41 +217,51 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `Roguelike`  
     无限刷肉鸽
 
-```json
+```json5
+// 对应的任务参数
 {
-    "enable": bool,         // 是否启用本任务，可选，默认为 true
-    "theme": string,        // 肉鸽名，可选，默认 "Phantom"
-                            // Phantom - 傀影与猩红血钻
-                            // Mizuki  - 水月与深蓝之树
-                            // Sami    - 探索者的银凇止境
-    "mode": int,            // 模式，可选项。默认 0
-                            // 0 - 刷蜡烛，尽可能稳定地打更多层数
-                            // 1 - 刷源石锭，第一层投资完就退出
-                            // 2 - 【即将弃用】两者兼顾，投资过后再退出，没有投资就继续往后打
-                            // 3 - 开发中...
-                            // 4 - 刷开局，到达第三层后直接退出
-                            // 5 - 刷坍缩范式，mode为5时有效，通过漏怪、在不期而遇节点选择特定选项等方式加快坍缩值积累，
-                            //     若第一个检测到的坍缩范式在expected_collapsal_paradigms列表中则停止任务，否则重开
-    "starts_count": int,    // 开始探索 次数，可选，默认 INT_MAX。达到后自动停止任务
-    "investment_enabled": bool, // 是否投资源石锭，默认开
-    "investments_count": int,
-                            // 投资源石锭 次数，可选，默认 INT_MAX。达到后自动停止任务
-    "stop_when_investment_full": bool,
-                            // 投资满了自动停止任务，可选，默认 false
-    "squad": string,        // 开局分队，可选，例如 "突击战术分队" 等，默认 "指挥分队"
-    "roles": string,        // 开局职业组，可选，例如 "先手必胜" 等，默认 "取长补短"
-    "core_char": string,    // 开局干员名，可选，仅支持单个干员**中文名**，无论区服。默认识别练度自动选择
-    "start_with_elite_two": bool,  // 是否在刷开局模式下凹开局干员精二直升，可选，默认 false
-    "only_start_with_elite_two": bool,  // 是否只凹开局干员精二直升且不进行作战，可选，默认 false，start_with_elite_two为true时有效
-    "use_support": bool,  // 开局干员是否为助战干员，可选，默认 false
-    "use_nonfriend_support": bool,  // 是否可以是非好友助战干员，可选，默认 false，use_support为true时有效
-    "refresh_trader_with_dice": bool,  // 是否用骰子刷新商店购买特殊商品，目前支持水月肉鸽的指路鳞，可选，默认 false
-    "use_foldartal": bool,                    // 是否使用密文板，mode为5时默认 false，否则默认 true
-    "check_collapsal_paradigms": bool,        // 是否检测获取的坍缩范式，mode为5时默认 true，否则默认 false
-    "double_check_collapsal_paradigms": bool, // 是否执行坍缩范式检测防漏措施，check_collapsal_paradigms为true时有效，
-                                              // mode为5时默认 true，否则默认 false
-    "expected_collapsal_paradigms": [         // 需要刷的坍缩范式，mode为5时有效
-        string,                               // 默认 ["目空一些, "睁眼瞎", "图像损坏", "一抹黑"]
+    "enable": bool,  // 是否启用本任务，可选，默认值 true
+    "theme": string, // 主题，可选，默认值 "Phantom"
+                     //   Phantom - 傀影与猩红血钻
+                     //   Mizuki  - 水月与深蓝之树
+                     //   Sami    - 探索者的银凇止境
+                     //   Sarkaz  - 萨卡兹的无终奇语
+    "mode": int,     // 模式，可选，默认值 0
+                     //   0 - 刷分/奖励点数，尽可能稳定地打更多层数
+                     //   1 - 刷源石锭，第一层投资完就退出
+                     //   2 - 【已弃用】兼顾模式 0 与 1，投资过后再退出，没有投资就继续往后打
+                     //   3 - 开发中...
+                     //   4 - 凹开局，先在 0 难度下到达第三层后重开，再到指定难度下凹开局奖励，若不为热水壶或希望则回到 0 难度下重新来过；
+                     //       若在 Phantom 主题下则不切换难度，仅在当前难度下尝试到达第三层、重开、凹开局
+                     //   5 - 刷坍缩范式；仅适用于 Sami 主题；通过战斗漏怪等方式加快坍缩值积累，
+                     //       若遇到的第一个的坍缩范式在 expected_collapsal_paradigms 列表中则停止任务，否则重开
+    "squad": string,                // 开局分队名，可选，默认值 "指挥分队"；
+    "roles": string,                // 开局职业组，可选，默认值 "取长补短"；
+    "core_char": string,            // 开局干员名，可选；仅支持单个干员**中文名**，无论区服；若留空或设置为空字符串 "" 则根据练度自动选择
+    "use_support": bool,            // 开局干员是否为助战干员，可选，默认值 false
+    "use_nonfriend_support": bool,  // 是否可以是非好友助战干员，可选，默认值 false；仅在 use_support 为 true 时有效
+    "starts_count": int,               // 开始探索的次数，可选，默认值 INT_MAX；达到后自动停止任务
+    "difficulty": int,                 // 指定难度等级，可选，默认值 0；仅适用于**除 Phantom 以外**的主题；
+                                       // 若未解锁难度，则会选择当前已解锁的最高难度
+    "stop_at_final_boss": bool,        // 是否在第 5 层险路恶敌节点前停止任务，可选，默认值 false；仅适用于**除 Phantom 以外**的主题
+    "investment_enabled": bool,        // 是否投资源石锭，可选，默认值 true
+    "investments_count": int,          // 投资源石锭的次数，可选，默认值 INT_MAX；达到后自动停止任务
+    "stop_when_investment_full": bool, // 是否在投资到达上限后自动停止任务，可选，默认值 false
+    "start_with_elite_two": bool,      // 是否在凹开局的同时凹干员精二直升，可选，默认值 false；仅适用于模式 4
+    "only_start_with_elite_two": bool, // 是否只凹开局干员精二直升而忽视其他开局条件，可选，默认值 false；
+                                       // 仅在模式为 4 且 start_with_elite_two 为 true 时有效
+    "refresh_trader_with_dice": bool,  // 是否用骰子刷新商店购买特殊商品，可选，默认值 false；仅适用于 Mizuki 主题，用于刷指路鳞
+    "first_floor_foldartal": string,   // 希望在第一层远见阶段得到的密文版，可选；仅适用于 Sami 主题，不限模式；若成功凹到则停止任务
+    "start_foldartal_list": [          // 凹开局时希望在开局奖励阶段得到的密文板，可选，默认值 []；仅主题为 Sami 且模式为 4 时有效；
+      string,                          // 仅当开局拥有列表中所有的密文板时才算凹开局成功；
+      ...                              // 注意，此参数须与 “生活至上分队” 同时使用，其他分队在开局奖励阶段不会获得密文板；
+    ],
+    "use_foldartal": bool,                    // 是否使用密文板，模式 5 下默认值 false，其他模式下默认值 true；仅适用于 Sami 主题，
+    "check_collapsal_paradigms": bool,        // 是否检测获取的坍缩范式，模式 5 下默认值 true，其他模式下默认值 false
+    "double_check_collapsal_paradigms": bool, // 是否执行坍缩范式检测防漏措施，模式 5 下默认值 true，其他模式下默认值 false；
+                                              // 仅在主题为 Sami 且 check_collapsal_paradigms 为 true 时有效
+    "expected_collapsal_paradigms": [         // 希望触发的坍缩范式，默认值 ["目空一些, "睁眼瞎", "图像损坏", "一抹黑"]；
+        string,                               // 仅在主题为 Sami 且模式为 5 时有效
         ...
     ]
 }
@@ -262,7 +272,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `Copilot`  
     自动抄作业
 
-```json
+```json5
 {
     "enable": bool,             // 是否启用本任务，可选，默认为 true
     "filename": string,         // 作业 JSON 的文件路径，绝对、相对路径均可。不支持运行期设置
@@ -275,7 +285,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `SSSCopilot`  
     自动抄保全作业
 
-```json
+```json5
 {
     "enable": bool,             // 是否启用本任务，可选，默认为 true
     "filename": string,         // 作业 JSON 的文件路径，绝对、相对路径均可。不支持运行期设置
@@ -288,7 +298,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `Depot`  
     仓库识别
 
-```json
+```json5
 // 对应的任务参数
 {
     "enable": bool          // 是否启用本任务，可选，默认为 true
@@ -298,7 +308,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `OperBox`  
     干员 box 识别
 
-```json
+```json5
 // 对应的任务参数
 {
     "enable": bool          // 是否启用本任务，可选，默认为 true
@@ -308,7 +318,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `Reclamation`  
     生息演算
 
-```json
+```json5
 {
     "enable": bool,
     "theme": string,            // 主题，可选项。默认为 1
@@ -330,7 +340,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `Custom`  
     自定义任务
 
-```json
+```json5
 {
     "enable": bool,
     "task_names": [     // 执行数组中第一个匹配上的任务（及后续 next 等）
@@ -344,7 +354,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `SingleStep`  
     单步任务（目前仅支持战斗）
 
-```json
+```json5
 {
     "enable": bool,
     "type": string,     // 目前仅支持 "copilot"
@@ -362,7 +372,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `VideoRecognition`  
   视频识别，目前仅支持作业（作战）视频
 
-```json
+```json5
 {
     "enable": bool,
     "filename": string, // 视频的文件路径，绝对、相对路径均可。不支持运行期设置
