@@ -21,9 +21,7 @@ icon: ri:guide-fill
     winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
     ```
 
-    <!-- TODO：这里没有段落跳转了 不知道还能不能留 -->
-
-    更多信息参考[常见问题](./faq.md#运行库问题)置顶。
+    更多信息请参考[常见问题](./faq.md)置顶。
 
 3. 下载正确的版本
 

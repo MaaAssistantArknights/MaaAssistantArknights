@@ -5,22 +5,22 @@ icon: ph:question-fill
 
 # 常见问题
 
+如果是第一次使用 MAA，请阅读[新手上路](./newbie.md)。
+
 ::: warning
 
-<!-- TODO：这里话说的不通顺 明天再改 -->
+如果你是从 MAA 的报错窗口来到这的，那八成是由于未更新运行库而造成的问题。  
+出现次数最多的问题都是运行库问题，而总是有人看不到文档到处问，所以我们把置顶换成了这个。很气。
 
-出现次数最多的问题都是运行库问题，所以我们把置顶换成了这个。很气。尤其是微软，气爆了
+若 MAA 在某次更新后无法运行，有很大可能是因为运行库版本而导致的问题，需更新以下两个运行库。  
+请在终端中运行以下命令，或手动下载两个运行库并安装。
 
-天天追最新版的都是猪！
+```sh
+winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
+```
 
-- 若 MAA 在某次更新后无法运行，也有可能是因运行库版本导致的问题，同样可以尝试再次安装或更新运行库。
-
-- 请安装 [Visual C++ 可再发行程序包](https://aka.ms/vs/17/release/vc_redist.x64.exe) 和 [.NET 桌面运行时 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=Binaries-,Windows,-x64) 并重新启动计算机后再次运行 MAA。  
-  推荐使用 Windows 10 或 11 的用户使用 winget 工具进行安装，只需在终端中运行以下命令。
-
-  ```sh
-  winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
-  ```
+- [Visual C++ 可再发行程序包](https://aka.ms/vs/17/release/vc_redist.x64.exe)
+- [.NET 桌面运行时 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=Binaries-,Windows,-x64)
 
 :::
 
@@ -38,17 +38,7 @@ icon: ph:question-fill
 
 ### 系统问题
 
-- MAA 不支持 32 位操作系统。
-
-<!-- TODO：这里格式爆了 语句不通顺 不符合语境 也不需要参阅下文了 明天再改 -->
-
-- MAA 在 5.0 版本更新到了 .NET 8，对于最终用户来说，影响如下：
-
-1. MAA 现在需要 .NET 8 运行库，在启动时会自动提示用户安装。若安装失败，请阅读下文并手动安装。
-2. MAA 不会再被 Windows Defender 误报了。~~为了这碟醋包的饺子~~
-3. .NET 8 不支持 Windows 7/8/8.1 系统<sup>[源](https://github.com/dotnet/core/issues/7556)</sup>，所以 MAA 也同样不再支持。最后一个可用的 .NET 8 版本为 [`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7)；最后一个可用的 .NET 4.8 版本为 [`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8)。尚未确定自行编译的可行性。
-4. 在 Windows 7 上运行 .NET 8 应用时，会出现内存占用异常的问题，请参阅[下文](#net-8-应用在-windows-7-上运行异常的缓解措施-8238)实施缓解措施。Windows 8/8.1 未经测试，若存在相同问题，请顺手发个 Issue 提醒我们补充文档。
-
+- MAA 不支持 32 位操作系统，不支持 Windows 7 / 8 / 8.1。
 - 以上运行库安装均需要依赖组件存储服务（CBS、TrustedInstaller/TiWorker、WinSxS）。
   如果组件存储服务被破坏，将不能正常安装。
 
@@ -60,7 +50,9 @@ icon: ph:question-fill
 
 #### Windows 7
 
-对于 Windows 7，在安装上文提到的运行库之前，还需检查以下补丁是否已安装：
+.NET 8 不支持 Windows 7 / 8 / 8.1 系统<sup>[源](https://github.com/dotnet/core/issues/7556)</sup>，所以 MAA 也同样不再支持。最后一个可用的 .NET 8 版本为 [`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7)；最后一个可用的 .NET 4.8 版本为 [`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8)。尚未确定自行编译的可行性。
+
+对于 Windows 7，在安装上文提到的两个运行库之前，还需检查以下补丁是否已安装：
 
 1. [Windows 7 Service Pack 1](https://support.microsoft.com/zh-cn/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
 2. SHA-2 代码签名补丁：
@@ -69,6 +61,8 @@ icon: ph:question-fill
 3. Platform Update for Windows 7（DXGI 1.2、Direct3D 11.1，KB2670838）：[下载链接 1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)、[下载链接 2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
 
 ##### .NET 8 应用在 Windows 7 上运行异常的缓解措施 [#8238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8238)
+
+在 Windows 7 上运行 .NET 8 应用时，会出现内存占用异常的问题，请参阅下文实施缓解措施。Windows 8/8.1 未经测试，若存在相同问题，请顺手发个 Issue 提醒我们补充文档。
 
 1. 打开 `计算机`，右键空白处，点击属性，点击左侧 `高级系统设置`，点击 `环境变量`。
 2. 新建一个系统变量，变量名 `DOTNET_EnableWriteXorExecute`，变量值 `0`。
