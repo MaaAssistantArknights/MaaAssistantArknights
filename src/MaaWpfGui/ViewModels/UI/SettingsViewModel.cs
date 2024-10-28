@@ -1980,15 +1980,14 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void UpdateRoguelikeDifficultyList()
         {
-            RoguelikeDifficultyList = new ObservableCollection<CombinedData>();
+            RoguelikeDifficultyList = [
+                new CombinedData { Display = "MAX", Value = int.MaxValue.ToString() }
+            ];
 
-            if (RoguelikeTheme != "Phantom")
+            for (int i = 20; i >= 0; --i)
             {
-                for (int i = 0; i <= 15; ++i)
-                {
-                    var value = i.ToString();
-                    RoguelikeDifficultyList.Add(new CombinedData { Display = value, Value = value });
-                }
+                var value = i.ToString();
+                RoguelikeDifficultyList.Add(new CombinedData { Display = value, Value = value });
             }
         }
 
@@ -2224,13 +2223,15 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _roguelikeTheme, value);
-                UpdateRoguelikeDifficultyList();
                 UpdateRoguelikeModeList();
                 UpdateRoguelikeSquadList();
                 UpdateRoguelikeCoreCharList();
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeTheme, value);
             }
         }
+
+        private string _roguelikeDifficulty = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDifficulty, "MAX");
+
         public string RoguelikeDifficulty
         {
             get => _roguelikeDifficulty;
@@ -2240,10 +2241,6 @@ namespace MaaWpfGui.ViewModels.UI
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDifficulty, value);
             }
         }
-
-        private string _roguelikeDifficulty = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDifficulty, "0");
-
-
 
         private string _roguelikeMode = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMode, "0");
 
