@@ -5,6 +5,7 @@
 #include "Controller/Controller.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
+#include "Task/Roguelike/RoguelikeDifficultySelectionTaskPlugin.h"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
 #include "Vision/Matcher.h"
@@ -521,14 +522,15 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
             if (it != chars.cend()) {
                 // !get_run_for_collectible() 即当前没有在烧开水/水已经烧好了
                 // 需要凹直升且，要么已经烧好了水，要么只需要凹直升不需要烧水
-                if (start_with_elite_two && (m_config->get_run_for_collectible() || only_start_with_elite_two)) {
+                const auto& diff_ptr = m_task_ptr->find_plugin<RoguelikeDifficultySelectionTaskPlugin>();
+                if (start_with_elite_two && (diff_ptr->get_target() != 0 || only_start_with_elite_two)) {
                     if (it->elite == 2) {
                         m_task_ptr->set_enable(false);
                     }
                     else {
                         // 非只凹直升时，重新烧水
                         if (!only_start_with_elite_two) {
-                            m_config->set_run_for_collectible(true);
+                            diff_ptr->set_target(0);
                         }
                         m_control_ptr->exit_then_stop();
                     }

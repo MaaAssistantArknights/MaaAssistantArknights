@@ -3,6 +3,7 @@
 #include "Config/TaskData.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
+#include "Task/Roguelike/RoguelikeDifficultySelectionTaskPlugin.h"
 #include "Utils/Logger.hpp"
 
 bool asst::RoguelikeFoldartalStartTaskPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -12,7 +13,9 @@ bool asst::RoguelikeFoldartalStartTaskPlugin::verify(AsstMsg msg, const json::va
     }
 
     // 如果正在烧水就跳过
-    if (m_config->get_run_for_collectible()) {
+    if (m_config->get_theme() != RoguelikeTheme::Sami ||
+        m_task_ptr->find_plugin<RoguelikeDifficultySelectionTaskPlugin>()->get_target() == 0 ||
+        !m_start_foldartal_list.empty()) {
         return false;
     }
 
@@ -68,7 +71,7 @@ bool asst::RoguelikeFoldartalStartTaskPlugin::_run()
 
     // 没有刷到需要的板子，退出重开
     if (mode == RoguelikeMode::Collectible && !start_foldartal_checked) {
-        m_config->set_run_for_collectible(true); // 重新烧水
+        m_task_ptr->find_plugin<RoguelikeDifficultySelectionTaskPlugin>()->set_target(0); // 重新烧水
         Task.set_task_base("Roguelike@LastReward", "Roguelike@LastReward_restart");
         Task.set_task_base("Roguelike@LastReward4", "Roguelike@LastReward_restart");
     }

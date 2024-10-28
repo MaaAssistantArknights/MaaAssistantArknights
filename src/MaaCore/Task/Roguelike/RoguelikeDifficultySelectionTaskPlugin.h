@@ -11,12 +11,17 @@ public:
     virtual bool verify(AsstMsg msg, const json::value& details) const override;
     virtual bool load_params(const json::value& params) override;
 
+    void set_target(const int difficulty) { m_target_difficulty = difficulty; }
+
+    int get_target() const { return m_target_difficulty; }
+
 protected:
     virtual bool _run() override;
 
 private:
     bool select_difficulty(const int difficulty = 0);
 
+    int m_target_difficulty = 0;
     int m_current_difficulty = -1;
 };
 }

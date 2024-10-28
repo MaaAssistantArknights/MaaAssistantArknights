@@ -20,9 +20,10 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
 
     m_theme = theme;
     m_mode = mode;
-
     m_difficulty = params.get("difficulty", 0);
 
+    m_start_with_elite_two = params.get("start_with_elite_two", false);
+    m_only_start_with_elite_two = params.get("only_start_with_elite_two", false);
     if (mode != RoguelikeMode::Collectible && (m_start_with_elite_two || m_only_start_with_elite_two)) {
         Log.error(__FUNCTION__, "| Invalid mode for start_with_elite_two", static_cast<int>(mode));
         return false;
@@ -76,15 +77,6 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
             Log.warn("================  DEPRECATED  ================");
         }
         m_invest_with_more_score = (investment_with_more_score);
-    }
-
-    if (m_mode == RoguelikeMode::Collectible) {
-        m_run_for_collectible = true; // 烧开水模式下第一轮游戏先烧水
-        // 凹指定干员开局直升，此功能仅在 mode == RoguelikeMode::Collectible 且 core_char 不为空时生效
-        if (!params.get("core_char", "").empty()) {
-            m_start_with_elite_two = params.get("start_with_elite_two", false);
-            m_only_start_with_elite_two = params.get("only_start_with_elite_two", false);
-        }
     }
 
     // ------------------ 萨米主题专用参数 ------------------

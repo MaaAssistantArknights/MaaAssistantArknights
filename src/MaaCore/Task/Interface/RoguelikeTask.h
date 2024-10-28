@@ -11,6 +11,7 @@ class RoguelikeDebugTaskPlugin;
 class RoguelikeCustomStartTaskPlugin;
 class RoguelikeFoldartalStartTaskPlugin;
 class RoguelikeFoldartalUseTaskPlugin;
+class RoguelikeDifficultySelectionTaskPlugin;
 
 class RoguelikeTask : public InterfaceTask
 {
@@ -29,6 +30,7 @@ private:
     std::shared_ptr<RoguelikeInvestTaskPlugin> m_invest_ptr = nullptr;
     std::shared_ptr<RoguelikeDebugTaskPlugin> m_debug_ptr = nullptr;
     std::shared_ptr<RoguelikeCustomStartTaskPlugin> m_custom_ptr = nullptr;
+    std::shared_ptr<RoguelikeDifficultySelectionTaskPlugin> m_difficulty_ptr = nullptr;
     std::shared_ptr<RoguelikeFoldartalStartTaskPlugin> m_foldartal_start_ptr = nullptr;
     std::shared_ptr<RoguelikeFoldartalUseTaskPlugin> m_foldartal_use_ptr = nullptr;
 };
