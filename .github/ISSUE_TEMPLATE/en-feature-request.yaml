@@ -11,6 +11,8 @@ body:
           required: true
         - label: I'm probably sure this is a new feature/suggestion and not a bug encountered (please attach logs if you're not sure)
           required: true
+        - label: I reviewed the latest Issues and Pull requests to ensure that the feature I proposed hasn't been implemented yet.
+          required: true
   - type: textarea
     id: describe
     attributes:

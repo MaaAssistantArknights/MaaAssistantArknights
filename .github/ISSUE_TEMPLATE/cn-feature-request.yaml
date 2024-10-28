@@ -11,6 +11,8 @@ body:
           required: true
         - label: 我基本确定这是一个新功能/建议，而不是遇到了 Bug（不确定的话请附上日志）
           required: true
+        - label: 我翻阅了最新的 Issues 和 Pull requests，确保我提出的功能目前未被实现
+          required: true
   - type: textarea
     id: describe
     attributes:
