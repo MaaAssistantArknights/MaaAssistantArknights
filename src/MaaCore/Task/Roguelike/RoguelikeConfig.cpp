@@ -26,7 +26,7 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
     m_start_with_elite_two = params.get("start_with_elite_two", false);
     m_only_start_with_elite_two = params.get("only_start_with_elite_two", false);
 
-    if (mode != RoguelikeMode::Collectible && (m_start_with_elite_two||m_only_start_with_elite_two)) {
+    if (mode != RoguelikeMode::Collectible && (m_start_with_elite_two || m_only_start_with_elite_two)) {
         Log.error(__FUNCTION__, "| Invalid mode for start_with_elite_two", static_cast<int>(mode));
         return false;
     }
