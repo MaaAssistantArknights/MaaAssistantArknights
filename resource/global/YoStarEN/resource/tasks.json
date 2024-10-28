@@ -941,11 +941,11 @@
     "RecruitingActivitiesRecruitEnd": {
         "text": ["Headhunt x1", "Headhunt"]
     },
-    "SpecialAccessActivitiesConfirm": {
-        "text": ["CLAIM", "NOW"]
-    },
     "SpecialAccessActivities": {
         "text": ["Exclusive", "Event"]
+    },
+    "SpecialAccessActivitiesConfirm": {
+        "text": ["CLAIM", "NOW"]
     },
     "NoFriends": {
         "text": ["No friends"]
