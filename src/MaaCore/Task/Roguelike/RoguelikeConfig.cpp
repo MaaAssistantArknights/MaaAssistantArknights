@@ -85,6 +85,10 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
         m_invest_with_more_score = (investment_with_more_score);
     }
 
+    if (m_mode == RoguelikeMode::Collectible) {
+        m_run_for_collectible = true; // 烧开水模式下第一轮游戏先烧水
+    }
+
     // ------------------ 萨米主题专用参数 ------------------
     if (m_theme == RoguelikeTheme::Sami) {
         // 是否凹开局远见密文板

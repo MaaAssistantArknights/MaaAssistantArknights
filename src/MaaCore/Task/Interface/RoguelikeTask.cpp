@@ -73,8 +73,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
 
     m_roguelike_task_ptr->register_plugin<RoguelikeLastRewardTaskPlugin>(m_config_ptr, m_control_ptr);
 
-    m_difficulty_ptr =
-        m_roguelike_task_ptr->register_plugin<RoguelikeDifficultySelectionTaskPlugin>(m_config_ptr, m_control_ptr);
+    m_roguelike_task_ptr->register_plugin<RoguelikeDifficultySelectionTaskPlugin>(m_config_ptr, m_control_ptr);
     m_roguelike_task_ptr->register_plugin<RoguelikeStrategyChangeTaskPlugin>(m_config_ptr, m_control_ptr);
 
     // ------------------ 萨米主题专用插件 ------------------
@@ -127,13 +126,6 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_default");
         m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", INT_MAX);
         m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
-    }
-
-    if (m_config_ptr->get_mode() == RoguelikeMode::Collectible) {
-        m_difficulty_ptr->set_target(0);
-    }
-    else {
-        m_difficulty_ptr->set_target(m_config_ptr->get_difficulty());
     }
 
     bool stop_at_final_boss = params.get("stop_at_final_boss", false);
