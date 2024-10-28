@@ -13,8 +13,7 @@ bool asst::RoguelikeFoldartalStartTaskPlugin::verify(AsstMsg msg, const json::va
     }
 
     // 如果正在烧水就跳过
-    if (m_config->get_theme() != RoguelikeTheme::Sami ||
-        m_task_ptr->find_plugin<RoguelikeDifficultySelectionTaskPlugin>()->get_target() == 0 ||
+    if (m_task_ptr->find_plugin<RoguelikeDifficultySelectionTaskPlugin>()->get_target() == 0 ||
         !m_start_foldartal_list.empty()) {
         return false;
     }
