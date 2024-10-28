@@ -941,6 +941,12 @@
     "RecruitingActivitiesRecruitEnd": {
         "text": ["Headhunt x1", "Headhunt"]
     },
+    "SpecialAccessActivitiesConfirm": {
+        "text": ["CLAIM", "NOW"]
+    },
+    "SpecialAccessActivities": {
+        "text": ["Exclusive", "Event"]
+    },
     "NoFriends": {
         "text": ["No friends"]
     },
