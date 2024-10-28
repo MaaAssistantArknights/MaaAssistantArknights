@@ -21,6 +21,7 @@
             <ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource ReclamationTheme}"
+                DisplayMemberPath="Display"
                 IsHitTestVisible="{Binding Idle}"
                 ItemsSource="{Binding ReclamationThemeList}"
                 SelectedValue="{Binding ReclamationTheme}"
@@ -29,6 +30,7 @@
             <ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource Strategy}"
+                DisplayMemberPath="Display"
                 IsHitTestVisible="{Binding Idle}"
                 ItemsSource="{Binding ReclamationModeList}"
                 SelectedValue="{Binding ReclamationMode}"
@@ -53,6 +55,7 @@
             <ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource ReclamationIncrementMode}"
+                DisplayMemberPath="Display"
                 IsEnabled="{c:Binding 'ReclamationMode == &quot;1&quot;'}"
                 IsHitTestVisible="{Binding Idle}"
                 ItemsSource="{Binding ReclamationIncrementModeList}"
