@@ -14,6 +14,12 @@
     "ClickChapter3": {
         "text": ["残映"]
     },
+    "EnterChapterDifficultyHard": {
+        "text": ["作戦へ"]
+    },
+    "EnterChapterDifficultyNormal": {
+        "text": ["作戦へ"]
+    },
     "BB-Open": {
         "template": "StageSideStory.png",
         "baseTask": "SS-Open",
@@ -1073,6 +1079,13 @@
     },
     "RecruitingActivitiesRecruitEnd": {
         "text": ["1回スカウト", "スカウト"]
+    },
+    "SpecialAccessActivities": {
+        "doc": "五周年月卡、大感謝祭特別月パス",
+        "text": ["大感謝祭", "月パス"]
+    },
+    "SpecialAccessActivitiesConfirm": {
+        "text": ["受け取る"]
     },
     "NoFriends": {
         "text": ["戦友があリませれ"]
