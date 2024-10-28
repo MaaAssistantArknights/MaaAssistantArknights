@@ -13,7 +13,7 @@ icon: ph:question-fill
 出现次数最多的问题都是运行库问题，而总是有人看不到文档到处问，所以我们把置顶换成了这个。很气。
 
 若 MAA 在某次更新后无法运行，有很大可能是因为运行库版本而导致的问题，需更新以下两个运行库。  
-请在终端中运行以下命令，或手动下载两个运行库并安装。
+请在终端中运行以下命令，或手动下载<u>**两个**</u>运行库并安装。
 
 ```sh
 winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
