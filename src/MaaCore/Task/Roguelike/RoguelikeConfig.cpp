@@ -20,7 +20,17 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
 
     m_theme = theme;
     m_mode = mode;
-    m_difficulty = params.get("difficulty", 0);
+
+    if (m_theme != RoguelikeTheme::Phantom) {
+        m_difficulty = params.get("difficulty", 0);
+    }
+    else if (params.contains("difficulty")) {
+        Log.error(__FUNCTION__, "| Invalid difficulty for theme", m_theme);
+        return false;
+    }
+    else {
+        m_difficulty = 1;
+    }
 
     m_start_with_elite_two = params.get("start_with_elite_two", false);
     m_only_start_with_elite_two = params.get("only_start_with_elite_two", false);
