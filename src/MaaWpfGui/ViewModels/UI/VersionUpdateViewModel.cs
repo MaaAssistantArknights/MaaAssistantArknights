@@ -610,7 +610,7 @@ namespace MaaWpfGui.ViewModels.UI
                     if (hasProxy && isInChina)
                     {
                         // 如果设置了代理，国内镜像的延迟加上一个固定值
-                        latencies[i] += 648;
+                        latencies[i] += 6480;
                     }
 
                     if (latencies[selected] < 0 || (latencies[i] >= 0 && latencies[i] < latencies[selected]))
