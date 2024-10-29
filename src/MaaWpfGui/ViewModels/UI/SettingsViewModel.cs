@@ -4371,7 +4371,6 @@ namespace MaaWpfGui.ViewModels.UI
                     var configObject = new JObject
                     {
                         ["path"] = EmulatorPath,
-                        ["client_type"] = Instances.SettingsViewModel.ClientType,
                     };
 
                     if (MuMuBridgeConnection)
