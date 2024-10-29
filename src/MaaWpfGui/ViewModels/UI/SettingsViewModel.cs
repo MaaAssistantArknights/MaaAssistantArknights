@@ -3991,11 +3991,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (toastMessage != string.Empty)
             {
-                _ = Execute.OnUIThreadAsync(() =>
-                {
-                    using var toast = new ToastNotification(toastMessage);
-                    toast.Show();
-                });
+                ToastNotification.ShowDirect(toastMessage);
             }
         }
 
@@ -4985,11 +4981,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             if (string.IsNullOrEmpty(AdbPath))
             {
-                _ = Execute.OnUIThreadAsync(() =>
-                {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("NoAdbPathSpecifiedMessage"));
-                    toast.Show();
-                });
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("NoAdbPathSpecifiedMessage"));
                 return;
             }
 
@@ -5004,11 +4996,8 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (!downloadResult)
                 {
-                    _ = Execute.OnUIThreadAsync(() =>
-                    {
-                        using var toast = new ToastNotification(LocalizationHelper.GetString("AdbDownloadFailedTitle"));
-                        toast.AppendContentText(LocalizationHelper.GetString("AdbDownloadFailedDesc")).Show();
-                    });
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("AdbDownloadFailedTitle"));
+                    toast.AppendContentText(LocalizationHelper.GetString("AdbDownloadFailedDesc")).Show();
                     return;
                 }
             }
@@ -5026,11 +5015,7 @@ namespace MaaWpfGui.ViewModels.UI
             catch (Exception ex)
             {
                 _logger.Error($"An error occurred while deleting directory: {ex.GetType()}: {ex.Message}");
-                _ = Execute.OnUIThreadAsync(() =>
-                {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("AdbDeletionFailedMessage"));
-                    toast.Show();
-                });
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("AdbDeletionFailedMessage"));
                 return;
             }
 
@@ -5041,11 +5026,7 @@ namespace MaaWpfGui.ViewModels.UI
             catch (Exception ex)
             {
                 _logger.Error(ex.ToString());
-                _ = Execute.OnUIThreadAsync(() =>
-                {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("UnzipFailedMessage"));
-                    toast.Show();
-                });
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("UnzipFailedMessage"));
                 return;
             }
 
@@ -5082,21 +5063,14 @@ namespace MaaWpfGui.ViewModels.UI
 
                 ConfigurationHelper.SetValue(ConfigurationKeys.AdbReplaced, bool.TrueString);
 
-                _ = Execute.OnUIThreadAsync(() =>
-                {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("SuccessfullyReplacedAdb"));
-                    toast.Show();
-                });
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("SuccessfullyReplacedAdb"));
             }
             else
             {
                 AdbPath = NewAdb;
 
-                _ = Execute.OnUIThreadAsync(() =>
-                {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocal"));
-                    toast.AppendContentText(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocalDesc")).Show();
-                });
+                using var toast = new ToastNotification(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocal"));
+                toast.AppendContentText(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocalDesc")).Show();
             }
         }
 
@@ -5223,11 +5197,7 @@ namespace MaaWpfGui.ViewModels.UI
                 NotifyOfPropertyChange();
                 if (value)
                 {
-                    Execute.OnUIThreadAsync(() =>
-                    {
-                        using var toast = new ToastNotification("Test test");
-                        toast.Show();
-                    });
+                    ToastNotification.ShowDirect("Test test");
                 }
             }
         }

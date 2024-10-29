@@ -66,8 +66,7 @@ namespace MaaWpfGui.Services.HotKeys
                     return;
                 }
 
-                using var toast = new ToastNotification(LocalizationHelper.GetString("BackgroundLinkStarted"));
-                toast.Show();
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("BackgroundLinkStarted"));
             }
             else
             {
@@ -79,8 +78,7 @@ namespace MaaWpfGui.Services.HotKeys
                     return;
                 }
 
-                using var toast = new ToastNotification(LocalizationHelper.GetString("BackgroundLinkStopped"));
-                toast.Show();
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("BackgroundLinkStopped"));
             }
         }
     }
