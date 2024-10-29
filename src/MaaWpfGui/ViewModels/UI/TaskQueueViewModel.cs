@@ -1111,6 +1111,36 @@ namespace MaaWpfGui.ViewModels.UI
             return false;
         }
 
+        public int MainTasksCompletedCount { get; set; }
+
+        public int MainTasksSelectedCount => TaskItemViewModels.Count(x => x.IsChecked);
+
+        /// <summary>
+        /// updates the main tasks progress.
+        /// </summary>
+        /// <param name="completedCount">已完成任务数，留空则代表 +1</param>
+        public void UpdateMainTasksProgress(int? completedCount = null)
+        {
+            var rvm = (RootViewModel)this.Parent;
+            if (MainTasksSelectedCount == 0)
+            {
+                rvm.Progress = 0;
+                return;
+            }
+
+            MainTasksCompletedCount = completedCount ?? ++MainTasksCompletedCount;
+
+            if (MainTasksCompletedCount >= MainTasksSelectedCount)
+            {
+                rvm.Progress = 0;
+            }
+            else
+            {
+                var progress = MainTasksCompletedCount / (double)MainTasksSelectedCount;
+                rvm.Progress = progress;
+            }
+        }
+
         /// <summary>
         /// Starts.
         /// </summary>
@@ -1121,6 +1151,8 @@ namespace MaaWpfGui.ViewModels.UI
                 _logger.Information("Not idle, return.");
                 return;
             }
+
+            MainTasksCompletedCount = 0;
 
             _runningState.SetIdle(false);
 
@@ -2317,6 +2349,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 FightTaskRunning = false;
                 InfrastTaskRunning = false;
+                UpdateMainTasksProgress(0);
             }
         }
 

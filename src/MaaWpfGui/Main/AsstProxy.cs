@@ -735,6 +735,16 @@ namespace MaaWpfGui.Main
                     break;
 
                 case AsstMsg.TaskChainCompleted:
+                    // 判断 _latestTaskId 中是否有元素的值和 details["taskid"] 相等，如果有再判断这个 id 对应的任务是否在 _mainTaskTypes 中
+                    if (_latestTaskId.Any(i => i.Value == details["taskid"]?.ToObject<AsstTaskId>()))
+                    {
+                        var taskType = _latestTaskId.First(i => i.Value == details["taskid"]?.ToObject<AsstTaskId>()).Key;
+                        if (_mainTaskTypes.Contains(taskType))
+                        {
+                            Instances.TaskQueueViewModel.UpdateMainTasksProgress();
+                        }
+                    }
+
                     switch (taskChain)
                     {
                         case "Fight":
@@ -800,27 +810,7 @@ namespace MaaWpfGui.Main
                     var taskList = details["finished_tasks"]?.ToObject<AsstTaskId[]>();
                     if (taskList?.Length > 0)
                     {
-                        var mainTaskTypes = new HashSet<TaskType>
-                        {
-                            TaskType.StartUp,
-                            TaskType.Fight,
-                            TaskType.FightRemainingSanity,
-                            TaskType.Recruit,
-                            TaskType.Infrast,
-                            TaskType.Mall,
-                            TaskType.Award,
-                            TaskType.Roguelike,
-                            TaskType.Reclamation,
-                        };
-
-                        // 仅有一个任务且为 CloseDown 时，不执行任务链结束后操作
-                        /*
-                        if (taskList.Length == 1)
-                        {
-                            mainTaskTypes.Remove(TaskType.CloseDown);
-                        }
-                        */
-                        var latestMainTaskIds = _latestTaskId.Where(i => mainTaskTypes.Contains(i.Key)).Select(i => i.Value);
+                        var latestMainTaskIds = _latestTaskId.Where(i => _mainTaskTypes.Contains(i.Key)).Select(i => i.Value);
                         isMainTaskQueueAllCompleted = taskList.Any(i => latestMainTaskIds.Contains(i));
                     }
 
@@ -1980,6 +1970,19 @@ namespace MaaWpfGui.Main
             Reclamation,
             Custom,
         }
+
+        private readonly HashSet<TaskType> _mainTaskTypes =
+        [
+            TaskType.StartUp,
+            TaskType.Fight,
+            TaskType.FightRemainingSanity,
+            TaskType.Recruit,
+            TaskType.Infrast,
+            TaskType.Mall,
+            TaskType.Award,
+            TaskType.Roguelike,
+            TaskType.Reclamation
+        ];
 
         private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = [];
 
