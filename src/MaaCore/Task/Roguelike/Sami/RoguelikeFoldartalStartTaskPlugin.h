@@ -20,7 +20,6 @@ protected:
 private:
     bool check_foldartals();
 
-    bool m_start_foldartal = false;                  // 生活队凹开局密文板
     std::vector<std::string> m_start_foldartal_list; // 需要凹的板子
 };
 }

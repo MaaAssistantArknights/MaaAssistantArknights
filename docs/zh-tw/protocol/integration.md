@@ -38,7 +38,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `StartUp`  
     開始喚醒  
 
-```json
+```json5
 // 對應的任務參數
 {
     "enable": bool,              // 是否啟用本任務，可選，預設為 true
@@ -55,7 +55,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `CloseDown`  
     關閉遊戲  
 
-```json
+```json5
 // 對應的任務參數
 {
     "enable": bool,              // 是否啟用本任務，可選，預設為 true
@@ -67,7 +67,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `Fight`  
     刷理智
 
-```json
+```json5
 // 對應的任務參數
 {
     "enable": bool,             // 是否啟用本任務，可選，預設為 true
@@ -103,7 +103,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `Recruit`  
     公開招募
 
-```json
+```json5
 // 對應的任務參數
 {
     "enable": bool,             // 是否啟用本任務，可選，預設為 true
@@ -147,7 +147,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `Infrast`  
     基建換班
 
-```json
+```json5
 {
     "enable": bool,         // 是否啟用本任務，可選，預設為 true
     "mode": int,            // 換班工作模式，可選，預設 0
@@ -178,7 +178,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
     領取信用及商店購物。  
     會先有序的按 `buy_first` 購買一遍，再從左到右並避開 `blacklist` 購買第二遍，在信用溢出時則會無視黑名單，從左到右購買第三遍直到不再溢出
 
-```json
+```json5
 // 對應的任務參數
 {
     "enable": bool,         // 是否啟用本任務，可選，預設為 true
@@ -200,7 +200,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `Award`  
     領取日常獎勵
 
-```json
+```json5
 // 對應的任務參數
 {
     "enable": bool          // 是否啟用本任務，可選，預設為 true
@@ -210,36 +210,60 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `Roguelike`  
     無限刷肉鴿
 
-```json
+```json5
+// 對應的任務參數
 {
-    "enable": bool,         // 是否啟用本任務，可選，預設為 true
-    "theme": string,        // 肉鴿名，可選，預設 "Phantom"
-                            // Phantom - 傀影與猩紅血鑽
-                            // Mizuki  - 水月與深藍之樹
-                            // Sami    - 探索者的銀淞止境
-    "mode": int,            // 模式，可選項。預設 0
-                            // 0 - 刷蠟燭，盡可能穩定地打更多層數
-                            // 1 - 刷源石錠，第一層投資完就退出
-                            // 2 - 【即將棄用】兩者兼顧，投資過後再退出，沒有投資就繼續往後打
-    "starts_count": int,    // 開始探索 次數，可選，預設 INT_MAX。達到後自動停止任務
-    "investment_enabled": bool, // 是否投資源石錠，預設開啟
-    "investments_count": int,
-                            // 投資源石錠 次數，可選，預設 INT_MAX。達到後自動停止任務
-    "stop_when_investment_full": bool,
-                            // 投資滿了自動停止任務，可選，預設 false
-    "squad": string,        // 開局分隊，可選，例如 "突擊戰術分隊" 等，預設 "指揮分隊"
-    "roles": string,        // 開局職業組，可選，例如 "先手必勝" 等，預設 "取長補短"
-    "core_char": string,    // 開局幹員名，可選，僅支援單個幹員中！文！名！。預設辨識練度自動選擇
-    "use_support": bool,  // 開局幹員是否為助戰幹員，可選，預設 false
-    "use_nonfriend_support": bool,  // 是否可以選擇非好友助戰幹員，可選，預設 false，use_support 為 true 時有效
-    "refresh_trader_with_dice": bool  // 是否用骰子刷新商店購買特殊商品，目前支援水月肉鴿的指路鱗，可選，預設 false
+    "enable": bool,  // 是否啟用本任務，可選，預設值 true
+    "theme": string, // 主題，可選，預設值 "Phantom"
+                     //   Phantom - 傀影與猩紅血鑽
+                     //   Mizuki  - 水月與深藍之樹
+                     //   Sami    - 探索者的銀霜止境
+                     //   Sarkaz  - 薩卡茲的無終奇語
+    "mode": int,     // 模式，可選，預設值 0
+                     //   0 - 刷分/獎勵點數，盡可能穩定地打更多層數
+                     //   1 - 刷源石錠，第一層投資完就退出
+                     //   2 - 【已棄用】兼顧模式 0 與 1，投資過後再退出，沒有投資就繼續往後打
+                     //   3 - 開發中...
+                     //   4 - 凹開局，先在 0 難度下達到第三層後重開，再到指定難度下凹開局獎勵，若不為熱水壺或希望則回到 0 難度下重新來過；
+                     //       若在 Phantom 主題下則不切換難度，僅在當前難度下嘗試達到第三層、重開、凹開局
+                     //   5 - 刷坍縮範式；僅適用於 Sami 主題；通過戰鬥漏怪等方式加快坍縮值積累，
+                     //       若遇到的第一個坍縮範式在 expected_collapsal_paradigms 列表中則停止任務，否則重開
+    "squad": string,                // 開局分隊名，可選，預設值 "指揮分隊"；
+    "roles": string,                // 開局職業組，可選，預設值 "取長補短"；
+    "core_char": string,            // 開局幹員名，可選；僅支持單個幹員**中文名**，無論伺服器；若留空或設定為空字串 "" 則根據練度自動選擇
+    "use_support": bool,            // 開局幹員是否為助戰幹員，可選，預設值 false
+    "use_nonfriend_support": bool,  // 是否可以是非好友助戰幹員，可選，預設值 false；僅在 use_support 為 true 時有效
+    "starts_count": int,               // 開始探索的次數，可選，預設值 INT_MAX；達到後自動停止任務
+    "difficulty": int,                 // 指定難度等級，可選，預設值 0；僅適用於**除 Phantom 以外**的主題；
+                                       // 若未解鎖難度，則會選擇當前已解鎖的最高難度
+    "stop_at_final_boss": bool,        // 是否在第 5 層險路惡敵節點前停止任務，可選，預設值 false；僅適用於**除 Phantom 以外**的主題
+    "investment_enabled": bool,        // 是否投資源石錠，可選，預設值 true
+    "investments_count": int,          // 投資源石錠的次數，可選，預設值 INT_MAX；達到後自動停止任務
+    "stop_when_investment_full": bool, // 是否在投資到達上限後自動停止任務，可選，預設值 false
+    "start_with_elite_two": bool,      // 是否在凹開局的同時凹幹員精二直升，可選，預設值 false；僅適用於模式 4
+    "only_start_with_elite_two": bool, // 是否只凹開局幹員精二直升而忽視其他開局條件，可選，預設值 false；
+                                       // 僅在模式為 4 且 start_with_elite_two 為 true 時有效
+    "refresh_trader_with_dice": bool,  // 是否用骰子刷新商店購買特殊商品，可選，預設值 false；僅適用於 Mizuki 主題，用於刷指路鱗
+    "first_floor_foldartal": string,   // 希望在第一層遠見階段得到的密文版，可選；僅適用於 Sami 主題，不限模式；若成功凹到則停止任務
+    "start_foldartal_list": [          // 凹開局時希望在開局獎勵階段得到的密文板，可選，預設值 []；僅主題為 Sami 且模式為 4 時有效；
+        string,                        // 僅當開局擁有列表中所有的密文板時才算凹開局成功；
+        ...                            // 注意，此參數須與 “生活至上分隊” 同時使用，其他分隊在開局獎勵階段不會獲得密文板；
+    ],
+    "use_foldartal": bool,                    // 是否使用密文板，模式 5 下預設值 false，其他模式下預設值 true；僅適用於 Sami 主題，
+    "check_collapsal_paradigms": bool,        // 是否檢測獲取的坍縮範式，模式 5 下預設值 true，其他模式下預設值 false
+    "double_check_collapsal_paradigms": bool, // 是否執行坍縮範式檢測防漏措施，模式 5 下預設值 true，其他模式下預設值 false；
+                                              // 僅在主題為 Sami 且 check_collapsal_paradigms 為 true 時有效
+    "expected_collapsal_paradigms": [         // 希望觸發的坍縮範式，預設值 ["目空一些", "睜眼瞎", "圖像損壞", "一抹黑"]；
+        string,                               // 僅在主題為 Sami 且模式為 5 時有效
+        ...
+    ]
 }
 ```
 
 - `Copilot`  
     自動抄作業
 
-```json
+```json5
 {
     "enable": bool,             // 是否啟用本任務，可選，預設為 true
     "filename": string,         // 作業 JSON 的檔案路徑，絕對、相對路徑均可。不支援執行中設定
@@ -252,7 +276,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `SSSCopilot`  
     自動抄保全作業
 
-```json
+```json5
 {
     "enable": bool,             // 是否啟用本任務，可選，預設為 true
     "filename": string,         // 作業 JSON 的檔案路徑，絕對、相對路徑均可。不支援執行中設定
@@ -265,7 +289,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `Depot`  
     倉庫辨識
 
-```json
+```json5
 // 對應的任務參數
 {
     "enable": bool          // 是否啟用本任務，可選，預設為 true
@@ -275,7 +299,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `OperBox`  
     幹員 box 辨識
 
-```json
+```json5
 // 對應的任務參數
 {
     "enable": bool          // 是否啟用本任務，可選，預設為 true
@@ -285,7 +309,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 - `Reclamation`  
     生息演算
 
-```json
+```json5
 {
     "enable": bool,
     "theme": string,            // 主題，可選項。預設 1
@@ -308,7 +332,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 
   自定義任務
 
-```json
+```json5
 {
     "enable": bool,
     "task_names": [     // 執行陣列中第一個匹配上的任務（及後續 next 等）
@@ -323,7 +347,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 
   單步任務（目前僅支援戰鬥）
 
-```json
+```json5
 {
     "enable": bool,
     "type": string,     // 目前僅支援 "copilot"
@@ -342,7 +366,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 
   影片辨識，目前僅支援作業（作戰）影片
 
-```json
+```json5
 {
     "enable": bool,
     "filename": string, // 影片的檔案路徑，絕對、相對路徑均可。不支援執行中設定
@@ -432,7 +456,7 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 
 ##### 鍵值一覽
 
-```json
+```cpp
     enum InstanceOptionKey
     {
         Invalid = 0,

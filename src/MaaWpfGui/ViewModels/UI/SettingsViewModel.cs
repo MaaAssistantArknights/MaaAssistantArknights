@@ -211,6 +211,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void InitRoguelike()
         {
+            UpdateRoguelikeDifficultyList();
             UpdateRoguelikeModeList();
             UpdateRoguelikeSquadList();
             UpdateRoguelikeCoreCharList();
@@ -1977,6 +1978,19 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region 肉鸽设置
 
+        private void UpdateRoguelikeDifficultyList()
+        {
+            RoguelikeDifficultyList = [
+                new CombinedData { Display = "MAX", Value = int.MaxValue.ToString() }
+            ];
+
+            for (int i = 20; i >= 0; --i)
+            {
+                var value = i.ToString();
+                RoguelikeDifficultyList.Add(new CombinedData { Display = value, Value = value });
+            }
+        }
+
         private void UpdateRoguelikeModeList()
         {
             var roguelikeMode = RoguelikeMode;
@@ -2155,6 +2169,14 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = LocalizationHelper.GetString("RoguelikeThemeSarkaz"), Value = "Sarkaz" },
             ];
 
+        private ObservableCollection<CombinedData> _roguelikeDifficultyList = new();
+
+        public ObservableCollection<CombinedData> RoguelikeDifficultyList
+        {
+            get => _roguelikeDifficultyList;
+            set => SetAndNotify(ref _roguelikeDifficultyList, value);
+        }
+
         private ObservableCollection<CombinedData> _roguelikeModeList = new();
 
         /// <summary>
@@ -2205,6 +2227,18 @@ namespace MaaWpfGui.ViewModels.UI
                 UpdateRoguelikeSquadList();
                 UpdateRoguelikeCoreCharList();
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeTheme, value);
+            }
+        }
+
+        private string _roguelikeDifficulty = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDifficulty, "MAX");
+
+        public string RoguelikeDifficulty
+        {
+            get => _roguelikeDifficulty;
+            set
+            {
+                SetAndNotify(ref _roguelikeDifficulty, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDifficulty, value);
             }
         }
 

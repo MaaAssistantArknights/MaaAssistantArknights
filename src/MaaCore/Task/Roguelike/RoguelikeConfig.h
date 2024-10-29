@@ -83,6 +83,10 @@ public:
 
     bool get_only_start_with_elite_two() const { return m_only_start_with_elite_two; }
 
+    void set_run_for_collectible(const bool run_for_collectible) { m_run_for_collectible = run_for_collectible; }
+
+    bool get_run_for_collectible() const { return m_run_for_collectible; }
+
     // ------------------ 投资模式 ------------------
     void set_invest_with_more_score(bool value) { m_invest_with_more_score = value; }
 
@@ -97,6 +101,7 @@ private:
     // ------------------ 开局 ------------------
     bool m_start_with_elite_two = false;      // 在刷开局模式下凹开局干员精二直升
     bool m_only_start_with_elite_two = false; // 只凹开局干员精二直升且不进行作战
+    bool m_run_for_collectible = false;       // 用于 RoguelikeMode::Collectible，判断是否正在烧水
 
     // ------------------ 投资模式 ------------------
     bool m_invest_with_more_score = false; // 投资时招募、购物刷分
