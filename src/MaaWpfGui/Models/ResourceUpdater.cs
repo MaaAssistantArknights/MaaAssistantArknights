@@ -93,11 +93,7 @@ namespace MaaWpfGui.Models
             };
             if (!string.IsNullOrEmpty(toastMessage))
             {
-                _ = Execute.OnUIThreadAsync(() =>
-                {
-                    using var toast = new ToastNotification(toastMessage);
-                    toast.Show();
-                });
+                ToastNotification.ShowDirect(toastMessage);
             }
         }
 
@@ -173,11 +169,7 @@ namespace MaaWpfGui.Models
 
             _versionUrl = url;
             _versionEtag = response.Headers.ETag?.Tag ?? string.Empty;
-            _ = Execute.OnUIThreadAsync(() =>
-            {
-                using var toast = new ToastNotification(LocalizationHelper.GetString("GameResourceUpdating"));
-                toast.Show();
-            });
+            ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdating"));
 
             return true;
         }
@@ -429,7 +421,14 @@ namespace MaaWpfGui.Models
         // 额外加一个从 github 下载完整包的方法，老的版本先留着，看看之后增量还能不能整了
         public static async Task<bool> UpdateFromGithubAsync()
         {
-            await DownloadFullPackageAsync("https://github.com/MaaAssistantArknights/MaaResource/archive/refs/heads/main.zip", "MaaResource.zip").ConfigureAwait(false);
+            ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdating"));
+            bool download = await DownloadFullPackageAsync("https://github.com/MaaAssistantArknights/MaaResource/archive/refs/heads/main.zip", "MaaResource.zip").ConfigureAwait(false);
+            if (!download)
+            {
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
+                return false;
+            }
+
             // 解压到 MaaResource 文件夹
             try
             {
@@ -443,6 +442,7 @@ namespace MaaWpfGui.Models
             catch (Exception e)
             {
                 _logger.Error("Failed to extract MaaResource.zip: " + e.Message);
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
                 return false;
             }
 
@@ -450,7 +450,7 @@ namespace MaaWpfGui.Models
             try
             {
                 string sourcePath = Path.Combine("MaaResource", "MaaResource-main");
-                string[] foldersToCopy = { "cache", "resource" };
+                string[] foldersToCopy = ["cache", "resource"];
 
                 foreach (var folder in foldersToCopy)
                 {
@@ -463,6 +463,7 @@ namespace MaaWpfGui.Models
             catch (Exception e)
             {
                 _logger.Error("Failed to copy folders: " + e.Message);
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
                 return false;
             }
 
