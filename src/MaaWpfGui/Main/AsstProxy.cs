@@ -2399,7 +2399,7 @@ namespace MaaWpfGui.Main
         ///     </item>
         /// </list>
         /// </param>
-        /// <param name="difficulty">刷投资的目标难度/其他模式的选择难度</param>
+        /// <param name="difficulty">目标难度</param>
         /// <param name="starts">开始探索次数。</param>
         /// <param name="investmentEnabled">是否投资源石锭</param>
         /// <param name="investmentWithMoreScore">投资时候刷更多分</param>

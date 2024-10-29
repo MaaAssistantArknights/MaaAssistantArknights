@@ -57,6 +57,7 @@ using Serilog;
 using Stylet;
 using static MaaWpfGui.Configuration.GUI;
 using static MaaWpfGui.Configuration.MaaTask.ReclamationTask;
+using static MaaWpfGui.Configuration.MaaTask.RoguelikeTask;
 using static MaaWpfGui.Configuration.VersionUpdate;
 using static MaaWpfGui.Models.CoreTask;
 using ComboBox = System.Windows.Controls.ComboBox;
@@ -415,19 +416,19 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get => ConfigFactory.CurrentConfig.RemoteControl.ReportStatusUri;
             set => ConfigFactory.CurrentConfig.RemoteControl.ReportStatusUri = value == string.Empty ? null : value;
-            }
+        }
 
         public string? RemoteControlUserIdentity
         {
             get => ConfigFactory.CurrentConfig.RemoteControl.UserId;
             set => ConfigFactory.CurrentConfig.RemoteControl.UserId = value == string.Empty ? null : value;
-            }
+        }
 
         public string? RemoteControlDeviceIdentity
         {
             get => ConfigFactory.CurrentConfig.RemoteControl.DeviceId;
             set => ConfigFactory.CurrentConfig.RemoteControl.DeviceId = value == string.Empty ? null : value;
-            }
+        }
 
         #endregion Remote Control
 
@@ -805,6 +806,18 @@ namespace MaaWpfGui.ViewModels.UI
 
         #endregion Performance
 
+        private bool GetCurrentTask<TSource>(Action<TSource> selector)
+            where TSource : BaseTask
+        {
+            if (ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex] is TSource task)
+            {
+                selector.Invoke(task);
+                return true;
+            }
+
+            return false;
+        }
+
         public void RefreshUI(BaseTask task)
         {
             // 选择了任务后，刷新对应任务类型UI的值
@@ -844,21 +857,42 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else if (task is RoguelikeTask roguelike)
             {
-                case TaskType.Award:
-                    if (ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex] is AwardTask awardTask)
-                    {
-                        _receiveAward = awardTask.Award;
-                        _receiveMail = awardTask.Mail;
-                    }
+                SetAndNotify(ref _roguelikeTheme, roguelike.Theme, nameof(RoguelikeTheme));
+                UpdateRoguelikeModeList();
+                UpdateRoguelikeCoreCharList();
+                UpdateRoguelikeSquadList();
+                SetAndNotify(ref _roguelikeDifficulty, roguelike.Difficulty, nameof(RoguelikeDifficulty));
+                SetAndNotify(ref _roguelikeMode, roguelike.Mode, nameof(RoguelikeMode));
+                SetAndNotify(ref _roguelikeCoreChar, roguelike.CoreChar, nameof(RoguelikeCoreChar));
+                SetAndNotify(ref _roguelikeSquad, roguelike.Squad, nameof(RoguelikeSquad));
+                SetAndNotify(ref _roguelikeRoles, roguelike.Roles, nameof(RoguelikeRoles));
+                SetAndNotify(ref _roguelikeStartsCount, roguelike.StartCount, nameof(RoguelikeStartsCount));
+                SetAndNotify(ref _roguelikeInvestmentEnabled, roguelike.Investment, nameof(RoguelikeInvestmentEnabled));
+                SetAndNotify(ref _roguelikeInvestsCount, roguelike.InvestCount, nameof(RoguelikeInvestsCount));
+                SetAndNotify(ref _roguelikeInvestmentWithMoreScore, roguelike.InvestWithMoreScore, nameof(RoguelikeInvestmentWithMoreScore));
+                SetAndNotify(ref _roguelikeStopWhenInvestmentFull, roguelike.StopWhenDepositFull, nameof(RoguelikeStopWhenInvestmentFull));
+                SetAndNotify(ref _roguelikeStopAtFinalBoss, roguelike.StopAtFinalBoss, nameof(RoguelikeStopAtFinalBoss));
+                SetAndNotify(ref _roguelikeUseSupportUnit, roguelike.UseSupport, nameof(RoguelikeUseSupportUnit));
+                SetAndNotify(ref _roguelikeEnableNonfriendSupport, roguelike.UseSupportNonFriend, nameof(RoguelikeEnableNonfriendSupport));
+                SetAndNotify(ref _roguelikeRefreshTraderWithDice, roguelike.RefreshTraderWithDice, nameof(RoguelikeRefreshTraderWithDice));
+                SetAndNotify(ref _roguelikeStartWithEliteTwo, roguelike.StartWithEliteTwo, nameof(RoguelikeStartWithEliteTwo));
+                SetAndNotify(ref _roguelikeOnlyStartWithEliteTwo, roguelike.StartWithEliteTwoOnly, nameof(RoguelikeOnlyStartWithEliteTwo));
+
+                SetAndNotify(ref _roguelike3StartFloorFoldartal, roguelike.SamiFirstFloorFoldartals, nameof(Roguelike3StartFloorFoldartal));
+                SetAndNotify(ref _roguelike3FirstFloorFoldartal, roguelike.SamiFirstFloorFoldartal, nameof(Roguelike3FirstFloorFoldartal));
+
+                SetAndNotify(ref _roguelike3NewSquad2StartingFoldartals, roguelike.SamiNewSquad2StartingFoldartals, nameof(Roguelike3NewSquad2StartingFoldartals));
+                SetAndNotify(ref _roguelike3NewSquad2StartingFoldartal, roguelike.SamiNewSquad2StartingFoldartal, nameof(Roguelike3NewSquad2StartingFoldartal));
+            }
             else if (task is ReclamationTask reclamation)
-                    {
+            {
                 SetAndNotify(ref _reclamationTheme, reclamation.Theme, nameof(ReclamationTheme));
                 SetAndNotify(ref _reclamationMode, reclamation.Mode, nameof(ReclamationMode));
                 SetAndNotify(ref _reclamationIncrementMode, reclamation.IncrementMode, nameof(ReclamationIncrementMode));
                 SetAndNotify(ref _reclamationToolToCraft, reclamation.ToolToCraft, nameof(ReclamationToolToCraft));
                 SetAndNotify(ref _reclamationMaxCraftCountPerRound, reclamation.MaxCraftCountPerRound, nameof(ReclamationMaxCraftCountPerRound));
-                    }
-                    }
+            }
+        }
 
         #region 启动设置
         /* 启动设置 */
@@ -2012,24 +2046,23 @@ namespace MaaWpfGui.ViewModels.UI
 
             RoguelikeModeList =
             [
-                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = "0" },
-                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = "1" },
+                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = RoguelikeMode.Exp },
+                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = RoguelikeMode.Investment },
 
                 // new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
                 // new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
-                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = "4" },
+                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = RoguelikeMode.Collectible },
             ];
 
             switch (RoguelikeTheme)
             {
-                case "Sami":
-
-                    RoguelikeModeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStrategyCollapse"), Value = "5" });
-
+                case RoguelikeTheme.Sami:
+                    RoguelikeModeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStrategyCollapse"), Value = RoguelikeMode.CLP_PDS });
                     break;
             }
 
-            RoguelikeMode = RoguelikeModeList.Any(x => x.Value == roguelikeMode) ? roguelikeMode : "0";
+            RoguelikeMode = RoguelikeModeList.Any(x => x.Value == roguelikeMode) ? roguelikeMode : RoguelikeMode.Exp;
+            NotifyOfPropertyChange(nameof(RoguelikeMode));
         }
 
         private void UpdateRoguelikeSquadList()
@@ -2043,7 +2076,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             switch (RoguelikeTheme)
             {
-                case "Phantom":
+                case RoguelikeTheme.Phantom:
 
                     foreach (var item in new ObservableCollection<CombinedData>
                     {
@@ -2055,7 +2088,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                     break;
 
-                case "Mizuki":
+                case RoguelikeTheme.Mizuki:
 
                     foreach (var item in new ObservableCollection<CombinedData>
                     {
@@ -2070,7 +2103,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                     break;
 
-                case "Sami":
+                case RoguelikeTheme.Sami:
 
                     foreach (var item in new ObservableCollection<CombinedData>
                     {
@@ -2085,7 +2118,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                     break;
 
-                case "Sarkaz":
+                case RoguelikeTheme.Sarkaz:
 
                     foreach (var item in new ObservableCollection<CombinedData>
                     {
@@ -2122,6 +2155,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             RoguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : string.Empty;
+            NotifyOfPropertyChange(nameof(RoguelikeSquad));
         }
 
         private void UpdateRoguelikeCoreCharList()
@@ -2176,14 +2210,15 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the list of roguelike lists.
         /// </summary>
-        public List<CombinedData> RoguelikeThemeList { get; } =
+        public List<GenericCombinedData<RoguelikeTheme>> RoguelikeThemeList { get; } =
             [
-                new() { Display = LocalizationHelper.GetString("RoguelikeThemePhantom"), Value = "Phantom" },
-                new() { Display = LocalizationHelper.GetString("RoguelikeThemeMizuki"), Value = "Mizuki" },
-                new() { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = "Sami" },
-                new() { Display = LocalizationHelper.GetString("RoguelikeThemeSarkaz"), Value = "Sarkaz" },
+                new() { Display = LocalizationHelper.GetString("RoguelikeThemePhantom"), Value = RoguelikeTheme.Phantom },
+                new() { Display = LocalizationHelper.GetString("RoguelikeThemeMizuki"), Value = RoguelikeTheme.Mizuki },
+                new() { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = RoguelikeTheme.Sami },
+                new() { Display = LocalizationHelper.GetString("RoguelikeThemeSarkaz"), Value = RoguelikeTheme.Sarkaz },
             ];
 
+        private RoguelikeTheme _roguelikeTheme;
         private ObservableCollection<GenericCombinedData<int>> _roguelikeDifficultyList = [];
 
         public ObservableCollection<GenericCombinedData<int>> RoguelikeDifficultyList
@@ -2232,23 +2267,28 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets the Roguelike theme.
         /// </summary>
-        public string RoguelikeTheme
+        public RoguelikeTheme RoguelikeTheme
         {
             get => _roguelikeTheme;
             set
             {
                 SetAndNotify(ref _roguelikeTheme, value);
-                UpdateRoguelikeModeList();
-                UpdateRoguelikeSquadList();
-                UpdateRoguelikeCoreCharList();
-                if (ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex] is RoguelikeTask task)
-                {
-                    task.Theme = value;
-                }
+                InitRoguelike();
+                GetCurrentTask<RoguelikeTask>(t => t.Theme = value);
             }
         }
 
+        private ObservableCollection<GenericCombinedData<int>> _roguelikeDifficultyList = [];
         private int _roguelikeDifficulty = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDifficulty, int.MaxValue.ToString()));
+
+        public ObservableCollection<GenericCombinedData<int>> RoguelikeDifficultyList
+        public int RoguelikeDifficulty
+        {
+            get => _roguelikeDifficultyList;
+            set => SetAndNotify(ref _roguelikeDifficultyList, value);
+        }
+
+        private int _roguelikeDifficulty;
 
         public int RoguelikeDifficulty
         {
@@ -2256,31 +2296,59 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _roguelikeDifficulty, value);
+                GetCurrentTask<RoguelikeTask>(t => t.Difficulty = value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDifficulty, value.ToString());
             }
         }
 
-        private string _roguelikeMode = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMode, "0");
+        private ObservableCollection<GenericCombinedData<RoguelikeMode>> _roguelikeModeList = [];
+
+        /// <summary>
+        /// Gets or sets the list of roguelike modes.
+        /// </summary>
+        public ObservableCollection<GenericCombinedData<RoguelikeMode>> RoguelikeModeList
+        {
+            get => _roguelikeModeList;
+            set => SetAndNotify(ref _roguelikeModeList, value);
+        }
+
+        private RoguelikeMode _roguelikeMode;
 
         /// <summary>
         /// Gets or sets 策略，往后打 / 刷一层就退 / 烧热水
         /// </summary>
-        public string RoguelikeMode
+        public RoguelikeMode RoguelikeMode
         {
             get => _roguelikeMode;
             set
             {
-                if (value == "1")
+                if (!SetAndNotify(ref _roguelikeMode, value))
+                {
+                    return;
+                }
+
+                if (value == RoguelikeMode.Investment)
                 {
                     RoguelikeInvestmentEnabled = true;
                 }
 
-                SetAndNotify(ref _roguelikeMode, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeMode, value);
+                GetCurrentTask<RoguelikeTask>(t => t.Mode = value);
             }
         }
 
-        private string _roguelikeSquad = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeSquad, string.Empty);
+        private ObservableCollection<CombinedData> _roguelikeSquadList = [];
+
+        /// <summary>
+        /// Gets or sets the list of roguelike squad.
+        /// </summary>
+        public ObservableCollection<CombinedData> RoguelikeSquadList
+        {
+            get => _roguelikeSquadList;
+            set => SetAndNotify(ref _roguelikeSquadList, value);
+        }
+
+        // public List<CombData> RoguelikeCoreCharList { get; set; }
+        private string _roguelikeSquad;
 
         /// <summary>
         /// Gets or sets the roguelike squad.
@@ -2291,21 +2359,23 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _roguelikeSquad, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeSquad, value);
+                GetCurrentTask<RoguelikeTask>(t => t.Squad = value);
             }
         }
 
-        public bool RoguelikeSquadIsProfessional =>
-            RoguelikeMode == "4" &&
-            RoguelikeTheme != "Phantom" &&
-            RoguelikeSquad is "突击战术分队" or "堡垒战术分队" or "远程战术分队" or "破坏战术分队";
+        /// <summary>
+        /// Gets the list of roguelike roles.
+        /// </summary>
+        public List<CombinedData> RoguelikeRolesList { get; } =
+            [
+                new() { Display = LocalizationHelper.GetString("DefaultRoles"), Value = string.Empty },
+                new() { Display = LocalizationHelper.GetString("FirstMoveAdvantage"), Value = "先手必胜" },
+                new() { Display = LocalizationHelper.GetString("SlowAndSteadyWinsTheRace"), Value = "稳扎稳打" },
+                new() { Display = LocalizationHelper.GetString("OvercomingYourWeaknesses"), Value = "取长补短" },
+                new() { Display = LocalizationHelper.GetString("AsYourHeartDesires"), Value = "随心所欲" },
+            ];
 
-        public bool RoguelikeSquadIsFoldartal =>
-            RoguelikeMode == "4" &&
-            RoguelikeTheme == "Sami" &&
-            RoguelikeSquad == "生活至上分队";
-
-        private string _roguelikeRoles = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeRoles, string.Empty);
+        private string _roguelikeRoles;
 
         /// <summary>
         /// Gets or sets the roguelike roles.
@@ -2316,16 +2386,16 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _roguelikeRoles, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeRoles, value);
+                GetCurrentTask<RoguelikeTask>(t => t.Roles = value);
             }
         }
 
-        private string _roguelikeCoreChar = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeCoreChar, string.Empty);
+        private string? _roguelikeCoreChar;
 
         /// <summary>
         /// Gets or sets the roguelike core character.
         /// </summary>
-        public string RoguelikeCoreChar
+        public string? RoguelikeCoreChar
         {
             get => _roguelikeCoreChar;
             set
@@ -2337,7 +2407,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 SetAndNotify(ref _roguelikeCoreChar, value);
                 Instances.TaskQueueViewModel.AddLog(value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeCoreChar, value);
+                GetCurrentTask<RoguelikeTask>(t => t.CoreChar = value == string.Empty ? null : value);
             }
         }
 
@@ -2360,12 +2430,12 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _roguelikeStartWithEliteTwo = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, bool.FalseString));
+        private bool _roguelikeStartWithEliteTwo;
 
         /// <summary>
         /// Gets or sets a value indicating whether core char need start with elite two.
         /// </summary>
-        public bool RoguelikeStartWithEliteTwoRaw
+        public bool RoguelikeStartWithEliteTwo
         {
             get => _roguelikeStartWithEliteTwo;
             set
@@ -2376,102 +2446,82 @@ namespace MaaWpfGui.ViewModels.UI
                         RoguelikeUseSupportUnit = false;
                         break;
 
-                    case false when RoguelikeOnlyStartWithEliteTwoRaw:
-                        RoguelikeOnlyStartWithEliteTwoRaw = false;
+                    case false when RoguelikeOnlyStartWithEliteTwo:
+                        RoguelikeOnlyStartWithEliteTwo = false;
                         break;
                 }
 
                 SetAndNotify(ref _roguelikeStartWithEliteTwo, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, value.ToString());
+                GetCurrentTask<RoguelikeTask>(t => t.StartWithEliteTwo = value);
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether core char need start with elite two.
-        /// </summary>
-        public bool RoguelikeStartWithEliteTwo => _roguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional;
-
-        private bool _roguelikeOnlyStartWithEliteTwo = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeOnlyStartWithEliteTwo, bool.FalseString));
+        private bool _roguelikeOnlyStartWithEliteTwo;
 
         /// <summary>
         /// Gets or sets a value indicating whether only need with elite two's core char.
         /// </summary>
-        public bool RoguelikeOnlyStartWithEliteTwoRaw
+        public bool RoguelikeOnlyStartWithEliteTwo
         {
             get => _roguelikeOnlyStartWithEliteTwo;
             set
             {
                 SetAndNotify(ref _roguelikeOnlyStartWithEliteTwo, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeOnlyStartWithEliteTwo, value.ToString());
+                GetCurrentTask<RoguelikeTask>(t => t.StartWithEliteTwoOnly = value);
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether only need with elite two's core char.
-        /// </summary>
-        public bool RoguelikeOnlyStartWithEliteTwo => _roguelikeOnlyStartWithEliteTwo && RoguelikeStartWithEliteTwo;
-
-        private bool _roguelike3FirstFloorFoldartal = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3FirstFloorFoldartal, bool.FalseString));
+        private bool _roguelike3FirstFloorFoldartal;
 
         /// <summary>
         /// Gets or sets a value indicating whether core char need start with elite two.
         /// </summary>
-        public bool Roguelike3FirstFloorFoldartalRaw
+        public bool Roguelike3FirstFloorFoldartal
         {
             get => _roguelike3FirstFloorFoldartal;
             set
             {
                 SetAndNotify(ref _roguelike3FirstFloorFoldartal, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.Roguelike3FirstFloorFoldartal, value.ToString());
+                GetCurrentTask<RoguelikeTask>(t => t.SamiFirstFloorFoldartal = value);
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether core char need start with elite two.
-        /// </summary>
-        public bool Roguelike3FirstFloorFoldartal => _roguelike3FirstFloorFoldartal && RoguelikeMode == "4" && RoguelikeTheme == "Sami";
+        private string? _roguelike3StartFloorFoldartal;
 
-        private string _roguelike3StartFloorFoldartal = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3StartFloorFoldartal, string.Empty);
-
-        public string Roguelike3StartFloorFoldartal
+        public string? Roguelike3StartFloorFoldartal
         {
             get => _roguelike3StartFloorFoldartal;
             set
             {
                 SetAndNotify(ref _roguelike3StartFloorFoldartal, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.Roguelike3StartFloorFoldartal, value);
+                GetCurrentTask<RoguelikeTask>(t => t.SamiFirstFloorFoldartals = value == string.Empty ? null : value);
             }
         }
 
-        private bool _roguelike3NewSquad2StartingFoldartal = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartal, bool.FalseString));
+        private bool _roguelike3NewSquad2StartingFoldartal;
 
         /// <summary>
         /// Gets or sets a value indicating whether core char need start with elite two.
         /// </summary>
-        public bool Roguelike3NewSquad2StartingFoldartalRaw
+        public bool Roguelike3NewSquad2StartingFoldartal
         {
             get => _roguelike3NewSquad2StartingFoldartal;
             set
             {
                 SetAndNotify(ref _roguelike3NewSquad2StartingFoldartal, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartal, value.ToString());
+                GetCurrentTask<RoguelikeTask>(t => t.SamiNewSquad2StartingFoldartal = value);
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether core char need start with elite two.
-        /// </summary>
-        public bool Roguelike3NewSquad2StartingFoldartal => _roguelike3NewSquad2StartingFoldartal && RoguelikeSquadIsFoldartal;
+        private string? _roguelike3NewSquad2StartingFoldartals;
 
-        private string _roguelike3NewSquad2StartingFoldartals = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartals, string.Empty);
-
-        public string Roguelike3NewSquad2StartingFoldartals
+        public string? Roguelike3NewSquad2StartingFoldartals
         {
             get => _roguelike3NewSquad2StartingFoldartals;
             set
             {
                 SetAndNotify(ref _roguelike3NewSquad2StartingFoldartals, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartals, value);
+                GetCurrentTask<RoguelikeTask>(t => t.SamiNewSquad2StartingFoldartals = value == string.Empty ? null : value);
             }
         }
 
@@ -2491,7 +2541,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _roguelikeUseSupportUnit = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeUseSupportUnit, bool.FalseString));
+        private bool _roguelikeUseSupportUnit;
 
         /// <summary>
         /// Gets or sets a value indicating whether to use support unit.
@@ -2503,15 +2553,15 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (value && RoguelikeStartWithEliteTwo)
                 {
-                    RoguelikeStartWithEliteTwoRaw = false;
+                    RoguelikeStartWithEliteTwo = false;
                 }
 
                 SetAndNotify(ref _roguelikeUseSupportUnit, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeUseSupportUnit, value.ToString());
+                GetCurrentTask<RoguelikeTask>(t => t.UseSupport = value);
             }
         }
 
-        private bool _roguelikeEnableNonfriendSupport = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeEnableNonfriendSupport, bool.FalseString));
+        private bool _roguelikeEnableNonfriendSupport;
 
         /// <summary>
         /// Gets or sets a value indicating whether can roguelike support unit belong to nonfriend
@@ -2522,7 +2572,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _roguelikeEnableNonfriendSupport, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeEnableNonfriendSupport, value.ToString());
+                GetCurrentTask<RoguelikeTask>(t => t.UseSupportNonFriend = value);
             }
         }
 
@@ -2541,22 +2591,22 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _roguelikeStartsCount = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartsCount, "9999999");
+        private int _roguelikeStartsCount;
 
         /// <summary>
         /// Gets or sets the start count of roguelike.
         /// </summary>
         public int RoguelikeStartsCount
         {
-            get => int.Parse(_roguelikeStartsCount);
+            get => _roguelikeStartsCount;
             set
             {
-                SetAndNotify(ref _roguelikeStartsCount, value.ToString());
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStartsCount, value.ToString());
+                SetAndNotify(ref _roguelikeStartsCount, value);
+                GetCurrentTask<RoguelikeTask>(t => t.StartCount = value);
             }
         }
 
-        private bool _roguelikeInvestmentEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeInvestmentEnabled, bool.TrueString));
+        private bool _roguelikeInvestmentEnabled;
 
         /// <summary>
         /// Gets or sets a value indicating whether investment is enabled.
@@ -2567,68 +2617,53 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _roguelikeInvestmentEnabled, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeInvestmentEnabled, value.ToString());
+                GetCurrentTask<RoguelikeTask>(t => t.Investment = value);
             }
         }
 
-        private bool _roguelikeInvestmentWithMoreScore = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeInvestmentEnterSecondFloor, bool.FalseString));
+        private bool _roguelikeInvestmentWithMoreScore;
 
         /// <summary>
         /// Gets or sets a value indicating whether investment is enabled.
         /// </summary>
-        public bool RoguelikeInvestmentWithMoreScoreRaw
+        public bool RoguelikeInvestmentWithMoreScore
         {
             get => _roguelikeInvestmentWithMoreScore;
             set
             {
                 SetAndNotify(ref _roguelikeInvestmentWithMoreScore, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeInvestmentEnterSecondFloor, value.ToString());
+                GetCurrentTask<RoguelikeTask>(t => t.InvestWithMoreScore = value);
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether investment is enabled.
-        /// </summary>
-        public bool RoguelikeInvestmentWithMoreScore => _roguelikeInvestmentWithMoreScore && RoguelikeMode == "1";
+        private bool _roguelikeRefreshTraderWithDice;
 
-        private bool _roguelikeRefreshTraderWithDice = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, bool.FalseString));
-
-        public bool RoguelikeRefreshTraderWithDiceRaw
+        public bool RoguelikeRefreshTraderWithDice
         {
             get => _roguelikeRefreshTraderWithDice;
             set
             {
                 SetAndNotify(ref _roguelikeRefreshTraderWithDice, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, value.ToString());
+                GetCurrentTask<RoguelikeTask>(t => t.RefreshTraderWithDice = value);
             }
         }
 
-        public bool RoguelikeRefreshTraderWithDice
-        {
-            get => _roguelikeRefreshTraderWithDice && RoguelikeTheme == "Mizuki";
-            set
-            {
-                SetAndNotify(ref _roguelikeRefreshTraderWithDice, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, value.ToString());
-            }
-        }
-
-        private string _roguelikeInvestsCount = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeInvestsCount, "9999999");
+        private int _roguelikeInvestsCount;
 
         /// <summary>
         /// Gets or sets the invests count of roguelike.
         /// </summary>
         public int RoguelikeInvestsCount
         {
-            get => int.Parse(_roguelikeInvestsCount);
+            get => _roguelikeInvestsCount;
             set
             {
-                SetAndNotify(ref _roguelikeInvestsCount, value.ToString());
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeInvestsCount, value.ToString());
+                SetAndNotify(ref _roguelikeInvestsCount, value);
+                GetCurrentTask<RoguelikeTask>(t => t.InvestCount = value);
             }
         }
 
-        private bool _roguelikeStopWhenInvestmentFull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStopWhenInvestmentFull, bool.FalseString));
+        private bool _roguelikeStopWhenInvestmentFull;
 
         /// <summary>
         /// Gets or sets a value indicating whether to stop when investment is full.
@@ -2639,11 +2674,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _roguelikeStopWhenInvestmentFull, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStopWhenInvestmentFull, value.ToString());
+                GetCurrentTask<RoguelikeTask>(t => t.StopWhenDepositFull = value);
             }
         }
 
-        private bool _roguelikeStopAtFinalBoss = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStopAtFinalBoss, bool.FalseString));
+        private bool _roguelikeStopAtFinalBoss;
 
         /// <summary>
         /// Gets or sets a value indicating whether to stop when investment is full.
@@ -2654,7 +2689,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _roguelikeStopAtFinalBoss, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStopAtFinalBoss, value.ToString());
+                GetCurrentTask<RoguelikeTask>(t => t.StopAtFinalBoss = value);
             }
         }
 
@@ -2713,7 +2748,7 @@ namespace MaaWpfGui.ViewModels.UI
         private string? _reclamationToolToCraft;
 
         public string? ReclamationToolToCraft
-                {
+        {
             get => _reclamationToolToCraft;
             set
             {

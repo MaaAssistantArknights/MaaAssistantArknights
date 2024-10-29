@@ -39,7 +39,7 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using StyletIoC;
-using static MaaWpfGui.Models.MaaTask;
+using static MaaWpfGui.Configuration.MaaTask.RoguelikeTask;
 using static MaaWpfGui.Models.CoreTask;
 using Application = System.Windows.Application;
 using ComboBox = System.Windows.Controls.ComboBox;
@@ -85,7 +85,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 Task.Run(() => ConfigFactory.Save());
             });*/
-                }
+        }
 
         /// <summary>
         /// Gets or private sets the view models of log items.
@@ -940,9 +940,9 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (ConfigFactory.CurrentConfig.TaskQueue[item.Index] is not RoguelikeTask and not ReclamationTask)
                 {
-                item.IsCheckedWithNull = true;
+                    item.IsCheckedWithNull = true;
+                }
             }
-        }
         }
 
         private bool _inverseMode = ConfigFactory.CurrentConfig.GUI.InverseClearShow == GUI.InverseClearType.Inverse;
@@ -1038,11 +1038,11 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     if (ConfigFactory.CurrentConfig.TaskQueue[item.Index] is RoguelikeTask or ReclamationTask)
                     {
-                            item.IsCheckedWithNull = false;
+                        item.IsCheckedWithNull = false;
                     }
                     else
                     {
-                            item.IsCheckedWithNull = !item.IsCheckedWithNull ?? false;
+                        item.IsCheckedWithNull = !item.IsCheckedWithNull ?? false;
                     }
                 }
             }
@@ -1063,8 +1063,8 @@ namespace MaaWpfGui.ViewModels.UI
             foreach (var item in TaskItemViewModels)
             {
                 item.IsCheckedWithNull ??= false;
-                }
             }
+        }
 
         private async Task<bool> ConnectToEmulator()
         {
@@ -1260,35 +1260,35 @@ namespace MaaWpfGui.ViewModels.UI
                 var task = ConfigFactory.CurrentConfig.TaskQueue[item.Index];
                 if (task is InfrastTask)
                 {
-                        taskRet &= AppendInfrast();
+                    taskRet &= AppendInfrast();
                 }
                 else if (task is StartUpTask)
                 {
-                        taskRet &= AppendStart();
+                    taskRet &= AppendStart();
                 }
                 else if (task is FightTask)
                 {
-                        taskRet &= AppendFight();
+                    taskRet &= AppendFight();
                 }
                 else if (task is RecruitTask)
                 {
-                        taskRet &= AppendRecruit();
+                    taskRet &= AppendRecruit();
                 }
                 else if (task is MallTask)
                 {
-                        taskRet &= AppendMall();
+                    taskRet &= AppendMall();
                 }
                 else if (task is AwardTask)
                 {
-                        taskRet &= AppendAward();
+                    taskRet &= AppendAward();
                 }
                 else if (task is RoguelikeTask)
                 {
-                        taskRet &= AppendRoguelike();
+                    taskRet &= AppendRoguelike();
                 }
                 else if (task is ReclamationTask)
                 {
-                        taskRet &= AppendReclamation();
+                    taskRet &= AppendReclamation();
                 }
                 else
                 {
@@ -1760,10 +1760,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static bool AppendRoguelike()
         {
-            _ = int.TryParse(Instances.SettingsViewModel.RoguelikeMode, out var mode);
-
             return Instances.AsstProxy.AsstAppendRoguelike(
-                mode,
+                (int)Instances.SettingsViewModel.RoguelikeMode,
                 Instances.SettingsViewModel.RoguelikeDifficulty,
                 Instances.SettingsViewModel.RoguelikeStartsCount,
                 Instances.SettingsViewModel.RoguelikeInvestmentEnabled,
@@ -1774,7 +1772,7 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.SettingsViewModel.RoguelikeRoles,
                 DataHelper.GetCharacterByNameOrAlias(Instances.SettingsViewModel.RoguelikeCoreChar)?.Name ?? Instances.SettingsViewModel.RoguelikeCoreChar,
                 Instances.SettingsViewModel.RoguelikeStartWithEliteTwo,
-                Instances.SettingsViewModel.RoguelikeOnlyStartWithEliteTwo,
+                Instances.SettingsViewModel.RoguelikeOnlyStartWithEliteTwo && Instances.SettingsViewModel.RoguelikeStartWithEliteTwo,
                 Instances.SettingsViewModel.Roguelike3FirstFloorFoldartal,
                 Instances.SettingsViewModel.Roguelike3StartFloorFoldartal,
                 Instances.SettingsViewModel.Roguelike3NewSquad2StartingFoldartal,
@@ -1782,8 +1780,8 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.SettingsViewModel.RoguelikeExpectedCollapsalParadigms,
                 Instances.SettingsViewModel.RoguelikeUseSupportUnit,
                 Instances.SettingsViewModel.RoguelikeEnableNonfriendSupport,
-                Instances.SettingsViewModel.RoguelikeTheme,
-                Instances.SettingsViewModel.RoguelikeRefreshTraderWithDice,
+                Instances.SettingsViewModel.RoguelikeTheme.ToString(),
+                Instances.SettingsViewModel.RoguelikeRefreshTraderWithDice && Instances.SettingsViewModel.RoguelikeTheme == RoguelikeTheme.Mizuki,
                 Instances.SettingsViewModel.RoguelikeStopAtFinalBoss);
         }
 

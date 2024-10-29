@@ -27,6 +27,7 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 using static MaaWpfGui.Configuration.GUI;
 using static MaaWpfGui.Configuration.MaaTask.ReclamationTask;
+using static MaaWpfGui.Configuration.MaaTask.RoguelikeTask;
 using static MaaWpfGui.Configuration.Toolbox;
 using static MaaWpfGui.Configuration.VersionUpdate;
 using static MaaWpfGui.Models.CoreTask;
@@ -242,7 +243,27 @@ namespace MaaWpfGui.Helper
                     mallTask.VisitFriendsOnceADay = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitOnceADay, bool.FalseString));
                     mallTask.VisitFriendsLastTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditVisitFriendsTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
 
-                    roguelikeTask.Theme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, "Sami");
+                    roguelikeTask.Theme = Enum.Parse<RoguelikeTheme>(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, RoguelikeTheme.Sarkaz.ToString()));
+                    roguelikeTask.Difficulty = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDifficulty, "MAX").Replace("MAX", Int32.MaxValue.ToString()));
+                    roguelikeTask.Mode = Enum.Parse<RoguelikeMode>(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMode, RoguelikeMode.Exp.ToString()));
+                    roguelikeTask.CoreChar = EmptyStringToNull(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeCoreChar, string.Empty));
+                    roguelikeTask.Squad = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeSquad, string.Empty);
+                    roguelikeTask.Roles = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeRoles, string.Empty);
+                    roguelikeTask.StartCount = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartsCount, "9999999"));
+                    roguelikeTask.Investment = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeInvestmentEnabled, bool.TrueString));
+                    roguelikeTask.InvestCount = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeInvestsCount, "9999999"));
+                    roguelikeTask.InvestWithMoreScore = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeInvestmentEnterSecondFloor, bool.FalseString));
+                    roguelikeTask.StopWhenDepositFull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStopWhenInvestmentFull, bool.FalseString));
+                    roguelikeTask.StopAtFinalBoss = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStopAtFinalBoss, bool.FalseString));
+                    roguelikeTask.UseSupport = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeUseSupportUnit, bool.FalseString));
+                    roguelikeTask.UseSupportNonFriend = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeEnableNonfriendSupport, bool.FalseString));
+                    roguelikeTask.RefreshTraderWithDice = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, bool.FalseString));
+                    roguelikeTask.StartWithEliteTwo = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, bool.FalseString));
+                    roguelikeTask.StartWithEliteTwoOnly = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeOnlyStartWithEliteTwo, bool.FalseString));
+                    roguelikeTask.SamiFirstFloorFoldartal = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3FirstFloorFoldartal, bool.FalseString));
+                    roguelikeTask.SamiFirstFloorFoldartals = EmptyStringToNull(ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3StartFloorFoldartal, string.Empty));
+                    roguelikeTask.SamiNewSquad2StartingFoldartal = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartal, bool.FalseString));
+                    roguelikeTask.SamiNewSquad2StartingFoldartals = EmptyStringToNull( ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartals, string.Empty));
 
                     reclamationTask.Theme = Enum.Parse<ReclamationTheme>(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationTheme, ReclamationTheme.Tales.ToString()));
                     reclamationTask.Mode = Enum.Parse<ReclamationMode>(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMode, ReclamationMode.Archive.ToString()));
