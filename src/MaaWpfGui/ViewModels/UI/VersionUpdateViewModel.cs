@@ -186,13 +186,12 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            Execute.OnUIThreadAsync(() =>
             {
                 using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionZipFileFoundTitle"));
                 toast.AppendContentText(LocalizationHelper.GetString("NewVersionZipFileFoundDescDecompressing"))
                     .AppendContentText(UpdateTag)
                     .ShowUpdateVersion(row: 2);
-            });
+            }
 
             string curDir = Directory.GetCurrentDirectory();
             string extractDir = Path.Combine(curDir, "NewVersionExtract");
@@ -211,13 +210,13 @@ namespace MaaWpfGui.ViewModels.UI
             catch (InvalidDataException)
             {
                 File.Delete(UpdatePackageName);
-                Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionZipFileBrokenTitle"));
                     toast.AppendContentText(LocalizationHelper.GetString("NewVersionZipFileBrokenDescFilename") + UpdatePackageName)
                         .AppendContentText(LocalizationHelper.GetString("NewVersionZipFileBrokenDescDeleted"))
                         .ShowUpdateVersion();
-                });
+                }
+
                 return false;
             }
 
@@ -517,9 +516,8 @@ namespace MaaWpfGui.ViewModels.UI
                         {
                             Process.Start(new ProcessStartInfo(UpdateUrl) { UseShellExecute = true });
                         }
-                    }
-                );
-                _ = Execute.OnUIThreadAsync(() =>
+                    });
+
                 {
                     using var toast = new ToastNotification((otaFound ? LocalizationHelper.GetString("NewVersionFoundTitle") : LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);
                     if (goDownload)
@@ -550,7 +548,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                     toast.AddButton(text, ToastNotification.GetActionTagForOpenWeb(UpdateUrl));
                     toast.ShowUpdateVersion();
-                });
+                }
 
                 UpdatePackageName = _assetsObject?["name"]?.ToString() ?? string.Empty;
 
@@ -635,13 +633,13 @@ namespace MaaWpfGui.ViewModels.UI
                 else
                 {
                     OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
-                    _ = Execute.OnUIThreadAsync(() =>
                     {
                         var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
                         toast.AppendContentText(LocalizationHelper.GetString("NewVersionDownloadFailedDesc"))
                              .AddButton(text, ToastNotification.GetActionTagForOpenWeb(UpdateUrl))
                              .Show();
-                    });
+                    }
+
                     return CheckUpdateRetT.NoNeedToUpdate;
                 }
 

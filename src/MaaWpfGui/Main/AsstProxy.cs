@@ -641,7 +641,7 @@ namespace MaaWpfGui.Main
             var sanityReport = LocalizationHelper.GetString("SanityReport");
             var recoveryTime = SanityReport.ReportTime.AddMinutes(SanityReport.Sanity[0] < SanityReport.Sanity[1] ? (SanityReport.Sanity[1] - SanityReport.Sanity[0]) * 6 : 0);
             sanityReport = sanityReport.Replace("{DateTime}", recoveryTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", (recoveryTime - DateTimeOffset.Now).ToString(@"h\h\ m\m"));
-            using var toast = new ToastNotification(sanityReport);
+            ToastNotification.ShowDirect(sanityReport);
 
             DisposeTimer();
         }
@@ -671,8 +671,7 @@ namespace MaaWpfGui.Main
                         if (msg == AsstMsg.TaskChainError)
                         {
                             Instances.RecognizerViewModel.RecruitInfo = LocalizationHelper.GetString("IdentifyTheMistakes");
-                            using var toast = new ToastNotification(LocalizationHelper.GetString("IdentifyTheMistakes"));
-                            toast.Show();
+                            ToastNotification.ShowDirect(LocalizationHelper.GetString("IdentifyTheMistakes"));
                         }
 
                         break;
@@ -704,8 +703,7 @@ namespace MaaWpfGui.Main
                         }
 
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskError") + taskChain, UiLogColor.Error);
-                        using var toast = new ToastNotification(LocalizationHelper.GetString("TaskError") + taskChain);
-                        toast.Show();
+                        ToastNotification.ShowDirect(LocalizationHelper.GetString("TaskError") + taskChain);
                         if (isCopilotTaskChain)
                         {
                             // 如果启用战斗列表，需要中止掉剩余的任务
@@ -1183,8 +1181,7 @@ namespace MaaWpfGui.Main
                                 else
                                 {
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("GameDropNoRestart"), UiLogColor.Warning);
-                                    using var toast = new ToastNotification(LocalizationHelper.GetString("GameDropNoRestart"));
-                                    toast.Show();
+                                    ToastNotification.ShowDirect(LocalizationHelper.GetString("GameDropNoRestart"));
                                     _ = Instances.TaskQueueViewModel.Stop();
                                 }
 
@@ -1828,12 +1825,7 @@ namespace MaaWpfGui.Main
                     return false;
                 }
 
-                Execute.OnUIThreadAsync(
-                    () =>
-                {
-                    using var toast = new ToastNotification("Auto Reload");
-                    toast.Show();
-                });
+                ToastNotification.ShowDirect("Auto Reload");
 
                 return true;
             }

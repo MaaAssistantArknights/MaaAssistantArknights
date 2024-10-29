@@ -25,8 +25,9 @@ using MaaWpfGui.Configuration;
 using MaaWpfGui.Helper.Notification;
 using MaaWpfGui.WineCompat;
 using Microsoft.Win32;
-
+using Notification.Wpf.Constants;
 using Serilog;
+using Stylet;
 
 namespace MaaWpfGui.Helper
 {
@@ -55,8 +56,6 @@ namespace MaaWpfGui.Helper
         [DllImport("ntdll.dll", ExactSpelling = true)]
         private static extern int RtlGetVersion(ref OSVERSIONINFOEXW versionInfo);
 
-        // 这玩意有用吗？
-        // ReSharper disable once UnusedMember.Local
         private static INotificationPoster _notificationPoster;
 
         private static readonly string _openUrlPrefix;
@@ -306,47 +305,46 @@ namespace MaaWpfGui.Helper
         public void Show(double lifeTime = 10d, uint row = 1,
             NotificationSounds sound = NotificationSounds.Notification, params NotificationHint[] hints)
         {
-            // TODO: 整理过时代码
-            if (!ConfigFactory.CurrentConfig.GUI.UseNotify)
+            Execute.OnUIThread(() =>
             {
-                return;
-            }
+                // TODO: 整理过时代码
+                if (!ConfigFactory.CurrentConfig.GUI.UseNotify)
+                {
+                    return;
+                }
 
-            var content = new NotificationContent
-            {
-                Summary = _notificationTitle,
-                Body = _contentCollection.ToString(),
-            };
+                var content = new NotificationContent { Summary = _notificationTitle, Body = _contentCollection.ToString(), };
 
-            foreach (var action in _actions)
-            {
-                content.Actions.Add(action);
-            }
+                foreach (var action in _actions)
+                {
+                    content.Actions.Add(action);
+                }
 
-            content.Hints.Add(NotificationHint.RowCount((int)row));
+                content.Hints.Add(NotificationHint.RowCount((int)row));
 
-            // 调整显示时间，如果存在按钮的情况下显示时间将强制设为最大时间
-            lifeTime = lifeTime < 3d ? 3d : lifeTime;
+                // 调整显示时间，如果存在按钮的情况下显示时间将强制设为最大时间
+                lifeTime = lifeTime < 3d ? 3d : lifeTime;
 
-            var timeSpan = _actions.Count != 0
-                ? TimeSpan.FromSeconds(lifeTime)
-                : TimeSpan.MaxValue;
+                var timeSpan = _actions.Count != 0
+                    ? TimeSpan.FromSeconds(lifeTime)
+                    : TimeSpan.MaxValue;
 
-            content.Hints.Add(NotificationHint.ExpirationTime(timeSpan));
+                content.Hints.Add(NotificationHint.ExpirationTime(timeSpan));
 
-            foreach (var hint in hints)
-            {
-                content.Hints.Add(hint);
-            }
+                foreach (var hint in hints)
+                {
+                    content.Hints.Add(hint);
+                }
 
-            // 显示通知
-            _notificationPoster.ShowNotification(content);
+                // 显示通知
+                _notificationPoster.ShowNotification(content);
 
-            // 播放通知提示音
-            PlayNotificationSound(sound);
+                // 播放通知提示音
+                PlayNotificationSound(sound);
 
-            // 任务栏闪烁
-            FlashWindowEx();
+                // 任务栏闪烁
+                FlashWindowEx();
+            });
         }
 
         /// <summary>
@@ -362,9 +360,9 @@ namespace MaaWpfGui.Helper
             hints.CopyTo(morehints, 0);
             morehints[hints.Length] = NotificationHint.Expandable;
             Show(lifeTime: lifeTime,
-                 row: row,
-                 sound: sound,
-                 hints: morehints);
+                row: row,
+                sound: sound,
+                hints: morehints);
         }
 
         /// <summary>
@@ -398,6 +396,16 @@ namespace MaaWpfGui.Helper
             ShowMore(row: row,
                     sound: NotificationSounds.Notification,
                     hints: NotificationHint.NewVersion);
+        }
+
+        /// <summary>
+        /// 直接显示通知内容
+        /// </summary>
+        /// <param name="message">显示内容</param>
+        public static void ShowDirect(string message)
+        {
+            using var toast = new ToastNotification(message);
+            toast.Show();
         }
 
         #endregion 显示通知方法
