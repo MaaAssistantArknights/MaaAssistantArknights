@@ -943,8 +943,8 @@
     },
     "SpecialAccessActivities": {
         "doc_preDelay": "Sometimes a loading will appear after entering the home.",
-        "text": ["Exclusive", "Event"],
-        "preDelay": 500
+        "preDelay": 500,
+        "text": ["Exclusive", "Event"]
     },
     "SpecialAccessActivitiesConfirm": {
         "text": ["CLAIM", "NOW"]
