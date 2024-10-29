@@ -1152,16 +1152,6 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            MainTasksCompletedCount = 0;
-
-            _runningState.SetIdle(false);
-
-            // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
-            TaskItemSelectionChanged();
-            Instances.SettingsViewModel.InfrastOrderSelectionChanged();
-
-            InfrastTaskRunning = true;
-
             ClearLog();
 
             var buildDateTimeLong = SettingsViewModel.BuildDateTimeCurrentCultureString;
@@ -1177,6 +1167,17 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(string.Format(LocalizationHelper.GetString("VersionMismatch"), uiVersion, coreVersion), UiLogColor.Error);
                 return;
             }
+
+            MainTasksCompletedCount = 0;
+
+            // 所有提前 return 都要放在 _runningState.SetIdle(false) 之前，否则会导致无法再次点击开始
+            _runningState.SetIdle(false);
+
+            // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
+            TaskItemSelectionChanged();
+            Instances.SettingsViewModel.InfrastOrderSelectionChanged();
+
+            InfrastTaskRunning = true;
 
             await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript"));
 

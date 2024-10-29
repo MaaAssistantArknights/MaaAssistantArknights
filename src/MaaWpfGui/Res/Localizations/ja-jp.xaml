@@ -522,7 +522,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Pormpt2">日曜です。殲滅作戦は忘れてないですか〜</system:String>
     <!--  !戦闘設定  -->
     <!--  Logs  -->
-    <system:String x:Key="VersionMismatch">UI と Core のバージョンが一致しません: {0} および {1}、予測不可能な動作の原因となる可能性があります。ファイルを手動で置換しないでください。</system:String>
+    <system:String x:Key="VersionMismatch">UI と Core のバージョンが一致しません: {0} と {1}、予測不可能な動作を引き起こす可能性があります。ファイルを手動で置き換えたり、更新中にファイルを占有しないでください。\n\n完全なパッケージをダウンロードして、現在のフォルダーの内容を上書きしてください。</system:String>
     <system:String x:Key="ConnectingToEmulator">エミュレータ接続中……</system:String>
     <system:String x:Key="UnselectedTask">タスクが選択されていません</system:String>
     <system:String x:Key="Running">動作中……</system:String>
