@@ -23,10 +23,10 @@ using System.Text.Json.Serialization;
 using System.Text.Unicode;
 using System.Threading;
 using System.Threading.Tasks;
+using MaaWpfGui.Configuration.MaaTask;
 using MaaWpfGui.Helper;
 using ObservableCollections;
 using Serilog;
-using static MaaWpfGui.Models.CoreTask;
 
 [assembly: PropertyChanged.FilterType("MaaWpfGui.Configuration.")]
 

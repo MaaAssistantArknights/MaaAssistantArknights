@@ -12,30 +12,32 @@
 // </copyright>
 
 #nullable enable
-using System.Text.Json.Serialization;
 using Newtonsoft.Json.Linq;
-using static MaaWpfGui.Models.CoreTask;
 
-namespace MaaWpfGui.Configuration.MaaTask
+namespace MaaWpfGui.Configuration.MaaTask;
+
+/// <summary>
+/// 开方舟
+/// </summary>
+public class StartUpTask : BaseTask
 {
-    public class StartUpTask : BaseTask
+    public StartUpTask() => TaskType = TaskType.StartUp;
+
+    public string? AccountName { get; set; }
+
+    public override JObject SerializeJsonTask()
     {
-        public string? AccountName { get; set; }
-
-        public override JObject SerializeJsonTask()
+        var taskParams = new JObject()
         {
-            var taskParams = new JObject()
-            {
-                ["client_type"] = "cn",
-                ["start_game_enabled"] = false,
-            };
+            ["client_type"] = "cn",
+            ["start_game_enabled"] = false,
+        };
 
-            if (!string.IsNullOrEmpty(AccountName))
-            {
-                taskParams["account_name"] = AccountName;
-            }
-
-            return taskParams;
+        if (!string.IsNullOrEmpty(AccountName))
+        {
+            taskParams["account_name"] = AccountName;
         }
+
+        return taskParams;
     }
 }

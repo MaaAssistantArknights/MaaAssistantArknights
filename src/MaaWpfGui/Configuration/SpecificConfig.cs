@@ -13,8 +13,8 @@
 
 #nullable enable
 using System.Text.Json.Serialization;
+using MaaWpfGui.Configuration.MaaTask;
 using ObservableCollections;
-using static MaaWpfGui.Models.CoreTask;
 
 namespace MaaWpfGui.Configuration
 {

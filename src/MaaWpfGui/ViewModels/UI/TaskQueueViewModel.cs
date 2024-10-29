@@ -39,8 +39,6 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using StyletIoC;
-using static MaaWpfGui.Configuration.MaaTask.RoguelikeTask;
-using static MaaWpfGui.Models.CoreTask;
 using Application = System.Windows.Application;
 using ComboBox = System.Windows.Controls.ComboBox;
 using Screen = Stylet.Screen;

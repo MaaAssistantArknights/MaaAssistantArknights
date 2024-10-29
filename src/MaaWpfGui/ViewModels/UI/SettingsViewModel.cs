@@ -59,7 +59,6 @@ using static MaaWpfGui.Configuration.GUI;
 using static MaaWpfGui.Configuration.MaaTask.ReclamationTask;
 using static MaaWpfGui.Configuration.MaaTask.RoguelikeTask;
 using static MaaWpfGui.Configuration.VersionUpdate;
-using static MaaWpfGui.Models.CoreTask;
 using ComboBox = System.Windows.Controls.ComboBox;
 using DarkModeType = MaaWpfGui.Configuration.GUI.DarkModeType;
 using Timer = System.Timers.Timer;
@@ -974,7 +973,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _accountName, value);
-                ((StartUpTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).AccountName = value == string.Empty ? null : value;
+                GetCurrentTask<StartUpTask>(t => t.AccountName = value == string.Empty ? null : value);
             }
         }
 
@@ -2717,7 +2716,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _reclamationTheme, value);
-                ((ReclamationTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).Theme = value;
+                GetCurrentTask<ReclamationTask>(t => t.Theme = value);
             }
         }
 
@@ -2741,7 +2740,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _reclamationMode, value);
-                ((ReclamationTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).Mode = value;
+                GetCurrentTask<ReclamationTask>(t => t.Mode = value);
             }
         }
 
@@ -2754,7 +2753,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 value = string.IsNullOrEmpty(value) ? LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder") : value;
                 SetAndNotify(ref _reclamationToolToCraft, value);
-                ((ReclamationTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).ToolToCraft = value;
+                GetCurrentTask<ReclamationTask>(t => t.ToolToCraft = value);
             }
         }
 
@@ -2767,7 +2766,7 @@ namespace MaaWpfGui.ViewModels.UI
             new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeHold"), Value = 1 },
         ];
 
-        private int _reclamationIncrementMode = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationIncrementMode, "0"));
+        private int _reclamationIncrementMode;
 
         public int ReclamationIncrementMode
         {
@@ -2775,7 +2774,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _reclamationIncrementMode, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationIncrementMode, value.ToString());
+                GetCurrentTask<ReclamationTask>(t => t.IncrementMode = value);
             }
         }
 
@@ -2787,7 +2786,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _reclamationMaxCraftCountPerRound, value);
-                ((ReclamationTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).MaxCraftCountPerRound = value;
+                GetCurrentTask<ReclamationTask>(t => t.MaxCraftCountPerRound = value);
             }
         }
 
@@ -2803,7 +2802,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _lastCreditFightTaskTime, value);
-                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).CreditFightLastTime = value;
+                GetCurrentTask<MallTask>(t => t.CreditFightLastTime = value);
             }
         }
 
@@ -2815,7 +2814,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditFightTaskEnabled, value);
-                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).CreditFight = value;
+                GetCurrentTask<MallTask>(t => t.CreditFight = value);
             }
         }
 
@@ -2840,7 +2839,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _lastCreditVisitFriendsTime, value);
-                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).VisitFriendsLastTime = value;
+                GetCurrentTask<MallTask>(t => t.VisitFriendsLastTime = value);
             }
         }
 
@@ -2855,7 +2854,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditVisitOnceADay, value);
-                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).VisitFriendsOnceADay = value;
+                GetCurrentTask<MallTask>(t => t.VisitFriendsOnceADay = value);
             }
         }
 
@@ -2867,7 +2866,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditVisitFriendsEnabled, value);
-                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).VisitFriends = value;
+                GetCurrentTask<MallTask>(t => t.VisitFriends = value);
             }
         }
 
@@ -2882,7 +2881,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditFightSelectFormation, value);
-                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).CreditFightFormation = value;
+                GetCurrentTask<MallTask>(t => t.CreditFightFormation = value);
             }
         }
 
@@ -2897,7 +2896,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditShopping, value);
-                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).Shopping = value;
+                GetCurrentTask<MallTask>(t => t.Shopping = value);
             }
         }
 
@@ -2912,7 +2911,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditFirstList, value);
-                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).FirstList = value;
+                GetCurrentTask<MallTask>(t => t.FirstList = value);
             }
         }
 
@@ -2927,7 +2926,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditBlackList, value);
-                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).BlackList = value;
+                GetCurrentTask<MallTask>(t => t.BlackList = value);
             }
         }
 
@@ -2942,7 +2941,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditForceShoppingIfCreditFull, value);
-                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).ShoppingIgnoreBlackListWhenFull = value;
+                GetCurrentTask<MallTask>(t => t.ShoppingIgnoreBlackListWhenFull = value);
             }
         }
 
@@ -2957,7 +2956,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditOnlyBuyDiscount, value);
-                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).OnlyBuyDiscount = value;
+                GetCurrentTask<MallTask>(t => t.OnlyBuyDiscount = value);
             }
         }
 
@@ -2972,7 +2971,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _creditReserveMaxCredit, value);
-                ((MallTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).ReserveMaxCredit = value;
+                GetCurrentTask<MallTask>(t => t.ReserveMaxCredit = value);
             }
         }
 
@@ -2991,7 +2990,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _receiveAward, value);
-                ((AwardTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).Award = value;
+                GetCurrentTask<AwardTask>(t => t.Award = value);
             }
         }
 
@@ -3006,7 +3005,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _receiveMail, value);
-                ((AwardTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).Mail = value;
+                GetCurrentTask<AwardTask>(t => t.Mail = value);
             }
         }
 
@@ -3037,7 +3036,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 SetAndNotify(ref _receiveFreeRecruit, value);
-                ((AwardTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).FreeGacha = value;
+                GetCurrentTask<AwardTask>(t => t.FreeGacha = value);
             }
         }
 
@@ -3052,7 +3051,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _receiveOrundum, value);
-                ((AwardTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).Orundum = value;
+                GetCurrentTask<AwardTask>(t => t.Orundum = value);
             }
         }
 
@@ -3067,7 +3066,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _receiveMining, value);
-                ((AwardTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).Mining = value;
+                GetCurrentTask<AwardTask>(t => t.Mining = value);
             }
         }
 
@@ -3082,7 +3081,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _receiveSpecialAccess, value);
-                ((AwardTask)ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilities.CurrentIndex]).SpecialAccess = value;
+                GetCurrentTask<AwardTask>(t => t.SpecialAccess = value);
             }
         }
 

@@ -13,53 +13,53 @@
 
 #nullable enable
 using Newtonsoft.Json.Linq;
-using static MaaWpfGui.Models.CoreTask;
 
-namespace MaaWpfGui.Configuration.MaaTask
+namespace MaaWpfGui.Configuration.MaaTask;
+
+public class AwardTask : BaseTask
 {
-    public class AwardTask : BaseTask
+    public AwardTask() => TaskType = TaskType.Award;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 领取日常奖励
+    /// </summary>
+    public bool Award { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 领取邮件奖励
+    /// </summary>
+    public bool Mail { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 领取每日免费一抽
+    /// </summary>
+    public bool FreeGacha { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 领取幸运墙合成玉
+    /// </summary>
+    public bool Orundum { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 领挖矿合成玉
+    /// </summary>
+    public bool Mining { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 5周年特殊月卡
+    /// </summary>
+    public bool SpecialAccess { get; set; }
+
+    public override JObject SerializeJsonTask()
     {
-        /// <summary>
-        /// Gets or sets a value indicating whether 领取日常奖励
-        /// </summary>
-        public bool Award { get; set; } = true;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether 领取邮件奖励
-        /// </summary>
-        public bool Mail { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether 领取每日免费一抽
-        /// </summary>
-        public bool FreeGacha { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether 领取幸运墙合成玉
-        /// </summary>
-        public bool Orundum { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether 领挖矿合成玉
-        /// </summary>
-        public bool Mining { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether 5周年特殊月卡
-        /// </summary>
-        public bool SpecialAccess { get; set; }
-
-        public override JObject SerializeJsonTask()
+        return new JObject
         {
-            return new JObject
-            {
-                ["award"] = Award,
-                ["mail"] = Mail,
-                ["recruit"] = FreeGacha,
-                ["orundum"] = Orundum,
-                ["mining"] = Mining,
-                ["specialaccess"] = SpecialAccess,
-            };
-        }
+            ["award"] = Award,
+            ["mail"] = Mail,
+            ["recruit"] = FreeGacha,
+            ["orundum"] = Orundum,
+            ["mining"] = Mining,
+            ["specialaccess"] = SpecialAccess,
+        };
     }
 }

@@ -18,7 +18,6 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
-using static MaaWpfGui.Models.CoreTask;
 
 namespace MaaWpfGui.Models
 {

@@ -30,7 +30,6 @@ using static MaaWpfGui.Configuration.MaaTask.ReclamationTask;
 using static MaaWpfGui.Configuration.MaaTask.RoguelikeTask;
 using static MaaWpfGui.Configuration.Toolbox;
 using static MaaWpfGui.Configuration.VersionUpdate;
-using static MaaWpfGui.Models.CoreTask;
 using static MaaWpfGui.Models.PostActionSetting;
 
 namespace MaaWpfGui.Helper
@@ -281,7 +280,7 @@ namespace MaaWpfGui.Helper
                     for (int i = 0; i != taskList.Count; ++i)
                     {
                         var isEnable = Convert.ToBoolean(ConfigurationHelper.GetValue($"TaskQueue.{taskList[i].OldName}.IsChecked", bool.FalseString));
-                        if (int.TryParse(ConfigurationHelper.GetTaskOrder(taskList[i].OldName, "-1"), out var order))
+                        if (int.TryParse(ConfigurationHelper.GetTaskOrder(taskList[i].OldName, "99"), out var order))
                         {
                             taskList[i] = (taskList[i].OldName, order, isEnable);
                         }
