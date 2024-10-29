@@ -214,14 +214,12 @@ int MumuExtras::get_display_id()
             display_id_cache_ = 0;
             return 0;
         }
+    }
 
-        int id = get_display_id_func_(mumu_handle_, package_name_.c_str(), 0);
-        if (id < 0) {
-            LogWarn << "Failed to get display id" << VAR(id) << VAR(package_name_);
-            return 0;
-        }
-
-        display_id_cache_ = id;
+    display_id_cache_ = get_display_id_func_(mumu_handle_, package_name_.c_str(), 0);
+    if (*display_id_cache_ < 0) {
+        LogWarn << "Failed to get display id" << VAR(*display_id_cache_) << VAR(package_name_);
+        return 0;
     }
 
     return *display_id_cache_;
