@@ -1116,10 +1116,6 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public async void LinkStart()
         {
-            await _stageManager.UpdateStageWeb();
-            UpdateDatePrompt();
-            UpdateStageList();
-            return;
             if (!_runningState.GetIdle())
             {
                 _logger.Information("Not idle, return.");
