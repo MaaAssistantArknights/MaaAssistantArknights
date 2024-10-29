@@ -942,7 +942,9 @@
         "text": ["Headhunt x1", "Headhunt"]
     },
     "SpecialAccessActivities": {
-        "text": ["Exclusive", "Event"]
+        "doc_preDelay": "Sometimes a loading will appear after entering the home.",
+        "text": ["Exclusive", "Event"],
+        "preDelay": 500
     },
     "SpecialAccessActivitiesConfirm": {
         "text": ["CLAIM", "NOW"]
