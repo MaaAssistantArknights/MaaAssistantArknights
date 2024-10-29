@@ -54,6 +54,7 @@ bool asst::InfrastDormTask::_run()
             Log.trace("click_filter_menu_not_stationed_button");
             // 在此处不进行 m_if_filter_notstationed_haspressed 的判断，即必须重新选择一次筛选条件
             if (click_filter_menu_not_stationed_button()) {
+                Log.info("successfully set filter to [Not Assigned]");
                 m_if_filter_notstationed_haspressed = true;
             }
         }
