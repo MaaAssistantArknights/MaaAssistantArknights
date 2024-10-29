@@ -12520,11 +12520,22 @@
         ]
     },
     "Tales@RA@PNS-ProsperityBelowLimit-SwipeSave": {
-        "doc": "生息点数未达到上限, 点击右下角删除存档图标, 确认删除存档, 仍要删除存档",
+        "doc": [
+            "生息点数未达到上限, 点击右下角删除存档图标, 确认删除存档, 仍要删除存档",
+            "用户反应会在 sub 中卡住导致任务失败，加一个 subErrorIgnored",
+            "并在 next 中添加自身和 Tales@RA@PNS-ProsperityBelowLimit-Dots 以便及时重试",
+            "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/10957"
+        ],
         "baseTask": "Tales@RA@SwipeSave",
         "template": "Tales@RA@SwipeSave.png",
         "sub": ["Tales@RA@DialogConfirmRed*2"],
-        "next": ["Tales@RA@PNS-ProsperityBelowLimit-SwipeSave@NextAfterLoadingText", "Tales@RA@ProsperityNoSave"]
+        "subErrorIgnored": true,
+        "next": [
+            "Tales@RA@PNS-ProsperityBelowLimit-SwipeSave",
+            "Tales@RA@PNS-ProsperityBelowLimit-Dots",
+            "Tales@RA@PNS-ProsperityBelowLimit-SwipeSave@NextAfterLoadingText",
+            "Tales@RA@ProsperityNoSave"
+        ]
     },
     "Tales@RA@PNS-ProsperityReachLimit": {
         "doc": "已完成生存周期, 生息点数达到上限, 点击 MAX 图案位置",
