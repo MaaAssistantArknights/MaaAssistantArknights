@@ -5135,6 +5135,7 @@
             ["[Oo]", "0"],
             ["[Ii]", "1"],
             ["[Ll]", "1"],
+            ["\\|", "1"],
             ["B", "8"],
             ["十", "+"],
             ["萬", "万"],
@@ -6286,6 +6287,27 @@
         "action": "ClickSelf",
         "roi": [1061, 373, 208, 71],
         "next": ["Roguelike@StartExplore"]
+    },
+    "Roguelike@ChooseDifficulty_Specified": {
+        "doc": "用于 RoguelikeDifficultySelectionTaskPlugin",
+        "baseTask": "NumberOcrReplace",
+        "roi": [400, 450, 225, 160],
+        "fullMatch": true,
+        "action": "ClickSelf",
+        "postDelay": 800,
+        "next": ["#self", "Stop"]
+    },
+    "Roguelike@ChooseDifficulty_CheckEasiest": {
+        "doc": "用于 RoguelikeDifficultySelectionTaskPlugin",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [400, 450, 225, 160]
+    },
+    "Roguelike@ChooseDifficulty_AnalyzeCurrentDifficulty": {
+        "doc": "用于 RoguelikeDifficultySelectionTaskPlugin",
+        "baseTask": "NumberOcrReplace",
+        "roi": [400, 300, 225, 160],
+        "fullMatch": true
     },
     "Roguelike@ChooseDifficultyConfirm": {
         "algorithm": "OcrDetect",

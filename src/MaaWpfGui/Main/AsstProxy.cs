@@ -2438,6 +2438,7 @@ namespace MaaWpfGui.Main
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(
             int mode,
+            int difficulty,
             int starts,
             bool investmentEnabled,
             bool investmentWithMoreScore,
@@ -2465,6 +2466,11 @@ namespace MaaWpfGui.Main
                 ["theme"] = theme,
                 ["investment_enabled"] = false,
             };
+
+            if (theme != "Phantom")
+            {
+                taskParams["difficulty"] = difficulty;
+            }
 
             if (investmentEnabled)
             {

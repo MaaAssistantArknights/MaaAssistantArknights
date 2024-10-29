@@ -1642,9 +1642,11 @@ namespace MaaWpfGui.ViewModels.UI
         private static bool AppendRoguelike()
         {
             _ = int.TryParse(Instances.SettingsViewModel.RoguelikeMode, out var mode);
+            _ = int.TryParse(Instances.SettingsViewModel.RoguelikeDifficulty, out var difficulty);
 
             return Instances.AsstProxy.AsstAppendRoguelike(
                 mode,
+                difficulty,
                 Instances.SettingsViewModel.RoguelikeStartsCount,
                 Instances.SettingsViewModel.RoguelikeInvestmentEnabled,
                 Instances.SettingsViewModel.RoguelikeInvestmentWithMoreScore,

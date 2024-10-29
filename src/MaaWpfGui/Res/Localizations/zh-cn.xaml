@@ -298,6 +298,7 @@
     <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
     <system:String x:Key="RoguelikeThemeSami">萨米</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">萨卡兹</system:String>
+    <system:String x:Key="RoguelikeDifficulty">难度</system:String>
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">开始探索 N 次后停止任务</system:String>
     <system:String x:Key="GoldTimesLimit">投资 N 个源石锭后停止任务</system:String>

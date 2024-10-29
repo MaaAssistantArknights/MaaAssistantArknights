@@ -298,6 +298,7 @@ You can cancel this popup by clicking the Settings - About Us - Issue Reporting 
     <system:String x:Key="RoguelikeThemeMizuki">Mizuki</system:String>
     <system:String x:Key="RoguelikeThemeSami">Sami</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">Sarkaz</system:String>
+    <system:String x:Key="RoguelikeDifficulty">Difficulty</system:String>
     <system:String x:Key="Strategy">Strategy</system:String>
     <system:String x:Key="StartTimesLimit">Stops after starting N times</system:String>
     <system:String x:Key="GoldTimesLimit">Stops after investing N times</system:String>
