@@ -53,11 +53,8 @@ bool asst::InfrastDormTask::_run()
         if (m_dorm_notstationed_enabled) {
             Log.trace("click_filter_menu_not_stationed_button");
             // 在此处不进行 m_if_filter_notstationed_haspressed 的判断，即必须重新选择一次筛选条件
-            // 使用循环强制要求成功点击按钮
-            while (!need_exit()) {
-                if (click_filter_menu_not_stationed_button()) {
-                    m_if_filter_notstationed_haspressed = true;
-                }
+            if (click_filter_menu_not_stationed_button()) {
+                m_if_filter_notstationed_haspressed = true;
             }
         }
 
