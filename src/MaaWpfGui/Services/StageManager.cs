@@ -61,7 +61,7 @@ namespace MaaWpfGui.Services
                     _ = Execute.OnUIThreadAsync(() =>
                     {
                         Instances.TaskQueueViewModel.UpdateDatePrompt();
-                        Instances.TaskQueueViewModel.UpdateStageList(true);
+                        Instances.TaskQueueViewModel.UpdateStageList();
                     });
                 }
             });
@@ -216,52 +216,28 @@ namespace MaaWpfGui.Services
                         // bool minResourceRequiredParsed = SemVersion.TryParse(stageObj?["MinimumResourceRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minResourceRequiredObj);
                         bool minRequiredParsed = SemVersion.TryParse(stageObj?["MinimumRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minRequiredObj);
 
-                        StageInfo stageInfo;
-
                         // && (!minResourceRequiredParsed || curResourceVerParsed))
-                        if (isDebugVersion || (curVerParsed && minRequiredParsed))
+                        bool unsupportedStages = false;
+                        if (!isDebugVersion)
                         {
-                            // Debug Version will be considered satisfying min version requirement, but the resource version needs a comparison
-                            if (!isDebugVersion)
+                            if (!curVerParsed || !minRequiredParsed)
                             {
-                                // &&(!minResourceRequiredParsed || curResourceVersionObj.CompareSortOrderTo(minResourceRequiredObj) < 0)
-                                if (curVersionObj.CompareSortOrderTo(minRequiredObj) < 0)
-                                {
-                                    if (!tempStage.ContainsKey(LocalizationHelper.GetString("UnsupportedStages")))
-                                    {
-                                        stageInfo = new StageInfo
-                                        {
-                                            Display = LocalizationHelper.GetString("UnsupportedStages"),
-                                            Value = LocalizationHelper.GetString("UnsupportedStages"),
-                                            Drop = LocalizationHelper.GetString("LowVersion") + '\n' +
-                                                   LocalizationHelper.GetString("MinimumRequirements") + minRequiredObj,
-                                            Activity = new StageActivityInfo()
-                                            {
-                                                Tip = stageObj?["Activity"]?["Tip"]?.ToString(),
-                                                StageName = stageObj?["Activity"]?["StageName"]?.ToString(),
-                                                UtcStartTime = GetDateTime(stageObj?["Activity"], "UtcStartTime"),
-                                                UtcExpireTime = GetDateTime(stageObj?["Activity"], "UtcExpireTime"),
-                                            },
-                                        };
-
-                                        tempStage.Add(stageInfo.Display, stageInfo);
-                                    }
-
-                                    continue;
-                                }
+                                continue;
                             }
-                        }
-                        else
-                        {
-                            continue;
+
+                            unsupportedStages = curVersionObj.CompareSortOrderTo(minRequiredObj) < 0 && !tempStage.ContainsKey(LocalizationHelper.GetString("UnsupportedStages"));
                         }
 
-                        stageInfo = new StageInfo
+                        var stageInfo = new StageInfo
                         {
-                            Display = stageObj?["Display"]?.ToString() ?? string.Empty,
-                            Value = stageObj?["Value"]?.ToString(),
-                            Drop = stageObj?["Drop"]?.ToString(),
-                            Activity = new StageActivityInfo()
+                            Display = unsupportedStages ? LocalizationHelper.GetString("UnsupportedStages")
+                                : stageObj?["Display"]?.ToString() ?? string.Empty,
+                            Value = unsupportedStages ? LocalizationHelper.GetString("UnsupportedStages")
+                                : stageObj?["Value"]?.ToString() ?? string.Empty,
+                            Drop = unsupportedStages ? LocalizationHelper.GetString("LowVersion") + '\n' +
+                                                       LocalizationHelper.GetString("MinimumRequirements") + minRequiredObj
+                                : stageObj?["Drop"]?.ToString(),
+                            Activity = new StageActivityInfo
                             {
                                 Tip = stageObj?["Activity"]?["Tip"]?.ToString(),
                                 StageName = stageObj?["Activity"]?["StageName"]?.ToString(),
@@ -287,28 +263,28 @@ namespace MaaWpfGui.Services
                 { "12-17-HARD", new StageInfo { Display = "12-17-HARD", Value = "12-17-HARD" } },
 
                 // 资源本
-                { "CE-6", new StageInfo("CE-6", "CETip", new[] { DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, resourceCollection) },
-                { "AP-5", new StageInfo("AP-5", "APTip", new[] { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, resourceCollection) },
-                { "CA-5", new StageInfo("CA-5", "CATip", new[] { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Sunday }, resourceCollection) },
-                { "LS-6", new StageInfo("LS-6", "LSTip", new DayOfWeek[] { }, resourceCollection) },
-                { "SK-5", new StageInfo("SK-5", "SKTip", new[] { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Saturday }, resourceCollection) },
+                { "CE-6", new StageInfo("CE-6", "CETip", [DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
+                { "AP-5", new StageInfo("AP-5", "APTip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
+                { "CA-5", new StageInfo("CA-5", "CATip", [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection) },
+                { "LS-6", new StageInfo("LS-6", "LSTip", [], resourceCollection) },
+                { "SK-5", new StageInfo("SK-5", "SKTip", [DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection) },
 
                 // 剿灭模式
                 { "Annihilation", new StageInfo { Display = LocalizationHelper.GetString("Annihilation"), Value = "Annihilation" } },
 
                 // 芯片本
-                { "PR-A-1", new StageInfo("PR-A-1", "PR-ATip", new[] { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday }, resourceCollection) },
-                { "PR-A-2", new StageInfo("PR-A-2", string.Empty, new[] { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday }, resourceCollection) },
-                { "PR-B-1", new StageInfo("PR-B-1", "PR-BTip", new[] { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday }, resourceCollection) },
-                { "PR-B-2", new StageInfo("PR-B-2", string.Empty, new[] { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday }, resourceCollection) },
-                { "PR-C-1", new StageInfo("PR-C-1", "PR-CTip", new[] { DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, resourceCollection) },
-                { "PR-C-2", new StageInfo("PR-C-2", string.Empty, new[] { DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, resourceCollection) },
-                { "PR-D-1", new StageInfo("PR-D-1", "PR-DTip", new[] { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday }, resourceCollection) },
-                { "PR-D-2", new StageInfo("PR-D-2", string.Empty, new[] { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday }, resourceCollection) },
+                { "PR-A-1", new StageInfo("PR-A-1", "PR-ATip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection) },
+                { "PR-A-2", new StageInfo("PR-A-2", string.Empty, [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection) },
+                { "PR-B-1", new StageInfo("PR-B-1", "PR-BTip", [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection) },
+                { "PR-B-2", new StageInfo("PR-B-2", string.Empty, [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection) },
+                { "PR-C-1", new StageInfo("PR-C-1", "PR-CTip", [DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
+                { "PR-C-2", new StageInfo("PR-C-2", string.Empty, [DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
+                { "PR-D-1", new StageInfo("PR-D-1", "PR-DTip", [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
+                { "PR-D-2", new StageInfo("PR-D-2", string.Empty, [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
 
                 // 周一和周日的关卡提示
-                { "Pormpt1", new StageInfo { Tip = LocalizationHelper.GetString("Pormpt1"), OpenDays = new[] { DayOfWeek.Monday }, IsHidden = true } },
-                { "Pormpt2", new StageInfo { Tip = LocalizationHelper.GetString("Pormpt2"), OpenDays = new[] { DayOfWeek.Sunday }, IsHidden = true } },
+                { "Pormpt1", new StageInfo { Tip = LocalizationHelper.GetString("Pormpt1"), OpenDays = [DayOfWeek.Monday], IsHidden = true } },
+                { "Pormpt2", new StageInfo { Tip = LocalizationHelper.GetString("Pormpt2"), OpenDays = [DayOfWeek.Sunday], IsHidden = true } },
             })
             {
                 tempStage.Add(kvp.Key, kvp.Value);
