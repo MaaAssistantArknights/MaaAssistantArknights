@@ -4715,7 +4715,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 case > 1:
                     {
-                        foreach (var address in addresses.Where(address => address != "emulator-5554"))
+                        foreach (var address in addresses.Where(address => address != "emulator-5554" && address != "1234567890ABCDEF"))
                         {
                             ConnectAddress = address;
                             break;
