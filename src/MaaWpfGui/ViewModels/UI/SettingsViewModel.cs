@@ -1989,6 +1989,8 @@ namespace MaaWpfGui.ViewModels.UI
                 var value = i.ToString();
                 RoguelikeDifficultyList.Add(new CombinedData { Display = value, Value = value });
             }
+
+            RoguelikeDifficultyList.Add(new CombinedData { Display = "Current", Value = (-1).ToString() });
         }
 
         private void UpdateRoguelikeModeList()
