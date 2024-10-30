@@ -277,12 +277,17 @@ namespace MaaWpfGui.Helper
 
                 try
                 {
+                    var sortedKvsMap = new SortedDictionary<string, SortedDictionary<string, string>>(
+                        _kvsMap.ToDictionary(
+                            kvp => kvp.Key,
+                            kvp => new SortedDictionary<string, string>(kvp.Value)));
+
                     var jsonStr = JsonConvert.SerializeObject(
-                        new Dictionary<string, object>
+                        new SortedDictionary<string, object>
                         {
-                            { ConfigurationKeys.ConfigurationMap, _kvsMap },
+                            { ConfigurationKeys.ConfigurationMap, sortedKvsMap },
                             { ConfigurationKeys.CurrentConfiguration, _current },
-                            { ConfigurationKeys.GlobalConfiguration, _globalKvs },
+                            { ConfigurationKeys.GlobalConfiguration, new SortedDictionary<string, string>(_globalKvs) },
                         },
                         Formatting.Indented);
 
