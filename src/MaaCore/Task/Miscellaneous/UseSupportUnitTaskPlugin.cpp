@@ -30,7 +30,7 @@ bool asst::UseSupportUnitTaskPlugin::try_find_and_apply_support_unit(
 
     // 非随机模式
     std::vector<RequiredOper> temp_required_opers;
-    for (int i = 0; i < 3; ++i) {
+    for (size_t i = 0; i < 3; ++i) {
         if (i >= required_opers.size()) {
             break;
         }
@@ -97,7 +97,7 @@ bool asst::UseSupportUnitTaskPlugin::try_find_and_apply_support_unit_for_role(
             // ————————————————————————————————————————————————————————————————
             // Step 2: 筛选助战干员列表
             // ————————————————————————————————————————————————————————————————
-            for (int index = 0; index < support_list.size(); ++index) {
+            for (size_t index = 0; index < support_list.size(); ++index) {
                 const SupportUnit& support_unit = support_list[index];
                 known_oper_names.insert(support_unit.name);
 
@@ -109,10 +109,10 @@ bool asst::UseSupportUnitTaskPlugin::try_find_and_apply_support_unit_for_role(
                 // 2. support_unit.elite >= filtered_required_opers[i].skill - 1;
                 // 则将 candidates[i] 设置为 index。
                 if (max_spec_lvl && support_unit.elite == 2) {
-                    contunue;
+                    continue;
                 }
                 if (!allow_non_friend_support_unit && !support_unit.from_friend) {
-                    contunue;
+                    continue;
                 }
 
                 // 若 role == Role::Unknown 则选择这名干员，使用其默认技能
@@ -120,7 +120,7 @@ bool asst::UseSupportUnitTaskPlugin::try_find_and_apply_support_unit_for_role(
                     return try_use_support_unit_with_skill(support_unit, 0);
                 }
 
-                for (int i = 0; i < filtered_required_opers.size(); ++i) {
+                for (size_t i = 0; i < filtered_required_opers.size(); ++i) {
                     const RequiredOper& required_oper = filtered_required_opers[i];
                     if (role == required_oper.role && support_unit.name == required_oper.name &&
                         support_unit.elite >= required_oper.skill - 1) {
@@ -132,7 +132,7 @@ bool asst::UseSupportUnitTaskPlugin::try_find_and_apply_support_unit_for_role(
             // ————————————————————————————————————————————————————————————————
             // Step 3: 依次点选筛选出的助战干员，根据需要判断技能是否为专三，并使用
             // ————————————————————————————————————————————————————————————————
-            for (int i = 0; i < filtered_required_opers.size(); ++i) {
+            for (size_t i = 0; i < filtered_required_opers.size(); ++i) {
                 const int index = candidates[i];
                 if (index == -1) {
                     continue;

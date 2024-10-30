@@ -22,11 +22,25 @@ asst::BattleFormationTask::BattleFormationTask(
 {
 }
 
-void asst::BattleFormationTask::set_support_unit(const std::string& name, const int& skill)
+bool asst::BattleFormationTask::set_specific_support_unit(const std::string& name)
 {
-    m_support_unit_role = BattleData.get_role(name);
-    m_support_unit_name = name; // 此处可能需要对阿米娅进行特殊处理
-    m_support_unit_skill = skill;
+    LogTraceFunction;
+
+    if (m_support_unit_usage != SupportUnitUsage::Specific) {
+        Log.error(__FUNCTION__, "| Current support unit usage is not SupportUnitUsage::Specific");
+        return false;
+    }
+
+    const battle::Role role = (m_specific_support_unit.role = BattleData.get_role(name));
+    if (role == battle::Role::Unknown) {
+        // 无法根据干员名称获取其职业
+        Log.error(__FUNCTION__, "| Invalid specific support unit");
+        return false;
+    }
+    m_specific_support_unit.name = name; // 此处可能需要对阿米娅进行特殊处理
+    // 之后在 parse_formation 中，如果发现这名助战干员，则将其技能设定为对应的所需技能
+    m_specific_support_unit.skill = 0;
+    return true;
 };
 
 bool asst::BattleFormationTask::_run()
@@ -50,19 +64,29 @@ bool asst::BattleFormationTask::_run()
         add_formation(role, oper_groups, missing_operators);
     }
 
-    // 在有且仅有一名缺失干员时尝试寻找助战干员补齐编队
-    if (use_suppprt_unit_when_needed() && missing_operators.size() == 1 && !m_support_unit_used) {
+    // 在有且仅有一个缺失干员组时尝试寻找助战干员补齐编队
+    if (use_suppprt_unit_when_needed() && missing_operators.size() == 1 && !m_used_support_unit) {
         // 之后再重构数据结构，先凑合用
-        const std::string name = missing_operators.front().first;
-        const battle::Role role = BattleData.get_role(name);
-        const int skill = missing_operators.front().second.front().skill;
+        std::vector<battle::RequiredOper> required_opers;
+        for (const battle::OperUsage& oper : missing_operators.front().second) {
+            // 如果指定助战干员正好可以补齐编队，则只招募指定助战干员就好了，记得再次确认一下 skill
+            // 如果编队里正好有【艾雅法拉 - 2】和 【艾雅法拉 - 3】呢？
+            if (oper.name == m_specific_support_unit.name) {
+                m_specific_support_unit.skill = oper.skill;
+                required_opers.clear();
+                required_opers.emplace_back(m_specific_support_unit);
+                break;
+            }
+            required_opers.emplace_back(BattleData.get_role(oper.name), oper.name, oper.skill);
+        }
 
         // 先退出去招募助战再回来，好蠢
         confirm_selection();
-        // 我就是想赋值的同时判断，不懂 IDE 为什么推荐我多套一层括号 to silence this warning
-        if ((m_support_unit_used = m_use_support_unit_task_ptr->use_support_unit(role, name, skill, true, 10))) {
+        if (m_use_support_unit_task_ptr->try_find_and_apply_support_unit(required_opers, 5, true)) {
+            m_used_support_unit = true;
             missing_operators.clear();
         }
+        // 再到助战页面
         if (!enter_selection_page()) {
             save_img(utils::path("debug") / utils::path("other"));
             return false;
@@ -102,13 +126,13 @@ bool asst::BattleFormationTask::_run()
     }
     confirm_selection();
 
-    if (m_support_unit_usage == SupportUnitUsage::Specific && !m_support_unit_used) { // 使用指定助战干员
-        m_support_unit_used =
-            m_use_support_unit_task_ptr
-                ->use_support_unit(m_support_unit_role, m_support_unit_name, m_support_unit_skill, true, 10);
+    if (m_support_unit_usage == SupportUnitUsage::Specific && !m_used_support_unit) { // 使用指定助战干员
+        m_used_support_unit =
+            m_use_support_unit_task_ptr->try_find_and_apply_support_unit({ m_specific_support_unit }, 5, true);
     }
-    else if (m_support_unit_usage == SupportUnitUsage::Random && !m_support_unit_used) { // 使用随机助战干员
-        m_support_unit_used = m_use_support_unit_task_ptr->use_support_unit(battle::Role::Unknown, "", 0, false, 10);
+    else if (m_support_unit_usage == SupportUnitUsage::Random && !m_used_support_unit) { // 使用随机助战干员
+        m_used_support_unit =
+            m_use_support_unit_task_ptr->try_find_and_apply_support_unit(std::vector<battle::RequiredOper>(), 5, false);
     }
 
     return true;
@@ -460,6 +484,11 @@ bool asst::BattleFormationTask::parse_formation()
         battle::Role role = BattleData.get_role(opers_vec.front().name);
         for (const auto& oper : opers_vec) {
             same_role &= BattleData.get_role(oper.name) == role;
+
+            // （仅一次）如果发现这名助战干员，则将其技能设定为对应的所需技能
+            if (oper.name == m_specific_support_unit.name && m_specific_support_unit.skill == 0) {
+                m_specific_support_unit.skill = oper.skill;
+            }
         }
 
         // for unknown, will use { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }

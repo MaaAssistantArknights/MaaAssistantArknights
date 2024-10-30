@@ -77,7 +77,7 @@ public:
                m_support_unit_usage == SupportUnitUsage::Specific || m_support_unit_usage == SupportUnitUsage::Random;
     }
 
-    void set_support_unit(const std::string& name = "", const int& skill = 0); // 设置指定助战干员
+    bool set_specific_support_unit(const std::string& name = ""); // 设置指定助战干员
 
 protected:
     using OperGroup = std::pair<std::string, std::vector<asst::battle::OperUsage>>;
@@ -120,10 +120,8 @@ protected:
     // ————————————————————————————————
     std::shared_ptr<UseSupportUnitTaskPlugin> m_use_support_unit_task_ptr = nullptr;
     SupportUnitUsage m_support_unit_usage = SupportUnitUsage::None;
-    bool m_support_unit_used = false; // 是否已经招募助战干员
+    bool m_used_support_unit = false; // 是否已经招募助战干员
     // ———————— 以下变量为指定助战干员设置，仅当 m_support_unit_usage == SupportUnitUsage::Specific 时有效 ————————
-    battle::Role m_support_unit_role = battle::Role::Unknown;
-    std::string m_support_unit_name;
-    int m_support_unit_skill = 0;
+    battle::RequiredOper m_specific_support_unit;
 };
 } // namespace asst
