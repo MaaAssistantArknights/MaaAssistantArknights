@@ -2230,7 +2230,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _roguelikeDifficulty = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDifficulty, "MAX");
+        private string _roguelikeDifficulty = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDifficulty, int.MaxValue.ToString());
 
         public string RoguelikeDifficulty
         {
