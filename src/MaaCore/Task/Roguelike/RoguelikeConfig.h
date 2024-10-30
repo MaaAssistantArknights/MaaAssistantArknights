@@ -114,17 +114,9 @@ public:
 
     bool get_first_floor_foldartal() const { return m_first_floor_foldartal; }
 
-    // ------------------ 坍缩范式 ------------------
-    void set_check_clp_pds(bool value) { m_check_clp_pds = value; }
-
-    bool get_check_clp_pds() const { return m_check_clp_pds; }
-
 private:
     // ------------------ 密文板 ------------------
     bool m_first_floor_foldartal = false; // 凹远见密文板
-
-    // ------------------ 坍缩范式 ------------------
-    bool m_check_clp_pds = false; // 是否检查坍缩范式
 
     /* 以下为局内数据，每次重置 */
 public:

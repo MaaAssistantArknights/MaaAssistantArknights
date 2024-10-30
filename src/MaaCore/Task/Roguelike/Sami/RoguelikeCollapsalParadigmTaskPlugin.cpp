@@ -20,11 +20,26 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::load_params(const json::value& 
 
     // 根据 params 设置插件专用参数
     const RoguelikeMode& mode = m_config->get_mode();
+    if (!params.get("check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS)) {
+        return false;
+    }
     m_double_check_clp_pds = params.get("double_check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS);
 
+    if (auto opt = params.find<json::array>("expected_collapsal_paradigms"); opt.has_value()) {
+        for (const auto& clp_pd : *opt) {
+            if (const std::string clp_pd_str = clp_pd.as_string(); !clp_pd_str.empty()) {
+                m_expected_clp_pds.insert(clp_pd_str);
+            }
+        }
+    }
+    else {
+        m_expected_clp_pds = RoguelikeCollapsalParadigms.get_rare_clp_pds(theme);
+    }
+    Log.info(__FUNCTION__, "| Expected collapsal paradigms are", m_expected_clp_pds);
+
     // 从 tasks.json 获取插件设置，由于仅有萨米肉鸽使用，任务名暂定写死
-    const auto& bannerCheckConfig = Task.get<OcrTaskInfo>("Sami@Roguelike@CollapsalParadigmTaskBannerCheckConfig");
-    const auto& panelCheckConfig = Task.get<OcrTaskInfo>("Sami@Roguelike@CollapsalParadigmTaskPanelCheckConfig");
+    const auto& bannerCheckConfig = Task.get<OcrTaskInfo>(theme + "@Roguelike@CollapsalParadigmTaskBannerCheckConfig");
+    const auto& panelCheckConfig = Task.get<OcrTaskInfo>(theme + "@Roguelike@CollapsalParadigmTaskPanelCheckConfig");
 
     m_deepen_text = bannerCheckConfig->text.front();
 
@@ -50,10 +65,6 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::verify(const AsstMsg msg, const
 {
     if ((msg != AsstMsg::SubTaskStart && msg != AsstMsg::SubTaskCompleted) ||
         details.get("subtask", std::string()) != "ProcessTask") {
-        return false;
-    }
-
-    if (m_config->get_theme() != RoguelikeTheme::Sami || !m_config->get_check_clp_pds()) {
         return false;
     }
 
@@ -128,7 +139,6 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_banner()
             RoguelikeCollapsalParadigms.get_clp_pd_classes(theme);
         const std::unordered_map<std::string, unsigned int>& clp_pd_dict =
             RoguelikeCollapsalParadigms.get_clp_pd_dict(theme);
-        const auto& expected_clp_pds = RoguelikeCollapsalParadigms.get_rare_clp_pds(theme);
         std::vector<std::string> prev_clp_pds = m_clp_pds;
 
         OCRer analyzer2(image); // 检测坍缩范式名
@@ -183,7 +193,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_banner()
                 }
 
                 // 如果 cur_clp_pd 是需要的坍缩范式
-                if (expected_clp_pds.contains(cur_clp_pd)) {
+                if (m_expected_clp_pds.contains(cur_clp_pd)) {
                     exit_then_stop();
                     return;
                 }
@@ -233,7 +243,6 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_panel()
     const std::vector<CollapsalParadigmClass>& clp_pd_classes = RoguelikeCollapsalParadigms.get_clp_pd_classes(theme);
     const std::unordered_map<std::string, unsigned int>& clp_pd_dict =
         RoguelikeCollapsalParadigms.get_clp_pd_dict(theme);
-    const auto& expected_clp_pds = RoguelikeCollapsalParadigms.get_rare_clp_pds(theme);
     std::vector<std::string> prev_clp_pds = m_clp_pds;
 
     wait_for_stage();
@@ -255,7 +264,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_panel()
         // 识别到两个及以上坍缩范式的时候，向上滑动一下再识别一次
         // if detect more than two collapsal paradigms, swipe up and analyze again
         if (ocr_results.size() >= 2) {
-            ProcessTask(*this, { "Sami@Roguelike@SwipeCollapsalParadigmPanelUp" }).run();
+            ProcessTask(*this, {theme + "@Roguelike@SwipeCollapsalParadigmPanelUp" }).run();
             analyzer.set_image(ctrler()->get_image());
             if (analyzer.analyze()) {
                 ocr_results = analyzer.get_result();
@@ -311,7 +320,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_panel()
             ++it;
         }
         // 判断 cur_clp_pd 是否为需要的坍缩范式
-        if (expected_clp_pds.contains(cur_clp_pd)) {
+        if (m_expected_clp_pds.contains(cur_clp_pd)) {
             exit_then_stop();
             return;
         }
@@ -333,7 +342,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_panel()
 
 void asst::RoguelikeCollapsalParadigmTaskPlugin::toggle_panel() const
 {
-    ProcessTask(*this, { "Sami@Roguelike@ToggleCollapsalParadigmPanel" }).run();
+    ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ToggleCollapsalParadigmPanel" }).run();
 }
 
 void asst::RoguelikeCollapsalParadigmTaskPlugin::wait_for_loading() const
