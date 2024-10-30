@@ -264,7 +264,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_panel()
         // 识别到两个及以上坍缩范式的时候，向上滑动一下再识别一次
         // if detect more than two collapsal paradigms, swipe up and analyze again
         if (ocr_results.size() >= 2) {
-            ProcessTask(*this, {theme + "@Roguelike@SwipeCollapsalParadigmPanelUp" }).run();
+            ProcessTask(*this, { theme + "@Roguelike@SwipeCollapsalParadigmPanelUp" }).run();
             analyzer.set_image(ctrler()->get_image());
             if (analyzer.analyze()) {
                 ocr_results = analyzer.get_result();
