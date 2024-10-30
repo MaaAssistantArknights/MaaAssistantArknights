@@ -6,7 +6,7 @@
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
 
-bool asst::SupportListAnalyzer::analyze()
+bool asst::SupportListAnalyzer::analyze(const std::unordered_set<std::string>& ignored_oper_names)
 {
     LogTraceFunction;
 
@@ -47,6 +47,11 @@ bool asst::SupportListAnalyzer::analyze()
             continue;
         }
         const std::string name = ocr_analyzer.get_result().text;
+
+        // 如果干员名称出现在 ignored_oper_names 则忽视这个干员
+        if (ignored_oper_names.find(name) != ignored_oper_names.end()) {
+            continue;
+        }
 
         // ————————————————————————————————————————————————————————————————
         // 干员精英化等级
