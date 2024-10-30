@@ -2457,6 +2457,22 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private string _roguelikeExpectedCollapsalParadigms = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeExpectedCollapsalParadigms, string.Empty);
+
+        /// <summary>
+        /// Gets or sets the expected collapsal paradigms.
+        /// 需要刷的坍缩列表，分号分隔
+        /// </summary>
+        public string RoguelikeExpectedCollapsalParadigms
+        {
+            get => _roguelikeExpectedCollapsalParadigms;
+            set
+            {
+                SetAndNotify(ref _roguelikeExpectedCollapsalParadigms, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeExpectedCollapsalParadigms, value);
+            }
+        }
+
         private bool _roguelikeUseSupportUnit = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeUseSupportUnit, bool.FalseString));
 
         /// <summary>
