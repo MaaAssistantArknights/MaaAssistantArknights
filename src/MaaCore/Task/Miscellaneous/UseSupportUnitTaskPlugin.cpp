@@ -168,9 +168,8 @@ bool asst::UseSupportUnitTaskPlugin::try_use_support_unit_with_skill(
     LogTraceFunction;
 
     // 点选被选择的助战干员
-    ctrler()->click(Point(
-        support_unit.rect.x + support_unit.rect.width / 2,
-        support_unit.rect.y + support_unit.rect.height / 2));
+    ctrler()->click(
+        Point(support_unit.rect.x + support_unit.rect.width / 2, support_unit.rect.y + support_unit.rect.height / 2));
     sleep(Config.get_options().task_delay);
 
     if (skill != 0) {
