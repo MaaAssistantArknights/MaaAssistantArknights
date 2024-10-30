@@ -25,16 +25,8 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::load_params(const json::value& 
     }
     m_double_check_clp_pds = params.get("double_check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS);
 
-    if (auto opt = params.find<json::array>("expected_collapsal_paradigms"); opt.has_value()) {
-        for (const auto& clp_pd : *opt) {
-            if (const std::string clp_pd_str = clp_pd.as_string(); !clp_pd_str.empty()) {
-                m_expected_clp_pds.insert(clp_pd_str);
-            }
-        }
-    }
-    else {
-        m_expected_clp_pds = RoguelikeCollapsalParadigms.get_rare_clp_pds(theme);
-    }
+    m_expected_clp_pds =
+        params.get("expected_collapsal_paradigms", RoguelikeCollapsalParadigms.get_rare_clp_pds(theme));
     Log.info(__FUNCTION__, "| Expected collapsal paradigms are", m_expected_clp_pds);
 
     // 从 tasks.json 获取插件设置，由于仅有萨米肉鸽使用，任务名暂定写死
