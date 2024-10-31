@@ -889,7 +889,7 @@
         "text": ["즉시모집", "측시모집", "즉시"]
     },
     "MiningActivities": {
-        "text": ["한정채굴", "허가증"]
+        "text": ["채굴", "허가증"]
     },
     "OrundumActivities": {
         "ocrReplace": [["복.+방", "복권방"]],
