@@ -958,7 +958,8 @@
     "SpecialAccessActivities": {
         "doc_preDelay": "Sometimes a loading will appear after entering the home.",
         "preDelay": 500,
-        "text": ["Exclusive", "Event"]
+        "text": ["Exclusive"],
+        "roi": [66, 79, 103, 151]
     },
     "SpecialAccessActivitiesConfirm": {
         "text": ["CLAIM", "NOW"]
