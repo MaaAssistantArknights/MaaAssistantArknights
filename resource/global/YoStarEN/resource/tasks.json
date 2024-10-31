@@ -1011,7 +1011,8 @@
             ["Summon", "召唤"],
             ["Fast-Redeploy", "快速复活"],
             ["DP-Recovery", "费用回复"],
-            ["Robot", "支援机械"]
+            ["Robot", "支援机械"],
+            ["Elemental", "元素"]
         ]
     },
     "RecruitContinue": {
