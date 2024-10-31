@@ -136,6 +136,9 @@ struct RequiredOper // 编队/招募需求干员
     Role role = Role::Unknown;
     std::string name;
     int skill = 0; // 技能序号，取值范围 [0, 3]，0时使用默认技能 或 上次编队时使用的技能
+
+    RequiredOper(const Role role_, std::string name_, const int skill_)
+        : role(role_), name(std::move(name_)), skill(skill_) {}
 };
 
 struct DeploymentOper
