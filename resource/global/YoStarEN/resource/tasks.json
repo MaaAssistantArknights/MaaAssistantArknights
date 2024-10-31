@@ -205,6 +205,9 @@
     "DH-Open": {
         "text": ["Dossoles", "Holiday", "Rerun", "open"]
     },
+    "MiningActivities":{
+        "text": ["Provisional", "Mining", "Permit"]
+    },
     "CharsNameOcrReplace": {
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的英文识别任务复用 This task's ocrReplace is reused by all recognition tasks related to operator names",
         "ocrReplace": [
