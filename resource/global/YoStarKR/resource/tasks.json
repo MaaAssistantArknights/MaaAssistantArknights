@@ -149,13 +149,14 @@
             ["^[Il1]ana$", "双月"],
             ["^Fuze$", "导火索"],
             [
-                "\\b(?!(.*ancet2|THRMEX|Friston3|[CcOo0]ast.*le3|[Ww]|12F|Mon3tr|Sharp|Pith|Touch|Stormeye|[JUu][O0o]f{0,2}icial))(\\w)+$",
+                "\\b(?!(.*ancet2|THRMEX|Friston3|[CcOo0]ast.*le3|[Pp]honoR0|[Ww]|12F|Mon3tr|Sharp|Pith|Touch|Stormeye|[JUu][O0o]f{0,2}icial))(\\w)+$",
                 ""
             ],
             ["[CcOo0]ast.*le3", "Castle-3"],
             [".*ancet2", "Lancet-2"],
             ["THRMEX", "THRM-EX"],
             ["Friston3", "Friston-3"],
+            ["[Pp]honoR0", "PhonoR-0"],
             ["[JUu][O0o]f{0,2}icial", "U-Official"],
             ["^w$", "W"],
             ["실버애.*", "银灰"],
@@ -802,17 +803,18 @@
             ["음파기록증폭기", "声波记录扩音器"],
             ["아츠공명에너지장", "法术调和能量场"],
             ["울부짖는스피커", "啸叫音响"],
-            ["14장 시스템 컨트롤러", "十四章机制控制器"],
-            ["팽 더 파이어 샤픈드", "历阵锐枪芬"],
-            ["부패의 제단", "枯朽祭坛"],
+            ["14장시스템컨트롤러", "十四章机制控制器"],
+            [".*파이어.?픈드", "팽더파이어샤픈드"],
+            ["팽더파이어샤픈드", "历阵锐枪芬"],
+            ["부패의제단", "枯朽祭坛"],
             ["위셔델", "维什戴尔"],
-            ["시빌라이트 에테르나", "魔王"],
+            ["시빌라이트에테르나", "魔王"],
             ["로고스", "逻各斯"],
-            ["레버넌트의 그림자", "魂灵之影"],
-            ["토렌트 격발기", "洪流束激发器"],
-            ["찰스 린치", "查尔斯·林奇"],
-            ["코어 증폭기", "核心增幅器"],
-            ["고양된 영광", "振奋荣光"]
+            ["레버넌트의그림자", "魂灵之影"],
+            ["토렌트격발기", "洪流束激发器"],
+            ["찰스린치", "查尔斯·林奇"],
+            ["코어증폭기", "核心增幅器"],
+            ["고양된영광", "振奋荣光"]
         ]
     },
     "StartUpThemes": {
@@ -885,6 +887,9 @@
     "RecruitNow": {
         "text": ["즉시모집", "측시모집", "즉시"]
     },
+    "MiningActivities": {
+        "text": ["한정채굴", "허가증"]
+    },
     "OrundumActivities": {
         "ocrReplace": [["복.+방", "복권방"]],
         "doc": "용문복권방 adjusted roi value for ocr recognition",
@@ -908,6 +913,15 @@
     },
     "RecruitingActivitiesRecruitEnd": {
         "text": ["진행"]
+    },
+    "SpecialAccessActivities": {
+        "doc": "5주년 먼슬리 카드",
+        "text": ["스페셜"],
+        "roi": [0, 20, 302, 302]
+    },
+    "SpecialAccessActivitiesConfirm": {
+        "text": ["수령", "하기"],
+        "postDelay": 500
     },
     "NoFriends": {
         "text": ["등록된", "없습니다"]
