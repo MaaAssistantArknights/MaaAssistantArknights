@@ -2406,6 +2406,7 @@ namespace MaaWpfGui.Main
         ///     </item>
         /// </list>
         /// </param>
+        /// <param name="difficulty">刷投资的目标难度/其他模式的选择难度</param>
         /// <param name="starts">开始探索次数。</param>
         /// <param name="investmentEnabled">是否投资源石锭</param>
         /// <param name="investmentWithMoreScore">投资时候刷更多分</param>
@@ -2420,6 +2421,7 @@ namespace MaaWpfGui.Main
         /// <param name="roguelike3StartFloorFoldartal">需要凹的板子</param>
         /// <param name="roguelike3NewSquad2StartingFoldartal">是否在萨米肉鸽生活队凹开局板子</param>
         /// <param name="roguelike3NewSquad2StartingFoldartals">需要凹的板子，用;连接的字符串</param>
+        /// <param name="roguelikeExpectedCollapsalParadigms">sami 刷坍缩专用，需要刷的坍缩列表</param>
         /// <param name="useSupport">是否core_char使用好友助战</param>
         /// <param name="enableNonFriendSupport">是否允许使用非好友助战</param>
         /// <param name="theme">肉鸽主题["Phantom", "Mizuki", "Sami", "Sarkaz"]</param>
@@ -2443,6 +2445,7 @@ namespace MaaWpfGui.Main
             string roguelike3StartFloorFoldartal,
             bool roguelike3NewSquad2StartingFoldartal,
             string roguelike3NewSquad2StartingFoldartals,
+            string roguelikeExpectedCollapsalParadigms,
             bool useSupport,
             bool enableNonFriendSupport,
             string theme,
@@ -2495,6 +2498,11 @@ namespace MaaWpfGui.Main
             if (roguelike3NewSquad2StartingFoldartal && roguelike3NewSquad2StartingFoldartals.Length > 0)
             {
                 taskParams["start_foldartal_list"] = new JArray(roguelike3NewSquad2StartingFoldartals.Trim().Split(';', '；').Where(i => !string.IsNullOrEmpty(i)).Take(3));
+            }
+
+            if (mode == 5 && roguelikeExpectedCollapsalParadigms.Length > 0)
+            {
+                taskParams["expected_collapsal_paradigms"] = new JArray(roguelikeExpectedCollapsalParadigms.Trim().Split(';', '；').Where(i => !string.IsNullOrEmpty(i)));
             }
 
             taskParams["use_support"] = useSupport;

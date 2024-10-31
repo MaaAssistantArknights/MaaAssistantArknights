@@ -1745,6 +1745,7 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.SettingsViewModel.Roguelike3StartFloorFoldartal,
                 Instances.SettingsViewModel.Roguelike3NewSquad2StartingFoldartal,
                 Instances.SettingsViewModel.Roguelike3NewSquad2StartingFoldartals,
+                Instances.SettingsViewModel.RoguelikeExpectedCollapsalParadigms,
                 Instances.SettingsViewModel.RoguelikeUseSupportUnit,
                 Instances.SettingsViewModel.RoguelikeEnableNonfriendSupport,
                 Instances.SettingsViewModel.RoguelikeTheme,

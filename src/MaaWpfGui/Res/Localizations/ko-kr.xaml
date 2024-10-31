@@ -134,6 +134,8 @@
     <system:String x:Key="Roguelike3FirstFloorFoldartal">1층 암호판 획득 반복(전투 X)</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">생존지상 분대 목표 암호판 설정</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">최대 3개까지 지원하며「;」로 구분합니다</system:String>
+    <system:String x:Key="RoguelikeCollapseList">붕괴 패러다임 목록</system:String>
+    <system:String x:Key="RoguelikeCollapseListTip">영어 세미콜론 「;」으로 구분, 비워 두면 기본 목록이 사용됩니다.</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">시작 오퍼레이터로 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">친구가 아니어도 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">중지 시 전투 클리어 후 작업 종료</system:String>

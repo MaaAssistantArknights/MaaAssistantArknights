@@ -93,9 +93,6 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
     if (m_theme == RoguelikeTheme::Sami) {
         // 是否凹开局远见密文板
         m_first_floor_foldartal = params.contains("first_floor_foldartal");
-
-        // 是否检查坍缩范式，非CLP_PDS模式下默认为False, CLP_PDS模式下默认为True
-        m_check_clp_pds = params.get("check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS);
     }
 
     return true;
