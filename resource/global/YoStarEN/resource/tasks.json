@@ -205,9 +205,6 @@
     "DH-Open": {
         "text": ["Dossoles", "Holiday", "Rerun", "open"]
     },
-    "MiningActivities":{
-        "text": ["Provisional", "Mining", "Permit"]
-    },
     "CharsNameOcrReplace": {
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的英文识别任务复用 This task's ocrReplace is reused by all recognition tasks related to operator names",
         "ocrReplace": [
@@ -857,7 +854,18 @@
             ["Sound Recording Amplifier", "声波记录扩音器"],
             ["Arts Resonant Energy Field", "法术调和能量场"],
             ["Arts Resonant Energy Field", "法术调和能量场"],
-            ["Squeaking Sound", "啸叫音响"]
+            ["Squeaking Sound", "啸叫音响"],
+            ["EP14 Mechanics Controller", "十四章机制控制器"],
+            ["Fang the Fire-Sharpened", "历阵锐枪芬"],
+            ["Withered Altar", "枯朽祭坛"],
+            ["Wiš'adel", "维什戴尔"],
+            ["Civilight Eterna", "魔王"],
+            ["Logos", "逻各斯"],
+            ["Revenant's Shadow", "魂灵之影"],
+            ["Torrent Beam Activator", "洪流束激发器"],
+            ["Charles Lynch", "查尔斯·林奇"],
+            ["Core Amplifier", "核心增幅器"],
+            ["Light of Glory", "振奋荣光"]
         ]
     },
     "StartToWakeUpOCR": {
@@ -922,6 +930,9 @@
     },
     "RecruitNow": {
         "text": ["Expedite"]
+    },
+    "MiningActivities": {
+        "text": ["Provisional", "Mining", "Permit"]
     },
     "OrundumActivities": {
         "text": ["Lucky Strips", "Login Event"]
