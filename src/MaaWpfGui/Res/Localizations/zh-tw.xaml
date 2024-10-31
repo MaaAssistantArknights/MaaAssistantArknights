@@ -390,8 +390,8 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe
 則應填寫
 C:\\Program Files\\Netease\\MuMuPlayer-12.0。\n
 注意：
-1. 截至目前（V4.1.0）的模擬器版本開啟網絡橋接後無法使用截圖增強。
-2. 若連接地址端口號為 7555，則需將端口號改為 16384。
+1. 若當前連接地址端口號為 7555，則需將端口號改為 16384。
+2. 若正在使用網絡橋接，則需勾選 MuMu 網絡橋接模式並手動填寫序號。
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 模擬器路徑</system:String>
     <system:String x:Key="MuMuBridgeConnection">MuMu 網路橋接模式</system:String>
