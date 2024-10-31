@@ -134,6 +134,8 @@
     <system:String x:Key="Roguelike3FirstFloorFoldartal">Repeat for foldartal foreseed first floor，No Battle</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">Start with "Life Prioritizing Squad" and acquire the cypherboard</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">Write up to three and separate with ";"</system:String>
+    <system:String x:Key="RoguelikeCollapseList">Collapse Paradigm List</system:String>
+    <system:String x:Key="RoguelikeCollapseListTip">Separate with ";". Leave blank to use the default list.</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">Select 「Starting Operator」 from support unit list</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable non-friend support</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">Don't abort Auto IS until the end of battle</system:String>
@@ -153,6 +155,9 @@
     <system:String x:Key="IS4NewSquad2">博闻广记分队 (Wait global)</system:String>
     <system:String x:Key="IS4NewSquad3">蓝图测绘分队 (Wait global)</system:String>
     <system:String x:Key="IS4NewSquad4">因地制宜分队 (Wait global)</system:String>
+    <system:String x:Key="IS4NewSquad5">异想天开分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad6">点刺成锭分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad7">拟态学者分队（占位）</system:String>
     <system:String x:Key="LeaderSquad">Leader Squad</system:String>
     <system:String x:Key="GatheringSquad">Gathering Squad</system:String>
     <system:String x:Key="SupportSquad">Support Squad</system:String>
@@ -187,7 +192,7 @@
     <system:String x:Key="EmulatorNotFound">No emulator detected\nPlease use administrator privileges to open this software\nor set connection manually</system:String>
     <system:String x:Key="EmulatorTooMany">Too many emulators detected\nPlease shutdown not needed emulators \nor set connection manually</system:String>
     <system:String x:Key="EmulatorStartFailed">Failed to start the emulator\nPlease open this software with administrator privileges \nor start the emulator manually.</system:String>
-    <system:String x:Key="SwitchLanguage">Switch Language</system:String>
+    <system:String x:Key="SwitchLanguage">Switch Language 🌐</system:String>
     <system:String x:Key="Language">Language</system:String>
     <system:String x:Key="LanguageChangedTip">The language settings have been changed, restart the app now?</system:String>
     <system:String x:Key="ManualRestart">Later</system:String>
@@ -295,6 +300,7 @@ You can cancel this popup by clicking the Settings - About Us - Issue Reporting 
     <system:String x:Key="RoguelikeThemeMizuki">Mizuki</system:String>
     <system:String x:Key="RoguelikeThemeSami">Sami</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">Sarkaz</system:String>
+    <system:String x:Key="RoguelikeDifficulty">Difficulty</system:String>
     <system:String x:Key="Strategy">Strategy</system:String>
     <system:String x:Key="StartTimesLimit">Stops after starting N times</system:String>
     <system:String x:Key="GoldTimesLimit">Stops after investing N times</system:String>
@@ -387,10 +393,12 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe
 then it should be filled in as
 C:\\Program Files\\Netease\\MuMuPlayer-12.0\n
 Note:
-1. As of now (V4.1.0), the emulator version cannot use screenshot enhancement after enabling network bridging.
-2. If the port number of the connection address is 7555, you need to change the port number to 16384.
+1. If the port number of the connection address is 7555, you need to change the port number to 16384.
+2. If using network bridging, check the MuMu network bridging mode and manually enter the serial number.
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 Emulator exec path</system:String>
+    <system:String x:Key="MuMuBridgeConnection">MuMu Network Bridge Connection</system:String>
+    <system:String x:Key="MuMuBridgeConnectionTip">Unless you know what you are doing, do not enable this option</system:String>
     <system:String x:Key="MuMu12Index">Instance Number</system:String>
     <system:String x:Key="MuMu12Display">Display Number</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu screenshot enhancement not enabled, please check related settings</system:String>
@@ -513,7 +521,7 @@ As of now (V9.1.28), the emulator version only supports 720P, 900P, and 1080P re
     <system:String x:Key="Pormpt2">It's Sunday: don't forget about Annihilation</system:String>
     <!--  !FightSettings  -->
     <!--  Logs  -->
-    <system:String x:Key="VersionMismatch">UI and Core versions mismatch: {0} and {1}, which may result in unpredictable behavior. Please refrain from manually replacing files.</system:String>
+    <system:String x:Key="VersionMismatch">UI and Core versions mismatch: {0} and {1}, which may cause unpredictable behavior. Please do not manually replace files or occupy files during updates.\n\nPlease download the full package and overwrite the contents of the current folder.</system:String>
     <system:String x:Key="ConnectingToEmulator">Connecting to emulator……</system:String>
     <system:String x:Key="UnselectedTask">Unselected task</system:String>
     <system:String x:Key="Running">Running……</system:String>
@@ -911,6 +919,9 @@ With save file: farm points through crafting (advanced).
     <system:String x:Key="ReclamationToolToCraftPlaceholder">Glow Stick</system:String>
     <!--  !Reclamation  -->
     <!--  SingleInstance  -->
-    <system:String x:Key="MultiInstanceUnderSamePath">Only one instance can be launched under the same path!If you want to run multiple MAA at the same time,please copy the whole MAA and start under different path with the same adb and different connect address.</system:String>
+    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">
+Only one instance can be launched under the same path!
+If you want to run multiple MAA at the same time, please copy the whole MAA and start under different path with the same adb and different connect address.
+    </system:String>
     <!--  !SingleInstance  -->
 </ResourceDictionary>

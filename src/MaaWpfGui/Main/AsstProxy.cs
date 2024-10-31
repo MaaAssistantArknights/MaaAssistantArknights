@@ -641,7 +641,7 @@ namespace MaaWpfGui.Main
             var sanityReport = LocalizationHelper.GetString("SanityReport");
             var recoveryTime = SanityReport.ReportTime.AddMinutes(SanityReport.Sanity[0] < SanityReport.Sanity[1] ? (SanityReport.Sanity[1] - SanityReport.Sanity[0]) * 6 : 0);
             sanityReport = sanityReport.Replace("{DateTime}", recoveryTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", (recoveryTime - DateTimeOffset.Now).ToString(@"h\h\ m\m"));
-            using var toast = new ToastNotification(sanityReport);
+            ToastNotification.ShowDirect(sanityReport);
 
             DisposeTimer();
         }
@@ -671,8 +671,7 @@ namespace MaaWpfGui.Main
                         if (msg == AsstMsg.TaskChainError)
                         {
                             Instances.RecognizerViewModel.RecruitInfo = LocalizationHelper.GetString("IdentifyTheMistakes");
-                            using var toast = new ToastNotification(LocalizationHelper.GetString("IdentifyTheMistakes"));
-                            toast.Show();
+                            ToastNotification.ShowDirect(LocalizationHelper.GetString("IdentifyTheMistakes"));
                         }
 
                         break;
@@ -697,20 +696,14 @@ namespace MaaWpfGui.Main
                         // 对剿灭的特殊处理，如果刷完了剿灭还选了剿灭会因为找不到入口报错
                         if (taskChain == "Fight" && (Instances.TaskQueueViewModel.Stage == "Annihilation"))
                         {
-                            if (new[]
-                                {
-                                    Instances.TaskQueueViewModel.Stage1,
-                                    Instances.TaskQueueViewModel.Stage2,
-                                    Instances.TaskQueueViewModel.Stage3,
-                                }.Any(stage => Instances.TaskQueueViewModel.IsStageOpen(stage) && (stage != "Annihilation")))
+                            if (Instances.TaskQueueViewModel.Stages.Any(stage => Instances.TaskQueueViewModel.IsStageOpen(stage) && (stage != "Annihilation")))
                             {
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
                             }
                         }
 
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskError") + taskChain, UiLogColor.Error);
-                        using var toast = new ToastNotification(LocalizationHelper.GetString("TaskError") + taskChain);
-                        toast.Show();
+                        ToastNotification.ShowDirect(LocalizationHelper.GetString("TaskError") + taskChain);
                         if (isCopilotTaskChain)
                         {
                             // 如果启用战斗列表，需要中止掉剩余的任务
@@ -740,6 +733,16 @@ namespace MaaWpfGui.Main
                     break;
 
                 case AsstMsg.TaskChainCompleted:
+                    // 判断 _latestTaskId 中是否有元素的值和 details["taskid"] 相等，如果有再判断这个 id 对应的任务是否在 _mainTaskTypes 中
+                    if (_latestTaskId.Any(i => i.Value == details["taskid"]?.ToObject<AsstTaskId>()))
+                    {
+                        var taskType = _latestTaskId.First(i => i.Value == details["taskid"]?.ToObject<AsstTaskId>()).Key;
+                        if (_mainTaskTypes.Contains(taskType))
+                        {
+                            Instances.TaskQueueViewModel.UpdateMainTasksProgress();
+                        }
+                    }
+
                     switch (taskChain)
                     {
                         case "Fight":
@@ -805,27 +808,7 @@ namespace MaaWpfGui.Main
                     var taskList = details["finished_tasks"]?.ToObject<AsstTaskId[]>();
                     if (taskList?.Length > 0)
                     {
-                        var mainTaskTypes = new HashSet<TaskType>
-                        {
-                            TaskType.StartUp,
-                            TaskType.Fight,
-                            TaskType.FightRemainingSanity,
-                            TaskType.Recruit,
-                            TaskType.Infrast,
-                            TaskType.Mall,
-                            TaskType.Award,
-                            TaskType.Roguelike,
-                            TaskType.Reclamation,
-                        };
-
-                        // 仅有一个任务且为 CloseDown 时，不执行任务链结束后操作
-                        /*
-                        if (taskList.Length == 1)
-                        {
-                            mainTaskTypes.Remove(TaskType.CloseDown);
-                        }
-                        */
-                        var latestMainTaskIds = _latestTaskId.Where(i => mainTaskTypes.Contains(i.Key)).Select(i => i.Value);
+                        var latestMainTaskIds = _latestTaskId.Where(i => _mainTaskTypes.Contains(i.Key)).Select(i => i.Value);
                         isMainTaskQueueAllCompleted = taskList.Any(i => latestMainTaskIds.Contains(i));
                     }
 
@@ -1198,8 +1181,7 @@ namespace MaaWpfGui.Main
                                 else
                                 {
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("GameDropNoRestart"), UiLogColor.Warning);
-                                    using var toast = new ToastNotification(LocalizationHelper.GetString("GameDropNoRestart"));
-                                    toast.Show();
+                                    ToastNotification.ShowDirect(LocalizationHelper.GetString("GameDropNoRestart"));
                                     _ = Instances.TaskQueueViewModel.Stop();
                                 }
 
@@ -1843,12 +1825,7 @@ namespace MaaWpfGui.Main
                     return false;
                 }
 
-                Execute.OnUIThreadAsync(
-                    () =>
-                {
-                    using var toast = new ToastNotification("Auto Reload");
-                    toast.Show();
-                });
+                ToastNotification.ShowDirect("Auto Reload");
 
                 return true;
             }
@@ -1985,6 +1962,19 @@ namespace MaaWpfGui.Main
             Reclamation,
             Custom,
         }
+
+        private readonly HashSet<TaskType> _mainTaskTypes =
+        [
+            TaskType.StartUp,
+            TaskType.Fight,
+            TaskType.FightRemainingSanity,
+            TaskType.Recruit,
+            TaskType.Infrast,
+            TaskType.Mall,
+            TaskType.Award,
+            TaskType.Roguelike,
+            TaskType.Reclamation
+        ];
 
         private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = [];
 
@@ -2416,6 +2406,7 @@ namespace MaaWpfGui.Main
         ///     </item>
         /// </list>
         /// </param>
+        /// <param name="difficulty">刷投资的目标难度/其他模式的选择难度</param>
         /// <param name="starts">开始探索次数。</param>
         /// <param name="investmentEnabled">是否投资源石锭</param>
         /// <param name="investmentWithMoreScore">投资时候刷更多分</param>
@@ -2430,6 +2421,7 @@ namespace MaaWpfGui.Main
         /// <param name="roguelike3StartFloorFoldartal">需要凹的板子</param>
         /// <param name="roguelike3NewSquad2StartingFoldartal">是否在萨米肉鸽生活队凹开局板子</param>
         /// <param name="roguelike3NewSquad2StartingFoldartals">需要凹的板子，用;连接的字符串</param>
+        /// <param name="roguelikeExpectedCollapsalParadigms">sami 刷坍缩专用，需要刷的坍缩列表</param>
         /// <param name="useSupport">是否core_char使用好友助战</param>
         /// <param name="enableNonFriendSupport">是否允许使用非好友助战</param>
         /// <param name="theme">肉鸽主题["Phantom", "Mizuki", "Sami", "Sarkaz"]</param>
@@ -2438,6 +2430,7 @@ namespace MaaWpfGui.Main
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(
             int mode,
+            int difficulty,
             int starts,
             bool investmentEnabled,
             bool investmentWithMoreScore,
@@ -2452,6 +2445,7 @@ namespace MaaWpfGui.Main
             string roguelike3StartFloorFoldartal,
             bool roguelike3NewSquad2StartingFoldartal,
             string roguelike3NewSquad2StartingFoldartals,
+            string roguelikeExpectedCollapsalParadigms,
             bool useSupport,
             bool enableNonFriendSupport,
             string theme,
@@ -2465,6 +2459,11 @@ namespace MaaWpfGui.Main
                 ["theme"] = theme,
                 ["investment_enabled"] = false,
             };
+
+            if (theme != "Phantom")
+            {
+                taskParams["difficulty"] = difficulty;
+            }
 
             if (investmentEnabled)
             {
@@ -2499,6 +2498,11 @@ namespace MaaWpfGui.Main
             if (roguelike3NewSquad2StartingFoldartal && roguelike3NewSquad2StartingFoldartals.Length > 0)
             {
                 taskParams["start_foldartal_list"] = new JArray(roguelike3NewSquad2StartingFoldartals.Trim().Split(';', '；').Where(i => !string.IsNullOrEmpty(i)).Take(3));
+            }
+
+            if (mode == 5 && roguelikeExpectedCollapsalParadigms.Length > 0)
+            {
+                taskParams["expected_collapsal_paradigms"] = new JArray(roguelikeExpectedCollapsalParadigms.Trim().Split(';', '；').Where(i => !string.IsNullOrEmpty(i)));
             }
 
             taskParams["use_support"] = useSupport;

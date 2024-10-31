@@ -169,6 +169,8 @@ Only Chinese or Arknights Edition MuMu 12 V4.0.0 and later versions are supporte
 
 2. `MuMu12 Emulator exec path` Fill in the path to the `MuMuPlayer-12.0` or `YXArkNights-12.0` folder. e.g. `C:\Program Files\Netease\MuMuPlayer-12.0`.
 
+3. If using MuMu network bridging, check `MuMu network bridging mode` and manually enter the serial number of the corresponding emulator in MuMu Multi-Instance Manager, such as `0` for the main instance.
+
 ### LD Screenshot Enhanced Mode
 
 Only Chinese LD Player 9 V9.0.78 and later versions are supported. Arknights Edition, Global Edition are not supported at this time.

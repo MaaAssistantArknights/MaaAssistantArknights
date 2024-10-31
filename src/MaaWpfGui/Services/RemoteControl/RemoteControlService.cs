@@ -743,8 +743,7 @@ namespace MaaWpfGui.Services.RemoteControl
                     if (!response.IsSuccessStatusCode)
                     {
                         var errorMsg = string.Format(LocalizationHelper.GetString("RemoteControlConnectionTestFail"), response.StatusCode);
-                        using var toastFail = new ToastNotification(errorMsg);
-                        toastFail.Show();
+                        ToastNotification.ShowDirect(errorMsg);
                         return;
                     }
                 }
@@ -752,14 +751,12 @@ namespace MaaWpfGui.Services.RemoteControl
                 {
                     // 一般来说不会走到这里，因为null response一定会报错
                     var errorMsg = string.Format(LocalizationHelper.GetString("RemoteControlConnectionTestFail"), "Unknown");
-                    using var toastFail = new ToastNotification(errorMsg);
-                    toastFail.Show();
+                    ToastNotification.ShowDirect(errorMsg);
                     return;
                 }
 
-                using var toastSuccess = new ToastNotification(
+                ToastNotification.ShowDirect(
                     LocalizationHelper.GetString("RemoteControlConnectionTestSuccess"));
-                toastSuccess.Show();
             }
             catch (Exception e)
             {
@@ -770,9 +767,7 @@ namespace MaaWpfGui.Services.RemoteControl
                 }
 
                 var errorMsg = string.Format(LocalizationHelper.GetString("RemoteControlConnectionTestFail"), error);
-                using var toastErr = new ToastNotification(errorMsg);
-
-                toastErr.Show();
+                ToastNotification.ShowDirect(errorMsg);
             }
         }
 
@@ -811,8 +806,7 @@ namespace MaaWpfGui.Services.RemoteControl
         {
             if (alarm)
             {
-                using var toast = new ToastNotification(LocalizationHelper.GetString(message));
-                toast.Show();
+                ToastNotification.ShowDirect(LocalizationHelper.GetString(message));
             }
         }
     }

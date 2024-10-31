@@ -30,8 +30,6 @@ bool MumuExtras::init(const std::filesystem::path& mumu_path, int mumu_inst_inde
 
 void MumuExtras::set_package_name(const std::string& package_name)
 {
-    display_id_cache_ = std::nullopt;
-
     if (package_name.empty()) {
         package_name_ = kDefaultPackage;
     }
@@ -208,23 +206,18 @@ void MumuExtras::disconnect_mumu()
 
 int MumuExtras::get_display_id()
 {
-    if (!display_id_cache_) {
-        if (!get_display_id_func_) {
-            LogError << "get_display_id_func_ is null, please update your MuMu Player";
-            display_id_cache_ = 0;
-            return 0;
-        }
-
-        int id = get_display_id_func_(mumu_handle_, package_name_.c_str(), 0);
-        if (id < 0) {
-            LogWarn << "Failed to get display id" << VAR(id) << VAR(package_name_);
-            return 0;
-        }
-
-        display_id_cache_ = id;
+    if (!get_display_id_func_) {
+        LogError << "get_display_id_func_ is null, please update your MuMu Player";
+        return 0;
     }
 
-    return *display_id_cache_;
+    int id = get_display_id_func_(mumu_handle_, package_name_.c_str(), 0);
+    if (id < 0) {
+        LogWarn << "Failed to get display id" << VAR(id) << VAR(package_name_);
+        return 0;
+    }
+
+    return id;
 }
 } // namespace asst
 

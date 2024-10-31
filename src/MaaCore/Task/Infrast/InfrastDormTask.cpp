@@ -50,10 +50,13 @@ bool asst::InfrastDormTask::_run()
         }
 
         Log.trace("m_dorm_notstationed_enabled:", m_dorm_notstationed_enabled);
-        if (m_dorm_notstationed_enabled && !m_if_filter_notstationed_haspressed) {
+        if (m_dorm_notstationed_enabled) {
             Log.trace("click_filter_menu_not_stationed_button");
-            click_filter_menu_not_stationed_button();
-            m_if_filter_notstationed_haspressed = true;
+            // 在此处不进行 m_if_filter_notstationed_haspressed 的判断，即必须重新选择一次筛选条件
+            if (click_filter_menu_not_stationed_button()) {
+                Log.info("successfully set filter to [Not Assigned]");
+                m_if_filter_notstationed_haspressed = true;
+            }
         }
 
         if (!m_is_custom || current_room_config().autofill) {

@@ -57,6 +57,7 @@ namespace MaaWpfGui.Constants
         public const string AddressHistory = "Connect.AddressHistory";
         public const string AutoDetect = "Connect.AutoDetect";
         public const string AlwaysAutoDetect = "Connect.AlwaysAutoDetect";
+        public const string MumuBridgeConnection = "Connect.MumuBridgeConnection";
         public const string ConnectAddress = "Connect.Address";
         public const string AdbPath = "Connect.AdbPath";
         public const string ConnectConfig = "Connect.ConnectConfig";
@@ -79,7 +80,7 @@ namespace MaaWpfGui.Constants
         public const string AccountName = "Start.AccountName";
         public const string RunDirectly = "Start.RunDirectly";
         public const string MinimizeDirectly = "Start.MinimizeDirectly";
-        public const string StartEmulator = "Start.StartEmulator";
+        public const string StartEmulator = "Start.OpenEmulatorAfterLaunch";
         public const string MinimizingStartup = "Start.MinimizingStartup";
         public const string EmulatorPath = "Start.EmulatorPath";
         public const string EmulatorAddCommand = "Start.EmulatorAddCommand";
@@ -119,6 +120,7 @@ namespace MaaWpfGui.Constants
         public const string RemainingSanityStage = "Fight.RemainingSanityStage";
 
         public const string RoguelikeTheme = "Roguelike.RoguelikeTheme";
+        public const string RoguelikeDifficulty = "Roguelike.Difficulty";
         public const string RoguelikeMode = "Roguelike.Mode";
         public const string RoguelikeSquad = "Roguelike.Squad";
         public const string RoguelikeRoles = "Roguelike.Roles";
@@ -129,6 +131,7 @@ namespace MaaWpfGui.Constants
         public const string Roguelike3StartFloorFoldartal = "Roguelike.Roguelike3StartFloorFoldartal";
         public const string Roguelike3NewSquad2StartingFoldartal = "Roguelike.Roguelike3NewSquad2StartingFoldartal";
         public const string Roguelike3NewSquad2StartingFoldartals = "Roguelike.Roguelike3NewSquad2StartingFoldartals";
+        public const string RoguelikeExpectedCollapsalParadigms = "Roguelike.RoguelikeExpectedCollapsalParadigms";
         public const string RoguelikeUseSupportUnit = "Roguelike.RoguelikeUseSupportUnit";
         public const string RoguelikeEnableNonfriendSupport = "Roguelike.RoguelikeEnableNonfriendSupport";
         public const string RoguelikeDelayAbortUntilCombatComplete = "Roguelike.RoguelikeDelayAbortUntilCombatComplete";

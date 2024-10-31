@@ -20,8 +20,6 @@ dir:
 ![license](https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights) ![commit](https://img.shields.io/github/commit-activity/m/MaaAssistantArknights/MaaAssistantArknights?color=%23ff69b4)
 ![stars](https://img.shields.io/github/stars/MaaAssistantArknights/MaaAssistantArknights?style=social) ![GitHub all releases](https://img.shields.io/github/downloads/MaaAssistantArknights/MaaAssistantArknights/total?style=social)
 
-简体中文 | [繁體中文](../zh-tw/readme.md) | [English](../en-us/readme.md) | [日本語](../ja-jp/readme.md) | [한국어](../ko-kr/readme.md)
-
 MAA 的意思是 MAA Assistant Arknights
 
 一款明日方舟游戏小助手
@@ -31,6 +29,10 @@ MAA 的意思是 MAA Assistant Arknights
 绝赞更新中  ✿✿ヽ(°▽°)ノ✿
 
 :::
+
+## 下载与安装
+
+请阅读[文档](./manual/newbie.md)后前往 [官网](https://maa.plus) 或 [Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下载，并参考[新手上路](./manual/newbie.md)进行安装。
 
 ## 亮点功能
 
@@ -70,27 +72,11 @@ MAA 的意思是 MAA Assistant Arknights
 }
 ```
 
-## 下载地址
-
-[官网](https://maa.plus) 或 [Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
-
 ## 使用说明
 
-### 基本说明
+### 功能介绍
 
-请参阅 [新手上路](./manual/newbie.md) 与 [功能介绍](./manual/introduction/)。
-
-### 常见问题
-
-- 软件一打开就闪退；
-- 连接错误、不知道 ADB 路径怎么填写；
-- 连接成功了，但没反应；
-- 如何连接自定义端口；
-- 下载速度慢，且镜像站无法打开网页；
-- 下载到一半提示“登陆”/“鉴权”；
-- 连接正常，任务开始了，但是没反应。
-
-请参阅 [常见问题](./manual/faq.md)。
+请参阅 [用户手册](./manual/)。
 
 ### 外服支持
 

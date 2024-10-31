@@ -39,7 +39,7 @@ Appends a task.
 - `StartUp`  
     Start-up
 
-```json
+```json5
 // Corresponding task parameters
 {
     "enable": bool,              // Whether to enable this task, optional, true by default
@@ -52,7 +52,7 @@ Appends a task.
 - `CloseDown`  
     Close Game Client  
 
-```json
+```json5
 // Corresponding task parameters
 {
     "enable": bool,              // Whether to enable this task, optional, true by default
@@ -64,7 +64,7 @@ Appends a task.
 - `Fight`  
     Operation
 
-```json
+```json5
 // Corresponding task parameters
 {
     "enable": bool,             // Whether to enable this task, optional, true by default
@@ -100,7 +100,7 @@ Supports some of the special stages,Please refer to [autoLocalization example](h
 - `Recruit`  
     Recruitment
 
-```json
+```json5
 // Corresponding task parameters
 {
     "enable": bool,             // Whether to enable this task, optional, by default true
@@ -143,7 +143,7 @@ Supports some of the special stages,Please refer to [autoLocalization example](h
 - `Infrast`  
     Infrastructure shifting
 
-```json
+```json5
 {
     "enable": bool,             // Whether to enable this task, optional, by default true
     "mode": int,            // Shift mode, optional. Editing in run-time is not supported.
@@ -170,7 +170,7 @@ Supports some of the special stages,Please refer to [autoLocalization example](h
     Collecting Credits and auto-purchasing
     Will buy items in order following `buy_first` list, buy other items from left to right ignoring items in `blacklist`, and buy other items from left to right ignoring the `blacklist` while credit overflows.
 
-```json
+```json5
 // Corresponding task parameters
 {
     "enable": bool,         // Whether to enable this task, optional, by default true
@@ -192,7 +192,7 @@ Supports some of the special stages,Please refer to [autoLocalization example](h
 - `Award`  
     Collecting daily awards.  
 
-```json
+```json5
 // Corresponding task parameters
 {
     "enable": bool          // Whether to enable this task, optional, by default true
@@ -202,37 +202,62 @@ Supports some of the special stages,Please refer to [autoLocalization example](h
 - `Roguelike`  
     Integrated Strategies
 
-```json
+```json5
+// Task parameters
 {
-    "enable": bool,         // Whether to enable this task, optional, by default true
-    "theme": string,        // Name of the theme, optional, by default "Phantom"
-                            // Phantom - 傀影与猩红血钻
-                            // Mizuki  - 水月与深蓝之树
-    "mode": int,            // Mode, optional, by default 0
-                            // 0 - For candle, plays as much as you can with stable strategy
-                            // 1 - For Originium Ingots, exits after first level
-                            // 2 - For both, Plays until invests
-                            // 3 - For pass, plays as much as you can with aggressive strategy
-    "starts_count": int,    // Number of starts, optional, by default INT_MAX
-    "investment_enabled": bool, // by default true
-
-    "investments_count": int,
-                            // Number of investments, optional, by default INT_MAX
-    "stop_when_investment_full": bool,
-                            // Stop the task when investment is full, optional, by default false
-    "squad": string,        // Squad name like "assault squad", optional, by default "Default Squad"
-    "roles": string,        // Roles, optional
-    "core_char": string,    // Operator name, optional. Will recognize auto-selection of levels.
-    "use_support": bool,    // Whether "core_char" is a support unit, optional, by default false
-    "use_nonfriend_support": bool,  // Whether support unit can be non-friend support unit, optional, by default false, valid when use_support=true
-    "refresh_trader_with_dice": bool  // Whether refresh trader with dice to buy special item, optional, by default false
+    "enable": bool,  // Whether to enable this task, optional, default is true
+    "theme": string, // Theme, optional, default is "Phantom"
+                     //   Phantom - Phantom & Crimson Solitaire
+                     //   Mizuki  - Mizuki & Caerula Arbor
+                     //   Sami    - Expeditioner's Jǫklumarkar
+                     //   Sarkaz  - 萨卡兹的无终奇语
+    "mode": int,     // Mode, optional, default is 0
+                     //   0 - Score farming/reward points, aiming to consistently reach higher levels
+                     //   1 - Source stone farming, exit after investing in the first layer
+                     //   2 - [Deprecated] Balances modes 0 and 1; continues until the next investment, exits otherwise
+                     //   3 - Under development...
+                     //   4 - Opening reset; first reaches the third layer at difficulty 0, then restarts and switches to the specified difficulty to reset
+                     //       the opening reward. If not a specific item, restart at difficulty 0; in the Phantom theme, retry only in the current difficulty
+                     //   5 - Collapsal Paradigm farming; only for the Sami theme; accelerates collapsal buildup via missed enemies;
+                     //       if the first collapsal paradigm encountered is in the `expected_collapsal_paradigms` list, stops the task; otherwise, restarts
+    "squad": string,                // Starting squad name, optional, default is "Command Squad";
+    "roles": string,                // Starting role group, optional, default is "Complementary Strength";
+    "core_char": string,            // Starting operator name, optional; supports only single operator **in Chinese**, regardless of server; 
+                                    // leave empty or set to "" to auto-select based on level
+    "use_support": bool,            // Whether the starting operator is a support operator, optional, default is false
+    "use_nonfriend_support": bool,  // Whether non-friend support operators are allowed, optional, default is false; only effective when `use_support` is true
+    "starts_count": int,               // Number of times to start exploration, optional, default is INT_MAX; stops automatically upon reaching limit
+    "difficulty": int,                 // Specified difficulty level, optional, default is 0; only applicable to themes **excluding Phantom**;
+                                       // selects the highest unlocked difficulty if the desired one is not unlocked
+    "stop_at_final_boss": bool,        // Whether to stop before the level 5 final boss node, optional, default is false; only applicable to themes **excluding Phantom**
+    "investment_enabled": bool,        // Whether to invest source stones, optional, default is true
+    "investments_count": int,          // Number of source stone investments, optional, default is INT_MAX; stops automatically upon reaching limit
+    "stop_when_investment_full": bool, // Whether to stop automatically when investment limit is reached, optional, default is false
+    "start_with_elite_two": bool,      // Whether to start with an Elite 2 operator reset, optional, default is false; only applicable to mode 4
+    "only_start_with_elite_two": bool, // Whether to reset only for Elite 2 operator while ignoring other starting conditions, optional, default is false;
+                                       // only effective when mode is 4 and `start_with_elite_two` is true
+    "refresh_trader_with_dice": bool,  // Whether to refresh the shop with dice for special items, optional, default is false; only applicable to the Mizuki theme, used to refresh pointers
+    "first_floor_foldartal": string,   // Desired Foldartal to acquire in the first floor foresight phase, optional; only applicable to the Sami theme, any mode;
+                                       // task stops once obtained successfully
+    "start_foldartal_list": [          // Desired Foldartals for the starting reward phase during opening reset, optional, default is []; effective only for Sami theme and mode 4;
+        string,                        // Reset is successful only when all Foldartals in the list are present in the opening rewards;
+        ...                            // Note: This parameter must be used with the "Life-Sustaining Squad" as other squads do not obtain Foldartals in the opening reward phase;
+    ],
+    "use_foldartal": bool,                    // Whether to use Foldartals, default is false in mode 5 and true in other modes; only applicable to the Sami theme
+    "check_collapsal_paradigms": bool,        // Whether to check obtained Collapsal Paradigms, default is true in mode 5 and false in other modes
+    "double_check_collapsal_paradigms": bool, // Whether to perform additional checks to prevent missed Collapsal Paradigms, default is true in mode 5 and false in other modes;
+                                              // only effective when theme is Sami and `check_collapsal_paradigms` is true
+    "expected_collapsal_paradigms": [         // Desired Collapsal Paradigms to trigger, default is ["Blank Somewhat", "Blind Eye", "Image Distortion", "Pitch Black"];
+        string,                               // only effective when theme is Sami and mode is 5
+        ...
+    ]
 }
 ```
 
 - `Copilot`  
     Copilot auto-combat feature
 
-```json
+```json5
 {
     "enable": bool,             // Whether to enable this task, optional, by default true
     "filename": string,         // Filename and path of the task JSON, supporting absolute/relative paths. Editing in run-time is not supported.
@@ -245,7 +270,7 @@ For more details about auto-copilot JSON, please refer to [Copilot Schema](./cop
 - `SSSCopilot`  
     Copilot auto-combat feature for STATIONARY SECURITY SERVICE
 
-```json
+```json5
 {
     "enable": bool,             // Whether to enable this task, optional, by default true
     "filename": string,         // Filename and path of the task JSON, supporting absolute/relative paths. Editing in run-time is not supported.
@@ -258,7 +283,7 @@ For more details about auto-copilot JSON, please refer to [Copilot Schema](./cop
 - `Depot`
     Depot recognition
 
-```json
+```json5
 // Corresponding task parameters
 {
     "enable": bool          // Whether to enable this task, optional, by default true
@@ -268,7 +293,7 @@ For more details about auto-copilot JSON, please refer to [Copilot Schema](./cop
 - `OperBox`  
     Operator box recognition
 
-```json
+```json5
 // Corresponding task parameters
 {
     "enable": bool          // Whether to enable this task, optional, by default true
@@ -278,7 +303,7 @@ For more details about auto-copilot JSON, please refer to [Copilot Schema](./cop
 - `Reclamation`  
     ReclamationAlgorithm
 
-```json
+```json5
 {
     "enable": bool,
     "theme": string,            // Theme, optional, 1 by default
@@ -300,7 +325,7 @@ For more details about auto-copilot JSON, please refer to [Copilot Schema](./cop
 - `Custom`  
     Custom Task
 
-```json
+```json5
 {
     "enable": bool,
     "task_names": [     // Execute the task on the first match in the array (and subsequent next, etc.)
@@ -314,7 +339,7 @@ For more details about auto-copilot JSON, please refer to [Copilot Schema](./cop
 - `SingleStep`  
     Single-step task (currently only supports copilot)
 
-```json
+```json5
 {
     "enable": bool,
     "type": string,     // currently only supports "copilot"
@@ -332,7 +357,7 @@ For more details about auto-copilot JSON, please refer to [Copilot Schema](./cop
 - `VideoRecognition`  
     Video recognition, currently only supports operation (combat) video
 
-```json
+```json5
 {
     "enable": bool,
     "filename": string,

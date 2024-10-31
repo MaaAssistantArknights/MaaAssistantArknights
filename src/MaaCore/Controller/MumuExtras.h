@@ -44,7 +44,6 @@ private:
     // mumu 的约定，default 给的是最前端 tab
     inline static std::string kDefaultPackage = "default";
     std::string package_name_ = kDefaultPackage;
-    std::optional<int> display_id_cache_;
 
     int mumu_handle_ = 0;
     int display_width_ = 0;

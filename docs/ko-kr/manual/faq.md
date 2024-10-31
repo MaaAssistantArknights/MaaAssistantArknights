@@ -5,25 +5,32 @@ icon: ph:question-fill
 
 # 자주 묻는 질문 (FAQ)
 
-::: warning
-MAA는 5.0 버전에서 .NET 8로 업데이트 되었습니다. 사용자에게는 다음과 같은 영향이 있습니다.
+MAA를 처음 사용하는 경우 [초보자 가이드](./newbie.md)를 읽어보세요.
 
-1. MAA는 이제 .NET 8 런타임이 필요하며, 시작 시 사용자에게 자동으로 설치를 안내합니다. 설치가 실패하는 경우 아래 내용을 참조하여 수동으로 설치할 수 있습니다.
-2. MAA가 더 이상 Windows Defender에 오진되지 않습니다.~~이 냄새나는 만두를 위해?~~
-3. [.NET 8 은 Windows 7/8/8.1을 지원하지 않습니다](https://github.com/dotnet/core/issues/7556), 따라서 MAA도 더 이상 지원되지 않습니다. 현재 정상적으로 작동하지만요...
-4. Windows 7에서 MAA를 실행할 때 메모리 소비가 비정상적으로 높아질 수 있습니다. Windows 8/8.1은 테스트되지 않았으며, 동일한 문제가 발생하는 경우 문서를 보완하기 위해 Issue를 제기해 주세요.
+::: warning
+
+MAA 오류 창에서 이 페이지로 이동한 경우, 대부분의 경우 런타임 라이브러리를 업데이트하지 않아 발생한 문제입니다.  
+가장 자주 발생하는 문제는 런타임 라이브러리 문제이며, 문서를 보지 않고 여기저기 묻는 사람들이 많아 이 메시지를 고정했습니다. 정말 답답합니다.
+
+MAA가 업데이트 후 실행되지 않는 경우, 런타임 라이브러리 버전 문제일 가능성이 큽니다. 다음 두 개의 런타임 라이브러리를 업데이트해야 합니다.  
+터미널에서 다음 명령을 실행하거나, <u>**두 개의**</u> 런타임 라이브러리를 수동으로 다운로드하여 설치하십시오.
+
+```sh
+winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
+```
+
+- [Visual C++ 재배포 가능 패키지](https://aka.ms/vs/17/release/vc_redist.x64.exe)
+- [.NET 데스크톱 런타임 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=Binaries-,Windows,-x64)
+
 :::
 
 ## 소프트웨어 실행 불가능/크래쉬/오류 발생
 
-### 가능성 0: 다운로드한 파일의 불완전함
+### 다운로드/설치 문제
 
-완전한 MAA 소프트웨어 압축 파일의 이름 형식은 "MAA-`버전`-`플랫폼`-`아키텍처`.zip"입니다. 그 외의 파일은 단독으로 사용할 수 없는 "구성 요소"입니다. 다운로드 후 잘 읽어보세요.
-자동 업데이트 후에 기능이 없어진 경우 자동 업데이트에 문제가 발생한 것일 수 있습니다. 완전한 패키지를 다시 다운로드하고 `config` 폴더를 수동으로 이동해보세요.
-
-### 가능성 1: 아키텍처 오류
-
-대부분의 경우, x64 아키텍처의 MAA를 사용해야 합니다. 즉, `MAA-*-win-x64.zip`를 다운로드해야 합니다. MAA는 32비트 운영 체제를 지원하지 않습니다.
+- 완전한 MAA 소프트웨어 패키지의 이름 형식은 "MAA-`버전`-`플랫폼`-`아키텍처`.zip"입니다. 다른 것들은 단독으로 사용할 수 없는 "구성 요소"이므로 주의 깊게 읽어보세요.
+  대부분의 경우, x64 아키텍처의 MAA를 사용해야 합니다. 즉, `MAA-*-win-x64.zip`을 다운로드해야 하며, `MAA-*-win-arm64.zip`이 아닙니다.
+- 자동 업데이트 후 기능을 사용할 수 없거나 누락된 경우, 자동 업데이트에 문제가 있을 수 있습니다. 완전한 패키지를 다시 다운로드하고 압축을 풀어 `config` 폴더를 수동으로 이동해 보세요.
 
 ### 가능성 2: 런타임 문제
 
@@ -40,25 +47,27 @@ Windows 10 또는 11을 사용하는 경우 winget 도구를 사용하여 설치
 
 #### Windows N/KN 관련
 
-Windows 8/8.1/10/11 N/KN(유럽/한국) 버전을 사용하는 경우, [미디어 기능 팩](https://support.microsoft.com/zh-cn/topic/c1c6fffa-d052-8338-7a79-a4bb980a700a)을 설치해야 합니다.
+Windows 8/8.1/10/11 N/KN(유럽/한국) 버전을 사용하는 경우, [미디어 기능 팩](https://support.microsoft.com/ko-kr/topic/c1c6fffa-d052-8338-7a79-a4bb980a700a)을 설치해야 합니다.
 
 #### Windows 7 관련
 
-Windows 7를 사용하는 경우, 아래 언급된 런타임 이전에 아래 패치가 설치되어 있는지 확인해야 합니다:
+.NET 8은 Windows 7 / 8 / 8.1 시스템을 지원하지 않으므로<sup>[출처](https://github.com/dotnet/core/issues/7556)</sup>, MAA도 더 이상 지원하지 않습니다. 마지막으로 사용 가능한 .NET 8 버전은 [`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7)입니다. 마지막으로 사용 가능한 .NET 4.8 버전은 [`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8)입니다. 자체 컴파일의 실현 가능성은 아직 확인되지 않았습니다.
 
-  1. [Windows 7 Service Pack 1](https://support.microsoft.com/zh-cn/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
-  2. SHA-2 코드 서명 패치:
-     - KB4474419：[다운로드 링크 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)、[다운로드 링크 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
-     - KB4490628：[다운로드 링크 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)、[다운로드 링크 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
-  3. Platform Update for Windows 7（DXGI 1.2、Direct3D 11.1,KB2670838）：[다운로드 링크 1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)、[다운로드 링크 2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
+Windows 7의 경우, 위에서 언급한 두 개의 런타임 라이브러리를 설치하기 전에 다음 패치가 설치되어 있는지 확인해야 합니다:
 
-.NET 8이 Windows 7에서 비정상적으로 실행될 때의 조치 [#8238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8238)
+1. [Windows 7 Service Pack 1](https://support.microsoft.com/zh-cn/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
+2. SHA-2 코드 서명 패치:
+    - KB4474419：[다운로드 링크 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)、[다운로드 링크 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
+    - KB4490628：[다운로드 링크 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)、[다운로드 링크 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
+3. Platform Update for Windows 7（DXGI 1.2、Direct3D 11.1,KB2670838）：[다운로드 링크 1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)、[다운로드 링크 2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
 
-  1. 내 컴퓨터를 열고, 빈 곳을 마우스 오른쪽 버튼으로 클릭하여 `속성`을 선택한 후, 왼쪽의 `고급 시스템 설정`을 클릭하고 `환경 변수`를 클릭합니다.
-  2. 새 환경 변수를 만들고, 변수 이름을 `DOTNET_EnableWriteXorExecut`e, 변수 값은 `0`으로 설정합니다.
-  3. 컴퓨터를 다시 시작하세요.
+##### .NET 8 애플리케이션이 Windows 7에서 비정상적으로 실행되는 문제 완화 조치 [#8238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8238)
 
-앞으로의 버전에서 Windows 7의 호환성을 보장할 수 없으며, ~~이건 모두 마이크로소프트의 잘못입니다.~~
+Windows 7에서 .NET 8 애플리케이션을 실행할 때 메모리 사용량이 비정상적으로 증가하는 문제가 있습니다. 아래의 완화 조치를 참조하십시오. Windows 8/8.1은 테스트되지 않았습니다. 동일한 문제가 있는 경우, 문서를 업데이트할 수 있도록 Issue를 제출해 주십시오.
+
+1. `컴퓨터`를 열고 빈 공간을 마우스 오른쪽 버튼으로 클릭하여 속성을 클릭하고, 왼쪽의 `고급 시스템 설정`을 클릭한 다음 `환경 변수`를 클릭합니다.
+2. 새 시스템 변수를 만들고, 변수 이름을 `DOTNET_EnableWriteXorExecute`, 변수 값을 `0`으로 설정합니다.
+3. 컴퓨터를 재시작합니다.
 
 #### 공식 통합 패키지 (확실함)
 

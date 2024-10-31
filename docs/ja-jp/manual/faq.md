@@ -5,47 +5,68 @@ icon: ph:question-fill
 
 # よくある質問
 
-::: warning
-MAA はバージョン 5.0 で .NET 8 に更新され、エンドユーザーにとって次のような影響を与えます：
+初めて MAA を使用する場合は、[新規ユーザーガイド](./newbie.md)をお読みください。
 
-1. MAA には .NET 8 Runtime が必要になり、起動時にインストールするようにユーザーに自動的にプロンプトが表示されます。インストールに失敗した場合は、以下をお読みになり、インストールパッケージをダウンロードして手動でインストールしてください。
-2. MAA が Windows Defender によって誤検出されることはなくなりました。~~それが目的です~~
-3. [.NET 8 は Windows 7/8/8.1 システムをサポートしていません](https://github.com/dotnet/core/issues/7556)、その結果、MAA もサポートしなくなりました。 たとえそれがまだ機能していたとしても。
-4. Windows 7 で MAA を実行する場合、メモリ使用量の異常に問題があります、 [#8238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8238) 軽減策の実装を参照してください。 Windows 8/8.1 はテストされていませんが、同じ問題がある場合は、補足ドキュメントを思い出させるために Issue を送信してください。
+::: warning
+
+MAA のエラーメッセージからここに来た場合、ほとんどの場合、ランタイムライブラリを更新していないことが原因です。  
+最も多く発生する問題はランタイムライブラリの問題であり、ドキュメントを見逃して質問する人が多いため、このメッセージを固定しました。イライラします。
+
+MAA が更新後に実行できない場合、ランタイムライブラリのバージョンが原因である可能性が高いです。以下の 2 つのランタイムライブラリを更新する必要があります。  
+以下のコマンドをターミナルで実行するか、<u>**両方の**</u>ランタイムライブラリを手動でダウンロードしてインストールしてください。
+
+```sh
+winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
+```
+
+- [Visual C++ 再頒布可能パッケージ](https://aka.ms/vs/17/release/vc_redist.x64.exe)
+- [.NET デスクトップランタイム 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=Binaries-,Windows,-x64)
+
 :::
 
 ## ソフトウェアが動作しない/クラッシュする/エラーが出る
 
-### 可能性0：ダウンロードされたパッケージが不完全です
+### ダウンロード/インストールの問題
 
-- 完全なMAAソフトウェアパッケージは`MAA-`バージョン`-`プラットフォーム（Windows/Mac/Linuxなど）`-`アーキテクチャ`.zip`という名前で、他は個別に使用できない「コンポーネント」ですので、よくお読みください。 Windowsユーザーは`MAA-*-win-x64.zip`をダウンロードするだけで大丈夫です。
-- 一定期間経過しても自動アップデートがうまくいかない場合は、自動アップデート機能にバグがある可能性があるので、パッケージ全体を再ダウンロードして解凍し、手動で `config` フォルダを移行してみてください。
+- 完全な MAA ソフトウェアパッケージの命名形式は "MAA-`バージョン`-`プラットフォーム`-`アーキテクチャ`.zip" です。他のものは単独で使用できない「コンポーネント」ですので、よくお読みください。
+  ほとんどの場合、x64 アーキテクチャの MAA を使用する必要があります。つまり、`MAA-*-win-x64.zip` をダウンロードする必要があり、`MAA-*-win-arm64.zip` ではありません。
+- 自動更新後に機能が使用できない、または欠落している場合は、自動更新に問題がある可能性があります。完全なパッケージを再ダウンロードして解凍し、`config` フォルダーを手動で移行してみてください。
 
-### 可能性1：アーキテクチャのエラー
+### ランタイムの問題
 
-- 大体のミスの場合`MAA-*-win-arm64.zip`を間違ってダウンロードしており、その場合`MAA-*-win-x64.zip`をダウンロードする必要があります。ですが、32ビットオペレーティングシステムは、MAAではサポートされていません。
+ウェブページの右下にある上向きの ↑ 矢印を見つけてクリックしてください。
 
-### 可能性2：ランタイム・ライブラリの問題
+### システムの問題
 
-::: info 注意
-ここでは公式のインストール方法のみを掲載しており、サードパーティの統合パックの信頼性を保証することはできません。
-:::
+- MAA は 32 ビットのオペレーティングシステムをサポートしておらず、Windows 7 / 8 / 8.1 をサポートしていません。
+- 上記のランタイムのインストールには、すべてコンポーネントストアサービス（CBS、TrustedInstaller/TiWorker、WinSxS）が必要です。
+  コンポーネントストアサービスが破損している場合、正常にインストールできません。
 
-- [VCRedist x64](https://aka.ms/vs/17/release/vc_redist.x64.exe) と [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=Binaries-,Windows,-x64)パッケージをインストールし、コンピューターを再起動してアプリを実行してみてください。
+システムの再インストール以外の修復提案を提供することはできませんので、縮小項目および縮小リスクが明記されていない「縮小版」システムや、古いバージョンのシステムを使用しないでください。
 
-#### Windows N/KN 関連
+#### Windows N/KN
 
-- Windows 8/8.1/10/11 N/KN（ヨーロッパ/韓国）バージョンを使用している場合は、 [Media Feature Pack](https://support.microsoft.com/ja-jp/topic/windows-n-%E3%82%A8%E3%83%87%E3%82%A3%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE-media-feature-pack-%E3%81%AE%E4%B8%80%E8%A6%A7-c1c6fffa-d052-8338-7a79-a4bb980a700a) のインストールも必要です。
+Windows N/KN（ヨーロッパ/韓国）の場合、[メディア機能パック](https://support.microsoft.com/ja-jp/topic/c1c6fffa-d052-8338-7a79-a4bb980a700a)をインストールする必要があります。
 
 #### Windows 7 関連
 
-- Windows 7を使用している場合は、ランタイム・ライブラリをインストールする前に、以下のパッチがインストールされていることも確認する必要があります：
+.NET 8 は Windows 7 / 8 / 8.1 システムをサポートしていないため<sup>[ソース](https://github.com/dotnet/core/issues/7556)</sup>、MAA も同様にサポートしていません。最後に利用可能な .NET 8 バージョンは [`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7) です。最後に利用可能な .NET 4.8 バージョンは [`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8) です。自己コンパイルの実現可能性はまだ確認されていません。
 
-  1. [Windows 7 Service Pack 1](https://support.microsoft.com/ja-jp/windows/windows-7-service-pack-1-sp1-%E3%82%92%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%81%99%E3%82%8B-b3da2c0f-cdb6-0572-8596-bab972897f61)
-  2. SHA-2 コード署名：
-     - KB4474419：[ダウンロードリンク1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)、[ダウンロードリンク2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
-     - KB4490628：[ダウンロードリンク1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)、[ダウンロードリンク2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
-  3. Platform Update for Windows 7（DXGI 1.2、Direct3D 11.1，KB2670838）：[ダウンロードリンク1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)、[ダウンロードリンク2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
+Windows 7 の場合、上記の 2 つのランタイムライブラリをインストールする前に、以下のパッチがインストールされているかどうかを確認する必要があります：
+
+1. [Windows 7 Service Pack 1](https://support.microsoft.com/ja-jp/windows/windows-7-service-pack-1-sp1-%E3%82%92%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%81%99%E3%82%8B-b3da2c0f-cdb6-0572-8596-bab972897f61)
+2. SHA-2 コード署名：
+    - KB4474419：[ダウンロードリンク1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)、[ダウンロードリンク2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
+    - KB4490628：[ダウンロードリンク1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)、[ダウンロードリンク2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
+3. Platform Update for Windows 7（DXGI 1.2、Direct3D 11.1，KB2670838）：[ダウンロードリンク1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)、[ダウンロードリンク2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
+
+##### .NET 8 アプリケーションが Windows 7 で異常に動作する場合の緩和策 [#8238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8238)
+
+Windows 7 で .NET 8 アプリケーションを実行すると、メモリ使用量が異常になる問題があります。以下の緩和策を参照してください。Windows 8/8.1 はテストされていません。同じ問題がある場合は、ドキュメントを更新するために Issue を提出してください。
+
+1. `コンピュータ` を開き、空白部分を右クリックしてプロパティをクリックし、左側の `システムの詳細設定` をクリックし、`環境変数` をクリックします。
+2. 新しいシステム変数を作成し、変数名を `DOTNET_EnableWriteXorExecute`、変数値を `0` に設定します。
+3. コンピュータを再起動します。
 
 #### 公式統合パック（確信）
 

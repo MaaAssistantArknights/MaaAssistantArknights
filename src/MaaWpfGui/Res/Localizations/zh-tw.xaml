@@ -134,6 +134,8 @@
     <system:String x:Key="Roguelike3FirstFloorFoldartal">凹第一層遠見密文板，不進行作戰</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活隊凹開局密文板</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最多寫三個，並用英文分號;隔開</system:String>
+    <system:String x:Key="RoguelikeCollapseList">坍缩范式列表</system:String>
+    <system:String x:Key="RoguelikeCollapseListTip">用英文分号「;」隔开，留空将使用默认列表。</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「開局幹員」使用助戰</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助戰</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">在戰鬥結束前延遲「停止」動作</system:String>
@@ -152,6 +154,9 @@
     <system:String x:Key="IS4NewSquad2">博聞廣記分隊</system:String>
     <system:String x:Key="IS4NewSquad3">藍圖測繪分隊</system:String>
     <system:String x:Key="IS4NewSquad4">因地制宜分隊</system:String>
+    <system:String x:Key="IS4NewSquad5">异想天开分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad6">点刺成锭分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad7">拟态学者分队（占位）</system:String>
     <system:String x:Key="IS3NewSquad4">特訓分隊</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集群分隊</system:String>
@@ -187,7 +192,7 @@
     <system:String x:Key="EmulatorNotFound">未檢測到任何模擬器\n請使用系統管理員身分執行本軟體\n或手動設定連接</system:String>
     <system:String x:Key="EmulatorTooMany">檢測到多個模擬器\n請關閉不需要的模擬器\n或手動設定連接</system:String>
     <system:String x:Key="EmulatorStartFailed">無法成功啟動模擬器\n請使用管理員權限開啟本軟體\n或手動啟動模擬器。</system:String>
-    <system:String x:Key="SwitchLanguage">切換語言</system:String>
+    <system:String x:Key="SwitchLanguage">切換語言 🌐</system:String>
     <system:String x:Key="Language">語言</system:String>
     <system:String x:Key="LanguageChangedTip">語言設定已變更，是否現在重開 MAA 以套用語言設定？</system:String>
     <system:String x:Key="ManualRestart">稍後</system:String>
@@ -295,6 +300,7 @@
     <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
     <system:String x:Key="RoguelikeThemeSami">薩米</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">薩卡茲</system:String>
+    <system:String x:Key="RoguelikeDifficulty">難度</system:String>
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">開始探索 N 次後停止任務</system:String>
     <system:String x:Key="GoldTimesLimit">投資 N 個源石錠後停止任務</system:String>
@@ -387,10 +393,12 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe
 則應填寫
 C:\\Program Files\\Netease\\MuMuPlayer-12.0。\n
 注意：
-1. 截至目前（V4.1.0）的模擬器版本開啟網絡橋接後無法使用截圖增強。
-2. 若連接地址端口號為 7555，則需將端口號改為 16384。
+1. 若當前連接地址端口號為 7555，則需將端口號改為 16384。
+2. 若正在使用網絡橋接，則需勾選 MuMu 網絡橋接模式並手動填寫序號。
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 模擬器路徑</system:String>
+    <system:String x:Key="MuMuBridgeConnection">MuMu 網路橋接模式</system:String>
+    <system:String x:Key="MuMuBridgeConnectionTip">除非你知道自己在做什麼，否則不要啟用此選項</system:String>
     <system:String x:Key="MuMu12Index">實例號碼</system:String>
     <system:String x:Key="MuMu12Display">螢幕號碼</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu 截圖增強未生效，请檢查相關設定</system:String>
@@ -515,7 +523,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Pormpt2">週日了，記得打剿滅喔 ~</system:String>
     <!--  !戰鬥設定  -->
     <!--  日誌  -->
-    <system:String x:Key="VersionMismatch">UI 和 Core 版本不一致: {0} 和 {1}，可能導致不可預測的行為，請勿手動替換文件。</system:String>
+    <system:String x:Key="VersionMismatch">UI 和 Core 版本不一致: {0} 和 {1}，可能導致不可預測的行為，請勿手動替換文件或者在更新時佔用文件。\n\n請下載完整包並覆蓋當前文件夾下的內容。</system:String>
     <system:String x:Key="ConnectingToEmulator">正在連接模擬器……</system:String>
     <system:String x:Key="UnselectedTask">未選擇任務</system:String>
     <system:String x:Key="Running">正在運行中……</system:String>
@@ -915,6 +923,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ReclamationToolToCraftPlaceholder">螢光棒</system:String>
     <!--  !Reclamation  -->
     <!--  SingleInstance  -->
-    <system:String x:Key="MultiInstanceUnderSamePath">同一路徑下只能啟動一個實例！ 如需多開MAA，請複製一份新的MAA到其他資料夾下，並設定使用不同的MAA，相同的adb和不同的模擬器地址進行多開操作。</system:String>
+    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">
+同一路徑下只能啟動一個實例！
+如需多開MAA，請複製一份新的MAA到其他資料夾下，並設定使用不同的 MAA，相同的 adb 和不同的模擬器地址進行多開操作。
+    </system:String>
     <!--  !SingleInstance  -->
 </ResourceDictionary>

@@ -43,7 +43,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 - `StartUp`  
     Start-up
 
-```json
+```json5
 // 対応するタスクのパラメータ
 {
     "enable": bool,              // このタスクを有効にするかどうか、オプション、デフォルトは true
@@ -60,7 +60,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 - `CloseDown`  
   ゲームを閉じる  
 
-```json
+```json5
 // 対応するタスクのパラメータ
 {
     "enable": bool,              // このタスクを有効にするかどうか、オプション、デフォルトは true
@@ -72,7 +72,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 - `Fight`  
     Operation
 
-```json
+```json5
 // 対応するタスクのパラメータ
 {
     "enable": bool,             // このタスクを有効にするかどうか、オプション、デフォルトは true
@@ -108,7 +108,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 - `Recruit`  
     公開求人
 
-```json
+```json5
 // 対応するタスクのパラメータ
 {
     "enable": bool,             // このタスクを有効にするかどうか、オプション、デフォルトは true
@@ -150,7 +150,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 - `Infrast`  
     基地シフト
 
-```json
+```json5
 {
     "enable": bool,         // タスクを有効にするかどうか、オプション、デフォルトは true
     "mode": int,            // シフトモード、オプション、デフォルトは 0。
@@ -178,7 +178,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
     FPの回収と自動購入  
     最初に `buy_first` にあるものを左から右に押して順番に一度購入し、次に左から右に2回購入して`blacklist` を回避し、FPオーバーフローの場合はブラックリストを無視して、オーバーフローしなくなるまで左から右に3回目に購入します。
 
-```json
+```json5
 // 対応するタスクのパラメータ
 {
     "enable": bool,         // このタスクを有効にするかどうか、オプション、デフォルトは true
@@ -199,7 +199,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 - `Award`  
     報酬の受け取り  
 
-```json
+```json5
 // 対応するタスクのパラメータ
 {
     "enable": bool          // このタスクを有効にするかどうか、オプション、デフォルトは true
@@ -209,40 +209,60 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 - `Roguelike`  
     統合戦略  
 
-```json
+```json5
+// 対応するタスクパラメータ
 {
-    "enable": bool,         // このタスクを有効にするかどうか、オプション、デフォルトは true
-    "theme": string,        // テーマの名前、オプション、デフォルトは "Phantom"
-                            // Phantom - ファントムと緋き貴石
-                            // Mizuki  - ミズキと紺碧の樹
-                            // Sami - 探索者の銀の氷の止境（暫定訳、以下サーミ）
-    "mode": int,            // モード、オプション、デフォルトは 0
-                            // 0 - キャンドル収集、安定した戦略で続けられるだけ続ける
-                            // 1 - 源石錐収集、一階層の終わりで終了します
-                            // 2 - 【近日廃止】どちらも行う、源石錐は投資するまで
-                            // 3 - 開発中
-                            // 4 - 開局奨励を取得、3番目のレイヤーに到達したらすぐに終了します
-    "starts_count": int,    // 挑戦回数、オプション、デフォルトは INT_MAX。到達後にタスクを自動停止。
-    "investment_enabled": bool, // 源石錐を投資するかどうか、デフォルトは ON
-    "investments_count": int,
-                            // 源石錐を投資の回数、オプション、デフォルトは INT_MAX。到達後にタスクを自動停止。
-    "stop_when_investment_full": bool,
-                            // 投資額が一杯になったら動作停止、オプション、デフォルトは false
-    "squad": string,        // "突撃戦術分隊" などの分隊指定、オプション、デフォルトは "指揮分隊"
-    "roles": string,        // 召集組合、オプション、 "先手必勝" など、デフォルトでは "前線支援"
-    "core_char": string,     // オペレーター名、オプション。単一のオペレーターの中国語名のみがサポートされています。レベルに応じて自動で選択します。
-    "start_with_elite_two": bool,  // ゲームの始まりにエリート2のオペレーターを取得まで、ゲームを開始する。オプション、デフォルトはfalse
-    "only_start_with_elite_two": bool,  // ゲームの始まりにエリート2のオペレーターを取得まで、戦闘を行わない状態でゲームを開始するかどうか。オプション、デフォルトはfalse、 start_with_elite_twoが true の場合に有効です。
-    "use_support": bool,  // 開始役員("core_char")がサポートであるかどうかは、オプション、デフォルトは false
-    "use_nonfriend_support": bool,  // 非戦友のサポートを使用できるかどうか、オプション、デフォルトの false、 use_support が true の場合に有効です。
-    "refresh_trader_with_dice": bool  // 特別な商品を購入するために店を更新するためにサイコロを使用するかどうかは、現在、ミズキのテーマの"ミチビキリンジュウ"をサポートしています、オプション、デフォルトでは false
+    "enable": bool,  // このタスクを有効にするかどうか、省略可能、デフォルト値 true
+    "theme": string, // テーマ、省略可能、デフォルト値 "Phantom"
+                     //   Phantom - 傀影と猩紅の血晶
+                     //   Mizuki  - 水月と蒼青の樹
+                     //   Sami    - 探索者の銀霜の果て
+                     //   Sarkaz  - サルカズの無尽の奇譚
+    "mode": int,     // モード、省略可能、デフォルト値 0
+                     //   0 - ポイント稼ぎ、より安定して層数を増やす
+                     //   1 - 源石錠稼ぎ、1層で投資後終了
+                     //   2 - 【廃止済み】モード0と1を兼ね備え、投資後に終了、投資なしで続行
+                     //   3 - 開発中…
+                     //   4 - 開幕リセット、難易度0で3層に到達後リセットし、指定難易度で開幕リセットを狙う。アイテムが「湯沸かしポット」や「希望」以外の場合は難易度0に戻って再挑戦；
+                     //       Phantomテーマでは難易度変更せず、現在の難易度で3層到達後リセット、開幕リセットを試行
+                     //   5 - 崩壊パラダイム稼ぎ；Samiテーマのみ対応；戦闘で敵を漏らすなどして崩壊値を早く溜める。
+                     //       初遭遇の崩壊パラダイムが expected_collapsal_paradigms のリストにあればタスクを停止し、なければリセット
+    "squad": string,                // 開幕部隊名、省略可能、デフォルト値 "指揮部隊"
+    "roles": string,                // 開幕職業グループ、省略可能、デフォルト値 "得意を活かす"
+    "core_char": string,            // 開幕オペレーター名、省略可能；単一のオペレーター**日本語名**のみ対応、サーバー関係なく；空欄または "" に設定した場合はレベルに応じて自動選択
+    "use_support": bool,            // 開幕オペレーターがサポートかどうか、省略可能、デフォルト値 false
+    "use_nonfriend_support": bool,  // フレンド以外のサポートが使用可能かどうか、省略可能、デフォルト値 false；use_support が true の場合にのみ有効
+    "starts_count": int,               // 探索を開始する回数、省略可能、デフォルト値 INT_MAX；到達後自動でタスクを停止
+    "difficulty": int,                 // 難易度を指定、省略可能、デフォルト値 0；**Phantom以外**のテーマにのみ対応；
+                                       // 未解放の場合は、現在解放されている最高難易度を選択
+    "stop_at_final_boss": bool,        // 5層の最終ボスノードでタスクを停止するかどうか、省略可能、デフォルト値 false；**Phantom以外**のテーマにのみ対応
+    "investment_enabled": bool,        // 源石錠を投資するかどうか、省略可能、デフォルト値 true
+    "investments_count": int,          // 源石錠の投資回数、省略可能、デフォルト値 INT_MAX；到達後自動でタスクを停止
+    "stop_when_investment_full": bool, // 投資上限に達した時自動でタスクを停止するかどうか、省略可能、デフォルト値 false
+    "start_with_elite_two": bool,      // 開幕リセットと同時にエリート2昇格を狙うか、省略可能、デフォルト値 false；モード4のみ対応
+    "only_start_with_elite_two": bool, // 開幕エリート2昇格のみ狙い、他の条件を無視するか、省略可能、デフォルト値 false；
+                                       // モードが4で、start_with_elite_two が true の場合にのみ有効
+    "refresh_trader_with_dice": bool,  // サイコロでショップをリフレッシュし、特定のアイテムを購入するか、省略可能、デフォルト値 false；Mizukiテーマのみ対応、指路鱗を狙う
+    "first_floor_foldartal": string,   // 1層の遠見段階で取得を希望する密文、省略可能；Samiテーマにのみ対応、モード問わず；取得成功した場合はタスクを停止
+    "start_foldartal_list": [          // 開幕リセット時に取得を希望する密文リスト、省略可能、デフォルト値 []；Samiテーマでモード4の場合にのみ対応；
+        string,                        // 開幕でリスト内の全ての密文を持っている場合に開幕リセット成功とする；
+        ...                            // 注意、このパラメータは「生活至上部隊」と同時に使用する必要がある。他の部隊では開幕報酬で密文を取得できない；
+    ],
+    "use_foldartal": bool,                    // 密文を使用するか、モード5ではデフォルト値 false、他のモードではデフォルト値 true；Samiテーマにのみ対応
+    "check_collapsal_paradigms": bool,        // 取得した崩壊パラダイムを検査するか、モード5ではデフォルト値 true、他のモードではデフォルト値 false
+    "double_check_collapsal_paradigms": bool, // 崩壊パラダイムの検査漏れ対策を行うか、モード5ではデフォルト値 true、他のモードではデフォルト値 false；
+                                              // テーマが Sami で、check_collapsal_paradigms が true の場合にのみ有効
+    "expected_collapsal_paradigms": [         // 希望する崩壊パラダイム、デフォルト値 ["少しの無視", "片目を閉じる", "画像が壊れる", "真っ暗"]；
+        string,                               // テーマが Sami でモードが5の場合にのみ対応
+        ...
+    ]
 }
 ```
 
 - `Copilot`  
     自動戦闘  
 
-```json
+```json5
 {
     "enable": bool,             // このタスクを有効にするかどうか、オプション、デフォルトは true
     "filename": string,         // タスクのJSONのファイル名とパス、絶対/相対 パスのサポート。動作中に変更はできません。
@@ -255,7 +275,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 - `SSSCopilot`  
   保全駐在の自動戦闘  
 
-```json
+```json5
 {
     "enable": bool,             // このタスクを有効にするかどうか、オプション、デフォルトは true
     "filename": string,         // タスクのJSONのファイル名とパス、絶対/相対 パスのサポート。動作中に変更はできません。
@@ -268,7 +288,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 - `Depot`
     倉庫アイテム認識
 
-```json
+```json5
 // 対応するタスクのパラメータ
 {
     "enable": bool          // このタスクを有効にするかどうか, オプション, デフォルトは true
@@ -278,7 +298,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 - `OperBox`  
     カドレー識別  
 
-```json
+```json5
 // 対応するタスクのパラメータ
 {
     "enable": bool          // このタスクを有効にするかどうか, オプション, デフォルトは true
@@ -288,7 +308,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 - `Reclamation`  
     生息演算  
 
-```json
+```json5
 {
     "enable": bool,
     "theme": string,            // テーマ、オプション、デフォルトは 1
@@ -310,7 +330,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 - `Custom`  
   カスタム タスク  
 
-```json
+```json5
 {
     "enable": bool,
     "task_names": [     // 配列内の最初の一致(および次のnextなど)でタスクを実行します。
@@ -324,7 +344,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 - `SingleStep`  
   シングル ステップ タスク（現在は戦闘でのみ利用可能）  
 
-```json
+```json5
 {
     "enable": bool,
     "type": string,     // 現在、 "copilot" のみがサポートされています
@@ -342,7 +362,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 - `VideoRecognition`  
   ビデオ認識、現在は作戦ビデオのみ対応  
 
-```json
+```json5
 {
     "enable": bool,
     "filename": string, // ビデオのファイルパス、絶対パス、相対パスのどちらでもかまいません。動作中に変更はできません。
@@ -432,7 +452,7 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 
 ##### List of Key and value
 
-```json
+```cpp
     enum InstanceOptionKey
     {
         Invalid = 0,
