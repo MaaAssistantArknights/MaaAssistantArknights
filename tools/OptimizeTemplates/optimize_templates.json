@@ -2876,5 +2876,6 @@
     "resource/template/infrast/Trade_ord_spd&par2": "9bcfdb3cf6955a108878807ca9251223df45a93658c9b7182fa0734b92cda851",
     "resource/template/items/randomMaterial_5d5": "480d7a868889a5f28c624d6936be20eb91bd88eae7de73dd11c0ca22b3522695",
     "official/Sarkaz@RoguelikeRecruit-GiveUp": "74db74a0780b0e8e33100b995bf137b401647d3f739a5609bc1e5e918bc49aba",
-    "YoStarJP/MiningActivityConfirm": "0b16b7b8d2d3e5344c4a4877dc31eaf27950ba58e4c1433207f2e402a59ad776"
+    "YoStarJP/MiningActivityConfirm": "0b16b7b8d2d3e5344c4a4877dc31eaf27950ba58e4c1433207f2e402a59ad776",
+    "YoStarEN/MiningActivityConfirm": "f7fe41ca0421cf2995f03abf63a265d1beca837138fadc75a7a0bdd60b4323a6"
 }
