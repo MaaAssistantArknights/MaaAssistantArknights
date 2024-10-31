@@ -2,7 +2,7 @@
 
 ### 新增 | New
 
-* 添加直接显示吐司内容函数，固定Show执行线程 @ABA2396
+* 添加直接显示吐司内容函数，固定 Show 执行线程 @ABA2396
 * 添加主任务进度条 @ABA2396
 * Special Access YostarEN @Constrat
 * 支持状态栏显示进度条 @ABA2396
@@ -32,11 +32,11 @@
 * 快速编队向左滑动后等待可能的画面回弹 @Alan-Charred
 * MuMu bridge connection (#10937) @Alan-Charred @ABA2396
 * MaaCore RoguelikeTask 补充未选择刷开局模式下启用凹精二的禁用判定 @status102
-* typo @ABA2396
 * 理智识别的理智上限校验修改 @status102
 
 ### 文档 | Docs
 
+* 运行库问题 (#10950) @Rbqwow @ABA2396
 * MuMu 网络桥接 (#10953) @Rbqwow @ABA2396
 * 移除赘字 (#10977) @1lyvianis
 
@@ -46,8 +46,7 @@
 * YostarJP EP14 ocr update (#10986) @Manicsteiner
 * 对 gui.json 排序 @ABA2396
 * 修改版本不一致描述，提前 return 位置 @ABA2396
-* 设置代理时提高github优先度 @ABA2396
+* 设置代理时提高 github 优先度 @ABA2396
 * 移除多余变量 @ABA2396
-* remove test @ABA2396
 * Translations update from MAA Weblate (#10944) @AlisaAkiron
 * 调整切换语言显示 @ABA2396
