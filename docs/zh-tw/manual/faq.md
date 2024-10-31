@@ -2,32 +2,57 @@
 order: 4
 icon: ph:question-fill
 ---
+
 # 常見問題
 
-## 軟體無法執行 / 閃退 / 報錯
+如果是第一次使用 MAA，請閱讀[新手上路](./newbie.md)。
 
-### 可能性 0 : 下載的壓縮檔不完整
+::: warning
 
-- 完整 MAA 軟體壓縮檔命名格式為 "MAA-`版本`-`平台`-`架構`.zip"，其餘均為無法單獨使用的 “零部件”，請仔細閱讀。通常 Windows 用戶只需下載 `MAA-*-win-x64.zip`。
-- 若在某次自動更新後無法使用，可能是自動更新功能存在一些 bug, 可以嘗試重新下載並解壓完整檔案後，手動移動 `config` 資料夾。
+如果你是從 MAA 的報錯窗口來到這的，那八成是由於未更新運行庫而造成的問題。  
+出現次數最多的問題都是運行庫問題，而總是有人看不到文檔到處問，所以我們把置頂換成了這個。很氣。
 
-### 可能性 1 : 架構錯誤
+若 MAA 在某次更新後無法運行，有很大可能是因為運行庫版本而導致的問題，需更新以下兩個運行庫。  
+請在終端中運行以下命令，或手動下載<u>**兩個**</u>運行庫並安裝。
 
-- 在絕大部分情況下，您需要使用 64 位操作系統以及 x64 架構的 MAA，即您需要下載 `MAA-*-win-x64.zip`，而非 `MAA-*-win-arm64.zip`。MAA 目前不支援 32 位操作系統。
+```sh
+winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
+```
 
-### 可能性 2 : 執行庫問題
+- [Visual C++ 可再發行程序包](https://aka.ms/vs/17/release/vc_redist.x64.exe)
+- [.NET 桌面運行時 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=Binaries-,Windows,-x64)
 
-> 此處僅列出官方安裝方法，我們無法保證第三方整合檔案的可靠性。
+:::
 
-- 請安裝 [VCRedist x64](https://aka.ms/vs/17/release/vc_redist.x64.exe)、[.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=Binaries-,Windows,-x64) 並重新啟動電腦後，再次嘗試執行本軟體。
+## 軟件無法運行/閃退/報錯
 
-#### Windows N/KN 相關
+### 下載/安裝問題
 
-- 如果您正在使用 Windows 8/8.1/10/11 N/KN（歐洲 / 韓國）版本，您還需要安裝[媒體功能檔案](https://support.microsoft.com/zh-cn/topic/c1c6fffa-d052-8338-7a79-a4bb980a700a)。
+- 完整 MAA 軟件壓縮包命名格式為 "MAA-`版本`-`平台`-`架構`.zip"，其餘均為無法單獨使用的“零部件”，請仔細閱讀。
+  在大部分情況下，您需要使用 x64 架構的 MAA，即您需要下載 `MAA-*-win-x64.zip`，而非 `MAA-*-win-arm64.zip`。
+- 若在某次自動更新後無法使用或缺失功能，可能是自動更新出現了問題, 請嘗試重新下載並解壓完整包後手動遷移 `config` 文件夾。
 
-#### Windows 7 相關
+### 運行庫問題
 
-- 如果您正在使用 Windows 7，在安裝執行庫之前，您還需要檢查以下修補程式是否已安裝：
+找到網頁右下角的向上 ↑ 箭頭，點一下它。
+
+### 系統問題
+
+- MAA 不支持 32 位操作系統，不支持 Windows 7 / 8 / 8.1。
+- 以上運行庫安裝均需要依賴組件存儲服務（CBS、TrustedInstaller/TiWorker、WinSxS）。
+  如果組件存儲服務被破壞，將不能正常安裝。
+
+我們無法提供除重裝系統以外的修復建議，請避免使用未標明精簡項及精簡風險的“精簡版”系統，或者萬年前的舊版系統。
+
+#### Windows N/KN
+
+對於 Windows N/KN（歐洲/韓國），還需安裝[媒體功能包](https://support.microsoft.com/zh-tw/topic/c1c6fffa-d052-8338-7a79-a4bb980a700a)。
+
+#### Windows 7
+
+.NET 8 不支持 Windows 7 / 8 / 8.1 系統<sup>[源](https://github.com/dotnet/core/issues/7556)</sup>，所以 MAA 也同樣不再支持。最後一個可用的 .NET 8 版本為 [`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7)；最後一個可用的 .NET 4.8 版本為 [`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8)。尚未確定自行編譯的可行性。
+
+對於 Windows 7，在安裝上文提到的兩個運行庫之前，還需檢查以下補丁是否已安裝：
 
   1. [Windows 7 Service Pack 1](https://support.microsoft.com/zh-cn/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
   2. SHA-2 代碼簽名修補程式：
@@ -35,17 +60,13 @@ icon: ph:question-fill
      - KB4490628：[下載連結 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)、[下載連結 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
   3. Platform Update for Windows 7（DXGI 1.2、Direct3D 11.1，KB2670838）：[下載連結 1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)、[下載連結 2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
 
-#### 官方整合檔案（確信）
+##### .NET 8 應用在 Windows 7 上運行異常的緩解措施 [#8238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8238)
 
-- 安裝 [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/zh-hant/visual-cpp-build-tools/) 進行完整的開發環境配置（僅需要安裝 .NET 及 C++ 開發環境）。
+在 Windows 7 上運行 .NET 8 應用時，會出現內存佔用異常的問題，請參閱下文實施緩解措施。Windows 8/8.1 未經測試，若存在相同問題，請順手發個 Issue 提醒我們補充文檔。
 
-- **請注意，此項操作將會耗費 10GB 左右的硬碟空間，請務必在排查完其他可能性後使用。**
-
-### 可能性 3 : 系統組件問題
-
-- 以上執行庫安裝均需要依賴組件儲存服務（CBS、TrustedInstaller/TiWorker、WinSxS）。如果組件儲存服務被破壞，將不能正常安裝。
-
-- 我們無法提供重裝系統以外的修復建議，請避免使用所謂的 “精簡版” 系統。
+1. 打開 `計算機`，右鍵空白處，點擊屬性，點擊左側 `高級系統設置`，點擊 `環境變量`。
+2. 新建一個系統變量，變量名 `DOTNET_EnableWriteXorExecute`，變量值 `0`。
+3. 重啟電腦。
 
 ## 連接錯誤
 

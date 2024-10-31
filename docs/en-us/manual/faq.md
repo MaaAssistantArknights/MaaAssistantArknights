@@ -5,13 +5,23 @@ icon: ph:question-fill
 
 # FAQs
 
-::: warning
-MAA has been updated to .NET 8 in version 5.0. For end users, the impact is as follows:
+If this is your first time using MAA, please read [Getting Started](./newbie.md).
 
-1. MAA now requires the .NET 8 runtime library, which will automatically prompt the user to install it when starting. If the installation fails, please read the following and download the installation package to install manually.
-2. MAA will no longer be falsely reported by Windows Defender.
-3. .NET 8 does not support Windows 7/8/8.1<sup>[Src](https://github.com/dotnet/core/issues/7556)</sup>, so MAA is also no longer supported. The last available .NET 8 version is [`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7); the last available .NET 4.8 version is [`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8). The feasibility of self-compilation has not yet been determined.
-4. When running .NET 8 applications on Windows 7, an abnormal memory usage problem will occur. Please refer to the Windows 7 section below to implement mitigation measures. Windows 8/8.1 has not been tested. If you have the same problem, please send an Issue to remind us to supplement the documentation.
+::: warning
+
+If you came here from the MAA error window, it is most likely due to not updating the runtime libraries.  
+The most common issues are runtime library problems, and people often miss the documentation and ask around, so we pinned this message. It's frustrating.
+
+If MAA fails to run after an update, it is likely due to the runtime library version. You need to update the following two runtime libraries.  
+Please run the following command in the terminal, or manually download and install <u>**both**</u> runtime libraries.
+
+```sh
+winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
+```
+
+- [Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe)
+- [.NET Desktop Runtime 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=Binaries-,Windows,-x64)
+
 :::
 
 ## The program crashes immediately when I try to run it
@@ -19,49 +29,44 @@ MAA has been updated to .NET 8 in version 5.0. For end users, the impact is as f
 ### Incomplete file downloaded
 
 - If you don't have a complete package of this software already, please DO NOT download the zip files marked with `OTA` in the file name, which are for incremental updates and shall not be used alone. In most cases, Windows users should download `MAA-vX.X.X-win-x64.zip`.
-- In most cases, you need x64 operating system and x64 variant of MAA, i.e. `MAA-*-win-x64.zip`. There is no support for 32-bit (x86) operating systems.
+  In most cases, you need x64 operating system and x64 variant of MAA, i.e. `MAA-*-win-x64.zip`. There is no support for 32-bit (x86) operating systems.
 - If the application does not run properly after an automatic update, it may be due to some bugs within the auto-updater. Please try reinstalling the application and migrating `config` directory from the old install to the new install.
 
 ### Missing runtime libraries
 
-Only official sources are listed here. We can't guarantee whether some random third-party all-in-one pack can work.
+Find the upward ↑ arrow at the bottom right corner of the webpage and click it.
 
-- Please try installing [Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe) and [.NET Desktop Runtime 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=Binaries-,Windows,-x64), then restart computer.
-  Windows 10 or 11 users can also install using Winget by running the following command in the terminal.
+### System Issues
 
-  ```sh
-  winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
-  ```
+- MAA does not support 32-bit operating systems and does not support Windows 7 / 8 / 8.1.
+- The above runtime installations all require the Component Store Service (CBS, TrustedInstaller/TiWorker, WinSxS).
+  If the Component Store Service is damaged, it cannot be installed properly.
 
-- If MAA cannot run after an update, it may be caused by the runtime too. You can also try to install or update the runtime again.
+We cannot provide repair suggestions other than reinstalling the system, so please avoid using "slimmed-down" systems that do not specify slimming items and slimming risks, or very old versions of systems.
 
-#### Notes on Windows N/KN
+#### Windows N/KN
 
-- If you are using Windows 8/8.1/10/11 N/KN (Europe/Korea)editions, you also need [Media Feature Pack](https://support.microsoft.com/en-us/topic/c1c6fffa-d052-8338-7a79-a4bb980a700a)。
+For Windows N/KN (Europe/Korea), you also need to install the [Media Feature Pack](https://support.microsoft.com/en-us/topic/c1c6fffa-d052-8338-7a79-a4bb980a700a).
 
 #### Notes on Windows 7
 
-- If you are using Windows 7, you need to check the following updates before installing runtime libraries：
+.NET 8 does not support Windows 7 / 8 / 8.1 systems<sup>[source](https://github.com/dotnet/core/issues/7556)</sup>, so MAA also no longer supports them. The last available .NET 8 version is [`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7); the last available .NET 4.8 version is [`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8). The feasibility of self-compilation has not yet been determined.
 
-  1. [Windows 7 Service Pack 1](https://support.microsoft.com/en-us/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
-  2. SHA-2 code-signing update：
-     - KB4474419：[link 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu), [link 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
-     - KB4490628：[link 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu), [link 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
-  3. Platform Update for Windows 7 (DXGI 1.2 & Direct3D 11.1, KB2670838)：[link 1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu), [link 2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
+For Windows 7, before installing the two runtime libraries mentioned above, you also need to check if the following patches are installed:
 
-##### Mitigation measures for .NET 8 applications running abnormally on Windows 7 [#8238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8238)
+1. [Windows 7 Service Pack 1](https://support.microsoft.com/en-us/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
+2. SHA-2 code-signing update：
+    - KB4474419：[link 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu), [link 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
+    - KB4490628：[link 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu), [link 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
+3. Platform Update for Windows 7 (DXGI 1.2 & Direct3D 11.1, KB2670838)：[link 1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu), [link 2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
 
-1. Open `Computer`, right-click a blank space, click Properties, click `Advanced System Settings` on the left, and click `Environment Variables`.
-2. Create a new system variable with variable name `DOTNET_EnableWriteXorExecute` and variable value `0`.
+##### .NET 8 applications running on Windows 7 mitigation measures [#8238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8238)
+
+When running .NET 8 applications on Windows 7, there is an issue with abnormal memory usage. Please refer to the following mitigation measures. Windows 8/8.1 has not been tested. If the same issue exists, please kindly submit an issue to remind us to update the documentation.
+
+1. Open `Computer`, right-click on the blank space, click Properties, click `Advanced system settings` on the left, and click `Environment Variables`.
+2. Create a new system variable, variable name `DOTNET_EnableWriteXorExecute`, variable value `0`.
 3. Restart the computer.
-
-We cannot guarantee compatibility of future versions with Windows 7, ~~it's all Microsoft's fault~~.
-
-### System broken
-
-- Installation of runtime libraries above requires the Component-Based Servicing (CBS) infrastructure (i.e. TrustedInstaller/TiWorker, WinSxS). Installation may fail if CBS is broken.
-
-- We have no suggestion other than reinstalling Windows. Please avoid using so-called "lite" editions, or some old versions of Windows from thousands of years ago (e.g. 1809).
 
 ## Connection Error
 
