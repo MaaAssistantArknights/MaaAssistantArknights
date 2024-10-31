@@ -16,7 +16,8 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::load_params([[maybe_unused]] 
         return false;
     }
 
-    return true;
+    auto opt = params.find<int>("difficulty");
+    return opt && *opt != -1;
 }
 
 bool asst::RoguelikeDifficultySelectionTaskPlugin::verify(AsstMsg msg, const json::value& details) const
