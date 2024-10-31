@@ -941,6 +941,14 @@
     "RecruitingActivitiesRecruitEnd": {
         "text": ["Headhunt x1", "Headhunt"]
     },
+    "SpecialAccessActivities": {
+        "doc_preDelay": "Sometimes a loading will appear after entering the home.",
+        "preDelay": 500,
+        "text": ["Exclusive", "Event"]
+    },
+    "SpecialAccessActivitiesConfirm": {
+        "text": ["CLAIM", "NOW"]
+    },
     "NoFriends": {
         "text": ["No friends"]
     },

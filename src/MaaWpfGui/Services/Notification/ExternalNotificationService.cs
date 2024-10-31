@@ -57,10 +57,9 @@ namespace MaaWpfGui.Services.Notification
                     return;
                 }
 
-                using var toast = new ToastNotification(
+                ToastNotification.ShowDirect(
                     enabledProvider + " " +
                     LocalizationHelper.GetString(result ? "ExternalNotificationSendSuccess" : "ExternalNotificationSendFail"));
-                toast.Show();
             }
         }
 

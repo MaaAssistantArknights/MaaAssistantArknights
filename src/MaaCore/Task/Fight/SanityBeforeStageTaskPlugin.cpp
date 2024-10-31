@@ -60,7 +60,8 @@ bool asst::SanityBeforeStageTaskPlugin::get_sanity_before_stage()
         }
 
         Log.info(__FUNCTION__, "Current Sanity:", sanity_cur, ", Max Sanity:", sanity_max);
-        if (sanity_cur < 0 || sanity_max > 135 || sanity_max < 82 /* 一级博士上限为82 */) [[unlikely]] {
+        if (sanity_cur < 0 || sanity_max > 180 || sanity_max < 82) [[unlikely]] {
+            // 理智上限[82,135] 2024.11.01 上限增加45点 [127, 180]
             Log.warn(__FUNCTION__, "Sanity out of limit");
             break;
         }

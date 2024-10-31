@@ -211,6 +211,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void InitRoguelike()
         {
+            UpdateRoguelikeDifficultyList();
             UpdateRoguelikeModeList();
             UpdateRoguelikeSquadList();
             UpdateRoguelikeCoreCharList();
@@ -872,17 +873,17 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _startEmulator = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.StartEmulator, bool.FalseString));
+        private bool _openEmulatorAfterLaunch = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.StartEmulator, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to start emulator.
         /// </summary>
-        public bool StartEmulator
+        public bool OpenEmulatorAfterLaunch
         {
-            get => _startEmulator;
+            get => _openEmulatorAfterLaunch;
             set
             {
-                SetAndNotify(ref _startEmulator, value);
+                SetAndNotify(ref _openEmulatorAfterLaunch, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.StartEmulator, value.ToString());
                 if (ClientType == string.Empty && _runningState.GetIdle())
                 {
@@ -1087,8 +1088,8 @@ namespace MaaWpfGui.ViewModels.UI
 
             Func<bool> func = str switch
             {
-                "StartsWithScript" => RunStartCommand,
-                "EndsWithScript" => RunEndCommand,
+                "StartsWithScript" => () => ExecuteScript(StartsWithScript),
+                "EndsWithScript" => () => ExecuteScript(EndsWithScript),
                 _ => () => false,
             };
 
@@ -1113,7 +1114,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool RunStartCommand()
+        private static bool ExecuteScript(string scriptPath)
         {
             try
             {
@@ -1121,12 +1122,9 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     StartInfo = new ProcessStartInfo
                     {
-                        FileName = StartsWithScript,
+                        FileName = scriptPath,
                         WindowStyle = ProcessWindowStyle.Minimized,
                         UseShellExecute = true,
-
-                        // FileName = "cmd.exe",
-                        // Arguments = $"/c {StartsWithScript}",
                     },
                 };
                 process.Start();
@@ -1139,41 +1137,122 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool RunEndCommand()
+        private (string FileName, string Arguments) ResolveShortcut(string path)
         {
-            try
-            {
-                var process = new Process
-                {
-                    StartInfo = new ProcessStartInfo
-                    {
-                        FileName = EndsWithScript,
-                        WindowStyle = ProcessWindowStyle.Minimized,
-                        UseShellExecute = true,
+            string fileName = string.Empty;
+            string arguments = string.Empty;
 
-                        // FileName = "cmd.exe",
-                        // Arguments = $"/c {EndsWithScript}",
-                    },
-                };
-                process.Start();
-                process.WaitForExit();
-                return true;
-            }
-            catch (Exception)
+            if (Path.GetExtension(path).Equals(".lnk", StringComparison.CurrentCultureIgnoreCase))
             {
-                return false;
+                var link = (IShellLink)new ShellLink();
+                var file = (IPersistFile)link;
+                file.Load(path, 0); // STGM_READ
+                link.Resolve(IntPtr.Zero, 1); // SLR_NO_UI
+                var buf = new char[32768];
+                unsafe
+                {
+                    fixed (char* ptr = buf)
+                    {
+                        link.GetPath(ptr, 260, IntPtr.Zero, 0); // MAX_PATH
+                        var len = Array.IndexOf(buf, '\0');
+                        if (len != -1)
+                        {
+                            fileName = new string(buf, 0, len);
+                        }
+
+                        link.GetArguments(ptr, 32768);
+                        len = Array.IndexOf(buf, '\0');
+                        if (len != -1)
+                        {
+                            arguments = new string(buf, 0, len);
+                        }
+                    }
+                }
             }
+            else
+            {
+                fileName = path;
+                arguments = EmulatorAddCommand;
+            }
+
+            return (fileName, arguments);
         }
 
-        /// <summary>
-        /// Tries to start the emulator.
-        /// </summary>
-        /// <param name="manual">Whether to start manually.</param>
+        private void WaitForEmulatorStart(int delay)
+        {
+            bool idle = _runningState.GetIdle();
+            _runningState.SetIdle(false);
+
+            for (var i = 0; i < delay; ++i)
+            {
+                if (Instances.TaskQueueViewModel.Stopping)
+                {
+                    _logger.Information("Stop waiting for the emulator to start");
+                    return;
+                }
+
+                if (i % 10 == 0)
+                {
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("WaitForEmulator") + ": " + (delay - i) + "s");
+                    _logger.Information("Waiting for the emulator to start: " + (delay - i) + "s");
+                }
+
+                Thread.Sleep(1000);
+            }
+
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("WaitForEmulatorFinish"));
+            _logger.Information("The wait is over");
+
+            _runningState.SetIdle(idle);
+        }
+
+        private static void MinimizeEmulator(Process process)
+        {
+            _logger.Information("Try minimizing the emulator");
+            int attempts;
+            IntPtr hWnd = IntPtr.Zero;
+            int elapsed = 0;
+            const int Interval = 100; // 轮询间隔时间（毫秒）
+
+            while (hWnd == IntPtr.Zero && elapsed < 100000)
+            {
+                hWnd = process.MainWindowHandle;
+                if (hWnd != IntPtr.Zero)
+                {
+                    break;
+                }
+
+                Thread.Sleep(Interval);
+                elapsed += Interval;
+            }
+
+            if (hWnd == IntPtr.Zero)
+            {
+                throw new Exception("Failed to get the emulator window handle.");
+            }
+
+            for (attempts = 0; !IsIconic(hWnd) && attempts < 100; ++attempts)
+            {
+                ShowWindow(0xD9A0E8E, SWMINIMIZE);
+                Thread.Sleep(10);
+                if (process.HasExited)
+                {
+                    throw new Exception("Emulator process has exited.");
+                }
+            }
+
+            if (attempts < 1000)
+            {
+                return;
+            }
+
+            _logger.Information("Attempts to exceed the limit");
+            throw new Exception("Failed to minimize emulator within the limit.");
+        }
+
         public void TryToStartEmulator(bool manual = false)
         {
-            if (EmulatorPath.Length == 0
-                || !File.Exists(EmulatorPath)
-                || (!StartEmulator && !manual))
+            if (EmulatorPath.Length == 0 || !File.Exists(EmulatorPath) || (!OpenEmulatorAfterLaunch && !manual))
             {
                 return;
             }
@@ -1185,51 +1264,13 @@ namespace MaaWpfGui.ViewModels.UI
 
             try
             {
-                string fileName = string.Empty;
-                string arguments = string.Empty;
-
-                if (Path.GetExtension(EmulatorPath).Equals(".lnk", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    // ReSharper disable once SuspiciousTypeConversion.Global
-                    var link = (IShellLink)new ShellLink();
-
-                    // ReSharper disable once SuspiciousTypeConversion.Global
-                    var file = (IPersistFile)link;
-                    file.Load(EmulatorPath, 0); // STGM_READ
-                    link.Resolve(IntPtr.Zero, 1); // SLR_NO_UI
-                    var buf = new char[32768];
-                    unsafe
-                    {
-                        fixed (char* ptr = buf)
-                        {
-                            link.GetPath(ptr, 260, IntPtr.Zero, 0); // MAX_PATH
-                            var len = Array.IndexOf(buf, '\0');
-                            if (len != -1)
-                            {
-                                fileName = new string(buf, 0, len);
-                            }
-
-                            link.GetArguments(ptr, 32768);
-                            len = Array.IndexOf(buf, '\0');
-                            if (len != -1)
-                            {
-                                arguments = new string(buf, 0, len);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    fileName = EmulatorPath;
-                    arguments = EmulatorAddCommand;
-                }
-
-                var startInfo = arguments.Length != 0 ? new ProcessStartInfo(fileName, arguments) : new ProcessStartInfo(fileName);
-
-                startInfo.UseShellExecute = false;
+                var (fileName, arguments) = ResolveShortcut(EmulatorPath);
                 Process process = new Process
                 {
-                    StartInfo = startInfo,
+                    StartInfo = new ProcessStartInfo(fileName, arguments)
+                    {
+                        UseShellExecute = false,
+                    },
                 };
 
                 _logger.Information("Try to start emulator: \nfileName: " + fileName + "\narguments: " + arguments);
@@ -1237,58 +1278,15 @@ namespace MaaWpfGui.ViewModels.UI
 
                 try
                 {
-                    // 如果之前就启动了模拟器，这一步有几率会抛出异常
                     process.WaitForInputIdle();
                     if (MinimizingStartup)
                     {
-                        _logger.Information("Try minimizing the emulator");
-                        int i;
-                        for (i = 0; !IsIconic(process.MainWindowHandle) && i < 100; ++i)
-                        {
-                            ShowWindow(process.MainWindowHandle, SWMINIMIZE);
-                            Thread.Sleep(10);
-                            if (process.HasExited)
-                            {
-                                throw new Exception();
-                            }
-                        }
-
-                        if (i >= 100)
-                        {
-                            _logger.Information("Attempts to exceed the limit");
-                            throw new Exception();
-                        }
+                        MinimizeEmulator(process);
                     }
                 }
                 catch (Exception)
                 {
-                    _logger.Information("The emulator was already start");
-
-                    // 如果之前就启动了模拟器，如果开启了最小化启动，就把所有模拟器最小化
-                    // TODO:只最小化需要开启的模拟器
-                    string processName = Path.GetFileNameWithoutExtension(fileName);
-                    Process[] processes = Process.GetProcessesByName(processName);
-                    if (processes.Length > 0)
-                    {
-                        if (MinimizingStartup)
-                        {
-                            _logger.Information("Try minimizing the emulator by processName: " + processName);
-                            foreach (Process p in processes)
-                            {
-                                int i;
-                                for (i = 0; !IsIconic(p.MainWindowHandle) && !p.HasExited && i < 100; ++i)
-                                {
-                                    ShowWindow(p.MainWindowHandle, SWMINIMIZE);
-                                    Thread.Sleep(10);
-                                }
-
-                                if (i >= 100)
-                                {
-                                    _logger.Warning("The emulator minimization failure");
-                                }
-                            }
-                        }
-                    }
+                    _logger.Warning("Failed to minimize the emulator");
                 }
             }
             catch (Exception)
@@ -1321,36 +1319,12 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         _logger.Warning("Emulator start failed with error: " + e.Message);
                     }
-                }
-            }
 
-            // 储存按钮状态，以便后续重置
-            bool idle = _runningState.GetIdle();
-
-            // 让按钮变成停止按钮，可手动停止等待
-            _runningState.SetIdle(false);
-            for (var i = 0; i < delay; ++i)
-            {
-                if (Instances.TaskQueueViewModel.Stopping)
-                {
-                    _logger.Information("Stop waiting for the emulator to start");
                     return;
                 }
-
-                if (i % 10 == 0)
-                {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("WaitForEmulator") + ": " + (delay - i) + "s");
-                    _logger.Information("Waiting for the emulator to start: " + (delay - i) + "s");
-                }
-
-                Thread.Sleep(1000);
             }
 
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("WaitForEmulatorFinish"));
-            _logger.Information("The wait is over");
-
-            // 重置按钮状态，不影响后续判断
-            _runningState.SetIdle(idle);
+            WaitForEmulatorStart(delay);
         }
 
         /// <summary>
@@ -1507,7 +1481,7 @@ namespace MaaWpfGui.ViewModels.UI
                 ResourceVersion = _resourceInfo.VersionName;
                 ResourceDateTime = _resourceInfo.DateTime;
                 UpdateWindowTitle(); // 每次修改客户端时更新WindowTitle
-                Instances.TaskQueueViewModel.UpdateStageList(true);
+                Instances.TaskQueueViewModel.UpdateStageList();
                 Instances.TaskQueueViewModel.UpdateDatePrompt();
                 Instances.AsstProxy.LoadResource();
                 AskRestartToApplySettings(_clientType is "YoStarEN");
@@ -1977,6 +1951,21 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region 肉鸽设置
 
+        private void UpdateRoguelikeDifficultyList()
+        {
+            RoguelikeDifficultyList = [
+                new CombinedData { Display = "MAX", Value = int.MaxValue.ToString() }
+            ];
+
+            for (int i = 20; i >= 0; --i)
+            {
+                var value = i.ToString();
+                RoguelikeDifficultyList.Add(new CombinedData { Display = value, Value = value });
+            }
+
+            RoguelikeDifficultyList.Add(new CombinedData { Display = "Current", Value = (-1).ToString() });
+        }
+
         private void UpdateRoguelikeModeList()
         {
             var roguelikeMode = RoguelikeMode;
@@ -2064,6 +2053,9 @@ namespace MaaWpfGui.ViewModels.UI
                         new() { Display = LocalizationHelper.GetString("IS4NewSquad2"), Value = "博闻广记分队" },
                         new() { Display = LocalizationHelper.GetString("IS4NewSquad3"), Value = "蓝图测绘分队" },
                         new() { Display = LocalizationHelper.GetString("IS4NewSquad4"), Value = "因地制宜分队" },
+                        new() { Display = LocalizationHelper.GetString("IS4NewSquad5"), Value = "异想天开分队" },
+                        new() { Display = LocalizationHelper.GetString("IS4NewSquad6"), Value = "点刺成锭分队" },
+                        new() { Display = LocalizationHelper.GetString("IS4NewSquad7"), Value = "拟态学者分队" },
                     })
                     {
                         RoguelikeSquadList.Add(item);
@@ -2152,6 +2144,14 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = LocalizationHelper.GetString("RoguelikeThemeSarkaz"), Value = "Sarkaz" },
             ];
 
+        private ObservableCollection<CombinedData> _roguelikeDifficultyList = new();
+
+        public ObservableCollection<CombinedData> RoguelikeDifficultyList
+        {
+            get => _roguelikeDifficultyList;
+            set => SetAndNotify(ref _roguelikeDifficultyList, value);
+        }
+
         private ObservableCollection<CombinedData> _roguelikeModeList = new();
 
         /// <summary>
@@ -2202,6 +2202,18 @@ namespace MaaWpfGui.ViewModels.UI
                 UpdateRoguelikeSquadList();
                 UpdateRoguelikeCoreCharList();
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeTheme, value);
+            }
+        }
+
+        private string _roguelikeDifficulty = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDifficulty, int.MaxValue.ToString());
+
+        public string RoguelikeDifficulty
+        {
+            get => _roguelikeDifficulty;
+            set
+            {
+                SetAndNotify(ref _roguelikeDifficulty, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDifficulty, value);
             }
         }
 
@@ -2417,6 +2429,22 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _roguelike3NewSquad2StartingFoldartals, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartals, value);
+            }
+        }
+
+        private string _roguelikeExpectedCollapsalParadigms = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeExpectedCollapsalParadigms, string.Empty);
+
+        /// <summary>
+        /// Gets or sets the expected collapsal paradigms.
+        /// 需要刷的坍缩列表，分号分隔
+        /// </summary>
+        public string RoguelikeExpectedCollapsalParadigms
+        {
+            get => _roguelikeExpectedCollapsalParadigms;
+            set
+            {
+                SetAndNotify(ref _roguelikeExpectedCollapsalParadigms, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeExpectedCollapsalParadigms, value);
             }
         }
 
@@ -3367,7 +3395,7 @@ namespace MaaWpfGui.ViewModels.UI
                     UseAlternateStage = false;
                 }
 
-                Instances.TaskQueueViewModel.UpdateStageList(true);
+                Instances.TaskQueueViewModel.UpdateStageList();
             }
         }
 
@@ -3954,11 +3982,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (toastMessage != string.Empty)
             {
-                _ = Execute.OnUIThreadAsync(() =>
-                {
-                    using var toast = new ToastNotification(toastMessage);
-                    toast.Show();
-                });
+                ToastNotification.ShowDirect(toastMessage);
             }
         }
 
@@ -4278,6 +4302,50 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
+            private bool _mumuBridgeConnection = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MumuBridgeConnection, bool.FalseString));
+
+            public bool MuMuBridgeConnection
+            {
+                get => _mumuBridgeConnection;
+                set
+                {
+                    if (_mumuBridgeConnection == value)
+                    {
+                        return;
+                    }
+
+                    if (value)
+                    {
+                        var result = MessageBoxHelper.Show(LocalizationHelper.GetString("MuMuBridgeConnectionTip"), icon: MessageBoxImage.Information, buttons: MessageBoxButton.OKCancel);
+                        if (result != MessageBoxResult.OK)
+                        {
+                            return;
+                        }
+                    }
+
+                    SetAndNotify(ref _mumuBridgeConnection, value);
+
+                    Instances.AsstProxy.Connected = false;
+                    ConfigurationHelper.SetValue(ConfigurationKeys.MumuBridgeConnection, value.ToString());
+                }
+            }
+
+            private string _index = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12Index, "0");
+
+            /// <summary>
+            /// Gets or sets the index of the emulator.
+            /// </summary>
+            public string Index
+            {
+                get => _index;
+                set
+                {
+                    Instances.AsstProxy.Connected = false;
+                    SetAndNotify(ref _index, value);
+                    ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12Index, value);
+                }
+            }
+
             public string Config
             {
                 get
@@ -4290,8 +4358,13 @@ namespace MaaWpfGui.ViewModels.UI
                     var configObject = new JObject
                     {
                         ["path"] = EmulatorPath,
-                        ["client_type"] = Instances.SettingsViewModel.ClientType,
                     };
+
+                    if (MuMuBridgeConnection)
+                    {
+                        configObject["index"] = int.TryParse(Index, out var indexParse) ? indexParse : 0;
+                    }
+
                     return JsonConvert.SerializeObject(configObject);
                 }
             }
@@ -4633,7 +4706,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 case > 1:
                     {
-                        foreach (var address in addresses.Where(address => address != "emulator-5554"))
+                        foreach (var address in addresses.Where(address => address != "emulator-5554" && address != "1234567890ABCDEF"))
                         {
                             ConnectAddress = address;
                             break;
@@ -4899,11 +4972,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             if (string.IsNullOrEmpty(AdbPath))
             {
-                _ = Execute.OnUIThreadAsync(() =>
-                {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("NoAdbPathSpecifiedMessage"));
-                    toast.Show();
-                });
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("NoAdbPathSpecifiedMessage"));
                 return;
             }
 
@@ -4918,11 +4987,8 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (!downloadResult)
                 {
-                    _ = Execute.OnUIThreadAsync(() =>
-                    {
-                        using var toast = new ToastNotification(LocalizationHelper.GetString("AdbDownloadFailedTitle"));
-                        toast.AppendContentText(LocalizationHelper.GetString("AdbDownloadFailedDesc")).Show();
-                    });
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("AdbDownloadFailedTitle"));
+                    toast.AppendContentText(LocalizationHelper.GetString("AdbDownloadFailedDesc")).Show();
                     return;
                 }
             }
@@ -4940,11 +5006,7 @@ namespace MaaWpfGui.ViewModels.UI
             catch (Exception ex)
             {
                 _logger.Error($"An error occurred while deleting directory: {ex.GetType()}: {ex.Message}");
-                _ = Execute.OnUIThreadAsync(() =>
-                {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("AdbDeletionFailedMessage"));
-                    toast.Show();
-                });
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("AdbDeletionFailedMessage"));
                 return;
             }
 
@@ -4955,11 +5017,7 @@ namespace MaaWpfGui.ViewModels.UI
             catch (Exception ex)
             {
                 _logger.Error(ex.ToString());
-                _ = Execute.OnUIThreadAsync(() =>
-                {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("UnzipFailedMessage"));
-                    toast.Show();
-                });
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("UnzipFailedMessage"));
                 return;
             }
 
@@ -4996,21 +5054,14 @@ namespace MaaWpfGui.ViewModels.UI
 
                 ConfigurationHelper.SetValue(ConfigurationKeys.AdbReplaced, bool.TrueString);
 
-                _ = Execute.OnUIThreadAsync(() =>
-                {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("SuccessfullyReplacedAdb"));
-                    toast.Show();
-                });
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("SuccessfullyReplacedAdb"));
             }
             else
             {
                 AdbPath = NewAdb;
 
-                _ = Execute.OnUIThreadAsync(() =>
-                {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocal"));
-                    toast.AppendContentText(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocalDesc")).Show();
-                });
+                using var toast = new ToastNotification(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocal"));
+                toast.AppendContentText(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocalDesc")).Show();
             }
         }
 
@@ -5137,11 +5188,7 @@ namespace MaaWpfGui.ViewModels.UI
                 NotifyOfPropertyChange();
                 if (value)
                 {
-                    Execute.OnUIThreadAsync(() =>
-                    {
-                        using var toast = new ToastNotification("Test test");
-                        toast.Show();
-                    });
+                    ToastNotification.ShowDirect("Test test");
                 }
             }
         }

@@ -134,6 +134,8 @@
     <system:String x:Key="Roguelike3FirstFloorFoldartal">1층 암호판 획득 반복(전투 X)</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">생존지상 분대 목표 암호판 설정</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">최대 3개까지 지원하며「;」로 구분합니다</system:String>
+    <system:String x:Key="RoguelikeCollapseList">붕괴 패러다임 목록</system:String>
+    <system:String x:Key="RoguelikeCollapseListTip">영어 세미콜론 「;」으로 구분, 비워 두면 기본 목록이 사용됩니다.</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">시작 오퍼레이터로 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">친구가 아니어도 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">중지 시 전투 클리어 후 작업 종료</system:String>
@@ -153,6 +155,9 @@
     <system:String x:Key="IS4NewSquad2">박학다식 분대 (博闻广记分队)</system:String>
     <system:String x:Key="IS4NewSquad3">설계도 제작 분대 (蓝图测绘分队)</system:String>
     <system:String x:Key="IS4NewSquad4">인지제의 분대 (因地制宜分队)</system:String>
+    <system:String x:Key="IS4NewSquad5">异想天开分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad6">点刺成锭分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad7">拟态学者分队（占位）</system:String>
     <system:String x:Key="LeaderSquad">지휘 분대</system:String>
     <system:String x:Key="GatheringSquad">집합 분대</system:String>
     <system:String x:Key="SupportSquad">지원 분대</system:String>
@@ -187,7 +192,7 @@
     <system:String x:Key="EmulatorNotFound">에뮬레이터를 찾을 수 없습니다.\n관리자 권한으로 실행하거나\n수동으로 연결을 설정해 주세요</system:String>
     <system:String x:Key="EmulatorTooMany">다수의 에뮬레이터가 실행 중입니다.\n사용하지 않는 에뮬레이터를 종료하거나\n수동으로 연결을 설정해 주세요</system:String>
     <system:String x:Key="EmulatorStartFailed">에뮬레이터를 시작하지 못했습니다.\n사용하지 않는 에뮬레이터를 종료하거나\n또는 에뮬레이터를 수동으로 시작하세요.</system:String>
-    <system:String x:Key="SwitchLanguage">언어 전환</system:String>
+    <system:String x:Key="SwitchLanguage">언어 전환 🌐</system:String>
     <system:String x:Key="Language">언어</system:String>
     <system:String x:Key="LanguageChangedTip">언어가 변경되었습니다. 지금 MAA를 재실행하여 새 설정을 적용하시겠습니까?</system:String>
     <system:String x:Key="ManualRestart">나중에</system:String>
@@ -295,6 +300,7 @@
     <system:String x:Key="RoguelikeThemeMizuki">미즈키</system:String>
     <system:String x:Key="RoguelikeThemeSami">사미</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">살카즈</system:String>
+    <system:String x:Key="RoguelikeDifficulty">난이도</system:String>
     <system:String x:Key="Strategy">전략</system:String>
     <system:String x:Key="StartTimesLimit">N번 시작한 후 작업 중지</system:String>
     <system:String x:Key="GoldTimesLimit">N번 투자 후 작업 중지</system:String>
@@ -387,10 +393,12 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe
 라면
 C:\\Program Files\\Netease\\MuMuPlayer-12.0으로 입력해야 합니다.\n
 주의:
-1. 현재까지 (V4.1.0) 에뮬레이터 버전에서는 네트워크 브리지를 활성화한 후 스크린샷 향상 기능을 사용할 수 없습니다.
-2. 연결 주소의 포트 번호가 7555일 경우, 포트 번호를 16384로 변경해야 합니다.
+1. 연결 주소의 포트 번호가 7555일 경우, 포트 번호를 16384로 변경해야 합니다.
+2. 네트워크 브리징을 사용 중인 경우 MuMu 네트워크 브리징 모드를 선택하고 일련 번호를 수동으로 입력해야 합니다.
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 에뮬레이터 경로</system:String>
+    <system:String x:Key="MuMuBridgeConnection">MuMu 네트워크 브리지 모드</system:String>
+    <system:String x:Key="MuMuBridgeConnectionTip">무엇을 하고 있는지 모른다면 이 옵션을 활성화하지 마십시오</system:String>
     <system:String x:Key="MuMu12Index">인스턴스 번호</system:String>
     <system:String x:Key="MuMu12Display">표시 번호</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu의 스크린샷 향상가 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
@@ -516,7 +524,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Pormpt2">일요일입니다. 섬멸 작전을 잊지 마세요~</system:String>
     <!--  !작전 설정  -->
     <!--  로그  -->
-    <system:String x:Key="VersionMismatch">UI 및 Core 버전 불일치: {0} 및 {1}로 인해 문제가 발생할 수 있습니다. 파일을 수동으로 교체하지 마세요</system:String>
+    <system:String x:Key="VersionMismatch">UI와 Core 버전이 일치하지 않습니다: {0} 및 {1}, 예측할 수 없는 동작을 유발할 수 있습니다. 파일을 수동으로 교체하거나 업데이트 중에 파일을 점유하지 마십시오.\n\n전체 패키지를 다운로드하여 현재 폴더의 내용을 덮어쓰십시오.</system:String>
     <system:String x:Key="ConnectingToEmulator">에뮬레이터에 연결 중……</system:String>
     <system:String x:Key="UnselectedTask">선택된 작업이 없습니다</system:String>
     <system:String x:Key="Running">실행 중……</system:String>
@@ -912,6 +920,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationToolToCraftPlaceholder">형광봉 (荧光棒)</system:String>
     <!--  !Reclamation  -->
     <!--  SingleInstance  -->
-    <system:String x:Key="MultiInstanceUnderSamePath">동일한 경로에서 하나의 인스턴스만 시작할 수 있습니다!MAA를 더 열려면 새 MAA를 다른 폴더로 복사하고 다른 MAA, 같은 adb 및 다른 에뮬레이터 주소를 사용하여 다중 열 수 있도록 설정합니다.</system:String>
+    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">
+동일한 경로에서 하나의 인스턴스만 시작할 수 있습니다!
+MAA 를 더 열려면 새 MAA를 다른 폴더로 복사하고 다른 MAA, 같은 adb 및 다른 에뮬레이터 주소를 사용하여 다중 열 수 있도록 설정합니다.
+    </system:String>
     <!--  !SingleInstance  -->
 </ResourceDictionary>

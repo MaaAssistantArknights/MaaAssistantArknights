@@ -53,7 +53,7 @@ namespace MaaWpfGui.Main
         private static ILogger _logger = Logger.None;
 
         private static Mutex _mutex;
-        private static bool hasMutex = false;
+        private static bool _hasMutex;
 
         /// <inheritdoc/>
         /// <remarks>初始化些啥自己加。</remarks>
@@ -91,8 +91,7 @@ namespace MaaWpfGui.Main
 
             // Bootstrap serilog
             var loggerConfiguration = new LoggerConfiguration()
-                .WriteTo.Debug(
-                    outputTemplate: "[{Timestamp:HH:mm:ss}][{Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
+                .WriteTo.Debug(outputTemplate: "[{Timestamp:HH:mm:ss}][{Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
                 .WriteTo.File(
                     LogFilename,
                     outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}][{Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
@@ -164,19 +163,13 @@ namespace MaaWpfGui.Main
             ConfigurationHelper.Load();
             LocalizationHelper.Load();
 
-            // 设置互斥量的名称
-            string mutexName = "MAA_" + Directory.GetCurrentDirectory().Replace("\\", "_").Replace(":", string.Empty);
-            _mutex = new Mutex(true, mutexName);
-
-            if (!_mutex.WaitOne(TimeSpan.Zero, true))
+            if (!HandleMultipleInstances())
             {
-                // 这里还没加载语言包，就不 GetString 了
-                MessageBox.Show(LocalizationHelper.GetString("MultiInstanceUnderSamePath"));
-                Bootstrapper.Shutdown();
+                Shutdown();
                 return;
             }
 
-            hasMutex = true;
+            _hasMutex = true;
 
             ETagCache.Load();
 
@@ -190,6 +183,35 @@ namespace MaaWpfGui.Main
             if (!Directory.Exists("resource"))
             {
                 throw new DirectoryNotFoundException("resource folder not found!");
+            }
+        }
+
+        private static bool HandleMultipleInstances()
+        {
+            // 设置互斥量的名称
+            string mutexName = "MAA_" + Directory.GetCurrentDirectory().Replace("\\", "_").Replace(":", string.Empty);
+            _mutex = new Mutex(true, mutexName, out var isOnlyInstance);
+
+            try
+            {
+                if (isOnlyInstance || _mutex.WaitOne(500))
+                {
+                    return true;
+                }
+
+                MessageBox.Show(LocalizationHelper.GetString("MultiInstanceUnderSamePath"));
+                return false;
+            }
+            catch (AbandonedMutexException)
+            {
+                // 上一个程序没有正常释放互斥量
+                // 即使捕获到这个异常，此时也已经获得了锁
+                return true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(LocalizationHelper.GetString("MultiInstanceUnderSamePath") + e.Message);
+                return false;
             }
         }
 
@@ -261,10 +283,7 @@ namespace MaaWpfGui.Main
                 return;
             }
 
-            ProcessStartInfo startInfo = new ProcessStartInfo
-            {
-                FileName = Environment.ProcessPath,
-            };
+            ProcessStartInfo startInfo = new ProcessStartInfo { FileName = Environment.ProcessPath, };
 
             Process.Start(startInfo);
         }
@@ -282,11 +301,13 @@ namespace MaaWpfGui.Main
             ConfigFactory.Release();
 
             // 释放互斥量
-            if (hasMutex)
+            if (!_hasMutex)
             {
-                _mutex?.ReleaseMutex();
-                _mutex?.Dispose();
+                return;
             }
+
+            _mutex?.ReleaseMutex();
+            _mutex?.Dispose();
         }
 
         private static bool _isRestartingWithoutArgs;

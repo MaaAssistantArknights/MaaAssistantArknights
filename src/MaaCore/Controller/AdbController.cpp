@@ -231,7 +231,13 @@ void asst::AdbController::init_mumu_extras(const AdbCfg& adb_cfg, const std::str
     set_mumu_package(adb_cfg.extras.get("client_type", ""));
 
     std::filesystem::path mumu_path = utils::path(adb_cfg.extras.get("path", ""));
-    m_mumu_extras.init(mumu_path, get_mumu_index(address));
+
+    if (adb_cfg.extras.contains("index")) { // MuMu index is provided directly
+        m_mumu_extras.init(mumu_path, adb_cfg.extras.get("index", 0));
+    }
+    else {
+        m_mumu_extras.init(mumu_path, get_mumu_index(address));
+    }
 #endif
 }
 
@@ -301,8 +307,6 @@ bool asst::AdbController::start_game(const std::string& client_type)
     std::string cur_cmd = utils::string_replace_all(m_adb.start, "[PackageName]", package_name.value());
     bool ret = call_command(cur_cmd).has_value();
 
-    set_mumu_package(client_type);
-
     return ret;
 }
 
@@ -317,8 +321,6 @@ bool asst::AdbController::stop_game(const std::string& client_type)
     }
     std::string cur_cmd = utils::string_replace_all(m_adb.stop, "[PackageName]", package_name.value());
     bool ret = call_command(cur_cmd).has_value();
-
-    set_mumu_package("");
 
     return ret;
 }

@@ -71,6 +71,13 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     LogTraceFunction;
 
     ++m_recruit_count;
+
+    if (m_config->get_theme() == "Sarkaz" && m_config->get_mode() == RoguelikeMode::Investment &&
+        m_config->get_squad() == "点刺成锭分队") {
+        ProcessTask(*this, { "Sarkaz@RoguelikeRecruit-GiveUp" }).run();
+        return true;
+    }
+
     if (m_config->get_mode() == RoguelikeMode::Investment && m_recruit_count > 1 &&
         m_config->get_squad() == "蓝图测绘分队") {
         // 如果是投资模式，直接招募第一个干员
@@ -487,8 +494,6 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
     // 是否凹直升
     bool start_with_elite_two = m_config->get_start_with_elite_two();
     bool only_start_with_elite_two = m_config->get_only_start_with_elite_two();
-    // 当前肉鸽难度
-    int difficulty = m_config->get_difficulty();
 
     for (; i != SwipeTimes; ++i) {
         if (need_exit()) {
@@ -514,15 +519,16 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
             Log.info(__FUNCTION__, "| Oper list:", oper_names);
 
             if (it != chars.cend()) {
-                // 需要凹直升且当前为max难度或者只凹直升时
-                if (start_with_elite_two && (difficulty == INT_MAX || only_start_with_elite_two)) {
+                // !get_run_for_collectible() 即当前没有在烧开水/水已经烧好了
+                // 需要凹直升且，要么已经烧好了水，要么只需要凹直升不需要烧水
+                if (start_with_elite_two && (!m_config->get_run_for_collectible() || only_start_with_elite_two)) {
                     if (it->elite == 2) {
                         m_task_ptr->set_enable(false);
                     }
                     else {
-                        // 非只凹直升时重置难度并放弃
+                        // 非只凹直升时，重新烧水
                         if (!only_start_with_elite_two) {
-                            m_config->set_difficulty(0);
+                            m_config->set_run_for_collectible(true);
                         }
                         m_control_ptr->exit_then_stop();
                     }

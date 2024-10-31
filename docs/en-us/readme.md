@@ -19,8 +19,6 @@ dir:
 ![license](https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights) ![commit](https://img.shields.io/github/commit-activity/m/MaaAssistantArknights/MaaAssistantArknights?color=%23ff69b4)
 ![stars](https://img.shields.io/github/stars/MaaAssistantArknights/MaaAssistantArknights?style=social) ![GitHub all releases](https://img.shields.io/github/downloads/MaaAssistantArknights/MaaAssistantArknights/total?style=social)
 
-[简体中文](../zh-cn/readme.md) | [繁體中文](../zh-tw/readme.md) | English | [日本語](../ja-jp/readme.md) | [한국어](../ko-kr/readme.md)
-
 MAA means MAA Assistant Arknights
 
 An Arknights assistant
@@ -30,6 +28,10 @@ Based on image recognition, helps you to complete daily quests efficiently!
 Development in progress  ✿✿ヽ(°▽°)ノ✿
 
 :::
+
+## Download and Install
+
+Please read the [documentation](./manual/newbie.md) and then go to the [official website](https://maa.plus) or [Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) to download. Refer to [Getting Started](./manual/newbie.md) for installation instructions.
 
 ## Features
 
@@ -69,10 +71,6 @@ Talk is cheap. Show me the pictures!
 }
 ```
 
-## Download
-
-[Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
-
 ## How to Use
 
 ### Basic Settings
@@ -82,19 +80,11 @@ Check [Beginner's Guide](./manual/newbie.md) and [User Manual](./manual/introduc
 For YostarEN, due to interface layout issues, the only supported resolution is `1920x1080`
 :::
 
-## FAQ
+### Features
 
-- The program crashes immediately when I try to run it.
-- Connection error/not knowing how to fill in ADB path.
-- Connected successfully, then it got stuck.
-- Custom connection settings.
-- Download speed is too slow, or the mirror site is not accessible.
-- Download halfway and prompt "login"/"authentication"
-- The connection is fine and the task starts, but nothing happens.
+Please refer to the [User Manual](./manual/).
 
-Check [FAQ](./manual/faq.md).
-
-## Supports for overseas clients
+### Supports for overseas clients
 
 At present, most of the functions of the International client (US client), Japanese client, Korean client, and traditional Chinese client have been supported. However, due to the small number of overseas users and the shortage of project personnel, many functions have not been fully tested, so please experience it yourself.  
 If you encounter a bug or have a strong demand for a certain function, welcome to [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) and [Discussions](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) to ask questions. And feel free to join us in building the MAA! Please refer to [Overseas Clients Adaptation](#overseas-clients-adaptation)

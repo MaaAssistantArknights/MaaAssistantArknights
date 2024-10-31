@@ -47,7 +47,8 @@ private:
     mutable std::string m_zone;                // 当前所在区域
 
     // ———————— 插件配置信息，从 params 中读取  ——————————————————————————————————
-    bool m_double_check_clp_pds = false; // 是否在每次回到地图时验证坍缩范式
+    bool m_double_check_clp_pds = false;                // 是否在每次回到地图时验证坍缩范式
+    std::unordered_set<std::string> m_expected_clp_pds; // 希望刷到的坍缩范式
 
     // ———————— 插件配置信息，从 tasks.json 中读取  ——————————————————————————————
     std::string m_deepen_text;                               // 坍缩范式变动通知中"坍缩范式加深"的文字

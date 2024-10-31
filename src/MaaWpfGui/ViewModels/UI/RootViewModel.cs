@@ -90,6 +90,19 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _windowTitle, value);
         }
 
+        private double _progress;
+
+        /// <summary>
+        /// Gets or sets the progress.
+        /// 0.0 to 1.0.
+        /// 置 0 以隐藏进度条.
+        /// </summary>
+        public double Progress
+        {
+            get => _progress;
+            set => SetAndNotify(ref _progress, value);
+        }
+
         private bool _windowTitleScrollable = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitleScrollable, bool.FalseString));
 
         /// <summary>

@@ -134,6 +134,8 @@
     <system:String x:Key="Roguelike3FirstFloorFoldartal">第一層遠見で指定された啓示板を取得し、戦闘を行わない</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活重視分隊で開始、指定された啓示板を取得する</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最大3つ書き込み、半角セミコロン;で区切る</system:String>
+    <system:String x:Key="RoguelikeCollapseList">崩壊パラダイムリスト</system:String>
+    <system:String x:Key="RoguelikeCollapseListTip">英語のセミコロン「;」で区切る、空白のままにするとデフォルトリストが使用されます。</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「最初のオペレーター」をサポートから選択</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">戦友以外のサポートの使用を許可</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">戦闘終了まえに「停止」を遅らせる</system:String>
@@ -153,6 +155,9 @@
     <system:String x:Key="IS4NewSquad2">博闻广记分队（占位）</system:String>
     <system:String x:Key="IS4NewSquad3">蓝图测绘分队（占位）</system:String>
     <system:String x:Key="IS4NewSquad4">因地制宜分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad5">异想天开分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad6">点刺成锭分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad7">拟态学者分队（占位）</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集団分隊</system:String>
     <system:String x:Key="SupportSquad">支援分隊</system:String>
@@ -187,7 +192,7 @@
     <system:String x:Key="EmulatorNotFound">エミュレータが検出されない\n管理者権限でこのアプリを開くか\n手動で接続設定を行ってください</system:String>
     <system:String x:Key="EmulatorTooMany">複数のシミュレータが検出されたため\n不要なエミュレータを閉じるか\n手動で接続設定を行ってください</system:String>
     <system:String x:Key="EmulatorStartFailed">エミュレータの起動に失敗しました\n管理者権限でこのソフトウェアを開いていただくか\n手動でエミュレータを起動してください。</system:String>
-    <system:String x:Key="SwitchLanguage">言語を切り替える</system:String>
+    <system:String x:Key="SwitchLanguage">言語を切り替える 🌐</system:String>
     <system:String x:Key="Language">言語</system:String>
     <system:String x:Key="LanguageChangedTip">言語設定が変更されました、今すぐMAAを再起動して言語設定を適用しますか？</system:String>
     <system:String x:Key="ManualRestart">後で</system:String>
@@ -295,6 +300,7 @@
     <system:String x:Key="RoguelikeThemeMizuki">ミヅキ</system:String>
     <system:String x:Key="RoguelikeThemeSami">サーミ</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">サルカズ</system:String>
+    <system:String x:Key="RoguelikeDifficulty">難易度</system:String>
     <system:String x:Key="Strategy">ストラテジー</system:String>
     <system:String x:Key="StartTimesLimit">冒険をN回始めた後に停止する</system:String>
     <system:String x:Key="GoldTimesLimit">N回投資した後に停止する</system:String>
@@ -387,10 +393,12 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe
 の場合、
 C:\\Program Files\\Netease\\MuMuPlayer-12.0 を入力してください。\n
 注意：
-1. 現在のところ（V4.1.0）のエミュレーター版では、ネットワークブリッジを有効にした後、スクリーンショットの強化機能を使用できません。
-2. 接続アドレスのポート番号が 7555 の場合、ポート番号を 16384 に変更してください。
+1. 接続アドレスのポート番号が 7555 の場合、ポート番号を 16384 に変更してください。
+2. ネットワークブリッジを使用している場合は、MuMu ネットワークブリッジモードを選択し、シリアル番号を手動で入力する必要があります。
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 エミュレータパス</system:String>
+    <system:String x:Key="MuMuBridgeConnection">MuMu ネットワークブリッジモード</system:String>
+    <system:String x:Key="MuMuBridgeConnectionTip">自分が何をしているのか分かっていない限り、このオプションを有効にしないでください</system:String>
     <system:String x:Key="MuMu12Index">インスタンス番号</system:String>
     <system:String x:Key="MuMu12Display">表示番号</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu スクリーンショットの強化 が有効になっていません。関連する設定を確認してください</system:String>
@@ -516,7 +524,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Pormpt2">日曜です。殲滅作戦は忘れてないですか〜</system:String>
     <!--  !戦闘設定  -->
     <!--  Logs  -->
-    <system:String x:Key="VersionMismatch">UI と Core のバージョンが一致しません: {0} および {1}、予測不可能な動作の原因となる可能性があります。ファイルを手動で置換しないでください。</system:String>
+    <system:String x:Key="VersionMismatch">UI と Core のバージョンが一致しません: {0} と {1}、予測不可能な動作を引き起こす可能性があります。ファイルを手動で置き換えたり、更新中にファイルを占有しないでください。\n\n完全なパッケージをダウンロードして、現在のフォルダーの内容を上書きしてください。</system:String>
     <system:String x:Key="ConnectingToEmulator">エミュレータ接続中……</system:String>
     <system:String x:Key="UnselectedTask">タスクが選択されていません</system:String>
     <system:String x:Key="Running">動作中……</system:String>
@@ -914,6 +922,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationToolToCraftPlaceholder">ケミカルライト</system:String>
     <!--  !Reclamation  -->
     <!--  SingleInstance  -->
-    <system:String x:Key="MultiInstanceUnderSamePath">同じパスの下で起動できるのは1つのインスタンスのみ！MAAを複数開くには、新しいMAAを他のフォルダにコピーし、異なるMAA、同じadb、異なるシミュレータアドレスを使用して複数の操作を行うように設定します。</system:String>
+    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">
+同じパスの下で起動できるのは1つのインスタンスのみ！
+MAA を複数開くには、新しい MAA を他のフォルダにコピーし、異なる MAA、同じ adb、異なるシミュレータアドレスを使用して複数の操作を行うように設定します。
+    </system:String>
     <!--  !SingleInstance  -->
 </ResourceDictionary>

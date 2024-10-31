@@ -20,8 +20,6 @@ dir:
 ![license](https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights) ![commit](https://img.shields.io/github/commit-activity/m/MaaAssistantArknights/MaaAssistantArknights?color=%23ff69b4)
 ![stars](https://img.shields.io/github/stars/MaaAssistantArknights/MaaAssistantArknights?style=social) ![GitHub all releases](https://img.shields.io/github/downloads/MaaAssistantArknights/MaaAssistantArknights/total?style=social)
 
-[简体中文](../zh-cn/readme.md) | [繁體中文](../zh-tw/readme.md) | [English](../en-us/readme.md) | [日本語](../ja-jp/readme.md) | 한국어
-
 MAA는 MAA Assistant Arknights의 약자입니다
 
 명일방주 어시스턴트
@@ -31,6 +29,10 @@ MAA는 MAA Assistant Arknights의 약자입니다
 개발 진행 중입니다  ✿✿ヽ(°▽°)ノ✿
 
 :::
+
+## 다운로드 및 설치
+
+[문서](./manual/newbie.md)를 읽은 후 [공식 웹사이트](https://maa.plus) 또는 [Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)에서 다운로드하십시오. [초보자 가이드](./manual/newbie.md)를 참고하여 설치하십시오.
 
 ## 개요
 
@@ -64,35 +66,11 @@ MAA는 MAA Assistant Arknights의 약자입니다
 }
 ```
 
-## 다운로드
-
-[Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
-
 ## 사용 방법
 
-### 기본 설정
+### 기능 소개
 
-1. [Windows 지원 목록](./manual/device/windows.md) 문서를 참고하여 에뮬레이터/기기를 설정해 주세요.
-2. 에뮬레이터 해상도를 `1280x720` 이상으로 변경하세요. 최대값은 `2K`이고 가로세로 비율은 `16:9`입니다.
-
-::: tip
- YostarKR의 경우 게임 인터페이스 문제로 인해 `1280x720` 또는 `1920x1080` 해상도를 권장합니다.
-:::
-
-1. 어시스턴트 시작!
-
-자세한 내용은 [사용자 설명서](./manual/introduction/)를 참조해 주세요.
-
-### FAQ
-
-- 프로그램이 실행하자마자 곧바로 튕겨요
-- 연결 오류가 발생해요/ADB 경로를 어떻게 작성해야 하는지 모르겠어요
-- 연결은 성공했는데, 그대로 멈춰 버렸어요
-- 연결 설정(포트 등)을 바꾸고 싶어요
-- 다운로드 속도가 너무 느려요/미러 사이트가 접속이 안 돼요
-- 다운로드 도중에 “로그인”이나 “인증”이라는 메시지가 떠요
-
-[FAQ](./manual/faq.md) 문서를 참조해 주세요.
+[사용자 매뉴얼](./manual/)을 참조하십시오.
 
 ### 해외 서버 지원
 

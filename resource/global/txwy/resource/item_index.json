@@ -1623,6 +1623,14 @@
         "sortId": -10000,
         "usage": "用於對遏制單元進行數據迭代。"
     },
+    "act30side_token_box": {
+        "classifyType": "NONE",
+        "description": "“跑跑馱獸”聯動文創盲盒，系列共九款造型各異的馱獸擺件，內含一限量隱藏款。\n特別提示：在全新建成的耶拉岡德像下虔誠祈禱，獲得祝福，抽中隱藏款的機率更高哦！",
+        "icon": "act30side_token_box.png",
+        "name": "馱獸盲盒",
+        "sortId": -10000,
+        "usage": "馱獸盲盒大受歡迎，車內販賣供不應求。現在這批貨來得正是時候，列車乘務員會很樂意用其他商品進行交換。"
+    },
     "act38d1_token_coin": {
         "classifyType": "NONE",
         "description": "純淨無瑕的源石晶體，聖所對此視若珍寶。",

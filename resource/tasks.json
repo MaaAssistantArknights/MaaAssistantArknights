@@ -90,6 +90,7 @@
     "StageTheme": {
         "action": "ClickSelf",
         "roi": [200, 640, 300, 60],
+        "postDelay": 1000,
         "next": ["#next"]
     },
     "ClickChapter": {
@@ -97,6 +98,7 @@
         "action": "ClickSelf",
         "text": [],
         "roi": [142, 43, 250, 150],
+        "postDelay": 1000,
         "next": ["#back", "#self", "Stop"]
     },
     "ClickChapter1": {
@@ -113,11 +115,11 @@
     },
     "ToChapter1": {
         "algorithm": "JustReturn",
-        "next": ["ClickChapter1@ClickChapter2@ClickChapter3", "ClickChapter1@ClickChapter2", "ClickChapter1", "Stop"]
+        "next": ["ClickChapter1@(ToChapter2#next^Stop)", "ClickChapter1", "Stop"]
     },
     "ToChapter2": {
         "algorithm": "JustReturn",
-        "next": ["ClickChapter2@ClickChapter3", "ClickChapter2", "Stop"]
+        "next": ["ClickChapter2@(ToChapter3#next^Stop)", "ClickChapter2", "Stop"]
     },
     "ToChapter3": {
         "algorithm": "JustReturn",
@@ -5135,6 +5137,7 @@
             ["[Oo]", "0"],
             ["[Ii]", "1"],
             ["[Ll]", "1"],
+            ["\\|", "1"],
             ["B", "8"],
             ["十", "+"],
             ["萬", "万"],
@@ -6294,6 +6297,27 @@
         "text": ["选择"],
         "roi": [1064, 294, 216, 170]
     },
+    "Roguelike@ChooseDifficulty_AnalyzeCurrentDifficulty": {
+        "doc": "用于 RoguelikeDifficultySelectionTaskPlugin",
+        "baseTask": "NumberOcrReplace",
+        "roi": [400, 300, 225, 160],
+        "fullMatch": true
+    },
+    "Roguelike@ChooseDifficulty_CheckEasiest": {
+        "doc": "用于 RoguelikeDifficultySelectionTaskPlugin",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [400, 450, 225, 160]
+    },
+    "Roguelike@ChooseDifficulty_Specified": {
+        "doc": "用于 RoguelikeDifficultySelectionTaskPlugin",
+        "baseTask": "NumberOcrReplace",
+        "roi": [400, 450, 225, 160],
+        "fullMatch": true,
+        "action": "ClickSelf",
+        "postDelay": 800,
+        "next": ["#self", "Stop"]
+    },
     "Roguelike@ChooseOper": {
         "Doc": "本任务注册了插件 RoguelikeRecruitTaskPlugin",
         "algorithm": "JustReturn"
@@ -6851,6 +6875,14 @@
         "action": "ClickSelf",
         "roi": [0, 153, 1280, 532],
         "next": ["Roguelike@SquadConfirm"]
+    },
+    "Roguelike@SquadSlowlySwipeToTheRight": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [1160, 310, 100, 100],
+        "rectMove": [0, 310, 100, 100],
+        "specialParams": [200, 1, 3, 0],
+        "postDelay": 200
     },
     "Roguelike@Stage": {
         "Doc": "base_task",
@@ -9414,8 +9446,19 @@
             "Sarkaz@Roguelike@CloseCollectionContinue",
             "Sarkaz@Roguelike@CloseCollectionClose",
             "Sarkaz@Roguelike@ChooseOperConfirm",
+            "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp",
             "Sarkaz@Roguelike@Abandon",
             "Sarkaz@Roguelike@ChooseOperConfirm#next"
+        ]
+    },
+    "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp": {
+        "baseTask": "Sarkaz@Roguelike@StageEncounterGiveUpRecruitConfirm",
+        "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
+        "next": [
+            "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp",
+            "Sarkaz@Roguelike@RecruitOther",
+            "Sarkaz@Roguelike@EnterAfterRecruit",
+            "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText"
         ]
     },
     "Sarkaz@Roguelike@ClickToDrops": {
@@ -9747,14 +9790,30 @@
         ],
         "next": ["Sarkaz@Roguelike@RoutingAction"]
     },
+    "Sarkaz@Roguelike@Routing-CombatOps": {
+        "doc": "点击普通战斗节点",
+        "baseTask": "Sarkaz@Roguelike@StageCombatDps",
+        "template": "Sarkaz@Roguelike@StageCombatDps.png",
+        "next": []
+    },
+    "Sarkaz@Roguelike@Routing-FastInvestment": {
+        "template": ["Sarkaz@Roguelike@StageCombatDps"],
+        "next": ["Sarkaz@Roguelike@RoutingAction"]
+    },
     "Sarkaz@Roguelike@RoutingAction": {
         "algorithm": "JustReturn"
     },
-    "Sarkaz@Roguelike@RoutingActionEncounter": {
+    "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon": {
+        "doc": "用于替换 Sarkaz@Roguelike@RoutingAction 的 BaseTask",
+        "algorithm": "JustReturn",
+        "next": ["Sarkaz@Roguelike@ExitThenAbandon"]
+    },
+    "Sarkaz@Roguelike@RoutingAction-StageEncounterEnter": {
         "algorithm": "JustReturn",
         "next": ["Sarkaz@Roguelike@StageEncounterEnter"]
     },
-    "Sarkaz@Roguelike@RoutingActionRogueTrader": {
+    "Sarkaz@Roguelike@RoutingAction-StageTraderEnter": {
+        "doc": "用于替换 Sarkaz@Roguelike@RoutingAction 的 BaseTask",
         "algorithm": "JustReturn",
         "next": ["Sarkaz@Roguelike@StageTraderEnter"]
     },
@@ -9892,6 +9951,22 @@
             ]
         ],
         "next": ["Sarkaz@Roguelike@StageBoskyPassageEnter", "Sarkaz@Roguelike@StageEncounterJudgeClick"]
+    },
+    "Sarkaz@Roguelike@StageBurdenOperation": {
+        "doc": "#next 放入 Sarkaz@Roguelike@Stages 系列任务中，通过 set_task_base 启用/禁用 <思维负荷干员编队功能>",
+        "baseTask": "Sarkaz@Roguelike@StageBurdenOperation-Start"
+    },
+    "Sarkaz@Roguelike@StageBurdenOperation-None": {
+        "algorithm": "JustReturn",
+        "next": []
+    },
+    "Sarkaz@Roguelike@StageBurdenOperation-Start": {
+        "algorithm": "JustReturn",
+        "next": [
+            "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart",
+            "Sarkaz@Roguelike@DecreaseBurdenChaos",
+            "Sarkaz@Roguelike@DecreaseBurdenRetardation"
+        ]
     },
     "Sarkaz@Roguelike@StageCanDeepen": {
         "baseTask": "Sarkaz@Roguelike@StageCanReconstruct",
@@ -10295,9 +10370,7 @@
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@CloseCollectionContinue",
             "Sarkaz@Roguelike@CloseCollectionClose",
-            "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart",
-            "Sarkaz@Roguelike@DecreaseBurdenChaos",
-            "Sarkaz@Roguelike@DecreaseBurdenRetardation",
+            "Sarkaz@Roguelike@StageBurdenOperation#next",
             "Sarkaz@Roguelike@StageBoskyPassage",
             "Sarkaz@Roguelike@StageEmergencyDps",
             "Sarkaz@Roguelike@StageCombatDps",
@@ -10328,9 +10401,7 @@
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@CloseCollectionContinue",
             "Sarkaz@Roguelike@CloseCollectionClose",
-            "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart",
-            "Sarkaz@Roguelike@DecreaseBurdenChaos",
-            "Sarkaz@Roguelike@DecreaseBurdenRetardation",
+            "Sarkaz@Roguelike@StageBurdenOperation#next",
             "Sarkaz@Roguelike@StageBoskyPassage",
             "Sarkaz@Roguelike@StageTraderHD",
             "Sarkaz@Roguelike@StageTrader",
@@ -10352,6 +10423,16 @@
             "Sarkaz@Roguelike@StageEmergencyDps",
             "Sarkaz@Roguelike@StageDreadfulFoe",
             "Sarkaz@Roguelike@StageDreadfulFoe-5"
+        ]
+    },
+    "Sarkaz@Roguelike@Stages_fastInvestment": {
+        "doc": "点刺成锭分队专用投资策略，调用 RoguelikeRoutingTaskPlugin",
+        "algorithm": "JustReturn",
+        "next": [
+            "Sarkaz@Roguelike@NextLevel",
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@Routing-FastInvestment"
         ]
     },
     "Sarkaz@Roguelike@Stages_pragmatic": {
@@ -10400,6 +10481,19 @@
     },
     "Sarkaz@Roguelike@StartExplore": {
         "roi": [1014, 481, 266, 219]
+    },
+    "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
+        "baseTask": "Sarkaz@Roguelike@StrategyChange_mode1",
+        "text": ["_fastInvestment", "_exit"],
+        "ocrReplace": [
+            ["熔魂之始", "_fastInvestment"],
+            ["锻铁根须", "_exit"],
+            ["灰铸迷城", "_exit"],
+            ["或然歧域", "_exit"],
+            ["虚实疆界", "_exit"],
+            ["辉光天顶", "_exit"],
+            ["诡谲断章", "_exit"]
+        ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode0": {
         "text": ["_default"],
@@ -10457,6 +10551,11 @@
     "Sarkaz@Roguelike@TodoEnter": {},
     "Sarkaz@Roguelike@WaitForStartButtonClicked": {
         "template": "Roguelike@QuickFormation.png"
+    },
+    "Sarkaz@RoguelikeRecruit-GiveUp": {
+        "doc": "在集成战略模式招募干员界面点击右下角 <放弃> 文字左侧图标位置，放弃招募机会",
+        "roi": [912, 648, 58, 58],
+        "action": "ClickSelf"
     },
     "Sarkaz@RoguelikeSettlementConfirm": {},
     "Reclamation2": {
@@ -12445,11 +12544,22 @@
         ]
     },
     "Tales@RA@PNS-ProsperityBelowLimit-SwipeSave": {
-        "doc": "生息点数未达到上限, 点击右下角删除存档图标, 确认删除存档, 仍要删除存档",
+        "doc": [
+            "生息点数未达到上限, 点击右下角删除存档图标, 确认删除存档, 仍要删除存档",
+            "用户反应会在 sub 中卡住导致任务失败，加一个 subErrorIgnored",
+            "并在 next 中添加自身和 Tales@RA@PNS-ProsperityBelowLimit-Dots 以便及时重试",
+            "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/10957"
+        ],
         "baseTask": "Tales@RA@SwipeSave",
         "template": "Tales@RA@SwipeSave.png",
         "sub": ["Tales@RA@DialogConfirmRed*2"],
-        "next": ["Tales@RA@PNS-ProsperityBelowLimit-SwipeSave@NextAfterLoadingText", "Tales@RA@ProsperityNoSave"]
+        "subErrorIgnored": true,
+        "next": [
+            "Tales@RA@PNS-ProsperityBelowLimit-SwipeSave",
+            "Tales@RA@PNS-ProsperityBelowLimit-Dots",
+            "Tales@RA@PNS-ProsperityBelowLimit-SwipeSave@NextAfterLoadingText",
+            "Tales@RA@ProsperityNoSave"
+        ]
     },
     "Tales@RA@PNS-ProsperityReachLimit": {
         "doc": "已完成生存周期, 生息点数达到上限, 点击 MAX 图案位置",

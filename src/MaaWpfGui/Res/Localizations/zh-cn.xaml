@@ -50,8 +50,8 @@
     <system:String x:Key="ExternalNotificationTelegramChatId">聊天 ID</system:String>
     <system:String x:Key="ExternalNotificationQmsgServer">Server</system:String>
     <system:String x:Key="ExternalNotificationQmsgKey">Key</system:String>
-    <system:String x:Key="ExternalNotificationQmsgUser">用户QQ</system:String>
-    <system:String x:Key="ExternalNotificationQmsgBot">机器人QQ</system:String>
+    <system:String x:Key="ExternalNotificationQmsgUser">用户 QQ</system:String>
+    <system:String x:Key="ExternalNotificationQmsgBot">机器人 QQ</system:String>
     <system:String x:Key="UseGpuForInference">使用 GPU 加速推理</system:String>
     <system:String x:Key="GpuOptionDisable">不使用</system:String>
     <system:String x:Key="GpuOptionSystemDefault">系统默认 GPU</system:String>
@@ -134,6 +134,8 @@
     <system:String x:Key="Roguelike3FirstFloorFoldartal">凹第一层远见密文板，不进行作战</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活队凹开局密文板</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最多写三个，并用英文分号「;」隔开</system:String>
+    <system:String x:Key="RoguelikeCollapseList">坍缩范式列表</system:String>
+    <system:String x:Key="RoguelikeCollapseListTip">用英文分号「;」隔开，留空将使用默认列表。</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「开局干员」使用助战</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">在战斗结束前延迟「停止」动作</system:String>
@@ -153,6 +155,9 @@
     <system:String x:Key="IS4NewSquad2">博闻广记分队</system:String>
     <system:String x:Key="IS4NewSquad3">蓝图测绘分队</system:String>
     <system:String x:Key="IS4NewSquad4">因地制宜分队</system:String>
+    <system:String x:Key="IS4NewSquad5">异想天开分队</system:String>
+    <system:String x:Key="IS4NewSquad6">点刺成锭分队</system:String>
+    <system:String x:Key="IS4NewSquad7">拟态学者分队</system:String>
     <system:String x:Key="LeaderSquad">指挥分队</system:String>
     <system:String x:Key="GatheringSquad">集群分队</system:String>
     <system:String x:Key="SupportSquad">后勤分队</system:String>
@@ -187,7 +192,7 @@
     <system:String x:Key="EmulatorNotFound">未检测到任何模拟器\n请使用管理员权限打开本软件\n或手动设置连接</system:String>
     <system:String x:Key="EmulatorTooMany">检测到多个模拟器\n请关闭不需要的模拟器\n或手动设置连接</system:String>
     <system:String x:Key="EmulatorStartFailed">未能成功启动模拟器\n请使用管理员权限打开本软件\n或手动启动模拟器。</system:String>
-    <system:String x:Key="SwitchLanguage">切换语言</system:String>
+    <system:String x:Key="SwitchLanguage">切换语言 🌐</system:String>
     <system:String x:Key="Language">语言</system:String>
     <system:String x:Key="LanguageChangedTip">语言设置已更改，是否现在重启 MAA 以应用语言设置？</system:String>
     <system:String x:Key="ManualRestart">稍后</system:String>
@@ -262,13 +267,13 @@
     <system:String x:Key="AddConfiguration">添加</system:String>
     <system:String x:Key="AddConfigSuccess">配置 &lt;{0}&gt; 添加成功</system:String>
     <system:String x:Key="ConfigExists">配置 &lt;{0}&gt; 已存在</system:String>
-    <system:String x:Key="LaunchOnSystemStartup">开机自动启动MAA</system:String>
-    <system:String x:Key="RunTaskAfterLaunch">启动MAA后直接运行</system:String>
-    <system:String x:Key="MinimizeAfterLaunch">启动MAA后直接最小化</system:String>
+    <system:String x:Key="LaunchOnSystemStartup">开机自动启动 MAA</system:String>
+    <system:String x:Key="RunTaskAfterLaunch">启动 MAA 后直接运行</system:String>
+    <system:String x:Key="MinimizeAfterLaunch">启动 MAA 后直接最小化</system:String>
     <system:String x:Key="ClientType">客户端类型</system:String>
     <system:String x:Key="AutoRestartOption">游戏掉线时自动重连</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">外服适配滞销，帮帮我们！不会编程也可以。</system:String>
-    <system:String x:Key="OpenEmulatorAfterLaunch">启动MAA后自动开启模拟器</system:String>
+    <system:String x:Key="OpenEmulatorAfterLaunch">启动 MAA 后自动开启模拟器</system:String>
     <system:String x:Key="MinimizingStartup">最小化启动模拟器</system:String>
     <system:String x:Key="WaitForEmulator">等待模拟器启动时间（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">等待结束</system:String>
@@ -295,6 +300,7 @@
     <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
     <system:String x:Key="RoguelikeThemeSami">萨米</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">萨卡兹</system:String>
+    <system:String x:Key="RoguelikeDifficulty">难度</system:String>
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">开始探索 N 次后停止任务</system:String>
     <system:String x:Key="GoldTimesLimit">投资 N 个源石锭后停止任务</system:String>
@@ -387,10 +393,12 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe
 则应填写
 C:\\Program Files\\Netease\\MuMuPlayer-12.0。\n
 注意：
-1. 截至目前（V4.1.0）的模拟器版本开启网络桥接后无法使用截图增强。
-2. 若连接地址端口号为 7555，则需将端口号改为 16384。
+1. 若当前连接地址端口号为 7555，则需将端口号改为 16384。
+2. 若正在使用网络桥接，则需勾选 MuMu 网络桥接模式并手动填写序号。
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu 安装路径</system:String>
+    <system:String x:Key="MuMuBridgeConnection">MuMu 网络桥接模式</system:String>
+    <system:String x:Key="MuMuBridgeConnectionTip">除非你知道自己在做什么，否则不要启用此选项</system:String>
     <system:String x:Key="MuMu12Index">实例编号</system:String>
     <system:String x:Key="MuMu12Display">屏幕编号</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu 截图增强未生效，请检查相关设置</system:String>
@@ -515,7 +523,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Pormpt2">周日了，记得打剿灭哦~</system:String>
     <!--  !战斗设置  -->
     <!--  日志  -->
-    <system:String x:Key="VersionMismatch">UI 和 Core 版本不一致: {0} 和 {1}，可能导致不可预测的行为，请勿手动替换文件。</system:String>
+    <system:String x:Key="VersionMismatch">UI 和 Core 版本不一致: {0} 和 {1}，可能导致不可预测的行为，请勿手动替换文件或者在更新时占用文件。\n\n请下载完整包并覆盖当前文件夹下的内容。</system:String>
     <system:String x:Key="ConnectingToEmulator">正在连接模拟器……</system:String>
     <system:String x:Key="UnselectedTask">未选择任务</system:String>
     <system:String x:Key="Running">正在运行中……</system:String>
@@ -913,6 +921,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ReclamationToolToCraftPlaceholder">荧光棒</system:String>
     <!--  !Reclamation  -->
     <!--  SingleInstance  -->
-    <system:String x:Key="MultiInstanceUnderSamePath">同一路径下只能启动一个实例！如需多开 MAA ，请复制一份新的 MAA 到其他文件夹下，并设置使用不同的 MAA ，相同的 adb 和不同的模拟器地址进行多开操作。</system:String>
+    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">
+同一路径下只能启动一个实例！
+如需多开 MAA，请复制一份新的 MAA 到其他文件夹下，并设置使用不同的 MAA，相同的 adb 和不同的模拟器地址进行多开操作。
+    </system:String>
     <!--  !SingleInstance  -->
 </ResourceDictionary>

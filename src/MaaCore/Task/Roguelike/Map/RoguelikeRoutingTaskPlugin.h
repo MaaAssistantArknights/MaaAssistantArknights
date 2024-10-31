@@ -15,6 +15,13 @@ public:
     virtual bool load_params(const json::value& params) override;
     virtual void reset_in_run_variables() override;
 
+    enum class RoutingStrategy
+    {
+        None,
+        FastInvestment,
+        FastPass
+    };
+
 protected:
     virtual bool _run() override;
 
@@ -26,6 +33,7 @@ private:
     void update_selected_x();
 
     // ———————— constants and variables ———————————————————————————————————————————————
+    RoutingStrategy m_routing_strategy = RoutingStrategy::None;
     RoguelikeMap m_map;
     bool m_need_generate_map = true;
     size_t m_selected_column = 0;  // 当前选中节点所在列
