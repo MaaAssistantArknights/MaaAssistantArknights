@@ -54,7 +54,7 @@
                 VerticalAlignment="Top"
                 Block.TextAlignment="Center"
                 Content="{DynamicResource OpenEmulatorAfterLaunch}"
-                IsChecked="{Binding StartEmulator}" />
+                IsChecked="{Binding OpenEmulatorAfterLaunch}" />
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Left"
