@@ -393,8 +393,8 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe
 の場合、
 C:\\Program Files\\Netease\\MuMuPlayer-12.0 を入力してください。\n
 注意：
-1. 現在のところ（V4.1.0）のエミュレーター版では、ネットワークブリッジを有効にした後、スクリーンショットの強化機能を使用できません。
-2. 接続アドレスのポート番号が 7555 の場合、ポート番号を 16384 に変更してください。
+1. 接続アドレスのポート番号が 7555 の場合、ポート番号を 16384 に変更してください。
+2. ネットワークブリッジを使用している場合は、MuMu ネットワークブリッジモードを選択し、シリアル番号を手動で入力する必要があります。
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 エミュレータパス</system:String>
     <system:String x:Key="MuMuBridgeConnection">MuMu ネットワークブリッジモード</system:String>
