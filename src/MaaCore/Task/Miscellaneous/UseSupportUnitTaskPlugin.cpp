@@ -79,7 +79,7 @@ bool asst::UseSupportUnitTaskPlugin::try_find_and_apply_support_unit_for_role(
     // 初始化变量
     SupportListAnalyzer analyzer;
     std::unordered_set<std::string> known_oper_names;
-    std::vector<int> candidates(filtered_required_opers.size(), -1);
+    std::vector<std::optional<size_t>> candidates(filtered_required_opers.size(), std::nullopt);
 
     for (int refresh_times = 0; refresh_times <= max_refresh_times && !need_exit(); ++refresh_times) {
         for (int page = 0; page < MaxNumSupportListPages && !need_exit(); ++page) {
@@ -133,16 +133,18 @@ bool asst::UseSupportUnitTaskPlugin::try_find_and_apply_support_unit_for_role(
             // Step 3: 依次点选筛选出的助战干员，根据需要判断技能是否为专三，并使用
             // ————————————————————————————————————————————————————————————————
             for (size_t i = 0; i < filtered_required_opers.size(); ++i) {
-                const int index = candidates[i];
-                if (index == -1) {
+                if (!candidates[i].has_value()) {
                     continue;
                 }
                 const RequiredOper& required_oper = filtered_required_opers[i];
-                const SupportUnit& support_unit = support_list[index];
+                const SupportUnit& support_unit = support_list[candidates[i].value()];
                 if (try_use_support_unit_with_skill(support_unit, required_oper.skill, max_spec_lvl)) {
                     return true;
                 }
             }
+
+            // 重置 candidate
+            candidates.assign(filtered_required_opers.size(), std::nullopt);
             // 未滑到尾页，滑到下一页
             if (page < MaxNumSupportListPages - 1) {
                 ProcessTask(*this, { "UseSupportUnit-SwipeToTheRight" }).run();
