@@ -30,9 +30,13 @@ MAA 的意思是 MAA Assistant Arknights
 
 :::
 
+## 下載與安裝
+
+請閱讀[文檔](./manual/newbie.md)後前往 [官網](https://maa.plus) 或 [Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下載，並參考[新手上路](./manual/newbie.md)進行安裝。
+
 ## 亮點功能
 
-- 刷理智，掉落辨識及上傳 [企鵝物流數據統計](https://penguin-stats.io/)；
+- 刷理智，掉落辨識及上傳 [企鵝物流數據統計](https://penguin-stats.io/)，[一圖流](https://ark.yituliu.cn/)；
 - 智能基建換班，自動計算幹員效率，單設施內最優解；同時也支援 [自定義排班](./protocol/base-scheduling-schema.md)；
 - 自動公招，可選使用加急許可，一次全部刷完！公招數據上傳 [企鵝物流數據統計](https://penguin-stats.io/result/stage/recruit/recruit) ， [一圖流](https://ark.yituliu.cn/survey/maarecruitdata) ；
 - 支援手動辨識公招介面，方便對高星公招做出選擇 ~~（你的這個高資回費出的是推王呢還是推王呢）~~
@@ -69,34 +73,13 @@ MAA 的意思是 MAA Assistant Arknights
 }
 ```
 
-## 下載地址
-
-[Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
-
 ## 使用說明
 
-### 基本說明
+### 功能介紹
 
-1. 請根據 [模擬器支援情況](./manual/device/)，進行對應的操作。
-2. 修改模擬器解析度為 `16:9` 比例，最低 `1280 * 720`，最高 `2K`。  
-   對於國際服（美服）玩家，由於介面佈局問題，我們則建議您將解析度修改為 `1920 * 1080`。
-3. 開始使用吧！
+請參閱 [用戶手冊](./manual/)。
 
-更多使用說明請參考 [詳細介紹](./manual/introduction/).
-
-## 常見問題
-
-- 軟體一打開就閃退
-- 連接錯誤、不知道 adb 路徑怎麽填寫
-- 連接成功了，但沒反應
-- 如何連接自定義端口
-- 下載速度慢，且鏡像站無法打開網頁
-- 下載到一半提示 “登錄” / “鑒權”
-- 連接正常，任務開始了，但是沒反應
-
-請參考 [常見問題](./manual/faq.md)
-
-## 外服支援
+### 外服支援
 
 目前國際服（美服）、日服、韓服、繁中服的絕大部分功能均已支援。但由於外服用戶較少及項目人手不足，很多功能並沒有進行全面的測試，所以請自行體驗。  
 若您遇到了 Bug，或對某個功能有強需求，歡迎在 [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) 和 [討論區](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更；或加入我們一起建設 MAA！請參考 [外服適配教學](#外服適配)

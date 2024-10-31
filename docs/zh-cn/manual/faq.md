@@ -68,8 +68,6 @@ winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
 2. 新建一个系统变量，变量名 `DOTNET_EnableWriteXorExecute`，变量值 `0`。
 3. 重启电脑。
 
-我们无法保证将来的版本对 Windows 7 的兼容性，~~都是微软的错~~。
-
 ## 连接错误
 
 ### 确认 ADB 及连接地址正确
