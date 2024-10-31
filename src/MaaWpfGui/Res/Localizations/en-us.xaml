@@ -393,8 +393,8 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe
 then it should be filled in as
 C:\\Program Files\\Netease\\MuMuPlayer-12.0\n
 Note:
-1. As of now (V4.1.0), the emulator version cannot use screenshot enhancement after enabling network bridging.
-2. If the port number of the connection address is 7555, you need to change the port number to 16384.
+1. If the port number of the connection address is 7555, you need to change the port number to 16384.
+2. If using network bridging, check the MuMu network bridging mode and manually enter the serial number.
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 Emulator exec path</system:String>
     <system:String x:Key="MuMuBridgeConnection">MuMu Network Bridge Connection</system:String>
