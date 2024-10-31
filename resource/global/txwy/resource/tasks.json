@@ -43,12 +43,6 @@
     "Mizuki@Roguelike@ChooseDifficultyConfirm": {
         "text": ["選擇"]
     },
-    "RS-OpenOcr": {
-        "text": ["銀心", "列車", "特快"]
-    },
-    "RSChapterToRS": {
-        "text": ["月台"]
-    },
     "ZT-Open": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -76,6 +70,12 @@
     },
     "SideStoryReopen": {
         "text": ["復刻"]
+    },
+    "RS-OpenOcr": {
+        "text": ["銀心", "列車", "特快"]
+    },
+    "RSChapterToRS": {
+        "text": ["月台"]
     },
     "ZTChapterToZT": {
         "text": ["朝見", "雙塔"]
