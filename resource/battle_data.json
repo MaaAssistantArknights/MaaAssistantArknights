@@ -304,7 +304,7 @@
         "char_1035_wisdel": {
             "name": "维什戴尔",
             "name_en": "维什戴尔",
-            "name_jp": "维什戴尔",
+            "name_jp": "ウィシャデル",
             "name_kr": "维什戴尔",
             "name_tw": "维什戴尔",
             "position": "RANGED",
@@ -316,7 +316,7 @@
         "char_1036_fang2": {
             "name": "历阵锐枪芬",
             "name_en": "历阵锐枪芬",
-            "name_jp": "历阵锐枪芬",
+            "name_jp": "歴陣鋭槍フェン",
             "name_kr": "历阵锐枪芬",
             "name_tw": "历阵锐枪芬",
             "position": "MELEE",
@@ -3100,7 +3100,7 @@
         "char_4133_logos": {
             "name": "逻各斯",
             "name_en": "逻各斯",
-            "name_jp": "逻各斯",
+            "name_jp": "ロゴス",
             "name_kr": "逻各斯",
             "name_tw": "逻各斯",
             "position": "RANGED",
@@ -3111,7 +3111,7 @@
         "char_4134_cetsyr": {
             "name": "魔王",
             "name_en": "魔王",
-            "name_jp": "魔王",
+            "name_jp": "シヴィライト・エテルナ",
             "name_kr": "魔王",
             "name_tw": "魔王",
             "position": "RANGED",
@@ -4410,7 +4410,7 @@
         "token_10035_wisdel_wward": {
             "name": "魂灵之影",
             "name_en": "魂灵之影",
-            "name_jp": "魂灵之影",
+            "name_jp": "レヴァナントの影",
             "name_kr": "魂灵之影",
             "name_tw": "魂灵之影",
             "position": "ALL",
@@ -6137,7 +6137,7 @@
         "trap_158_lrsteam": {
             "name": "查尔斯·林奇",
             "name_en": "查尔斯·林奇",
-            "name_jp": "查尔斯·林奇",
+            "name_jp": "チャールズ・リンチ",
             "name_kr": "查尔斯·林奇",
             "name_tw": "查尔斯·林奇",
             "position": "NONE",
@@ -6148,7 +6148,7 @@
         "trap_159_lrcore": {
             "name": "核心增幅器",
             "name_en": "核心增幅器",
-            "name_jp": "核心增幅器",
+            "name_jp": "コア増幅器",
             "name_kr": "核心增幅器",
             "name_tw": "核心增幅器",
             "position": "NONE",
@@ -6159,7 +6159,7 @@
         "trap_160_lrlgun": {
             "name": "洪流束激发器",
             "name_en": "洪流束激发器",
-            "name_jp": "洪流束激发器",
+            "name_jp": "奔流発生装置",
             "name_kr": "洪流束激发器",
             "name_tw": "洪流束激发器",
             "position": "NONE",
@@ -6170,7 +6170,7 @@
         "trap_161_lrcage": {
             "name": "枯朽祭坛",
             "name_en": "枯朽祭坛",
-            "name_jp": "枯朽祭坛",
+            "name_jp": "枯朽の祭壇",
             "name_kr": "枯朽祭坛",
             "name_tw": "枯朽祭坛",
             "position": "NONE",
@@ -6181,7 +6181,7 @@
         "trap_162_lrctrl": {
             "name": "十四章机制控制器",
             "name_en": "十四章机制控制器",
-            "name_jp": "十四章机制控制器",
+            "name_jp": "第十四章ギミックコントローラー",
             "name_kr": "十四章机制控制器",
             "name_tw": "十四章机制控制器",
             "position": "NONE",
@@ -6203,7 +6203,7 @@
         "trap_164_lrsiege": {
             "name": "振奋荣光",
             "name_en": "振奋荣光",
-            "name_jp": "振奋荣光",
+            "name_jp": "奮い立つ栄光",
             "name_kr": "振奋荣光",
             "name_tw": "振奋荣光",
             "position": "NONE",
