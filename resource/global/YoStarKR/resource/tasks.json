@@ -30,10 +30,10 @@
         "text": ["환경", "PRTS"]
     },
     "EnterChapterDifficultyHard": {
-        "text": ["하드모드", "하드"]
+        "text": ["하드모드", "하드", "작전진입"]
     },
     "EnterChapterDifficultyNormal": {
-        "text": ["노멀모드", "노멀"]
+        "text": ["노멀모드", "노멀", "작전진입"]
     },
     "SideStoryReopen": {
         "text": ["재개방"]
