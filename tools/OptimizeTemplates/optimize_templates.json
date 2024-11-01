@@ -2881,5 +2881,8 @@
     "resource/template/infrast/Bskill_man_spd&cost1": "70139425fce80c64b48121c9205caeb5137b4ad20ccc082f23dba2a94782dd9a",
     "resource/template/infrast/Bskill_man_spd&limit5": "bebad3cf1d65b36759b117398b21583d8d7acc7ba5feb7cb1174198b88a8fe7f",
     "resource/template/infrast/Bskill_meet_spd&bd2": "a33a23a3b18fd445c93e8b1623d7a1a3d86cc148a0e515bd2dcaef1a39ff5da7",
-    "resource/template/infrast/Bskill_power_rec_spd&dorm&lv": "173e28656ad566920450d94f366800f7a4cfcf2db283e78390e3e8b3dcd88afe"
+    "resource/template/infrast/Bskill_power_rec_spd&dorm&lv": "173e28656ad566920450d94f366800f7a4cfcf2db283e78390e3e8b3dcd88afe",
+    "resource/template/items/act38side_token_ticket": "67c3294b957418604017495a6fff25300c47e0e74120df88a64dea3e30ffd996",
+    "resource/template/items/LMTGS_COIN_5601": "f6c48e0335bfd3e107fe887dacd6cde9cd88d0e4125860991c5d3d9024efe12e",
+    "resource/template/items/randomMaterial_act38side": "485ec56cbd59b199b65f0d67f87fc0b91730ec492b0cab8d0fc8296fcb440d85"
 }

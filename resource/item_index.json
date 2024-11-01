@@ -1079,6 +1079,14 @@
         "sortId": 10025,
         "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
     },
+    "LMTGS_COIN_5601": {
+        "classifyType": "NORMAL",
+        "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
+        "icon": "LMTGS_COIN_5601.png",
+        "name": "寻访数据契约",
+        "sortId": 10026,
+        "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
@@ -1767,6 +1775,14 @@
         "sortId": -10000,
         "usage": "完成尖灭测试作战后得到的报酬。可用于兑换补给品。"
     },
+    "act38side_token_ticket": {
+        "classifyType": "NONE",
+        "description": "神秘的匿名发件人自称“狂欢之主”，分不清是恐吓还是玩笑。沁透信纸的殷红并非某人的鲜血，而是醇香的美酒，似乎说明这邀请函也是与狂欢一同诞生的产物。",
+        "icon": "act38side_token_ticket.png",
+        "name": "匿名邀请函",
+        "sortId": -10000,
+        "usage": "匿名人士在狂欢节上散发的邀请函，凭此可以到城内各处的狂欢夜集市兑换丰厚礼品。放心，人们看到信函，一定会给予热情招待。"
+    },
     "act3bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "模拟中的对错并不重要，它们只是种辅助，帮助你在实战中做出正确的选择。",
@@ -2358,6 +2374,14 @@
         "name": "罗德岛物资补给VI",
         "sortId": 60109,
         "usage": "装有各种物资补给，包含多种随机材料。"
+    },
+    "randomMaterial_act38side": {
+        "classifyType": "CONSUME",
+        "description": "烟花筹委会为狂欢节特制的烟花桶也能直接用来包装礼品，打开拿取物资时有极小可能会爆炸——当作惊喜礼盒吧。",
+        "icon": "randomMaterial_act38side.png",
+        "name": "狂欢烟花桶",
+        "sortId": 60115,
+        "usage": "装有狂欢节上可能用到的各种物资补给，包含多种随机材料。"
     },
     "randomMaterial_leith2": {
         "classifyType": "CONSUME",
