@@ -3962,13 +3962,13 @@
     },
     "InfrastSortByTrustButton": {
         "action": "ClickSelf",
-        "roi": [1000, 0, 100, 70],
+        "roi": [645, 0, 635, 77],
         "next": ["InfrastSortByTrustButtonClickAgain"]
     },
     "InfrastSortByTrustButtonClickAgain": {
         "action": "ClickSelf",
         "templThreshold": 0.7,
-        "roi": [1000, 0, 100, 70],
+        "roi": [645, 0, 635, 77],
         "postDelay": 1000
     },
     "InfrastFilterMenuNotStationed": {
