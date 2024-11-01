@@ -1954,16 +1954,16 @@ namespace MaaWpfGui.ViewModels.UI
         private void UpdateRoguelikeDifficultyList()
         {
             RoguelikeDifficultyList = [
-                new CombinedData { Display = "MAX", Value = int.MaxValue.ToString() }
+                new() { Display = "MAX", Value = int.MaxValue }
             ];
 
             for (int i = 20; i >= 0; --i)
             {
                 var value = i.ToString();
-                RoguelikeDifficultyList.Add(new CombinedData { Display = value, Value = value });
+                RoguelikeDifficultyList.Add(new() { Display = value, Value = i });
             }
 
-            RoguelikeDifficultyList.Add(new CombinedData { Display = "Current", Value = (-1).ToString() });
+            RoguelikeDifficultyList.Add(new() { Display = LocalizationHelper.GetString("Current"), Value = -1 });
         }
 
         private void UpdateRoguelikeModeList()
@@ -2144,15 +2144,15 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = LocalizationHelper.GetString("RoguelikeThemeSarkaz"), Value = "Sarkaz" },
             ];
 
-        private ObservableCollection<CombinedData> _roguelikeDifficultyList = new();
+        private ObservableCollection<GenericCombinedData<int>> _roguelikeDifficultyList = [];
 
-        public ObservableCollection<CombinedData> RoguelikeDifficultyList
+        public ObservableCollection<GenericCombinedData<int>> RoguelikeDifficultyList
         {
             get => _roguelikeDifficultyList;
             set => SetAndNotify(ref _roguelikeDifficultyList, value);
         }
 
-        private ObservableCollection<CombinedData> _roguelikeModeList = new();
+        private ObservableCollection<CombinedData> _roguelikeModeList = [];
 
         /// <summary>
         /// Gets or sets the list of roguelike modes.
@@ -2163,7 +2163,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _roguelikeModeList, value);
         }
 
-        private ObservableCollection<CombinedData> _roguelikeSquadList = new();
+        private ObservableCollection<CombinedData> _roguelikeSquadList = [];
 
         /// <summary>
         /// Gets or sets the list of roguelike squad.
@@ -2205,15 +2205,15 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _roguelikeDifficulty = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDifficulty, int.MaxValue.ToString());
+        private int _roguelikeDifficulty = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDifficulty, int.MaxValue.ToString()));
 
-        public string RoguelikeDifficulty
+        public int RoguelikeDifficulty
         {
             get => _roguelikeDifficulty;
             set
             {
                 SetAndNotify(ref _roguelikeDifficulty, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDifficulty, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDifficulty, value.ToString());
             }
         }
 
