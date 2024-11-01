@@ -10952,6 +10952,15 @@
         "stageId": "act37side_tr01",
         "width": 9
     },
+    "act38side_01-activities/act38side/level_act38side_01": {
+        "code": "PV-1",
+        "filename": "act38side_01-activities-act38side-level_act38side_01.json",
+        "height": 7,
+        "levelId": "activities/act38side/level_act38side_01",
+        "name": "失途",
+        "stageId": "act38side_01",
+        "width": 9
+    },
     "act38side_01-activities/act38sidelevel_act38side_01": {
         "code": "PV-1",
         "filename": "level_act38side_01.json",
@@ -10959,6 +10968,15 @@
         "levelId": "activities/act38side/level_act38side_01",
         "name": "失途",
         "stageId": "act38side_01",
+        "width": 9
+    },
+    "act38side_02-activities/act38side/level_act38side_02": {
+        "code": "PV-2",
+        "filename": "act38side_02-activities-act38side-level_act38side_02.json",
+        "height": 8,
+        "levelId": "activities/act38side/level_act38side_02",
+        "name": "择路",
+        "stageId": "act38side_02",
         "width": 9
     },
     "act38side_02-activities/act38sidelevel_act38side_02": {
@@ -10970,6 +10988,15 @@
         "stageId": "act38side_02",
         "width": 9
     },
+    "act38side_03-activities/act38side/level_act38side_03": {
+        "code": "PV-3",
+        "filename": "act38side_03-activities-act38side-level_act38side_03.json",
+        "height": 9,
+        "levelId": "activities/act38side/level_act38side_03",
+        "name": "恶客盈门",
+        "stageId": "act38side_03",
+        "width": 11
+    },
     "act38side_03-activities/act38sidelevel_act38side_03": {
         "code": "PV-3",
         "filename": "level_act38side_03.json",
@@ -10978,6 +11005,15 @@
         "name": "恶客盈门",
         "stageId": "act38side_03",
         "width": 11
+    },
+    "act38side_04-activities/act38side/level_act38side_04": {
+        "code": "PV-4",
+        "filename": "act38side_04-activities-act38side-level_act38side_04.json",
+        "height": 7,
+        "levelId": "activities/act38side/level_act38side_04",
+        "name": "体面来宾",
+        "stageId": "act38side_04",
+        "width": 14
     },
     "act38side_04-activities/act38sidelevel_act38side_04": {
         "code": "PV-4",
@@ -10988,6 +11024,15 @@
         "stageId": "act38side_04",
         "width": 14
     },
+    "act38side_05-activities/act38side/level_act38side_05": {
+        "code": "PV-5",
+        "filename": "act38side_05-activities-act38side-level_act38side_05.json",
+        "height": 7,
+        "levelId": "activities/act38side/level_act38side_05",
+        "name": "“致新生活”",
+        "stageId": "act38side_05",
+        "width": 11
+    },
     "act38side_05-activities/act38sidelevel_act38side_05": {
         "code": "PV-5",
         "filename": "level_act38side_05.json",
@@ -10997,6 +11042,15 @@
         "stageId": "act38side_05",
         "width": 11
     },
+    "act38side_06-activities/act38side/level_act38side_06": {
+        "code": "PV-6",
+        "filename": "act38side_06-activities-act38side-level_act38side_06.json",
+        "height": 10,
+        "levelId": "activities/act38side/level_act38side_06",
+        "name": "“复仇于我”",
+        "stageId": "act38side_06",
+        "width": 13
+    },
     "act38side_06-activities/act38sidelevel_act38side_06": {
         "code": "PV-6",
         "filename": "level_act38side_06.json",
@@ -11004,6 +11058,15 @@
         "levelId": "activities/act38side/level_act38side_06",
         "name": "“复仇于我”",
         "stageId": "act38side_06",
+        "width": 13
+    },
+    "act38side_07-activities/act38side/level_act38side_07": {
+        "code": "PV-7",
+        "filename": "act38side_07-activities-act38side-level_act38side_07.json",
+        "height": 8,
+        "levelId": "activities/act38side/level_act38side_07",
+        "name": "揭幕时刻",
+        "stageId": "act38side_07",
         "width": 13
     },
     "act38side_07-activities/act38sidelevel_act38side_07": {
@@ -11015,6 +11078,15 @@
         "stageId": "act38side_07",
         "width": 13
     },
+    "act38side_08-activities/act38side/level_act38side_08": {
+        "code": "PV-8",
+        "filename": "act38side_08-activities-act38side-level_act38side_08.json",
+        "height": 11,
+        "levelId": "activities/act38side/level_act38side_08",
+        "name": "无私铁棘",
+        "stageId": "act38side_08",
+        "width": 13
+    },
     "act38side_08-activities/act38sidelevel_act38side_08": {
         "code": "PV-8",
         "filename": "level_act38side_08.json",
@@ -11023,6 +11095,15 @@
         "name": "无私铁棘",
         "stageId": "act38side_08",
         "width": 13
+    },
+    "act38side_09-activities/act38side/level_act38side_09": {
+        "code": "PV-9",
+        "filename": "act38side_09-activities-act38side-level_act38side_09.json",
+        "height": 10,
+        "levelId": "activities/act38side/level_act38side_09",
+        "name": "狼群与群狼",
+        "stageId": "act38side_09",
+        "width": 12
     },
     "act38side_09-activities/act38sidelevel_act38side_09": {
         "code": "PV-9",
@@ -11033,6 +11114,15 @@
         "stageId": "act38side_09",
         "width": 12
     },
+    "act38side_10-activities/act38side/level_act38side_10": {
+        "code": "PV-10",
+        "filename": "act38side_10-activities-act38side-level_act38side_10.json",
+        "height": 11,
+        "levelId": "activities/act38side/level_act38side_10",
+        "name": "铳响",
+        "stageId": "act38side_10",
+        "width": 15
+    },
     "act38side_10-activities/act38sidelevel_act38side_10": {
         "code": "PV-10",
         "filename": "level_act38side_10.json",
@@ -11042,6 +11132,15 @@
         "stageId": "act38side_10",
         "width": 15
     },
+    "act38side_sp01-activities/act38side/level_act38side_sp01": {
+        "code": "PV-P-1",
+        "filename": "act38side_sp01-activities-act38side-level_act38side_sp01.json",
+        "height": 7,
+        "levelId": "activities/act38side/level_act38side_sp01",
+        "name": "试演烟花秀",
+        "stageId": "act38side_sp01",
+        "width": 13
+    },
     "act38side_sp01-activities/act38sidelevel_act38side_sp01": {
         "code": "PV-P-1",
         "filename": "level_act38side_sp01.json",
@@ -11049,6 +11148,15 @@
         "levelId": "activities/act38side/level_act38side_sp01",
         "name": "试演烟花秀",
         "stageId": "act38side_sp01",
+        "width": 13
+    },
+    "act38side_sp02-activities/act38side/level_act38side_sp02": {
+        "code": "PV-P-2",
+        "filename": "act38side_sp02-activities-act38side-level_act38side_sp02.json",
+        "height": 10,
+        "levelId": "activities/act38side/level_act38side_sp02",
+        "name": "即兴烟花秀",
+        "stageId": "act38side_sp02",
         "width": 13
     },
     "act38side_sp02-activities/act38sidelevel_act38side_sp02": {
@@ -11060,6 +11168,15 @@
         "stageId": "act38side_sp02",
         "width": 13
     },
+    "act38side_sp03-activities/act38side/level_act38side_sp03": {
+        "code": "PV-P-3",
+        "filename": "act38side_sp03-activities-act38side-level_act38side_sp03.json",
+        "height": 9,
+        "levelId": "activities/act38side/level_act38side_sp03",
+        "name": "狂欢之夜烟花秀",
+        "stageId": "act38side_sp03",
+        "width": 9
+    },
     "act38side_sp03-activities/act38sidelevel_act38side_sp03": {
         "code": "PV-P-3",
         "filename": "level_act38side_sp03.json",
@@ -11068,6 +11185,15 @@
         "name": "狂欢之夜烟花秀",
         "stageId": "act38side_sp03",
         "width": 9
+    },
+    "act38side_tr01-activities/act38side/level_act38side_tr01": {
+        "code": "PV-TR-1",
+        "filename": "act38side_tr01-activities-act38side-level_act38side_tr01.json",
+        "height": 8,
+        "levelId": "activities/act38side/level_act38side_tr01",
+        "name": "《烟花燃放须知》",
+        "stageId": "act38side_tr01",
+        "width": 10
     },
     "act38side_tr01-activities/act38sidelevel_act38side_tr01": {
         "code": "PV-TR-1",
@@ -17801,6 +17927,15 @@
         "stageId": "mem_baslin_1",
         "width": 11
     },
+    "mem_bdhkgt_1-obt/memory/level_memory_bdhkgt_1": {
+        "code": "mem_bdhkgt_1",
+        "filename": "mem_bdhkgt_1-obt-memory-level_memory_bdhkgt_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_bdhkgt_1",
+        "name": "大漠飞轮",
+        "stageId": "mem_bdhkgt_1",
+        "width": 11
+    },
     "mem_beewax_1-obt/memory/level_memory_beewax_1": {
         "code": "mem_beewax_1",
         "filename": "mem_beewax_1-obt-memory-level_memory_beewax_1.json",
@@ -17998,6 +18133,15 @@
         "name": "防空炮手",
         "stageId": "mem_catap_1",
         "width": 11
+    },
+    "mem_cello_1-obt/memory/level_memory_cello_1": {
+        "code": "mem_cello_1",
+        "filename": "mem_cello_1-obt-memory-level_memory_cello_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_cello_1",
+        "name": "魔鬼的低语",
+        "stageId": "mem_cello_1",
+        "width": 9
     },
     "mem_cement_1-obt/memory/level_memory_cement_1": {
         "code": "mem_cement_1",
@@ -18719,6 +18863,15 @@
         "stageId": "mem_kafka_1",
         "width": 12
     },
+    "mem_kaitou_1-obt/memory/level_memory_kaitou_1": {
+        "code": "mem_kaitou_1",
+        "filename": "mem_kaitou_1-obt-memory-level_memory_kaitou_1.json",
+        "height": 6,
+        "levelId": "obt/memory/level_memory_kaitou_1",
+        "name": "大盗的眼光",
+        "stageId": "mem_kaitou_1",
+        "width": 10
+    },
     "mem_kazema_1-obt/memory/level_memory_kazema_1": {
         "code": "mem_kazema_1",
         "filename": "mem_kazema_1-obt-memory-level_memory_kazema_1.json",
@@ -18772,6 +18925,15 @@
         "name": "声威在前",
         "stageId": "mem_leizi_1",
         "width": 11
+    },
+    "mem_lessng_1-obt/memory/level_memory_lessng_1": {
+        "code": "mem_lessng_1",
+        "filename": "mem_lessng_1-obt-memory-level_memory_lessng_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_lessng_1",
+        "name": "巨剑的锋芒",
+        "stageId": "mem_lessng_1",
+        "width": 10
     },
     "mem_ling_1-obt/memory/level_memory_ling_1": {
         "code": "mem_ling_1",

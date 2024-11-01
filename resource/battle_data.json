@@ -335,6 +335,17 @@
             "rangeId": ["3-1", "3-3", "3-3"],
             "rarity": 5
         },
+        "char_1038_whitw2": {
+            "name": "荒芜拉普兰德",
+            "name_en": "荒芜拉普兰德",
+            "name_jp": "荒芜拉普兰德",
+            "name_kr": "荒芜拉普兰德",
+            "name_tw": "荒芜拉普兰德",
+            "position": "RANGED",
+            "profession": "CASTER",
+            "rangeId": ["3-6", "3-1", "3-1"],
+            "rarity": 6
+        },
         "char_103_angel": {
             "name": "能天使",
             "name_en": "Exusiai",
@@ -721,6 +732,17 @@
             "profession": "PIONEER",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 4
+        },
+        "char_1502_crosly": {
+            "name": "弑君者",
+            "name_en": "弑君者",
+            "name_jp": "弑君者",
+            "name_kr": "弑君者",
+            "name_tw": "弑君者",
+            "position": "MELEE",
+            "profession": "SPECIAL",
+            "rangeId": ["1-1", "1-1", "1-1"],
+            "rarity": 6
         },
         "char_150_snakek": {
             "name": "蛇屠箱",
@@ -2445,6 +2467,17 @@
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 5
         },
+        "char_4026_vulpis": {
+            "name": "忍冬",
+            "name_en": "忍冬",
+            "name_jp": "忍冬",
+            "name_kr": "忍冬",
+            "name_tw": "忍冬",
+            "position": "MELEE",
+            "profession": "PIONEER",
+            "rangeId": ["1-1", "1-1", "1-1"],
+            "rarity": 6
+        },
         "char_4027_heyak": {
             "name": "霍尔海雅",
             "name_en": "Ho'olheyak",
@@ -3252,6 +3285,17 @@
             "rangeId": ["3-1", "3-3", "3-3"],
             "rarity": 5
         },
+        "char_4148_philae": {
+            "name": "菲莱",
+            "name_en": "菲莱",
+            "name_jp": "菲莱",
+            "name_kr": "菲莱",
+            "name_tw": "菲莱",
+            "position": "MELEE",
+            "profession": "TANK",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 5
+        },
         "char_4151_tinman": {
             "name": "锡人",
             "name_en": "锡人",
@@ -3261,6 +3305,17 @@
             "position": "RANGED",
             "profession": "SPECIAL",
             "rangeId": ["2-1", "2-1", "3-5"],
+            "rarity": 5
+        },
+        "char_4155_talr": {
+            "name": "裁度",
+            "name_en": "裁度",
+            "name_jp": "裁度",
+            "name_kr": "裁度",
+            "name_tw": "裁度",
+            "position": "MELEE",
+            "profession": "SPECIAL",
+            "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 5
         },
         "char_415_flint": {
@@ -3284,6 +3339,17 @@
             "profession": "SUPPORT",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 5
+        },
+        "char_4165_ctrail": {
+            "name": "云迹",
+            "name_en": "云迹",
+            "name_jp": "云迹",
+            "name_kr": "云迹",
+            "name_tw": "云迹",
+            "position": "MELEE",
+            "profession": "SPECIAL",
+            "rangeId": ["1-1", "2-2", "2-2"],
+            "rarity": 4
         },
         "char_416_zumama": {
             "name": "森蚺",
@@ -6418,6 +6484,17 @@
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": ["x-1", "x-1", "x-1"],
+            "rarity": 1
+        },
+        "trap_186_cnvfwks": {
+            "name": "烟花发射器",
+            "name_en": "烟花发射器",
+            "name_jp": "烟花发射器",
+            "name_kr": "烟花发射器",
+            "name_tw": "烟花发射器",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1
         },
         "trap_400_xbfarm": {
