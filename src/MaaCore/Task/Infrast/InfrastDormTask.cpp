@@ -23,6 +23,12 @@ asst::InfrastDormTask& asst::InfrastDormTask::set_trust_enabled(bool dorm_trust_
     return *this;
 }
 
+bool asst::InfrastDormTask::on_run_fails()
+{
+    m_if_filter_notstationed_haspressed = false;
+    return asst::InfrastAbstractTask::on_run_fails();
+}
+
 bool asst::InfrastDormTask::_run()
 {
     for (; m_cur_facility_index < m_max_num_of_dorm; ++m_cur_facility_index) {

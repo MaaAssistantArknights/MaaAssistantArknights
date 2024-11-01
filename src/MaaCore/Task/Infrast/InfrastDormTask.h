@@ -14,6 +14,9 @@ public:
     InfrastDormTask& set_notstationed_enabled(bool dorm_notstationed_enabled) noexcept;
     InfrastDormTask& set_trust_enabled(bool m_dorm_trust_enabled) noexcept;
 
+protected:
+    virtual bool on_run_fails() override;
+
 private:
     virtual bool _run() override;
     // virtual bool click_confirm_button() override;
