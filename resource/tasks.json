@@ -4425,33 +4425,33 @@
     },
     "InfrastOperListTabSkillUnClicked": {
         "action": "ClickSelf",
-        "roi": [ 765, 0, 458, 116 ],
+        "roi": [ 751, 0, 445, 82 ],
         "templThreshold": 0.7,
         "postDelay": 1500
     },
     "InfrastOperListTabWorkStatusUnClicked": {
         "action": "ClickSelf",
-        "roi": [ 765, 0, 458, 116 ],
+        "roi": [ 751, 0, 445, 82 ],
         "templThreshold": 0.7,
         "postDelay": 1500
     },
     "InfrastOperListTabMoodDoubleClick": {
         "action": "ClickSelf",
-        "roi": [ 765, 0, 458, 116 ],
+        "roi": [ 751, 0, 445, 82 ],
         "templThreshold": 0.7,
         "maxTimes": 2,
         "next": ["InfrastOperListTabMoodDoubleClick"]
     },
     "InfrastOperListTabMoodDoubleClickWhenUnclicked": {
         "action": "ClickSelf",
-        "roi": [ 765, 0, 458, 116 ],
+        "roi": [ 751, 0, 445, 82 ],
         "templThreshold": 0.7,
         "next": ["InfrastOperListTabMoodClick"]
     },
     "InfrastOperListTabMoodClick": {
         "template": "InfrastOperListTabMoodDoubleClick.png",
         "action": "ClickSelf",
-        "roi": [ 765, 0, 458, 116 ],
+        "roi": [ 751, 0, 445, 82 ],
         "templThreshold": 0.7
     },
     "BattleStageName": {
