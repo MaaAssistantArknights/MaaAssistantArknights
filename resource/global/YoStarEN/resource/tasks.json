@@ -1038,9 +1038,6 @@
         "fullMatch": true,
         "text": ["Morale", "Resting", "In Use", "Working", "Assign"]
     },
-    "InfrastFilterMenuNotStationedButton": {
-        "templThreshold": 0.75
-    },
     "InfrastConfirmButtonWait": {
         "text": ["Submitting feedback", "to the neural network"],
         "roi": [675, 605, 427, 115]
