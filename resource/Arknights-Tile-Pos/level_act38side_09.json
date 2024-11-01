@@ -861,6 +861,7 @@
             }
         ]
     ],
+    "name": "狼群与群狼",
     "code": "PV-9",
     "levelId": "activities/act38side/level_act38side_09",
     "stageId": "act38side_09",

@@ -652,6 +652,7 @@
             }
         ]
     ],
+    "name": "试演烟花秀",
     "code": "PV-P-1",
     "levelId": "activities/act38side/level_act38side_sp01",
     "stageId": "act38side_sp01",

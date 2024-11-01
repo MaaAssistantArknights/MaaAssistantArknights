@@ -931,6 +931,7 @@
             }
         ]
     ],
+    "name": "即兴烟花秀",
     "code": "PV-P-2",
     "levelId": "activities/act38side/level_act38side_sp02",
     "stageId": "act38side_sp02",

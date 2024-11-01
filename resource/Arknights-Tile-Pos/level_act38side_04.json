@@ -701,6 +701,7 @@
             }
         ]
     ],
+    "name": "体面来宾",
     "code": "PV-4",
     "levelId": "activities/act38side/level_act38side_04",
     "stageId": "act38side_04",

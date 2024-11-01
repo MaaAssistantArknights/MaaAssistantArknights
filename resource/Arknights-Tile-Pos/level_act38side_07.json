@@ -745,6 +745,7 @@
             }
         ]
     ],
+    "name": "揭幕时刻",
     "code": "PV-7",
     "levelId": "activities/act38side/level_act38side_07",
     "stageId": "act38side_07",

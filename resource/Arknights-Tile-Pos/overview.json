@@ -25900,8 +25900,10 @@
         "name": "精炼工厂保全",
         "stageId": "wk_toxic_5",
         "width": 10
-    },"act38side_01-activities/act38sidelevel_act38side_01": {
+    },
+    "act38side_01-activities/act38sidelevel_act38side_01": {
         "code": "PV-1",
+        "name": "失途",
         "filename": "level_act38side_01.json",
         "width": 9,
         "height": 7,
@@ -25910,6 +25912,7 @@
     },
     "act38side_02-activities/act38sidelevel_act38side_02": {
         "code": "PV-2",
+        "name": "择路",
         "filename": "level_act38side_02.json",
         "width": 9,
         "height": 8,
@@ -25918,6 +25921,7 @@
     },
     "act38side_03-activities/act38sidelevel_act38side_03": {
         "code": "PV-3",
+        "name": "恶客盈门",
         "filename": "level_act38side_03.json",
         "width": 11,
         "height": 9,
@@ -25926,6 +25930,7 @@
     },
     "act38side_04-activities/act38sidelevel_act38side_04": {
         "code": "PV-4",
+        "name": "体面来宾",
         "filename": "level_act38side_04.json",
         "width": 14,
         "height": 7,
@@ -25934,6 +25939,7 @@
     },
     "act38side_05-activities/act38sidelevel_act38side_05": {
         "code": "PV-5",
+        "name": "“致新生活”",
         "filename": "level_act38side_05.json",
         "width": 11,
         "height": 7,
@@ -25942,6 +25948,7 @@
     },
     "act38side_06-activities/act38sidelevel_act38side_06": {
         "code": "PV-6",
+        "name": "“复仇于我”",
         "filename": "level_act38side_06.json",
         "width": 13,
         "height": 10,
@@ -25950,6 +25957,7 @@
     },
     "act38side_07-activities/act38sidelevel_act38side_07": {
         "code": "PV-7",
+        "name": "揭幕时刻",
         "filename": "level_act38side_07.json",
         "width": 13,
         "height": 8,
@@ -25958,6 +25966,7 @@
     },
     "act38side_08-activities/act38sidelevel_act38side_08": {
         "code": "PV-8",
+        "name": "无私铁棘",
         "filename": "level_act38side_08.json",
         "width": 13,
         "height": 11,
@@ -25966,6 +25975,7 @@
     },
     "act38side_09-activities/act38sidelevel_act38side_09": {
         "code": "PV-9",
+        "name": "狼群与群狼",
         "filename": "level_act38side_09.json",
         "width": 12,
         "height": 10,
@@ -25974,6 +25984,7 @@
     },
     "act38side_10-activities/act38sidelevel_act38side_10": {
         "code": "PV-10",
+        "name": "铳响",
         "filename": "level_act38side_10.json",
         "width": 15,
         "height": 11,
@@ -25982,6 +25993,7 @@
     },
     "act38side_sp01-activities/act38sidelevel_act38side_sp01": {
         "code": "PV-P-1",
+        "name": "试演烟花秀",
         "filename": "level_act38side_sp01.json",
         "width": 13,
         "height": 7,
@@ -25990,6 +26002,7 @@
     },
     "act38side_sp02-activities/act38sidelevel_act38side_sp02": {
         "code": "PV-P-2",
+        "name": "即兴烟花秀",
         "filename": "level_act38side_sp02.json",
         "width": 13,
         "height": 10,
@@ -25998,6 +26011,7 @@
     },
     "act38side_sp03-activities/act38sidelevel_act38side_sp03": {
         "code": "PV-P-3",
+        "name": "狂欢之夜烟花秀",
         "filename": "level_act38side_sp03.json",
         "width": 9,
         "height": 9,
@@ -26006,6 +26020,7 @@
     },
     "act38side_tr01-activities/act38sidelevel_act38side_tr01": {
         "code": "PV-TR-1",
+        "name": "《烟花燃放须知》",
         "filename": "level_act38side_tr01.json",
         "width": 10,
         "height": 8,
