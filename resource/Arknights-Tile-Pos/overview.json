@@ -25900,5 +25900,116 @@
         "name": "精炼工厂保全",
         "stageId": "wk_toxic_5",
         "width": 10
+    },"act38side_01-activities/act38sidelevel_act38side_01": {
+        "code": "PV-1",
+        "filename": "level_act38side_01.json",
+        "width": 9,
+        "height": 7,
+        "levelId": "activities/act38side/level_act38side_01",
+        "stageId": "act38side_01"
+    },
+    "act38side_02-activities/act38sidelevel_act38side_02": {
+        "code": "PV-2",
+        "filename": "level_act38side_02.json",
+        "width": 9,
+        "height": 8,
+        "levelId": "activities/act38side/level_act38side_02",
+        "stageId": "act38side_02"
+    },
+    "act38side_03-activities/act38sidelevel_act38side_03": {
+        "code": "PV-3",
+        "filename": "level_act38side_03.json",
+        "width": 11,
+        "height": 9,
+        "levelId": "activities/act38side/level_act38side_03",
+        "stageId": "act38side_03"
+    },
+    "act38side_04-activities/act38sidelevel_act38side_04": {
+        "code": "PV-4",
+        "filename": "level_act38side_04.json",
+        "width": 14,
+        "height": 7,
+        "levelId": "activities/act38side/level_act38side_04",
+        "stageId": "act38side_04"
+    },
+    "act38side_05-activities/act38sidelevel_act38side_05": {
+        "code": "PV-5",
+        "filename": "level_act38side_05.json",
+        "width": 11,
+        "height": 7,
+        "levelId": "activities/act38side/level_act38side_05",
+        "stageId": "act38side_05"
+    },
+    "act38side_06-activities/act38sidelevel_act38side_06": {
+        "code": "PV-6",
+        "filename": "level_act38side_06.json",
+        "width": 13,
+        "height": 10,
+        "levelId": "activities/act38side/level_act38side_06",
+        "stageId": "act38side_06"
+    },
+    "act38side_07-activities/act38sidelevel_act38side_07": {
+        "code": "PV-7",
+        "filename": "level_act38side_07.json",
+        "width": 13,
+        "height": 8,
+        "levelId": "activities/act38side/level_act38side_07",
+        "stageId": "act38side_07"
+    },
+    "act38side_08-activities/act38sidelevel_act38side_08": {
+        "code": "PV-8",
+        "filename": "level_act38side_08.json",
+        "width": 13,
+        "height": 11,
+        "levelId": "activities/act38side/level_act38side_08",
+        "stageId": "act38side_08"
+    },
+    "act38side_09-activities/act38sidelevel_act38side_09": {
+        "code": "PV-9",
+        "filename": "level_act38side_09.json",
+        "width": 12,
+        "height": 10,
+        "levelId": "activities/act38side/level_act38side_09",
+        "stageId": "act38side_09"
+    },
+    "act38side_10-activities/act38sidelevel_act38side_10": {
+        "code": "PV-10",
+        "filename": "level_act38side_10.json",
+        "width": 15,
+        "height": 11,
+        "levelId": "activities/act38side/level_act38side_10",
+        "stageId": "act38side_10"
+    },
+    "act38side_sp01-activities/act38sidelevel_act38side_sp01": {
+        "code": "PV-P-1",
+        "filename": "level_act38side_sp01.json",
+        "width": 13,
+        "height": 7,
+        "levelId": "activities/act38side/level_act38side_sp01",
+        "stageId": "act38side_sp01"
+    },
+    "act38side_sp02-activities/act38sidelevel_act38side_sp02": {
+        "code": "PV-P-2",
+        "filename": "level_act38side_sp02.json",
+        "width": 13,
+        "height": 10,
+        "levelId": "activities/act38side/level_act38side_sp02",
+        "stageId": "act38side_sp02"
+    },
+    "act38side_sp03-activities/act38sidelevel_act38side_sp03": {
+        "code": "PV-P-3",
+        "filename": "level_act38side_sp03.json",
+        "width": 9,
+        "height": 9,
+        "levelId": "activities/act38side/level_act38side_sp03",
+        "stageId": "act38side_sp03"
+    },
+    "act38side_tr01-activities/act38sidelevel_act38side_tr01": {
+        "code": "PV-TR-1",
+        "filename": "level_act38side_tr01.json",
+        "width": 10,
+        "height": 8,
+        "levelId": "activities/act38side/level_act38side_tr01",
+        "stageId": "act38side_tr01"
     }
 }
