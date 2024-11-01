@@ -606,14 +606,14 @@
         "roi": [69, 594, 123, 40],
         "next": ["#self", "ChapterSwipeToTheRight"]
     },
+    "PV-10@SideStoryStage": {
+        "text": ["PV-10"]
+    },
     "PV-9@SideStoryStage": {
         "text": ["PV-9"]
     },
     "PV-8@SideStoryStage": {
         "text": ["PV-8"]
-    },
-    "PV-7@SideStoryStage": {
-        "text": ["PV-7"]
     },
     "PV-5@SideStoryStage": {
         "text": ["PV-5"]
