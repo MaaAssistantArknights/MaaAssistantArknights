@@ -564,6 +564,60 @@
         ],
         "roi": [0, 60, 1280, 550]
     },
+    "PV-10": {
+        "algorithm": "JustReturn",
+        "sub": ["PV-OpenOpt"],
+        "next": ["PV-10@SideStoryStage", "PV-10@SwipeToStage"]
+    },
+    "PV-9": {
+        "algorithm": "JustReturn",
+        "sub": ["PV-OpenOpt"],
+        "next": ["PV-9@SideStoryStage", "PV-9@SwipeToStage"]
+    },
+    "PV-8": {
+        "algorithm": "JustReturn",
+        "sub": ["PV-OpenOpt"],
+        "next": ["PV-8@SideStoryStage", "PV-8@SwipeToStage"]
+    },
+    "PV-5": {
+        "algorithm": "JustReturn",
+        "sub": ["PV-OpenOpt"],
+        "next": ["PV-5@SideStoryStage", "PV-5@SwipeToStage"]
+    },
+    "PV-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["PV-OpenOcr", "PV-Open"]
+    },
+    "PV-Open": {
+        "baseTask": "SS-Open",
+        "template": "StageSideStory.png",
+        "next": ["PVChapterToPV"]
+    },
+    "PV-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["揭幕者们", "彩车游行", "荒芜之舞"],
+        "next": ["PVChapterToPV"]
+    },
+    "PVChapterToPV": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["四幕汇演"],
+        "preDelay": 3000,
+        "roi": [69, 594, 123, 40],
+        "next": ["#self", "ChapterSwipeToTheRight"]
+    },
+    "PV-9@SideStoryStage": {
+        "text": ["PV-9"]
+    },
+    "PV-8@SideStoryStage": {
+        "text": ["PV-8"]
+    },
+    "PV-7@SideStoryStage": {
+        "text": ["PV-7"]
+    },
+    "PV-5@SideStoryStage": {
+        "text": ["PV-5"]
+    },
     "GO-9": {
         "algorithm": "JustReturn",
         "sub": ["GO-OpenOpt"],
