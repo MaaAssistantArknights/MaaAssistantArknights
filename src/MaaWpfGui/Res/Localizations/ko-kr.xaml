@@ -731,7 +731,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="GiveUpUploadingPenguins">펭귄 물류에 업로드 불가</system:String>
     <system:String x:Key="TheEx">EX 스테이지가 없어 중단되었습니다</system:String>
     <system:String x:Key="MissingOperators">다음 오퍼레이터들이 누락되었습니다:</system:String>
-    <system:String x:Key="UseSupportUnit">지원 조작사 사용: {0}</system:String>
+    <system:String x:Key="RecruitSuppportOperator">지원 유닛 추가: {0}</system:String>
     <system:String x:Key="StageQueue">스테이지 대기열:</system:String>
     <system:String x:Key="UnableToAgent">프록시 명령을 사용할 수 없습니다</system:String>
     <system:String x:Key="MissionStart">행동 개시</system:String>
