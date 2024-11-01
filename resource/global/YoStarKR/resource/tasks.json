@@ -921,8 +921,8 @@
         "roi": [0, 20, 302, 302]
     },
     "SpecialAccessActivitiesConfirm": {
-        "text": ["수령", "하기"],
-        "postDelay": 500
+        "postDelay": 500,
+        "text": ["수령", "하기"]
     },
     "NoFriends": {
         "text": ["등록된", "없습니다"]
