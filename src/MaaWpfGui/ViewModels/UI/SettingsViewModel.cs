@@ -2205,7 +2205,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private int _roguelikeDifficulty = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDifficulty, int.MaxValue.ToString()));
+        // 内测临时修复，发版前删除
+        private int _roguelikeDifficulty = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDifficulty, int.MaxValue.ToString()).Replace("MAX", int.MaxValue.ToString()));
 
         public int RoguelikeDifficulty
         {
