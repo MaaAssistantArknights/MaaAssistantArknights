@@ -86,7 +86,7 @@
                                     Minimum="1"
                                     ValueFormat="00"
                                     Value="{Binding RecruitSettingDataContext.ChooseLevel3Hour}" />
-                                <controls:TextBlock Margin="5">:</controls:TextBlock>
+                                <controls:TextBlock Margin="5" Text=":" />
                                 <hc:NumericUpDown
                                     Width="55"
                                     Increment="10"
@@ -111,7 +111,7 @@
                                     Minimum="1"
                                     ValueFormat="00"
                                     Value="{Binding RecruitSettingDataContext.ChooseLevel4Hour}" />
-                                <controls:TextBlock Margin="5">:</controls:TextBlock>
+                                <controls:TextBlock Margin="5" Text=":" />
                                 <hc:NumericUpDown
                                     Width="55"
                                     Increment="10"
@@ -136,7 +136,7 @@
                                     Minimum="1"
                                     ValueFormat="00"
                                     Value="{Binding RecruitSettingDataContext.ChooseLevel5Hour}" />
-                                <controls:TextBlock Margin="5">:</controls:TextBlock>
+                                <controls:TextBlock Margin="5" Text=":" />
                                 <hc:NumericUpDown
                                     Width="55"
                                     Increment="10"
@@ -154,12 +154,15 @@
                                 VerticalAlignment="Bottom"
                                 Content="{DynamicResource AutoSelectLevel6Tags}"
                                 IsChecked="{Binding ChooseLevel6}" />
-                            <StackPanel Orientation="Horizontal" Visibility="{c:Binding RecruitAutoSetTime}" IsEnabled="False">
+                            <StackPanel
+                                IsEnabled="False"
+                                Orientation="Horizontal"
+                                Visibility="{c:Binding RecruitAutoSetTime}">
                                 <hc:NumericUpDown
                                     Width="55"
                                     ValueFormat="00"
                                     Value="9" />
-                                <controls:TextBlock Margin="5">:</controls:TextBlock>
+                                <controls:TextBlock Margin="5" Text=":" />
                                 <hc:NumericUpDown
                                     Width="55"
                                     ValueFormat="00"

@@ -3608,8 +3608,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _chooseLevelTimeUpdating;
-
         private int _chooseLevel3Hour = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3Time, "9")) / 60;
 
         public int ChooseLevel3Hour
@@ -3617,11 +3615,12 @@ namespace MaaWpfGui.ViewModels.UI
             get => _chooseLevel3Hour;
             set
             {
-                SetAndNotify(ref _chooseLevel3Hour, value);
-                if (!_chooseLevelTimeUpdating)
+                if (!SetAndNotify(ref _chooseLevel3Hour, value))
                 {
-                    ChooseLevel3Time = (value * 60) + ChooseLevel3Min;
+                    return;
                 }
+
+                ChooseLevel3Time = (value * 60) + ChooseLevel3Min;
             }
         }
 
@@ -3632,11 +3631,12 @@ namespace MaaWpfGui.ViewModels.UI
             get => _chooseLevel3Min;
             set
             {
-                SetAndNotify(ref _chooseLevel3Min, value);
-                if (!_chooseLevelTimeUpdating)
+                if (!SetAndNotify(ref _chooseLevel3Min, value))
                 {
-                    ChooseLevel3Time = (ChooseLevel3Hour * 60) + value;
+                    return;
                 }
+
+                ChooseLevel3Time = (ChooseLevel3Hour * 60) + value;
             }
         }
 
@@ -3656,10 +3656,8 @@ namespace MaaWpfGui.ViewModels.UI
 
                 SetAndNotify(ref _chooseLevel3Time, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ChooseLevel3Time, value.ToString());
-                _chooseLevelTimeUpdating = true;
-                ChooseLevel3Hour = value / 60;
-                ChooseLevel3Min = value % 60;
-                _chooseLevelTimeUpdating = false;
+                SetAndNotify(ref _chooseLevel3Hour, value / 60, nameof(ChooseLevel3Hour));
+                SetAndNotify(ref _chooseLevel3Min, value % 60, nameof(ChooseLevel3Min));
             }
         }
 
@@ -3670,11 +3668,12 @@ namespace MaaWpfGui.ViewModels.UI
             get => _chooseLevel4Hour;
             set
             {
-                SetAndNotify(ref _chooseLevel4Hour, value);
-                if (!_chooseLevelTimeUpdating)
+                if (!SetAndNotify(ref _chooseLevel4Hour, value))
                 {
-                    ChooseLevel4Time = (value * 60) + ChooseLevel4Min;
+                    return;
                 }
+
+                ChooseLevel4Time = (value * 60) + ChooseLevel4Min;
             }
         }
 
@@ -3685,11 +3684,12 @@ namespace MaaWpfGui.ViewModels.UI
             get => _chooseLevel4Min;
             set
             {
-                SetAndNotify(ref _chooseLevel4Min, value);
-                if (!_chooseLevelTimeUpdating)
+                if (!SetAndNotify(ref _chooseLevel4Min, value))
                 {
-                    ChooseLevel4Time = (ChooseLevel4Hour * 60) + value;
+                    return;
                 }
+
+                ChooseLevel4Time = (ChooseLevel4Hour * 60) + value;
             }
         }
 
@@ -3709,10 +3709,8 @@ namespace MaaWpfGui.ViewModels.UI
 
                 SetAndNotify(ref _chooseLevel4Time, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ChooseLevel4Time, value.ToString());
-                _chooseLevelTimeUpdating = true;
-                ChooseLevel4Hour = value / 60;
-                ChooseLevel4Min = value % 60;
-                _chooseLevelTimeUpdating = false;
+                SetAndNotify(ref _chooseLevel4Hour, value / 60, nameof(ChooseLevel4Hour));
+                SetAndNotify(ref _chooseLevel4Min, value % 60, nameof(ChooseLevel4Min));
             }
         }
 
@@ -3723,11 +3721,12 @@ namespace MaaWpfGui.ViewModels.UI
             get => _chooseLevel5Hour;
             set
             {
-                SetAndNotify(ref _chooseLevel5Hour, value);
-                if (!_chooseLevelTimeUpdating)
+                if (!SetAndNotify(ref _chooseLevel5Hour, value))
                 {
-                    ChooseLevel5Time = (value * 60) + ChooseLevel5Min;
+                    return;
                 }
+
+                ChooseLevel5Time = (value * 60) + ChooseLevel5Min;
             }
         }
 
@@ -3738,11 +3737,12 @@ namespace MaaWpfGui.ViewModels.UI
             get => _chooseLevel5Min;
             set
             {
-                SetAndNotify(ref _chooseLevel5Min, value);
-                if (!_chooseLevelTimeUpdating)
+                if (!SetAndNotify(ref _chooseLevel5Min, value))
                 {
-                    ChooseLevel5Time = (ChooseLevel5Hour * 60) + value;
+                    return;
                 }
+
+                ChooseLevel5Time = (ChooseLevel5Hour * 60) + value;
             }
         }
 
@@ -3762,10 +3762,8 @@ namespace MaaWpfGui.ViewModels.UI
 
                 SetAndNotify(ref _chooseLevel5Time, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ChooseLevel5Time, value.ToString());
-                _chooseLevelTimeUpdating = true;
-                ChooseLevel5Hour = value / 60;
-                ChooseLevel5Min = value % 60;
-                _chooseLevelTimeUpdating = false;
+                SetAndNotify(ref _chooseLevel5Hour, value / 60, nameof(ChooseLevel5Hour));
+                SetAndNotify(ref _chooseLevel5Min, value % 60, nameof(ChooseLevel5Min));
             }
         }
 
