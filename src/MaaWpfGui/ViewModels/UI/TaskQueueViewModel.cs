@@ -1730,8 +1730,9 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.SettingsViewModel.UseExpedited,
                 selectExtra,
                 Instances.SettingsViewModel.NotChooseLevel1,
-                Instances.SettingsViewModel.IsLevel3UseShortTime,
-                Instances.SettingsViewModel.IsLevel3UseShortTime2);
+                Instances.SettingsViewModel.ChooseLevel3Time,
+                Instances.SettingsViewModel.ChooseLevel4Time,
+                Instances.SettingsViewModel.ChooseLevel5Time);
         }
 
         private static bool AppendRoguelike()
