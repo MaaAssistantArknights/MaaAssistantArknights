@@ -3607,7 +3607,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private int _chooseLevel3Hour = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3Time, "9")) / 60;
+        private int _chooseLevel3Hour = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3Time, "540")) / 60;
 
         public int ChooseLevel3Hour
         {
@@ -3623,7 +3623,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private int _chooseLevel3Min = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3Time, "0")) % 60;
+        private int _chooseLevel3Min = (Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3Time, "540")) % 60) / 10 * 10;
 
         public int ChooseLevel3Min
         {
@@ -3650,7 +3650,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     < 60 => 540,
                     > 540 => 60,
-                    _ => value,
+                    _ => value / 10 * 10,
                 };
 
                 SetAndNotify(ref _chooseLevel3Time, value);
@@ -3676,7 +3676,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private int _chooseLevel4Min = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel4Time, "540")) % 60;
+        private int _chooseLevel4Min = (Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel4Time, "540")) % 60) / 10 * 10;
 
         public int ChooseLevel4Min
         {
@@ -3703,7 +3703,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     < 60 => 540,
                     > 540 => 60,
-                    _ => value,
+                    _ => value / 10 * 10,
                 };
 
                 SetAndNotify(ref _chooseLevel4Time, value);
@@ -3729,7 +3729,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private int _chooseLevel5Min = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel5Time, "0")) % 60;
+        private int _chooseLevel5Min = (Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel5Time, "0")) % 60) / 10 * 10;
 
         public int ChooseLevel5Min
         {
@@ -3756,7 +3756,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     < 60 => 540,
                     > 540 => 60,
-                    _ => value,
+                    _ => value / 10 * 10,
                 };
 
                 SetAndNotify(ref _chooseLevel5Time, value);
