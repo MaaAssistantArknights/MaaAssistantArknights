@@ -2885,5 +2885,6 @@
     "resource/template/items/act38side_token_ticket": "67c3294b957418604017495a6fff25300c47e0e74120df88a64dea3e30ffd996",
     "resource/template/items/LMTGS_COIN_5601": "f6c48e0335bfd3e107fe887dacd6cde9cd88d0e4125860991c5d3d9024efe12e",
     "resource/template/items/randomMaterial_act38side": "485ec56cbd59b199b65f0d67f87fc0b91730ec492b0cab8d0fc8296fcb440d85",
-    "YoStarKR/MiningActivityConfirm": "e61fe558bd73bb1c6b3b41acf3c0ed48f4236b2dd83212b38f18b7a92642bf50"
+    "YoStarKR/MiningActivityConfirm": "e61fe558bd73bb1c6b3b41acf3c0ed48f4236b2dd83212b38f18b7a92642bf50",
+    "official/OrundumActivitiesClickParty": "60506de4c0b77a4a35849de7944ac7bfa073ed1fb246d53c1595e8eaa772691a"
 }
