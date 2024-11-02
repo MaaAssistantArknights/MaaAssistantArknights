@@ -337,7 +337,7 @@ def main(tag_name=None, latest=None):
             rf'git show -s --format=%b%n {commit_hash}'
         )
         raw_git_shows = call_command(git_show_command)
-        for commit_body in raw_git_shows.split("\n\n"):
+        for commit_body in raw_git_shows.split("\n"):
             if not commit_body.startswith("* ") and "[skip changelog]" in commit_body:
                 raw_commits_info[commit_hash]["skip"] = True
 
