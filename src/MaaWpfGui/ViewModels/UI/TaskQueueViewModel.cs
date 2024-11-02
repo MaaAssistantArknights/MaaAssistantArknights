@@ -762,12 +762,15 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="newList">新的列表</param>
         private static void UpdateObservableCollection(ObservableCollection<CombinedData> originalCollection, List<CombinedData> newList)
         {
-            originalCollection.Clear();
-
-            foreach (var item in newList)
+            Execute.OnUIThread(() =>
             {
-                originalCollection.Add(item);
-            }
+                originalCollection.Clear();
+
+                foreach (var item in newList)
+                {
+                    originalCollection.Add(item);
+                }
+            });
         }
 
         private void AddStagesIfNotExist(IEnumerable<string> stages, List<CombinedData> stageList)
