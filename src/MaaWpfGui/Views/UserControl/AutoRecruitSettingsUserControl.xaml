@@ -59,20 +59,6 @@
             </CheckBox>
             <CheckBox
                 Margin="0,10"
-                HorizontalAlignment="Left"
-                IsChecked="{Binding IsLevel3UseShortTime}"
-                ToolTip="{DynamicResource Level3UseShortTimeTip}">
-                <controls:TextBlock Text="{DynamicResource Level3UseShortTime}" TextWrapping="Wrap" />
-            </CheckBox>
-            <CheckBox
-                Margin="0,10"
-                HorizontalAlignment="Left"
-                IsChecked="{Binding IsLevel3UseShortTime2}"
-                ToolTip="{DynamicResource Level3UseShortTimeTip}">
-                <controls:TextBlock Text="{DynamicResource Level3UseShortTime2}" TextWrapping="Wrap" />
-            </CheckBox>
-            <CheckBox
-                Margin="0,10"
                 Content="{DynamicResource ManuallySelectLevel1}"
                 IsChecked="{Binding NotChooseLevel1}"
                 ToolTip="{DynamicResource Level1Tip}" />
@@ -80,14 +66,71 @@
                 Margin="0,10"
                 Content="{DynamicResource AutoSelectLevel3}"
                 IsChecked="{Binding ChooseLevel3}" />
+            <StackPanel
+                Height="30"
+                IsEnabled="{c:Binding ChooseLevel3}"
+                Orientation="Horizontal">
+                <hc:NumericUpDown
+                    Width="55"
+                    Maximum="9"
+                    Minimum="1"
+                    ValueFormat="00"
+                    Value="{Binding ChooseLevel3Hour}" />
+                <controls:TextBlock Margin="5">:</controls:TextBlock>
+                <hc:NumericUpDown
+                    Width="55"
+                    Increment="10"
+                    Maximum="50"
+                    Minimum="0"
+                    ValueFormat="00"
+                    Value="{Binding ChooseLevel3Min}" />
+            </StackPanel>
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource AutoSelectLevel4}"
                 IsChecked="{Binding ChooseLevel4}" />
+            <StackPanel
+                Height="30"
+                IsEnabled="{c:Binding ChooseLevel4}"
+                Orientation="Horizontal">
+                <hc:NumericUpDown
+                    Width="55"
+                    Maximum="9"
+                    Minimum="1"
+                    ValueFormat="00"
+                    Value="{Binding ChooseLevel4Hour}" />
+                <controls:TextBlock Margin="5">:</controls:TextBlock>
+                <hc:NumericUpDown
+                    Width="55"
+                    Increment="10"
+                    Maximum="50"
+                    Minimum="0"
+                    ValueFormat="00"
+                    Value="{Binding ChooseLevel4Min}" />
+            </StackPanel>
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource AutoSelectLevel5}"
                 IsChecked="{Binding ChooseLevel5}" />
+            <StackPanel
+                Height="30"
+                IsEnabled="{c:Binding ChooseLevel5}"
+                Orientation="Horizontal">
+                <hc:NumericUpDown
+                    Width="55"
+                    Maximum="9"
+                    Minimum="1"
+                    ValueFormat="00"
+                    Value="{Binding ChooseLevel5Hour}" />
+                <controls:TextBlock Margin="5">:</controls:TextBlock>
+                <hc:NumericUpDown
+                    Width="55"
+                    Increment="10"
+                    Maximum="50"
+                    Minimum="0"
+                    ValueFormat="00"
+                    Value="{Binding ChooseLevel5Min}" />
+            </StackPanel>
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource AutoSelectLevel6}"
