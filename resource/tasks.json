@@ -3111,18 +3111,15 @@
         "specificRect": [284, 255, 25, 25]
     },
     "OrundumActivitiesClick2": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
+        "baseTask": "OrundumActivitiesClick1",
         "specificRect": [428, 255, 25, 25]
     },
     "OrundumActivitiesClick3": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
+        "baseTask": "OrundumActivitiesClick1",
         "specificRect": [573, 255, 25, 25]
     },
     "OrundumActivitiesClick4": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
+        "baseTask": "OrundumActivitiesClick1",
         "specificRect": [715, 255, 25, 25]
     },
     "OrundumActivitiesConfirm": {
