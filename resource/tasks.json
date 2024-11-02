@@ -3087,7 +3087,7 @@
     "OrundumActivities": {
         "doc": "幸运墙领合成玉",
         "algorithm": "OcrDetect",
-        "text": ["幸运墙", "幸运", "大巴扎"],
+        "text": ["幸运墙", "幸运", "好运墙", "好运", "游乐"],
         "action": "ClickSelf",
         "roi": [64, 72, 97, 156],
         "next": ["OrundumActivitiesChoose", "OrundumActivitiesReturn"],
@@ -3102,7 +3102,11 @@
     "OrundumActivitiesClick": {
         "action": "ClickSelf",
         "roi": [150, 150, 1000, 400],
-        "template": ["OrundumActivitiesClick.png", "OrundumActivitiesClickBazaar.png"],
+        "template": [
+            "OrundumActivitiesClick.png",
+            "OrundumActivitiesClickBazaar.png",
+            "OrundumActivitiesClickParty.png"
+        ],
         "templThreshold": 0.9,
         "maskRange": [1, 255],
         "rectMove": [10, 10, 50, 50],
