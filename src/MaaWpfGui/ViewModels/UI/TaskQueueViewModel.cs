@@ -746,11 +746,13 @@ namespace MaaWpfGui.ViewModels.UI
             // rss 如果结束后还选择了不开放的关卡，刷理智任务会报错
             rss = IsStageOpen(rss) ? rss : string.Empty;
 
-            var existingEmptyItem = tempRemainingSanityStageList.FirstOrDefault(item => item.Value == string.Empty);
-            if (existingEmptyItem != null)
+            if (tempRemainingSanityStageList.Any(item => item.Value == string.Empty))
             {
-                existingEmptyItem.Display = LocalizationHelper.GetString("NoUse");
+                var itemToRemove = tempRemainingSanityStageList.First(item => item.Value == string.Empty);
+                tempRemainingSanityStageList.Remove(itemToRemove);
             }
+
+            tempRemainingSanityStageList.Insert(0, new CombinedData { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty });
 
             UpdateObservableCollection(StageList, tempStageList);
             UpdateObservableCollection(RemainingSanityStageList, tempRemainingSanityStageList);
