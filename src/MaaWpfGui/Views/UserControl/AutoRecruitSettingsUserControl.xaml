@@ -76,7 +76,7 @@
                     Minimum="1"
                     ValueFormat="00"
                     Value="{Binding ChooseLevel3Hour}" />
-                <controls:TextBlock Margin="5">:</controls:TextBlock>
+                <controls:TextBlock Margin="5" Text=":" />
                 <hc:NumericUpDown
                     Width="55"
                     Increment="10"
@@ -99,7 +99,7 @@
                     Minimum="1"
                     ValueFormat="00"
                     Value="{Binding ChooseLevel4Hour}" />
-                <controls:TextBlock Margin="5">:</controls:TextBlock>
+                <controls:TextBlock Margin="5" Text=":" />
                 <hc:NumericUpDown
                     Width="55"
                     Increment="10"
@@ -122,7 +122,7 @@
                     Minimum="1"
                     ValueFormat="00"
                     Value="{Binding ChooseLevel5Hour}" />
-                <controls:TextBlock Margin="5">:</controls:TextBlock>
+                <controls:TextBlock Margin="5" Text=":" />
                 <hc:NumericUpDown
                     Width="55"
                     Increment="10"
