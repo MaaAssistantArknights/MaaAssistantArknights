@@ -3729,7 +3729,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private int _chooseLevel5Min = (Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel5Time, "0")) % 60) / 10 * 10;
+        private int _chooseLevel5Min = (Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel5Time, "540")) % 60) / 10 * 10;
 
         public int ChooseLevel5Min
         {
