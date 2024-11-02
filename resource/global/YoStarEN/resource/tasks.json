@@ -311,7 +311,7 @@
             ["Courier", "讯使"],
             ["Plume", "翎羽"],
             ["Vanilla", "香草"],
-            ["Fang", "芬"],
+            ["^Fang$", "芬"],
             ["^Yato$", "夜刀"],
             ["'?Justice Knight'?", "正义骑士号"],
             ["Fartooth", "远牙"],
@@ -765,8 +765,8 @@
             ["Degenbrecher", "锏"],
             ["Harold", "哈洛德"],
             ["Emergency Heater", "紧急供暖器"],
-            ["Flint", "点火石"],
             ["Flint", "燧石"],
+            ["Flint", "点火石"],
             ["Warmy", "温米"],
             ["Ray", "莱伊"],
             ["Sandbeast", "沙地兽"],
@@ -822,7 +822,6 @@
             ["Command Point", "号令点"],
             ["High Priest", "大祭司"],
             ["Pepe", "佩佩"],
-            ["Kestrel", "红隼"],
             ["Rhodes Island Staff Worker", "罗德岛工作人员"],
             ["Mail Box", "信使邮筒"],
             ["Message Casket", "讯息匣"],
@@ -848,13 +847,18 @@
             ["Random Item Box", "随机道具盒"],
             ["Accelerator Tile", "加速块"],
             ["Pinnacle Insights Port", "尖端研究成果共享终端"],
-            ["Pinnacle Insights Port", "尖端研究成果共享终端"],
-            ["Pinnacle Insights Port", "尖端研究成果共享终端"],
-            ["Sound Recording Amplifier", "声波记录扩音器"],
-            ["Sound Recording Amplifier", "声波记录扩音器"],
-            ["Arts Resonant Energy Field", "法术调和能量场"],
-            ["Arts Resonant Energy Field", "法术调和能量场"],
-            ["Squeaking Sound", "啸叫音响"]
+            ["Squeaking Sound", "啸叫音响"],
+            ["EP14 Mechanics Controller", "十四章机制控制器"],
+            ["Fang the Fire-?Sharpened", "历阵锐枪芬"],
+            ["Withered Altar", "枯朽祭坛"],
+            ["Wi.'adel", "维什戴尔"],
+            ["Civilight Eterna", "魔王"],
+            ["Logos", "逻各斯"],
+            ["Revenant's Shadow", "魂灵之影"],
+            ["Torrent Beam Activator", "洪流束激发器"],
+            ["Charles Lynch", "查尔斯·林奇"],
+            ["Core Amplifier", "核心增幅器"],
+            ["Light of Glory", "振奋荣光"]
         ]
     },
     "StartToWakeUpOCR": {
@@ -920,6 +924,9 @@
     "RecruitNow": {
         "text": ["Expedite"]
     },
+    "MiningActivities": {
+        "text": ["Provisional", "Mining", "Permit"]
+    },
     "OrundumActivities": {
         "text": ["Lucky Strips", "Login Event"]
     },
@@ -944,7 +951,8 @@
     "SpecialAccessActivities": {
         "doc_preDelay": "Sometimes a loading will appear after entering the home.",
         "preDelay": 500,
-        "text": ["Exclusive", "Event"]
+        "text": ["Exclusive"],
+        "roi": [66, 79, 103, 151]
     },
     "SpecialAccessActivitiesConfirm": {
         "text": ["CLAIM", "NOW"]
@@ -996,7 +1004,8 @@
             ["Summon", "召唤"],
             ["Fast-Redeploy", "快速复活"],
             ["DP-Recovery", "费用回复"],
-            ["Robot", "支援机械"]
+            ["Robot", "支援机械"],
+            ["Elemental", "元素"]
         ]
     },
     "RecruitContinue": {
@@ -1021,9 +1030,6 @@
     "InfrastEnterOperList": {
         "fullMatch": true,
         "text": ["Morale", "Resting", "In Use", "Working", "Assign"]
-    },
-    "InfrastFilterMenuNotStationedButton": {
-        "templThreshold": 0.75
     },
     "InfrastConfirmButtonWait": {
         "text": ["Submitting feedback", "to the neural network"],

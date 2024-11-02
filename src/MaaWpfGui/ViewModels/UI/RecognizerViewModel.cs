@@ -176,45 +176,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _isLevel3UseShortTime = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Level3UseShortTime, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to shorten the time for level 3.
-        /// </summary>
-        public bool IsLevel3UseShortTime
-        {
-            get => _isLevel3UseShortTime;
-            set
-            {
-                if (value)
-                {
-                    IsLevel3UseShortTime2 = false;
-                }
-
-                SetAndNotify(ref _isLevel3UseShortTime, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.Level3UseShortTime, value.ToString());
-            }
-        }
-
-        private bool _isLevel3UseShortTime2 = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Level3UseShortTime2, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to shorten the time for level 3.
-        /// </summary>
-        public bool IsLevel3UseShortTime2
-        {
-            get => _isLevel3UseShortTime2;
-            set
-            {
-                if (value)
-                {
-                    IsLevel3UseShortTime = false;
-                }
-
-                SetAndNotify(ref _isLevel3UseShortTime2, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.Level3UseShortTime2, value.ToString());
-            }
-        }
+        public static SettingsViewModel RecruitSettingDataContext => Instances.SettingsViewModel;
 
         private bool _recruitCaught;
 
@@ -259,7 +221,7 @@ namespace MaaWpfGui.ViewModels.UI
                 levelList.Add(6);
             }
 
-            Instances.AsstProxy.AsstStartRecruitCalc(levelList.ToArray(), RecruitAutoSetTime);
+            Instances.AsstProxy.AsstStartRecruitCalc(levelList.ToArray(), RecruitAutoSetTime, RecruitSettingDataContext.ChooseLevel3Time, RecruitSettingDataContext.ChooseLevel4Time, RecruitSettingDataContext.ChooseLevel5Time);
         }
 
         private bool _recruitmentShowPotential = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RecruitmentShowPotential, bool.TrueString));

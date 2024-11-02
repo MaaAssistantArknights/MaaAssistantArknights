@@ -235,7 +235,7 @@
                                 VerticalContentAlignment="Center"
                                 DisplayMemberPath="Display"
                                 IsHitTestVisible="{c:Binding !FightTaskRunning}"
-                                ItemsSource="{Binding AlternateStageList}"
+                                ItemsSource="{Binding StageList}"
                                 SelectedValue="{Binding Stage2}"
                                 SelectedValuePath="Value" />
                             <ComboBox
@@ -244,7 +244,7 @@
                                 VerticalContentAlignment="Center"
                                 DisplayMemberPath="Display"
                                 IsHitTestVisible="{c:Binding !FightTaskRunning}"
-                                ItemsSource="{Binding AlternateStageList}"
+                                ItemsSource="{Binding StageList}"
                                 SelectedValue="{Binding Stage3}"
                                 SelectedValuePath="Value" />
                         </StackPanel>

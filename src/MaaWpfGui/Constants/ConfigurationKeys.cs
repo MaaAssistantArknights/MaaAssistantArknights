@@ -98,8 +98,6 @@ namespace MaaWpfGui.Constants
         public const string ChooseLevel5 = "Recruit.ChooseLevel5";
         public const string ChooseLevel6 = "Recruit.ChooseLevel6";
         public const string AutoSetTime = "Recruit.AutoSetTime";
-        public const string Level3UseShortTime = "Recruit.IsLevel3UseShortTime";
-        public const string Level3UseShortTime2 = "Recruit.IsLevel3UseShortTime2";
         public const string RecruitmentShowPotential = "Recruit.ShowPotential";
 
         public const string DormThreshold = "Infrast.DormThreshold";
@@ -154,12 +152,13 @@ namespace MaaWpfGui.Constants
         public const string RefreshLevel3 = "AutoRecruit.RefreshLevel3";
         public const string ForceRefresh = "AutoRecruit.ForceRefresh";
         public const string SelectExtraTags = "AutoRecruit.SelectExtraTags";
-        public const string IsLevel3UseShortTime = "AutoRecruit.IsLevel3UseShortTime";
-        public const string IsLevel3UseShortTime2 = "AutoRecruit.IsLevel3UseShortTime2";
         public const string NotChooseLevel1 = "AutoRecruit.NotChooseLevel1";
         public const string RecruitChooseLevel3 = "AutoRecruit.ChooseLevel3";
+        public const string ChooseLevel3Time = "AutoRecruit.ChooseLevel3Time";
         public const string RecruitChooseLevel4 = "AutoRecruit.ChooseLevel4";
+        public const string ChooseLevel4Time = "AutoRecruit.ChooseLevel4Time";
         public const string RecruitChooseLevel5 = "AutoRecruit.ChooseLevel5";
+        public const string ChooseLevel5Time = "AutoRecruit.ChooseLevel5Time";
 
         public const string LastCreditFightTaskTime = "Visit.LastCreditFightTaskTime";
         public const string CreditFightTaskEnabled = "Visit.CreditFightTaskEnabled";

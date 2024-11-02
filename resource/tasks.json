@@ -564,6 +564,60 @@
         ],
         "roi": [0, 60, 1280, 550]
     },
+    "PV-10": {
+        "algorithm": "JustReturn",
+        "sub": ["PV-OpenOpt"],
+        "next": ["PV-10@SideStoryStage", "PV-10@SwipeToStage"]
+    },
+    "PV-9": {
+        "algorithm": "JustReturn",
+        "sub": ["PV-OpenOpt"],
+        "next": ["PV-9@SideStoryStage", "PV-9@SwipeToStage"]
+    },
+    "PV-8": {
+        "algorithm": "JustReturn",
+        "sub": ["PV-OpenOpt"],
+        "next": ["PV-8@SideStoryStage", "PV-8@SwipeToStage"]
+    },
+    "PV-5": {
+        "algorithm": "JustReturn",
+        "sub": ["PV-OpenOpt"],
+        "next": ["PV-5@SideStoryStage", "PV-5@SwipeToStage"]
+    },
+    "PV-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["PV-OpenOcr", "PV-Open"]
+    },
+    "PV-Open": {
+        "baseTask": "SS-Open",
+        "template": "StageSideStory.png",
+        "next": ["PVChapterToPV"]
+    },
+    "PV-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["揭幕者们", "彩车游行", "荒芜之舞"],
+        "next": ["PVChapterToPV"]
+    },
+    "PVChapterToPV": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["四幕汇演"],
+        "preDelay": 3000,
+        "roi": [69, 594, 123, 40],
+        "next": ["#self", "ChapterSwipeToTheRight"]
+    },
+    "PV-10@SideStoryStage": {
+        "text": ["PV-10"]
+    },
+    "PV-9@SideStoryStage": {
+        "text": ["PV-9"]
+    },
+    "PV-8@SideStoryStage": {
+        "text": ["PV-8"]
+    },
+    "PV-5@SideStoryStage": {
+        "text": ["PV-5"]
+    },
     "GO-9": {
         "algorithm": "JustReturn",
         "sub": ["GO-OpenOpt"],
@@ -3033,7 +3087,7 @@
     "OrundumActivities": {
         "doc": "幸运墙领合成玉",
         "algorithm": "OcrDetect",
-        "text": ["幸运墙", "幸运", "大巴扎"],
+        "text": ["幸运墙", "幸运", "好运墙", "好运", "游乐"],
         "action": "ClickSelf",
         "roi": [64, 72, 97, 156],
         "next": ["OrundumActivitiesChoose", "OrundumActivitiesReturn"],
@@ -3048,7 +3102,11 @@
     "OrundumActivitiesClick": {
         "action": "ClickSelf",
         "roi": [150, 150, 1000, 400],
-        "template": ["OrundumActivitiesClick.png", "OrundumActivitiesClickBazaar.png"],
+        "template": [
+            "OrundumActivitiesClick.png",
+            "OrundumActivitiesClickBazaar.png",
+            "OrundumActivitiesClickParty.png"
+        ],
         "templThreshold": 0.9,
         "maskRange": [1, 255],
         "rectMove": [10, 10, 50, 50],
@@ -3908,13 +3966,13 @@
     },
     "InfrastSortByTrustButton": {
         "action": "ClickSelf",
-        "roi": [1000, 0, 100, 70],
+        "roi": [645, 0, 635, 77],
         "next": ["InfrastSortByTrustButtonClickAgain"]
     },
     "InfrastSortByTrustButtonClickAgain": {
         "action": "ClickSelf",
         "templThreshold": 0.7,
-        "roi": [1000, 0, 100, 70],
+        "roi": [645, 0, 635, 77],
         "postDelay": 1000
     },
     "InfrastFilterMenuNotStationed": {
@@ -4425,33 +4483,33 @@
     },
     "InfrastOperListTabSkillUnClicked": {
         "action": "ClickSelf",
-        "roi": [818, 0, 128, 115],
+        "roi": [645, 0, 635, 77],
         "templThreshold": 0.7,
         "postDelay": 1500
     },
     "InfrastOperListTabWorkStatusUnClicked": {
         "action": "ClickSelf",
-        "roi": [719, 0, 158, 119],
+        "roi": [645, 0, 635, 77],
         "templThreshold": 0.7,
         "postDelay": 1500
     },
     "InfrastOperListTabMoodDoubleClick": {
         "action": "ClickSelf",
-        "roi": [900, 0, 131, 117],
+        "roi": [645, 0, 635, 77],
         "templThreshold": 0.7,
         "maxTimes": 2,
         "next": ["InfrastOperListTabMoodDoubleClick"]
     },
     "InfrastOperListTabMoodDoubleClickWhenUnclicked": {
         "action": "ClickSelf",
-        "roi": [900, 0, 131, 117],
+        "roi": [645, 0, 635, 77],
         "templThreshold": 0.7,
         "next": ["InfrastOperListTabMoodClick"]
     },
     "InfrastOperListTabMoodClick": {
         "template": "InfrastOperListTabMoodDoubleClick.png",
         "action": "ClickSelf",
-        "roi": [900, 0, 131, 117],
+        "roi": [645, 0, 635, 77],
         "templThreshold": 0.7
     },
     "BattleStageName": {
@@ -5957,6 +6015,7 @@
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [0, 383, 1280, 142],
+        "postDelay": 800,
         "ocrReplace": [["蓝图测绘分.*", "蓝图测绘分队"]]
     },
     "RoguelikeFoldartalSlowlySwipeToTheUp": {
