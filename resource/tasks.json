@@ -6015,6 +6015,7 @@
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [0, 383, 1280, 142],
+        "postDelay": 500,
         "ocrReplace": [["蓝图测绘分.*", "蓝图测绘分队"]]
     },
     "RoguelikeFoldartalSlowlySwipeToTheUp": {
