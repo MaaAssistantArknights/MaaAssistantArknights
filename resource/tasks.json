@@ -3097,20 +3097,30 @@
         "algorithm": "OcrDetect",
         "text": ["请选择", "选择"],
         "roi": [1023, 504, 198, 81],
-        "next": ["OrundumActivitiesClick"]
-    },
-    "OrundumActivitiesClick": {
-        "action": "ClickSelf",
-        "roi": [150, 150, 1000, 400],
-        "template": [
-            "OrundumActivitiesClick.png",
-            "OrundumActivitiesClickBazaar.png",
-            "OrundumActivitiesClickParty.png"
+        "sub": [
+            "OrundumActivitiesClick1",
+            "OrundumActivitiesClick2",
+            "OrundumActivitiesClick3",
+            "OrundumActivitiesClick4"
         ],
-        "templThreshold": 0.9,
-        "maskRange": [1, 255],
-        "rectMove": [10, 10, 50, 50],
-        "next": ["OrundumActivitiesChoose", "OrundumActivitiesConfirm"]
+        "next": ["OrundumActivitiesConfirm", "OrundumActivitiesReturn"]
+    },
+    "OrundumActivitiesClick1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [284, 255, 25, 25]
+    },
+    "OrundumActivitiesClick2": {
+        "baseTask": "OrundumActivitiesClick1",
+        "specificRect": [428, 255, 25, 25]
+    },
+    "OrundumActivitiesClick3": {
+        "baseTask": "OrundumActivitiesClick1",
+        "specificRect": [573, 255, 25, 25]
+    },
+    "OrundumActivitiesClick4": {
+        "baseTask": "OrundumActivitiesClick1",
+        "specificRect": [715, 255, 25, 25]
     },
     "OrundumActivitiesConfirm": {
         "algorithm": "OcrDetect",
