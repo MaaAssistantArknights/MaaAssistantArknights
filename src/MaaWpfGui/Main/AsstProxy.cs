@@ -2208,8 +2208,9 @@ namespace MaaWpfGui.Main
         /// </list>
         /// </param>
         /// <param name="skipRobot">是否在识别到小车词条时跳过。</param>
-        /// <param name="isLevel3UseShortTime">三星Tag是否使用短时间（7:40）</param>
-        /// <param name="isLevel3UseShortTime2">三星Tag是否使用短时间（1:00）</param>
+        /// <param name="chooseLevel3Time">3 星招募时间</param>
+        /// <param name="chooseLevel4Time">4 星招募时间</param>
+        /// <param name="chooseLevel5Time">5 星招募时间</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRecruit(
             int maxTimes,
@@ -2221,8 +2222,9 @@ namespace MaaWpfGui.Main
             bool useExpedited,
             int selectExtraTagsMode,
             bool skipRobot,
-            bool isLevel3UseShortTime,
-            bool isLevel3UseShortTime2 = false)
+            int chooseLevel3Time,
+            int chooseLevel4Time,
+            int chooseLevel5Time)
         {
             var taskParams = new JObject
             {
@@ -2237,26 +2239,17 @@ namespace MaaWpfGui.Main
                 ["expedite_times"] = maxTimes,
                 ["skip_robot"] = skipRobot,
                 ["first_tags"] = new JArray(firstTags),
+                ["recruitment_time"] = new JObject
+                {
+                    ["3"] = chooseLevel3Time,
+                    ["4"] = chooseLevel4Time,
+                    ["5"] = chooseLevel5Time,
+                },
+                ["report_to_penguin"] = Instances.SettingsViewModel.EnablePenguin,
+                ["report_to_yituliu"] = Instances.SettingsViewModel.EnableYituliu,
+                ["penguin_id"] = Instances.SettingsViewModel.PenguinId,
+                ["server"] = Instances.SettingsViewModel.ServerType,
             };
-            if (isLevel3UseShortTime)
-            {
-                taskParams["recruitment_time"] = new JObject
-                {
-                    ["3"] = 460, // 7:40
-                };
-            }
-            else if (isLevel3UseShortTime2)
-            {
-                taskParams["recruitment_time"] = new JObject
-                {
-                    ["3"] = 60, // 1:00
-                };
-            }
-
-            taskParams["report_to_penguin"] = Instances.SettingsViewModel.EnablePenguin;
-            taskParams["report_to_yituliu"] = Instances.SettingsViewModel.EnableYituliu;
-            taskParams["penguin_id"] = Instances.SettingsViewModel.PenguinId;
-            taskParams["server"] = Instances.SettingsViewModel.ServerType;
 
             AsstTaskId id = AsstAppendTaskWithEncoding("Recruit", taskParams);
             _latestTaskId[TaskType.Recruit] = id;
@@ -2557,8 +2550,11 @@ namespace MaaWpfGui.Main
         /// </summary>
         /// <param name="selectLevel">会去点击标签的 Tag 等级。</param>
         /// <param name="setTime">是否设置 9 小时。</param>
+        /// <param name="chooseLevel3Time">3 星招募时间</param>
+        /// <param name="chooseLevel4Time">4 星招募时间</param>
+        /// <param name="chooseLevel5Time">5 星招募时间</param>
         /// <returns>是否成功。</returns>
-        public bool AsstStartRecruitCalc(int[] selectLevel, bool setTime)
+        public bool AsstStartRecruitCalc(int[] selectLevel, bool setTime, int chooseLevel3Time, int chooseLevel4Time, int chooseLevel5Time)
         {
             var taskParams = new JObject
             {
@@ -2571,30 +2567,11 @@ namespace MaaWpfGui.Main
                 ["expedite_times"] = 0,
                 ["report_to_penguin"] = false,
                 ["report_to_yituliu"] = false,
+                ["recruitment_time"] = new JObject { ["3"] = chooseLevel3Time, ["4"] = chooseLevel4Time, ["5"] = chooseLevel5Time },
+                ["penguin_id"] = Instances.SettingsViewModel.PenguinId,
+                ["yituliu_id"] = Instances.SettingsViewModel.PenguinId, // 一图流说随便传个uuid就行，让client自己生成，所以先直接嫖一下企鹅的（
+                ["server"] = Instances.SettingsViewModel.ServerType,
             };
-            int recruitmentTime;
-            if (Instances.RecognizerViewModel.IsLevel3UseShortTime)
-            {
-                recruitmentTime = 460;
-            }
-            else if (Instances.RecognizerViewModel.IsLevel3UseShortTime2)
-            {
-                recruitmentTime = 60;
-            }
-            else
-            {
-                recruitmentTime = 540;
-            }
-
-            taskParams["recruitment_time"] = new JObject
-            {
-                {
-                    "3", recruitmentTime
-                },
-            };
-            taskParams["penguin_id"] = Instances.SettingsViewModel.PenguinId;
-            taskParams["yituliu_id"] = Instances.SettingsViewModel.PenguinId; // 一图流说随便传个uuid就行，让client自己生成，所以先直接嫖一下企鹅的（
-            taskParams["server"] = Instances.SettingsViewModel.ServerType;
 
             AsstTaskId id = AsstAppendTaskWithEncoding("Recruit", taskParams);
             _latestTaskId[TaskType.RecruitCalc] = id;

@@ -1055,6 +1055,14 @@
         "sortId": 10023,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
+    "LMTGS_COIN_5001": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_5001.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10024,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
@@ -1470,6 +1478,14 @@
         "name": "Milestone Fragment",
         "sortId": -10000,
         "usage": "Can be exchanged for Milestone Rewards."
+    },
+    "act1mainss_token_medi": {
+        "classifyType": "NONE",
+        "description": "WARNING: For best results, administer via peripheral IV. In case of first-aid, can attempt via CVC. If shock ensues after first dose, second IV may be administered within 5-7 minutes (repeat dose). EACH DOSE COULD BE THE KEY TO SAVING A LIFE IN THE FIELD. MAKE GOOD USE OF THEM.",
+        "icon": "act1mainss_token_medi.png",
+        "name": "Emergency Inhibitor",
+        "sortId": -10000,
+        "usage": "A new formulation from Rhodes Island's Medical R&D, capable of temporarily suppressing the exacerbation of Oripathy in Catastrophe- or battlefield-level Originium zones. THIS DRUG PLACES IMMENSE STRAIN ON THE BODY. USE WITH CAUTION."
     },
     "act1sandbox_milestone_point": {
         "classifyType": "NONE",
@@ -2189,6 +2205,14 @@
         "icon": "randomMaterial_1.png",
         "name": "Rhodes Island Supplies",
         "sortId": 60101,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterial_10": {
+        "classifyType": "CONSUME",
+        "description": "Rhodes Island purchases and stores boxes of supplies from various places. However, due to the lack of an organized storage system, each box contains seemingly random materials.",
+        "icon": "randomMaterial_10.png",
+        "name": "Rhodes Island Supplies VII",
+        "sortId": 60110,
         "usage": "Filled with an assortment of supplies and materials."
     },
     "randomMaterial_2": {

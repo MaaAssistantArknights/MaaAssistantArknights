@@ -787,11 +787,11 @@
                 "template": "Bskill_man_exp2.png"
             },
             "bskill_man_exp3": {
-                "desc": ["进驻制造站时，作战记录类配方的生产力+35%"],
+                "desc": ["进驻制造站时，作战记录类配方的生产力+35%", "进驻制造站时，作战记录类配方的生产力+35%"],
                 "efficient": {
                     "CombatRecord": 35.1
                 },
-                "name": ["拳术指导录像"],
+                "name": ["拳术指导录像", "逆境荣光"],
                 "template": "Bskill_man_exp3.png"
             },
             "bskill_man_fuze": {
@@ -912,6 +912,11 @@
                 "name": ["打工心得"],
                 "template": "Bskill_man_skill_spd3.png"
             },
+            "bskill_man_spd&cost1": {
+                "desc": ["进驻制造站时，生产力+20%，心情每小时消耗+0.25"],
+                "name": ["量体裁衣"],
+                "template": "Bskill_man_spd&cost1.png"
+            },
             "bskill_man_spd&dorm1": {
                 "desc": ["进驻制造站时，每间宿舍每级为贵金属类配方的生产力+1%"],
                 "name": ["齐心沙盗"],
@@ -958,6 +963,11 @@
                 },
                 "name": ["仓库整备·β"],
                 "template": "Bskill_man_spd&limit3.png"
+            },
+            "bskill_man_spd&limit5": {
+                "desc": ["进驻制造站时，生产力+25%，仓库容量上限+6"],
+                "name": ["得心应手"],
+                "template": "Bskill_man_spd&limit5.png"
             },
             "bskill_man_spd&limit_felyne": {
                 "desc": ["进驻制造站时，仓库容量上限+8，生产力+5%，同时每有1个木天蓼，则生产力+1%"],
@@ -1859,12 +1869,13 @@
                     "进驻发电站时，无人机充能速度+10%",
                     "进驻发电站时，无人机充能速度+10%",
                     "进驻发电站时，无人机充能速度+10%",
+                    "进驻发电站时，无人机充能速度+10%",
                     "进驻发电站时，无人机充能速度+10%"
                 ],
                 "efficient": {
                     "all": 10
                 },
-                "name": ["光能充能·α", "电磁充能·α", "备用能源", "热能充能·α", "挽歌充能·α"],
+                "name": ["光能充能·α", "电磁充能·α", "备用能源", "热能充能·α", "挽歌充能·α", "灵河充能·α"],
                 "template": "Bskill_pow_spd1.png"
             },
             "bskill_pow_spd2": {
@@ -1948,6 +1959,11 @@
                 },
                 "name": ["技术交流β", "技术交流·β"],
                 "template": "Bskill_power_rec_spd&addition2.png"
+            },
+            "bskill_power_rec_spd&dorm&lv": {
+                "desc": ["进驻发电站时，每间宿舍每级为充能速度额外+0.5%"],
+                "name": ["灵河共鸣"],
+                "template": "Bskill_power_rec_spd&dorm&lv.png"
             }
         },
         "skillsGroup": []
@@ -2130,6 +2146,11 @@
                 ],
                 "name": ["未来之途"],
                 "template": "Bskill_meet_spd&bd&notOwned.png"
+            },
+            "bskill_meet_spd&bd2": {
+                "desc": ["进驻会客室时，当与铃兰进驻会客室一起工作时，线索搜集速度额外提升30%"],
+                "name": ["杀手的假期"],
+                "template": "Bskill_meet_spd&bd2.png"
             },
             "bskill_meet_spd&condChar_mustget": {
                 "desc": [
