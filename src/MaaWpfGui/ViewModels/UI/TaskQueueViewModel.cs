@@ -709,19 +709,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 // 7%
                 // 使用自定义的时候不做处理
-                UpdateObservableCollection(StageList, tempStageList);
-                UpdateObservableCollection(RemainingSanityStageList, tempRemainingSanityStageList);
-                _stage1Fallback = stage1;
-                Stage1 = stage1;
-                Stage2 = stage2;
-                Stage3 = stage3;
-                RemainingSanityStage = rss;
-
-                EnableSetFightParams = true;
-                return;
             }
-
-            if (hideUnavailableStage)
+            else if (hideUnavailableStage)
             {
                 // 15%
                 stage1 = GetValidStage(stage1);
@@ -773,17 +762,9 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="newList">新的列表</param>
         private static void UpdateObservableCollection(ObservableCollection<CombinedData> originalCollection, List<CombinedData> newList)
         {
-            // 移除原集合中不在新集合中的项
-            for (int i = originalCollection.Count - 1; i >= 0; i--)
-            {
-                if (!newList.Contains(originalCollection[i]))
-                {
-                    originalCollection.RemoveAt(i);
-                }
-            }
+            originalCollection.Clear();
 
-            // 添加新集合中原集合缺少的项
-            foreach (var item in newList.Where(item => !originalCollection.Contains(item)))
+            foreach (var item in newList)
             {
                 originalCollection.Add(item);
             }
