@@ -1,3 +1,5 @@
+Push-Location
+
 # Stage changes otherwise git diff doesn't work
 git add .
 
@@ -111,3 +113,5 @@ Write-Output "hasPngDiff: $hasPngDiff"
 Write-Output "diff: $diff"
 Write-Output "contains_png=$hasPngDiff" >> $env:GITHUB_OUTPUT
 Write-Output "changes=$diff" >> $env:GITHUB_OUTPUT
+
+Pop-Location
