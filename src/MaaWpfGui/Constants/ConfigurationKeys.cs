@@ -154,11 +154,11 @@ namespace MaaWpfGui.Constants
         public const string SelectExtraTags = "AutoRecruit.SelectExtraTags";
         public const string NotChooseLevel1 = "AutoRecruit.NotChooseLevel1";
         public const string RecruitChooseLevel3 = "AutoRecruit.ChooseLevel3";
-        public const string ChooseLevel3Time = "AutoRecruit.ChooseLevel3Time";
+        public const string ChooseLevel3Time = "AutoRecruit.ChooseLevel3.Time";
         public const string RecruitChooseLevel4 = "AutoRecruit.ChooseLevel4";
-        public const string ChooseLevel4Time = "AutoRecruit.ChooseLevel4Time";
+        public const string ChooseLevel4Time = "AutoRecruit.ChooseLevel4.Time";
         public const string RecruitChooseLevel5 = "AutoRecruit.ChooseLevel5";
-        public const string ChooseLevel5Time = "AutoRecruit.ChooseLevel5Time";
+        public const string ChooseLevel5Time = "AutoRecruit.ChooseLevel5.Time";
 
         public const string LastCreditFightTaskTime = "Visit.LastCreditFightTaskTime";
         public const string CreditFightTaskEnabled = "Visit.CreditFightTaskEnabled";
