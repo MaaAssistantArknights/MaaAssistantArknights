@@ -3548,46 +3548,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _isLevel3UseShortTime = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.IsLevel3UseShortTime, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to shorten the time for level 3.
-        /// </summary>
-        public bool IsLevel3UseShortTime
-        {
-            get => _isLevel3UseShortTime;
-            set
-            {
-                if (value)
-                {
-                    IsLevel3UseShortTime2 = false;
-                }
-
-                SetAndNotify(ref _isLevel3UseShortTime, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.IsLevel3UseShortTime, value.ToString());
-            }
-        }
-
-        private bool _isLevel3UseShortTime2 = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.IsLevel3UseShortTime2, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to shorten the time for level 3.
-        /// </summary>
-        public bool IsLevel3UseShortTime2
-        {
-            get => _isLevel3UseShortTime2;
-            set
-            {
-                if (value)
-                {
-                    IsLevel3UseShortTime = false;
-                }
-
-                SetAndNotify(ref _isLevel3UseShortTime2, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.IsLevel3UseShortTime2, value.ToString());
-            }
-        }
-
         private bool _notChooseLevel1 = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.NotChooseLevel1, bool.TrueString));
 
         /// <summary>
@@ -3645,6 +3605,167 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _chooseLevel5, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RecruitChooseLevel5, value.ToString());
+            }
+        }
+
+        private bool _chooseLevelTimeUpdating;
+
+        private int _chooseLevel3Hour = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3Time, "9")) / 60;
+
+        public int ChooseLevel3Hour
+        {
+            get => _chooseLevel3Hour;
+            set
+            {
+                SetAndNotify(ref _chooseLevel3Hour, value);
+                if (!_chooseLevelTimeUpdating)
+                {
+                    ChooseLevel3Time = (value * 60) + ChooseLevel3Min;
+                }
+            }
+        }
+
+        private int _chooseLevel3Min = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3Time, "0")) % 60;
+
+        public int ChooseLevel3Min
+        {
+            get => _chooseLevel3Min;
+            set
+            {
+                SetAndNotify(ref _chooseLevel3Min, value);
+                if (!_chooseLevelTimeUpdating)
+                {
+                    ChooseLevel3Time = (ChooseLevel3Hour * 60) + value;
+                }
+            }
+        }
+
+        private int _chooseLevel3Time = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3Time, "540"));
+
+        public int ChooseLevel3Time
+        {
+            get => _chooseLevel3Time;
+            set
+            {
+                value = value switch
+                {
+                    < 60 => 540,
+                    > 540 => 60,
+                    _ => value,
+                };
+
+                SetAndNotify(ref _chooseLevel3Time, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ChooseLevel3Time, value.ToString());
+                _chooseLevelTimeUpdating = true;
+                ChooseLevel3Hour = value / 60;
+                ChooseLevel3Min = value % 60;
+                _chooseLevelTimeUpdating = false;
+            }
+        }
+
+        private int _chooseLevel4Hour = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel4Time, "540")) / 60;
+
+        public int ChooseLevel4Hour
+        {
+            get => _chooseLevel4Hour;
+            set
+            {
+                SetAndNotify(ref _chooseLevel4Hour, value);
+                if (!_chooseLevelTimeUpdating)
+                {
+                    ChooseLevel4Time = (value * 60) + ChooseLevel4Min;
+                }
+            }
+        }
+
+        private int _chooseLevel4Min = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel4Time, "540")) % 60;
+
+        public int ChooseLevel4Min
+        {
+            get => _chooseLevel4Min;
+            set
+            {
+                SetAndNotify(ref _chooseLevel4Min, value);
+                if (!_chooseLevelTimeUpdating)
+                {
+                    ChooseLevel4Time = (ChooseLevel4Hour * 60) + value;
+                }
+            }
+        }
+
+        private int _chooseLevel4Time = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel4Time, "540"));
+
+        public int ChooseLevel4Time
+        {
+            get => _chooseLevel4Time;
+            set
+            {
+                value = value switch
+                {
+                    < 60 => 540,
+                    > 540 => 60,
+                    _ => value,
+                };
+
+                SetAndNotify(ref _chooseLevel4Time, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ChooseLevel4Time, value.ToString());
+                _chooseLevelTimeUpdating = true;
+                ChooseLevel4Hour = value / 60;
+                ChooseLevel4Min = value % 60;
+                _chooseLevelTimeUpdating = false;
+            }
+        }
+
+        private int _chooseLevel5Hour = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel5Time, "540")) / 60;
+
+        public int ChooseLevel5Hour
+        {
+            get => _chooseLevel5Hour;
+            set
+            {
+                SetAndNotify(ref _chooseLevel5Hour, value);
+                if (!_chooseLevelTimeUpdating)
+                {
+                    ChooseLevel5Time = (value * 60) + ChooseLevel5Min;
+                }
+            }
+        }
+
+        private int _chooseLevel5Min = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel5Time, "0")) % 60;
+
+        public int ChooseLevel5Min
+        {
+            get => _chooseLevel5Min;
+            set
+            {
+                SetAndNotify(ref _chooseLevel5Min, value);
+                if (!_chooseLevelTimeUpdating)
+                {
+                    ChooseLevel5Time = (ChooseLevel5Hour * 60) + value;
+                }
+            }
+        }
+
+        private int _chooseLevel5Time = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel5Time, "540"));
+
+        public int ChooseLevel5Time
+        {
+            get => _chooseLevel5Time;
+            set
+            {
+                value = value switch
+                {
+                    < 60 => 540,
+                    > 540 => 60,
+                    _ => value,
+                };
+
+                SetAndNotify(ref _chooseLevel5Time, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ChooseLevel5Time, value.ToString());
+                _chooseLevelTimeUpdating = true;
+                ChooseLevel5Hour = value / 60;
+                ChooseLevel5Min = value % 60;
+                _chooseLevelTimeUpdating = false;
             }
         }
 
