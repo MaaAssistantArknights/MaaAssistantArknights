@@ -699,21 +699,18 @@ namespace MaaWpfGui.ViewModels.UI
             var stage3 = Stage3 ?? string.Empty;
             var rss = RemainingSanityStage ?? string.Empty;
 
-            StageList = hideUnavailableStage
-                ? new ObservableCollection<CombinedData>(_stageManager.GetStageList(_curDayOfWeek))
-                : new ObservableCollection<CombinedData>(_stageManager.GetStageList());
+            var tempStageList = hideUnavailableStage
+                ? _stageManager.GetStageList(_curDayOfWeek).ToList()
+                : _stageManager.GetStageList().ToList();
 
-            AlternateStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList());
-
-            RemainingSanityStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList())
-            {
-                [0] = new CombinedData { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty },
-            };
+            var tempRemainingSanityStageList = _stageManager.GetStageList().ToList();
 
             if (CustomStageCode)
             {
                 // 7%
                 // 使用自定义的时候不做处理
+                UpdateObservableCollection(StageList, tempStageList);
+                UpdateObservableCollection(RemainingSanityStageList, tempRemainingSanityStageList);
                 _stage1Fallback = stage1;
                 Stage1 = stage1;
                 Stage2 = stage2;
@@ -734,12 +731,12 @@ namespace MaaWpfGui.ViewModels.UI
             else if (useAlternateStage)
             {
                 // 11%
-                AddStagesIfNotExist([stage1, stage2, stage3]);
+                AddStagesIfNotExist([stage1, stage2, stage3], tempStageList);
             }
             else
             {
                 // 啥都没选
-                AddStageIfNotExist(stage1);
+                AddStageIfNotExist(stage1, tempStageList);
 
                 // 避免关闭了使用备用关卡后，始终添加备用关卡中的未开放关卡
                 stage2 = GetValidStage(stage2);
@@ -748,6 +745,15 @@ namespace MaaWpfGui.ViewModels.UI
 
             // rss 如果结束后还选择了不开放的关卡，刷理智任务会报错
             rss = IsStageOpen(rss) ? rss : string.Empty;
+
+            var existingEmptyItem = tempRemainingSanityStageList.FirstOrDefault(item => item.Value == string.Empty);
+            if (existingEmptyItem != null)
+            {
+                existingEmptyItem.Display = LocalizationHelper.GetString("NoUse");
+            }
+
+            UpdateObservableCollection(StageList, tempStageList);
+            UpdateObservableCollection(RemainingSanityStageList, tempRemainingSanityStageList);
 
             _stage1Fallback = stage1;
             Stage1 = stage1;
@@ -758,24 +764,46 @@ namespace MaaWpfGui.ViewModels.UI
             EnableSetFightParams = true;
         }
 
-        private void AddStagesIfNotExist(IEnumerable<string> stages)
+        /// <summary>
+        /// 更新 ObservableCollection，确保不替换原集合，而是增删项
+        /// </summary>
+        /// <param name="originalCollection">原始 ObservableCollection</param>
+        /// <param name="newList">新的列表</param>
+        private static void UpdateObservableCollection(ObservableCollection<CombinedData> originalCollection, List<CombinedData> newList)
         {
-            foreach (var stage in stages)
+            // 移除原集合中不在新集合中的项
+            for (int i = originalCollection.Count - 1; i >= 0; i--)
             {
-                AddStageIfNotExist(stage);
+                if (!newList.Contains(originalCollection[i]))
+                {
+                    originalCollection.RemoveAt(i);
+                }
+            }
+
+            // 添加新集合中原集合缺少的项
+            foreach (var item in newList.Where(item => !originalCollection.Contains(item)))
+            {
+                originalCollection.Add(item);
             }
         }
 
-        private void AddStageIfNotExist(string stage)
+        private void AddStagesIfNotExist(IEnumerable<string> stages, List<CombinedData> stageList)
         {
-            if (StageList.Any(x => x.Value == stage))
+            foreach (var stage in stages)
+            {
+                AddStageIfNotExist(stage, stageList);
+            }
+        }
+
+        private void AddStageIfNotExist(string stage, List<CombinedData> stageList)
+        {
+            if (stageList.Any(x => x.Value == stage))
             {
                 return;
             }
 
             var stageInfo = _stageManager.GetStageInfo(stage);
-            StageList.Add(stageInfo);
-            AlternateStageList.Add(stageInfo);
+            stageList.Add(stageInfo);
         }
 
         private bool NeedToUpdateDatePrompt()
@@ -2472,14 +2500,6 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get => _remainingSanityStageList;
             private set => SetAndNotify(ref _remainingSanityStageList, value);
-        }
-
-        private ObservableCollection<CombinedData> _alternateStageList = [];
-
-        public ObservableCollection<CombinedData> AlternateStageList
-        {
-            get => _alternateStageList;
-            private set => SetAndNotify(ref _alternateStageList, value);
         }
 
         /// <summary>
