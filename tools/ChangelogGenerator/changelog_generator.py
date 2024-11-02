@@ -330,10 +330,17 @@ def main(tag_name=None, latest=None):
     )
     raw_gitlogs = call_command(git_skip_command)
 
-    for commit_hash in raw_gitlogs.split("\n"):
+    for commit_hash in raw_gitlogs.split("\n\n"):
         if commit_hash not in raw_commits_info:
             continue
-        raw_commits_info[commit_hash]["skip"] = True
+        git_show_command = (
+            rf'git show -s --format=%b%n {commit_hash}'
+        )
+        raw_git_shows = call_command(git_show_command)
+        for commit_body in raw_git_shows.split("\n\n"):
+            if not commit_body.startswith("* ") and "[skip changelog]" in commit_body:
+                raw_commits_info[commit_hash]["skip"] = True
+
 
     # print(json.dumps(raw_commits_info, ensure_ascii=False, indent=2))
 
