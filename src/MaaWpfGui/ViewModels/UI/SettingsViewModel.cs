@@ -3607,7 +3607,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private int _chooseLevel3Hour = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3Time, "9")) / 60;
+        private int _chooseLevel3Hour = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3Time, "540")) / 60;
 
         public int ChooseLevel3Hour
         {
@@ -3623,7 +3623,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private int _chooseLevel3Min = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3Time, "0")) % 60;
+        private int _chooseLevel3Min = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3Time, "540")) % 60;
 
         public int ChooseLevel3Min
         {
