@@ -68,12 +68,6 @@
 * 支持状态栏显示进度条 @ABA2396
 * 添加直接显示吐司内容函数，固定Show执行线程 @ABA2396
 * AbstractTask新增附加已有插件、插件查找 @status102
-* Auto Update Changelogs of v5.9.0-beta.1 (#10990) @github-actions[bot] @ABA2396
-* Auto Update Changelogs of v5.9.0-beta.2 (#11024) @github-actions[bot] @status102
-* Release v5.9.0-beta.3 (#11032) @ABA2396
-* Release v5.9.0-beta.3 (#11030) @ABA2396
-* Release v5.9.0-beta.2 (#11023) @ABA2396
-* Release v5.9.0-beta.1 (#10989) @ABA2396
 * 繁中服「銀心湖列車」活動導航 (#10987) @momomochi987
 * YostarJP EP14 ocr update (#10986) @Manicsteiner
 * 对 gui.json 排序 @ABA2396
