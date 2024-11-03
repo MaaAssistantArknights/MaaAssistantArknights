@@ -15,28 +15,22 @@ bool asst::SupportListAnalyzer::analyze(const std::unordered_set<std::string>& i
     if (!flag_analyzer.analyze()) {
         return false;
     }
-    MultiMatcher::ResultsVec flags = flag_analyzer.get_result();
 
-    const auto name_task_ptr = Task.get<OcrTaskInfo>("SupportListAnalyzer-NameOcr");
-    const auto elite_task_ptr = Task.get<MatchTaskInfo>("SupportListAnalyzer-Elite");
-    const auto level_task_ptr = Task.get<OcrTaskInfo>("SupportListAnalyzer-LevelOcr");
+    const auto& name_task_ptr = Task.get<OcrTaskInfo>("SupportListAnalyzer-NameOcr");
+    const auto& elite_task_ptr = Task.get<MatchTaskInfo>("SupportListAnalyzer-Elite");
+    const auto& level_task_ptr = Task.get<OcrTaskInfo>("SupportListAnalyzer-LevelOcr");
 
     RegionOCRer ocr_analyzer(m_image);
     Matcher elite_analyzer(m_image);
 
     std::vector<SupportUnit> results;
-    for (const auto& [rect, score, templ_name] : flags) {
+    for (const auto& [rect, score, templ_name] : flag_analyzer.get_result()) {
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(rect), cv::Scalar(0, 255, 0), 2);
 #endif
 
-        // ————————————————————————————————————————————————————————————————
         // 干员名称
-        // ————————————————————————————————————————————————————————————————
-        const Rect name_roi = { rect.x + name_task_ptr->roi.x,
-                                rect.y - name_task_ptr->roi.y,
-                                name_task_ptr->roi.width,
-                                name_task_ptr->roi.height };
+        const Rect name_roi = rect.move(name_task_ptr->roi);
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(name_roi), cv::Scalar(0, 255, 0), 2);
 #endif
@@ -46,20 +40,15 @@ bool asst::SupportListAnalyzer::analyze(const std::unordered_set<std::string>& i
         if (!ocr_analyzer.analyze()) {
             continue;
         }
-        const std::string name = ocr_analyzer.get_result().text;
 
+        const auto& name = ocr_analyzer.get_result().text;
         // 如果干员名称出现在 ignored_oper_names 则忽视这个干员
-        if (ignored_oper_names.find(name) != ignored_oper_names.end()) {
+        if (ignored_oper_names.contains(name)) {
             continue;
         }
 
-        // ————————————————————————————————————————————————————————————————
         // 干员精英化等级
-        // ————————————————————————————————————————————————————————————————
-        const Rect elite_roi = { rect.x + elite_task_ptr->roi.x,
-                                 rect.y - elite_task_ptr->roi.y,
-                                 elite_task_ptr->roi.width,
-                                 elite_task_ptr->roi.height };
+        const Rect elite_roi = rect.move(elite_task_ptr->roi);
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(elite_roi), cv::Scalar(0, 255, 0), 2);
 #endif
@@ -71,13 +60,8 @@ bool asst::SupportListAnalyzer::analyze(const std::unordered_set<std::string>& i
             elite = (elite_analyzer.get_result().templ_name == "SupportListAnalyzer-Elite-2" ? 2 : 1);
         }
 
-        // ————————————————————————————————————————————————————————————————
         // 干员等级
-        // ————————————————————————————————————————————————————————————————
-        const Rect level_roi = { rect.x + level_task_ptr->roi.x,
-                                 rect.y - level_task_ptr->roi.y,
-                                 level_task_ptr->roi.width,
-                                 level_task_ptr->roi.height };
+        const Rect level_roi = rect.move(level_task_ptr->roi);
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(level_roi), cv::Scalar(0, 255, 0), 2);
 #endif
@@ -93,21 +77,16 @@ bool asst::SupportListAnalyzer::analyze(const std::unordered_set<std::string>& i
         }
         Log.info(ocr_analyzer.get_result().text, level);
 
-        SupportUnit support_unit;
-        support_unit.rect = rect;
-        support_unit.name = name;
-        support_unit.elite = elite;
-        support_unit.level = level;
-        support_unit.from_friend = (templ_name == "SupportListAnalyzer-Friend.png");
-        Log.info(
-            __FUNCTION__,
-            "| Found support operator from",
-            support_unit.from_friend ? "friend:" : "non-friend:",
-            support_unit.name,
-            "with elite",
-            support_unit.elite,
-            "and level",
-            support_unit.level);
+        SupportUnit support_unit {
+            .rect = rect,
+            .name = name,
+            .elite = elite,
+            .level = level,
+            .from_friend = (templ_name == "SupportListAnalyzer-Friend.png"),
+        };
+        LogInfo << __FUNCTION__ << "| Found support operator from"
+                << (support_unit.from_friend ? "friend:" : "non-friend:") << support_unit.name << "with elite"
+                << support_unit.elite << "and level" << support_unit.level;
         results.emplace_back(std::move(support_unit));
     }
 

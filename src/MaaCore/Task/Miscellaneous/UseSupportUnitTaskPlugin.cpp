@@ -83,9 +83,7 @@ bool asst::UseSupportUnitTaskPlugin::try_find_and_apply_support_unit_for_role(
 
     for (int refresh_times = 0; refresh_times <= max_refresh_times && !need_exit(); ++refresh_times) {
         for (int page = 0; page < MaxNumSupportListPages && !need_exit(); ++page) {
-            // ————————————————————————————————————————————————————————————————
             // Step 1: 获取助战干员列表
-            // ————————————————————————————————————————————————————————————————
             analyzer.set_image(ctrler()->get_image());
             // 未识别到任何助战干员，极有可能当前不在助战列表界面，报错退出
             if (!analyzer.analyze(known_oper_names)) [[unlikely]] {
@@ -94,9 +92,7 @@ bool asst::UseSupportUnitTaskPlugin::try_find_and_apply_support_unit_for_role(
             }
             std::vector<SupportUnit> support_list = analyzer.get_result();
 
-            // ————————————————————————————————————————————————————————————————
             // Step 2: 筛选助战干员列表
-            // ————————————————————————————————————————————————————————————————
             for (size_t index = 0; index < support_list.size(); ++index) {
                 const SupportUnit& support_unit = support_list[index];
                 known_oper_names.insert(support_unit.name);
@@ -129,9 +125,7 @@ bool asst::UseSupportUnitTaskPlugin::try_find_and_apply_support_unit_for_role(
                 }
             }
 
-            // ————————————————————————————————————————————————————————————————
             // Step 3: 依次点选筛选出的助战干员，根据需要判断技能是否为专三，并使用
-            // ————————————————————————————————————————————————————————————————
             for (size_t i = 0; i < filtered_required_opers.size(); ++i) {
                 if (!candidates[i].has_value()) {
                     continue;
