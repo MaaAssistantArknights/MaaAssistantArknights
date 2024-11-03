@@ -12435,11 +12435,13 @@
     "Tales@RA@PNS-ClickGatheringOfFeathers": {
         "doc": "点击 <捕猎区: 聚羽之地>",
         "baseTask": "Tales@RA@ClickGatheringOfFeathers",
+        "postDelay": 1000,
         "next": ["Tales@RA@RecogniseEnterNodeButton", "Tales@RA@PNS-ClickGatheringOfFeathers"]
     },
     "Tales@RA@PNS-ClickShrubberyGalore": {
         "doc": "点击 <资源区: 丰饶灌木林>",
         "baseTask": "Tales@RA@ClickShrubberyGalore",
+        "postDelay": 1000,
         "next": ["Tales@RA@RecogniseEnterNodeButton", "Tales@RA@PNS-ClickShrubberyGalore"]
     },
     "Tales@RA@PNS-Commence": {
