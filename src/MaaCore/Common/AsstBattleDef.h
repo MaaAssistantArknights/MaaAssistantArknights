@@ -360,25 +360,18 @@ namespace asst
 inline std::string enum_to_string(asst::battle::Role role, bool en = false)
 {
     using asst::battle::Role;
-    if (en) {
-        static const std::unordered_map<Role, std::string> RoleToName_EN = {
-            { Role::Warrior, "Warrior" }, { Role::Pioneer, "Pioneer" }, { Role::Medic, "Medic" },
-            { Role::Tank, "Tank" },       { Role::Sniper, "Sniper" },   { Role::Caster, "Caster" },
-            { Role::Support, "Support" }, { Role::Special, "Special" }, { Role::Drone, "Drone" },
-        };
-        if (auto iter = RoleToName_EN.find(role); iter != RoleToName_EN.end()) {
-            return iter->second;
-        }
-        return "Unknown";
-    }
-    static const std::unordered_map<Role, std::string> RoleToName = {
-        { Role::Warrior, "近卫" }, { Role::Pioneer, "先锋" }, { Role::Medic, "医疗" },
-        { Role::Tank, "重装" },    { Role::Sniper, "狙击" },  { Role::Caster, "术师" },
-        { Role::Support, "辅助" }, { Role::Special, "特种" }, { Role::Drone, "无人机" },
+    static const std::unordered_map<Role, std::pair<std::string, std::string>> RoleToName {
+        { Role::Warrior, { "近卫", "Warrior" } }, { Role::Pioneer, { "先锋", "Pioneer" } },
+        { Role::Medic, { "医疗", "Medic" } },     { Role::Tank, { "重装", "Tank" } },
+        { Role::Sniper, { "狙击", "Sniper" } },   { Role::Caster, { "术师", "Caster" } },
+        { Role::Support, { "辅助", "Support" } }, { Role::Special, { "特种", "Special" } },
+        { Role::Drone, { "无人机", "Drone" } },
     };
+
     if (auto iter = RoleToName.find(role); iter != RoleToName.end()) {
-        return iter->second;
+        return en ? iter->second.second : iter->second.first;
     }
+
     return "Unknown";
 }
 }
