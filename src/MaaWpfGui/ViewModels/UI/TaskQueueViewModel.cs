@@ -688,71 +688,74 @@ namespace MaaWpfGui.ViewModels.UI
         // 这个函数被列为public可见，意味着他注入对象前被调用
         public void UpdateStageList()
         {
-            var settings = Instances.SettingsViewModel;
-            var hideUnavailableStage = settings.HideUnavailableStage;
-            var useAlternateStage = settings.UseAlternateStage;
-
-            EnableSetFightParams = false;
-
-            var stage1 = Stage1 ?? string.Empty;
-            var stage2 = Stage2 ?? string.Empty;
-            var stage3 = Stage3 ?? string.Empty;
-            var rss = RemainingSanityStage ?? string.Empty;
-
-            var tempStageList = hideUnavailableStage
-                ? _stageManager.GetStageList(_curDayOfWeek).ToList()
-                : _stageManager.GetStageList().ToList();
-
-            var tempRemainingSanityStageList = _stageManager.GetStageList().ToList();
-
-            if (CustomStageCode)
+            Execute.OnUIThread(() =>
             {
-                // 7%
-                // 使用自定义的时候不做处理
-            }
-            else if (hideUnavailableStage)
-            {
-                // 15%
-                stage1 = GetValidStage(stage1);
-                stage2 = GetValidStage(stage2);
-                stage3 = GetValidStage(stage3);
-            }
-            else if (useAlternateStage)
-            {
-                // 11%
-                AddStagesIfNotExist([stage1, stage2, stage3], tempStageList);
-            }
-            else
-            {
-                // 啥都没选
-                AddStageIfNotExist(stage1, tempStageList);
+                var settings = Instances.SettingsViewModel;
+                var hideUnavailableStage = settings.HideUnavailableStage;
+                var useAlternateStage = settings.UseAlternateStage;
 
-                // 避免关闭了使用备用关卡后，始终添加备用关卡中的未开放关卡
-                stage2 = GetValidStage(stage2);
-                stage3 = GetValidStage(stage3);
-            }
+                EnableSetFightParams = false;
 
-            // rss 如果结束后还选择了不开放的关卡，刷理智任务会报错
-            rss = IsStageOpen(rss) ? rss : string.Empty;
+                var stage1 = Stage1 ?? string.Empty;
+                var stage2 = Stage2 ?? string.Empty;
+                var stage3 = Stage3 ?? string.Empty;
+                var rss = RemainingSanityStage ?? string.Empty;
 
-            if (tempRemainingSanityStageList.Any(item => item.Value == string.Empty))
-            {
-                var itemToRemove = tempRemainingSanityStageList.First(item => item.Value == string.Empty);
-                tempRemainingSanityStageList.Remove(itemToRemove);
-            }
+                var tempStageList = hideUnavailableStage
+                    ? _stageManager.GetStageList(_curDayOfWeek).ToList()
+                    : _stageManager.GetStageList().ToList();
 
-            tempRemainingSanityStageList.Insert(0, new CombinedData { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty });
+                var tempRemainingSanityStageList = _stageManager.GetStageList().ToList();
 
-            UpdateObservableCollection(StageList, tempStageList);
-            UpdateObservableCollection(RemainingSanityStageList, tempRemainingSanityStageList);
+                if (CustomStageCode)
+                {
+                    // 7%
+                    // 使用自定义的时候不做处理
+                }
+                else if (hideUnavailableStage)
+                {
+                    // 15%
+                    stage1 = GetValidStage(stage1);
+                    stage2 = GetValidStage(stage2);
+                    stage3 = GetValidStage(stage3);
+                }
+                else if (useAlternateStage)
+                {
+                    // 11%
+                    AddStagesIfNotExist([stage1, stage2, stage3], tempStageList);
+                }
+                else
+                {
+                    // 啥都没选
+                    AddStageIfNotExist(stage1, tempStageList);
 
-            _stage1Fallback = stage1;
-            Stage1 = stage1;
-            Stage2 = stage2;
-            Stage3 = stage3;
-            RemainingSanityStage = rss;
+                    // 避免关闭了使用备用关卡后，始终添加备用关卡中的未开放关卡
+                    stage2 = GetValidStage(stage2);
+                    stage3 = GetValidStage(stage3);
+                }
 
-            EnableSetFightParams = true;
+                // rss 如果结束后还选择了不开放的关卡，刷理智任务会报错
+                rss = IsStageOpen(rss) ? rss : string.Empty;
+
+                if (tempRemainingSanityStageList.Any(item => item.Value == string.Empty))
+                {
+                    var itemToRemove = tempRemainingSanityStageList.First(item => item.Value == string.Empty);
+                    tempRemainingSanityStageList.Remove(itemToRemove);
+                }
+
+                tempRemainingSanityStageList.Insert(0, new CombinedData { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty });
+
+                UpdateObservableCollection(StageList, tempStageList);
+                UpdateObservableCollection(RemainingSanityStageList, tempRemainingSanityStageList);
+
+                _stage1Fallback = stage1;
+                Stage1 = stage1;
+                Stage2 = stage2;
+                Stage3 = stage3;
+                RemainingSanityStage = rss;
+
+                EnableSetFightParams = true;
+            });
         }
 
         /// <summary>
