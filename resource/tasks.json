@@ -607,7 +607,9 @@
         "next": ["#self", "ChapterSwipeToTheRight"]
     },
     "PV-10@SideStoryStage": {
-        "text": ["PV-10"]
+        "doc": "<PV-10> 文字与 <装配工坊> 位置靠近，容易误点，向右偏移一些",
+        "text": ["PV-10"],
+        "rectMove": [55, 0, 0, 0]
     },
     "PV-9@SideStoryStage": {
         "text": ["PV-9"]
@@ -2321,7 +2323,7 @@
         "doc": "开始唤醒时遇到更新下载",
         "algorithm": "OcrDetect",
         "text": ["正在释放神经递质", "MB"],
-        "roi": [340, 660, 600, 60],
+        "roi": [340, 620, 600, 80],
         "postDelay": 5000,
         "next": ["#self", "StartUpThemes#next"]
     },
@@ -12435,11 +12437,13 @@
     "Tales@RA@PNS-ClickGatheringOfFeathers": {
         "doc": "点击 <捕猎区: 聚羽之地>",
         "baseTask": "Tales@RA@ClickGatheringOfFeathers",
+        "postDelay": 1000,
         "next": ["Tales@RA@RecogniseEnterNodeButton", "Tales@RA@PNS-ClickGatheringOfFeathers"]
     },
     "Tales@RA@PNS-ClickShrubberyGalore": {
         "doc": "点击 <资源区: 丰饶灌木林>",
         "baseTask": "Tales@RA@ClickShrubberyGalore",
+        "postDelay": 1000,
         "next": ["Tales@RA@RecogniseEnterNodeButton", "Tales@RA@PNS-ClickShrubberyGalore"]
     },
     "Tales@RA@PNS-Commence": {
