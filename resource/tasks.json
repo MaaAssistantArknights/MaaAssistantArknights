@@ -607,7 +607,9 @@
         "next": ["#self", "ChapterSwipeToTheRight"]
     },
     "PV-10@SideStoryStage": {
-        "text": ["PV-10"]
+        "doc": "<PV-10> 文字与 <装配工坊> 位置靠近，容易误点，向右偏移一些",
+        "text": ["PV-10"],
+        "rectMove": [55, 0, 0, 0]
     },
     "PV-9@SideStoryStage": {
         "text": ["PV-9"]
