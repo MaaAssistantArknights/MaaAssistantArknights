@@ -2321,7 +2321,7 @@
         "doc": "开始唤醒时遇到更新下载",
         "algorithm": "OcrDetect",
         "text": ["正在释放神经递质", "MB"],
-        "roi": [340, 660, 600, 60],
+        "roi": [340, 620, 600, 80],
         "postDelay": 5000,
         "next": ["#self", "StartUpThemes#next"]
     },
