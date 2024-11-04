@@ -1142,7 +1142,7 @@ namespace MaaWpfGui.ViewModels.UI
             var rvm = (RootViewModel)this.Parent;
             if (MainTasksSelectedCount == 0)
             {
-                rvm.Progress = 0;
+                rvm.TaskProgress = null;
                 return;
             }
 
@@ -1150,12 +1150,11 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (MainTasksCompletedCount >= MainTasksSelectedCount)
             {
-                rvm.Progress = 0;
+                rvm.TaskProgress = null;
             }
             else
             {
-                var progress = MainTasksCompletedCount / (double)MainTasksSelectedCount;
-                rvm.Progress = progress;
+                rvm.TaskProgress = (MainTasksCompletedCount, MainTasksSelectedCount);
             }
         }
 
