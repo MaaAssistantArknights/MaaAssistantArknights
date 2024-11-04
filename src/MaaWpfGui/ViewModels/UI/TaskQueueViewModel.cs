@@ -532,6 +532,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     _logger.Information("Not idle, Stop and CloseDown");
                     await Stop();
+                    SetStopped();
                 }
 
                 var mode = Instances.SettingsViewModel.ClientType;
@@ -1058,7 +1059,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToStartEmulator"));
 
-                await Task.Run(() => Instances.SettingsViewModel.TryToStartEmulator(true));
+                await Task.Run(() => Instances.SettingsViewModel.TryToStartEmulator());
 
                 if (Stopping)
                 {

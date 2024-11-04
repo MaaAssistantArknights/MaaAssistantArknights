@@ -55,13 +55,6 @@
                 Block.TextAlignment="Center"
                 Content="{DynamicResource OpenEmulatorAfterLaunch}"
                 IsChecked="{Binding OpenEmulatorAfterLaunch}" />
-            <CheckBox
-                Margin="10"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Block.TextAlignment="Center"
-                Content="{DynamicResource MinimizingStartup}"
-                IsChecked="{Binding MinimizingStartup}" />
         </StackPanel>
 
         <StackPanel Grid.Column="1" VerticalAlignment="Center">

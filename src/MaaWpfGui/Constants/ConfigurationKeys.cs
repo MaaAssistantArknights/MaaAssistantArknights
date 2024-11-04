@@ -81,7 +81,6 @@ namespace MaaWpfGui.Constants
         public const string RunDirectly = "Start.RunDirectly";
         public const string MinimizeDirectly = "Start.MinimizeDirectly";
         public const string StartEmulator = "Start.OpenEmulatorAfterLaunch";
-        public const string MinimizingStartup = "Start.MinimizingStartup";
         public const string EmulatorPath = "Start.EmulatorPath";
         public const string EmulatorAddCommand = "Start.EmulatorAddCommand";
         public const string EmulatorWaitSeconds = "Start.EmulatorWaitSeconds";
