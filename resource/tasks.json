@@ -453,7 +453,7 @@
     "SwipeToStageToTheRight": {
         "Doc": "活动导航右滑找关",
         "baseTask": "ChapterSlowlySwipeToTheRight",
-        "specialParams": [ 150, 1 ]
+        "specialParams": [150, 1]
     },
     "SwipeLeftToStage1-7": {
         "algorithm": "OcrDetect",
