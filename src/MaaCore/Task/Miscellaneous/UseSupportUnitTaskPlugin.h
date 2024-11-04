@@ -47,7 +47,7 @@ private:
     /// 若识别到多个满足条件的干员，则优先选择在 required_opers 中排序靠前的干员；
     /// 当 role == Role::Unknown 时因没有指定技能，max_spec_lvl == true 仅会要求助战干员的专精等级达到 2。
     /// </remarks>
-    bool try_find_and_apply_support_unit_for_role(
+    bool try_add_support_unit_for_role(
         Role role = Role::Unknown,
         const std::vector<RequiredOper>& required_opers = {},
         int max_refresh_times = 0,

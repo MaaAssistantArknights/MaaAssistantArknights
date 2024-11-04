@@ -20,7 +20,7 @@ bool asst::UseSupportUnitTaskPlugin::try_add_support_unit(
 
     // 随机模式
     if (required_opers.empty()) {
-        return try_find_and_apply_support_unit_for_role(
+        return try_add_support_unit_for_role(
             Role::Unknown,
             required_opers,
             max_refresh_times,
@@ -35,7 +35,7 @@ bool asst::UseSupportUnitTaskPlugin::try_add_support_unit(
             break;
         }
         temp_required_opers.emplace_back(required_opers[i]);
-        if (try_find_and_apply_support_unit_for_role(
+        if (try_add_support_unit_for_role(
                 required_opers[i].role,
                 temp_required_opers,
                 max_refresh_times,
@@ -51,7 +51,7 @@ bool asst::UseSupportUnitTaskPlugin::try_add_support_unit(
     return false;
 }
 
-bool asst::UseSupportUnitTaskPlugin::try_find_and_apply_support_unit_for_role(
+bool asst::UseSupportUnitTaskPlugin::try_add_support_unit_for_role(
     const Role role,
     const std::vector<RequiredOper>& required_opers,
     const int max_refresh_times,
@@ -164,8 +164,7 @@ bool asst::UseSupportUnitTaskPlugin::try_use_support_unit_with_skill(
     LogTraceFunction;
 
     // 点选被选择的助战干员
-    ctrler()->click(
-        Point(support_unit.rect.x + support_unit.rect.width / 2, support_unit.rect.y + support_unit.rect.height / 2));
+    ctrler()->click(support_unit.rect);
     sleep(Config.get_options().task_delay);
 
     if (skill != 0) {
