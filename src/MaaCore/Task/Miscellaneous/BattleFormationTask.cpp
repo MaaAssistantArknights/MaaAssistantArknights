@@ -13,41 +13,6 @@
 #include "Utils/Logger.hpp"
 #include "Vision/MultiMatcher.h"
 
-void asst::BattleFormationTask::append_additional_formation(AdditionalFormation formation)
-{
-    m_additional.emplace_back(std::move(formation));
-}
-
-void asst::BattleFormationTask::set_support_unit_name(std::string name)
-{
-    m_support_unit_name = std::move(name);
-}
-
-void asst::BattleFormationTask::set_user_additional(std::vector<std::pair<std::string, int>> user_additional)
-{
-    m_user_additional = std::move(user_additional);
-}
-
-void asst::BattleFormationTask::set_add_trust(bool add_trust)
-{
-    m_add_trust = add_trust;
-}
-
-void asst::BattleFormationTask::set_select_formation(int index)
-{
-    m_select_formation_index = index;
-}
-
-std::shared_ptr<std::unordered_map<std::string, std::string>> asst::BattleFormationTask::get_opers_in_formation() const
-{
-    return m_opers_in_formation;
-}
-
-void asst::BattleFormationTask::set_data_resource(DataResource resource)
-{
-    m_data_resource = resource;
-}
-
 bool asst::BattleFormationTask::_run()
 {
     LogTraceFunction;
