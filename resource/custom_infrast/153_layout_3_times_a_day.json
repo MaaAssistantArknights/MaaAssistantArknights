@@ -25,11 +25,7 @@
                     {
                         "skip": false,
                         "product": "LMD",
-                        "operators": [
-                            "伺夜",
-                            "黑键",
-                            "但书"
-                        ],
+                        "operators": ["伺夜", "黑键", "但书"],
                         "sort": false,
                         "autofill": false
                     }
@@ -38,55 +34,35 @@
                     {
                         "skip": false,
                         "product": "Pure Gold",
-                        "operators": [
-                            "苍苔",
-                            "砾",
-                            "斑点"
-                        ],
+                        "operators": ["苍苔", "砾", "斑点"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
                         "product": "Battle Record",
-                        "operators": [
-                            "至简",
-                            "槐琥",
-                            "断罪者"
-                        ],
+                        "operators": ["至简", "槐琥", "断罪者"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
                         "product": "Battle Record",
-                        "operators": [
-                            "野鬃",
-                            "远牙",
-                            "灰毫"
-                        ],
+                        "operators": ["野鬃", "远牙", "灰毫"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
                         "product": "Battle Record",
-                        "operators": [
-                            "淬羽赫默",
-                            "多萝西",
-                            "迷迭香"
-                        ],
+                        "operators": ["淬羽赫默", "多萝西", "迷迭香"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
                         "product": "Battle Record",
-                        "operators": [
-                            "温蒂",
-                            "异客",
-                            "掠风"
-                        ],
+                        "operators": ["温蒂", "异客", "掠风"],
                         "sort": false,
                         "autofill": false
                     }
@@ -94,25 +70,19 @@
                 "power": [
                     {
                         "skip": false,
-                        "operators": [
-                            "承曦格雷伊"
-                        ],
+                        "operators": ["承曦格雷伊"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
-                        "operators": [
-                            "Lancet-2"
-                        ],
+                        "operators": ["Lancet-2"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
-                        "operators": [
-                            "格雷伊"
-                        ],
+                        "operators": ["格雷伊"],
                         "sort": false,
                         "autofill": false
                     }
@@ -120,49 +90,25 @@
                 "dormitory": [
                     {
                         "skip": false,
-                        "operators": [
-                            "爱丽丝",
-                            "车尔尼",
-                            "塑心",
-                            "菲亚梅塔",
-                            "闪灵"
-                        ],
+                        "operators": ["爱丽丝", "车尔尼", "塑心", "菲亚梅塔", "闪灵"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
-                        "operators": [
-                            "凯尔希",
-                            "令",
-                            "泡泡",
-                            "火神",
-                            "杏仁"
-                        ],
+                        "operators": ["凯尔希", "令", "泡泡", "火神", "杏仁"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
-                        "operators": [
-                            "水月",
-                            "香草",
-                            "杰西卡",
-                            "红云",
-                            "稀音"
-                        ],
+                        "operators": ["水月", "香草", "杰西卡", "红云", "稀音"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
-                        "operators": [
-                            "帕拉斯",
-                            "澄闪",
-                            "涤火杰西卡",
-                            "流明",
-                            "见行者"
-                        ],
+                        "operators": ["帕拉斯", "澄闪", "涤火杰西卡", "流明", "见行者"],
                         "sort": false,
                         "autofill": false
                     }
@@ -170,13 +116,7 @@
                 "control": [
                     {
                         "skip": false,
-                        "operators": [
-                            "森蚺",
-                            "焰尾",
-                            "薇薇安娜",
-                            "琴柳",
-                            "夕"
-                        ],
+                        "operators": ["森蚺", "焰尾", "薇薇安娜", "琴柳", "夕"],
                         "sort": false,
                         "autofill": false
                     }
@@ -184,10 +124,7 @@
                 "meeting": [
                     {
                         "skip": false,
-                        "operators": [
-                            "跃跃",
-                            "伊内丝"
-                        ],
+                        "operators": ["跃跃", "伊内丝"],
                         "sort": true,
                         "autofill": false
                     }
@@ -195,9 +132,7 @@
                 "hire": [
                     {
                         "skip": false,
-                        "operators": [
-                            "絮雨"
-                        ],
+                        "operators": ["絮雨"],
                         "sort": false,
                         "autofill": false
                     }
@@ -205,9 +140,7 @@
                 "processing": [
                     {
                         "skip": false,
-                        "operators": [
-                            "年"
-                        ],
+                        "operators": ["年"],
                         "sort": false,
                         "autofill": false
                     }
@@ -233,11 +166,7 @@
                     {
                         "skip": false,
                         "product": "LMD",
-                        "operators": [
-                            "推进之王",
-                            "摩根",
-                            "但书"
-                        ],
+                        "operators": ["推进之王", "摩根", "但书"],
                         "sort": false,
                         "autofill": false
                     }
@@ -246,55 +175,35 @@
                     {
                         "skip": false,
                         "product": "Pure Gold",
-                        "operators": [
-                            "苍苔",
-                            "砾",
-                            "斑点"
-                        ],
+                        "operators": ["苍苔", "砾", "斑点"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
                         "product": "Battle Record",
-                        "operators": [
-                            "至简",
-                            "槐琥",
-                            "断罪者"
-                        ],
+                        "operators": ["至简", "槐琥", "断罪者"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
                         "product": "Battle Record",
-                        "operators": [
-                            "野鬃",
-                            "远牙",
-                            "灰毫"
-                        ],
+                        "operators": ["野鬃", "远牙", "灰毫"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
                         "product": "Battle Record",
-                        "operators": [
-                            "水月",
-                            "香草",
-                            "杰西卡"
-                        ],
+                        "operators": ["水月", "香草", "杰西卡"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
                         "product": "Battle Record",
-                        "operators": [
-                            "红云",
-                            "稀音",
-                            "帕拉斯"
-                        ],
+                        "operators": ["红云", "稀音", "帕拉斯"],
                         "sort": true,
                         "autofill": false
                     }
@@ -302,25 +211,19 @@
                 "power": [
                     {
                         "skip": false,
-                        "operators": [
-                            "格雷伊"
-                        ],
+                        "operators": ["格雷伊"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
-                        "operators": [
-                            "雷蛇"
-                        ],
+                        "operators": ["雷蛇"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
-                        "operators": [
-                            "澄闪"
-                        ],
+                        "operators": ["澄闪"],
                         "sort": false,
                         "autofill": false
                     }
@@ -328,49 +231,25 @@
                 "dormitory": [
                     {
                         "skip": false,
-                        "operators": [
-                            "爱丽丝",
-                            "车尔尼",
-                            "塑心",
-                            "菲亚梅塔",
-                            "闪灵"
-                        ],
+                        "operators": ["爱丽丝", "车尔尼", "塑心", "菲亚梅塔", "闪灵"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
-                        "operators": [
-                            "黑键",
-                            "淬羽赫默",
-                            "多萝西",
-                            "迷迭香",
-                            "温蒂"
-                        ],
+                        "operators": ["黑键", "淬羽赫默", "多萝西", "迷迭香", "温蒂"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
-                        "operators": [
-                            "异客",
-                            "掠风",
-                            "承曦格雷伊",
-                            "伊内丝",
-                            "絮雨"
-                        ],
+                        "operators": ["异客", "掠风", "承曦格雷伊", "伊内丝", "絮雨"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
-                        "operators": [
-                            "森蚺",
-                            "琴柳",
-                            "夕",
-                            "伺夜",
-                            "流明"
-                        ],
+                        "operators": ["森蚺", "琴柳", "夕", "伺夜", "流明"],
                         "sort": false,
                         "autofill": false
                     }
@@ -378,13 +257,7 @@
                 "control": [
                     {
                         "skip": false,
-                        "operators": [
-                            "戴菲恩",
-                            "凯尔希",
-                            "焰尾",
-                            "薇薇安娜",
-                            "涤火杰西卡"
-                        ],
+                        "operators": ["戴菲恩", "凯尔希", "焰尾", "薇薇安娜", "涤火杰西卡"],
                         "sort": false,
                         "autofill": false
                     }
@@ -392,10 +265,7 @@
                 "meeting": [
                     {
                         "skip": false,
-                        "operators": [
-                            "见行者",
-                            "跃跃"
-                        ],
+                        "operators": ["见行者", "跃跃"],
                         "sort": false,
                         "autofill": false
                     }
@@ -403,9 +273,7 @@
                 "hire": [
                     {
                         "skip": false,
-                        "operators": [
-                            "斥罪"
-                        ],
+                        "operators": ["斥罪"],
                         "sort": false,
                         "autofill": false
                     }
@@ -413,9 +281,7 @@
                 "processing": [
                     {
                         "skip": false,
-                        "operators": [
-                            "年"
-                        ],
+                        "operators": ["年"],
                         "sort": false,
                         "autofill": false
                     }
@@ -441,11 +307,7 @@
                     {
                         "skip": false,
                         "product": "LMD",
-                        "operators": [
-                            "伺夜",
-                            "黑键",
-                            "但书"
-                        ],
+                        "operators": ["伺夜", "黑键", "但书"],
                         "sort": false,
                         "autofill": false
                     }
@@ -454,55 +316,35 @@
                     {
                         "skip": false,
                         "product": "Pure Gold",
-                        "operators": [
-                            "泡泡",
-                            "火神",
-                            "杏仁"
-                        ],
+                        "operators": ["泡泡", "火神", "杏仁"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
                         "product": "Battle Record",
-                        "operators": [
-                            "淬羽赫默",
-                            "多萝西",
-                            "迷迭香"
-                        ],
+                        "operators": ["淬羽赫默", "多萝西", "迷迭香"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
                         "product": "Battle Record",
-                        "operators": [
-                            "温蒂",
-                            "异客",
-                            "掠风"
-                        ],
+                        "operators": ["温蒂", "异客", "掠风"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
                         "product": "Battle Record",
-                        "operators": [
-                            "水月",
-                            "香草",
-                            "杰西卡"
-                        ],
+                        "operators": ["水月", "香草", "杰西卡"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
                         "product": "Battle Record",
-                        "operators": [
-                            "红云",
-                            "稀音",
-                            "帕拉斯"
-                        ],
+                        "operators": ["红云", "稀音", "帕拉斯"],
                         "sort": true,
                         "autofill": false
                     }
@@ -510,25 +352,19 @@
                 "power": [
                     {
                         "skip": false,
-                        "operators": [
-                            "承曦格雷伊"
-                        ],
+                        "operators": ["承曦格雷伊"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
-                        "operators": [
-                            "Lancet-2"
-                        ],
+                        "operators": ["Lancet-2"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
-                        "operators": [
-                            "澄闪"
-                        ],
+                        "operators": ["澄闪"],
                         "sort": false,
                         "autofill": false
                     }
@@ -536,49 +372,25 @@
                 "dormitory": [
                     {
                         "skip": false,
-                        "operators": [
-                            "戴菲恩",
-                            "焰尾",
-                            "薇薇安娜",
-                            "推进之王",
-                            "摩根"
-                        ],
+                        "operators": ["戴菲恩", "焰尾", "薇薇安娜", "推进之王", "摩根"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
-                        "operators": [
-                            "苍苔",
-                            "砾",
-                            "斑点",
-                            "至简",
-                            "槐琥"
-                        ],
+                        "operators": ["苍苔", "砾", "斑点", "至简", "槐琥"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
-                        "operators": [
-                            "断罪者",
-                            "野鬃",
-                            "远牙",
-                            "灰毫",
-                            "格雷伊"
-                        ],
+                        "operators": ["断罪者", "野鬃", "远牙", "灰毫", "格雷伊"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
-                        "operators": [
-                            "雷蛇",
-                            "跃跃",
-                            "斥罪",
-                            "流明",
-                            "闪灵"
-                        ],
+                        "operators": ["雷蛇", "跃跃", "斥罪", "流明", "闪灵"],
                         "sort": false,
                         "autofill": false
                     }
@@ -586,13 +398,7 @@
                 "control": [
                     {
                         "skip": false,
-                        "operators": [
-                            "森蚺",
-                            "涤火杰西卡",
-                            "凯尔希",
-                            "琴柳",
-                            "令"
-                        ],
+                        "operators": ["森蚺", "涤火杰西卡", "凯尔希", "琴柳", "令"],
                         "sort": false,
                         "autofill": false
                     }
@@ -600,10 +406,7 @@
                 "meeting": [
                     {
                         "skip": false,
-                        "operators": [
-                            "见行者",
-                            "伊内丝"
-                        ],
+                        "operators": ["见行者", "伊内丝"],
                         "sort": true,
                         "autofill": false
                     }
@@ -611,9 +414,7 @@
                 "hire": [
                     {
                         "skip": false,
-                        "operators": [
-                            "絮雨"
-                        ],
+                        "operators": ["絮雨"],
                         "sort": false,
                         "autofill": false
                     }
@@ -621,9 +422,7 @@
                 "processing": [
                     {
                         "skip": false,
-                        "operators": [
-                            "年"
-                        ],
+                        "operators": ["年"],
                         "sort": false,
                         "autofill": false
                     }
@@ -632,10 +431,10 @@
         }
     ],
     "scheduleType": {
-      "planTimes": 4,
-      "trading": 1,
-      "manufacture": 5,
-      "power": 3,
-      "dormitory": 4
+        "planTimes": 4,
+        "trading": 1,
+        "manufacture": 5,
+        "power": 3,
+        "dormitory": 4
     }
-  }
+}
