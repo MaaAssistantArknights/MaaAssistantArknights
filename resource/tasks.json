@@ -450,6 +450,11 @@
         "baseTask": "ChapterSlowlySwipeToTheLeft",
         "specialParams": [150, 1]
     },
+    "SwipeToStageToTheRight": {
+        "Doc": "活动导航右滑找关",
+        "baseTask": "ChapterSlowlySwipeToTheRight",
+        "specialParams": [ 150, 1 ]
+    },
     "SwipeLeftToStage1-7": {
         "algorithm": "OcrDetect",
         "baseTask": "ChapterSlowlySwipeToTheLeft",
@@ -567,22 +572,22 @@
     "PV-10": {
         "algorithm": "JustReturn",
         "sub": ["PV-OpenOpt"],
-        "next": ["PV-10@SideStoryStage", "PV-10@SwipeToStage"]
+        "next": ["PV-10@SideStoryStage", "PV-10@SwipeToStageToTheRight"]
     },
     "PV-9": {
         "algorithm": "JustReturn",
         "sub": ["PV-OpenOpt"],
-        "next": ["PV-9@SideStoryStage", "PV-9@SwipeToStage"]
+        "next": ["PV-9@SideStoryStage", "PV-9@SwipeToStageToTheRight"]
     },
     "PV-8": {
         "algorithm": "JustReturn",
         "sub": ["PV-OpenOpt"],
-        "next": ["PV-8@SideStoryStage", "PV-8@SwipeToStage"]
+        "next": ["PV-8@SideStoryStage", "PV-8@SwipeToStageToTheRight"]
     },
     "PV-5": {
         "algorithm": "JustReturn",
         "sub": ["PV-OpenOpt"],
-        "next": ["PV-5@SideStoryStage", "PV-5@SwipeToStage"]
+        "next": ["PV-5@SideStoryStage", "PV-5@SwipeToStageToTheRight"]
     },
     "PV-OpenOpt": {
         "algorithm": "JustReturn",
@@ -604,7 +609,7 @@
         "text": ["四幕汇演"],
         "preDelay": 3000,
         "roi": [69, 594, 123, 40],
-        "next": ["#self", "ChapterSwipeToTheRight"]
+        "next": ["#self", "ChapterSwipeToTheLeft"]
     },
     "PV-10@SideStoryStage": {
         "doc": "<PV-10> 文字与 <装配工坊> 位置靠近，容易误点，向右偏移一些",
