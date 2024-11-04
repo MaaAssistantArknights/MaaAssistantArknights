@@ -27,25 +27,31 @@ public:
         battle::RoleCounts role_counts;
     };
 
-    void append_additional_formation(AdditionalFormation formation);
+    void append_additional_formation(AdditionalFormation formation) { m_additional.emplace_back(std::move(formation)); }
 
-    void set_support_unit_name(std::string name);
-    // 是否追加自定干员
-    void set_add_user_additional(bool add_user_additional);
+    void set_support_unit_name(std::string name) { m_support_unit_name = std::move(name); }
+
     // 设置追加自定干员列表
-    void set_user_additional(std::vector<std::pair<std::string, int>> user_additional);
+    void set_user_additional(std::vector<std::pair<std::string, int>> value) { m_user_additional = std::move(value); }
+
     // 是否追加低信赖干员
-    void set_add_trust(bool add_trust);
+    void set_add_trust(bool add_trust) { m_add_trust = add_trust; }
+
     // 设置对指定编队自动编队
-    void set_select_formation(int index);
-    std::shared_ptr<std::unordered_map<std::string, std::string>> get_opers_in_formation() const;
+    void set_select_formation(int index) { m_select_formation_index = index; }
+
+    std::shared_ptr<std::unordered_map<std::string, std::string>> get_opers_in_formation() const
+    {
+        return m_opers_in_formation;
+    }
 
     enum class DataResource
     {
         Copilot,
         SSSCopilot,
     };
-    void set_data_resource(DataResource resource);
+
+    void set_data_resource(DataResource resource) { m_data_resource = resource; }
 
 protected:
     using OperGroup = std::pair<std::string, std::vector<asst::battle::OperUsage>>;

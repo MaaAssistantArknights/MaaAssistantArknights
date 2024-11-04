@@ -82,6 +82,18 @@ const LINKS = [
       />
     }
   />,
+  <HomeLink
+    key="QQ"
+    href="https://ota.maa.plus/MaaAssistantArknights/api/qqgroup"
+    title="MAA 用户群"
+    icon={
+      <img
+        src={linksIconPrtsPlus}
+        alt="MAA 用户群"
+        className="h-8 w-8"
+      />
+    }
+  />,
 ]
 
 export const HomeLinks = forwardRef<HTMLDivElement>((_props, ref) => (
