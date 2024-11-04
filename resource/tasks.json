@@ -3422,9 +3422,9 @@
         "next": ["Home@ReturnButtons#next"]
     },
     "StartToVisit": {
+        "method": "RGBCount",
         "action": "ClickSelf",
-        "template": ["StartToVisit.png", "StartToVisitDetermine.png", "StartToVisitSportsman"],
-        "templThreshold": [0.9, 0.9, 0.9],
+        "colorScales": [[250, 255]],
         "roi": [990, 90, 195, 165],
         "next": ["VisitNext", "VisitNext@LoadingText", "VisitNextBlack", "VisitNextOcr"],
         "postDelay": 2000
