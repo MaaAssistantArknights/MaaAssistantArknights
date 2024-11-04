@@ -166,6 +166,7 @@ bool asst::UseSupportUnitTaskPlugin::try_use_support_unit_with_skill(
     // 点选被选择的助战干员
     ctrler()->click(support_unit.rect);
     sleep(Config.get_options().task_delay);
+    ProcessTask(*this, { "Stop@LoadingText", "Stop" }).run();
 
     if (skill != 0) {
         if (max_spec_lvl) {
