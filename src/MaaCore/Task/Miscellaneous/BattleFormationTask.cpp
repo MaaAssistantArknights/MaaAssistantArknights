@@ -9,6 +9,7 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
+#include "UseSupportUnitTaskPlugin.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/MultiMatcher.h"
@@ -82,7 +83,7 @@ bool asst::BattleFormationTask::_run()
 
         // 先退出去招募助战再回来，好蠢
         confirm_selection();
-        if (m_use_support_unit_task_ptr->try_find_and_apply_support_unit(required_opers, 5, true)) {
+        if (m_use_support_unit_task_ptr->try_add_support_unit(required_opers, 5, true)) {
             m_used_support_unit = true;
             missing_operators.clear();
         }
@@ -127,12 +128,10 @@ bool asst::BattleFormationTask::_run()
     confirm_selection();
 
     if (m_support_unit_usage == SupportUnitUsage::Specific && !m_used_support_unit) { // 使用指定助战干员
-        m_used_support_unit =
-            m_use_support_unit_task_ptr->try_find_and_apply_support_unit({ m_specific_support_unit }, 5, true);
+        m_used_support_unit = m_use_support_unit_task_ptr->try_add_support_unit({ m_specific_support_unit }, 5, true);
     }
     else if (m_support_unit_usage == SupportUnitUsage::Random && !m_used_support_unit) { // 使用随机助战干员
-        m_used_support_unit =
-            m_use_support_unit_task_ptr->try_find_and_apply_support_unit(std::vector<battle::RequiredOper>(), 5, false);
+        m_used_support_unit = m_use_support_unit_task_ptr->try_add_support_unit({}, 5, false);
     }
 
     return true;

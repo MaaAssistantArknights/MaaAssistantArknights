@@ -7,7 +7,7 @@
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 
-bool asst::UseSupportUnitTaskPlugin::try_find_and_apply_support_unit(
+bool asst::UseSupportUnitTaskPlugin::try_add_support_unit(
     const std::vector<RequiredOper>& required_opers,
     const int max_refresh_times,
     const bool max_spec_lvl,

@@ -17,7 +17,7 @@ public:
     using RequiredOper = battle::RequiredOper;
     using SupportUnit = SupportListAnalyzer::SupportUnit;
 
-    bool try_find_and_apply_support_unit(
+    bool try_add_support_unit(
         const std::vector<RequiredOper>& required_opers = {},
         int max_refresh_times = 0,
         bool max_spec_lvl = true,

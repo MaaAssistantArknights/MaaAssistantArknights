@@ -3,11 +3,12 @@
 
 #include "Common/AsstBattleDef.h"
 #include "Task/AbstractTask.h"
-#include "UseSupportUnitTaskPlugin.h"
 #include "Vision/TemplDetOCRer.h"
 
 namespace asst
 {
+class UseSupportUnitTaskPlugin;
+
 class BattleFormationTask : public AbstractTask
 {
 public:
