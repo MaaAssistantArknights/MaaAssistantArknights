@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -204,7 +205,8 @@ namespace MaaWpfGui.ViewModels.UI
                 ConfigurationHelper.SetFacilityOrder(newVm.OriginalName, i.ToString());
             }
 
-            InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(tempOrderList);
+            InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(tempOrderList!);
+            InfrastItemViewModels.CollectionChanged += InfrastOrderSelectionChanged;
 
             _dormThresholdLabel = LocalizationHelper.GetString("DormThreshold") + ": " + _dormThreshold + "%";
         }
@@ -1626,8 +1628,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 实时更新基建换班顺序
         /// </summary>
-        public void InfrastOrderSelectionChanged()
+        /// <param name="sender">ignored object</param>
+        /// <param name="e">ignored NotifyCollectionChangedEventArgs</param>
+        public void InfrastOrderSelectionChanged(object? sender = null, NotifyCollectionChangedEventArgs? e = null)
         {
+            _ = (sender, e);
             int index = 0;
             foreach (var item in InfrastItemViewModels)
             {

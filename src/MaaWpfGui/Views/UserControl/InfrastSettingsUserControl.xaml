@@ -115,7 +115,6 @@
                 dd:DragDrop.IsDragSource="True"
                 dd:DragDrop.IsDropTarget="True"
                 ItemsSource="{Binding Path=InfrastItemViewModels}"
-                SelectionChanged="{s:Action InfrastOrderSelectionChanged}"
                 ToolTip="{DynamicResource LabelSequenceTip}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
