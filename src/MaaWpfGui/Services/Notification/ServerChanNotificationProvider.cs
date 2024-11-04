@@ -37,6 +37,13 @@ namespace MaaWpfGui.Services.Notification
 
         public async Task<bool> SendAsync(string title, string content)
         {
+            title = title.Replace("\n", string.Empty);  //去掉 title 中的换行符
+            // 确保 title 的长度不超过 32 个字符
+            if (title.Length > 32)
+            {
+                title = title.Substring(0, 32); // 截取前 32 个字符
+            }
+            
             var sendKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, string.Empty);
 
             try
