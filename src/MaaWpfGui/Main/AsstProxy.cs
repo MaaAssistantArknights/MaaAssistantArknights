@@ -335,7 +335,7 @@ namespace MaaWpfGui.Main
                     _runningState.SetIdle(false);
                 }
 
-                await Task.Run(() => Instances.SettingsViewModel.TryToStartEmulator());
+                await Task.Run(() => Instances.SettingsViewModel.TryToStartEmulator(true));
 
                 // 一般是点了“停止”按钮了
                 if (Instances.TaskQueueViewModel.Stopping)
