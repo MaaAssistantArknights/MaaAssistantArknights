@@ -224,53 +224,52 @@ public class RoguelikeTask : BaseTask
         taskParams["refresh_trader_with_dice"] = Theme == RoguelikeTheme.Mizuki && RefreshTraderWithDice;
 
         taskParams["stop_at_final_boss"] = Mode == RoguelikeMode.Exp && StopAtFinalBoss;
-
         return taskParams;
     }
+}
 
-    public enum RoguelikeTheme
-    {
-        /// <summary>
-        /// 傀影
-        /// </summary>
-        Phantom,
+public enum RoguelikeTheme
+{
+    /// <summary>
+    /// 傀影
+    /// </summary>
+    Phantom,
 
-        /// <summary>
-        /// 水月
-        /// </summary>
-        Mizuki,
+    /// <summary>
+    /// 水月
+    /// </summary>
+    Mizuki,
 
-        /// <summary>
-        /// 萨米
-        /// </summary>
-        Sami,
+    /// <summary>
+    /// 萨米
+    /// </summary>
+    Sami,
 
-        /// <summary>
-        /// 萨卡兹
-        /// </summary>
-        Sarkaz,
-    }
+    /// <summary>
+    /// 萨卡兹
+    /// </summary>
+    Sarkaz,
+}
 
-    public enum RoguelikeMode
-    {
-        /// <summary>
-        /// 0 - 刷经验，尽可能稳定地打更多层数，不期而遇采用激进策略
-        /// </summary>
-        Exp = 0,
+public enum RoguelikeMode
+{
+    /// <summary>
+    /// 0 - 刷经验，尽可能稳定地打更多层数，不期而遇采用激进策略
+    /// </summary>
+    Exp = 0,
 
-        /// <summary>
-        /// 1 - 刷源石锭，第一层投资完就退出，不期而遇采用保守策略
-        /// </summary>
-        Investment = 1,
+    /// <summary>
+    /// 1 - 刷源石锭，第一层投资完就退出，不期而遇采用保守策略
+    /// </summary>
+    Investment = 1,
 
-        /// <summary>
-        /// 4 - 刷开局，以获得热水壶或者演讲稿开局或只凹直升，不期而遇采用保守策略
-        /// </summary>
-        Collectible = 4,
+    /// <summary>
+    /// 4 - 刷开局，以获得热水壶或者演讲稿开局或只凹直升，不期而遇采用保守策略
+    /// </summary>
+    Collectible = 4,
 
-        /// <summary>
-        /// 5 - 刷隐藏坍缩范式,以增加坍缩值为最优先目标
-        /// </summary>
-        CLP_PDS = 5,
-    }
+    /// <summary>
+    /// 5 - 刷隐藏坍缩范式,以增加坍缩值为最优先目标
+    /// </summary>
+    CLP_PDS = 5,
 }

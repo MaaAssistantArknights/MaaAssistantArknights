@@ -848,11 +848,8 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _creditVisitOnceADay, mallTask.VisitFriendsOnceADay, nameof(CreditVisitOnceADay));
                 SetAndNotify(ref _lastCreditVisitFriendsTime, mallTask.VisitFriendsLastTime, nameof(LastCreditVisitFriendsTime));
             }
-            else if (task is RoguelikeTask roguelikeTask)
+            else if (task is InfrastTask infrast)
             {
-                _roguelikeTheme = roguelikeTask.Theme;
-
-                NotifyOfPropertyChange(nameof(RoguelikeTheme));
             }
             else if (task is RoguelikeTask roguelike)
             {
@@ -2218,50 +2215,6 @@ namespace MaaWpfGui.ViewModels.UI
             ];
 
         private RoguelikeTheme _roguelikeTheme;
-        private ObservableCollection<GenericCombinedData<int>> _roguelikeDifficultyList = [];
-
-        public ObservableCollection<GenericCombinedData<int>> RoguelikeDifficultyList
-        {
-            get => _roguelikeDifficultyList;
-            set => SetAndNotify(ref _roguelikeDifficultyList, value);
-        }
-
-        private ObservableCollection<CombinedData> _roguelikeModeList = [];
-
-        /// <summary>
-        /// Gets or sets the list of roguelike modes.
-        /// </summary>
-        public ObservableCollection<CombinedData> RoguelikeModeList
-        {
-            get => _roguelikeModeList;
-            set => SetAndNotify(ref _roguelikeModeList, value);
-        }
-
-        private ObservableCollection<CombinedData> _roguelikeSquadList = [];
-
-        /// <summary>
-        /// Gets or sets the list of roguelike squad.
-        /// </summary>
-        public ObservableCollection<CombinedData> RoguelikeSquadList
-        {
-            get => _roguelikeSquadList;
-            set => SetAndNotify(ref _roguelikeSquadList, value);
-        }
-
-        /// <summary>
-        /// Gets the list of roguelike roles.
-        /// </summary>
-        public List<CombinedData> RoguelikeRolesList { get; } =
-            [
-                new() { Display = LocalizationHelper.GetString("DefaultRoles"), Value = string.Empty },
-                new() { Display = LocalizationHelper.GetString("FirstMoveAdvantage"), Value = "先手必胜" },
-                new() { Display = LocalizationHelper.GetString("SlowAndSteadyWinsTheRace"), Value = "稳扎稳打" },
-                new() { Display = LocalizationHelper.GetString("OvercomingYourWeaknesses"), Value = "取长补短" },
-                new() { Display = LocalizationHelper.GetString("AsYourHeartDesires"), Value = "随心所欲" },
-            ];
-
-        // public List<CombData> RoguelikeCoreCharList { get; set; }
-        private string _roguelikeTheme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, "Sarkaz");
 
         /// <summary>
         /// Gets or sets the Roguelike theme.
@@ -2278,10 +2231,8 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         private ObservableCollection<GenericCombinedData<int>> _roguelikeDifficultyList = [];
-        private int _roguelikeDifficulty = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDifficulty, int.MaxValue.ToString()));
 
         public ObservableCollection<GenericCombinedData<int>> RoguelikeDifficultyList
-        public int RoguelikeDifficulty
         {
             get => _roguelikeDifficultyList;
             set => SetAndNotify(ref _roguelikeDifficultyList, value);
@@ -2296,7 +2247,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _roguelikeDifficulty, value);
                 GetCurrentTask<RoguelikeTask>(t => t.Difficulty = value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDifficulty, value.ToString());
             }
         }
 

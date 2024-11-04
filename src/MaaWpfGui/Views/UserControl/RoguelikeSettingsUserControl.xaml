@@ -10,10 +10,9 @@
     xmlns:local="clr-namespace:MaaWpfGui.Views.UserControl"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
+    xmlns:task="clr-namespace:MaaWpfGui.Configuration.MaaTask"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
-    xmlns:vm="clr-namespace:MaaWpfGui"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
     d:DesignWidth="220"
@@ -38,7 +37,7 @@
                 SelectedValue="{Binding RoguelikeDifficulty}"
                 SelectedValuePath="Value"
                 Style="{StaticResource ComboBoxExtend}"
-                Visibility="{c:Binding 'RoguelikeTheme != &quot;Phantom&quot;'}" />
+                Visibility="{c:Binding 'RoguelikeTheme != task:RoguelikeTheme.Phantom'}" />
             <ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource Strategy}"
@@ -99,11 +98,11 @@
                 Margin="0,10"
                 Content="{DynamicResource InvestmentEnabled}"
                 IsChecked="{Binding RoguelikeInvestmentEnabled}"
-                IsEnabled="{c:Binding 'RoguelikeMode != &quot;1&quot;'}" />
+                IsEnabled="{c:Binding 'RoguelikeMode != task:RoguelikeMode.Investment'}" />
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding RoguelikeInvestmentWithMoreScore}"
-                Visibility="{c:Binding 'RoguelikeMode == &quot;1&quot;'}">
+                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Investment'}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource InvestmentWithMoreScore}"
@@ -132,11 +131,11 @@
                 Margin="0,10"
                 Content="{DynamicResource RefreshTraderWithDice}"
                 IsChecked="{Binding RoguelikeRefreshTraderWithDice}"
-                Visibility="{c:Binding 'RoguelikeTheme == &quot;Mizuki&quot;'}" />
+                Visibility="{c:Binding 'RoguelikeTheme == task:RoguelikeTheme.Mizuki'}" />
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding RoguelikeStartWithEliteTwo}"
-                Visibility="{c:Binding 'RoguelikeMode == &quot;4&quot; and RoguelikeTheme != &quot;Phantom&quot; and RoguelikeSquad == &quot;突击战术分队&quot; or RoguelikeSquad == &quot;堡垒战术分队&quot; or RoguelikeSquad == &quot;远程战术分队&quot; or RoguelikeSquad == &quot;破坏战术分队&quot;'}">
+                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Collectible and RoguelikeTheme != task:RoguelikeTheme.Phantom and RoguelikeSquad == &quot;突击战术分队&quot; or RoguelikeSquad == &quot;堡垒战术分队&quot; or RoguelikeSquad == &quot;远程战术分队&quot; or RoguelikeSquad == &quot;破坏战术分队&quot;'}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource RoguelikeStartWithEliteTwo}"
@@ -145,7 +144,7 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding RoguelikeOnlyStartWithEliteTwo}"
-                Visibility="{c:Binding 'RoguelikeStartWithEliteTwo and RoguelikeMode == &quot;4&quot; and RoguelikeTheme != &quot;Phantom&quot;'}">
+                Visibility="{c:Binding 'RoguelikeStartWithEliteTwo and RoguelikeMode == task:RoguelikeMode.Collectible and RoguelikeTheme != task:RoguelikeTheme.Phantom'}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource RoguelikeOnlyStartWithEliteTwo}"
@@ -154,7 +153,7 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding Roguelike3FirstFloorFoldartal}"
-                Visibility="{c:Binding 'RoguelikeMode == &quot;4&quot; and RoguelikeTheme == &quot;Sami&quot; '}">
+                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Collectible and RoguelikeTheme == task:RoguelikeTheme.Sami'}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource Roguelike3FirstFloorFoldartal}"
@@ -163,11 +162,11 @@
             <TextBox
                 IsReadOnly="{c:Binding !Idle}"
                 Text="{Binding Roguelike3StartFloorFoldartal, UpdateSourceTrigger=LostFocus}"
-                Visibility="{c:Binding 'Roguelike3FirstFloorFoldartal and RoguelikeMode == &quot;4&quot; and RoguelikeTheme == &quot;Sami&quot; '}" />
+                Visibility="{c:Binding 'Roguelike3FirstFloorFoldartal and RoguelikeMode == task:RoguelikeMode.Collectible and RoguelikeTheme == task:RoguelikeTheme.Sami'}" />
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding Roguelike3NewSquad2StartingFoldartal}"
-                Visibility="{c:Binding 'RoguelikeMode == &quot;4&quot; and RoguelikeTheme == &quot;Sami&quot; and RoguelikeSquad == &quot;生活至上分队&quot; '}">
+                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Collectible and RoguelikeTheme == task:RoguelikeTheme.Sami and RoguelikeSquad == &quot;生活至上分队&quot; '}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource Roguelike3NewSquad2StartingFoldartal}"
@@ -178,7 +177,7 @@
                 Style="{StaticResource TextBoxExtend}"
                 Text="{Binding Roguelike3NewSquad2StartingFoldartals, UpdateSourceTrigger=LostFocus}"
                 ToolTip="{DynamicResource Roguelike3NewSquad2StartingFoldartalTip}"
-                Visibility="{c:Binding 'Roguelike3NewSquad2StartingFoldartal and RoguelikeMode == &quot;4&quot; and RoguelikeTheme == &quot;Sami&quot; and RoguelikeSquad == &quot;生活至上分队&quot; '}" />
+                Visibility="{c:Binding 'Roguelike3NewSquad2StartingFoldartal and RoguelikeMode == task:RoguelikeMode.Collectible and RoguelikeTheme == task:RoguelikeTheme.Sami and RoguelikeSquad == &quot;生活至上分队&quot; '}" />
             <hc:TextBox
                 hc:InfoElement.Title="{DynamicResource RoguelikeCollapseList}"
                 IsReadOnly="{c:Binding !Idle}"
@@ -210,7 +209,7 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding RoguelikeStopAtFinalBoss}"
-                Visibility="{c:Binding 'RoguelikeMode == &quot;0&quot;'}">
+                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Exp'}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource RoguelikeStopAtFinalBoss}"

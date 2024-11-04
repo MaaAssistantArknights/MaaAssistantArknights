@@ -262,7 +262,7 @@ namespace MaaWpfGui.Helper
                     roguelikeTask.SamiFirstFloorFoldartal = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3FirstFloorFoldartal, bool.FalseString));
                     roguelikeTask.SamiFirstFloorFoldartals = EmptyStringToNull(ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3StartFloorFoldartal, string.Empty));
                     roguelikeTask.SamiNewSquad2StartingFoldartal = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartal, bool.FalseString));
-                    roguelikeTask.SamiNewSquad2StartingFoldartals = EmptyStringToNull( ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartals, string.Empty));
+                    roguelikeTask.SamiNewSquad2StartingFoldartals = EmptyStringToNull(ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartals, string.Empty));
 
                     reclamationTask.Theme = Enum.Parse<ReclamationTheme>(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationTheme, ReclamationTheme.Tales.ToString()));
                     reclamationTask.Mode = Enum.Parse<ReclamationMode>(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMode, ReclamationMode.Archive.ToString()));
