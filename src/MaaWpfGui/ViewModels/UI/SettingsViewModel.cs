@@ -1235,7 +1235,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             for (attempts = 0; !IsIconic(hWnd) && attempts < 100; ++attempts)
             {
-                ShowWindow(0xD9A0E8E, SWMINIMIZE);
+                ShowWindow(hWnd, SWMINIMIZE);
                 Thread.Sleep(10);
                 if (process.HasExited)
                 {
