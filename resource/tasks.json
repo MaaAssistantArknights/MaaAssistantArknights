@@ -4711,7 +4711,7 @@
         "text": [],
         "roi": [9, 232, 107, 20],
         "postDelay": 200,
-        "specialParams_Doc": "USED FOR YOSTAREN. Used in BattleFormationTask.cpp for OCR manipulation. For CN: OCRerConfig.h default values are used.",
+        "specialParams_Doc": "Added for the YostarEN client. Used in BattleFormationTask.cpp for OCR manipulation. CN values are from OCRerConfig.h",
         "specialParams": [140, 2, 0, 0]
     },
     "BattleQuickFormationSkill1": {
