@@ -1105,13 +1105,48 @@ namespace MaaWpfGui.ViewModels.UI
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(scriptPath))
+                {
+                    return false;
+                }
+
+                string fileName;
+                string arguments;
+
+                if (scriptPath.StartsWith('\"'))
+                {
+                    var parts = scriptPath.Split("\"", 3);
+                    fileName = parts[1];
+                    arguments = parts.Length > 2 ? parts[2] : string.Empty;
+                }
+                else
+                {
+                    fileName = scriptPath;
+                    arguments = string.Empty;
+                }
+
+                bool createNoWindow = arguments.Contains("-noWindow");
+                bool minimized = arguments.Contains("-minimized");
+
+                if (createNoWindow)
+                {
+                    arguments = arguments.Replace("-noWindow", string.Empty).Trim();
+                }
+
+                if (minimized)
+                {
+                    arguments = arguments.Replace("-minimized", string.Empty).Trim();
+                }
+
                 var process = new Process
                 {
                     StartInfo = new ProcessStartInfo
                     {
-                        FileName = scriptPath,
-                        WindowStyle = ProcessWindowStyle.Minimized,
-                        UseShellExecute = true,
+                        FileName = fileName,
+                        Arguments = arguments,
+                        WindowStyle = minimized ? ProcessWindowStyle.Minimized : ProcessWindowStyle.Normal,
+                        CreateNoWindow = createNoWindow,
+                        UseShellExecute = !createNoWindow,
                     },
                 };
                 process.Start();
