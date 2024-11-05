@@ -64,8 +64,6 @@ bool asst::CopilotTask::set_params(const json::value& params)
 {
     LogTraceFunction;
 
-    using SupportUnitUsage = BattleFormationTask::SupportUnitUsage;
-
     if (m_running) {
         return false;
     }
@@ -87,8 +85,6 @@ bool asst::CopilotTask::set_params(const json::value& params)
     int select_formation = params.get("select_formation", 0);        // 选择第几个编队，0为不选择
     bool add_trust = params.get("add_trust", false);                 // 是否自动补信赖
     bool add_user_additional = params.contains("user_additional");   // 是否自动补用户自定义干员
-    auto support_unit_usage = static_cast<SupportUnitUsage>(
-        params.get("support_unit_usage", static_cast<int>(SupportUnitUsage::WhenNeeded))); // 助战干员使用模式
     std::string support_unit_name = params.get("support_unit_name", std::string());
 
     if (params.contains("add_user_additional")) {
@@ -149,8 +145,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     m_formation_task_ptr->set_enable(with_formation && navigate_name.find("TR") == std::string::npos);
     m_formation_task_ptr->set_select_formation(select_formation);
     m_formation_task_ptr->set_add_trust(add_trust);
-    m_formation_task_ptr->set_support_unit_usage(support_unit_usage);
-    m_formation_task_ptr->set_specific_support_unit(support_unit_name);
+    m_formation_task_ptr->set_support_unit_name(std::move(support_unit_name));
 
     if (auto opt = params.find<json::array>("user_additional"); add_user_additional && opt) {
         std::vector<std::pair<std::string, int>> user_additional;

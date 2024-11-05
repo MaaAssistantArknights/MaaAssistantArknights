@@ -131,22 +131,6 @@ inline static LocationType get_role_usual_location(const Role& role)
     }
 }
 
-struct RequiredOper // 编队/招募需求干员
-{
-    Role role = Role::Unknown;
-    std::string name;
-    int skill = 0; // 技能序号，取值范围 [0, 3]，0时使用默认技能 或 上次编队时使用的技能
-
-    RequiredOper() = default;
-
-    RequiredOper(Role role_, std::string name_, int skill_) :
-        role(role_),
-        name(std::move(name_)),
-        skill(skill_)
-    {
-    }
-};
-
 struct DeploymentOper
 {
     size_t index = 0;
@@ -357,21 +341,17 @@ struct RefreshSupportInfo
 
 namespace asst
 {
-inline std::string enum_to_string(asst::battle::Role role, bool en = false)
+inline std::string enum_to_string(asst::battle::Role role)
 {
     using asst::battle::Role;
-    static const std::unordered_map<Role, std::pair<std::string, std::string>> RoleToName {
-        { Role::Warrior, { "近卫", "Warrior" } }, { Role::Pioneer, { "先锋", "Pioneer" } },
-        { Role::Medic, { "医疗", "Medic" } },     { Role::Tank, { "重装", "Tank" } },
-        { Role::Sniper, { "狙击", "Sniper" } },   { Role::Caster, { "术师", "Caster" } },
-        { Role::Support, { "辅助", "Support" } }, { Role::Special, { "特种", "Special" } },
-        { Role::Drone, { "无人机", "Drone" } },
+    static const std::unordered_map<Role, std::string> RoleToName = {
+        { Role::Warrior, "近卫" }, { Role::Pioneer, "先锋" }, { Role::Medic, "医疗" },
+        { Role::Tank, "重装" },    { Role::Sniper, "狙击" },  { Role::Caster, "术师" },
+        { Role::Support, "辅助" }, { Role::Special, "特种" }, { Role::Drone, "无人机" },
     };
-
     if (auto iter = RoleToName.find(role); iter != RoleToName.end()) {
-        return en ? iter->second.second : iter->second.first;
+        return iter->second;
     }
-
     return "Unknown";
 }
 }
