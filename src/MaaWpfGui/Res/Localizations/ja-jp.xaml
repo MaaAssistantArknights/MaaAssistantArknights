@@ -731,6 +731,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="GiveUpUploadingPenguins">Penguin-Statsへのアップロードをあきらめました</system:String>
     <system:String x:Key="TheEx">ステージ報酬がないため停止します</system:String>
     <system:String x:Key="MissingOperators">次のオペレーターがオペレーターグループにありません：</system:String>
+    <system:String x:Key="RecruitSuppportOperator">サポートユニットを追加：{0}</system:String>
     <system:String x:Key="StageQueue">ステージキュー:</system:String>
     <system:String x:Key="UnableToAgent">自動指揮利用不可</system:String>
     <system:String x:Key="MissionStart">行動開始しました</system:String>
