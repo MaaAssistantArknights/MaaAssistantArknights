@@ -28,14 +28,14 @@ namespace MaaWpfGui.Services.Notification
 
         public async Task<bool> SendAsync(string title, string content)
         {
-            var smtpServer = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpServer, string.Empty);
-            var smtpPortValid = int.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpPort, "25"), out var smtpPort);
-            var smtpUser = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUser, string.Empty);
-            var smtpPassword = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpPassword, string.Empty);
-            var smtpUseSslValid = bool.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl, "false"), out var smtpUseSsl);
-            var smtpRequiresAuthenticationValid = bool.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication, "false"), out var smtpRequiresAuthentication);
+            var smtpServer = Instances.SettingsViewModel.SmtpServer;
+            var smtpPortValid = int.TryParse(Instances.SettingsViewModel.SmtpPort, out var smtpPort);
+            var smtpUser = Instances.SettingsViewModel.SmtpUser;
+            var smtpPassword = Instances.SettingsViewModel.SmtpPassword;
+            var smtpUseSsl = Instances.SettingsViewModel.SmtpUseSsl;
+            var smtpRequiresAuthentication = Instances.SettingsViewModel.SmtpRequireAuthentication;
 
-            if (string.IsNullOrEmpty(smtpServer) || smtpPortValid is false || smtpUseSslValid is false || smtpRequiresAuthenticationValid is false)
+            if (string.IsNullOrEmpty(smtpServer) || smtpPortValid is false)
             {
                 _logger.Error("Failed to send Email notification, invalid SMTP configuration");
                 return false;
@@ -76,79 +76,81 @@ namespace MaaWpfGui.Services.Notification
 
             if (sendResult.Successful)
             {
-                _logger.Information("Successfully sent Email notification to {EmailTo}", emailTo);
+                _logger.Information($"Successfully sent Email notification to {emailTo}");
                 return true;
             }
 
-            _logger.Warning("Failed to send Email notification to {EmailTo}, {Error}", emailTo, sendResult.ErrorMessages);
+            _logger.Warning($"Failed to send Email notification to {emailTo}, {sendResult.ErrorMessages}");
             return false;
         }
 
-        private const string EmailTemplate = @"
-<html lang=""zh"">
-  <style>
-    .title {
-      font-size: xx-large;
-      font-weight: bold;
-      color: black;
-      text-align: center;
-    }
+        private const string EmailTemplate = """
 
-    .heading {
-      font-size: large;
-    }
+ <html lang="zh">
+   <style>
+     .title {
+       font-size: xx-large;
+       font-weight: bold;
+       color: black;
+       text-align: center;
+     }
+ 
+     .heading {
+       font-size: large;
+     }
+ 
+     .notification h1 {
+       font-size: large;
+       font-weight: bold;
+     }
+ 
+     .notification p {
+       font-size: medium;
+     }
+ 
+     .footer {
+       font-size: small;
+     }
+ 
+     .space {
+       padding-left: 0.5rem;
+       padding-right: 0.5rem;
+     }
+   </style>
+ 
+   <h1 class="title">Maa Assistant Arknights</h1>
+ 
+   <div class="heading">
+     <p>{{ Hello }}</p>
+   </div>
+ 
+   <hr />
+ 
+   <div class="notification">
+     <h1>{{ Title }}</h1>
+     <p>{{ Content }}</p>
+   </div>
+ 
+   <hr />
+ 
+   <div class="footer">
+     <p>
+       {{ FooterLineOne }}
+     </p>
+     <p>{{ FooterLineTwo }}</p>
+     <p>
+       <a class="space" href="https://github.com/MaaAssistantArknights">
+         GitHub
+       </a>
+       <a class="space" href="https://space.bilibili.com/3493274731940507">
+         Bilibili
+       </a>
+       <a class="space" href="https://maa.plus">{{ LinkTextOfficialSite }}</a>
+       <a class="space" href="https://prts.plus">{{ LinkTextCopilotSite }}</a>
+     </p>
+   </div>
+ </html>
 
-    .notification h1 {
-      font-size: large;
-      font-weight: bold;
-    }
-
-    .notification p {
-      font-size: medium;
-    }
-
-    .footer {
-      font-size: small;
-    }
-
-    .space {
-      padding-left: 0.5rem;
-      padding-right: 0.5rem;
-    }
-  </style>
-
-  <h1 class=""title"">Maa Assistant Arknights</h1>
-
-  <div class=""heading"">
-    <p>{{ Hello }}</p>
-  </div>
-
-  <hr />
-
-  <div class=""notification"">
-    <h1>{{ Title }}</h1>
-    <p>{{ Content }}</p>
-  </div>
-
-  <hr />
-
-  <div class=""footer"">
-    <p>
-      {{ FooterLineOne }}
-    </p>
-    <p>{{ FooterLineTwo }}</p>
-    <p>
-      <a class=""space"" href=""https://github.com/MaaAssistantArknights"">
-        GitHub
-      </a>
-      <a class=""space"" href=""https://space.bilibili.com/3493274731940507"">
-        Bilibili
-      </a>
-      <a class=""space"" href=""https://maa.plus"">{{ LinkTextOfficialSite }}</a>
-      <a class=""space"" href=""https://prts.plus"">{{ LinkTextCopilotSite }}</a>
-    </p>
-  </div>
-</html>
-";
+ """;
     }
 }
