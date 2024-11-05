@@ -140,19 +140,26 @@ asst::Point asst::ControlScaleProxy::rand_point_in_rect(const Rect& rect)
 {
     int x = 0, y = 0;
     if (rect.width == 0) {
+        Log.warn("click rect width is 0");
         x = rect.x;
     }
     else {
-        int x_rand = std::poisson_distribution<int>(rect.width / 2.)(m_rand_engine);
-
+        int x_rand;
+        do {
+            x_rand = std::poisson_distribution<int>(rect.width / 2.)(m_rand_engine);
+        } while (x_rand < 0 || x_rand >= rect.width);
         x = x_rand + rect.x;
     }
 
     if (rect.height == 0) {
+        Log.warn("click rect height is 0");
         y = rect.y;
     }
     else {
-        int y_rand = std::poisson_distribution<int>(rect.height / 2.)(m_rand_engine);
+        int y_rand;
+        do {
+            y_rand = std::poisson_distribution<int>(rect.height / 2.)(m_rand_engine);
+        } while (y_rand < 0 || y_rand >= rect.height);
         y = y_rand + rect.y;
     }
 
