@@ -1340,6 +1340,9 @@
     <ClInclude Include="Vision\Miscellaneous\OperNameAnalyzer.h">
       <Filter>Source\Vision\Miscellaneous</Filter>
     </ClInclude>
+    <ClInclude Include="Config\Roguelike\RoguelikeStageEncounterNewConfig.h">
+      <Filter>Source\Resource\Roguelike</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1859,6 +1862,9 @@
     </ClCompile>
     <ClCompile Include="Vision\Miscellaneous\OperNameAnalyzer.cpp">
       <Filter>Source\Vision\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Roguelike\RoguelikeStageEncounterNewConfig.cpp">
+      <Filter>Source\Resource\Roguelike</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
