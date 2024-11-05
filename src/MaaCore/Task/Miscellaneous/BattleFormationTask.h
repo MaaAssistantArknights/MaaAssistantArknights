@@ -31,8 +31,6 @@ public:
 
     void append_additional_formation(AdditionalFormation formation) { m_additional.emplace_back(std::move(formation)); }
 
-    void set_support_unit_name(std::string name) { m_support_unit_name = std::move(name); }
-
     // 设置追加自定干员列表
     void set_user_additional(std::vector<std::pair<std::string, int>> value) { m_user_additional = std::move(value); }
 
