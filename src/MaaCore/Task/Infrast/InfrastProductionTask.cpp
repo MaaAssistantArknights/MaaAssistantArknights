@@ -254,7 +254,8 @@ bool asst::InfrastProductionTask::shift_facility_list()
                 break;
             }
             click_confirm_button();
-        } else {
+        }
+        else {
             Log.info("skip shift " + facility_name());
         }
 
