@@ -1372,13 +1372,6 @@ namespace MaaWpfGui.Main
                         break;
                     }
 
-                case "RecruitSuppportOperator":
-                    {
-                        var name = subTaskDetails!["name"]!.ToString();
-                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RecruitSuppportOperator"), name), UiLogColor.Info);
-                        break;
-                    }
-
                 case "RecruitTagsSelected":
                     {
                         var selected = subTaskDetails["tags"] ?? new JArray();
