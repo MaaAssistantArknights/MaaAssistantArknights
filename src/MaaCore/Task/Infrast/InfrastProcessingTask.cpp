@@ -7,6 +7,11 @@
 
 bool asst::InfrastProcessingTask::_run()
 {
+    if (!m_shift_enabled) {
+        Log.info("skip shift " + facility_name());
+        return true;
+    }
+
     m_all_available_opers.clear();
 
     // 不是自定义的也换不了加工站

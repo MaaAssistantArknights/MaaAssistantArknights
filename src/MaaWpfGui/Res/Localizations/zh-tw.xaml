@@ -96,6 +96,7 @@
     <system:String x:Key="TrainingLevel">專精等級</system:String>
     <system:String x:Key="TrainingTimeLeft">剩餘時間</system:String>
     <system:String x:Key="CustomInfrastEnabled">啟用自定義基建配置（beta）</system:String>
+    <system:String x:Key="ShiftEnabled">啟用換班</system:String>
     <system:String x:Key="DefaultInfrast">內建配置</system:String>
     <system:String x:Key="UserDefined">自定義</system:String>
     <system:String x:Key="153Time3">153 一天 3 換</system:String>
@@ -429,7 +430,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Farming">一鍵長草</system:String>
     <system:String x:Key="WakeUp">開始喚醒</system:String>
     <system:String x:Key="Recruiting">自動公招</system:String>
-    <system:String x:Key="Base">基建換班</system:String>
+    <system:String x:Key="Base">基建和換班</system:String>
     <system:String x:Key="Combat">刷理智</system:String>
     <system:String x:Key="Visiting">訪問好友</system:String>
     <system:String x:Key="Mall">獲取信用及購物</system:String>

@@ -1605,6 +1605,21 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _shiftEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ShiftEnabled, bool.TrueString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether shift is on.
+        /// </summary>
+        public bool ShiftEnabled
+        {
+            get => _shiftEnabled;
+            set
+            {
+                SetAndNotify(ref _shiftEnabled, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ShiftEnabled, value.ToString());
+            }
+        }
+
         private string _defaultInfrast = ConfigurationHelper.GetValue(ConfigurationKeys.DefaultInfrast, UserDefined);
 
         private const string UserDefined = "user_defined";

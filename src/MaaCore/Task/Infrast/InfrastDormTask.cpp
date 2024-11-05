@@ -31,6 +31,11 @@ bool asst::InfrastDormTask::on_run_fails()
 
 bool asst::InfrastDormTask::_run()
 {
+    if (!m_shift_enabled) {
+        Log.info("skip shift dorm");
+        return true;
+    }
+
     for (; m_cur_facility_index < m_max_num_of_dorm; ++m_cur_facility_index) {
         if (need_exit()) {
             return false;

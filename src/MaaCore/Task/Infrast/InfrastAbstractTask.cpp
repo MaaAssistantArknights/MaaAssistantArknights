@@ -71,6 +71,11 @@ void asst::InfrastAbstractTask::clear_custom_config() noexcept
     m_custom_config.clear();
 }
 
+void asst::InfrastAbstractTask::set_shift_enabled(bool shift_enabled) noexcept
+{
+    m_shift_enabled = shift_enabled;
+}
+
 asst::infrast::CustomRoomConfig& asst::InfrastAbstractTask::current_room_config()
 {
     static infrast::CustomRoomConfig empty;

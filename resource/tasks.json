@@ -3743,7 +3743,7 @@
     },
     "InfrastReward": {
         "algorithm": "OcrDetect",
-        "text": ["可收获", "订单交付", "员信赖"],
+        "text": ["可收获", "订单交付", "员信赖", "员休整", "队列轮换"],
         "action": "ClickSelf",
         "roi": [0, 600, 800, 118],
         "next": ["InfrastReward", "InfrastExitReward"]

@@ -6,6 +6,11 @@
 
 bool asst::InfrastPowerTask::_run()
 {
+    if (!m_shift_enabled) {
+        Log.info("skip shift " + facility_name());
+        return true;
+    }
+
     m_all_available_opers.clear();
 
     // 发电站只能造这一个

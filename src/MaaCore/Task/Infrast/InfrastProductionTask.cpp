@@ -208,52 +208,55 @@ bool asst::InfrastProductionTask::shift_facility_list()
             Log.info("skip this room");
             continue;
         }
+        if (m_shift_enabled) {
+            /* 进入干员选择页面 */
+            ctrler()->click(add_button);
+            sleep(add_task_ptr->post_delay);
 
-        /* 进入干员选择页面 */
-        ctrler()->click(add_button);
-        sleep(add_task_ptr->post_delay);
-
-        // 如果是使用了编队组来排班
-        if (current_room_config().use_operator_groups) {
-            match_operator_groups();
-        }
-
-        for (int i = 0; i <= OperSelectRetryTimes; ++i) {
-            if (need_exit()) {
-                return false;
+            // 如果是使用了编队组来排班
+            if (current_room_config().use_operator_groups) {
+                match_operator_groups();
             }
 
-            if (is_use_custom_opers()) {
-                bool name_select_ret = swipe_and_select_custom_opers();
-                if (name_select_ret) {
-                    break;
+            for (int i = 0; i <= OperSelectRetryTimes; ++i) {
+                if (need_exit()) {
+                    return false;
+                }
+
+                if (is_use_custom_opers()) {
+                    bool name_select_ret = swipe_and_select_custom_opers();
+                    if (name_select_ret) {
+                        break;
+                    }
+                    else {
+                        swipe_to_the_left_of_operlist();
+                        continue;
+                    }
+                }
+
+                click_clear_button();
+
+                if (m_all_available_opers.empty()) {
+                    if (!opers_detect_with_swipe()) {
+                        return false;
+                    }
+                    swipe_to_the_left_of_operlist();
                 }
                 else {
+                    opers_detect();
+                }
+                optimal_calc();
+                if (!opers_choose()) {
+                    m_all_available_opers.clear();
                     swipe_to_the_left_of_operlist();
                     continue;
                 }
+                break;
             }
-
-            click_clear_button();
-
-            if (m_all_available_opers.empty()) {
-                if (!opers_detect_with_swipe()) {
-                    return false;
-                }
-                swipe_to_the_left_of_operlist();
-            }
-            else {
-                opers_detect();
-            }
-            optimal_calc();
-            if (!opers_choose()) {
-                m_all_available_opers.clear();
-                swipe_to_the_left_of_operlist();
-                continue;
-            }
-            break;
+            click_confirm_button();
+        } else {
+            Log.info("skip shift " + facility_name());
         }
-        click_confirm_button();
 
         /*启用自定义基建时，如果产物不一致则直接更换产物*/
         if (m_is_custom && m_is_product_incorrect) {

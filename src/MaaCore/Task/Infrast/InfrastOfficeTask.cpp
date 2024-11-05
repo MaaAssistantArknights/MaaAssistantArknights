@@ -6,6 +6,11 @@
 
 bool asst::InfrastOfficeTask::_run()
 {
+    if (!m_shift_enabled) {
+        Log.info("skip shift " + facility_name());
+        return true;
+    }
+
     m_all_available_opers.clear();
 
     // 办公室只能造这一个

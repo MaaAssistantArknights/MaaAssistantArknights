@@ -96,6 +96,7 @@
     <system:String x:Key="TrainingLevel">Skill Rank</system:String>
     <system:String x:Key="TrainingTimeLeft">Remaining Time</system:String>
     <system:String x:Key="CustomInfrastEnabled">Enable Custom Base (beta)</system:String>
+    <system:String x:Key="ShiftEnabled">Enable Shift</system:String>
     <system:String x:Key="DefaultInfrast">Default Base infrastructure</system:String>
     <system:String x:Key="UserDefined">User defined</system:String>
     <system:String x:Key="153Time3">153 3 times a day</system:String>

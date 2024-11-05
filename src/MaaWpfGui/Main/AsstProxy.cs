@@ -2267,6 +2267,7 @@ namespace MaaWpfGui.Main
             IEnumerable<string> order,
             string usesOfDrones,
             bool continueTraining,
+            bool shiftEnabled,
             double dormThreshold,
             bool dormFilterNotStationedEnabled,
             bool dormDormTrustEnabled,
@@ -2280,6 +2281,7 @@ namespace MaaWpfGui.Main
                 ["facility"] = new JArray(order.ToArray<object>()),
                 ["drones"] = usesOfDrones,
                 ["continue_training"] = continueTraining,
+                ["shift_enabled"] = shiftEnabled,
                 ["threshold"] = dormThreshold,
                 ["dorm_notstationed_enabled"] = dormFilterNotStationedEnabled,
                 ["dorm_trust_enabled"] = dormDormTrustEnabled,
@@ -2309,6 +2311,7 @@ namespace MaaWpfGui.Main
         /// </list>
         /// </param>
         /// <param name="continueTraining">训练室是否尝试连续专精</param>
+        /// <param name="shiftEnabled">是否启用换班。</param>
         /// <param name="dormThreshold">宿舍进驻心情阈值。</param>
         /// <param name="dormFilterNotStationedEnabled">宿舍是否使用未进驻筛选标签</param>
         /// <param name="dormDormTrustEnabled">宿舍是否使用蹭信赖功能</param>
@@ -2321,6 +2324,7 @@ namespace MaaWpfGui.Main
             IEnumerable<string> order,
             string usesOfDrones,
             bool continueTraining,
+            bool shiftEnabled,
             double dormThreshold,
             bool dormFilterNotStationedEnabled,
             bool dormDormTrustEnabled,
@@ -2333,6 +2337,7 @@ namespace MaaWpfGui.Main
                 order,
                 usesOfDrones,
                 continueTraining,
+                shiftEnabled,
                 dormThreshold,
                 dormFilterNotStationedEnabled,
                 dormDormTrustEnabled,
@@ -2349,6 +2354,7 @@ namespace MaaWpfGui.Main
             IEnumerable<string> order,
             string usesOfDrones,
             bool continueTraining,
+            bool shiftEnabled,
             double dormThreshold,
             bool dormFilterNotStationedEnabled,
             bool dormDormTrustEnabled,
@@ -2372,6 +2378,7 @@ namespace MaaWpfGui.Main
                 order,
                 usesOfDrones,
                 continueTraining,
+                shiftEnabled,
                 dormThreshold,
                 dormFilterNotStationedEnabled,
                 dormDormTrustEnabled,

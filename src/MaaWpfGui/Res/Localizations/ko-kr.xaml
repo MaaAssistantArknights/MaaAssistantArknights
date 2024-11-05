@@ -96,6 +96,7 @@
     <system:String x:Key="TrainingLevel">스킬 랭크</system:String>
     <system:String x:Key="TrainingTimeLeft">남은 시간</system:String>
     <system:String x:Key="CustomInfrastEnabled">커스텀 기반시설 (베타)</system:String>
+    <system:String x:Key="ShiftEnabled">교대 근무를 활성화하다</system:String>
     <system:String x:Key="DefaultInfrast">기본 구성</system:String>
     <system:String x:Key="UserDefined">사용자 설정</system:String>
     <system:String x:Key="153Time3">153 1일 3회 교체</system:String>

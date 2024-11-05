@@ -24,6 +24,7 @@ public:
 
     void set_custom_config(infrast::CustomFacilityConfig config) noexcept;
     void clear_custom_config() noexcept;
+    void set_shift_enabled(bool shift_enabled) noexcept;
 
     static constexpr int OperSelectRetryTimes = 3;
     static constexpr int TaskRetryTimes = 3;
@@ -82,5 +83,7 @@ protected:
     int m_cur_facility_index = 0;
     bool m_is_custom = false;
     infrast::CustomFacilityConfig m_custom_config;
+
+    bool m_shift_enabled = true;
 };
 } // namespace asst

@@ -37,6 +37,12 @@ bool asst::InfrastReceptionTask::_run()
     if (need_exit()) {
         return false;
     }
+
+    if (!m_shift_enabled) {
+        Log.info("skip shift " + facility_name());
+        return true;
+    }
+
     shift();
 
     return true;

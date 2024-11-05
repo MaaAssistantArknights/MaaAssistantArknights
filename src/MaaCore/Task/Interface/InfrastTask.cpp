@@ -117,6 +117,17 @@ bool asst::InfrastTask::set_params(const json::value& params)
     bool continue_training = params.get("continue_training", false);
     m_training_task_ptr->set_continue_training(continue_training);
 
+    bool shift_enabled = params.get("shift_enabled", true);
+    m_mfg_task_ptr->set_shift_enabled(shift_enabled);
+    m_trade_task_ptr->set_shift_enabled(shift_enabled);
+    m_power_task_ptr->set_shift_enabled(shift_enabled);
+    m_control_task_ptr->set_shift_enabled(shift_enabled);
+    m_reception_task_ptr->set_shift_enabled(shift_enabled);
+    m_office_task_ptr->set_shift_enabled(shift_enabled);
+    m_processing_task_ptr->set_shift_enabled(shift_enabled);
+    m_training_task_ptr->set_shift_enabled(shift_enabled);
+    m_dorm_task_ptr->set_shift_enabled(shift_enabled);
+
     if (!is_custom) {
         std::string drones = params.get("drones", "_NotUse");
         m_mfg_task_ptr->set_uses_of_drone(drones);

@@ -4,6 +4,11 @@
 
 bool asst::InfrastControlTask::_run()
 {
+    if (!m_shift_enabled) {
+        Log.info("skip shift " + facility_name());
+        return true;
+    }
+
     m_all_available_opers.clear();
 
     // 控制中枢只能造这一个
