@@ -83,15 +83,17 @@ bool asst::BattleFormationTask::_run()
 
         // 先退出去招募助战再回来，好蠢
         confirm_selection();
+        Log.info(__FUNCTION__, "| Left quick formation scene");
         if (m_use_support_unit_task_ptr->try_add_support_unit(required_opers, 5, true)) {
             m_used_support_unit = true;
             missing_operators.clear();
         }
-        // 再到助战页面
+        // 再到快速编队页面
         if (!enter_selection_page()) {
             save_img(utils::path("debug") / utils::path("other"));
             return false;
         }
+        Log.info(__FUNCTION__, "| Returned to quick formation scene");
     }
 
     // 在尝试补齐编队后依然有缺失干员，自动编队失败
