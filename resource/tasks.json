@@ -604,6 +604,7 @@
         "text": ["四幕汇演"],
         "preDelay": 3000,
         "roi": [69, 594, 123, 40],
+        "postDelay": 1000,
         "next": ["#self", "ChapterSwipeToTheRight"]
     },
     "PV-10@SideStoryStage": {
