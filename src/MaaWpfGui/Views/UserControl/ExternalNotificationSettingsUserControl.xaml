@@ -28,7 +28,6 @@
 
         <controls:TextBlock
             Grid.Row="0"
-            Width="450"
             Margin="10"
             Text="{DynamicResource ExternalNotificationTips}"
             TextWrapping="Wrap" />
