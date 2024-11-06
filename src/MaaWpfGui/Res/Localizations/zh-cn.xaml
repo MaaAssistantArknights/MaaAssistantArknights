@@ -97,6 +97,7 @@
     <system:String x:Key="TrainingTimeLeft">剩余时间</system:String>
     <system:String x:Key="CustomInfrastEnabled">启用自定义基建配置（beta）</system:String>
     <system:String x:Key="ShiftEnabled">启用换班</system:String>
+    <system:String x:Key="ShiftEnabledTooltip">由MAA换班，而不是游戏自带的“队列轮换”和“干员休整”功能。该选项启用后不会点击待办事项中的“队列轮换”和“干员休整”按钮</system:String>
     <system:String x:Key="DefaultInfrast">内置配置</system:String>
     <system:String x:Key="UserDefined">自定义</system:String>
     <system:String x:Key="153Time3">153 一天3换</system:String>

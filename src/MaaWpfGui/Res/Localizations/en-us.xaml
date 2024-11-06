@@ -97,6 +97,7 @@
     <system:String x:Key="TrainingTimeLeft">Remaining Time</system:String>
     <system:String x:Key="CustomInfrastEnabled">Enable Custom Base (beta)</system:String>
     <system:String x:Key="ShiftEnabled">Enable Shift</system:String>
+    <system:String x:Key="ShiftEnabledTooltip">MAA will change shifts instead of the game's built-in "Queue Rotation" and "Operator Rest" functions. When this option is enabled, the "Queue Rotation" and "Operator Rest" buttons in the To Do list will not be clicked</system:String>
     <system:String x:Key="DefaultInfrast">Default Base infrastructure</system:String>
     <system:String x:Key="UserDefined">User defined</system:String>
     <system:String x:Key="153Time3">153 3 times a day</system:String>

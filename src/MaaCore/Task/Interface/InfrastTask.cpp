@@ -19,6 +19,7 @@
 asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
     InterfaceTask(callback, inst, TaskType),
     m_infrast_begin_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
+    m_infrast_reward_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
     m_info_task_ptr(std::make_shared<InfrastInfoTask>(callback, inst, TaskType)),
     m_mfg_task_ptr(std::make_shared<InfrastMfgTask>(callback, inst, TaskType)),
     m_trade_task_ptr(std::make_shared<InfrastTradeTask>(callback, inst, TaskType)),
@@ -33,6 +34,7 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
     LogTraceFunction;
 
     m_infrast_begin_task_ptr->set_tasks({ "InfrastBegin" }).set_ignore_error(false);
+    m_infrast_reward_task_ptr->set_ignore_error(false);
     m_replenish_task_ptr = m_mfg_task_ptr->register_plugin<ReplenishOriginiumShardTaskPlugin>();
     m_info_task_ptr->set_ignore_error(true);
     m_mfg_task_ptr->set_ignore_error(true);
@@ -46,6 +48,7 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
     m_dorm_task_ptr->set_ignore_error(true);
 
     m_subtasks.emplace_back(m_infrast_begin_task_ptr);
+    m_subtasks.emplace_back(m_infrast_reward_task_ptr);
 }
 
 bool asst::InfrastTask::set_params(const json::value& params)
@@ -63,6 +66,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
         auto append_infrast_begin = [&]() {
             m_subtasks.emplace_back(m_infrast_begin_task_ptr);
+            m_subtasks.emplace_back(m_infrast_reward_task_ptr);
         };
 
         m_subtasks.clear();
@@ -127,6 +131,12 @@ bool asst::InfrastTask::set_params(const json::value& params)
     m_processing_task_ptr->set_shift_enabled(shift_enabled);
     m_training_task_ptr->set_shift_enabled(shift_enabled);
     m_dorm_task_ptr->set_shift_enabled(shift_enabled);
+    if (!shift_enabled) {
+        m_infrast_reward_task_ptr->set_tasks({ "InfrastRewardWithAutoShift", "InfrastExitReward" });
+    }
+    else {
+        m_infrast_reward_task_ptr->set_tasks({ "InfrastReward", "InfrastExitReward" });
+    }
 
     if (!is_custom) {
         std::string drones = params.get("drones", "_NotUse");

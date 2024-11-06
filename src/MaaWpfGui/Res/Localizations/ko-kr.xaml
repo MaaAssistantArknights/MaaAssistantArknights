@@ -97,6 +97,7 @@
     <system:String x:Key="TrainingTimeLeft">남은 시간</system:String>
     <system:String x:Key="CustomInfrastEnabled">커스텀 기반시설 (베타)</system:String>
     <system:String x:Key="ShiftEnabled">교대 근무를 활성화하다</system:String>
+    <system:String x:Key="ShiftEnabledTooltip">교대근무는 게임과 함께 제공되는 "큐 회전" 및 "운영자 휴식" 기능 대신 MAA에 의해 변경됩니다. 이 옵션이 활성화되면 할 일 목록의 "큐 순환" 및 "운영자 휴식" 버튼이 클릭되지 않습니다</system:String>
     <system:String x:Key="DefaultInfrast">기본 구성</system:String>
     <system:String x:Key="UserDefined">사용자 설정</system:String>
     <system:String x:Key="153Time3">153 1일 3회 교체</system:String>

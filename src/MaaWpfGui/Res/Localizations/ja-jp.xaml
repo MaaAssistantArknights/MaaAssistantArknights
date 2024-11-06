@@ -97,6 +97,7 @@
     <system:String x:Key="TrainingTimeLeft">残り時間</system:String>
     <system:String x:Key="CustomInfrastEnabled">カスタムされた基地構成を有効にする（ベータ）</system:String>
     <system:String x:Key="ShiftEnabled">シフトを有効にする</system:String>
+    <system:String x:Key="ShiftEnabledTooltip">ゲームに付属する「キューローテーション」や「オペレーターレスト」機能ではなく、MAAによってシフトが変更されます。このオプションを有効にすると、To-Do リストの [キュー ローテーション] ボタンと [オペレータ レスト] ボタンはクリックされなくなります</system:String>
     <system:String x:Key="DefaultInfrast">標準設定</system:String>
     <system:String x:Key="UserDefined">ユーザー定義</system:String>
     <system:String x:Key="153Time3">153 3周/日</system:String>

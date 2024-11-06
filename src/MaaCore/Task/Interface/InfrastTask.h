@@ -38,6 +38,7 @@ private:
     bool parse_and_set_custom_config(const std::filesystem::path& path, int index);
 
     std::shared_ptr<ProcessTask> m_infrast_begin_task_ptr = nullptr;
+    std::shared_ptr<ProcessTask> m_infrast_reward_task_ptr = nullptr;
     std::shared_ptr<InfrastInfoTask> m_info_task_ptr = nullptr;
     std::shared_ptr<InfrastMfgTask> m_mfg_task_ptr = nullptr;
     std::shared_ptr<InfrastTradeTask> m_trade_task_ptr = nullptr;
