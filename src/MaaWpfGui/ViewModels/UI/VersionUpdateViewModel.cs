@@ -447,11 +447,11 @@ namespace MaaWpfGui.ViewModels.UI
 
         public async Task<CheckUpdateRetT> CheckAndDownloadUpdate()
         {
-            Instances.SettingsViewModel.IsCheckingForUpdates = true;
+            Instances.SettingsViewModel.VersionUpdateDataContext.IsCheckingForUpdates = true;
             var ret = await CheckAndDownloadVersionUpdate();
             if (ret == CheckUpdateRetT.OK)
             {
-                Instances.SettingsViewModel.IsCheckingForUpdates = false;
+                Instances.SettingsViewModel.VersionUpdateDataContext.IsCheckingForUpdates = false;
                 return ret;
             }
 
@@ -465,7 +465,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             */
 
-            Instances.SettingsViewModel.IsCheckingForUpdates = false;
+            Instances.SettingsViewModel.VersionUpdateDataContext.IsCheckingForUpdates = false;
             return ret;
         }
 
@@ -507,7 +507,7 @@ namespace MaaWpfGui.ViewModels.UI
                 UpdateUrl = _latestJson?["html_url"]?.ToString() ?? string.Empty;
 
                 bool otaFound = _assetsObject != null;
-                bool goDownload = otaFound && Instances.SettingsViewModel.AutoDownloadUpdatePackage;
+                bool goDownload = otaFound && Instances.SettingsViewModel.VersionUpdateDataContext.AutoDownloadUpdatePackage;
                 (string text, Action action) = (
                     LocalizationHelper.GetString("NewVersionFoundButtonGoWebpage"),
                     () =>
@@ -672,7 +672,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public async void AskToRestart()
         {
-            if (Instances.SettingsViewModel.AutoInstallUpdatePackage)
+            if (Instances.SettingsViewModel.VersionUpdateDataContext.AutoInstallUpdatePackage)
             {
                 await Bootstrapper.RestartAfterIdleAsync();
                 return;
@@ -731,12 +731,12 @@ namespace MaaWpfGui.ViewModels.UI
 
             string? latestVersion;
             string? detailUrl;
-            if (Instances.SettingsViewModel.UpdateNightly)
+            if (Instances.SettingsViewModel.VersionUpdateDataContext.IsCheckingForUpdates)
             {
                 latestVersion = json["alpha"]?["version"]?.ToString();
                 detailUrl = json["alpha"]?["detail"]?.ToString();
             }
-            else if (Instances.SettingsViewModel.UpdateBeta)
+            else if (Instances.SettingsViewModel.VersionUpdateDataContext.IsCheckingForUpdates)
             {
                 latestVersion = json["beta"]?["version"]?.ToString();
                 detailUrl = json["beta"]?["detail"]?.ToString();

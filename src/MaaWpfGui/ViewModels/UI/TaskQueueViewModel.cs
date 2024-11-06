@@ -33,6 +33,7 @@ using MaaWpfGui.Services;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.UserControl;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -409,7 +410,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (!Instances.SettingsViewModel.UpdateAutoCheck)
+            if (!Instances.SettingsViewModel.VersionUpdateDataContext.UpdateAutoCheck)
             {
                 return;
             }
@@ -419,7 +420,7 @@ namespace MaaWpfGui.ViewModels.UI
             _ = Task.Run(async () =>
             {
                 await Task.Delay(delayTime);
-                await Instances.SettingsViewModel.ManualUpdate();
+                await Instances.SettingsViewModel.VersionUpdateDataContext.ManualUpdate();
                 _isCheckingForUpdates = false;
             });
         }
@@ -1172,12 +1173,12 @@ namespace MaaWpfGui.ViewModels.UI
 
             ClearLog();
 
-            var buildDateTimeLong = SettingsViewModel.BuildDateTimeCurrentCultureString;
-            var resourceDateTimeLong = Instances.SettingsViewModel.ResourceDateTimeCurrentCultureString;
+            var buildDateTimeLong = VersionUpdateSettingsUserControlModel.BuildDateTimeCurrentCultureString;
+            var resourceDateTimeLong = Instances.SettingsViewModel.VersionUpdateDataContext.ResourceDateTimeCurrentCultureString;
             AddLog($"Build Time:\n{buildDateTimeLong}\nResource Time:\n{resourceDateTimeLong}");
 
-            var uiVersion = SettingsViewModel.UiVersion;
-            var coreVersion = SettingsViewModel.CoreVersion;
+            var uiVersion = VersionUpdateSettingsUserControlModel.UiVersion;
+            var coreVersion = VersionUpdateSettingsUserControlModel.CoreVersion;
             if (uiVersion != coreVersion &&
                 Instances.VersionUpdateViewModel.IsStdVersion(uiVersion) &&
                 Instances.VersionUpdateViewModel.IsStdVersion(coreVersion))
