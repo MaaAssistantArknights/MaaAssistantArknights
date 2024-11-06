@@ -13,11 +13,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services.Web;
 using Newtonsoft.Json;
@@ -38,10 +36,10 @@ namespace MaaWpfGui.Services.Notification
 
         public async Task<bool> SendAsync(string title, string content)
         {
-            var server = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgServer, string.Empty);
-            var key = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgKey, string.Empty);
-            var receiveUser = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgUser, string.Empty);
-            var sendBot = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgBot, string.Empty);
+            var server = Instances.SettingsViewModel.QmsgServer;
+            var key = Instances.SettingsViewModel.QmsgKey;
+            var receiveUser = Instances.SettingsViewModel.QmsgUser;
+            var sendBot = Instances.SettingsViewModel.QmsgBot;
 
             var uri = $"{server}/jsend/{key}";
 
@@ -49,7 +47,7 @@ namespace MaaWpfGui.Services.Notification
                 new Uri(uri),
                 new QmsgContent { Msg = content, Qq = receiveUser, Bot = sendBot, });
 
-            if (String.Empty.Equals(response))
+            if (string.IsNullOrEmpty(response))
             {
                 _logger.Warning("Failed to send Qmsg notification");
                 return false;
@@ -57,7 +55,6 @@ namespace MaaWpfGui.Services.Notification
 
             var responseRoot = JsonDocument.Parse(response).RootElement;
             var hasCodeProperty = responseRoot.TryGetProperty("success", out var codeElement);
-            var reasonProperty = responseRoot.TryGetProperty("reason", out var reasonElement);
             if (hasCodeProperty is false)
             {
                 _logger.Warning("Failed to send Qmsg notification, unknown response, {Response}", response);
@@ -65,38 +62,27 @@ namespace MaaWpfGui.Services.Notification
             }
 
             var success = codeElement.GetBoolean();
-            if (success is false)
+            switch (success)
             {
-                _logger.Warning("Failed to send Qmsg notification, unknown response {Response}", response);
-                return false;
+                case false:
+                    _logger.Warning("Failed to send Qmsg notification, unknown response {Response}", response);
+                    return false;
+                case true:
+                    return true;
             }
-
-            if (success)
-            {
-                return true;
-            }
-
-            var reason = reasonElement.GetRawText();
-            _logger.Warning("Failed to send Qmsg notification, reason {Reason}", reason);
-            return false;
         }
 
         private class QmsgContent
         {
             // 消息内容
+            // ReSharper disable UnusedAutoPropertyAccessor.Local
             [JsonPropertyName("msg")]
-
-            // ReSharper disable once UnusedAutoPropertyAccessor.Local
             public string Msg { get; set; }
 
             [JsonPropertyName("qq")]
-
-            // ReSharper disable once UnusedAutoPropertyAccessor.Local
             public string Qq { get; set; }
 
             [JsonPropertyName("bot")]
-
-            // ReSharper disable once UnusedAutoPropertyAccessor.Local
             public string Bot { get; set; }
 
             /// <summary>
@@ -104,15 +90,8 @@ namespace MaaWpfGui.Services.Notification
             /// </summary>
             public Dictionary<string, string> ToDictionary()
             {
-                Dictionary<string, string> map = new Dictionary<string, string>();
-                if (this == null)
-                {
-                    return map;
-                }
-
                 var objstr = JsonConvert.SerializeObject(this);
-
-                map = JsonConvert.DeserializeObject<Dictionary<string, string>>(objstr);
+                var map = JsonConvert.DeserializeObject<Dictionary<string, string>>(objstr);
                 return map;
             }
         }
