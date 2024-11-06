@@ -43,11 +43,14 @@
                 Style="{StaticResource ComboBoxExtend}" />
             <ListBox
                 Margin="0,10"
+                Height="150"
                 hc:InfoElement.Title="{DynamicResource AutoRecruitHighPriority}"
                 ItemsSource="{Binding AutoRecruitTagList}"
                 hc:ListBoxAttach.SelectedItems="{Binding AutoRecruitFirstList, Mode=TwoWay}"
                 ToolTip="{DynamicResource AutoRecruitHighPriorityTooltip}"
-                SelectionMode="Multiple" />
+                SelectionMode="Multiple"
+                ScrollViewer.VerticalScrollBarVisibility="Visible">
+            </ListBox>
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource AutoRefresh}"
