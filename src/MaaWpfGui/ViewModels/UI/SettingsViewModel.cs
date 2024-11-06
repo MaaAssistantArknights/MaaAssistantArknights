@@ -3416,20 +3416,49 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = LocalizationHelper.GetString("SelectExtraOnlyRareTags"), Value = "2" },
             ];
 
-        private string _autoRecruitFirstList = ConfigurationHelper.GetValue(ConfigurationKeys.AutoRecruitFirstList, string.Empty);
+        private List<string> _autoRecruitFirstList = ConfigurationHelper
+            .GetValue(ConfigurationKeys.AutoRecruitFirstList, string.Empty)
+            .Split(new[] { ';', '；' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(s => s.Trim())
+            .ToList();
 
         /// <summary>
         /// Gets or sets the priority tag list of level-3 tags.
         /// </summary>
-        public string AutoRecruitFirstList
+        public List<string> AutoRecruitFirstList
         {
             get => _autoRecruitFirstList;
             set
             {
+                // Ensure value is not null
+                if (value == null)
+                {
+                    value = new List<string>();  // Initialize with an empty list if value is null
+                }
+
                 SetAndNotify(ref _autoRecruitFirstList, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AutoRecruitFirstList, value);
+
+                // Save the list as a semicolon-separated string
+                ConfigurationHelper.SetValue(ConfigurationKeys.AutoRecruitFirstList, string.Join(";", value));
             }
         }
+
+        public List<string> AutoRecruitTagList { get; } = new List<string>
+        {
+            "近卫",
+            "狙击",
+            "重装",
+            "医疗",
+            "辅助",
+            "术师",
+            "治疗",
+            "费用回复",
+            "输出",
+            "生存",
+            "群攻",
+            "防护",
+            "减速",
+        };
 
         private string _recruitMaxTimes = ConfigurationHelper.GetValue(ConfigurationKeys.RecruitMaxTimes, "4");
 

@@ -1701,8 +1701,7 @@ namespace MaaWpfGui.ViewModels.UI
                 maxTimes = 0;
             }
 
-            var firstList = Instances.SettingsViewModel.AutoRecruitFirstList.Split(';', '；')
-                .Select(s => s.Trim());
+            var firstList = Instances.SettingsViewModel.AutoRecruitFirstList;
 
             var reqList = new List<int>();
             var cfmList = new List<int>();
