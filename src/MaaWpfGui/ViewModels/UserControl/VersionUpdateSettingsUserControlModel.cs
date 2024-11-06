@@ -386,7 +386,7 @@ namespace MaaWpfGui.ViewModels.UserControl
             IsCheckingForUpdates = true;
             if (await ResourceUpdater.UpdateFromGithubAsync())
             {
-                if (Instances.SettingsViewModel.VersionUpdateDataContext.AutoInstallUpdatePackage)
+                if (AutoInstallUpdatePackage)
                 {
                     await Bootstrapper.RestartAfterIdleAsync();
                 }

@@ -25,6 +25,7 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.ViewModels;
+using MaaWpfGui.ViewModels.UI;
 using Serilog;
 using Stylet;
 
@@ -231,7 +232,7 @@ namespace MaaWpfGui.Models
                 OutputDownloadProgress(LocalizationHelper.GetString("GameResourceUpdated"));
 
                 // 现在用的和自动安装服更新包一个逻辑，看看有没有必要分开
-                if (Instances.SettingsViewModel.VersionUpdateDataContext.AutoInstallUpdatePackage)
+                if (SettingsViewModel.VersionUpdateDataContext.AutoInstallUpdatePackage)
                 {
                     await Bootstrapper.RestartAfterIdleAsync();
                 }

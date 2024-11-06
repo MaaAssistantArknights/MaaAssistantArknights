@@ -93,7 +93,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public PostActionSetting PostActionSetting { get; } = PostActionSetting.Current;
 
-        public VersionUpdateSettingsUserControlModel VersionUpdateDataContext { get; } = new();
+        public static VersionUpdateSettingsUserControlModel VersionUpdateDataContext { get; } = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.

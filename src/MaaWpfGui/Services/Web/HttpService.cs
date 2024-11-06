@@ -37,13 +37,13 @@ namespace MaaWpfGui.Services.Web
         {
             get
             {
-                var proxy = Instances.SettingsViewModel.VersionUpdateDataContext.Proxy;
+                var proxy = SettingsViewModel.VersionUpdateDataContext.Proxy;
                 if (string.IsNullOrEmpty(proxy))
                 {
                     return string.Empty;
                 }
 
-                return proxy.Contains("://") ? proxy : Instances.SettingsViewModel.VersionUpdateDataContext.ProxyType + $"://{proxy}";
+                return proxy.Contains("://") ? proxy : SettingsViewModel.VersionUpdateDataContext.ProxyType + $"://{proxy}";
             }
         }
 
