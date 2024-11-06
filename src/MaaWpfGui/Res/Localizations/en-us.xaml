@@ -99,6 +99,7 @@
     <system:String x:Key="DefaultInfrast">Default Base infrastructure</system:String>
     <system:String x:Key="UserDefined">User defined</system:String>
     <system:String x:Key="153Time3">153 3 times a day</system:String>
+    <system:String x:Key="153Time4">153 4 times a day</system:String>
     <system:String x:Key="243Time3">243 3 times a day</system:String>
     <system:String x:Key="243Time4">243 4 times a day</system:String>
     <system:String x:Key="333Time3">333 3 times a day</system:String>

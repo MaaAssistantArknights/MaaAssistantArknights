@@ -99,6 +99,7 @@
     <system:String x:Key="DefaultInfrast">기본 구성</system:String>
     <system:String x:Key="UserDefined">사용자 설정</system:String>
     <system:String x:Key="153Time3">153 1일 3회 교체</system:String>
+    <system:String x:Key="153Time4">153 1일 4회 교체</system:String>
     <system:String x:Key="243Time3">243 1일 3회 교체</system:String>
     <system:String x:Key="243Time4">243 1일 4회 교체</system:String>
     <system:String x:Key="333Time3">333 1일 3회 교체</system:String>

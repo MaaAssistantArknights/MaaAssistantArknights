@@ -98,10 +98,11 @@
     <system:String x:Key="CustomInfrastEnabled">启用自定义基建配置（beta）</system:String>
     <system:String x:Key="DefaultInfrast">内置配置</system:String>
     <system:String x:Key="UserDefined">自定义</system:String>
-    <system:String x:Key="153Time3">153 一天3换</system:String>
-    <system:String x:Key="243Time3">243 一天3换</system:String>
-    <system:String x:Key="243Time4">243 一天4换</system:String>
-    <system:String x:Key="333Time3">333 一天3换</system:String>
+    <system:String x:Key="153Time3">153 一天 3 换</system:String>
+    <system:String x:Key="153Time4">153 一天 4 换</system:String>
+    <system:String x:Key="243Time3">243 一天 3 换</system:String>
+    <system:String x:Key="243Time4">243 一天 4 换</system:String>
+    <system:String x:Key="333Time3">333 一天 3 换</system:String>
     <system:String x:Key="CustomInfrastFile">自定义基建配置文件</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">自定义基建配置文件解析错误！</system:String>
     <system:String x:Key="CustomInfrastTitle" xml:space="preserve">自定义基建配置: </system:String>
