@@ -99,6 +99,7 @@
     <system:String x:Key="DefaultInfrast">標準設定</system:String>
     <system:String x:Key="UserDefined">ユーザー定義</system:String>
     <system:String x:Key="153Time3">153 3周/日</system:String>
+    <system:String x:Key="153Time4">153 4周/日</system:String>
     <system:String x:Key="243Time3">243 3周/日</system:String>
     <system:String x:Key="243Time4">243 4周/日</system:String>
     <system:String x:Key="333Time3">333 3周/日</system:String>
