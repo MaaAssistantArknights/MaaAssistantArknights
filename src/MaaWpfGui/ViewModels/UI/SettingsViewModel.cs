@@ -564,7 +564,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region External Notification Config
 
-        private string _serverChanSendKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, string.Empty);
+        private string _serverChanSendKey = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, string.Empty));
 
         public string ServerChanSendKey
         {
@@ -572,9 +572,12 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _serverChanSendKey, value);
+                value = SimpleEncryptionHelper.Encrypt(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, value);
             }
         }
+
+        private string _barkSendKey = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkSendKey, string.Empty));
 
         public string BarkSendKey
         {
@@ -582,11 +585,12 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _barkSendKey, value);
+                value = SimpleEncryptionHelper.Encrypt(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationBarkSendKey, value);
             }
         }
 
-        private string _barkSendKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkSendKey, string.Empty);
+        private string _barkServer = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkServer, "https://api.day.app"));
 
         public string BarkServer
         {
@@ -594,13 +598,12 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _barkServer, value);
+                value = SimpleEncryptionHelper.Encrypt(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationBarkServer, value);
             }
         }
 
-        private string _barkServer = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkServer, "https://api.day.app");
-
-        private string _smtpServer = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpServer, string.Empty);
+        private string _smtpServer = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpServer, string.Empty));
 
         public string SmtpServer
         {
@@ -608,11 +611,12 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _smtpServer, value);
+                value = SimpleEncryptionHelper.Encrypt(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpServer, value);
             }
         }
 
-        private string _smtpPort = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpPort, string.Empty);
+        private string _smtpPort = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpPort, string.Empty));
 
         public string SmtpPort
         {
@@ -620,11 +624,12 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _smtpPort, value);
+                value = SimpleEncryptionHelper.Encrypt(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpPort, value);
             }
         }
 
-        private string _smtpUser = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUser, string.Empty);
+        private string _smtpUser = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUser, string.Empty));
 
         public string SmtpUser
         {
@@ -632,11 +637,12 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _smtpUser, value);
+                value = SimpleEncryptionHelper.Encrypt(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpUser, value);
             }
         }
 
-        private string _smtpPassword = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpPassword, string.Empty);
+        private string _smtpPassword = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpPassword, string.Empty));
 
         public string SmtpPassword
         {
@@ -644,11 +650,12 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _smtpPassword, value);
+                value = SimpleEncryptionHelper.Encrypt(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpPassword, value);
             }
         }
 
-        private string _smtpFrom = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpFrom, string.Empty);
+        private string _smtpFrom = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpFrom, string.Empty));
 
         public string SmtpFrom
         {
@@ -656,11 +663,12 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _smtpFrom, value);
+                value = SimpleEncryptionHelper.Encrypt(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpFrom, value);
             }
         }
 
-        private string _smtpTo = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpTo, string.Empty);
+        private string _smtpTo = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpTo, string.Empty));
 
         public string SmtpTo
         {
@@ -668,6 +676,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _smtpTo, value);
+                value = SimpleEncryptionHelper.Encrypt(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpTo, value);
             }
         }
@@ -696,7 +705,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _discordBotToken = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordBotToken, string.Empty);
+        private string _discordBotToken = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordBotToken, string.Empty));
 
         public string DiscordBotToken
         {
@@ -704,11 +713,12 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _discordBotToken, value);
+                value = SimpleEncryptionHelper.Encrypt(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationDiscordBotToken, value);
             }
         }
 
-        private string _discordUserId = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordUserId, string.Empty);
+        private string _discordUserId = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordUserId, string.Empty));
 
         public string DiscordUserId
         {
@@ -716,11 +726,12 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _discordUserId, value);
+                value = SimpleEncryptionHelper.Encrypt(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationDiscordUserId, value);
             }
         }
 
-        private string _telegramBotToken = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationTelegramBotToken, string.Empty);
+        private string _telegramBotToken = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationTelegramBotToken, string.Empty));
 
         public string TelegramBotToken
         {
@@ -728,11 +739,12 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _telegramBotToken, value);
+                value = SimpleEncryptionHelper.Encrypt(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationTelegramBotToken, value);
             }
         }
 
-        private string _telegramChatId = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationTelegramChatId, string.Empty);
+        private string _telegramChatId = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationTelegramChatId, string.Empty));
 
         public string TelegramChatId
         {
@@ -740,11 +752,12 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _telegramChatId, value);
+                value = SimpleEncryptionHelper.Encrypt(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationTelegramChatId, value);
             }
         }
 
-        private string _qmsgServer = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgServer, string.Empty);
+        private string _qmsgServer = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgServer, string.Empty));
 
         public string QmsgServer
         {
@@ -752,11 +765,12 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _qmsgServer, value);
+                value = SimpleEncryptionHelper.Encrypt(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgServer, value);
             }
         }
 
-        private string _qmsgKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgKey, string.Empty);
+        private string _qmsgKey = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgKey, string.Empty));
 
         public string QmsgKey
         {
@@ -764,11 +778,12 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _qmsgKey, value);
+                value = SimpleEncryptionHelper.Encrypt(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgKey, value);
             }
         }
 
-        private string _qmsgUser = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgUser, string.Empty);
+        private string _qmsgUser = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgUser, string.Empty));
 
         public string QmsgUser
         {
@@ -776,11 +791,12 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _qmsgUser, value);
+                value = SimpleEncryptionHelper.Encrypt(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgUser, value);
             }
         }
 
-        private string _qmsgBot = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgBot, string.Empty);
+        private string _qmsgBot = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgBot, string.Empty));
 
         public string QmsgBot
         {
@@ -788,6 +804,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _qmsgBot, value);
+                value = SimpleEncryptionHelper.Encrypt(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgBot, value);
             }
         }
