@@ -91,6 +91,16 @@
             "name": "暴殄天物",
             "option_num": 4,
             "choose": 1
+        },
+        {
+            "name": "解脱?",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "赴宴",
+            "option_num": 2,
+            "choose": 2
         }
     ]
 }
