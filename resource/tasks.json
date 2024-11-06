@@ -9742,12 +9742,7 @@
     },
     "Sarkaz@Roguelike@CloseEvent": {
         "action": "ClickRect",
-        "specificRect": [153, 79, 63, 29],
-        "next": ["Sarkaz@Roguelike@CloseEventRetry"]
-    },
-    "Sarkaz@Roguelike@CloseEventRetry": {
-        "template": "Sarkaz@Roguelike@CloseEvent.png",
-        "action": "ClickSelf"
+        "specificRect": [153, 79, 63, 29]
     },
     "Sarkaz@Roguelike@Continue": {},
     "Sarkaz@Roguelike@DecreaseBurdenAbandon": {
