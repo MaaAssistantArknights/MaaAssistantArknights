@@ -3433,10 +3433,12 @@ namespace MaaWpfGui.ViewModels.UI
                 // Ensure value is not null
                 if (value == null)
                 {
+                    _logger.Debug("null Value = {Value}", value);
                     value = new List<string>();  // Initialize with an empty list if value is null
                 }
 
                 SetAndNotify(ref _autoRecruitFirstList, value);
+                _logger.Debug("Value = {Value}", value);
 
                 // Save the list as a semicolon-separated string
                 ConfigurationHelper.SetValue(ConfigurationKeys.AutoRecruitFirstList, string.Join(";", value));

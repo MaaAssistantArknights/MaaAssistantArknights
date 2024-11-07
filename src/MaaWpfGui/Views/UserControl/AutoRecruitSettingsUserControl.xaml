@@ -46,15 +46,14 @@
                 TextWrapping="Wrap" 
                 HorizontalAlignment="Left"
                 Margin="10,0,0,0" />
-            <ListBox
+            <hc:CheckComboBox
                 Margin="0,10"
-                Height="150"
+                hc:InfoElement.Title="{DynamicResource AutoRecruitHighPriority}"
                 ItemsSource="{Binding AutoRecruitTagList}"
-                hc:ListBoxAttach.SelectedItems="{Binding AutoRecruitFirstList, Mode=TwoWay}"
+                hc:ListBoxAttach.SelectedItems="{Binding AutoRecruitFirstList}"
                 ToolTip="{DynamicResource AutoRecruitHighPriorityTooltip}"
                 SelectionMode="Multiple"
-                ScrollViewer.VerticalScrollBarVisibility="Visible">
-            </ListBox>
+                ScrollViewer.VerticalScrollBarVisibility="Visible" />
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource AutoRefresh}"
