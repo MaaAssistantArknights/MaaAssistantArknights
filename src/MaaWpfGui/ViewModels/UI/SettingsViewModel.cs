@@ -3416,18 +3416,49 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = LocalizationHelper.GetString("SelectExtraOnlyRareTags"), Value = "2" },
             ];
 
-        private string _autoRecruitFirstList = ConfigurationHelper.GetValue(ConfigurationKeys.AutoRecruitFirstList, string.Empty);
+        private static readonly Dictionary<string, string> _autoRecruitOptionsDict = new()
+        {
+            { "近战位", "近战位" },
+            { "远程位", "远程位" },
+            { "先锋干员", "先锋干员" },
+            { "近卫干员", "近卫干员" },
+            { "狙击干员", "狙击干员" },
+            { "重装干员", "重装干员" },
+            { "医疗干员", "医疗干员" },
+            { "辅助干员", "辅助干员" },
+            { "术师干员", "术师干员" },
+            { "治疗", "治疗" },
+            { "费用回复", "费用回复" },
+            { "输出", "输出" },
+            { "生存", "生存" },
+            { "群攻", "群攻" },
+            { "防护", "防护" },
+            { "减速", "减速" },
+        };
 
-        /// <summary>
-        /// Gets or sets the priority tag list of level-3 tags.
-        /// </summary>
-        public string AutoRecruitFirstList
+        private List<string> _autoRecruitFirstAllList = new(_autoRecruitOptionsDict.Keys);
+
+        public List<string> AutoRecruitTagList
+        {
+            get => _autoRecruitFirstAllList;
+            set => SetAndNotify(ref _autoRecruitFirstAllList, value);
+        }
+
+        private object[] _autoRecruitFirstList = ConfigurationHelper
+            .GetValue(ConfigurationKeys.AutoRecruitFirstList, "A B C")
+            .Split(';')
+            .Where(s => _autoRecruitOptionsDict.ContainsValue(s.ToString()))
+            .Select(s => _autoRecruitOptionsDict.FirstOrDefault(pair => pair.Value == s).Key)
+            .ToArray();
+
+        public object[] AutoRecruitFirstList
         {
             get => _autoRecruitFirstList;
             set
             {
                 SetAndNotify(ref _autoRecruitFirstList, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AutoRecruitFirstList, value);
+                var config = string.Join(';', _autoRecruitFirstList.Cast<string>().Select(s => _autoRecruitOptionsDict[s]));
+                ConfigurationHelper.SetValue(ConfigurationKeys.AutoRecruitFirstList, config);
             }
         }
 
