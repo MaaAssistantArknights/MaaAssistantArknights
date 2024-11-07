@@ -3411,44 +3411,31 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public List<CombinedData> AutoRecruitSelectExtraTagsList { get; } =
             [
-                new() { Display = LocalizationHelper.GetString("DefaultNoExtraTags"), Value = "0" },
+                new() { Display = LocalizationHelper.GetString("DefaultNoExtraTags"), Value = "0" } ,
                 new() { Display = LocalizationHelper.GetString("SelectExtraTags"), Value = "1" },
                 new() { Display = LocalizationHelper.GetString("SelectExtraOnlyRareTags"), Value = "2" },
             ];
 
-        private static readonly Dictionary<string, string> _autoRecruitOptionsDict = new()
-        {
-            { "近战位", "近战位" },
-            { "远程位", "远程位" },
-            { "先锋干员", "先锋干员" },
-            { "近卫干员", "近卫干员" },
-            { "狙击干员", "狙击干员" },
-            { "重装干员", "重装干员" },
-            { "医疗干员", "医疗干员" },
-            { "辅助干员", "辅助干员" },
-            { "术师干员", "术师干员" },
-            { "治疗", "治疗" },
-            { "费用回复", "费用回复" },
-            { "输出", "输出" },
-            { "生存", "生存" },
-            { "群攻", "群攻" },
-            { "防护", "防护" },
-            { "减速", "减速" },
-        };
+        private static readonly List<string> _autoRecruitTagList = ["近战位", "远程位", "先锋干员", "近卫干员", "狙击干员", "重装干员", "医疗干员", "辅助干员", "术师干员", "治疗", "费用回复", "输出", "生存", "群攻", "防护", "减速",];
 
-        private List<string> _autoRecruitFirstAllList = new(_autoRecruitOptionsDict.Keys);
+        private static readonly Lazy<List<CombinedData>> _autoRecruitTagShowList = new(() =>
+            _autoRecruitTagList.Select<string, (string, string)?>(tag => DataHelper.RecruitTags.TryGetValue(tag, out var value) ? value : null)
+                .Where(tag => tag is not null)
+                .Cast<(string Display, string Client)>()
+                .Select(tag => new CombinedData() { Display = tag.Display, Value = tag.Client })
+                .ToList());
 
-        public List<string> AutoRecruitTagList
+        public static List<CombinedData> AutoRecruitTagShowList
         {
-            get => _autoRecruitFirstAllList;
-            set => SetAndNotify(ref _autoRecruitFirstAllList, value);
+            get => _autoRecruitTagShowList.Value;
         }
 
         private object[] _autoRecruitFirstList = ConfigurationHelper
             .GetValue(ConfigurationKeys.AutoRecruitFirstList, string.Empty)
             .Split(';')
-            .Where(s => _autoRecruitOptionsDict.ContainsValue(s.ToString()))
-            .Select(s => _autoRecruitOptionsDict.FirstOrDefault(pair => pair.Value == s).Key)
+            .Select(tag => _autoRecruitTagShowList.Value.FirstOrDefault(i => i.Value == tag))
+            .Where(tag => tag is not null)
+            .Cast<CombinedData>()
             .ToArray();
 
         public object[] AutoRecruitFirstList
@@ -3457,7 +3444,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _autoRecruitFirstList, value);
-                var config = string.Join(';', _autoRecruitFirstList.Cast<string>().Select(s => _autoRecruitOptionsDict[s]));
+                var config = string.Join(';', value.Cast<CombinedData>().Select(i => i.Value));
                 ConfigurationHelper.SetValue(ConfigurationKeys.AutoRecruitFirstList, config);
             }
         }
