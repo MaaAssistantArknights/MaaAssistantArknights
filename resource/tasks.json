@@ -592,7 +592,7 @@
         "baseTask": "SS-Open",
         "template": "StageSideStory.png",
         "postDelay": 3000,
-        "next": [ "PVChapterToPV" ]
+        "next": ["PVChapterToPV"]
     },
     "PV-OpenOcr": {
         "baseTask": "SS-OpenOcr",
