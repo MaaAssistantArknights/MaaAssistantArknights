@@ -796,8 +796,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DefaultNoExtraTags">追加のタグを選択しない</system:String>
     <system:String x:Key="SelectExtraTags">常に 3 つのタグを選択する</system:String>
     <system:String x:Key="SelectExtraOnlyRareTags">可能な限りタグを選択し、かつ高い星のタグのみを選択する</system:String>
-    <system:String x:Key="AutoRecruitHighPriority">優先タグ（セミコロンで区切）</system:String>
-    <system:String x:Key="AutoRecruitHighPriorityTooltip">サブストリングで十分です、できるだけ多くのタグの傾向を選択します</system:String>
+    <system:String x:Key="AutoRecruitHighPriority">優先タグ</system:String>
+    <system:String x:Key="AutoRecruitHighPriorityTooltip">できるだけ多くのタグの傾向を選択します</system:String>
     <system:String x:Key="NotEnoughStaff">利用可能なオペレーターが不足しています</system:String>
     <system:String x:Key="StageInfoError">ステージ認識エラー</system:String>
     <system:String x:Key="UseFormation">使用編成</system:String>

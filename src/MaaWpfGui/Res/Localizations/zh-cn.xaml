@@ -796,7 +796,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="SelectExtraTags">选择高星时总是选择三个 Tag</system:String>
     <system:String x:Key="SelectExtraOnlyRareTags">尽可能多地选且只选高星 Tag</system:String>
     <system:String x:Key="AutoRecruitHighPriority">3 星 Tag 时的 Tag 倾向</system:String>
-    <system:String x:Key="AutoRecruitHighPriorityTooltip">尽可能多的选择倾向的 Tag</system:String>
+    <system:String x:Key="AutoRecruitHighPriorityTooltip">会尽可能多的选择倾向的 Tag</system:String>
     <system:String x:Key="NotEnoughStaff">可用干员不足</system:String>
     <system:String x:Key="StageInfoError">关卡识别错误</system:String>
     <system:String x:Key="UseFormation">使用编队</system:String>
