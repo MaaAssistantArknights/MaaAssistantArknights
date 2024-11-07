@@ -3445,7 +3445,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         private object[] _autoRecruitFirstList = ConfigurationHelper
-            .GetValue(ConfigurationKeys.AutoRecruitFirstList, "A B C")
+            .GetValue(ConfigurationKeys.AutoRecruitFirstList, string.Empty)
             .Split(';')
             .Where(s => _autoRecruitOptionsDict.ContainsValue(s.ToString()))
             .Select(s => _autoRecruitOptionsDict.FirstOrDefault(pair => pair.Value == s).Key)
