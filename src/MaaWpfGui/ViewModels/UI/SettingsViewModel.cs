@@ -3416,51 +3416,48 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = LocalizationHelper.GetString("SelectExtraOnlyRareTags"), Value = "2" },
             ];
 
-        private List<string> _autoRecruitFirstList = ConfigurationHelper
-            .GetValue(ConfigurationKeys.AutoRecruitFirstList, string.Empty)
-            .Split(new[] { ';', '；' }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(s => s.Trim())
-            .ToList();
+        private static readonly Dictionary<string, string> _autoRecruitOptionsDict = new()
+        {
+            { "先锋", "先锋" },
+            { "狙击", "狙击" },
+            { "重装", "重装" },
+            { "医疗", "医疗" },
+            { "辅助", "辅助" },
+            { "术师", "术师" },
+            { "治疗", "治疗" },
+            { "费用回复", "费用回复" },
+            { "输出", "输出" },
+            { "生存", "生存" },
+            { "群攻", "群攻" },
+            { "防护", "防护" },
+            { "减速", "减速" },
+        };
 
-        /// <summary>
-        /// Gets or sets the priority tag list of level-3 tags.
-        /// </summary>
-        public List<string> AutoRecruitFirstList
+        private List<string> _autoRecruitFirstAllList = new(_autoRecruitOptionsDict.Keys);
+
+        public List<string> AutoRecruitTagList
+        {
+            get => _autoRecruitFirstAllList;
+            set => SetAndNotify(ref _autoRecruitFirstAllList, value);
+        }
+
+        private object[] _autoRecruitFirstList = ConfigurationHelper
+            .GetValue(ConfigurationKeys.AutoRecruitFirstList, "A B C")
+            .Split(';')
+            .Where(s => _autoRecruitOptionsDict.ContainsValue(s.ToString()))
+            .Select(s => _autoRecruitOptionsDict.FirstOrDefault(pair => pair.Value == s).Key)
+            .ToArray();
+
+        public object[] AutoRecruitFirstList
         {
             get => _autoRecruitFirstList;
             set
             {
-                // Ensure value is not null
-                if (value == null)
-                {
-                    _logger.Debug("null Value = {Value}", value);
-                    value = new List<string>();  // Initialize with an empty list if value is null
-                }
-
                 SetAndNotify(ref _autoRecruitFirstList, value);
-                _logger.Debug("Value = {Value}", value);
-
-                // Save the list as a semicolon-separated string
-                ConfigurationHelper.SetValue(ConfigurationKeys.AutoRecruitFirstList, string.Join(";", value));
+                var config = string.Join(';', _autoRecruitFirstList.Cast<string>().Select(s => _autoRecruitOptionsDict[s]));
+                ConfigurationHelper.SetValue(ConfigurationKeys.AutoRecruitFirstList, config);
             }
         }
-
-        public List<string> AutoRecruitTagList { get; } = new List<string>
-        {
-            "近卫",
-            "狙击",
-            "重装",
-            "医疗",
-            "辅助",
-            "术师",
-            "治疗",
-            "费用回复",
-            "输出",
-            "生存",
-            "群攻",
-            "防护",
-            "减速",
-        };
 
         private string _recruitMaxTimes = ConfigurationHelper.GetValue(ConfigurationKeys.RecruitMaxTimes, "4");
 

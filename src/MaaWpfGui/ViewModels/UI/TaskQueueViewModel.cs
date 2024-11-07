@@ -1728,7 +1728,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             return Instances.AsstProxy.AsstAppendRecruit(
                 maxTimes,
-                firstList.ToArray(),
+                firstList.Cast<string>().ToArray(),
                 [.. reqList],
                 [.. cfmList],
                 Instances.SettingsViewModel.RefreshLevel3,
