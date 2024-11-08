@@ -11,9 +11,9 @@
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:styles="clr-namespace:MaaWpfGui.Styles"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl"
-    d:Background="White"
-    d:DataContext="{d:DesignInstance {x:Type viewModels:VersionUpdateSettingsUserControlModel}}"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
+    xmlns:vm="clr-namespace:MaaWpfGui"
+    d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
     d:DesignWidth="550"
     mc:Ignorable="d">
     <StackPanel>
