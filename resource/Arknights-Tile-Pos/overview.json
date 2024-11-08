@@ -11132,6 +11132,150 @@
         "stageId": "act38side_10",
         "width": 15
     },
+    "act38side_ex01#f#-activities/act38side/level_act38side_ex01": {
+        "code": "PV-EX-1",
+        "filename": "act38side_ex01#f#-activities-act38side-level_act38side_ex01.json",
+        "height": 10,
+        "levelId": "activities/act38side/level_act38side_ex01",
+        "name": "零食派送",
+        "stageId": "act38side_ex01#f#",
+        "width": 14
+    },
+    "act38side_ex01-activities/act38side/level_act38side_ex01": {
+        "code": "PV-EX-1",
+        "filename": "act38side_ex01-activities-act38side-level_act38side_ex01.json",
+        "height": 10,
+        "levelId": "activities/act38side/level_act38side_ex01",
+        "name": "零食派送",
+        "stageId": "act38side_ex01",
+        "width": 14
+    },
+    "act38side_ex02#f#-activities/act38side/level_act38side_ex02": {
+        "code": "PV-EX-2",
+        "filename": "act38side_ex02#f#-activities-act38side-level_act38side_ex02.json",
+        "height": 10,
+        "levelId": "activities/act38side/level_act38side_ex02",
+        "name": "热烈游行",
+        "stageId": "act38side_ex02#f#",
+        "width": 13
+    },
+    "act38side_ex02-activities/act38side/level_act38side_ex02": {
+        "code": "PV-EX-2",
+        "filename": "act38side_ex02-activities-act38side-level_act38side_ex02.json",
+        "height": 10,
+        "levelId": "activities/act38side/level_act38side_ex02",
+        "name": "热烈游行",
+        "stageId": "act38side_ex02",
+        "width": 13
+    },
+    "act38side_ex03#f#-activities/act38side/level_act38side_ex03": {
+        "code": "PV-EX-3",
+        "filename": "act38side_ex03#f#-activities-act38side-level_act38side_ex03.json",
+        "height": 11,
+        "levelId": "activities/act38side/level_act38side_ex03",
+        "name": "游乐集市",
+        "stageId": "act38side_ex03#f#",
+        "width": 13
+    },
+    "act38side_ex03-activities/act38side/level_act38side_ex03": {
+        "code": "PV-EX-3",
+        "filename": "act38side_ex03-activities-act38side-level_act38side_ex03.json",
+        "height": 11,
+        "levelId": "activities/act38side/level_act38side_ex03",
+        "name": "游乐集市",
+        "stageId": "act38side_ex03",
+        "width": 13
+    },
+    "act38side_ex04#f#-activities/act38side/level_act38side_ex04": {
+        "code": "PV-EX-4",
+        "filename": "act38side_ex04#f#-activities-act38side-level_act38side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act38side/level_act38side_ex04",
+        "name": "穷街陋巷",
+        "stageId": "act38side_ex04#f#",
+        "width": 12
+    },
+    "act38side_ex04-activities/act38side/level_act38side_ex04": {
+        "code": "PV-EX-4",
+        "filename": "act38side_ex04-activities-act38side-level_act38side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act38side/level_act38side_ex04",
+        "name": "穷街陋巷",
+        "stageId": "act38side_ex04",
+        "width": 12
+    },
+    "act38side_ex05#f#-activities/act38side/level_act38side_ex05": {
+        "code": "PV-EX-5",
+        "filename": "act38side_ex05#f#-activities-act38side-level_act38side_ex05.json",
+        "height": 9,
+        "levelId": "activities/act38side/level_act38side_ex05",
+        "name": "火花进行曲",
+        "stageId": "act38side_ex05#f#",
+        "width": 15
+    },
+    "act38side_ex05-activities/act38side/level_act38side_ex05": {
+        "code": "PV-EX-5",
+        "filename": "act38side_ex05-activities-act38side-level_act38side_ex05.json",
+        "height": 9,
+        "levelId": "activities/act38side/level_act38side_ex05",
+        "name": "火花进行曲",
+        "stageId": "act38side_ex05",
+        "width": 15
+    },
+    "act38side_ex06#f#-activities/act38side/level_act38side_ex06": {
+        "code": "PV-EX-6",
+        "filename": "act38side_ex06#f#-activities-act38side-level_act38side_ex06.json",
+        "height": 10,
+        "levelId": "activities/act38side/level_act38side_ex06",
+        "name": "巡演大街",
+        "stageId": "act38side_ex06#f#",
+        "width": 17
+    },
+    "act38side_ex06-activities/act38side/level_act38side_ex06": {
+        "code": "PV-EX-6",
+        "filename": "act38side_ex06-activities-act38side-level_act38side_ex06.json",
+        "height": 10,
+        "levelId": "activities/act38side/level_act38side_ex06",
+        "name": "巡演大街",
+        "stageId": "act38side_ex06",
+        "width": 17
+    },
+    "act38side_ex07#f#-activities/act38side/level_act38side_ex07": {
+        "code": "PV-EX-7",
+        "filename": "act38side_ex07#f#-activities-act38side-level_act38side_ex07.json",
+        "height": 11,
+        "levelId": "activities/act38side/level_act38side_ex07",
+        "name": "烟火观景台",
+        "stageId": "act38side_ex07#f#",
+        "width": 13
+    },
+    "act38side_ex07-activities/act38side/level_act38side_ex07": {
+        "code": "PV-EX-7",
+        "filename": "act38side_ex07-activities-act38side-level_act38side_ex07.json",
+        "height": 11,
+        "levelId": "activities/act38side/level_act38side_ex07",
+        "name": "烟火观景台",
+        "stageId": "act38side_ex07",
+        "width": 13
+    },
+    "act38side_ex08#f#-activities/act38side/level_act38side_ex08": {
+        "code": "PV-EX-8",
+        "filename": "act38side_ex08#f#-activities-act38side-level_act38side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act38side/level_act38side_ex08",
+        "name": "狂欢之主",
+        "stageId": "act38side_ex08#f#",
+        "width": 13
+    },
+    "act38side_ex08-activities/act38side/level_act38side_ex08": {
+        "code": "PV-EX-8",
+        "filename": "act38side_ex08-activities-act38side-level_act38side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act38side/level_act38side_ex08",
+        "name": "狂欢之主",
+        "stageId": "act38side_ex08",
+        "width": 13
+    },
     "act38side_sp01-activities/act38side/level_act38side_sp01": {
         "code": "PV-P-1",
         "filename": "act38side_sp01-activities-act38side-level_act38side_sp01.json",
