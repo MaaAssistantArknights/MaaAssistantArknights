@@ -88,7 +88,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     bool add_trust = params.get("add_trust", false);                 // 是否自动补信赖
     bool add_user_additional = params.contains("user_additional");   // 是否自动补用户自定义干员
     auto support_unit_usage = static_cast<SupportUnitUsage>(
-        params.get("support_unit_usage", static_cast<int>(SupportUnitUsage::WhenNeeded))); // 助战干员使用模式
+        params.get("support_unit_usage", static_cast<int>(SupportUnitUsage::None))); // 助战干员使用模式
     std::string support_unit_name = params.get("support_unit_name", std::string());
 
     if (params.contains("add_user_additional")) {
