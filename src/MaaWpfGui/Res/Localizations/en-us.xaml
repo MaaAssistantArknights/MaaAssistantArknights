@@ -794,8 +794,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="DefaultNoExtraTags">Additional Tags are not selected by default</system:String>
     <system:String x:Key="SelectExtraTags">If higher ★ tags appear, always select 3 tags</system:String>
     <system:String x:Key="SelectExtraOnlyRareTags">Pick as many high-star Tags as possible</system:String>
-    <system:String x:Key="AutoRecruitHighPriority">Preference for 3★ Tags (split by semicolon)</system:String>
-    <system:String x:Key="AutoRecruitHighPriorityTooltip">Substring is sufficient, will select as many Tag preferences as possible</system:String>
+    <system:String x:Key="AutoRecruitHighPriority">Preference for 3★ Tags</system:String>
+    <system:String x:Key="AutoRecruitHighPriorityTooltip">Will select as many Tag preferences as possible</system:String>
     <system:String x:Key="NotEnoughStaff">Insufficient operators</system:String>
     <system:String x:Key="StageInfoError">Stage recognition error</system:String>
     <system:String x:Key="UseFormation">Use formation</system:String>

@@ -3429,23 +3429,41 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public List<CombinedData> AutoRecruitSelectExtraTagsList { get; } =
             [
-                new() { Display = LocalizationHelper.GetString("DefaultNoExtraTags"), Value = "0" },
+                new() { Display = LocalizationHelper.GetString("DefaultNoExtraTags"), Value = "0" } ,
                 new() { Display = LocalizationHelper.GetString("SelectExtraTags"), Value = "1" },
                 new() { Display = LocalizationHelper.GetString("SelectExtraOnlyRareTags"), Value = "2" },
             ];
 
-        private string _autoRecruitFirstList = ConfigurationHelper.GetValue(ConfigurationKeys.AutoRecruitFirstList, string.Empty);
+        private static readonly List<string> _autoRecruitTagList = ["近战位", "远程位", "先锋干员", "近卫干员", "狙击干员", "重装干员", "医疗干员", "辅助干员", "术师干员", "治疗", "费用回复", "输出", "生存", "群攻", "防护", "减速",];
 
-        /// <summary>
-        /// Gets or sets the priority tag list of level-3 tags.
-        /// </summary>
-        public string AutoRecruitFirstList
+        private static readonly Lazy<List<CombinedData>> _autoRecruitTagShowList = new(() =>
+            _autoRecruitTagList.Select<string, (string, string)?>(tag => DataHelper.RecruitTags.TryGetValue(tag, out var value) ? value : null)
+                .Where(tag => tag is not null)
+                .Cast<(string Display, string Client)>()
+                .Select(tag => new CombinedData() { Display = tag.Display, Value = tag.Client })
+                .ToList());
+
+        public static List<CombinedData> AutoRecruitTagShowList
+        {
+            get => _autoRecruitTagShowList.Value;
+        }
+
+        private object[] _autoRecruitFirstList = ConfigurationHelper
+            .GetValue(ConfigurationKeys.AutoRecruitFirstList, string.Empty)
+            .Split(';')
+            .Select(tag => _autoRecruitTagShowList.Value.FirstOrDefault(i => i.Value == tag))
+            .Where(tag => tag is not null)
+            .Cast<CombinedData>()
+            .ToArray();
+
+        public object[] AutoRecruitFirstList
         {
             get => _autoRecruitFirstList;
             set
             {
                 SetAndNotify(ref _autoRecruitFirstList, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AutoRecruitFirstList, value);
+                var config = string.Join(';', value.Cast<CombinedData>().Select(i => i.Value));
+                ConfigurationHelper.SetValue(ConfigurationKeys.AutoRecruitFirstList, config);
             }
         }
 
