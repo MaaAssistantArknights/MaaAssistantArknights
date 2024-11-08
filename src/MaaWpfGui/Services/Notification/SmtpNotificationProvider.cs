@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using FluentEmail.Core;
 using FluentEmail.Liquid;
@@ -56,6 +57,9 @@ namespace MaaWpfGui.Services.Notification
 
             var emailFrom = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpFrom, string.Empty);
             var emailTo = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpTo, string.Empty);
+
+            title = Regex.Replace(title, "\r(?!\n)", "\r\n");
+            content = Regex.Replace(content, "\r(?!\n)", "\r\n");
 
             var email = Email
                 .From(emailFrom)
