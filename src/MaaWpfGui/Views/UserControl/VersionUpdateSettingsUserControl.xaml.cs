@@ -20,7 +20,6 @@ using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UI;
-using MaaWpfGui.ViewModels.UserControl;
 using Serilog;
 
 namespace MaaWpfGui.Views.UserControl
@@ -52,23 +51,23 @@ namespace MaaWpfGui.Views.UserControl
 
         private void MaaVersionClick(object sender, MouseButtonEventArgs e)
         {
-            CopyToClipboardAsync($"UI Version: {VersionUpdateSettingsUserControlModel.UiVersion}\nCore Version: {VersionUpdateSettingsUserControlModel.CoreVersion}\nBuild Time: {VersionUpdateSettingsUserControlModel.BuildDateTimeCurrentCultureString}");
+            CopyToClipboardAsync($"UI Version: {SettingsViewModel.UiVersion}\nCore Version: {SettingsViewModel.CoreVersion}\nBuild Time: {SettingsViewModel.BuildDateTimeCurrentCultureString}");
         }
 
         private void CoreVersionClick(object sender, MouseButtonEventArgs e)
         {
-            CopyToClipboardAsync("Core Version: " + VersionUpdateSettingsUserControlModel.CoreVersion);
+            CopyToClipboardAsync("Core Version: " + SettingsViewModel.CoreVersion);
             EasterEggs();
         }
 
         private void UiVersionClick(object sender, MouseButtonEventArgs e)
         {
-            CopyToClipboardAsync("UI Version: " + VersionUpdateSettingsUserControlModel.UiVersion);
+            CopyToClipboardAsync("UI Version: " + SettingsViewModel.UiVersion);
         }
 
         private void ResourceVersionClick(object sender, MouseButtonEventArgs e)
         {
-            CopyToClipboardAsync($"Resource Version: {SettingsViewModel.VersionUpdateDataContext.ResourceVersion}\nResource Time: {SettingsViewModel.VersionUpdateDataContext.ResourceDateTimeCurrentCultureString}");
+            CopyToClipboardAsync($"Resource Version: {Instances.SettingsViewModel.ResourceVersion}\nResource Time: {Instances.SettingsViewModel.ResourceDateTimeCurrentCultureString}");
         }
 
         private static void CopyToClipboardAsync(string text)
