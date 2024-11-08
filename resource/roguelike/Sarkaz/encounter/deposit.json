@@ -582,15 +582,8 @@
         },
         {
             "name": "原初异途",
-            "option_num": 3,
-            "choose": 3,
-            "choices": [
-                {
-                    "name": "一片莲瓣",
-                    "option_num": 4,
-                    "choose": 4
-                }
-            ]
+            "option_num": 4,
+            "choose": 4
         },
         {
             "name": "巴别塔雇员",
