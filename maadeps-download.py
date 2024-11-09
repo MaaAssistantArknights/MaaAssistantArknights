@@ -132,6 +132,22 @@ def main():
             f"e.g. `{sys.argv[0]} arm64-windows` ",
             f"or `{sys.argv[0]} arm64-windows 2023-04-24-3`"
         )
+
+    maadeps_dir = Path(basedir, "MaaDeps")
+    maadeps_version_file = Path(maadeps_dir, ".versions.json")
+    try:
+        with open(maadeps_version_file, "r") as f:
+            versions = json.load(f)
+    except:
+        versions = {}
+    if versions.get(target_triplet) == target_tag:
+        print(
+            f"prebuilt dependencies for {target_triplet} of {target_tag} ",
+            "already exist, skipping download"
+        )
+        print(f"to force download, delete {maadeps_version_file}")
+        return
+
     req = urllib.request.Request(
         "https://api.github.com/repos/MaaAssistantArknights/MaaDeps/releases"
     )
@@ -167,17 +183,24 @@ def main():
         print("found assets:")
         print("    " + devel_asset["name"])
         print("    " + runtime_asset["name"])
-        maadeps_dir = Path(basedir, "MaaDeps")
         download_dir = Path(maadeps_dir, "tarball")
         download_dir.mkdir(parents=True, exist_ok=True)
-        for asset in [devel_asset, runtime_asset]:
-            url = asset['browser_download_url']
-            print("downloading from", url)
-            local_file = download_dir / sanitize_filename(asset["name"])
-            urllib.request.urlretrieve(url, local_file,
-                                       reporthook=ProgressHook())
-            print("extracting", asset["name"])
-            shutil.unpack_archive(local_file, maadeps_dir)
+        try:
+            for asset in [devel_asset, runtime_asset]:
+                url = asset['browser_download_url']
+                print("downloading from", url)
+                local_file = download_dir / sanitize_filename(asset["name"])
+                urllib.request.urlretrieve(url, local_file,
+                                           reporthook=ProgressHook())
+                print("extracting", asset["name"])
+                shutil.unpack_archive(local_file, maadeps_dir)
+            versions[target_triplet] = target_tag
+        except:
+            versions[target_triplet] = None
+            raise
+        finally:
+            with open(maadeps_version_file, "w") as f:
+                json.dump(versions, f, indent=2)
     else:
         raise Exception(f"no binary release found for {target_triplet}")
 
