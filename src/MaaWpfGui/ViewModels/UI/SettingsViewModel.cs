@@ -96,6 +96,11 @@ namespace MaaWpfGui.ViewModels.UI
         public static VersionUpdateSettingsUserControlModel VersionUpdateDataContext { get; } = new();
 
         /// <summary>
+        /// Gets 软件更新model
+        /// </summary>
+        public static VersionUpdateSettingsUserControlModel VersionUpdateDataContext { get; } = new();
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
         /// </summary>
         public SettingsViewModel()
