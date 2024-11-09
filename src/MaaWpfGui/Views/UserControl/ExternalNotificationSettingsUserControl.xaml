@@ -9,7 +9,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
-    d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl"
+    d:Background="White"
+    d:DataContext="{d:DesignInstance {x:Type viewModels:ExternalNotificationSettingsUserControlModel}}"
+    s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <Grid
         hc:InfoElement.HorizontalAlignment="Center"
@@ -50,7 +53,7 @@
                 Margin="5"
                 Command="{s:Action ExternalNotificationSendTest}"
                 Content="{DynamicResource ExternalNotificationSendTest}"
-                IsEnabled="{c:Binding 'EnabledExternalNotificationProvider != &quot;Off&quot;'}" />
+                IsEnabled="{c:Binding 'EnabledExternalNotificationProviderCount > 0'}" />
         </StackPanel>
 
         <StackPanel

@@ -18,6 +18,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services.Web;
+using MaaWpfGui.ViewModels.UI;
 using Serilog;
 
 namespace MaaWpfGui.Services.Notification
@@ -28,14 +29,14 @@ namespace MaaWpfGui.Services.Notification
 
         public async Task<bool> SendAsync(string title, string content)
         {
-            var sendKey = Instances.SettingsViewModel.BarkSendKey;
+            var sendKey = SettingsViewModel.ExternalNotificationDataContext.BarkSendKey;
             if (string.IsNullOrWhiteSpace(sendKey))
             {
                 _logger.Warning("Failed to send Bark notification, Bark send key is empty");
                 return false;
             }
 
-            var apiBase = Instances.SettingsViewModel.BarkServer;
+            var apiBase = SettingsViewModel.ExternalNotificationDataContext.BarkServer;
             if (string.IsNullOrWhiteSpace(apiBase))
             {
                 _logger.Warning("Failed to send Bark notification, Bark server address is empty");

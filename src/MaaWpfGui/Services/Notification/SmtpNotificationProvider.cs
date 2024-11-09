@@ -17,6 +17,7 @@ using FluentEmail.Liquid;
 using FluentEmail.MailKitSmtp;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.ViewModels.UI;
 using Microsoft.Extensions.Options;
 using Serilog;
 
@@ -28,12 +29,12 @@ namespace MaaWpfGui.Services.Notification
 
         public async Task<bool> SendAsync(string title, string content)
         {
-            var smtpServer = Instances.SettingsViewModel.SmtpServer;
-            var smtpPortValid = int.TryParse(Instances.SettingsViewModel.SmtpPort, out var smtpPort);
-            var smtpUser = Instances.SettingsViewModel.SmtpUser;
-            var smtpPassword = Instances.SettingsViewModel.SmtpPassword;
-            var smtpUseSsl = Instances.SettingsViewModel.SmtpUseSsl;
-            var smtpRequiresAuthentication = Instances.SettingsViewModel.SmtpRequireAuthentication;
+            var smtpServer = SettingsViewModel.ExternalNotificationDataContext.SmtpServer;
+            var smtpPortValid = int.TryParse(SettingsViewModel.ExternalNotificationDataContext.SmtpPort, out var smtpPort);
+            var smtpUser = SettingsViewModel.ExternalNotificationDataContext.SmtpUser;
+            var smtpPassword = SettingsViewModel.ExternalNotificationDataContext.SmtpPassword;
+            var smtpUseSsl = SettingsViewModel.ExternalNotificationDataContext.SmtpUseSsl;
+            var smtpRequiresAuthentication = SettingsViewModel.ExternalNotificationDataContext.SmtpRequireAuthentication;
 
             if (string.IsNullOrEmpty(smtpServer) || smtpPortValid is false)
             {

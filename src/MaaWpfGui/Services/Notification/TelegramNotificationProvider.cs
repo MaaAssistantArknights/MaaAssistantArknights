@@ -18,6 +18,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services.Web;
+using MaaWpfGui.ViewModels.UI;
 using Serilog;
 
 namespace MaaWpfGui.Services.Notification;
@@ -28,8 +29,8 @@ public class TelegramNotificationProvider(IHttpService httpService) : IExternalN
 
     public async Task<bool> SendAsync(string title, string content)
     {
-        var botToken = Instances.SettingsViewModel.TelegramBotToken;
-        var chatId = Instances.SettingsViewModel.TelegramChatId;
+        var botToken = SettingsViewModel.ExternalNotificationDataContext.TelegramBotToken;
+        var chatId = SettingsViewModel.ExternalNotificationDataContext.TelegramChatId;
 
         var uri = $"https://api.telegram.org/bot{botToken}/sendMessage";
 
