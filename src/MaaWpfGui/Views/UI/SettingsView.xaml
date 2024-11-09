@@ -16,8 +16,9 @@
     xmlns:userControl="clr-namespace:MaaWpfGui.Views.UserControl"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
     xmlns:vm="clr-namespace:MaaWpfGui"
+    d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
-    d:DesignHeight="3000"
+    d:DesignHeight="4000"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid Margin="20">
@@ -37,12 +38,12 @@
             Grid.Column="1"
             Margin="20,10"
             HorizontalAlignment="Stretch"
-            PanningMode="Both"
             properties:ScrollViewerBinding.DividerVerticalOffsetList="{Binding DividerVerticalOffsetList}"
             properties:ScrollViewerBinding.ExtentHeight="{Binding ScrollExtentHeight}"
             properties:ScrollViewerBinding.VerticalOffset="{Binding ScrollOffset}"
             properties:ScrollViewerBinding.ViewportHeight="{Binding ScrollViewportHeight}"
-            IsInertiaEnabled="True">
+            IsInertiaEnabled="True"
+            PanningMode="Both">
             <StackPanel>
 
                 <hc:Divider Content="{Binding ListTitle[0]}" />
@@ -52,12 +53,13 @@
                 <userControl:TimerSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
 
                 <hc:Divider Content="{Binding ListTitle[2]}" />
-                <userControl:PerformanceUserControl Margin="0,20" HorizontalAlignment="Center" IsEnabled="{Binding Idle}" />
+                <userControl:PerformanceUserControl
+                    Margin="0,20"
+                    HorizontalAlignment="Center"
+                    IsEnabled="{Binding Idle}" />
 
                 <hc:Divider Content="{Binding ListTitle[3]}" />
-                <userControl:GameClientUserControl
-                    Margin="0,20"
-                    HorizontalAlignment="Center"/>
+                <userControl:GameClientUserControl Margin="0,20" HorizontalAlignment="Center" />
 
                 <hc:Divider Content="{Binding ListTitle[4]}" />
                 <userControl:ConnectSettingsUserControl
@@ -81,7 +83,10 @@
                 <userControl:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
 
                 <hc:Divider Content="{Binding ListTitle[10]}" />
-                <userControl:VersionUpdateSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <userControl:VersionUpdateSettingsUserControl
+                    Margin="0,20"
+                    HorizontalAlignment="Center"
+                    DataContext="{Binding VersionUpdateDataContext}" />
 
                 <hc:Divider Content="{Binding ListTitle[11]}" />
                 <userControl:AboutUserControl Margin="0,20" HorizontalAlignment="Center" />
