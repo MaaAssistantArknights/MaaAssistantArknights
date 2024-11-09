@@ -24,7 +24,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Management;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text.RegularExpressions;
@@ -41,20 +40,20 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
-using MaaWpfGui.Properties;
-using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.UserControl;
 using MaaWpfGui.WineCompat;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
+using static MaaWpfGui.ViewModels.UserControl.VersionUpdateSettingsUserControlModel;
 using ComboBox = System.Windows.Controls.ComboBox;
 using DarkModeType = MaaWpfGui.Configuration.GUI.DarkModeType;
 using Timer = System.Timers.Timer;
@@ -93,6 +92,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets the after action setting.
         /// </summary>
         public PostActionSetting PostActionSetting { get; } = PostActionSetting.Current;
+
+        public static VersionUpdateSettingsUserControlModel VersionUpdateDataContext { get; } = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
@@ -253,9 +254,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void InitVersionUpdate()
         {
-            if (VersionType == UpdateVersionType.Nightly && !AllowNightlyUpdates)
+            if (VersionUpdateDataContext.VersionType == UpdateVersionType.Nightly && !VersionUpdateDataContext.AllowNightlyUpdates)
             {
-                VersionType = UpdateVersionType.Beta;
+                VersionUpdateDataContext.VersionType = UpdateVersionType.Beta;
             }
         }
 
@@ -1463,9 +1464,9 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _clientType, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ClientType, value);
-                _resourceInfo = GetResourceVersionByClientType(_clientType);
-                ResourceVersion = _resourceInfo.VersionName;
-                ResourceDateTime = _resourceInfo.DateTime;
+                VersionUpdateDataContext.ResourceInfo = GetResourceVersionByClientType(_clientType);
+                VersionUpdateDataContext.ResourceVersion = VersionUpdateDataContext.ResourceInfo.VersionName;
+                VersionUpdateDataContext.ResourceDateTime = VersionUpdateDataContext.ResourceInfo.DateTime;
                 UpdateWindowTitle(); // 每次修改客户端时更新WindowTitle
                 Instances.TaskQueueViewModel.UpdateStageList();
                 Instances.TaskQueueViewModel.UpdateDatePrompt();
@@ -3776,380 +3777,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         #endregion 自动公招设置
 
-        #region 软件更新设置
-
-        public enum UpdateVersionType
-        {
-            /// <summary>
-            /// 测试版
-            /// </summary>
-            Nightly,
-
-            /// <summary>
-            /// 开发版
-            /// </summary>
-            Beta,
-
-            /// <summary>
-            /// 稳定版
-            /// </summary>
-            Stable,
-        }
-
-        /// <summary>
-        /// Gets the core version.
-        /// </summary>
-        public static string CoreVersion { get; } = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
-
-        public static string CoreVersionDisplay => string.Join("\u200B", CoreVersion.ToCharArray());
-
-        private static readonly string _uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
-
-        /// <summary>
-        /// Gets the UI version.
-        /// </summary>
-        public static string UiVersion { get; } = _uiVersion == "0.0.1" ? "DEBUG VERSION" : _uiVersion;
-
-        public static string UiVersionDisplay => string.Join("\u200B", UiVersion.ToCharArray());
-
-        public static DateTime BuildDateTime { get; } = Assembly.GetExecutingAssembly().GetCustomAttribute<BuildDateTimeAttribute>()?.BuildDateTime ?? DateTime.MinValue;
-
-        public static string BuildDateTimeCurrentCultureString => BuildDateTime.ToLocalTimeString();
-
-        private static (DateTime DateTime, string VersionName) _resourceInfo = GetResourceVersionByClientType(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty));
-
-        private static string _resourceVersion = _resourceInfo.VersionName;
-
-        /// <summary>
-        /// Gets or sets the resource version.
-        /// </summary>
-        public string ResourceVersion
-        {
-            get => _resourceVersion;
-            set => SetAndNotify(ref _resourceVersion, value);
-        }
-
-        private static DateTime _resourceDateTime = _resourceInfo.DateTime;
-
-        public DateTime ResourceDateTime
-        {
-            get => _resourceDateTime;
-            set => SetAndNotify(ref _resourceDateTime, value);
-        }
-
-        public string ResourceDateTimeCurrentCultureString => ResourceDateTime.ToLocalTimeString();
-
-        private static (DateTime DateTime, string VersionName) GetResourceVersionByClientType(string clientType)
-        {
-            const string OfficialClientType = "Official";
-            const string BilibiliClientType = "Bilibili";
-            string jsonPath = "resource/version.json";
-            if (clientType is not ("" or OfficialClientType or BilibiliClientType))
-            {
-                jsonPath = $"resource/global/{clientType}/resource/version.json";
-            }
-
-            string versionName;
-            if (!File.Exists(jsonPath))
-            {
-                return (DateTime.MinValue, string.Empty);
-            }
-
-            var versionJson = (JObject?)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
-            var currentTime = (ulong)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            var poolTime = (ulong?)versionJson?["gacha"]?["time"]; // 卡池的开始时间
-            var activityTime = (ulong?)versionJson?["activity"]?["time"]; // 活动的开始时间
-            var lastUpdated = (string?)versionJson?["last_updated"]; // 最后更新时间
-            var dateTime = lastUpdated == null
-                ? DateTime.MinValue
-                : DateTime.ParseExact(lastUpdated, "yyyy-MM-dd HH:mm:ss.fff", null);
-
-            if ((currentTime < poolTime) && (currentTime < activityTime))
-            {
-                versionName = string.Empty;
-            }
-            else if ((currentTime >= poolTime) && (currentTime < activityTime))
-            {
-                versionName = versionJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
-            }
-            else if ((currentTime < poolTime) && (currentTime >= activityTime))
-            {
-                versionName = versionJson?["activity"]?["name"]?.ToString() ?? string.Empty;
-            }
-            else if (poolTime > activityTime)
-            {
-                versionName = versionJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
-            }
-            else
-            {
-                versionName = versionJson?["activity"]?["name"]?.ToString() ?? string.Empty;
-            }
-
-            return (dateTime, versionName);
-        }
-
-        private UpdateVersionType _versionType = (UpdateVersionType)Enum.Parse(
-            typeof(UpdateVersionType),
-            ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionType, UpdateVersionType.Stable.ToString()));
-
-        /// <summary>
-        /// Gets or sets the type of version to update.
-        /// </summary>
-        public UpdateVersionType VersionType
-        {
-            get => _versionType;
-            set
-            {
-                SetAndNotify(ref _versionType, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionType, value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets the list of the version type.
-        /// </summary>
-        public List<GenericCombinedData<UpdateVersionType>> AllVersionTypeList { get; } =
-            [
-                new() { Display = LocalizationHelper.GetString("UpdateCheckNightly"), Value = UpdateVersionType.Nightly },
-                new() { Display = LocalizationHelper.GetString("UpdateCheckBeta"), Value = UpdateVersionType.Beta },
-                new() { Display = LocalizationHelper.GetString("UpdateCheckStable"), Value = UpdateVersionType.Stable },
-            ];
-
-        public List<GenericCombinedData<UpdateVersionType>> VersionTypeList
-        {
-            get => AllVersionTypeList.Where(v => AllowNightlyUpdates || v.Value != UpdateVersionType.Nightly).ToList();
-        }
-
-        public bool AllowNightlyUpdates { get; set; } = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AllowNightlyUpdates, bool.FalseString));
-
-        private bool _hasAcknowledgedNightlyWarning = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.HasAcknowledgedNightlyWarning, bool.FalseString));
-
-        public bool HasAcknowledgedNightlyWarning
-        {
-            get => _hasAcknowledgedNightlyWarning;
-            set
-            {
-                SetAndNotify(ref _hasAcknowledgedNightlyWarning, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.HasAcknowledgedNightlyWarning, value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether to update nightly.
-        /// </summary>
-        public bool UpdateNightly
-        {
-            get => _versionType == UpdateVersionType.Nightly;
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether to update beta version.
-        /// </summary>
-        public bool UpdateBeta
-        {
-            get => _versionType == UpdateVersionType.Beta;
-        }
-
-        private bool _updateCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateCheck, bool.TrueString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to check update.
-        /// </summary>
-        public bool UpdateCheck
-        {
-            get => _updateCheck;
-            set
-            {
-                SetAndNotify(ref _updateCheck, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateCheck, value.ToString());
-            }
-        }
-
-        private bool _updateAutoCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateAutoCheck, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to check update.
-        /// </summary>
-        public bool UpdateAutoCheck
-        {
-            get => _updateAutoCheck;
-            set
-            {
-                SetAndNotify(ref _updateAutoCheck, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateAutoCheck, value.ToString());
-            }
-        }
-
-        private string _proxy = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateProxy, string.Empty);
-
-        /// <summary>
-        /// Gets or sets the proxy settings.
-        /// </summary>
-        public string Proxy
-        {
-            get => _proxy;
-            set
-            {
-                SetAndNotify(ref _proxy, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateProxy, value);
-            }
-        }
-
-        public List<CombinedData> ProxyTypeList { get; } =
-            [
-                new() { Display = "HTTP Proxy", Value = "http" },
-                new() { Display = "Socks5 Proxy", Value = "socks5" },
-            ];
-
-        private string _proxyType = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ProxyType, "http");
-
-        public string ProxyType
-        {
-            get => _proxyType;
-            set
-            {
-                SetAndNotify(ref _proxyType, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ProxyType, value);
-            }
-        }
-
-        private bool _isCheckingForUpdates;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the update is being checked.
-        /// </summary>
-        public bool IsCheckingForUpdates
-        {
-            get => _isCheckingForUpdates;
-            set
-            {
-                SetAndNotify(ref _isCheckingForUpdates, value);
-            }
-        }
-
-        private bool _autoDownloadUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AutoDownloadUpdatePackage, bool.TrueString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to auto download update package.
-        /// </summary>
-        public bool AutoDownloadUpdatePackage
-        {
-            get => _autoDownloadUpdatePackage;
-            set
-            {
-                SetAndNotify(ref _autoDownloadUpdatePackage, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.AutoDownloadUpdatePackage, value.ToString());
-            }
-        }
-
-        private bool _autoInstallUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AutoInstallUpdatePackage, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to auto install update package.
-        /// </summary>
-        public bool AutoInstallUpdatePackage
-        {
-            get => _autoInstallUpdatePackage;
-            set
-            {
-                SetAndNotify(ref _autoInstallUpdatePackage, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.AutoInstallUpdatePackage, value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Updates manually.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task ManualUpdate()
-        {
-            var ret = await Instances.VersionUpdateViewModel.CheckAndDownloadUpdate();
-
-            string toastMessage = string.Empty;
-            switch (ret)
-            {
-                case VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdate:
-                    break;
-
-                case VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdateDebugVersion:
-                    toastMessage = LocalizationHelper.GetString("NoNeedToUpdateDebugVersion");
-                    break;
-
-                case VersionUpdateViewModel.CheckUpdateRetT.AlreadyLatest:
-                    toastMessage = LocalizationHelper.GetString("AlreadyLatest");
-                    break;
-
-                case VersionUpdateViewModel.CheckUpdateRetT.UnknownError:
-                    toastMessage = LocalizationHelper.GetString("NewVersionDetectFailedTitle");
-                    break;
-
-                case VersionUpdateViewModel.CheckUpdateRetT.NetworkError:
-                    toastMessage = LocalizationHelper.GetString("CheckNetworking");
-                    break;
-
-                case VersionUpdateViewModel.CheckUpdateRetT.FailedToGetInfo:
-                    toastMessage = LocalizationHelper.GetString("GetReleaseNoteFailed");
-                    break;
-
-                case VersionUpdateViewModel.CheckUpdateRetT.OK:
-                    Instances.VersionUpdateViewModel.AskToRestart();
-                    break;
-
-                case VersionUpdateViewModel.CheckUpdateRetT.NewVersionIsBeingBuilt:
-                    toastMessage = LocalizationHelper.GetString("NewVersionIsBeingBuilt");
-                    break;
-
-                case VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated:
-                    toastMessage = LocalizationHelper.GetString("GameResourceUpdated");
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            if (toastMessage != string.Empty)
-            {
-                ToastNotification.ShowDirect(toastMessage);
-            }
-        }
-
-        public async Task ManualUpdateResource()
-        {
-            IsCheckingForUpdates = true;
-            if (await ResourceUpdater.UpdateFromGithubAsync())
-            {
-                if (Instances.SettingsViewModel.AutoInstallUpdatePackage)
-                {
-                    await Bootstrapper.RestartAfterIdleAsync();
-                }
-                else
-                {
-                    var result = MessageBoxHelper.Show(
-                        LocalizationHelper.GetString("GameResourceUpdated"),
-                        LocalizationHelper.GetString("Tip"),
-                        MessageBoxButton.OKCancel,
-                        MessageBoxImage.Question,
-                        ok: LocalizationHelper.GetString("Ok"),
-                        cancel: LocalizationHelper.GetString("ManualRestart"));
-                    if (result == MessageBoxResult.OK)
-                    {
-                        Bootstrapper.ShutdownAndRestartWithoutArgs();
-                    }
-                }
-            }
-
-            IsCheckingForUpdates = false;
-        }
-
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
-        public void ShowChangelog()
-        {
-            Instances.WindowManager.ShowWindow(Instances.VersionUpdateViewModel);
-        }
-
-        #endregion 软件更新设置
-
         #region 连接设置
 
         /// <summary>
@@ -5009,13 +4636,13 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            string resourceVersion = !string.IsNullOrEmpty(ResourceVersion)
+            string resourceVersion = !string.IsNullOrEmpty(VersionUpdateDataContext.ResourceVersion)
                 ? LocalizationHelper.CustomCultureInfo.Name.ToLowerInvariant() switch
                 {
-                    "zh-cn" => $" - {ResourceVersion}{ResourceDateTime:#MMdd}",
-                    "zh-tw" => $" - {ResourceVersion}{ResourceDateTime:#MMdd}",
-                    "en-us" => $" - {ResourceDateTime:dd/MM} {ResourceVersion}",
-                    _ => $" - {ResourceDateTime.ToString(LocalizationHelper.CustomCultureInfo.DateTimeFormat.ShortDatePattern.Replace("yyyy", string.Empty).Trim('/', '.'))} {ResourceVersion}",
+                    "zh-cn" => $" - {VersionUpdateDataContext.ResourceVersion}{VersionUpdateDataContext.ResourceDateTime:#MMdd}",
+                    "zh-tw" => $" - {VersionUpdateDataContext.ResourceVersion}{VersionUpdateDataContext.ResourceDateTime:#MMdd}",
+                    "en-us" => $" - {VersionUpdateDataContext.ResourceDateTime:dd/MM} {VersionUpdateDataContext.ResourceVersion}",
+                    _ => $" - {VersionUpdateDataContext.ResourceDateTime.ToString(LocalizationHelper.CustomCultureInfo.DateTimeFormat.ShortDatePattern.Replace("yyyy", string.Empty).Trim('/', '.'))} {VersionUpdateDataContext.ResourceVersion}",
                 }
                 : string.Empty;
             rvm.WindowTitle = $"{prefix}MAA{currentConfiguration} - {CoreVersion}{resourceVersion}{connectConfigName}{connectAddress}{clientName}";
@@ -5859,7 +5486,7 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void SetAcknowledgedNightlyWarning()
         {
-            HasAcknowledgedNightlyWarning = true;
+            VersionUpdateDataContext.HasAcknowledgedNightlyWarning = true;
         }
     }
 }
