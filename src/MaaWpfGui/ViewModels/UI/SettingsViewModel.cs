@@ -3433,7 +3433,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public List<CombinedData> AutoRecruitSelectExtraTagsList { get; } =
             [
-                new() { Display = LocalizationHelper.GetString("DefaultNoExtraTags"), Value = "0" } ,
+                new() { Display = LocalizationHelper.GetString("DefaultNoExtraTags"), Value = "0" },
                 new() { Display = LocalizationHelper.GetString("SelectExtraTags"), Value = "1" },
                 new() { Display = LocalizationHelper.GetString("SelectExtraOnlyRareTags"), Value = "2" },
             ];
