@@ -64,7 +64,8 @@
                 <userControl:ConnectSettingsUserControl
                     Margin="0,20"
                     HorizontalAlignment="Center"
-                    IsEnabled="{Binding Idle}" />
+                    DataContext="{Binding ConnectSettingsDataContext}"
+                    IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
 
                 <hc:Divider Content="{Binding ListTitle[5]}" />
                 <userControl:StartSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
