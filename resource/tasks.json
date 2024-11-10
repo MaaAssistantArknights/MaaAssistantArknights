@@ -4842,6 +4842,7 @@
             "BattleStartExercise",
             "BattleStartAdverse",
             "BattleStartSimulation",
+            "BattleStartSimulationForTwo",
             "BattleStartTrials",
             "BattleStartTrialsRaid",
             "BattleStartOCR"
@@ -4881,6 +4882,14 @@
                 [99, 255, 255]
             ]
         ],
+        "postDelay": 2000
+    },
+    "BattleStartSimulationForTwo": {
+        "doc": "二星没技能",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["开始", "模拟"],
+        "roi": [1038, 625, 206, 61],
         "postDelay": 2000
     },
     "BattleStartPlot": {
