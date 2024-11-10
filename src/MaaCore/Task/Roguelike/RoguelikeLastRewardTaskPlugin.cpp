@@ -71,7 +71,7 @@ bool asst::RoguelikeLastRewardTaskPlugin::_run()
             Task.set_task_base("Roguelike@LastReward4", last_reward_stop_or_continue);
             Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_restart");
         }
-        else {
+        else if (!m_config->get_only_start_with_elite_two()) {
             // 开启烧开水 Flag，将难度设置为 0
             m_config->set_run_for_collectible(true);
             // 重置开局奖励 next，获得任意奖励均继续

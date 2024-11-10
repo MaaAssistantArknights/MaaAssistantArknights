@@ -85,8 +85,8 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
         m_invest_with_more_score = (investment_with_more_score);
     }
 
-    if (m_mode == RoguelikeMode::Collectible) {
-        m_run_for_collectible = true; // 烧开水模式下第一轮游戏先烧水
+    if (m_mode == RoguelikeMode::Collectible && !m_only_start_with_elite_two) {
+        m_run_for_collectible = true; // 烧开水模式下，如果不是只凹直升，第一轮游戏先烧水
     }
 
     // ------------------ 萨米主题专用参数 ------------------
