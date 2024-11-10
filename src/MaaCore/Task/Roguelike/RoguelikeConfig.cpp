@@ -34,6 +34,10 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
         Log.error(__FUNCTION__, "| Invalid mode for start_with_elite_two", static_cast<int>(mode));
         return false;
     }
+    if (!m_start_with_elite_two && m_only_start_with_elite_two) {
+        Log.error(__FUNCTION__, "| only_start_with_elite_two can only be used together with start_with_elite_two");
+        return false;
+    }
 
     // 设置层数选点策略，相关逻辑在 RoguelikeStrategyChangeTaskPlugin
     {
