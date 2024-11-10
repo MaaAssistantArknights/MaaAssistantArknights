@@ -2038,6 +2038,7 @@ namespace MaaWpfGui.ViewModels.UI
                 case "Sarkaz":
 
                     if (RoguelikeMode == "1") {
+                        // 萨卡兹肉鸽部分主题专属分队在刷锭模式下会卡住，现仅允许使用通用分队与这两个刷锭
                         foreach (var item in new ObservableCollection<CombinedData>
                         {
                             new() { Display = LocalizationHelper.GetString("IS4NewSquad3"), Value = "蓝图测绘分队" },
