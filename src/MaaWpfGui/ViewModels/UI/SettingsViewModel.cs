@@ -1626,95 +1626,90 @@ namespace MaaWpfGui.ViewModels.UI
             RoguelikeMode = RoguelikeModeList.Any(x => x.Value == roguelikeMode) ? roguelikeMode : "0";
         }
 
+        private readonly Dictionary<string, List<(string Key, string Value)>> _squadDictionary = new()
+        {
+            ["Phantom_Default"] =
+            [
+                ("ResearchSquad", "研究分队"),
+            ],
+            ["Mizuki_Default"] =
+            [
+                ("IS2NewSquad1", "心胜于物分队"),
+                ("IS2NewSquad2", "物尽其用分队"),
+                ("IS2NewSquad3", "以人为本分队"),
+                ("ResearchSquad", "研究分队"),
+            ],
+            ["Sami_Default"] =
+            [
+                ("IS3NewSquad1", "永恒狩猎分队"),
+                ("IS3NewSquad2", "生活至上分队"),
+                ("IS3NewSquad3", "科学主义分队"),
+                ("IS3NewSquad4", "特训分队"),
+            ],
+            ["Sarkaz_1"] =
+            [
+                ("IS4NewSquad2", "博闻广记分队"),
+                ("IS4NewSquad3", "蓝图测绘分队"),
+                ("IS4NewSquad6", "点刺成锭分队"),
+                ("IS4NewSquad7", "拟态学者分队"),
+            ],
+            ["Sarkaz_Default"] =
+            [
+                ("IS4NewSquad1", "魂灵护送分队"),
+                ("IS4NewSquad2", "博闻广记分队"),
+                ("IS4NewSquad3", "蓝图测绘分队"),
+                ("IS4NewSquad4", "因地制宜分队"),
+                ("IS4NewSquad5", "异想天开分队"),
+                ("IS4NewSquad6", "点刺成锭分队"),
+                ("IS4NewSquad7", "拟态学者分队"),
+            ],
+        };
+
+        // 通用分队
+        private readonly List<(string Key, string Value)> _commonSquads =
+        [
+            ("LeaderSquad", "指挥分队"),
+            ("GatheringSquad", "集群分队"),
+            ("SupportSquad", "后勤分队"),
+            ("SpearheadSquad", "矛头分队"),
+            ("TacticalAssaultOperative", "突击战术分队"),
+            ("TacticalFortificationOperative", "堡垒战术分队"),
+            ("TacticalRangedOperative", "远程战术分队"),
+            ("TacticalDestructionOperative", "破坏战术分队"),
+            ("First-ClassSquad", "高规格分队"),
+        ];
+
         private void UpdateRoguelikeSquadList()
         {
             var roguelikeSquad = RoguelikeSquad;
-
             RoguelikeSquadList =
             [
-                new() { Display = LocalizationHelper.GetString("DefaultSquad"), Value = string.Empty },
+                new() { Display = LocalizationHelper.GetString("DefaultSquad"), Value = string.Empty }
             ];
 
-            switch (RoguelikeTheme)
+            // 优先匹配 Theme_Mode，其次匹配 Theme_Default
+            string themeKey = $"{RoguelikeTheme}_{RoguelikeMode}";
+            if (!_squadDictionary.ContainsKey(themeKey))
             {
-                case "Phantom":
-
-                    foreach (var item in new ObservableCollection<CombinedData>
-                    {
-                        new() { Display = LocalizationHelper.GetString("ResearchSquad"), Value = "研究分队" },
-                    })
-                    {
-                        RoguelikeSquadList.Add(item);
-                    }
-
-                    break;
-
-                case "Mizuki":
-
-                    foreach (var item in new ObservableCollection<CombinedData>
-                    {
-                        new() { Display = LocalizationHelper.GetString("IS2NewSquad1"), Value = "心胜于物分队" },
-                        new() { Display = LocalizationHelper.GetString("IS2NewSquad2"), Value = "物尽其用分队" },
-                        new() { Display = LocalizationHelper.GetString("IS2NewSquad3"), Value = "以人为本分队" },
-                        new() { Display = LocalizationHelper.GetString("ResearchSquad"), Value = "研究分队" },
-                    })
-                    {
-                        RoguelikeSquadList.Add(item);
-                    }
-
-                    break;
-
-                case "Sami":
-
-                    foreach (var item in new ObservableCollection<CombinedData>
-                    {
-                        new() { Display = LocalizationHelper.GetString("IS3NewSquad1"), Value = "永恒狩猎分队" },
-                        new() { Display = LocalizationHelper.GetString("IS3NewSquad2"), Value = "生活至上分队" },
-                        new() { Display = LocalizationHelper.GetString("IS3NewSquad3"), Value = "科学主义分队" },
-                        new() { Display = LocalizationHelper.GetString("IS3NewSquad4"), Value = "特训分队" },
-                    })
-                    {
-                        RoguelikeSquadList.Add(item);
-                    }
-
-                    break;
-
-                case "Sarkaz":
-
-                    foreach (var item in new ObservableCollection<CombinedData>
-                    {
-                        new() { Display = LocalizationHelper.GetString("IS4NewSquad1"), Value = "魂灵护送分队" },
-                        new() { Display = LocalizationHelper.GetString("IS4NewSquad2"), Value = "博闻广记分队" },
-                        new() { Display = LocalizationHelper.GetString("IS4NewSquad3"), Value = "蓝图测绘分队" },
-                        new() { Display = LocalizationHelper.GetString("IS4NewSquad4"), Value = "因地制宜分队" },
-                        new() { Display = LocalizationHelper.GetString("IS4NewSquad5"), Value = "异想天开分队" },
-                        new() { Display = LocalizationHelper.GetString("IS4NewSquad6"), Value = "点刺成锭分队" },
-                        new() { Display = LocalizationHelper.GetString("IS4NewSquad7"), Value = "拟态学者分队" },
-                    })
-                    {
-                        RoguelikeSquadList.Add(item);
-                    }
-
-                    break;
+                themeKey = $"{RoguelikeTheme}_Default";
             }
 
-            // 通用分队
-            foreach (var item in new ObservableCollection<CombinedData>
+            // 添加主题分队
+            if (_squadDictionary.TryGetValue(themeKey, out var squads))
             {
-                new() { Display = LocalizationHelper.GetString("LeaderSquad"), Value = "指挥分队" },
-                new() { Display = LocalizationHelper.GetString("GatheringSquad"), Value = "集群分队" },
-                new() { Display = LocalizationHelper.GetString("SupportSquad"), Value = "后勤分队" },
-                new() { Display = LocalizationHelper.GetString("SpearheadSquad"), Value = "矛头分队" },
-                new() { Display = LocalizationHelper.GetString("TacticalAssaultOperative"), Value = "突击战术分队" },
-                new() { Display = LocalizationHelper.GetString("TacticalFortificationOperative"), Value = "堡垒战术分队" },
-                new() { Display = LocalizationHelper.GetString("TacticalRangedOperative"), Value = "远程战术分队" },
-                new() { Display = LocalizationHelper.GetString("TacticalDestructionOperative"), Value = "破坏战术分队" },
-                new() { Display = LocalizationHelper.GetString("First-ClassSquad"), Value = "高规格分队" },
-            })
-            {
-                RoguelikeSquadList.Add(item);
+                foreach (var (key, value) in squads)
+                {
+                    RoguelikeSquadList.Add(new() { Display = LocalizationHelper.GetString(key), Value = value });
+                }
             }
 
+            // 添加通用分队
+            foreach (var (key, value) in _commonSquads)
+            {
+                RoguelikeSquadList.Add(new() { Display = LocalizationHelper.GetString(key), Value = value });
+            }
+
+            // 选择当前分队
             RoguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : string.Empty;
         }
 
@@ -1832,10 +1827,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _roguelikeTheme, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeTheme, value);
+
                 UpdateRoguelikeModeList();
                 UpdateRoguelikeSquadList();
                 UpdateRoguelikeCoreCharList();
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeTheme, value);
             }
         }
 
@@ -1868,6 +1864,8 @@ namespace MaaWpfGui.ViewModels.UI
 
                 SetAndNotify(ref _roguelikeMode, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeMode, value);
+
+                UpdateRoguelikeSquadList();
             }
         }
 
