@@ -22,14 +22,14 @@ using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl;
 
+/// <summary>
+/// 外部通知
+/// </summary>
 public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
 {
-
-    #region External Notifications
-
     // UI 绑定的方法
     // ReSharper disable once UnusedMember.Global
-    public void ExternalNotificationSendTest()
+    public static void ExternalNotificationSendTest()
     {
         ExternalNotificationService.Send(
             LocalizationHelper.GetString("ExternalNotificationSendTestTitle"),
@@ -390,6 +390,4 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     }
 
     #endregion External Notification Config
-
-    #endregion External Notifications
 }
