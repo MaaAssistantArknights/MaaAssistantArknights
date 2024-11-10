@@ -1,7 +1,7 @@
 {
     "author": "uye",
     "description": "干员配置要求极高，请留意\\n若缺少干员请自行拷贝文件并修改（请勿直接修改，以免更新后被覆盖）\\n第一个制造站为赤金，其余为记录\\n\\n作业作者：uye\\n\\n感谢公孙长乐大佬提供数据及方案支持！",
-    "id": 1730873443077602,
+    "id": 1731223360113755,
     "title": "153 极限效率，一天四换",
     "buildingType": 243,
     "planTimes": "3班",
@@ -109,7 +109,7 @@
                     },
                     {
                         "skip": false,
-                        "operators": ["杰西卡", "格雷伊", "海霓", "忍冬", "铃兰"],
+                        "operators": ["杰西卡", "格雷伊", "忍冬", "铃兰", "九色鹿"],
                         "sort": false,
                         "autofill": false
                     }
@@ -239,19 +239,19 @@
                     },
                     {
                         "skip": false,
-                        "operators": ["阿罗玛", "迷迭香", "乌尔比安", "安哲拉", "幽灵鲨"],
+                        "operators": ["阿罗玛", "迷迭香", "歌蕾蒂娅", "闪灵", "流明"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
-                        "operators": ["斯卡蒂", "至简", "澄闪", "絮雨", "歌蕾蒂娅"],
+                        "operators": ["至简", "澄闪", "絮雨", "黑键", "槐琥"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
-                        "operators": ["伊内丝", "陈", "空弦", "黑键", "槐琥"],
+                        "operators": ["伊内丝", "陈", "空弦", "杜林", "九色鹿"],
                         "sort": false,
                         "autofill": false
                     }
@@ -503,7 +503,7 @@
                     },
                     {
                         "skip": false,
-                        "operators": ["海霓"],
+                        "operators": ["雷蛇"],
                         "sort": false,
                         "autofill": false
                     },
@@ -517,7 +517,7 @@
                 "dormitory": [
                     {
                         "skip": false,
-                        "operators": ["菲亚梅塔", "爱丽丝", "车尔尼", "塑心", "薇薇安娜"],
+                        "operators": ["菲亚梅塔", "爱丽丝", "车尔尼", "塑心", "年"],
                         "sort": true,
                         "autofill": false
                     },
@@ -529,13 +529,13 @@
                     },
                     {
                         "skip": false,
-                        "operators": ["远牙", "灰毫", "乌尔比安", "安哲拉", "幽灵鲨"],
+                        "operators": ["远牙", "灰毫", "歌蕾蒂娅", "流明", "闪灵"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
-                        "operators": ["斯卡蒂", "承曦格雷伊", "森蚺", "歌蕾蒂娅", "焰尾"],
+                        "operators": ["承曦格雷伊", "森蚺", "焰尾", "薇薇安娜", "九色鹿"],
                         "sort": false,
                         "autofill": false
                     }
