@@ -18,6 +18,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services.Web;
+using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Serilog;
 
@@ -36,10 +37,10 @@ namespace MaaWpfGui.Services.Notification
 
         public async Task<bool> SendAsync(string title, string content)
         {
-            var server = Instances.SettingsViewModel.QmsgServer;
-            var key = Instances.SettingsViewModel.QmsgKey;
-            var receiveUser = Instances.SettingsViewModel.QmsgUser;
-            var sendBot = Instances.SettingsViewModel.QmsgBot;
+            var server = SettingsViewModel.ExternalNotificationDataContext.QmsgServer;
+            var key = SettingsViewModel.ExternalNotificationDataContext.QmsgKey;
+            var receiveUser = SettingsViewModel.ExternalNotificationDataContext.QmsgUser;
+            var sendBot = SettingsViewModel.ExternalNotificationDataContext.QmsgBot;
 
             var uri = $"{server}/jsend/{key}";
 

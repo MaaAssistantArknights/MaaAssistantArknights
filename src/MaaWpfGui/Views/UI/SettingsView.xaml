@@ -11,7 +11,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:userControl="clr-namespace:MaaWpfGui.Views.UserControl"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
@@ -77,7 +76,10 @@
                 <userControl:GUISettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
 
                 <hc:Divider Content="{Binding ListTitle[8]}" />
-                <userControl:ExternalNotificationSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <userControl:ExternalNotificationSettingsUserControl
+                    Margin="0,20"
+                    HorizontalAlignment="Center"
+                    DataContext="{Binding ExternalNotificationDataContext}" />
 
                 <hc:Divider Content="{Binding ListTitle[9]}" />
                 <userControl:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />

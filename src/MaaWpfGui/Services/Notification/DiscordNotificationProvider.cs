@@ -19,6 +19,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services.Web;
+using MaaWpfGui.ViewModels.UI;
 using Serilog;
 
 namespace MaaWpfGui.Services.Notification;
@@ -31,8 +32,8 @@ public class DiscordNotificationProvider(IHttpService httpService) : IExternalNo
 
     public async Task<bool> SendAsync(string title, string content)
     {
-        var botToken = Instances.SettingsViewModel.DiscordBotToken;
-        var userId = Instances.SettingsViewModel.DiscordUserId;
+        var botToken = SettingsViewModel.ExternalNotificationDataContext.DiscordBotToken;
+        var userId = SettingsViewModel.ExternalNotificationDataContext.DiscordUserId;
 
         var channelId = await CreateDmChannel(botToken, userId);
 

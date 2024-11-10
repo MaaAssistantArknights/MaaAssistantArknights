@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services.Web;
+using MaaWpfGui.ViewModels.UI;
 using Serilog;
 
 namespace MaaWpfGui.Services.Notification
@@ -44,7 +45,7 @@ namespace MaaWpfGui.Services.Notification
                 title = title[..32]; // 截取前 32 个字符
             }
 
-            var sendKey = Instances.SettingsViewModel.ServerChanSendKey;
+            var sendKey = SettingsViewModel.ExternalNotificationDataContext.ServerChanSendKey;
 
             try
             {
