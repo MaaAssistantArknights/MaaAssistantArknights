@@ -9,7 +9,7 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl.Setting"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type viewModels:ConnectSettingsUserControlModel}}"
     d:DesignWidth="550"

@@ -38,7 +38,7 @@ using Serilog;
 using Stylet;
 using Window = HandyControl.Controls.Window;
 
-namespace MaaWpfGui.ViewModels.UserControl;
+namespace MaaWpfGui.ViewModels.UserControl.Setting;
 
 /// <summary>
 /// 连接设置
@@ -183,7 +183,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         {
             if (!Path.GetFileName(value).ToLower().Contains("adb"))
             {
-                int count = 3;
+                var count = 3;
                 while (count-- > 0)
                 {
                     var result = MessageBoxHelper.Show(
@@ -254,14 +254,14 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                             const string UninstallKeyPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MuMuPlayer-12.0";
                             const string UninstallExeName = @"\uninstall.exe";
 
-                            using RegistryKey? driverKey = Registry.LocalMachine.OpenSubKey(UninstallKeyPath);
+                            using var driverKey = Registry.LocalMachine.OpenSubKey(UninstallKeyPath);
                             if (driverKey == null)
                             {
                                 EmulatorPath = string.Empty;
                                 return;
                             }
 
-                            string? uninstallString = driverKey.GetValue("UninstallString") as string;
+                            var uninstallString = driverKey.GetValue("UninstallString") as string;
 
                             if (string.IsNullOrEmpty(uninstallString) || !uninstallString.Contains(UninstallExeName))
                             {
@@ -408,14 +408,14 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                             const string UninstallKeyPath = @"Software\leidian\ldplayer9";
                             const string InstallDirValueName = "InstallDir";
 
-                            using RegistryKey? driverKey = Registry.CurrentUser.OpenSubKey(UninstallKeyPath);
+                            using var driverKey = Registry.CurrentUser.OpenSubKey(UninstallKeyPath);
                             if (driverKey == null)
                             {
                                 EmulatorPath = string.Empty;
                                 return;
                             }
 
-                            string? installDir = driverKey.GetValue(InstallDirValueName) as string;
+                            var installDir = driverKey.GetValue(InstallDirValueName) as string;
 
                             if (string.IsNullOrEmpty(installDir))
                             {
@@ -479,14 +479,14 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
         private int GetEmulatorPid(int index)
         {
-            string emulatorPath = $@"{EmulatorPath}\ldconsole.exe";
+            var emulatorPath = $@"{EmulatorPath}\ldconsole.exe";
             if (!File.Exists(emulatorPath))
             {
                 MessageBoxHelper.Show("LD Emulator Path Not Found");
                 return 0;
             }
 
-            ProcessStartInfo startInfo = new ProcessStartInfo
+            var startInfo = new ProcessStartInfo
             {
                 FileName = emulatorPath,
                 Arguments = "list2",
@@ -495,16 +495,16 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 CreateNoWindow = true,
             };
 
-            using Process? process = Process.Start(startInfo);
+            using var process = Process.Start(startInfo);
             if (process == null)
             {
                 _logger.Warning("Failed to start ldconsole list2");
                 return 0;
             }
 
-            using StreamReader reader = process.StandardOutput;
-            string result = reader.ReadToEnd();
-            string[] lines = result.Split([Environment.NewLine], StringSplitOptions.RemoveEmptyEntries);
+            using var reader = process.StandardOutput;
+            var result = reader.ReadToEnd();
+            var lines = result.Split([Environment.NewLine], StringSplitOptions.RemoveEmptyEntries);
 
             if (lines.Length <= 0)
             {
@@ -512,15 +512,15 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 return 0;
             }
 
-            foreach (string line in lines)
+            foreach (var line in lines)
             {
-                string[] parts = line.Split(',');
-                if (parts.Length < 6 || !int.TryParse(parts[0], out int currentIndex) || currentIndex != index)
+                var parts = line.Split(',');
+                if (parts.Length < 6 || !int.TryParse(parts[0], out var currentIndex) || currentIndex != index)
                 {
                     continue;
                 }
 
-                if (int.TryParse(parts[5], out int pid))
+                if (int.TryParse(parts[5], out var pid))
                 {
                     return pid;
                 }
@@ -784,9 +784,9 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     {
         _runningState.SetIdle(false);
 
-        string errMsg = string.Empty;
+        var errMsg = string.Empty;
         TestLinkInfo = LocalizationHelper.GetString("ConnectingToEmulator");
-        bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+        var caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
         if (!caught)
         {
             TestLinkInfo = errMsg;
@@ -818,7 +818,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
         TestLinkInfo = ScreencapTestCost;
 
-        Window popupWindow = new Window
+        var popupWindow = new Window
         {
             Width = 800,
             Height = 481, // (800 - 1 - 1) * 9 / 16 + 32 + 1,
@@ -971,7 +971,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        bool replaced = false;
+        var replaced = false;
         if (AdbPath != NewAdb && File.Exists(AdbPath))
         {
             try
@@ -982,7 +982,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                     process.WaitForExit(5000);
                 }
 
-                string adbBack = AdbPath + ".bak";
+                var adbBack = AdbPath + ".bak";
                 if (!File.Exists(adbBack))
                 {
                     File.Copy(AdbPath, adbBack, true);
