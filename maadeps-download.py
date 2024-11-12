@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import argparse
 import os
 import sys
 import urllib.request
@@ -110,20 +111,27 @@ def retry_urlopen(*args, **kwargs):
 
 
 def main():
-    if len(sys.argv) >= 2:
-        target_triplet = sys.argv[1]
+    parser = argparse.ArgumentParser()
+    parser.add_argument("target_triplet", nargs="?", default=None)
+    parser.add_argument("tag", nargs="?", default=None)
+    parser.add_argument("-f", "--force", action="store_true",
+                        help="force download even if already exists")
+    args = parser.parse_args()
+
+    if args.target_triplet is not None:
+        target_triplet = args.target_triplet
     else:
         target_triplet = detect_host_triplet()
 
-    if len(sys.argv) >= 3:
-        target_tag = sys.argv[2]
+    if args.tag is not None:
+        target_tag = args.tag
     else:
         target_tag = TARGET_TAG
     print(
         "about to download prebuilt dependency libraries for ",
         f"{target_triplet} of {target_tag}"
     )
-    if len(sys.argv) == 1:
+    if args.target_triplet is None:
         print(
             "to specify another triplet [and tag], ",
             f"run `{sys.argv[0]} <target triplet> [tag]`"
@@ -140,12 +148,12 @@ def main():
             versions = json.load(f)
     except:
         versions = {}
-    if versions.get(target_triplet) == target_tag:
+    if not args.force and versions.get(target_triplet) == target_tag:
         print(
             f"prebuilt dependencies for {target_triplet} of {target_tag} ",
             "already exist, skipping download"
         )
-        print(f"to force download, delete {maadeps_version_file}")
+        print(f"to force download, run `{sys.argv[0]} -f`")
         return
 
     req = urllib.request.Request(
