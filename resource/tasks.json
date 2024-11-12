@@ -6549,8 +6549,8 @@
     "Roguelike@ChooseDifficulty_CheckEasiest": {
         "doc": "用于 RoguelikeDifficultySelectionTaskPlugin",
         "algorithm": "OcrDetect",
-        "text": [],
-        "roi": [400, 450, 225, 160]
+        "text": ["ADDITIONAL"],
+        "roi": [670, 515, 100, 19]
     },
     "Roguelike@ChooseDifficulty_Specified": {
         "doc": "用于 RoguelikeDifficultySelectionTaskPlugin",
