@@ -186,6 +186,10 @@ def main():
         download_dir = Path(maadeps_dir, "tarball")
         download_dir.mkdir(parents=True, exist_ok=True)
         try:
+            shutil.rmtree(maadeps_dir / "runtime" / f"maa-{target_triplet}",
+                          ignore_errors=True)
+            shutil.rmtree(maadeps_dir / "vcpkg" / "installed" /
+                          f"maa-{target_triplet}", ignore_errors=True)
             for asset in [devel_asset, runtime_asset]:
                 url = asset['browser_download_url']
                 print("downloading from", url)
