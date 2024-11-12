@@ -18,6 +18,7 @@ using System.Windows.Media;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using Microsoft.WindowsAPICodePack.Taskbar;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -90,17 +91,28 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _windowTitle, value);
         }
 
-        private double _progress;
+        private (int Current, int Max)? _taskProgress;
 
         /// <summary>
-        /// Gets or sets the progress.
+        /// Gets or sets the TaskProgress.
         /// 0.0 to 1.0.
         /// 置 0 以隐藏进度条.
         /// </summary>
-        public double Progress
+        public (int Current, int Max)? TaskProgress
         {
-            get => _progress;
-            set => SetAndNotify(ref _progress, value);
+            get => _taskProgress;
+            set
+            {
+                SetAndNotify(ref _taskProgress, value);
+                if (value is null)
+                {
+                    TaskbarManager.Instance.SetProgressValue(0, 0);
+                }
+                else
+                {
+                    TaskbarManager.Instance.SetProgressValue(value.Value.Current, value.Value.Max);
+                }
+            }
         }
 
         private bool _windowTitleScrollable = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitleScrollable, bool.FalseString));

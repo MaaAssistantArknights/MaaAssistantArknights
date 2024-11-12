@@ -51,9 +51,6 @@
                 Foreground="{Binding WindowTopMostButtonForeground}" />
         </Grid>
     </hc:Window.NonClientAreaContent>
-    <Window.TaskbarItemInfo>
-        <TaskbarItemInfo ProgressState="Normal" ProgressValue="{Binding Progress}" />
-    </Window.TaskbarItemInfo>
     <DockPanel>
         <local:NotifyIcon x:Name="NotifyIcon" Visibility="Hidden" />
         <TabControl
