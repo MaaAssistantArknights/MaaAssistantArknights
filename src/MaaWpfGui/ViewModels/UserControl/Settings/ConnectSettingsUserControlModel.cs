@@ -38,7 +38,7 @@ using Serilog;
 using Stylet;
 using Window = HandyControl.Controls.Window;
 
-namespace MaaWpfGui.ViewModels.UserControl.Setting;
+namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
 /// <summary>
 /// 连接设置
