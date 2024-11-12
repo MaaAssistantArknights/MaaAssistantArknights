@@ -77,7 +77,7 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::select_difficulty(const int d
             difficulty_list.push_back(std::to_string(i));
         }
         Task.get<OcrTaskInfo>(m_config->get_theme() + "@Roguelike@ChooseDifficulty_Specified")->text = difficulty_list;
-        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficulty_Specified" }).run();
+        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficulty_Specified", "Stop" }).run();
     }
 
     // 识别当前难度
