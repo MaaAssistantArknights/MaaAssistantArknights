@@ -1,0 +1,784 @@
+{
+    "type": "SSS",
+    "stage_name": "阿卡胡拉丛林",
+    "minimum_required": "v4.9.0",
+    "doc": {
+        "title": "保全阿卡胡拉丛林-泥岩水月拉普兰德（兼容应急）",
+        "title_color": "dark",
+        "details": "目前只能手动编队，请尽量选择练度高费用低的干员\n请选择能回费的挡二先锋（推王除外）、阻挡数高的重装和近卫，梅尔不要选择二技能，推荐带一个三技能艾丽妮\n\n请在确认导能原件选择了第三个、战术装备全选A、手动编队并阵容确认后，再点击开始\n\n作业：萧然q\nBV1KK411z7t9\n搬运自：作业搬运工",
+        "details_color": "dark"
+    },
+    "buff": "丛林用示踪信标",
+    "equipment": ["A", "A", "A", "A", "A", "A", "A", "A"],
+    "strategy": "优选策略",
+    "opers": [
+        {
+            "name": "泥岩",
+            "skill": 2,
+            "skill_usage": 0
+        },
+        {
+            "name": "水月",
+            "skill": 1,
+            "skill_usage": 0
+        },
+        {
+            "name": "拉普兰德",
+            "skill": 2,
+            "skill_usage": 0
+        }
+    ],
+    "tool_men": {
+        "先锋": 3,
+        "近卫": 5,
+        "重装": 3,
+        "医疗": 2,
+        "辅助": 4
+    },
+    "drops": ["无需增调干员", "先锋", "辅助", "重装", "阻断波长", "医疗", "近卫"],
+    "blacklist": [
+        "罗比菈塔",
+        "掠风",
+        "白铁",
+        "桃金娘",
+        "极境",
+        "琴柳",
+        "伺夜",
+        "豆苗",
+        "夜半",
+        "森蚺",
+        "极光",
+        "梅尔",
+        "玛恩纳",
+        "龙舌兰",
+        "耀骑士临光",
+        "幽灵鲨",
+        "海蒂"
+    ],
+    "stages": [
+        {
+            "stage_name": "丛林式寒暄",
+            "strategies": [
+                {
+                    "core": "水月",
+                    "tool_men": {
+                        "近卫": 3,
+                        "先锋": 1
+                    },
+                    "location": [4, 2],
+                    "direction": "Down"
+                },
+                {
+                    "core": "泥岩",
+                    "tool_men": {
+                        "先锋": 1
+                    },
+                    "location": [5, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "近卫": 2,
+                        "重装": 1
+                    },
+                    "location": [4, 1],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "辅助": 100
+                    },
+                    "location": [5, 2],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "丛林用示踪信标",
+                    "location": [3, 2],
+                    "direction": "None"
+                }
+            ],
+            "retry_times": 3
+        },
+        {
+            "stage_name": "生物多样性",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "近卫": 1,
+                        "重装": 1
+                    },
+                    "location": [3, 2],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "先锋": 1
+                    },
+                    "location": [4, 2],
+                    "direction": "Right"
+                },
+                {
+                    "core": "水月",
+                    "tool_men": {
+                        "近卫": 3,
+                        "先锋": 1
+                    },
+                    "location": [5, 2],
+                    "direction": "Down"
+                },
+                {
+                    "core": "泥岩",
+                    "tool_men": {
+                        "先锋": 1
+                    },
+                    "location": [4, 2],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "辅助": 100
+                    },
+                    "location": [3, 3],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "医疗": 100
+                    },
+                    "location": [3, 3],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "重装": 100
+                    },
+                    "location": [2, 2],
+                    "direction": "Right"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "丛林用示踪信标",
+                    "location": [5, 1],
+                    "direction": "None"
+                }
+            ],
+            "retry_times": 3
+        },
+        {
+            "stage_name": "习以为常",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "先锋": 1,
+                        "重装": 1
+                    },
+                    "location": [4, 5],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "先锋": 1,
+                        "重装": 1
+                    },
+                    "location": [6, 5],
+                    "direction": "Up"
+                },
+                {
+                    "core": "水月",
+                    "tool_men": {
+                        "近卫": 4,
+                        "先锋": 1
+                    },
+                    "location": [5, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "重装": 2
+                    },
+                    "location": [4, 5],
+                    "direction": "Up"
+                },
+                {
+                    "core": "泥岩",
+                    "tool_men": {
+                        "先锋": 1,
+                        "近卫": 1
+                    },
+                    "location": [6, 5],
+                    "direction": "Up"
+                },
+                {
+                    "core": "拉普兰德",
+                    "tool_men": {
+                        "先锋": 1
+                    },
+                    "location": [5, 5],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "辅助": 100
+                    },
+                    "location": [3, 4],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "医疗": 100
+                    },
+                    "location": [3, 4],
+                    "direction": "Right"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "丛林用示踪信标",
+                    "location": [6, 4],
+                    "direction": "None"
+                },
+                {
+                    "type": "GetDrops",
+                    "kills": 20,
+                    "pre_delay": 2000
+                },
+                {
+                    "type": "GetDrops",
+                    "kills": 44,
+                    "pre_delay": 2000
+                }
+            ],
+            "retry_times": 3
+        },
+        {
+            "stage_name": "林间空地",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "先锋": 1
+                    },
+                    "location": [4, 5],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "先锋": 1
+                    },
+                    "location": [5, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "重装": 1
+                    },
+                    "location": [4, 6],
+                    "direction": "Up"
+                },
+                {
+                    "core": "水月",
+                    "tool_men": {
+                        "近卫": 3
+                    },
+                    "location": [5, 4],
+                    "direction": "Right"
+                },
+                {
+                    "core": "泥岩",
+                    "tool_men": {
+                        "先锋": 1,
+                        "重装": 1
+                    },
+                    "location": [6, 6],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "辅助": 100
+                    },
+                    "location": [7, 6],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "医疗": 100
+                    },
+                    "location": [5, 5],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "重装": 100
+                    },
+                    "location": [4, 6],
+                    "direction": "Up"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "丛林用示踪信标",
+                    "location": [6, 4],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "阻断波长",
+                    "kills": 19,
+                    "location": [6, 5],
+                    "direction": "Down"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "kills": 30,
+                    "location": [7, 1],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "kills": 40,
+                    "location": [6, 1],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "kills": 50,
+                    "location": [5, 1],
+                    "direction": "None"
+                }
+            ],
+            "retry_times": 3
+        },
+        {
+            "stage_name": "纠缠不休",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "先锋": 2
+                    },
+                    "location": [7, 5],
+                    "direction": "Left"
+                },
+                {
+                    "core": "水月",
+                    "tool_men": {
+                        "近卫": 5
+                    },
+                    "location": [6, 5],
+                    "direction": "Left"
+                },
+                {
+                    "core": "泥岩",
+                    "tool_men": {
+                        "先锋": 1,
+                        "重装": 1
+                    },
+                    "location": [7, 5],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "近卫": 2,
+                        "重装": 2
+                    },
+                    "location": [7, 4],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "先锋": 2
+                    },
+                    "location": [8, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "医疗": 100
+                    },
+                    "location": [7, 3],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "辅助": 100
+                    },
+                    "location": [6, 4],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "丛林用示踪信标",
+                    "location": [4, 5],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "阻断波长",
+                    "location": [3, 5],
+                    "direction": "Down"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "kills": 20,
+                    "location": [1, 4],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "kills": 30,
+                    "location": [2, 4],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "kills": 40,
+                    "location": [3, 4],
+                    "direction": "None"
+                }
+            ],
+            "retry_times": 3
+        },
+        {
+            "stage_name": "人与自然",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "先锋": 1
+                    },
+                    "location": [3, 6],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "先锋": 1
+                    },
+                    "location": [3, 5],
+                    "direction": "Right"
+                },
+                {
+                    "core": "泥岩",
+                    "tool_men": {
+                        "重装": 2
+                    },
+                    "location": [5, 5],
+                    "direction": "Right"
+                },
+                {
+                    "core": "拉普兰德",
+                    "tool_men": {
+                        "先锋": 1
+                    },
+                    "location": [3, 5],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "重装": 2
+                    },
+                    "location": [4, 5],
+                    "direction": "Right"
+                },
+                {
+                    "core": "水月",
+                    "tool_men": {
+                        "近卫": 4
+                    },
+                    "location": [5, 4],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "医疗": 100
+                    },
+                    "location": [4, 6],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "近卫": 100,
+                        "先锋": 100
+                    },
+                    "location": [3, 6],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "重装": 100
+                    },
+                    "location": [4, 5],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "辅助": 100
+                    },
+                    "location": [3, 4],
+                    "direction": "Right"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "丛林用示踪信标",
+                    "kills": 15,
+                    "location": [6, 5],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "阻断波长",
+                    "location": [4, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [11, 4],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [11, 4],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [11, 4],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [11, 4],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [10, 4],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [10, 4],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [10, 4],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [10, 4],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [10, 5],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [9, 5],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [9, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [9, 2],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [8, 1],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [7, 1],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [6, 1],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [5, 1],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [4, 1],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [3, 1],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [2, 1],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [1, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [2, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [3, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [4, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [5, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [6, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [7, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [8, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [9, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [9, 5],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [8, 5],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [7, 5],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [7, 5],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [7, 5],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [7, 5],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [7, 5],
+                    "direction": "None"
+                }
+            ],
+            "retry_times": 3
+        }
+    ]
+}

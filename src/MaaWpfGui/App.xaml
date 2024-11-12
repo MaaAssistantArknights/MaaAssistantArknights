@@ -1,0 +1,32 @@
+<Application
+    x:Class="MaaWpfGui.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:main="clr-namespace:MaaWpfGui.Main"
+    xmlns:s="https://github.com/canton7/Stylet">
+    <Application.Resources>
+        <!--<ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Indigo.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>-->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <s:ApplicationLoader>
+                    <s:ApplicationLoader.Bootstrapper>
+                        <main:Bootstrapper />
+                    </s:ApplicationLoader.Bootstrapper>
+                </s:ApplicationLoader>
+                <ResourceDictionary Source="/MAA;component/Res/Theme.xaml" />
+                <ResourceDictionary Source="/MAA;component/Res/Style.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="Hyperlink">
+                <EventSetter Event="Click" Handler="Hyperlink_Click" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

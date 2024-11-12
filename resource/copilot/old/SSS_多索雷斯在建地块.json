@@ -1,0 +1,431 @@
+{
+    "type": "SSS",
+    "stage_name": "多索雷斯在建地块",
+    "minimum_required": "v4.9.0",
+    "doc": {
+        "title": "多索雷斯保全(应急同样适用)",
+        "title_color": "dark",
+        "details": "作者:YueShen\n多索雷斯保全(应急同样适用)\n选镀膜装置导能阀\n尽量带档二先锋1技能\n要手动编队\n有问题群里找管理咕咕咕",
+        "details_color": "dark"
+    },
+    "buff": "镀膜装置导能阀",
+    "equipment": ["A", "A", "A", "A", "A", "A", "A", "A"],
+    "strategy": "优选策略",
+    "opers": [
+        {
+            "name": "棘刺",
+            "skill": 3,
+            "skill_usage": 1
+        },
+        {
+            "name": "泥岩",
+            "skill": 2,
+            "skill_usage": 0
+        },
+        {
+            "name": "桃金娘",
+            "skill": 1,
+            "skill_usage": 1
+        },
+        {
+            "name": "煌",
+            "skill": 2,
+            "skill_usage": 0
+        },
+        {
+            "name": "塞雷娅",
+            "skill": 1,
+            "skill_usage": 0
+        }
+    ],
+    "tool_men": {
+        "先锋": 1,
+        "近卫": 2,
+        "辅助": 7,
+        "重装": 2,
+        "术士": 3
+    },
+    "drops": [
+        "近卫",
+        "无需增调干员",
+        "辅助",
+        "重装",
+        "术士",
+        "医疗",
+        "狙击",
+        "战备激活阀",
+        "改派发讯器",
+        "反制导能组件"
+    ],
+    "blacklist": [
+        "罗比菈塔",
+        "掠风",
+        "白铁",
+        "史尔特尔",
+        "玛恩纳",
+        "龙舌兰",
+        "幽灵鲨",
+        "陈",
+        "耀骑士临光",
+        "斯卡蒂",
+        "赫拉格",
+        "宴",
+        "重岳",
+        "莫斯提马",
+        "远山",
+        "天火",
+        "炎熔",
+        "赤冬",
+        "炎狱炎熔",
+        "莱恩哈特",
+        "格雷伊",
+        "蚀清",
+        "梅尔",
+        "罗小黑",
+        "阿米娅"
+    ],
+    "stages": [
+        {
+            "stage_name": "蜂拥而上",
+            "strategies": [
+                {
+                    "core": "棘刺",
+                    "tool_men": {
+                        "近卫": 1
+                    },
+                    "location": [5, 2],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "先锋": 100
+                    },
+                    "location": [6, 2],
+                    "direction": "Down"
+                },
+                {
+                    "core": "泥岩",
+                    "tool_men": {
+                        "重装": 1
+                    },
+                    "location": [5, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "辅助": 100
+                    },
+                    "location": [5, 3],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                }
+            ],
+            "retry_times": 5
+        },
+        {
+            "stage_name": "见者有份",
+            "strategies": [
+                {
+                    "core": "棘刺",
+                    "tool_men": {
+                        "近卫": 2
+                    },
+                    "location": [4, 1],
+                    "direction": "Down"
+                },
+                {
+                    "core": "泥岩",
+                    "tool_men": {
+                        "重装": 2
+                    },
+                    "location": [4, 5],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "辅助": 100
+                    },
+                    "location": [5, 3],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                }
+            ],
+            "retry_times": 5
+        },
+        {
+            "stage_name": "产业升级",
+            "strategies": [
+                {
+                    "core": "煌",
+                    "tool_men": {
+                        "近卫": 3
+                    },
+                    "location": [5, 3],
+                    "direction": "Left"
+                },
+                {
+                    "core": "泥岩",
+                    "tool_men": {
+                        "重装": 3
+                    },
+                    "location": [4, 3],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "先锋": 100
+                    },
+                    "location": [6, 3],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "辅助": 100,
+                        "术士": 100
+                    },
+                    "location": [5, 4],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "部署",
+                    "name": "镀膜装置导能阀",
+                    "location": [4, 2],
+                    "direction": "Down"
+                },
+                {
+                    "type": "GetDrops",
+                    "kills": 14,
+                    "pre_delay": 2000
+                },
+                {
+                    "type": "GetDrops",
+                    "kills": 27,
+                    "pre_delay": 2000
+                }
+            ],
+            "retry_times": 5
+        },
+        {
+            "stage_name": "同流合污",
+            "strategies": [
+                {
+                    "core": "煌",
+                    "tool_men": {
+                        "近卫": 3
+                    },
+                    "location": [6, 1],
+                    "direction": "Left"
+                },
+                {
+                    "core": "泥岩",
+                    "tool_men": {
+                        "重装": 4
+                    },
+                    "location": [5, 1],
+                    "direction": "Left"
+                },
+                {
+                    "core": "塞雷娅",
+                    "tool_men": {
+                        "近卫": 3
+                    },
+                    "location": [7, 1],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "先锋": 100
+                    },
+                    "location": [8, 1],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "辅助": 100,
+                        "术士": 100
+                    },
+                    "location": [6, 2],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "部署",
+                    "name": "镀膜装置导能阀",
+                    "location": [5, 2],
+                    "direction": "Up"
+                },
+                {
+                    "type": "部署",
+                    "name": "战备激活阀",
+                    "location": [7, 2],
+                    "direction": "Up"
+                }
+            ],
+            "retry_times": 5
+        },
+        {
+            "stage_name": "酩酊之旅",
+            "strategies": [
+                {
+                    "core": "煌",
+                    "tool_men": {
+                        "近卫": 5
+                    },
+                    "location": [8, 1],
+                    "direction": "Down"
+                },
+                {
+                    "core": "泥岩",
+                    "tool_men": {
+                        "重装": 4
+                    },
+                    "location": [8, 4],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "先锋": 100
+                    },
+                    "location": [9, 5],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "辅助": 100
+                    },
+                    "location": [7, 2],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "术士": 100
+                    },
+                    "location": [9, 3],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "部署",
+                    "name": "镀膜装置导能阀",
+                    "location": [7, 4],
+                    "direction": "Right"
+                },
+                {
+                    "type": "部署",
+                    "name": "塞雷娅",
+                    "location": [8, 2],
+                    "direction": "Down"
+                },
+                {
+                    "type": "部署",
+                    "name": "战备激活阀",
+                    "location": [8, 5],
+                    "direction": "Up"
+                }
+            ],
+            "retry_times": 5
+        },
+        {
+            "stage_name": "一块肉排",
+            "strategies": [
+                {
+                    "core": "棘刺",
+                    "tool_men": {
+                        "近卫": 4,
+                        "先锋": 1
+                    },
+                    "location": [7, 4],
+                    "direction": "Left"
+                },
+                {
+                    "core": "泥岩",
+                    "tool_men": {
+                        "重装": 4
+                    },
+                    "location": [5, 4],
+                    "direction": "Up"
+                },
+                {
+                    "core": "塞雷娅",
+                    "tool_men": {
+                        "近卫": 3
+                    },
+                    "location": [7, 5],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "辅助": 100,
+                        "医疗": 100
+                    },
+                    "location": [8, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "术士": 100
+                    },
+                    "location": [8, 3],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "部署",
+                    "name": "镀膜装置导能阀",
+                    "location": [4, 4],
+                    "direction": "Right"
+                },
+                {
+                    "type": "部署",
+                    "name": "桃金娘",
+                    "location": [8, 5],
+                    "direction": "Left"
+                },
+                {
+                    "type": "部署",
+                    "name": "战备激活阀",
+                    "location": [6, 4],
+                    "direction": "Right"
+                },
+                {
+                    "type": "部署",
+                    "name": "战备激活阀",
+                    "location": [5, 3],
+                    "direction": "Down"
+                }
+            ],
+            "retry_times": 5
+        }
+    ]
+}

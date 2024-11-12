@@ -1,0 +1,729 @@
+{
+    "type": "SSS",
+    "stage_name": "阿尔斯特甜品制作平台",
+    "minimum_required": "v4.21.0",
+    "doc": {
+        "title": "保全阿尔斯特甜品制作平台-澄闪铃兰核v1.3（不兼容应急）",
+        "title_color": "dark",
+        "details": "原作者说了，总伤不够，应急模式打不了第六层。\n\n目前只能手动编队，请尽量选择练度高费用低的干员\n医疗必须选择抵抗奶或元素奶，先锋推荐挡二，重装推荐带个塞雷娅，狙击和术师可以带1~2个低星低费\n请在确认导能原件选择了第一个、战术装备全选A、手动编队并阵容确认后，再点击开始\n\n原作者：ドロシーです\n修改自：作业搬运工\n有问题群里找管理作业搬运工/碳烤沙虫腿\n\n温馨提示：保全有三个蚀刻章，获得条件分别是通过普通难度、一命通过普通难度、通过应急难度，使用本作业时建议只打通一次应急难度，刷材料使用普通难度。",
+        "details_color": "dark"
+    },
+    "buff": "能量扰动放大器",
+    "equipment": ["A", "A", "A", "A", "A", "A", "A", "A"],
+    "strategy": "优选策略",
+    "opers": [
+        {
+            "name": "澄闪",
+            "skill": 3,
+            "skill_usage": 1
+        },
+        {
+            "name": "铃兰",
+            "skill": 2,
+            "skill_usage": 0
+        }
+    ],
+    "tool_men": {
+        "vanguard": 3,
+        "defender": 3,
+        "sniper": 4,
+        "caster": 4,
+        "medic": 2,
+        "supporter": 2
+    },
+    "drops": ["无需增调干员", "辅助", "狙击", "术师", "战备激活阀", "信号阻断插件", "重装", "先锋", "医疗"],
+    "blacklist": [
+        "罗比菈塔",
+        "掠风",
+        "白铁",
+        "桃金娘",
+        "极境",
+        "琴柳",
+        "伺夜",
+        "豆苗",
+        "夜半",
+        "缪尔赛思",
+        "森蚺",
+        "极光",
+        "梅尔",
+        "U-Official",
+        "玛恩纳",
+        "龙舌兰",
+        "耀骑士临光",
+        "幽灵鲨",
+        "海蒂"
+    ],
+    "stages": [
+        {
+            "stage_name": "糖霜硬壳",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [6, 3],
+                    "direction": "Left"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 2,
+                        "caster": 3
+                    },
+                    "location": [4, 4],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "defender": 2
+                    },
+                    "location": [6, 3],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "medic": 2
+                    },
+                    "location": [5, 2],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 100,
+                        "sniper": 100,
+                        "caster": 100
+                    },
+                    "location": [3, 2],
+                    "direction": "Right"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "能量扰动放大器",
+                    "location": [4, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 15,
+                    "name": "超重绝缘水泥",
+                    "location": [1, 1],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 20,
+                    "name": "超重绝缘水泥",
+                    "location": [2, 1],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 25,
+                    "name": "超重绝缘水泥",
+                    "location": [3, 1],
+                    "direction": "None"
+                }
+            ],
+            "retry_times": 3
+        },
+        {
+            "stage_name": "甜美派对",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [8, 3],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "defender": 1
+                    },
+                    "location": [8, 3],
+                    "direction": "Left"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 2,
+                        "caster": 3
+                    },
+                    "location": [7, 4],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "defender": 5
+                    },
+                    "location": [8, 3],
+                    "direction": "Left"
+                },
+                {
+                    "core": "铃兰",
+                    "tool_men": {
+                        "sniper": 3
+                    },
+                    "location": [8, 2],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "medic": 5
+                    },
+                    "location": [7, 5],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 100,
+                        "sniper": 100,
+                        "caster": 100
+                    },
+                    "location": [8, 4],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "能量扰动放大器",
+                    "location": [7, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 15,
+                    "name": "超重绝缘水泥",
+                    "location": [2, 2],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 17,
+                    "name": "超重绝缘水泥",
+                    "location": [2, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 20,
+                    "name": "超重绝缘水泥",
+                    "location": [2, 4],
+                    "direction": "None"
+                }
+            ],
+            "retry_times": 3
+        },
+        {
+            "stage_name": "干酪封锁",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [6, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [6, 3],
+                    "direction": "Left"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 2,
+                        "caster": 3
+                    },
+                    "location": [5, 5],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "medic": 1
+                    },
+                    "location": [8, 4],
+                    "direction": "Left"
+                },
+                {
+                    "core": "铃兰",
+                    "tool_men": {
+                        "sniper": 2
+                    },
+                    "location": [6, 3],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "defender": 5
+                    },
+                    "location": [5, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "medic": 5
+                    },
+                    "location": [8, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 5
+                    },
+                    "location": [6, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 100
+                    },
+                    "location": [8, 4],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "能量扰动放大器",
+                    "location": [5, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 20,
+                    "name": "战备激活阀",
+                    "location": [4, 4],
+                    "direction": "Right"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [4, 1],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 24,
+                    "name": "超重绝缘水泥",
+                    "location": [4, 2],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 30,
+                    "name": "超重绝缘水泥",
+                    "location": [4, 3],
+                    "direction": "None"
+                }
+            ],
+            "retry_times": 3
+        },
+        {
+            "stage_name": "先进工艺",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [4, 3],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "defender": 1
+                    },
+                    "location": [4, 3],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "medic": 2
+                    },
+                    "location": [4, 2],
+                    "direction": "Down"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 2,
+                        "caster": 3
+                    },
+                    "location": [5, 2],
+                    "direction": "Down"
+                },
+                {
+                    "core": "铃兰",
+                    "tool_men": {
+                        "sniper": 3
+                    },
+                    "location": [3, 4],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "defender": 2
+                    },
+                    "location": [4, 3],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 100,
+                        "sniper": 100,
+                        "caster": 100
+                    },
+                    "location": [6, 2],
+                    "direction": "Down"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "能量扰动放大器",
+                    "location": [5, 4],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 15,
+                    "name": "战备激活阀",
+                    "location": [5, 3],
+                    "direction": "Left"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [2, 2],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 20,
+                    "name": "超重绝缘水泥",
+                    "location": [2, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 25,
+                    "name": "超重绝缘水泥",
+                    "location": [2, 4],
+                    "direction": "None"
+                }
+            ],
+            "retry_times": 3
+        },
+        {
+            "stage_name": "奶油四溅",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [2, 3],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [5, 3],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "medic": 1
+                    },
+                    "location": [1, 2],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "defender": 1
+                    },
+                    "location": [2, 3],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "defender": 1
+                    },
+                    "location": [1, 3],
+                    "direction": "Right"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 2,
+                        "caster": 2
+                    },
+                    "location": [5, 3],
+                    "direction": "Left"
+                },
+                {
+                    "core": "铃兰",
+                    "tool_men": {
+                        "sniper": 3
+                    },
+                    "location": [5, 2],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "defender": 1
+                    },
+                    "location": [2, 3],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "defender": 3
+                    },
+                    "location": [1, 3],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "medic": 5
+                    },
+                    "location": [1, 2],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 100,
+                        "sniper": 100,
+                        "caster": 100
+                    },
+                    "location": [3, 2],
+                    "direction": "Down"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "能量扰动放大器",
+                    "location": [4, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 15,
+                    "name": "战备激活阀",
+                    "location": [3, 3],
+                    "direction": "Left"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [7, 2],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 30,
+                    "name": "超重绝缘水泥",
+                    "location": [7, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 40,
+                    "name": "超重绝缘水泥",
+                    "location": [4, 2],
+                    "direction": "None"
+                }
+            ],
+            "retry_times": 3
+        },
+        {
+            "stage_name": "微笑必达",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [5, 2],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "defender": 1
+                    },
+                    "location": [5, 1],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [7, 2],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [9, 3],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "medic": 1
+                    },
+                    "location": [3, 2],
+                    "direction": "Right"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 2,
+                        "caster": 3
+                    },
+                    "location": [6, 2],
+                    "direction": "Down"
+                },
+                {
+                    "core": "铃兰",
+                    "tool_men": {
+                        "sniper": 2
+                    },
+                    "location": [7, 2],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "defender": 100
+                    },
+                    "location": [9, 3],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "medic": 2
+                    },
+                    "location": [7, 4],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "defender": 1
+                    },
+                    "location": [5, 1],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 10,
+                        "sniper": 5,
+                        "caster": 5
+                    },
+                    "location": [4, 2],
+                    "direction": "Right"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Retreat",
+                    "kills": 15,
+                    "location": [5, 2]
+                },
+                {
+                    "type": "Deploy",
+                    "name": "能量扰动放大器",
+                    "location": [6, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "战备激活阀",
+                    "location": [4, 1],
+                    "direction": "Right"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "“甜蜜狂搅”",
+                    "location": [6, 1],
+                    "direction": "Left"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 20,
+                    "name": "“甜蜜狂搅”",
+                    "location": [4, 1],
+                    "direction": "Right"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "“甜蜜狂搅”",
+                    "location": [5, 2],
+                    "direction": "Up"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 40,
+                    "name": "“甜蜜狂搅”",
+                    "location": [10, 3],
+                    "direction": "Left"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 41,
+                    "name": "“甜蜜狂搅”",
+                    "location": [6, 1],
+                    "direction": "Left"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 54,
+                    "name": "“甜蜜狂搅”",
+                    "location": [10, 3],
+                    "direction": "Left"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "“甜蜜狂搅”",
+                    "location": [5, 2],
+                    "direction": "Up"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "“甜蜜狂搅”",
+                    "location": [10, 3],
+                    "direction": "Left"
+                }
+            ],
+            "retry_times": 3
+        }
+    ]
+}

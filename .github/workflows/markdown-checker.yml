@@ -1,0 +1,62 @@
+name: Check Dead Links
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - "**/*.md"
+      - "docs/**"
+      - ".github/workflows/markdown-checker.yml"
+  pull_request:
+    branches:
+      - dev
+    paths:
+      - "**/*.md"
+      - "docs/**"
+      - ".github/workflows/markdown-checker.yml"
+  schedule:
+    - cron: "44 7 * * 2" # Every Tuesday at 7:44 AM UTC
+  workflow_dispatch:
+
+jobs:
+  check-links:
+    if: ${{ github.event.head_commit.author.email != '41898282+github-actions[bot]@users.noreply.github.com' }}
+    name: Check Dead Links
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+
+      - name: Cache lychee
+        uses: actions/cache@v4
+        with:
+          path: .lycheecache
+          key: cache-lychee-${{ github.sha }}
+          restore-keys: cache-lychee-
+
+      - name: Check dead links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # 仅检查内部链接和 Github 相关链接
+          args: >
+            --verbose --no-progress --cache --max-cache-age 1d 
+            --exclude 'https?://.*'
+            --include 'https?://github\.com/.*'
+            --include 'https?://raw\.githubusercontent\.com/.*'
+            --include 'https?://user-images\.githubusercontent\.com/.*'
+            --exclude-path 'docs/zh-tw/manual/introduction/introduction_old.md' 
+            --exclude-path 'docs/ja-jp/manual/introduction/introduction_old.md' 
+            -- './docs/**/*.md' './README.md'
+
+      - name: Comment (only for PR)
+        if: failure() && github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |
+            Dead links found in the documentation. Please fix them.
+            Details: https://github.com/MaaAssistantArknights/MaaAssistantArknights/actions/runs/${{ github.run_id }}

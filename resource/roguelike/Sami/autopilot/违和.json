@@ -1,0 +1,127 @@
+{
+    "stage_name": "违和",
+    "replacement_home": [
+        {
+            "location": [4, 3],
+            "direction": "right"
+        },
+        {
+            "location": [5, 3],
+            "direction": "right"
+        }
+    ],
+    "blacklist_location": [
+        [4, 1],
+        [8, 1],
+        [4, 2]
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["伊内丝"],
+            "location": [5, 2],
+            "direction": "right",
+            "condition": [0, 0]
+        },
+        {
+            "groups": ["回费"],
+            "location": [4, 3],
+            "direction": "right"
+        },
+        {
+            "groups": ["益达"],
+            "location": [7, 1],
+            "direction": "down"
+        },
+        {
+            "groups": ["提丰"],
+            "location": [3, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["焰苇", "凯尔希", "召唤", "速狙", "狙击", "单奶"],
+            "location": [6, 1],
+            "direction": "down"
+        },
+        {
+            "groups": ["重装", "地面阻挡"],
+            "location": [5, 3],
+            "direction": "right"
+        },
+        {
+            "groups": ["召唤", "辅助", "其他高台", "速狙", "单奶", "术师"],
+            "location": [9, 1],
+            "direction": "down"
+        },
+        {
+            "groups": ["高台输出", "盾法", "其他高台"],
+            "location": [5, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["地面阻挡", "处决者", "其他地面"],
+            "location": [5, 3],
+            "direction": "right"
+        },
+        {
+            "groups": ["地面阻挡", "处决者", "其他高台"],
+            "location": [6, 3],
+            "direction": "right"
+        },
+        {
+            "groups": ["地刺"],
+            "location": [7, 3],
+            "direction": "right"
+        },
+        {
+            "groups": ["玛恩纳", "处决者"],
+            "location": [3, 5],
+            "direction": "left"
+        },
+        {
+            "groups": ["高台输出", "狙击", "辅助", "盾法", "奶", "其他高台"],
+            "location": [4, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["狙击", "高台输出", "辅助", "其他高台"],
+            "location": [2, 4],
+            "direction": "down"
+        },
+        {
+            "groups": ["重装", "地面远程", "处决者", "其他地面", "障碍物"],
+            "location": [6, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["领主"],
+            "location": [6, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["辅助", "高台输出", "其他高台"],
+            "location": [5, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["高台输出", "辅助", "其他高台"],
+            "location": [7, 5],
+            "direction": "right"
+        },
+        {
+            "groups": ["补给站"],
+            "location": [5, 1],
+            "direction": "right"
+        },
+        {
+            "groups": ["支援陷阱", "无人机"],
+            "location": [6, 4],
+            "direction": "right"
+        }
+    ],
+    "retreat_plan": [
+        {
+            "location": [3, 6],
+            "condition": [5, 2]
+        }
+    ]
+}

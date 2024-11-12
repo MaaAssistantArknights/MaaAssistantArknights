@@ -1,0 +1,104 @@
+{
+    "stage_name": "隔岸观火",
+    "replacement_home": [
+        {
+            "location": [9, 2],
+            "direction": "left"
+        },
+        {
+            "location": [7, 2],
+            "direction": "left"
+        },
+        {
+            "location": [4, 5],
+            "direction": "left"
+        }
+    ],
+    "blacklist_location": [
+        [1, 4],
+        [2, 4],
+        [3, 4],
+        [1, 6]
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["棘刺", "地面阻挡", "情报官", "回费", "炮灰", "银灰"],
+            "location": [6, 5],
+            "direction": "right"
+        },
+        {
+            "groups": ["回费", "情报官"],
+            "location": [6, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["浊心斯卡蒂"],
+            "location": [7, 3],
+            "direction": "up"
+        },
+        {
+            "groups": ["凯尔希", "奶"],
+            "location": [7, 1],
+            "direction": "down"
+        },
+        {
+            "groups": ["地面阻挡", "情报官", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
+            "location": [8, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["高台C", "高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [7, 4],
+            "direction": "up"
+        },
+        {
+            "groups": ["银灰"],
+            "location": [2, 6],
+            "direction": "up"
+        },
+        {
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [4, 5],
+            "direction": "left"
+        },
+        {
+            "groups": ["斯卡蒂的海嗣"],
+            "location": [3, 6],
+            "direction": "left"
+        },
+        {
+            "groups": ["史尔特尔", "地面单切", "情报官", "炮灰", "地面阻挡"],
+            "location": [1, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["史尔特尔", "地面单切", "情报官", "炮灰", "地面阻挡"],
+            "location": [1, 6],
+            "direction": "right"
+        },
+        {
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [8, 1],
+            "direction": "down"
+        },
+        {
+            "groups": ["斯卡蒂的海嗣"],
+            "location": [3, 6]
+        },
+        {
+            "groups": ["凯尔希", "奶"],
+            "location": [7, 3],
+            "direction": "right"
+        }
+    ],
+    "retreat_plan": [
+        {
+            "location": [6, 4],
+            "condition": [6, 8]
+        },
+        {
+            "location": [2, 6],
+            "condition": [15, 18]
+        }
+    ]
+}

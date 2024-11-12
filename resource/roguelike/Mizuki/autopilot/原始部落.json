@@ -1,0 +1,91 @@
+{
+    "stage_name": "原始部落",
+    "replacement_home": [
+        {
+            "location": [7, 1],
+            "direction": "down"
+        },
+        {
+            "location": [7, 5],
+            "direction": "up"
+        },
+        {
+            "location": [8, 2],
+            "direction": "left"
+        },
+        {
+            "location": [8, 3],
+            "direction": "left"
+        },
+        {
+            "location": [8, 4],
+            "direction": "left"
+        }
+    ],
+    "force_deploy_direction": [
+        {
+            "location": [8, 2],
+            "role": ["sniper", "caster"],
+            "direction": "left"
+        },
+        {
+            "location": [8, 3],
+            "role": ["sniper", "caster"],
+            "direction": "left"
+        },
+        {
+            "location": [8, 4],
+            "role": ["sniper", "caster"],
+            "direction": "left"
+        }
+    ],
+    "blacklist_location": [
+        [3, 3],
+        [3, 4],
+        [4, 3],
+        [4, 4]
+    ],
+    "role_order": ["warrior", "pioneer", "sniper", "caster", "medic", "tank", "support", "special", "drone"],
+    "deploy_plan": [
+        {
+            "groups": ["百嘉", "基石", "地面C", "号角", "挡人先锋", "重装", "其他地面", "异德", "刺客"],
+            "location": [7, 1],
+            "direction": "down"
+        },
+        {
+            "groups": ["召唤", "高台C", "控制", "狙击", "术师", "辅助"],
+            "location": [8, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["单奶", "群奶"],
+            "location": [8, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["号角", "投锋"],
+            "location": [8, 1],
+            "direction": "left"
+        },
+        {
+            "groups": ["地刺", "玛恩纳"],
+            "location": [6, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["基石", "挡人先锋", "地面C", "异德", "刺客", "重装", "其他地面"],
+            "location": [7, 5],
+            "direction": "up"
+        },
+        {
+            "groups": ["异德", "刺客"],
+            "location": [2, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["召唤", "高台C", "控制", "术师", "狙击", "辅助", "其他高台", "单奶", "群奶"],
+            "location": [8, 4],
+            "direction": "left"
+        }
+    ]
+}

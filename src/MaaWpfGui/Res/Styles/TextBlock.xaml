@@ -1,0 +1,9 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls">
+
+    <!--  A Style that affects all TextBlocks  -->
+    <Style BasedOn="{StaticResource TextBlockDefault}" TargetType="controls:TextBlock" />
+
+</ResourceDictionary>

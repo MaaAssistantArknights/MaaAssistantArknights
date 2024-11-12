@@ -1,0 +1,137 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Project -->
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows10.0.17763.0</TargetFramework>
+    <RuntimeIdentifier Condition="$(Platform)=='x64'">win-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="$(Platform)=='ARM64'">win-arm64</RuntimeIdentifier>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>MaaWpfGui.App</StartupObject>
+    <LangVersion>12</LangVersion>
+    <UseWpf>true</UseWpf>
+    <Configurations>Debug;Release;RelWithDebInfo</Configurations>
+    <Platforms>ARM64;x64</Platforms>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <XamlDebuggingInformation>True</XamlDebuggingInformation>
+  </PropertyGroup>
+
+  <!-- Build and Publish -->
+  <PropertyGroup>
+    <OutputPath>..\..\$(Platform)\$(Configuration)\</OutputPath>
+    <PublishReadyToRun>false</PublishReadyToRun>
+    <PublishSingleFile>true</PublishSingleFile>
+    <PublishTrimmed>false</PublishTrimmed>
+    <SelfContained>false</SelfContained>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <!-- Version -->
+  <PropertyGroup>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>5.0.0.0</ApplicationVersion>
+    <Version>0.0.1</Version>
+    <FileVersion>0.0.1</FileVersion>
+    <AssemblyVersion>0.0.1</AssemblyVersion>
+    <InformationalVersion>0.0.1</InformationalVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="MaaWpfGui.Properties.BuildDateTime">
+      <_Parameter1>$([System.DateTime]::UtcNow.ToString("O"))</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <!-- Info -->
+  <PropertyGroup>
+    <ApplicationIcon>newlogo.ico</ApplicationIcon>
+    <RootNamespace>MaaWpfGui</RootNamespace>
+    <AssemblyName>MAA</AssemblyName>
+    <ProductName>MAA</ProductName>
+    <PublisherName>MistEO</PublisherName>
+    <SuiteName>MAA</SuiteName>
+    <PackageProjectUrl>https://maa.plus/</PackageProjectUrl>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Authors>MAA Team</Authors>
+    <PackageLicenseUrl>https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/LICENSE</PackageLicenseUrl>
+    <Copyright>Copyright (c) 2021-2024 MAA Team</Copyright>
+    <Description>https://maa.plus/docs/</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/MaaAssistantArknights/MaaAssistantArknights</RepositoryUrl>
+    <SupportUrl>https://github.com/MaaAssistantArknights/MaaAssistantArknights</SupportUrl>
+    <ErrorReportUrl>https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues</ErrorReportUrl>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+  <!-- Ignore Warings -->
+  <PropertyGroup>
+    <NoWarn>SA1121;SA1404;Uno0001</NoWarn>
+  </PropertyGroup>
+
+  <!-- Resource -->
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
+    <Resource Include="newlogo.ico" />
+    <Resource Include="Res\Backgrounds\Congratulations.png" />
+    <None Include="..\..\README.md" Pack="True" PackagePath="/" />
+  </ItemGroup>
+
+  <!-- StyleCop -->
+  <ItemGroup>
+    <Page Include="Properties\DesignTimeResources.xaml" Condition="'$(DesignTime)'=='true' OR ('$(SolutionPath)'!='' AND Exists('$(SolutionPath)') AND '$(BuildingInsideVisualStudio)'!='true' AND '$(BuildingInsideExpressionBlend)'!='true')">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <ContainsDesignTimeResources>true</ContainsDesignTimeResources>
+    </Page>
+  </ItemGroup>
+
+  <!-- Nuget Packages -->
+  <ItemGroup>
+    <PackageReference Include="CalcBinding" Version="2.5.2" />
+    <PackageReference Include="FluentEmail.Liquid" Version="3.0.2" />
+    <PackageReference Include="FluentEmail.MailKit" Version="3.0.2" />
+    <PackageReference Include="Fody" Version="6.8.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="GlobalHotKey" Version="1.1.0">
+      <NoWarn>NU1701</NoWarn>
+    </PackageReference>
+    <PackageReference Include="gong-wpf-dragdrop" Version="3.2.1" />
+    <PackageReference Include="HandyControls" Version="3.5.2" />
+    <PackageReference Include="MdXaml" Version="1.22.0" />
+    <PackageReference Include="MdXaml.Html" Version="1.22.0" />
+    <PackageReference Include="MdXaml.Plugins" Version="1.22.0" />
+    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3" />
+    <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.106">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Notification.Wpf" Version="7.0.0.2" />
+    <PackageReference Include="ObservableCollections" Version="1.1.3" />
+    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
+    <PackageReference Include="Semver" Version="2.3.0" />
+    <PackageReference Include="Serilog" Version="3.1.1" />
+    <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
+    <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Stylet" Version="1.3.6" />
+    <PackageReference Include="System.Management" Version="8.0.0" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
+  </ItemGroup>
+
+</Project>

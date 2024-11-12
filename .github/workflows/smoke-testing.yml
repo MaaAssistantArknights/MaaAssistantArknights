@@ -1,0 +1,83 @@
+name: test
+
+on:
+  push:
+    paths:
+      - "3rdparty/include/**"
+      - "include/**"
+      - "src/**"
+      - "cmake/**"
+      - "CMakeLists.txt"
+      - "MAA.sln"
+      - "resource/**"
+      - "MaaDeps/**"
+      - "!**/*.md"
+  pull_request:
+    paths:
+      - "3rdparty/include/**"
+      - "include/**"
+      - "src/**"
+      - "cmake/**"
+      - "CMakeLists.txt"
+      - "MAA.sln"
+      - "resource/**"
+      - "MaaDeps/**"
+      - "!**/*.md"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  smoke-testing:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+          submodules: recursive
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Bootstrap MaaDeps
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 maadeps-download.py x64-windows
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build MaaSample
+        run: |
+          MSBUILD src/Cpp/MaaSample.slnf /t:rebuild /p:Configuration="Debug" /p:Platform="x64" /m
+
+      - name: Run tests - Official #用来判断是不是国服资源出错导致外服全炸
+        run: |
+          .\x64\Debug\Sample.exe
+
+      - name: Run tests - YostarJP
+        run: |
+          .\x64\Debug\Sample.exe YostarJP
+
+      - name: Run tests - YostarEN
+        run: |
+          .\x64\Debug\Sample.exe YostarEN
+
+      - name: Run tests - YostarKR
+        run: |
+          .\x64\Debug\Sample.exe YostarKR
+
+      - name: Run tests - txwy
+        run: |
+          .\x64\Debug\Sample.exe txwy
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: log
+          path: .\x64\Debug\debug

@@ -1,0 +1,118 @@
+<UserControl
+    x:Class="MaaWpfGui.Views.UserControl.ReclamationSettingsUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
+    xmlns:vm="clr-namespace:MaaWpfGui"
+    d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
+    d:DesignWidth="220"
+    mc:Ignorable="d">
+    <StackPanel>
+        <StackPanel Visibility="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}">
+            <ComboBox
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource ReclamationTheme}"
+                IsHitTestVisible="{Binding Idle}"
+                ItemsSource="{Binding ReclamationThemeList}"
+                SelectedValue="{Binding ReclamationTheme}"
+                SelectedValuePath="Value"
+                Style="{StaticResource ComboBoxExtend}" />
+            <ComboBox
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource Strategy}"
+                IsHitTestVisible="{Binding Idle}"
+                ItemsSource="{Binding ReclamationModeList}"
+                SelectedValue="{Binding ReclamationMode}"
+                SelectedValuePath="Value"
+                Style="{StaticResource ComboBoxExtend}" />
+            <controls:TextBlock
+                Margin="5,10,5,10"
+                Style="{StaticResource TextBlockDefault}"
+                Text="{DynamicResource ReclamationEarlyTip}"
+                TextWrapping="Wrap" />
+        </StackPanel>
+
+        <StackPanel Visibility="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}">
+            <TextBox
+                Margin="0,10"
+                VerticalContentAlignment="Center"
+                hc:InfoElement.Placeholder="{DynamicResource ReclamationToolToCraftPlaceholder}"
+                hc:InfoElement.Title="{DynamicResource ReclamationToolToCraftTip}"
+                IsEnabled="{c:Binding 'ReclamationMode == &quot;1&quot;'}"
+                Style="{StaticResource TextBoxExtend}"
+                Text="{Binding ReclamationToolToCraft}" />
+            <ComboBox
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource ReclamationIncrementMode}"
+                IsEnabled="{c:Binding 'ReclamationMode == &quot;1&quot;'}"
+                IsHitTestVisible="{Binding Idle}"
+                ItemsSource="{Binding ReclamationIncrementModeList}"
+                SelectedValue="{Binding ReclamationIncrementMode}"
+                SelectedValuePath="Value"
+                Style="{StaticResource ComboBoxExtend}" />
+            <hc:NumericUpDown
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource ReclamationMaxCraftCountPerRound}"
+                IsEnabled="{c:Binding 'ReclamationMode == &quot;1&quot;'}"
+                Minimum="0"
+                Style="{StaticResource NumericUpDownExtend}"
+                Value="{Binding ReclamationMaxCraftCountPerRound}" />
+            <!--<controls:TextBlock
+                Margin="5,50,5,10"
+                FontSize="40"
+                Style="{StaticResource TextBlockDefaultBold}"
+                Text="{DynamicResource ReclamationBePatient}"
+                HorizontalAlignment="Center"
+                TextWrapping="Wrap">
+                <controls:TextBlock.Foreground>
+                    <LinearGradientBrush SpreadMethod="Repeat">
+                        <LinearGradientBrush.Transform>
+                            <TranslateTransform x:Name="LinearGradientBrushTranslate" />
+                        </LinearGradientBrush.Transform>
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStop Offset="0.00" Color="Red" />
+                            <GradientStop Offset="0.17" Color="Orange" />
+                            <GradientStop Offset="0.33" Color="Yellow" />
+                            <GradientStop Offset="0.50" Color="Green" />
+                            <GradientStop Offset="0.67" Color="Blue" />
+                            <GradientStop Offset="0.83" Color="Indigo" />
+                            <GradientStop Offset="1.00" Color="Violet" />
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </controls:TextBlock.Foreground>
+                <controls:TextBlock.Triggers>
+                    <EventTrigger RoutedEvent="TextBlock.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    RepeatBehavior="Forever"
+                                    Storyboard.TargetName="LinearGradientBrushTranslate"
+                                    Storyboard.TargetProperty="X"
+                                    From="0"
+                                    To="410"
+                                    Duration="0:0:2" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </controls:TextBlock.Triggers>
+                <controls:TextBlock.Effect>
+                    <DropShadowEffect
+                        BlurRadius="8"
+                        Direction="90"
+                        Opacity="0.6"
+                        ShadowDepth="5"
+                        Color="Black" />
+                </controls:TextBlock.Effect>
+            </controls:TextBlock>-->
+        </StackPanel>
+    </StackPanel>
+</UserControl>

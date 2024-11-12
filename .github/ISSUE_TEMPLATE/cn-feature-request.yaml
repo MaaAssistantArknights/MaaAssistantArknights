@@ -1,0 +1,36 @@
+name: 需求建议（使用中文）
+description: 新功能、建议等
+labels: ["enhancement"]
+body:
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: 在提问之前...
+      options:
+        - label: 我填写了简短且清晰明确的标题，以便开发者在翻阅 Issue 列表时能快速确定大致问题。而不是“一个建议”、“卡住了”等
+          required: true
+        - label: 我基本确定这是一个新功能/建议，而不是遇到了 Bug（不确定的话请附上日志）
+          required: true
+        - label: 我使用的是当前更新版本的最新版，且已查看版本发布至今和 Pull Requests 中尚未发布的更新内容，确认我的建议未被提及
+          required: true
+        - label: 我已检查了置顶议题（Pinned Issue）（公告）、活跃议题（Open Issue）、已关闭议题（Closed Issue），确认我的建议未被提及
+          required: true
+  - type: textarea
+    id: describe
+    attributes:
+      label: 说说你遇到的问题？
+    validations:
+      required: false
+  - type: textarea
+    id: solution
+    attributes:
+      label: 有什么好的想法？
+    validations:
+      required: false
+  - type: textarea
+    id: additional
+    attributes:
+      label: 其他内容
+      description: 关于该需求建议的任何其他背景或屏幕截图。
+    validations:
+      required: false

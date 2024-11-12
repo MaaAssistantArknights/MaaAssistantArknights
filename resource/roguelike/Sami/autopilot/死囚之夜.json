@@ -1,0 +1,56 @@
+{
+    "stage_name": "死囚之夜",
+    "replacement_home": [
+        {
+            "location": [4, 3],
+            "direction": "down"
+        }
+    ],
+    "blacklist_location": [
+        [3, 1],
+        [2, 2],
+        [5, 1]
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["狙击"],
+            "location": [4, 1],
+            "direction": "down"
+        },
+        {
+            "groups": ["焰苇", "凯尔希", "水陈", "召唤"],
+            "location": [3, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["召唤", "高台输出", "盾法", "辅助"],
+            "location": [3, 3],
+            "direction": "down"
+        },
+        {
+            "groups": ["地面阻挡", "处决者"],
+            "location": [3, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["地面远程"],
+            "location": [4, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["地面阻挡", "处决者"],
+            "location": [4, 5],
+            "direction": "up"
+        },
+        {
+            "groups": ["地面阻挡", "处决者"],
+            "location": [3, 5],
+            "direction": "up"
+        },
+        {
+            "groups": ["奶", "高台输出", "辅助"],
+            "location": [3, 2],
+            "direction": "down"
+        }
+    ]
+}

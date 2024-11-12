@@ -1,0 +1,30 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--  Custom Brush  -->
+    <SolidColorBrush x:Key="PallasBrush" Color="#6969AA" />
+    <SolidColorBrush x:Key="ErrorViewBackgroundBrush" Color="#E6E6E6" />
+    <SolidColorBrush x:Key="VersionUpdateViewBackgroundBrush" Color="#ffffff" />
+
+    <!--  HandyControl Brush  -->
+    <SolidColorBrush x:Key="SecondaryRegionBrush" Color="#F3F3F3" />
+
+    <!--  MdXaml Brush  -->
+    <SolidColorBrush x:Key="MdXamlBackground" Color="#ffffff" />
+    <SolidColorBrush x:Key="MdXamlCodeBackground" Color="#f6f8fa" />
+    <SolidColorBrush x:Key="MdXamlForeground" Color="#212121" />
+    <SolidColorBrush x:Key="MdXamlHyperlink" Color="#326cf3" />
+    <SolidColorBrush x:Key="MdXamlHyperlinkClicked" Color="#ff0000" />
+
+
+    <!--  UiLogColor  -->
+    <SolidColorBrush x:Key="ErrorLogBrush" Color="DarkRed" />
+    <SolidColorBrush x:Key="WarningLogBrush" Color="DarkGoldenrod" />
+    <SolidColorBrush x:Key="InfoLogBrush" Color="DarkCyan" />
+    <SolidColorBrush x:Key="TraceLogBrush" Color="Gray" />
+    <SolidColorBrush x:Key="MessageLogBrush" Color="Black" />
+    <SolidColorBrush x:Key="RareOperatorLogBrush" Color="DarkOrange" />
+    <SolidColorBrush x:Key="RobotOperatorLogBrush" Color="DarkGray" />
+    <SolidColorBrush x:Key="DownloadLogBrush" Color="BlueViolet" />
+    <SolidColorBrush x:Key="MuMuSpecialScreenshot" Color="#02BFFF" />
+    <SolidColorBrush x:Key="LdSpecialScreenshot" Color="#6666FF" />
+</ResourceDictionary>

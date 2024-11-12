@@ -1,0 +1,10 @@
+name: 其他议题（使用中文）
+description: 提出问题，而不是 Bug 反馈或需求建议
+labels: ["question"]
+body:
+  - type: textarea
+    id: describe
+    attributes:
+      label: 说说你遇到的问题？
+    validations:
+      required: false

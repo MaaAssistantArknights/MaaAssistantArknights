@@ -1,0 +1,23 @@
+{
+    "config": [
+        "release_x64"
+    ],
+    "dependence": {
+        "filesystem": {
+            "path": "pkg",
+            "remote": "https://git.cinogama.net/cinogamaproject/woolangpackages",
+            "version": "1.0.0"
+        },
+        "woffi": {
+            "path": "pkg",
+            "remote": "https://git.cinogama.net/cinogamaproject/woolangpackages",
+            "version": "1.0.0"
+        }
+    },
+    "name": "maa",
+    "version": "1.0.0",
+    "woolang": {
+        "remote": "https://git.cinogama.net/cinogamaproject",
+        "version": "1.0.0"
+    }
+}

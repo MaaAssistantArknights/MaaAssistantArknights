@@ -1,0 +1,92 @@
+{
+    "stage_name": "杂音干扰",
+    "replacement_home": [
+        {
+            "location": [8, 1],
+            "direction": "down"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["投锋", "挡人先锋"],
+            "location": [8, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["伊内丝"],
+            "location": [6, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["焰苇"],
+            "location": [6, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["益达"],
+            "location": [5, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["凯尔希", "浊心斯卡蒂"],
+            "location": [7, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["奶"],
+            "location": [7, 4],
+            "direction": "up"
+        },
+        {
+            "groups": ["地面远程", "地面阻挡", "其他地面"],
+            "location": [6, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["玛恩纳", "地刺", "处决者"],
+            "location": [5, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["地面远程", "地面阻挡", "其他地面"],
+            "location": [5, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["高台输出", "辅助", "其他高台"],
+            "location": [6, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["高台输出", "狙击", "辅助", "其他高台"],
+            "location": [6, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["盾法"],
+            "location": [5, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["补给站"],
+            "location": [6, 1],
+            "direction": "down"
+        },
+        {
+            "groups": ["无人机"],
+            "location": [8, 3],
+            "direction": "down"
+        },
+        {
+            "groups": ["支援陷阱"],
+            "location": [4, 3],
+            "direction": "down",
+            "condition": [18, 30]
+        },
+        {
+            "groups": ["地面阻挡", "其他地面"],
+            "location": [8, 4],
+            "direction": "down"
+        }
+    ]
+}

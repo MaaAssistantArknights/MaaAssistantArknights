@@ -1,0 +1,425 @@
+<UserControl
+    x:Class="MaaWpfGui.Views.UI.CopilotView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:constants="clr-namespace:MaaWpfGui.Constants"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
+    xmlns:local="clr-namespace:MaaWpfGui"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
+    xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
+    xmlns:vm="clr-namespace:MaaWpfGui"
+    d:DataContext="{d:DesignInstance {x:Type ui:CopilotViewModel}}"
+    d:DesignHeight="550"
+    d:DesignWidth="800"
+    AllowDrop="True"
+    Drop="{s:Action DropFile}"
+    KeyDown="{s:Action KeyDown}"
+    MouseDown="{s:Action MouseDown}"
+    mc:Ignorable="d">
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid Margin="0,20,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel
+                Grid.Row="0"
+                HorizontalAlignment="Center"
+                Orientation="Vertical">
+                <controls:TextBlock
+                    Margin="10,0"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource CopilotLocation}" />
+                <Grid Width="300" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ComboBox
+                        Height="30"
+                        hc:BorderElement.CornerRadius="4,0,0,4"
+                        DropDownOpened="{s:Action OnDropDownOpened}"
+                        IsEditable="True"
+                        IsReadOnly="{c:Binding Path=!Idle}"
+                        Text="{Binding Filename}" />
+                    <Button
+                        Grid.Column="1"
+                        Height="30"
+                        MinWidth="30"
+                        hc:BorderElement.CornerRadius="0"
+                        hc:IconElement.Geometry="{StaticResource FolderOpen20Regular}"
+                        BorderThickness="0,1,1,1"
+                        Command="{s:Action SelectFile}"
+                        IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}"
+                        ToolTip="{DynamicResource SelectTheFileTip}" />
+                    <Button
+                        Grid.Column="2"
+                        Height="30"
+                        MinWidth="30"
+                        hc:BorderElement.CornerRadius="0,4,4,0"
+                        hc:IconElement.Geometry="{StaticResource ClipboardLink20Regular}"
+                        BorderThickness="0,1,1,1"
+                        Command="{s:Action PasteClipboard}"
+                        IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}"
+                        MouseRightButtonUp="{s:Action PasteClipboardCopilotSet}"
+                        ToolTip="{DynamicResource PasteClipboardTip}" />
+                </Grid>
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                Orientation="Vertical">
+                <StackPanel
+                    Height="30"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+                    <CheckBox
+                        Margin="0,0,20,0"
+                        HorizontalAlignment="Center"
+                        Content="{DynamicResource AutoSquad}"
+                        IsChecked="{Binding Form}"
+                        IsEnabled="{Binding Idle}"
+                        ToolTip="{DynamicResource AutoSquadTip}" />
+                    <CheckBox
+                        HorizontalAlignment="Center"
+                        Content="{DynamicResource UseCopilotList}"
+                        IsChecked="{Binding UseCopilotList}"
+                        IsEnabled="{Binding Idle}"
+                        ToolTip="{DynamicResource UseCopilotListTip}" />
+                </StackPanel>
+                <StackPanel
+                    Height="30"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Visibility="{c:Binding Form}">
+                    <CheckBox
+                        Margin="0,0,10,0"
+                        Content="{DynamicResource AddUserAdditional}"
+                        IsChecked="{Binding AddUserAdditional}"
+                        IsEnabled="{Binding Idle}"
+                        ToolTip="{DynamicResource AddUserAdditionalTip}" />
+                    <TextBox
+                        MinWidth="140"
+                        MaxWidth="200"
+                        VerticalContentAlignment="Center"
+                        IsEnabled="{c:Binding '(Form) and (Idle)'}"
+                        IsHitTestVisible="{Binding AddUserAdditional}"
+                        MaxLines="1"
+                        Text="{Binding UserAdditional, UpdateSourceTrigger=LostFocus}"
+                        ToolTip="{DynamicResource AddUserAdditionalTip}"
+                        Visibility="{c:Binding AddUserAdditional}" />
+                </StackPanel>
+
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    IsEnabled="{Binding Idle}"
+                    Orientation="Horizontal">
+
+                    <CheckBox
+                        Height="30"
+                        Margin="10,0"
+                        HorizontalAlignment="Center"
+                        Content="{DynamicResource AddTrust}"
+                        IsChecked="{Binding AddTrust}"
+                        IsEnabled="{Binding Idle}"
+                        Visibility="{c:Binding Form}" />
+                    <CheckBox
+                        Height="30"
+                        Margin="10,0"
+                        HorizontalAlignment="Center"
+                        Content="{DynamicResource UseSanityPotion}"
+                        IsChecked="{Binding UseSanityPotion}"
+                        IsEnabled="{Binding Idle}"
+                        Visibility="{c:Binding UseCopilotList}" />
+                </StackPanel>
+                <StackPanel
+                    Height="30"
+                    Margin="0,7"
+                    HorizontalAlignment="Center"
+                    IsEnabled="{Binding Idle}"
+                    Orientation="Horizontal"
+                    Visibility="{c:Binding !UseCopilotList}">
+                    <CheckBox
+                        Margin="0,0,20,0"
+                        VerticalContentAlignment="Center"
+                        Content="{DynamicResource LoopTimes}"
+                        IsChecked="{Binding Loop}" />
+                    <hc:NumericUpDown
+                        Height="30"
+                        MinWidth="70"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        InputMethod.IsInputMethodEnabled="False"
+                        Maximum="9999"
+                        Minimum="0"
+                        Value="{Binding LoopTimes}" />
+                </StackPanel>
+            </StackPanel>
+
+            <Grid
+                Grid.Row="2"
+                Width="200"
+                Margin="0,7,0,0"
+                Visibility="{c:Binding UseCopilotList}">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ListBox
+                    x:Name="CopilotList"
+                    Grid.Row="0"
+                    Grid.ColumnSpan="4"
+                    HorizontalContentAlignment="Stretch"
+                    dd:DragDrop.IsDragSource="{Binding Idle}"
+                    dd:DragDrop.IsDropTarget="{Binding Idle}"
+                    hc:BorderElement.CornerRadius="4,4,0,0"
+                    properties:AutoScroll.AutoScroll="True"
+                    BorderThickness="1,1,1,0"
+                    DragDrop.Drop="{s:Action CopilotItemIndexChanged}"
+                    IsEnabled="{c:Binding StartEnabled}"
+                    ItemContainerStyle="{StaticResource CustomListBoxItemStyle}"
+                    ItemsSource="{Binding Path=CopilotItemViewModels}"
+                    ToolTip="{DynamicResource LabelSequenceTip}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <CheckBox
+                                    Grid.Column="0"
+                                    Content="{c:Binding Name}"
+                                    IsChecked="{Binding IsChecked}"
+                                    IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
+                                    IsHitTestVisible="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
+                                    ToolTip="{c:Binding CopilotId}" />
+                                <controls:TextBlock
+                                    Grid.Column="1"
+                                    MinWidth="35"
+                                    VerticalAlignment="Center"
+                                    Text="{DynamicResource CopilotTaskRaidStage}"
+                                    Visibility="{c:Binding IsRaid}" />
+                                <Button
+                                    Grid.Column="2"
+                                    Margin="0"
+                                    Padding="5,6,5,6"
+                                    hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
+                                    hc:VisualElement.HighlightBackground="Transparent"
+                                    hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Command="{s:Action SelectCopilotTask}"
+                                    CommandParameter="{c:Binding Index}"
+                                    Foreground="{DynamicResource SecondaryTextBrush}"
+                                    IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}" />
+                                <Button
+                                    Grid.Column="3"
+                                    Margin="0"
+                                    Padding="5,0,10,0"
+                                    hc:IconElement.Geometry="{StaticResource CloseGeometry}"
+                                    hc:VisualElement.HighlightBackground="Transparent"
+                                    hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Command="{s:Action DeleteCopilotTask}"
+                                    CommandParameter="{c:Binding Index}"
+                                    IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <hc:TextBox
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Height="30"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    hc:BorderElement.CornerRadius="0"
+                    hc:InfoElement.Placeholder="{DynamicResource CopilotTaskName}"
+                    IsEnabled="{Binding Idle}"
+                    MaxLines="1"
+                    Text="{Binding CopilotTaskName, UpdateSourceTrigger=LostFocus}"
+                    ToolTip="{DynamicResource CopilotTaskNameTip}" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Height="30"
+                    MinWidth="30"
+                    hc:BorderElement.CornerRadius="0,0,0,4"
+                    hc:IconElement.Geometry="{StaticResource FolderAdd20Regular}"
+                    BorderThickness="1,1,0,1"
+                    Command="{s:Action ImportFiles}"
+                    IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}"
+                    ToolTip="{DynamicResource ImportFilesTip}" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    Height="30"
+                    MinWidth="30"
+                    hc:BorderElement.CornerRadius="0,0,4,0"
+                    hc:IconElement.Geometry="{StaticResource DismissSquareMultiple20Regular}"
+                    BorderThickness="1"
+                    Command="{s:Action ClearCopilotTask}"
+                    Foreground="{DynamicResource DangerBrush}"
+                    IsEnabled="{c:Binding Idle}"
+                    MouseRightButtonUp="{s:Action CleanUnableCopilotTask}"
+                    ToolTip="{DynamicResource CopilotClearTask}" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Height="30"
+                    MinWidth="30"
+                    hc:BorderElement.CornerRadius="0"
+                    hc:IconElement.Geometry="{StaticResource Add20Regular}"
+                    BorderThickness="0,1"
+                    Command="{s:Action AddCopilotTask}"
+                    IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}"
+                    MouseRightButtonUp="{s:Action AddCopilotTask_Adverse}"
+                    ToolTip="{DynamicResource CopilotAddTask}" />
+            </Grid>
+
+            <Grid
+                Grid.Row="{c:Binding 'UseCopilotList ? 3:2'}"
+                Margin="0,10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                d:Grid.Row="3">
+                <Button
+                    Width="120"
+                    Height="50"
+                    Command="{s:Action Start}"
+                    Content="{DynamicResource Start}"
+                    IsEnabled="{c:Binding StartEnabled}"
+                    Visibility="{c:Binding Idle}" />
+                <Button
+                    Width="120"
+                    Height="50"
+                    Command="{s:Action Stop}"
+                    Content="{DynamicResource Stop}"
+                    Visibility="{c:Binding !Idle}" />
+            </Grid>
+
+            <controls:TextBlock
+                Grid.Row="4"
+                Margin="0,10,0,0"
+                Block.TextAlignment="Center">
+                <Hyperlink
+                    Cursor="Hand"
+                    NavigateUri="{Binding CopilotUrl}"
+                    TextDecorations="None">
+                    <TextBlock Text="{Binding UrlText}" />
+                </Hyperlink>
+            </controls:TextBlock>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <hc:ScrollViewer
+                Width="360"
+                Margin="0,10"
+                properties:AutoScroll.AutoScroll="True"
+                HorizontalScrollBarVisibility="Disabled"
+                IsInertiaEnabled="True"
+                PanningMode="VerticalOnly">
+                <ItemsControl ItemsSource="{Binding Path=LogItemViewModels}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <controls:TextBlock
+                                    Grid.Column="0"
+                                    Margin="0,5,12,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Stretch"
+                                    Foreground="{DynamicResource TraceLogBrush}"
+                                    Text="{Binding Time}"
+                                    TextWrapping="Wrap"
+                                    Visibility="{c:Binding ShowTime}" />
+                                <controls:TextBlock
+                                    Grid.Column="1"
+                                    Margin="0,5"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Stretch"
+                                    FontWeight="{Binding Weight}"
+                                    ForegroundKey="{Binding Color}"
+                                    Text="{Binding Content}"
+                                    TextWrapping="Wrap" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </hc:ScrollViewer>
+            <StackPanel
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Orientation="Horizontal"
+                Visibility="{c:Binding CouldLikeWebJson}">
+                <controls:TextBlock
+                    Margin="10"
+                    VerticalAlignment="Center"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource DoYouLikeThisWebJson}" />
+                <Button
+                    Width="50"
+                    Height="30"
+                    Margin="10"
+                    Command="{s:Action LikeWebJson}"
+                    Content="👍" />
+                <Button
+                    Width="50"
+                    Height="30"
+                    Margin="10"
+                    Command="{s:Action DislikeWebJson}"
+                    Content="👎" />
+            </StackPanel>
+
+            <controls:TextBlock
+                Grid.Row="2"
+                Margin="0,10,0,0"
+                Block.TextAlignment="Center">
+                <Hyperlink
+                    Cursor="Hand"
+                    NavigateUri="{Binding MapUrl}"
+                    TextDecorations="None">
+                    <TextBlock Text="{DynamicResource MapPrts}" />
+                </Hyperlink>
+            </controls:TextBlock>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="console-application">
+  <id>io.github.maaassistantarknights.maaassistantarknights</id>
+  
+  <name>MaaAssistantArknights</name>
+  <summary>An Arknights assistant</summary>
+  
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  
+  <description>
+    <p>
+      MAA means MAA Assistant Arknights
+    </p>
+    <p>
+      An Arknights assistant
+    </p>
+    <p>
+      Based on image recognition, helps you to complete daily quests efficiently!
+    </p>
+    <p>
+      Development in progress ✿✿ヽ(°▽°)ノ✿
+    </p>
+  </description>
+  
+  <icon type="stock">maa</icon>
+  
+  <categories>
+    <category>Game</category>
+    <category>StrategyGame</category>
+  </categories>
+  
+  <provides>
+    <binary>maa</binary>
+  </provides>
+</component>

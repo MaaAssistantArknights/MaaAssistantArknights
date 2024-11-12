@@ -1,0 +1,26 @@
+﻿<UserControl
+    x:Class="MaaWpfGui.Views.UserControl.HotKeyEditorUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="UserControl"
+    d:DesignWidth="180"
+    mc:Ignorable="d">
+    <TextBox
+        x:Name="HotKeyTextBox"
+        Width="180"
+        HorizontalContentAlignment="Center"
+        VerticalContentAlignment="Center"
+        InputMethod.IsInputMethodEnabled="False"
+        IsReadOnly="True"
+        IsReadOnlyCaretVisible="False"
+        IsUndoEnabled="False"
+        PreviewKeyDown="HotKeyTextBox_PreviewKeyDown"
+        Text="{Binding HotKey, ElementName=UserControl, Mode=OneWay, TargetNullValue=&lt; not set &gt;}"
+        ToolTip="{DynamicResource HotKeyChangingTip}">
+        <TextBox.ContextMenu>
+            <ContextMenu Visibility="Collapsed" />
+        </TextBox.ContextMenu>
+    </TextBox>
+</UserControl>

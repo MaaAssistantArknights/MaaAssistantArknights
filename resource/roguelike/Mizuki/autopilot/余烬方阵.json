@@ -1,0 +1,71 @@
+{
+    "stage_name": "余烬方阵",
+    "replacement_home": [
+        {
+            "location": [7, 5],
+            "direction": "left"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["投锋"],
+            "location": [7, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["百嘉", "基石", "地面C", "号角", "挡人先锋", "重装", "其他地面", "异德", "刺客"],
+            "location": [7, 5],
+            "direction": "left"
+        },
+        {
+            "groups": ["单奶"],
+            "location": [4, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["群奶"],
+            "location": [6, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["控制"],
+            "location": [6, 2],
+            "direction": "right"
+        },
+        {
+            "groups": ["高台C", "控制", "召唤", "术师", "狙击", "辅助"],
+            "location": [8, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["玛恩纳", "地刺", "重装", "异德", "刺客", "挡人先锋", "地面C", "其他地面"],
+            "location": [5, 5],
+            "direction": "up"
+        },
+        {
+            "groups": ["高台C", "控制", "召唤", "术师", "狙击", "辅助"],
+            "location": [6, 4],
+            "direction": "down"
+        },
+        {
+            "groups": ["高台C", "控制", "召唤", "术师", "狙击", "辅助"],
+            "location": [4, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["地刺", "地面C", "异德", "刺客", "挡人先锋", "其他地面"],
+            "location": [5, 3],
+            "direction": "down"
+        },
+        {
+            "groups": ["玛恩纳", "地刺", "重装", "异德", "刺客", "挡人先锋", "地面C", "其他地面"],
+            "location": [5, 5],
+            "direction": "up"
+        },
+        {
+            "groups": ["百嘉", "基石", "地面C", "号角", "挡人先锋", "重装", "其他地面", "异德", "刺客"],
+            "location": [7, 5],
+            "direction": "left"
+        }
+    ]
+}

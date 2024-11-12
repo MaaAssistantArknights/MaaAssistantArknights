@@ -1,0 +1,113 @@
+<UserControl
+    x:Class="MaaWpfGui.Views.UserControl.GUISettingsUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
+    xmlns:vm="clr-namespace:MaaWpfGui"
+    d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
+    d:DesignHeight="300"
+    d:DesignWidth="550"
+    mc:Ignorable="d">
+    <Grid
+        Margin="10"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <CheckBox
+                Margin="10"
+                Content="{DynamicResource UseTray}"
+                IsChecked="{Binding UseTray}" />
+            <CheckBox
+                Margin="10"
+                Content="{DynamicResource MinimizeToTray}"
+                IsChecked="{Binding MinimizeToTray}"
+                Visibility="{c:Binding UseTray,
+                                       FalseToVisibility=Collapsed}" />
+            <CheckBox
+                Margin="10"
+                Content="{DynamicResource SystemNotification}"
+                IsChecked="{Binding UseNotify}" />
+            <CheckBox
+                Margin="10"
+                Content="{DynamicResource HideCloseButton}"
+                IsChecked="{Binding HideCloseButton}" />
+            <!--<CheckBox
+                Margin="10"
+                Content="{DynamicResource WindowTitleScrollable}"
+                IsChecked="{Binding WindowTitleScrollable}" />
+            <CheckBox
+                Margin="10"
+                Content="{DynamicResource UseLogItemDateFormat}"
+                IsChecked="{Binding UseLogItemDateFormat}" />-->
+            <CheckBox
+                Margin="10"
+                Content="{DynamicResource WindowTitleScrollable}"
+                IsChecked="{Binding WindowTitleScrollable}" />
+            <hc:CheckComboBox
+                x:Name="CheckComboBox"
+                Width="180"
+                Margin="10"
+                hc:ListBoxAttach.SelectedItems="{Binding WindowTitleSelectShowList}"
+                hc:TitleElement.Title="{DynamicResource TitleBarDisplayContent}"
+                ItemsSource="{Binding WindowTitleAllShowList}"
+                Style="{StaticResource CheckComboBoxExtend}" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="0" Grid.Column="1">
+            <ComboBox
+                x:Name="LanguageSelector"
+                Margin="10,5"
+                hc:InfoElement.Title="{Binding LanguageInfo, Mode=OneTime}"
+                DisplayMemberPath="Display"
+                ItemsSource="{Binding LanguageList}"
+                SelectedValue="{Binding Language}"
+                SelectedValuePath="Value"
+                Style="{StaticResource ComboBoxExtend}" />
+            <ComboBox
+                Margin="10,5"
+                hc:InfoElement.Title="{DynamicResource OperNameLanguage}"
+                DisplayMemberPath="Display"
+                ItemsSource="{Binding OperNameLanguageModeList}"
+                SelectedValue="{Binding OperNameLanguage}"
+                SelectedValuePath="Value"
+                Style="{StaticResource ComboBoxExtend}" />
+            <ComboBox
+                Margin="10,5"
+                hc:InfoElement.Title="{DynamicResource UiTheme}"
+                DisplayMemberPath="Display"
+                ItemsSource="{Binding DarkModeList}"
+                SelectedValue="{Binding DarkMode}"
+                SelectedValuePath="Value"
+                Style="{StaticResource ComboBoxExtend}" />
+            <ComboBox
+                Margin="10,5"
+                hc:InfoElement.Title="{DynamicResource MainViewButtonFeature}"
+                DisplayMemberPath="Display"
+                IsHitTestVisible="{Binding Idle}"
+                ItemsSource="{Binding InverseClearModeList}"
+                SelectedValue="{Binding InverseClearMode}"
+                SelectedValuePath="Value"
+                Style="{StaticResource ComboBoxExtend}" />
+            <ComboBox
+                Margin="10,5"
+                hc:InfoElement.Title="{DynamicResource LogItemDateFormatString}"
+                ItemsSource="{Binding LogItemDateFormatStringList}"
+                SelectedValue="{Binding LogItemDateFormatString}"
+                Style="{StaticResource ComboBoxExtend}"
+                Visibility="{c:Binding UseLogItemDateFormat}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

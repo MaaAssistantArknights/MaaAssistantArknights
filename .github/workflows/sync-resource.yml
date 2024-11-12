@@ -1,0 +1,56 @@
+name: sync-resource
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - dev
+    paths:
+      - "resource/**"
+      - ".github/workflows/sync-resource.yml"
+
+jobs:
+  sync-reource:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout MaaAssistantArknights
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+
+      - name: Setup Git
+        run: |
+          git config --global user.name "$GITHUB_ACTOR"
+          git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git show -s
+
+      - name: Checkout MaaResource
+        uses: actions/checkout@v4
+        with:
+          repository: MaaAssistantArknights/MaaResource
+          show-progress: false
+          ssh-key: ${{secrets.MAA_RESOURCE_DEPLOY}}
+          path: MaaResource
+
+      - name: Update MaaResource
+        run: |
+          export commit_msg=$(git show -s --format=%s)
+          cd MaaResource
+          shopt -s extglob
+
+          cd resource
+          rm -rf !(".gitignore")
+          cp -rf ../../resource/* .
+          cd ..
+
+          git add .
+          git status
+          git commit -m "$commit_msg" || exit 0
+          git push
+
+      - name: Setup resource update
+        env:
+          GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
+        run: |
+          gh workflow --repo MaaAssistantArknights/MaaRelease run update-resource.yml

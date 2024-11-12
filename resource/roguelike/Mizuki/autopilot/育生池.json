@@ -1,0 +1,122 @@
+{
+    "stage_name": "育生池",
+    "replacement_home": [
+        {
+            "location": [1, 1],
+            "direction": "right"
+        },
+        {
+            "location": [2, 2],
+            "direction": "down"
+        },
+        {
+            "location": [3, 2],
+            "direction": "none"
+        },
+        {
+            "location": [4, 2],
+            "direction": "down"
+        },
+        {
+            "location": [3, 3],
+            "direction": "left"
+        },
+        {
+            "location": [4, 3],
+            "direction": "left"
+        },
+        {
+            "location": [5, 3],
+            "direction": "left"
+        }
+    ],
+    "force_deploy_direction": [
+        {
+            "location": [3, 2],
+            "role": ["sniper", "caster"],
+            "direction": "down"
+        },
+        {
+            "location": [4, 2],
+            "role": ["sniper", "caster"],
+            "direction": "down"
+        },
+        {
+            "location": [5, 2],
+            "role": ["sniper", "caster"],
+            "direction": "down"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["投锋", "挡人先锋"],
+            "location": [8, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["百嘉", "基石", "地面C", "挡人先锋", "重装", "其他地面"],
+            "location": [7, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["异德", "刺客", "挡人先锋", "地面C"],
+            "location": [1, 1],
+            "direction": "right"
+        },
+        {
+            "groups": ["控制"],
+            "location": [6, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["群奶", "单奶"],
+            "location": [8, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["单奶"],
+            "location": [9, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["玛恩纳"],
+            "location": [4, 3],
+            "direction": "down"
+        },
+        {
+            "groups": ["地面C"],
+            "location": [6, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["号角", "重装"],
+            "location": [6, 3],
+            "direction": "down"
+        },
+        {
+            "groups": ["召唤"],
+            "location": [8, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["高台C", "控制", "狙击", "术师", "辅助", "其他高台"],
+            "location": [6, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["高台C", "控制", "狙击", "术师", "辅助", "其他高台"],
+            "location": [7, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["异德", "刺客"],
+            "location": [8, 5],
+            "direction": "down"
+        },
+        {
+            "groups": ["基石", "挡人先锋", "地面C", "重装", "地刺", "其他地面"],
+            "location": [5, 3],
+            "direction": "left"
+        }
+    ]
+}

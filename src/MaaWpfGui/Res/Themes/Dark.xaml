@@ -1,0 +1,48 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--  Custom Brush  -->
+    <SolidColorBrush x:Key="PallasBrush" Color="#CDD1FF" />
+    <SolidColorBrush x:Key="ErrorViewBackgroundBrush" Color="#2d2d30" />
+    <SolidColorBrush x:Key="VersionUpdateViewBackgroundBrush" Color="#2d2d30" />
+
+    <!--  HandyControl Brush  -->
+    <!--  See https://github.com/ghost1372/HandyControls/blob/v3.4.5/src/Shared/HandyControl_Shared/Themes/Basic/Colors/Dark.xaml  -->
+    <!--  Latest Doc https://ghost1372.github.io/handycontrol/basic_xaml/brushes/  -->
+    <!--  文字颜色  -->
+    <SolidColorBrush x:Key="PrimaryTextBrush" Color="#E6E6E6" />
+    <!--  文字颜色  -->
+    <SolidColorBrush x:Key="TextIconBrush" Color="#E6E6E6" />
+
+    <!--  背景颜色  -->
+    <SolidColorBrush x:Key="RegionBrush" Color="#1c1c1c" />
+    <!--  背景颜色 没用到（建议和背景颜色一致）  -->
+    <SolidColorBrush x:Key="MainContentBackgroundBrush" Color="#FF1C1C1C" />
+
+    <!--  发暗的主色调 没用到（DarkMode中亮暗相反）  -->
+    <SolidColorBrush x:Key="LightPrimaryBrush" Color="#044289" />
+    <!--  主色调  -->
+    <SolidColorBrush x:Key="PrimaryBrush" Color="#326cf3" />
+    <!--  发亮的主色调 复选框的框框颜色（建议和主题色一致）  -->
+    <SolidColorBrush x:Key="DarkPrimaryBrush" Color="#326cf3" />
+    <!--  标题背景     没用到（建议和主题色一致）  -->
+    <SolidColorBrush x:Key="TitleBrush" Color="#326cf3" />
+
+    <!--  MdXaml Brush  -->
+    <SolidColorBrush x:Key="MdXamlBackground" Color="#2d2d30" />
+    <SolidColorBrush x:Key="MdXamlCodeBackground" Color="#161b22" />
+    <SolidColorBrush x:Key="MdXamlForeground" Color="#E6E6E6" />
+    <SolidColorBrush x:Key="MdXamlHyperlink" Color="#326cf3" />
+    <SolidColorBrush x:Key="MdXamlHyperlinkClicked" Color="#e45649" />
+
+    <!--  UiLogColor  -->
+    <SolidColorBrush x:Key="ErrorLogBrush" Color="Red" />
+    <SolidColorBrush x:Key="WarningLogBrush" Color="Goldenrod" />
+    <SolidColorBrush x:Key="InfoLogBrush" Color="#00C8C8" />
+    <SolidColorBrush x:Key="TraceLogBrush" Color="DarkGray" />
+    <SolidColorBrush x:Key="MessageLogBrush" Color="#E6E6E6" />
+    <SolidColorBrush x:Key="RareOperatorLogBrush" Color="Orange" />
+    <SolidColorBrush x:Key="RobotOperatorLogBrush" Color="Gray" />
+    <SolidColorBrush x:Key="DownloadLogBrush" Color="Violet" />
+    <SolidColorBrush x:Key="MuMuSpecialScreenshot" Color="#02BFFF" />
+    <SolidColorBrush x:Key="LdSpecialScreenshot" Color="#6666FF" />
+</ResourceDictionary>

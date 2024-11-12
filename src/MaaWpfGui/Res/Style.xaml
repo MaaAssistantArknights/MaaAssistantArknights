@@ -1,0 +1,13 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:hc="https://handyorg.github.io/handycontrol">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Styles/Basic/Geometries.xaml" />
+        <ResourceDictionary Source="Styles/Divider.xaml" />
+        <ResourceDictionary Source="Styles/ListBox.xaml" />
+        <ResourceDictionary Source="Styles/MdXaml.xaml" />
+        <ResourceDictionary Source="Styles/MessageBox.xaml" />
+        <ResourceDictionary Source="Styles/TextBlock.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

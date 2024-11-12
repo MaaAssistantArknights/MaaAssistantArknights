@@ -1,0 +1,274 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "title": "Maa Copilot Infrastructure",
+    "type": "object",
+    "properties": {
+        "title": {
+            "type": "string",
+            "description": "The title of the Maa Copilot Infrastructure Plan"
+        },
+        "description": {
+            "type": "string",
+            "description": "The description of the Maa Copilot Infrastructure Plan"
+        },
+        "plans": {
+            "type": "array",
+            "description": "Plans list.",
+            "items": {
+                "$ref": "#/definitions/plans"
+            }
+        }
+    },
+    "required": ["plans"],
+    "definitions": {
+        "operator": {
+            "type": "string",
+            "description": "Operator name in corresponding languages since MAA uses OCR to detect operator."
+        },
+        "plans": {
+            "type": "object",
+            "description": "Plans for the infrastructure.",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name of the plan."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of the plan."
+                },
+                "period": {
+                    "type": "array",
+                    "description": "Period list.",
+                    "items": {
+                        "$ref": "#/definitions/planPeriod"
+                    }
+                },
+                "duration": {
+                    "type": "number",
+                    "description": "Duration of the plan. Reserved."
+                },
+                "Fiammetta": {
+                    "type": "object",
+                    "$ref": "#/definitions/Fiammetta"
+                },
+                "drones": {
+                    "type": "object",
+                    "$ref": "#/definitions/drones"
+                },
+                "rooms": {
+                    "type": "object",
+                    "$ref": "#/definitions/rooms"
+                }
+            },
+            "required": ["rooms"]
+        },
+        "planPeriod": {
+            "type": "array",
+            "description": "Period of the plan.",
+            "items": {
+                "$ref": "#/definitions/planPeriodTimeFormat"
+            },
+            "minItems": 2,
+            "maxItems": 2
+        },
+        "planPeriodTimeFormat": {
+            "type": "string",
+            "description": "Time notation in HH:MM format (24 hours format). For the next day, see MAA docs.",
+            "pattern": "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
+        },
+        "Fiammetta": {
+            "type": "object",
+            "description": "Fiammetta configuration.",
+            "properties": {
+                "enable": {
+                    "type": "boolean",
+                    "description": "Enable Fiammetta."
+                },
+                "target": {
+                    "$ref": "#/definitions/operator"
+                },
+                "order": {
+                    "type": "string",
+                    "description": "Order of the Fiammetta.",
+                    "anyOf": [
+                        {
+                            "const": "pre",
+                            "description": "Before executing infrastructure plan."
+                        },
+                        {
+                            "const": "post",
+                            "description": "After executing infrastructure plan."
+                        }
+                    ]
+                }
+            },
+            "required": ["enable", "target", "order"]
+        },
+        "drones": {
+            "type": "object",
+            "description": "Drones configuration.",
+            "properties": {
+                "enable": {
+                    "type": "boolean",
+                    "description": "Enable drones."
+                },
+                "room": {
+                    "type": "string",
+                    "description": "Target drons's usage.",
+                    "anyOf": [
+                        {
+                            "const": "trading",
+                            "description": "Use drones in trading"
+                        },
+                        {
+                            "const": "manufacture",
+                            "description": "Use drones in manufacture"
+                        }
+                    ]
+                },
+                "index": {
+                    "type": "integer",
+                    "description": "Index of the infrastructure room.",
+                    "minimum": 0,
+                    "maximum": 9
+                },
+                "rule": {
+                    "type": "string",
+                    "description": "The usage of drones."
+                },
+                "order": {
+                    "type": "string",
+                    "description": "Order of the Drones.",
+                    "anyOf": [
+                        {
+                            "const": "pre",
+                            "description": "Before executing infrastructure plan."
+                        },
+                        {
+                            "const": "post",
+                            "description": "After executing infrastructure plan."
+                        }
+                    ]
+                }
+            }
+        },
+        "rooms": {
+            "type": "object",
+            "description": "All arknights infrastructure rooms.",
+            "properties": {
+                "control": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/roomConfig"
+                    },
+                    "maxItems": 1
+                },
+                "meeting": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/roomConfig"
+                    },
+                    "maxItems": 1
+                },
+                "hire": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/roomConfig"
+                    },
+                    "maxItems": 1
+                },
+                "manufacture": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/roomConfig"
+                    },
+                    "maxItems": 9
+                },
+                "trading": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/roomConfig"
+                    },
+                    "maxItems": 9
+                },
+                "power": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/roomConfig"
+                    },
+                    "maxItems": 9
+                },
+                "dormitory": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/roomConfig"
+                    },
+                    "maxItems": 4
+                }
+            }
+        },
+        "roomConfig": {
+            "type": "object",
+            "description": "Room configuration.",
+            "properties": {
+                "operators": {
+                    "type": "array",
+                    "description": "Operators list.",
+                    "items": {
+                        "$ref": "#/definitions/operator"
+                    },
+                    "maxItems": 5
+                },
+                "sort": {
+                    "type": "boolean",
+                    "description": "Sort operators in the same order as listed in operators."
+                },
+                "skip": {
+                    "type": "boolean",
+                    "description": "Skip this room or not."
+                },
+                "autofill": {
+                    "type": "boolean",
+                    "description": "Autofill with default algorithm this room or not."
+                },
+                "product": {
+                    "type": "string",
+                    "description": "Product name of this manufacture station",
+                    "anyOf": [
+                        {
+                            "const": "Battle Record",
+                            "description": "Battle Record"
+                        },
+                        {
+                            "const": "Pure Gold",
+                            "description": "Pure Gold"
+                        },
+                        {
+                            "const": "Dualchip",
+                            "description": "Dualchip"
+                        },
+                        {
+                            "const": "Originium Shard",
+                            "description": "Originium Shard"
+                        },
+                        {
+                            "const": "LMD",
+                            "description": "Lungmen dollar"
+                        },
+                        {
+                            "const": "Orundum",
+                            "description": "Orundum"
+                        }
+                    ]
+                },
+                "candidates": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/operator"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,357 @@
+<UserControl
+    x:Class="MaaWpfGui.Views.UserControl.ExternalNotificationSettingsUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl"
+    d:Background="White"
+    d:DataContext="{d:DesignInstance {x:Type viewModels:ExternalNotificationSettingsUserControlModel}}"
+    s:View.ActionTarget="{Binding}"
+    mc:Ignorable="d">
+    <Grid
+        hc:InfoElement.HorizontalAlignment="Center"
+        hc:InfoElement.TitlePlacement="Left"
+        hc:InfoElement.TitleWidth="150">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <controls:TextBlock
+            Grid.Row="0"
+            Margin="10"
+            Text="{DynamicResource ExternalNotificationTips}"
+            TextWrapping="Wrap" />
+
+        <StackPanel
+            Grid.Row="1"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <hc:CheckComboBox
+                Width="200"
+                Margin="10"
+                HorizontalContentAlignment="Center"
+                hc:InfoElement.Placeholder="{DynamicResource Off}"
+                hc:InfoElement.Title="{DynamicResource ExternalNotificationEnabled}"
+                hc:InfoElement.TitlePlacement="Top"
+                hc:ListBoxAttach.SelectedItems="{Binding EnabledExternalNotificationProviders}"
+                ItemsSource="{Binding ExternalNotificationProvidersShow}"
+                Style="{StaticResource CheckComboBoxExtend}" />
+            <Button
+                Margin="5"
+                Command="{s:Action ExternalNotificationSendTest}"
+                Content="{DynamicResource ExternalNotificationSendTest}"
+                IsEnabled="{c:Binding 'EnabledExternalNotificationProviderCount > 0'}" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="2"
+            Orientation="Vertical"
+            Visibility="{c:Binding ServerChanEnabled}">
+            <hc:Divider Content="Server Chan" />
+            <hc:TextBox
+                x:Name="ServerChanSendKey"
+                Width="400"
+                Height="30"
+                Margin="10"
+                hc:InfoElement.Title="{DynamicResource ExternalNotificationServerChanSendKey}"
+                Text="{c:Binding ServerChanSendKey}" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="3"
+            Orientation="Vertical"
+            Visibility="{c:Binding TelegramEnabled}">
+            <hc:Divider Content="Telegram bot" />
+            <hc:TextBox
+                x:Name="TelegramBotToken"
+                Width="400"
+                Height="30"
+                Margin="10"
+                hc:InfoElement.Title="{DynamicResource ExternalNotificationTelegramBotToken}"
+                Text="{c:Binding TelegramBotToken}" />
+            <hc:TextBox
+                x:Name="TelegramChatId"
+                Width="400"
+                Height="30"
+                Margin="10"
+                hc:InfoElement.Title="{DynamicResource ExternalNotificationTelegramChatId}"
+                Text="{c:Binding TelegramChatId}" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="4"
+            Orientation="Vertical"
+            Visibility="{c:Binding DiscordEnabled}">
+            <hc:Divider Content="Discord" />
+            <hc:TextBox
+                x:Name="DiscordBotToken"
+                Width="400"
+                Height="30"
+                Margin="10"
+                hc:InfoElement.Title="{DynamicResource ExternalNotificationDiscordBotToken}"
+                Text="{c:Binding DiscordBotToken}" />
+            <hc:TextBox
+                x:Name="DiscordUserId"
+                Width="400"
+                Height="30"
+                Margin="10"
+                hc:InfoElement.Title="{DynamicResource ExternalNotificationDiscordUserId}"
+                Text="{c:Binding DiscordUserId}" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="5"
+            HorizontalAlignment="Center"
+            Visibility="{c:Binding SmtpEnabled}">
+            <hc:Divider Content="SMTP" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="180" />
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="180" />
+                </Grid.ColumnDefinitions>
+                <StackPanel
+                    Grid.Row="0"
+                    Grid.ColumnSpan="4"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+                    <CheckBox
+                        Margin="50,10"
+                        VerticalAlignment="Center"
+                        Content="{DynamicResource ExternalNotificationSmtpSsl}"
+                        IsChecked="{c:Binding SmtpUseSsl}" />
+                    <CheckBox
+                        Margin="50,10"
+                        VerticalAlignment="Center"
+                        Content="{DynamicResource ExternalNotificationSmtpAuth}"
+                        IsChecked="{c:Binding SmtpRequireAuthentication}" />
+                </StackPanel>
+
+
+                <controls:TextBlock
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource ExternalNotificationSmtpServer}"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    x:Name="SmtpServer"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Width="150"
+                    Height="30"
+                    Margin="10"
+                    Text="{c:Binding SmtpServer}" />
+                <controls:TextBlock
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource ExternalNotificationSmtpPort}"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    x:Name="SmtpPort"
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    Width="150"
+                    Height="30"
+                    Margin="10"
+                    Text="{c:Binding SmtpPort}" />
+
+                <controls:TextBlock
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource ExternalNotificationSmtpUser}"
+                    TextWrapping="Wrap"
+                    Visibility="{c:Binding SmtpRequireAuthentication}" />
+                <TextBox
+                    x:Name="SmtpUser"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Width="150"
+                    Height="30"
+                    Margin="10"
+                    Text="{c:Binding SmtpUser}"
+                    Visibility="{c:Binding SmtpRequireAuthentication}" />
+                <controls:TextBlock
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource ExternalNotificationSmtpPassword}"
+                    TextWrapping="Wrap"
+                    Visibility="{c:Binding SmtpRequireAuthentication}" />
+                <TextBox
+                    x:Name="SmtpPassword"
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    Width="150"
+                    Height="30"
+                    Margin="10"
+                    IsEnabled="{c:Binding SmtpRequireAuthentication}"
+                    Text="{c:Binding SmtpPassword}"
+                    Visibility="{c:Binding SmtpRequireAuthentication}" />
+
+                <controls:TextBlock
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource ExternalNotificationSmtpFrom}"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    x:Name="SmtpFrom"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Width="150"
+                    Height="30"
+                    Margin="10"
+                    Text="{c:Binding SmtpFrom}" />
+                <controls:TextBlock
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource ExternalNotificationSmtpTo}"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    x:Name="SmtpTo"
+                    Grid.Row="3"
+                    Grid.Column="3"
+                    Width="150"
+                    Height="30"
+                    Margin="10"
+                    Text="{c:Binding SmtpTo}" />
+
+            </Grid>
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="6"
+            Orientation="Vertical"
+            Visibility="{c:Binding BarkEnabled}">
+            <hc:Divider Content="Bark" />
+            <hc:TextBox
+                x:Name="BarkServer"
+                Width="400"
+                Height="30"
+                Margin="10"
+                hc:InfoElement.Title="{DynamicResource ExternalNotificationBarkServer}"
+                Text="{c:Binding BarkServer}" />
+            <hc:TextBox
+                x:Name="BarkSendKey"
+                Width="400"
+                Height="30"
+                Margin="10"
+                hc:InfoElement.Title="{DynamicResource ExternalNotificationBarkSendKey}"
+                Text="{c:Binding BarkSendKey}" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="7"
+            Orientation="Vertical"
+            Visibility="{c:Binding QmsgEnabled}">
+            <hc:Divider Content="Qmsg" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="70" />
+                    <ColumnDefinition Width="180" />
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="180" />
+                </Grid.ColumnDefinitions>
+                <controls:TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource ExternalNotificationQmsgServer}"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    x:Name="QmsgServer"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Height="30"
+                    Margin="10"
+                    Text="{c:Binding QmsgServer}" />
+                <controls:TextBlock
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource ExternalNotificationQmsgKey}"
+                    TextWrapping="Wrap" />
+                <controls:TextBlock
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource ExternalNotificationQmsgKey}"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    x:Name="QmsgKey"
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Height="30"
+                    Margin="10"
+                    Text="{c:Binding QmsgKey}" />
+
+                <controls:TextBlock
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource ExternalNotificationQmsgUser}"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    x:Name="QmsgUser"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Height="30"
+                    Margin="10"
+                    Text="{c:Binding QmsgUser}" />
+                <controls:TextBlock
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource ExternalNotificationQmsgBot}"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    x:Name="QmsgBot"
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    Height="30"
+                    Margin="10"
+                    Text="{c:Binding QmsgBot}" />
+
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

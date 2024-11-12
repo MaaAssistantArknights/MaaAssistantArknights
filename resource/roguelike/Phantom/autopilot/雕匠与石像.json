@@ -1,0 +1,134 @@
+{
+    "stage_name": "雕匠与石像",
+    "blacklist_location": [
+        [1, 2],
+        [1, 3],
+        [1, 4],
+        [2, 2],
+        [2, 3],
+        [2, 4],
+        [3, 2],
+        [3, 3],
+        [3, 4],
+        [4, 2],
+        [4, 3],
+        [4, 4],
+        [5, 2],
+        [5, 3],
+        [5, 4],
+        [6, 3],
+        [6, 4],
+        [7, 3],
+        [8, 2],
+        [8, 3],
+        [8, 4]
+    ],
+    "replacement_home": [
+        {
+            "location": [10, 4],
+            "direction": "left"
+        },
+        {
+            "location": [10, 3],
+            "direction": "left"
+        },
+        {
+            "location": [10, 2],
+            "direction": "left"
+        },
+        {
+            "location": [7, 1],
+            "direction": "down"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["凯尔希"],
+            "location": [9, 3],
+            "direction": "left",
+            "condition": [0, 10]
+        },
+        {
+            "groups": ["地面单切", "情报官", "炮灰", "回费", "高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [8, 5],
+            "direction": "up",
+            "condition": [0, 9]
+        },
+        {
+            "groups": ["棘刺", "地面阻挡", "地面单切", "情报官", "炮灰", "银灰", "回费"],
+            "location": [9, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["益达"],
+            "location": [7, 2],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "浊心斯卡蒂",
+                "高台C",
+                "高台输出",
+                "梓兰",
+                "高台预备",
+                "地面阻挡",
+                "地面单切",
+                "情报官",
+                "炮灰",
+                "银灰",
+                "回费"
+            ],
+            "location": [9, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [8, 5],
+            "direction": "up",
+            "condition": [13, 35]
+        },
+        {
+            "groups": [
+                "高台C",
+                "高台输出",
+                "梓兰",
+                "地面阻挡",
+                "情报官",
+                "高台预备",
+                "地面单切",
+                "炮灰",
+                "银灰",
+                "回费",
+                "史尔特尔"
+            ],
+            "location": [7, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["奶"],
+            "location": [9, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["地面阻挡", "情报官", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
+            "location": [7, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["高台C", "高台输出", "梓兰", "情报官", "高台预备", "银灰", "史尔特尔"],
+            "location": [4, 5],
+            "direction": "up"
+        },
+        {
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [6, 2],
+            "direction": "down"
+        }
+    ],
+    "retreat_plan": [
+        {
+            "location": [8, 5],
+            "condition": [10, 12]
+        }
+    ]
+}

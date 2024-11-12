@@ -1,0 +1,2 @@
+
+[2023/08/09 08:57:32] ppocr INFO: best metric, acc: 0.9912729493076969, is_float16: False, norm_edit_dis: 0.9954929848543836, Teacher_acc: 0.9913493110003, Teacher_norm_edit_dis: 0.9954535053398406, fps: 2599.380856787499, best_epoch: 93, start_epoch: 70

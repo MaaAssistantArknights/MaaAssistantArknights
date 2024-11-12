@@ -1,0 +1,188 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:interactivity="clr-namespace:HandyControl.Interactivity;assembly=HandyControl">
+
+    <Style
+        x:Key="MessageBoxButtonStyle"
+        BasedOn="{StaticResource ButtonDefault}"
+        TargetType="Button">
+        <Setter Property="MinWidth" Value="88" />
+        <Setter Property="Visibility" Value="{c:Binding IsEnabled, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="Margin" Value="5,0" />
+    </Style>
+
+    <Style
+        x:Key="MessageBoxPrimaryButtonStyle"
+        BasedOn="{StaticResource ButtonPrimary}"
+        TargetType="Button">
+        <Setter Property="MinWidth" Value="88" />
+        <Setter Property="Visibility" Value="{c:Binding IsEnabled, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="Margin" Value="5,0" />
+    </Style>
+
+    <Style BasedOn="{StaticResource WindowWin10}" TargetType="hc:MessageBox">
+        <Setter Property="MinHeight" Value="172" />
+        <Setter Property="ShowInTaskbar" Value="False" />
+        <Setter Property="MinWidth" Value="335" />
+        <Setter Property="MaxWidth" Value="476" />
+        <Setter Property="MaxHeight" Value="680" />
+        <Setter Property="ResizeMode" Value="NoResize" />
+        <Setter Property="SizeToContent" Value="WidthAndHeight" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="hc:MessageBox">
+                    <Border
+                        Background="{DynamicResource RegionBrush}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        SnapsToDevicePixels="True">
+                        <Grid Margin="{TemplateBinding Padding}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid
+                                Name="PART_NonClientArea"
+                                Background="{DynamicResource SecondaryRegionBrush}"
+                                TextElement.Foreground="{TemplateBinding NonClientAreaForeground}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Orientation="Horizontal"
+                                    UseLayoutRounding="True"
+                                    WindowChrome.IsHitTestVisibleInChrome="True">
+                                    <Button
+                                        Name="PART_ButtonClose"
+                                        Width="46"
+                                        Height="29"
+                                        hc:IconElement.Geometry="{StaticResource CloseGeometry}"
+                                        hc:IconElement.Height="10"
+                                        hc:IconElement.Width="10"
+                                        Background="{TemplateBinding CloseButtonBackground}"
+                                        BorderThickness="1,0,0,0"
+                                        Foreground="{TemplateBinding CloseButtonForeground}"
+                                        IsTabStop="False"
+                                        Style="{StaticResource ButtonIcon}" />
+                                </StackPanel>
+                                <Grid Grid.Column="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Button
+                                        Name="ButtonIcon"
+                                        Margin="10,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Background="Transparent"
+                                        Command="{x:Static SystemCommands.ShowSystemMenuCommand}"
+                                        Style="{StaticResource ButtonCustom}"
+                                        Visibility="{TemplateBinding Icon,
+                                                                     Converter={StaticResource Object2VisibilityConverter}}"
+                                        WindowChrome.IsHitTestVisibleInChrome="True">
+                                        <interactivity:Interaction.Triggers>
+                                            <interactivity:EventTrigger EventName="MouseDoubleClick">
+                                                <interactivity:InvokeCommandAction Command="{x:Static SystemCommands.CloseWindowCommand}" />
+                                            </interactivity:EventTrigger>
+                                        </interactivity:Interaction.Triggers>
+                                        <Image
+                                            Width="16"
+                                            Height="16"
+                                            VerticalAlignment="Center"
+                                            IsHitTestVisible="False"
+                                            Source="{TemplateBinding Icon}" />
+                                    </Button>
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Padding="10,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="{TemplateBinding Title}">
+                                        <TextBlock.Visibility>
+                                            <MultiBinding Converter="{StaticResource BooleanArr2VisibilityConverter}">
+                                                <MultiBinding.Bindings>
+                                                    <Binding Path="ShowTitle" RelativeSource="{RelativeSource TemplatedParent}" />
+                                                    <Binding
+                                                        Converter="{StaticResource Object2BooleanConverter}"
+                                                        Path="Title"
+                                                        RelativeSource="{RelativeSource TemplatedParent}" />
+                                                </MultiBinding.Bindings>
+                                            </MultiBinding>
+                                        </TextBlock.Visibility>
+                                    </TextBlock>
+                                    <ContentPresenter
+                                        x:Name="ContentPresenterMain"
+                                        Grid.Column="2"
+                                        Content="{TemplateBinding NonClientAreaContent}"
+                                        WindowChrome.IsHitTestVisibleInChrome="True" />
+                                </Grid>
+                            </Grid>
+                            <AdornerDecorator Grid.Row="1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Path
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Width="30"
+                                        Height="30"
+                                        Margin="20,32,0,0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top"
+                                        Data="{TemplateBinding Image}"
+                                        Fill="{TemplateBinding ImageBrush}"
+                                        Stretch="Uniform"
+                                        Visibility="{c:Binding ShowImage}" />
+                                    <ScrollViewer
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        VerticalAlignment="Top">
+                                        <Border
+                                            MinHeight="30"
+                                            Margin="10,32,10,10"
+                                            HorizontalAlignment="Left">
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                Text="{TemplateBinding Message}"
+                                                TextWrapping="Wrap" />
+                                        </Border>
+                                    </ScrollViewer>
+                                    <StackPanel
+                                        Name="PART_Panel"
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        Margin="0,10,10,16"
+                                        HorizontalAlignment="Right"
+                                        Orientation="Horizontal" />
+                                </Grid>
+                            </AdornerDecorator>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsActive" Value="False">
+                            <Setter TargetName="ContentPresenterMain" Property="Opacity" Value=".8" />
+                        </Trigger>
+                        <Trigger SourceName="PART_ButtonClose" Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PART_ButtonClose" Property="Background" Value="{Binding CloseButtonHoverBackground, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="PART_ButtonClose" Property="Foreground" Value="{Binding CloseButtonHoverForeground, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

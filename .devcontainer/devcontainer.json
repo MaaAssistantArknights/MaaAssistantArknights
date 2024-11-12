@@ -1,0 +1,13 @@
+{
+    "image": "mcr.microsoft.com/devcontainers/cpp:ubuntu-22.04",
+    "features": {
+        "ghcr.io/devcontainers/features/python:1": {},
+        "ghcr.io/devcontainers/features/sshd:1": {}
+    },
+    "postCreateCommand": "sudo sh -ce 'apt update && apt install g++-12 -y && echo export CC=gcc-12 CXX=g++-12 >> /etc/profile.d/set-compiler.sh'",
+    "customizations": {
+        "vscode": {
+            "extensions": ["llvm-vs-code-extensions.vscode-clangd", "DavidAnson.vscode-markdownlint"]
+        }
+    }
+}

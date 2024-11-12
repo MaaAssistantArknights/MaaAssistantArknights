@@ -1,0 +1,213 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "maa task config english",
+    "patternProperties": {
+        "^(?!\\$)": {
+            "type": "object",
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/JustReturnTask"
+                },
+                {
+                    "$ref": "#/definitions/MatchTemplateTask"
+                },
+                {
+                    "$ref": "#/definitions/OcrDetectTask"
+                }
+            ]
+        }
+    },
+    "definitions": {
+        "Rectangle": {
+            "type": "array",
+            "maxItems": 4,
+            "minItems": 4,
+            "items": {
+                "type": "number"
+            }
+        },
+        "ParamsArray": {
+            "type": "array",
+            "items": {
+                "type": "number"
+            }
+        },
+        "TaskNameList": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "description": "Task to be performed"
+            }
+        },
+        "BaseTask": {
+            "properties": {
+                "algorithm": {
+                    "type": "string",
+                    "description": "Algorithm type"
+                },
+                "action": {
+                    "type": "string",
+                    "pattern": "ClickSelf|ClickRand|DoNothing|Stop|ClickRect|Swipe",
+                    "default": "DoNothing",
+                    "description": "Optional, indicates the action to be taken after recognition\nDefaults to DoNothing when not filled in"
+                },
+                "sub": {
+                    "$ref": "#/definitions/TaskNameList",
+                    "description": "Optional, subtask. Will execute each subtask in turn after executing the current task\nIt is possible to nest the sub-tasks, sub-tasks can be nested with sub-tasks. But be careful not to write a dead loop"
+                },
+                "subErrorIgnored": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Optional, whether or not to ignore errors from sub-tasks. Default is false\nWIf false, if a subtask fails, the execution of the subsequent tasks will not be continued (which is equivalent to an error in this task)\nIf true, it has no effect on whether a subtask has an error or not"
+                },
+                "next": {
+                    "$ref": "#/definitions/TaskNameList",
+                    "description": "Optional, indicates the next task to be executed after the current task\nIt will be identified from front to back, and the first matching task will be executed\n If not filled in, the current task will be stopped by default"
+                },
+                "maxTimes": {
+                    "type": "number",
+                    "description": "Optional, indicates the maximum number of times the task can be executed\nDefault is infinite, if not filled in\nAfter reaching the maximum number of times, if there is exceededNext field, execute exceededNext; otherwise, the task will be stopped directly"
+                },
+                "exceededNext": {
+                    "$ref": "#/definitions/TaskNameList",
+                    "description": "Optional, indicates the task to be executed after reaching the maximum number of executions\nIf not filled in, it will stop when it reaches the maximum number of executions; If filled in, it will execute the tasks here, not the ones in next"
+                },
+                "onErrorNext": {
+                    "$ref": "#/definitions/TaskNameList",
+                    "description": "Optional, indicates the subsequent tasks to be executed in the event of an execution error"
+                },
+                "preDelay": {
+                    "type": "number",
+                    "description": "Optional, indicates how long the action will be delayed after recognition, in milliseconds; default is 0, if not filled in"
+                },
+                "postDelay": {
+                    "type": "number",
+                    "description": "Optional, indicates how long the action will be delayed before recognising next, in milliseconds; default is 0, if not filled in"
+                },
+                "roi": {
+                    "$ref": "#/definitions/Rectangle",
+                    "description": "Optional, indicates the recognition range, the format is [x, y, width, height]\nAutomatic scaling based on 1280 * 720; default [0, 0, 1280, 720]\nFill in as much as possible to reduce the recognition range. This can reduce performance consumption and speed up recognition"
+                },
+                "cache": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Optional, indicates whether the task uses caching, default is true;\nAfter the first recognition, the subsequent recognition will always be carried out only in the location of the first recognition, enabling this can greatly save performance\nBut it is only appliable for tasks where the target position will not change at all, if the target position to be recognised will change, please set it to false"
+                },
+                "rectMove": {
+                    "$ref": "#/definitions/Rectangle",
+                    "description": "Optional, movethe target after recognition, this option is not recommended. Automatic scaling based on 1280 * 720\nFor example, if an A icon is recognised, but the actual location to be clicked is a position next to the A icon, then move it and click it. If possible, try to recognise the position to be clicked directly, this option is not recommended\nWhen the action is Swipe, it means the end of the swipe"
+                },
+                "reduceOtherTimes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "description": "Task to be performed"
+                    },
+                    "description": "Optional, decrements the execution count of other tasks after execution"
+                },
+                "specificRect": {
+                    "$ref": "#/definitions/Rectangle",
+                    "description": "Valid and mandatory when the action is ClickRect, indicates the specified click position (a random point within the range), auto-scaling based on 1280 * 720\nValid and mandatory when the action is Swipe, indicates the starting point of the swipe"
+                },
+                "specialParams": {
+                    "$ref": "#/definitions/ParamsArray",
+                    "description": "Special parameters used for certain tasks (mostly handwritten thresholds, etc.)"
+                }
+            }
+        },
+        "JustReturnTask": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/BaseTask"
+                }
+            ],
+            "properties": {
+                "algorithm": {
+                    "type": "string",
+                    "pattern": "JustReturn"
+                }
+            },
+            "description": "Execute the action without identifying it",
+            "required": ["algorithm"]
+        },
+        "MatchTemplateTask": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/BaseTask"
+                }
+            ],
+            "properties": {
+                "algorithm": {
+                    "type": "string",
+                    "pattern": "MatchTemplate"
+                },
+                "template": {
+                    "type": ["array", "string"],
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": "",
+                    "description": "Optional, the file name of the image to be matched\nDefauts to \"task name.png\", If not filled"
+                },
+                "templThreshold": {
+                    "type": ["array", "number"],
+                    "items": {
+                        "type": "number"
+                    },
+                    "default": 0.8,
+                    "description": "Optional, the threshold of the matching score of the template image, it is considered recognised if it exceeds the threshold\nDefaults to 0.8, you can check what the actual score is based on the log"
+                },
+                "maskRange": {
+                    "type": "array",
+                    "maxItems": 2,
+                    "minimum": 2,
+                    "items": {
+                        "type": "number"
+                    },
+                    "default": [1, 255],
+                    "description": "Optional, grey scale mask range. For example, paint the part of the image that does not need to be recognised as black (grey value is 0), and then set [1, 255], the blackened part will be ignored when matching"
+                }
+            },
+            "description": "Match image"
+        },
+        "OcrDetectTask": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/BaseTask"
+                }
+            ],
+            "properties": {
+                "algorithm": {
+                    "type": "string",
+                    "pattern": "OcrDetect"
+                },
+                "text": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Mandatory, the text content to be recognised, as long as any one of them matches, it is considered to have been recognised"
+                },
+                "fullMatch": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Optional, whether the text recognition needs to match all the words (can't match more than one word), the default is false\nfalse, as long as a substring can be found: for example, text: [\"Start\"], the actual recognition of \"Start action\" is also considered successful;\ntrue, it must recognise \"Start\", not one word more"
+                },
+                "ocrReplace": {
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "description": "Optional, replacement of commonly misrecognised text (supports regex)"
+                }
+            },
+            "description": "Text recognition",
+            "required": ["algorithm", "text"]
+        }
+    }
+}

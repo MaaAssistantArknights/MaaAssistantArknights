@@ -1,0 +1,172 @@
+<UserControl
+    x:Class="MaaWpfGui.Views.UserControl.InfrastSettingsUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:constants="clr-namespace:MaaWpfGui.Constants"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
+    xmlns:local="clr-namespace:MaaWpfGui"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
+    xmlns:vm="clr-namespace:MaaWpfGui"
+    d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
+    d:DesignWidth="220"
+    mc:Ignorable="d">
+    <StackPanel>
+        <!--  只放在高级设置的部分  -->
+        <StackPanel Visibility="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}">
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource DormTrustEnabled}"
+                IsChecked="{Binding DormTrustEnabled}" />
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{c:Binding DormFilterNotStationedEnabled}"
+                IsEnabled="{c:Binding '!(ClientType == &quot;Official&quot; or ClientType == &quot;Bilibili&quot; or ClientType == &quot;&quot;)'}">
+                <controls:TextBlock
+                    Text="{DynamicResource DormFilterNotStationedEnabled}"
+                    TextWrapping="Wrap"
+                    ToolTip="{DynamicResource DormFilterNotStationedTips}" />
+            </CheckBox>
+            <controls:TextBlock
+                Text="{DynamicResource DormFilterNotStationedEnabledTip}"
+                TextWrapping="Wrap"
+                Visibility="{c:Binding 'ClientType == &quot;Official&quot; or ClientType == &quot;Bilibili&quot; or ClientType == &quot;&quot;'}" />
+            <CheckBox Margin="0,10" IsChecked="{Binding OriginiumShardAutoReplenishment}">
+                <controls:TextBlock Text="{DynamicResource OriginiumShardAutoReplenishment}" TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox Margin="0,10" IsChecked="{Binding ContinueTraining}">
+                <controls:TextBlock Text="{DynamicResource ContinueTraining}" TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox Margin="0,10" IsChecked="{Binding CustomInfrastEnabled}">
+                <controls:TextBlock Text="{DynamicResource CustomInfrastEnabled}" TextWrapping="Wrap" />
+            </CheckBox>
+            <StackPanel Visibility="{c:Binding CustomInfrastEnabled}">
+                <controls:TextBlock
+                    Margin="0,5"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                    <Hyperlink
+                        Cursor="Hand"
+                        NavigateUri="{Binding Source={x:Static constants:MaaUrls.CustomInfrastGenerator}}"
+                        TextDecorations="None">
+                        <TextBlock Text="{DynamicResource CustomInfrastGenerator}" />
+                    </Hyperlink>
+                </controls:TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <ComboBox
+                        Width="150"
+                        Margin="0,5"
+                        hc:InfoElement.Title="{DynamicResource DefaultInfrast}"
+                        ItemsSource="{Binding DefaultInfrastList}"
+                        SelectedValue="{Binding DefaultInfrast}"
+                        SelectedValuePath="Value"
+                        Style="{StaticResource ComboBoxExtend}" />
+                    <Button
+                        Width="60"
+                        Margin="10,5"
+                        VerticalAlignment="Bottom"
+                        Command="{s:Action SelectCustomInfrastFile}"
+                        Content="{DynamicResource Select}" />
+                </StackPanel>
+                <TextBox
+                    Margin="0,5"
+                    IsReadOnly="{Binding IsCustomInfrastFileReadOnly}"
+                    Text="{Binding CustomInfrastFile}" />
+            </StackPanel>
+        </StackPanel>
+
+        <!--  不开自定义基建计划时，放在常规设置的部分  -->
+        <StackPanel Visibility="{c:Binding 'CustomInfrastEnabled and TaskSettingVisibilities.EnableAdvancedSettings or !CustomInfrastEnabled and !TaskSettingVisibilities.EnableAdvancedSettings'}">
+
+            <ComboBox
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource DroneUsage}"
+                DisplayMemberPath="Display"
+                IsEnabled="{c:Binding !CustomInfrastEnabled}"
+                ItemsSource="{Binding UsesOfDronesList}"
+                SelectedValue="{Binding UsesOfDrones}"
+                SelectedValuePath="Value"
+                Style="{StaticResource ComboBoxExtend}" />
+            <StackPanel Margin="0">
+                <TextBlock
+                    Margin="0,5"
+                    HorizontalAlignment="Stretch"
+                    Block.TextAlignment="Center"
+                    Foreground="{DynamicResource PrimaryTextBrush}"
+                    Text="{Binding DormThresholdLabel}"
+                    TextWrapping="Wrap" />
+                <Slider
+                    Margin="0,5"
+                    Maximum="100"
+                    Minimum="0"
+                    ToolTip="{DynamicResource InfrastThresholdTip}"
+                    Value="{Binding DormThreshold}" />
+            </StackPanel>
+            <ListBox
+                Margin="0,5"
+                dd:DragDrop.IsDragSource="True"
+                dd:DragDrop.IsDropTarget="True"
+                ItemsSource="{Binding Path=InfrastItemViewModels}"
+                ToolTip="{DynamicResource LabelSequenceTip}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <!--<maa:TextBlock  Text="{Binding ID}" />
+                            <maa:TextBlock  Text=". " />-->
+                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsCheckedWithNull}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.Resources>
+                    <Style BasedOn="{StaticResource {x:Type ListBox}}" TargetType="{x:Type ListBox}">
+                        <EventSetter Event="PreviewMouseWheel" Handler="ListBox_PreviewMouseWheel" />
+                    </Style>
+                </ListBox.Resources>
+            </ListBox>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Height="30"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    Command="{s:Action InfrastItemSelectedAll}"
+                    Content="{DynamicResource SelectAll}"
+                    IsEnabled="{Binding Idle}" />
+                <Button
+                    Grid.Column="1"
+                    Height="30"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    Command="{s:Action InfrastItemUnselectedAll}"
+                    Content="{DynamicResource Clear}"
+                    IsEnabled="{Binding Idle}" />
+            </Grid>
+        </StackPanel>
+
+        <!--  开自定义基建计划时，放在常规设置的部分  -->
+        <StackPanel Visibility="{c:Binding 'CustomInfrastEnabled and !TaskSettingVisibilities.EnableAdvancedSettings'}">
+            <ComboBox
+                Margin="0,4"
+                VerticalContentAlignment="Center"
+                hc:InfoElement.Title="{DynamicResource CustomInfrastPlan}"
+                DataContext="{Binding CustomInfrastPlanDataContext}"
+                DisplayMemberPath="Display"
+                IsHitTestVisible="{c:Binding !InfrastTaskRunning}"
+                ItemsSource="{Binding CustomInfrastPlanList}"
+                SelectedValue="{Binding CustomInfrastPlanIndex}"
+                SelectedValuePath="Value"
+                Style="{StaticResource ComboBoxExtend}" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,847 @@
+{
+    "type": "SSS",
+    "stage_name": "阿尔斯特甜品制作平台",
+    "minimum_required": "v4.9.0",
+    "doc": {
+        "title": "阿尔斯特甜品制作平台——泥岩斥罪澄闪提丰铃兰浊心斯卡蒂",
+        "title_color": "dark",
+        "details": "作者：DL_君逸寒\n演示视频：BV1sz4y1u7nN\n你们的肝！我来守护！！！\n所以，一键三连，欧内盖！！！\n你们的支持，就是我创作和维护的动力！！！\n\n\n该脚本适合坐拥黄金大队不缺核心干员的博士\n\n\n所有工具人的练度都建议精二起步，选能打的！群法没有减费用模组的话就别选\n\n先锋的选择只建议尖兵分支+风笛（不建议开局带风笛，道中拿了就拿了）\n重装工具人不要带决战者分支\n不要多带辅助！！！\n不要带小车！！！\n另外，注意一下干员们的默认技能，详情可以打开视频链接观看并更改必要的设置\n\n普通难度稳过，一命通并不需要很多运气，应急也不是很难（但是阿尔斯特应急6的名字有bug没法测试，速速催促yj去修啊！！！），核心和必要的阻挡位别都沉底就行\n第六关斥罪得早点出，别人守不住\n\n工具人：\n先锋：3\n重装：3\n狙击：4\n术士：3\n辅助：1\n\n导能原件：溢能回收转化器\n战术装备：术士B，其余都选A\n\n脚本参考：第一天自己直播打的（叉腰）\n\n作者支持按照个人需求自行修改，但不支持修改后上传到作业站等平台，使用此脚本视为认同并将履行该协议",
+        "details_color": "dark"
+    },
+    "buff": "溢能回收转化器",
+    "equipment": ["A", "A", "B", "A", "A", "A", "A", "A"],
+    "strategy": "优选策略",
+    "opers": [
+        {
+            "name": "泥岩",
+            "skill": 2,
+            "skill_usage": 0
+        },
+        {
+            "name": "斥罪",
+            "skill": 3,
+            "skill_usage": 1
+        },
+        {
+            "name": "提丰",
+            "skill": 2,
+            "skill_usage": 1
+        },
+        {
+            "name": "澄闪",
+            "skill": 2,
+            "skill_usage": 0
+        },
+        {
+            "name": "铃兰",
+            "skill": 2,
+            "skill_usage": 0
+        },
+        {
+            "name": "浊心斯卡蒂",
+            "skill": 2,
+            "skill_usage": 0
+        }
+    ],
+    "tool_men": {
+        "pioneer": 3,
+        "tank": 3,
+        "sniper": 4,
+        "caster": 3,
+        "support": 1
+    },
+    "drops": ["无需增调干员", "狙击", "先锋", "重装", "术士", "辅助", "战备激活阀", "超频转化模块"],
+    "blacklist": [
+        "缪尔赛思",
+        "伺夜",
+        "夜半",
+        "豆苗",
+        "琴柳",
+        "极境",
+        "桃金娘",
+        "伊内丝",
+        "晓歌",
+        "谜图",
+        "野鬃",
+        "苇草",
+        "格拉尼",
+        "红豆",
+        "芬",
+        "香草",
+        "翎羽",
+        "夜刀",
+        "山",
+        "重岳",
+        "玛恩纳",
+        "龙舌兰",
+        "斯卡蒂",
+        "赫拉格",
+        "耀骑士临光",
+        "史尔特尔",
+        "阿米娅",
+        "因陀罗",
+        "星极",
+        "芙兰卡",
+        "赤冬",
+        "达格达",
+        "海沫",
+        "火龙S黑角",
+        "摩根",
+        "燧石",
+        "炎客",
+        "羽毛笔",
+        "铸铁",
+        "断罪者",
+        "宴",
+        "缠丸",
+        "杰克",
+        "猎蜂",
+        "慕斯",
+        "休谟斯",
+        "罗小黑",
+        "玫兰莎",
+        "Castle-3",
+        "森蚺",
+        "极光",
+        "洋灰",
+        "火神",
+        "Friston-3",
+        "菲亚梅塔",
+        "正义骑士号",
+        "泰拉大陆调查团",
+        "卡涅利安",
+        "林",
+        "薄绿",
+        "蜜蜡",
+        "伊芙利特",
+        "蚀清",
+        "凯尔希",
+        "焰影苇草",
+        "濯尘芙蓉",
+        "Lancet-2",
+        "白铁",
+        "掠风",
+        "罗比菈塔",
+        "U-Official",
+        "傀影",
+        "缄默德克萨斯",
+        "麒麟R夜刀",
+        "老鲤",
+        "多萝西",
+        "阿",
+        "乌有",
+        "红",
+        "槐琥",
+        "卡夫卡",
+        "霜华",
+        "罗宾",
+        "砾",
+        "孑",
+        "THRM-EX"
+    ],
+    "stages": [
+        {
+            "stage_name": "糖霜硬壳",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [5, 3],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [4, 4],
+                    "direction": "Up"
+                },
+                {
+                    "core": "斥罪",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "tank": 1
+                    },
+                    "location": [4, 3],
+                    "direction": "Left"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 3
+                    },
+                    "location": [3, 4],
+                    "direction": "Up"
+                },
+                {
+                    "core": "浊心斯卡蒂",
+                    "tool_men": {
+                        "caster": 1,
+                        "support": 1
+                    },
+                    "location": [4, 4],
+                    "direction": "Up"
+                },
+                {
+                    "core": "泥岩",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "tank": 1
+                    },
+                    "location": [5, 3],
+                    "direction": "Left"
+                },
+                {
+                    "core": "溢能回收转化器",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [3, 3],
+                    "direction": "None",
+                    "kills": 20
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [1, 1],
+                    "direction": "None",
+                    "costs": 70
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [2, 1],
+                    "direction": "None",
+                    "costs": 75
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [3, 1],
+                    "direction": "None",
+                    "costs": 80
+                }
+            ],
+            "retry_times": 9
+        },
+        {
+            "stage_name": "甜美派对",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [8, 3],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [8, 4],
+                    "direction": "Left"
+                },
+                {
+                    "core": "斥罪",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "tank": 1
+                    },
+                    "location": [7, 3],
+                    "direction": "Left"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 3
+                    },
+                    "location": [7, 4],
+                    "direction": "Up"
+                },
+                {
+                    "core": "浊心斯卡蒂",
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [8, 4],
+                    "direction": "Left"
+                },
+                {
+                    "core": "泥岩",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "tank": 1
+                    },
+                    "location": [8, 3],
+                    "direction": "Left"
+                },
+                {
+                    "core": "提丰",
+                    "tool_men": {
+                        "sniper": 1,
+                        "caster": 1,
+                        "support": 2
+                    },
+                    "location": [8, 2],
+                    "direction": "Left"
+                },
+                {
+                    "core": "溢能回收转化器",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [7, 2],
+                    "direction": "None",
+                    "kills": 20
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [2, 2],
+                    "direction": "None",
+                    "costs": 70
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [2, 3],
+                    "direction": "None",
+                    "costs": 75
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [2, 4],
+                    "direction": "None",
+                    "costs": 80
+                }
+            ],
+            "retry_times": 9
+        },
+        {
+            "stage_name": "干酪封锁",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [6, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [6, 3],
+                    "direction": "Left"
+                },
+                {
+                    "core": "斥罪",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "tank": 1
+                    },
+                    "location": [5, 4],
+                    "direction": "Left"
+                },
+                {
+                    "core": "浊心斯卡蒂",
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [6, 3],
+                    "direction": "Left"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 3
+                    },
+                    "location": [5, 5],
+                    "direction": "Up"
+                },
+                {
+                    "core": "战备激活阀",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [4, 5],
+                    "direction": "Right",
+                    "kills": 10
+                },
+                {
+                    "core": "提丰",
+                    "tool_men": {
+                        "support": 2,
+                        "sniper": 2,
+                        "caster": 1
+                    },
+                    "location": [8, 4],
+                    "direction": "Left"
+                },
+                {
+                    "core": "泥岩",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "tank": 1
+                    },
+                    "location": [6, 4],
+                    "direction": "Left"
+                },
+                {
+                    "core": "溢能回收转化器",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [4, 3],
+                    "direction": "None",
+                    "kills": 10
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [9, 1],
+                    "direction": "None",
+                    "costs": 70
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [8, 1],
+                    "direction": "None",
+                    "costs": 75
+                },
+                {
+                    "type": "Deploy",
+                    "name": "战备激活阀",
+                    "location": [8, 5],
+                    "direction": "Up",
+                    "kills": 15
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [7, 1],
+                    "direction": "None",
+                    "costs": 80
+                }
+            ],
+            "retry_times": 9
+        },
+        {
+            "stage_name": "先进工艺",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [4, 3],
+                    "direction": "Down"
+                },
+                {
+                    "core": "斥罪",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "tank": 1
+                    },
+                    "location": [5, 3],
+                    "direction": "Right"
+                },
+                {
+                    "core": "泥岩",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "tank": 1
+                    },
+                    "location": [4, 3],
+                    "direction": "Down"
+                },
+                {
+                    "core": "浊心斯卡蒂",
+                    "tool_men": {
+                        "caster": 2
+                    },
+                    "location": [6, 2],
+                    "direction": "Down"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 3
+                    },
+                    "location": [4, 2],
+                    "direction": "Down"
+                },
+                {
+                    "core": "战备激活阀",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [4, 1],
+                    "direction": "Down",
+                    "kills": 15
+                },
+                {
+                    "core": "提丰",
+                    "tool_men": {
+                        "caster": 2,
+                        "sniper": 1
+                    },
+                    "location": [3, 4],
+                    "direction": "Right"
+                },
+                {
+                    "core": "铃兰",
+                    "tool_men": {
+                        "sniper": 2,
+                        "support": 1
+                    },
+                    "location": [6, 4],
+                    "direction": "Left"
+                },
+                {
+                    "core": "溢能回收转化器",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [5, 4],
+                    "direction": "None",
+                    "kills": 10
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [8, 1],
+                    "direction": "None",
+                    "costs": 70
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [8, 3],
+                    "direction": "None",
+                    "costs": 75
+                },
+                {
+                    "type": "Deploy",
+                    "name": "战备激活阀",
+                    "location": [4, 4],
+                    "direction": "Left",
+                    "kills": 20
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [8, 5],
+                    "direction": "None",
+                    "costs": 80
+                }
+            ],
+            "retry_times": 18
+        },
+        {
+            "stage_name": "奶油四溅",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [2, 3],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [5, 3],
+                    "direction": "Down"
+                },
+                {
+                    "core": "斥罪",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "tank": 1
+                    },
+                    "location": [3, 3],
+                    "direction": "Right"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 2
+                    },
+                    "location": [5, 3],
+                    "direction": "Left"
+                },
+                {
+                    "core": "浊心斯卡蒂",
+                    "tool_men": {
+                        "caster": 2
+                    },
+                    "location": [3, 2],
+                    "direction": "Down"
+                },
+                {
+                    "core": "提丰",
+                    "tool_men": {
+                        "caster": 2,
+                        "sniper": 1
+                    },
+                    "location": [1, 2],
+                    "direction": "Right"
+                },
+                {
+                    "core": "战备激活阀",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [3, 4],
+                    "direction": "Up",
+                    "kills": 10
+                },
+                {
+                    "core": "泥岩",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "tank": 1
+                    },
+                    "location": [2, 3],
+                    "direction": "Right"
+                },
+                {
+                    "core": "铃兰",
+                    "tool_men": {
+                        "sniper": 2,
+                        "support": 1
+                    },
+                    "location": [5, 2],
+                    "direction": "Left"
+                },
+                {
+                    "core": "溢能回收转化器",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [3, 4],
+                    "direction": "None",
+                    "kills": 15
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [7, 2],
+                    "direction": "None",
+                    "costs": 70
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [7, 3],
+                    "direction": "None",
+                    "costs": 75
+                },
+                {
+                    "type": "Deploy",
+                    "name": "战备激活阀",
+                    "location": [4, 3],
+                    "direction": "Right",
+                    "kills": 25
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [4, 2],
+                    "direction": "None",
+                    "costs": 80
+                }
+            ],
+            "retry_times": 18
+        },
+        {
+            "stage_name": "微笑必达",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [5, 2],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [6, 3],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [7, 4],
+                    "direction": "Left"
+                },
+                {
+                    "core": "斥罪",
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [5, 2],
+                    "direction": "Down"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 3
+                    },
+                    "location": [7, 2],
+                    "direction": "Left"
+                },
+                {
+                    "core": "浊心斯卡蒂",
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [7, 4],
+                    "direction": "Left"
+                },
+                {
+                    "core": "泥岩",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "tank": 2
+                    },
+                    "location": [6, 3],
+                    "direction": "Left"
+                },
+                {
+                    "core": "战备激活阀",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [7, 1],
+                    "direction": "Down",
+                    "kills": 10
+                },
+                {
+                    "core": "提丰",
+                    "tool_men": {
+                        "sniper": 3,
+                        "caster": 1
+                    },
+                    "location": [9, 4],
+                    "direction": "Left"
+                },
+                {
+                    "core": "铃兰",
+                    "tool_men": {
+                        "sniper": 3
+                    },
+                    "location": [6, 5],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "support": 9,
+                        "sniper": 2,
+                        "caster": 5
+                    },
+                    "location": [7, 5],
+                    "direction": "Left"
+                },
+                {
+                    "core": "“甜蜜狂搅”",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [4, 2],
+                    "direction": "Right"
+                },
+                {
+                    "core": "溢能回收转化器",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [4, 3],
+                    "direction": "None",
+                    "kills": 15
+                },
+                {
+                    "core": "超重绝缘水泥",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [2, 6],
+                    "direction": "None",
+                    "costs": 70
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "“甜蜜狂搅”",
+                    "location": [7, 3],
+                    "direction": "Left",
+                    "kills": 35
+                },
+                {
+                    "type": "Deploy",
+                    "name": "战备激活阀",
+                    "location": [5, 1],
+                    "direction": "Down",
+                    "kills": 25
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [3, 6],
+                    "direction": "None",
+                    "costs": 75
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [4, 6],
+                    "direction": "None",
+                    "costs": 80
+                }
+            ],
+            "retry_times": 18
+        }
+    ]
+}

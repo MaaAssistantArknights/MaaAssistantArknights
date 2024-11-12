@@ -1,0 +1,16 @@
+[
+    {
+        "name_template": "MAA-{VERSION}-win-{PLATFORM}",
+        "type": "MaaBundle",
+        "configuration": {
+            "include": ["**"]
+        }
+    },
+    {
+        "name_template": "MAAComponent-DebugSymbol-{VERSION}-win-{PLATFORM}",
+        "type": "MaaDebugSymbol",
+        "configuration": {
+            "include": ["**/*.pdb"]
+        }
+    }
+]

@@ -1,0 +1,86 @@
+{
+    "stage_name": "火之骄子",
+    "replacement_home": [
+        {
+            "location": [5, 2],
+            "direction": "right"
+        },
+        {
+            "location": [5, 3],
+            "direction": "right"
+        },
+        {
+            "location": [6, 5],
+            "direction": "up"
+        },
+        {
+            "location": [4, 3],
+            "direction": "right"
+        }
+    ],
+    "blacklist_location": [[2, 4]],
+    "force_air_defense_when_deploy_blocking_num": {
+        "melee_num": 2,
+        "air_defense_num": 1,
+        "ban_medic": false
+    },
+    "deploy_plan": [
+        {
+            "groups": ["投锋"],
+            "location": [4, 1],
+            "direction": "right"
+        },
+        {
+            "groups": ["基石", "地面C", "号角", "挡人先锋", "重装", "其他地面", "异德", "刺客"],
+            "location": [5, 2],
+            "direction": "right"
+        },
+        {
+            "groups": ["单奶", "群奶"],
+            "location": [3, 3],
+            "direction": "right"
+        },
+        {
+            "groups": ["高台C", "控制", "召唤", "狙击", "术师", "辅助"],
+            "location": [4, 3],
+            "direction": "right"
+        },
+        {
+            "groups": ["玛恩纳"],
+            "location": [6, 4],
+            "direction": "up"
+        },
+        {
+            "groups": ["号角"],
+            "location": [4, 1],
+            "direction": "right",
+            "condition": [9, 24]
+        },
+        {
+            "groups": ["基石", "地面C", "重装", "挡人先锋", "刺客", "地刺", "其他地面"],
+            "location": [5, 3],
+            "direction": "right"
+        },
+        {
+            "groups": ["高台C", "控制", "狙击", "术师", "辅助", "其他高台"],
+            "location": [6, 5],
+            "direction": "up"
+        },
+        {
+            "groups": ["挡人先锋", "地面C", "重装", "地刺", "异德", "刺客", "其他地面"],
+            "location": [6, 2],
+            "direction": "right"
+        },
+        {
+            "groups": ["单奶"],
+            "location": [5, 5],
+            "direction": "up"
+        }
+    ],
+    "retreat_plan": [
+        {
+            "location": [4, 1],
+            "condition": [7, 8]
+        }
+    ]
+}

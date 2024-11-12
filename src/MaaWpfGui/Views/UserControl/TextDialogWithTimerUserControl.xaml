@@ -1,0 +1,56 @@
+<Border
+    x:Class="MaaWpfGui.Views.UserControl.TextDialogWithTimerUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:local="clr-namespace:MaaWpfGui.Views.UserControl"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Width="400"
+    Height="300"
+    Background="{DynamicResource RegionBrush}"
+    CornerRadius="10"
+    mc:Ignorable="d">
+    <hc:SimplePanel>
+        <Viewbox Width="120" Height="120">
+            <TextBlock
+                Name="Content"
+                MaxWidth="150"
+                Style="{StaticResource TextBlockLargeBold}"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+        </Viewbox>
+        <hc:CircleProgressBar
+            Name="ProgressBarTimer"
+            Width="160"
+            Height="160"
+            ArcThickness="10"
+            ShowText="False" />
+
+        <TextBlock
+            Name="Tip"
+            Margin="25"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            TextWrapping="Wrap" />
+        <Button
+            Name="Button"
+            MinWidth="60"
+            MinHeight="40"
+            Margin="15"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            FontSize="{StaticResource HeadFontSize}" />
+        <Button
+            Width="22"
+            Height="22"
+            Margin="0,4,4,0"
+            Padding="0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            hc:IconElement.Geometry="{StaticResource ErrorGeometry}"
+            Command="hc:ControlCommands.Close"
+            Foreground="{DynamicResource PrimaryBrush}"
+            Style="{StaticResource ButtonIcon}" />
+    </hc:SimplePanel>
+</Border>

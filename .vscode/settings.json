@@ -1,0 +1,15 @@
+{
+    "json.schemas": [
+        {
+            "fileMatch": [
+                "resource/tasks.json"
+            ],
+            "url": "./docs/maa_tasks_schema.json"
+        }
+    ],
+    "files.exclude": {
+        "MaaDeps/vcpkg/buildtrees": true,
+        "MaaDeps/vcpkg/packages": true
+    },
+    "C_Cpp.exclusionPolicy": "checkFilesAndFolders"
+}

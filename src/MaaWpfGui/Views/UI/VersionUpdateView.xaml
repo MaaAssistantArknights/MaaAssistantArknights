@@ -1,0 +1,61 @@
+<hc:Window
+    x:Class="MaaWpfGui.Views.UI.VersionUpdateView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mdxam="clr-namespace:MdXaml;assembly=MdXaml"
+    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
+    xmlns:vm="clr-namespace:MaaWpfGui"
+    Icon="../../newlogo.ico"
+    Title="{DynamicResource VersionUpdated}"
+    Width="600"
+    Height="500"
+    d:DataContext="{d:DesignInstance {x:Type ui:VersionUpdateViewModel}}"
+    mc:Ignorable="d">
+    <Grid Background="{DynamicResource VersionUpdateViewBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+
+        <StackPanel
+            Grid.Row="0"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <controls:TextBlock
+                Margin="0,10,0,10"
+                VerticalAlignment="Bottom"
+                FontSize="20"
+                Style="{StaticResource TextBlockDefaultBold}"
+                Text="{DynamicResource VersionUpdatedTo}"
+                TextWrapping="Wrap" />
+            <controls:TextBlock
+                Margin="0,10,0,10"
+                VerticalAlignment="Bottom"
+                FontSize="20"
+                Style="{StaticResource TextBlockDefaultBold}"
+                Text="{Binding UpdateTag}"
+                TextWrapping="Wrap" />
+        </StackPanel>
+
+        <mdxam:MarkdownScrollViewer
+            ClickAction="SafetyOpenBrowser"
+            Grid.Row="1"
+            Markdown="{Binding UpdateInfo}"
+            Margin="10,10,10,0">
+            <mdxam:MarkdownScrollViewer.MarkdownStyle>
+                <StaticResource ResourceKey="MdXamlStyle"/>
+            </mdxam:MarkdownScrollViewer.MarkdownStyle>
+            <mdxam:MarkdownScrollViewer.Plugins>
+                <StaticResource ResourceKey="MdXamlPlugin"/>
+            </mdxam:MarkdownScrollViewer.Plugins>
+        </mdxam:MarkdownScrollViewer>
+
+    </Grid>
+</hc:Window>

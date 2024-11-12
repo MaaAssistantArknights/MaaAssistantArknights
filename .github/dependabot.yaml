@@ -1,0 +1,18 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /.github/workflows
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci
+    assignees:
+      - constrat
+      - AnnAngela
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+    ignore:
+      - dependency-name: "Nerixyz/actionsx-prettier"
+        versions: ["3.0.0"]

@@ -1,0 +1,83 @@
+name: Bug 反馈（使用中文）
+description: 识别错误、操作异常、连接错误等
+labels: ["bug"]
+body:
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: 在提问之前...
+      description: |
+        请确认自己完成了要求之后再进行勾选
+      options:
+        - label: 我理解 Issue 是用于反馈和解决问题的，而非吐槽评论区，将尽可能提供更多信息帮助问题解决
+          required: true
+        - label: 我填写了简短且清晰明确的标题，以便开发者在翻阅 Issue 列表时能快速确定大致问题。而不是“一个建议”、“卡住了”等
+          required: true
+        - label: 我使用的是当前更新版本的最新版，且已查看版本发布至今和 Pull Requests 中尚未发布的更新内容，并未提及该 Bug 已被修复的情况
+          required: true
+        - label: 我已检查了置顶议题（Pinned Issue）（公告）、活跃议题（Open Issue）、已关闭议题（Closed Issue），确认我的问题未被提及
+          required: true
+  - type: textarea
+    id: describe
+    attributes:
+      label: 问题描述
+      description: 描述问题时请尽可能详细
+    validations:
+      required: true
+  - type: textarea
+    id: version
+    attributes:
+      label: Version
+      description: >-
+        请提供 MAA 版本。可在 MAA -> 设置 -> 软件更新中找到（点击图标可复制）。
+      placeholder: |
+        Resource Version:
+        MAA Version:
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志和配置文件
+      description: |
+        **请在关闭 MAA 后，上传以下 5 个文件：**
+          1. `debug` 文件夹中的 `asst.log` `gui.log` `asst.bak.log` 和 `gui.bak.log` 日志文件，并说明问题出现的大致时间点
+          2. `config` 文件夹中的 `gui.json` 配置文件
+
+        如果你在使用 MacBook，请点击屏幕左上角的“文件”，点击“打开日志文件夹”
+        **请直接将完整的文件拖拽进来，而非自己裁切或复制的片段；若文件体积过大可压缩后再上传**
+      placeholder: |
+        请确认上传文件前已关闭 MAA
+    validations:
+      required: true
+  - type: textarea
+    id: configuration
+    attributes:
+      label: 配置信息
+      description: |
+        请说明操作系统及版本、模拟器品牌、模拟器分辨率、DPI、帧率；
+        若正在使用 MuMu 12 或雷电 9，请说明截图增强是否开启；
+        最后请说明 GPU 加速推理是否开启，若开启请提供 GPU 型号。
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 截图或录屏
+      description: |
+        `debug` 目录下按功能分类的文件夹内，有一些自动截图的错误图片，若有相关的，请一并打包上传
+
+        可上传屏幕截图或录制以帮助解释你的问题，包括但不限于 MAA 软件截图、游戏画面截图
+        若是**识别相关问题**，请尽可能提供模拟器自带的截图工具截取的无遮挡的**原图**（或通过 adb 截取原图）
+        用其他的工具（如QQ/微信）截取的图片包含窗口边框且长宽比、分辨率不固定，不利于我们排除bug
+        若文件体积过大可压缩后再上传
+    validations:
+      required: false
+  - type: textarea
+    id: others
+    attributes:
+      label: 还有别的吗？
+      description: |
+        任何能让我们对你所遇到的问题有更多了解的东西
+    validations:
+      required: false

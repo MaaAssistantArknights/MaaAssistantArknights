@@ -1,0 +1,60 @@
+{
+    "stage_name": "鲍勃酒品",
+    "replacement_home": [
+        {
+            "location": [10, 2],
+            "direction": "left"
+        },
+        {
+            "location": [2, 2],
+            "direction": "down"
+        },
+        {
+            "location": [2, 3],
+            "direction": "down"
+        }
+    ],
+    "blacklist_location": [[1, 5]],
+    "deploy_plan": [
+        {
+            "groups": ["棘刺", "地面阻挡", "情报官", "回费", "炮灰", "银灰"],
+            "location": [10, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["地面阻挡", "情报官", "回费", "炮灰", "银灰"],
+            "location": [10, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["高台输出"],
+            "location": [2, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [2, 3],
+            "direction": "down"
+        },
+        {
+            "groups": ["浊心斯卡蒂", "凯尔希", "奶"],
+            "location": [2, 1],
+            "direction": "down"
+        },
+        {
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [6, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["浊心斯卡蒂", "凯尔希", "奶"],
+            "location": [9, 1],
+            "direction": "down"
+        },
+        {
+            "groups": ["炮灰", "地面单切", "情报官"],
+            "location": [2, 5],
+            "direction": "down"
+        }
+    ]
+}

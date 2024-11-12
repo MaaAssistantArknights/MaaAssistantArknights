@@ -1,0 +1,63 @@
+{
+    "stage_name": "巡逻队",
+    "replacement_home": [
+        {
+            "location": [7, 3],
+            "direction": "left"
+        },
+        {
+            "location": [7, 4],
+            "direction": "left"
+        },
+        {
+            "location": [3, 2],
+            "direction": "left"
+        },
+        {
+            "location": [7, 2],
+            "direction": "left"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["棘刺", "地面阻挡", "情报官", "回费", "炮灰", "银灰"],
+            "location": [7, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["奶", "凯尔希", "浊心斯卡蒂"],
+            "location": [6, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [3, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["地面阻挡", "情报官", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
+            "location": [7, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["浊心斯卡蒂", "高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [7, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [2, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [5, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["地面阻挡", "情报官", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
+            "location": [6, 4],
+            "direction": "left"
+        }
+    ]
+}

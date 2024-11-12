@@ -1,0 +1,678 @@
+{
+    "type": "SSS",
+    "stage_name": "The Abandoned Lighthouse",
+    "minimum_required": "v5.2.1-alpha.1.d033.gc3e18d3ee",
+    "doc": {
+        "title": "The Abandoned Lighthouse - Chongyue core - v2.0 (Emergency)",
+        "title_color": "dark",
+        "details": "Author：丨转瞬即逝丨\nBV1dP411W74g\nEN Adaptation: Constrat\nModified from：作业搬运工/碳烤沙虫腿\n\nManual operator selection: choose levelled operators with low DP cost\n\nCore:\nChongyue S3\nEyjafjalla the Hvìt Aska S1\nSaria S2\nLappaland S2\n\nMedic: Lumen\nSniper: Marksman archetype\nVanguard: required 2-block\n\nTactical Equipment: Sniper B, all others A\n\nEmergency mode: first five floors no issues. Sixth floor is luck-dependent, consider playing manually.",
+        "details_color": "dark"
+    },
+    "buff": "战地援护无人机",
+    "equipment": ["A", "A", "A", "A", "A", "B", "A", "A"],
+    "strategy": "Core",
+    "opers": [
+        {
+            "name": "重岳",
+            "skill": 3,
+            "skill_usage": 2,
+            "skill_times": 5
+        },
+        {
+            "name": "纯烬艾雅法拉",
+            "skill": 1,
+            "skill_usage": 0
+        },
+        {
+            "name": "塞雷娅",
+            "skill": 2,
+            "skill_usage": 0
+        },
+        {
+            "name": "拉普兰德",
+            "skill": 2,
+            "skill_usage": 0
+        }
+    ],
+    "tool_men": {
+        "pioneer": 5,
+        "guard": 5,
+        "defender": 1,
+        "medic": 1,
+        "supporter": 2,
+        "sniper": 2
+    },
+    "drops": ["无需增调干员", "辅助", "先锋", "战备激活阀", "靶向修复制剂", "近卫", "重装", "医疗"],
+    "blacklist": [
+        "罗比菈塔",
+        "掠风",
+        "白铁",
+        "桃金娘",
+        "极境",
+        "琴柳",
+        "伺夜",
+        "豆苗",
+        "夜半",
+        "缪尔赛思",
+        "森蚺",
+        "极光",
+        "梅尔",
+        "U-Official",
+        "玛恩纳",
+        "龙舌兰",
+        "耀骑士临光",
+        "幽灵鲨",
+        "海蒂"
+    ],
+    "stages": [
+        {
+            "stage_name": "海涎",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [3, 3],
+                    "direction": "Left"
+                },
+                {
+                    "core": "重岳",
+                    "tool_men": {
+                        "pioneer": 2,
+                        "guard": 2
+                    },
+                    "location": [2, 3],
+                    "direction": "Up"
+                },
+                {
+                    "core": "纯烬艾雅法拉",
+                    "tool_men": {
+                        "medic": 0
+                    },
+                    "location": [1, 3],
+                    "direction": "Right"
+                },
+                {
+                    "core": "塞雷娅",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "guard": 1,
+                        "defender": 1
+                    },
+                    "location": [3, 3],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 2
+                    },
+                    "location": [3, 2],
+                    "direction": "Down"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 10,
+                    "name": "战地援护无人机",
+                    "location": [2, 2],
+                    "direction": "None"
+                }
+            ],
+            "retry_times": 3
+        },
+        {
+            "stage_name": "走肉",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [4, 4],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [4, 5],
+                    "direction": "Up"
+                },
+                {
+                    "core": "重岳",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "guard": 2
+                    },
+                    "location": [4, 4],
+                    "direction": "Right"
+                },
+                {
+                    "core": "塞雷娅",
+                    "tool_men": {
+                        "defender": 1
+                    },
+                    "location": [4, 5],
+                    "direction": "Up"
+                },
+                {
+                    "core": "纯烬艾雅法拉",
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [5, 5],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 100
+                    },
+                    "location": [3, 5],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "guard": 100
+                    },
+                    "location": [3, 4],
+                    "direction": "Up"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 10,
+                    "name": "战地援护无人机",
+                    "location": [5, 4],
+                    "direction": "None"
+                }
+            ],
+            "retry_times": 3
+        },
+        {
+            "stage_name": "驱逐",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [3, 6],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [4, 6],
+                    "direction": "Left"
+                },
+                {
+                    "core": "重岳",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "guard": 3
+                    },
+                    "location": [3, 6],
+                    "direction": "Up"
+                },
+                {
+                    "core": "塞雷娅",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "defender": 1
+                    },
+                    "location": [4, 6],
+                    "direction": "Left"
+                },
+                {
+                    "core": "纯烬艾雅法拉",
+                    "tool_men": {
+                        "medic": 1
+                    },
+                    "location": [6, 5],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 2
+                    },
+                    "location": [5, 5],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 100
+                    },
+                    "location": [4, 5],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 9,
+                    "name": "战地援护无人机",
+                    "location": [5, 6],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "战备激活阀",
+                    "location": [6, 6],
+                    "direction": "Up"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "战备激活阀",
+                    "location": [6, 6],
+                    "direction": "Up"
+                }
+            ],
+            "retry_times": 3
+        },
+        {
+            "stage_name": "幻景",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [5, 3],
+                    "direction": "Right"
+                },
+                {
+                    "core": "纯烬艾雅法拉",
+                    "tool_men": {
+                        "medic": 1
+                    },
+                    "location": [3, 2],
+                    "direction": "Right"
+                },
+                {
+                    "core": "塞雷娅",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "guard": 1,
+                        "defender": 1
+                    },
+                    "location": [5, 3],
+                    "direction": "Right"
+                },
+                {
+                    "core": "重岳",
+                    "tool_men": {
+                        "pioneer": 2,
+                        "guard": 3
+                    },
+                    "location": [6, 3],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 2
+                    },
+                    "location": [4, 2],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 100
+                    },
+                    "location": [5, 2],
+                    "direction": "Right"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "战地援护无人机",
+                    "location": [4, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 10,
+                    "name": "战备激活阀",
+                    "location": [3, 3],
+                    "direction": "Up"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 15,
+                    "name": "战备激活阀",
+                    "location": [3, 3],
+                    "direction": "Up"
+                }
+            ],
+            "retry_times": 3
+        },
+        {
+            "stage_name": "裂流",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [7, 5],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "guard": 1
+                    },
+                    "location": [6, 5],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [5, 6],
+                    "direction": "Right"
+                },
+                {
+                    "core": "纯烬艾雅法拉",
+                    "tool_men": {
+                        "medic": 1
+                    },
+                    "location": [5, 3],
+                    "direction": "Down"
+                },
+                {
+                    "core": "塞雷娅",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "defender": 1
+                    },
+                    "location": [6, 6],
+                    "direction": "Right"
+                },
+                {
+                    "core": "重岳",
+                    "tool_men": {
+                        "pioneer": 2,
+                        "guard": 2
+                    },
+                    "location": [6, 5],
+                    "direction": "Down"
+                },
+                {
+                    "core": "拉普兰德",
+                    "tool_men": {
+                        "guard": 1
+                    },
+                    "location": [5, 6],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "defender": 100
+                    },
+                    "location": [7, 5],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 2,
+                        "supporter": 100
+                    },
+                    "location": [7, 4],
+                    "direction": "Down"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 5,
+                    "name": "战地援护无人机",
+                    "location": [5, 5],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "战备激活阀",
+                    "location": [4, 3],
+                    "direction": "Right"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "战备激活阀",
+                    "location": [7, 6],
+                    "direction": "Left"
+                }
+            ],
+            "retry_times": 3
+        },
+        {
+            "stage_name": "落潮",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [10, 1],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [9, 1],
+                    "direction": "Left"
+                },
+                {
+                    "core": "纯烬艾雅法拉",
+                    "tool_men": {
+                        "medic": 0
+                    },
+                    "location": [8, 4],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "medic": 1
+                    },
+                    "location": [9, 4],
+                    "direction": "Up"
+                },
+                {
+                    "core": "重岳",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "guard": 3
+                    },
+                    "location": [9, 1],
+                    "direction": "Left"
+                },
+                {
+                    "core": "塞雷娅",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "guard": 2,
+                        "defender": 1
+                    },
+                    "location": [10, 1],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 5
+                    },
+                    "location": [7, 4],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "medic": 100
+                    },
+                    "location": [9, 4],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 2,
+                        "guard": 8,
+                        "defender": 8
+                    },
+                    "location": [10, 3],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 100
+                    },
+                    "location": [8, 2],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 7,
+                    "name": "战地援护无人机",
+                    "location": [9, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "汲取体",
+                    "location": [8, 1],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "神经再生",
+                    "location": [8, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "汲取体",
+                    "location": [7, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "神经再生",
+                    "location": [9, 2],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "汲取体",
+                    "location": [9, 4],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "战备激活阀",
+                    "location": [8, 3],
+                    "direction": "Down"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "神经再生",
+                    "location": [8, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "汲取体",
+                    "location": [8, 1],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "神经再生",
+                    "location": [9, 2],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "汲取体",
+                    "location": [7, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "战备激活阀",
+                    "location": [8, 3],
+                    "direction": "Down"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "神经再生",
+                    "location": [8, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "汲取体",
+                    "location": [9, 4],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "神经再生",
+                    "location": [9, 2],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "汲取体",
+                    "location": [8, 1],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "神经再生",
+                    "location": [8, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "汲取体",
+                    "location": [7, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "神经再生",
+                    "location": [9, 2],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "汲取体",
+                    "location": [9, 4],
+                    "direction": "None"
+                }
+            ],
+            "retry_times": 3
+        }
+    ]
+}

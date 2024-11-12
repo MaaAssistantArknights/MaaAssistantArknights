@@ -1,0 +1,36 @@
+name: Feature Request (in English)
+description: New features, suggestions, etc.
+labels: ["enhancement"]
+body:
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before raising the issue...
+      options:
+        - label: I filled in a short, clear title so that developers could quickly identify the general problem when going through the issue list. Instead of "Some suggestions", "Stuck", etc.
+          required: true
+        - label: I'm probably sure this is a new feature/suggestion and not a bug encountered (please attach logs if you're not sure)
+          required: true
+        - label: I am using the latest version of the current update and have reviewed both the updates released so far and the unreleased changes in the Pull Requests, but there is no mention of this feature/suggestion being added.
+          required: true
+        - label: I have reviewed the Pinned issue (Announcements), Open issues, and Closed issues to ensure that my feature/suggestion has not been mentioned.
+          required: true
+  - type: textarea
+    id: describe
+    attributes:
+      label: The problems you have encountered?
+    validations:
+      required: false
+  - type: textarea
+    id: solution
+    attributes:
+      label: Any good ideas?
+    validations:
+      required: false
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional
+      description: Any other background, screen shots, etc.
+    validations:
+      required: false

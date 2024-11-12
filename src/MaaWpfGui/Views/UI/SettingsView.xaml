@@ -1,0 +1,99 @@
+<UserControl
+    x:Class="MaaWpfGui.Views.UI.SettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
+    xmlns:local="clr-namespace:MaaWpfGui"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
+    xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:userControl="clr-namespace:MaaWpfGui.Views.UserControl"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
+    xmlns:vm="clr-namespace:MaaWpfGui"
+    d:Background="White"
+    d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
+    d:DesignHeight="4000"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="175" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <ListBox
+            x:Name="MasterListBox"
+            Grid.Column="0"
+            Margin="10"
+            IsSynchronizedWithCurrentItem="true"
+            ItemsSource="{Binding ListTitle}"
+            SelectedIndex="{Binding SelectedIndex}" />
+
+        <hc:ScrollViewer
+            Grid.Column="1"
+            Margin="20,10"
+            HorizontalAlignment="Stretch"
+            properties:ScrollViewerBinding.DividerVerticalOffsetList="{Binding DividerVerticalOffsetList}"
+            properties:ScrollViewerBinding.ExtentHeight="{Binding ScrollExtentHeight}"
+            properties:ScrollViewerBinding.VerticalOffset="{Binding ScrollOffset}"
+            properties:ScrollViewerBinding.ViewportHeight="{Binding ScrollViewportHeight}"
+            IsInertiaEnabled="True"
+            PanningMode="Both">
+            <StackPanel>
+
+                <hc:Divider Content="{Binding ListTitle[0]}" />
+                <userControl:ConfigurationMgrUserControl Margin="0,20" HorizontalAlignment="Center" />
+
+                <hc:Divider Content="{Binding ListTitle[1]}" />
+                <userControl:TimerSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+
+                <hc:Divider Content="{Binding ListTitle[2]}" />
+                <userControl:PerformanceUserControl
+                    Margin="0,20"
+                    HorizontalAlignment="Center"
+                    IsEnabled="{Binding Idle}" />
+
+                <hc:Divider Content="{Binding ListTitle[3]}" />
+                <userControl:GameClientUserControl Margin="0,20" HorizontalAlignment="Center" />
+
+                <hc:Divider Content="{Binding ListTitle[4]}" />
+                <userControl:ConnectSettingsUserControl
+                    Margin="0,20"
+                    HorizontalAlignment="Center"
+                    IsEnabled="{Binding Idle}" />
+
+                <hc:Divider Content="{Binding ListTitle[5]}" />
+                <userControl:StartSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+
+                <hc:Divider Content="{Binding ListTitle[6]}" />
+                <userControl:RemoteControlUserControl Margin="0,20" HorizontalAlignment="Center" />
+
+                <hc:Divider Content="{Binding ListTitle[7]}" />
+                <userControl:GUISettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+
+                <hc:Divider Content="{Binding ListTitle[8]}" />
+                <userControl:ExternalNotificationSettingsUserControl
+                    Margin="0,20"
+                    HorizontalAlignment="Center"
+                    DataContext="{Binding ExternalNotificationDataContext}" />
+
+                <hc:Divider Content="{Binding ListTitle[9]}" />
+                <userControl:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+
+                <hc:Divider Content="{Binding ListTitle[10]}" />
+                <userControl:VersionUpdateSettingsUserControl
+                    Margin="0,20"
+                    HorizontalAlignment="Center"
+                    DataContext="{Binding VersionUpdateDataContext}" />
+
+                <hc:Divider Content="{Binding ListTitle[11]}" />
+                <userControl:AboutUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <!--<Rectangle HorizontalAlignment="Stretch" Fill="{DynamicResource BorderBrush}" Height="1" />-->
+            </StackPanel>
+        </hc:ScrollViewer>
+    </Grid>
+</UserControl>

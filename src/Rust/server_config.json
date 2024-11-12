@@ -1,0 +1,13 @@
+{
+    "server": {
+        "address": "0.0.0.0",
+        "port": 11451
+    },
+    "database": {
+        "path": "./data/database",
+        "drop_on_start_up": true
+    },
+    "resource": {
+        "path": "./"
+    }
+}

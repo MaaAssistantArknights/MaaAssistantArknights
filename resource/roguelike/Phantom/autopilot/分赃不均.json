@@ -1,0 +1,85 @@
+{
+    "stage_name": "分赃不均",
+    "replacement_home": [
+        {
+            "location": [1, 3],
+            "direction": "right"
+        },
+        {
+            "location": [2, 3],
+            "direction": "none"
+        },
+        {
+            "location": [1, 4],
+            "direction": "right"
+        },
+        {
+            "location": [4, 2],
+            "direction": "down"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["回费", "情报官"],
+            "location": [1, 3],
+            "direction": "right"
+        },
+        {
+            "groups": ["棘刺", "地面阻挡", "情报官", "回费", "炮灰", "银灰"],
+            "location": [3, 3],
+            "direction": "right"
+        },
+        {
+            "groups": ["奶", "凯尔希", "浊心斯卡蒂"],
+            "location": [2, 2],
+            "direction": "right"
+        },
+        {
+            "groups": ["梓兰"],
+            "location": [5, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [4, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [5, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["地面阻挡", "情报官", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
+            "location": [2, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["地面阻挡", "情报官", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
+            "location": [2, 1],
+            "direction": "left"
+        },
+        {
+            "groups": ["奶", "凯尔希", "浊心斯卡蒂"],
+            "location": [1, 2],
+            "direction": "right"
+        },
+        {
+            "groups": ["史尔特尔", "地面单切", "情报官", "炮灰", "地面阻挡"],
+            "location": [2, 1],
+            "direction": "left"
+        }
+    ],
+    "force_deploy_direction": [
+        {
+            "location": [1, 4],
+            "role": ["sniper", "caster"],
+            "direction": "right"
+        },
+        {
+            "location": [4, 2],
+            "role": ["sniper", "caster"],
+            "direction": "right"
+        }
+    ]
+}

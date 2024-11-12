@@ -1,0 +1,87 @@
+{
+    "stage_name": "铳与秩序",
+    "replacement_home": [
+        {
+            "location": [7, 4],
+            "direction": "left"
+        },
+        {
+            "location": [6, 4],
+            "direction": "left"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["百嘉", "基石", "地面C", "号角", "挡人先锋", "重装", "其他地面"],
+            "location": [7, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["异德", "刺客"],
+            "location": [6, 1],
+            "direction": "right",
+            "condition": [1, 2]
+        },
+        {
+            "groups": ["挡人先锋", "投锋", "百嘉", "基石", "地面C", "号角", "挡人先锋", "重装", "其他地面"],
+            "location": [6, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["单奶", "群奶", "高台C", "控制", "召唤", "术师", "狙击", "辅助"],
+            "location": [7, 5],
+            "direction": "left"
+        },
+        {
+            "groups": ["高台C", "控制", "召唤", "术师", "狙击", "辅助"],
+            "location": [6, 5],
+            "direction": "left"
+        },
+        {
+            "groups": ["异德", "刺客"],
+            "location": [2, 6],
+            "direction": "left",
+            "condition": [5, 7]
+        },
+        {
+            "groups": ["玛恩纳"],
+            "location": [5, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["号角"],
+            "location": [4, 1],
+            "direction": "down"
+        },
+        {
+            "groups": ["基石", "地面C", "刺客", "其他地面"],
+            "location": [6, 6],
+            "direction": "right",
+            "condition": [6, 15]
+        },
+        {
+            "groups": ["召唤", "高台C", "控制", "术师", "狙击", "辅助", "其他高台"],
+            "location": [5, 6],
+            "direction": "right"
+        },
+        {
+            "groups": ["地刺", "地面C", "异德", "刺客", "挡人先锋", "其他地面"],
+            "location": [5, 5],
+            "direction": "left"
+        }
+    ],
+    "retreat_plan": [
+        {
+            "location": [6, 1],
+            "condition": [3, 4]
+        },
+        {
+            "location": [2, 6],
+            "condition": [9, 9]
+        },
+        {
+            "location": [6, 6],
+            "condition": [15, 15]
+        }
+    ]
+}

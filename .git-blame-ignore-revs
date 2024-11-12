@@ -1,0 +1,46 @@
+# Since version 2.23 (released in August 2019), git-blame has a feature
+# to ignore or bypass certain commits.
+#
+# This file contains a list of commits that are not likely what you
+# are looking for in a blame, such as mass reformatting or renaming.
+# You can set this file as a default ignore file for blame by running
+# the following command.
+#
+# $ git config blame.ignoreRevsFile .git-blame-ignore-revs
+
+# style: clang format
+98f949346e93e5a1adaade22cda9841e01b98c0b
+290cc30f153a0206bd870a0a58cb6338aa16ea34
+db9afdc77e85d5fc462d923fca5318be021656cd
+a5daac889a55baf8895918d4964f20dad1938470
+
+# incorrect format of 3rdparty/resource/Arknights-Tile-Pos/levels.json
+65d654e54b9d04d1902c9ee9f9fb2679520adafd
+81ea2c4d4fce29862f719972ecb32877fc4e654f
+
+# refactor: 为 MaaCore 重新建立文件结构
+206df466fd5e3d8ef80387049b0c5011fb58cada
+c9b5aa638a97397ab8666031ea646904527afc09
+559c913fca0dd0966896396e251be13f76ea3e52
+
+# Re-structure again.
+4b3b84df8f487be0ac86506c28dbebc4635f1282
+91abbb7f175b93a58368a136acf3799666f770d2
+49b3aba96b2dfe1cb187b193d38c436e96e33901
+bae271c09bb79e5cc2a7f8491ce882d276ac97b4
+3d83b80dd67d996a5f4f1732fe1eb36cacc7605e
+21617270bcef2456cb7f89e54560ca6788450711
+
+# resource/*.json prettier mass styling
+d84da5d01a872540d520bc87408d4524e07cfa39
+546bfc399cdd140a9812f44b5e6bc89fccfda5fa
+f0bdccdf0da7fac29f475951f0f43d3ab56a7ffe
+7a758bce844bc2778f04a789195efbd17681dac7
+5f3730b76785b1168125eb3b5edbed399722f8f9
+bc3ad67a02cb3b8e154c06955cf17091c4265000
+
+# usage: add "[blame ignore]" to the commit message
+# This file is managed by an automated workflow
+# Do not add, remove or modify lines below this comment
+# as they are automatically appended
+# --------------------------------------------------- #

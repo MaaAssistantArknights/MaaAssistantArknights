@@ -1,0 +1,341 @@
+{
+    "plans": [
+        {
+            "rooms": {
+                "trading": [
+                    {
+                        "product": "LMD",
+                        "operators": ["巫恋", "龙舌兰", "柏喙"],
+                        "sort": true,
+                        "autofill": false
+                    }
+                ],
+                "manufacture": [
+                    {
+                        "product": "Pure Gold",
+                        "operators": ["温蒂", "森蚺", "异客"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "product": "Battle Record",
+                        "operators": ["红豆", "霜叶", "食铁兽"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "product": "Battle Record",
+                        "operators": ["红云", "帕拉斯", "稀音"],
+                        "sort": true,
+                        "autofill": false
+                    },
+                    {
+                        "product": "Battle Record",
+                        "operators": ["断罪者", "迷迭香", "槐琥"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "product": "Battle Record",
+                        "operators": ["灰毫", "远牙", "野鬃"],
+                        "sort": false,
+                        "autofill": false
+                    }
+                ],
+                "hire": [
+                    {
+                        "operators": ["絮雨"],
+                        "autofill": false
+                    }
+                ],
+                "dormitory": [
+                    {
+                        "operators": ["爱丽丝", "车尔尼"],
+                        "sort": false,
+                        "autofill": true
+                    },
+                    {
+                        "operators": ["菲亚梅塔"],
+                        "sort": false,
+                        "autofill": true
+                    },
+                    {
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    },
+                    {
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    }
+                ],
+                "control": [
+                    {
+                        "operators": ["玛恩纳", "焰尾", "琴柳", "令", "夕"]
+                    }
+                ],
+                "power": [
+                    {
+                        "operators": ["承曦格雷伊"],
+                        "autofill": false
+                    },
+                    {
+                        "operators": ["雷蛇"],
+                        "autofill": false
+                    },
+                    {
+                        "operators": ["澄闪"],
+                        "autofill": false
+                    }
+                ],
+                "meeting": [
+                    {
+                        "operators": ["陈", "红"],
+                        "autofill": false
+                    }
+                ]
+            },
+            "period": [["5:00", "20:59"]],
+            "Fiammetta": {
+                "enable": true,
+                "target": "巫恋",
+                "order": "pre"
+            },
+            "drones": {
+                "enable": true,
+                "index": 3,
+                "room": "manufacture",
+                "order": "pre"
+            },
+            "name": "A+B 16H",
+            "description": "Best Team, 16h until next shift"
+        },
+        {
+            "rooms": {
+                "trading": [
+                    {
+                        "product": "LMD",
+                        "operators": ["巫恋", "龙舌兰", "柏喙"],
+                        "sort": true,
+                        "autofill": false
+                    }
+                ],
+                "manufacture": [
+                    {
+                        "product": "Pure Gold",
+                        "operators": ["温蒂", "森蚺", "异客"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "product": "Battle Record",
+                        "operators": ["水月", "香草", "史都华德"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "product": "Battle Record",
+                        "operators": ["红云", "帕拉斯", "稀音"],
+                        "sort": true,
+                        "autofill": false
+                    },
+                    {
+                        "product": "Battle Record",
+                        "operators": ["断罪者", "迷迭香", "槐琥"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "product": "Battle Record",
+                        "operators": ["泡泡", "火神", "刻俄柏"],
+                        "sort": true,
+                        "autofill": false
+                    }
+                ],
+                "hire": [
+                    {
+                        "operators": ["絮雨"],
+                        "autofill": false
+                    }
+                ],
+                "dormitory": [
+                    {
+                        "operators": ["爱丽丝", "车尔尼"],
+                        "sort": false,
+                        "autofill": true
+                    },
+                    {
+                        "operators": ["菲亚梅塔"],
+                        "sort": false,
+                        "autofill": true
+                    },
+                    {
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    },
+                    {
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    }
+                ],
+                "control": [
+                    {
+                        "operators": ["玛恩纳", "凯尔希", "琴柳", "令", "老鲤"]
+                    }
+                ],
+                "power": [
+                    {
+                        "operators": ["承曦格雷伊"],
+                        "autofill": false
+                    },
+                    {
+                        "operators": ["炎狱炎熔"],
+                        "autofill": false
+                    },
+                    {
+                        "operators": ["深靛"],
+                        "autofill": false
+                    }
+                ],
+                "meeting": [
+                    {
+                        "operators": ["见行者", "陈"],
+                        "autofill": false
+                    }
+                ]
+            },
+            "period": [
+                ["21:00", "23:59"],
+                ["00:00", "00:59"]
+            ],
+            "Fiammetta": {
+                "enable": true,
+                "target": "龙舌兰",
+                "order": "pre"
+            },
+            "drones": {
+                "enable": true,
+                "index": 3,
+                "room": "manufacture",
+                "order": "pre"
+            },
+            "name": "A+C 4H",
+            "description": "4h until next shift"
+        },
+        {
+            "rooms": {
+                "trading": [
+                    {
+                        "product": "LMD",
+                        "operators": ["巫恋", "龙舌兰", "卡夫卡"],
+                        "sort": true,
+                        "autofill": false
+                    }
+                ],
+                "manufacture": [
+                    {
+                        "product": "Pure Gold",
+                        "operators": ["砾", "至简", "斑点"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "product": "Battle Record",
+                        "operators": ["水月", "香草", "史都华德"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "product": "Battle Record",
+                        "operators": ["灰毫", "远牙", "野鬃"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "product": "Battle Record",
+                        "operators": ["红豆", "霜叶", "食铁兽"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "product": "Battle Record",
+                        "operators": ["泡泡", "火神", "刻俄柏"],
+                        "sort": true,
+                        "autofill": false
+                    }
+                ],
+                "hire": [
+                    {
+                        "operators": ["艾雅法拉"],
+                        "autofill": false
+                    }
+                ],
+                "dormitory": [
+                    {
+                        "operators": ["菲亚梅塔"],
+                        "sort": false,
+                        "autofill": true
+                    },
+                    {
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    },
+                    {
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    },
+                    {
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    }
+                ],
+                "control": [
+                    {
+                        "operators": ["阿米娅", "凯尔希", "焰尾", "玛恩纳", "老鲤"]
+                    }
+                ],
+                "power": [
+                    {
+                        "operators": ["雷蛇"],
+                        "autofill": false
+                    },
+                    {
+                        "operators": ["炎狱炎熔"],
+                        "autofill": false
+                    },
+                    {
+                        "operators": ["澄闪"],
+                        "autofill": false
+                    }
+                ],
+                "meeting": [
+                    {
+                        "operators": ["见行者", "红"],
+                        "autofill": false
+                    }
+                ]
+            },
+            "period": [["1:00", "4:59"]],
+            "drones": {
+                "enable": true,
+                "index": 3,
+                "room": "manufacture",
+                "order": "pre"
+            },
+            "name": "B+C 4H",
+            "description": "4h until next shift"
+        }
+    ],
+    "author": "BlackNorton",
+    "description": "Operators used until Mlynar banner, requirement is very high, if missing certain operator, don't change this file, make a copy first to prevent the update overwrite\n\n感谢公孙长乐提供的数据支持",
+    "id": 1679376790751953,
+    "title": "153 Max, 1gold+4exp, 3shifts/day",
+    "buildingType": "153",
+    "planTimes": "4 shifts"
+}

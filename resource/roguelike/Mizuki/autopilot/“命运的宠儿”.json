@@ -1,0 +1,66 @@
+{
+    "stage_name": "“命运的宠儿”",
+    "replacement_home": [
+        {
+            "location": [6, 4],
+            "direction": "left"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["挡人先锋"],
+            "location": [5, 3],
+            "direction": "right"
+        },
+        {
+            "groups": ["投锋"],
+            "location": [2, 1],
+            "direction": "down"
+        },
+        {
+            "groups": ["百嘉", "基石", "地面C", "重装", "其他地面"],
+            "location": [6, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["群奶", "单奶"],
+            "location": [6, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["号角", "基石", "地面C", "地刺", "挡人先锋", "投锋", "重装", "刺客", "异德", "其他地面"],
+            "location": [5, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["控制", "高台C"],
+            "location": [4, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["高台C", "控制"],
+            "location": [5, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["玛恩纳"],
+            "location": [4, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["单奶", "控制", "高台C", "其他高台"],
+            "location": [4, 1],
+            "direction": "down"
+        },
+        {
+            "groups": ["召唤", "高台C", "控制", "狙击", "术师", "辅助", "其他高台"],
+            "location": [3, 1],
+            "direction": "down"
+        },
+        {
+            "groups": ["刺客", "异德", "其他地面"],
+            "location": [8, 6],
+            "direction": "right"
+        }
+    ]
+}

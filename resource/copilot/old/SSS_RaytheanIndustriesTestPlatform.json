@@ -1,0 +1,629 @@
+{
+    "type": "SSS",
+    "stage_name": "Raythean Industries Test Platform",
+    "minimum_required": "v4.26.0",
+    "doc": {
+        "title": "Raythean Industries Test Platform - Goldenglow, Suzuran, Saria, Nightingale, Ptilopsis",
+        "title_color": "dark",
+        "details": "Currently can only be manually teamed, please try to choose a high degree of practice and low cost of the operators, toolman vanguard do not bring cast front, medical with group milk, sniper recommended to bring 2 stars and the following\nOrdinary difficulty has been tested and passed the rate is high, playing emergency difficulty needs luck and practice.\n\nIt is recommended that after you have confirmed that you have chosen the third guide energy original, selected all tactical equipment except for the medical selection of B other selection of A, manual formation and lineup confirmation, and then start the MAA.\n\nWork modified from 萧然q BV1Sm4y117e3\n\nCarry from: homework porter\nThere is a problem with the group to find management homework porters / touch you a little / carbon grilled sandworm legs\n\nWarm tips: preservation has three etching chapter, the conditions for obtaining are through the ordinary difficulty, not reopen through the ordinary difficulty, through the emergency difficulty, using this homework is recommended to play through the emergency difficulty only once, brush the material to use the ordinary difficulty.",
+        "details_color": "dark"
+    },
+    "buff": "便携式医疗设备",
+    "equipment": ["A", "A", "A", "A", "A", "A", "B", "A"],
+    "strategy": "Main Strategy",
+    "opers": [
+        {
+            "name": "Saria",
+            "skill": 2,
+            "skill_usage": 0
+        },
+        {
+            "name": "Goldenglow",
+            "skill": 2,
+            "skill_usage": 0
+        },
+        {
+            "name": "Suzuran",
+            "skill": 2,
+            "skill_usage": 0
+        },
+        {
+            "name": "Ptilopsis",
+            "skill": 2,
+            "skill_usage": 0
+        },
+        {
+            "name": "Nightingale",
+            "skill": 2,
+            "skill_usage": 0
+        }
+    ],
+    "tool_men": {
+        "先锋": 3,
+        "重装": 2,
+        "狙击": 6,
+        "医疗": 1,
+        "辅助": 3
+    },
+    "drops": ["无需增调干员", "狙击", "辅助", "先锋", "重装", "战备激活阀", "增活针剂", "医疗", "近卫"],
+    "blacklist": [
+        "罗比菈塔",
+        "掠风",
+        "白铁",
+        "伺夜",
+        "豆苗",
+        "夜半",
+        "森蚺",
+        "泥岩",
+        "斥罪",
+        "洋灰",
+        "极光",
+        "海蒂",
+        "U-Official",
+        "空",
+        "晓歌",
+        "梅尔",
+        "桃金娘",
+        "极境",
+        "琴柳"
+    ],
+    "stages": [
+        {
+            "stage_name": "致命吸引",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "先锋": 1
+                    },
+                    "location": [4, 2],
+                    "direction": "Right"
+                },
+                {
+                    "core": "Ptilopsis",
+                    "tool_men": {
+                        "医疗": 1
+                    },
+                    "location": [3, 1],
+                    "direction": "Down"
+                },
+                {
+                    "core": "Nightingale",
+                    "tool_men": {
+                        "医疗": 0
+                    },
+                    "location": [3, 1],
+                    "direction": "Down"
+                },
+                {
+                    "core": "Saria",
+                    "tool_men": {
+                        "重装": 0
+                    },
+                    "location": [4, 2],
+                    "direction": "Right"
+                },
+                {
+                    "core": "Goldenglow",
+                    "tool_men": {
+                        "狙击": 2
+                    },
+                    "location": [3, 3],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "辅助": 100
+                    },
+                    "location": [4, 1],
+                    "direction": "Right"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "便携式医疗设备",
+                    "location": [3, 5],
+                    "direction": "None",
+                    "kills": 10
+                }
+            ],
+            "retry_times": 3
+        },
+        {
+            "stage_name": "烂醉铁锤",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "先锋": 1
+                    },
+                    "location": [4, 1],
+                    "direction": "Left"
+                },
+                {
+                    "core": "Saria",
+                    "tool_men": {
+                        "重装": 1
+                    },
+                    "location": [3, 1],
+                    "direction": "Left"
+                },
+                {
+                    "core": "Ptilopsis",
+                    "tool_men": {
+                        "狙击": 0
+                    },
+                    "location": [3, 3],
+                    "direction": "Up"
+                },
+                {
+                    "core": "Nightingale",
+                    "tool_men": {
+                        "狙击": 0
+                    },
+                    "location": [3, 3],
+                    "direction": "Up"
+                },
+                {
+                    "core": "Goldenglow",
+                    "tool_men": {
+                        "狙击": 2
+                    },
+                    "location": [3, 2],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "辅助": 100
+                    },
+                    "location": [2, 2],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "便携式医疗设备",
+                    "location": [5, 5],
+                    "direction": "None",
+                    "kills": 15
+                }
+            ],
+            "retry_times": 3
+        },
+        {
+            "stage_name": "为了生存",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "先锋": 1
+                    },
+                    "location": [4, 3],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "医疗": 1
+                    },
+                    "location": [4, 2],
+                    "direction": "Right"
+                },
+                {
+                    "core": "Ptilopsis",
+                    "tool_men": {
+                        "狙击": 0
+                    },
+                    "location": [4, 2],
+                    "direction": "Right"
+                },
+                {
+                    "core": "Nightingale",
+                    "tool_men": {
+                        "狙击": 0
+                    },
+                    "location": [4, 2],
+                    "direction": "Right"
+                },
+                {
+                    "core": "Goldenglow",
+                    "tool_men": {
+                        "狙击": 3
+                    },
+                    "location": [5, 2],
+                    "direction": "Right"
+                },
+                {
+                    "core": "Suzuran",
+                    "tool_men": {
+                        "狙击": 2
+                    },
+                    "location": [6, 2],
+                    "direction": "Down"
+                },
+                {
+                    "core": "Saria",
+                    "tool_men": {
+                        "先锋": 1,
+                        "重装": 1
+                    },
+                    "location": [4, 3],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "辅助": 100,
+                        "狙击": 100
+                    },
+                    "location": [3, 2],
+                    "direction": "Right"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "战备激活阀",
+                    "kills": 20,
+                    "location": [5, 1],
+                    "direction": "Down"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "kills": 27,
+                    "location": [1, 5],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "kills": 27,
+                    "location": [2, 5],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "便携式医疗设备",
+                    "location": [2, 6],
+                    "direction": "None"
+                }
+            ],
+            "retry_times": 3
+        },
+        {
+            "stage_name": "混合毒气",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "先锋": 1
+                    },
+                    "location": [4, 2],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "医疗": 1
+                    },
+                    "location": [6, 2],
+                    "direction": "Left"
+                },
+                {
+                    "core": "Nightingale",
+                    "tool_men": {
+                        "医疗": 0
+                    },
+                    "location": [6, 2],
+                    "direction": "Left"
+                },
+                {
+                    "core": "Ptilopsis",
+                    "tool_men": {
+                        "狙击": 0
+                    },
+                    "location": [6, 2],
+                    "direction": "Left"
+                },
+                {
+                    "core": "Goldenglow",
+                    "tool_men": {
+                        "狙击": 3
+                    },
+                    "location": [6, 3],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "先锋": 1
+                    },
+                    "location": [7, 2],
+                    "direction": "Down"
+                },
+                {
+                    "core": "Saria",
+                    "tool_men": {
+                        "重装": 1,
+                        "先锋": 1
+                    },
+                    "location": [5, 2],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "先锋": 100
+                    },
+                    "location": [7, 2],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "重装": 100
+                    },
+                    "location": [4, 2],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "辅助": 100
+                    },
+                    "location": [6, 1],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "战备激活阀",
+                    "kills": 12,
+                    "location": [5, 3],
+                    "direction": "Right"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "便携式医疗设备",
+                    "kills": 15,
+                    "location": [2, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "kills": 27,
+                    "location": [1, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "kills": 27,
+                    "location": [1, 4],
+                    "direction": "None"
+                }
+            ],
+            "retry_times": 8
+        },
+        {
+            "stage_name": "枯朽孕育",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "先锋": 1
+                    },
+                    "location": [1, 3],
+                    "direction": "Right"
+                },
+                {
+                    "core": "Ptilopsis",
+                    "tool_men": {
+                        "医疗": 1
+                    },
+                    "location": [1, 4],
+                    "direction": "Up"
+                },
+                {
+                    "core": "Saria",
+                    "tool_men": {
+                        "重装": 1,
+                        "先锋": 2
+                    },
+                    "location": [2, 3],
+                    "direction": "Right"
+                },
+                {
+                    "core": "Goldenglow",
+                    "tool_men": {
+                        "狙击": 3
+                    },
+                    "location": [2, 2],
+                    "direction": "Right"
+                },
+                {
+                    "core": "Nightingale",
+                    "tool_men": {
+                        "狙击": 1
+                    },
+                    "location": [1, 2],
+                    "direction": "Down"
+                },
+                {
+                    "core": "Suzuran",
+                    "tool_men": {
+                        "狙击": 3
+                    },
+                    "location": [2, 4],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "辅助": 100,
+                        "狙击": 100
+                    },
+                    "location": [3, 2],
+                    "direction": "Right"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Retreat",
+                    "costs": 60,
+                    "location": [1, 3]
+                },
+                {
+                    "type": "Deploy",
+                    "name": "战备激活阀",
+                    "kills": 10,
+                    "location": [2, 1],
+                    "direction": "Down"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "便携式医疗设备",
+                    "kills": 15,
+                    "location": [4, 5],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "kills": 30,
+                    "location": [2, 5],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "kills": 30,
+                    "location": [3, 5],
+                    "direction": "None"
+                }
+            ],
+            "retry_times": 8
+        },
+        {
+            "stage_name": "窒息",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "先锋": 1
+                    },
+                    "location": [3, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "医疗": 1
+                    },
+                    "location": [5, 5],
+                    "direction": "Left"
+                },
+                {
+                    "core": "Nightingale",
+                    "tool_men": {
+                        "狙击": 1
+                    },
+                    "location": [4, 5],
+                    "direction": "Left"
+                },
+                {
+                    "core": "Saria",
+                    "tool_men": {
+                        "重装": 1
+                    },
+                    "location": [3, 4],
+                    "direction": "Left"
+                },
+                {
+                    "core": "Goldenglow",
+                    "tool_men": {
+                        "狙击": 3
+                    },
+                    "location": [5, 4],
+                    "direction": "Left"
+                },
+                {
+                    "core": "Suzuran",
+                    "tool_men": {
+                        "狙击": 3
+                    },
+                    "location": [2, 5],
+                    "direction": "Right"
+                },
+                {
+                    "core": "Ptilopsis",
+                    "tool_men": {
+                        "狙击": 3
+                    },
+                    "location": [5, 5],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "辅助": 100
+                    },
+                    "location": [2, 3],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "重装": 100,
+                        "先锋": 100,
+                        "近卫": 100
+                    },
+                    "location": [7, 2],
+                    "direction": "Right"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "战备激活阀",
+                    "kills": 10,
+                    "location": [6, 4],
+                    "direction": "Left"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "便携式医疗设备",
+                    "location": [6, 3],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "kills": 30,
+                    "location": [7, 6],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "kills": 30,
+                    "location": [8, 6],
+                    "direction": "None"
+                }
+            ],
+            "retry_times": 8
+        }
+    ]
+}

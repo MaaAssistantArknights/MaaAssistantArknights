@@ -1,0 +1,67 @@
+{
+    "minimum_required": "v4.0.0",
+    "actions": [
+        {
+            "type": "SpeedUp"
+        },
+        {
+            "type": "Deploy",
+            "name": "先锋",
+            "location": [5, 3],
+            "direction": "Right"
+        },
+        {
+            "type": "SkillDaemon"
+        }
+    ],
+    "doc": {
+        "title": "OF-1 Credit Fight",
+        "details": "OF-1 Credit Fight"
+    },
+    "groups": [
+        {
+            "name": "先锋",
+            "opers": [
+                {
+                    "name": "推进之王",
+                    "skill": 2
+                },
+                {
+                    "name": "风笛",
+                    "skill": 2
+                },
+                {
+                    "name": "嵯峨",
+                    "skill": 3,
+                    "skill_usage": 1
+                },
+                {
+                    "name": "焰尾"
+                },
+                {
+                    "name": "德克萨斯"
+                },
+                {
+                    "name": "凛冬"
+                },
+                {
+                    "name": "贾维"
+                },
+                {
+                    "name": "清道夫"
+                },
+                {
+                    "name": "讯使"
+                },
+                {
+                    "name": "芬"
+                },
+                {
+                    "name": "香草"
+                }
+            ]
+        }
+    ],
+    "opers": [],
+    "stage_name": "OF-1"
+}

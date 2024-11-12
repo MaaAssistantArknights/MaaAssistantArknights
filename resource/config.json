@@ -1,0 +1,159 @@
+{
+    "version": "1.0",
+    "options": {
+        "taskDelay": 500,
+        "taskDelay_Doc": "识别的延迟：越快识别频率越快，但会增加CPU消耗。单位毫秒，默认500",
+        "SSSFightScreencapInterval": 0,
+        "SSSFightScreencapInterval_Doc": "保全战斗截图最小间隔",
+        "RoguelikeFightScreencapInterval": 100,
+        "RoguelikeFightScreencapInterval_Doc": "肉鸽战斗截图最小间隔",
+        "CopilotFightScreencapInterval": 0,
+        "CopilotFightScreencapInterval_Doc": "抄作业战斗截图最小间隔",
+        "controlDelayRange": [0, 0],
+        "controlDelayRange_Doc": "点击随机延时：每次点击操作会进行随机延时，降低封号风险（好像也没听说过谁被封号的）。格式为 [ 最小延时, 最大延时 ]，单位为毫秒。例如想设置3~5秒延时，即修改为[ 3000, 5000 ]，默认0~0",
+        "adbExtraSwipeDist": 100,
+        "adbExtraSwipeDist_Doc": "额外的滑动距离：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来",
+        "adbExtraSwipeDuration": 500,
+        "adbExtraSwipeDuration_Doc": "额外的滑动持续时间：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来。若小于0，则关闭额外滑动功能",
+        "adbSwipeDurationMultiplier": 10.0,
+        "adbSwipeDurationMultiplier_Doc": "adb 滑动延迟倍数",
+        "adbSwipeXDistanceMultiplier": 0.8,
+        "adbSwipeXDistanceMultiplier_Doc": "adb 滑动 X 距离倍数",
+        "minitouchSwipeDefaultDuration": 200,
+        "minitouchSwipeExtraEndDelay": 150,
+        "minitouchExtraSwipeDist": 100,
+        "minitouchExtraSwipeDuration": 200,
+        "minitouchProgramsOrder": ["x86_64", "x86", "arm64-v8a", "armeabi-v7a", "armeabi"],
+        "swipeWithPauseRequiredDistance": 20,
+        "swipeWithPauseRequiredDistance_Doc": "暂停下干员滑动多远距离后开始按暂停",
+        "penguinReport": {
+            "Doc": "企鹅物流汇报: https://penguin-stats.cn/",
+            "url": "https://penguin-stats.io/PenguinStats/api/v2/report",
+            "url_Doc": "企鹅的汇报用的同一个url，就不区分recruit和drop了",
+            "timeout": 10000,
+            "headers": {
+                "Content-Type": "application/json"
+            }
+        },
+        "yituliuReport": {
+            "Doc": "一图流汇报：https://ark.yituliu.cn/survey/maarecruitdata",
+            "recruitUrl": "https://backend.yituliu.cn/maa/upload/recruit",
+            "dropUrl": "https://backend.yituliu.cn/maa/upload/stageDrop",
+            "timeout": 5000,
+            "headers": {
+                "Content-Type": "application/json"
+            }
+        },
+        "depotExportTemplate": {
+            "Doc": "仓库识别导出结果模板",
+            "arkPlanner": "{\"@type\": \"@penguin-statistics/depot\",\"items\": []}",
+            "arkPlanner_Doc": "https://penguin-stats.cn/planner"
+        },
+        "debug": {
+            "cleanFilesFreq": 50,
+            "maxDebugFileNum": 100
+        }
+    },
+    "packageName": {
+        "Official": "com.hypergryph.arknights",
+        "Bilibili": "com.hypergryph.arknights.bilibili",
+        "YoStarEN": "com.YoStarEN.Arknights",
+        "YoStarJP": "com.YoStarJP.Arknights",
+        "YoStarKR": "com.YoStarKR.Arknights",
+        "txwy": "tw.txwy.and.arknights"
+    },
+    "connection": [
+        {
+            "configName": "General",
+            "devices": "[Adb] devices",
+            "addressRegex": "(.+)\tdevice",
+            "connect": "[Adb] connect [AdbSerial]",
+            "uuid": "[Adb] -s [AdbSerial] shell settings get secure android_id",
+            "version": "[Adb] -s [AdbSerial] shell getprop ro.build.version.release",
+            "display": "[Adb] -s [AdbSerial] shell \"dumpsys window displays | grep -o -E cur=+[^\\ ]+ | grep -o -E [0-9]+\"",
+            "displayFormat": "%d%d",
+            "ncAddress": "[Adb] -s [AdbSerial] shell \" cat /proc/net/arp | grep : \"",
+            "abilist": "[Adb] -s [AdbSerial] shell getprop ro.product.cpu.abilist",
+            "orientation": "[Adb] -s [AdbSerial] shell \"dumpsys input | grep SurfaceOrientation | grep -m 1 -o -E [0-9]\"",
+            "pushMinitouch": "[Adb] -s [AdbSerial] push \"[minitouchLocalPath]\" \"/data/local/tmp/[minitouchWorkingFile]\"",
+            "chmodMinitouch": "[Adb] -s [AdbSerial] shell chmod 700 \"/data/local/tmp/[minitouchWorkingFile]\"",
+            "callMinitouch": "[Adb] -s [AdbSerial] shell \"/data/local/tmp/[minitouchWorkingFile]\" -i",
+            "callMaatouch": "[Adb] -s [AdbSerial] shell \"export CLASSPATH=/data/local/tmp/[minitouchWorkingFile]; app_process /data/local/tmp com.shxyke.MaaTouch.App\"",
+            "screencapRawByNC": "[Adb] -s [AdbSerial] exec-out \"screencap | nc -w 3 [NcAddress] [NcPort]\"",
+            "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap | gzip -1\"",
+            "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
+            "click": "[Adb] -s [AdbSerial] shell input tap [x] [y]",
+            "swipe": "[Adb] -s [AdbSerial] shell input swipe [x1] [y1] [x2] [y2] [duration]",
+            "start": "[Adb] -s [AdbSerial] shell am start -n [PackageName]/com.u8.sdk.U8UnityContext",
+            "stop": "[Adb] -s [AdbSerial] shell am force-stop [PackageName]",
+            "back_to_home": "[Adb] -s [AdbSerial] shell input keyevent HOME",
+            "release": "[Adb] kill-server",
+            "pressEsc": "[Adb] -s [AdbSerial] shell input keyevent 111"
+        },
+        {
+            "configName": "CapWithShell",
+            "baseConfig": "General",
+            "screencapRawByNC": "[Adb] -s [AdbSerial] shell \"screencap | nc -w 3 [NcAddress] [NcPort]\"",
+            "screencapRawWithGzip": "[Adb] -s [AdbSerial] shell \"screencap | gzip -1\"",
+            "screencapEncode": "[Adb] -s [AdbSerial] shell screencap -p"
+        },
+        {
+            "configName": "BlueStacks",
+            "baseConfig": "General"
+        },
+        {
+            "configName": "MuMuEmulator12",
+            "baseConfig": "General",
+            "display": "[Adb] -s [AdbSerial] shell \"dumpsys window displays | grep -o -E cur=+[^\\ ]+ | tail -n 1 | grep -o -E [0-9]+\"",
+            "orientation": "[Adb] -s [AdbSerial] shell \"dumpsys input | grep SurfaceOrientation | tail -n 1 | grep -m 1 -o -E [0-9]\""
+        },
+        {
+            "configName": "LDPlayer",
+            "baseConfig": "CapWithShell",
+            "screencapRawByNC": "[Adb] -s [AdbSerial] shell \"screencap | busybox nc -w 3 [NcAddress] [NcPort]\""
+        },
+        {
+            "configName": "Nox",
+            "baseConfig": "General"
+        },
+        {
+            "configName": "XYAZ",
+            "baseConfig": "CapWithShell"
+        },
+        {
+            "configName": "WSA",
+            "baseConfig": "CapWithShell",
+            "display": "[Adb] -s [AdbSerial] shell \"wm size -d [DisplayId] | grep -o -E [0-9]+\"",
+            "displayId": "[Adb] -s [AdbSerial] shell \"dumpsys display | grep mUniqueId=virtual:com.microsoft.windows.systemapp:[PackageName]\"",
+            "click": "[Adb] -s [AdbSerial] shell input -d [DisplayId] tap [x] [y]",
+            "swipe": "[Adb] -s [AdbSerial] shell input -d [DisplayId] swipe [x1] [y1] [x2] [y2] [duration]"
+        },
+        {
+            "configName": "Compatible",
+            "baseConfig": "General",
+            "uuid": "[Adb] -s [AdbSerial] shell echo 111111"
+        },
+        {
+            "configName": "SecondResolution",
+            "baseConfig": "General",
+            "display": "[Adb] -s [AdbSerial] shell \"dumpsys window displays | grep -o -E cur=+[^\\ ]+ | tail -n 1 | grep -o -E [0-9]+\""
+        },
+        {
+            "configName": "CompatMac",
+            "baseConfig": "Compatible",
+            "ncAddress": "[Adb] -s [AdbSerial] shell \"cat /proc/net/arp | grep : | sort\"",
+            "screencapRawWithGzip": ""
+        },
+        {
+            "configName": "CompatPOSIXShell",
+            "baseConfig": "General"
+        },
+        {
+            "configName": "Waydroid",
+            "baseConfig": "CompatPOSIXShell",
+            "start": "[Adb] -s [AdbSerial] shell am start --windowingMode 4 -n [PackageName]/com.u8.sdk.U8UnityContext",
+            "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap 2>/dev/null | gzip -1\"",
+            "screencapEncode": "[Adb] -s [AdbSerial] exec-out \"screencap -p 2>/dev/null\""
+        }
+    ]
+}

@@ -1,0 +1,99 @@
+{
+    "stage_name": "呼吸",
+    "replacement_home": [
+        {
+            "location": [9, 6],
+            "direction": "left"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["情报官", "挡人先锋"],
+            "location": [8, 6],
+            "direction": "left"
+        },
+        {
+            "groups": ["回费"],
+            "location": [9, 6],
+            "direction": "left"
+        },
+        {
+            "groups": ["地面阻挡"],
+            "location": [7, 6],
+            "direction": "left"
+        },
+        {
+            "groups": ["高台输出"],
+            "location": [6, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["焰苇", "凯尔希", "速狙", "术士", "召唤", "高台输出"],
+            "location": [7, 4],
+            "direction": "down"
+        },
+        {
+            "groups": ["狙击"],
+            "location": [8, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["处决者", "情报官", "炮灰"],
+            "location": [3, 3],
+            "direction": "up",
+            "condition": [1, 2]
+        },
+        {
+            "groups": ["玛恩纳"],
+            "location": [5, 3],
+            "direction": "left"
+        },
+
+        {
+            "groups": ["地面远程", "炮灰"],
+            "location": [3, 1],
+            "direction": "up",
+            "condition": [1, 5]
+        },
+        {
+            "groups": ["处决者", "情报官", "炮灰"],
+            "location": [4, 1],
+            "direction": "left",
+            "condition": [3, 7]
+        },
+        {
+            "groups": ["处决者", "情报官", "炮灰"],
+            "location": [5, 1],
+            "direction": "left",
+            "condition": [4, 8]
+        },
+        {
+            "groups": ["地面远程", "处决者", "情报官", "炮灰"],
+            "location": [5, 3],
+            "direction": "left",
+            "condition": [4, 10]
+        }
+    ],
+    "retreat_plan": [
+        {
+            "location": [3, 3],
+            "condition": [6, 10]
+        },
+        {
+            "location": [4, 1],
+            "condition": [8, 10]
+        },
+        {
+            "location": [4, 1],
+            "condition": [8, 10]
+        },
+        {
+            "location": [5, 3],
+            "condition": [10, 16]
+        },
+        {
+            "location": [6, 2],
+            "condition": [20, 25]
+        }
+    ]
+}

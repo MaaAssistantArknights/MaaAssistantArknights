@@ -1,0 +1,131 @@
+<UserControl
+    x:Class="MaaWpfGui.Views.UserControl.RemoteControlUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI" 
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls" 
+    xmlns:calcBinding="clr-namespace:CalcBinding;assembly=CalcBinding" 
+    xmlns:s="https://github.com/canton7/Stylet" 
+    xmlns:constants="clr-namespace:MaaWpfGui.Constants"
+    d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
+    d:DesignHeight="300"
+    d:DesignWidth="550"
+    mc:Ignorable="d">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <controls:TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Margin="10"
+            HorizontalAlignment="Center"
+            Block.TextAlignment="Center"
+            Text="{DynamicResource RemoteControlTooltips}"
+            TextWrapping="Wrap" />
+        <!-- Control Endpoint Input -->
+        <controls:TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="10"
+            Block.TextAlignment="Center"
+            Text="{DynamicResource RemoteControlGetTaskEndpointLabel}"
+            TextWrapping="Wrap" />
+        <TextBox 
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="0,5,0,5" 
+            Text="{Binding RemoteControlGetTaskEndpointUri}" Grid.ColumnSpan="2"/>
+
+        <!-- Handshake Endpoint Input -->
+        <controls:TextBlock
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="10"
+            Block.TextAlignment="Center"
+            Text="{DynamicResource RemoteControlReportStatusEndpointLabel}"
+            TextWrapping="Wrap" />
+        <TextBox 
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="0,5,0,5" 
+            Text="{Binding RemoteControlReportStatusUri}" Grid.ColumnSpan="2"/>
+
+        <!-- User Identity Input -->
+        <controls:TextBlock
+            Grid.Row="3"
+            Grid.Column="0"
+            Margin="10"
+            Block.TextAlignment="Center"
+            Text="{DynamicResource RemoteControlUserIdentityLabel}"
+            TextWrapping="Wrap" />
+        <TextBox 
+            Grid.Row="3"
+            Grid.Column="1"
+            Margin="0,5,0,5" 
+            Text="{Binding RemoteControlUserIdentity}"/>
+        <Button
+            Grid.Row="3"
+            Grid.Column="2"
+            Margin="5"
+            Command="{s:Action RemoteControlConnectionTest}"
+            Content="{DynamicResource RemoteControlConnectionTest}"/>
+
+        <!-- Remote ID (Read-only & Copyable) -->
+        <controls:TextBlock
+            Grid.Row="4"
+            Grid.Column="0"
+            Margin="10"
+            Block.TextAlignment="Center"
+            Text="{DynamicResource RemoteControlDeviceIdentityLabel}"
+            TextWrapping="Wrap" />
+        <TextBox 
+            Grid.Row="4"
+            Grid.Column="1"
+            Margin="0,5,0,5" 
+            Text="{Binding RemoteControlDeviceIdentity}" 
+            IsReadOnly="True" 
+            ContextMenuService.IsEnabled="False"/>
+        <Button
+            Grid.Row="4"
+            Grid.Column="2"
+            Margin="5"
+            Command="{s:Action RemoteControlRegenerateDeviceIdentity}"
+            Content="{DynamicResource RemoteControlRegenerateDeviceIdentity}"/>
+
+        <StackPanel HorizontalAlignment="Center" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3">
+            <controls:TextBlock
+                FontSize="11"
+                Margin="10"
+                Block.TextAlignment="Center"
+                Text="{DynamicResource RemoteControlDeveloperTooltips}"
+                TextWrapping="Wrap" />
+            <controls:TextBlock
+                FontSize="11"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+                <Hyperlink
+                    Cursor="Hand"
+                    NavigateUri="{Binding Source={x:Static constants:MaaUrls.RemoteControlDocument}}"
+                    TextDecorations="None">
+                    <TextBlock Text="{DynamicResource RemoteControlDeveloperDocLink}" />
+                </Hyperlink>
+            </controls:TextBlock>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

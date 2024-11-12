@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <MaaDepsPropsFile>$(MSBuildThisFileDirectory)..\..\MaaDeps\msbuild\maadeps.props</MaaDepsPropsFile>
+  </PropertyGroup>
+  <Import Condition="Exists('$(MaaDepsPropsFile)')" Project="$(MaaDepsPropsFile)" />
+</Project>

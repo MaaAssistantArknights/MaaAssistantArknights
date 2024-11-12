@@ -1,0 +1,45 @@
+<hc:Window
+    x:Class="MaaWpfGui.Views.UI.AnnouncementView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mdxam="clr-namespace:MdXaml;assembly=MdXaml"
+    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    Icon="../../newlogo.ico"
+    Title="{DynamicResource Announcement}"
+    Width="600"
+    Height="500"
+    d:DataContext="{d:DesignInstance {x:Type ui:AnnouncementViewModel}}"
+    mc:Ignorable="d">
+    <Grid Background="{DynamicResource VersionUpdateViewBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <mdxam:MarkdownScrollViewer
+            ClickAction="SafetyOpenBrowser"
+            Grid.Row="0"
+            Markdown="{Binding AnnouncementInfo}"
+            Margin="10,0,10,0">
+            <mdxam:MarkdownScrollViewer.MarkdownStyle>
+                <StaticResource ResourceKey="MdXamlStyle"/>
+            </mdxam:MarkdownScrollViewer.MarkdownStyle>
+            <mdxam:MarkdownScrollViewer.Plugins>
+                <StaticResource ResourceKey="MdXamlPlugin"/>
+            </mdxam:MarkdownScrollViewer.Plugins>
+        </mdxam:MarkdownScrollViewer>
+
+        <CheckBox
+            Grid.Row="1"
+            Height="30"
+            Margin="6"
+            HorizontalAlignment="Center"
+            VerticalContentAlignment="Center"
+            Content="{DynamicResource ShowDisclaimerNoMore}"
+            IsChecked="{Binding DoNotRemindThisAnnouncementAgain}" />
+    </Grid>
+</hc:Window>

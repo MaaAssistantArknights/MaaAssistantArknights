@@ -1,0 +1,65 @@
+{
+    "stage_name": "共舞",
+    "replacement_home": [
+        {
+            "location": [1, 3],
+            "direction": "right"
+        },
+        {
+            "location": [3, 2],
+            "direction": "right"
+        },
+        {
+            "location": [3, 4],
+            "direction": "right"
+        },
+        {
+            "location": [4, 2],
+            "direction": "right"
+        },
+        {
+            "location": [4, 4],
+            "direction": "right"
+        },
+        {
+            "location": [5, 2],
+            "direction": "right"
+        },
+        {
+            "location": [5, 4],
+            "direction": "right"
+        }
+    ],
+    "blacklist_location": [
+        [1, 5],
+        [2, 5],
+        [1, 1],
+        [2, 1],
+        [6, 5],
+        [7, 5],
+        [6, 1],
+        [7, 1]
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["高台C"],
+            "location": [5, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["浊心斯卡蒂", "凯尔希", "奶"],
+            "location": [4, 4],
+            "direction": "up"
+        },
+        {
+            "groups": ["回费", "情报官"],
+            "location": [1, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["棘刺", "地面阻挡", "情报官", "回费", "炮灰", "银灰"],
+            "location": [1, 3],
+            "direction": "right"
+        }
+    ]
+}

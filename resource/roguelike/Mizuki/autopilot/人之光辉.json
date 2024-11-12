@@ -1,0 +1,76 @@
+{
+    "stage_name": "人之光辉",
+    "replacement_home": [
+        {
+            "location": [8, 4],
+            "direction": "left"
+        },
+        {
+            "location": [8, 5],
+            "direction": "left"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["异德", "刺客"],
+            "location": [10, 2],
+            "direction": "up",
+            "condition": [20, 23]
+        },
+        {
+            "groups": ["投锋"],
+            "location": [10, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["百嘉", "基石", "地面C", "挡人先锋", "重装", "其他地面", "号角", "异德", "刺客"],
+            "location": [8, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["百嘉", "基石", "地面C", "挡人先锋", "重装", "其他地面", "号角", "异德", "刺客"],
+            "location": [8, 5],
+            "direction": "left"
+        },
+        {
+            "groups": ["单奶"],
+            "location": [8, 7],
+            "direction": "up"
+        },
+        {
+            "groups": ["群奶"],
+            "location": [8, 6],
+            "direction": "up"
+        },
+        {
+            "groups": ["玛恩纳"],
+            "location": [7, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["号角", "百嘉", "基石", "地面C", "挡人先锋", "重装", "其他地面"],
+            "location": [9, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["高台C", "控制", "召唤", "术师", "狙击", "辅助", "其他高台"],
+            "location": [7, 6],
+            "direction": "up"
+        },
+        {
+            "groups": ["高台C", "控制", "召唤", "术师", "狙击", "辅助", "其他高台"],
+            "location": [7, 7],
+            "direction": "up"
+        },
+        {
+            "groups": ["地刺", "地面C", "挡人先锋", "其他地面"],
+            "location": [7, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["百嘉", "基石", "地面C", "挡人先锋", "重装", "其他地面", "号角", "异德", "刺客"],
+            "location": [9, 5],
+            "direction": "left"
+        }
+    ]
+}

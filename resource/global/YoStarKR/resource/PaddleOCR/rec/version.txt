@@ -1,0 +1,2 @@
+ 
+ppocr INFO: best metric, acc: 0.9874715822409134, is_float16: False, norm_edit_dis: 0.9969659154565832, fps: 5292.563171688365, best_epoch: 150

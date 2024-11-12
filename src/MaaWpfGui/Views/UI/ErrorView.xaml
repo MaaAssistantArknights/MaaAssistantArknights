@@ -1,0 +1,288 @@
+<hc:Window
+    x:Class="MaaWpfGui.Views.UI.ErrorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:constants="clr-namespace:MaaWpfGui.Constants"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
+    xmlns:local="clr-namespace:MaaWpfGui"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
+    x:Name="ErrorViewWindow"
+    Title="{c:Binding 'CongratulationsOnError ? ErrorCongratulationsString : ErrorString',
+                      ElementName=ErrorViewWindow}"
+    Width="600"
+    Height="480"
+    MinWidth="400"
+    MinHeight="200"
+    Icon="../../newlogo.ico"
+    ResizeMode="CanResize"
+    Topmost="True"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="SingleBorderWindow"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <Storyboard x:Key="FadeIn">
+            <DoubleAnimation
+                Storyboard.TargetProperty="Opacity"
+                From="0.0"
+                To="1.0"
+                Duration="0:0:3" />
+        </Storyboard>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <RichTextBox
+            x:Name="NormalErrorview"
+            Grid.Row="0"
+            Padding="12,16,4,8"
+            hc:BorderElement.CornerRadius="0"
+            BorderThickness="0"
+            HorizontalScrollBarVisibility="Auto"
+            IsReadOnly="True"
+            VerticalScrollBarVisibility="Auto"
+            Visibility="{c:Binding !CongratulationsOnError,
+                                   ElementName=ErrorViewWindow}">
+            <RichTextBox.Resources>
+                <!--  This will give us a LARGER scroll bar  -->
+                <Style TargetType="ScrollViewer">
+                    <Setter Property="hc:ScrollViewerAttach.AutoHide" Value="False" />
+                </Style>
+            </RichTextBox.Resources>
+            <FlowDocument>
+                <Section>
+                    <Paragraph>
+                        <Run FontWeight="Bold" Text="{DynamicResource ErrorProlog}" />
+                    </Paragraph>
+                    <Paragraph Margin="8,0,0,0">
+                        <Run x:Name="Error" Text="{Binding ExceptionMessage, ElementName=ErrorViewWindow, Mode=OneWay}" />
+                    </Paragraph>
+                </Section>
+                <Section>
+                    <Paragraph>
+                        <Run FontWeight="Bold" Text="{DynamicResource ErrorSolution}" />
+                    </Paragraph>
+                    <Paragraph Margin="8,0,0,0">
+                        <Run
+                            x:Name="ErrorSolution"
+                            Foreground="Red"
+                            Text="{Binding PossibleSolution, ElementName=ErrorViewWindow, Mode=OneWay}" />
+                    </Paragraph>
+                </Section>
+                <Section>
+                    <Paragraph>
+                        <Run FontWeight="Bold" Text="{DynamicResource ErrorDetails}" />
+                    </Paragraph>
+                    <Paragraph Margin="8,0,0,0">
+                        <Run x:Name="ErrorDetails" Text="{Binding ExceptionDetails, ElementName=ErrorViewWindow, Mode=OneWay}" />
+                    </Paragraph>
+                </Section>
+            </FlowDocument>
+        </RichTextBox>
+
+        <RichTextBox
+            x:Name="CongratulationErrorview"
+            Grid.Row="0"
+            Padding="50,76,30,8"
+            hc:BorderElement.CornerRadius="0"
+            BorderThickness="0"
+            Foreground="Black"
+            HorizontalScrollBarVisibility="Auto"
+            IsReadOnly="True"
+            VerticalScrollBarVisibility="Auto"
+            Visibility="{c:Binding CongratulationsOnError,
+                                   ElementName=ErrorViewWindow}">
+            <RichTextBox.Background>
+                <ImageBrush ImageSource="/Res/Backgrounds/Congratulations.png" Stretch="UniformToFill" />
+            </RichTextBox.Background>
+            <RichTextBox.Resources>
+                <Style TargetType="ScrollViewer">
+                    <Setter Property="hc:ScrollViewerAttach.AutoHide" Value="False" />
+                </Style>
+            </RichTextBox.Resources>
+            <RichTextBox.Style>
+                <Style TargetType="RichTextBox">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{c:Binding CongratulationsOnError, ElementName=ErrorViewWindow}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource FadeIn}" />
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </RichTextBox.Style>
+            <FlowDocument>
+                <Section>
+                    <Paragraph>
+                        <hc:OutlineText
+                            Fill="Black"
+                            FontSize="15"
+                            FontWeight="Bold"
+                            Stroke="#FFFF00"
+                            StrokePosition="Outside"
+                            StrokeThickness="1"
+                            Text="{DynamicResource ErrorProlog}" />
+                    </Paragraph>
+                    <Paragraph Margin="8,0,0,0">
+                        <hc:OutlineText
+                            x:Name="CongratulationError"
+                            Fill="#C3141B"
+                            FontWeight="Bold"
+                            Stroke="#FFFF00"
+                            StrokePosition="Outside"
+                            StrokeThickness="1"
+                            Text="{Binding ExceptionMessage, ElementName=ErrorViewWindow, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </Paragraph>
+                </Section>
+                <Section>
+                    <Paragraph>
+                        <hc:OutlineText
+                            Fill="Black"
+                            FontSize="15"
+                            FontWeight="Bold"
+                            Stroke="#FFFF00"
+                            StrokePosition="Outside"
+                            StrokeThickness="1"
+                            Text="{DynamicResource ErrorSolution}" />
+                    </Paragraph>
+                    <Paragraph Margin="8,0,0,0">
+                        <controls:TextBlock
+                            FontSize="20"
+                            Style="{StaticResource TextBlockDefaultBold}"
+                            Text="{Binding PossibleSolution, ElementName=ErrorViewWindow, Mode=OneWay}"
+                            TextWrapping="Wrap">
+                            <controls:TextBlock.Foreground>
+                                <LinearGradientBrush SpreadMethod="Repeat">
+                                    <LinearGradientBrush.Transform>
+                                        <TranslateTransform x:Name="LinearGradientBrushTranslate" />
+                                    </LinearGradientBrush.Transform>
+                                    <LinearGradientBrush.GradientStops>
+                                        <GradientStop Offset="0.00" Color="#2299FF" />
+                                        <GradientStop Offset="0.16" Color="#33CCFF" />
+                                        <GradientStop Offset="0.32" Color="#00FFCC" />
+                                        <GradientStop Offset="0.48" Color="#33FF66" />
+                                        <GradientStop Offset="0.64" Color="#99FF33" />
+                                        <GradientStop Offset="0.80" Color="#66FF99" />
+                                        <GradientStop Offset="1.00" Color="#2299FF" />
+
+                                    </LinearGradientBrush.GradientStops>
+                                </LinearGradientBrush>
+                            </controls:TextBlock.Foreground>
+                            <controls:TextBlock.Triggers>
+                                <EventTrigger RoutedEvent="TextBlock.Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                                RepeatBehavior="Forever"
+                                                Storyboard.TargetName="LinearGradientBrushTranslate"
+                                                Storyboard.TargetProperty="X"
+                                                From="0"
+                                                To="4000"
+                                                Duration="0:0:20" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </controls:TextBlock.Triggers>
+                            <controls:TextBlock.Effect>
+                                <DropShadowEffect
+                                    BlurRadius="5"
+                                    Direction="0"
+                                    Opacity="1"
+                                    ShadowDepth="0"
+                                    Color="Black" />
+                            </controls:TextBlock.Effect>
+                        </controls:TextBlock>
+                    </Paragraph>
+                </Section>
+                <Section>
+                    <Paragraph>
+                        <hc:OutlineText
+                            Fill="Black"
+                            FontSize="15"
+                            FontWeight="Bold"
+                            Stroke="#FFFF00"
+                            StrokePosition="Outside"
+                            StrokeThickness="1"
+                            Text="{DynamicResource ErrorDetails}" />
+                    </Paragraph>
+                    <Paragraph Margin="8,0,0,0">
+                        <Run x:Name="CongratulationErrorDetails" Text="{Binding ExceptionDetails, ElementName=ErrorViewWindow, Mode=OneWay}" />
+                    </Paragraph>
+                </Section>
+            </FlowDocument>
+        </RichTextBox>
+
+        <Border
+            Grid.Row="1"
+            Padding="12,0"
+            Background="{DynamicResource ErrorViewBackgroundBrush}">
+            <Grid MinHeight="40">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <controls:TextBlock>
+                    <Hyperlink Name="CopyErrorMessage" Click="CopyErrorMessage_Click">
+                        <Run Text="{DynamicResource CopyErrorMessage}" />
+                    </Hyperlink>
+                    <hc:Poptip.Instance>
+                        <hc:Poptip
+                            x:Name="CopiedTip"
+                            hc:Poptip.HitMode="None"
+                            Content="{DynamicResource CopiedToClipboard}" />
+                    </hc:Poptip.Instance>
+                </controls:TextBlock>
+                <CheckBox
+                    Grid.Column="1"
+                    Margin="10"
+                    Content="{DynamicResource ErrorCongratulations}"
+                    IsChecked="{Binding CongratulationsOnError, ElementName=ErrorViewWindow}" />
+                <WrapPanel
+                    Grid.Column="2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center">
+                    <WrapPanel.Resources>
+                        <Style TargetType="controls:TextBlock">
+                            <Setter Property="Margin" Value="12,0,0,0" />
+                        </Style>
+                    </WrapPanel.Resources>
+                    <controls:TextBlock>
+                        <Hyperlink
+                            Name="LinkToFAQ"
+                            Click="Hyperlink_OnClick"
+                            NavigateUri="{Binding Source={x:Static constants:MaaUrls.HelpUri}}">
+                            <Run Foreground="Red" Text="{DynamicResource Help}" />
+                        </Hyperlink>
+                    </controls:TextBlock>
+
+                    <controls:TextBlock>
+                        <Hyperlink
+                            Name="LinkToCreateGitHubIssue"
+                            Click="Hyperlink_OnClick"
+                            NavigateUri="{Binding Source={x:Static constants:MaaUrls.NewIssueUri}}">
+                            <Run Text="{DynamicResource ErrorFeedbackLinkText}" />
+                        </Hyperlink>
+                    </controls:TextBlock>
+
+                    <controls:TextBlock x:Name="ErrorQqGroupLink">
+                        <Hyperlink
+                            Name="LinkToJoinQqGroup"
+                            Click="Hyperlink_OnClick"
+                            NavigateUri="{Binding Source={x:Static constants:MaaUrls.QqGroups}}">
+                            <Run Text="{DynamicResource ErrorQqGroupLinkText}" />
+                        </Hyperlink>
+                    </controls:TextBlock>
+                </WrapPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</hc:Window>

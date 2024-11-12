@@ -1,0 +1,859 @@
+{
+    "operators": [
+        {
+            "id": "char_285_medic2",
+            "name": "Lancet-2",
+            "rarity": 1,
+            "tags": ["支援机械", "治疗", "远程位", "医疗干员"]
+        },
+        {
+            "id": "char_286_cast3",
+            "name": "Castle-3",
+            "rarity": 1,
+            "tags": ["支援机械", "支援", "近战位", "近卫干员"]
+        },
+        {
+            "id": "char_376_therex",
+            "name": "THRM-EX",
+            "rarity": 1,
+            "tags": ["支援机械", "爆发", "近战位", "特种干员"]
+        },
+        {
+            "id": "char_4000_jnight",
+            "name": "'Justice Knight'",
+            "rarity": 1,
+            "tags": ["支援机械", "支援", "远程位", "狙击干员"]
+        },
+        {
+            "id": "char_4093_frston",
+            "name": "Friston-3",
+            "rarity": 1,
+            "tags": ["支援机械", "防护", "近战位", "重装干员"]
+        },
+        {
+            "id": "char_4136_phonor",
+            "name": "PhonoR-0",
+            "rarity": 1,
+            "tags": ["支援机械", "元素", "远程位", "辅助干员"]
+        },
+        {
+            "id": "char_502_nblade",
+            "name": "Yato",
+            "rarity": 2,
+            "tags": ["新手", "近战位", "先锋干员"]
+        },
+        {
+            "id": "char_500_noirc",
+            "name": "Noir Corne",
+            "rarity": 2,
+            "tags": ["新手", "近战位", "重装干员"]
+        },
+        {
+            "id": "char_503_rang",
+            "name": "Rangers",
+            "rarity": 2,
+            "tags": ["新手", "远程位", "狙击干员"]
+        },
+        {
+            "id": "char_501_durin",
+            "name": "Durin",
+            "rarity": 2,
+            "tags": ["新手", "远程位", "术师干员"]
+        },
+        {
+            "id": "char_009_12fce",
+            "name": "12F",
+            "rarity": 2,
+            "tags": ["新手", "远程位", "术师干员"]
+        },
+        {
+            "id": "char_211_adnach",
+            "name": "Adnachiel",
+            "rarity": 3,
+            "tags": ["输出", "远程位", "狙击干员"]
+        },
+        {
+            "id": "char_123_fang",
+            "name": "Fang",
+            "rarity": 3,
+            "tags": ["费用回复", "近战位", "先锋干员"]
+        },
+        {
+            "id": "char_240_wyvern",
+            "name": "Vanilla",
+            "rarity": 3,
+            "tags": ["费用回复", "近战位", "先锋干员"]
+        },
+        {
+            "id": "char_192_falco",
+            "name": "Plume",
+            "rarity": 3,
+            "tags": ["输出", "费用回复", "近战位", "先锋干员"]
+        },
+        {
+            "id": "char_208_melan",
+            "name": "Melantha",
+            "rarity": 3,
+            "tags": ["输出", "生存", "近战位", "近卫干员"]
+        },
+        {
+            "id": "char_122_beagle",
+            "name": "Beagle",
+            "rarity": 3,
+            "tags": ["防护", "近战位", "重装干员"]
+        },
+        {
+            "id": "char_124_kroos",
+            "name": "Kroos",
+            "rarity": 3,
+            "tags": ["输出", "远程位", "狙击干员"]
+        },
+        {
+            "id": "char_121_lava",
+            "name": "Lava",
+            "rarity": 3,
+            "tags": ["群攻", "远程位", "术师干员"]
+        },
+        {
+            "id": "char_120_hibisc",
+            "name": "Hibiscus",
+            "rarity": 3,
+            "tags": ["治疗", "远程位", "医疗干员"]
+        },
+        {
+            "id": "char_212_ansel",
+            "name": "Ansel",
+            "rarity": 3,
+            "tags": ["治疗", "远程位", "医疗干员"]
+        },
+        {
+            "id": "char_210_stward",
+            "name": "Steward",
+            "rarity": 3,
+            "tags": ["输出", "远程位", "术师干员"]
+        },
+        {
+            "id": "char_278_orchid",
+            "name": "Orchid",
+            "rarity": 3,
+            "tags": ["减速", "远程位", "辅助干员"]
+        },
+        {
+            "id": "char_282_catap",
+            "name": "Catapult",
+            "rarity": 3,
+            "tags": ["群攻", "远程位", "狙击干员"]
+        },
+        {
+            "id": "char_283_midn",
+            "name": "Midnight",
+            "rarity": 3,
+            "tags": ["输出", "近战位", "近卫干员"]
+        },
+        {
+            "id": "char_281_popka",
+            "name": "Popukar",
+            "rarity": 3,
+            "tags": ["群攻", "生存", "近战位", "近卫干员"]
+        },
+        {
+            "id": "char_284_spot",
+            "name": "Spot",
+            "rarity": 3,
+            "tags": ["防护", "治疗", "近战位", "重装干员"]
+        },
+        {
+            "id": "char_127_estell",
+            "name": "Estelle",
+            "rarity": 4,
+            "tags": ["群攻", "生存", "近战位", "近卫干员"]
+        },
+        {
+            "id": "char_385_finlpp",
+            "name": "Purestream",
+            "rarity": 4,
+            "tags": ["治疗", "支援", "远程位", "医疗干员"]
+        },
+        {
+            "id": "char_141_nights",
+            "name": "Haze",
+            "rarity": 4,
+            "tags": ["输出", "削弱", "远程位", "术师干员"]
+        },
+        {
+            "id": "char_109_fmout",
+            "name": "Gitano",
+            "rarity": 4,
+            "tags": ["群攻", "远程位", "术师干员"]
+        },
+        {
+            "id": "char_235_jesica",
+            "name": "Jessica",
+            "rarity": 4,
+            "tags": ["输出", "生存", "远程位", "狙击干员"]
+        },
+        {
+            "id": "char_126_shotst",
+            "name": "Meteor",
+            "rarity": 4,
+            "tags": ["输出", "削弱", "远程位", "狙击干员"]
+        },
+        {
+            "id": "char_118_yuki",
+            "name": "Shirayuki",
+            "rarity": 4,
+            "tags": ["群攻", "减速", "远程位", "狙击干员"]
+        },
+        {
+            "id": "char_149_scave",
+            "name": "Scavenger",
+            "rarity": 4,
+            "tags": ["费用回复", "输出", "近战位", "先锋干员"]
+        },
+        {
+            "id": "char_290_vigna",
+            "name": "Vigna",
+            "rarity": 4,
+            "tags": ["输出", "费用回复", "近战位", "先锋干员"]
+        },
+        {
+            "id": "char_130_doberm",
+            "name": "Dobermann",
+            "rarity": 4,
+            "tags": ["输出", "支援", "近战位", "近卫干员"]
+        },
+        {
+            "id": "char_289_gyuki",
+            "name": "Matoimaru",
+            "rarity": 4,
+            "tags": ["生存", "输出", "近战位", "近卫干员"]
+        },
+        {
+            "id": "char_193_frostl",
+            "name": "Frostleaf",
+            "rarity": 4,
+            "tags": ["减速", "输出", "近战位", "近卫干员"]
+        },
+        {
+            "id": "char_185_frncat",
+            "name": "Mousse",
+            "rarity": 4,
+            "tags": ["输出", "近战位", "近卫干员"]
+        },
+        {
+            "id": "char_237_gravel",
+            "name": "Gravel",
+            "rarity": 4,
+            "tags": ["快速复活", "防护", "近战位", "特种干员"]
+        },
+        {
+            "id": "char_236_rope",
+            "name": "Rope",
+            "rarity": 4,
+            "tags": ["位移", "近战位", "特种干员"]
+        },
+        {
+            "id": "char_117_myrrh",
+            "name": "Myrrh",
+            "rarity": 4,
+            "tags": ["治疗", "远程位", "医疗干员"]
+        },
+        {
+            "id": "char_181_flower",
+            "name": "Perfumer",
+            "rarity": 4,
+            "tags": ["治疗", "远程位", "医疗干员"]
+        },
+        {
+            "id": "char_199_yak",
+            "name": "Matterhorn",
+            "rarity": 4,
+            "tags": ["防护", "近战位", "重装干员"]
+        },
+        {
+            "id": "char_150_snakek",
+            "name": "Cuora",
+            "rarity": 4,
+            "tags": ["防护", "近战位", "重装干员"]
+        },
+        {
+            "id": "char_196_sunbr",
+            "name": "Gummy",
+            "rarity": 4,
+            "tags": ["防护", "治疗", "近战位", "重装干员"]
+        },
+        {
+            "id": "char_183_skgoat",
+            "name": "Earthspirit",
+            "rarity": 4,
+            "tags": ["减速", "远程位", "辅助干员"]
+        },
+        {
+            "id": "char_277_sqrrel",
+            "name": "Shaw",
+            "rarity": 4,
+            "tags": ["位移", "近战位", "特种干员"]
+        },
+        {
+            "id": "char_137_brownb",
+            "name": "Beehunter",
+            "rarity": 4,
+            "tags": ["输出", "近战位", "近卫干员"]
+        },
+        {
+            "id": "char_253_greyy",
+            "name": "Greyy",
+            "rarity": 4,
+            "tags": ["群攻", "减速", "远程位", "术师干员"]
+        },
+        {
+            "id": "char_298_susuro",
+            "name": "Sussurro",
+            "rarity": 4,
+            "tags": ["治疗", "远程位", "医疗干员"]
+        },
+        {
+            "id": "char_151_myrtle",
+            "name": "Myrtle",
+            "rarity": 4,
+            "tags": ["费用回复", "治疗", "近战位", "先锋干员"]
+        },
+        {
+            "id": "char_190_clour",
+            "name": "Vermeil",
+            "rarity": 4,
+            "tags": ["输出", "远程位", "狙击干员"]
+        },
+        {
+            "id": "char_133_mm",
+            "name": "May",
+            "rarity": 4,
+            "tags": ["输出", "减速", "远程位", "狙击干员"]
+        },
+        {
+            "id": "char_302_glaze",
+            "name": "Ambriel",
+            "rarity": 4,
+            "tags": ["输出", "减速", "远程位", "狙击干员"]
+        },
+        {
+            "id": "char_337_utage",
+            "name": "Utage",
+            "rarity": 4,
+            "tags": ["输出", "生存", "近战位", "近卫干员"]
+        },
+        {
+            "id": "char_301_cutter",
+            "name": "Cutter",
+            "rarity": 4,
+            "tags": ["爆发", "输出", "近战位", "近卫干员"]
+        },
+        {
+            "id": "char_258_podego",
+            "name": "Podenco",
+            "rarity": 4,
+            "tags": ["减速", "治疗", "远程位", "辅助干员"]
+        },
+        {
+            "id": "char_328_cammou",
+            "name": "Click",
+            "rarity": 4,
+            "tags": ["输出", "控场", "远程位", "术师干员"]
+        },
+        {
+            "id": "char_272_strong",
+            "name": "Jaye",
+            "rarity": 4,
+            "tags": ["快速复活", "输出", "近战位", "特种干员"]
+        },
+        {
+            "id": "char_366_acdrop",
+            "name": "Aciddrop",
+            "rarity": 4,
+            "tags": ["输出", "远程位", "狙击干员"]
+        },
+        {
+            "id": "char_271_spikes",
+            "name": "Arene",
+            "rarity": 4,
+            "tags": ["输出", "近战位", "近卫干员"]
+        },
+        {
+            "id": "char_381_bubble",
+            "name": "Bubble",
+            "rarity": 4,
+            "tags": ["防护", "近战位", "重装干员"]
+        },
+        {
+            "id": "char_155_tiger",
+            "name": "Indra",
+            "rarity": 5,
+            "tags": ["输出", "生存", "近战位", "资深干员", "近卫干员"]
+        },
+        {
+            "id": "char_163_hpsts",
+            "name": "Vulcan",
+            "rarity": 5,
+            "tags": ["生存", "防护", "输出", "近战位", "资深干员", "重装干员"]
+        },
+        {
+            "id": "char_128_plosis",
+            "name": "Ptilopsis",
+            "rarity": 5,
+            "tags": ["治疗", "支援", "远程位", "资深干员", "医疗干员"]
+        },
+        {
+            "id": "char_115_headbr",
+            "name": "Zima",
+            "rarity": 5,
+            "tags": ["费用回复", "支援", "近战位", "资深干员", "先锋干员"]
+        },
+        {
+            "id": "char_102_texas",
+            "name": "Texas",
+            "rarity": 5,
+            "tags": ["费用回复", "控场", "近战位", "资深干员", "先锋干员"]
+        },
+        {
+            "id": "char_143_ghost",
+            "name": "Specter",
+            "rarity": 5,
+            "tags": ["群攻", "生存", "近战位", "资深干员", "近卫干员"]
+        },
+        {
+            "id": "char_129_bluep",
+            "name": "Blue Poison",
+            "rarity": 5,
+            "tags": ["输出", "远程位", "资深干员", "狙击干员"]
+        },
+        {
+            "id": "char_204_platnm",
+            "name": "Platinum",
+            "rarity": 5,
+            "tags": ["输出", "远程位", "资深干员", "狙击干员"]
+        },
+        {
+            "id": "char_219_meteo",
+            "name": "Meteorite",
+            "rarity": 5,
+            "tags": ["群攻", "削弱", "远程位", "资深干员", "狙击干员"]
+        },
+        {
+            "id": "char_242_otter",
+            "name": "Mayer",
+            "rarity": 5,
+            "tags": ["召唤", "控场", "远程位", "资深干员", "辅助干员"]
+        },
+        {
+            "id": "char_108_silent",
+            "name": "Silence",
+            "rarity": 5,
+            "tags": ["治疗", "远程位", "资深干员", "医疗干员"]
+        },
+        {
+            "id": "char_171_bldsk",
+            "name": "Warfarin",
+            "rarity": 5,
+            "tags": ["治疗", "支援", "远程位", "资深干员", "医疗干员"]
+        },
+        {
+            "id": "char_148_nearl",
+            "name": "Nearl",
+            "rarity": 5,
+            "tags": ["防护", "治疗", "近战位", "资深干员", "重装干员"]
+        },
+        {
+            "id": "char_144_red",
+            "name": "Projekt Red",
+            "rarity": 5,
+            "tags": ["快速复活", "控场", "近战位", "资深干员", "特种干员"]
+        },
+        {
+            "id": "char_107_liskam",
+            "name": "Liskarm",
+            "rarity": 5,
+            "tags": ["防护", "输出", "近战位", "资深干员", "重装干员"]
+        },
+        {
+            "id": "char_201_moeshd",
+            "name": "Croissant",
+            "rarity": 5,
+            "tags": ["防护", "位移", "近战位", "资深干员", "重装干员"]
+        },
+        {
+            "id": "char_145_prove",
+            "name": "Provence",
+            "rarity": 5,
+            "tags": ["输出", "远程位", "资深干员", "狙击干员"]
+        },
+        {
+            "id": "char_158_milu",
+            "name": "Firewatch",
+            "rarity": 5,
+            "tags": ["输出", "爆发", "远程位", "资深干员", "狙击干员"]
+        },
+        {
+            "id": "char_173_slchan",
+            "name": "Cliffheart",
+            "rarity": 5,
+            "tags": ["位移", "输出", "近战位", "资深干员", "特种干员"]
+        },
+        {
+            "id": "char_174_slbell",
+            "name": "Pramanix",
+            "rarity": 5,
+            "tags": ["削弱", "远程位", "资深干员", "辅助干员"]
+        },
+        {
+            "id": "char_195_glassb",
+            "name": "Istina",
+            "rarity": 5,
+            "tags": ["减速", "输出", "远程位", "资深干员", "辅助干员"]
+        },
+        {
+            "id": "char_215_mantic",
+            "name": "Manticore",
+            "rarity": 5,
+            "tags": ["输出", "生存", "近战位", "资深干员", "特种干员"]
+        },
+        {
+            "id": "char_241_panda",
+            "name": "FEater",
+            "rarity": 5,
+            "tags": ["位移", "减速", "近战位", "资深干员", "特种干员"]
+        },
+        {
+            "id": "char_164_nightm",
+            "name": "Nightmare",
+            "rarity": 5,
+            "tags": ["输出", "治疗", "减速", "远程位", "资深干员", "术师干员"]
+        },
+        {
+            "id": "char_308_swire",
+            "name": "Swire",
+            "rarity": 5,
+            "tags": ["输出", "支援", "近战位", "资深干员", "近卫干员"]
+        },
+        {
+            "id": "char_326_glacus",
+            "name": "Glaucus",
+            "rarity": 5,
+            "tags": ["减速", "控场", "远程位", "资深干员", "辅助干员"]
+        },
+        {
+            "id": "char_274_astesi",
+            "name": "Astesia",
+            "rarity": 5,
+            "tags": ["输出", "防护", "近战位", "资深干员", "近卫干员"]
+        },
+        {
+            "id": "char_279_excu",
+            "name": "Executor",
+            "rarity": 5,
+            "tags": ["群攻", "远程位", "资深干员", "狙击干员"]
+        },
+        {
+            "id": "char_243_waaifu",
+            "name": "Waai Fu",
+            "rarity": 5,
+            "tags": ["快速复活", "削弱", "近战位", "资深干员", "特种干员"]
+        },
+        {
+            "id": "char_367_swllow",
+            "name": "GreyThroat",
+            "rarity": 5,
+            "tags": ["输出", "远程位", "资深干员", "狙击干员"]
+        },
+        {
+            "id": "char_261_sddrag",
+            "name": "Reed",
+            "rarity": 5,
+            "tags": ["费用回复", "输出", "近战位", "资深干员", "先锋干员"]
+        },
+        {
+            "id": "char_356_broca",
+            "name": "Broca",
+            "rarity": 5,
+            "tags": ["群攻", "生存", "近战位", "资深干员", "近卫干员"]
+        },
+        {
+            "id": "char_226_hmau",
+            "name": "Hung",
+            "rarity": 5,
+            "tags": ["防护", "治疗", "近战位", "资深干员", "重装干员"]
+        },
+        {
+            "id": "char_306_leizi",
+            "name": "Leizi",
+            "rarity": 5,
+            "tags": ["输出", "远程位", "资深干员", "术师干员"]
+        },
+        {
+            "id": "char_379_sesa",
+            "name": "Sesa",
+            "rarity": 5,
+            "tags": ["群攻", "削弱", "远程位", "资深干员", "狙击干员"]
+        },
+        {
+            "id": "char_254_vodfox",
+            "name": "Shamare",
+            "rarity": 5,
+            "tags": ["削弱", "远程位", "资深干员", "辅助干员"]
+        },
+        {
+            "id": "char_401_elysm",
+            "name": "Elysium",
+            "rarity": 5,
+            "tags": ["费用回复", "支援", "近战位", "资深干员", "先锋干员"]
+        },
+        {
+            "id": "char_378_asbest",
+            "name": "Asbestos",
+            "rarity": 5,
+            "tags": ["防护", "输出", "近战位", "资深干员", "重装干员"]
+        },
+        {
+            "id": "char_343_tknogi",
+            "name": "Tsukinogi",
+            "rarity": 5,
+            "tags": ["支援", "生存", "远程位", "资深干员", "辅助干员"]
+        },
+        {
+            "id": "char_373_lionhd",
+            "name": "Leonhardt",
+            "rarity": 5,
+            "tags": ["群攻", "爆发", "远程位", "资深干员", "术师干员"]
+        },
+        {
+            "id": "char_294_ayer",
+            "name": "Ayerscarpe",
+            "rarity": 5,
+            "tags": ["输出", "群攻", "近战位", "资深干员", "近卫干员"]
+        },
+        {
+            "id": "char_218_cuttle",
+            "name": "Andreana",
+            "rarity": 5,
+            "tags": ["输出", "减速", "远程位", "资深干员", "狙击干员"]
+        },
+        {
+            "id": "char_349_chiave",
+            "name": "Chiave",
+            "rarity": 5,
+            "tags": ["费用回复", "输出", "近战位", "资深干员", "先锋干员"]
+        },
+        {
+            "id": "char_344_beewax",
+            "name": "Beeswax",
+            "rarity": 5,
+            "tags": ["群攻", "防护", "远程位", "资深干员", "术师干员"]
+        },
+        {
+            "id": "char_415_flint",
+            "name": "Flint",
+            "rarity": 5,
+            "tags": ["输出", "近战位", "资深干员", "近卫干员"]
+        },
+        {
+            "id": "char_365_aprl",
+            "name": "April",
+            "rarity": 5,
+            "tags": ["输出", "远程位", "资深干员", "狙击干员"]
+        },
+        {
+            "id": "char_346_aosta",
+            "name": "Aosta",
+            "rarity": 5,
+            "tags": ["群攻", "远程位", "资深干员", "狙击干员"]
+        },
+        {
+            "id": "char_103_angel",
+            "name": "Exusiai",
+            "rarity": 6,
+            "tags": ["输出", "远程位", "高级资深干员", "狙击干员"]
+        },
+        {
+            "id": "char_112_siege",
+            "name": "Siege",
+            "rarity": 6,
+            "tags": ["费用回复", "输出", "近战位", "高级资深干员", "先锋干员"]
+        },
+        {
+            "id": "char_134_ifrit",
+            "name": "Ifrit",
+            "rarity": 6,
+            "tags": ["群攻", "削弱", "远程位", "高级资深干员", "术师干员"]
+        },
+        {
+            "id": "char_147_shining",
+            "name": "Shining",
+            "rarity": 6,
+            "tags": ["治疗", "支援", "远程位", "高级资深干员", "医疗干员"]
+        },
+        {
+            "id": "char_179_cgbird",
+            "name": "Nightingale",
+            "rarity": 6,
+            "tags": ["治疗", "支援", "远程位", "高级资深干员", "医疗干员"]
+        },
+        {
+            "id": "char_136_hsguma",
+            "name": "Hoshiguma",
+            "rarity": 6,
+            "tags": ["防护", "输出", "近战位", "高级资深干员", "重装干员"]
+        },
+        {
+            "id": "char_202_demkni",
+            "name": "Saria",
+            "rarity": 6,
+            "tags": ["防护", "治疗", "支援", "近战位", "高级资深干员", "重装干员"]
+        },
+        {
+            "id": "char_172_svrash",
+            "name": "SilverAsh",
+            "rarity": 6,
+            "tags": ["输出", "支援", "近战位", "高级资深干员", "近卫干员"]
+        },
+        {
+            "id": "char_263_skadi",
+            "name": "Skadi",
+            "rarity": 6,
+            "tags": ["输出", "生存", "近战位", "高级资深干员", "近卫干员"]
+        },
+        {
+            "id": "char_010_chen",
+            "name": "Ch'en",
+            "rarity": 6,
+            "tags": ["爆发", "输出", "近战位", "高级资深干员", "近卫干员"]
+        },
+        {
+            "id": "char_340_shwaz",
+            "name": "Schwarz",
+            "rarity": 6,
+            "tags": ["输出", "远程位", "高级资深干员", "狙击干员"]
+        },
+        {
+            "id": "char_188_helage",
+            "name": "Hellagur",
+            "rarity": 6,
+            "tags": ["输出", "生存", "近战位", "高级资深干员", "近卫干员"]
+        },
+        {
+            "id": "char_248_mgllan",
+            "name": "Magallan",
+            "rarity": 6,
+            "tags": ["支援", "减速", "输出", "远程位", "高级资深干员", "辅助干员"]
+        },
+        {
+            "id": "char_213_mostma",
+            "name": "Mostima",
+            "rarity": 6,
+            "tags": ["群攻", "支援", "控场", "远程位", "高级资深干员", "术师干员"]
+        },
+        {
+            "id": "char_017_huang",
+            "name": "Blaze",
+            "rarity": 6,
+            "tags": ["输出", "生存", "近战位", "高级资深干员", "近卫干员"]
+        },
+        {
+            "id": "char_225_haak",
+            "name": "Aak",
+            "rarity": 6,
+            "tags": ["支援", "输出", "远程位", "高级资深干员", "特种干员"]
+        },
+        {
+            "id": "char_2013_cerber",
+            "name": "Ceobe",
+            "rarity": 6,
+            "tags": ["输出", "控场", "远程位", "高级资深干员", "术师干员"]
+        },
+        {
+            "id": "char_222_bpipe",
+            "name": "Bagpipe",
+            "rarity": 6,
+            "tags": ["费用回复", "输出", "近战位", "高级资深干员", "先锋干员"]
+        },
+        {
+            "id": "char_250_phatom",
+            "name": "Phantom",
+            "rarity": 6,
+            "tags": ["快速复活", "控场", "输出", "近战位", "高级资深干员", "特种干员"]
+        },
+        {
+            "id": "char_400_weedy",
+            "name": "Weedy",
+            "rarity": 6,
+            "tags": ["位移", "输出", "控场", "近战位", "高级资深干员", "特种干员"]
+        },
+        {
+            "id": "char_197_poca",
+            "name": "Rosa",
+            "rarity": 6,
+            "tags": ["输出", "控场", "远程位", "高级资深干员", "狙击干员"]
+        },
+        {
+            "id": "char_358_lisa",
+            "name": "Suzuran",
+            "rarity": 6,
+            "tags": ["减速", "支援", "输出", "远程位", "高级资深干员", "辅助干员"]
+        },
+        {
+            "id": "char_293_thorns",
+            "name": "Thorns",
+            "rarity": 6,
+            "tags": ["输出", "防护", "近战位", "高级资深干员", "近卫干员"]
+        },
+        {
+            "id": "char_416_zumama",
+            "name": "Eunectes",
+            "rarity": 6,
+            "tags": ["输出", "生存", "防护", "近战位", "高级资深干员", "重装干员"]
+        },
+        {
+            "id": "char_350_surtr",
+            "name": "Surtr",
+            "rarity": 6,
+            "tags": ["输出", "近战位", "高级资深干员", "近卫干员"]
+        },
+        {
+            "id": "char_423_blemsh",
+            "name": "Blemishine",
+            "rarity": 6,
+            "tags": ["防护", "治疗", "输出", "近战位", "高级资深干员", "重装干员"]
+        }
+    ],
+    "tags": {
+        "位移": "Shift",
+        "元素": "Elemental",
+        "先锋干员": "Vanguard",
+        "减速": "Slow",
+        "削弱": "Debuff",
+        "医疗干员": "Medic",
+        "召唤": "Summon",
+        "女性干员": "Female",
+        "快速复活": "Fast-Redeploy",
+        "控场": "Crowd-Control",
+        "支援": "Support",
+        "支援机械": "Robot",
+        "新手": "Starter",
+        "术师干员": "Caster",
+        "治疗": "Healing",
+        "爆发": "Nuker",
+        "特种干员": "Specialist",
+        "狙击干员": "Sniper",
+        "生存": "Survival",
+        "男性干员": "Male",
+        "群攻": "AoE",
+        "费用回复": "DP-Recovery",
+        "资深干员": "Senior Operator",
+        "辅助干员": "Supporter",
+        "输出": "DPS",
+        "近卫干员": "Guard",
+        "近战位": "Melee",
+        "远程位": "Ranged",
+        "重装干员": "Defender",
+        "防护": "Defense",
+        "高级资深干员": "Top Operator"
+    }
+}

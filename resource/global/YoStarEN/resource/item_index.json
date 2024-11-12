@@ -1,0 +1,2386 @@
+{
+    "1stact": {
+        "classifyType": "NONE",
+        "description": "A fortune coin used as an amulet by most bounty hunters. When these coins appear, it means their luck has run out.",
+        "icon": "1stact.png",
+        "name": "Bounty Coin",
+        "sortId": -10000,
+        "usage": "Can be exchanged for all kinds of supplies."
+    },
+    "2001": {
+        "classifyType": "MATERIAL",
+        "description": "In such a hostile environment, every operation has the potential for a loss of life. We may be able to save more people if we are well prepared.\nA video record of several battles.",
+        "icon": "2001.png",
+        "name": "Drill Battle Record",
+        "sortId": 70004,
+        "usage": "A device that stores battle videos. Gives Operators a slight amount of EXP."
+    },
+    "2002": {
+        "classifyType": "MATERIAL",
+        "description": "In such a hostile environment, every operation has the potential for a loss of life. We may be able to save more people if we are well prepared.\nA video record of several battles, with detailed statistical analysis, plus 3 hours of additional materials and interviews.",
+        "icon": "2002.png",
+        "name": "Frontline Battle Record",
+        "sortId": 70003,
+        "usage": "A device that stores battle videos. Gives Operators a moderate amount of EXP."
+    },
+    "2003": {
+        "classifyType": "MATERIAL",
+        "description": "In such a hostile environment, every operation has the potential for a loss of life. We may be able to save more people if we are well prepared.\nA video record of several battles, plus the signature of the one who recorded them.",
+        "icon": "2003.png",
+        "name": "Tactical Battle Record",
+        "sortId": 70002,
+        "usage": "A device that stores battle videos. Gives Operators a significant amount of EXP."
+    },
+    "2004": {
+        "classifyType": "MATERIAL",
+        "description": "In such a hostile environment, every operation has the potential for a loss of life. We may be able to save more people if we are well prepared.\nComes with a collector's edition, a HD version, an HD remastered version, an Enhanced edition, a Director's cut edition, an Annual Gold edition...",
+        "icon": "2004.png",
+        "name": "Strategic Battle Record",
+        "sortId": 70001,
+        "usage": "A device that stores battle videos. Gives Operators a huge amount of EXP."
+    },
+    "30011": {
+        "classifyType": "MATERIAL",
+        "description": "Rich in organics, it is commonly seen in regions where Originium has completely volatilized. Compared to Originium, it is easier to exploit.",
+        "icon": "30011.png",
+        "name": "Orirock",
+        "sortId": 100033,
+        "usage": "A rock mined from the ground. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "30012": {
+        "classifyType": "MATERIAL",
+        "description": "With numerous micropores, it is often used in the interlayer of armors as an adsorbent of the breakdown product of Originium gas.",
+        "icon": "30012.png",
+        "name": "Orirock Cube",
+        "sortId": 100032,
+        "usage": "A rock cube mined from the ground. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "30013": {
+        "classifyType": "MATERIAL",
+        "description": "Compressed from Orirock Cubes, it can be formed naturally. It is a fragile material, but industrial technology has made it possible to produce complete Orirock Clusters now. People often mistake it for an ordinary cluster of rocks.",
+        "icon": "30013.png",
+        "name": "Orirock Cluster",
+        "sortId": 100031,
+        "usage": "A conglomerate rock mined from the ground. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "30014": {
+        "classifyType": "MATERIAL",
+        "description": "This Orirock looks different from the raw material after the refinement process. It costs much more than other processing methods. Anyone who has seen the smooth cutting surface will be amazed. That must be the charm of combining nature with industry.",
+        "icon": "30014.png",
+        "name": "Orirock Concentration",
+        "sortId": 100030,
+        "usage": "A refined matter produced with Orirock Cluster. Can be used for a variety of upgrades and the synthesis of Polymerization Preparation."
+    },
+    "30021": {
+        "classifyType": "MATERIAL",
+        "description": "It's slightly sweet and possibly edible. It is also commonly used in chemical manufacturing.",
+        "icon": "30021.png",
+        "name": "Sugar Substitute",
+        "sortId": 100045,
+        "usage": "Cheap sugar substitute produced by assembly line. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "30022": {
+        "classifyType": "MATERIAL",
+        "description": "A more expensive sugar made from natural materials. Ahh, this taste... will surely put one in a great mood. However, it's not for casual snacking.",
+        "icon": "30022.png",
+        "name": "Sugar",
+        "sortId": 100044,
+        "usage": "A small amount of sugar produced by assembly line. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "30023": {
+        "classifyType": "MATERIAL",
+        "description": "A calorie-rich sugar pack that's highly sought after. Its weight never seems to meet the standards set for chemical manufacturing. The production line employees may have something to do with it.",
+        "icon": "30023.png",
+        "name": "Sugar Pack",
+        "sortId": 100043,
+        "usage": "A decent amount of sugar produced by assembly line. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "30024": {
+        "classifyType": "MATERIAL",
+        "description": "A nice, finely processed sugar lump commonly used for potion production. Do not taste test it! This is not food and is not to be sold as food! EVER!",
+        "icon": "30024.png",
+        "name": "Sugar Lump",
+        "sortId": 100042,
+        "usage": "A large amount of sugar produced by assembly line. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "3003": {
+        "classifyType": "NORMAL",
+        "description": "How much ore does it take to make such valuable gold bars? It doesn't matter. What matters is that they're yours.",
+        "icon": "3003.png",
+        "name": "Pure Gold",
+        "sortId": 10005,
+        "usage": "A refined gold bar. Can be exchanged for a lot of LMD."
+    },
+    "30031": {
+        "classifyType": "MATERIAL",
+        "description": "One of the most important materials in modern industry. Its appearance has lead to the development of many modern products. This one, of course, is only a raw material that has practical application.",
+        "icon": "30031.png",
+        "name": "Ester",
+        "sortId": 100041,
+        "usage": "Ester used in industrial production. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "30032": {
+        "classifyType": "MATERIAL",
+        "description": "Although its is lacking in potency, it can still be used to produce some basic materials we need. It is also a common ingredient in some sustained-release drugs.",
+        "icon": "30032.png",
+        "name": "Polyester",
+        "sortId": 100040,
+        "usage": "A small amount of polyester used in industrial production. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "30033": {
+        "classifyType": "MATERIAL",
+        "description": "After a series of processes, it meets the standards and general needs of most products on the market. It can also be used to process some special materials.",
+        "icon": "30033.png",
+        "name": "Polyester Pack",
+        "sortId": 100039,
+        "usage": "A pack of polyester used in industrial production. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "30034": {
+        "classifyType": "MATERIAL",
+        "description": "A refined material. As a product, it is mostly sold to organizations and research institutions that have extremely high raw material needs. It may become the basis of the next generation of materials.",
+        "icon": "30034.png",
+        "name": "Polyester Lump",
+        "sortId": 100038,
+        "usage": "A lump of polyester used in industrial production. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "30041": {
+        "classifyType": "MATERIAL",
+        "description": "A byproduct of massive metal processing. Its high plasticity and oxidation resistance make it a common material of smelting and phased processing.",
+        "icon": "30041.png",
+        "name": "Oriron Shard",
+        "sortId": 100049,
+        "usage": "A common industrial material. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "30042": {
+        "classifyType": "MATERIAL",
+        "description": "In a small number of inerting processes, Oriron Shards may have phase changed and polymerized into Oriron. It is generally thought that Oriron is relatively stable when it reaches this level.",
+        "icon": "30042.png",
+        "name": "Oriron",
+        "sortId": 100048,
+        "usage": "A rare industrial material. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "30043": {
+        "classifyType": "MATERIAL",
+        "description": "During the processing, influenced by very few unartificial factors, multiple Orirons may merge into this form by chance. Its hardness has decreased but its purity has increased.",
+        "icon": "30043.png",
+        "name": "Oriron Cluster",
+        "sortId": 100047,
+        "usage": "A precious industrial material. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "30044": {
+        "classifyType": "MATERIAL",
+        "description": "An Oriron block fused with multiple Oriron Clusters under extremely harsh conditions. As the most stable and rarest form of Oriron, it can be used in all manners of industrial production.",
+        "icon": "30044.png",
+        "name": "Oriron Block",
+        "sortId": 100046,
+        "usage": "An expensive industrial material. Can be used for a variety of upgrades and the synthesis of Polymerization Preparation."
+    },
+    "30051": {
+        "classifyType": "MATERIAL",
+        "description": "A very small amount of Diketon. After reprocessing, Engineer Operators use solidification during chemical combination to bond other stable structures.",
+        "icon": "30051.png",
+        "name": "Diketon",
+        "sortId": 100053,
+        "usage": "A very small amount of industrial organic compound. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "30052": {
+        "classifyType": "MATERIAL",
+        "description": "A small amount of Polyketon preparation produced through a special process. Its closed molecular structure has changed much complicated processing into simple chemical reactions. Of course, certain technical support is still needed.",
+        "icon": "30052.png",
+        "name": "Polyketon",
+        "sortId": 100052,
+        "usage": "A small amount of industrial organic compound. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "30053": {
+        "classifyType": "MATERIAL",
+        "description": "A modest amount of Aketon preparation produced through further dehydrocarbon processing. The preparation reacts with the non-oxygen molecules in the air, so Engineer Operators must be careful during processing to avoid waste.",
+        "icon": "30053.png",
+        "name": "Aketon",
+        "sortId": 100051,
+        "usage": "A modest amount of industrial organic compound. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "30054": {
+        "classifyType": "MATERIAL",
+        "description": "A large amount of unstable Keton preparation. As one of the advanced industrial materials, it is closely monitored by our Engineer Operators. Please be careful when handling.",
+        "icon": "30054.png",
+        "name": "Keton Colloid",
+        "sortId": 100050,
+        "usage": "A large amount of industrial organic compound. Can be used for a variety of upgrades and the synthesis of Polymerization Preparation."
+    },
+    "30061": {
+        "classifyType": "MATERIAL",
+        "description": "A broken device that was embedded in the enemy's weapons and armor. It got damaged during a fierce fight, but the components inside are still valuable.",
+        "icon": "30061.png",
+        "name": "Damaged Device",
+        "sortId": 100037,
+        "usage": "A damaged mechanical device captured from Reunion. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "30062": {
+        "classifyType": "MATERIAL",
+        "description": "A set of devices that are relatively complete with numerous valuable components. To make it portable and practical, almost every bit of space around the motherboard is in use.",
+        "icon": "30062.png",
+        "name": "Device",
+        "sortId": 100036,
+        "usage": "An ordinary mechanical device captured from Reunion. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "30063": {
+        "classifyType": "MATERIAL",
+        "description": "A set of brand new devices. By reproducing the structure of devices of the same type, the lack of space around the motherboard has been solved. The energy consumption, of course, has also become higher.",
+        "icon": "30063.png",
+        "name": "Integrated Device",
+        "sortId": 100035,
+        "usage": "A brand new mechanical device captured from Reunion. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "30064": {
+        "classifyType": "MATERIAL",
+        "description": "After undergoing a large number of private modifications, these devices have greatly expanded capacity, which improves performance at the cost of stability. From this, one can feel the dedication and perseverance from the makers.",
+        "icon": "30064.png",
+        "name": "Optimized Device",
+        "sortId": 100034,
+        "usage": "An advanced mechanical device captured from Reunion. Can be used for a variety of upgrades and the synthesis of Bipolar Nanoflake."
+    },
+    "30073": {
+        "classifyType": "MATERIAL",
+        "description": "An outstanding chemical mediator. When in use, it often changes between two forms to store and release other materials. When it becomes liquid, some of its properties are the same as those of alcohol, which often leaves our Engineer Operators tipsy.",
+        "icon": "30073.png",
+        "name": "Loxic Kohl",
+        "sortId": 100023,
+        "usage": "A flaky organic compound. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "30074": {
+        "classifyType": "MATERIAL",
+        "description": "A product made from Loxic Kohl after fine processing. It was named after the company that discovered its production method. Experiments show that it tends to transform to a higher structure in abnormal environments.",
+        "icon": "30074.png",
+        "name": "White Horse Kohl",
+        "sortId": 100022,
+        "usage": "A flaky organic compound. Can be used for a variety of upgrades and the synthesis of Bipolar Nanoflake."
+    },
+    "30083": {
+        "classifyType": "MATERIAL",
+        "description": "A metal that is used to produce a catalyst widely used in industries. As the reprocessing is complicated, accidents caused by nonstandard techniques do happen from time to time.",
+        "icon": "30083.png",
+        "name": "Manganese Ore",
+        "sortId": 100025,
+        "usage": "A metal ore used for metallurgy. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "30084": {
+        "classifyType": "MATERIAL",
+        "description": "A precious metal which few companies are willing to use to produce industrial catalysts. The catalyst made from it, however, has an extremely long service life. It can be used repeatedly and even stripped and recycled, but the complicated processes have forced many companies to give up.",
+        "icon": "30084.png",
+        "name": "Manganese Trihydrate",
+        "sortId": 100024,
+        "usage": "A metal ore used for metallurgy. Can be used for a variety of upgrades and the synthesis of D32 Steel."
+    },
+    "30093": {
+        "classifyType": "MATERIAL",
+        "description": "An important tool in component processing. It has stable properties, and will never explode, powderize, or crack.",
+        "icon": "30093.png",
+        "name": "Grindstone",
+        "sortId": 100027,
+        "usage": "A grindstone used to process weapon parts. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "30094": {
+        "classifyType": "MATERIAL",
+        "description": "Compared to normal Grindstone, this tool has an even more stable structure. It is highly non-reactive.",
+        "icon": "30094.png",
+        "name": "Grindstone Pentahydrate",
+        "sortId": 100026,
+        "usage": "An advanced grindstone used in the finish machining of weapon parts. Can be used for a variety of upgrades and the synthesis of D32 Steel."
+    },
+    "30103": {
+        "classifyType": "MATERIAL",
+        "description": "A mineral whose natural form is a complicated polyhedron. Its value for Originium Arts was known long before its industrial value.",
+        "icon": "30103.png",
+        "name": "RMA70-12",
+        "sortId": 100029,
+        "usage": "A sensitive mineral with high conductivity. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "30104": {
+        "classifyType": "MATERIAL",
+        "description": "A mineral whose natural form is a complicated polyhedron. Found in 1024, it shows great industrial value that other minerals used for Originium Arts lack.",
+        "icon": "30104.png",
+        "name": "RMA70-24",
+        "sortId": 100028,
+        "usage": "A highly sensitive mineral with outstanding conductivity. Can be used for a variety of upgrades and the synthesis of D32 Steel."
+    },
+    "30115": {
+        "classifyType": "MATERIAL",
+        "description": "A material commonly used as an isolation coating for delicate equipment. Its bonding effect is strong enough to interrupt the volatilization of Originium.",
+        "icon": "30115.png",
+        "name": "Polymerization Preparation",
+        "sortId": 100005,
+        "usage": "A complicated liquid industrial product. Can be used for high level upgrades."
+    },
+    "30125": {
+        "classifyType": "MATERIAL",
+        "description": "A device that is sensitive to Originium within a certain range. It can significantly improve the sensitivity of nearby weapons and equipment to Originium, making them near vessels for Originium Arts.",
+        "icon": "30125.png",
+        "name": "Bipolar Nanoflake",
+        "sortId": 100004,
+        "usage": "The brainchild of modern science and industry. Can be used for high level upgrades."
+    },
+    "30135": {
+        "classifyType": "MATERIAL",
+        "description": "This material can deliver Originium Arts smoothly and its amazing hardness makes it impossible to penetrate. It will set a new standard for weapon materials.",
+        "icon": "30135.png",
+        "name": "D32 Steel",
+        "sortId": 100003,
+        "usage": "An artificial metal that doesn't exist in nature. Can be used for high level upgrades."
+    },
+    "30145": {
+        "classifyType": "MATERIAL",
+        "description": "A crystallization of Terra's Originium technology. A symbol of Terra's industrial modernization. From Originium Casting units to intercity network servers, their making all starts with inventions like these.",
+        "icon": "30145.png",
+        "name": "Crystalline Electronic Unit",
+        "sortId": 100002,
+        "usage": "An expensive Originium industry product. Can be used for major upgrades."
+    },
+    "30155": {
+        "classifyType": "MATERIAL",
+        "description": "A material that possesses a molecular recognitive capacity under specific high-temperature conditions. Can selectively adsorb Originium when used as a reagent, allowing for precise handling of Originium materials, lower Originium device energy consumption, and the opening of further new possibilities.",
+        "icon": "30155.png",
+        "name": "Nucleic Crystal Sinter",
+        "sortId": 100001,
+        "usage": "A product of modern technology that requires the ultimate in industrial craft. Used in advanced strengthening projects."
+    },
+    "31013": {
+        "classifyType": "MATERIAL",
+        "description": "An artificial material serendipitously born in the laboratory. It has excellent resistance to extreme temperatures, is lightweight, and is easy to process, making it ideal for use in high-tech projects.",
+        "icon": "31013.png",
+        "name": "Coagulating Gel",
+        "sortId": 100021,
+        "usage": "A high-strength plastic material suitable. Can be used for a variety of upgrades and for synthesis projects in Factories."
+    },
+    "31014": {
+        "classifyType": "MATERIAL",
+        "description": "An artificial material created from a large number of experiments using coagulating gel as a base material. It can maintain its stability even in high-pressure environments, playing a key role in some high-tech projects.",
+        "icon": "31014.png",
+        "name": "Polymerized Gel",
+        "sortId": 100020,
+        "usage": "An extremely high-strength plastic material. Can be used for a variety of upgrades."
+    },
+    "31023": {
+        "classifyType": "MATERIAL",
+        "description": "An alloy smelted from several rare Terran metals. Used to manufacture rare electronic components and circuit boards, it has become an indispensable material in the cutting-edge electronics industry.",
+        "icon": "31023.png",
+        "name": "Incandescent Alloy",
+        "sortId": 100019,
+        "usage": "A special alloy with a high melting point, commonly used in the electronics industry. Can be used for a variety of upgrades and for synthesis projects in Factories."
+    },
+    "31024": {
+        "classifyType": "MATERIAL",
+        "description": "A product derived from further processing of incandescent alloy. After complicated industrial processing, the stability of its solid-liquid hybridization state at certain temperatures has been preserved. As a result, it has an irreplaceable role in product development in the cutting-edge electronics industry.",
+        "icon": "31024.png",
+        "name": "Incandescent Alloy Block",
+        "sortId": 100018,
+        "usage": "A rarely-produced alloy with a high melting point, commonly used in the electronics industry. Can be used for a variety of upgrades."
+    },
+    "31033": {
+        "classifyType": "MATERIAL",
+        "description": "A raw industrial material made with the outer shell of an Originium crystal. A fundamental product in the modern Originium electronics industry.",
+        "icon": "31033.png",
+        "name": "Crystalline Component",
+        "sortId": 100017,
+        "usage": "An important Originium industry material. Can be used for a variety of upgrades. Can be manufactured and assembled into more advanced Originium electric components."
+    },
+    "31034": {
+        "classifyType": "MATERIAL",
+        "description": "A core product in the modern Originium electronics industry. Found inside electronic goods far and wide throughout Terra's nations. The mass application of crystalline circuitry is one more reminder of Terra's industrial modernization.",
+        "icon": "31034.png",
+        "name": "Crystalline Circuit",
+        "sortId": 100016,
+        "usage": "An important Originium industry material. Can be used for a variety of upgrades. A fundamental part of manufacturing Originium crystal assemblies."
+    },
+    "31043": {
+        "classifyType": "MATERIAL",
+        "description": "The product of a traditional solvent undergoing a modernization process, it demonstrates remarkably enhanced properties.",
+        "icon": "31043.png",
+        "name": "Semi-Synthetic Solvent",
+        "sortId": 100015,
+        "usage": "An active solvent with excellent physical characteristics, and good resistance to acids and bases. Can be used in a variety of upgrades."
+    },
+    "31044": {
+        "classifyType": "MATERIAL",
+        "description": "A coating held together by high-molecule polymers. In addition to its baseline protective capabilities, it has also gained other special characteristics, of which heat resistance is but one of many.",
+        "icon": "31044.png",
+        "name": "Refined Solvent",
+        "sortId": 100014,
+        "usage": "A special coating made from a specific formulation process. Can be used for high level upgrades."
+    },
+    "3105": {
+        "classifyType": "NORMAL",
+        "description": "The foundation of the entire construction operation at Rhodes Island. Although this giant, complicated component must be custom made or ordered, for some reason, Rhodes Island often uses it to build special facilities.",
+        "icon": "3105.png",
+        "name": "Keel",
+        "sortId": 200001,
+        "usage": "A delicate artificial component used as the core material of Base construction."
+    },
+    "31053": {
+        "classifyType": "MATERIAL",
+        "description": "Provides lubrication and heat resistance during the refining process, which can further increase the rate at which metal products meet final quality specifications.",
+        "icon": "31053.png",
+        "name": "Compound Cutting Fluid",
+        "sortId": 100013,
+        "usage": "An industrial agent necessary for metal processing. Can be used for a variety of upgrades."
+    },
+    "31054": {
+        "classifyType": "MATERIAL",
+        "description": "A biologically stable stock solution. Precautions should be taken to avoid cross-contamination during storage.",
+        "icon": "31054.png",
+        "name": "Cutting Fluid Solution",
+        "sortId": 100012,
+        "usage": "A stock solution prepared from a variety of active solvents. Can be used for high level upgrades."
+    },
+    "31063": {
+        "classifyType": "MATERIAL",
+        "description": "The surface of this material has mutable characteristics, realizing results that were originally nearly impossible. CAUTION: industrial salt is not to be eaten under any circumstances.",
+        "icon": "31063.png",
+        "name": "Transmuted Salt",
+        "sortId": 100011,
+        "usage": "A compound crystallization that has undergone low-tolerance refinement. Can be used in a variety of strengthening projects."
+    },
+    "31064": {
+        "classifyType": "MATERIAL",
+        "description": "A stable crystalline body, manufactured as a crystal blend within saturated solutions. Can provide materials with a diverse array of capabilities.",
+        "icon": "31064.png",
+        "name": "Transmuted Salt Agglomerate",
+        "sortId": 100010,
+        "usage": "A compound crystal mass that has undergone high-tolerance refinement. Used in a variety of strengthening projects, and is a common material in synthetic items at factories."
+    },
+    "31073": {
+        "classifyType": "MATERIAL",
+        "description": "A derived product in Originium engineering, widely used in industrial fields due to its exceptional functionality. In recent years, its unique appearance has also drawn keen interest from those working in design.",
+        "icon": "31073.png",
+        "name": "Fuscous Fiber",
+        "sortId": 100009,
+        "usage": "A specialized fiber bundle, possessing high tensile strength and elastic modulus. Used in a variety of strengthening projects."
+    },
+    "31074": {
+        "classifyType": "MATERIAL",
+        "description": "A compound fiber board crafted through bespoke manufacturing. Exhibits outstanding functionality, both physically and chemically, coupled with a rarely-seen ease of processing. An irreplaceable part of many an industrial workflow.",
+        "icon": "31074.png",
+        "name": "Solidified Fiber Board",
+        "sortId": 100008,
+        "usage": "A specialized fiber board, solidified in a mold. Used in a variety of strengthening projects."
+    },
+    "31083": {
+        "classifyType": "MATERIAL",
+        "description": "A novel transparent material born from the laboratory. Its high luminous transmittance and phenomenal durability in all aspects promise to make it an excellent substitute for many conventional materials.",
+        "icon": "31083.png",
+        "name": "Aggregate Cyclicene",
+        "sortId": 100007,
+        "usage": "A superlatively heat- and chemical-resistant industrial material. Used in a variety of strengthening projects."
+    },
+    "31084": {
+        "classifyType": "MATERIAL",
+        "description": "An industrial product arrived at through the introduction of several excellent materials into the synthesis process, preserving luminous transmittance while vastly increasing strength and shock resistance. Prospects are high for its wide adoption in the field of defense.",
+        "icon": "31084.png",
+        "name": "Cyclicene Prefab",
+        "sortId": 100006,
+        "usage": "A prefabricated industrial intermediate composed of multiple first-rate materials. Used in a variety of strengthening projects."
+    },
+    "3112": {
+        "classifyType": "NORMAL",
+        "description": "One of the necessary industrial materials, it can be used to produce a variety of polymers.",
+        "icon": "3112.png",
+        "name": "Carbon Stick",
+        "sortId": 200008,
+        "usage": "A carbon stick used for the facility development of Rhodes Island."
+    },
+    "3113": {
+        "classifyType": "NORMAL",
+        "description": "Light and highly pure, it possesses excellent workability, and is instrumental to the success of our operations.",
+        "icon": "3113.png",
+        "name": "Carbon Brick",
+        "sortId": 200007,
+        "usage": "A carbon brick used for the facility development of Rhodes Island."
+    },
+    "3114": {
+        "classifyType": "NORMAL",
+        "description": "A large number of carbon bricks. Every one of them has a burning soul for modern industry.",
+        "icon": "3114.png",
+        "name": "Carbon Pack",
+        "sortId": 200006,
+        "usage": "A pack of carbon bricks used for the facility development of Rhodes Island."
+    },
+    "3131": {
+        "classifyType": "NORMAL",
+        "description": "Room modification causes irreversible damage to load bearing parts if not handled properly. Please use building materials before commencing modification in order to guarantee the integrity of the room.",
+        "icon": "3131.png",
+        "name": "Light Building Material",
+        "sortId": 200005,
+        "usage": "A basic construction material used for the facility development of Rhodes Island."
+    },
+    "3132": {
+        "classifyType": "NORMAL",
+        "description": "Before conducting modifications to rooms with poor structural integrity, please use this building material for maintenance to ensure the safety of the work site. Only then will you be ready to begin.",
+        "icon": "3132.png",
+        "name": "Concrete Building Material",
+        "sortId": 200004,
+        "usage": "A strengthened construction material used for the facility development of Rhodes Island."
+    },
+    "3133": {
+        "classifyType": "NORMAL",
+        "description": "Please do not waste time with stress tests on rooms strengthened by this material! None of the currently employed demolition methods can damage the structural integrity of these rooms, but they may be dangerous to the experimenters.",
+        "icon": "3133.png",
+        "name": "Reinforced Building Material",
+        "sortId": 200003,
+        "usage": "An advanced construction material used for the facility development of Rhodes Island."
+    },
+    "3141": {
+        "classifyType": "NORMAL",
+        "description": "An Originium shard collected from heavily contaminated regions. Anyone who touches it has a high chance to get infected and even mutate. Therefore, it is a hazardous material as indicated in the Columbia CDC toxicity database.",
+        "icon": "3141.png",
+        "name": "Originium Shard",
+        "sortId": 10003,
+        "usage": "An Originium shard collected from polluted regions. Can be used to produce Orundum."
+    },
+    "32001": {
+        "classifyType": "MATERIAL",
+        "description": "It's highly valuable, but its low yield has been a problem for Engineer Operators.",
+        "icon": "32001.png",
+        "name": "Chip Catalyst",
+        "sortId": 400001,
+        "usage": "A catalyst necessary for the production of Dualchips."
+    },
+    "3211": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for rookie Vanguard Operators.",
+        "icon": "3211.png",
+        "name": "Vanguard Chip",
+        "sortId": 400018,
+        "usage": "A memory chip that records special trainings. Can be used to Promote Vanguard Operators."
+    },
+    "3212": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for experienced Vanguard Operators.",
+        "icon": "3212.png",
+        "name": "Vanguard Chip Pack",
+        "sortId": 400010,
+        "usage": "A memory chip pack that records special trainings. Can be used to Promote Vanguard Operators."
+    },
+    "3213": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for veteran Vanguard Operators.",
+        "icon": "3213.png",
+        "name": "Vanguard Dualchip",
+        "sortId": 400002,
+        "usage": "A dualchip that records special trainings. Can be used to Promote Vanguard Operators."
+    },
+    "3221": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for rookie Guard Operators.",
+        "icon": "3221.png",
+        "name": "Guard Chip",
+        "sortId": 400019,
+        "usage": "A memory chip that records special trainings. Can be used to Promote Guard Operators."
+    },
+    "3222": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for experienced Guard Operators.",
+        "icon": "3222.png",
+        "name": "Guard Chip Pack",
+        "sortId": 400011,
+        "usage": "A memory chip pack that records special trainings. Can be used to Promote Guard Operators."
+    },
+    "3223": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for veteran Guard Operators.",
+        "icon": "3223.png",
+        "name": "Guard Dualchip",
+        "sortId": 400003,
+        "usage": "A dualchip that records special trainings. Can be used to Promote Guard Operators."
+    },
+    "3231": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for rookie Defender Operators.",
+        "icon": "3231.png",
+        "name": "Defender Chip",
+        "sortId": 400020,
+        "usage": "A memory chip that records special trainings. Can be used to Promote Defender Operators."
+    },
+    "3232": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for experienced Defender Operators.",
+        "icon": "3232.png",
+        "name": "Defender Chip Pack",
+        "sortId": 400012,
+        "usage": "A memory chip pack that records special trainings. Can be used to Promote Defender Operators."
+    },
+    "3233": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for veteran Defender Operators.",
+        "icon": "3233.png",
+        "name": "Defender Dualchip",
+        "sortId": 400004,
+        "usage": "A dualchip that records special trainings. Can be used to Promote Defender Operators."
+    },
+    "3241": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for rookie Sniper Operators.",
+        "icon": "3241.png",
+        "name": "Sniper Chip",
+        "sortId": 400021,
+        "usage": "A memory chip that records special trainings. Can be used to Promote Sniper Operators."
+    },
+    "3242": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for experienced Sniper Operators.",
+        "icon": "3242.png",
+        "name": "Sniper Chip Pack",
+        "sortId": 400013,
+        "usage": "A memory chip pack that records special trainings. Can be used to Promote Sniper Operators."
+    },
+    "3243": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for veteran Sniper Operators.",
+        "icon": "3243.png",
+        "name": "Sniper Dualchip",
+        "sortId": 400005,
+        "usage": "A dualchip that records special trainings. Can be used to Promote Sniper Operators."
+    },
+    "3251": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for rookie Caster Operators.",
+        "icon": "3251.png",
+        "name": "Caster Chip",
+        "sortId": 400022,
+        "usage": "A memory chip that records special trainings. Can be used to Promote Caster Operators."
+    },
+    "3252": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for experienced Caster Operators.",
+        "icon": "3252.png",
+        "name": "Caster Chip Pack",
+        "sortId": 400014,
+        "usage": "A memory chip pack that records special trainings. Can be used to Promote Caster Operators."
+    },
+    "3253": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for veteran Caster Operators.",
+        "icon": "3253.png",
+        "name": "Caster Dualchip",
+        "sortId": 400006,
+        "usage": "A dualchip that records special trainings. Can be used to Promote Caster Operators."
+    },
+    "3261": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for rookie Medic Operators.",
+        "icon": "3261.png",
+        "name": "Medic Chip",
+        "sortId": 400023,
+        "usage": "A memory chip that records special trainings. Can be used to Promote Medic Operators."
+    },
+    "3262": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for experienced Medic Operators.",
+        "icon": "3262.png",
+        "name": "Medic Chip Pack",
+        "sortId": 400015,
+        "usage": "A memory chip pack that records special trainings. Can be used to Promote Medic Operators."
+    },
+    "3263": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for veteran Medic Operators.",
+        "icon": "3263.png",
+        "name": "Medic Dualchip",
+        "sortId": 400007,
+        "usage": "A dualchip that records special trainings. Can be used to Promote Medic Operators."
+    },
+    "3271": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for rookie Supporter Operators.",
+        "icon": "3271.png",
+        "name": "Supporter Chip",
+        "sortId": 400024,
+        "usage": "A memory chip that records special trainings. Can be used to Promote Supporter Operators."
+    },
+    "3272": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for experienced Supporter Operators.",
+        "icon": "3272.png",
+        "name": "Supporter Chip Pack",
+        "sortId": 400016,
+        "usage": "A memory chip pack that records special trainings. Can be used to Promote Supporter Operators."
+    },
+    "3273": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for veteran Supporter Operators.",
+        "icon": "3273.png",
+        "name": "Supporter Dualchip",
+        "sortId": 400008,
+        "usage": "A dualchip that records special trainings. Can be used to Promote Supporter Operators."
+    },
+    "3281": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for rookie Specialist Operators.",
+        "icon": "3281.png",
+        "name": "Specialist Chip",
+        "sortId": 400025,
+        "usage": "A memory chip that records special trainings. Can be used to Promote Specialist Operators."
+    },
+    "3282": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for experienced Specialist Operators.",
+        "icon": "3282.png",
+        "name": "Specialist Chip Pack",
+        "sortId": 400017,
+        "usage": "A memory chip pack that records special trainings. Can be used to Promote Specialist Operators."
+    },
+    "3283": {
+        "classifyType": "MATERIAL",
+        "description": "A material obtained after hard training. It seems to be especially helpful for veteran Specialist Operators.",
+        "icon": "3283.png",
+        "name": "Specialist Dualchip",
+        "sortId": 400009,
+        "usage": "A dualchip that records special trainings. Can be used to Promote Specialist Operators."
+    },
+    "3301": {
+        "classifyType": "MATERIAL",
+        "description": "It records entry-level skills needed by Operators. Even a dummy could master the techniques after a bit of study.",
+        "icon": "3301.png",
+        "name": "Skill Summary - 1",
+        "sortId": 80003,
+        "usage": "A book that records basic tactics. Can be used to upgrade Operator skills."
+    },
+    "3302": {
+        "classifyType": "MATERIAL",
+        "description": "It records junior skills needed by Operators. It takes some time and effort to master them.",
+        "icon": "3302.png",
+        "name": "Skill Summary - 2",
+        "sortId": 80002,
+        "usage": "A book that records intermediate tactics. Can be used to upgrade Operator skills."
+    },
+    "3303": {
+        "classifyType": "MATERIAL",
+        "description": "It records high level skills needed by Operators. It takes a depth of experience in relevant fields to understand them.",
+        "icon": "3303.png",
+        "name": "Skill Summary - 3",
+        "sortId": 80001,
+        "usage": "A book that records advanced tactics. Can be used to upgrade Operator skills."
+    },
+    "3401": {
+        "classifyType": "NORMAL",
+        "description": "Table legs, chair arms, cushions, we have everything here. Put them together and you get a nice piece of furniture.",
+        "icon": "3401.png",
+        "name": "Furniture Part",
+        "sortId": 200002,
+        "usage": "Parts used to assemble furniture."
+    },
+    "4001": {
+        "classifyType": "NORMAL",
+        "description": "Since the financial crisis, economic decline and political instability have stood in the way of trade. The widespread circulation of Lungmen Dollars has allowed for some recovery in the business world.",
+        "icon": "4001.png",
+        "name": "LMD",
+        "sortId": 10004,
+        "usage": "A widely used currency issued by Lungmen."
+    },
+    "4002": {
+        "classifyType": "NORMAL",
+        "description": "Widely used in industry, this Originium crystal is difficult to extract. Its production requires very fine processing, but it remains the major energy source of the world and the foundation of Originium Arts. Even if widespread rumors claim 'Originite Prime spreads an incurable disease,' few can resist its temptation.",
+        "icon": "4002.png",
+        "name": "Originite Prime",
+        "sortId": 10001,
+        "usage": "Dangerous but necessary, this precious material is widely used across many fields."
+    },
+    "4003": {
+        "classifyType": "NORMAL",
+        "description": "Made from Originite Prime, it also contains other minerals. In the past, it was used only as a conductive element, but it has since become a store of credit value.",
+        "icon": "4003.png",
+        "name": "Orundum",
+        "sortId": 10002,
+        "usage": "An artificial material commonly used to recruit operators."
+    },
+    "4004": {
+        "classifyType": "NORMAL",
+        "description": "The Infection Isolation Act is the last vestige of modern nation states. As long as you have some special ability, it is but a meaningless piece of paper. (The words of her Leithanian mentor.)",
+        "icon": "4004.png",
+        "name": "Distinction Certificate",
+        "sortId": 10006,
+        "usage": "A certificate that attests to an operator's distinguished accomplishments and expertise. Can be exchanged for rare items."
+    },
+    "4005": {
+        "classifyType": "NORMAL",
+        "description": "Good help is hard to find in troubled times, especially when trying to do it secretly. It's like finding a needle in a haystack, but what if Rhodes Island were to become the haystack? Would that save some time?",
+        "icon": "4005.png",
+        "name": "Commendation Certificate",
+        "sortId": 10007,
+        "usage": "A certificate that attests to an operator's skills and qualifications. Can be exchanged for items."
+    },
+    "4006": {
+        "classifyType": "NORMAL",
+        "description": "The operations at Rhodes Island require substantial funding and a variety of materials. Therefore, we must trade in diverse markets in order to keep everything running",
+        "icon": "4006.png",
+        "name": "Purchase Certificate",
+        "sortId": 10008,
+        "usage": "A certificate describing the business and operational capacities of Rhodes Island. Can be exchanged for items."
+    },
+    "5001": {
+        "classifyType": "NONE",
+        "description": "Good job. Keep it up and get stronger. As long as you don't give up, your efforts will pay off in the end.",
+        "icon": "5001.png",
+        "name": "EXP",
+        "sortId": -10000,
+        "usage": "Experience gained from battle. It shows how far you've come."
+    },
+    "6001": {
+        "classifyType": "NONE",
+        "description": "Haste makes waste. For Rhodes Island, every operation has the potential for a loss of life. Therefore, it is wise to drill before actual combat, long before we run into an enemy ambush.",
+        "icon": "6001.png",
+        "name": "Drill Plan",
+        "sortId": -10000,
+        "usage": "A plan used for tactical drills. Use it on the operation interface to simulate a battle so you can make plans accordingly."
+    },
+    "7001": {
+        "classifyType": "NORMAL",
+        "description": "Our colleagues in the Human Resource Department have to manage a deluge of information each and every day, but they always manage to dig out Rhodes Island's diamonds from the rough.",
+        "icon": "7001.png",
+        "name": "Recruitment Permit",
+        "sortId": 40012,
+        "usage": "A permit issued by the Human Resource Department of Rhodes Island. Can be used to recruit an Operator through public channels."
+    },
+    "7002": {
+        "classifyType": "NORMAL",
+        "description": "Anyone who receives this Expedited Plan, please report to HR immediately!",
+        "icon": "7002.png",
+        "name": "Expedited Plan",
+        "sortId": 40013,
+        "usage": "An expedited permit issued by the Human Resource Department of Rhodes Island. Can be used to recruit an Operator through special channels."
+    },
+    "7003": {
+        "classifyType": "NORMAL",
+        "description": "Compared to Rhodes Island, headhunting companies have more contacts and resources. They are probably more capable of finding skilled operators in all fields, which is why the Human Resource Department is willing to pay their exorbitant commissions.",
+        "icon": "7003.png",
+        "name": "Headhunting Permit",
+        "sortId": 40011,
+        "usage": "A permit issued by the Human Resource Department of Rhodes Island. Can be used to recruit an Operator through headhunting companies."
+    },
+    "7004": {
+        "classifyType": "NORMAL",
+        "description": "When Rhodes Island is need of skilled operators, our normal permits may not make efficient use of our headhunting company contractors. In order to accelerate the development of Rhodes Island, the Human Resource Department has issued these permits for headhunting in batches.",
+        "icon": "7004.png",
+        "name": "Ten-roll Headhunting Permit",
+        "sortId": 40001,
+        "usage": "A permit issued by the Human Resource Department of Rhodes Island. Can be used to recruit 10 Operators at a time through headhunting companies."
+    },
+    "AP_GAMEPLAY": {
+        "classifyType": "NONE",
+        "description": "'What is it that distinguishes us from this land? Our breath, or feeling? Or life and death?'",
+        "icon": "AP_GAMEPLAY.png",
+        "name": "Sanity",
+        "sortId": -10000,
+        "usage": "The mental capacity to remain self aware, draw up plans, and execute them."
+    },
+    "CRISIS_RUNE_COIN": {
+        "classifyType": "NONE",
+        "description": "The elimination of chaos does not necessarily ensure the establishment of order. 'Natural disasters turn into man-made disasters,' but the Contingency Contract system at least provides you with a solution.",
+        "icon": "CRISIS_RUNE_COIN.png",
+        "name": "Operation Agreement",
+        "sortId": -10000,
+        "usage": "A symbol of cooperation. Can be used to unlock additional content in Contingency Contract."
+    },
+    "CRISIS_SHOP_COIN": {
+        "classifyType": "NORMAL",
+        "description": "The ruthless but effective bounty mechanism is the only way to ensure the normal operations of the Contingency Contract system.",
+        "icon": "CRISIS_SHOP_COIN.png",
+        "name": "Contract Bounty",
+        "sortId": 10201,
+        "usage": "Rewards earned after completing a contract. Can be used to redeem supplies."
+    },
+    "CRISIS_SHOP_COIN_V2": {
+        "classifyType": "NORMAL",
+        "description": "The ruthless but effective bounty mechanism is the only way to ensure the normal operations of the Contingency Contract system.",
+        "icon": "CRISIS_SHOP_COIN_V2.png",
+        "name": "Crystal Contract Bounty",
+        "sortId": 10202,
+        "usage": "Rewards earned after completing a contract. Can be used to redeem supplies."
+    },
+    "EPGS_COIN": {
+        "classifyType": "NORMAL",
+        "description": "The fact that the headhunting agency has taken this consideration proves its sincerity. A word of warning though - if you seek to exploit this method for profit, I'm afraid the consequences will far outweigh any gains.",
+        "icon": "EPGS_COIN.png",
+        "name": "Headhunting Parametric Model",
+        "sortId": 10101,
+        "usage": "A new product, born of processing data from expired headhunting contracts; Can be exchanged for certain supplies."
+    },
+    "EXTERMINATION_AGENT": {
+        "classifyType": "NORMAL",
+        "description": "Based on a massive volume of live combat records, PRTS can perfectly replicate your tactics to conduct annihilation missions by proxy, using actuarial data processing, logic training, and scenario simulation. You're spared even the need to pay it your full attention.",
+        "icon": "EXTERMINATION_AGENT.png",
+        "name": "PRTS Proxy Annihilation Card",
+        "sortId": 30200,
+        "usage": "A card granting load distribution privileges for PRTS. Once activated, allows PRTS to conduct Annihilation battles as your proxy."
+    },
+    "LINKAGE_TKT_GACHA_10_1701": {
+        "classifyType": "NORMAL",
+        "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
+        "icon": "LINKAGE_TKT_GACHA_10_1701.png",
+        "name": "Expert Headhunting Permit",
+        "sortId": 40003,
+        "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
+    },
+    "LINKAGE_TKT_GACHA_10_3601": {
+        "classifyType": "NORMAL",
+        "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
+        "icon": "LINKAGE_TKT_GACHA_10_3601.png",
+        "name": "Scouting the Light Headhunting Permit",
+        "sortId": 40003,
+        "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
+    },
+    "LINKAGE_TKT_GACHA_10_3602": {
+        "classifyType": "NORMAL",
+        "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
+        "icon": "LINKAGE_TKT_GACHA_10_3602.png",
+        "name": "Collaboration Limited Ten-roll Headhunting Permit",
+        "sortId": 40003,
+        "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
+    },
+    "LINKAGE_TKT_GACHA_10_4801": {
+        "classifyType": "NORMAL",
+        "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
+        "icon": "LINKAGE_TKT_GACHA_10_4801.png",
+        "name": "Expert Headhunting Permit",
+        "sortId": 40003,
+        "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
+    },
+    "LMTGS_COIN_1401": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_1401.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10011,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
+    "LMTGS_COIN_1601": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_1601.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10012,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
+    "LMTGS_COIN_1803": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_1803.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10013,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
+    "LMTGS_COIN_2101": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_2101.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10014,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
+    "LMTGS_COIN_2301": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_2301.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10015,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
+    "LMTGS_COIN_2501": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_2501.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10016,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
+    "LMTGS_COIN_2701": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_2701.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10017,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
+    "LMTGS_COIN_3001": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_3001.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10018,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
+    "LMTGS_COIN_3301": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_3301.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10019,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
+    "LMTGS_COIN_3501": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_3501.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10019,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
+    "LMTGS_COIN_3801": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_3801.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10020,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
+    "LMTGS_COIN_4101": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_4101.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10021,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
+    "LMTGS_COIN_4401": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_4401.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10022,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
+    "LMTGS_COIN_4701": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_4701.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10023,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
+    "LMTGS_COIN_5001": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_5001.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10024,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
+    "LMTGS_COIN_601": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_601.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10009,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
+    "LMTGS_COIN_903": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_903.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10010,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
+    "Logistics_Special_Permit": {
+        "classifyType": "NONE",
+        "description": "A Logistics Special Permit issued by Rhodes Island to ensure the successful execution of emergency dispatches, owing to ever-increasing activity on the battlefield. With this, operators may request top priority support from Logistics via PRTS. Logistics operators will prioritize delivering extra supplies and assist in locating nearby resources.",
+        "icon": "Logistics_Special_Permit.png",
+        "name": "Logistics Special Permit",
+        "sortId": 30200,
+        "usage": "When the Logistics Special Permit is used, operations consume no Sanity and the normal Regular Drops are changed to Guaranteed Drops with 3x quantity."
+    },
+    "REP_COIN": {
+        "classifyType": "NORMAL",
+        "description": "In order to encourage Operators to proactively replay and review past events, upper management decided to initiate long-term activities that would grant a voucher for replaying prior operations. The voucher can be taken to the HR Department to exchange for various supplies, and the designated events are randomly selected by the system.",
+        "icon": "REP_COIN.png",
+        "name": "Intelligence Certificate",
+        "sortId": 10102,
+        "usage": "A reward for reviewing past events; Can be used to exchange for various supplies."
+    },
+    "RETRO_COIN": {
+        "classifyType": "NORMAL",
+        "description": "An auxiliary function of Rhodes Island's intelligence processing system. After extracting effective intelligence from a mass of information, the system is able to recreate images of past events. Information extracted through crystallization is typically of greater importance.\nIts synthesis into optical disc form is simply for easier understanding by the layperson.",
+        "icon": "RETRO_COIN.png",
+        "name": "Event Crystal",
+        "sortId": -10000,
+        "usage": "A topological model of aggregated information. Can be used to rebuild past events."
+    },
+    "SINGLE_49_0_1_GACHA": {
+        "classifyType": "NORMAL",
+        "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
+        "icon": "SINGLE_49_0_1_GACHA.png",
+        "name": "Exclusive Headhunting Permit",
+        "sortId": 40003,
+        "usage": "A special permit from Rhodes Island HR for recruiting special talents at special points in time. Can be used to recruit one operator."
+    },
+    "SINGLE_49_0_1_GACHA_10": {
+        "classifyType": "NORMAL",
+        "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
+        "icon": "SINGLE_49_0_1_GACHA_10.png",
+        "name": "Exclusive Ten-roll Headhunting Permit",
+        "sortId": 40003,
+        "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
+    },
+    "SOCIAL_PT": {
+        "classifyType": "NONE",
+        "description": "Credit holds communities together and stands as a symbol of social stability. Sometimes it's even more valuable than money, so do please cherish it.",
+        "icon": "SOCIAL_PT.png",
+        "name": "Credit",
+        "sortId": -10000,
+        "usage": "A token of friendship. Can be used to exchange items from the Store."
+    },
+    "STORY_REVIEW_COIN": {
+        "classifyType": "NORMAL",
+        "description": "An auxiliary function of Rhodes Island's intelligence processing system. After extracting effective intelligence from a complex batch of information, the system was able to recreate images of past events with astonishing fidelity.\nThe information was packaged as videotapes to make it easier for ordinary people to understand.",
+        "icon": "STORY_REVIEW_COIN.png",
+        "name": "Information Fragments",
+        "sortId": 10203,
+        "usage": "A topological model of effective intelligence that can be used to reconstruct past events."
+    },
+    "act10d5_token_biscuit": {
+        "classifyType": "NONE",
+        "description": "Snack bags usually are not a very effective way to preserve the integrity of their contents, so it's hard to find one with a complete cookie inside.\nThough a bit fragmented, the overall appearance is cute enough, and the flavor is still uncompromised.",
+        "icon": "act10d5_token_biscuit.png",
+        "name": "Best-selling Peterheim Cookies",
+        "sortId": -10000,
+        "usage": "Sold exclusively at Peterheim Middle School and all the rage among students, can be exchanged for various supplies."
+    },
+    "act10mini_token_ticket": {
+        "classifyType": "NONE",
+        "description": "Vouchers with no worth anywhere outside of Caladon. These roughly printed vouchers prop up the lives of everyone in the Infected community.",
+        "icon": "act10mini_token_ticket.png",
+        "name": "Wage Ticket",
+        "sortId": -10000,
+        "usage": "Vouchers for material supplies issued by Caladon City to its Infected workers. Can purchase a multitude of goods at thrift shops that the government will not provide."
+    },
+    "act11d0_token_currency": {
+        "classifyType": "NONE",
+        "description": "The original owners of these antique coin have long departed from this remote land. However, the descendants of these decorated nobles still demanded Wolumonde's respect, and thus they passed into law the ability to circulate these coins for the purpose of satisfying their vanity.",
+        "icon": "act11d0_token_currency.png",
+        "name": "Aristocrat's Antique Aureus",
+        "sortId": -10000,
+        "usage": "An antique currency that is still in circulation in Wolumonde; Can be used to exchange for rewards at the August Fair."
+    },
+    "act11d0_token_warrant": {
+        "classifyType": "NONE",
+        "description": "Grip this document within your hands as if the distinctive laws of Leithanien never wavered. But, this illusion has long been shattered by the tragedy unfolding before your eyes in Wolumonde - delve deep into the mines, woods, and unclaimed vales, and bring justice to the perpetrators.",
+        "icon": "act11d0_token_warrant.png",
+        "name": "Wolumonde Search Warrant",
+        "sortId": -10000,
+        "usage": "A warrant issued by Wolumonde's Gendarmerie, authorizing entry into occupied zones to hunt down ruffians who fled amidst the chaos."
+    },
+    "act11mini_token_card": {
+        "classifyType": "NONE",
+        "description": "With this library card, you can read any story that piques your interest. No matter what events may ensue, the time that you spend will all be recorded.",
+        "icon": "act11mini_token_card.png",
+        "name": "Library Card",
+        "sortId": -10000,
+        "usage": "A library card independently issued by the private library. Can be used to read any material, however no items may be removed from the premises."
+    },
+    "act12d0_token_components": {
+        "classifyType": "NONE",
+        "description": "Originally seen only in Zumama's tribe, these eventually scattered throughout various places in the rainforests and wilds. Each one seems imaginative to the point of defying the laws of physics, but falls short of the industrial standards of any country.",
+        "icon": "act12d0_token_components.png",
+        "name": "Mechanical Parts",
+        "sortId": -10000,
+        "usage": "Widely-used mechanical parts in Zumama's tribe, can be exchanged for various supplies."
+    },
+    "act12d6_token_mushroom": {
+        "classifyType": "NONE",
+        "description": "Allows you to blur the boundary between fact and fiction, seeing things that you could not see before. Of course, this is the culprit behind your adventures.",
+        "icon": "act12d6_token_mushroom.png",
+        "name": "Magnificent Mushroom",
+        "sortId": -10000,
+        "usage": "These psychadelic-looking mushrooms exuding brilliant colors can enhance the performance of the Limbic System."
+    },
+    "act12d6_token_pancake": {
+        "classifyType": "NONE",
+        "description": "Ceobe's favorite food. She is willing to part with anything in exchange for these.",
+        "icon": "act12d6_token_pancake.png",
+        "name": "Delicious Honey Biscuit",
+        "sortId": -10000,
+        "usage": "A traditional Minosian food made from starch and fructose. Used to obtain rewards from the Honey Biscuit Castle."
+    },
+    "act12mini_token_component": {
+        "classifyType": "NONE",
+        "description": "The fast rusting remains of war ambitions, Knightclub knockouts, or perhaps damaged weapon parts. Poses a risk of Originium infection if not handled properly. For some strange reason, occasionally found in common working-class households.",
+        "icon": "act12mini_token_component.png",
+        "name": "Standard-Issue Component",
+        "sortId": -10000,
+        "usage": "A type of worn-out mechanical part commonly found around Dzwonek, recyclable at city supermarkets across Kazimierz."
+    },
+    "act12side_point_cmemomedal": {
+        "classifyType": "NONE",
+        "description": "Every medal represents Ch'en's swift mid-investigation resolution of incidents unrelated to her assignment from Ms. Candela. During the time she was retained in Dossoles, the city's crime rate reached a record low. As a warning for the local police department, these Ch'en medals have been displayed in the middle of the head office, where you can't miss them.",
+        "icon": "act12side_point_cmemomedal.png",
+        "name": "Miss Ch'en Commemorative Medal",
+        "sortId": -10000,
+        "usage": "Medals specially ordered by Ms. Candela to be cast to commend Ch'en's actions. Accumulate certain amounts and the Dossoles Police Station will issue rewards."
+    },
+    "act12side_token_coupon": {
+        "classifyType": "NONE",
+        "description": "Mama John's of Columbia has been offering industrial assembly-line products for all trades, all walks and all rhythms of life in a capacity Bolívar's native industry can't compare to, to the extent that all these vouchers, originally simply issued to promote sales, have become more and more truly valuable. At times, they even serve as the currency for dealings between local small-time gangs.",
+        "icon": "act12side_token_coupon.png",
+        "name": "Mama John's Voucher",
+        "sortId": -10000,
+        "usage": "Vouchers redeemable at all Mama John's in Dossoles."
+    },
+    "act12side_token_key01": {
+        "classifyType": "NONE",
+        "description": "At the time, Hoshiguma and Swire weren't aware of how they'd handily sorted out Ch'en's objective. The only reason they never ran into her was because Swire immediately dragged Hoshiguma off to go shopping.",
+        "icon": "act12side_token_key01.png",
+        "name": "[Oni and Tiger Twinned Stars]",
+        "sortId": -10000,
+        "usage": "A commemoration of Ch'en's special investigation in Dossoles."
+    },
+    "act12side_token_key02": {
+        "classifyType": "NONE",
+        "description": "That day, that moment Ch'en and Lin Yühsia came out of the A.H.C. Bar, the gunpowder tension between them had everyone following the championship excited beyond belief.",
+        "icon": "act12side_token_key02.png",
+        "name": "[Dragon and Rat in Conflict]",
+        "sortId": -10000,
+        "usage": "A commemoration of Ch'en's special investigation in Dossoles."
+    },
+    "act12side_token_key03": {
+        "classifyType": "NONE",
+        "description": "In Swire's belief, she needs a partner just as Hoshiguma is to Ch'en, and simultaneously, she believes Lin Yühsia could become that partner. She's made no small effort to see that happen, and ultimately, you can tell how it turned out just by the look on their faces.",
+        "icon": "act12side_token_key03.png",
+        "name": "['Golden Partner']",
+        "sortId": -10000,
+        "usage": "A commemoration of Ch'en's special investigation in Dossoles."
+    },
+    "act12side_token_key04": {
+        "classifyType": "NONE",
+        "description": "Though when she set off to return to Rhodes Island, Ch'en didn't fully understand the city of Dossoles, neither does she believe there'll come a day she truly does. That said, she'll always remember this place.",
+        "icon": "act12side_token_key04.png",
+        "name": "[Holiday's End]",
+        "sortId": -10000,
+        "usage": "A commemoration of Ch'en's special investigation in Dossoles."
+    },
+    "act13d0_token_dial": {
+        "classifyType": "NONE",
+        "description": "A once treasured clock, now reduced to nothing more than a broken dial with some small value only to collectors. You find things like this in abandoned houses. A clock silently keeping the time can be priceless, or worthless. The hour hand on the dial is stuck in place, vainly trying to turn.",
+        "icon": "act13d0_token_dial.png",
+        "name": "Discarded Clock Dial",
+        "sortId": -10000,
+        "usage": "An old, broken piece of a clock that can be exchanged for supplies at the weekend yard sale. Someone will want it."
+    },
+    "act13d5_token_securities": {
+        "classifyType": "NONE",
+        "description": "A couple blond Fortes are selling gold pieces of paper at three times the stated price. This voucher can be used to buy aid packages for competition knights in the arena, or as a bankroll to bet on, but be prepared to pay more than the number printed on it. A piece of paper, a huge sum, a knight's life of honor and shame.",
+        "icon": "act13d5_token_securities.png",
+        "name": "Mieszko Sports Securities",
+        "sortId": -10000,
+        "usage": "A new securitized holding launched by the Mieszko Group that allows you to buy souvenirs at a Kazimierz duty free shop."
+    },
+    "act13mini_token_can": {
+        "classifyType": "NONE",
+        "description": "This weekend, the L.G.D. is joining hands with our local stray animal shelters to hold an adoption drive. We hope all our friends in the city able to adopt will jump at the opportunity to give these homeless little ones a chance at a brand new life.\nOf course, those who aren't in a position to adopt can still contribute by offering cans of pet food, not to mention the splendid gifts awaiting anyone who donates.",
+        "icon": "act13mini_token_can.png",
+        "name": "Nutritional Pet Food Tin",
+        "sortId": -10000,
+        "usage": "A tin of pet food common to the Lungmen market, cheap and delicious. Just give the ring pull a flick, and you'll have your little dear bounding over to you."
+    },
+    "act13side_prestige_armorless": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "act13side_prestige_armorless.png",
+        "name": "Armorless Union Prestige",
+        "sortId": -10000,
+        "usage": null
+    },
+    "act13side_prestige_commerce": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "act13side_prestige_commerce.png",
+        "name": "General Chamber of Commerce Prestige",
+        "sortId": -10000,
+        "usage": null
+    },
+    "act13side_prestige_kazimierz": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "act13side_prestige_kazimierz.png",
+        "name": "Adeptus Sprawiedliwi Prestige",
+        "sortId": -10000,
+        "usage": null
+    },
+    "act13side_token_card": {
+        "classifyType": "NONE",
+        "description": "Within this building of money and power, the tired form of your face serves absolutely no use, vocalizations and brain-thoughts all the more insignificant. In here, only status matters.",
+        "icon": "act13side_token_card.png",
+        "name": "General Chamber ID Card",
+        "sortId": -10000,
+        "usage": "An ID card granting free access in the General Chamber of Commerce, signaling greater privileges to be open to Rhodes Island."
+    },
+    "act13side_token_key": {
+        "classifyType": "NONE",
+        "description": "The file manager in the darkness has another duty: to cleverly let 'secrets' be found by those in the know. The Adeptus Sprawiedliwi have never given up their control of Kazimierz—whether good or ill.",
+        "icon": "act13side_token_key.png",
+        "name": "File Manager's Key",
+        "sortId": -10000,
+        "usage": "A key that can open the underground gate of the Wall of Champions exhibit hall, unlocking some additional information."
+    },
+    "act13side_token_model": {
+        "classifyType": "NONE",
+        "description": "The people use these shining fluorescent lamps to subdue nightfall, such is the light of Kazimierz. In civilized lands, traveling bards sing of gold, wandering knights forced to battle sword with glass. Indifferent are the silent waves; on this small, final vessel, she dredged up glory.",
+        "icon": "act13side_token_model.png",
+        "name": "G.K.T. Commemorative Model",
+        "sortId": -10000,
+        "usage": "A scale miniature of the Land of the Knights, often elaborately laid out in the decorative cases of parlors."
+    },
+    "act14mini_token_fu": {
+        "classifyType": "NONE",
+        "description": "A wellbeing charm hand-carved by the Moushan villagers to pray for blessings. Take it to Yishan Temple, have the censer acolyte bestow it a stroke of cinnabar, and it may put you all the more at ease.\n",
+        "icon": "act14mini_token_fu.png",
+        "name": "Wellbeing Charm",
+        "sortId": -10000,
+        "usage": "A plaque carved of crude peachwood. When a year's harvest is good, some are willing to exchange their foodstuffs with the elderly, whose consummate craft produces these charms, by which auspiciousness is sought."
+    },
+    "act14side_token_stone": {
+        "classifyType": "NONE",
+        "description": "Kjeragandr's will dwells within. Kjerag's people pray to these, to be blessed and for good health.",
+        "icon": "act14side_token_stone.png",
+        "name": "Stone of Kjeragandr",
+        "sortId": -10000,
+        "usage": "A sacred stone blessed by a member of the Vine-Bear Court. Collect a certain amount to exchange with the people for goods."
+    },
+    "act15d0_token_ironSheet": {
+        "classifyType": "NONE",
+        "description": "You can make them during factory work hours, but it's no easy thing to sneak them off. They work as weapons as well as currency, and act as one measure of status in the prison.",
+        "icon": "act15d0_token_ironSheet.png",
+        "name": "Factory Steel",
+        "sortId": -10000,
+        "usage": "A currency universally recognized amongst the prisoners. Can be used through secret channels to obtain what you want."
+    },
+    "act15d5_token_postcard": {
+        "classifyType": "NONE",
+        "description": "Landscape postcards independently published by the people all over, known for their distinct and bold framing, all using photos chosen from personal submissions, with some small fame among a subset of collectors. Different stories take root in different lands, and the scenery is always there to tell without a word.",
+        "icon": "act15d5_token_postcard.png",
+        "name": "Wondrous Postcard",
+        "sortId": -10000,
+        "usage": "Postcards printed with unique landscapes from every part, allowing a taste of all their sceneries without having to set foot outside. Can be used to exchange for goods with the staff of branch offices everywhere."
+    },
+    "act15mini_token_figurine": {
+        "classifyType": "NONE",
+        "description": "So that others may more easily find supplies hidden in the forest, the hunters have made simple waymarkers. Be sure to restock some too after you avail of them, for the trees know all.",
+        "icon": "act15mini_token_figurine.png",
+        "name": "Guiding Figurines",
+        "sortId": -10000,
+        "usage": "A crude carving left behind by the hunters. Wooden figures with indistinct features reach forth an arm, pointing to caves stockpiled with food, remedies, and tools."
+    },
+    "act15side_token_tea": {
+        "classifyType": "NONE",
+        "description": "Diligent workers step hurriedly, easy-to-carry jarred tea there in times of need. The tea is chosen with care, pure in color and scent, flavor sweet and light and long-lasting, aftertaste melodious. Numerous brands exist, standing their own ground in drinks sections of supermarkets in every region of Yan, save for Zhe'ergen Signature, which no one pays any mind.",
+        "icon": "act15side_token_tea.png",
+        "name": "Canned Tea",
+        "sortId": -10000,
+        "usage": "A specialty jarred beverage common in Shangshu. They say it always sells out at inns and teahouses."
+    },
+    "act16d5_token_inker": {
+        "classifyType": "NONE",
+        "description": "On its front, 'starshrouded snow' is engraved in characters from ancient times. Just the talent to create these inksticks can be called rare. Dusk very rarely uses normal inksticks. If she's out of options, employing one to depict one and retrieving one fresh isn't impossible either.",
+        "icon": "act16d5_token_inker.png",
+        "name": "Dusk Inkstick",
+        "sortId": -10000,
+        "usage": "Dusk's handmade inkstick. Nobody knows how they're made. Perhaps you can make use of them to ask her about a few things."
+    },
+    "act16mini_token_sap": {
+        "classifyType": "NONE",
+        "description": "Bottletree sap naturally fermented in the abdomens of tree-hanging Originium slugs, celebrated by man and adored by sandbeasts. Still, how the beasts get the sap when they can't climb trees is one of Rim Billiton's great mysteries. Are there feral barreners helping them? Can't be...",
+        "icon": "act16mini_token_sap.png",
+        "name": "Spicy Bottletree Sap",
+        "sortId": -10000,
+        "usage": "Extremely spicy and fantastically invigorating, with a deep velvet flavor fresh bottletree sap can't hope to match. And the upside of not chronically ruining your body like hard liquor would. Give it to wild sandbeasts, and you might end up trading for their stashed curios."
+    },
+    "act16side_token_bolt": {
+        "classifyType": "NONE",
+        "description": "The collectability of a bullet depends on its caliber size. As to why an empty shell can be traded for goods in a dessert shop—You must understand that, as the most popular destination among locals, Lateranian Desserts has always been more than just a dessert shop.",
+        "icon": "act16side_token_bolt.png",
+        "name": "Etched Bullet Casing",
+        "sortId": -10000,
+        "usage": "A collectible somewhat popular among Laterans. Collect enough to exchange with the dessert shop owner for goods."
+    },
+    "act17d0_token_form": {
+        "classifyType": "NONE",
+        "description": "The certificate bears the signature of the administrator, an anti-counterfeiting watermark, and a detailed record of the supplies needed by the operators and for what reasons they are needed. After these three items have been verified, the responsible personnel will collect the voucher attached to the certificate and distribute the supplies to the field operator.",
+        "icon": "act17d0_token_form.png",
+        "name": "Rhodes Island Resource Allocation Certificate",
+        "sortId": -10000,
+        "usage": "Rationing certificates issued by Rhodes Island to field operators, including vouchers. Can be used to exchange for supplies in Rhodes Island's landship, regional branches, and various safehouses."
+    },
+    "act17side_token_compass": {
+        "classifyType": "NONE",
+        "description": "The Iberians of times past guided their course by compass, the needle bearing the weight of their wild ambitions and golden dreams. Naught but ravings nowadays; the needle is broken, the brass is tarnished, and none know the dreadnought's end, bar the silent sea.",
+        "icon": "act17side_token_compass.png",
+        "name": "Rusted Compass",
+        "sortId": -10000,
+        "usage": "All attempts to tread unto the sea have been vain and futile. Where the compass points is certain to be anguished, turbid, and sunken."
+    },
+    "act18d0_token_page": {
+        "classifyType": "NONE",
+        "description": "Mineral, flora, fauna, cities; vestiges of life, and even symbols of civilization. In the meanders of this time overflowing with Originium, countless things fade from Terra's boundless history of organic evolution. Disasters unfold unabatingly, and even the grandest cities all disappear in the end. But there will always be people to record it all. She will come in her slow walk with time.",
+        "icon": "act18d0_token_page.png",
+        "name": "Scattered Sketches",
+        "sortId": -10000,
+        "usage": "Specimen sketches scattered all over the ground in a great gale. If you help tidy them up, you can earn some supplies."
+    },
+    "act18d3_token_record": {
+        "classifyType": "NONE",
+        "description": "The urge to accept it comes from a craving that knows no name.",
+        "icon": "act18d3_token_record.png",
+        "name": "Corrupted Iberian Record",
+        "sortId": -10000,
+        "usage": "Records already ravaged beyond playability. Can be exchanged with the long-time residents of the ruins for goods."
+    },
+    "act18side_token_pieces": {
+        "classifyType": "NONE",
+        "description": "The notes scribbled on the staff are jumbled and disorderly. Only the composer himself can, at a glance, make out the soul hidden therein.",
+        "icon": "act18side_token_pieces.png",
+        "name": "Sheet Music",
+        "sortId": -10000,
+        "usage": "Musicians often misplace their drafts during outbursts of emotion. If you straighten it out and return it to its owner, perhaps you will receive a new piece in return."
+    },
+    "act19side_token_reagents": {
+        "classifyType": "NONE",
+        "description": "Very sensitive to neural activity, and can replace some of the functions of traditional Arts Units. In the Rhine Lab Defense Section's laboratory supplies management handbook, this test reagent's hazard and confidentiality levels are both listed at maximum.",
+        "icon": "act19side_token_reagents.png",
+        "name": "Mysterious Reagent",
+        "sortId": -10000,
+        "usage": "The latest innovation of Rhine Lab's Energy Section. Collect enough and exchange with the Laboratory Recycling Depot for goods."
+    },
+    "act1bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
+        "icon": "act1bossrush_milestone_point.png",
+        "name": "Trial EXP",
+        "sortId": -10000,
+        "usage": "Experience gained from finished trials. Upgrades trial levels."
+    },
+    "act1bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "An encrypted data block. Always remember, the conversion of information often entails unavoidable wear. Make good use of your information storage devices, but do not depend on them.",
+        "icon": "act1bossrush_token_relic.png",
+        "name": "Data Blackbox",
+        "sortId": -10000,
+        "usage": "Used to perform Data Iteration on Limiter Units."
+    },
+    "act1lock_point_reward": {
+        "classifyType": "NONE",
+        "description": "Points gained for taking down OpFor troops, awarded to competitors in the form of medals. Owing to it being forged by Minos smiths, in each medal's engraving is the proverb 'all heroes arise from normal people.'",
+        "icon": "act1lock_point_reward.png",
+        "name": "Competition Medals",
+        "sortId": -10000,
+        "usage": "A small medal made from metal. Gain certain amounts and receive corresponding competition rewards."
+    },
+    "act1mainlinebp_token_star": {
+        "classifyType": "NONE",
+        "description": "A flickering, glinting fragment. A light so that you no longer fear the dark as you walk dauntlessly on through the thorns.",
+        "icon": "act1mainlinebp_token_star.png",
+        "name": "Milestone Fragment",
+        "sortId": -10000,
+        "usage": "Can be exchanged for Milestone Rewards."
+    },
+    "act1mainss_token_medi": {
+        "classifyType": "NONE",
+        "description": "WARNING: For best results, administer via peripheral IV. In case of first-aid, can attempt via CVC. If shock ensues after first dose, second IV may be administered within 5-7 minutes (repeat dose). EACH DOSE COULD BE THE KEY TO SAVING A LIFE IN THE FIELD. MAKE GOOD USE OF THEM.",
+        "icon": "act1mainss_token_medi.png",
+        "name": "Emergency Inhibitor",
+        "sortId": -10000,
+        "usage": "A new formulation from Rhodes Island's Medical R&D, capable of temporarily suppressing the exacerbation of Oripathy in Catastrophe- or battlefield-level Originium zones. THIS DRUG PLACES IMMENSE STRAIN ON THE BODY. USE WITH CAUTION."
+    },
+    "act1sandbox_milestone_point": {
+        "classifyType": "NONE",
+        "description": "Life prospers, age passes down to age, and this is their proof.",
+        "icon": "act1sandbox_milestone_point.png",
+        "name": "Badge of Prosperity",
+        "sortId": -10000,
+        "usage": "Can be exchanged at milestones for rewards."
+    },
+    "act20side_token_book": {
+        "classifyType": "NONE",
+        "description": "The pages retain handwriting of all shapes and sizes, the amount even serving to tell you how often the magazine's changed hands. Most of it is meaningless scrawls, but flashes of wisdom are scattered throughout.",
+        "icon": "act20side_token_book.png",
+        "name": "Photocopies of 'Stranger Things'",
+        "sortId": -10000,
+        "usage": "Photocopies of a gaudy magazine, the contents preposterous, yet well-loved by Durin far and wide. Can be used at the Leaping Gloompincer Market to trade with the Durin for supplies."
+    },
+    "act21side_token_permesso": {
+        "classifyType": "NONE",
+        "description": "Steaks, seasonal vegetables, and fresh fruit to please any soul, or a little something otherwise. The clever ones know what the famiglie want, and will ready it in advance, to be supplied when the time comes.",
+        "icon": "act21side_token_permesso.png",
+        "name": "Permesso di Importazione",
+        "sortId": -10000,
+        "usage": "Permits issued by the Dipartimento di Sicurezza Alimentare to the famiglie. These grant famiglia members entry to the Dipartimento di Sicurezza Alimentare and the right to obtain goods, whether said goods fall under 'alimentare' notwithstanding."
+    },
+    "act22side_token_manuscript": {
+        "classifyType": "NONE",
+        "description": "Few who know these folksongs are able to put them in writing, while those who pen Taran history wouldn't go out of their way to listen. But there'll always be people devoted to compiling the scattered culture of Tara, say the merchants, and it's a business that's gone on for several centuries.",
+        "icon": "act22side_token_manuscript.png",
+        "name": "Manuscripts of Ballads",
+        "sortId": -10000,
+        "usage": "Pages filled with Taran folksongs and legends, copied down as heard. Collect enough, and you'll be able to trade them with the River Valley Caravan for goods."
+    },
+    "act23side_token_spirit": {
+        "classifyType": "NONE",
+        "description": "A Yumen specialty product, high-purity spirit. Beloved by all drinkers, brewed by all brewers. A brew mixed of sandstorms on the border, and sun beating down in the sky and wind on the poplars, one gulp is a throat of blades and a drink of fire, and even the chilliest nights need no longer be feared.",
+        "icon": "act23side_token_spirit.png",
+        "name": "Freshly-Brewed Liedaozi",
+        "sortId": -10000,
+        "usage": "Take a jar of freshly brewed spirit, and trade it with the old smith for a newly-edged sword of fine craft. 'Blood for water, wine for a blade. A close friend crossed by, grace and vengeance all too willing.'"
+    },
+    "act24side_melding_1": {
+        "classifyType": "NONE",
+        "description": "Shattered bone fragments found in the barrens, weathered by wind for years. Their original, complete form can no longer be identified. Perhaps they once belonged to some great beast, but now they are nothing but low-grade materials that can be found anywhere.",
+        "icon": "act24side_melding_1.png",
+        "name": "Bone Fragments",
+        "sortId": -10000,
+        "usage": "A common low-grade material usable in Alchemy."
+    },
+    "act24side_melding_2": {
+        "classifyType": "NONE",
+        "description": "The hard outer shell of an Originium Slug covered in tiny clusters of Originium. Tastes slightly bitter when licked. Even though there are many types of Originium Slugs out there, the quality of the materials they yield doesn't vary much at all.",
+        "icon": "act24side_melding_2.png",
+        "name": "Originium Slug Shell",
+        "sortId": -10000,
+        "usage": "A regular material usable in Alchemy, obtainable by putting in just a little bit of work."
+    },
+    "act24side_melding_3": {
+        "classifyType": "NONE",
+        "description": "The sharp fangs of an Oxmane, so sharp that they can tear apart flesh with ease. They serve as an excellent Alchemy material. As a reminder, they must <i>not</i> be used in place of dentures.",
+        "icon": "act24side_melding_3.png",
+        "name": "Sharp Oxmane Fangs",
+        "sortId": -10000,
+        "usage": "A fine material usable in Alchemy, obtainable by putting in a fair amount of work."
+    },
+    "act24side_melding_4": {
+        "classifyType": "NONE",
+        "description": "The thick hide of Direswines, elastic and able to withstand great impact force. To obtain this material, one must first go through very intense battles. It takes lots of effort to get a taste of Direswine rind jelly.",
+        "icon": "act24side_melding_4.png",
+        "name": "Thick Direswine Hide",
+        "sortId": -10000,
+        "usage": "A rare, high-grade material usable in Alchemy."
+    },
+    "act24side_melding_5": {
+        "classifyType": "NONE",
+        "description": "A kind of crystal as clear as tears. Supposedly, they formed in the carcasses of a now extinct creature. When observed closely under light, you can even see the stars flow and circulate.",
+        "icon": "act24side_melding_5.png",
+        "name": "'Monster Tears'",
+        "sortId": -10000,
+        "usage": "An extremely rare, top-of-the-line material usable in Alchemy."
+    },
+    "act24side_melding_6": {
+        "classifyType": "NONE",
+        "description": "A rare gem that occasionally grows in the wyvern's body. Hunters who are lucky enough to get their hands on them often find themselves hesitant when processing them.",
+        "icon": "act24side_melding_6.png",
+        "name": "Rathalos Ruby",
+        "sortId": -10000,
+        "usage": "A material obtainable from battling a Rathalos. Perfect as melding material."
+    },
+    "act25side_token_fdrchips": {
+        "classifyType": "NONE",
+        "description": "Aside from the data hidden by Nasti all over the lands, new data are continually produced with the federal government's support. Columbia is gradually realizing the value of Kristen's research.",
+        "icon": "act25side_token_fdrchips.png",
+        "name": "Flight Data Recorder Chip",
+        "sortId": -10000,
+        "usage": "A chip containing flight data recorded at various altitudes and environments. Collect a certain amount to exchange with the Special Case Contact C.U.D.O.D. for goods."
+    },
+    "act25side_token_key01": {
+        "classifyType": "NONE",
+        "description": "Grants permission to enter the secret zone. The mechanisms within seem to work differently.",
+        "icon": "act25side_token_key01.png",
+        "name": "Special Ops Permit α",
+        "sortId": -10000,
+        "usage": "Grants permission to enter the secret zone. The mechanisms within seem to work differently."
+    },
+    "act25side_token_key02": {
+        "classifyType": "NONE",
+        "description": "Grants permission to enter the secret zone. The mechanisms within seem to work differently.",
+        "icon": "act25side_token_key02.png",
+        "name": "Special Ops Permit β",
+        "sortId": -10000,
+        "usage": "Grants permission to enter the secret zone. The mechanisms within seem to work differently."
+    },
+    "act26side_token_fragmenta": {
+        "classifyType": "NONE",
+        "description": "Holy Statue Fragments telling of all sorts of damage lie forgotten in every nook and cranny of the monastery, each shard unlike any other. These may never again piece together to form the complete image of a saint with a gun, but there are always those hanging onto hope.",
+        "icon": "act26side_token_fragmenta.png",
+        "name": "Holy Statue Fragments",
+        "sortId": -10000,
+        "usage": "Statues of saints bearing guns were once ornamental mainstays all over the monastery, but most are now nowhere to be seen. The monastery's devout followers are willing to barter what supplies they have in exchange for these fragments."
+    },
+    "act27side_token_fur": {
+        "classifyType": "NONE",
+        "description": "Soft, insulating, and highly absorptive, it might look extremely delicious, but please don't start eating it like cotton candy.",
+        "icon": "act27side_token_fur.png",
+        "name": "Fluffy Critter Wool",
+        "sortId": -10000,
+        "usage": "Looks good for padding outdoors thermal equipment, but seems to have little use in the current season. The young girl at 'White Volcano' has an inexplicable love for bizarre wool like this, and will surreptitiously trade you goods from the shop for it. N.B.: DO NOT let her big brother know!"
+    },
+    "act28side_token_box": {
+        "classifyType": "NONE",
+        "description": "Plastics, paper, wood... even scrapped Originium circuitry. Their only commonality is that they all burn when thrown in the power plant, and provide the plate with just that much more heat.",
+        "icon": "act28side_token_box.png",
+        "name": "Shoddy Fuel",
+        "sortId": -10000,
+        "usage": "Combustibles salvaged from Davistown and its environs. Practically worthless for heat, and produces way too much smoke, but fuel is fuel and there's an old worker by the energy tower who'll trade goods from the mine for it."
+    },
+    "act29side_frag_1": {
+        "classifyType": "NONE",
+        "description": "Knock on the shut door and reach out. We should have been united through joy.",
+        "icon": "act29side_frag_1.png",
+        "name": "Note of Joy",
+        "sortId": 5200001,
+        "usage": "A piece of fallen memory, preserved with Arts. It pulses in your palm to the rhythm of emotion. It will be forged into a key before oblivion."
+    },
+    "act29side_frag_2": {
+        "classifyType": "NONE",
+        "description": "Knock on the shut door and reach out. We should have been united through anger.",
+        "icon": "act29side_frag_2.png",
+        "name": "Note of Anger",
+        "sortId": 5200002,
+        "usage": "A piece of fallen memory, preserved with Arts. It pulses in your palm to the rhythm of emotion. It will be forged into a key before oblivion."
+    },
+    "act29side_frag_3": {
+        "classifyType": "NONE",
+        "description": "Knock on the shut door and reach out. We should have been united through sorrow.",
+        "icon": "act29side_frag_3.png",
+        "name": "Note of Sorrow",
+        "sortId": 5200003,
+        "usage": "A piece of fallen memory, preserved with Arts. It pulses in your palm to the rhythm of emotion. It will be forged into a key before oblivion."
+    },
+    "act29side_frag_4": {
+        "classifyType": "NONE",
+        "description": "Knock on the shut door and reach out. We should have been united through fear.",
+        "icon": "act29side_frag_4.png",
+        "name": "Note of Fear",
+        "sortId": 5200004,
+        "usage": "A piece of fallen memory, preserved with Arts. It pulses in your palm to the rhythm of emotion. It will be forged into a key before oblivion."
+    },
+    "act29side_token_erin": {
+        "classifyType": "NONE",
+        "description": "Memories of the past are scattered across the ancient capital of Leithanien, carried by broken passages of music. Like today's Leithanien, they will need be tuned before they can be heard.",
+        "icon": "act29side_token_erin.png",
+        "name": "Die Klänge von den Erinnerungen",
+        "sortId": -10000,
+        "usage": "Leaves that fall on the streets of Zwillingstürme. Missing phrases of music can be found on them from time to time. Give them to tune seekers at concerts and be rewarded with the gift of music."
+    },
+    "act2bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
+        "icon": "act2bossrush_milestone_point.png",
+        "name": "Trial EXP",
+        "sortId": -10000,
+        "usage": "Experience gained from finished trials. Upgrades trial levels."
+    },
+    "act2bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "An encrypted data block. Always remember, the conversion of information often entails unavoidable wear. Make good use of your information storage devices, but do not depend on them.",
+        "icon": "act2bossrush_token_relic.png",
+        "name": "Data Blackbox",
+        "sortId": -10000,
+        "usage": "Used to perform Data Iteration on Limiter Units."
+    },
+    "act30side_token_box": {
+        "classifyType": "NONE",
+        "description": "Blind boxes from the cultural industries in collaboration with 'BangBang Burdenbeast.' Collect all nine, including a limited-edition secret burdenbeast.\nNOTE: Pray faithfully to the newly erected Kjeragandr statue, and your odds of drawing the secret one go up!",
+        "icon": "act30side_token_box.png",
+        "name": "Burdenbeast Blind Box",
+        "sortId": -10000,
+        "usage": "Burdenbeast Blind Boxes—such a smash hit, Onboard Services ran out of stock for a time. That means this batch couldn't have come sooner, and the train attendants will be delighted to trade other goods for it."
+    },
+    "act31side_token_box": {
+        "classifyType": "NONE",
+        "description": "The newest fruit borne of the Dahuang Tianshi Bureau's research. Simple to control, resiliently mobile. Sample-taking and soil monitoring are among its many functions. Naughty children occasionally make off with them to use in 'fowl fights.'",
+        "icon": "act31side_token_box.png",
+        "name": "Sky Pole",
+        "sortId": -10000,
+        "usage": "An agricultural drone developed by the Tianshi Bureaus, which people occasionally leave lying in the fields after they malfunction. If you pick any up, you can exchange them for goods at Shennong Market."
+    },
+    "act32side_token_stamp": {
+        "classifyType": "NONE",
+        "description": "Upon seeing these cards, Tecno indifferently thumbs at a row of halved radishes in the corner of her workshop, each cross-section dyed through in seal ink and ready to go.",
+        "icon": "act32side_token_stamp.png",
+        "name": "Galería Stamp Card",
+        "sortId": -10000,
+        "usage": "A card for the Galería stamp rally. The more stamps, the more prizes you get. Despite each and every card bearing the limited-daily ultra-rare secret stamps, Reynell will still gladly exchange them for goods. In his words, 'my small token of respect to our anonymous seal-forger supreme.'"
+    },
+    "act33side_token_sugar": {
+        "classifyType": "NONE",
+        "description": "Crude sugar cubes of mechanized make, a Babel wartime supply ration. Provides soldiers with ample energy and a hint of sweetness.",
+        "icon": "act33side_token_sugar.png",
+        "name": "Raw Sugar Lumps",
+        "sortId": -10000,
+        "usage": "A 'hard currency' aboard Babel. Save up enough to spare, and the nice Vampire lady down by the Engineering Team will trade for some scarcities you'll appreciate."
+    },
+    "act38d1_token_coin": {
+        "classifyType": "NONE",
+        "description": "A chunk of flawless Originium crystal. The Sanctuary considers it a precious treasure.",
+        "icon": "act38d1_token_coin.png",
+        "name": "Crystalized Originium",
+        "sortId": -10000,
+        "usage": "Reward obtained by completing Pinch-Out Experimental Operation. Can be exchanged for supplies."
+    },
+    "act3bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
+        "icon": "act3bossrush_milestone_point.png",
+        "name": "Trial EXP",
+        "sortId": -10000,
+        "usage": "Experience gained from finished trials. Upgrades trial levels."
+    },
+    "act3bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "An encrypted data block. Always remember, the conversion of information often entails unavoidable wear. Make good use of your information storage devices, but do not depend on them.",
+        "icon": "act3bossrush_token_relic.png",
+        "name": "Data Blackbox",
+        "sortId": -10000,
+        "usage": "Used to perform Data Iteration on Limiter Units."
+    },
+    "act4bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
+        "icon": "act4bossrush_milestone_point.png",
+        "name": "Trial EXP",
+        "sortId": -10000,
+        "usage": "Experience gained from finished trials. Upgrades trial levels."
+    },
+    "act4bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "An encrypted data block. Always remember, the conversion of information often entails unavoidable wear. Make good use of your information storage devices, but do not depend on them.",
+        "icon": "act4bossrush_token_relic.png",
+        "name": "Data Blackbox",
+        "sortId": -10000,
+        "usage": "Used to perform Data Iteration on Limiter Units."
+    },
+    "act4d0_intelligencepoint": {
+        "classifyType": "NONE",
+        "description": "Whether it's providing mission feedback, collecting spoils, analyzing materials, facilitating communications, or streamlining operations, Rhodes Island's efficient intelligence system continues to collect complex data from a vast array of actions and operations in order to provide the best course of action. For those unfamiliar to the mechanisms of this black box, just looking at the results will suffice.",
+        "icon": "act4d0_intelligencepoint.png",
+        "name": "Valid Intelligence Unit",
+        "sortId": -10000,
+        "usage": "A basic unit of the Rhodes Island Intelligence Processing System, used to advance intel-gathering efforts."
+    },
+    "act5d0_point_medal": {
+        "classifyType": "NONE",
+        "description": "A luxurious, but completely meaningless, golden medal created by the most esteemed goldsmiths in Lungmen. You'll be hard pressed to find anything more limited than this in all of Terra. It's clearly a cup, but still called a medal, and it symbolizes the highest praise of the Emperor. Each sip is worth a thousand bucks, but don't use it to make hot coffee!",
+        "icon": "act5d0_point_medal.png",
+        "name": "Top Tier Penguin Medal",
+        "sortId": -10000,
+        "usage": "Collecting medals issued by Emperor himself? Probably a good idea."
+    },
+    "act5d1_point_conbounty": {
+        "classifyType": "NONE",
+        "description": "The ruthless but effective bounty mechanism is the only way to ensure the normal operations of the Contingency Contract system.",
+        "icon": "act5d1_point_conbounty.png",
+        "name": "Contract Bounty",
+        "sortId": -10000,
+        "usage": "Rewards earned after completing a contract. Can be used to redeem supplies."
+    },
+    "act5d1_point_opagrt": {
+        "classifyType": "NONE",
+        "description": "The elimination of chaos does not necessarily ensure the establishment of order. 'Natural disasters turn into man-made disasters,' but the Contingency Contract system at least provides you with a solution.",
+        "icon": "act5d1_point_opagrt.png",
+        "name": "Operation Agreement",
+        "sortId": -10000,
+        "usage": "A symbol of cooperation. Can be used to unlock additional content in Contingency Contract."
+    },
+    "act6d5_point_firecracker": {
+        "classifyType": "NONE",
+        "description": "A traditional explosive device that derives its meaning from its purpose. If an explosive goes off in a forest and no one is around to hear it, did an explosive really go off at all?",
+        "icon": "act6d5_point_firecracker.png",
+        "name": "Quantum Firecracker",
+        "sortId": -10000,
+        "usage": "The wonderful paraphernalia collected during the festival can be exchanged for great rewards."
+    },
+    "act6d8_point_token": {
+        "classifyType": "NONE",
+        "description": "A currency that is only good in the here-and-now. The wonderful thing about tradition is that some things that appear lost to time will suddenly wake up at the most unexpected of days.",
+        "icon": "act6d8_point_token.png",
+        "name": "Lantern Festival Treasure",
+        "sortId": -10000,
+        "usage": "The paraphernalia collected during the New Year can be exchanged for great rewards."
+    },
+    "act7d5_point_coupon": {
+        "classifyType": "NONE",
+        "description": "The Rhodes Island Logistics Departmen issued this meal voucher during an event as an incentive to complete a series of missions. During the trial period, it will be distributed according to the number of missions completed or to operation results.",
+        "icon": "act7d5_point_coupon.png",
+        "name": "Canteen Soup Ticket",
+        "sortId": -10000,
+        "usage": "A food voucher issued by the Rhodes Island Logistics Department, redeemable at the cafeteria for a limited time for a variety of special meals."
+    },
+    "act7mini_token_permit": {
+        "classifyType": "NONE",
+        "description": "Used to prove the holder's legitimate entry credentials, as well as grant temporary right to remain. Absolutely essential when entering or exiting large nomadic cities. Some places don't check too thoroughly, but it's still best to have your papers on you.",
+        "icon": "act7mini_token_permit.png",
+        "name": "Clearance Permit",
+        "sortId": -10000,
+        "usage": "A customs certificate stamped with proof of border crossings from all over. Can be used to exchange for supplies at the Trading Station. Don't ask what purpose they have for taking these."
+    },
+    "act8mini_token_vigilo": {
+        "classifyType": "NONE",
+        "description": "Others will regard these as scrawls of unclear significance; Kal'tsit speculates on the Doctor's psychological state with these; in the Doctor's eyes, these fragments have come to piece together a present self.",
+        "icon": "act8mini_token_vigilo.png",
+        "name": "'Imagini'",
+        "sortId": -10000,
+        "usage": "Irreal images disclosed by id, cognized by ego, constructed by superego."
+    },
+    "act9d0_token_dogTag": {
+        "classifyType": "NONE",
+        "description": "The major problem facing Kazdel's metalworking industries is that because metallic resources are mostly used for killing soldiers instead of remembering them, the rate of soldier deaths almost outpaces the ability to produce identification tags for them. This tragic scarcity has created a ripe market for perverse collectors.",
+        "icon": "act9d0_token_dogTag.png",
+        "name": "Anonymous Tags",
+        "sortId": -10000,
+        "usage": "These ID tags are generally intact, with only part of the text worn out. The Scar Market looks favorably upon this good fortune."
+    },
+    "act9d4_point_token": {
+        "classifyType": "NONE",
+        "description": "'Please return this to my motherland'",
+        "icon": "act9d4_point_token.png",
+        "name": "Guerilla Squad Member Badge",
+        "sortId": -10000,
+        "usage": "These guerilla badges from the heart of Chernobog can be given to specific individuals in exchange for some rewards."
+    },
+    "act9mini_token_ticket": {
+        "classifyType": "NONE",
+        "description": "A lottery ticket issued by a company run by a major knight noble family. Some make a fortune overnight while others go bankrupt. Within this little ticket are condensed the joys, sorrows, blood, and tears of those who resign their fate to a throw of the dice.",
+        "icon": "act9mini_token_ticket.png",
+        "name": "Liść Ticket",
+        "sortId": -10000,
+        "usage": "A Kazimierz Major lottery ticket bearing the logo of Pinus Sylvestris. This ticket can be exchanged at the Kazimierz Major Prize Exchange Center for corresponding prizes. Put down your chips, and win your fortune!"
+    },
+    "advanced_material_issue_voucher": {
+        "classifyType": "CONSUME",
+        "description": "In order to address scarcities of certain materials during processing, the Procurement Department has issued exchange vouchers for operators' discretionary use, granting access to the materials needed.",
+        "icon": "advanced_material_issue_voucher.png",
+        "name": "Advanced Material Voucher",
+        "sortId": 30201,
+        "usage": "A special exchange voucher issued by the Rhodes Island Procurement Department. Can be used within a limited time to obtain advanced elite materials."
+    },
+    "ap_supply_lt_010": {
+        "classifyType": "CONSUME",
+        "description": "A low-dosage sample. To be used rationally and sensibly. If you are satisfied with this product's efficacy, you may also be interested in our other packages.",
+        "icon": "ap_supply_lt_010.png",
+        "name": "Emergency Sanity Sampler",
+        "sortId": 30004,
+        "usage": "A portable, easy-to-carry sampler that is good for maintaining a level of Sanity during emergencies."
+    },
+    "ap_supply_lt_100": {
+        "classifyType": "CONSUME",
+        "description": "It contains a small amount of mustard extract, so please keep it away from your eyes (other instructions omitted). When the situation is so dire that you need to use it to restore Sanity, you won't have the time to read this. Good luck!\n",
+        "icon": "ap_supply_lt_100.png",
+        "name": "Top Emergency Sanity Potion",
+        "sortId": 30002,
+        "usage": "A large dose of emergency supplement that will swiftly clear your mind. Possible side effect: migraine."
+    },
+    "ap_supply_lt_120": {
+        "classifyType": "CONSUME",
+        "description": "This product's effectiveness has been boosted to a degree thanks to modern concentrative technologies. By no means should it be used as medication. When the situation is so dire that you need it to restore Sanity, you won't have the time to read this. Good luck!",
+        "icon": "ap_supply_lt_120.png",
+        "name": "Emergency Sanity Concentrate",
+        "sortId": 30001,
+        "usage": "A large dose of concentrated emergency supplement used to maintain Sanity. New active ingredients, same instant results. Possible side effect: disruption of biological clock. Please read carefully before administering."
+    },
+    "ap_supply_lt_60": {
+        "classifyType": "CONSUME",
+        "description": "Although overeating can relieve the anxiety and pressure accumulated on the battlefield, it's not a healthy lifestyle, Doctor. This supplement contains quite a bit of sugar, but the packing is specially designed to be hard to open. Treat it as a kind of exercise and burn some calories.",
+        "icon": "ap_supply_lt_60.png",
+        "name": "Emergency Sanity Potion",
+        "sortId": 30003,
+        "usage": "An emergency supplement used to maintain Sanity and keep your mind clear."
+    },
+    "ap_supply_lt_80": {
+        "classifyType": "CONSUME",
+        "description": "Although overeating can relieve the anxiety and pressure accumulated on the battlefield, it's not a healthy lifestyle, Doctor. This supplement contains quite a bit of sugar, but the packing is specially designed to be hard to open. Treat it as a kind of exercise and burn some calories.",
+        "icon": "ap_supply_lt_80.png",
+        "name": "Emergency Sanity Booster",
+        "sortId": 30003,
+        "usage": "An emergency supplement with lightly increased dosage, used to maintain Sanity. Keep your mind clear and drive out fatigue."
+    },
+    "base_ap": {
+        "classifyType": "NONE",
+        "description": "Drones used for construction. They are controlled by the Rhodes Island Logistics Department. Without them, Operators would have to wait 10 times as long to get base housing.",
+        "icon": "base_ap.png",
+        "name": "Drone",
+        "sortId": -10000,
+        "usage": "A machine that is important for the Base construction of Rhodes Island. Can be used to clean, construct, and upgrade base facilities."
+    },
+    "bilibili001": {
+        "classifyType": "NONE",
+        "description": "Who will it be? Can't wait!",
+        "icon": "bilibili001.png",
+        "name": "Preregister to get 1 of 4 Operators randomly",
+        "sortId": -10000,
+        "usage": "Used to get preregistration rewards."
+    },
+    "classic_gacha": {
+        "classifyType": "NORMAL",
+        "description": "Rhodes Island's expansion is inseparable from the help and support it has received from kernel personnel. This headhunting item will assist the Doctor in recruiting talent within specified bounds.",
+        "icon": "classic_gacha.png",
+        "name": "Kernel Headhunting Permit",
+        "sortId": 40011,
+        "usage": "A special permit from Rhodes Island's HR distribution for recruiting a single kernel talent."
+    },
+    "classic_gacha_10": {
+        "classifyType": "NORMAL",
+        "description": "Rhodes Island's expansion is inseparable from the help and support it has received from kernel personnel. These headhunting items will assist the Doctor in recruiting talent within specified bounds.",
+        "icon": "classic_gacha_10.png",
+        "name": "Ten-roll Kernel Headhunting Permit",
+        "sortId": 40001,
+        "usage": "A special permit from Rhodes Island HR distribution for recruiting multiple kernel talents. Can be used to recruit ten operators."
+    },
+    "classic_normal_ticket": {
+        "classifyType": "NORMAL",
+        "description": "Time has allowed these operators to gain a deep understanding of Rhodes Island's affairs. They will provide you the rare resources you need.",
+        "icon": "classic_normal_ticket.png",
+        "name": "Universal Certificates",
+        "sortId": 10006,
+        "usage": "A certificate that attests an operator possesses core abilities. Can be exchanged for rare materials."
+    },
+    "et_ObsidianPass": {
+        "classifyType": "NONE",
+        "description": "A through ticket system has been implemented across the various venues at this Obsidian Festival, which means tickets are required for most events. So please make good use of the tickets you have!",
+        "icon": "et_ObsidianPass.png",
+        "name": "Obsidian Festival Ticket",
+        "sortId": -10000,
+        "usage": "A ticket to the Obsidian Festival. Can be used to enter special stages."
+    },
+    "favor_add_ulika": {
+        "classifyType": "NONE",
+        "description": "A storage device with recordings of the most wonderful livestream moments, and can be used to raise the trust of U-Official.",
+        "icon": "favor_add_ulika.png",
+        "name": "Streamer U's Stream Clips",
+        "sortId": -10000,
+        "usage": "Used to increase U-Official's Trust."
+    },
+    "itempack_gacha_1": {
+        "classifyType": "CONSUME",
+        "description": "A gift bag obtained during the Roka Village's special prayer event, containing well wishes that will guide you toward a merry future.",
+        "icon": "itempack_gacha_1.png",
+        "name": "Bounteous Fortunes Gift Bag",
+        "sortId": -10000,
+        "usage": "Obtain 'Collaboration Limited Ten-roll Headhunting Permit' and avatar 'Soubo Impressions.' 'Collaboration Limited Ten-roll Headhunting Permit' expires 09/21/2023 03:59"
+    },
+    "itempack_mod_10": {
+        "classifyType": "CONSUME",
+        "description": "Faced with the issue of insufficient training data, the Engineering Department has produced an all-new chip etching apparatus to provide Operators with a self-printing service.",
+        "icon": "itempack_mod_10.png",
+        "name": "Sniper Chip Pack Etcher",
+        "sortId": -10000,
+        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can print chip packs hassle-free, in accordance with Sniper Operators' needs."
+    },
+    "itempack_mod_11": {
+        "classifyType": "CONSUME",
+        "description": "Faced with the issue of insufficient training data, the Engineering Department has produced an all-new chip etching apparatus to provide Operators with a self-printing service.",
+        "icon": "itempack_mod_11.png",
+        "name": "Caster Chip Pack Etcher",
+        "sortId": -10000,
+        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can print chip packs hassle-free, in accordance with Caster Operators' needs."
+    },
+    "itempack_mod_12": {
+        "classifyType": "CONSUME",
+        "description": "Faced with the issue of insufficient training data, the Engineering Department has produced an all-new chip etching apparatus to provide Operators with a self-printing service.",
+        "icon": "itempack_mod_12.png",
+        "name": "Medic Chip Pack Etcher",
+        "sortId": -10000,
+        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can print chip packs hassle-free, in accordance with Medic Operators' needs."
+    },
+    "itempack_mod_13": {
+        "classifyType": "CONSUME",
+        "description": "Faced with the issue of insufficient training data, the Engineering Department has produced an all-new chip etching apparatus to provide Operators with a self-printing service.",
+        "icon": "itempack_mod_13.png",
+        "name": "Supporter Chip Pack Etcher",
+        "sortId": -10000,
+        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can print chip packs hassle-free, in accordance with Supporter Operators' needs."
+    },
+    "itempack_mod_14": {
+        "classifyType": "CONSUME",
+        "description": "Faced with the issue of insufficient training data, the Engineering Department has produced an all-new chip etching apparatus to provide Operators with a self-printing service.",
+        "icon": "itempack_mod_14.png",
+        "name": "Specialist Chip Pack Etcher",
+        "sortId": -10000,
+        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can print chip packs hassle-free, in accordance with Specialist Operators' needs."
+    },
+    "itempack_mod_4": {
+        "classifyType": "NONE",
+        "description": "Fruit of the blood and sweat of our colleagues in Engineering, this data chunk includes the data and information to meet an Operator Module's foundational requirements.",
+        "icon": "itempack_mod_4.png",
+        "name": "Integrated Module Data Chunk",
+        "sortId": -10000,
+        "usage": "Contains items for unlocking and upgrading Operator Modules."
+    },
+    "itempack_mod_6": {
+        "classifyType": "NONE",
+        "description": "Fruit of the blood and sweat of our colleagues in Engineering, this data box stockpiles a ridiculous amount of data, able to meet an Operator Module's requirements on all fronts at once.",
+        "icon": "itempack_mod_6.png",
+        "name": "Integrated Module Data Box",
+        "sortId": -10000,
+        "usage": "Contains items for unlocking and upgrading Operator Modules."
+    },
+    "itempack_mod_7": {
+        "classifyType": "CONSUME",
+        "description": "Faced with the issue of insufficient training data, the Engineering Department has produced an all-new chip etching apparatus to provide Operators with a self-printing service.",
+        "icon": "itempack_mod_7.png",
+        "name": "Vanguard Chip Pack Etcher",
+        "sortId": -10000,
+        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can etch chip packs hassle-free, in accordance with Vanguard Operators' needs."
+    },
+    "itempack_mod_8": {
+        "classifyType": "CONSUME",
+        "description": "Faced with the issue of insufficient training data, the Engineering Department has produced an all-new chip etching apparatus to provide Operators with a self-printing service.",
+        "icon": "itempack_mod_8.png",
+        "name": "Guard Chip Pack Etcher",
+        "sortId": -10000,
+        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can print chip packs hassle-free, in accordance with Guard Operators' needs."
+    },
+    "itempack_mod_9": {
+        "classifyType": "CONSUME",
+        "description": "Faced with the issue of insufficient training data, the Engineering Department has produced an all-new chip etching apparatus to provide Operators with a self-printing service.",
+        "icon": "itempack_mod_9.png",
+        "name": "Defender Chip Pack Etcher",
+        "sortId": -10000,
+        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can print chip packs hassle-free, in accordance with Defender Operators' needs."
+    },
+    "mcardVoucher": {
+        "classifyType": "NONE",
+        "description": "With an eye to negotiability and convenience, several new permits have risen to the task, and this just so happens to be one of them.",
+        "icon": "mcardVoucher.png",
+        "name": "Monthly Card Exchange Permit",
+        "sortId": -10000,
+        "usage": "Enables activation of Monthly Card privileges."
+    },
+    "mod_unlock_token": {
+        "classifyType": "MATERIAL",
+        "description": "The data blocks record the endless nights the Engineering Department toiled away developing the various modules.",
+        "icon": "mod_unlock_token.png",
+        "name": "Module Data Block",
+        "sortId": 90001,
+        "usage": "Used to unlock Operator modules."
+    },
+    "mod_update_token_1": {
+        "classifyType": "MATERIAL",
+        "description": "Experience is abstracted into data, and the data become a weapon. All true warriors must come to know both themselves and the battlefield.\nThe crystallization of the entire Engineering Department's blood, sweat, and tears. Once upgraded, the modules will greatly improve our Operators' combat abilities.",
+        "icon": "mod_update_token_1.png",
+        "name": "Data Supplement Stick",
+        "sortId": 90003,
+        "usage": "Used to upgrade Operator modules."
+    },
+    "mod_update_token_2": {
+        "classifyType": "MATERIAL",
+        "description": "Experience is abstracted into data, and the data become a weapon. All true warriors must come to know both themselves and the battlefield.\nThe crystallization of the entire Engineering Department's blood, sweat, and tears. Once further upgraded, the modules will help optimize our Operators' combat styles and vastly improve their abilities.",
+        "icon": "mod_update_token_2.png",
+        "name": "Data Supplement Instrument",
+        "sortId": 90002,
+        "usage": "Used to upgrade Operator modules."
+    },
+    "premium_material_issue_voucher": {
+        "classifyType": "CONSUME",
+        "description": "In order to address scarcities of certain materials during processing, the Procurement Department has issued exchange vouchers for operators' discretionary use, granting access to the materials needed.",
+        "icon": "premium_material_issue_voucher.png",
+        "name": "Premium Material Voucher",
+        "sortId": 30200,
+        "usage": "A special exchange voucher issued by the Rhodes Island Procurement Department. Can be used within a limited time to obtain premium elite materials."
+    },
+    "randomDiamondShd_1": {
+        "classifyType": "CONSUME",
+        "description": "Nobody knows who ended up footing the bill. What we do know is the hope they have for Rhodes Island.",
+        "icon": "randomDiamondShd_1.png",
+        "name": "Half Year Anniversary Red Envelope",
+        "sortId": 60111,
+        "usage": "Red envelopes passed out to every member of Rhodes Island. The goods inside may be random, but they are always filled to the brim with blessings."
+    },
+    "randomDiamondShd_2": {
+        "classifyType": "CONSUME",
+        "description": "Nobody knows who ended up footing the bill. What we do know is the hope they have for Rhodes Island.",
+        "icon": "randomDiamondShd_2.png",
+        "name": "Celebratory Box",
+        "sortId": 60112,
+        "usage": "Gift boxes distributed to all members of Rhodes Island, random in amount, and full of the joy that comes with celebration."
+    },
+    "randomMaterialRune_0": {
+        "classifyType": "CONSUME",
+        "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
+        "icon": "randomMaterialRune_0.png",
+        "name": "Operation Barrenland Supplies",
+        "sortId": 60011,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterialRune_1": {
+        "classifyType": "CONSUME",
+        "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
+        "icon": "randomMaterialRune_1.png",
+        "name": "Operation Pyrite Supplies",
+        "sortId": 60012,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterialRune_10": {
+        "classifyType": "CONSUME",
+        "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
+        "icon": "randomMaterialRune_10.png",
+        "name": "Operation Ashring Supplies",
+        "sortId": 60021,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterialRune_11": {
+        "classifyType": "CONSUME",
+        "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
+        "icon": "randomMaterialRune_11.png",
+        "name": "Operation Fake Waves Supplies",
+        "sortId": 60022,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterialRune_12": {
+        "classifyType": "CONSUME",
+        "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
+        "icon": "randomMaterialRune_12.png",
+        "name": "Operation Base Point Supplies",
+        "sortId": 60023,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterialRune_2": {
+        "classifyType": "CONSUME",
+        "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
+        "icon": "randomMaterialRune_2.png",
+        "name": "Operation Blade Supplies",
+        "sortId": 60013,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterialRune_3": {
+        "classifyType": "CONSUME",
+        "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
+        "icon": "randomMaterialRune_3.png",
+        "name": "Operation Cinder Supplies",
+        "sortId": 60014,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterialRune_4": {
+        "classifyType": "CONSUME",
+        "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
+        "icon": "randomMaterialRune_4.png",
+        "name": "Operation Lead Seal Supplies",
+        "sortId": 60015,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterialRune_5": {
+        "classifyType": "CONSUME",
+        "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
+        "icon": "randomMaterialRune_5.png",
+        "name": "Operation Spectrum Supplies",
+        "sortId": 60016,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterialRune_6": {
+        "classifyType": "CONSUME",
+        "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
+        "icon": "randomMaterialRune_6.png",
+        "name": "Operation Wild Scales Supplies",
+        "sortId": 60017,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterialRune_7": {
+        "classifyType": "CONSUME",
+        "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
+        "icon": "randomMaterialRune_7.png",
+        "name": "Operation Pine Soot Supplies",
+        "sortId": 60018,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterialRune_8": {
+        "classifyType": "CONSUME",
+        "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
+        "icon": "randomMaterialRune_8.png",
+        "name": "Operation Dawnseeker Supplies",
+        "sortId": 60019,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterialRune_9": {
+        "classifyType": "CONSUME",
+        "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
+        "icon": "randomMaterialRune_9.png",
+        "name": "Operation Deepness Supplies",
+        "sortId": 60020,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterial_1": {
+        "classifyType": "CONSUME",
+        "description": "Rhodes Island purchases and stores boxes of supplies from various places. However, due to the lack of an organized storage system, each box contains seemingly random materials.",
+        "icon": "randomMaterial_1.png",
+        "name": "Rhodes Island Supplies",
+        "sortId": 60101,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterial_10": {
+        "classifyType": "CONSUME",
+        "description": "Rhodes Island purchases and stores boxes of supplies from various places. However, due to the lack of an organized storage system, each box contains seemingly random materials.",
+        "icon": "randomMaterial_10.png",
+        "name": "Rhodes Island Supplies VII",
+        "sortId": 60110,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterial_2": {
+        "classifyType": "CONSUME",
+        "description": "Lanterns hung up during the passing of the old year and the arrival of the new. Within them are recent memories, puzzles and riddles, and even tales from the distant past.",
+        "icon": "randomMaterial_2.png",
+        "name": "New Year's Lantern",
+        "sortId": 60102,
+        "usage": "A collection of supplies and materials collected through the New Year."
+    },
+    "randomMaterial_3": {
+        "classifyType": "CONSUME",
+        "description": "A pack of rations containing various resources and supplies. In more ways than one, its appearance provides glimpses into the battle that transpired in the heart of Chernobog. Even looking at it now fills one's heart with a lingering dread.",
+        "icon": "randomMaterial_3.png",
+        "name": "32-hour Strategic Ration",
+        "sortId": 60103,
+        "usage": "A pack of rations, containing a variety of random supplies."
+    },
+    "randomMaterial_4": {
+        "classifyType": "CONSUME",
+        "description": "Rhodes Island purchases and stores boxes of supplies from various places. However, due to the lack of an organized storage system, each box contains seemingly random materials.",
+        "icon": "randomMaterial_4.png",
+        "name": "Thank-You Celebration Supplies",
+        "sortId": 60104,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterial_5": {
+        "classifyType": "CONSUME",
+        "description": "Rhodes Island purchases and stores boxes of supplies from various places. However, due to the lack of an organized storage system, each box contains seemingly random materials.",
+        "icon": "randomMaterial_5.png",
+        "name": "Rhodes Island Supplies II",
+        "sortId": 60105,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterial_6": {
+        "classifyType": "CONSUME",
+        "description": "Rhodes Island purchases and stores boxes of supplies from various places. However, due to the lack of an organized storage system, each box contains seemingly random materials.",
+        "icon": "randomMaterial_6.png",
+        "name": "Rhodes Island Supplies III",
+        "sortId": 60106,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterial_7": {
+        "classifyType": "CONSUME",
+        "description": "Rhodes Island purchases and stores boxes of supplies from various places. However, due to the lack of an organized storage system, each box contains seemingly random materials.",
+        "icon": "randomMaterial_7.png",
+        "name": "Rhodes Island Supplies IV",
+        "sortId": 60107,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterial_8": {
+        "classifyType": "CONSUME",
+        "description": "Rhodes Island purchases and stores boxes of supplies from various places. However, due to the lack of an organized storage system, each box contains seemingly random materials.",
+        "icon": "randomMaterial_8.png",
+        "name": "Rhodes Island Supplies V",
+        "sortId": 60108,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterial_9": {
+        "classifyType": "CONSUME",
+        "description": "Rhodes Island purchases and stores boxes of supplies from various places. However, due to the lack of an organized storage system, each box contains seemingly random materials.",
+        "icon": "randomMaterial_9.png",
+        "name": "Rhodes Island Supplies VI",
+        "sortId": 60109,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterial_leith2": {
+        "classifyType": "CONSUME",
+        "description": "'Though the contents are as unalike as the sounds of the heart, they will help you in your search for the truth. Follow the echoes not yet forgotten, and you will eventually find the answer.'",
+        "icon": "randomMaterial_leith2.png",
+        "name": "Investigation Resupply",
+        "sortId": 60114,
+        "usage": "Package from an unknown source containing various supplies, including random materials."
+    },
+    "randomMaterial_rhine2": {
+        "classifyType": "CONSUME",
+        "description": "A materials supply crate provided by the Maylander Foundation. Allocated based on the needs of each investigated area. As such, the materials in each crate can be different.",
+        "icon": "randomMaterial_rhine2.png",
+        "name": "Technological Investigation Supply",
+        "sortId": 60111,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterial_siesta2": {
+        "classifyType": "CONSUME",
+        "description": "A material resupply box from Mountaincomm Trade. We the vendor are delighted to work with such a major client, and offer these complimentary gifts to you courtesy of our partner logistics firm.",
+        "icon": "randomMaterial_siesta2.png",
+        "name": "Mountaincomm Trade Supplies",
+        "sortId": 60113,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "return_credit_token": {
+        "classifyType": "NONE",
+        "description": "An emblem specially prepared for those returning to major posts. Granted progressively throughout the course of their familiarization with work.",
+        "icon": "return_credit_token.png",
+        "name": "Second Authentication Emblem",
+        "sortId": -10000,
+        "usage": "An emblem of special authentication distributed internally within Rhodes Island. Collect a certain amount to obtain partial usage rights to Rhodes Island's supplies."
+    },
+    "return_credit_token2": {
+        "classifyType": "NONE",
+        "description": "An emblem specially prepared for those returning to major posts. Granted progressively throughout the course of their familiarization with work.",
+        "icon": "return_credit_token2.png",
+        "name": "Second Authentication Emblem",
+        "sortId": -10000,
+        "usage": "An emblem of special authentication distributed internally within Rhodes Island. Collect a certain amount to obtain partial usage rights to Rhodes Island's supplies."
+    },
+    "rogue_1_token_bp": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_1_token_bp.png",
+        "name": "Candle",
+        "sortId": -10000,
+        "usage": null
+    },
+    "rogue_1_token_grow": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_1_token_grow.png",
+        "name": "Caliginous Insights",
+        "sortId": -10000,
+        "usage": null
+    },
+    "rogue_2_token_bp": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_2_token_bp.png",
+        "name": "Living Cells",
+        "sortId": -10000,
+        "usage": null
+    },
+    "rogue_3_token_bp": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_3_token_bp.png",
+        "name": "Ecological Specimens",
+        "sortId": -10000,
+        "usage": null
+    },
+    "sandbox_1_tokencoin": {
+        "classifyType": "NONE",
+        "description": "Each bead of sweat shed upon the barren ground will one day bear witness to the prospering of Terran civilization.",
+        "icon": "sandbox_1_tokencoin.png",
+        "name": "Prosperity Point",
+        "sortId": -10000,
+        "usage": "A voucher that can be exchanged for rewards at 'Gift of Prosperity'."
+    },
+    "token_Obsidian": {
+        "classifyType": "NONE",
+        "description": "Just collect them regardless of what they can do. Surely the marketing department will find some use for them.",
+        "icon": "token_Obsidian.png",
+        "name": "Siesta Obsidian",
+        "sortId": -10000,
+        "usage": "Obsidian crystal mined from Siesta. Can be used to redeem rewards."
+    },
+    "token_ObsidianCoin": {
+        "classifyType": "NONE",
+        "description": "The demand from Obsidian Festival participants is so exceedingly high that they have yet to be met even after repeated reward restocking. Unfortunately, stopping the raffle at this time would mean triggering a riot, so the hosts have to keep the raffle going.",
+        "icon": "token_ObsidianCoin.png",
+        "name": "Obsidian Festival Token",
+        "sortId": -10000,
+        "usage": "Official token for the Obsidian Festival raffle event. Can be used to draw rewards."
+    },
+    "token_Wristband": {
+        "classifyType": "NONE",
+        "description": "The bracelets are costly to make, so we are not gonna let them just get thrown away!",
+        "icon": "token_Wristband.png",
+        "name": "Obsidian Festival Bracelet",
+        "sortId": -10000,
+        "usage": "Recyclable entry identification bracelet for the Obsidian Festival. Can be used to redeem rewards."
+    }
+}
