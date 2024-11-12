@@ -15,9 +15,11 @@ using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using HandyControl.Tools;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using Microsoft.VisualBasic.Logging;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using Stylet;
 
@@ -104,14 +106,31 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _taskProgress, value);
-                if (value is null)
+
+                Execute.OnUIThreadAsync(() =>
                 {
-                    TaskbarManager.Instance.SetProgressValue(0, 0);
-                }
-                else
-                {
-                    TaskbarManager.Instance.SetProgressValue(value.Value.Current, value.Value.Max);
-                }
+                    if (Application.Current.MainWindow == null || !Application.Current.MainWindow.IsVisible)
+                    {
+                        return;
+                    }
+
+                    try
+                    {
+                        if (value is null)
+                        {
+                            TaskbarManager.Instance.SetProgressValue(0, 0);
+                        }
+                        else
+                        {
+                            TaskbarManager.Instance.SetProgressValue(value.Value.Current, value.Value.Max);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        // 不知道会不会有异常，先捕获一下
+                        Logger.Warning("TaskbarManager Exception: " + e.Message);
+                    }
+                });
             }
         }
 
