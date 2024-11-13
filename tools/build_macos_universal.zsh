@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+set -eu -o pipefail
+
 [[ "$(arch)" == "arm64" ]] && arch="arm64" || arch="x86_64"
 basedir=$(dirname "$0")/..
 pushd ${basedir}
@@ -7,9 +9,7 @@ pushd ${basedir}
 build_arch() {
     [[ $1 = "arm64" ]] && triplet="arm64-osx" || triplet="x64-osx"
 
-    if [ ! -d ${basedir}/MaaDeps/runtime/maa-${triplet} ]; then
-        python3 maadeps-download.py ${triplet}
-    fi
+    python3 maadeps-download.py ${triplet}
 
     if [[ -n $(which ccache) ]]; then
         ccache_arg="-DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache"
@@ -17,7 +17,7 @@ build_arch() {
         ccache_arg=""
     fi
 
-    cmake -B build-$1 -GNinja -DCMAKE_BUILD_TYPE=$2 -DCMAKE_OSX_ARCHITECTURES=$1 "${ccache_arg}"
+    cmake -B build-$1 -GNinja -DCMAKE_BUILD_TYPE=$2 -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_OSX_ARCHITECTURES=$1 "${ccache_arg}"
     cmake --build build-$1
     cmake --install build-$1 --prefix install-$1
 }

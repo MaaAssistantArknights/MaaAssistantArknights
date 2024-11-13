@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import argparse
 import os
 import sys
 import urllib.request
@@ -110,20 +111,27 @@ def retry_urlopen(*args, **kwargs):
 
 
 def main():
-    if len(sys.argv) >= 2:
-        target_triplet = sys.argv[1]
+    parser = argparse.ArgumentParser()
+    parser.add_argument("target_triplet", nargs="?", default=None)
+    parser.add_argument("tag", nargs="?", default=None)
+    parser.add_argument("-f", "--force", action="store_true",
+                        help="force download even if already exists")
+    args = parser.parse_args()
+
+    if args.target_triplet is not None:
+        target_triplet = args.target_triplet
     else:
         target_triplet = detect_host_triplet()
 
-    if len(sys.argv) >= 3:
-        target_tag = sys.argv[2]
+    if args.tag is not None:
+        target_tag = args.tag
     else:
         target_tag = TARGET_TAG
     print(
         "about to download prebuilt dependency libraries for ",
         f"{target_triplet} of {target_tag}"
     )
-    if len(sys.argv) == 1:
+    if args.target_triplet is None:
         print(
             "to specify another triplet [and tag], ",
             f"run `{sys.argv[0]} <target triplet> [tag]`"
@@ -132,6 +140,22 @@ def main():
             f"e.g. `{sys.argv[0]} arm64-windows` ",
             f"or `{sys.argv[0]} arm64-windows 2023-04-24-3`"
         )
+
+    maadeps_dir = Path(basedir, "MaaDeps")
+    maadeps_version_file = Path(maadeps_dir, ".versions.json")
+    try:
+        with open(maadeps_version_file, "r") as f:
+            versions = json.load(f)
+    except:
+        versions = {}
+    if not args.force and versions.get(target_triplet) == target_tag:
+        print(
+            f"prebuilt dependencies for {target_triplet} of {target_tag} ",
+            "already exist, skipping download"
+        )
+        print(f"to force download, run `{sys.argv[0]} -f`")
+        return
+
     req = urllib.request.Request(
         "https://api.github.com/repos/MaaAssistantArknights/MaaDeps/releases"
     )
@@ -167,17 +191,28 @@ def main():
         print("found assets:")
         print("    " + devel_asset["name"])
         print("    " + runtime_asset["name"])
-        maadeps_dir = Path(basedir, "MaaDeps")
         download_dir = Path(maadeps_dir, "tarball")
         download_dir.mkdir(parents=True, exist_ok=True)
-        for asset in [devel_asset, runtime_asset]:
-            url = asset['browser_download_url']
-            print("downloading from", url)
-            local_file = download_dir / sanitize_filename(asset["name"])
-            urllib.request.urlretrieve(url, local_file,
-                                       reporthook=ProgressHook())
-            print("extracting", asset["name"])
-            shutil.unpack_archive(local_file, maadeps_dir)
+        try:
+            shutil.rmtree(maadeps_dir / "runtime" / f"maa-{target_triplet}",
+                          ignore_errors=True)
+            shutil.rmtree(maadeps_dir / "vcpkg" / "installed" /
+                          f"maa-{target_triplet}", ignore_errors=True)
+            for asset in [devel_asset, runtime_asset]:
+                url = asset['browser_download_url']
+                print("downloading from", url)
+                local_file = download_dir / sanitize_filename(asset["name"])
+                urllib.request.urlretrieve(url, local_file,
+                                           reporthook=ProgressHook())
+                print("extracting", asset["name"])
+                shutil.unpack_archive(local_file, maadeps_dir)
+            versions[target_triplet] = target_tag
+        except:
+            versions[target_triplet] = None
+            raise
+        finally:
+            with open(maadeps_version_file, "w") as f:
+                json.dump(versions, f, indent=2)
     else:
         raise Exception(f"no binary release found for {target_triplet}")
 
