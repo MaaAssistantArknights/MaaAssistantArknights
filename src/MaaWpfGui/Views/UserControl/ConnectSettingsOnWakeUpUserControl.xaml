@@ -37,102 +37,91 @@
                 Content="{DynamicResource AccountSwitchManualRun}" />
         </Grid>
 
-        <CheckBox
-            Margin="0,10"
-            s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
-            Content="{DynamicResource AutoDetectConnection}"
-            DataContext="{Binding ConnectSettingsDataContext}"
-            IsChecked="{Binding AutoDetectConnection}"
-            ToolTip="{DynamicResource AutoDetectConnectionTip}" />
-        <CheckBox
-            Margin="0,10"
-            s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
-            Content="{DynamicResource AlwaysAutoDetectConnection}"
-            DataContext="{Binding ConnectSettingsDataContext}"
-            IsChecked="{Binding AlwaysAutoDetectConnection}"
-            Visibility="{c:Binding AutoDetectConnection}" />
+        <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding ConnectSettingsDataContext}">
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource AutoDetectConnection}"
+                IsChecked="{Binding AutoDetectConnection}"
+                ToolTip="{DynamicResource AutoDetectConnectionTip}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource AlwaysAutoDetectConnection}"
+                IsChecked="{Binding AlwaysAutoDetectConnection}"
+                Visibility="{c:Binding AutoDetectConnection}" />
 
-        <Grid
-            Margin="0,5"
-            s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
-            DataContext="{Binding ConnectSettingsDataContext}"
-            Visibility="{c:Binding !AutoDetectConnection}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <hc:TextBox
-                Grid.Column="0"
-                hc:BorderElement.CornerRadius="4,0,0,4"
-                hc:InfoElement.Title="{DynamicResource AdbPath}"
-                Text="{Binding AdbPath}" />
-            <Button
-                Grid.Column="1"
-                Width="60"
-                VerticalAlignment="Bottom"
-                hc:BorderElement.CornerRadius="0,4,4,0"
-                BorderThickness="0,1,1,1"
-                Command="{s:Action SelectFile}"
-                Content="{DynamicResource Select}" />
-        </Grid>
+            <Grid Margin="0,5" Visibility="{c:Binding !AutoDetectConnection}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <hc:TextBox
+                    Grid.Column="0"
+                    hc:BorderElement.CornerRadius="4,0,0,4"
+                    hc:InfoElement.Title="{DynamicResource AdbPath}"
+                    Text="{Binding AdbPath}" />
+                <Button
+                    Grid.Column="1"
+                    Width="60"
+                    VerticalAlignment="Bottom"
+                    hc:BorderElement.CornerRadius="0,4,4,0"
+                    BorderThickness="0,1,1,1"
+                    Command="{s:Action SelectFile}"
+                    Content="{DynamicResource Select}" />
+            </Grid>
 
-        <ComboBox
-            Margin="0,5"
-            HorizontalContentAlignment="Stretch"
-            hc:InfoElement.Title="{DynamicResource ConnectionAddress}"
-            s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
-            DataContext="{Binding ConnectSettingsDataContext}"
-            IsEditable="True"
-            ItemsSource="{Binding ConnectAddressHistory}"
-            Style="{StaticResource ComboBoxExtend}"
-            Text="{Binding ConnectAddress, UpdateSourceTrigger=LostFocus}"
-            ToolTip="{DynamicResource ConnectionAddressTip}"
-            Visibility="{c:Binding !AutoDetectConnection}">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock
-                            Grid.Column="0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Text="{Binding}" />
-                        <Button
-                            Grid.Column="1"
-                            HorizontalAlignment="Right"
-                            Command="{s:Action RemoveAddressClick}"
-                            CommandParameter="{Binding}"
-                            Content="×"
-                            FontWeight="Bold" />
-                    </Grid>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        <ComboBox
-            Margin="0,5"
-            hc:InfoElement.Title="{DynamicResource ConnectionPreset}"
-            s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
-            DataContext="{Binding ConnectSettingsDataContext}"
-            DisplayMemberPath="Display"
-            ItemsSource="{Binding ConnectConfigList}"
-            SelectedValue="{Binding ConnectConfig}"
-            SelectedValuePath="Value"
-            Style="{StaticResource ComboBoxExtend}"
-            Visibility="{c:Binding !AutoDetectConnection}" />
-        <ComboBox
-            Margin="0,5"
-            hc:InfoElement.Title="{DynamicResource TouchMode}"
-            s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
-            DataContext="{Binding ConnectSettingsDataContext}"
-            DisplayMemberPath="Display"
-            IsHitTestVisible="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-            ItemsSource="{Binding TouchModeList}"
-            SelectedValue="{Binding TouchMode}"
-            SelectedValuePath="Value"
-            Style="{StaticResource ComboBoxExtend}" />
+            <ComboBox
+                Margin="0,5"
+                HorizontalContentAlignment="Stretch"
+                hc:InfoElement.Title="{DynamicResource ConnectionAddress}"
+                IsEditable="True"
+                ItemsSource="{Binding ConnectAddressHistory}"
+                Style="{StaticResource ComboBoxExtend}"
+                Text="{Binding ConnectAddress, UpdateSourceTrigger=LostFocus}"
+                ToolTip="{DynamicResource ConnectionAddressTip}"
+                Visibility="{c:Binding !AutoDetectConnection}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Grid.Column="0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Text="{Binding}" />
+                            <Button
+                                Grid.Column="1"
+                                HorizontalAlignment="Right"
+                                Command="{s:Action RemoveAddressClick}"
+                                CommandParameter="{Binding}"
+                                Content="×"
+                                FontWeight="Bold" />
+                        </Grid>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <ComboBox
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource ConnectionPreset}"
+                DisplayMemberPath="Display"
+                ItemsSource="{Binding ConnectConfigList}"
+                SelectedValue="{Binding ConnectConfig}"
+                SelectedValuePath="Value"
+                Style="{StaticResource ComboBoxExtend}"
+                Visibility="{c:Binding !AutoDetectConnection}" />
+            <ComboBox
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource TouchMode}"
+                DisplayMemberPath="Display"
+                IsHitTestVisible="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                ItemsSource="{Binding TouchModeList}"
+                SelectedValue="{Binding TouchMode}"
+                SelectedValuePath="Value"
+                Style="{StaticResource ComboBoxExtend}" />
+        </StackPanel>
+
         <ComboBox
             Margin="0,5"
             hc:InfoElement.Title="{DynamicResource ClientType}"
