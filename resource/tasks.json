@@ -3707,6 +3707,8 @@
         "text": ["可收获", "订单交付", "员信赖"],
         "action": "ClickSelf",
         "roi": [0, 600, 800, 118],
+        "postDelay": 1000,
+        "postDelay_Doc": "UI 更新之后给这 b 玩意也加了动画，会点到一键换班",
         "next": ["InfrastReward", "InfrastExitReward"]
     },
     "InfrastExitReward": {
