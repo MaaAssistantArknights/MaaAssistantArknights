@@ -10,6 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
     d:DesignWidth="220"
     mc:Ignorable="d">
@@ -38,16 +39,24 @@
 
         <CheckBox
             Margin="0,10"
+            s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
             Content="{DynamicResource AutoDetectConnection}"
+            DataContext="{Binding ConnectSettingsDataContext}"
             IsChecked="{Binding AutoDetectConnection}"
             ToolTip="{DynamicResource AutoDetectConnectionTip}" />
         <CheckBox
             Margin="0,10"
+            s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
             Content="{DynamicResource AlwaysAutoDetectConnection}"
+            DataContext="{Binding ConnectSettingsDataContext}"
             IsChecked="{Binding AlwaysAutoDetectConnection}"
             Visibility="{c:Binding AutoDetectConnection}" />
 
-        <Grid Margin="0,5" Visibility="{c:Binding !AutoDetectConnection}">
+        <Grid
+            Margin="0,5"
+            s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+            DataContext="{Binding ConnectSettingsDataContext}"
+            Visibility="{c:Binding !AutoDetectConnection}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
@@ -71,6 +80,8 @@
             Margin="0,5"
             HorizontalContentAlignment="Stretch"
             hc:InfoElement.Title="{DynamicResource ConnectionAddress}"
+            s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+            DataContext="{Binding ConnectSettingsDataContext}"
             IsEditable="True"
             ItemsSource="{Binding ConnectAddressHistory}"
             Style="{StaticResource ComboBoxExtend}"
@@ -103,6 +114,8 @@
         <ComboBox
             Margin="0,5"
             hc:InfoElement.Title="{DynamicResource ConnectionPreset}"
+            s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+            DataContext="{Binding ConnectSettingsDataContext}"
             DisplayMemberPath="Display"
             ItemsSource="{Binding ConnectConfigList}"
             SelectedValue="{Binding ConnectConfig}"
@@ -112,8 +125,10 @@
         <ComboBox
             Margin="0,5"
             hc:InfoElement.Title="{DynamicResource TouchMode}"
+            s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+            DataContext="{Binding ConnectSettingsDataContext}"
             DisplayMemberPath="Display"
-            IsHitTestVisible="{Binding Idle}"
+            IsHitTestVisible="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
             ItemsSource="{Binding TouchModeList}"
             SelectedValue="{Binding TouchMode}"
             SelectedValuePath="Value"
