@@ -1056,7 +1056,7 @@ namespace MaaWpfGui.ViewModels.UI
             bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
 
             // 尝试启动模拟器
-            if (!connected && Instances.SettingsViewModel.RetryOnDisconnected)
+            if (!connected && SettingsViewModel.ConnectSettingsDataContext.RetryOnDisconnected)
             {
                 AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToStartEmulator"));
 
@@ -1088,7 +1088,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             // 尝试重启 ADB
-            if (!connected && Instances.SettingsViewModel.AllowAdbRestart)
+            if (!connected && SettingsViewModel.ConnectSettingsDataContext.AllowAdbRestart)
             {
                 AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("RestartAdb"));
 
@@ -1104,7 +1104,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             // 尝试杀掉 ADB 进程
-            if (!connected && Instances.SettingsViewModel.AllowAdbHardRestart)
+            if (!connected && SettingsViewModel.ConnectSettingsDataContext.AllowAdbHardRestart)
             {
                 AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("HardRestartAdb"));
 
@@ -1796,7 +1796,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             try
             {
-                string emulatorMode = Instances.SettingsViewModel.ConnectConfig;
+                string emulatorMode = SettingsViewModel.ConnectSettingsDataContext.ConnectConfig;
                 Instances.AsstProxy.Connected = false;
                 return emulatorMode switch
                 {
@@ -1821,7 +1821,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>是否关闭成功</returns>
         private static bool KillEmulatorMuMuEmulator12()
         {
-            string address = Instances.SettingsViewModel.ConnectAddress;
+            string address = SettingsViewModel.ConnectSettingsDataContext.ConnectAddress;
             int emuIndex;
             if (address == "127.0.0.1:16384")
             {
@@ -1895,7 +1895,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>是否关闭成功</returns>
         private static bool KillEmulatorLdPlayer()
         {
-            string address = Instances.SettingsViewModel.ConnectAddress;
+            string address = SettingsViewModel.ConnectSettingsDataContext.ConnectAddress;
             int emuIndex;
             if (address.Contains(":"))
             {
@@ -1971,7 +1971,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>是否关闭成功</returns>
         private static bool KillEmulatorNox()
         {
-            string address = Instances.SettingsViewModel.ConnectAddress;
+            string address = SettingsViewModel.ConnectSettingsDataContext.ConnectAddress;
             int emuIndex;
             if (address == "127.0.0.1:62001")
             {
@@ -2045,7 +2045,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>是否关闭成功</returns>
         private static bool KillEmulatorXyaz()
         {
-            string address = Instances.SettingsViewModel.ConnectAddress;
+            string address = SettingsViewModel.ConnectSettingsDataContext.ConnectAddress;
             string portStr = address.Split(':')[1];
             int port = int.Parse(portStr);
             var emuIndex = (port - 21503) / 10;

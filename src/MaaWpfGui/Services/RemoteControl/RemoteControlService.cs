@@ -27,6 +27,7 @@ using System.Windows.Media.Imaging;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.States;
+using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -447,7 +448,7 @@ namespace MaaWpfGui.Services.RemoteControl
                         // ConfigurationHelper.SetValue(type.Split('-')[1], data);
                         await Execute.OnUIThreadAsync(() =>
                         {
-                            Instances.SettingsViewModel.ConnectAddress = data;
+                            SettingsViewModel.ConnectSettingsDataContext.ConnectAddress = data;
                         });
                         break;
                     case "Settings-Stage1":

@@ -11,6 +11,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:settingsViews="clr-namespace:MaaWpfGui.Views.UserControl.Settings"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:userControl="clr-namespace:MaaWpfGui.Views.UserControl"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
@@ -61,10 +62,11 @@
                 <userControl:GameClientUserControl Margin="0,20" HorizontalAlignment="Center" />
 
                 <hc:Divider Content="{Binding ListTitle[4]}" />
-                <userControl:ConnectSettingsUserControl
+                <settingsViews:ConnectSettingsUserControl
                     Margin="0,20"
                     HorizontalAlignment="Center"
-                    IsEnabled="{Binding Idle}" />
+                    DataContext="{Binding ConnectSettingsDataContext}"
+                    IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
 
                 <hc:Divider Content="{Binding ListTitle[5]}" />
                 <userControl:StartSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
