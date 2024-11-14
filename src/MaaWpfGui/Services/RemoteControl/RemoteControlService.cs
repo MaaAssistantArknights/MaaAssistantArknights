@@ -448,7 +448,7 @@ namespace MaaWpfGui.Services.RemoteControl
                         // ConfigurationHelper.SetValue(type.Split('-')[1], data);
                         await Execute.OnUIThreadAsync(() =>
                         {
-                            SettingsViewModel.ConnectSettingsDataContext.ConnectAddress = data;
+                            SettingsViewModel.ConnectSettings.ConnectAddress = data;
                         });
                         break;
                     case "Settings-Stage1":

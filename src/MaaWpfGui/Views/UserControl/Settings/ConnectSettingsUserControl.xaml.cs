@@ -12,7 +12,7 @@
 // </copyright>
 
 using System.Windows;
-using MaaWpfGui.Helper;
+using MaaWpfGui.ViewModels.UI;
 
 namespace MaaWpfGui.Views.UserControl.Settings
 {
@@ -38,7 +38,7 @@ namespace MaaWpfGui.Views.UserControl.Settings
 
             // Note that you can have more than one file.
             var files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            Instances.SettingsViewModel.StartsWithScript = files?[0] ?? string.Empty;
+            SettingsViewModel.ConnectSettings.StartsWithScript = files?[0] ?? string.Empty;
         }
 
         private void EndsWithScript_Drop(object sender, DragEventArgs e)
@@ -50,7 +50,7 @@ namespace MaaWpfGui.Views.UserControl.Settings
 
             // Note that you can have more than one file.
             var files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            Instances.SettingsViewModel.EndsWithScript = files?[0] ?? string.Empty;
+            SettingsViewModel.ConnectSettings.EndsWithScript = files?[0] ?? string.Empty;
         }
 
         private void TextBox_PreviewDragOver(object sender, DragEventArgs e)

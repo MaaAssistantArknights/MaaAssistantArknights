@@ -1024,10 +1024,10 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (Instances.SettingsViewModel.CopilotWithScript)
+            if (SettingsViewModel.ConnectSettings.CopilotWithScript)
             {
-                await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript", showLog: false));
-                if (!string.IsNullOrWhiteSpace(Instances.SettingsViewModel.StartsWithScript))
+                await Task.Run(() => SettingsViewModel.ConnectSettings.RunScript("StartsWithScript", showLog: false));
+                if (!string.IsNullOrWhiteSpace(SettingsViewModel.ConnectSettings.StartsWithScript))
                 {
                     AddLog(LocalizationHelper.GetString("StartsWithScript"));
                 }
@@ -1112,10 +1112,10 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void Stop()
         {
-            if (Instances.SettingsViewModel.CopilotWithScript && Instances.SettingsViewModel.ManualStopWithScript)
+            if (SettingsViewModel.ConnectSettings.CopilotWithScript && SettingsViewModel.ConnectSettings.ManualStopWithScript)
             {
-                Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript", showLog: false));
-                if (!string.IsNullOrWhiteSpace(Instances.SettingsViewModel.EndsWithScript))
+                Task.Run(() => SettingsViewModel.ConnectSettings.RunScript("EndsWithScript", showLog: false));
+                if (!string.IsNullOrWhiteSpace(SettingsViewModel.ConnectSettings.EndsWithScript))
                 {
                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("EndsWithScript"));
                 }

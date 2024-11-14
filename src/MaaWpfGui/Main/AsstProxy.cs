@@ -320,9 +320,9 @@ namespace MaaWpfGui.Main
 
             Instances.TaskQueueViewModel.SetInited();
             _runningState.SetIdle(true);
-            AsstSetInstanceOption(InstanceOptionKey.TouchMode, SettingsViewModel.ConnectSettingsDataContext.TouchMode);
-            AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, SettingsViewModel.ConnectSettingsDataContext.DeploymentWithPause ? "1" : "0");
-            AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, SettingsViewModel.ConnectSettingsDataContext.AdbLiteEnabled ? "1" : "0");
+            AsstSetInstanceOption(InstanceOptionKey.TouchMode, SettingsViewModel.ConnectSettings.TouchMode);
+            AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, SettingsViewModel.ConnectSettings.DeploymentWithPause ? "1" : "0");
+            AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, SettingsViewModel.ConnectSettings.AdbLiteEnabled ? "1" : "0");
 
             // TODO: 之后把这个 OnUIThread 拆出来
             // ReSharper disable once AsyncVoidLambda
@@ -460,7 +460,7 @@ namespace MaaWpfGui.Main
                     Connected = true;
                     _connectedAdb = details["details"]?["adb"]?.ToString();
                     _connectedAddress = details["details"]?["address"]?.ToString();
-                    SettingsViewModel.ConnectSettingsDataContext.ConnectAddress = _connectedAddress;
+                    SettingsViewModel.ConnectSettings.ConnectAddress = _connectedAddress;
                     break;
 
                 case "UnsupportedResolution":
@@ -499,7 +499,7 @@ namespace MaaWpfGui.Main
                     Execute.OnUIThread(
                         async () =>
                     {
-                        if (!SettingsViewModel.ConnectSettingsDataContext.RetryOnDisconnected)
+                        if (!SettingsViewModel.ConnectSettings.RetryOnDisconnected)
                         {
                             return;
                         }
@@ -527,7 +527,7 @@ namespace MaaWpfGui.Main
                     {
                         string costString = details["details"]?["cost"]?.ToString() ?? "???";
                         string method = details["details"]?["method"]?.ToString() ?? "???";
-                        SettingsViewModel.ConnectSettingsDataContext.ScreencapMethod = method;
+                        SettingsViewModel.ConnectSettings.ScreencapMethod = method;
 
                         StringBuilder fastestScreencapStringBuilder = new();
                         string color = UiLogColor.Trace;
@@ -551,10 +551,10 @@ namespace MaaWpfGui.Main
                         }
 
                         var needToStop = false;
-                        switch (SettingsViewModel.ConnectSettingsDataContext.ConnectConfig)
+                        switch (SettingsViewModel.ConnectSettings.ConnectConfig)
                         {
                             case "MuMuEmulator12":
-                                if (SettingsViewModel.ConnectSettingsDataContext.MuMuEmulator12Extras.Enable && method != "MumuExtras")
+                                if (SettingsViewModel.ConnectSettings.MuMuEmulator12Extras.Enable && method != "MumuExtras")
                                 {
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage"), UiLogColor.Error);
                                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage"), UiLogColor.Error, showTime: false);
@@ -568,7 +568,7 @@ namespace MaaWpfGui.Main
 
                                 break;
                             case "LDPlayer":
-                                if (SettingsViewModel.ConnectSettingsDataContext.LdPlayerExtras.Enable && method != "LDExtras")
+                                if (SettingsViewModel.ConnectSettings.LdPlayerExtras.Enable && method != "LDExtras")
                                 {
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("LdExtrasNotEnabledMessage"), UiLogColor.Error);
                                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("LdExtrasNotEnabledMessage"), UiLogColor.Error, showTime: false);
@@ -585,7 +585,7 @@ namespace MaaWpfGui.Main
 
                         fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString, method));
                         var fastestScreencapString = fastestScreencapStringBuilder.ToString();
-                        SettingsViewModel.ConnectSettingsDataContext.ScreencapTestCost = fastestScreencapString;
+                        SettingsViewModel.ConnectSettings.ScreencapTestCost = fastestScreencapString;
                         Instances.TaskQueueViewModel.AddLog(fastestScreencapString, color);
                         Instances.CopilotViewModel.AddLog(fastestScreencapString, color, showTime: false);
 
@@ -814,10 +814,10 @@ namespace MaaWpfGui.Main
 
                     if (_latestTaskId.ContainsKey(TaskType.Copilot))
                     {
-                        if (Instances.SettingsViewModel.CopilotWithScript)
+                        if (SettingsViewModel.ConnectSettings.CopilotWithScript)
                         {
-                            Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript", showLog: false));
-                            if (!string.IsNullOrWhiteSpace(Instances.SettingsViewModel.EndsWithScript))
+                            Task.Run(() => SettingsViewModel.ConnectSettings.RunScript("EndsWithScript", showLog: false));
+                            if (!string.IsNullOrWhiteSpace(SettingsViewModel.ConnectSettings.EndsWithScript))
                             {
                                 Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("EndsWithScript"));
                             }
@@ -1174,7 +1174,7 @@ namespace MaaWpfGui.Main
                                 break;
 
                             case "OfflineConfirm":
-                                if (Instances.SettingsViewModel.AutoRestartOnDrop)
+                                if (SettingsViewModel.ConnectSettings.AutoRestartOnDrop)
                                 {
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("GameDrop"), UiLogColor.Warning);
                                 }
@@ -1798,17 +1798,17 @@ namespace MaaWpfGui.Main
         /// <returns>是否成功。</returns>
         public bool AsstConnect(ref string error)
         {
-            switch (SettingsViewModel.ConnectSettingsDataContext.ConnectConfig)
+            switch (SettingsViewModel.ConnectSettings.ConnectConfig)
             {
                 case "MuMuEmulator12":
-                    AsstSetConnectionExtrasMuMu12(SettingsViewModel.ConnectSettingsDataContext.MuMuEmulator12Extras.Config);
+                    AsstSetConnectionExtrasMuMu12(SettingsViewModel.ConnectSettings.MuMuEmulator12Extras.Config);
                     break;
                 case "LDPlayer":
-                    AsstSetConnectionExtrasLdPlayer(SettingsViewModel.ConnectSettingsDataContext.LdPlayerExtras.Config);
+                    AsstSetConnectionExtrasLdPlayer(SettingsViewModel.ConnectSettings.LdPlayerExtras.Config);
                     break;
             }
 
-            if (SettingsViewModel.ConnectSettingsDataContext.AutoDetectConnection)
+            if (SettingsViewModel.ConnectSettings.AutoDetectConnection)
             {
                 if (!AutoDetectConnection(ref error))
                 {
@@ -1816,8 +1816,8 @@ namespace MaaWpfGui.Main
                 }
             }
 
-            if (Connected && _connectedAdb == SettingsViewModel.ConnectSettingsDataContext.AdbPath &&
-                _connectedAddress == SettingsViewModel.ConnectSettingsDataContext.ConnectAddress)
+            if (Connected && _connectedAdb == SettingsViewModel.ConnectSettings.AdbPath &&
+                _connectedAddress == SettingsViewModel.ConnectSettings.ConnectAddress)
             {
                 _logger.Information($"Already connected to {_connectedAdb} {_connectedAddress}");
                 if (!_forcedReloadResource)
@@ -1837,23 +1837,23 @@ namespace MaaWpfGui.Main
                 return true;
             }
 
-            bool ret = AsstConnect(_handle, SettingsViewModel.ConnectSettingsDataContext.AdbPath, SettingsViewModel.ConnectSettingsDataContext.ConnectAddress, SettingsViewModel.ConnectSettingsDataContext.ConnectConfig);
+            bool ret = AsstConnect(_handle, SettingsViewModel.ConnectSettings.AdbPath, SettingsViewModel.ConnectSettings.ConnectAddress, SettingsViewModel.ConnectSettings.ConnectConfig);
 
             // 尝试默认的备选端口
-            if (!ret && SettingsViewModel.ConnectSettingsDataContext.AutoDetectConnection)
+            if (!ret && SettingsViewModel.ConnectSettings.AutoDetectConnection)
             {
-                if (SettingsViewModel.ConnectSettingsDataContext.DefaultAddress.TryGetValue(SettingsViewModel.ConnectSettingsDataContext.ConnectConfig, out var value))
+                if (SettingsViewModel.ConnectSettings.DefaultAddress.TryGetValue(SettingsViewModel.ConnectSettings.ConnectConfig, out var value))
                 {
                     foreach (var address in value
                                  .TakeWhile(_ => !_runningState.GetIdle()))
                     {
-                        ret = AsstConnect(_handle, SettingsViewModel.ConnectSettingsDataContext.AdbPath, address, SettingsViewModel.ConnectSettingsDataContext.ConnectConfig);
+                        ret = AsstConnect(_handle, SettingsViewModel.ConnectSettings.AdbPath, address, SettingsViewModel.ConnectSettings.ConnectConfig);
                         if (!ret)
                         {
                             continue;
                         }
 
-                        SettingsViewModel.ConnectSettingsDataContext.ConnectAddress = address;
+                        SettingsViewModel.ConnectSettings.ConnectAddress = address;
                         break;
                     }
                 }
@@ -1871,9 +1871,9 @@ namespace MaaWpfGui.Main
             {
                 error = LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("CheckSettings");
             }
-            else if (SettingsViewModel.ConnectSettingsDataContext.AutoDetectConnection && !SettingsViewModel.ConnectSettingsDataContext.AlwaysAutoDetectConnection)
+            else if (SettingsViewModel.ConnectSettings.AutoDetectConnection && !SettingsViewModel.ConnectSettings.AlwaysAutoDetectConnection)
             {
-                SettingsViewModel.ConnectSettingsDataContext.AutoDetectConnection = false;
+                SettingsViewModel.ConnectSettings.AutoDetectConnection = false;
             }
 
             return ret;
@@ -1891,11 +1891,11 @@ namespace MaaWpfGui.Main
                               IfPortEstablished(Instances.SettingsViewModel.ConnectAddress));
             */
 
-            var adbPath = SettingsViewModel.ConnectSettingsDataContext.AdbPath;
+            var adbPath = SettingsViewModel.ConnectSettings.AdbPath;
             bool adbResult = !string.IsNullOrEmpty(adbPath) &&
                              File.Exists(adbPath) &&
                              Path.GetFileName(adbPath).Contains("adb", StringComparison.InvariantCultureIgnoreCase) &&
-                             IfPortEstablished(SettingsViewModel.ConnectSettingsDataContext.ConnectAddress);
+                             IfPortEstablished(SettingsViewModel.ConnectSettings.ConnectAddress);
 
             if (adbResult)
             {
@@ -1905,22 +1905,22 @@ namespace MaaWpfGui.Main
 
             // 蓝叠的特殊处理
             {
-                string bsHvAddress = SettingsViewModel.ConnectSettingsDataContext.TryToSetBlueStacksHyperVAddress() ?? string.Empty;
+                string bsHvAddress = SettingsViewModel.ConnectSettings.TryToSetBlueStacksHyperVAddress() ?? string.Empty;
                 bool bsResult = IfPortEstablished(bsHvAddress);
                 if (bsResult)
                 {
                     error = string.Empty;
-                    if (string.IsNullOrEmpty(SettingsViewModel.ConnectSettingsDataContext.AdbPath) && SettingsViewModel.ConnectSettingsDataContext.DetectAdbConfig(ref error))
+                    if (string.IsNullOrEmpty(SettingsViewModel.ConnectSettings.AdbPath) && SettingsViewModel.ConnectSettings.DetectAdbConfig(ref error))
                     {
                         return string.IsNullOrEmpty(error);
                     }
 
-                    SettingsViewModel.ConnectSettingsDataContext.ConnectAddress = bsHvAddress;
+                    SettingsViewModel.ConnectSettings.ConnectAddress = bsHvAddress;
                     return true;
                 }
             }
 
-            if (SettingsViewModel.ConnectSettingsDataContext.DetectAdbConfig(ref error))
+            if (SettingsViewModel.ConnectSettings.DetectAdbConfig(ref error))
             {
                 // https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8547
                 // DetectAdbConfig 会把 ConnectAddress 变成第一个不是 emulator 开头的地址，可能会存在多开问题
