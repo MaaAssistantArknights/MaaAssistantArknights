@@ -1060,7 +1060,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToStartEmulator"));
 
-                await Task.Run(() => Instances.SettingsViewModel.TryToStartEmulator());
+                await Task.Run(() => SettingsViewModel.StartSettings.TryToStartEmulator());
 
                 if (Stopping)
                 {
@@ -1075,7 +1075,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (!connected)
             {
                 AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToReconnectByAdb"));
-                await Task.Run(() => Instances.SettingsViewModel.ReconnectByAdb());
+                await Task.Run(() => SettingsViewModel.StartSettings.ReconnectByAdb());
 
                 if (Stopping)
                 {
@@ -1092,7 +1092,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("RestartAdb"));
 
-                await Task.Run(() => Instances.SettingsViewModel.RestartAdb());
+                await Task.Run(() => SettingsViewModel.StartSettings.RestartAdb());
 
                 if (Stopping)
                 {
@@ -1108,7 +1108,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("HardRestartAdb"));
 
-                await Task.Run(() => Instances.SettingsViewModel.HardRestartAdb());
+                await Task.Run(() => SettingsViewModel.StartSettings.HardRestartAdb());
 
                 if (Stopping)
                 {
