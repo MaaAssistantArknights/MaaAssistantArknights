@@ -34,7 +34,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
 
-namespace MaaWpfGui.ViewModels.UserControl;
+namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
 /// <summary>
 /// 软件更新设置
@@ -112,7 +112,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     {
         const string OfficialClientType = "Official";
         const string BilibiliClientType = "Bilibili";
-        string jsonPath = "resource/version.json";
+        var jsonPath = "resource/version.json";
         if (clientType is not ("" or OfficialClientType or BilibiliClientType))
         {
             jsonPath = $"resource/global/{clientType}/resource/version.json";
@@ -133,15 +133,15 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             ? DateTime.MinValue
             : DateTime.ParseExact(lastUpdated, "yyyy-MM-dd HH:mm:ss.fff", null);
 
-        if ((currentTime < poolTime) && (currentTime < activityTime))
+        if (currentTime < poolTime && currentTime < activityTime)
         {
             versionName = string.Empty;
         }
-        else if ((currentTime >= poolTime) && (currentTime < activityTime))
+        else if (currentTime >= poolTime && currentTime < activityTime)
         {
             versionName = versionJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
         }
-        else if ((currentTime < poolTime) && (currentTime >= activityTime))
+        else if (currentTime < poolTime && currentTime >= activityTime)
         {
             versionName = versionJson?["activity"]?["name"]?.ToString() ?? string.Empty;
         }
@@ -334,7 +334,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     {
         var ret = await Instances.VersionUpdateViewModel.CheckAndDownloadUpdate();
 
-        string toastMessage = string.Empty;
+        var toastMessage = string.Empty;
         switch (ret)
         {
             case VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdate:

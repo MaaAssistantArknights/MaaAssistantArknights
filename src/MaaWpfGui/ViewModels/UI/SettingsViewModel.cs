@@ -37,19 +37,16 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services.HotKeys;
-using MaaWpfGui.Services.Notification;
 using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
-using MaaWpfGui.ViewModels.UserControl;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
-using static MaaWpfGui.ViewModels.UserControl.VersionUpdateSettingsUserControlModel;
 using ComboBox = System.Windows.Controls.ComboBox;
 using DarkModeType = MaaWpfGui.Configuration.GUI.DarkModeType;
 using Timer = System.Timers.Timer;
@@ -262,9 +259,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void InitVersionUpdate()
         {
-            if (VersionUpdateDataContext.VersionType == UpdateVersionType.Nightly && !VersionUpdateDataContext.AllowNightlyUpdates)
+            if (VersionUpdateDataContext.VersionType == VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly && !VersionUpdateDataContext.AllowNightlyUpdates)
             {
-                VersionUpdateDataContext.VersionType = UpdateVersionType.Beta;
+                VersionUpdateDataContext.VersionType = VersionUpdateSettingsUserControlModel.UpdateVersionType.Beta;
             }
         }
 
@@ -1125,7 +1122,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _clientType, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ClientType, value);
-                VersionUpdateDataContext.ResourceInfo = GetResourceVersionByClientType(_clientType);
+                VersionUpdateDataContext.ResourceInfo = VersionUpdateSettingsUserControlModel.GetResourceVersionByClientType(_clientType);
                 VersionUpdateDataContext.ResourceVersion = VersionUpdateDataContext.ResourceInfo.VersionName;
                 VersionUpdateDataContext.ResourceDateTime = VersionUpdateDataContext.ResourceInfo.DateTime;
                 UpdateWindowTitle(); // 每次修改客户端时更新WindowTitle
@@ -4159,7 +4156,7 @@ namespace MaaWpfGui.ViewModels.UI
                     _ => $" - {VersionUpdateDataContext.ResourceDateTime.ToString(LocalizationHelper.CustomCultureInfo.DateTimeFormat.ShortDatePattern.Replace("yyyy", string.Empty).Trim('/', '.'))} {VersionUpdateDataContext.ResourceVersion}",
                 }
                 : string.Empty;
-            rvm.WindowTitle = $"{prefix}MAA{currentConfiguration} - {CoreVersion}{resourceVersion}{connectConfigName}{connectAddress}{clientName}";
+            rvm.WindowTitle = $"{prefix}MAA{currentConfiguration} - {VersionUpdateSettingsUserControlModel.CoreVersion}{resourceVersion}{connectConfigName}{connectAddress}{clientName}";
         }
     }
 }

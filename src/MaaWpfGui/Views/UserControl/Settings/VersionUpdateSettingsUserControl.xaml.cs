@@ -20,10 +20,10 @@ using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UI;
-using MaaWpfGui.ViewModels.UserControl;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using Serilog;
 
-namespace MaaWpfGui.Views.UserControl
+namespace MaaWpfGui.Views.UserControl.Settings
 {
     /// <summary>
     /// VersionUpdateSettingsUserControl.xaml 的交互逻辑
@@ -80,7 +80,7 @@ namespace MaaWpfGui.Views.UserControl
 
             try
             {
-                Thread clipboardThread = new Thread(() =>
+                var clipboardThread = new Thread(() =>
                 {
                     try
                     {
