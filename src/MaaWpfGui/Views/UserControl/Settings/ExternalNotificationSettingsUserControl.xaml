@@ -51,7 +51,8 @@
                 Style="{StaticResource CheckComboBoxExtend}" />
             <Button
                 Margin="5"
-                Command="{s:Action ExternalNotificationSendTest}"
+                Command="{s:Action ExternalNotificationSendTest,
+                                   Target={x:Type viewModels:ExternalNotificationSettingsUserControlModel}}"
                 Content="{DynamicResource ExternalNotificationSendTest}"
                 IsEnabled="{c:Binding 'EnabledExternalNotificationProviderCount > 0'}" />
         </StackPanel>
