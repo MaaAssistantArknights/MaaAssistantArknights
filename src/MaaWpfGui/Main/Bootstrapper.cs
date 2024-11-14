@@ -291,7 +291,7 @@ namespace MaaWpfGui.Main
         public static void Release()
         {
             ETagCache.Save();
-            Instances.SettingsViewModel.Sober();
+            SettingsViewModel.GuiSettings.Sober();
             Instances.MaaHotKeyManager.Release();
 
             // 关闭程序时清理操作中心中的通知

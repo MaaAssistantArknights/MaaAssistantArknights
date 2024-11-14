@@ -824,7 +824,7 @@ namespace MaaWpfGui.Main
                         }
                     }
 
-                    bool buyWine = _latestTaskId.ContainsKey(TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
+                    bool buyWine = _latestTaskId.ContainsKey(TaskType.Mall) && SettingsViewModel.GuiSettings.DidYouBuyWine();
                     _latestTaskId.Clear();
 
                     Instances.TaskQueueViewModel.ResetFightVariables();
@@ -896,7 +896,7 @@ namespace MaaWpfGui.Main
 
                     if (buyWine)
                     {
-                        Instances.SettingsViewModel.LastBuyWineTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                        SettingsViewModel.GuiSettings.LastBuyWineTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
                         var result = MessageBoxHelper.Show(
                             LocalizationHelper.GetString("DrunkAndStaggering"),
                             LocalizationHelper.GetString("Burping"),
@@ -904,7 +904,7 @@ namespace MaaWpfGui.Main
                             iconBrushKey: "PallasBrush");
                         if (result == MessageBoxResult.OK)
                         {
-                            Instances.SettingsViewModel.Cheers = true;
+                            SettingsViewModel.GuiSettings.Cheers = true;
                             Bootstrapper.ShutdownAndRestartWithoutArgs();
                         }
                     }
