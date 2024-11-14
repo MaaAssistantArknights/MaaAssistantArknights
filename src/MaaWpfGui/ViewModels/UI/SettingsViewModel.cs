@@ -385,20 +385,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region Remote Control
 
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
-        public async void RemoteControlConnectionTest()
-        {
-            await RemoteControlService.ConnectionTest();
-        }
-
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
-        public void RemoteControlRegenerateDeviceIdentity()
-        {
-            RemoteControlService.RegenerateDeviceIdentity();
-        }
-
         private string _remoteControlGetTaskEndpointUri = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, string.Empty);
 
         public string RemoteControlGetTaskEndpointUri

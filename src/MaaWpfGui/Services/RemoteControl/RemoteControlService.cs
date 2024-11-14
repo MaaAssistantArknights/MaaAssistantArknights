@@ -14,15 +14,12 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Media.Imaging;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
@@ -43,9 +40,9 @@ namespace MaaWpfGui.Services.RemoteControl
     public class RemoteControlService
     {
         private Task _pollJobTask = Task.CompletedTask;
-        private readonly List<string> _enqueueTaskIds = new List<string>();
-        private readonly ConcurrentQueue<JObject> _sequentialTaskQueue = new ConcurrentQueue<JObject>();
-        private readonly ConcurrentQueue<JObject> _instantTaskQueue = new ConcurrentQueue<JObject>();
+        private readonly List<string> _enqueueTaskIds = [];
+        private readonly ConcurrentQueue<JObject> _sequentialTaskQueue = new();
+        private readonly ConcurrentQueue<JObject> _instantTaskQueue = new();
         private Task _executeSequentialJobTask = Task.CompletedTask;
         private Task _executeInstantJobTask = Task.CompletedTask;
         private readonly RunningState _runningState;
