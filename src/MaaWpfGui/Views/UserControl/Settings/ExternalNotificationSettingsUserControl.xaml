@@ -1,5 +1,5 @@
 <UserControl
-    x:Class="MaaWpfGui.Views.UserControl.ExternalNotificationSettingsUserControl"
+    x:Class="MaaWpfGui.Views.UserControl.Settings.ExternalNotificationSettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
@@ -9,7 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type viewModels:ExternalNotificationSettingsUserControlModel}}"
     s:View.ActionTarget="{Binding}"

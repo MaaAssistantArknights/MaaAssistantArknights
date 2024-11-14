@@ -20,7 +20,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Services.Notification;
 using Stylet;
 
-namespace MaaWpfGui.ViewModels.UserControl;
+namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
 /// <summary>
 /// 外部通知
