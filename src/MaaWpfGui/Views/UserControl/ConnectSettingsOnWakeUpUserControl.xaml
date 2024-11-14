@@ -37,7 +37,7 @@
                 Content="{DynamicResource AccountSwitchManualRun}" />
         </Grid>
 
-        <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding ConnectSettingsDataContext}">
+        <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding ConnectSettings}">
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource AutoDetectConnection}"
