@@ -99,6 +99,7 @@
     <system:String x:Key="DefaultInfrast">Default Base infrastructure</system:String>
     <system:String x:Key="UserDefined">User defined</system:String>
     <system:String x:Key="153Time3">153 3 times a day</system:String>
+    <system:String x:Key="153Time4">153 4 times a day</system:String>
     <system:String x:Key="243Time3">243 3 times a day</system:String>
     <system:String x:Key="243Time4">243 4 times a day</system:String>
     <system:String x:Key="333Time3">333 3 times a day</system:String>
@@ -275,7 +276,6 @@ You can cancel this popup by clicking the Settings - About Us - Issue Reporting 
     <system:String x:Key="AutoRestartOption">Restart when game disconnects</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">The adaptation for Overseas clients is very difficult and we need your help! No programming knowledge is required.</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
-    <system:String x:Key="MinimizingStartup">Minimizing the startup Emulator</system:String>
     <system:String x:Key="WaitForEmulator">Delay time (s)</system:String>
     <system:String x:Key="WaitForEmulatorFinish">End of wait</system:String>
     <system:String x:Key="EmulatorPath">Emulator exec path</system:String>
@@ -729,6 +729,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="GiveUpUploadingPenguins">Abort upload to Penguin Statistics</system:String>
     <system:String x:Key="TheEx">No bonus stage, stopped</system:String>
     <system:String x:Key="MissingOperators">Operators of the following operator groups are missing:</system:String>
+    <system:String x:Key="RecruitSuppportOperator">Add support unit: {0}</system:String>
     <system:String x:Key="StageQueue">Stage Queue:</system:String>
     <system:String x:Key="UnableToAgent">Unable to use PRTS</system:String>
     <system:String x:Key="MissionStart">Mission started</system:String>
@@ -793,8 +794,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="DefaultNoExtraTags">Additional Tags are not selected by default</system:String>
     <system:String x:Key="SelectExtraTags">If higher ★ tags appear, always select 3 tags</system:String>
     <system:String x:Key="SelectExtraOnlyRareTags">Pick as many high-star Tags as possible</system:String>
-    <system:String x:Key="AutoRecruitHighPriority">Preference for 3★ Tags (split by semicolon)</system:String>
-    <system:String x:Key="AutoRecruitHighPriorityTooltip">Substring is sufficient, will select as many Tag preferences as possible</system:String>
+    <system:String x:Key="AutoRecruitHighPriority">Preference for 3★ Tags</system:String>
+    <system:String x:Key="AutoRecruitHighPriorityTooltip">Will select as many Tag preferences as possible</system:String>
     <system:String x:Key="NotEnoughStaff">Insufficient operators</system:String>
     <system:String x:Key="StageInfoError">Stage recognition error</system:String>
     <system:String x:Key="UseFormation">Use formation</system:String>

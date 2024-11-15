@@ -559,7 +559,7 @@
             ["Reserve Operator *-* *D[efender]*", "预备干员-重装"],
             ["R-31a Heavy Power Armor", "R-31a重型动力装甲"],
             ["Astgenne", "星源"],
-            ["L *ith *t* *nrey *thne", "承曦格雷伊"],
+            ["L? *ight *t* *n?[ifGg]?re?v?y *th?n?er?", "承曦格雷伊"],
             ["Greyy the Lightningbe[arer]*", "承曦格雷伊"],
             ["Dorothy", "多萝西"],
             ["Resonator", "共振装置"],
@@ -858,7 +858,15 @@
             ["Torrent Beam Activator", "洪流束激发器"],
             ["Charles Lynch", "查尔斯·林奇"],
             ["Core Amplifier", "核心增幅器"],
-            ["Light of Glory", "振奋荣光"]
+            ["Light of Glory", "振奋荣光"],
+            ["Positional Barrier", "阵地屏障"],
+            ["Football", "足球"],
+            ["Icebreaker Games Control", "促融共竞控制"],
+            ["Foldable Bastion", "折叠式堡垒模块"],
+            ["Foldable Auxiliary Apparatus", "折叠式辅助器械"],
+            ["Foldable Facility Maintainer", "折叠设施维护员"],
+            ["Foldable Maintenance Vehicle", "折叠式维护车"],
+            ["Foldable Logistics Hub", "折叠式后勤站"]
         ]
     },
     "StartToWakeUpOCR": {
@@ -1268,7 +1276,7 @@
     },
     "BattleQuickFormationOCR": {
         "roi": [0, 231, 116, 22],
-        "specialParams": [160, 2, 7, 0]
+        "specialParams": [105, 2, 7, 0]
     },
     "BattleStartPre": {
         "text": ["Start", "Start Challenge"]

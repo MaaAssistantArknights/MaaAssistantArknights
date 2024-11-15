@@ -15,11 +15,11 @@ std_height: int = 720
 std_ratio = std_width / std_height
 
 task_paths = {
-    "CN": Path("../../resource/tasks.json"),
-    "twxy": Path("../../resource/global/txwy/resource/tasks.json"),
-    "YoStarEN": Path("../../resource/global/YoStarEN/resource/tasks.json"),
-    "YoStarJP": Path("../../resource/global/YoStarJP/resource/tasks.json"),
-    "YoStarKR": Path("../../resource/global/YoStarKR/resource/tasks.json"),
+    "CN": Path(__file__).parent.parent.parent / "resource" / "tasks.json",
+    "twxy": Path(__file__).parent.parent.parent / "resource" / "global" / "txwy" / "resource" / "tasks.json",
+    "YoStarEN": Path(__file__).parent.parent.parent / "resource" / "global" / "YoStarEN" / "resource" / "tasks.json",
+    "YoStarJP": Path(__file__).parent.parent.parent / "resource" / "global" / "YoStarJP" / "resource" / "tasks.json",
+    "YoStarKR": Path(__file__).parent.parent.parent / "resource" / "global" / "YoStarKR" / "resource" / "tasks.json"
 }
 
 # Change this to your client
@@ -42,8 +42,8 @@ task_list = [
     "Mall",           # Mall.png
 ]
 
-src_path = Path("./src")
-dst_path = Path("./dst")
+src_path = Path(__file__).parent / "src"
+dst_path = Path(__file__).parent / "dst"
 
 
 if __name__ == "__main__":

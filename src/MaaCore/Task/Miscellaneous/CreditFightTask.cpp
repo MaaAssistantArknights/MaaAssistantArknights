@@ -23,7 +23,7 @@ asst::CreditFightTask::CreditFightTask(const AsstCallback& callback, Assistant* 
     json::value copilot_params = json::object {
         { "filename", utils::path_to_utf8_string(ResDir.get() / "copilot" / "OF-1_credit_fight.json") },
         { "formation", true },
-        { "support_unit_name", "_RANDOM_" },
+        { "support_unit_usage", 3 },
     };
     m_copilot_task_ptr->set_params(copilot_params);
 
@@ -48,7 +48,7 @@ void asst::CreditFightTask::set_select_formation(int index)
     json::value copilot_params = json::object {
         { "filename", utils::path_to_utf8_string(ResDir.get() / "copilot" / "OF-1_credit_fight.json") },
         { "formation", true },
-        { "support_unit_name", "_RANDOM_" },
+        { "support_unit_usage", 3 },
         { "select_formation", index },
     };
     m_copilot_task_ptr->set_params(copilot_params);

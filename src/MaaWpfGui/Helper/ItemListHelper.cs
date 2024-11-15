@@ -28,14 +28,6 @@ namespace MaaWpfGui.Helper
 
         private static readonly ILogger _logger = Log.ForContext("SourceContext", "ItemListHelper");
 
-        private static readonly Dictionary<string, string> _clientDirectoryMapper = new Dictionary<string, string>
-        {
-            { "zh-tw", "txwy" },
-            { "en-us", "YoStarEN" },
-            { "ja-jp", "YoStarJP" },
-            { "ko-kr", "YoStarKR" },
-        };
-
         static ItemListHelper()
         {
             var language = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
@@ -50,7 +42,7 @@ namespace MaaWpfGui.Helper
                     break;
 
                 default:
-                    filename = Path.Combine(Directory.GetCurrentDirectory(), "resource", "global", _clientDirectoryMapper[language], "resource", "item_index.json");
+                    filename = Path.Combine(Directory.GetCurrentDirectory(), "resource", "global", DataHelper.ClientDirectoryMapper[language], "resource", "item_index.json");
                     break;
             }
 

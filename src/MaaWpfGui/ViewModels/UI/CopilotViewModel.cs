@@ -44,17 +44,17 @@ namespace MaaWpfGui.ViewModels.UI
     {
         private readonly RunningState _runningState;
         private static readonly ILogger _logger = Log.ForContext<CopilotViewModel>();
-        private readonly List<int> _copilotIdList = new(); // 用于保存作业列表中的作业的Id，对于同一个作业，只有都执行成功才点赞
+        private readonly List<int> _copilotIdList = []; // 用于保存作业列表中的作业的Id，对于同一个作业，只有都执行成功才点赞
 
         /// <summary>
         /// Gets the view models of log items.
         /// </summary>
-        public ObservableCollection<LogItemViewModel> LogItemViewModels { get; } = new();
+        public ObservableCollection<LogItemViewModel> LogItemViewModels { get; } = [];
 
         /// <summary>
         /// Gets or private sets the view models of Copilot items.
         /// </summary>
-        public ObservableCollection<CopilotItemViewModel> CopilotItemViewModels { get; } = new();
+        public ObservableCollection<CopilotItemViewModel> CopilotItemViewModels { get; } = [];
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CopilotViewModel"/> class.
@@ -1024,10 +1024,10 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (Instances.SettingsViewModel.CopilotWithScript)
+            if (SettingsViewModel.ConnectSettings.CopilotWithScript)
             {
-                await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript", showLog: false));
-                if (!string.IsNullOrWhiteSpace(Instances.SettingsViewModel.StartsWithScript))
+                await Task.Run(() => SettingsViewModel.ConnectSettings.RunScript("StartsWithScript", showLog: false));
+                if (!string.IsNullOrWhiteSpace(SettingsViewModel.ConnectSettings.StartsWithScript))
                 {
                     AddLog(LocalizationHelper.GetString("StartsWithScript"));
                 }
@@ -1081,7 +1081,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
-                ret &= Instances.AsstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, AddTrust, AddUserAdditional, userAdditional, UseCopilotList, string.Empty, false, _taskType, Loop ? LoopTimes : 1, _useSanityPotion);
+                ret &= Instances.AsstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, AddTrust, AddUserAdditional, userAdditional, UseCopilotList, string.Empty, false, _taskType, Loop ? LoopTimes : 1, false);
             }
 
             if (ret)
@@ -1112,10 +1112,10 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void Stop()
         {
-            if (Instances.SettingsViewModel.CopilotWithScript && Instances.SettingsViewModel.ManualStopWithScript)
+            if (SettingsViewModel.ConnectSettings.CopilotWithScript && SettingsViewModel.ConnectSettings.ManualStopWithScript)
             {
-                Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript", showLog: false));
-                if (!string.IsNullOrWhiteSpace(Instances.SettingsViewModel.EndsWithScript))
+                Task.Run(() => SettingsViewModel.ConnectSettings.RunScript("EndsWithScript", showLog: false));
+                if (!string.IsNullOrWhiteSpace(SettingsViewModel.ConnectSettings.EndsWithScript))
                 {
                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("EndsWithScript"));
                 }

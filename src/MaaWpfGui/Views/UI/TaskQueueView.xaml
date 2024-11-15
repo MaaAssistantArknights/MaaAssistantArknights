@@ -52,7 +52,6 @@
                         dd:DragDrop.IsDragSource="{Binding Idle}"
                         dd:DragDrop.IsDropTarget="{Binding Idle}"
                         BorderThickness="0"
-                        DragDrop.Drop="{s:Action TaskItemSelectionChanged}"
                         ItemContainerStyle="{StaticResource CustomListBoxItemStyle}"
                         ItemsSource="{Binding TaskItemViewModels}"
                         ToolTip="{DynamicResource LabelSequenceTip}">

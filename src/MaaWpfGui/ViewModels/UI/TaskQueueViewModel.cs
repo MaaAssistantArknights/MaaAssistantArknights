@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -32,6 +33,7 @@ using MaaWpfGui.Services;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -71,10 +73,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 实时更新任务顺序
         /// </summary>
-        // UI 绑定的方法
-        // ReSharper disable once MemberCanBePrivate.Global
-        public void TaskItemSelectionChanged()
+        /// <param name="sender">ignored object</param>
+        /// <param name="e">ignored NotifyCollectionChangedEventArgs</param>
+        public void TaskItemSelectionChanged(object sender = null, NotifyCollectionChangedEventArgs e = null)
         {
+            _ = (sender, e);
             Execute.OnUIThread(() =>
             {
                 int index = 0;
@@ -113,7 +116,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public async void CheckAfterCompleted()
         {
-            await Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript"));
+            await Task.Run(() => SettingsViewModel.ConnectSettings.RunScript("EndsWithScript"));
             var actions = TaskSettingDataContext.PostActionSetting;
             _logger.Information("Post actions: " + actions.ActionDescription);
 
@@ -407,7 +410,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (!Instances.SettingsViewModel.UpdateAutoCheck)
+            if (!SettingsViewModel.VersionUpdateDataContext.UpdateAutoCheck)
             {
                 return;
             }
@@ -417,7 +420,7 @@ namespace MaaWpfGui.ViewModels.UI
             _ = Task.Run(async () =>
             {
                 await Task.Delay(delayTime);
-                await Instances.SettingsViewModel.ManualUpdate();
+                await SettingsViewModel.VersionUpdateDataContext.ManualUpdate();
                 _isCheckingForUpdates = false;
             });
         }
@@ -530,6 +533,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     _logger.Information("Not idle, Stop and CloseDown");
                     await Stop();
+                    SetStopped();
                 }
 
                 var mode = Instances.SettingsViewModel.ClientType;
@@ -641,6 +645,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(tempOrderList);
+            TaskItemViewModels.CollectionChanged += TaskItemSelectionChanged;
 
             InitDrops();
             NeedToUpdateDatePrompt();
@@ -1051,11 +1056,11 @@ namespace MaaWpfGui.ViewModels.UI
             bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
 
             // 尝试启动模拟器
-            if (!connected && Instances.SettingsViewModel.RetryOnDisconnected)
+            if (!connected && SettingsViewModel.ConnectSettings.RetryOnDisconnected)
             {
                 AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToStartEmulator"));
 
-                await Task.Run(() => Instances.SettingsViewModel.TryToStartEmulator(true));
+                await Task.Run(() => Instances.SettingsViewModel.TryToStartEmulator());
 
                 if (Stopping)
                 {
@@ -1083,7 +1088,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             // 尝试重启 ADB
-            if (!connected && Instances.SettingsViewModel.AllowAdbRestart)
+            if (!connected && SettingsViewModel.ConnectSettings.AllowAdbRestart)
             {
                 AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("RestartAdb"));
 
@@ -1099,7 +1104,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             // 尝试杀掉 ADB 进程
-            if (!connected && Instances.SettingsViewModel.AllowAdbHardRestart)
+            if (!connected && SettingsViewModel.ConnectSettings.AllowAdbHardRestart)
             {
                 AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("HardRestartAdb"));
 
@@ -1138,7 +1143,7 @@ namespace MaaWpfGui.ViewModels.UI
             var rvm = (RootViewModel)this.Parent;
             if (MainTasksSelectedCount == 0)
             {
-                rvm.Progress = 0;
+                rvm.TaskProgress = null;
                 return;
             }
 
@@ -1146,12 +1151,11 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (MainTasksCompletedCount >= MainTasksSelectedCount)
             {
-                rvm.Progress = 0;
+                rvm.TaskProgress = null;
             }
             else
             {
-                var progress = MainTasksCompletedCount / (double)MainTasksSelectedCount;
-                rvm.Progress = progress;
+                rvm.TaskProgress = (MainTasksCompletedCount, MainTasksSelectedCount);
             }
         }
 
@@ -1168,12 +1172,12 @@ namespace MaaWpfGui.ViewModels.UI
 
             ClearLog();
 
-            var buildDateTimeLong = SettingsViewModel.BuildDateTimeCurrentCultureString;
-            var resourceDateTimeLong = Instances.SettingsViewModel.ResourceDateTimeCurrentCultureString;
+            var buildDateTimeLong = VersionUpdateSettingsUserControlModel.BuildDateTimeCurrentCultureString;
+            var resourceDateTimeLong = SettingsViewModel.VersionUpdateDataContext.ResourceDateTimeCurrentCultureString;
             AddLog($"Build Time:\n{buildDateTimeLong}\nResource Time:\n{resourceDateTimeLong}");
 
-            var uiVersion = SettingsViewModel.UiVersion;
-            var coreVersion = SettingsViewModel.CoreVersion;
+            var uiVersion = VersionUpdateSettingsUserControlModel.UiVersion;
+            var coreVersion = VersionUpdateSettingsUserControlModel.CoreVersion;
             if (uiVersion != coreVersion &&
                 Instances.VersionUpdateViewModel.IsStdVersion(uiVersion) &&
                 Instances.VersionUpdateViewModel.IsStdVersion(coreVersion))
@@ -1193,7 +1197,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             InfrastTaskRunning = true;
 
-            await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript"));
+            await Task.Run(() => SettingsViewModel.ConnectSettings.RunScript("StartsWithScript"));
 
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
@@ -1382,9 +1386,9 @@ namespace MaaWpfGui.ViewModels.UI
         public void SetStopped()
         {
             SleepManagement.AllowSleep();
-            if (Instances.SettingsViewModel.ManualStopWithScript)
+            if (SettingsViewModel.ConnectSettings.ManualStopWithScript)
             {
-                Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript"));
+                Task.Run(() => SettingsViewModel.ConnectSettings.RunScript("EndsWithScript"));
             }
 
             if (!_runningState.GetIdle() || Stopping)
@@ -1412,7 +1416,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             ClearLog();
 
-            await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript"));
+            await Task.Run(() => SettingsViewModel.ConnectSettings.RunScript("StartsWithScript"));
 
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
@@ -1697,8 +1701,7 @@ namespace MaaWpfGui.ViewModels.UI
                 maxTimes = 0;
             }
 
-            var firstList = Instances.SettingsViewModel.AutoRecruitFirstList.Split(';', '；')
-                .Select(s => s.Trim());
+            var firstList = Instances.SettingsViewModel.AutoRecruitFirstList;
 
             var reqList = new List<int>();
             var cfmList = new List<int>();
@@ -1725,7 +1728,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             return Instances.AsstProxy.AsstAppendRecruit(
                 maxTimes,
-                firstList.ToArray(),
+                firstList.Cast<CombinedData>().Select(i => i.Value).ToArray(),
                 [.. reqList],
                 [.. cfmList],
                 Instances.SettingsViewModel.RefreshLevel3,
@@ -1793,7 +1796,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             try
             {
-                string emulatorMode = Instances.SettingsViewModel.ConnectConfig;
+                string emulatorMode = SettingsViewModel.ConnectSettings.ConnectConfig;
                 Instances.AsstProxy.Connected = false;
                 return emulatorMode switch
                 {
@@ -1818,7 +1821,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>是否关闭成功</returns>
         private static bool KillEmulatorMuMuEmulator12()
         {
-            string address = Instances.SettingsViewModel.ConnectAddress;
+            string address = SettingsViewModel.ConnectSettings.ConnectAddress;
             int emuIndex;
             if (address == "127.0.0.1:16384")
             {
@@ -1892,7 +1895,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>是否关闭成功</returns>
         private static bool KillEmulatorLdPlayer()
         {
-            string address = Instances.SettingsViewModel.ConnectAddress;
+            string address = SettingsViewModel.ConnectSettings.ConnectAddress;
             int emuIndex;
             if (address.Contains(":"))
             {
@@ -1968,7 +1971,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>是否关闭成功</returns>
         private static bool KillEmulatorNox()
         {
-            string address = Instances.SettingsViewModel.ConnectAddress;
+            string address = SettingsViewModel.ConnectSettings.ConnectAddress;
             int emuIndex;
             if (address == "127.0.0.1:62001")
             {
@@ -2042,7 +2045,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>是否关闭成功</returns>
         private static bool KillEmulatorXyaz()
         {
-            string address = Instances.SettingsViewModel.ConnectAddress;
+            string address = SettingsViewModel.ConnectSettings.ConnectAddress;
             string portStr = address.Split(':')[1];
             int port = int.Parse(portStr);
             var emuIndex = (port - 21503) / 10;

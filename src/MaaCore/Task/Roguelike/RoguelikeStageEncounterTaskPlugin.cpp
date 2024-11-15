@@ -89,6 +89,11 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     callback(AsstMsg::SubTaskExtraInfo, info);
 
     const auto click_option_task_name = [&](const int item, const int total) {
+        if (item > total) {
+            Log.warn("Event:", event.name, "Total:", total, "Choice", item, "out of range, switch to choice", total);
+            return m_config->get_theme() + "@Roguelike@OptionChoose" + std::to_string(total) + "-" +
+                   std::to_string(total);
+        }
         return m_config->get_theme() + "@Roguelike@OptionChoose" + std::to_string(total) + "-" + std::to_string(item);
     };
 

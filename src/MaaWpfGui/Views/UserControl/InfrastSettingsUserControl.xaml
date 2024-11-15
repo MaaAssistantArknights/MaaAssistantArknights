@@ -28,7 +28,7 @@
                 IsChecked="{Binding DormTrustEnabled}" />
             <CheckBox
                 Margin="0,10"
-                IsChecked="{c:Binding 'DormFilterNotStationedEnabled and !(ClientType == &quot;Official&quot; or ClientType == &quot;Bilibili&quot; or ClientType == &quot;&quot;)'}"
+                IsChecked="{c:Binding DormFilterNotStationedEnabled}"
                 IsEnabled="{c:Binding '!(ClientType == &quot;Official&quot; or ClientType == &quot;Bilibili&quot; or ClientType == &quot;&quot;)'}">
                 <controls:TextBlock
                     Text="{DynamicResource DormFilterNotStationedEnabled}"
@@ -115,7 +115,6 @@
                 dd:DragDrop.IsDragSource="True"
                 dd:DragDrop.IsDropTarget="True"
                 ItemsSource="{Binding Path=InfrastItemViewModels}"
-                SelectionChanged="{s:Action InfrastOrderSelectionChanged}"
                 ToolTip="{DynamicResource LabelSequenceTip}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>

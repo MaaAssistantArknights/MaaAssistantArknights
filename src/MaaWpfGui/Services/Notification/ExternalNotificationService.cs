@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MaaWpfGui.Helper;
+using MaaWpfGui.ViewModels.UI;
 using Serilog;
 
 namespace MaaWpfGui.Services.Notification
@@ -27,7 +28,7 @@ namespace MaaWpfGui.Services.Notification
 
         private static async Task SendAsync(string title, string content, bool isTest = false)
         {
-            var enabledProviders = Instances.SettingsViewModel.EnabledExternalNotificationProviderList;
+            var enabledProviders = SettingsViewModel.ExternalNotificationDataContext.EnabledExternalNotificationProviderList;
 
             foreach (var enabledProvider in enabledProviders)
             {

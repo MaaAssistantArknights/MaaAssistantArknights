@@ -99,6 +99,7 @@
     <system:String x:Key="DefaultInfrast">標準設定</system:String>
     <system:String x:Key="UserDefined">ユーザー定義</system:String>
     <system:String x:Key="153Time3">153 3周/日</system:String>
+    <system:String x:Key="153Time4">153 4周/日</system:String>
     <system:String x:Key="243Time3">243 3周/日</system:String>
     <system:String x:Key="243Time4">243 4周/日</system:String>
     <system:String x:Key="333Time3">333 3周/日</system:String>
@@ -275,7 +276,6 @@
     <system:String x:Key="AutoRestartOption">ゲームが切断されたときに自動的に再接続する</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">グローバルサーバーの対応は非常に大変で、皆様の協力が必要です！プログラミングの知識は必要ありません。</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">起動時にエミュレータ自動起動</system:String>
-    <system:String x:Key="MinimizingStartup">エミュレーターの起動を最小化する</system:String>
     <system:String x:Key="WaitForEmulator">エミュレータを待つ時間（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">待ち時間は終わりました</system:String>
     <system:String x:Key="EmulatorPath">エミュレータパス</system:String>
@@ -732,6 +732,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="GiveUpUploadingPenguins">Penguin-Statsへのアップロードをあきらめました</system:String>
     <system:String x:Key="TheEx">ステージ報酬がないため停止します</system:String>
     <system:String x:Key="MissingOperators">次のオペレーターがオペレーターグループにありません：</system:String>
+    <system:String x:Key="RecruitSuppportOperator">サポートユニットを追加：{0}</system:String>
     <system:String x:Key="StageQueue">ステージキュー:</system:String>
     <system:String x:Key="UnableToAgent">自動指揮利用不可</system:String>
     <system:String x:Key="MissionStart">行動開始しました</system:String>
@@ -796,8 +797,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DefaultNoExtraTags">追加のタグを選択しない</system:String>
     <system:String x:Key="SelectExtraTags">常に 3 つのタグを選択する</system:String>
     <system:String x:Key="SelectExtraOnlyRareTags">可能な限りタグを選択し、かつ高い星のタグのみを選択する</system:String>
-    <system:String x:Key="AutoRecruitHighPriority">優先タグ（セミコロンで区切）</system:String>
-    <system:String x:Key="AutoRecruitHighPriorityTooltip">サブストリングで十分です、できるだけ多くのタグの傾向を選択します</system:String>
+    <system:String x:Key="AutoRecruitHighPriority">優先タグ</system:String>
+    <system:String x:Key="AutoRecruitHighPriorityTooltip">できるだけ多くのタグの傾向を選択します</system:String>
     <system:String x:Key="NotEnoughStaff">利用可能なオペレーターが不足しています</system:String>
     <system:String x:Key="StageInfoError">ステージ認識エラー</system:String>
     <system:String x:Key="UseFormation">使用編成</system:String>
