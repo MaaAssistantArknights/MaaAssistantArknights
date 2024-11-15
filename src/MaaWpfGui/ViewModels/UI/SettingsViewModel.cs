@@ -932,6 +932,24 @@ namespace MaaWpfGui.ViewModels.UI
             get => _clientType;
             set
             {
+                // 以下是一些与服务器选项相关的字段，更改 ClientType 后需要一并更改
+                // 此处检测它们是否为默认值，如为默认值则改为对应服务器的内容
+                // 全部字段暂时放在 _clientRelatedFields 中，但这个变量本身并没有用
+                if (_creditFirstList == LocalizationHelper.GetString("HighPriorityDefault", _clientLanguageMapper[_clientType]) || _creditFirstList == LocalizationHelper.GetString("HighPriorityDefault"))
+                {
+                    ConfigurationHelper.SetValue(ConfigurationKeys.CreditFirstListNew, LocalizationHelper.GetString("HighPriorityDefault", _clientLanguageMapper[value]));
+                }
+
+                if (_creditBlackList == LocalizationHelper.GetString("BlacklistDefault", _clientLanguageMapper[_clientType]) || _creditBlackList == LocalizationHelper.GetString("BlacklistDefault"))
+                {
+                    ConfigurationHelper.SetValue(ConfigurationKeys.CreditBlackListNew, LocalizationHelper.GetString("BlacklistDefault", _clientLanguageMapper[value]));
+                }
+
+                if (_reclamationToolToCraft == LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", _clientLanguageMapper[_clientType]) || _reclamationToolToCraft == LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder"))
+                {
+                    ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationToolToCraft, LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", _clientLanguageMapper[value]));
+                }
+
                 SetAndNotify(ref _clientType, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ClientType, value);
                 VersionUpdateDataContext.ResourceInfo = VersionUpdateSettingsUserControlModel.GetResourceVersionByClientType(_clientType);
@@ -2114,7 +2132,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _reclamationToolToCraft = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationToolToCraft, string.Empty);
+        private string _reclamationToolToCraft = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationToolToCraft, LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", _clientLanguageMapper[ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty)]));
 
         public string ReclamationToolToCraft
         {
@@ -2345,7 +2363,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _creditFirstList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFirstListNew, LocalizationHelper.GetString("HighPriorityDefault"));
+        private string _creditFirstList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFirstListNew, LocalizationHelper.GetString("HighPriorityDefault", _clientLanguageMapper[ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty)]));
 
         /// <summary>
         /// Gets or sets the priority item list of credit shop.
@@ -2360,7 +2378,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _creditBlackList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditBlackListNew, LocalizationHelper.GetString("BlacklistDefault"));
+        private string _creditBlackList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditBlackListNew, LocalizationHelper.GetString("BlacklistDefault", _clientLanguageMapper[ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty)]));
 
         /// <summary>
         /// Gets or sets the blacklist of credit shop.
@@ -3589,6 +3607,10 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        // 没办法使用的列表，用于提醒和 client 相关的需要修改的内容
+        // private static readonly List<string> _clientRelatedFields = new() { nameof(_reclamationToolToCraft), nameof(_creditFirstList), nameof(_creditBlackList) };
+
+        // Map of client and language
         private static readonly Dictionary<string, string> _clientLanguageMapper = new()
         {
             { string.Empty, "zh-cn" },
