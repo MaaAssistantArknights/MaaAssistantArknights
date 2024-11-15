@@ -2933,5 +2933,6 @@
     "official/Sniper@UseSupportUnit-RoleSelected": "3ea35b42b545c79d45c09cdbecb08b09b7cc09eb0deda2148dd1df7eb21a254d",
     "official/Special@UseSupportUnit-SelectRole": "1405a013345fab492480a35bf37d6e8b629fb1ae947ea4707bff092ec4bbfd73",
     "official/Sniper@UseSupportUnit-SelectRole": "9fc2d70c36bad242f18f9dd37a7fed012dc26a6c9096193d4e2791540aa18ff8",
-    "YoStarEN/Sami@Roguelike@GamePassSkip1": "bbf3242759ff15089638475ab9128e2e676492df494dfdcf3ecbe1f60ad8f5a4"
+    "YoStarEN/Sami@Roguelike@GamePassSkip1": "bbf3242759ff15089638475ab9128e2e676492df494dfdcf3ecbe1f60ad8f5a4",
+    "resource/template/items/act1vautochess_token_chess": "b3422c95d57b1f05ce70a8c733270c179ee43fa3372c961216bd7eec29614983"
 }

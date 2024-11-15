@@ -1551,6 +1551,14 @@
         "sortId": -10000,
         "usage": "用以在里程碑处兑换奖励。"
     },
+    "act1vautochess_token_chess": {
+        "classifyType": "NONE",
+        "description": "罗德岛工坊为参与卫戍协议的干员准备的勋章，带有磁性，听说集齐一定数量便可合成一个堡垒棋子。",
+        "icon": "act1vautochess_token_chess.png",
+        "name": "卫戍认证",
+        "sortId": -10000,
+        "usage": "用于在卫戍协议中兑换各类物资。"
+    },
     "act1vecb_milestone_point": {
         "classifyType": "NONE",
         "description": "罗德岛工程部制作的特殊纪念物，负责设计它的工程干员似乎是从近期风靡罗德岛的一款桌游中获得的灵感。",
