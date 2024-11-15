@@ -21,7 +21,7 @@
         "text": ["作戦へ"]
     },
     "BB-Open": {
-        "template": "StageSideStory.png",
+        "template": ["StageSideStory.png", "StageActivity.png"],
         "baseTask": "SS-Open",
         "next": ["BBChapterToBB"]
     },
