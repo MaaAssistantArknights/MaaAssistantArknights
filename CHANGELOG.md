@@ -1,14 +1,16 @@
 ## v5.10.0
 
+### Highlight
+
+本来想发个 5.9.1 解决下导航和线索问题的，但 bot 到处拉屎，冲突解决不过来了，干脆发个 5.10.0，出了问题再 .1）
+
 ### 新增 | New
 
-* Mac GUI 一键更新资源 (#11123) @hguandl
-* Mac GUI 肉鸽改进 & 一键资源更新 (#11121) @hguandl
-* 远程通知配置加密 (#11076) @ABA2396
+* Mac GUI 肉鸽改进 & 一键资源更新 (#11121)(#11123) @hguandl
+* 远程通知配置加密(重新输入后生效) (#11076) @ABA2396
 * 新增 153 4 班排班表 @ABA2396
 * 开始前/结束后 脚本用双引号包裹时支持带参数 @ABA2396
 * 自动编队允许指定助战单位 (#11075) @Alan-Charred @status102 @Daydreamer114
-* 自动编队允许指定助战单位 (#10820) @Daydreamer114 @Alan-Charred @status102
 
 ### 改进 | Improved
 
@@ -16,11 +18,8 @@
 * 优化DataContext绑定 @status102
 * WpfGui优化任务进度显示 (#11055) @status102
 * 更新 153/4 宿舍排班 @ABA2396
-* Reapply "rft: 拆分设置-软件更新 (#11085)" @status102
 * 公招三星优先tag 改为复选框 (#11097) @AlezHibali @status102
-* Revert "rft: 拆分设置-软件更新 (#11085)" @status102
 * 更新 macos.cmake 中的库版本 (#11101) @Alan-Charred @pre-commit-ci[bot]
-* 拆分设置-软件更新 (#11085) @status102
 * 优化访问好友模板匹配 @ABA2396
 * 更新 153/3 换基建配置，宿舍全指定 @ABA2396
 
@@ -45,7 +44,6 @@
 * 萨卡兹肉鸽降低 Sarkaz@Roguelike@CloseCollectionContinue 阈值 (#11090) @Daydreamer114
 * 导航进商店 @ABA2396
 * ExternalNotificationTips 未居中 (#11093) @Rbqwow @pre-commit-ci[bot]
-* 153/4 宿舍 @ABA2396
 * Greyy alter and BattleQuickFormationOCR opencv tweaks @Constrat
 * click 泊松分布超出范围 @ABA2396
 * 为 PVChapterToPV 添加 1 秒的 postDelay (#11074) @Alan-Charred
@@ -74,9 +72,5 @@
 * 拆分 设置-外部通知 (#11113) @status102
 * YostarJP phantom roguelike ocr update (#11084) @Manicsteiner
 * YostarKR fixed the reversed description for ReclamationEarlyTip (#11078) @HX3N
-* Revert "feat: 自动编队允许指定助战单位 (#10820)" @status102
-* Revert "chore: Auto Update Game Resources - 2024-11-05" @status102
-* Revert "chore: Auto Templates Optimization" @status102
 * 移除最小化启动模拟器选项 @ABA2396
 * YostarJP clue and ocr update (#11053) @Manicsteiner @pre-commit-ci[bot]
-* Auto update by pre-commit hooks [skip changelog] @pre-commit-ci[bot]
