@@ -546,7 +546,7 @@
     },
     "SS-Open": {
         "Doc": "base_task",
-        "template": "StageSideStory.png",
+        "template": ["StageSideStory.png", "StageActivity.png"],
         "template_Doc": "使用时需再次指定 template",
         "action": "ClickSelf",
         "postDelay": 2000,
@@ -590,7 +590,7 @@
     },
     "PV-Open": {
         "baseTask": "SS-Open",
-        "template": "StageSideStory.png",
+        "template": ["StageSideStory.png", "StageActivity.png"],
         "postDelay": 3000,
         "next": ["PVChapterToPV"]
     },
@@ -648,7 +648,7 @@
     },
     "GO-Open": {
         "baseTask": "SS-Open",
-        "template": "StageSideStory.png",
+        "template": ["StageSideStory.png", "StageActivity.png"],
         "next": ["GOChapterToGO"]
     },
     "GO-OpenOcr": {
