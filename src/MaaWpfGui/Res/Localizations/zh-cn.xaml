@@ -98,10 +98,11 @@
     <system:String x:Key="CustomInfrastEnabled">启用自定义基建配置（beta）</system:String>
     <system:String x:Key="DefaultInfrast">内置配置</system:String>
     <system:String x:Key="UserDefined">自定义</system:String>
-    <system:String x:Key="153Time3">153 一天3换</system:String>
-    <system:String x:Key="243Time3">243 一天3换</system:String>
-    <system:String x:Key="243Time4">243 一天4换</system:String>
-    <system:String x:Key="333Time3">333 一天3换</system:String>
+    <system:String x:Key="153Time3">153 一天 3 换</system:String>
+    <system:String x:Key="153Time4">153 一天 4 换</system:String>
+    <system:String x:Key="243Time3">243 一天 3 换</system:String>
+    <system:String x:Key="243Time4">243 一天 4 换</system:String>
+    <system:String x:Key="333Time3">333 一天 3 换</system:String>
     <system:String x:Key="CustomInfrastFile">自定义基建配置文件</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">自定义基建配置文件解析错误！</system:String>
     <system:String x:Key="CustomInfrastTitle" xml:space="preserve">自定义基建配置: </system:String>
@@ -275,7 +276,6 @@
     <system:String x:Key="AutoRestartOption">游戏掉线时自动重连</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">外服适配滞销，帮帮我们！不会编程也可以。</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">启动 MAA 后自动开启模拟器</system:String>
-    <system:String x:Key="MinimizingStartup">最小化启动模拟器</system:String>
     <system:String x:Key="WaitForEmulator">等待模拟器启动时间（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">等待结束</system:String>
     <system:String x:Key="EmulatorPath">模拟器路径</system:String>
@@ -731,6 +731,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="GiveUpUploadingPenguins">放弃上传企鹅物流</system:String>
     <system:String x:Key="TheEx">无奖励关卡，已停止</system:String>
     <system:String x:Key="MissingOperators">缺少以下干员组中的干员：</system:String>
+    <system:String x:Key="RecruitSuppportOperator">编入助战干员：{0}</system:String>
     <system:String x:Key="StageQueue">关卡队列:</system:String>
     <system:String x:Key="UnableToAgent">无法使用代理指挥</system:String>
     <system:String x:Key="MissionStart">已开始行动</system:String>
@@ -795,8 +796,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="DefaultNoExtraTags">默认不选择额外 Tag</system:String>
     <system:String x:Key="SelectExtraTags">选择高星时总是选择三个 Tag</system:String>
     <system:String x:Key="SelectExtraOnlyRareTags">尽可能多地选且只选高星 Tag</system:String>
-    <system:String x:Key="AutoRecruitHighPriority">3 星 Tag 时的 Tag 倾向，分号分隔</system:String>
-    <system:String x:Key="AutoRecruitHighPriorityTooltip">子串即可，会尽可能多的选择倾向的 Tag</system:String>
+    <system:String x:Key="AutoRecruitHighPriority">3 星 Tag 时的 Tag 倾向</system:String>
+    <system:String x:Key="AutoRecruitHighPriorityTooltip">会尽可能多的选择倾向的 Tag</system:String>
     <system:String x:Key="NotEnoughStaff">可用干员不足</system:String>
     <system:String x:Key="StageInfoError">关卡识别错误</system:String>
     <system:String x:Key="UseFormation">使用编队</system:String>

@@ -12,9 +12,9 @@
 // </copyright>
 
 using System.Windows;
-using MaaWpfGui.Helper;
+using MaaWpfGui.ViewModels.UI;
 
-namespace MaaWpfGui.Views.UserControl
+namespace MaaWpfGui.Views.UserControl.Settings
 {
     /// <summary>
     /// ConnectSettingsUserControl.xaml 的交互逻辑
@@ -37,8 +37,8 @@ namespace MaaWpfGui.Views.UserControl
             }
 
             // Note that you can have more than one file.
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            Instances.SettingsViewModel.StartsWithScript = files?[0] ?? string.Empty;
+            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            SettingsViewModel.ConnectSettings.StartsWithScript = files?[0] ?? string.Empty;
         }
 
         private void EndsWithScript_Drop(object sender, DragEventArgs e)
@@ -49,8 +49,8 @@ namespace MaaWpfGui.Views.UserControl
             }
 
             // Note that you can have more than one file.
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            Instances.SettingsViewModel.EndsWithScript = files?[0] ?? string.Empty;
+            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            SettingsViewModel.ConnectSettings.EndsWithScript = files?[0] ?? string.Empty;
         }
 
         private void TextBox_PreviewDragOver(object sender, DragEventArgs e)

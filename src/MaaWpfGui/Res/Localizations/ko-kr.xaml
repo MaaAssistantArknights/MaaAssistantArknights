@@ -99,6 +99,7 @@
     <system:String x:Key="DefaultInfrast">기본 구성</system:String>
     <system:String x:Key="UserDefined">사용자 설정</system:String>
     <system:String x:Key="153Time3">153 1일 3회 교체</system:String>
+    <system:String x:Key="153Time4">153 1일 4회 교체</system:String>
     <system:String x:Key="243Time3">243 1일 3회 교체</system:String>
     <system:String x:Key="243Time4">243 1일 4회 교체</system:String>
     <system:String x:Key="333Time3">333 1일 3회 교체</system:String>
@@ -275,7 +276,6 @@
     <system:String x:Key="AutoRestartOption">게임 연결이 끊어지면 자동으로 다시 연결</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">해외 서버의 현지화는 어려운 작업입니다! 저희를 도와주세요! 전문 지식이 없어도 됩니다.</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">MAA 실행 후 에뮬레이터를 실행</system:String>
-    <system:String x:Key="MinimizingStartup">시작 시 에뮬레이터 최소화</system:String>
     <system:String x:Key="WaitForEmulator">에뮬레이터 실행 대기 (초)</system:String>
     <system:String x:Key="WaitForEmulatorFinish">대기 시간 종료</system:String>
     <system:String x:Key="EmulatorPath">에뮬레이터 경로</system:String>
@@ -732,6 +732,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="GiveUpUploadingPenguins">펭귄 물류에 업로드 불가</system:String>
     <system:String x:Key="TheEx">EX 스테이지가 없어 중단되었습니다</system:String>
     <system:String x:Key="MissingOperators">다음 오퍼레이터들이 누락되었습니다:</system:String>
+    <system:String x:Key="RecruitSuppportOperator">지원 유닛 추가: {0}</system:String>
     <system:String x:Key="StageQueue">스테이지 대기열:</system:String>
     <system:String x:Key="UnableToAgent">프록시 명령을 사용할 수 없습니다</system:String>
     <system:String x:Key="MissionStart">행동 개시</system:String>
@@ -796,8 +797,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DefaultNoExtraTags">기본값: 추가 태그 없음</system:String>
     <system:String x:Key="SelectExtraTags">항상 3개의 태그를 선택</system:String>
     <system:String x:Key="SelectExtraOnlyRareTags">가능한 한 많은 태그를 선택하고 높은 등급의 태그만 선택</system:String>
-    <system:String x:Key="AutoRecruitHighPriority">선호 태그 (「;」로 구분)</system:String>
-    <system:String x:Key="AutoRecruitHighPriorityTooltip">하위 문자열이면 충분하며 가능한 한 많은 태그 기본 설정을 선택합니다</system:String>
+    <system:String x:Key="AutoRecruitHighPriority">선호 태그</system:String>
+    <system:String x:Key="AutoRecruitHighPriorityTooltip">가능한 한 많은 태그 기본 설정을 선택합니다</system:String>
     <system:String x:Key="NotEnoughStaff">오퍼레이터 부족</system:String>
     <system:String x:Key="StageInfoError">스테이지 인식 오류</system:String>
     <system:String x:Key="UseFormation">편성 사용</system:String>
@@ -907,13 +908,13 @@ C:\\leidian\\LDPlayer9
 
 생존연산 메인 화면에서 작업을 시작해야 합니다
 
- 세이브 O: 스테이지 반복으로 번영의 선물 획득
-  1. 기존 데이터가 있는 경우 사용할 수 없습니다 (현재 데이터를 지우세요)
-  2. 편성창이 비워있지 않으면 사용할 수 없습니다 (편성창을 비우세요)
-
- 세이브 X: 도구 제작으로 번영의 선물 획득
+ 세이브 O: 도구 제작으로 번영의 선물 획득
   1. 결산 후 첫 번째 날이어야 하며, 이후 3일 이내에 적의 침입이 없어야 합니다
   2. 제조 가능한 수량이 99의 배수일 경우 멈출 수 있습니다. 저장하기 전에 재료를 약간 사용한 후에 다시 시도하세요
+
+ 세이브 X: 스테이지 반복으로 번영의 선물 획득
+  1. 기존 데이터가 있는 경우 사용할 수 없습니다 (현재 데이터를 지우세요)
+  2. 편성창이 비워있지 않으면 사용할 수 없습니다 (편성창을 비우세요)
     </system:String>
     <system:String x:Key="ReclamationBePatient">빨리 발전하고 싶어요! 또 급해져버렸네요</system:String>
     <system:String x:Key="Reclamation2ExEnable">제작 점수 획득 모드</system:String>

@@ -99,6 +99,7 @@
     <system:String x:Key="DefaultInfrast">內建配置</system:String>
     <system:String x:Key="UserDefined">自定義</system:String>
     <system:String x:Key="153Time3">153 一天 3 換</system:String>
+    <system:String x:Key="153Time4">153 一天 4 換</system:String>
     <system:String x:Key="243Time3">243 一天 3 換</system:String>
     <system:String x:Key="243Time4">243 一天 4 換</system:String>
     <system:String x:Key="333Time3">333 一天 3 換</system:String>
@@ -275,7 +276,6 @@
     <system:String x:Key="AutoRestartOption">遊戲斷線時自動重連</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">外服適配滯銷，幫幫我們！不會程式也可以。</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">啟動 MAA 後自動開啟模擬器</system:String>
-    <system:String x:Key="MinimizingStartup">最小化啟動模擬器</system:String>
     <system:String x:Key="WaitForEmulator">等待模擬器啟動時間（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">等待結束</system:String>
     <system:String x:Key="EmulatorPath">模擬器路徑</system:String>
@@ -731,6 +731,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="GiveUpUploadingPenguins">放棄上傳企鵝物流</system:String>
     <system:String x:Key="TheEx">無獎勵關卡，已停止</system:String>
     <system:String x:Key="MissingOperators">缺少以下幹員組的幹員：</system:String>
+    <system:String x:Key="RecruitSuppportOperator">編入助戰幹員：{0}</system:String>
     <system:String x:Key="StageQueue">關卡隊列:</system:String>
     <system:String x:Key="UnableToAgent">無法使用代理指揮</system:String>
     <system:String x:Key="MissionStart">已開始行動</system:String>
@@ -796,8 +797,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="DefaultNoExtraTags">默認不選擇額外的 Tags</system:String>
     <system:String x:Key="SelectExtraTags">選擇高星時總是選擇三個 Tag</system:String>
     <system:String x:Key="SelectExtraOnlyRareTags">盡可能多地選且只選高星 Tags</system:String>
-    <system:String x:Key="AutoRecruitHighPriority">3 星 Tags 時的 Tags 傾向，分號分隔</system:String>
-    <system:String x:Key="AutoRecruitHighPriorityTooltip">子串即可，會盡可能多的選擇傾向的 Tags</system:String>
+    <system:String x:Key="AutoRecruitHighPriority">3 星 Tags 時的 Tags 傾向</system:String>
+    <system:String x:Key="AutoRecruitHighPriorityTooltip">會盡可能多的選擇傾向的 Tags</system:String>
     <system:String x:Key="StageInfoError">關卡辨識錯誤</system:String>
     <system:String x:Key="UseFormation">使用編隊</system:String>
     <system:String x:Key="Current">當前</system:String>

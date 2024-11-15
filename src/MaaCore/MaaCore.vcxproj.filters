@@ -441,6 +441,9 @@
     <ClInclude Include="Task\Miscellaneous\BattleFormationTask.h">
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Miscellaneous\UseSupportUnitTaskPlugin.h">
+      <Filter>Source\Task\Miscellaneous</Filter>
+    </ClInclude>
     <ClInclude Include="Task\Miscellaneous\BattleProcessTask.h">
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClInclude>
@@ -731,6 +734,9 @@
     <ClInclude Include="LDExtras.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="Vision\Battle\SupportListAnalyzer.h">
+      <Filter>Source\Vision\Battle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -956,6 +962,9 @@
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Task\Miscellaneous\BattleFormationTask.cpp">
+      <Filter>Source\Task\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Miscellaneous\UseSupportUnitTaskPlugin.cpp">
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Task\Miscellaneous\BattleProcessTask.cpp">
@@ -1226,6 +1235,9 @@
     </ClCompile>
     <ClCompile Include="LDExtras.cpp">
       <Filter>Source\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Vision\Battle\SupportListAnalyzer.cpp">
+      <Filter>Source\Vision\Battle</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

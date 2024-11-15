@@ -5570,6 +5570,51 @@
         "stageId": "act1bossrush_tm04",
         "width": 33
     },
+    "act1vautochess_m01-activities/act1vautochess/level_act1vautochess_m01": {
+        "code": "新手模式",
+        "filename": "act1vautochess_m01-activities-act1vautochess-level_act1vautochess_m01.json",
+        "height": 8,
+        "levelId": "activities/act1vautochess/level_act1vautochess_m01",
+        "name": "AC-TR-1",
+        "stageId": "act1vautochess_m01",
+        "width": 32
+    },
+    "act1vautochess_m02-activities/act1vautochess/level_act1vautochess_m02": {
+        "code": "协议原型",
+        "filename": "act1vautochess_m02-activities-act1vautochess-level_act1vautochess_m02.json",
+        "height": 8,
+        "levelId": "activities/act1vautochess/level_act1vautochess_m02",
+        "name": "AC-1",
+        "stageId": "act1vautochess_m02",
+        "width": 32
+    },
+    "act1vautochess_m03-activities/act1vautochess/level_act1vautochess_m03": {
+        "code": "常规模式",
+        "filename": "act1vautochess_m03-activities-act1vautochess-level_act1vautochess_m03.json",
+        "height": 8,
+        "levelId": "activities/act1vautochess/level_act1vautochess_m03",
+        "name": "AC-2",
+        "stageId": "act1vautochess_m03",
+        "width": 32
+    },
+    "act1vautochess_m04-activities/act1vautochess/level_act1vautochess_m04": {
+        "code": "常规模式",
+        "filename": "act1vautochess_m04-activities-act1vautochess-level_act1vautochess_m04.json",
+        "height": 8,
+        "levelId": "activities/act1vautochess/level_act1vautochess_m04",
+        "name": "AC-2",
+        "stageId": "act1vautochess_m04",
+        "width": 32
+    },
+    "act1vautochess_m05-activities/act1vautochess/level_act1vautochess_m05": {
+        "code": "常规模式",
+        "filename": "act1vautochess_m05-activities-act1vautochess-level_act1vautochess_m05.json",
+        "height": 8,
+        "levelId": "activities/act1vautochess/level_act1vautochess_m05",
+        "name": "AC-2",
+        "stageId": "act1vautochess_m05",
+        "width": 32
+    },
     "act1vecb_01-activities/act1vecb/level_act1vecb_01": {
         "code": "VEC-01",
         "filename": "act1vecb_01-activities-act1vecb-level_act1vecb_01.json",
@@ -11131,6 +11176,240 @@
         "name": "铳响",
         "stageId": "act38side_10",
         "width": 15
+    },
+    "act38side_ex01#f#-activities/act38side/level_act38side_ex01": {
+        "code": "PV-EX-1",
+        "filename": "act38side_ex01#f#-activities-act38side-level_act38side_ex01.json",
+        "height": 10,
+        "levelId": "activities/act38side/level_act38side_ex01",
+        "name": "零食派送",
+        "stageId": "act38side_ex01#f#",
+        "width": 14
+    },
+    "act38side_ex01-activities/act38side/level_act38side_ex01": {
+        "code": "PV-EX-1",
+        "filename": "act38side_ex01-activities-act38side-level_act38side_ex01.json",
+        "height": 10,
+        "levelId": "activities/act38side/level_act38side_ex01",
+        "name": "零食派送",
+        "stageId": "act38side_ex01",
+        "width": 14
+    },
+    "act38side_ex02#f#-activities/act38side/level_act38side_ex02": {
+        "code": "PV-EX-2",
+        "filename": "act38side_ex02#f#-activities-act38side-level_act38side_ex02.json",
+        "height": 10,
+        "levelId": "activities/act38side/level_act38side_ex02",
+        "name": "热烈游行",
+        "stageId": "act38side_ex02#f#",
+        "width": 13
+    },
+    "act38side_ex02-activities/act38side/level_act38side_ex02": {
+        "code": "PV-EX-2",
+        "filename": "act38side_ex02-activities-act38side-level_act38side_ex02.json",
+        "height": 10,
+        "levelId": "activities/act38side/level_act38side_ex02",
+        "name": "热烈游行",
+        "stageId": "act38side_ex02",
+        "width": 13
+    },
+    "act38side_ex03#f#-activities/act38side/level_act38side_ex03": {
+        "code": "PV-EX-3",
+        "filename": "act38side_ex03#f#-activities-act38side-level_act38side_ex03.json",
+        "height": 11,
+        "levelId": "activities/act38side/level_act38side_ex03",
+        "name": "游乐集市",
+        "stageId": "act38side_ex03#f#",
+        "width": 13
+    },
+    "act38side_ex03-activities/act38side/level_act38side_ex03": {
+        "code": "PV-EX-3",
+        "filename": "act38side_ex03-activities-act38side-level_act38side_ex03.json",
+        "height": 11,
+        "levelId": "activities/act38side/level_act38side_ex03",
+        "name": "游乐集市",
+        "stageId": "act38side_ex03",
+        "width": 13
+    },
+    "act38side_ex04#f#-activities/act38side/level_act38side_ex04": {
+        "code": "PV-EX-4",
+        "filename": "act38side_ex04#f#-activities-act38side-level_act38side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act38side/level_act38side_ex04",
+        "name": "穷街陋巷",
+        "stageId": "act38side_ex04#f#",
+        "width": 12
+    },
+    "act38side_ex04-activities/act38side/level_act38side_ex04": {
+        "code": "PV-EX-4",
+        "filename": "act38side_ex04-activities-act38side-level_act38side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act38side/level_act38side_ex04",
+        "name": "穷街陋巷",
+        "stageId": "act38side_ex04",
+        "width": 12
+    },
+    "act38side_ex05#f#-activities/act38side/level_act38side_ex05": {
+        "code": "PV-EX-5",
+        "filename": "act38side_ex05#f#-activities-act38side-level_act38side_ex05.json",
+        "height": 9,
+        "levelId": "activities/act38side/level_act38side_ex05",
+        "name": "火花进行曲",
+        "stageId": "act38side_ex05#f#",
+        "width": 15
+    },
+    "act38side_ex05-activities/act38side/level_act38side_ex05": {
+        "code": "PV-EX-5",
+        "filename": "act38side_ex05-activities-act38side-level_act38side_ex05.json",
+        "height": 9,
+        "levelId": "activities/act38side/level_act38side_ex05",
+        "name": "火花进行曲",
+        "stageId": "act38side_ex05",
+        "width": 15
+    },
+    "act38side_ex06#f#-activities/act38side/level_act38side_ex06": {
+        "code": "PV-EX-6",
+        "filename": "act38side_ex06#f#-activities-act38side-level_act38side_ex06.json",
+        "height": 10,
+        "levelId": "activities/act38side/level_act38side_ex06",
+        "name": "巡演大街",
+        "stageId": "act38side_ex06#f#",
+        "width": 17
+    },
+    "act38side_ex06-activities/act38side/level_act38side_ex06": {
+        "code": "PV-EX-6",
+        "filename": "act38side_ex06-activities-act38side-level_act38side_ex06.json",
+        "height": 10,
+        "levelId": "activities/act38side/level_act38side_ex06",
+        "name": "巡演大街",
+        "stageId": "act38side_ex06",
+        "width": 17
+    },
+    "act38side_ex07#f#-activities/act38side/level_act38side_ex07": {
+        "code": "PV-EX-7",
+        "filename": "act38side_ex07#f#-activities-act38side-level_act38side_ex07.json",
+        "height": 11,
+        "levelId": "activities/act38side/level_act38side_ex07",
+        "name": "烟火观景台",
+        "stageId": "act38side_ex07#f#",
+        "width": 13
+    },
+    "act38side_ex07-activities/act38side/level_act38side_ex07": {
+        "code": "PV-EX-7",
+        "filename": "act38side_ex07-activities-act38side-level_act38side_ex07.json",
+        "height": 11,
+        "levelId": "activities/act38side/level_act38side_ex07",
+        "name": "烟火观景台",
+        "stageId": "act38side_ex07",
+        "width": 13
+    },
+    "act38side_ex08#f#-activities/act38side/level_act38side_ex08": {
+        "code": "PV-EX-8",
+        "filename": "act38side_ex08#f#-activities-act38side-level_act38side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act38side/level_act38side_ex08",
+        "name": "狂欢之主",
+        "stageId": "act38side_ex08#f#",
+        "width": 13
+    },
+    "act38side_ex08-activities/act38side/level_act38side_ex08": {
+        "code": "PV-EX-8",
+        "filename": "act38side_ex08-activities-act38side-level_act38side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act38side/level_act38side_ex08",
+        "name": "狂欢之主",
+        "stageId": "act38side_ex08",
+        "width": 13
+    },
+    "act38side_s01#f#-activities/act38side/level_act38side_sub-1-1": {
+        "code": "PV-S-1",
+        "filename": "act38side_s01#f#-activities-act38side-level_act38side_sub-1-1.json",
+        "height": 9,
+        "levelId": "activities/act38side/level_act38side_sub-1-1",
+        "name": "无尽玩笑",
+        "stageId": "act38side_s01#f#",
+        "width": 13
+    },
+    "act38side_s01-activities/act38side/level_act38side_sub-1-1": {
+        "code": "PV-S-1",
+        "filename": "act38side_s01-activities-act38side-level_act38side_sub-1-1.json",
+        "height": 9,
+        "levelId": "activities/act38side/level_act38side_sub-1-1",
+        "name": "无尽玩笑",
+        "stageId": "act38side_s01",
+        "width": 13
+    },
+    "act38side_s02#f#-activities/act38side/level_act38side_sub-1-2": {
+        "code": "PV-S-2",
+        "filename": "act38side_s02#f#-activities-act38side-level_act38side_sub-1-2.json",
+        "height": 11,
+        "levelId": "activities/act38side/level_act38side_sub-1-2",
+        "name": "荒唐共谋",
+        "stageId": "act38side_s02#f#",
+        "width": 13
+    },
+    "act38side_s02-activities/act38side/level_act38side_sub-1-2": {
+        "code": "PV-S-2",
+        "filename": "act38side_s02-activities-act38side-level_act38side_sub-1-2.json",
+        "height": 11,
+        "levelId": "activities/act38side/level_act38side_sub-1-2",
+        "name": "荒唐共谋",
+        "stageId": "act38side_s02",
+        "width": 13
+    },
+    "act38side_s03#f#-activities/act38side/level_act38side_sub-1-3": {
+        "code": "PV-S-3",
+        "filename": "act38side_s03#f#-activities-act38side-level_act38side_sub-1-3.json",
+        "height": 11,
+        "levelId": "activities/act38side/level_act38side_sub-1-3",
+        "name": "仓皇步法",
+        "stageId": "act38side_s03#f#",
+        "width": 14
+    },
+    "act38side_s03-activities/act38side/level_act38side_sub-1-3": {
+        "code": "PV-S-3",
+        "filename": "act38side_s03-activities-act38side-level_act38side_sub-1-3.json",
+        "height": 11,
+        "levelId": "activities/act38side/level_act38side_sub-1-3",
+        "name": "仓皇步法",
+        "stageId": "act38side_s03",
+        "width": 14
+    },
+    "act38side_s04#f#-activities/act38side/level_act38side_sub-1-4": {
+        "code": "PV-S-4",
+        "filename": "act38side_s04#f#-activities-act38side-level_act38side_sub-1-4.json",
+        "height": 8,
+        "levelId": "activities/act38side/level_act38side_sub-1-4",
+        "name": "游戏终结",
+        "stageId": "act38side_s04#f#",
+        "width": 12
+    },
+    "act38side_s04-activities/act38side/level_act38side_sub-1-4": {
+        "code": "PV-S-4",
+        "filename": "act38side_s04-activities-act38side-level_act38side_sub-1-4.json",
+        "height": 8,
+        "levelId": "activities/act38side/level_act38side_sub-1-4",
+        "name": "游戏终结",
+        "stageId": "act38side_s04",
+        "width": 12
+    },
+    "act38side_s05#f#-activities/act38side/level_act38side_sub-1-5": {
+        "code": "PV-S-5",
+        "filename": "act38side_s05#f#-activities-act38side-level_act38side_sub-1-5.json",
+        "height": 9,
+        "levelId": "activities/act38side/level_act38side_sub-1-5",
+        "name": "荒芜谢幕",
+        "stageId": "act38side_s05#f#",
+        "width": 13
+    },
+    "act38side_s05-activities/act38side/level_act38side_sub-1-5": {
+        "code": "PV-S-5",
+        "filename": "act38side_s05-activities-act38side-level_act38side_sub-1-5.json",
+        "height": 9,
+        "levelId": "activities/act38side/level_act38side_sub-1-5",
+        "name": "荒芜谢幕",
+        "stageId": "act38side_s05",
+        "width": 13
     },
     "act38side_sp01-activities/act38side/level_act38side_sp01": {
         "code": "PV-P-1",

@@ -9,44 +9,40 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
+#include "UseSupportUnitTaskPlugin.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/MultiMatcher.h"
 
-void asst::BattleFormationTask::append_additional_formation(AdditionalFormation formation)
+asst::BattleFormationTask::BattleFormationTask(
+    const AsstCallback& callback,
+    Assistant* inst,
+    std::string_view task_chain) :
+    AbstractTask(callback, inst, task_chain),
+    m_use_support_unit_task_ptr(std::make_shared<UseSupportUnitTaskPlugin>(callback, inst, task_chain))
 {
-    m_additional.emplace_back(std::move(formation));
 }
 
-void asst::BattleFormationTask::set_support_unit_name(std::string name)
+bool asst::BattleFormationTask::set_specific_support_unit(const std::string& name)
 {
-    m_support_unit_name = std::move(name);
-}
+    LogTraceFunction;
 
-void asst::BattleFormationTask::set_user_additional(std::vector<std::pair<std::string, int>> user_additional)
-{
-    m_user_additional = std::move(user_additional);
-}
+    if (m_support_unit_usage != SupportUnitUsage::Specific) {
+        Log.error(__FUNCTION__, "| Current support unit usage is not SupportUnitUsage::Specific");
+        return false;
+    }
 
-void asst::BattleFormationTask::set_add_trust(bool add_trust)
-{
-    m_add_trust = add_trust;
-}
-
-void asst::BattleFormationTask::set_select_formation(int index)
-{
-    m_select_formation_index = index;
-}
-
-std::shared_ptr<std::unordered_map<std::string, std::string>> asst::BattleFormationTask::get_opers_in_formation() const
-{
-    return m_opers_in_formation;
-}
-
-void asst::BattleFormationTask::set_data_resource(DataResource resource)
-{
-    m_data_resource = resource;
-}
+    const battle::Role role = (m_specific_support_unit.role = BattleData.get_role(name));
+    if (role == battle::Role::Unknown) {
+        // 无法根据干员名称获取其职业
+        Log.error(__FUNCTION__, "| Invalid specific support unit");
+        return false;
+    }
+    m_specific_support_unit.name = name; // 此处可能需要对阿米娅进行特殊处理
+    // 之后在 parse_formation 中，如果发现这名助战干员，则将其技能设定为对应的所需技能
+    m_specific_support_unit.skill = 0;
+    return true;
+};
 
 bool asst::BattleFormationTask::_run()
 {
@@ -69,13 +65,40 @@ bool asst::BattleFormationTask::_run()
         add_formation(role, oper_groups, missing_operators);
     }
 
-    if (!missing_operators.empty()) {
-        if (missing_operators.size() == 1) {
-            // TODO: 自动借助战？
+    // 在有且仅有一个缺失干员组时尝试寻找助战干员补齐编队
+    if (use_suppprt_unit_when_needed() && missing_operators.size() == 1 && !m_used_support_unit) {
+        // 之后再重构数据结构，先凑合用
+        std::vector<battle::RequiredOper> required_opers;
+        for (const battle::OperUsage& oper : missing_operators.front().second) {
+            // 如果指定助战干员正好可以补齐编队，则只招募指定助战干员就好了，记得再次确认一下 skill
+            // 如果编队里正好有【艾雅法拉 - 2】和 【艾雅法拉 - 3】呢？
+            if (oper.name == m_specific_support_unit.name) {
+                m_specific_support_unit.skill = oper.skill;
+                required_opers.clear();
+                required_opers.emplace_back(m_specific_support_unit);
+                break;
+            }
+            required_opers.emplace_back(BattleData.get_role(oper.name), oper.name, oper.skill);
         }
 
-        report_missing_operators(missing_operators);
+        // 先退出去招募助战再回来，好蠢
+        confirm_selection();
+        Log.info(__FUNCTION__, "| Left quick formation scene");
+        if (m_use_support_unit_task_ptr->try_add_support_unit(required_opers, 5, true)) {
+            m_used_support_unit = true;
+            missing_operators.clear();
+        }
+        // 再到快速编队页面
+        if (!enter_selection_page()) {
+            save_img(utils::path("debug") / utils::path("other"));
+            return false;
+        }
+        Log.info(__FUNCTION__, "| Returned to quick formation scene");
+    }
 
+    // 在尝试补齐编队后依然有缺失干员，自动编队失败
+    if (!missing_operators.empty()) {
+        report_missing_operators(missing_operators);
         return false;
     }
 
@@ -106,11 +129,11 @@ bool asst::BattleFormationTask::_run()
     }
     confirm_selection();
 
-    // 借一个随机助战
-    if (m_support_unit_name == "_RANDOM_") {
-        if (!select_random_support_unit()) {
-            return false;
-        }
+    if (m_support_unit_usage == SupportUnitUsage::Specific && !m_used_support_unit) { // 使用指定助战干员
+        m_used_support_unit = m_use_support_unit_task_ptr->try_add_support_unit({ m_specific_support_unit }, 5, true);
+    }
+    else if (m_support_unit_usage == SupportUnitUsage::Random && !m_used_support_unit) { // 使用随机助战干员
+        m_used_support_unit = m_use_support_unit_task_ptr->try_add_support_unit({}, 5, false);
     }
 
     return true;
@@ -462,6 +485,11 @@ bool asst::BattleFormationTask::parse_formation()
         battle::Role role = BattleData.get_role(opers_vec.front().name);
         for (const auto& oper : opers_vec) {
             same_role &= BattleData.get_role(oper.name) == role;
+
+            // （仅一次）如果发现这名助战干员，则将其技能设定为对应的所需技能
+            if (oper.name == m_specific_support_unit.name && m_specific_support_unit.skill == 0) {
+                m_specific_support_unit.skill = oper.skill;
+            }
         }
 
         // for unknown, will use { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }

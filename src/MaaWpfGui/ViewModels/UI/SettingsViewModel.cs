@@ -16,22 +16,18 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Management;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Configuration;
@@ -40,15 +36,12 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
-using MaaWpfGui.Properties;
-using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
-using MaaWpfGui.Services.Notification;
 using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
-using MaaWpfGui.WineCompat;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -57,7 +50,6 @@ using Stylet;
 using ComboBox = System.Windows.Controls.ComboBox;
 using DarkModeType = MaaWpfGui.Configuration.GUI.DarkModeType;
 using Timer = System.Timers.Timer;
-using Window = HandyControl.Controls.Window;
 
 namespace MaaWpfGui.ViewModels.UI
 {
@@ -92,6 +84,21 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets the after action setting.
         /// </summary>
         public PostActionSetting PostActionSetting { get; } = PostActionSetting.Current;
+
+        /// <summary>
+        /// Gets 连接设置model
+        /// </summary>
+        public static ConnectSettingsUserControlModel ConnectSettings { get; } = new();
+
+        /// <summary>
+        /// Gets 软件更新model
+        /// </summary>
+        public static VersionUpdateSettingsUserControlModel VersionUpdateDataContext { get; } = new();
+
+        /// <summary>
+        /// Gets 外部通知model
+        /// </summary>
+        public static ExternalNotificationSettingsUserControlModel ExternalNotificationDataContext { get; } = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
@@ -204,7 +211,8 @@ namespace MaaWpfGui.ViewModels.UI
                 ConfigurationHelper.SetFacilityOrder(newVm.OriginalName, i.ToString());
             }
 
-            InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(tempOrderList);
+            InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(tempOrderList!);
+            InfrastItemViewModels.CollectionChanged += InfrastOrderSelectionChanged;
 
             _dormThresholdLabel = LocalizationHelper.GetString("DormThreshold") + ": " + _dormThreshold + "%";
         }
@@ -245,15 +253,15 @@ namespace MaaWpfGui.ViewModels.UI
             var addressListJson = ConfigurationHelper.GetValue(ConfigurationKeys.AddressHistory, string.Empty);
             if (!string.IsNullOrEmpty(addressListJson))
             {
-                ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson) ?? [];
+                ConnectSettings.ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson) ?? [];
             }
         }
 
         private void InitVersionUpdate()
         {
-            if (VersionType == UpdateVersionType.Nightly && !AllowNightlyUpdates)
+            if (VersionUpdateDataContext.VersionType == VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly && !VersionUpdateDataContext.AllowNightlyUpdates)
             {
-                VersionType = UpdateVersionType.Beta;
+                VersionUpdateDataContext.VersionType = VersionUpdateSettingsUserControlModel.UpdateVersionType.Beta;
             }
         }
 
@@ -377,20 +385,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region Remote Control
 
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
-        public async void RemoteControlConnectionTest()
-        {
-            await RemoteControlService.ConnectionTest();
-        }
-
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
-        public void RemoteControlRegenerateDeviceIdentity()
-        {
-            RemoteControlService.RegenerateDeviceIdentity();
-        }
-
         private string _remoteControlGetTaskEndpointUri = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, string.Empty);
 
         public string RemoteControlGetTaskEndpointUri
@@ -446,354 +440,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         #endregion Remote Control
 
-        #region External Notifications
-
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
-        public void ExternalNotificationSendTest()
-        {
-            ExternalNotificationService.Send(
-                LocalizationHelper.GetString("ExternalNotificationSendTestTitle"),
-                LocalizationHelper.GetString("ExternalNotificationSendTestContent"),
-                true);
-        }
-
-        public static readonly List<string> ExternalNotificationProviders =
-        [
-            "ServerChan",
-            "Telegram",
-            "Discord",
-            "SMTP",
-            "Bark",
-            "Qmsg",
-        ];
-
-        public static List<string> ExternalNotificationProvidersShow => ExternalNotificationProviders;
-
-        private object[] _enabledExternalNotificationProviders =
-            ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnabled, string.Empty)
-            .Split(',')
-            .Where(s => ExternalNotificationProviders.Contains(s.ToString()))
-            .Distinct()
-            .ToArray();
-
-        public object[] EnabledExternalNotificationProviders
-        {
-            get => _enabledExternalNotificationProviders;
-            set
-            {
-                SetAndNotify(ref _enabledExternalNotificationProviders, value);
-                var validProviders = value
-                    .Where(provider => ExternalNotificationProviders.Contains(provider.ToString() ?? string.Empty))
-                    .Select(provider => provider.ToString())
-                    .Distinct();
-
-                var config = string.Join(",", validProviders);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationEnabled, config);
-                UpdateExternalNotificationProvider();
-            }
-        }
-
-        public string[] EnabledExternalNotificationProviderList => EnabledExternalNotificationProviders
-            .Select(s => s.ToString() ?? string.Empty)
-            .ToArray();
-
-        #region External Enable
-
-        private bool _serverChanEnabled = false;
-
-        public bool ServerChanEnabled
-        {
-            get => _serverChanEnabled;
-            set => SetAndNotify(ref _serverChanEnabled, value);
-        }
-
-        private bool _telegramEnabled = false;
-
-        public bool TelegramEnabled
-        {
-            get => _telegramEnabled;
-            set => SetAndNotify(ref _telegramEnabled, value);
-        }
-
-        private bool _discordEnabled = false;
-
-        public bool DiscordEnabled
-        {
-            get => _discordEnabled;
-            set => SetAndNotify(ref _discordEnabled, value);
-        }
-
-        private bool _smtpEnabled = false;
-
-        public bool SmtpEnabled
-        {
-            get => _smtpEnabled;
-            set => SetAndNotify(ref _smtpEnabled, value);
-        }
-
-        private bool _barkEnabled = false;
-
-        public bool BarkEnabled
-        {
-            get => _barkEnabled;
-            set => SetAndNotify(ref _barkEnabled, value);
-        }
-
-        private bool _qmsgEnabled = false;
-
-        public bool QmsgEnabled
-        {
-            get => _qmsgEnabled;
-            set => SetAndNotify(ref _qmsgEnabled, value);
-        }
-
-        public void UpdateExternalNotificationProvider()
-        {
-            ServerChanEnabled = _enabledExternalNotificationProviders.Contains("ServerChan");
-            TelegramEnabled = _enabledExternalNotificationProviders.Contains("Telegram");
-            DiscordEnabled = _enabledExternalNotificationProviders.Contains("Discord");
-            SmtpEnabled = _enabledExternalNotificationProviders.Contains("SMTP");
-            BarkEnabled = _enabledExternalNotificationProviders.Contains("Bark");
-            QmsgEnabled = _enabledExternalNotificationProviders.Contains("Qmsg");
-        }
-
-        #endregion External Enable
-
-        #region External Notification Config
-
-        private string _serverChanSendKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, string.Empty);
-
-        public string ServerChanSendKey
-        {
-            get => _serverChanSendKey;
-            set
-            {
-                SetAndNotify(ref _serverChanSendKey, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, value);
-            }
-        }
-
-        public string BarkSendKey
-        {
-            get => _barkSendKey;
-            set
-            {
-                SetAndNotify(ref _barkSendKey, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationBarkSendKey, value);
-            }
-        }
-
-        private string _barkSendKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkSendKey, string.Empty);
-
-        public string BarkServer
-        {
-            get => _barkServer;
-            set
-            {
-                SetAndNotify(ref _barkServer, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationBarkServer, value);
-            }
-        }
-
-        private string _barkServer = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkServer, "https://api.day.app");
-
-        private string _smtpServer = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpServer, string.Empty);
-
-        public string SmtpServer
-        {
-            get => _smtpServer;
-            set
-            {
-                SetAndNotify(ref _smtpServer, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpServer, value);
-            }
-        }
-
-        private string _smtpPort = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpPort, string.Empty);
-
-        public string SmtpPort
-        {
-            get => _smtpPort;
-            set
-            {
-                SetAndNotify(ref _smtpPort, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpPort, value);
-            }
-        }
-
-        private string _smtpUser = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUser, string.Empty);
-
-        public string SmtpUser
-        {
-            get => _smtpUser;
-            set
-            {
-                SetAndNotify(ref _smtpUser, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpUser, value);
-            }
-        }
-
-        private string _smtpPassword = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpPassword, string.Empty);
-
-        public string SmtpPassword
-        {
-            get => _smtpPassword;
-            set
-            {
-                SetAndNotify(ref _smtpPassword, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpPassword, value);
-            }
-        }
-
-        private string _smtpFrom = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpFrom, string.Empty);
-
-        public string SmtpFrom
-        {
-            get => _smtpFrom;
-            set
-            {
-                SetAndNotify(ref _smtpFrom, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpFrom, value);
-            }
-        }
-
-        private string _smtpTo = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpTo, string.Empty);
-
-        public string SmtpTo
-        {
-            get => _smtpTo;
-            set
-            {
-                SetAndNotify(ref _smtpTo, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpTo, value);
-            }
-        }
-
-        private bool _smtpUseSsl = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl, "false"));
-
-        public bool SmtpUseSsl
-        {
-            get => _smtpUseSsl;
-            set
-            {
-                SetAndNotify(ref _smtpUseSsl, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl, value.ToString());
-            }
-        }
-
-        private bool _smtpRequireAuthentication = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication, "false"));
-
-        public bool SmtpRequireAuthentication
-        {
-            get => _smtpRequireAuthentication;
-            set
-            {
-                SetAndNotify(ref _smtpRequireAuthentication, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication, value.ToString());
-            }
-        }
-
-        private string _discordBotToken = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordBotToken, string.Empty);
-
-        public string DiscordBotToken
-        {
-            get => _discordBotToken;
-            set
-            {
-                SetAndNotify(ref _discordBotToken, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationDiscordBotToken, value);
-            }
-        }
-
-        private string _discordUserId = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordUserId, string.Empty);
-
-        public string DiscordUserId
-        {
-            get => _discordUserId;
-            set
-            {
-                SetAndNotify(ref _discordUserId, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationDiscordUserId, value);
-            }
-        }
-
-        private string _telegramBotToken = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationTelegramBotToken, string.Empty);
-
-        public string TelegramBotToken
-        {
-            get => _telegramBotToken;
-            set
-            {
-                SetAndNotify(ref _telegramBotToken, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationTelegramBotToken, value);
-            }
-        }
-
-        private string _telegramChatId = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationTelegramChatId, string.Empty);
-
-        public string TelegramChatId
-        {
-            get => _telegramChatId;
-            set
-            {
-                SetAndNotify(ref _telegramChatId, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationTelegramChatId, value);
-            }
-        }
-
-        private string _qmsgServer = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgServer, string.Empty);
-
-        public string QmsgServer
-        {
-            get => _qmsgServer;
-            set
-            {
-                SetAndNotify(ref _qmsgServer, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgServer, value);
-            }
-        }
-
-        private string _qmsgKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgKey, string.Empty);
-
-        public string QmsgKey
-        {
-            get => _qmsgKey;
-            set
-            {
-                SetAndNotify(ref _qmsgKey, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgKey, value);
-            }
-        }
-
-        private string _qmsgUser = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgUser, string.Empty);
-
-        public string QmsgUser
-        {
-            get => _qmsgUser;
-            set
-            {
-                SetAndNotify(ref _qmsgUser, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgUser, value);
-            }
-        }
-
-        private string _qmsgBot = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgBot, string.Empty);
-
-        public string QmsgBot
-        {
-            get => _qmsgBot;
-            set
-            {
-                SetAndNotify(ref _qmsgBot, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgBot, value);
-            }
-        }
-
-        #endregion External Notification Config
-
-        #endregion External Notifications
-
         #region Performance
 
         public List<GpuOption> GpuOptions => GpuOption.GetGpuOptions();
@@ -819,6 +465,24 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         #endregion Performance
+
+        #region 游戏设置
+
+        /// <summary>
+        /// Gets the list of the client types.
+        /// </summary>
+        public List<CombinedData> ClientTypeList { get; } =
+        [
+            new() { Display = LocalizationHelper.GetString("NotSelected"), Value = string.Empty },
+            new() { Display = LocalizationHelper.GetString("Official"), Value = "Official" },
+            new() { Display = LocalizationHelper.GetString("Bilibili"), Value = "Bilibili" },
+            new() { Display = LocalizationHelper.GetString("YoStarEN"), Value = "YoStarEN" },
+            new() { Display = LocalizationHelper.GetString("YoStarJP"), Value = "YoStarJP" },
+            new() { Display = LocalizationHelper.GetString("YoStarKR"), Value = "YoStarKR" },
+            new() { Display = LocalizationHelper.GetString("Txwy"), Value = "txwy" },
+        ];
+
+        #endregion
 
         #region 启动设置
 
@@ -911,21 +575,6 @@ namespace MaaWpfGui.ViewModels.UI
             Instances.TaskQueueViewModel.QuickSwitchAccount();
         }
 
-        private bool _minimizingStartup = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizingStartup, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to minimally start the emulator
-        /// </summary>
-        public bool MinimizingStartup
-        {
-            get => _minimizingStartup;
-            set
-            {
-                SetAndNotify(ref _minimizingStartup, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.MinimizingStartup, value.ToString());
-            }
-        }
-
         private string _emulatorPath = ConfigurationHelper.GetValue(ConfigurationKeys.EmulatorPath, string.Empty);
 
         /// <summary>
@@ -990,151 +639,12 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _startsWithScript = ConfigurationHelper.GetValue(ConfigurationKeys.StartsWithScript, string.Empty);
-
-        public string StartsWithScript
-        {
-            get => _startsWithScript;
-            set
-            {
-                SetAndNotify(ref _startsWithScript, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.StartsWithScript, value);
-            }
-        }
-
-        private string _endsWithScript = ConfigurationHelper.GetValue(ConfigurationKeys.EndsWithScript, string.Empty);
-
-        public string EndsWithScript
-        {
-            get => _endsWithScript;
-            set
-            {
-                SetAndNotify(ref _endsWithScript, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.EndsWithScript, value);
-            }
-        }
-
-        private bool _copilotWithScript = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotWithScript, bool.FalseString));
-
-        public bool CopilotWithScript
-        {
-            get => _copilotWithScript;
-            set
-            {
-                SetAndNotify(ref _copilotWithScript, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CopilotWithScript, value.ToString());
-            }
-        }
-
-        private bool _manualStopWithScript = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ManualStopWithScript, bool.FalseString));
-
-        public bool ManualStopWithScript
-        {
-            get => _manualStopWithScript;
-            set
-            {
-                SetAndNotify(ref _manualStopWithScript, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ManualStopWithScript, value.ToString());
-            }
-        }
-
-        private bool _blockSleep = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleep, bool.FalseString));
-
-        public bool BlockSleep
-        {
-            get => _blockSleep;
-            set
-            {
-                SetAndNotify(ref _blockSleep, value);
-                SleepManagement.SetBlockSleep(value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.BlockSleep, value.ToString());
-            }
-        }
-
-        private bool _blockSleepWithScreenOn = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleepWithScreenOn, bool.TrueString));
-
-        public bool BlockSleepWithScreenOn
-        {
-            get => _blockSleepWithScreenOn;
-            set
-            {
-                SetAndNotify(ref _blockSleepWithScreenOn, value);
-                SleepManagement.SetBlockSleepWithScreenOn(value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.BlockSleepWithScreenOn, value.ToString());
-            }
-        }
-
         private string _screencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), "---", "---", "---", "---");
 
         public string ScreencapCost
         {
             get => _screencapCost;
             set => SetAndNotify(ref _screencapCost, value);
-        }
-
-        public void RunScript(string str, bool showLog = true)
-        {
-            bool enable = str switch
-            {
-                "StartsWithScript" => !string.IsNullOrWhiteSpace(StartsWithScript),
-                "EndsWithScript" => !string.IsNullOrWhiteSpace(EndsWithScript),
-                _ => false,
-            };
-
-            if (!enable)
-            {
-                return;
-            }
-
-            Func<bool> func = str switch
-            {
-                "StartsWithScript" => () => ExecuteScript(StartsWithScript),
-                "EndsWithScript" => () => ExecuteScript(EndsWithScript),
-                _ => () => false,
-            };
-
-            if (!showLog)
-            {
-                if (!func())
-                {
-                    _logger.Warning("Failed to execute the script.");
-                }
-
-                return;
-            }
-
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(str));
-            if (func())
-            {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(str));
-            }
-            else
-            {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(str), UiLogColor.Warning);
-            }
-        }
-
-        private static bool ExecuteScript(string scriptPath)
-        {
-            try
-            {
-                var process = new Process
-                {
-                    StartInfo = new ProcessStartInfo
-                    {
-                        FileName = scriptPath,
-                        WindowStyle = ProcessWindowStyle.Minimized,
-                        UseShellExecute = true,
-                    },
-                };
-                process.Start();
-                process.WaitForExit();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
         }
 
         private (string FileName, string Arguments) ResolveShortcut(string path)
@@ -1206,53 +716,13 @@ namespace MaaWpfGui.ViewModels.UI
             _runningState.SetIdle(idle);
         }
 
-        private static void MinimizeEmulator(Process process)
+        /// <summary>
+        /// 尝试启动模拟器
+        /// </summary>
+        /// <param name="openWithMaaLaunch">启动 MAA 后自动开启模拟器</param>
+        public void TryToStartEmulator(bool openWithMaaLaunch = false)
         {
-            _logger.Information("Try minimizing the emulator");
-            int attempts;
-            IntPtr hWnd = IntPtr.Zero;
-            int elapsed = 0;
-            const int Interval = 100; // 轮询间隔时间（毫秒）
-
-            while (hWnd == IntPtr.Zero && elapsed < 100000)
-            {
-                hWnd = process.MainWindowHandle;
-                if (hWnd != IntPtr.Zero)
-                {
-                    break;
-                }
-
-                Thread.Sleep(Interval);
-                elapsed += Interval;
-            }
-
-            if (hWnd == IntPtr.Zero)
-            {
-                throw new Exception("Failed to get the emulator window handle.");
-            }
-
-            for (attempts = 0; !IsIconic(hWnd) && attempts < 100; ++attempts)
-            {
-                ShowWindow(0xD9A0E8E, SWMINIMIZE);
-                Thread.Sleep(10);
-                if (process.HasExited)
-                {
-                    throw new Exception("Emulator process has exited.");
-                }
-            }
-
-            if (attempts < 1000)
-            {
-                return;
-            }
-
-            _logger.Information("Attempts to exceed the limit");
-            throw new Exception("Failed to minimize emulator within the limit.");
-        }
-
-        public void TryToStartEmulator(bool manual = false)
-        {
-            if (EmulatorPath.Length == 0 || !File.Exists(EmulatorPath) || (!OpenEmulatorAfterLaunch && !manual))
+            if (EmulatorPath.Length == 0 || !File.Exists(EmulatorPath) || (!OpenEmulatorAfterLaunch && openWithMaaLaunch))
             {
                 return;
             }
@@ -1275,19 +745,6 @@ namespace MaaWpfGui.ViewModels.UI
 
                 _logger.Information("Try to start emulator: \nfileName: " + fileName + "\narguments: " + arguments);
                 process.Start();
-
-                try
-                {
-                    process.WaitForInputIdle();
-                    if (MinimizingStartup)
-                    {
-                        MinimizeEmulator(process);
-                    }
-                }
-                catch (Exception)
-                {
-                    _logger.Warning("Failed to minimize the emulator");
-                }
             }
             catch (Exception)
             {
@@ -1332,12 +789,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public void RestartAdb()
         {
-            if (!AllowAdbRestart)
+            if (!ConnectSettings.AllowAdbRestart)
             {
                 return;
             }
 
-            string adbPath = AdbPath;
+            string adbPath = ConnectSettings.AdbPath;
 
             if (string.IsNullOrEmpty(adbPath))
             {
@@ -1370,8 +827,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public void ReconnectByAdb()
         {
-            string adbPath = AdbPath;
-            string address = ConnectAddress;
+            string adbPath = ConnectSettings.AdbPath;
+            string address = ConnectSettings.ConnectAddress;
 
             if (string.IsNullOrEmpty(adbPath))
             {
@@ -1400,12 +857,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public void HardRestartAdb()
         {
-            if (!AllowAdbHardRestart)
+            if (!ConnectSettings.AllowAdbHardRestart)
             {
                 return;
             }
 
-            string adbPath = AdbPath;
+            string adbPath = ConnectSettings.AdbPath;
 
             if (string.IsNullOrEmpty(adbPath))
             {
@@ -1477,9 +934,9 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _clientType, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ClientType, value);
-                _resourceInfo = GetResourceVersionByClientType(_clientType);
-                ResourceVersion = _resourceInfo.VersionName;
-                ResourceDateTime = _resourceInfo.DateTime;
+                VersionUpdateDataContext.ResourceInfo = VersionUpdateSettingsUserControlModel.GetResourceVersionByClientType(_clientType);
+                VersionUpdateDataContext.ResourceVersion = VersionUpdateDataContext.ResourceInfo.VersionName;
+                VersionUpdateDataContext.ResourceDateTime = VersionUpdateDataContext.ResourceInfo.DateTime;
                 UpdateWindowTitle(); // 每次修改客户端时更新WindowTitle
                 Instances.TaskQueueViewModel.UpdateStageList();
                 Instances.TaskQueueViewModel.UpdateDatePrompt();
@@ -1514,18 +971,6 @@ namespace MaaWpfGui.ViewModels.UI
             { "YoStarKR", "KR" },
             { "txwy", "ZH_TW" },
         };
-
-        private bool _autoRestartOnDrop = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoRestartOnDrop, "True"));
-
-        public bool AutoRestartOnDrop
-        {
-            get => _autoRestartOnDrop;
-            set
-            {
-                SetAndNotify(ref _autoRestartOnDrop, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AutoRestartOnDrop, value.ToString());
-            }
-        }
 
         /// <summary>
         /// Gets the server type.
@@ -1562,6 +1007,7 @@ namespace MaaWpfGui.ViewModels.UI
             [
                 new() { Display = LocalizationHelper.GetString("UserDefined"), Value = UserDefined },
                 new() { Display = LocalizationHelper.GetString("153Time3"), Value = "153_layout_3_times_a_day.json" },
+                new() { Display = LocalizationHelper.GetString("153Time4"), Value = "153_layout_4_times_a_day.json" },
                 new() { Display = LocalizationHelper.GetString("243Time3"), Value = "243_layout_3_times_a_day.json" },
                 new() { Display = LocalizationHelper.GetString("243Time4"), Value = "243_layout_4_times_a_day.json" },
                 new() { Display = LocalizationHelper.GetString("333Time3"), Value = "333_layout_for_Orundum_3_times_a_day.json" },
@@ -1626,8 +1072,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 实时更新基建换班顺序
         /// </summary>
-        public void InfrastOrderSelectionChanged()
+        /// <param name="sender">ignored object</param>
+        /// <param name="e">ignored NotifyCollectionChangedEventArgs</param>
+        public void InfrastOrderSelectionChanged(object? sender = null, NotifyCollectionChangedEventArgs? e = null)
         {
+            _ = (sender, e);
             int index = 0;
             foreach (var item in InfrastItemViewModels)
             {
@@ -1992,95 +1441,90 @@ namespace MaaWpfGui.ViewModels.UI
             RoguelikeMode = RoguelikeModeList.Any(x => x.Value == roguelikeMode) ? roguelikeMode : "0";
         }
 
+        private readonly Dictionary<string, List<(string Key, string Value)>> _squadDictionary = new()
+        {
+            ["Phantom_Default"] =
+            [
+                ("ResearchSquad", "研究分队"),
+            ],
+            ["Mizuki_Default"] =
+            [
+                ("IS2NewSquad1", "心胜于物分队"),
+                ("IS2NewSquad2", "物尽其用分队"),
+                ("IS2NewSquad3", "以人为本分队"),
+                ("ResearchSquad", "研究分队"),
+            ],
+            ["Sami_Default"] =
+            [
+                ("IS3NewSquad1", "永恒狩猎分队"),
+                ("IS3NewSquad2", "生活至上分队"),
+                ("IS3NewSquad3", "科学主义分队"),
+                ("IS3NewSquad4", "特训分队"),
+            ],
+            ["Sarkaz_1"] =
+            [
+                ("IS4NewSquad2", "博闻广记分队"),
+                ("IS4NewSquad3", "蓝图测绘分队"),
+                ("IS4NewSquad6", "点刺成锭分队"),
+                ("IS4NewSquad7", "拟态学者分队"),
+            ],
+            ["Sarkaz_Default"] =
+            [
+                ("IS4NewSquad1", "魂灵护送分队"),
+                ("IS4NewSquad2", "博闻广记分队"),
+                ("IS4NewSquad3", "蓝图测绘分队"),
+                ("IS4NewSquad4", "因地制宜分队"),
+                ("IS4NewSquad5", "异想天开分队"),
+                ("IS4NewSquad6", "点刺成锭分队"),
+                ("IS4NewSquad7", "拟态学者分队"),
+            ],
+        };
+
+        // 通用分队
+        private readonly List<(string Key, string Value)> _commonSquads =
+        [
+            ("LeaderSquad", "指挥分队"),
+            ("GatheringSquad", "集群分队"),
+            ("SupportSquad", "后勤分队"),
+            ("SpearheadSquad", "矛头分队"),
+            ("TacticalAssaultOperative", "突击战术分队"),
+            ("TacticalFortificationOperative", "堡垒战术分队"),
+            ("TacticalRangedOperative", "远程战术分队"),
+            ("TacticalDestructionOperative", "破坏战术分队"),
+            ("First-ClassSquad", "高规格分队"),
+        ];
+
         private void UpdateRoguelikeSquadList()
         {
             var roguelikeSquad = RoguelikeSquad;
-
             RoguelikeSquadList =
             [
-                new() { Display = LocalizationHelper.GetString("DefaultSquad"), Value = string.Empty },
+                new() { Display = LocalizationHelper.GetString("DefaultSquad"), Value = string.Empty }
             ];
 
-            switch (RoguelikeTheme)
+            // 优先匹配 Theme_Mode，其次匹配 Theme_Default
+            string themeKey = $"{RoguelikeTheme}_{RoguelikeMode}";
+            if (!_squadDictionary.ContainsKey(themeKey))
             {
-                case "Phantom":
-
-                    foreach (var item in new ObservableCollection<CombinedData>
-                    {
-                        new() { Display = LocalizationHelper.GetString("ResearchSquad"), Value = "研究分队" },
-                    })
-                    {
-                        RoguelikeSquadList.Add(item);
-                    }
-
-                    break;
-
-                case "Mizuki":
-
-                    foreach (var item in new ObservableCollection<CombinedData>
-                    {
-                        new() { Display = LocalizationHelper.GetString("IS2NewSquad1"), Value = "心胜于物分队" },
-                        new() { Display = LocalizationHelper.GetString("IS2NewSquad2"), Value = "物尽其用分队" },
-                        new() { Display = LocalizationHelper.GetString("IS2NewSquad3"), Value = "以人为本分队" },
-                        new() { Display = LocalizationHelper.GetString("ResearchSquad"), Value = "研究分队" },
-                    })
-                    {
-                        RoguelikeSquadList.Add(item);
-                    }
-
-                    break;
-
-                case "Sami":
-
-                    foreach (var item in new ObservableCollection<CombinedData>
-                    {
-                        new() { Display = LocalizationHelper.GetString("IS3NewSquad1"), Value = "永恒狩猎分队" },
-                        new() { Display = LocalizationHelper.GetString("IS3NewSquad2"), Value = "生活至上分队" },
-                        new() { Display = LocalizationHelper.GetString("IS3NewSquad3"), Value = "科学主义分队" },
-                        new() { Display = LocalizationHelper.GetString("IS3NewSquad4"), Value = "特训分队" },
-                    })
-                    {
-                        RoguelikeSquadList.Add(item);
-                    }
-
-                    break;
-
-                case "Sarkaz":
-
-                    foreach (var item in new ObservableCollection<CombinedData>
-                    {
-                        new() { Display = LocalizationHelper.GetString("IS4NewSquad1"), Value = "魂灵护送分队" },
-                        new() { Display = LocalizationHelper.GetString("IS4NewSquad2"), Value = "博闻广记分队" },
-                        new() { Display = LocalizationHelper.GetString("IS4NewSquad3"), Value = "蓝图测绘分队" },
-                        new() { Display = LocalizationHelper.GetString("IS4NewSquad4"), Value = "因地制宜分队" },
-                        new() { Display = LocalizationHelper.GetString("IS4NewSquad5"), Value = "异想天开分队" },
-                        new() { Display = LocalizationHelper.GetString("IS4NewSquad6"), Value = "点刺成锭分队" },
-                        new() { Display = LocalizationHelper.GetString("IS4NewSquad7"), Value = "拟态学者分队" },
-                    })
-                    {
-                        RoguelikeSquadList.Add(item);
-                    }
-
-                    break;
+                themeKey = $"{RoguelikeTheme}_Default";
             }
 
-            // 通用分队
-            foreach (var item in new ObservableCollection<CombinedData>
+            // 添加主题分队
+            if (_squadDictionary.TryGetValue(themeKey, out var squads))
             {
-                new() { Display = LocalizationHelper.GetString("LeaderSquad"), Value = "指挥分队" },
-                new() { Display = LocalizationHelper.GetString("GatheringSquad"), Value = "集群分队" },
-                new() { Display = LocalizationHelper.GetString("SupportSquad"), Value = "后勤分队" },
-                new() { Display = LocalizationHelper.GetString("SpearheadSquad"), Value = "矛头分队" },
-                new() { Display = LocalizationHelper.GetString("TacticalAssaultOperative"), Value = "突击战术分队" },
-                new() { Display = LocalizationHelper.GetString("TacticalFortificationOperative"), Value = "堡垒战术分队" },
-                new() { Display = LocalizationHelper.GetString("TacticalRangedOperative"), Value = "远程战术分队" },
-                new() { Display = LocalizationHelper.GetString("TacticalDestructionOperative"), Value = "破坏战术分队" },
-                new() { Display = LocalizationHelper.GetString("First-ClassSquad"), Value = "高规格分队" },
-            })
-            {
-                RoguelikeSquadList.Add(item);
+                foreach (var (key, value) in squads)
+                {
+                    RoguelikeSquadList.Add(new() { Display = LocalizationHelper.GetString(key), Value = value });
+                }
             }
 
+            // 添加通用分队
+            foreach (var (key, value) in _commonSquads)
+            {
+                RoguelikeSquadList.Add(new() { Display = LocalizationHelper.GetString(key), Value = value });
+            }
+
+            // 选择当前分队
             RoguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : string.Empty;
         }
 
@@ -2198,10 +1642,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _roguelikeTheme, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeTheme, value);
+
                 UpdateRoguelikeModeList();
                 UpdateRoguelikeSquadList();
                 UpdateRoguelikeCoreCharList();
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeTheme, value);
             }
         }
 
@@ -2234,6 +1679,8 @@ namespace MaaWpfGui.ViewModels.UI
 
                 SetAndNotify(ref _roguelikeMode, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeMode, value);
+
+                UpdateRoguelikeSquadList();
             }
         }
 
@@ -3444,18 +2891,36 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = LocalizationHelper.GetString("SelectExtraOnlyRareTags"), Value = "2" },
             ];
 
-        private string _autoRecruitFirstList = ConfigurationHelper.GetValue(ConfigurationKeys.AutoRecruitFirstList, string.Empty);
+        private static readonly List<string> _autoRecruitTagList = ["近战位", "远程位", "先锋干员", "近卫干员", "狙击干员", "重装干员", "医疗干员", "辅助干员", "术师干员", "治疗", "费用回复", "输出", "生存", "群攻", "防护", "减速",];
 
-        /// <summary>
-        /// Gets or sets the priority tag list of level-3 tags.
-        /// </summary>
-        public string AutoRecruitFirstList
+        private static readonly Lazy<List<CombinedData>> _autoRecruitTagShowList = new(() =>
+            _autoRecruitTagList.Select<string, (string, string)?>(tag => DataHelper.RecruitTags.TryGetValue(tag, out var value) ? value : null)
+                .Where(tag => tag is not null)
+                .Cast<(string Display, string Client)>()
+                .Select(tag => new CombinedData() { Display = tag.Display, Value = tag.Client })
+                .ToList());
+
+        public static List<CombinedData> AutoRecruitTagShowList
+        {
+            get => _autoRecruitTagShowList.Value;
+        }
+
+        private object[] _autoRecruitFirstList = ConfigurationHelper
+            .GetValue(ConfigurationKeys.AutoRecruitFirstList, string.Empty)
+            .Split(';')
+            .Select(tag => _autoRecruitTagShowList.Value.FirstOrDefault(i => i.Value == tag))
+            .Where(tag => tag is not null)
+            .Cast<CombinedData>()
+            .ToArray();
+
+        public object[] AutoRecruitFirstList
         {
             get => _autoRecruitFirstList;
             set
             {
                 SetAndNotify(ref _autoRecruitFirstList, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AutoRecruitFirstList, value);
+                var config = string.Join(';', value.Cast<CombinedData>().Select(i => i.Value));
+                ConfigurationHelper.SetValue(ConfigurationKeys.AutoRecruitFirstList, config);
             }
         }
 
@@ -3767,1426 +3232,6 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         #endregion 自动公招设置
-
-        #region 软件更新设置
-
-        public enum UpdateVersionType
-        {
-            /// <summary>
-            /// 测试版
-            /// </summary>
-            Nightly,
-
-            /// <summary>
-            /// 开发版
-            /// </summary>
-            Beta,
-
-            /// <summary>
-            /// 稳定版
-            /// </summary>
-            Stable,
-        }
-
-        /// <summary>
-        /// Gets the core version.
-        /// </summary>
-        public static string CoreVersion { get; } = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
-
-        public static string CoreVersionDisplay => string.Join("\u200B", CoreVersion.ToCharArray());
-
-        private static readonly string _uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
-
-        /// <summary>
-        /// Gets the UI version.
-        /// </summary>
-        public static string UiVersion { get; } = _uiVersion == "0.0.1" ? "DEBUG VERSION" : _uiVersion;
-
-        public static string UiVersionDisplay => string.Join("\u200B", UiVersion.ToCharArray());
-
-        public static DateTime BuildDateTime { get; } = Assembly.GetExecutingAssembly().GetCustomAttribute<BuildDateTimeAttribute>()?.BuildDateTime ?? DateTime.MinValue;
-
-        public static string BuildDateTimeCurrentCultureString => BuildDateTime.ToLocalTimeString();
-
-        private static (DateTime DateTime, string VersionName) _resourceInfo = GetResourceVersionByClientType(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty));
-
-        private static string _resourceVersion = _resourceInfo.VersionName;
-
-        /// <summary>
-        /// Gets or sets the resource version.
-        /// </summary>
-        public string ResourceVersion
-        {
-            get => _resourceVersion;
-            set => SetAndNotify(ref _resourceVersion, value);
-        }
-
-        private static DateTime _resourceDateTime = _resourceInfo.DateTime;
-
-        public DateTime ResourceDateTime
-        {
-            get => _resourceDateTime;
-            set => SetAndNotify(ref _resourceDateTime, value);
-        }
-
-        public string ResourceDateTimeCurrentCultureString => ResourceDateTime.ToLocalTimeString();
-
-        private static (DateTime DateTime, string VersionName) GetResourceVersionByClientType(string clientType)
-        {
-            const string OfficialClientType = "Official";
-            const string BilibiliClientType = "Bilibili";
-            string jsonPath = "resource/version.json";
-            if (clientType is not ("" or OfficialClientType or BilibiliClientType))
-            {
-                jsonPath = $"resource/global/{clientType}/resource/version.json";
-            }
-
-            string versionName;
-            if (!File.Exists(jsonPath))
-            {
-                return (DateTime.MinValue, string.Empty);
-            }
-
-            var versionJson = (JObject?)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
-            var currentTime = (ulong)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            var poolTime = (ulong?)versionJson?["gacha"]?["time"]; // 卡池的开始时间
-            var activityTime = (ulong?)versionJson?["activity"]?["time"]; // 活动的开始时间
-            var lastUpdated = (string?)versionJson?["last_updated"]; // 最后更新时间
-            var dateTime = lastUpdated == null
-                ? DateTime.MinValue
-                : DateTime.ParseExact(lastUpdated, "yyyy-MM-dd HH:mm:ss.fff", null);
-
-            if ((currentTime < poolTime) && (currentTime < activityTime))
-            {
-                versionName = string.Empty;
-            }
-            else if ((currentTime >= poolTime) && (currentTime < activityTime))
-            {
-                versionName = versionJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
-            }
-            else if ((currentTime < poolTime) && (currentTime >= activityTime))
-            {
-                versionName = versionJson?["activity"]?["name"]?.ToString() ?? string.Empty;
-            }
-            else if (poolTime > activityTime)
-            {
-                versionName = versionJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
-            }
-            else
-            {
-                versionName = versionJson?["activity"]?["name"]?.ToString() ?? string.Empty;
-            }
-
-            return (dateTime, versionName);
-        }
-
-        private UpdateVersionType _versionType = (UpdateVersionType)Enum.Parse(
-            typeof(UpdateVersionType),
-            ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionType, UpdateVersionType.Stable.ToString()));
-
-        /// <summary>
-        /// Gets or sets the type of version to update.
-        /// </summary>
-        public UpdateVersionType VersionType
-        {
-            get => _versionType;
-            set
-            {
-                SetAndNotify(ref _versionType, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionType, value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets the list of the version type.
-        /// </summary>
-        public List<GenericCombinedData<UpdateVersionType>> AllVersionTypeList { get; } =
-            [
-                new() { Display = LocalizationHelper.GetString("UpdateCheckNightly"), Value = UpdateVersionType.Nightly },
-                new() { Display = LocalizationHelper.GetString("UpdateCheckBeta"), Value = UpdateVersionType.Beta },
-                new() { Display = LocalizationHelper.GetString("UpdateCheckStable"), Value = UpdateVersionType.Stable },
-            ];
-
-        public List<GenericCombinedData<UpdateVersionType>> VersionTypeList
-        {
-            get => AllVersionTypeList.Where(v => AllowNightlyUpdates || v.Value != UpdateVersionType.Nightly).ToList();
-        }
-
-        public bool AllowNightlyUpdates { get; set; } = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AllowNightlyUpdates, bool.FalseString));
-
-        private bool _hasAcknowledgedNightlyWarning = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.HasAcknowledgedNightlyWarning, bool.FalseString));
-
-        public bool HasAcknowledgedNightlyWarning
-        {
-            get => _hasAcknowledgedNightlyWarning;
-            set
-            {
-                SetAndNotify(ref _hasAcknowledgedNightlyWarning, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.HasAcknowledgedNightlyWarning, value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether to update nightly.
-        /// </summary>
-        public bool UpdateNightly
-        {
-            get => _versionType == UpdateVersionType.Nightly;
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether to update beta version.
-        /// </summary>
-        public bool UpdateBeta
-        {
-            get => _versionType == UpdateVersionType.Beta;
-        }
-
-        private bool _updateCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateCheck, bool.TrueString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to check update.
-        /// </summary>
-        public bool UpdateCheck
-        {
-            get => _updateCheck;
-            set
-            {
-                SetAndNotify(ref _updateCheck, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateCheck, value.ToString());
-            }
-        }
-
-        private bool _updateAutoCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateAutoCheck, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to check update.
-        /// </summary>
-        public bool UpdateAutoCheck
-        {
-            get => _updateAutoCheck;
-            set
-            {
-                SetAndNotify(ref _updateAutoCheck, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateAutoCheck, value.ToString());
-            }
-        }
-
-        private string _proxy = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateProxy, string.Empty);
-
-        /// <summary>
-        /// Gets or sets the proxy settings.
-        /// </summary>
-        public string Proxy
-        {
-            get => _proxy;
-            set
-            {
-                SetAndNotify(ref _proxy, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateProxy, value);
-            }
-        }
-
-        public List<CombinedData> ProxyTypeList { get; } =
-            [
-                new() { Display = "HTTP Proxy", Value = "http" },
-                new() { Display = "Socks5 Proxy", Value = "socks5" },
-            ];
-
-        private string _proxyType = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ProxyType, "http");
-
-        public string ProxyType
-        {
-            get => _proxyType;
-            set
-            {
-                SetAndNotify(ref _proxyType, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ProxyType, value);
-            }
-        }
-
-        private bool _isCheckingForUpdates;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the update is being checked.
-        /// </summary>
-        public bool IsCheckingForUpdates
-        {
-            get => _isCheckingForUpdates;
-            set
-            {
-                SetAndNotify(ref _isCheckingForUpdates, value);
-            }
-        }
-
-        private bool _autoDownloadUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AutoDownloadUpdatePackage, bool.TrueString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to auto download update package.
-        /// </summary>
-        public bool AutoDownloadUpdatePackage
-        {
-            get => _autoDownloadUpdatePackage;
-            set
-            {
-                SetAndNotify(ref _autoDownloadUpdatePackage, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.AutoDownloadUpdatePackage, value.ToString());
-            }
-        }
-
-        private bool _autoInstallUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AutoInstallUpdatePackage, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to auto install update package.
-        /// </summary>
-        public bool AutoInstallUpdatePackage
-        {
-            get => _autoInstallUpdatePackage;
-            set
-            {
-                SetAndNotify(ref _autoInstallUpdatePackage, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.AutoInstallUpdatePackage, value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Updates manually.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task ManualUpdate()
-        {
-            var ret = await Instances.VersionUpdateViewModel.CheckAndDownloadUpdate();
-
-            string toastMessage = string.Empty;
-            switch (ret)
-            {
-                case VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdate:
-                    break;
-
-                case VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdateDebugVersion:
-                    toastMessage = LocalizationHelper.GetString("NoNeedToUpdateDebugVersion");
-                    break;
-
-                case VersionUpdateViewModel.CheckUpdateRetT.AlreadyLatest:
-                    toastMessage = LocalizationHelper.GetString("AlreadyLatest");
-                    break;
-
-                case VersionUpdateViewModel.CheckUpdateRetT.UnknownError:
-                    toastMessage = LocalizationHelper.GetString("NewVersionDetectFailedTitle");
-                    break;
-
-                case VersionUpdateViewModel.CheckUpdateRetT.NetworkError:
-                    toastMessage = LocalizationHelper.GetString("CheckNetworking");
-                    break;
-
-                case VersionUpdateViewModel.CheckUpdateRetT.FailedToGetInfo:
-                    toastMessage = LocalizationHelper.GetString("GetReleaseNoteFailed");
-                    break;
-
-                case VersionUpdateViewModel.CheckUpdateRetT.OK:
-                    Instances.VersionUpdateViewModel.AskToRestart();
-                    break;
-
-                case VersionUpdateViewModel.CheckUpdateRetT.NewVersionIsBeingBuilt:
-                    toastMessage = LocalizationHelper.GetString("NewVersionIsBeingBuilt");
-                    break;
-
-                case VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated:
-                    toastMessage = LocalizationHelper.GetString("GameResourceUpdated");
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            if (toastMessage != string.Empty)
-            {
-                ToastNotification.ShowDirect(toastMessage);
-            }
-        }
-
-        public async Task ManualUpdateResource()
-        {
-            IsCheckingForUpdates = true;
-            if (await ResourceUpdater.UpdateFromGithubAsync())
-            {
-                if (Instances.SettingsViewModel.AutoInstallUpdatePackage)
-                {
-                    await Bootstrapper.RestartAfterIdleAsync();
-                }
-                else
-                {
-                    var result = MessageBoxHelper.Show(
-                        LocalizationHelper.GetString("GameResourceUpdated"),
-                        LocalizationHelper.GetString("Tip"),
-                        MessageBoxButton.OKCancel,
-                        MessageBoxImage.Question,
-                        ok: LocalizationHelper.GetString("Ok"),
-                        cancel: LocalizationHelper.GetString("ManualRestart"));
-                    if (result == MessageBoxResult.OK)
-                    {
-                        Bootstrapper.ShutdownAndRestartWithoutArgs();
-                    }
-                }
-            }
-
-            IsCheckingForUpdates = false;
-        }
-
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
-        public void ShowChangelog()
-        {
-            Instances.WindowManager.ShowWindow(Instances.VersionUpdateViewModel);
-        }
-
-        #endregion 软件更新设置
-
-        #region 连接设置
-
-        /// <summary>
-        /// Gets the list of the configuration of connection.
-        /// </summary>
-        public List<CombinedData> ConnectConfigList { get; } =
-            [
-                new() { Display = LocalizationHelper.GetString("General"), Value = "General" },
-                new() { Display = LocalizationHelper.GetString("BlueStacks"), Value = "BlueStacks" },
-                new() { Display = LocalizationHelper.GetString("MuMuEmulator12"), Value = "MuMuEmulator12" },
-                new() { Display = LocalizationHelper.GetString("LDPlayer"), Value = "LDPlayer" },
-                new() { Display = LocalizationHelper.GetString("Nox"), Value = "Nox" },
-                new() { Display = LocalizationHelper.GetString("XYAZ"), Value = "XYAZ" },
-                new() { Display = LocalizationHelper.GetString("WSA"), Value = "WSA" },
-                new() { Display = LocalizationHelper.GetString("Compatible"), Value = "Compatible" },
-                new() { Display = LocalizationHelper.GetString("SecondResolution"), Value = "SecondResolution" },
-                new() { Display = LocalizationHelper.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
-            ];
-
-        /// <summary>
-        /// Gets the list of touch modes
-        /// </summary>
-        public List<CombinedData> TouchModeList { get; } =
-            [
-                new() { Display = LocalizationHelper.GetString("MiniTouchMode"), Value = "minitouch" },
-                new() { Display = LocalizationHelper.GetString("MaaTouchMode"), Value = "maatouch" },
-                new() { Display = LocalizationHelper.GetString("AdbTouchMode"), Value = "adb" },
-            ];
-
-        /// <summary>
-        /// Gets the list of the client types.
-        /// </summary>
-        public List<CombinedData> ClientTypeList { get; } =
-            [
-                new() { Display = LocalizationHelper.GetString("NotSelected"), Value = string.Empty },
-                new() { Display = LocalizationHelper.GetString("Official"), Value = "Official" },
-                new() { Display = LocalizationHelper.GetString("Bilibili"), Value = "Bilibili" },
-                new() { Display = LocalizationHelper.GetString("YoStarEN"), Value = "YoStarEN" },
-                new() { Display = LocalizationHelper.GetString("YoStarJP"), Value = "YoStarJP" },
-                new() { Display = LocalizationHelper.GetString("YoStarKR"), Value = "YoStarKR" },
-                new() { Display = LocalizationHelper.GetString("Txwy"), Value = "txwy" },
-            ];
-
-        private bool _autoDetectConnection = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoDetect, bool.TrueString));
-
-        public bool AutoDetectConnection
-        {
-            get => _autoDetectConnection;
-            set
-            {
-                if (!SetAndNotify(ref _autoDetectConnection, value))
-                {
-                    return;
-                }
-
-                ConfigurationHelper.SetValue(ConfigurationKeys.AutoDetect, value.ToString());
-
-                if (value)
-                {
-                    Instances.AsstProxy.Connected = false;
-                }
-            }
-        }
-
-        private bool _alwaysAutoDetectConnection = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AlwaysAutoDetect, bool.FalseString));
-
-        public bool AlwaysAutoDetectConnection
-        {
-            get => _alwaysAutoDetectConnection;
-            set
-            {
-                SetAndNotify(ref _alwaysAutoDetectConnection, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AlwaysAutoDetect, value.ToString());
-            }
-        }
-
-        private ObservableCollection<string> _connectAddressHistory = [];
-
-        public ObservableCollection<string> ConnectAddressHistory
-        {
-            get => _connectAddressHistory;
-            set => SetAndNotify(ref _connectAddressHistory, value);
-        }
-
-        private string _connectAddress = ConfigurationHelper.GetValue(ConfigurationKeys.ConnectAddress, string.Empty);
-
-        /// <summary>
-        /// Gets or sets the connection address.
-        /// </summary>
-        public string ConnectAddress
-        {
-            get => _connectAddress;
-            set
-            {
-                if (ConnectAddress == value)
-                {
-                    return;
-                }
-
-                Instances.AsstProxy.Connected = false;
-
-                UpdateConnectionHistory(value);
-
-                SetAndNotify(ref _connectAddress, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AddressHistory, JsonConvert.SerializeObject(ConnectAddressHistory));
-                ConfigurationHelper.SetValue(ConfigurationKeys.ConnectAddress, value);
-                UpdateWindowTitle(); // 每次修改客户端时更新WindowTitle
-            }
-        }
-
-        private void UpdateConnectionHistory(string address)
-        {
-            var history = ConnectAddressHistory.ToList();
-            if (history.Remove(address))
-            {
-                history.Insert(0, address);
-            }
-            else
-            {
-                history.Insert(0, address);
-                const int MaxHistoryCount = 5;
-                if (history.Count > MaxHistoryCount)
-                {
-                    history.RemoveRange(MaxHistoryCount, history.Count - MaxHistoryCount);
-                }
-            }
-
-            ConnectAddressHistory = new ObservableCollection<string>(history);
-        }
-
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
-        public void RemoveAddressClick(string address)
-        {
-            ConnectAddressHistory.Remove(address);
-            ConfigurationHelper.SetValue(ConfigurationKeys.AddressHistory, JsonConvert.SerializeObject(ConnectAddressHistory));
-        }
-
-        private string _adbPath = ConfigurationHelper.GetValue(ConfigurationKeys.AdbPath, string.Empty);
-
-        /// <summary>
-        /// Gets or sets the ADB path.
-        /// </summary>
-        public string AdbPath
-        {
-            get => _adbPath;
-            set
-            {
-                if (!Path.GetFileName(value).ToLower().Contains("adb"))
-                {
-                    int count = 3;
-                    while (count-- > 0)
-                    {
-                        var result = MessageBoxHelper.Show(
-                            LocalizationHelper.GetString("AdbPathFileSelectionErrorPrompt"),
-                            LocalizationHelper.GetString("Tip"),
-                            MessageBoxButton.OKCancel,
-                            MessageBoxImage.Warning,
-                            ok: LocalizationHelper.GetString("AdbPathFileSelectionErrorImSure") + $"({count + 1})",
-                            cancel: LocalizationHelper.GetString("AdbPathFileSelectionErrorSelectAgain"));
-                        if (result == MessageBoxResult.Cancel)
-                        {
-                            return;
-                        }
-                    }
-                }
-
-                Instances.AsstProxy.Connected = false;
-
-                SetAndNotify(ref _adbPath, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AdbPath, value);
-            }
-        }
-
-        private string _connectConfig = ConfigurationHelper.GetValue(ConfigurationKeys.ConnectConfig, "General");
-
-        /// <summary>
-        /// Gets or sets the connection config.
-        /// </summary>
-        public string ConnectConfig
-        {
-            get => _connectConfig;
-            set
-            {
-                Instances.AsstProxy.Connected = false;
-                SetAndNotify(ref _connectConfig, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ConnectConfig, value);
-                UpdateWindowTitle(); // 每次修改客户端时更新WindowTitle
-            }
-        }
-
-        public string ScreencapMethod { get; set; } = string.Empty;
-
-        public string ScreencapTestCost { get; set; } = string.Empty;
-
-        public class MuMuEmulator12ConnectionExtras : PropertyChangedBase
-        {
-            private bool _enable = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12ExtrasEnabled, bool.FalseString));
-
-            public bool Enable
-            {
-                get => _enable;
-                set
-                {
-                    if (!SetAndNotify(ref _enable, value))
-                    {
-                        return;
-                    }
-
-                    if (value)
-                    {
-                        MessageBoxHelper.Show(LocalizationHelper.GetString("MuMu12ExtrasEnabledTip"));
-
-                        // 读取mumu注册表地址 并填充GUI
-                        if (string.IsNullOrEmpty(EmulatorPath))
-                        {
-                            try
-                            {
-                                const string UninstallKeyPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MuMuPlayer-12.0";
-                                const string UninstallExeName = @"\uninstall.exe";
-
-                                using RegistryKey? driverKey = Registry.LocalMachine.OpenSubKey(UninstallKeyPath);
-                                if (driverKey == null)
-                                {
-                                    EmulatorPath = string.Empty;
-                                    return;
-                                }
-
-                                string? uninstallString = driverKey.GetValue("UninstallString") as string;
-
-                                if (string.IsNullOrEmpty(uninstallString) || !uninstallString.Contains(UninstallExeName))
-                                {
-                                    EmulatorPath = string.Empty;
-                                    return;
-                                }
-
-                                var match = Regex.Match(uninstallString,
-                                    $"""
-                                     ^"(.*?){Regex.Escape(UninstallExeName)}
-                                     """,
-                                    RegexOptions.IgnoreCase);
-                                EmulatorPath = match.Success ? match.Groups[1].Value : string.Empty;
-                            }
-                            catch (Exception e)
-                            {
-                                _logger.Warning($"An error occurred: {e.Message}");
-                                EmulatorPath = string.Empty;
-                            }
-                        }
-                    }
-
-                    Instances.AsstProxy.Connected = false;
-                    ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12ExtrasEnabled, value.ToString());
-                }
-            }
-
-            private static readonly string _configuredPath = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12EmulatorPath, @"C:\Program Files\Netease\MuMuPlayer-12.0");
-            private string _emulatorPath = Directory.Exists(_configuredPath) ? _configuredPath : string.Empty;
-
-            /// <summary>
-            /// Gets or sets a value indicating the path of the emulator.
-            /// </summary>
-            public string EmulatorPath
-            {
-                get => _emulatorPath;
-                set
-                {
-                    if (_enable && !string.IsNullOrEmpty(value) && !Directory.Exists(value))
-                    {
-                        MessageBoxHelper.Show("MuMu Emulator 12 Path Not Found");
-                        value = string.Empty;
-                    }
-
-                    Instances.AsstProxy.Connected = false;
-                    SetAndNotify(ref _emulatorPath, value);
-                    ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12EmulatorPath, value);
-                }
-            }
-
-            private bool _mumuBridgeConnection = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MumuBridgeConnection, bool.FalseString));
-
-            public bool MuMuBridgeConnection
-            {
-                get => _mumuBridgeConnection;
-                set
-                {
-                    if (_mumuBridgeConnection == value)
-                    {
-                        return;
-                    }
-
-                    if (value)
-                    {
-                        var result = MessageBoxHelper.Show(LocalizationHelper.GetString("MuMuBridgeConnectionTip"), icon: MessageBoxImage.Information, buttons: MessageBoxButton.OKCancel);
-                        if (result != MessageBoxResult.OK)
-                        {
-                            return;
-                        }
-                    }
-
-                    SetAndNotify(ref _mumuBridgeConnection, value);
-
-                    Instances.AsstProxy.Connected = false;
-                    ConfigurationHelper.SetValue(ConfigurationKeys.MumuBridgeConnection, value.ToString());
-                }
-            }
-
-            private string _index = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12Index, "0");
-
-            /// <summary>
-            /// Gets or sets the index of the emulator.
-            /// </summary>
-            public string Index
-            {
-                get => _index;
-                set
-                {
-                    Instances.AsstProxy.Connected = false;
-                    SetAndNotify(ref _index, value);
-                    ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12Index, value);
-                }
-            }
-
-            public string Config
-            {
-                get
-                {
-                    if (!Enable)
-                    {
-                        return JsonConvert.SerializeObject(new JObject());
-                    }
-
-                    var configObject = new JObject
-                    {
-                        ["path"] = EmulatorPath,
-                    };
-
-                    if (MuMuBridgeConnection)
-                    {
-                        configObject["index"] = int.TryParse(Index, out var indexParse) ? indexParse : 0;
-                    }
-
-                    return JsonConvert.SerializeObject(configObject);
-                }
-            }
-        }
-
-        public MuMuEmulator12ConnectionExtras MuMuEmulator12Extras { get; set; } = new();
-
-        public class LdPlayerConnectionExtras : PropertyChangedBase
-        {
-            private bool _enable = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerExtrasEnabled, bool.FalseString));
-
-            public bool Enable
-            {
-                get => _enable;
-                set
-                {
-                    if (!SetAndNotify(ref _enable, value))
-                    {
-                        return;
-                    }
-
-                    if (value)
-                    {
-                        MessageBoxHelper.Show(LocalizationHelper.GetString("LdExtrasEnabledTip"));
-
-                        // 读取 LD 注册表地址 并填充GUI
-                        if (string.IsNullOrEmpty(EmulatorPath))
-                        {
-                            try
-                            {
-                                const string UninstallKeyPath = @"Software\leidian\ldplayer9";
-                                const string InstallDirValueName = "InstallDir";
-
-                                using RegistryKey? driverKey = Registry.CurrentUser.OpenSubKey(UninstallKeyPath);
-                                if (driverKey == null)
-                                {
-                                    EmulatorPath = string.Empty;
-                                    return;
-                                }
-
-                                string? installDir = driverKey.GetValue(InstallDirValueName) as string;
-
-                                if (string.IsNullOrEmpty(installDir))
-                                {
-                                    EmulatorPath = string.Empty;
-                                    return;
-                                }
-
-                                EmulatorPath = installDir;
-                            }
-                            catch (Exception e)
-                            {
-                                _logger.Warning($"An error occurred: {e.Message}");
-                                EmulatorPath = string.Empty;
-                            }
-                        }
-                    }
-
-                    Instances.AsstProxy.Connected = false;
-                    ConfigurationHelper.SetValue(ConfigurationKeys.LdPlayerExtrasEnabled, value.ToString());
-                }
-            }
-
-            private static readonly string _configuredPath = ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerEmulatorPath, @"C:\leidian\LDPlayer9");
-            private string _emulatorPath = Directory.Exists(_configuredPath) ? _configuredPath : string.Empty;
-
-            /// <summary>
-            /// Gets or sets a value indicating the path of the emulator.
-            /// </summary>
-            public string EmulatorPath
-            {
-                get => _emulatorPath;
-                set
-                {
-                    if (_enable && !string.IsNullOrEmpty(value) && !Directory.Exists(value))
-                    {
-                        MessageBoxHelper.Show("LD Emulator Path Not Found");
-                        value = string.Empty;
-                    }
-
-                    Instances.AsstProxy.Connected = false;
-                    SetAndNotify(ref _emulatorPath, value);
-                    ConfigurationHelper.SetValue(ConfigurationKeys.LdPlayerEmulatorPath, value);
-                }
-            }
-
-            private string _index = ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerIndex, "0");
-
-            /// <summary>
-            /// Gets or sets the index of the emulator.
-            /// </summary>
-            public string Index
-            {
-                get => _index;
-                set
-                {
-                    Instances.AsstProxy.Connected = false;
-                    SetAndNotify(ref _index, value);
-                    ConfigurationHelper.SetValue(ConfigurationKeys.LdPlayerIndex, value);
-                }
-            }
-
-            private int GetEmulatorPid(int index)
-            {
-                string emulatorPath = $@"{EmulatorPath}\ldconsole.exe";
-                if (!File.Exists(emulatorPath))
-                {
-                    MessageBoxHelper.Show("LD Emulator Path Not Found");
-                    return 0;
-                }
-
-                ProcessStartInfo startInfo = new ProcessStartInfo
-                {
-                    FileName = emulatorPath,
-                    Arguments = "list2",
-                    RedirectStandardOutput = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                };
-
-                using Process? process = Process.Start(startInfo);
-                if (process == null)
-                {
-                    _logger.Warning("Failed to start ldconsole list2");
-                    return 0;
-                }
-
-                using StreamReader reader = process.StandardOutput;
-                string result = reader.ReadToEnd();
-                string[] lines = result.Split([Environment.NewLine], StringSplitOptions.RemoveEmptyEntries);
-
-                if (lines.Length <= 0)
-                {
-                    _logger.Warning("Failed to get emulator PID.");
-                    return 0;
-                }
-
-                foreach (string line in lines)
-                {
-                    string[] parts = line.Split(',');
-                    if (parts.Length < 6 || !int.TryParse(parts[0], out int currentIndex) || currentIndex != index)
-                    {
-                        continue;
-                    }
-
-                    if (int.TryParse(parts[5], out int pid))
-                    {
-                        return pid;
-                    }
-                }
-
-                _logger.Warning("Failed to get emulator PID.");
-                return 0;
-            }
-
-            public string Config
-            {
-                get
-                {
-                    if (!Enable)
-                    {
-                        return JsonConvert.SerializeObject(new JObject());
-                    }
-
-                    var configObject = new JObject
-                    {
-                        ["path"] = EmulatorPath,
-                        ["index"] = int.TryParse(Index, out var indexParse) ? indexParse : 0,
-                        ["pid"] = GetEmulatorPid(indexParse),
-                    };
-                    return JsonConvert.SerializeObject(configObject);
-                }
-            }
-        }
-
-        public LdPlayerConnectionExtras LdPlayerExtras { get; set; } = new();
-
-        private bool _retryOnDisconnected = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RetryOnAdbDisconnected, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to retry task after ADB disconnected.
-        /// </summary>
-        public bool RetryOnDisconnected
-        {
-            get => _retryOnDisconnected;
-            set
-            {
-                if (string.IsNullOrEmpty(EmulatorPath))
-                {
-                    MessageBoxHelper.Show(
-                        LocalizationHelper.GetString("RetryOnDisconnectedEmulatorPathEmptyError"),
-                        LocalizationHelper.GetString("Tip"),
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Warning);
-                    value = false;
-                }
-
-                SetAndNotify(ref _retryOnDisconnected, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RetryOnAdbDisconnected, value.ToString());
-            }
-        }
-
-        private bool _allowAdbRestart = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowAdbRestart, bool.TrueString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to retry task after ADB disconnected.
-        /// </summary>
-        public bool AllowAdbRestart
-        {
-            get => _allowAdbRestart;
-            set
-            {
-                SetAndNotify(ref _allowAdbRestart, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AllowAdbRestart, value.ToString());
-            }
-        }
-
-        private bool _allowAdbHardRestart = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowAdbHardRestart, bool.TrueString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to allow for killing ADB process.
-        /// </summary>
-        public bool AllowAdbHardRestart
-        {
-            get => _allowAdbHardRestart;
-            set
-            {
-                SetAndNotify(ref _allowAdbHardRestart, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AllowAdbHardRestart, value.ToString());
-            }
-        }
-
-        private bool _deploymentWithPause = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDeploymentWithPause, bool.FalseString));
-
-        public bool DeploymentWithPause
-        {
-            get => _deploymentWithPause;
-            set
-            {
-                SetAndNotify(ref _deploymentWithPause, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDeploymentWithPause, value.ToString());
-                UpdateInstanceSettings();
-            }
-        }
-
-        private bool _adbLiteEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AdbLiteEnabled, bool.FalseString));
-
-        public bool AdbLiteEnabled
-        {
-            get => _adbLiteEnabled;
-            set
-            {
-                SetAndNotify(ref _adbLiteEnabled, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AdbLiteEnabled, value.ToString());
-                UpdateInstanceSettings();
-            }
-        }
-
-        private bool _killAdbOnExit = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.KillAdbOnExit, bool.FalseString));
-
-        public bool KillAdbOnExit
-        {
-            get => _killAdbOnExit;
-            set
-            {
-                SetAndNotify(ref _killAdbOnExit, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.KillAdbOnExit, value.ToString());
-                UpdateInstanceSettings();
-            }
-        }
-
-        /// <summary>
-        /// Gets the default addresses.
-        /// </summary>
-        public Dictionary<string, List<string>> DefaultAddress { get; } = new()
-        {
-            { "General", [string.Empty] },
-            { "BlueStacks", ["127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5565", "127.0.0.1:5575", "127.0.0.1:5585", "127.0.0.1:5595", "127.0.0.1:5554"] },
-            { "MuMuEmulator12", ["127.0.0.1:16384", "127.0.0.1:16416", "127.0.0.1:16448", "127.0.0.1:16480", "127.0.0.1:16512", "127.0.0.1:16544", "127.0.0.1:16576"] },
-            { "LDPlayer", ["emulator-5554", "emulator-5556", "emulator-5558", "emulator-5560", "127.0.0.1:5555", "127.0.0.1:5557", "127.0.0.1:5559", "127.0.0.1:5561"] },
-            { "Nox", ["127.0.0.1:62001", "127.0.0.1:59865"] },
-            { "XYAZ", ["127.0.0.1:21503"] },
-            { "WSA", ["127.0.0.1:58526"] },
-        };
-
-        /// <summary>
-        /// RegisterKey of Bluestacks_Nxt
-        /// </summary>
-        private const string BluestacksNxtRegistryKey = @"SOFTWARE\BlueStacks_nxt";
-
-        private const string BluestacksNxtValueName = "UserDefinedDir";
-
-        /// <summary>
-        /// Refreshes ADB config.
-        /// </summary>
-        /// <param name="error">Errors when doing this operation.</param>
-        /// <returns>Whether the operation is successful.</returns>
-        public bool DetectAdbConfig(ref string error)
-        {
-            var adapter = new WinAdapter();
-            List<string> emulators;
-            try
-            {
-                emulators = adapter.RefreshEmulatorsInfo();
-            }
-            catch (Exception e)
-            {
-                _logger.Information(e.Message);
-                error = LocalizationHelper.GetString("EmulatorException");
-                return false;
-            }
-
-            switch (emulators.Count)
-            {
-                case 0:
-                    error = LocalizationHelper.GetString("EmulatorNotFound");
-                    return false;
-
-                case > 1:
-                    error = LocalizationHelper.GetString("EmulatorTooMany");
-                    break;
-            }
-
-            ConnectConfig = emulators.First();
-            AdbPath = adapter.GetAdbPathByEmulatorName(ConnectConfig) ?? AdbPath;
-            if (string.IsNullOrEmpty(AdbPath))
-            {
-                error = LocalizationHelper.GetString("AdbException");
-                return false;
-            }
-
-            var addresses = adapter.GetAdbAddresses(AdbPath);
-
-            switch (addresses.Count)
-            {
-                case 1:
-                    ConnectAddress = addresses.First();
-                    break;
-
-                case > 1:
-                    {
-                        foreach (var address in addresses.Where(address => address != "emulator-5554" && address != "1234567890ABCDEF"))
-                        {
-                            ConnectAddress = address;
-                            break;
-                        }
-
-                        break;
-                    }
-            }
-
-            if (ConnectAddress.Length == 0)
-            {
-                ConnectAddress = DefaultAddress[ConnectConfig][0];
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Get the path of bluestacks.conf
-        /// </summary>
-        /// <returns>path</returns>
-        private static string? GetBluestacksConfig()
-        {
-            var conf = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigPath, string.Empty);
-            if (!string.IsNullOrEmpty(conf))
-            {
-                return conf;
-            }
-
-            using var key = Registry.LocalMachine.OpenSubKey(BluestacksNxtRegistryKey);
-            var value = key?.GetValue(BluestacksNxtValueName);
-            if (value != null)
-            {
-                return (string)value + @"\bluestacks.conf";
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Selects ADB program file.
-        /// </summary>
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
-        public void SelectFile()
-        {
-            var dialog = new OpenFileDialog();
-            if (MaaWineBridge.Availability == WineBridgeAvailability.NotAvailable)
-            {
-                dialog.Filter = LocalizationHelper.GetString("AdbProgram") + "|*.exe";
-            }
-
-            if (dialog.ShowDialog() == true)
-            {
-                AdbPath = dialog.FileName;
-            }
-        }
-
-        /// <summary>
-        /// Test Link And Get Image.
-        /// </summary>
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
-        public async void TestLinkAndGetImage()
-        {
-            _runningState.SetIdle(false);
-
-            string errMsg = string.Empty;
-            TestLinkInfo = LocalizationHelper.GetString("ConnectingToEmulator");
-            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-            if (!caught)
-            {
-                TestLinkInfo = errMsg;
-                _runningState.SetIdle(true);
-                return;
-            }
-
-            TestLinkImage = await Instances.AsstProxy.AsstGetFreshImageAsync();
-            await Instances.TaskQueueViewModel.Stop();
-            Instances.TaskQueueViewModel.SetStopped();
-
-            if (TestLinkImage is null)
-            {
-                TestLinkInfo = "Image is null";
-                return;
-            }
-
-            switch (ConnectConfig)
-            {
-                case "MuMuEmulator12":
-                    if (MuMuEmulator12Extras.Enable && ScreencapMethod != "MumuExtras")
-                    {
-                        TestLinkInfo = $"{LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage")}\n{ScreencapTestCost}";
-                        return;
-                    }
-
-                    break;
-            }
-
-            TestLinkInfo = ScreencapTestCost;
-
-            Window popupWindow = new Window
-            {
-                Width = 800,
-                Height = 481, // (800 - 1 - 1) * 9 / 16 + 32 + 1,
-                Content = new Image { Source = TestLinkImage, },
-                WindowStartupLocation = WindowStartupLocation.CenterScreen,
-            };
-            popupWindow.ShowDialog();
-        }
-
-        private BitmapImage? _testLinkImage;
-
-        public BitmapImage? TestLinkImage
-        {
-            get => _testLinkImage;
-            set => SetAndNotify(ref _testLinkImage, value);
-        }
-
-        private string _testLinkInfo = string.Empty;
-
-        public string TestLinkInfo
-        {
-            get => _testLinkInfo;
-            set => SetAndNotify(ref _testLinkInfo, value);
-        }
-
-        /// <summary>
-        /// 标题栏显示模拟器名称和IP端口。
-        /// </summary>
-        public void UpdateWindowTitle()
-        {
-            var rvm = (RootViewModel)this.Parent;
-
-            string prefix = ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitlePrefix, string.Empty);
-            if (!string.IsNullOrEmpty(prefix))
-            {
-                prefix += " - ";
-            }
-
-            List<string> windowTitleSelectShowList = _windowTitleSelectShowList
-                .Where(x => _windowTitleAllShowDict.ContainsKey(x?.ToString() ?? string.Empty))
-                .Select(x => _windowTitleAllShowDict[x?.ToString() ?? string.Empty]).ToList();
-
-            string currentConfiguration = string.Empty;
-            string connectConfigName = string.Empty;
-            string connectAddress = string.Empty;
-            string clientName = string.Empty;
-
-            foreach (var select in windowTitleSelectShowList)
-            {
-                switch (select)
-                {
-                    case "1": // 配置名
-                        currentConfiguration = $" ({CurrentConfiguration})";
-                        break;
-
-                    case "2": // 连接模式
-                        foreach (var data in ConnectConfigList.Where(data => data.Value == ConnectConfig))
-                        {
-                            connectConfigName = $" - {data.Display}";
-                        }
-
-                        break;
-
-                    case "3": // 端口地址
-                        connectAddress = $" ({ConnectAddress})";
-                        break;
-
-                    case "4": // 客户端类型
-                        clientName = $" - {ClientName}";
-                        break;
-                }
-            }
-
-            string resourceVersion = !string.IsNullOrEmpty(ResourceVersion)
-                ? LocalizationHelper.CustomCultureInfo.Name.ToLowerInvariant() switch
-                {
-                    "zh-cn" => $" - {ResourceVersion}{ResourceDateTime:#MMdd}",
-                    "zh-tw" => $" - {ResourceVersion}{ResourceDateTime:#MMdd}",
-                    "en-us" => $" - {ResourceDateTime:dd/MM} {ResourceVersion}",
-                    _ => $" - {ResourceDateTime.ToString(LocalizationHelper.CustomCultureInfo.DateTimeFormat.ShortDatePattern.Replace("yyyy", string.Empty).Trim('/', '.'))} {ResourceVersion}",
-                }
-                : string.Empty;
-            rvm.WindowTitle = $"{prefix}MAA{currentConfiguration} - {CoreVersion}{resourceVersion}{connectConfigName}{connectAddress}{clientName}";
-        }
-
-        private readonly string? _bluestacksConfig = GetBluestacksConfig();
-        private string _bluestacksKeyWord = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigKeyword, string.Empty);
-
-        /// <summary>
-        /// Tries to set BlueStack Hyper V address.
-        /// </summary>
-        /// <returns>success</returns>
-        public string? TryToSetBlueStacksHyperVAddress()
-        {
-            if (string.IsNullOrEmpty(_bluestacksConfig))
-            {
-                return string.Empty;
-            }
-
-            if (!File.Exists(_bluestacksConfig))
-            {
-                ConfigurationHelper.SetValue(ConfigurationKeys.BluestacksConfigError, "File not exists");
-                return string.Empty;
-            }
-
-            var allLines = File.ReadAllLines(_bluestacksConfig);
-
-            // ReSharper disable once InvertIf
-            if (string.IsNullOrEmpty(_bluestacksKeyWord))
-            {
-                foreach (var line in allLines)
-                {
-                    if (!line.StartsWith("bst.installed_images"))
-                    {
-                        continue;
-                    }
-
-                    var images = line.Split('"')[1].Split(',');
-                    _bluestacksKeyWord = "bst.instance." + images[0] + ".status.adb_port";
-                    break;
-                }
-            }
-
-            return (from line in allLines
-                    where line.StartsWith(_bluestacksKeyWord)
-                    select line.Split('"') into sp
-                    select "127.0.0.1:" + sp[1])
-                .FirstOrDefault();
-        }
-
-        public bool IsAdbTouchMode()
-        {
-            return TouchMode == "adb";
-        }
-
-        private string _touchMode = ConfigurationHelper.GetValue(ConfigurationKeys.TouchMode, "minitouch");
-
-        public string TouchMode
-        {
-            get => _touchMode;
-            set
-            {
-                SetAndNotify(ref _touchMode, value);
-                UpdateInstanceSettings();
-                ConfigurationHelper.SetValue(ConfigurationKeys.TouchMode, value);
-                AskRestartToApplySettings();
-            }
-        }
-
-        public void UpdateInstanceSettings()
-        {
-            Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.TouchMode, TouchMode);
-            Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, DeploymentWithPause ? "1" : "0");
-            Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, AdbLiteEnabled ? "1" : "0");
-            Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.KillAdbOnExit, KillAdbOnExit ? "1" : "0");
-        }
-
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
-        public async void ReplaceAdb()
-        {
-            if (string.IsNullOrEmpty(AdbPath))
-            {
-                ToastNotification.ShowDirect(LocalizationHelper.GetString("NoAdbPathSpecifiedMessage"));
-                return;
-            }
-
-            if (!File.Exists(MaaUrls.GoogleAdbFilename))
-            {
-                var downloadResult = await Instances.HttpService.DownloadFileAsync(new Uri(MaaUrls.GoogleAdbDownloadUrl), MaaUrls.GoogleAdbFilename);
-
-                if (!downloadResult)
-                {
-                    downloadResult = await Instances.HttpService.DownloadFileAsync(new Uri(MaaUrls.AdbMaaMirrorDownloadUrl), MaaUrls.GoogleAdbFilename);
-                }
-
-                if (!downloadResult)
-                {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("AdbDownloadFailedTitle"));
-                    toast.AppendContentText(LocalizationHelper.GetString("AdbDownloadFailedDesc")).Show();
-                    return;
-                }
-            }
-
-            const string UnzipDir = "adb";
-            const string NewAdb = UnzipDir + "/platform-tools/adb.exe";
-
-            try
-            {
-                if (Directory.Exists(UnzipDir))
-                {
-                    Directory.Delete(UnzipDir, true);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.Error($"An error occurred while deleting directory: {ex.GetType()}: {ex.Message}");
-                ToastNotification.ShowDirect(LocalizationHelper.GetString("AdbDeletionFailedMessage"));
-                return;
-            }
-
-            try
-            {
-                ZipFile.ExtractToDirectory(MaaUrls.GoogleAdbFilename, UnzipDir);
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex.ToString());
-                ToastNotification.ShowDirect(LocalizationHelper.GetString("UnzipFailedMessage"));
-                return;
-            }
-
-            bool replaced = false;
-            if (AdbPath != NewAdb && File.Exists(AdbPath))
-            {
-                try
-                {
-                    foreach (var process in Process.GetProcessesByName(Path.GetFileName(AdbPath)))
-                    {
-                        process.Kill();
-                        process.WaitForExit(5000);
-                    }
-
-                    string adbBack = AdbPath + ".bak";
-                    if (!File.Exists(adbBack))
-                    {
-                        File.Copy(AdbPath, adbBack, true);
-                    }
-
-                    File.Copy(NewAdb, AdbPath, true);
-                    replaced = true;
-                }
-                catch (Exception ex)
-                {
-                    _logger.Error(ex.ToString());
-                    replaced = false;
-                }
-            }
-
-            if (replaced)
-            {
-                AdbReplaced = true;
-
-                ConfigurationHelper.SetValue(ConfigurationKeys.AdbReplaced, bool.TrueString);
-
-                ToastNotification.ShowDirect(LocalizationHelper.GetString("SuccessfullyReplacedAdb"));
-            }
-            else
-            {
-                AdbPath = NewAdb;
-
-                using var toast = new ToastNotification(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocal"));
-                toast.AppendContentText(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocalDesc")).Show();
-            }
-        }
-
-        public bool AdbReplaced { get; set; } = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AdbReplaced, bool.FalseString));
-
-        #endregion 连接设置
 
         #region 界面设置
 
@@ -5809,7 +3854,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// Requires the user to restart to apply settings.
         /// </summary>
         /// <param name="isYostarEN">Whether to include the YostarEN resolution tip.</param>
-        private static void AskRestartToApplySettings(bool isYostarEN = false)
+        public static void AskRestartToApplySettings(bool isYostarEN = false)
         {
             var resolutionTip = isYostarEN ? "\n" + LocalizationHelper.GetString("SwitchResolutionTip") : string.Empty;
 
@@ -5851,7 +3896,67 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void SetAcknowledgedNightlyWarning()
         {
-            HasAcknowledgedNightlyWarning = true;
+            VersionUpdateDataContext.HasAcknowledgedNightlyWarning = true;
+        }
+
+        /// <summary>
+        /// 标题栏显示模拟器名称和IP端口。
+        /// </summary>
+        public void UpdateWindowTitle()
+        {
+            var rvm = (RootViewModel)this.Parent;
+
+            string prefix = ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitlePrefix, string.Empty);
+            if (!string.IsNullOrEmpty(prefix))
+            {
+                prefix += " - ";
+            }
+
+            List<string> windowTitleSelectShowList = _windowTitleSelectShowList
+                .Where(x => _windowTitleAllShowDict.ContainsKey(x?.ToString() ?? string.Empty))
+                .Select(x => _windowTitleAllShowDict[x?.ToString() ?? string.Empty]).ToList();
+
+            string currentConfiguration = string.Empty;
+            string connectConfigName = string.Empty;
+            string connectAddress = string.Empty;
+            string clientName = string.Empty;
+
+            foreach (var select in windowTitleSelectShowList)
+            {
+                switch (select)
+                {
+                    case "1": // 配置名
+                        currentConfiguration = $" ({CurrentConfiguration})";
+                        break;
+
+                    case "2": // 连接模式
+                        foreach (var data in ConnectSettings.ConnectConfigList.Where(data => data.Value == ConnectSettings.ConnectConfig))
+                        {
+                            connectConfigName = $" - {data.Display}";
+                        }
+
+                        break;
+
+                    case "3": // 端口地址
+                        connectAddress = $" ({ConnectSettings.ConnectAddress})";
+                        break;
+
+                    case "4": // 客户端类型
+                        clientName = $" - {ClientName}";
+                        break;
+                }
+            }
+
+            string resourceVersion = !string.IsNullOrEmpty(VersionUpdateDataContext.ResourceVersion)
+                ? LocalizationHelper.CustomCultureInfo.Name.ToLowerInvariant() switch
+                {
+                    "zh-cn" => $" - {VersionUpdateDataContext.ResourceVersion}{VersionUpdateDataContext.ResourceDateTime:#MMdd}",
+                    "zh-tw" => $" - {VersionUpdateDataContext.ResourceVersion}{VersionUpdateDataContext.ResourceDateTime:#MMdd}",
+                    "en-us" => $" - {VersionUpdateDataContext.ResourceDateTime:dd/MM} {VersionUpdateDataContext.ResourceVersion}",
+                    _ => $" - {VersionUpdateDataContext.ResourceDateTime.ToString(LocalizationHelper.CustomCultureInfo.DateTimeFormat.ShortDatePattern.Replace("yyyy", string.Empty).Trim('/', '.'))} {VersionUpdateDataContext.ResourceVersion}",
+                }
+                : string.Empty;
+            rvm.WindowTitle = $"{prefix}MAA{currentConfiguration} - {VersionUpdateSettingsUserControlModel.CoreVersion}{resourceVersion}{connectConfigName}{connectAddress}{clientName}";
         }
     }
 }

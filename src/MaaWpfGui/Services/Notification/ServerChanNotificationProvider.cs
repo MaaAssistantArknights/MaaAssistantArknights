@@ -12,16 +12,15 @@
 // </copyright>
 
 using System;
-using System.IO;
 using System.Net.Http;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using Serilog;
 using MaaWpfGui.Services.Web;
+using MaaWpfGui.ViewModels.UI;
+using Serilog;
 
 namespace MaaWpfGui.Services.Notification
 {
@@ -37,7 +36,16 @@ namespace MaaWpfGui.Services.Notification
 
         public async Task<bool> SendAsync(string title, string content)
         {
-            var sendKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, string.Empty);
+            // 去掉 title 中的换行符
+            title = title.Replace("\n", string.Empty);
+
+            // 确保 title 的长度不超过 32 个字符
+            if (title.Length > 32)
+            {
+                title = title[..32]; // 截取前 32 个字符
+            }
+
+            var sendKey = SettingsViewModel.ExternalNotificationDataContext.ServerChanSendKey;
 
             try
             {
@@ -47,7 +55,7 @@ namespace MaaWpfGui.Services.Notification
                 using var httpClient = new HttpClient();
                 var request = new HttpRequestMessage(HttpMethod.Post, url)
                 {
-                    Content = new StringContent(postData, Encoding.UTF8, "application/x-www-form-urlencoded")
+                    Content = new StringContent(postData, Encoding.UTF8, "application/x-www-form-urlencoded"),
                 };
 
                 var response = await httpClient.SendAsync(request);
@@ -60,11 +68,12 @@ namespace MaaWpfGui.Services.Notification
                     {
                         return true;
                     }
-                    _logger.Warning("Failed to send ServerChan notification, code: {Code}", code);
+
+                    _logger.Warning($"Failed to send ServerChan notification, code: {code}");
                 }
                 else
                 {
-                    _logger.Warning("Failed to send ServerChan notification, unknown response: {Response}", responseContent);
+                    _logger.Warning($"Failed to send ServerChan notification, unknown response: {responseContent}");
                 }
             }
             catch (Exception ex)
@@ -75,25 +84,22 @@ namespace MaaWpfGui.Services.Notification
             return false;
         }
 
-        private string ConstructUrl(string sendKey)
+        private static string ConstructUrl(string sendKey)
         {
-            if (sendKey.StartsWith("sctp"))
-            { // Server酱3
-                var match = Regex.Match(sendKey, @"^sctp(\d+)t");
-                if (match.Success)
-                {
-                    var num = match.Groups[1].Value;
-                    return $"https://{num}.push.ft07.com/send/{sendKey}.send";
-                }
-                else
-                {
-                    throw new ArgumentException("Invalid key format for sctp.");
-                }
-            }
-            else
+            if (!sendKey.StartsWith("sctp"))
             {
                 return $"https://sctapi.ftqq.com/{sendKey}.send";
             }
+
+            // Server酱3
+            var match = Regex.Match(sendKey, @"^sctp(\d+)t");
+            if (!match.Success)
+            {
+                throw new ArgumentException("Invalid key format for sctp.");
+            }
+
+            var num = match.Groups[1].Value;
+            return $"https://{num}.push.ft07.com/send/{sendKey}.send";
         }
     }
 }

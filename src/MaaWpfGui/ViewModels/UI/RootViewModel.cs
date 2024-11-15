@@ -15,9 +15,12 @@ using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using HandyControl.Tools;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using Microsoft.VisualBasic.Logging;
+using Microsoft.WindowsAPICodePack.Taskbar;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -39,7 +42,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             InitViewModels();
             InitProxy();
-            if (Instances.SettingsViewModel.UpdateNightly && !Instances.SettingsViewModel.HasAcknowledgedNightlyWarning)
+            if (SettingsViewModel.VersionUpdateDataContext.UpdateNightly && !SettingsViewModel.VersionUpdateDataContext.HasAcknowledgedNightlyWarning)
             {
                 MessageBoxHelper.Show(LocalizationHelper.GetString("NightlyWarning"));
             }
@@ -90,17 +93,45 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _windowTitle, value);
         }
 
-        private double _progress;
+        private (int Current, int Max)? _taskProgress;
 
         /// <summary>
-        /// Gets or sets the progress.
+        /// Gets or sets the TaskProgress.
         /// 0.0 to 1.0.
         /// 置 0 以隐藏进度条.
         /// </summary>
-        public double Progress
+        public (int Current, int Max)? TaskProgress
         {
-            get => _progress;
-            set => SetAndNotify(ref _progress, value);
+            get => _taskProgress;
+            set
+            {
+                SetAndNotify(ref _taskProgress, value);
+
+                Execute.OnUIThreadAsync(() =>
+                {
+                    if (Application.Current.MainWindow == null || !Application.Current.MainWindow.IsVisible)
+                    {
+                        return;
+                    }
+
+                    try
+                    {
+                        if (value is null)
+                        {
+                            TaskbarManager.Instance.SetProgressValue(0, 0);
+                        }
+                        else
+                        {
+                            TaskbarManager.Instance.SetProgressValue(value.Value.Current, value.Value.Max);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        // 不知道会不会有异常，先捕获一下
+                        Logger.Warning("TaskbarManager Exception: " + e.Message);
+                    }
+                });
+            }
         }
 
         private bool _windowTitleScrollable = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitleScrollable, bool.FalseString));

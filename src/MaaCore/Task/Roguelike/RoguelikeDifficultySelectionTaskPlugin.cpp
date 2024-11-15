@@ -48,6 +48,10 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::_run()
 {
     LogTraceFunction;
 
+    if (m_config->get_run_for_collectible()) {
+        Log.info(__FUNCTION__, "| Running for collectible");
+    }
+
     const int difficulty = m_config->get_run_for_collectible() ? 0 : m_config->get_difficulty();
     Log.info(__FUNCTION__, "| current_difficulty:", m_current_difficulty, "next difficulty:", difficulty);
 
@@ -77,7 +81,7 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::select_difficulty(const int d
             difficulty_list.push_back(std::to_string(i));
         }
         Task.get<OcrTaskInfo>(m_config->get_theme() + "@Roguelike@ChooseDifficulty_Specified")->text = difficulty_list;
-        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficulty_Specified" }).run();
+        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficulty_Specified", "Stop" }).run();
     }
 
     // 识别当前难度
@@ -103,6 +107,7 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::select_difficulty(const int d
             m_current_difficulty = -1;
         }
     }
+    Log.info(__FUNCTION__, "| Current difficulty is", m_current_difficulty);
 
     ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficultyConfirm" }).run();
 

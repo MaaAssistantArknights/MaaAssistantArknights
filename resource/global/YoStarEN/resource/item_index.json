@@ -1679,6 +1679,14 @@
         "sortId": -10000,
         "usage": "Used to perform Data Iteration on Limiter Units."
     },
+    "act2vmulti_token_cap": {
+        "classifyType": "NONE",
+        "description": "As you collect Mementos, so does Hype. Reach certain Hype levels to receive rewards.",
+        "icon": "act2vmulti_token_cap.png",
+        "name": "Memento",
+        "sortId": -10000,
+        "usage": "Leave your sweat in the stadium. Come home with camaraderie."
+    },
     "act30side_token_box": {
         "classifyType": "NONE",
         "description": "Blind boxes from the cultural industries in collaboration with 'BangBang Burdenbeast.' Collect all nine, including a limited-edition secret burdenbeast.\nNOTE: Pray faithfully to the newly erected Kjeragandr statue, and your odds of drawing the secret one go up!",
