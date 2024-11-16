@@ -42,6 +42,7 @@ using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UserControl.Settings;
+using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -80,6 +81,15 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets the after action setting.
         /// </summary>
         public PostActionSetting PostActionSetting { get; } = PostActionSetting.Current;
+
+        #region 长草任务Model
+
+        /// <summary>
+        /// Gets 生稀盐酸任务Model
+        /// </summary>
+        public static ReclamationSettingsUserControlModel ReclamationTask { get; } = new();
+
+        #endregion 长草任务Model
 
         #region 设置界面Model
 
@@ -1670,108 +1680,6 @@ namespace MaaWpfGui.ViewModels.UI
         #endregion 肉鸽设置
 
         #region 生息演算设置
-
-        /// <summary>
-        /// Gets the list of reclamation themes.
-        /// </summary>
-        public List<CombinedData> ReclamationThemeList { get; } =
-        [
-            new() { Display = $"{LocalizationHelper.GetString("ReclamationThemeFire")} ({LocalizationHelper.GetString("ClosedStage")})", Value = "Fire" },
-            new() { Display = LocalizationHelper.GetString("ReclamationThemeTales"), Value = "Tales" },
-        ];
-
-        private string _reclamationTheme = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationTheme, "Tales");
-
-        /// <summary>
-        /// Gets or sets the Reclamation theme.
-        /// </summary>
-        public string ReclamationTheme
-        {
-            get => _reclamationTheme;
-            set
-            {
-                SetAndNotify(ref _reclamationTheme, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationTheme, value);
-            }
-        }
-
-        /// <summary>
-        /// Gets the list of reclamation modes.
-        /// </summary>
-        public List<CombinedData> ReclamationModeList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityNoSave"), Value = "0" },
-            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityInSave"), Value = "1" },
-        ];
-
-        private string _reclamationMode = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMode, "1");
-
-        /// <summary>
-        /// Gets or sets 策略，无存档刷生息点数 / 有存档刷生息点数
-        /// </summary>
-        public string ReclamationMode
-        {
-            get => _reclamationMode;
-            set
-            {
-                SetAndNotify(ref _reclamationMode, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationMode, value);
-            }
-        }
-
-        private string _reclamationToolToCraft = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationToolToCraft, string.Empty);
-
-        public string ReclamationToolToCraft
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_reclamationToolToCraft))
-                {
-                    return LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[_clientType]);
-                }
-
-                return _reclamationToolToCraft;
-            }
-
-            set
-            {
-                SetAndNotify(ref _reclamationToolToCraft, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationToolToCraft, value);
-            }
-        }
-
-        private int _reclamationIncrementMode = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationIncrementMode, "0"));
-
-        public int ReclamationIncrementMode
-        {
-            get => _reclamationIncrementMode;
-            set
-            {
-                SetAndNotify(ref _reclamationIncrementMode, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationIncrementMode, value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets the list of reclamation increment modes.
-        /// </summary>
-        public List<CombinedData> ReclamationIncrementModeList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeClick"), Value = "0" },
-            new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeHold"), Value = "1" },
-        ];
-
-        private string _reclamationMaxCraftCountPerRound = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, "16");
-
-        public int ReclamationMaxCraftCountPerRound
-        {
-            get => int.Parse(_reclamationMaxCraftCountPerRound);
-            set
-            {
-                SetAndNotify(ref _reclamationMaxCraftCountPerRound, value.ToString());
-                ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, value.ToString());
-            }
-        }
 
         #endregion 生息演算设置
 
