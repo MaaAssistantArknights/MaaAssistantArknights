@@ -81,6 +81,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public PostActionSetting PostActionSetting { get; } = PostActionSetting.Current;
 
+        #region 设置界面Model
+
         /// <summary>
         /// Gets 界面设置model
         /// </summary>
@@ -105,6 +107,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets 外部通知model
         /// </summary>
         public static ExternalNotificationSettingsUserControlModel ExternalNotificationDataContext { get; } = new();
+
+        #endregion 设置界面Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
