@@ -47,6 +47,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
+using Windows.Globalization;
 using ComboBox = System.Windows.Controls.ComboBox;
 using DarkModeType = MaaWpfGui.Configuration.GUI.DarkModeType;
 using Timer = System.Timers.Timer;
@@ -109,7 +110,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             Init();
 
-            GuiSettings.HangoverEnd();
+            HangoverEnd();
 
             _runningState = RunningState.Instance;
         }
@@ -157,9 +158,20 @@ namespace MaaWpfGui.ViewModels.UI
             InitInfrast();
             InitRoguelike();
             InitConfiguration();
-            GuiSettings.InitUiSettings();
+            InitUiSettings();
             InitConnectConfig();
             InitVersionUpdate();
+        }
+
+        private void InitUiSettings()
+        {
+            var languageList = (from pair in LocalizationHelper.SupportedLanguages
+                                where pair.Key != PallasLangKey || Cheers
+                                select new CombinedData { Display = pair.Value, Value = pair.Key })
+               .ToList();
+
+            GuiSettings.LanguageList = languageList;
+            GuiSettings.SwitchDarkMode();
         }
 
         private void InitInfrast()
@@ -254,6 +266,127 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         #endregion Init
+
+        #region EasterEggs
+
+        /// <summary>
+        /// The Pallas language key.
+        /// </summary>
+        public const string PallasLangKey = "pallas";
+
+        private bool _cheers = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Cheers, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to cheer.
+        /// </summary>
+        public bool Cheers
+        {
+            get => _cheers;
+            set
+            {
+                if (_cheers == value)
+                {
+                    return;
+                }
+
+                SetAndNotify(ref _cheers, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.Cheers, value.ToString());
+                if (_cheers)
+                {
+                    ConfigurationHelper.SetValue(ConfigurationKeys.Localization, PallasLangKey);
+                }
+            }
+        }
+
+        private bool _hangover = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Hangover, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to hangover.
+        /// </summary>
+        public bool Hangover
+        {
+            get => _hangover;
+            set
+            {
+                SetAndNotify(ref _hangover, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.Hangover, value.ToString());
+            }
+        }
+
+        private string _lastBuyWineTime = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.LastBuyWineTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
+
+        public string LastBuyWineTime
+        {
+            get => _lastBuyWineTime;
+            set
+            {
+                SetAndNotify(ref _lastBuyWineTime, value);
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.LastBuyWineTime, value);
+            }
+        }
+
+        public void HangoverEnd()
+        {
+            if (!Hangover)
+            {
+                return;
+            }
+
+            Hangover = false;
+            MessageBoxHelper.Show(
+                LocalizationHelper.GetString("Hangover"),
+                LocalizationHelper.GetString("Burping"),
+                iconKey: "HangoverGeometry",
+                iconBrushKey: "PallasBrush");
+            Bootstrapper.ShutdownAndRestartWithoutArgs();
+        }
+
+        public void Sober()
+        {
+            if (!Cheers || GuiSettings.Language != PallasLangKey)
+            {
+                return;
+            }
+
+            ConfigurationHelper.SetValue(ConfigurationKeys.Localization, SoberLanguage);
+            Hangover = true;
+            Cheers = false;
+        }
+
+        private string _soberLanguage = ConfigurationHelper.GetValue(ConfigurationKeys.SoberLanguage, LocalizationHelper.DefaultLanguage);
+
+        public string SoberLanguage
+        {
+            get => _soberLanguage;
+            set
+            {
+                SetAndNotify(ref _soberLanguage, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.SoberLanguage, value);
+            }
+        }
+
+        /// <summary>
+        /// Did you buy wine?
+        /// </summary>
+        /// <returns>The answer.</returns>
+        public bool DidYouBuyWine()
+        {
+            var now = DateTime.UtcNow.ToYjDate();
+            if (now == DateTime.ParseExact(LastBuyWineTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
+            {
+                return false;
+            }
+
+            if (now.IsAprilFoolsDay())
+            {
+                return true;
+            }
+
+            string[] wineList = ["酒", "liquor", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶"];
+            return wineList.Any(Instances.SettingsViewModel.CreditFirstList.Contains);
+        }
+
+        #endregion EasterEggs
 
         #region Remote Control
 

@@ -58,7 +58,7 @@ namespace MaaWpfGui.Views.UI
 
             foreach (var lang in LocalizationHelper.SupportedLanguages)
             {
-                if (lang.Key == GUISettingsUserControlModel.PallasLangKey)
+                if (lang.Key == SettingsViewModel.PallasLangKey)
                 {
                     continue;
                 }
