@@ -1679,10 +1679,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         #endregion 肉鸽设置
 
-        #region 生息演算设置
-
-        #endregion 生息演算设置
-
         #region 信用相关设置
 
         private string _lastCreditFightTaskTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditFightTaskTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
