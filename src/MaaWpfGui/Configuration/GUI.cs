@@ -32,8 +32,6 @@ namespace MaaWpfGui.Configuration
 
         public bool HideCloseButton { get; set; } = false;
 
-        public bool UseLogItemDateFormat { get; set; } = false;
-
         public string LogItemDateFormat { get; set; } = "HH:mm:ss";
 
         public WindowPlacement? WindowPlacement { get; set; } = null;
