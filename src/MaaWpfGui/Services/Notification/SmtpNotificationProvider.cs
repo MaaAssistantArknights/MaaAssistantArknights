@@ -59,8 +59,8 @@ namespace MaaWpfGui.Services.Notification
             var emailFrom = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpFrom, string.Empty);
             var emailTo = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpTo, string.Empty);
 
-            title = Regex.Replace(title, "\r(?!\n)", "\r\n");
-            content = Regex.Replace(content, "\r(?!\n)", "\r\n");
+            title = title.Replace("\r", "").Replace("\n", "");
+            content = content.Replace("\r", "").Replace("\n", "");
 
             var email = Email
                 .From(emailFrom)
