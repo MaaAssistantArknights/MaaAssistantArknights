@@ -51,6 +51,19 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     private static RunningState _runningState => RunningState.Instance;
 
     /// <summary>
+    /// Gets or sets a value indicating whether it is idle.
+    /// </summary>
+    public bool Idle
+    {
+        get => Instances.SettingsViewModel.Idle;
+        set
+        {
+            Instances.SettingsViewModel.Idle = value;
+            NotifyOfPropertyChange(nameof(Idle));
+        }
+    }
+
+    /// <summary>
     /// Gets the list of the configuration of connection.
     /// </summary>
     public List<CombinedData> ConnectConfigList { get; } =
