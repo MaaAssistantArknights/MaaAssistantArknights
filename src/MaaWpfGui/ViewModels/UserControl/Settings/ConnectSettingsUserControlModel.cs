@@ -563,7 +563,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         get => _retryOnDisconnected;
         set
         {
-            if (string.IsNullOrEmpty(Instances.SettingsViewModel.EmulatorPath))
+            if (string.IsNullOrEmpty(SettingsViewModel.StartSettings.EmulatorPath))
             {
                 MessageBoxHelper.Show(
                     LocalizationHelper.GetString("RetryOnDisconnectedEmulatorPathEmptyError"),
