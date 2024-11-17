@@ -69,7 +69,10 @@
                     IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
 
                 <hc:Divider Content="{Binding ListTitle[5]}" />
-                <userControl:StartSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <settingsViews:StartSettingsUserControl
+                    Margin="0,20"
+                    HorizontalAlignment="Center"
+                    DataContext="{Binding StartSettings}" />
 
                 <hc:Divider Content="{Binding ListTitle[6]}" />
                 <userControl:RemoteControlUserControl Margin="0,20" HorizontalAlignment="Center" />

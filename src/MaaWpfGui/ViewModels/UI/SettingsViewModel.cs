@@ -42,6 +42,7 @@ using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UserControl.Settings;
+using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -85,10 +86,26 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public PostActionSetting PostActionSetting { get; } = PostActionSetting.Current;
 
+        #region 长草任务Model
+
+        /// <summary>
+        /// Gets 生稀盐酸任务Model
+        /// </summary>
+        public static ReclamationSettingsUserControlModel ReclamationTask { get; } = new();
+
+        #endregion 长草任务Model
+
+        #region 设置界面Model
+
         /// <summary>
         /// Gets 连接设置model
         /// </summary>
         public static ConnectSettingsUserControlModel ConnectSettings { get; } = new();
+
+        /// <summary>
+        /// Gets 启动设置Model
+        /// </summary>
+        public static StartSettingsUserControlModel StartSettings { get; } = new();
 
         /// <summary>
         /// Gets 软件更新model
@@ -99,6 +116,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets 外部通知model
         /// </summary>
         public static ExternalNotificationSettingsUserControlModel ExternalNotificationDataContext { get; } = new();
+
+        #endregion 设置界面Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
@@ -464,6 +483,14 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private string _screencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), "---", "---", "---", "---");
+
+        public string ScreencapCost
+        {
+            get => _screencapCost;
+            set => SetAndNotify(ref _screencapCost, value);
+        }
+
         #endregion Performance
 
         #region 游戏设置
@@ -484,77 +511,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         #endregion
 
-        #region 启动设置
-
-        private bool _startSelf = AutoStart.CheckStart();
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to start itself.
-        /// </summary>
-        public bool StartSelf
-        {
-            get => _startSelf;
-            set
-            {
-                if (!AutoStart.SetStart(value, out var error))
-                {
-                    _logger.Error("Failed to set startup.");
-                    MessageBoxHelper.Show(error);
-                    return;
-                }
-
-                SetAndNotify(ref _startSelf, value);
-            }
-        }
-
-        private bool _runDirectly = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RunDirectly, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to run directly.
-        /// </summary>
-        public bool RunDirectly
-        {
-            get => _runDirectly;
-            set
-            {
-                SetAndNotify(ref _runDirectly, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RunDirectly, value.ToString());
-            }
-        }
-
-        private bool _minimizeDirectly = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeDirectly, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to minimize directly.
-        /// </summary>
-        public bool MinimizeDirectly
-        {
-            get => _minimizeDirectly;
-            set
-            {
-                SetAndNotify(ref _minimizeDirectly, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.MinimizeDirectly, value.ToString());
-            }
-        }
-
-        private bool _openEmulatorAfterLaunch = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.StartEmulator, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to start emulator.
-        /// </summary>
-        public bool OpenEmulatorAfterLaunch
-        {
-            get => _openEmulatorAfterLaunch;
-            set
-            {
-                SetAndNotify(ref _openEmulatorAfterLaunch, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.StartEmulator, value.ToString());
-                if (ClientType == string.Empty && _runningState.GetIdle())
-                {
-                    ClientType = "Official";
-                }
-            }
-        }
+        #region 开始唤醒
 
         private string _accountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty);
 
@@ -575,353 +532,6 @@ namespace MaaWpfGui.ViewModels.UI
             Instances.TaskQueueViewModel.QuickSwitchAccount();
         }
 
-        private string _emulatorPath = ConfigurationHelper.GetValue(ConfigurationKeys.EmulatorPath, string.Empty);
-
-        /// <summary>
-        /// Gets or sets the emulator path.
-        /// </summary>
-        public string EmulatorPath
-        {
-            get => _emulatorPath;
-            set
-            {
-                if (Path.GetFileName(value).ToLower().Contains("maa"))
-                {
-                    int count = 3;
-                    while (count-- > 0)
-                    {
-                        var result = MessageBoxHelper.Show(
-                            LocalizationHelper.GetString("EmulatorPathSelectionErrorPrompt"),
-                            LocalizationHelper.GetString("Tip"),
-                            MessageBoxButton.OKCancel,
-                            MessageBoxImage.Warning,
-                            ok: LocalizationHelper.GetString("EmulatorPathSelectionErrorImSure") + $"({count + 1})",
-                            cancel: LocalizationHelper.GetString("EmulatorPathSelectionErrorSelectAgain"));
-                        if (result == MessageBoxResult.Cancel)
-                        {
-                            return;
-                        }
-                    }
-                }
-
-                SetAndNotify(ref _emulatorPath, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.EmulatorPath, value);
-            }
-        }
-
-        private string _emulatorAddCommand = ConfigurationHelper.GetValue(ConfigurationKeys.EmulatorAddCommand, string.Empty);
-
-        /// <summary>
-        /// Gets or sets the command to append after the emulator command.
-        /// </summary>
-        public string EmulatorAddCommand
-        {
-            get => _emulatorAddCommand;
-            set
-            {
-                SetAndNotify(ref _emulatorAddCommand, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.EmulatorAddCommand, value);
-            }
-        }
-
-        private string _emulatorWaitSeconds = ConfigurationHelper.GetValue(ConfigurationKeys.EmulatorWaitSeconds, "60");
-
-        /// <summary>
-        /// Gets or sets the seconds to wait for the emulator.
-        /// </summary>
-        public string EmulatorWaitSeconds
-        {
-            get => _emulatorWaitSeconds;
-            set
-            {
-                SetAndNotify(ref _emulatorWaitSeconds, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.EmulatorWaitSeconds, value);
-            }
-        }
-
-        private string _screencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), "---", "---", "---", "---");
-
-        public string ScreencapCost
-        {
-            get => _screencapCost;
-            set => SetAndNotify(ref _screencapCost, value);
-        }
-
-        private (string FileName, string Arguments) ResolveShortcut(string path)
-        {
-            string fileName = string.Empty;
-            string arguments = string.Empty;
-
-            if (Path.GetExtension(path).Equals(".lnk", StringComparison.CurrentCultureIgnoreCase))
-            {
-                var link = (IShellLink)new ShellLink();
-                var file = (IPersistFile)link;
-                file.Load(path, 0); // STGM_READ
-                link.Resolve(IntPtr.Zero, 1); // SLR_NO_UI
-                var buf = new char[32768];
-                unsafe
-                {
-                    fixed (char* ptr = buf)
-                    {
-                        link.GetPath(ptr, 260, IntPtr.Zero, 0); // MAX_PATH
-                        var len = Array.IndexOf(buf, '\0');
-                        if (len != -1)
-                        {
-                            fileName = new string(buf, 0, len);
-                        }
-
-                        link.GetArguments(ptr, 32768);
-                        len = Array.IndexOf(buf, '\0');
-                        if (len != -1)
-                        {
-                            arguments = new string(buf, 0, len);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                fileName = path;
-                arguments = EmulatorAddCommand;
-            }
-
-            return (fileName, arguments);
-        }
-
-        private void WaitForEmulatorStart(int delay)
-        {
-            bool idle = _runningState.GetIdle();
-            _runningState.SetIdle(false);
-
-            for (var i = 0; i < delay; ++i)
-            {
-                if (Instances.TaskQueueViewModel.Stopping)
-                {
-                    _logger.Information("Stop waiting for the emulator to start");
-                    return;
-                }
-
-                if (i % 10 == 0)
-                {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("WaitForEmulator") + ": " + (delay - i) + "s");
-                    _logger.Information("Waiting for the emulator to start: " + (delay - i) + "s");
-                }
-
-                Thread.Sleep(1000);
-            }
-
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("WaitForEmulatorFinish"));
-            _logger.Information("The wait is over");
-
-            _runningState.SetIdle(idle);
-        }
-
-        /// <summary>
-        /// 尝试启动模拟器
-        /// </summary>
-        /// <param name="openWithMaaLaunch">启动 MAA 后自动开启模拟器</param>
-        public void TryToStartEmulator(bool openWithMaaLaunch = false)
-        {
-            if (EmulatorPath.Length == 0 || !File.Exists(EmulatorPath) || (!OpenEmulatorAfterLaunch && openWithMaaLaunch))
-            {
-                return;
-            }
-
-            if (!int.TryParse(EmulatorWaitSeconds, out int delay))
-            {
-                delay = 60;
-            }
-
-            try
-            {
-                var (fileName, arguments) = ResolveShortcut(EmulatorPath);
-                Process process = new Process
-                {
-                    StartInfo = new ProcessStartInfo(fileName, arguments)
-                    {
-                        UseShellExecute = false,
-                    },
-                };
-
-                _logger.Information("Try to start emulator: \nfileName: " + fileName + "\narguments: " + arguments);
-                process.Start();
-            }
-            catch (Exception)
-            {
-                _logger.Information("Start emulator error, try to start using the default: \n" +
-                    "EmulatorPath: " + EmulatorPath + "\n" +
-                    "EmulatorAddCommand: " + EmulatorAddCommand);
-                try
-                {
-                    if (EmulatorAddCommand.Length != 0)
-                    {
-                        Process.Start(EmulatorPath);
-                    }
-                    else
-                    {
-                        Process.Start(EmulatorPath, EmulatorAddCommand);
-                    }
-                }
-                catch (Exception e)
-                {
-                    if (e is Win32Exception { NativeErrorCode: 740 })
-                    {
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("EmulatorStartFailed"), UiLogColor.Warning);
-
-                        _logger.Warning(
-                            "Insufficient permissions to start the emulator:\n" +
-                            "EmulatorPath: " + EmulatorPath + "\n");
-                    }
-                    else
-                    {
-                        _logger.Warning("Emulator start failed with error: " + e.Message);
-                    }
-
-                    return;
-                }
-            }
-
-            WaitForEmulatorStart(delay);
-        }
-
-        /// <summary>
-        /// Restarts the ADB (Android Debug Bridge).
-        /// </summary>
-        public void RestartAdb()
-        {
-            if (!ConnectSettings.AllowAdbRestart)
-            {
-                return;
-            }
-
-            string adbPath = ConnectSettings.AdbPath;
-
-            if (string.IsNullOrEmpty(adbPath))
-            {
-                return;
-            }
-
-            ProcessStartInfo processStartInfo = new ProcessStartInfo
-            {
-                FileName = "cmd.exe",
-                RedirectStandardInput = true,
-                RedirectStandardOutput = true,
-                CreateNoWindow = true,
-                UseShellExecute = false,
-            };
-
-            Process process = new Process
-            {
-                StartInfo = processStartInfo,
-            };
-
-            process.Start();
-            process.StandardInput.WriteLine($"{adbPath} kill-server");
-            process.StandardInput.WriteLine($"{adbPath} start-server");
-            process.StandardInput.WriteLine("exit");
-            process.WaitForExit();
-        }
-
-        /// <summary>
-        /// Reconnect by ADB (Android Debug Bridge).
-        /// </summary>
-        public void ReconnectByAdb()
-        {
-            string adbPath = ConnectSettings.AdbPath;
-            string address = ConnectSettings.ConnectAddress;
-
-            if (string.IsNullOrEmpty(adbPath))
-            {
-                return;
-            }
-
-            ProcessStartInfo processStartInfo = new ProcessStartInfo
-            {
-                FileName = "cmd.exe",
-                RedirectStandardInput = true,
-                RedirectStandardOutput = true,
-                CreateNoWindow = true,
-                UseShellExecute = false,
-            };
-
-            Process process = new Process { StartInfo = processStartInfo, };
-
-            process.Start();
-            process.StandardInput.WriteLine($"{adbPath} disconnect {address}");
-            process.StandardInput.WriteLine("exit");
-            process.WaitForExit();
-        }
-
-        /// <summary>
-        /// Kill and restart the ADB (Android Debug Bridge) process.
-        /// </summary>
-        public void HardRestartAdb()
-        {
-            if (!ConnectSettings.AllowAdbHardRestart)
-            {
-                return;
-            }
-
-            string adbPath = ConnectSettings.AdbPath;
-
-            if (string.IsNullOrEmpty(adbPath))
-            {
-                return;
-            }
-
-            // This allows for SQL injection, but since it is not on a real database nothing horrible would happen.
-            // The following query string does what I want, but WMI does not accept it.
-            // var wmiQueryString = string.Format("SELECT ProcessId, CommandLine FROM Win32_Process WHERE ExecutablePath='{0}'", adbPath);
-            const string WmiQueryString = "SELECT ProcessId, ExecutablePath, CommandLine FROM Win32_Process";
-            using var searcher = new ManagementObjectSearcher(WmiQueryString);
-            using var results = searcher.Get();
-            var query = from p in Process.GetProcesses()
-                        join mo in results.Cast<ManagementObject>()
-                            on p.Id equals (int)(uint)mo["ProcessId"]
-                        select new
-                        {
-                            Process = p,
-                            Path = (string)mo["ExecutablePath"],
-                        };
-            foreach (var item in query)
-            {
-                if (item.Path != adbPath)
-                {
-                    continue;
-                }
-
-                // Some emulators start their ADB with administrator privilege.
-                // Not sure if this is necessary
-                try
-                {
-                    item.Process.Kill();
-                    item.Process.WaitForExit();
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
-        }
-
-        /// <summary>
-        /// Selects the emulator to execute.
-        /// </summary>
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
-        public void SelectEmulatorExec()
-        {
-            var dialog = new OpenFileDialog
-            {
-                Filter = LocalizationHelper.GetString("Executable") + "|*.exe;*.bat;*.lnk",
-            };
-
-            if (dialog.ShowDialog() == true)
-            {
-                EmulatorPath = dialog.FileName;
-            }
-        }
-
         private string _clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty);
 
         /// <summary>
@@ -937,7 +547,7 @@ namespace MaaWpfGui.ViewModels.UI
                 VersionUpdateDataContext.ResourceInfo = VersionUpdateSettingsUserControlModel.GetResourceVersionByClientType(_clientType);
                 VersionUpdateDataContext.ResourceVersion = VersionUpdateDataContext.ResourceInfo.VersionName;
                 VersionUpdateDataContext.ResourceDateTime = VersionUpdateDataContext.ResourceInfo.DateTime;
-                UpdateWindowTitle(); // 每次修改客户端时更新WindowTitle
+                Instances.SettingsViewModel.UpdateWindowTitle(); // 每次修改客户端时更新WindowTitle
                 Instances.TaskQueueViewModel.UpdateStageList();
                 Instances.TaskQueueViewModel.UpdateDatePrompt();
                 Instances.AsstProxy.LoadResource();
@@ -952,7 +562,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get
             {
-                foreach (var item in ClientTypeList.Where(item => item.Value == ClientType))
+                foreach (var item in Instances.SettingsViewModel.ClientTypeList.Where(item => item.Value == ClientType))
                 {
                     return item.Display;
                 }
@@ -977,7 +587,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public string ServerType => _serverMapping[ClientType];
 
-        #endregion 启动设置
+        #endregion 开始唤醒
 
         #region 基建设置
 
@@ -2063,112 +1673,6 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         #endregion 肉鸽设置
-
-        #region 生息演算设置
-
-        /// <summary>
-        /// Gets the list of reclamation themes.
-        /// </summary>
-        public List<CombinedData> ReclamationThemeList { get; } =
-        [
-            new() { Display = $"{LocalizationHelper.GetString("ReclamationThemeFire")} ({LocalizationHelper.GetString("ClosedStage")})", Value = "Fire" },
-            new() { Display = LocalizationHelper.GetString("ReclamationThemeTales"), Value = "Tales" },
-        ];
-
-        private string _reclamationTheme = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationTheme, "Tales");
-
-        /// <summary>
-        /// Gets or sets the Reclamation theme.
-        /// </summary>
-        public string ReclamationTheme
-        {
-            get => _reclamationTheme;
-            set
-            {
-                SetAndNotify(ref _reclamationTheme, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationTheme, value);
-            }
-        }
-
-        /// <summary>
-        /// Gets the list of reclamation modes.
-        /// </summary>
-        public List<CombinedData> ReclamationModeList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityNoSave"), Value = "0" },
-            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityInSave"), Value = "1" },
-        ];
-
-        private string _reclamationMode = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMode, "1");
-
-        /// <summary>
-        /// Gets or sets 策略，无存档刷生息点数 / 有存档刷生息点数
-        /// </summary>
-        public string ReclamationMode
-        {
-            get => _reclamationMode;
-            set
-            {
-                SetAndNotify(ref _reclamationMode, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationMode, value);
-            }
-        }
-
-        private string _reclamationToolToCraft = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationToolToCraft, string.Empty);
-
-        public string ReclamationToolToCraft
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_reclamationToolToCraft))
-                {
-                    return LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", _clientLanguageMapper[_clientType]);
-                }
-
-                return _reclamationToolToCraft;
-            }
-
-            set
-            {
-                SetAndNotify(ref _reclamationToolToCraft, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationToolToCraft, value);
-            }
-        }
-
-        private int _reclamationIncrementMode = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationIncrementMode, "0"));
-
-        public int ReclamationIncrementMode
-        {
-            get => _reclamationIncrementMode;
-            set
-            {
-                SetAndNotify(ref _reclamationIncrementMode, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationIncrementMode, value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets the list of reclamation increment modes.
-        /// </summary>
-        public List<CombinedData> ReclamationIncrementModeList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeClick"), Value = "0" },
-            new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeHold"), Value = "1" },
-        ];
-
-        private string _reclamationMaxCraftCountPerRound = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, "16");
-
-        public int ReclamationMaxCraftCountPerRound
-        {
-            get => int.Parse(_reclamationMaxCraftCountPerRound);
-            set
-            {
-                SetAndNotify(ref _reclamationMaxCraftCountPerRound, value.ToString());
-                ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, value.ToString());
-            }
-        }
-
-        #endregion 生息演算设置
 
         #region 信用相关设置
 
@@ -3589,17 +3093,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private static readonly Dictionary<string, string> _clientLanguageMapper = new()
-        {
-            { string.Empty, "zh-cn" },
-            { "Official", "zh-cn" },
-            { "Bilibili", "zh-cn" },
-            { "YoStarEN", "en-us" },
-            { "YoStarJP", "ja-jp" },
-            { "YoStarKR", "ko-kr" },
-            { "txwy", "zh-tw" },
-        };
-
         /// <summary>
         /// Opername display language, can set force display when it was set as "OperNameLanguageForce.en-us"
         /// </summary>
@@ -3673,7 +3166,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (_operNameLanguage == "OperNameLanguageClient")
                 {
-                    return _clientLanguageMapper[_clientType];
+                    return DataHelper.ClientLanguageMapper[_clientType];
                 }
 
                 if (!_operNameLanguage.Contains('.'))

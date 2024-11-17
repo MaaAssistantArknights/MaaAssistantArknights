@@ -329,13 +329,13 @@ namespace MaaWpfGui.Main
             Execute.OnUIThread(
                 async () =>
             {
-                if (Instances.SettingsViewModel.RunDirectly)
+                if (SettingsViewModel.StartSettings.RunDirectly)
                 {
                     // 如果是直接运行模式，就先让按钮显示为运行
                     _runningState.SetIdle(false);
                 }
 
-                await Task.Run(() => Instances.SettingsViewModel.TryToStartEmulator(true));
+                await Task.Run(() => SettingsViewModel.StartSettings.TryToStartEmulator(true));
 
                 // 一般是点了“停止”按钮了
                 if (Instances.TaskQueueViewModel.Stopping)
@@ -345,7 +345,7 @@ namespace MaaWpfGui.Main
                 }
 
                 // ReSharper disable once InvertIf
-                if (Instances.SettingsViewModel.RunDirectly)
+                if (SettingsViewModel.StartSettings.RunDirectly)
                 {
                     // 重置按钮状态，不影响LinkStart判断
                     _runningState.SetIdle(true);

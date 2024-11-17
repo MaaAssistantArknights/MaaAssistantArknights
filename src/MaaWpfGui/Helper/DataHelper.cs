@@ -32,6 +32,17 @@ namespace MaaWpfGui.Helper
             { "ko-kr", "YoStarKR" },
         };
 
+        public static readonly Dictionary<string, string> ClientLanguageMapper = new()
+        {
+            { string.Empty, "zh-cn" },
+            { "Official", "zh-cn" },
+            { "Bilibili", "zh-cn" },
+            { "YoStarEN", "en-us" },
+            { "YoStarJP", "ja-jp" },
+            { "YoStarKR", "ko-kr" },
+            { "txwy", "zh-tw" },
+        };
+
         // 储存角色信息的字典
         public static Dictionary<string, CharacterInfo> Characters { get; } = new();
 
