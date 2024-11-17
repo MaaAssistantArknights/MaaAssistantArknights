@@ -1772,14 +1772,14 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static bool AppendReclamation()
         {
-            _ = int.TryParse(Instances.SettingsViewModel.ReclamationMode, out var mode);
+            _ = int.TryParse(SettingsViewModel.ReclamationTask.ReclamationMode, out var mode);
 
             return Instances.AsstProxy.AsstAppendReclamation(
-                Instances.SettingsViewModel.ReclamationTheme,
+                SettingsViewModel.ReclamationTask.ReclamationTheme,
                 mode,
-                Instances.SettingsViewModel.ReclamationToolToCraft,
-                Instances.SettingsViewModel.ReclamationIncrementMode,
-                Instances.SettingsViewModel.ReclamationMaxCraftCountPerRound);
+                SettingsViewModel.ReclamationTask.ReclamationToolToCraft,
+                SettingsViewModel.ReclamationTask.ReclamationIncrementMode,
+                SettingsViewModel.ReclamationTask.ReclamationMaxCraftCountPerRound);
         }
 
         [DllImport("User32.dll", EntryPoint = "FindWindow")]
