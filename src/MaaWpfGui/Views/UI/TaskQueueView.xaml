@@ -11,6 +11,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:taskQueue="clr-namespace:MaaWpfGui.Views.UserControl.TaskQueue"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:userControl="clr-namespace:MaaWpfGui.Views.UserControl"
     MinWidth="720"
@@ -269,10 +270,9 @@
                         s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
                         DataContext="{Binding TaskSettingDataContext}"
                         Visibility="{c:Binding TaskSettingVisibilities.AutoRoguelike}" />
-                    <userControl:ReclamationSettingsUserControl
-                        s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
-                        DataContext="{Binding TaskSettingDataContext}"
-                        Visibility="{c:Binding TaskSettingVisibilities.Reclamation}" />
+                    <taskQueue:ReclamationSettingsUserControl
+                        DataContext="{Binding TaskSettingDataContext.ReclamationTask}"
+                        Visibility="{c:Binding DataContext.TaskSettingVisibilities.Reclamation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
                     <userControl:AfterActionUserControl
                         s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
                         DataContext="{Binding TaskSettingDataContext}"
