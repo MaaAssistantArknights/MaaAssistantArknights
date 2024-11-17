@@ -731,12 +731,12 @@ public class VersionUpdateViewModel : Screen
 
         string? latestVersion;
         string? detailUrl;
-        if (SettingsViewModel.VersionUpdateDataContext.IsCheckingForUpdates)
+        if (SettingsViewModel.VersionUpdateDataContext.UpdateNightly)
         {
             latestVersion = json["alpha"]?["version"]?.ToString();
             detailUrl = json["alpha"]?["detail"]?.ToString();
         }
-        else if (SettingsViewModel.VersionUpdateDataContext.IsCheckingForUpdates)
+        else if (SettingsViewModel.VersionUpdateDataContext.UpdateBeta)
         {
             latestVersion = json["beta"]?["version"]?.ToString();
             detailUrl = json["beta"]?["detail"]?.ToString();
