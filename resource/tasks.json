@@ -6692,7 +6692,7 @@
         "action": "ClickSelf",
         "roi": [1078, 234, 202, 239],
         "postDelay": 3000,
-        "next": ["Roguelike@Stages#next"]
+        "next": ["Roguelike@EnterAfterRecruit", "Roguelike@Stages#next"]
     },
     "Roguelike@Exit": {
         "template": "Roguelike@ExitThenAbandon.png",

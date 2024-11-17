@@ -51,6 +51,19 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     private static RunningState _runningState => RunningState.Instance;
 
     /// <summary>
+    /// Gets or sets a value indicating whether it is idle.
+    /// </summary>
+    public bool Idle
+    {
+        get => Instances.SettingsViewModel.Idle;
+        set
+        {
+            Instances.SettingsViewModel.Idle = value;
+            NotifyOfPropertyChange(nameof(Idle));
+        }
+    }
+
+    /// <summary>
     /// Gets the list of the configuration of connection.
     /// </summary>
     public List<CombinedData> ConnectConfigList { get; } =
@@ -563,7 +576,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         get => _retryOnDisconnected;
         set
         {
-            if (string.IsNullOrEmpty(Instances.SettingsViewModel.EmulatorPath))
+            if (string.IsNullOrEmpty(SettingsViewModel.StartSettings.EmulatorPath))
             {
                 MessageBoxHelper.Show(
                     LocalizationHelper.GetString("RetryOnDisconnectedEmulatorPathEmptyError"),
