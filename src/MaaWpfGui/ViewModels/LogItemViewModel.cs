@@ -14,7 +14,6 @@
 using System;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using MaaWpfGui.ViewModels.UI;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels
@@ -33,7 +32,11 @@ namespace MaaWpfGui.ViewModels
         /// <param name="dateFormat">The Date format string</param>
         public LogItemViewModel(string content, string color = UiLogColor.Message, string weight = "Regular", string dateFormat = "MM'-'dd'  'HH':'mm':'ss", bool showTime = true)
         {
-            dateFormat = SettingsViewModel.GuiSettings.LogItemDateFormatString;
+            if (Instances.SettingsViewModel.UseLogItemDateFormat)
+            {
+                dateFormat = Instances.SettingsViewModel.LogItemDateFormatString;
+            }
+
             Time = DateTime.Now.ToString(dateFormat);
             Content = content;
             Color = color;

@@ -18,7 +18,6 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.ViewModels.UI;
-using MaaWpfGui.ViewModels.UserControl.Settings;
 using Serilog;
 
 namespace MaaWpfGui.Views.UI
@@ -66,7 +65,7 @@ namespace MaaWpfGui.Views.UI
                 var langMenu = new MenuItem() { Header = lang.Value };
                 langMenu.Click += (_, _) =>
                 {
-                    SettingsViewModel.GuiSettings.Language = lang.Key;
+                    Instances.SettingsViewModel.Language = lang.Key;
                 };
 
                 switchLangMenu.Items.Add(langMenu);
@@ -123,8 +122,8 @@ namespace MaaWpfGui.Views.UI
         {
             Instances.MainWindowManager?.Show();
 
-            SettingsViewModel.GuiSettings.UseTray = !SettingsViewModel.GuiSettings.UseTray;
-            _logger.Information("Use tray icon: {0}", SettingsViewModel.GuiSettings.UseTray);
+            Instances.SettingsViewModel.UseTray = !Instances.SettingsViewModel.UseTray;
+            _logger.Information("Use tray icon: {0}", Instances.SettingsViewModel.UseTray);
         }
 
         private static void App_restart(object sender, RoutedEventArgs e)

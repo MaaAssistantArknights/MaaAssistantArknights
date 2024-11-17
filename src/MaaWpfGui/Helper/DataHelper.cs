@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using MaaWpfGui.Constants;
-using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -31,17 +30,6 @@ namespace MaaWpfGui.Helper
             { "en-us", "YoStarEN" },
             { "ja-jp", "YoStarJP" },
             { "ko-kr", "YoStarKR" },
-        };
-
-        public static readonly Dictionary<string, string> ClientLanguageMapper = new()
-        {
-            { string.Empty, "zh-cn" },
-            { "Official", "zh-cn" },
-            { "Bilibili", "zh-cn" },
-            { "YoStarEN", "en-us" },
-            { "YoStarJP", "ja-jp" },
-            { "YoStarKR", "ko-kr" },
-            { "txwy", "zh-tw" },
         };
 
         // 储存角色信息的字典
@@ -172,7 +160,7 @@ namespace MaaWpfGui.Helper
                 return null;
             }
 
-            language ??= SettingsViewModel.GuiSettings.OperNameLocalization;
+            language ??= Instances.SettingsViewModel.OperNameLocalization;
 
             return language switch
             {
