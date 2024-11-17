@@ -98,11 +98,6 @@ namespace MaaWpfGui.ViewModels.UI
         #region 设置界面Model
 
         /// <summary>
-        /// Gets 界面设置model
-        /// </summary>
-        public static GUISettingsUserControlModel GuiSettings { get; } = new();
-
-        /// <summary>
         /// Gets 连接设置model
         /// </summary>
         public static ConnectSettingsUserControlModel ConnectSettings { get; } = new();
@@ -3098,17 +3093,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private static readonly Dictionary<string, string> _clientLanguageMapper = new()
-        {
-            { string.Empty, "zh-cn" },
-            { "Official", "zh-cn" },
-            { "Bilibili", "zh-cn" },
-            { "YoStarEN", "en-us" },
-            { "YoStarJP", "ja-jp" },
-            { "YoStarKR", "ko-kr" },
-            { "txwy", "zh-tw" },
-        };
-
         /// <summary>
         /// Opername display language, can set force display when it was set as "OperNameLanguageForce.en-us"
         /// </summary>
@@ -3182,7 +3166,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (_operNameLanguage == "OperNameLanguageClient")
                 {
-                    return _clientLanguageMapper[_clientType];
+                    return DataHelper.ClientLanguageMapper[_clientType];
                 }
 
                 if (!_operNameLanguage.Contains('.'))
