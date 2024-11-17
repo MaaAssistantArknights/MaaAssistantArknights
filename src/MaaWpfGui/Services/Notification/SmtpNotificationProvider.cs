@@ -56,8 +56,8 @@ namespace MaaWpfGui.Services.Notification
 
             Email.DefaultRenderer = new LiquidRenderer(new OptionsWrapper<LiquidRendererOptions>(new LiquidRendererOptions()));
 
-            var emailFrom = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpFrom, string.Empty);
-            var emailTo = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpTo, string.Empty);
+            var emailFrom = SettingsViewModel.ExternalNotificationDataContext.SmtpFrom;
+            var emailTo = SettingsViewModel.ExternalNotificationDataContext.SmtpTo;
 
             title = Regex.Replace(title, "\r(?!\n)", "\r\n");
             content = Regex.Replace(content, "\r(?!\n)", "\r\n");
