@@ -10,11 +10,10 @@
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
+    xmlns:settingsViews="clr-namespace:MaaWpfGui.Views.UserControl.Settings"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:userControl="clr-namespace:MaaWpfGui.Views.UserControl"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
-    xmlns:vm="clr-namespace:MaaWpfGui"
     d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
     d:DesignWidth="400"
     mc:Ignorable="d">
@@ -115,7 +114,7 @@
                         </hc:TransitioningContentControl>
 
                         <hc:TransitioningContentControl TransitionMode="{Binding GuideTransitionMode}" Visibility="{c:Binding 'GuideStepIndex == 1'}">
-                            <userControl:GameClientUserControl />
+                            <settingsViews:GameSettingsUserControl />
                         </hc:TransitioningContentControl>
 
                         <hc:TransitioningContentControl

@@ -128,7 +128,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (actions.ExitArknights)
             {
-                var mode = Instances.SettingsViewModel.ClientType;
+                var mode = SettingsViewModel.GameSettings.ClientType;
                 if (!Instances.AsstProxy.AsstStartCloseDown(mode))
                 {
                     AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
@@ -536,7 +536,7 @@ namespace MaaWpfGui.ViewModels.UI
                     SetStopped();
                 }
 
-                var mode = Instances.SettingsViewModel.ClientType;
+                var mode = SettingsViewModel.GameSettings.ClientType;
                 if (!Instances.AsstProxy.AsstAppendCloseDown(mode))
                 {
                     AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
@@ -599,7 +599,7 @@ namespace MaaWpfGui.ViewModels.UI
                 "AutoRoguelike",
             ];
 
-            if (Instances.SettingsViewModel.ClientType is not "txwy")
+            if (SettingsViewModel.GameSettings.ClientType is not "txwy")
             {
                 taskList.Add("Reclamation");
             }
@@ -1466,7 +1466,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static bool AppendStart()
         {
-            var mode = Instances.SettingsViewModel.ClientType;
+            var mode = SettingsViewModel.GameSettings.ClientType;
             var enable = mode.Length != 0;
             Instances.SettingsViewModel.AccountName = Instances.SettingsViewModel.AccountName.Trim();
             var accountName = Instances.SettingsViewModel.AccountName;
@@ -1667,7 +1667,7 @@ namespace MaaWpfGui.ViewModels.UI
             var blackList = Instances.SettingsViewModel.CreditBlackList.Split(';', '；')
                 .Select(s => s.Trim());
 
-            blackList = blackList.Union(_blackCharacterListMapping[Instances.SettingsViewModel.ClientType]);
+            blackList = blackList.Union(_blackCharacterListMapping[SettingsViewModel.GameSettings.ClientType]);
 
             return Instances.AsstProxy.AsstAppendMall(
                 !string.IsNullOrEmpty(this.Stage) && Instances.SettingsViewModel.CreditFightTaskEnabled,
