@@ -84,7 +84,7 @@
                 <settingsViews:ExternalNotificationSettingsUserControl
                     Margin="0,20"
                     HorizontalAlignment="Center"
-                    DataContext="{Binding ExternalNotificationDataContext}" />
+                    DataContext="{Binding ExternalNotificationSettings}" />
 
                 <hc:Divider Content="{Binding ListTitle[9]}" />
                 <userControl:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />

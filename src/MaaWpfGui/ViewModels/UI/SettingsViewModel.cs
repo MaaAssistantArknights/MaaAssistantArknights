@@ -115,7 +115,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets 外部通知model
         /// </summary>
-        public static ExternalNotificationSettingsUserControlModel ExternalNotificationDataContext { get; } = new();
+        public static ExternalNotificationSettingsUserControlModel ExternalNotificationSettings { get; } = new();
 
         #endregion 设置界面Model
 
