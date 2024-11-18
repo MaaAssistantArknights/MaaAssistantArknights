@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.UI;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -79,7 +80,7 @@ public class ReclamationSettingsUserControlModel : PropertyChangedBase
         {
             if (string.IsNullOrEmpty(_reclamationToolToCraft))
             {
-                return LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[Instances.SettingsViewModel.ClientType]);
+                return LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);
             }
 
             return _reclamationToolToCraft;

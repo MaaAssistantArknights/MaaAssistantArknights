@@ -17,15 +17,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Management;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using HandyControl.Controls;
@@ -37,9 +32,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services.HotKeys;
-using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.States;
-using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -48,8 +41,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
+using static MaaWpfGui.Configuration.GUI;
 using ComboBox = System.Windows.Controls.ComboBox;
-using DarkModeType = MaaWpfGui.Configuration.GUI.DarkModeType;
 using Timer = System.Timers.Timer;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -96,6 +89,11 @@ namespace MaaWpfGui.ViewModels.UI
         #endregion 长草任务Model
 
         #region 设置界面Model
+
+        /// <summary>
+        /// Gets 游戏设置model
+        /// </summary>
+        public static GameSettingsUserControlModel GameSettings { get; } = new();
 
         /// <summary>
         /// Gets 连接设置model
@@ -493,24 +491,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         #endregion Performance
 
-        #region 游戏设置
-
-        /// <summary>
-        /// Gets the list of the client types.
-        /// </summary>
-        public List<CombinedData> ClientTypeList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("NotSelected"), Value = string.Empty },
-            new() { Display = LocalizationHelper.GetString("Official"), Value = "Official" },
-            new() { Display = LocalizationHelper.GetString("Bilibili"), Value = "Bilibili" },
-            new() { Display = LocalizationHelper.GetString("YoStarEN"), Value = "YoStarEN" },
-            new() { Display = LocalizationHelper.GetString("YoStarJP"), Value = "YoStarJP" },
-            new() { Display = LocalizationHelper.GetString("YoStarKR"), Value = "YoStarKR" },
-            new() { Display = LocalizationHelper.GetString("Txwy"), Value = "txwy" },
-        ];
-
-        #endregion
-
         #region 开始唤醒
 
         private string _accountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty);
@@ -531,61 +511,6 @@ namespace MaaWpfGui.ViewModels.UI
         {
             Instances.TaskQueueViewModel.QuickSwitchAccount();
         }
-
-        private string _clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty);
-
-        /// <summary>
-        /// Gets or sets the client type.
-        /// </summary>
-        public string ClientType
-        {
-            get => _clientType;
-            set
-            {
-                SetAndNotify(ref _clientType, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ClientType, value);
-                VersionUpdateSettings.ResourceInfo = VersionUpdateSettingsUserControlModel.GetResourceVersionByClientType(_clientType);
-                VersionUpdateSettings.ResourceVersion = VersionUpdateSettings.ResourceInfo.VersionName;
-                VersionUpdateSettings.ResourceDateTime = VersionUpdateSettings.ResourceInfo.DateTime;
-                Instances.SettingsViewModel.UpdateWindowTitle(); // 每次修改客户端时更新WindowTitle
-                Instances.TaskQueueViewModel.UpdateStageList();
-                Instances.TaskQueueViewModel.UpdateDatePrompt();
-                Instances.AsstProxy.LoadResource();
-                AskRestartToApplySettings(_clientType is "YoStarEN");
-            }
-        }
-
-        /// <summary>
-        /// Gets the client type.
-        /// </summary>
-        public string ClientName
-        {
-            get
-            {
-                foreach (var item in Instances.SettingsViewModel.ClientTypeList.Where(item => item.Value == ClientType))
-                {
-                    return item.Display;
-                }
-
-                return "Unknown Client";
-            }
-        }
-
-        private readonly Dictionary<string, string> _serverMapping = new()
-        {
-            { string.Empty, "CN" },
-            { "Official", "CN" },
-            { "Bilibili", "CN" },
-            { "YoStarEN", "US" },
-            { "YoStarJP", "JP" },
-            { "YoStarKR", "KR" },
-            { "txwy", "ZH_TW" },
-        };
-
-        /// <summary>
-        /// Gets the server type.
-        /// </summary>
-        public string ServerType => _serverMapping[ClientType];
 
         #endregion 开始唤醒
 
@@ -1176,7 +1101,7 @@ namespace MaaWpfGui.ViewModels.UI
                         }
 
                         var localizedName = DataHelper.GetLocalizedCharacterName(name, OperNameLocalization);
-                        if (!string.IsNullOrEmpty(localizedName) && !(_clientType.Contains("YoStar") && DataHelper.GetLocalizedCharacterName(name, "en-us") == DataHelper.GetLocalizedCharacterName(name, "zh-cn")))
+                        if (!string.IsNullOrEmpty(localizedName) && !(GameSettings.ClientType.Contains("YoStar") && DataHelper.GetLocalizedCharacterName(name, "en-us") == DataHelper.GetLocalizedCharacterName(name, "zh-cn")))
                         {
                             roguelikeCoreCharList.Add(localizedName);
                         }
@@ -3166,7 +3091,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (_operNameLanguage == "OperNameLanguageClient")
                 {
-                    return DataHelper.ClientLanguageMapper[_clientType];
+                    return DataHelper.ClientLanguageMapper[GameSettings.ClientType];
                 }
 
                 if (!_operNameLanguage.Contains('.'))
@@ -3451,5 +3376,37 @@ namespace MaaWpfGui.ViewModels.UI
                 : string.Empty;
             rvm.WindowTitle = $"{prefix}MAA{currentConfiguration} - {VersionUpdateSettingsUserControlModel.CoreVersion}{resourceVersion}{connectConfigName}{connectAddress}{clientName}";
         }
+
+        /// <summary>
+        /// Gets the client type.
+        /// </summary>
+        private string ClientName
+        {
+            get
+            {
+                foreach (var item in GameSettings.ClientTypeList.Where(item => item.Value == GameSettings.ClientType))
+                {
+                    return item.Display;
+                }
+
+                return "Unknown Client";
+            }
+        }
+
+        private readonly Dictionary<string, string> _serverMapping = new()
+        {
+            { string.Empty, "CN" },
+            { "Official", "CN" },
+            { "Bilibili", "CN" },
+            { "YoStarEN", "US" },
+            { "YoStarJP", "JP" },
+            { "YoStarKR", "KR" },
+            { "txwy", "ZH_TW" },
+        };
+
+        /// <summary>
+        /// Gets the server type.
+        /// </summary>
+        public string ServerType => _serverMapping[GameSettings.ClientType];
     }
 }

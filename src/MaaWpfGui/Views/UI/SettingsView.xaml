@@ -15,7 +15,6 @@
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:userControl="clr-namespace:MaaWpfGui.Views.UserControl"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
-    xmlns:vm="clr-namespace:MaaWpfGui"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
     d:DesignHeight="4000"
@@ -59,7 +58,10 @@
                     IsEnabled="{Binding Idle}" />
 
                 <hc:Divider Content="{Binding ListTitle[3]}" />
-                <userControl:GameClientUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <settingsViews:GameSettingsUserControl
+                    Margin="0,20"
+                    HorizontalAlignment="Center"
+                    DataContext="{Binding GameSettings}" />
 
                 <hc:Divider Content="{Binding ListTitle[4]}" />
                 <settingsViews:ConnectSettingsUserControl

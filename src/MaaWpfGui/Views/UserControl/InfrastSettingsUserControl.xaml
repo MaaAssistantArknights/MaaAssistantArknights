@@ -29,7 +29,8 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{c:Binding DormFilterNotStationedEnabled}"
-                IsEnabled="{c:Binding '!(ClientType == &quot;Official&quot; or ClientType == &quot;Bilibili&quot; or ClientType == &quot;&quot;)'}">
+                IsEnabled="{c:Binding '!(ClientType == &quot;Official&quot; or ClientType == &quot;Bilibili&quot; or ClientType == &quot;&quot;)',
+                                      Source={x:Static ui:SettingsViewModel.GameSettings}}">
                 <controls:TextBlock
                     Text="{DynamicResource DormFilterNotStationedEnabled}"
                     TextWrapping="Wrap"
@@ -38,7 +39,8 @@
             <controls:TextBlock
                 Text="{DynamicResource DormFilterNotStationedEnabledTip}"
                 TextWrapping="Wrap"
-                Visibility="{c:Binding 'ClientType == &quot;Official&quot; or ClientType == &quot;Bilibili&quot; or ClientType == &quot;&quot;'}" />
+                Visibility="{c:Binding 'ClientType == &quot;Official&quot; or ClientType == &quot;Bilibili&quot; or ClientType == &quot;&quot;',
+                                       Source={x:Static ui:SettingsViewModel.GameSettings}}" />
             <CheckBox Margin="0,10" IsChecked="{Binding OriginiumShardAutoReplenishment}">
                 <controls:TextBlock Text="{DynamicResource OriginiumShardAutoReplenishment}" TextWrapping="Wrap" />
             </CheckBox>

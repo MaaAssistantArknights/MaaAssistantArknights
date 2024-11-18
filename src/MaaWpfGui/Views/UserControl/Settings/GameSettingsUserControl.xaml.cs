@@ -1,4 +1,4 @@
-// <copyright file="GameClientUserControl.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="GameSettingsUserControl.xaml.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -11,17 +11,17 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-namespace MaaWpfGui.Views.UserControl
+namespace MaaWpfGui.Views.UserControl.Settings
 {
     /// <summary>
-    /// GameClientUserControl.xaml 的交互逻辑
+    /// GameSettingsUserControl.xaml 的交互逻辑
     /// </summary>
-    public partial class GameClientUserControl : System.Windows.Controls.UserControl
+    public partial class GameSettingsUserControl : System.Windows.Controls.UserControl
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GameClientUserControl"/> class.
+        /// Initializes a new instance of the <see cref="GameSettingsUserControl"/> class.
         /// </summary>
-        public GameClientUserControl()
+        public GameSettingsUserControl()
         {
             InitializeComponent();
         }
