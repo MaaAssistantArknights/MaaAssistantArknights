@@ -25,7 +25,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using HandyControl.Controls;
 using HandyControl.Data;
-using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -41,7 +40,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
-using Windows.Globalization;
 using ComboBox = System.Windows.Controls.ComboBox;
 using Timer = System.Timers.Timer;
 
@@ -179,17 +177,6 @@ namespace MaaWpfGui.ViewModels.UI
             InitVersionUpdate();
         }
 
-        private void InitUiSettings()
-        {
-            var languageList = (from pair in LocalizationHelper.SupportedLanguages
-                                where pair.Key != PallasLangKey || Cheers
-                                select new CombinedData { Display = pair.Value, Value = pair.Key })
-               .ToList();
-
-            GuiSettings.LanguageList = languageList;
-            GuiSettings.SwitchDarkMode();
-        }
-
         private void InitInfrast()
         {
             var facilityList = new[]
@@ -262,6 +249,17 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             ConfigurationList = configurations;
+        }
+
+        private void InitUiSettings()
+        {
+            var languageList = (from pair in LocalizationHelper.SupportedLanguages
+                                where pair.Key != PallasLangKey || Cheers
+                                select new CombinedData { Display = pair.Value, Value = pair.Key })
+               .ToList();
+
+            GuiSettings.LanguageList = languageList;
+            GuiSettings.SwitchDarkMode();
         }
 
         private void InitConnectConfig()
@@ -399,7 +397,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             string[] wineList = ["酒", "liquor", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶"];
-            return wineList.Any(Instances.SettingsViewModel.CreditFirstList.Contains);
+            return wineList.Any(CreditFirstList.Contains);
         }
 
         #endregion EasterEggs
