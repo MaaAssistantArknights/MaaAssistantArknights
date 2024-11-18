@@ -34,10 +34,10 @@
             VerticalAlignment="Center"
             DisplayMemberPath="Display"
             IsEnabled="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
-            ItemsSource="{Binding ClientTypeList, Source={x:Static setting:SettingsViewModel.GameSettings}}"
-            SelectedValue="{Binding ClientType, Source={x:Static setting:SettingsViewModel.GameSettings}}"
+            ItemsSource="{Binding ClientTypeList}"
+            SelectedValue="{Binding ClientType}"
             SelectedValuePath="Value" />
-        <controls:TextBlock HorizontalAlignment="Center" Visibility="{c:Binding 'ClientType == &quot;YoStarEN&quot;', Source={x:Static setting:SettingsViewModel.GameSettings}}">
+        <controls:TextBlock HorizontalAlignment="Center" Visibility="{c:Binding 'ClientType == &quot;YoStarEN&quot;'}">
             <Hyperlink
                 Cursor="Hand"
                 NavigateUri="{Binding Source={x:Static constants:MaaUrls.YostarENResolution}}"
@@ -49,8 +49,7 @@
             Margin="0,20,0,0"
             HorizontalAlignment="Center"
             FontSize="10"
-            Visibility="{c:Binding 'ClientType != &quot;Official&quot; and ClientType != &quot;Bilibili&quot; and ClientType != &quot;&quot;',
-                                   Source={x:Static setting:SettingsViewModel.GameSettings}}">
+            Visibility="{c:Binding 'ClientType != &quot;Official&quot; and ClientType != &quot;Bilibili&quot; and ClientType != &quot;&quot;'}">
             <Hyperlink
                 Cursor="Hand"
                 NavigateUri="{Binding Source={x:Static constants:MaaUrls.OverseasAdaptation}}"

@@ -114,7 +114,7 @@
                         </hc:TransitioningContentControl>
 
                         <hc:TransitioningContentControl TransitionMode="{Binding GuideTransitionMode}" Visibility="{c:Binding 'GuideStepIndex == 1'}">
-                            <settingsViews:GameSettingsUserControl />
+                            <settingsViews:GameSettingsUserControl DataContext="{Binding GameSettings}" />
                         </hc:TransitioningContentControl>
 
                         <hc:TransitioningContentControl
