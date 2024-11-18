@@ -93,7 +93,7 @@
                 <settingsViews:VersionUpdateSettingsUserControl
                     Margin="0,20"
                     HorizontalAlignment="Center"
-                    DataContext="{Binding VersionUpdateDataContext}" />
+                    DataContext="{Binding VersionUpdateSettings}" />
 
                 <hc:Divider Content="{Binding ListTitle[11]}" />
                 <userControl:AboutUserControl Margin="0,20" HorizontalAlignment="Center" />

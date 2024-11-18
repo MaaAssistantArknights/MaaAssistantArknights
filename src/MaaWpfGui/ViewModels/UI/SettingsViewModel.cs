@@ -110,7 +110,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets 软件更新model
         /// </summary>
-        public static VersionUpdateSettingsUserControlModel VersionUpdateDataContext { get; } = new();
+        public static VersionUpdateSettingsUserControlModel VersionUpdateSettings { get; } = new();
 
         /// <summary>
         /// Gets 外部通知model
@@ -278,9 +278,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void InitVersionUpdate()
         {
-            if (VersionUpdateDataContext.VersionType == VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly && !VersionUpdateDataContext.AllowNightlyUpdates)
+            if (VersionUpdateSettings.VersionType == VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly && !VersionUpdateSettings.AllowNightlyUpdates)
             {
-                VersionUpdateDataContext.VersionType = VersionUpdateSettingsUserControlModel.UpdateVersionType.Beta;
+                VersionUpdateSettings.VersionType = VersionUpdateSettingsUserControlModel.UpdateVersionType.Beta;
             }
         }
 
@@ -544,9 +544,9 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _clientType, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ClientType, value);
-                VersionUpdateDataContext.ResourceInfo = VersionUpdateSettingsUserControlModel.GetResourceVersionByClientType(_clientType);
-                VersionUpdateDataContext.ResourceVersion = VersionUpdateDataContext.ResourceInfo.VersionName;
-                VersionUpdateDataContext.ResourceDateTime = VersionUpdateDataContext.ResourceInfo.DateTime;
+                VersionUpdateSettings.ResourceInfo = VersionUpdateSettingsUserControlModel.GetResourceVersionByClientType(_clientType);
+                VersionUpdateSettings.ResourceVersion = VersionUpdateSettings.ResourceInfo.VersionName;
+                VersionUpdateSettings.ResourceDateTime = VersionUpdateSettings.ResourceInfo.DateTime;
                 Instances.SettingsViewModel.UpdateWindowTitle(); // 每次修改客户端时更新WindowTitle
                 Instances.TaskQueueViewModel.UpdateStageList();
                 Instances.TaskQueueViewModel.UpdateDatePrompt();
@@ -3389,7 +3389,7 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void SetAcknowledgedNightlyWarning()
         {
-            VersionUpdateDataContext.HasAcknowledgedNightlyWarning = true;
+            VersionUpdateSettings.HasAcknowledgedNightlyWarning = true;
         }
 
         /// <summary>
@@ -3440,13 +3440,13 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            string resourceVersion = !string.IsNullOrEmpty(VersionUpdateDataContext.ResourceVersion)
+            string resourceVersion = !string.IsNullOrEmpty(VersionUpdateSettings.ResourceVersion)
                 ? LocalizationHelper.CustomCultureInfo.Name.ToLowerInvariant() switch
                 {
-                    "zh-cn" => $" - {VersionUpdateDataContext.ResourceVersion}{VersionUpdateDataContext.ResourceDateTime:#MMdd}",
-                    "zh-tw" => $" - {VersionUpdateDataContext.ResourceVersion}{VersionUpdateDataContext.ResourceDateTime:#MMdd}",
-                    "en-us" => $" - {VersionUpdateDataContext.ResourceDateTime:dd/MM} {VersionUpdateDataContext.ResourceVersion}",
-                    _ => $" - {VersionUpdateDataContext.ResourceDateTime.ToString(LocalizationHelper.CustomCultureInfo.DateTimeFormat.ShortDatePattern.Replace("yyyy", string.Empty).Trim('/', '.'))} {VersionUpdateDataContext.ResourceVersion}",
+                    "zh-cn" => $" - {VersionUpdateSettings.ResourceVersion}{VersionUpdateSettings.ResourceDateTime:#MMdd}",
+                    "zh-tw" => $" - {VersionUpdateSettings.ResourceVersion}{VersionUpdateSettings.ResourceDateTime:#MMdd}",
+                    "en-us" => $" - {VersionUpdateSettings.ResourceDateTime:dd/MM} {VersionUpdateSettings.ResourceVersion}",
+                    _ => $" - {VersionUpdateSettings.ResourceDateTime.ToString(LocalizationHelper.CustomCultureInfo.DateTimeFormat.ShortDatePattern.Replace("yyyy", string.Empty).Trim('/', '.'))} {VersionUpdateSettings.ResourceVersion}",
                 }
                 : string.Empty;
             rvm.WindowTitle = $"{prefix}MAA{currentConfiguration} - {VersionUpdateSettingsUserControlModel.CoreVersion}{resourceVersion}{connectConfigName}{connectAddress}{clientName}";

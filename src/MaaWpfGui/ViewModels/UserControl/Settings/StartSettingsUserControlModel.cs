@@ -45,7 +45,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
 
     private static ConnectSettingsUserControlModel ConnectSettings => SettingsViewModel.ConnectSettings;
 
-    private static VersionUpdateSettingsUserControlModel VersionUpdateSettings => SettingsViewModel.VersionUpdateDataContext;
+    private static VersionUpdateSettingsUserControlModel VersionUpdateSettings => SettingsViewModel.VersionUpdateSettings;
 
     private bool _startSelf = AutoStart.CheckStart();
 
