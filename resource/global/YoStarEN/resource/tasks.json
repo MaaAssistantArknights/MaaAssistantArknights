@@ -2235,6 +2235,10 @@
             ["Hall of Desires", "_exit"]
         ]
     },
+    "Phantom@Roguelike@GetDropSelectRecruit": {
+        "templThreshold": 0.8,
+        "template": "Phantom@Roguelike@GetDropSelectRecruit.png"
+    },
     "Mizuki@Roguelike@GetDropBoxOpen": {
         "templThreshold": 0.95
     },
