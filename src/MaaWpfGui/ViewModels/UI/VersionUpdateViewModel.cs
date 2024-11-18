@@ -447,11 +447,11 @@ public class VersionUpdateViewModel : Screen
 
     public async Task<CheckUpdateRetT> CheckAndDownloadUpdate()
     {
-        SettingsViewModel.VersionUpdateDataContext.IsCheckingForUpdates = true;
+        SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = true;
         var ret = await CheckAndDownloadVersionUpdate();
         if (ret == CheckUpdateRetT.OK)
         {
-            SettingsViewModel.VersionUpdateDataContext.IsCheckingForUpdates = false;
+            SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
             return ret;
         }
 
@@ -465,7 +465,7 @@ public class VersionUpdateViewModel : Screen
         }
         */
 
-        SettingsViewModel.VersionUpdateDataContext.IsCheckingForUpdates = false;
+        SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
         return ret;
     }
 
@@ -507,7 +507,7 @@ public class VersionUpdateViewModel : Screen
             UpdateUrl = _latestJson?["html_url"]?.ToString() ?? string.Empty;
 
             bool otaFound = _assetsObject != null;
-            bool goDownload = otaFound && SettingsViewModel.VersionUpdateDataContext.AutoDownloadUpdatePackage;
+            bool goDownload = otaFound && SettingsViewModel.VersionUpdateSettings.AutoDownloadUpdatePackage;
             (string text, Action action) = (
                 LocalizationHelper.GetString("NewVersionFoundButtonGoWebpage"),
                 () =>
@@ -672,7 +672,7 @@ public class VersionUpdateViewModel : Screen
 
     public async void AskToRestart()
     {
-        if (SettingsViewModel.VersionUpdateDataContext.AutoInstallUpdatePackage)
+        if (SettingsViewModel.VersionUpdateSettings.AutoInstallUpdatePackage)
         {
             await Bootstrapper.RestartAfterIdleAsync();
             return;
@@ -731,12 +731,12 @@ public class VersionUpdateViewModel : Screen
 
         string? latestVersion;
         string? detailUrl;
-        if (SettingsViewModel.VersionUpdateDataContext.UpdateNightly)
+        if (SettingsViewModel.VersionUpdateSettings.UpdateNightly)
         {
             latestVersion = json["alpha"]?["version"]?.ToString();
             detailUrl = json["alpha"]?["detail"]?.ToString();
         }
-        else if (SettingsViewModel.VersionUpdateDataContext.UpdateBeta)
+        else if (SettingsViewModel.VersionUpdateSettings.UpdateBeta)
         {
             latestVersion = json["beta"]?["version"]?.ToString();
             detailUrl = json["beta"]?["detail"]?.ToString();

@@ -68,7 +68,7 @@ namespace MaaWpfGui.Views.UserControl.Settings
 
         private void ResourceVersionClick(object sender, MouseButtonEventArgs e)
         {
-            CopyToClipboardAsync($"Resource Version: {SettingsViewModel.VersionUpdateDataContext.ResourceVersion}\nResource Time: {SettingsViewModel.VersionUpdateDataContext.ResourceDateTimeCurrentCultureString}");
+            CopyToClipboardAsync($"Resource Version: {SettingsViewModel.VersionUpdateSettings.ResourceVersion}\nResource Time: {SettingsViewModel.VersionUpdateSettings.ResourceDateTimeCurrentCultureString}");
         }
 
         private static void CopyToClipboardAsync(string text)

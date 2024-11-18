@@ -232,7 +232,7 @@ namespace MaaWpfGui.Models
                 OutputDownloadProgress(LocalizationHelper.GetString("GameResourceUpdated"));
 
                 // 现在用的和自动安装服更新包一个逻辑，看看有没有必要分开
-                if (SettingsViewModel.VersionUpdateDataContext.AutoInstallUpdatePackage)
+                if (SettingsViewModel.VersionUpdateSettings.AutoInstallUpdatePackage)
                 {
                     await Bootstrapper.RestartAfterIdleAsync();
                 }

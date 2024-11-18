@@ -410,7 +410,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (!SettingsViewModel.VersionUpdateDataContext.UpdateAutoCheck)
+            if (!SettingsViewModel.VersionUpdateSettings.UpdateAutoCheck)
             {
                 return;
             }
@@ -420,7 +420,7 @@ namespace MaaWpfGui.ViewModels.UI
             _ = Task.Run(async () =>
             {
                 await Task.Delay(delayTime);
-                await SettingsViewModel.VersionUpdateDataContext.ManualUpdate();
+                await SettingsViewModel.VersionUpdateSettings.ManualUpdate();
                 _isCheckingForUpdates = false;
             });
         }
@@ -1173,7 +1173,7 @@ namespace MaaWpfGui.ViewModels.UI
             ClearLog();
 
             var buildDateTimeLong = VersionUpdateSettingsUserControlModel.BuildDateTimeCurrentCultureString;
-            var resourceDateTimeLong = SettingsViewModel.VersionUpdateDataContext.ResourceDateTimeCurrentCultureString;
+            var resourceDateTimeLong = SettingsViewModel.VersionUpdateSettings.ResourceDateTimeCurrentCultureString;
             AddLog($"Build Time:\n{buildDateTimeLong}\nResource Time:\n{resourceDateTimeLong}");
 
             var uiVersion = VersionUpdateSettingsUserControlModel.UiVersion;
