@@ -32,8 +32,8 @@ public class DiscordNotificationProvider(IHttpService httpService) : IExternalNo
 
     public async Task<bool> SendAsync(string title, string content)
     {
-        var botToken = SettingsViewModel.ExternalNotificationDataContext.DiscordBotToken;
-        var userId = SettingsViewModel.ExternalNotificationDataContext.DiscordUserId;
+        var botToken = SettingsViewModel.ExternalNotificationSettings.DiscordBotToken;
+        var userId = SettingsViewModel.ExternalNotificationSettings.DiscordUserId;
 
         var channelId = await CreateDmChannel(botToken, userId);
 
