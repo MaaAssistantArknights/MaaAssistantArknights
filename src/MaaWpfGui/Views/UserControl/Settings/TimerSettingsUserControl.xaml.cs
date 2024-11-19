@@ -14,7 +14,7 @@
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 
-namespace MaaWpfGui.Views.UserControl
+namespace MaaWpfGui.Views.UserControl.Settings
 {
     /// <summary>
     /// TimerSettingsUserControl.xaml 的交互逻辑

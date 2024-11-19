@@ -104,6 +104,11 @@ namespace MaaWpfGui.ViewModels.UI
         public static GuiSettingsUserControlModel GuiSettings { get; } = new();
 
         /// <summary>
+        /// Gets 定时设置model
+        /// </summary>
+        public static TimerSettingsUserControlModel TimerSettings { get; } = new();
+
+        /// <summary>
         /// Gets 软件更新model
         /// </summary>
         public static VersionUpdateSettingsUserControlModel VersionUpdateSettings { get; } = new();
@@ -1962,163 +1967,6 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         #endregion 领取奖励设置
-
-        #region 定时设置
-
-        public class TimerModel
-        {
-            public class TimerProperties : PropertyChangedBase
-            {
-                public TimerProperties(int timeId, bool isOn, int hour, int min, string? timerConfig)
-                {
-                    TimerId = timeId;
-                    _isOn = isOn;
-                    _hour = hour;
-                    _min = min;
-                    if (timerConfig == null || !ConfigurationHelper.GetConfigurationList().Contains(timerConfig))
-                    {
-                        _timerConfig = ConfigurationHelper.GetCurrentConfiguration();
-                    }
-                    else
-                    {
-                        _timerConfig = timerConfig;
-                    }
-                }
-
-                public int TimerId { get; set; }
-
-                private readonly string _timerName = LocalizationHelper.GetString("Timer");
-
-                public string TimerName
-                {
-                    get => $"{_timerName} {TimerId + 1}";
-                }
-
-                private bool _isOn;
-
-                /// <summary>
-                /// Gets or sets a value indicating whether the timer is set.
-                /// </summary>
-                public bool IsOn
-                {
-                    get => _isOn;
-                    set
-                    {
-                        SetAndNotify(ref _isOn, value);
-                        ConfigurationHelper.SetTimer(TimerId, value.ToString());
-                    }
-                }
-
-                private int _hour;
-
-                /// <summary>
-                /// Gets or sets the hour of the timer.
-                /// </summary>
-                public int Hour
-                {
-                    get => _hour;
-                    set
-                    {
-                        SetAndNotify(ref _hour, value);
-                        ConfigurationHelper.SetTimerHour(TimerId, _hour.ToString());
-                    }
-                }
-
-                private int _min;
-
-                /// <summary>
-                /// Gets or sets the minute of the timer.
-                /// </summary>
-                public int Min
-                {
-                    get => _min;
-                    set
-                    {
-                        SetAndNotify(ref _min, value);
-                        ConfigurationHelper.SetTimerMin(TimerId, _min.ToString());
-                    }
-                }
-
-                private string? _timerConfig;
-
-                /// <summary>
-                /// Gets or sets the config of the timer.
-                /// </summary>
-                public string? TimerConfig
-                {
-                    get => _timerConfig;
-                    set
-                    {
-                        SetAndNotify(ref _timerConfig, value ?? ConfigurationHelper.GetCurrentConfiguration());
-                        ConfigurationHelper.SetTimerConfig(TimerId, _timerConfig);
-                    }
-                }
-            }
-
-            public TimerProperties[] Timers { get; set; } = new TimerProperties[8];
-
-            public TimerModel()
-            {
-                for (int i = 0; i < 8; i++)
-                {
-                    Timers[i] = new TimerProperties(
-                        i,
-                        ConfigurationHelper.GetTimer(i, bool.FalseString) == bool.TrueString,
-                        int.Parse(ConfigurationHelper.GetTimerHour(i, $"{i * 3}")),
-                        int.Parse(ConfigurationHelper.GetTimerMin(i, "0")),
-                        ConfigurationHelper.GetTimerConfig(i, ConfigurationHelper.GetCurrentConfiguration()));
-                }
-            }
-        }
-
-        public TimerModel TimerModels { get; set; } = new();
-
-        private bool _forceScheduledStart = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceScheduledStart, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to force scheduled start.
-        /// </summary>
-        public bool ForceScheduledStart
-        {
-            get => _forceScheduledStart;
-            set
-            {
-                SetAndNotify(ref _forceScheduledStart, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ForceScheduledStart, value.ToString());
-            }
-        }
-
-        private bool _showWindowBeforeForceScheduledStart = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowWindowBeforeForceScheduledStart, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether show window before force scheduled start.
-        /// </summary>
-        public bool ShowWindowBeforeForceScheduledStart
-        {
-            get => _showWindowBeforeForceScheduledStart;
-            set
-            {
-                SetAndNotify(ref _showWindowBeforeForceScheduledStart, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ShowWindowBeforeForceScheduledStart, value.ToString());
-            }
-        }
-
-        private bool _customConfig = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.CustomConfig, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to use custom config.
-        /// </summary>
-        public bool CustomConfig
-        {
-            get => _customConfig;
-            set
-            {
-                SetAndNotify(ref _customConfig, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.CustomConfig, value.ToString());
-            }
-        }
-
-        #endregion 定时设置
 
         #region 刷理智设置
 
