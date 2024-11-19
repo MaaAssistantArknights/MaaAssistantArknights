@@ -80,7 +80,10 @@
                 <userControl:RemoteControlUserControl Margin="0,20" HorizontalAlignment="Center" />
 
                 <hc:Divider Content="{Binding ListTitle[7]}" />
-                <userControl:GUISettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <settingsViews:GuiSettingsUserControl
+                    Margin="0,20"
+                    HorizontalAlignment="Center"
+                    DataContext="{Binding GuiSettings}" />
 
                 <hc:Divider Content="{Binding ListTitle[8]}" />
                 <settingsViews:ExternalNotificationSettingsUserControl

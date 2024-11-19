@@ -14,6 +14,7 @@
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:userControl="clr-namespace:MaaWpfGui.Views.UserControl"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
+    d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
     d:DesignWidth="400"
     mc:Ignorable="d">
@@ -89,7 +90,10 @@
                             Width="240"
                             TransitionMode="{Binding GuideTransitionMode}"
                             Visibility="{c:Binding 'GuideStepIndex less= 0'}">
-                            <hc:UniformSpacingPanel Orientation="Vertical" Spacing="40">
+                            <hc:UniformSpacingPanel
+                                DataContext="{Binding GuiSettings}"
+                                Orientation="Vertical"
+                                Spacing="40">
                                 <ComboBox
                                     hc:InfoElement.HorizontalAlignment="Center"
                                     hc:InfoElement.Title="{Binding LanguageInfo, Mode=OneTime}"
