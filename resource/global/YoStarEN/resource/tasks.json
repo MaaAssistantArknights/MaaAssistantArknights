@@ -2196,6 +2196,10 @@
     "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
         "text": ["Pathfinder Fins"]
     },
+    "Phantom@Roguelike@GetDropSelectRecruit": {
+        "templThreshold": 0.8,
+        "template": "Phantom@Roguelike@GetDropSelectRecruit.png"
+    },
     "Phantom@Roguelike@NextLevel": {
         "text": [
             "Mist-stricken Missteps",
@@ -2235,10 +2239,6 @@
             ["Blood-soaked Corridor", "_exit"],
             ["Hall of Desires", "_exit"]
         ]
-    },
-    "Phantom@Roguelike@GetDropSelectRecruit": {
-        "templThreshold": 0.8,
-        "template": "Phantom@Roguelike@GetDropSelectRecruit.png"
     },
     "Mizuki@Roguelike@GetDropBoxOpen": {
         "templThreshold": 0.95
