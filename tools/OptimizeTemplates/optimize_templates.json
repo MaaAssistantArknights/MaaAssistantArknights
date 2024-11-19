@@ -2935,5 +2935,10 @@
     "official/Sniper@UseSupportUnit-SelectRole": "9fc2d70c36bad242f18f9dd37a7fed012dc26a6c9096193d4e2791540aa18ff8",
     "YoStarEN/Sami@Roguelike@GamePassSkip1": "bbf3242759ff15089638475ab9128e2e676492df494dfdcf3ecbe1f60ad8f5a4",
     "resource/template/items/act1vautochess_token_chess": "b3422c95d57b1f05ce70a8c733270c179ee43fa3372c961216bd7eec29614983",
-    "official/StageActivity": "4a9ce3ef06945971062c409fed7be2fb17be8e639f9cc8b514a983848090d4c9"
+    "official/StageActivity": "4a9ce3ef06945971062c409fed7be2fb17be8e639f9cc8b514a983848090d4c9",
+    "YoStarEN/Phantom@Roguelike@GetDropSelectReward": "769b0417c01b8f670281b2db72f1ad239330a925bb4b4065a0d4378ba90c2544",
+    "YoStarEN/Phantom@Roguelike@GetDropSelect": "ec012faa77b4771a158b830625ced2714dc46ad21b99fe14020aa86c74e7138b",
+    "YoStarEN/Phantom@Roguelike@GamePass": "9dfcb542bf21a5ccc5e4eb105f8cef564cd60351e74afebb6379655b49d6751c",
+    "YoStarEN/Phantom@Roguelike@GamePassSkip1": "3724580b900ddf816cc1d8307bb5e4889cd8d7fbd2893236092a7feaa2c13739",
+    "YoStarEN/Phantom@Roguelike@GetDropSelectRecruit": "c368b83e044ae3f5fc11e5074f03e6978d35973a4adea9f1546d0ead8fb3b926"
 }
