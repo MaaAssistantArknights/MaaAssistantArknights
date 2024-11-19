@@ -1351,7 +1351,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             Waiting = true;
             AddLog(LocalizationHelper.GetString("Waiting"));
-            if (Instances.SettingsViewModel.RoguelikeDelayAbortUntilCombatComplete)
+            if (SettingsViewModel.RoguelikeTask.RoguelikeDelayAbortUntilCombatComplete)
             {
                 await WaitUntilRoguelikeCombatComplete();
 
@@ -1368,7 +1368,7 @@ namespace MaaWpfGui.ViewModels.UI
         private async Task WaitUntilRoguelikeCombatComplete()
         {
             int time = 0;
-            while (Instances.SettingsViewModel.RoguelikeDelayAbortUntilCombatComplete && RoguelikeInCombatAndShowWait && time < 600 && !Stopping)
+            while (SettingsViewModel.RoguelikeTask.RoguelikeDelayAbortUntilCombatComplete && RoguelikeInCombatAndShowWait && time < 600 && !Stopping)
             {
                 await Task.Delay(1000);
                 ++time;
@@ -1743,31 +1743,31 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static bool AppendRoguelike()
         {
-            _ = int.TryParse(Instances.SettingsViewModel.RoguelikeMode, out var mode);
+            _ = int.TryParse(SettingsViewModel.RoguelikeTask.RoguelikeMode, out var mode);
 
             return Instances.AsstProxy.AsstAppendRoguelike(
                 mode,
-                Instances.SettingsViewModel.RoguelikeDifficulty,
-                Instances.SettingsViewModel.RoguelikeStartsCount,
-                Instances.SettingsViewModel.RoguelikeInvestmentEnabled,
-                Instances.SettingsViewModel.RoguelikeInvestmentWithMoreScore,
-                Instances.SettingsViewModel.RoguelikeInvestsCount,
-                Instances.SettingsViewModel.RoguelikeStopWhenInvestmentFull,
-                Instances.SettingsViewModel.RoguelikeSquad,
-                Instances.SettingsViewModel.RoguelikeRoles,
-                DataHelper.GetCharacterByNameOrAlias(Instances.SettingsViewModel.RoguelikeCoreChar)?.Name ?? Instances.SettingsViewModel.RoguelikeCoreChar,
-                Instances.SettingsViewModel.RoguelikeStartWithEliteTwo,
-                Instances.SettingsViewModel.RoguelikeOnlyStartWithEliteTwo,
-                Instances.SettingsViewModel.Roguelike3FirstFloorFoldartal,
-                Instances.SettingsViewModel.Roguelike3StartFloorFoldartal,
-                Instances.SettingsViewModel.Roguelike3NewSquad2StartingFoldartal,
-                Instances.SettingsViewModel.Roguelike3NewSquad2StartingFoldartals,
-                Instances.SettingsViewModel.RoguelikeExpectedCollapsalParadigms,
-                Instances.SettingsViewModel.RoguelikeUseSupportUnit,
-                Instances.SettingsViewModel.RoguelikeEnableNonfriendSupport,
-                Instances.SettingsViewModel.RoguelikeTheme,
-                Instances.SettingsViewModel.RoguelikeRefreshTraderWithDice,
-                Instances.SettingsViewModel.RoguelikeStopAtFinalBoss);
+                SettingsViewModel.RoguelikeTask.RoguelikeDifficulty,
+                SettingsViewModel.RoguelikeTask.RoguelikeStartsCount,
+                SettingsViewModel.RoguelikeTask.RoguelikeInvestmentEnabled,
+                SettingsViewModel.RoguelikeTask.RoguelikeInvestmentWithMoreScore,
+                SettingsViewModel.RoguelikeTask.RoguelikeInvestsCount,
+                SettingsViewModel.RoguelikeTask.RoguelikeStopWhenInvestmentFull,
+                SettingsViewModel.RoguelikeTask.RoguelikeSquad,
+                SettingsViewModel.RoguelikeTask.RoguelikeRoles,
+                DataHelper.GetCharacterByNameOrAlias(SettingsViewModel.RoguelikeTask.RoguelikeCoreChar)?.Name ?? SettingsViewModel.RoguelikeTask.RoguelikeCoreChar,
+                SettingsViewModel.RoguelikeTask.RoguelikeStartWithEliteTwo,
+                SettingsViewModel.RoguelikeTask.RoguelikeOnlyStartWithEliteTwo,
+                SettingsViewModel.RoguelikeTask.Roguelike3FirstFloorFoldartal,
+                SettingsViewModel.RoguelikeTask.Roguelike3StartFloorFoldartal,
+                SettingsViewModel.RoguelikeTask.Roguelike3NewSquad2StartingFoldartal,
+                SettingsViewModel.RoguelikeTask.Roguelike3NewSquad2StartingFoldartals,
+                SettingsViewModel.RoguelikeTask.RoguelikeExpectedCollapsalParadigms,
+                SettingsViewModel.RoguelikeTask.RoguelikeUseSupportUnit,
+                SettingsViewModel.RoguelikeTask.RoguelikeEnableNonfriendSupport,
+                SettingsViewModel.RoguelikeTask.RoguelikeTheme,
+                SettingsViewModel.RoguelikeTask.RoguelikeRefreshTraderWithDice,
+                SettingsViewModel.RoguelikeTask.RoguelikeStopAtFinalBoss);
         }
 
         private static bool AppendReclamation()
