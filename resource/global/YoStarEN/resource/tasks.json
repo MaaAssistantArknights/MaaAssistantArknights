@@ -927,6 +927,7 @@
         "text": ["Recruit Now"]
     },
     "RecruitFlag": {
+        "fullMatch": true,
         "text": ["Recruit"]
     },
     "RecruitNow": {
