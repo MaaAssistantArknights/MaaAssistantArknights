@@ -1102,9 +1102,9 @@
         "text": ["1回スカウト", "スカウト"]
     },
     "SpecialAccessActivities": {
+        "ocrReplace": [["月[ハパ][スズ]", "月パス"]],
         "doc": "五周年月卡、大感謝祭特別月パス",
         "text": ["月パス"],
-        "ocrReplace": [["月[ハパ][スズ]", "月パス"]],
         "roi": [0, 20, 302, 302]
     },
     "SpecialAccessActivitiesConfirm": {
