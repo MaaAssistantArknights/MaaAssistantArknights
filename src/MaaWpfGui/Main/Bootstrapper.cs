@@ -160,6 +160,8 @@ namespace MaaWpfGui.Main
                 return;
             }
 
+            _hasMutex = true;
+
             const string ConfigFlag = "--config";
             const string AnotherFlag = "--another"; // 示例，之后如果有其他参数，可以继续添加
 
@@ -169,8 +171,6 @@ namespace MaaWpfGui.Main
             {
                 return;
             }
-
-            _hasMutex = true;
 
             ETagCache.Load();
 
