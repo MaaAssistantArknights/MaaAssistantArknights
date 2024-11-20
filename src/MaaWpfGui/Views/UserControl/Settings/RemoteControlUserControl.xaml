@@ -1,5 +1,5 @@
 <UserControl
-    x:Class="MaaWpfGui.Views.UserControl.RemoteControlUserControl"
+    x:Class="MaaWpfGui.Views.UserControl.Settings.RemoteControlUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:calcBinding="clr-namespace:CalcBinding;assembly=CalcBinding"
@@ -11,8 +11,9 @@
     xmlns:remoteControl="clr-namespace:MaaWpfGui.Services.RemoteControl"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     d:Background="White"
-    d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
+    d:DataContext="{d:DesignInstance {x:Type viewModels:RemoteControlUserControlModel}}"
     d:DesignHeight="300"
     d:DesignWidth="550"
     mc:Ignorable="d">

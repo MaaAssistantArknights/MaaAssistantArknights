@@ -80,7 +80,10 @@
                     DataContext="{Binding StartSettings}" />
 
                 <hc:Divider Content="{Binding ListTitle[6]}" />
-                <userControl:RemoteControlUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <settingsViews:RemoteControlUserControl
+                    Margin="0,20"
+                    HorizontalAlignment="Center"
+                    DataContext="{Binding RemoteControlSettings}" />
 
                 <hc:Divider Content="{Binding ListTitle[7]}" />
                 <settingsViews:GuiSettingsUserControl
