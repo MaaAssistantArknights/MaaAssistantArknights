@@ -44,7 +44,7 @@ namespace MaaWpfGui
             }
         }
 
-        // TODO: 现在的启动顺序是：OnStartup -> Bootstrapper.OnOnStart -> TaskQueueViewModel.OnInitialActivate，
+        // TODO: 现在的启动顺序是：OnStartup -> Bootstrapper.OnStart -> TaskQueueViewModel.OnInitialActivate，
         // 在 OnInitialActivate 中会初始化 StageManager，但是 StageManager 中会异步下载更新，OnInitialActivate 不会等待这个异步操作
         // 导致这里切换了配置之后，StageManager 异步结束后调用 UpdateStageList 时会把 UI 现在的关卡配置存到新配置中
         // 先把 StageManager 的联网更新放到这里，之后看看有没有什么更好的办法
