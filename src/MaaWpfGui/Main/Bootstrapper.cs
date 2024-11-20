@@ -12,6 +12,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -93,6 +94,7 @@ namespace MaaWpfGui.Main
             var maaEnv = Environment.GetEnvironmentVariable("MAA_ENVIRONMENT") == "Debug"
                 ? "Debug"
                 : "Production";
+            var args = Environment.GetCommandLineArgs();
             var withDebugFile = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
             loggerConfiguration = (maaEnv == "Debug" || withDebugFile)
                 ? loggerConfiguration.MinimumLevel.Verbose()
@@ -105,6 +107,7 @@ namespace MaaWpfGui.Main
             _logger.Information($"Version {uiVersion}");
             _logger.Information($"Built at {builtDate:O}");
             _logger.Information($"Maa ENV: {maaEnv}");
+            _logger.Information($"Command Line: {string.Join(' ', args)}");
             _logger.Information($"User Dir {Directory.GetCurrentDirectory()}");
             if (withDebugFile)
             {
@@ -154,6 +157,16 @@ namespace MaaWpfGui.Main
             if (!HandleMultipleInstances())
             {
                 Shutdown();
+                return;
+            }
+
+            const string ConfigFlag = "--config";
+            const string AnotherFlag = "--another"; // 示例，之后如果有其他参数，可以继续添加
+
+            var parsedArgs = ParseArgs(args, ConfigFlag, AnotherFlag);
+
+            if (parsedArgs.TryGetValue(ConfigFlag, out string configArgs) && Config(configArgs))
+            {
                 return;
             }
 
@@ -360,6 +373,64 @@ namespace MaaWpfGui.Main
                 var errorView = new ErrorView(exception, shouldExit);
                 errorView.ShowDialog();
             });
+        }
+
+        private static Dictionary<string, string> ParseArgs(string[] args, params string[] flags)
+        {
+            var result = new Dictionary<string, string>();
+            var flagSet = new HashSet<string>(flags);
+
+            for (int i = 0; i < args.Length; ++i)
+            {
+                if (flagSet.Contains(args[i]) && i + 1 < args.Length)
+                {
+                    result[args[i]] = args[i + 1];
+                    ++i;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 检查配置并切换，如果成功切换则重启
+        /// </summary>
+        /// <param name="desiredConfig">配置名</param>
+        /// <returns>切换并重启</returns>
+        private static bool Config(string desiredConfig)
+        {
+            const string ConfigFile = @".\config\gui.json";
+            if (!File.Exists(ConfigFile) || string.IsNullOrEmpty(desiredConfig))
+            {
+                return false;
+            }
+
+            try
+            {
+                if (UpdateConfiguration(desiredConfig))
+                {
+                    ShutdownAndRestartWithoutArgs();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"Error updating configuration: {desiredConfig}, ex: {ex.Message}");
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 切换配置
+        /// </summary>
+        /// <param name="desiredConfig">配置名</param>
+        /// <returns>是否成功切换配置</returns>
+        private static bool UpdateConfiguration(string desiredConfig)
+        {
+            // 配置名可能就包在引号中，需要转义符，如 \"a\"
+            string currentConfig = ConfigurationHelper.GetCurrentConfiguration();
+            return currentConfig != desiredConfig && ConfigurationHelper.SwitchConfiguration(desiredConfig);
         }
     }
 }

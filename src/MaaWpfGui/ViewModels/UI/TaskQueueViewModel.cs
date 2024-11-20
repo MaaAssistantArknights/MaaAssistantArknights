@@ -281,6 +281,8 @@ namespace MaaWpfGui.ViewModels.UI
             LogItemViewModels = [];
             InitializeItems();
             InitTimer();
+
+            _ = UpdateDatePromptAndStagesWeb();
         }
 
         /*
