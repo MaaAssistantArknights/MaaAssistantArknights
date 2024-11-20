@@ -153,6 +153,7 @@ namespace MaaWpfGui.Main
             base.OnStart();
             ConfigurationHelper.Load();
             LocalizationHelper.Load();
+            ETagCache.Load();
 
             if (!HandleMultipleInstances())
             {
@@ -171,8 +172,6 @@ namespace MaaWpfGui.Main
             {
                 return;
             }
-
-            ETagCache.Load();
 
             // 检查 MaaCore.dll 是否存在
             if (!File.Exists("MaaCore.dll"))
@@ -286,7 +285,7 @@ namespace MaaWpfGui.Main
 
             ProcessStartInfo startInfo = new ProcessStartInfo { FileName = Environment.ProcessPath, };
 
-            Process.Start(startInfo);
+            //Process.Start(startInfo);
         }
 
         public static void Release()
