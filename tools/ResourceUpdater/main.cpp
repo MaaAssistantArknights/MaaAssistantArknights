@@ -63,10 +63,7 @@ bool update_infrast_templates(const fs::path& input_dir, const fs::path& output_
 bool generate_english_roguelike_stage_name_replacement(const fs::path& ch_file, const fs::path& en_file);
 bool update_battle_chars_info(const fs::path& input_dir, const fs::path& overseas_dir, const fs::path& output_dir);
 bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, bool is_base);
-bool check_roguelike_replace_for_overseas(
-    const fs::path& input_dir,
-    const fs::path& tasks_path,
-    const fs::path& base_dir);
+bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_path, const fs::path& base_dir);
 bool update_version_info(const fs::path& input_dir, const fs::path& output_dir);
 
 int main([[maybe_unused]] int argc, char** argv)
@@ -218,11 +215,11 @@ bool run_parallel_tasks(
                 if (error_occurred.load()) {
                     return;
                 }
-                std::cout << "------- Update version info for " << out << " -------" << '\n';
+                std::cout << "------- Update version info " << out << " -------" << '\n';
                 if (!update_version_info(
                         overseas_data_dir / in / "gamedata" / "excel",
                         resource_dir / "global" / out / "resource")) {
-                    std::cerr << "update_version_info failed for " << out << '\n';
+                    std::cerr << "update_version_info failed " << out << '\n';
                     error_occurred.store(true);
                 }
                 else {
@@ -241,16 +238,16 @@ bool run_parallel_tasks(
             if (error_occurred.load()) {
                 return;
             }
-            std::cout << "------- Check roguelike replace for " << out << " -------" << '\n';
-            if (!check_roguelike_replace_for_overseas(
+            std::cout << "------- OCR replace " << out << " -------" << '\n';
+            if (!ocr_replace_overseas(
                     overseas_data_dir / in / "gamedata" / "excel",
                     resource_dir / "global" / out / "resource" / "tasks.json",
                     official_data_dir / "gamedata" / "excel")) {
-                std::cerr << "check_roguelike_replace_for_overseas failed for " << out << '\n';
+                std::cerr << "ocr_replace_overseas failed " << out << '\n';
                 error_occurred.store(true);
             }
             else {
-                std::cout << ">Done roguelike replace" << '\n';
+                std::cout << ">Done OCR replace " << out << '\n';
             }
         }
     });
@@ -278,12 +275,12 @@ bool run_parallel_tasks(
                 if (error_occurred.load()) {
                     return;
                 }
-                std::cout << "------- Update recruitment data for " << out << " -------" << '\n';
+                std::cout << "------- Update recruitment data " << out << " -------" << '\n';
                 if (!update_recruitment_data(
                         overseas_data_dir / in / "gamedata" / "excel",
                         resource_dir / "global" / out / "resource" / "recruitment.json",
                         false)) {
-                    std::cerr << "update_recruitment_data failed for " << out << '\n';
+                    std::cerr << "update_recruitment_data failed " << out << '\n';
                     error_occurred.store(true);
                 }
                 else {
@@ -317,12 +314,12 @@ bool run_parallel_tasks(
                 if (error_occurred.load()) {
                     return;
                 }
-                std::cout << "------- Update items data for " << out << " -------" << '\n';
+                std::cout << "------- Update items data " << out << " -------" << '\n';
                 if (!update_items_data(
                         overseas_data_dir / in / "gamedata" / "excel",
                         resource_dir / "global" / out / "resource",
                         false)) {
-                    std::cerr << "update_items_data failed for " << out << '\n';
+                    std::cerr << "update_items_data failed " << out << '\n';
                     error_occurred.store(true);
                 }
                 else {
@@ -1187,15 +1184,13 @@ bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, 
     return true;
 }
 
-bool check_roguelike_replace_for_overseas(
-    const fs::path& input_dir,
-    const fs::path& tasks_path,
-    const fs::path& base_dir)
+bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_path, const fs::path& base_dir)
 {
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_stage_names;
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_item_names;
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_totem_names;
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_encounter_names;
+    static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_char_names;
 
     if (base_stage_names.empty() || base_item_names.empty() || base_totem_names.empty() ||
         base_encounter_names.empty()) {
@@ -1238,7 +1233,6 @@ bool check_roguelike_replace_for_overseas(
         }
     }
 
-    static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_char_names;
     if (base_char_names.empty()) {
         auto char_opt = json::open(base_dir / "character_table.json");
         if (!char_opt.has_value()) {
@@ -1254,7 +1248,7 @@ bool check_roguelike_replace_for_overseas(
 
     auto rg_opt = json::open(input_dir / "roguelike_topic_table.json");
     if (!rg_opt) {
-        std::cerr << "Failed to open roguelike_topic_table for " << input_dir << '\n';
+        std::cerr << "Failed to open roguelike_topic_table " << input_dir << '\n';
         return false;
     }
 
@@ -1262,6 +1256,7 @@ bool check_roguelike_replace_for_overseas(
     std::unordered_map</*id*/ std::string, /*name*/ std::string> item_names;
     std::unordered_map</*id*/ std::string, /*name*/ std::string> totem_names;
     std::unordered_map</*id*/ std::string, /*name*/ std::string> encounter_names;
+    std::unordered_map</*id*/ std::string, /*name*/ std::string> char_names;
 
     auto& rg_json = rg_opt.value();
     std::string encounter_nospace;
@@ -1303,16 +1298,25 @@ bool check_roguelike_replace_for_overseas(
         }
     }
 
-    std::unordered_map</*id*/ std::string, /*name*/ std::string> char_names;
     auto char_opt = json::open(input_dir / "character_table.json");
     if (!char_opt.has_value()) {
-        std::cerr << "Failed to open character_table for " << input_dir << '\n';
+        std::cerr << "Failed to open character_table " << input_dir << '\n';
         return false;
     }
 
     auto& char_json = char_opt.value();
-    for (auto&& [id, char_obj] : char_json.as_object()) {
-        char_names.emplace(id, char_obj["name"].as_string());
+    if (input_dir.string().ends_with("ko_KR\\gamedata\\excel")) {
+        for (auto&& [id, char_obj] : char_json.as_object()) {
+            std::string char_name = char_obj["name"].as_string();
+            char_name.erase(std::remove(char_name.begin(), char_name.end(), ' '), char_name.end());
+
+            char_names.emplace(id, char_name);
+        }
+    }
+    else {
+        for (auto&& [id, char_obj] : char_json.as_object()) {
+            char_names.emplace(id, char_obj["name"].as_string());
+        }
     }
 
     auto task_opt = json::open(tasks_path);
