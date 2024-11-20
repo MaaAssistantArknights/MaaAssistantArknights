@@ -52,24 +52,11 @@ namespace MaaWpfGui.Services
         public StageManager()
         {
             UpdateStageLocal();
-
-            Task.Run(async () =>
-            {
-                await UpdateStageWeb();
-                if (Instances.TaskQueueViewModel != null)
-                {
-                    _ = Execute.OnUIThreadAsync(() =>
-                    {
-                        Instances.TaskQueueViewModel.UpdateDatePrompt();
-                        Instances.TaskQueueViewModel.UpdateStageList();
-                    });
-                }
-            });
         }
 
         public void UpdateStageLocal()
         {
-            UpdateStageInternal(LoadLocalStages());
+            MergePermanentAndActivityStages(LoadLocalStages());
         }
 
         public async Task UpdateStageWeb()
@@ -81,7 +68,7 @@ namespace MaaWpfGui.Services
 
             const string FilePath = "cache/allFileDownloadComplete.json";
             await File.WriteAllTextAsync(FilePath, GenerateJsonString(false));
-            UpdateStageInternal(await LoadWebStages());
+            MergePermanentAndActivityStages(await LoadWebStages());
             await File.WriteAllTextAsync(FilePath, GenerateJsonString(true));
 
             _ = Execute.OnUIThreadAsync(() =>
@@ -113,7 +100,7 @@ namespace MaaWpfGui.Services
             var clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty);
 
             // 官服和B服使用同样的资源
-            if (clientType == "Bilibili" || clientType == string.Empty)
+            if (clientType is "Bilibili" or "")
             {
                 clientType = "Official";
             }
@@ -173,7 +160,7 @@ namespace MaaWpfGui.Services
             return activity;
         }
 
-        private void UpdateStageInternal(JObject activity)
+        private void MergePermanentAndActivityStages(JObject activity)
         {
             var tempStage = new Dictionary<string, StageInfo>
             {

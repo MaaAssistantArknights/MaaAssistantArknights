@@ -278,7 +278,7 @@ namespace MaaWpfGui.ViewModels.UI
             _stageManager = _container.Get<StageManager>();
 
             DisplayName = LocalizationHelper.GetString("Farming");
-            LogItemViewModels = new ObservableCollection<LogItemViewModel>();
+            LogItemViewModels = [];
             InitializeItems();
             InitTimer();
         }
@@ -386,17 +386,14 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             _isUpdatingDatePrompt = true;
-            UpdateDatePrompt();
-            UpdateStageList();
+            UpdateDatePromptAndStagesLocally();
 
             var delayTime = CalculateRandomDelay();
             _ = Task.Run(async () =>
             {
                 await Task.Delay(delayTime);
                 await _runningState.UntilIdleAsync(60000);
-                await _stageManager.UpdateStageWeb();
-                UpdateDatePrompt();
-                UpdateStageList();
+                await UpdateDatePromptAndStagesWeb();
                 _isUpdatingDatePrompt = false;
             });
         }
@@ -649,8 +646,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             InitDrops();
             NeedToUpdateDatePrompt();
-            UpdateDatePrompt();
-            UpdateStageList();
+            UpdateDatePromptAndStagesLocally();
             RefreshCustomInfrastPlan();
 
             if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
@@ -679,6 +675,25 @@ namespace MaaWpfGui.ViewModels.UI
         public string GetValidStage(string stage)
         {
             return IsStageOpen(stage) ? stage : string.Empty;
+        }
+
+        /// <summary>
+        /// 更新日期提示和关卡列表
+        /// </summary>
+        public void UpdateDatePromptAndStagesLocally()
+        {
+            UpdateDatePrompt();
+            UpdateStageList();
+        }
+
+        /// <summary>
+        /// 访问 api 获取更新后更新日期提示和关卡列表
+        /// </summary>
+        /// <returns>可等待</returns>
+        public async Task UpdateDatePromptAndStagesWeb()
+        {
+            await _stageManager.UpdateStageWeb();
+            UpdateDatePromptAndStagesLocally();
         }
 
         /// <summary>
