@@ -433,7 +433,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             for (int i = 0; i < 8; ++i)
             {
-                if (!Instances.SettingsViewModel.TimerModels.Timers[i].IsOn)
+                if (!SettingsViewModel.TimerSettings.TimerModels.Timers[i].IsOn)
                 {
                     continue;
                 }
@@ -441,8 +441,8 @@ namespace MaaWpfGui.ViewModels.UI
                 DateTime startTime = new DateTime(currentTime.Year,
                     currentTime.Month,
                     currentTime.Day,
-                    Instances.SettingsViewModel.TimerModels.Timers[i].Hour,
-                    Instances.SettingsViewModel.TimerModels.Timers[i].Min,
+                    SettingsViewModel.TimerSettings.TimerModels.Timers[i].Hour,
+                    SettingsViewModel.TimerSettings.TimerModels.Timers[i].Min,
                     0);
                 DateTime restartDateTime = startTime.AddMinutes(-2);
 
@@ -453,7 +453,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 if (currentTime == restartDateTime &&
-                    Instances.SettingsViewModel.CurrentConfiguration != Instances.SettingsViewModel.TimerModels.Timers[i].TimerConfig)
+                    Instances.SettingsViewModel.CurrentConfiguration != SettingsViewModel.TimerSettings.TimerModels.Timers[i].TimerConfig)
                 {
                     timeToChangeConfig = true;
                     configIndex = i;
@@ -474,7 +474,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private async Task HandleTimerLogic(DateTime currentTime)
         {
-            if (!_runningState.GetIdle() && !Instances.SettingsViewModel.ForceScheduledStart)
+            if (!_runningState.GetIdle() && !SettingsViewModel.TimerSettings.ForceScheduledStart)
             {
                 return;
             }
@@ -497,25 +497,25 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void HandleConfigChange(int configIndex)
         {
-            if (Instances.SettingsViewModel.CustomConfig &&
-                (_runningState.GetIdle() || Instances.SettingsViewModel.ForceScheduledStart))
+            if (SettingsViewModel.TimerSettings.CustomConfig &&
+                (_runningState.GetIdle() || SettingsViewModel.TimerSettings.ForceScheduledStart))
             {
-                Instances.SettingsViewModel.CurrentConfiguration = Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig;
+                Instances.SettingsViewModel.CurrentConfiguration = SettingsViewModel.TimerSettings.TimerModels.Timers[configIndex].TimerConfig;
             }
         }
 
         private async Task HandleScheduledStart(int configIndex)
         {
-            if (Instances.SettingsViewModel.ForceScheduledStart)
+            if (SettingsViewModel.TimerSettings.ForceScheduledStart)
             {
-                if (Instances.SettingsViewModel.CustomConfig &&
-                    Instances.SettingsViewModel.CurrentConfiguration != Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig)
+                if (SettingsViewModel.TimerSettings.CustomConfig &&
+                    Instances.SettingsViewModel.CurrentConfiguration != SettingsViewModel.TimerSettings.TimerModels.Timers[configIndex].TimerConfig)
                 {
-                    _logger.Warning($"Scheduled start skipped: Custom configuration is enabled, but the current configuration does not match the scheduled timer configuration (Timer Index: {configIndex}). Current Configuration: {Instances.SettingsViewModel.CurrentConfiguration}, Scheduled Configuration: {Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig}");
+                    _logger.Warning($"Scheduled start skipped: Custom configuration is enabled, but the current configuration does not match the scheduled timer configuration (Timer Index: {configIndex}). Current Configuration: {Instances.SettingsViewModel.CurrentConfiguration}, Scheduled Configuration: {SettingsViewModel.TimerSettings.TimerModels.Timers[configIndex].TimerConfig}");
                     return;
                 }
 
-                if (Instances.SettingsViewModel.ShowWindowBeforeForceScheduledStart)
+                if (SettingsViewModel.TimerSettings.ShowWindowBeforeForceScheduledStart)
                 {
                     await Execute.OnUIThreadAsync(() => Instances.MainWindowManager?.Show());
                 }
