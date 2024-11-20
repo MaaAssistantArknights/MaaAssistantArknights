@@ -33,10 +33,10 @@ namespace MaaWpfGui.Helper
 
         private static readonly ILogger _logger = Log.ForContext<WindowManager>();
 
-        private readonly bool _loadWindowPlacement = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.LoadWindowPlacement, bool.TrueString));
-        private readonly bool _saveWindowPlacement = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.SaveWindowPlacement, bool.TrueString));
-        private readonly bool _minimizeDirectly = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeDirectly, bool.FalseString));
-        private readonly bool _minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
+        private readonly bool _loadWindowPlacement = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.LoadWindowPlacement, bool.TrueString));
+        private readonly bool _saveWindowPlacement = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.SaveWindowPlacement, bool.TrueString));
+        private readonly bool _minimizeDirectly = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MinimizeDirectly, bool.FalseString));
+        private readonly bool _minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
 
         /// <summary>
         /// Center other windows in MaaWpfGui.RootView
@@ -81,6 +81,13 @@ namespace MaaWpfGui.Helper
                             _logger.Error("Failed to get window placement");
                         }
 
+                        WindowPlacement defaultPlacement = default;
+                        if (Equals(windowPlacement, defaultPlacement))
+                        {
+                            _logger.Information("Window placement is the default value; skipping save.");
+                            return;
+                        }
+
                         if (!SetConfiguration(windowPlacement))
                         {
                             _logger.Error("Failed to save window placement");
@@ -114,10 +121,10 @@ namespace MaaWpfGui.Helper
             {
                 // 请在配置文件中修改该部分配置，暂不支持从GUI设置
                 // Please modify this part of configuration in the configuration file.
-                ConfigurationHelper.SetValue(ConfigurationKeys.LoadWindowPlacement, _loadWindowPlacement.ToString());
-                ConfigurationHelper.SetValue(ConfigurationKeys.SaveWindowPlacement, _saveWindowPlacement.ToString());
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.LoadWindowPlacement, _loadWindowPlacement.ToString());
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.SaveWindowPlacement, _saveWindowPlacement.ToString());
 
-                return ConfigurationHelper.SetValue(ConfigurationKeys.WindowPlacement, JsonConvert.SerializeObject(wp));
+                return ConfigurationHelper.SetGlobalValue(ConfigurationKeys.WindowPlacement, JsonConvert.SerializeObject(wp));
             }
             catch (Exception e)
             {
@@ -130,7 +137,7 @@ namespace MaaWpfGui.Helper
         private static bool GetConfiguration(out WindowPlacement wp)
         {
             wp = default;
-            var jsonStr = ConfigurationHelper.GetValue(ConfigurationKeys.WindowPlacement, string.Empty);
+            var jsonStr = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.WindowPlacement, string.Empty);
             if (string.IsNullOrEmpty(jsonStr))
             {
                 return false;
