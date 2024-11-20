@@ -49,7 +49,10 @@
                 <userControl:ConfigurationMgrUserControl Margin="0,20" HorizontalAlignment="Center" />
 
                 <hc:Divider Content="{Binding ListTitle[1]}" />
-                <userControl:TimerSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <settingsViews:TimerSettingsUserControl
+                    Margin="0,20"
+                    HorizontalAlignment="Center"
+                    DataContext="{Binding TimerSettings}" />
 
                 <hc:Divider Content="{Binding ListTitle[2]}" />
                 <userControl:PerformanceUserControl
