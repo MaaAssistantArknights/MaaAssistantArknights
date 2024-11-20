@@ -10,7 +10,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:remoteControl="clr-namespace:MaaWpfGui.Services.RemoteControl"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type viewModels:RemoteControlUserControlModel}}"
