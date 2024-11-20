@@ -56,6 +56,8 @@ namespace MaaWpfGui
                 FontConfigIntegration.Install();
             }
 
+            ConfigurationHelper.Load();
+
             base.OnStartup(e);
 
             string[] args = e.Args;
