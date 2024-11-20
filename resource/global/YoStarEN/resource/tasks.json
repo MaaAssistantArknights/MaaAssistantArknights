@@ -866,7 +866,16 @@
             ["Foldable Auxiliary Apparatus", "折叠式辅助器械"],
             ["Foldable Facility Maintainer", "折叠设施维护员"],
             ["Foldable Maintenance Vehicle", "折叠式维护车"],
-            ["Foldable Logistics Hub", "折叠式后勤站"]
+            ["Foldable Logistics Hub", "折叠式后勤站"],
+            ["Pinnacle Insight Port", "尖端研究成果共享终端"],
+            ["Mass Resource[ Storage]*", "海量资源存储"],
+            ["Confidential Comms[ Storage]*", "机密联络存储"],
+            ["Sound Recording Amplifier", "声波记录扩音器"],
+            ["Sound Absorb[ Boost]*", "声能吸收增幅"],
+            ["Sound Release[ Boost]*", "声能释放增幅"],
+            ["Arts Resonant Energy Field", "法术调和能量场"],
+            ["Resonance[ Casing]*", "共振外装"],
+            ["Hardened[ Casing]*", "险固外装"]
         ]
     },
     "StartToWakeUpOCR": {
@@ -1356,7 +1365,10 @@
             ["Field Support Drone", "战地援护无人机"],
             ["Chargeable Supervisory Speaker", "可充能督战音响"],
             ["Smart Airspace Controller", "智能空域控制机"],
-            ["Quick-*freezing Sprayer Platform", "速冷喷雾发射台"]
+            ["Quick-*freezing Sprayer Platform", "速冷喷雾发射台"],
+            ["Pinnacle Insight Port", "尖端研究成果共享终端"],
+            ["Sound Recording Amplifier", "声波记录扩音器"],
+            ["Arts Resonant Energy Field", "法术调和能量场"]
         ]
     },
     "SSSBuffChooseConfirm": {
