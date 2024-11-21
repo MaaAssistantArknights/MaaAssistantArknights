@@ -59,19 +59,24 @@
             </Hyperlink>
         </controls:TextBlock>
 
-        <CheckBox
-            Margin="20,10"
+        <StackPanel
+            HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            IsChecked="{Binding DeploymentWithPause}">
-            <controls:TextBlock
-                Block.TextAlignment="Center"
-                Text="{DynamicResource DeploymentWithPause}"
-                TextWrapping="Wrap" />
-        </CheckBox>
-        <CheckBox
-            Margin="20,10"
-            Content="{DynamicResource AutoRestartOption}"
-            IsChecked="{Binding AutoRestartOnDrop}" />
+            Orientation="Horizontal">
+            <CheckBox
+                Margin="20,10"
+                VerticalAlignment="Center"
+                IsChecked="{Binding DeploymentWithPause}">
+                <controls:TextBlock
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource DeploymentWithPause}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox
+                Margin="20,10"
+                Content="{DynamicResource AutoRestartOption}"
+                IsChecked="{Binding AutoRestartOnDrop}" />
+        </StackPanel>
         <hc:TextBox
             Grid.Row="7"
             Width="300"
@@ -96,17 +101,40 @@
             Drop="EndsWithScript_Drop"
             PreviewDragOver="TextBox_PreviewDragOver"
             Text="{Binding EndsWithScript}" />
-        <CheckBox
-            Margin="10"
+
+        <StackPanel
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Content="{DynamicResource CopilotWithScript}"
-            IsChecked="{Binding CopilotWithScript}" />
-        <CheckBox
-            Margin="10"
+            Orientation="Horizontal">
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="{DynamicResource CopilotWithScript}"
+                IsChecked="{Binding CopilotWithScript}" />
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="{DynamicResource ManualStopWithScript}"
+                IsChecked="{Binding ManualStopWithScript}" />
+        </StackPanel>
+        <StackPanel
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Content="{DynamicResource ManualStopWithScript}"
-            IsChecked="{Binding ManualStopWithScript}" />
+            Orientation="Horizontal">
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="{DynamicResource BlockSleep}"
+                IsChecked="{Binding BlockSleep}" />
+            <CheckBox
+                Margin="10"
+                VerticalAlignment="Center"
+                Content="{DynamicResource BlockSleepWithScreenOn}"
+                IsChecked="{Binding BlockSleepWithScreenOn}"
+                Visibility="{c:Binding BlockSleep}" />
+        </StackPanel>
     </StackPanel>
 </UserControl>
