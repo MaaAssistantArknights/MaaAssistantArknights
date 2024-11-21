@@ -1,4 +1,5 @@
 #nullable enable
+using System;
 using System.Collections.Generic;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
@@ -46,6 +47,19 @@ public class GameSettingsUserControlModel : PropertyChangedBase
             Instances.TaskQueueViewModel.UpdateDatePrompt();
             Instances.AsstProxy.LoadResource();
             SettingsViewModel.AskRestartToApplySettings(_clientType is "YoStarEN");
+        }
+    }
+
+    private bool _deploymentWithPause = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDeploymentWithPause, bool.FalseString));
+
+    public bool DeploymentWithPause
+    {
+        get => _deploymentWithPause;
+        set
+        {
+            SetAndNotify(ref _deploymentWithPause, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDeploymentWithPause, value.ToString());
+            SettingsViewModel.ConnectSettings.UpdateInstanceSettings();
         }
     }
 }
