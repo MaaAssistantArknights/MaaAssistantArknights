@@ -116,7 +116,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public async void CheckAfterCompleted()
         {
-            await Task.Run(() => SettingsViewModel.ConnectSettings.RunScript("EndsWithScript"));
+            await Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
             var actions = TaskSettingDataContext.PostActionSetting;
             _logger.Information("Post actions: " + actions.ActionDescription);
 
@@ -1214,7 +1214,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             InfrastTaskRunning = true;
 
-            await Task.Run(() => SettingsViewModel.ConnectSettings.RunScript("StartsWithScript"));
+            await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript"));
 
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
@@ -1403,9 +1403,9 @@ namespace MaaWpfGui.ViewModels.UI
         public void SetStopped()
         {
             SleepManagement.AllowSleep();
-            if (SettingsViewModel.ConnectSettings.ManualStopWithScript)
+            if (SettingsViewModel.GameSettings.ManualStopWithScript)
             {
-                Task.Run(() => SettingsViewModel.ConnectSettings.RunScript("EndsWithScript"));
+                Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
             }
 
             if (!_runningState.GetIdle() || Stopping)
@@ -1433,7 +1433,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             ClearLog();
 
-            await Task.Run(() => SettingsViewModel.ConnectSettings.RunScript("StartsWithScript"));
+            await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript"));
 
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
