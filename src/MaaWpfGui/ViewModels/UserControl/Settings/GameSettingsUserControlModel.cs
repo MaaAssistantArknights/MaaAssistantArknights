@@ -62,4 +62,16 @@ public class GameSettingsUserControlModel : PropertyChangedBase
             SettingsViewModel.ConnectSettings.UpdateInstanceSettings();
         }
     }
+
+    private bool _autoRestartOnDrop = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoRestartOnDrop, bool.TrueString));
+
+    public bool AutoRestartOnDrop
+    {
+        get => _autoRestartOnDrop;
+        set
+        {
+            SetAndNotify(ref _autoRestartOnDrop, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.AutoRestartOnDrop, value.ToString());
+        }
+    }
 }

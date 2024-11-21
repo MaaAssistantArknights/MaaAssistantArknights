@@ -60,7 +60,6 @@
 
         <CheckBox
             Margin="20,10"
-            HorizontalAlignment="Center"
             VerticalAlignment="Center"
             IsChecked="{Binding DeploymentWithPause}">
             <controls:TextBlock
@@ -68,5 +67,9 @@
                 Text="{DynamicResource DeploymentWithPause}"
                 TextWrapping="Wrap" />
         </CheckBox>
+        <CheckBox
+            Margin="20,10"
+            Content="{DynamicResource AutoRestartOption}"
+            IsChecked="{Binding AutoRestartOnDrop}" />
     </StackPanel>
 </UserControl>
