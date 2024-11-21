@@ -2725,7 +2725,6 @@
     "EndOfAction": {
         "Doc": "本任务注册了插件 StageDropsTaskPlugin",
         "roi": [0, 290, 70, 60],
-        "reduceOtherTimes": ["FightMissionFailed"],
         "next": ["ClickCorner"]
     },
     "EndOfActionThenStop": {
@@ -2910,7 +2909,7 @@
         "roi": [36, 226, 482, 269],
         "next": ["EndOfAction", "OfflineConfirm", "StartUpThemes#next", "StartButton1"],
         "maxTimes": 3,
-        "maxTimesDoc": "这是失败次数的限制，超过此限制会停止任务，但每成功一次 EndOfAction 会减少一次失败次数",
+        "maxTimesDoc": "这是失败次数的限制，超过此限制会停止任务",
         "exceededNext": ["FightMissionFailedAndStop"],
         "onErrorNext": ["ClickCornerAfterPRTS"]
     },
