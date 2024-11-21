@@ -6,6 +6,7 @@
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
@@ -226,7 +227,7 @@
                 hc:TitleElement.Title="{DynamicResource TouchMode}"
                 hc:TitleElement.TitlePlacement="Left"
                 DisplayMemberPath="Display"
-                IsHitTestVisible="{Binding Idle}"
+                IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
                 ItemsSource="{Binding TouchModeList}"
                 SelectedValue="{Binding TouchMode}"
                 SelectedValuePath="Value" />
