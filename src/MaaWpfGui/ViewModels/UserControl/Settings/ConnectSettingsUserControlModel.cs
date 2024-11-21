@@ -608,19 +608,6 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _deploymentWithPause = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDeploymentWithPause, bool.FalseString));
-
-    public bool DeploymentWithPause
-    {
-        get => _deploymentWithPause;
-        set
-        {
-            SetAndNotify(ref _deploymentWithPause, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDeploymentWithPause, value.ToString());
-            UpdateInstanceSettings();
-        }
-    }
-
     private bool _adbLiteEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AdbLiteEnabled, bool.FalseString));
 
     public bool AdbLiteEnabled
@@ -912,7 +899,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public void UpdateInstanceSettings()
     {
         Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.TouchMode, TouchMode);
-        Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, DeploymentWithPause ? "1" : "0");
+        Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, SettingsViewModel.GameSettings.DeploymentWithPause ? "1" : "0");
         Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, AdbLiteEnabled ? "1" : "0");
         Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.KillAdbOnExit, KillAdbOnExit ? "1" : "0");
     }

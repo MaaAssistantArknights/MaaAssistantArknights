@@ -57,5 +57,16 @@
                 <TextBlock Text="{DynamicResource HelpUsWithOverseasServersTip}" />
             </Hyperlink>
         </controls:TextBlock>
+
+        <CheckBox
+            Margin="20,10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            IsChecked="{Binding DeploymentWithPause}">
+            <controls:TextBlock
+                Block.TextAlignment="Center"
+                Text="{DynamicResource DeploymentWithPause}"
+                TextWrapping="Wrap" />
+        </CheckBox>
     </StackPanel>
 </UserControl>

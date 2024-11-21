@@ -321,7 +321,7 @@ namespace MaaWpfGui.Main
             Instances.TaskQueueViewModel.SetInited();
             _runningState.SetIdle(true);
             AsstSetInstanceOption(InstanceOptionKey.TouchMode, SettingsViewModel.ConnectSettings.TouchMode);
-            AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, SettingsViewModel.ConnectSettings.DeploymentWithPause ? "1" : "0");
+            AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, SettingsViewModel.GameSettings.DeploymentWithPause ? "1" : "0");
             AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, SettingsViewModel.ConnectSettings.AdbLiteEnabled ? "1" : "0");
 
             // TODO: 之后把这个 OnUIThread 拆出来
