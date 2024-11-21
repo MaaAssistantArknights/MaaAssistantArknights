@@ -59,8 +59,8 @@ namespace MaaWpfGui.Services.Notification
             var emailFrom = SettingsViewModel.ExternalNotificationSettings.SmtpFrom;
             var emailTo = SettingsViewModel.ExternalNotificationSettings.SmtpTo;
 
-            title = Regex.Replace(title, "\r(?!\n)", "\r\n");
-            content = Regex.Replace(content, "\r(?!\n)", "\r\n");
+            title = title.Replace("\r", string.Empty).Replace("\n", string.Empty);
+            content = content.Replace("\r", string.Empty).Replace("\n", string.Empty);
 
             var email = Email
                 .From(emailFrom)
