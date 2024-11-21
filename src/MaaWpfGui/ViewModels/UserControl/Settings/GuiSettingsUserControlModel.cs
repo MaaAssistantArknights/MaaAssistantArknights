@@ -30,19 +30,6 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 public class GuiSettingsUserControlModel : PropertyChangedBase
 {
     /// <summary>
-    /// Gets or sets a value indicating whether it is idle.
-    /// </summary>
-    public bool Idle
-    {
-        get => Instances.SettingsViewModel.Idle;
-        set
-        {
-            Instances.SettingsViewModel.Idle = value;
-            NotifyOfPropertyChange(nameof(Idle));
-        }
-    }
-
-    /// <summary>
     /// Gets or sets the language list.
     /// </summary>
     public List<CombinedData> LanguageList { get; set; } = [];
@@ -53,7 +40,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     public List<CombinedData> OperNameLanguageModeList { get; set; } =
         [
             new() { Display = LocalizationHelper.GetString("OperNameLanguageMAA"), Value = "OperNameLanguageMAA" },
-                new() { Display = LocalizationHelper.GetString("OperNameLanguageClient"), Value = "OperNameLanguageClient" }
+            new() { Display = LocalizationHelper.GetString("OperNameLanguageClient"), Value = "OperNameLanguageClient" }
         ];
 
     /// <summary>
@@ -62,9 +49,9 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     public List<GenericCombinedData<DarkModeType>> DarkModeList { get; } =
         [
             new() { Display = LocalizationHelper.GetString("Light"), Value = DarkModeType.Light },
-                new() { Display = LocalizationHelper.GetString("Dark"), Value = DarkModeType.Dark },
-                new() { Display = LocalizationHelper.GetString("SyncWithOs"), Value = DarkModeType.SyncWithOs },
-            ];
+            new() { Display = LocalizationHelper.GetString("Dark"), Value = DarkModeType.Dark },
+            new() { Display = LocalizationHelper.GetString("SyncWithOs"), Value = DarkModeType.SyncWithOs },
+        ];
 
     /// <summary>
     /// Gets the list of inverse clear modes.
@@ -72,9 +59,9 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     public List<CombinedData> InverseClearModeList { get; } =
         [
             new() { Display = LocalizationHelper.GetString("Clear"), Value = "Clear" },
-                new() { Display = LocalizationHelper.GetString("Inverse"), Value = "Inverse" },
-                new() { Display = LocalizationHelper.GetString("Switchable"), Value = "ClearInverse" },
-            ];
+            new() { Display = LocalizationHelper.GetString("Inverse"), Value = "Inverse" },
+            new() { Display = LocalizationHelper.GetString("Switchable"), Value = "ClearInverse" },
+         ];
 
     private bool _useTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseTray, bool.TrueString));
 
