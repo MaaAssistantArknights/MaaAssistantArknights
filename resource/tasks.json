@@ -3427,8 +3427,8 @@
     "StartToVisit": {
         "method": "RGBCount",
         "action": "ClickSelf",
-        "colorScales": [[250, 255]],
-        "roi": [990, 90, 195, 165],
+        "colorScales": [[253, 255]],
+        "roi": [952, 105, 267, 601],
         "next": ["VisitNext", "VisitNext@LoadingText", "VisitNextBlack", "VisitNextOcr"],
         "postDelay": 2000
     },
