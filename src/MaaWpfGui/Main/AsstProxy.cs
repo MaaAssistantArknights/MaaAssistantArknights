@@ -814,10 +814,10 @@ namespace MaaWpfGui.Main
 
                     if (_latestTaskId.ContainsKey(TaskType.Copilot))
                     {
-                        if (SettingsViewModel.ConnectSettings.CopilotWithScript)
+                        if (SettingsViewModel.GameSettings.CopilotWithScript)
                         {
-                            Task.Run(() => SettingsViewModel.ConnectSettings.RunScript("EndsWithScript", showLog: false));
-                            if (!string.IsNullOrWhiteSpace(SettingsViewModel.ConnectSettings.EndsWithScript))
+                            Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript", showLog: false));
+                            if (!string.IsNullOrWhiteSpace(SettingsViewModel.GameSettings.EndsWithScript))
                             {
                                 Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("EndsWithScript"));
                             }

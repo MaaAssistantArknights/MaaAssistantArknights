@@ -1,16 +1,33 @@
+// <copyright file="GameSettingsUserControlModel.cs" company="MaaAssistantArknights">
+// MaaWpfGui - A part of the MaaCoreArknights project
+// Copyright (C) 2021 MistEO and Contributors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
+// the Free Software Foundation, either version 3 of the License, or
+// any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY
+// </copyright>
+
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
+using Serilog;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
 public class GameSettingsUserControlModel : PropertyChangedBase
 {
+    private static readonly ILogger _logger = Log.ForContext<GameSettingsUserControlModel>();
+
     private static VersionUpdateSettingsUserControlModel VersionUpdateSettings => SettingsViewModel.VersionUpdateSettings;
 
     /// <summary>
@@ -72,6 +89,154 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         {
             SetAndNotify(ref _autoRestartOnDrop, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.AutoRestartOnDrop, value.ToString());
+        }
+    }
+
+    private string _startsWithScript = ConfigurationHelper.GetValue(ConfigurationKeys.StartsWithScript, string.Empty);
+
+    public string StartsWithScript
+    {
+        get => _startsWithScript;
+        set
+        {
+            SetAndNotify(ref _startsWithScript, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.StartsWithScript, value);
+        }
+    }
+
+    private string _endsWithScript = ConfigurationHelper.GetValue(ConfigurationKeys.EndsWithScript, string.Empty);
+
+    public string EndsWithScript
+    {
+        get => _endsWithScript;
+        set
+        {
+            SetAndNotify(ref _endsWithScript, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.EndsWithScript, value);
+        }
+    }
+
+    private bool _copilotWithScript = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotWithScript, bool.FalseString));
+
+    public bool CopilotWithScript
+    {
+        get => _copilotWithScript;
+        set
+        {
+            SetAndNotify(ref _copilotWithScript, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.CopilotWithScript, value.ToString());
+        }
+    }
+
+    private bool _manualStopWithScript = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ManualStopWithScript, bool.FalseString));
+
+    public bool ManualStopWithScript
+    {
+        get => _manualStopWithScript;
+        set
+        {
+            SetAndNotify(ref _manualStopWithScript, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ManualStopWithScript, value.ToString());
+        }
+    }
+
+    public void RunScript(string str, bool showLog = true)
+    {
+        bool enable = str switch
+        {
+            "StartsWithScript" => !string.IsNullOrWhiteSpace(StartsWithScript),
+            "EndsWithScript" => !string.IsNullOrWhiteSpace(EndsWithScript),
+            _ => false,
+        };
+
+        if (!enable)
+        {
+            return;
+        }
+
+        Func<bool> func = str switch
+        {
+            "StartsWithScript" => () => ExecuteScript(StartsWithScript),
+            "EndsWithScript" => () => ExecuteScript(EndsWithScript),
+            _ => () => false,
+        };
+
+        if (!showLog)
+        {
+            if (!func())
+            {
+                _logger.Warning("Failed to execute the script.");
+            }
+
+            return;
+        }
+
+        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(str));
+        if (func())
+        {
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(str));
+        }
+        else
+        {
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(str), UiLogColor.Warning);
+        }
+    }
+
+    private static bool ExecuteScript(string scriptPath)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(scriptPath))
+            {
+                return false;
+            }
+
+            string fileName;
+            string arguments;
+
+            if (scriptPath.StartsWith('\"'))
+            {
+                var parts = scriptPath.Split("\"", 3);
+                fileName = parts[1];
+                arguments = parts.Length > 2 ? parts[2] : string.Empty;
+            }
+            else
+            {
+                fileName = scriptPath;
+                arguments = string.Empty;
+            }
+
+            bool createNoWindow = arguments.Contains("-noWindow");
+            bool minimized = arguments.Contains("-minimized");
+
+            if (createNoWindow)
+            {
+                arguments = arguments.Replace("-noWindow", string.Empty).Trim();
+            }
+
+            if (minimized)
+            {
+                arguments = arguments.Replace("-minimized", string.Empty).Trim();
+            }
+
+            var process = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = fileName,
+                    Arguments = arguments,
+                    WindowStyle = minimized ? ProcessWindowStyle.Minimized : ProcessWindowStyle.Normal,
+                    CreateNoWindow = createNoWindow,
+                    UseShellExecute = !createNoWindow,
+                },
+            };
+            process.Start();
+            process.WaitForExit();
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
         }
     }
 }
