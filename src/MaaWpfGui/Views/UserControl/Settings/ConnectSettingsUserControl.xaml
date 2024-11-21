@@ -6,8 +6,8 @@
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
-    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
@@ -211,10 +211,6 @@
                 Margin="20,10"
                 Content="{DynamicResource AllowAdbHardRestart}"
                 IsChecked="{Binding AllowAdbHardRestart}" />
-            <CheckBox
-                Margin="20,10"
-                Content="{DynamicResource AutoRestartOption}"
-                IsChecked="{Binding AutoRestartOnDrop}" />
         </StackPanel>
 
         <StackPanel
