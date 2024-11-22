@@ -607,7 +607,7 @@ namespace MaaWpfGui.Services.RemoteControl
             {
                 // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次(任务及基建列表)
                 Instances.TaskQueueViewModel.TaskItemSelectionChanged();
-                Instances.SettingsViewModel.InfrastOrderSelectionChanged();
+                SettingsViewModel.InfrastTask.InfrastOrderSelectionChanged();
 
                 InvokeInstanceMethod(Instances.TaskQueueViewModel, "ClearLog");
 
