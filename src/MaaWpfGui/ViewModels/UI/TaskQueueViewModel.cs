@@ -1678,24 +1678,24 @@ namespace MaaWpfGui.ViewModels.UI
 
         private bool AppendMall()
         {
-            var buyFirst = Instances.SettingsViewModel.CreditFirstList.Split(';', '；')
+            var buyFirst = SettingsViewModel.MallTask.CreditFirstList.Split(';', '；')
                 .Select(s => s.Trim());
 
-            var blackList = Instances.SettingsViewModel.CreditBlackList.Split(';', '；')
+            var blackList = SettingsViewModel.MallTask.CreditBlackList.Split(';', '；')
                 .Select(s => s.Trim());
 
             blackList = blackList.Union(_blackCharacterListMapping[SettingsViewModel.GameSettings.ClientType]);
 
             return Instances.AsstProxy.AsstAppendMall(
-                !string.IsNullOrEmpty(this.Stage) && Instances.SettingsViewModel.CreditFightTaskEnabled,
-                Instances.SettingsViewModel.CreditFightSelectFormation,
-                Instances.SettingsViewModel.CreditVisitFriendsEnabled,
-                Instances.SettingsViewModel.CreditShopping,
+                !string.IsNullOrEmpty(this.Stage) && SettingsViewModel.MallTask.CreditFightTaskEnabled,
+                SettingsViewModel.MallTask.CreditFightSelectFormation,
+                SettingsViewModel.MallTask.CreditVisitFriendsEnabled,
+                SettingsViewModel.MallTask.CreditShopping,
                 buyFirst.ToArray(),
                 blackList.ToArray(),
-                Instances.SettingsViewModel.CreditForceShoppingIfCreditFull,
-                Instances.SettingsViewModel.CreditOnlyBuyDiscount,
-                Instances.SettingsViewModel.CreditReserveMaxCredit);
+                SettingsViewModel.MallTask.CreditForceShoppingIfCreditFull,
+                SettingsViewModel.MallTask.CreditOnlyBuyDiscount,
+                SettingsViewModel.MallTask.CreditReserveMaxCredit);
         }
 
         private static bool AppendAward()
