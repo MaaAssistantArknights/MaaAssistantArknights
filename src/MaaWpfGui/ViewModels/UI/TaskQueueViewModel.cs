@@ -810,6 +810,11 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
+            if (!_stageManager.IsStageInStageList(stage))
+            {
+                _stageManager.AddUnOpenStage(stage);
+            }
+
             var stageInfo = _stageManager.GetStageInfo(stage);
             stageList.Add(stageInfo);
         }
