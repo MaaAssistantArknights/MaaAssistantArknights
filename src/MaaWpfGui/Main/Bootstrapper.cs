@@ -285,7 +285,7 @@ namespace MaaWpfGui.Main
 
             ProcessStartInfo startInfo = new ProcessStartInfo { FileName = Environment.ProcessPath, };
 
-            //Process.Start(startInfo);
+            Process.Start(startInfo);
         }
 
         public static void Release()
