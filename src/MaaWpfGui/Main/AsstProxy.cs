@@ -757,15 +757,15 @@ namespace MaaWpfGui.Main
 
                         case "Mall":
                             {
-                                if (Instances.TaskQueueViewModel.Stage != string.Empty && Instances.SettingsViewModel.CreditFightTaskEnabled)
+                                if (Instances.TaskQueueViewModel.Stage != string.Empty && SettingsViewModel.MallTask.CreditFightTaskEnabled)
                                 {
-                                    Instances.SettingsViewModel.LastCreditFightTaskTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                                    SettingsViewModel.MallTask.LastCreditFightTaskTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("CreditFight"));
                                 }
 
-                                if (Instances.SettingsViewModel.CreditVisitFriendsEnabled)
+                                if (SettingsViewModel.MallTask.CreditVisitFriendsEnabled)
                                 {
-                                    Instances.SettingsViewModel.LastCreditVisitFriendsTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                                    SettingsViewModel.MallTask.LastCreditVisitFriendsTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("Visiting"));
                                 }
 
