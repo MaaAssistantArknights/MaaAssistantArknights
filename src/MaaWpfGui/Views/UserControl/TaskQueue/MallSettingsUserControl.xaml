@@ -49,6 +49,7 @@
                 hc:InfoElement.Title="{DynamicResource UseFormation}"
                 hc:InfoElement.TitlePlacement="Left"
                 hc:InfoElement.TitleWidth="120"
+                DisplayMemberPath="Display"
                 IsHitTestVisible="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
                 ItemsSource="{Binding FormationSelectList}"
                 SelectedValue="{Binding CreditFightSelectFormation}"

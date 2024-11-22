@@ -89,14 +89,14 @@ public class MallSettingsUserControlModel : PropertyChangedBase
     /// Gets 设置选择的编队
     /// </summary>
     // ReSharper disable once MemberCanBePrivate.Global
-    public List<CombinedData> FormationSelectList { get; } =
+    public List<GenericCombinedData<int>> FormationSelectList { get; } =
         [
-            new() { Display = LocalizationHelper.GetString("Current"), Value = "0" },
-                new() { Display = "1", Value = "1" },
-                new() { Display = "2", Value = "2" },
-                new() { Display = "3", Value = "3" },
-                new() { Display = "4", Value = "4" },
-            ];
+            new() { Display = LocalizationHelper.GetString("Current"), Value = 0 },
+            new() { Display = "1", Value = 1 },
+            new() { Display = "2", Value = 2 },
+            new() { Display = "3", Value = 3 },
+            new() { Display = "4", Value = 4 },
+        ];
 
     private string _lastCreditVisitFriendsTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditVisitFriendsTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
 
