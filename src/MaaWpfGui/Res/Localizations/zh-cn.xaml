@@ -140,7 +140,7 @@
     <system:String x:Key="RoguelikeCollapseListTip">用英文分号「;」隔开，留空将使用默认列表。</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「开局干员」使用助战</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</system:String>
-    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">在战斗结束前延迟「停止」动作</system:String>
+    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">自动肉鸽在战斗结束前延迟「停止」动作</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">在第五层 BOSS 前暂停</system:String>
     <system:String x:Key="DeploymentWithPause">划火柴模式（自动战斗）</system:String>
     <system:String x:Key="AdbLiteEnabled">使用 ADB Lite（实验性功能）</system:String>

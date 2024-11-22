@@ -1446,7 +1446,7 @@ namespace MaaWpfGui.Main
                 case "StageInfo":
                     {
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartCombat") + subTaskDetails!["name"]);
-                        if (SettingsViewModel.RoguelikeTask.RoguelikeDelayAbortUntilCombatComplete)
+                        if (SettingsViewModel.GameSettings.RoguelikeDelayAbortUntilCombatComplete)
                         {
                             Instances.TaskQueueViewModel.RoguelikeInCombatAndShowWait = true;
                         }
