@@ -298,6 +298,25 @@ namespace MaaWpfGui.Services
             return stageInfo;
         }
 
+        public bool IsStageInStageList(string stage)
+        {
+            return _stages.ContainsKey(stage);
+        }
+
+        public void AddUnOpenStage(string stage)
+        {
+            _stages.Add(stage, new()
+            {
+                Display = stage,
+                Value = stage,
+                Activity = new()
+                {
+                    UtcStartTime = DateTime.MinValue,
+                    UtcExpireTime = DateTime.MinValue,
+                },
+            });
+        }
+
         /// <summary>
         /// Determine whether stage is open
         /// </summary>
