@@ -389,7 +389,7 @@ namespace MaaWpfGui.Main
             var jsonStr = PtrToStringCustom(jsonBuffer, Encoding.UTF8);
 
             // Console.WriteLine(json_str);
-            var json = (JObject?)JsonConvert.DeserializeObject(jsonStr);
+            var json = (JObject?)JsonConvert.DeserializeObject(jsonStr ?? string.Empty);
             MaaService.ProcCallbackMsg dlg = ProcMsg;
             Execute.OnUIThread(
                 () =>
@@ -458,8 +458,8 @@ namespace MaaWpfGui.Main
             {
                 case "Connected":
                     Connected = true;
-                    _connectedAdb = details["details"]?["adb"]?.ToString();
-                    _connectedAddress = details["details"]?["address"]?.ToString();
+                    _connectedAdb = details["details"]!["adb"]!.ToString();
+                    _connectedAddress = details["details"]!["address"]!.ToString();
                     SettingsViewModel.ConnectSettings.ConnectAddress = _connectedAddress;
                     break;
 
@@ -1030,7 +1030,7 @@ namespace MaaWpfGui.Main
 
                 case "ReportToPenguinStats":
                     {
-                        var why = details!["why"].ToString();
+                        var why = details!["why"]!.ToString();
                         Instances.TaskQueueViewModel.AddLog(why + "，" + LocalizationHelper.GetString("GiveUpUploadingPenguins"), UiLogColor.Error);
                         break;
                     }
@@ -1069,8 +1069,8 @@ namespace MaaWpfGui.Main
             {
                 case "ProcessTask":
                     {
-                        string taskName = details!["details"]?["task"]?.ToString();
-                        int execTimes = (int)details["details"]["exec_times"];
+                        string taskName = details!["details"]!["task"]!.ToString();
+                        int execTimes = (int)details!["details"]!["exec_times"]!;
 
                         switch (taskName)
                         {
@@ -1318,7 +1318,7 @@ namespace MaaWpfGui.Main
 
                 case "RecruitSpecialTag":
                     {
-                        string special = subTaskDetails!["tag"]?.ToString();
+                        string special = subTaskDetails!["tag"]!.ToString();
                         if (special == "支援机械" && Instances.SettingsViewModel.NotChooseLevel1 == false)
                         {
                             break;
@@ -1332,7 +1332,7 @@ namespace MaaWpfGui.Main
 
                 case "RecruitRobotTag":
                     {
-                        string special = subTaskDetails!["tag"]?.ToString();
+                        string special = subTaskDetails!["tag"]!.ToString();
                         using var toast = new ToastNotification(LocalizationHelper.GetString("RecruitingTips"));
                         toast.AppendContentText(special).ShowRecruitRobot();
 
@@ -1381,7 +1381,7 @@ namespace MaaWpfGui.Main
 
                 case "RecruitTagsSelected":
                     {
-                        var selected = subTaskDetails["tags"] ?? new JArray();
+                        var selected = subTaskDetails!["tags"] ?? new JArray();
                         string selectedLog = selected.Aggregate(string.Empty, (current, tag) => current + (tag + "\n"));
 
                         selectedLog = selectedLog.EndsWith('\n') ? selectedLog.TrimEnd('\n') : LocalizationHelper.GetString("NoDrop");
@@ -1674,7 +1674,7 @@ namespace MaaWpfGui.Main
                     break;
 
                 case "AccountSwitch":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + $" -->> {subTaskDetails["account_name"]}", UiLogColor.Info); // subTaskDetails!["current_account"]
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + $" -->> {subTaskDetails!["account_name"]}", UiLogColor.Info); // subTaskDetails!["current_account"]
                     break;
                 case "RoguelikeCollapsalParadigms":
                     string deepen_or_weaken_str = subTaskDetails!["deepen_or_weaken"]?.ToString() ?? "Unknown";
@@ -1933,7 +1933,7 @@ namespace MaaWpfGui.Main
 
         private AsstTaskId AsstAppendTaskWithEncoding(string type, JObject? taskParams = null)
         {
-            taskParams ??= new();
+            taskParams ??= [];
             return AsstAppendTask(_handle, type, JsonConvert.SerializeObject(taskParams));
         }
 
@@ -1944,7 +1944,7 @@ namespace MaaWpfGui.Main
                 return false;
             }
 
-            taskParams ??= new();
+            taskParams ??= [];
             return AsstSetTaskParams(_handle, id, JsonConvert.SerializeObject(taskParams));
         }
 

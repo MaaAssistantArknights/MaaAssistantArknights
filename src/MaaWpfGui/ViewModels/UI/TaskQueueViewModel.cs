@@ -1631,7 +1631,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var order = Instances.SettingsViewModel.GetInfrastOrderList();
             Instances.AsstProxy.AsstSetInfrastTaskParams(
-                order.ToArray(),
+                order,
                 Instances.SettingsViewModel.UsesOfDrones,
                 Instances.SettingsViewModel.ContinueTraining,
                 Instances.SettingsViewModel.DormThreshold / 100.0,
@@ -1653,7 +1653,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             var order = Instances.SettingsViewModel.GetInfrastOrderList();
             return Instances.AsstProxy.AsstAppendInfrast(
-                order.ToArray(),
+                order,
                 Instances.SettingsViewModel.UsesOfDrones,
                 Instances.SettingsViewModel.ContinueTraining,
                 Instances.SettingsViewModel.DormThreshold / 100.0,

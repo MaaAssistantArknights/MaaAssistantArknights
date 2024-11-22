@@ -795,7 +795,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets the list of divider vertical offset.
         /// </summary>
-        public List<double> DividerVerticalOffsetList { get; set; } = new();
+        public List<double> DividerVerticalOffsetList { get; set; } = [];
 
         private int _selectedIndex;
 
