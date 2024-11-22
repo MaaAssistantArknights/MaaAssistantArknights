@@ -1210,7 +1210,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
             TaskItemSelectionChanged();
-            Instances.SettingsViewModel.InfrastOrderSelectionChanged();
+            SettingsViewModel.InfrastTask.InfrastOrderSelectionChanged();
 
             InfrastTaskRunning = true;
 
@@ -1429,7 +1429,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
             TaskItemSelectionChanged();
-            Instances.SettingsViewModel.InfrastOrderSelectionChanged();
+            SettingsViewModel.InfrastTask.InfrastOrderSelectionChanged();
 
             ClearLog();
 
@@ -1629,39 +1629,39 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void SetInfrastParams()
         {
-            var order = Instances.SettingsViewModel.GetInfrastOrderList();
+            var order = SettingsViewModel.InfrastTask.GetInfrastOrderList();
             Instances.AsstProxy.AsstSetInfrastTaskParams(
                 order,
-                Instances.SettingsViewModel.UsesOfDrones,
-                Instances.SettingsViewModel.ContinueTraining,
-                Instances.SettingsViewModel.DormThreshold / 100.0,
-                Instances.SettingsViewModel.DormFilterNotStationedEnabled,
-                Instances.SettingsViewModel.DormTrustEnabled,
-                Instances.SettingsViewModel.OriginiumShardAutoReplenishment,
-                Instances.SettingsViewModel.CustomInfrastEnabled,
-                Instances.SettingsViewModel.CustomInfrastFile,
+                SettingsViewModel.InfrastTask.UsesOfDrones,
+                SettingsViewModel.InfrastTask.ContinueTraining,
+                SettingsViewModel.InfrastTask.DormThreshold / 100.0,
+                SettingsViewModel.InfrastTask.DormFilterNotStationedEnabled,
+                SettingsViewModel.InfrastTask.DormTrustEnabled,
+                SettingsViewModel.InfrastTask.OriginiumShardAutoReplenishment,
+                SettingsViewModel.InfrastTask.CustomInfrastEnabled,
+                SettingsViewModel.InfrastTask.CustomInfrastFile,
                 CustomInfrastPlanIndex);
         }
 
         private bool AppendInfrast()
         {
-            if (Instances.SettingsViewModel.CustomInfrastEnabled && (!File.Exists(Instances.SettingsViewModel.CustomInfrastFile) || CustomInfrastPlanInfoList.Count == 0))
+            if (SettingsViewModel.InfrastTask.CustomInfrastEnabled && (!File.Exists(SettingsViewModel.InfrastTask.CustomInfrastFile) || CustomInfrastPlanInfoList.Count == 0))
             {
                 AddLog(LocalizationHelper.GetString("CustomizeInfrastSelectionEmpty"), UiLogColor.Error);
                 return false;
             }
 
-            var order = Instances.SettingsViewModel.GetInfrastOrderList();
+            var order = SettingsViewModel.InfrastTask.GetInfrastOrderList();
             return Instances.AsstProxy.AsstAppendInfrast(
                 order,
-                Instances.SettingsViewModel.UsesOfDrones,
-                Instances.SettingsViewModel.ContinueTraining,
-                Instances.SettingsViewModel.DormThreshold / 100.0,
-                Instances.SettingsViewModel.DormFilterNotStationedEnabled,
-                Instances.SettingsViewModel.DormTrustEnabled,
-                Instances.SettingsViewModel.OriginiumShardAutoReplenishment,
-                Instances.SettingsViewModel.CustomInfrastEnabled,
-                Instances.SettingsViewModel.CustomInfrastFile,
+                SettingsViewModel.InfrastTask.UsesOfDrones,
+                SettingsViewModel.InfrastTask.ContinueTraining,
+                SettingsViewModel.InfrastTask.DormThreshold / 100.0,
+                SettingsViewModel.InfrastTask.DormFilterNotStationedEnabled,
+                SettingsViewModel.InfrastTask.DormTrustEnabled,
+                SettingsViewModel.InfrastTask.OriginiumShardAutoReplenishment,
+                SettingsViewModel.InfrastTask.CustomInfrastEnabled,
+                SettingsViewModel.InfrastTask.CustomInfrastFile,
                 CustomInfrastPlanIndex);
         }
 
@@ -2839,14 +2839,14 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (!File.Exists(Instances.SettingsViewModel.CustomInfrastFile))
+            if (!File.Exists(SettingsViewModel.InfrastTask.CustomInfrastFile))
             {
                 return;
             }
 
             try
             {
-                string jsonStr = File.ReadAllText(Instances.SettingsViewModel.CustomInfrastFile);
+                string jsonStr = File.ReadAllText(SettingsViewModel.InfrastTask.CustomInfrastFile);
                 var root = (JObject)JsonConvert.DeserializeObject(jsonStr);
 
                 if (root != null && _customInfrastInfoOutput && root.TryGetValue("title", out var title))
