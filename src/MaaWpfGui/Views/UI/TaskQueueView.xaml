@@ -251,11 +251,12 @@
                         DataContext="{Binding TaskSettingDataContext}"
                         IsEnabled="{Binding Idle}"
                         Visibility="{c:Binding TaskSettingVisibilities.WakeUp}" />
-                    <userControl:InfrastSettingsUserControl
-                        s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
-                        DataContext="{Binding TaskSettingDataContext}"
-                        IsEnabled="{Binding Idle}"
-                        Visibility="{c:Binding TaskSettingVisibilities.Base}" />
+                    <taskQueue:InfrastSettingsUserControl
+                        DataContext="{Binding TaskSettingDataContext.InfrastTask}"
+                        IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                        Visibility="{c:Binding DataContext.TaskSettingVisibilities.Base,
+                                               RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                              AncestorType={x:Type UserControl}}}" />
                     <taskQueue:MallSettingsUserControl
                         DataContext="{Binding TaskSettingDataContext.MallTask}"
                         IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
