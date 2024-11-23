@@ -13,6 +13,14 @@ icon: ri:guide-fill
 
     MAA 在 Windows 下仅支持 10 和 11，旧版 Windows 请参阅[常见问题](./faq.md#系统问题)中的系统问题部分。
 
+    若您正在使用 Apple Silicon MacBook，请前往[此页面](./device/macos.md#apple-silicon-芯片)。
+    MAA 同样支持搭载 [Intel 芯片](./device/macos.md#intel-芯片)的 MacBook，但更推荐使用虚拟机运行 Windows，并使用 Windows 版 MAA。
+
+    若您正在使用 Linux，请前往[此页面](./device/linux.md)。
+
+    若您希望使用 Android 实体设备，请前往[此页面](./device/android.md)。
+    由于此方法涉及 adb 调试且仍需与电脑连接，不推荐入门玩家使用此方法。
+
 2. 安装运行库
 
     MAA 需要 VCRedist x64 和 .NET 8，请右键开始按钮打开终端，在终端内粘贴以下命令回车以进行安装。
