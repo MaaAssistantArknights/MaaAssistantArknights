@@ -1705,12 +1705,12 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static bool AppendAward()
         {
-            var receiveAward = Instances.SettingsViewModel.ReceiveAward;
-            var receiveMail = Instances.SettingsViewModel.ReceiveMail;
-            var receiveFreeRecruit = Instances.SettingsViewModel.ReceiveFreeRecruit;
-            var receiveOrundum = Instances.SettingsViewModel.ReceiveOrundum;
-            var receiveMining = Instances.SettingsViewModel.ReceiveMining;
-            var receiveSpecialAccess = Instances.SettingsViewModel.ReceiveSpecialAccess;
+            var receiveAward = SettingsViewModel.AwardTask.ReceiveAward;
+            var receiveMail = SettingsViewModel.AwardTask.ReceiveMail;
+            var receiveFreeRecruit = SettingsViewModel.AwardTask.ReceiveFreeRecruit;
+            var receiveOrundum = SettingsViewModel.AwardTask.ReceiveOrundum;
+            var receiveMining = SettingsViewModel.AwardTask.ReceiveMining;
+            var receiveSpecialAccess = SettingsViewModel.AwardTask.ReceiveSpecialAccess;
 
             return Instances.AsstProxy.AsstAppendAward(receiveAward, receiveMail, receiveFreeRecruit, receiveOrundum, receiveMining, receiveSpecialAccess);
         }
