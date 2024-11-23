@@ -30,7 +30,7 @@ winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
 
 - If you don't have a complete package of this software already, please DO NOT download the zip files marked with `OTA` in the file name, which are for incremental updates and shall not be used alone. In most cases, Windows users should download `MAA-vX.X.X-win-x64.zip`.
   In most cases, you need x64 operating system and x64 variant of MAA, i.e. `MAA-*-win-x64.zip`. There is no support for 32-bit (x86) operating systems.
-- If the application does not run properly after an automatic update, it may be due to some bugs within the auto-updater. Please try reinstalling the application and migrating `config` directory from the old install to the new install.
+- If you find that certain features are missing or not working after an automatic update, it may be due to an issue during the update process. Please re-download and extract the full installation package. After extraction, drag the `config` folder from the old `MAA` folder into the newly extracted `MAA` folder.
 
 ### Missing runtime libraries
 
