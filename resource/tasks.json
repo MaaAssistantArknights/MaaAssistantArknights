@@ -10490,7 +10490,7 @@
     },
     "Sarkaz@Roguelike@StageRefreshNoThought": {
         "action": "ClickRect",
-        "templThreshold": 0.9,
+        "templThreshold": 0.85,
         "roi": [902, 24, 327, 179],
         "specificRect": [1100, 558, 111, 50],
         "next": ["Sarkaz@Roguelike@QuickFormation"]
