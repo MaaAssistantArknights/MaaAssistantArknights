@@ -11,6 +11,14 @@ icon: ri:guide-fill
 
     MAA only supports Windows 10 / 11. For earlier versions of Windows, please refer to [FAQ](./faq.md) at the top.
 
+    If you are using an Apple Silicon MacBook, please visit [this page](./device/macos.md#apple-silicon-chip).
+    MAA also supports MacBooks with [Intel chips](./device/macos.md#intel-chip), but it is recommended to run Windows in a virtual machine and use the Windows version of MAA instead.  
+
+    If you are using Linux, please visit [this page](./device/linux.md).  
+
+    If you wish to use an Android physical device, please visit [this page](./device/android.md).  
+    Since this method involves ADB debugging and requires connection to a computer, it is not recommended for beginners.  
+
 2. Install the runtime library
 
     MAA requires VCRedist x64 and .NET 8. Right-click the start button to open the terminal, paste the following command in it and Enter to install.
