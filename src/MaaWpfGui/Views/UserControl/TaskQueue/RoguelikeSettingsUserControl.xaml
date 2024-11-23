@@ -70,7 +70,7 @@
                 IsTextSearchEnabled="False"
                 ItemsSource="{Binding RoguelikeCoreCharList}"
                 Loaded="{s:Action MakeComboBoxSearchable,
-                                  Target={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
+                                  Target={x:Type setting:SettingsViewModel}}"
                 ToolTip="{DynamicResource StartingCoreCharTip}">
                 <hc:ComboBox.Text>
                     <Binding Path="RoguelikeCoreChar" UpdateSourceTrigger="PropertyChanged">
