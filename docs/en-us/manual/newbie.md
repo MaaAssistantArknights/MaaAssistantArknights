@@ -12,7 +12,7 @@ icon: ri:guide-fill
     MAA only supports Windows 10 / 11. For earlier versions of Windows, please refer to [FAQ](./faq.md) at the top.
 
     If you are using an Apple Silicon MacBook, please visit [this page](./device/macos.md#apple-silicon-chip).
-    MAA also supports MacBooks with [Intel chips](./device/macos.md#intel-chip), but it is recommended to run Windows in a virtual machine and use the Windows version of MAA instead.  
+    MAA also supports MacBooks with [Intel chips](./device/macos.md#intel-chip), but it is more recommended to use Mac's built-in multi-boot feature to install Windows and use the Windows version of MAA.  
 
     If you are using Linux, please visit [this page](./device/linux.md).  
 

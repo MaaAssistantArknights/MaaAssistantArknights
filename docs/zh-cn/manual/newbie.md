@@ -14,7 +14,7 @@ icon: ri:guide-fill
     MAA 在 Windows 下仅支持 10 和 11，旧版 Windows 请参阅[常见问题](./faq.md#系统问题)中的系统问题部分。
 
     若您正在使用 Apple Silicon MacBook，请前往[此页面](./device/macos.md#apple-silicon-芯片)。
-    MAA 同样支持搭载 [Intel 芯片](./device/macos.md#intel-芯片)的 MacBook，但更推荐使用虚拟机运行 Windows，并使用 Windows 版 MAA。
+    MAA 同样支持搭载 [Intel 芯片](./device/macos.md#intel-芯片)的 MacBook，但更推荐使用 Mac 自带的多系统安装 Windows，并使用 Windows 版 MAA。
 
     若您正在使用 Linux，请前往[此页面](./device/linux.md)。
 
