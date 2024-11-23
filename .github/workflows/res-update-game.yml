@@ -40,6 +40,7 @@ jobs:
         with:
           name: official
           path: ./Official
+          compression-level: 1
 
   clone-resources-overseas:
     if: github.repository_owner == 'MaaAssistantArknights'
@@ -81,6 +82,7 @@ jobs:
         with:
           name: overseas
           path: ./Overseas
+          compression-level: 1
 
   clone-resources-txwy:
     if: github.repository_owner == 'MaaAssistantArknights'
@@ -120,6 +122,7 @@ jobs:
         with:
           name: txwy
           path: ./excel
+          compression-level: 1
 
   update-game-resources:
     if: github.repository_owner == 'MaaAssistantArknights'
