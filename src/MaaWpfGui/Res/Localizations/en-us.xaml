@@ -534,7 +534,7 @@ As of now (V9.1.28), the emulator version only supports 720P, 900P, and 1080P re
     <system:String x:Key="SetSuccessfully">Set successfully</system:String>
     <system:String x:Key="SetFailed">Setting failed</system:String>
     <system:String x:Key="CloseArknightsFailed">Shutdown Arknights failed</system:String>
-    <system:String x:Key="ExitEmulatorFailed">Shutdown emulator failed</system:String>
+    <system:String x:Key="ExitEmulatorFailed">Emulator shutdown failed</system:String>
     <system:String x:Key="AboutToShutdown">All tasks have been completed: shutting down. Do you want to cancel?</system:String>
     <system:String x:Key="ShutdownPrompt">Tip</system:String>
     <system:String x:Key="HibernatePrompt">Task(s) completed, about to hibernate</system:String>
