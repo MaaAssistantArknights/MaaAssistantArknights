@@ -25,6 +25,7 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -98,7 +99,7 @@ namespace MaaWpfGui.Services
 
         private static string GetClientType()
         {
-            var clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty);
+            var clientType = SettingsViewModel.GameSettings.ClientType;
 
             // 官服和B服使用同样的资源
             if (clientType is "Bilibili" or "")
