@@ -1949,7 +1949,7 @@ namespace MaaWpfGui.Main
         }
 
         [SuppressMessage("ReSharper", "UnusedMember.Local")]
-        private enum TaskType
+        public enum TaskType
         {
             StartUp,
             CloseDown,
@@ -2679,6 +2679,11 @@ namespace MaaWpfGui.Main
             AsstTaskId id = AsstAppendTaskWithEncoding("VideoRecognition", taskParams);
             _latestTaskId[TaskType.Copilot] = id;
             return id != 0 && AsstStart();
+        }
+
+        public bool ContainsTask(TaskType type)
+        {
+            return _latestTaskId.ContainsKey(type);
         }
 
         /// <summary>
