@@ -1578,7 +1578,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public void SetFightParams()
         {
-            if (!EnableSetFightParams)
+            if (!EnableSetFightParams || !Instances.AsstProxy.ContainsTask(AsstProxy.TaskType.Fight))
             {
                 return;
             }
@@ -1629,11 +1629,21 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void SetFightRemainingSanityParams()
         {
+            if (!Instances.AsstProxy.ContainsTask(AsstProxy.TaskType.FightRemainingSanity))
+            {
+                return;
+            }
+
             Instances.AsstProxy.AsstSetFightTaskParams(RemainingSanityStage, 0, 0, int.MaxValue, 1, string.Empty, 0, false);
         }
 
         private void SetInfrastParams()
         {
+            if (!Instances.AsstProxy.ContainsTask(AsstProxy.TaskType.Infrast))
+            {
+                return;
+            }
+
             var order = SettingsViewModel.InfrastTask.GetInfrastOrderList();
             Instances.AsstProxy.AsstSetInfrastTaskParams(
                 order,
