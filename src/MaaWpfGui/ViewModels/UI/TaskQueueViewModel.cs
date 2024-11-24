@@ -1910,7 +1910,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (process != null && process.WaitForExit(5000))
                 {
                     _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
-                    return KillEmulator();
+                    return true;
                 }
 
                 _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
@@ -1929,7 +1929,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             string address = SettingsViewModel.ConnectSettings.ConnectAddress;
             int emuIndex;
-            if (address.Contains(":"))
+            if (address.Contains(':'))
             {
                 string portStr = address.Split(':')[1];
                 int port = int.Parse(portStr);
@@ -1986,7 +1986,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (process != null && process.WaitForExit(5000))
                 {
                     _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
-                    return KillEmulator();
+                    return true;
                 }
 
                 _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
@@ -2060,7 +2060,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (process != null && process.WaitForExit(5000))
                 {
                     _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
-                    return KillEmulator();
+                    return true;
                 }
 
                 _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
@@ -2126,7 +2126,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (process != null && process.WaitForExit(5000))
                 {
                     _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
-                    return KillEmulator();
+                    return true;
                 }
 
                 _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
