@@ -116,7 +116,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public async void CheckAfterCompleted()
         {
-            await Task.Run(() => SettingsViewModel.ConnectSettings.RunScript("EndsWithScript"));
+            await Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
             var actions = TaskSettingDataContext.PostActionSetting;
             _logger.Information("Post actions: " + actions.ActionDescription);
 
@@ -1219,7 +1219,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             InfrastTaskRunning = true;
 
-            await Task.Run(() => SettingsViewModel.ConnectSettings.RunScript("StartsWithScript"));
+            await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript"));
 
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
@@ -1373,7 +1373,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             Waiting = true;
             AddLog(LocalizationHelper.GetString("Waiting"));
-            if (SettingsViewModel.RoguelikeTask.RoguelikeDelayAbortUntilCombatComplete)
+            if (SettingsViewModel.GameSettings.RoguelikeDelayAbortUntilCombatComplete)
             {
                 await WaitUntilRoguelikeCombatComplete();
 
@@ -1390,7 +1390,7 @@ namespace MaaWpfGui.ViewModels.UI
         private async Task WaitUntilRoguelikeCombatComplete()
         {
             int time = 0;
-            while (SettingsViewModel.RoguelikeTask.RoguelikeDelayAbortUntilCombatComplete && RoguelikeInCombatAndShowWait && time < 600 && !Stopping)
+            while (SettingsViewModel.GameSettings.RoguelikeDelayAbortUntilCombatComplete && RoguelikeInCombatAndShowWait && time < 600 && !Stopping)
             {
                 await Task.Delay(1000);
                 ++time;
@@ -1408,9 +1408,9 @@ namespace MaaWpfGui.ViewModels.UI
         public void SetStopped()
         {
             SleepManagement.AllowSleep();
-            if (SettingsViewModel.ConnectSettings.ManualStopWithScript)
+            if (SettingsViewModel.GameSettings.ManualStopWithScript)
             {
-                Task.Run(() => SettingsViewModel.ConnectSettings.RunScript("EndsWithScript"));
+                Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
             }
 
             if (!_runningState.GetIdle() || Stopping)
@@ -1438,7 +1438,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             ClearLog();
 
-            await Task.Run(() => SettingsViewModel.ConnectSettings.RunScript("StartsWithScript"));
+            await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript"));
 
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 

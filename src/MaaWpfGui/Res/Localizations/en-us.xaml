@@ -4,7 +4,7 @@
     <system:String x:Key="GeneralSettings">General</system:String>
     <system:String x:Key="AdvancedSettings">Advanced</system:String>
     <system:String x:Key="PerformanceSettings">Performance</system:String>
-    <system:String x:Key="GameSettings">Client</system:String>
+    <system:String x:Key="GameSettings">Game Settings</system:String>
     <system:String x:Key="BaseSettings">Base Setting</system:String>
     <system:String x:Key="RoguelikeSettings">I.S.</system:String>
     <system:String x:Key="RecruitingSettings">Auto Recruit</system:String>

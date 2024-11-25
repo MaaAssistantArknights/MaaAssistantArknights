@@ -321,7 +321,7 @@ namespace MaaWpfGui.Main
             Instances.TaskQueueViewModel.SetInited();
             _runningState.SetIdle(true);
             AsstSetInstanceOption(InstanceOptionKey.TouchMode, SettingsViewModel.ConnectSettings.TouchMode);
-            AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, SettingsViewModel.ConnectSettings.DeploymentWithPause ? "1" : "0");
+            AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, SettingsViewModel.GameSettings.DeploymentWithPause ? "1" : "0");
             AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, SettingsViewModel.ConnectSettings.AdbLiteEnabled ? "1" : "0");
 
             // TODO: 之后把这个 OnUIThread 拆出来
@@ -814,10 +814,10 @@ namespace MaaWpfGui.Main
 
                     if (_latestTaskId.ContainsKey(TaskType.Copilot))
                     {
-                        if (SettingsViewModel.ConnectSettings.CopilotWithScript)
+                        if (SettingsViewModel.GameSettings.CopilotWithScript)
                         {
-                            Task.Run(() => SettingsViewModel.ConnectSettings.RunScript("EndsWithScript", showLog: false));
-                            if (!string.IsNullOrWhiteSpace(SettingsViewModel.ConnectSettings.EndsWithScript))
+                            Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript", showLog: false));
+                            if (!string.IsNullOrWhiteSpace(SettingsViewModel.GameSettings.EndsWithScript))
                             {
                                 Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("EndsWithScript"));
                             }
@@ -1174,7 +1174,7 @@ namespace MaaWpfGui.Main
                                 break;
 
                             case "OfflineConfirm":
-                                if (SettingsViewModel.ConnectSettings.AutoRestartOnDrop)
+                                if (SettingsViewModel.GameSettings.AutoRestartOnDrop)
                                 {
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("GameDrop"), UiLogColor.Warning);
                                 }
@@ -1446,7 +1446,7 @@ namespace MaaWpfGui.Main
                 case "StageInfo":
                     {
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartCombat") + subTaskDetails!["name"]);
-                        if (SettingsViewModel.RoguelikeTask.RoguelikeDelayAbortUntilCombatComplete)
+                        if (SettingsViewModel.GameSettings.RoguelikeDelayAbortUntilCombatComplete)
                         {
                             Instances.TaskQueueViewModel.RoguelikeInCombatAndShowWait = true;
                         }

@@ -6,8 +6,8 @@
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
-    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
@@ -25,10 +25,6 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel
@@ -211,10 +207,6 @@
                 Margin="20,10"
                 Content="{DynamicResource AllowAdbHardRestart}"
                 IsChecked="{Binding AllowAdbHardRestart}" />
-            <CheckBox
-                Margin="20,10"
-                Content="{DynamicResource AutoRestartOption}"
-                IsChecked="{Binding AutoRestartOnDrop}" />
         </StackPanel>
 
         <StackPanel
@@ -254,61 +246,10 @@
                     Content="{DynamicResource AdbLiteEnabled}"
                     IsChecked="{Binding AdbLiteEnabled}" />
             </StackPanel>
-            <CheckBox
-                Margin="20,10"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                IsChecked="{Binding DeploymentWithPause}">
-                <controls:TextBlock
-                    Block.TextAlignment="Center"
-                    Text="{DynamicResource DeploymentWithPause}"
-                    TextWrapping="Wrap" />
-            </CheckBox>
         </StackPanel>
 
-        <hc:TextBox
-            Grid.Row="7"
-            Width="300"
-            Height="30"
-            Margin="10"
-            hc:InfoElement.Placeholder="Example: &quot;C:\1.cmd&quot; -minimized"
-            hc:TitleElement.Title="{DynamicResource StartsWithScript}"
-            hc:TitleElement.TitlePlacement="Left"
-            AllowDrop="True"
-            Drop="StartsWithScript_Drop"
-            PreviewDragOver="TextBox_PreviewDragOver"
-            Text="{Binding StartsWithScript}" />
-        <hc:TextBox
-            Grid.Row="8"
-            Width="300"
-            Height="30"
-            Margin="10"
-            hc:InfoElement.Placeholder="Example: &quot;C:\1.cmd&quot; -noWindow"
-            hc:TitleElement.Title="{DynamicResource EndsWithScript}"
-            hc:TitleElement.TitlePlacement="Left"
-            AllowDrop="True"
-            Drop="EndsWithScript_Drop"
-            PreviewDragOver="TextBox_PreviewDragOver"
-            Text="{Binding EndsWithScript}" />
-        <WrapPanel
-            Grid.Row="9"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center">
-            <CheckBox
-                Margin="10"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Content="{DynamicResource CopilotWithScript}"
-                IsChecked="{Binding CopilotWithScript}" />
-            <CheckBox
-                Margin="10"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Content="{DynamicResource ManualStopWithScript}"
-                IsChecked="{Binding ManualStopWithScript}" />
-        </WrapPanel>
         <StackPanel
-            Grid.Row="10"
+            Grid.Row="7"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
