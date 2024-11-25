@@ -125,6 +125,8 @@ jobs:
           compression-level: 0
 
   update-game-resources:
+    # In case of rate limitations on the runners/instances, add dependency, by removing the comment
+    
     # needs: [clone-resources-official, clone-resources-overseas, clone-resources-txwy]
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: windows-latest
