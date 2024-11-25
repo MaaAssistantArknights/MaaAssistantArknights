@@ -4,7 +4,7 @@
     <system:String x:Key="GeneralSettings">常規設定</system:String>
     <system:String x:Key="AdvancedSettings">高級設定</system:String>
     <system:String x:Key="PerformanceSettings">性能設定</system:String>
-    <system:String x:Key="GameSettings">遊戲設定</system:String>
+    <system:String x:Key="GameSettings">運行設定</system:String>
     <system:String x:Key="BaseSettings">基建設定</system:String>
     <system:String x:Key="RoguelikeSettings">肉鴿設定</system:String>
     <system:String x:Key="RecruitingSettings">自動公招</system:String>

@@ -4,7 +4,7 @@
     <system:String x:Key="GeneralSettings">일반 설정</system:String>
     <system:String x:Key="AdvancedSettings">고급 설정</system:String>
     <system:String x:Key="PerformanceSettings">성능 설정</system:String>
-    <system:String x:Key="GameSettings">클라이언트</system:String>
+    <system:String x:Key="GameSettings">실행 설정</system:String>
     <system:String x:Key="BaseSettings">기반시설</system:String>
     <system:String x:Key="RoguelikeSettings">통합 전략</system:String>
     <system:String x:Key="RecruitingSettings">공개모집</system:String>

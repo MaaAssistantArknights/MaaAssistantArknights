@@ -4,7 +4,7 @@
     <system:String x:Key="GeneralSettings">一般設定</system:String>
     <system:String x:Key="AdvancedSettings">高度な設定</system:String>
     <system:String x:Key="PerformanceSettings">パフォーマンス設定</system:String>
-    <system:String x:Key="GameSettings">対象クライアント</system:String>
+    <system:String x:Key="GameSettings">実行設定</system:String>
     <system:String x:Key="BaseSettings">基地設定</system:String>
     <system:String x:Key="RoguelikeSettings">統合戦略設定</system:String>
     <system:String x:Key="RecruitingSettings">公開求人設定</system:String>
