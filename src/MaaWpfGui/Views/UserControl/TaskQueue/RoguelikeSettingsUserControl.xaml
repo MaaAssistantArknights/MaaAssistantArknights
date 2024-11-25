@@ -19,15 +19,14 @@
     mc:Ignorable="d">
     <StackPanel>
         <StackPanel IsEnabled="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}" Visibility="{c:Binding !EnableAdvancedSettings, Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}">
-            <ComboBox
+            <hc:ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource RoguelikeTheme}"
                 IsHitTestVisible="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
                 ItemsSource="{Binding RoguelikeThemeList}"
                 SelectedValue="{Binding RoguelikeTheme}"
-                SelectedValuePath="Value"
-                Style="{StaticResource ComboBoxExtend}" />
-            <ComboBox
+                SelectedValuePath="Value" />
+            <hc:ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource RoguelikeDifficulty}"
                 DisplayMemberPath="Display"
@@ -36,18 +35,16 @@
                 ScrollViewer.CanContentScroll="False"
                 SelectedValue="{Binding RoguelikeDifficulty}"
                 SelectedValuePath="Value"
-                Style="{StaticResource ComboBoxExtend}"
                 Visibility="{c:Binding 'RoguelikeTheme != &quot;Phantom&quot;'}" />
-            <ComboBox
+            <hc:ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource Strategy}"
                 DisplayMemberPath="Display"
                 IsHitTestVisible="{Binding Path=Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
                 ItemsSource="{Binding RoguelikeModeList}"
                 SelectedValue="{Binding RoguelikeMode}"
-                SelectedValuePath="Value"
-                Style="{StaticResource ComboBoxExtend}" />
-            <ComboBox
+                SelectedValuePath="Value" />
+            <hc:ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource StartingSquad}"
                 DisplayMemberPath="Display"
@@ -55,17 +52,15 @@
                 ItemsSource="{Binding RoguelikeSquadList}"
                 MaxDropDownHeight="800"
                 SelectedValue="{Binding RoguelikeSquad}"
-                SelectedValuePath="Value"
-                Style="{StaticResource ComboBoxExtend}" />
-            <ComboBox
+                SelectedValuePath="Value" />
+            <hc:ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource StartingRoles}"
                 DisplayMemberPath="Display"
                 IsHitTestVisible="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
                 ItemsSource="{Binding RoguelikeRolesList}"
                 SelectedValue="{Binding RoguelikeRoles}"
-                SelectedValuePath="Value"
-                Style="{StaticResource ComboBoxExtend}" />
+                SelectedValuePath="Value" />
             <hc:ComboBox
                 Name="StartingCoreCharComboBox"
                 Margin="0,5,0,25"
@@ -91,6 +86,7 @@
             <hc:NumericUpDown
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource StartTimesLimit}"
+                Maximum="99999"
                 Minimum="0"
                 Style="{StaticResource NumericUpDownExtend}"
                 Value="{Binding RoguelikeStartsCount}" />
@@ -178,7 +174,6 @@
             <TextBox
                 IsReadOnly="{c:Binding !Idle,
                                        Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
-                Style="{StaticResource TextBoxExtend}"
                 Text="{Binding Roguelike3NewSquad2StartingFoldartals, UpdateSourceTrigger=LostFocus}"
                 ToolTip="{DynamicResource Roguelike3NewSquad2StartingFoldartalTip}"
                 Visibility="{c:Binding 'Roguelike3NewSquad2StartingFoldartalRaw and RoguelikeMode == &quot;4&quot; and RoguelikeTheme == &quot;Sami&quot; and RoguelikeSquad == &quot;生活至上分队&quot; '}" />
@@ -186,7 +181,6 @@
                 hc:InfoElement.Title="{DynamicResource RoguelikeCollapseList}"
                 IsReadOnly="{c:Binding !Idle,
                                        Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
-                Style="{StaticResource TextBoxExtend}"
                 Text="{Binding RoguelikeExpectedCollapsalParadigms, UpdateSourceTrigger=LostFocus}"
                 ToolTip="{DynamicResource RoguelikeCollapseListTip}"
                 Visibility="{c:Binding 'RoguelikeMode == &quot;5&quot;'}" />
@@ -203,12 +197,6 @@
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource RoguelikeUseNonFriendSupport}"
-                    TextWrapping="Wrap" />
-            </CheckBox>
-            <CheckBox Margin="0,10" IsChecked="{Binding RoguelikeDelayAbortUntilCombatComplete}">
-                <TextBlock
-                    Block.TextAlignment="Left"
-                    Text="{DynamicResource RoguelikeDelayAbortUntilCombatComplete}"
                     TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox

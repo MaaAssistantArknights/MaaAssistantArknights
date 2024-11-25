@@ -568,22 +568,7 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _roguelikeDelayAbortUntilCombatComplete = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, bool.FalseString));
-
-    /// <summary>
-    /// Gets or sets a value indicating whether delay abort until battle complete
-    /// </summary>
-    public bool RoguelikeDelayAbortUntilCombatComplete
-    {
-        get => _roguelikeDelayAbortUntilCombatComplete;
-        set
-        {
-            SetAndNotify(ref _roguelikeDelayAbortUntilCombatComplete, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, value.ToString());
-        }
-    }
-
-    private string _roguelikeStartsCount = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartsCount, "9999999");
+    private string _roguelikeStartsCount = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartsCount, "99999");
 
     /// <summary>
     /// Gets or sets the start count of roguelike.
