@@ -5,6 +5,7 @@
 #include "Utils/NoWarningCV.h"
 
 #include "Config/TaskData.h"
+#include "Task/Fight/MedicineCounterTaskPlugin.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Battle/BattlefieldClassifier.h"
@@ -12,7 +13,6 @@
 #include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/DepotImageAnalyzer.h"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
-#include "Task/Fight/MedicineCounterTaskPlugin.h"
 
 asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
     InterfaceTask(callback, inst, TaskType)
