@@ -4,6 +4,7 @@ set -eu -o pipefail
 
 [[ "$(arch)" == "arm64" ]] && arch="arm64" || arch="x86_64"
 basedir=$(dirname "$0")/..
+maa_debug=${MAA_DEBUG:-0}
 pushd ${basedir}
 
 build_arch() {
@@ -22,17 +23,20 @@ build_arch() {
     cmake --install build-$1 --prefix install-$1
 }
 
-if [[ -n "${MAA_DEBUG}" ]]; then
+if [[ ${maa_debug} -eq 1 ]]; then
     build_arch "${arch}" "Debug"
-else
+elif [[ ${maa_debug} -eq 0 ]]; then
     build_arch "arm64" "Release"
     build_arch "x86_64" "Release"
+else
+    echo "Invalid MAA_DEBUG value: ${maa_debug}, please set to 0 or 1."
+    exit 1
 fi
 
 rm -rf build
 mkdir build
 for LIB_NAME in $(ls install-"${arch}" | grep .dylib); do
-    if [[ -n "${MAA_DEBUG}" ]]; then
+    if [[ "${maa_debug}" -eq 1 ]]; then
         mv install-"${arch}"/$LIB_NAME build/$LIB_NAME
     else
         lipo -create install-arm64/$LIB_NAME install-x86_64/$LIB_NAME -output build/$LIB_NAME
