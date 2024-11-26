@@ -21,9 +21,6 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
 
 bool asst::DebugTask::run()
 {
-    auto img = imread(utils::path("C:\\Users\\status102\\Documents\\MuMu共享文件夹\\Screenshots/MuMu12-20241126-0940511.png"));
-    auto max = MedicineCounterTaskPlugin::get_maximun_of_sanity(img);
-    auto tgt = MedicineCounterTaskPlugin::get_target_of_sanity(img);
     return true;
 }
 
