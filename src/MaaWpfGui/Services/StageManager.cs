@@ -10,13 +10,13 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+#nullable enable
 
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using HandyControl.Controls;
@@ -25,6 +25,7 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Semver;
@@ -128,8 +129,8 @@ namespace MaaWpfGui.Services
                 return true;
             }
 
-            long localTimestamp = localLastUpdatedJson["timestamp"].ToObject<long>();
-            long webTimestamp = webLastUpdatedJson["timestamp"].ToObject<long>();
+            long localTimestamp = localLastUpdatedJson["timestamp"]!.ToObject<long>();
+            long webTimestamp = webLastUpdatedJson["timestamp"]!.ToObject<long>();
             bool allFileDownloadComplete = allFileDownloadCompleteJson?["allFileDownloadComplete"]?.ToObject<bool>() ?? false;
             return webTimestamp > localTimestamp || !allFileDownloadComplete;
         }
@@ -162,128 +163,147 @@ namespace MaaWpfGui.Services
 
         private void MergePermanentAndActivityStages(JObject activity)
         {
-            var tempStage = new Dictionary<string, StageInfo>
-            {
-                // 这里会被 “剩余理智” 复用，第一个必须是 string.Empty 的
-                // 「当前/上次」关卡导航
-                { string.Empty, new StageInfo { Display = LocalizationHelper.GetString("DefaultStage"), Value = string.Empty } },
-            };
+            var tempStage = InitializeDefaultStages();
 
             var clientType = GetClientType();
 
-            bool isDebugVersion = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion())!.Contains("DEBUG");
-            bool curVerParsed = SemVersion.TryParse(Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()), SemVersionStyles.AllowLowerV, out var curVersionObj);
+            bool isDebugVersion = Instances.VersionUpdateViewModel.IsDebugVersion();
+            bool curVerParsed = SemVersion.TryParse(VersionUpdateSettingsUserControlModel.CoreVersion, SemVersionStyles.AllowLowerV, out var curVersionObj);
 
             // bool curResourceVerParsed = SemVersion.TryParse(
             //    tasksJsonClient?["ResourceVersion"]?.ToString() ?? tasksJson?["ResourceVersion"]?.ToString() ?? string.Empty,
             //    SemVersionStyles.AllowLowerV, out var curResourceVersionObj);
-            var resourceCollection = new StageActivityInfo()
+            var resourceCollection = InitializeResourceCollection(activity[clientType]?["resourceCollection"]);
+
+            if (activity[clientType] != null)
             {
-                IsResourceCollection = true,
-            };
-
-            if (activity?[clientType] != null)
-            {
-                try
-                {
-                    // 资源全开放活动
-                    var resourceCollectionData = activity[clientType]["resourceCollection"];
-                    if (resourceCollectionData != null)
-                    {
-                        resourceCollection.Tip = resourceCollectionData["Tip"]?.ToString();
-                        resourceCollection.UtcStartTime = GetDateTime(resourceCollectionData, "UtcStartTime");
-                        resourceCollection.UtcExpireTime = GetDateTime(resourceCollectionData, "UtcExpireTime");
-                    }
-
-                    // 活动关卡
-                    foreach (var stageObj in activity[clientType]["sideStoryStage"] ?? Enumerable.Empty<JToken>())
-                    {
-                        // 现在只有导航，暂不判断版本
-                        // MinimumResourceRequired is not necessarily provided in json, in which case it is ok even if there are no cached resources
-                        // bool minResourceRequiredParsed = SemVersion.TryParse(stageObj?["MinimumResourceRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minResourceRequiredObj);
-                        bool minRequiredParsed = SemVersion.TryParse(stageObj?["MinimumRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minRequiredObj);
-
-                        // && (!minResourceRequiredParsed || curResourceVerParsed))
-                        bool unsupportedStages = false;
-                        if (!isDebugVersion)
-                        {
-                            if (!curVerParsed || !minRequiredParsed)
-                            {
-                                continue;
-                            }
-
-                            unsupportedStages = curVersionObj.CompareSortOrderTo(minRequiredObj) < 0 && !tempStage.ContainsKey(LocalizationHelper.GetString("UnsupportedStages"));
-                        }
-
-                        var stageInfo = new StageInfo
-                        {
-                            Display = unsupportedStages ? LocalizationHelper.GetString("UnsupportedStages")
-                                : stageObj?["Display"]?.ToString() ?? string.Empty,
-                            Value = unsupportedStages ? LocalizationHelper.GetString("UnsupportedStages")
-                                : stageObj?["Value"]?.ToString() ?? string.Empty,
-                            Drop = unsupportedStages ? LocalizationHelper.GetString("LowVersion") + '\n' +
-                                                       LocalizationHelper.GetString("MinimumRequirements") + minRequiredObj
-                                : stageObj?["Drop"]?.ToString(),
-                            Activity = new StageActivityInfo
-                            {
-                                Tip = stageObj?["Activity"]?["Tip"]?.ToString(),
-                                StageName = stageObj?["Activity"]?["StageName"]?.ToString(),
-                                UtcStartTime = GetDateTime(stageObj?["Activity"], "UtcStartTime"),
-                                UtcExpireTime = GetDateTime(stageObj?["Activity"], "UtcExpireTime"),
-                            },
-                        };
-
-                        tempStage.Add(stageInfo.Display, stageInfo);
-                    }
-                }
-                catch (Exception e)
-                {
-                    _logger.Error(e, "Failed to parse Cache Stage resources");
-                }
+                ParseActivityStages(activity[clientType], tempStage, curVerParsed, curVersionObj, isDebugVersion);
             }
 
-            foreach (var kvp in new Dictionary<string, StageInfo>
-            {
-                // 主线关卡
-                { "1-7", new StageInfo { Display = "1-7", Value = "1-7" } },
-                { "R8-11", new StageInfo { Display = "R8-11", Value = "R8-11" } },
-                { "12-17-HARD", new StageInfo { Display = "12-17-HARD", Value = "12-17-HARD" } },
-
-                // 资源本
-                { "CE-6", new StageInfo("CE-6", "CETip", [DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
-                { "AP-5", new StageInfo("AP-5", "APTip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
-                { "CA-5", new StageInfo("CA-5", "CATip", [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection) },
-                { "LS-6", new StageInfo("LS-6", "LSTip", [], resourceCollection) },
-                { "SK-5", new StageInfo("SK-5", "SKTip", [DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection) },
-
-                // 剿灭模式
-                { "Annihilation", new StageInfo { Display = LocalizationHelper.GetString("Annihilation"), Value = "Annihilation" } },
-
-                // 芯片本
-                { "PR-A-1", new StageInfo("PR-A-1", "PR-ATip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection) },
-                { "PR-A-2", new StageInfo("PR-A-2", string.Empty, [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection) },
-                { "PR-B-1", new StageInfo("PR-B-1", "PR-BTip", [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection) },
-                { "PR-B-2", new StageInfo("PR-B-2", string.Empty, [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection) },
-                { "PR-C-1", new StageInfo("PR-C-1", "PR-CTip", [DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
-                { "PR-C-2", new StageInfo("PR-C-2", string.Empty, [DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
-                { "PR-D-1", new StageInfo("PR-D-1", "PR-DTip", [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
-                { "PR-D-2", new StageInfo("PR-D-2", string.Empty, [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
-
-                // 周一和周日的关卡提示
-                { "Pormpt1", new StageInfo { Tip = LocalizationHelper.GetString("Pormpt1"), OpenDays = [DayOfWeek.Monday], IsHidden = true } },
-                { "Pormpt2", new StageInfo { Tip = LocalizationHelper.GetString("Pormpt2"), OpenDays = [DayOfWeek.Sunday], IsHidden = true } },
-            })
-            {
-                tempStage.Add(kvp.Key, kvp.Value);
-            }
+            AddPermanentStages(tempStage, resourceCollection);
 
             _stages = tempStage;
-            return;
+        }
 
-            static DateTime GetDateTime(JToken keyValuePairs, string key)
-                => DateTime.ParseExact(keyValuePairs[key].ToString(),
-                    "yyyy/MM/dd HH:mm:ss",
-                    CultureInfo.InvariantCulture).AddHours(-Convert.ToInt32(keyValuePairs["TimeZone"].ToString()));
+        private static Dictionary<string, StageInfo> InitializeDefaultStages()
+        {
+            // 这里会被 “剩余理智” 复用，第一个必须是 string.Empty 的
+            // 「当前/上次」关卡导航
+            return new() { { string.Empty, new() { Display = LocalizationHelper.GetString("DefaultStage"), Value = string.Empty } } };
+        }
+
+        private static bool TryParseVersion(string? version, out SemVersion versionObj)
+        {
+            return SemVersion.TryParse(version, SemVersionStyles.AllowLowerV, out versionObj);
+        }
+
+        private static DateTime ParseDateTime(JToken? token, string key)
+        {
+            return DateTime.ParseExact(token?[key]?.ToString() ?? string.Empty, "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture)
+                .AddHours(-(token?["TimeZone"]?.ToObject<int>() ?? 0));
+        }
+
+        private static StageActivityInfo InitializeResourceCollection(JToken? resourceCollectionData)
+        {
+            if (resourceCollectionData == null)
+            {
+                return new() { IsResourceCollection = true };
+            }
+
+            // 资源全开放活动
+            return new()
+            {
+                IsResourceCollection = true,
+                Tip = resourceCollectionData["Tip"]?.ToString(),
+                UtcStartTime = ParseDateTime(resourceCollectionData, "UtcStartTime"),
+                UtcExpireTime = ParseDateTime(resourceCollectionData, "UtcExpireTime"),
+            };
+        }
+
+        private static void ParseActivityStages(JToken? clientData, Dictionary<string, StageInfo> tempStage, bool curVerParsed, SemVersion curVersionObj, bool isDebugVersion)
+        {
+            try
+            {
+                foreach (var stageObj in clientData?["sideStoryStage"] ?? Enumerable.Empty<JToken>())
+                {
+                    if (!TryParseVersion(stageObj["MinimumRequired"]?.ToString(), out var minRequiredObj))
+                    {
+                        continue;
+                    }
+
+                    bool unsupportedStages = !isDebugVersion && curVerParsed && curVersionObj.CompareSortOrderTo(minRequiredObj) < 0;
+
+                    var stageInfo = CreateStageInfo(stageObj, unsupportedStages, minRequiredObj);
+                    tempStage.TryAdd(stageInfo.Display, stageInfo);
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Failed to parse Cache Stage resources");
+            }
+        }
+
+        private static StageInfo CreateStageInfo(JToken? stageObj, bool unsupportedStages, SemVersion? minRequiredObj)
+        {
+            return new()
+            {
+                Display = unsupportedStages
+                    ? LocalizationHelper.GetString("UnsupportedStages")
+                    : stageObj?["Display"]?.ToString() ?? string.Empty,
+                Value = unsupportedStages
+                    ? LocalizationHelper.GetString("UnsupportedStages")
+                    : stageObj?["Value"]?.ToString() ?? string.Empty,
+                Drop = unsupportedStages
+                    ? LocalizationHelper.GetString("LowVersion") + '\n' + LocalizationHelper.GetString("MinimumRequirements") + minRequiredObj
+                    : stageObj?["Drop"]?.ToString(),
+                Activity = new()
+                {
+                    Tip = stageObj?["Activity"]?["Tip"]?.ToString(),
+                    StageName = stageObj?["Activity"]?["StageName"]?.ToString(),
+                    UtcStartTime = ParseDateTime(stageObj?["Activity"], "UtcStartTime"),
+                    UtcExpireTime = ParseDateTime(stageObj?["Activity"], "UtcExpireTime"),
+                },
+            };
+        }
+
+        private static void AddPermanentStages(Dictionary<string, StageInfo> tempStage, StageActivityInfo resourceCollection)
+        {
+            var permanentStages = new Dictionary<string, StageInfo>
+            {
+                // 主线关卡
+                { "1-7", new() { Display = "1-7", Value = "1-7" } },
+                { "R8-11", new() { Display = "R8-11", Value = "R8-11" } },
+                { "12-17-HARD", new() { Display = "12-17-HARD", Value = "12-17-HARD" } },
+
+                // 资源本
+                { "CE-6", new("CE-6", "CETip", [DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
+                { "AP-5", new("AP-5", "APTip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
+                { "CA-5", new("CA-5", "CATip", [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection) },
+                { "LS-6", new("LS-6", "LSTip", [], resourceCollection) },
+                { "SK-5", new("SK-5", "SKTip", [DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection) },
+
+                // 剿灭模式
+                { "Annihilation", new() { Display = LocalizationHelper.GetString("Annihilation"), Value = "Annihilation" } },
+
+                // 芯片本
+                { "PR-A-1", new("PR-A-1", "PR-ATip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection) },
+                { "PR-A-2", new("PR-A-2", string.Empty, [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection) },
+                { "PR-B-1", new("PR-B-1", "PR-BTip", [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection) },
+                { "PR-B-2", new("PR-B-2", string.Empty, [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection) },
+                { "PR-C-1", new("PR-C-1", "PR-CTip", [DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
+                { "PR-C-2", new("PR-C-2", string.Empty, [DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
+                { "PR-D-1", new("PR-D-1", "PR-DTip", [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
+                { "PR-D-2", new("PR-D-2", string.Empty, [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
+
+                // 周一和周日的关卡提示
+                { "Pormpt1", new() { Tip = LocalizationHelper.GetString("Pormpt1"), OpenDays = [DayOfWeek.Monday], IsHidden = true } },
+                { "Pormpt2", new() { Tip = LocalizationHelper.GetString("Pormpt2"), OpenDays = [DayOfWeek.Sunday], IsHidden = true } },
+            };
+
+            foreach (var kvp in permanentStages)
+            {
+                tempStage.TryAdd(kvp.Key, kvp.Value);
+            }
         }
 
         /// <summary>
@@ -294,7 +314,7 @@ namespace MaaWpfGui.Services
         public StageInfo GetStageInfo(string stage)
         {
             _stages.TryGetValue(stage, out var stageInfo);
-            stageInfo ??= new StageInfo { Display = stage, Value = stage };
+            stageInfo ??= new() { Display = stage, Value = stage };
             return stageInfo;
         }
 
@@ -323,14 +343,9 @@ namespace MaaWpfGui.Services
         /// <param name="stage">Stage name</param>
         /// <param name="dayOfWeek">Current day of week</param>
         /// <returns>Whether stage is open</returns>
-        public bool IsStageOpen(string stage, DayOfWeek dayOfWeek)
+        public bool IsStageOpen(string? stage, DayOfWeek dayOfWeek)
         {
-            if (stage == null)
-            {
-                return false;
-            }
-
-            return GetStageInfo(stage)?.IsStageOpen(dayOfWeek) == true;
+            return stage is not null && GetStageInfo(stage).IsStageOpen(dayOfWeek);
         }
 
         /// <summary>
