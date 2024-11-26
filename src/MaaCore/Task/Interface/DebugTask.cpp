@@ -12,6 +12,7 @@
 #include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/DepotImageAnalyzer.h"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
+#include "Task/Fight/MedicineCounterTaskPlugin.h"
 
 asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
     InterfaceTask(callback, inst, TaskType)
@@ -20,7 +21,9 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
 
 bool asst::DebugTask::run()
 {
-    test_match_template();
+    auto img = imread(utils::path("C:\\Users\\status102\\Documents\\MuMu共享文件夹\\Screenshots/MuMu12-20241126-0940511.png"));
+    auto max = MedicineCounterTaskPlugin::get_maximun_of_sanity(img);
+    auto tgt = MedicineCounterTaskPlugin::get_target_of_sanity(img);
     return true;
 }
 

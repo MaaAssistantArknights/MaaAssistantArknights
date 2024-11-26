@@ -20,6 +20,9 @@ public:
 
     int get_used_count() const { return m_used_count; }
 
+    static std::optional<int> get_target_of_sanity(const cv::Mat& image);
+    static std::optional<int> get_maximun_of_sanity(const cv::Mat& image);
+
 private:
     virtual bool _run() override;
 
@@ -49,8 +52,6 @@ private:
     std::optional<MedicineResult> init_count(cv::Mat image) const;
     // 减少药品使用
     void reduce_excess(const MedicineResult& using_medicine);
-    std::optional<int> get_target_of_sanity(const cv::Mat& image);
-    std::optional<int> get_maximun_of_sanity(const cv::Mat& image);
 
     bool m_use_expiring = false;
     bool m_dr_grandet = false;
