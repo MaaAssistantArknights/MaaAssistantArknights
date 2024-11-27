@@ -162,7 +162,7 @@ namespace MaaWpfGui.Services
             return activity;
         }
 
-        private void MergePermanentAndActivityStages(JObject activity)
+        private void MergePermanentAndActivityStages(JObject? activity)
         {
             var tempStage = InitializeDefaultStages();
 
@@ -174,9 +174,9 @@ namespace MaaWpfGui.Services
             // bool curResourceVerParsed = SemVersion.TryParse(
             //    tasksJsonClient?["ResourceVersion"]?.ToString() ?? tasksJson?["ResourceVersion"]?.ToString() ?? string.Empty,
             //    SemVersionStyles.AllowLowerV, out var curResourceVersionObj);
-            var resourceCollection = InitializeResourceCollection(activity[clientType]?["resourceCollection"]);
+            var resourceCollection = InitializeResourceCollection(activity?[clientType]?["resourceCollection"]);
 
-            if (activity[clientType] != null)
+            if (activity?[clientType] != null)
             {
                 ParseActivityStages(activity[clientType], tempStage, curVerParsed, curVersionObj, isDebugVersion);
             }
