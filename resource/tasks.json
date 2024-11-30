@@ -2180,7 +2180,7 @@
     "Logout": {
         "action": "ClickSelf",
         "roi": [660, 460, 140, 50],
-        "next": ["LogoutConfirm"]
+        "next": ["LogoutConfirm", "LogoutConfirmOCR", "Logout"]
     },
     "LogoutOCR": {
         "baseTask": "Logout",
@@ -2190,6 +2190,14 @@
     },
     "LogoutConfirm": {
         "action": "ClickSelf",
+        "roi": [650, 450, 280, 60],
+        "next": ["AccountManager", "AccountManager@LoadingText"],
+        "postDelay": 3000
+    },
+    "LogoutConfirmOCR": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["是"],
         "roi": [650, 450, 280, 60],
         "next": ["AccountManager", "AccountManager@LoadingText"],
         "postDelay": 3000
