@@ -2191,6 +2191,7 @@
     "LogoutConfirm": {
         "action": "ClickSelf",
         "roi": [650, 450, 280, 60],
+        "colorWithClose": false,
         "next": ["AccountManager", "AccountManager@LoadingText"],
         "postDelay": 3000
     },
