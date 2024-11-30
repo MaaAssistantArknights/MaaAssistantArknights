@@ -7572,8 +7572,16 @@
             "Roguelike@SquadDefault",
             "Roguelike@InitialDrop",
             "Roguelike@ChooseDifficulty",
+            "Roguelike@StartWithMonthlyOrDeep",
             "Roguelike@StartExplore"
         ]
+    },
+    "Roguelike@StartWithMonthlyOrDeep": {
+        "Doc": "适配从月度小队或深入调查进入肉鸽，希望以后能在 gui 中提供选项",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [500, 550, 280, 170],
+        "next": ["#self", "Roguelike@StartExplore#next"]
     },
     "Roguelike@StrategyChange": {
         "baseTask": "Roguelike@StrategyChange_default"
@@ -7856,6 +7864,7 @@
         ]
     },
     "Phantom@Roguelike@StartExplore": {},
+    "Phantom@Roguelike@StartWithMonthlyOrDeep": {},
     "Phantom@Roguelike@StrategyChange_mode0": {
         "text": ["_aggressive", "_pragmatic", "_default"],
         "ocrReplace": [
@@ -8338,6 +8347,7 @@
         ]
     },
     "Mizuki@Roguelike@StartExplore": {},
+    "Mizuki@Roguelike@StartWithMonthlyOrDeep": {},
     "Mizuki@Roguelike@StrategyChange_mode0": {
         "text": ["_aggressive", "_pragmatic", "_default"],
         "ocrReplace": [
@@ -9544,6 +9554,7 @@
     "Sami@Roguelike@StartExplore": {
         "roi": [958, 530, 322, 189]
     },
+    "Sami@Roguelike@StartWithMonthlyOrDeep": {},
     "Sami@Roguelike@StrategyChange_mode0": {
         "text": ["_aggressive", "_pragmatic", "_default"],
         "ocrReplace": [
@@ -10729,6 +10740,7 @@
     "Sarkaz@Roguelike@StartExplore": {
         "roi": [1014, 481, 266, 219]
     },
+    "Sarkaz@Roguelike@StartWithMonthlyOrDeep": {},
     "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
         "baseTask": "Sarkaz@Roguelike@StrategyChange_mode1",
         "text": ["_fastInvestment", "_exit"],
