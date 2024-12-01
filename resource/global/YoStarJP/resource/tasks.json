@@ -20,6 +20,13 @@
     "EnterChapterDifficultyNormal": {
         "text": ["作戦へ"]
     },
+    "BP-OpenOcr": {
+        "text": ["生存航路", "防衛線強化", "防衛", "強化", "イベント開催中", "ステージ開放中"]
+    },
+    "BPChapterToBP": {
+        "text": ["ビーコン設置", "ビーコン", "設置"],
+        "roi": [1012, 508, 119, 38]
+    },
     "BB-Open": {
         "template": ["StageSideStory.png", "StageActivity.png"],
         "baseTask": "SS-Open",
