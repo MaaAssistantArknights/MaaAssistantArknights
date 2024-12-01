@@ -32,6 +32,12 @@
         "text": ["Rerun", "Retrospection"],
         "roi": [0, 500, 500, 150]
     },
+    "BP-OpenOcr":{
+        "text": ["Path", "Life", "event", "open", "Fortify", "Defense"]
+    },
+    "BPChapterToBP":{
+        "text": ["Deploy", "DEPLOY", "Beacons", "BEACONS"]
+    },
     "BB-OpenOcr": {
         "text": ["Babel", "open", "event", "Past", "Ward", "Constant", "stages"]
     },
