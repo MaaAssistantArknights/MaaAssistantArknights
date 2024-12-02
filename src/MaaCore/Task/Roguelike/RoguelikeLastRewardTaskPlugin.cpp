@@ -71,6 +71,8 @@ bool asst::RoguelikeLastRewardTaskPlugin::_run()
             Task.set_task_base("Roguelike@LastReward4", last_reward_stop_or_continue);
             Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_restart");
             if (m_config->get_theme() == RoguelikeTheme::Sarkaz && m_config->get_start_with_two_ideas()) {
+                Task.set_task_base("Roguelike@LastReward", "Roguelike@LastReward_restart");
+                Task.set_task_base("Roguelike@LastReward4", "Roguelike@LastReward_restart");
                 Task.set_task_base("Sarkaz@Roguelike@LastReward5", last_reward_stop_or_continue);
             }
         }
