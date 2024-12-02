@@ -454,7 +454,7 @@ namespace MaaWpfGui.Services.RemoteControl
                     case "Settings-Stage1":
                         await Execute.OnUIThreadAsync(() =>
                         {
-                            Instances.TaskQueueViewModel.Stage1 = data;
+                            SettingsViewModel.FightTask.Stage1 = data;
                         });
                         break;
 

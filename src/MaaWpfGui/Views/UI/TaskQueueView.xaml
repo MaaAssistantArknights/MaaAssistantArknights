@@ -240,7 +240,7 @@
                 PanningMode="Both"
                 VerticalScrollBarVisibility="Auto">
                 <hc:SimpleStackPanel Width="220" Margin="0,0,10,0">
-                    <userControl:FightSettingsUserControl Visibility="{c:Binding TaskSettingVisibilities.Combat}" />
+                    <taskQueue:FightSettingsUserControl DataContext="{Binding TaskSettingDataContext.FightTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Combat, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
                     <userControl:AutoRecruitSettingsUserControl
                         s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
                         DataContext="{Binding TaskSettingDataContext}"

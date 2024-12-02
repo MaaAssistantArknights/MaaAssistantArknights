@@ -694,9 +694,9 @@ namespace MaaWpfGui.Main
                 case AsstMsg.TaskChainError:
                     {
                         // 对剿灭的特殊处理，如果刷完了剿灭还选了剿灭会因为找不到入口报错
-                        if (taskChain == "Fight" && (Instances.TaskQueueViewModel.Stage == "Annihilation"))
+                        if (taskChain == "Fight" && (SettingsViewModel.FightTask.Stage == "Annihilation"))
                         {
-                            if (Instances.TaskQueueViewModel.Stages.Any(stage => Instances.TaskQueueViewModel.IsStageOpen(stage) && (stage != "Annihilation")))
+                            if (SettingsViewModel.FightTask.Stages.Any(stage => Instances.TaskQueueViewModel.IsStageOpen(stage) && (stage != "Annihilation")))
                             {
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
                             }
@@ -757,7 +757,7 @@ namespace MaaWpfGui.Main
 
                         case "Mall":
                             {
-                                if (Instances.TaskQueueViewModel.Stage != string.Empty && SettingsViewModel.MallTask.CreditFightTaskEnabled)
+                                if (SettingsViewModel.FightTask.Stage != string.Empty && SettingsViewModel.MallTask.CreditFightTaskEnabled)
                                 {
                                     SettingsViewModel.MallTask.LastCreditFightTaskTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("CreditFight"));
@@ -827,7 +827,7 @@ namespace MaaWpfGui.Main
                     bool buyWine = _latestTaskId.ContainsKey(TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
                     _latestTaskId.Clear();
 
-                    Instances.TaskQueueViewModel.ResetFightVariables();
+                    SettingsViewModel.FightTask.ResetFightVariables();
                     Instances.TaskQueueViewModel.ResetTaskSelection();
                     _runningState.SetIdle(true);
 
@@ -2015,8 +2015,8 @@ namespace MaaWpfGui.Main
 
             taskParams["client_type"] = SettingsViewModel.GameSettings.ClientType;
             taskParams["penguin_id"] = Instances.SettingsViewModel.PenguinId;
-            taskParams["DrGrandet"] = Instances.SettingsViewModel.IsDrGrandet;
-            taskParams["expiring_medicine"] = isMainFight && Instances.SettingsViewModel.UseExpiringMedicine ? 9999 : 0;
+            taskParams["DrGrandet"] = SettingsViewModel.FightTask.IsDrGrandet;
+            taskParams["expiring_medicine"] = isMainFight && SettingsViewModel.FightTask.UseExpiringMedicine ? 9999 : 0;
             taskParams["server"] = Instances.SettingsViewModel.ServerType;
             return taskParams;
         }

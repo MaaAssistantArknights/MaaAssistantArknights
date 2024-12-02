@@ -16,7 +16,7 @@ using System.Windows;
 using System.Windows.Input;
 using MaaWpfGui.Helper;
 
-namespace MaaWpfGui.Views.UserControl
+namespace MaaWpfGui.Views.UserControl.TaskQueue
 {
     /// <summary>
     /// ParamSettingUserControl.xaml 的交互逻辑

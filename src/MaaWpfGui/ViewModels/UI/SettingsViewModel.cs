@@ -71,6 +71,11 @@ namespace MaaWpfGui.ViewModels.UI
         #region 长草任务Model
 
         /// <summary>
+        /// Gets 战斗任务Model
+        /// </summary>
+        public static FightSettingsUserControlModel FightTask { get; } = new();
+
+        /// <summary>
         /// Gets 信用及购物任务Model
         /// </summary>
         public static MallSettingsUserControlModel MallTask { get; } = new();
@@ -421,196 +426,6 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         #endregion 开始唤醒
-
-        #region 刷理智设置
-
-        private string _penguinId = ConfigurationHelper.GetValue(ConfigurationKeys.PenguinId, string.Empty);
-
-        /// <summary>
-        /// Gets or sets the id of PenguinStats.
-        /// </summary>
-        public string PenguinId
-        {
-            get => _penguinId;
-            set
-            {
-                SetAndNotify(ref _penguinId, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.PenguinId, value);
-            }
-        }
-
-        private bool _enablePenguin = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.EnablePenguin, bool.TrueString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to enable penguin upload.
-        /// </summary>
-        public bool EnablePenguin
-        {
-            get => _enablePenguin;
-            set
-            {
-                SetAndNotify(ref _enablePenguin, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.EnablePenguin, value.ToString());
-            }
-        }
-
-        private bool _enableYituliu = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.EnableYituliu, bool.TrueString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to enable yituliu upload.
-        /// </summary>
-        public bool EnableYituliu
-        {
-            get => _enableYituliu;
-            set
-            {
-                SetAndNotify(ref _enableYituliu, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.EnableYituliu, value.ToString());
-            }
-        }
-
-        private bool _isDrGrandet = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.IsDrGrandet, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to use DrGrandet mode.
-        /// </summary>
-        public bool IsDrGrandet
-        {
-            get => _isDrGrandet;
-            set
-            {
-                SetAndNotify(ref _isDrGrandet, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.IsDrGrandet, value.ToString());
-            }
-        }
-
-        private bool _useAlternateStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseAlternateStage, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to use alternate stage.
-        /// </summary>
-        public bool UseAlternateStage
-        {
-            get => _useAlternateStage;
-            set
-            {
-                SetAndNotify(ref _useAlternateStage, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.UseAlternateStage, value.ToString());
-                if (value)
-                {
-                    HideUnavailableStage = false;
-                }
-            }
-        }
-
-        private bool _useRemainingSanityStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, bool.TrueString));
-
-        public bool UseRemainingSanityStage
-        {
-            get => _useRemainingSanityStage;
-            set
-            {
-                SetAndNotify(ref _useRemainingSanityStage, value);
-                Instances.TaskQueueViewModel.UseRemainingSanityStage = value;
-                ConfigurationHelper.SetValue(ConfigurationKeys.UseRemainingSanityStage, value.ToString());
-            }
-        }
-
-        private bool _allowUseStoneSave = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowUseStoneSave, bool.FalseString));
-
-        public bool AllowUseStoneSave
-        {
-            get => _allowUseStoneSave;
-            set
-            {
-                if (value)
-                {
-                    var result = MessageBoxHelper.Show(
-                        LocalizationHelper.GetString("AllowUseStoneSaveWarning"),
-                        LocalizationHelper.GetString("Warning"),
-                        MessageBoxButton.YesNo,
-                        MessageBoxImage.Warning,
-                        no: LocalizationHelper.GetString("Confirm"),
-                        yes: LocalizationHelper.GetString("Cancel"),
-                        iconBrushKey: "DangerBrush");
-                    if (result != MessageBoxResult.No)
-                    {
-                        return;
-                    }
-                }
-
-                SetAndNotify(ref _allowUseStoneSave, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AllowUseStoneSave, value.ToString());
-            }
-        }
-
-        private bool _useExpiringMedicine = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseExpiringMedicine, bool.FalseString));
-
-        public bool UseExpiringMedicine
-        {
-            get => _useExpiringMedicine;
-            set
-            {
-                SetAndNotify(ref _useExpiringMedicine, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.UseExpiringMedicine, value.ToString());
-                Instances.TaskQueueViewModel.SetFightParams();
-            }
-        }
-
-        private bool _hideUnavailableStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideUnavailableStage, bool.TrueString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to hide unavailable stages.
-        /// </summary>
-        public bool HideUnavailableStage
-        {
-            get => _hideUnavailableStage;
-            set
-            {
-                SetAndNotify(ref _hideUnavailableStage, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.HideUnavailableStage, value.ToString());
-
-                if (value)
-                {
-                    UseAlternateStage = false;
-                }
-
-                Instances.TaskQueueViewModel.UpdateStageList();
-            }
-        }
-
-        private bool _hideSeries = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideSeries, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to hide series.
-        /// </summary>
-        public bool HideSeries
-        {
-            get => _hideSeries;
-            set
-            {
-                SetAndNotify(ref _hideSeries, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.HideSeries, value.ToString());
-            }
-        }
-
-        private bool _customStageCode = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CustomStageCode, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to use custom stage code.
-        /// </summary>
-        public bool CustomStageCode
-        {
-            get => _customStageCode;
-            set
-            {
-                SetAndNotify(ref _customStageCode, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CustomStageCode, value.ToString());
-                Instances.TaskQueueViewModel.CustomStageCode = value;
-            }
-        }
-
-        #endregion 刷理智设置
 
         #region 自动公招设置
 
@@ -1124,6 +939,55 @@ namespace MaaWpfGui.ViewModels.UI
 
         #endregion SettingsGuide
 
+        #region 企鹅和一图流上报
+
+        private string _penguinId = ConfigurationHelper.GetValue(ConfigurationKeys.PenguinId, string.Empty);
+
+        /// <summary>
+        /// Gets or sets the id of PenguinStats.
+        /// </summary>
+        public string PenguinId
+        {
+            get => _penguinId;
+            set
+            {
+                SetAndNotify(ref _penguinId, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.PenguinId, value);
+            }
+        }
+
+        private bool _enablePenguin = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.EnablePenguin, bool.TrueString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to enable penguin upload.
+        /// </summary>
+        public bool EnablePenguin
+        {
+            get => _enablePenguin;
+            set
+            {
+                SetAndNotify(ref _enablePenguin, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.EnablePenguin, value.ToString());
+            }
+        }
+
+        private bool _enableYituliu = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.EnableYituliu, bool.TrueString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to enable yituliu upload.
+        /// </summary>
+        public bool EnableYituliu
+        {
+            get => _enableYituliu;
+            set
+            {
+                SetAndNotify(ref _enableYituliu, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.EnableYituliu, value.ToString());
+            }
+        }
+
+        #endregion 企鹅和一图流上报
+
         #region 设置页面列表和滚动视图联动绑定
 
         private enum NotifyType
@@ -1290,7 +1154,7 @@ namespace MaaWpfGui.ViewModels.UI
         // EventArgs 不能省略，否则会报错
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedParameter.Global
-        public void MakeComboBoxSearchable(object sender, EventArgs e)
+        public static void MakeComboBoxSearchable(object sender, EventArgs e)
         {
             (sender as ComboBox)?.MakeComboBoxSearchable();
         }
