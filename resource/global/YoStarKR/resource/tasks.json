@@ -38,6 +38,12 @@
     "SideStoryReopen": {
         "text": ["재개방"]
     },
+    "BP-OpenOcr": {
+        "text": ["삶의", "길", "이벤트", "개방"]
+    },
+    "BPChapterToBP": {
+        "text": ["비콘", "설치"]
+    },
     "BB-OpenOcr": {
         "text": ["바벨", "개방", "이벤트"]
     },
