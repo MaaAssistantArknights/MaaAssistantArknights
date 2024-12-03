@@ -881,7 +881,11 @@
             ["Sound Release[ Boost]*", "声能释放增幅"],
             ["Arts Resonant Energy Field", "法术调和能量场"],
             ["Resonance[ Casing]*", "共振外装"],
-            ["Hardened[ Casing]*", "险固外装"]
+            ["Hardened[ Casing]*", "险固外装"],
+            ["'Little Handy'", "小帮手"],
+            ["Ulpianus", "乌尔比安"],
+            ["Lucilla", "海霓"],
+            ["Underflow", "深巡"]
         ]
     },
     "StartToWakeUpOCR": {
