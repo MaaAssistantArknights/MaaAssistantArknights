@@ -13,12 +13,11 @@ build_arch() {
     python3 maadeps-download.py ${triplet}
 
     if [[ -n $(which ccache) ]]; then
-        ccache_arg="-DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache"
-    else
-        ccache_arg=""
+        export CMAKE_C_COMPILER_LAUNCHER=ccache
+        export CMAKE_CXX_COMPILER_LAUNCHER=ccache
     fi
 
-    cmake -B build-$1 -GNinja -DCMAKE_BUILD_TYPE=$2 -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_OSX_ARCHITECTURES=$1 "${ccache_arg}"
+    cmake -B build-$1 -GNinja -DCMAKE_BUILD_TYPE=$2 -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_OSX_ARCHITECTURES=$1
     cmake --build build-$1
     cmake --install build-$1 --prefix install-$1
 }
