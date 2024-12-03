@@ -55,7 +55,7 @@ namespace MaaWpfGui.Services.Managers
         public void Show()
         {
             MainWindow.Show();
-            MainWindow.WindowState = MainWindow.WindowState = WindowState.Normal;
+            MainWindow.WindowState = WindowState.Normal;
             MainWindow.Activate();
         }
 
@@ -68,7 +68,7 @@ namespace MaaWpfGui.Services.Managers
         /// <inheritdoc/>
         public void Collapse()
         {
-            MainWindow.WindowState = MainWindow.WindowState = WindowState.Minimized;
+            MainWindow.WindowState = WindowState.Minimized;
         }
 
         /// <inheritdoc/>
