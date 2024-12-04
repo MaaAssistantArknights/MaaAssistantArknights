@@ -1107,7 +1107,7 @@
         "classifyType": "NORMAL",
         "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
         "icon": "SINGLE_49_0_1_GACHA.png",
-        "name": "Exclusive Headhunting Permit",
+        "name": "Like Ending Like Death Headhunting Permit",
         "sortId": 40003,
         "usage": "A special permit from Rhodes Island HR for recruiting special talents at special points in time. Can be used to recruit one operator."
     },
@@ -1115,7 +1115,7 @@
         "classifyType": "NORMAL",
         "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
         "icon": "SINGLE_49_0_1_GACHA_10.png",
-        "name": "Exclusive Ten-roll Headhunting Permit",
+        "name": "Like Ending Like Death Ten-roll Headhunting Permit",
         "sortId": 40003,
         "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
     },
@@ -1719,6 +1719,14 @@
         "sortId": -10000,
         "usage": "A 'hard currency' aboard Babel. Save up enough to spare, and the nice Vampire lady down by the Engineering Team will trade for some scarcities you'll appreciate."
     },
+    "act34side_token_chip": {
+        "classifyType": "NONE",
+        "description": "'Emergency Supplies' Blueprint Chip that contains nearly a thousand ready-to-print blueprints, including survival necessities and equipment for experiments and creative activities. Do not neglect exploration and expression, no matter how dire the circumstances, for the stagnation of the mind and numbing of the spirit is akin to death.",
+        "icon": "act34side_token_chip.png",
+        "name": "'Emergency Supplies' Blueprint Chip",
+        "sortId": -10000,
+        "usage": "Microchip that holds a large number of blueprints, which can be printed at the Materianomicon Moderatrix."
+    },
     "act38d1_token_coin": {
         "classifyType": "NONE",
         "description": "A chunk of flawless Originium crystal. The Sanctuary considers it a precious treasure.",
@@ -1862,6 +1870,14 @@
         "name": "Advanced Material Voucher",
         "sortId": 30201,
         "usage": "A special exchange voucher issued by the Rhodes Island Procurement Department. Can be used within a limited time to obtain advanced elite materials."
+    },
+    "advanced_material_voucher_perm": {
+        "classifyType": "CONSUME",
+        "description": "In order to address scarcities of certain materials during processing, the Procurement Department has issued exchange vouchers for operators' discretionary use, granting access to the materials needed.",
+        "icon": "advanced_material_voucher_perm.png",
+        "name": "Advanced Material Voucher",
+        "sortId": 60005,
+        "usage": "A special exchange voucher issued by the Rhodes Island Procurement Department. Can be used to obtain advanced elite materials."
     },
     "ap_supply_lt_010": {
         "classifyType": "CONSUME",
