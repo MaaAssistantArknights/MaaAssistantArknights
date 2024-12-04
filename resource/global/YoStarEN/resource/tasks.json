@@ -885,7 +885,21 @@
             ["'Little Handy'", "小帮手"],
             ["Ulpianus", "乌尔比安"],
             ["Lucilla", "海霓"],
-            ["Underflow", "深巡"]
+            ["Underflow", "深巡"],
+            ["Long-Expansion Modification", "长距增运改装"],
+            ["Reinforcement Expansion Modification", "加固扩存改装"],
+            ["Undeviating Course", "从不混淆的方向"],
+            ["Waterway Beacon", "航道信标"],
+            ["Indisputable Evidence", "无可置疑的罪证"],
+            ["Excrescent Carapace", "赘生甲壳"],
+            ["Cloudstepper", "攀云机"],
+            ["Combat Special Barricade", "作战专用掩体"],
+            ["Security Talent Agreement", "保全人才合作协议"],
+            ["Expedited Licensing Terms", "加急许可条款"],
+            ["Interim Appointment Terms", "临时任命条款"],
+            ["Royal Academy of Sciences Telescope", "皇家科学院望远镜"],
+            ["Professional Display Module", "专业显示模块"],
+            ["Agile Installation Module", "灵活架设模块"]
         ]
     },
     "StartToWakeUpOCR": {
