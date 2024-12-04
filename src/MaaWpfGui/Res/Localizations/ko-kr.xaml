@@ -270,6 +270,9 @@
     <system:String x:Key="AddConfigSuccess">구성 &lt; {0}&gt;가 성공적으로 추가되었습니다</system:String>
     <system:String x:Key="ConfigExists">구성 &lt; {0}&gt;가 이미 있습니다</system:String>
     <system:String x:Key="LaunchOnSystemStartup">시스템 시작 시 MAA 실행</system:String>
+    <system:String x:Key="LaunchOnSystemStartupAdminPrompt">
+        관리자 권한으로 실행 시 부팅 시 자동 실행이 지원되지 않습니다. MAA를 관리자 권한으로 장시간 실행하는 것은 권장하지 않습니다.\n필요할 경우 제어판 > Windows 도구 > 작업 스케줄러에서 사용자 지정 작업을 생성하세요. 트리거를 설정할 때 "가장 높은 권한으로 실행"을 반드시 선택하십시오.
+    </system:String>
     <system:String x:Key="RunTaskAfterLaunch">MAA 실행 후 작업 자동 시작</system:String>
     <system:String x:Key="MinimizeAfterLaunch">MAA 실행 후 최소화</system:String>
     <system:String x:Key="ClientType">클라이언트 종류</system:String>

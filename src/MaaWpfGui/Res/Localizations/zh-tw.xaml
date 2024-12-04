@@ -270,6 +270,9 @@
     <system:String x:Key="AddConfigSuccess">配置 &lt;{0}&gt; 新增成功</system:String>
     <system:String x:Key="ConfigExists">配置 &lt;{0}&gt; 已存在</system:String>
     <system:String x:Key="LaunchOnSystemStartup">開機自動啟動 MAA</system:String>
+    <system:String x:Key="LaunchOnSystemStartupAdminPrompt">
+        管理員權限啟動不支援開機自啟。不建議長期以管理員權限運行 MAA。\n如有需要，請前往 控制面板 > Windows 工具 > 任務計畫程序 創建自訂任務。設定觸發器時，請確保勾選「使用最高權限執行」。
+    </system:String>
     <system:String x:Key="RunTaskAfterLaunch">啟動 MAA 後直接執行</system:String>
     <system:String x:Key="MinimizeAfterLaunch">啟動 MAA 後直接最小化</system:String>
     <system:String x:Key="ClientType">用戶端類型</system:String>
