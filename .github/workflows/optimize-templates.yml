@@ -20,7 +20,7 @@ jobs:
   optimize-png:
     # Skip workflow to prevent double consecutive runs
     # Skip workflow on PR merges
-    if: ${{ github.event.head_commit.author.email != '41898282+github-actions[bot]@users.noreply.github.com' && !github.event.pull_request }}
+    if: ${{ github.event.head_commit.author.email != 'actions@github.com' && !github.event.pull_request }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -60,7 +60,7 @@ jobs:
         id: commit_changes
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.email "actions@github.com"
 
           git add .
 
