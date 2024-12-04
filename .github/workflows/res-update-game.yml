@@ -239,35 +239,18 @@ jobs:
         run: |
           python3 tools/OptimizeTemplates/optimize_templates.py -p resource/template/items/ resource/template/infrast/
 
-      - name: Add files to git
+      - name: Commit and push changes
         if: steps.check_sorted_templates.outputs.changes == 'True'
-        id: add_files
-        run: |
-          git config user.name "Github Actions"
-          git config user.email "actions@github.com"
-          git add .
-
-          $commit_msg = "${{ github.event.inputs.commit_message }}"
-          if ([string]::IsNullOrWhiteSpace($commit_msg)) {
-            $commit_msg = "chore: Auto Update Game Resources - $(Get-Date -Format 'yyyy-MM-dd')"
-          } else {
-            $commit_msg = $commit_msg.Trim()
-          }
-
-          $run_url = "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-
-          git commit -m "$commit_msg" -m "$run_url" -m "[skip changelog]"
-          if ($LASTEXITCODE -eq 0) {
-            Write-Output "have_commits=True" >> $env:GITHUB_OUTPUT
-          }
-
-          git pull origin ${{ github.ref_name }} --rebase
-
-      - name: Push changes
-        if: steps.add_files.outputs.have_commits == 'True'
-        uses: ad-m/github-push-action@master
+        uses: EndBug/add-and-commit@v9
         with:
-          branch: ${{ github.ref }}
+          author_name: "Github Actions"
+          author_email: "actions@github.com"
+          message: |
+            ${{ github.event.inputs.commit_message || format('chore: Auto Update Game Resources - {0}', github.event.date) }}
+            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            [skip changelog]
+          pull: '--rebase'
+          push: true
           github_token: ${{ secrets.MAA_RESOURCE_SYNC }}
 
       - name: Update OTA resource
