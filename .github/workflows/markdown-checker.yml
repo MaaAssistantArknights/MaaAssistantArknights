@@ -21,7 +21,7 @@ on:
 
 jobs:
   check-links:
-    if: ${{ github.event.head_commit.author.email != 'actions@github.com' }}
+    if: ${{ github.event.head_commit.author.email != '41898282+github-actions[bot]@users.noreply.github.com' }}
     name: Check Dead Links
     runs-on: ubuntu-latest
     permissions:
