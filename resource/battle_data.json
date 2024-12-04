@@ -3165,10 +3165,6 @@
         },
         "char_4137_udflow": {
             "name": "深巡",
-            "name_en": "Underflow",
-            "name_jp": "アンダーフロー",
-            "name_kr": "언더플로우",
-            "name_tw": "深巡",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": ["2-2", "2-2", "2-2"],
