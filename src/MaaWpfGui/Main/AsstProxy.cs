@@ -1030,8 +1030,13 @@ namespace MaaWpfGui.Main
 
                 case "ReportToPenguinStats":
                     {
-                        var why = details!["why"]!.ToString();
+                        var why = details["why"]!.ToString();
                         Instances.TaskQueueViewModel.AddLog(why + "，" + LocalizationHelper.GetString("GiveUpUploadingPenguins"), UiLogColor.Error);
+                        if (why == "UnknownStage")
+                        {
+                            Instances.TaskQueueViewModel.AddLog(details["details"]?["stage_code"] + LocalizationHelper.GetString("UnsupportedLevel"), UiLogColor.Error);
+                        }
+
                         break;
                     }
 
