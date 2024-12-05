@@ -677,6 +677,68 @@
     "GO-4@SideStoryStage": {
         "text": ["GO-4"]
     },
+    "EP-8": {
+        "algorithm": "JustReturn",
+        "sub": ["EP-OpenOpt"],
+        "next": ["EP-8@SideStoryStage", "EP-8@SwipeToStage"]
+    },
+    "EP-7": {
+        "algorithm": "JustReturn",
+        "sub": ["EP-OpenOpt"],
+        "next": ["EP-7@SideStoryStage", "EP-7@SwipeToStage"]
+    },
+    "EP-6": {
+        "algorithm": "JustReturn",
+        "sub": ["EP-OpenOpt"],
+        "next": ["EP-6@SideStoryStage", "EP-6@SwipeToStage"]
+    },
+    "EP-5": {
+        "algorithm": "JustReturn",
+        "sub": ["EP-OpenOpt"],
+        "next": ["EP-5@SideStoryStage", "EP-5@SwipeToStage"]
+    },
+    "EP-4": {
+        "algorithm": "JustReturn",
+        "sub": ["EP-OpenOpt"],
+        "next": ["EP-4@SideStoryStage", "EP-4@SwipeToStage"]
+    },
+    "EP-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["EP-OpenOcr", "EP-Open"]
+    },
+    "EP-Open": {
+        "baseTask": "SS-Open",
+        "template": "StageSideStory.png",
+        "next": ["EPChapterToEP"]
+    },
+    "EP-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["出苍白海", "穿越骸礁"],
+        "next": ["EPChapterToEP"]
+    },
+    "EPChapterToEP": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["盐漠开航", "盐漠", "开航"],
+        "preDelay": 3000,
+        "roi": [1000, 414, 202, 137],
+        "next": ["#self", "ChapterSwipeToTheRight"]
+    },
+    "EP-8@SideStoryStage": {
+        "text": ["EP-8"]
+    },
+    "EP-7@SideStoryStage": {
+        "text": ["EP-7"]
+    },
+    "EP-6@SideStoryStage": {
+        "text": ["EP-6"]
+    },
+    "EP-5@SideStoryStage": {
+        "text": ["EP-5"]
+    },
+    "EP-4@SideStoryStage": {
+        "text": ["EP-4"]
+    },
     "DT-8": {
         "algorithm": "JustReturn",
         "sub": ["DT-OpenOpt"],
