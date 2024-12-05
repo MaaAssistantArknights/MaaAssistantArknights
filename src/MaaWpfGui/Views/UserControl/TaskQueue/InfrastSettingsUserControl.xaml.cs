@@ -11,11 +11,11 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System.Windows.Input;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
-namespace MaaWpfGui.Views.UserControl
+namespace MaaWpfGui.Views.UserControl.TaskQueue
 {
     /// <summary>
     /// InfrastSettingsUserControl.xaml 的交互逻辑

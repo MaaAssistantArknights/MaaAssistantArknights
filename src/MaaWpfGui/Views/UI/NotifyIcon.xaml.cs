@@ -12,6 +12,8 @@
 // </copyright>
 
 using System;
+using System.Runtime.InteropServices;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using MaaWpfGui.Constants;
@@ -29,10 +31,24 @@ namespace MaaWpfGui.Views.UI
     {
         private static readonly ILogger _logger = Log.ForContext<NotifyIcon>();
         private readonly int _menuItemNum;
+        private static Timer _clickTimer;
+        private static bool _canClick = true;
+
+        [DllImport("user32.dll")]
+        private static extern uint GetDoubleClickTime();
 
         public NotifyIcon()
         {
             InitializeComponent();
+
+            uint doubleClickTime = GetDoubleClickTime();
+            _clickTimer = new(doubleClickTime);
+            _clickTimer.AutoReset = false;
+            _clickTimer.Elapsed += (s, e) =>
+            {
+                _canClick = true;
+            };
+
             InitIcon();
             if (notifyIcon.ContextMenu is not null)
             {
@@ -46,7 +62,7 @@ namespace MaaWpfGui.Views.UI
             notifyIcon.Visibility = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseTray, bool.TrueString)) ? Visibility.Visible : Visibility.Collapsed;
 
             notifyIcon.Click += NotifyIcon_MouseClick;
-            notifyIcon.MouseDoubleClick += OnNotifyIconDoubleClick;
+            notifyIcon.MouseDoubleClick += NotifyIcon_MouseClick;
 
             startMenu.Click += StartTask;
             stopMenu.Click += StopTask;
@@ -65,7 +81,7 @@ namespace MaaWpfGui.Views.UI
                 var langMenu = new MenuItem() { Header = lang.Value };
                 langMenu.Click += (_, _) =>
                 {
-                    Instances.SettingsViewModel.Language = lang.Key;
+                    SettingsViewModel.GuiSettings.Language = lang.Key;
                 };
 
                 switchLangMenu.Items.Add(langMenu);
@@ -95,6 +111,13 @@ namespace MaaWpfGui.Views.UI
 
         private static void NotifyIcon_MouseClick(object sender, RoutedEventArgs e)
         {
+            if (!_canClick)
+            {
+                return;
+            }
+
+            _clickTimer.Start();
+            _canClick = false;
             Instances.MainWindowManager?.SwitchWindowState();
         }
 
@@ -122,8 +145,8 @@ namespace MaaWpfGui.Views.UI
         {
             Instances.MainWindowManager?.Show();
 
-            Instances.SettingsViewModel.UseTray = !Instances.SettingsViewModel.UseTray;
-            _logger.Information("Use tray icon: {0}", Instances.SettingsViewModel.UseTray);
+            SettingsViewModel.GuiSettings.UseTray = !SettingsViewModel.GuiSettings.UseTray;
+            _logger.Information("Use tray icon: {0}", SettingsViewModel.GuiSettings.UseTray);
         }
 
         private static void App_restart(object sender, RoutedEventArgs e)
@@ -145,11 +168,6 @@ namespace MaaWpfGui.Views.UI
         private static void App_show(object sender, RoutedEventArgs e)
         {
             Instances.MainWindowManager?.Show();
-        }
-
-        private static void OnNotifyIconDoubleClick(object sender, RoutedEventArgs e)
-        {
-            App_show(sender, e);
         }
     }
 }

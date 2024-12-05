@@ -1,5 +1,4 @@
 // <copyright file="GUI.cs" company="MaaAssistantArknights">
-// <copyright file="GUI.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -31,8 +30,6 @@ namespace MaaWpfGui.Configuration
         public bool MinimizeToTray { get; set; } = false;
 
         public bool HideCloseButton { get; set; } = false;
-
-        public bool UseLogItemDateFormat { get; set; } = false;
 
         public string LogItemDateFormat { get; set; } = "HH:mm:ss";
 

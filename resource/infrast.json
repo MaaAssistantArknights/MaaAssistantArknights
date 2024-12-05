@@ -1003,6 +1003,11 @@
                 "name": ["再生能源"],
                 "template": "Bskill_man_spd&trade.png"
             },
+            "bskill_man_spd&trade1": {
+                "desc": ["进驻制造站时，每个贸易站为当前制造站贵金属类配方的生产力+3%"],
+                "name": ["原质塑金副产物"],
+                "template": "Bskill_man_spd&trade1.png"
+            },
             "bskill_man_spd1": {
                 "desc": [
                     "进驻制造站时，生产力+15%",
@@ -2405,6 +2410,11 @@
                 "desc": ["进驻贸易站时，当前贸易站每级+1个订单上限"],
                 "name": ["多面逢源"],
                 "template": "Bskill_tra_limit&trade1.png"
+            },
+            "bskill_tra_limit&trade2": {
+                "desc": ["进驻贸易站时，当前贸易站每级+1个订单上限"],
+                "name": ["钱不我待"],
+                "template": "Bskill_tra_limit&trade2.png"
             },
             "bskill_tra_limit2spd": {
                 "desc": ["进驻贸易站时，当前贸易站内干员提升的每5个订单上限，提供25%订单获取效率，最多提供100%效率"],

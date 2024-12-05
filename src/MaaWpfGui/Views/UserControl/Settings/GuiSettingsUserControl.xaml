@@ -1,5 +1,5 @@
 <UserControl
-    x:Class="MaaWpfGui.Views.UserControl.GUISettingsUserControl"
+    x:Class="MaaWpfGui.Views.UserControl.Settings.GuiSettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
@@ -7,15 +7,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
-    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
-    xmlns:vm="clr-namespace:MaaWpfGui"
-    d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
+    d:Background="White"
+    d:DataContext="{d:DesignInstance {x:Type viewModels:GuiSettingsUserControlModel}}"
     d:DesignHeight="300"
     d:DesignWidth="550"
+    s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <Grid
         Margin="10"
@@ -47,11 +47,7 @@
             <!--<CheckBox
                 Margin="10"
                 Content="{DynamicResource WindowTitleScrollable}"
-                IsChecked="{Binding WindowTitleScrollable}" />
-            <CheckBox
-                Margin="10"
-                Content="{DynamicResource UseLogItemDateFormat}"
-                IsChecked="{Binding UseLogItemDateFormat}" />-->
+                IsChecked="{Binding WindowTitleScrollable}" />-->
             <CheckBox
                 Margin="10"
                 Content="{DynamicResource WindowTitleScrollable}"
@@ -96,7 +92,7 @@
                 Margin="10,5"
                 hc:InfoElement.Title="{DynamicResource MainViewButtonFeature}"
                 DisplayMemberPath="Display"
-                IsHitTestVisible="{Binding Idle}"
+                IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
                 ItemsSource="{Binding InverseClearModeList}"
                 SelectedValue="{Binding InverseClearMode}"
                 SelectedValuePath="Value"
@@ -106,8 +102,7 @@
                 hc:InfoElement.Title="{DynamicResource LogItemDateFormatString}"
                 ItemsSource="{Binding LogItemDateFormatStringList}"
                 SelectedValue="{Binding LogItemDateFormatString}"
-                Style="{StaticResource ComboBoxExtend}"
-                Visibility="{c:Binding UseLogItemDateFormat}" />
+                Style="{StaticResource ComboBoxExtend}" />
         </StackPanel>
     </Grid>
 </UserControl>

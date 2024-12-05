@@ -45,7 +45,7 @@ namespace MaaWpfGui.Services.Notification
                 title = title[..32]; // 截取前 32 个字符
             }
 
-            var sendKey = SettingsViewModel.ExternalNotificationDataContext.ServerChanSendKey;
+            var sendKey = SettingsViewModel.ExternalNotificationSettings.ServerChanSendKey;
 
             try
             {

@@ -15,7 +15,7 @@
     d:DesignWidth="220"
     mc:Ignorable="d">
     <StackPanel>
-        <Grid Margin="0,5" Visibility="{c:Binding 'ClientType == &quot;Official&quot; or ClientType == &quot;Bilibili&quot; or ClientType == &quot;&quot;'}">
+        <Grid Margin="0,5" Visibility="{c:Binding 'ClientType == &quot;Official&quot; or ClientType == &quot;Bilibili&quot; or ClientType == &quot;&quot;', Source={x:Static ui:SettingsViewModel.GameSettings}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
@@ -127,8 +127,8 @@
             hc:InfoElement.Title="{DynamicResource ClientType}"
             DisplayMemberPath="Display"
             IsHitTestVisible="{Binding Idle}"
-            ItemsSource="{Binding ClientTypeList}"
-            SelectedValue="{Binding ClientType}"
+            ItemsSource="{Binding ClientTypeList, Source={x:Static ui:SettingsViewModel.GameSettings}}"
+            SelectedValue="{Binding ClientType, Source={x:Static ui:SettingsViewModel.GameSettings}}"
             SelectedValuePath="Value"
             Style="{StaticResource ComboBoxExtend}"
             Visibility="{c:Binding !TaskSettingVisibilities.Guide}" />

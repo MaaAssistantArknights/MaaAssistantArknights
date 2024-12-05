@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using MaaWpfGui.Constants;
+using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -171,7 +172,7 @@ namespace MaaWpfGui.Helper
                 return null;
             }
 
-            language ??= Instances.SettingsViewModel.OperNameLocalization;
+            language ??= SettingsViewModel.GuiSettings.OperNameLocalization;
 
             return language switch
             {

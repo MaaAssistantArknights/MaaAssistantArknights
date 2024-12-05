@@ -25,6 +25,7 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -50,6 +51,8 @@ namespace MaaWpfGui.Services.RemoteControl
 
         private string _currentSequentialTaskId = string.Empty;
 
+        private static RemoteControlUserControlModel RemoteSettings => SettingsViewModel.RemoteControlSettings;
+
         public RemoteControlService()
         {
             InitializePollJobTask();
@@ -63,7 +66,7 @@ namespace MaaWpfGui.Services.RemoteControl
                 return;
             }
 
-            if (!IsEndpointValid(Instances.SettingsViewModel.RemoteControlGetTaskEndpointUri))
+            if (!IsEndpointValid(RemoteSettings.RemoteControlGetTaskEndpointUri))
             {
                 return;
             }
@@ -77,7 +80,7 @@ namespace MaaWpfGui.Services.RemoteControl
                     await Task.Delay(1000);
                     try
                     {
-                        if (!IsEndpointValid(Instances.SettingsViewModel.RemoteControlGetTaskEndpointUri))
+                        if (!IsEndpointValid(RemoteSettings.RemoteControlGetTaskEndpointUri))
                         {
                             Log.Logger.Information("RemoteControlGetTaskEndpointUri is not valid, return");
                             _inited = false;
@@ -102,7 +105,7 @@ namespace MaaWpfGui.Services.RemoteControl
                     await Task.Delay(1000);
                     try
                     {
-                        if (!IsEndpointValid(Instances.SettingsViewModel.RemoteControlGetTaskEndpointUri))
+                        if (!IsEndpointValid(RemoteSettings.RemoteControlGetTaskEndpointUri))
                         {
                             Log.Logger.Information("RemoteControlGetTaskEndpointUri is not valid, return");
                             return;
@@ -126,7 +129,7 @@ namespace MaaWpfGui.Services.RemoteControl
                     await Task.Delay(1000);
                     try
                     {
-                        if (!IsEndpointValid(Instances.SettingsViewModel.RemoteControlGetTaskEndpointUri))
+                        if (!IsEndpointValid(RemoteSettings.RemoteControlGetTaskEndpointUri))
                         {
                             Log.Logger.Information("RemoteControlGetTaskEndpointUri is not valid, return");
                             return;
@@ -282,15 +285,15 @@ namespace MaaWpfGui.Services.RemoteControl
 
         private async Task PollJobTaskLoop()
         {
-            var endpoint = Instances.SettingsViewModel.RemoteControlGetTaskEndpointUri;
+            var endpoint = RemoteSettings.RemoteControlGetTaskEndpointUri;
 
             if (!IsEndpointValid(endpoint))
             {
                 return;
             }
 
-            var uid = Instances.SettingsViewModel.RemoteControlUserIdentity;
-            var did = Instances.SettingsViewModel.RemoteControlDeviceIdentity;
+            var uid = RemoteSettings.RemoteControlUserIdentity;
+            var did = RemoteSettings.RemoteControlDeviceIdentity;
             var response = await Instances.HttpService.PostAsJsonAsync(new Uri(endpoint), new { user = uid, device = did });
             if (response == null)
             {
@@ -451,7 +454,7 @@ namespace MaaWpfGui.Services.RemoteControl
                     case "Settings-Stage1":
                         await Execute.OnUIThreadAsync(() =>
                         {
-                            Instances.TaskQueueViewModel.Stage1 = data;
+                            SettingsViewModel.FightTask.Stage1 = data;
                         });
                         break;
 
@@ -462,11 +465,11 @@ namespace MaaWpfGui.Services.RemoteControl
                         break;
                 }
 
-                var endpoint = Instances.SettingsViewModel.RemoteControlReportStatusUri;
+                var endpoint = RemoteSettings.RemoteControlReportStatusUri;
                 if (IsEndpointValid(endpoint))
                 {
-                    var uid = Instances.SettingsViewModel.RemoteControlUserIdentity;
-                    var did = Instances.SettingsViewModel.RemoteControlDeviceIdentity;
+                    var uid = RemoteSettings.RemoteControlUserIdentity;
+                    var did = RemoteSettings.RemoteControlDeviceIdentity;
                     var response = await Instances.HttpService.PostAsJsonAsync(new Uri(endpoint), new
                     {
                         user = uid,
@@ -557,11 +560,11 @@ namespace MaaWpfGui.Services.RemoteControl
                         break;
                 }
 
-                var endpoint = Instances.SettingsViewModel.RemoteControlReportStatusUri;
+                var endpoint = RemoteSettings.RemoteControlReportStatusUri;
                 if (IsEndpointValid(endpoint))
                 {
-                    var uid = Instances.SettingsViewModel.RemoteControlUserIdentity;
-                    var did = Instances.SettingsViewModel.RemoteControlDeviceIdentity;
+                    var uid = RemoteSettings.RemoteControlUserIdentity;
+                    var did = RemoteSettings.RemoteControlDeviceIdentity;
                     var response = await Instances.HttpService.PostAsJsonAsync(new Uri(endpoint), new
                     {
                         user = uid,
@@ -604,7 +607,7 @@ namespace MaaWpfGui.Services.RemoteControl
             {
                 // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次(任务及基建列表)
                 Instances.TaskQueueViewModel.TaskItemSelectionChanged();
-                Instances.SettingsViewModel.InfrastOrderSelectionChanged();
+                SettingsViewModel.InfrastTask.InfrastOrderSelectionChanged();
 
                 InvokeInstanceMethod(Instances.TaskQueueViewModel, "ClearLog");
 
@@ -716,15 +719,15 @@ namespace MaaWpfGui.Services.RemoteControl
 
         public static async Task ConnectionTest()
         {
-            var endpoint = Instances.SettingsViewModel.RemoteControlGetTaskEndpointUri;
+            var endpoint = RemoteSettings.RemoteControlGetTaskEndpointUri;
 
             if (!IsEndpointValid(endpoint, alarm: true))
             {
                 return;
             }
 
-            var uid = Instances.SettingsViewModel.RemoteControlUserIdentity;
-            var did = Instances.SettingsViewModel.RemoteControlDeviceIdentity;
+            var uid = RemoteSettings.RemoteControlUserIdentity;
+            var did = RemoteSettings.RemoteControlDeviceIdentity;
 
             try
             {
@@ -771,7 +774,7 @@ namespace MaaWpfGui.Services.RemoteControl
 
         public static void RegenerateDeviceIdentity()
         {
-            Instances.SettingsViewModel.RemoteControlDeviceIdentity = Guid.NewGuid().ToString("N");
+            RemoteSettings.RemoteControlDeviceIdentity = Guid.NewGuid().ToString("N");
         }
 
         public static bool IsEndpointValid(string endpoint, bool alarm = false)

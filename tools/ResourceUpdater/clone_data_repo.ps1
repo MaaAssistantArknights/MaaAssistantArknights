@@ -34,7 +34,7 @@ $jobs += Start-Job -ScriptBlock {
 $jobs += Start-Job -ScriptBlock {
     Write-Host "`nArknightsGameData_Yostar - Overseas"
     git clone --filter=blob:none --no-checkout --depth 1 --sparse `
-        "https://github.com/Kengxxiao/ArknightsGameData_Yostar" Overseas
+        "https://github.com/Kengxxiao/ArknightsGameData_YoStar" Overseas
     Set-Location Overseas
     git sparse-checkout set --no-cone `
         "/en_US/gamedata/excel/item_table.json" `

@@ -14,12 +14,11 @@
 
 using System;
 using System.Globalization;
-using System.Reflection;
 using System.Windows.Controls;
-using System.Windows.Data;
 using MaaWpfGui.Helper;
+using MaaWpfGui.ViewModels.UI;
 
-namespace MaaWpfGui.Views.UserControl
+namespace MaaWpfGui.Views.UserControl.TaskQueue
 {
     /// <summary>
     /// RoguelikeSettingsUserControl.xaml 的交互逻辑
@@ -59,7 +58,7 @@ namespace MaaWpfGui.Views.UserControl
             }
 
             var name = StartingCoreCharComboBox.Text;
-            StartingCoreCharComboBox.ItemsSource = Instances.SettingsViewModel.RoguelikeCoreCharList;
+            StartingCoreCharComboBox.ItemsSource = SettingsViewModel.RoguelikeTask.RoguelikeCoreCharList;
             StartingCoreCharComboBox.Text = name;
         }
     }

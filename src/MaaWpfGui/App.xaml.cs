@@ -53,53 +53,6 @@ namespace MaaWpfGui
             }
 
             base.OnStartup(e);
-
-            string[] args = e.Args;
-            const string ConfigFlag = "--config";
-
-            string configArgs = string.Empty;
-            for (int i = 0; i < args.Length; ++i)
-            {
-                switch (args[i])
-                {
-                    case ConfigFlag when i + 1 < args.Length:
-                        configArgs = args[i + 1];
-                        i += 1;
-                        break;
-                }
-            }
-
-            Config(configArgs);
-        }
-
-        private static void Config(string desiredConfig)
-        {
-            const string ConfigFile = @".\config\gui.json";
-            if (!File.Exists(ConfigFile) || string.IsNullOrEmpty(desiredConfig))
-            {
-                return;
-            }
-
-            try
-            {
-                if (!UpdateConfiguration(desiredConfig))
-                {
-                    return;
-                }
-
-                Bootstrapper.ShutdownAndRestartWithoutArgs();
-            }
-            catch (Exception ex)
-            {
-                _logger.Error($"Error updating configuration: {desiredConfig}, ex: {ex.Message}");
-            }
-        }
-
-        private static bool UpdateConfiguration(string desiredConfig)
-        {
-            // 配置名可能就包在引号中，需要转义符，如 \"a\"
-            string currentConfig = ConfigurationHelper.GetCurrentConfiguration();
-            return currentConfig != desiredConfig && ConfigurationHelper.SwitchConfiguration(desiredConfig);
         }
     }
 }

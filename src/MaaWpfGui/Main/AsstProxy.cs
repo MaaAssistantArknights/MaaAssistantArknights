@@ -251,7 +251,7 @@ namespace MaaWpfGui.Main
         {
             _logger.Information("Load Resource");
 
-            string clientType = Instances.SettingsViewModel.ClientType;
+            string clientType = SettingsViewModel.GameSettings.ClientType;
             string mainRes = Directory.GetCurrentDirectory();
             string globalResource = mainRes + @"\resource\global\" + clientType;
             string mainCache = Directory.GetCurrentDirectory() + @"\cache";
@@ -321,7 +321,7 @@ namespace MaaWpfGui.Main
             Instances.TaskQueueViewModel.SetInited();
             _runningState.SetIdle(true);
             AsstSetInstanceOption(InstanceOptionKey.TouchMode, SettingsViewModel.ConnectSettings.TouchMode);
-            AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, SettingsViewModel.ConnectSettings.DeploymentWithPause ? "1" : "0");
+            AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, SettingsViewModel.GameSettings.DeploymentWithPause ? "1" : "0");
             AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, SettingsViewModel.ConnectSettings.AdbLiteEnabled ? "1" : "0");
 
             // TODO: 之后把这个 OnUIThread 拆出来
@@ -389,7 +389,7 @@ namespace MaaWpfGui.Main
             var jsonStr = PtrToStringCustom(jsonBuffer, Encoding.UTF8);
 
             // Console.WriteLine(json_str);
-            var json = (JObject?)JsonConvert.DeserializeObject(jsonStr);
+            var json = (JObject?)JsonConvert.DeserializeObject(jsonStr ?? string.Empty);
             MaaService.ProcCallbackMsg dlg = ProcMsg;
             Execute.OnUIThread(
                 () =>
@@ -458,8 +458,8 @@ namespace MaaWpfGui.Main
             {
                 case "Connected":
                     Connected = true;
-                    _connectedAdb = details["details"]?["adb"]?.ToString();
-                    _connectedAddress = details["details"]?["address"]?.ToString();
+                    _connectedAdb = details["details"]!["adb"]!.ToString();
+                    _connectedAddress = details["details"]!["address"]!.ToString();
                     SettingsViewModel.ConnectSettings.ConnectAddress = _connectedAddress;
                     break;
 
@@ -694,9 +694,9 @@ namespace MaaWpfGui.Main
                 case AsstMsg.TaskChainError:
                     {
                         // 对剿灭的特殊处理，如果刷完了剿灭还选了剿灭会因为找不到入口报错
-                        if (taskChain == "Fight" && (Instances.TaskQueueViewModel.Stage == "Annihilation"))
+                        if (taskChain == "Fight" && (SettingsViewModel.FightTask.Stage == "Annihilation"))
                         {
-                            if (Instances.TaskQueueViewModel.Stages.Any(stage => Instances.TaskQueueViewModel.IsStageOpen(stage) && (stage != "Annihilation")))
+                            if (SettingsViewModel.FightTask.Stages.Any(stage => Instances.TaskQueueViewModel.IsStageOpen(stage) && (stage != "Annihilation")))
                             {
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
                             }
@@ -757,15 +757,15 @@ namespace MaaWpfGui.Main
 
                         case "Mall":
                             {
-                                if (Instances.TaskQueueViewModel.Stage != string.Empty && Instances.SettingsViewModel.CreditFightTaskEnabled)
+                                if (SettingsViewModel.FightTask.Stage != string.Empty && SettingsViewModel.MallTask.CreditFightTaskEnabled)
                                 {
-                                    Instances.SettingsViewModel.LastCreditFightTaskTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                                    SettingsViewModel.MallTask.LastCreditFightTaskTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("CreditFight"));
                                 }
 
-                                if (Instances.SettingsViewModel.CreditVisitFriendsEnabled)
+                                if (SettingsViewModel.MallTask.CreditVisitFriendsEnabled)
                                 {
-                                    Instances.SettingsViewModel.LastCreditVisitFriendsTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                                    SettingsViewModel.MallTask.LastCreditVisitFriendsTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("Visiting"));
                                 }
 
@@ -814,10 +814,10 @@ namespace MaaWpfGui.Main
 
                     if (_latestTaskId.ContainsKey(TaskType.Copilot))
                     {
-                        if (SettingsViewModel.ConnectSettings.CopilotWithScript)
+                        if (SettingsViewModel.GameSettings.CopilotWithScript)
                         {
-                            Task.Run(() => SettingsViewModel.ConnectSettings.RunScript("EndsWithScript", showLog: false));
-                            if (!string.IsNullOrWhiteSpace(SettingsViewModel.ConnectSettings.EndsWithScript))
+                            Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript", showLog: false));
+                            if (!string.IsNullOrWhiteSpace(SettingsViewModel.GameSettings.EndsWithScript))
                             {
                                 Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("EndsWithScript"));
                             }
@@ -827,7 +827,7 @@ namespace MaaWpfGui.Main
                     bool buyWine = _latestTaskId.ContainsKey(TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
                     _latestTaskId.Clear();
 
-                    Instances.TaskQueueViewModel.ResetFightVariables();
+                    SettingsViewModel.FightTask.ResetFightVariables();
                     Instances.TaskQueueViewModel.ResetTaskSelection();
                     _runningState.SetIdle(true);
 
@@ -1030,8 +1030,13 @@ namespace MaaWpfGui.Main
 
                 case "ReportToPenguinStats":
                     {
-                        var why = details!["why"].ToString();
+                        var why = details["why"]!.ToString();
                         Instances.TaskQueueViewModel.AddLog(why + "，" + LocalizationHelper.GetString("GiveUpUploadingPenguins"), UiLogColor.Error);
+                        if (why == "UnknownStage")
+                        {
+                            Instances.TaskQueueViewModel.AddLog(details["details"]?["stage_code"] + LocalizationHelper.GetString("UnsupportedLevel"), UiLogColor.Error);
+                        }
+
                         break;
                     }
 
@@ -1069,8 +1074,8 @@ namespace MaaWpfGui.Main
             {
                 case "ProcessTask":
                     {
-                        string taskName = details!["details"]?["task"]?.ToString();
-                        int execTimes = (int)details["details"]["exec_times"];
+                        string taskName = details!["details"]!["task"]!.ToString();
+                        int execTimes = (int)details!["details"]!["exec_times"]!;
 
                         switch (taskName)
                         {
@@ -1174,7 +1179,7 @@ namespace MaaWpfGui.Main
                                 break;
 
                             case "OfflineConfirm":
-                                if (SettingsViewModel.ConnectSettings.AutoRestartOnDrop)
+                                if (SettingsViewModel.GameSettings.AutoRestartOnDrop)
                                 {
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("GameDrop"), UiLogColor.Warning);
                                 }
@@ -1318,7 +1323,7 @@ namespace MaaWpfGui.Main
 
                 case "RecruitSpecialTag":
                     {
-                        string special = subTaskDetails!["tag"]?.ToString();
+                        string special = subTaskDetails!["tag"]!.ToString();
                         if (special == "支援机械" && Instances.SettingsViewModel.NotChooseLevel1 == false)
                         {
                             break;
@@ -1332,7 +1337,7 @@ namespace MaaWpfGui.Main
 
                 case "RecruitRobotTag":
                     {
-                        string special = subTaskDetails!["tag"]?.ToString();
+                        string special = subTaskDetails!["tag"]!.ToString();
                         using var toast = new ToastNotification(LocalizationHelper.GetString("RecruitingTips"));
                         toast.AppendContentText(special).ShowRecruitRobot();
 
@@ -1381,7 +1386,7 @@ namespace MaaWpfGui.Main
 
                 case "RecruitTagsSelected":
                     {
-                        var selected = subTaskDetails["tags"] ?? new JArray();
+                        var selected = subTaskDetails!["tags"] ?? new JArray();
                         string selectedLog = selected.Aggregate(string.Empty, (current, tag) => current + (tag + "\n"));
 
                         selectedLog = selectedLog.EndsWith('\n') ? selectedLog.TrimEnd('\n') : LocalizationHelper.GetString("NoDrop");
@@ -1446,7 +1451,7 @@ namespace MaaWpfGui.Main
                 case "StageInfo":
                     {
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartCombat") + subTaskDetails!["name"]);
-                        if (Instances.SettingsViewModel.RoguelikeDelayAbortUntilCombatComplete)
+                        if (SettingsViewModel.GameSettings.RoguelikeDelayAbortUntilCombatComplete)
                         {
                             Instances.TaskQueueViewModel.RoguelikeInCombatAndShowWait = true;
                         }
@@ -1674,7 +1679,7 @@ namespace MaaWpfGui.Main
                     break;
 
                 case "AccountSwitch":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + $" -->> {subTaskDetails["account_name"]}", UiLogColor.Info); // subTaskDetails!["current_account"]
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + $" -->> {subTaskDetails!["account_name"]}", UiLogColor.Info); // subTaskDetails!["current_account"]
                     break;
                 case "RoguelikeCollapsalParadigms":
                     string deepen_or_weaken_str = subTaskDetails!["deepen_or_weaken"]?.ToString() ?? "Unknown";
@@ -1933,7 +1938,7 @@ namespace MaaWpfGui.Main
 
         private AsstTaskId AsstAppendTaskWithEncoding(string type, JObject? taskParams = null)
         {
-            taskParams ??= new();
+            taskParams ??= [];
             return AsstAppendTask(_handle, type, JsonConvert.SerializeObject(taskParams));
         }
 
@@ -1944,12 +1949,12 @@ namespace MaaWpfGui.Main
                 return false;
             }
 
-            taskParams ??= new();
+            taskParams ??= [];
             return AsstSetTaskParams(_handle, id, JsonConvert.SerializeObject(taskParams));
         }
 
         [SuppressMessage("ReSharper", "UnusedMember.Local")]
-        private enum TaskType
+        public enum TaskType
         {
             StartUp,
             CloseDown,
@@ -2013,10 +2018,10 @@ namespace MaaWpfGui.Main
                 };
             }
 
-            taskParams["client_type"] = Instances.SettingsViewModel.ClientType;
+            taskParams["client_type"] = SettingsViewModel.GameSettings.ClientType;
             taskParams["penguin_id"] = Instances.SettingsViewModel.PenguinId;
-            taskParams["DrGrandet"] = Instances.SettingsViewModel.IsDrGrandet;
-            taskParams["expiring_medicine"] = isMainFight && Instances.SettingsViewModel.UseExpiringMedicine ? 9999 : 0;
+            taskParams["DrGrandet"] = SettingsViewModel.FightTask.IsDrGrandet;
+            taskParams["expiring_medicine"] = isMainFight && SettingsViewModel.FightTask.UseExpiringMedicine ? 9999 : 0;
             taskParams["server"] = Instances.SettingsViewModel.ServerType;
             return taskParams;
         }
@@ -2679,6 +2684,11 @@ namespace MaaWpfGui.Main
             AsstTaskId id = AsstAppendTaskWithEncoding("VideoRecognition", taskParams);
             _latestTaskId[TaskType.Copilot] = id;
             return id != 0 && AsstStart();
+        }
+
+        public bool ContainsTask(TaskType type)
+        {
+            return _latestTaskId.ContainsKey(type);
         }
 
         /// <summary>

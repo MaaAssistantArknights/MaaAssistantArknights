@@ -4,7 +4,7 @@
     <system:String x:Key="GeneralSettings">一般設定</system:String>
     <system:String x:Key="AdvancedSettings">高度な設定</system:String>
     <system:String x:Key="PerformanceSettings">パフォーマンス設定</system:String>
-    <system:String x:Key="GameSettings">対象クライアント</system:String>
+    <system:String x:Key="GameSettings">実行設定</system:String>
     <system:String x:Key="BaseSettings">基地設定</system:String>
     <system:String x:Key="RoguelikeSettings">統合戦略設定</system:String>
     <system:String x:Key="RecruitingSettings">公開求人設定</system:String>
@@ -140,7 +140,7 @@
     <system:String x:Key="RoguelikeCollapseListTip">英語のセミコロン「;」で区切る、空白のままにするとデフォルトリストが使用されます。</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「最初のオペレーター」をサポートから選択</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">戦友以外のサポートの使用を許可</system:String>
-    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">戦闘終了まえに「停止」を遅らせる</system:String>
+    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">自動ローグ 戦闘終了まえに「停止」を遅らせる</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">第5階層のボスの手前で一時停止する</system:String>
     <system:String x:Key="DeploymentWithPause">統合戦略/保全駐在でポーズトリックを使用します（ベータ機能のため非推奨です）</system:String>
     <system:String x:Key="AdbLiteEnabled">軽量ADBを使用(実験機能)</system:String>
@@ -270,6 +270,9 @@
     <system:String x:Key="AddConfigSuccess">構成&lt; {0}&gt;が正常に追加されました</system:String>
     <system:String x:Key="ConfigExists">構成 &lt; {0}&gt; は既に存在します</system:String>
     <system:String x:Key="LaunchOnSystemStartup">スタートアップ</system:String>
+    <system:String x:Key="LaunchOnSystemStartupAdminPrompt">
+        管理者権限での起動は、起動時の自動実行をサポートしていません。MAAを長時間管理者権限で実行することはお勧めしません。\n必要な場合は、「コントロールパネル > Windowsツール > タスクスケジューラ」に移動してカスタムタスクを作成してください。トリガーを設定する際に、「最も高い特権で実行」を必ず選択してください。
+    </system:String>
     <system:String x:Key="RunTaskAfterLaunch">アプリの起動時に自動的に実行</system:String>
     <system:String x:Key="MinimizeAfterLaunch">アプリの起動時に自動的に最小化</system:String>
     <system:String x:Key="ClientType">クライアントバージョン</system:String>

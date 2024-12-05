@@ -4,7 +4,7 @@
     <system:String x:Key="GeneralSettings">일반 설정</system:String>
     <system:String x:Key="AdvancedSettings">고급 설정</system:String>
     <system:String x:Key="PerformanceSettings">성능 설정</system:String>
-    <system:String x:Key="GameSettings">클라이언트</system:String>
+    <system:String x:Key="GameSettings">실행 설정</system:String>
     <system:String x:Key="BaseSettings">기반시설</system:String>
     <system:String x:Key="RoguelikeSettings">통합 전략</system:String>
     <system:String x:Key="RecruitingSettings">공개모집</system:String>
@@ -140,7 +140,7 @@
     <system:String x:Key="RoguelikeCollapseListTip">영어 세미콜론 「;」으로 구분, 비워 두면 기본 목록이 사용됩니다.</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">시작 오퍼레이터로 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">친구가 아니어도 지원 유닛 사용</system:String>
-    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">중지 시 전투 클리어 후 작업 종료</system:String>
+    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">통합전략 중지 시 전투 클리어 후 작업 종료</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">5스테이지 보스 앞에서 일시정지</system:String>
     <system:String x:Key="DeploymentWithPause" xml:space="preserve">일시정지 상태로 배치하기 - 통합전략, 자동 작전, 보안 파견에 적용 (비권장)</system:String>
     <system:String x:Key="AdbLiteEnabled">ADB Lite 사용 (실험적)</system:String>
@@ -270,6 +270,9 @@
     <system:String x:Key="AddConfigSuccess">구성 &lt; {0}&gt;가 성공적으로 추가되었습니다</system:String>
     <system:String x:Key="ConfigExists">구성 &lt; {0}&gt;가 이미 있습니다</system:String>
     <system:String x:Key="LaunchOnSystemStartup">시스템 시작 시 MAA 실행</system:String>
+    <system:String x:Key="LaunchOnSystemStartupAdminPrompt">
+        관리자 권한으로 실행 시 부팅 시 자동 실행이 지원되지 않습니다. MAA를 관리자 권한으로 장시간 실행하는 것은 권장하지 않습니다.\n필요할 경우 제어판 > Windows 도구 > 작업 스케줄러에서 사용자 지정 작업을 생성하세요. 트리거를 설정할 때 "가장 높은 권한으로 실행"을 반드시 선택하십시오.
+    </system:String>
     <system:String x:Key="RunTaskAfterLaunch">MAA 실행 후 작업 자동 시작</system:String>
     <system:String x:Key="MinimizeAfterLaunch">MAA 실행 후 최소화</system:String>
     <system:String x:Key="ClientType">클라이언트 종류</system:String>

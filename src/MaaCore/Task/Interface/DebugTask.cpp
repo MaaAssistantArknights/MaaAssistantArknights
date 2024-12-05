@@ -5,6 +5,7 @@
 #include "Utils/NoWarningCV.h"
 
 #include "Config/TaskData.h"
+#include "Task/Fight/MedicineCounterTaskPlugin.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Battle/BattlefieldClassifier.h"
@@ -20,7 +21,6 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
 
 bool asst::DebugTask::run()
 {
-    test_match_template();
     return true;
 }
 

@@ -24,6 +24,7 @@ using System.Threading;
 using System.Windows;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
@@ -45,7 +46,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
 
     private static ConnectSettingsUserControlModel ConnectSettings => SettingsViewModel.ConnectSettings;
 
-    private static VersionUpdateSettingsUserControlModel VersionUpdateSettings => SettingsViewModel.VersionUpdateDataContext;
+    private static VersionUpdateSettingsUserControlModel VersionUpdateSettings => SettingsViewModel.VersionUpdateSettings;
 
     private bool _startSelf = AutoStart.CheckStart();
 
@@ -59,8 +60,8 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         {
             if (!AutoStart.SetStart(value, out var error))
             {
-                _logger.Error("Failed to set startup.");
-                MessageBoxHelper.Show(error);
+                _logger.Error($"Failed to set startup: {error}");
+                MessageBoxHelper.Show(error, LocalizationHelper.GetString("Warning"), icon: MessageBoxImage.Warning);
                 return;
             }
 
@@ -110,9 +111,9 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         {
             SetAndNotify(ref _openEmulatorAfterLaunch, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.StartEmulator, value.ToString());
-            if (Instances.SettingsViewModel.ClientType == string.Empty && _runningState.GetIdle())
+            if (SettingsViewModel.GameSettings.ClientType == string.Empty && _runningState.GetIdle())
             {
-                Instances.SettingsViewModel.ClientType = "Official";
+                SettingsViewModel.GameSettings.ClientType = "Official";
             }
         }
     }

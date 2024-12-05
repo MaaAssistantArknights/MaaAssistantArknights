@@ -15,7 +15,6 @@
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:userControl="clr-namespace:MaaWpfGui.Views.UserControl"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
-    xmlns:vm="clr-namespace:MaaWpfGui"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
     d:DesignHeight="4000"
@@ -50,7 +49,10 @@
                 <userControl:ConfigurationMgrUserControl Margin="0,20" HorizontalAlignment="Center" />
 
                 <hc:Divider Content="{Binding ListTitle[1]}" />
-                <userControl:TimerSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <settingsViews:TimerSettingsUserControl
+                    Margin="0,20"
+                    HorizontalAlignment="Center"
+                    DataContext="{Binding TimerSettings}" />
 
                 <hc:Divider Content="{Binding ListTitle[2]}" />
                 <userControl:PerformanceUserControl
@@ -59,7 +61,10 @@
                     IsEnabled="{Binding Idle}" />
 
                 <hc:Divider Content="{Binding ListTitle[3]}" />
-                <userControl:GameClientUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <settingsViews:GameSettingsUserControl
+                    Margin="0,20"
+                    HorizontalAlignment="Center"
+                    DataContext="{Binding GameSettings}" />
 
                 <hc:Divider Content="{Binding ListTitle[4]}" />
                 <settingsViews:ConnectSettingsUserControl
@@ -75,16 +80,22 @@
                     DataContext="{Binding StartSettings}" />
 
                 <hc:Divider Content="{Binding ListTitle[6]}" />
-                <userControl:RemoteControlUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <settingsViews:RemoteControlUserControl
+                    Margin="0,20"
+                    HorizontalAlignment="Center"
+                    DataContext="{Binding RemoteControlSettings}" />
 
                 <hc:Divider Content="{Binding ListTitle[7]}" />
-                <userControl:GUISettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <settingsViews:GuiSettingsUserControl
+                    Margin="0,20"
+                    HorizontalAlignment="Center"
+                    DataContext="{Binding GuiSettings}" />
 
                 <hc:Divider Content="{Binding ListTitle[8]}" />
                 <settingsViews:ExternalNotificationSettingsUserControl
                     Margin="0,20"
                     HorizontalAlignment="Center"
-                    DataContext="{Binding ExternalNotificationDataContext}" />
+                    DataContext="{Binding ExternalNotificationSettings}" />
 
                 <hc:Divider Content="{Binding ListTitle[9]}" />
                 <userControl:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
@@ -93,7 +104,7 @@
                 <settingsViews:VersionUpdateSettingsUserControl
                     Margin="0,20"
                     HorizontalAlignment="Center"
-                    DataContext="{Binding VersionUpdateDataContext}" />
+                    DataContext="{Binding VersionUpdateSettings}" />
 
                 <hc:Divider Content="{Binding ListTitle[11]}" />
                 <userControl:AboutUserControl Margin="0,20" HorizontalAlignment="Center" />

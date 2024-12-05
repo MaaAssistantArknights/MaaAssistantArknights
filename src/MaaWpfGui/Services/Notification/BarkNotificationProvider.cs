@@ -29,14 +29,14 @@ namespace MaaWpfGui.Services.Notification
 
         public async Task<bool> SendAsync(string title, string content)
         {
-            var sendKey = SettingsViewModel.ExternalNotificationDataContext.BarkSendKey;
+            var sendKey = SettingsViewModel.ExternalNotificationSettings.BarkSendKey;
             if (string.IsNullOrWhiteSpace(sendKey))
             {
                 _logger.Warning("Failed to send Bark notification, Bark send key is empty");
                 return false;
             }
 
-            var apiBase = SettingsViewModel.ExternalNotificationDataContext.BarkServer;
+            var apiBase = SettingsViewModel.ExternalNotificationSettings.BarkServer;
             if (string.IsNullOrWhiteSpace(apiBase))
             {
                 _logger.Warning("Failed to send Bark notification, Bark server address is empty");

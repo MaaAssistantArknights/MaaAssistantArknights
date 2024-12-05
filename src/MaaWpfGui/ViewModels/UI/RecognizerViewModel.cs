@@ -455,18 +455,34 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         private static readonly HashSet<string?> _virtuallyOpers =
         [
-            "char_504_rguard",
-            "char_505_rcast",
-            "char_506_rmedic",
-            "char_507_rsnipe",
-            "char_514_rdfend",
-            "char_513_apionr",
-            "char_511_asnipe",
-            "char_510_amedic",
-            "char_509_acast",
-            "char_508_aguard",
-            "char_1001_amiya2",
-            "char_1037_amiya3"
+            "char_504_rguard", // 预备干员-近战
+            "char_505_rcast", // 预备干员-术师
+            "char_506_rmedic", // 预备干员-后勤
+            "char_507_rsnipe", // 预备干员-狙击
+            "char_508_aguard", // Sharp
+            "char_509_acast", // Pith
+            "char_510_amedic", // Touch
+            "char_511_asnipe", // Stormeye
+            "char_513_apionr", // 郁金香
+            "char_514_rdfend", // 预备干员-重装
+
+            // 因为 core 是通过名字来判断的，所以下面干员中如果有和上面重名的不会用到，不过也加上了
+            "char_600_cpione", // 预备干员-先锋 4★
+            "char_601_cguard", // 预备干员-近卫 4★
+            "char_602_cdfend", // 预备干员-重装 4★
+            "char_603_csnipe", // 预备干员-狙击 4★
+            "char_604_ccast", // 预备干员-术师 4★
+            "char_605_cmedic", // 预备干员-医疗 4★
+            "char_606_csuppo", // 预备干员-辅助 4★
+            "char_607_cspec", // 预备干员-特种 4★
+            "char_608_acpion", // 郁金香 6★
+            "char_609_acguad", // Sharp 6★
+            "char_610_acfend", // Mechanist
+            "char_614_acsupo", // Raidian
+            "char_615_acspec", // Misery
+
+            "char_1001_amiya2", // 阿米娅-WARRIOR
+            "char_1037_amiya3", // 阿米娅-MEDIC
         ];
 
         private string _operBoxInfo = LocalizationHelper.GetString("OperBoxRecognitionTip");
@@ -549,12 +565,13 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            List<Tuple<string, int>> operHave = [];
-            List<Tuple<string, int>> operNotHave = [];
-
+            List<(string Name, int Rarity)> operHave = [];
+            List<(string Name, int Rarity)> operNotHave = [];
+            (string Name, int Rarity) tuple = ("???", -1);
             foreach (JObject operBox in operBoxes.Cast<JObject>())
             {
-                var tuple = new Tuple<string, int>(DataHelper.GetLocalizedCharacterName((string?)operBox["name"]) ?? "???", (int)(operBox["rarity"] ?? -1));
+                tuple.Name = DataHelper.GetLocalizedCharacterName((string?)operBox["name"]) ?? "???";
+                tuple.Rarity = (int)(operBox["rarity"] ?? -1);
 
                 if (_virtuallyOpers.Contains((string?)operBox["id"]))
                 {
@@ -573,11 +590,11 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            operHave.Sort((x, y) => y.Item2.CompareTo(x.Item2));
-            operNotHave.Sort((x, y) => y.Item2.CompareTo(x.Item2));
+            operHave.Sort((x, y) => y.Rarity.CompareTo(x.Rarity));
+            operNotHave.Sort((x, y) => y.Rarity.CompareTo(x.Rarity));
 
-            OperBoxHaveList = new ObservableCollection<string>(operHave.Select(tuple => tuple.Item1));
-            OperBoxNotHaveList = new ObservableCollection<string>(operNotHave.Select(tuple => tuple.Item1));
+            OperBoxHaveList = new(operHave.Select(valueTuple => valueTuple.Name));
+            OperBoxNotHaveList = new(operNotHave.Select(valueTuple => valueTuple.Name));
 
             bool done = (bool)(details?["done"] ?? false);
             if (!done)
@@ -588,6 +605,7 @@ namespace MaaWpfGui.ViewModels.UI
             OperBoxInfo = LocalizationHelper.GetString("IdentificationCompleted") + "\n" + LocalizationHelper.GetString("OperBoxRecognitionTip");
             OperBoxExportData = details?["own_opers"]?.ToString() ?? string.Empty;
             OperBoxDataArray = (JArray)(details?["own_opers"] ?? new JArray());
+
             _runningState.SetIdle(true);
 
             return true;

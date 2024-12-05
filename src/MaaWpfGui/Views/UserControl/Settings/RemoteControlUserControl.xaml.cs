@@ -26,7 +26,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MaaWpfGui.Views.UserControl
+namespace MaaWpfGui.Views.UserControl.Settings
 {
     /// <summary>
     /// RemoteControlUserControl.xaml 的交互逻辑
