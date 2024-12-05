@@ -28,7 +28,7 @@ namespace MaaWpfGui.Services.Notification
 
         private static async Task SendAsync(string title, string content, bool isTest = false)
         {
-            var enabledProviders = SettingsViewModel.ExternalNotificationDataContext.EnabledExternalNotificationProviderList;
+            var enabledProviders = SettingsViewModel.ExternalNotificationSettings.EnabledExternalNotificationProviderList;
 
             foreach (var enabledProvider in enabledProviders)
             {

@@ -12,6 +12,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -65,18 +66,6 @@ namespace MaaWpfGui.Main
                 Directory.CreateDirectory("debug");
             }
 
-            // TODO: Remove after 5.10.0
-            string[] filesToDelete = ["MAA_win7.exe", "启动旧版.cmd"];
-            string curDir = Directory.GetCurrentDirectory();
-            foreach (var file in filesToDelete)
-            {
-                string path = Path.Combine(curDir, file);
-                if (File.Exists(path))
-                {
-                    File.Delete(path);
-                }
-            }
-
             const string LogFilename = "debug/gui.log";
             const string LogBakFilename = "debug/gui.bak.log";
             if (File.Exists(LogFilename) && new FileInfo(LogFilename).Length > 4 * 1024 * 1024)
@@ -105,6 +94,7 @@ namespace MaaWpfGui.Main
             var maaEnv = Environment.GetEnvironmentVariable("MAA_ENVIRONMENT") == "Debug"
                 ? "Debug"
                 : "Production";
+            var args = Environment.GetCommandLineArgs();
             var withDebugFile = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
             loggerConfiguration = (maaEnv == "Debug" || withDebugFile)
                 ? loggerConfiguration.MinimumLevel.Verbose()
@@ -117,6 +107,7 @@ namespace MaaWpfGui.Main
             _logger.Information($"Version {uiVersion}");
             _logger.Information($"Built at {builtDate:O}");
             _logger.Information($"Maa ENV: {maaEnv}");
+            _logger.Information($"Command Line: {string.Join(' ', args)}");
             _logger.Information($"User Dir {Directory.GetCurrentDirectory()}");
             if (withDebugFile)
             {
@@ -162,6 +153,7 @@ namespace MaaWpfGui.Main
             base.OnStart();
             ConfigurationHelper.Load();
             LocalizationHelper.Load();
+            ETagCache.Load();
 
             if (!HandleMultipleInstances())
             {
@@ -171,7 +163,15 @@ namespace MaaWpfGui.Main
 
             _hasMutex = true;
 
-            ETagCache.Load();
+            const string ConfigFlag = "--config";
+            const string AnotherFlag = "--another"; // 示例，之后如果有其他参数，可以继续添加
+
+            var parsedArgs = ParseArgs(args, ConfigFlag, AnotherFlag);
+
+            if (parsedArgs.TryGetValue(ConfigFlag, out string configArgs) && Config(configArgs))
+            {
+                return;
+            }
 
             // 检查 MaaCore.dll 是否存在
             if (!File.Exists("MaaCore.dll"))
@@ -215,14 +215,7 @@ namespace MaaWpfGui.Main
             }
         }
 
-        private static bool IsUserAdministrator()
-        {
-            WindowsIdentity identity = WindowsIdentity.GetCurrent();
-            WindowsPrincipal principal = new WindowsPrincipal(identity);
-            SecurityIdentifier adminSid = new SecurityIdentifier(WellKnownSidType.BuiltinAdministratorsSid, null);
-
-            return principal.IsInRole(adminSid);
-        }
+        public static bool IsUserAdministrator() => new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
 
         /// <inheritdoc/>
         protected override void ConfigureIoC(IStyletIoCBuilder builder)
@@ -372,6 +365,64 @@ namespace MaaWpfGui.Main
                 var errorView = new ErrorView(exception, shouldExit);
                 errorView.ShowDialog();
             });
+        }
+
+        private static Dictionary<string, string> ParseArgs(string[] args, params string[] flags)
+        {
+            var result = new Dictionary<string, string>();
+            var flagSet = new HashSet<string>(flags);
+
+            for (int i = 0; i < args.Length; ++i)
+            {
+                if (flagSet.Contains(args[i]) && i + 1 < args.Length)
+                {
+                    result[args[i]] = args[i + 1];
+                    ++i;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 检查配置并切换，如果成功切换则重启
+        /// </summary>
+        /// <param name="desiredConfig">配置名</param>
+        /// <returns>切换并重启</returns>
+        private static bool Config(string desiredConfig)
+        {
+            const string ConfigFile = @".\config\gui.json";
+            if (!File.Exists(ConfigFile) || string.IsNullOrEmpty(desiredConfig))
+            {
+                return false;
+            }
+
+            try
+            {
+                if (UpdateConfiguration(desiredConfig))
+                {
+                    ShutdownAndRestartWithoutArgs();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"Error updating configuration: {desiredConfig}, ex: {ex.Message}");
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 切换配置
+        /// </summary>
+        /// <param name="desiredConfig">配置名</param>
+        /// <returns>是否成功切换配置</returns>
+        private static bool UpdateConfiguration(string desiredConfig)
+        {
+            // 配置名可能就包在引号中，需要转义符，如 \"a\"
+            string currentConfig = ConfigurationHelper.GetCurrentConfiguration();
+            return currentConfig != desiredConfig && ConfigurationHelper.SwitchConfiguration(desiredConfig);
         }
     }
 }

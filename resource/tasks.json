@@ -677,6 +677,68 @@
     "GO-4@SideStoryStage": {
         "text": ["GO-4"]
     },
+    "EP-8": {
+        "algorithm": "JustReturn",
+        "sub": ["EP-OpenOpt"],
+        "next": ["EP-8@SideStoryStage", "EP-8@SwipeToStage"]
+    },
+    "EP-7": {
+        "algorithm": "JustReturn",
+        "sub": ["EP-OpenOpt"],
+        "next": ["EP-7@SideStoryStage", "EP-7@SwipeToStage"]
+    },
+    "EP-6": {
+        "algorithm": "JustReturn",
+        "sub": ["EP-OpenOpt"],
+        "next": ["EP-6@SideStoryStage", "EP-6@SwipeToStage"]
+    },
+    "EP-5": {
+        "algorithm": "JustReturn",
+        "sub": ["EP-OpenOpt"],
+        "next": ["EP-5@SideStoryStage", "EP-5@SwipeToStage"]
+    },
+    "EP-4": {
+        "algorithm": "JustReturn",
+        "sub": ["EP-OpenOpt"],
+        "next": ["EP-4@SideStoryStage", "EP-4@SwipeToStage"]
+    },
+    "EP-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["EP-OpenOcr", "EP-Open"]
+    },
+    "EP-Open": {
+        "baseTask": "SS-Open",
+        "template": "StageSideStory.png",
+        "next": ["EPChapterToEP"]
+    },
+    "EP-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["出苍白海", "穿越骸礁"],
+        "next": ["EPChapterToEP"]
+    },
+    "EPChapterToEP": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["盐漠开航", "盐漠", "开航"],
+        "preDelay": 3000,
+        "roi": [1000, 414, 202, 137],
+        "next": ["#self", "ChapterSwipeToTheRight"]
+    },
+    "EP-8@SideStoryStage": {
+        "text": ["EP-8"]
+    },
+    "EP-7@SideStoryStage": {
+        "text": ["EP-7"]
+    },
+    "EP-6@SideStoryStage": {
+        "text": ["EP-6"]
+    },
+    "EP-5@SideStoryStage": {
+        "text": ["EP-5"]
+    },
+    "EP-4@SideStoryStage": {
+        "text": ["EP-4"]
+    },
     "DT-8": {
         "algorithm": "JustReturn",
         "sub": ["DT-OpenOpt"],
@@ -2140,7 +2202,8 @@
             ["^提非$", "提丰"],
             ["^华琳$", "华法琳"],
             ["^宝箱的肉.*", "宝箱的肉？"],
-            [".*维多利亚$", "维娜·维多利亚"]
+            [".*维多利亚$", "维娜·维多利亚"],
+            [".*芜拉普兰德$", "荒芜拉普兰德"]
         ]
     },
     "SwitchAccount@StartUpBegin": {
@@ -2179,7 +2242,7 @@
     "Logout": {
         "action": "ClickSelf",
         "roi": [660, 460, 140, 50],
-        "next": ["LogoutConfirm"]
+        "next": ["LogoutConfirm", "LogoutConfirmOCR", "Logout"]
     },
     "LogoutOCR": {
         "baseTask": "Logout",
@@ -2189,6 +2252,14 @@
     },
     "LogoutConfirm": {
         "action": "ClickSelf",
+        "roi": [650, 450, 280, 60],
+        "next": ["AccountManager", "AccountManager@LoadingText"],
+        "postDelay": 3000
+    },
+    "LogoutConfirmOCR": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["是"],
         "roi": [650, 450, 280, 60],
         "next": ["AccountManager", "AccountManager@LoadingText"],
         "postDelay": 3000
@@ -2724,7 +2795,6 @@
     "EndOfAction": {
         "Doc": "本任务注册了插件 StageDropsTaskPlugin",
         "roi": [0, 290, 70, 60],
-        "reduceOtherTimes": ["FightMissionFailed"],
         "next": ["ClickCorner"]
     },
     "EndOfActionThenStop": {
@@ -2909,7 +2979,7 @@
         "roi": [36, 226, 482, 269],
         "next": ["EndOfAction", "OfflineConfirm", "StartUpThemes#next", "StartButton1"],
         "maxTimes": 3,
-        "maxTimesDoc": "这是失败次数的限制，超过此限制会停止任务，但每成功一次 EndOfAction 会减少一次失败次数",
+        "maxTimesDoc": "这是失败次数的限制，超过此限制会停止任务",
         "exceededNext": ["FightMissionFailedAndStop"],
         "onErrorNext": ["ClickCornerAfterPRTS"]
     },
@@ -3426,8 +3496,8 @@
     "StartToVisit": {
         "method": "RGBCount",
         "action": "ClickSelf",
-        "colorScales": [[250, 255]],
-        "roi": [990, 90, 195, 165],
+        "colorScales": [[253, 255]],
+        "roi": [952, 105, 267, 601],
         "next": ["VisitNext", "VisitNext@LoadingText", "VisitNextBlack", "VisitNextOcr"],
         "postDelay": 2000
     },
@@ -3842,7 +3912,7 @@
         "algorithm": "OcrDetect",
         "text": [],
         "rectMove_Doc": "基于笑脸的位置移动",
-        "rectMove": [14, -209, 40, 22]
+        "rectMove": [14, -230, 60, 30]
     },
     "InfrastOperFace": {
         "algorithm": "JustReturn",
@@ -5267,7 +5337,8 @@
             ["만", "万"],
             ["億", "亿"],
             ["억", "亿"],
-            ["^\\.", ""]
+            ["^\\.", ""],
+            [" ", ""]
         ]
     },
     "StageDrops-Difficulty-Tough": {
@@ -10490,7 +10561,7 @@
     },
     "Sarkaz@Roguelike@StageRefreshNoThought": {
         "action": "ClickRect",
-        "templThreshold": 0.9,
+        "templThreshold": 0.85,
         "roi": [902, 24, 327, 179],
         "specificRect": [1100, 558, 111, 50],
         "next": ["Sarkaz@Roguelike@QuickFormation"]
@@ -10678,6 +10749,7 @@
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@CloseCollectionContinue",
             "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@DecreaseBurdenRetardation",
             "Sarkaz@Roguelike@Routing-FastInvestment"
         ]
     },

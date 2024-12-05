@@ -4,7 +4,7 @@
     <system:String x:Key="GeneralSettings">常规设置</system:String>
     <system:String x:Key="AdvancedSettings">高级设置</system:String>
     <system:String x:Key="PerformanceSettings">性能设置</system:String>
-    <system:String x:Key="GameSettings">游戏设置</system:String>
+    <system:String x:Key="GameSettings">运行设置</system:String>
     <system:String x:Key="BaseSettings">基建设置</system:String>
     <system:String x:Key="RoguelikeSettings">肉鸽设置</system:String>
     <system:String x:Key="RecruitingSettings">自动公招</system:String>
@@ -140,7 +140,7 @@
     <system:String x:Key="RoguelikeCollapseListTip">用英文分号「;」隔开，留空将使用默认列表。</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「开局干员」使用助战</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</system:String>
-    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">在战斗结束前延迟「停止」动作</system:String>
+    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">自动肉鸽在战斗结束前延迟「停止」动作</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">在第五层 BOSS 前暂停</system:String>
     <system:String x:Key="DeploymentWithPause">划火柴模式（自动战斗）</system:String>
     <system:String x:Key="AdbLiteEnabled">使用 ADB Lite（实验性功能）</system:String>
@@ -270,6 +270,9 @@
     <system:String x:Key="AddConfigSuccess">配置 &lt;{0}&gt; 添加成功</system:String>
     <system:String x:Key="ConfigExists">配置 &lt;{0}&gt; 已存在</system:String>
     <system:String x:Key="LaunchOnSystemStartup">开机自动启动 MAA</system:String>
+    <system:String x:Key="LaunchOnSystemStartupAdminPrompt">
+        管理员权限启动不支持开机自启。不建议长期以管理员权限运行 MAA。\n如确有需要，请前往 控制面板 > Windows 工具 > 任务计划程序 创建自定义任务。设置触发器时，请确保勾选「使用最高权限运行」。
+    </system:String>
     <system:String x:Key="RunTaskAfterLaunch">启动 MAA 后直接运行</system:String>
     <system:String x:Key="MinimizeAfterLaunch">启动 MAA 后直接最小化</system:String>
     <system:String x:Key="ClientType">客户端类型</system:String>

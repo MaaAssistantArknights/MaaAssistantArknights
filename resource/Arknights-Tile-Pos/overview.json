@@ -11483,6 +11483,87 @@
         "stageId": "act38side_tr01",
         "width": 10
     },
+    "act39side_01-activities/act39side/level_act39side_01": {
+        "code": "EP-1",
+        "filename": "act39side_01-activities-act39side-level_act39side_01.json",
+        "height": 8,
+        "levelId": "activities/act39side/level_act39side_01",
+        "name": "倒悬苍白海上",
+        "stageId": "act39side_01",
+        "width": 9
+    },
+    "act39side_02-activities/act39side/level_act39side_02": {
+        "code": "EP-2",
+        "filename": "act39side_02-activities-act39side-level_act39side_02.json",
+        "height": 7,
+        "levelId": "activities/act39side/level_act39side_02",
+        "name": "腿部拆卸疗法",
+        "stageId": "act39side_02",
+        "width": 10
+    },
+    "act39side_03-activities/act39side/level_act39side_03": {
+        "code": "EP-3",
+        "filename": "act39side_03-activities-act39side-level_act39side_03.json",
+        "height": 7,
+        "levelId": "activities/act39side/level_act39side_03",
+        "name": "大出血的舞步",
+        "stageId": "act39side_03",
+        "width": 12
+    },
+    "act39side_04-activities/act39side/level_act39side_04": {
+        "code": "EP-4",
+        "filename": "act39side_04-activities-act39side-level_act39side_04.json",
+        "height": 8,
+        "levelId": "activities/act39side/level_act39side_04",
+        "name": "重逢不乏意外",
+        "stageId": "act39side_04",
+        "width": 11
+    },
+    "act39side_05-activities/act39side/level_act39side_05": {
+        "code": "EP-5",
+        "filename": "act39side_05-activities-act39side-level_act39side_05.json",
+        "height": 8,
+        "levelId": "activities/act39side/level_act39side_05",
+        "name": "熄灭过去的灯",
+        "stageId": "act39side_05",
+        "width": 11
+    },
+    "act39side_06-activities/act39side/level_act39side_06": {
+        "code": "EP-6",
+        "filename": "act39side_06-activities-act39side-level_act39side_06.json",
+        "height": 7,
+        "levelId": "activities/act39side/level_act39side_06",
+        "name": "若退路在燃烧",
+        "stageId": "act39side_06",
+        "width": 12
+    },
+    "act39side_07-activities/act39side/level_act39side_07": {
+        "code": "EP-7",
+        "filename": "act39side_07-activities-act39side-level_act39side_07.json",
+        "height": 8,
+        "levelId": "activities/act39side/level_act39side_07",
+        "name": "我的罗盘",
+        "stageId": "act39side_07",
+        "width": 12
+    },
+    "act39side_08-activities/act39side/level_act39side_08": {
+        "code": "EP-8",
+        "filename": "act39side_08-activities-act39side-level_act39side_08.json",
+        "height": 8,
+        "levelId": "activities/act39side/level_act39side_08",
+        "name": "见证，征服，定义",
+        "stageId": "act39side_08",
+        "width": 12
+    },
+    "act39side_tr01-activities/act39side/level_act39side_tr01": {
+        "code": "EP-TR-1",
+        "filename": "act39side_tr01-activities-act39side-level_act39side_tr01.json",
+        "height": 7,
+        "levelId": "activities/act39side/level_act39side_tr01",
+        "name": "海盗基本素养",
+        "stageId": "act39side_tr01",
+        "width": 9
+    },
     "act3bossrush_01-activities/act3bossrush/level_bossrush3_01": {
         "code": "TN-1",
         "filename": "act3bossrush_01-activities-act3bossrush-level_bossrush3_01.json",
@@ -14947,6 +15028,60 @@
         "name": "莫寻迹",
         "stageId": "lt_16_06",
         "width": 12
+    },
+    "lt_17_01-obt/legion/lt17/level_lt17_01": {
+        "code": "LT-1",
+        "filename": "lt_17_01-obt-legion-lt17-level_lt17_01.json",
+        "height": 7,
+        "levelId": "obt/legion/lt17/level_lt17_01",
+        "name": "荒野的第一乐章",
+        "stageId": "lt_17_01",
+        "width": 9
+    },
+    "lt_17_02-obt/legion/lt17/level_lt17_02": {
+        "code": "LT-2",
+        "filename": "lt_17_02-obt-legion-lt17-level_lt17_02.json",
+        "height": 7,
+        "levelId": "obt/legion/lt17/level_lt17_02",
+        "name": "石像的改编曲",
+        "stageId": "lt_17_02",
+        "width": 9
+    },
+    "lt_17_03-obt/legion/lt17/level_lt17_03": {
+        "code": "LT-3",
+        "filename": "lt_17_03-obt-legion-lt17-level_lt17_03.json",
+        "height": 7,
+        "levelId": "obt/legion/lt17/level_lt17_03",
+        "name": "野兽狂欢曲",
+        "stageId": "lt_17_03",
+        "width": 9
+    },
+    "lt_17_04-obt/legion/lt17/level_lt17_04": {
+        "code": "LT-4",
+        "filename": "lt_17_04-obt-legion-lt17-level_lt17_04.json",
+        "height": 7,
+        "levelId": "obt/legion/lt17/level_lt17_04",
+        "name": "温顺者的摇篮曲",
+        "stageId": "lt_17_04",
+        "width": 11
+    },
+    "lt_17_05-obt/legion/lt17/level_lt17_05": {
+        "code": "LT-5",
+        "filename": "lt_17_05-obt-legion-lt17-level_lt17_05.json",
+        "height": 7,
+        "levelId": "obt/legion/lt17/level_lt17_05",
+        "name": "驮兽与石像的二重奏",
+        "stageId": "lt_17_05",
+        "width": 10
+    },
+    "lt_17_06-obt/legion/lt17/level_lt17_06": {
+        "code": "LT-6",
+        "filename": "lt_17_06-obt-legion-lt17-level_lt17_06.json",
+        "height": 7,
+        "levelId": "obt/legion/lt17/level_lt17_06",
+        "name": "“音乐之心”",
+        "stageId": "lt_17_06",
+        "width": 11
     },
     "lt_tr_01-obt/legion/lttr/level_lt_tr01": {
         "code": "TR-1",
@@ -19213,6 +19348,15 @@
         "name": "巨剑的锋芒",
         "stageId": "mem_lessng_1",
         "width": 10
+    },
+    "mem_leto_1-obt/memory/level_memory_leto_1": {
+        "code": "mem_leto_1",
+        "filename": "mem_leto_1-obt-memory-level_memory_leto_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_leto_1",
+        "name": "战鼓擂擂",
+        "stageId": "mem_leto_1",
+        "width": 11
     },
     "mem_ling_1-obt/memory/level_memory_ling_1": {
         "code": "mem_ling_1",

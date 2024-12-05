@@ -30,12 +30,12 @@ namespace MaaWpfGui.Services.Notification
 
         public async Task<bool> SendAsync(string title, string content)
         {
-            var smtpServer = SettingsViewModel.ExternalNotificationDataContext.SmtpServer;
-            var smtpPortValid = int.TryParse(SettingsViewModel.ExternalNotificationDataContext.SmtpPort, out var smtpPort);
-            var smtpUser = SettingsViewModel.ExternalNotificationDataContext.SmtpUser;
-            var smtpPassword = SettingsViewModel.ExternalNotificationDataContext.SmtpPassword;
-            var smtpUseSsl = SettingsViewModel.ExternalNotificationDataContext.SmtpUseSsl;
-            var smtpRequiresAuthentication = SettingsViewModel.ExternalNotificationDataContext.SmtpRequireAuthentication;
+            var smtpServer = SettingsViewModel.ExternalNotificationSettings.SmtpServer;
+            var smtpPortValid = int.TryParse(SettingsViewModel.ExternalNotificationSettings.SmtpPort, out var smtpPort);
+            var smtpUser = SettingsViewModel.ExternalNotificationSettings.SmtpUser;
+            var smtpPassword = SettingsViewModel.ExternalNotificationSettings.SmtpPassword;
+            var smtpUseSsl = SettingsViewModel.ExternalNotificationSettings.SmtpUseSsl;
+            var smtpRequiresAuthentication = SettingsViewModel.ExternalNotificationSettings.SmtpRequireAuthentication;
 
             if (string.IsNullOrEmpty(smtpServer) || smtpPortValid is false)
             {
@@ -56,11 +56,11 @@ namespace MaaWpfGui.Services.Notification
 
             Email.DefaultRenderer = new LiquidRenderer(new OptionsWrapper<LiquidRendererOptions>(new LiquidRendererOptions()));
 
-            var emailFrom = SettingsViewModel.ExternalNotificationDataContext.SmtpFrom;
-            var emailTo = SettingsViewModel.ExternalNotificationDataContext.SmtpTo;
+            var emailFrom = SettingsViewModel.ExternalNotificationSettings.SmtpFrom;
+            var emailTo = SettingsViewModel.ExternalNotificationSettings.SmtpTo;
 
-            title = Regex.Replace(title, "\r(?!\n)", "\r\n");
-            content = Regex.Replace(content, "\r(?!\n)", "\r\n");
+            title = title.Replace("\r", string.Empty).Replace("\n", string.Empty);
+            content = content.Replace("\r", string.Empty).Replace("\n", string.Empty);
 
             var email = Email
                 .From(emailFrom)

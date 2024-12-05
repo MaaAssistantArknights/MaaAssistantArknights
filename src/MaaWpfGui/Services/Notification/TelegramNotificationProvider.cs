@@ -29,8 +29,8 @@ public class TelegramNotificationProvider(IHttpService httpService) : IExternalN
 
     public async Task<bool> SendAsync(string title, string content)
     {
-        var botToken = SettingsViewModel.ExternalNotificationDataContext.TelegramBotToken;
-        var chatId = SettingsViewModel.ExternalNotificationDataContext.TelegramChatId;
+        var botToken = SettingsViewModel.ExternalNotificationSettings.TelegramBotToken;
+        var chatId = SettingsViewModel.ExternalNotificationSettings.TelegramChatId;
 
         var uri = $"https://api.telegram.org/bot{botToken}/sendMessage";
 

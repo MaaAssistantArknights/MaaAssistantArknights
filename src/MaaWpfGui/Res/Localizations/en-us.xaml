@@ -4,7 +4,7 @@
     <system:String x:Key="GeneralSettings">General</system:String>
     <system:String x:Key="AdvancedSettings">Advanced</system:String>
     <system:String x:Key="PerformanceSettings">Performance</system:String>
-    <system:String x:Key="GameSettings">Client</system:String>
+    <system:String x:Key="GameSettings">Game Settings</system:String>
     <system:String x:Key="BaseSettings">Base Setting</system:String>
     <system:String x:Key="RoguelikeSettings">I.S.</system:String>
     <system:String x:Key="RecruitingSettings">Auto Recruit</system:String>
@@ -270,6 +270,9 @@ You can cancel this popup by clicking the Settings - About Us - Issue Reporting 
     <system:String x:Key="AddConfigSuccess">Configuration &lt;{0}&gt; added successfully</system:String>
     <system:String x:Key="ConfigExists">Configuration &lt;{0}&gt; already exists</system:String>
     <system:String x:Key="LaunchOnSystemStartup">Auto start with PC</system:String>
+    <system:String x:Key="LaunchOnSystemStartupAdminPrompt">
+        Administrator mode does not support startup on boot. It is not recommended to run MAA with administrator privileges for an extended period.\nIf necessary, please go to Control Panel > Windows Tools > Task Scheduler to create a custom task. When setting the trigger, make sure to check「Run with highest privileges」
+    </system:String>
     <system:String x:Key="RunTaskAfterLaunch">Auto Run task after launched</system:String>
     <system:String x:Key="MinimizeAfterLaunch">Auto Minimize after launched</system:String>
     <system:String x:Key="ClientType">Client Type</system:String>
@@ -534,7 +537,7 @@ As of now (V9.1.28), the emulator version only supports 720P, 900P, and 1080P re
     <system:String x:Key="SetSuccessfully">Set successfully</system:String>
     <system:String x:Key="SetFailed">Setting failed</system:String>
     <system:String x:Key="CloseArknightsFailed">Shutdown Arknights failed</system:String>
-    <system:String x:Key="ExitEmulatorFailed">Shutdown emulator failed</system:String>
+    <system:String x:Key="ExitEmulatorFailed">Emulator shutdown failed</system:String>
     <system:String x:Key="AboutToShutdown">All tasks have been completed: shutting down. Do you want to cancel?</system:String>
     <system:String x:Key="ShutdownPrompt">Tip</system:String>
     <system:String x:Key="HibernatePrompt">Task(s) completed, about to hibernate</system:String>

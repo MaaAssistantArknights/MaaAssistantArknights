@@ -1,4 +1,4 @@
-// <copyright file="GUISettingsUserControl.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="FightSettingsUserControl.xaml.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -11,17 +11,22 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-namespace MaaWpfGui.Views.UserControl
+using System.Reflection;
+using System.Windows;
+using System.Windows.Input;
+using MaaWpfGui.Helper;
+
+namespace MaaWpfGui.Views.UserControl.TaskQueue
 {
     /// <summary>
-    /// GUISettingsUserControl.xaml 的交互逻辑
+    /// ParamSettingUserControl.xaml 的交互逻辑
     /// </summary>
-    public partial class GUISettingsUserControl : System.Windows.Controls.UserControl
+    public partial class FightSettingsUserControl : System.Windows.Controls.UserControl
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GUISettingsUserControl"/> class.
+        /// Initializes a new instance of the <see cref="FightSettingsUserControl"/> class.
         /// </summary>
-        public GUISettingsUserControl()
+        public FightSettingsUserControl()
         {
             InitializeComponent();
         }

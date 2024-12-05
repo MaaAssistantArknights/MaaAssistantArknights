@@ -2,10 +2,10 @@
     "profiles": {
         "MaaWpfGui": {
             "commandName": "Project",
-            "nativeDebugging": true,
             "environmentVariables": {
                 "MAA_ENVIRONMENT": "Debug"
-            }
+            },
+            "nativeDebugging": true
         }
     }
 }

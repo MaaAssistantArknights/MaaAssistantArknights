@@ -32,6 +32,12 @@
         "text": ["Rerun", "Retrospection"],
         "roi": [0, 500, 500, 150]
     },
+    "BP-OpenOcr": {
+        "text": ["Path", "Life", "event", "open", "Fortify", "Defense"]
+    },
+    "BPChapterToBP": {
+        "text": ["Deploy", "DEPLOY", "Beacons", "BEACONS"]
+    },
     "BB-OpenOcr": {
         "text": ["Babel", "open", "event", "Past", "Ward", "Constant", "stages"]
     },
@@ -866,7 +872,34 @@
             ["Foldable Auxiliary Apparatus", "折叠式辅助器械"],
             ["Foldable Facility Maintainer", "折叠设施维护员"],
             ["Foldable Maintenance Vehicle", "折叠式维护车"],
-            ["Foldable Logistics Hub", "折叠式后勤站"]
+            ["Foldable Logistics Hub", "折叠式后勤站"],
+            ["Pinnacle Insight Port", "尖端研究成果共享终端"],
+            ["Mass Resource[ Storage]*", "海量资源存储"],
+            ["Confidential Comms[ Storage]*", "机密联络存储"],
+            ["Sound Recording Amplifier", "声波记录扩音器"],
+            ["Sound Absorb[ Boost]*", "声能吸收增幅"],
+            ["Sound Release[ Boost]*", "声能释放增幅"],
+            ["Arts Resonant Energy Field", "法术调和能量场"],
+            ["Resonance[ Casing]*", "共振外装"],
+            ["Hardened[ Casing]*", "险固外装"],
+            ["'Little Handy'", "小帮手"],
+            ["Ulpianus", "乌尔比安"],
+            ["Lucilla", "海霓"],
+            ["Underflow", "深巡"],
+            ["Long-Expansion Modification", "长距增运改装"],
+            ["Reinforcement Expansion Modification", "加固扩存改装"],
+            ["Undeviating Course", "从不混淆的方向"],
+            ["Waterway Beacon", "航道信标"],
+            ["Indisputable Evidence", "无可置疑的罪证"],
+            ["Excrescent Carapace", "赘生甲壳"],
+            ["Cloudstepper", "攀云机"],
+            ["Combat Special Barricade", "作战专用掩体"],
+            ["Security Talent Agreement", "保全人才合作协议"],
+            ["Expedited Licensing Terms", "加急许可条款"],
+            ["Interim Appointment Terms", "临时任命条款"],
+            ["Royal Academy of Sciences Telescope", "皇家科学院望远镜"],
+            ["Professional Display Module", "专业显示模块"],
+            ["Agile Installation Module", "灵活架设模块"]
         ]
     },
     "StartToWakeUpOCR": {
@@ -927,6 +960,7 @@
         "text": ["Recruit Now"]
     },
     "RecruitFlag": {
+        "fullMatch": true,
         "text": ["Recruit"]
     },
     "RecruitNow": {
@@ -1355,7 +1389,10 @@
             ["Field Support Drone", "战地援护无人机"],
             ["Chargeable Supervisory Speaker", "可充能督战音响"],
             ["Smart Airspace Controller", "智能空域控制机"],
-            ["Quick-*freezing Sprayer Platform", "速冷喷雾发射台"]
+            ["Quick-*freezing Sprayer Platform", "速冷喷雾发射台"],
+            ["Pinnacle Insight Port", "尖端研究成果共享终端"],
+            ["Sound Recording Amplifier", "声波记录扩音器"],
+            ["Arts Resonant Energy Field", "法术调和能量场"]
         ]
     },
     "SSSBuffChooseConfirm": {
@@ -2195,6 +2232,10 @@
     "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
         "text": ["Pathfinder Fins"]
     },
+    "Phantom@Roguelike@GetDropSelectRecruit": {
+        "templThreshold": 0.8,
+        "template": "Phantom@Roguelike@GetDropSelectRecruit.png"
+    },
     "Phantom@Roguelike@NextLevel": {
         "text": [
             "Mist-stricken Missteps",
@@ -2549,14 +2590,7 @@
         "text": ["Confirm"]
     },
     "Reclamation2ExReadArchiveEnter": {
-        "doc": "Needs to be edited if confirmation window is removed later",
-        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
-        "text": ["Load Save"],
-        "sub": [
-            "Reclamation2ExReadArchiveConfirm*2",
-            "Reclamation2ExReadArchiveSelectDay",
-            "Reclamation2ExReadArchiveSelectDayConfirm"
-        ]
+        "text": ["Load Save"]
     },
     "Reclamation2ExReadArchiveSelectDay": {
         "text": ["Days"]
@@ -2713,26 +2747,6 @@
     },
     "Tales@RA@FinishCalc": {
         "text": ["Tap anywhere to continue"]
-    },
-    "Tales@RA@PIS-ProsperityBelowLimit-LoadSave": {
-        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
-        "doc": "Needs to be edited if confirmation window is removed later",
-        "sub": [
-            "Tales@RA@DialogConfirmYellow",
-            "Tales@RA@DialogConfirmRed",
-            "Tales@RA@SelectSecondLastSave",
-            "Tales@RA@ConfirmToLoadSave"
-        ]
-    },
-    "Tales@RA@PIS-ProsperityReachLimit-LoadSave": {
-        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
-        "doc": "Needs to be edited if confirmation window is removed later",
-        "sub": [
-            "Tales@RA@DialogConfirmYellow",
-            "Tales@RA@DialogConfirmRed",
-            "Tales@RA@SelectSecondLastSave",
-            "Tales@RA@ConfirmToLoadSave"
-        ]
     },
     "Tales@RA@PIS-Resume": {
         "text": ["Resume"]

@@ -37,10 +37,10 @@ namespace MaaWpfGui.Services.Notification
 
         public async Task<bool> SendAsync(string title, string content)
         {
-            var server = SettingsViewModel.ExternalNotificationDataContext.QmsgServer;
-            var key = SettingsViewModel.ExternalNotificationDataContext.QmsgKey;
-            var receiveUser = SettingsViewModel.ExternalNotificationDataContext.QmsgUser;
-            var sendBot = SettingsViewModel.ExternalNotificationDataContext.QmsgBot;
+            var server = SettingsViewModel.ExternalNotificationSettings.QmsgServer;
+            var key = SettingsViewModel.ExternalNotificationSettings.QmsgKey;
+            var receiveUser = SettingsViewModel.ExternalNotificationSettings.QmsgUser;
+            var sendBot = SettingsViewModel.ExternalNotificationSettings.QmsgBot;
 
             var uri = $"{server}/jsend/{key}";
 

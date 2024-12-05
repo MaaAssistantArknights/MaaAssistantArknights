@@ -40,6 +40,7 @@ jobs:
         with:
           name: official
           path: ./Official
+          compression-level: 0
 
   clone-resources-overseas:
     if: github.repository_owner == 'MaaAssistantArknights'
@@ -81,6 +82,7 @@ jobs:
         with:
           name: overseas
           path: ./Overseas
+          compression-level: 0
 
   clone-resources-txwy:
     if: github.repository_owner == 'MaaAssistantArknights'
@@ -120,8 +122,12 @@ jobs:
         with:
           name: txwy
           path: ./excel
+          compression-level: 0
 
   update-game-resources:
+    # In case of rate limitations on the runners/instances, add dependency, by removing the comment
+
+    # needs: [clone-resources-official, clone-resources-overseas, clone-resources-txwy]
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: windows-latest
     steps:

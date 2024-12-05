@@ -38,6 +38,12 @@
     "SideStoryReopen": {
         "text": ["재개방"]
     },
+    "BP-OpenOcr": {
+        "text": ["삶의", "길", "이벤트", "개방"]
+    },
+    "BPChapterToBP": {
+        "text": ["비콘", "설치"]
+    },
     "BB-OpenOcr": {
         "text": ["바벨", "개방", "이벤트"]
     },
@@ -796,11 +802,11 @@
             ["끈적이는사은품", "“黏黏的赠品”"],
             ["주술발리스타", "巫术弩炮"],
             ["그림자균열", "幽影门扉"],
-            ["아츠공명에너지장", "法术调和能量场"],
             ["랜덤아이템박스", "随机道具盒"],
             ["가속모듈", "加速块"],
-            ["최첨단성과공유단말기", "尖端研究成果共享终端"],
-            ["울부짖는스피커", "啸叫音响"],
+            ["아츠공명에너지.*", "法术调和能量场"],
+            ["최첨단성과공유.*", "尖端研究成果共享终端"],
+            ["울부.*는스피.*", "啸叫音响"],
             ["14장시스템컨트롤러", "十四章机制控制器"],
             [".*파이어샤.*", "팽더파이어샤픈드"],
             ["팽더파이어샤픈드", "历阵锐枪芬"],
@@ -814,14 +820,27 @@
             ["찰스린치", "查尔斯·林奇"],
             ["코어증폭기", "核心增幅器"],
             ["고양된영광", "振奋荣光"],
-            ["진지 방호벽", "阵地屏障"],
+            ["진지방호벽", "阵地屏障"],
             ["축구공", "足球"],
-            ["협동 경기 통제", "促融共竞控制"],
-            ["접이식 요새 모듈", "折叠式堡垒模块"],
-            ["접이식 보조 장치", "折叠式辅助器械"],
-            ["시설 정비공", "折叠设施维护员"],
-            ["접이식 수리차", "折叠式维护车"],
-            ["접이식 보급소", "折叠式后勤站"]
+            ["협동경기통제", "促融共竞控制"],
+            ["접이식요새모듈", "折叠式堡垒模块"],
+            ["접이식보조장치", "折叠式辅助器械"],
+            ["시설정비공", "折叠设施维护员"],
+            ["접이식수리차", "折叠式维护车"],
+            ["접이식보급소", "折叠式后勤站"],
+            ["대용량자원스토리지", "海量资源存储"],
+            ["비밀연락스토리지", "机密联络存储"],
+            ["음향흡수증폭", "声能吸收增幅"],
+            ["음향방출증폭", "声能释放增幅"],
+            ["공진익스테리어", "共振外装"],
+            ["견고한익스테리어", "险固外装"],
+            ["조력자", "小帮手"],
+            ["울피아누스", "乌尔比安"],
+            ["루실라", "海霓"],
+            ["언더플로우", "深巡"],
+            ["헷갈리지않는방향", "从不混淆的方向"],
+            ["항로비콘", "航道信标"],
+            ["증식갑각", "赘生甲壳"]
         ]
     },
     "StartUpThemes": {
@@ -1260,7 +1279,10 @@
             ["전장지원드론", "战地援护无人机"],
             ["충전식독전용스.*", "可充能督战音响"],
             ["스마트영공제어.*", "智能空域控制机"],
-            ["급랭스프레이발.*", "速冷喷雾发射台"]
+            ["급랭스프레이발.*", "速冷喷雾发射台"],
+            ["아츠공명에너지.*", "法术调和能量场"],
+            ["최첨단성과공유.*", "尖端研究成果共享终端"],
+            ["음파기록증폭기", "声波记录扩音器"]
         ]
     },
     "SSSBuffChooseConfirm": {
@@ -2424,14 +2446,7 @@
         "text": ["확인"]
     },
     "Reclamation2ExReadArchiveEnter": {
-        "doc": "Needs to be edited if confirmation window is removed later",
-        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
-        "text": ["불러", "오기"],
-        "sub": [
-            "Reclamation2ExReadArchiveConfirm*2",
-            "Reclamation2ExReadArchiveSelectDay",
-            "Reclamation2ExReadArchiveSelectDayConfirm"
-        ]
+        "text": ["불러", "오기"]
     },
     "Reclamation2ExReadArchiveSelectDay": {
         "text": ["생존일"]
@@ -2511,26 +2526,6 @@
     },
     "Tales@RA@FinishCalc": {
         "text": ["탭하여", "계", "속"]
-    },
-    "Tales@RA@PIS-ProsperityBelowLimit-LoadSave": {
-        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
-        "doc": "Needs to be edited if confirmation window is removed later",
-        "sub": [
-            "Tales@RA@DialogConfirmYellow",
-            "Tales@RA@DialogConfirmRed",
-            "Tales@RA@SelectSecondLastSave",
-            "Tales@RA@ConfirmToLoadSave"
-        ]
-    },
-    "Tales@RA@PIS-ProsperityReachLimit-LoadSave": {
-        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
-        "doc": "Needs to be edited if confirmation window is removed later",
-        "sub": [
-            "Tales@RA@DialogConfirmYellow",
-            "Tales@RA@DialogConfirmRed",
-            "Tales@RA@SelectSecondLastSave",
-            "Tales@RA@ConfirmToLoadSave"
-        ]
     },
     "Tales@RA@PIS-Resume": {
         "text": ["계", "속", "하", "기"]

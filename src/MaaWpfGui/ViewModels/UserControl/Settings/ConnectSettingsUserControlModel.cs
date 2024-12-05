@@ -51,19 +51,6 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     private static RunningState _runningState => RunningState.Instance;
 
     /// <summary>
-    /// Gets or sets a value indicating whether it is idle.
-    /// </summary>
-    public bool Idle
-    {
-        get => Instances.SettingsViewModel.Idle;
-        set
-        {
-            Instances.SettingsViewModel.Idle = value;
-            NotifyOfPropertyChange(nameof(Idle));
-        }
-    }
-
-    /// <summary>
     /// Gets the list of the configuration of connection.
     /// </summary>
     public List<CombinedData> ConnectConfigList { get; } =
@@ -621,19 +608,6 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _deploymentWithPause = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDeploymentWithPause, bool.FalseString));
-
-    public bool DeploymentWithPause
-    {
-        get => _deploymentWithPause;
-        set
-        {
-            SetAndNotify(ref _deploymentWithPause, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDeploymentWithPause, value.ToString());
-            UpdateInstanceSettings();
-        }
-    }
-
     private bool _adbLiteEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AdbLiteEnabled, bool.FalseString));
 
     public bool AdbLiteEnabled
@@ -925,7 +899,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public void UpdateInstanceSettings()
     {
         Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.TouchMode, TouchMode);
-        Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, DeploymentWithPause ? "1" : "0");
+        Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, SettingsViewModel.GameSettings.DeploymentWithPause ? "1" : "0");
         Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, AdbLiteEnabled ? "1" : "0");
         Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.KillAdbOnExit, KillAdbOnExit ? "1" : "0");
     }
@@ -1030,190 +1004,4 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     }
 
     public bool AdbReplaced { get; set; } = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AdbReplaced, bool.FalseString));
-
-    private bool _autoRestartOnDrop = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoRestartOnDrop, "True"));
-
-    public bool AutoRestartOnDrop
-    {
-        get => _autoRestartOnDrop;
-        set
-        {
-            SetAndNotify(ref _autoRestartOnDrop, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.AutoRestartOnDrop, value.ToString());
-        }
-    }
-
-    private string _startsWithScript = ConfigurationHelper.GetValue(ConfigurationKeys.StartsWithScript, string.Empty);
-
-    public string StartsWithScript
-    {
-        get => _startsWithScript;
-        set
-        {
-            SetAndNotify(ref _startsWithScript, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.StartsWithScript, value);
-        }
-    }
-
-    private string _endsWithScript = ConfigurationHelper.GetValue(ConfigurationKeys.EndsWithScript, string.Empty);
-
-    public string EndsWithScript
-    {
-        get => _endsWithScript;
-        set
-        {
-            SetAndNotify(ref _endsWithScript, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.EndsWithScript, value);
-        }
-    }
-
-    private bool _copilotWithScript = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotWithScript, bool.FalseString));
-
-    public bool CopilotWithScript
-    {
-        get => _copilotWithScript;
-        set
-        {
-            SetAndNotify(ref _copilotWithScript, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CopilotWithScript, value.ToString());
-        }
-    }
-
-    private bool _manualStopWithScript = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ManualStopWithScript, bool.FalseString));
-
-    public bool ManualStopWithScript
-    {
-        get => _manualStopWithScript;
-        set
-        {
-            SetAndNotify(ref _manualStopWithScript, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ManualStopWithScript, value.ToString());
-        }
-    }
-
-    private bool _blockSleep = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleep, bool.FalseString));
-
-    public bool BlockSleep
-    {
-        get => _blockSleep;
-        set
-        {
-            SetAndNotify(ref _blockSleep, value);
-            SleepManagement.SetBlockSleep(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.BlockSleep, value.ToString());
-        }
-    }
-
-    private bool _blockSleepWithScreenOn = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleepWithScreenOn, bool.TrueString));
-
-    public bool BlockSleepWithScreenOn
-    {
-        get => _blockSleepWithScreenOn;
-        set
-        {
-            SetAndNotify(ref _blockSleepWithScreenOn, value);
-            SleepManagement.SetBlockSleepWithScreenOn(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.BlockSleepWithScreenOn, value.ToString());
-        }
-    }
-
-    public void RunScript(string str, bool showLog = true)
-    {
-        bool enable = str switch
-        {
-            "StartsWithScript" => !string.IsNullOrWhiteSpace(StartsWithScript),
-            "EndsWithScript" => !string.IsNullOrWhiteSpace(EndsWithScript),
-            _ => false,
-        };
-
-        if (!enable)
-        {
-            return;
-        }
-
-        Func<bool> func = str switch
-        {
-            "StartsWithScript" => () => ExecuteScript(StartsWithScript),
-            "EndsWithScript" => () => ExecuteScript(EndsWithScript),
-            _ => () => false,
-        };
-
-        if (!showLog)
-        {
-            if (!func())
-            {
-                _logger.Warning("Failed to execute the script.");
-            }
-
-            return;
-        }
-
-        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(str));
-        if (func())
-        {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(str));
-        }
-        else
-        {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(str), UiLogColor.Warning);
-        }
-    }
-
-    private static bool ExecuteScript(string scriptPath)
-    {
-        try
-        {
-            if (string.IsNullOrWhiteSpace(scriptPath))
-            {
-                return false;
-            }
-
-            string fileName;
-            string arguments;
-
-            if (scriptPath.StartsWith('\"'))
-            {
-                var parts = scriptPath.Split("\"", 3);
-                fileName = parts[1];
-                arguments = parts.Length > 2 ? parts[2] : string.Empty;
-            }
-            else
-            {
-                fileName = scriptPath;
-                arguments = string.Empty;
-            }
-
-            bool createNoWindow = arguments.Contains("-noWindow");
-            bool minimized = arguments.Contains("-minimized");
-
-            if (createNoWindow)
-            {
-                arguments = arguments.Replace("-noWindow", string.Empty).Trim();
-            }
-
-            if (minimized)
-            {
-                arguments = arguments.Replace("-minimized", string.Empty).Trim();
-            }
-
-            var process = new Process
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = fileName,
-                    Arguments = arguments,
-                    WindowStyle = minimized ? ProcessWindowStyle.Minimized : ProcessWindowStyle.Normal,
-                    CreateNoWindow = createNoWindow,
-                    UseShellExecute = !createNoWindow,
-                },
-            };
-            process.Start();
-            process.WaitForExit();
-            return true;
-        }
-        catch (Exception)
-        {
-            return false;
-        }
-    }
 }
