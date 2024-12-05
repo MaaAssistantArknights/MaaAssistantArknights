@@ -905,11 +905,11 @@
     },
     "EXTERMINATION_AGENT": {
         "classifyType": "NORMAL",
-        "description": "以海量实战记录为基础，通过数据精算、逻辑演练与场景模拟，PRTS能在代理指挥剿灭作战时完美复现您的战术。您甚至不需要再去关注过程。",
+        "description": "以海量实战记录为基础，通过数据精算、逻辑演练与场景模拟，PRTS能在代理指挥剿灭作战和保全派驻时完美复现您的战术。您甚至不需要再去关注过程。",
         "icon": "EXTERMINATION_AGENT.png",
-        "name": "PRTS剿灭代理卡",
+        "name": "常态事务代理卡",
         "sortId": 30200,
-        "usage": "承载PRTS功能权限的卡片，激活后可在剿灭作战中为您提供代理指挥。"
+        "usage": "承载PRTS功能权限的卡片，激活后可在剿灭作战和保全派驻中为您提供代理指挥。"
     },
     "LINKAGE_TKT_GACHA_10_1701": {
         "classifyType": "NORMAL",
@@ -1790,6 +1790,14 @@
         "name": "匿名邀请函",
         "sortId": -10000,
         "usage": "匿名人士在狂欢节上散发的邀请函，凭此可以到城内各处的狂欢夜集市兑换丰厚礼品。放心，人们看到信函，一定会给予热情招待。"
+    },
+    "act39side_token_garum": {
+        "classifyType": "NONE",
+        "description": "以搅碎的盐鳞内脏为原料，以盐漠地下河中的微生物为酵母，经过发酵得来的饮品。腥得沁人心脾，臭得荡气回肠，以及，“有没有人去跟厨子说一声，盐鳞已经很咸了，别*伊比利亚粗口*再加盐了！”",
+        "icon": "act39side_token_garum.png",
+        "name": "盐鳞咸鳞汁",
+        "sortId": -10000,
+        "usage": "既是盐漠海盗的日常饮品，也是他们认可的硬通货。除非船队搞到朗姆酒这种无价之宝，否则它的地位永远不会被取代。"
     },
     "act3bossrush_milestone_point": {
         "classifyType": "NONE",
