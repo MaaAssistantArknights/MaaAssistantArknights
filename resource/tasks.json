@@ -9810,9 +9810,14 @@
     },
     "Sarkaz@Roguelike@CloseCollectionContinue": {
         "action": "ClickSelf",
-        "templThreshold": 0.79,
         "roi": [549, 440, 123, 130],
-        "maskRange": [100, 255],
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [100, 100, 100],
+                [140, 140, 140]
+            ]
+        ],
         "next": [
             "Sarkaz@Roguelike@StageEncounterEnter",
             "Sarkaz@Roguelike@Stages#next",
