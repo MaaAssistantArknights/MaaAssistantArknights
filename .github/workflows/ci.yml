@@ -362,9 +362,9 @@ jobs:
           p12-password: ${{ secrets.HGUANDL_SIGN_CERT_PASSWD }}
 
       - name: Setup Xcode Toolchain
-        if: false
+        if: true
         run: |
-          sudo xcode-select -s /Applications/Xcode_15.0.1.app/Contents/Developer
+          sudo xcode-select -s /Applications/Xcode_15.3.app/Contents/Developer
 
       - name: Build Universal Binaries
         run: |
