@@ -61,8 +61,6 @@ $jobs += Start-Job -ScriptBlock {
     git checkout
 }
 
-
-
 # Job for cloning and checking out the Taiwan repository
 $jobs += Start-Job -ScriptBlock {
     Write-Host "`narknights-toolbox-update - Taiwan"
