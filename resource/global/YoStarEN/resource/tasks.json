@@ -2590,14 +2590,7 @@
         "text": ["Confirm"]
     },
     "Reclamation2ExReadArchiveEnter": {
-        "doc": "Needs to be edited if confirmation window is removed later",
-        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
-        "text": ["Load Save"],
-        "sub": [
-            "Reclamation2ExReadArchiveConfirm*2",
-            "Reclamation2ExReadArchiveSelectDay",
-            "Reclamation2ExReadArchiveSelectDayConfirm"
-        ]
+        "text": ["Load Save"]
     },
     "Reclamation2ExReadArchiveSelectDay": {
         "text": ["Days"]
@@ -2754,26 +2747,6 @@
     },
     "Tales@RA@FinishCalc": {
         "text": ["Tap anywhere to continue"]
-    },
-    "Tales@RA@PIS-ProsperityBelowLimit-LoadSave": {
-        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
-        "doc": "Needs to be edited if confirmation window is removed later",
-        "sub": [
-            "Tales@RA@DialogConfirmYellow",
-            "Tales@RA@DialogConfirmRed",
-            "Tales@RA@SelectSecondLastSave",
-            "Tales@RA@ConfirmToLoadSave"
-        ]
-    },
-    "Tales@RA@PIS-ProsperityReachLimit-LoadSave": {
-        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
-        "doc": "Needs to be edited if confirmation window is removed later",
-        "sub": [
-            "Tales@RA@DialogConfirmYellow",
-            "Tales@RA@DialogConfirmRed",
-            "Tales@RA@SelectSecondLastSave",
-            "Tales@RA@ConfirmToLoadSave"
-        ]
     },
     "Tales@RA@PIS-Resume": {
         "text": ["Resume"]
