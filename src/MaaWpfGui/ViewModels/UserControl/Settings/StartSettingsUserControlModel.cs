@@ -24,6 +24,7 @@ using System.Threading;
 using System.Windows;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
@@ -59,8 +60,8 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         {
             if (!AutoStart.SetStart(value, out var error))
             {
-                _logger.Error("Failed to set startup.");
-                MessageBoxHelper.Show(error);
+                _logger.Error($"Failed to set startup: {error}");
+                MessageBoxHelper.Show(error, LocalizationHelper.GetString("Warning"), icon: MessageBoxImage.Warning);
                 return;
             }
 

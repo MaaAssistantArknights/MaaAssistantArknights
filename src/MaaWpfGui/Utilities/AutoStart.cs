@@ -15,6 +15,9 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Security;
+using MaaWpfGui.Helper;
+using System.Windows;
+using MaaWpfGui.Main;
 using Microsoft.Win32;
 using Serilog;
 
@@ -61,6 +64,12 @@ namespace MaaWpfGui.Utilities
         /// <returns>The value.</returns>
         public static bool CheckStart()
         {
+            if (Bootstrapper.IsUserAdministrator())
+            {
+                SetStart(false, out _);
+                return false;
+            }
+
             try
             {
                 using var key = Registry.CurrentUser.OpenSubKey(CurrentUserRunKey, false);
@@ -82,6 +91,12 @@ namespace MaaWpfGui.Utilities
         public static bool SetStart(bool set, out string error)
         {
             error = string.Empty;
+
+            if (set && Bootstrapper.IsUserAdministrator())
+            {
+                error = LocalizationHelper.GetString("LaunchOnSystemStartupAdminPrompt");
+                return false;
+            }
 
             try
             {
