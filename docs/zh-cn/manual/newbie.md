@@ -13,13 +13,7 @@ icon: ri:guide-fill
 
     MAA 在 Windows 下仅支持 10 和 11，旧版 Windows 请参阅[常见问题](./faq.md#系统问题)中的系统问题部分。
 
-    若您正在使用 Apple Silicon MacBook，请前往[此页面](./device/macos.md#apple-silicon-芯片)。
-    MAA 同样支持搭载 [Intel 芯片](./device/macos.md#intel-芯片)的 MacBook，但更推荐使用 Mac 自带的多系统安装 Windows，并使用 Windows 版 MAA。
-
-    若您正在使用 Linux，请前往[此页面](./device/linux.md)。
-
-    若您希望使用 Android 实体设备，请前往[此页面](./device/android.md)。
-    由于此方法涉及 adb 调试且仍需与电脑连接，不推荐入门玩家使用此方法。
+    非 Windows 用户请参阅 [模拟器及设备支持](./device/)。
 
 2. 安装运行库
 

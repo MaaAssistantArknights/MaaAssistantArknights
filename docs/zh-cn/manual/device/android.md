@@ -5,6 +5,10 @@ icon: mingcute:android-fill
 
 # Android 实体设备
 
+::: warning
+此方法涉及 adb 调试且仍需与电脑连接，不推荐0基础玩家尝试。
+:::
+
 ::: info 注意
 
 0. 需同时参阅 [连接设置](../connection.md)。

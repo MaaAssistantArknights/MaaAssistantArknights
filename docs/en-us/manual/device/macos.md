@@ -35,6 +35,11 @@ Compatible
 
 ## Intel Chips
 
+::: tip
+It is more recommended to use Mac's built-in boot-camp feature to install Windows and use the Windows version of MAA,
+due to the macOS version of MAA is maintained more slowly.
+:::
+
 ### ✅ [Bluestacks-CN 5](https://www.bluestacks.cn/)
 
 Fully compatible. Need to turn on `Settings` - `Engine Settings` - `Allow ADB connection`.
