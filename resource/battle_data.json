@@ -346,6 +346,17 @@
             "rangeId": ["3-6", "3-1", "3-1"],
             "rarity": 6
         },
+        "char_1039_thorn2": {
+            "name": "引星棘刺",
+            "name_en": "引星棘刺",
+            "name_jp": "引星棘刺",
+            "name_kr": "引星棘刺",
+            "name_tw": "引星棘刺",
+            "position": "RANGED",
+            "profession": "SPECIAL",
+            "rangeId": ["2-1", "2-1", "3-5"],
+            "rarity": 6
+        },
         "char_103_angel": {
             "name": "能天使",
             "name_en": "Exusiai",
@@ -3340,6 +3351,28 @@
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 5
         },
+        "char_4163_rosesa": {
+            "name": "瑰盐",
+            "name_en": "瑰盐",
+            "name_jp": "瑰盐",
+            "name_kr": "瑰盐",
+            "name_tw": "瑰盐",
+            "position": "RANGED",
+            "profession": "MEDIC",
+            "rangeId": ["y-1", "y-2", "y-2"],
+            "rarity": 5
+        },
+        "char_4164_tecno": {
+            "name": "特克诺",
+            "name_en": "特克诺",
+            "name_jp": "特克诺",
+            "name_kr": "特克诺",
+            "name_tw": "特克诺",
+            "position": "RANGED",
+            "profession": "CASTER",
+            "rangeId": ["3-6", "3-1", "3-1"],
+            "rarity": 5
+        },
         "char_4165_ctrail": {
             "name": "云迹",
             "name_en": "云迹",
@@ -4713,6 +4746,17 @@
             "position": "ALL",
             "profession": "TOKEN",
             "rangeId": ["1-1", "1-1", "1-1"],
+            "rarity": 5
+        },
+        "token_10042_tecno_puppet": {
+            "name": "木偶舞者",
+            "name_en": "木偶舞者",
+            "name_jp": "木偶舞者",
+            "name_kr": "木偶舞者",
+            "name_tw": "木偶舞者",
+            "position": "MELEE",
+            "profession": "TOKEN",
+            "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 5
         },
         "trap_001_crate": {
@@ -7344,6 +7388,17 @@
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1
         },
+        "trap_196_cnnon": {
+            "name": "盐坨子炮",
+            "name_en": "盐坨子炮",
+            "name_jp": "盐坨子炮",
+            "name_kr": "盐坨子炮",
+            "name_tw": "盐坨子炮",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
         "trap_400_xbfarm": {
             "name": "便携式种植槽",
             "name_en": "Portable Planting Trough",
@@ -9388,6 +9443,28 @@
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": ["1-1", "1-1", "1-1"],
+            "rarity": 1
+        },
+        "trap_777_giacan": {
+            "name": "“留声机”底座",
+            "name_en": "“留声机”底座",
+            "name_jp": "“留声机”底座",
+            "name_kr": "“留声机”底座",
+            "name_tw": "“留声机”底座",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
+        "trap_778_giatow": {
+            "name": "L-44\"留声机\"",
+            "name_en": "L-44\"留声机\"",
+            "name_jp": "L-44\"留声机\"",
+            "name_kr": "L-44\"留声机\"",
+            "name_tw": "L-44\"留声机\"",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["x-2", "x-2", "x-2"],
             "rarity": 1
         },
         "trap_779_skzth": {
