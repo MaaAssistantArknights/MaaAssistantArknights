@@ -27,6 +27,7 @@
 
 ### 修复 | Fix
 
+* 设置Xcode版本为15.3 (#11298) @hguandl
 * 萨卡兹肉鸽点刺成锭分队开局思维阻塞 (#11276) @Daydreamer114
 * missing battle_data BP event @Constrat
 * 双击托盘图标可能导致窗口位置错误 @ABA2396
@@ -54,10 +55,12 @@
 
 ### 文档 | Docs
 
+* Auto Update Changelogs of v5.11.0-beta.1 (#11297) @github-actions[bot]
 * 修改常见问题中的下载/安装问题的描述 (#11229) @ClozyA
 
 ### 其他 | Other
 
+* Release v5.11.0-beta.1 (#11291) @ABA2396
 * tools: style for clone_data powershell script [skip changelog] @Constrat
 * remove Yostar servers reclamation algorithm temp edits @Manicsteiner
 * 管理员权限启动无法使用开机自启 (#11290) @ABA2396 @momomochi987
