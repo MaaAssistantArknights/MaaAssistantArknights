@@ -39,7 +39,7 @@ icon: basil:apple-solid
 ## Intel 晶片
 
 ::: tip
-由於 Mac 版 MAA 的開發人員較少，更新速度相對較慢，更推薦使用 Mac 自帶的多系統安裝 Windows，並使用 Windows 版 MAA。
+由於 Mac 版開發人手不足，更新速度相對較慢，更推薦使用 Mac 自帶的多系統安裝 Windows，並使用 Windows 版 MAA。
 :::
 
 ### ✅ [藍疊模擬器](https://www.bluestacks.cn/)

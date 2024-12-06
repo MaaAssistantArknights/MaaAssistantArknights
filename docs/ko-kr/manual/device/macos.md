@@ -44,7 +44,7 @@ icon: basil:apple-solid
 ## Intel 칩셋
 
 ::: tip
-Mac 버전 MAA의 개발자가 적어서 업데이트 속도가 비교적 느립니다. 따라서 Mac에 내장된 멀티 시스템을 사용하여 Windows를 설치하고 Windows 버전 MAA를 사용하는 것을 권장합니다.
+Mac 버전 개발에 인력이 부족하여 업데이트 속도가 비교적 느립니다. Mac에 내장된 멀티 시스템 기능을 사용해 Windows를 설치하고 Windows 버전 MAA를 사용하는 것을 추천합니다.
 :::
 
 ### ✅ [블루스택 에뮬레이터 CN](https://www.bluestacks.cn/)

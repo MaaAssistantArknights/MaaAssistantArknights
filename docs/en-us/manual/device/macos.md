@@ -36,8 +36,7 @@ Compatible
 ## Intel Chips
 
 ::: tip
-It is more recommended to use Mac's built-in boot-camp feature to install Windows and use the Windows version of MAA,
-Due to the smaller development team for the Mac version of MAA and the update frequency is relatively slower.
+Due to a lack of manpower for Mac version development, updates are relatively slower. It is recommended to use Mac's built-in multi-system feature to install Windows and use the Windows version of MAA.
 :::
 
 ### ✅ [Bluestacks-CN 5](https://www.bluestacks.cn/)

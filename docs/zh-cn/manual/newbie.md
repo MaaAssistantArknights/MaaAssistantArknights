@@ -13,7 +13,7 @@ icon: ri:guide-fill
 
     MAA 在 Windows 下仅支持 10 和 11，旧版 Windows 请参阅[常见问题](./faq.md#系统问题)中的系统问题部分。
 
-    非 Windows 用户请参阅 [模拟器及设备支持](./device/)。
+    非 Windows 用户请参阅[模拟器及设备支持](./device/)。
 
 2. 安装运行库
 

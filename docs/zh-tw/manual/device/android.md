@@ -6,7 +6,7 @@ icon: mingcute:android-fill
 # Android 實體設備
 
 ::: warning
-此方法涉及 adb 調試且仍需與電腦連接，**不推薦** 0 基礎玩家嘗試。
+此方法涉及 ADB 命令行，穩定性較低且仍需與電腦連接，**不推薦** 0 基礎玩家嘗試。
 :::
 
 ::: info 注意
