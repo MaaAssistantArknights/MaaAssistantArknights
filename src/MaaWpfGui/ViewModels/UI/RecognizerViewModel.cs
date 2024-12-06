@@ -335,7 +335,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             public BitmapImage? Image { get; set; }
 
-            public int Count { get; set; }
+            public string? Count { get; set; }
         }
 
         /// <summary>
@@ -391,7 +391,11 @@ namespace MaaWpfGui.ViewModels.UI
                     Id = id,
                     Name = ItemListHelper.GetItemName(id),
                     Image = image,
-                    Count = (int)(item["have"] ?? -1),
+                    Count = item["have"] != null && int.TryParse(item["have"]?.ToString() ?? "-1", out int haveValue)
+                        ? (haveValue > 10000
+                            ? $"{haveValue / 10000.0:F1}w"
+                            : haveValue.ToString())
+                        : "-1",
                 };
 
                 DepotResult.Add(result);
