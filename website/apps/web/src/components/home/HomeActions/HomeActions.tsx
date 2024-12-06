@@ -27,7 +27,7 @@ export const HomeActions: FC = () => {
               <DownloadState
                 iconClassName="animate-spin"
                 icon={mdiLoading}
-                title="正在载入版本信息..."
+                title = ""
               />
             }
           >

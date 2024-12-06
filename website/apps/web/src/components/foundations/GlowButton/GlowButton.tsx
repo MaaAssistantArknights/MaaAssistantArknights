@@ -21,28 +21,33 @@ export const GlowButton: FCC<GlowButtonProps> = forwardRef<
 >(({ children, translucent, bordered, href, onClick }, ref) => {
   const motionConfig: MotionProps = {
     whileHover: {
-      scale: 1.03,
+      scale: 1.05,
+      backgroundColor: translucent ? 'rgba(39, 39, 42, 0.6)' : 'rgba(39, 39, 42, 0.8)',
     },
     whileTap: {
-      scale: 0.97,
+      scale: 0.95,
+      backgroundColor: 'rgba(39, 39, 42, 0.7)',
     },
     exit: {
       scale: 0.4,
       opacity: 0,
+      filter: 'blur(10px)',
     },
     initial: {
       scale: 0.4,
       opacity: 0,
+      filter: 'blur(10px)',
     },
     animate: {
       scale: 1,
       opacity: 1,
+      filter: 'blur(0px)',
     },
     transition: {
       type: 'spring',
-      stiffness: 400,
+      stiffness: 200,
       damping: 30,
-      mass: 1.2,
+      mass: 0.8,
     },
   }
 
@@ -53,7 +58,7 @@ export const GlowButton: FCC<GlowButtonProps> = forwardRef<
       className={clsx(
         moduleStyles.root,
         !translucent && 'bg-zinc-900/80',
-        translucent && 'bg-zinc-900/80 hover:bg-zinc-700/40',
+        translucent && 'bg-zinc-900/80',
         !bordered && 'border-none',
         'flex px-6 py-3 active:bg-zinc-800 rounded-lg hover:-translate-y-[1px] active:translate-y-[1px] text-2xl text-white/80 whitespace-nowrap',
       )}
