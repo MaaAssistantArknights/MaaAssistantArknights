@@ -1,6 +1,7 @@
 import { PerformanceMonitor } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { ErrorBoundary } from '@sentry/react'
+import { motion } from 'framer-motion'
 
 import { FC, forwardRef, useRef, useState } from 'react'
 import { useWindowSize } from 'react-use'
@@ -19,7 +20,12 @@ export const HomeHero: FC = () => {
   return (
     <>
       <AnimatedBlobs />
-      <div className="absolute h-full w-full flex items-center">
+      <motion.div
+        className="absolute h-full w-full flex items-center"
+        initial={{ opacity: 0, y: 50, filter: 'blur(10px)' }}
+        animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+        transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
+      >
         <section className="h-[100vmin] w-full relative">
           {windowDimensions.height >= 768 && (
             <ErrorBoundary
@@ -43,8 +49,10 @@ export const HomeHero: FC = () => {
             </ErrorBoundary>
           )}
         </section>
-      </div>
+      </motion.div>
+      
       <HomeHeroHeader />
+
       <HomeActions />
       <HomeLinks ref={linkRef} />
       <HomeIndicator ref={indicatorRef} />
@@ -53,14 +61,17 @@ export const HomeHero: FC = () => {
 }
 
 const HomeIndicator = forwardRef<HTMLDivElement>((_props, ref) => (
-  <div
+  <motion.div
+    initial={{ opacity: 0, y: 50, filter: 'blur(10px)' }}
+    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+    transition={{ duration: 0.8, ease: 'easeOut', delay: 0.6 }}
     className="fixed right-[2vw] top-[50vh] pointer-events-none select-none hidden md:block"
     ref={ref}
   >
     <div className="-rotate-90 text-white/20 text-[2rem] font-light">
       友情链接
     </div>
-  </div>
+  </motion.div>
 ))
 
 function ScreenshotsCanvas({
