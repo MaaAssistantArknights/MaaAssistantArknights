@@ -9,7 +9,7 @@ icon: ri:guide-fill
 
 1. Confirm system version
 
-    MAA only supports Windows 10 / 11. For earlier versions of Windows, please refer to [FAQ](./faq.md) at the top.
+    MAA only supports Windows 10 / 11. For earlier versions of Windows, please refer to [FAQ](./faq.md#SystemIssues).
 
     Non-Windows users, please refer to [Emulator and Device Supports](./device/).
 

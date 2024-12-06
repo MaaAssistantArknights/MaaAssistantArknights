@@ -11,7 +11,9 @@ icon: ri:guide-fill
 
 1. 確認系統版本
 
-    MAA 僅支援 Windows 10 / 11，舊版 Windows 請參考[常見問題](./faq.md)置頂。
+    MAA 僅支援 Windows 10 / 11，舊版 Windows 請參考[常見問題](./faq.md#系統問題)。
+
+    非 Windows 用戶請參閱 [模擬器及設備支援](./device/)。
 
 2. 安裝運行庫
 
