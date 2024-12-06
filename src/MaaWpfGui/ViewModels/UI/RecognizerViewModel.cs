@@ -349,6 +349,11 @@ namespace MaaWpfGui.ViewModels.UI
         public string LoliconResult { get; set; } = string.Empty;
 
         /// <summary>
+        /// gets or sets the depot image.
+        /// </summary>
+        private static readonly Dictionary<string, BitmapImage?> _imageCache = new();
+
+        /// <summary>
         /// parse of depot recognition result
         /// </summary>
         /// <param name="details">detailed json-style parameters</param>
@@ -361,7 +366,13 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             DepotResult.Clear();
-            foreach (var item in details["arkplanner"]?["object"]?["items"]?.Cast<JObject>()!)
+
+            var sortedItems = details["arkplanner"]?["object"]?["items"]
+                                  ?.Cast<JObject>()
+                                  .OrderBy(item => (string?)item["id"])
+                              ?? Enumerable.Empty<JObject>();
+
+            foreach (var item in sortedItems)
             {
                 var id = (string?)item["id"];
                 if (id == null)
@@ -369,13 +380,20 @@ namespace MaaWpfGui.ViewModels.UI
                     continue;
                 }
 
-                DepotResultDate result = new DepotResultDate()
+                if (!_imageCache.TryGetValue(id, out var image))
+                {
+                    image = ItemListHelper.GetItemImage(id);
+                    _imageCache[id] = image;
+                }
+
+                DepotResultDate result = new()
                 {
                     Id = id,
                     Name = ItemListHelper.GetItemName(id),
-                    Image = ItemListHelper.GetItemImage(id),
+                    Image = image,
                     Count = (int)(item["have"] ?? -1),
                 };
+
                 DepotResult.Add(result);
             }
 
