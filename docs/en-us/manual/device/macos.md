@@ -37,7 +37,7 @@ Compatible
 
 ::: tip
 It is more recommended to use Mac's built-in boot-camp feature to install Windows and use the Windows version of MAA,
-due to the macOS version of MAA is maintained more slowly.
+Due to the smaller development team for the Mac version of MAA and the update frequency is relatively slower.
 :::
 
 ### ✅ [Bluestacks-CN 5](https://www.bluestacks.cn/)
