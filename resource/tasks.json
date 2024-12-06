@@ -9784,6 +9784,13 @@
         "specificRect": [600, 600, 25, 25]
     },
     "Sarkaz@Roguelike@CloseCollection": {
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [150, 150, 150],
+                [170, 170, 170]
+            ]
+        ],
         "next": [
             "Sarkaz@Roguelike@LastReward",
             "Sarkaz@Roguelike@LastReward4",
@@ -9796,8 +9803,14 @@
     },
     "Sarkaz@Roguelike@CloseCollectionClose": {
         "action": "ClickSelf",
-        "templThreshold": 0.9,
         "roi": [572, 434, 144, 141],
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [150, 150, 150],
+                [170, 170, 170]
+            ]
+        ],
         "next": [
             "Sarkaz@Roguelike@StageEncounterEnter",
             "Sarkaz@Roguelike@Stages#next",
