@@ -253,18 +253,6 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <CheckBox
-                Margin="10"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Content="{DynamicResource BlockSleep}"
-                IsChecked="{Binding BlockSleep}" />
-            <CheckBox
-                Margin="10"
-                VerticalAlignment="Center"
-                Content="{DynamicResource BlockSleepWithScreenOn}"
-                IsChecked="{Binding BlockSleepWithScreenOn}"
-                Visibility="{c:Binding BlockSleep}" />
         </StackPanel>
     </Grid>
 </UserControl>
