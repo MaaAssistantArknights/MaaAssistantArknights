@@ -1020,7 +1020,7 @@ namespace MaaWpfGui.Main
                 case "AutoRecruitTask":
                     {
                         var whyStr = details.TryGetValue("why", out var why) ? why.ToString() : LocalizationHelper.GetString("ErrorOccurred");
-                        Instances.TaskQueueViewModel.AddLog(whyStr + "，" + LocalizationHelper.GetString("HasReturned"), UiLogColor.Error);
+                        Instances.TaskQueueViewModel.AddLog(whyStr + ", " + LocalizationHelper.GetString("HasReturned"), UiLogColor.Error);
                         break;
                     }
 
@@ -1031,10 +1031,10 @@ namespace MaaWpfGui.Main
                 case "ReportToPenguinStats":
                     {
                         var why = details["why"]!.ToString();
-                        Instances.TaskQueueViewModel.AddLog(why + "，" + LocalizationHelper.GetString("GiveUpUploadingPenguins"), UiLogColor.Error);
+                        Instances.TaskQueueViewModel.AddLog(why + ", " + LocalizationHelper.GetString("GiveUpUploadingPenguins"), UiLogColor.Error);
                         if (why == "UnknownStage")
                         {
-                            Instances.TaskQueueViewModel.AddLog(details["details"]?["stage_code"] + LocalizationHelper.GetString("UnsupportedLevel"), UiLogColor.Error);
+                            Instances.TaskQueueViewModel.AddLog(details["details"]?["stage_code"]+ ": " + LocalizationHelper.GetString("UnsupportedLevel"), UiLogColor.Error);
                         }
 
                         break;
