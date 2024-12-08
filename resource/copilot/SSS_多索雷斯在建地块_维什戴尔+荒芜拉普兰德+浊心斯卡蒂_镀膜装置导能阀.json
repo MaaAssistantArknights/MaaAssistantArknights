@@ -1,0 +1,1216 @@
+{
+  "minimum_required": "v5.6.0",
+  "stage_name": "多索雷斯在建地块",
+  "actions": [],
+  "doc": {
+    "title": "保全派驻-多索雷斯在建地块-维什戴尔+荒芜拉普兰德+浊心斯卡蒂-镀膜装置导能阀",
+    "title_color": "dark",
+    "details": "作业站代码：maa://44406\n应急一命通关视频已上传，求三连！！！\n目前只能手动编队，所有工具人请尽量选择费用低的干员，练度最好精二，最低精一满级\n所有工具人技能不要选只能开一次的技能（类似山2技能那种）和接敌才能放的技能（类似锏3技能那种），否则MAA会一直放技能，也不要选攻击范围太奇怪的（类似黑3技能那种）\n请在确认导能原件选择【镀膜装置导能阀】、战术装备术师B，其他全选A、手动编队并阵容确认后，再点击开始\n作业作者：萨拉托加\n作业视频：【MAA保全派驻-多索雷斯在建地块-维什戴尔荒芜拉普兰德浊心斯卡蒂】 https://www.bilibili.com/video/BV1JNqsYTEkJ/?share_source=copy_web&vd_source=3fd5040fe25f6a00e19e6072bcccfa4e\nJSON作者：萨拉托加\n═══════════════════════════════════\n不包括核心选择的额外干员：\n先锋3（选有不需要接敌就能回费的技能的先锋，不要选接敌回费的）\n术士6（尽量选20费左右的术士，如果选群法要带减费模组）\n重装4（优先选自回血的奶盾，例如塞雷娅黍临光，奶盾不足可以选泥岩）\n狙击3（优先选速狙）\n辅助1（低费辅助即可）\n═══════════════════════════════════\n如需完成其他导能原件任务，请在普通难度下选择对应的其他导能原件及对应干员\n深海猎人：狙击选安哲拉，然后把辅助替换成任何一个深海猎人干员\n莱茵生命：重装塞雷娅，术士选小火龙，星源，辅助选赫默，麦哲伦，梅尔之一\n═══════════════════════════════════\n有问题反馈进群545928846，评论区反馈不一定能及时回复\n部分核心可根据自己需求修改作业文件替换，但不可发上作业站，用此作业默认同意",
+    "details_color": "dark"
+  },
+  "groups": [],
+  "opers": [
+    {
+      "name": "维什戴尔",
+      "skill": 3,
+      "skill_usage": 1
+    },
+    {
+      "name": "浊心斯卡蒂",
+      "skill": 2,
+      "skill_usage": 0
+    },
+    {
+      "name": "荒芜拉普兰德",
+      "skill": 3,
+      "skill_usage": 1
+    }
+  ],
+  "type": "SSS",
+  "buff": "镀膜装置导能阀",
+  "equipment": [
+    "A",
+    "A",
+    "B",
+    "A",
+    "A",
+    "A",
+    "A",
+    "A"
+  ],
+  "strategy": "优选策略",
+  "tool_men": {
+    "vanguard": 3,
+    "guard": 0,
+    "defender": 4,
+    "sniper": 3,
+    "caster": 6,
+    "medic": 0,
+    "supporter": 1,
+    "specialist": 0
+  },
+  "drops": [
+    "辅助",
+    "无需增调干员",
+    "重装",
+    "狙击",
+    "术师",
+    "先锋",
+    "战备激活阀",
+    "重整导能组件"
+  ],
+  "blacklist": [
+    "罗比菈塔",
+    "掠风",
+    "白铁",
+    "伺夜",
+    "豆苗",
+    "夜半",
+    "缪尔赛思",
+    "森蚺",
+    "极光",
+    "迷迭香",
+    "早露",
+    "菲亚梅塔",
+    "承曦格雷伊",
+    "莫斯提马",
+    "异客",
+    "伊芙利特",
+    "寒檀",
+    "莱恩哈特",
+    "惊蛰",
+    "蚀清",
+    "天火",
+    "星源",
+    "炎狱炎熔",
+    "布丁",
+    "格雷伊",
+    "远山",
+    "炎熔",
+    "假日威龙陈",
+    "埃拉托",
+    "奥斯塔",
+    "截云",
+    "熔泉",
+    "慑砂",
+    "送葬人",
+    "陨星",
+    "白雪",
+    "铅踝",
+    "松果",
+    "泰拉大陆调查团",
+    "正义骑士号",
+    "黑",
+    "洋灰",
+    "火哨",
+    "斥罪",
+    "号角",
+    "火神",
+    "灰毫",
+    "泥岩",
+    "车尔尼",
+    "暮落",
+    "石棉",
+    "坚雷",
+    "阿米娅",
+    "风笛",
+    "黑键",
+    "伊内丝",
+    "晓歌",
+    "格拉尼",
+    "苇草",
+    "野鬃",
+    "历阵锐枪芬",
+    "谜图",
+    "红豆",
+    "翎羽",
+    "W",
+    "U-Official",
+    "12F",
+    "Lancet-2"
+  ],
+  "stages": [
+    {
+      "stage_name": "蜂拥而上",
+      "strategies": [
+        {
+          "tool_men": {
+            "vanguard": 1
+          },
+          "location": [
+            6,
+            2
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            5,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            5,
+            1
+          ],
+          "direction": "Down"
+        },
+        {
+          "tool_men": {
+            "vanguard": 1
+          },
+          "location": [
+            6,
+            2
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "supporter": 1
+          },
+          "location": [
+            3,
+            3
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            5,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "core": "维什戴尔",
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            5,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "core": "荒芜拉普兰德",
+          "tool_men": {
+            "sniper": 2
+          },
+          "location": [
+            5,
+            1
+          ],
+          "direction": "Down"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            6,
+            2
+          ],
+          "direction": "Down"
+        },
+        {
+          "tool_men": {
+            "defender": 99
+          },
+          "location": [
+            6,
+            2
+          ],
+          "direction": "Down"
+        },
+        {
+          "tool_men": {
+            "supporter": 99
+          },
+          "location": [
+            3,
+            3
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "镀膜装置导能阀",
+          "tool_men": {
+            "caster": 99,
+            "sniper": 99
+          },
+          "location": [
+            3,
+            3
+          ],
+          "direction": "Right"
+        }
+      ],
+      "draw_as_possible": true,
+      "actions": [
+        {
+          "type": "二倍速"
+        }
+      ],
+      "retry_times": 9
+    },
+    {
+      "stage_name": "见者有份",
+      "strategies": [
+        {
+          "tool_men": {
+            "vanguard": 1
+          },
+          "location": [
+            4,
+            2
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            5,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "vanguard": 1,
+            "defender": 1
+          },
+          "location": [
+            4,
+            4
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "浊心斯卡蒂",
+          "tool_men": {
+            "supporter": 0
+          },
+          "location": [
+            4,
+            3
+          ],
+          "direction": "Up"
+        },
+        {
+          "core": "荒芜拉普兰德",
+          "tool_men": {
+            "sniper": 2
+          },
+          "location": [
+            5,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            4,
+            2
+          ],
+          "direction": "Down"
+        },
+        {
+          "core": "维什戴尔",
+          "tool_men": {
+            "supporter": 1,
+            "caster": 3
+          },
+          "location": [
+            3,
+            3
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            4,
+            4
+          ],
+          "direction": "Up"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            4,
+            2
+          ],
+          "direction": "Down"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            4,
+            4
+          ],
+          "direction": "Up"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            4,
+            2
+          ],
+          "direction": "Down"
+        },
+        {
+          "core": "镀膜装置导能阀",
+          "tool_men": {
+            "defender": 99
+          },
+          "location": [
+            4,
+            4
+          ],
+          "direction": "Up"
+        }
+      ],
+      "draw_as_possible": true,
+      "actions": [
+        {
+          "type": "二倍速"
+        },
+        {
+          "type": "Deploy",
+          "name": "镀膜装置导能阀",
+          "location": [
+            4,
+            5
+          ],
+          "direction": "Up",
+          "kills": 20
+        }
+      ],
+      "retry_times": 9
+    },
+    {
+      "stage_name": "产业升级",
+      "strategies": [
+        {
+          "tool_men": {
+            "vanguard": 1
+          },
+          "location": [
+            6,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            7,
+            4
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            7,
+            2
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "vanguard": 1
+          },
+          "location": [
+            6,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "supporter": 1
+          },
+          "location": [
+            2,
+            3
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            7,
+            2
+          ],
+          "direction": "Left"
+        },
+        {
+          "core": "荒芜拉普兰德",
+          "tool_men": {
+            "sniper": 2
+          },
+          "location": [
+            7,
+            4
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            6,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "core": "维什戴尔",
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            7,
+            2
+          ],
+          "direction": "Left"
+        },
+        {
+          "core": "浊心斯卡蒂",
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            8,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            6,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "supporter": 99
+          },
+          "location": [
+            2,
+            3
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "defender": 99
+          },
+          "location": [
+            6,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "core": "镀膜装置导能阀",
+          "tool_men": {
+            "caster": 99,
+            "sniper": 99
+          },
+          "location": [
+            2,
+            3
+          ],
+          "direction": "Right"
+        }
+      ],
+      "draw_as_possible": true,
+      "actions": [
+        {
+          "type": "二倍速"
+        },
+        {
+          "type": "Deploy",
+          "name": "镀膜装置导能阀",
+          "location": [
+            5,
+            3
+          ],
+          "direction": "Right",
+          "kills": 20
+        }
+      ],
+      "retry_times": 9
+    },
+    {
+      "stage_name": "同流合污",
+      "strategies": [
+        {
+          "tool_men": {
+            "vanguard": 1
+          },
+          "location": [
+            8,
+            1
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            7,
+            2
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            6,
+            2
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "vanguard": 1
+          },
+          "location": [
+            8,
+            1
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "supporter": 1
+          },
+          "location": [
+            8,
+            2
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            5,
+            2
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            7,
+            1
+          ],
+          "direction": "Left"
+        },
+        {
+          "core": "浊心斯卡蒂",
+          "tool_men": {
+            "caster": 0
+          },
+          "location": [
+            7,
+            2
+          ],
+          "direction": "Left"
+        },
+        {
+          "core": "荒芜拉普兰德",
+          "tool_men": {
+            "sniper": 2
+          },
+          "location": [
+            6,
+            2
+          ],
+          "direction": "Left"
+        },
+        {
+          "core": "维什戴尔",
+          "tool_men": {
+            "caster": 2
+          },
+          "location": [
+            5,
+            2
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            7,
+            1
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "supporter": 99
+          },
+          "location": [
+            8,
+            2
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "vanguard": 99
+          },
+          "location": [
+            8,
+            1
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "defender": 99
+          },
+          "location": [
+            7,
+            1
+          ],
+          "direction": "Left"
+        },
+        {
+          "core": "镀膜装置导能阀",
+          "tool_men": {
+            "caster": 99,
+            "sniper": 99
+          },
+          "location": [
+            8,
+            2
+          ],
+          "direction": "Left"
+        }
+      ],
+      "draw_as_possible": true,
+      "actions": [
+        {
+          "type": "二倍速"
+        },
+        {
+          "type": "Deploy",
+          "name": "镀膜装置导能阀",
+          "location": [
+            6,
+            1
+          ],
+          "direction": "Right",
+          "kills": 20
+        }
+      ],
+      "retry_times": 9
+    },
+    {
+      "stage_name": "酩酊之旅",
+      "strategies": [
+        {
+          "tool_men": {
+            "vanguard": 1
+          },
+          "location": [
+            8,
+            2
+          ],
+          "direction": "Down"
+        },
+        {
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            9,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            7,
+            2
+          ],
+          "direction": "Down"
+        },
+        {
+          "tool_men": {
+            "vanguard": 1
+          },
+          "location": [
+            8,
+            4
+          ],
+          "direction": "Up"
+        },
+        {
+          "tool_men": {
+            "supporter": 1
+          },
+          "location": [
+            7,
+            5
+          ],
+          "direction": "Up"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            8,
+            4
+          ],
+          "direction": "Up"
+        },
+        {
+          "core": "浊心斯卡蒂",
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            7,
+            4
+          ],
+          "direction": "Up"
+        },
+        {
+          "core": "荒芜拉普兰德",
+          "tool_men": {
+            "sniper": 2
+          },
+          "location": [
+            9,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "core": "维什戴尔",
+          "tool_men": {
+            "caster": 2
+          },
+          "location": [
+            7,
+            2
+          ],
+          "direction": "Down"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            8,
+            2
+          ],
+          "direction": "Down"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            8,
+            4
+          ],
+          "direction": "Up"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            8,
+            2
+          ],
+          "direction": "Down"
+        },
+        {
+          "tool_men": {
+            "supporter": 99
+          },
+          "location": [
+            7,
+            5
+          ],
+          "direction": "Up"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            8,
+            4
+          ],
+          "direction": "Up"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            8,
+            2
+          ],
+          "direction": "Down"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            8,
+            4
+          ],
+          "direction": "Up"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            8,
+            2
+          ],
+          "direction": "Down"
+        },
+        {
+          "core": "镀膜装置导能阀",
+          "tool_men": {
+            "caster": 99,
+            "sniper": 99
+          },
+          "location": [
+            7,
+            5
+          ],
+          "direction": "Up"
+        }
+      ],
+      "draw_as_possible": true,
+      "actions": [
+        {
+          "type": "二倍速"
+        },
+        {
+          "type": "Deploy",
+          "name": "镀膜装置导能阀",
+          "location": [
+            8,
+            5
+          ],
+          "direction": "Up",
+          "kills": 20
+        }
+      ],
+      "retry_times": 9
+    },
+    {
+      "stage_name": "一块肉排",
+      "strategies": [
+        {
+          "tool_men": {
+            "vanguard": 1
+          },
+          "location": [
+            8,
+            5
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            8,
+            4
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            9,
+            4
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            7,
+            4
+          ],
+          "direction": "Up"
+        },
+        {
+          "tool_men": {
+            "supporter": 1
+          },
+          "location": [
+            7,
+            6
+          ],
+          "direction": "Up"
+        },
+        {
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            8,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            5,
+            4
+          ],
+          "direction": "Up"
+        },
+        {
+          "core": "浊心斯卡蒂",
+          "tool_men": {
+            "caster": 0
+          },
+          "location": [
+            9,
+            4
+          ],
+          "direction": "Left"
+        },
+        {
+          "core": "荒芜拉普兰德",
+          "tool_men": {
+            "sniper": 3
+          },
+          "location": [
+            8,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "vanguard": 1
+          },
+          "location": [
+            8,
+            5
+          ],
+          "direction": "Left"
+        },
+        {
+          "core": "维什戴尔",
+          "tool_men": {
+            "caster": 3
+          },
+          "location": [
+            8,
+            4
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            7,
+            4
+          ],
+          "direction": "Up"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            5,
+            4
+          ],
+          "direction": "Up"
+        },
+        {
+          "tool_men": {
+            "supporter": 99
+          },
+          "location": [
+            7,
+            6
+          ],
+          "direction": "Up"
+        },
+        {
+          "tool_men": {
+            "vanguard": 1
+          },
+          "location": [
+            8,
+            5
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            5,
+            4
+          ],
+          "direction": "Up"
+        },
+        {
+          "tool_men": {
+            "vanguard": 99
+          },
+          "location": [
+            8,
+            5
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            5,
+            4
+          ],
+          "direction": "Up"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            5,
+            4
+          ],
+          "direction": "Up"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            7,
+            4
+          ],
+          "direction": "Up"
+        },
+        {
+          "core": "镀膜装置导能阀",
+          "tool_men": {
+            "caster": 99,
+            "sniper": 99
+          },
+          "location": [
+            7,
+            6
+          ],
+          "direction": "Up"
+        }
+      ],
+      "draw_as_possible": true,
+      "actions": [
+        {
+          "type": "二倍速"
+        },
+        {
+          "type": "Deploy",
+          "name": "镀膜装置导能阀",
+          "location": [
+            4,
+            4
+          ],
+          "direction": "Right",
+          "kills": 19
+        },
+        {
+          "type": "Deploy",
+          "name": "重整导能组件",
+          "location": [
+            3,
+            3
+          ],
+          "direction": "none",
+          "kills": 19
+        }
+      ],
+      "retry_times": 9
+    }
+  ]
+}
