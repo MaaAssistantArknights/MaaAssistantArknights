@@ -21,6 +21,8 @@ on:
         required: true
         default: "30"
         type: number
+  schedule:
+    - cron: '0 22 * * *' # Runs daily at 00:00 UTC
 
 jobs:
   build-win-nightly:
