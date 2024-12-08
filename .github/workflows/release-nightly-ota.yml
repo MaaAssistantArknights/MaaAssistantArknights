@@ -49,6 +49,18 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Check for changes in dev branch
+        id: check_changes
+        run: |
+          if (git diff --quiet HEAD origin/${{ github.ref_name }}) {
+            echo "No changes in dev branch. Cancelling workflow."
+            echo "cancel_run=true" >> $GITHUB_ENV
+          }
+
+      - name: Stop if no changes
+        if: env.cancel_run == 'true'
+        uses: andymckay/cancel-action@0.5
+
       - name: Checkout ref
         run: |
           if ("${{ inputs.ref }}" -ne "") {
