@@ -14,12 +14,12 @@ on:
       limit:
         description: "Number of releases to fetch from MaaAssistantArknights"
         required: true
-        default: "30"
+        default: "10"
         type: number
       limit_2:
         description: "Number of releases to fetch from MaaRelease"
         required: true
-        default: "30"
+        default: "10"
         type: number
   schedule:
     - cron: "0 22 * * *" # Runs daily at 00:00 UTC
@@ -231,11 +231,11 @@ jobs:
           mkdir -pv build-ota && cd build-ota
 
           # Convert inputs to integers
-          limit=${{ inputs.limit || 30 }}
+          limit=${{ inputs.limit || 10 }}
           limit=${limit%.*}
           echo "Parsed limit: $limit"
 
-          limit_2=${{ inputs.limit_2 || 30 }}
+          limit_2=${{ inputs.limit_2 || 10 }}
           limit_2=${limit_2%.*}
           echo "Parsed limit_2: $limit_2"
 
