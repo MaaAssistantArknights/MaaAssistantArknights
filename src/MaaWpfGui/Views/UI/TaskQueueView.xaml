@@ -273,10 +273,7 @@
                                                                               AncestorType={x:Type UserControl}}}" />
                     <taskQueue:RoguelikeSettingsUserControl DataContext="{Binding TaskSettingDataContext.RoguelikeTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.AutoRoguelike, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
                     <taskQueue:ReclamationSettingsUserControl DataContext="{Binding TaskSettingDataContext.ReclamationTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Reclamation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
-                    <userControl:AfterActionUserControl
-                        s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
-                        DataContext="{Binding TaskSettingDataContext}"
-                        Visibility="{c:Binding TaskSettingVisibilities.AfterAction}" />
+                    <taskQueue:PostActionUserControl DataContext="{Binding TaskSettingDataContext.PostActionSetting}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.AfterAction, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
                 </hc:SimpleStackPanel>
             </hc:ScrollViewer>
             <hc:ButtonGroup
