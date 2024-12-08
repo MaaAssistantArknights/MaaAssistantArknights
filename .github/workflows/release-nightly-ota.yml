@@ -11,16 +11,18 @@ on:
         description: "Commit to build (git checkout)"
         type: string
         required: false
-      limit:
+      limit_maa:
         description: "Number of releases to fetch from MaaAssistantArknights"
         required: true
-        default: "30"
+        default: "10"
         type: number
-      limit_2:
+      limit_mr:
         description: "Number of releases to fetch from MaaRelease"
         required: true
-        default: "30"
+        default: "10"
         type: number
+  schedule:
+    - cron: "0 22 * * *" # Runs daily at 00:00 UTC
 
 jobs:
   build-win-nightly:
@@ -46,6 +48,18 @@ jobs:
           #ref: ${{ inputs.ref }}
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check for changes in dev branch
+        id: check_changes
+        run: |
+          if (git diff --quiet HEAD origin/${{ github.ref_name }}) {
+            echo "No changes in dev branch. Cancelling workflow."
+            echo "cancel_run=true" >> $GITHUB_ENV
+          }
+
+      - name: Stop if no changes
+        if: env.cancel_run == 'true'
+        uses: andymckay/cancel-action@0.5
 
       - name: Checkout ref
         run: |
@@ -217,16 +231,16 @@ jobs:
           mkdir -pv build-ota && cd build-ota
 
           # Convert inputs to integers
-          limit=${{ inputs.limit || 30 }}
-          limit=${limit%.*}
-          echo "Parsed limit: $limit"
+          limit_maa=${{ inputs.limit_maa || 10 }}
+          limit_maa=${limit_maa%.*}
+          echo "Parsed limit_maa: $limit_maa"
 
-          limit_2=${{ inputs.limit_2 || 30 }}
-          limit_2=${limit_2%.*}
-          echo "Parsed limit_2: $limit_2"
+          limit_mr=${{ inputs.limit_mr || 10 }}
+          limit_mr=${limit_mr%.*}
+          echo "Parsed limit_mr: $limit_mr"
 
-          gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit $limit | tee ./release_maa.txt
-          gh release list --repo "${{ github.repository_owner }}/MaaRelease" --limit $limit_2 | tee ./release_mr.txt
+          gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit $limit_maa | tee ./release_maa.txt
+          gh release list --repo "${{ github.repository_owner }}/MaaRelease" --limit $limit_mr | tee ./release_mr.txt
           echo ${{ needs.build-win-nightly.outputs.tag }} > ./config
 
           cat ./release_maa.txt | awk '{ print $1 }' > ./tags_maa.txt
