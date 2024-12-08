@@ -11,12 +11,12 @@ on:
         description: "Commit to build (git checkout)"
         type: string
         required: false
-      limit:
+      limit_maa:
         description: "Number of releases to fetch from MaaAssistantArknights"
         required: true
         default: "10"
         type: number
-      limit_2:
+      limit_mr:
         description: "Number of releases to fetch from MaaRelease"
         required: true
         default: "10"
@@ -231,16 +231,16 @@ jobs:
           mkdir -pv build-ota && cd build-ota
 
           # Convert inputs to integers
-          limit=${{ inputs.limit || 10 }}
-          limit=${limit%.*}
-          echo "Parsed limit: $limit"
+          limit_maa=${{ inputs.limit_maa || 10 }}
+          limit_maa=${limit_maa%.*}
+          echo "Parsed limit_maa: $limit_maa"
 
-          limit_2=${{ inputs.limit_2 || 10 }}
-          limit_2=${limit_2%.*}
-          echo "Parsed limit_2: $limit_2"
+          limit_mr=${{ inputs.limit_mr || 10 }}
+          limit_mr=${limit_mr%.*}
+          echo "Parsed limit_mr: $limit_mr"
 
-          gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit $limit | tee ./release_maa.txt
-          gh release list --repo "${{ github.repository_owner }}/MaaRelease" --limit $limit_2 | tee ./release_mr.txt
+          gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit $limit_maa | tee ./release_maa.txt
+          gh release list --repo "${{ github.repository_owner }}/MaaRelease" --limit $limit_mr | tee ./release_mr.txt
           echo ${{ needs.build-win-nightly.outputs.tag }} > ./config
 
           cat ./release_maa.txt | awk '{ print $1 }' > ./tags_maa.txt
