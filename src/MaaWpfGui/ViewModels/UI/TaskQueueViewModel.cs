@@ -1718,49 +1718,49 @@ namespace MaaWpfGui.ViewModels.UI
         private static bool AppendRecruit()
         {
             // for debug
-            if (!int.TryParse(Instances.SettingsViewModel.RecruitMaxTimes, out var maxTimes))
+            if (!int.TryParse(SettingsViewModel.RecruitTask.RecruitMaxTimes, out var maxTimes))
             {
                 maxTimes = 0;
             }
 
-            var firstList = Instances.SettingsViewModel.AutoRecruitFirstList;
+            var firstList = SettingsViewModel.RecruitTask.AutoRecruitFirstList;
 
             var reqList = new List<int>();
             var cfmList = new List<int>();
 
-            if (Instances.SettingsViewModel.ChooseLevel3)
+            if (SettingsViewModel.RecruitTask.ChooseLevel3)
             {
                 cfmList.Add(3);
             }
 
-            if (Instances.SettingsViewModel.ChooseLevel4)
+            if (SettingsViewModel.RecruitTask.ChooseLevel4)
             {
                 reqList.Add(4);
                 cfmList.Add(4);
             }
 
             // ReSharper disable once InvertIf
-            if (Instances.SettingsViewModel.ChooseLevel5)
+            if (SettingsViewModel.RecruitTask.ChooseLevel5)
             {
                 reqList.Add(5);
                 cfmList.Add(5);
             }
 
-            _ = int.TryParse(Instances.SettingsViewModel.SelectExtraTags, out var selectExtra);
+            _ = int.TryParse(SettingsViewModel.RecruitTask.SelectExtraTags, out var selectExtra);
 
             return Instances.AsstProxy.AsstAppendRecruit(
                 maxTimes,
                 firstList.Cast<CombinedData>().Select(i => i.Value).ToArray(),
                 [.. reqList],
                 [.. cfmList],
-                Instances.SettingsViewModel.RefreshLevel3,
-                Instances.SettingsViewModel.ForceRefresh,
-                Instances.SettingsViewModel.UseExpedited,
+                SettingsViewModel.RecruitTask.RefreshLevel3,
+                SettingsViewModel.RecruitTask.ForceRefresh,
+                SettingsViewModel.RecruitTask.UseExpedited,
                 selectExtra,
-                Instances.SettingsViewModel.NotChooseLevel1,
-                Instances.SettingsViewModel.ChooseLevel3Time,
-                Instances.SettingsViewModel.ChooseLevel4Time,
-                Instances.SettingsViewModel.ChooseLevel5Time);
+                SettingsViewModel.RecruitTask.NotChooseLevel1,
+                SettingsViewModel.RecruitTask.ChooseLevel3Time,
+                SettingsViewModel.RecruitTask.ChooseLevel4Time,
+                SettingsViewModel.RecruitTask.ChooseLevel5Time);
         }
 
         private static bool AppendRoguelike()

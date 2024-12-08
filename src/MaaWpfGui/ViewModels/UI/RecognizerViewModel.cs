@@ -176,8 +176,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public static SettingsViewModel RecruitSettingDataContext => Instances.SettingsViewModel;
-
         private bool _recruitCaught;
 
         /// <summary>
@@ -221,7 +219,7 @@ namespace MaaWpfGui.ViewModels.UI
                 levelList.Add(6);
             }
 
-            Instances.AsstProxy.AsstStartRecruitCalc(levelList.ToArray(), RecruitAutoSetTime, RecruitSettingDataContext.ChooseLevel3Time, RecruitSettingDataContext.ChooseLevel4Time, RecruitSettingDataContext.ChooseLevel5Time);
+            Instances.AsstProxy.AsstStartRecruitCalc(levelList.ToArray(), RecruitAutoSetTime, SettingsViewModel.RecruitTask.ChooseLevel3Time, SettingsViewModel.RecruitTask.ChooseLevel4Time, SettingsViewModel.RecruitTask.ChooseLevel5Time);
         }
 
         private bool _recruitmentShowPotential = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RecruitmentShowPotential, bool.TrueString));
