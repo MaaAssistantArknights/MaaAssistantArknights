@@ -1324,7 +1324,7 @@ namespace MaaWpfGui.Main
                 case "RecruitSpecialTag":
                     {
                         string special = subTaskDetails!["tag"]!.ToString();
-                        if (special == "支援机械" && Instances.SettingsViewModel.NotChooseLevel1 == false)
+                        if (special == "支援机械" && SettingsViewModel.RecruitTask.NotChooseLevel1 == false)
                         {
                             break;
                         }
