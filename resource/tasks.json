@@ -10493,6 +10493,7 @@
                 [25, 230, 150]
             ]
         ],
+        "postDelay": 1500,
         "next": [
             "Sarkaz@Roguelike@StageFilterTruthCloseCollection",
             "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
