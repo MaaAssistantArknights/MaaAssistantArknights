@@ -1,5 +1,5 @@
 <UserControl
-    x:Class="MaaWpfGui.Views.UserControl.AboutUserControl"
+    x:Class="MaaWpfGui.Views.UserControl.Settings.AboutUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:constants="clr-namespace:MaaWpfGui.Constants"
@@ -7,13 +7,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
-    xmlns:local="clr-namespace:MaaWpfGui"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
-    xmlns:vm="clr-namespace:MaaWpfGui"
+    d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
     d:DesignWidth="550"
     mc:Ignorable="d">
@@ -113,10 +110,10 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
                 <Hyperlink
+                    Command="{s:Action SetAcknowledgedNightlyWarning}"
                     Cursor="Hand"
                     NavigateUri="{Binding Source={x:Static constants:MaaUrls.GitHubIssues}}"
-                    TextDecorations="None"
-                    Command="{s:Action SetAcknowledgedNightlyWarning}">
+                    TextDecorations="None">
                     <TextBlock Text="{DynamicResource Issue}" />
                 </Hyperlink>
             </controls:TextBlock>
