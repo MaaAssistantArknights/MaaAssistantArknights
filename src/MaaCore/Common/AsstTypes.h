@@ -184,6 +184,28 @@ struct Rect
         return dst;
     }
 
+    Rect zoom(double scale, Point base_point = { 0, 0 }, int max_width = INT_MAX, int max_height = INT_MAX) const
+    {
+        Rect dst(
+            static_cast<int>(base_point.x + (x - base_point.x) * scale),
+            static_cast<int>(base_point.y + (y - base_point.y) * scale),
+            static_cast<int>(width * scale),
+            static_cast<int>(height * scale));
+        if (dst.x < 0) {
+            dst.x = 0;
+        }
+        if (dst.y < 0) {
+            dst.y = 0;
+        }
+        if (dst.width + dst.x >= max_width) {
+            dst.width = max_width - dst.x;
+        }
+        if (dst.height + dst.y >= max_height) {
+            dst.height = max_height - dst.y;
+        }
+        return dst;
+    }
+
     Rect& operator=(const Rect&) noexcept = default;
     Rect& operator=(Rect&&) noexcept = default;
 
