@@ -13017,7 +13017,7 @@
         "doc": "模板任务: 获得物资, 点击 <点击空白处继续> 文字位置",
         "algorithm": "OcrDetect",
         "text": ["点击空白处继续"],
-        "roi": [554, 445, 172, 41],
+        "roi": [500, 445, 280, 41],
         "action": "ClickSelf"
     },
     "Tales@RA@ReturnToOrigin": {
