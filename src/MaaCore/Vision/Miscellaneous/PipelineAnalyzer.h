@@ -30,6 +30,8 @@ public:
 
     void set_tasks(std::vector<std::string> tasks_name) { m_tasks_name = std::move(tasks_name); }
 
+    void set_image_raw(const cv::Mat& image);
+
     ResultOpt analyze() const;
 
 private:
@@ -37,5 +39,8 @@ private:
     OCRer::ResultsVecOpt ocr(const std::shared_ptr<TaskInfo>& task_ptr) const;
 
     std::vector<std::string> m_tasks_name;
+    std::optional<cv::Mat> m_image_raw;
+    const std::pair<int, int> m_image_max_size { 1920, 1080 };
+    const std::pair<int, int> m_image_default_size { 1280, 720 };
 };
 }
