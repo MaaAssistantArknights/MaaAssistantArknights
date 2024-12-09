@@ -55,10 +55,11 @@
                     DataContext="{Binding TimerSettings}" />
 
                 <hc:Divider Content="{Binding ListTitle[2]}" />
-                <userControl:PerformanceUserControl
+                <settingsViews:PerformanceUserControl
                     Margin="0,20"
                     HorizontalAlignment="Center"
-                    IsEnabled="{Binding Idle}" />
+                    DataContext="{Binding PerformanceSettings}"
+                    IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
 
                 <hc:Divider Content="{Binding ListTitle[3]}" />
                 <settingsViews:GameSettingsUserControl
