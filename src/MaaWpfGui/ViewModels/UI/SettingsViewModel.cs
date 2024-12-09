@@ -149,6 +149,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public static ExternalNotificationSettingsUserControlModel ExternalNotificationSettings { get; } = new();
 
+        /// <summary>
+        /// Gets 性能设置model
+        /// </summary>
+        public static PerformanceUserControlModel PerformanceSettings { get; } = new();
+
         #endregion 设置界面Model
 
         /// <summary>
@@ -374,40 +379,6 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         #endregion EasterEggs
-
-        #region Performance
-
-        public List<GpuOption> GpuOptions => GpuOption.GetGpuOptions();
-
-        public GpuOption ActiveGpuOption
-        {
-            get => GpuOption.GetCurrent();
-            set
-            {
-                GpuOption.SetCurrent(value);
-                AskRestartToApplySettings();
-            }
-        }
-
-        public bool AllowDeprecatedGpu
-        {
-            get => GpuOption.AllowDeprecatedGpu;
-            set
-            {
-                GpuOption.AllowDeprecatedGpu = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        private string _screencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), "---", "---", "---", "---");
-
-        public string ScreencapCost
-        {
-            get => _screencapCost;
-            set => SetAndNotify(ref _screencapCost, value);
-        }
-
-        #endregion Performance
 
         #region 开始唤醒
 
