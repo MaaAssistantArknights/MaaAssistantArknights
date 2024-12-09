@@ -5,6 +5,10 @@ icon: mingcute:android-fill
 
 # Android 디바이스 지원
 
+::: warning
+이 방법은 ADB 디버깅이 포함되며 여전히 컴퓨터와 연결해야 하므로, **초보자에게는 권장하지 않습니다**.
+:::
+
 ::: info 주의사항
 
 1. Android 10부터 `Minitouch`는 `SELinux`가 `Enforcing` 모드인 경우 더 이상 사용할 수 없습니다. 다른 터치 모드로 전환하거나 `SELinux`를 일시적으로 `Permissive` 모드로 전환하세요.

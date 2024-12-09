@@ -5,6 +5,10 @@ icon: mingcute:android-fill
 
 # Android 實體設備
 
+::: warning
+此方法涉及 ADB 命令行，穩定性較低且仍需與電腦連接，**不推薦** 0 基礎玩家嘗試。
+:::
+
 ::: info 注意
 
 1. 從 Android 10 開始，Minitouch 在 SELinux 為 `Enforcing` 模式時不再可用，請切換至其他觸控模式，或將 SELinux **臨時**切換為 `Permissive` 模式。
