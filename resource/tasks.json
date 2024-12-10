@@ -3429,7 +3429,7 @@
     "Mail": {
         "action": "ClickSelf",
         "roi": [120, 0, 150, 135],
-        "next": ["ReceiveMail", "Mail", "Stop"],
+        "next": ["Mail@LoadingText", "ReceiveMail", "Mail", "Stop"],
         "postDelay": 2000
     },
     "MailWithoutAward": {
@@ -3440,7 +3440,13 @@
     "ReceiveMail": {
         "action": "ClickSelf",
         "roi": [980, 580, 300, 140],
-        "next": ["CloseTaskMail"]
+        "next": ["ReceivedAllMail", "ReceiveMail@LoadingText", "CloseTaskMail"]
+    },
+    "ReceivedAllMail": {
+        "roi": [909, 33, 166, 165],
+        "method": "HSVCount",
+        "colorScales": [[250, 255]],
+        "next": ["ReceivedAllMail@LoadingText", "Home@ReturnButtons#next"]
     },
     "CloseTaskMail": {
         "baseTask": "CloseTaskAward",
@@ -3448,7 +3454,7 @@
     },
     "CloseTaskMailDouble": {
         "baseTask": "CloseTaskAwardDouble",
-        "next": ["Home@ReturnButtons#next", "CloseTaskMailDouble"]
+        "next": ["ReceiveMail", "Home@ReturnButtons#next", "CloseTaskMailDouble"]
     },
     "VisitBegin": {
         "algorithm": "JustReturn",
