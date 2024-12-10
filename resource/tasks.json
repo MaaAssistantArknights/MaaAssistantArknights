@@ -4463,6 +4463,17 @@
         "maskRange": [1, 255],
         "maxTimes": 3,
         "exceededNext": ["CloseSendClue"],
+        "next": ["ClueSelected", "SelectClue"]
+    },
+    "ClueSelected": {
+        "roi": [2, 133, 418, 196],
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [160, 0, 0],
+                [255, 255, 255]
+            ]
+        ],
         "next": [
             "ClueGiveTo1st",
             "ClueGiveTo2nd",
