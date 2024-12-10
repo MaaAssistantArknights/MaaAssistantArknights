@@ -2943,5 +2943,6 @@
     "YoStarEN/Phantom@Roguelike@GetDropSelectRecruit": "c368b83e044ae3f5fc11e5074f03e6978d35973a4adea9f1546d0ead8fb3b926",
     "resource/template/items/act39side_token_garum": "1fa23805173a316213947df26e23bdd344c98a40c0c1859a43ed774939cf9adb",
     "resource/template/infrast/Bskill_man_spd&trade1": "b7dcd37d06056f47adc238596cd3b9ff48fe56113379afbb5ec54f7a5b6a27ce",
-    "resource/template/infrast/Bskill_tra_limit&trade2": "4408b33b3356883b3faa975ba8128a0228bb08e49bb985621f787f45d78757ad"
+    "resource/template/infrast/Bskill_tra_limit&trade2": "4408b33b3356883b3faa975ba8128a0228bb08e49bb985621f787f45d78757ad",
+    "official/ReceivedAllMail": "d11bcf5ed561b2b24fcb60789da2c296f403033a0294e0e29c47b358ca3edbd4"
 }
