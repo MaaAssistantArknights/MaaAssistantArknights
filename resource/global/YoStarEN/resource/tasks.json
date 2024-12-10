@@ -1416,7 +1416,7 @@
         "roi": [992, 576, 288, 144]
     },
     "SSSDropRecruitmentFlag": {
-        "text": ["Choose an Operator", "Select", "Conductive", "Unit"]
+        "text": ["Choose", "Operator", "Select", "Conductive", "Unit"]
     },
     "SSSDropRecruitmentConfirm": {
         "text": ["Confirm assignment", "Confirm Selection", "Abandon Assignment"],
