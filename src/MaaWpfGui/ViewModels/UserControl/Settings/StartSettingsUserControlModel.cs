@@ -40,6 +40,8 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 /// </summary>
 public class StartSettingsUserControlModel : PropertyChangedBase
 {
+    public static StartSettingsUserControlModel Instance { get; } = new();
+
     private static readonly ILogger _logger = Log.ForContext<StartSettingsUserControlModel>();
 
     private static RunningState _runningState => RunningState.Instance;
