@@ -17,13 +17,15 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
 
-namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
+namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
 /// <summary>
 /// 性能设置
 /// </summary>
 public class PerformanceUserControlModel : PropertyChangedBase
 {
+    public static PerformanceUserControlModel Instance { get; } = new();
+
     public List<GpuOption> GpuOptions => GpuOption.GetGpuOptions();
 
     public GpuOption ActiveGpuOption
