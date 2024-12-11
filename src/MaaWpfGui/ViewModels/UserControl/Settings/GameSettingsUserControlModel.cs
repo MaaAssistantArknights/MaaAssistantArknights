@@ -27,6 +27,8 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
 public class GameSettingsUserControlModel : PropertyChangedBase
 {
+    public static GameSettingsUserControlModel Instance { get; } = new();
+
     private static readonly ILogger _logger = Log.ForContext<GameSettingsUserControlModel>();
 
     private static VersionUpdateSettingsUserControlModel VersionUpdateSettings => SettingsViewModel.VersionUpdateSettings;
