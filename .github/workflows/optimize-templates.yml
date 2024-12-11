@@ -34,13 +34,18 @@ jobs:
       - name: Check for direct push
         id: check_push
         run: |
-          git merge-base --is-ancestor ${{ github.event.before }} ${{ github.event.after }}
-          if [ $? -eq 0 ]; then
-            echo "PR detected. Exiting."
-            echo "is_pr=True" >> $GITHUB_OUTPUT
-          else
+          # Check if it's a merge commit
+          merge_base=$(git merge-base ${{ github.event.before }} ${{ github.event.after }})
+          merge_base_commit=$(git log -1 --pretty=%H $merge_base)
+
+          # If merge_base is the same as the current commit, this is likely a direct push
+          if [ "$merge_base_commit" == "${{ github.event.after }}" ]; then
             echo "Direct push detected. Proceeding..."
             echo "is_pr=False" >> $GITHUB_OUTPUT
+          else
+            echo "PR merge detected. Exiting."
+            echo "is_pr=True" >> $GITHUB_OUTPUT
+            exit 0  # Exit if it's a PR merge
           fi
 
       - name: Add cancelled status
