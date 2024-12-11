@@ -33,18 +33,12 @@ jobs:
       - name: Check for direct push
         id: check_push
         run: |
-          # Get the commit hash
-          commit_hash="${{ github.event.after }}"
-
-          # Use GitHub API to check if the commit is part of a PR
-          pr_merge_status=$(curl -s \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            "https://api.github.com/repos/${{ github.repository }}/commits/${commit_hash}/pulls")
+          pr_merge_status=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          "https://api.github.com/repos/${{ github.repository }}/commits/${{ github.event.after }}/pulls" | xargs)
 
           echo "API response: $pr_merge_status"
 
-          # If the commit is part of a PR (even if squash or rebase), exit
-          if [[ "$pr_merge_status" == "[]" ]]; then
+          if [[ "$pr_merge_status" == "[ ]" ]]; then
             echo "Direct push detected. Proceeding..."
             echo "is_pr=False" >> $GITHUB_OUTPUT
           else
