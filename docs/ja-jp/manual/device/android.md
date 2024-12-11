@@ -5,6 +5,10 @@ icon: mingcute:android-fill
 
 # 物理的な**Android**デバイス
 
+::: warning
+この方法は ADB デバッグを伴い、さらに PC との接続が必要なため、**初心者には非推奨**です。
+:::
+
 ::: info 注意
 
 1. Android 10 以降、SELinux が `Enforcing` モードの場合、Minitouch は使用できません、別のタッチモードに切り替えてください。または SELinux を **一時的に**  `Permissive` モードに切り替え。

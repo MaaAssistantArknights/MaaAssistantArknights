@@ -13,6 +13,8 @@ icon: ri:guide-fill
 
     MAA 在 Windows 下仅支持 10 和 11，旧版 Windows 请参阅[常见问题](./faq.md#系统问题)中的系统问题部分。
 
+    非 Windows 用户请参阅[模拟器及设备支持](./device/)。
+
 2. 安装运行库
 
     MAA 需要 VCRedist x64 和 .NET 8，请右键开始按钮打开终端，在终端内粘贴以下命令回车以进行安装。
