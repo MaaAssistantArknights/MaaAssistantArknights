@@ -112,47 +112,47 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets 游戏设置model
         /// </summary>
-        public static GameSettingsUserControlModel GameSettings { get; } = GameSettingsUserControlModel.Instance;
+        public static GameSettingsUserControlModel GameSettings { get; } = new();
 
         /// <summary>
         /// Gets 连接设置model
         /// </summary>
-        public static ConnectSettingsUserControlModel ConnectSettings { get; } = ConnectSettingsUserControlModel.Instance;
+        public static ConnectSettingsUserControlModel ConnectSettings { get; } = new();
 
         /// <summary>
         /// Gets 启动设置Model
         /// </summary>
-        public static StartSettingsUserControlModel StartSettings { get; } = StartSettingsUserControlModel.Instance;
+        public static StartSettingsUserControlModel StartSettings { get; } = new();
 
         /// <summary>
         /// Gets 界面设置model
         /// </summary>
-        public static GuiSettingsUserControlModel GuiSettings { get; } = GuiSettingsUserControlModel.Instance;
+        public static GuiSettingsUserControlModel GuiSettings { get; } = new();
 
         /// <summary>
         /// Gets 定时设置model
         /// </summary>
-        public static TimerSettingsUserControlModel TimerSettings { get; } = TimerSettingsUserControlModel.Instance;
+        public static TimerSettingsUserControlModel TimerSettings { get; } = new();
 
         /// <summary>
         /// Gets 远程控制model
         /// </summary>
-        public static RemoteControlUserControlModel RemoteControlSettings { get; } = RemoteControlUserControlModel.Instance;
+        public static RemoteControlUserControlModel RemoteControlSettings { get; } = new();
 
         /// <summary>
         /// Gets 软件更新model
         /// </summary>
-        public static VersionUpdateSettingsUserControlModel VersionUpdateSettings { get; } = VersionUpdateSettingsUserControlModel.Instance;
+        public static VersionUpdateSettingsUserControlModel VersionUpdateSettings { get; } = new();
 
         /// <summary>
         /// Gets 外部通知model
         /// </summary>
-        public static ExternalNotificationSettingsUserControlModel ExternalNotificationSettings { get; } = ExternalNotificationSettingsUserControlModel.Instance;
+        public static ExternalNotificationSettingsUserControlModel ExternalNotificationSettings { get; } = new();
 
         /// <summary>
         /// Gets 性能设置model
         /// </summary>
-        public static PerformanceUserControlModel PerformanceSettings { get; } = PerformanceUserControlModel.Instance;
+        public static PerformanceUserControlModel PerformanceSettings { get; } = new();
 
         #endregion 设置界面Model
 
