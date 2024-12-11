@@ -29,13 +29,11 @@ jobs:
         with:
           show-progress: false
           persist-credentials: false
+          fetch-depth: 0
 
       - name: Check for direct push
         id: check_push
         run: |
-          git fetch origin ${{ github.event.before }} --depth=1
-          git fetch origin ${{ github.event.after }} --depth=1
-        
           git merge-base --is-ancestor ${{ github.event.before }} ${{ github.event.after }}
           if [ $? -eq 0 ]; then
             echo "PR detected. Exiting."
