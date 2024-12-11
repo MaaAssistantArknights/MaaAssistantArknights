@@ -49,7 +49,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
 
     public static List<string> ExternalNotificationProvidersShow => ExternalNotificationProviders;
 
-    private object[] _enabledExternalNotificationProviders =
+    private static object[] _enabledExternalNotificationProviders =
         ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnabled, string.Empty)
         .Split(',')
         .Where(s => ExternalNotificationProviders.Contains(s.ToString()))
