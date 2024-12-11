@@ -276,7 +276,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
 
     public static Dictionary<string, string> WindowTitleAllShowDict { get => _windowTitleAllShowDict; }
 
-    private List<string> _windowTitleAllShowList = [.. _windowTitleAllShowDict.Keys];
+    private static List<string> _windowTitleAllShowList = [.. _windowTitleAllShowDict.Keys];
 
     public List<string> WindowTitleAllShowList
     {
@@ -284,7 +284,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         set => SetAndNotify(ref _windowTitleAllShowList, value);
     }
 
-    private object[] _windowTitleSelectShowList = ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitleSelectShowList, "1 2 3 4")
+    private static object[] _windowTitleSelectShowList = ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitleSelectShowList, "1 2 3 4")
         .Split(' ')
         .Where(s => _windowTitleAllShowDict.ContainsValue(s.ToString()))
         .Select(s => _windowTitleAllShowDict.FirstOrDefault(pair => pair.Value == s).Key)
