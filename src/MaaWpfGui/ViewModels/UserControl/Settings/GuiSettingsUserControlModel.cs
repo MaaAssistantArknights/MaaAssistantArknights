@@ -29,6 +29,8 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
 public class GuiSettingsUserControlModel : PropertyChangedBase
 {
+    public static GuiSettingsUserControlModel Instance { get; } = new();
+
     /// <summary>
     /// Gets or sets the language list.
     /// </summary>

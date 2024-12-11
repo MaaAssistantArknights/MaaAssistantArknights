@@ -28,7 +28,6 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.States;
-using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.WineCompat;
@@ -46,6 +45,8 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 /// </summary>
 public class ConnectSettingsUserControlModel : PropertyChangedBase
 {
+    public static ConnectSettingsUserControlModel Instance { get; } = new();
+
     private static readonly ILogger _logger = Log.ForContext<ConnectSettingsUserControlModel>();
 
     private static RunningState _runningState => RunningState.Instance;
