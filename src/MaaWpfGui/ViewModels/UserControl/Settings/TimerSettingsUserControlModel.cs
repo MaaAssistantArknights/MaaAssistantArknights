@@ -24,8 +24,6 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 /// </summary>
 public class TimerSettingsUserControlModel : PropertyChangedBase
 {
-    public static TimerSettingsUserControlModel Instance { get; } = new();
-
     private bool _forceScheduledStart = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceScheduledStart, bool.FalseString));
 
     /// <summary>
