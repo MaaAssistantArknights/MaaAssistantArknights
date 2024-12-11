@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "dev"
+      - "ci/is-pr"
     paths:
       - "resource/**/*.png"
       - "docs/.vuepress/public/image/**"
