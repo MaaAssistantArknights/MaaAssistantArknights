@@ -348,6 +348,13 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
         return false;
     }
 
+    if (calc_result.for_special_tags_skip) {
+        // mark the slot as imcompleted and return
+        //m_force_skipped.emplace(slot_index_from_rect(button));
+        click_return_button();
+        return false;
+    }
+
     if (calc_result.force_skip) {
         // mark the slot as completed and return
         m_force_skipped.emplace(slot_index_from_rect(button));
@@ -403,6 +410,19 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         if (image_analyzer.get_tags_result().size() != RecruitConfig::CorrectNumberOfTags) {
             continue;
         }
+
+#ifdef ASST_DEBUG
+        // mock_test_001: 5/6 Star Operators appear when first recruited.
+        static bool RunSpecialOpsMockTest_001 = false;
+        if (RunSpecialOpsMockTest_001) {
+            static int skip_once = 0;
+            if (skip_once == 0) {
+                image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::special_type::senior_operator);
+                // image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::special_type::top_operator);
+                skip_once++;
+            }
+        }
+#endif
 
         const std::vector<TextRect>& tags = image_analyzer.get_tags_result();
         m_has_refresh = !image_analyzer.get_refresh_rect().empty();
@@ -615,26 +635,25 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
             Log.trace("No recruit permit");
 
-            calc_task_result_type result;
-            result.success = true;
-            result.force_skip = true;
+            calc_task_result_type result(calc_task_result::no_permit);
             return result;
         }
 
         if (!is_calc_only_task()) {
+            // "Automatically recruit 5/6 Star operators" is not checked.
+            if (has_special_tag) {
+                calc_task_result_type result(calc_task_result::special_skip);
+                return result;
+            }
             // do not confirm, force skip
             if (!(final_combination.min_level == 3 && has_preferred_tag) &&
                 ranges::none_of(m_confirm_level, [&](const auto& i) { return i == final_combination.min_level; })) {
-                calc_task_result_type result;
-                result.success = true;
-                result.force_skip = true;
+                calc_task_result_type result(calc_task_result::force_skip);
                 return result;
             }
 
             if (m_skip_robot && has_robot_tag) {
-                calc_task_result_type result;
-                result.success = true;
-                result.force_skip = true;
+                calc_task_result_type result(calc_task_result::force_skip);
                 return result;
             }
         }
@@ -663,11 +682,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         // nothing to select, leave the selection empty
         if (!(final_combination.min_level == 3 && has_preferred_tag) &&
             ranges::none_of(m_select_level, [&](const auto& i) { return i == final_combination.min_level; })) {
-            calc_task_result_type result;
-            result.success = true;
-            result.force_skip = false;
-            result.recruitment_time = recruitment_time;
-            result.tags_selected = 0;
+            calc_task_result_type result(calc_task_result::nothing_to_select,recruitment_time);
             return result;
         }
 
@@ -689,11 +704,9 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
-        calc_task_result_type result;
-        result.success = true;
-        result.force_skip = false;
-        result.recruitment_time = recruitment_time;
-        result.tags_selected = static_cast<int>(final_combination.tags.size());
+        calc_task_result_type result(calc_task_result::success,
+                                                    recruitment_time,
+                                                    static_cast<int>(final_combination.tags.size()));
         return result;
     }
 
