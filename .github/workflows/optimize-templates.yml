@@ -20,7 +20,7 @@ jobs:
   optimize-png:
     # Skip workflow to prevent double consecutive runs
     # Skip workflow on PR merges
-    if: ${{ github.event.head_commit.author.email != '41898282+github-actions[bot]@users.noreply.github.com' && github.event_name != 'pull_request' }}
+    if: ${{ github.event.head_commit.author.email != '41898282+github-actions[bot]@users.noreply.github.com' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -28,6 +28,24 @@ jobs:
         with:
           show-progress: false
           persist-credentials: false
+
+      - name: Check for direct push
+        id: check_push
+        run: |
+          pr_merge_status=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          "https://api.github.com/repos/${{ github.repository }}/commits/${{ github.event.after }}/pulls" | xargs)
+
+          if [[ "$pr_merge_status" == "[ ]" ]]; then
+            echo "Direct push detected. Proceeding..."
+            echo "is_pr=False" >> $GITHUB_OUTPUT
+          else
+            echo "PR merge detected. Exiting."
+            echo "is_pr=True" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Add cancelled status
+        if: steps.check_push.outputs.is_pr == 'True'
+        uses: andymckay/cancel-action@0.5
 
       - name: Setup python
         uses: actions/setup-python@v5
