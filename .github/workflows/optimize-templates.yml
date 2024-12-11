@@ -29,23 +29,25 @@ jobs:
         with:
           show-progress: false
           persist-credentials: false
-          fetch-depth: 0
 
       - name: Check for direct push
         id: check_push
         run: |
-          # Check if it's a merge commit
-          merge_base=$(git merge-base ${{ github.event.before }} ${{ github.event.after }})
-          merge_base_commit=$(git log -1 --pretty=%H $merge_base)
+          # Get the commit hash
+          commit_hash="${{ github.event.after }}"
 
-          # If merge_base is the same as the current commit, this is likely a direct push
-          if [ "$merge_base_commit" == "${{ github.event.after }}" ]; then
-            echo "Direct push detected. Proceeding..."
-            echo "is_pr=False" >> $GITHUB_OUTPUT
-          else
+          # Use GitHub API to check if the commit is part of a PR
+          pr_merge_status=$(curl -s \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/commits/${commit_hash}/pulls")
+
+          # If the commit is part of a PR (even if squash or rebase), exit
+          if [[ "$pr_merge_status" != "[]" ]]; then
             echo "PR merge detected. Exiting."
             echo "is_pr=True" >> $GITHUB_OUTPUT
-            exit 0  # Exit if it's a PR merge
+          else
+            echo "Direct push detected. Proceeding..."
+            echo "is_pr=False" >> $GITHUB_OUTPUT
           fi
 
       - name: Add cancelled status
