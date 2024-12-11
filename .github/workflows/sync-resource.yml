@@ -11,6 +11,7 @@ on:
 
 jobs:
   sync-reource:
+    if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: ubuntu-latest
 
     steps:
