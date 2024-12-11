@@ -42,12 +42,12 @@ jobs:
             "https://api.github.com/repos/${{ github.repository }}/commits/${commit_hash}/pulls")
 
           # If the commit is part of a PR (even if squash or rebase), exit
-          if [[ "$pr_merge_status" != "[]" ]]; then
-            echo "PR merge detected. Exiting."
-            echo "is_pr=True" >> $GITHUB_OUTPUT
-          else
+          if [[ "$pr_merge_status" == "[]" ]]; then
             echo "Direct push detected. Proceeding..."
             echo "is_pr=False" >> $GITHUB_OUTPUT
+          else
+            echo "PR merge detected. Exiting."
+            echo "is_pr=True" >> $GITHUB_OUTPUT
           fi
 
       - name: Add cancelled status
