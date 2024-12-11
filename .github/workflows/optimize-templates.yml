@@ -41,6 +41,8 @@ jobs:
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/${{ github.repository }}/commits/${commit_hash}/pulls")
 
+          echo "API response: $pr_merge_status"
+
           # If the commit is part of a PR (even if squash or rebase), exit
           if [[ "$pr_merge_status" == "[]" ]]; then
             echo "Direct push detected. Proceeding..."
