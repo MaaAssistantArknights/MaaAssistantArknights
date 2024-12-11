@@ -20,9 +20,30 @@ jobs:
   optimize-png:
     # Skip workflow to prevent double consecutive runs
     # Skip workflow on PR merges
-    if: ${{ github.event.head_commit.author.email != '41898282+github-actions[bot]@users.noreply.github.com' && github.event_name != 'pull_request' }}
+    if: ${{ github.event.head_commit.author.email != '41898282+github-actions[bot]@users.noreply.github.com' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Check for direct push
+        id: check_push
+        run: |
+          git init
+          git remote add origin https://github.com/${{ github.repository }}.git
+          git fetch origin ${{ github.event.before }} --depth=1
+          git fetch origin ${{ github.event.after }} --depth=1
+        
+          git merge-base --is-ancestor ${{ github.event.before }} ${{ github.event.after }}
+          if [ $? -eq 0 ]; then
+            echo "PR detected. Exiting."
+            echo "is_pr=True" >> $GITHUB_OUTPUT
+          else
+            echo "Direct push detected. Proceeding..."
+            echo "is_pr=False" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Add cancelled status
+        if: steps.check_push.outputs.is_pr == 'True'
+        uses: andymckay/cancel-action@0.5
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
