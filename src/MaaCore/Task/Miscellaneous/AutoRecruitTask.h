@@ -71,9 +71,10 @@ protected:
         init = 0,
         no_permit = 1,
         force_skip = 2,
-        special_skip=3,
+        special_tag_skip=3,
         nothing_to_select = 4,
-        success = 5
+        success = 5,
+        robot_tag_skip = 6
     };
     struct calc_task_result_type
     {
@@ -81,6 +82,7 @@ protected:
         bool success = false;
         bool force_skip = false;
         bool for_special_tags_skip = false;        // Get the definition by searching for "SpecialTags".
+        bool for_robot_tags_skip = false;
         int recruitment_time = 60;
         [[maybe_unused]] int tags_selected = 0;
 
@@ -91,13 +93,15 @@ protected:
                 success = false;
                 force_skip = false;
                 for_special_tags_skip = false; 
+                for_robot_tags_skip = false;
                 recruitment_time = _recruitment_time;
                 tags_selected = _tag_selected;
                 break;
-            case calc_task_result::special_skip:
+            case calc_task_result::special_tag_skip:
                 success = true;
                 force_skip = true;
                 for_special_tags_skip = true;
+                for_robot_tags_skip = false;
                 recruitment_time = _recruitment_time;
                 tags_selected = _tag_selected;
                 break;
@@ -106,6 +110,7 @@ protected:
                 success = true;
                 force_skip = true;
                 for_special_tags_skip = false;
+                for_robot_tags_skip = false;
                 recruitment_time = _recruitment_time;
                 tags_selected = _tag_selected;
                 break;
@@ -114,6 +119,15 @@ protected:
                 success = true;
                 force_skip = false;
                 for_special_tags_skip = false;
+                for_robot_tags_skip = false;
+                recruitment_time = _recruitment_time;
+                tags_selected = _tag_selected;
+                break;
+            case calc_task_result::robot_tag_skip:
+                success = true;
+                force_skip = true;
+                for_special_tags_skip = false;
+                for_robot_tags_skip = true;
                 recruitment_time = _recruitment_time;
                 tags_selected = _tag_selected;
                 break;

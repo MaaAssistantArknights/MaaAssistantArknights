@@ -26,19 +26,23 @@ public:
 
 #ifdef ASST_DEBUG
     // mock function
-    enum special_type
+    enum operator_type
     {
-        top_operator = 6,
-        senior_operator = 5
+        top = 6,
+        senior = 5,
+        robot = 1
     };
    
-    void mock_set_special(special_type type)
+    void mock_set_special(operator_type type)
     {
-        if (type == top_operator) {
+        if (type == top) {
             m_tags_result[0].text = "高级资深干员";
         }
-        if (type == senior_operator) {
+        if (type == senior) {
             m_tags_result[0].text = "资深干员";
+        }
+        if (type == robot) {
+            m_tags_result[0].text = "支援机械";
         }
     }
 #endif                                                          // ASST_DEBUG
