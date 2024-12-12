@@ -41,6 +41,12 @@ icon: basil:apple-solid
 
 지원됩니다. 그러나 Android 10부터는 SELinux가 `Enforcing` 모드일 때 `Minitouch`를 사용할 수 없습니다. 다른 터치 모드로 전환하거나 SELinux를 **임시**로 `Permissive` 모드로 변경하세요.
 
+### ✅ [블루스택 에어](https://www.bluestacks.com/mac) (무료, Apple M 시리즈 칩에 최적화된 버전)
+
+지원되며, 테스트 결과 maatouch를 통해 `127.0.0.1:5555`로 연결할 수 있습니다.
+
+에뮬레이터의 **`설정`** - **`고급`**에서 **`Android 디버깅(ADB)`**을 활성화해야 합니다。
+
 ## Intel 칩셋
 
 ### ✅ [블루스택 에뮬레이터 CN](https://www.bluestacks.cn/)
