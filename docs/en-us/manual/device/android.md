@@ -5,6 +5,10 @@ icon: mingcute:android-fill
 
 # Android Physical Device
 
+::: warning
+This method involves ADB debugging and requires connection to a computer, it is **not recommended** for beginners.
+:::
+
 ::: info Note
 
 0. Please also check [Connection](../connection.md).
