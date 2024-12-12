@@ -71,28 +71,28 @@ protected:
         init = 0,
         no_permit = 1,
         force_skip = 2,
-        special_tag_skip=3,
+        special_tag_skip = 3,
         nothing_to_select = 4,
         success = 5,
         robot_tag_skip = 6
     };
+
     struct calc_task_result_type
     {
-        
         bool success = false;
         bool force_skip = false;
-        bool for_special_tags_skip = false;        // Get the definition by searching for "SpecialTags".
+        bool for_special_tags_skip = false; // Get the definition by searching for "SpecialTags".
         bool for_robot_tags_skip = false;
         int recruitment_time = 60;
         [[maybe_unused]] int tags_selected = 0;
 
-        calc_task_result_type(calc_task_result res, const int _recruitment_time = 60, const int _tag_selected=0) 
+        calc_task_result_type(calc_task_result res, const int _recruitment_time = 60, const int _tag_selected = 0)
         {
             switch (res) {
             case calc_task_result::init:
                 success = false;
                 force_skip = false;
-                for_special_tags_skip = false; 
+                for_special_tags_skip = false;
                 for_robot_tags_skip = false;
                 recruitment_time = _recruitment_time;
                 tags_selected = _tag_selected;

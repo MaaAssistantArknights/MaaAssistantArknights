@@ -349,7 +349,7 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
     }
 
     if (calc_result.for_special_tags_skip || calc_result.for_robot_tags_skip) {
-        // Mark the slot as completed and return 
+        // Mark the slot as completed and return
         // without incrementing the count
         m_force_skipped.emplace(slot_index_from_rect(button));
         click_return_button();
@@ -418,9 +418,9 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         if (RunRecruitMockTest_001) {
             static int skip_once = 0;
             if (skip_once == 0) {
-                //image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::robot);
-                //image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::senior);
-                //image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::top);
+                // image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::robot);
+                // image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::senior);
+                // image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::top);
                 skip_once++;
             }
         }
@@ -588,10 +588,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         }
 
         // refresh
-        if (m_need_refresh && m_has_refresh 
-            && !has_special_tag 
-            && !(m_skip_robot && has_robot_tag)
-            &&(final_combination.min_level == 3 && !has_preferred_tag) ) {
+        if (m_need_refresh && m_has_refresh && !has_special_tag && !(m_skip_robot && has_robot_tag) &&
+            (final_combination.min_level == 3 && !has_preferred_tag)) {
             if (refresh_count > refresh_limit) [[unlikely]] {
                 json::value cb_info = basic_info();
                 cb_info["what"] = "RecruitError";
@@ -660,7 +658,6 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                 calc_task_result_type result(calc_task_result::force_skip);
                 return result;
             }
-
         }
 
         int recruitment_time = m_desired_time_map[(std::max)(final_combination.min_level, 3)];
@@ -687,7 +684,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         // nothing to select, leave the selection empty
         if (!(final_combination.min_level == 3 && has_preferred_tag) &&
             ranges::none_of(m_select_level, [&](const auto& i) { return i == final_combination.min_level; })) {
-            calc_task_result_type result(calc_task_result::nothing_to_select,recruitment_time);
+            calc_task_result_type result(calc_task_result::nothing_to_select, recruitment_time);
             return result;
         }
 
@@ -709,9 +706,10 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
-        calc_task_result_type result(calc_task_result::success,
-                                                    recruitment_time,
-                                                    static_cast<int>(final_combination.tags.size()));
+        calc_task_result_type result(
+            calc_task_result::success,
+            recruitment_time,
+            static_cast<int>(final_combination.tags.size()));
         return result;
     }
 

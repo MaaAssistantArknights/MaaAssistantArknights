@@ -32,7 +32,7 @@ public:
         senior = 5,
         robot = 1
     };
-   
+
     void mock_set_special(operator_type type)
     {
         if (type == top) {
@@ -45,7 +45,7 @@ public:
             m_tags_result[0].text = "支援机械";
         }
     }
-#endif                                                          // ASST_DEBUG
+#endif // ASST_DEBUG
 
 private:
     // 该分析器不支持外部设置ROI
