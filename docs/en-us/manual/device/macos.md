@@ -33,6 +33,12 @@ P.S.: For the reason of `MacOS` mechanism itself, errors might occur when `PlayC
 
 Compatible
 
+### ✅ [BlueStacks Air](https://www.bluestacks.com/mac) (Free, optimized for Apple M-series chips)
+
+Supported, tested, and can be connected via maatouch at `127.0.0.1:5555`.
+
+You need to enable **"Android Debugging (ADB)"** in the emulator's **`Settings`** - **`Advanced`** section.
+
 ## Intel Chips
 
 ### ✅ [Bluestacks-CN 5](https://www.bluestacks.cn/)
