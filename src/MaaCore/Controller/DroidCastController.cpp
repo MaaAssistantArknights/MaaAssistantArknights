@@ -139,7 +139,7 @@ bool asst::DroidCastController::init_curl()
     }
 }
 
-std::optional< std::string > asst::DroidCastController::curl_get()
+std::optional<std::string> asst::DroidCastController::curl_get()
 {
     auto WriteCallback = [&](void* contents, size_t size, size_t nmemb, void* userp) -> size_t {
         size_t total_size = size * nmemb;

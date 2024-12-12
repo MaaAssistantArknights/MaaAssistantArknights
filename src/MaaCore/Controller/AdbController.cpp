@@ -778,95 +778,91 @@ bool asst::AdbController::screencap(
 
 bool asst::AdbController::init_droidcast(
     const AdbCfg& adb_cfg,
-    std::function<std::string(const std::string&)> cmd_replace
-){
-    auto release_droidcast = [&]([[maybe_unused]] bool force)
-        {
-            m_droidcast_handler.reset();
+    std::function<std::string(const std::string&)> cmd_replace)
+{
+    auto release_droidcast = [&]([[maybe_unused]] bool force) {
+        m_droidcast_handler.reset();
+    };
+    auto call_and_hup_droidcast = [&]() {
+        release_droidcast(true);
+
+        std::string cmd = m_adb.call_droidcast;
+        Log.info(cmd);
+
+        std::string pipe_str;
+
+        m_droidcast_handler = m_platform_io->interactive_shell(cmd);
+        if (!m_droidcast_handler) {
+            Log.error("unable to start droidcast");
+            return false;
+        }
+
+        auto check_timeout = [&](const auto& start_time) -> bool {
+            using namespace std::chrono_literals;
+            return std::chrono::steady_clock::now() - start_time < 3s;
         };
-    auto call_and_hup_droidcast = [&]()
-        {
-            release_droidcast(true);
 
-            std::string cmd = m_adb.call_droidcast;
-            Log.info(cmd);
-
-            std::string pipe_str;
-
-            m_droidcast_handler = m_platform_io->interactive_shell(cmd);
-            if (!m_droidcast_handler) {
-                Log.error("unable to start droidcast");
+        const auto start_time = std::chrono::steady_clock::now();
+        while (true) {
+            if (need_exit()) {
+                release_droidcast(true);
                 return false;
             }
 
-            auto check_timeout = [&](const auto& start_time) -> bool {
-                using namespace std::chrono_literals;
-                return std::chrono::steady_clock::now() - start_time < 3s;
-            };
+            pipe_str += m_droidcast_handler->read(3);
 
-            const auto start_time = std::chrono::steady_clock::now();
-            while (true) {
-                if (need_exit()) {
-                    release_droidcast(true);
-                    return false;
-                }
-
-                pipe_str += m_droidcast_handler->read(3);
-
-                if (!check_timeout(start_time)) {
-                    Log.info("unable to find > from pipe_str:", Logger::separator::newline, pipe_str);
-                    release_droidcast(true);
-                    return false;
-                }
-
-                if (pipe_str.find('>') != std::string::npos) {
-                    break;
-                }
+            if (!check_timeout(start_time)) {
+                Log.info("unable to find > from pipe_str:", Logger::separator::newline, pipe_str);
+                release_droidcast(true);
+                return false;
             }
 
-            Log.info("pipe str", Logger::separator::newline, pipe_str);
+            if (pipe_str.find('>') != std::string::npos) {
+                break;
+            }
+        }
 
-            // NOTE: here the droidcast really start up
-            // m_droidcaster =
-            //     std::make_unique<DroidCaster>(std::bind(&DroidCastController::input_to_droidcast, this, std::placeholders::_1));
+        Log.info("pipe str", Logger::separator::newline, pipe_str);
 
-            return true;
+        // NOTE: here the droidcast really start up
+        // m_droidcaster =
+        //     std::make_unique<DroidCaster>(std::bind(&DroidCastController::input_to_droidcast, this,
+        //     std::placeholders::_1));
+
+        return true;
+    };
+    auto probe_droidcast = [&](const AdbCfg& adb_cfg, std::function<std::string(const std::string&)> cmd_replace) {
+        auto cast_uuid = m_uuid + "_cast.apk";
+
+        auto droidcast_cmd_rep = [&](const std::string& cfg_cmd) -> std::string {
+            using namespace asst::utils::path_literals;
+            return utils::string_replace_all(
+                cmd_replace(cfg_cmd),
+                {
+                    { "[droidCastRawLocalPath]",
+                      utils::path_to_utf8_string(ResDir.get() / "droidcast_raw"_p / "droidcast_raw.apk"_p) },
+                    { "[droidCastRawWorkingFile]", cast_uuid },
+                });
         };
-    auto probe_droidcast = [&](
-        const AdbCfg& adb_cfg,
-        std::function<std::string(const std::string&)> cmd_replace)
-        {
-            auto cast_uuid = m_uuid + "_cast.apk";
 
-            auto droidcast_cmd_rep = [&](const std::string& cfg_cmd) -> std::string {
-                using namespace asst::utils::path_literals;
-                return utils::string_replace_all(
-                    cmd_replace(cfg_cmd),
-                    {
-                        { "[droidCastRawLocalPath]",
-                            utils::path_to_utf8_string(ResDir.get() / "droidcast_raw"_p / "droidcast_raw.apk"_p) },
-                        { "[droidCastRawWorkingFile]", cast_uuid },
-                    });
-            };
+        if (!call_command(droidcast_cmd_rep(adb_cfg.push_droidcast))) {
+            return false;
+        }
+        if (!call_command(droidcast_cmd_rep(adb_cfg.chmod_droidcast))) {
+            return false;
+        }
+        if (!call_command(droidcast_cmd_rep(adb_cfg.reforward_droidcast_port))) {
+            return false;
+        }
 
-            if (!call_command(droidcast_cmd_rep(adb_cfg.push_droidcast))) {
-                return false;
-            }
-            if (!call_command(droidcast_cmd_rep(adb_cfg.chmod_droidcast))) {
-                return false;
-            }
-            if (!call_command(droidcast_cmd_rep(adb_cfg.reforward_droidcast_port))) {
-                return false;
-            }
+        m_adb.call_droidcast = droidcast_cmd_rep(adb_cfg.call_droidcast);
 
-            m_adb.call_droidcast = droidcast_cmd_rep(adb_cfg.call_droidcast);
+        if (!call_and_hup_droidcast()) {
+            return false;
+        }
 
-            if (!call_and_hup_droidcast()) {
-                return false;
-            }
-
-            return true;
-        };
+        return true;
+    };
     return probe_droidcast(adb_cfg, cmd_replace);
 }
 
@@ -1105,7 +1101,6 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         callback(AsstMsg::ConnectionInfo, info);
         return false;
     }
-
 
     if (need_exit()) {
         return false;
