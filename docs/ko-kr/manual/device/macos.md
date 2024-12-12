@@ -49,6 +49,10 @@ icon: basil:apple-solid
 
 ## Intel 칩셋
 
+::: tip
+Mac 버전 개발에 인력이 부족하여 업데이트 속도가 비교적 느립니다. Mac에 내장된 멀티 시스템 기능을 사용해 Windows를 설치하고 Windows 버전 MAA를 사용하는 것을 추천합니다.
+:::
+
 ### ✅ [블루스택 에뮬레이터 CN](https://www.bluestacks.cn/)
 
 완벽하게 지원됩니다. 에뮬레이터에서 `설정` - `엔진 설정`에서 `ADB 연결 허용`을 활성화해야 합니다.

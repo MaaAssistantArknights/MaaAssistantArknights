@@ -49,6 +49,10 @@ icon: basil:apple-solid
 
 ## Intel チップ
 
+::: tip
+Mac 版の開発は人手不足のため、更新速度が比較的遅いです。Mac に搭載されているマルチシステム機能を使って Windows をインストールし、Windows 版の MAA を使用することをお勧めします。
+:::
+
 ### ✅ [Bluestacks-CN](https://www.bluestacks.cn/)
 
 サポートされています。エミュレータ `設定` - `エンジン設定` で `ADB接続を許可する` をオンにする必要があります。

@@ -41,6 +41,10 @@ You need to enable **"Android Debugging (ADB)"** in the emulator's **`Settings`*
 
 ## Intel Chips
 
+::: tip
+Due to a lack of manpower for Mac version development, updates are relatively slower. It is recommended to use Mac's built-in multi-system feature to install Windows and use the Windows version of MAA.
+:::
+
 ### ✅ [Bluestacks-CN 5](https://www.bluestacks.cn/)
 
 Fully compatible. Need to turn on `Settings` - `Engine Settings` - `Allow ADB connection`.

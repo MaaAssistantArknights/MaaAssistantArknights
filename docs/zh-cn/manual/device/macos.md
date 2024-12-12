@@ -45,6 +45,10 @@ icon: basil:apple-solid
 
 ## Intel 芯片
 
+::: tip
+由于 Mac 版开发缺少人手，更新速度相对较慢，更推荐使用 Mac 自带的多系统安装 Windows，并使用 Windows 版 MAA。
+:::
+
 ### ✅ [蓝叠模拟器](https://www.bluestacks.cn/)
 
 完美支持。需要在模拟器 `设置` - `引擎设置` 中打开 `允许ADB连接`。
