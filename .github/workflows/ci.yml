@@ -34,6 +34,11 @@ concurrency:
 
 jobs:
   meta:
+    # Prevent duplicate runs on organization branches with PRs
+    if: github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name !=
+      github.event.pull_request.base.repo.full_name
+
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.set_tag.outputs.tag }}
@@ -93,6 +98,11 @@ jobs:
           path: CHANGELOG.md
 
   windows:
+    # Prevent duplicate runs on organization branches with PRs
+    if: github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name !=
+      github.event.pull_request.base.repo.full_name
+
     needs: meta
     strategy:
       matrix:
@@ -183,6 +193,11 @@ jobs:
           path: artifacts
 
   ubuntu:
+    # Prevent duplicate runs on organization branches with PRs
+    if: github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name !=
+      github.event.pull_request.base.repo.full_name
+
     needs: meta
     runs-on: ubuntu-latest
     strategy:
@@ -295,6 +310,11 @@ jobs:
             release/*.tar.gz
 
   macOS-Core:
+    # Prevent duplicate runs on organization branches with PRs
+    if: github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name !=
+      github.event.pull_request.base.repo.full_name
+
     needs: meta
     runs-on: macos-14
     strategy:
@@ -333,6 +353,11 @@ jobs:
           path: "install/*.dylib"
 
   macOS-GUI:
+    # Prevent duplicate runs on organization branches with PRs
+    if: github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name !=
+      github.event.pull_request.base.repo.full_name
+
     needs: [meta, macOS-Core]
     runs-on: macos-14
     steps:
@@ -466,7 +491,11 @@ jobs:
           path: ${{ startsWith(github.ref, 'refs/tags/v') && 'release/MAA*' || 'src/MaaMacGui/MAA.xcarchive/**' }}
 
   release:
-    if: startsWith(github.ref, 'refs/tags/v')
+    # Prevent duplicate runs on organization branches with PRs
+    if: (github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name !=
+      github.event.pull_request.base.repo.full_name) && startsWith(github.ref, 'refs/tags/v')
+
     needs: [meta, windows, ubuntu, macOS-GUI]
     runs-on: ubuntu-latest
     steps:
