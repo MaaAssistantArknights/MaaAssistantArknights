@@ -1,6 +1,8 @@
 name: release-nightly-ota
 
 on:
+  schedule:
+    - cron: "0 22 * * *" # Runs daily at 22:00 UTC
   workflow_dispatch:
     inputs:
       release_body:
@@ -21,8 +23,6 @@ on:
         required: true
         default: "10"
         type: number
-  schedule:
-    - cron: "0 22 * * *" # Runs daily at 00:00 UTC
 
 jobs:
   build-win-nightly:

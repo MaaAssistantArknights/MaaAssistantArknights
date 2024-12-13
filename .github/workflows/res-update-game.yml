@@ -2,7 +2,7 @@ name: res-update-game
 
 on:
   schedule:
-    - cron: "*/20 * * * *"
+    - cron: "*/20 * * * *" # Runs every 20 minutes
   workflow_dispatch:
     inputs:
       commit_message:

@@ -1,13 +1,13 @@
-name: "Inactive Issues auto close"
-
-env: # config
-  daysBeforeStale: 90 # Number of days of inactivity before marking as stale
-  daysBeforeClose: 7 # Number of days to wait after marking as stale before closing
+name: "Inactive Issues Closer"
 
 on:
   schedule:
     - cron: "0 0 * * *" # Runs daily at UTC 00:00
   workflow_dispatch: # Allows manual triggering
+
+env: # config
+  daysBeforeStale: 90 # Number of days of inactivity before marking as stale
+  daysBeforeClose: 7 # Number of days to wait after marking as stale before closing
 
 jobs:
   stale:
