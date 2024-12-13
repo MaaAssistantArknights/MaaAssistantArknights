@@ -1,6 +1,8 @@
-name: Blame Ignore Commit
+name: Git Blame Ignore
 
 on:
+  schedule:
+    - cron: "45 21 * * *" # Runs daily at 22:00 UTC
   workflow_dispatch:
 
 jobs:

@@ -1,6 +1,8 @@
 name: Check Dead Links
 
 on:
+  schedule:
+    - cron: "0 0 * * 2" # Every Tuesday at 00:00 UTC
   push:
     branches:
       - dev
@@ -15,8 +17,6 @@ on:
       - "**/*.md"
       - "docs/**"
       - ".github/workflows/markdown-checker.yml"
-  schedule:
-    - cron: "44 7 * * 2" # Every Tuesday at 7:44 AM UTC
   workflow_dispatch:
 
 jobs:

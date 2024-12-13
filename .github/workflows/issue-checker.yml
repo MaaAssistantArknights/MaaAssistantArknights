@@ -1,4 +1,5 @@
 name: "Issue Checker"
+
 on:
   issues:
     types: [opened, edited]
