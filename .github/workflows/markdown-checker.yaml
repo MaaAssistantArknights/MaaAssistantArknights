@@ -9,14 +9,14 @@ on:
     paths:
       - "**/*.md"
       - "docs/**"
-      - ".github/workflows/markdown-checker.yml"
+      - ".github/workflows/markdown-checker.yaml"
   pull_request:
     branches:
       - dev
     paths:
       - "**/*.md"
       - "docs/**"
-      - ".github/workflows/markdown-checker.yml"
+      - ".github/workflows/markdown-checker.yaml"
   workflow_dispatch:
 
 jobs:

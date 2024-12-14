@@ -9,7 +9,7 @@ icon: teenyicons:linux-alt-solid
 If you just want to install MAA directly instead of compiling it yourself, please read [Emulator Support for Linux](../manual/device/linux.md).
 
 ::: info Note
-Linux build of MAA is still under discussion, some of the content might be outdated, please follow the script in [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/workflows/ci.yml#L134), also reference [AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights), [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
+Linux build of MAA is still under discussion, some of the content might be outdated, please follow the script in [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/workflows/ci.yaml#L134), also reference [AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights), [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
 :::
 
 ## Compiling MAA
