@@ -5,7 +5,7 @@ icon: bxs:bot
 
 # Issue Bot 使用方法
 
-Issue Bot 使用的 action 为 [issue-checker](https://github.com/zzyyyl/issue-checker)，配置文件为 [issue-checker.yml](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml)。
+Issue Bot 使用的 action 为 [issue-checker](https://github.com/zzyyyl/issue-checker)，配置文件为 [issue-checker.yaml](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yaml)。
 
 ::: warning
 拉取请求被增加 `ambiguous` 标签是因为没有按照 commitizen 规范提交
@@ -17,7 +17,7 @@ Issue Bot 使用的 action 为 [issue-checker](https://github.com/zzyyyl/issue-c
 
 - 给 议题 和 拉取请求 增加标签，包括 `module` 系列，`Client` 系列，`ambiguous`，`translation required` 等。  
   Issue Bot 会根据关键词自动增加分类标签。  
-  具体关键词可以参考[配置文件](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml)。
+  具体关键词可以参考[配置文件](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yaml)。
 - 给作者是可见性设置为 public 的 MAA 成员的 议题 和 拉取请求 增加 `MAA Team` 标签。
 
 #### 议题（Issue）及其评论

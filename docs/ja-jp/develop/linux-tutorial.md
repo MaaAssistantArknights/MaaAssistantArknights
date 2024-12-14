@@ -8,7 +8,7 @@ icon: teenyicons:linux-alt-solid
 **このチュートリアルでは、読者にLinux環境の構成能力とプログラミングの基礎が必要です！**
 
 ::: info 注意
-MAAの構築方法はまだ議論されていますが、このチュートリアルの内容は古くなる可能性があります。 [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/workflows/ci.yml#L134) のスクリプトに準拠してください
+MAAの構築方法はまだ議論されていますが、このチュートリアルの内容は古くなる可能性があります。 [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/workflows/ci.yaml#L134) のスクリプトに準拠してください
 :::
 
 ## コンパイルプロセス

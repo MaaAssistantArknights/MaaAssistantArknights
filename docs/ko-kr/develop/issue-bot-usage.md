@@ -5,7 +5,7 @@ icon: bxs:bot
 
 # Issue Bot 사용 방법
 
-Issue Bot의 동작은 [issue-checker](https://github.com/zzyyyl/issue-checker)로 이루어지며, 설정 파일은 [issue-checker.yml](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml) 입니다.
+Issue Bot의 동작은 [issue-checker](https://github.com/zzyyyl/issue-checker)로 이루어지며, 설정 파일은 [issue-checker.yaml](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yaml) 입니다.
 
 ::: warning
 Commitizen 규격으로 커밋하지 않는 경우, 병합 요청(Merge Request)가 `ambiguous(애매모호한)`로 표시됨에 주의해주세요.
@@ -17,7 +17,7 @@ Commitizen 규격으로 커밋하지 않는 경우, 병합 요청(Merge Request)
 
 - 이슈와 풀 리퀘스트에 라벨을 추가합니다. 예: `module`, `Client`, `ambiguous`, `translation required` 등
   Issue Bot은 키워드를 기반으로 카테고리를 추가합니다.
-  키워드에 대해서는 [설정 파일](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml)을 참조해주세요.
+  키워드에 대해서는 [설정 파일](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yaml)을 참조해주세요.
 - MAA 공개 팀 멤버의 이슈와 풀 리퀘스트에 `MAA Team` 라벨을 추가합니다.
 
 #### 이슈와 이에 대한 코멘트

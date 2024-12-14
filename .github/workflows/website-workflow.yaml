@@ -6,12 +6,12 @@ on:
       - "master"
       - "dev"
     paths:
-      - ".github/workflows/website-workflow.yml"
+      - ".github/workflows/website-workflow.yaml"
       - "docs/**"
       - "website/**"
   pull_request:
     paths:
-      - ".github/workflows/website-workflow.yml"
+      - ".github/workflows/website-workflow.yaml"
       - "docs/**"
       - "website/**"
   workflow_dispatch:

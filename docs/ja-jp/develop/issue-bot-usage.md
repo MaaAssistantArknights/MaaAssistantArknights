@@ -5,9 +5,9 @@ icon: bxs:bot
 
 # Issue Botの使う方
 
-Issue Botのアクションは[issue-checker](https://github.com/zzyyyl/issue-checker)になっており、設定ファイルである[issue-checker.yml][issue-checker]を利用します。
+Issue Botのアクションは[issue-checker](https://github.com/zzyyyl/issue-checker)になっており、設定ファイルである[issue-checker.yaml][issue-checker]を利用します。
 
-[issue-checker]: https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml
+[issue-checker]: https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yaml
 
 ::: warning
 Commitizenの仕様でコミットしていない場合、マージリクエストは`ambiguous`とマークされることに注意してください。
