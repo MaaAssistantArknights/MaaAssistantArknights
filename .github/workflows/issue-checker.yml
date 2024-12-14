@@ -20,6 +20,6 @@ jobs:
       - uses: MaaAssistantArknights/issue-checker@v1.14
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          configuration-path: .github/issue-checker.yaml
+          configuration-path: .github/issue-checker.yml
           not-before: 2022-08-05T00:00:00Z
           include-title: 1

@@ -1,8 +1,8 @@
-name: res-update-game-unix
+name: res-update-game
 
 on:
-  # schedule:
-  #   - cron: "*/20 * * * *"
+  schedule:
+    - cron: "*/20 * * * *" # Runs every 20 minutes
   workflow_dispatch:
     inputs:
       commit_message:
@@ -40,6 +40,7 @@ jobs:
         with:
           name: official
           path: ./Official
+          compression-level: 0
 
   clone-resources-overseas:
     if: github.repository_owner == 'MaaAssistantArknights'
@@ -81,8 +82,10 @@ jobs:
         with:
           name: overseas
           path: ./Overseas
+          compression-level: 0
 
   clone-resources-txwy:
+    if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: ubuntu-latest
     steps:
       - name: Clone arknights-toolbox-update for Taiwan
@@ -94,15 +97,39 @@ jobs:
           path: ./excel
           token: ${{ secrets.ARKNTOOLS_MAA_RESOURCE_UPDATER}}
 
+      - name: Download stages.json from Penguin Stats
+        run: |
+          cd "./excel"
+
+          baseUrl="https://penguin-stats.io/PenguinStats/api/v2/stages?server="
+
+          parameters=("CN" "US" "JP" "KR")
+
+          for param in "${parameters[@]}"; do
+            {
+              if curl -s -o "stages_${param}.json" "${baseUrl}${param}"; then
+                echo "Successfully fetched data for ${param}"
+              else
+                echo "Failed to fetch data for ${param}" >&2
+                exit 1
+              fi
+            } &
+          done
+          wait
+
       - name: Upload Official
         uses: actions/upload-artifact@v4.3.4
         with:
           name: txwy
           path: ./excel
+          compression-level: 0
 
   update-game-resources:
+    # In case of rate limitations on the runners/instances, add dependency, by removing the comment
+
+    # needs: [clone-resources-official, clone-resources-overseas, clone-resources-txwy]
     if: github.repository_owner == 'MaaAssistantArknights'
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Checkout MAA
         uses: actions/checkout@v4
@@ -111,155 +138,106 @@ jobs:
           # actions/checkout uses ${{ secrets.GITHUB_TOKEN }} by default, meaning all steps will inherit it
           persist-credentials: false # Needed to bypass protection rules in Push changes
           show-progress: false
+          fetch-depth: 3
 
       - name: Restore ResourceUpdater.exe from cache
         id: cache-resupd
         uses: actions/cache/restore@v4
         with:
-          key: ${{ runner.os }}-resource-updater-unix-${{ hashFiles('./tools/ResourceUpdaterUnix/main.cpp') }}
+          key: ${{ runner.os }}-resource-updater-main-cpp-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}
           path: |
-            ./tools/ResourceUpdaterUnix/build/ResourceUpdaterUnix
+            ./tools/ResourceUpdater/x64/Release/opencv_world4_maa.dll
+            ./tools/ResourceUpdater/x64/Release/ResourceUpdater.exe
 
       - name: Bootstrap MaaDeps
         if: steps.cache-resupd.outputs.cache-hit != 'true'
         run: |
-          python3 maadeps-download.py x64-linux
+          python3 maadeps-download.py x64-windows
 
-      - name: Build ResourceUpdater
+      - name: Add msbuild to PATH
+        if: steps.cache-resupd.outputs.cache-hit != 'true'
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build Resource Updater
         if: steps.cache-resupd.outputs.cache-hit != 'true'
         run: |
-          cmake -S . -B build
-          cd build
-          make -j$(nproc)
+          MSBUILD tools/ResourceUpdater/ResourceUpdater.vcxproj /t:rebuild /p:Configuration="Release" /p:Platform="x64" /p:BuildProjectReferences=false /m
 
       - name: Save ResourceUpdater.exe to cache
         if: always() && steps.cache-resupd.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
         with:
-          key: ${{ runner.os }}-resource-updater-unix-${{ hashFiles('./tools/ResourceUpdaterUnix/main.cpp') }}
+          key: ${{ runner.os }}-resource-updater-main-cpp-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}
           path: |
-            ./tools/ResourceUpdaterUnix/build/ResourceUpdaterUnix
+            ./tools/ResourceUpdater/x64/Release/opencv_world4_maa.dll
+            ./tools/ResourceUpdater/x64/Release/ResourceUpdater.exe
 
       - name: Download txwy
         uses: actions/download-artifact@v4.1.8
         with:
           name: txwy
-          path: ./tools/ResourceUpdaterUnix/build/Overseas/zh_TW/gamedata/excel
+          path: ./tools/ResourceUpdater/x64/Release/Overseas/zh_TW/gamedata/excel
 
       - name: Download Overseas
         uses: actions/download-artifact@v4.1.8
         with:
           name: overseas
-          path: ./tools/ResourceUpdaterUnix/build/Overseas
+          path: ./tools/ResourceUpdater/x64/Release/Overseas
 
       - name: Download Official
         uses: actions/download-artifact@v4.1.8
         with:
           name: official
-          path: ./tools/ResourceUpdaterUnix/build/Official
+          path: ./tools/ResourceUpdater/x64/Release/Official
 
       - name: Run Resource Updater
         run: |
-          ./tools/ResourceUpdaterUnix/build/ResourceUpdaterUnix
+          ./tools/ResourceUpdater/x64/Release/ResourceUpdater.exe
 
       - name: Task Sorting
+        id: task_sorting
         run: |
           python3 tools/TaskSorter/TaskSorter.py
+          Write-Output "gitdiff=$(git diff --name-only --diff-filter=ACM 2>$null | Select-String -Pattern '\.json$' -List)" >> $env:GITHUB_OUTPUT
 
-      - name: Cache Prettier
-        id: cache-prettier
-        uses: actions/cache@v4
+      - name: Run prettier
+        uses: Nerixyz/actionsx-prettier@v3-adj
         with:
-          key: ${{ runner.os }}-prettier
-          path: ./node_modules
-
-      - name: Install Prettier
-        if: steps.cache-prettier.outputs.cache-hit != 'true'
-        run: |
-          npm i prettier --no-save
-
-      - name: Run Prettier on modified Jsons
-        run: |
-          npx prettier -w $(git diff --name-only --diff-filter=ACM 2>/dev/null | grep '\.json$')
+          args: -w ${{ steps.task_sorting.outputs.gitdiff }}
 
       - name: Check if only sorted and Templates
         id: check_sorted_templates
-        run: |
-          git status
+        run: pwsh tools/ResourceUpdater/validator.ps1
 
-          gd=$(git diff --numstat HEAD 2>/dev/null | grep -i resource)
-          if [ $? -ne 0 ]; then
-            echo "no diff"
-            exit 0
-          fi
-
-          echo ""
-          echo "$gd"
-          echo ""
-
-          diff=false
-          hasPng=false
-
-          IFS=$'\n' read -rd '' -a diffLines <<<"$gd"
-
-          for line in "${diffLines[@]}"; do
-            parts=($line)
-            filePath=${parts[2]}
-            firstNumber=${parts[0]}
-            secondNumber=${parts[1]}
-
-            if [[ $filePath =~ \.png$ ]]; then
-              hasPng=true
-            fi
-
-            if [[ $firstNumber -gt 1 || $firstNumber -ne $secondNumber ]]; then
-              diff=true
-            fi
-
-            if $hasPng && $diff; then
-              break
-            fi
-          done
-
-          changes=$($hasPng || $diff)
-
-          echo "diff: $diff"
-          echo "hasPng: $hasPng"
-          echo "changes: $changes"
-
-          echo "contains_png=$hasPng" >> $GITHUB_OUTPUT
-          echo "changes=$changes" >> $GITHUB_OUTPUT
-          - name: Setup python
-          uses: actions/setup-python@v5
-          with:
-            python-version: "3.11"
+      - name: Setup python
+        if: steps.check_sorted_templates.outputs.contains_png == 'True'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
       - name: Cache Python packages
+        if: always() && steps.check_sorted_templates.outputs.contains_png == 'True'
         id: cache_python
-        if: always()
         uses: actions/cache@v4
         with:
-          path: ${{ env.pythonLocation }}/lib/python3.11/site-packages
+          path: ${{ env.pythonLocation }}/Lib/site-packages
           key: ${{ runner.os }}-pip-optimize-templates-${{ hashFiles('./tools/OptimizeTemplates/requirements.txt') }}
 
       - name: Install dependencies
-        if: steps.cache_python.outputs.cache-hit != 'true'
+        if: steps.cache_python.outputs.cache-hit != 'true' && steps.check_sorted_templates.outputs.contains_png == 'True'
         run: |
           pip install -r tools/OptimizeTemplates/requirements.txt
 
       - name: Setup oxipng
+        if: steps.check_sorted_templates.outputs.contains_png == 'True'
         uses: baptiste0928/cargo-install@v3
         with:
           crate: oxipng
 
-      - name: Optimize Templates
+      - name: Run optimize_templates
         if: steps.check_sorted_templates.outputs.contains_png == 'True'
         run: |
-          python3 tools/OptimizeTemplates/optimize_templates.py resource/template/items/ resource/template/infrast/
-
-      - name: Cancelling
-        if: steps.check_sorted_templates.outputs.changes != 'True'
-        uses: andymckay/cancel-action@0.5
+          python3 tools/OptimizeTemplates/optimize_templates.py -p resource/template/items/ resource/template/infrast/
 
       - name: Add files to git
         if: steps.check_sorted_templates.outputs.changes == 'True'
@@ -269,28 +247,27 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
 
-          commit_msg="${{ github.event.inputs.commit_message }}"
-          if [ -n "$commit_msg" ]; then
-            commit_msg=$(echo "$commit_msg" | xargs)  # Trim whitespace
-          else
-            commit_msg="chore: Auto Update Game Resources - $(date +'%Y-%m-%d')"
-          fi
+          $commit_msg = "${{ github.event.inputs.commit_message }}"
+          if ([string]::IsNullOrWhiteSpace($commit_msg)) {
+            $commit_msg = "chore: Auto Update Game Resources - $(Get-Date -Format 'yyyy-MM-dd')"
+          } else {
+            $commit_msg = $commit_msg.Trim()
+          }
 
-          git commit -m "$commit_msg" -m "[skip changelog]"
-          if [ $? -eq 0 ]; then
-            echo "have_commits=True" >> $GITHUB_OUTPUT
-          fi
+          $run_url = "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
-          git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
+          git commit -m "$commit_msg" -m "$run_url" -m "[skip changelog]"
+          if ($LASTEXITCODE -eq 0) {
+            Write-Output "have_commits=True" >> $env:GITHUB_OUTPUT
+          }
 
-      - name: Cancelling
-        if: steps.add_files.outputs.have_commits != 'True'
-        uses: andymckay/cancel-action@0.5
+          git pull origin ${{ github.ref_name }} --rebase
 
       - name: Push changes
         if: steps.add_files.outputs.have_commits == 'True'
         uses: ad-m/github-push-action@master
         with:
+          branch: ${{ github.ref }}
           github_token: ${{ secrets.MAA_RESOURCE_SYNC }}
 
       - name: Update OTA resource
@@ -298,7 +275,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.MAA_RESOURCE_SYNC }}
         run: |
-          gh workflow --repo MaaAssistantArknights/MaaRelease run update-resource.yaml
+          gh workflow --repo MaaAssistantArknights/MaaRelease run update-resource.yml
+
+      - name: Add cancelled status
+        if: steps.check_sorted_templates.outputs.changes != 'True' || steps.add_files.outputs.have_commits != 'True'
+        uses: andymckay/cancel-action@0.5
 
     #   - name: Release # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
     #     if: steps.add_files.outputs.have_commits == 'True'

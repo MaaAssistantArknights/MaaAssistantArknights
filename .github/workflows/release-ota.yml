@@ -187,4 +187,4 @@ jobs:
     steps:
       - name: Setup release mirror
         run: |
-          gh workflow --repo MaaAssistantArknights/MaaRelease run release-mirrors.yaml
+          gh workflow --repo MaaAssistantArknights/MaaRelease run release-mirrors.yml

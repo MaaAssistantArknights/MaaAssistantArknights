@@ -6,7 +6,7 @@ on:
       - dev
     paths:
       - "resource/**"
-      - ".github/workflows/sync-resource.yaml"
+      - ".github/workflows/sync-resource.yml"
   workflow_dispatch:
 
 jobs:
@@ -54,4 +54,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
         run: |
-          gh workflow --repo MaaAssistantArknights/MaaRelease run update-resource.yaml
+          gh workflow --repo MaaAssistantArknights/MaaRelease run update-resource.yml
