@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  sync-reource:
+  sync-resource:
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: ubuntu-latest
 

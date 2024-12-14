@@ -1,4 +1,4 @@
-name: test
+name: smoke-testing
 
 on:
   push:
