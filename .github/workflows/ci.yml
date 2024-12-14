@@ -13,7 +13,7 @@ on:
       - "cmake/**"
       - "CMakeLists.txt"
       - "MAA.sln"
-      - ".github/workflows/ci.yaml"
+      - ".github/workflows/ci.yml"
       - "!**/*.md"
   pull_request:
     branches:
