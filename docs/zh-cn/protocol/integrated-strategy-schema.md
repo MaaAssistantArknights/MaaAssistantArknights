@@ -16,8 +16,8 @@ icon: ri:game-fill
     - `autopilot/` 内是各个关卡的作战 json
       - `关卡名.json` 关卡的作战逻辑
     - `encounter/` 内是不期而遇类（所有非战斗和商店节点）事件逻辑
-      - `default.json` 刷等级模式
-      - `deposit.json` 刷源石锭模式
+      - `deposit.json` 刷等级模式
+      - `default.json` 刷源石锭模式
     - `recruitment.json` 干员招募逻辑
     - `shopping.json` 商店购买藏品逻辑
 
@@ -535,9 +535,9 @@ icon: ri:game-fill
 
 ## 肉鸽第三步——不期而遇类节点逻辑
 
-`resource/roguelike/主题名/encounter/default.json` 描述了刷等级模式下不期而遇事件选择的策略
+`resource/roguelike/主题名/encounter/deposit.json` 描述了刷等级模式下不期而遇事件选择的策略
 
-`resource/roguelike/主题名/encounter/deposit.json` 描述了刷源石锭模式和刷开局模式下不期而遇事件选择的策略
+`resource/roguelike/主题名/encounter/default.json` 描述了刷源石锭模式和刷开局模式下不期而遇事件选择的策略
 
 ### MAA 现有对不期而遇的判断方法
 
