@@ -54,11 +54,11 @@ jobs:
         run: |
           if (git diff --quiet HEAD origin/${{ github.ref_name }}) {
             echo "No changes in dev branch. Cancelling workflow."
-            echo "cancel_run=True" >> $GITHUB_ENV
+            echo "cancel_run=true" >> $GITHUB_ENV
           }
 
       - name: Stop if no changes
-        if: steps.check_changes.outputs.changes_run == 'True'
+        if: env.cancel_run == 'true'
         uses: andymckay/cancel-action@0.5
 
       - name: Checkout ref
