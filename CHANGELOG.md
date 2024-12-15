@@ -1,85 +1,44 @@
-## v5.11.0-beta.1
+## v5.11.0-beta.2
 
 ### 新增 | New
 
-* Mac GUI重构&多语言 (#11295) @hguandl
-* SideStory「出苍白海」导航 (#11294) @SherkeyXD
-* YostarJP manually add BP new operators (#11286) @Manicsteiner
-* add BP new operators @Constrat
-* YostarEN BP navigation @Constrat
-* SSS#5 ocr replace for conductive elements @Constrat
-* SSS#5 for global @Constrat
+* 为选择线索添加判定 (#11323) @Alan-Charred
+* enhance MAA website animation for a more elegant appearance (#11303) @chisato2233
 
 ### 改进 | Improved
 
-* WpfGui重构 拆分`一键长草-刷理智任务` (#11223) @status102
-* 账号切换退出账号增加OCR (#11258) @Daydreamer114
-* 优化葛朗台，碎石在理智不会溢出时不再等待 @status102
-* 优化 StageManager 代码结构 (#11233) @ABA2396 @status102
-* WpfGui重构 拆分`一键长草-领取奖励任务` (#11228) @status102
-* WpfGui重构 拆分`一键长草-基建任务`任务 (#11219) @status102
-* WpfGui重构 拆分`一键长草-获取信用及购物任务` (#11218) @status102
-* 简化绑定 @status102
-* WpfGui重构 拆分`一键长草-自动肉鸽` (#11201) @status102
-* 优化参数解析 @ABA2396
-* WpfGui重构 拆分`设置-远程控制` (#11202) @status102
-* WpfGui重构 拆分`设置-定时执行` (#11192) @status102
+* WpfGui重构 部分拆分`设置-关于` (#11330) @status102
+* WpfGui重构 拆分`设置-性能设置` (#11329) @status102
+* 更新保全派驻荒地群兽音乐厅，多索雷斯在建地块新作业 (#11318) @Saratoga-Official
+* WpfGui重构 拆分`一键长草-公招任务` (#11311) @status102
+* 优化仓库识别显示，减少读取文件次数，优化文件占用 @ABA2396
 
 ### 修复 | Fix
 
-* 萨卡兹肉鸽点刺成锭分队开局思维阻塞 (#11276) @Daydreamer114
-* missing battle_data BP event @Constrat
-* 双击托盘图标可能导致窗口位置错误 @ABA2396
-* Mac GUI日志&肉鸽难度设置 (#11273) @hguandl
-* 为 ios端降低 Sarkaz@Roguelike@DecreaseBurdenAbandonThought 任务模版匹配的 threshold (#11266) @Alan-Charred
-* 干员识别中出现卫戍中的 4★ 预备干员 及 特有 6★ @ABA2396
-* Mac GUI 优化作业列表 (#11250) @hguandl
-* 新下载的 MAA 会在加载关卡时报错 @ABA2396
-* 繁中服無法訪問好友 (#11248) @momomochi987 @pre-commit-ci[bot]
-* macOS 肉鸽参数&客户端包名 (#11245) @hguandl
-* UI 更新后自动填充有概率拉取其他设施内干员 @ABA2396
-* 避免非预期的任务参数设置检查 (#11232) @status102
-* 肉鸽构想不足过高阈值导致 mac 版无法识别 @Daydreamer114
-* 切换配置后不会自动启动 @ABA2396
-* API 中被删除的已关闭活动关卡被误判为常驻关卡 @ABA2396
-* 刷理智失败次数限制未生效 @ABA2396
-* 修改邮件通知中特殊字符的处理方式 (#11169) @LogicDX342 @status102
-* 访问好友在部分背景下无法进入 @ABA2396
-* 命令行切换配置后弹出公告 @ABA2396
-* 加载顺序 @ABA2396
-* 使用命令行切换配置时有可能使关卡选择被覆盖 @ABA2396
-* IS2 missing templates for recruiting and obtaining relics (#11196) @nnnn1111 @pre-commit-ci[bot]
-* not entering recruitment when in mall with recruitment permit item on screen @Constrat
-* 荒芜拉普兰德 OcrReplace (#11184) @Saratoga-Official
+* YostarKR improved StageBoskyPassageEnter recognition score (#11351) @HX3N
+* CheckComboBox 初始化报错 @ABA2396
+* SSS recruitment flag EN @Constrat
+* YostarKR improved StageMysteriousPresageEnter recognition score (#11336) @HX3N
+* 网络卡顿导致领邮件失败 (#11333) @Daydreamer114
+* 进入去伪存真后识别太快导致错过 close collection 识别 @Daydreamer114
+* 小工具-公招识别 绑定失效 @status102
+* 增加 Tales@RA@ResourceGained 任务的 roi (#11322) @Alan-Charred
+* YostarJP MedicineExpiringTime ocr fix (#11307) @Manicsteiner
+* 将萨卡兹肉鸽 CloseCollection 的 Continue 和 Close 改为 RGBCount (#11302) @Daydreamer114
+* 仓库识别无法识别 ”万“ @ABA2396
+* 移除多余的阻止休眠设置选项 (#11301) @Rbqwow
 
 ### 文档 | Docs
 
-* 修改常见问题中的下载/安装问题的描述 (#11229) @ClozyA
+* 新手上路增加非 Windows 指引；macOS 和 Android 实体设备添加说明 (#11227) @Daydreamer114 @ABA2396 @Rbqwow
+* 增加Mac模拟器：蓝叠模拟器air版 (#11349) @MikeQu223
 
 ### 其他 | Other
 
-* tools: style for clone_data powershell script [skip changelog] @Constrat
-* remove Yostar servers reclamation algorithm temp edits @Manicsteiner
-* 管理员权限启动无法使用开机自启 (#11290) @ABA2396 @momomochi987
-* tools: style linking [skip changelog] @Constrat
-* 因为资源版本上报失败时添加提示 @ABA2396
-* YostarKR add BP new operators (#11285) @HX3N
-* 移除多余代码 @ABA2396
-* YostarKR BP navigation (#11279) @HX3N
-* YostarJP BP navigation @Manicsteiner
-* Translations update from MAA Weblate (#11255) @AlisaAkiron
-* WpfGui`游戏设置`修改为`运行设置` (#11209) @status102 @Constrat
-* EN tweaks [skip ci] @Constrat
-* 通过控制台退出模拟器时不再kill端口 @ABA2396
-* YostarJP ocr replace 魔王 (#11222) @Manicsteiner
-* 成功代理不再减少任务失败计数 @ABA2396
-* Auto update by pre-commit hooks [skip changelog] @pre-commit-ci[bot]
-* 移除过渡代码 @ABA2396
-* YostarKR SSSBuffChoose ocr fix @HX3N
-* automatically remove spaces for YoStarKR in CharsNameOcrReplace (#11205) @Constrat
-* YostarKR SSS#5 ocr added (#11200) @HX3N
-* 拆分 设置-界面设置 (#11188) @status102
-* 繁中服保全派駐的新定向導能元件 @momomochi987
-* 拆分 设置-游戏设置 (#11185) @status102
-* rename `ExternalNotificationDataContext` to `ExternalNotificationSettings` @status102
-* rename `VersionUpdateDataContext` to `VersionUpdateSettings` @status102
+* Revert "refactor: yml -> yaml standardization" @Constrat
+* yml -> yaml standardization @Constrat
+* add YostarJP ocrReplace 黑角 (#11350) @liang36176381
+* Reapply "style: 修改变量以符合项目风格" @status102
+* Revert "style: 修改变量以符合项目风格" @status102
+* ci/nightly-schedule (#11317) @Constrat
+* 简化完成后动作UI绑定 (#11316) @status102
