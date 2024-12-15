@@ -1,16 +1,17 @@
 name: sync-resource
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - dev
     paths:
       - "resource/**"
       - ".github/workflows/sync-resource.yml"
+  workflow_dispatch:
 
 jobs:
-  sync-reource:
+  sync-resource:
+    if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: ubuntu-latest
 
     steps:

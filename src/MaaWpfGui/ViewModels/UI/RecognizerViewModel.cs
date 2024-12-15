@@ -176,8 +176,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public static SettingsViewModel RecruitSettingDataContext => Instances.SettingsViewModel;
-
         private bool _recruitCaught;
 
         /// <summary>
@@ -221,7 +219,7 @@ namespace MaaWpfGui.ViewModels.UI
                 levelList.Add(6);
             }
 
-            Instances.AsstProxy.AsstStartRecruitCalc(levelList.ToArray(), RecruitAutoSetTime, RecruitSettingDataContext.ChooseLevel3Time, RecruitSettingDataContext.ChooseLevel4Time, RecruitSettingDataContext.ChooseLevel5Time);
+            Instances.AsstProxy.AsstStartRecruitCalc(levelList.ToArray(), RecruitAutoSetTime, SettingsViewModel.RecruitTask.ChooseLevel3Time, SettingsViewModel.RecruitTask.ChooseLevel4Time, SettingsViewModel.RecruitTask.ChooseLevel5Time);
         }
 
         private bool _recruitmentShowPotential = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RecruitmentShowPotential, bool.TrueString));
@@ -335,7 +333,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             public BitmapImage? Image { get; set; }
 
-            public int Count { get; set; }
+            public string? Count { get; set; }
         }
 
         /// <summary>
@@ -347,6 +345,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets or sets the Lolicon result.
         /// </summary>
         public string LoliconResult { get; set; } = string.Empty;
+
+        /// <summary>
+        /// gets or sets the depot image.
+        /// </summary>
+        private static readonly Dictionary<string, BitmapImage?> _imageCache = new();
 
         /// <summary>
         /// parse of depot recognition result
@@ -361,7 +364,13 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             DepotResult.Clear();
-            foreach (var item in details["arkplanner"]?["object"]?["items"]?.Cast<JObject>()!)
+
+            var sortedItems = details["arkplanner"]?["object"]?["items"]
+                                  ?.Cast<JObject>()
+                                  .OrderBy(item => (string?)item["id"])
+                              ?? Enumerable.Empty<JObject>();
+
+            foreach (var item in sortedItems)
             {
                 var id = (string?)item["id"];
                 if (id == null)
@@ -369,13 +378,24 @@ namespace MaaWpfGui.ViewModels.UI
                     continue;
                 }
 
-                DepotResultDate result = new DepotResultDate()
+                if (!_imageCache.TryGetValue(id, out var image))
+                {
+                    image = ItemListHelper.GetItemImage(id);
+                    _imageCache[id] = image;
+                }
+
+                DepotResultDate result = new()
                 {
                     Id = id,
                     Name = ItemListHelper.GetItemName(id),
-                    Image = ItemListHelper.GetItemImage(id),
-                    Count = (int)(item["have"] ?? -1),
+                    Image = image,
+                    Count = item["have"] != null && int.TryParse(item["have"]?.ToString() ?? "-1", out int haveValue)
+                        ? (haveValue > 10000
+                            ? $"{haveValue / 10000.0:F1}w"
+                            : haveValue.ToString())
+                        : "-1",
                 };
+
                 DepotResult.Add(result);
             }
 

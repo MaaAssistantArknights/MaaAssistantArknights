@@ -41,7 +41,17 @@ icon: basil:apple-solid
 
 サポートされています。Android 10 以降、SELinux が\`Enforcing\`モードの場合、Minitouch は使用できません、別のタッチモードに切り替えてください。または SELinux を **一時的に** \`Permissive\`モードに切り替え。
 
+### ✅ [BlueStacks Air](https://www.bluestacks.com/mac) （無料、Apple Mシリーズチップ向けに最適化されたバージョン）
+
+サポート済み、テスト済みで、maatouch経由で`127.0.0.1:5555`に接続できます。
+
+エミュレータの **`設定`** - **`詳細`** で **`Androidデバッグ（ADB）`** を有効にする必要があります。
+
 ## Intel チップ
+
+::: tip
+Mac 版の開発は人手不足のため、更新速度が比較的遅いです。Mac に搭載されているマルチシステム機能を使って Windows をインストールし、Windows 版の MAA を使用することをお勧めします。
+:::
 
 ### ✅ [Bluestacks-CN](https://www.bluestacks.cn/)
 

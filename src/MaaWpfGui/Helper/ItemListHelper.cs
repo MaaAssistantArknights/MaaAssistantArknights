@@ -11,6 +11,8 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -73,7 +75,7 @@ namespace MaaWpfGui.Helper
         /// 获取当前语言下的物品名称 / Get the name of the item in the current language
         /// </summary>
         /// <param name="itemId">物品 id / Item id</param>
-        /// <returns></returns>
+        /// <returns>物品名称</returns>
         public static string GetItemName(string itemId)
         {
             return ArkItems.TryGetValue(itemId, out var item)
@@ -85,13 +87,30 @@ namespace MaaWpfGui.Helper
         /// 获取对应物品的图标 / Get the icon of the corresponding item
         /// </summary>
         /// <param name="itemId">物品 id / Item id</param>
-        /// <returns></returns>
-        public static BitmapImage GetItemImage(string itemId)
+        /// <returns>物品图片</returns>
+        public static BitmapImage? GetItemImage(string itemId)
         {
             var imagePath = Path.Combine(Environment.CurrentDirectory, $"resource/template/items/{itemId}.png");
-            return File.Exists(imagePath)
-                ? new BitmapImage(new Uri(imagePath, UriKind.RelativeOrAbsolute))
-                : new BitmapImage();
+            if (!File.Exists(imagePath))
+            {
+                return null;
+            }
+
+            try
+            {
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new(imagePath, UriKind.RelativeOrAbsolute);
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.EndInit();
+
+                bitmap.Freeze();
+                return bitmap;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

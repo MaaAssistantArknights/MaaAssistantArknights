@@ -27,6 +27,8 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 /// </summary>
 public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
 {
+    public static ExternalNotificationSettingsUserControlModel Instance { get; } = new();
+
     // UI 绑定的方法
     // ReSharper disable once UnusedMember.Global
     public static void ExternalNotificationSendTest()
@@ -49,7 +51,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
 
     public static List<string> ExternalNotificationProvidersShow => ExternalNotificationProviders;
 
-    private object[] _enabledExternalNotificationProviders =
+    private static object[] _enabledExternalNotificationProviders =
         ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnabled, string.Empty)
         .Split(',')
         .Where(s => ExternalNotificationProviders.Contains(s.ToString()))

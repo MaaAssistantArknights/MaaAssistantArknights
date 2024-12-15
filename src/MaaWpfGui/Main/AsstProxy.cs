@@ -608,7 +608,7 @@ namespace MaaWpfGui.Main
                     var screencapCostAvg = details["details"]?["avg"]?.ToString() ?? "???";
                     var screencapCostMax = details["details"]?["max"]?.ToString() ?? "???";
                     var currentTime = DateTimeOffset.Now.ToString("HH:mm:ss");
-                    Instances.SettingsViewModel.ScreencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), screencapCostMin, screencapCostAvg, screencapCostMax, currentTime);
+                    SettingsViewModel.PerformanceSettings.ScreencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), screencapCostMin, screencapCostAvg, screencapCostMax, currentTime);
                     if (!HasPrintedScreencapWarning && int.TryParse(screencapCostAvg, out var screencapCostAvgInt))
                     {
                         static void AddLog(string message, string color)
@@ -1020,7 +1020,7 @@ namespace MaaWpfGui.Main
                 case "AutoRecruitTask":
                     {
                         var whyStr = details.TryGetValue("why", out var why) ? why.ToString() : LocalizationHelper.GetString("ErrorOccurred");
-                        Instances.TaskQueueViewModel.AddLog(whyStr + "，" + LocalizationHelper.GetString("HasReturned"), UiLogColor.Error);
+                        Instances.TaskQueueViewModel.AddLog(whyStr + ", " + LocalizationHelper.GetString("HasReturned"), UiLogColor.Error);
                         break;
                     }
 
@@ -1031,10 +1031,10 @@ namespace MaaWpfGui.Main
                 case "ReportToPenguinStats":
                     {
                         var why = details["why"]!.ToString();
-                        Instances.TaskQueueViewModel.AddLog(why + "，" + LocalizationHelper.GetString("GiveUpUploadingPenguins"), UiLogColor.Error);
+                        Instances.TaskQueueViewModel.AddLog(why + ", " + LocalizationHelper.GetString("GiveUpUploadingPenguins"), UiLogColor.Error);
                         if (why == "UnknownStage")
                         {
-                            Instances.TaskQueueViewModel.AddLog(details["details"]?["stage_code"] + LocalizationHelper.GetString("UnsupportedLevel"), UiLogColor.Error);
+                            Instances.TaskQueueViewModel.AddLog(details["details"]?["stage_code"]+ ": " + LocalizationHelper.GetString("UnsupportedLevel"), UiLogColor.Error);
                         }
 
                         break;
@@ -1324,7 +1324,7 @@ namespace MaaWpfGui.Main
                 case "RecruitSpecialTag":
                     {
                         string special = subTaskDetails!["tag"]!.ToString();
-                        if (special == "支援机械" && Instances.SettingsViewModel.NotChooseLevel1 == false)
+                        if (special == "支援机械" && SettingsViewModel.RecruitTask.NotChooseLevel1 == false)
                         {
                             break;
                         }
