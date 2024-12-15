@@ -16,9 +16,20 @@ jobs:
           fetch-depth: 0
           persist-credentials: false # Needed to bypass protection rules in Push changes
 
+      - name: Download last checked commit artifact
+        id: download_artifact
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: artifact-last-blame-ignore-commit
+ 
       - name: Get last checked commit
+        id: get_last_commit
         run: |
-          LAST_CHECKED_COMMIT=$(cat .last-checked-commit 2>/dev/null || git rev-list --max-parents=0 HEAD)
+          if [ -f last-blame-ignore-commit ]; then
+            LAST_CHECKED_COMMIT=$(cat last-blame-ignore-commit)
+          else
+            LAST_CHECKED_COMMIT=$(git rev-list --max-parents=0 HEAD)
+          fi
           echo "LAST_CHECKED_COMMIT=$LAST_CHECKED_COMMIT" >> $GITHUB_ENV
 
       - name: Process commits and update blame ignore list
@@ -28,9 +39,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git rev-parse HEAD > .last-checked-commit
+          git rev-parse HEAD > last-blame-ignore-commit
 
-          git add .last-checked-commit .git-blame-ignore-revs
+          git add .git-blame-ignore-revs
           git commit -m "chore: auto blame ignore" -m "[skip changelog]"
 
       - name: Push changes
@@ -38,3 +49,10 @@ jobs:
         with:
           branch: ${{ github.ref }}
           github_token: ${{ secrets.MAA_RESOURCE_SYNC }}
+
+      - name: Upload last checked commit artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifact-last-blame-ignore-commit
+          path: last-blame-ignore-commit
+          retention-days: 90 # Default retention period for artifacts
