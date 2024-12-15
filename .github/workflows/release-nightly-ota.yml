@@ -52,10 +52,16 @@ jobs:
       - name: Check for changes in dev branch
         id: check_changes
         run: |
-          if (git diff --quiet HEAD origin/${{ github.ref_name }}) {
-            echo "No changes in dev branch. Cancelling workflow."
+          # Get the commit hash and date of the latest commit within the last 24 hours
+          recent_commit=$(git log --since="24 hours ago" --pretty=format:"%H" -n 1)
+
+          if [ -z "$recent_commit" ]; then
+            echo "No commits in the last 24 hours. Cancelling workflow."
             echo "cancel_run=true" >> $GITHUB_ENV
-          }
+          else
+            echo "Commits found within the last 24 hours. Continuing build."
+            echo "cancel_run=false" >> $GITHUB_ENV
+          fi
 
       - name: Stop if no changes
         if: env.cancel_run == 'true'
