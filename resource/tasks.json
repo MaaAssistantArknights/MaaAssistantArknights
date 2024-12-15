@@ -2203,7 +2203,8 @@
             ["^华琳$", "华法琳"],
             ["^宝箱的肉.*", "宝箱的肉？"],
             [".*维多利亚$", "维娜·维多利亚"],
-            [".*芜拉普兰德$", "荒芜拉普兰德"]
+            [".*芜拉普兰德$", "荒芜拉普兰德"],
+            ["^盥心$", "塑心"]
         ]
     },
     "SwitchAccount@StartUpBegin": {
@@ -3428,7 +3429,7 @@
     "Mail": {
         "action": "ClickSelf",
         "roi": [120, 0, 150, 135],
-        "next": ["ReceiveMail", "Mail", "Stop"],
+        "next": ["Mail@LoadingText", "ReceiveMail", "Mail", "Stop"],
         "postDelay": 2000
     },
     "MailWithoutAward": {
@@ -3439,7 +3440,13 @@
     "ReceiveMail": {
         "action": "ClickSelf",
         "roi": [980, 580, 300, 140],
-        "next": ["CloseTaskMail"]
+        "next": ["ReceivedAllMail", "ReceiveMail@LoadingText", "CloseTaskMail"]
+    },
+    "ReceivedAllMail": {
+        "roi": [909, 33, 166, 165],
+        "method": "HSVCount",
+        "colorScales": [[250, 255]],
+        "next": ["ReceivedAllMail@LoadingText", "Home@ReturnButtons#next"]
     },
     "CloseTaskMail": {
         "baseTask": "CloseTaskAward",
@@ -3447,7 +3454,7 @@
     },
     "CloseTaskMailDouble": {
         "baseTask": "CloseTaskAwardDouble",
-        "next": ["Home@ReturnButtons#next", "CloseTaskMailDouble"]
+        "next": ["ReceiveMail", "Home@ReturnButtons#next", "CloseTaskMailDouble"]
     },
     "VisitBegin": {
         "algorithm": "JustReturn",
@@ -4456,6 +4463,17 @@
         "maskRange": [1, 255],
         "maxTimes": 3,
         "exceededNext": ["CloseSendClue"],
+        "next": ["ClueSelected", "SelectClue"]
+    },
+    "ClueSelected": {
+        "roi": [2, 133, 418, 196],
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [160, 0, 0],
+                [255, 255, 255]
+            ]
+        ],
         "next": [
             "ClueGiveTo1st",
             "ClueGiveTo2nd",
@@ -9784,6 +9802,13 @@
         "specificRect": [600, 600, 25, 25]
     },
     "Sarkaz@Roguelike@CloseCollection": {
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [150, 150, 150],
+                [170, 170, 170]
+            ]
+        ],
         "next": [
             "Sarkaz@Roguelike@LastReward",
             "Sarkaz@Roguelike@LastReward4",
@@ -9796,8 +9821,14 @@
     },
     "Sarkaz@Roguelike@CloseCollectionClose": {
         "action": "ClickSelf",
-        "templThreshold": 0.9,
         "roi": [572, 434, 144, 141],
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [150, 150, 150],
+                [170, 170, 170]
+            ]
+        ],
         "next": [
             "Sarkaz@Roguelike@StageEncounterEnter",
             "Sarkaz@Roguelike@Stages#next",
@@ -9810,9 +9841,14 @@
     },
     "Sarkaz@Roguelike@CloseCollectionContinue": {
         "action": "ClickSelf",
-        "templThreshold": 0.79,
         "roi": [549, 440, 123, 130],
-        "maskRange": [100, 255],
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [110, 110, 110],
+                [130, 130, 130]
+            ]
+        ],
         "next": [
             "Sarkaz@Roguelike@StageEncounterEnter",
             "Sarkaz@Roguelike@Stages#next",
@@ -10474,6 +10510,7 @@
                 [25, 230, 150]
             ]
         ],
+        "postDelay": 1500,
         "next": [
             "Sarkaz@Roguelike@StageFilterTruthCloseCollection",
             "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
@@ -12998,7 +13035,7 @@
         "doc": "模板任务: 获得物资, 点击 <点击空白处继续> 文字位置",
         "algorithm": "OcrDetect",
         "text": ["点击空白处继续"],
-        "roi": [554, 445, 172, 41],
+        "roi": [500, 445, 280, 41],
         "action": "ClickSelf"
     },
     "Tales@RA@ReturnToOrigin": {

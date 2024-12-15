@@ -786,7 +786,7 @@
             ["Energizing Oil", "焕能精油"],
             ["Vitalizing Oil", "复苏精油"],
             ["'Long Live Mead!'", "“蜜酿万岁！”"],
-            ["Shu", "黍"],
+            [".?Shu", "黍"],
             ["Wanqing", "万顷"],
             ["Zuo Le", "左乐"],
             ["Grain Buds", "小满"],
@@ -1416,7 +1416,7 @@
         "roi": [992, 576, 288, 144]
     },
     "SSSDropRecruitmentFlag": {
-        "text": ["Choose an Operator", "Select", "Conductive", "Unit"]
+        "text": ["Choose", "Operator", "Select", "Conductive", "Unit"]
     },
     "SSSDropRecruitmentConfirm": {
         "text": ["Confirm assignment", "Confirm Selection", "Abandon Assignment"],

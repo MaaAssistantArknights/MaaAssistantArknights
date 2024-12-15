@@ -1,4 +1,4 @@
-// <copyright file="AboutUserControl.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="PostActionUserControl.xaml.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -11,19 +11,18 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-namespace MaaWpfGui.Views.UserControl
+namespace MaaWpfGui.Views.UserControl.TaskQueue;
+
+/// <summary>
+/// PostActionUserControl.xaml 的交互逻辑
+/// </summary>
+public partial class PostActionUserControl : System.Windows.Controls.UserControl
 {
     /// <summary>
-    /// AboutUserControl.xaml 的交互逻辑
+    /// Initializes a new instance of the <see cref="PostActionUserControl"/> class.
     /// </summary>
-    public partial class AboutUserControl : System.Windows.Controls.UserControl
+    public PostActionUserControl()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AboutUserControl"/> class.
-        /// </summary>
-        public AboutUserControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

@@ -1,4 +1,4 @@
-// <copyright file="AfterActionUserControl.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="GameSettingsUserControl.xaml.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -11,19 +11,19 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-namespace MaaWpfGui.Views.UserControl;
-
-/// <summary>
-/// AfterActionUserControl.xaml 的交互逻辑
-/// </summary>
-public partial class AfterActionUserControl : System.Windows.Controls.UserControl
+namespace MaaWpfGui.Views.UserControl.Settings
 {
-
     /// <summary>
-    /// Initializes a new instance of the <see cref="AfterActionUserControl"/> class.
+    /// GameSettingsUserControl.xaml 的交互逻辑
     /// </summary>
-    public AfterActionUserControl()
+    public partial class PerformanceUserControl : System.Windows.Controls.UserControl
     {
-        InitializeComponent();
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PerformanceUserControl"/> class.
+        /// </summary>
+        public PerformanceUserControl()
+        {
+            InitializeComponent();
+        }
     }
 }

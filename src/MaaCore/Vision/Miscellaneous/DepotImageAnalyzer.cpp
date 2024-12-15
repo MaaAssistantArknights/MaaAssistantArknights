@@ -308,6 +308,12 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
         multiple = 10000;
         digit_str.erase(w_pos, digit_str.size());
     }
+    // 更新：这个模型改成了 ASCII 识别，所以识别不到万了，得到的结果是 1.35 这种形式，表示 1.3 万
+    else if (size_t w2_pos = digit_str.find('.');
+             digit_str.size() > 1 && w2_pos != std::string::npos && digit_str[digit_str.size() - 1] == '5') {
+        multiple = 10000;
+        digit_str.erase(digit_str.size() - 1, digit_str.size());
+    }
     else if (size_t k_pos = digit_str.find('K'); k_pos != std::string::npos) {
         multiple = 1000;
         digit_str.erase(k_pos, digit_str.size());

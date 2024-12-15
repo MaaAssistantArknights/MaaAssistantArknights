@@ -11555,6 +11555,150 @@
         "stageId": "act39side_08",
         "width": 12
     },
+    "act39side_ex01#f#-activities/act39side/level_act39side_ex01": {
+        "code": "EP-EX-1",
+        "filename": "act39side_ex01#f#-activities-act39side-level_act39side_ex01.json",
+        "height": 8,
+        "levelId": "activities/act39side/level_act39side_ex01",
+        "name": "雅隆旧址",
+        "stageId": "act39side_ex01#f#",
+        "width": 11
+    },
+    "act39side_ex01-activities/act39side/level_act39side_ex01": {
+        "code": "EP-EX-1",
+        "filename": "act39side_ex01-activities-act39side-level_act39side_ex01.json",
+        "height": 8,
+        "levelId": "activities/act39side/level_act39side_ex01",
+        "name": "雅隆旧址",
+        "stageId": "act39side_ex01",
+        "width": 11
+    },
+    "act39side_ex02#f#-activities/act39side/level_act39side_ex02": {
+        "code": "EP-EX-2",
+        "filename": "act39side_ex02#f#-activities-act39side-level_act39side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act39side/level_act39side_ex02",
+        "name": "陆港遗迹",
+        "stageId": "act39side_ex02#f#",
+        "width": 11
+    },
+    "act39side_ex02-activities/act39side/level_act39side_ex02": {
+        "code": "EP-EX-2",
+        "filename": "act39side_ex02-activities-act39side-level_act39side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act39side/level_act39side_ex02",
+        "name": "陆港遗迹",
+        "stageId": "act39side_ex02",
+        "width": 11
+    },
+    "act39side_ex03#f#-activities/act39side/level_act39side_ex03": {
+        "code": "EP-EX-3",
+        "filename": "act39side_ex03#f#-activities-act39side-level_act39side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act39side/level_act39side_ex03",
+        "name": "盐花田地",
+        "stageId": "act39side_ex03#f#",
+        "width": 11
+    },
+    "act39side_ex03-activities/act39side/level_act39side_ex03": {
+        "code": "EP-EX-3",
+        "filename": "act39side_ex03-activities-act39side-level_act39side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act39side/level_act39side_ex03",
+        "name": "盐花田地",
+        "stageId": "act39side_ex03",
+        "width": 11
+    },
+    "act39side_ex04#f#-activities/act39side/level_act39side_ex04": {
+        "code": "EP-EX-4",
+        "filename": "act39side_ex04#f#-activities-act39side-level_act39side_ex04.json",
+        "height": 7,
+        "levelId": "activities/act39side/level_act39side_ex04",
+        "name": "鸣鳞原野",
+        "stageId": "act39side_ex04#f#",
+        "width": 11
+    },
+    "act39side_ex04-activities/act39side/level_act39side_ex04": {
+        "code": "EP-EX-4",
+        "filename": "act39side_ex04-activities-act39side-level_act39side_ex04.json",
+        "height": 7,
+        "levelId": "activities/act39side/level_act39side_ex04",
+        "name": "鸣鳞原野",
+        "stageId": "act39side_ex04",
+        "width": 11
+    },
+    "act39side_ex05#f#-activities/act39side/level_act39side_ex05": {
+        "code": "EP-EX-5",
+        "filename": "act39side_ex05#f#-activities-act39side-level_act39side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act39side/level_act39side_ex05",
+        "name": "星河水镜",
+        "stageId": "act39side_ex05#f#",
+        "width": 12
+    },
+    "act39side_ex05-activities/act39side/level_act39side_ex05": {
+        "code": "EP-EX-5",
+        "filename": "act39side_ex05-activities-act39side-level_act39side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act39side/level_act39side_ex05",
+        "name": "星河水镜",
+        "stageId": "act39side_ex05",
+        "width": 12
+    },
+    "act39side_ex06#f#-activities/act39side/level_act39side_ex06": {
+        "code": "EP-EX-6",
+        "filename": "act39side_ex06#f#-activities-act39side-level_act39side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act39side/level_act39side_ex06",
+        "name": "盐鳞坟场",
+        "stageId": "act39side_ex06#f#",
+        "width": 12
+    },
+    "act39side_ex06-activities/act39side/level_act39side_ex06": {
+        "code": "EP-EX-6",
+        "filename": "act39side_ex06-activities-act39side-level_act39side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act39side/level_act39side_ex06",
+        "name": "盐鳞坟场",
+        "stageId": "act39side_ex06",
+        "width": 12
+    },
+    "act39side_ex07#f#-activities/act39side/level_act39side_ex07": {
+        "code": "EP-EX-7",
+        "filename": "act39side_ex07#f#-activities-act39side-level_act39side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act39side/level_act39side_ex07",
+        "name": "盐船残骸",
+        "stageId": "act39side_ex07#f#",
+        "width": 12
+    },
+    "act39side_ex07-activities/act39side/level_act39side_ex07": {
+        "code": "EP-EX-7",
+        "filename": "act39side_ex07-activities-act39side-level_act39side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act39side/level_act39side_ex07",
+        "name": "盐船残骸",
+        "stageId": "act39side_ex07",
+        "width": 12
+    },
+    "act39side_ex08#f#-activities/act39side/level_act39side_ex08": {
+        "code": "EP-EX-8",
+        "filename": "act39side_ex08#f#-activities-act39side-level_act39side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act39side/level_act39side_ex08",
+        "name": "盐海尽头",
+        "stageId": "act39side_ex08#f#",
+        "width": 13
+    },
+    "act39side_ex08-activities/act39side/level_act39side_ex08": {
+        "code": "EP-EX-8",
+        "filename": "act39side_ex08-activities-act39side-level_act39side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act39side/level_act39side_ex08",
+        "name": "盐海尽头",
+        "stageId": "act39side_ex08",
+        "width": 13
+    },
     "act39side_tr01-activities/act39side/level_act39side_tr01": {
         "code": "EP-TR-1",
         "filename": "act39side_tr01-activities-act39side-level_act39side_tr01.json",

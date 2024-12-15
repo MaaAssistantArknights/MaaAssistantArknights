@@ -1,4 +1,4 @@
-// <copyright file="AutoRecruitSettingsUserControl.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="AboutUserControl.xaml.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -11,19 +11,17 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System.Reflection;
-
-namespace MaaWpfGui.Views.UserControl
+namespace MaaWpfGui.Views.UserControl.Settings
 {
     /// <summary>
-    /// AutoRecruitSettingsUserControl.xaml 的交互逻辑
+    /// AboutUserControl.xaml 的交互逻辑
     /// </summary>
-    public partial class AutoRecruitSettingsUserControl : System.Windows.Controls.UserControl
+    public partial class AboutUserControl : System.Windows.Controls.UserControl
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AutoRecruitSettingsUserControl"/> class.
+        /// Initializes a new instance of the <see cref="AboutUserControl"/> class.
         /// </summary>
-        public AutoRecruitSettingsUserControl()
+        public AboutUserControl()
         {
             InitializeComponent();
         }
