@@ -46,6 +46,7 @@
     <system:String x:Key="ExternalNotificationSmtpFrom">Sender</system:String>
     <system:String x:Key="ExternalNotificationDiscordBotToken">Bot Token</system:String>
     <system:String x:Key="ExternalNotificationDiscordUserId">User ID</system:String>
+    <system:String x:Key="ExternalNotificationDiscordWebhookUrl">Webhook URL</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">Bot Token</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">Chat ID</system:String>
     <system:String x:Key="ExternalNotificationQmsgServer">Qmsg Server</system:String>

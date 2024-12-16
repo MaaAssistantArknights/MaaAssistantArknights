@@ -37,6 +37,7 @@ namespace MaaWpfGui.Services.Notification
                     "ServerChan" => new ServerChanNotificationProvider(Instances.HttpService),
                     "Telegram" => new TelegramNotificationProvider(Instances.HttpService),
                     "Discord" => new DiscordNotificationProvider(Instances.HttpService),
+                    "Discord Webhook" => new DiscordWebhookNotificationProvider(Instances.HttpService),
                     "SMTP" => new SmtpNotificationProvider(),
                     "Bark" => new BarkNotificationProvider(Instances.HttpService),
                     "Qmsg" => new QmsgNotificationProvider(Instances.HttpService),

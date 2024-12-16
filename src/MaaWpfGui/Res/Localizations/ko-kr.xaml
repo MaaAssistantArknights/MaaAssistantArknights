@@ -46,6 +46,7 @@
     <system:String x:Key="ExternalNotificationSmtpTo">받는 사람</system:String>
     <system:String x:Key="ExternalNotificationDiscordBotToken">봇 토큰</system:String>
     <system:String x:Key="ExternalNotificationDiscordUserId">사용자 ID</system:String>
+    <system:String x:Key="ExternalNotificationDiscordWebhookUrl">웹후크 URL</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">봇 토큰</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">채팅 ID</system:String>
     <system:String x:Key="ExternalNotificationQmsgServer">섬기는 사람</system:String>
