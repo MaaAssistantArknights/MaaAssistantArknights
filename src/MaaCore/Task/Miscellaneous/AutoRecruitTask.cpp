@@ -418,8 +418,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         if (RunRecruitMockTest_001) {
             static int skip_once = 0;
             if (skip_once == 0) {
-                //image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::robot);
-                //image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::senior);
+                // image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::robot);
+                // image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::senior);
                 image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::top);
                 skip_once++;
             }
@@ -588,10 +588,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         }
 
         // refresh
-        if (m_need_refresh && m_has_refresh 
-            && !has_special_tag 
-            && !(m_skip_robot && has_robot_tag) 
-            &&(final_combination.min_level == 3 && !has_preferred_tag)) {
+        if (m_need_refresh && m_has_refresh && !has_special_tag && !(m_skip_robot && has_robot_tag) &&
+            (final_combination.min_level == 3 && !has_preferred_tag)) {
             if (refresh_count > refresh_limit) [[unlikely]] {
                 json::value cb_info = basic_info();
                 cb_info["what"] = "RecruitError";
