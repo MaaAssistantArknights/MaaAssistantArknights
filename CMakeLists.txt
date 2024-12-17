@@ -44,7 +44,7 @@ if (MSVC)
 
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
 else ()
-    target_compile_options(MaaCore PRIVATE "-Wall;-Werror;-Wextra;-Wpedantic;-Wno-missing-field-initializers")
+    target_compile_options(MaaCore PRIVATE "-Wall;-Werror;-Wextra;-Wpedantic;-Wno-missing-field-initializers;-Warray-bounds")
     if (CMAKE_CXX_COMPILER_ID MATCHES "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 13)
         target_compile_options(MaaCore PRIVATE "-Wno-restrict")
     endif()
