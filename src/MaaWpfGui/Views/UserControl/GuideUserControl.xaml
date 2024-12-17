@@ -35,11 +35,11 @@
                         hc:RelativePanel.AlignVerticalCenterWithPanel="True"
                         FontSize="14"
                         Text="{DynamicResource SettingsGuide}" />
-                    <Button
+                    <!--<Button
                         Margin="5,0"
                         Command="{s:Action DoneGuide}"
                         Content="Skip"
-                        Style="{StaticResource ButtonDashedWarning.Small}" />
+                        Style="{StaticResource ButtonDashedWarning.Small}" />-->
                 </hc:RelativePanel>
             </GroupBox.Header>
             <DockPanel>
