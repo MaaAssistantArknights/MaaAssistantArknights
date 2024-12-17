@@ -46,7 +46,7 @@ if (MSVC)
 else ()
     target_compile_options(MaaCore PRIVATE "-Wall;-Werror;-Wextra;-Wpedantic;-Wno-missing-field-initializers")
     if (CMAKE_CXX_COMPILER_ID MATCHES "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 13)
-        target_compile_options(MaaCore PRIVATE "-Wno-restrict")
+        target_compile_options(MaaCore PRIVATE "-Wno-restrict;-Wno-darray-bounds;-Wno-stringop-overread")
     endif()
     # LLVM clang 16 will failed with `error: no member named 'join' in namespace 'std::ranges::views'`, but Apple clang 16 won't
     # value defined in https://cmake.org/cmake/help/latest/variable/CMAKE_LANG_COMPILER_ID.html
