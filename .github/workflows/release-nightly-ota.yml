@@ -1,6 +1,8 @@
 name: release-nightly-ota
 
 on:
+  schedule:
+    - cron: "0 22 * * *" # Runs daily at 22:00 UTC
   workflow_dispatch:
     inputs:
       release_body:
@@ -21,8 +23,6 @@ on:
         required: true
         default: "10"
         type: number
-  schedule:
-    - cron: "0 22 * * *" # Runs daily at 00:00 UTC
 
 jobs:
   build-win-nightly:
@@ -52,9 +52,15 @@ jobs:
       - name: Check for changes in dev branch
         id: check_changes
         run: |
-          if (git diff --quiet HEAD origin/${{ github.ref_name }}) {
-            echo "No changes in dev branch. Cancelling workflow."
-            echo "cancel_run=true" >> $GITHUB_ENV
+          # Get the commit hash and date of the latest commit within the last 24 hours
+          $recent_commit = git log --since="24 hours ago" --pretty=format:"%H" -n 1
+
+          if (-not $recent_commit) {
+            Write-Output "No commits in the last 24 hours. Cancelling workflow..."
+            echo "cancel_run=true" >> $env:GITHUB_ENV
+          } else {
+            Write-Output "Commits found within the last 24 hours. Continuing build..."
+            echo "cancel_run=false" >> $env:GITHUB_ENV
           }
 
       - name: Stop if no changes

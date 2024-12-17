@@ -37,7 +37,17 @@ icon: basil:apple-solid
 
 支持，但从 Android 10 开始，Minitouch 在 SELinux 为 `Enforcing` 模式时不再可用。请切换至其他触控模式，或将 SELinux **临时**切换为 `Permissive` 模式。
 
+### ✅ [蓝叠模拟器air版](https://www.bluestacks.com/mac) （免费，针对 Apple M 系列芯片进行优化的版本）
+
+支持，经测试，可用 maatouch 经`127.0.0.1:5555`连接。
+
+需要在模拟器 `设置` - `高级` 中打开 `Android调试（ADB）`。
+
 ## Intel 芯片
+
+::: tip
+由于 Mac 版开发缺少人手，更新速度相对较慢，更推荐使用 Mac 自带的多系统安装 Windows，并使用 Windows 版 MAA。
+:::
 
 ### ✅ [蓝叠模拟器](https://www.bluestacks.cn/)
 

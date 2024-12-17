@@ -36,7 +36,17 @@ icon: basil:apple-solid
 
 支援。
 
+### ✅ [藍疊模擬器Air版](https://www.bluestacks.com/mac) （免費，針對 Apple M 系列晶片進行優化的版本）
+
+支援，經測試，可用 maatouch 經`127.0.0.1:5555`連接。
+
+需要在模擬器 **`設定`** - **`進階`** 中開啟 **`Android除錯（ADB）`**。
+
 ## Intel 晶片
+
+::: tip
+由於 Mac 版開發人手不足，更新速度相對較慢，更推薦使用 Mac 自帶的多系統安裝 Windows，並使用 Windows 版 MAA。
+:::
 
 ### ✅ [藍疊模擬器](https://www.bluestacks.cn/)
 

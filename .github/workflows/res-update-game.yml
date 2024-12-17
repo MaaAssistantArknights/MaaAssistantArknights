@@ -2,7 +2,7 @@ name: res-update-game
 
 on:
   schedule:
-    - cron: "*/20 * * * *"
+    - cron: "*/20 * * * *" # Runs every 20 minutes
   workflow_dispatch:
     inputs:
       commit_message:
@@ -36,7 +36,7 @@ jobs:
             /gamedata/excel/activity_table.json
 
       - name: Upload Official
-        uses: actions/upload-artifact@v4.3.4
+        uses: actions/upload-artifact@v4
         with:
           name: official
           path: ./Official
@@ -78,7 +78,7 @@ jobs:
             /ko_KR/gamedata/excel/activity_table.json
 
       - name: Upload Official
-        uses: actions/upload-artifact@v4.3.4
+        uses: actions/upload-artifact@v4
         with:
           name: overseas
           path: ./Overseas
@@ -118,7 +118,7 @@ jobs:
           wait
 
       - name: Upload Official
-        uses: actions/upload-artifact@v4.3.4
+        uses: actions/upload-artifact@v4
         with:
           name: txwy
           path: ./excel

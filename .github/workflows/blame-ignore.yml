@@ -1,6 +1,8 @@
-name: Blame Ignore Commit
+name: Git Blame Ignore
 
 on:
+  schedule:
+    - cron: "45 21 * * *" # Runs daily at 22:00 UTC
   workflow_dispatch:
 
 jobs:
@@ -14,25 +16,33 @@ jobs:
           fetch-depth: 0
           persist-credentials: false # Needed to bypass protection rules in Push changes
 
-      - name: Get last checked commit
+      - name: Check blame
+        id: check_changes
         run: |
-          LAST_CHECKED_COMMIT=$(cat .last-checked-commit 2>/dev/null || git rev-list --max-parents=0 HEAD)
-          echo "LAST_CHECKED_COMMIT=$LAST_CHECKED_COMMIT" >> $GITHUB_ENV
+          LAST_CHECKED_COMMIT=$(cat .github/.last-blame-ignore-commit 2>/dev/null || git rev-list --max-parents=0 HEAD)
 
-      - name: Process commits and update blame ignore list
+          git log $LAST_CHECKED_COMMIT..HEAD --pretty=format:"%H %s" --grep="\[blame ignore\]" | awk '{print $1}' >> .git-blame-ignore-revs
+
+          git diff --quiet .git-blame-ignore-revs
+
+      - name: Commit and Push changes
+        if: ${{ steps.check_changes.outcome == 'failure' }}
         run: |
-          git log ${{ env.LAST_CHECKED_COMMIT }}..HEAD --pretty=format:"%H %s" --grep="\[blame ignore\]" | awk '{print $1}' >> .git-blame-ignore-revs
-
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git rev-parse HEAD > .last-checked-commit
+          git rev-parse HEAD > .github/.last-blame-ignore-commit
 
-          git add .last-checked-commit .git-blame-ignore-revs
+          git add .github/.last-blame-ignore-commit .git-blame-ignore-revs
           git commit -m "chore: auto blame ignore" -m "[skip changelog]"
 
       - name: Push changes
+        if: ${{ steps.check_changes.outcome == 'failure' }}
         uses: ad-m/github-push-action@master
         with:
           branch: ${{ github.ref }}
           github_token: ${{ secrets.MAA_RESOURCE_SYNC }}
+
+      - name: Stop if no changes
+        if: ${{ steps.check_changes.outcome == 'success' }}
+        uses: andymckay/cancel-action@0.5
