@@ -26,16 +26,6 @@ if __name__ == "__main__":
 
     # 外服需要再额外传入增量资源路径，例如
     # incremental_path=path / 'resource' / 'global' / 'YoStarEN'
-    #
-    # 活动关导航需额外下载，可通过增量资源路径加载。
-    # import urllib.request
-    # ota_tasks_url = 'https://ota.maa.plus/MaaAssistantArknights/api/resource/tasks.json'
-    # ota_tasks_path = path / 'cache' / 'resource' / 'tasks.json'
-    # ota_tasks_path.parent.mkdir(parents=True, exist_ok=True)
-    # with open(ota_tasks_path, 'w', encoding='utf-8') as f:
-    #     with urllib.request.urlopen(ota_tasks_url) as u:
-    #         f.write(u.read().decode('utf-8'))
-    # Asst.load(path=path, incremental_path=path / 'cache')
     Asst.load(path=path)
 
     # 若需要获取详细执行信息，请传入 callback 参数
