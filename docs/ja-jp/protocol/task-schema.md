@@ -86,6 +86,7 @@ JSONファイルはコメントをサポートしていません。テキスト�
                                             // action が ClickRect の場合、指定されたクリック位置（範囲内のランダムなポイント）を示し、
                                             // Swipe の場合、開始点を示します。
                                             // 1280 * 720 を基準とした自動スケーリング
+                                            // algorithm が "OcrDetect" の場合、specificRect[0] と specificRect[1] はグレースケールの上下限閾値を示します。
 
         "specialParams": [ int, ... ],      // 一部の特殊な認識器に必要なパラメーター
                                             // 追加、 action が Swipe の場合はオプション、 [0] が duration 、 [1] が追加のスライドを有効にするかどうか

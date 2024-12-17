@@ -88,6 +88,7 @@ icon: material-symbols:task
                                             // action이 ClickRect인 경우 유효하고 필수입니다. 지정된 클릭 위치를 나타냅니다 (범위 내의 무작위 점).
                                             // action이 Swipe인 경우 유효하고 필수입니다. 슬라이드의 시작점을 나타냅니다.
                                             // Auto-scaling으로 기준은 1280 * 720입니다.
+                                            // algorithm이 "OcrDetect"일 경우, specificRect[0]과 specificRect[1]은 그레이스케일의 상한선과 하한선 임계값을 나타냅니다.
 
         "specialParams": [ int, ... ],      // 일부 특수 인식기에 필요한 매개변수를 나타냅니다.
                                             // 추가 옵션, action이 Swipe인 경우 [0]은 지속 시간, [1]은 추가 슬라이드 여부를 나타냅니다.

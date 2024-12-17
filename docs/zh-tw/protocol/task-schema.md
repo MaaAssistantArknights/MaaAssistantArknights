@@ -86,6 +86,7 @@ icon: material-symbols:task
                                             // 當 action 為 ClickRect 時有效且必選，表示指定的點擊位置（範圍內隨機一點）。
                                             // 當 action 為 Swipe 時有效且必選，表示滑動起點。
                                             // 以 1280 * 720 為基準自動縮放
+                                            // 當 algorithm 為 "OcrDetect" 時，specificRect[0] 和 specificRect[1] 表示灰度上下限閾值。
 
         "specialParams": [ int, ... ],      // 某些特殊辨識器需要的參數
                                             // 額外的，當 action 為 Swipe 時可選，[0] 表示 duration，[1] 表示 是否啟用額外滑動
