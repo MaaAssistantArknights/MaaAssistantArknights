@@ -24,6 +24,29 @@ public:
 
     Rect get_permit_rect() const noexcept { return m_permit_rect; }
 
+#ifdef ASST_DEBUG
+    // mock function
+    enum operator_type
+    {
+        top = 6,
+        senior = 5,
+        robot = 1
+    };
+
+    void mock_set_special(operator_type type)
+    {
+        if (type == top) {
+            m_tags_result[0].text = "高级资深干员";
+        }
+        if (type == senior) {
+            m_tags_result[0].text = "资深干员";
+        }
+        if (type == robot) {
+            m_tags_result[0].text = "支援机械";
+        }
+    }
+#endif // ASST_DEBUG
+
 private:
     // 该分析器不支持外部设置ROI
     using VisionHelper::set_roi;
