@@ -244,6 +244,7 @@ namespace MaaWpfGui.Constants
         public const string ExternalNotificationServerChanSendKey = "ExternalNotification.ServerChan.SendKey";
         public const string ExternalNotificationDiscordBotToken = "ExternalNotification.Discord.BotToken";
         public const string ExternalNotificationDiscordUserId = "ExternalNotification.Discord.UserId";
+        public const string ExternalNotificationDiscordWebhookUrl = "ExternalNotification.Discord.WebhookUrl";
         public const string ExternalNotificationTelegramBotToken = "ExternalNotification.Telegram.BotToken";
         public const string ExternalNotificationTelegramChatId = "ExternalNotification.Telegram.ChatId";
         public const string ExternalNotificationBarkSendKey = "ExternalNotification.Bark.SendKey";

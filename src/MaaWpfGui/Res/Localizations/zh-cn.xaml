@@ -46,6 +46,7 @@
     <system:String x:Key="ExternalNotificationSmtpTo">收件人</system:String>
     <system:String x:Key="ExternalNotificationDiscordBotToken">机器人 Token</system:String>
     <system:String x:Key="ExternalNotificationDiscordUserId">用户 ID</system:String>
+    <system:String x:Key="ExternalNotificationDiscordWebhookUrl">Webhook URL</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">机器人 Token</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">聊天 ID</system:String>
     <system:String x:Key="ExternalNotificationQmsgServer">Server</system:String>
