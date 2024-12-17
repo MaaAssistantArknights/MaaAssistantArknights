@@ -24,9 +24,33 @@ if __name__ == "__main__":
     # 设置更新器的路径和目标版本并更新
     Updater(path, Version.Stable).update()
 
-    # 外服需要再额外传入增量资源路径，例如
-    # incremental_path=path / 'resource' / 'global' / 'YoStarEN'
+    # 加载主资源及增量副资源
+    #
+    # 参数说明：
+    # - path：主资源的路径。
+    # - incremental_path：增量副资源的路径。副资源需要在主资源加载后再加载，以下是两种常见的使用场景：
+    #   1. 加载外服增量资源：
+    #      传入外服增量资源路径，先加载主资源，再加载增量副资源：
+    #      Asst.load(path=path)  # 加载主资源
+    #      Asst.load(path=path, incremental_path=path / 'resource' / 'global' / 'YoStarEN')  # 加载增量副资源
+    #   2. 加载活动关卡资源（需先下载）：
+    #      首先下载活动关卡的任务数据：
+    #      import urllib.request
+    #      ota_tasks_url = 'https://ota.maa.plus/MaaAssistantArknights/api/resource/tasks.json'
+    #      ota_tasks_path = path / 'cache' / 'resource' / 'tasks.json'
+    #      ota_tasks_path.parent.mkdir(parents=True, exist_ok=True)
+    #      with open(ota_tasks_path, 'w', encoding='utf-8') as f:
+    #          with urllib.request.urlopen(ota_tasks_url) as u:
+    #              f.write(u.read().decode('utf-8'))
+    #      然后加载主资源和增量副资源：
+    #      Asst.load(path=path)  # 加载主资源
+    #      Asst.load(path=path, incremental_path=path / 'cache')  # 加载下载的增量副资源
+    #
+    # 示例调用：
+    # 1. 加载主资源：
     Asst.load(path=path)
+    # 2. 加载增量副资源：
+    # Asst.load(path=path, incremental_path=path / 'resource' / 'global' / 'YoStarEN')
 
     # 若需要获取详细执行信息，请传入 callback 参数
     # 例如 asst = Asst(callback=my_callback)
