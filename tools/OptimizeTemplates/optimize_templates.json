@@ -2945,5 +2945,13 @@
     "resource/template/infrast/Bskill_man_spd&trade1": "b7dcd37d06056f47adc238596cd3b9ff48fe56113379afbb5ec54f7a5b6a27ce",
     "resource/template/infrast/Bskill_tra_limit&trade2": "4408b33b3356883b3faa975ba8128a0228bb08e49bb985621f787f45d78757ad",
     "official/ReceivedAllMail": "d11bcf5ed561b2b24fcb60789da2c296f403033a0294e0e29c47b358ca3edbd4",
-    "official/ClueSelected": "66800c451a711441b1a3a3f697d96fd0506049a3f72e064cb7ef42691f81b042"
+    "official/ClueSelected": "66800c451a711441b1a3a3f697d96fd0506049a3f72e064cb7ef42691f81b042",
+    "web/dist/android-chrome-192x192": "e54ac616f462cc884b9c8491a46cd3718fa018d4ae9e00df0c2e99120ee35631",
+    "web/dist/android-chrome-512x512": "41eb55125e41f34827f38ddbf054c54767f3dec4599e4f9e407047205b51fb97",
+    "web/dist/apple-touch-icon": "e2fc8db029a43171a2dd1359a93f27da30e385d7feca3afdb7a6e99f5900a301",
+    "web/dist/favicon-16x16": "e907b33a0abfb4c4c8319e27e268c64801e375ef43e12aa25029f64309474a72",
+    "web/dist/favicon-32x32": "5c1464b1c73be23566cd55b42a47dfac24822d261a394d13b636a8bf2291fd80",
+    "web/dist/mstile-150x150": "30fb1d88725596272a99f6a58c1f99366697b3e4c50b1e1bedd60bb4a90b9d02",
+    "web/dist/assets/penguin-stats-5d948485": "5d9484856b03ab8d109405e8f00c8aff2c3d7fe5a97dc8b391d2d562a3de50aa",
+    "web/dist/assets/prts.plus-e54ac616": "e54ac616f462cc884b9c8491a46cd3718fa018d4ae9e00df0c2e99120ee35631"
 }
