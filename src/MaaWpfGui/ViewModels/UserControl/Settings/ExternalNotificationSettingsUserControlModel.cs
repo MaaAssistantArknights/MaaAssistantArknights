@@ -44,6 +44,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             "ServerChan",
             "Telegram",
             "Discord",
+            "Discord Webhook",
             "SMTP",
             "Bark",
             "Qmsg",
@@ -108,6 +109,14 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         set => SetAndNotify(ref _discordEnabled, value);
     }
 
+    private bool _discordWebhookEnabled = false;
+
+    public bool DiscordWebhookEnabled
+    {
+        get => _discordWebhookEnabled;
+        set => SetAndNotify(ref _discordWebhookEnabled, value);
+    }
+
     private bool _smtpEnabled = false;
 
     public bool SmtpEnabled
@@ -137,6 +146,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         ServerChanEnabled = _enabledExternalNotificationProviders.Contains("ServerChan");
         TelegramEnabled = _enabledExternalNotificationProviders.Contains("Telegram");
         DiscordEnabled = _enabledExternalNotificationProviders.Contains("Discord");
+        DiscordWebhookEnabled = _enabledExternalNotificationProviders.Contains("Discord Webhook");
         SmtpEnabled = _enabledExternalNotificationProviders.Contains("SMTP");
         BarkEnabled = _enabledExternalNotificationProviders.Contains("Bark");
         QmsgEnabled = _enabledExternalNotificationProviders.Contains("Qmsg");
@@ -310,6 +320,19 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             SetAndNotify(ref _discordUserId, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationDiscordUserId, value);
+        }
+    }
+
+    private string _discordWebhookUrl = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordWebhookUrl, string.Empty));
+
+    public string DiscordWebhookUrl
+    {
+        get => _discordWebhookUrl;
+        set
+        {
+            SetAndNotify(ref _discordWebhookUrl, value);
+            value = SimpleEncryptionHelper.Encrypt(value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationDiscordWebhookUrl, value);
         }
     }
 
