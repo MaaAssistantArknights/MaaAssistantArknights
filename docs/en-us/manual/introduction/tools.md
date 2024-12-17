@@ -46,3 +46,11 @@ Didn't get a spot in [NiuNiu Airlines](https://www.bilibili.com/opus/92612939441
 _(WTF is NiuNiu Airlines)_
 
 <!-- markdownlint-restore -->
+
+## Peep
+
+Want to see the world through MAA's eyes? It's here now!
+
+MAA will attempt to take screenshots of the emulator at the target frame rate and display the screenshots in real time in the window.
+
+When the screenshot speed is significantly slower than the target frame rate, MAA will actively lower the target frame rate to match the screenshot speed. ~~Can be used as a stress test~~
