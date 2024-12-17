@@ -5406,10 +5406,6 @@
     "DepotEnter": {
         "action": "ClickSelf",
         "template": [
-            "DepotEnter.png",
-            "DepotEnterDark.png",
-            "DepotEnterSami.png",
-            "DepotEnterMistCity.png",
             "DepotEnterSiege.png",
             "DepotEnterSarkaz.png",
             "DepotEnterDelicious.png"
