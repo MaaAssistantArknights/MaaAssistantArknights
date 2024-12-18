@@ -56,7 +56,7 @@ jobs:
         uses: microsoft/setup-msbuild@v2
 
       - name: Restore incremental build
-        uses: actions/cache/save@v4
+        uses: actions/cache/restore@v4
         with:
           key: smoke-testing-incremental
           path: |
