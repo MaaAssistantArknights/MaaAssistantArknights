@@ -43,8 +43,18 @@ jobs:
           show-progress: false
           submodules: recursive
 
-      - name: Restore dependencies
-        run: dotnet restore
+      # - name: Cache .nuke/temp, ~/.nuget/packages
+      #   id: cache-nuget
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: |
+      #       .nuke/temp
+      #       ~/.nuget/packages
+      #     key: smoke-testing-dependencies-${{ hashFiles('**/global.json', '**/*.csproj') }}
+
+      # - name: Restore dependencies
+      #   if: steps.cache-nuget.outputs.cache-hit != 'true'
+      #   run: dotnet restore
 
       - name: Bootstrap MaaDeps
         env:
@@ -55,32 +65,31 @@ jobs:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v2
 
-      - name: Restore incremental build
-        uses: actions/cache/restore@v4
-        with:
-          key: smoke-testing-incremental
-          path: |
-            ./src/MaaCore/x64/Debug
-            ./src/Cpp/x64/Debug
+      # - name: Restore incremental build
+      #   uses: actions/cache/restore@v4
+      #   with:
+      #     key: smoke-testing-incremental
+      #     path: |
+      #       ./src/MaaCore/x64/Debug
+      #       ./src/Cpp/x64/Debug
 
       - name: Build MaaSample
         run: |
           MSBUILD src/Cpp/MaaSample.slnf -t:build -p:Configuration="Debug" -p:Platform="x64" -m
 
-      - name: Save incremental build
-        uses: actions/cache/save@v4
-        with:
-          key: smoke-testing-incremental
-          path: |
-            ./src/MaaCore/x64/Debug
-            ./src/Cpp/x64/Debug
+      # - name: Save incremental build
+      #   uses: actions/cache/save@v4
+      #   with:
+      #     key: smoke-testing-incremental
+      #     path: |
+      #       ./src/MaaCore/x64/Debug
+      #       ./src/Cpp/x64/Debug
 
-      - name: Transfer to test
-        uses: actions/cache/save@v4
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
         with:
-          key: smoke-testing-transfer
-          path: |
-            ./x64/Debug
+          name: build
+          path: ./x64/Debug
 
   test:
     # Prevent duplicate runs on organization branches with PRs
@@ -95,12 +104,11 @@ jobs:
         client: [Official, YostarJP, YostarEN, YostarKR, txwy]
 
     steps:
-      - name: Trasnfer from build
-        uses: actions/cache/restore@v4
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
         with:
-          key: smoke-testing-transfer
-          path: |
-            ./x64/Debug
+          name: build
+          path: ./x64/Debug
 
       - name: Run tests - ${{ matrix.client }}
         run: |
