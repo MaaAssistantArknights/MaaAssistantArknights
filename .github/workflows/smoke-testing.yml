@@ -62,7 +62,7 @@ jobs:
       - name: Transfer to test
         uses: actions/cache/save@v4
         with:
-          key: smoke-testing-build-${{ github.run }}
+          key: smoke-testing-build-${{ github.run_id }}
           path: |
             ./x64/Debug
 
@@ -82,7 +82,7 @@ jobs:
       - name: Trasnfer from build
         uses: actions/cache/restore@v4
         with:
-          key: smoke-testing-build-${{ github.run }}
+          key: smoke-testing-build-${{ github.run_id }}
           path: |
             ./x64/Debug
 
