@@ -1021,6 +1021,9 @@ bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, 
 
     std::vector<std::string> chars_list;
     std::string recruitment_details = recruitment_opt->at("recruitDetail").as_string();
+
+    // FOR TW: intern-kun fucked up the gamedata
+    string_replace_all_in_place(recruitment_details, "</>\n\n★\n", "/>\n\n★\n<");
     remove_xml(recruitment_details);
     string_replace_all_in_place(recruitment_details, "\\n", "");
     constexpr std::string_view star_delim = "★";
@@ -1038,34 +1041,26 @@ bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, 
         for (std::string_view n : s | split('/') | filter(not_empty) | transform(make_string_view)) {
             std::string name(n);
 
-            // "　" is full-width space, replacing with common " "
+            // FOR JP: "　" is full-width space, replacing with common " "
             string_replace_all_in_place(name, "　", " ");
 
             trim(name);
 
-            // YostarEN
-            if (name == "Justice Knight") {
-                name = "'Justice Knight'";
-            }
+            // ------- YostarEN -------
 
-            // YostarKR
+            // ------- YostarKR -------
             // Issue in the gamedata: gacha_table.json has 샤미르 while character_table.json has 샤마르
             if (name == "샤미르") {
                 name = "샤마르";
             }
 
-            // txwy
-            // https://github.com/MaaAssistantArknights/MaaAssistantArknights/actions/runs/11007583366/job/30563707828
-            // https://github.com/arkntools/arknights-toolbox-update/commit/0a759e47e7f198b2e26d1d2d301bbb0b6f3df401#commitcomment-147115362
-            // typo in gamedata
-            if (name == "Friston-3\\ n--------------------") {
-                name = "Friston-3";
-            }
-            if (name == "12F\\ n--------------------") {
-                name = "12F";
+            // ------- txwy -------
+            // Issue in the gamedata: gacha_table.json has 食 鐵獸 while character_table.json has 食鐵獸
+            if (name == "食 鐵獸") {
+                name = "食鐵獸";
             }
 
-            // YostarJP
+            // ------- YostarJP -------
             // https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/18c55553885342b3df2ccf93cc102f448f027f4b#commitcomment-144847169
             // EDIT: gacha_table.json uses サーマル-EX for THRM-EX so we force it.
             if (name == "サーマル-EX") {
