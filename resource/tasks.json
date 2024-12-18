@@ -6646,11 +6646,20 @@
     "Roguelike@ChooseDifficulty_Specified": {
         "doc": "用于 RoguelikeDifficultySelectionTaskPlugin",
         "baseTask": "NumberOcrReplace",
-        "roi": [400, 450, 225, 160],
+        "ocrReplaceDoc": "不知道为啥有些人会识别到\\.，全部替换下得了",
+        "ocrReplace": [
+            [ "[Oo]", "0" ],
+            [ "[IiLl]", "1" ],
+            [ "\\|", "1" ],
+            [ "B", "8" ],
+            [ "\\.", "" ],
+            [ " ", "" ]
+        ],
+        "roi": [ 400, 450, 225, 160 ],
         "fullMatch": true,
         "action": "ClickSelf",
         "postDelay": 800,
-        "next": ["#self", "Stop"]
+        "next": [ "#self", "Stop" ]
     },
     "Roguelike@ChooseOper": {
         "Doc": "本任务注册了插件 RoguelikeRecruitTaskPlugin",
