@@ -55,16 +55,24 @@ jobs:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v2
 
+      - name: Restore build artifact from cache
+        id: cache-smoke-testing
+        uses: actions/cache/restore@v4
+        with:
+          key: ${{ runner.os }}-smoke-testing-artifact
+          path: |
+            .x64/Debug
+
       - name: Build MaaSample
         run: |
-          MSBUILD src/Cpp/MaaSample.slnf /t:rebuild /p:Configuration="Debug" /p:Platform="x64" /m
+          MSBUILD src/Cpp/MaaSample.slnf -t:build -p:Configuration="Debug" -p:Platform="x64" -m
 
-      - name: Upload build artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
+      - name: Save build artifact to cache
+        uses: actions/cache/save@v4
         with:
-          name: build
-          path: ./x64/Debug
+          key: ${{ runner.os }}-smoke-testing-artifact
+          path: |
+            .x64/Debug
 
   test:
     # Prevent duplicate runs on organization branches with PRs
@@ -78,12 +86,14 @@ jobs:
       matrix:
         client: [Official, YostarJP, YostarEN, YostarKR, txwy]
 
-    steps: 
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
+    steps:
+      - name: Restore build artifact from cache
+        id: cache-smoke-testing
+        uses: actions/cache/restore@v4
         with:
-          name: build
-          path: ./x64/Debug
+          key: ${{ runner.os }}-smoke-testing-artifact
+          path: |
+            .x64/Debug
 
       - name: Run tests - ${{ matrix.client }}
         run: |
