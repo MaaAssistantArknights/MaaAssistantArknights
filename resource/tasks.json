@@ -12757,13 +12757,14 @@
         ]
     },
     "Tales@RA@PNS-ConfirmToLeaveNode": {
-        "doc": "确认离开当前区块",
+        "doc": "确认离开当前区块，注意，可能会在没有 <正在提交反馈至神经> 文字的情况下卡住一小会儿",
         "baseTask": "Tales@RA@DialogConfirmYellow",
         "template": "Tales@RA@DialogConfirmYellow.png",
         "next": [
             "Tales@RA@PNS-MissionResults",
             "Tales@RA@PNS-ConfirmToLeaveNode@NextAfterLoadingText",
-            "Tales@RA@PNS-ConfirmToLeaveNode"
+            "Tales@RA@PNS-ConfirmToLeaveNode",
+            "Tales@RA@PNS-ConfirmToLeaveNode@NextAfterMerelyWaiting"
         ]
     },
     "Tales@RA@PNS-EnterBaseCamp": {
