@@ -71,6 +71,12 @@
     "SideStoryReopen": {
         "text": ["復刻"]
     },
+    "CR-OpenOcr": {
+        "text": ["水晶", "行動", "高空", "速降"]
+    },
+    "CRChapterToCR": {
+        "text": ["展廳", "漫遊"]
+    },
     "RS-OpenOcr": {
         "text": ["銀心", "列車", "特快"]
     },
