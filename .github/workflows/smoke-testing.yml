@@ -55,22 +55,14 @@ jobs:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v2
 
-      - name: Restore build artifact from cache
-        id: cache-smoke-testing
-        uses: actions/cache/restore@v4
-        with:
-          key: ${{ runner.os }}-smoke-testing-artifact
-          path: |
-            ./x64/Debug
-
       - name: Build MaaSample
         run: |
           MSBUILD src/Cpp/MaaSample.slnf -t:build -p:Configuration="Debug" -p:Platform="x64" -m
 
-      - name: Save build artifact to cache
+      - name: Transfer to test
         uses: actions/cache/save@v4
         with:
-          key: ${{ runner.os }}-smoke-testing-artifact
+          key: smoke-testing-build-${{ github.run }}
           path: |
             ./x64/Debug
 
@@ -87,11 +79,10 @@ jobs:
         client: [Official, YostarJP, YostarEN, YostarKR, txwy]
 
     steps:
-      - name: Restore build artifact from cache
-        id: cache-smoke-testing
+      - name: Trasnfer from build
         uses: actions/cache/restore@v4
         with:
-          key: ${{ runner.os }}-smoke-testing-artifact
+          key: smoke-testing-build-${{ github.run }}
           path: |
             ./x64/Debug
 
