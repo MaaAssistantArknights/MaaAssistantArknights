@@ -75,7 +75,7 @@ jobs:
 
       - name: Build MaaSample
         run: |
-          MSBUILD src/Cpp/MaaSample.slnf -t:build -p:Configuration="Debug" -p:Platform="x64" -m
+          MSBUILD src/Cpp/MaaSample.slnf -t:restore,build -p:Configuration="Debug" -p:Platform="x64" -m
 
       # - name: Save incremental build
       #   uses: actions/cache/save@v4
