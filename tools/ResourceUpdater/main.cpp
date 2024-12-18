@@ -1024,6 +1024,8 @@ bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, 
 
     // FOR TW: intern-kun fucked up the gamedata
     string_replace_all_in_place(recruitment_details, "</>\n\n★\n", "/>\n\n★\n<");
+    string_replace_all_in_place(recruitment_details, " <@rc.eml>夜", "\n★★\n<@rc.eml>夜");
+    // ----END-----
     remove_xml(recruitment_details);
     string_replace_all_in_place(recruitment_details, "\\n", "");
     constexpr std::string_view star_delim = "★";
