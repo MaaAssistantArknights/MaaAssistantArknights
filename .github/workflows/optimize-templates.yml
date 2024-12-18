@@ -1,4 +1,4 @@
-name: Auto Optimize PNG Templates
+name: Optimize PNG Templates
 
 on:
   push:
@@ -43,39 +43,39 @@ jobs:
             echo "is_pr=True" >> $GITHUB_OUTPUT
           fi
 
-      - name: Add cancelled status
-        if: steps.check_push.outputs.is_pr == 'True'
-        uses: andymckay/cancel-action@0.5
-
       - name: Setup python
+        if: steps.check_push.outputs.is_pr != 'True'
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
       - name: Cache Python packages
         id: cache_python
-        if: always()
+        if: steps.check_push.outputs.is_pr != 'True' && always()
         uses: actions/cache@v4
         with:
           path: ${{ env.pythonLocation }}/lib/python3.11/site-packages
           key: ${{ runner.os }}-pip-optimize-templates-${{ hashFiles('./tools/OptimizeTemplates/requirements.txt') }}
 
       - name: Install dependencies
-        if: steps.cache_python.outputs.cache-hit != 'true'
+        if: steps.check_push.outputs.is_pr != 'True' && steps.cache_python.outputs.cache-hit != 'true'
         run: |
           pip install -r tools/OptimizeTemplates/requirements.txt
 
       - name: Setup oxipng
+        if: steps.check_push.outputs.is_pr != 'True'
         uses: baptiste0928/cargo-install@v3
         with:
           crate: oxipng
 
       - name: Run optimize_templates
+        if: steps.check_push.outputs.is_pr != 'True'
         run: |
           python3 tools/OptimizeTemplates/optimize_templates.py
 
       - name: Commit changes
         id: commit_changes
+        if: steps.check_push.outputs.is_pr != 'True'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -95,7 +95,7 @@ jobs:
           fi
 
       - name: Push changes
-        if: steps.commit_changes.outputs.have_commits == 'True'
+        if: steps.check_push.outputs.is_pr != 'True' && steps.commit_changes.outputs.have_commits == 'True'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.MAA_RESOURCE_SYNC }}
