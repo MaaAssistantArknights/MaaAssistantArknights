@@ -36,6 +36,10 @@ jobs:
       github.event.pull_request.head.repo.full_name !=
       github.event.pull_request.base.repo.full_name
     runs-on: windows-latest
+    strategy:
+      matrix:
+        client: [Official, YostarJP, YostarEN, YostarKR, txwy]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -59,25 +63,9 @@ jobs:
         run: |
           MSBUILD src/Cpp/MaaSample.slnf /t:rebuild /p:Configuration="Debug" /p:Platform="x64" /m
 
-      - name: Run tests - Official #用来判断是不是国服资源出错导致外服全炸
+      - name: Run tests - ${{ matrix.client }}
         run: |
-          .\x64\Debug\Sample.exe
-
-      - name: Run tests - YostarJP
-        run: |
-          .\x64\Debug\Sample.exe YostarJP
-
-      - name: Run tests - YostarEN
-        run: |
-          .\x64\Debug\Sample.exe YostarEN
-
-      - name: Run tests - YostarKR
-        run: |
-          .\x64\Debug\Sample.exe YostarKR
-
-      - name: Run tests - txwy
-        run: |
-          .\x64\Debug\Sample.exe txwy
+          .\x64\Debug\Sample.exe ${{ matrix.client }}
 
       - name: Upload logs
         if: always()
