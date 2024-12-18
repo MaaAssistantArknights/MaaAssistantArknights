@@ -55,14 +55,30 @@ jobs:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v2
 
+      - name: Restore incremental build
+        uses: actions/cache/save@v4
+        with:
+          key: smoke-testing-incremental
+          path: |
+            ./src/MaaCore/x64/Debug
+            ./src/Cpp/x64/Debug
+
       - name: Build MaaSample
         run: |
           MSBUILD src/Cpp/MaaSample.slnf -t:build -p:Configuration="Debug" -p:Platform="x64" -m
 
+      - name: Save incremental build
+        uses: actions/cache/save@v4
+        with:
+          key: smoke-testing-incremental
+          path: |
+            ./src/MaaCore/x64/Debug
+            ./src/Cpp/x64/Debug
+
       - name: Transfer to test
         uses: actions/cache/save@v4
         with:
-          key: smoke-testing-build-${{ github.run_id }}
+          key: smoke-testing-transfer
           path: |
             ./x64/Debug
 
@@ -82,7 +98,7 @@ jobs:
       - name: Trasnfer from build
         uses: actions/cache/restore@v4
         with:
-          key: smoke-testing-build-${{ github.run_id }}
+          key: smoke-testing-transfer
           path: |
             ./x64/Debug
 
