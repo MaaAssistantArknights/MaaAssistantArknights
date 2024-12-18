@@ -43,18 +43,18 @@ jobs:
           show-progress: false
           submodules: recursive
 
-      # - name: Cache .nuke/temp, ~/.nuget/packages
-      #   id: cache-nuget
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: |
-      #       .nuke/temp
-      #       ~/.nuget/packages
-      #     key: smoke-testing-dependencies-${{ hashFiles('**/global.json', '**/*.csproj') }}
+      - name: Cache .nuke/temp, ~/.nuget/packages
+        id: cache-nuget
+        uses: actions/cache@v4
+        with:
+          path: |
+            .nuke/temp
+            ~/.nuget/packages
+          key: smoke-testing-dependencies-${{ hashFiles('**/global.json', '**/*.csproj') }}
 
-      # - name: Restore dependencies
-      #   if: steps.cache-nuget.outputs.cache-hit != 'true'
-      #   run: dotnet restore
+      - name: Restore dependencies
+        if: steps.cache-nuget.outputs.cache-hit != 'true'
+        run: dotnet restore
 
       - name: Bootstrap MaaDeps
         env:
