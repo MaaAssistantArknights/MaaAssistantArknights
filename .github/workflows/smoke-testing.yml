@@ -30,16 +30,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  smoke-testing:
+  build:
     # Prevent duplicate runs on organization branches with PRs
     if: github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name !=
       github.event.pull_request.base.repo.full_name
     runs-on: windows-latest
-    strategy:
-      matrix:
-        client: [Official, YostarJP, YostarEN, YostarKR, txwy]
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -63,13 +59,39 @@ jobs:
         run: |
           MSBUILD src/Cpp/MaaSample.slnf /t:rebuild /p:Configuration="Debug" /p:Platform="x64" /m
 
+      - name: Upload build artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: ./x64/Debug
+
+  test:
+    # Prevent duplicate runs on organization branches with PRs
+    if: github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name !=
+      github.event.pull_request.base.repo.full_name
+
+    needs: build
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        client: [Official, YostarJP, YostarEN, YostarKR, txwy]
+
+    steps: 
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: ./x64/Debug
+
       - name: Run tests - ${{ matrix.client }}
         run: |
-          .\x64\Debug\Sample.exe ${{ matrix.client }}
+          ./x64/Debug/Sample.exe ${{ matrix.client }}
 
       - name: Upload logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: log
-          path: .\x64\Debug\debug
+          name: log-${{ matrix.client }}
+          path: ./x64/Debug/debug
