@@ -1162,6 +1162,11 @@
         "sub": ["RS-OpenOcr"],
         "next": ["RS-6@SideStoryStage", "RS-6@SwipeToStage"]
     },
+    "RS-5": {
+        "algorithm": "JustReturn",
+        "sub": ["RS-OpenOcr"],
+        "next": ["RS-5@SideStoryStage", "RS-5@SwipeToStage"]
+    },
     "RS-OpenOcr": {
         "baseTask": "SS-OpenOcr",
         "text": ["银心", "列车", "特快"],
@@ -1183,6 +1188,9 @@
     },
     "RS-6@SideStoryStage": {
         "text": ["RS-6"]
+    },
+    "RS-5@SideStoryStage": {
+        "text": ["RS-5"]
     },
     "ZT-9": {
         "algorithm": "JustReturn",
