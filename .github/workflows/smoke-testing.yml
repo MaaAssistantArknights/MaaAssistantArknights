@@ -136,7 +136,7 @@ jobs:
       - name: Delete cache
         if: always()
         run: |
-          if (${{ matrix.client }} == 'Official') {
+          if ("${{ matrix.client }}" -eq "Official") {
             echo "Deleting the cache..."
             gh cache delete DELETE_KEY-smoke-testing-artifact-${{ github.ref }}
           }
