@@ -50,7 +50,7 @@ jobs:
           path: |
             .nuke/temp
             ~/.nuget/packages
-          key: smoke-testing-dependencies-${{ hashFiles('**/global.json', '**/*.csproj') }}
+          key: ${{ runner.os }}-x64-${{ hashFiles('**/global.json', '**/*.csproj') }}${{runner.arch}}
 
       - name: Restore dependencies
         if: steps.cache-nuget.outputs.cache-hit != 'true'
@@ -62,7 +62,7 @@ jobs:
         with:
           path: |
             ./MaaDeps
-          key: ${{ runner.os }}-maadeps-${{ hashFiles('./maadeps-download.py') }}
+          key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('./maadeps-download.py') }}
 
       - name: Bootstrap MaaDeps
         if: steps.cache-maadeps.outputs.cache-hit != 'true'

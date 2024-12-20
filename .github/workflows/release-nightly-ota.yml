@@ -133,7 +133,7 @@ jobs:
           path: |
             .nuke/temp
             ~/.nuget/packages
-          key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
+          key: ${{ runner.os }}-${{ matrix.msbuild_target }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
 
       - name: Restore dependencies
         if: steps.cache-nuget.outputs.cache-hit != 'true'
@@ -145,14 +145,14 @@ jobs:
         with:
           path: |
             ./MaaDeps
-          key: ${{ runner.os }}-maadeps-${{ hashFiles('./maadeps-download.py') }}
+          key: ${{ runner.os }}-${{ matrix.msbuild_target }}maadeps-${{ hashFiles('./maadeps-download.py') }}
 
       - name: Bootstrap MaaDeps
         if: steps.cache-maadeps.outputs.cache-hit != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python3 maadeps-download.py ${{ matrix.lowercase_target }}-windows
+          python3 maadeps-download.py ${{ matrix.msbuild_target }}-windows
 
       - name: Taggify Version
         run: |
