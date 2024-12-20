@@ -188,15 +188,30 @@ MAA 以中文（簡體）為第一語言，翻譯詞條皆以中文（簡體）�
 
 ## 聲明
 
+- 本軟體使用 [GNU Affero General Public License v3.0 only](https://spdx.org/licenses/AGPL-3.0-only.html) 開源。
 - 本軟體 logo 並非使用 AGPL 3.0 協議開源，[耗毛](https://weibo.com/u/3251357314)、vie 兩位畫師及軟體全體開發者保留所有權利。不得以 AGPL 3.0 協議已授權為由在未經授權的情況下使用本軟體 logo，不得在未經授權的情況下將本軟體 logo 用於任何商業用途。
 - 本軟體開源、免費，僅供學習交流使用。若您遇到商家使用本軟體進行代練並收費，可能是設備與時間等費用，產生的問題及後果與本軟體無關。
+
+### DirectML 支援說明
+
+本軟體支援 GPU 加速功能，但 GPU 加速依賴於 Microsoft 提供的 DirectML（Microsoft.AI.DirectML）。為了方便使用者，我們隨安裝包附帶了一個未修改的 DirectML.dll 文件。
+
+#### 關於 DirectML.dll：
+
+- 來源：Microsoft 官方
+- 許可證：請參考 Microsoft 的 DirectML 使用條款  
+  [DirectML 官方文檔](https://learn.microsoft.com/en-us/windows/ai/directml/)
+
+DirectML.dll 是 Microsoft 提供的獨立組件，不屬於本軟體的開源部分，也不受 AGPL-3.0 的約束。
+
+如果您不需要 GPU 支援，可以安全地刪除該 DLL 文件，軟體核心功能仍然可以正常運行。
 
 ## 廣告
 
 用戶交流 QQ 群：[MAA 使用 & 粥遊交流 QQ 群](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
 用戶交流 TG 群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)  
 自動戰鬥 JSON 作業分享：[prts.plus](https://prts.plus) 或 [抄作業.com](http://抄作業.com)  
-Bilibili 直播間：[直播間](https://live.bilibili.com/2808861) 每晚直播敲代碼，近期很長一段時間應該都是在寫本軟體 ~  
+Bilibili 直播間：[MrEO 直播間](https://live.bilibili.com/2808861) 直播敲代碼 & [MAA-Official 直播間](https://live.bilibili.com/27548877) 遊戲/雜談  
 
 技術群（舟無關、禁水）：[內卷地獄！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
 開發者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  

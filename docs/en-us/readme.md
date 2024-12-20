@@ -196,11 +196,26 @@ Thanks to all friends who contribute to development/testing for making MAA bette
 - The logo of this software is NOT granted rights under AGPL 3.0 License. [耗毛](https://weibo.com/u/3251357314) and Vie, the two artists and all developers of the software reserves all rights. The logo of the software shall not be used without authorization even if the project has an AGPL 3.0 License. Nor shall the logo be used for commercial purposes without authorization.
 - The software is an open-source, free of charge software only for studying and communication purposes. There is no agreement or understanding between the developers of the software and the 3rd party person who uses this software as an assistant and charges you. In that case, the developers of the software are not responsible for the problems and consequences caused.
 
+### DirectML Support Information
+
+This software supports GPU acceleration, which relies on Microsoft's DirectML (Microsoft.AI.DirectML). For user convenience, an unmodified DirectML.dll file is included with the installation package.
+
+#### About DirectML.dll:
+
+- Source: Official Microsoft
+- License: Please refer to Microsoft's DirectML terms of use  
+  [DirectML Official Documentation](https://learn.microsoft.com/en-us/windows/ai/directml/)
+
+DirectML.dll is a standalone component provided by Microsoft. It is not part of this software's open-source section and is not subject to the AGPL-3.0 license.
+
+If you do not require GPU support, you can safely delete the DLL file, and the core functionality of the software will remain unaffected.
+
+
 ## Advertisement
 
 User Group: [Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ Group](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
 [Copilot JSON Sharing](https://prts.plus)  
-[Bilibili Live](https://live.bilibili.com/2808861): live coding on this program  
+Bilibili Livestreams: [MrEO Livestream](https://live.bilibili.com/2808861) Coding Sessions & [MAA-Official Livestream](https://live.bilibili.com/27548877) Gaming/Chats  
 [Technical Discussion (QQ Group)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
 [Dev Group(QQ Group)](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 

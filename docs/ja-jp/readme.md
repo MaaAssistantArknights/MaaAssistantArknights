@@ -184,15 +184,30 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 
 ## 免責事項
 
+- 本ソフトウェアは [GNU Affero General Public License v3.0 only](https://spdx.org/licenses/AGPL-3.0-only.html) オープンソースライセンスを使用しています。
 - 本ソフトウェアのロゴはAGPL 3.0ライセンスを使用しており、オープンソースではなく、[耗毛](https://weibo.com/u/3251357314)とVie、2人のアーティストと開発者がすべての権利を留保しています。「AGPL 3.0ライセンスに基づいて許可されている」という理由で、許可がない場合に本ソフトウェアのロゴを無断で使用することは禁止しております。また、許可なく商業目的で本ソフトウェアのロゴを無断で使用することも禁止しております。
 - 本ソフトウェアはオープンソースで無料であり、学習と研究のみの目的としています。販売者が本ソフトウェアの料金を請求する場合は、デバイスや時間の料金である可能性があります。発生した問題と結果は、本ソフトウェアとは一切関係ありません。
+
+### DirectML サポート説明
+
+本ソフトウェアは GPU 加速機能をサポートしていますが、GPU 加速は Microsoft 提供の DirectML（Microsoft.AI.DirectML）に依存しています。ユーザーの利便性を考慮し、未改変の DirectML.dll ファイルをインストールパッケージに同梱しています。
+
+#### DirectML.dll について：
+
+- 出典：Microsoft 公式
+- ライセンス：Microsoft の DirectML 利用規約を参照してください  
+  [DirectML 公式ドキュメント](https://learn.microsoft.com/en-us/windows/ai/directml/)
+
+DirectML.dll は Microsoft による独立したコンポーネントであり、本ソフトウェアのオープンソース部分には含まれません。また、AGPL-3.0 の制約も受けません。
+
+GPU サポートが不要な場合、この DLL ファイルを安全に削除することができます。それでもソフトウェアの主要機能は正常に動作します。
 
 ## 広告
 
 ユーザー研究グループQQグループ：[QQグループ](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
 ユーザー研究グループTGグループ：[Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1)  
 自動作戦JSON作業シェア：[prts.plus](https://prts.plus)  
-ビリビリ生放送：[ビリビリ生放送](https://live.bilibili.com/2808861) 毎晩ライブでコーディングします、最近はずっとこのソフトウェアのプログラミングをしていることが多いです。  
+Bilibili ライブ配信: [MrEO ライブ配信](https://live.bilibili.com/2808861) コーディング & [MAA-Official ライブ配信](https://live.bilibili.com/27548877) ゲーム/雑談  
 
 技術研究(アークナイツ無関係)：[インボリューション・ヘル！(QQグループ)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
 開発者グループ：[QQグループ](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
