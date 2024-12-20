@@ -38,7 +38,7 @@ jobs:
       - name: Upload Official
         uses: actions/cache/save@v4
         with:
-          key: official
+          key: DELETE_CACHE-${{ github.run_id }}-official
           path: ./Official
 
   clone-resources-overseas:
@@ -79,7 +79,7 @@ jobs:
       - name: Upload Overseas
         uses: actions/cache/save@v4
         with:
-          key: overseas
+          key: DELETE_CACHE-${{ github.run_id }}-overseas
           path: ./Overseas
 
   clone-resources-txwy:
@@ -118,7 +118,7 @@ jobs:
       - name: Upload txwy
         uses: actions/cache/save@v4
         with:
-          key: txwy
+          key: DELETE_CACHE-${{ github.run_id }}-txwy
           path: ./excel
 
   update-game-resources:
@@ -183,19 +183,19 @@ jobs:
       - name: Download txwy
         uses: actions/cache/restore@v4
         with:
-          key: txwy
+          key: DELETE_CACHE-${{ github.run_id }}-txwy
           path: ./tools/ResourceUpdater/x64/Release/Overseas/zh_TW/gamedata/excel
 
       - name: Download Overseas
         uses: actions/cache/restore@v4
         with:
-          key: overseas
+          key: DELETE_CACHE-${{ github.run_id }}-overseas
           path: ./tools/ResourceUpdater/x64/Release/Overseas
 
       - name: Download Official
         uses: actions/cache/restore@v4
         with:
-          key: official
+          key: DELETE_CACHE-${{ github.run_id }}-official
           path: ./tools/ResourceUpdater/x64/Release/Official
 
       - name: Run Resource Updater
@@ -291,9 +291,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           echo "Deleting the cache..."
-          gh cache delete official
-          gh cache delete overseas
-          gh cache delete txwy
+          gh cache delete DELETE_CACHE-${{ github.run_id }}-official
+          gh cache delete DELETE_CACHE-${{ github.run_id }}-overseas
+          gh cache delete DELETE_CACHE-${{ github.run_id }}-txwy
 
       - name: Add cancelled status
         if: steps.check_sorted_templates.outputs.changes != 'True' || steps.add_files.outputs.have_commits != 'True'
