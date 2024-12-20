@@ -150,10 +150,15 @@ ProcessTask::HitDetail ProcessTask::find_first(const TaskList& list) /* const, e
         return { .task_ptr = std::move(task_ptr) };
     }
 
-    cv::Mat image = m_reusable.empty() ? ctrler()->get_image() : m_reusable;
+    bool reuse_empty = m_reusable.empty();
+
+    cv::Mat image = reuse_empty ? cv::Mat() : m_reusable;
     m_reusable = cv::Mat();
     PipelineAnalyzer analyzer(image, Rect(), m_inst);
     analyzer.set_tasks(list);
+    if (reuse_empty) {
+        analyzer.set_image_raw(ctrler()->get_image(true));
+    }
 
     auto res_opt = analyzer.analyze();
     if (!res_opt) {
