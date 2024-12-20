@@ -288,11 +288,11 @@ jobs:
         run: |
           gh workflow --repo MaaAssistantArknights/MaaRelease run update-resource.yml
 
-      - name: Delete cache
-        if: always()
-        run: |
-          echo "Deleting the cache..."
-          gh cache delete 
+      # - name: Delete cache
+      #   if: always()
+      #   run: |
+      #     echo "Deleting the cache..."
+      #     gh cache delete 
       
       - name: Add cancelled status
         if: steps.check_sorted_templates.outputs.changes != 'True' || steps.add_files.outputs.have_commits != 'True'
