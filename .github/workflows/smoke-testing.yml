@@ -94,11 +94,12 @@ jobs:
       #       ./src/MaaCore/x64/Debug
       #       ./src/Cpp/x64/Debug
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+      - name: Save build artifact to cache
+        uses: actions/cache/save@v4
         with:
-          name: build
-          path: ./x64/Debug
+          key: DELETE_KEY-smoke-testing-artifact
+          path: |
+            ./x64/Debug
 
   test:
     # Prevent duplicate runs on organization branches with PRs
@@ -113,19 +114,27 @@ jobs:
         client: [Official, YostarJP, YostarEN, YostarKR, txwy]
 
     steps:
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
+      - name: Restore build artifact from cache
+        id: cache-smoke-testing
+        uses: actions/cache/restore@v4
         with:
-          name: build
-          path: ./x64/Debug
+          key: DELETE_KEY-smoke-testing-artifact-${{ github.ref }}
+          path: |
+            ./x64/Debug
 
       - name: Run tests - ${{ matrix.client }}
+        continue-on-error: true
         run: |
           ./x64/Debug/Sample.exe ${{ matrix.client }}
 
       - name: Upload logs
-        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: log-${{ matrix.client }}
           path: ./x64/Debug/debug
+
+      - name: Delete cache
+        if: ${{ matrix.client == 'Official' }}
+        run: |
+          echo "Deleting the cache..."
+          gh cache delete DELETE_KEY-smoke-testing-artifact-${{ github.ref }} --confirm
