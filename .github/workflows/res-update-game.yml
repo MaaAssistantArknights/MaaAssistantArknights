@@ -290,6 +290,8 @@ jobs:
 
       # - name: Delete cache
       #   if: always()
+      #   env:
+      #     GH_TOKEN: ${{ github.token }}
       #   run: |
       #     echo "Deleting the cache..."
       #     gh cache delete

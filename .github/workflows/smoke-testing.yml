@@ -94,6 +94,7 @@ jobs:
     needs: build
     runs-on: windows-latest
     strategy:
+      fail-fast: false
       matrix:
         client: [Official, YostarJP, YostarEN, YostarKR, txwy]
 
@@ -119,6 +120,8 @@ jobs:
 
       - name: Delete cache
         if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           if ("${{ matrix.client }}" -eq "Official") {
             echo "Deleting the cache..."
