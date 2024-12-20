@@ -114,6 +114,17 @@ If it still doesn't work, please retry after switching to `MaaTouch` from `Minit
 - Automatic combat functions (such as I.S.) are greatly affected by the time taken to take screenshots
 - This time consumption is unrelated to MAA, but related to computer performance, current usage, or emulator. You can try cleaning up background processes, changing emulators, or upgrading computer configurations.
 
+## About Windows UAC
+
+MAA should not require Windows UAC administrator privileges to run all functions. The functionalities related to administrator privileges are as follows:
+
+1. `Auto Detect Connection`: Administrator privileges are required when the target emulator is running with administrator rights.
+2. `Close Emulator After Completion`: Administrator privileges are required when the target emulator is running with administrator rights.
+3. `Start MAA Automatically on Boot`: It is not possible to set automatic startup with administrator privileges.
+4. When MAA is incorrectly extracted to a path that requires administrator privileges for writing, such as `C:\` or `C:\Program Files\`.
+
+There have been reports that systems with UAC disabled may have the issue where "even without selecting 'Run as Administrator' by right-clicking, it will still run with administrator privileges." It is recommended to enable UAC to avoid unintended privilege escalation.
+
 ## The download speed is slow and the mirror site is not accessible
 
 1. Go to [Download](../readme.md) to get the link (non-mirror) you want to download.
