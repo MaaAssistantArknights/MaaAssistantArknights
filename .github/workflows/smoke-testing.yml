@@ -124,10 +124,12 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           if ("${{ matrix.client }}" -eq "Official") {
-            mkdir temp
-            cd temp
+            New-Item -ItemType Directory -Path temp -Force | Out-Null
+            Set-Location temp
+
             git init
             git remote add origin https://github.com/MaaAssistantArknights/MaaAssistantArknights.git
-            echo "Deleting the cache..."
+
+            Write-Host "Deleting cache: DELETE_KEY-smoke-testing-artifact-${{ github.ref }}"
             gh cache delete DELETE_KEY-smoke-testing-artifact-${{ github.ref }}
           }
