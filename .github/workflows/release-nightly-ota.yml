@@ -145,7 +145,7 @@ jobs:
         with:
           path: |
             ./MaaDeps
-          key: ${{ runner.os }}-${{ matrix.msbuild_target }}maadeps-${{ hashFiles('./maadeps-download.py') }}
+          key: ${{ runner.os }}-${{ matrix.msbuild_target }}-maadeps-${{ hashFiles('./maadeps-download.py') }}
 
       - name: Bootstrap MaaDeps
         if: steps.cache-maadeps.outputs.cache-hit != 'true'
