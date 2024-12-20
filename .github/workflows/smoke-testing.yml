@@ -65,7 +65,7 @@ jobs:
           key: ${{ runner.os }}-maadeps-${{ hashFiles('./maadeps-download.py') }}
 
       - name: Bootstrap MaaDeps
-        if: steps.cache-nuget.outputs.cache-hit != 'true'
+        if: steps.cache-maadeps.outputs.cache-hit != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
