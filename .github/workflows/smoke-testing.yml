@@ -123,18 +123,20 @@ jobs:
             ./x64/Debug
 
       - name: Run tests - ${{ matrix.client }}
-        continue-on-error: true
         run: |
           ./x64/Debug/Sample.exe ${{ matrix.client }}
 
       - name: Upload logs
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: log-${{ matrix.client }}
           path: ./x64/Debug/debug
 
       - name: Delete cache
-        if: ${{ matrix.client == 'Official' }}
+        if: always()
         run: |
-          echo "Deleting the cache..."
-          gh cache delete DELETE_KEY-smoke-testing-artifact-${{ github.ref }} --confirm
+          if (${{ matrix.client }} == 'Official') {
+            echo "Deleting the cache..."
+            gh cache delete DELETE_KEY-smoke-testing-artifact-${{ github.ref }}
+          }
