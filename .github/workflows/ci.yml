@@ -135,9 +135,18 @@ jobs:
         if: steps.cache-nuget.outputs.cache-hit != 'true'
         run: dotnet restore
 
+      - name: Cache MaaDeps
+        id: cache-maadeps
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./MaaDeps
+          key: ${{ runner.os }}-maadeps-${{ hashFiles('./maadeps-download.py') }}
+
       - name: Bootstrap MaaDeps
+        if: steps.cache-maadeps.outputs.cache-hit != 'true'        
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
         run: |
           python3 maadeps-download.py ${{ matrix.lowercase_target }}-windows
 

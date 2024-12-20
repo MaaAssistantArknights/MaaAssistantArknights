@@ -29,9 +29,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        include:
-          - msbuild_target: x64
-            lowercase_target: x64
+        msbuild_target: [x64]
       fail-fast: false
     env:
       MAABUILDER_TARGET_PLATFORM: ${{ matrix.msbuild_target }}
@@ -141,11 +139,20 @@ jobs:
         if: steps.cache-nuget.outputs.cache-hit != 'true'
         run: dotnet restore
 
+      - name: Cache MaaDeps
+        id: cache-maadeps
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./MaaDeps
+          key: ${{ runner.os }}-maadeps-${{ hashFiles('./maadeps-download.py') }}
+
       - name: Bootstrap MaaDeps
+        if: steps.cache-maadeps.outputs.cache-hit != 'true'        
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
         run: |
           python3 maadeps-download.py ${{ matrix.lowercase_target }}-windows
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Taggify Version
         run: |
@@ -183,7 +190,7 @@ jobs:
       - name: Upload MAA to Github
         uses: actions/upload-artifact@v4
         with:
-          name: MAA-win-${{ matrix.lowercase_target }}
+          name: MAA-win-${{ matrix.msbuild_target }}
           path: artifacts
 
   push-tag:
