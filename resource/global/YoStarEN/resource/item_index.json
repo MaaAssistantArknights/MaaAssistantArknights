@@ -1463,6 +1463,14 @@
         "sortId": -10000,
         "usage": "Used to perform Data Iteration on Limiter Units."
     },
+    "act1collection_point_token": {
+        "classifyType": "NONE",
+        "description": "Rhodes Island issues special reward points as an incentive to field operators dispatched to the base building operation in Szubat-Arsalan. These points can be used to redeem important supplies.",
+        "icon": "act1collection_point_token.png",
+        "name": "'Expeditioners' Redemption Point",
+        "sortId": -10000,
+        "usage": "Can be exchanged for the corresponding event stage reward."
+    },
     "act1lock_point_reward": {
         "classifyType": "NONE",
         "description": "Points gained for taking down OpFor troops, awarded to competitors in the form of medals. Owing to it being forged by Minos smiths, in each medal's engraving is the proverb 'all heroes arise from normal people.'",
@@ -2102,6 +2110,14 @@
         "name": "Premium Material Voucher",
         "sortId": 30200,
         "usage": "A special exchange voucher issued by the Rhodes Island Procurement Department. Can be used within a limited time to obtain premium elite materials."
+    },
+    "premium_material_voucher_perm": {
+        "classifyType": "CONSUME",
+        "description": "In order to address scarcities of certain materials during processing, the Procurement Department has issued exchange vouchers for operators' discretionary use, granting access to the materials needed.",
+        "icon": "premium_material_voucher_perm.png",
+        "name": "Premium Material Voucher",
+        "sortId": 60004,
+        "usage": "A special exchange voucher issued by the Rhodes Island Procurement Department. Can be used to obtain premium elite materials."
     },
     "randomDiamondShd_1": {
         "classifyType": "CONSUME",
