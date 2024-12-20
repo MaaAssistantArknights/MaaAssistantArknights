@@ -74,25 +74,9 @@ jobs:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v2
 
-      # - name: Restore incremental build
-      #   uses: actions/cache/restore@v4
-      #   with:
-      #     key: smoke-testing-incremental
-      #     path: |
-      #       ./src/MaaCore/x64/Debug
-      #       ./src/Cpp/x64/Debug
-
       - name: Build MaaSample
         run: |
           MSBUILD src/Cpp/MaaSample.slnf -t:restore,build -p:Configuration="Debug" -p:Platform="x64" -m
-
-      # - name: Save incremental build
-      #   uses: actions/cache/save@v4
-      #   with:
-      #     key: smoke-testing-incremental
-      #     path: |
-      #       ./src/MaaCore/x64/Debug
-      #       ./src/Cpp/x64/Debug
 
       - name: Save build artifact to cache
         uses: actions/cache/save@v4
