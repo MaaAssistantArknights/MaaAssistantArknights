@@ -36,11 +36,10 @@ jobs:
             /gamedata/excel/activity_table.json
 
       - name: Upload Official
-        uses: actions/upload-artifact@v4
+        uses: actions/cache/save@v4
         with:
-          name: official
+          key: official
           path: ./Official
-          compression-level: 0
 
   clone-resources-overseas:
     if: github.repository_owner == 'MaaAssistantArknights'
@@ -77,12 +76,11 @@ jobs:
             /ko_KR/gamedata/excel/roguelike_topic_table.json
             /ko_KR/gamedata/excel/activity_table.json
 
-      - name: Upload Official
-        uses: actions/upload-artifact@v4
+      - name: Upload Overseas
+        uses: actions/cache/save@v4
         with:
-          name: overseas
+          key: overseas
           path: ./Overseas
-          compression-level: 0
 
   clone-resources-txwy:
     if: github.repository_owner == 'MaaAssistantArknights'
@@ -117,12 +115,11 @@ jobs:
           done
           wait
 
-      - name: Upload Official
-        uses: actions/upload-artifact@v4
+      - name: Upload txwy
+        uses: actions/cache/save@v4
         with:
-          name: txwy
+          key: txwy
           path: ./excel
-          compression-level: 0
 
   update-game-resources:
     # In case of rate limitations on the runners/instances, add dependency, by removing the comment
@@ -184,21 +181,21 @@ jobs:
             ./tools/ResourceUpdater/x64/Release/ResourceUpdater.exe
 
       - name: Download txwy
-        uses: actions/download-artifact@v4.1.8
+        uses: actions/cache/restore@v4
         with:
-          name: txwy
+          key: txwy
           path: ./tools/ResourceUpdater/x64/Release/Overseas/zh_TW/gamedata/excel
 
       - name: Download Overseas
-        uses: actions/download-artifact@v4.1.8
+        uses: actions/cache/restore@v4
         with:
-          name: overseas
+          key: overseas
           path: ./tools/ResourceUpdater/x64/Release/Overseas
 
       - name: Download Official
-        uses: actions/download-artifact@v4.1.8
+        uses: actions/cache/restore@v4
         with:
-          name: official
+          key: official
           path: ./tools/ResourceUpdater/x64/Release/Official
 
       - name: Run Resource Updater
@@ -288,13 +285,15 @@ jobs:
         run: |
           gh workflow --repo MaaAssistantArknights/MaaRelease run update-resource.yml
 
-      # - name: Delete cache
-      #   if: always()
-      #   env:
-      #     GH_TOKEN: ${{ github.token }}
-      #   run: |
-      #     echo "Deleting the cache..."
-      #     gh cache delete
+      - name: Delete cache
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "Deleting the cache..."
+          gh cache delete official
+          gh cache delete overseas
+          gh cache delete txwy
 
       - name: Add cancelled status
         if: steps.check_sorted_templates.outputs.changes != 'True' || steps.add_files.outputs.have_commits != 'True'
