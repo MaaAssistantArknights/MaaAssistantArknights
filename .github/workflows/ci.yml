@@ -507,7 +507,7 @@ jobs:
       github.event.pull_request.head.repo.full_name !=
       github.event.pull_request.base.repo.full_name) && startsWith(github.ref, 'refs/tags/v')
 
-    needs: [meta, windows, ubuntu, macOS-GUI]
+    needs: [meta, windows, ubuntu, macOS-Core, macOS-GUI]
     runs-on: ubuntu-latest
     steps:
       - name: Download MAA from Github
