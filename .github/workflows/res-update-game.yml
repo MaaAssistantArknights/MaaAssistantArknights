@@ -292,8 +292,8 @@ jobs:
       #   if: always()
       #   run: |
       #     echo "Deleting the cache..."
-      #     gh cache delete 
-      
+      #     gh cache delete
+
       - name: Add cancelled status
         if: steps.check_sorted_templates.outputs.changes != 'True' || steps.add_files.outputs.have_commits != 'True'
         uses: andymckay/cancel-action@0.5
