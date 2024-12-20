@@ -97,7 +97,7 @@ jobs:
       - name: Save build artifact to cache
         uses: actions/cache/save@v4
         with:
-          key: DELETE_KEY-smoke-testing-artifact
+          key: DELETE_KEY-smoke-testing-artifact-${{ github.ref }}
           path: |
             ./x64/Debug
 
