@@ -50,7 +50,7 @@ jobs:
           path: |
             .nuke/temp
             ~/.nuget/packages
-          key: ${{ runner.os }}-x64-${{ hashFiles('**/global.json', '**/*.csproj') }}${{runner.arch}}
+          key: ${{ runner.os }}-x64-${{ hashFiles('**/global.json', '**/*.csproj') }}
 
       - name: Restore dependencies
         if: steps.cache-nuget.outputs.cache-hit != 'true'
