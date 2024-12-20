@@ -135,7 +135,16 @@ jobs:
         if: steps.cache-nuget.outputs.cache-hit != 'true'
         run: dotnet restore
 
+      - name: Cache MaaDeps
+        id: cache-maadeps
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./MaaDeps
+          key: ${{ runner.os }}-${{ matrix.lowercase_target }}-maadeps-${{ hashFiles('./maadeps-download.py') }}
+
       - name: Bootstrap MaaDeps
+        if: steps.cache-maadeps.outputs.cache-hit != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -221,6 +230,7 @@ jobs:
       - name: Setup ccache
         uses: Chocobo1/setup-ccache-action@v1
 
+      # Caching not necessary on ubuntu runner
       - name: Bootstrap MaaDeps
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -330,6 +340,7 @@ jobs:
         run: |
           brew install ninja
 
+      # Caching not necessary on macOS runner
       - name: Bootstrap MaaDeps
         run: |
           [[ ${{ matrix.arch }} = "arm64" ]] && triplet="arm64-osx" || triplet="x64-osx"
@@ -496,7 +507,7 @@ jobs:
       github.event.pull_request.head.repo.full_name !=
       github.event.pull_request.base.repo.full_name) && startsWith(github.ref, 'refs/tags/v')
 
-    needs: [meta, windows, ubuntu, macOS-GUI]
+    needs: [meta, windows, ubuntu, macOS-Core, macOS-GUI]
     runs-on: ubuntu-latest
     steps:
       - name: Download MAA from Github

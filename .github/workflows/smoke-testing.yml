@@ -30,7 +30,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  smoke-testing:
+  build:
     # Prevent duplicate runs on organization branches with PRs
     if: github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name !=
@@ -43,10 +43,29 @@ jobs:
           show-progress: false
           submodules: recursive
 
+      - name: Cache .nuke/temp, ~/.nuget/packages
+        id: cache-nuget
+        uses: actions/cache@v4
+        with:
+          path: |
+            .nuke/temp
+            ~/.nuget/packages
+          key: ${{ runner.os }}-x64-${{ hashFiles('**/global.json', '**/*.csproj') }}
+
       - name: Restore dependencies
+        if: steps.cache-nuget.outputs.cache-hit != 'true'
         run: dotnet restore
 
+      - name: Cache MaaDeps
+        id: cache-maadeps
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./MaaDeps
+          key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('./maadeps-download.py') }}
+
       - name: Bootstrap MaaDeps
+        if: steps.cache-maadeps.outputs.cache-hit != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -57,31 +76,51 @@ jobs:
 
       - name: Build MaaSample
         run: |
-          MSBUILD src/Cpp/MaaSample.slnf /t:rebuild /p:Configuration="Debug" /p:Platform="x64" /m
+          MSBUILD src/Cpp/MaaSample.slnf -t:restore,build -p:Configuration="Debug" -p:Platform="x64" -m
 
-      - name: Run tests - Official #用来判断是不是国服资源出错导致外服全炸
-        run: |
-          .\x64\Debug\Sample.exe
+      - name: Save build artifact to cache
+        uses: actions/cache/save@v4
+        with:
+          key: DELETE_KEY-smoke-testing-artifact-${{ github.ref }}
+          path: |
+            ./x64/Debug
 
-      - name: Run tests - YostarJP
-        run: |
-          .\x64\Debug\Sample.exe YostarJP
+  test:
+    # Prevent duplicate runs on organization branches with PRs
+    if: github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name !=
+      github.event.pull_request.base.repo.full_name
 
-      - name: Run tests - YostarEN
-        run: |
-          .\x64\Debug\Sample.exe YostarEN
+    needs: build
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        client: [Official, YostarJP, YostarEN, YostarKR, txwy]
 
-      - name: Run tests - YostarKR
-        run: |
-          .\x64\Debug\Sample.exe YostarKR
+    steps:
+      - name: Restore build artifact from cache
+        id: cache-smoke-testing
+        uses: actions/cache/restore@v4
+        with:
+          key: DELETE_KEY-smoke-testing-artifact-${{ github.ref }}
+          path: |
+            ./x64/Debug
 
-      - name: Run tests - txwy
+      - name: Run tests - ${{ matrix.client }}
         run: |
-          .\x64\Debug\Sample.exe txwy
+          ./x64/Debug/Sample.exe ${{ matrix.client }}
 
       - name: Upload logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: log
-          path: .\x64\Debug\debug
+          name: log-${{ matrix.client }}
+          path: ./x64/Debug/debug
+
+      - name: Delete cache
+        if: always()
+        run: |
+          if ("${{ matrix.client }}" -eq "Official") {
+            echo "Deleting the cache..."
+            gh cache delete DELETE_KEY-smoke-testing-artifact-${{ github.ref }}
+          }

@@ -149,8 +149,19 @@ jobs:
             ./tools/ResourceUpdater/x64/Release/opencv_world4_maa.dll
             ./tools/ResourceUpdater/x64/Release/ResourceUpdater.exe
 
-      - name: Bootstrap MaaDeps
+      - name: Cache MaaDeps
         if: steps.cache-resupd.outputs.cache-hit != 'true'
+        id: cache-maadeps
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./MaaDeps
+          key: ${{ runner.os }}-maadeps-${{ hashFiles('./maadeps-download.py') }}
+
+      - name: Bootstrap MaaDeps
+        if: steps.cache-resupd.outputs.cache-hit != 'true' && steps.cache-maadeps.outputs.cache-hit != 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 maadeps-download.py x64-windows
 
@@ -276,6 +287,12 @@ jobs:
           GH_TOKEN: ${{ secrets.MAA_RESOURCE_SYNC }}
         run: |
           gh workflow --repo MaaAssistantArknights/MaaRelease run update-resource.yml
+
+      # - name: Delete cache
+      #   if: always()
+      #   run: |
+      #     echo "Deleting the cache..."
+      #     gh cache delete
 
       - name: Add cancelled status
         if: steps.check_sorted_templates.outputs.changes != 'True' || steps.add_files.outputs.have_commits != 'True'
