@@ -194,7 +194,7 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 
 本软件支持 GPU 加速功能，但 GPU 加速依赖于 Microsoft 提供的 DirectML（Microsoft.AI.DirectML）。为了方便用户，我们随安装包附带了一个未修改的 DirectML.dll 文件。
 
-#### 关于 DirectML.dll：
+#### 关于 DirectML.dll
 
 - 来源：Microsoft 官方
 - 许可证：请参考 Microsoft 的 DirectML 使用条款

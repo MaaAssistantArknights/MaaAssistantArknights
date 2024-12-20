@@ -192,7 +192,7 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 
 本ソフトウェアは GPU 加速機能をサポートしていますが、GPU 加速は Microsoft 提供の DirectML（Microsoft.AI.DirectML）に依存しています。ユーザーの利便性を考慮し、未改変の DirectML.dll ファイルをインストールパッケージに同梱しています。
 
-#### DirectML.dll について：
+#### DirectML.dll について
 
 - 出典：Microsoft 公式
 - ライセンス：Microsoft の DirectML 利用規約を参照してください  

@@ -197,7 +197,7 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 
 이 소프트웨어는 GPU 가속 기능을 지원하며, GPU 가속은 Microsoft에서 제공하는 DirectML(Microsoft.AI.DirectML)에 의존합니다. 사용자 편의를 위해 설치 패키지에 수정되지 않은 DirectML.dll 파일이 포함되어 있습니다.
 
-#### DirectML.dll에 대하여:
+#### DirectML.dll에 대하여
 
 - 출처: Microsoft 공식
 - 라이선스: Microsoft의 DirectML 사용 약관을 참조하세요  
