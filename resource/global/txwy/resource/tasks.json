@@ -1640,18 +1640,12 @@
     "Roguelike@ChooseDifficultyConfirm": {
         "text": ["選擇"]
     },
-    "Roguelike@FromIntegratedStrategies": {
-        "action": "ClickSelf",
-        "roi": [1006, 445, 246, 157],
-        "text": ["進入主題"],
-        "algorithm": "OcrDetect",
-        "next": ["Roguelike@FromIntegratedStrategies", "Roguelike@Begin"]
-    },
     "Roguelike@IntegratedStrategies": {
-        "next": ["Roguelike@IntegratedStrategies", "Roguelike@SelectTheme"]
+        "templThreshold": 0.75
     },
-    "Roguelike@SelectTheme": {
-        "roi": [0, 29, 515, 648]
+    "Roguelike@PreSelectTheme": {
+        "text": ["查看全部主題", "查看", "TODO: image of //INTEGRATED STRATEGIES"],
+        "roi": [450, 480, 160, 45]
     },
     "Roguelike@StageEncounterOcr": {
         "ocrReplace": [
@@ -1815,8 +1809,7 @@
         "text": ["迷霧歧途", "落陽庭院", "故土殘軀", "噩夢之始", "血月長廊", "渴欲大廳"]
     },
     "Phantom@Roguelike@SelectTheme": {
-        "next": ["Phantom@Roguelike@FromIntegratedStrategies"],
-        "text": ["傀影"]
+        "text": ["古堡筆記"]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
@@ -1845,8 +1838,7 @@
         "text": ["天光海岸", "離岸孤島", "波濤略地", "隱秘溫床", "失塵岩洞", "幽海叢林", "紺碧搖籃"]
     },
     "Mizuki@Roguelike@SelectTheme": {
-        "next": ["Mizuki@Roguelike@FromIntegratedStrategies"],
-        "text": ["水月"]
+        "text": ["生態譜系", "生態", "譜系"]
     },
     "Mizuki@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
@@ -1992,8 +1984,7 @@
         "text": ["完成本", "完成本層", "下一層級"]
     },
     "Sami@Roguelike@SelectTheme": {
-        "next": ["Sami@Roguelike@FromIntegratedStrategies"],
-        "text": ["探索"]
+        "text": ["科考紀錄"]
     },
     "Sami@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
