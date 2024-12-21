@@ -12923,7 +12923,6 @@
         "subErrorIgnored": true,
         "next": [
             "Tales@RA@PNS-ProsperityBelowLimit-SwipeSave",
-            "Tales@RA@PNS-ProsperityBelowLimit-Dots",
             "Tales@RA@PNS-ProsperityBelowLimit-SwipeSave@NextAfterLoadingText",
             "Tales@RA@ProsperityNoSave"
         ]
