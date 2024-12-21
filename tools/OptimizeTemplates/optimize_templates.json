@@ -2953,5 +2953,8 @@
     "web/dist/favicon-32x32": "5c1464b1c73be23566cd55b42a47dfac24822d261a394d13b636a8bf2291fd80",
     "web/dist/mstile-150x150": "30fb1d88725596272a99f6a58c1f99366697b3e4c50b1e1bedd60bb4a90b9d02",
     "web/dist/assets/penguin-stats-5d948485": "5d9484856b03ab8d109405e8f00c8aff2c3d7fe5a97dc8b391d2d562a3de50aa",
-    "web/dist/assets/prts.plus-e54ac616": "e54ac616f462cc884b9c8491a46cd3718fa018d4ae9e00df0c2e99120ee35631"
+    "web/dist/assets/prts.plus-e54ac616": "e54ac616f462cc884b9c8491a46cd3718fa018d4ae9e00df0c2e99120ee35631",
+    "txwy/MallSiege": "b0eba6f19b638141cf2c7929d09aa36149cfea50cdd3a7ad971e8e3ae107ef06",
+    "txwy/RecruitSiege": "04a7b0be24277c48d912b1cf1bcf7e0ffc270d262228b77bfb6ae8ab8e0725ba",
+    "txwy/GachaEnterSiege": "237286718a812aebd3c24802a7abd7bd26f925cea2210787c4d61ce00a88e659"
 }
