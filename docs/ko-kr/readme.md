@@ -189,14 +189,29 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 
 ## 주의사항
 
+- 본 소프트웨어는 [GNU Affero General Public License v3.0 only](https://spdx.org/licenses/AGPL-3.0-only.html) 오픈소스 라이선스를 사용합니다.
 - 이 프로그램의 로고는 AGPL 3.0 라이센스의 적용 대상이 아닙니다. [耗毛](https://weibo.com/u/3251357314)와 Vie 두 명의 아티스트와 프로그램의 개발자들이 모든 권리를 가집니다. 프로젝트가 AGPL 3.0 라이센스 하에 있다고 하더라도 프로그램의 로고는 동의 없이 사용되어서는 안 되며, 동의 없는 상업적 이용 또한 금지됩니다.
 - 이 프로그램은 오픈소스이자 무료이며 학습 및 커뮤니케이션 전용입니다. 이 프로그램을 이용해 장비값이나 시간당 수수료 등을 대가로 서비스를 제공하는 판매자로 인해 발생하는 문제와 결과는 프로그램의 개발자들에게는 책임이 없습니다.
+
+### DirectML 지원 설명
+
+이 소프트웨어는 GPU 가속 기능을 지원하며, GPU 가속은 Microsoft에서 제공하는 DirectML(Microsoft.AI.DirectML)에 의존합니다. 사용자 편의를 위해 설치 패키지에 수정되지 않은 DirectML.dll 파일이 포함되어 있습니다.
+
+#### DirectML.dll에 대하여
+
+- 출처: Microsoft 공식
+- 라이선스: Microsoft의 DirectML 사용 약관을 참조하세요  
+  [DirectML 공식 문서](https://learn.microsoft.com/en-us/windows/ai/directml/)
+
+DirectML.dll은 Microsoft에서 제공하는 독립적인 구성 요소로, 본 소프트웨어의 오픈 소스 부분에 포함되지 않으며 AGPL-3.0의 적용을 받지 않습니다.
+
+GPU 지원이 필요하지 않은 경우, 이 DLL 파일을 안전하게 삭제할 수 있으며 소프트웨어의 핵심 기능은 정상적으로 작동합니다.
 
 ## 광고
 
 사용자 그룹: [Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ 그룹](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
 [전략 JSON 공유](https://prts.plus)  
-[빌리빌리 라이브](https://live.bilibili.com/2808861): 코딩 과정을 밤마다 방송하고 있습니다. 이 프로그램에 대부분의 시간을 할애하고 있습니다.  
+Bilibili 라이브 방송: [MrEO 방송](https://live.bilibili.com/2808861) 코딩 방송 & [MAA-Official 방송](https://live.bilibili.com/27548877) 게임/잡담  
 [명일방주 무관 기술 공유 & 만담 (QQ 그룹)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2): 지옥 같아요!  
 [개발자 그룹 (QQ 그룹)](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
