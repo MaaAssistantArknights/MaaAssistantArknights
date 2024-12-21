@@ -32,12 +32,12 @@ jobs:
         with:
           show-progress: false
 
-      - name: Cache lychee
-        uses: actions/cache@v4
-        with:
-          path: .lycheecache
-          key: cache-lychee-${{ github.sha }}
-          restore-keys: cache-lychee-
+      # - name: Cache lychee
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: .lycheecache
+      #     key: cache-lychee-${{ github.sha }}
+      #     restore-keys: cache-lychee-
 
       - name: Check dead links
         uses: lycheeverse/lychee-action@v2
