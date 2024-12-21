@@ -41,7 +41,7 @@ jobs:
             echo "Manual trigger detected. Proceeding..."
             echo "is_pr=False" >> $GITHUB_OUTPUT
           fi
-     
+
       - name: Checkout repository
         if: steps.check_push.outputs.is_pr != 'True'
         uses: actions/checkout@v4
