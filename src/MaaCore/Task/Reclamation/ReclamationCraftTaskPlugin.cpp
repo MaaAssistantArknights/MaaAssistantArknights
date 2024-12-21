@@ -94,8 +94,53 @@ bool asst::ReclamationCraftTaskPlugin::_run()
             ProcessTask(*this, { theme + "@RA@PIS-Craft" }).run();
         }
         sleep(500);
-    }
 
+        // 将要组装的道具设置为 m_tool_to_craft
+        Task.get<OcrTaskInfo>(theme + "@RA@PIS-ClickTool")->text = { "Glow Stick" };
+
+        insufficient_materials = false;
+        for (batch = 0; !need_exit() && !insufficient_materials && batch < m_num_craft_batches; ++batch) {
+            // Step 1: 选择要组装的道具, 若没有找到则在组装台界面向下滑动屏幕后再次检测, 直到识别到要组装的道具后点击
+            ProcessTask(*this, { theme + "@RA@PIS-SelectTool" }).run();
+            sleep(500);
+
+            craft_amount = 0;
+            while (!need_exit() && !insufficient_materials && craft_amount < 99) {
+                // Step 2: 识别加号按钮后点击 99 次增加组装数量
+                increase_craft_amount(99 - craft_amount);
+                sleep(500);
+
+                // Step 3: 识别组装数量
+                if (!calc_craft_amount(craft_amount)) {
+                    return false;
+                }
+
+                if (craft_amount < 99) {
+                    // 再次点击一次加号按钮, 确认组装数量已为最大
+                    int old_craft_amount = craft_amount;
+                    ProcessTask(*this, { theme + "@RA@IncreaseCraftAmount" }).run();
+                    sleep(500);
+                    if (!calc_craft_amount(craft_amount) || craft_amount <= old_craft_amount) {
+                        insufficient_materials = true;
+                    }
+                    else {
+                        Log.info("Reclamation Craft", "| craft amount: ", craft_amount);
+                    }
+                }
+            }
+
+            // Step 4: 开始组装或取消组装
+            if (craft_amount <= 0) {
+                // 点击空白处取消组装
+                ProcessTask(*this, { theme + "@RA@CancelCraft" }).run();
+            }
+            else {
+                // 点击开始组装图标, 获得物资, 点击 <点击空白处继续> 文字位置
+                ProcessTask(*this, { theme + "@RA@PIS-Craft" }).run();
+            }
+            sleep(500);
+        }
+    }
     return true;
 }
 
