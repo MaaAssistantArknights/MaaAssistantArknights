@@ -23,12 +23,6 @@ jobs:
     if: ${{ github.event.head_commit.author.email != '41898282+github-actions[bot]@users.noreply.github.com' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          show-progress: false
-          persist-credentials: false
-
       - name: Check for direct push
         id: check_push
         run: |
@@ -47,6 +41,13 @@ jobs:
             echo "Manual trigger detected. Proceeding..."
             echo "is_pr=False" >> $GITHUB_OUTPUT
           fi
+     
+      - name: Checkout repository
+        if: steps.check_push.outputs.is_pr != 'True'
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+          persist-credentials: false
 
       - name: Setup python
         if: steps.check_push.outputs.is_pr != 'True'
