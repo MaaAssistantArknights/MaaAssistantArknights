@@ -59,7 +59,7 @@ private:
 
     // 以下注释列出了插件专用参数, 以便于快速检阅。这些参数的具体声明与使用请参考各插件。
     // ———————— ReclamationCraftTaskPlugin 专用参数 ———————————————————————————————————————
-    // std::string m_tool_to_craft = "荧光棒";                 // 要组装的支援道具
+    // std::string m_tools_to_craft = "荧光棒";                 // 要组装的支援道具
     // int m_num_craft_batches = 16;                          // 支援道具组装批次数, 每批组装 99 个
     // IncrementMode m_increment_mode = IncrementMode::Click; // 点击加号按钮增加组装数量的方式
 };

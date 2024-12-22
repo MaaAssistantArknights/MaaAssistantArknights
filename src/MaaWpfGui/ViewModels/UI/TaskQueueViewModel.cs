@@ -1794,12 +1794,15 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static bool AppendReclamation()
         {
+            var toolToCraft = SettingsViewModel.ReclamationTask.ReclamationToolToCraft.Split(';', '；').Select(s => s.Trim());
+
+
             _ = int.TryParse(SettingsViewModel.ReclamationTask.ReclamationMode, out var mode);
 
             return Instances.AsstProxy.AsstAppendReclamation(
+                toolToCraft.ToArray(),
                 SettingsViewModel.ReclamationTask.ReclamationTheme,
                 mode,
-                SettingsViewModel.ReclamationTask.ReclamationToolToCraft,
                 SettingsViewModel.ReclamationTask.ReclamationIncrementMode,
                 SettingsViewModel.ReclamationTask.ReclamationMaxCraftCountPerRound);
         }
