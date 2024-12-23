@@ -318,7 +318,10 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
                                 // 0 - すぐにバトルをやめることでバッジと建設ポイントを周回
                                 // 1 - *砂中の火*：水を買ってから基地で鍛造して粗製純金を周回
                                 //     *沙洲遺聞*：アイテムを自動的に製造してロードして通貨を稼ぐ
-    "tool_to_craft": string,    // 自動的に製造されるアイテム、オプション、デフォルトは螢光棒
+    "tools_to_craft": [
+        string,                 // 自動的に製造されるアイテム、オプション、デフォルトは螢光棒
+        ...
+    ] 
                                 // サブストリングを入力することをお勧めします
     "increment_mode": int,      // クリックタイプ、オプション、デフォルトは0
                                 // 0 - 連続クリック
