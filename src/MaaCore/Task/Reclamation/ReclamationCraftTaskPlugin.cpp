@@ -16,7 +16,12 @@ bool asst::ReclamationCraftTaskPlugin::load_params(const json::value& params)
     }
 
     // 根据 params 设置插件专用参数
-    m_tool_to_craft = params.get("tool_to_craft", "荧光棒");
+    auto tools_to_craft_opt = params.find<json::array>("tools_to_craft");
+    for (auto& tool : tools_to_craft_opt.value()) {
+        if (std::string tool_str = tool.as_string(); !tool_str.empty()) {
+            m_tools_to_craft.emplace_back(tool_str);
+        }
+    }
     m_num_craft_batches =
         params.get("num_craft_batches", 16); // 默认值 16 以组装 <荧光棒> 消耗至少 3000 木头为准计算得出
     const int increment_mode_int = params.get("increment_mode", static_cast<int>(IncrementMode::Click));
@@ -49,53 +54,53 @@ bool asst::ReclamationCraftTaskPlugin::_run()
     LogTraceFunction;
 
     const std::string& theme = m_config->get_theme();
+    for (const std::string& tool_to_craft : m_tools_to_craft) {
+        // 将要组装的道具设置为 tool
+        Task.get<OcrTaskInfo>(theme + "@RA@PIS-ClickTool")->text = { tool_to_craft };
 
-    // 将要组装的道具设置为 m_tool_to_craft
-    Task.get<OcrTaskInfo>(theme + "@RA@PIS-ClickTool")->text = { m_tool_to_craft };
-
-    bool insufficient_materials = false;
-    for (int batch = 0; !need_exit() && !insufficient_materials && batch < m_num_craft_batches; ++batch) {
-        // Step 1: 选择要组装的道具, 若没有找到则在组装台界面向下滑动屏幕后再次检测, 直到识别到要组装的道具后点击
-        ProcessTask(*this, { theme + "@RA@PIS-SelectTool" }).run();
-        sleep(500);
-
-        int craft_amount = 0;
-        while (!need_exit() && !insufficient_materials && craft_amount < 99) {
-            // Step 2: 识别加号按钮后点击 99 次增加组装数量
-            increase_craft_amount(99 - craft_amount);
+        bool insufficient_materials = false;
+        for (int batch = 0; !need_exit() && !insufficient_materials && batch < m_num_craft_batches; ++batch) {
+            // Step 1: 选择要组装的道具, 若没有找到则在组装台界面向下滑动屏幕后再次检测, 直到识别到要组装的道具后点击
+            ProcessTask(*this, { theme + "@RA@PIS-SelectTool" }).run();
             sleep(500);
 
-            // Step 3: 识别组装数量
-            if (!calc_craft_amount(craft_amount)) {
-                return false;
-            }
-
-            if (craft_amount < 99) {
-                // 再次点击一次加号按钮, 确认组装数量已为最大
-                int old_craft_amount = craft_amount;
-                ProcessTask(*this, { theme + "@RA@IncreaseCraftAmount" }).run();
+            int craft_amount = 0;
+            while (!need_exit() && !insufficient_materials && craft_amount < 99) {
+                // Step 2: 识别加号按钮后点击 99 次增加组装数量
+                increase_craft_amount(99 - craft_amount);
                 sleep(500);
-                if (!calc_craft_amount(craft_amount) || craft_amount <= old_craft_amount) {
-                    insufficient_materials = true;
+
+                // Step 3: 识别组装数量
+                if (!calc_craft_amount(craft_amount)) {
+                    return false;
                 }
-                else {
-                    Log.info("Reclamation Craft", "| craft amount: ", craft_amount);
+
+                if (craft_amount < 99) {
+                    // 再次点击一次加号按钮, 确认组装数量已为最大
+                    int old_craft_amount = craft_amount;
+                    ProcessTask(*this, { theme + "@RA@IncreaseCraftAmount" }).run();
+                    sleep(500);
+                    if (!calc_craft_amount(craft_amount) || craft_amount <= old_craft_amount) {
+                        insufficient_materials = true;
+                    }
+                    else {
+                        Log.info("Reclamation Craft", "| craft amount: ", craft_amount);
+                    }
                 }
             }
-        }
 
-        // Step 4: 开始组装或取消组装
-        if (craft_amount <= 0) {
-            // 点击空白处取消组装
-            ProcessTask(*this, { theme + "@RA@CancelCraft" }).run();
+            // Step 4: 开始组装或取消组装
+            if (craft_amount <= 0) {
+                // 点击空白处取消组装
+                ProcessTask(*this, { theme + "@RA@CancelCraft" }).run();
+            }
+            else {
+                // 点击开始组装图标, 获得物资, 点击 <点击空白处继续> 文字位置
+                ProcessTask(*this, { theme + "@RA@PIS-Craft" }).run();
+            }
+            sleep(500);
         }
-        else {
-            // 点击开始组装图标, 获得物资, 点击 <点击空白处继续> 文字位置
-            ProcessTask(*this, { theme + "@RA@PIS-Craft" }).run();
-        }
-        sleep(500);
     }
-
     return true;
 }
 

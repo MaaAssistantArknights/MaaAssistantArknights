@@ -306,7 +306,10 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
                                 // 0 - 점수를 획득하고 건설 점수를 얻어 전투에 진입한 후 바로 나가기
                                 // 1 - *모래 속의 불꽃*: 황금을 얻기 위해 오퍼레이터가 물을 사고 기지를 강화합니다.
                                 //     *모래 안의 이야기*: 모래 안의 이야기: 자동으로 아이템을 제작하고 로드하여 통화를 획득
-    "tool_to_craft": string,    // 자동으로 제작되는 아이템, 선택 사항, 기본값은 형광봉
+    "tools_to_craft": [
+        string,                 // 자동으로 제작되는 아이템, 선택 사항, 기본값은 형광봉
+        ...
+    ] 
                                 // 부분 문자열을 채우는 것이 좋습니다
     "increment_mode": int,      // 클릭 유형, 선택 사항. 기본값은 0
                                 // 0 - 연속 클릭
