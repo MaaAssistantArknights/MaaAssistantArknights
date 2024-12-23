@@ -16,10 +16,10 @@ bool asst::ReclamationCraftTaskPlugin::load_params(const json::value& params)
     }
 
     // 根据 params 设置插件专用参数
-    auto m_tools_to_craft_opt = params.find<json::array>("tools_to_craft");
-    for (auto& tool : m_tools_to_craft_opt.value()) {
+    auto tools_to_craft_opt = params.find<json::array>("tools_to_craft");
+    for (auto& tool : tools_to_craft_opt.value()) {
         if (std::string tool_str = tool.as_string(); !tool_str.empty()) {
-            tools_to_craft.emplace_back(tool_str);
+            m_tools_to_craft.emplace_back(tool_str);
         }
     }
     m_num_craft_batches =
@@ -54,7 +54,7 @@ bool asst::ReclamationCraftTaskPlugin::_run()
     LogTraceFunction;
 
     const std::string& theme = m_config->get_theme();
-    for (auto& tool_to_craft : tools_to_craft) {
+    for (const std::string& tool_to_craft : m_tools_to_craft) {
         // 将要组装的道具设置为 tool
         Task.get<OcrTaskInfo>(theme + "@RA@PIS-ClickTool")->text = { tool_to_craft };
 
