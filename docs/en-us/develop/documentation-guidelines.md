@@ -107,9 +107,9 @@ You can use the `<HopeIcon />` component to add icons in markdown. This componen
 <HopeIcon icon="ic:round-home" color="#1f1e33"/>
 ```
 
-<HopeIcon icon="/image/maa-logo_512x512.png" size="4rem" />
+<HopeIcon icon="/images/maa-logo_512x512.png" size="4rem" />
 ```markdown
-<HopeIcon icon="/image/maa-logo_512x512.png" size="4rem" />
+<HopeIcon icon="/images/maa-logo_512x512.png" size="4rem" />
 ```
 :::
 

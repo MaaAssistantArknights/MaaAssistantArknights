@@ -16,7 +16,7 @@ icon: ph:question-fill
 請在終端中運行以下命令，或手動下載<u>**兩個**</u>運行庫並安裝。
 
 ```sh
-winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
+winget install "Microsoft.VCRedist.2015+.x64" "Microsoft.DotNet.DesktopRuntime.8" --uninstall-previous --accept-package-agreements
 ```
 
 - [Visual C++ 可再發行程序包](https://aka.ms/vs/17/release/vc_redist.x64.exe)

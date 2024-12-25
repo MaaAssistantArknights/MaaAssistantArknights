@@ -20,7 +20,7 @@ icon: ri:guide-fill
     MAA는 VCRedist x64와 .NET 8이 필요합니다. 시작 버튼을 우클릭하여 터미널을 열고, 아래 명령어를 터미널에 붙여넣고 엔터를 눌러 설치합니다.
 
     ```sh
-    winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
+    winget install "Microsoft.VCRedist.2015+.x64" "Microsoft.DotNet.DesktopRuntime.8" --uninstall-previous --accept-package-agreements
     ```
 
     자세한 정보는 [FAQ](./faq.md#가능성-2-런타임-문제)를 참조하세요.

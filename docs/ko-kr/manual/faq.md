@@ -16,7 +16,7 @@ MAA가 업데이트 후 실행되지 않는 경우, 런타임 라이브러리 �
 터미널에서 다음 명령을 실행하거나, <u>**두 개의**</u> 런타임 라이브러리를 수동으로 다운로드하여 설치하십시오.
 
 ```sh
-winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
+winget install "Microsoft.VCRedist.2015+.x64" "Microsoft.DotNet.DesktopRuntime.8" --uninstall-previous --accept-package-agreements
 ```
 
 - [Visual C++ 재배포 가능 패키지](https://aka.ms/vs/17/release/vc_redist.x64.exe)
@@ -42,7 +42,7 @@ winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
 Windows 10 또는 11을 사용하는 경우 winget 도구를 사용하여 설치할 수도 있습니다. 다음 명령어를 터미널에서 실행하세요.
 
   ```sh
-  winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
+  winget install "Microsoft.VCRedist.2015+.x64" "Microsoft.DotNet.DesktopRuntime.8" --uninstall-previous --accept-package-agreements
   ```
 
 #### Windows N/KN 관련

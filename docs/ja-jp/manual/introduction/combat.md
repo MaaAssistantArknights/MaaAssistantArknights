@@ -53,7 +53,7 @@ This page is outdated and maybe still in Simplified Chinese. Translation is need
   - 复刻的 SS 活动。输入 `SSReopen-<关卡前缀>` ，可一次性刷完 XX-1 ~ XX-9 关，如 `SSReopen-IC`。
 
 ::: details 画面例
-![画面例](/image/ja-jp/combat-start-interface-example.png)
+![画面例](/images/ja-jp/combat-start-interface-example.png)
 :::
 
 ### 剿灭模式

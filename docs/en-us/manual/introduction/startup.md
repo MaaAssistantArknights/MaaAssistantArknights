@@ -13,6 +13,8 @@ Additional settings are required to automatically start the emulator. For detail
 
 ## Account Switch
 
+This feature needs to be used together with configuration switching or scheduled execution. An account switch operation will be performed each time the `Startup` task is executed.
+
 Only supports switching to logged-in accounts. Use the login name to search. Please ensure that the input content is unique among all logged-in accounts. Does not work on the global version.
 
 Example CN：`123****8901` can be input `123****8901`、`123`、`8901`、`3****8`.

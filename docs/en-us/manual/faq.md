@@ -16,7 +16,7 @@ If MAA fails to run after an update, it is likely due to the runtime library ver
 Please run the following command in the terminal, or manually download and install <u>**both**</u> runtime libraries.
 
 ```sh
-winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
+winget install "Microsoft.VCRedist.2015+.x64" "Microsoft.DotNet.DesktopRuntime.8" --uninstall-previous --accept-package-agreements
 ```
 
 - [Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe)

@@ -20,7 +20,7 @@ icon: ri:guide-fill
     MAA 需要 VCRedist x64 和 .NET 8，請右鍵開始按鈕打開終端，在終端內粘貼以下命令回車以進行安裝。
 
     ```sh
-    winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
+    winget install "Microsoft.VCRedist.2015+.x64" "Microsoft.DotNet.DesktopRuntime.8" --uninstall-previous --accept-package-agreements
     ```
 
     更多信息參考[常見問題](faq.md#可能性-2--執行庫問題)。

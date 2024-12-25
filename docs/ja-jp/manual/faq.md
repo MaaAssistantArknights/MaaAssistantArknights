@@ -16,7 +16,7 @@ MAA が更新後に実行できない場合、ランタイムライブラリの�
 以下のコマンドをターミナルで実行するか、<u>**両方の**</u>ランタイムライブラリを手動でダウンロードしてインストールしてください。
 
 ```sh
-winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
+winget install "Microsoft.VCRedist.2015+.x64" "Microsoft.DotNet.DesktopRuntime.8" --uninstall-previous --accept-package-agreements
 ```
 
 - [Visual C++ 再頒布可能パッケージ](https://aka.ms/vs/17/release/vc_redist.x64.exe)
