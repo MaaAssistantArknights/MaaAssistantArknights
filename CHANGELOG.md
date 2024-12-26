@@ -1,5 +1,15 @@
 ## v5.11.0
 
+### 没有摸鱼 | Highlight
+
+本次更新，我们将精力放在优化上面，Windows 和 MacOS 版的用户应该能感觉到<del>一丢丢的</del>流畅度提升，其他方面的改动如下：
+
+#### 其他
+
+1. 由于近期游戏版本更新，在当前理智不足 45 点时，碎石后不会超过理智上线，因此葛朗台模式在检测到碎石理智不溢出时不再等待下一跳理智；
+2. 这个版本我们更新了内置的保全派驻的荒地群兽音乐厅和多索雷斯在建地块的新作业；
+3. 这个版本开始，当用户设置【自动公招】功能不自动确认 1、5、6 星干员时，公招遇到此类干员将不计入最大确认招募次数（这样能有效避免“用户设置不自动确认 1、5、6 星干员且最大招募次数为 1 时，遇到此类干员会直接退出自动公招流程导致实际上没有公招在运行”）
+
 ### 新增 | New
 
 * RA2 multi-crafting @Constrat
@@ -47,7 +57,6 @@
 * Mac GUI 界面改进和修复 (#11422) @hguandl
 * crop ClueSelected template to make sure it works under long clue names (#11409) @Alan-Charred @pre-commit-ci[bot]
 * RA删除存档时重复识别 (#11406) @Daydreamer114
-* typo [skip changelog] @Constrat
 * git init to allow gh commands @Constrat
 * GH_TOKEN for smoke testing + fail_fast @Constrat
 * 卡达，玛露西尔基建技能效率错误 @ABA2396
