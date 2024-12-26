@@ -105,7 +105,7 @@ jobs:
           git tag $main_tag_name -f
           git push --tags origin HEAD:refs/tags/$main_tag_name -f
           echo "main_tag_name=$main_tag_name" >> $env:GITHUB_OUTPUT
-  
+
       - name: Read Changelog to variable
         id: read_changelog
         uses: juliangruber/read-file-action@v1
