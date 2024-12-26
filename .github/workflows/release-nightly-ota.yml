@@ -47,22 +47,17 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Check for changes in dev branch
-        id: check_changes
+      - name: Generate Changelog
+        id: generate_changelog
         run: |
-          # Get the commit hash and date of the latest commit within the last 24 hours
-          $recent_commit = git log --since="24 hours ago" --pretty=format:"%H" -n 1
-
-          if (-not $recent_commit) {
-            Write-Output "No commits in the last 24 hours. Cancelling workflow..."
-            echo "cancel_run=true" >> $env:GITHUB_ENV
-          } else {
-            Write-Output "Commits found within the last 24 hours. Continuing build..."
-            echo "cancel_run=false" >> $env:GITHUB_ENV
-          }
+          python3 tools/ChangelogGenerator/changelog_generator.py --latest "${{ steps.set_tag.outputs.latest_tag }}" --tag "${{ steps.set_tag.outputs.tag }}"
+          Get-Content .\changelog.md | Select-Object -Skip 2 | Out-File -FilePath changelog_notag.md -Encoding utf8
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PYTHONIOENCODING: "utf-8"
 
       - name: Stop if no changes
-        if: env.cancel_run == 'true'
+        if: steps.generate_changelog.outputs.cancel_run == 'true'
         uses: andymckay/cancel-action@0.5
 
       - name: Checkout ref
@@ -110,16 +105,7 @@ jobs:
           git tag $main_tag_name -f
           git push --tags origin HEAD:refs/tags/$main_tag_name -f
           echo "main_tag_name=$main_tag_name" >> $env:GITHUB_OUTPUT
-
-      - name: Generate Changelog
-        id: generate_changelog
-        run: |
-          python3 tools/ChangelogGenerator/changelog_generator.py --latest "${{ steps.set_tag.outputs.latest_tag }}" --tag "${{ steps.set_tag.outputs.tag }}"
-          Get-Content .\changelog.md | Select-Object -Skip 2 | Out-File -FilePath changelog_notag.md -Encoding utf8
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PYTHONIOENCODING: "utf-8"
-
+  
       - name: Read Changelog to variable
         id: read_changelog
         uses: juliangruber/read-file-action@v1

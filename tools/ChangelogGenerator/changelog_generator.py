@@ -287,23 +287,27 @@ def main(tag_name=None, latest=None):
     raw_gitlogs = call_command(git_command)
 
     raw_commits_info = {}
-    for raw_commit_info in raw_gitlogs.split("\n\n"):
-        commit_hash, author, committer, message, parent = raw_commit_info.split("\n")
+    if raw_gitlogs.strip():
+        for raw_commit_info in raw_gitlogs.split("\n\n"):
+            commit_hash, author, committer, message, parent = raw_commit_info.split("\n")
 
-        author = convert_contributors_name(
-            name=author, commit_hash=commit_hash, name_type="author"
-        )
-        committer = convert_contributors_name(
-            name=committer, commit_hash=commit_hash, name_type="committer"
-        )
+            author = convert_contributors_name(
+                name=author, commit_hash=commit_hash, name_type="author"
+            )
+            committer = convert_contributors_name(
+                name=committer, commit_hash=commit_hash, name_type="committer"
+            )
 
-        raw_commits_info[commit_hash] = {
-            "hash": commit_hash[:8],
-            "author": author,
-            "committer": committer,
-            "message": message,
-            "parent": parent.split(),
-        }
+            raw_commits_info[commit_hash] = {
+                "hash": commit_hash[:8],
+                "author": author,
+                "committer": committer,
+                "message": message,
+                "parent": parent.split(),
+            }
+    else:
+        print("No commits found.")
+        with open(os.getenv('GITHUB_OUTPUT'), 'a') as github_output: github_output.write("cancel_run=true\n")
 
     git_coauthor_command = (
         rf'git log {latest}..HEAD --pretty=format:"%H%n" --grep="Co-authored-by"'
