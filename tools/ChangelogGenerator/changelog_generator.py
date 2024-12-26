@@ -287,7 +287,7 @@ def main(tag_name=None, latest=None):
     raw_gitlogs = call_command(git_command)
 
     raw_commits_info = {}
-    if raw_gitlogs.strip():
+    if not(raw_gitlogs.strip()):
         for raw_commit_info in raw_gitlogs.split("\n\n"):
             commit_hash, author, committer, message, parent = raw_commit_info.split("\n")
 
