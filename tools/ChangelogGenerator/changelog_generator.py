@@ -5,7 +5,6 @@ from pathlib import Path
 import os
 import json
 import re
-import sys
 import urllib.request
 import urllib.error
 
@@ -306,60 +305,59 @@ def main(tag_name=None, latest=None):
                 "message": message,
                 "parent": parent.split(),
             }
+
+        git_coauthor_command = (
+            rf'git log {latest}..HEAD --pretty=format:"%H%n" --grep="Co-authored-by"'
+        )
+        raw_gitlogs = call_command(git_coauthor_command)
+
+        for commit_hash in raw_gitlogs.split("\n"):
+            if commit_hash not in raw_commits_info:
+                continue
+            git_addition_command = rf'git log {commit_hash} --no-walk --pretty=format:"%b"'
+            addition = call_command(git_addition_command)
+            coauthors = []
+            for coauthor in re.findall(r"Co-authored-by: (.*) <(?:.*)>", addition):
+                if coauthor in contributors:
+                    coauthors.append(contributors[coauthor])
+                elif coauthor in contributors.values():
+                    coauthors.append(coauthor)
+                else:
+                    print(f"Cannot get coauthor: {coauthor}.")
+            raw_commits_info[commit_hash]["coauthors"] = coauthors
+
+        git_skip_command = (
+            rf'git log {latest}..HEAD --pretty=format:"%H%n" --grep="\[skip changelog\]"'
+        )
+        raw_gitlogs = call_command(git_skip_command)
+
+        for commit_hash in raw_gitlogs.split("\n\n"):
+            if commit_hash not in raw_commits_info:
+                continue
+            git_show_command = (
+                rf'git show -s --format=%b%n {commit_hash}'
+            )
+            raw_git_shows = call_command(git_show_command)
+            for commit_body in raw_git_shows.split("\n"):
+                if not commit_body.startswith("* ") and "[skip changelog]" in commit_body:
+                    raw_commits_info[commit_hash]["skip"] = True
+
+
+        # print(json.dumps(raw_commits_info, ensure_ascii=False, indent=2))
+
+        res = print_commits(build_commits_tree([x for x in raw_commits_info.keys()][0]))
+
+        changelog_content = "## " + tag_name + "\n" + res[0]
+        print(changelog_content)
+        with open(changelog_path, "w", encoding="utf8") as f:
+            f.write(changelog_content)
+
+        with open(contributors_path, "w") as f:
+            json.dump(contributors, f)
+
     else:
         print("No commits found.")
         with open(os.getenv('GITHUB_OUTPUT'), 'a') as github_output: github_output.write("cancel_run=true\n")
-        sys.exit(0)
-
-    git_coauthor_command = (
-        rf'git log {latest}..HEAD --pretty=format:"%H%n" --grep="Co-authored-by"'
-    )
-    raw_gitlogs = call_command(git_coauthor_command)
-
-    for commit_hash in raw_gitlogs.split("\n"):
-        if commit_hash not in raw_commits_info:
-            continue
-        git_addition_command = rf'git log {commit_hash} --no-walk --pretty=format:"%b"'
-        addition = call_command(git_addition_command)
-        coauthors = []
-        for coauthor in re.findall(r"Co-authored-by: (.*) <(?:.*)>", addition):
-            if coauthor in contributors:
-                coauthors.append(contributors[coauthor])
-            elif coauthor in contributors.values():
-                coauthors.append(coauthor)
-            else:
-                print(f"Cannot get coauthor: {coauthor}.")
-        raw_commits_info[commit_hash]["coauthors"] = coauthors
-
-    git_skip_command = (
-        rf'git log {latest}..HEAD --pretty=format:"%H%n" --grep="\[skip changelog\]"'
-    )
-    raw_gitlogs = call_command(git_skip_command)
-
-    for commit_hash in raw_gitlogs.split("\n\n"):
-        if commit_hash not in raw_commits_info:
-            continue
-        git_show_command = (
-            rf'git show -s --format=%b%n {commit_hash}'
-        )
-        raw_git_shows = call_command(git_show_command)
-        for commit_body in raw_git_shows.split("\n"):
-            if not commit_body.startswith("* ") and "[skip changelog]" in commit_body:
-                raw_commits_info[commit_hash]["skip"] = True
-
-
-    # print(json.dumps(raw_commits_info, ensure_ascii=False, indent=2))
-
-    res = print_commits(build_commits_tree([x for x in raw_commits_info.keys()][0]))
-
-    changelog_content = "## " + tag_name + "\n" + res[0]
-    print(changelog_content)
-    with open(changelog_path, "w", encoding="utf8") as f:
-        f.write(changelog_content)
-
-    with open(contributors_path, "w") as f:
-        json.dump(contributors, f)
-
 
 def ArgParser():
     parser = ArgumentParser()
