@@ -62,7 +62,6 @@
 * 卡达，玛露西尔基建技能效率错误 @ABA2396
 * resource updater txwy second error from intern-kun @Constrat
 * txwy gamedata xaml typo intern-kun fucked up [again] @Constrat
-* precommit prettier [skip changelog] [skip ci] @Constrat
 * 修复肉鸽选难度偶现识别错误 @ABA2396
 * 生息演算无存档刷点模式，允许在确认离开当前区块后没有 Loading Text 的情况下等待 (#11381) @Alan-Charred
 * Try to fix the compilation failure on aarch64 (#11378) @Roland125
@@ -125,10 +124,8 @@
 * YostarKR HE rerun navigation @HX3N
 * smoke-testing bash -> powershell @Constrat
 * Translated using Weblate (Chinese (Traditional)) @momomochi987
-* Auto update by pre-commit hooks [skip changelog] @pre-commit-ci[bot]
 * 適配繁中服「圍攻行動」主題介面 @momomochi987
 * 繁中服「水晶箭行動」活動導航 @momomochi987
-* fix typo [skip changelog] @horror-proton
 * suppress false positive warning of gcc12 @horror-proton
 * 添加 python 资源加载示例 @ABA2396
 * Revert "feat: DepotEnter适配界面主题 (#7145)" @ABA2396
@@ -139,10 +136,8 @@
 * Release v5.11.0-beta.2 (#11366) @ABA2396
 * Release v5.11.0-beta.1 (#11299) @ABA2396
 * Release v5.11.0-beta.1 (#11291) @ABA2396
-* tools: style for clone_data powershell script [skip changelog] @Constrat
 * remove Yostar servers reclamation algorithm temp edits @Manicsteiner
 * 管理员权限启动无法使用开机自启 (#11290) @ABA2396 @momomochi987
-* tools: style linking [skip changelog] @Constrat
 * 因为资源版本上报失败时添加提示 @ABA2396
 * YostarKR add BP new operators (#11285) @HX3N
 * 移除多余代码 @ABA2396
@@ -154,7 +149,6 @@
 * 通过控制台退出模拟器时不再kill端口 @ABA2396
 * YostarJP ocr replace 魔王 (#11222) @Manicsteiner
 * 成功代理不再减少任务失败计数 @ABA2396
-* Auto update by pre-commit hooks [skip changelog] @pre-commit-ci[bot]
 * 移除过渡代码 @ABA2396
 * YostarKR SSSBuffChoose ocr fix @HX3N
 * automatically remove spaces for YoStarKR in CharsNameOcrReplace (#11205) @Constrat
@@ -164,10 +158,6 @@
 * 拆分 设置-游戏设置 (#11185) @status102
 * rename `ExternalNotificationDataContext` to `ExternalNotificationSettings` @status102
 * rename `VersionUpdateDataContext` to `VersionUpdateSettings` @status102
-* Revert "refactor: yml -> yaml standardization" @Constrat
-* yml -> yaml standardization @Constrat
 * add YostarJP ocrReplace 黑角 (#11350) @liang36176381 @Manicsteiner
-* Reapply "style: 修改变量以符合项目风格" @status102
-* Revert "style: 修改变量以符合项目风格" @status102
 * ci/nightly-schedule (#11317) @Constrat @pre-commit-ci[bot]
 * 简化完成后动作UI绑定 (#11316) @status102
