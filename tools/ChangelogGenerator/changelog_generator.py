@@ -5,6 +5,7 @@ from pathlib import Path
 import os
 import json
 import re
+import sys
 import urllib.request
 import urllib.error
 
@@ -308,6 +309,7 @@ def main(tag_name=None, latest=None):
     else:
         print("No commits found.")
         with open(os.getenv('GITHUB_OUTPUT'), 'a') as github_output: github_output.write("cancel_run=true\n")
+        sys.exit(0)
 
     git_coauthor_command = (
         rf'git log {latest}..HEAD --pretty=format:"%H%n" --grep="Co-authored-by"'
