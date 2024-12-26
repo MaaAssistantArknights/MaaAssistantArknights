@@ -71,6 +71,12 @@
     "SideStoryReopen": {
         "text": ["復刻"]
     },
+    "CR-OpenOcr": {
+        "text": ["水晶", "行動", "高空", "速降"]
+    },
+    "CRChapterToCR": {
+        "text": ["展廳", "漫遊"]
+    },
     "RS-OpenOcr": {
         "text": ["銀心", "列車", "特快"]
     },
@@ -643,7 +649,17 @@
             ["“蜜釀萬歲！”", "“蜜酿万岁！”"],
             ["溫米", "温米"],
             ["萊伊", "莱伊"],
-            ["沙地獸", "沙地兽"]
+            ["沙地獸", "沙地兽"],
+            ["封阻加固裝置", "封阻加固装置"],
+            ["臨時掩護裝置", "临时掩护装置"],
+            ["DOC", "医生"],
+            ["ELA", "艾拉"],
+            ["IANA", "双月"],
+            ["FUZE", "导火索"],
+            ["雷電地雷", "雷鸣地雷"],
+            ["詭雷布設裝置", "诡雷布设装置"],
+            ["封阻加固裝置", "封阻加固装置"],
+            ["臨時掩護裝置", "临时掩护装置"]
         ]
     },
     "StartToWakeUpOCR": {
@@ -708,11 +724,6 @@
     },
     "NoFriends": {
         "text": ["暫無好友"]
-    },
-    "StartToVisit": {
-        "doc": "Temp fix until Overseas gets the same interface as Official, expected to be removed in December 2024 OPERATION LUCENT ARROWHEAD",
-        "templThreshold": 0.8,
-        "roi": [920, 91, 162, 141]
     },
     "VisitNextOcr": {
         "text": ["訪問下位"]
@@ -1631,18 +1642,12 @@
     "Roguelike@ChooseDifficultyConfirm": {
         "text": ["選擇"]
     },
-    "Roguelike@FromIntegratedStrategies": {
-        "action": "ClickSelf",
-        "roi": [1006, 445, 246, 157],
-        "text": ["進入主題"],
-        "algorithm": "OcrDetect",
-        "next": ["Roguelike@FromIntegratedStrategies", "Roguelike@Begin"]
-    },
     "Roguelike@IntegratedStrategies": {
-        "next": ["Roguelike@IntegratedStrategies", "Roguelike@SelectTheme"]
+        "templThreshold": 0.75
     },
-    "Roguelike@SelectTheme": {
-        "roi": [0, 29, 515, 648]
+    "Roguelike@PreSelectTheme": {
+        "text": ["查看全部主題", "查看", "TODO: image of //INTEGRATED STRATEGIES"],
+        "roi": [450, 480, 160, 45]
     },
     "Roguelike@StageEncounterOcr": {
         "ocrReplace": [
@@ -1806,8 +1811,7 @@
         "text": ["迷霧歧途", "落陽庭院", "故土殘軀", "噩夢之始", "血月長廊", "渴欲大廳"]
     },
     "Phantom@Roguelike@SelectTheme": {
-        "next": ["Phantom@Roguelike@FromIntegratedStrategies"],
-        "text": ["傀影"]
+        "text": ["古堡筆記"]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
@@ -1836,8 +1840,7 @@
         "text": ["天光海岸", "離岸孤島", "波濤略地", "隱秘溫床", "失塵岩洞", "幽海叢林", "紺碧搖籃"]
     },
     "Mizuki@Roguelike@SelectTheme": {
-        "next": ["Mizuki@Roguelike@FromIntegratedStrategies"],
-        "text": ["水月"]
+        "text": ["生態譜系", "生態", "譜系"]
     },
     "Mizuki@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
@@ -1983,8 +1986,7 @@
         "text": ["完成本", "完成本層", "下一層級"]
     },
     "Sami@Roguelike@SelectTheme": {
-        "next": ["Sami@Roguelike@FromIntegratedStrategies"],
-        "text": ["探索"]
+        "text": ["科考紀錄"]
     },
     "Sami@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [

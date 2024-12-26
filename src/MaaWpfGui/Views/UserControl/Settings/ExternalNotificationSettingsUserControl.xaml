@@ -27,6 +27,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <controls:TextBlock
@@ -115,6 +116,20 @@
 
         <StackPanel
             Grid.Row="5"
+            Orientation="Vertical"
+            Visibility="{c:Binding DiscordWebhookEnabled}">
+            <hc:Divider Content="Discord WebHook" />
+            <hc:TextBox
+                x:Name="DiscordWebHookUrl"
+                Width="400"
+                Height="30"
+                Margin="10"
+                hc:InfoElement.Title="{DynamicResource ExternalNotificationDiscordWebhookUrl}"
+                Text="{c:Binding DiscordWebhookUrl}" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="6"
             HorizontalAlignment="Center"
             Visibility="{c:Binding SmtpEnabled}">
             <hc:Divider Content="SMTP" />
@@ -251,7 +266,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="6"
+            Grid.Row="7"
             Orientation="Vertical"
             Visibility="{c:Binding BarkEnabled}">
             <hc:Divider Content="Bark" />
@@ -272,7 +287,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="7"
+            Grid.Row="8"
             Orientation="Vertical"
             Visibility="{c:Binding QmsgEnabled}">
             <hc:Divider Content="Qmsg" />

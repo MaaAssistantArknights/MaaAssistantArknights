@@ -857,8 +857,8 @@ asst::MatchTaskConstPtr asst::TaskData::_default_match_task_info()
 {
     auto match_task_info_ptr = std::make_shared<MatchTaskInfo>();
     match_task_info_ptr->templ_names = { "__INVALID__" };
-    match_task_info_ptr->templ_thresholds = { TemplThresholdDefault };
-    match_task_info_ptr->methods = { MatchMethod::Ccoeff };
+    match_task_info_ptr->templ_thresholds = std::vector<double> { TemplThresholdDefault };
+    match_task_info_ptr->methods = std::vector<MatchMethod> { MatchMethod::Ccoeff };
     match_task_info_ptr->mask_ranges = {};
     match_task_info_ptr->color_scales = {};
     match_task_info_ptr->color_close = true;

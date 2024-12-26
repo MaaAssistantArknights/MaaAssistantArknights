@@ -863,11 +863,17 @@
             },
             "bskill_man_marcille1": {
                 "desc": ["进驻制造站时，生产力+20%"],
+                "efficient": {
+                    "all": 20
+                },
                 "name": ["差遣使魔·α"],
                 "template": "Bskill_man_marcille1.png"
             },
             "bskill_man_marcille2": {
                 "desc": ["进驻制造站时，生产力+30%"],
+                "efficient": {
+                    "all": 30
+                },
                 "name": ["差遣使魔·β"],
                 "template": "Bskill_man_marcille2.png"
             },
@@ -1331,7 +1337,7 @@
                     {
                         "desc": "卡达-1",
                         "efficient": {
-                            "all": 30
+                            "CombatRecord": 30
                         },
                         "skills": ["bskill_man_exp&cost", "bskill_man_exp&limit2"]
                     },

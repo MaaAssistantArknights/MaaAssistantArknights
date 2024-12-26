@@ -319,7 +319,10 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
                                 // 0 - 刷分與建造點，進入戰鬥直接退出
                                 // 1 - 沙中之火：刷赤金，聯絡員買水後基地鍛造；
                                 //     沙洲遺聞：自動製造物品並讀檔刷貨幣
-    "tool_to_craft": string,    // 自動製造的物品，可選項，默認為荧光棒
+    "tools_to_craft": [
+        string,                 // 自動製造的物品，可選項，默認為荧光棒
+        ...
+    ] 
                                 // 建議填寫子串
     "increment_mode": int,      // 點擊類型，可選項。默認為0
                                 // 0 - 連點

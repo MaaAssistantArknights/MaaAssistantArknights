@@ -86,7 +86,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _minimizeDirectly = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeDirectly, bool.FalseString));
+    private bool _minimizeDirectly = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MinimizeDirectly, bool.FalseString));
 
     /// <summary>
     /// Gets or sets a value indicating whether to minimize directly.
@@ -97,7 +97,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         set
         {
             SetAndNotify(ref _minimizeDirectly, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.MinimizeDirectly, value.ToString());
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MinimizeDirectly, value.ToString());
         }
     }
 

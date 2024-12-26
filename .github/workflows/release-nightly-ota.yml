@@ -29,9 +29,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        include:
-          - msbuild_target: x64
-            lowercase_target: x64
+        msbuild_target: [x64]
       fail-fast: false
     env:
       MAABUILDER_TARGET_PLATFORM: ${{ matrix.msbuild_target }}
@@ -52,9 +50,15 @@ jobs:
       - name: Check for changes in dev branch
         id: check_changes
         run: |
-          if (git diff --quiet HEAD origin/${{ github.ref_name }}) {
-            echo "No changes in dev branch. Cancelling workflow."
-            echo "cancel_run=true" >> $GITHUB_ENV
+          # Get the commit hash and date of the latest commit within the last 24 hours
+          $recent_commit = git log --since="24 hours ago" --pretty=format:"%H" -n 1
+
+          if (-not $recent_commit) {
+            Write-Output "No commits in the last 24 hours. Cancelling workflow..."
+            echo "cancel_run=true" >> $env:GITHUB_ENV
+          } else {
+            Write-Output "Commits found within the last 24 hours. Continuing build..."
+            echo "cancel_run=false" >> $env:GITHUB_ENV
           }
 
       - name: Stop if no changes
@@ -129,17 +133,26 @@ jobs:
           path: |
             .nuke/temp
             ~/.nuget/packages
-          key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
+          key: ${{ runner.os }}-${{ matrix.msbuild_target }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
 
       - name: Restore dependencies
         if: steps.cache-nuget.outputs.cache-hit != 'true'
         run: dotnet restore
 
+      - name: Cache MaaDeps
+        id: cache-maadeps
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./MaaDeps
+          key: ${{ runner.os }}-${{ matrix.msbuild_target }}-maadeps-${{ hashFiles('./maadeps-download.py') }}
+
       - name: Bootstrap MaaDeps
-        run: |
-          python3 maadeps-download.py ${{ matrix.lowercase_target }}-windows
+        if: steps.cache-maadeps.outputs.cache-hit != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 maadeps-download.py ${{ matrix.msbuild_target }}-windows
 
       - name: Taggify Version
         run: |
@@ -177,7 +190,7 @@ jobs:
       - name: Upload MAA to Github
         uses: actions/upload-artifact@v4
         with:
-          name: MAA-win-${{ matrix.lowercase_target }}
+          name: MAA-win-${{ matrix.msbuild_target }}
           path: artifacts
 
   push-tag:
