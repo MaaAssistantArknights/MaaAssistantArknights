@@ -99,6 +99,7 @@
     <ClInclude Include="Task\Roguelike\RoguelikeConfig.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeInvestTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeIterateMonthlySquadPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeLastRewardTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeSettlementTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.h" />
@@ -289,6 +290,7 @@
     <ClCompile Include="Task\Interface\SingleStepTask.cpp" />
     <ClCompile Include="Task\Interface\SSSCopilotTask.cpp" />
     <ClCompile Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeIterateMonthlySquadPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\Sami\RoguelikeFoldartalGainTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\Sami\RoguelikeFoldartalStartTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\Sami\RoguelikeFoldartalUseTaskPlugin.cpp" />

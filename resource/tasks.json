@@ -6626,6 +6626,31 @@
             "Roguelike@StartUpThemes#next"
         ]
     },
+    "Roguelike@ChooseMonthlySquad": {
+        "Doc": "base_task 月度小队入口",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [570, 650, 200, 60]
+    },
+    "Roguelike@MonthlySquadRewardMiss": {
+        "Doc": "base_task 月度小队奖励领过了",
+        "template": "empty.png",
+        "action": "ClickRect",
+        "roi": [740, 440, 250, 60],
+        "specificRect": [466, 405, 40, 60]
+    },
+    "Roguelike@MonthlySquadComplete": {
+        "Doc": "base_task 月度小队全部结束",
+        "template": "empty.png",
+        "roi": [740, 440, 250, 60],
+        "next": ["Roguelike@MonthlySquadCompleteComplain"]
+    },
+    "Roguelike@MonthlySquadCompleteComplain": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [800, 660, 240, 60]
+    },
     "Roguelike@ChooseDifficulty": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -6762,7 +6787,7 @@
         "Doc": "月度小队，跳过对话",
         "action": "ClickSelf",
         "roi": [1106, 0, 174, 139],
-        "next": ["Roguelike@DialogSkip", "Roguelike@DialogSkipConfirm"]
+        "next": ["Roguelike@DialogSkipConfirm"]
     },
     "Roguelike@DialogSkipConfirm": {
         "action": "ClickSelf",
@@ -7755,6 +7780,26 @@
         "next": ["Roguelike@WaitForStartButtonClicked"]
     },
     "Phantom@Roguelike@Abandon": {},
+    "Phantom@Roguelike@ChooseMonthlySquad": {
+        "template": "Phantom@Roguelike@MonthlySquad.png",
+        "action": "ClickSelf",
+        "roi": [560, 650, 230, 65]
+    },
+    "Phantom@Roguelike@MonthlySquadRewardMiss": {
+        "template": "Phantom@Roguelike@MonthlySquadRewardMiss.png",
+        "action": "ClickRect",
+        "roi": [735, 440, 265, 65],
+        "specificRect": [466, 405, 40, 60]
+    },
+    "Phantom@Roguelike@MonthlySquadComplete": {
+        "template": "Phantom@Roguelike@MonthlySquadRewardMiss.png",
+        "next": ["Phantom@Roguelike@MonthlySquadCompleteComplain"]
+    },
+    "Phantom@Roguelike@MonthlySquadCompleteComplain": {
+        "template": "Phantom@Roguelike@NormalOperation.png",
+        "action": "ClickSelf",
+        "roi": [800, 650, 240, 60]
+    },
     "Phantom@Roguelike@ChooseDifficulty": {},
     "Phantom@Roguelike@ChooseOper": {
         "next": [
@@ -7777,11 +7822,18 @@
     "Phantom@Roguelike@Continue": {},
     "Phantom@Roguelike@DialogSkip": {
         "template": "Roguelike@DialogSkip.png",
-        "next": ["Phantom@Roguelike@DialogSkip", "Phantom@Roguelike@DialogSkipConfirm"]
+        "next": ["Phantom@Roguelike@DialogSkipConfirm"]
     },
     "Phantom@Roguelike@DialogSkipConfirm": {
         "template": "Roguelike@DialogSkipConfirm.png",
-        "next": ["Phantom@Roguelike@DialogSkipConfirm", "Phantom@Roguelike@Stages#next"]
+        "next": ["Phantom@Roguelike@Stages#next"]
+    },
+    "Phantom@Roguelike@DialogTimeout": {
+        "doc": "傀影肉鸽的小队对话会自动跳过stage导致一卡卡一串，进skip的时候已经读完对话只剩一个叉了，放一个timeout在这里抓一下",
+        "template": "Phantom@Roguelike@DialogTimeout.png",
+        "action": "ClickSelf",
+        "roi": [500, 590, 300, 100],
+        "next": ["Phantom@Roguelike@Stages#next"]
     },
     "Phantom@Roguelike@DropsFlag": {
         "template": "Roguelike@DropsFlag.png",
@@ -7934,6 +7986,7 @@
         "next": [
             "Phantom@Roguelike@NextLevel",
             "Phantom@Roguelike@DialogSkip",
+            "Phantom@Roguelike@DialogTimeout",
             "Phantom@Roguelike@StageEmergencyDps",
             "Phantom@Roguelike@StageCombatDps",
             "Phantom@Roguelike@StageEncounter",
@@ -7949,6 +8002,7 @@
         "next": [
             "Phantom@Roguelike@NextLevel",
             "Phantom@Roguelike@DialogSkip",
+            "Phantom@Roguelike@DialogTimeout",
             "Phantom@Roguelike@StageTrader",
             "Phantom@Roguelike@StageSafeHouse",
             "Phantom@Roguelike@StageEncounter",
@@ -7964,6 +8018,7 @@
         "next": [
             "Phantom@Roguelike@NextLevel",
             "Phantom@Roguelike@DialogSkip",
+            "Phantom@Roguelike@DialogTimeout",
             "Phantom@Roguelike@StageCombatDps",
             "Phantom@Roguelike@StageTrader",
             "Phantom@Roguelike@StageBoons",
@@ -8119,11 +8174,11 @@
     },
     "Mizuki@Roguelike@DialogSkip": {
         "template": "Roguelike@DialogSkip.png",
-        "next": ["Mizuki@Roguelike@DialogSkip", "Mizuki@Roguelike@DialogSkipConfirm"]
+        "next": ["Mizuki@Roguelike@DialogSkipConfirm"]
     },
     "Mizuki@Roguelike@DialogSkipConfirm": {
         "template": "Roguelike@DialogSkipConfirm.png",
-        "next": ["Mizuki@Roguelike@DialogSkipConfirm", "Mizuki@Roguelike@Stages#next"]
+        "next": ["Mizuki@Roguelike@Stages#next"]
     },
     "Mizuki@Roguelike@DiceConfirm": {
         "Doc": "骰子的确认按钮",
@@ -8298,7 +8353,6 @@
             "Mizuki@Roguelike@LastRewardRand",
             "Mizuki@Roguelike@RolesDefault",
             "Mizuki@Roguelike@CloseCollection",
-            "Mizuki@Roguelike@DialogSkip",
             "Mizuki@Roguelike@Stages#next",
             "Mizuki@Roguelike@MapObject"
         ]
@@ -8417,7 +8471,6 @@
         "algorithm": "JustReturn",
         "next": [
             "Mizuki@Roguelike@NextLevel",
-            "Mizuki@Roguelike@DialogSkip",
             "Mizuki@Roguelike@StageEmergencyDps",
             "Mizuki@Roguelike@StageCombatDps",
             "Mizuki@Roguelike@StageEncounter",
@@ -8441,7 +8494,6 @@
         "algorithm": "JustReturn",
         "next": [
             "Mizuki@Roguelike@NextLevel",
-            "Mizuki@Roguelike@DialogSkip",
             "Mizuki@Roguelike@StageTrader",
             "Mizuki@Roguelike@StageSafeHouse",
             "Mizuki@Roguelike@StageWindAndRain",
@@ -8465,7 +8517,6 @@
         "algorithm": "JustReturn",
         "next": [
             "Mizuki@Roguelike@NextLevel",
-            "Mizuki@Roguelike@DialogSkip",
             "Mizuki@Roguelike@StageCombatDps",
             "Mizuki@Roguelike@StageTrader",
             "Mizuki@Roguelike@StageSafeHouse",
@@ -8785,11 +8836,11 @@
     },
     "Sami@Roguelike@DialogSkip": {
         "template": "Roguelike@DialogSkip.png",
-        "next": ["Sami@Roguelike@DialogSkip", "Sami@Roguelike@DialogSkipConfirm"]
+        "next": ["Sami@Roguelike@DialogSkipConfirm"]
     },
     "Sami@Roguelike@DialogSkipConfirm": {
         "template": "Roguelike@DialogSkipConfirm.png",
-        "next": ["Sami@Roguelike@DialogSkipConfirm", "Sami@Roguelike@Stages#next"]
+        "next": ["Sami@Roguelike@Stages#next"]
     },
     "Sami@Roguelike@DropsFlag": {
         "template": "Roguelike@DropsFlag.png",
@@ -9076,7 +9127,6 @@
             "Sami@Roguelike@LastRewardRand",
             "Sami@Roguelike@RolesDefault",
             "Sami@Roguelike@CloseCollection",
-            "Sami@Roguelike@DialogSkip",
             "Sami@Roguelike@Stages#next",
             "Sami@Roguelike@MapObject",
             "Sami@Roguelike@FoldartalGain"
@@ -9477,7 +9527,6 @@
         "ocrReplace": [["O", "0"]],
         "next": [
             "Sami@Roguelike@NextLevel",
-            "Sami@Roguelike@DialogSkip",
             "Sami@Roguelike@StageBoskyPassage",
             "Sami@Roguelike@StageBoskyPassageAI6",
             "Sami@Roguelike@StageTrader",
@@ -9520,7 +9569,6 @@
         "algorithm": "JustReturn",
         "next": [
             "Sami@Roguelike@NextLevel",
-            "Sami@Roguelike@DialogSkip",
             "Sami@Roguelike@StagesChaosZero",
             "Sami@Roguelike@StageVerticalBoskyPassage",
             "Sami@Roguelike@StageVerticalBoskyPassageAI6",
@@ -9570,7 +9618,6 @@
         "algorithm": "JustReturn",
         "next": [
             "Sami@Roguelike@NextLevel",
-            "Sami@Roguelike@DialogSkip",
             "Sami@Roguelike@StageCombatDps",
             "Sami@Roguelike@StageCombatDpsAI6",
             "Sami@Roguelike@StageVerticalCombatDps",
@@ -9616,7 +9663,6 @@
         "algorithm": "JustReturn",
         "next": [
             "Sami@Roguelike@NextLevel",
-            "Sami@Roguelike@DialogSkip",
             "Sami@Roguelike@StagesChaosZero",
             "Sami@Roguelike@StageBoskyPassage",
             "Sami@Roguelike@StageBoskyPassageAI6",
@@ -9670,7 +9716,6 @@
         "algorithm": "JustReturn",
         "next": [
             "Sami@Roguelike@NextLevel",
-            "Sami@Roguelike@DialogSkip",
             "Sami@Roguelike@StagesChaosZero",
             "Sami@Roguelike@StageVerticalBoskyPassage",
             "Sami@Roguelike@StageVerticalBoskyPassageAI6",
@@ -10098,11 +10143,11 @@
     },
     "Sarkaz@Roguelike@DialogSkip": {
         "template": "Roguelike@DialogSkip.png",
-        "next": ["Sarkaz@Roguelike@DialogSkip", "Sarkaz@Roguelike@DialogSkipConfirm"]
+        "next": ["Sarkaz@Roguelike@DialogSkipConfirm"]
     },
     "Sarkaz@Roguelike@DialogSkipConfirm": {
         "template": "Roguelike@DialogSkipConfirm.png",
-        "next": ["Sarkaz@Roguelike@DialogSkipConfirm", "Sarkaz@Roguelike@Stages#next"]
+        "next": ["Sarkaz@Roguelike@Stages#next"]
     },
     "Sarkaz@Roguelike@DropsFlag": {
         "template": "Roguelike@DropsFlag.png",
@@ -10120,7 +10165,6 @@
             "Sarkaz@Roguelike@EnterAfterRecruit",
             "Sarkaz@Roguelike@StageTraderLeave",
             "Sarkaz@Roguelike@CloseEvent",
-            "Sarkaz@Roguelike@DialogSkip",
             "Sarkaz@Roguelike@RecruitOther"
         ]
     },
@@ -10136,7 +10180,6 @@
             "Sarkaz@Roguelike@EnterAfterRecruit",
             "Sarkaz@Roguelike@StageTraderLeave",
             "Sarkaz@Roguelike@CloseEvent",
-            "Sarkaz@Roguelike@DialogSkip",
             "Sarkaz@Roguelike@RecruitOther"
         ]
     },
@@ -10386,7 +10429,6 @@
             "Sarkaz@Roguelike@LastRewardRand",
             "Sarkaz@Roguelike@RolesDefault",
             "Sarkaz@Roguelike@CloseCollection",
-            "Sarkaz@Roguelike@DialogSkip",
             "Sarkaz@Roguelike@Stages#next",
             "Sarkaz@Roguelike@MapObject"
         ]
@@ -10842,7 +10884,6 @@
         "algorithm": "JustReturn",
         "next": [
             "Sarkaz@Roguelike@NextLevel",
-            "Sarkaz@Roguelike@DialogSkip",
             "Sarkaz@Roguelike@CloseCollectionContinue",
             "Sarkaz@Roguelike@CloseCollectionClose",
             "Sarkaz@Roguelike@StageBurdenOperation#next",
@@ -10874,7 +10915,6 @@
         "algorithm": "JustReturn",
         "next": [
             "Sarkaz@Roguelike@NextLevel",
-            "Sarkaz@Roguelike@DialogSkip",
             "Sarkaz@Roguelike@CloseCollectionContinue",
             "Sarkaz@Roguelike@CloseCollectionClose",
             "Sarkaz@Roguelike@StageBurdenOperation#next",
@@ -10917,7 +10957,6 @@
         "algorithm": "JustReturn",
         "next": [
             "Sarkaz@Roguelike@NextLevel",
-            "Sarkaz@Roguelike@DialogSkip",
             "Sarkaz@Roguelike@CloseCollectionContinue",
             "Sarkaz@Roguelike@CloseCollectionClose",
             "Sarkaz@Roguelike@DecreaseBurdenChaos",

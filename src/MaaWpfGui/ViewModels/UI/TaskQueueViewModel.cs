@@ -1789,7 +1789,10 @@ namespace MaaWpfGui.ViewModels.UI
                 SettingsViewModel.RoguelikeTask.RoguelikeEnableNonfriendSupport,
                 SettingsViewModel.RoguelikeTask.RoguelikeTheme,
                 SettingsViewModel.RoguelikeTask.RoguelikeRefreshTraderWithDice,
-                SettingsViewModel.RoguelikeTask.RoguelikeStopAtFinalBoss);
+                SettingsViewModel.RoguelikeTask.RoguelikeStopAtFinalBoss,
+                SettingsViewModel.RoguelikeTask.RoguelikeMonthlySquadAutoIterate,
+                SettingsViewModel.RoguelikeTask.RoguelikeDeepExplorationAutoIterate
+                );
         }
 
         private static bool AppendReclamation()
