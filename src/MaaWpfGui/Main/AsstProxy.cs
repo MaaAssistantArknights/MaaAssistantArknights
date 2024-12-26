@@ -2542,13 +2542,13 @@ namespace MaaWpfGui.Main
         /// <param name="incrementMode">点击类型：0 连点；1 长按</param>
         /// <param name="numCraftBatches">单次最大制造轮数</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendReclamation(string theme = "Tales", int mode = 1, string toolToCraft = "", int incrementMode = 0, int numCraftBatches = 16)
+        public bool AsstAppendReclamation(string[] toolToCraft, string theme = "Tales", int mode = 1, int incrementMode = 0, int numCraftBatches = 16)
         {
             var taskParams = new JObject
             {
+                ["tools_to_craft"] = new JArray(toolToCraft),
                 ["theme"] = theme,
                 ["mode"] = mode,
-                ["tool_to_craft"] = toolToCraft,
                 ["increment_mode"] = incrementMode,
                 ["num_craft_batches"] = numCraftBatches,
             };

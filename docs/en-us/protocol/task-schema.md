@@ -82,6 +82,7 @@ Usage of `resource/tasks.json` and description of each field
                                             // Valid and mandatory when action is ClickRect, indicates the specified click position (a random point in the range).
                                             // Valid and mandatory when action is Swipe, it means the starting point of swipe.
                                             // Auto-scaling with 1280 * 720 as base
+                                            // When the algorithm is "OcrDetect", specificRect[0] and specificRect[1] represent the grayscale upper and lower threshold values.
 
         "specialParams": [ int, ... ],      // Parameters needed for some special recognizers
                                             // extra, optional when action is Swipe, [0] for duration, [1] for whether to enable extra sliding

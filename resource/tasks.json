@@ -1162,6 +1162,11 @@
         "sub": ["RS-OpenOcr"],
         "next": ["RS-6@SideStoryStage", "RS-6@SwipeToStage"]
     },
+    "RS-5": {
+        "algorithm": "JustReturn",
+        "sub": ["RS-OpenOcr"],
+        "next": ["RS-5@SideStoryStage", "RS-5@SwipeToStage"]
+    },
     "RS-OpenOcr": {
         "baseTask": "SS-OpenOcr",
         "text": ["银心", "列车", "特快"],
@@ -1183,6 +1188,9 @@
     },
     "RS-6@SideStoryStage": {
         "text": ["RS-6"]
+    },
+    "RS-5@SideStoryStage": {
+        "text": ["RS-5"]
     },
     "ZT-9": {
         "algorithm": "JustReturn",
@@ -4474,6 +4482,7 @@
                 [255, 255, 255]
             ]
         ],
+        "templThreshold": 0.75,
         "next": [
             "ClueGiveTo1st",
             "ClueGiveTo2nd",
@@ -6646,6 +6655,15 @@
     "Roguelike@ChooseDifficulty_Specified": {
         "doc": "用于 RoguelikeDifficultySelectionTaskPlugin",
         "baseTask": "NumberOcrReplace",
+        "ocrReplaceDoc": "不知道为啥有些人会识别到\\.，全部替换下得了",
+        "ocrReplace": [
+            ["[Oo]", "0"],
+            ["[IiLl]", "1"],
+            ["\\|", "1"],
+            ["B", "8"],
+            ["\\.", ""],
+            [" ", ""]
+        ],
         "roi": [400, 450, 225, 160],
         "fullMatch": true,
         "action": "ClickSelf",
@@ -12757,13 +12775,14 @@
         ]
     },
     "Tales@RA@PNS-ConfirmToLeaveNode": {
-        "doc": "确认离开当前区块",
+        "doc": "确认离开当前区块，注意，可能会在没有 <正在提交反馈至神经> 文字的情况下卡住一小会儿",
         "baseTask": "Tales@RA@DialogConfirmYellow",
         "template": "Tales@RA@DialogConfirmYellow.png",
         "next": [
             "Tales@RA@PNS-MissionResults",
             "Tales@RA@PNS-ConfirmToLeaveNode@NextAfterLoadingText",
-            "Tales@RA@PNS-ConfirmToLeaveNode"
+            "Tales@RA@PNS-ConfirmToLeaveNode",
+            "Tales@RA@PNS-ConfirmToLeaveNode@NextAfterMerelyWaiting"
         ]
     },
     "Tales@RA@PNS-EnterBaseCamp": {
@@ -12913,7 +12932,6 @@
         "subErrorIgnored": true,
         "next": [
             "Tales@RA@PNS-ProsperityBelowLimit-SwipeSave",
-            "Tales@RA@PNS-ProsperityBelowLimit-Dots",
             "Tales@RA@PNS-ProsperityBelowLimit-SwipeSave@NextAfterLoadingText",
             "Tales@RA@ProsperityNoSave"
         ]

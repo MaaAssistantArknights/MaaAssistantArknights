@@ -14,21 +14,26 @@ int main([[maybe_unused]] int argc, char** argv)
     // AsstSetUserDir(cur_path.c_str());
 
     // 这里默认读取的是可执行文件同目录下 resource 文件夹里的资源
-    bool loaded = AsstLoadResource(cur_path.string().c_str());
-    if (!loaded) {
+    if (!AsstLoadResource(cur_path.string().c_str())) {
         std::cerr << "-------- load resource failed: official --------" << std::endl;
         return -1;
     }
 
 #ifdef ASST_DEBUG
-    if (argc >= 2) {
-        std::string overseas_type(argv[1]); // "YoStarJP", "YoStarEN", "YoStarKR", "txwy"
-        std::cout << "load overseas_type:" << overseas_type << std::endl;
+    if (argc > 1) {
+        const std::string arg(argv[1]);
 
-        const auto overseas_path = cur_path / "resource" / "global" / overseas_type;
-        if (!AsstLoadResource(overseas_path.string().c_str())) {
-            std::cerr << "-------- load resource failed: " << overseas_type << " --------" << std::endl;
-            return -1;
+        if (arg == "Official") {
+            std::cout << "Official type detected, using default resources." << std::endl;
+        }
+        else {
+            std::cout << "load overseas_type: " << arg << std::endl;
+
+            const auto overseas_path = cur_path / "resource" / "global" / arg;
+            if (!AsstLoadResource(overseas_path.string().c_str())) {
+                std::cerr << "-------- load resource failed: " << arg << " --------" << std::endl;
+                return -1;
+            }
         }
     }
 #endif

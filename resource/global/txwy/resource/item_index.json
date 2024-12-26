@@ -935,6 +935,14 @@
         "sortId": 40003,
         "usage": "羅德島人事部特別批發的許可書，在特殊的時間點上招攬特殊的人才，一次可招聘十位幹員。"
     },
+    "LINKAGE_TKT_GACHA_10_4801": {
+        "classifyType": "NORMAL",
+        "description": "為了確保人才擴展而應博士要求準備的應急手段，該批尋訪條目具有一定的針對性與時效性，以及，小小的風險。",
+        "icon": "LINKAGE_TKT_GACHA_10_4801.png",
+        "name": "特勤專家尋訪憑證",
+        "sortId": 40003,
+        "usage": "羅德島人事部特別批發的許可書，在特殊的時間點上招攬特殊的人才，一次可招聘十位幹員。"
+    },
     "LMTGS_COIN_1401": {
         "classifyType": "NORMAL",
         "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
@@ -1639,6 +1647,14 @@
         "sortId": -10000,
         "usage": "馱獸盲盒大受歡迎，車內販賣供不應求。現在這批貨來得正是時候，列車乘務員會很樂意用其他商品進行交換。"
     },
+    "act32side_token_stamp": {
+        "classifyType": "NONE",
+        "description": "看到這些卡片之後，特克諾漫不經心地指向她工作室的角落，那裡放著一排切了半截的蘿蔔，切面已經被印泥染透了。",
+        "icon": "act32side_token_stamp.png",
+        "name": "藝術館集章卡",
+        "sortId": -10000,
+        "usage": "藝術館的集章兌獎卡，集章更多就能兌換更多獎品。儘管每張卡上都有每日限量超稀有隱藏章，雷內爾仍欣然同意用它們交換物資，稱這是“略表對佚名假章大師的敬意”。"
+    },
     "act38d1_token_coin": {
         "classifyType": "NONE",
         "description": "純淨無瑕的源石晶體，聖所對此視若珍寶。",
@@ -1663,6 +1679,22 @@
         "sortId": -10000,
         "usage": "用於對遏制單元進行數據迭代。"
     },
+    "act4bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "模擬中的對錯並不重要，它們只是種輔助，幫助你在實戰中做出正確的選擇。",
+        "icon": "act4bossrush_milestone_point.png",
+        "name": "試煉經驗",
+        "sortId": -10000,
+        "usage": "試煉結束後獲得的經驗，可以提升試煉等級。"
+    },
+    "act4bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "未解碼的數據方塊。永遠記住，資訊轉換往往伴隨著不可避免的損耗。善用資訊儲存工具，但別依賴它們。",
+        "icon": "act4bossrush_token_relic.png",
+        "name": "數據黑盒",
+        "sortId": -10000,
+        "usage": "用於對遏制單元進行數據迭代。"
+    },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
         "description": "無論是任務回饋、戰利品收集、材料研究、論文交流還是戰場清掃，羅德島那高效的情報系統會不斷地運作，從種種行動中收集龐雜的資訊，並分別計算歸納以得出各類結論；作為情報黑箱外的人，看看已經量化的數值就好。",
@@ -1670,6 +1702,14 @@
         "name": "有效情報值",
         "sortId": -10000,
         "usage": "羅德島情報處理系統的基礎量值，累積以促成情報程序的推進。"
+    },
+    "act4d5_point_kfc": {
+        "classifyType": "NONE",
+        "description": "羅德廚房特別活動的遊戲內積分道具。",
+        "icon": "act4d5_point_kfc.png",
+        "name": "羅德廚房積分",
+        "sortId": -10000,
+        "usage": "積累此積分以獲取相應的階段性活動獎勵。"
     },
     "act5d0_point_medal": {
         "classifyType": "NONE",

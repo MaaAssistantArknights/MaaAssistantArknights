@@ -1,6 +1,7 @@
 {
     "author": "公孙长乐",
-    "description": "干员配置要求极高，若缺少干员请自行调整\n默认每八小时使用无人机加速制造作战记录，请按实际需求修改\n首次使用前将令的心情消耗至 12\n请在一图流排班表生成器上导入本文件，修改后下载导出（请勿直接修改本文件，以免 MAA 更新时被覆盖）\n\n[20240608 修订] 视频地址: https://www.bilibili.com/video/BV1yy411B7S7/?t=209",
+    "description": "干员配置要求极高，若缺少干员请自行调整\n默认每八小时使用无人机加速制造作战记录，请按实际需求修改\n首次使用前将令的心情消耗至 12\n请在一图流排班表生成器上导入本文件，修改后下载导出（请勿直接修改本文件，以免 MAA 更新时被覆盖）\n\n[20241216 修订] 视频地址: https://www.bilibili.com/video/BV13gBwYbEG5/?t=158",
+    "id": 1734336875111339,
     "title": "243 极限效率，一天四换",
     "buildingType": 243,
     "planTimes": "3班",
@@ -236,7 +237,7 @@
                     },
                     {
                         "skip": false,
-                        "operators": ["诗怀雅", "凯尔希", "夕", "斑点", "食铁兽"],
+                        "operators": ["诗怀雅", "凯尔希", "夕", "引星棘刺", "食铁兽"],
                         "sort": false,
                         "autofill": false
                     },
@@ -463,7 +464,7 @@
                     {
                         "skip": false,
                         "product": "Pure Gold",
-                        "operators": ["苍苔", "斑点", "乌尔比安"],
+                        "operators": ["苍苔", "引星棘刺", "乌尔比安"],
                         "sort": false,
                         "autofill": false
                     },
