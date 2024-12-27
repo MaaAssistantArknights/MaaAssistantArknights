@@ -47,28 +47,10 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Check for changes in dev branch
-        id: check_changes
+      - name: Checkout ref (if provided)
+        if: ${{ inputs.ref }} != ''
         run: |
-          # Get the commit hash and date of the latest commit within the last 24 hours
-          $recent_commit = git log --since="24 hours ago" --pretty=format:"%H" -n 1
-          if (-not $recent_commit) {
-            Write-Output "No commits in the last 24 hours. Cancelling workflow..."
-            echo "cancel_run=true" >> $env:GITHUB_ENV
-          } else {
-            Write-Output "Commits found within the last 24 hours. Continuing build..."
-            echo "cancel_run=false" >> $env:GITHUB_ENV
-          }
-
-      - name: Stop if no changes
-        if: env.cancel_run == 'true'
-        uses: andymckay/cancel-action@0.5
-
-      - name: Checkout ref
-        run: |
-          if ("${{ inputs.ref }}" -ne "") {
-            git checkout --progress --recurse-submodules ${{ inputs.ref || 'dev' }}
-          }
+          git checkout --progress --recurse-submodules ${{ inputs.ref }}
 
       - name: Install semver
         run: |
