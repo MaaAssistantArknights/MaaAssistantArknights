@@ -16,9 +16,13 @@
     <ItemGroup>
       <MaaResourceFiles Include="$(MSBuildProjectDirectory)\..\..\resource\**\*.*" />
       <MaaPythonBinding Include="$(MSBuildProjectDirectory)\..\..\src\Python\**\*.*" />
+      <!-- 添加 DependencySetup_依赖库安装.bat 文件 -->
+      <DependencySetupFile Include="$(MSBuildProjectDirectory)\..\..\DependencySetup_依赖库安装.bat" />
     </ItemGroup>
     <Message Text="Copying resource files" Importance="High" />
     <Copy SourceFiles="@(MaaResourceFiles)" DestinationFiles="$(MSBuildProjectDirectory)\..\..\$(Platform)\$(Configuration)\resource\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="true" UseHardlinksIfPossible="true" />
     <Copy SourceFiles="@(MaaPythonBinding)" DestinationFiles="$(MSBuildProjectDirectory)\..\..\$(Platform)\$(Configuration)\Python\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="true" UseHardlinksIfPossible="true" />
+    <!-- 复制 DependencySetup_依赖库安装.bat 文件 -->
+    <Copy SourceFiles="@(DependencySetupFile)" DestinationFiles="$(MSBuildProjectDirectory)\..\..\$(Platform)\$(Configuration)\%(Filename)%(Extension)" SkipUnchangedFiles="true" UseHardlinksIfPossible="true" />
   </Target>
 </Project>
