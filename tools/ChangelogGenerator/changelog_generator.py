@@ -287,6 +287,7 @@ def main(tag_name=None, latest=None):
     raw_gitlogs = call_command(git_command)
 
     raw_commits_info = {}
+    # In case the check step fails in the workflow, prevent exit error 1
     if raw_gitlogs.strip():
         for raw_commit_info in raw_gitlogs.split("\n\n"):
             commit_hash, author, committer, message, parent = raw_commit_info.split("\n")
@@ -355,6 +356,7 @@ def main(tag_name=None, latest=None):
         with open(contributors_path, "w") as f:
             json.dump(contributors, f)
 
+    # In case the check step fails in the workflow, prevent exit error 1
     else:
         print("No commits found.")
         with open(os.getenv('GITHUB_OUTPUT'), 'a') as github_output: github_output.write("cancel_run=true\n")
