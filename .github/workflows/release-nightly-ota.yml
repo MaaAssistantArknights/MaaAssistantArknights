@@ -56,7 +56,7 @@ jobs:
         id: set_tag
         run: |
           # Fetch the latest tag from the repository
-          $latest_tag=$(git describe --tags --abbrev=0)
+          $latest_tag = git describe --tags --abbrev=0
 
           # Check for changes between the latest tag and HEAD
           $recent_changes = git log "$latest_tag..HEAD" --oneline
@@ -75,9 +75,9 @@ jobs:
           Write-Output "latest_tag=$latest_tag" >> $env:GITHUB_OUTPUT
 
           # Get the full description of the current commit
-          $described = $(git describe --tags --long --match 'v*')
+          $described = git describe --tags --long --match 'v*'
           Write-Output "New Described: $described"
-          $ids = $($described -split "-")
+          $ids = $described -split "-"
 
           if ($ids.Length -eq 3) {
             # Extract and parse the current version
@@ -94,13 +94,12 @@ jobs:
 
             # Construct the new tag and pre_version
             $ver = "v$new_version"
-            $pre_version = "$($ids[0])"
+            $pre_version = $ids[0]
             $dist = "{0:D3}" -f [int]$ids[1]
 
             Write-Output "pre_version=$pre_version" >> $env:GITHUB_OUTPUT
-
-            Write-Output "New Tag: $ver-alpha.1.d$($dist).$($ids[2])"
-            Write-Output "tag=$ver-alpha.1.d$($dist).$($ids[2])" >> $env:GITHUB_OUTPUT
+            Write-Output "New Tag: $ver-alpha.1.d$dist.$($ids[2])"
+            Write-Output "tag=$ver-alpha.1.d$dist.$($ids[2])" >> $env:GITHUB_OUTPUT
 
             exit 0
           }
@@ -112,8 +111,8 @@ jobs:
             Write-Output "Pre Version: $pre_version"
             Write-Output "pre_version=$pre_version" >> $env:GITHUB_OUTPUT
 
-            Write-Output "tag: $pre_version.d$($dist).$($ids[3])"
-            Write-Output "tag=$pre_version.d$($dist).$($ids[3])" >> $env:GITHUB_OUTPUT
+            Write-Output "tag: $pre_version.d$dist.$($ids[3])"
+            Write-Output "tag=$pre_version.d$dist.$($ids[3])" >> $env:GITHUB_OUTPUT
 
             exit 0
           }
