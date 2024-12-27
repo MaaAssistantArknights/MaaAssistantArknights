@@ -52,34 +52,78 @@ jobs:
         run: |
           git checkout --progress --recurse-submodules ${{ inputs.ref }}
 
-      - name: Install semver
-        run: |
-          npm install --global --progress semver
-
-      - name: Set tag
+      - name: Check for Changes and Set tag
         id: set_tag
         run: |
-          # pre_version是上一个公版，这里需要拉上一个tag，避免堆积过多commit
+          # Fetch the latest tag from the repository
           $latest_tag=$(git describe --tags --abbrev=0)
-          echo "latest_tag=$latest_tag" >> $env:GITHUB_OUTPUT
+
+          # Check for changes between the latest tag and HEAD
+          $recent_changes = git log "$latest_tag..HEAD" --oneline
+
+          if (-not $recent_changes) {
+            Write-Output "No commits. Cancelling workflow..."
+            Write-Output "cancel_run=true" >> $env:GITHUB_ENV
+            exit 0
+          } else {
+            Write-Output "Recent commits: $recent_changes"
+            Write-Output "Commits found. Continuing build..."
+            Write-Output "cancel_run=false" >> $env:GITHUB_ENV
+          }
+
+          Write-Output "Latest tag: $latest_tag"
+          Write-Output "latest_tag=$latest_tag" >> $env:GITHUB_OUTPUT
+
+          # Get the full description of the current commit
           $described = $(git describe --tags --long --match 'v*')
+          Write-Output "Described: $described"
           $ids = $($described -split "-")
-          if ($ids.length -eq 3) {
-            $ver = "v$(semver --increment $ids[0].Substring(1))"
+
+          if ($ids.Length -eq 3) {
+            # Extract and parse the current version
+            $current_version = $ids[0].Substring(1)
+            $parts = $current_version -split '\.'
+            if ($parts.Length -ne 3) {
+              Write-Error "Invalid version format: $current_version. Expected 'major.minor.patch'."
+              exit 1
+            }
+
+            # Increment the patch version
+            $parts[2] = [int]$parts[2] + 1
+            $new_version = "$($parts[0]).$($parts[1]).$($parts[2])"
+
+            # Construct the new tag and pre_version
+            $ver = "v$new_version"
             $pre_version = "$($ids[0])"
-            $dist = `printf "%03d"` $ids[1]
-            echo "tag=$ver-alpha.1.d$($dist).$($ids[2])" >> $env:GITHUB_OUTPUT
-            echo "pre_version=$pre_version" >> $env:GITHUB_OUTPUT
+            $dist = "{0:D3}" -f [int]$ids[1]
+
+            Write-Output "Pre Version: $pre_version"
+            Write-Output "pre_version=$pre_version" >> $env:GITHUB_OUTPUT
+
+            Write-Output "tag: $ver-alpha.1.d$($dist).$($ids[2])"
+            Write-Output "tag=$ver-alpha.1.d$($dist).$($ids[2])" >> $env:GITHUB_OUTPUT
+
             exit 0
           }
-          if ($ids.length -eq 4) {
-            $dist = `printf "%03d"` $ids[2]
+
+          if ($ids.Length -eq 4) {
+            $dist = "{0:D3}" -f [int]$ids[2]
             $pre_version = "$($ids[0])-$($ids[1])"
-            echo "pre_version=$pre_version" >> $env:GITHUB_OUTPUT
-            echo "tag=$pre_version.d$($dist).$($ids[3])" >> $env:GITHUB_OUTPUT
+
+            Write-Output "Pre Version: $pre_version"
+            Write-Output "pre_version=$pre_version" >> $env:GITHUB_OUTPUT
+
+            Write-Output "tag: $pre_version.d$($dist).$($ids[3])"
+            Write-Output "tag=$pre_version.d$($dist).$($ids[3])" >> $env:GITHUB_OUTPUT
+
             exit 0
           }
+
           exit 1
+
+      - name: Stop if no changes
+        if: env.cancel_run == 'true'
+        uses: andymckay/cancel-action@0.5
 
       - name: Push tag to main repo
         id: push_main_tag
