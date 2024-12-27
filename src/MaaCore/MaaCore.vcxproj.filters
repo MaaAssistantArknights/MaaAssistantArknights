@@ -740,6 +740,9 @@
     <ClInclude Include="Task\Roguelike\RoguelikeIterateMonthlySquadPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeIterateDeepExplorationPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1243,6 +1246,9 @@
       <Filter>Source\Vision\Battle</Filter>
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeIterateMonthlySquadPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeIterateDeepExplorationPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
   </ItemGroup>
