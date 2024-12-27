@@ -48,7 +48,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checkout ref (if provided)
-        if: ${{ inputs.ref }} != ''
+        if: inputs.ref != ''
         run: |
           git checkout --progress --recurse-submodules ${{ inputs.ref }}
 
