@@ -71,12 +71,12 @@ jobs:
             Write-Output "cancel_run=false" >> $env:GITHUB_ENV
           }
 
-          Write-Output "Latest tag: $latest_tag"
+          Write-Output "Previous Tag: $latest_tag"
           Write-Output "latest_tag=$latest_tag" >> $env:GITHUB_OUTPUT
 
           # Get the full description of the current commit
           $described = $(git describe --tags --long --match 'v*')
-          Write-Output "Described: $described"
+          Write-Output "New Described: $described"
           $ids = $($described -split "-")
 
           if ($ids.Length -eq 3) {
@@ -97,10 +97,9 @@ jobs:
             $pre_version = "$($ids[0])"
             $dist = "{0:D3}" -f [int]$ids[1]
 
-            Write-Output "Pre Version: $pre_version"
             Write-Output "pre_version=$pre_version" >> $env:GITHUB_OUTPUT
 
-            Write-Output "tag: $ver-alpha.1.d$($dist).$($ids[2])"
+            Write-Output "New Tag: $ver-alpha.1.d$($dist).$($ids[2])"
             Write-Output "tag=$ver-alpha.1.d$($dist).$($ids[2])" >> $env:GITHUB_OUTPUT
 
             exit 0
