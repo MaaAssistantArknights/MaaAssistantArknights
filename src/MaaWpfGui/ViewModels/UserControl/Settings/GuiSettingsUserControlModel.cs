@@ -86,7 +86,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
+    private bool _minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
 
     /// <summary>
     /// Gets or sets a value indicating whether to minimize to tray.
@@ -97,7 +97,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         set
         {
             SetAndNotify(ref _minimizeToTray, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.MinimizeToTray, value.ToString());
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MinimizeToTray, value.ToString());
             Instances.MainWindowManager.SetMinimizeToTray(value);
         }
     }

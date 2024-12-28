@@ -44,10 +44,10 @@ namespace MaaWpfGui.Services.Managers
         {
             MainWindow.StateChanged += MainWindowStateChanged;
 
-            bool minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
+            bool minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
             SetMinimizeToTray(minimizeToTray);
 
-            bool useTrayIcon = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseTray, bool.TrueString));
+            bool useTrayIcon = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UseTray, bool.TrueString));
             SetUseTrayIcon(useTrayIcon);
         }
 
