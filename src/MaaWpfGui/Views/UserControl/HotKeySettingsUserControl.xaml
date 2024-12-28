@@ -21,6 +21,12 @@
         Margin="10"
         HorizontalAlignment="Center"
         VerticalAlignment="Center">
+        <controls:TextBlock
+            Grid.Row="0"
+            HorizontalAlignment="Center"
+            FontWeight="Bold"
+            Text="{DynamicResource GlobalConfigTip}"
+            TextAlignment="Center" />
         <StackPanel
             HorizontalAlignment="Right"
             VerticalAlignment="Center"

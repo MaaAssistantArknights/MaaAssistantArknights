@@ -115,7 +115,7 @@ namespace MaaWpfGui.Services.HotKeys
 
         private static Dictionary<MaaHotKeyAction, MaaHotKey> GetPersistentHotKeys()
         {
-            var hotKeysString = ConfigurationHelper.GetValue(HotKeyConfigName, null);
+            var hotKeysString = ConfigurationHelper.GetGlobalValue(HotKeyConfigName, null);
 
             return hotKeysString is null
                 ? CreateInitialHotKeys()
@@ -139,7 +139,7 @@ namespace MaaWpfGui.Services.HotKeys
 
         private void PersistHotKeys()
         {
-            ConfigurationHelper.SetValue(HotKeyConfigName, JsonConvert.SerializeObject(_actionHotKeyMapping));
+            ConfigurationHelper.SetGlobalValue(HotKeyConfigName, JsonConvert.SerializeObject(_actionHotKeyMapping));
         }
     }
 }
