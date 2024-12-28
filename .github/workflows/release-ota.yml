@@ -87,7 +87,7 @@ jobs:
 
   make-ota:
     needs: create-tag
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         target:
