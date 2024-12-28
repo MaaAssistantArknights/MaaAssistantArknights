@@ -26,6 +26,11 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Vertical">
+            <controls:TextBlock
+                HorizontalAlignment="Center"
+                FontWeight="Bold"
+                Text="{DynamicResource GlobalConfigTip}"
+                TextAlignment="Center" />
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Left"

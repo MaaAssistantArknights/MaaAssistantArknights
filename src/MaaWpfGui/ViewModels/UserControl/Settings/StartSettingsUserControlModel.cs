@@ -71,7 +71,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _runDirectly = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RunDirectly, bool.FalseString));
+    private bool _runDirectly = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.RunDirectly, bool.FalseString));
 
     /// <summary>
     /// Gets or sets a value indicating whether to run directly.
@@ -82,7 +82,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         set
         {
             SetAndNotify(ref _runDirectly, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.RunDirectly, value.ToString());
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.RunDirectly, value.ToString());
         }
     }
 
@@ -101,7 +101,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _openEmulatorAfterLaunch = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.StartEmulator, bool.FalseString));
+    private bool _openEmulatorAfterLaunch = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.StartEmulator, bool.FalseString));
 
     /// <summary>
     /// Gets or sets a value indicating whether to start emulator.
@@ -112,7 +112,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         set
         {
             SetAndNotify(ref _openEmulatorAfterLaunch, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.StartEmulator, value.ToString());
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.StartEmulator, value.ToString());
             if (SettingsViewModel.GameSettings.ClientType == string.Empty && _runningState.GetIdle())
             {
                 SettingsViewModel.GameSettings.ClientType = "Official";
