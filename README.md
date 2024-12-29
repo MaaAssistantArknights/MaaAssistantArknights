@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img alt="LOGO" src="./docs/.vuepress/public/image/maa-logo_512x512.png" width="256" height="256" />
+<img alt="LOGO" src="./docs/.vuepress/public/images/maa-logo_512x512.png" width="256" height="256" />
 
 # MaaAssistantArknights
 
@@ -59,20 +59,20 @@ MAA 的意思是 MAA Assistant Arknights
 <details><summary>话不多说，看图！</summary>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./docs/.vuepress/public/image/zh-cn/readme/1-dark.png">
-  <img alt="zh1" src="./docs/.vuepress/public/image/zh-cn/readme/1-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="./docs/.vuepress/public/images/zh-cn/readme/1-dark.png">
+  <img alt="zh1" src="./docs/.vuepress/public/images/zh-cn/readme/1-light.png">
 </picture>
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./docs/.vuepress/public/image/zh-cn/readme/2-dark.png">
-  <img alt="zh2" src="./docs/.vuepress/public/image/zh-cn/readme/2-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="./docs/.vuepress/public/images/zh-cn/readme/2-dark.png">
+  <img alt="zh2" src="./docs/.vuepress/public/images/zh-cn/readme/2-light.png">
 </picture>
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./docs/.vuepress/public/image/zh-cn/readme/3-dark.png">
-  <img alt="zh3" src="./docs/.vuepress/public/image/zh-cn/readme/3-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="./docs/.vuepress/public/images/zh-cn/readme/3-dark.png">
+  <img alt="zh3" src="./docs/.vuepress/public/images/zh-cn/readme/3-light.png">
 </picture>
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./docs/.vuepress/public/image/zh-cn/readme/4-dark.png">
-  <img alt="zh4" src="./docs/.vuepress/public/image/zh-cn/readme/4-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="./docs/.vuepress/public/images/zh-cn/readme/4-dark.png">
+  <img alt="zh4" src="./docs/.vuepress/public/images/zh-cn/readme/4-light.png">
 </picture>
 
 </details>

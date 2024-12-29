@@ -36,6 +36,9 @@ namespace MaaWpfGui.Configuration
         [JsonInclude]
         public AnnouncementInfo AnnouncementInfo { get; private set; } = new AnnouncementInfo();
 
+        [JsonInclude]
+        public GUI GUI { get; private set; } = new GUI();
+
         [JsonIgnore]
         public SpecificConfig CurrentConfig
         {

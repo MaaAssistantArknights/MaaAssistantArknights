@@ -32,7 +32,7 @@ namespace MaaWpfGui.Helper
 
         static ItemListHelper()
         {
-            var language = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
+            var language = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
             string filename = string.Empty;
             switch (language)
             {

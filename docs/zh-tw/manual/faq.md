@@ -9,15 +9,16 @@ icon: ph:question-fill
 
 ::: warning
 
-如果你是從 MAA 的報錯窗口來到這的，那八成是由於未更新運行庫而造成的問題。  
+若 MAA 在某次更新後無法運行，或者純粹是從 MAA 的報錯窗口來到這裡，那大概率是由於運行庫未更新導致的問題。  
 出現次數最多的問題都是運行庫問題，而總是有人看不到文檔到處問，所以我們把置頂換成了這個。很氣。
 
-若 MAA 在某次更新後無法運行，有很大可能是因為運行庫版本而導致的問題，需更新以下兩個運行庫。  
-請在終端中運行以下命令，或手動下載<u>**兩個**</u>運行庫並安裝。
+請運行 MAA 目錄下的 `DependencySetup_依赖库安装.bat`，或者在終端中運行以下命令，
 
 ```sh
-winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
+winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements && winget install "Microsoft.DotNet.DesktopRuntime.8" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements
 ```
+
+或者手動下載並安裝以下<u>**兩個**</u>運行庫來解決問題。
 
 - [Visual C++ 可再發行程序包](https://aka.ms/vs/17/release/vc_redist.x64.exe)
 - [.NET 桌面運行時 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=Binaries-,Windows,-x64)

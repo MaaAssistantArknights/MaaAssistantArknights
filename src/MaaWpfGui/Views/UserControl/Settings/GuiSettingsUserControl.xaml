@@ -17,92 +17,100 @@
     d:DesignWidth="550"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
-    <Grid
-        Margin="10"
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="200" />
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Row="0" Grid.Column="0">
-            <CheckBox
-                Margin="10"
-                Content="{DynamicResource UseTray}"
-                IsChecked="{Binding UseTray}" />
-            <CheckBox
-                Margin="10"
-                Content="{DynamicResource MinimizeToTray}"
-                IsChecked="{Binding MinimizeToTray}"
-                Visibility="{c:Binding UseTray,
-                                       FalseToVisibility=Collapsed}" />
-            <CheckBox
-                Margin="10"
-                Content="{DynamicResource SystemNotification}"
-                IsChecked="{Binding UseNotify}" />
-            <CheckBox
-                Margin="10"
-                Content="{DynamicResource HideCloseButton}"
-                IsChecked="{Binding HideCloseButton}" />
-            <!--<CheckBox
+    <StackPanel>
+        <controls:TextBlock
+            HorizontalAlignment="Center"
+            FontWeight="Bold"
+            Text="{DynamicResource GlobalConfigTip}"
+            TextAlignment="Center" />
+        <Grid
+            Margin="10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="200" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="0" Grid.Column="0">
+                <CheckBox
+                    Margin="10"
+                    Content="{DynamicResource UseTray}"
+                    IsChecked="{Binding UseTray}" />
+                <CheckBox
+                    Margin="10"
+                    Content="{DynamicResource MinimizeToTray}"
+                    IsChecked="{Binding MinimizeToTray}"
+                    Visibility="{c:Binding UseTray,
+                                           FalseToVisibility=Collapsed}" />
+                <CheckBox
+                    Margin="10"
+                    Content="{DynamicResource SystemNotification}"
+                    IsChecked="{Binding UseNotify}" />
+                <CheckBox
+                    Margin="10"
+                    Content="{DynamicResource HideCloseButton}"
+                    IsChecked="{Binding HideCloseButton}" />
+                <!--<CheckBox
                 Margin="10"
                 Content="{DynamicResource WindowTitleScrollable}"
                 IsChecked="{Binding WindowTitleScrollable}" />-->
-            <CheckBox
-                Margin="10"
-                Content="{DynamicResource WindowTitleScrollable}"
-                IsChecked="{Binding WindowTitleScrollable}" />
-            <hc:CheckComboBox
-                x:Name="CheckComboBox"
-                Width="180"
-                Margin="10"
-                hc:ListBoxAttach.SelectedItems="{Binding WindowTitleSelectShowList}"
-                hc:TitleElement.Title="{DynamicResource TitleBarDisplayContent}"
-                ItemsSource="{Binding WindowTitleAllShowList}"
-                Style="{StaticResource CheckComboBoxExtend}" />
-        </StackPanel>
+                <CheckBox
+                    Margin="10"
+                    Content="{DynamicResource WindowTitleScrollable}"
+                    IsChecked="{Binding WindowTitleScrollable}" />
+                <hc:CheckComboBox
+                    x:Name="CheckComboBox"
+                    Width="180"
+                    Margin="10"
+                    hc:ListBoxAttach.SelectedItems="{Binding WindowTitleSelectShowList}"
+                    hc:TitleElement.Title="{DynamicResource TitleBarDisplayContent}"
+                    ItemsSource="{Binding WindowTitleAllShowList}"
+                    Style="{StaticResource CheckComboBoxExtend}" />
+            </StackPanel>
 
-        <StackPanel Grid.Row="0" Grid.Column="1">
-            <ComboBox
-                x:Name="LanguageSelector"
-                Margin="10,5"
-                hc:InfoElement.Title="{Binding LanguageInfo, Mode=OneTime}"
-                DisplayMemberPath="Display"
-                ItemsSource="{Binding LanguageList}"
-                SelectedValue="{Binding Language}"
-                SelectedValuePath="Value"
-                Style="{StaticResource ComboBoxExtend}" />
-            <ComboBox
-                Margin="10,5"
-                hc:InfoElement.Title="{DynamicResource OperNameLanguage}"
-                DisplayMemberPath="Display"
-                ItemsSource="{Binding OperNameLanguageModeList}"
-                SelectedValue="{Binding OperNameLanguage}"
-                SelectedValuePath="Value"
-                Style="{StaticResource ComboBoxExtend}" />
-            <ComboBox
-                Margin="10,5"
-                hc:InfoElement.Title="{DynamicResource UiTheme}"
-                DisplayMemberPath="Display"
-                ItemsSource="{Binding DarkModeList}"
-                SelectedValue="{Binding DarkMode}"
-                SelectedValuePath="Value"
-                Style="{StaticResource ComboBoxExtend}" />
-            <ComboBox
-                Margin="10,5"
-                hc:InfoElement.Title="{DynamicResource MainViewButtonFeature}"
-                DisplayMemberPath="Display"
-                IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
-                ItemsSource="{Binding InverseClearModeList}"
-                SelectedValue="{Binding InverseClearMode}"
-                SelectedValuePath="Value"
-                Style="{StaticResource ComboBoxExtend}" />
-            <ComboBox
-                Margin="10,5"
-                hc:InfoElement.Title="{DynamicResource LogItemDateFormatString}"
-                ItemsSource="{Binding LogItemDateFormatStringList}"
-                SelectedValue="{Binding LogItemDateFormatString}"
-                Style="{StaticResource ComboBoxExtend}" />
-        </StackPanel>
-    </Grid>
+            <StackPanel Grid.Row="0" Grid.Column="1">
+                <ComboBox
+                    x:Name="LanguageSelector"
+                    Margin="10,5"
+                    hc:InfoElement.Title="{Binding LanguageInfo, Mode=OneTime}"
+                    DisplayMemberPath="Display"
+                    ItemsSource="{Binding LanguageList}"
+                    SelectedValue="{Binding Language}"
+                    SelectedValuePath="Value"
+                    Style="{StaticResource ComboBoxExtend}" />
+                <ComboBox
+                    Margin="10,5"
+                    hc:InfoElement.Title="{DynamicResource OperNameLanguage}"
+                    DisplayMemberPath="Display"
+                    ItemsSource="{Binding OperNameLanguageModeList}"
+                    SelectedValue="{Binding OperNameLanguage}"
+                    SelectedValuePath="Value"
+                    Style="{StaticResource ComboBoxExtend}" />
+                <ComboBox
+                    Margin="10,5"
+                    hc:InfoElement.Title="{DynamicResource UiTheme}"
+                    DisplayMemberPath="Display"
+                    ItemsSource="{Binding DarkModeList}"
+                    SelectedValue="{Binding DarkMode}"
+                    SelectedValuePath="Value"
+                    Style="{StaticResource ComboBoxExtend}" />
+                <ComboBox
+                    Margin="10,5"
+                    hc:InfoElement.Title="{DynamicResource MainViewButtonFeature}"
+                    DisplayMemberPath="Display"
+                    IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
+                    ItemsSource="{Binding InverseClearModeList}"
+                    SelectedValue="{Binding InverseClearMode}"
+                    SelectedValuePath="Value"
+                    Style="{StaticResource ComboBoxExtend}" />
+                <ComboBox
+                    Margin="10,5"
+                    hc:InfoElement.Title="{DynamicResource LogItemDateFormatString}"
+                    ItemsSource="{Binding LogItemDateFormatStringList}"
+                    SelectedValue="{Binding LogItemDateFormatString}"
+                    Style="{StaticResource ComboBoxExtend}" />
+            </StackPanel>
+        </Grid>
+    </StackPanel>
+
 </UserControl>

@@ -50,7 +50,7 @@ order: 3
   - 复刻的 SS 活动。输入 `SSReopen-<关卡前缀>` ，可一次性刷完 XX-1 ~ XX-9 关，如 `SSReopen-IC`。
 
 ::: details 示例画面
-![示例画面](/image/zh-cn/combat-start-interface-example.png)
+![示例画面](/images/zh-cn/combat-start-interface-example.png)
 :::
 
 ### 剿灭模式

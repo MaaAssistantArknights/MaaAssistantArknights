@@ -9,7 +9,7 @@ dir:
 
 ::: center
 
-![MAA Logo](/image/maa-logo_512x512.png =256x256)
+![MAA Logo](/images/maa-logo_512x512.png =256x256)
 
 <!-- markdownlint-restore -->
 
@@ -55,12 +55,12 @@ MAA는 MAA Assistant Arknights의 약자입니다
 {
   "imageList": [
     {
-      "light": "image/ko-kr/readme/1-light.png",
-      "dark": "image/ko-kr/readme/1-light.png"
+      "light": "images/ko-kr/readme/1-light.png",
+      "dark": "images/ko-kr/readme/1-light.png"
     },
     {
-      "light": "image/ko-kr/readme/2-light.png",
-      "dark": "image/ko-kr/readme/2-light.png"
+      "light": "images/ko-kr/readme/2-light.png",
+      "dark": "images/ko-kr/readme/2-light.png"
     }
   ]
 }

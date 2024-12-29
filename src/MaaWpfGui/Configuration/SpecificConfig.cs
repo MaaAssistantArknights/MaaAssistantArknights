@@ -18,13 +18,13 @@ namespace MaaWpfGui.Configuration
 {
     public class SpecificConfig
     {
-        // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
-        [JsonInclude] public GUI GUI { get; private set; } = new GUI();
+        [JsonInclude]
+        public ObservableDictionary<string, int> InfrastOrder { get; private set; } = new ObservableDictionary<string, int>();
 
-        [JsonInclude] public ObservableDictionary<string, int> InfrastOrder { get; private set; } = new ObservableDictionary<string, int>();
+        [JsonInclude]
+        public ObservableDictionary<string, int> TaskQueueOrder { get; private set; } = new ObservableDictionary<string, int>();
 
-        [JsonInclude] public ObservableDictionary<string, int> TaskQueueOrder { get; private set; } = new ObservableDictionary<string, int>();
-
-        [JsonInclude] public ObservableDictionary<string, bool> DragItemIsChecked { get; private set; } = new ObservableDictionary<string, bool>();
+        [JsonInclude]
+        public ObservableDictionary<string, bool> DragItemIsChecked { get; private set; } = new ObservableDictionary<string, bool>();
     }
 }

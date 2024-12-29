@@ -9,7 +9,7 @@ dir:
 
 ::: center
 
-![MAA Logo](/image/maa-logo_512x512.png =256x256)
+![MAA Logo](/images/maa-logo_512x512.png =256x256)
 
 <!-- markdownlint-restore -->
 # MaaAssistantArknights
@@ -52,20 +52,20 @@ Talk is cheap. Show me the pictures!
 {
   "imageList": [
     {
-      "light": "image/en-us/readme/1-light.png",
-      "dark": "image/en-us/readme/1-dark.png"
+      "light": "images/en-us/readme/1-light.png",
+      "dark": "images/en-us/readme/1-dark.png"
     },
     {
-      "light": "image/en-us/readme/2-light.png",
-      "dark": "image/en-us/readme/2-dark.png"
+      "light": "images/en-us/readme/2-light.png",
+      "dark": "images/en-us/readme/2-dark.png"
     },
     {
-      "light": "image/en-us/readme/3-light.png",
-      "dark": "image/en-us/readme/3-dark.png"
+      "light": "images/en-us/readme/3-light.png",
+      "dark": "images/en-us/readme/3-dark.png"
     },
     {
-      "light": "image/en-us/readme/4-light.png",
-      "dark": "image/en-us/readme/4-dark.png"
+      "light": "images/en-us/readme/4-light.png",
+      "dark": "images/en-us/readme/4-dark.png"
     }
   ]
 }

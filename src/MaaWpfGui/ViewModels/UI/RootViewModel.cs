@@ -134,7 +134,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _windowTitleScrollable = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitleScrollable, bool.FalseString));
+        private bool _windowTitleScrollable = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.WindowTitleScrollable, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to scroll the window title.
@@ -145,7 +145,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _windowTitleScrollable, value);
         }
 
-        private bool _showCloseButton = !Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideCloseButton, bool.FalseString));
+        private bool _showCloseButton = !Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.HideCloseButton, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to show close button.

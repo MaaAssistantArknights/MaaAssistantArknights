@@ -26,8 +26,8 @@ icon: mingcute:git-pull-request-fill
 {
   "imageList": [
     {
-      "light": "image/zh-cn/pr-tutorial/repository-light.png",
-      "dark": "image/zh-cn/pr-tutorial/repository-dark.png"
+      "light": "images/zh-cn/pr-tutorial/repository-light.png",
+      "dark": "images/zh-cn/pr-tutorial/repository-dark.png"
     }
   ]
 }
@@ -46,8 +46,8 @@ icon: mingcute:git-pull-request-fill
 {
   "imageList": [
     {
-      "light": "image/zh-cn/pr-tutorial/fork-light.png",
-      "dark": "image/zh-cn/pr-tutorial/fork-dark.png"
+      "light": "images/zh-cn/pr-tutorial/fork-light.png",
+      "dark": "images/zh-cn/pr-tutorial/fork-dark.png"
     }
   ]
 }
@@ -66,8 +66,8 @@ icon: mingcute:git-pull-request-fill
 {
   "imageList": [
     {
-      "light": "image/zh-cn/pr-tutorial/pull-request-light.png",
-      "dark": "image/zh-cn/pr-tutorial/pull-request-dark.png"
+      "light": "images/zh-cn/pr-tutorial/pull-request-light.png",
+      "dark": "images/zh-cn/pr-tutorial/pull-request-dark.png"
     }
   ]
 }
@@ -88,8 +88,8 @@ icon: mingcute:git-pull-request-fill
     {
       "imageList": [
         {
-          "light": "image/zh-cn/pr-tutorial/fork-light.png",
-          "dark": "image/zh-cn/pr-tutorial/fork-dark.png"
+          "light": "images/zh-cn/pr-tutorial/fork-light.png",
+          "dark": "images/zh-cn/pr-tutorial/fork-dark.png"
         }
       ]
     }
@@ -101,8 +101,8 @@ icon: mingcute:git-pull-request-fill
     {
       "imageList": [
         {
-          "light": "image/zh-cn/pr-tutorial/pr-2-light.png",
-          "dark": "image/zh-cn/pr-tutorial/pr-2-dark.png"
+          "light": "images/zh-cn/pr-tutorial/pr-2-light.png",
+          "dark": "images/zh-cn/pr-tutorial/pr-2-dark.png"
         }
       ]
     }
@@ -114,8 +114,8 @@ icon: mingcute:git-pull-request-fill
     {
       "imageList": [
         {
-          "light": "image/zh-cn/pr-tutorial/pr-3-light.png",
-          "dark": "image/zh-cn/pr-tutorial/pr-3-dark.png"
+          "light": "images/zh-cn/pr-tutorial/pr-3-light.png",
+          "dark": "images/zh-cn/pr-tutorial/pr-3-dark.png"
         }
       ]
     }
@@ -127,8 +127,8 @@ icon: mingcute:git-pull-request-fill
     {
       "imageList": [
         {
-          "light": "image/zh-cn/pr-tutorial/pr-4-light.png",
-          "dark": "image/zh-cn/pr-tutorial/pr-4-dark.png"
+          "light": "images/zh-cn/pr-tutorial/pr-4-light.png",
+          "dark": "images/zh-cn/pr-tutorial/pr-4-dark.png"
         }
       ]
     }
@@ -140,8 +140,8 @@ icon: mingcute:git-pull-request-fill
     {
       "imageList": [
         {
-          "light": "image/zh-cn/pr-tutorial/pr-5-light.png",
-          "dark": "image/zh-cn/pr-tutorial/pr-5-dark.png"
+          "light": "images/zh-cn/pr-tutorial/pr-5-light.png",
+          "dark": "images/zh-cn/pr-tutorial/pr-5-dark.png"
         }
       ]
     }
@@ -154,8 +154,8 @@ icon: mingcute:git-pull-request-fill
     {
       "imageList": [
         {
-          "light": "image/zh-cn/pr-tutorial/pr-7-1-light.png",
-          "dark": "image/zh-cn/pr-tutorial/pr-7-1-dark.png"
+          "light": "images/zh-cn/pr-tutorial/pr-7-1-light.png",
+          "dark": "images/zh-cn/pr-tutorial/pr-7-1-dark.png"
         }
       ]
     }
@@ -167,8 +167,8 @@ icon: mingcute:git-pull-request-fill
     {
       "imageList": [
         {
-          "light": "image/zh-cn/pr-tutorial/pr-7-2-light.png",
-          "dark": "image/zh-cn/pr-tutorial/pr-7-2-dark.png"
+          "light": "images/zh-cn/pr-tutorial/pr-7-2-light.png",
+          "dark": "images/zh-cn/pr-tutorial/pr-7-2-dark.png"
         }
       ]
     }
@@ -183,8 +183,8 @@ icon: mingcute:git-pull-request-fill
     {
       "imageList": [
         {
-          "light": "image/zh-cn/pr-tutorial/pr-9-light.png",
-          "dark": "image/zh-cn/pr-tutorial/pr-9-dark.png"
+          "light": "images/zh-cn/pr-tutorial/pr-9-light.png",
+          "dark": "images/zh-cn/pr-tutorial/pr-9-dark.png"
         }
       ]
     }
@@ -198,8 +198,8 @@ icon: mingcute:git-pull-request-fill
     {
       "imageList": [
         {
-          "light": "image/zh-cn/pr-tutorial/pr-10-1-light.png",
-          "dark": "image/zh-cn/pr-tutorial/pr-10-1-dark.png"
+          "light": "images/zh-cn/pr-tutorial/pr-10-1-light.png",
+          "dark": "images/zh-cn/pr-tutorial/pr-10-1-dark.png"
         }
       ]
     }
@@ -212,8 +212,8 @@ icon: mingcute:git-pull-request-fill
     {
       "imageList": [
         {
-          "light": "image/zh-cn/pr-tutorial/pr-10-2-light.png",
-          "dark": "image/zh-cn/pr-tutorial/pr-10-2-dark.png"
+          "light": "images/zh-cn/pr-tutorial/pr-10-2-light.png",
+          "dark": "images/zh-cn/pr-tutorial/pr-10-2-dark.png"
         }
       ]
     }
@@ -226,8 +226,8 @@ icon: mingcute:git-pull-request-fill
     {
       "imageList": [
         {
-          "light": "image/zh-cn/pr-tutorial/pr-11-light.png",
-          "dark": "image/zh-cn/pr-tutorial/pr-11-dark.png"
+          "light": "images/zh-cn/pr-tutorial/pr-11-light.png",
+          "dark": "images/zh-cn/pr-tutorial/pr-11-dark.png"
         }
       ]
     }
@@ -241,8 +241,8 @@ icon: mingcute:git-pull-request-fill
     {
       "imageList": [
         {
-          "light": "image/zh-cn/pr-tutorial/pr-12-light.png",
-          "dark": "image/zh-cn/pr-tutorial/pr-12-dark.png"
+          "light": "images/zh-cn/pr-tutorial/pr-12-light.png",
+          "dark": "images/zh-cn/pr-tutorial/pr-12-dark.png"
         }
       ]
     }
@@ -258,12 +258,12 @@ icon: mingcute:git-pull-request-fill
     {
       "imageList": [
         {
-          "light": "image/zh-cn/pr-tutorial/pr-14-1-light.png",
-          "dark": "image/zh-cn/pr-tutorial/pr-14-1-dark.png"
+          "light": "images/zh-cn/pr-tutorial/pr-14-1-light.png",
+          "dark": "images/zh-cn/pr-tutorial/pr-14-1-dark.png"
         },
         {
-          "light": "image/zh-cn/pr-tutorial/pr-14-2-light.png",
-          "dark": "image/zh-cn/pr-tutorial/pr-14-2-dark.png"
+          "light": "images/zh-cn/pr-tutorial/pr-14-2-light.png",
+          "dark": "images/zh-cn/pr-tutorial/pr-14-2-dark.png"
         }
       ]
     }

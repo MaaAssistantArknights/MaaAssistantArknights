@@ -23,7 +23,12 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 /// </summary>
 public class RemoteControlUserControlModel : PropertyChangedBase
 {
-    public static RemoteControlUserControlModel Instance { get; } = new();
+    static RemoteControlUserControlModel()
+    {
+        Instance = new();
+    }
+
+    public static RemoteControlUserControlModel Instance { get; }
 
     private string _remoteControlGetTaskEndpointUri = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, string.Empty);
 

@@ -41,7 +41,12 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 /// </summary>
 public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 {
-    public static VersionUpdateSettingsUserControlModel Instance { get; } = new();
+    static VersionUpdateSettingsUserControlModel()
+    {
+        Instance = new();
+    }
+
+    public static VersionUpdateSettingsUserControlModel Instance { get; }
 
     public enum UpdateVersionType
     {

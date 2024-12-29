@@ -22,7 +22,7 @@ icon: ic:baseline-article
  <!--對於復刻的 SideStory，可以輸入 `SSReopen-XX` ，來一次性刷完 XX-1 ~ XX-9 關。如 `SSReopen-IC`。-->
 
 ::: details 範例畫面
-![範例畫面](/image/zh-cn/combat-start-interface-example.png)
+![範例畫面](/images/zh-cn/combat-start-interface-example.png)
 :::
 
 - 主介面上的 `吃理智+吃石頭`、`指定次數`、`指定材料` 三者為 **短路開關（或門）**，即 **三者中的任一條件** 達到，均會視為任務完成，停止刷理智。
@@ -114,7 +114,7 @@ icon: ic:baseline-article
 - 若需要選擇助戰等，關閉 `自動編隊` 功能並手動編隊後再執行即可。
 - 記得在作業分享站上給好用的作業點讚哦！
 
-![image](/image/zh-cn/copilot-click-like.png)
+![image](/images/zh-cn/copilot-click-like.png)
 
 #### 寫作業
 
