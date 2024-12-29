@@ -41,7 +41,10 @@ jobs:
         uses: actions/checkout@v4
         with:
           show-progress: false
-          submodules: recursive
+
+      - name: Fetch submodules
+        run: |
+          git submodule update --init --depth 1 3rdparty/EmulatorExtras
 
       - name: Cache smoke-testing Sample.exe
         id: cache-exe
