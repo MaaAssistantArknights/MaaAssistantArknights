@@ -50,7 +50,7 @@ namespace MaaWpfGui.Configuration
         private static readonly JsonSerializerOptions _options = new() { WriteIndented = true, Converters = { new JsonStringEnumConverter() }, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
 
         // TODO: 参考 ConfigurationHelper ，拆几个函数出来
-        private static readonly Lazy<Root> _rootConfig = new Lazy<Root>(() =>
+        private static readonly Lazy<Root> _rootConfig = new(() =>
         {
             lock (_lock)
             {
@@ -106,8 +106,6 @@ namespace MaaWpfGui.Configuration
                     parsed = new Root();
                 }
 
-                parsed.CurrentConfig ??= new SpecificConfig();
-
                 parsed.PropertyChanged += OnPropertyChangedFactory("Root.");
                 parsed.Configurations.CollectionChanged += (in NotifyCollectionChangedEventArgs<KeyValuePair<string, SpecificConfig>> args) =>
                 {
@@ -117,13 +115,13 @@ namespace MaaWpfGui.Configuration
                         case NotifyCollectionChangedAction.Replace:
                             if (args.IsSingleItem)
                             {
-                                args.NewItem.Value.GUI.PropertyChanged += OnPropertyChangedFactory("Root.Configurations." + args.NewItem.Key, JsonSerializer.Serialize(args.NewItem.Value, _options), null);
+                                SpecificConfigBind(args.NewItem.Key, args.NewItem.Value);
                             }
                             else
                             {
                                 foreach (var value in args.NewItems)
                                 {
-                                    value.Value.GUI.PropertyChanged += OnPropertyChangedFactory("Root.Configurations." + value.Key, JsonSerializer.Serialize(value.Value, _options), null);
+                                    SpecificConfigBind(args.NewItem.Key, args.NewItem.Value);
                                 }
                             }
 
@@ -144,15 +142,54 @@ namespace MaaWpfGui.Configuration
                 parsed.AnnouncementInfo.PropertyChanged += OnPropertyChangedFactory();
                 parsed.GUI.PropertyChanged += OnPropertyChangedFactory();
 
+                parsed.CurrentConfig ??= new SpecificConfig();
                 foreach (var keyValue in parsed.Configurations)
                 {
-                    var key = "Root.Configurations." + keyValue.Key + ".";
-                    keyValue.Value.DragItemIsChecked.CollectionChanged += OnCollectionChangedFactory<string, bool>(key + nameof(SpecificConfig.DragItemIsChecked) + ".");
-                    keyValue.Value.InfrastOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.InfrastOrder) + ".");
-                    keyValue.Value.TaskQueueOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.TaskQueueOrder) + ".");
+                    SpecificConfigBind(keyValue.Key, keyValue.Value);
                 }
 
                 return parsed;
+
+                void SpecificConfigBind(string name, SpecificConfig config)
+                {
+                    var key = "Root.Configurations." + name + ".";
+                    config.DragItemIsChecked.CollectionChanged += OnCollectionChangedFactory<string, bool>(key + nameof(SpecificConfig.DragItemIsChecked) + ".");
+                    config.InfrastOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.InfrastOrder) + ".");
+                    config.TaskQueueOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.TaskQueueOrder) + ".");
+                    /*
+                    config.TaskQueue.CollectionChanged += (in NotifyCollectionChangedEventArgs<BaseTask> args) =>
+                    {
+                        switch (args.Action)
+                        {
+                            case NotifyCollectionChangedAction.Add:
+                            case NotifyCollectionChangedAction.Replace:
+                                if (args.IsSingleItem)
+                                {
+                                    args.NewItem.PropertyChanged += OnPropertyChangedFactory(key + args.NewItem.GetType().Name + ".");
+                                }
+                                else
+                                {
+                                    foreach (var value in args.NewItems)
+                                    {
+                                        value.PropertyChanged += OnPropertyChangedFactory(key + value.GetType().Name + ".");
+                                    }
+                                }
+
+                                break;
+                            case NotifyCollectionChangedAction.Remove:
+                            case NotifyCollectionChangedAction.Move:
+                            case NotifyCollectionChangedAction.Reset:
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
+                    };
+                    foreach (var task in config.TaskQueue)
+                    {
+                        // TODO 改名
+                        task.PropertyChanged += OnPropertyChangedFactory(key + ".zdjd.");
+                    }*/
+                }
             }
         });
 
