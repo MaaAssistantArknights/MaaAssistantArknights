@@ -37,47 +37,23 @@ jobs:
       github.event.pull_request.base.repo.full_name
     runs-on: windows-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+          submodules: recursive
+      
       - name: Cache smoke-testing Sample.exe
         id: cache-exe
         uses: actions/cache@v4
         with:
           key: Smoke-testing-sample.exe-${{ github.ref }}-${{ hashFiles('src/**', 'CMakeLists.txt', '3rdparty/include/**', 'include/**', 'cmake/**', 'MAA.sln', 'MaaDeps/**') }}
           path: |
-            ./x64/Debug/Sample.exe
-            ./x64/Debug/fastdeploy_ppocr.dll
-            ./x64/Debug/MaaCore.dll
-            ./x64/Debug/onnxruntime_maa.dll
-            ./x64/Debug/opencv_world4d_maa.dll
-
-      - name: Checkout resources
-        if: steps.cache-exe.outputs.cache-hit != 'true'
-        uses: actions/checkout@v4
-        with:
-          show-progress: false
-          sparse-checkout-cone-mode: false
-          sparse-checkout: |
-            /resource/Arknights-Tile-Pos/overview.json
-            /resource/global
-            /resource/onnx
-            /resource/PaddleCharOCR
-            /resource/PaddleOCR
-            /resource/roguelike
-            /resource/template
-            /resource/battle_data.json
-            /resource/config.json
-            /resource/infrast.json
-            /resource/item_index.json
-            /resource/ocr_config.json
-            /resource/recruitment.json
-            /resource/stages.json
-            /resource/tasks.json
-
-      - name: Checkout code
-        if: steps.cache-exe.outputs.cache-hit != 'true'
-        uses: actions/checkout@v4
-        with:
-          show-progress: false
-          submodules: recursive
+            .x64/Debug/Sample.exe
+            .x64/Debug/fastdeploy_ppocr.dll
+            .x64/Debug/MaaCore.dll
+            .x64/Debug/onnxruntime_maa.dll
+            .x64/Debug/opencv_world4d_maa.dll
 
       - name: Cache .nuke/temp, ~/.nuget/packages
         if: steps.cache-exe.outputs.cache-hit != 'true'
@@ -90,7 +66,7 @@ jobs:
           key: ${{ runner.os }}-x64-${{ hashFiles('**/global.json', '**/*.csproj') }}
 
       - name: Restore dependencies
-        if: steps.cache-exe.outputs.cache-hit != 'true' && steps.cache-nuget.outputs.cache-hit != 'true'
+        if: steps.cache-exe.outputs.cache-hit != 'true' && steps.cache-nuget.outputs.cache-hit != 'true' 
         run: dotnet restore
 
       - name: Cache MaaDeps
