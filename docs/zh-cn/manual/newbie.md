@@ -17,11 +17,7 @@ icon: ri:guide-fill
 
 2. 安装运行库
 
-    MAA 需要 VCRedist x64 和 .NET 8，请右键开始按钮打开终端，在终端内粘贴以下命令回车以进行安装。
-
-    ```sh
-    winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
-    ```
+    MAA 需要 VCRedist x64 和 .NET 8，请运行 MAA 目录下的 `DependencySetup_依赖库安装.bat` 以安装。
 
     更多信息请参考[常见问题](./faq.md)置顶。
 

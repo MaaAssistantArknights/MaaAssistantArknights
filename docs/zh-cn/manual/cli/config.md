@@ -462,9 +462,9 @@ passphrase = "password"       # ssh 密钥的密码
 [task-types]: ../../protocol/integration.md#任务类型一览
 [emulator-ports]: ../../manual/connection.md#获取端口号
 [playcover-doc]: ../../manual/device/macos.md#✅-playcover-原生运行最流畅-🚀
-[example-config]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/config_examples
+[example-config]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/config_examples
 [wangl-cc-dotfiles]: https://github.com/wangl-cc/dotfiles/tree/master/.config/maa
-[schema-dir]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/schemas/
-[task-schema]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/schemas/task.schema.json
-[asst-schema]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/schemas/asst.schema.json
-[cli-schema]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/schemas/cli.schema.json
+[schema-dir]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/schemas/
+[task-schema]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/schemas/task.schema.json
+[asst-schema]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/schemas/asst.schema.json
+[cli-schema]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/schemas/cli.schema.json

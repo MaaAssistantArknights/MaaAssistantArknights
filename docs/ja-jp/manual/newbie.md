@@ -15,11 +15,7 @@ icon: ri:guide-fill
 
 2. ランタイムライブラリをインストールする
 
-   MAAはVCRedist x64と.NET 8が必要です。スタートボタンを右クリックしてターミナルを開き、下記のコマンドを入力しエンターキーを押してインストールしてください。
-
-   ```sh
-   winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
-   ```
+   MAAはVCRedist x64と.NET 8が必要です。MAAディレクトリ内の `DependencySetup_依赖库安装.bat` を実行してインストールしてください。
 
 3. 環境にあったバージョンのダウンロード
 

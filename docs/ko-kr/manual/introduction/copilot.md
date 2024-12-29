@@ -28,7 +28,7 @@ Copilot은 `일반/이벤트 스테이지` 및 `보안파견` 등을 지원합�
   - 전투 목록에 있는 스테이지는 `동일한 지역`에 있어야 합니다. (지도를 좌우로 스크롤하여 이동할 수 있어야 합니다)
 - **우수한 Copilot 파일에 반드시 추천을 눌러 제작자를 격려하세요! 큰 도움이 됩니다!**
 
-  ![image](/image/zh-cn/copilot-click-like.png)
+  ![image](/images/zh-cn/copilot-click-like.png)
 
 ## Copilot 파일 작성
 

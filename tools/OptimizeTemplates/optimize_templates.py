@@ -47,7 +47,7 @@ def get_file_id(file_path: str):
     m = re.search(r"resource/(.*)\.png", file_id)
     if m: return f"resource/{m.group(1)}"
     # docs\\.vuepress\\public\\image\\PATH\\TO\\xxx.png -> docs/PATH/TO/xxx
-    m = re.search(r"docs/.vuepress/public/image/(.*)\.png", file_id)
+    m = re.search(r"docs/.vuepress/public/images/(.*)\.png", file_id)
     if m: return f"docs/{m.group(1)}"
     # website\\apps\\web\\PATH\\TO\\xxx.png -> web/PATH/TO/xxx
     m = re.search(r"website/apps/web/(.*)\.png", file_id)

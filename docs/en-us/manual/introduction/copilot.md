@@ -32,7 +32,7 @@ Supports automatic combat for any `Squad Formation Stage` and `Stationary Securi
   - After enabling this feature, start automatic combat on the **map screen where the stages are located**. The automatic combat queue will stop if sanity is insufficient, combat fails, or the settlement is not three stars.
   - Ensure that the stages in the list are in the same area (can be navigated by swiping the map screen left or right).
 - Remember to like the tasks that you found helpful!
-  ![image](/image/zh-cn/copilot-click-like.png)
+  ![image](/images/zh-cn/copilot-click-like.png)
 
 ## Create Tasks
 

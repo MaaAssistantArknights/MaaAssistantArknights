@@ -6,7 +6,7 @@ on:
       - "dev"
     paths:
       - "resource/**/*.png"
-      - "docs/.vuepress/public/image/**"
+      - "docs/.vuepress/public/images/**"
       - "website/apps/web/public/**"
       - "website/apps/web/src/assets/links/**"
   workflow_dispatch:
