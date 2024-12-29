@@ -308,7 +308,7 @@ namespace MaaWpfGui.Helper
             Execute.OnUIThread(() =>
             {
                 // TODO: 整理过时代码
-                if (!ConfigFactory.CurrentConfig.GUI.UseNotify)
+                if (!ConfigFactory.Root.GUI.UseNotify)
                 {
                     return;
                 }

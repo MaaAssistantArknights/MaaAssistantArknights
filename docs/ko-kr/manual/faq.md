@@ -9,15 +9,16 @@ MAA를 처음 사용하는 경우 [초보자 가이드](./newbie.md)를 읽어�
 
 ::: warning
 
-MAA 오류 창에서 이 페이지로 이동한 경우, 대부분의 경우 런타임 라이브러리를 업데이트하지 않아 발생한 문제입니다.  
-가장 자주 발생하는 문제는 런타임 라이브러리 문제이며, 문서를 보지 않고 여기저기 묻는 사람들이 많아 이 메시지를 고정했습니다. 정말 답답합니다.
+MAA가 업데이트 후 실행되지 않거나 MAA의 오류 창을 통해 여기에 도달했다면, 이는 대부분 실행 라이브러리가 업데이트되지 않은 문제 때문입니다.  
+가장 자주 발생하는 문제는 실행 라이브러리 문제이며, 많은 사람들이 문서를 읽지 않고 질문만 하기 때문에 공지 내용을 이걸로 교체했습니다.
 
-MAA가 업데이트 후 실행되지 않는 경우, 런타임 라이브러리 버전 문제일 가능성이 큽니다. 다음 두 개의 런타임 라이브러리를 업데이트해야 합니다.  
-터미널에서 다음 명령을 실행하거나, <u>**두 개의**</u> 런타임 라이브러리를 수동으로 다운로드하여 설치하십시오.
+MAA 디렉토리에서 `DependencySetup_依赖库安装.bat`를 실행하거나, 터미널에서 아래 명령을 실행하거나,
 
 ```sh
-winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
+winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements && winget install "Microsoft.DotNet.DesktopRuntime.8" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements
 ```
+
+아래<u>**두 개**</u>의 실행 라이브러리를 수동으로 다운로드하여 설치하여 문제를 해결하세요.
 
 - [Visual C++ 재배포 가능 패키지](https://aka.ms/vs/17/release/vc_redist.x64.exe)
 - [.NET 데스크톱 런타임 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=Binaries-,Windows,-x64)
@@ -32,18 +33,9 @@ winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
   대부분의 경우, x64 아키텍처의 MAA를 사용해야 합니다. 즉, `MAA-*-win-x64.zip`을 다운로드해야 하며, `MAA-*-win-arm64.zip`이 아닙니다.
 - 자동 업데이트 후 기능이 누락되었거나 작동하지 않는 경우, 업데이트 과정에서 문제가 발생했을 수 있습니다. 전체 설치 패키지를 다시 다운로드하고 압축을 해제하세요. 압축 해제 후, 이전 `MAA` 폴더에 있는 `config` 폴더를 새로 압축 해제된 `MAA` 폴더로 직접 드래그하세요.
 
-### 가능성 2: 런타임 문제
+### 런타임 문제
 
-::: info 안내
-이곳에서는 공식 설치 방법만 안내합니다. 공식 설치가 아닌 제 3자의 설치 패키지의 신뢰성은 보장할 수 없습니다.
-:::
-
-- [VCRedist x64](https://aka.ms/vs/17/release/vc_redist.x64.exe)와 [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=Binaries-,Windows,-x64)를 설치하고 컴퓨터를 다시 시작한 후 MAA를 다시 실행해보세요.
-Windows 10 또는 11을 사용하는 경우 winget 도구를 사용하여 설치할 수도 있습니다. 다음 명령어를 터미널에서 실행하세요.
-
-  ```sh
-  winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
-  ```
+웹 페이지 오른쪽 아래에 있는 위로 ↑ 화살표를 찾아 클릭하세요.
 
 #### Windows N/KN 관련
 

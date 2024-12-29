@@ -5498,6 +5498,114 @@
         "stageId": "act19side_tr01",
         "width": 10
     },
+    "act1arcade_m1_01-activities/act1arcade/level_act1arcade_m1_01": {
+        "code": "PM-1",
+        "filename": "act1arcade_m1_01-activities-act1arcade-level_act1arcade_m1_01.json",
+        "height": 9,
+        "levelId": "activities/act1arcade/level_act1arcade_m1_01",
+        "name": "捣乱毛绒",
+        "stageId": "act1arcade_m1_01",
+        "width": 11
+    },
+    "act1arcade_m1_02-activities/act1arcade/level_act1arcade_m1_02": {
+        "code": "PM-2",
+        "filename": "act1arcade_m1_02-activities-act1arcade-level_act1arcade_m1_02.json",
+        "height": 9,
+        "levelId": "activities/act1arcade/level_act1arcade_m1_02",
+        "name": "叛乱兽群",
+        "stageId": "act1arcade_m1_02",
+        "width": 11
+    },
+    "act1arcade_m1_03-activities/act1arcade/level_act1arcade_m1_03": {
+        "code": "PM-3",
+        "filename": "act1arcade_m1_03-activities-act1arcade-level_act1arcade_m1_03.json",
+        "height": 9,
+        "levelId": "activities/act1arcade/level_act1arcade_m1_03",
+        "name": "出逃化物",
+        "stageId": "act1arcade_m1_03",
+        "width": 13
+    },
+    "act1arcade_m2_01-activities/act1arcade/level_act1arcade_m2_01": {
+        "code": "PM-4",
+        "filename": "act1arcade_m2_01-activities-act1arcade-level_act1arcade_m2_01.json",
+        "height": 7,
+        "levelId": "activities/act1arcade/level_act1arcade_m2_01",
+        "name": "喷泉广场",
+        "stageId": "act1arcade_m2_01",
+        "width": 11
+    },
+    "act1arcade_m2_02-activities/act1arcade/level_act1arcade_m2_02": {
+        "code": "PM-5",
+        "filename": "act1arcade_m2_02-activities-act1arcade-level_act1arcade_m2_02.json",
+        "height": 7,
+        "levelId": "activities/act1arcade/level_act1arcade_m2_02",
+        "name": "占领蒸汽",
+        "stageId": "act1arcade_m2_02",
+        "width": 11
+    },
+    "act1arcade_m2_03-activities/act1arcade/level_act1arcade_m2_03": {
+        "code": "PM-6",
+        "filename": "act1arcade_m2_03-activities-act1arcade-level_act1arcade_m2_03.json",
+        "height": 9,
+        "levelId": "activities/act1arcade/level_act1arcade_m2_03",
+        "name": "决战“汽水侠”",
+        "stageId": "act1arcade_m2_03",
+        "width": 11
+    },
+    "act1arcade_m3_01-activities/act1arcade/level_act1arcade_m3_01": {
+        "code": "PM-7",
+        "filename": "act1arcade_m3_01-activities-act1arcade-level_act1arcade_m3_01.json",
+        "height": 7,
+        "levelId": "activities/act1arcade/level_act1arcade_m3_01",
+        "name": "峰回路转",
+        "stageId": "act1arcade_m3_01",
+        "width": 10
+    },
+    "act1arcade_m3_02-activities/act1arcade/level_act1arcade_m3_02": {
+        "code": "PM-8",
+        "filename": "act1arcade_m3_02-activities-act1arcade-level_act1arcade_m3_02.json",
+        "height": 8,
+        "levelId": "activities/act1arcade/level_act1arcade_m3_02",
+        "name": "环环相扣",
+        "stageId": "act1arcade_m3_02",
+        "width": 12
+    },
+    "act1arcade_m3_03-activities/act1arcade/level_act1arcade_m3_03": {
+        "code": "PM-9",
+        "filename": "act1arcade_m3_03-activities-act1arcade-level_act1arcade_m3_03.json",
+        "height": 7,
+        "levelId": "activities/act1arcade/level_act1arcade_m3_03",
+        "name": "百折千回",
+        "stageId": "act1arcade_m3_03",
+        "width": 11
+    },
+    "act1arcade_m4_01-activities/act1arcade/level_act1arcade_m4_01": {
+        "code": "PM-10",
+        "filename": "act1arcade_m4_01-activities-act1arcade-level_act1arcade_m4_01.json",
+        "height": 7,
+        "levelId": "activities/act1arcade/level_act1arcade_m4_01",
+        "name": "陆上行船",
+        "stageId": "act1arcade_m4_01",
+        "width": 9
+    },
+    "act1arcade_m4_02-activities/act1arcade/level_act1arcade_m4_02": {
+        "code": "PM-11",
+        "filename": "act1arcade_m4_02-activities-act1arcade-level_act1arcade_m4_02.json",
+        "height": 7,
+        "levelId": "activities/act1arcade/level_act1arcade_m4_02",
+        "name": "冲出激浪",
+        "stageId": "act1arcade_m4_02",
+        "width": 11
+    },
+    "act1arcade_m4_03-activities/act1arcade/level_act1arcade_m4_03": {
+        "code": "PM-12",
+        "filename": "act1arcade_m4_03-activities-act1arcade-level_act1arcade_m4_03.json",
+        "height": 8,
+        "levelId": "activities/act1arcade/level_act1arcade_m4_03",
+        "name": "环绕大地",
+        "stageId": "act1arcade_m4_03",
+        "width": 12
+    },
     "act1bossrush_01-activities/act1bossrush/level_bossrush1_01": {
         "code": "TN-1",
         "filename": "act1bossrush_01-activities-act1bossrush-level_bossrush1_01.json",
@@ -12525,6 +12633,15 @@
         "levelId": "obt/campaign/level_camp_r_25",
         "name": "66号航道",
         "stageId": "camp_r_25",
+        "width": 13
+    },
+    "camp_r_26-obt/campaign/level_camp_r_26": {
+        "code": "炎国",
+        "filename": "camp_r_26-obt-campaign-level_camp_r_26.json",
+        "height": 9,
+        "levelId": "obt/campaign/level_camp_r_26",
+        "name": "壬午号水稻田",
+        "stageId": "camp_r_26",
         "width": 13
     },
     "easy_09-01-obt/main/level_easy_09-01": {

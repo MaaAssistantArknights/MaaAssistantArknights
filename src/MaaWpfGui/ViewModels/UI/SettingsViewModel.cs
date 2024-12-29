@@ -266,7 +266,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public const string PallasLangKey = "pallas";
 
-        private bool _cheers = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Cheers, bool.FalseString));
+        private bool _cheers = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Cheers, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to cheer.
@@ -282,15 +282,15 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 SetAndNotify(ref _cheers, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.Cheers, value.ToString());
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.Cheers, value.ToString());
                 if (_cheers)
                 {
-                    ConfigurationHelper.SetValue(ConfigurationKeys.Localization, PallasLangKey);
+                    ConfigurationHelper.SetGlobalValue(ConfigurationKeys.Localization, PallasLangKey);
                 }
             }
         }
 
-        private bool _hangover = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Hangover, bool.FalseString));
+        private bool _hangover = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Hangover, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to hangover.
@@ -301,7 +301,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _hangover, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.Hangover, value.ToString());
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.Hangover, value.ToString());
             }
         }
 
@@ -340,12 +340,12 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            ConfigurationHelper.SetValue(ConfigurationKeys.Localization, SoberLanguage);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.Localization, SoberLanguage);
             Hangover = true;
             Cheers = false;
         }
 
-        private string _soberLanguage = ConfigurationHelper.GetValue(ConfigurationKeys.SoberLanguage, LocalizationHelper.DefaultLanguage);
+        private string _soberLanguage = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.SoberLanguage, LocalizationHelper.DefaultLanguage);
 
         public string SoberLanguage
         {
@@ -353,7 +353,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _soberLanguage, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.SoberLanguage, value);
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.SoberLanguage, value);
             }
         }
 

@@ -52,7 +52,7 @@ order: 3
   - For the SS event rerun, you can enter `SSReopen-XX` to clear XX-1 ~ XX-9 levels once. Example `SSReopen-IC`.
 
 ::: details Example
-![Example](/image/en-us/combat-start-interface-example.png)
+![Example](/images/en-us/combat-start-interface-example.png)
 :::
 
 ### Annihilation Mode

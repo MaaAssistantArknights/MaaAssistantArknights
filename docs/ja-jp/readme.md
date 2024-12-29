@@ -9,7 +9,7 @@ dir:
 
 ::: center
 
-![MAA Logo](/image/maa-logo_512x512.png =256x256)
+![MAA Logo](/images/maa-logo_512x512.png =256x256)
 
 <!-- markdownlint-restore -->
 
@@ -53,12 +53,12 @@ UIを見れば使い方もすぐ分かる！
 {
   "imageList": [
     {
-      "light": "image/ja-jp/readme/1-light.png",
-      "dark": "image/ja-jp/readme/1-light.png"
+      "light": "images/ja-jp/readme/1-light.png",
+      "dark": "images/ja-jp/readme/1-light.png"
     },
     {
-      "light": "image/ja-jp/readme/2-light.png",
-      "dark": "image/ja-jp/readme/2-light.png"
+      "light": "images/ja-jp/readme/2-light.png",
+      "dark": "images/ja-jp/readme/2-light.png"
     }
   ]
 }

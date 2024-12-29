@@ -45,7 +45,12 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 /// </summary>
 public class ConnectSettingsUserControlModel : PropertyChangedBase
 {
-    public static ConnectSettingsUserControlModel Instance { get; } = new();
+    static ConnectSettingsUserControlModel()
+    {
+        Instance = new();
+    }
+
+    public static ConnectSettingsUserControlModel Instance { get; }
 
     private static readonly ILogger _logger = Log.ForContext<ConnectSettingsUserControlModel>();
 

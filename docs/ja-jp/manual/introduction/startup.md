@@ -14,6 +14,8 @@ This page is outdated and maybe still in Simplified Chinese. Translation is need
 
 ## 账号切换
 
+この機能は、設定の切り替えやスケジュール実行と一緒に使用する必要があります。`ウェイクアップ` タスクが実行されるたびに、アカウント切り替え操作が行われます。
+
 仅支持切换至已登录的账号，使用登录名进行查找，请保证输入内容在所有已登录账号唯一。
 
 - 例子：

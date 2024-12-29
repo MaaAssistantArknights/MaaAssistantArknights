@@ -29,7 +29,12 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
 public class GuiSettingsUserControlModel : PropertyChangedBase
 {
-    public static GuiSettingsUserControlModel Instance { get; } = new();
+    static GuiSettingsUserControlModel()
+    {
+        Instance = new();
+    }
+
+    public static GuiSettingsUserControlModel Instance { get; }
 
     /// <summary>
     /// Gets or sets the language list.
@@ -65,7 +70,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             new() { Display = LocalizationHelper.GetString("Switchable"), Value = "ClearInverse" },
          ];
 
-    private bool _useTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseTray, bool.TrueString));
+    private bool _useTray = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UseTray, bool.TrueString));
 
     /// <summary>
     /// Gets or sets a value indicating whether to use tray icon.
@@ -81,12 +86,12 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             }
 
             SetAndNotify(ref _useTray, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseTray, value.ToString());
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UseTray, value.ToString());
             Instances.MainWindowManager.SetUseTrayIcon(value);
         }
     }
 
-    private bool _minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
+    private bool _minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
 
     /// <summary>
     /// Gets or sets a value indicating whether to minimize to tray.
@@ -97,12 +102,12 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         set
         {
             SetAndNotify(ref _minimizeToTray, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.MinimizeToTray, value.ToString());
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MinimizeToTray, value.ToString());
             Instances.MainWindowManager.SetMinimizeToTray(value);
         }
     }
 
-    private bool _windowTitleScrollable = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitleScrollable, bool.FalseString));
+    private bool _windowTitleScrollable = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.WindowTitleScrollable, bool.FalseString));
 
     /// <summary>
     /// Gets or sets a value indicating whether to make window title scrollable.
@@ -113,13 +118,13 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         set
         {
             SetAndNotify(ref _windowTitleScrollable, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.WindowTitleScrollable, value.ToString());
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.WindowTitleScrollable, value.ToString());
             var rvm = (RootViewModel)Instances.SettingsViewModel.Parent;
             rvm.WindowTitleScrollable = value;
         }
     }
 
-    private bool _hideCloseButton = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideCloseButton, bool.FalseString));
+    private bool _hideCloseButton = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.HideCloseButton, bool.FalseString));
 
     /// <summary>
     /// Gets or sets a value indicating whether to hide close button.
@@ -130,7 +135,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         set
         {
             SetAndNotify(ref _hideCloseButton, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.HideCloseButton, value.ToString());
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.HideCloseButton, value.ToString());
             var rvm = (RootViewModel)Instances.SettingsViewModel.Parent;
             rvm.ShowCloseButton = !value;
         }
@@ -141,11 +146,10 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     /// </summary>
     public bool UseNotify
     {
-        get => ConfigFactory.CurrentConfig.GUI.UseNotify;
+        get => ConfigFactory.Root.GUI.UseNotify;
         set
         {
-            ConfigFactory.CurrentConfig.GUI.UseNotify = value;
-            NotifyOfPropertyChange();
+            ConfigFactory.Root.GUI.UseNotify = value;
             if (value)
             {
                 ToastNotification.ShowDirect("Test test");
@@ -156,15 +160,15 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     public List<string> LogItemDateFormatStringList { get; } =
     [
         "HH:mm:ss",
-            "MM-dd  HH:mm:ss",
-            "MM/dd  HH:mm:ss",
-            "MM.dd  HH:mm:ss",
-            "dd-MM  HH:mm:ss",
-            "dd/MM  HH:mm:ss",
-            "dd.MM  HH:mm:ss",
-        ];
+        "MM-dd  HH:mm:ss",
+        "MM/dd  HH:mm:ss",
+        "MM.dd  HH:mm:ss",
+        "dd-MM  HH:mm:ss",
+        "dd/MM  HH:mm:ss",
+        "dd.MM  HH:mm:ss",
+    ];
 
-    private string _logItemDateFormatString = ConfigurationHelper.GetValue(ConfigurationKeys.LogItemDateFormat, "HH:mm:ss");
+    private string _logItemDateFormatString = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.LogItemDateFormat, "HH:mm:ss");
 
     public string LogItemDateFormatString
     {
@@ -172,7 +176,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         set
         {
             SetAndNotify(ref _logItemDateFormatString, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.LogItemDateFormat, value);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.LogItemDateFormat, value);
         }
     }
 
@@ -181,10 +185,10 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     /// </summary>
     public DarkModeType DarkMode
     {
-        get => ConfigFactory.CurrentConfig.GUI.DarkMode;
+        get => ConfigFactory.Root.GUI.DarkMode;
         set
         {
-            ConfigFactory.CurrentConfig.GUI.DarkMode = value;
+            ConfigFactory.Root.GUI.DarkMode = value;
             NotifyOfPropertyChange();
             SwitchDarkMode();
 
@@ -196,7 +200,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
 
     public void SwitchDarkMode()
     {
-        DarkModeType darkModeType = ConfigFactory.CurrentConfig.GUI.DarkMode;
+        DarkModeType darkModeType = ConfigFactory.Root.GUI.DarkMode;
         switch (darkModeType)
         {
             case DarkModeType.Light:
@@ -224,7 +228,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     }
 
     private InverseClearType _inverseClearMode =
-        Enum.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.InverseClearMode, InverseClearType.Clear.ToString()), out InverseClearType temp)
+        Enum.TryParse(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.InverseClearMode, InverseClearType.Clear.ToString()), out InverseClearType temp)
             ? temp
             : InverseClearType.Clear;
 
@@ -242,7 +246,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             }
 
             SetAndNotify(ref _inverseClearMode, tempEnumValue);
-            ConfigurationHelper.SetValue(ConfigurationKeys.InverseClearMode, value);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.InverseClearMode, value);
             switch (tempEnumValue)
             {
                 case InverseClearType.Clear:
@@ -286,7 +290,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         set => SetAndNotify(ref _windowTitleAllShowList, value);
     }
 
-    private static object[] _windowTitleSelectShowList = ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitleSelectShowList, "1 2 3 4")
+    private static object[] _windowTitleSelectShowList = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.WindowTitleSelectShowList, "1 2 3 4")
         .Split(' ')
         .Where(s => _windowTitleAllShowDict.ContainsValue(s.ToString()))
         .Select(s => _windowTitleAllShowDict.FirstOrDefault(pair => pair.Value == s).Key)
@@ -300,11 +304,11 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             SetAndNotify(ref _windowTitleSelectShowList, value);
             Instances.SettingsViewModel.UpdateWindowTitle();
             var config = string.Join(' ', _windowTitleSelectShowList.Cast<string>().Select(s => _windowTitleAllShowDict[s]));
-            ConfigurationHelper.SetValue(ConfigurationKeys.WindowTitleSelectShowList, config);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.WindowTitleSelectShowList, config);
         }
     }
 
-    private string _language = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
+    private string _language = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
 
     /// <summary>
     /// Gets or sets the language.
@@ -331,7 +335,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             }
 
             // var backup = _language;
-            ConfigurationHelper.SetValue(ConfigurationKeys.Localization, value);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.Localization, value);
 
             var mainWindow = Application.Current.MainWindow;
 
@@ -370,7 +374,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     {
         get
         {
-            var language = (string)Application.Current.Resources["Language"];
+            var language = (string?)Application.Current.Resources["Language"];
             return language == "Language" ? language : language + " / Language";
         }
     }
@@ -378,7 +382,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Opername display language, can set force display when it was set as "OperNameLanguageForce.en-us"
     /// </summary>
-    private string _operNameLanguage = ConfigurationHelper.GetValue(ConfigurationKeys.OperNameLanguage, "OperNameLanguageMAA");
+    private string _operNameLanguage = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.OperNameLanguage, "OperNameLanguageMAA");
 
     public string OperNameLanguage
     {
@@ -408,12 +412,12 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             switch (value)
             {
                 case "OperNameLanguageClient":
-                    ConfigurationHelper.SetValue(ConfigurationKeys.OperNameLanguage, value);
+                    ConfigurationHelper.SetGlobalValue(ConfigurationKeys.OperNameLanguage, value);
                     break;
 
                 case "OperNameLanguageMAA":
                 default:
-                    ConfigurationHelper.SetValue(ConfigurationKeys.OperNameLanguage, "OperNameLanguageMAA");
+                    ConfigurationHelper.SetGlobalValue(ConfigurationKeys.OperNameLanguage, "OperNameLanguageMAA");
                     break;
             }
 

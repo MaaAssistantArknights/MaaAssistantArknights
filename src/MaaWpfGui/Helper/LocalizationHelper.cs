@@ -68,7 +68,7 @@ namespace MaaWpfGui.Helper
             }
         }
 
-        private static readonly string _culture = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, DefaultLanguage);
+        private static readonly string _culture = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, DefaultLanguage);
 
         private static readonly string _customCulture = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.CustomCulture, string.Empty);
 

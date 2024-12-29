@@ -27,7 +27,12 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 /// </summary>
 public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
 {
-    public static ExternalNotificationSettingsUserControlModel Instance { get; } = new();
+    static ExternalNotificationSettingsUserControlModel()
+    {
+        Instance = new();
+    }
+
+    public static ExternalNotificationSettingsUserControlModel Instance { get; }
 
     // UI 绑定的方法
     // ReSharper disable once UnusedMember.Global

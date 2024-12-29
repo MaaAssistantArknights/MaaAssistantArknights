@@ -59,7 +59,7 @@ namespace MaaWpfGui.Views.UI
         private void InitIcon()
         {
             notifyIcon.Icon = AppIcon.GetIcon();
-            notifyIcon.Visibility = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseTray, bool.TrueString)) ? Visibility.Visible : Visibility.Collapsed;
+            notifyIcon.Visibility = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UseTray, bool.TrueString)) ? Visibility.Visible : Visibility.Collapsed;
 
             notifyIcon.Click += NotifyIcon_MouseClick;
             notifyIcon.MouseDoubleClick += NotifyIcon_MouseClick;
