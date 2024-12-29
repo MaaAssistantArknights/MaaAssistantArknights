@@ -85,7 +85,7 @@ jobs:
           foreach ($client in $clients) {
             $jobs += Start-Job -ScriptBlock {
               param ($client)
-              ./x64/Debug/Sample.exe $client > $null
+              ./x64/Debug/Sample.exe $client > ./x64/Debug/debug/asst_$client.log 
             } -ArgumentList $client
           }
           $jobs | ForEach-Object { Receive-Job -Job $_ -Wait }
