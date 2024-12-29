@@ -73,62 +73,20 @@ jobs:
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v2
+        with:
+          msbuild-architecture: x64
 
       - name: Build MaaSample
         run: |
           MSBUILD src/Cpp/MaaSample.slnf -t:restore,build -p:Configuration="Debug" -p:Platform="x64" -m
 
-      - name: Save build artifact to cache
-        uses: actions/cache/save@v4
-        with:
-          key: DELETE_KEY-smoke-testing-artifact-${{ github.ref }}
-          path: |
-            ./x64/Debug
-
-  test:
-    # Prevent duplicate runs on organization branches with PRs
-    if: github.event_name != 'pull_request' ||
-      github.event.pull_request.head.repo.full_name !=
-      github.event.pull_request.base.repo.full_name
-
-    needs: build
-    runs-on: windows-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        client: [Official, YostarJP, YostarEN, YostarKR, txwy]
-
-    steps:
-      - name: Restore build artifact from cache
-        id: cache-smoke-testing
-        uses: actions/cache/restore@v4
-        with:
-          key: DELETE_KEY-smoke-testing-artifact-${{ github.ref }}
-          path: |
-            ./x64/Debug
-
-      - name: Run tests - ${{ matrix.client }}
+      - name: Run tests
         run: |
-          ./x64/Debug/Sample.exe ${{ matrix.client }}
+          pwsh tools/SmokeTesting/run_tests.ps1
 
       - name: Upload logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: log-${{ matrix.client }}
+          name: logs
           path: ./x64/Debug/debug
-
-      - name: Delete cache
-        if: always()
-        run: |
-          if ("${{ matrix.client }}" -eq "Official") {
-            $cacheKey = "DELETE_KEY-smoke-testing-artifact-${{ github.ref }}"
-
-            Write-Host "Deleting cache: $cacheKey"
-
-            curl -L -X DELETE `
-              -H "Accept: application/vnd.github+json" `
-              -H "Authorization: Bearer ${{secrets.MAA_ACTION_READ_WRITE}}" `
-              -H "X-GitHub-Api-Version: 2022-11-28" `
-              "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/actions/caches?key=$cacheKey"
-          }
