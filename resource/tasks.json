@@ -510,7 +510,9 @@
             "TerminalMistCity.png",
             "TerminalSiege.png",
             "TerminalSarkaz.png",
-            "TerminalDelicious.png"
+            "TerminalDelicious.png",
+            "TerminalGaming.png",
+            "TerminalDahuangCity.png"
         ],
         "maxTimes": 3,
         "exceededNext": ["Stop"],
@@ -2232,7 +2234,9 @@
             "TerminalMistCity.png",
             "TerminalSiege.png",
             "TerminalSarkaz.png",
-            "TerminalDelicious.png"
+            "TerminalDelicious.png",
+            "TerminalGaming.png",
+            "TerminalDahuangCity.png"
         ],
         "baseTask": "StartUp",
         "next": ["Settings"]
@@ -2441,7 +2445,9 @@
             "TerminalMistCity.png",
             "TerminalSiege.png",
             "TerminalSarkaz.png",
-            "TerminalDelicious.png"
+            "TerminalDelicious.png",
+            "TerminalGaming.png",
+            "TerminalDahuangCity.png"
         ],
         "next": ["Home", "StartUpBegin"],
         "postDelay_Doc": "等待以防万一（StartUp还有双倍的任务延迟等待，默认0.5s x2",
@@ -2465,7 +2471,9 @@
             "TerminalMistCity.png",
             "TerminalSiege.png",
             "TerminalSarkaz.png",
-            "TerminalDelicious.png"
+            "TerminalDelicious.png",
+            "TerminalGaming.png",
+            "TerminalDahuangCity.png"
         ],
         "roi": [844, 58, 268, 272],
         "Doc": "有时候明明已经在主界面了，停了一小会又弹个窗。多检测几次，一直在主界面才算完成",
@@ -3012,7 +3020,9 @@
             "TerminalMistCity.png",
             "TerminalSiege.png",
             "TerminalSarkaz.png",
-            "TerminalDelicious.png"
+            "TerminalDelicious.png",
+            "TerminalGaming.png",
+            "TerminalDahuangCity.png"
         ],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
@@ -3045,7 +3055,9 @@
             "RecruitMistCity.png",
             "RecruitSiege.png",
             "RecruitSarkaz.png",
-            "RecruitDelicious.png"
+            "RecruitDelicious.png",
+            "RecruitGaming.png",
+            "RecruitDahuangCity.png"
         ],
         "action": "ClickSelf",
         "roi": [900, 450, 200, 150],
@@ -3121,7 +3133,9 @@
             "TerminalMistCity.png",
             "TerminalSiege.png",
             "TerminalSarkaz.png",
-            "TerminalDelicious.png"
+            "TerminalDelicious.png",
+            "TerminalGaming.png",
+            "TerminalDahuangCity.png"
         ],
         "next": ["MiningActivities", "Stop"]
     },
@@ -3163,7 +3177,9 @@
             "TerminalMistCity.png",
             "TerminalSiege.png",
             "TerminalSarkaz.png",
-            "TerminalDelicious.png"
+            "TerminalDelicious.png",
+            "TerminalGaming.png",
+            "TerminalDahuangCity.png"
         ],
         "next": ["OrundumActivities", "Stop"]
     },
@@ -3242,7 +3258,9 @@
             "TerminalMistCity.png",
             "TerminalSiege.png",
             "TerminalSarkaz.png",
-            "TerminalDelicious.png"
+            "TerminalDelicious.png",
+            "TerminalGaming.png",
+            "TerminalDahuangCity.png"
         ],
         "next": ["RecruitingActivities", "Stop"]
     },
@@ -3317,7 +3335,9 @@
             "TerminalMistCity.png",
             "TerminalSiege.png",
             "TerminalSarkaz.png",
-            "TerminalDelicious.png"
+            "TerminalDelicious.png",
+            "TerminalGaming.png",
+            "TerminalDahuangCity.png"
         ],
         "next": ["SpecialAccessActivities", "Stop"]
     },
@@ -3367,7 +3387,9 @@
             "TaskMistCity.png",
             "TaskSiege.png",
             "TaskSarkaz.png",
-            "TaskDelicious.png"
+            "TaskDelicious.png",
+            "TaskGaming.png",
+            "TaskDahuangCity.png"
         ],
         "maskRange": [1, 255],
         "templThreshold": 0.7,
@@ -3429,7 +3451,9 @@
             "TerminalMistCity.png",
             "TerminalSiege.png",
             "TerminalSarkaz.png",
-            "TerminalDelicious.png"
+            "TerminalDelicious.png",
+            "TerminalGaming.png",
+            "TerminalDahuangCity.png"
         ],
         "action": "DoNothing",
         "next": ["Mail", "MailWithoutAward"]
@@ -3484,7 +3508,9 @@
             "FriendsMistCity.png",
             "FriendsSiege.png",
             "FriendsSarkaz.png",
-            "FriendsDelicious.png"
+            "FriendsDelicious.png",
+            "FriendsGaming.png",
+            "FriendsDahuangCity.png"
         ],
         "templThreshold": 0.7,
         "maskRange": [1, 255],
@@ -3540,7 +3566,9 @@
             "MallMistCity.png",
             "MallSiege.png",
             "MallSarkaz.png",
-            "MallDelicious.png"
+            "MallDelicious.png",
+            "MallGaming.png",
+            "MallDahuangCity.png"
         ],
         "action": "ClickSelf",
         "roi": [772, 407, 186, 171],
@@ -3597,7 +3625,9 @@
             "TerminalMistCity.png",
             "TerminalSiege.png",
             "TerminalSarkaz.png",
-            "TerminalDelicious.png"
+            "TerminalDelicious.png",
+            "TerminalGaming.png",
+            "TerminalDahuangCity.png"
         ],
         "action": "Stop",
         "roi": [844, 58, 268, 272],
@@ -3804,7 +3834,9 @@
             "EnterInfrastMistCity.png",
             "EnterInfrastSiege.png",
             "EnterInfrastSarkaz.png",
-            "EnterInfrastDelicious.png"
+            "EnterInfrastDelicious.png",
+            "EnterInfrastGaming.png",
+            "EnterInfrastDahuangCity.png"
         ],
         "maskRange": [1, 255],
         "roi": [930, 540, 230, 180],
@@ -5421,7 +5453,9 @@
             "DepotEnterMistCity.png",
             "DepotEnterSiege.png",
             "DepotEnterSarkaz.png",
-            "DepotEnterDelicious.png"
+            "DepotEnterDelicious.png",
+            "DepotEnterGaming.png",
+            "DepotEnterDahuangCity.png"
         ],
         "maskRange": [1, 255],
         "roi": [1109, 560, 171, 160],
@@ -5500,7 +5534,9 @@
             "OperBoxEnterMistCity.png",
             "OperBoxEnterSiege.png",
             "OperBoxEnterSarkaz.png",
-            "OperBoxEnterDelicious.png"
+            "OperBoxEnterDelicious.png",
+            "OperBoxEnterGaming.png",
+            "OperBoxEnterDahuangCity.png"
         ],
         "action": "ClickSelf",
         "maskRange": [1, 255],
@@ -5977,7 +6013,9 @@
             "GachaEnterMistCity.png",
             "GachaEnterSiege.png",
             "GachaEnterSarkaz.png",
-            "GachaEnterDelicious.png"
+            "GachaEnterDelicious.png",
+            "GachaEnterGaming.png",
+            "GachaEnterDahuangCity.png"
         ],
         "roi": [1052, 443, 228, 156],
         "next": ["GachaEnter", "GachaEnter@LoadingText", "DoGacha"],
@@ -6076,7 +6114,9 @@
             "TerminalMistCity.png",
             "TerminalSiege.png",
             "TerminalSarkaz.png",
-            "TerminalDelicious.png"
+            "TerminalDelicious.png",
+            "TerminalGaming.png",
+            "TerminalDahuangCity.png"
         ],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
@@ -6242,7 +6282,9 @@
             "TerminalMistCity.png",
             "TerminalSiege.png",
             "TerminalSarkaz.png",
-            "TerminalDelicious.png"
+            "TerminalDelicious.png",
+            "TerminalGaming.png",
+            "TerminalDahuangCity.png"
         ],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
@@ -11432,7 +11474,9 @@
             "TerminalMistCity.png",
             "TerminalSiege.png",
             "TerminalSarkaz.png",
-            "TerminalDelicious.png"
+            "TerminalDelicious.png",
+            "TerminalGaming.png",
+            "TerminalDahuangCity.png"
         ],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
@@ -11965,7 +12009,9 @@
             "TerminalMistCity.png",
             "TerminalSiege.png",
             "TerminalSarkaz.png",
-            "TerminalDelicious.png"
+            "TerminalDelicious.png",
+            "TerminalGaming.png",
+            "TerminalDahuangCity.png"
         ],
         "next": [
             "Fire@Reclamation@NavigateHome",
