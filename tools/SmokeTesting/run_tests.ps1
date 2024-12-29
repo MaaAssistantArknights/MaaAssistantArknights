@@ -1,6 +1,9 @@
 $clients = @("Official", "YostarJP", "YostarEN", "YostarKR", "txwy")
 $jobs = @()
 $error_client = @()
+
+New-Item -Path "./x64/Debug/debug" -ItemType Directory -Force -ErrorAction SilentlyContinue > $null
+
 foreach ($client in $clients) {
   $jobs += Start-Job -ScriptBlock {
     param ($client)
@@ -27,7 +30,7 @@ foreach ($client in $clients) {
 }
 
 if ($error_client.Count -gt 0) {
-  $pattern = "load failed"
+  $pattern = "[ERR]"
   foreach ($client in $error_client) {
     Get-Content ./x64/Debug/debug/asst_$client.log | ForEach-Object {
       if ($_ -match $pattern) {
@@ -39,3 +42,4 @@ if ($error_client.Count -gt 0) {
   }
   exit 1
 }
+Write-Host "All tests passed" -ForegroundColor Green
