@@ -43,7 +43,20 @@ jobs:
           show-progress: false
           submodules: recursive
 
+      - name: Cache smoke-testing Sample.exe
+        id: cache-exe
+        uses: actions/cache@v4
+        with:
+          key: Smoke-testing-sample.exe-${{ github.ref }}-${{ hashFiles('src/**', 'CMakeLists.txt', '3rdparty/include/**', 'include/**', 'cmake/**', 'MAA.sln', 'MaaDeps/**') }}
+          path: |
+            ./x64/Debug/Sample.exe
+            ./x64/Debug/fastdeploy_ppocr.dll
+            ./x64/Debug/MaaCore.dll
+            ./x64/Debug/onnxruntime_maa.dll
+            ./x64/Debug/opencv_world4d_maa.dll
+
       - name: Cache .nuke/temp, ~/.nuget/packages
+        if: steps.cache-exe.outputs.cache-hit != 'true'
         id: cache-nuget
         uses: actions/cache@v4
         with:
@@ -53,10 +66,11 @@ jobs:
           key: ${{ runner.os }}-x64-${{ hashFiles('**/global.json', '**/*.csproj') }}
 
       - name: Restore dependencies
-        if: steps.cache-nuget.outputs.cache-hit != 'true'
+        if: steps.cache-exe.outputs.cache-hit != 'true' && steps.cache-nuget.outputs.cache-hit != 'true'
         run: dotnet restore
 
       - name: Cache MaaDeps
+        if: steps.cache-exe.outputs.cache-hit != 'true'
         id: cache-maadeps
         uses: actions/cache@v4
         with:
@@ -65,18 +79,20 @@ jobs:
           key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('./maadeps-download.py') }}
 
       - name: Bootstrap MaaDeps
-        if: steps.cache-maadeps.outputs.cache-hit != 'true'
+        if: steps.cache-exe.outputs.cache-hit != 'true' && steps.cache-maadeps.outputs.cache-hit != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 maadeps-download.py x64-windows
 
       - name: Add msbuild to PATH
+        if: steps.cache-exe.outputs.cache-hit != 'true'
         uses: microsoft/setup-msbuild@v2
         with:
           msbuild-architecture: x64
 
       - name: Build MaaSample
+        if: steps.cache-exe.outputs.cache-hit != 'true'
         run: |
           MSBUILD src/Cpp/MaaSample.slnf -t:restore,build -p:Configuration="Debug" -p:Platform="x64" -m
 
