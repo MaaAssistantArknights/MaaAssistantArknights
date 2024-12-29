@@ -1,3 +1,25 @@
+## v5.11.1
+
+### 新增 | New
+
+* 适配界面主题「大荒」与「视相」 (#11449) @SherkeyXD
+* 支持 XX-EX1 类型关卡名列表添加 @ABA2396
+* 添加运行库安装脚本 @ABA2396
+
+### 修复 | Fix
+
+* StartButton1 ocrReplace syntax error in JP tasks.json @Constrat
+
+### 文档 | Docs
+
+* 更新文档 (#11430) @Rbqwow @SherkeyXD
+
+### 其他 | Other
+
+* MAA 启动相关改为全局配置 @ABA2396
+* 界面设置改为全局配置 @ABA2396
+* 热键改为全局配置 @ABA2396
+
 ## v5.11.0
 
 ### 没有摸鱼 | Highlight
