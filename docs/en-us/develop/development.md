@@ -126,7 +126,7 @@ The formatting tool will automatically run every time you submit to ensure that 
 3. In Visual Studio, search for 'clang-format' in Tools-Options.
 4. Click `Enable ClangFormat support` and select `Use custom clang-format.exe file` and choose the `clang-format.exe` located in Step 2.
 
-![Enable clang-format in Visual Studio](/image/zh-cn/development-enable-vs-clang-format.png)
+![Enable clang-format in Visual Studio](/images/zh-cn/development-enable-vs-clang-format.png)
 
 You are all set with the clang-format integrated in Visual Studio supporting c++20 features!
 

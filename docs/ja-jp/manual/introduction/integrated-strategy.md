@@ -16,7 +16,7 @@ MAA 默认选择最新一期主题，可在 `自动肉鸽` - `肉鸽主题` 中�
 - 设置中可选择分队、开局干员（仅单个干员名）等。
 
 ::: details 固定方法「PIN UP」
-![固定方法](/image/ja-jp/introduction-i.s.-pin-up.png)
+![固定方法](/images/ja-jp/introduction-i.s.-pin-up.png)
 :::
 
 ## 战斗策略

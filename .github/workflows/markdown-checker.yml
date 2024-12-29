@@ -37,13 +37,14 @@ jobs:
         with:
           # 仅检查内部链接和 Github 相关链接
           args: >
-            --verbose --no-progress --cache --max-cache-age 1d 
+            --verbose --no-progress --cache --max-cache-age 1d
             --exclude 'https?://.*'
             --include 'https?://github\.com/.*'
             --include 'https?://raw\.githubusercontent\.com/.*'
             --include 'https?://user-images\.githubusercontent\.com/.*'
-            --exclude-path 'docs/zh-tw/manual/introduction/introduction_old.md' 
-            --exclude-path 'docs/ja-jp/manual/introduction/introduction_old.md' 
+            --exclude-path 'docs/zh-tw/manual/introduction/introduction_old.md'
+            --exclude-path 'docs/ja-jp/manual/introduction/introduction_old.md'
+            --exclude 'files/MAA_Runtime_Fix_Pwsh.ps1$'
             -- './docs/**/*.md' './README.md'
 
       - name: Comment (only for PR)

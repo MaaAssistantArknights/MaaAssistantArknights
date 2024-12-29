@@ -22,7 +22,7 @@ icon: ic:baseline-article
     - 再刻印SSアクティビティは `SSReopen-XX` と入力するとXX-1～XX-9ステージを一度にクリアできます。 `SSReopen-IC` など。
 
 ::: details 画面例
-![画面例](/image/ja-jp/combat-start-interface-example.png)
+![画面例](/images/ja-jp/combat-start-interface-example.png)
 :::
 
 - スタート画面の `理性剤使用数 + 割る源石の数`、`周回数指定`、`素材を限定` の3つのオプションはショートスイッチですので、**3つのオプションのいずれかを達成した場合**、それはタスクの完了と見なされます。
@@ -104,7 +104,7 @@ icon: ic:baseline-article
   - MAAがスタックしたり、難易度選択画面を何度も出たり入ったりする場合は、手動で難易度を選択してからこの機能を有効にしてください。
 
 ::: details 固定方法「PIN UP」
-![固定方法](/image/ja-jp/introduction-i.s.-pin-up.png)
+![固定方法](/images/ja-jp/introduction-i.s.-pin-up.png)
 :::
 
 - 設定は分隊、最初の職業選択（最初に一つのオペレーターを指定する）等を設定できます。
@@ -145,7 +145,7 @@ icon: ic:baseline-article
   - リスト内のステージが同じエリアにあることを確認してください（マップ画面を左右にスワイプすることでのみナビゲートできます）。
 - **攻略ファイルの採点を高め、クリエイターを激励するために、必ず良質な攻略ファイルに「いいね！」を押してください。**
 
-![image](/image/zh-cn/copilot-click-like.png)
+![image](/images/zh-cn/copilot-click-like.png)
 
 #### 攻略ファイルの作成
 
