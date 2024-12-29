@@ -24,7 +24,12 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 /// </summary>
 public class PerformanceUserControlModel : PropertyChangedBase
 {
-    public static PerformanceUserControlModel Instance { get; } = new();
+    static PerformanceUserControlModel()
+    {
+        Instance = new();
+    }
+
+    public static PerformanceUserControlModel Instance { get; }
 
     public List<GpuOption> GpuOptions => GpuOption.GetGpuOptions();
 
