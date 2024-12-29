@@ -142,11 +142,11 @@ namespace MaaWpfGui.Configuration
                 parsed.Timers.CollectionChanged += OnCollectionChangedFactory<int, Timer>("Root.Timers.");
                 parsed.VersionUpdate.PropertyChanged += OnPropertyChangedFactory();
                 parsed.AnnouncementInfo.PropertyChanged += OnPropertyChangedFactory();
+                parsed.GUI.PropertyChanged += OnPropertyChangedFactory();
 
                 foreach (var keyValue in parsed.Configurations)
                 {
                     var key = "Root.Configurations." + keyValue.Key + ".";
-                    keyValue.Value.GUI.PropertyChanged += OnPropertyChangedFactory(key);
                     keyValue.Value.DragItemIsChecked.CollectionChanged += OnCollectionChangedFactory<string, bool>(key + nameof(SpecificConfig.DragItemIsChecked) + ".");
                     keyValue.Value.InfrastOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.InfrastOrder) + ".");
                     keyValue.Value.TaskQueueOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.TaskQueueOrder) + ".");
