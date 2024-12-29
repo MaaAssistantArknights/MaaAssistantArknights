@@ -49,11 +49,11 @@ jobs:
         with:
           key: Smoke-testing-sample.exe-${{ github.ref }}-${{ hashFiles('src/**', 'CMakeLists.txt', '3rdparty/include/**', 'include/**', 'cmake/**', 'MAA.sln', 'MaaDeps/**') }}
           path: |
-            .x64/Debug/Sample.exe
-            .x64/Debug/fastdeploy_ppocr.dll
-            .x64/Debug/MaaCore.dll
-            .x64/Debug/onnxruntime_maa.dll
-            .x64/Debug/opencv_world4d_maa.dll
+            ./x64/Debug/Sample.exe
+            ./x64/Debug/fastdeploy_ppocr.dll
+            ./x64/Debug/MaaCore.dll
+            ./x64/Debug/onnxruntime_maa.dll
+            ./x64/Debug/opencv_world4d_maa.dll
 
       - name: Cache .nuke/temp, ~/.nuget/packages
         if: steps.cache-exe.outputs.cache-hit != 'true'
