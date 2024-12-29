@@ -104,7 +104,7 @@ jobs:
         if: steps.cache-exe.outputs.cache-hit == 'true'
         continue-on-error: true
         run: |
-          robocopy "resource" "x64/Debug/resource" /E /XD "Arknights-Tile-Pos" > $null
+          robocopy "resource" "x64/Debug/resource" /E /XD "Arknights-Tile-Pos" /MT:4 > $null
           robocopy "resource/Arknights-Tile-Pos" "x64/Debug/resource/Arknights-Tile-Pos" "overview.json" > $null
 
       - name: Run tests
