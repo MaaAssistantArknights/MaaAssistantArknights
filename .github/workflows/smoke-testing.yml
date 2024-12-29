@@ -42,10 +42,6 @@ jobs:
         with:
           show-progress: false
 
-      - name: Fetch submodules
-        run: |
-          git submodule update --init --depth 1 3rdparty/EmulatorExtras
-
       - name: Cache smoke-testing Sample.exe
         id: cache-exe
         uses: actions/cache@v4
@@ -57,6 +53,11 @@ jobs:
             ./x64/Debug/MaaCore.dll
             ./x64/Debug/onnxruntime_maa.dll
             ./x64/Debug/opencv_world4d_maa.dll
+
+      - name: Fetch submodules
+        if: steps.cache-exe.outputs.cache-hit != 'true'
+        run: |
+          git submodule update --init --depth 1 3rdparty/EmulatorExtras
 
       - name: Cache .nuke/temp, ~/.nuget/packages
         if: steps.cache-exe.outputs.cache-hit != 'true'
@@ -103,7 +104,14 @@ jobs:
         if: steps.cache-exe.outputs.cache-hit == 'true'
         run: |
           robocopy "resource" "x64/Debug/resource" /E /XD "Arknights-Tile-Pos"
+          exit_code1=$LASTEXITCODE
           robocopy "resource/Arknights-Tile-Pos" "x64/Debug/resource/Arknights-Tile-Pos" "overview.json"
+          exit_code2=$LASTEXITCODE
+
+          if ($exit_code1 -ge 3 -or $exit_code2 -ge 3) {
+            Write-Host "Robocopy encountered an error."
+            exit 1
+          }
 
       - name: Run tests
         run: |
