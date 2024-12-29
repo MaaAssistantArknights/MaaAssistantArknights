@@ -208,7 +208,7 @@ jobs:
       github.event.pull_request.base.repo.full_name
 
     needs: meta
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         arch: [aarch64, x86_64]
