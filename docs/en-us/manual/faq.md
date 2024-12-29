@@ -9,17 +9,18 @@ If this is your first time using MAA, please read [Getting Started](./newbie.md)
 
 ::: warning
 
-If you came here from the MAA error window, it is most likely due to not updating the runtime libraries.  
-The most common issues are runtime library problems, and people often miss the documentation and ask around, so we pinned this message. It's frustrating.
+If MAA fails to run after an update, or if you’ve reached this page via an error window in MAA, it’s highly likely due to outdated runtime libraries.  
+The most frequent issue is runtime-related, yet many users ignore the documentation and ask around, so we replaced the pinned message with this. It's frustrating.
 
-If MAA fails to run after an update, it is likely due to the runtime library version. You need to update the following two runtime libraries.  
-Please run the following command in the terminal, or manually download and install <u>**both**</u> runtime libraries.
+Please run `DependencySetup_依赖库安装.bat` in the MAA directory, or execute the commands below in a terminal,
 
 ```sh
-winget install "Microsoft.VCRedist.2015+.x64" "Microsoft.DotNet.DesktopRuntime.8" --uninstall-previous --accept-package-agreements
+winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements && winget install "Microsoft.DotNet.DesktopRuntime.8" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements
 ```
 
-- [Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe)
+or manually download and install the following <u>**two**</u> runtime libraries to resolve the issue.
+
+- [Visual C++ Redistributable x64](https://aka.ms/vs/17/release/vc_redist.x64.exe)
 - [.NET Desktop Runtime 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=Binaries-,Windows,-x64)
 
 :::

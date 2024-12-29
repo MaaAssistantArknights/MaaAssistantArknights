@@ -9,15 +9,16 @@ icon: ph:question-fill
 
 ::: warning
 
-MAA のエラーメッセージからここに来た場合、ほとんどの場合、ランタイムライブラリを更新していないことが原因です。  
-最も多く発生する問題はランタイムライブラリの問題であり、ドキュメントを見逃して質問する人が多いため、このメッセージを固定しました。イライラします。
+MAAがアップデート後に動作しなくなった場合、またはエラーメッセージウィンドウを経由してここにたどり着いた場合、それは大体ランタイムが更新されていないことが原因です。  
+最も多い問題はランタイム関連であり、それにもかかわらず多くの人がドキュメントを読まずに質問するため、トップメッセージをこれに変更しました。とてもイライラします。
 
-MAA が更新後に実行できない場合、ランタイムライブラリのバージョンが原因である可能性が高いです。以下の 2 つのランタイムライブラリを更新する必要があります。  
-以下のコマンドをターミナルで実行するか、<u>**両方の**</u>ランタイムライブラリを手動でダウンロードしてインストールしてください。
+MAAディレクトリ内の `DependencySetup_依赖库安装.bat` を実行するか、以下のコマンドを端末で実行するか、
 
 ```sh
-winget install "Microsoft.VCRedist.2015+.x64" "Microsoft.DotNet.DesktopRuntime.8" --uninstall-previous --accept-package-agreements
+winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements && winget install "Microsoft.DotNet.DesktopRuntime.8" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements
 ```
+
+以下の<u>**2つ**</u>のランタイムライブラリを手動でダウンロードしてインストールして問題を解決してください。
 
 - [Visual C++ 再頒布可能パッケージ](https://aka.ms/vs/17/release/vc_redist.x64.exe)
 - [.NET デスクトップランタイム 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=Binaries-,Windows,-x64)
