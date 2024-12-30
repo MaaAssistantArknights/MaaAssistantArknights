@@ -6,6 +6,8 @@
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
@@ -30,7 +32,9 @@
                 HorizontalAlignment="Center"
                 FontWeight="Bold"
                 Text="{DynamicResource GlobalConfigTip}"
-                TextAlignment="Center" />
+                TextAlignment="Center"
+                Visibility="{c:Binding 'ConfigurationList.Count > 1',
+                                       Source={x:Static helper:Instances.SettingsViewModel}}" />
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Left"
@@ -43,15 +47,16 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Block.TextAlignment="Center"
-                Content="{DynamicResource RunTaskAfterLaunch}"
-                IsChecked="{Binding RunDirectly}" />
+                Content="{DynamicResource MinimizeAfterLaunch}"
+                IsChecked="{Binding MinimizeDirectly}" />
+            <hc:Divider />
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Block.TextAlignment="Center"
-                Content="{DynamicResource MinimizeAfterLaunch}"
-                IsChecked="{Binding MinimizeDirectly}" />
+                Content="{DynamicResource RunTaskAfterLaunch}"
+                IsChecked="{Binding RunDirectly}" />
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Left"
