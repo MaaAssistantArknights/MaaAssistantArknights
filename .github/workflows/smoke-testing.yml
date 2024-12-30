@@ -41,7 +41,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           show-progress: false
-          submodules: recursive
 
       - name: Cache smoke-testing Sample.exe
         id: cache-exe
@@ -54,6 +53,11 @@ jobs:
             ./x64/Debug/MaaCore.dll
             ./x64/Debug/onnxruntime_maa.dll
             ./x64/Debug/opencv_world4d_maa.dll
+
+      - name: Fetch submodules
+        if: steps.cache-exe.outputs.cache-hit != 'true'
+        run: |
+          git submodule update --init --depth 1 3rdparty/EmulatorExtras
 
       - name: Cache .nuke/temp, ~/.nuget/packages
         if: steps.cache-exe.outputs.cache-hit != 'true'
@@ -95,6 +99,13 @@ jobs:
         if: steps.cache-exe.outputs.cache-hit != 'true'
         run: |
           MSBUILD src/Cpp/MaaSample.slnf -t:restore,build -p:Configuration="Debug" -p:Platform="x64" -m
+
+      - name: Copy resource to build directory
+        if: steps.cache-exe.outputs.cache-hit == 'true'
+        continue-on-error: true
+        run: |
+          robocopy "resource" "x64/Debug/resource" /E /XD "Arknights-Tile-Pos" /MT:4 > $null
+          robocopy "resource/Arknights-Tile-Pos" "x64/Debug/resource/Arknights-Tile-Pos" "overview.json" > $null
 
       - name: Run tests
         run: |

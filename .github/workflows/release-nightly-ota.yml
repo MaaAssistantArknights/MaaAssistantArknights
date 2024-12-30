@@ -42,10 +42,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           # repository: 'MaaAssistantArknights/MaaAssistantArknights'
-          submodules: recursive
           #ref: ${{ inputs.ref }}
-          fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 60
+
+      - name: Fetch submodules
+        run: |
+          git submodule update --init --depth 1 3rdparty/EmulatorExtras
 
       - name: Checkout ref (if provided)
         if: inputs.ref != ''
