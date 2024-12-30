@@ -5,23 +5,25 @@ on:
     paths:
       - "3rdparty/include/**"
       - "include/**"
-      - "src/**"
+      - "src/Cpp/**"
+      - "src/MaaCore/**"
+      - "src/SyncRes/**"
       - "cmake/**"
       - "CMakeLists.txt"
       - "MAA.sln"
       - "resource/**"
-      - "MaaDeps/**"
       - "!**/*.md"
   pull_request:
     paths:
       - "3rdparty/include/**"
       - "include/**"
-      - "src/**"
+      - "src/Cpp/**"
+      - "src/MaaCore/**"
+      - "src/SyncRes/**"
       - "cmake/**"
       - "CMakeLists.txt"
       - "MAA.sln"
       - "resource/**"
-      - "MaaDeps/**"
       - "!**/*.md"
   workflow_dispatch:
 
@@ -46,7 +48,7 @@ jobs:
         id: cache-exe
         uses: actions/cache@v4
         with:
-          key: Smoke-testing-sample.exe-${{ github.ref }}-${{ hashFiles('src/**', 'CMakeLists.txt', '3rdparty/include/**', 'include/**', 'cmake/**', 'MAA.sln', 'MaaDeps/**') }}
+          key: Smoke-testing-sample.exe-${{ github.ref }}-${{ hashFiles('src/Cpp/**', 'src/MaaCore/**', 'src/SyncRes/**', 'CMakeLists.txt', '3rdparty/include/**', 'include/**', 'cmake/**', 'MAA.sln') }}
           path: |
             ./x64/Debug/Sample.exe
             ./x64/Debug/fastdeploy_ppocr.dll
