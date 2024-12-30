@@ -206,7 +206,11 @@ public class FightSettingsUserControlModel : PropertyChangedBase
     public bool UseRemainingSanityStage
     {
         get => _useRemainingSanityStage;
-        set => SetAndNotify(ref _useRemainingSanityStage, value);
+        set
+        {
+            SetAndNotify(ref _useRemainingSanityStage, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.UseRemainingSanityStage, value.ToString());
+        }
     }
 
     private bool _customStageCode = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CustomStageCode, bool.FalseString));
@@ -217,7 +221,11 @@ public class FightSettingsUserControlModel : PropertyChangedBase
     public bool CustomStageCode
     {
         get => _customStageCode;
-        set => SetAndNotify(ref _customStageCode, value);
+        set
+        {
+            SetAndNotify(ref _customStageCode, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.CustomStageCode, value.ToString());
+        }
     }
 
     private string _remainingSanityStage = ConfigurationHelper.GetValue(ConfigurationKeys.RemainingSanityStage, string.Empty) ?? string.Empty;
