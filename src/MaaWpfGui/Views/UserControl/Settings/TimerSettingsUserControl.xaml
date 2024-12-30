@@ -28,7 +28,9 @@
             HorizontalAlignment="Center"
             FontWeight="Bold"
             Text="{DynamicResource GlobalConfigTip}"
-            TextAlignment="Center" />
+            TextAlignment="Center"
+            Visibility="{c:Binding 'ConfigurationList.Count > 1',
+                                   Source={x:Static helper:Instances.SettingsViewModel}}" />
         <StackPanel
             Grid.Row="1"
             HorizontalAlignment="Center"

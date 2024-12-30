@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
@@ -22,7 +23,9 @@
             HorizontalAlignment="Center"
             FontWeight="Bold"
             Text="{DynamicResource GlobalConfigTip}"
-            TextAlignment="Center" />
+            TextAlignment="Center"
+            Visibility="{c:Binding 'ConfigurationList.Count > 1',
+                                   Source={x:Static helper:Instances.SettingsViewModel}}" />
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
