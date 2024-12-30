@@ -59,6 +59,14 @@ namespace MaaWpfGui.Helper
                 return value;
             }
 
+            hasValue = _globalKvs.TryGetValue(key, out value);
+            if (hasValue)
+            {
+                _logger.Information("Read configuration key {Key} with global configuration value {Value}, configuration hit: {HasValue}, configuration value {Value}", key, value, true, value);
+                SetValue(key, value);
+                return value;
+            }
+
             // return hasValue ? value : defaultValue;
             SetValue(key, defaultValue);
             return defaultValue;
