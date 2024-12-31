@@ -124,7 +124,16 @@ jobs:
 
       - name: Stop if no changes
         if: env.cancel_run == 'true'
-        uses: andymckay/cancel-action@0.5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -s -L -X POST `
+            -H "Accept: application/vnd.github+json" `
+            -H "Authorization: Bearer ${{ secrets.MAA_ACTION_READ_WRITE }}" `
+            -H "X-GitHub-Api-Version: 2022-11-28" `
+            "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/actions/runs/${{ github.run_id }}/cancel" > $null
+
+          gh run watch ${{ github.run_id }}
 
       - name: Push tag to main repo
         id: push_main_tag
@@ -148,7 +157,16 @@ jobs:
 
       - name: Stop if no changes
         if: steps.generate_changelog.outputs.cancel_run == 'true'
-        uses: andymckay/cancel-action@0.5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -s -L -X POST `
+            -H "Accept: application/vnd.github+json" `
+            -H "Authorization: Bearer ${{ secrets.MAA_ACTION_READ_WRITE }}" `
+            -H "X-GitHub-Api-Version: 2022-11-28" `
+            "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/actions/runs/${{ github.run_id }}/cancel" > $null
+
+          gh run watch ${{ github.run_id }}
 
       - name: Read Changelog to variable
         id: read_changelog
