@@ -130,6 +130,8 @@ jobs:
 
       - name: Stop if no changes
         if: env.cancel_run == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           curl -L -X DELETE `
             -H "Accept: application/vnd.github+json" `
