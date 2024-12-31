@@ -100,6 +100,13 @@ jobs:
         run: |
           MSBUILD src/Cpp/MaaSample.slnf -t:restore,build -p:Configuration="Debug" -p:Platform="x64" -m
 
+      - name: Copy resource to build directory
+        if: steps.cache-exe.outputs.cache-hit == 'true'
+        continue-on-error: true
+        run: |
+          robocopy "resource" "x64/Debug/resource" /E /XD "Arknights-Tile-Pos" /MT:4 > $null
+          robocopy "resource/Arknights-Tile-Pos" "x64/Debug/resource/Arknights-Tile-Pos" "overview.json" > $null
+
       - name: Run tests
         run: |
           pwsh tools/SmokeTesting/run_tests.ps1

@@ -1,6 +1,3 @@
-robocopy "resource" "x64/Debug/resource" /E /XD "Arknights-Tile-Pos" /MT:4 > $null
-robocopy "resource/Arknights-Tile-Pos" "x64/Debug/resource/Arknights-Tile-Pos" "overview.json" > $null
-
 $clients = @("Official", "YostarJP", "YostarEN", "YostarKR", "txwy")
 $jobs = @()
 $error_client = @()
