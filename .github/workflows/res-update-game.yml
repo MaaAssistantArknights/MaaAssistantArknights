@@ -211,6 +211,13 @@ jobs:
           python3 tools/TaskSorter/TaskSorter.py
           Write-Output "gitdiff=$(git diff --name-only --diff-filter=ACM 2>$null | Select-String -Pattern '\.json$' -List)" >> $env:GITHUB_OUTPUT
 
+      - name: TEST STOP
+        env:
+          GH_TOKEN: ${{ secrets.MAA_ACTION_READ_WRITE }}
+        run: |
+          gh run cancel ${{ github.run_id }}
+          gh run watch ${{ github.run_id }}
+
       - name: Run prettier
         uses: Nerixyz/actionsx-prettier@v3-adj
         with:
