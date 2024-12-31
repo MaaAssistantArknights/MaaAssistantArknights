@@ -80,7 +80,7 @@ foreach ($server in $listPerServer.Keys) {
             $addedLines = @($versionDiff -split "`n" | Where-Object { $_ -match "^\+" -and $_ -notmatch "^\+\+\+" })
             $deletedLines = @($versionDiff -split "`n" | Where-Object { $_ -match "^\-" -and $_ -notmatch "^\-\-\-" })
             if ($addedLines.Count -eq 1 -and $deletedLines.Count -eq 1 -and $addedLines[0] -match "^\+\s*`"last_updated`":" -and $deletedLines[0] -match "^\-\s*`"last_updated`":") {
-                Write-Output "$serverName Version-only changed: $pathname, not valid."
+                Write-Output "$serverName Version-date changed only: $pathname, not valid."
                 continue
             }
             else {
