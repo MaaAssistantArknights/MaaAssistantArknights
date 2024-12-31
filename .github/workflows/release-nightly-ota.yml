@@ -58,12 +58,6 @@ jobs:
       - name: Check for Changes and Set tag
         id: set_tag
         run: |
-          ######## TEST ##############
-          Write-Output "cancel_run=true" >> $env:GITHUB_ENV
-          exit 0
-          ###########################
-
-
           # Fetch the latest tag from the repository
           $latest_tag = git describe --tags --abbrev=0
 
