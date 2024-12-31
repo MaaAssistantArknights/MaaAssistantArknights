@@ -931,6 +931,9 @@ bool update_battle_chars_info(const fs::path& official_dir, const fs::path& over
 
         for (auto& [data, name] : chars_json) {
             char_new_data[name] = data.get(id, "name", char_data["name"].as_string());
+            if (data.get(id, "name", "_unavailable_") == "_unavailable_") {
+                char_new_data[name + "_unavailable"] = true;
+            }
         }
 
         char_new_data["profession"] = char_data["profession"];
