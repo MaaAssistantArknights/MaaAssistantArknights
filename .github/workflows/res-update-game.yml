@@ -216,21 +216,7 @@ jobs:
 
       - name: PLACEHOLDER
         run: |
-          Write-Output "PLACEHOLDER"
-          Write-Output "PLACEHOLDER"
-          Write-Output "PLACEHOLDER"
-          Write-Output "PLACEHOLDER"
-          Write-Output "PLACEHOLDER"
-          Write-Output "PLACEHOLDER"
-          Write-Output "PLACEHOLDER"
-
-          Start-Sleep 0.5
-
-          Write-Output "PLACEHOLDER_POST"
-          Write-Output "PLACEHOLDER_POST"
-          Write-Output "PLACEHOLDER_POST"
-          Write-Output "PLACEHOLDER_POST"
-          Write-Output "PLACEHOLDER_POST"
+          gh run watch ${{ github.run_id }}
 
       - name: Run prettier
         uses: Nerixyz/actionsx-prettier@v3-adj
