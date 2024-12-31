@@ -216,7 +216,7 @@ jobs:
           GH_TOKEN: ${{ secrets.MAA_ACTION_READ_WRITE }}
         run: |
           gh run cancel ${{ github.run_id }}
-          gh run watch ${{ github.run_id }}
+          # gh run watch ${{ github.run_id }}
 
       - name: PLACEHOLDER
         run: |
