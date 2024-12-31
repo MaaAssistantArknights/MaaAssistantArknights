@@ -684,4 +684,19 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStopAtFinalBoss, value.ToString());
         }
     }
+
+    private bool _roguelikeStopAtMaxLevel = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStopAtMaxLevel, bool.FalseString));
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to stop when max level has been achieved.
+    /// </summary>
+    public bool RoguelikeStopAtMaxLevel
+    {
+        get => _roguelikeStopAtMaxLevel;
+        set
+        {
+            SetAndNotify(ref _roguelikeStopAtMaxLevel, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStopAtMaxLevel, value.ToString());
+        }
+    }
 }

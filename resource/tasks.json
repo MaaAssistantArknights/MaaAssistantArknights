@@ -6668,6 +6668,22 @@
             "Roguelike@StartUpThemes#next"
         ]
     },
+    "Roguelike@CheckLevel": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [910, 0, 370, 110],
+        "text": ["LV"]
+    },
+    "Roguelike@CheckLevelMax": {
+        "algorithm": "OcrDetect",
+        "roi": [920, 25, 40, 20],
+        "text": ["M", "A", "X"]
+    },
+    "Roguelike@CheckLevelBack": {
+        "action": "ClickSelf",
+        "template": "Return.png",
+        "roi": [0, 0, 190, 80]
+    },
     "Roguelike@ChooseDifficulty": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -7791,6 +7807,12 @@
         "next": ["Roguelike@WaitForStartButtonClicked"]
     },
     "Phantom@Roguelike@Abandon": {},
+    "Phantom@Roguelike@CheckLevel": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [910, 0, 370, 110],
+        "text": ["古堡笔记"]
+    },
     "Phantom@Roguelike@ChooseDifficulty": {},
     "Phantom@Roguelike@ChooseOper": {
         "next": [
@@ -8044,6 +8066,12 @@
         "roi": [460, 525, 160, 55]
     },
     "Mizuki@Roguelike@Abandon": {},
+    "Mizuki@Roguelike@CheckLevel": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [910, 0, 370, 110],
+        "text": ["生态谱系"]
+    },
     "Mizuki@Roguelike@ChooseDifficulty": {},
     "Mizuki@Roguelike@ChooseDifficulty_Easiest": {
         "action": "ClickRect",
@@ -8527,6 +8555,12 @@
             "roi": [1112, 268, 53, 52],
             "mask": []
         }
+    },
+    "Sami@Roguelike@CheckLevel": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [910, 0, 370, 110],
+        "text": ["科考记录"]
     },
     "Sami@Roguelike@CheckCollapsalParadigms": {
         "algorithm": "OcrDetect",
@@ -9766,6 +9800,12 @@
             "roi": [1067, 255, 159, 154],
             "mask": []
         }
+    },
+    "Sarkaz@Roguelike@CheckLevel": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [910, 0, 370, 110],
+        "text": ["假说辑录"]
     },
     "Sarkaz@Roguelike@ChooseBurdenOperator": {
         "roi": [11, 493, 140, 143],
