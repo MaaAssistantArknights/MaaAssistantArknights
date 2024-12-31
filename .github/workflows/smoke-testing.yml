@@ -102,10 +102,11 @@ jobs:
 
       - name: Copy resource to build directory
         if: steps.cache-exe.outputs.cache-hit == 'true'
-        continue-on-error: true
         run: |
-          robocopy "resource" "x64/Debug/resource" /E /XD "Arknights-Tile-Pos" /MT:4 > $null
-          robocopy "resource/Arknights-Tile-Pos" "x64/Debug/resource/Arknights-Tile-Pos" "overview.json" > $null
+          (robocopy "resource" "x64/Debug/resource" /E /XD "Arknights-Tile-Pos" /MT:4 > $null);
+          if ($LASTEXITCODE -lt 2) { $global:LASTEXITCODE = $null }
+          (robocopy "resource/Arknights-Tile-Pos" "x64/Debug/resource/Arknights-Tile-Pos" "overview.json" > $null);
+          if ($LASTEXITCODE -lt 2) { $global:LASTEXITCODE= $null }
 
       - name: Run tests
         run: |
