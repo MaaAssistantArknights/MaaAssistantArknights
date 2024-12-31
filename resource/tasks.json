@@ -3392,7 +3392,6 @@
             "TaskDahuangCity.png"
         ],
         "maskRange": [1, 255],
-        "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [700, 530, 230, 190],
         "next": ["ReceiveAward", "DailyTask", "WeeklyTask", "Award", "Award@CloseAnnos#next"],
