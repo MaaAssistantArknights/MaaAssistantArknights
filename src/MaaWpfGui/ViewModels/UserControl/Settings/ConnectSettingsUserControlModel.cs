@@ -705,7 +705,11 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         switch (addresses.Count)
         {
             case 1:
-                ConnectAddress = addresses.First();
+                if (addresses.First() != "1234567890ABCDEF")
+                {
+                    ConnectAddress = addresses.First();
+                }
+
                 break;
 
             case > 1:
