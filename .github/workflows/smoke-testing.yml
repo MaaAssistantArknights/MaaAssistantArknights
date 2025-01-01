@@ -5,7 +5,9 @@ on:
     paths:
       - "3rdparty/include/**"
       - "include/**"
-      - "src/**"
+      - "src/Cpp/**"
+      - "src/MaaCore/**"
+      - "src/SyncRes/**"
       - "MAA.sln"
       - "resource/**"
       - "!**/*.md"
@@ -13,7 +15,9 @@ on:
     paths:
       - "3rdparty/include/**"
       - "include/**"
-      - "src/**"
+      - "src/Cpp/**"
+      - "src/MaaCore/**"
+      - "src/SyncRes/**"
       - "MAA.sln"
       - "resource/**"
       - "!**/*.md"
@@ -39,9 +43,9 @@ jobs:
       - name: Generate cache key
         id: cache_key
         run: |
-          Write-Output "key=Smoke-testing-sample.exe-${{ hashFiles('src/**', '3rdparty/include/**', 'include/**', 'MAA.sln') }}" >> $env:GITHUB_OUTPUT
+          Write-Output "key=Smoke-testing-${{ hashFiles('src/Cpp/**', 'src/MaaCore/**', 'src/SyncRes/**', '3rdparty/include/**', 'include/**', 'MAA.sln') }}" >> $env:GITHUB_OUTPUT
 
-      - name: Restore cache smoke-testing Sample.exe
+      - name: Restore cache smoke-testing
         id: cache-exe
         uses: actions/cache/restore@v4
         with:
@@ -111,7 +115,7 @@ jobs:
         run: |
           pwsh tools/SmokeTesting/run_tests.ps1
 
-      - name: Save cache smoke-testing Sample.exe (only in dev)
+      - name: Save cache smoke-testing (only in dev)
         if: steps.cache-exe.outputs.cache-hit != 'true' && github.ref == 'refs/heads/dev'
         uses: actions/cache/save@v4
         with:
