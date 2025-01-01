@@ -42,11 +42,11 @@ jobs:
         with:
           show-progress: false
 
-      - name: Cache smoke-testing Sample.exe
+      - name: Restore cache smoke-testing Sample.exe
         id: cache-exe
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
-          key: Smoke-testing-sample.exe-${{ github.ref }}-${{ hashFiles('src/**', 'CMakeLists.txt', '3rdparty/include/**', 'include/**', 'cmake/**', 'MAA.sln', 'MaaDeps/**') }}
+          key: Smoke-testing-sample.exe-${{ hashFiles('src/**', 'CMakeLists.txt', '3rdparty/include/**', 'include/**', 'cmake/**', 'MAA.sln', 'MaaDeps/**') }}
           path: |
             ./x64/Debug/Sample.exe
             ./x64/Debug/fastdeploy_ppocr.dll
@@ -111,6 +111,18 @@ jobs:
       - name: Run tests
         run: |
           pwsh tools/SmokeTesting/run_tests.ps1
+
+      - name: Save cache smoke-testing Sample.exe
+        if: steps.cache-exe.outputs.cache-hit != 'true' && ${{ github.ref }} == 'refs/heads/dev'
+        uses: actions/cache/save@v4
+        with:
+          key: Smoke-testing-sample.exe-${{ hashFiles('src/**', 'CMakeLists.txt', '3rdparty/include/**', 'include/**', 'cmake/**', 'MAA.sln', 'MaaDeps/**') }}
+          path: |
+            ./x64/Debug/Sample.exe
+            ./x64/Debug/fastdeploy_ppocr.dll
+            ./x64/Debug/MaaCore.dll
+            ./x64/Debug/onnxruntime_maa.dll
+            ./x64/Debug/opencv_world4d_maa.dll
 
       - name: Upload logs
         if: always()
