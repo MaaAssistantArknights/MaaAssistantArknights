@@ -111,8 +111,8 @@ jobs:
         run: |
           pwsh tools/SmokeTesting/run_tests.ps1
 
-      - name: Save cache smoke-testing Sample.exe
-        if: steps.cache-exe.outputs.cache-hit != 'true'
+      - name: Save cache smoke-testing Sample.exe (only in dev)
+        if: steps.cache-exe.outputs.cache-hit != 'true' && github.ref == 'refs/heads/dev'
         uses: actions/cache/save@v4
         with:
           key: ${{ steps.cache_key.outputs.key }}
