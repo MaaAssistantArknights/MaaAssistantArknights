@@ -10,7 +10,6 @@ on:
       - "CMakeLists.txt"
       - "MAA.sln"
       - "resource/**"
-      - "MaaDeps/**"
       - "!**/*.md"
   pull_request:
     paths:
@@ -21,7 +20,6 @@ on:
       - "CMakeLists.txt"
       - "MAA.sln"
       - "resource/**"
-      - "MaaDeps/**"
       - "!**/*.md"
   workflow_dispatch:
 
@@ -46,7 +44,7 @@ jobs:
         id: cache-exe
         uses: actions/cache/restore@v4
         with:
-          key: Smoke-testing-sample.exe-${{ hashFiles('src/**', 'CMakeLists.txt', '3rdparty/include/**', 'include/**', 'cmake/**', 'MAA.sln', 'MaaDeps/**') }}
+          key: Smoke-testing-sample.exe-${{ hashFiles('src/**', 'CMakeLists.txt', '3rdparty/include/**', 'include/**', 'cmake/**', 'MAA.sln') }}
           path: |
             ./x64/Debug/Sample.exe
             ./x64/Debug/fastdeploy_ppocr.dll
@@ -116,7 +114,7 @@ jobs:
         if: steps.cache-exe.outputs.cache-hit != 'true' && github.ref == 'refs/heads/dev'
         uses: actions/cache/save@v4
         with:
-          key: Smoke-testing-sample.exe-${{ hashFiles('src/**', 'CMakeLists.txt', '3rdparty/include/**', 'include/**', 'cmake/**', 'MAA.sln', 'MaaDeps/**') }}
+          key: Smoke-testing-sample.exe-${{ hashFiles('src/**', 'CMakeLists.txt', '3rdparty/include/**', 'include/**', 'cmake/**', 'MAA.sln') }}
           path: |
             ./x64/Debug/Sample.exe
             ./x64/Debug/fastdeploy_ppocr.dll
