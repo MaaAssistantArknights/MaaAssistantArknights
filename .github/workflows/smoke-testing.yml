@@ -5,9 +5,9 @@ on:
     paths:
       - "3rdparty/include/**"
       - "include/**"
-      - "src/**"
-      - "cmake/**"
-      - "CMakeLists.txt"
+      - "src/Cpp/**"
+      - "src/MaaCore/**"
+      - "src/SyncRes/**"
       - "MAA.sln"
       - "resource/**"
       - "!**/*.md"
@@ -15,9 +15,9 @@ on:
     paths:
       - "3rdparty/include/**"
       - "include/**"
-      - "src/**"
-      - "cmake/**"
-      - "CMakeLists.txt"
+      - "src/Cpp/**"
+      - "src/MaaCore/**"
+      - "src/SyncRes/**"
       - "MAA.sln"
       - "resource/**"
       - "!**/*.md"
@@ -40,11 +40,16 @@ jobs:
         with:
           show-progress: false
 
-      - name: Restore cache smoke-testing Sample.exe
+      - name: Generate cache key
+        id: cache_key
+        run: |
+          Write-Output "key=Smoke-testing-${{ hashFiles('src/Cpp/**', 'src/MaaCore/**', 'src/SyncRes/**', '3rdparty/include/**', 'include/**', 'MAA.sln') }}" >> $env:GITHUB_OUTPUT
+
+      - name: Restore cache smoke-testing
         id: cache-exe
         uses: actions/cache/restore@v4
         with:
-          key: Smoke-testing-sample.exe-${{ hashFiles('src/**', 'CMakeLists.txt', '3rdparty/include/**', 'include/**', 'cmake/**', 'MAA.sln') }}
+          key: ${{ steps.cache_key.outputs.key }}
           path: |
             ./x64/Debug/Sample.exe
             ./x64/Debug/fastdeploy_ppocr.dll
@@ -110,11 +115,11 @@ jobs:
         run: |
           pwsh tools/SmokeTesting/run_tests.ps1
 
-      - name: Save cache smoke-testing Sample.exe (only in dev)
+      - name: Save cache smoke-testing (only in dev)
         if: steps.cache-exe.outputs.cache-hit != 'true' && github.ref == 'refs/heads/dev'
         uses: actions/cache/save@v4
         with:
-          key: Smoke-testing-sample.exe-${{ hashFiles('src/**', 'CMakeLists.txt', '3rdparty/include/**', 'include/**', 'cmake/**', 'MAA.sln') }}
+          key: ${{ steps.cache_key.outputs.key }}
           path: |
             ./x64/Debug/Sample.exe
             ./x64/Debug/fastdeploy_ppocr.dll
