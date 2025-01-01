@@ -156,7 +156,7 @@ jobs:
         with:
           path: |
             ./MaaDeps
-          key: ${{ runner.os }}-maadeps-${{ hashFiles('./maadeps-download.py') }}
+          key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('./maadeps-download.py') }}
 
       - name: Bootstrap MaaDeps
         if: steps.cache-resupd.outputs.cache-hit != 'true' && steps.cache-maadeps.outputs.cache-hit != 'true'
