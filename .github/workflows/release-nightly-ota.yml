@@ -44,7 +44,8 @@ jobs:
           # repository: 'MaaAssistantArknights/MaaAssistantArknights'
           #ref: ${{ inputs.ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 0
+          fetch-depth: 60
+          fetch-tags: true
 
       - name: Fetch submodules
         run: |
