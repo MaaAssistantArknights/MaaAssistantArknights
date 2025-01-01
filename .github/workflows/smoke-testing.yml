@@ -102,7 +102,7 @@ jobs:
         if: steps.cache-exe.outputs.cache-hit != 'true'
         run: |
           MSBUILD src/Cpp/MaaSample.slnf -t:restore,build -p:Configuration="Debug" -p:Platform="x64" -m
-  
+
       - name: Copy resource to build directory
         if: steps.cache-exe.outputs.cache-hit == 'true'
         run: |
