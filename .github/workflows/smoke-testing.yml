@@ -6,8 +6,6 @@ on:
       - "3rdparty/include/**"
       - "include/**"
       - "src/**"
-      - "cmake/**"
-      - "CMakeLists.txt"
       - "MAA.sln"
       - "resource/**"
       - "!**/*.md"
@@ -16,8 +14,6 @@ on:
       - "3rdparty/include/**"
       - "include/**"
       - "src/**"
-      - "cmake/**"
-      - "CMakeLists.txt"
       - "MAA.sln"
       - "resource/**"
       - "!**/*.md"
@@ -44,7 +40,7 @@ jobs:
         id: cache-exe
         uses: actions/cache/restore@v4
         with:
-          key: Smoke-testing-sample.exe-${{ hashFiles('src/**', 'CMakeLists.txt', '3rdparty/include/**', 'include/**', 'cmake/**', 'MAA.sln') }}
+          key: Smoke-testing-sample.exe-${{ hashFiles('src/**', '3rdparty/include/**', 'include/**', 'MAA.sln') }}
           path: |
             ./x64/Debug/Sample.exe
             ./x64/Debug/fastdeploy_ppocr.dll
@@ -95,7 +91,7 @@ jobs:
 
       - name: debug hashfiles
         run: |
-          echo Smoke-testing-sample.exe-${{ hashFiles('src/**', 'CMakeLists.txt', '3rdparty/include/**', 'include/**', 'cmake/**', 'MAA.sln') }}
+          echo Smoke-testing-sample.exe-${{ hashFiles('src/**', '3rdparty/include/**', 'include/**', 'MAA.sln') }}
 
       - name: Build MaaSample
         if: steps.cache-exe.outputs.cache-hit != 'true'
@@ -104,7 +100,7 @@ jobs:
 
       - name: debug hashfiles
         run: |
-          echo Smoke-testing-sample.exe-${{ hashFiles('src/**', 'CMakeLists.txt', '3rdparty/include/**', 'include/**', 'cmake/**', 'MAA.sln') }}
+          echo Smoke-testing-sample.exe-${{ hashFiles('src/**', '3rdparty/include/**', 'include/**', 'MAA.sln') }}
   
       - name: Copy resource to build directory
         if: steps.cache-exe.outputs.cache-hit == 'true'
@@ -122,7 +118,7 @@ jobs:
         if: steps.cache-exe.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
         with:
-          key: Smoke-testing-sample.exe-${{ hashFiles('src/**', 'CMakeLists.txt', '3rdparty/include/**', 'include/**', 'cmake/**', 'MAA.sln') }}
+          key: Smoke-testing-sample.exe-${{ hashFiles('src/**', '3rdparty/include/**', 'include/**', 'MAA.sln') }}
           path: |
             ./x64/Debug/Sample.exe
             ./x64/Debug/fastdeploy_ppocr.dll
