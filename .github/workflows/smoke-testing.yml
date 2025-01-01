@@ -93,6 +93,10 @@ jobs:
         with:
           msbuild-architecture: x64
 
+      - name: debug hashfiles
+        run: |
+          echo Smoke-testing-sample.exe-${{ hashFiles('src/**', 'CMakeLists.txt', '3rdparty/include/**', 'include/**', 'cmake/**', 'MAA.sln') }}
+
       - name: Build MaaSample
         if: steps.cache-exe.outputs.cache-hit != 'true'
         run: |
