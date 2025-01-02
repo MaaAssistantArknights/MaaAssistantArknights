@@ -113,7 +113,6 @@ jobs:
             lowercase_target: arm64
     env:
       MAABUILDER_TARGET_PLATFORM: ${{ matrix.msbuild_target }}
-      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     runs-on: windows-latest
 
     steps:
@@ -126,14 +125,17 @@ jobs:
         run: |
           git submodule update --init --depth 1 3rdparty/EmulatorExtras
 
-      - name: Setup .NET
-        id: dotnet
-        uses: actions/setup-dotnet@v4
+      - name: Cache .nuke/temp, ~/.nuget/packages
+        id: cache-nuget
+        uses: actions/cache@v4
         with:
-          cache: true
+          path: |
+            .nuke/temp
+            ~/.nuget/packages
+          key: ${{ runner.os }}-${{ matrix.msbuild_target }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
 
       - name: Restore dependencies
-        if: steps.dotnet.outputs.cache-hit != 'true'
+        if: steps.cache-nuget.outputs.cache-hit != 'true'
         run: dotnet restore
 
       - name: Cache MaaDeps
