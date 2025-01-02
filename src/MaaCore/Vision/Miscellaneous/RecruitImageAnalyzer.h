@@ -30,7 +30,8 @@ public:
     {
         top = 6,
         senior = 5,
-        robot = 1
+        robot = 1,
+        highvalue = 11
     };
 
     void mock_set_special(operator_type type)
@@ -43,6 +44,10 @@ public:
         }
         if (type == robot) {
             m_tags_result[0].text = "支援机械";
+        }
+        if (type == highvalue) {
+            m_tags_result[0].text = "资深干员";
+            m_tags_result[1].text = "高级资深干员";
         }
     }
 #endif // ASST_DEBUG

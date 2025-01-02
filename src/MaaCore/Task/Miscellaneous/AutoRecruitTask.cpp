@@ -162,6 +162,18 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_skip_robot(bool skip_robot) no
     return *this;
 }
 
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_confirm_senior(bool confirm_senior) noexcept
+{
+    m_confirm_senior = confirm_senior;
+    return *this;
+}
+
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_confirm_top(bool confirm_top) noexcept
+{
+    m_confirm_top = confirm_top;
+    return *this;
+}
+
 asst::AutoRecruitTask& asst::AutoRecruitTask::set_set_time(bool set_time) noexcept
 {
     m_set_time = set_time;
@@ -418,9 +430,10 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         if (RunRecruitMockTest_001) {
             static int skip_once = 0;
             if (skip_once == 0) {
-                // image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::robot);
-                // image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::senior);
-                image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::top);
+                //image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::robot);
+                image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::senior);
+                //image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::top);
+                //image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::highvalue);
                 skip_once++;
             }
         }
@@ -588,7 +601,9 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         }
 
         // refresh
-        if (m_need_refresh && m_has_refresh && !has_special_tag && !(m_skip_robot && has_robot_tag) &&
+        if (m_need_refresh && m_has_refresh && 
+            !has_special_tag && 
+            !(m_skip_robot && has_robot_tag) &&
             (final_combination.min_level == 3 && !has_preferred_tag)) {
             if (refresh_count > refresh_limit) [[unlikely]] {
                 json::value cb_info = basic_info();
@@ -641,23 +656,26 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             return result;
         }
 
-        if (!is_calc_only_task()) {
-            // "Automatically recruit 5/6 Star operators" is not checked.
-            if (has_special_tag) {
-                calc_task_result_type result(calc_task_result::special_tag_skip);
-                return result;
-            }
-
-            if (m_skip_robot && has_robot_tag) {
-                calc_task_result_type result(calc_task_result::robot_tag_skip);
-                return result;
-            }
+        if ( !(has_robot_tag || has_special_tag) && 
+            !is_calc_only_task()) {
             // do not confirm, force skip
             if (!(final_combination.min_level == 3 && has_preferred_tag) &&
                 ranges::none_of(m_confirm_level, [&](const auto& i) { return i == final_combination.min_level; })) {
                 calc_task_result_type result(calc_task_result::force_skip);
                 return result;
             }
+        }
+
+        // "Automatically recruit 5/6 Star operators" is not checked.
+        if ((final_combination.max_level == 5 && !m_confirm_senior) ||
+            (final_combination.max_level == 6) ) {
+            calc_task_result_type result(calc_task_result::special_tag_skip);
+            return result;
+        }
+
+        if (m_skip_robot && has_robot_tag) {
+            calc_task_result_type result(calc_task_result::robot_tag_skip);
+            return result;
         }
 
         int recruitment_time = m_desired_time_map[(std::max)(final_combination.min_level, 3)];
