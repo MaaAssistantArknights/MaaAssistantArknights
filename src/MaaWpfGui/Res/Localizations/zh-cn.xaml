@@ -127,6 +127,8 @@
     <system:String x:Key="RoguelikeStrategyGold">刷源石锭，到达第二层后直接退出</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">刷开局，刷取热水壶或精二干员开局</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">刷坍缩范式，遇到非稀有坍缩范式后直接重开</system:String>
+    <system:String x:Key="RoguelikeStrategyMonthlySquad">刷月度小队，到达第五层后直接退出</system:String>
+    <system:String x:Key="RoguelikeStrategyDeepExploration">刷深入调查，尽可能稳定地打更多层数</system:String>
     <system:String x:Key="StartingSquad">开局分队</system:String>
     <system:String x:Key="StartingRoles">开局职业组</system:String>
     <system:String x:Key="StartingCoreChar">开局干员 (单个)</system:String>
@@ -143,6 +145,8 @@
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">自动肉鸽在战斗结束前延迟「停止」动作</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">在第五层 BOSS 前暂停</system:String>
+    <system:String x:Key="RoguelikeMonthlySquadAutoIterate">月度小队自动切换</system:String>
+    <system:String x:Key="RoguelikeDeepExplorationAutoIterate">深入调查自动切换</system:String>
     <system:String x:Key="DeploymentWithPause">划火柴模式（自动战斗）</system:String>
     <system:String x:Key="AdbLiteEnabled">使用 ADB Lite（实验性功能）</system:String>
     <system:String x:Key="KillAdbOnExit">退出时释放 ADB</system:String>

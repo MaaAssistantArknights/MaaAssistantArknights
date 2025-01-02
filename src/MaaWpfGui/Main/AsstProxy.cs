@@ -2432,6 +2432,8 @@ namespace MaaWpfGui.Main
         /// <param name="theme">肉鸽主题["Phantom", "Mizuki", "Sami", "Sarkaz"]</param>
         /// <param name="refreshTraderWithDice">是否用骰子刷新商店购买特殊商品，目前支持水月肉鸽的指路鳞</param>
         /// <param name="stopAtFinalBoss">是否在五层BOSS前停下来</param>
+        /// <param name="monthlySquadAutoIterate">是否启动月度小队自动切换</param>
+        /// <param name="deepExplorationAutoIterate">是否启动深入调查自动切换</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(
             int mode,
@@ -2455,7 +2457,9 @@ namespace MaaWpfGui.Main
             bool enableNonFriendSupport,
             string theme,
             bool refreshTraderWithDice,
-            bool stopAtFinalBoss)
+            bool stopAtFinalBoss,
+            bool monthlySquadAutoIterate,
+            bool deepExplorationAutoIterate)
         {
             var taskParams = new JObject
             {
@@ -2495,6 +2499,10 @@ namespace MaaWpfGui.Main
 
             taskParams["start_with_elite_two"] = startWithEliteTwo;
             taskParams["only_start_with_elite_two"] = onlyStartWithEliteTwo;
+
+            taskParams["monthly_squad_auto_iterate"] = monthlySquadAutoIterate;
+            taskParams["deep_exploration_auto_iterate"] = deepExplorationAutoIterate;
+
             if (roguelike3FirstFloorFoldartal && roguelike3StartFloorFoldartal.Length > 0)
             {
                 taskParams["first_floor_foldartal"] = roguelike3StartFloorFoldartal;
