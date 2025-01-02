@@ -136,17 +136,6 @@ jobs:
 
           gh run watch ${{ github.run_id }}
 
-      - name: Push tag to main repo
-        id: push_main_tag
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email 'github-actions[bot]@users.noreply.github.com'
-
-          $main_tag_name=$(echo "alpha/${{ steps.set_tag.outputs.tag }}")
-          git tag $main_tag_name -f
-          git push --tags origin HEAD:refs/tags/$main_tag_name -f
-          echo "main_tag_name=$main_tag_name" >> $env:GITHUB_OUTPUT
-
       - name: Generate Changelog
         id: generate_changelog
         run: |
@@ -241,6 +230,17 @@ jobs:
         with:
           name: MAA-win-${{ matrix.msbuild_target }}
           path: artifacts
+
+      - name: Push tag to main repo
+        id: push_main_tag
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+
+          $main_tag_name=$(echo "alpha/${{ steps.set_tag.outputs.tag }}")
+          git tag $main_tag_name -f
+          git push --tags origin HEAD:refs/tags/$main_tag_name -f
+          echo "main_tag_name=$main_tag_name" >> $env:GITHUB_OUTPUT
 
   push-tag:
     needs: build-win-nightly
