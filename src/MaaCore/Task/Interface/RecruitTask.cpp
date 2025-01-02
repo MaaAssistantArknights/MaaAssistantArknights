@@ -52,7 +52,7 @@ bool asst::RecruitTask::set_params(const json::value& params)
     bool expedite = params.get("expedite", false);
     [[maybe_unused]] int expedite_times = params.get("expedite_times", 0);
     bool skip_robot = params.get("skip_robot", true);
-    bool confirm_senior = params.get("confirm_senior", true);    
+    bool confirm_senior = params.get("confirm_senior", true);
     std::vector<std::string> first_tags = params.get("first_tags", std::vector<std::string>(0));
 
     std::unordered_map<int /*level*/, int /*minute*/> recruitment_time_map;
