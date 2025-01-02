@@ -688,10 +688,10 @@
         ]
     },
     "FightMissionFailed": {
-        "text": ["任務失敗"]
+        "text": ["任務失敗", "作戰失敗", "失敗"]
     },
     "FightMissionFailedAndStop": {
-        "text": ["任務失敗"]
+        "text": ["任務失敗", "作戰失敗", "失敗"]
     },
     "GoLastBattle": {
         "text": ["前往上一次作戰", "作戰"]
