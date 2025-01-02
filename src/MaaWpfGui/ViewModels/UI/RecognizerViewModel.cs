@@ -605,8 +605,10 @@ namespace MaaWpfGui.ViewModels.UI
                 }
                 else
                 {
-                    /*未拥有干员,包含预备干员等*/
-                    operNotHave.Add(tuple);
+                    if (DataHelper.IsCharacterAvailableInClient(tuple.Name, SettingsViewModel.GameSettings.ClientType))
+                    {
+                        operNotHave.Add(tuple);
+                    }
                 }
             }
 
