@@ -185,6 +185,29 @@ namespace MaaWpfGui.Helper
             };
         }
 
+        public static bool IsCharacterAvailableInClient(CharacterInfo? character, string clientType)
+        {
+            if (character is null)
+            {
+                return false;
+            }
+
+            return clientType switch
+            {
+                "zh-tw" or "txwy" => !character.NameTwUnavailable,
+                "en-us" or "YoStarEN" => !character.NameEnUnavailable,
+                "ja-jp" or "YoStarJP" => !character.NameJpUnavailable,
+                "ko-kr" or "YoStarKR" => !character.NameKrUnavailable,
+                _ => true,
+            };
+        }
+
+        public static bool IsCharacterAvailableInClient(string characterName, string clientType)
+        {
+            var character = GetCharacterByNameOrAlias(characterName);
+            return character != null && IsCharacterAvailableInClient(character, clientType);
+        }
+
         public class CharacterInfo
         {
             [JsonProperty("name")]
@@ -193,14 +216,26 @@ namespace MaaWpfGui.Helper
             [JsonProperty("name_en")]
             public string? NameEn { get; set; }
 
+            [JsonProperty("name_en_unavailable")]
+            public bool NameEnUnavailable { get; set; } = false;
+
             [JsonProperty("name_jp")]
             public string? NameJp { get; set; }
+
+            [JsonProperty("name_jp_unavailable")]
+            public bool NameJpUnavailable { get; set; } = false;
 
             [JsonProperty("name_kr")]
             public string? NameKr { get; set; }
 
+            [JsonProperty("name_kr_unavailable")]
+            public bool NameKrUnavailable { get; set; } = false;
+
             [JsonProperty("name_tw")]
             public string? NameTw { get; set; }
+
+            [JsonProperty("name_tw_unavailable")]
+            public bool NameTwUnavailable { get; set; } = false;
 
             [JsonProperty("position")]
             public string? Position { get; set; }
