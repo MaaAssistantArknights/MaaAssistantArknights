@@ -203,8 +203,13 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
                         continue;
                     }
 
+                    if (!DataHelper.IsCharacterAvailableInClient(name, SettingsViewModel.GameSettings.ClientType))
+                    {
+                        continue;
+                    }
+
                     var localizedName = DataHelper.GetLocalizedCharacterName(name, SettingsViewModel.GuiSettings.OperNameLocalization);
-                    if (!string.IsNullOrEmpty(localizedName) && !(SettingsViewModel.GameSettings.ClientType.Contains("YoStar") && DataHelper.GetLocalizedCharacterName(name, "en-us") == DataHelper.GetLocalizedCharacterName(name, "zh-cn")))
+                    if (!string.IsNullOrEmpty(localizedName))
                     {
                         roguelikeCoreCharList.Add(localizedName);
                     }
