@@ -72,7 +72,7 @@ struct AdbCfg
     std::string display;
     std::string screencap_raw_with_gzip;
     std::string screencap_raw_by_nc;
-    std::string screencap_raw_by_dcr;
+    std::string dcr_screencap_addr;
     std::string nc_address;
     std::string screencap_encode;
     std::string release;

@@ -123,7 +123,7 @@ protected:
         std::string press_esc;
 
         std::string screencap_raw_by_nc;
-        std::string screencap_raw_by_droidcast;
+        std::string droidcast_screencap_addr;
         std::string screencap_raw_with_gzip;
         std::string screencap_encode;
         std::string release;
