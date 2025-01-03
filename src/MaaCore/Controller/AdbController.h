@@ -96,6 +96,7 @@ protected:
     void set_mumu_package(const std::string& client_type);
     void init_ld_extras(const AdbCfg& adb_cfg);
     bool init_droidcast(const AdbCfg& adb_cfg,std::function<std::string(const std::string&)> cmd_replace);
+    std::optional<std::string> get_image_from_droidcast(const std::string& addr);
 
     // 转换 data 中的 CRLF 为 LF：有些模拟器自带的 adb，exec-out 输出的 \n 会被替换成 \r\n，
     // 导致解码错误，所以这里转一下回来（点名批评 mumu 和雷电）
@@ -123,7 +124,7 @@ protected:
         std::string press_esc;
 
         std::string screencap_raw_by_nc;
-        std::string screencap_raw_by_droidcast;
+        std::string droidcast_screencap_addr;
         std::string screencap_raw_with_gzip;
         std::string screencap_encode;
         std::string release;

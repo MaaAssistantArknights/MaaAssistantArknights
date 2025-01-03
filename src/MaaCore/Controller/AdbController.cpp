@@ -5,6 +5,7 @@
 #include "Utils/NoWarningCV.h"
 #include <cstdint>
 #include <numeric>
+#include <cpr/cpr.h>
 
 #ifdef _MSC_VER
 #pragma warning(push)
@@ -538,7 +539,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         clear_lf_info();
 
         start_time = steady_clock::now();
-        if (screencap(m_adb.screencap_raw_by_droidcast, decode_encode, allow_reconnect)) {
+        if (screencap(m_adb.droidcast_screencap_addr, decode_encode, allow_reconnect)) {
             auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawByDroidCast;
@@ -634,7 +635,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             screencap_ret = screencap(m_adb.screencap_raw_by_nc, decode_raw, allow_reconnect, true);
             break;
         case AdbProperty::ScreencapMethod::RawByDroidCast:
-            screencap_ret = screencap(m_adb.screencap_raw_by_droidcast, decode_raw, allow_reconnect, true);
+            screencap_ret = screencap(m_adb.droidcast_screencap_addr, decode_raw, allow_reconnect, true);
             break;
         case AdbProperty::ScreencapMethod::RawWithGzip:
             screencap_ret = screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip, allow_reconnect);
@@ -724,7 +725,14 @@ bool asst::AdbController::screencap(
     if ((!m_support_socket || !m_server_started) && by_socket) [[unlikely]] {
         return false;
     }
-    auto ret = call_command(cmd, timeout, allow_reconnect, by_socket);
+    std::optional<std::string> ret;
+    if (cmd.rfind("http", 0) == 0) {
+        // cmd以"http"开头，跳过
+        ret = get_image_from_droidcast(cmd);
+    } else {
+        // 否则，执行call_command
+        ret = call_command(cmd, timeout, allow_reconnect, by_socket);
+    }
 
     if (!ret || ret.value().empty()) [[unlikely]] {
         Log.warn("data is empty!");
@@ -868,6 +876,59 @@ bool asst::AdbController::init_droidcast(
             return true;
         };
     return probe_droidcast(adb_cfg, cmd_replace);
+}
+
+std::optional<std::string> asst::AdbController::get_image_from_droidcast(const std::string& addr)
+{
+    using namespace std::chrono;
+
+    Log.trace("Function get_image_from_droidcast called with addr: " + addr);
+
+    auto start_time = steady_clock::now();
+    std::unique_lock<std::mutex> callcmd_lock(m_callcmd_mutex);
+
+    std::string response_data;
+    try {
+        // 发起 HTTP GET 请求
+        cpr::Response r = cpr::Get(cpr::Url{addr});
+
+        // 检查响应状态码
+        if (r.error) {
+            Log.warn("HTTP request failed: " + r.error.message);
+            return std::nullopt;
+        }
+
+        if (r.status_code != 200) {
+            Log.warn("Unexpected HTTP status code: " + std::to_string(r.status_code));
+            return std::nullopt;
+        }
+
+        // 检查返回的数据是否为空
+        if (r.text.empty()) {
+            Log.warn("Response is empty");
+            return std::nullopt;
+        }
+
+        response_data = r.text;
+
+    } catch (const std::exception& e) {
+        Log.error("Exception occurred in get_image_from_droidcast: " + std::string(e.what()));
+        return std::nullopt;
+    } catch (...) {
+        Log.error("Unknown exception occurred in get_image_from_droidcast");
+        return std::nullopt;
+    }
+
+    auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time).count();
+    Log.info("HTTP request to `" + addr + "` succeeded, response size: " +
+                 std::to_string(response_data.size()) + " bytes, duration: " +
+                 std::to_string(duration) + "ms");
+
+    if (response_data.size() < 4096) {
+        Log.trace("Response content: " + response_data);
+    }
+
+    return response_data;
 }
 
 bool asst::AdbController::connect(const std::string& adb_path, const std::string& address, const std::string& config)
@@ -1096,6 +1157,8 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         }
         m_screen_size = { m_width, m_height };
     }
+
+    /* DroidCast */
     bool droidcast_available = init_droidcast(adb_cfg, cmd_replace);
     if (!droidcast_available) {
         json::value info = get_info_json() | json::object {
@@ -1123,7 +1186,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
     m_adb.swipe = cmd_replace(adb_cfg.swipe);
     m_adb.press_esc = cmd_replace(adb_cfg.press_esc);
     m_adb.screencap_raw_with_gzip = cmd_replace(adb_cfg.screencap_raw_with_gzip);
-    m_adb.screencap_raw_by_droidcast = adb_cfg.screencap_raw_by_dcr;
+    m_adb.droidcast_screencap_addr = adb_cfg.dcr_screencap_addr;
     m_adb.screencap_encode = cmd_replace(adb_cfg.screencap_encode);
     m_adb.start = cmd_replace(adb_cfg.start);
     m_adb.stop = cmd_replace(adb_cfg.stop);
