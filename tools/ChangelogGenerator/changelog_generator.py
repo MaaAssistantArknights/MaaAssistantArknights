@@ -336,7 +336,7 @@ def main(tag_name=None, latest=None):
             if commit_hash not in raw_commits_info:
                 continue
             git_show_command = (
-                rf'git show -s --format=%b%n {commit_hash}'
+                rf'git show -s --format=%B%n {commit_hash}'
             )
             raw_git_shows = call_command(git_show_command)
             for commit_body in raw_git_shows.split("\n"):
