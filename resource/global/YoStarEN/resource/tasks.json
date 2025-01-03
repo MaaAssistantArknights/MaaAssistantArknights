@@ -108,7 +108,7 @@
     },
     "SLChapterToSL": {
         "text": ["A HOLIDAY", "AT THE HOT SPRINGS"],
-        "roi": [998, 461, 210, 62]
+        "roi": [1046, 465, 198, 61]
     },
     "HE-Open": {
         "text": ["Hortus", "Escapismo", "Sacrarium", "Derelictum"]
