@@ -1842,6 +1842,7 @@ namespace MaaWpfGui.ViewModels.UI
                 RoguelikeTask.RoguelikeRefreshTraderWithDice,
                 RoguelikeTask.RoguelikeStopAtFinalBoss,
                 RoguelikeTask.RoguelikeMonthlySquadAutoIterate,
+                RoguelikeTask.RoguelikeMonthlySquadCheckComms,
                 RoguelikeTask.RoguelikeDeepExplorationAutoIterate,
                 RoguelikeTask.RoguelikeStopAtMaxLevel,
                 RoguelikeTask.RoguelikeStartWithSeed);
