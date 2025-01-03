@@ -6,11 +6,30 @@
 #include "Config/TaskData.h"
 #include "Status.h"
 #include "Utils/Logger.hpp"
+#include "Utils/NoWarningCV.h"
 #include "Vision/Matcher.h"
 #include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
 
 using namespace asst;
+
+void asst::PipelineAnalyzer::set_image_raw(const cv::Mat& image)
+{
+    const static cv::Size default_size(m_image_default_size.first, m_image_default_size.second);
+    const static cv::Size max_size(m_image_max_size.first, m_image_max_size.second);
+    if (image.empty()) {
+        m_image_raw = m_image = { default_size, CV_8UC3 };
+        return;
+    }
+    cv::resize(image, m_image, default_size, 0.0, 0.0, cv::INTER_AREA);
+    if (image.cols > m_image_max_size.first || image.rows > m_image_max_size.second) {
+        // 过大图片缩小
+        cv::resize(image, *m_image_raw, max_size, 0, 0, cv::INTER_AREA);
+    }
+    else {
+        m_image_raw = image;
+    }
+}
 
 PipelineAnalyzer::ResultOpt PipelineAnalyzer::analyze() const
 {
@@ -39,7 +58,8 @@ PipelineAnalyzer::ResultOpt PipelineAnalyzer::analyze() const
             break;
         case AlgorithmType::OcrDetect:
             if (auto ocr_opt = ocr(task_ptr)) {
-                Log.trace(__FUNCTION__, "| OcrDetect", task_ptr->name, *ocr_opt);
+                LogTrace << __FUNCTION__ << "| OcrDetect" << task_ptr->name << *ocr_opt
+                         << ", with raw image:" << m_image_raw.has_value();
                 return Result { .task_ptr = task_ptr, .result = ocr_opt->front(), .rect = ocr_opt->front().rect };
             }
             break;
@@ -87,6 +107,8 @@ OCRer::ResultsVecOpt PipelineAnalyzer::ocr(const std::shared_ptr<TaskInfo>& task
 
     bool det = !ocr_task_ptr->without_det;
     bool use_cache = m_inst && ocr_task_ptr->cache;
+    bool use_raw_image = m_image_raw.has_value();
+    auto roi = ocr_task_ptr->roi;
 
     std::optional<Rect> cache_opt;
     if (use_cache) {
@@ -96,12 +118,17 @@ OCRer::ResultsVecOpt PipelineAnalyzer::ocr(const std::shared_ptr<TaskInfo>& task
     OCRer::ResultsVec result_vec;
 
     if (det) {
-        OCRer analyzer(m_image, m_roi);
+        // 这里的m_roi必定被task_info的roi覆盖
+        OCRer analyzer(use_raw_image ? *m_image_raw : m_image, m_roi);
         analyzer.set_task_info(ocr_task_ptr);
         if (use_cache && cache_opt) {
-            analyzer.set_roi(*cache_opt);
+            roi = *cache_opt;
             analyzer.set_without_det(true);
         }
+        if (use_raw_image) {
+            roi = roi.zoom(m_image_raw->rows * 1.0 / m_image.rows);
+        }
+        analyzer.set_roi(roi);
         auto result_opt = analyzer.analyze();
         if (!result_opt) {
             return std::nullopt;
@@ -109,16 +136,28 @@ OCRer::ResultsVecOpt PipelineAnalyzer::ocr(const std::shared_ptr<TaskInfo>& task
         result_vec = std::move(*result_opt);
     }
     else {
-        RegionOCRer analyzer(m_image, m_roi);
+        // 这里的m_roi必定被task_info的roi覆盖
+        RegionOCRer analyzer(use_raw_image ? *m_image_raw : m_image, m_roi);
         analyzer.set_task_info(ocr_task_ptr);
         if (use_cache && cache_opt) {
-            analyzer.set_roi(*cache_opt);
+            roi = *cache_opt;
         }
+        if (use_raw_image) {
+            roi = roi.zoom(m_image_raw->rows * 1.0 / m_image_raw->rows);
+        }
+        analyzer.set_roi(roi);
         auto result_opt = analyzer.analyze();
         if (!result_opt) {
             return std::nullopt;
         }
         result_vec = { std::move(*result_opt) };
+    }
+
+    // 还原rect
+    if (use_raw_image) {
+        for (auto& result : result_vec) {
+            result.rect = result.rect.zoom(m_image.rows * 1.0 / m_image_raw->rows);
+        }
     }
 
     if (use_cache && !result_vec.empty()) {
