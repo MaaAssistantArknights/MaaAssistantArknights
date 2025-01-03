@@ -3,9 +3,9 @@
 #include "Assistant.h"
 #include "Common/AsstConf.h"
 #include "Utils/NoWarningCV.h"
+#include <cpr/cpr.h>
 #include <cstdint>
 #include <numeric>
-#include <cpr/cpr.h>
 
 #ifdef _MSC_VER
 #pragma warning(push)
@@ -729,7 +729,8 @@ bool asst::AdbController::screencap(
     if (cmd.rfind("http", 0) == 0) {
         // cmd以"http"开头，跳过
         ret = get_image_from_droidcast(cmd);
-    } else {
+    }
+    else {
         // 否则，执行call_command
         ret = call_command(cmd, timeout, allow_reconnect, by_socket);
     }
@@ -886,7 +887,7 @@ std::optional<std::string> asst::AdbController::get_image_from_droidcast(const s
     std::string response_data;
     try {
         // 发起 HTTP GET 请求
-        cpr::Response r = cpr::Get(cpr::Url{addr});
+        cpr::Response r = cpr::Get(cpr::Url { addr });
 
         // 检查响应状态码
         if (r.error) {
@@ -906,19 +907,20 @@ std::optional<std::string> asst::AdbController::get_image_from_droidcast(const s
         }
 
         response_data = r.text;
-
-    } catch (const std::exception& e) {
+    }
+    catch (const std::exception& e) {
         Log.error("Exception occurred in get_image_from_droidcast: " + std::string(e.what()));
         return std::nullopt;
-    } catch (...) {
+    }
+    catch (...) {
         Log.error("Unknown exception occurred in get_image_from_droidcast");
         return std::nullopt;
     }
 
     auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time).count();
-    Log.info("HTTP request to `" + addr + "` succeeded, response size: " +
-                 std::to_string(response_data.size()) + " bytes, duration: " +
-                 std::to_string(duration) + "ms");
+    Log.info(
+        "HTTP request to `" + addr + "` succeeded, response size: " + std::to_string(response_data.size()) +
+        " bytes, duration: " + std::to_string(duration) + "ms");
 
     if (response_data.size() < 4096) {
         Log.trace("Response content: " + response_data);
