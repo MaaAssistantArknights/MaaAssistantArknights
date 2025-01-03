@@ -1758,6 +1758,7 @@ namespace MaaWpfGui.ViewModels.UI
                 SettingsViewModel.RecruitTask.UseExpedited,
                 selectExtra,
                 SettingsViewModel.RecruitTask.NotChooseLevel1,
+                SettingsViewModel.RecruitTask.ChooseLevel5,
                 SettingsViewModel.RecruitTask.ChooseLevel3Time,
                 SettingsViewModel.RecruitTask.ChooseLevel4Time,
                 SettingsViewModel.RecruitTask.ChooseLevel5Time);
