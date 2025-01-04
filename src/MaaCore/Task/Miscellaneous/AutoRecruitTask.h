@@ -26,8 +26,6 @@ public:
     AutoRecruitTask& set_select_extra_tags(ExtraTagsMode select_extra_tags_mode) noexcept;
     AutoRecruitTask& set_first_tags(std::vector<std::string> first_tags) noexcept;
     AutoRecruitTask& set_skip_robot(bool skip_robot) noexcept;
-    AutoRecruitTask& set_confirm_senior(bool confirm_senior) noexcept;
-    AutoRecruitTask& set_confirm_top(bool confirm_top) noexcept;
     AutoRecruitTask& set_set_time(bool set_time) noexcept;
     AutoRecruitTask& set_force_refresh(bool force_refrest) noexcept;
     AutoRecruitTask& set_recruitment_time(std::unordered_map<int, int>) noexcept;
@@ -152,8 +150,6 @@ protected:
     bool m_has_permit = true;
     bool m_has_refresh = true;
     bool m_skip_robot = true;
-    bool m_confirm_senior = true;
-    bool m_confirm_top = true;
     bool m_set_time = true;
     bool m_force_refresh = true;
     std::unordered_map<int /*level*/, int /*minutes*/> m_desired_time_map;

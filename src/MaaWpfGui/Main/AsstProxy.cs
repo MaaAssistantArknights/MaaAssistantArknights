@@ -2220,7 +2220,6 @@ namespace MaaWpfGui.Main
         /// </list>
         /// </param>
         /// <param name="skipRobot">是否在识别到小车词条时跳过。</param>
-        /// <param name="confirmSenior">是否同意自动招募5星</param>
         /// <param name="chooseLevel3Time">3 星招募时间</param>
         /// <param name="chooseLevel4Time">4 星招募时间</param>
         /// <param name="chooseLevel5Time">5 星招募时间</param>
@@ -2235,7 +2234,6 @@ namespace MaaWpfGui.Main
             bool useExpedited,
             int selectExtraTagsMode,
             bool skipRobot,
-            bool confirmSenior,
             int chooseLevel3Time,
             int chooseLevel4Time,
             int chooseLevel5Time)
@@ -2252,7 +2250,6 @@ namespace MaaWpfGui.Main
                 ["extra_tags_mode"] = selectExtraTagsMode,
                 ["expedite_times"] = maxTimes,
                 ["skip_robot"] = skipRobot,
-                ["confirm_senior"] = confirmSenior,
                 ["first_tags"] = new JArray(firstTags),
                 ["recruitment_time"] = new JObject
                 {

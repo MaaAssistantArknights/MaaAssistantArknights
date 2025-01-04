@@ -162,18 +162,6 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_skip_robot(bool skip_robot) no
     return *this;
 }
 
-asst::AutoRecruitTask& asst::AutoRecruitTask::set_confirm_senior(bool confirm_senior) noexcept
-{
-    m_confirm_senior = confirm_senior;
-    return *this;
-}
-
-asst::AutoRecruitTask& asst::AutoRecruitTask::set_confirm_top(bool confirm_top) noexcept
-{
-    m_confirm_top = confirm_top;
-    return *this;
-}
-
 asst::AutoRecruitTask& asst::AutoRecruitTask::set_set_time(bool set_time) noexcept
 {
     m_set_time = set_time;
