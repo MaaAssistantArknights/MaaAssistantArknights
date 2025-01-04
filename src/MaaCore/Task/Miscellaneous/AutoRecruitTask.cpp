@@ -518,7 +518,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                     return l_has > r_has;
                 }
             }
-            
+
             if (lhs.min_level != rhs.min_level) {
                 return lhs.min_level > rhs.min_level; // 最小等级大的，排前面
             }
@@ -589,11 +589,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         }
 
         // refresh
-        if (m_need_refresh && 
-            m_has_refresh && 
-            !has_special_tag && 
-            !(m_skip_robot && has_robot_tag) &&
-            (final_combination.min_level == 3 && !has_preferred_tag)){
+        if (m_need_refresh && m_has_refresh && !has_special_tag && !(m_skip_robot && has_robot_tag) &&
+            (final_combination.min_level == 3 && !has_preferred_tag)) {
             if (refresh_count > refresh_limit) [[unlikely]] {
                 json::value cb_info = basic_info();
                 cb_info["what"] = "RecruitError";
@@ -644,8 +641,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             calc_task_result_type result(calc_task_result::no_permit);
             return result;
         }
-        if ( !(has_robot_tag || has_special_tag) && 
-            !is_calc_only_task()) {
+        if (!(has_robot_tag || has_special_tag) && !is_calc_only_task()) {
             // do not confirm, force skip
             if (!(final_combination.min_level == 3 && has_preferred_tag) &&
                 is_recruitment_level_invalid(final_combination.min_level)) {
