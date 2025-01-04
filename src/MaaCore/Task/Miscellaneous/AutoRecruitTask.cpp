@@ -933,6 +933,18 @@ void asst::AutoRecruitTask::upload_to_penguin(Rng&& tags)
         extra_headers = { { "authorization", "PenguinID " + m_penguin_id } };
     }
 
+    std::string version = Version;
+    if (version.find("DEBUG VERSION") != std::string::npos) {
+        version = "dev";
+    }
+    else if (!version.empty() && version[0] == 'v') {
+        version.erase(0, 1);
+    }
+
+    version.erase(ranges::remove(version, ' ').begin(), version.end());
+
+    extra_headers.insert({ "User-Agent", std::string("MaaAssistantArknights/") + version + " cpr/" + CPR_VERSION });
+
     if (!m_report_penguin_task_ptr) {
         m_report_penguin_task_ptr = std::make_shared<ReportDataTask>(report_penguin_callback, this);
     }
