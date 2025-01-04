@@ -1,5 +1,7 @@
+name: Delete Cache
+
 on:
-  pull_request: 
+  pull_request:
     types: [closed]
 
 jobs:
@@ -11,21 +13,21 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-            mkdir -p temp && cd "$_"
+          mkdir -p temp && cd "$_"
 
-            git init
-            git remote add origin https://github.com/MaaAssistantArknights/MaaAssistantArknights.git
+          git init
+          git remote add origin https://github.com/MaaAssistantArknights/MaaAssistantArknights.git
 
-            PR_NUMBER=${{ github.event.pull_request.number }}
-            echo "PR Number: $PR_NUMBER"
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          echo "PR Number: $PR_NUMBER"
 
-            cache_list=$(gh cache list --json id,ref | jq -r ".[] | select(.ref | test(\"refs/pull/$PR_NUMBER/merge\")) | .id")
+          cache_list=$(gh cache list --json id,ref | jq -r ".[] | select(.ref | test(\"refs/pull/$PR_NUMBER/merge\")) | .id")
 
-            if [ -n "$cache_list" ]; then
-              for cache_id in $cache_list; do
-                echo "Deleting cache with ID: $cache_id"
-                # gh cache delete $cache_id
-              done            
-            else
-              echo "No cache found for PR #$pr_number"
-            fi
+          if [ -n "$cache_list" ]; then
+            for cache_id in $cache_list; do
+              echo "Deleting cache with ID: $cache_id"
+              # gh cache delete $cache_id
+            done            
+          else
+            echo "No cache found for PR #$pr_number"
+          fi
