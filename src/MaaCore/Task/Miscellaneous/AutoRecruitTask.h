@@ -140,9 +140,14 @@ protected:
             calc_task_result_type(init) {};
     };
 
-    bool is_recruitment_level_invalid(int opr_level)
+    bool is_confirm_level_invalid(int opr_level)
     {
         return std::ranges::none_of(this->m_confirm_level, [&](const int& i) { return i == opr_level; });
+    }
+
+    bool is_select_level_invalid(int opr_level)
+    {
+        return std::ranges::none_of(this->m_select_level, [&](const int& i) { return i == opr_level; });
     }
 
     calc_task_result_type recruit_calc_task(slot_index = 0);
