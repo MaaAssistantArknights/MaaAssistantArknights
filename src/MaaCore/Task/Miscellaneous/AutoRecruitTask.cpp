@@ -641,24 +641,27 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             calc_task_result_type result(calc_task_result::no_permit);
             return result;
         }
-        if (!(has_robot_tag || has_special_tag) && !is_calc_only_task()) {
-            // do not confirm, force skip
-            if (!(final_combination.min_level == 3 && has_preferred_tag) &&
-                is_recruitment_level_invalid(final_combination.min_level)) {
-                calc_task_result_type result(calc_task_result::force_skip);
+
+        if (!is_calc_only_task()) {
+            if (!(has_robot_tag || has_special_tag)) {
+                // do not confirm, force skip
+                if (!(final_combination.min_level == 3 && has_preferred_tag) &&
+                    is_recruitment_level_invalid(final_combination.min_level)) {
+                    calc_task_result_type result(calc_task_result::force_skip);
+                    return result;
+                }
+            }
+
+            // "Automatically recruit 5/6 Star operators" is not checked.
+            if (has_special_tag && is_recruitment_level_invalid(final_combination.min_level)) {
+                calc_task_result_type result(calc_task_result::special_tag_skip);
                 return result;
             }
-        }
 
-        // "Automatically recruit 5/6 Star operators" is not checked.
-        if (has_special_tag && is_recruitment_level_invalid(final_combination.min_level)) {
-            calc_task_result_type result(calc_task_result::special_tag_skip);
-            return result;
-        }
-
-        if (has_robot_tag && m_skip_robot) {
-            calc_task_result_type result(calc_task_result::robot_tag_skip);
-            return result;
+            if (has_robot_tag && m_skip_robot) {
+                calc_task_result_type result(calc_task_result::robot_tag_skip);
+                return result;
+            }
         }
 
         int recruitment_time = m_desired_time_map[(std::max)(final_combination.min_level, 3)];
