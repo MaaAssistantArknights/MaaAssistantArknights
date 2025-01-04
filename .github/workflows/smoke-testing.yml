@@ -28,7 +28,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  smoke-testing:
     # Prevent duplicate runs on organization branches with PRs
     if: github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name !=
