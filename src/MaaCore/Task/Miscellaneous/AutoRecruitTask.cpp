@@ -646,14 +646,14 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             if (!(has_robot_tag || has_special_tag)) {
                 // do not confirm, force skip
                 if (!(final_combination.min_level == 3 && has_preferred_tag) &&
-                    is_recruitment_level_invalid(final_combination.min_level)) {
+                    is_confirm_level_invalid(final_combination.min_level)) {
                     calc_task_result_type result(calc_task_result::force_skip);
                     return result;
                 }
             }
 
             // "Automatically recruit 5/6 Star operators" is not checked.
-            if (has_special_tag && is_recruitment_level_invalid(final_combination.min_level)) {
+            if (has_special_tag && is_confirm_level_invalid(final_combination.min_level)) {
                 calc_task_result_type result(calc_task_result::special_tag_skip);
                 return result;
             }
@@ -687,7 +687,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         // nothing to select, leave the selection empty
         if (!(final_combination.min_level == 3 && has_preferred_tag) &&
-            is_recruitment_level_invalid(final_combination.min_level)) {
+            is_select_level_invalid(final_combination.min_level)) {
             calc_task_result_type result(calc_task_result::nothing_to_select, recruitment_time);
             return result;
         }
