@@ -540,5 +540,5 @@ struct MatchTaskInfo : public TaskInfo
 using MatchTaskPtr = std::shared_ptr<MatchTaskInfo>;
 using MatchTaskConstPtr = std::shared_ptr<const MatchTaskInfo>;
 
-inline static const std::string UploadDataSource = "MeoAssistant";
+inline static const std::string UploadDataSource = "MaaAssistantArknights";
 } // namespace asst
