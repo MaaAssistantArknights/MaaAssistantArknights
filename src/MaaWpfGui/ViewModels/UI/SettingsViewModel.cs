@@ -18,7 +18,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using HandyControl.Controls;
@@ -49,14 +48,6 @@ namespace MaaWpfGui.ViewModels.UI
         private readonly RunningState _runningState;
 
         private static readonly ILogger _logger = Log.ForContext<SettingsViewModel>();
-
-        [DllImport("user32.dll")]
-        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-        private const int SWMINIMIZE = 6;
-
-        [DllImport("user32.dll")]
-        private static extern bool IsIconic(IntPtr hWnd);
 
         /// <summary>
         /// Gets the visibility of task setting views.
