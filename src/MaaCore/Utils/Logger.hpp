@@ -620,9 +620,7 @@ public:
         std::unique_lock lock { m_trace_mutex };
         log(std::move(lock), level::debug, std::forward<Args>(args)...);
 #else
-        static const bool need_log = [] {
-            return std::ifstream("DEBUG").good() || std::ifstream("DEBUG.txt").good();
-        }();
+        static const bool need_log = std::filesystem::exists("DEBUG") || std::filesystem::exists("DEBUG.txt");
         if (need_log) {
             std::unique_lock lock { m_trace_mutex };
             log(std::move(lock), level::debug, m_scopes.next(), std::forward<Args>(args)...);
