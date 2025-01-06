@@ -18,7 +18,9 @@ asst::ScreenshotTaskPlugin::ScreenshotTaskPlugin(
     }
 
 #ifndef ASST_DEBUG
-    bool need_save_debug_img = std::ifstream("DEBUG").good() || std::ifstream("DEBUG.txt").good();
+    static const bool need_save_debug_img = [] {
+        return std::ifstream("DEBUG").good() || std::ifstream("DEBUG.txt").good();
+    }();
     if (!need_save_debug_img) {
         return;
     }
