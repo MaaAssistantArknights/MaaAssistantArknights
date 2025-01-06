@@ -69,6 +69,7 @@ int asst::DrGrandetTaskPlugin::analyze_time_left(const cv::Mat& image)
     analyzer.set_use_char_model(false);
 
     if (!analyzer.analyze()) {
+        Log.warn(__FUNCTION__, "unable to analyze time");
         return -1;
     }
     auto text = analyzer.get_result().front().text;
@@ -76,6 +77,7 @@ int asst::DrGrandetTaskPlugin::analyze_time_left(const cv::Mat& image)
     auto regex = std::regex(R"((\d):(\d?)(\d?))");
     std::smatch match;
     if (!std::regex_search(text, match, regex)) {
+        Log.warn(__FUNCTION__, "Unable to match time:", text);
         return -1;
     }
     std::string time = match.str(0);
