@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Delete cache on PR merged
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.MAA_ACTION_READ_WRITE }}
         run: |
           mkdir -p temp && cd "$_"
 
