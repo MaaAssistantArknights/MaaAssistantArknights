@@ -184,18 +184,60 @@ jobs:
             ./tools/ResourceUpdater/x64/Release/ResourceUpdater.exe
 
       - name: Download txwy
+        id: download-txwy
         uses: actions/download-artifact@v4.1.8
+        continue-on-error: true
         with:
           name: txwy
           path: ./tools/ResourceUpdater/x64/Release/Overseas/zh_TW/gamedata/excel
 
-      - name: Download Overseas
+      - name: Delay txwy
+        if: steps.download-txwy.outcome == 'failure'
+        run: |
+          Start-Sleep -s 20
+
+      - name: Re-download txwy
+        if: steps.download-txwy.outcome == 'failure'
         uses: actions/download-artifact@v4.1.8
+        with:
+          name: txwy
+          path: ./tools/ResourceUpdater/x64/Release/Overseas/zh_TW/gamedata/excel
+  
+      - name: Download Overseas
+        id: download-overseas
+        uses: actions/download-artifact@v4.1.8
+        continue-on-error: true
         with:
           name: overseas
           path: ./tools/ResourceUpdater/x64/Release/Overseas
 
+      - name: Delay Overseas
+        if: steps.download-overseas.outcome == 'failure'
+        run: |
+          Start-Sleep -s 20
+
+      - name: Re-download Overseas
+        if: steps.download-overseas.outcome == 'failure'
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: overseas
+          path: ./tools/ResourceUpdater/x64/Release/Overseas
+  
       - name: Download Official
+        id: download-official
+        uses: actions/download-artifact@v4.1.8
+        continue-on-error: true
+        with:
+          name: official
+          path: ./tools/ResourceUpdater/x64/Release/Official
+
+      - name: Delay Official
+        if: steps.download-official.outcome == 'failure'
+        run: |
+          Start-Sleep -s 20
+
+      - name: Re-download Official
+        if: steps.download-official.outcome == 'failure'
         uses: actions/download-artifact@v4.1.8
         with:
           name: official
