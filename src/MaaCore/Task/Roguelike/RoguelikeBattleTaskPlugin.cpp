@@ -103,7 +103,7 @@ void asst::RoguelikeBattleTaskPlugin::wait_until_start_button_clicked()
 {
     ProcessTask(*this, { m_config->get_theme() + "@Roguelike@WaitForStartButtonClicked" })
         .set_task_delay(0)
-        .set_retry_times(100)
+        .set_retry_times(0)
         .run();
 }
 
