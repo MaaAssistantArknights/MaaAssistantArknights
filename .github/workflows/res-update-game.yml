@@ -202,7 +202,7 @@ jobs:
         with:
           name: txwy
           path: ./tools/ResourceUpdater/x64/Release/Overseas/zh_TW/gamedata/excel
-  
+
       - name: Download Overseas
         id: download-overseas
         uses: actions/download-artifact@v4.1.8
@@ -222,7 +222,7 @@ jobs:
         with:
           name: overseas
           path: ./tools/ResourceUpdater/x64/Release/Overseas
-  
+
       - name: Download Official
         id: download-official
         uses: actions/download-artifact@v4.1.8
