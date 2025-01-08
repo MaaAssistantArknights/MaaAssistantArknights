@@ -23,6 +23,11 @@
     ],
     "deploy_plan": [
         {
+            "groups": ["益达"],
+            "location": [1, 4],
+            "direction": "right"
+        },
+        {
             "groups": ["回费", "情报官"],
             "location": [8, 3],
             "direction": "left"
