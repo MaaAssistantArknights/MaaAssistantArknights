@@ -6675,17 +6675,17 @@
         "roi": [910, 0, 370, 110],
         "text": ["LV"]
     },
-    "Roguelike@CheckLevelMax": {
-        "Doc": "base_task 等级界面检查是否满级",
-        "algorithm": "OcrDetect",
-        "roi": [920, 25, 40, 20],
-        "text": ["M", "A", "X"]
-    },
     "Roguelike@CheckLevelBack": {
         "Doc": "base_task 退出等级界面",
         "action": "ClickSelf",
         "template": "Return.png",
         "roi": [0, 0, 190, 80]
+    },
+    "Roguelike@CheckLevelMax": {
+        "Doc": "base_task 等级界面检查是否满级",
+        "algorithm": "OcrDetect",
+        "roi": [920, 25, 40, 20],
+        "text": ["M", "A", "X"]
     },
     "Roguelike@ChooseDifficulty": {
         "Doc": "base_task",
@@ -8559,12 +8559,6 @@
             "mask": []
         }
     },
-    "Sami@Roguelike@CheckLevel": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "roi": [910, 0, 370, 110],
-        "text": ["科考记录"]
-    },
     "Sami@Roguelike@CheckCollapsalParadigms": {
         "algorithm": "OcrDetect",
         "text": [
@@ -8627,6 +8621,12 @@
         "text": ["正在提交反馈至神经"],
         "ocrReplace": [["正在提交反馈神经", "正在提交反馈至神经"]],
         "roi": [720, 645, 355, 45]
+    },
+    "Sami@Roguelike@CheckLevel": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [910, 0, 370, 110],
+        "text": ["科考记录"]
     },
     "Sami@Roguelike@ChooseDifficulty": {
         "roi": [1064, 294, 216, 170]
