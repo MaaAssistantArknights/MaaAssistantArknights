@@ -45,7 +45,7 @@ bool asst::RoguelikeLevelTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    if (checked) {
+    if (checked) { // 一轮肉鸽结束，下次StartExplore再查一次
         checked = false;
         return true;
     }
@@ -68,7 +68,6 @@ bool asst::RoguelikeLevelTaskPlugin::_run()
 void asst::RoguelikeLevelTaskPlugin::stop_roguelike() const
 {
     ProcessTask(*this, { m_config->get_theme() + "@Roguelike@CheckLevelBack" })
-        .set_times_limit("Roguelike@Abandon", INT_MAX)
         .set_times_limit("Roguelike@StartExplore", 0)
         .run();
     m_task_ptr->set_enable(false);

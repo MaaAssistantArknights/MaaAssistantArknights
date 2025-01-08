@@ -19,7 +19,7 @@ protected:
 private:
     void stop_roguelike() const;
 
-    bool checked = false;
-    bool m_stop_at_max = false;
+    bool checked = false;       // 同一次肉鸽StartExplore被调用复数次的情况只检查一次
+    bool m_stop_at_max = false; // 是否在达到最高等级时停止
 };
 }

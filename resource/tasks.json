@@ -6669,17 +6669,20 @@
         ]
     },
     "Roguelike@CheckLevel": {
+        "Doc": "base_task 进入肉鸽等级界面",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "roi": [910, 0, 370, 110],
         "text": ["LV"]
     },
     "Roguelike@CheckLevelMax": {
+        "Doc": "base_task 等级界面检查是否满级",
         "algorithm": "OcrDetect",
         "roi": [920, 25, 40, 20],
         "text": ["M", "A", "X"]
     },
     "Roguelike@CheckLevelBack": {
+        "Doc": "base_task 退出等级界面",
         "action": "ClickSelf",
         "template": "Return.png",
         "roi": [0, 0, 190, 80]
