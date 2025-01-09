@@ -59,6 +59,6 @@ bool asst::RoguelikeLevelTaskPlugin::_run()
 
 void asst::RoguelikeLevelTaskPlugin::stop_roguelike() const
 {
-    ProcessTask(*this, { "Return" }).set_times_limit("Roguelike@StartExplore", 0).run();
+    ProcessTask(*this, { "Return" }).run();
     m_task_ptr->set_enable(false);
 }
