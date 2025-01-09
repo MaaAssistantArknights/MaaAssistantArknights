@@ -5,8 +5,6 @@
 #include "Task/ProcessTask.h"
 #include "Task/Roguelike/RoguelikeControlTaskPlugin.h"
 #include "Utils/Logger.hpp"
-#include "Vision/Matcher.h"
-#include "Vision/RegionOCRer.h"
 
 bool asst::RoguelikeLevelTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
