@@ -36,6 +36,7 @@ bool asst::RoguelikeLevelTaskPlugin::verify(AsstMsg msg, const json::value& deta
 bool asst::RoguelikeLevelTaskPlugin::load_params(const json::value& params)
 {
     m_stop_at_max = params.get("stop_at_max_level", false);
+    checked = false;
     return m_stop_at_max;
 }
 
