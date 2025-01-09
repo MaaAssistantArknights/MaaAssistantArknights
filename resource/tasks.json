@@ -10729,7 +10729,28 @@
                 [71, 150, 40],
                 [73, 180, 150]
             ]
+        ],
+        "next": [
+            "Sarkaz@Roguelike@StageTraderEnter-CloseCollectionClose",
+            "Sarkaz@Roguelike@StageTraderEnter-CloseCollectionContinue",
+            "Sarkaz@Roguelike@StageVerticalConfirmTrader",
+            "Sarkaz@Roguelike@StageTraderEnter",
+            "Sarkaz@Roguelike@StageTraderRefreshWithDice",
+            "Sarkaz@Roguelike@StageTraderInvestSystem",
+            "Sarkaz@Roguelike@TraderRandomShopping",
+            "Sarkaz@Roguelike@StageTraderLeave",
+            "Sarkaz@Roguelike@StageTraderLeaveConfirm"
         ]
+    },
+    "Sarkaz@Roguelike@StageTraderEnter-CloseCollectionClose": {
+        "template": "Sarkaz@Roguelike@CloseCollectionClose",
+        "baseTask": "Sarkaz@Roguelike@CloseCollectionClose",
+        "next": ["Sarkaz@Roguelike@StageTraderEnter#next"]
+    },
+    "Sarkaz@Roguelike@StageTraderEnter-CloseCollectionContinue": {
+        "template": "Sarkaz@Roguelike@CloseCollectionContinue",
+        "baseTask": "Sarkaz@Roguelike@CloseCollectionContinue",
+        "next": ["Sarkaz@Roguelike@StageTraderEnter#next"]
     },
     "Sarkaz@Roguelike@StageTraderHD": {
         "Doc": "已深化",
