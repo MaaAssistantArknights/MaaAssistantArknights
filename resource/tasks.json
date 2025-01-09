@@ -6687,12 +6687,6 @@
         "roi": [400, 300, 225, 160],
         "fullMatch": true
     },
-    "Roguelike@ChooseDifficulty_CheckEasiest": {
-        "doc": "用于 RoguelikeDifficultySelectionTaskPlugin",
-        "algorithm": "OcrDetect",
-        "text": ["ADDITIONAL"],
-        "roi": [670, 515, 100, 19]
-    },
     "Roguelike@ChooseDifficulty_Specified": {
         "doc": "用于 RoguelikeDifficultySelectionTaskPlugin",
         "baseTask": "NumberOcrReplace",
