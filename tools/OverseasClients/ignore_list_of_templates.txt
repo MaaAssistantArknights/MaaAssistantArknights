@@ -138,6 +138,7 @@ GachaLastTenTimesResult1.png
 GachaNoMoney.png
 GachaSkip.png
 GameStart.png
+IC-Open.png
 InfrastClueSelfMaybeFull.png
 InfrastFilterMenu.png
 InfrastFilterMenuConfirmButton.png
@@ -148,6 +149,8 @@ InfrastTrainingLevel1.png
 InfrastTrainingLevel2.png
 InfrastTrainingLevel3.png
 InfrastTrainingLocked.png
+IS-Open.png
+LE-Open.png
 Loading2.png
 LoadingIcon.png
 Logout.png
@@ -194,6 +197,7 @@ Mizuki@Roguelike@StageTrader.png
 Mizuki@Roguelike@StageVerticalConfirm.png
 Mizuki@Roguelike@StageWindAndRain.png
 ng
+NL-Open.png
 NormalDifficulty.png
 NoStone.png
 OF-Chapter2.png
@@ -220,6 +224,7 @@ OperLockedTrade.png
 OperSelected.png
 OrundumActivitiesClick.png
 OrundumActivitiesClickBazaar.png
+OrundumActivitiesClickParty.png
 OrundumActivitiesEarnRewards.png
 Phantom@Roguelike@CloseCollection.png
 Phantom@Roguelike@CloseEvent.png
@@ -470,6 +475,8 @@ SmileyOnWork.png
 SN-8.png
 SN-9.png
 SN-10.png
+SN-Chapter2.png
+SN-Chapter3.png
 Sniper@UseSupportUnit-RoleSelected.png
 Sniper@UseSupportUnit-SelectRole.png
 Special@UseSupportUnit-RoleSelected.png
@@ -554,4 +561,5 @@ UseSupportUnit-Refresh.png
 UseSupportUnit-RefreshCooldown.png
 UseSupportUnit-SelectSkill.png
 Warrior@UseSupportUnit-RoleSelected.p
+Warrior@UseSupportUnit-RoleSelected.png
 Warrior@UseSupportUnit-SelectRole.png
