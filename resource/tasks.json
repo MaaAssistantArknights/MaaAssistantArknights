@@ -10743,12 +10743,12 @@
         ]
     },
     "Sarkaz@Roguelike@StageTraderEnter-CloseCollectionClose": {
-        "template": "Sarkaz@Roguelike@CloseCollectionClose",
+        "template": "Sarkaz@Roguelike@CloseCollectionClose.png",
         "baseTask": "Sarkaz@Roguelike@CloseCollectionClose",
         "next": ["Sarkaz@Roguelike@StageTraderEnter#next"]
     },
     "Sarkaz@Roguelike@StageTraderEnter-CloseCollectionContinue": {
-        "template": "Sarkaz@Roguelike@CloseCollectionContinue",
+        "template": "Sarkaz@Roguelike@CloseCollectionContinue.png",
         "baseTask": "Sarkaz@Roguelike@CloseCollectionContinue",
         "next": ["Sarkaz@Roguelike@StageTraderEnter#next"]
     },
