@@ -24,10 +24,7 @@ bool asst::RoguelikeLevelTaskPlugin::verify(AsstMsg msg, const json::value& deta
     if (task_view.starts_with(roguelike_name)) {
         task_view.remove_prefix(roguelike_name.length());
     }
-    if (task_view == "Roguelike@StartExplore" && !checked) {
-        return true;
-    }
-    else if (task_view == "Roguelike@ClickToStartPoint" || task_view == "Roguelike@ClickToStartPointAfterFailed") {
+    if (task_view == "Roguelike@StartExplore") {
         return true;
     }
     else {
@@ -45,19 +42,13 @@ bool asst::RoguelikeLevelTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    if (checked) { // 一轮肉鸽结束，下次StartExplore再查一次
-        checked = false;
-        return true;
-    }
-
     if (m_stop_at_max) {
         if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@CheckLevel" }).run()) {
-            if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@CheckLevelMax" }).run()) {
+            if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@CheckLevelMax" }).set_retry_times(2).run()) {
                 stop_roguelike();
             }
             else {
-                checked = true;
-                ProcessTask(*this, { m_config->get_theme() + "@Roguelike@CheckLevelBack" }).run();
+                ProcessTask(*this, { "ReturnToActivities" }).run();
             }
         }
     }
@@ -67,8 +58,6 @@ bool asst::RoguelikeLevelTaskPlugin::_run()
 
 void asst::RoguelikeLevelTaskPlugin::stop_roguelike() const
 {
-    ProcessTask(*this, { m_config->get_theme() + "@Roguelike@CheckLevelBack" })
-        .set_times_limit("Roguelike@StartExplore", 0)
-        .run();
+    ProcessTask(*this, { "ReturnToActivities" }).set_times_limit("Roguelike@StartExplore", 0).run();
     m_task_ptr->set_enable(false);
 }

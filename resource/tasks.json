@@ -6675,12 +6675,6 @@
         "roi": [910, 0, 370, 110],
         "text": ["LV"]
     },
-    "Roguelike@CheckLevelBack": {
-        "Doc": "base_task 退出等级界面",
-        "action": "ClickSelf",
-        "template": "Return.png",
-        "roi": [0, 0, 190, 80]
-    },
     "Roguelike@CheckLevelMax": {
         "Doc": "base_task 等级界面检查是否满级",
         "algorithm": "OcrDetect",
@@ -7811,9 +7805,6 @@
     },
     "Phantom@Roguelike@Abandon": {},
     "Phantom@Roguelike@CheckLevel": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "roi": [910, 0, 370, 110],
         "text": ["古堡笔记"]
     },
     "Phantom@Roguelike@ChooseDifficulty": {},
@@ -8070,9 +8061,6 @@
     },
     "Mizuki@Roguelike@Abandon": {},
     "Mizuki@Roguelike@CheckLevel": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "roi": [910, 0, 370, 110],
         "text": ["生态谱系"]
     },
     "Mizuki@Roguelike@ChooseDifficulty": {},
@@ -8623,9 +8611,6 @@
         "roi": [720, 645, 355, 45]
     },
     "Sami@Roguelike@CheckLevel": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "roi": [910, 0, 370, 110],
         "text": ["科考记录"]
     },
     "Sami@Roguelike@ChooseDifficulty": {
@@ -9805,9 +9790,6 @@
         }
     },
     "Sarkaz@Roguelike@CheckLevel": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "roi": [910, 0, 370, 110],
         "text": ["假说辑录"]
     },
     "Sarkaz@Roguelike@ChooseBurdenOperator": {
