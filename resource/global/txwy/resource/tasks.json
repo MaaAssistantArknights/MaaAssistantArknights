@@ -1807,6 +1807,9 @@
     "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
         "text": ["指路", "指路鱗"]
     },
+    "Phantom@Roguelike@CheckLevel": {
+        "text": ["古堡筆記", "古堡", "筆記"]
+    },
     "Phantom@Roguelike@NextLevel": {
         "text": ["迷霧歧途", "落陽庭院", "故土殘軀", "噩夢之始", "血月長廊", "渴欲大廳"]
     },
@@ -1835,6 +1838,9 @@
             ["血月長廊", "_exit"],
             ["渴欲大廳", "_exit"]
         ]
+    },
+    "Mizuki@Roguelike@CheckLevel": {
+        "text": ["生態譜系", "生態", "譜系"]
     },
     "Mizuki@Roguelike@NextLevel": {
         "text": ["天光海岸", "離岸孤島", "波濤略地", "隱秘溫床", "失塵岩洞", "幽海叢林", "紺碧搖籃"]
@@ -1907,6 +1913,9 @@
         "text": ["正在提交反馈至神经"],
         "ocrReplace": [["正在提交反饋至神經", "正在提交反馈至神经"]],
         "roi": [720, 645, 355, 45]
+    },
+    "Sami@Roguelike@CheckLevel": {
+        "text": ["科考紀錄", "科考", "紀錄"]
     },
     "Sami@Roguelike@Collapsal": {
         "text": ["目空", "目空一些", "圖像", "圖像損壞"]
