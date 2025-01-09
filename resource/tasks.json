@@ -10729,7 +10729,44 @@
                 [71, 150, 40],
                 [73, 180, 150]
             ]
+        ],
+        "next": [
+            "Sarkaz@Roguelike@StageTraderEnter-CloseCollectionClose",
+            "Sarkaz@Roguelike@StageTraderEnter-CloseCollectionContinue",
+            "Sarkaz@Roguelike@StageVerticalConfirmTrader",
+            "Sarkaz@Roguelike@StageTraderEnter",
+            "Sarkaz@Roguelike@StageTraderRefreshWithDice",
+            "Sarkaz@Roguelike@StageTraderInvestSystem",
+            "Sarkaz@Roguelike@TraderRandomShopping",
+            "Sarkaz@Roguelike@StageTraderLeave",
+            "Sarkaz@Roguelike@StageTraderLeaveConfirm"
         ]
+    },
+    "Sarkaz@Roguelike@StageTraderEnter-CloseCollectionClose": {
+        "template": "Sarkaz@Roguelike@CloseCollectionClose",
+        "action": "ClickSelf",
+        "roi": [572, 434, 144, 141],
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [150, 150, 150],
+                [170, 170, 170]
+            ]
+        ],
+        "next": ["Sarkaz@Roguelike@StageTraderEnter#next"]
+    },
+    "Sarkaz@Roguelike@StageTraderEnter-CloseCollectionContinue": {
+        "template": "Sarkaz@Roguelike@CloseCollectionContinue",
+        "action": "ClickSelf",
+        "roi": [549, 440, 123, 130],
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [110, 110, 110],
+                [130, 130, 130]
+            ]
+        ],
+        "next": ["Sarkaz@Roguelike@StageTraderEnter#next"]
     },
     "Sarkaz@Roguelike@StageTraderHD": {
         "Doc": "已深化",
