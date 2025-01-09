@@ -16,6 +16,20 @@
             ]
         },
         {
+            "name": "投掷手",
+            "opers": [
+                {
+                    "name": "维什戴尔"
+                },
+                {
+                    "name": "迷迭香"
+                },
+                {
+                    "name": "承曦格雷伊"
+                }
+            ]
+        },
+        {
             "name": "焰苇",
             "opers": [
                 {
@@ -24,7 +38,7 @@
                     "alternate_skill": 2,
                     "is_key": true,
                     "is_start": true,
-                    "recruit_priority": 880,
+                    "recruit_priority": 580,
                     "promote_priority": 980
                 }
             ]
@@ -95,7 +109,7 @@
                     "alternate_skill": 1,
                     "is_key": true,
                     "is_start": true,
-                    "recruit_priority": 610,
+                    "recruit_priority": 510,
                     "promote_priority": 870,
                     "recruit_priority_offsets": [
                         {
@@ -146,7 +160,7 @@
                     "alternate_skill": 2,
                     "is_key": true,
                     "is_start": true,
-                    "recruit_priority": 870,
+                    "recruit_priority": 570,
                     "promote_priority": 997,
                     "recruit_priority_offsets": [
                         {
@@ -173,7 +187,7 @@
                     "alternate_skill": 1,
                     "is_key": true,
                     "is_start": true,
-                    "recruit_priority": 810,
+                    "recruit_priority": 510,
                     "promote_priority": 940,
                     "recruit_priority_offsets": [
                         {
@@ -2263,8 +2277,8 @@
                     "skill": 2,
                     "is_key": true,
                     "is_start": true,
-                    "recruit_priority": 830,
-                    "promote_priority": 910,
+                    "recruit_priority": 370,
+                    "promote_priority": 510,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["益达"],
@@ -2295,13 +2309,13 @@
                 {
                     "name": "迷迭香",
                     "skill": 2,
-                    "recruit_priority": 377,
-                    "promote_priority": 550
+                    "recruit_priority": 800,
+                    "promote_priority": 2000
                 },
                 {
                     "name": "承曦格雷伊",
                     "skill": 2,
-                    "recruit_priority": 378,
+                    "recruit_priority": 781,
                     "promote_priority": 500
                 },
                 {
