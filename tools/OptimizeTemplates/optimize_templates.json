@@ -2977,5 +2977,6 @@
     "official/EnterInfrastGaming": "0b1b0e87ef517b6cc6d4ac47d8da231beb171bb85c69c26c9922299df0f7a213",
     "official/EnterInfrastDahuangCity": "2a15bb6381e75f475a23aeb9d566efc1f76ac74ef74d7792e4947529fb6a6e72",
     "official/FriendsDahuangCity": "858d09273d759769667b942d87977ac7bd58bbb2be67709683b1f900b6dc3880",
-    "official/TaskGaming": "429594c43f538f0981c0fb87f028f517599250df390667a7b0685b4a5a539142"
+    "official/TaskGaming": "429594c43f538f0981c0fb87f028f517599250df390667a7b0685b4a5a539142",
+    "resource/template/items/act2collection_point_token": "c4932ff7ebc232a0e554032a1b1532c333fb115f7d9520dd630b11d6ccf923e3"
 }
