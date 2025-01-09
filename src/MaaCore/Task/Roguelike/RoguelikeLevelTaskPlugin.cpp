@@ -22,11 +22,11 @@ bool asst::RoguelikeLevelTaskPlugin::verify(AsstMsg msg, const json::value& deta
     if (task_view.starts_with(roguelike_name)) {
         task_view.remove_prefix(roguelike_name.length());
     }
-    if (task_view == "Roguelike@StartExplore" && !checked) {
+    if (task_view == "Roguelike@StartExplore" && !already_checked_this_run) {
         return true;
     }
     if (task_view == "Roguelike@ClickToStartPoint" || task_view == "Roguelike@ClickToStartPointAfterFailed") {
-        checked = false;
+        already_checked_this_run = false;
     }
     return false;
 }
@@ -34,7 +34,7 @@ bool asst::RoguelikeLevelTaskPlugin::verify(AsstMsg msg, const json::value& deta
 bool asst::RoguelikeLevelTaskPlugin::load_params(const json::value& params)
 {
     m_stop_at_max = params.get("stop_at_max_level", false);
-    checked = false;
+    already_checked_this_run = false;
     return m_stop_at_max;
 }
 
@@ -52,7 +52,7 @@ bool asst::RoguelikeLevelTaskPlugin::_run()
             }
         }
     }
-    checked = true;
+    already_checked_this_run = true;
     return true;
 }
 
