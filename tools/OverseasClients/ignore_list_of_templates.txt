@@ -10,6 +10,7 @@ AccountManagerTrashButtonBili.png
 AddOperatorMfgGentle.png
 AddOperatorTradeGentle.png
 AdverseDifficulty.png
+BattleCostFlag.png
 BattleFormationOCRNameFlag.png
 BattleHpFlag.png
 BattleHpFlag2.png
@@ -66,6 +67,8 @@ BattleSpeedUpCheck.png
 BattleStartPlot.png
 BattleSupportUnitFormationSelect.png
 BuyIt.png
+Caster@UseSupportUnit-RoleSelected.png
+Caster@UseSupportUnit-SelectRole.png
 ChooseBattleRecord.png
 ChooseOriginiumShard.png
 ChooseOriginiumShardTab.png
@@ -81,6 +84,7 @@ CloseHomeSanity.png
 CloseSendClue.png
 ClueGiveToNextPage.png
 ClueNew.png
+ClueSelected.png
 ClueVacancyNo1.png
 ClueVacancyNo2.png
 ClueVacancyNo3.png
@@ -150,6 +154,8 @@ Logout.png
 LogoutConfirm.png
 Mail.png
 MailWithoutAward.png
+Medic@UseSupportUnit-RoleSelected.png
+Medic@UseSupportUnit-SelectRole.png
 MedicineConfirm.png
 MedicineReduceIcon.png
 MiningActivityDiggingEnd.png
@@ -187,6 +193,7 @@ Mizuki@Roguelike@StageSafeHouse.png
 Mizuki@Roguelike@StageTrader.png
 Mizuki@Roguelike@StageVerticalConfirm.png
 Mizuki@Roguelike@StageWindAndRain.png
+ng
 NormalDifficulty.png
 NoStone.png
 OF-Chapter2.png
@@ -235,9 +242,12 @@ Phantom@Roguelike@StageEncounterOptionLeave.png
 Phantom@Roguelike@StageEncounterSpecialClose.png
 Phantom@Roguelike@StageSafeHouse.png
 Phantom@Roguelike@StageTrader.png
+Pioneer@UseSupportUnit-RoleSelected.png
+Pioneer@UseSupportUnit-SelectRole.png
 PopupCancel.png
 PopupConfirm.png
 RaidDifficulty.png
+ReceivedAllMail.png
 Reclamation2BeginStageTalk.png
 Reclamation2DeleteArchiveEnter.png
 Reclamation2ExAdd.png
@@ -261,8 +271,8 @@ Return.png
 Roguelike@AbandonConfirm.png
 Roguelike@DialogSkip.png
 Roguelike@DialogSkipConfirm.png
-Roguelike@ExitThenAbandon.png
 Roguelike@ExitThenAbandon_mode4.png
+Roguelike@ExitThenAbandon.png
 Roguelike@GamePassSkip2.png
 Roguelike@GamePassTheEndConfirm.png
 Roguelike@GetDropLeaveConfirm.png
@@ -457,9 +467,13 @@ SkipThePreBattlePlotConfirm.png
 SmileyOnDistract.png
 SmileyOnRest.png
 SmileyOnWork.png
-SN-10.png
 SN-8.png
 SN-9.png
+SN-10.png
+Sniper@UseSupportUnit-RoleSelected.png
+Sniper@UseSupportUnit-SelectRole.png
+Special@UseSupportUnit-RoleSelected.png
+Special@UseSupportUnit-SelectRole.png
 SSSDrawCard.png
 SSSFightDirectly.png
 SSSFightStart-PreSelect-Clear.png
@@ -469,6 +483,7 @@ SSSHalfTimeDropsCancel.png
 SSSHalfTimeDropsConfirm.png
 SSSSettlement.png
 SSSSettlementConfirm.png
+StageActivity.png
 StageAP5.png
 StageBI7.png
 StageBI8.png
@@ -486,12 +501,19 @@ StageEpisode.png
 StageLS5.png
 StageLS6.png
 StageResource.png
+StageSideStory.png
 StageTheme.png
 StartLoginBServer.png
 StartToVisit.png
 StartToVisitDetermine.png
 StartToVisitSportsman.png
 StartWithSanity.png
+Support@UseSupportUnit-RoleSelected.png
+Support@UseSupportUnit-SelectRole.png
+SupportListAnalyzer-Elite-1.png
+SupportListAnalyzer-Elite-2.png
+SupportListAnalyzer-Friend.png
+SupportListAnalyzer-NonFriend.png
 Tales@RA@ActsLeft1.png
 Tales@RA@ActsLeft2.png
 Tales@RA@BackDark.png
@@ -516,6 +538,8 @@ Tales@RA@StartTodayConfirmYellow.png
 Tales@RA@SwipeSave.png
 Tales@RA@WorkbenchButton.png
 Tales@RA@WorkbenchIcon.png
+Tank@UseSupportUnit-RoleSelected.png
+Tank@UseSupportUnit-SelectRole.png
 TaskSiege.png
 TerminalSiege.png
 UnableToAgent.png
@@ -524,3 +548,10 @@ UseMedicine.png
 UsePrtsSuccess.png
 UserCenter.png
 UseStone.png
+UseSupportUnit-Enter.png
+UseSupportUnit-MaxSpecLvl.png
+UseSupportUnit-Refresh.png
+UseSupportUnit-RefreshCooldown.png
+UseSupportUnit-SelectSkill.png
+Warrior@UseSupportUnit-RoleSelected.p
+Warrior@UseSupportUnit-SelectRole.png
