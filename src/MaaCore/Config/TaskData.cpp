@@ -431,6 +431,7 @@ asst::TaskPtr asst::TaskData::generate_task_info(std::string_view name)
     ASST_TASKDATA_GET_VALUE_OR("rectMove", rect_move);
     ASST_TASKDATA_GET_VALUE_OR("specificRect", specific_rect);
     ASST_TASKDATA_GET_VALUE_OR("specialParams", special_params);
+    ASST_TASKDATA_GET_VALUE_OR("inputText", input_text);
 
     // 展开五个任务列表中的虚任务
     ASST_TASKDATA_GET_VALUE_OR_LAZY("next", next, false);
@@ -933,6 +934,7 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
               "specialParams", "sub",         "subErrorIgnored",
 
               // specific
+              "inputText"
           } },
     };
     // clang-format on
@@ -940,6 +942,7 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
     static const std::unordered_map<ProcessTaskAction, std::unordered_set<std::string>> allowed_key_under_action = {
         { ProcessTaskAction::ClickRect, { "specificRect" } },
         { ProcessTaskAction::Swipe, { "specificRect", "rectMove" } },
+        { ProcessTaskAction::Input, { "inputText" } },
     };
 
     auto is_doc = [&](std::string_view key) {

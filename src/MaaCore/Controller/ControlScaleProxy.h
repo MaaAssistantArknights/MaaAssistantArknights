@@ -27,6 +27,8 @@ public:
     bool click(const Point& p);
     bool click(const Rect& rect);
 
+    bool input(const std::string text);
+
     bool swipe(
         const Point& p1,
         const Point& p2,
