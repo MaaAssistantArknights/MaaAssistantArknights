@@ -26,6 +26,7 @@ on:
 
 jobs:
   build-win-nightly:
+    if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: windows-latest
     strategy:
       matrix:
@@ -243,6 +244,7 @@ jobs:
           echo "main_tag_name=$main_tag_name" >> $env:GITHUB_OUTPUT
 
   push-tag:
+    if: github.repository_owner == 'MaaAssistantArknights'
     needs: build-win-nightly
     runs-on: ubuntu-latest
     steps:
@@ -265,6 +267,7 @@ jobs:
           git push --tags origin HEAD:refs/tags/${{ needs.build-win-nightly.outputs.tag }}
 
   make-ota:
+    if: github.repository_owner == 'MaaAssistantArknights'
     needs: [build-win-nightly, push-tag]
     strategy:
       matrix:
