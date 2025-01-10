@@ -737,6 +737,9 @@
     <ClInclude Include="Vision\Battle\SupportListAnalyzer.h">
       <Filter>Source\Vision\Battle</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeLevelTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1238,6 +1241,9 @@
     </ClCompile>
     <ClCompile Include="Vision\Battle\SupportListAnalyzer.cpp">
       <Filter>Source\Vision\Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeLevelTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

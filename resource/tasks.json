@@ -6668,6 +6668,19 @@
             "Roguelike@StartUpThemes#next"
         ]
     },
+    "Roguelike@CheckLevel": {
+        "Doc": "base_task 进入肉鸽等级界面",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [910, 0, 370, 110],
+        "text": []
+    },
+    "Roguelike@CheckLevelMax": {
+        "Doc": "base_task 等级界面检查是否满级",
+        "algorithm": "OcrDetect",
+        "roi": [920, 25, 40, 20],
+        "text": ["M", "A", "X"]
+    },
     "Roguelike@ChooseDifficulty": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -7792,6 +7805,9 @@
         "next": ["Roguelike@WaitForStartButtonClicked"]
     },
     "Phantom@Roguelike@Abandon": {},
+    "Phantom@Roguelike@CheckLevel": {
+        "text": ["古堡笔记"]
+    },
     "Phantom@Roguelike@ChooseDifficulty": {},
     "Phantom@Roguelike@ChooseOper": {
         "next": [
@@ -8045,6 +8061,9 @@
         "roi": [460, 525, 160, 55]
     },
     "Mizuki@Roguelike@Abandon": {},
+    "Mizuki@Roguelike@CheckLevel": {
+        "text": ["生态谱系"]
+    },
     "Mizuki@Roguelike@ChooseDifficulty": {},
     "Mizuki@Roguelike@ChooseDifficulty_Easiest": {
         "action": "ClickRect",
@@ -8591,6 +8610,9 @@
         "text": ["正在提交反馈至神经"],
         "ocrReplace": [["正在提交反馈神经", "正在提交反馈至神经"]],
         "roi": [720, 645, 355, 45]
+    },
+    "Sami@Roguelike@CheckLevel": {
+        "text": ["科考记录"]
     },
     "Sami@Roguelike@ChooseDifficulty": {
         "roi": [1064, 294, 216, 170]
@@ -9767,6 +9789,9 @@
             "roi": [1067, 255, 159, 154],
             "mask": []
         }
+    },
+    "Sarkaz@Roguelike@CheckLevel": {
+        "text": ["假说辑录"]
     },
     "Sarkaz@Roguelike@ChooseBurdenOperator": {
         "roi": [11, 493, 140, 143],

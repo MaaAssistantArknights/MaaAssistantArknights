@@ -236,6 +236,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
     "difficulty": int,                 // 難易度を指定、省略可能、デフォルト値 0；**Phantom以外**のテーマにのみ対応；
                                        // 未解放の場合は、現在解放されている最高難易度を選択
     "stop_at_final_boss": bool,        // 5層の最終ボスノードでタスクを停止するかどうか、省略可能、デフォルト値 false；**Phantom以外**のテーマにのみ対応
+    "stop_at_max_level": bool,         // ローグライクで最大レベルに達した場合にタスクを停止するかどうか、省略可能、デフォルト値 false
     "investment_enabled": bool,        // 源石錠を投資するかどうか、省略可能、デフォルト値 true
     "investments_count": int,          // 源石錠の投資回数、省略可能、デフォルト値 INT_MAX；到達後自動でタスクを停止
     "stop_when_investment_full": bool, // 投資上限に達した時自動でタスクを停止するかどうか、省略可能、デフォルト値 false
