@@ -37,6 +37,8 @@ public:
 
     virtual bool click(const Point& p) override;
 
+    virtual bool input(const std::string& text) override;
+
     virtual bool swipe(
         const Point& p1,
         const Point& p2,

@@ -332,6 +332,7 @@ enum class ProcessTaskAction
     BasicClick = 0x100,
     ClickSelf = BasicClick | 1, // 点击自身位置
     ClickRect = BasicClick | 2, // 点击指定区域
+    Input = 3,                  // 输入
     // ClickRand = BasicClick | 4, // 点击随机区域
     DoNothing = 0x200, // 什么都不做
     Stop = 0x400,      // 停止当前Task
@@ -345,6 +346,7 @@ inline ProcessTaskAction get_action_type(std::string action_str)
         { "", ProcessTaskAction::DoNothing },          { "donothing", ProcessTaskAction::DoNothing },
         { "clickself", ProcessTaskAction::ClickSelf }, { "clickrect", ProcessTaskAction::ClickRect },
         { "stop", ProcessTaskAction::Stop },           { "swipe", ProcessTaskAction::Swipe },
+        { "input", ProcessTaskAction::Input },
     };
     if (auto it = action_map.find(action_str); it != action_map.end()) {
         return it->second;
@@ -358,7 +360,7 @@ inline std::string enum_to_string(ProcessTaskAction action)
         { ProcessTaskAction::Invalid, "Invalid" },       { ProcessTaskAction::DoNothing, "DoNothing" },
         { ProcessTaskAction::BasicClick, "BasicClick" }, { ProcessTaskAction::ClickSelf, "ClickSelf" },
         { ProcessTaskAction::ClickRect, "ClickRect" },   { ProcessTaskAction::Stop, "Stop" },
-        { ProcessTaskAction::Swipe, "Swipe" },
+        { ProcessTaskAction::Swipe, "Swipe" },           { ProcessTaskAction::Input, "Input" },
     };
     if (auto it = action_map.find(action); it != action_map.end()) {
         return it->second;
@@ -490,6 +492,7 @@ struct TaskInfo : public TaskPipelineInfo
                         // 即识别到了res，点击res + result_move的位置
     bool cache = false; // 是否使用缓存区域
     std::vector<int> special_params; // 某些任务会用到的特殊参数
+    std::string input_text; // 输入任务的文字，目前希望仅针对 Input 任务有效， algorithm 为 JustReturn
 };
 
 using TaskPtr = std::shared_ptr<TaskInfo>;

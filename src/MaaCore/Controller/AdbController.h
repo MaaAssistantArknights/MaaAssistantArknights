@@ -44,6 +44,8 @@ public:
 
     virtual bool click(const Point& p) override;
 
+    virtual bool input(const std::string& p) override;
+
     virtual bool swipe(
         const Point& p1,
         const Point& p2,
@@ -117,6 +119,7 @@ protected:
         std::string call_minitouch;
         std::string call_maatouch;
         std::string click;
+        std::string input;
         std::string swipe;
         std::string press_esc;
 
