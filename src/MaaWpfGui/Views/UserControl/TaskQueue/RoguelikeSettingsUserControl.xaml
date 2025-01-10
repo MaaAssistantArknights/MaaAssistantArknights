@@ -217,6 +217,15 @@
                     Text="{DynamicResource RoguelikeStopAtMaxLevel}"
                     TextWrapping="Wrap" />
             </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding RoguelikeStartWithSeed}"
+                Visibility="{Binding RoguelikeStartWithSeedVisibility}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource RoguelikeStartWithSeed}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
         </StackPanel>
     </StackPanel>
 </UserControl>

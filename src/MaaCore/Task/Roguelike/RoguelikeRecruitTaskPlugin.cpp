@@ -73,7 +73,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     ++m_recruit_count;
 
     if (m_config->get_theme() == "Sarkaz" && m_config->get_mode() == RoguelikeMode::Investment &&
-        m_config->get_squad() == "点刺成锭分队") {
+        (m_config->get_squad() == "点刺成锭分队" ||
+         (m_config->get_squad() == "后勤分队" && m_config->get_start_with_seed()))) {
         ProcessTask(*this, { "Sarkaz@RoguelikeRecruit-GiveUp" }).run();
         return true;
     }

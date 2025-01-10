@@ -47,8 +47,16 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
 
 bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params)
 {
-    set_custom(RoguelikeCustomType::Squad, params.get("squad", ""));                           // 开局分队
-    set_custom(RoguelikeCustomType::Roles, params.get("roles", ""));                           // 开局职业组
+    LogTraceFunction;
+
+    set_custom(RoguelikeCustomType::Squad, params.get("squad", "")); // 开局分队
+    if (params.get("start_with_seed", false)) {                      // 种子刷钱，强制随心所欲
+        set_custom(RoguelikeCustomType::Roles, "随心所欲");
+    }
+    else {
+        set_custom(RoguelikeCustomType::Roles, params.get("roles", "")); // 开局职业组
+    }
+
     set_custom(RoguelikeCustomType::CoreChar, params.get("core_char", ""));                    // 开局干员名
     set_custom(RoguelikeCustomType::UseSupport, params.get("use_support", false) ? "1" : "0"); // 开局干员是否为助战干员
     set_custom(
@@ -88,6 +96,8 @@ bool asst::RoguelikeCustomStartTaskPlugin::_run()
 
 bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
 {
+    LogTraceFunction;
+
     constexpr size_t SwipeTimes = 7;
     for (size_t i = 0; i != SwipeTimes; ++i) {
         auto image = ctrler()->get_image();
@@ -112,6 +122,8 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
 
 bool asst::RoguelikeCustomStartTaskPlugin::hijack_roles()
 {
+    LogTraceFunction;
+
     auto image = ctrler()->get_image();
     OCRer analyzer(image);
     analyzer.set_task_info("RoguelikeCustom-HijackRoles");
@@ -127,6 +139,27 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_roles()
 
 bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
 {
+    LogTraceFunction;
+
+    if (m_config->get_start_with_seed()) {
+        Log.trace("Start with seed");
+        auto image = ctrler()->get_image();
+        OCRer analyzer(image);
+        analyzer.set_task_info("RoguelikeCustom-HijackCoChar");
+        analyzer.set_roi({ 186, 500, 913, 200 });
+        analyzer.set_required({ "招募" });
+        if (!analyzer.analyze()) {
+            return false;
+        }
+        const auto& role_rect = analyzer.get_result().front().rect;
+        ctrler()->click(role_rect);
+
+        m_config->set_use_support(m_customs[RoguelikeCustomType::UseSupport] == "1");
+        m_config->set_use_nonfriend_support(m_customs[RoguelikeCustomType::UseNonfriendSupport] == "1");
+        m_config->set_core_char(m_customs[RoguelikeCustomType::CoreChar]);
+        return true;
+    }
+
     const std::string& char_name = m_customs[RoguelikeCustomType::CoreChar];
 
     static const std::unordered_map<battle::Role, std::string> RoleOcrNameMap = {

@@ -6653,6 +6653,7 @@
     "Roguelike@Begin": {
         "algorithm": "JustReturn",
         "next": [
+            "Roguelike@StartExploreWithSeed",
             "Roguelike@ChooseDifficulty",
             "Roguelike@StartExplore",
             "Roguelike@Stages#next",
@@ -6777,7 +6778,12 @@
     "Roguelike@ClickToStartPointAfterFailed": {
         "doc": "因为是从肉鸽失败界面进入，删除了对下个stage的判断",
         "baseTask": "Roguelike@ClickToStartPoint",
-        "next": ["Roguelike@StartExplore", "Roguelike@StartUpThemes#next", "Roguelike@ClickToStartPointAfterFailed"]
+        "next": [
+            "Roguelike@StartExploreWithSeed",
+            "Roguelike@StartExplore",
+            "Roguelike@StartUpThemes#next",
+            "Roguelike@ClickToStartPointAfterFailed"
+        ]
     },
     "Roguelike@CloseCollection": {
         "Doc": "base_task",
@@ -7736,6 +7742,62 @@
         "roi": [1026, 470, 254, 248],
         "postDelay": 1000,
         "next": ["Roguelike@StartExplore", "Roguelike@StartExploreCD"]
+    },
+    "Roguelike@StartExploreWithSeed": {
+        "Doc": "萨卡兹点刺刷钱，由 cpp 内启用",
+        "maxTimes": 0,
+        "exceededNext": ["Roguelike@StartExplore"],
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["启用参数"],
+        "roi": [851, 567, 93, 33],
+        "next": ["Roguelike@StartExploreWithSeed-ClickPen"]
+    },
+    "Roguelike@StartExploreWithSeed-ClickPen": {
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [640, 163, 145, 141],
+        "next": ["Roguelike@StartExploreWithSeed-ClickInputBox"]
+    },
+    "Roguelike@StartExploreWithSeed-ClickInputBox": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["参数"],
+        "roi": [323, 267, 200, 147],
+        "next": ["Roguelike@StartExploreWithSeed-InputSeed"]
+    },
+    "Roguelike@StartExploreWithSeed-InputSeed": {
+        "algorithm": "JustReturn",
+        "action": "Input",
+        "inputText": "",
+        "next": ["Roguelike@StartExploreWithSeed-Confirm"]
+    },
+    "Roguelike@StartExploreWithSeed-Confirm": {
+        "Doc": "找到一个 “RecruitConfirm.png” 可能复用，但是分数太低，放弃",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [645, 393, 585, 173],
+        "postDelay": 1000,
+        "next": [
+            "Roguelike@StartExploreWithSeed-Confirm",
+            "Roguelike@StartExploreWithSeed-SetDifficulty",
+            "Roguelike@StartExploreWithSeed-BackToMainPage"
+        ]
+    },
+    "Roguelike@StartExploreWithSeed-SetDifficulty": {
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [847, 246, 276, 205],
+        "next": ["Roguelike@StartExploreWithSeed-BackToMainPage"]
+    },
+    "Roguelike@StartExploreWithSeed-BackToMainPage": {
+        "Doc": "识别到 ‘停用参数’ 就行了，不做难度解锁的检查了",
+        "algorithm": "OcrDetect",
+        "text": ["停用参数"],
+        "action": "ClickRect",
+        "roi": [631, 209, 118, 49],
+        "specificRect": [600, 5, 300, 70],
+        "next": ["Roguelike@StartExplore", "Roguelike@StartExploreWithSeed-BackToMainPage"]
     },
     "Roguelike@StrategyChange": {
         "baseTask": "Roguelike@StrategyChange_default"
@@ -10943,6 +11005,12 @@
     },
     "Sarkaz@Roguelike@StartExplore": {
         "roi": [1014, 481, 266, 219]
+    },
+    "Sarkaz@Roguelike@StartExploreWithSeed-ClickPen": {},
+    "Sarkaz@Roguelike@StartExploreWithSeed-Confirm": {},
+    "Sarkaz@Roguelike@StartExploreWithSeed-SetDifficulty": {},
+    "Sarkaz@Roguelike@StartExploreWithSeed-InputSeed": {
+        "inputText": "U1eIA1I29844Ae925i,rogue_4,6"
     },
     "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
         "baseTask": "Sarkaz@Roguelike@StrategyChange_mode1",

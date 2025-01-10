@@ -28,6 +28,7 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
         return false;
     }
 
+    m_start_with_seed = params.get("start_with_seed", false);
     m_start_with_elite_two = params.get("start_with_elite_two", false);
     m_only_start_with_elite_two = params.get("only_start_with_elite_two", false);
     if (mode != RoguelikeMode::Collectible && (m_start_with_elite_two || m_only_start_with_elite_two)) {
@@ -52,9 +53,13 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
 
         // 点刺成锭分队特殊策略
         if (m_theme == "Sarkaz") {
-            if (m_mode == RoguelikeMode::Investment && params.get("squad", "") == "点刺成锭分队") {
-                // 启用特殊策略，联动 RoguelikeRoutingTaskPlugin
-                Task.set_task_base(strategy_task, "Sarkaz@Roguelike@StrategyChange-FastInvestment");
+            auto squad = params.get("squad", "");
+            if (m_mode == RoguelikeMode::Investment &&
+                (squad == "点刺成锭分队" || (squad == "后勤分队" && m_start_with_seed))) {
+                if (squad == "点刺成锭分队") {
+                    // 启用特殊策略，联动 RoguelikeRoutingTaskPlugin
+                    Task.set_task_base(strategy_task, "Sarkaz@Roguelike@StrategyChange-FastInvestment");
+                }
                 // 禁用前 2 层的 <思维负荷干员编队> 功能
                 Task.set_task_base(
                     "Sarkaz@Roguelike@StageBurdenOperation",
