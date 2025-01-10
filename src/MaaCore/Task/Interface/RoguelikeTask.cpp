@@ -16,6 +16,7 @@
 #include "Task/Roguelike/RoguelikeFormationTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeInvestTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeLastRewardTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeLevelTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeRecruitTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeResetTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeSettlementTaskPlugin.h"
@@ -75,6 +76,8 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
 
     m_roguelike_task_ptr->register_plugin<RoguelikeDifficultySelectionTaskPlugin>(m_config_ptr, m_control_ptr);
     m_roguelike_task_ptr->register_plugin<RoguelikeStrategyChangeTaskPlugin>(m_config_ptr, m_control_ptr);
+
+    m_roguelike_task_ptr->register_plugin<RoguelikeLevelTaskPlugin>(m_config_ptr, m_control_ptr);
 
     // ------------------ 萨米主题专用插件 ------------------
     m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalGainTaskPlugin>(m_config_ptr, m_control_ptr);

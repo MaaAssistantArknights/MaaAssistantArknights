@@ -2258,6 +2258,9 @@
     "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
         "text": ["Pathfinder Fins"]
     },
+    "Phantom@Roguelike@CheckLevel": {
+        "text": ["Castle", "Notes"]
+    },
     "Phantom@Roguelike@GetDropSelectRecruit": {
         "templThreshold": 0.8,
         "template": "Phantom@Roguelike@GetDropSelectRecruit.png"
@@ -2301,6 +2304,9 @@
             ["Blood-soaked Corridor", "_exit"],
             ["Hall of Desires", "_exit"]
         ]
+    },
+    "Mizuki@Roguelike@CheckLevel": {
+        "text": ["ECOSEQUENCE", "SEQUENCE"]
     },
     "Mizuki@Roguelike@GetDropBoxOpen": {
         "templThreshold": 0.95
@@ -2393,6 +2399,10 @@
         "text": ["正在提交反馈至神经"],
         "ocrReplace": [["Submitting feedback to the neural network", "正在提交反馈至神经"]],
         "roi": [720, 645, 355, 45]
+    },
+    "Sami@Roguelike@CheckLevel": {
+        "roi": [1108, 26, 126, 52],
+        "text": ["EXPEDITION", "RECORDS"]
     },
     "Sami@Roguelike@ContinueClick": {
         "text": [
@@ -2566,6 +2576,9 @@
             [".*Clairvoyant ?Carcass", "_SKIP_"],
             [".*Secluded ?Passage", "_SKIP_"]
         ]
+    },
+    "Sarkaz@Roguelike@CheckLevel": {
+        "text": ["TODO", "TODO"]
     },
     "Reclamation2Begin": {
         "text": ["Commence"]

@@ -143,6 +143,7 @@
     <system:String x:Key="RoguelikeUseNonFriendSupport">친구가 아니어도 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">통합전략 중지 시 전투 클리어 후 작업 종료</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">5스테이지 보스 앞에서 일시정지</system:String>
+    <system:String x:Key="RoguelikeStopAtMaxLevel">최대 레벨 달성 시 중지</system:String>
     <system:String x:Key="DeploymentWithPause" xml:space="preserve">일시정지 상태로 배치하기 - 통합전략, 자동 작전, 보안 파견에 적용 (비권장)</system:String>
     <system:String x:Key="AdbLiteEnabled">ADB Lite 사용 (실험적)</system:String>
     <system:String x:Key="KillAdbOnExit">종료 시 ADB도 종료</system:String>

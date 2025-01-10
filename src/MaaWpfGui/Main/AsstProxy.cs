@@ -2432,6 +2432,7 @@ namespace MaaWpfGui.Main
         /// <param name="theme">肉鸽主题["Phantom", "Mizuki", "Sami", "Sarkaz"]</param>
         /// <param name="refreshTraderWithDice">是否用骰子刷新商店购买特殊商品，目前支持水月肉鸽的指路鳞</param>
         /// <param name="stopAtFinalBoss">是否在五层BOSS前停下来</param>
+        /// <param name="stopAtMaxLevel">是否在满级时停止任务</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(
             int mode,
@@ -2455,7 +2456,8 @@ namespace MaaWpfGui.Main
             bool enableNonFriendSupport,
             string theme,
             bool refreshTraderWithDice,
-            bool stopAtFinalBoss)
+            bool stopAtFinalBoss,
+            bool stopAtMaxLevel)
         {
             var taskParams = new JObject
             {
@@ -2515,6 +2517,8 @@ namespace MaaWpfGui.Main
             taskParams["refresh_trader_with_dice"] = theme == "Mizuki" && refreshTraderWithDice;
 
             taskParams["stop_at_final_boss"] = mode == 0 && stopAtFinalBoss;
+
+            taskParams["stop_at_max_level"] = mode == 0 && stopAtMaxLevel;
 
             AsstTaskId id = AsstAppendTaskWithEncoding("Roguelike", taskParams);
             _latestTaskId[TaskType.Roguelike] = id;

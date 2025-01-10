@@ -224,6 +224,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
     "difficulty": int,              // 난이도 설정, 선택 가능, 기본값 0; **Phantom 제외** 테마에만 해당;
                                     // 해제되지 않은 경우, 현재 해제된 최고 난이도 선택
     "stop_at_final_boss": bool,        // 5층 최종 보스 노드에서 작업을 중지할지 여부, 선택 가능, 기본값 false; **Phantom 제외** 테마에만 해당
+    "stop_at_max_level": bool,         // 로그라이크에서 최대 레벨에 도달했을 때 작업을 멈출지 여부, 선택 가능, 기본값 false
     "investment_enabled": bool,        // 원석 정을 투자할지 여부, 선택 가능, 기본값 true
     "investments_count": int,          // 원석 정 투자 횟수, 선택 가능, 기본값 INT_MAX; 도달 시 자동으로 작업 중지
     "stop_when_investment_full": bool, // 투자 한도 도달 시 작업을 자동 중지할지 여부, 선택 가능, 기본값 false
