@@ -31,22 +31,19 @@ bool asst::RoguelikeLevelTaskPlugin::verify(AsstMsg msg, const json::value& deta
 
 bool asst::RoguelikeLevelTaskPlugin::load_params(const json::value& params)
 {
-    m_stop_at_max = params.get("stop_at_max_level", false);
-    return m_stop_at_max;
+    return params.get("stop_at_max_level", false);
 }
 
 bool asst::RoguelikeLevelTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    if (m_stop_at_max) {
-        if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@CheckLevel" }).run()) {
-            if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@CheckLevelMax" }).set_retry_times(2).run()) {
-                stop_roguelike();
-            }
-            else {
-                ProcessTask(*this, { "Return" }).run();
-            }
+    if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@CheckLevel" }).run()) {
+        if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@CheckLevelMax" }).set_retry_times(2).run()) {
+            stop_roguelike();
+        }
+        else {
+            ProcessTask(*this, { "Return" }).run();
         }
     }
     return true;

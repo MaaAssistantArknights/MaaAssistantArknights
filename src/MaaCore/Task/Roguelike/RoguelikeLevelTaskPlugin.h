@@ -18,6 +18,5 @@ protected:
 
 private:
     void stop_roguelike() const;
-    bool m_stop_at_max = false; // 是否在达到最高等级时停止
 };
 }
