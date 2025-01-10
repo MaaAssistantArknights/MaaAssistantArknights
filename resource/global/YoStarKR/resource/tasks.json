@@ -2246,12 +2246,12 @@
             ["전달", "正在提交反馈至神经"]
         ]
     },
-    "Sami@Roguelike@Collapsal": {
-        "text": ["선택적", "선택적무시", "이미지", "이미지에러"]
-    },
     "Sami@Roguelike@CheckLevel": {
         "roi": [1106, 39, 97, 25],
         "text": ["탐험", "기록"]
+    },
+    "Sami@Roguelike@Collapsal": {
+        "text": ["선택적", "선택적무시", "이미지", "이미지에러"]
     },
     "Sami@Roguelike@ContinueClick": {
         "ocrReplace": [
