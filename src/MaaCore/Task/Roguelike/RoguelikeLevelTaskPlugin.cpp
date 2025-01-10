@@ -18,15 +18,13 @@ bool asst::RoguelikeLevelTaskPlugin::verify(AsstMsg msg, const json::value& deta
     }
     const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
+    const std::string& pre_task = details.get("pre_task", "");
     std::string_view task_view = task;
     if (task_view.starts_with(roguelike_name)) {
         task_view.remove_prefix(roguelike_name.length());
     }
-    if (task_view == "Roguelike@StartExplore" && !already_checked_this_run) {
+    if (task_view == "Roguelike@StartExplore" && pre_task != task) {
         return true;
-    }
-    if (task_view == "Roguelike@ClickToStartPoint" || task_view == "Roguelike@ClickToStartPointAfterFailed") {
-        already_checked_this_run = false;
     }
     return false;
 }
@@ -34,7 +32,6 @@ bool asst::RoguelikeLevelTaskPlugin::verify(AsstMsg msg, const json::value& deta
 bool asst::RoguelikeLevelTaskPlugin::load_params(const json::value& params)
 {
     m_stop_at_max = params.get("stop_at_max_level", false);
-    already_checked_this_run = false;
     return m_stop_at_max;
 }
 
@@ -52,7 +49,6 @@ bool asst::RoguelikeLevelTaskPlugin::_run()
             }
         }
     }
-    already_checked_this_run = true;
     return true;
 }
 
