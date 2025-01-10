@@ -2551,7 +2551,7 @@
     },
     "ReturnButton": {
         "template": ["Return.png", "Return-White.png"],
-        "templThreshold": [0.7, 0.8],
+        "templThreshold": [0.7, 0.7],
         "action": "ClickSelf",
         "roi": [0, 0, 180, 80],
         "next": [
