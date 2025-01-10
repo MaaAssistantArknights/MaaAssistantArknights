@@ -6648,7 +6648,7 @@
         "action": "ClickSelf",
         "roi": [720, 413, 249, 168],
         "postDelay": 1000,
-        "next": ["Roguelike@MissionFailedFlag2", "Roguelike@StartExplore"]
+        "next": ["Roguelike@MissionFailedFlag2", "Roguelike@StartExplore", "Roguelike@StartExploreCD"]
     },
     "Roguelike@Begin": {
         "algorithm": "JustReturn",
@@ -6662,6 +6662,7 @@
             "Roguelike@Abandon",
             "Roguelike@TodoEnter",
             "Roguelike@Continue",
+            "Roguelike@StartExploreCD",
             "Roguelike@ReturnButtons#next",
             "Roguelike@ReturnConfirm",
             "Roguelike@StartUpThemes#next"
@@ -7715,6 +7716,13 @@
             "Roguelike@ChooseDifficulty",
             "Roguelike@StartExplore"
         ]
+    },
+    "Roguelike@StartExploreCD": {
+        "algorithm": "OcrDetect",
+        "text": ["等待重返城堡入口", "等待重返陆地", "等待科考队重建", "正在清理思绪"],
+        "roi": [1026, 470, 254, 248],
+        "postDelay": 1000,
+        "next": ["Roguelike@StartExplore", "Roguelike@StartExploreCD"]
     },
     "Roguelike@StrategyChange": {
         "baseTask": "Roguelike@StrategyChange_default"
