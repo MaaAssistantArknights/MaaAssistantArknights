@@ -3,10 +3,10 @@ name: Delete Cache
 on:
   pull_request:
     types: [closed]
-  workflow_dispatch: 
+  workflow_dispatch:
     inputs:
       pr_number:
-        description: 'PR Number'
+        description: "PR Number"
         required: true
 
 jobs:
