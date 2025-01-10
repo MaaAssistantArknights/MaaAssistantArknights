@@ -6672,7 +6672,8 @@
         "Doc": "base_task 进入肉鸽等级界面",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "roi": [910, 0, 370, 110]
+        "roi": [910, 0, 370, 110],
+        "text": []
     },
     "Roguelike@CheckLevelMax": {
         "Doc": "base_task 等级界面检查是否满级",
