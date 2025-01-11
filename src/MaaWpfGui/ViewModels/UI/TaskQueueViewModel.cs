@@ -1103,7 +1103,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (item.IsCheckedWithNull == null)
                 {
-                    item.IsChecked = false;
+                    item.IsChecked = GuiSettingsUserControlModel.Instance.InvertNullFunction;
                 }
             }
         }
@@ -1292,7 +1292,7 @@ namespace MaaWpfGui.ViewModels.UI
             int count = 0;
             foreach (var item in TaskItemViewModels)
             {
-                if (item.IsChecked == false)
+                if (item.IsChecked == false || (GuiSettingsUserControlModel.Instance.InvertNullFunction && item.IsCheckedWithNull == null))
                 {
                     continue;
                 }
@@ -1354,6 +1354,10 @@ namespace MaaWpfGui.ViewModels.UI
                 _runningState.SetIdle(true);
                 Instances.AsstProxy.AsstStop();
                 SetStopped();
+                if (GuiSettingsUserControlModel.Instance.InvertNullFunction)
+                {
+                    ResetTaskSelection();
+                }
                 return;
             }
 
@@ -1845,8 +1849,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var toolToCraft = ReclamationTask.ReclamationToolToCraft.Split(';', '；').Select(s => s.Trim());
 
-
-            _ = int.TryParse(ReclamationTask.ReclamationMode, out var mode);
+            _ = int.TryParse(SettingsViewModel.ReclamationTask.ReclamationMode, out var mode);
 
             return Instances.AsstProxy.AsstAppendReclamation(
                 toolToCraft.ToArray(),
