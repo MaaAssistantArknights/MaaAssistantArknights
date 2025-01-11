@@ -6781,6 +6781,7 @@
         "next": [
             "Roguelike@StartExploreWithSeed",
             "Roguelike@StartExplore",
+            "Roguelike@StartExploreCD",
             "Roguelike@StartUpThemes#next",
             "Roguelike@ClickToStartPointAfterFailed"
         ]
