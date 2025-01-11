@@ -32,6 +32,7 @@ icon: material-symbols:task
                                             //      - DoNothing:        什么都不做
                                             //      - Stop:             停止当前任务
                                             //      - Swipe:            滑动，对应 specificRect 与 rectMove 字段
+                                            //      - Input:            输入文本，要求 algorithm 为 JustReturn，对应 inputText 字段
 
         "sub": ["SubTaskName1", "SubTaskName2"],
                                             // 可选项，子任务，不推荐使用。会在执行完当前任务后，依次执行每一个子任务
@@ -138,8 +139,12 @@ icon: material-symbols:task
         "isAscii": false,                   // 可选项，要识别的文字内容是否为 ASCII 码字符
                                             // 不填写默认 false
 
-        "withoutDet": false                 // 可选项，是否不使用检测模型
+        "withoutDet": false,                // 可选项，是否不使用检测模型
                                             // 不填写默认 false
+
+        /* 以下字段仅当 algorithm 为 JustReturn，action 为 Input 时有效 */
+
+        "inputText": "A string text."       // 必选项，要输入的文字内容，以字符串的形式
 
     }
 }
