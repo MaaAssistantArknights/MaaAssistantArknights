@@ -1,4 +1,4 @@
-﻿// <copyright file="VersionUpdate.cs" company="MaaAssistantArknights">
+// <copyright file="VersionUpdate.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -10,15 +10,14 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-
-using System;
+#nullable enable
 using System.ComponentModel;
 
 namespace MaaWpfGui.Configuration
 {
     public class VersionUpdate : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         // The following should not be modified manually
         public string Name { get; set; } = string.Empty;
@@ -61,7 +60,7 @@ namespace MaaWpfGui.Configuration
             /// <summary>
             /// 开发版
             /// </summary>
-            Beta
+            Beta,
         }
     }
 }
