@@ -264,7 +264,10 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
     "expected_collapsal_paradigms": [         // 希望触发的坍缩范式，默认值 ["目空一些, "睁眼瞎", "图像损坏", "一抹黑"]；
         string,                               // 仅在主题为 Sami 且模式为 5 时有效
         ...
-    ]
+    ],
+    "start_with_seed": bool,        // 使用种子刷钱，true 时有效
+                                    // 仅在 Sarkaz 主题，Investment 模式，“点刺成锭分队” or “后勤分队” 时可能为 true
+                                    // 使用固定种子
 }
 ```
 
