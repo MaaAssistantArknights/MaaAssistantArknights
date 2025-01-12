@@ -23408,6 +23408,24 @@
         "stageId": "ro4_b_7",
         "width": 25
     },
+    "ro4_b_8-obt/roguelike/ro4/level_rogue4_b-8": {
+        "code": "ISW-DF",
+        "filename": "ro4_b_8-obt-roguelike-ro4-level_rogue4_b-8.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro4/level_rogue4_b-8",
+        "name": "不容拒绝",
+        "stageId": "ro4_b_8",
+        "width": 36
+    },
+    "ro4_b_9-obt/roguelike/ro4/level_rogue4_b-9": {
+        "code": " ",
+        "filename": "ro4_b_9-obt-roguelike-ro4-level_rogue4_b-9.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro4/level_rogue4_b-9",
+        "name": " ",
+        "stageId": "ro4_b_9",
+        "width": 12
+    },
     "ro4_duel_1-obt/roguelike/ro4/level_rogue4_d-1": {
         "code": "ISW-NO",
         "filename": "ro4_duel_1-obt-roguelike-ro4-level_rogue4_d-1.json",
@@ -23480,6 +23498,15 @@
         "stageId": "ro4_e_1_4",
         "width": 9
     },
+    "ro4_e_1_5-obt/roguelike/ro4/level_rogue4_1-5": {
+        "code": "ISW-NO",
+        "filename": "ro4_e_1_5-obt-roguelike-ro4-level_rogue4_1-5.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro4/level_rogue4_1-5",
+        "name": "冰川期",
+        "stageId": "ro4_e_1_5",
+        "width": 11
+    },
     "ro4_e_2_1-obt/roguelike/ro4/level_rogue4_2-1": {
         "code": "ISW-NO",
         "filename": "ro4_e_2_1-obt-roguelike-ro4-level_rogue4_2-1.json",
@@ -23533,6 +23560,15 @@
         "name": "卡兹瀑布",
         "stageId": "ro4_e_2_6",
         "width": 9
+    },
+    "ro4_e_2_7-obt/roguelike/ro4/level_rogue4_2-7": {
+        "code": "ISW-NO",
+        "filename": "ro4_e_2_7-obt-roguelike-ro4-level_rogue4_2-7.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro4/level_rogue4_2-7",
+        "name": "丛林密布",
+        "stageId": "ro4_e_2_7",
+        "width": 11
     },
     "ro4_e_3_1-obt/roguelike/ro4/level_rogue4_3-1": {
         "code": "ISW-NO",
@@ -23597,6 +23633,15 @@
         "stageId": "ro4_e_3_7",
         "width": 10
     },
+    "ro4_e_3_8-obt/roguelike/ro4/level_rogue4_3-8": {
+        "code": "ISW-NO",
+        "filename": "ro4_e_3_8-obt-roguelike-ro4-level_rogue4_3-8.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro4/level_rogue4_3-8",
+        "name": "机动队",
+        "stageId": "ro4_e_3_8",
+        "width": 11
+    },
     "ro4_e_4_1-obt/roguelike/ro4/level_rogue4_4-1": {
         "code": "ISW-NO",
         "filename": "ro4_e_4_1-obt-roguelike-ro4-level_rogue4_4-1.json",
@@ -23605,6 +23650,15 @@
         "name": "年代断层",
         "stageId": "ro4_e_4_1",
         "width": 10
+    },
+    "ro4_e_4_10-obt/roguelike/ro4/level_rogue4_4-10": {
+        "code": "ISW-NO",
+        "filename": "ro4_e_4_10-obt-roguelike-ro4-level_rogue4_4-10.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro4/level_rogue4_4-10",
+        "name": "争议频发",
+        "stageId": "ro4_e_4_10",
+        "width": 12
     },
     "ro4_e_4_2-obt/roguelike/ro4/level_rogue4_4-2": {
         "code": "ISW-NO",
@@ -23748,6 +23802,15 @@
         "levelId": "obt/roguelike/ro4/level_rogue4_5-8",
         "name": "建制",
         "stageId": "ro4_e_5_8",
+        "width": 12
+    },
+    "ro4_e_5_9-obt/roguelike/ro4/level_rogue4_5-9": {
+        "code": "ISW-NO",
+        "filename": "ro4_e_5_9-obt-roguelike-ro4-level_rogue4_5-9.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro4/level_rogue4_5-9",
+        "name": "莱茵卫士",
+        "stageId": "ro4_e_5_9",
         "width": 12
     },
     "ro4_e_6_1-obt/roguelike/ro4/level_rogue4_6-1": {
@@ -23894,6 +23957,15 @@
         "stageId": "ro4_n_1_4",
         "width": 9
     },
+    "ro4_n_1_5-obt/roguelike/ro4/level_rogue4_1-5": {
+        "code": "ISW-NO",
+        "filename": "ro4_n_1_5-obt-roguelike-ro4-level_rogue4_1-5.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro4/level_rogue4_1-5",
+        "name": "冰川期",
+        "stageId": "ro4_n_1_5",
+        "width": 11
+    },
     "ro4_n_2_1-obt/roguelike/ro4/level_rogue4_2-1": {
         "code": "ISW-NO",
         "filename": "ro4_n_2_1-obt-roguelike-ro4-level_rogue4_2-1.json",
@@ -23947,6 +24019,15 @@
         "name": "卡兹瀑布",
         "stageId": "ro4_n_2_6",
         "width": 9
+    },
+    "ro4_n_2_7-obt/roguelike/ro4/level_rogue4_2-7": {
+        "code": "ISW-NO",
+        "filename": "ro4_n_2_7-obt-roguelike-ro4-level_rogue4_2-7.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro4/level_rogue4_2-7",
+        "name": "丛林密布",
+        "stageId": "ro4_n_2_7",
+        "width": 11
     },
     "ro4_n_3_1-obt/roguelike/ro4/level_rogue4_3-1": {
         "code": "ISW-NO",
@@ -24011,6 +24092,15 @@
         "stageId": "ro4_n_3_7",
         "width": 10
     },
+    "ro4_n_3_8-obt/roguelike/ro4/level_rogue4_3-8": {
+        "code": "ISW-NO",
+        "filename": "ro4_n_3_8-obt-roguelike-ro4-level_rogue4_3-8.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro4/level_rogue4_3-8",
+        "name": "机动队",
+        "stageId": "ro4_n_3_8",
+        "width": 11
+    },
     "ro4_n_4_1-obt/roguelike/ro4/level_rogue4_4-1": {
         "code": "ISW-NO",
         "filename": "ro4_n_4_1-obt-roguelike-ro4-level_rogue4_4-1.json",
@@ -24019,6 +24109,15 @@
         "name": "年代断层",
         "stageId": "ro4_n_4_1",
         "width": 10
+    },
+    "ro4_n_4_10-obt/roguelike/ro4/level_rogue4_4-10": {
+        "code": "ISW-NO",
+        "filename": "ro4_n_4_10-obt-roguelike-ro4-level_rogue4_4-10.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro4/level_rogue4_4-10",
+        "name": "争议频发",
+        "stageId": "ro4_n_4_10",
+        "width": 12
     },
     "ro4_n_4_2-obt/roguelike/ro4/level_rogue4_4-2": {
         "code": "ISW-NO",
@@ -24162,6 +24261,15 @@
         "levelId": "obt/roguelike/ro4/level_rogue4_5-8",
         "name": "建制",
         "stageId": "ro4_n_5_8",
+        "width": 12
+    },
+    "ro4_n_5_9-obt/roguelike/ro4/level_rogue4_5-9": {
+        "code": "ISW-NO",
+        "filename": "ro4_n_5_9-obt-roguelike-ro4-level_rogue4_5-9.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro4/level_rogue4_5-9",
+        "name": "莱茵卫士",
+        "stageId": "ro4_n_5_9",
         "width": 12
     },
     "ro4_n_6_1-obt/roguelike/ro4/level_rogue4_6-1": {
