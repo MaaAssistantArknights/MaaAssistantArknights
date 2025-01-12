@@ -10367,8 +10367,8 @@
         "template": "Sarkaz@Roguelike@StageTraderEnter.png",
         "baseTask": "Sarkaz@Roguelike@StageEnter",
         "next": [
-            "self@Sarkaz@Roguelike@StageEnterWithChaos",
-            "self@Sarkaz@Roguelike@StageEnterWithRetardation",
+            "#self@Sarkaz@Roguelike@StageEnterWithChaos",
+            "#self@Sarkaz@Roguelike@StageEnterWithRetardation",
             "Sarkaz@Roguelike@StageBoonsEnter",
             "Sarkaz@Roguelike@StageEncounterJudgeClick"
         ]
@@ -10395,8 +10395,8 @@
             ]
         ],
         "next": [
-            "self@Sarkaz@Roguelike@StageEnterWithChaos",
-            "self@Sarkaz@Roguelike@StageEnterWithRetardation",
+            "#self@Sarkaz@Roguelike@StageEnterWithChaos",
+            "#self@Sarkaz@Roguelike@StageEnterWithRetardation",
             "Sarkaz@Roguelike@StageBoskyPassageEnter",
             "Sarkaz@Roguelike@StageEncounterJudgeClick"
         ]
@@ -10478,8 +10478,8 @@
             ]
         ],
         "next": [
-            "self@Sarkaz@Roguelike@StageEnterWithChaos",
-            "self@Sarkaz@Roguelike@StageEnterWithRetardation",
+            "#self@Sarkaz@Roguelike@StageEnterWithChaos",
+            "#self@Sarkaz@Roguelike@StageEnterWithRetardation",
             "Sarkaz@Roguelike@QuickFormation"
         ]
     },
@@ -10505,15 +10505,15 @@
     "Sarkaz@Roguelike@StageDreadfulFoe-5Enter": {
         "baseTask": "Sarkaz@Roguelike@StageEnterBattle",
         "next": [
-            "self@Sarkaz@Roguelike@StageEnterWithChaos",
-            "self@Sarkaz@Roguelike@StageEnterWithRetardation",
+            "#self@Sarkaz@Roguelike@StageEnterWithChaos",
+            "#self@Sarkaz@Roguelike@StageEnterWithRetardation",
             "Sarkaz@Roguelike@QuickFormation"
         ]
     },
     "Sarkaz@Roguelike@StageDreadfulFoeEnter": {
         "next": [
-            "self@Sarkaz@Roguelike@StageEnterWithChaos",
-            "self@Sarkaz@Roguelike@StageEnterWithRetardation",
+            "#self@Sarkaz@Roguelike@StageEnterWithChaos",
+            "#self@Sarkaz@Roguelike@StageEnterWithRetardation",
             "Sarkaz@Roguelike@QuickFormation"
         ]
     },
@@ -10529,8 +10529,8 @@
     },
     "Sarkaz@Roguelike@StageEmergencyDpsEnter": {
         "next": [
-            "self@Sarkaz@Roguelike@StageEnterWithChaos",
-            "self@Sarkaz@Roguelike@StageEnterWithRetardation",
+            "#self@Sarkaz@Roguelike@StageEnterWithChaos",
+            "#self@Sarkaz@Roguelike@StageEnterWithRetardation",
             "Sarkaz@Roguelike@QuickFormation"
         ]
     },
@@ -10551,8 +10551,8 @@
     },
     "Sarkaz@Roguelike@StageEncounterEnter": {
         "next": [
-            "self@Sarkaz@Roguelike@StageEnterWithChaos",
-            "self@Sarkaz@Roguelike@StageEnterWithRetardation",
+            "#self@Sarkaz@Roguelike@StageEnterWithChaos",
+            "#self@Sarkaz@Roguelike@StageEnterWithRetardation",
             "Sarkaz@Roguelike@StageVerticalConfirmEncounter",
             "Sarkaz@Roguelike@StageEncounterEnter",
             "Sarkaz@Roguelike@StageEncounterJudgeClick"
@@ -10674,8 +10674,8 @@
         ],
         "postDelay": 1500,
         "next": [
-            "self@Sarkaz@Roguelike@StageEnterWithChaos",
-            "self@Sarkaz@Roguelike@StageEnterWithRetardation",
+            "#self@Sarkaz@Roguelike@StageEnterWithChaos",
+            "#self@Sarkaz@Roguelike@StageEnterWithRetardation",
             "Sarkaz@Roguelike@StageFilterTruthCloseCollection",
             "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
             "Sarkaz@Roguelike@StageFilterTruthEnter",
@@ -10797,8 +10797,8 @@
             ]
         ],
         "next": [
-            "self@Sarkaz@Roguelike@StageEnterWithChaos",
-            "self@Sarkaz@Roguelike@StageEnterWithRetardation",
+            "#self@Sarkaz@Roguelike@StageEnterWithChaos",
+            "#self@Sarkaz@Roguelike@StageEnterWithRetardation",
             "Sarkaz@Roguelike@StageSafeHouseEnter",
             "Sarkaz@Roguelike@StageEncounterJudgeClick"
         ]
@@ -10841,8 +10841,8 @@
             ]
         ],
         "next": [
-            "self@Sarkaz@Roguelike@StageEnterWithChaos",
-            "self@Sarkaz@Roguelike@StageEnterWithRetardation",
+            "#self@Sarkaz@Roguelike@StageEnterWithChaos",
+            "#self@Sarkaz@Roguelike@StageEnterWithRetardation",
             "Sarkaz@Roguelike@StageTraderEnter-CloseCollectionClose",
             "Sarkaz@Roguelike@StageTraderEnter-CloseCollectionContinue",
             "Sarkaz@Roguelike@StageVerticalConfirmTrader",
