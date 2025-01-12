@@ -123,6 +123,11 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
             m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", 0);
             m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
         }
+        // 萨卡兹种子刷钱
+        if (theme == RoguelikeTheme::Sarkaz && params.get("start_with_seed", false)) {
+            m_roguelike_task_ptr->set_times_limit("Roguelike@StartExploreWithSeed", INT_MAX);
+            RoguelikeStageEncounter.set_event(theme, mode, "相遇", 3, 4);
+        }
     }
     else {
         // 重置战斗后奖励next

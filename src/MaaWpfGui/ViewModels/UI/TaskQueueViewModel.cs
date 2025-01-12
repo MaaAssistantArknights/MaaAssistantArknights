@@ -1790,7 +1790,8 @@ namespace MaaWpfGui.ViewModels.UI
                 SettingsViewModel.RoguelikeTask.RoguelikeTheme,
                 SettingsViewModel.RoguelikeTask.RoguelikeRefreshTraderWithDice,
                 SettingsViewModel.RoguelikeTask.RoguelikeStopAtFinalBoss,
-                SettingsViewModel.RoguelikeTask.RoguelikeStopAtMaxLevel);
+                SettingsViewModel.RoguelikeTask.RoguelikeStopAtMaxLevel,
+                SettingsViewModel.RoguelikeTask.RoguelikeStartWithSeed);
         }
 
         private static bool AppendReclamation()

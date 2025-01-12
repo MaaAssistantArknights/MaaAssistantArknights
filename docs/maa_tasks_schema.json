@@ -47,9 +47,13 @@
                 },
                 "action": {
                     "type": "string",
-                    "pattern": "ClickSelf|ClickRand|DoNothing|Stop|ClickRect|Swipe",
+                    "pattern": "ClickSelf|ClickRand|DoNothing|Stop|ClickRect|Swipe|Input",
                     "default": "DoNothing",
                     "description": "可选项，表示识别到后的动作\n不填写时默认为 DoNothing"
+                },
+                "inputText": {
+                    "type": "string",
+                    "description": "可选项，当 action 为 Input 时有效，表示要输入的文本"
                 },
                 "sub": {
                     "$ref": "#/definitions/TaskNameList",

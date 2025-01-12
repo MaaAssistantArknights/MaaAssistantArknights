@@ -12,7 +12,7 @@
 #include "Vision/Miscellaneous/BrightPointAnalyzer.h"
 #include "Vision/MultiMatcher.h"
 
-bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::value& params)
+bool asst::RoguelikeRoutingTaskPlugin::load_params(const json::value& params)
 {
     LogTraceFunction;
     const std::string& theme = m_config->get_theme();
@@ -37,7 +37,8 @@ bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::
     const RoguelikeMode& mode = m_config->get_mode();
     const std::string squad = params.get("squad", "");
 
-    if (mode == RoguelikeMode::Investment && squad == "点刺成锭分队") {
+    if (mode == RoguelikeMode::Investment &&
+        (squad == "点刺成锭分队" || (squad == "后勤分队" && params.get("start_with_seed", false)))) {
         m_routing_strategy = RoutingStrategy::FastInvestment;
         return true;
     }

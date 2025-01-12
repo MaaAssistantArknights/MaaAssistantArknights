@@ -46,6 +46,29 @@ public:
 
     const auto& get_event_names(const std::string& theme) const noexcept { return m_event_names.at(theme); }
 
+    bool set_event(std::string theme, RoguelikeMode mode, std::string event_name, int choose, int option_num)
+    {
+        std::pair<std::string, int> key = std::make_pair(theme, static_cast<int>(mode));
+        if (theme == "Sarkaz" || theme == "Sami") {
+            // 在调试器里发现 m_events 中，Sami 和 Sarkaz 的 mode 只有 -1
+            key.second = -1;
+        }
+        // 边界检查
+        auto outerIt = m_events.find(key);
+        if (outerIt == m_events.end()) {
+            return false;
+        }
+        auto& innerMap = outerIt->second;
+        auto innerIt = innerMap.find(event_name);
+        if (innerIt == innerMap.end()) {
+            return false;
+        }
+        // 修改事件选择
+        m_events[key][event_name].default_choose = choose;
+        m_events[key][event_name].option_num = option_num;
+        return true;
+    }
+
     enum class ComparisonType
     {
         GreaterThan,
