@@ -33,6 +33,7 @@ using MaaWpfGui.Services;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -1479,7 +1480,7 @@ namespace MaaWpfGui.Main
                 case "PenguinId":
                     {
                         string id = subTaskDetails!["id"]?.ToString() ?? string.Empty;
-                        Instances.SettingsViewModel.PenguinId = id;
+                        SettingsViewModel.GameSettings.PenguinId = id;
 
                         break;
                     }
@@ -2007,8 +2008,8 @@ namespace MaaWpfGui.Main
                 ["stone"] = maxStone,
                 ["times"] = maxTimes,
                 ["series"] = series,
-                ["report_to_penguin"] = Instances.SettingsViewModel.EnablePenguin,
-                ["report_to_yituliu"] = Instances.SettingsViewModel.EnableYituliu,
+                ["report_to_penguin"] = SettingsViewModel.GameSettings.EnablePenguin,
+                ["report_to_yituliu"] = SettingsViewModel.GameSettings.EnableYituliu,
             };
             if (dropsItemQuantity != 0 && !string.IsNullOrWhiteSpace(dropsItemId))
             {
@@ -2019,7 +2020,7 @@ namespace MaaWpfGui.Main
             }
 
             taskParams["client_type"] = SettingsViewModel.GameSettings.ClientType;
-            taskParams["penguin_id"] = Instances.SettingsViewModel.PenguinId;
+            taskParams["penguin_id"] = SettingsViewModel.GameSettings.PenguinId;
             taskParams["DrGrandet"] = SettingsViewModel.FightTask.IsDrGrandet;
             taskParams["expiring_medicine"] = isMainFight && SettingsViewModel.FightTask.UseExpiringMedicine ? 9999 : 0;
             taskParams["server"] = Instances.SettingsViewModel.ServerType;
@@ -2257,9 +2258,9 @@ namespace MaaWpfGui.Main
                     ["4"] = chooseLevel4Time,
                     ["5"] = chooseLevel5Time,
                 },
-                ["report_to_penguin"] = Instances.SettingsViewModel.EnablePenguin,
-                ["report_to_yituliu"] = Instances.SettingsViewModel.EnableYituliu,
-                ["penguin_id"] = Instances.SettingsViewModel.PenguinId,
+                ["report_to_penguin"] = SettingsViewModel.GameSettings.EnablePenguin,
+                ["report_to_yituliu"] = SettingsViewModel.GameSettings.EnableYituliu,
+                ["penguin_id"] = SettingsViewModel.GameSettings.PenguinId,
                 ["server"] = Instances.SettingsViewModel.ServerType,
             };
 
@@ -2584,8 +2585,8 @@ namespace MaaWpfGui.Main
                 ["report_to_penguin"] = false,
                 ["report_to_yituliu"] = false,
                 ["recruitment_time"] = new JObject { ["3"] = chooseLevel3Time, ["4"] = chooseLevel4Time, ["5"] = chooseLevel5Time },
-                ["penguin_id"] = Instances.SettingsViewModel.PenguinId,
-                ["yituliu_id"] = Instances.SettingsViewModel.PenguinId, // 一图流说随便传个uuid就行，让client自己生成，所以先直接嫖一下企鹅的（
+                ["penguin_id"] = SettingsViewModel.GameSettings.PenguinId,
+                ["yituliu_id"] = SettingsViewModel.GameSettings.PenguinId, // 一图流说随便传个uuid就行，让client自己生成，所以先直接嫖一下企鹅的（
                 ["server"] = Instances.SettingsViewModel.ServerType,
             };
 

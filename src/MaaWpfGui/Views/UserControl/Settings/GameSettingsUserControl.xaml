@@ -8,8 +8,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
-    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
-    xmlns:local="clr-namespace:MaaWpfGui"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:setting="clr-namespace:MaaWpfGui.ViewModels.UI"
@@ -148,5 +146,27 @@
                 IsChecked="{Binding BlockSleepWithScreenOn}"
                 Visibility="{c:Binding BlockSleep}" />
         </StackPanel>
+
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <CheckBox
+                Margin="10"
+                Content="{DynamicResource EnablePenguin}"
+                IsChecked="{Binding EnablePenguin}" />
+            <CheckBox
+                Margin="10"
+                Content="{DynamicResource EnableYituliu}"
+                IsChecked="{Binding EnableYituliu}" />
+        </StackPanel>
+        <hc:TextBox
+            Margin="10,5"
+            hc:InfoElement.Title="{DynamicResource PenguinId}"
+            hc:TitleElement.TitlePlacement="Left"
+            InputMethod.IsInputMethodEnabled="False"
+            Style="{StaticResource TextBoxExtend}"
+            Text="{Binding PenguinId}"
+            Visibility="{c:Binding EnablePenguin}" />
     </StackPanel>
 </UserControl>
