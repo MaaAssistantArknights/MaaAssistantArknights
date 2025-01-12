@@ -10608,7 +10608,7 @@
             ]
         ],
         "specificRect": [935, 458, 55, 57],
-        "next": ["Sarkaz@Roguelike@StageEnterWithChaosConfirm", "#back#next"]
+        "next": ["Sarkaz@Roguelike@StageEnterWithChaosConfirm", "#back"]
     },
     "Sarkaz@Roguelike@StageEnterWithRetardation": {
         "algorithm": "OcrDetect",
