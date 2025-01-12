@@ -705,18 +705,20 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _roguelikeStartWithSeed = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartWithSeed, bool.FalseString));
+    private bool _roguelikeStartWithSeedRaw = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartWithSeed, bool.FalseString));
 
     /// <summary>
     /// Gets or sets a value indicating whether start with seed when investing in Sarkaz.
     /// </summary>
-    public bool RoguelikeStartWithSeed
+    public bool RoguelikeStartWithSeedRaw
     {
-        get => _roguelikeStartWithSeed;
+        get => _roguelikeStartWithSeedRaw;
         set
         {
-            SetAndNotify(ref _roguelikeStartWithSeed, value);
+            SetAndNotify(ref _roguelikeStartWithSeedRaw, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStartWithSeed, value.ToString());
         }
     }
+
+    public bool RoguelikeStartWithSeed => _roguelikeStartWithSeedRaw && RoguelikeTheme == "Sarkaz" && RoguelikeMode == "1" && RoguelikeSquad is "点刺成锭分队" or "后勤分队";
 }

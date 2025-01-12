@@ -219,7 +219,7 @@
             </CheckBox>
             <CheckBox
                 Margin="0,10"
-                IsChecked="{Binding RoguelikeStartWithSeed}"
+                IsChecked="{Binding RoguelikeStartWithSeedRaw}"
                 Visibility="{c:Binding 'RoguelikeMode == &quot;1&quot; and RoguelikeTheme == &quot;Sarkaz&quot; and (RoguelikeSquad == &quot;点刺成锭分队&quot; or RoguelikeSquad == &quot;后勤分队&quot;)'}">
                 <TextBlock
                     Block.TextAlignment="Left"

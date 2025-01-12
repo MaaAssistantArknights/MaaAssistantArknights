@@ -2521,7 +2521,7 @@ namespace MaaWpfGui.Main
             taskParams["stop_at_final_boss"] = mode == 0 && stopAtFinalBoss;
             taskParams["stop_at_max_level"] = mode == 0 && stopAtMaxLevel;
 
-            taskParams["start_with_seed"] = startWithSeed && theme == "Sarkaz" && mode == 1 && (squad == "点刺成锭分队" || squad == "后勤分队");
+            taskParams["start_with_seed"] = startWithSeed;
 
             AsstTaskId id = AsstAppendTaskWithEncoding("Roguelike", taskParams);
             _latestTaskId[TaskType.Roguelike] = id;
