@@ -120,12 +120,8 @@ bool asst::PlayToolsController::click(const Point& p)
     return toucher_down(p) && toucher_up(p);
 }
 
-bool asst::PlayToolsController::input(const std::string& text)
+bool asst::PlayToolsController::input([[maybe_unused]] const std::string& text)
 {
-    if (text != "") {
-        // Werror
-        Log.warn("input is not supported for PlayTools");
-    }
     return true;
 }
 
