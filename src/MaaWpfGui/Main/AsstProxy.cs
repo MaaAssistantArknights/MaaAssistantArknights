@@ -2434,7 +2434,6 @@ namespace MaaWpfGui.Main
         /// <param name="stopAtFinalBoss">是否在五层BOSS前停下来</param>
         /// <param name="stopAtMaxLevel">是否在满级时停止任务</param>
         /// <param name="startWithSeed">是否使用刷钱种子</param>
-        /// <param name="startWithSeedVisibility">若刷钱种子不可启用，则认为不使用</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(
             int mode,
@@ -2460,8 +2459,7 @@ namespace MaaWpfGui.Main
             bool refreshTraderWithDice,
             bool stopAtFinalBoss,
             bool stopAtMaxLevel,
-            bool startWithSeed,
-            Visibility startWithSeedVisibility)
+            bool startWithSeed)
         {
             var taskParams = new JObject
             {
@@ -2523,7 +2521,7 @@ namespace MaaWpfGui.Main
             taskParams["stop_at_final_boss"] = mode == 0 && stopAtFinalBoss;
             taskParams["stop_at_max_level"] = mode == 0 && stopAtMaxLevel;
 
-            taskParams["start_with_seed"] = startWithSeed && (startWithSeedVisibility == Visibility.Visible);
+            taskParams["start_with_seed"] = startWithSeed && theme == "Sarkaz" && mode == 1 && (squad == "点刺成锭分队" || squad == "后勤分队");
 
             AsstTaskId id = AsstAppendTaskWithEncoding("Roguelike", taskParams);
             _latestTaskId[TaskType.Roguelike] = id;

@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Windows;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Utilities.ValueType;
@@ -37,8 +36,6 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
         UpdateRoguelikeSquadList();
 
         UpdateRoguelikeCoreCharList();
-
-        UpdateRoguelikeStartWithSeedVisibility();
     }
 
     private void UpdateRoguelikeDifficultyList()
@@ -80,13 +77,6 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
         }
 
         RoguelikeMode = RoguelikeModeList.Any(x => x.Value == roguelikeMode) ? roguelikeMode : "0";
-    }
-
-    private void UpdateRoguelikeStartWithSeedVisibility()
-    {
-        RoguelikeStartWithSeedVisibility = (RoguelikeTheme == "Sarkaz" && RoguelikeMode == "1" &&
-            (RoguelikeSquad == "点刺成锭分队" || RoguelikeSquad == "后勤分队")) ?
-            Visibility.Visible : Visibility.Collapsed;
     }
 
     private readonly Dictionary<string, List<(string Key, string Value)>> _squadDictionary = new()
@@ -300,7 +290,6 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
             UpdateRoguelikeModeList();
             UpdateRoguelikeSquadList();
             UpdateRoguelikeCoreCharList();
-            UpdateRoguelikeStartWithSeedVisibility();
         }
     }
 
@@ -335,7 +324,6 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeMode, value);
 
             UpdateRoguelikeSquadList();
-            UpdateRoguelikeStartWithSeedVisibility();
         }
     }
 
@@ -351,8 +339,6 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
         {
             SetAndNotify(ref _roguelikeSquad, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeSquad, value);
-
-            UpdateRoguelikeStartWithSeedVisibility();
         }
     }
 
@@ -718,7 +704,7 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStopAtMaxLevel, value.ToString());
         }
     }
-    
+
     private bool _roguelikeStartWithSeed = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartWithSeed, bool.FalseString));
 
     /// <summary>
@@ -732,15 +718,5 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
             SetAndNotify(ref _roguelikeStartWithSeed, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStartWithSeed, value.ToString());
         }
-    }
-
-    private Visibility _roguelikeStartWithSeedVisibility;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the StartWithSeed checkbox should be visible.
-    public Visibility RoguelikeStartWithSeedVisibility
-    {
-        get => _roguelikeStartWithSeedVisibility;
-        set => SetAndNotify(ref _roguelikeStartWithSeedVisibility, value);
     }
 }
