@@ -230,6 +230,7 @@ Supports some of the special stages,Please refer to [autoLocalization example](h
     "difficulty": int,                 // Specified difficulty level, optional, default is 0; only applicable to themes **excluding Phantom**;
                                        // selects the highest unlocked difficulty if the desired one is not unlocked
     "stop_at_final_boss": bool,        // Whether to stop before the level 5 final boss node, optional, default is false; only applicable to themes **excluding Phantom**
+    "stop_at_max_level": bool,         // Whether to stop if max level for roguelike has been achieved, optional, default is false
     "investment_enabled": bool,        // Whether to invest source stones, optional, default is true
     "investments_count": int,          // Number of source stone investments, optional, default is INT_MAX; stops automatically upon reaching limit
     "stop_when_investment_full": bool, // Whether to stop automatically when investment limit is reached, optional, default is false

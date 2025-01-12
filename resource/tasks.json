@@ -3392,7 +3392,6 @@
             "TaskDahuangCity.png"
         ],
         "maskRange": [1, 255],
-        "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [700, 530, 230, 190],
         "next": ["ReceiveAward", "DailyTask", "WeeklyTask", "Award", "Award@CloseAnnos#next"],
@@ -6649,11 +6648,12 @@
         "action": "ClickSelf",
         "roi": [720, 413, 249, 168],
         "postDelay": 1000,
-        "next": ["Roguelike@MissionFailedFlag2", "Roguelike@StartExplore"]
+        "next": ["Roguelike@MissionFailedFlag2", "Roguelike@StartExplore", "Roguelike@StartExploreCD"]
     },
     "Roguelike@Begin": {
         "algorithm": "JustReturn",
         "next": [
+            "Roguelike@StartExploreWithSeed",
             "Roguelike@ChooseDifficulty",
             "Roguelike@StartExplore",
             "Roguelike@Stages#next",
@@ -6663,10 +6663,24 @@
             "Roguelike@Abandon",
             "Roguelike@TodoEnter",
             "Roguelike@Continue",
+            "Roguelike@StartExploreCD",
             "Roguelike@ReturnButtons#next",
             "Roguelike@ReturnConfirm",
             "Roguelike@StartUpThemes#next"
         ]
+    },
+    "Roguelike@CheckLevel": {
+        "Doc": "base_task 进入肉鸽等级界面",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [910, 0, 370, 110],
+        "text": []
+    },
+    "Roguelike@CheckLevelMax": {
+        "Doc": "base_task 等级界面检查是否满级",
+        "algorithm": "OcrDetect",
+        "roi": [920, 25, 40, 20],
+        "text": ["M", "A", "X"]
     },
     "Roguelike@ChooseDifficulty": {
         "Doc": "base_task",
@@ -6687,12 +6701,6 @@
         "baseTask": "NumberOcrReplace",
         "roi": [400, 300, 225, 160],
         "fullMatch": true
-    },
-    "Roguelike@ChooseDifficulty_CheckEasiest": {
-        "doc": "用于 RoguelikeDifficultySelectionTaskPlugin",
-        "algorithm": "OcrDetect",
-        "text": ["ADDITIONAL"],
-        "roi": [670, 515, 100, 19]
     },
     "Roguelike@ChooseDifficulty_Specified": {
         "doc": "用于 RoguelikeDifficultySelectionTaskPlugin",
@@ -6770,7 +6778,13 @@
     "Roguelike@ClickToStartPointAfterFailed": {
         "doc": "因为是从肉鸽失败界面进入，删除了对下个stage的判断",
         "baseTask": "Roguelike@ClickToStartPoint",
-        "next": ["Roguelike@StartExplore", "Roguelike@StartUpThemes#next", "Roguelike@ClickToStartPointAfterFailed"]
+        "next": [
+            "Roguelike@StartExploreWithSeed",
+            "Roguelike@StartExplore",
+            "Roguelike@StartExploreCD",
+            "Roguelike@StartUpThemes#next",
+            "Roguelike@ClickToStartPointAfterFailed"
+        ]
     },
     "Roguelike@CloseCollection": {
         "Doc": "base_task",
@@ -7723,6 +7737,69 @@
             "Roguelike@StartExplore"
         ]
     },
+    "Roguelike@StartExploreCD": {
+        "algorithm": "OcrDetect",
+        "text": ["等待重返城堡入口", "等待重返陆地", "等待科考队重建", "正在清理思绪"],
+        "roi": [1026, 470, 254, 248],
+        "postDelay": 1000,
+        "next": ["Roguelike@StartExplore", "Roguelike@StartExploreCD"]
+    },
+    "Roguelike@StartExploreWithSeed": {
+        "Doc": "萨卡兹点刺刷钱，由 cpp 内启用",
+        "maxTimes": 0,
+        "exceededNext": ["Roguelike@StartExplore"],
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["启用参数"],
+        "roi": [851, 567, 93, 33],
+        "next": ["Roguelike@StartExploreWithSeed-ClickPen"]
+    },
+    "Roguelike@StartExploreWithSeed-BackToMainPage": {
+        "Doc": "识别到 ‘停用参数’ 就行了，不做难度解锁的检查了",
+        "algorithm": "OcrDetect",
+        "text": ["停用参数"],
+        "action": "ClickRect",
+        "roi": [631, 209, 118, 49],
+        "specificRect": [600, 5, 300, 70],
+        "next": ["Roguelike@StartExplore", "Roguelike@StartExploreWithSeed-BackToMainPage"]
+    },
+    "Roguelike@StartExploreWithSeed-ClickInputBox": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["参数"],
+        "roi": [323, 267, 200, 147],
+        "next": ["Roguelike@StartExploreWithSeed-InputSeed"]
+    },
+    "Roguelike@StartExploreWithSeed-ClickPen": {
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [640, 163, 145, 141],
+        "next": ["Roguelike@StartExploreWithSeed-ClickInputBox"]
+    },
+    "Roguelike@StartExploreWithSeed-Confirm": {
+        "Doc": "找到一个 “RecruitConfirm.png” 可能复用，但是分数太低，放弃",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [645, 393, 585, 173],
+        "postDelay": 1000,
+        "next": [
+            "Roguelike@StartExploreWithSeed-Confirm",
+            "Roguelike@StartExploreWithSeed-SetDifficulty",
+            "Roguelike@StartExploreWithSeed-BackToMainPage"
+        ]
+    },
+    "Roguelike@StartExploreWithSeed-InputSeed": {
+        "algorithm": "JustReturn",
+        "action": "Input",
+        "inputText": "",
+        "next": ["Roguelike@StartExploreWithSeed-Confirm"]
+    },
+    "Roguelike@StartExploreWithSeed-SetDifficulty": {
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [847, 246, 276, 205],
+        "next": ["Roguelike@StartExploreWithSeed-BackToMainPage"]
+    },
     "Roguelike@StrategyChange": {
         "baseTask": "Roguelike@StrategyChange_default"
     },
@@ -7791,6 +7868,9 @@
         "next": ["Roguelike@WaitForStartButtonClicked"]
     },
     "Phantom@Roguelike@Abandon": {},
+    "Phantom@Roguelike@CheckLevel": {
+        "text": ["古堡笔记"]
+    },
     "Phantom@Roguelike@ChooseDifficulty": {},
     "Phantom@Roguelike@ChooseOper": {
         "next": [
@@ -8044,6 +8124,9 @@
         "roi": [460, 525, 160, 55]
     },
     "Mizuki@Roguelike@Abandon": {},
+    "Mizuki@Roguelike@CheckLevel": {
+        "text": ["生态谱系"]
+    },
     "Mizuki@Roguelike@ChooseDifficulty": {},
     "Mizuki@Roguelike@ChooseDifficulty_Easiest": {
         "action": "ClickRect",
@@ -8590,6 +8673,9 @@
         "text": ["正在提交反馈至神经"],
         "ocrReplace": [["正在提交反馈神经", "正在提交反馈至神经"]],
         "roi": [720, 645, 355, 45]
+    },
+    "Sami@Roguelike@CheckLevel": {
+        "text": ["科考记录"]
     },
     "Sami@Roguelike@ChooseDifficulty": {
         "roi": [1064, 294, 216, 170]
@@ -9767,6 +9853,9 @@
             "mask": []
         }
     },
+    "Sarkaz@Roguelike@CheckLevel": {
+        "text": ["假说辑录"]
+    },
     "Sarkaz@Roguelike@ChooseBurdenOperator": {
         "roi": [11, 493, 140, 143],
         "templThreshold": 0.9,
@@ -10730,7 +10819,28 @@
                 [71, 150, 40],
                 [73, 180, 150]
             ]
+        ],
+        "next": [
+            "Sarkaz@Roguelike@StageTraderEnter-CloseCollectionClose",
+            "Sarkaz@Roguelike@StageTraderEnter-CloseCollectionContinue",
+            "Sarkaz@Roguelike@StageVerticalConfirmTrader",
+            "Sarkaz@Roguelike@StageTraderEnter",
+            "Sarkaz@Roguelike@StageTraderRefreshWithDice",
+            "Sarkaz@Roguelike@StageTraderInvestSystem",
+            "Sarkaz@Roguelike@TraderRandomShopping",
+            "Sarkaz@Roguelike@StageTraderLeave",
+            "Sarkaz@Roguelike@StageTraderLeaveConfirm"
         ]
+    },
+    "Sarkaz@Roguelike@StageTraderEnter-CloseCollectionClose": {
+        "template": "Sarkaz@Roguelike@CloseCollectionClose.png",
+        "baseTask": "Sarkaz@Roguelike@CloseCollectionClose",
+        "next": ["Sarkaz@Roguelike@StageTraderEnter#next"]
+    },
+    "Sarkaz@Roguelike@StageTraderEnter-CloseCollectionContinue": {
+        "template": "Sarkaz@Roguelike@CloseCollectionContinue.png",
+        "baseTask": "Sarkaz@Roguelike@CloseCollectionContinue",
+        "next": ["Sarkaz@Roguelike@StageTraderEnter#next"]
     },
     "Sarkaz@Roguelike@StageTraderHD": {
         "Doc": "已深化",
@@ -10897,6 +11007,12 @@
     "Sarkaz@Roguelike@StartExplore": {
         "roi": [1014, 481, 266, 219]
     },
+    "Sarkaz@Roguelike@StartExploreWithSeed-ClickPen": {},
+    "Sarkaz@Roguelike@StartExploreWithSeed-Confirm": {},
+    "Sarkaz@Roguelike@StartExploreWithSeed-InputSeed": {
+        "inputText": "U1eIA1I29844Ae925i,rogue_4,6"
+    },
+    "Sarkaz@Roguelike@StartExploreWithSeed-SetDifficulty": {},
     "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
         "baseTask": "Sarkaz@Roguelike@StrategyChange_mode1",
         "text": ["_fastInvestment", "_exit"],

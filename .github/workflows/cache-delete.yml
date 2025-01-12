@@ -1,0 +1,36 @@
+name: Delete Cache
+
+on:
+  pull_request:
+    types: [closed]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "PR Number"
+        required: true
+
+jobs:
+  cache-delete:
+    if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete cache on PR merged
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            PR_NUMBER=${{ github.event.inputs.pr_number }}
+          else
+            PR_NUMBER=${{ github.event.pull_request.number }}
+          fi
+          echo "PR Number: $PR_NUMBER"
+
+          curl -s -L https://api.github.com/repos/Maaassistantarknights/Maaassistantarknights/actions/caches |
+          jq -r --arg PR_NUMBER "refs/pull/$PR_NUMBER/merge" '.actions_caches[] | select(.ref == $PR_NUMBER) | .id' |
+          while read -r id; do
+            echo "Deleting cache with ID: $id"
+
+            curl -L -X DELETE \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${{ secrets.MAA_ACTION_READ_WRITE }}" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/actions/caches/$id"
+          done

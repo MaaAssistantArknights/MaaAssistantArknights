@@ -70,6 +70,7 @@ struct AdbCfg
     std::string display_id;
     std::string uuid;
     std::string click;
+    std::string input;
     std::string swipe;
     std::string press_esc;
     std::string display;

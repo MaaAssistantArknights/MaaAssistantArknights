@@ -336,6 +336,16 @@ bool asst::AdbController::click(const Point& p)
     return call_command(cur_cmd).has_value();
 }
 
+bool asst::AdbController::input(const std::string& text)
+{
+    if (text == "") {
+        Log.error("empty text");
+    }
+
+    std::string cur_cmd = utils::string_replace_all(m_adb.input, { { "[text]", text } });
+    return call_command(cur_cmd).has_value();
+}
+
 bool asst::AdbController::swipe(
     const Point& p1,
     const Point& p2,
@@ -996,6 +1006,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
     }
 
     m_adb.click = cmd_replace(adb_cfg.click);
+    m_adb.input = cmd_replace(adb_cfg.input);
     m_adb.swipe = cmd_replace(adb_cfg.swipe);
     m_adb.press_esc = cmd_replace(adb_cfg.press_esc);
     m_adb.screencap_raw_with_gzip = cmd_replace(adb_cfg.screencap_raw_with_gzip);

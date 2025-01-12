@@ -104,7 +104,9 @@ bool asst::MedicineCounterTaskPlugin::_run()
 
         if (*sanity_target >= *sanity_max) [[unlikely]] {
             auto waitTime = DrGrandetTaskPlugin::analyze_time_left(image);
-            sleep(waitTime);
+            if (waitTime > 0) {
+                sleep(waitTime);
+            }
         }
     }
 

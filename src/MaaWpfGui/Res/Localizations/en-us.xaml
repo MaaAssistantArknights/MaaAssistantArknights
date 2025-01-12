@@ -143,6 +143,8 @@
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable non-friend support</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">Don't abort Auto IS until the end of battle</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">Stop before final boss</system:String>
+    <system:String x:Key="RoguelikeStopAtMaxLevel">Stop when max level is achieved</system:String>
+    <system:String x:Key="RoguelikeStartWithSeed">启用刷钱种子</system:String>
     <system:String x:Key="DeploymentWithPause" xml:space="preserve">Pause Deployment (Pause Trick) (Experimental)</system:String>
     <system:String x:Key="AdbLiteEnabled">Use ADB Lite (Experimental)</system:String>
     <system:String x:Key="KillAdbOnExit">Kill ADB On Exit</system:String>
@@ -807,7 +809,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="BattleFormation">Start formation</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selected: </system:String>
     <system:String x:Key="CurrentSteps">Step: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">Unsupported stage, please check the level name or go to「Settings - Update - Resource update」and try updating the resource version!</system:String>
+    <system:String x:Key="UnsupportedLevel">Unsupported stage, please check the level name or go to 「Settings - Update - Resource update」 and try updating the resource version!</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results: </system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToReconnectByAdb">Attempting to reconnect</system:String>

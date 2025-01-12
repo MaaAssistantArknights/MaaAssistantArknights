@@ -370,6 +370,18 @@ bool asst::StageDropsTaskPlugin::upload_to_server(const std::string& subtask, Re
         extra_headers.insert({ "authorization", "PenguinID " + m_penguin_id });
     }
 
+    std::string version = Version;
+    if (version.find("DEBUG VERSION") != std::string::npos) {
+        version = "dev";
+    }
+    else if (!version.empty() && version[0] == 'v') {
+        version.erase(0, 1);
+    }
+
+    version.erase(ranges::remove(version, ' ').begin(), version.end());
+
+    extra_headers.insert({ "User-Agent", std::string("MaaAssistantArknights/") + version + " cpr/" + CPR_VERSION });
+
     std::shared_ptr<ReportDataTask> report_task_ptr;
     if (report_type == ReportType::PenguinStats) {
         if (!m_report_penguin_task_ptr) {

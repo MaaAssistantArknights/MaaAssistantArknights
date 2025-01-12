@@ -42,6 +42,8 @@ public:
 
     virtual bool click(const Point& p) = 0;
 
+    virtual bool input(const std::string& text) = 0;
+
     virtual bool swipe(
         const Point& p1,
         const Point& p2,

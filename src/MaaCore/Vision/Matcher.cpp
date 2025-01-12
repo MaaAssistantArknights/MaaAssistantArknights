@@ -32,11 +32,9 @@ Matcher::ResultOpt Matcher::analyze() const
         if (m_log_tracing && max_val > 0.5 && max_val > threshold - 0.2) { // 得分太低的肯定不对，没必要打印
             Log.trace("match_templ |", templ_name, "score:", max_val, "rect:", rect, "roi:", m_roi);
         }
-#ifdef ASST_DEBUG
         else {
             Log.debug("match_templ |", templ_name, "score:", max_val, "rect:", rect, "roi:", m_roi);
         }
-#endif
         if (max_val < threshold) {
             continue;
         }

@@ -84,6 +84,7 @@
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
             "click": "[Adb] -s [AdbSerial] shell input tap [x] [y]",
             "swipe": "[Adb] -s [AdbSerial] shell input swipe [x1] [y1] [x2] [y2] [duration]",
+            "input": "[Adb] -s [AdbSerial] shell input text [text]",
             "start": "[Adb] -s [AdbSerial] shell am start -n [PackageName]/com.u8.sdk.U8UnityContext",
             "stop": "[Adb] -s [AdbSerial] shell am force-stop [PackageName]",
             "back_to_home": "[Adb] -s [AdbSerial] shell input keyevent HOME",

@@ -173,6 +173,12 @@ bool asst::Controller::click(const Rect& rect)
     return m_scale_proxy->click(rect);
 }
 
+bool asst::Controller::input(const std::string& text)
+{
+    CHECK_EXIST(m_controller, false);
+    return m_controller->input(text);
+}
+
 bool asst::Controller::swipe(
     const Point& p1,
     const Point& p2,

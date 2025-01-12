@@ -62,11 +62,5 @@
             "direction": "right",
             "condition": [40, 45]
         }
-    ],
-    "retreat_plan": [
-        {
-            "location": [4, 2],
-            "condition": [35, 39]
-        }
     ]
 }

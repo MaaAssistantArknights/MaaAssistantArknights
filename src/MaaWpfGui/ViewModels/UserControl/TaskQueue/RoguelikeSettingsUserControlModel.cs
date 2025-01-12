@@ -41,7 +41,8 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
     private void UpdateRoguelikeDifficultyList()
     {
         RoguelikeDifficultyList = [
-            new() { Display = "MAX", Value = int.MaxValue }
+            new() { Display = LocalizationHelper.GetString("Current"), Value = -1 },
+            new() { Display = "MAX", Value = int.MaxValue },
         ];
 
         for (int i = 20; i >= 0; --i)
@@ -49,8 +50,6 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
             var value = i.ToString();
             RoguelikeDifficultyList.Add(new() { Display = value, Value = i });
         }
-
-        RoguelikeDifficultyList.Add(new() { Display = LocalizationHelper.GetString("Current"), Value = -1 });
     }
 
     private void UpdateRoguelikeModeList()
@@ -203,8 +202,13 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
                         continue;
                     }
 
+                    if (!DataHelper.IsCharacterAvailableInClient(name, SettingsViewModel.GameSettings.ClientType))
+                    {
+                        continue;
+                    }
+
                     var localizedName = DataHelper.GetLocalizedCharacterName(name, SettingsViewModel.GuiSettings.OperNameLocalization);
-                    if (!string.IsNullOrEmpty(localizedName) && !(SettingsViewModel.GameSettings.ClientType.Contains("YoStar") && DataHelper.GetLocalizedCharacterName(name, "en-us") == DataHelper.GetLocalizedCharacterName(name, "zh-cn")))
+                    if (!string.IsNullOrEmpty(localizedName))
                     {
                         roguelikeCoreCharList.Add(localizedName);
                     }
@@ -684,4 +688,36 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStopAtFinalBoss, value.ToString());
         }
     }
+
+    private bool _roguelikeStopAtMaxLevel = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStopAtMaxLevel, bool.FalseString));
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to stop when max level has been achieved.
+    /// </summary>
+    public bool RoguelikeStopAtMaxLevel
+    {
+        get => _roguelikeStopAtMaxLevel;
+        set
+        {
+            SetAndNotify(ref _roguelikeStopAtMaxLevel, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStopAtMaxLevel, value.ToString());
+        }
+    }
+
+    private bool _roguelikeStartWithSeedRaw = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartWithSeed, bool.FalseString));
+
+    /// <summary>
+    /// Gets or sets a value indicating whether start with seed when investing in Sarkaz.
+    /// </summary>
+    public bool RoguelikeStartWithSeedRaw
+    {
+        get => _roguelikeStartWithSeedRaw;
+        set
+        {
+            SetAndNotify(ref _roguelikeStartWithSeedRaw, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStartWithSeed, value.ToString());
+        }
+    }
+
+    public bool RoguelikeStartWithSeed => _roguelikeStartWithSeedRaw && RoguelikeTheme == "Sarkaz" && RoguelikeMode == "1" && RoguelikeSquad is "点刺成锭分队" or "后勤分队";
 }

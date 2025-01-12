@@ -6,13 +6,23 @@ import re
 # NOTE
 # You may customize here
 regex_ignore_list = [
+    # IGNORE EVENTS
+    "\w{2}-Open",
+    "\w{2}-OpenOcr",
+    "\w{2}ChapterTo\w{2}",
+
+    # CUSTOM
+    "AccountManager",
+    "Logout",
     "SSSBuffChoose",
     "Roguelike@LevelName_normal_mode",
     "Reclamation@ClickAnyZoneOcr",
     "MiningActivities",
     "RecruitingActivities",
-    "Reclamation2",
-    "Sami@Roguelike@FoldartalGainOcr"
+    "Sami@Roguelike@FoldartalGainOcr",
+
+    # FUTURE EVENTS
+    "Sarkaz.*",
 ]
 
 server_list = [

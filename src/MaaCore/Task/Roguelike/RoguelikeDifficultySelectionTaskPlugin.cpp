@@ -86,26 +86,19 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::select_difficulty(const int d
 
     // 识别当前难度
     const cv::Mat image = ctrler()->get_image();
-    OCRer easiest_checker(image);
-    easiest_checker.set_task_info("Roguelike@ChooseDifficulty_CheckEasiest");
-    if (!easiest_checker.analyze()) {
-        m_current_difficulty = 0;
+    OCRer current_difficulty_analyzer(image);
+    current_difficulty_analyzer.set_task_info("Roguelike@ChooseDifficulty_AnalyzeCurrentDifficulty");
+    if (current_difficulty_analyzer.analyze()) {
+        const std::string current_difficulty_text = current_difficulty_analyzer.get_result().front().text;
+        Log.info(__FUNCTION__, "| Current difficulty text is", current_difficulty_text);
+        if (!utils::chars_to_number(current_difficulty_text, m_current_difficulty)) {
+            Log.error("Fail to convert current difficulty text to int, reset current difficulty to 0");
+            m_current_difficulty = 0;
+        }
     }
     else {
-        OCRer current_difficulty_analyzer(image);
-        current_difficulty_analyzer.set_task_info("Roguelike@ChooseDifficulty_AnalyzeCurrentDifficulty");
-        if (current_difficulty_analyzer.analyze()) {
-            const std::string current_difficulty_text = current_difficulty_analyzer.get_result().front().text;
-            Log.debug(__FUNCTION__, "| Current difficulty text is", current_difficulty_text);
-            if (!utils::chars_to_number(current_difficulty_text, m_current_difficulty)) {
-                Log.error("Fail to convert current difficulty text to int, reset current difficulty to -1");
-                m_current_difficulty = -1;
-            }
-        }
-        else {
-            Log.error(__FUNCTION__, "| Fail to detect current difficulty, reset current difficulty to -1");
-            m_current_difficulty = -1;
-        }
+        Log.error(__FUNCTION__, "| Fail to detect current difficulty, reset current difficulty to 0");
+        m_current_difficulty = 0;
     }
     Log.info(__FUNCTION__, "| Current difficulty is", m_current_difficulty);
 

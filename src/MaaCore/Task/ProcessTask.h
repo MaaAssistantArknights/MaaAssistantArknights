@@ -68,6 +68,7 @@ protected:
     int calc_post_delay(TaskConstPtr task) const;
 
     void exec_click_task(const Rect& matched_rect) const;
+    void exec_input_task(const std::string& text) const;
     void exec_swipe_task(
         const Rect& r1,
         const Rect& r2,

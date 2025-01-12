@@ -18,7 +18,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using HandyControl.Controls;
@@ -49,14 +48,6 @@ namespace MaaWpfGui.ViewModels.UI
         private readonly RunningState _runningState;
 
         private static readonly ILogger _logger = Log.ForContext<SettingsViewModel>();
-
-        [DllImport("user32.dll")]
-        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-        private const int SWMINIMIZE = 6;
-
-        [DllImport("user32.dll")]
-        private static extern bool IsIconic(IntPtr hWnd);
 
         /// <summary>
         /// Gets the visibility of task setting views.
@@ -560,55 +551,6 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         #endregion SettingsGuide
-
-        #region 企鹅和一图流上报
-
-        private string _penguinId = ConfigurationHelper.GetValue(ConfigurationKeys.PenguinId, string.Empty);
-
-        /// <summary>
-        /// Gets or sets the id of PenguinStats.
-        /// </summary>
-        public string PenguinId
-        {
-            get => _penguinId;
-            set
-            {
-                SetAndNotify(ref _penguinId, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.PenguinId, value);
-            }
-        }
-
-        private bool _enablePenguin = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.EnablePenguin, bool.TrueString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to enable penguin upload.
-        /// </summary>
-        public bool EnablePenguin
-        {
-            get => _enablePenguin;
-            set
-            {
-                SetAndNotify(ref _enablePenguin, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.EnablePenguin, value.ToString());
-            }
-        }
-
-        private bool _enableYituliu = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.EnableYituliu, bool.TrueString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to enable yituliu upload.
-        /// </summary>
-        public bool EnableYituliu
-        {
-            get => _enableYituliu;
-            set
-            {
-                SetAndNotify(ref _enableYituliu, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.EnableYituliu, value.ToString());
-            }
-        }
-
-        #endregion 企鹅和一图流上报
 
         #region 设置页面列表和滚动视图联动绑定
 
