@@ -244,6 +244,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
     "difficulty": int,                 // 指定难度等级，可选，默认值 0；仅适用于**除 Phantom 以外**的主题；
                                        // 若未解锁难度，则会选择当前已解锁的最高难度
     "stop_at_final_boss": bool,        // 是否在第 5 层险路恶敌节点前停止任务，可选，默认值 false；仅适用于**除 Phantom 以外**的主题
+    "stop_at_max_level": bool,         // 是否在肉鸽等级刷满后停止任务，可选，默认值 false
     "investment_enabled": bool,        // 是否投资源石锭，可选，默认值 true
     "investments_count": int,          // 投资源石锭的次数，可选，默认值 INT_MAX；达到后自动停止任务
     "stop_when_investment_full": bool, // 是否在投资到达上限后自动停止任务，可选，默认值 false
@@ -263,7 +264,10 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
     "expected_collapsal_paradigms": [         // 希望触发的坍缩范式，默认值 ["目空一些, "睁眼瞎", "图像损坏", "一抹黑"]；
         string,                               // 仅在主题为 Sami 且模式为 5 时有效
         ...
-    ]
+    ],
+    "start_with_seed": bool,        // 使用种子刷钱，true 时有效
+                                    // 仅在 Sarkaz 主题，Investment 模式，“点刺成锭分队” or “后勤分队” 时可能为 true
+                                    // 使用固定种子
 }
 ```
 

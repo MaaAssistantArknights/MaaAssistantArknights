@@ -11,6 +11,7 @@ env: # config
 
 jobs:
   stale:
+    if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: ubuntu-latest
     permissions:
       actions: write # Workaround for https://github.com/actions/stale/issues/1090
@@ -34,5 +35,5 @@ jobs:
           days-before-pr-close: -1 # Completely disable closing for PRs
 
           # Temporary to reduce the huge issues number
-          # operations-per-run: 500
+          operations-per-run: 100
           debug-only: false

@@ -195,6 +195,10 @@ ProcessTask::NodeStatus ProcessTask::run_action(const HitDetail& hits) const
         exec_click_task(rect);
         return NodeStatus::Success;
     }
+    case ProcessTaskAction::Input: {
+        exec_input_task(task->input_text);
+        return NodeStatus::Success;
+    }
     case ProcessTaskAction::Swipe: {
         size_t param_size = task->special_params.size();
         // Warning: 这里的后两个参数 slope_in 和 slope_out 是 double 类型，但是在 json 中是 int 类型
@@ -402,6 +406,11 @@ json::value ProcessTask::basic_info() const
 void ProcessTask::exec_click_task(const Rect& matched_rect) const
 {
     ctrler()->click(matched_rect);
+}
+
+void ProcessTask::exec_input_task(const std::string& text) const
+{
+    ctrler()->input(text);
 }
 
 void ProcessTask::exec_swipe_task(

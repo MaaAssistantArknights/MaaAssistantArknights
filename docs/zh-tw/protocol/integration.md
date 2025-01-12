@@ -237,6 +237,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
     "difficulty": int,                 // 指定難度等級，可選，預設值 0；僅適用於**除 Phantom 以外**的主題；
                                        // 若未解鎖難度，則會選擇當前已解鎖的最高難度
     "stop_at_final_boss": bool,        // 是否在第 5 層險路惡敵節點前停止任務，可選，預設值 false；僅適用於**除 Phantom 以外**的主題
+    "stop_at_max_level": bool,         // 是否在肉鴿等級刷滿後停止任務，可選，預設值 false
     "investment_enabled": bool,        // 是否投資源石錠，可選，預設值 true
     "investments_count": int,          // 投資源石錠的次數，可選，預設值 INT_MAX；達到後自動停止任務
     "stop_when_investment_full": bool, // 是否在投資到達上限後自動停止任務，可選，預設值 false

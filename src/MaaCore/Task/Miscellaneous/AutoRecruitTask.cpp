@@ -348,6 +348,14 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
         return false;
     }
 
+    if (calc_result.for_special_tags_skip || calc_result.for_robot_tags_skip) {
+        // Mark the slot as completed and return
+        // without incrementing the count
+        m_force_skipped.emplace(slot_index_from_rect(button));
+        click_return_button();
+        return false;
+    }
+
     if (calc_result.force_skip) {
         // mark the slot as completed and return
         m_force_skipped.emplace(slot_index_from_rect(button));
@@ -403,6 +411,21 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         if (image_analyzer.get_tags_result().size() != RecruitConfig::CorrectNumberOfTags) {
             continue;
         }
+
+#ifdef ASST_DEBUG
+        // mock_test_001: 1/5/6 Star Operators appear when first recruited.
+        static bool RunRecruitMockTest_001 = true;
+        if (RunRecruitMockTest_001) {
+            static int skip_once = 0;
+            if (skip_once == 0) {
+                // image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::robot);
+                image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::senior);
+                // image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::top);
+                // image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::highvalue);
+                skip_once++;
+            }
+        }
+#endif
 
         const std::vector<TextRect>& tags = image_analyzer.get_tags_result();
         m_has_refresh = !image_analyzer.get_refresh_rect().empty();
@@ -566,8 +589,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         }
 
         // refresh
-        if (m_need_refresh && m_has_refresh && !has_special_tag &&
-            (final_combination.min_level == 3 && !has_preferred_tag) && !(m_skip_robot && has_robot_tag)) {
+        if (m_need_refresh && m_has_refresh && !has_special_tag && !(m_skip_robot && has_robot_tag) &&
+            (final_combination.min_level == 3 && !has_preferred_tag)) {
             if (refresh_count > refresh_limit) [[unlikely]] {
                 json::value cb_info = basic_info();
                 cb_info["what"] = "RecruitError";
@@ -615,26 +638,28 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
             Log.trace("No recruit permit");
 
-            calc_task_result_type result;
-            result.success = true;
-            result.force_skip = true;
+            calc_task_result_type result(calc_task_result::no_permit);
             return result;
         }
 
         if (!is_calc_only_task()) {
-            // do not confirm, force skip
-            if (!(final_combination.min_level == 3 && has_preferred_tag) &&
-                ranges::none_of(m_confirm_level, [&](const auto& i) { return i == final_combination.min_level; })) {
-                calc_task_result_type result;
-                result.success = true;
-                result.force_skip = true;
+            if (!(has_robot_tag || has_special_tag)) {
+                // do not confirm, force skip
+                if (!(final_combination.min_level == 3 && has_preferred_tag) &&
+                    is_confirm_level_invalid(final_combination.min_level)) {
+                    calc_task_result_type result(calc_task_result::force_skip);
+                    return result;
+                }
+            }
+
+            // "Automatically recruit 5/6 Star operators" is not checked.
+            if (has_special_tag && is_confirm_level_invalid(final_combination.min_level)) {
+                calc_task_result_type result(calc_task_result::special_tag_skip);
                 return result;
             }
 
-            if (m_skip_robot && has_robot_tag) {
-                calc_task_result_type result;
-                result.success = true;
-                result.force_skip = true;
+            if (has_robot_tag && m_skip_robot) {
+                calc_task_result_type result(calc_task_result::robot_tag_skip);
                 return result;
             }
         }
@@ -662,12 +687,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         // nothing to select, leave the selection empty
         if (!(final_combination.min_level == 3 && has_preferred_tag) &&
-            ranges::none_of(m_select_level, [&](const auto& i) { return i == final_combination.min_level; })) {
-            calc_task_result_type result;
-            result.success = true;
-            result.force_skip = false;
-            result.recruitment_time = recruitment_time;
-            result.tags_selected = 0;
+            is_select_level_invalid(final_combination.min_level)) {
+            calc_task_result_type result(calc_task_result::nothing_to_select, recruitment_time);
             return result;
         }
 
@@ -689,11 +710,10 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
-        calc_task_result_type result;
-        result.success = true;
-        result.force_skip = false;
-        result.recruitment_time = recruitment_time;
-        result.tags_selected = static_cast<int>(final_combination.tags.size());
+        calc_task_result_type result(
+            calc_task_result::success,
+            recruitment_time,
+            static_cast<int>(final_combination.tags.size()));
         return result;
     }
 
@@ -932,6 +952,18 @@ void asst::AutoRecruitTask::upload_to_penguin(Rng&& tags)
     if (!m_penguin_id.empty()) {
         extra_headers = { { "authorization", "PenguinID " + m_penguin_id } };
     }
+
+    std::string version = Version;
+    if (version.find("DEBUG VERSION") != std::string::npos) {
+        version = "dev";
+    }
+    else if (!version.empty() && version[0] == 'v') {
+        version.erase(0, 1);
+    }
+
+    version.erase(ranges::remove(version, ' ').begin(), version.end());
+
+    extra_headers.insert({ "User-Agent", std::string("MaaAssistantArknights/") + version + " cpr/" + CPR_VERSION });
 
     if (!m_report_penguin_task_ptr) {
         m_report_penguin_task_ptr = std::make_shared<ReportDataTask>(report_penguin_callback, this);

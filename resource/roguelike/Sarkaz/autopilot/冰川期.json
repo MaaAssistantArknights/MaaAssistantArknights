@@ -1,0 +1,65 @@
+{
+    "stage_name": "冰川期",
+    "replacement_home": [
+        {
+            "location": [8, 2],
+            "direction": "left"
+        }
+    ],
+    "blacklist_location": [
+        [4, 2],
+        [6, 2]
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["投掷手"],
+            "location": [8, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["奶盾", "重装", "地面阻挡", "地面远程"],
+            "location": [7, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["高台输出"],
+            "location": [8, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["奶盾", "重装", "地面阻挡", "地面远程"],
+            "location": [8, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["地面远程"],
+            "location": [9, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["高台输出", "奶"],
+            "location": [6, 5],
+            "direction": "up"
+        },
+        {
+            "groups": ["高台输出"],
+            "location": [7, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["奶"],
+            "location": [8, 3],
+            "direction": "up"
+        },
+        {
+            "groups": ["处决者"],
+            "location": [6, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["处决者"],
+            "location": [5, 2],
+            "direction": "left"
+        }
+    ]
+}

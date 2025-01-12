@@ -16,6 +16,7 @@
 #include "Task/Roguelike/RoguelikeFormationTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeInvestTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeLastRewardTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeLevelTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeRecruitTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeResetTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeSettlementTaskPlugin.h"
@@ -76,6 +77,8 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     m_roguelike_task_ptr->register_plugin<RoguelikeDifficultySelectionTaskPlugin>(m_config_ptr, m_control_ptr);
     m_roguelike_task_ptr->register_plugin<RoguelikeStrategyChangeTaskPlugin>(m_config_ptr, m_control_ptr);
 
+    m_roguelike_task_ptr->register_plugin<RoguelikeLevelTaskPlugin>(m_config_ptr, m_control_ptr);
+
     // ------------------ 萨米主题专用插件 ------------------
     m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalGainTaskPlugin>(m_config_ptr, m_control_ptr);
     m_foldartal_use_ptr =
@@ -119,6 +122,11 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
             Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_mode1");
             m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", 0);
             m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
+        }
+        // 萨卡兹种子刷钱
+        if (theme == RoguelikeTheme::Sarkaz && params.get("start_with_seed", false)) {
+            m_roguelike_task_ptr->set_times_limit("Roguelike@StartExploreWithSeed", INT_MAX);
+            RoguelikeStageEncounter.set_event(theme, mode, "相遇", 3, 4);
         }
     }
     else {
