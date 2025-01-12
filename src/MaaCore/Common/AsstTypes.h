@@ -332,11 +332,11 @@ enum class ProcessTaskAction
     BasicClick = 0x100,
     ClickSelf = BasicClick | 1, // 点击自身位置
     ClickRect = BasicClick | 2, // 点击指定区域
-    Input = 3,                  // 输入
     // ClickRand = BasicClick | 4, // 点击随机区域
     DoNothing = 0x200, // 什么都不做
     Stop = 0x400,      // 停止当前Task
     Swipe = 0x1000,    // 滑动
+    Input = 0x2000,    // 输入文本
 };
 
 inline ProcessTaskAction get_action_type(std::string action_str)
