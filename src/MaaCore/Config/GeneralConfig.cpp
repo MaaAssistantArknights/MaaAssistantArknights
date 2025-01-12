@@ -83,6 +83,7 @@ bool asst::GeneralConfig::parse(const json::value& json)
         adb.display_id = cfg_json.get("displayId", base_cfg.display_id);
         adb.uuid = cfg_json.get("uuid", base_cfg.uuid);
         adb.click = cfg_json.get("click", base_cfg.click);
+        adb.input = cfg_json.get("input", base_cfg.input);
         adb.swipe = cfg_json.get("swipe", base_cfg.swipe);
         adb.press_esc = cfg_json.get("pressEsc", base_cfg.press_esc);
         adb.display = cfg_json.get("display", base_cfg.display);

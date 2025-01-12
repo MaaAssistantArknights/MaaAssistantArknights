@@ -120,6 +120,11 @@ bool asst::PlayToolsController::click(const Point& p)
     return toucher_down(p) && toucher_up(p);
 }
 
+bool asst::PlayToolsController::input([[maybe_unused]] const std::string& text)
+{
+    return true;
+}
+
 bool asst::PlayToolsController::swipe(
     const Point& p1,
     const Point& p2,

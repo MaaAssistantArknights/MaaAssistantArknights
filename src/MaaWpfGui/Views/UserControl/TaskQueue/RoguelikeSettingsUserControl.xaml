@@ -217,6 +217,15 @@
                     Text="{DynamicResource RoguelikeStopAtMaxLevel}"
                     TextWrapping="Wrap" />
             </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding RoguelikeStartWithSeedRaw}"
+                Visibility="{c:Binding 'RoguelikeMode == &quot;1&quot; and RoguelikeTheme == &quot;Sarkaz&quot; and (RoguelikeSquad == &quot;点刺成锭分队&quot; or RoguelikeSquad == &quot;后勤分队&quot;)'}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource RoguelikeStartWithSeed}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
         </StackPanel>
     </StackPanel>
 </UserControl>
