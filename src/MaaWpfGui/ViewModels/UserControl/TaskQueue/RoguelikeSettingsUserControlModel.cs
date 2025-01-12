@@ -41,7 +41,8 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
     private void UpdateRoguelikeDifficultyList()
     {
         RoguelikeDifficultyList = [
-            new() { Display = "MAX", Value = int.MaxValue }
+            new() { Display = LocalizationHelper.GetString("Current"), Value = -1 },
+            new() { Display = "MAX", Value = int.MaxValue },
         ];
 
         for (int i = 20; i >= 0; --i)
@@ -49,8 +50,6 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
             var value = i.ToString();
             RoguelikeDifficultyList.Add(new() { Display = value, Value = i });
         }
-
-        RoguelikeDifficultyList.Add(new() { Display = LocalizationHelper.GetString("Current"), Value = -1 });
     }
 
     private void UpdateRoguelikeModeList()
