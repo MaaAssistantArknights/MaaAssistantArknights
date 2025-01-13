@@ -97,6 +97,7 @@ bool asst::PlayToolsController::screencap(cv::Mat& image_payload, bool allow_rec
 
 bool asst::PlayToolsController::start_game(const std::string& client_type [[maybe_unused]])
 {
+    Log.info("InputText is not supported on iOS");
     return true;
 }
 
@@ -122,6 +123,7 @@ bool asst::PlayToolsController::click(const Point& p)
 
 bool asst::PlayToolsController::input([[maybe_unused]] const std::string& text)
 {
+    Log.info("InputText is not supported on iOS");
     return true;
 }
 
