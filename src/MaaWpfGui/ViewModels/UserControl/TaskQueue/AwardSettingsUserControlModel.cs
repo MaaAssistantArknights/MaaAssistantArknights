@@ -13,20 +13,15 @@
 
 #nullable enable
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using System.Windows;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class AwardSettingsUserControlModel:PropertyChangedBase
+public class AwardSettingsUserControlModel : PropertyChangedBase
 {
-
     private bool _receiveAward = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveAward, bool.TrueString));
 
     /// <summary>
