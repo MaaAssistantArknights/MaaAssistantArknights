@@ -411,7 +411,7 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0 を入力してください。\n
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu スクリーンショットの強化 が有効になっていません。関連する設定を確認してください</system:String>
     <system:String x:Key="LdExtrasEnabled">LD のスクリーンショット拡張モードを有効にする</system:String>
     <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
-雷電エミュレーター9 V9.0.78 以降のバージョンが必要です。専用版や国際版は現在サポートされていません。
+雷電エミュレーター9 V9.0.78 以降のバージョンが必要です。国際版は V9.1.32 以降のバージョンが必要です。
 この機能を有効にした後、すぐにスクリーンショットテストを実行することを強くお勧めします。
 MAA はレジストリから自動的にインストールパスを取得しますが、失敗した場合は手動で入力してください。\n
 インストールパスはエミュレーターのインストールディレクトリのルートディレクトリを入力してください。例えば、エミュレーターのプロセスファイルパスが
@@ -422,7 +422,7 @@ C:\\leidian\\LDPlayer9
 インスタンス番号は雷電マルチインスタンスマネージャーで確認できます。
 メインインスタンスは 0 で、その他のインスタンスはバージョン/IDの後の番号です。\n
 注意：
-現在のところ（V9.1.28）のエミュレーター版は、720P、900P、および 1080P の解像度のみをサポートしています。
+V9.1.28 前のエミュレーター バージョンは 720P、900P、および 1080P の解像度のみをサポートしています。V9.1.29 以降のバージョンは 2K および 4K をサポートしていますが、アークナイツのスライド機構のため、2K 以上の解像度は推奨されません。
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD エミュレータパス</system:String>
     <system:String x:Key="LdIndex">インスタンス番号</system:String>

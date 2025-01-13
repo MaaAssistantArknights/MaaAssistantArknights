@@ -411,7 +411,7 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0。\n
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu 截图增强未生效，请检查相关设置</system:String>
     <system:String x:Key="LdExtrasEnabled">启用 LD 截图增强模式</system:String>
     <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
-需使用雷电模拟器 9 V9.0.78 或更新版本。专版、国际版等暂不支持。
+需使用雷电模拟器 9 V9.0.78 或更新版本。国际版需使用 V9.1.32 或更新版本。
 强烈建议在开启本功能后立刻运行一次截图测试。
 MAA 会自动通过注册表获取安装路径，若获取失败则请手动填写。\n
 安装路径应填写模拟器安装目录的根目录，例如模拟器进程文件路径为
@@ -421,7 +421,7 @@ C:\\leidian\\LDPlayer9。\n
 实例编号可在雷电多开器中查看，
 主多开为 0，其他多开为 版本/编号 ID 后的数字。\n
 注意：
-截至目前（V9.1.28）的模拟器版本仅支持 720P 900P 1080P 分辨率。
+V9.1.28 前的模拟器版本仅支持 720P 900P 1080P 分辨率，V9.1.29 后支持 2K 4K，但由于方舟的滑动机制，不推荐使用 2K 以上分辨率。
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 安装路径</system:String>
     <system:String x:Key="LdIndex">实例编号</system:String>

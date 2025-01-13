@@ -411,7 +411,7 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0으로 입력해야 합니다.\n
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu의 스크린샷 향상가 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
     <system:String x:Key="LdExtrasEnabled">LD 스크린샷 향상 모드 활성화</system:String>
     <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
-LD플레이어 9 V9.0.78 버전 또는 최신 버전을 사용해야 합니다. 특별판, 국제판 등은 현재 지원되지 않습니다.
+LD플레이어 9 V9.0.78 버전 또는 최신 버전을 사용해야 합니다. 국제 버전은 V9.1.32 이상이 필요합니다.
 이 기능을 활성화한 후 즉시 스크린샷 테스트를 실행하는 것을 강력히 권장합니다.
 MAA는 레지스트리에서 자동으로 설치 경로를 가져옵니다. 실패하면 수동으로 입력하십시오.\n
 설치 경로는 에뮬레이터 설치 디렉터리의 루트 디렉터리를 입력해야 합니다. 예를 들어, 에뮬레이터 프로세스 파일 경로가
@@ -422,7 +422,7 @@ C:\\leidian\\LDPlayer9
 인스턴스 번호는 LD플레이어 멀티 인스턴스 매니저에서 확인할 수 있습니다.
 메인 인스턴스는 0이고, 다른 인스턴스는 버전/ID 뒤에 오는 숫자입니다。\n
 주의:
-현재까지 (V9.1.28) 버전의 에뮬레이터는 720P, 900P, 1080P 해상도만 지원합니다.
+V9.1.28 이전의 에뮬레이터 버전은 720P, 900P 및 1080P 해상도만 지원합니다. V9.1.29 이후 버전은 2K 및 4K를 지원하지만, 명일방주의 슬라이딩 메커니즘으로 인해 2K 이상의 해상도는 권장되지 않습니다.
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 에뮬레이터 경로</system:String>
     <system:String x:Key="LdIndex">인스턴스 번호</system:String>

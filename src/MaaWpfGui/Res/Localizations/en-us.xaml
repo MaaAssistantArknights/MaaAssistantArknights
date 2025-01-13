@@ -411,7 +411,7 @@ Note:
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu screenshot enhancement not enabled, please check related settings</system:String>
     <system:String x:Key="LdExtrasEnabled">Enable LD's screenshot enhancement mode</system:String>
     <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
-LDPlayer 9 V9.0.78 or later is required. Ark and Global versions are not supported.
+LDPlayer 9 V9.0.78 or later is required. The Global version requires V9.1.32 or later.
 It is strongly recommended to run a screenshot test immediately after enabling this feature.
 MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.\n
 The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is
@@ -421,7 +421,7 @@ C:\\leidian\\LDPlayer9。\n
 The instance number can be viewed in LDPlayer Multi-Instance Manager,
 The primary instance is 0, and other instances are the numbers after the version/instance ID.\n
 Note:
-As of now (V9.1.28), the emulator version only supports 720P, 900P, and 1080P resolutions.
+Emulator versions prior to V9.1.28 only support 720P, 900P, and 1080P resolutions. Versions after V9.1.29 support 2K and 4K, but due to the sliding mechanism of Arknights, resolutions above 2K are not recommended.
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD Emulator exec path</system:String>
     <system:String x:Key="LdIndex">Instance Number</system:String>
