@@ -13,8 +13,8 @@ jobs:
   cache-delete:
     # Run only on organization branches with PRs
     if: github.event_name == 'workflow_dispatch' ||
-      github.event.pull_request.head.repo.full_name == 
-      github.event.pull_request.base.repo.full_name 
+      github.event.pull_request.head.repo.full_name ==
+      github.event.pull_request.base.repo.full_name
     runs-on: ubuntu-latest
     steps:
       - name: Delete cache on PR merged
