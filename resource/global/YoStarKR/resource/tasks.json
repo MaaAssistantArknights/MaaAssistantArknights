@@ -38,12 +38,6 @@
     "SideStoryReopen": {
         "text": ["재개방"]
     },
-    "AS-OpenOcr": {
-        "text": ["태양을", "뿌리쳐라", "이벤트", "개방중"]
-    },
-    "ASChapterToAS": {
-        "text": ["시민", "정원"]
-    },
     "BP-OpenOcr": {
         "text": ["삶의", "길", "이벤트", "개방"]
     },
@@ -55,6 +49,12 @@
     },
     "BBChapterToBB": {
         "text": ["미래", "선사", "하리라"]
+    },
+    "AS-OpenOcr": {
+        "text": ["태양을", "뿌리쳐라", "이벤트", "개방중"]
+    },
+    "ASChapterToAS": {
+        "text": ["시민", "정원"]
     },
     "OD-8": {
         "sub": ["OD-Open"]
