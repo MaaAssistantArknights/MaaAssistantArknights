@@ -2978,5 +2978,10 @@
     "official/EnterInfrastDahuangCity": "2a15bb6381e75f475a23aeb9d566efc1f76ac74ef74d7792e4947529fb6a6e72",
     "official/FriendsDahuangCity": "858d09273d759769667b942d87977ac7bd58bbb2be67709683b1f900b6dc3880",
     "official/TaskGaming": "429594c43f538f0981c0fb87f028f517599250df390667a7b0685b4a5a539142",
-    "resource/template/items/act2collection_point_token": "c4932ff7ebc232a0e554032a1b1532c333fb115f7d9520dd630b11d6ccf923e3"
+    "resource/template/items/act2collection_point_token": "c4932ff7ebc232a0e554032a1b1532c333fb115f7d9520dd630b11d6ccf923e3",
+    "YoStarEN/Phantom@Roguelike@StageDreadfulFoeEnter": "247e602d8404c2735d889c690e4d23568cb3d75e5e0a36e5c36d0849306b9dc8",
+    "YoStarEN/Phantom@Roguelike@LastRewardConfirm": "a24401a1192904997e625c306affd9b76bb8b3e024f0df7457d8e3f8ef26f43e",
+    "official/Sarkaz@Roguelike@StartExploreWithSeed-SetDifficulty": "da2058843a78013463b2a66c11399625a0c85e34b572b6b0cb5bb26b295ebbac",
+    "official/Sarkaz@Roguelike@StartExploreWithSeed-Confirm": "87edbfa2863dec81645a23f41cbeb71f3b226133b305db7ea8eddf84e018d123",
+    "official/Sarkaz@Roguelike@StartExploreWithSeed-ClickPen": "0aedd195c376f098e4cfcadcb55ac2da19ae3e8d20fe9e6947ce048135f9950c"
 }
