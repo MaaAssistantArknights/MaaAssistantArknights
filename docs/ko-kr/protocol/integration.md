@@ -223,19 +223,20 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
     "starts_count": int,            // 탐색 시작 횟수, 선택 가능, 기본값 INT_MAX; 도달 시 자동으로 작업 중지
     "difficulty": int,              // 난이도 설정, 선택 가능, 기본값 0; **Phantom 제외** 테마에만 해당;
                                     // 해제되지 않은 경우, 현재 해제된 최고 난이도 선택
-    "stop_at_final_boss": bool,        // 5층 최종 보스 노드에서 작업을 중지할지 여부, 선택 가능, 기본값 false; **Phantom 제외** 테마에만 해당
-    "stop_at_max_level": bool,         // 로그라이크에서 최대 레벨에 도달했을 때 작업을 멈출지 여부, 선택 가능, 기본값 false
-    "investment_enabled": bool,        // 원석 정을 투자할지 여부, 선택 가능, 기본값 true
-    "investments_count": int,          // 원석 정 투자 횟수, 선택 가능, 기본값 INT_MAX; 도달 시 자동으로 작업 중지
-    "stop_when_investment_full": bool, // 투자 한도 도달 시 작업을 자동 중지할지 여부, 선택 가능, 기본값 false
-    "start_with_elite_two": bool,      // 시작 리셋 시 엘리트2 등급 진급을 함께 시도할지 여부, 선택 가능, 기본값 false; 모드 4에만 해당
-    "only_start_with_elite_two": bool, // 엘리트2 등급 진급만 시도하고 다른 조건 무시 여부, 선택 가능, 기본값 false;
-                                       // 모드가 4이고 start_with_elite_two가 true일 때만 유효
-    "refresh_trader_with_dice": bool,  // 주사위를 사용해 상점을 새로고침해 특정 상품 구매할지 여부, 선택 가능, 기본값 false; Mizuki 테마에만 해당, 지표 물고기 획득 목표
-    "first_floor_foldartal": string,   // 1층 원견 단계에서 획득 희망하는 밀문, 선택 가능; Sami 테마에만 해당, 모드와 무관; 성공 시 작업 중지
-    "start_foldartal_list": [          // 시작 리셋 시 획득 희망 밀문 목록, 선택 가능, 기본값 []；Sami 테마에서 모드 4일 때만 유효;
-        string,                        // 시작 시 목록의 모든 밀문을 보유할 경우 시작 리셋 성공으로 간주;
-        ...                            // 주의: 이 파라미터는 "생활 우선 부대"와 함께 사용해야 하며, 다른 부대에서는 시작 보상으로 밀문 획득 불가;
+    "stop_at_final_boss": bool,         // 5층 최종 보스 노드에서 작업을 중지할지 여부, 선택 가능, 기본값 false; **Phantom 제외** 테마에만 해당
+    "stop_at_max_level": bool,          // 로그라이크에서 최대 레벨에 도달했을 때 작업을 멈출지 여부, 선택 가능, 기본값 false
+    "investment_enabled": bool,         // 원석 정을 투자할지 여부, 선택 가능, 기본값 true
+    "investments_count": int,           // 원석 정 투자 횟수, 선택 가능, 기본값 INT_MAX; 도달 시 자동으로 작업 중지
+    "stop_when_investment_full": bool,  // 투자 한도 도달 시 작업을 자동 중지할지 여부, 선택 가능, 기본값 false
+    "investment_with_more_score": bool, // 투자 후 쇼핑을 시도할지 여부 (선택 가능, 기본값: false); 모드 1 에만 적용
+    "start_with_elite_two": bool,       // 시작 리셋 시 엘리트2 등급 진급을 함께 시도할지 여부, 선택 가능, 기본값 false; 모드 4에만 해당
+    "only_start_with_elite_two": bool,  // 엘리트2 등급 진급만 시도하고 다른 조건 무시 여부, 선택 가능, 기본값 false;
+                                        // 모드가 4이고 start_with_elite_two가 true일 때만 유효
+    "refresh_trader_with_dice": bool,   // 주사위를 사용해 상점을 새로고침해 특정 상품 구매할지 여부, 선택 가능, 기본값 false; Mizuki 테마에만 해당, 지표 물고기 획득 목표
+    "first_floor_foldartal": string,    // 1층 원견 단계에서 획득 희망하는 밀문, 선택 가능; Sami 테마에만 해당, 모드와 무관; 성공 시 작업 중지
+    "start_foldartal_list": [           // 시작 리셋 시 획득 희망 밀문 목록, 선택 가능, 기본값 []；Sami 테마에서 모드 4일 때만 유효;
+        string,                         // 시작 시 목록의 모든 밀문을 보유할 경우 시작 리셋 성공으로 간주;
+        ...                             // 주의: 이 파라미터는 "생활 우선 부대"와 함께 사용해야 하며, 다른 부대에서는 시작 보상으로 밀문 획득 불가;
     ],
     "use_foldartal": bool,                    // 밀문 사용 여부, 모드 5에서는 기본값 false, 다른 모드에서는 기본값 true; Sami 테마에만 해당
     "check_collapsal_paradigms": bool,        // 획득한 붕괴 패러다임을 확인할지 여부, 모드 5에서는 기본값 true, 다른 모드에서는 기본값 false
