@@ -409,6 +409,7 @@ Sarkaz@Roguelike@CloseEvent.png
 Sarkaz@Roguelike@DecreaseBurdenAbandon.png
 Sarkaz@Roguelike@DecreaseBurdenChaos.png
 Sarkaz@Roguelike@DecreaseBurdenCheckChaos.png
+Sarkaz@Roguelike@DecreaseBurdenCheckClear.png
 Sarkaz@Roguelike@DecreaseBurdenCheckRetardation.png
 Sarkaz@Roguelike@DecreaseBurdenRetardation.png
 Sarkaz@Roguelike@DecreaseBurdenUse.png
@@ -423,6 +424,13 @@ Sarkaz@Roguelike@LastReward3.png
 Sarkaz@Roguelike@LastReward4.png
 Sarkaz@Roguelike@LastReward5.png
 Sarkaz@Roguelike@LastRewardRand.png
+Sarkaz@Roguelike@MapNodeCombatOps.png
+Sarkaz@Roguelike@MapNodeCombatOpsGrey.png
+Sarkaz@Roguelike@MapNodeEmergencyOps.png
+Sarkaz@Roguelike@MapNodeEmergencyOpsGrey.png
+Sarkaz@Roguelike@MapNodeEncounter.png
+Sarkaz@Roguelike@MapNodeEncounterGrey.png
+Sarkaz@Roguelike@MapNodeRogueTraderGrey.png
 Sarkaz@Roguelike@StageBoons.png
 Sarkaz@Roguelike@StageBoskyPassage.png
 Sarkaz@Roguelike@StageCanDeepen.png
@@ -462,6 +470,9 @@ Sarkaz@Roguelike@StageTraderCR.png
 Sarkaz@Roguelike@StageTraderHD.png
 Sarkaz@Roguelike@StageTraderRefreshConfirm.png
 Sarkaz@Roguelike@StageWindAndRain.png
+Sarkaz@Roguelike@StartExploreWithSeed-ClickPen.png
+Sarkaz@Roguelike@StartExploreWithSeed-Confirm.png
+Sarkaz@RoguelikeRecruit-GiveUp.png
 Sarkaz@RoguelikeSettlementConfirm.png
 SelectClue.png
 SendClueConfirm.png
