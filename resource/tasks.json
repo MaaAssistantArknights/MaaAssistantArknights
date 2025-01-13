@@ -13171,7 +13171,7 @@
         "doc": "点击右上角剩余决断次数",
         "baseTask": "Tales@RA@NonZeroActsLeft",
         "template": ["Tales@RA@ActsLeft2.png", "Tales@RA@ActsLeft1.png"],
-        "next": ["Tales@RA@PNS-SkipToCalc-SkipDay"]
+        "next": ["Tales@RA@PNS-SkipToCalc-SkipDay", "Tales@RA@PNS-SkipToCalc-NonZeroActsLeft"]
     },
     "Tales@RA@PNS-SkipToCalc-SkipDay": {
         "doc": "点击右上角 <消磨时间> 箭头",
