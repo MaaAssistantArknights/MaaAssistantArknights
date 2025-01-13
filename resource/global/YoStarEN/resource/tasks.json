@@ -45,6 +45,21 @@
         "text": ["Future", "FUTURE", "Gifts", "Gifts"],
         "roi": [1000, 589, 209, 131]
     },
+    "AS-OpenOcr": {
+        "text": [
+            "Adventure",
+            "Cannot",
+            "Wait",
+            "Sun",
+            "Harvest",
+            "Gathering",
+            "Treasure",
+            "House"
+        ]
+    },
+    "ASChapterToAS": {
+        "text": ["Citizen", "CITIZEN", "Garden", "GARDEN"]
+    },
     "OD-8": {
         "sub": ["OD-Open"]
     },
