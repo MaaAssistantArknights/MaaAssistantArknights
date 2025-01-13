@@ -248,6 +248,7 @@ jobs:
         run: |
           mkdir -p build
           cmake -B build \
+            -DCMAKE_COMPILE_WARNING_AS_ERROR=ON \
             -DMAADEPS_TRIPLET='maa-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux' \
             -DINSTALL_THIRD_LIBS=ON \
             -DINSTALL_RESOURCE=ON \
@@ -260,6 +261,10 @@ jobs:
         env:
           CC: ${{ matrix.arch == 'x86_64' && 'ccache gcc-12' || 'ccache aarch64-linux-gnu-gcc-12' }}
           CXX: ${{ matrix.arch == 'x86_64' && 'ccache g++-12' || 'ccache aarch64-linux-gnu-g++-12' }}
+          CMAKE_COLOR_DIAGNOSTICS: ON
+          CLICOLOR_FORCE: 1
+          CXXFLAGS: | # workaround for gcc bugs
+            -Wno-error=restrict -Wno-error=array-bounds -Wno-error=stringop-overread -Wno-error=missing-field-initializers
 
       - name: Setup Cross Compile Toolchains for CLI
         uses: ./src/maa-cli/.github/actions/setup
