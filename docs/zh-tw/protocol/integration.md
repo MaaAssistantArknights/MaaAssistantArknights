@@ -233,23 +233,25 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
     "core_char": string,            // 開局幹員名，可選；僅支持單個幹員**中文名**，無論伺服器；若留空或設定為空字串 "" 則根據練度自動選擇
     "use_support": bool,            // 開局幹員是否為助戰幹員，可選，預設值 false
     "use_nonfriend_support": bool,  // 是否可以是非好友助戰幹員，可選，預設值 false；僅在 use_support 為 true 時有效
-    "starts_count": int,               // 開始探索的次數，可選，預設值 INT_MAX；達到後自動停止任務
-    "difficulty": int,                 // 指定難度等級，可選，預設值 0；僅適用於**除 Phantom 以外**的主題；
-                                       // 若未解鎖難度，則會選擇當前已解鎖的最高難度
-    "stop_at_final_boss": bool,        // 是否在第 5 層險路惡敵節點前停止任務，可選，預設值 false；僅適用於**除 Phantom 以外**的主題
-    "stop_at_max_level": bool,         // 是否在肉鴿等級刷滿後停止任務，可選，預設值 false
-    "investment_enabled": bool,        // 是否投資源石錠，可選，預設值 true
-    "investments_count": int,          // 投資源石錠的次數，可選，預設值 INT_MAX；達到後自動停止任務
-    "stop_when_investment_full": bool, // 是否在投資到達上限後自動停止任務，可選，預設值 false
-    "start_with_elite_two": bool,      // 是否在凹開局的同時凹幹員精二直升，可選，預設值 false；僅適用於模式 4
-    "only_start_with_elite_two": bool, // 是否只凹開局幹員精二直升而忽視其他開局條件，可選，預設值 false；
-                                       // 僅在模式為 4 且 start_with_elite_two 為 true 時有效
-    "refresh_trader_with_dice": bool,  // 是否用骰子刷新商店購買特殊商品，可選，預設值 false；僅適用於 Mizuki 主題，用於刷指路鱗
-    "first_floor_foldartal": string,   // 希望在第一層遠見階段得到的密文版，可選；僅適用於 Sami 主題，不限模式；若成功凹到則停止任務
-    "start_foldartal_list": [          // 凹開局時希望在開局獎勵階段得到的密文板，可選，預設值 []；僅主題為 Sami 且模式為 4 時有效；
-        string,                        // 僅當開局擁有列表中所有的密文板時才算凹開局成功；
-        ...                            // 注意，此參數須與 “生活至上分隊” 同時使用，其他分隊在開局獎勵階段不會獲得密文板；
+    "starts_count": int,                // 開始探索的次數，可選，預設值 INT_MAX；達到後自動停止任務
+    "difficulty": int,                  // 指定難度等級，可選，預設值 0；僅適用於**除 Phantom 以外**的主題；
+                                        // 若未解鎖難度，則會選擇當前已解鎖的最高難度
+    "stop_at_final_boss": bool,         // 是否在第 5 層險路惡敵節點前停止任務，可選，預設值 false；僅適用於**除 Phantom 以外**的主題
+    "stop_at_max_level": bool,          // 是否在肉鴿等級刷滿後停止任務，可選，預設值 false
+    "investment_enabled": bool,         // 是否投資源石錠，可選，預設值 true
+    "investments_count": int,           // 投資源石錠的次數，可選，預設值 INT_MAX；達到後自動停止任務
+    "stop_when_investment_full": bool,  // 是否在投資到達上限後自動停止任務，可選，預設值 false
+    "investment_with_more_score": bool, // 是否在投資後嘗試購物，可選，預設值 false；僅適用於模式 1
+    "start_with_elite_two": bool,       // 是否在凹開局的同時凹幹員精二直升，可選，預設值 false；僅適用於模式 4
+    "only_start_with_elite_two": bool,  // 是否只凹開局幹員精二直升而忽視其他開局條件，可選，預設值 false；
+                                        // 僅在模式為 4 且 start_with_elite_two 為 true 時有效
+    "refresh_trader_with_dice": bool,   // 是否用骰子刷新商店購買特殊商品，可選，預設值 false；僅適用於 Mizuki 主題，用於刷指路鱗
+    "first_floor_foldartal": string,    // 希望在第一層遠見階段得到的密文版，可選；僅適用於 Sami 主題，不限模式；若成功凹到則停止任務
+    "start_foldartal_list": [           // 凹開局時希望在開局獎勵階段得到的密文板，可選，預設值 []；僅主題為 Sami 且模式為 4 時有效；
+        string,                         // 僅當開局擁有列表中所有的密文板時才算凹開局成功；
+        ...                             // 注意，此參數須與 “生活至上分隊” 同時使用，其他分隊在開局獎勵階段不會獲得密文板；
     ],
+    "start_with_two_ideas": bool,       // 是否凹 2 構想開局，可選，預設值 false；僅在主題為 Sarkaz 且模式為 4 時有效
     "use_foldartal": bool,                    // 是否使用密文板，模式 5 下預設值 false，其他模式下預設值 true；僅適用於 Sami 主題，
     "check_collapsal_paradigms": bool,        // 是否檢測獲取的坍縮範式，模式 5 下預設值 true，其他模式下預設值 false
     "double_check_collapsal_paradigms": bool, // 是否執行坍縮範式檢測防漏措施，模式 5 下預設值 true，其他模式下預設值 false；

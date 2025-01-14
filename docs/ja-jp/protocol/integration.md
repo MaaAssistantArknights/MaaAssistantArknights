@@ -232,23 +232,25 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
     "core_char": string,            // 開幕オペレーター名、省略可能；単一のオペレーター**日本語名**のみ対応、サーバー関係なく；空欄または "" に設定した場合はレベルに応じて自動選択
     "use_support": bool,            // 開幕オペレーターがサポートかどうか、省略可能、デフォルト値 false
     "use_nonfriend_support": bool,  // フレンド以外のサポートが使用可能かどうか、省略可能、デフォルト値 false；use_support が true の場合にのみ有効
-    "starts_count": int,               // 探索を開始する回数、省略可能、デフォルト値 INT_MAX；到達後自動でタスクを停止
-    "difficulty": int,                 // 難易度を指定、省略可能、デフォルト値 0；**Phantom以外**のテーマにのみ対応；
-                                       // 未解放の場合は、現在解放されている最高難易度を選択
-    "stop_at_final_boss": bool,        // 5層の最終ボスノードでタスクを停止するかどうか、省略可能、デフォルト値 false；**Phantom以外**のテーマにのみ対応
-    "stop_at_max_level": bool,         // ローグライクで最大レベルに達した場合にタスクを停止するかどうか、省略可能、デフォルト値 false
-    "investment_enabled": bool,        // 源石錠を投資するかどうか、省略可能、デフォルト値 true
-    "investments_count": int,          // 源石錠の投資回数、省略可能、デフォルト値 INT_MAX；到達後自動でタスクを停止
-    "stop_when_investment_full": bool, // 投資上限に達した時自動でタスクを停止するかどうか、省略可能、デフォルト値 false
-    "start_with_elite_two": bool,      // 開幕リセットと同時にエリート2昇格を狙うか、省略可能、デフォルト値 false；モード4のみ対応
-    "only_start_with_elite_two": bool, // 開幕エリート2昇格のみ狙い、他の条件を無視するか、省略可能、デフォルト値 false；
-                                       // モードが4で、start_with_elite_two が true の場合にのみ有効
-    "refresh_trader_with_dice": bool,  // サイコロでショップをリフレッシュし、特定のアイテムを購入するか、省略可能、デフォルト値 false；Mizukiテーマのみ対応、指路鱗を狙う
-    "first_floor_foldartal": string,   // 1層の遠見段階で取得を希望する密文、省略可能；Samiテーマにのみ対応、モード問わず；取得成功した場合はタスクを停止
-    "start_foldartal_list": [          // 開幕リセット時に取得を希望する密文リスト、省略可能、デフォルト値 []；Samiテーマでモード4の場合にのみ対応；
-        string,                        // 開幕でリスト内の全ての密文を持っている場合に開幕リセット成功とする；
-        ...                            // 注意、このパラメータは「生活至上部隊」と同時に使用する必要がある。他の部隊では開幕報酬で密文を取得できない；
+    "starts_count": int,                // 探索を開始する回数、省略可能、デフォルト値 INT_MAX；到達後自動でタスクを停止
+    "difficulty": int,                  // 難易度を指定、省略可能、デフォルト値 0；**Phantom以外**のテーマにのみ対応；
+                                        // 未解放の場合は、現在解放されている最高難易度を選択
+    "stop_at_final_boss": bool,         // 5層の最終ボスノードでタスクを停止するかどうか、省略可能、デフォルト値 false；**Phantom以外**のテーマにのみ対応
+    "stop_at_max_level": bool,          // ローグライクで最大レベルに達した場合にタスクを停止するかどうか、省略可能、デフォルト値 false
+    "investment_enabled": bool,         // 源石錠を投資するかどうか、省略可能、デフォルト値 true
+    "investments_count": int,           // 源石錠の投資回数、省略可能、デフォルト値 INT_MAX；到達後自動でタスクを停止
+    "stop_when_investment_full": bool,  // 投資上限に達した時自動でタスクを停止するかどうか、省略可能、デフォルト値 false
+    "investment_with_more_score": bool, // 投資後にショッピングを試みるかどうか（選択可能、デフォルト値：false）；モード 1 にのみ適用
+    "start_with_elite_two": bool,       // 開幕リセットと同時にエリート2昇格を狙うか、省略可能、デフォルト値 false；モード4のみ対応
+    "only_start_with_elite_two": bool,  // 開幕エリート2昇格のみ狙い、他の条件を無視するか、省略可能、デフォルト値 false；
+                                        // モードが4で、start_with_elite_two が true の場合にのみ有効
+    "refresh_trader_with_dice": bool,   // サイコロでショップをリフレッシュし、特定のアイテムを購入するか、省略可能、デフォルト値 false；Mizukiテーマのみ対応、指路鱗を狙う
+    "first_floor_foldartal": string,    // 1層の遠見段階で取得を希望する密文、省略可能；Samiテーマにのみ対応、モード問わず；取得成功した場合はタスクを停止
+    "start_foldartal_list": [           // 開幕リセット時に取得を希望する密文リスト、省略可能、デフォルト値 []；Samiテーマでモード4の場合にのみ対応；
+        string,                         // 開幕でリスト内の全ての密文を持っている場合に開幕リセット成功とする；
+        ...                             // 注意、このパラメータは「生活至上部隊」と同時に使用する必要がある。他の部隊では開幕報酬で密文を取得できない；
     ],
+    "start_with_two_ideas": bool,       // 凹 2 構想開局の有無（選択可能、デフォルト値：false）；テーマが Sarkaz で、モードが 4 の時のみ有効
     "use_foldartal": bool,                    // 密文を使用するか、モード5ではデフォルト値 false、他のモードではデフォルト値 true；Samiテーマにのみ対応
     "check_collapsal_paradigms": bool,        // 取得した崩壊パラダイムを検査するか、モード5ではデフォルト値 true、他のモードではデフォルト値 false
     "double_check_collapsal_paradigms": bool, // 崩壊パラダイムの検査漏れ対策を行うか、モード5ではデフォルト値 true、他のモードではデフォルト値 false；
