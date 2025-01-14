@@ -1849,7 +1849,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var toolToCraft = ReclamationTask.ReclamationToolToCraft.Split(';', '；').Select(s => s.Trim());
 
-            _ = int.TryParse(SettingsViewModel.ReclamationTask.ReclamationMode, out var mode);
+            _ = int.TryParse(ReclamationTask.ReclamationMode, out var mode);
 
             return Instances.AsstProxy.AsstAppendReclamation(
                 toolToCraft.ToArray(),
