@@ -506,7 +506,7 @@ namespace MaaWpfGui.Main
                         }
 
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TryToStartEmulator"), UiLogColor.Error);
-                        TaskQueueViewModel.KillEmulator();
+                        EmulatorHelper.KillEmulator();
                         await Task.Delay(3000);
                         await Instances.TaskQueueViewModel.Stop();
                         Instances.TaskQueueViewModel.SetStopped();
