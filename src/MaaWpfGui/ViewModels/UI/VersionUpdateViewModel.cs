@@ -882,7 +882,7 @@ public class VersionUpdateViewModel : Screen
 
     public static void OutputDownloadProgress(long value = 0, long maximum = 1, int len = 0, double ts = 1)
     {
-        string progress = $"[{(value / 1048576.0):F}MiB/{(maximum / 1048576.0):F}MiB ({(value * 100.0 / maximum):F}%)";
+        string progress = $"[{value / 1048576.0:F}MiB/{maximum / 1048576.0:F}MiB ({value * 100.0 / maximum:F}%)";
 
         double speedInKiBPerSecond = len / ts / 1024.0;
         string speedDisplay;
