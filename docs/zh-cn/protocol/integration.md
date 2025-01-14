@@ -240,24 +240,26 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
     "core_char": string,            // 开局干员名，可选；仅支持单个干员**中文名**，无论区服；若留空或设置为空字符串 "" 则根据练度自动选择
     "use_support": bool,            // 开局干员是否为助战干员，可选，默认值 false
     "use_nonfriend_support": bool,  // 是否可以是非好友助战干员，可选，默认值 false；仅在 use_support 为 true 时有效
-    "starts_count": int,               // 开始探索的次数，可选，默认值 INT_MAX；达到后自动停止任务
-    "difficulty": int,                 // 指定难度等级，可选，默认值 0；仅适用于**除 Phantom 以外**的主题；
-                                       // 若未解锁难度，则会选择当前已解锁的最高难度
-    "stop_at_final_boss": bool,        // 是否在第 5 层险路恶敌节点前停止任务，可选，默认值 false；仅适用于**除 Phantom 以外**的主题
-    "stop_at_max_level": bool,         // 是否在肉鸽等级刷满后停止任务，可选，默认值 false
-    "investment_enabled": bool,        // 是否投资源石锭，可选，默认值 true
-    "investments_count": int,          // 投资源石锭的次数，可选，默认值 INT_MAX；达到后自动停止任务
-    "stop_when_investment_full": bool, // 是否在投资到达上限后自动停止任务，可选，默认值 false
-    "start_with_elite_two": bool,      // 是否在凹开局的同时凹干员精二直升，可选，默认值 false；仅适用于模式 4
-    "only_start_with_elite_two": bool, // 是否只凹开局干员精二直升而忽视其他开局条件，可选，默认值 false；
-                                       // 仅在模式为 4 且 start_with_elite_two 为 true 时有效
-    "refresh_trader_with_dice": bool,  // 是否用骰子刷新商店购买特殊商品，可选，默认值 false；仅适用于 Mizuki 主题，用于刷指路鳞
-    "first_floor_foldartal": string,   // 希望在第一层远见阶段得到的密文版，可选；仅适用于 Sami 主题，不限模式；若成功凹到则停止任务
-    "start_foldartal_list": [          // 凹开局时希望在开局奖励阶段得到的密文板，可选，默认值 []；仅主题为 Sami 且模式为 4 时有效；
-      string,                          // 仅当开局拥有列表中所有的密文板时才算凹开局成功；
-      ...                              // 注意，此参数须与 “生活至上分队” 同时使用，其他分队在开局奖励阶段不会获得密文板；
+    "starts_count": int,                // 开始探索的次数，可选，默认值 INT_MAX；达到后自动停止任务
+    "difficulty": int,                  // 指定难度等级，可选，默认值 0；仅适用于**除 Phantom 以外**的主题；
+                                        // 若未解锁难度，则会选择当前已解锁的最高难度
+    "stop_at_final_boss": bool,         // 是否在第 5 层险路恶敌节点前停止任务，可选，默认值 false；仅适用于**除 Phantom 以外**的主题
+    "stop_at_max_level": bool,          // 是否在肉鸽等级刷满后停止任务，可选，默认值 false
+    "investment_enabled": bool,         // 是否投资源石锭，可选，默认值 true
+    "investments_count": int,           // 投资源石锭的次数，可选，默认值 INT_MAX；达到后自动停止任务
+    "stop_when_investment_full": bool,  // 是否在投资到达上限后自动停止任务，可选，默认值 false
+    "investment_with_more_score": bool, // 是否在投资后尝试购物，可选，默认值 false；仅适用于模式 1
+    "start_with_elite_two": bool,       // 是否在凹开局的同时凹干员精二直升，可选，默认值 false；仅适用于模式 4
+    "only_start_with_elite_two": bool,  // 是否只凹开局干员精二直升而忽视其他开局条件，可选，默认值 false；
+                                        // 仅在模式为 4 且 start_with_elite_two 为 true 时有效
+    "refresh_trader_with_dice": bool,   // 是否用骰子刷新商店购买特殊商品，可选，默认值 false；仅适用于 Mizuki 主题，用于刷指路鳞
+    "first_floor_foldartal": string,    // 希望在第一层远见阶段得到的密文版，可选；仅适用于 Sami 主题，不限模式；若成功凹到则停止任务
+    "start_foldartal_list": [           // 凹开局时希望在开局奖励阶段得到的密文板，可选，默认值 []；仅在主题为 Sami 且模式为 4 时有效；
+      string,                           // 仅当开局拥有列表中所有的密文板时才算凹开局成功；
+      ...                               // 注意，此参数须与 “生活至上分队” 同时使用，其他分队在开局奖励阶段不会获得密文板；
     ],
-    "use_foldartal": bool,                    // 是否使用密文板，模式 5 下默认值 false，其他模式下默认值 true；仅适用于 Sami 主题，
+    "start_with_two_ideas": bool,       // 是否凹 2 构想开局，可选，默认值 false；仅在主题为 Sarkaz 且模式为 4 时有效
+    "use_foldartal": bool,                    // 是否使用密文板，模式 5 下默认值 false，其他模式下默认值 true；仅适用于 Sami 主题
     "check_collapsal_paradigms": bool,        // 是否检测获取的坍缩范式，模式 5 下默认值 true，其他模式下默认值 false
     "double_check_collapsal_paradigms": bool, // 是否执行坍缩范式检测防漏措施，模式 5 下默认值 true，其他模式下默认值 false；
                                               // 仅在主题为 Sami 且 check_collapsal_paradigms 为 true 时有效
