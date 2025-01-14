@@ -70,7 +70,7 @@
             "connect": "[Adb] connect [AdbSerial]",
             "uuid": "[Adb] -s [AdbSerial] shell settings get secure android_id",
             "version": "[Adb] -s [AdbSerial] shell getprop ro.build.version.release",
-            "display": "[Adb] -s [AdbSerial] shell \"dumpsys window displays | grep -o -E cur=+[^\\ ]+ | grep -o -E [0-9]+\"",
+            "display": "[Adb] -s [AdbSerial] shell \"wm size | tail -n 1 | grep -o -E [0-9]+\"",
             "displayFormat": "%d%d",
             "ncAddress": "[Adb] -s [AdbSerial] shell \" cat /proc/net/arp | grep : \"",
             "abilist": "[Adb] -s [AdbSerial] shell getprop ro.product.cpu.abilist",
@@ -105,7 +105,6 @@
         {
             "configName": "MuMuEmulator12",
             "baseConfig": "General",
-            "display": "[Adb] -s [AdbSerial] shell \"dumpsys window displays | grep -o -E cur=+[^\\ ]+ | tail -n 1 | grep -o -E [0-9]+\"",
             "orientation": "[Adb] -s [AdbSerial] shell \"dumpsys input | grep SurfaceOrientation | tail -n 1 | grep -m 1 -o -E [0-9]\""
         },
         {
@@ -137,7 +136,7 @@
         {
             "configName": "SecondResolution",
             "baseConfig": "General",
-            "display": "[Adb] -s [AdbSerial] shell \"dumpsys window displays | grep -o -E cur=+[^\\ ]+ | tail -n 1 | grep -o -E [0-9]+\""
+            "display": "[Adb] -s [AdbSerial] shell \"dumpsys window displays | awk '/Display: mDisplayId=[^0][^ ]*/{getline; print}' | tail -n1 | grep -o -E cur=+[^\\ ]+ | grep -o -E [0-9]+\""
         },
         {
             "configName": "CompatMac",
