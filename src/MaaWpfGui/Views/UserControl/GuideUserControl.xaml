@@ -124,7 +124,7 @@
                             Width="240"
                             TransitionMode="{Binding GuideTransitionMode}"
                             Visibility="{c:Binding 'GuideStepIndex == 2'}">
-                            <taskQueue:StartUpTaskUserControl DataContext="{Binding StartUpTask, Source={x:Static helper:Instances.SettingsViewModel}}" />
+                            <taskQueue:StartUpTaskUserControl DataContext="{Binding StartUpTask, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
                         </hc:TransitioningContentControl>
 
                         <hc:TransitioningContentControl

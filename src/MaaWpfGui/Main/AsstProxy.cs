@@ -695,9 +695,9 @@ namespace MaaWpfGui.Main
                 case AsstMsg.TaskChainError:
                     {
                         // 对剿灭的特殊处理，如果刷完了剿灭还选了剿灭会因为找不到入口报错
-                        if (taskChain == "Fight" && (SettingsViewModel.FightTask.Stage == "Annihilation"))
+                        if (taskChain == "Fight" && (TaskQueueViewModel.FightTask.Stage == "Annihilation"))
                         {
-                            if (SettingsViewModel.FightTask.Stages.Any(stage => Instances.TaskQueueViewModel.IsStageOpen(stage) && (stage != "Annihilation")))
+                            if (TaskQueueViewModel.FightTask.Stages.Any(stage => Instances.TaskQueueViewModel.IsStageOpen(stage) && (stage != "Annihilation")))
                             {
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
                             }
@@ -758,15 +758,15 @@ namespace MaaWpfGui.Main
 
                         case "Mall":
                             {
-                                if (SettingsViewModel.FightTask.Stage != string.Empty && SettingsViewModel.MallTask.CreditFightTaskEnabled)
+                                if (TaskQueueViewModel.FightTask.Stage != string.Empty && TaskQueueViewModel.MallTask.CreditFightTaskEnabled)
                                 {
-                                    SettingsViewModel.MallTask.LastCreditFightTaskTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                                    TaskQueueViewModel.MallTask.LastCreditFightTaskTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("CreditFight"));
                                 }
 
-                                if (SettingsViewModel.MallTask.CreditVisitFriendsEnabled)
+                                if (TaskQueueViewModel.MallTask.CreditVisitFriendsEnabled)
                                 {
-                                    SettingsViewModel.MallTask.LastCreditVisitFriendsTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                                    TaskQueueViewModel.MallTask.LastCreditVisitFriendsTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("Visiting"));
                                 }
 
@@ -828,7 +828,7 @@ namespace MaaWpfGui.Main
                     bool buyWine = _latestTaskId.ContainsKey(TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
                     _latestTaskId.Clear();
 
-                    SettingsViewModel.FightTask.ResetFightVariables();
+                    TaskQueueViewModel.FightTask.ResetFightVariables();
                     Instances.TaskQueueViewModel.ResetTaskSelection();
                     _runningState.SetIdle(true);
 
@@ -1325,7 +1325,7 @@ namespace MaaWpfGui.Main
                 case "RecruitSpecialTag":
                     {
                         string special = subTaskDetails!["tag"]!.ToString();
-                        if (special == "支援机械" && SettingsViewModel.RecruitTask.NotChooseLevel1 == false)
+                        if (special == "支援机械" && TaskQueueViewModel.RecruitTask.NotChooseLevel1 == false)
                         {
                             break;
                         }
@@ -2021,8 +2021,8 @@ namespace MaaWpfGui.Main
 
             taskParams["client_type"] = SettingsViewModel.GameSettings.ClientType;
             taskParams["penguin_id"] = SettingsViewModel.GameSettings.PenguinId;
-            taskParams["DrGrandet"] = SettingsViewModel.FightTask.IsDrGrandet;
-            taskParams["expiring_medicine"] = isMainFight && SettingsViewModel.FightTask.UseExpiringMedicine ? 9999 : 0;
+            taskParams["DrGrandet"] = TaskQueueViewModel.FightTask.IsDrGrandet;
+            taskParams["expiring_medicine"] = isMainFight && TaskQueueViewModel.FightTask.UseExpiringMedicine ? 9999 : 0;
             taskParams["server"] = Instances.SettingsViewModel.ServerType;
             return taskParams;
         }

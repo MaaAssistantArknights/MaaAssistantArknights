@@ -82,7 +82,7 @@
                                     Maximum="9"
                                     Minimum="1"
                                     ValueFormat="00"
-                                    Value="{Binding ChooseLevel3Hour, Source={x:Static ui:SettingsViewModel.RecruitTask}}" />
+                                    Value="{Binding ChooseLevel3Hour, Source={x:Static ui:TaskQueueViewModel.RecruitTask}}" />
                                 <controls:TextBlock Margin="5" Text=":" />
                                 <hc:NumericUpDown
                                     Width="55"
@@ -90,7 +90,7 @@
                                     Maximum="50"
                                     Minimum="0"
                                     ValueFormat="00"
-                                    Value="{Binding ChooseLevel3Min, Source={x:Static ui:SettingsViewModel.RecruitTask}}" />
+                                    Value="{Binding ChooseLevel3Min, Source={x:Static ui:TaskQueueViewModel.RecruitTask}}" />
                             </StackPanel>
                         </StackPanel>
 
@@ -107,7 +107,7 @@
                                     Maximum="9"
                                     Minimum="1"
                                     ValueFormat="00"
-                                    Value="{Binding ChooseLevel4Hour, Source={x:Static ui:SettingsViewModel.RecruitTask}}" />
+                                    Value="{Binding ChooseLevel4Hour, Source={x:Static ui:TaskQueueViewModel.RecruitTask}}" />
                                 <controls:TextBlock Margin="5" Text=":" />
                                 <hc:NumericUpDown
                                     Width="55"
@@ -115,7 +115,7 @@
                                     Maximum="50"
                                     Minimum="0"
                                     ValueFormat="00"
-                                    Value="{Binding ChooseLevel4Min, Source={x:Static ui:SettingsViewModel.RecruitTask}}" />
+                                    Value="{Binding ChooseLevel4Min, Source={x:Static ui:TaskQueueViewModel.RecruitTask}}" />
                             </StackPanel>
                         </StackPanel>
 
@@ -132,7 +132,7 @@
                                     Maximum="9"
                                     Minimum="1"
                                     ValueFormat="00"
-                                    Value="{Binding ChooseLevel5Hour, Source={x:Static ui:SettingsViewModel.RecruitTask}}" />
+                                    Value="{Binding ChooseLevel5Hour, Source={x:Static ui:TaskQueueViewModel.RecruitTask}}" />
                                 <controls:TextBlock Margin="5" Text=":" />
                                 <hc:NumericUpDown
                                     Width="55"
@@ -140,7 +140,7 @@
                                     Maximum="50"
                                     Minimum="0"
                                     ValueFormat="00"
-                                    Value="{Binding ChooseLevel5Min, Source={x:Static ui:SettingsViewModel.RecruitTask}}" />
+                                    Value="{Binding ChooseLevel5Min, Source={x:Static ui:TaskQueueViewModel.RecruitTask}}" />
                             </StackPanel>
                         </StackPanel>
 

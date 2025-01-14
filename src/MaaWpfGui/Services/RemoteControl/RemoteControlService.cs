@@ -454,7 +454,7 @@ namespace MaaWpfGui.Services.RemoteControl
                     case "Settings-Stage1":
                         await Execute.OnUIThreadAsync(() =>
                         {
-                            SettingsViewModel.FightTask.Stage1 = data;
+                            TaskQueueViewModel.FightTask.Stage1 = data;
                         });
                         break;
 
@@ -607,7 +607,7 @@ namespace MaaWpfGui.Services.RemoteControl
             {
                 // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次(任务及基建列表)
                 Instances.TaskQueueViewModel.TaskItemSelectionChanged();
-                SettingsViewModel.InfrastTask.InfrastOrderSelectionChanged();
+                TaskQueueViewModel.InfrastTask.InfrastOrderSelectionChanged();
 
                 InvokeInstanceMethod(Instances.TaskQueueViewModel, "ClearLog");
 

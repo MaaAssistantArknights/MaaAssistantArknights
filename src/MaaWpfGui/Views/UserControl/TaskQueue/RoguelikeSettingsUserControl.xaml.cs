@@ -58,7 +58,7 @@ namespace MaaWpfGui.Views.UserControl.TaskQueue
             }
 
             var name = StartingCoreCharComboBox.Text;
-            StartingCoreCharComboBox.ItemsSource = SettingsViewModel.RoguelikeTask.RoguelikeCoreCharList;
+            StartingCoreCharComboBox.ItemsSource = TaskQueueViewModel.RoguelikeTask.RoguelikeCoreCharList;
             StartingCoreCharComboBox.Text = name;
         }
     }

@@ -17,8 +17,15 @@ using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class StartUpTaskUserControlModel : PropertyChangedBase
+public class StartUpSettingsUserControlModel : PropertyChangedBase
 {
+    static StartUpSettingsUserControlModel()
+    {
+        Instance = new();
+    }
+
+    public static StartUpSettingsUserControlModel Instance { get; }
+
     private string _accountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty);
 
     public string AccountName

@@ -219,7 +219,7 @@ namespace MaaWpfGui.ViewModels.UI
                 levelList.Add(6);
             }
 
-            Instances.AsstProxy.AsstStartRecruitCalc(levelList.ToArray(), RecruitAutoSetTime, SettingsViewModel.RecruitTask.ChooseLevel3Time, SettingsViewModel.RecruitTask.ChooseLevel4Time, SettingsViewModel.RecruitTask.ChooseLevel5Time);
+            Instances.AsstProxy.AsstStartRecruitCalc(levelList.ToArray(), RecruitAutoSetTime, TaskQueueViewModel.RecruitTask.ChooseLevel3Time, TaskQueueViewModel.RecruitTask.ChooseLevel4Time, TaskQueueViewModel.RecruitTask.ChooseLevel5Time);
         }
 
         private bool _recruitmentShowPotential = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RecruitmentShowPotential, bool.TrueString));

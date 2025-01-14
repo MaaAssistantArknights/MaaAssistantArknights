@@ -14,7 +14,7 @@
     xmlns:taskQueue="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     d:Background="White"
-    d:DataContext="{d:DesignInstance {x:Type taskQueue:StartUpTaskUserControlModel}}"
+    d:DataContext="{d:DesignInstance {x:Type taskQueue:StartUpSettingsUserControlModel}}"
     d:DesignWidth="220"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">

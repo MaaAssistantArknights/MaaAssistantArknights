@@ -32,6 +32,13 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 /// </summary>
 public class InfrastSettingsUserControlModel : PropertyChangedBase
 {
+    static InfrastSettingsUserControlModel()
+    {
+        Instance = new();
+    }
+
+    public static InfrastSettingsUserControlModel Instance { get; }
+
     /// <summary>
     /// Gets the visibility of task setting views.
     /// </summary>

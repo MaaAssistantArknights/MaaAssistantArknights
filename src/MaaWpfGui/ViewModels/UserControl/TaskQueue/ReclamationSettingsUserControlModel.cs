@@ -24,6 +24,13 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
 public class ReclamationSettingsUserControlModel : PropertyChangedBase
 {
+    static ReclamationSettingsUserControlModel()
+    {
+        Instance = new();
+    }
+
+    public static ReclamationSettingsUserControlModel Instance { get; }
+
     /// <summary>
     /// Gets the list of reclamation themes.
     /// </summary>

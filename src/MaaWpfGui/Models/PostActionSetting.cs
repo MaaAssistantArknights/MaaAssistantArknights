@@ -287,7 +287,7 @@ public class PostActionSetting : PropertyChangedBase
         }
     }
 
-    public static PostActionSetting Current { get; } = new();
+    public static PostActionSetting Instance { get; } = new();
 
     private string _actionTitle = LocalizationHelper.GetString("PostActions");
 
