@@ -29,6 +29,13 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
 public class RoguelikeSettingsUserControlModel : PropertyChangedBase
 {
+    static RoguelikeSettingsUserControlModel()
+    {
+        Instance = new();
+    }
+
+    public static RoguelikeSettingsUserControlModel Instance { get; }
+
     public void InitRoguelike()
     {
         UpdateRoguelikeDifficultyList();

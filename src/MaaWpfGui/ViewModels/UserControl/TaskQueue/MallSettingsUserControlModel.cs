@@ -28,6 +28,13 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 /// </summary>
 public class MallSettingsUserControlModel : PropertyChangedBase
 {
+    static MallSettingsUserControlModel()
+    {
+        Instance = new();
+    }
+
+    public static MallSettingsUserControlModel Instance { get; }
+
     private string _lastCreditFightTaskTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditFightTaskTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
 
     public string LastCreditFightTaskTime

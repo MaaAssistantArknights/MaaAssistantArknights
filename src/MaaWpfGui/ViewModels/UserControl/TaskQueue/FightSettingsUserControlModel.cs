@@ -31,6 +31,12 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 /// </summary>
 public class FightSettingsUserControlModel : PropertyChangedBase
 {
+    static FightSettingsUserControlModel()
+    {
+        Instance = new();
+    }
+
+    public static FightSettingsUserControlModel Instance { get; }
 
     private ObservableCollection<CombinedData> _stageList = [];
 
@@ -60,7 +66,7 @@ public class FightSettingsUserControlModel : PropertyChangedBase
         {
             Stage1 ??= _stage1Fallback;
 
-            if (!SettingsViewModel.FightTask.UseAlternateStage)
+            if (!UseAlternateStage)
             {
                 return Stage1;
             }
@@ -347,7 +353,7 @@ public class FightSettingsUserControlModel : PropertyChangedBase
         get => _useStoneWithNull;
         set
         {
-            if (!SettingsViewModel.FightTask.AllowUseStoneSave && value == true)
+            if (!AllowUseStoneSave && value == true)
             {
                 value = null;
             }
@@ -366,7 +372,7 @@ public class FightSettingsUserControlModel : PropertyChangedBase
             NotifyOfPropertyChange(nameof(UseStone));
 
             Instances.TaskQueueViewModel.SetFightParams();
-            if (SettingsViewModel.FightTask.AllowUseStoneSave)
+            if (AllowUseStoneSave)
             {
                 ConfigurationHelper.SetValue(ConfigurationKeys.UseStone, (value ?? false).ToString());
             }

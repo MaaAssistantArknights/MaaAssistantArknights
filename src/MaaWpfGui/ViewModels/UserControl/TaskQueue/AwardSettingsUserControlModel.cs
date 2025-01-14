@@ -22,6 +22,13 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
 public class AwardSettingsUserControlModel : PropertyChangedBase
 {
+    static AwardSettingsUserControlModel()
+    {
+        Instance = new();
+    }
+
+    public static AwardSettingsUserControlModel Instance { get; }
+
     private bool _receiveAward = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveAward, bool.TrueString));
 
     /// <summary>

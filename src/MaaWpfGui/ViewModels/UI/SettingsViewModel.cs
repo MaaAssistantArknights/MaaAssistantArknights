@@ -54,55 +54,6 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public TaskSettingVisibilityInfo TaskSettingVisibilities { get; } = TaskSettingVisibilityInfo.Current;
 
-        /// <summary>
-        /// Gets the after action setting.
-        /// </summary>
-        public PostActionSetting PostActionSetting { get; } = PostActionSetting.Current;
-
-        #region 长草任务Model
-
-        /// <summary>
-        /// Gets 连接任务Model
-        /// </summary>
-        public static StartUpTaskUserControlModel StartUpTask { get; } = new();
-
-        /// <summary>
-        /// Gets 战斗任务Model
-        /// </summary>
-        public static FightSettingsUserControlModel FightTask { get; } = new();
-
-        /// <summary>
-        /// Gets 招募任务Model
-        /// </summary>
-        public static RecruitSettingsUserControlModel RecruitTask { get; } = new();
-
-        /// <summary>
-        /// Gets 信用及购物任务Model
-        /// </summary>
-        public static MallSettingsUserControlModel MallTask { get; } = new();
-
-        /// <summary>
-        /// Gets 基建任务Model
-        /// </summary>
-        public static InfrastSettingsUserControlModel InfrastTask { get; } = new();
-
-        /// <summary>
-        /// Gets 领取奖励任务
-        /// </summary>
-        public static AwardSettingsUserControlModel AwardTask { get; } = new();
-
-        /// <summary>
-        /// Gets 肉鸽任务Model
-        /// </summary>
-        public static RoguelikeSettingsUserControlModel RoguelikeTask { get; } = new();
-
-        /// <summary>
-        /// Gets 生稀盐酸任务Model
-        /// </summary>
-        public static ReclamationSettingsUserControlModel ReclamationTask { get; } = new();
-
-        #endregion 长草任务Model
-
         #region 设置界面Model
 
         /// <summary>
@@ -206,8 +157,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void Init()
         {
-            InfrastTask.InitInfrast();
-            RoguelikeTask.InitRoguelike();
+            TaskQueueViewModel.InfrastTask.InitInfrast();
+            TaskQueueViewModel.RoguelikeTask.InitRoguelike();
             InitConfiguration();
             InitUiSettings();
             InitConnectConfig();
@@ -371,7 +322,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             string[] wineList = ["酒", "liquor", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶"];
-            return wineList.Any(MallTask.CreditFirstList.Contains);
+            return wineList.Any(TaskQueueViewModel.MallTask.CreditFirstList.Contains);
         }
 
         #endregion EasterEggs
