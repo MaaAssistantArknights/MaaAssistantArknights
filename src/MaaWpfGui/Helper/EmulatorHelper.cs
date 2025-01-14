@@ -85,7 +85,7 @@ public class EmulatorHelper
             return false;
         }
 
-        ProcessModule processModule;
+        ProcessModule? processModule;
         try
         {
             processModule = processes[0].MainModule;
@@ -102,7 +102,7 @@ public class EmulatorHelper
             return false;
         }
 
-        string emuLocation = processModule.FileName;
+        string? emuLocation = processModule.FileName;
         emuLocation = Path.GetDirectoryName(emuLocation);
         if (emuLocation == null)
         {
@@ -161,7 +161,7 @@ public class EmulatorHelper
             return false;
         }
 
-        ProcessModule processModule;
+        ProcessModule? processModule;
         try
         {
             processModule = processes[0].MainModule;
@@ -178,7 +178,7 @@ public class EmulatorHelper
             return false;
         }
 
-        string emuLocation = processModule.FileName;
+        string? emuLocation = processModule.FileName;
         emuLocation = Path.GetDirectoryName(emuLocation);
         if (emuLocation == null)
         {
@@ -235,7 +235,7 @@ public class EmulatorHelper
             return false;
         }
 
-        ProcessModule processModule;
+        ProcessModule? processModule;
         try
         {
             processModule = processes[0].MainModule;
@@ -252,7 +252,7 @@ public class EmulatorHelper
             return false;
         }
 
-        string emuLocation = processModule.FileName;
+        string? emuLocation = processModule.FileName;
         emuLocation = Path.GetDirectoryName(emuLocation);
         if (emuLocation == null)
         {
@@ -301,7 +301,7 @@ public class EmulatorHelper
             return false;
         }
 
-        ProcessModule processModule;
+        ProcessModule? processModule;
         try
         {
             processModule = processes[0].MainModule;
@@ -318,7 +318,7 @@ public class EmulatorHelper
             return false;
         }
 
-        string emuLocation = processModule.FileName;
+        string? emuLocation = processModule.FileName;
         emuLocation = Path.GetDirectoryName(emuLocation);
         if (emuLocation == null)
         {
@@ -362,7 +362,7 @@ public class EmulatorHelper
             return false;
         }
 
-        ProcessModule processModule;
+        ProcessModule? processModule;
         try
         {
             processModule = processes[0].MainModule;
@@ -379,7 +379,7 @@ public class EmulatorHelper
             return false;
         }
 
-        string emuLocation = processModule.FileName;
+        string? emuLocation = processModule.FileName;
         emuLocation = Path.GetDirectoryName(emuLocation);
         if (emuLocation == null)
         {
@@ -434,7 +434,7 @@ public class EmulatorHelper
                 "明日方舟 - MuMu模拟器",
                 "BlueStacks App Player",
                 "BlueStacks",
-            };
+        };
         foreach (string i in windowName)
         {
             var hwnd = FindWindow(null, i);
