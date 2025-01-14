@@ -250,6 +250,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
         string,                         // 開幕でリスト内の全ての密文を持っている場合に開幕リセット成功とする；
         ...                             // 注意、このパラメータは「生活至上部隊」と同時に使用する必要がある。他の部隊では開幕報酬で密文を取得できない；
     ],
+    "start_with_two_ideas": bool,       // 凹 2 構想開局の有無（選択可能、デフォルト値：false）；テーマが Sarkaz で、モードが 4 の時のみ有効
     "use_foldartal": bool,                    // 密文を使用するか、モード5ではデフォルト値 false、他のモードではデフォルト値 true；Samiテーマにのみ対応
     "check_collapsal_paradigms": bool,        // 取得した崩壊パラダイムを検査するか、モード5ではデフォルト値 true、他のモードではデフォルト値 false
     "double_check_collapsal_paradigms": bool, // 崩壊パラダイムの検査漏れ対策を行うか、モード5ではデフォルト値 true、他のモードではデフォルト値 false；

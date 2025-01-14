@@ -238,6 +238,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
         string,                         // 시작 시 목록의 모든 밀문을 보유할 경우 시작 리셋 성공으로 간주;
         ...                             // 주의: 이 파라미터는 "생활 우선 부대"와 함께 사용해야 하며, 다른 부대에서는 시작 보상으로 밀문 획득 불가;
     ],
+    "start_with_two_ideas": bool,       // 2 번 구상 개시 여부 (선택 가능, 기본값: false); 테마가 Sarkaz 이고 모드가 4 일 때만 유효
     "use_foldartal": bool,                    // 밀문 사용 여부, 모드 5에서는 기본값 false, 다른 모드에서는 기본값 true; Sami 테마에만 해당
     "check_collapsal_paradigms": bool,        // 획득한 붕괴 패러다임을 확인할지 여부, 모드 5에서는 기본값 true, 다른 모드에서는 기본값 false
     "double_check_collapsal_paradigms": bool, // 붕괴 패러다임 확인 누락 방지 조치를 수행할지 여부, 모드 5에서는 기본값 true, 다른 모드에서는 기본값 false;

@@ -254,11 +254,12 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
                                         // 仅在模式为 4 且 start_with_elite_two 为 true 时有效
     "refresh_trader_with_dice": bool,   // 是否用骰子刷新商店购买特殊商品，可选，默认值 false；仅适用于 Mizuki 主题，用于刷指路鳞
     "first_floor_foldartal": string,    // 希望在第一层远见阶段得到的密文版，可选；仅适用于 Sami 主题，不限模式；若成功凹到则停止任务
-    "start_foldartal_list": [           // 凹开局时希望在开局奖励阶段得到的密文板，可选，默认值 []；仅主题为 Sami 且模式为 4 时有效；
+    "start_foldartal_list": [           // 凹开局时希望在开局奖励阶段得到的密文板，可选，默认值 []；仅在主题为 Sami 且模式为 4 时有效；
       string,                           // 仅当开局拥有列表中所有的密文板时才算凹开局成功；
       ...                               // 注意，此参数须与 “生活至上分队” 同时使用，其他分队在开局奖励阶段不会获得密文板；
     ],
-    "use_foldartal": bool,                    // 是否使用密文板，模式 5 下默认值 false，其他模式下默认值 true；仅适用于 Sami 主题，
+    "start_with_two_ideas": bool,       // 是否凹 2 构想开局，可选，默认值 false；仅在主题为 Sarkaz 且模式为 4 时有效
+    "use_foldartal": bool,                    // 是否使用密文板，模式 5 下默认值 false，其他模式下默认值 true；仅适用于 Sami 主题
     "check_collapsal_paradigms": bool,        // 是否检测获取的坍缩范式，模式 5 下默认值 true，其他模式下默认值 false
     "double_check_collapsal_paradigms": bool, // 是否执行坍缩范式检测防漏措施，模式 5 下默认值 true，其他模式下默认值 false；
                                               // 仅在主题为 Sami 且 check_collapsal_paradigms 为 true 时有效

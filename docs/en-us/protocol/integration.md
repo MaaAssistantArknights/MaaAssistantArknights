@@ -245,6 +245,7 @@ Supports some of the special stages,Please refer to [autoLocalization example](h
         string,                         // Reset is successful only when all Foldartals in the list are present in the opening rewards;
         ...                             // Note: This parameter must be used with the "Life-Sustaining Squad" as other squads do not obtain Foldartals in the opening reward phase;
     ],
+    "start_with_two_ideas": bool,       // Whether to start with 2 ideas, optional, default is false；effective only for Sarkaz theme and mode 4
     "use_foldartal": bool,                    // Whether to use Foldartals, default is false in mode 5 and true in other modes; only applicable to the Sami theme
     "check_collapsal_paradigms": bool,        // Whether to check obtained Collapsal Paradigms, default is true in mode 5 and false in other modes
     "double_check_collapsal_paradigms": bool, // Whether to perform additional checks to prevent missed Collapsal Paradigms, default is true in mode 5 and false in other modes;

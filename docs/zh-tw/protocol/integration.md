@@ -251,6 +251,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
         string,                         // 僅當開局擁有列表中所有的密文板時才算凹開局成功；
         ...                             // 注意，此參數須與 “生活至上分隊” 同時使用，其他分隊在開局獎勵階段不會獲得密文板；
     ],
+    "start_with_two_ideas": bool,       // 是否凹 2 構想開局，可選，預設值 false；僅在主題為 Sarkaz 且模式為 4 時有效
     "use_foldartal": bool,                    // 是否使用密文板，模式 5 下預設值 false，其他模式下預設值 true；僅適用於 Sami 主題，
     "check_collapsal_paradigms": bool,        // 是否檢測獲取的坍縮範式，模式 5 下預設值 true，其他模式下預設值 false
     "double_check_collapsal_paradigms": bool, // 是否執行坍縮範式檢測防漏措施，模式 5 下預設值 true，其他模式下預設值 false；
