@@ -889,15 +889,14 @@ public class VersionUpdateViewModel : Screen
 
         if (speedInKiBPerSecond >= 1024)
         {
-            speedDisplay = $"{(speedInKiBPerSecond / 1024.0):F} MiB/s";
+            speedDisplay = $"{speedInKiBPerSecond / 1024.0:F} MiB/s";
         }
         else
         {
             speedDisplay = $"{speedInKiBPerSecond:F} KiB/s";
         }
 
-        progress += $" {speedDisplay}";
-        OutputDownloadProgress(progress);
+        OutputDownloadProgress(progress + $" {speedDisplay}");
     }
 
     private static void OutputDownloadProgress(string output, bool downloading = true)
