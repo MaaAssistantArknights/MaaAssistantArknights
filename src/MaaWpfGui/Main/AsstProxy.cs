@@ -1127,10 +1127,6 @@ namespace MaaWpfGui.Main
                                 break;
 
                             /* 肉鸽相关 */
-                            case "StartExplore":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("BegunToExplore") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
-                                break;
-
                             case "ExitThenAbandon":
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ExplorationAbandoned"));
                                 break;
@@ -1221,10 +1217,26 @@ namespace MaaWpfGui.Main
             }
         }
 
-        private void ProcSubTaskCompleted(JObject details)
+        private static void ProcSubTaskCompleted(JObject details)
         {
-            // DoNothing
-            _ = details;
+            string subTask = details["subtask"]?.ToString() ?? string.Empty;
+            switch (subTask)
+            {
+                case "ProcessTask":
+                    {
+                        string taskName = details!["details"]!["task"]!.ToString();
+                        int execTimes = (int)details!["details"]!["exec_times"]!;
+
+                        switch (taskName)
+                        {
+                            case "StartExplore":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("BegunToExplore") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
+                                break;
+                        }
+                    }
+
+                    break;
+            }
         }
 
         private static void ProcSubTaskExtraInfo(JObject details)
