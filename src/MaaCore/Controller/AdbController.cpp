@@ -510,7 +510,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         return true;
     };
 
-    image_payload = {};
+    image_payload = cv::Mat(); // 清空缓存
     if (m_adb.screencap_method == AdbProperty::ScreencapMethod::UnknownYet) {
         Log.info("Try to find the fastest way to screencap");
         auto min_cost = milliseconds(LLONG_MAX);
