@@ -7767,7 +7767,7 @@
         "next": ["Roguelike@StartExploreWithSeed", "Roguelike@StartExplore", "Roguelike@StartExploreCD"]
     },
     "Roguelike@StartExploreWithSeed": {
-        "Doc": "萨卡兹点刺刷钱，由 cpp 内启用",
+        "Doc": "萨卡兹点刺刷钱，由 cpp 内启用 需要前往子任务中定义 template 字段",
         "algorithm": "MatchTemplate",
         "template": "empty.png",
         "roi": [1026, 470, 254, 248],
