@@ -62,7 +62,8 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
                     deposit = *ocr;
                     retry = 0;
                 }
-                else if (auto wallet = ocr_count(image, "Roguelike@StageTraderInvest-Wallet"); *wallet && *wallet == 0) {
+                else if (auto wallet = ocr_count(image, "Roguelike@StageTraderInvest-Wallet");
+                         *wallet && *wallet == 0) {
                     Log.info(__FUNCTION__, "钱包为0, 退出投资");
                     break;
                 }
