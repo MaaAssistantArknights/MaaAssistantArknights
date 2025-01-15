@@ -7734,8 +7734,17 @@
             "Roguelike@SquadDefault",
             "Roguelike@InitialDrop",
             "Roguelike@ChooseDifficulty",
-            "Roguelike@StartExplore"
+            "Roguelike@StartExplore-EnterCheck"
         ]
+    },
+    "Roguelike@StartExplore-EnterCheck": {
+        "baseTask": "Roguelike@StartExplore",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "maxTimes": 50,
+        "postDelay": 0,
+        "exceededNext": [],
+        "next": ["#self", "Stop"]
     },
     "Roguelike@StartExploreCD": {
         "algorithm": "OcrDetect",
@@ -8084,6 +8093,9 @@
         ]
     },
     "Phantom@Roguelike@StartExplore": {},
+    "Phantom@Roguelike@StartExplore-EnterCheck": {
+        "template": "Phantom@Roguelike@StartExplore.png"
+    },
     "Phantom@Roguelike@StrategyChange_mode0": {
         "text": ["_aggressive", "_pragmatic", "_default"],
         "ocrReplace": [
@@ -8569,6 +8581,9 @@
         ]
     },
     "Mizuki@Roguelike@StartExplore": {},
+    "Mizuki@Roguelike@StartExplore-EnterCheck": {
+        "template": "Mizuki@Roguelike@StartExplore.png"
+    },
     "Mizuki@Roguelike@StrategyChange_mode0": {
         "text": ["_aggressive", "_pragmatic", "_default"],
         "ocrReplace": [
@@ -9776,6 +9791,10 @@
         ]
     },
     "Sami@Roguelike@StartExplore": {
+        "roi": [958, 530, 322, 189]
+    },
+    "Sami@Roguelike@StartExplore-EnterCheck": {
+        "template": "Sami@Roguelike@StartExplore.png",
         "roi": [958, 530, 322, 189]
     },
     "Sami@Roguelike@StrategyChange_mode0": {
@@ -11005,6 +11024,10 @@
         ]
     },
     "Sarkaz@Roguelike@StartExplore": {
+        "roi": [1014, 481, 266, 219]
+    },
+    "Sarkaz@Roguelike@StartExplore-EnterCheck": {
+        "template": "Sarkaz@Roguelike@StartExplore.png",
         "roi": [1014, 481, 266, 219]
     },
     "Sarkaz@Roguelike@StartExploreWithSeed-ClickPen": {},
