@@ -835,7 +835,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties _1_1_4_1_1_4resource_4config_1json__JsonSchema="" />
+      <UserProperties _1_1_4_1_1_4resource_4config_1json__JsonSchema="" _1_1_4_1_1_4resource_4tasks_1json__JsonSchema="..\docs\maa_tasks_schema.json" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
