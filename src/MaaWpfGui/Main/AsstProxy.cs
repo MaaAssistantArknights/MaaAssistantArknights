@@ -19,6 +19,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
+using MaaWpfGui.ViewModels;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -436,6 +438,7 @@ namespace MaaWpfGui.Main
                 case AsstMsg.SubTaskCompleted:
                 case AsstMsg.SubTaskExtraInfo:
                     ProcSubTaskMsg(msg, details);
+                    InvokeProcSubTaskMsg(msg, details);
                     break;
 
                 case AsstMsg.SubTaskStopped:
@@ -1693,9 +1696,6 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails!["stage_code"]} - {subTaskDetails["stars"]} ★", UiLogColor.Info);
                     break;
 
-                case "AccountSwitch":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + $" -->> {subTaskDetails!["account_name"]}", UiLogColor.Info); // subTaskDetails!["current_account"]
-                    break;
                 case "RoguelikeCollapsalParadigms":
                     string deepen_or_weaken_str = subTaskDetails!["deepen_or_weaken"]?.ToString() ?? "Unknown";
                     if (!int.TryParse(deepen_or_weaken_str, out int deepen_or_weaken))
@@ -1750,6 +1750,29 @@ namespace MaaWpfGui.Main
                     };
                     Process.Start(info);
                     break;
+            }
+        }
+
+        private static void InvokeProcSubTaskMsg(AsstMsg msg, JObject details)
+        {
+            // 获取当前程序集
+            var assembly = Assembly.GetExecutingAssembly();
+
+            // 获取命名空间中的所有类型
+            var types = assembly.GetTypes().Where(t => t.Namespace == "MaaWpfGui.ViewModels.UserControl.TaskQueue" && t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(TaskViewModel)));
+
+            foreach (var type in types)
+            {
+                // 获取 Instance 字段
+                if (type.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static) is PropertyInfo property)
+                {
+                    // 获取实例
+                    if (property.GetValue(null) is TaskViewModel instance)
+                    {
+                        // 调用 ProcSubTaskMsg 方法
+                        instance.ProcSubTaskMsg(msg, details);
+                    }
+                }
             }
         }
 
