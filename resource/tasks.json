@@ -7767,15 +7767,14 @@
         "next": ["Roguelike@StartExploreWithSeed", "Roguelike@StartExplore", "Roguelike@StartExploreCD"]
     },
     "Roguelike@StartExploreWithSeed": {
-        "Doc": "萨卡兹点刺刷钱，由 cpp 内启用 需要前往子任务中定义 template 字段",
+        "Doc": "模板任务，萨卡兹点刺刷钱，由 cpp 内启用",
         "maxTimes": 0,
         "exceededNext": ["Roguelike@StartExplore"],
-        "algorithm": "MatchTemplate",
         "template": "empty.png",
         "roi": [1026, 470, 254, 248],
-        "next": ["Roguelike@StartExploreWithSeed_EnterSeed"]
+        "next": ["Roguelike@StartExploreWithSeed-EnableSeed"]
     },
-    "Roguelike@StartExploreWithSeed_EnterSeed": {
+    "Roguelike@StartExploreWithSeed-EnableSeed": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["启用参数"],
