@@ -103,8 +103,12 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
         auto image = ctrler()->get_image();
         OCRer analyzer(image);
         analyzer.set_task_info("RoguelikeCustom-HijackSquad");
-        analyzer.set_required({ m_customs[RoguelikeCustomType::Squad] });
-
+        if (m_config->get_run_collectible()){
+            analyzer.set_required({"点刺成锭分队"});
+        }
+        else{
+            analyzer.set_required({ m_custos[RoguelikeCustomType::Squad]});
+        }
         if (!analyzer.analyze()) {
             ProcessTask(*this, { "Roguelike@SquadSlowlySwipeToTheRight" }).run();
             sleep(Task.get("RoguelikeCustom-HijackSquad")->post_delay);
