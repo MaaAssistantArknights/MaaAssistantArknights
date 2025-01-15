@@ -6649,7 +6649,12 @@
         "action": "ClickSelf",
         "roi": [720, 413, 249, 168],
         "postDelay": 1000,
-        "next": ["Roguelike@MissionFailedFlag2", "Roguelike@StartExplore", "Roguelike@StartExploreCD"]
+        "next": [
+            "Roguelike@MissionFailedFlag2",
+            "Roguelike@StartExploreWithSeed",
+            "Roguelike@StartExplore",
+            "Roguelike@StartExploreCD"
+        ]
     },
     "Roguelike@Begin": {
         "algorithm": "JustReturn",
@@ -7759,17 +7764,21 @@
         "text": ["等待重返城堡入口", "等待重返陆地", "等待科考队重建", "正在清理思绪"],
         "roi": [1026, 470, 254, 248],
         "postDelay": 1000,
-        "next": ["Roguelike@StartExplore", "Roguelike@StartExploreCD"]
+        "next": ["Roguelike@StartExploreWithSeed", "Roguelike@StartExplore", "Roguelike@StartExploreCD"]
     },
     "Roguelike@StartExploreWithSeed": {
         "Doc": "萨卡兹点刺刷钱，由 cpp 内启用",
-        "maxTimes": 0,
-        "exceededNext": ["Roguelike@StartExplore"],
+        "algorithm": "MatchTemplate",
+        "template": "empty.png",
+        "roi": [1026, 470, 254, 248],
+        "next": ["Roguelike@StartExploreWithSeed_EnterSeed"]
+    },
+    "Roguelike@StartExploreWithSeed_EnterSeed": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["启用参数"],
         "roi": [851, 567, 93, 33],
-        "next": ["Roguelike@StartExploreWithSeed-ClickPen"]
+        "next": "Roguelike@StartExploreWithSeed-ClickPen"
     },
     "Roguelike@StartExploreWithSeed-BackToMainPage": {
         "Doc": "识别到 ‘停用参数’ 就行了，不做难度解锁的检查了",
@@ -9986,12 +9995,12 @@
             ]
         ],
         "next": [
-            "Sarkaz@Roguelike@LastReward5",
             "Sarkaz@Roguelike@LastReward",
             "Sarkaz@Roguelike@LastReward4",
             "Sarkaz@Roguelike@LastReward2",
             "Sarkaz@Roguelike@LastReward3",
             "Sarkaz@Roguelike@LastRewardRand",
+            "Sarkaz@Roguelike@LastReward5",
             "Sarkaz@Roguelike@RolesDefault"
         ]
     },
@@ -11033,6 +11042,9 @@
     },
     "Sarkaz@Roguelike@StartExplore": {
         "roi": [1014, 481, 266, 219]
+    },
+    "Sarkaz@Roguelike@StartExploreWithSeed": {
+        "template": "Sarkaz@Roguelike@StartExplore.png"
     },
     "Sarkaz@Roguelike@StartExplore-EnterCheck": {
         "template": "Sarkaz@Roguelike@StartExplore.png",
