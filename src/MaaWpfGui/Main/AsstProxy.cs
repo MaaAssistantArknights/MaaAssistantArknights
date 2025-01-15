@@ -33,7 +33,6 @@ using MaaWpfGui.Services;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
-using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -1035,7 +1034,7 @@ namespace MaaWpfGui.Main
                         Instances.TaskQueueViewModel.AddLog(why + ", " + LocalizationHelper.GetString("GiveUpUploadingPenguins"), UiLogColor.Error);
                         if (why == "UnknownStage")
                         {
-                            Instances.TaskQueueViewModel.AddLog(details["details"]?["stage_code"]+ ": " + LocalizationHelper.GetString("UnsupportedLevel"), UiLogColor.Error);
+                            Instances.TaskQueueViewModel.AddLog(details["details"]?["stage_code"] + ": " + LocalizationHelper.GetString("UnsupportedLevel"), UiLogColor.Error);
                         }
 
                         break;
