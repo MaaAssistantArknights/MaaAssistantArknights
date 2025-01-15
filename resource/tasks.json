@@ -7541,13 +7541,20 @@
         "action": "ClickRect",
         "specificRect": [850, 470, 300, 45]
     },
-    "Roguelike@StageTraderInvest-Count": {
+    "Roguelike@StageTraderInvest-Deposit": {
         "doc": "商店投资界面的余额显示，99 >> 100",
         "algorithm": "OcrDetect",
         "text": [],
         "isAscii": true,
         "roi": [570, 335, 150, 60],
         "ocrReplace": [[">", ""]]
+    },
+    "Roguelike@StageTraderInvest-Wallet": {
+        "doc": "商店投资界面的右上角的单局余额",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "isAscii": true,
+        "roi": [1180, 20, 80, 25]
     },
     "Roguelike@StageTraderInvestCancel": {
         "action": "ClickSelf",

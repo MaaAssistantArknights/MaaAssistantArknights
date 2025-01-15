@@ -37,10 +37,10 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
 
     auto image = ctrler()->get_image();
 
-    int count = 0;                                                        // 当次已投资的个数
-    int retry = 0;                                                        // 重试次数
-    auto deposit = ocr_count(image, "Roguelike@StageTraderInvest-Count"); // 当前的存款
-    int count_limit = m_maximum - m_invest_count;                         // 可用投资次数
+    int count = 0;                                                          // 当次已投资的个数
+    int retry = 0;                                                          // 重试次数
+    auto deposit = ocr_count(image, "Roguelike@StageTraderInvest-Deposit"); // 当前的存款
+    int count_limit = m_maximum - m_invest_count;                           // 可用投资次数
     // 投资确认按钮
     const auto& click_rect = Task.get("Roguelike@StageTraderInvest-Confirm")->specific_rect;
     LogInfo << __FUNCTION__ << "开始投资, 存款" << deposit.value_or(-1) << ", 可投资次数" << count_limit;
@@ -56,15 +56,18 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
         }
         image = ctrler()->get_image();
         if (is_investment_available(image)) { // 检查是否处于可投资状态
-            if (auto ocr = ocr_count(image, "Roguelike@StageTraderInvest-Count"); ocr) {
-                // 可继续投资 / 到达投资上限999
-                if (*ocr == *deposit || *ocr > 999 || *ocr < 1) {
-                    retry++; // 可能是出错了，重试三次放弃
-                }
-                else {
+            if (auto ocr = ocr_count(image, "Roguelike@StageTraderInvest-Deposit"); ocr) {
+                if (*ocr >= 0 && *ocr <= 999 && *ocr != *deposit) {
                     count += *ocr - *deposit;
                     deposit = *ocr;
                     retry = 0;
+                }
+                else if (auto wallet = ocr_count(image, "Roguelike@StageTraderInvest-Wallet"); *wallet && *wallet == 0) {
+                    Log.info(__FUNCTION__, "钱包为0, 退出投资");
+                    break;
+                }
+                else {
+                    retry++; // 可能是出错了，重试三次放弃
                 }
             }
             else {
@@ -136,7 +139,7 @@ std::optional<int> asst::RoguelikeInvestTaskPlugin::ocr_count(const auto& img, c
     if (!ocr.analyze()) {
         Log.error(__FUNCTION__, "unable to analyze current investment count.");
         return std::nullopt;
-    };
+    }
     int count = 0;
     if (!utils::chars_to_number(ocr.get_result().text, count)) {
         LogError << __FUNCTION__ << "unable to convert current investment count<" << ocr.get_result().text
