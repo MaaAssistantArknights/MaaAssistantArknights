@@ -6649,7 +6649,12 @@
         "action": "ClickSelf",
         "roi": [720, 413, 249, 168],
         "postDelay": 1000,
-        "next": ["Roguelike@MissionFailedFlag2", "Roguelike@StartExplore", "Roguelike@StartExploreCD"]
+        "next": [
+            "Roguelike@MissionFailedFlag2",
+            "Roguelike@StartExploreWithSeed",
+            "Roguelike@StartExplore",
+            "Roguelike@StartExploreCD"
+        ]
     },
     "Roguelike@Begin": {
         "algorithm": "JustReturn",
@@ -7759,12 +7764,17 @@
         "text": ["等待重返城堡入口", "等待重返陆地", "等待科考队重建", "正在清理思绪"],
         "roi": [1026, 470, 254, 248],
         "postDelay": 1000,
-        "next": ["Roguelike@StartExplore", "Roguelike@StartExploreCD"]
+        "next": ["Roguelike@StartExploreWithSeed", "Roguelike@StartExplore", "Roguelike@StartExploreCD"]
     },
     "Roguelike@StartExploreWithSeed": {
-        "Doc": "萨卡兹点刺刷钱，由 cpp 内启用",
+        "Doc": "模板任务，萨卡兹点刺刷钱，由 cpp 内启用",
         "maxTimes": 0,
         "exceededNext": ["Roguelike@StartExplore"],
+        "template": "empty.png",
+        "roi": [1026, 470, 254, 248],
+        "next": ["Roguelike@StartExploreWithSeed-EnableSeed"]
+    },
+    "Roguelike@StartExploreWithSeed-EnableSeed": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["启用参数"],
@@ -11033,6 +11043,9 @@
     },
     "Sarkaz@Roguelike@StartExplore": {
         "roi": [1014, 481, 266, 219]
+    },
+    "Sarkaz@Roguelike@StartExploreWithSeed": {
+        "template": "Sarkaz@Roguelike@StartExplore.png"
     },
     "Sarkaz@Roguelike@StartExplore-EnterCheck": {
         "template": "Sarkaz@Roguelike@StartExplore.png",
