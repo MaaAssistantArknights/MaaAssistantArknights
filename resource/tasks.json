@@ -7774,13 +7774,6 @@
         "roi": [1026, 470, 254, 248],
         "next": ["Roguelike@StartExploreWithSeed-EnableSeed"]
     },
-    "Roguelike@StartExploreWithSeed-EnableSeed": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["启用参数"],
-        "roi": [851, 567, 93, 33],
-        "next": ["Roguelike@StartExploreWithSeed-ClickPen"]
-    },
     "Roguelike@StartExploreWithSeed-BackToMainPage": {
         "Doc": "识别到 ‘停用参数’ 就行了，不做难度解锁的检查了",
         "algorithm": "OcrDetect",
@@ -7814,6 +7807,13 @@
             "Roguelike@StartExploreWithSeed-SetDifficulty",
             "Roguelike@StartExploreWithSeed-BackToMainPage"
         ]
+    },
+    "Roguelike@StartExploreWithSeed-EnableSeed": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["启用参数"],
+        "roi": [851, 567, 93, 33],
+        "next": ["Roguelike@StartExploreWithSeed-ClickPen"]
     },
     "Roguelike@StartExploreWithSeed-InputSeed": {
         "algorithm": "JustReturn",
@@ -11044,12 +11044,12 @@
     "Sarkaz@Roguelike@StartExplore": {
         "roi": [1014, 481, 266, 219]
     },
-    "Sarkaz@Roguelike@StartExploreWithSeed": {
-        "template": "Sarkaz@Roguelike@StartExplore.png"
-    },
     "Sarkaz@Roguelike@StartExplore-EnterCheck": {
         "template": "Sarkaz@Roguelike@StartExplore.png",
         "roi": [1014, 481, 266, 219]
+    },
+    "Sarkaz@Roguelike@StartExploreWithSeed": {
+        "template": "Sarkaz@Roguelike@StartExplore.png"
     },
     "Sarkaz@Roguelike@StartExploreWithSeed-ClickPen": {},
     "Sarkaz@Roguelike@StartExploreWithSeed-Confirm": {},
