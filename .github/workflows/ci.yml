@@ -234,9 +234,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install g++-12-aarch64-linux-gnu g++-12-aarch64-linux-gnu
 
-      - name: Setup ccache
-        uses: Chocobo1/setup-ccache-action@v1
-
       # Caching not necessary on ubuntu runner
       - name: Bootstrap MaaDeps
         env:
@@ -259,8 +256,8 @@ jobs:
           mkdir -p install
           cmake --install build --prefix install
         env:
-          CC: ${{ matrix.arch == 'x86_64' && 'ccache gcc-12' || 'ccache aarch64-linux-gnu-gcc-12' }}
-          CXX: ${{ matrix.arch == 'x86_64' && 'ccache g++-12' || 'ccache aarch64-linux-gnu-g++-12' }}
+          CC: ${{ matrix.arch == 'x86_64' && 'gcc-12' || 'aarch64-linux-gnu-gcc-12' }}
+          CXX: ${{ matrix.arch == 'x86_64' && 'g++-12' || 'aarch64-linux-gnu-g++-12' }}
           CMAKE_COLOR_DIAGNOSTICS: ON
           CLICOLOR_FORCE: 1
           CXXFLAGS: | # workaround for gcc bugs
