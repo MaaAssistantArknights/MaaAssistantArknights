@@ -234,9 +234,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install g++-12-aarch64-linux-gnu g++-12-aarch64-linux-gnu
 
-      # - name: Setup ccache
-      #   uses: Chocobo1/setup-ccache-action@v1
-
       # Caching not necessary on ubuntu runner
       - name: Bootstrap MaaDeps
         env:
