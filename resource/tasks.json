@@ -8039,9 +8039,10 @@
     },
     "Phantom@Roguelike@DialogTimeout": {
         "doc": "傀影肉鸽的小队对话会自动跳过stage导致一卡卡一串，进skip的时候已经读完对话只剩一个叉了，放一个timeout在这里抓一下",
-        "template": "Phantom@Roguelike@DialogTimeout.png",
+        "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "roi": [500, 590, 300, 100],
+        "text": ["继续", "探索", "解锁", "信息"],
         "next": ["Phantom@Roguelike@Stages#next"]
     },
     "Phantom@Roguelike@DropsFlag": {
@@ -8250,7 +8251,8 @@
             ["噩梦之始", "_pragmatic"],
             ["血月长廊", "_pragmatic"],
             ["渴欲大厅", "_default"]
-        ]
+        ],
+        "onErrorNext": ["Phantom@Roguelike@DialogTimeout"]
     },
     "Phantom@Roguelike@StrategyChange_mode1": {
         "baseTask": "Phantom@Roguelike@StrategyChange_mode4",
@@ -8265,7 +8267,8 @@
             ["噩梦之始", "_exit"],
             ["血月长廊", "_exit"],
             ["渴欲大厅", "_exit"]
-        ]
+        ],
+        "onErrorNext": ["Phantom@Roguelike@DialogTimeout"]
     },
     "Phantom@Roguelike@StrategyChange_mode6": {
         "text": ["_default", "_exit"],
@@ -8276,7 +8279,8 @@
             ["噩梦之始", "_pragmatic"],
             ["血月长廊", "_exit"],
             ["渴欲大厅", "_exit"]
-        ]
+        ],
+        "onErrorNext": ["Phantom@Roguelike@DialogTimeout"]
     },
     "Phantom@Roguelike@StrategyChange_mode7": {
         "text": ["_default", "_exit"],
@@ -8287,7 +8291,8 @@
             ["噩梦之始", "_pragmatic"],
             ["血月长廊", "_pragmatic"],
             ["渴欲大厅", "_default"]
-        ]
+        ],
+        "onErrorNext": ["Phantom@Roguelike@DialogTimeout"]
     },
     "Phantom@Roguelike@TodoEnter": {},
     "Phantom@Roguelike@WaitForStartButtonClicked": {
