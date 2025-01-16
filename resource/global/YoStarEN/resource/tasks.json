@@ -929,7 +929,13 @@
             ["Rare Rock Hammer", "稀有·岩锤"],
             ["Glow Stick Launcher", "荧光棒弹射装置"],
             ["Necrosis Transmitter", "凋亡发射器"],
-            ["Deluxe Sawing Harvester Hub", "木材采集站·采购"]
+            ["Deluxe Sawing Harvester Hub", "木材采集站·采购"],
+            ["Papyrus", "莎草"],
+            ["Clockwork Fowlbeast", "发条羽兽"],
+            ["Sand Reckoner", "衡沙"],
+            ["Narantuya", "娜仁图亚"],
+            ["Decrystallizing Totem", "结晶消除桩"],
+            ["Pure Crystal", "纯净结晶"]
         ]
     },
     "StartToWakeUpOCR": {

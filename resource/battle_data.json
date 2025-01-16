@@ -2681,8 +2681,7 @@
         },
         "char_4058_pepe": {
             "name": "佩佩",
-            "name_en": "佩佩",
-            "name_en_unavailable": true,
+            "name_en": "Pepe",
             "name_jp": "ペペ",
             "name_kr": "페페",
             "name_tw": "佩佩",
@@ -3224,8 +3223,7 @@
         },
         "char_4138_narant": {
             "name": "娜仁图亚",
-            "name_en": "娜仁图亚",
-            "name_en_unavailable": true,
+            "name_en": "Narantuya",
             "name_jp": "ナラントゥヤ",
             "name_kr": "나란투야",
             "name_tw": "娜仁图亚",
@@ -3237,8 +3235,7 @@
         },
         "char_4139_papyrs": {
             "name": "莎草",
-            "name_en": "莎草",
-            "name_en_unavailable": true,
+            "name_en": "Papyrus",
             "name_jp": "パピルス",
             "name_kr": "파피루스",
             "name_tw": "莎草",
@@ -3250,8 +3247,7 @@
         },
         "char_4140_lasher": {
             "name": "衡沙",
-            "name_en": "衡沙",
-            "name_en_unavailable": true,
+            "name_en": "Sand Reckoner",
             "name_jp": "サンドレコナー",
             "name_kr": "샌드레코너",
             "name_tw": "衡沙",
@@ -4861,8 +4857,7 @@
         },
         "token_10036_lasher_mcbird": {
             "name": "发条羽兽",
-            "name_en": "发条羽兽",
-            "name_en_unavailable": true,
+            "name_en": "Clockwork Fowlbeast",
             "name_jp": "カラクリ羽獣",
             "name_kr": "태엽 파울비스트",
             "name_tw": "发条羽兽",
@@ -7812,8 +7807,7 @@
         },
         "trap_181_sgray": {
             "name": "结晶消除桩",
-            "name_en": "结晶消除桩",
-            "name_en_unavailable": true,
+            "name_en": "Decrystallizing Totem",
             "name_jp": "結晶除去装置",
             "name_kr": "결정 제거기",
             "name_tw": "结晶消除桩",
@@ -7825,8 +7819,7 @@
         },
         "trap_182_sglink": {
             "name": "纯净结晶",
-            "name_en": "纯净结晶",
-            "name_en_unavailable": true,
+            "name_en": "Pure Crystal",
             "name_jp": "純粋結晶",
             "name_kr": "순수 결정",
             "name_tw": "纯净结晶",

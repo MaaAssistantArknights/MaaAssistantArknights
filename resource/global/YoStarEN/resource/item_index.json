@@ -1063,6 +1063,14 @@
         "sortId": 10024,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
+    "LMTGS_COIN_5301": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_5301.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10025,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
@@ -1734,6 +1742,14 @@
         "name": "'Emergency Supplies' Blueprint Chip",
         "sortId": -10000,
         "usage": "Microchip that holds a large number of blueprints, which can be printed at the Materianomicon Moderatrix."
+    },
+    "act35side_token_dust": {
+        "classifyType": "NONE",
+        "description": "A tourist souvenir from the City of Radiance. It is said that artificers can turn them into large gemstones. 'A padishah once ordered all the gems accumulated in his palace over a thousand years to be ground into fine grains of sand and scattered at the bottom of the garden pond, just so that the citizens could share in the radiance.' - Exhibit label on a mummy in the museum",
+        "icon": "act35side_token_dust.png",
+        "name": "Flowing Glimmerdust",
+        "sortId": -10000,
+        "usage": "Fine grains of gems that glitter like stars in the sky, older than the City of Radiance, and brighter than its hidden treasures."
     },
     "act38d1_token_coin": {
         "classifyType": "NONE",

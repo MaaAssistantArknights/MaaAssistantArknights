@@ -1026,8 +1026,8 @@ bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, 
     std::string recruitment_details = recruitment_opt->at("recruitDetail").as_string();
 
     // FOR TW: intern-kun fucked up the gamedata
-    string_replace_all_in_place(recruitment_details, "</>\n\n★\n", "/>\n\n★\n<");
-    string_replace_all_in_place(recruitment_details, " <@rc.eml>夜", "\n★★\n<@rc.eml>夜");
+    //string_replace_all_in_place(recruitment_details, "</>\n\n★\n", "/>\n\n★\n<");
+    //string_replace_all_in_place(recruitment_details, " <@rc.eml>夜", "\n★★\n<@rc.eml>夜");
     // ----END-----
     remove_xml(recruitment_details);
     string_replace_all_in_place(recruitment_details, "\\n", "");
@@ -1052,6 +1052,9 @@ bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, 
             trim(name);
 
             // ------- YostarEN -------
+            if (name == "Justice Knight") {
+                name = "'Justice Knight'";
+            }
 
             // ------- YostarKR -------
             // Issue in the gamedata: gacha_table.json has 샤미르 while character_table.json has 샤마르
@@ -1061,16 +1064,16 @@ bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, 
 
             // ------- txwy -------
             // Issue in the gamedata: gacha_table.json has 食 鐵獸 while character_table.json has 食鐵獸
-            if (name == "食 鐵獸") {
-                name = "食鐵獸";
-            }
+            //if (name == "食 鐵獸") {
+            //    name = "食鐵獸";
+            //}
 
             // ------- YostarJP -------
             // https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/18c55553885342b3df2ccf93cc102f448f027f4b#commitcomment-144847169
             // EDIT: gacha_table.json uses サーマル-EX for THRM-EX so we force it.
-            if (name == "サーマル-EX") {
-                name = "THRM-EX";
-            }
+            //if (name == "サーマル-EX") {
+            //    name = "THRM-EX";
+            //}
 
             chars_list.emplace_back(name);
         }
