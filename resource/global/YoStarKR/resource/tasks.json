@@ -963,9 +963,9 @@
     },
     "OrundumActivities": {
         "ocrReplace": [["복.+방", "복권방"]],
-        "doc": "용문복권방 adjusted roi value for ocr recognition",
-        "text": ["용문", "복권방"],
-        "roi": [23, 125, 135, 55]
+        "doc": "Orundum Lucky Draw from Limited Event",
+        "text": ["용문", "복권방", "소원"],
+        "roi": [5, 65, 170, 110]
     },
     "OrundumActivitiesChoose": {
         "text": ["행운티켓", "선택"]
