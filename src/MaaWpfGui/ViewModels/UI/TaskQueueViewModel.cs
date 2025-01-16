@@ -18,6 +18,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -116,6 +117,8 @@ namespace MaaWpfGui.ViewModels.UI
         public static ReclamationSettingsUserControlModel ReclamationTask => ReclamationSettingsUserControlModel.Instance;
 
         #endregion 长草任务Model
+
+        private static readonly IEnumerable<Type> TaskViewModelTypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.Namespace == "MaaWpfGui.ViewModels.UserControl.TaskQueue" && t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(TaskViewModel)));
 
         /// <summary>
         /// 实时更新任务顺序
@@ -2248,6 +2251,23 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             ++CustomInfrastPlanIndex;
+        }
+
+        public static void InvokeProcSubTaskMsg(AsstMsg msg, JObject details)
+        {
+            foreach (var type in TaskViewModelTypes)
+            {
+                // 获取 Instance 字段
+                if (type.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static) is PropertyInfo property)
+                {
+                    // 获取实例
+                    if (property.GetValue(null) is TaskViewModel instance)
+                    {
+                        // 调用 ProcSubTaskMsg 方法
+                        instance.ProcSubTaskMsg(msg, details);
+                    }
+                }
+            }
         }
     }
 }

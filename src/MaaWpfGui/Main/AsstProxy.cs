@@ -438,7 +438,7 @@ namespace MaaWpfGui.Main
                 case AsstMsg.SubTaskCompleted:
                 case AsstMsg.SubTaskExtraInfo:
                     ProcSubTaskMsg(msg, details);
-                    InvokeProcSubTaskMsg(msg, details);
+                    TaskQueueViewModel.InvokeProcSubTaskMsg(msg, details);
                     break;
 
                 case AsstMsg.SubTaskStopped:
@@ -1750,29 +1750,6 @@ namespace MaaWpfGui.Main
                     };
                     Process.Start(info);
                     break;
-            }
-        }
-
-        private static void InvokeProcSubTaskMsg(AsstMsg msg, JObject details)
-        {
-            // 获取当前程序集
-            var assembly = Assembly.GetExecutingAssembly();
-
-            // 获取命名空间中的所有类型
-            var types = assembly.GetTypes().Where(t => t.Namespace == "MaaWpfGui.ViewModels.UserControl.TaskQueue" && t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(TaskViewModel)));
-
-            foreach (var type in types)
-            {
-                // 获取 Instance 字段
-                if (type.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static) is PropertyInfo property)
-                {
-                    // 获取实例
-                    if (property.GetValue(null) is TaskViewModel instance)
-                    {
-                        // 调用 ProcSubTaskMsg 方法
-                        instance.ProcSubTaskMsg(msg, details);
-                    }
-                }
             }
         }
 
