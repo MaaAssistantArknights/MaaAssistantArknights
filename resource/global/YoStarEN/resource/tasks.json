@@ -1000,10 +1000,10 @@
         "text": ["Provisional", "Mining", "Permit"]
     },
     "OrundumActivities": {
-        "text": ["Lucky Strips", "Login Event"]
+        "text": ["Lucky Strips", "Wishing Wall", "Bazaar"]
     },
     "OrundumActivitiesChoose": {
-        "text": ["Choose", "spot"]
+        "text": ["Choose", "spot", "Please select", "Wishing", "Tickets"]
     },
     "OrundumActivitiesConfirm": {
         "text": ["Confirm"]
