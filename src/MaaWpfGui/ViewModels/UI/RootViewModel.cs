@@ -118,11 +118,11 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         if (value is null)
                         {
-                            TaskbarManager.Instance.SetProgressValue(0, 0);
+                            TaskbarManager.Instance.SetProgressValue(0, 0, Application.Current.MainWindow);
                         }
                         else
                         {
-                            TaskbarManager.Instance.SetProgressValue(value.Value.Current, value.Value.Max);
+                            TaskbarManager.Instance.SetProgressValue(value.Value.Current, value.Value.Max, Application.Current.MainWindow);
                         }
                     }
                     catch (Exception e)
