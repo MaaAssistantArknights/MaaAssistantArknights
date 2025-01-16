@@ -701,9 +701,12 @@ namespace MaaWpfGui.Main
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
                             }
                         }
+                        else
+                        {
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskError") + taskChain, UiLogColor.Error);
+                            ToastNotification.ShowDirect(LocalizationHelper.GetString("TaskError") + taskChain);
+                        }
 
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskError") + taskChain, UiLogColor.Error);
-                        ToastNotification.ShowDirect(LocalizationHelper.GetString("TaskError") + taskChain);
                         if (isCopilotTaskChain)
                         {
                             // 如果启用战斗列表，需要中止掉剩余的任务
