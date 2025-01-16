@@ -385,6 +385,12 @@
             "tags": ["防护", "近战位", "重装干员"]
         },
         {
+            "id": "char_347_jaksel",
+            "name": "Jackie",
+            "rarity": 4,
+            "tags": ["输出", "近战位", "近卫干员"]
+        },
+        {
             "id": "char_155_tiger",
             "name": "Indra",
             "rarity": 5,
@@ -667,6 +673,12 @@
             "tags": ["群攻", "远程位", "资深干员", "狙击干员"]
         },
         {
+            "id": "char_436_whispr",
+            "name": "Whisperain",
+            "rarity": 5,
+            "tags": ["治疗", "远程位", "资深干员", "医疗干员"]
+        },
+        {
             "id": "char_103_angel",
             "name": "Exusiai",
             "rarity": 6,
@@ -821,6 +833,12 @@
             "name": "Blemishine",
             "rarity": 6,
             "tags": ["防护", "治疗", "输出", "近战位", "高级资深干员", "重装干员"]
+        },
+        {
+            "id": "char_311_mudrok",
+            "name": "Mudrock",
+            "rarity": 6,
+            "tags": ["生存", "防护", "输出", "近战位", "高级资深干员", "重装干员"]
         }
     ],
     "tags": {
