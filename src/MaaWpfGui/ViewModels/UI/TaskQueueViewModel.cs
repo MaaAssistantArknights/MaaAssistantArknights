@@ -1825,6 +1825,7 @@ namespace MaaWpfGui.ViewModels.UI
                 RoguelikeTask.RoguelikeStartsCount,
                 RoguelikeTask.RoguelikeInvestmentEnabled,
                 RoguelikeTask.RoguelikeInvestmentWithMoreScore,
+                RoguelikeTask.RoguelikeLastRewardModeShopping,
                 RoguelikeTask.RoguelikeInvestsCount,
                 RoguelikeTask.RoguelikeStopWhenInvestmentFull,
                 RoguelikeTask.RoguelikeSquad,
