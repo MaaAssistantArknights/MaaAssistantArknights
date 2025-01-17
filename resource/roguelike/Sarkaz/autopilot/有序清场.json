@@ -8,7 +8,7 @@
     ],
     "blacklist_location": [
         [7, 1],
-        [8, 1]        
+        [8, 1]
     ],
     "deploy_plan": [
         {
@@ -30,7 +30,7 @@
             "groups": ["益达", "焰苇", "高台输出"],
             "location": [8, 4],
             "direction": "left"
-        },                   
+        },
         {
             "groups": ["高台输出", "单奶"],
             "location": [6, 2],
@@ -40,7 +40,7 @@
             "groups": ["高台输出"],
             "location": [6, 5],
             "direction": "left"
-        },               
+        },
         {
             "groups": ["玛恩纳", "地面远程", "重装", "地面阻挡", "回费", "处决者", "其他地面"],
             "location": [7, 3],

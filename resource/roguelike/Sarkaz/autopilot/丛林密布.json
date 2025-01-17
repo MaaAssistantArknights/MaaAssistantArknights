@@ -12,7 +12,7 @@
         [5, 1],
         [2, 3],
         [3, 3],
-        [5, 3]       
+        [5, 3]
     ],
     "deploy_plan": [
         {
@@ -21,37 +21,37 @@
             "direction": "down"
         },
         {
-            "groups": ["投掷手","高台输出"],
+            "groups": ["投掷手", "高台输出"],
             "location": [8, 1],
             "direction": "down"
-        },        
+        },
         {
-            "groups": ["高台输出","奶", "其他高台"],
-            "location": [8, 3],           
+            "groups": ["高台输出", "奶", "其他高台"],
+            "location": [8, 3],
             "direction": "left"
         },
         {
             "groups": ["高台输出", "奶", "其他高台"],
-            "location": [7, 1],            
+            "location": [7, 1],
             "direction": "left"
-        },        
-        
+        },
+
         {
             "groups": ["高台输出", "奶", "其他高台"],
-            "location": [7, 3],                   
+            "location": [7, 3],
             "direction": "left"
-        },           
+        },
         {
-            "groups": ["炮灰","地面阻挡"],
+            "groups": ["炮灰", "地面阻挡"],
             "location": [9, 4],
             "condition": [3, 21],
             "direction": "left"
         },
         {
-            "groups": ["炮灰","地面阻挡"],
+            "groups": ["炮灰", "地面阻挡"],
             "location": [8, 4],
             "condition": [3, 21],
             "direction": "left"
         }
-    ]   
+    ]
 }
