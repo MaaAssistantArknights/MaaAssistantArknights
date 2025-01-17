@@ -7098,7 +7098,9 @@
         "next": ["Roguelike", "Roguelike@ChooseDifficulty", "Roguelike@StartExplore", "Roguelike@Abandon"]
     },
     "Roguelike@MissionCompletedFlag": {
-        "roi": [0, 0, 148, 143],
+        "baseTask": "Roguelike@ExitThenAbandon",
+        "template": "Roguelike@ExitThenAbandon.png",
+        "action": "DoNothing",
         "next": ["Roguelike@ClickToDrops"]
     },
     "Roguelike@MissionFailedFlag": {
