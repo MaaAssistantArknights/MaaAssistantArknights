@@ -10,7 +10,6 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-
 #nullable enable
 using System;
 using System.Collections.Generic;
@@ -18,11 +17,10 @@ using System.Linq;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Utilities.ValueType;
-using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class RecruitSettingsUserControlModel : PropertyChangedBase
+public class RecruitSettingsUserControlModel : TaskViewModel
 {
     static RecruitSettingsUserControlModel()
     {
