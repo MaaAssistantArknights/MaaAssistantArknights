@@ -10,26 +10,21 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-
 #nullable enable
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
-using MaaWpfGui.ViewModels.UI;
-using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
 /// <summary>
 /// 刷理智
 /// </summary>
-public class FightSettingsUserControlModel : PropertyChangedBase
+public class FightSettingsUserControlModel : TaskViewModel
 {
     static FightSettingsUserControlModel()
     {

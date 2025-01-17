@@ -10,17 +10,15 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-
 #nullable enable
 using System;
 using System.Windows;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class AwardSettingsUserControlModel : PropertyChangedBase
+public class AwardSettingsUserControlModel : TaskViewModel
 {
     static AwardSettingsUserControlModel()
     {
