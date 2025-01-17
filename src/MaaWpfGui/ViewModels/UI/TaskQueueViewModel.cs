@@ -19,7 +19,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -118,7 +117,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         #endregion 长草任务Model
 
-        private static readonly IEnumerable<Type> TaskViewModelTypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.Namespace == "MaaWpfGui.ViewModels.UserControl.TaskQueue" && t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(TaskViewModel)));
+        private static readonly IEnumerable<TaskViewModel> TaskViewModelTypes = InitTaskViewModelList();
 
         /// <summary>
         /// 实时更新任务顺序
@@ -2253,9 +2252,10 @@ namespace MaaWpfGui.ViewModels.UI
             ++CustomInfrastPlanIndex;
         }
 
-        public static void InvokeProcSubTaskMsg(AsstMsg msg, JObject details)
+        private static IEnumerable<TaskViewModel> InitTaskViewModelList()
         {
-            foreach (var type in TaskViewModelTypes)
+            var types = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.Namespace == "MaaWpfGui.ViewModels.UserControl.TaskQueue" && t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(TaskViewModel)));
+            foreach (var type in types)
             {
                 // 获取 Instance 字段
                 if (type.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static) is PropertyInfo property)
@@ -2263,10 +2263,18 @@ namespace MaaWpfGui.ViewModels.UI
                     // 获取实例
                     if (property.GetValue(null) is TaskViewModel instance)
                     {
-                        // 调用 ProcSubTaskMsg 方法
-                        instance.ProcSubTaskMsg(msg, details);
+                        yield return instance;
                     }
                 }
+            }
+        }
+
+        public static void InvokeProcSubTaskMsg(AsstMsg msg, JObject details)
+        {
+            foreach (var instance in TaskViewModelTypes)
+            {
+                // 调用 ProcSubTaskMsg 方法
+                instance.ProcSubTaskMsg(msg, details);
             }
         }
     }
