@@ -6699,7 +6699,8 @@
         "Doc": "base_task 月度小队入口",
         "template": "Roguelike@MonthlySquad.png",
         "action": "ClickSelf",
-        "roi": [520, 630, 270, 85]
+        "roi": [520, 630, 270, 85],
+        "maskRange": [1, 255]
     },
     "Roguelike@MonthlySquadComms": {
         "Doc": "base_task 月度小队通信",
@@ -6738,6 +6739,7 @@
         "template": "Roguelike@DeepExploration.png",
         "action": "ClickSelf",
         "roi": [320, 620, 270, 95],
+        "maskRange": [1, 255],
         "onErrorNext": ["Roguelike@DeepExplorationNotUnlockedComplain"]
     },
     "Roguelike@DeepExplorationRewardMiss": {
