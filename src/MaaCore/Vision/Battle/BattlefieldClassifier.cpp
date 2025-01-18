@@ -93,7 +93,7 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
         .base_point = m_base_point,
     };
 
-    if (!std::ifstream("DEBUG").good() && !std::ifstream("DEBUG.txt").good()) {
+    if (!std::filesystem::exists("DEBUG_skill_ready.txt")) {
         return result;
     }
 
