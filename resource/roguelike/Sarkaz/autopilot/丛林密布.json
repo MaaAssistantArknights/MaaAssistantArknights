@@ -35,17 +35,17 @@
             "direction": "down"
         },
         {
-            "groups": ["高台输出","辅助","奶"],
+            "groups": ["高台输出", "辅助", "奶"],
             "location": [7, 3],
             "direction": "left"
         },
         {
-            "groups": ["高台输出","辅助","奶"],
+            "groups": ["高台输出", "辅助", "奶"],
             "location": [7, 1],
             "direction": "down"
         },
         {
-            "groups": ["奶盾", "重装", "地面阻挡", "地面远程","地刺"],
+            "groups": ["奶盾", "重装", "地面阻挡", "地面远程", "地刺"],
             "location": [8, 4],
             "direction": "left"
         },
