@@ -22,7 +22,7 @@
             "direction": "left"
         },
         {
-            "groups": ["群奶", "单奶"],
+            "groups": ["元素奶", "群奶", "单奶"],
             "location": [6, 4],
             "direction": "up"
         },
