@@ -2446,6 +2446,7 @@ namespace MaaWpfGui.Main
         /// <param name="collectibleModeShopping">刷开局模式是否购物</param>
         /// <param name="invests">投资源石锭次数。</param>
         /// <param name="stopWhenFull">投资满了自动停止任务。</param>
+        /// <param name="collectibleModeSquad">烧水分队</param>
         /// <param name="squad">开局分队</param>
         /// <param name="roles">开局职业组</param>
         /// <param name="coreChar">开局干员名</param>
@@ -2477,6 +2478,7 @@ namespace MaaWpfGui.Main
             bool collectibleModeShopping,
             int invests,
             bool stopWhenFull,
+            string collectibleModeSquad,
             string squad,
             string roles,
             string coreChar,
@@ -2548,7 +2550,7 @@ namespace MaaWpfGui.Main
             {
                 // 刷开局模式
                 taskParams["collectible_mode_shopping"] = collectibleModeShopping;
-
+                taskParams["collectible_mode_squad"] = collectibleModeSquad;
                 taskParams["start_with_elite_two"] = startWithEliteTwo;
                 taskParams["only_start_with_elite_two"] = onlyStartWithEliteTwo;
 
