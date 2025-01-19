@@ -49,7 +49,9 @@ bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params
 {
     LogTraceFunction;
 
-    set_custom(RoguelikeCustomType::Squad, params.get("squad", "")); // 开局分队
+    m_target_squad = params.get("squad", "");
+    set_custom(RoguelikeCustomType::Squad, m_target_squad); // 开局分队
+    
     if (params.get("start_with_seed", false)) {                      // 种子刷钱，强制随心所欲
         set_custom(RoguelikeCustomType::Roles, "随心所欲");
     }
@@ -73,6 +75,13 @@ void asst::RoguelikeCustomStartTaskPlugin::set_custom(RoguelikeCustomType type, 
 
 bool asst::RoguelikeCustomStartTaskPlugin::_run()
 {
+    if (m_config->get_theme() == "Sarkaz" && !m_is_next_hardest && m_config->get_mode() == RoguelikeMode::Collectible) {
+    set_custom(RoguelikeCustomType::Squad, "蓝图测绘");
+    }
+    else {
+        set_custom(RoguelikeCustomType::Squad, m_target_squad);
+    }
+    
     const std::unordered_map<RoguelikeCustomType, std::function<bool(void)>> TypeActuator = {
         { RoguelikeCustomType::Squad, std::bind(&RoguelikeCustomStartTaskPlugin::hijack_squad, this) },
         { RoguelikeCustomType::Roles, std::bind(&RoguelikeCustomStartTaskPlugin::hijack_roles, this) },
