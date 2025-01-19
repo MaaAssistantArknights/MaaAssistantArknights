@@ -125,8 +125,11 @@ public:
 
     bool get_start_with_two_ideas() const { return m_start_with_two_ideas; }
 
+    bool get_start_with_seed() const { return m_start_with_seed; }
+
 private:
     bool m_start_with_two_ideas = false; // 在刷开局模式下凹开局 2 构想
+    bool m_start_with_seed = false;      // 种子刷钱
 
     // ================================================================================
     // 以下为局内数据，每次重置
@@ -167,8 +170,6 @@ public:
 
     int get_floor() const { return m_floor; }
 
-    bool get_start_with_seed() const { return m_start_with_seed; }
-
 private:
     // ------------------ 招募 ------------------
     bool m_team_full_without_rookie = false; // 编队内没有预干员
@@ -187,7 +188,6 @@ private:
     int m_hp = 0;                                          // 当前生命值
     int m_floor = 0;                                       // 当前到达层数
     int m_formation_upper_limit = 6;                       // 当前编队上限
-    bool m_start_with_seed = false;                        // 种子刷钱
 
 public:
     // ------------------ 密文板 ------------------
