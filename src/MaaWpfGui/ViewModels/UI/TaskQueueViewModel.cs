@@ -1828,7 +1828,7 @@ namespace MaaWpfGui.ViewModels.UI
                 RoguelikeTask.RoguelikeCollectibleModeShopping,
                 RoguelikeTask.RoguelikeInvestsCount,
                 RoguelikeTask.RoguelikeStopWhenInvestmentFull,
-                RoguelikeTask.RoguelikeLastRewardSquad,
+                RoguelikeTask.RoguelikeCollectibleModeSquad,
                 RoguelikeTask.RoguelikeSquad,
                 RoguelikeTask.RoguelikeRoles,
                 DataHelper.GetCharacterByNameOrAlias(RoguelikeTask.RoguelikeCoreChar)?.Name ?? RoguelikeTask.RoguelikeCoreChar,
