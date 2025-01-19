@@ -648,7 +648,7 @@
     "YoStarJP/Mizuki@Roguelike@ChooseDifficulty0": "5f601c1fb3665627f407a4ad965a67369697f590f61dc7206d24390ab5e37d4a",
     "YoStarJP/Mizuki@Roguelike@CommissionedMissionCompleted": "b1e50ded30632595a822c1a3400e3e3ae98a9b17e223e0b467040e07378f2f15",
     "YoStarJP/Mizuki@Roguelike@Continue": "d3878bbab471a35767b01624d67d46ee3cccd463d85c131199ec14826ca9d5b4",
-    "YoStarJP/Mizuki@Roguelike@DataTraceback": "646c11044201c472a6fecfb9486c71f97fa139e0cd23324be062bd2b9bf20112",
+    "YoStarJP/Mizuki@Roguelike@DataTraceback": "daa8cde24b47a8bc01672cf45f091536e754b1ea699db32be390599db80d7e0a",
     "YoStarJP/Mizuki@Roguelike@EnterAfterRecruit": "fef414b02ec93396502bcdac45ccbae498794d6c1acd02ff193dfdd14e88d4b5",
     "YoStarJP/Mizuki@Roguelike@GamePass": "5e65a5565a196a56a59101257e9008069ef98455fe08b4cb7567b6342c07301f",
     "YoStarJP/Mizuki@Roguelike@GamePassSkip1": "1674eb75bced23f07f248e3204e5ff4d92060e137d5a11e54003b85945a3c704",
@@ -2984,5 +2984,6 @@
     "official/Sarkaz@Roguelike@StartExploreWithSeed-SetDifficulty": "da2058843a78013463b2a66c11399625a0c85e34b572b6b0cb5bb26b295ebbac",
     "official/Sarkaz@Roguelike@StartExploreWithSeed-Confirm": "87edbfa2863dec81645a23f41cbeb71f3b226133b305db7ea8eddf84e018d123",
     "official/Sarkaz@Roguelike@StartExploreWithSeed-ClickPen": "0aedd195c376f098e4cfcadcb55ac2da19ae3e8d20fe9e6947ce048135f9950c",
-    "YoStarEN/Roguelike@GamePassSkip2": "0bd79afd29be8c684934620af0d6712387af2e5d5561c5a4264b18316c9d49d1"
+    "YoStarEN/Roguelike@GamePassSkip2": "0bd79afd29be8c684934620af0d6712387af2e5d5561c5a4264b18316c9d49d1",
+    "YoStarEN/Sami@Roguelike@GamePassSkip2": "91b3035a637d3fb585a7656875dcc22e84f9d949b0cc81b11ef631227798b9cc"
 }
