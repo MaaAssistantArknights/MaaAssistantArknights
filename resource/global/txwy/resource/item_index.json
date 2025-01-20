@@ -1047,6 +1047,14 @@
         "sortId": 10022,
         "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
     },
+    "LMTGS_COIN_4701": {
+        "classifyType": "NORMAL",
+        "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
+        "icon": "LMTGS_COIN_4701.png",
+        "name": "尋訪數據契約",
+        "sortId": 10023,
+        "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
@@ -1646,6 +1654,14 @@
         "name": "馱獸盲盒",
         "sortId": -10000,
         "usage": "馱獸盲盒大受歡迎，車內販賣供不應求。現在這批貨來得正是時候，列車乘務員會很樂意用其他商品進行交換。"
+    },
+    "act31side_token_box": {
+        "classifyType": "NONE",
+        "description": "大荒城天師府的最新研究成果，操作簡單，機動性強。有著採樣、監測土壤等多種功能，偶爾也會被頑皮的孩子拿去玩“鬥羽獸”的遊戲。",
+        "icon": "act31side_token_box.png",
+        "name": "天樁",
+        "sortId": -10000,
+        "usage": "天師府研發的農業用無人機，偶爾會因故障遺落在田間。撿到的話可在神農市集換取物資。"
     },
     "act32side_token_stamp": {
         "classifyType": "NONE",
@@ -2294,6 +2310,14 @@
         "name": "生態標本",
         "sortId": -10000,
         "usage": null
+    },
+    "sandbox_1_tokencoin": {
+        "classifyType": "NONE",
+        "description": "在荒地上揮灑下的每一滴汗水，都會成為泰拉文明繁榮的見證。",
+        "icon": "sandbox_1_tokencoin.png",
+        "name": "繁榮點數",
+        "sortId": -10000,
+        "usage": "用於在“繁榮饋贈”中兌換獎勵的憑證。"
     },
     "token_Obsidian": {
         "classifyType": "NONE",
