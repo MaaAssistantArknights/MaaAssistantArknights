@@ -269,13 +269,13 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
         string,                               // 仅在主题为 Sami 且模式为 5 时有效
         ...
     ],
-    "monthlySquadAutoIterate": bool,          //是否启动月度小队自动切换
-    "monthlySquadCheckComms": bool,           //是否将月度小队通信也作为切换依据
-    "deepExplorationAutoIterate": bool,       //是否启动深入调查自动切换
-    "collectible_mode_shopping": bool,        // 烧水是否启用购物, 默认值false
-    "collectible_mode_squad": string,         // 烧水结束时分队, 默认为空, 即指挥分队
-    "collectible_mode_start_list": {          // 烧水期望奖励, 默认全false, 键范围：
-        "hot_water": bool,                    // [hot_water: 热水, shield: 盾, ingot: 源石锭, hope: 希望, random: 随机奖励, key: 钥匙, dice: 骰子, ideas: 构想]
+    "monthlySquadAutoIterate": bool,    //是否启动月度小队自动切换
+    "monthlySquadCheckComms": bool,     //是否将月度小队通信也作为切换依据
+    "deepExplorationAutoIterate": bool, //是否启动深入调查自动切换
+    "collectible_mode_shopping": bool,  // 烧水是否启用购物, 默认值false
+    "collectible_mode_squad": string,   // 烧水时使用的分队, 默认为空, 即指挥分队
+    "collectible_mode_start_list": {    // 烧水期望奖励, 默认全false, 键范围：
+        "hot_water": bool,              // [hot_water: 热水, shield: 盾, ingot: 源石锭, hope: 希望, random: 随机奖励, key: 钥匙, dice: 骰子, ideas: 构想]
         ...
     },
     "start_with_seed": bool,        // 使用种子刷钱，true 时有效
