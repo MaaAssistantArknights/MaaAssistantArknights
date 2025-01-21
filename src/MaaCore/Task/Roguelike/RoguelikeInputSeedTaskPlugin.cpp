@@ -38,5 +38,5 @@ bool asst::RoguelikeInputSeedTaskPlugin::verify(AsstMsg msg, const json::value& 
 
 bool asst::RoguelikeInputSeedTaskPlugin::_run()
 {
-    return ProcessTask(*this, { m_config->get_theme() + "@Roguelike@StartExploreWithSeed" }).run();
+    return ProcessTask(*this, { m_config->get_theme() + "@Roguelike@StartExploreWithSeed" }).set_times_limit("Roguelike@StartExplore", 0).run();
 }
