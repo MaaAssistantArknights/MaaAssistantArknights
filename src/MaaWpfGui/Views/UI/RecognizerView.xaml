@@ -6,6 +6,7 @@
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
@@ -221,6 +222,8 @@
                             HeadersVisibility="None"
                             IsReadOnly="True"
                             ItemsSource="{Binding OperBoxNotHaveList}"
+                            PreviewMouseWheel="{s:Action HandlePreviewMouseWheel,
+                                                         Target={x:Type helper:MouseWheelHelper}}"
                             ScrollViewer.CanContentScroll="True"
                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                             Visibility="{c:Binding 'OperBoxNotHaveList.Count != 0'}">
@@ -229,11 +232,6 @@
                                     <WrapPanel HorizontalAlignment="Center" />
                                 </ItemsPanelTemplate>
                             </DataGrid.ItemsPanel>
-                            <DataGrid.Resources>
-                                <Style BasedOn="{StaticResource {x:Type DataGrid}}" TargetType="{x:Type DataGrid}">
-                                    <EventSetter Event="PreviewMouseWheel" Handler="DataGrid_PreviewMouseWheel" />
-                                </Style>
-                            </DataGrid.Resources>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding}" />
                             </DataGrid.Columns>
@@ -255,6 +253,8 @@
                             HeadersVisibility="None"
                             IsReadOnly="True"
                             ItemsSource="{Binding OperBoxHaveList}"
+                            PreviewMouseWheel="{s:Action HandlePreviewMouseWheel,
+                                                         Target={x:Type helper:MouseWheelHelper}}"
                             ScrollViewer.CanContentScroll="True"
                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                             Visibility="{c:Binding 'OperBoxHaveList.Count != 0'}">
@@ -263,11 +263,6 @@
                                     <WrapPanel HorizontalAlignment="Center" />
                                 </ItemsPanelTemplate>
                             </DataGrid.ItemsPanel>
-                            <DataGrid.Resources>
-                                <Style BasedOn="{StaticResource {x:Type DataGrid}}" TargetType="{x:Type DataGrid}">
-                                    <EventSetter Event="PreviewMouseWheel" Handler="DataGrid_PreviewMouseWheel" />
-                                </Style>
-                            </DataGrid.Resources>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding}" />
                             </DataGrid.Columns>
