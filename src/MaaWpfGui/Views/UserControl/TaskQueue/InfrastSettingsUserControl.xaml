@@ -108,6 +108,8 @@
                 dd:DragDrop.IsDragSource="True"
                 dd:DragDrop.IsDropTarget="True"
                 ItemsSource="{Binding Path=InfrastItemViewModels}"
+                PreviewMouseWheel="{s:Action HandlePreviewMouseWheel,
+                                             Target={x:Type helper:MouseWheelHelper}}"
                 ToolTip="{DynamicResource LabelSequenceTip}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -118,11 +120,6 @@
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
-                <ListBox.Resources>
-                    <Style BasedOn="{StaticResource {x:Type ListBox}}" TargetType="{x:Type ListBox}">
-                        <EventSetter Event="PreviewMouseWheel" Handler="ListBox_PreviewMouseWheel" />
-                    </Style>
-                </ListBox.Resources>
             </ListBox>
             <Grid>
                 <Grid.ColumnDefinitions>
