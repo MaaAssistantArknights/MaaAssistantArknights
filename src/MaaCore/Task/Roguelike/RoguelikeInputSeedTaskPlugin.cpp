@@ -1,8 +1,6 @@
 #include "RoguelikeInputSeedTaskPlugin.h"
 
 #include "Config/Roguelike/RoguelikeStageEncounterConfig.h"
-#include "Config/TaskData.h"
-#include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 
