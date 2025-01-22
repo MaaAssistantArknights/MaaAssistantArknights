@@ -743,6 +743,15 @@
     "MiningActivities": {
         "text": ["限時開採", "開採"]
     },
+    "OrundumActivities": {
+        "text": ["幸運牆", "幸運", "好運牆", "好運", "游樂"]
+    },
+    "OrundumActivitiesChoose": {
+        "text": ["請選擇", "選擇"]
+    },
+    "OrundumActivitiesConfirm": {
+        "text": ["確定", "確定抽取"]
+    },
     "RecruitingActivities": {
         "text": ["贈送", "次"]
     },
