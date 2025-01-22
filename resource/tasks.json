@@ -4050,7 +4050,7 @@
     "InfrastDormMini": {
         "template": "DormMini.png",
         "maskRange": [1, 255],
-        "roi": [620, 240, 360, 480],
+        "roi": [232, 213, 690, 434],
         "templThreshold": 0.95
     },
     "InfrastOffice": {
@@ -4062,7 +4062,7 @@
     "InfrastOfficeMini": {
         "template": "OfficeMini.png",
         "maskRange": [1, 255],
-        "roi": [980, 320, 300, 160],
+        "roi": [627, 160, 653, 404],
         "templThreshold": 0.95
     },
     "InfrastProcessing": {
@@ -4072,7 +4072,7 @@
     },
     "InfrastProcessingMini": {
         "maskRange": [1, 255],
-        "roi": [980, 240, 300, 160],
+        "roi": [627, 160, 653, 404],
         "templThreshold": 0.95
     },
     "InfrastProcessingEnterOperList": {
@@ -4091,7 +4091,7 @@
     "InfrastReceptionMini": {
         "template": "ReceptionMini.png",
         "maskRange": [1, 255],
-        "roi": [626, 161, 654, 170],
+        "roi": [627, 160, 653, 404],
         "templThreshold": 0.95
     },
     "InfrastTraining": {
@@ -4103,7 +4103,7 @@
     "InfrastTrainingMini": {
         "template": "TrainingMini.png",
         "maskRange": [1, 255],
-        "roi": [980, 400, 300, 140],
+        "roi": [627, 160, 653, 404],
         "templThreshold": 0.95
     },
     "InfrastControl": {
@@ -4115,7 +4115,7 @@
     "InfrastControlMini": {
         "template": "ControlCenterMini.png",
         "maskRange": [1, 255],
-        "roi": [620, 80, 360, 230],
+        "roi": [553, 82, 396, 248],
         "templThreshold": 0.95
     },
     "InfrastStationedInfo": {
