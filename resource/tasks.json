@@ -7087,6 +7087,16 @@
         "baseTask": "Roguelike@LastReward_default",
         "template": "empty.png"
     },
+    "Roguelike@LastReward-EnterPoint": {
+        "Doc": "插件挂载，选择期望的奖励，template为所有LastReward集合，进入插件后重新匹配，有就Confirm，没有就Abandon",
+        "template": "empty.png",
+        "roi": [225, 199, 829, 241],
+        "next": ["Roguelike@RolesDefault", "Roguelike@CloseCollection", "Roguelike@StartExplore"]
+    },
+    "Roguelike@LastReward-Strategy": {
+        "Doc": "未指定期望时，默认选择策略",
+        "algorithm": "JustReturn"
+    },
     "Roguelike@LastReward2": {
         "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 5 源石锭",
         "baseTask": "Roguelike@LastReward_default",
@@ -7112,16 +7122,6 @@
         "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 问号",
         "baseTask": "Roguelike@LastReward_default",
         "template": "empty.png"
-    },
-    "Roguelike@LastReward-EnterPoint": {
-        "Doc": "插件挂载，选择期望的奖励，template为所有LastReward集合，进入插件后重新匹配，有就Confirm，没有就Abandon",
-        "template": "empty.png",
-        "roi": [225, 199, 829, 241],
-        "next": ["Roguelike@RolesDefault", "Roguelike@CloseCollection", "Roguelike@StartExplore"]
-    },
-    "Roguelike@LastReward-Strategy": {
-        "Doc": "未指定期望时，默认选择策略",
-        "algorithm": "JustReturn"
     },
     "Roguelike@LastReward_default": {
         "template": "empty.png",
@@ -8057,11 +8057,6 @@
     },
     "Phantom@Roguelike@InitialDrop": {},
     "Phantom@Roguelike@LastReward": {},
-    "Phantom@Roguelike@LastReward2": {},
-    "Phantom@Roguelike@LastReward3": {},
-    "Phantom@Roguelike@LastReward4": {},
-    "Phantom@Roguelike@LastRewardConfirm": {},
-    "Phantom@Roguelike@LastRewardRand": {},
     "Phantom@Roguelike@LastReward-EnterPoint": {
         "template": [
             "Phantom@Roguelike@LastReward.png",
@@ -8080,6 +8075,11 @@
             "Phantom@Roguelike@LastRewardRand"
         ]
     },
+    "Phantom@Roguelike@LastReward2": {},
+    "Phantom@Roguelike@LastReward3": {},
+    "Phantom@Roguelike@LastReward4": {},
+    "Phantom@Roguelike@LastRewardConfirm": {},
+    "Phantom@Roguelike@LastRewardRand": {},
     "Phantom@Roguelike@MissionFailedFlag": {
         "roi": [450, 163, 540, 267]
     },
@@ -8507,19 +8507,6 @@
     },
     "Mizuki@Roguelike@InitialDrop": {},
     "Mizuki@Roguelike@LastReward": {},
-    "Mizuki@Roguelike@LastReward2": {},
-    "Mizuki@Roguelike@LastReward3": {},
-    "Mizuki@Roguelike@LastReward4": {},
-    "Mizuki@Roguelike@LastReward5": {
-        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 1 钥匙",
-        "baseTask": "Mizuki@Roguelike@LastReward_default"
-    },
-    "Mizuki@Roguelike@LastReward6": {
-        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 1 骰子",
-        "baseTask": "Mizuki@Roguelike@LastReward_default"
-    },
-    "Mizuki@Roguelike@LastRewardConfirm": {},
-    "Mizuki@Roguelike@LastRewardRand": {},
     "Mizuki@Roguelike@LastReward-EnterPoint": {
         "template": [
             "Mizuki@Roguelike@LastReward.png",
@@ -8542,6 +8529,19 @@
             "Mizuki@Roguelike@LastRewardRand"
         ]
     },
+    "Mizuki@Roguelike@LastReward2": {},
+    "Mizuki@Roguelike@LastReward3": {},
+    "Mizuki@Roguelike@LastReward4": {},
+    "Mizuki@Roguelike@LastReward5": {
+        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 1 钥匙",
+        "baseTask": "Mizuki@Roguelike@LastReward_default"
+    },
+    "Mizuki@Roguelike@LastReward6": {
+        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 1 骰子",
+        "baseTask": "Mizuki@Roguelike@LastReward_default"
+    },
+    "Mizuki@Roguelike@LastRewardConfirm": {},
+    "Mizuki@Roguelike@LastRewardRand": {},
     "Mizuki@Roguelike@MapObject": {
         "roi": [257, 488, 189, 123],
         "next": ["Mizuki@Roguelike@RecruitOther"]
@@ -9328,15 +9328,6 @@
     },
     "Sami@Roguelike@InitialDrop": {},
     "Sami@Roguelike@LastReward": {},
-    "Sami@Roguelike@LastReward2": {},
-    "Sami@Roguelike@LastReward3": {},
-    "Sami@Roguelike@LastReward4": {},
-    "Sami@Roguelike@LastRewardChoose": {
-        "roi": [485, 4, 368, 119],
-        "next": ["Sami@Roguelike@SquadConfirm#next"]
-    },
-    "Sami@Roguelike@LastRewardConfirm": {},
-    "Sami@Roguelike@LastRewardRand": {},
     "Sami@Roguelike@LastReward-EnterPoint": {
         "template": [
             "Sami@Roguelike@LastReward.png",
@@ -9355,6 +9346,15 @@
             "Sami@Roguelike@LastRewardRand"
         ]
     },
+    "Sami@Roguelike@LastReward2": {},
+    "Sami@Roguelike@LastReward3": {},
+    "Sami@Roguelike@LastReward4": {},
+    "Sami@Roguelike@LastRewardChoose": {
+        "roi": [485, 4, 368, 119],
+        "next": ["Sami@Roguelike@SquadConfirm#next"]
+    },
+    "Sami@Roguelike@LastRewardConfirm": {},
+    "Sami@Roguelike@LastRewardRand": {},
     "Sami@Roguelike@MapObject": {
         "roi": [257, 488, 189, 123],
         "next": ["Sami@Roguelike@RecruitOther"]
@@ -10551,15 +10551,6 @@
     },
     "Sarkaz@Roguelike@InitialDrop": {},
     "Sarkaz@Roguelike@LastReward": {},
-    "Sarkaz@Roguelike@LastReward2": {},
-    "Sarkaz@Roguelike@LastReward3": {},
-    "Sarkaz@Roguelike@LastReward4": {},
-    "Sarkaz@Roguelike@LastReward5": {
-        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 2 构想",
-        "baseTask": "Sarkaz@Roguelike@LastReward_default"
-    },
-    "Sarkaz@Roguelike@LastRewardConfirm": {},
-    "Sarkaz@Roguelike@LastRewardRand": {},
     "Sarkaz@Roguelike@LastReward-EnterPoint": {
         "template": [
             "Sarkaz@Roguelike@LastReward5.png",
@@ -10580,6 +10571,15 @@
             "Sarkaz@Roguelike@LastRewardRand"
         ]
     },
+    "Sarkaz@Roguelike@LastReward2": {},
+    "Sarkaz@Roguelike@LastReward3": {},
+    "Sarkaz@Roguelike@LastReward4": {},
+    "Sarkaz@Roguelike@LastReward5": {
+        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 2 构想",
+        "baseTask": "Sarkaz@Roguelike@LastReward_default"
+    },
+    "Sarkaz@Roguelike@LastRewardConfirm": {},
+    "Sarkaz@Roguelike@LastRewardRand": {},
     "Sarkaz@Roguelike@MapObject": {
         "roi": [257, 488, 189, 123],
         "next": ["Sarkaz@Roguelike@RecruitOther"]
