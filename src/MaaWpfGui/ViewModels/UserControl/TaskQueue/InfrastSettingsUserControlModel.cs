@@ -10,7 +10,6 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-
 #nullable enable
 using System;
 using System.Collections.Generic;
@@ -23,15 +22,21 @@ using MaaWpfGui.Models;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Microsoft.Win32;
-using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
 /// <summary>
 /// 基建任务
 /// </summary>
-public class InfrastSettingsUserControlModel : PropertyChangedBase
+public class InfrastSettingsUserControlModel : TaskViewModel
 {
+    static InfrastSettingsUserControlModel()
+    {
+        Instance = new();
+    }
+
+    public static InfrastSettingsUserControlModel Instance { get; }
+
     /// <summary>
     /// Gets the visibility of task setting views.
     /// </summary>

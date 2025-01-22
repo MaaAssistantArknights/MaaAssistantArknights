@@ -88,7 +88,6 @@
     <system:String x:Key="Chip">製造所-中級SoC</system:String>
     <system:String x:Key="DormTrustEnabled">宿舎の空き位置で信頼度を上げる</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">作業中の人員を宿舎に移動しない（例:訓練所でのアイリーニなど）</system:String>
-    <system:String x:Key="DormFilterNotStationedEnabledTip">UIの更新により、中国サーバーで使用できなくなりました</system:String>
     <system:String x:Key="DormFilterNotStationedTips">チェックした場合、アイリーニのようなオペレーターが訓練室から外れなくなり、また、加工所のオペレーターが宿舎に送られることを防止します。</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">源石の欠片を自動で補充</system:String>
     <system:String x:Key="ContinueTraining">訓練完了後に現在スキルの継続特化を試みます</system:String>
@@ -127,6 +126,9 @@
     <system:String x:Key="RoguelikeStrategyGold">源石錐の収集、2層到着後終了</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">支援選択を得るため3層到着後に終了</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">パラダイムロストをファーミングして、非レアパラダイムロストに遭遇したらすぐに再起動します</system:String>
+    <system:String x:Key="RoguelikeCollectibleModeSquad">支援選択を得るモードの分隊</system:String>
+    <system:String x:Key="RoguelikeStrategyMonthlySquad">月間小隊をグラインドし、第五層に到達したら即座に退出</system:String>
+    <system:String x:Key="RoguelikeStrategyDeepExploration">深層探索をグラインドし、できるだけ多くの層をクリア</system:String>
     <system:String x:Key="StartingSquad">最初の分隊</system:String>
     <system:String x:Key="StartingRoles">最初の職業</system:String>
     <system:String x:Key="StartingCoreChar">最初のオペレーター（一人だけ）</system:String>
@@ -134,6 +136,7 @@
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">このオペレーターがbattle_dataにありません。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">「最初のオペレーター」直接昇進</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">指定オペレーターの昇進招集までリセマラし、戦闘を行わない</system:String>
+    <system:String x:Key="RoguelikeStartWithTwoIdeas">Repeat for a start with 2 ideas</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">第一層遠見で指定された啓示板を取得し、戦闘を行わない</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活重視分隊で開始、指定された啓示板を取得する</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最大3つ書き込み、半角セミコロン;で区切る</system:String>
@@ -314,6 +317,16 @@
     <system:String x:Key="StopOnGoldLimit">源石錐が上限に達した後に停止する</system:String>
     <system:String x:Key="InvestmentEnabled">源石錐を投資する</system:String>
     <system:String x:Key="InvestmentWithMoreScore">投資モードでは買い物、採用、2階への入場が可能</system:String>
+    <system:String x:Key="RoguelikeCollectibleModeShopping">支援選択を得るモードで、ショッピング有効化</system:String>
+    <system:String x:Key="RoguelikeStartWithSelectList">支援選択の期待される報酬</system:String>
+    <system:String x:Key="RoguelikeStartWithKettle">電気ケトル</system:String>
+    <system:String x:Key="RoguelikeStartWithShield">シールド値</system:String>
+    <system:String x:Key="RoguelikeStartWithIngot">源石錐</system:String>
+    <system:String x:Key="RoguelikeStartWithHope">希望</system:String>
+    <system:String x:Key="RoguelikeStartWithRandomReward">ランダム報酬</system:String>
+    <system:String x:Key="RoguelikeStartWithKey">鍵</system:String>
+    <system:String x:Key="RoguelikeStartWithDice">ダイスロール回数</system:String>
+    <system:String x:Key="RoguelikeStartWithIdea">構想（占位）</system:String>
     <system:String x:Key="RefreshTraderWithDice">ダイスで品揃えを更新する（ミチビキリンジュウ）</system:String>
     <system:String x:Key="PenguinId">Penguin-StatsのレポートのID（デジタル部分のみ）</system:String>
     <system:String x:Key="EnablePenguin">Penguin-Statsへ報告</system:String>
@@ -353,6 +366,7 @@
     <system:String x:Key="SystemNotification">重要な通知をポップアップする</system:String>
     <system:String x:Key="HideCloseButton">「閉じる」ボタンを隠す</system:String>
     <system:String x:Key="WindowTitleScrollable">タイトルのスクロール機能</system:String>
+    <system:String x:Key="NullFunctionality">右クリックチェックボックス機能を反転する</system:String>
     <system:String x:Key="TitleBarDisplayContent">タイトルバー表示コンテンツ</system:String>
     <system:String x:Key="UseLogItemDateFormat">カスタムログ日付形式</system:String>
     <system:String x:Key="LogItemDateFormatString">日付書式文字列</system:String>
@@ -411,7 +425,7 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0 を入力してください。\n
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu スクリーンショットの強化 が有効になっていません。関連する設定を確認してください</system:String>
     <system:String x:Key="LdExtrasEnabled">LD のスクリーンショット拡張モードを有効にする</system:String>
     <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
-雷電エミュレーター9 V9.0.78 以降のバージョンが必要です。専用版や国際版は現在サポートされていません。
+雷電エミュレーター9 V9.0.78 以降のバージョンが必要です。国際版は V9.1.32 以降のバージョンが必要です。
 この機能を有効にした後、すぐにスクリーンショットテストを実行することを強くお勧めします。
 MAA はレジストリから自動的にインストールパスを取得しますが、失敗した場合は手動で入力してください。\n
 インストールパスはエミュレーターのインストールディレクトリのルートディレクトリを入力してください。例えば、エミュレーターのプロセスファイルパスが
@@ -422,7 +436,7 @@ C:\\leidian\\LDPlayer9
 インスタンス番号は雷電マルチインスタンスマネージャーで確認できます。
 メインインスタンスは 0 で、その他のインスタンスはバージョン/IDの後の番号です。\n
 注意：
-現在のところ（V9.1.28）のエミュレーター版は、720P、900P、および 1080P の解像度のみをサポートしています。
+V9.1.28 前のエミュレーター バージョンは 720P、900P、および 1080P の解像度のみをサポートしています。V9.1.29 以降のバージョンは 2K および 4K をサポートしていますが、アークナイツのスライド機構のため、2K 以上の解像度は推奨されません。
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD エミュレータパス</system:String>
     <system:String x:Key="LdIndex">インスタンス番号</system:String>
@@ -764,6 +778,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="GameDropNoRestart">ゲームが落ちたため、再接続せず任務を停止します</system:String>
     <system:String x:Key="RoguelikeGamePass">ゲームクリア、おめでとうございます！</system:String>
     <system:String x:Key="RoguelikeSpecialItemBought">スペシャルアイテムを購入しました！</system:String>
+    <system:String x:Key="MonthlySquadCompleted">月間チーム全てクリアしました！おめでとうございます！</system:String>
+    <system:String x:Key="DeepExplorationCompleted">深部探索全てクリアしました！おめでとうございます！</system:String>
+    <system:String x:Key="DeepExplorationNotUnlockedComplain">深部探索はまだアンロックされていません</system:String>
     <system:String x:Key="SSSGamePass">ゲームクリア、おめでとうございます！</system:String>
     <system:String x:Key="Trader">ステージ: 怪しい旅商人</system:String>
     <system:String x:Key="SafeHouse">ステージ: 安全な片隅</system:String>

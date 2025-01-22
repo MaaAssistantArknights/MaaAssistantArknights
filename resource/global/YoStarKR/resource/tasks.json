@@ -50,6 +50,13 @@
     "BBChapterToBB": {
         "text": ["미래", "선사", "하리라"]
     },
+    "AS-OpenOcr": {
+        "text": ["태양을", "뿌리쳐라", "이벤트", "개방중"],
+        "roi": [0, 500, 500, 150]
+    },
+    "ASChapterToAS": {
+        "text": ["시민", "정원"]
+    },
     "OD-8": {
         "sub": ["OD-Open"]
     },
@@ -872,7 +879,13 @@
             ["레어바위망치", "稀有·岩锤"],
             ["형광봉사출기", "荧光棒弹射装置"],
             ["쇠약발사기", "凋亡发射器"],
-            ["목재채집허브·구매", "木材采集站·采购"]
+            ["목재채집허브·구매", "木材采集站·采购"],
+            ["파피루스", "莎草"],
+            ["태엽파울비스트", "发条羽兽"],
+            ["샌드레코너", "衡沙"],
+            ["나란투야", "娜仁图亚"],
+            ["결정제거기", "结晶消除桩"],
+            ["순수결정", "纯净结晶"]
         ]
     },
     "StartUpThemes": {
@@ -950,9 +963,9 @@
     },
     "OrundumActivities": {
         "ocrReplace": [["복.+방", "복권방"]],
-        "doc": "용문복권방 adjusted roi value for ocr recognition",
-        "text": ["용문", "복권방"],
-        "roi": [23, 125, 135, 55]
+        "doc": "Orundum Lucky Draw from Limited Event",
+        "text": ["용문", "복권방", "소원"],
+        "roi": [5, 65, 170, 110]
     },
     "OrundumActivitiesChoose": {
         "text": ["행운티켓", "선택"]
@@ -1048,6 +1061,18 @@
     },
     "RecruitContinue": {
         "text": ["계속", "모집"]
+    },
+    "InfrastReception": {
+        "template": "Reception.png",
+        "maskRange": [1, 255],
+        "roi": [880, 120, 400, 160],
+        "templThreshold": 0.95
+    },
+    "InfrastReceptionMini": {
+        "template": "ReceptionMini.png",
+        "maskRange": [1, 255],
+        "roi": [980, 180, 300, 140],
+        "templThreshold": 0.95
     },
     "InfrastReward": {
         "ocrReplace": [

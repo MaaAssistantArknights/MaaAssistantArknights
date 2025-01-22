@@ -46,6 +46,16 @@
                 SelectedValuePath="Value" />
             <hc:ComboBox
                 Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource RoguelikeCollectibleModeSquad}"
+                DisplayMemberPath="Display"
+                IsHitTestVisible="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
+                ItemsSource="{Binding RoguelikeSquadList}"
+                MaxDropDownHeight="800"
+                SelectedValue="{Binding RoguelikeCollectibleModeSquad}"
+                SelectedValuePath="Value"
+                Visibility="{c:Binding 'RoguelikeMode == &quot;4&quot;'}" />
+            <hc:ComboBox
+                Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource StartingSquad}"
                 DisplayMemberPath="Display"
                 IsHitTestVisible="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
@@ -107,6 +117,15 @@
             </CheckBox>
             <CheckBox
                 Margin="0,10"
+                IsChecked="{Binding RoguelikeCollectibleModeShopping}"
+                Visibility="{c:Binding 'RoguelikeMode == &quot;4&quot;'}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource RoguelikeCollectibleModeShopping}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox
+                Margin="0,10"
                 IsChecked="{Binding RoguelikeStopWhenInvestmentFull}"
                 Visibility="{c:Binding ElementName=InvestmentEnabled,
                                        Path=IsChecked}">
@@ -147,6 +166,15 @@
                     Text="{DynamicResource RoguelikeOnlyStartWithEliteTwo}"
                     TextWrapping="Wrap" />
             </CheckBox>
+            <hc:CheckComboBox
+                x:Name="CheckComboBox"
+                Margin="0,10"
+                hc:ListBoxAttach.SelectedItems="{Binding RoguelikeStartWithSelectListRaw}"
+                hc:TitleElement.Title="{DynamicResource RoguelikeStartWithSelectList}"
+                DisplayMemberPath="Value"
+                ItemsSource="{Binding RoguelikeStartWithAllDict}"
+                Style="{StaticResource CheckComboBoxExtend}"
+                Visibility="{c:Binding 'RoguelikeMode == &quot;4&quot; and !RoguelikeOnlyStartWithEliteTwoRaw'}" />
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding Roguelike3FirstFloorFoldartalRaw}"
@@ -156,7 +184,7 @@
                     Text="{DynamicResource Roguelike3FirstFloorFoldartal}"
                     TextWrapping="Wrap" />
             </CheckBox>
-            <TextBox
+            <hc:TextBox
                 IsReadOnly="{c:Binding !Idle,
                                        Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
                 Style="{StaticResource TextBoxExtend}"
@@ -206,6 +234,33 @@
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource RoguelikeStopAtFinalBoss}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding RoguelikeMonthlySquadAutoIterate}"
+                Visibility="{c:Binding 'RoguelikeMode == &quot;6&quot;'}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource RoguelikeMonthlySquadAutoIterate}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding RoguelikeMonthlySquadCheckComms}"
+                Visibility="{c:Binding 'RoguelikeMonthlySquadAutoIterate and RoguelikeMode == &quot;6&quot;'}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource RoguelikeMonthlySquadCheckComms}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding RoguelikeDeepExplorationAutoIterate}"
+                Visibility="{c:Binding 'RoguelikeMode == &quot;7&quot;'}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource RoguelikeDeepExplorationAutoIterate}"
                     TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox

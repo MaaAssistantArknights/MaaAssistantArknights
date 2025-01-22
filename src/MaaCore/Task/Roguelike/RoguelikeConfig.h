@@ -26,6 +26,8 @@ enum class RoguelikeMode
                     // 2 - 【已移除】两者兼顾，投资过后再退出，没有投资就继续往后打
     Ending = 3,     // 3 - 尝试通关，激进策略（TODO）
     Collectible = 4, // 4 - 刷开局，以获得热水壶或者演讲稿开局或只凹直升，不期而遇采用保守策略
+    Squad = 6,       // 6 - 月度小队，尽可能稳定抵达五层，不期而遇采用激进策略
+    Exploration = 7, // 7 - 深入调查，尽可能稳定地打更多层数，不期而遇采用激进策略
 
     // ------------------ 萨米主题专用模式 ------------------
     CLP_PDS = 5, // 5 - 刷隐藏坍缩范式,以增加坍缩值为最优先目标
@@ -40,6 +42,18 @@ struct RoguelikeOper
     int level = 0; // 干员等级
 };
 
+struct RoguelikeStartSelect // 刷开局模式下凹开局奖励选择
+{
+    bool hot_water = false; // 热水壶
+    bool shield = false;    // 盾；傀影没盾，是生命
+    bool ingot = false;     // 源石锭
+    bool hope = false;      // 希望
+    bool random = false;    // 随机奖励
+    bool key = false;       // 钥匙
+    bool dice = false;      // 骰子
+    bool ideas = false;     // 构想
+};
+
 class RoguelikeConfig
 {
 public:
@@ -52,6 +66,7 @@ public:
     static constexpr bool is_valid_mode(RoguelikeMode mode, std::string_view theme = RoguelikeTheme::Sami)
     {
         return mode == RoguelikeMode::Exp || mode == RoguelikeMode::Investment || mode == RoguelikeMode::Collectible ||
+               mode == RoguelikeMode::Squad || mode == RoguelikeMode::Exploration ||
                (mode == RoguelikeMode::CLP_PDS && theme == RoguelikeTheme::Sami) ||
                (mode == RoguelikeMode::FastPass && theme == RoguelikeTheme::Sarkaz);
     }
@@ -60,7 +75,6 @@ public:
     void clear(); // 重置肉鸽局内数据
 
     // ================================= 通用参数 =================================
-
 public:
     const std::string& get_theme() const { return m_theme; }
 
@@ -87,10 +101,18 @@ public:
 
     bool get_run_for_collectible() const { return m_run_for_collectible; }
 
+    void set_start_select(const RoguelikeStartSelect& start_select) { m_start_select = start_select; }
+
+    const auto& get_start_select() const { return m_start_select; }
+
     // ------------------ 投资模式 ------------------
     void set_invest_with_more_score(bool value) { m_invest_with_more_score = value; }
 
     bool get_invest_with_more_score() const { return m_invest_with_more_score; }
+
+    void set_collectible_mode_shopping(bool value) { m_collectible_mode_shopping = value; }
+
+    bool get_collectible_mode_shopping() const { return m_collectible_mode_shopping; }
 
 private:
     std::string m_theme;                       // 主题
@@ -103,14 +125,19 @@ private:
     bool m_only_start_with_elite_two = false; // 只凹开局干员精二直升且不进行作战
     bool m_run_for_collectible = false;       // 用于 RoguelikeMode::Collectible，判断是否正在烧水
 
+    RoguelikeStartSelect m_start_select;      // 开局选择
+
     // ------------------ 投资模式 ------------------
     bool m_invest_with_more_score = false; // 投资时招募、购物刷分
 
-    // =========================== 萨米主题专用参数 ===========================
+    // ------------------ 刷开局模式 ------------------
+    bool m_collectible_mode_shopping = false; // 刷开局模式下进入商店时购物
 
+private:
+    // =========================== 萨米主题专用参数 ===========================
 public:
     // ------------------ 密文板 ------------------
-    void set_first_floor_foldartal(bool value) { m_first_floor_foldartal = value; }
+    void set_first_floor_foldartal(const bool value) { m_first_floor_foldartal = value; }
 
     bool get_first_floor_foldartal() const { return m_first_floor_foldartal; }
 
@@ -118,7 +145,16 @@ private:
     // ------------------ 密文板 ------------------
     bool m_first_floor_foldartal = false; // 凹远见密文板
 
-    /* 以下为局内数据，每次重置 */
+    // =========================== 萨卡兹主题专用参数 ===========================
+public:
+    bool get_start_with_seed() const { return m_start_with_seed; }
+
+private:
+    bool m_start_with_seed = false; // 种子刷钱
+
+    // ================================================================================
+    // 以下为局内数据，每次重置
+    // ================================================================================
 public:
     // ------------------ 招募 ------------------
     void set_team_full_without_rookie(bool value) { m_team_full_without_rookie = value; }
@@ -155,8 +191,6 @@ public:
 
     int get_floor() const { return m_floor; }
 
-    bool get_start_with_seed() const { return m_start_with_seed; }
-
 private:
     // ------------------ 招募 ------------------
     bool m_team_full_without_rookie = false; // 编队内没有预干员
@@ -175,7 +209,6 @@ private:
     int m_hp = 0;                                          // 当前生命值
     int m_floor = 0;                                       // 当前到达层数
     int m_formation_upper_limit = 6;                       // 当前编队上限
-    bool m_start_with_seed = false;                        // 种子刷钱
 
 public:
     // ------------------ 密文板 ------------------
@@ -188,7 +221,7 @@ private:
     // ------------------ 密文板 ------------------
     std::vector<std::string> m_foldartal; // 所有已获得密文板
 
-    // ------------------ 萨卡兹主题专用参数 ------------------
+    // =========================== 萨卡兹主题专用参数 ===========================
 public:
     void set_idea_count(int idea_count) { m_idea_count = idea_count; }
 

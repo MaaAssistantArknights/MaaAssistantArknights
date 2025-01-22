@@ -88,7 +88,6 @@
     <system:String x:Key="Chip">Chip Packs</system:String>
     <system:String x:Key="DormTrustEnabled">Trust farming in Dormitory</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">Do not put stationed operators in Dormitory</system:String>
-    <system:String x:Key="DormFilterNotStationedEnabledTip">UI update made it unusable for the CN server</system:String>
     <system:String x:Key="DormFilterNotStationedTips">Checking this box will not remove operators like Irene from the Training Room,this will also prevent operators from the Workshop from entering the Dormitory.</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">Originium Shard auto replenishment</system:String>
     <system:String x:Key="ContinueTraining">After training is complete, try to continue mastering the current skill</system:String>
@@ -124,9 +123,12 @@
     <system:String x:Key="DormThreshold">Morale Threshold</system:String>
     <system:String x:Key="InfrastThresholdTip">If custom shifts are enabled, this field is only valid for rooms with autofill and operator groups</system:String>
     <system:String x:Key="RoguelikeStrategyExp">Gain Experience Points, clear as many nodes as possible</system:String>
-    <system:String x:Key="RoguelikeStrategyGold">Invests coins, exits after arriving at the second floor</system:String>
+    <system:String x:Key="RoguelikeStrategyGold">Invests coins, exits after arriving at the second level</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">Grind to obtain Hot Water Kettle or Elite II operators</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">Farm collapse paradigms, restart immediately after encountering a non-rare collapse paradigm</system:String>
+    <system:String x:Key="RoguelikeCollectibleModeSquad">Squad to get collectibles</system:String>
+    <system:String x:Key="RoguelikeStrategyMonthlySquad">Grind Monthly Squad，exits after arriving at the fifth level</system:String>
+    <system:String x:Key="RoguelikeStrategyDeepExploration">Grind Deep Exploration，clear as far as possible</system:String>
     <system:String x:Key="StartingSquad">Starting Squad</system:String>
     <system:String x:Key="StartingRoles">Starting Roles</system:String>
     <system:String x:Key="StartingCoreChar">Starting Operator (single)</system:String>
@@ -134,6 +136,7 @@
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">The operator is not in battle_data.</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">Repeat for「Starting Operator」Elite 2</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">Only Repeat for「Starting Operator」Elite 2, No Battle</system:String>
+    <system:String x:Key="RoguelikeStartWithTwoIdeas">Repeat for a start with 2 ideas</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">Repeat for foldartal foreseed first floor，No Battle</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">Start with "Life Prioritizing Squad" and acquire the cypherboard</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">Write up to three and separate with ";"</system:String>
@@ -314,6 +317,16 @@ You can cancel this popup by clicking the Settings - About Us - Issue Reporting 
     <system:String x:Key="StopOnGoldLimit">Stops when invested coins reach limit</system:String>
     <system:String x:Key="InvestmentEnabled">Invest coins</system:String>
     <system:String x:Key="InvestmentWithMoreScore">Investment mode enables shopping, recruitment, and entering the second floor</system:String>
+    <system:String x:Key="RoguelikeCollectibleModeShopping">Enable shopping in the grinding mode</system:String>
+    <system:String x:Key="RoguelikeStartWithSelectList">Grinding mode expected rewards</system:String>
+    <system:String x:Key="RoguelikeStartWithKettle">Hot Water Kettle</system:String>
+    <system:String x:Key="RoguelikeStartWithShield">Shield</system:String>
+    <system:String x:Key="RoguelikeStartWithIngot">Ingot</system:String>
+    <system:String x:Key="RoguelikeStartWithHope">Hope</system:String>
+    <system:String x:Key="RoguelikeStartWithRandomReward">Random Reward</system:String>
+    <system:String x:Key="RoguelikeStartWithKey">Key</system:String>
+    <system:String x:Key="RoguelikeStartWithDice">Dice</system:String>
+    <system:String x:Key="RoguelikeStartWithIdea">Idea[TODO]</system:String>
     <system:String x:Key="RefreshTraderWithDice">Refresh Rogue Trader with Dice</system:String>
     <system:String x:Key="PenguinId">Penguin Report ID (Number part)</system:String>
     <system:String x:Key="EnablePenguin">Report Penguin</system:String>
@@ -353,6 +366,7 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="SystemNotification">System Notification</system:String>
     <system:String x:Key="HideCloseButton">Hide close button</system:String>
     <system:String x:Key="WindowTitleScrollable">Window Title Scrolling</system:String>
+    <system:String x:Key="NullFunctionality">Invert right click checkbox function</system:String>
     <system:String x:Key="TitleBarDisplayContent">Title Bar Display Content</system:String>
     <system:String x:Key="UseLogItemDateFormat">Custom log date format</system:String>
     <system:String x:Key="LogItemDateFormatString">Date format string</system:String>
@@ -411,7 +425,7 @@ Note:
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu screenshot enhancement not enabled, please check related settings</system:String>
     <system:String x:Key="LdExtrasEnabled">Enable LD's screenshot enhancement mode</system:String>
     <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
-LDPlayer 9 V9.0.78 or later is required. Ark and Global versions are not supported.
+LDPlayer 9 V9.0.78 or later is required. The Global version requires V9.1.32 or later.
 It is strongly recommended to run a screenshot test immediately after enabling this feature.
 MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.\n
 The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is
@@ -421,7 +435,7 @@ C:\\leidian\\LDPlayer9。\n
 The instance number can be viewed in LDPlayer Multi-Instance Manager,
 The primary instance is 0, and other instances are the numbers after the version/instance ID.\n
 Note:
-As of now (V9.1.28), the emulator version only supports 720P, 900P, and 1080P resolutions.
+Emulator versions prior to V9.1.28 only support 720P, 900P, and 1080P resolutions. Versions after V9.1.29 support 2K and 4K, but due to the sliding mechanism of Arknights, resolutions above 2K are not recommended.
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD Emulator exec path</system:String>
     <system:String x:Key="LdIndex">Instance Number</system:String>
@@ -761,6 +775,9 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="GameDropNoRestart">Game disconnected, not restarting, stopping</system:String>
     <system:String x:Key="RoguelikeGamePass">Exploration completed! Congratulations!</system:String>
     <system:String x:Key="RoguelikeSpecialItemBought">Special Item Purchased!</system:String>
+    <system:String x:Key="MonthlySquadCompleted">Monthly squad all clear! Congratulations!</system:String>
+    <system:String x:Key="DeepExplorationCompleted">Deep exploration all clear! Congratulations!</system:String>
+    <system:String x:Key="DeepExplorationNotUnlockedComplain">Deep exploration not unlocked yet</system:String>
     <system:String x:Key="SSSGamePass">Game cleared! congratulations!</system:String>
     <system:String x:Key="Trader">Node: Rogue Trader</system:String>
     <system:String x:Key="SafeHouse">Node: Safe House</system:String>

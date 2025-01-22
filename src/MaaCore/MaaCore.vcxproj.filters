@@ -737,7 +737,19 @@
     <ClInclude Include="Vision\Battle\SupportListAnalyzer.h">
       <Filter>Source\Vision\Battle</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeIterateMonthlySquadPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeIterateDeepExplorationPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeLevelTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeInputSeedTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeLastRewardSelectTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1242,7 +1254,19 @@
     <ClCompile Include="Vision\Battle\SupportListAnalyzer.cpp">
       <Filter>Source\Vision\Battle</Filter>
     </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeIterateMonthlySquadPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeIterateDeepExplorationPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeLevelTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeInputSeedTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeLastRewardSelectTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
   </ItemGroup>

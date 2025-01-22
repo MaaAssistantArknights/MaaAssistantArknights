@@ -97,5 +97,10 @@ namespace MaaWpfGui.ViewModels.UI
             ETagCache.Set(response);
             ETagCache.Save();
         }
+
+        public void Close()
+        {
+            RequestClose();
+        }
     }
 }

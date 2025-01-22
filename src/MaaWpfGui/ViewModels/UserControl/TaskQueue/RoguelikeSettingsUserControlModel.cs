@@ -10,7 +10,6 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-
 #nullable enable
 using System;
 using System.Collections.Generic;
@@ -23,12 +22,18 @@ using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class RoguelikeSettingsUserControlModel : PropertyChangedBase
+public class RoguelikeSettingsUserControlModel : TaskViewModel
 {
+    static RoguelikeSettingsUserControlModel()
+    {
+        Instance = new();
+    }
+
+    public static RoguelikeSettingsUserControlModel Instance { get; }
+
     public void InitRoguelike()
     {
         UpdateRoguelikeDifficultyList();
@@ -64,6 +69,8 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
                 // new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
                 // new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
                 new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = "4" },
+                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyMonthlySquad"), Value = "6" },
+                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyDeepExploration"), Value = "7" },
             ];
 
         switch (RoguelikeTheme)
@@ -326,6 +333,21 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    private string _roguelikeCollectibleModeSquad = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeCollectibleModeSquad, string.Empty);
+
+    /// <summary>
+    /// Gets or sets the roguelike squad using for last reward mode.
+    /// </summary>
+    public string RoguelikeCollectibleModeSquad
+    {
+        get => _roguelikeCollectibleModeSquad;
+        set
+        {
+            SetAndNotify(ref _roguelikeCollectibleModeSquad, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeCollectibleModeSquad, value);
+        }
+    }
+
     private string _roguelikeSquad = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeSquad, string.Empty);
 
     /// <summary>
@@ -457,6 +479,38 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
     /// </summary>
     public bool RoguelikeOnlyStartWithEliteTwo => _roguelikeOnlyStartWithEliteTwo && RoguelikeStartWithEliteTwo;
 
+    public static Dictionary<string, string> RoguelikeStartWithAllDict { get; } = new()
+    {
+        { "Roguelike@LastReward", LocalizationHelper.GetString("RoguelikeStartWithKettle") },
+        { "Roguelike@LastReward2", LocalizationHelper.GetString("RoguelikeStartWithShield") },
+        { "Roguelike@LastReward3", LocalizationHelper.GetString("RoguelikeStartWithIngot") },
+        { "Roguelike@LastReward4", LocalizationHelper.GetString("RoguelikeStartWithHope") },
+        { "Roguelike@LastRewardRand", LocalizationHelper.GetString("RoguelikeStartWithRandomReward") },
+        { "Mizuki@Roguelike@LastReward5", LocalizationHelper.GetString("RoguelikeStartWithKey") },
+        { "Mizuki@Roguelike@LastReward6", LocalizationHelper.GetString("RoguelikeStartWithDice") },
+        { "Sarkaz@Roguelike@LastReward5", LocalizationHelper.GetString("RoguelikeStartWithIdea") },
+    };
+
+    private static object[] _roguelikeStartWithSelectListRaw = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.RoguelikeStartWithSelectList, "Roguelike@LastReward Roguelike@LastReward4 Sarkaz@Roguelike@LastReward5")
+        .Split(' ')
+        .Where(s => RoguelikeStartWithAllDict.ContainsKey(s.ToString()))
+        .Select(s => (object)new KeyValuePair<string, string>(s, RoguelikeStartWithAllDict[s]))
+        .ToArray();
+
+    public object[] RoguelikeStartWithSelectListRaw
+    {
+        get => _roguelikeStartWithSelectListRaw;
+        set
+        {
+            SetAndNotify(ref _roguelikeStartWithSelectListRaw, value);
+            Instances.SettingsViewModel.UpdateWindowTitle();
+            var config = string.Join(' ', _roguelikeStartWithSelectListRaw.Cast<KeyValuePair<string, string>>().Select(pair => pair.Key).ToList());
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.RoguelikeStartWithSelectList, config);
+        }
+    }
+
+    public List<string> RoguelikeStartWithSelectList => (RoguelikeMode == "4" && !RoguelikeOnlyStartWithEliteTwo) ? _roguelikeStartWithSelectListRaw.Cast<KeyValuePair<string, string>>().Select(pair => pair.Key).ToList() : [];
+
     private bool _roguelike3FirstFloorFoldartal = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3FirstFloorFoldartal, bool.FalseString));
 
     /// <summary>
@@ -560,7 +614,7 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
     private bool _roguelikeEnableNonfriendSupport = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeEnableNonfriendSupport, bool.FalseString));
 
     /// <summary>
-    /// Gets or sets a value indicating whether can roguelike support unit belong to nonfriend
+    /// Gets or sets a value indicating whether can roguelike support unit belong to nonfriend.
     /// </summary>
     public bool RoguelikeEnableNonfriendSupport
     {
@@ -622,6 +676,21 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
     /// </summary>
     public bool RoguelikeInvestmentWithMoreScore => _roguelikeInvestmentWithMoreScore && RoguelikeMode == "1";
 
+    private bool _roguelikeCollectibleModeShopping = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeCollectibleModeShopping, bool.FalseString));
+
+    /// <summary>
+    /// Gets or sets a value indicating whether shopping is enabled in LastReward Mode.
+    /// </summary>
+    public bool RoguelikeCollectibleModeShopping
+    {
+        get => _roguelikeCollectibleModeShopping;
+        set
+        {
+            SetAndNotify(ref _roguelikeCollectibleModeShopping, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeCollectibleModeShopping, value.ToString());
+        }
+    }
+
     private bool _roguelikeRefreshTraderWithDice = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, bool.FalseString));
 
     public bool RoguelikeRefreshTraderWithDiceRaw
@@ -677,7 +746,7 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
     private bool _roguelikeStopAtFinalBoss = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStopAtFinalBoss, bool.FalseString));
 
     /// <summary>
-    /// Gets or sets a value indicating whether to stop when investment is full.
+    /// Gets or sets a value indicating whether to stop when arriving at final boss.
     /// </summary>
     public bool RoguelikeStopAtFinalBoss
     {
@@ -686,6 +755,51 @@ public class RoguelikeSettingsUserControlModel : PropertyChangedBase
         {
             SetAndNotify(ref _roguelikeStopAtFinalBoss, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStopAtFinalBoss, value.ToString());
+        }
+    }
+
+    private bool _roguelikeMonthlySquadAutoIterate = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMonthlySquadAutoIterate, bool.FalseString));
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to automatically iterate the monthly squad.
+    /// </summary>
+    public bool RoguelikeMonthlySquadAutoIterate
+    {
+        get => _roguelikeMonthlySquadAutoIterate;
+        set
+        {
+            SetAndNotify(ref _roguelikeMonthlySquadAutoIterate, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeMonthlySquadAutoIterate, value.ToString());
+        }
+    }
+
+    private bool _roguelikeMonthlySquadCheckComms = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMonthlySquadCheckComms, bool.FalseString));
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to automatically iterate the deep exploration mode.
+    /// </summary>
+    public bool RoguelikeMonthlySquadCheckComms
+    {
+        get => _roguelikeMonthlySquadCheckComms;
+        set
+        {
+            SetAndNotify(ref _roguelikeMonthlySquadCheckComms, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeMonthlySquadCheckComms, value.ToString());
+        }
+    }
+
+    private bool _roguelikeDeepExplorationAutoIterate = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDeepExplorationAutoIterate, bool.FalseString));
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to automatically iterate the deep exploration mode.
+    /// </summary>
+    public bool RoguelikeDeepExplorationAutoIterate
+    {
+        get => _roguelikeDeepExplorationAutoIterate;
+        set
+        {
+            SetAndNotify(ref _roguelikeDeepExplorationAutoIterate, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDeepExplorationAutoIterate, value.ToString());
         }
     }
 
