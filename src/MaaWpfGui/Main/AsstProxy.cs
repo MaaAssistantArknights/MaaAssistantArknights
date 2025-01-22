@@ -1134,46 +1134,46 @@ namespace MaaWpfGui.Main
 
                             /* 肉鸽相关 */
                             case "ExitThenAbandon":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ExplorationAbandoned"));
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ExplorationAbandoned"), UiLogColor.Error);
                                 break;
 
                             // case "StartAction":
                             //    Instances.TaskQueueViewModel.AddLog("开始战斗");
                             //    break;
                             case "MissionCompletedFlag":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightCompleted"));
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightCompleted"), UiLogColor.SuccessIS);
                                 break;
 
                             case "MissionFailedFlag":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightFailed"));
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightFailed"), UiLogColor.Error);
                                 break;
 
                             case "StageTraderEnter":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Trader"));
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Trader"), UiLogColor.TraderIS);
                                 break;
 
                             case "StageSafeHouseEnter":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("SafeHouse"));
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("SafeHouse"), UiLogColor.SafehouseIS);
                                 break;
 
                             case "StageFilterTruthEnter":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FilterTruth"));
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FilterTruth"), UiLogColor.TruthIS);
                                 break;
 
                             // case "StageBoonsEnter":
                             //    Instances.TaskQueueViewModel.AddLog("古堡馈赠");
                             //    break;
                             case "StageCombatDpsEnter":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CombatDps"));
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CombatDps"), UiLogColor.CombatIS);
                                 break;
 
                             case "StageEmergencyDps":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("EmergencyDps"));
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("EmergencyDps"), UiLogColor.EmergencyIS);
                                 break;
 
                             case "StageDreadfulFoe":
                             case "StageDreadfulFoe-5Enter":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DreadfulFoe"));
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DreadfulFoe"), UiLogColor.BossIS);
                                 break;
 
                             case "StageTraderInvestSystemFull":
@@ -1491,7 +1491,7 @@ namespace MaaWpfGui.Main
                     break;
 
                 case "RoguelikeEvent":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeEvent") + $" {subTaskDetails!["name"]}");
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeEvent") + $" {subTaskDetails!["name"]}", UiLogColor.EventIS);
                     break;
 
                 case "FoldartalGainOcrNextLevel":
