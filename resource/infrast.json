@@ -387,6 +387,13 @@
                 "name": ["S.W.E.E.P.主管"],
                 "template": "Bskill_ctrl_train_spd1.png"
             },
+            "bskill_ctrl_train_spd2": {
+                "desc": [
+                    "进驻控制中枢时，如训练室有干员在进行技能专精，则该干员的专精技能训练速度+5%（同种效果取最高）"
+                ],
+                "name": ["断金之交"],
+                "template": "Bskill_ctrl_train_spd2.png"
+            },
             "bskill_ctrl_ussg": {
                 "desc": [
                     "进驻控制中枢时，控制中枢内每个乌萨斯学生自治团干员可使控制中枢内所有干员的心情每小时恢复+0.05"
@@ -692,6 +699,13 @@
                 ],
                 "name": ["烤肉大师"],
                 "template": "Bskill_dorm_single_tomimi.png"
+            },
+            "bskill_dorm_sui": {
+                "desc": [
+                    "进驻宿舍时，基建内（不包含副手及活动室使用者）每名岁干员为该宿舍内所有干员心情每小时恢复速度+0.06（最多生效4名，且同种效果取最高）"
+                ],
+                "name": ["调众口"],
+                "template": "Bskill_dorm_sui.png"
             },
             "bskill_dorm_toone1": {
                 "desc": ["进驻宿舍时，推进之王对该宿舍中格拉斯哥帮干员恢复效果额外+0.3"],
@@ -1726,9 +1740,10 @@
             "bskill_hire_spd&cost4": {
                 "desc": [
                     "进驻人力办公室时，人脉资源的联络速度+20%，心情每小时消耗-0.25",
+                    "进驻人力办公室时，人脉资源的联络速度+20%，心情每小时消耗-0.25",
                     "进驻人力办公室时，人脉资源的联络速度+20%，心情每小时消耗-0.25"
                 ],
-                "name": ["特殊渠道 ", "特殊渠道"],
+                "name": ["特殊渠道 ", "特殊渠道", "踏坊寻味·α"],
                 "template": "Bskill_hire_spd&cost4.png"
             },
             "bskill_hire_spd&cost5": {
@@ -1737,8 +1752,11 @@
                 "template": "Bskill_hire_spd&cost5.png"
             },
             "bskill_hire_spd&cost6": {
-                "desc": ["进驻人力办公室时，人脉资源的联络速度+30%，心情每小时消耗-0.25"],
-                "name": ["威权谕使"],
+                "desc": [
+                    "进驻人力办公室时，人脉资源的联络速度+30%，心情每小时消耗-0.25",
+                    "进驻人力办公室时，人脉资源的联络速度+30%，心情每小时消耗-0.25"
+                ],
+                "name": ["威权谕使", "踏坊寻味·β"],
                 "template": "Bskill_hire_spd&cost6.png"
             },
             "bskill_hire_spd&dorm1": {
@@ -2163,6 +2181,20 @@
                 "name": ["杀手的假期"],
                 "template": "Bskill_meet_spd&bd2.png"
             },
+            "bskill_meet_spd&blacksteel1": {
+                "desc": [
+                    "进驻会客室时，线索搜集速度提升10%，与其他黑钢国际干员进驻会客室一起工作时，线索搜集速度额外提升15%，自身心情每小时消耗+0.5"
+                ],
+                "name": ["人情练达"],
+                "template": "Bskill_meet_spd&blacksteel1.png"
+            },
+            "bskill_meet_spd&blacksteel2": {
+                "desc": [
+                    "进驻会客室时，线索搜集速度提升10%，与其他黑钢国际干员进驻会客室一起工作时，线索搜集速度额外提升20%"
+                ],
+                "name": ["情报探查"],
+                "template": "Bskill_meet_spd&blacksteel2.png"
+            },
             "bskill_meet_spd&condChar_mustget": {
                 "desc": [
                     "进驻会客室时，如果会客室内只有自身处于工作状态时，连续消耗超过16点心情下一次必定获得莱茵生命的线索"
@@ -2233,12 +2265,13 @@
                     "进驻会客室时，线索搜集速度提升25%",
                     "进驻会客室时，线索搜集速度提升25%",
                     "进驻会客室时，线索搜集速度提升25%",
-                    "进驻会客室时，线索搜集速度提升25%"
+                    "进驻会客室时，线索搜集速度提升25%",
+                    "进驻会客室时，线索搜集速度提升20%"
                 ],
                 "efficient": {
                     "all": 25
                 },
-                "name": ["追踪者", "警司", "占卜", "星象学", "领袖外交"],
+                "name": ["追踪者", "警司", "占卜", "星象学", "领袖外交", "线索搜集·β"],
                 "template": "Bskill_meet_spd3.png"
             },
             "bskill_meet_spd4": {
