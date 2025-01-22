@@ -1090,18 +1090,6 @@
     "RecruitContinue": {
         "text": ["Continue", "Recruitment"]
     },
-    "InfrastReception": {
-        "template": "Reception.png",
-        "maskRange": [1, 255],
-        "roi": [880, 120, 400, 160],
-        "templThreshold": 0.95
-    },
-    "InfrastReceptionMini": {
-        "template": "ReceptionMini.png",
-        "maskRange": [1, 255],
-        "roi": [980, 180, 300, 140],
-        "templThreshold": 0.95
-    },
     "InfrastReward": {
         "fullMatch": true,
         "text": ["Collectable", "Orders Acquired", "Trust"]
@@ -1114,6 +1102,18 @@
     },
     "ShamareThumbnail3": {
         "maskRange": [1, 255]
+    },
+    "InfrastReception": {
+        "template": "Reception.png",
+        "maskRange": [1, 255],
+        "roi": [880, 120, 400, 160],
+        "templThreshold": 0.95
+    },
+    "InfrastReceptionMini": {
+        "template": "ReceptionMini.png",
+        "maskRange": [1, 255],
+        "roi": [980, 180, 300, 140],
+        "templThreshold": 0.95
     },
     "InfrastStationedInfo": {
         "text": ["Operator", "Operato"]

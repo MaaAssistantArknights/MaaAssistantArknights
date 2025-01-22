@@ -822,6 +822,9 @@
     "RecruitContinue": {
         "text": ["繼續招募"]
     },
+    "InfrastReward": {
+        "text": ["可收穫", "訂單交付", "幹員信賴"]
+    },
     "InfrastReception": {
         "template": "Reception.png",
         "maskRange": [1, 255],
@@ -833,9 +836,6 @@
         "maskRange": [1, 255],
         "roi": [980, 180, 300, 140],
         "templThreshold": 0.95
-    },
-    "InfrastReward": {
-        "text": ["可收穫", "訂單交付", "幹員信賴"]
     },
     "InfrastStationedInfo": {
         "text": ["進駐資訊", "焦駐資訊"]
