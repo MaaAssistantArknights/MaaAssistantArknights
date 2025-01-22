@@ -382,6 +382,21 @@
             "rangeId": ["3-1", "3-3", "3-3"],
             "rarity": 6
         },
+        "char_1040_blaze2": {
+            "name": "烛煌",
+            "name_en": "烛煌",
+            "name_en_unavailable": true,
+            "name_jp": "烛煌",
+            "name_jp_unavailable": true,
+            "name_kr": "烛煌",
+            "name_kr_unavailable": true,
+            "name_tw": "烛煌",
+            "name_tw_unavailable": true,
+            "position": "RANGED",
+            "profession": "CASTER",
+            "rangeId": ["3-6", "3-1", "3-1"],
+            "rarity": 6
+        },
         "char_106_franka": {
             "name": "芙兰卡",
             "name_en": "Franka",
@@ -1188,6 +1203,21 @@
             "name_jp": "シュウ",
             "name_kr": "슈",
             "name_tw": "黍",
+            "position": "MELEE",
+            "profession": "TANK",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 6
+        },
+        "char_2026_yu": {
+            "name": "余",
+            "name_en": "余",
+            "name_en_unavailable": true,
+            "name_jp": "余",
+            "name_jp_unavailable": true,
+            "name_kr": "余",
+            "name_kr_unavailable": true,
+            "name_tw": "余",
+            "name_tw_unavailable": true,
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": ["0-1", "0-1", "0-1"],
@@ -2655,6 +2685,21 @@
             "rangeId": ["3-1", "3-3", "3-3"],
             "rarity": 6
         },
+        "char_4052_surfer": {
+            "name": "寻澜",
+            "name_en": "寻澜",
+            "name_en_unavailable": true,
+            "name_jp": "寻澜",
+            "name_jp_unavailable": true,
+            "name_kr": "寻澜",
+            "name_kr_unavailable": true,
+            "name_tw": "寻澜",
+            "name_tw_unavailable": true,
+            "position": "MELEE",
+            "profession": "PIONEER",
+            "rangeId": ["2-2", "2-2", "2-2"],
+            "rarity": 5
+        },
         "char_4054_malist": {
             "name": "至简",
             "name_en": "Minimalist",
@@ -3481,6 +3526,21 @@
             "profession": "TANK",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 6
+        },
+        "char_4172_xingzh": {
+            "name": "行箸",
+            "name_en": "行箸",
+            "name_en_unavailable": true,
+            "name_jp": "行箸",
+            "name_jp_unavailable": true,
+            "name_kr": "行箸",
+            "name_kr_unavailable": true,
+            "name_tw": "行箸",
+            "name_tw_unavailable": true,
+            "position": "RANGED",
+            "profession": "SUPPORT",
+            "rangeId": ["y-2", "y-6", "y-6"],
+            "rarity": 5
         },
         "char_420_flamtl": {
             "name": "焰尾",
@@ -8043,6 +8103,36 @@
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1
         },
+        "trap_211_cjgtow": {
+            "name": "火灶",
+            "name_en": "火灶",
+            "name_en_unavailable": true,
+            "name_jp": "火灶",
+            "name_jp_unavailable": true,
+            "name_kr": "火灶",
+            "name_kr_unavailable": true,
+            "name_tw": "火灶",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
+        "trap_212_cjbtow": {
+            "name": "废弃火灶",
+            "name_en": "废弃火灶",
+            "name_en_unavailable": true,
+            "name_jp": "废弃火灶",
+            "name_jp_unavailable": true,
+            "name_kr": "废弃火灶",
+            "name_kr_unavailable": true,
+            "name_tw": "废弃火灶",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
         "trap_400_xbfarm": {
             "name": "便携式种植槽",
             "name_en": "Portable Planting Trough",
@@ -10575,6 +10665,21 @@
             [0, -1],
             [1, -1],
             [0, -2]
+        ],
+        "4-11": [
+            [2, 2],
+            [1, 1],
+            [2, 1],
+            [3, 1],
+            [0, 0],
+            [1, 0],
+            [2, 0],
+            [3, 0],
+            [4, 0],
+            [1, -1],
+            [2, -1],
+            [3, -1],
+            [2, -2]
         ],
         "4-2": [
             [1, 1],
