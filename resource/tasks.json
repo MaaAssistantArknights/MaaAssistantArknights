@@ -4085,13 +4085,13 @@
     "InfrastReception": {
         "template": "Reception.png",
         "maskRange": [1, 255],
-        "roi": [880, 120, 400, 160],
+        "roi": [377, 93, 532, 214],
         "templThreshold": 0.95
     },
     "InfrastReceptionMini": {
         "template": "ReceptionMini.png",
         "maskRange": [1, 255],
-        "roi": [980, 180, 300, 140],
+        "roi": [626, 161, 654, 170],
         "templThreshold": 0.95
     },
     "InfrastTraining": {
