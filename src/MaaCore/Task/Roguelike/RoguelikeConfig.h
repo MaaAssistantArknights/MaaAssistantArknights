@@ -147,11 +147,10 @@ private:
 
     // =========================== 萨卡兹主题专用参数 ===========================
 public:
-
     bool get_start_with_seed() const { return m_start_with_seed; }
 
 private:
-    bool m_start_with_seed = false;      // 种子刷钱
+    bool m_start_with_seed = false; // 种子刷钱
 
     // ================================================================================
     // 以下为局内数据，每次重置

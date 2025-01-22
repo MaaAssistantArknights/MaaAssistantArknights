@@ -8958,11 +8958,7 @@
         ]
     },
     "Sami@Roguelike@CloseCollection": {
-        "next": [
-            "Sami@Roguelike@LastReward-EnterPoint",
-            "Sami@Roguelike@GetLUD",
-            "Sami@Roguelike@RolesDefault"
-        ]
+        "next": ["Sami@Roguelike@LastReward-EnterPoint", "Sami@Roguelike@GetLUD", "Sami@Roguelike@RolesDefault"]
     },
     "Sami@Roguelike@CloseCollectionClose": {
         "action": "ClickSelf",
