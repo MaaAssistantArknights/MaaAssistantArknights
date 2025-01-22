@@ -69,6 +69,48 @@ namespace MaaWpfGui.Constants
         /// </summary>
         public const string LdSpecialScreenshot = "LdSpecialScreenshot";
 
+        // I.S. Colors
+
+        /// <summary>
+        /// The recommended color for success fights.
+        /// </summary>
+        public const string SuccessIS = "SuccessIS";
+
+        /// <summary>
+        /// The recommended color for Safe House events.
+        /// </summary>
+        public const string SafehouseIS = "SafehouseIS";
+
+        /// <summary>
+        /// The recommended color for Trader events.
+        /// </summary>
+        public const string TraderIS = "TraderIS";
+
+        /// <summary>
+        /// The recommended color for standard events.
+        /// </summary>
+        public const string EventIS = "EventIS";
+
+        /// <summary>
+        /// The recommended color for truth events.
+        /// </summary>
+        public const string TruthIS = "TruthIS";
+
+        /// <summary>
+        /// The recommended color for standard fights.
+        /// </summary>
+        public const string CombatIS = "CombatIS";
+
+        /// <summary>
+        /// The recommended color for emergency fights.
+        /// </summary>
+        public const string EmergencyIS = "EmergencyIS";
+
+        /// <summary>
+        /// The recommended color for boss fights.
+        /// </summary>
+        public const string BossIS = "BossIS";
+
         // 颜色在MaaWpfGui\Res\Themes中定义
         // Brush are defined in MaaWpfGui\Res\Themes
     }
