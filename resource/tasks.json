@@ -4104,7 +4104,7 @@
     "InfrastDormMini": {
         "template": "DormMini.png",
         "maskRange": [1, 255],
-        "roi": [620, 240, 360, 480],
+        "roi": [232, 213, 690, 434],
         "templThreshold": 0.95
     },
     "InfrastOffice": {
@@ -4116,7 +4116,7 @@
     "InfrastOfficeMini": {
         "template": "OfficeMini.png",
         "maskRange": [1, 255],
-        "roi": [980, 320, 300, 160],
+        "roi": [627, 160, 653, 404],
         "templThreshold": 0.95
     },
     "InfrastProcessing": {
@@ -4126,7 +4126,7 @@
     },
     "InfrastProcessingMini": {
         "maskRange": [1, 255],
-        "roi": [980, 240, 300, 160],
+        "roi": [627, 160, 653, 404],
         "templThreshold": 0.95
     },
     "InfrastProcessingEnterOperList": {
@@ -4139,13 +4139,13 @@
     "InfrastReception": {
         "template": "Reception.png",
         "maskRange": [1, 255],
-        "roi": [880, 120, 400, 160],
+        "roi": [377, 93, 532, 214],
         "templThreshold": 0.95
     },
     "InfrastReceptionMini": {
         "template": "ReceptionMini.png",
         "maskRange": [1, 255],
-        "roi": [980, 180, 300, 140],
+        "roi": [627, 160, 653, 404],
         "templThreshold": 0.95
     },
     "InfrastTraining": {
@@ -4157,7 +4157,7 @@
     "InfrastTrainingMini": {
         "template": "TrainingMini.png",
         "maskRange": [1, 255],
-        "roi": [980, 400, 300, 140],
+        "roi": [627, 160, 653, 404],
         "templThreshold": 0.95
     },
     "InfrastControl": {
@@ -4169,7 +4169,7 @@
     "InfrastControlMini": {
         "template": "ControlCenterMini.png",
         "maskRange": [1, 255],
-        "roi": [620, 80, 360, 230],
+        "roi": [553, 82, 396, 248],
         "templThreshold": 0.95
     },
     "InfrastStationedInfo": {
@@ -4580,7 +4580,7 @@
         ]
     },
     "ClueGiveTo1st": {
-        "template": "ClusCanBeSent.png",
+        "template": "ClueCanBeSent.png",
         "maskRange": [1, 255],
         "roi": [830, 70, 320, 100],
         "next": ["ClueGiveTo1stConfirm"]
@@ -4592,7 +4592,7 @@
         "next": ["ClueGiveTo1stConfirm@LoadingText", "SelectClue", "CloseSendClue"]
     },
     "ClueGiveTo2nd": {
-        "template": "ClusCanBeSent.png",
+        "template": "ClueCanBeSent.png",
         "maskRange": [1, 255],
         "roi": [830, 220, 320, 100],
         "next": ["ClueGiveTo2ndConfirm"]
@@ -4604,7 +4604,7 @@
         "next": ["ClueGiveTo2ndConfirm@LoadingText", "SelectClue", "CloseSendClue"]
     },
     "ClueGiveTo3rd": {
-        "template": "ClusCanBeSent.png",
+        "template": "ClueCanBeSent.png",
         "maskRange": [1, 255],
         "roi": [830, 370, 320, 100],
         "next": ["ClueGiveTo3rdConfirm"]
@@ -4616,7 +4616,7 @@
         "next": ["ClueGiveTo3rdConfirm@LoadingText", "SelectClue", "CloseSendClue"]
     },
     "ClueGiveTo4th": {
-        "template": "ClusCanBeSent.png",
+        "template": "ClueCanBeSent.png",
         "maskRange": [1, 255],
         "roi": [830, 520, 320, 100],
         "next": ["ClueGiveTo4thConfirm"]

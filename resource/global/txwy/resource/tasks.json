@@ -822,6 +822,18 @@
     "RecruitContinue": {
         "text": ["繼續招募"]
     },
+    "InfrastReception": {
+        "template": "Reception.png",
+        "maskRange": [1, 255],
+        "roi": [880, 120, 400, 160],
+        "templThreshold": 0.95
+    },
+    "InfrastReceptionMini": {
+        "template": "ReceptionMini.png",
+        "maskRange": [1, 255],
+        "roi": [980, 180, 300, 140],
+        "templThreshold": 0.95
+    },
     "InfrastReward": {
         "text": ["可收穫", "訂單交付", "幹員信賴"]
     },
