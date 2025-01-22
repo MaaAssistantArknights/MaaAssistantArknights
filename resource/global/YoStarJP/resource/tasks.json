@@ -1251,6 +1251,18 @@
     "RecruitContinue": {
         "text": ["継続する"]
     },
+    "InfrastReception": {
+        "template": "Reception.png",
+        "maskRange": [1, 255],
+        "roi": [880, 120, 400, 160],
+        "templThreshold": 0.95
+    },
+    "InfrastReceptionMini": {
+        "template": "ReceptionMini.png",
+        "maskRange": [1, 255],
+        "roi": [980, 180, 300, 140],
+        "templThreshold": 0.95
+    },
     "InfrastReward": {
         "text": ["受取可", "納品可", "信頼獲得"]
     },

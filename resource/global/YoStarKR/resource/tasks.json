@@ -1062,6 +1062,18 @@
     "RecruitContinue": {
         "text": ["계속", "모집"]
     },
+    "InfrastReception": {
+        "template": "Reception.png",
+        "maskRange": [1, 255],
+        "roi": [880, 120, 400, 160],
+        "templThreshold": 0.95
+    },
+    "InfrastReceptionMini": {
+        "template": "ReceptionMini.png",
+        "maskRange": [1, 255],
+        "roi": [980, 180, 300, 140],
+        "templThreshold": 0.95
+    },
     "InfrastReward": {
         "ocrReplace": [
             [".+퍼레.+터", "오퍼레이터"],
