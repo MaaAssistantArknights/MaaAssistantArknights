@@ -10,7 +10,6 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-
 #nullable enable
 using System;
 using System.Collections.Generic;
@@ -19,15 +18,21 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Utilities.ValueType;
-using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
 /// <summary>
 /// 信用购物
 /// </summary>
-public class MallSettingsUserControlModel : PropertyChangedBase
+public class MallSettingsUserControlModel : TaskViewModel
 {
+    static MallSettingsUserControlModel()
+    {
+        Instance = new();
+    }
+
+    public static MallSettingsUserControlModel Instance { get; }
+
     private string _lastCreditFightTaskTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditFightTaskTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
 
     public string LastCreditFightTaskTime

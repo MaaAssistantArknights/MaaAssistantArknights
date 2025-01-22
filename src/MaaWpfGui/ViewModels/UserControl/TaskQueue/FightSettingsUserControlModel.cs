@@ -10,27 +10,28 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-
 #nullable enable
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
-using MaaWpfGui.ViewModels.UI;
-using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
 /// <summary>
 /// 刷理智
 /// </summary>
-public class FightSettingsUserControlModel : PropertyChangedBase
+public class FightSettingsUserControlModel : TaskViewModel
 {
+    static FightSettingsUserControlModel()
+    {
+        Instance = new();
+    }
+
+    public static FightSettingsUserControlModel Instance { get; }
 
     private ObservableCollection<CombinedData> _stageList = [];
 
@@ -60,7 +61,7 @@ public class FightSettingsUserControlModel : PropertyChangedBase
         {
             Stage1 ??= _stage1Fallback;
 
-            if (!SettingsViewModel.FightTask.UseAlternateStage)
+            if (!UseAlternateStage)
             {
                 return Stage1;
             }
@@ -347,7 +348,7 @@ public class FightSettingsUserControlModel : PropertyChangedBase
         get => _useStoneWithNull;
         set
         {
-            if (!SettingsViewModel.FightTask.AllowUseStoneSave && value == true)
+            if (!AllowUseStoneSave && value == true)
             {
                 value = null;
             }
@@ -366,7 +367,7 @@ public class FightSettingsUserControlModel : PropertyChangedBase
             NotifyOfPropertyChange(nameof(UseStone));
 
             Instances.TaskQueueViewModel.SetFightParams();
-            if (SettingsViewModel.FightTask.AllowUseStoneSave)
+            if (AllowUseStoneSave)
             {
                 ConfigurationHelper.SetValue(ConfigurationKeys.UseStone, (value ?? false).ToString());
             }

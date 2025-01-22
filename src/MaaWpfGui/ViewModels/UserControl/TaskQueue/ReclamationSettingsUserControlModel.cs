@@ -10,7 +10,6 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-
 #nullable enable
 using System;
 using System.Collections.Generic;
@@ -18,12 +17,18 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
-using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class ReclamationSettingsUserControlModel : PropertyChangedBase
+public class ReclamationSettingsUserControlModel : TaskViewModel
 {
+    static ReclamationSettingsUserControlModel()
+    {
+        Instance = new();
+    }
+
+    public static ReclamationSettingsUserControlModel Instance { get; }
+
     /// <summary>
     /// Gets the list of reclamation themes.
     /// </summary>

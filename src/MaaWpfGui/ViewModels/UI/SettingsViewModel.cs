@@ -54,50 +54,6 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public TaskSettingVisibilityInfo TaskSettingVisibilities { get; } = TaskSettingVisibilityInfo.Current;
 
-        /// <summary>
-        /// Gets the after action setting.
-        /// </summary>
-        public PostActionSetting PostActionSetting { get; } = PostActionSetting.Current;
-
-        #region 长草任务Model
-
-        /// <summary>
-        /// Gets 战斗任务Model
-        /// </summary>
-        public static FightSettingsUserControlModel FightTask { get; } = new();
-
-        /// <summary>
-        /// Gets 招募任务Model
-        /// </summary>
-        public static RecruitSettingsUserControlModel RecruitTask { get; } = new();
-
-        /// <summary>
-        /// Gets 信用及购物任务Model
-        /// </summary>
-        public static MallSettingsUserControlModel MallTask { get; } = new();
-
-        /// <summary>
-        /// Gets 基建任务Model
-        /// </summary>
-        public static InfrastSettingsUserControlModel InfrastTask { get; } = new();
-
-        /// <summary>
-        /// Gets 领取奖励任务
-        /// </summary>
-        public static AwardSettingsUserControlModel AwardTask { get; } = new();
-
-        /// <summary>
-        /// Gets 肉鸽任务Model
-        /// </summary>
-        public static RoguelikeSettingsUserControlModel RoguelikeTask { get; } = new();
-
-        /// <summary>
-        /// Gets 生稀盐酸任务Model
-        /// </summary>
-        public static ReclamationSettingsUserControlModel ReclamationTask { get; } = new();
-
-        #endregion 长草任务Model
-
         #region 设置界面Model
 
         /// <summary>
@@ -201,8 +157,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void Init()
         {
-            InfrastTask.InitInfrast();
-            RoguelikeTask.InitRoguelike();
+            TaskQueueViewModel.InfrastTask.InitInfrast();
+            TaskQueueViewModel.RoguelikeTask.InitRoguelike();
             InitConfiguration();
             InitUiSettings();
             InitConnectConfig();
@@ -366,33 +322,10 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             string[] wineList = ["酒", "liquor", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶"];
-            return wineList.Any(MallTask.CreditFirstList.Contains);
+            return wineList.Any(TaskQueueViewModel.MallTask.CreditFirstList.Contains);
         }
 
         #endregion EasterEggs
-
-        #region 开始唤醒
-
-        private string _accountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty);
-
-        public string AccountName
-        {
-            get => _accountName;
-            set
-            {
-                SetAndNotify(ref _accountName, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AccountName, value);
-            }
-        }
-
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
-        public void AccountSwitchManualRun()
-        {
-            Instances.TaskQueueViewModel.QuickSwitchAccount();
-        }
-
-        #endregion 开始唤醒
 
         #region HotKey
 
@@ -752,8 +685,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             List<string> windowTitleSelectShowList = GuiSettings.WindowTitleSelectShowList
-                .Where(x => GuiSettingsUserControlModel.WindowTitleAllShowDict.ContainsKey(x?.ToString() ?? string.Empty))
-                .Select(x => GuiSettingsUserControlModel.WindowTitleAllShowDict[x?.ToString() ?? string.Empty]).ToList();
+                .Cast<KeyValuePair<string, string>>().Select(pair => pair.Key)
+                .ToList();
 
             string currentConfiguration = string.Empty;
             string connectConfigName = string.Empty;

@@ -882,8 +882,21 @@ public class VersionUpdateViewModel : Screen
 
     public static void OutputDownloadProgress(long value = 0, long maximum = 1, int len = 0, double ts = 1)
     {
-        OutputDownloadProgress(
-            $"[{value / 1048576.0:F}MiB/{maximum / 1048576.0:F}MiB({100 * value / maximum}%) {len / ts / 1024.0:F} KiB/s]");
+        string progress = $"[{value / 1048576.0:F}MiB/{maximum / 1048576.0:F}MiB ({value * 100.0 / maximum:F}%)";
+
+        double speedInKiBPerSecond = len / ts / 1024.0;
+        string speedDisplay;
+
+        if (speedInKiBPerSecond >= 1024)
+        {
+            speedDisplay = $"{speedInKiBPerSecond / 1024.0:F} MiB/s";
+        }
+        else
+        {
+            speedDisplay = $"{speedInKiBPerSecond:F} KiB/s";
+        }
+
+        OutputDownloadProgress(progress + $" {speedDisplay}");
     }
 
     private static void OutputDownloadProgress(string output, bool downloading = true)

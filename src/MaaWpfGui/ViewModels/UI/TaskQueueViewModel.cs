@@ -18,13 +18,10 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
+using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Timers;
 using System.Windows;
-using System.Windows.Forms;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -35,12 +32,12 @@ using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UserControl.Settings;
+using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using StyletIoC;
-using static System.Windows.Forms.AxHost;
 using Application = System.Windows.Application;
 using Screen = Stylet.Screen;
 
@@ -70,6 +67,57 @@ namespace MaaWpfGui.ViewModels.UI
         public static TaskSettingVisibilityInfo TaskSettingVisibilities => TaskSettingVisibilityInfo.Current;
 
         public static SettingsViewModel TaskSettingDataContext => Instances.SettingsViewModel;
+
+        /// <summary>
+        /// Gets the after action setting.
+        /// </summary>
+        public PostActionSetting PostActionSetting { get; } = PostActionSetting.Instance;
+
+        #region 长草任务Model
+
+        /// <summary>
+        /// Gets 连接任务Model
+        /// </summary>
+        public static StartUpSettingsUserControlModel StartUpTask => StartUpSettingsUserControlModel.Instance;
+
+        /// <summary>
+        /// Gets 战斗任务Model
+        /// </summary>
+        public static FightSettingsUserControlModel FightTask => FightSettingsUserControlModel.Instance;
+
+        /// <summary>
+        /// Gets 招募任务Model
+        /// </summary>
+        public static RecruitSettingsUserControlModel RecruitTask => RecruitSettingsUserControlModel.Instance;
+
+        /// <summary>
+        /// Gets 信用及购物任务Model
+        /// </summary>
+        public static MallSettingsUserControlModel MallTask => MallSettingsUserControlModel.Instance;
+
+        /// <summary>
+        /// Gets 基建任务Model
+        /// </summary>
+        public static InfrastSettingsUserControlModel InfrastTask => InfrastSettingsUserControlModel.Instance;
+
+        /// <summary>
+        /// Gets 领取奖励任务
+        /// </summary>
+        public static AwardSettingsUserControlModel AwardTask => AwardSettingsUserControlModel.Instance;
+
+        /// <summary>
+        /// Gets 肉鸽任务Model
+        /// </summary>
+        public static RoguelikeSettingsUserControlModel RoguelikeTask => RoguelikeSettingsUserControlModel.Instance;
+
+        /// <summary>
+        /// Gets 生稀盐酸任务Model
+        /// </summary>
+        public static ReclamationSettingsUserControlModel ReclamationTask => ReclamationSettingsUserControlModel.Instance;
+
+        #endregion 长草任务Model
+
+        private static readonly IEnumerable<TaskViewModel> TaskViewModelTypes = InitTaskViewModelList();
 
         /// <summary>
         /// 实时更新任务顺序
@@ -118,7 +166,7 @@ namespace MaaWpfGui.ViewModels.UI
         public async void CheckAfterCompleted()
         {
             await Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
-            var actions = TaskSettingDataContext.PostActionSetting;
+            var actions = PostActionSetting;
             _logger.Information("Post actions: " + actions.ActionDescription);
 
             if (actions.BackToAndroidHome)
@@ -202,7 +250,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             void DoKillEmulator()
             {
-                if (!KillEmulatorModeSwitcher())
+                if (!EmulatorHelper.KillEmulatorModeSwitcher())
                 {
                     AddLog(LocalizationHelper.GetString("ExitEmulatorFailed"), UiLogColor.Error);
                 }
@@ -266,7 +314,7 @@ namespace MaaWpfGui.ViewModels.UI
         private void RunningState_IdleChanged(object sender, bool e)
         {
             Idle = e;
-            TaskSettingDataContext.Idle = e;
+            Instances.SettingsViewModel.Idle = e;
             if (!e)
             {
                 Instances.Data.ClearCache();
@@ -542,7 +590,7 @@ namespace MaaWpfGui.ViewModels.UI
                     AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
                 }
 
-                SettingsViewModel.FightTask.ResetFightVariables();
+                FightTask.ResetFightVariables();
                 ResetTaskSelection();
                 RefreshCustomInfrastPlanIndexByPeriod();
             }
@@ -647,7 +695,7 @@ namespace MaaWpfGui.ViewModels.UI
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(tempOrderList);
             TaskItemViewModels.CollectionChanged += TaskItemSelectionChanged;
 
-            SettingsViewModel.FightTask.InitDrops();
+            FightTask.InitDrops();
             NeedToUpdateDatePrompt();
             UpdateDatePromptAndStagesLocally();
             RefreshCustomInfrastPlan();
@@ -751,7 +799,7 @@ namespace MaaWpfGui.ViewModels.UI
             var builder = new StringBuilder(LocalizationHelper.GetString("TodaysStageTip") + "\n");
 
             // Closed activity stages
-            foreach (var stage in SettingsViewModel.FightTask.Stages)
+            foreach (var stage in FightTask.Stages)
             {
                 if (stage == null || _stageManager.GetStageInfo(stage)?.IsActivityClosed() != true)
                 {
@@ -791,14 +839,14 @@ namespace MaaWpfGui.ViewModels.UI
         {
             Execute.OnUIThread(() =>
             {
-                var hideUnavailableStage = SettingsViewModel.FightTask.HideUnavailableStage;
+                var hideUnavailableStage = FightTask.HideUnavailableStage;
 
                 Instances.TaskQueueViewModel.EnableSetFightParams = false;
 
-                var stage1 = SettingsViewModel.FightTask.Stage1 ?? string.Empty;
-                var stage2 = SettingsViewModel.FightTask.Stage2 ?? string.Empty;
-                var stage3 = SettingsViewModel.FightTask.Stage3 ?? string.Empty;
-                var rss = SettingsViewModel.FightTask.RemainingSanityStage ?? string.Empty;
+                var stage1 = FightTask.Stage1 ?? string.Empty;
+                var stage2 = FightTask.Stage2 ?? string.Empty;
+                var stage3 = FightTask.Stage3 ?? string.Empty;
+                var rss = FightTask.RemainingSanityStage ?? string.Empty;
 
                 var tempStageList = hideUnavailableStage
                     ? _stageManager.GetStageList(Instances.TaskQueueViewModel.CurDayOfWeek).ToList()
@@ -806,7 +854,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 var tempRemainingSanityStageList = _stageManager.GetStageList().ToList();
 
-                if (SettingsViewModel.FightTask.CustomStageCode)
+                if (FightTask.CustomStageCode)
                 {
                     // 7%
                     // 使用自定义的时候不做处理
@@ -818,7 +866,7 @@ namespace MaaWpfGui.ViewModels.UI
                     stage2 = Instances.TaskQueueViewModel.GetValidStage(stage2);
                     stage3 = Instances.TaskQueueViewModel.GetValidStage(stage3);
                 }
-                else if (SettingsViewModel.FightTask.UseAlternateStage)
+                else if (FightTask.UseAlternateStage)
                 {
                     // 11%
                     AddStagesIfNotExist([stage1, stage2, stage3], tempStageList);
@@ -844,14 +892,14 @@ namespace MaaWpfGui.ViewModels.UI
 
                 tempRemainingSanityStageList.Insert(0, new CombinedData { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty });
 
-                UpdateObservableCollection(SettingsViewModel.FightTask.StageList, tempStageList);
-                UpdateObservableCollection(SettingsViewModel.FightTask.RemainingSanityStageList, tempRemainingSanityStageList);
+                UpdateObservableCollection(FightTask.StageList, tempStageList);
+                UpdateObservableCollection(FightTask.RemainingSanityStageList, tempRemainingSanityStageList);
 
-                SettingsViewModel.FightTask._stage1Fallback = stage1;
-                SettingsViewModel.FightTask.Stage1 = stage1;
-                SettingsViewModel.FightTask.Stage2 = stage2;
-                SettingsViewModel.FightTask.Stage3 = stage3;
-                SettingsViewModel.FightTask.RemainingSanityStage = rss;
+                FightTask._stage1Fallback = stage1;
+                FightTask.Stage1 = stage1;
+                FightTask.Stage2 = stage2;
+                FightTask.Stage3 = stage3;
+                FightTask.RemainingSanityStage = rss;
 
                 Instances.TaskQueueViewModel.EnableSetFightParams = true;
             });
@@ -1057,7 +1105,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (item.IsCheckedWithNull == null)
                 {
-                    item.IsChecked = false;
+                    item.IsChecked = GuiSettingsUserControlModel.Instance.InvertNullFunction;
                 }
             }
         }
@@ -1205,7 +1253,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
             TaskItemSelectionChanged();
-            SettingsViewModel.InfrastTask.InfrastOrderSelectionChanged();
+            InfrastTask.InfrastOrderSelectionChanged();
 
             InfrastTaskRunning = true;
 
@@ -1246,7 +1294,7 @@ namespace MaaWpfGui.ViewModels.UI
             int count = 0;
             foreach (var item in TaskItemViewModels)
             {
-                if (item.IsChecked == false)
+                if (item.IsChecked == false || (GuiSettingsUserControlModel.Instance.InvertNullFunction && item.IsCheckedWithNull == null))
                 {
                     continue;
                 }
@@ -1308,6 +1356,10 @@ namespace MaaWpfGui.ViewModels.UI
                 _runningState.SetIdle(true);
                 Instances.AsstProxy.AsstStop();
                 SetStopped();
+                if (GuiSettingsUserControlModel.Instance.InvertNullFunction)
+                {
+                    ResetTaskSelection();
+                }
                 return;
             }
 
@@ -1424,7 +1476,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
             TaskItemSelectionChanged();
-            SettingsViewModel.InfrastTask.InfrastOrderSelectionChanged();
+            InfrastTask.InfrastOrderSelectionChanged();
 
             ClearLog();
 
@@ -1480,57 +1532,57 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var mode = SettingsViewModel.GameSettings.ClientType;
             var enable = mode.Length != 0;
-            Instances.SettingsViewModel.AccountName = Instances.SettingsViewModel.AccountName.Trim();
-            var accountName = Instances.SettingsViewModel.AccountName;
+            StartUpTask.AccountName = StartUpTask.AccountName.Trim();
+            var accountName = StartUpTask.AccountName;
             return Instances.AsstProxy.AsstAppendStartUp(mode, enable, accountName);
         }
 
         private bool AppendFight()
         {
             int medicine = 0;
-            if (SettingsViewModel.FightTask.UseMedicine)
+            if (FightTask.UseMedicine)
             {
-                if (!int.TryParse(SettingsViewModel.FightTask.MedicineNumber, out medicine))
+                if (!int.TryParse(FightTask.MedicineNumber, out medicine))
                 {
                     medicine = 0;
                 }
             }
 
             int stone = 0;
-            if (SettingsViewModel.FightTask.UseStone)
+            if (FightTask.UseStone)
             {
-                if (!int.TryParse(SettingsViewModel.FightTask.StoneNumber, out stone))
+                if (!int.TryParse(FightTask.StoneNumber, out stone))
                 {
                     stone = 0;
                 }
             }
 
             int times = int.MaxValue;
-            if (SettingsViewModel.FightTask.HasTimesLimited)
+            if (FightTask.HasTimesLimited)
             {
-                if (!int.TryParse(SettingsViewModel.FightTask.MaxTimes, out times))
+                if (!int.TryParse(FightTask.MaxTimes, out times))
                 {
                     times = 0;
                 }
             }
 
-            if (!int.TryParse(SettingsViewModel.FightTask.Series, out var series))
+            if (!int.TryParse(FightTask.Series, out var series))
             {
                 series = 1;
             }
 
             int dropsQuantity = 0;
-            if (SettingsViewModel.FightTask.IsSpecifiedDrops)
+            if (FightTask.IsSpecifiedDrops)
             {
-                if (!int.TryParse(SettingsViewModel.FightTask.DropsQuantity, out dropsQuantity))
+                if (!int.TryParse(FightTask.DropsQuantity, out dropsQuantity))
                 {
                     dropsQuantity = 0;
                 }
             }
 
-            string curStage = SettingsViewModel.FightTask.Stage;
+            string curStage = FightTask.Stage;
 
-            bool mainFightRet = Instances.AsstProxy.AsstAppendFight(curStage, medicine, stone, times, series, SettingsViewModel.FightTask.DropsItemId, dropsQuantity);
+            bool mainFightRet = Instances.AsstProxy.AsstAppendFight(curStage, medicine, stone, times, series, FightTask.DropsItemId, dropsQuantity);
 
             if (!mainFightRet)
             {
@@ -1538,9 +1590,9 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            if ((curStage == "Annihilation") && SettingsViewModel.FightTask.UseAlternateStage)
+            if ((curStage == "Annihilation") && FightTask.UseAlternateStage)
             {
-                foreach (var stage in SettingsViewModel.FightTask.Stages)
+                foreach (var stage in FightTask.Stages)
                 {
                     if (!IsStageOpen(stage) || (stage == curStage))
                     {
@@ -1553,9 +1605,9 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            if (mainFightRet && SettingsViewModel.FightTask.UseRemainingSanityStage && !string.IsNullOrEmpty(SettingsViewModel.FightTask.RemainingSanityStage))
+            if (mainFightRet && FightTask.UseRemainingSanityStage && !string.IsNullOrEmpty(FightTask.RemainingSanityStage))
             {
-                return Instances.AsstProxy.AsstAppendFight(SettingsViewModel.FightTask.RemainingSanityStage, 0, 0, int.MaxValue, 1, string.Empty, 0, false);
+                return Instances.AsstProxy.AsstAppendFight(FightTask.RemainingSanityStage, 0, 0, int.MaxValue, 1, string.Empty, 0, false);
             }
 
             return mainFightRet;
@@ -1574,47 +1626,47 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             int medicine = 0;
-            if (SettingsViewModel.FightTask.UseMedicine)
+            if (FightTask.UseMedicine)
             {
-                if (!int.TryParse(SettingsViewModel.FightTask.MedicineNumber, out medicine))
+                if (!int.TryParse(FightTask.MedicineNumber, out medicine))
                 {
                     medicine = 0;
                 }
             }
 
             int stone = 0;
-            if (SettingsViewModel.FightTask.UseStone)
+            if (FightTask.UseStone)
             {
-                if (!int.TryParse(SettingsViewModel.FightTask.StoneNumber, out stone))
+                if (!int.TryParse(FightTask.StoneNumber, out stone))
                 {
                     stone = 0;
                 }
             }
 
             int times = int.MaxValue;
-            if (SettingsViewModel.FightTask.HasTimesLimited)
+            if (FightTask.HasTimesLimited)
             {
-                if (!int.TryParse(SettingsViewModel.FightTask.MaxTimes, out times))
+                if (!int.TryParse(FightTask.MaxTimes, out times))
                 {
                     times = 0;
                 }
             }
 
-            if (!int.TryParse(SettingsViewModel.FightTask.Series, out var series))
+            if (!int.TryParse(FightTask.Series, out var series))
             {
                 series = 1;
             }
 
             int dropsQuantity = 0;
-            if (SettingsViewModel.FightTask.IsSpecifiedDrops)
+            if (FightTask.IsSpecifiedDrops)
             {
-                if (!int.TryParse(SettingsViewModel.FightTask.DropsQuantity, out dropsQuantity))
+                if (!int.TryParse(FightTask.DropsQuantity, out dropsQuantity))
                 {
                     dropsQuantity = 0;
                 }
             }
 
-            Instances.AsstProxy.AsstSetFightTaskParams(SettingsViewModel.FightTask.Stage, medicine, stone, times, series, SettingsViewModel.FightTask.DropsItemId, dropsQuantity);
+            Instances.AsstProxy.AsstSetFightTaskParams(FightTask.Stage, medicine, stone, times, series, FightTask.DropsItemId, dropsQuantity);
         }
 
         public void SetFightRemainingSanityParams()
@@ -1624,7 +1676,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            Instances.AsstProxy.AsstSetFightTaskParams(SettingsViewModel.FightTask.RemainingSanityStage, 0, 0, int.MaxValue, 1, string.Empty, 0, false);
+            Instances.AsstProxy.AsstSetFightTaskParams(FightTask.RemainingSanityStage, 0, 0, int.MaxValue, 1, string.Empty, 0, false);
         }
 
         private void SetInfrastParams()
@@ -1634,39 +1686,39 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            var order = SettingsViewModel.InfrastTask.GetInfrastOrderList();
+            var order = InfrastTask.GetInfrastOrderList();
             Instances.AsstProxy.AsstSetInfrastTaskParams(
                 order,
-                SettingsViewModel.InfrastTask.UsesOfDrones,
-                SettingsViewModel.InfrastTask.ContinueTraining,
-                SettingsViewModel.InfrastTask.DormThreshold / 100.0,
-                SettingsViewModel.InfrastTask.DormFilterNotStationedEnabled,
-                SettingsViewModel.InfrastTask.DormTrustEnabled,
-                SettingsViewModel.InfrastTask.OriginiumShardAutoReplenishment,
-                SettingsViewModel.InfrastTask.CustomInfrastEnabled,
-                SettingsViewModel.InfrastTask.CustomInfrastFile,
+                InfrastTask.UsesOfDrones,
+                InfrastTask.ContinueTraining,
+                InfrastTask.DormThreshold / 100.0,
+                InfrastTask.DormFilterNotStationedEnabled,
+                InfrastTask.DormTrustEnabled,
+                InfrastTask.OriginiumShardAutoReplenishment,
+                InfrastTask.CustomInfrastEnabled,
+                InfrastTask.CustomInfrastFile,
                 CustomInfrastPlanIndex);
         }
 
         private bool AppendInfrast()
         {
-            if (SettingsViewModel.InfrastTask.CustomInfrastEnabled && (!File.Exists(SettingsViewModel.InfrastTask.CustomInfrastFile) || CustomInfrastPlanInfoList.Count == 0))
+            if (InfrastTask.CustomInfrastEnabled && (!File.Exists(InfrastTask.CustomInfrastFile) || CustomInfrastPlanInfoList.Count == 0))
             {
                 AddLog(LocalizationHelper.GetString("CustomizeInfrastSelectionEmpty"), UiLogColor.Error);
                 return false;
             }
 
-            var order = SettingsViewModel.InfrastTask.GetInfrastOrderList();
+            var order = InfrastTask.GetInfrastOrderList();
             return Instances.AsstProxy.AsstAppendInfrast(
                 order,
-                SettingsViewModel.InfrastTask.UsesOfDrones,
-                SettingsViewModel.InfrastTask.ContinueTraining,
-                SettingsViewModel.InfrastTask.DormThreshold / 100.0,
-                SettingsViewModel.InfrastTask.DormFilterNotStationedEnabled,
-                SettingsViewModel.InfrastTask.DormTrustEnabled,
-                SettingsViewModel.InfrastTask.OriginiumShardAutoReplenishment,
-                SettingsViewModel.InfrastTask.CustomInfrastEnabled,
-                SettingsViewModel.InfrastTask.CustomInfrastFile,
+                InfrastTask.UsesOfDrones,
+                InfrastTask.ContinueTraining,
+                InfrastTask.DormThreshold / 100.0,
+                InfrastTask.DormFilterNotStationedEnabled,
+                InfrastTask.DormTrustEnabled,
+                InfrastTask.OriginiumShardAutoReplenishment,
+                InfrastTask.CustomInfrastEnabled,
+                InfrastTask.CustomInfrastFile,
                 CustomInfrastPlanIndex);
         }
 
@@ -1683,34 +1735,34 @@ namespace MaaWpfGui.ViewModels.UI
 
         private bool AppendMall()
         {
-            var buyFirst = SettingsViewModel.MallTask.CreditFirstList.Split(';', '；')
+            var buyFirst = MallTask.CreditFirstList.Split(';', '；')
                 .Select(s => s.Trim());
 
-            var blackList = SettingsViewModel.MallTask.CreditBlackList.Split(';', '；')
+            var blackList = MallTask.CreditBlackList.Split(';', '；')
                 .Select(s => s.Trim());
 
             blackList = blackList.Union(_blackCharacterListMapping[SettingsViewModel.GameSettings.ClientType]);
 
             return Instances.AsstProxy.AsstAppendMall(
-                !string.IsNullOrEmpty(SettingsViewModel.FightTask.Stage) && SettingsViewModel.MallTask.CreditFightTaskEnabled,
-                SettingsViewModel.MallTask.CreditFightSelectFormation,
-                SettingsViewModel.MallTask.CreditVisitFriendsEnabled,
-                SettingsViewModel.MallTask.CreditShopping,
+                !string.IsNullOrEmpty(FightTask.Stage) && MallTask.CreditFightTaskEnabled,
+                MallTask.CreditFightSelectFormation,
+                MallTask.CreditVisitFriendsEnabled,
+                MallTask.CreditShopping,
                 buyFirst.ToArray(),
                 blackList.ToArray(),
-                SettingsViewModel.MallTask.CreditForceShoppingIfCreditFull,
-                SettingsViewModel.MallTask.CreditOnlyBuyDiscount,
-                SettingsViewModel.MallTask.CreditReserveMaxCredit);
+                MallTask.CreditForceShoppingIfCreditFull,
+                MallTask.CreditOnlyBuyDiscount,
+                MallTask.CreditReserveMaxCredit);
         }
 
         private static bool AppendAward()
         {
-            var receiveAward = SettingsViewModel.AwardTask.ReceiveAward;
-            var receiveMail = SettingsViewModel.AwardTask.ReceiveMail;
-            var receiveFreeRecruit = SettingsViewModel.AwardTask.ReceiveFreeRecruit;
-            var receiveOrundum = SettingsViewModel.AwardTask.ReceiveOrundum;
-            var receiveMining = SettingsViewModel.AwardTask.ReceiveMining;
-            var receiveSpecialAccess = SettingsViewModel.AwardTask.ReceiveSpecialAccess;
+            var receiveAward = AwardTask.ReceiveAward;
+            var receiveMail = AwardTask.ReceiveMail;
+            var receiveFreeRecruit = AwardTask.ReceiveFreeRecruit;
+            var receiveOrundum = AwardTask.ReceiveOrundum;
+            var receiveMining = AwardTask.ReceiveMining;
+            var receiveSpecialAccess = AwardTask.ReceiveSpecialAccess;
 
             return Instances.AsstProxy.AsstAppendAward(receiveAward, receiveMail, receiveFreeRecruit, receiveOrundum, receiveMining, receiveSpecialAccess);
         }
@@ -1718,649 +1770,100 @@ namespace MaaWpfGui.ViewModels.UI
         private static bool AppendRecruit()
         {
             // for debug
-            if (!int.TryParse(SettingsViewModel.RecruitTask.RecruitMaxTimes, out var maxTimes))
+            if (!int.TryParse(RecruitTask.RecruitMaxTimes, out var maxTimes))
             {
                 maxTimes = 0;
             }
 
-            var firstList = SettingsViewModel.RecruitTask.AutoRecruitFirstList;
+            var firstList = RecruitTask.AutoRecruitFirstList;
 
             var reqList = new List<int>();
             var cfmList = new List<int>();
 
-            if (SettingsViewModel.RecruitTask.ChooseLevel3)
+            if (RecruitTask.ChooseLevel3)
             {
                 cfmList.Add(3);
             }
 
-            if (SettingsViewModel.RecruitTask.ChooseLevel4)
+            if (RecruitTask.ChooseLevel4)
             {
                 reqList.Add(4);
                 cfmList.Add(4);
             }
 
             // ReSharper disable once InvertIf
-            if (SettingsViewModel.RecruitTask.ChooseLevel5)
+            if (RecruitTask.ChooseLevel5)
             {
                 reqList.Add(5);
                 cfmList.Add(5);
             }
 
-            _ = int.TryParse(SettingsViewModel.RecruitTask.SelectExtraTags, out var selectExtra);
+            _ = int.TryParse(RecruitTask.SelectExtraTags, out var selectExtra);
 
             return Instances.AsstProxy.AsstAppendRecruit(
                 maxTimes,
                 firstList.Cast<CombinedData>().Select(i => i.Value).ToArray(),
                 [.. reqList],
                 [.. cfmList],
-                SettingsViewModel.RecruitTask.RefreshLevel3,
-                SettingsViewModel.RecruitTask.ForceRefresh,
-                SettingsViewModel.RecruitTask.UseExpedited,
+                RecruitTask.RefreshLevel3,
+                RecruitTask.ForceRefresh,
+                RecruitTask.UseExpedited,
                 selectExtra,
-                SettingsViewModel.RecruitTask.NotChooseLevel1,
-                SettingsViewModel.RecruitTask.ChooseLevel3Time,
-                SettingsViewModel.RecruitTask.ChooseLevel4Time,
-                SettingsViewModel.RecruitTask.ChooseLevel5Time);
+                RecruitTask.NotChooseLevel1,
+                RecruitTask.ChooseLevel3Time,
+                RecruitTask.ChooseLevel4Time,
+                RecruitTask.ChooseLevel5Time);
         }
 
         private static bool AppendRoguelike()
         {
-            _ = int.TryParse(SettingsViewModel.RoguelikeTask.RoguelikeMode, out var mode);
+            _ = int.TryParse(RoguelikeTask.RoguelikeMode, out var mode);
 
             return Instances.AsstProxy.AsstAppendRoguelike(
                 mode,
-                SettingsViewModel.RoguelikeTask.RoguelikeDifficulty,
-                SettingsViewModel.RoguelikeTask.RoguelikeStartsCount,
-                SettingsViewModel.RoguelikeTask.RoguelikeInvestmentEnabled,
-                SettingsViewModel.RoguelikeTask.RoguelikeInvestmentWithMoreScore,
-                SettingsViewModel.RoguelikeTask.RoguelikeInvestsCount,
-                SettingsViewModel.RoguelikeTask.RoguelikeStopWhenInvestmentFull,
-                SettingsViewModel.RoguelikeTask.RoguelikeSquad,
-                SettingsViewModel.RoguelikeTask.RoguelikeRoles,
-                DataHelper.GetCharacterByNameOrAlias(SettingsViewModel.RoguelikeTask.RoguelikeCoreChar)?.Name ?? SettingsViewModel.RoguelikeTask.RoguelikeCoreChar,
-                SettingsViewModel.RoguelikeTask.RoguelikeStartWithEliteTwo,
-                SettingsViewModel.RoguelikeTask.RoguelikeOnlyStartWithEliteTwo,
-                SettingsViewModel.RoguelikeTask.Roguelike3FirstFloorFoldartal,
-                SettingsViewModel.RoguelikeTask.Roguelike3StartFloorFoldartal,
-                SettingsViewModel.RoguelikeTask.Roguelike3NewSquad2StartingFoldartal,
-                SettingsViewModel.RoguelikeTask.Roguelike3NewSquad2StartingFoldartals,
-                SettingsViewModel.RoguelikeTask.RoguelikeExpectedCollapsalParadigms,
-                SettingsViewModel.RoguelikeTask.RoguelikeUseSupportUnit,
-                SettingsViewModel.RoguelikeTask.RoguelikeEnableNonfriendSupport,
-                SettingsViewModel.RoguelikeTask.RoguelikeTheme,
-                SettingsViewModel.RoguelikeTask.RoguelikeRefreshTraderWithDice,
-                SettingsViewModel.RoguelikeTask.RoguelikeStopAtFinalBoss,
-                SettingsViewModel.RoguelikeTask.RoguelikeStopAtMaxLevel,
-                SettingsViewModel.RoguelikeTask.RoguelikeStartWithSeed);
+                RoguelikeTask.RoguelikeDifficulty,
+                RoguelikeTask.RoguelikeStartsCount,
+                RoguelikeTask.RoguelikeInvestmentEnabled,
+                RoguelikeTask.RoguelikeInvestmentWithMoreScore,
+                RoguelikeTask.RoguelikeCollectibleModeShopping,
+                RoguelikeTask.RoguelikeInvestsCount,
+                RoguelikeTask.RoguelikeStopWhenInvestmentFull,
+                RoguelikeTask.RoguelikeCollectibleModeSquad,
+                RoguelikeTask.RoguelikeSquad,
+                RoguelikeTask.RoguelikeRoles,
+                DataHelper.GetCharacterByNameOrAlias(RoguelikeTask.RoguelikeCoreChar)?.Name ?? RoguelikeTask.RoguelikeCoreChar,
+                RoguelikeTask.RoguelikeStartWithEliteTwo,
+                RoguelikeTask.RoguelikeOnlyStartWithEliteTwo,
+                RoguelikeTask.RoguelikeStartWithSelectList,
+                RoguelikeTask.Roguelike3FirstFloorFoldartal,
+                RoguelikeTask.Roguelike3StartFloorFoldartal,
+                RoguelikeTask.Roguelike3NewSquad2StartingFoldartal,
+                RoguelikeTask.Roguelike3NewSquad2StartingFoldartals,
+                RoguelikeTask.RoguelikeExpectedCollapsalParadigms,
+                RoguelikeTask.RoguelikeUseSupportUnit,
+                RoguelikeTask.RoguelikeEnableNonfriendSupport,
+                RoguelikeTask.RoguelikeTheme,
+                RoguelikeTask.RoguelikeRefreshTraderWithDice,
+                RoguelikeTask.RoguelikeStopAtFinalBoss,
+                RoguelikeTask.RoguelikeMonthlySquadAutoIterate,
+                RoguelikeTask.RoguelikeMonthlySquadCheckComms,
+                RoguelikeTask.RoguelikeDeepExplorationAutoIterate,
+                RoguelikeTask.RoguelikeStopAtMaxLevel,
+                RoguelikeTask.RoguelikeStartWithSeed);
         }
 
         private static bool AppendReclamation()
         {
-            var toolToCraft = SettingsViewModel.ReclamationTask.ReclamationToolToCraft.Split(';', '；').Select(s => s.Trim());
+            var toolToCraft = ReclamationTask.ReclamationToolToCraft.Split(';', '；').Select(s => s.Trim());
 
-
-            _ = int.TryParse(SettingsViewModel.ReclamationTask.ReclamationMode, out var mode);
+            _ = int.TryParse(ReclamationTask.ReclamationMode, out var mode);
 
             return Instances.AsstProxy.AsstAppendReclamation(
                 toolToCraft.ToArray(),
-                SettingsViewModel.ReclamationTask.ReclamationTheme,
+                ReclamationTask.ReclamationTheme,
                 mode,
-                SettingsViewModel.ReclamationTask.ReclamationIncrementMode,
-                SettingsViewModel.ReclamationTask.ReclamationMaxCraftCountPerRound);
-        }
-
-        [DllImport("User32.dll", EntryPoint = "FindWindow")]
-        private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-
-        [DllImport("User32.dll", CharSet = CharSet.Auto)]
-        private static extern int GetWindowThreadProcessId(IntPtr hwnd, out int id);
-
-        /// <summary>
-        /// 一个根据连接配置判断使用关闭模拟器的方式的方法
-        /// </summary>
-        /// <returns>是否关闭成功</returns>
-        private static bool KillEmulatorModeSwitcher()
-        {
-            try
-            {
-                string emulatorMode = SettingsViewModel.ConnectSettings.ConnectConfig;
-                Instances.AsstProxy.Connected = false;
-                return emulatorMode switch
-                {
-                    "Nox" => KillEmulatorNox(),
-                    "LDPlayer" => KillEmulatorLdPlayer(),
-                    "XYAZ" => KillEmulatorXyaz(),
-                    "BlueStacks" => KillEmulatorBlueStacks(),
-                    "MuMuEmulator12" => KillEmulatorMuMuEmulator12(),
-                    _ => KillEmulatorByWindow(),
-                };
-            }
-            catch (Exception e)
-            {
-                _logger.Error("Failed to close emulator: " + e.Message);
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// 一个用于调用 MuMu12 模拟器控制台关闭 MuMu12 的方法
-        /// </summary>
-        /// <returns>是否关闭成功</returns>
-        private static bool KillEmulatorMuMuEmulator12()
-        {
-            string address = SettingsViewModel.ConnectSettings.ConnectAddress;
-            int emuIndex;
-            if (address == "127.0.0.1:16384")
-            {
-                emuIndex = 0;
-            }
-            else
-            {
-                string portStr = address.Split(':')[1];
-                int port = int.Parse(portStr);
-                emuIndex = (port - 16384) / 32;
-            }
-
-            Process[] processes = Process.GetProcessesByName("MuMuPlayer");
-            if (processes.Length <= 0)
-            {
-                return false;
-            }
-
-            ProcessModule processModule;
-            try
-            {
-                processModule = processes[0].MainModule;
-            }
-            catch (Exception e)
-            {
-                _logger.Error("Error: Failed to get the main module of the emulator process.");
-                _logger.Error(e.Message);
-                return false;
-            }
-
-            if (processModule == null)
-            {
-                return false;
-            }
-
-            string emuLocation = processModule.FileName;
-            emuLocation = Path.GetDirectoryName(emuLocation);
-            if (emuLocation == null)
-            {
-                return false;
-            }
-
-            string consolePath = Path.Combine(emuLocation, "MuMuManager.exe");
-
-            if (File.Exists(consolePath))
-            {
-                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
-                {
-                    Arguments = $"api -v {emuIndex} shutdown_player",
-                    CreateNoWindow = true,
-                    UseShellExecute = false,
-                };
-                var process = Process.Start(startInfo);
-                if (process != null && process.WaitForExit(5000))
-                {
-                    _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
-                    return true;
-                }
-
-                _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
-                return KillEmulatorByWindow();
-            }
-
-            _logger.Error($"Error: `{consolePath}` not found, try to kill emulator by window.");
-            return KillEmulatorByWindow();
-        }
-
-        /// <summary>
-        /// 一个用于调用雷电模拟器控制台关闭雷电模拟器的方法
-        /// </summary>
-        /// <returns>是否关闭成功</returns>
-        private static bool KillEmulatorLdPlayer()
-        {
-            string address = SettingsViewModel.ConnectSettings.ConnectAddress;
-            int emuIndex;
-            if (address.Contains(':'))
-            {
-                string portStr = address.Split(':')[1];
-                int port = int.Parse(portStr);
-                emuIndex = (port - 5555) / 2;
-            }
-            else
-            {
-                string portStr = address.Split('-')[1];
-                int port = int.Parse(portStr);
-                emuIndex = (port - 5554) / 2;
-            }
-
-            Process[] processes = Process.GetProcessesByName("dnplayer");
-            if (processes.Length <= 0)
-            {
-                return false;
-            }
-
-            ProcessModule processModule;
-            try
-            {
-                processModule = processes[0].MainModule;
-            }
-            catch (Exception e)
-            {
-                _logger.Error("Error: Failed to get the main module of the emulator process.");
-                _logger.Error(e.Message);
-                return false;
-            }
-
-            if (processModule == null)
-            {
-                return false;
-            }
-
-            string emuLocation = processModule.FileName;
-            emuLocation = Path.GetDirectoryName(emuLocation);
-            if (emuLocation == null)
-            {
-                return false;
-            }
-
-            string consolePath = Path.Combine(emuLocation, "ldconsole.exe");
-
-            if (File.Exists(consolePath))
-            {
-                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
-                {
-                    Arguments = $"quit --index {emuIndex}",
-                    CreateNoWindow = true,
-                    UseShellExecute = false,
-                };
-                var process = Process.Start(startInfo);
-                if (process != null && process.WaitForExit(5000))
-                {
-                    _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
-                    return true;
-                }
-
-                _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
-                return KillEmulatorByWindow();
-            }
-
-            _logger.Information($"Error: `{consolePath}` not found, try to kill emulator by window.");
-            return KillEmulatorByWindow();
-        }
-
-        /// <summary>
-        /// 一个用于调用夜神模拟器控制台关闭夜神模拟器的方法
-        /// </summary>
-        /// <returns>是否关闭成功</returns>
-        private static bool KillEmulatorNox()
-        {
-            string address = SettingsViewModel.ConnectSettings.ConnectAddress;
-            int emuIndex;
-            if (address == "127.0.0.1:62001")
-            {
-                emuIndex = 0;
-            }
-            else
-            {
-                string portStr = address.Split(':')[1];
-                int port = int.Parse(portStr);
-                emuIndex = port - 62024;
-            }
-
-            Process[] processes = Process.GetProcessesByName("Nox");
-            if (processes.Length <= 0)
-            {
-                return false;
-            }
-
-            ProcessModule processModule;
-            try
-            {
-                processModule = processes[0].MainModule;
-            }
-            catch (Exception e)
-            {
-                _logger.Error("Error: Failed to get the main module of the emulator process.");
-                _logger.Error(e.Message);
-                return false;
-            }
-
-            if (processModule == null)
-            {
-                return false;
-            }
-
-            string emuLocation = processModule.FileName;
-            emuLocation = Path.GetDirectoryName(emuLocation);
-            if (emuLocation == null)
-            {
-                return false;
-            }
-
-            string consolePath = Path.Combine(emuLocation, "NoxConsole.exe");
-
-            if (File.Exists(consolePath))
-            {
-                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
-                {
-                    Arguments = $"quit -index:{emuIndex}",
-                    CreateNoWindow = true,
-                    UseShellExecute = false,
-                };
-                var process = Process.Start(startInfo);
-                if (process != null && process.WaitForExit(5000))
-                {
-                    _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
-                    return true;
-                }
-
-                _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
-                return KillEmulatorByWindow();
-            }
-
-            _logger.Information($"Error: `{consolePath}` not found, try to kill emulator by window.");
-            return KillEmulatorByWindow();
-        }
-
-        /// <summary>
-        /// 一个用于调用逍遥模拟器控制台关闭逍遥模拟器的方法
-        /// </summary>
-        /// <returns>是否关闭成功</returns>
-        private static bool KillEmulatorXyaz()
-        {
-            string address = SettingsViewModel.ConnectSettings.ConnectAddress;
-            string portStr = address.Split(':')[1];
-            int port = int.Parse(portStr);
-            var emuIndex = (port - 21503) / 10;
-
-            Process[] processes = Process.GetProcessesByName("MEmu");
-            if (processes.Length <= 0)
-            {
-                return false;
-            }
-
-            ProcessModule processModule;
-            try
-            {
-                processModule = processes[0].MainModule;
-            }
-            catch (Exception e)
-            {
-                _logger.Error("Error: Failed to get the main module of the emulator process.");
-                _logger.Error(e.Message);
-                return false;
-            }
-
-            if (processModule == null)
-            {
-                return false;
-            }
-
-            string emuLocation = processModule.FileName;
-            emuLocation = Path.GetDirectoryName(emuLocation);
-            if (emuLocation == null)
-            {
-                return false;
-            }
-
-            string consolePath = Path.Combine(emuLocation, "memuc.exe");
-
-            if (File.Exists(consolePath))
-            {
-                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
-                {
-                    Arguments = $"stop -i {emuIndex}",
-                    CreateNoWindow = true,
-                    UseShellExecute = false,
-                };
-                var process = Process.Start(startInfo);
-                if (process != null && process.WaitForExit(5000))
-                {
-                    _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
-                    return true;
-                }
-
-                _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
-                return KillEmulatorByWindow();
-            }
-
-            _logger.Information($"Error: `{consolePath}` not found, try to kill emulator by window.");
-            return KillEmulatorByWindow();
-        }
-
-        /// <summary>
-        /// 一个用于关闭蓝叠模拟器的方法
-        /// </summary>
-        /// <returns>是否关闭成功</returns>
-        private static bool KillEmulatorBlueStacks()
-        {
-            Process[] processes = Process.GetProcessesByName("HD-Player");
-            if (processes.Length <= 0)
-            {
-                return false;
-            }
-
-            ProcessModule processModule;
-            try
-            {
-                processModule = processes[0].MainModule;
-            }
-            catch (Exception e)
-            {
-                _logger.Error("Error: Failed to get the main module of the emulator process.");
-                _logger.Error(e.Message);
-                return false;
-            }
-
-            if (processModule == null)
-            {
-                return false;
-            }
-
-            string emuLocation = processModule.FileName;
-            emuLocation = Path.GetDirectoryName(emuLocation);
-            if (emuLocation == null)
-            {
-                return false;
-            }
-
-            string consolePath = Path.Combine(emuLocation, "bsconsole.exe");
-
-            if (File.Exists(consolePath))
-            {
-                _logger.Information($"Info: `{consolePath}` has been found. This may be the BlueStacks China emulator, try to kill the emulator by window.");
-                return KillEmulatorByWindow();
-            }
-
-            _logger.Information($"Info: `{consolePath}` not found. This may be the BlueStacks International emulator, try to kill the emulator by the port.");
-            if (KillEmulator())
-            {
-                return true;
-            }
-
-            _logger.Information("Info: Failed to kill emulator by the port, try to kill emulator process with PID.");
-
-            if (processes.Length > 1)
-            {
-                _logger.Warning("Warning: The number of elements in processes exceeds one, abort closing the emulator");
-                return false;
-            }
-
-            try
-            {
-                processes[0].Kill();
-                return processes[0].WaitForExit(20000);
-            }
-            catch (Exception ex)
-            {
-                _logger.Error($"Error: Failed to kill emulator process with PID {processes[0].Id}. Exception: {ex.Message}");
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Kills emulator by Window hwnd.
-        /// </summary>
-        /// <returns>Whether the operation is successful.</returns>
-        private static bool KillEmulatorByWindow()
-        {
-            int pid = 0;
-            var windowName = new[]
-            {
-                "明日方舟",
-                "明日方舟 - MuMu模拟器",
-                "BlueStacks App Player",
-                "BlueStacks",
-            };
-            foreach (string i in windowName)
-            {
-                var hwnd = FindWindow(null, i);
-                if (hwnd == IntPtr.Zero)
-                {
-                    continue;
-                }
-
-                GetWindowThreadProcessId(hwnd, out pid);
-                break;
-            }
-
-            if (pid == 0)
-            {
-                return KillEmulator();
-            }
-
-            try
-            {
-                var emulator = Process.GetProcessById(pid);
-                emulator.CloseMainWindow();
-                if (!emulator.WaitForExit(5000))
-                {
-                    emulator.Kill();
-                    if (emulator.WaitForExit(5000))
-                    {
-                        _logger.Information($"Emulator with process ID {pid} killed successfully.");
-                        KillEmulator();
-                        return true;
-                    }
-
-                    _logger.Error($"Failed to kill emulator with process ID {pid}.");
-                    return false;
-                }
-
-                // 尽管已经成功 CloseMainWindow()，再次尝试 killEmulator()
-                // Refer to https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/1878
-                KillEmulator();
-
-                // 已经成功 CloseMainWindow()，所以不管 killEmulator() 的结果如何，都返回 true
-                return true;
-            }
-            catch
-            {
-                _logger.Error("Kill emulator by window error");
-            }
-
-            return KillEmulator();
-        }
-
-        /// <summary>
-        /// Kills emulator.
-        /// </summary>
-        /// <returns>Whether the operation is successful.</returns>
-        public static bool KillEmulator()
-        {
-            int pid = 0;
-            string address = ConfigurationHelper.GetValue(ConfigurationKeys.ConnectAddress, string.Empty);
-            var port = address.StartsWith("127") ? address.Substring(10) : "5555";
-            _logger.Information($"address: {address}, port: {port}");
-
-            string portCmd = "netstat -ano|findstr \"" + port + "\"";
-            Process checkCmd = new Process
-            {
-                StartInfo =
-                {
-                    FileName = "cmd.exe",
-                    UseShellExecute = false,
-                    RedirectStandardInput = true,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    CreateNoWindow = true,
-                },
-            };
-            try
-            {
-                checkCmd.Start();
-            }
-            catch
-            {
-                _logger.Error("Failed to start cmd.exe");
-                checkCmd.Close();
-                return false;
-            }
-
-            checkCmd.StandardInput.WriteLine(portCmd);
-            checkCmd.StandardInput.WriteLine("exit");
-            Regex reg = new Regex("\\s+", RegexOptions.Compiled);
-            while (true)
-            {
-                var line = checkCmd.StandardOutput.ReadLine();
-                line = line?.Trim();
-
-                if (line == null)
-                {
-                    break;
-                }
-
-                if (!line.StartsWith("TCP", StringComparison.OrdinalIgnoreCase))
-                {
-                    continue;
-                }
-
-                line = reg.Replace(line, ",");
-
-                try
-                {
-                    string[] arr = line.Split(',');
-                    if (arr.Length >= 2
-                        && Convert.ToBoolean(string.Compare(arr[1], address, StringComparison.Ordinal)))
-                    {
-                        continue;
-                    }
-
-                    pid = int.Parse(arr[4]);
-                    break;
-                }
-                catch (Exception e)
-                {
-                    _logger.Error("Failed to parse cmd.exe output: " + e.Message);
-                }
-            }
-
-            if (pid == 0)
-            {
-                _logger.Error("Failed to get emulator PID");
-                return false;
-            }
-
-            try
-            {
-                Process emulator = Process.GetProcessById(pid);
-                emulator.Kill();
-            }
-            catch
-            {
-                return false;
-            }
-            finally
-            {
-                checkCmd.Close();
-            }
-
-            return true;
+                ReclamationTask.ReclamationIncrementMode,
+                ReclamationTask.ReclamationMaxCraftCountPerRound);
         }
 
         /// <summary>
@@ -2605,14 +2108,14 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (!File.Exists(SettingsViewModel.InfrastTask.CustomInfrastFile))
+            if (!File.Exists(InfrastTask.CustomInfrastFile))
             {
                 return;
             }
 
             try
             {
-                string jsonStr = File.ReadAllText(SettingsViewModel.InfrastTask.CustomInfrastFile);
+                string jsonStr = File.ReadAllText(InfrastTask.CustomInfrastFile);
                 var root = (JObject)JsonConvert.DeserializeObject(jsonStr);
 
                 if (root != null && _customInfrastInfoOutput && root.TryGetValue("title", out var title))
@@ -2752,6 +2255,32 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             ++CustomInfrastPlanIndex;
+        }
+
+        private static IEnumerable<TaskViewModel> InitTaskViewModelList()
+        {
+            var types = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.Namespace == "MaaWpfGui.ViewModels.UserControl.TaskQueue" && t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(TaskViewModel)));
+            foreach (var type in types)
+            {
+                // 获取 Instance 字段
+                if (type.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static) is PropertyInfo property)
+                {
+                    // 获取实例
+                    if (property.GetValue(null) is TaskViewModel instance)
+                    {
+                        yield return instance;
+                    }
+                }
+            }
+        }
+
+        public static void InvokeProcSubTaskMsg(AsstMsg msg, JObject details)
+        {
+            foreach (var instance in TaskViewModelTypes)
+            {
+                // 调用 ProcSubTaskMsg 方法
+                instance.ProcSubTaskMsg(msg, details);
+            }
         }
     }
 }

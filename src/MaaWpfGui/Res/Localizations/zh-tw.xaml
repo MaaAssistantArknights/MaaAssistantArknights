@@ -88,7 +88,6 @@
     <system:String x:Key="Chip">製造站-晶片組</system:String>
     <system:String x:Key="DormTrustEnabled">宿舍空餘位置蹭信賴</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">不將已進駐的幹員放入宿舍</system:String>
-    <system:String x:Key="DormFilterNotStationedEnabledTip">UI 更新了國服用不了了</system:String>
     <system:String x:Key="DormFilterNotStationedTips">勾選則不會將艾麗妮等幹員從訓練室移除，但也會導致加工站幹員不能進入宿舍。</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">源石碎片自動補貨</system:String>
     <system:String x:Key="ContinueTraining">訓練完成後繼續嘗試專精當前技能</system:String>
@@ -127,6 +126,9 @@
     <system:String x:Key="RoguelikeStrategyGold">刷源石錠，到達第二層後直接退出</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">刷開局，刷取熱水壺或精二幹員開局</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">刷坍縮範式，遇到非稀有坍縮範式後直接重開</system:String>
+    <system:String x:Key="RoguelikeCollectibleModeSquad">燒水分隊</system:String>
+    <system:String x:Key="RoguelikeStrategyMonthlySquad">刷月度小隊，到達第五層後直接退出</system:String>
+    <system:String x:Key="RoguelikeStrategyDeepExploration">刷深入調查，盡可能穩定地打更多層數</system:String>
     <system:String x:Key="StartingSquad">開局分隊</system:String>
     <system:String x:Key="StartingRoles">開局職業組</system:String>
     <system:String x:Key="StartingCoreChar">開局幹員（單個）</system:String>
@@ -134,11 +136,12 @@
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">輸入的幹員未在 battle_data 中。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">凹「開局幹員」直升精二</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">只凹「開局幹員」直升精二，不進行作戰</system:String>
+    <system:String x:Key="RoguelikeStartWithTwoIdeas">Repeat for a start with 2 ideas</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">凹第一層遠見密文板，不進行作戰</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活隊凹開局密文板</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最多寫三個，並用英文分號;隔開</system:String>
-    <system:String x:Key="RoguelikeCollapseList">坍缩范式列表</system:String>
-    <system:String x:Key="RoguelikeCollapseListTip">用英文分号「;」隔开，留空将使用默认列表。</system:String>
+    <system:String x:Key="RoguelikeCollapseList">坍縮範式列表</system:String>
+    <system:String x:Key="RoguelikeCollapseListTip">用英文分號「;」隔開，留白將使用默認列表。</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「開局幹員」使用助戰</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助戰</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">肉鴿在戰鬥結束前延遲「停止」動作</system:String>
@@ -248,7 +251,7 @@
     <system:String x:Key="NewVersionZipFileBrokenDescFilename" xml:space="preserve">文件名: </system:String>
     <system:String x:Key="NewVersionZipFileBrokenDescDeleted">已將其刪除！</system:String>
     <system:String x:Key="AlreadyLatest">已是最新版本 ~</system:String>
-    <system:String x:Key="NoNeedToUpdateDebugVersion">當前爲調試版本，無需更新</system:String>
+    <system:String x:Key="NoNeedToUpdateDebugVersion">當前爲測試版本，無需更新</system:String>
     <system:String x:Key="NewVersionDetectFailedTitle">檢查更新失敗</system:String>
     <system:String x:Key="CheckNetworking">請檢查網絡連接或代理。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">獲取更新資訊失敗。</system:String>
@@ -285,7 +288,7 @@
     <system:String x:Key="WaitForEmulator">等待模擬器啟動時間（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">等待結束</system:String>
     <system:String x:Key="EmulatorPath">模擬器路徑</system:String>
-    <system:String x:Key="EmulatorPathSelectionErrorPrompt">你也想在酒吧里點酒吧？</system:String>
+    <system:String x:Key="EmulatorPathSelectionErrorPrompt">你也想在酒吧裡點酒吧？</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">我確定沒選錯</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">好的，我會重新選擇</system:String>
     <system:String x:Key="Select">選擇</system:String>
@@ -314,6 +317,16 @@
     <system:String x:Key="StopOnGoldLimit">儲備源石錠達到上限時停止</system:String>
     <system:String x:Key="InvestmentEnabled">投資源石錠</system:String>
     <system:String x:Key="InvestmentWithMoreScore">投資模式啟用購物、招募、進2層</system:String>
+    <system:String x:Key="RoguelikeCollectibleModeShopping">刷開局模式啟用購物</system:String>
+    <system:String x:Key="RoguelikeStartWithSelectList">刷開局期望獎勵</system:String>
+    <system:String x:Key="RoguelikeStartWithKettle">熱水壺</system:String>
+    <system:String x:Key="RoguelikeStartWithShield">盾</system:String>
+    <system:String x:Key="RoguelikeStartWithIngot">源石錠</system:String>
+    <system:String x:Key="RoguelikeStartWithHope">希望</system:String>
+    <system:String x:Key="RoguelikeStartWithRandomReward">隨機獎勵</system:String>
+    <system:String x:Key="RoguelikeStartWithKey">鑰匙</system:String>
+    <system:String x:Key="RoguelikeStartWithDice">骰子</system:String>
+    <system:String x:Key="RoguelikeStartWithIdea">構想</system:String>
     <system:String x:Key="RefreshTraderWithDice">刷新商店（指路鱗）</system:String>
     <system:String x:Key="PenguinId">企鵝物流匯報 ID（僅數字部分）</system:String>
     <system:String x:Key="EnablePenguin">上報企鵝物流</system:String>
@@ -353,6 +366,7 @@
     <system:String x:Key="SystemNotification">重要訊息彈出系統通知</system:String>
     <system:String x:Key="HideCloseButton">隱藏關閉按鈕</system:String>
     <system:String x:Key="WindowTitleScrollable">窗口標題滾動</system:String>
+    <system:String x:Key="NullFunctionality">反轉右鍵點選複選框功能</system:String>
     <system:String x:Key="TitleBarDisplayContent">標題欄顯示內容</system:String>
     <system:String x:Key="UseLogItemDateFormat">自訂日誌日期格式</system:String>
     <system:String x:Key="LogItemDateFormatString">日期格式字串</system:String>
@@ -411,7 +425,7 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0。\n
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu 截圖增強未生效，请檢查相關設定</system:String>
     <system:String x:Key="LdExtrasEnabled">啟用 LD 截圖增強模式</system:String>
     <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
-需使用雷電模擬器 9 V9.0.78 或更新版本。專版、國際版等暫不支持。
+需使用雷電模擬器 9 V9.0.78 或更新版本。國際版需使用 V9.1.32 或更新版本。
 強烈建議在開啟本功能後立刻運行一次截圖測試。
 MAA 會自動通過註冊表獲取安裝路徑，若獲取失敗則請手動填寫。\n
 安裝路徑應填寫模擬器安裝目錄的根目錄，例如模擬器進程文件路徑為
@@ -421,7 +435,7 @@ C:\\leidian\\LDPlayer9。\n
 實例編號可在雷電多開器中查看，
 主多開為 0，其他多開為版本/編號 ID 後的數字。\n
 注意：
-截至目前（V9.1.28）的模擬器版本僅支持 720P 900P 1080P 分辨率。
+V9.1.28 前的模擬器版本僅支持 720P 900P 1080P 分辨率，V9.1.29 後支持 2K 4K，但由於方舟的滑動機制，不推薦使用 2K 以上分辨率。
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 模擬器路徑</system:String>
     <system:String x:Key="LdIndex">實例號碼</system:String>
@@ -763,6 +777,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="GameDropNoRestart">遊戲斷線，不重新連接，停止任務</system:String>
     <system:String x:Key="RoguelikeGamePass">肉鴿通關啦！</system:String>
     <system:String x:Key="RoguelikeSpecialItemBought">購買了特殊商品！</system:String>
+    <system:String x:Key="MonthlySquadCompleted">月度小隊清完啦！</system:String>
+    <system:String x:Key="DeepExplorationCompleted">深入調查清完啦！</system:String>
+    <system:String x:Key="DeepExplorationNotUnlockedComplain">深入調查未解鎖</system:String>
     <system:String x:Key="SSSGamePass">保全通關啦！</system:String>
     <system:String x:Key="Trader">節點: 詭意行商</system:String>
     <system:String x:Key="SafeHouse">節點: 安全的角落</system:String>

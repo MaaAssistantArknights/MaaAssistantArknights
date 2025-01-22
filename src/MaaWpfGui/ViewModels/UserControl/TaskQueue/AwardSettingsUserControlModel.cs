@@ -10,22 +10,22 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-
 #nullable enable
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using System.Windows;
-using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class AwardSettingsUserControlModel:PropertyChangedBase
+public class AwardSettingsUserControlModel : TaskViewModel
 {
+    static AwardSettingsUserControlModel()
+    {
+        Instance = new();
+    }
+
+    public static AwardSettingsUserControlModel Instance { get; }
 
     private bool _receiveAward = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveAward, bool.TrueString));
 

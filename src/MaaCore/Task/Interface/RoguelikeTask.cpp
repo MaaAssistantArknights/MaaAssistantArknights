@@ -15,6 +15,9 @@
 #include "Task/Roguelike/RoguelikeDifficultySelectionTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeFormationTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeInvestTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeIterateDeepExplorationPlugin.h"
+#include "Task/Roguelike/RoguelikeIterateMonthlySquadPlugin.h"
+#include "Task/Roguelike/RoguelikeLastRewardSelectTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeLastRewardTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeLevelTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeRecruitTaskPlugin.h"
@@ -32,8 +35,9 @@
 #include "Task/Roguelike/Sami/RoguelikeFoldartalStartTaskPlugin.h"
 #include "Task/Roguelike/Sami/RoguelikeFoldartalUseTaskPlugin.h"
 
-// –––––––– 萨卡兹主题专用配置及插件 –––––––––––––––––––
+// ------------------ 萨卡兹主题专用配置及插件 ------------------
 #include "Task/Roguelike/Map/RoguelikeRoutingTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeInputSeedTaskPlugin.h"
 
 #include "Utils/Logger.hpp"
 
@@ -73,9 +77,15 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
         ->set_retry_times(0);
 
     m_roguelike_task_ptr->register_plugin<RoguelikeLastRewardTaskPlugin>(m_config_ptr, m_control_ptr);
+    m_roguelike_task_ptr->register_plugin<RoguelikeLastRewardSelectTaskPlugin>(m_config_ptr, m_control_ptr);
 
     m_roguelike_task_ptr->register_plugin<RoguelikeDifficultySelectionTaskPlugin>(m_config_ptr, m_control_ptr);
     m_roguelike_task_ptr->register_plugin<RoguelikeStrategyChangeTaskPlugin>(m_config_ptr, m_control_ptr);
+
+    m_roguelike_task_ptr->register_plugin<RoguelikeIterateMonthlySquadPlugin>(m_config_ptr, m_control_ptr)
+        ->set_retry_times(3);
+    m_roguelike_task_ptr->register_plugin<RoguelikeIterateDeepExplorationPlugin>(m_config_ptr, m_control_ptr)
+        ->set_retry_times(3);
 
     m_roguelike_task_ptr->register_plugin<RoguelikeLevelTaskPlugin>(m_config_ptr, m_control_ptr);
 
@@ -89,6 +99,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
 
     // ------------------ 萨卡兹主题专用插件 ------------------
     m_roguelike_task_ptr->register_plugin<RoguelikeRoutingTaskPlugin>(m_config_ptr, m_control_ptr);
+    m_roguelike_task_ptr->register_plugin<RoguelikeInputSeedTaskPlugin>(m_config_ptr, m_control_ptr);
 
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加亿点。先这样凑合用
     for (int i = 0; i != 999; ++i) {
@@ -122,11 +133,6 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
             Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_mode1");
             m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", 0);
             m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
-        }
-        // 萨卡兹种子刷钱
-        if (theme == RoguelikeTheme::Sarkaz && params.get("start_with_seed", false)) {
-            m_roguelike_task_ptr->set_times_limit("Roguelike@StartExploreWithSeed", INT_MAX);
-            RoguelikeStageEncounter.set_event(theme, mode, "相遇", 3, 4);
         }
     }
     else {

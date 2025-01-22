@@ -121,10 +121,13 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeDifficulty = "Roguelike.Difficulty";
         public const string RoguelikeMode = "Roguelike.Mode";
         public const string RoguelikeSquad = "Roguelike.Squad";
+        public const string RoguelikeCollectibleModeSquad = "Roguelike.CollectibleModeSquad";
         public const string RoguelikeRoles = "Roguelike.Roles";
         public const string RoguelikeCoreChar = "Roguelike.CoreChar";
         public const string RoguelikeStartWithEliteTwo = "Roguelike.RoguelikeStartWithEliteTwo";
         public const string RoguelikeOnlyStartWithEliteTwo = "Roguelike.RoguelikeOnlyStartWithEliteTwo";
+        public const string RoguelikeStartWithSelectList = "Roguelike.RoguelikeStartWithSelectList";
+        public const string RoguelikeStartWithTwoIdeas = "Roguelike.RoguelikeStartWithTwoIdeas";
         public const string Roguelike3FirstFloorFoldartal = "Roguelike.Roguelike3FirstFloorFoldartal";
         public const string Roguelike3StartFloorFoldartal = "Roguelike.Roguelike3StartFloorFoldartal";
         public const string Roguelike3NewSquad2StartingFoldartal = "Roguelike.Roguelike3NewSquad2StartingFoldartal";
@@ -136,6 +139,7 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeStartsCount = "Roguelike.StartsCount";
         public const string RoguelikeInvestmentEnabled = "Roguelike.InvestmentEnabled";
         public const string RoguelikeInvestmentEnterSecondFloor = "Roguelike.InvestmentEnterSecondFloor";
+        public const string RoguelikeCollectibleModeShopping = "Roguelike.CollectibleModeShopping";
         public const string RoguelikeRefreshTraderWithDice = "Roguelike.RefreshTraderWithDice";
         public const string RoguelikeInvestsCount = "Roguelike.InvestsCount";
         public const string RoguelikeStopWhenInvestmentFull = "Roguelike.StopWhenInvestmentFull";
@@ -143,7 +147,9 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeStopAtFinalBoss = "Roguelike.ExitAtFinalBoss";
         public const string RoguelikeStopAtMaxLevel = "Roguelike.StopAtMaxLevel";
         public const string RoguelikeStartWithSeed = "Roguelike.StartWithSeed";
-
+        public const string RoguelikeMonthlySquadAutoIterate = "Roguelike.MonthlySquadAutoIterate";
+        public const string RoguelikeMonthlySquadCheckComms = "Roguelike.MonthlySquadCheckComms";
+        public const string RoguelikeDeepExplorationAutoIterate = "Roguelike.DeepExplorationAutoIterate";
         public const string ReclamationTheme = "Reclamation.Theme";
         public const string ReclamationMode = "Reclamation.Mode";
         public const string ReclamationToolToCraft = "Reclamation.ToolToCraft";

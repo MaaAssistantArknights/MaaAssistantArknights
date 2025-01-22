@@ -45,4 +45,15 @@
     <SolidColorBrush x:Key="DownloadLogBrush" Color="Violet" />
     <SolidColorBrush x:Key="MuMuSpecialScreenshot" Color="#02BFFF" />
     <SolidColorBrush x:Key="LdSpecialScreenshot" Color="#6666FF" />
+
+    <!--  UiLogColor - I.S. -->
+    <SolidColorBrush x:Key="SuccessIS" Color="LimeGreen" />
+    <SolidColorBrush x:Key="SafehouseIS" Color="DodgerBlue" />
+    <SolidColorBrush x:Key="TraderIS" Color="MediumSeaGreen" />
+    <SolidColorBrush x:Key="EventIS" Color="LightSkyBlue" />
+    <SolidColorBrush x:Key="TrustIS" Color="SlateGray"/>
+    <SolidColorBrush x:Key="CombatIS" Color="DarkOrange" />
+    <SolidColorBrush x:Key="EmergencyIS" Color="MediumVioletRed" />
+    <SolidColorBrush x:Key="BossIS" Color="Firebrick " />
+
 </ResourceDictionary>

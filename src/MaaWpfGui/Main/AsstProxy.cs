@@ -19,6 +19,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,8 +33,8 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
+using MaaWpfGui.ViewModels;
 using MaaWpfGui.ViewModels.UI;
-using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -437,6 +438,7 @@ namespace MaaWpfGui.Main
                 case AsstMsg.SubTaskCompleted:
                 case AsstMsg.SubTaskExtraInfo:
                     ProcSubTaskMsg(msg, details);
+                    TaskQueueViewModel.InvokeProcSubTaskMsg(msg, details);
                     break;
 
                 case AsstMsg.SubTaskStopped:
@@ -506,7 +508,7 @@ namespace MaaWpfGui.Main
                         }
 
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TryToStartEmulator"), UiLogColor.Error);
-                        TaskQueueViewModel.KillEmulator();
+                        EmulatorHelper.KillEmulator();
                         await Task.Delay(3000);
                         await Instances.TaskQueueViewModel.Stop();
                         Instances.TaskQueueViewModel.SetStopped();
@@ -695,16 +697,19 @@ namespace MaaWpfGui.Main
                 case AsstMsg.TaskChainError:
                     {
                         // 对剿灭的特殊处理，如果刷完了剿灭还选了剿灭会因为找不到入口报错
-                        if (taskChain == "Fight" && (SettingsViewModel.FightTask.Stage == "Annihilation"))
+                        if (taskChain == "Fight" && (TaskQueueViewModel.FightTask.Stage == "Annihilation"))
                         {
-                            if (SettingsViewModel.FightTask.Stages.Any(stage => Instances.TaskQueueViewModel.IsStageOpen(stage) && (stage != "Annihilation")))
+                            if (TaskQueueViewModel.FightTask.Stages.Any(stage => Instances.TaskQueueViewModel.IsStageOpen(stage) && (stage != "Annihilation")))
                             {
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
                             }
                         }
+                        else
+                        {
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskError") + taskChain, UiLogColor.Error);
+                            ToastNotification.ShowDirect(LocalizationHelper.GetString("TaskError") + taskChain);
+                        }
 
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskError") + taskChain, UiLogColor.Error);
-                        ToastNotification.ShowDirect(LocalizationHelper.GetString("TaskError") + taskChain);
                         if (isCopilotTaskChain)
                         {
                             // 如果启用战斗列表，需要中止掉剩余的任务
@@ -758,15 +763,15 @@ namespace MaaWpfGui.Main
 
                         case "Mall":
                             {
-                                if (SettingsViewModel.FightTask.Stage != string.Empty && SettingsViewModel.MallTask.CreditFightTaskEnabled)
+                                if (TaskQueueViewModel.FightTask.Stage != string.Empty && TaskQueueViewModel.MallTask.CreditFightTaskEnabled)
                                 {
-                                    SettingsViewModel.MallTask.LastCreditFightTaskTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                                    TaskQueueViewModel.MallTask.LastCreditFightTaskTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("CreditFight"));
                                 }
 
-                                if (SettingsViewModel.MallTask.CreditVisitFriendsEnabled)
+                                if (TaskQueueViewModel.MallTask.CreditVisitFriendsEnabled)
                                 {
-                                    SettingsViewModel.MallTask.LastCreditVisitFriendsTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                                    TaskQueueViewModel.MallTask.LastCreditVisitFriendsTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("Visiting"));
                                 }
 
@@ -828,7 +833,7 @@ namespace MaaWpfGui.Main
                     bool buyWine = _latestTaskId.ContainsKey(TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
                     _latestTaskId.Clear();
 
-                    SettingsViewModel.FightTask.ResetFightVariables();
+                    TaskQueueViewModel.FightTask.ResetFightVariables();
                     Instances.TaskQueueViewModel.ResetTaskSelection();
                     _runningState.SetIdle(true);
 
@@ -1035,7 +1040,7 @@ namespace MaaWpfGui.Main
                         Instances.TaskQueueViewModel.AddLog(why + ", " + LocalizationHelper.GetString("GiveUpUploadingPenguins"), UiLogColor.Error);
                         if (why == "UnknownStage")
                         {
-                            Instances.TaskQueueViewModel.AddLog(details["details"]?["stage_code"]+ ": " + LocalizationHelper.GetString("UnsupportedLevel"), UiLogColor.Error);
+                            Instances.TaskQueueViewModel.AddLog(details["details"]?["stage_code"] + ": " + LocalizationHelper.GetString("UnsupportedLevel"), UiLogColor.Error);
                         }
 
                         break;
@@ -1128,51 +1133,47 @@ namespace MaaWpfGui.Main
                                 break;
 
                             /* 肉鸽相关 */
-                            case "StartExplore":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("BegunToExplore") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
-                                break;
-
                             case "ExitThenAbandon":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ExplorationAbandoned"));
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ExplorationAbandoned"), UiLogColor.Error);
                                 break;
 
                             // case "StartAction":
                             //    Instances.TaskQueueViewModel.AddLog("开始战斗");
                             //    break;
                             case "MissionCompletedFlag":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightCompleted"));
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightCompleted"), UiLogColor.SuccessIS);
                                 break;
 
                             case "MissionFailedFlag":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightFailed"));
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightFailed"), UiLogColor.Error);
                                 break;
 
                             case "StageTraderEnter":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Trader"));
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Trader"), UiLogColor.TraderIS);
                                 break;
 
                             case "StageSafeHouseEnter":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("SafeHouse"));
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("SafeHouse"), UiLogColor.SafehouseIS);
                                 break;
 
                             case "StageFilterTruthEnter":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FilterTruth"));
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FilterTruth"), UiLogColor.TruthIS);
                                 break;
 
                             // case "StageBoonsEnter":
                             //    Instances.TaskQueueViewModel.AddLog("古堡馈赠");
                             //    break;
                             case "StageCombatDpsEnter":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CombatDps"));
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CombatDps"), UiLogColor.CombatIS);
                                 break;
 
                             case "StageEmergencyDps":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("EmergencyDps"));
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("EmergencyDps"), UiLogColor.EmergencyIS);
                                 break;
 
                             case "StageDreadfulFoe":
                             case "StageDreadfulFoe-5Enter":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DreadfulFoe"));
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DreadfulFoe"), UiLogColor.BossIS);
                                 break;
 
                             case "StageTraderInvestSystemFull":
@@ -1204,6 +1205,10 @@ namespace MaaWpfGui.Main
                             case "StageTraderSpecialShoppingAfterRefresh":
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeSpecialItemBought"), UiLogColor.RareOperator);
                                 break;
+
+                            case "DeepExplorationNotUnlockedComplain":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DeepExplorationNotUnlockedComplain"), UiLogColor.Warning);
+                                break;
                         }
 
                         break;
@@ -1222,10 +1227,26 @@ namespace MaaWpfGui.Main
             }
         }
 
-        private void ProcSubTaskCompleted(JObject details)
+        private static void ProcSubTaskCompleted(JObject details)
         {
-            // DoNothing
-            _ = details;
+            string subTask = details["subtask"]?.ToString() ?? string.Empty;
+            switch (subTask)
+            {
+                case "ProcessTask":
+                    {
+                        string taskName = details!["details"]!["task"]!.ToString();
+                        int execTimes = (int)details!["details"]!["exec_times"]!;
+
+                        switch (taskName)
+                        {
+                            case "StartExplore":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("BegunToExplore") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
+                                break;
+                        }
+                    }
+
+                    break;
+            }
         }
 
         private static void ProcSubTaskExtraInfo(JObject details)
@@ -1325,7 +1346,7 @@ namespace MaaWpfGui.Main
                 case "RecruitSpecialTag":
                     {
                         string special = subTaskDetails!["tag"]!.ToString();
-                        if (special == "支援机械" && SettingsViewModel.RecruitTask.NotChooseLevel1 == false)
+                        if (special == "支援机械" && TaskQueueViewModel.RecruitTask.NotChooseLevel1 == false)
                         {
                             break;
                         }
@@ -1470,11 +1491,20 @@ namespace MaaWpfGui.Main
                     break;
 
                 case "RoguelikeEvent":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeEvent") + $" {subTaskDetails!["name"]}");
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeEvent") + $" {subTaskDetails!["name"]}", UiLogColor.EventIS);
                     break;
 
                 case "FoldartalGainOcrNextLevel":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FoldartalGainOcrNextLevel") + $" {subTaskDetails!["foldartal"]}");
+                    break;
+
+
+                case "MonthlySquadCompleted":
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MonthlySquadCompleted"), UiLogColor.RareOperator);
+                    break;
+
+                case "DeepExplorationCompleted":
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DeepExplorationCompleted"), UiLogColor.RareOperator);
                     break;
 
                 case "PenguinId":
@@ -1679,9 +1709,6 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails!["stage_code"]} - {subTaskDetails["stars"]} ★", UiLogColor.Info);
                     break;
 
-                case "AccountSwitch":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + $" -->> {subTaskDetails!["account_name"]}", UiLogColor.Info); // subTaskDetails!["current_account"]
-                    break;
                 case "RoguelikeCollapsalParadigms":
                     string deepen_or_weaken_str = subTaskDetails!["deepen_or_weaken"]?.ToString() ?? "Unknown";
                     if (!int.TryParse(deepen_or_weaken_str, out int deepen_or_weaken))
@@ -2021,8 +2048,8 @@ namespace MaaWpfGui.Main
 
             taskParams["client_type"] = SettingsViewModel.GameSettings.ClientType;
             taskParams["penguin_id"] = SettingsViewModel.GameSettings.PenguinId;
-            taskParams["DrGrandet"] = SettingsViewModel.FightTask.IsDrGrandet;
-            taskParams["expiring_medicine"] = isMainFight && SettingsViewModel.FightTask.UseExpiringMedicine ? 9999 : 0;
+            taskParams["DrGrandet"] = TaskQueueViewModel.FightTask.IsDrGrandet;
+            taskParams["expiring_medicine"] = isMainFight && TaskQueueViewModel.FightTask.UseExpiringMedicine ? 9999 : 0;
             taskParams["server"] = Instances.SettingsViewModel.ServerType;
             return taskParams;
         }
@@ -2416,13 +2443,16 @@ namespace MaaWpfGui.Main
         /// <param name="starts">开始探索次数。</param>
         /// <param name="investmentEnabled">是否投资源石锭</param>
         /// <param name="investmentWithMoreScore">投资时候刷更多分</param>
+        /// <param name="collectibleModeShopping">刷开局模式是否购物</param>
         /// <param name="invests">投资源石锭次数。</param>
         /// <param name="stopWhenFull">投资满了自动停止任务。</param>
+        /// <param name="collectibleModeSquad">烧水时使用的分队</param>
         /// <param name="squad">开局分队</param>
         /// <param name="roles">开局职业组</param>
         /// <param name="coreChar">开局干员名</param>
         /// <param name="startWithEliteTwo">是否凹开局直升</param>
         /// <param name="onlyStartWithEliteTwo">是否只凹开局直升，不进行作战</param>
+        /// <param name="startWithSelectList">需要刷的开局</param>
         /// <param name="roguelike3FirstFloorFoldartal">凹第一层远见板子</param>
         /// <param name="roguelike3StartFloorFoldartal">需要凹的板子</param>
         /// <param name="roguelike3NewSquad2StartingFoldartal">是否在萨米肉鸽生活队凹开局板子</param>
@@ -2433,6 +2463,9 @@ namespace MaaWpfGui.Main
         /// <param name="theme">肉鸽主题["Phantom", "Mizuki", "Sami", "Sarkaz"]</param>
         /// <param name="refreshTraderWithDice">是否用骰子刷新商店购买特殊商品，目前支持水月肉鸽的指路鳞</param>
         /// <param name="stopAtFinalBoss">是否在五层BOSS前停下来</param>
+        /// <param name="monthlySquadAutoIterate">是否启动月度小队自动切换</param>
+        /// <param name="monthlySquadCheckComms">是否将月度小队通信也作为切换依据</param>
+        /// <param name="deepExplorationAutoIterate">是否启动深入调查自动切换</param>
         /// <param name="stopAtMaxLevel">是否在满级时停止任务</param>
         /// <param name="startWithSeed">是否使用刷钱种子</param>
         /// <returns>是否成功。</returns>
@@ -2442,13 +2475,16 @@ namespace MaaWpfGui.Main
             int starts,
             bool investmentEnabled,
             bool investmentWithMoreScore,
+            bool collectibleModeShopping,
             int invests,
             bool stopWhenFull,
+            string collectibleModeSquad,
             string squad,
             string roles,
             string coreChar,
             bool startWithEliteTwo,
             bool onlyStartWithEliteTwo,
+            List<string> startWithSelectList,
             bool roguelike3FirstFloorFoldartal,
             string roguelike3StartFloorFoldartal,
             bool roguelike3NewSquad2StartingFoldartal,
@@ -2459,6 +2495,9 @@ namespace MaaWpfGui.Main
             string theme,
             bool refreshTraderWithDice,
             bool stopAtFinalBoss,
+            bool monthlySquadAutoIterate,
+            bool monthlySquadCheckComms,
+            bool deepExplorationAutoIterate,
             bool stopAtMaxLevel,
             bool startWithSeed)
         {
@@ -2498,8 +2537,56 @@ namespace MaaWpfGui.Main
                 taskParams["core_char"] = coreChar;
             }
 
-            taskParams["start_with_elite_two"] = startWithEliteTwo;
-            taskParams["only_start_with_elite_two"] = onlyStartWithEliteTwo;
+            if (mode == 0)
+            {
+                taskParams["stop_at_final_boss"] = stopAtFinalBoss;
+                taskParams["stop_at_max_level"] = stopAtMaxLevel;
+            }
+            else if (mode == 1)
+            {
+                taskParams["start_with_seed"] = startWithSeed;
+            }
+            else if (mode == 4)
+            {
+                // 刷开局模式
+                taskParams["collectible_mode_shopping"] = collectibleModeShopping;
+                taskParams["collectible_mode_squad"] = collectibleModeSquad;
+                taskParams["start_with_elite_two"] = startWithEliteTwo;
+                taskParams["only_start_with_elite_two"] = onlyStartWithEliteTwo;
+
+                var rewardKeys = new Dictionary<string, string>
+            {
+                { "Roguelike@LastReward", "hot_water" },
+                { "Roguelike@LastReward2", "shield" },
+                { "Roguelike@LastReward3", "ingot" },
+                { "Roguelike@LastReward4", "hope" },
+                { "Roguelike@LastRewardRand", "random" },
+                { "Mizuki@Roguelike@LastReward5", "key" },
+                { "Mizuki@Roguelike@LastReward6", "dice" },
+                { "Sarkaz@Roguelike@LastReward5", "ideas" },
+            };
+                var startWithSelect = new JObject();
+                foreach (var select in startWithSelectList)
+                {
+                    if (rewardKeys.TryGetValue(select, out var paramKey))
+                    {
+                        startWithSelect[paramKey] = true;
+                    }
+                }
+
+                taskParams["collectible_mode_start_list"] = startWithSelect;
+            }
+            if (mode == 6)
+            {
+                taskParams["monthly_squad_auto_iterate"] = monthlySquadAutoIterate;
+                taskParams["monthly_squad_check_comms"] = monthlySquadCheckComms;
+            }
+
+            if (mode == 7)
+            {
+                taskParams["deep_exploration_auto_iterate"] = deepExplorationAutoIterate;
+            }
+
             if (roguelike3FirstFloorFoldartal && roguelike3StartFloorFoldartal.Length > 0)
             {
                 taskParams["first_floor_foldartal"] = roguelike3StartFloorFoldartal;
@@ -2518,11 +2605,6 @@ namespace MaaWpfGui.Main
             taskParams["use_support"] = useSupport;
             taskParams["use_nonfriend_support"] = enableNonFriendSupport;
             taskParams["refresh_trader_with_dice"] = theme == "Mizuki" && refreshTraderWithDice;
-
-            taskParams["stop_at_final_boss"] = mode == 0 && stopAtFinalBoss;
-            taskParams["stop_at_max_level"] = mode == 0 && stopAtMaxLevel;
-
-            taskParams["start_with_seed"] = startWithSeed;
 
             AsstTaskId id = AsstAppendTaskWithEncoding("Roguelike", taskParams);
             _latestTaskId[TaskType.Roguelike] = id;

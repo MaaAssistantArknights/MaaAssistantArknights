@@ -226,24 +226,26 @@ Supports some of the special stages,Please refer to [autoLocalization example](h
                                     // leave empty or set to "" to auto-select based on level
     "use_support": bool,            // Whether the starting operator is a support operator, optional, default is false
     "use_nonfriend_support": bool,  // Whether non-friend support operators are allowed, optional, default is false; only effective when `use_support` is true
-    "starts_count": int,               // Number of times to start exploration, optional, default is INT_MAX; stops automatically upon reaching limit
-    "difficulty": int,                 // Specified difficulty level, optional, default is 0; only applicable to themes **excluding Phantom**;
-                                       // selects the highest unlocked difficulty if the desired one is not unlocked
-    "stop_at_final_boss": bool,        // Whether to stop before the level 5 final boss node, optional, default is false; only applicable to themes **excluding Phantom**
-    "stop_at_max_level": bool,         // Whether to stop if max level for roguelike has been achieved, optional, default is false
-    "investment_enabled": bool,        // Whether to invest source stones, optional, default is true
-    "investments_count": int,          // Number of source stone investments, optional, default is INT_MAX; stops automatically upon reaching limit
-    "stop_when_investment_full": bool, // Whether to stop automatically when investment limit is reached, optional, default is false
-    "start_with_elite_two": bool,      // Whether to start with an Elite 2 operator reset, optional, default is false; only applicable to mode 4
-    "only_start_with_elite_two": bool, // Whether to reset only for Elite 2 operator while ignoring other starting conditions, optional, default is false;
-                                       // only effective when mode is 4 and `start_with_elite_two` is true
-    "refresh_trader_with_dice": bool,  // Whether to refresh the shop with dice for special items, optional, default is false; only applicable to the Mizuki theme, used to refresh pointers
-    "first_floor_foldartal": string,   // Desired Foldartal to acquire in the first floor foresight phase, optional; only applicable to the Sami theme, any mode;
-                                       // task stops once obtained successfully
-    "start_foldartal_list": [          // Desired Foldartals for the starting reward phase during opening reset, optional, default is []; effective only for Sami theme and mode 4;
-        string,                        // Reset is successful only when all Foldartals in the list are present in the opening rewards;
-        ...                            // Note: This parameter must be used with the "Life-Sustaining Squad" as other squads do not obtain Foldartals in the opening reward phase;
+    "starts_count": int,                // Number of times to start exploration, optional, default is INT_MAX; stops automatically upon reaching limit
+    "difficulty": int,                  // Specified difficulty level, optional, default is 0; only applicable to themes **excluding Phantom**;
+                                        // selects the highest unlocked difficulty if the desired one is not unlocked
+    "stop_at_final_boss": bool,         // Whether to stop before the level 5 final boss node, optional, default is false; only applicable to themes **excluding Phantom**
+    "stop_at_max_level": bool,          // Whether to stop if max level for roguelike has been achieved, optional, default is false
+    "investment_enabled": bool,         // Whether to invest source stones, optional, default is true
+    "investments_count": int,           // Number of source stone investments, optional, default is INT_MAX; stops automatically upon reaching limit
+    "stop_when_investment_full": bool,  // Whether to stop automatically when investment limit is reached, optional, default is false
+    "investment_with_more_score": bool, // Whether to try shopping after investment, optional, default if false; only applicable to mode 1
+    "start_with_elite_two": bool,       // Whether to start with an Elite 2 operator reset, optional, default is false; only applicable to mode 4
+    "only_start_with_elite_two": bool,  // Whether to reset only for Elite 2 operator while ignoring other starting conditions, optional, default is false;
+                                        // only effective when mode is 4 and `start_with_elite_two` is true
+    "refresh_trader_with_dice": bool,   // Whether to refresh the shop with dice for special items, optional, default is false; only applicable to the Mizuki theme, used to refresh pointers
+    "first_floor_foldartal": string,    // Desired Foldartal to acquire in the first floor foresight phase, optional; only applicable to the Sami theme, any mode;
+                                        // task stops once obtained successfully
+    "start_foldartal_list": [           // Desired Foldartals for the starting reward phase during opening reset, optional, default is []; effective only for Sami theme and mode 4;
+        string,                         // Reset is successful only when all Foldartals in the list are present in the opening rewards;
+        ...                             // Note: This parameter must be used with the "Life-Sustaining Squad" as other squads do not obtain Foldartals in the opening reward phase;
     ],
+    "start_with_two_ideas": bool,       // Whether to start with 2 ideas, optional, default is false；effective only for Sarkaz theme and mode 4
     "use_foldartal": bool,                    // Whether to use Foldartals, default is false in mode 5 and true in other modes; only applicable to the Sami theme
     "check_collapsal_paradigms": bool,        // Whether to check obtained Collapsal Paradigms, default is true in mode 5 and false in other modes
     "double_check_collapsal_paradigms": bool, // Whether to perform additional checks to prevent missed Collapsal Paradigms, default is true in mode 5 and false in other modes;
