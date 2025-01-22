@@ -1087,6 +1087,14 @@
         "sortId": 10026,
         "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
     },
+    "LMTGS_COIN_5801": {
+        "classifyType": "NORMAL",
+        "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
+        "icon": "LMTGS_COIN_5801.png",
+        "name": "寻访数据契约",
+        "sortId": 10026,
+        "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
@@ -1831,6 +1839,14 @@
         "sortId": -10000,
         "usage": "用于对遏制单元进行数据迭代。"
     },
+    "act40side_token_yumyum": {
+        "classifyType": "NONE",
+        "description": "饭香不怕巷子深。平日肉眼不可见，沿街细嗅可闻到的缥缈香气，至饭馆前则扑面而来。循着百灶街头的饭菜香，自可走出一幅百灶盛景图。",
+        "icon": "act40side_token_yumyum.png",
+        "name": "“生香”",
+        "sortId": -10000,
+        "usage": "来余味居，不要吝惜对饭菜香的赞美，直将小大厨夸得面红耳赤，他哪怕嘴上不说，盘子里也会给你多盛几块肉。"
+    },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "模拟中的对错并不重要，它们只是种辅助，帮助你在实战中做出正确的选择。",
@@ -2006,6 +2022,14 @@
         "name": "应急理智加强剂",
         "sortId": 30003,
         "usage": "用以临时维持理智的应急合剂，稍微加大了剂量，可以保持头脑清醒，驱散疲劳。"
+    },
+    "ap_supply_lt_80_2025_1": {
+        "classifyType": "CONSUME",
+        "description": "富含多种维生素与电解质，清凉爽口。助您在绿色出行中快速补充能量，调节身体机能。",
+        "icon": "ap_supply_lt_80_2025_1.png",
+        "name": "清爽运动饮料",
+        "sortId": 30006,
+        "usage": "清爽运动饮料，可用于恢复理智。"
     },
     "base_ap": {
         "classifyType": "NONE",
