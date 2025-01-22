@@ -15,6 +15,7 @@
     Height="500"
     d:DataContext="{d:DesignInstance {x:Type ui:AnnouncementViewModel}}"
     Icon="../../newlogo.ico"
+    ShowCloseButton="False"
     mc:Ignorable="d">
     <ScrollViewer Background="{DynamicResource VersionUpdateViewBackgroundBrush}">
         <StackPanel>
@@ -39,6 +40,12 @@
                 VerticalContentAlignment="Center"
                 Content="{DynamicResource ShowDisclaimerNoMore}"
                 IsChecked="{Binding DoNotRemindThisAnnouncementAgain}" />
+
+            <Button
+                Height="50"
+                MinWidth="100"
+                Command="{s:Action Close}"
+                Content="{DynamicResource Confirm}" />
         </StackPanel>
     </ScrollViewer>
 </hc:Window>
