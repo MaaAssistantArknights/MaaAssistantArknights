@@ -4110,7 +4110,7 @@
     "InfrastOffice": {
         "template": "Office.png",
         "maskRange": [1, 255],
-        "roi": [880, 330, 400, 160],
+        "roi": [378, 94, 589, 529],
         "templThreshold": 0.95
     },
     "InfrastOfficeMini": {
@@ -4121,7 +4121,7 @@
     },
     "InfrastProcessing": {
         "maskRange": [1, 255],
-        "roi": [880, 200, 400, 200],
+        "roi": [378, 94, 589, 529],
         "templThreshold": 0.95
     },
     "InfrastProcessingMini": {
@@ -4139,7 +4139,7 @@
     "InfrastReception": {
         "template": "Reception.png",
         "maskRange": [1, 255],
-        "roi": [377, 93, 532, 214],
+        "roi": [378, 94, 589, 529],
         "templThreshold": 0.95
     },
     "InfrastReceptionMini": {
@@ -4151,7 +4151,7 @@
     "InfrastTraining": {
         "template": "Training.png",
         "maskRange": [1, 255],
-        "roi": [880, 420, 400, 160],
+        "roi": [378, 94, 589, 529],
         "templThreshold": 0.95
     },
     "InfrastTrainingMini": {
