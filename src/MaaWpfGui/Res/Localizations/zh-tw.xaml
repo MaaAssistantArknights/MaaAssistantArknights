@@ -460,8 +460,8 @@ V9.1.28 前的模擬器版本僅支持 720P 900P 1080P 分辨率，V9.1.29 後�
     <system:String x:Key="ReclamationTheme">生息演算主題</system:String>
     <system:String x:Key="ReclamationThemeFire">沙中之火</system:String>
     <system:String x:Key="ReclamationThemeTales">沙洲遺聞</system:String>
-    <system:String x:Key="ReclamationModeProsperityNoSave">無存檔，通過進出關卡刷生息點數</system:String>
-    <system:String x:Key="ReclamationModeProsperityInSave">有存檔，通過組裝支援道具刷生息點數</system:String>
+    <system:String x:Key="ReclamationModeProsperityNoSave">無存檔，透過進出關卡刷生息點數</system:String>
+    <system:String x:Key="ReclamationModeProsperityInSave">有存檔，透過組裝支援道具刷生息點數</system:String>
     <system:String x:Key="ReclamationIncrementMode">增加方式</system:String>
     <system:String x:Key="ReclamationIncrementModeClick">連點</system:String>
     <system:String x:Key="ReclamationIncrementModeHold">長按</system:String>
@@ -926,18 +926,18 @@ V9.1.28 前的模擬器版本僅支持 720P 900P 1080P 分辨率，V9.1.29 後�
     <!--  !Announcement  -->
     <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
-目前生息演算的支援仍處於早期階段，使用時請注意以下幾點：
+目前生息演算的支援仍處於中期階段，使用時請注意以下幾點：
 
- 通過開局刷點數：(小心已有存檔被刪除)
-  0. 點數刷滿後會輸出“任務完成”，自動停止任務
-  1. 理論上可以在生息演算開局刷點數流程的任意位置開始任務，不論是否有存檔
-  2. 理論上編隊內可以有幹員，但沒測試，不推薦
-  3. 導航還沒寫，不能從生息演算以外的位置開始任務
-  4. 如果任務過程中報錯、點數沒刷滿就任務完成，請前往GitHub提交issue
+ 透過開局刷點數：(小心已有存檔被刪除)
+  1. 點數刷滿後會輸出 “任務完成”，自動停止任務
+  2. 不要在生息演算的編隊中有幹員的情況下使用
+  3. 手動確認存檔情況並刪除，以免 MAA 刪除你的珍貴存檔
+  4. 導航還沒寫，不能從生息演算以外的位置開始任務
+  5. 如果任務過程中報錯、點數沒刷滿就任務完成，請前往 GitHub 提交 issue
 
- 有存檔通過製造刷點數（高級設定）：
+ 有存檔透過製造刷點數（高級設定）：
   1. 要求是結算後的第一天，且後續三天沒有敵襲進入駐紮地
-  2. 必须在進入大地圖後的介面開始（能看到駐紮地的介面）
+  2. 必須在進入大地圖後的界面開始（能看到駐紮地的介面）
   3. 如果能製造的數量剛好是 99 的倍數會卡住，在存檔前可以先用掉一點，這個之後再修
     </system:String>
     <system:String x:Key="ReclamationBePatient">牛牛，我太想進步了！你看，又急</system:String>
