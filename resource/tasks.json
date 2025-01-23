@@ -566,6 +566,122 @@
         ],
         "roi": [0, 60, 1280, 550]
     },
+    "OR-9": {
+        "algorithm": "JustReturn",
+        "sub": ["OR-OpenOpt"],
+        "next": ["OR-9@SideStoryStage", "OR-9@SwipeToStage"]
+    },
+    "OR-8": {
+        "algorithm": "JustReturn",
+        "sub": ["OR-OpenOpt"],
+        "next": ["OR-8@SideStoryStage", "OR-8@SwipeToStage"]
+    },
+    "OR-7": {
+        "algorithm": "JustReturn",
+        "sub": ["OR-OpenOpt"],
+        "next": ["OR-7@SideStoryStage", "OR-7@SwipeToStage"]
+    },
+    "OR-4": {
+        "algorithm": "JustReturn",
+        "sub": ["OR-OpenOpt"],
+        "next": ["OR-4@SideStoryStage", "OR-4@SwipeToStage"]
+    },
+    "OR-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["OR-OpenOcr", "OR-Open"]
+    },
+    "OR-Open": {
+        "baseTask": "SS-Open",
+        "template": "StageSideStory.png",
+        "next": ["ORChapterToOR"]
+    },
+    "OR-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["相见欢", "阅世情", "怅别离"],
+        "next": ["ORChapterToOR"]
+    },
+    "ORChapterToOR": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["识七味", "识七", "七味"],
+        "preDelay": 3000,
+        "roi": [786, 478, 201, 144],
+        "next": ["#self", "ChapterSwipeToTheRight"]
+    },
+    "OR-9@SideStoryStage": {
+        "text": ["OR-9"]
+    },
+    "OR-8@SideStoryStage": {
+        "text": ["OR-8"]
+    },
+    "OR-7@SideStoryStage": {
+        "text": ["OR-7"]
+    },
+    "OR-4@SideStoryStage": {
+        "text": ["OR-4"]
+    },
+    "EP-8": {
+        "algorithm": "JustReturn",
+        "sub": ["EP-OpenOpt"],
+        "next": ["EP-8@SideStoryStage", "EP-8@SwipeToStage"]
+    },
+    "EP-7": {
+        "algorithm": "JustReturn",
+        "sub": ["EP-OpenOpt"],
+        "next": ["EP-7@SideStoryStage", "EP-7@SwipeToStage"]
+    },
+    "EP-6": {
+        "algorithm": "JustReturn",
+        "sub": ["EP-OpenOpt"],
+        "next": ["EP-6@SideStoryStage", "EP-6@SwipeToStage"]
+    },
+    "EP-5": {
+        "algorithm": "JustReturn",
+        "sub": ["EP-OpenOpt"],
+        "next": ["EP-5@SideStoryStage", "EP-5@SwipeToStage"]
+    },
+    "EP-4": {
+        "algorithm": "JustReturn",
+        "sub": ["EP-OpenOpt"],
+        "next": ["EP-4@SideStoryStage", "EP-4@SwipeToStage"]
+    },
+    "EP-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["EP-OpenOcr", "EP-Open"]
+    },
+    "EP-Open": {
+        "baseTask": "SS-Open",
+        "template": "StageSideStory.png",
+        "next": ["EPChapterToEP"]
+    },
+    "EP-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["出苍白海", "穿越骸礁"],
+        "next": ["EPChapterToEP"]
+    },
+    "EPChapterToEP": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["盐漠开航", "盐漠", "开航"],
+        "preDelay": 3000,
+        "roi": [1000, 414, 202, 137],
+        "next": ["#self", "ChapterSwipeToTheRight"]
+    },
+    "EP-8@SideStoryStage": {
+        "text": ["EP-8"]
+    },
+    "EP-7@SideStoryStage": {
+        "text": ["EP-7"]
+    },
+    "EP-6@SideStoryStage": {
+        "text": ["EP-6"]
+    },
+    "EP-5@SideStoryStage": {
+        "text": ["EP-5"]
+    },
+    "EP-4@SideStoryStage": {
+        "text": ["EP-4"]
+    },
     "PV-10": {
         "algorithm": "JustReturn",
         "sub": ["PV-OpenOpt"],
@@ -679,68 +795,6 @@
     "GO-4@SideStoryStage": {
         "text": ["GO-4"]
     },
-    "EP-8": {
-        "algorithm": "JustReturn",
-        "sub": ["EP-OpenOpt"],
-        "next": ["EP-8@SideStoryStage", "EP-8@SwipeToStage"]
-    },
-    "EP-7": {
-        "algorithm": "JustReturn",
-        "sub": ["EP-OpenOpt"],
-        "next": ["EP-7@SideStoryStage", "EP-7@SwipeToStage"]
-    },
-    "EP-6": {
-        "algorithm": "JustReturn",
-        "sub": ["EP-OpenOpt"],
-        "next": ["EP-6@SideStoryStage", "EP-6@SwipeToStage"]
-    },
-    "EP-5": {
-        "algorithm": "JustReturn",
-        "sub": ["EP-OpenOpt"],
-        "next": ["EP-5@SideStoryStage", "EP-5@SwipeToStage"]
-    },
-    "EP-4": {
-        "algorithm": "JustReturn",
-        "sub": ["EP-OpenOpt"],
-        "next": ["EP-4@SideStoryStage", "EP-4@SwipeToStage"]
-    },
-    "EP-OpenOpt": {
-        "algorithm": "JustReturn",
-        "next": ["EP-OpenOcr", "EP-Open"]
-    },
-    "EP-Open": {
-        "baseTask": "SS-Open",
-        "template": "StageSideStory.png",
-        "next": ["EPChapterToEP"]
-    },
-    "EP-OpenOcr": {
-        "baseTask": "SS-OpenOcr",
-        "text": ["出苍白海", "穿越骸礁"],
-        "next": ["EPChapterToEP"]
-    },
-    "EPChapterToEP": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["盐漠开航", "盐漠", "开航"],
-        "preDelay": 3000,
-        "roi": [1000, 414, 202, 137],
-        "next": ["#self", "ChapterSwipeToTheRight"]
-    },
-    "EP-8@SideStoryStage": {
-        "text": ["EP-8"]
-    },
-    "EP-7@SideStoryStage": {
-        "text": ["EP-7"]
-    },
-    "EP-6@SideStoryStage": {
-        "text": ["EP-6"]
-    },
-    "EP-5@SideStoryStage": {
-        "text": ["EP-5"]
-    },
-    "EP-4@SideStoryStage": {
-        "text": ["EP-4"]
-    },
     "DT-8": {
         "algorithm": "JustReturn",
         "sub": ["DT-OpenOpt"],
@@ -803,60 +857,6 @@
         "isAscii": false,
         "text": ["黄", "金"],
         "roi": [744, 264, 38, 35]
-    },
-    "OR-9": {
-        "algorithm": "JustReturn",
-        "sub": ["OR-OpenOpt"],
-        "next": ["OR-9@SideStoryStage", "OR-9@SwipeToStage"]
-    },
-    "OR-9@SideStoryStage": {
-        "text": ["OR-9"]
-    },
-    "OR-8": {
-        "algorithm": "JustReturn",
-        "sub": ["OR-OpenOpt"],
-        "next": ["OR-8@SideStoryStage", "OR-8@SwipeToStage"]
-    },
-    "OR-8@SideStoryStage": {
-        "text": ["OR-8"]
-    },
-    "OR-7": {
-        "algorithm": "JustReturn",
-        "sub": ["OR-OpenOpt"],
-        "next": ["OR-7@SideStoryStage", "OR-7@SwipeToStage"]
-    },
-    "OR-7@SideStoryStage": {
-        "text": ["OR-7"]
-    },
-    "OR-4": {
-        "algorithm": "JustReturn",
-        "sub": ["OR-OpenOpt"],
-        "next": ["OR-4@SideStoryStage", "OR-4@SwipeToStage"]
-    },
-    "OR-4@SideStoryStage": {
-        "text": ["OR-4"]
-    },
-    "OR-OpenOpt": {
-        "algorithm": "JustReturn",
-        "next": ["OR-OpenOcr", "OR-Open"]
-    },
-    "OR-Open": {
-        "baseTask": "SS-Open",
-        "template": "StageSideStory.png",
-        "next": ["ORChapterToOR"]
-    },
-    "OR-OpenOcr": {
-        "baseTask": "SS-OpenOcr",
-        "text": ["相见欢", "阅世情", "怅别离"],
-        "next": ["ORChapterToOR"]
-    },
-    "ORChapterToOR": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["识七味", "识七", "七味"],
-        "preDelay": 3000,
-        "roi": [786, 478, 201, 144],
-        "next": ["#self", "ChapterSwipeToTheRight"]
     },
     "BP-5": {
         "algorithm": "JustReturn",
@@ -4252,7 +4252,7 @@
     "InfrastConfirmButton": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [1105, 655, 150, 40],
+        "specificRect": [1038, 659, 82, 36],
         "postDelay": 500,
         "next": ["InfrastConfirmButtonWait", "Stop"]
     },
@@ -4273,7 +4273,7 @@
     "InfrastDormConfirmButton": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [1105, 655, 150, 40],
+        "specificRect": [1038, 659, 82, 36],
         "postDelay": 500,
         "next": ["InfrastDormConfirmButtonWait", "InfrastDormDoubleConfirmButton", "Stop"]
     },
