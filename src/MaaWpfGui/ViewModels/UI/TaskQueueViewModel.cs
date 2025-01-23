@@ -645,12 +645,8 @@ namespace MaaWpfGui.ViewModels.UI
                 "Mall",
                 "Mission",
                 "AutoRoguelike",
+                "Reclamation"
             ];
-
-            if (SettingsViewModel.GameSettings.ClientType is not "txwy")
-            {
-                taskList.Add("Reclamation");
-            }
 
             var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[taskList.Count]);
             var nonOrderList = new List<DragItemViewModel>();

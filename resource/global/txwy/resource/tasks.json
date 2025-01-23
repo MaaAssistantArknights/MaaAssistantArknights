@@ -822,6 +822,9 @@
     "RecruitContinue": {
         "text": ["繼續招募"]
     },
+    "InfrastReward": {
+        "text": ["可收穫", "訂單交付", "幹員信賴"]
+    },
     "InfrastReception": {
         "template": "Reception.png",
         "maskRange": [1, 255],
@@ -833,9 +836,6 @@
         "maskRange": [1, 255],
         "roi": [980, 180, 300, 140],
         "templThreshold": 0.95
-    },
-    "InfrastReward": {
-        "text": ["可收穫", "訂單交付", "幹員信賴"]
     },
     "InfrastStationedInfo": {
         "text": ["進駐資訊", "焦駐資訊"]
@@ -2087,6 +2087,112 @@
             ["深埋迷境", "_SKIP_"]
         ]
     },
+    "Reclamation2Begin": {
+        "text": ["開", "始"]
+    },
+    "Reclamation2BeginContinue": {
+        "text": ["繼", "續"]
+    },
+    "Reclamation2BeginStage": {
+        "text": ["眾人", "匯聚", "後舍"]
+    },
+    "Reclamation2Birdland": {
+        "text": ["聚羽", "之地", "捕獵區"]
+    },
+    "Reclamation2ClickDrop": {
+        "text": ["行動", "結束"]
+    },
+    "Reclamation2CopiousCoppice": {
+        "text": ["木", "林", "資源區"],
+        "ocrReplace": [[".*源區", "資源區"]]
+    },
+    "Reclamation2DeleteArchiveEnterConfirm": {
+        "text": ["刪除"]
+    },
+    "Reclamation2DeleteArchiveLastConfirm": {
+        "text": ["確認", "刪除"]
+    },
+    "Reclamation2ExAssemblyStationOcr": {
+        "text": ["組裝台"]
+    },
+    "Reclamation2ExBegin": {
+        "text": ["繼", "續", "演", "算"]
+    },
+    "Reclamation2ExClickProduct": {
+        "text": ["螢光棒"]
+    },
+    "Reclamation2ExDeleteArchiveConfirm": {
+        "text": ["確認", "刪除"]
+    },
+    "Reclamation2ExDeleteArchiveEnter": {
+        "text": ["刪除"]
+    },
+    "Reclamation2ExManufactureConfirm": {
+        "text": ["開始組裝", "組裝"]
+    },
+    "Reclamation2ExManufactureConfirmClickToContinue": {
+        "text": ["點擊", "空白", "繼續"]
+    },
+    "Reclamation2ExReadArchiveConfirm": {
+        "text": ["確認"]
+    },
+    "Reclamation2ExReadArchiveEnter": {
+        "text": ["讀取"]
+    },
+    "Reclamation2ExReadArchiveSelectDay": {
+        "text": ["生息", "日"]
+    },
+    "Reclamation2ExReadArchiveSelectDayConfirm": {
+        "text": ["點擊", "確認"]
+    },
+    "Reclamation2ExSkipDays2ExSkipTime": {
+        "text": ["消磨", "時間"]
+    },
+    "Reclamation2ExSkipDays2ExSkipTimeConfig": {
+        "text": ["確認"]
+    },
+    "Reclamation2ExSkipDaysAward2": {
+        "text": ["點擊", "任意處", "繼續"]
+    },
+    "Reclamation2ExSkipDaysBeginNewDay": {
+        "text": ["開", "啟", "今", "日"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveEnterConfirm": {
+        "text": ["刪除"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm1": {
+        "text": ["確認", "刪除"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
+        "text": ["確認", "刪除"]
+    },
+    "Reclamation2ProsperityMaxSkipDayClickContinue": {
+        "text": ["點擊", "任意處", "繼續"]
+    },
+    "Reclamation2SkipDayClickContinue": {
+        "text": ["點擊", "任意處", "繼續"]
+    },
+    "Reclamation2SkipTimeSkip": {
+        "text": ["消磨", "時間"]
+    },
+    "Reclamation2SkipTimeSkipConfirm": {
+        "text": ["確認"]
+    },
+    "Reclamation2StageEnter": {
+        "text": ["開始", "行動"]
+    },
+    "Reclamation2StageFight": {
+        "text": ["開始", "行動"]
+    },
+    "Reclamation2StageFightConfirm": {
+        "text": ["確認"]
+    },
+    "Reclamation2StageLeaveConfirm": {
+        "text": ["確認", "離開"]
+    },
+    "Reclamation2StageSquadClearConfirm": {
+        "text": ["確認"]
+    },
     "Fire@Reclamation@ClickAnyZoneOcr": {
         "text": ["區", "Zone"]
     },
@@ -2148,36 +2254,36 @@
         "text": ["開始行動", "決斷"]
     },
     "Tales@RA@CancelEnterBuildMode": {
-        "text": ["进入建造"]
+        "text": ["進入建造"]
     },
     "Tales@RA@ClickGatheringOfFeathers": {
         "text": ["聚羽之地"]
     },
     "Tales@RA@ClickShrubberyGalore": {
-        "text": ["丰饶灌木林"]
+        "text": ["豐饒灌木林", "木林"]
     },
     "Tales@RA@ConfirmSquad": {
-        "text": ["开始行动"]
+        "text": ["開始行動", "開始"]
     },
     "Tales@RA@ConfirmToLoadSave": {
-        "text": ["点击确认"]
+        "text": ["點擊確認", "確認"]
     },
     "Tales@RA@EnterNode": {
-        "text": ["开始行动"]
+        "text": ["開始行動", "開始"]
     },
     "Tales@RA@FinishCalc": {
-        "text": ["点击任意处继续"]
+        "text": ["點擊任意處繼續", "任意"]
     },
     "Tales@RA@PIS-Resume": {
-        "text": ["继续演算"]
+        "text": ["繼續演算", "演算"]
     },
     "Tales@RA@PNS-ClickBaseCamp": {
-        "text": ["众人会聚之地"]
+        "text": ["眾人會聚之地", "眾人"]
     },
     "Tales@RA@PNS-Commence": {
         "text": ["演算", "開始"]
     },
     "Tales@RA@ResourceGained": {
-        "text": ["点击空白处继续"]
+        "text": ["點擊空白處繼續", "空白"]
     }
 }
