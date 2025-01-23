@@ -4650,7 +4650,7 @@
     "InfrastTrainingIdle": {
         "algorithm": "OcrDetect",
         "text": ["空闲中"],
-        "roi": [350, 600, 200, 120]
+        "roi": [346, 626, 161, 52]
     },
     "InfrastTrainingCompleted": {
         "baseTask": "InfrastTrainingIdle",
