@@ -4252,7 +4252,7 @@
     "InfrastConfirmButton": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [1105, 655, 150, 40],
+        "specificRect": [1038, 659, 82, 36],
         "postDelay": 500,
         "next": ["InfrastConfirmButtonWait", "Stop"]
     },
@@ -4273,7 +4273,7 @@
     "InfrastDormConfirmButton": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [1105, 655, 150, 40],
+        "specificRect": [1038, 659, 82, 36],
         "postDelay": 500,
         "next": ["InfrastDormConfirmButtonWait", "InfrastDormDoubleConfirmButton", "Stop"]
     },
