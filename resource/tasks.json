@@ -4266,7 +4266,7 @@
     "InfrastBottomLeftTab": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [0, 540, 520, 180],
+        "specificRect": [0, 719, 1, 1],
         "preDelay": 1000,
         "postDelay": 2000
     },
