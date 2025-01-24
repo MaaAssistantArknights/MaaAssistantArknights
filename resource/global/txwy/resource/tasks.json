@@ -870,6 +870,12 @@
     "InfrastClueSelfFull": {
         "text": ["已達線索上限", "無法獲取新的線索", "上限", "無法"]
     },
+    "InfrastTrainingIdle": {
+        "text": ["空閒中"]
+    },
+    "InfrastTrainingCompleted": {
+        "text": ["訓練完成", "完成"]
+    },
     "BattleStageName": {
         "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的繁中识别任务复用",
         "ocrReplace": [
