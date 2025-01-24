@@ -62,7 +62,8 @@ bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params
         set_custom(RoguelikeCustomType::Roles, params.get("roles", "")); // 开局职业组
     }
 
-    if (m_config->get_theme() == RoguelikeTheme::Sarkaz && m_config->get_mode() == RoguelikeMode::Collectible) {    //烧水选涂鸦
+    if (m_config->get_theme() == RoguelikeTheme::Sarkaz &&
+        m_config->get_mode() == RoguelikeMode::Collectible) { // 烧水选涂鸦
         RoguelikeStageEncounter.set_event(m_config->get_theme(), m_config->get_mode(), "相遇", 1, 4);
     }
 
