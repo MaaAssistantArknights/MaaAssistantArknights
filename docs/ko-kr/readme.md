@@ -91,10 +91,9 @@ MAA는 명령줄 인터페이스(CLI)를 지원하며, Linux,macOS 및 Window에
 **현재 프로젝트 팀에 프론트엔드 전문가가 매우 부족합니다! 관련 경험이 있으시다면 우리와 함께 해주세요!**
 
 - New Framework: [MaaFramework](https://github.com/MaaAssistantArknights/MaaFramework)
-- New GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI)
 - [전략 파일 저장소](https://prts.plus): Frontend [maa-copilot-frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
 - [전략 파일 저장소](https://prts.plus): Backend [MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
-- [공식 웹사이트](https://maa.plus): [frontend](https://github.com/MaaAssistantArknights/maa-website)
+- [공식 웹사이트](https://maa.plus): [frontend](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/website)
 - Deep Learning: [MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
 
 ### 다국어 지원 (i18n)
