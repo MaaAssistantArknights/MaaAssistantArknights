@@ -1,13 +1,18 @@
 ## v5.12.3
 
-### 先停停 | Highlight
+### 停不下来了 | Highlight
 
 * Base navigation fixes for the overseas clients
 
 ### 修复 | Fix
 
+* 基建修复4 识别不到缩小状态下的后两个宿舍 @ABA2396
 * 38c8dd8 68357b9 modified base tasks in Official. Global needs custom ROI to work @Constrat
 * 380bf68 modified Base Infrast Siege for all clients. Reverting for global and co. @Constrat
+
+### 文档 | Docs
+
+* README 移除 MaaX，更换前端仓库地址 (#11636) @Rbqwow
 
 ## v5.12.2
 
