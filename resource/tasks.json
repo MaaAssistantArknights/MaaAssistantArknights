@@ -4111,7 +4111,7 @@
         "template": "Office.png",
         "maskRange": [1, 255],
         "roi": [378, 94, 589, 529],
-        "templThreshold": 0.95
+        "templThreshold": 0.9
     },
     "InfrastOfficeMini": {
         "template": "OfficeMini.png",
