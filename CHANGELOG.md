@@ -1,3 +1,14 @@
+## v5.12.3
+
+### 先停停 | Highlight
+
+* Base navigation fixes for the overseas clients
+
+### 修复 | Fix
+
+* 38c8dd8 68357b9 modified base tasks in Official. Global needs custom ROI to work @Constrat
+* 380bf68 modified Base Infrast Siege for all clients. Reverting for global and co. @Constrat
+
 ## v5.12.2
 
 ### 先停停 | Highlight
