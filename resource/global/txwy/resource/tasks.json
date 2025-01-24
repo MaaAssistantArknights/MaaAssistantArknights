@@ -2112,7 +2112,7 @@
         "text": ["繼", "續"]
     },
     "Reclamation2BeginStage": {
-        "text": ["眾人", "匯聚", "後舍"]
+        "text": ["眾人", "會聚", "會擊", "後舍"]
     },
     "Reclamation2Birdland": {
         "text": ["聚羽", "之地", "捕獵區"]
@@ -2170,7 +2170,7 @@
         "text": ["確認"]
     },
     "Reclamation2ExSkipDaysAward2": {
-        "text": ["點擊", "任意處", "繼續"]
+        "text": ["點擊", "任意處", "繼續", "任意", "王意"]
     },
     "Reclamation2ExSkipDaysBeginNewDay": {
         "text": ["開", "啟", "今", "日"]
@@ -2185,10 +2185,10 @@
         "text": ["確認", "刪除"]
     },
     "Reclamation2ProsperityMaxSkipDayClickContinue": {
-        "text": ["點擊", "任意處", "繼續"]
+        "text": ["點擊", "任意處", "繼續", "任意", "王意"]
     },
     "Reclamation2SkipDayClickContinue": {
-        "text": ["點擊", "任意處", "繼續"]
+        "text": ["點擊", "任意處", "繼續", "任意", "王意"]
     },
     "Reclamation2SkipTimeSkip": {
         "text": ["消磨", "時間"]
@@ -2272,13 +2272,13 @@
         "text": ["開始行動", "決斷"]
     },
     "Tales@RA@CancelEnterBuildMode": {
-        "text": ["進入建造"]
+        "text": ["進入建造", "進入", "建造"]
     },
     "Tales@RA@ClickGatheringOfFeathers": {
-        "text": ["聚羽之地"]
+        "text": ["聚羽之地", "聚羽", "之地"]
     },
     "Tales@RA@ClickShrubberyGalore": {
-        "text": ["豐饒灌木林", "木林"]
+        "text": ["豐饒灌木林", "木林", "灌木", "豐饒"]
     },
     "Tales@RA@ConfirmSquad": {
         "text": ["開始行動", "開始"]
@@ -2290,13 +2290,13 @@
         "text": ["開始行動", "開始"]
     },
     "Tales@RA@FinishCalc": {
-        "text": ["點擊任意處繼續", "任意"]
+        "text": ["點選任意處繼續", "任意", "王意", "點選"]
     },
     "Tales@RA@PIS-Resume": {
         "text": ["繼續演算", "演算"]
     },
     "Tales@RA@PNS-ClickBaseCamp": {
-        "text": ["眾人會聚之地", "眾人"]
+        "text": ["眾人會聚之地", "眾人", "會聚", "會擊", "之地"]
     },
     "Tales@RA@PNS-Commence": {
         "text": ["演算", "開始"]
