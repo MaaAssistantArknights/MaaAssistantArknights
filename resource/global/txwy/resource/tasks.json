@@ -1,31 +1,4 @@
 {
-    "HS-Open": {
-        "baseTask": "#none",
-        "algorithm": "MatchTemplate",
-        "action": "ClickSelf",
-        "postDelay": 2000,
-        "roi": [517, 64, 155, 168],
-        "template": "StageSideStory.png",
-        "next": ["HSChapterToHS"]
-    },
-    "HSChapterToHS": {
-        "text": ["種植", "地塊"]
-    },
-    "HS-9": {
-        "algorithm": "JustReturn",
-        "sub": ["HS-Open"],
-        "next": ["HS-9@SideStoryStage", "HS-9@SwipeToStage"]
-    },
-    "HS-8": {
-        "algorithm": "JustReturn",
-        "sub": ["HS-Open"],
-        "next": ["HS-8@SideStoryStage", "HS-8@SwipeToStage"]
-    },
-    "HS-7": {
-        "algorithm": "JustReturn",
-        "sub": ["HS-Open"],
-        "next": ["HS-7@SideStoryStage", "HS-7@SwipeToStage"]
-    },
     "BI-6": {
         "algorithm": "JustReturn",
         "next": ["BI-6@SideStoryStage", "BI-6@SwipeToStage"],
@@ -66,6 +39,15 @@
         "preDelay": 1000,
         "roi": [999, 243, 281, 176],
         "text": ["雪山大典", "雪山", "大典"]
+    },
+    "HS-Open": {
+        "action": "ClickSelf",
+        "algorithm": "MatchTemplate",
+        "baseTask": "#none",
+        "next": ["HSChapterToHS"],
+        "postDelay": 2000,
+        "roi": [517, 64, 155, 168],
+        "template": "StageSideStory.png"
     },
     "Mizuki@Roguelike@ChooseDifficultyConfirm": {
         "text": ["選擇"]
@@ -109,6 +91,24 @@
     },
     "CRChapterToCR": {
         "text": ["展廳", "漫遊"]
+    },
+    "HS-9": {
+        "algorithm": "JustReturn",
+        "sub": ["HS-Open"],
+        "next": ["HS-9@SideStoryStage", "HS-9@SwipeToStage"]
+    },
+    "HS-8": {
+        "algorithm": "JustReturn",
+        "sub": ["HS-Open"],
+        "next": ["HS-8@SideStoryStage", "HS-8@SwipeToStage"]
+    },
+    "HS-7": {
+        "algorithm": "JustReturn",
+        "sub": ["HS-Open"],
+        "next": ["HS-7@SideStoryStage", "HS-7@SwipeToStage"]
+    },
+    "HSChapterToHS": {
+        "text": ["種植", "地塊"]
     },
     "RS-OpenOcr": {
         "text": ["銀心", "列車", "特快"]
@@ -2188,8 +2188,8 @@
         "text": ["確認"]
     },
     "Reclamation2ExReadArchiveEnter": {
-        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
         "doc": "TODO: 讀取存檔不會再有確認彈窗時，需保留 text 和移除其他內容",
+        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
         "text": ["讀取"],
         "sub": [
             "Reclamation2ExReadArchiveConfirm*2",
