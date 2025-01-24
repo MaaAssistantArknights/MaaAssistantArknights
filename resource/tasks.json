@@ -4087,13 +4087,13 @@
         "template": "Power.png",
         "maskRange": [1, 255],
         "roi": [0, 200, 820, 520],
-        "templThreshold": 0.95
+        "templThreshold": 0.9
     },
     "InfrastPowerMini": {
         "template": "PowerMini.png",
         "roi": [0, 240, 640, 400],
         "maskRange": [1, 255],
-        "templThreshold": 0.95
+        "templThreshold": 0.9
     },
     "InfrastDorm": {
         "template": "Dorm.png",
