@@ -4087,25 +4087,25 @@
         "template": "Power.png",
         "maskRange": [1, 255],
         "roi": [0, 200, 820, 520],
-        "templThreshold": 0.95
+        "templThreshold": 0.9
     },
     "InfrastPowerMini": {
         "template": "PowerMini.png",
         "roi": [0, 240, 640, 400],
         "maskRange": [1, 255],
-        "templThreshold": 0.95
+        "templThreshold": 0.9
     },
     "InfrastDorm": {
         "template": "Dorm.png",
         "maskRange": [1, 255],
         "roi": [400, 220, 880, 500],
-        "templThreshold": 0.95
+        "templThreshold": 0.9
     },
     "InfrastDormMini": {
         "template": "DormMini.png",
         "maskRange": [1, 255],
         "roi": [232, 213, 690, 434],
-        "templThreshold": 0.95
+        "templThreshold": 0.9
     },
     "InfrastOffice": {
         "template": "Office.png",

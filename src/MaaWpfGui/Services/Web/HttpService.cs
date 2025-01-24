@@ -292,7 +292,11 @@ namespace MaaWpfGui.Services.Web
 
         private HttpClient BuildHttpClient()
         {
-            var handler = new HttpClientHandler { AllowAutoRedirect = true, };
+            var handler = new HttpClientHandler
+            {
+                AutomaticDecompression = DecompressionMethods.All,
+                AllowAutoRedirect = true,
+            };
 
             var proxy = GetProxy();
             if (proxy != null)

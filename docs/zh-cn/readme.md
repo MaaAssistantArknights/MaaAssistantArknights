@@ -94,10 +94,9 @@ MAA 支持命令行界面（CLI）操作，支持 Linux，macOS 和 Windows，�
 **目前项目组非常缺前端大佬，若您有相关经验，欢迎加入我们！**
 
 - 全新框架：[MaaFramework](https://github.com/MaaXYZ/MaaFramework)
-- 全新 GUI：[MaaX](https://github.com/MaaAssistantArknights/MaaX)
 - [作业站](https://prts.plus) 前端：[maa-copilot-frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
 - [作业站](https://prts.plus) 后端：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
-- [官网](https://maa.plus)：[前端](https://github.com/MaaAssistantArknights/maa-website)
+- [官网](https://maa.plus)：[前端](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/website)
 - 深度学习：[MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
 
 ### 多语言 (i18n)

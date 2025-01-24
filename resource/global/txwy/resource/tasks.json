@@ -40,6 +40,15 @@
         "roi": [999, 243, 281, 176],
         "text": ["雪山大典", "雪山", "大典"]
     },
+    "HS-Open": {
+        "action": "ClickSelf",
+        "algorithm": "MatchTemplate",
+        "baseTask": "#none",
+        "next": ["HSChapterToHS"],
+        "postDelay": 2000,
+        "roi": [517, 64, 155, 168],
+        "template": "StageSideStory.png"
+    },
     "Mizuki@Roguelike@ChooseDifficultyConfirm": {
         "text": ["選擇"]
     },
@@ -82,6 +91,24 @@
     },
     "CRChapterToCR": {
         "text": ["展廳", "漫遊"]
+    },
+    "HS-9": {
+        "algorithm": "JustReturn",
+        "sub": ["HS-Open"],
+        "next": ["HS-9@SideStoryStage", "HS-9@SwipeToStage"]
+    },
+    "HS-8": {
+        "algorithm": "JustReturn",
+        "sub": ["HS-Open"],
+        "next": ["HS-8@SideStoryStage", "HS-8@SwipeToStage"]
+    },
+    "HS-7": {
+        "algorithm": "JustReturn",
+        "sub": ["HS-Open"],
+        "next": ["HS-7@SideStoryStage", "HS-7@SwipeToStage"]
+    },
+    "HSChapterToHS": {
+        "text": ["種植", "地塊"]
     },
     "RS-OpenOcr": {
         "text": ["銀心", "列車", "特快"]
@@ -825,17 +852,35 @@
     "InfrastReward": {
         "text": ["可收穫", "訂單交付", "幹員信賴"]
     },
+    "InfrastDormMini": {
+        "roi": [620, 240, 360, 480]
+    },
+    "InfrastOffice": {
+        "roi": [880, 330, 400, 160]
+    },
+    "InfrastOfficeMini": {
+        "roi": [980, 320, 300, 160]
+    },
+    "InfrastProcessing": {
+        "roi": [880, 200, 400, 200]
+    },
+    "InfrastProcessingMini": {
+        "roi": [980, 240, 300, 160]
+    },
     "InfrastReception": {
-        "template": "Reception.png",
-        "maskRange": [1, 255],
-        "roi": [880, 120, 400, 160],
-        "templThreshold": 0.95
+        "roi": [880, 120, 400, 160]
     },
     "InfrastReceptionMini": {
-        "template": "ReceptionMini.png",
-        "maskRange": [1, 255],
-        "roi": [980, 180, 300, 140],
-        "templThreshold": 0.95
+        "roi": [980, 180, 300, 140]
+    },
+    "InfrastTraining": {
+        "roi": [880, 420, 400, 160]
+    },
+    "InfrastTrainingMini": {
+        "roi": [980, 400, 300, 140]
+    },
+    "InfrastControlMini": {
+        "roi": [620, 80, 360, 230]
     },
     "InfrastStationedInfo": {
         "text": ["進駐資訊", "焦駐資訊"]
@@ -851,6 +896,12 @@
     },
     "InfrastClueSelfFull": {
         "text": ["已達線索上限", "無法獲取新的線索", "上限", "無法"]
+    },
+    "InfrastTrainingIdle": {
+        "text": ["空閒中"]
+    },
+    "InfrastTrainingCompleted": {
+        "text": ["訓練完成", "完成"]
     },
     "BattleStageName": {
         "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的繁中识别任务复用",
@@ -2094,7 +2145,7 @@
         "text": ["繼", "續"]
     },
     "Reclamation2BeginStage": {
-        "text": ["眾人", "匯聚", "後舍"]
+        "text": ["眾人", "會聚", "會擊", "後舍"]
     },
     "Reclamation2Birdland": {
         "text": ["聚羽", "之地", "捕獵區"]
@@ -2137,7 +2188,14 @@
         "text": ["確認"]
     },
     "Reclamation2ExReadArchiveEnter": {
-        "text": ["讀取"]
+        "doc": "TODO: 讀取存檔不會再有確認彈窗時，需保留 text 和移除其他內容",
+        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
+        "text": ["讀取"],
+        "sub": [
+            "Reclamation2ExReadArchiveConfirm*2",
+            "Reclamation2ExReadArchiveSelectDay",
+            "Reclamation2ExReadArchiveSelectDayConfirm"
+        ]
     },
     "Reclamation2ExReadArchiveSelectDay": {
         "text": ["生息", "日"]
@@ -2152,7 +2210,7 @@
         "text": ["確認"]
     },
     "Reclamation2ExSkipDaysAward2": {
-        "text": ["點擊", "任意處", "繼續"]
+        "text": ["點擊", "任意處", "繼續", "任意", "王意"]
     },
     "Reclamation2ExSkipDaysBeginNewDay": {
         "text": ["開", "啟", "今", "日"]
@@ -2167,10 +2225,10 @@
         "text": ["確認", "刪除"]
     },
     "Reclamation2ProsperityMaxSkipDayClickContinue": {
-        "text": ["點擊", "任意處", "繼續"]
+        "text": ["點擊", "任意處", "繼續", "任意", "王意"]
     },
     "Reclamation2SkipDayClickContinue": {
-        "text": ["點擊", "任意處", "繼續"]
+        "text": ["點擊", "任意處", "繼續", "任意", "王意"]
     },
     "Reclamation2SkipTimeSkip": {
         "text": ["消磨", "時間"]
@@ -2254,13 +2312,13 @@
         "text": ["開始行動", "決斷"]
     },
     "Tales@RA@CancelEnterBuildMode": {
-        "text": ["進入建造"]
+        "text": ["進入建造", "進入", "建造"]
     },
     "Tales@RA@ClickGatheringOfFeathers": {
-        "text": ["聚羽之地"]
+        "text": ["聚羽之地", "聚羽", "之地"]
     },
     "Tales@RA@ClickShrubberyGalore": {
-        "text": ["豐饒灌木林", "木林"]
+        "text": ["豐饒灌木林", "木林", "灌木", "豐饒"]
     },
     "Tales@RA@ConfirmSquad": {
         "text": ["開始行動", "開始"]
@@ -2272,13 +2330,33 @@
         "text": ["開始行動", "開始"]
     },
     "Tales@RA@FinishCalc": {
-        "text": ["點擊任意處繼續", "任意"]
+        "text": ["點選任意處繼續", "任意", "王意", "點選"]
+    },
+    "Tales@RA@PIS-ProsperityBelowLimit-LoadSave": {
+        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
+        "doc": "TODO: 讀取存檔不會再有確認彈窗時，需移除此任務",
+        "sub": [
+            "Tales@RA@DialogConfirmYellow",
+            "Tales@RA@DialogConfirmRed",
+            "Tales@RA@SelectSecondLastSave",
+            "Tales@RA@ConfirmToLoadSave"
+        ]
+    },
+    "Tales@RA@PIS-ProsperityReachLimit-LoadSave": {
+        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
+        "doc": "TODO: 讀取存檔不會再有確認彈窗時，需移除此任務",
+        "sub": [
+            "Tales@RA@DialogConfirmYellow",
+            "Tales@RA@DialogConfirmRed",
+            "Tales@RA@SelectSecondLastSave",
+            "Tales@RA@ConfirmToLoadSave"
+        ]
     },
     "Tales@RA@PIS-Resume": {
         "text": ["繼續演算", "演算"]
     },
     "Tales@RA@PNS-ClickBaseCamp": {
-        "text": ["眾人會聚之地", "眾人"]
+        "text": ["眾人會聚之地", "眾人", "會聚", "會擊", "之地"]
     },
     "Tales@RA@PNS-Commence": {
         "text": ["演算", "開始"]
