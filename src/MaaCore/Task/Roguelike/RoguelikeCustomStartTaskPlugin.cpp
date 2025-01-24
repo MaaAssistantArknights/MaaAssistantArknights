@@ -1,6 +1,7 @@
 #include "RoguelikeCustomStartTaskPlugin.h"
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
+#include "Config/Roguelike/RoguelikeStageEncounterConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Status.h"
@@ -59,6 +60,10 @@ bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params
     }
     else {
         set_custom(RoguelikeCustomType::Roles, params.get("roles", "")); // 开局职业组
+    }
+
+    if (m_config->get_theme() == RoguelikeTheme::Sarkaz && m_config->get_mode() == RoguelikeMode::Collectible) {    //烧水选涂鸦
+        RoguelikeStageEncounter.set_event(m_config->get_theme(), m_config->get_mode(), "相遇", 1, 4);
     }
 
     set_custom(RoguelikeCustomType::CoreChar, params.get("core_char", ""));                    // 开局干员名
