@@ -497,7 +497,7 @@ namespace MaaWpfGui.Models
                       $"current_version={VersionUpdateSettingsUserControlModel.GetResourceVersionByClientType(SettingsViewModel.GameSettings.ClientType).DateTime:yyyy-MM-dd+HH:mm:ss.fff}" +
                       $"&cdk={SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk}" +
                       $"&sp_id={SimpleEncryptionHelper.Encrypt("MAA", DataProtectionScope.LocalMachine).Replace("+", string.Empty).Replace("/", string.Empty)[..64]}";
-            var response = await Instances.HttpService.GetAsync(new(url));
+            var response = await Instances.HttpService.GetAsync(new(url), logUri: false);
             if (response is not { StatusCode: System.Net.HttpStatusCode.OK })
             {
                 return false;
