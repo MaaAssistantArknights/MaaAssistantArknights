@@ -698,7 +698,7 @@ private:
 
     void rotate()
     {
-        constexpr uintmax_t MaxLogSize = 4ULL * 1024 * 1024;
+        constexpr long long MaxLogSize = 4LL *1024 * 1024;
         try {
             if (!std::filesystem::exists(m_log_path) || !std::filesystem::is_regular_file(m_log_path)) {
                 return;
