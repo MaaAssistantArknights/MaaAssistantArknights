@@ -2482,6 +2482,7 @@ namespace MaaWpfGui.Main
         /// <param name="deepExplorationAutoIterate">是否启动深入调查自动切换</param>
         /// <param name="stopAtMaxLevel">是否在满级时停止任务</param>
         /// <param name="startWithSeed">是否使用刷钱种子</param>
+        /// <param name="chooseBeautifulWish">刷等级选择美愿</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(
             int mode,
@@ -2513,7 +2514,8 @@ namespace MaaWpfGui.Main
             bool monthlySquadCheckComms,
             bool deepExplorationAutoIterate,
             bool stopAtMaxLevel,
-            bool startWithSeed)
+            bool startWithSeed,
+            bool chooseBeautifulWish)
         {
             var taskParams = new JObject
             {
@@ -2555,6 +2557,7 @@ namespace MaaWpfGui.Main
             {
                 taskParams["stop_at_final_boss"] = stopAtFinalBoss;
                 taskParams["stop_at_max_level"] = stopAtMaxLevel;
+                taskParams["choose_beautiful_wish"] = chooseBeautifulWish;
             }
             else if (mode == 4)
             {
