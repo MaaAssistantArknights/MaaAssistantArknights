@@ -425,7 +425,26 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public async Task ManualUpdateResource()
     {
         IsCheckingForUpdates = true;
-        if (await ResourceUpdater.UpdateFromGithubAsync())
+        var success = false;
+        switch (ResourceUpdateSource)
+        {
+            case "Github":
+                if (await ResourceUpdater.UpdateFromGithubAsync())
+                {
+                    success = true;
+                }
+
+                break;
+            case "MirrorChyan":
+                if (await ResourceUpdater.UpdateFromMirrorChyanAsync())
+                {
+                    success = true;
+                }
+
+                break;
+        }
+
+        if (success)
         {
             if (AutoInstallUpdatePackage)
             {

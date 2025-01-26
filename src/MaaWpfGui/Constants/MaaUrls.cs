@@ -82,6 +82,9 @@ namespace MaaWpfGui.Constants
         };
 
         // 资源更新更新源
-        public static string MirrorChyanWebsite => "https://mirrorc.top";
+        public const string GithubResourceUpdate = "https://github.com/MaaAssistantArknights/MaaResource/archive/refs/heads/main.zip";
+
+        public const string MirrorChyanWebsite = "https://mirrorc.top";
+        public const string MirrorChyanResourceUpdate = "https://mirrorc.top/api/resources/MaaResource/latest";
     }
 }
