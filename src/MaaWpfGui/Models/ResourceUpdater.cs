@@ -494,7 +494,7 @@ namespace MaaWpfGui.Models
             // https://mirrorc.top/api/resources/MaaResource/latest?current_version=<当前版本日期，从 version.json 里拿时间戳>&cdk=<cdk>&sp_id=<唯一识别码>
             // 响应格式为 {"code":0,"msg":"success","data":{"version_name":"2025-01-22 14:28:32.839","version_number":9,"url":"<增量更新网址>"}}
             var url = $"{MaaUrls.MirrorChyanResourceUpdate}?" +
-                      $"current_version={VersionUpdateSettingsUserControlModel.GetResourceVersionByClientType(SettingsViewModel.GameSettings.ClientType).DateTime:yyyy-MM-dd 20HH:mm:ss.fff}" +
+                      $"current_version={VersionUpdateSettingsUserControlModel.GetResourceVersionByClientType(SettingsViewModel.GameSettings.ClientType).DateTime:yyyy-MM-dd+HH:mm:ss.fff}" +
                       $"&cdk={SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk}" +
                       $"&sp_id={SimpleEncryptionHelper.Encrypt("MAA", DataProtectionScope.LocalMachine).Replace("+", string.Empty).Replace("/", string.Empty)[..64]}";
             var response = await Instances.HttpService.GetAsync(new(url));
