@@ -575,6 +575,7 @@ public:
         if (!m_ofs || !m_ofs.is_open()) {
             m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
         }
+        flush();
         if constexpr (std::same_as<level, remove_cvref_t<T>>) {
 #ifdef ASST_DEBUG
             return LogStream(m_trace_mutex, ostreams { console_ostream(std::cout), m_ofs }, arg);
@@ -676,11 +677,11 @@ public:
     void flush(bool rorate_log_file = true)
     {
         std::unique_lock<std::mutex> m_trace_lock(m_trace_mutex);
-        if (m_ofs.is_open()) {
-            m_ofs.close();
-        }
         if (rorate_log_file) {
             rotate();
+        }
+        else if (m_ofs.is_open()) {
+            m_ofs.close();
         }
     }
 
@@ -695,16 +696,21 @@ private:
         log_init_info();
     }
 
-    void rotate() const
+    void rotate()
     {
         constexpr uintmax_t MaxLogSize = 4ULL * 1024 * 1024;
         try {
-            if (std::filesystem::exists(m_log_path) && std::filesystem::is_regular_file(m_log_path)) {
-                const uintmax_t log_size = std::filesystem::file_size(m_log_path);
-                if (log_size >= MaxLogSize) {
-                    std::filesystem::rename(m_log_path, m_log_bak_path);
-                }
+            if (!std::filesystem::exists(m_log_path) || !std::filesystem::is_regular_file(m_log_path)) {
+                return;
             }
+            const auto log_size = m_ofs.tellp();
+            if (log_size < MaxLogSize) {
+                return;
+            }
+            if (m_ofs.is_open()) {
+                m_ofs.close();
+            }
+            std::filesystem::rename(m_log_path, m_log_bak_path);
         }
         catch (std::filesystem::filesystem_error& e) {
             std::cerr << e.what() << std::endl;
