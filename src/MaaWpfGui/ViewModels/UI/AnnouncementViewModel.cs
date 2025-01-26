@@ -93,7 +93,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             var body = await HttpResponseHelper.GetStringAsync(response);
-            if (!string.IsNullOrEmpty(body))
+            if (!string.IsNullOrEmpty(body) && AnnouncementInfo != body)
             {
                 AnnouncementInfo = body;
                 DoNotRemindThisAnnouncementAgain = false;
