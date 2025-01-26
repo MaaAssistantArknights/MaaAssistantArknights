@@ -3287,8 +3287,9 @@
     "OrundumActivitiesEarnRewards": {
         "action": "ClickRect",
         "roi": [590, 40, 130, 100],
+        "postDelay": 1500,
         "specificRect": [600, 600, 70, 70],
-        "next": ["OrundumActivitiesReturn"]
+        "next": ["#self", "OrundumActivitiesReturn"]
     },
     "OrundumActivitiesReturn": {
         "template": "CloseAnno.png",
