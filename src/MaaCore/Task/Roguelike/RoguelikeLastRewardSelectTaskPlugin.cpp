@@ -35,8 +35,7 @@ bool asst::RoguelikeLastRewardSelectTaskPlugin::_run()
     PipelineAnalyzer analyzer(ctrler()->get_image());
     analyzer.set_tasks(list);
     if (auto ret = analyzer.analyze(); !ret) {
-        // 未获取到期望物品，结束重开
-        // TODO 临时处理 !!! m_is_next_hardest 及 奖励选择baseTask重置时机判定
+        // 未获取到期望物品，设置烧水flag，重开
         m_config->set_run_for_collectible(true);
         m_control_ptr->exit_then_stop(true);
     }
