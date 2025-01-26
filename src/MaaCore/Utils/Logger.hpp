@@ -703,11 +703,13 @@ private:
             if (!std::filesystem::exists(m_log_path) || !std::filesystem::is_regular_file(m_log_path)) {
                 return;
             }
-            const auto log_size = m_ofs.tellp();
-            if (log_size < MaxLogSize) {
+            if (m_ofs.tellp() <= MaxLogSize) {
                 return;
             }
             std::unique_lock<std::mutex> m_trace_lock(m_trace_mutex);
+            if (!m_ofs.is_open() || m_ofs.tellp() <= MaxLogSize) {
+                return;
+            }
             if (m_ofs.is_open()) {
                 m_ofs.close();
             }
