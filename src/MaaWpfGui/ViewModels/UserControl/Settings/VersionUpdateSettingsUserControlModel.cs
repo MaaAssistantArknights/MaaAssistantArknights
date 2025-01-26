@@ -228,6 +228,39 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
     private bool _updateCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateCheck, bool.TrueString));
 
+    public List<GenericCombinedData<string>> ResourceUpdateSourceList { get; } = [
+        new() { Display = "Github", Value = "Github" },
+        new() { Display = LocalizationHelper.GetString("MirrorChyan"), Value = "MirrorChyan" },
+    ];
+
+    private string _resourceUpdateSource = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ResourceUpdateSource, "Github");
+
+    /// <summary>
+    /// Gets or sets the type of version to update.
+    /// </summary>
+    public string ResourceUpdateSource
+    {
+        get => _resourceUpdateSource;
+        set
+        {
+            SetAndNotify(ref _resourceUpdateSource, value);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ResourceUpdateSource, value.ToString());
+        }
+    }
+
+    private string _mirrorChyanCdk = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MirrorChyanCdk, string.Empty));
+
+    public string MirrorChyanCdk
+    {
+        get => _mirrorChyanCdk;
+        set
+        {
+            SetAndNotify(ref _mirrorChyanCdk, value);
+            value = SimpleEncryptionHelper.Encrypt(value);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MirrorChyanCdk, value);
+        }
+    }
+
     /// <summary>
     /// Gets or sets a value indicating whether to check update.
     /// </summary>

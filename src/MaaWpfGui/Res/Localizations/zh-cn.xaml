@@ -243,6 +243,8 @@
     <system:String x:Key="UpdateCheckNow">检查更新</system:String>
     <system:String x:Key="ShowChangelog">更新日志</system:String>
     <system:String x:Key="ResourceUpdate">资源更新</system:String>
+    <system:String x:Key="ResourceUpdateSource">资源更新更新源</system:String>
+    <system:String x:Key="MirrorChyan">Mirror 酱</system:String>
     <system:String x:Key="NewVersionFoundTitle">检测到新版本</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">正在后台下载……</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">版本号: </system:String>

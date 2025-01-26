@@ -240,6 +240,8 @@
     <system:String x:Key="UpdateCheckNow">檢查更新</system:String>
     <system:String x:Key="ShowChangelog">更新日誌</system:String>
     <system:String x:Key="ResourceUpdate">資源更新</system:String>
+    <system:String x:Key="ResourceUpdateSource">資源更新來源</system:String>
+    <system:String x:Key="MirrorChyan">Mirror 酱</system:String>
     <system:String x:Key="NewVersionFoundTitle">檢測到新版本</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">正在後臺下載……</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">版本號: </system:String>
