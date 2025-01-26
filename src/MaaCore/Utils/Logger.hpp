@@ -676,11 +676,11 @@ public:
 
     void flush(bool rorate_log_file = true)
     {
-        std::unique_lock<std::mutex> m_trace_lock(m_trace_mutex);
         if (rorate_log_file) {
             rotate();
         }
-        else if (m_ofs.is_open()) {
+        std::unique_lock<std::mutex> m_trace_lock(m_trace_mutex);
+        if (m_ofs.is_open()) {
             m_ofs.close();
         }
     }
@@ -698,7 +698,7 @@ private:
 
     void rotate()
     {
-        constexpr long long MaxLogSize = 4LL *1024 * 1024;
+        constexpr long long MaxLogSize = 4LL * 1024 * 1024;
         try {
             if (!std::filesystem::exists(m_log_path) || !std::filesystem::is_regular_file(m_log_path)) {
                 return;
@@ -707,6 +707,7 @@ private:
             if (log_size < MaxLogSize) {
                 return;
             }
+            std::unique_lock<std::mutex> m_trace_lock(m_trace_mutex);
             if (m_ofs.is_open()) {
                 m_ofs.close();
             }
