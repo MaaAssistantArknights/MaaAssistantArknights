@@ -20,6 +20,8 @@ All features involving auto-battle require a stable game frame rate of at least 
 
 ## Recommended Starting Strategies
 
+MAA can start with a support operator, which need to enable the option `Auto I.S.` → `Advanced` → `Select "Starting Operator" from support unit list`.
+
 ::: details
 
 | Theme   | Difficulty           | Squad                                           | Strategy                      | Operators             |
@@ -29,6 +31,8 @@ All features involving auto-battle require a stable game frame rate of at least 
 | Sami    | Braving Nature·4     | Special Training Squad / Tactical Ranged Squad  | Slow and Steady Wins the Race | Wiš'adel              |
 | Sarkaz  | Face the Spirit·4    | Blueprint Mapping Squad / Tactical Ranged Squad | Slow and Steady Wins the Race | Wiš'adel              |
 
+The recommended difficulty level is the one without the `Enemy Difficulty` and `Desired Consumption` bonuses. It is relatively stable when tested at a high level and can be adjusted freely according to actual conditions and needs.
+
 | Theme   | Notes                                                                                                                                                                                                                                                                                                                                                                         |
 | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Phantom | In the `Face the Disaster` difficulty, you may obtain a collection that will deduct your hopes, resulting in the inability to recruit six-star operators at the beginning of the game.                                                                                                                                                                                        |
@@ -37,10 +41,6 @@ All features involving auto-battle require a stable game frame rate of at least 
 | Sarkaz  | The cost of recruiting six-star operators in `Face the Spirit·5` and higher difficulties is increased by 1. It may be impossible to recruit six-star operators when using `Blueprint Mapping Squad` at the beginning.<br>Selecting the `Blueprint Mapping Squad` results in a completely stealth-oriented strategy, means that it is basically impossible to pass the ending. |
 
 :::
-
-MAA can start with a support operator, which need to enable the option `Auto I.S.` → `Advanced` → `Select "Starting Operator" from support unit list`.
-
-The recommended difficulty level is the one without the `Enemy Difficulty` and `Desired Consumption` bonuses. It is relatively stable when tested at a high level and can be adjusted freely according to actual conditions and needs.
 
 ## Battle Strategy
 
