@@ -151,7 +151,7 @@
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">月度小队自动切换</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">月度小队通讯</system:String>
     <system:String x:Key="RoguelikeDeepExplorationAutoIterate">深入调查自动切换</system:String>
-    <system:String x:Key="DeploymentWithPause">划火柴模式（自动战斗）</system:String>
+    <system:String x:Key="DeploymentWithPause">划火柴模式（自动战斗相关）（不稳定, 暂不推荐开启）</system:String>
     <system:String x:Key="AdbLiteEnabled">使用 ADB Lite（实验性功能）</system:String>
     <system:String x:Key="KillAdbOnExit">退出时释放 ADB</system:String>
     <system:String x:Key="DefaultSquad">默认分队</system:String>
