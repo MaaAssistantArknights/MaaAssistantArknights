@@ -678,6 +678,7 @@ public:
     {
         if (rorate_log_file) {
             rotate();
+            return;
         }
         std::unique_lock<std::mutex> m_trace_lock(m_trace_mutex);
         if (m_ofs.is_open()) {
@@ -698,7 +699,7 @@ private:
 
     void rotate()
     {
-        constexpr long long MaxLogSize = 4LL * 1024 * 1024;
+        constexpr long long MaxLogSize = 64LL * 1024 * 1024;
         try {
             if (!std::filesystem::exists(m_log_path) || !std::filesystem::is_regular_file(m_log_path)) {
                 return;
