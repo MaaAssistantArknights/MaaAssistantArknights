@@ -531,6 +531,13 @@ namespace MaaWpfGui.Models
                 return false;
             }
 
+            var code = data["code"]?.ToString();
+            if (code is not null && code != "0")
+            {
+                ToastNotification.ShowDirect(data["msg"]?.ToString());
+                return false;
+            }
+
             url = data["data"]?["url"]?.ToString();
             if (string.IsNullOrEmpty(url))
             {
