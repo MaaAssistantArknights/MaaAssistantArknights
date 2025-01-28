@@ -361,11 +361,14 @@ namespace MaaWpfGui.Models
                     case UpdateResult.Success
                         when !await HttpResponseHelper.SaveResponseToFileAsync(response, saveTo):
                         return UpdateResult.Failed;
+
                     case UpdateResult.Success:
                         ETagCache.Set(response);
                         return UpdateResult.Success;
+
                     case UpdateResult.NotModified:
                         return UpdateResult.NotModified;
+
                     case UpdateResult.Failed:
                     default:
                         await Task.Delay(5000);
@@ -429,7 +432,7 @@ namespace MaaWpfGui.Models
         public static async Task<bool> UpdateFromGithubAsync()
         {
             ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdating"));
-            bool download = await DownloadFullPackageAsync( MaaUrls.GithubResourceUpdate, "MaaResource.zip").ConfigureAwait(false);
+            bool download = await DownloadFullPackageAsync(MaaUrls.GithubResourceUpdate, "MaaResource.zip").ConfigureAwait(false);
             if (!download)
             {
                 ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
@@ -519,8 +522,9 @@ namespace MaaWpfGui.Models
                 : $"{MaaUrls.MirrorChyanResourceUpdate}?current_version={currentVersion}&cdk={cdk}";
 
             var response = await Instances.HttpService.GetAsync(new(url), logUri: false);
-            if (response is not { StatusCode: System.Net.HttpStatusCode.OK })
+            if (response is null)
             {
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
                 return false;
             }
 
@@ -528,6 +532,7 @@ namespace MaaWpfGui.Models
             var data = (JObject?)JsonConvert.DeserializeObject(json);
             if (data is null)
             {
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
                 return false;
             }
 
