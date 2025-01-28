@@ -30,6 +30,8 @@ namespace MaaWpfGui.Constants
 
         public const string Telegram = "https://t.me/+Mgc2Zngr-hs3ZjU1";
 
+        public const string Discord = "https://discord.gg/23DfZ9uA4V";
+
         public const string PrtsPlus = "https://prts.plus";
 
         public const string PrtsPlusCopilotGet = "https://prts.maa.plus/copilot/get/";
