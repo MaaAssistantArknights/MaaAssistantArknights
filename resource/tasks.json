@@ -4206,7 +4206,7 @@
     },
     "InfrastFilterMenuNotStationed": {
         "action": "ClickSelf",
-        "Doc":"国服如果已经选中会因为匹配不上选中不了所以直接结束",
+        "Doc": "国服如果已经选中会因为匹配不上选中不了所以直接结束",
         "Doc2": "国服现在 ui 改了，兼容外服，和下面的取消有点区别",
         "template": ["InfrastFilterMenu.png", "InfrastFilterMenu2.png"],
         "roi": [1050, 0, 230, 100],
@@ -4226,15 +4226,12 @@
         "next": ["InfrastFilterMenuConfirmButton"]
     },
     "InfrastFilterMenuCancelNotStationed": {
-        "Doc":"国服如果已经选中会因为匹配不上选中不了所以直接结束",
+        "Doc": "国服如果已经选中会因为匹配不上选中不了所以直接结束",
         "action": "ClickSelf",
         "template": ["InfrastFilterMenu.png", "InfrastFilterMenu3.png"],
         "roi": [1050, 0, 230, 100],
         "postDelay": 1000,
-        "next": [
-            "InfrastFilterMenuCancelNotStationedButtonAlreadyClicked",
-            "InfrastFilterMenuCancelNotStationedButton"
-        ]
+        "next": ["InfrastFilterMenuCancelNotStationedButtonAlreadyClicked", "InfrastFilterMenuCancelNotStationedButton"]
     },
     "InfrastFilterMenuCancelNotStationedButton": {
         "template": "InfrastFilterMenuNotStationedButton.png",
