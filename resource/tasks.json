@@ -4206,44 +4206,50 @@
     },
     "InfrastFilterMenuNotStationed": {
         "action": "ClickSelf",
-        "template": "InfrastFilterMenu.png",
+        "Doc":"国服如果已经选中会因为匹配不上选中不了所以直接结束",
+        "Doc2": "国服现在 ui 改了，兼容外服，和下面的取消有点区别",
+        "template": ["InfrastFilterMenu.png", "InfrastFilterMenu2.png"],
         "roi": [1050, 0, 230, 100],
-        "next": ["InfrastFilterMenuNotStationedButton", "InfrastFilterMenuNotStationedButtonAlreadyClicked"],
-        "postDelay": 1000
+        "postDelay": 1000,
+        "next": ["InfrastFilterMenuNotStationedButton", "InfrastFilterMenuNotStationedButtonAlreadyClicked"]
     },
     "InfrastFilterMenuNotStationedButton": {
         "action": "ClickSelf",
         "templThreshold": 0.85,
-        "roi": [300, 300, 250, 150],
+        "roi": [300, 160, 890, 300],
         "postDelay": 1000,
-        "next": ["InfrastFilterMenuConfirmButton"]
+        "next_Doc": "国服现在没有 InfrastFilterMenuConfirmButton 了，加个 Stop",
+        "next": ["InfrastFilterMenuConfirmButton", "Stop"]
     },
     "InfrastFilterMenuNotStationedButtonAlreadyClicked": {
-        "roi": [300, 300, 250, 150],
+        "roi": [300, 160, 890, 300],
         "next": ["InfrastFilterMenuConfirmButton"]
     },
     "InfrastFilterMenuCancelNotStationed": {
+        "Doc":"国服如果已经选中会因为匹配不上选中不了所以直接结束",
         "action": "ClickSelf",
-        "template": "InfrastFilterMenu.png",
+        "template": ["InfrastFilterMenu.png", "InfrastFilterMenu3.png"],
         "roi": [1050, 0, 230, 100],
+        "postDelay": 1000,
         "next": [
             "InfrastFilterMenuCancelNotStationedButtonAlreadyClicked",
             "InfrastFilterMenuCancelNotStationedButton"
-        ],
-        "postDelay": 1000
+        ]
     },
     "InfrastFilterMenuCancelNotStationedButton": {
         "template": "InfrastFilterMenuNotStationedButton.png",
         "templThreshold": 0.85,
-        "roi": [300, 300, 250, 150],
+        "roi": [300, 160, 890, 300],
         "postDelay": 1000,
         "next": ["InfrastFilterMenuConfirmButton"]
     },
     "InfrastFilterMenuCancelNotStationedButtonAlreadyClicked": {
         "action": "ClickSelf",
         "template": "InfrastFilterMenuNotStationedButtonAlreadyClicked.png",
-        "roi": [300, 300, 250, 150],
-        "next": ["InfrastFilterMenuConfirmButton"]
+        "roi": [300, 160, 890, 300],
+        "next_Doc": "国服现在没有 InfrastFilterMenuConfirmButton 了，加个 Stop",
+        "postDelay": 1000,
+        "next": ["InfrastFilterMenuConfirmButton", "Stop"]
     },
     "InfrastFilterMenuConfirmButton": {
         "action": "ClickSelf",
