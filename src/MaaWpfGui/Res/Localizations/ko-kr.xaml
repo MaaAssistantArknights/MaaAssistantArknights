@@ -240,6 +240,8 @@
     <system:String x:Key="UpdateCheckNow">지금 업데이트</system:String>
     <system:String x:Key="ShowChangelog">변경 내역</system:String>
     <system:String x:Key="ResourceUpdate">리소스 업데이트</system:String>
+    <system:String x:Key="ResourceUpdateSource">리소스 업데이트 소스</system:String>
+    <system:String x:Key="MirrorChyan">미러짱</system:String>
     <system:String x:Key="NewVersionFoundTitle">새로운 버전 확인</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">백그라운드에서 다운로드 중……</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">버전: </system:String>

@@ -240,6 +240,8 @@ You can cancel this popup by clicking the Settings - About Us - Issue Reporting 
     <system:String x:Key="UpdateCheckNow">Check update</system:String>
     <system:String x:Key="ShowChangelog">Changelog</system:String>
     <system:String x:Key="ResourceUpdate">Resource update</system:String>
+    <system:String x:Key="ResourceUpdateSource">Resource Update Source</system:String>
+    <system:String x:Key="MirrorChyan">Mirror-Chyan</system:String>
     <system:String x:Key="NewVersionFoundTitle">New Version Found</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">Downloading in the background……</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">Version: </system:String>

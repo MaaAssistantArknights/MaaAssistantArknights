@@ -240,6 +240,8 @@
     <system:String x:Key="UpdateCheckNow">アップデートを確認する</system:String>
     <system:String x:Key="ShowChangelog">変更履歴</system:String>
     <system:String x:Key="ResourceUpdate">リソース更新</system:String>
+    <system:String x:Key="ResourceUpdateSource">リソース更新ソース</system:String>
+    <system:String x:Key="MirrorChyan">ミラーちゃん</system:String>
     <system:String x:Key="NewVersionFoundTitle">新しいバージョンが見つかりました</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">バックグラウンドでダウンロードを行います……</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">バージョン: </system:String>
