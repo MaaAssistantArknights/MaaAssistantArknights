@@ -82,5 +82,11 @@ namespace MaaWpfGui.Constants
             "zh-tw" => $"{GitHubIssues}/new?assignees=&labels=bug&template=cn-bug-report.yaml",
             _ => $"{GitHubIssues}/new?assignees=&labels=bug&template=en-bug-report.yaml",
         };
+
+        // 资源更新更新源
+        public const string GithubResourceUpdate = "https://github.com/MaaAssistantArknights/MaaResource/archive/refs/heads/main.zip";
+
+        public const string MirrorChyanWebsite = "https://mirrorc.top";
+        public const string MirrorChyanResourceUpdate = $"{MirrorChyanWebsite}/api/resources/MaaResource/latest";
     }
 }
