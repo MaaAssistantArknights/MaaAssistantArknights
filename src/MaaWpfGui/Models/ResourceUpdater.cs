@@ -493,11 +493,30 @@ namespace MaaWpfGui.Models
         {
             // https://mirrorc.top/api/resources/MaaResource/latest?current_version=<当前版本日期，从 version.json 里拿时间戳>&cdk=<cdk>&sp_id=<唯一识别码>
             // 响应格式为 {"code":0,"msg":"success","data":{"version_name":"2025-01-22 14:28:32.839","version_number":9,"url":"<增量更新网址>"}}
-            var currentVersion = VersionUpdateSettingsUserControlModel
-                .GetResourceVersionByClientType(SettingsViewModel.GameSettings.ClientType)
-                .DateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            var versionFilePath = Path.Combine(Environment.CurrentDirectory, "MirrorChyanResourceVersion");
+            string? currentVersion = null;
+            if (File.Exists(versionFilePath))
+            {
+                try
+                {
+                    currentVersion = await File.ReadAllTextAsync(versionFilePath);
+                    currentVersion = DateTime.Parse(currentVersion).ToString("yyyy-MM-dd+HH:mm:ss");
+                }
+                catch (Exception e)
+                {
+                    _logger.Error("Failed to read or parse version file: " + e.Message);
+                    currentVersion = null;
+                }
+            }
+            else
+            {
+                _logger.Information("Version file not found, assuming first time download.");
+            }
+
             var cdk = SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk;
-            var url = $"{MaaUrls.MirrorChyanResourceUpdate}?current_version={currentVersion}&cdk={cdk}";
+            var url = currentVersion == null
+                ? $"{MaaUrls.MirrorChyanResourceUpdate}?cdk={cdk}"
+                : $"{MaaUrls.MirrorChyanResourceUpdate}?current_version={currentVersion}&cdk={cdk}";
 
             var response = await Instances.HttpService.GetAsync(new(url), logUri: false);
             if (response is not { StatusCode: System.Net.HttpStatusCode.OK })
@@ -515,6 +534,7 @@ namespace MaaWpfGui.Models
             url = data["data"]?["url"]?.ToString();
             if (string.IsNullOrEmpty(url))
             {
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("AlreadyLatest"));
                 return false;
             }
 
