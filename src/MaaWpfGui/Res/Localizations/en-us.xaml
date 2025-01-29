@@ -127,8 +127,8 @@
     <system:String x:Key="RoguelikeStrategyLastReward">Grind to obtain Hot Water Kettle or Elite II operators</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">Farm collapse paradigms, restart immediately after encountering a non-rare collapse paradigm</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">Squad to get collectibles</system:String>
-    <system:String x:Key="RoguelikeStrategyMonthlySquad">Grind Monthly Squad，exits after arriving at the fifth level</system:String>
-    <system:String x:Key="RoguelikeStrategyDeepExploration">Grind Deep Exploration，clear as far as possible</system:String>
+    <system:String x:Key="RoguelikeStrategyMonthlySquad">Grind Monthly Squad, exits after arriving at the fifth level</system:String>
+    <system:String x:Key="RoguelikeStrategyDeepExploration">Grind Deep Exploration, clear as far as possible</system:String>
     <system:String x:Key="StartingSquad">Starting Squad</system:String>
     <system:String x:Key="StartingRoles">Starting Roles</system:String>
     <system:String x:Key="StartingCoreChar">Starting Operator (single)</system:String>
@@ -137,7 +137,7 @@
     <system:String x:Key="RoguelikeStartWithEliteTwo">Repeat for「Starting Operator」Elite 2</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">Only Repeat for「Starting Operator」Elite 2, No Battle</system:String>
     <system:String x:Key="RoguelikeStartWithTwoIdeas">Repeat for a start with 2 ideas</system:String>
-    <system:String x:Key="Roguelike3FirstFloorFoldartal">Repeat for foldartal foreseed first floor，No Battle</system:String>
+    <system:String x:Key="Roguelike3FirstFloorFoldartal">Repeat for foldartal foreseed first floor, No Battle</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">Start with "Life Prioritizing Squad" and acquire the cypherboard</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">Write up to three and separate with ";"</system:String>
     <system:String x:Key="RoguelikeCollapseList">Collapse Paradigm List</system:String>
