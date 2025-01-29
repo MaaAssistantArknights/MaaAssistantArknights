@@ -693,27 +693,24 @@ private:
         m_directory(UserDir.get())
     {
         std::filesystem::create_directories(m_log_path.parent_path());
-        rotate();
         log_init_info();
     }
 
     void rotate()
     {
         constexpr long long MaxLogSize = 64LL * 1024 * 1024;
+        if (!m_ofs.is_open() || m_ofs.tellp() <= MaxLogSize) {
+            return;
+        }
+        std::unique_lock<std::mutex> m_trace_lock(m_trace_mutex);
+        if (!m_ofs.is_open() || m_ofs.tellp() <= MaxLogSize) {
+            return;
+        }
         try {
             if (!std::filesystem::exists(m_log_path) || !std::filesystem::is_regular_file(m_log_path)) {
                 return;
             }
-            if (m_ofs.tellp() <= MaxLogSize) {
-                return;
-            }
-            std::unique_lock<std::mutex> m_trace_lock(m_trace_mutex);
-            if (!m_ofs.is_open() || m_ofs.tellp() <= MaxLogSize) {
-                return;
-            }
-            if (m_ofs.is_open()) {
-                m_ofs.close();
-            }
+            m_ofs.close();
             std::filesystem::rename(m_log_path, m_log_bak_path);
         }
         catch (std::filesystem::filesystem_error& e) {
