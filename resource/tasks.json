@@ -9384,7 +9384,7 @@
         "text": ["LUD"],
         "action": "ClickSelf",
         "roi": [100, 430, 1100, 63],
-        "next": ["Sami@Roguelike@LastRewardConfirm"]
+        "next": ["Sami@Roguelike@SquadConfirm"]
     },
     "Sami@Roguelike@InitialDrop": {},
     "Sami@Roguelike@LastReward": {},
