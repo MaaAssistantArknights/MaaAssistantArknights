@@ -255,7 +255,11 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         get => _mirrorChyanCdk;
         set
         {
-            SetAndNotify(ref _mirrorChyanCdk, value);
+            if (!SetAndNotify(ref _mirrorChyanCdk, value))
+            {
+                return;
+            }
+
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MirrorChyanCdk, value);
         }
