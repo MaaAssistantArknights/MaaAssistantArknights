@@ -25,7 +25,7 @@ bool asst::RoguelikeLastRewardSelectTaskPlugin::load_params(const json::value& p
         }
         m_start_select = list;
     }
-    return false;
+    return true;
 }
 
 bool asst::RoguelikeLastRewardSelectTaskPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -63,7 +63,6 @@ bool asst::RoguelikeLastRewardSelectTaskPlugin::_run()
     else if (m_config->get_start_with_elite_two()) {
         ctrler()->click(ret->rect);
         sleep(Config.get_options().task_delay);
-        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@LastRewardConfirm" }).run();
     }
     else {
         m_control_ptr->exit_then_stop(false);
