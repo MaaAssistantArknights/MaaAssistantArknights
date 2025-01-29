@@ -85,13 +85,15 @@
                             SelectedValue="{Binding ResourceUpdateSource}"
                             SelectedValuePath="Value" />
                         <StackPanel Visibility="{c:Binding 'ResourceUpdateSource == &quot;MirrorChyan&quot;'}">
-                            <hc:TextBox
+                            <hc:PasswordBox
                                 Width="150"
                                 Margin="10"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 hc:TitleElement.Title="CDK"
-                                Text="{Binding MirrorChyanCdk}" />
+                                IsSafeEnabled="False"
+                                ShowEyeButton="True"
+                                UnsafePassword="{Binding MirrorChyanCdk}" />
                             <controls:TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Hyperlink
                                     Cursor="Hand"
