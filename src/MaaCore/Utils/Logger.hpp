@@ -557,7 +557,13 @@ public:
     LogStream(std::unique_lock<std::mutex>&&, stream_t&&, Args&&...) -> LogStream<stream_t>;
 
 public:
-    virtual ~Logger() override { flush(false); }
+    virtual ~Logger() override
+    {
+        std::unique_lock<std::mutex> m_trace_lock(m_trace_mutex);
+        if (m_ofs.is_open()) {
+            m_ofs.close();
+        }
+    }
 
     // static bool set_directory(const std::filesystem::path& dir)
     // {
@@ -575,7 +581,7 @@ public:
         if (!m_ofs || !m_ofs.is_open()) {
             m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
         }
-        flush();
+        rotate_check();
         if constexpr (std::same_as<level, remove_cvref_t<T>>) {
 #ifdef ASST_DEBUG
             return LogStream(m_trace_mutex, ostreams { console_ostream(std::cout), m_ofs }, arg);
@@ -663,6 +669,7 @@ public:
         if (!m_ofs || !m_ofs.is_open()) {
             m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
         }
+        rotate_check(lock);
         (LogStream(
              std::move(lock),
 #ifdef ASST_DEBUG
@@ -674,16 +681,21 @@ public:
          << ... << std::forward<Args>(args));
     }
 
-    void flush(bool rorate_log_file = true)
+    void rotate_check()
     {
-        if (rorate_log_file) {
-            rotate();
+        if (!m_ofs || !m_ofs.is_open() || m_ofs.tellp() <= MaxLogSize) {
             return;
         }
-        std::unique_lock<std::mutex> m_trace_lock(m_trace_mutex);
-        if (m_ofs.is_open()) {
-            m_ofs.close();
+        std::unique_lock<std::mutex> trace_lock(m_trace_mutex);
+        rotate_check(trace_lock);
+    }
+
+    void rotate_check([[maybe_unused]] std::unique_lock<std::mutex>& lock)
+    {
+        if (!m_ofs || !m_ofs.is_open() || m_ofs.tellp() <= MaxLogSize) {
+            return;
         }
+        rotate();
     }
 
 private:
@@ -698,20 +710,13 @@ private:
 
     void rotate()
     {
-        constexpr long long MaxLogSize = 64LL * 1024 * 1024;
-        if (!m_ofs.is_open() || m_ofs.tellp() <= MaxLogSize) {
-            return;
-        }
-        std::unique_lock<std::mutex> m_trace_lock(m_trace_mutex);
-        if (!m_ofs.is_open() || m_ofs.tellp() <= MaxLogSize) {
-            return;
-        }
         try {
             if (!std::filesystem::exists(m_log_path) || !std::filesystem::is_regular_file(m_log_path)) {
                 return;
             }
             m_ofs.close();
             std::filesystem::rename(m_log_path, m_log_bak_path);
+            m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
         }
         catch (std::filesystem::filesystem_error& e) {
             std::cerr << e.what() << std::endl;
@@ -738,6 +743,7 @@ private:
     std::filesystem::path m_log_bak_path = m_directory / "debug" / "asst.bak.log";
     std::mutex m_trace_mutex;
     std::ofstream m_ofs;
+    const long long MaxLogSize = 1LL * 1024 * 1024;
 };
 
 inline constexpr Logger::separator Logger::separator::none;
