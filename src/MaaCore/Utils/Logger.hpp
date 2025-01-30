@@ -743,7 +743,7 @@ private:
     std::filesystem::path m_log_bak_path = m_directory / "debug" / "asst.bak.log";
     std::mutex m_trace_mutex;
     std::ofstream m_ofs;
-    const long long MaxLogSize = 1LL * 1024 * 1024;
+    const long long MaxLogSize = 64LL * 1024 * 1024;
 };
 
 inline constexpr Logger::separator Logger::separator::none;
