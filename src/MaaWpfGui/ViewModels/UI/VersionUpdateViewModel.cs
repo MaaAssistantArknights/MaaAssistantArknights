@@ -477,21 +477,16 @@ public class VersionUpdateViewModel : Screen
             return ret;
         }
 
+        if (string.IsNullOrEmpty(SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk))
+        {
+            ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanResourceUpdateTip"));
+            SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
+            return ret;
+        }
+
         switch (SettingsViewModel.VersionUpdateSettings.ResourceUpdateSource)
         {
             case "Github":
-                _ = Execute.OnUIThreadAsync(() =>
-                {
-                    var growlInfo = new GrowlInfo
-                    {
-                        IsCustom = true,
-                        Message = LocalizationHelper.GetString("Mirror 酱检查到资源版本更新，但未填写 cdk，可前往「设置-软件更新」使用 github 源进行版本更新"),
-                        IconKey = "BrowserUpdatedFilled",
-                        IconBrushKey = "PallasBrush",
-                        WaitTime = 10,
-                    };
-                    Growl.Info(growlInfo);
-                });
                 break;
             case "MirrorChyan":
                 if (await ResourceUpdater.DownloadFromMirrorChyanAsync(uri))
