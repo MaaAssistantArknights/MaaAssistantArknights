@@ -492,61 +492,52 @@ namespace MaaWpfGui.Models
         }
 
         // 从 MirrorChyan 下载完整包
-        public static async Task<bool> UpdateFromMirrorChyanAsync()
+        public static async Task<(bool HaveUpdate, string? UpdateUrl)> CheckFromMirrorChyanAsync()
         {
             // https://mirrorc.top/api/resources/MaaResource/latest?current_version=<当前版本日期，从 version.json 里拿时间戳>&cdk=<cdk>&sp_id=<唯一识别码>
             // 响应格式为 {"code":0,"msg":"success","data":{"version_name":"2025-01-22 14:28:32.839","version_number":9,"url":"<增量更新网址>"}}
-            var versionFilePath = Path.Combine(Environment.CurrentDirectory, "MirrorChyanResourceVersion");
-            string? currentVersion = null;
-            if (File.Exists(versionFilePath))
-            {
-                try
-                {
-                    currentVersion = await File.ReadAllTextAsync(versionFilePath);
-                    currentVersion = DateTime.Parse(currentVersion).ToString("yyyy-MM-dd+HH:mm:ss");
-                }
-                catch (Exception e)
-                {
-                    _logger.Error("Failed to read or parse version file: " + e.Message);
-                    currentVersion = null;
-                }
-            }
-            else
-            {
-                _logger.Information("Version file not found, assuming first time download.");
-            }
-
+            var currentVersionDateTime = VersionUpdateSettingsUserControlModel
+                .GetResourceVersionByClientType(SettingsViewModel.GameSettings.ClientType)
+                .DateTime;
+            var currentVersion = currentVersionDateTime.ToString("yyyy-MM-dd+HH:mm:ss.fff");
             var cdk = SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk;
-            var url = currentVersion == null
-                ? $"{MaaUrls.MirrorChyanResourceUpdate}?cdk={cdk}"
-                : $"{MaaUrls.MirrorChyanResourceUpdate}?current_version={currentVersion}&cdk={cdk}";
+
+            var url = $"{MaaUrls.MirrorChyanResourceUpdate}?current_version={currentVersion}&cdk={cdk}";
 
             var response = await Instances.HttpService.GetAsync(new(url), logUri: false);
             if (response is null)
             {
                 ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
-                return false;
+                return (false, null);
             }
 
             var json = await response.Content.ReadAsStringAsync();
             var data = (JObject?)JsonConvert.DeserializeObject(json);
+
             if (data is null)
             {
-                ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
-                return false;
+                return (false, null);
             }
 
-            var code = data["code"]?.ToString();
-            if (code is not null && code != "0")
+            if (data["code"]?.ToString() != "0")
             {
-                ToastNotification.ShowDirect(data["msg"]?.ToString());
-                return false;
+                ToastNotification.ShowDirect(data["msg"]?.ToString() ?? LocalizationHelper.GetString("GameResourceFailed"));
+                return (false, null);
             }
 
-            url = data["data"]?["url"]?.ToString();
+            if (DateTime.TryParse(data["data"]?["version_name"]?.ToString(), out var version) &&
+                DateTime.Compare(currentVersionDateTime, version) <= 0)
+            {
+                return (false, null);
+            }
+
+            return (true, data["data"]?["url"]?.ToString());
+        }
+
+        public static async Task<bool> DownloadFromMirrorChyanAsync(string? url)
+        {
             if (string.IsNullOrEmpty(url))
             {
-                ToastNotification.ShowDirect(LocalizationHelper.GetString("AlreadyLatest"));
                 return false;
             }
 
@@ -558,7 +549,6 @@ namespace MaaWpfGui.Models
                 return false;
             }
 
-            // 解压到 MaaResource 文件夹
             try
             {
                 if (Directory.Exists("MaaResource"))
@@ -575,12 +565,11 @@ namespace MaaWpfGui.Models
                 return false;
             }
 
-            // 没有 cache 文件夹，直接复制 resource 文件夹复制到当前目录
             try
             {
-                string sourcePath = new("MaaResource");
+                const string SourcePath = "MaaResource";
                 string destinationPath = Directory.GetCurrentDirectory();
-                DirectoryMerge(sourcePath, destinationPath);
+                DirectoryMerge(SourcePath, destinationPath);
             }
             catch (Exception e)
             {
@@ -589,7 +578,6 @@ namespace MaaWpfGui.Models
                 return false;
             }
 
-            // 删除 MaaResource 文件夹 和 MaaResource.zip
             try
             {
                 Directory.Delete("MaaResource", true);
@@ -601,6 +589,17 @@ namespace MaaWpfGui.Models
             }
 
             return true;
+        }
+
+        public static async Task<bool> UpdateFromMirrorChyanAsync()
+        {
+            var (haveUpdate, uri) = await CheckFromMirrorChyanAsync();
+            if (!haveUpdate)
+            {
+                return false;
+            }
+
+            return await DownloadFromMirrorChyanAsync(uri);
         }
 
         private static async Task<bool> DownloadFullPackageAsync(string url, string saveTo)
