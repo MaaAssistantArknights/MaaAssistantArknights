@@ -1,5 +1,9 @@
 ## v5.13.0-beta.1
 
+### 官方 MAA Discord 服务器 | Official MAA Discord server
+
+Link: [discord.gg/23DfZ9uA4V](https://discord.gg/23DfZ9uA4V)
+
 ### 新增 | New
 
 * 添加资源更新提示 @ABA2396
@@ -23,7 +27,6 @@
 * Wpf肉鸽烧水时使用分队UI为空 @status102
 * 肉鸽临时招募预备干员时, 不额外提升权重 (#11442) @Daydreamer114
 * 公告窗口触控板滚动异常 (#11684) @Rbqwow
-* styling @Constrat
 * 添加不期而遇新事件空无前兆 (#11573) @DavidWang19
 * Attempt retry once screencap for MumuExtras (#11550) @teldd1
 * 肉鸽作战编队截图过快导致截图与实际不符 (#11527) @Daydreamer114
