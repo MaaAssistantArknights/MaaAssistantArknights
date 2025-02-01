@@ -516,6 +516,7 @@ namespace MaaWpfGui.Models
 
             if (data is null)
             {
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
                 return (false, null);
             }
 
@@ -525,9 +526,15 @@ namespace MaaWpfGui.Models
                 return (false, null);
             }
 
-            if (DateTime.TryParse(data["data"]?["version_name"]?.ToString(), out var version) &&
-                DateTime.Compare(currentVersionDateTime, version) <= 0)
+            if (!DateTime.TryParse(data["data"]?["version_name"]?.ToString(), out var version))
             {
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
+                return (false, null);
+            }
+
+            if (DateTime.Compare(currentVersionDateTime, version) >= 0)
+            {
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("AlreadyLatest"));
                 return (false, null);
             }
 
