@@ -241,8 +241,8 @@
     <system:String x:Key="ShowChangelog">更新日誌</system:String>
     <system:String x:Key="ResourceUpdate">資源更新</system:String>
     <system:String x:Key="ResourceUpdateSource">資源更新來源</system:String>
-    <system:String x:Key="MirrorChyan">Mirror 酱</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">Mirror 醬檢查到資源版本更新，但未填寫 CDK，可前往「設定-軟體更新」使用 github 源進行資源版本更新</system:String>
+    <system:String x:Key="MirrorChyan">Mirror 醬</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">Mirror 醬檢查到資源版本更新，可前往「設定-軟體更新」配置CDK或使用 github 源進行資源版本更新</system:String>
     <system:String x:Key="NewVersionFoundTitle">檢測到新版本</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">正在後臺下載……</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">版本號: </system:String>
