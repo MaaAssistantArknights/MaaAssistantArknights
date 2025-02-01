@@ -33,19 +33,23 @@
                 </mdxam:MarkdownScrollViewer.Plugins>
             </mdxam:MarkdownScrollViewer>
 
-            <CheckBox
-                Height="30"
-                Margin="6"
-                HorizontalAlignment="Center"
-                VerticalContentAlignment="Center"
-                Content="{DynamicResource ShowDisclaimerNoMore}"
-                IsChecked="{Binding DoNotRemindThisAnnouncementAgain}" />
-
-            <Button
-                Height="50"
-                MinWidth="100"
-                Command="{s:Action Close}"
-                Content="{DynamicResource Confirm}" />
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <Image Width="100" Source="/Res/Img/NoSkland.jpg" />
+                <StackPanel Margin="50,0,0,0" VerticalAlignment="Center">
+                    <CheckBox
+                        Height="30"
+                        Margin="6"
+                        HorizontalAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Content="{DynamicResource ShowDisclaimerNoMore}"
+                        IsChecked="{Binding DoNotRemindThisAnnouncementAgain}" />
+                    <Button
+                        Height="50"
+                        MinWidth="100"
+                        Command="{s:Action Close}"
+                        Content="{DynamicResource Confirm}" />
+                </StackPanel>
+            </StackPanel>
         </StackPanel>
     </hc:ScrollViewer>
 </hc:Window>
