@@ -1498,7 +1498,6 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FoldartalGainOcrNextLevel") + $" {subTaskDetails!["foldartal"]}");
                     break;
 
-
                 case "MonthlySquadCompleted":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MonthlySquadCompleted"), UiLogColor.RareOperator);
                     break;
@@ -2576,6 +2575,7 @@ namespace MaaWpfGui.Main
 
                 taskParams["collectible_mode_start_list"] = startWithSelect;
             }
+
             if (mode == 6)
             {
                 taskParams["monthly_squad_auto_iterate"] = monthlySquadAutoIterate;
@@ -2614,6 +2614,7 @@ namespace MaaWpfGui.Main
         /// <summary>
         /// 自动生息演算。
         /// </summary>
+        /// <param name="toolToCraft">要组装的支援道具。</param>
         /// <param name="theme">生息演算主题["Tales"]</param>
         /// <param name="mode">
         /// 策略。可用值包括：
@@ -2628,7 +2629,6 @@ namespace MaaWpfGui.Main
         ///     </item>
         /// </list>
         /// </param>
-        /// <param name="toolToCraft">要组装的支援道具。</param>
         /// <param name="incrementMode">点击类型：0 连点；1 长按</param>
         /// <param name="numCraftBatches">单次最大制造轮数</param>
         /// <returns>是否成功。</returns>
