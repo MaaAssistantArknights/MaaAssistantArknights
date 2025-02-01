@@ -242,6 +242,7 @@
     <system:String x:Key="ResourceUpdate">リソース更新</system:String>
     <system:String x:Key="ResourceUpdateSource">リソース更新ソース</system:String>
     <system:String x:Key="MirrorChyan">ミラーちゃん</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">Mirrorちゃんがリソースのバージョン更新を検出しましたが、CDKが入力されていません。「設定-ソフトウェア更新」でGitHubソースを使用してバージョン更新が可能です</system:String>
     <system:String x:Key="NewVersionFoundTitle">新しいバージョンが見つかりました</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">バックグラウンドでダウンロードを行います……</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">バージョン: </system:String>
