@@ -2,8 +2,6 @@
 
 ### 新增 | New
 
-* 添加资源更新提示 @ABA2396
-* CDK 改为密码框 @ABA2396
 * 添加 MirrorChyan 资源更新方式 (#11669) @ABA2396 @MistEO
 * discord link for website docs (#11687) @Constrat @momomochi987 @Rbqwow
 * Discord link in About Us @Constrat
