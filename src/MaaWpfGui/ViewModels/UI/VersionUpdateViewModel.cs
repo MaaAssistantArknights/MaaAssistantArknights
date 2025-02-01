@@ -470,16 +470,9 @@ public class VersionUpdateViewModel : Screen
         */
 
         // 可以用 MirrorChyan 资源更新了喵
-        var (haveUpdate, uri) = await ResourceUpdater.CheckFromMirrorChyanAsync();
-        if (!haveUpdate)
+        var (checkRet, uri) = await ResourceUpdater.CheckFromMirrorChyanAsync();
+        if (checkRet != CheckUpdateRetT.OK || string.IsNullOrEmpty(uri))
         {
-            SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
-            return ret;
-        }
-
-        if (string.IsNullOrEmpty(SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk))
-        {
-            ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanResourceUpdateTip"));
             SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
             return ret;
         }
@@ -488,6 +481,7 @@ public class VersionUpdateViewModel : Screen
         {
             case "Github":
                 break;
+
             case "MirrorChyan":
                 if (await ResourceUpdater.DownloadFromMirrorChyanAsync(uri))
                 {
@@ -549,7 +543,8 @@ public class VersionUpdateViewModel : Screen
                     {
                         Process.Start(new ProcessStartInfo(UpdateUrl) { UseShellExecute = true });
                     }
-                });
+                }
+            );
 
             {
                 using var toast = new ToastNotification((otaFound ? LocalizationHelper.GetString("NewVersionFoundTitle") : LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);
