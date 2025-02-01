@@ -34,6 +34,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Serilog;
 using Stylet;
+using static MaaWpfGui.ViewModels.UI.VersionUpdateViewModel;
 
 namespace MaaWpfGui.Models
 {
@@ -492,7 +493,7 @@ namespace MaaWpfGui.Models
         }
 
         // 从 MirrorChyan 下载完整包
-        public static async Task<(bool HaveUpdate, string? UpdateUrl)> CheckFromMirrorChyanAsync()
+        public static async Task<(CheckUpdateRetT Ret, string? UpdateUrl)> CheckFromMirrorChyanAsync()
         {
             // https://mirrorc.top/api/resources/MaaResource/latest?current_version=<当前版本日期，从 version.json 里拿时间戳>&cdk=<cdk>&sp_id=<唯一识别码>
             // 响应格式为 {"code":0,"msg":"success","data":{"version_name":"2025-01-22 14:28:32.839","version_number":9,"url":"<增量更新网址>"}}
@@ -508,7 +509,7 @@ namespace MaaWpfGui.Models
             if (response is null)
             {
                 ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
-                return (false, null);
+                return (CheckUpdateRetT.NetworkError, null);
             }
 
             var json = await response.Content.ReadAsStringAsync();
@@ -517,28 +518,41 @@ namespace MaaWpfGui.Models
             if (data is null)
             {
                 ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
-                return (false, null);
+                return (CheckUpdateRetT.UnknownError, null);
             }
 
             if (data["code"]?.ToString() != "0")
             {
                 ToastNotification.ShowDirect(data["msg"]?.ToString() ?? LocalizationHelper.GetString("GameResourceFailed"));
-                return (false, null);
+                return (CheckUpdateRetT.UnknownError, null);
             }
 
             if (!DateTime.TryParse(data["data"]?["version_name"]?.ToString(), out var version))
             {
                 ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
-                return (false, null);
+                return (CheckUpdateRetT.UnknownError, null);
             }
 
             if (DateTime.Compare(currentVersionDateTime, version) >= 0)
             {
-                ToastNotification.ShowDirect(LocalizationHelper.GetString("AlreadyLatest"));
-                return (false, null);
+                return (CheckUpdateRetT.AlreadyLatest, null);
             }
 
-            return (true, data["data"]?["url"]?.ToString());
+            // 到这里已经确定有新版本了
+            if (string.IsNullOrEmpty(cdk))
+            {
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanResourceUpdateTip"));
+                return (CheckUpdateRetT.OK, null);
+            }
+
+            var uri = data["data"]?["url"]?.ToString();
+            if (string.IsNullOrEmpty(uri))
+            {
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
+                return (CheckUpdateRetT.UnknownError, null);
+            }
+
+            return (CheckUpdateRetT.OK, uri);
         }
 
         public static async Task<bool> DownloadFromMirrorChyanAsync(string? url)
@@ -600,10 +614,18 @@ namespace MaaWpfGui.Models
 
         public static async Task<bool> UpdateFromMirrorChyanAsync()
         {
-            var (haveUpdate, uri) = await CheckFromMirrorChyanAsync();
-            if (!haveUpdate)
+            var (checkRet, uri) = await CheckFromMirrorChyanAsync();
+            switch (checkRet)
             {
-                return false;
+                case CheckUpdateRetT.AlreadyLatest:
+                    ToastNotification.ShowDirect(LocalizationHelper.GetString("AlreadyLatest"));
+                    return false;
+
+                case CheckUpdateRetT.OK:
+                    break;
+
+                default:
+                    return false;
             }
 
             return await DownloadFromMirrorChyanAsync(uri);
