@@ -23,6 +23,8 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using HandyControl.Controls;
+using HandyControl.Data;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -440,6 +442,7 @@ public class VersionUpdateViewModel : Screen
             }
             else
             {
+                var ret = await CheckAndDownloadUpdate();
                 // 跑个空任务避免 async warning
                 await Task.Run(() => { });
             }
@@ -467,16 +470,34 @@ public class VersionUpdateViewModel : Screen
         */
 
         // 可以用 MirrorChyan 资源更新了喵
+        var (haveUpdate, uri) = await ResourceUpdater.CheckFromMirrorChyanAsync();
+        if (!haveUpdate)
+        {
+            SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
+            return ret;
+        }
+
         switch (SettingsViewModel.VersionUpdateSettings.ResourceUpdateSource)
         {
-            case "MirrorChyan":
-                if (!string.IsNullOrEmpty(SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk))
+            case "Github":
+                _ = Execute.OnUIThreadAsync(() =>
                 {
-                    if (await ResourceUpdater.UpdateFromMirrorChyanAsync())
+                    var growlInfo = new GrowlInfo
                     {
-                        SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
-                        return CheckUpdateRetT.OnlyGameResourceUpdated;
-                    }
+                        IsCustom = true,
+                        Message = LocalizationHelper.GetString("Mirror 酱检查到资源版本更新，但未填写 cdk，可前往「设置-软件更新」使用 github 源进行版本更新"),
+                        IconKey = "BrowserUpdatedFilled",
+                        IconBrushKey = "PallasBrush",
+                        WaitTime = 10,
+                    };
+                    Growl.Info(growlInfo);
+                });
+                break;
+            case "MirrorChyan":
+                if (await ResourceUpdater.DownloadFromMirrorChyanAsync(uri))
+                {
+                    SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
+                    return CheckUpdateRetT.OnlyGameResourceUpdated;
                 }
 
                 break;
