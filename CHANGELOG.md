@@ -1,14 +1,8 @@
-## v5.13.0-beta.1
-
-### 官方 MAA Discord 服务器 | Official MAA Discord server
-
-Link: [discord.gg/23DfZ9uA4V](https://discord.gg/23DfZ9uA4V)
+## v5.13.0-beta.2
 
 ### 新增 | New
 
-* 添加资源更新提示 @ABA2396
-* CDK 改为密码框 @ABA2396
-* 添加 MirrorChyan 资源更新方式 (#11669) @ABA2396
+* 添加 MirrorChyan 资源更新方式 (#11669) @ABA2396 @MistEO
 * discord link for website docs (#11687) @Constrat @momomochi987 @Rbqwow
 * Discord link in About Us @Constrat
 * 适配新 ui 未进驻选项 @ABA2396
@@ -16,6 +10,7 @@ Link: [discord.gg/23DfZ9uA4V](https://discord.gg/23DfZ9uA4V)
 
 ### 改进 | Improved
 
+* mirrorchyan toast @MistEO
 * 简化肉鸽任务使用助战参数内部存储流程 @status102
 * 添加资源更新提示翻译 @ABA2396
 * 将Sarkaz开局添加负荷干员的进入任务改为范围点击 (#11100) @Daydreamer114
@@ -24,9 +19,12 @@ Link: [discord.gg/23DfZ9uA4V](https://discord.gg/23DfZ9uA4V)
 
 ### 修复 | Fix
 
+* mirror-chyan notify error @MistEO
+* missing `user_agent` param for mirrorchyan query @MistEO
 * Wpf肉鸽烧水时使用分队UI为空 @status102
 * 肉鸽临时招募预备干员时, 不额外提升权重 (#11442) @Daydreamer114
 * 公告窗口触控板滚动异常 (#11684) @Rbqwow
+* styling @Constrat
 * 添加不期而遇新事件空无前兆 (#11573) @DavidWang19
 * Attempt retry once screencap for MumuExtras (#11550) @teldd1
 * 肉鸽作战编队截图过快导致截图与实际不符 (#11527) @Daydreamer114
@@ -36,6 +34,7 @@ Link: [discord.gg/23DfZ9uA4V](https://discord.gg/23DfZ9uA4V)
 
 ### 文档 | Docs
 
+* Auto Update Changelogs of v5.13.0-beta.1 (#11703) @github-actions[bot] @Constrat
 * 推荐分辨率720P或1080P (#11651) @Rbqwow
 * 替换.NET8 桌面运行时下载链接为直链 (#11693) @wryx166
 * 肉鸽推荐开局策略 (#11570) @Rbqwow @Constrat
