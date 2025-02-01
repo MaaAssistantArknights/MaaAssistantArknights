@@ -61,11 +61,9 @@ bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params
         set_custom(RoguelikeCustomType::Roles, params.get("roles", "")); // 开局职业组
     }
 
-    set_custom(RoguelikeCustomType::CoreChar, params.get("core_char", ""));                    // 开局干员名
-    set_custom(RoguelikeCustomType::UseSupport, params.get("use_support", false) ? "1" : "0"); // 开局干员是否为助战干员
-    set_custom(
-        RoguelikeCustomType::UseNonfriendSupport,
-        params.get("use_nonfriend_support", false) ? "1" : "0"); // 是否可以是非好友助战干员
+    set_custom(RoguelikeCustomType::CoreChar, params.get("core_char", "")); // 开局干员名
+    m_config->set_use_support(params.get("use_support", false));            // 开局干员是否为助战干员
+    m_config->set_use_nonfriend_support(params.get("use_nonfriend_support", false)); // 是否可以是非好友助战干员
 
     return true;
 }
@@ -165,8 +163,6 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
         const auto& role_rect = analyzer.get_result().front().rect;
         ctrler()->click(role_rect);
 
-        m_config->set_use_support(m_customs[RoguelikeCustomType::UseSupport] == "1");
-        m_config->set_use_nonfriend_support(m_customs[RoguelikeCustomType::UseNonfriendSupport] == "1");
         m_config->set_core_char(m_customs[RoguelikeCustomType::CoreChar]);
         return true;
     }
@@ -199,8 +195,6 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
 
     sleep(Task.get("RoguelikeCustom-HijackCoChar")->pre_delay);
 
-    m_config->set_use_support(m_customs[RoguelikeCustomType::UseSupport] == "1");
-    m_config->set_use_nonfriend_support(m_customs[RoguelikeCustomType::UseNonfriendSupport] == "1");
     m_config->set_core_char(char_name);
     return true;
 }

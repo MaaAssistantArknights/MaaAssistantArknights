@@ -9,8 +9,6 @@ enum class RoguelikeCustomType
     Squad,              // 分队类型， like 指挥分队, 矛头分队, etc
     Roles,              // 职业类型， like 先手必胜, 稳扎稳打, etc
     CoreChar,           // 首选干员， 干员名
-    UseSupport,         // 使用助战
-    UseNonfriendSupport // 可以使用非好友助战
     // CoCoreChar,  // 次选干员， 干员名
 };
 
