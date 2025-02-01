@@ -502,7 +502,7 @@ namespace MaaWpfGui.Models
             var currentVersion = currentVersionDateTime.ToString("yyyy-MM-dd+HH:mm:ss.fff");
             var cdk = SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk;
 
-            var url = $"{MaaUrls.MirrorChyanResourceUpdate}?current_version={currentVersion}&cdk={cdk}";
+            var url = $"{MaaUrls.MirrorChyanResourceUpdate}?current_version={currentVersion}&cdk={cdk}&user_agent=MaaWpfGui";
 
             var response = await Instances.HttpService.GetAsync(new(url), logUri: false);
             if (response is null)
