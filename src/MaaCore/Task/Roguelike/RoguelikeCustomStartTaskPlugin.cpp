@@ -72,8 +72,6 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
 
 bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params)
 {
-    LogTraceFunction;
-
     m_squad = params.get("squad", "");
     m_collectible_mode_squad = params.get("collectible_mode_squad", "");
 
