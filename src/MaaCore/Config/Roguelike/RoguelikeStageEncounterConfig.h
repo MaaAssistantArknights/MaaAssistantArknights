@@ -4,8 +4,8 @@
 
 #include <vector>
 
-#include "Common/AsstTypes.h"
 #include "Common/AsstBattleDef.h"
+#include "Common/AsstTypes.h"
 #include "Task/Roguelike/RoguelikeConfig.h"
 
 namespace asst
