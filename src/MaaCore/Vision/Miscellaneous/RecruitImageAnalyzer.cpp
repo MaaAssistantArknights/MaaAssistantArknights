@@ -18,7 +18,7 @@ bool asst::RecruitImageAnalyzer::analyze()
 
     Log.trace("time_analyze:", ret0, "refresh_analyze:", ret1, "permit_analyze:", ret2, "tags_analyze:", ret3);
 
-    return ret0 && ret1 && ret2 && ret3;
+    return ret0 && ret3;
 }
 
 bool asst::RecruitImageAnalyzer::tags_analyze()
