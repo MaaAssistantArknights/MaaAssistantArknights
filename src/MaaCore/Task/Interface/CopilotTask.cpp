@@ -35,12 +35,11 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst) :
     m_subtasks.emplace_back(m_change_difficulty_task_ptr);
 
     auto start_1_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
-    start_1_tp->set_tasks({ "BattleStartPre" }).set_retry_times(0).set_ignore_error(true);
+	start_1_tp->set_tasks({ "BattleStartPre" }).set_retry_times(0).set_ignore_error(true);
     m_subtasks.emplace_back(start_1_tp);
 
     m_medicine_task_ptr = std::make_shared<ProcessTask>(callback, inst, TaskType);
-    m_medicine_task_ptr->set_tasks({ "BattleStartPre@UseMedicine", "BattleStartPre@BattleQuickFormation" })
-        .set_ignore_error(true);
+    m_medicine_task_ptr->set_tasks({ "BattleStartPre@UseMedicine", "BattleStartPre@BattleQuickFormation" }).set_ignore_error(true);
     m_medicine_task_ptr->register_plugin<MedicineCounterTaskPlugin>()->set_count(999999);
     m_subtasks.emplace_back(m_medicine_task_ptr);
 
@@ -83,11 +82,11 @@ bool asst::CopilotTask::set_params(const json::value& params)
             is_raid = params.get("is_adverse", false);
         }
     }
-    bool use_sanity_potion = params.get("use_sanity_potion", false);                 // 是否吃理智药
-    bool with_formation = params.get("formation", false);                            // 是否使用自动编队
-    int select_formation = params.get("select_formation", 0);                        // 选择第几个编队，0为不选择
-    bool add_trust = params.get("add_trust", false);                                 // 是否自动补信赖
-    bool add_user_additional = params.contains("user_additional");                   // 是否自动补用户自定义干员
+    bool use_sanity_potion = params.get("use_sanity_potion", false); // 是否吃理智药
+    bool with_formation = params.get("formation", false);            // 是否使用自动编队
+    int select_formation = params.get("select_formation", 0);        // 选择第几个编队，0为不选择
+    bool add_trust = params.get("add_trust", false);                 // 是否自动补信赖
+    bool add_user_additional = params.contains("user_additional");   // 是否自动补用户自定义干员
     auto support_unit_usage = static_cast<SupportUnitUsage>(
         params.get("support_unit_usage", static_cast<int>(SupportUnitUsage::None))); // 助战干员使用模式
     std::string support_unit_name = params.get("support_unit_name", std::string());
