@@ -5,7 +5,8 @@
 #include "Utils/NoWarningCV.h"
 
 #include "Config/TaskData.h"
-#include "Task/Fight/MedicineCounterTaskPlugin.h"
+
+#include "Common/AsstTypes.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Battle/BattlefieldClassifier.h"

@@ -109,13 +109,6 @@ bool asst::RoguelikeCustomStartTaskPlugin::_run()
         return false;
     }
 
-    if (auto custom_it = m_customs.find(it->first); custom_it == m_customs.cend()) {
-        return false;
-    }
-    else if (custom_it->second.empty()) {
-        return false;
-    }
-
     return it->second();
 }
 
