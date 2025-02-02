@@ -82,8 +82,8 @@ bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params
         set_custom(RoguelikeCustomType::Roles, params.get("roles", "")); // 开局职业组
     }
 
-    set_custom(RoguelikeCustomType::CoreChar, params.get("core_char", ""));          // 开局干员名
-    m_config->set_use_support(params.get("use_support", false));                     // 开局干员是否为助战干员
+    set_custom(RoguelikeCustomType::CoreChar, params.get("core_char", "")); // 开局干员名
+    m_config->set_use_support(params.get("use_support", false));            // 开局干员是否为助战干员
     m_config->set_use_nonfriend_support(params.get("use_nonfriend_support", false)); // 是否可以是非好友助战干员
 
     return true;
