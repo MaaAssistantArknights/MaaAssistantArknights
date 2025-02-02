@@ -1,7 +1,6 @@
 #include "RoguelikeDebugTaskPlugin.h"
 
 #include "Controller/Controller.h"
-#include "Status.h"
 #include "Utils/Logger.hpp"
 
 bool asst::RoguelikeDebugTaskPlugin::verify(AsstMsg msg, const json::value& details) const

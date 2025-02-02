@@ -1,6 +1,5 @@
 #include "RoguelikeResetTaskPlugin.h"
 
-#include "Status.h"
 #include "Utils/Logger.hpp"
 
 bool asst::RoguelikeResetTaskPlugin::verify(AsstMsg msg, const json::value& details) const

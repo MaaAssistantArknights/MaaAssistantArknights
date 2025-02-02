@@ -1,6 +1,5 @@
 #include "RoguelikeControlTaskPlugin.h"
 
-#include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 
