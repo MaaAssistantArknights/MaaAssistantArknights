@@ -3,7 +3,6 @@
 #include "Config/Roguelike/RoguelikeRecruitConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
-#include "Status.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Roguelike/RoguelikeSkillSelectionImageAnalyzer.h"
 

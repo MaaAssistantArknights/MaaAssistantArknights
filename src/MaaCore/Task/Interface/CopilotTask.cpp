@@ -39,7 +39,8 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst) :
     m_subtasks.emplace_back(start_1_tp);
 
     m_medicine_task_ptr = std::make_shared<ProcessTask>(callback, inst, TaskType);
-    m_medicine_task_ptr->set_tasks({ "BattleStartPre@UseMedicine" }).set_retry_times(0).set_ignore_error(true);
+    m_medicine_task_ptr->set_tasks({ "BattleStartPre@UseMedicine", "BattleStartPre@BattleQuickFormation" })
+        .set_ignore_error(true);
     m_medicine_task_ptr->register_plugin<MedicineCounterTaskPlugin>()->set_count(999999);
     m_subtasks.emplace_back(m_medicine_task_ptr);
 

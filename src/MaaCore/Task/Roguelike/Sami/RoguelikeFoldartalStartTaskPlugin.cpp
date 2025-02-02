@@ -1,8 +1,5 @@
 #include "RoguelikeFoldartalStartTaskPlugin.h"
 
-#include "Config/TaskData.h"
-#include "Status.h"
-#include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 
 bool asst::RoguelikeFoldartalStartTaskPlugin::verify(AsstMsg msg, const json::value& details) const

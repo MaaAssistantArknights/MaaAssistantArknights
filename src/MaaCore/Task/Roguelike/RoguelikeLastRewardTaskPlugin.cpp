@@ -1,9 +1,6 @@
 #include "RoguelikeLastRewardTaskPlugin.h"
 
 #include "Config/TaskData.h"
-#include "Status.h"
-#include "Task/ProcessTask.h"
-#include "Task/Roguelike/RoguelikeLastRewardSelectTaskPlugin.h"
 #include "Utils/Logger.hpp"
 
 bool asst::RoguelikeLastRewardTaskPlugin::verify(AsstMsg msg, const json::value& details) const

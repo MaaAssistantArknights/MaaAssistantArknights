@@ -2,9 +2,7 @@
 
 #include "Config/Roguelike/RoguelikeStageEncounterConfig.h"
 #include "Controller/Controller.h"
-#include "Status.h"
 #include "Task/ProcessTask.h"
-#include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 
 bool asst::RoguelikeStageEncounterTaskPlugin::verify(AsstMsg msg, const json::value& details) const

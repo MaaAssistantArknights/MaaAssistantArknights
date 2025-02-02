@@ -1,7 +1,6 @@
 #include "RoguelikeFoldartalGainTaskPlugin.h"
 
 #include "Controller/Controller.h"
-#include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/OCRer.h"

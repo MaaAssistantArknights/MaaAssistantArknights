@@ -3,7 +3,6 @@
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
-#include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/OCRer.h"
@@ -24,20 +23,46 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
     if (task_view.starts_with(roguelike_name)) {
         task_view.remove_prefix(roguelike_name.length());
     }
-    static const std::unordered_map<std::string_view, std::pair<AsstMsg, RoguelikeCustomType>> TaskMap = {
-        { "Roguelike@SquadDefault", { AsstMsg::SubTaskCompleted, RoguelikeCustomType::Squad } },
-        { "Roguelike@RolesDefault", { AsstMsg::SubTaskCompleted, RoguelikeCustomType::Roles } },
-        { "Roguelike@RecruitMain", { AsstMsg::SubTaskStart, RoguelikeCustomType::CoreChar } },
+    static const std::array<std::tuple<AsstMsg, std::string_view, RoguelikeCustomType>, 3> TaskMap = {
+        std::make_tuple(AsstMsg::SubTaskCompleted, "Roguelike@SquadDefault", RoguelikeCustomType::Squad),
+        std::make_tuple(AsstMsg::SubTaskCompleted, "Roguelike@RolesDefault", RoguelikeCustomType::Roles),
+        std::make_tuple(AsstMsg::SubTaskStart, "Roguelike@RecruitMain", RoguelikeCustomType::CoreChar),
     };
-    auto it = TaskMap.find(task_view);
-    if (it == TaskMap.cend()) {
+
+    RoguelikeCustomType type = RoguelikeCustomType::None;
+    for (const auto& [t_msg, t_task, t] : TaskMap) {
+        if (t_msg == msg && t_task == task_view) {
+            type = t;
+            break;
+        }
+    }
+
+    if (type == RoguelikeCustomType::None) {
         return false;
     }
-    if (msg != it->second.first) {
+
+    if (type == RoguelikeCustomType::Squad) {
+        if (m_config->get_run_for_collectible()) { // 烧水分队
+            if (m_collectible_mode_squad.empty()) {
+                return false;
+            }
+            m_waiting_to_run = type;
+            return true;
+        }
+        else {
+            if (m_squad.empty()) { // 开局分队
+                return false;
+            }
+            m_waiting_to_run = type;
+            return true;
+        }
         return false;
     }
-    auto type = it->second.second;
-    if (auto custom_it = m_customs.find(type); custom_it == m_customs.cend() || custom_it->second.empty()) {
+
+    if (auto it = m_customs.find(type); it == m_customs.cend()) {
+        return false;
+    }
+    else if (it->second.empty()) {
         return false;
     }
 
@@ -47,12 +72,8 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
 
 bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params)
 {
-    LogTraceFunction;
-
     m_squad = params.get("squad", "");
     m_collectible_mode_squad = params.get("collectible_mode_squad", "");
-
-    set_custom(RoguelikeCustomType::Squad, m_squad);
 
     if (params.get("start_with_seed", false)) { // 种子刷钱，强制随心所欲
         set_custom(RoguelikeCustomType::Roles, "随心所欲");
@@ -75,13 +96,6 @@ void asst::RoguelikeCustomStartTaskPlugin::set_custom(RoguelikeCustomType type, 
 
 bool asst::RoguelikeCustomStartTaskPlugin::_run()
 {
-    if (m_config->get_run_for_collectible()) {
-        set_custom(RoguelikeCustomType::Squad, m_collectible_mode_squad); // 烧水分队
-    }
-    else {
-        set_custom(RoguelikeCustomType::Squad, m_squad); // 开局分队
-    }
-
     const std::unordered_map<RoguelikeCustomType, std::function<bool(void)>> TypeActuator = {
         { RoguelikeCustomType::Squad, std::bind(&RoguelikeCustomStartTaskPlugin::hijack_squad, this) },
         { RoguelikeCustomType::Roles, std::bind(&RoguelikeCustomStartTaskPlugin::hijack_roles, this) },
@@ -93,13 +107,6 @@ bool asst::RoguelikeCustomStartTaskPlugin::_run()
         return false;
     }
 
-    if (auto custom_it = m_customs.find(it->first); custom_it == m_customs.cend()) {
-        return false;
-    }
-    else if (custom_it->second.empty()) {
-        return false;
-    }
-
     return it->second();
 }
 
@@ -107,12 +114,13 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
 {
     LogTraceFunction;
 
+    std::string squad = !m_config->get_run_for_collectible() ? m_squad : m_collectible_mode_squad;
     constexpr size_t SwipeTimes = 7;
     for (size_t i = 0; i != SwipeTimes; ++i) {
         auto image = ctrler()->get_image();
         OCRer analyzer(image);
         analyzer.set_task_info("RoguelikeCustom-HijackSquad");
-        analyzer.set_required({ m_customs[RoguelikeCustomType::Squad] });
+        analyzer.set_required({ squad });
 
         if (!analyzer.analyze()) {
             ProcessTask(*this, { "Roguelike@SquadSlowlySwipeToTheRight" }).run();
@@ -122,7 +130,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
         const auto& rect = analyzer.get_result().front().rect;
         ctrler()->click(rect);
 
-        m_config->set_squad(m_customs[RoguelikeCustomType::Squad]);
+        m_config->set_squad(std::move(squad));
         return true;
     }
     ProcessTask(*this, { "SwipeToTheLeft" }).run();
