@@ -49,6 +49,7 @@
                 hc:InfoElement.Title="{DynamicResource RoguelikeCollectibleModeSquad}"
                 DisplayMemberPath="Display"
                 IsHitTestVisible="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
+                IsSynchronizedWithCurrentItem="True"
                 ItemsSource="{Binding RoguelikeSquadList}"
                 MaxDropDownHeight="800"
                 SelectedValue="{Binding RoguelikeCollectibleModeSquad}"
