@@ -37,5 +37,6 @@ private:
 
     std::string m_squad;
     std::string m_collectible_mode_squad;
+    std::string m_roles;
 };
 }
