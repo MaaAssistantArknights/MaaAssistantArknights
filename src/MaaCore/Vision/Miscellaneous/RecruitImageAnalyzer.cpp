@@ -2,6 +2,7 @@
 
 #include "Config/Miscellaneous/RecruitConfig.h"
 #include "Config/TaskData.h"
+#include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/OCRer.h"
@@ -10,12 +11,14 @@ bool asst::RecruitImageAnalyzer::analyze()
 {
     m_tags_result.clear();
 
-    time_analyze();
-    refresh_analyze();
-    permit_analyze();
-    bool ret = tags_analyze();
+    bool ret0 = time_analyze();
+    bool ret1 = refresh_analyze();
+    bool ret2 = permit_analyze();
+    bool ret3 = tags_analyze();
 
-    return ret;
+    Log.trace("time_analyze:", ret0, "refresh_analyze:", ret1, "permit_analyze:", ret2, "tags_analyze:", ret3);
+
+    return ret0 && ret1 && ret2 && ret3;
 }
 
 bool asst::RecruitImageAnalyzer::tags_analyze()
