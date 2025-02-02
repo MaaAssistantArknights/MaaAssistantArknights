@@ -21,6 +21,7 @@
 * 繁中服「懷黍離」導航入口更動 (#11662) @momomochi987
 * 添加 MirrorChyan 资源更新方式 (#11669) @ABA2396 @MistEO
 * 适配新 ui 未进驻选项 @ABA2396
+* 添加不期而遇新事件空无前兆 (#11573) @DavidWang19
 
 ### 改进 | Improved
 
@@ -33,12 +34,10 @@
 * Wpf肉鸽烧水时使用分队UI为空 @status102
 * 肉鸽临时招募预备干员时, 不额外提升权重 (#11442) @Daydreamer114
 * 公告窗口触控板滚动异常 (#11684) @Rbqwow
-* 添加不期而遇新事件空无前兆 (#11573) @DavidWang19
-* Attempt retry once screencap for MumuExtras (#11550) @teldd1
 * 肉鸽作战编队截图过快导致截图与实际不符 (#11527) @Daydreamer114
 * 肉鸽烧水未获得目标奖励逻辑补漏 @status102
 * 幸运墙领取奖励界面识别过早 @status102
-* JP 艾雅法拉 ocrReplace (#11685) @Saratoga-Official @status102 @Daydreamer114
+* JP 干员识别 艾雅法拉 (#11685) @Saratoga-Official @status102 @Daydreamer114
 
 ### 文档 | Docs
 
@@ -48,6 +47,7 @@
 
 ### 其他 | Other
 
+* Attempt retry once screencap for MumuExtras (#11550) @teldd1
 * 临时处理肉鸽烧水flag异常 @status102
 * mirror-chyan notify error @MistEO
 * missing `user_agent` param for mirrorchyan query @MistEO
