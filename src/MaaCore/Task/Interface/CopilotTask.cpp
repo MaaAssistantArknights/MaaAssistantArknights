@@ -35,7 +35,7 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst) :
     m_subtasks.emplace_back(m_change_difficulty_task_ptr);
 
     auto start_1_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
-    start_1_tp->set_tasks({ "BattleStartPre" }).set_retry_times(0).set_ignore_error(true);
+	start_1_tp->set_tasks({ "BattleStartPre" }).set_retry_times(0).set_ignore_error(true);
     m_subtasks.emplace_back(start_1_tp);
 
     m_medicine_task_ptr = std::make_shared<ProcessTask>(callback, inst, TaskType);
