@@ -4985,6 +4985,12 @@
         "template": "UseMedicine.png",
         "next": ["BattleStartPre"]
     },
+    "BattleStartPre@BattleQuickFormation": {
+        "baseTask": "BattleQuickFormation",
+        "template": "BattleQuickFormation.png",
+        "postDelay": 0,
+        "next": []
+    },
     "BattleStart": {
         "Doc": "base_task",
         "template": "empty.png",
