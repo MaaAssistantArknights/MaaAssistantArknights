@@ -1,3 +1,8 @@
+## v5.13.0-beta.4
+
+### 修复 | Fix
+* v5.13.0-beta.3 引入的自动公招识别问题 @horror-proton
+
 ## v5.13.0-beta.3
 
 ### 改进 | Improved
