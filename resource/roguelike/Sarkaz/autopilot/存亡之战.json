@@ -26,18 +26,18 @@
     "deploy_plan": [
         {
             "groups": ["情报官", "投锋", "挡人先锋"],
+            "location": [9, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["奶盾", "重装", "地面阻挡", "地面远程"],
             "location": [7, 3],
             "direction": "left"
         },
         {
             "groups": ["高台输出"],
-            "location": [6, 4],
+            "location": [7, 4],
             "direction": "up"
-        },
-        {
-            "groups": ["奶盾", "重装", "地面阻挡", "地面远程"],
-            "location": [5, 3],
-            "direction": "left"
         },
         {
             "groups": ["高台输出"],
