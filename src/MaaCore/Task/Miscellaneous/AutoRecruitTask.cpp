@@ -419,7 +419,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             static int skip_once = 0;
             if (skip_once == 0) {
                 // image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::robot);
-                image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::senior);
+                // image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::senior);
                 // image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::top);
                 // image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::highvalue);
                 skip_once++;
