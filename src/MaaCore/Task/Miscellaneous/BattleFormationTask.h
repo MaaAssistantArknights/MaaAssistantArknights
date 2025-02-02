@@ -59,9 +59,9 @@ public:
     enum class SupportUnitUsage // 助战干员使用策略
     {
         None = 0,               // 不使用助战干员
-        WhenNeeded = 1, // 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队, 如果无缺失干员则不使用助战干员
-        Specific = 2, // 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则使用指定助战干员
-        Random = 3 // 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则使用随机助战干员
+        WhenNeeded = 1,         // 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队, 如果无缺失干员则不使用助战干员
+        Specific = 2,           // 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则使用指定助战干员
+        Random = 3              // 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则使用随机助战干员
     };
 
     void set_support_unit_usage(const SupportUnitUsage& support_unit_usgae)

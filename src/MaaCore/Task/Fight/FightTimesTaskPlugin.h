@@ -18,6 +18,6 @@ protected:
 
 private:
     bool inited = false; // 是否成功初始化为1次，初始化后后续不再检测 (实现调整次数后移除此变量
-    int m_series = 1; // 连续战斗次数
+    int m_series = 1;    // 连续战斗次数
 };
 }
