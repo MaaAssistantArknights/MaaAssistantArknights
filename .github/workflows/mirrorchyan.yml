@@ -41,12 +41,6 @@ jobs:
       # 上传到 Mirror酱
       - name: Upload to MirrorChyan
         run: |
-          if [[ ${{steps.download.outputs.tag_name}} == *"-"* ]]; then
-            export CHANNEL="beta"
-          else
-            export CHANNEL="stable"
-          fi
-
           curl --location --request POST 'https://mirrorc.top/api/resources/MAA/versions' \
             --header 'Authorization:${{ secrets.MirrorChyanUploadToken }}' \
             --form 'name="${{steps.download.outputs.tag_name}}"' \
