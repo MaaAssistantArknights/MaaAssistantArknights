@@ -102,7 +102,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     // Log.info("team_full_without_rookie", team_full_without_rookie);
 
     // 编队信息 (已有角色)
-    const auto& chars_map = m_config->m_status.opers;
+    const auto& chars_map = m_config->status().opers;
 
     // __________________will-be-removed-begin__________________
     std::unordered_map<battle::Role, int> team_roles;
@@ -198,7 +198,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         std::unordered_set<std::string> oper_names;
         const auto& oper_list = analyzer.get_result();
         bool stop_swipe = false;
-        const auto& owned_collection = m_config->m_status.collections;
+        const auto& owned_collection = m_config->status().collections;
 
         int max_oper_x = 0;
         for (const auto& oper_info : oper_list) {
@@ -686,7 +686,7 @@ void asst::RoguelikeRecruitTaskPlugin::select_oper(const battle::roguelike::Recr
 
     ctrler()->click(oper.rect);
 
-    m_config->m_status.opers[oper.name] = { .elite = oper.elite, .level = oper.level };
+    m_config->status().opers[oper.name] = { .elite = oper.elite, .level = oper.level };
 }
 
 void asst::RoguelikeRecruitTaskPlugin::swipe_to_the_left_of_operlist(int loop_times)

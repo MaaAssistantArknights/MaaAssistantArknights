@@ -45,16 +45,6 @@ struct RoguelikeOper
 struct RoguelikeStatus
 {
 public:
-    RoguelikeStatus() { opers.reserve(formation_upper_limit); };
-
-    RoguelikeStatus(const RoguelikeStatus& value)
-    {
-        opers.reserve(value.opers.size() / 2);
-        collections.reserve(value.collections.size() / 2);
-        foldartal_list.reserve(value.foldartal_list.size() / 2);
-    };
-
-public:
     int hope = 0;                                         // 当前希望
     int hp = 0;                                           // 当前生命值
     int floor = 0;                                        // 当前到达层数
@@ -192,11 +182,11 @@ public:
 
     bool get_use_nonfriend_support() const { return m_use_nonfriend_support; }
 
-    auto& get_status() const { return m_status; }
-
-    RoguelikeStatus m_status; // 局内状态
+    auto& status() { return m_status; }
 
 private:
+    RoguelikeStatus m_status; // 局内状态
+
     // ------------------ 招募 ------------------
     bool m_team_full_without_rookie = false; // 编队内没有预干员
 
