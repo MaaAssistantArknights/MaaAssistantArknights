@@ -1,0 +1,56 @@
+name: MirrorChyan Uploading
+
+# 触发条件：手动触发或版本发布后
+on:
+  workflow_dispatch:
+  release:    
+    types: [published]
+
+jobs:
+  mirrorchyan:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        os: [win]
+        arch: [arm64, x64]
+
+    steps:
+      # 下载 Release 包
+      - name: Download Release
+        uses: robinraju/release-downloader@v1
+        id: download
+        with:
+          repository: MaaAssistantArknights/MaaAssistantArknights
+          fileName: "*MAA-*-${{ matrix.os }}-${{ matrix.arch }}.zip"
+          latest: true
+          preRelease: true
+          out-file-path: "downloads"
+          extract: false
+
+      - name: Get Channel
+        id: get_channel
+        run: |
+          if [[ ${{steps.download.outputs.tag_name}} == *"-"* ]]; then
+            channel="beta"
+          else
+            channel="stable"
+          fi
+
+          echo "channel=$channel" | tee -a "$GITHUB_OUTPUT"
+
+      # 上传到 Mirror酱
+      - name: Upload to MirrorChyan
+        run: |
+          if [[ ${{steps.download.outputs.tag_name}} == *"-"* ]]; then
+            export CHANNEL="beta"
+          else
+            export CHANNEL="stable"
+          fi
+        
+          curl --location --request POST 'https://mirrorc.top/api/resources/MAA/versions' \
+            --header 'Authorization:${{ secrets.MirrorChyanUploadToken }}' \
+            --form 'name="${{steps.download.outputs.tag_name}}"' \
+            --form 'os="${{ matrix.os }}"' \
+            --form 'arch="${{ matrix.arch }}"' \
+            --form 'channel="${{ steps.get_channel.outputs.channel }}"' \
+            --form 'file=@"${{ fromJson(steps.download.outputs.downloaded_files)[0] }}"'
