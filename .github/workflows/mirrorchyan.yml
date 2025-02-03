@@ -22,7 +22,7 @@ jobs:
         with:
           repository: MaaAssistantArknights/MaaAssistantArknights
           fileName: "*MAA-*-${{ matrix.os }}-${{ matrix.arch }}.zip"
-          latest: true
+          preRelease: true
           out-file-path: "downloads"
           extract: false
 
@@ -40,5 +40,5 @@ jobs:
             --form 'name="${{steps.download.outputs.tag_name}}"' \
             --form 'os="${{ matrix.os }}"' \
             --form 'arch="${{ matrix.arch }}"' \
-            --form 'channel="$channel"' \
+            --form 'channel="${{ channel }}"' \
             --form 'file=@"${{ fromJson(steps.download.outputs.downloaded_files)[0] }}"'
