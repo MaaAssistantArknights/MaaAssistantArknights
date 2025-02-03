@@ -27,6 +27,17 @@ jobs:
           out-file-path: "downloads"
           extract: false
 
+      - name: Get Channel
+        id: get_channel
+        run: |
+          if [[ ${{steps.download.outputs.tag_name}} == *"-"* ]]; then
+            channel="beta"
+          else
+            channel="stable"
+          fi
+
+          echo "channel=$channel" | tee -a "$GITHUB_OUTPUT"
+
       # 上传到 Mirror酱
       - name: Upload to MirrorChyan
         run: |
@@ -41,5 +52,5 @@ jobs:
             --form 'name="${{steps.download.outputs.tag_name}}"' \
             --form 'os="${{ matrix.os }}"' \
             --form 'arch="${{ matrix.arch }}"' \
-            --form "channel=$CHANNEL" \
+            --form 'channel="${{ steps.get_channel.outputs.channel }}"' \
             --form 'file=@"${{ fromJson(steps.download.outputs.downloaded_files)[0] }}"'
