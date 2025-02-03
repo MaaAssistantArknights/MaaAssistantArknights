@@ -73,7 +73,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             sections.Insert(0, new AnnouncementSection
             {
-                Title = "ALL~ the Announcement",
+                Title = "ALL~ the Announcements",
                 Content = markdown,
             });
 
