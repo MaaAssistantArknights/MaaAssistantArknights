@@ -28,10 +28,16 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <ListBox
-                    DisplayMemberPath="Title"
-                    ItemsSource="{Binding AnnouncementSections}"
-                    SelectedItem="{Binding SelectedAnnouncementSection}" />
+                <ListBox ItemsSource="{Binding AnnouncementSections}" SelectedItem="{Binding SelectedAnnouncementSection}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock
+                                Padding="5"
+                                Text="{Binding Title}"
+                                TextWrapping="Wrap" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
                 <Image Grid.Row="1" Source="/Res/Img/NoSkland.jpg" />
             </Grid>
             <Grid Grid.Column="1">
