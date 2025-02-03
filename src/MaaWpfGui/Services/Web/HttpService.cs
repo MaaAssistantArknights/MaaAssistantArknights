@@ -152,7 +152,7 @@ namespace MaaWpfGui.Services.Web
             }
             catch (Exception e)
             {
-                _logger.Error(e, "Failed to send GET request to {Uri}", uri);
+                _logger.Error(e, "Failed to send GET request to {Uri}", logUri ? uri : "***");
                 return null;
             }
         }
