@@ -15,15 +15,20 @@ jobs:
         arch: [arm64, x64]
 
     steps:
-      # 下载 Release 包
+      - id: version
+        uses: pozetroninc/github-action-get-latest-release@master
+        with:
+          owner: MaaAssistantArknights
+          repo: MaaAssistantArknights
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Download Release
         uses: robinraju/release-downloader@v1
         id: download
         with:
           repository: MaaAssistantArknights/MaaAssistantArknights
           fileName: "*MAA-*-${{ matrix.os }}-${{ matrix.arch }}.zip"
-          latest: true
-          preRelease: true
+          tag: ${{ steps.version.outputs.release }}
           out-file-path: "downloads"
           extract: false
 
