@@ -63,7 +63,7 @@ namespace MaaWpfGui.ViewModels.UI
             var sections = markdown.Split(["### "], StringSplitOptions.RemoveEmptyEntries)
                 .Select(section =>
                 {
-                    var lines = section.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+                    var lines = section.Split('\n');
                     return new AnnouncementSection
                     {
                         Title = lines.FirstOrDefault(),
