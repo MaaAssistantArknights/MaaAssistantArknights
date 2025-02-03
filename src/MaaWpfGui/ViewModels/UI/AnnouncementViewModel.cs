@@ -12,7 +12,6 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,7 +21,6 @@ using HandyControl.Tools.Command;
 using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using MdXaml;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UI

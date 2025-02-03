@@ -84,17 +84,4 @@
             </Grid>
         </Grid>
     </Grid>
-    <!--<mdxam:MarkdownScrollViewer
-                Margin="10,0,10,0"
-                ClickAction="SafetyOpenBrowser"
-                Markdown="{Binding AnnouncementInfo}"
-                PreviewMouseWheel="{s:Action HandlePreviewMouseWheel,
-                                             Target={x:Type helper:MouseWheelHelper}}">
-                <mdxam:MarkdownScrollViewer.MarkdownStyle>
-                    <StaticResource ResourceKey="MdXamlStyle" />
-                </mdxam:MarkdownScrollViewer.MarkdownStyle>
-                <mdxam:MarkdownScrollViewer.Plugins>
-                    <StaticResource ResourceKey="MdXamlPlugin" />
-                </mdxam:MarkdownScrollViewer.Plugins>
-            </mdxam:MarkdownScrollViewer>-->
 </hc:Window>
