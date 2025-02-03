@@ -11,10 +11,18 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using HandyControl.Controls;
+using HandyControl.Tools.Command;
 using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MdXaml;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -26,6 +34,78 @@ namespace MaaWpfGui.ViewModels.UI
     // ReSharper disable once ClassNeverInstantiated.Global
     public class AnnouncementViewModel : Screen
     {
+        public class AnnouncementSection
+        {
+            public string Title { get; set; }
+
+            public string Content { get; set; }
+        }
+
+        public AnnouncementViewModel()
+        {
+            UpdateScrollStateCommand = new RelayCommand<ScrollViewer>(scrollViewer =>
+            {
+                if (scrollViewer == null)
+                {
+                    return;
+                }
+
+                // 计算是否滚动到底部
+                IsScrolledToBottom |= scrollViewer.VerticalOffset >= scrollViewer.ScrollableHeight - 10;
+            });
+            AnnouncementSections = new(
+                ParseAnnouncementInfo(AnnouncementInfo));
+            SelectedAnnouncementSection = AnnouncementSections.FirstOrDefault();
+        }
+
+        private static IEnumerable<AnnouncementSection> ParseAnnouncementInfo(string markdown)
+        {
+            var sections = markdown.Split(["### "], StringSplitOptions.RemoveEmptyEntries)
+                .Select(section =>
+                {
+                    var lines = section.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+                    return new AnnouncementSection
+                    {
+                        Title = lines.FirstOrDefault(),
+                        Content = string.Join("\n", lines.Skip(1)),
+                    };
+                }).ToList();
+
+            sections.Insert(0, new AnnouncementSection
+            {
+                Title = "ALL~ the Announcement",
+                Content = markdown,
+            });
+
+            return sections;
+        }
+
+        public ICommand UpdateScrollStateCommand { get; }
+
+        private bool _isScrolledToBottom;
+
+        public bool IsScrolledToBottom
+        {
+            get => _isScrolledToBottom;
+            set => SetAndNotify(ref _isScrolledToBottom, value);
+        }
+
+        private ObservableCollection<AnnouncementSection> _announcementSections;
+
+        public ObservableCollection<AnnouncementSection> AnnouncementSections
+        {
+            get => _announcementSections;
+            set => SetAndNotify(ref _announcementSections, value);
+        }
+
+        private AnnouncementSection _selectedAnnouncementSection;
+
+        public AnnouncementSection SelectedAnnouncementSection
+        {
+            get => _selectedAnnouncementSection;
+            set => SetAndNotify(ref _selectedAnnouncementSection, value);
+        }
+
         private string _announcementInfo = ConfigFactory.Root.AnnouncementInfo.Info;
 
         /// <summary>
