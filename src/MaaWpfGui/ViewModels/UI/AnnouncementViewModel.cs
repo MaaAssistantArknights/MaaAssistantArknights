@@ -58,7 +58,7 @@ namespace MaaWpfGui.ViewModels.UI
             SelectedAnnouncementSection = AnnouncementSections.FirstOrDefault();
         }
 
-        private static IEnumerable<AnnouncementSection> ParseAnnouncementInfo(string markdown)
+        private static ObservableCollection<AnnouncementSection> ParseAnnouncementInfo(string markdown)
         {
             var sections = markdown.Split(["### "], StringSplitOptions.RemoveEmptyEntries)
                 .Select(section =>
@@ -71,13 +71,13 @@ namespace MaaWpfGui.ViewModels.UI
                     };
                 }).ToList();
 
-            sections.Insert(0, new AnnouncementSection
+            sections.Insert(0, new()
             {
                 Title = "ALL~ the Announcements",
                 Content = markdown,
             });
 
-            return sections;
+            return new(sections);
         }
 
         public ICommand UpdateScrollStateCommand { get; }
