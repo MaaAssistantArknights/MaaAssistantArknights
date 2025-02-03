@@ -1,4 +1,4 @@
-name: Upload Release to MirrorChyan
+name: MirrorChyan Uploading
 
 # 触发条件：手动触发或版本发布后
 on:
