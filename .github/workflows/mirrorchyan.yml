@@ -31,9 +31,9 @@ jobs:
       - name: Upload to MirrorChyan
         run: |
           if [[ ${{steps.download.outputs.tag_name}} == *"-"* ]]; then
-            channel="beta"
+            export CHANNEL="beta"
           else
-            channel="stable"
+            export CHANNEL="stable"
           fi
         
           curl --location --request POST 'https://mirrorc.top/api/resources/MAA/versions' \
@@ -41,5 +41,5 @@ jobs:
             --form 'name="${{steps.download.outputs.tag_name}}"' \
             --form 'os="${{ matrix.os }}"' \
             --form 'arch="${{ matrix.arch }}"' \
-            --form 'channel=${ channel }' \
+            --form "channel=$CHANNEL" \
             --form 'file=@"${{ fromJson(steps.download.outputs.downloaded_files)[0] }}"'
