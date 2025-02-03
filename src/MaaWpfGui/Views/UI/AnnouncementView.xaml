@@ -38,7 +38,7 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <Image Grid.Row="1" Source="/Res/Img/NoSkland.jpg" />
+                <Image Grid.Row="1" Source="{Binding ImageSource}" />
             </Grid>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>

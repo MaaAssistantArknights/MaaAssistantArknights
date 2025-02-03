@@ -32,6 +32,8 @@ namespace MaaWpfGui.ViewModels.UI
     // ReSharper disable once ClassNeverInstantiated.Global
     public class AnnouncementViewModel : Screen
     {
+        public string ImageSource { get; set; }
+
         public class AnnouncementSection
         {
             public string Title { get; set; }
@@ -41,6 +43,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         public AnnouncementViewModel()
         {
+            UpdateImageSource();
+
             UpdateScrollStateCommand = new RelayCommand<ScrollViewer>(scrollViewer =>
             {
                 if (scrollViewer == null)
@@ -54,6 +58,15 @@ namespace MaaWpfGui.ViewModels.UI
             AnnouncementSections = new(
                 ParseAnnouncementInfo(AnnouncementInfo));
             SelectedAnnouncementSection = AnnouncementSections.FirstOrDefault();
+        }
+
+        private void UpdateImageSource()
+        {
+            ImageSource = SettingsViewModel.GuiSettings.Language switch
+            {
+                "zh-cn" or "zh-tw" => "/Res/Img/NoSkland.jpg",
+                _ => "/Res/Img/NoSkLandEn.jpg",
+            };
         }
 
         private static ObservableCollection<AnnouncementSection> ParseAnnouncementInfo(string markdown)
