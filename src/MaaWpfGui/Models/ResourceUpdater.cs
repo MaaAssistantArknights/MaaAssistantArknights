@@ -512,8 +512,16 @@ namespace MaaWpfGui.Models
                 return (CheckUpdateRetT.NetworkError, null);
             }
 
-            var json = await response.Content.ReadAsStringAsync();
-            var data = (JObject?)JsonConvert.DeserializeObject(json);
+            var jsonStr = await response.Content.ReadAsStringAsync();
+            JObject? data = null;
+            try
+            {
+                data = (JObject?)JsonConvert.DeserializeObject(jsonStr);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, $"Failed to deserialize json: {jsonStr}");
+            }
 
             if (data is null)
             {
