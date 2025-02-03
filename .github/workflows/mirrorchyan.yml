@@ -22,6 +22,7 @@ jobs:
         with:
           repository: MaaAssistantArknights/MaaAssistantArknights
           fileName: "*MAA-*-${{ matrix.os }}-${{ matrix.arch }}.zip"
+          latest: true
           preRelease: true
           out-file-path: "downloads"
           extract: false
