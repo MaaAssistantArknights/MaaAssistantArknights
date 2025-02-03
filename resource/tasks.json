@@ -4987,6 +4987,7 @@
     },
     "BattleStartPre@BattleQuickFormation": {
         "baseTask": "BattleQuickFormation",
+        "action": "DoNothing",
         "template": "BattleQuickFormation.png",
         "postDelay": 0,
         "next": []
