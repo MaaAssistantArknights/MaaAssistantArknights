@@ -3,7 +3,7 @@ name: MirrorChyan Uploading
 # 触发条件：手动触发或版本发布后
 on:
   workflow_dispatch:
-  release:    
+  release:
     types: [published]
 
 jobs:
@@ -46,7 +46,7 @@ jobs:
           else
             export CHANNEL="stable"
           fi
-        
+
           curl --location --request POST 'https://mirrorc.top/api/resources/MAA/versions' \
             --header 'Authorization:${{ secrets.MirrorChyanUploadToken }}' \
             --form 'name="${{steps.download.outputs.tag_name}}"' \
