@@ -405,7 +405,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
                 break;
 
             case VersionUpdateViewModel.CheckUpdateRetT.OK:
-                Instances.VersionUpdateViewModel.AskToRestart();
+                _ = Instances.VersionUpdateViewModel.AskToRestart();
                 break;
 
             case VersionUpdateViewModel.CheckUpdateRetT.NewVersionIsBeingBuilt:
