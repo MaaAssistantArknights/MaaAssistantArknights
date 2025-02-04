@@ -8,29 +8,24 @@ body:
     id: checks
     attributes:
       label: Before raising the issue...
-      description: >-
-        Please ensure that you have completed the requirements before checking the box.
+      description: |
+        Please ensure that you have completed the requirements before checking the box.  
         Issues with the checkbox checked but not completed will be directly closed.
       options:
-        - label: >-
-            I understand that Issues are for feedback and problem solving,
-            not trolling the comments section, and will provide as
-            much information as possible to help solve the problem.
+        - label: |
+            I understand that Issues are for feedback and problem solving,  
+            not trolling the comments section, and will provide as much information as possible to help solve the problem.
           required: true
-        - label: >-
-            I filled in a short, clear title
-            so that developers could quickly identify the general problem
-            when going through the issue list.
+        - label: |
+            I filled in a short, clear title so that developers could quickly identify the general problem when going through the issue list.  
             Instead of "Some suggestions", "Stuck", etc.
           required: true
-        - label: >-
-            I am using the latest version of the current update version
-            and have reviewed both the [merged](https://github.com/MaaAssistantArknights/MaaAssistantArknights/commits/dev/) and the [unmerged](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pulls) changes,
+        - label: |
+            I am using the latest version of the current update version and have reviewed both the [Merged](https://github.com/MaaAssistantArknights/MaaAssistantArknights/commits/dev/) and the [Unmerged](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pulls) changes,  
             there is no mention of the bug being fixed.
           required: true
-        - label: >-
-            I have reviewed the [FAQs](https://maa.plus/docs/en-us/manual/faq.html), [Announcement](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/7732), [Open Issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues), [Closed Issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues?q=is%3Aissue%20state%3Aclosed)
-            to ensure that my issue has not been mentioned.
+        - label: |
+            I have reviewed the [FAQs](https://maa.plus/docs/en-us/manual/faq.html), [Announcement](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/7732), [Open Issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues), [Closed Issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues?q=is%3Aissue%20state%3Aclosed) to ensure that my issue has not been mentioned.
           required: true
   - type: textarea
     id: describe
