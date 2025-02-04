@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
 using System.Net.Http;
 using Serilog;
 
@@ -20,19 +21,19 @@ namespace MaaWpfGui.Extensions
     {
         private static readonly ILogger _logger = Serilog.Log.ForContext("SourceContext", "HttpResponseLoggingExtension");
 
-        public static void Log(this HttpResponseMessage response, bool logUri = true)
+        public static void Log(this HttpResponseMessage response, bool logQuery = true)
         {
             var method = response?.RequestMessage?.Method;
-            var url = response?.RequestMessage?.RequestUri?.ToString();
+            var uri = response?.RequestMessage?.RequestUri;
             var statusCode = response?.StatusCode.ToString();
 
             if (response is { IsSuccessStatusCode: true })
             {
-                _logger.Information("HTTP: {StatusCode} {Method} {Url}", statusCode, method, logUri ? url : "*****");
+                _logger.Information("HTTP: {StatusCode} {Method} {Url}", statusCode, method, uri?.GetLeftPart(logQuery ? UriPartial.Query : UriPartial.Path));
             }
             else
             {
-                _logger.Warning("HTTP: {StatusCode} {Method} {Url}", statusCode, method, logUri ? url : "*****");
+                _logger.Warning("HTTP: {StatusCode} {Method} {Url}", statusCode, method, uri?.GetLeftPart(logQuery ? UriPartial.Query : UriPartial.Path));
             }
         }
     }

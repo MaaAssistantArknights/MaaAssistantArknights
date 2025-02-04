@@ -19,8 +19,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web;
 using MaaWpfGui.Constants;
@@ -29,9 +27,8 @@ using MaaWpfGui.Main;
 using MaaWpfGui.ViewModels;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
-using MaaWpfGui.Views.UI;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using static MaaWpfGui.ViewModels.UI.VersionUpdateViewModel;
@@ -145,14 +142,9 @@ namespace MaaWpfGui.Models
 
         private static async Task<bool> IsMirrorAccessibleAsync(string mirrorUrl)
         {
-            using var response = await Instances.HttpService.GetAsync(
-                new Uri(mirrorUrl + MaaResourceVersion),
-                httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
+            using var response = await Instances.HttpService.GetAsync(new Uri(mirrorUrl + MaaResourceVersion));
 
-            return response is
-            {
-                StatusCode: System.Net.HttpStatusCode.OK
-            };
+            return response is { StatusCode: System.Net.HttpStatusCode.OK };
         }
 
         private static async Task<bool> CheckUpdateAsync(string baseUrl)
@@ -160,10 +152,7 @@ namespace MaaWpfGui.Models
             var url = baseUrl + MaaResourceVersion;
 
             using var response = await ETagCache.FetchResponseWithEtag(url);
-            if (response is not
-                {
-                    StatusCode: System.Net.HttpStatusCode.OK
-                })
+            if (response is not { StatusCode: System.Net.HttpStatusCode.OK })
             {
                 return false;
             }
@@ -505,14 +494,13 @@ namespace MaaWpfGui.Models
 
             var url = $"{MaaUrls.MirrorChyanResourceUpdate}?current_version={currentVersion}&cdk={cdk}&user_agent=MaaWpfGui";
 
-            var response = await Instances.HttpService.GetAsync(new(url), logUri: false);
-            if (response is null)
+            var jsonStr = await Instances.HttpService.GetStringAsync(new(url), logUri: false);
+            if (jsonStr is null)
             {
                 ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
                 return (CheckUpdateRetT.NetworkError, null);
             }
 
-            var jsonStr = await response.Content.ReadAsStringAsync();
             JObject? data = null;
             try
             {
@@ -641,14 +629,9 @@ namespace MaaWpfGui.Models
 
         private static async Task<bool> DownloadFullPackageAsync(string url, string saveTo)
         {
-            using var response = await Instances.HttpService.GetAsync(
-                new Uri(url),
-                httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
+            using var response = await Instances.HttpService.GetAsync(new Uri(url));
 
-            if (response is not
-                {
-                    StatusCode: System.Net.HttpStatusCode.OK
-                })
+            if (response is not { StatusCode: System.Net.HttpStatusCode.OK })
             {
                 return false;
             }
