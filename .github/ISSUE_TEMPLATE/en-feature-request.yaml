@@ -19,7 +19,7 @@ body:
             but there is no mention of this feature/suggestion being added.
           required: true
         - label: |
-            I have reviewed the [FAQs](https://maa.plus/docs/en-us/manual/faq.html), [Announcement](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/7732), [Open Issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues), [Closed Issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues?q=is%3Aissue%20state%3Aclosed) to ensure that my feature/suggestion has not been mentioned.
+            I have reviewed the [Announcement](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/7732), [Open Issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues), [Closed Issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues?q=is%3Aissue%20state%3Aclosed) to ensure that my feature/suggestion has not been mentioned.
           required: true
   - type: textarea
     id: describe
