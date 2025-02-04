@@ -491,6 +491,7 @@ namespace MaaWpfGui.Models
                 .DateTime;
             var currentVersion = currentVersionDateTime.ToString("yyyy-MM-dd+HH:mm:ss.fff");
             var cdk = SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk;
+            cdk = cdk.Trim();
 
             var url = $"{MaaUrls.MirrorChyanResourceUpdate}?current_version={currentVersion}&cdk={cdk}&user_agent=MaaWpfGui";
 
