@@ -28,7 +28,10 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <ListBox ItemsSource="{Binding AnnouncementSections}" SelectedItem="{Binding SelectedAnnouncementSection}">
+                <ListBox
+                    d:ItemsSource="{d:SampleData ItemCount=7}"
+                    ItemsSource="{Binding AnnouncementSections}"
+                    SelectedItem="{Binding SelectedAnnouncementSection}">
                     <hc:Interaction.Triggers>
                         <hc:EventTrigger EventName="SelectionChanged">
                             <hc:InvokeCommandAction Command="{Binding ScrollToTopCommand}" CommandParameter="{Binding ElementName=ScrollViewer}" />
@@ -64,6 +67,7 @@
                     </hc:Interaction.Triggers>
                     <mdxam:MarkdownScrollViewer
                         Margin="10,0,10,0"
+                        d:Markdown="#Test&#10;This is a test text.&#10;&#10;~~This is a test text~~&#10;&#10;*This is a test text*&#10;&#10;**This is a test text**"
                         ClickAction="SafetyOpenBrowser"
                         Markdown="{Binding SelectedAnnouncementSection.Content}"
                         PreviewMouseWheel="{s:Action HandlePreviewMouseWheel,
