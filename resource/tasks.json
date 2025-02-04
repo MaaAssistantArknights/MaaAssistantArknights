@@ -2431,6 +2431,7 @@
     "StartUpThemes": {
         "algorithm": "JustReturn",
         "next": [
+            "LeidianGoogleFrameworkConfirm",
             "GameStart",
             "StartToWakeUp",
             "StartToWakeUpOCR",
@@ -2442,14 +2443,14 @@
             "GameStartUpdateOCR"
         ]
     },
-    "StartUpBegin": {
-        "algorithm": "JustReturn",
-        "next": [
-            "StartUp@StartUpThemes#next",
-            "StartUpBegin@LoadingIcon",
-            "StartUp@ReturnButtons#next",
-            "StartUp@EndOfAction"
-        ]
+    "LeidianGoogleFrameworkConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [ "不安装" ],
+        "roi": [ 480, 410, 200, 50 ],
+        "maxTimes": 5,
+        "Doc": "用以关闭雷电模拟器启动外服明日方舟时弹出的未安装谷歌套件的提示",
+        "next": [ "StartUpThemes#next" ]
     },
     "GameStart": {
         "action": "ClickSelf",
