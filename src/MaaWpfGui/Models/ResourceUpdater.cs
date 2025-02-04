@@ -494,13 +494,14 @@ namespace MaaWpfGui.Models
 
             var url = $"{MaaUrls.MirrorChyanResourceUpdate}?current_version={currentVersion}&cdk={cdk}&user_agent=MaaWpfGui";
 
-            var jsonStr = await Instances.HttpService.GetStringAsync(new(url), logUri: false);
-            if (jsonStr is null)
+            var response = await Instances.HttpService.GetAsync(new(url), logUri: false);
+            if (response is null)
             {
                 ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
                 return (CheckUpdateRetT.NetworkError, null);
             }
 
+            var jsonStr = await response.Content.ReadAsStringAsync();
             JObject? data = null;
             try
             {
