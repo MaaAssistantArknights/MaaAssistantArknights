@@ -29,6 +29,11 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <ListBox ItemsSource="{Binding AnnouncementSections}" SelectedItem="{Binding SelectedAnnouncementSection}">
+                    <hc:Interaction.Triggers>
+                        <hc:EventTrigger EventName="SelectionChanged">
+                            <hc:InvokeCommandAction Command="{Binding ScrollToTopCommand}" CommandParameter="{Binding ElementName=ScrollViewer}" />
+                        </hc:EventTrigger>
+                    </hc:Interaction.Triggers>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock

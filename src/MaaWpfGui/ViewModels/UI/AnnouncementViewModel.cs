@@ -55,6 +55,16 @@ namespace MaaWpfGui.ViewModels.UI
                 // 计算是否滚动到底部
                 IsScrolledToBottom |= scrollViewer.VerticalOffset >= scrollViewer.ScrollableHeight - 10;
             });
+
+            ScrollToTopCommand = new RelayCommand<ScrollViewer>(scrollViewer =>
+            {
+                if (scrollViewer == null)
+                {
+                    return;
+                }
+
+                scrollViewer.ScrollToTop();
+            });
             AnnouncementSections = new(
                 ParseAnnouncementInfo(AnnouncementInfo));
             SelectedAnnouncementSection = AnnouncementSections.FirstOrDefault();
@@ -92,6 +102,8 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         public ICommand UpdateScrollStateCommand { get; }
+
+        public ICommand ScrollToTopCommand { get; }
 
         private bool _isScrolledToBottom;
 
