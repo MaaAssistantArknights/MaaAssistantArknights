@@ -2460,7 +2460,7 @@
             "StartUp@ReturnButtons#next",
             "StartUp@EndOfAction"
         ]
-    }，
+    },
     "GameStart": {
         "action": "ClickSelf",
         "roi": [550, 600, 200, 120],
