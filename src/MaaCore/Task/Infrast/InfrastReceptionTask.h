@@ -11,6 +11,8 @@ public:
 
     virtual size_t max_num_of_opers() const noexcept override { return 2ULL; }
 
+    asst::InfrastReceptionTask& set_prioritize_sending_clue(bool prioritize_sending_clue) noexcept;
+
     void set_receive_message_board(bool value) noexcept { m_receive_message_board = value; }
 
 protected:
@@ -31,5 +33,6 @@ private:
     bool shift();
 
     bool m_receive_message_board = true;
+    bool m_prioritize_sending_clue = false; // 设置是否优先送线索
 };
 }
