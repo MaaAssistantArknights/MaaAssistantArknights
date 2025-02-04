@@ -43,7 +43,10 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <Image Grid.Row="1" Source="{Binding ImageSource}" />
+                <Image
+                    Grid.Row="1"
+                    d:Source="/Res/Img/NoSkland.jpg"
+                    Source="{Binding ImageSource}" />
             </Grid>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
@@ -77,6 +80,7 @@
                 <StackPanel
                     Grid.Row="1"
                     Margin="50,0,0,0"
+                    HorizontalAlignment="Center"
                     VerticalAlignment="Center">
                     <CheckBox
                         Height="30"
