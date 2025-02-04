@@ -2452,6 +2452,15 @@
         "Doc": "用以关闭雷电模拟器启动外服明日方舟时弹出的未安装谷歌套件的提示",
         "next": ["StartUpThemes#next"]
     },
+    "StartUpBegin": {
+        "algorithm": "JustReturn",
+        "next": [
+            "StartUp@StartUpThemes#next",
+            "StartUpBegin@LoadingIcon",
+            "StartUp@ReturnButtons#next",
+            "StartUp@EndOfAction"
+        ]
+    }，
     "GameStart": {
         "action": "ClickSelf",
         "roi": [550, 600, 200, 120],
