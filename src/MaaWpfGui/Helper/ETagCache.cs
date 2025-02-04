@@ -98,7 +98,7 @@ namespace MaaWpfGui.Helper
                 headers["If-None-Match"] = etag;
             }
 
-            var response = await Instances.HttpService.GetAsync(new Uri(url), headers, httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
+            var response = await Instances.HttpService.GetAsync(new Uri(url), headers);
             return response;
         }
     }
