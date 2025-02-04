@@ -437,12 +437,18 @@ public class VersionUpdateViewModel : Screen
                 var ret = await CheckAndDownloadUpdate();
                 if (ret == CheckUpdateRetT.OK)
                 {
-                    AskToRestart();
+                    _ = AskToRestart();
+                }
+
+                var ret2 = await ResourceUpdater.CheckAndDownloadUpdate();
+                if (ret2 == CheckUpdateRetT.OK)
+                {
+                    _ = AskToRestart(true);
                 }
             }
             else
             {
-                var ret = await CheckAndDownloadUpdate();
+                // var ret = await CheckAndDownloadUpdate();
                 // 跑个空任务避免 async warning
                 await Task.Run(() => { });
             }
@@ -453,45 +459,6 @@ public class VersionUpdateViewModel : Screen
     {
         SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = true;
         var ret = await CheckAndDownloadVersionUpdate();
-        if (ret == CheckUpdateRetT.OK)
-        {
-            SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
-            return ret;
-        }
-
-        // nnd 都别更新了
-        /*
-        var resRet = await ResourceUpdater.UpdateAsync();
-        if (resRet == ResourceUpdater.UpdateResult.Success)
-        {
-            Instances.SettingsViewModel.IsCheckingForUpdates = false;
-            return CheckUpdateRetT.OnlyGameResourceUpdated;
-        }
-        */
-
-        // 可以用 MirrorChyan 资源更新了喵
-        var (checkRet, uri) = await ResourceUpdater.CheckFromMirrorChyanAsync();
-        if (checkRet != CheckUpdateRetT.OK || string.IsNullOrEmpty(uri))
-        {
-            SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
-            return ret;
-        }
-
-        switch (SettingsViewModel.VersionUpdateSettings.ResourceUpdateSource)
-        {
-            case "Github":
-                break;
-
-            case "MirrorChyan":
-                if (await ResourceUpdater.DownloadFromMirrorChyanAsync(uri))
-                {
-                    SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
-                    return CheckUpdateRetT.OnlyGameResourceUpdated;
-                }
-
-                break;
-        }
-
         SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
         return ret;
     }
@@ -698,7 +665,7 @@ public class VersionUpdateViewModel : Screen
         }
     }
 
-    public async void AskToRestart()
+    public async Task AskToRestart(bool isResource = false)
     {
         if (SettingsViewModel.VersionUpdateSettings.AutoInstallUpdatePackage)
         {
@@ -709,10 +676,12 @@ public class VersionUpdateViewModel : Screen
         await _runningState.UntilIdleAsync(10000);
 
         var result = MessageBoxHelper.Show(
-            LocalizationHelper.GetString("NewVersionDownloadCompletedDesc"),
-            LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"),
+            LocalizationHelper.GetString(isResource ? "GameResourceUpdated" : "NewVersionDownloadCompletedDesc"),
+            LocalizationHelper.GetString(isResource ? "Tip" : "NewVersionDownloadCompletedTitle"),
             MessageBoxButton.OKCancel,
-            MessageBoxImage.Question);
+            MessageBoxImage.Question,
+            ok: LocalizationHelper.GetString("Ok"),
+            cancel: LocalizationHelper.GetString("ManualRestart"));
         if (result == MessageBoxResult.OK)
         {
             Bootstrapper.ShutdownAndRestartWithoutArgs();

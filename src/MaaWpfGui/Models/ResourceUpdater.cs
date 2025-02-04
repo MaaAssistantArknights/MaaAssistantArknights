@@ -628,6 +628,37 @@ namespace MaaWpfGui.Models
             return await DownloadFromMirrorChyanAsync(uri);
         }
 
+        public static async Task<CheckUpdateRetT> CheckAndDownloadUpdate()
+        {
+            SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = true;
+
+            // 可以用 MirrorChyan 资源更新了喵
+            var (ret, uri) = await CheckFromMirrorChyanAsync();
+            if (ret != CheckUpdateRetT.OK || string.IsNullOrEmpty(uri))
+            {
+                SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
+                return ret;
+            }
+
+            switch (SettingsViewModel.VersionUpdateSettings.ResourceUpdateSource)
+            {
+                case "Github":
+                    break;
+
+                case "MirrorChyan":
+                    if (await DownloadFromMirrorChyanAsync(uri))
+                    {
+                        SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
+                        return CheckUpdateRetT.OnlyGameResourceUpdated;
+                    }
+
+                    break;
+            }
+
+            SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
+            return ret;
+        }
+
         private static async Task<bool> DownloadFullPackageAsync(string url, string saveTo)
         {
             using var response = await Instances.HttpService.GetAsync(new Uri(url));
