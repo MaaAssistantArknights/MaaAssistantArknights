@@ -7909,7 +7909,7 @@
         "maxTimes": 50,
         "postDelay": 0,
         "exceededNext": [],
-        "next": ["#self", "Stop"]
+        "next": ["#self", "Roguelike@StartExplore#next"]
     },
     "Roguelike@StartExploreCD": {
         "algorithm": "OcrDetect",
