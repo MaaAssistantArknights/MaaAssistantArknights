@@ -441,7 +441,7 @@ public class VersionUpdateViewModel : Screen
                 }
 
                 var ret2 = await ResourceUpdater.CheckAndDownloadUpdate();
-                if (ret2 == CheckUpdateRetT.OK)
+                if (ret2 == CheckUpdateRetT.OnlyGameResourceUpdated)
                 {
                     _ = AskToRestart(true);
                 }
