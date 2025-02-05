@@ -15,7 +15,7 @@ body:
           required: true
         - label: 我使用的是当前更新版本的最新版，且已查看版本发布至今的 [更新内容](https://github.com/MaaAssistantArknights/MaaAssistantArknights/commits/dev/) 和 [Pull Requests](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pulls) 中尚未发布的更新内容，并未提及该 Bug 已被修复的情况
           required: true
-        - label: 我已检查了[常见问题](https://maa.plus/docs/zh-cn/manual/faq.html)、[公告](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/7732)、[活跃议题](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues)、[已关闭议题](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues?q=is%3Aissue%20state%3Aclosed)，确认我的问题未被提及
+        - label: 我已检查了[常见问题](https://maa.plus/docs/zh-cn/manual/faq.html)、[公告](/MaaAssistantArknights/MaaAssistantArknights/issues/7732)、[活跃议题](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues)、[已关闭议题](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues?q=is%3Aissue%20state%3Aclosed)，确认我的问题未被提及
           required: true
   - type: textarea
     id: describe
