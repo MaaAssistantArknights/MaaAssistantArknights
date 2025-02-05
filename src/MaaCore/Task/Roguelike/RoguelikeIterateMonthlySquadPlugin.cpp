@@ -7,8 +7,6 @@
 
 bool asst::RoguelikeIterateMonthlySquadPlugin::load_params([[maybe_unused]] const json::value& params)
 {
-    LogTraceFunction;
-
     m_checkComms = params.find<bool>("monthly_squad_check_comms").value_or(false);
 
     auto iterateMS = params.find<bool>("monthly_squad_auto_iterate");
