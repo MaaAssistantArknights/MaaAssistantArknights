@@ -105,6 +105,7 @@ namespace MaaWpfGui.Constants
         public const string InfrastReceptionMessageBoardReceive = "Infrast.ReceptionMessageBoardReceive";
         public const string ContinueTraining = "Infrast.ContinueTraining";
         public const string PrioritizeSendingClue = "Infrast.PrioritizeSendingClue";
+        public const string AmountOfClueToSend = "Infrast.AmountOfClueToSend";
         public const string SendClueToOCR = "Infrast.SendClueToOCR";
         public const string OnlySendClueToOCR = "Infrast.OnlySendClueToOCR";
         public const string SendClueList = "Infrast.SendClueList";
