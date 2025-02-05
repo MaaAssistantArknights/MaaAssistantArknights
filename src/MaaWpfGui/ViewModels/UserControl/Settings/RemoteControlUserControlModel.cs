@@ -30,7 +30,7 @@ public class RemoteControlUserControlModel : PropertyChangedBase
 
     public static RemoteControlUserControlModel Instance { get; }
 
-    private string _remoteControlGetTaskEndpointUri = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, string.Empty);
+    private string _remoteControlGetTaskEndpointUri = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, string.Empty));
 
     public string RemoteControlGetTaskEndpointUri
     {
@@ -43,11 +43,12 @@ public class RemoteControlUserControlModel : PropertyChangedBase
             }
 
             Instances.RemoteControlService.InitializePollJobTask();
+            value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, value);
         }
     }
 
-    private string _remoteControlReportStatusUri = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlReportStatusUri, string.Empty);
+    private string _remoteControlReportStatusUri = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlReportStatusUri, string.Empty));
 
     public string RemoteControlReportStatusUri
     {
@@ -55,11 +56,12 @@ public class RemoteControlUserControlModel : PropertyChangedBase
         set
         {
             SetAndNotify(ref _remoteControlReportStatusUri, value);
+            value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlReportStatusUri, value);
         }
     }
 
-    private string _remoteControlUserIdentity = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlUserIdentity, string.Empty);
+    private string _remoteControlUserIdentity = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlUserIdentity, string.Empty));
 
     public string RemoteControlUserIdentity
     {
@@ -67,11 +69,12 @@ public class RemoteControlUserControlModel : PropertyChangedBase
         set
         {
             SetAndNotify(ref _remoteControlUserIdentity, value);
+            value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlUserIdentity, value);
         }
     }
 
-    private string _remoteControlDeviceIdentity = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlDeviceIdentity, string.Empty);
+    private string _remoteControlDeviceIdentity = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlDeviceIdentity, string.Empty));
 
     public string RemoteControlDeviceIdentity
     {
@@ -79,6 +82,7 @@ public class RemoteControlUserControlModel : PropertyChangedBase
         set
         {
             SetAndNotify(ref _remoteControlDeviceIdentity, value);
+            value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlDeviceIdentity, value);
         }
     }
