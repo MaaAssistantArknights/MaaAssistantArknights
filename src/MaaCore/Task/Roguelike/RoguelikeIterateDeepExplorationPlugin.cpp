@@ -7,8 +7,6 @@
 
 bool asst::RoguelikeIterateDeepExplorationPlugin::load_params([[maybe_unused]] const json::value& params)
 {
-    LogTraceFunction;
-
     auto iterateDE = params.find<bool>("deep_exploration_auto_iterate");
     return m_config->get_mode() == RoguelikeMode::Exploration && iterateDE.value_or(false);
 }

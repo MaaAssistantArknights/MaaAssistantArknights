@@ -8,8 +8,6 @@
 
 bool asst::RoguelikeDifficultySelectionTaskPlugin::load_params([[maybe_unused]] const json::value& params)
 {
-    LogTraceFunction;
-
     // 集成战略 <傀影与猩红孤钻> 的难度选项没有数字标注，暂不支持难度选择功能
     if (m_config->get_theme() == RoguelikeTheme::Phantom) {
         return false;
