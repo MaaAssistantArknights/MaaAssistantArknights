@@ -88,7 +88,7 @@ namespace MaaWpfGui.ViewModels.UI
                     return new AnnouncementSection
                     {
                         Title = lines.FirstOrDefault(),
-                        Content = "### " + string.Join("\n", lines).Replace("----", string.Empty),
+                        Content = "### " + string.Join("\n", lines).Trim([' ', '\n', '-']),
                     };
                 }).ToList();
 
