@@ -500,11 +500,12 @@ namespace MaaWpfGui.Models
 
             if (response is null)
             {
-                _logger.Information("response is null, try line2");
+                _logger.Error("response is null, try mirrorc line2");
                 url.Replace(MaaUrls.MirrorChyanResourceUpdate, MaaUrls.MirrorChyanLine2);
                 response = await Instances.HttpService.GetAsync(new(url), logUri: false);
                 if (response is null)
                 {
+                    _logger.Error("mirrorc line2 failed too");
                     ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
                     return (CheckUpdateRetT.NetworkError, null);
                 }
