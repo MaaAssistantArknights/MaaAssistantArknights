@@ -19,7 +19,7 @@ repos:
     hooks:
       - id: prettier
         verbose: true
-        files: ^(resource/.*)
+        files: ^(/.*)
         types_or:
           - yaml
           - json
