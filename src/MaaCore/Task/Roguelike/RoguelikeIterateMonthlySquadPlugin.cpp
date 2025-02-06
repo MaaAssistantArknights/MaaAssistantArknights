@@ -56,7 +56,8 @@ bool asst::RoguelikeIterateMonthlySquadPlugin::_run()
                 break;
             }
         }
-        if (!ProcessTask(*this, { m_config->get_theme() + "@Roguelike@MonthlySquadRewardMiss" }).run()) {
+        bool reward_miss = ProcessTask(*this, { m_config->get_theme() + "@Roguelike@MonthlySquadRewardMiss" }).run();
+        if (!reward_miss) {
             m_completed = false;
             break;
         }
