@@ -15,8 +15,5 @@ public:
 
 protected:
     virtual bool _run() override;
-
-private:
-    void stop_roguelike() const;
 };
 }
