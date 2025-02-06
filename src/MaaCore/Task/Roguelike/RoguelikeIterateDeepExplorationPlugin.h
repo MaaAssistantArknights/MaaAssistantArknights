@@ -22,6 +22,5 @@ private:
                                                                   { "Sami", 13 },
                                                                   { "Sarkaz", 0 } };
     bool m_completed;
-    virtual bool try_task(const char*) const;
 };
 }

@@ -42,11 +42,13 @@ bool asst::RoguelikeIterateDeepExplorationPlugin::_run()
 
     m_completed = true;
     if (deepExplorationCount[m_config->get_theme()] > 0) {
-        try_task("@Roguelike@DeepExploration");
+        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@DeepExploration" }).run();
     }
 
+    bool ret;
     for (int i = 0; i < deepExplorationCount[m_config->get_theme()]; i++) {
-        if (!try_task("@Roguelike@DeepExplorationRewardMiss")) {
+        ret = ProcessTask(*this, { m_config->get_theme() + "@Roguelike@DeepExplorationRewardMiss" }).run();
+        if (!ret) {
             m_completed = false;
             break;
         }
@@ -59,9 +61,4 @@ bool asst::RoguelikeIterateDeepExplorationPlugin::_run()
     }
 
     return true;
-}
-
-bool asst::RoguelikeIterateDeepExplorationPlugin::try_task(const char* task) const
-{
-    return ProcessTask(*this, { m_config->get_theme() + task }).run();
 }
