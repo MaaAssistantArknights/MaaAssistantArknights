@@ -496,6 +496,7 @@ namespace MaaWpfGui.Models
             var url = $"{MaaUrls.MirrorChyanResourceUpdate}?current_version={currentVersion}&cdk={cdk}&user_agent=MaaWpfGui";
 
             var response = await Instances.HttpService.GetAsync(new(url), logUri: false);
+            _logger.Information($"current_version: {currentVersion}, cdk: {((cdk.Length > 6) ? (cdk[..3] + new string('*', cdk.Length - 6) + cdk[^3..]) : cdk)}");
             if (response is null)
             {
                 ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
@@ -503,6 +504,7 @@ namespace MaaWpfGui.Models
             }
 
             var jsonStr = await response.Content.ReadAsStringAsync();
+            _logger.Information(jsonStr);
             JObject? data = null;
             try
             {
@@ -510,7 +512,7 @@ namespace MaaWpfGui.Models
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, $"Failed to deserialize json: {jsonStr}");
+                _logger.Error("Failed to deserialize json: " + ex.Message);
             }
 
             if (data is null)
@@ -536,6 +538,8 @@ namespace MaaWpfGui.Models
                 return (CheckUpdateRetT.AlreadyLatest, null);
             }
 
+            _logger.Information($"New version found: {version}");
+
             // 到这里已经确定有新版本了
             if (string.IsNullOrEmpty(cdk))
             {
@@ -544,13 +548,13 @@ namespace MaaWpfGui.Models
             }
 
             var uri = data["data"]?["url"]?.ToString();
-            if (string.IsNullOrEmpty(uri))
+            if (!string.IsNullOrEmpty(uri))
             {
-                ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
-                return (CheckUpdateRetT.UnknownError, null);
+                return (CheckUpdateRetT.OK, uri);
             }
 
-            return (CheckUpdateRetT.OK, uri);
+            ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
+            return (CheckUpdateRetT.UnknownError, null);
         }
 
         public static async Task<bool> DownloadFromMirrorChyanAsync(string? url)
