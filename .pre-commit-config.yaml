@@ -18,6 +18,8 @@ repos:
     rev: v4.0.0-alpha.8
     hooks:
       - id: prettier
+        verbose: true
+        files: ^(.*)
         types_or:
           - yaml
           - json
