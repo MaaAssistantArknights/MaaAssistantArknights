@@ -21,7 +21,6 @@ jobs:
           filetype: latest-release
           filename: "*MAA-*-${{ matrix.os }}-${{ matrix.arch }}.zip"
           mirrorchyan_rid: MAA
-
           github_token: ${{ secrets.GITHUB_TOKEN }}
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
