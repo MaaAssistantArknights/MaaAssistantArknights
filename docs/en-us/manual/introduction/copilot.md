@@ -20,8 +20,9 @@ Supports automatic combat for any `Squad Formation Stage` and `Stationary Securi
 - Please run it on the screen with the `Start Operation` button.  
   Then, import the task by `Import Local JSON Task File` or `Enter Task Station Secret Code` in the upper left box of MAA.
 - The `Auto Squad` feature will **clear the current squad** and automatically form a squad based on the operators required for the task.
-  - You can disable `Auto Squad` and manually form the squad before starting if you need to use `Friend Support` or for other personal preferences.
+  - You need to cancel the special focus on the operators for Auto Squad.
   - You can add `custom operators` and `low-trust operators` for auto squad formation as needed.
+  - You can disable `Auto Squad` and manually form the squad before starting if you need to use `Friend Support` or for other personal preferences.
   - For "Paradox Simulation" stages, you must disable `Auto Squad`, manually select skills, and start automatic combat on the screen with the **Start Simulation** button.
   - For "Stationary Security Service" stages, `Auto Squad` is ineffective. You must manually complete the **initial** task preparation until the **Start Deployment** button appears on the stage details screen to start automatic combat.
 - You can set `Loop Times`, such as for Stationary Security Service. However, MAA will not borrow operators. Do not use this feature if you need to borrow operators.
