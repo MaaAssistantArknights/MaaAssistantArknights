@@ -501,7 +501,7 @@ namespace MaaWpfGui.Models
             if (response is null)
             {
                 _logger.Error("response is null, try mirrorc line2");
-                url.Replace(MaaUrls.MirrorChyanResourceUpdate, MaaUrls.MirrorChyanLine2);
+                url = url.Replace(MaaUrls.MirrorChyanResourceUpdate, MaaUrls.MirrorChyanLine2);
                 response = await Instances.HttpService.GetAsync(new(url), logUri: false);
                 if (response is null)
                 {
