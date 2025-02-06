@@ -84,25 +84,24 @@
                             ItemsSource="{Binding ResourceUpdateSourceList}"
                             SelectedValue="{Binding ResourceUpdateSource}"
                             SelectedValuePath="Value" />
-                        <StackPanel Visibility="{c:Binding 'ResourceUpdateSource == &quot;MirrorChyan&quot;'}">
-                            <hc:PasswordBox
-                                Width="150"
-                                Margin="10"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                hc:TitleElement.Title="CDK"
-                                IsSafeEnabled="False"
-                                ShowEyeButton="True"
-                                UnsafePassword="{Binding MirrorChyanCdk}" />
-                            <controls:TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Hyperlink
-                                    Cursor="Hand"
-                                    NavigateUri="{Binding Source={x:Static constants:MaaUrls.MirrorChyanWebsite}}"
-                                    TextDecorations="None">
-                                    <TextBlock Text="{DynamicResource MirrorChyan}" />
-                                </Hyperlink>
-                            </controls:TextBlock>
-                        </StackPanel>
+                        <hc:PasswordBox
+                            Width="150"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            hc:TitleElement.Title="CDK"
+                            IsSafeEnabled="False"
+                            ShowEyeButton="True"
+                            UnsafePassword="{Binding MirrorChyanCdk}"
+                            Visibility="{c:Binding 'ResourceUpdateSource == &quot;MirrorChyan&quot;'}" />
+                        <controls:TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Hyperlink
+                                Cursor="Hand"
+                                NavigateUri="{Binding Source={x:Static constants:MaaUrls.MirrorChyanWebsite}}"
+                                TextDecorations="None">
+                                <TextBlock Text="{DynamicResource MirrorChyan}" />
+                            </Hyperlink>
+                        </controls:TextBlock>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
