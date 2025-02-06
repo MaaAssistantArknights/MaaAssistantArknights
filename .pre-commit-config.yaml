@@ -19,7 +19,7 @@ repos:
     hooks:
       - id: prettier
         verbose: true
-        files: ^(resource|\.github|website|docs|tools)/.*
+        files: ^((\.github|docs|resource|src|tools|website)/.*|\.pre-commit-config\.yaml|package-definition\.json)
         types_or:
           - yaml
           - json
