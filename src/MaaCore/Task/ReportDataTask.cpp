@@ -12,6 +12,8 @@
 #include <random>
 #include <sstream>
 
+static std::vector<std::future<void>> s_upload_pending;
+
 asst::ReportDataTask::ReportDataTask(const TaskCallback& task_callback, AbstractTask* upper_task) :
     AbstractTask(nullptr, upper_task->inst(), upper_task->get_task_chain()),
     m_task_callback(task_callback),
@@ -56,7 +58,7 @@ bool asst::ReportDataTask::_run()
     }
 
     auto upload_future = std::async(std::launch::async, report_func);
-    m_upload_pending.emplace_back(std::move(upload_future));
+    s_upload_pending.emplace_back(std::move(upload_future));
 
     return true;
 }
