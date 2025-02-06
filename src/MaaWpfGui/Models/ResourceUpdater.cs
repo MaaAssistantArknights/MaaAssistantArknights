@@ -497,10 +497,17 @@ namespace MaaWpfGui.Models
 
             var response = await Instances.HttpService.GetAsync(new(url), logUri: false);
             _logger.Information($"current_version: {currentVersion}, cdk: {((cdk.Length > 6) ? (cdk[..3] + new string('*', cdk.Length - 6) + cdk[^3..]) : cdk)}");
+
             if (response is null)
             {
-                ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
-                return (CheckUpdateRetT.NetworkError, null);
+                _logger.Information("response is null, try line2");
+                url.Replace(MaaUrls.MirrorChyanResourceUpdate, MaaUrls.MirrorChyanLine2);
+                response = await Instances.HttpService.GetAsync(new(url), logUri: false);
+                if (response is null)
+                {
+                    ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
+                    return (CheckUpdateRetT.NetworkError, null);
+                }
             }
 
             var jsonStr = await response.Content.ReadAsStringAsync();
