@@ -18,12 +18,11 @@ bool asst::RoguelikeLevelTaskPlugin::verify(AsstMsg msg, const json::value& deta
     }
     const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
-    const std::string& pre_task = details.get("pre_task", "");
     std::string_view task_view = task;
     if (task_view.starts_with(roguelike_name)) {
         task_view.remove_prefix(roguelike_name.length());
     }
-    if (task_view == "Roguelike@StartExplore" && pre_task != task) {
+    if (task_view == "Roguelike@StartExplore") {
         return true;
     }
     return false;
@@ -38,19 +37,16 @@ bool asst::RoguelikeLevelTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@CheckLevel" }).run()) {
-        if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@CheckLevelMax" }).set_retry_times(2).run()) {
-            stop_roguelike();
+    bool ret = ProcessTask(*this, { m_config->get_theme() + "@Roguelike@CheckLevel" }).run();
+    if (ret) {
+        ret = ProcessTask(*this, { "Roguelike@CheckLevelMax" }).set_retry_times(2).run();
+        if (ret) {
+            ProcessTask(*this, { "Return" }).run();
+            m_task_ptr->set_enable(false);
         }
         else {
             ProcessTask(*this, { "Return" }).run();
         }
     }
     return true;
-}
-
-void asst::RoguelikeLevelTaskPlugin::stop_roguelike() const
-{
-    ProcessTask(*this, { "Return" }).run();
-    m_task_ptr->set_enable(false);
 }
