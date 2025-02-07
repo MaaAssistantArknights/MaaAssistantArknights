@@ -13,6 +13,9 @@
     "ClickChapter1": {
         "text": ["Hour of An Awakening", "Hour of An"]
     },
+    "BattleStartSimulationForTwo": {
+        "text": ["Start", "Simulation"]
+    },
     "ClickChapter2": {
         "text": ["Shatter of A Vision", "Shatter of A"]
     },
