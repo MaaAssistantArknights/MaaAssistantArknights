@@ -189,7 +189,7 @@ jobs:
         continue-on-error: true
         with:
           name: txwy
-          path: ./tools/ResourceUpdater/x64/Release/Overseas/zh_TW/gamedata/excel
+          path: ./tools/ResourceUpdater/x64/Release/Overseas/tw/gamedata/excel
 
       - name: Delay txwy
         if: steps.download-txwy.outcome == 'failure'
@@ -201,7 +201,7 @@ jobs:
         uses: actions/download-artifact@v4.1.8
         with:
           name: txwy
-          path: ./tools/ResourceUpdater/x64/Release/Overseas/zh_TW/gamedata/excel
+          path: ./tools/ResourceUpdater/x64/Release/Overseas/tw/gamedata/excel
 
       - name: Download Overseas
         id: download-overseas
