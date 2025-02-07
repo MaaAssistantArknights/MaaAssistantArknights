@@ -2431,6 +2431,7 @@
     "StartUpThemes": {
         "algorithm": "JustReturn",
         "next": [
+            "LeidianGoogleFrameworkConfirm",
             "GameStart",
             "StartToWakeUp",
             "StartToWakeUpOCR",
@@ -2441,6 +2442,13 @@
             "OfflineConfirm",
             "GameStartUpdateOCR"
         ]
+    },
+    "LeidianGoogleFrameworkConfirm": {
+        "action": "ClickSelf",
+        "roi": [480, 410, 200, 50],
+        "maxTimes": 5,
+        "Doc": "用以关闭雷电模拟器启动外服明日方舟时弹出的未安装谷歌套件的提示",
+        "next": ["StartUpThemes#next"]
     },
     "StartUpBegin": {
         "algorithm": "JustReturn",
@@ -6747,8 +6755,8 @@
     "Roguelike@CheckLevelMax": {
         "Doc": "base_task 等级界面检查是否满级",
         "algorithm": "OcrDetect",
-        "roi": [920, 25, 40, 20],
-        "text": ["M", "A", "X"]
+        "roi": [1024, 20, 47, 27],
+        "text": ["-", "一"]
     },
     "Roguelike@ChooseDifficulty": {
         "Doc": "base_task",
@@ -7556,6 +7564,11 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [],
+        "ocrReplace": [
+            ["魂灵见闻.*以血还血", "魂灵见闻：以血还血"],
+            ["魂灵见闻.*善恶同道", "魂灵见闻：善恶同道"],
+            ["魂灵见闻.*石心双(子)?", "魂灵见闻：石心双子"]
+        ],
         "preDelay": 600,
         "roi": [0, 405, 725, 225]
     },
@@ -7896,7 +7909,7 @@
         "maxTimes": 50,
         "postDelay": 0,
         "exceededNext": [],
-        "next": ["#self", "Stop"]
+        "next": ["#self", "Roguelike@StartExplore#next"]
     },
     "Roguelike@StartExploreCD": {
         "algorithm": "OcrDetect",

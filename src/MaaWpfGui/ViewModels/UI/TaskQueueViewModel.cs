@@ -468,7 +468,16 @@ namespace MaaWpfGui.ViewModels.UI
             _ = Task.Run(async () =>
             {
                 await Task.Delay(delayTime);
-                await SettingsViewModel.VersionUpdateSettings.ManualUpdate();
+                if (await Instances.VersionUpdateViewModel.CheckAndDownloadUpdate() == VersionUpdateViewModel.CheckUpdateRetT.OK)
+                {
+                    _ = Instances.VersionUpdateViewModel.AskToRestart();
+                }
+
+                if (await ResourceUpdater.CheckAndDownloadUpdate() == VersionUpdateViewModel.CheckUpdateRetT.OK)
+                {
+                    _ = Instances.VersionUpdateViewModel.AskToRestart(true);
+                }
+
                 _isCheckingForUpdates = false;
             });
         }

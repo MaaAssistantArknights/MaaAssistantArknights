@@ -107,9 +107,9 @@ namespace MaaWpfGui.Services.Web
             }
         }
 
-        public async Task<string?> GetStringAsync(Uri uri, Dictionary<string, string>? extraHeader = null)
+        public async Task<string?> GetStringAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead, bool logQuery = true)
         {
-            var response = await GetAsync(uri, extraHeader);
+            var response = await GetAsync(uri, extraHeader, httpCompletionOption, logQuery);
 
             if (response?.StatusCode != HttpStatusCode.OK)
             {
@@ -119,9 +119,9 @@ namespace MaaWpfGui.Services.Web
             return await response.Content.ReadAsStringAsync();
         }
 
-        public async Task<Stream?> GetStreamAsync(Uri uri, Dictionary<string, string>? extraHeader = null)
+        public async Task<Stream?> GetStreamAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead, bool logQuery = true)
         {
-            var response = await GetAsync(uri, extraHeader);
+            var response = await GetAsync(uri, extraHeader, httpCompletionOption, logQuery);
 
             if (response?.StatusCode != HttpStatusCode.OK)
             {
@@ -131,7 +131,7 @@ namespace MaaWpfGui.Services.Web
             return await response.Content.ReadAsStreamAsync();
         }
 
-        public async Task<HttpResponseMessage?> GetAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead, bool logUri = true)
+        public async Task<HttpResponseMessage?> GetAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseHeadersRead, bool logQuery = true)
         {
             try
             {
@@ -146,13 +146,13 @@ namespace MaaWpfGui.Services.Web
                 }
 
                 var response = await _client.SendAsync(request, httpCompletionOption);
-                response.Log(logUri);
+                response.Log(logQuery);
 
                 return response;
             }
             catch (Exception e)
             {
-                _logger.Error(e, "Failed to send GET request to {Uri}", logUri ? uri : "***");
+                _logger.Error(e, "Failed to send GET request to {Uri}", uri.GetLeftPart(logQuery ? UriPartial.Query : UriPartial.Path));
                 return null;
             }
         }

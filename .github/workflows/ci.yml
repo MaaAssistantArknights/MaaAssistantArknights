@@ -386,6 +386,12 @@ jobs:
         with:
           show-progress: false
 
+      - name: Install Dependencies
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          brew install graphicsmagick imagemagick
+          npm install -g create-dmg
+
       - name: Fetch submodules
         run: |
           git submodule update --init --depth 1 src/MaaMacGui
@@ -404,15 +410,24 @@ jobs:
 
       - name: Install Developer ID Certificate
         if: startsWith(github.ref, 'refs/tags/v')
-        uses: ssrobins/import-codesign-certs@v2
+        uses: apple-actions/import-codesign-certs@v3
         with:
           p12-file-base64: ${{ secrets.HGUANDL_SIGN_CERT_P12 }}
           p12-password: ${{ secrets.HGUANDL_SIGN_CERT_PASSWD }}
 
+      - name: Download Provisioning Profiles
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: apple-actions/download-provisioning-profiles@v1
+        with:
+          bundle-id: 'com.hguandl.MeoAsstMac'
+          issuer-id: ${{ secrets.HGUANDL_APPSTORE_ISSUER }}
+          api-key-id: ${{ secrets.HGUANDL_APPSTORE_KEYID }}
+          api-private-key: ${{ secrets.HGUANDL_APPSTORE_KEY }}
+
       - name: Setup Xcode Toolchain
         if: true
         run: |
-          sudo xcode-select -s /Applications/Xcode_15.3.app/Contents/Developer
+          sudo xcode-select -s /Applications/Xcode_16.1.app/Contents/Developer
 
       - name: Build Universal Binaries
         run: |
@@ -456,9 +471,9 @@ jobs:
       - name: Build MAA
         run: |
           if ${{ startsWith(github.ref, 'refs/tags/v') }}; then
-            xcodebuild -project MeoAsstMac.xcodeproj -scheme MAA archive -archivePath MAA.xcarchive -configuration Release
+            xcodebuild -scheme MAA archive -archivePath MAA.xcarchive
           else
-            xcodebuild CODE_SIGN_IDENTITY="-" DEVELOPMENT_TEAM="-" ONLY_ACTIVE_ARCH=NO -project MeoAsstMac.xcodeproj -scheme MAA archive -archivePath MAA.xcarchive -configuration Debug
+            xcodebuild CODE_SIGNING_ALLOWED=NO -scheme MAA archive -archivePath MAA.xcarchive
           fi
         working-directory: src/MaaMacGui
 
@@ -471,10 +486,8 @@ jobs:
       - name: Create Disk Image
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
-          mkdir Image
-          mv Export/MAA.app Image/
-          ln -s /Applications Image/
-          hdiutil create -volname MAA -srcfolder Image -ov -fs APFS -format ULMO MAA.dmg
+          create-dmg Export/MAA.app
+          mv MAA*.dmg MAA.dmg
         working-directory: src/MaaMacGui
 
       - name: Archive Debug Symbols
@@ -496,15 +509,15 @@ jobs:
       - name: Notarize Image
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
+          echo "$APPSTORE_KEY" > "AuthKey_${APPSTORE_KEYID}.p8"
           find . -name "*.dmg" | while read dmg; do
-            codesign -s "$NOTARY_TEAM" --timestamp ${dmg}
-            xcrun notarytool submit --apple-id "$NOTARY_USER" --password "$NOTARY_PASSWD" --team-id "$NOTARY_TEAM" --wait ${dmg}
+            xcrun notarytool submit -k "AuthKey_${APPSTORE_KEYID}.p8" -d "$APPSTORE_KEYID" -i "$ISSUER_ID" --wait ${dmg}
             xcrun stapler staple ${dmg}
           done
         env:
-          NOTARY_USER: ${{ secrets.HGUANDL_NOTARY_AAPL_ID }}
-          NOTARY_PASSWD: ${{ secrets.HGUANDL_NOTARY_PASSWD }}
-          NOTARY_TEAM: ${{ secrets.HGUANDL_SIGN_IDENTITY }}
+          APPSTORE_KEYID: ${{ secrets.HGUANDL_APPSTORE_KEYID }}
+          APPSTORE_KEY: ${{ secrets.HGUANDL_APPSTORE_KEY }}
+          ISSUER_ID: ${{ secrets.HGUANDL_APPSTORE_ISSUER }}
         working-directory: release
 
       - name: Upload MAA to Github

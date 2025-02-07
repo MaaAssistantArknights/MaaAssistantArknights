@@ -11,7 +11,13 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using HandyControl.Controls;
+using HandyControl.Tools.Command;
 using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
@@ -26,6 +32,103 @@ namespace MaaWpfGui.ViewModels.UI
     // ReSharper disable once ClassNeverInstantiated.Global
     public class AnnouncementViewModel : Screen
     {
+        public string ImageSource { get; set; }
+
+        public class AnnouncementSection
+        {
+            public string Title { get; set; }
+
+            public string Content { get; set; }
+        }
+
+        public AnnouncementViewModel()
+        {
+            UpdateImageSource();
+
+            UpdateScrollStateCommand = new RelayCommand<ScrollViewer>(scrollViewer =>
+            {
+                if (scrollViewer == null)
+                {
+                    return;
+                }
+
+                // 计算是否滚动到底部
+                IsScrolledToBottom |= scrollViewer.VerticalOffset >= scrollViewer.ScrollableHeight - 10;
+            });
+
+            ScrollToTopCommand = new RelayCommand<ScrollViewer>(scrollViewer =>
+            {
+                if (scrollViewer == null)
+                {
+                    return;
+                }
+
+                scrollViewer.ScrollToTop();
+            });
+            AnnouncementSections = new(
+                ParseAnnouncementInfo(AnnouncementInfo));
+            SelectedAnnouncementSection = AnnouncementSections.FirstOrDefault();
+        }
+
+        private void UpdateImageSource()
+        {
+            ImageSource = SettingsViewModel.GuiSettings.Language switch
+            {
+                "zh-cn" or "zh-tw" => "/Res/Img/NoSkland.jpg",
+                _ => "/Res/Img/NoSkLandEn.jpg",
+            };
+        }
+
+        private static ObservableCollection<AnnouncementSection> ParseAnnouncementInfo(string markdown)
+        {
+            var sections = markdown.Split(["### "], StringSplitOptions.RemoveEmptyEntries)
+                .Select(section =>
+                {
+                    var lines = section.Split('\n');
+                    return new AnnouncementSection
+                    {
+                        Title = lines.FirstOrDefault(),
+                        Content = "### " + string.Join("\n", lines).Trim([' ', '\n', '-']),
+                    };
+                }).ToList();
+
+            sections.Insert(0, new()
+            {
+                Title = "ALL~ the Announcements",
+                Content = markdown,
+            });
+
+            return new(sections);
+        }
+
+        public ICommand UpdateScrollStateCommand { get; }
+
+        public ICommand ScrollToTopCommand { get; }
+
+        private bool _isScrolledToBottom;
+
+        public bool IsScrolledToBottom
+        {
+            get => _isScrolledToBottom;
+            set => SetAndNotify(ref _isScrolledToBottom, value);
+        }
+
+        private ObservableCollection<AnnouncementSection> _announcementSections;
+
+        public ObservableCollection<AnnouncementSection> AnnouncementSections
+        {
+            get => _announcementSections;
+            set => SetAndNotify(ref _announcementSections, value);
+        }
+
+        private AnnouncementSection _selectedAnnouncementSection;
+
+        public AnnouncementSection SelectedAnnouncementSection
+        {
+            get => _selectedAnnouncementSection;
+            set => SetAndNotify(ref _selectedAnnouncementSection, value);
+        }
+
         private string _announcementInfo = ConfigFactory.Root.AnnouncementInfo.Info;
 
         /// <summary>

@@ -16,7 +16,6 @@
 #include "Task/Roguelike/RoguelikeInvestTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeIterateDeepExplorationPlugin.h"
 #include "Task/Roguelike/RoguelikeIterateMonthlySquadPlugin.h"
-#include "Task/Roguelike/RoguelikeLastRewardSelectTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeLastRewardTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeLevelTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeRecruitTaskPlugin.h"
@@ -76,7 +75,6 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
         ->set_retry_times(0);
 
     m_roguelike_task_ptr->register_plugin<RoguelikeLastRewardTaskPlugin>(m_config_ptr, m_control_ptr);
-    m_roguelike_task_ptr->register_plugin<RoguelikeLastRewardSelectTaskPlugin>(m_config_ptr, m_control_ptr);
 
     m_roguelike_task_ptr->register_plugin<RoguelikeDifficultySelectionTaskPlugin>(m_config_ptr, m_control_ptr);
     m_roguelike_task_ptr->register_plugin<RoguelikeStrategyChangeTaskPlugin>(m_config_ptr, m_control_ptr);

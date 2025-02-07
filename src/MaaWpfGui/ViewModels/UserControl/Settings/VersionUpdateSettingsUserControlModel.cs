@@ -311,7 +311,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public List<CombinedData> ProxyTypeList { get; } =
         [
             new() { Display = "HTTP Proxy", Value = "http" },
-            new() { Display = "Socks5 Proxy", Value = "socks5" },
+            new() { Display = "SOCKS5 Proxy", Value = "socks5" },
         ];
 
     private string _proxyType = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ProxyType, "http");
@@ -405,7 +405,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
                 break;
 
             case VersionUpdateViewModel.CheckUpdateRetT.OK:
-                Instances.VersionUpdateViewModel.AskToRestart();
+                _ = Instances.VersionUpdateViewModel.AskToRestart();
                 break;
 
             case VersionUpdateViewModel.CheckUpdateRetT.NewVersionIsBeingBuilt:

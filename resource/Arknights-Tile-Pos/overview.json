@@ -12113,6 +12113,87 @@
         "stageId": "act40side_ex08",
         "width": 13
     },
+    "act40side_mo01-activities/act40side/level_act40side_mo01": {
+        "code": "OR-MO-1",
+        "filename": "act40side_mo01-activities-act40side-level_act40side_mo01.json",
+        "height": 8,
+        "levelId": "activities/act40side/level_act40side_mo01",
+        "name": "一日三餐",
+        "stageId": "act40side_mo01",
+        "width": 13
+    },
+    "act40side_s01#f#-activities/act40side/level_act40side_sub-1-1": {
+        "code": "OR-S-1",
+        "filename": "act40side_s01#f#-activities-act40side-level_act40side_sub-1-1.json",
+        "height": 8,
+        "levelId": "activities/act40side/level_act40side_sub-1-1",
+        "name": "周岁宴",
+        "stageId": "act40side_s01#f#",
+        "width": 12
+    },
+    "act40side_s01-activities/act40side/level_act40side_sub-1-1": {
+        "code": "OR-S-1",
+        "filename": "act40side_s01-activities-act40side-level_act40side_sub-1-1.json",
+        "height": 8,
+        "levelId": "activities/act40side/level_act40side_sub-1-1",
+        "name": "周岁宴",
+        "stageId": "act40side_s01",
+        "width": 12
+    },
+    "act40side_s02#f#-activities/act40side/level_act40side_sub-1-2": {
+        "code": "OR-S-2",
+        "filename": "act40side_s02#f#-activities-act40side-level_act40side_sub-1-2.json",
+        "height": 9,
+        "levelId": "activities/act40side/level_act40side_sub-1-2",
+        "name": "新婚宴",
+        "stageId": "act40side_s02#f#",
+        "width": 13
+    },
+    "act40side_s02-activities/act40side/level_act40side_sub-1-2": {
+        "code": "OR-S-2",
+        "filename": "act40side_s02-activities-act40side-level_act40side_sub-1-2.json",
+        "height": 9,
+        "levelId": "activities/act40side/level_act40side_sub-1-2",
+        "name": "新婚宴",
+        "stageId": "act40side_s02",
+        "width": 13
+    },
+    "act40side_s03#f#-activities/act40side/level_act40side_sub-1-3": {
+        "code": "OR-S-3",
+        "filename": "act40side_s03#f#-activities-act40side-level_act40side_sub-1-3.json",
+        "height": 9,
+        "levelId": "activities/act40side/level_act40side_sub-1-3",
+        "name": "寿辰宴",
+        "stageId": "act40side_s03#f#",
+        "width": 13
+    },
+    "act40side_s03-activities/act40side/level_act40side_sub-1-3": {
+        "code": "OR-S-3",
+        "filename": "act40side_s03-activities-act40side-level_act40side_sub-1-3.json",
+        "height": 9,
+        "levelId": "activities/act40side/level_act40side_sub-1-3",
+        "name": "寿辰宴",
+        "stageId": "act40side_s03",
+        "width": 13
+    },
+    "act40side_s04#f#-activities/act40side/level_act40side_sub-1-4": {
+        "code": "OR-S-4",
+        "filename": "act40side_s04#f#-activities-act40side-level_act40side_sub-1-4.json",
+        "height": 9,
+        "levelId": "activities/act40side/level_act40side_sub-1-4",
+        "name": "白事宴",
+        "stageId": "act40side_s04#f#",
+        "width": 13
+    },
+    "act40side_s04-activities/act40side/level_act40side_sub-1-4": {
+        "code": "OR-S-4",
+        "filename": "act40side_s04-activities-act40side-level_act40side_sub-1-4.json",
+        "height": 9,
+        "levelId": "activities/act40side/level_act40side_sub-1-4",
+        "name": "白事宴",
+        "stageId": "act40side_s04",
+        "width": 13
+    },
     "act40side_tr01-activities/act40side/level_act40side_tr01": {
         "code": "OR-TR-1",
         "filename": "act40side_tr01-activities-act40side-level_act40side_tr01.json",
@@ -14317,6 +14398,33 @@
         "name": "level_crisis_v2_02-03",
         "stageId": "level_crisis_v2_02-03",
         "width": 12
+    },
+    "level_crisis_v2_03-01-obt/crisis/v2/level_crisis_v2_03-01": {
+        "code": "level_crisis_v2_03-01",
+        "filename": "level_crisis_v2_03-01-obt-crisis-v2-level_crisis_v2_03-01.json",
+        "height": 8,
+        "levelId": "obt/crisis/v2/level_crisis_v2_03-01",
+        "name": "level_crisis_v2_03-01",
+        "stageId": "level_crisis_v2_03-01",
+        "width": 12
+    },
+    "level_crisis_v2_03-02-obt/crisis/v2/level_crisis_v2_03-02": {
+        "code": "level_crisis_v2_03-02",
+        "filename": "level_crisis_v2_03-02-obt-crisis-v2-level_crisis_v2_03-02.json",
+        "height": 8,
+        "levelId": "obt/crisis/v2/level_crisis_v2_03-02",
+        "name": "level_crisis_v2_03-02",
+        "stageId": "level_crisis_v2_03-02",
+        "width": 12
+    },
+    "level_crisis_v2_03-03-obt/crisis/v2/level_crisis_v2_03-03": {
+        "code": "level_crisis_v2_03-03",
+        "filename": "level_crisis_v2_03-03-obt-crisis-v2-level_crisis_v2_03-03.json",
+        "height": 8,
+        "levelId": "obt/crisis/v2/level_crisis_v2_03-03",
+        "name": "level_crisis_v2_03-03",
+        "stageId": "level_crisis_v2_03-03",
+        "width": 11
     },
     "level_rune_01-01-obt/rune/level_rune_01-01": {
         "code": "level_rune_01-01",

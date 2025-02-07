@@ -347,7 +347,7 @@
             ["마터호른", "角峰"],
             ["비글", "米格鲁"],
             ["카디건", "卡缇"],
-            ["^느와르코르네$", "黑角"],
+            ["^(느)?와르코르네$", "黑角"],
             ["쉐라", "耶拉"],
             ["코로세럼", "蚀清"],
             ["푸(딩|딪)", "布丁"],
@@ -1319,12 +1319,6 @@
         "ocrReplace": [["개.+", "개시"]],
         "text": ["작전", "개시"],
         "roi": [1020, 410, 170, 210]
-    },
-    "BattleStartSimulation": {
-        "Doc": "Delete the template and remove this modified roi task when paradox update comes PR#10439",
-        "roi": [417, 567, 444, 153],
-        "method": "Ccoeff",
-        "colorScales": []
     },
     "StageDrops-Quantity": {
         "maskRange": [200, 255],

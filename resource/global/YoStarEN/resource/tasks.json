@@ -1389,12 +1389,6 @@
         "text": ["MISSION", "START"],
         "roi": [1000, 404, 210, 220]
     },
-    "BattleStartSimulation": {
-        "Doc": "Delete the template and remove this modified roi task when paradox update comes PR#10439",
-        "roi": [400, 566, 481, 154],
-        "method": "Ccoeff",
-        "colorScales": []
-    },
     "BattleOperName": {
         "roi": [5, 177, 280, 37]
     },
