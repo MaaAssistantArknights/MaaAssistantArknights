@@ -30,6 +30,7 @@ using HandyControl.Data;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
@@ -1566,6 +1567,14 @@ namespace MaaWpfGui.Main
 
                 case "UnsupportedLevel":
                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("UnsupportedLevel") + subTaskDetails!["level"], UiLogColor.Error);
+                    Task.Run(async () =>
+                    {
+                        var ret = await ResourceUpdater.CheckAndDownloadUpdate();
+                        if (ret == VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated)
+                        {
+                            _ = Instances.VersionUpdateViewModel.AskToRestart(true);
+                        }
+                    });
                     break;
 
                 case "CustomInfrastRoomGroupsMatch":
