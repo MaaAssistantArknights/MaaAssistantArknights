@@ -51,7 +51,7 @@ jobs:
         with:
           show-progress: false
           repository: ArknightsAssets/ArknightsGamedata
-          ref: main
+          ref: master
           path: ./Overseas
           sparse-checkout-cone-mode: false
           sparse-checkout: |
