@@ -13,9 +13,6 @@
     "ClickChapter1": {
         "text": ["Hour of An Awakening", "Hour of An"]
     },
-    "BattleStartSimulationForTwo": {
-        "text": ["Start", "Simulation"]
-    },
     "ClickChapter2": {
         "text": ["Shatter of A Vision", "Shatter of A"]
     },
@@ -1391,6 +1388,9 @@
     "BattleStartOCR": {
         "text": ["MISSION", "START"],
         "roi": [1000, 404, 210, 220]
+    },
+    "BattleStartSimulationForTwo": {
+        "text": ["Start", "Simulation"]
     },
     "BattleOperName": {
         "roi": [5, 177, 280, 37]
