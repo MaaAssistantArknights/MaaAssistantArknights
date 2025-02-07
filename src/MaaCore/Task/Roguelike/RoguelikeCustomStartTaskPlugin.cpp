@@ -79,7 +79,9 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
 bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params)
 {
     m_squad = params.get("squad", "");
-    m_collectible_mode_squad = params.get("collectible_mode_squad", "");
+    if (m_config->get_mode() == RoguelikeMode::Collectible) {
+        m_collectible_mode_squad = params.get("collectible_mode_squad", m_squad);
+    }
 
     if (params.get("start_with_seed", false)) { // 种子刷钱，强制随心所欲
         set_custom(RoguelikeCustomType::Roles, "随心所欲");
