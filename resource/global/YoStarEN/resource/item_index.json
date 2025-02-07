@@ -1415,6 +1415,14 @@
         "sortId": -10000,
         "usage": "Rationing certificates issued by Rhodes Island to field operators, including vouchers. Can be used to exchange for supplies in Rhodes Island's landship, regional branches, and various safehouses."
     },
+    "act17mini_token_ash": {
+        "classifyType": "NONE",
+        "description": "A large piece of slag that was ejected from the Soul Furnace for unknown reasons, which shattered into pieces when bombarded by the airship. It contains trace amounts of Originium and Oriron, but extraction is extremely difficult.",
+        "icon": "act17mini_token_ash.png",
+        "name": "Slag",
+        "sortId": -10000,
+        "usage": "Fireworks pieces that fell from the sky. The custodian of a certain furnace node is looking for it, but what you get in return for it seems to differ from person to person."
+    },
     "act17side_token_compass": {
         "classifyType": "NONE",
         "description": "The Iberians of times past guided their course by compass, the needle bearing the weight of their wild ambitions and golden dreams. Naught but ravings nowadays; the needle is broken, the brass is tarnished, and none know the dreadnought's end, bar the silent sea.",
@@ -2407,13 +2415,21 @@
         "sortId": -10000,
         "usage": null
     },
+    "rogue_4_token_bp": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_4_token_bp.png",
+        "name": "Soul Bookmark",
+        "sortId": -10000,
+        "usage": null
+    },
     "sandbox_1_tokencoin": {
         "classifyType": "NONE",
         "description": "Each bead of sweat shed upon the barren ground will one day bear witness to the prospering of Terran civilization.",
         "icon": "sandbox_1_tokencoin.png",
         "name": "Prosperity Point",
         "sortId": -10000,
-        "usage": "A voucher that can be exchanged for rewards at 'Gift of Prosperity'."
+        "usage": "A voucher that can be exchanged for rewards at 'Expansional Rewards'."
     },
     "token_Obsidian": {
         "classifyType": "NONE",
