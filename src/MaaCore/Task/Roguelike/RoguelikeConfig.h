@@ -45,6 +45,10 @@ struct RoguelikeOper
 struct RoguelikeStatus
 {
 public:
+    RoguelikeStatus() = default;
+    RoguelikeStatus(const RoguelikeStatus&) = delete;
+
+public:
     int hope = 0;                                         // 当前希望
     int hp = 0;                                           // 当前生命值
     int floor = 0;                                        // 当前到达层数
