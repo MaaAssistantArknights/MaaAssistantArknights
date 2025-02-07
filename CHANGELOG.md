@@ -2,6 +2,7 @@
 
 ### 新增 | New
 
+* Paradox Simulation update UI for YoStar (#11793) @Constrat
 * add format hint for proxy setting (#11781) @Rbqwow
 * 支持Mirror酱资源更新 (#11768) @hguandl
 * 添加mirror酱备用线路 (#11777) @MistEO
@@ -16,6 +17,7 @@
 
 ### 修复 | Fix
 
+* JP 塑心 OCR (#11792) KR 黑角 OCR (#11794) @Daydreamer114
 * 肉鸽非投资模式禁用种子刷钱 @status102
 * 肉鸽烧水分队兼容 @status102
 * 禁止RoguelikeStatus拷贝 @status102
@@ -38,6 +40,7 @@
 
 ### 其他 | Other
 
+* border not displaying for http proxy in versionupdatesettings @Constrat
 * 移除RoguelikeLastRewardSelectTaskPlugin，合并烧水奖励选择 @status102
 * 调整界面布局 @ABA2396
 * 减少肉鸽插件不必要函数 @status102
