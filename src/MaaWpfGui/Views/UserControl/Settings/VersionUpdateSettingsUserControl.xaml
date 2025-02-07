@@ -129,11 +129,12 @@
                         ItemsSource="{Binding ProxyTypeList}"
                         SelectedValue="{Binding ProxyType}"
                         SelectedValuePath="Value" />
-                    <TextBox
+                    <hc:TextBox
                         Grid.Row="1"
                         Width="150"
                         Margin="10,0,10,10"
                         VerticalAlignment="Center"
+                        hc:InfoElement.Placeholder="&lt;IP&gt;:&lt;Port&gt;"
                         InputMethod.IsInputMethodEnabled="False"
                         Text="{Binding Proxy}" />
                     <StackPanel Grid.Row="2">
