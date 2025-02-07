@@ -103,16 +103,18 @@ If it still doesn't work, please retry after switching to `MaaTouch` from `Minit
 
 ## Connected successfully, but actions are slow or errors are frequent
 
-- The auto-battle requires you to go to the screen with the `Start` button. Please confirm they are not related.
+- The Copilot requires you to go to the screen with the `Start` button. Please confirm they are not related.
 - If you are using a non-CN client, please go to MAA Settings - Start-Up Settings - Select your client version. Not all features are currently supported for non-CN clients, please refer to docs.
-- If you are running the auto-I.S. function, please PIN UP the IS theme you want in the game, and select I.S. theme in MAA `Task Settings` - `Auto I.S.`.
+- If you are running the Auto-I.S. function, please PIN UP the I.S. theme you want in the game, and select I.S. theme in MAA `Task Settings` - `Auto I.S.`.
+- If Copilot frequently pauses without deploying operators, please disable `Pause Deployment` in `Settings` - `Game Settings`.
+- If Auto Squad fails to recognize operators properly, please cancel the special focus on the corresponding operators.
 - The input method `Adb Input` is naturally slow. It is recommended to use `MaaTouch` or `Minitouch` instead.
 
 ### Prompt that the screenshot takes a long time / is too long
 
-- MAA currently supports 3 screenshot methods: `RawByNc`, `RawWithGzip`, and `Encode`. When the average screenshot time of executing a task is >400 / >800, a prompt message will be output (a single task will only be output once)
-- `Settings - Connection Settings` will display the minimum/average/maximum time taken for the last 30 screenshots, refreshed every 10 screenshots
-- Automatic combat functions (such as I.S.) are greatly affected by the time taken to take screenshots
+- MAA currently supports 3 screenshot methods: `RawByNc`, `RawWithGzip`, and `Encode`. When the average screenshot time of executing a task is >400 / >800, a prompt message will be output (a single task will only be output once).
+- `Settings - Connection Settings` will display the minimum/average/maximum time taken for the last 30 screenshots, refreshed every 10 screenshots.
+- Automatic combat functions (such as I.S.) are greatly affected by the time taken to take screenshots.
 - This time consumption is unrelated to MAA, but related to computer performance, current usage, or emulator. You can try cleaning up background processes, changing emulators, or upgrading computer configurations.
 
 ## About Windows UAC
