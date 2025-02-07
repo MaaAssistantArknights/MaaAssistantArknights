@@ -83,7 +83,8 @@ bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params
         m_collectible_mode_squad = params.get("collectible_mode_squad", m_squad);
     }
 
-    if (params.get("start_with_seed", false)) { // 种子刷钱，强制随心所欲
+    if (m_config->get_mode() == RoguelikeMode::Investment &&
+        params.get("start_with_seed", false)) { // 种子刷钱，强制随心所欲
         set_custom(RoguelikeCustomType::Roles, "随心所欲");
     }
     else {
