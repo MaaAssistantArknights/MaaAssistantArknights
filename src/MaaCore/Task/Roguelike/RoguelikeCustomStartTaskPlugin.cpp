@@ -1,10 +1,12 @@
 #include "RoguelikeCustomStartTaskPlugin.h"
 
+#include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Vision/Miscellaneous/PipelineAnalyzer.h"
 #include "Vision/OCRer.h"
 
 bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -17,14 +19,16 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
+
     const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
     if (task_view.starts_with(roguelike_name)) {
         task_view.remove_prefix(roguelike_name.length());
     }
-    static const std::array<std::tuple<AsstMsg, std::string_view, RoguelikeCustomType>, 3> TaskMap = {
+    static const std::array<std::tuple<AsstMsg, std::string_view, RoguelikeCustomType>, 4> TaskMap = {
         std::make_tuple(AsstMsg::SubTaskCompleted, "Roguelike@SquadDefault", RoguelikeCustomType::Squad),
+        std::make_tuple(AsstMsg::SubTaskStart, "Roguelike@LastReward-EnterPoint", RoguelikeCustomType::Reward),
         std::make_tuple(AsstMsg::SubTaskCompleted, "Roguelike@RolesDefault", RoguelikeCustomType::Roles),
         std::make_tuple(AsstMsg::SubTaskStart, "Roguelike@RecruitMain", RoguelikeCustomType::CoreChar),
     };
@@ -40,7 +44,9 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
     if (type == RoguelikeCustomType::None) {
         return false;
     }
-
+    if (type == RoguelikeCustomType::Reward) {
+        return true;
+    }
     if (type == RoguelikeCustomType::Squad) {
         if (m_config->get_run_for_collectible()) { // 烧水分队
             if (m_collectible_mode_squad.empty()) {
@@ -73,9 +79,12 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
 bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params)
 {
     m_squad = params.get("squad", "");
-    m_collectible_mode_squad = params.get("collectible_mode_squad", "");
+    if (m_config->get_mode() == RoguelikeMode::Collectible) {
+        m_collectible_mode_squad = params.get("collectible_mode_squad", m_squad);
+    }
 
-    if (params.get("start_with_seed", false)) { // 种子刷钱，强制随心所欲
+    if (m_config->get_mode() == RoguelikeMode::Investment &&
+        params.get("start_with_seed", false)) { // 种子刷钱，强制随心所欲
         set_custom(RoguelikeCustomType::Roles, "随心所欲");
     }
     else {
@@ -85,6 +94,23 @@ bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params
     set_custom(RoguelikeCustomType::CoreChar, params.get("core_char", "")); // 开局干员名
     m_config->set_use_support(params.get("use_support", false));            // 开局干员是否为助战干员
     m_config->set_use_nonfriend_support(params.get("use_nonfriend_support", false)); // 是否可以是非好友助战干员
+
+    if (auto select_list = params.find<json::object>("collectible_mode_start_list"); select_list) {
+        RoguelikeStartSelect list;
+        list.hot_water = select_list->get("hot_water", false);
+        list.shield = select_list->get("shield", false);
+        list.ingot = select_list->get("ingot", false);
+        list.hope = select_list->get("hope", false);
+        list.random = select_list->get("random", false);
+        if (m_config->get_theme() == RoguelikeTheme::Mizuki) {
+            list.key = select_list->get("key", false);
+            list.dice = select_list->get("dice", false);
+        }
+        else if (m_config->get_theme() == RoguelikeTheme::Sarkaz) {
+            list.ideas = select_list->get("ideas", false);
+        }
+        m_start_select = list;
+    }
 
     return true;
 }
@@ -98,6 +124,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::_run()
 {
     const std::unordered_map<RoguelikeCustomType, std::function<bool(void)>> TypeActuator = {
         { RoguelikeCustomType::Squad, std::bind(&RoguelikeCustomStartTaskPlugin::hijack_squad, this) },
+        { RoguelikeCustomType::Reward, std::bind(&RoguelikeCustomStartTaskPlugin::hijack_reward, this) },
         { RoguelikeCustomType::Roles, std::bind(&RoguelikeCustomStartTaskPlugin::hijack_roles, this) },
         { RoguelikeCustomType::CoreChar, std::bind(&RoguelikeCustomStartTaskPlugin::hijack_core_char, this) },
     };
@@ -135,6 +162,35 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
     }
     ProcessTask(*this, { "SwipeToTheLeft" }).run();
     return false;
+}
+
+bool asst::RoguelikeCustomStartTaskPlugin::hijack_reward()
+{
+    const auto& list = get_select_list();
+    if (list.empty()) {
+        // 执行默认选择顺序
+        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@LastReward-Strategy" }).run();
+        return true;
+    }
+
+    // 处理选择顺序
+    PipelineAnalyzer analyzer(ctrler()->get_image());
+    analyzer.set_tasks(list);
+    if (auto ret = analyzer.analyze(); !ret) {
+        // 未获取到期望物品，设置烧水flag，重开
+        m_config->set_run_for_collectible(true);
+        m_control_ptr->exit_then_stop(true);
+    }
+    else if (m_config->get_start_with_elite_two()) {
+        ctrler()->click(ret->rect);
+        sleep(Config.get_options().task_delay);
+    }
+    else {
+        m_control_ptr->exit_then_stop(false);
+        m_task_ptr->set_enable(false);
+    }
+
+    return true;
 }
 
 bool asst::RoguelikeCustomStartTaskPlugin::hijack_roles()
@@ -205,4 +261,44 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
 
     m_config->set_core_char(char_name);
     return true;
+}
+
+std::vector<std::string> asst::RoguelikeCustomStartTaskPlugin::get_select_list() const
+{
+    if (m_config->get_mode() != RoguelikeMode::Collectible ||
+        m_config->get_run_for_collectible() /* 正在烧水，使用默认策略 */ ||
+        m_config->get_only_start_with_elite_two() /* 只凹精二没有奖励，但第一次开时可能有之前的奖励 */) {
+        return {};
+    }
+
+    std::vector<std::string> list;
+    if (m_start_select.hot_water) {
+        list.emplace_back(m_config->get_theme() + "@Roguelike@LastReward"); // 热水壶
+    }
+    if (m_start_select.shield) {
+        list.emplace_back(m_config->get_theme() + "@Roguelike@LastReward2"); // 盾；傀影没盾，是生命
+    }
+    if (m_start_select.ingot) {
+        list.emplace_back(m_config->get_theme() + "@Roguelike@LastReward3"); // 源石锭
+    }
+    if (m_start_select.hope) {
+        list.emplace_back(m_config->get_theme() + "@Roguelike@LastReward4"); // 希望
+    }
+
+    if (m_start_select.random) {
+        list.emplace_back(m_config->get_theme() + "@Roguelike@LastRewardRand"); // 随机奖励
+    }
+    if (m_config->get_theme() == RoguelikeTheme::Mizuki) {
+        if (m_start_select.key) {
+            list.emplace_back("Mizuki@Roguelike@LastReward5"); // 钥匙
+        }
+        if (m_start_select.dice) {
+            list.emplace_back("Mizuki@Roguelike@LastReward6"); // 骰子
+        }
+    }
+    else if (m_config->get_theme() == RoguelikeTheme::Sarkaz && m_start_select.ideas) {
+        list.emplace_back("Sarkaz@Roguelike@LastReward5"); // 构想
+    }
+
+    return list;
 }

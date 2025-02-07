@@ -7,8 +7,6 @@
 
 bool asst::RoguelikeIterateMonthlySquadPlugin::load_params([[maybe_unused]] const json::value& params)
 {
-    LogTraceFunction;
-
     m_checkComms = params.find<bool>("monthly_squad_check_comms").value_or(false);
 
     auto iterateMS = params.find<bool>("monthly_squad_auto_iterate");
@@ -58,7 +56,8 @@ bool asst::RoguelikeIterateMonthlySquadPlugin::_run()
                 break;
             }
         }
-        if (!ProcessTask(*this, { m_config->get_theme() + "@Roguelike@MonthlySquadRewardMiss" }).run()) {
+        bool reward_miss = ProcessTask(*this, { m_config->get_theme() + "@Roguelike@MonthlySquadRewardMiss" }).run();
+        if (!reward_miss) {
             m_completed = false;
             break;
         }

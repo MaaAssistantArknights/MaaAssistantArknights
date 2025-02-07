@@ -14,7 +14,6 @@
 
 bool asst::RoguelikeRoutingTaskPlugin::load_params(const json::value& params)
 {
-    LogTraceFunction;
     const std::string& theme = m_config->get_theme();
 
     // 本插件暂处于实验阶段，仅用于萨卡兹肉鸽

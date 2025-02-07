@@ -84,7 +84,7 @@
         "text": ["展廳", "漫遊"]
     },
     "HS-OpenOcr": {
-        "text": ["懷黍離", "荒城", "核心"],
+        "text": ["懷黍離", "荒城", "核心", "大江", "北岸"],
         "ocrReplace": [["懷.*離", "懷黍離"]]
     },
     "HSChapterToHS": {
@@ -699,6 +699,7 @@
             ["信使郵筒", "信使邮筒"],
             ["訊息匣", "讯息匣"],
             ["^泰$", "黍"],
+            ["^委$", "黍"],
             [".*煉嘉維爾", "百炼嘉维尔"]
         ]
     },
@@ -1899,7 +1900,7 @@
         "text": ["迷霧歧途", "落陽庭院", "故土殘軀", "噩夢之始", "血月長廊", "渴欲大廳"]
     },
     "Phantom@Roguelike@SelectTheme": {
-        "text": ["古堡筆記"]
+        "text": ["古堡筆記", "古堡", "筆記"]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
@@ -2080,7 +2081,7 @@
         "text": ["完成本", "完成本層", "下一層級"]
     },
     "Sami@Roguelike@SelectTheme": {
-        "text": ["科考紀錄"]
+        "text": ["科考記錄", "科考", "記錄"]
     },
     "Sami@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [

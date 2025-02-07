@@ -929,8 +929,7 @@
             ["湮滅の相", "湮灭之相"],
             ["ディアマンテ", "折光"],
             [".?ィアマンテ", "折光"],
-            ["ヴィルトゥオーサ", "塑心"],
-            [".?ィルトゥオーサ", "塑心"],
+            [".*ィル(ト|下)ゥオーサ", "塑心"],
             ["創生の相", "创生之相"],
             ["レッシング", "止颂"],
             ["ヴィヴィアナ", "薇薇安娜"],
@@ -1488,12 +1487,6 @@
     },
     "BattleStartOCR": {
         "text": ["行動", "開始"]
-    },
-    "BattleStartSimulation": {
-        "Doc": "Delete the template and remove this modified roi task when paradox update comes PR#10439",
-        "roi": [417, 567, 444, 153],
-        "method": "Ccoeff",
-        "colorScales": []
     },
     "BattleOperName": {
         "roi": [5, 177, 280, 37]
