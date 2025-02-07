@@ -50,7 +50,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           show-progress: false
-          repository: Kengxxiao/ArknightsGameData_Yostar
+          repository: ArknightsAssets/ArknightsGamedata
           ref: main
           path: ./Overseas
           sparse-checkout-cone-mode: false
