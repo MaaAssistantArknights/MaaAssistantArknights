@@ -85,12 +85,13 @@
 
                 <StackPanel
                     Grid.Row="1"
-                    Margin="50,0,0,0"
+                    Margin="30,10,20,10"
+                    Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
                     <CheckBox
                         Height="30"
-                        Margin="6"
+                        Margin="10"
                         HorizontalAlignment="Center"
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource ShowDisclaimerNoMore}"
@@ -98,6 +99,7 @@
                     <Button
                         Height="50"
                         MinWidth="100"
+                        Margin="10"
                         Command="{s:Action Close}"
                         Content="{DynamicResource Confirm}"
                         IsEnabled="{Binding IsScrolledToBottom}" />
