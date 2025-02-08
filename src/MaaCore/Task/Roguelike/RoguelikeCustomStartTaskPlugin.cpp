@@ -45,6 +45,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
         return false;
     }
     if (type == RoguelikeCustomType::Reward) {
+        m_waiting_to_run = type;
         return true;
     }
     if (type == RoguelikeCustomType::Squad) {
