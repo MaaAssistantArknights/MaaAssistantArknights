@@ -2,7 +2,7 @@
 
 ### 新增 | New
 
-* update maa self by mirrorc (#11812) @MistEO @ABA2396
+* 使用 Mirrorc 更新本体 (#11812) @MistEO @ABA2396
 * 开始唤醒支持账号切换 (#11803) @hguandl
 * 自动战斗遇到不支持的关卡时尝试检测资源版本更新 @ABA2396
 
@@ -10,7 +10,6 @@
 
 * 肉鸽开局烧水奖励领取失败 @status102
 * rotate_check 位置错误 @ABA2396
-* revert: "fix: 修复上传卡住的问题" @MistEO
 
 ### 文档 | Docs
 
