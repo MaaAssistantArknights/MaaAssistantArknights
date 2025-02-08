@@ -228,7 +228,7 @@
     <system:String x:Key="UpdateCheckStable">中杯 (正式版)</system:String>
     <system:String x:Key="UpdateCheckBeta">大杯 (公测版)</system:String>
     <system:String x:Key="UpdateCheckNightly">超大杯 (内测版)</system:String>
-    <system:String x:Key="NightlyWarning" xml:space="preserve">您已启用内测版更新。感谢您对 MAA 的支持与测试。
+    <system:String x:Key="NightlyWarning" xml:space="preserve">您已鉴定为超大杯（启用内测版）。感谢您对 MAA 的支持与测试。
 
 请注意：
 
