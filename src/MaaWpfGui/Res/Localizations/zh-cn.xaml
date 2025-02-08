@@ -225,9 +225,9 @@
     <system:String x:Key="UpdateAutoCheck">定时检查更新</system:String>
     <system:String x:Key="UpdateAutoDownload">自动下载更新包</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">自动安装更新包</system:String>
-    <system:String x:Key="UpdateCheckStable">正式版</system:String>
-    <system:String x:Key="UpdateCheckBeta">公测版</system:String>
-    <system:String x:Key="UpdateCheckNightly">内测版</system:String>
+    <system:String x:Key="UpdateCheckStable">中杯(正式版)</system:String>
+    <system:String x:Key="UpdateCheckBeta">大杯(公测版)</system:String>
+    <system:String x:Key="UpdateCheckNightly">超大杯(内测版)</system:String>
     <system:String x:Key="NightlyWarning" xml:space="preserve">您已启用内测版更新。感谢您对 MAA 的支持与测试。
 
 请注意：
@@ -238,7 +238,7 @@
 4. 请勿将更新内测版的方法告知其他非开发用户，以避免对他们造成不必要的困扰和风险。
 
 您可通过点击 设置-关于我们-问题反馈 链接来取消该弹窗，感谢您的理解与配合！</system:String>
-    <system:String x:Key="UpdateCheck">更新版本</system:String>
+    <system:String x:Key="UpdateCheck">你是？(更新版本)</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 进行下载</system:String>
     <system:String x:Key="UpdateCheckNow">检查更新</system:String>
     <system:String x:Key="ShowChangelog">更新日志</system:String>
