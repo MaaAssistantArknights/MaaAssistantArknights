@@ -546,9 +546,9 @@ namespace MaaWpfGui.Models
                 return (CheckUpdateRetT.AlreadyLatest, null);
             }
 
+            // 到这里已经确定有新版本了
             _logger.Information($"New version found: {version}");
 
-            // 到这里已经确定有新版本了
             if (string.IsNullOrEmpty(cdk))
             {
                 ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanResourceUpdateTip"));

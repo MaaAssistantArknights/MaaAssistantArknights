@@ -88,6 +88,7 @@ namespace MaaWpfGui.Constants
 
         public const string MirrorChyanWebsite = "https://mirrorc.top";
         public const string MirrorChyanLine2 = "http://47.96.114.138:8800";
+        public const string MirrorChyanAppUpdate = $"{MirrorChyanWebsite}/api/resources/MAA/latest";
         public const string MirrorChyanResourceUpdate = $"{MirrorChyanWebsite}/api/resources/MaaResource/latest";
     }
 }
