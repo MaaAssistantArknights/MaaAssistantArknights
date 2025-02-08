@@ -24,7 +24,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
-
+using Theme = RoguelikeTheme;
 public class RoguelikeSettingsUserControlModel : TaskViewModel
 {
     static RoguelikeSettingsUserControlModel()
@@ -64,19 +64,18 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         RoguelikeModeList =
         [
             new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = "0" },
-                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = "1" },
+            new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = "1" },
 
-                // new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
-                // new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
-                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = "4" },
-                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyMonthlySquad"), Value = "6" },
-                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyDeepExploration"), Value = "7" },
-            ];
+            // new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
+            // new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
+            new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = "4" },
+            new() { Display = LocalizationHelper.GetString("RoguelikeStrategyMonthlySquad"), Value = "6" },
+            new() { Display = LocalizationHelper.GetString("RoguelikeStrategyDeepExploration"), Value = "7" },
+        ];
 
         switch (RoguelikeTheme)
         {
-            case "Sami":
-
+            case Theme.Sami:
                 RoguelikeModeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStrategyCollapse"), Value = "5" });
 
                 break;
@@ -90,53 +89,53 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         ["Phantom_Default"] =
         [
             ("ResearchSquad", "研究分队"),
-            ],
+        ],
         ["Mizuki_Default"] =
         [
             ("IS2NewSquad1", "心胜于物分队"),
-                ("IS2NewSquad2", "物尽其用分队"),
-                ("IS2NewSquad3", "以人为本分队"),
-                ("ResearchSquad", "研究分队"),
-            ],
+            ("IS2NewSquad2", "物尽其用分队"),
+            ("IS2NewSquad3", "以人为本分队"),
+            ("ResearchSquad", "研究分队"),
+        ],
         ["Sami_Default"] =
         [
             ("IS3NewSquad1", "永恒狩猎分队"),
-                ("IS3NewSquad2", "生活至上分队"),
-                ("IS3NewSquad3", "科学主义分队"),
-                ("IS3NewSquad4", "特训分队"),
-            ],
+            ("IS3NewSquad2", "生活至上分队"),
+            ("IS3NewSquad3", "科学主义分队"),
+            ("IS3NewSquad4", "特训分队"),
+        ],
         ["Sarkaz_1"] =
         [
             ("IS4NewSquad2", "博闻广记分队"),
-                ("IS4NewSquad3", "蓝图测绘分队"),
-                ("IS4NewSquad6", "点刺成锭分队"),
-                ("IS4NewSquad7", "拟态学者分队"),
-            ],
+            ("IS4NewSquad3", "蓝图测绘分队"),
+            ("IS4NewSquad6", "点刺成锭分队"),
+            ("IS4NewSquad7", "拟态学者分队"),
+        ],
         ["Sarkaz_Default"] =
         [
             ("IS4NewSquad1", "魂灵护送分队"),
-                ("IS4NewSquad2", "博闻广记分队"),
-                ("IS4NewSquad3", "蓝图测绘分队"),
-                ("IS4NewSquad4", "因地制宜分队"),
-                ("IS4NewSquad5", "异想天开分队"),
-                ("IS4NewSquad6", "点刺成锭分队"),
-                ("IS4NewSquad7", "拟态学者分队"),
-            ],
+            ("IS4NewSquad2", "博闻广记分队"),
+            ("IS4NewSquad3", "蓝图测绘分队"),
+            ("IS4NewSquad4", "因地制宜分队"),
+            ("IS4NewSquad5", "异想天开分队"),
+            ("IS4NewSquad6", "点刺成锭分队"),
+            ("IS4NewSquad7", "拟态学者分队"),
+        ],
     };
 
     // 通用分队
     private readonly List<(string Key, string Value)> _commonSquads =
     [
         ("LeaderSquad", "指挥分队"),
-            ("GatheringSquad", "集群分队"),
-            ("SupportSquad", "后勤分队"),
-            ("SpearheadSquad", "矛头分队"),
-            ("TacticalAssaultOperative", "突击战术分队"),
-            ("TacticalFortificationOperative", "堡垒战术分队"),
-            ("TacticalRangedOperative", "远程战术分队"),
-            ("TacticalDestructionOperative", "破坏战术分队"),
-            ("First-ClassSquad", "高规格分队"),
-        ];
+        ("GatheringSquad", "集群分队"),
+        ("SupportSquad", "后勤分队"),
+        ("SpearheadSquad", "矛头分队"),
+        ("TacticalAssaultOperative", "突击战术分队"),
+        ("TacticalFortificationOperative", "堡垒战术分队"),
+        ("TacticalRangedOperative", "远程战术分队"),
+        ("TacticalDestructionOperative", "破坏战术分队"),
+        ("First-ClassSquad", "高规格分队"),
+    ];
 
     private void UpdateRoguelikeSquadList()
     {
@@ -226,17 +225,6 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         RoguelikeCoreCharList = roguelikeCoreCharList;
     }
 
-    /// <summary>
-    /// Gets the list of roguelike lists.
-    /// </summary>
-    public List<CombinedData> RoguelikeThemeList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("RoguelikeThemePhantom"), Value = "Phantom" },
-                new() { Display = LocalizationHelper.GetString("RoguelikeThemeMizuki"), Value = "Mizuki" },
-                new() { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = "Sami" },
-                new() { Display = LocalizationHelper.GetString("RoguelikeThemeSarkaz"), Value = "Sarkaz" },
-            ];
-
     private ObservableCollection<GenericCombinedData<int>> _roguelikeDifficultyList = [];
 
     public ObservableCollection<GenericCombinedData<int>> RoguelikeDifficultyList
@@ -273,25 +261,36 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public List<CombinedData> RoguelikeRolesList { get; } =
         [
             new() { Display = LocalizationHelper.GetString("DefaultRoles"), Value = string.Empty },
-                new() { Display = LocalizationHelper.GetString("FirstMoveAdvantage"), Value = "先手必胜" },
-                new() { Display = LocalizationHelper.GetString("SlowAndSteadyWinsTheRace"), Value = "稳扎稳打" },
-                new() { Display = LocalizationHelper.GetString("OvercomingYourWeaknesses"), Value = "取长补短" },
-                new() { Display = LocalizationHelper.GetString("AsYourHeartDesires"), Value = "随心所欲" },
-            ];
+            new() { Display = LocalizationHelper.GetString("FirstMoveAdvantage"), Value = "先手必胜" },
+            new() { Display = LocalizationHelper.GetString("SlowAndSteadyWinsTheRace"), Value = "稳扎稳打" },
+            new() { Display = LocalizationHelper.GetString("OvercomingYourWeaknesses"), Value = "取长补短" },
+            new() { Display = LocalizationHelper.GetString("AsYourHeartDesires"), Value = "随心所欲" },
+        ];
+
+    /// <summary>
+    /// Gets the list of roguelike lists.
+    /// </summary>
+    public List<GenericCombinedData<Theme>> RoguelikeThemeList { get; } =
+        [
+            new() { Display = LocalizationHelper.GetString("RoguelikeThemePhantom"), Value = Theme.Phantom },
+            new() { Display = LocalizationHelper.GetString("RoguelikeThemeMizuki"), Value = Theme.Mizuki },
+            new() { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = Theme.Sami },
+            new() { Display = LocalizationHelper.GetString("RoguelikeThemeSarkaz"), Value = Theme.Sarkaz },
+        ];
 
     // public List<CombData> RoguelikeCoreCharList { get; set; }
-    private string _roguelikeTheme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, "Sarkaz");
+    private Theme _roguelikeTheme = Enum.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, Theme.Sarkaz.ToString()), out Theme outTheme) ? outTheme : Theme.Sarkaz;
 
     /// <summary>
     /// Gets or sets the Roguelike theme.
     /// </summary>
-    public string RoguelikeTheme
+    public Theme RoguelikeTheme
     {
         get => _roguelikeTheme;
         set
         {
             SetAndNotify(ref _roguelikeTheme, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeTheme, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeTheme, value.ToString());
 
             UpdateRoguelikeModeList();
             UpdateRoguelikeSquadList();
@@ -365,12 +364,12 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
     public bool RoguelikeSquadIsProfessional =>
         RoguelikeMode == "4" &&
-        RoguelikeTheme != "Phantom" &&
+        RoguelikeTheme != Theme.Phantom &&
         RoguelikeSquad is "突击战术分队" or "堡垒战术分队" or "远程战术分队" or "破坏战术分队";
 
     public bool RoguelikeSquadIsFoldartal =>
         RoguelikeMode == "4" &&
-        RoguelikeTheme == "Sami" &&
+        RoguelikeTheme == Theme.Sami &&
         RoguelikeSquad == "生活至上分队";
 
     private string _roguelikeRoles = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeRoles, string.Empty);
@@ -529,7 +528,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// <summary>
     /// Gets a value indicating whether core char need start with elite two.
     /// </summary>
-    public bool Roguelike3FirstFloorFoldartal => _roguelike3FirstFloorFoldartal && RoguelikeMode == "4" && RoguelikeTheme == "Sami";
+    public bool Roguelike3FirstFloorFoldartal => _roguelike3FirstFloorFoldartal && RoguelikeMode == "4" && RoguelikeTheme == Theme.Sami;
 
     private string _roguelike3StartFloorFoldartal = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3StartFloorFoldartal, string.Empty);
 
@@ -705,7 +704,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
     public bool RoguelikeRefreshTraderWithDice
     {
-        get => _roguelikeRefreshTraderWithDice && RoguelikeTheme == "Mizuki";
+        get => _roguelikeRefreshTraderWithDice && RoguelikeTheme == Theme.Mizuki;
         set
         {
             SetAndNotify(ref _roguelikeRefreshTraderWithDice, value);
@@ -833,5 +832,28 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         }
     }
 
-    public bool RoguelikeStartWithSeed => _roguelikeStartWithSeedRaw && RoguelikeTheme == "Sarkaz" && RoguelikeMode == "1" && RoguelikeSquad is "点刺成锭分队" or "后勤分队";
+    public bool RoguelikeStartWithSeed => _roguelikeStartWithSeedRaw && RoguelikeTheme == Theme.Sarkaz && RoguelikeMode == "1" && RoguelikeSquad is "点刺成锭分队" or "后勤分队";
+}
+
+public enum RoguelikeTheme
+{
+    /// <summary>
+    /// 傀影
+    /// </summary>
+    Phantom,
+
+    /// <summary>
+    /// 水月
+    /// </summary>
+    Mizuki,
+
+    /// <summary>
+    /// 萨米
+    /// </summary>
+    Sami,
+
+    /// <summary>
+    /// 萨卡兹
+    /// </summary>
+    Sarkaz,
 }
