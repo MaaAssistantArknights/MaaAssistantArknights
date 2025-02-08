@@ -417,7 +417,7 @@ void Assistant::working_proc()
             finished_tasks.clear();
             m_thread_idle = true;
             m_running = false;
-            Log.rotate_check();
+            Log.flush();
             m_condvar.wait(lock);
             continue;
         }
