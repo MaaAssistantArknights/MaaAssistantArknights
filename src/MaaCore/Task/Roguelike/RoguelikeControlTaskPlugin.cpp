@@ -47,8 +47,6 @@ void asst::RoguelikeControlTaskPlugin::exit_then_stop(bool abandon) const
 
 bool asst::RoguelikeControlTaskPlugin::_run()
 {
-    Log.rotate_check();
-
     if (m_need_exit_then_stop) {
         exit_then_stop();
         m_need_exit_then_stop = false;
