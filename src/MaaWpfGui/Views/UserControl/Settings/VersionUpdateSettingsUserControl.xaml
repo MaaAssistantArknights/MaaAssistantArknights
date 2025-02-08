@@ -79,10 +79,15 @@
                             Margin="10"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            hc:TitleElement.Title="MirrorChyan CDK"
                             IsSafeEnabled="False"
                             ShowEyeButton="True"
-                            UnsafePassword="{Binding MirrorChyanCdk}" />
+                            UnsafePassword="{Binding MirrorChyanCdk}">
+                            <hc:TitleElement.Title>
+                                <MultiBinding StringFormat="{}{0} CDK">
+                                    <Binding Source="{StaticResource MirrorChyan}" />
+                                </MultiBinding>
+                            </hc:TitleElement.Title>
+                        </hc:PasswordBox>
                         <controls:TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Hyperlink
                                 Cursor="Hand"
