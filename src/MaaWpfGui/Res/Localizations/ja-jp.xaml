@@ -240,7 +240,6 @@
     <system:String x:Key="UpdateCheckNow">アップデートを確認する</system:String>
     <system:String x:Key="ShowChangelog">変更履歴</system:String>
     <system:String x:Key="ResourceUpdate">リソース更新</system:String>
-    <system:String x:Key="ResourceUpdateSource">リソース更新ソース</system:String>
     <system:String x:Key="MirrorChyan">ミラーちゃん</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">Mirrorちゃんがリソースのバージョン更新を検出しましたが。「設定-ソフトウェア更新」でCDKを設定するか、GitHubのソースを使用してリソースのバージョンを更新してください。</system:String>
     <system:String x:Key="NewVersionFoundTitle">新しいバージョンが見つかりました</system:String>

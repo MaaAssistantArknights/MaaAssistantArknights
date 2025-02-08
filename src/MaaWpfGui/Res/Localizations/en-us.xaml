@@ -240,7 +240,6 @@ You can cancel this popup by clicking the Settings - About Us - Issue Reporting 
     <system:String x:Key="UpdateCheckNow">Check update</system:String>
     <system:String x:Key="ShowChangelog">Changelog</system:String>
     <system:String x:Key="ResourceUpdate">Resource update</system:String>
-    <system:String x:Key="ResourceUpdateSource">Resource Update Source</system:String>
     <system:String x:Key="MirrorChyan">Mirror-Chyan</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">Mirror-chan has detected a resource version update. Please go to 'Settings - Software Update' to configure CDK or update the resource version using the GitHub source</system:String>
     <system:String x:Key="NewVersionFoundTitle">New Version Found</system:String>

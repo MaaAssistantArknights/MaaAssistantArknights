@@ -654,19 +654,13 @@ namespace MaaWpfGui.Models
                 return ret;
             }
 
-            switch (SettingsViewModel.VersionUpdateSettings.ResourceUpdateSource)
+            if (!string.IsNullOrEmpty(SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk))
             {
-                case "Github":
-                    break;
-
-                case "MirrorChyan":
-                    if (await DownloadFromMirrorChyanAsync(uri))
-                    {
-                        SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
-                        return CheckUpdateRetT.OnlyGameResourceUpdated;
-                    }
-
-                    break;
+                if (await DownloadFromMirrorChyanAsync(uri))
+                {
+                    SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
+                    return CheckUpdateRetT.OnlyGameResourceUpdated;
+                }
             }
 
             SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
