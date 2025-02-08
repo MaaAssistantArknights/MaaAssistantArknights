@@ -210,22 +210,6 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    /// <summary>
-    /// Gets a value indicating whether to update nightly.
-    /// </summary>
-    public bool UpdateNightly
-    {
-        get => _versionType == UpdateVersionType.Nightly;
-    }
-
-    /// <summary>
-    /// Gets a value indicating whether to update beta version.
-    /// </summary>
-    public bool UpdateBeta
-    {
-        get => _versionType == UpdateVersionType.Beta;
-    }
-
     private bool _updateCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateCheck, bool.TrueString));
 
     public List<GenericCombinedData<string>> ResourceUpdateSourceList { get; } = [
@@ -244,7 +228,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         set
         {
             SetAndNotify(ref _resourceUpdateSource, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ResourceUpdateSource, value.ToString());
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ResourceUpdateSource, value);
         }
     }
 
