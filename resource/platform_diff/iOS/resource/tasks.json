@@ -1,4 +1,13 @@
 {
+    "AccountManagerOfficial": {
+        "roi": [590, 226, 102, 58]
+    },
+    "Logout": {
+        "roi": [660, 432, 100, 32]
+    },
+    "LogoutConfirm": {
+        "roi": [670, 436, 132, 36]
+    },
     "VisitNextBlack": {
         "templThreshold": 0.9
     },
