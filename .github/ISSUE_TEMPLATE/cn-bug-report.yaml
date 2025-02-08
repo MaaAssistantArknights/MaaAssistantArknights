@@ -5,9 +5,7 @@ body:
   - type: checkboxes
     id: checks
     attributes:
-      label: 在提问之前...
-      description: |
-        请确认自己完成了要求之后再进行勾选，若未完成但勾选将被直接关闭 Issue
+      label: 请确认自己完成了要求之后再进行勾选，若未完成但勾选将被直接关闭 Issue
       options:
         - label: 我理解 Issue 是用于反馈和解决问题的，而非吐槽评论区，将尽可能提供更多信息帮助问题解决
           required: true
