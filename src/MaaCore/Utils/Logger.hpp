@@ -668,7 +668,6 @@ public:
         if (!m_ofs || !m_ofs.is_open()) {
             m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
         }
-        rotate_check(lock);
         (LogStream(
              std::move(lock),
 #ifdef ASST_DEBUG
@@ -686,14 +685,6 @@ public:
             return;
         }
         std::unique_lock<std::mutex> trace_lock(m_trace_mutex);
-        rotate_check(trace_lock);
-    }
-
-    void rotate_check([[maybe_unused]] std::unique_lock<std::mutex>& lock)
-    {
-        if (!m_ofs || !m_ofs.is_open() || m_ofs.tellp() <= MaxLogSize) {
-            return;
-        }
         rotate();
     }
 
