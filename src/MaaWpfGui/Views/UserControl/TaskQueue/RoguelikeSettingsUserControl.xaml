@@ -11,9 +11,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:setting="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:taskQueue="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
+    xmlns:task="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
     d:Background="White"
-    d:DataContext="{d:DesignInstance {x:Type taskQueue:RoguelikeSettingsUserControlModel}}"
+    d:DataContext="{d:DesignInstance {x:Type task:RoguelikeSettingsUserControlModel}}"
     d:DesignWidth="220"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
@@ -22,6 +22,7 @@
             <hc:ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource RoguelikeTheme}"
+                DisplayMemberPath="Display"
                 IsHitTestVisible="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
                 ItemsSource="{Binding RoguelikeThemeList}"
                 SelectedValue="{Binding RoguelikeTheme}"
@@ -35,7 +36,7 @@
                 ScrollViewer.CanContentScroll="False"
                 SelectedValue="{Binding RoguelikeDifficulty}"
                 SelectedValuePath="Value"
-                Visibility="{c:Binding 'RoguelikeTheme != &quot;Phantom&quot;'}" />
+                Visibility="{c:Binding 'RoguelikeTheme != task:RoguelikeTheme.Phantom'}" />
             <hc:ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource Strategy}"
@@ -148,11 +149,11 @@
                 Margin="0,10"
                 Content="{DynamicResource RefreshTraderWithDice}"
                 IsChecked="{Binding RoguelikeRefreshTraderWithDiceRaw}"
-                Visibility="{c:Binding 'RoguelikeTheme == &quot;Mizuki&quot;'}" />
+                Visibility="{c:Binding 'RoguelikeTheme == task:RoguelikeTheme.Mizuki'}" />
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding RoguelikeStartWithEliteTwoRaw}"
-                Visibility="{c:Binding 'RoguelikeMode == &quot;4&quot; and RoguelikeTheme != &quot;Phantom&quot; and RoguelikeSquad == &quot;突击战术分队&quot; or RoguelikeSquad == &quot;堡垒战术分队&quot; or RoguelikeSquad == &quot;远程战术分队&quot; or RoguelikeSquad == &quot;破坏战术分队&quot;'}">
+                Visibility="{c:Binding 'RoguelikeMode == &quot;4&quot; and RoguelikeTheme != task:RoguelikeTheme.Phantom and RoguelikeSquad == &quot;突击战术分队&quot; or RoguelikeSquad == &quot;堡垒战术分队&quot; or RoguelikeSquad == &quot;远程战术分队&quot; or RoguelikeSquad == &quot;破坏战术分队&quot;'}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource RoguelikeStartWithEliteTwo}"
@@ -161,7 +162,7 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding RoguelikeOnlyStartWithEliteTwoRaw}"
-                Visibility="{c:Binding 'RoguelikeStartWithEliteTwoRaw and RoguelikeMode == &quot;4&quot; and RoguelikeTheme != &quot;Phantom&quot;'}">
+                Visibility="{c:Binding 'RoguelikeStartWithEliteTwoRaw and RoguelikeMode == &quot;4&quot; and RoguelikeTheme != task:RoguelikeTheme.Phantom'}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource RoguelikeOnlyStartWithEliteTwo}"
@@ -179,7 +180,7 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding Roguelike3FirstFloorFoldartalRaw}"
-                Visibility="{c:Binding 'RoguelikeMode == &quot;4&quot; and RoguelikeTheme == &quot;Sami&quot; '}">
+                Visibility="{c:Binding 'RoguelikeMode == &quot;4&quot; and RoguelikeTheme == task:RoguelikeTheme.Sami'}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource Roguelike3FirstFloorFoldartal}"
@@ -190,11 +191,11 @@
                                        Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
                 Style="{StaticResource TextBoxExtend}"
                 Text="{Binding Roguelike3StartFloorFoldartal, UpdateSourceTrigger=LostFocus}"
-                Visibility="{c:Binding 'Roguelike3FirstFloorFoldartalRaw and RoguelikeMode == &quot;4&quot; and RoguelikeTheme == &quot;Sami&quot; '}" />
+                Visibility="{c:Binding 'Roguelike3FirstFloorFoldartalRaw and RoguelikeMode == &quot;4&quot; and RoguelikeTheme == task:RoguelikeTheme.Sami'}" />
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding Roguelike3NewSquad2StartingFoldartalRaw}"
-                Visibility="{c:Binding 'RoguelikeMode == &quot;4&quot; and RoguelikeTheme == &quot;Sami&quot; and RoguelikeSquad == &quot;生活至上分队&quot; '}">
+                Visibility="{c:Binding 'RoguelikeMode == &quot;4&quot; and RoguelikeTheme == task:RoguelikeTheme.Sami and RoguelikeSquad == &quot;生活至上分队&quot; '}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource Roguelike3NewSquad2StartingFoldartal}"
@@ -205,7 +206,7 @@
                                        Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
                 Text="{Binding Roguelike3NewSquad2StartingFoldartals, UpdateSourceTrigger=LostFocus}"
                 ToolTip="{DynamicResource Roguelike3NewSquad2StartingFoldartalTip}"
-                Visibility="{c:Binding 'Roguelike3NewSquad2StartingFoldartalRaw and RoguelikeMode == &quot;4&quot; and RoguelikeTheme == &quot;Sami&quot; and RoguelikeSquad == &quot;生活至上分队&quot; '}" />
+                Visibility="{c:Binding 'Roguelike3NewSquad2StartingFoldartalRaw and RoguelikeMode == &quot;4&quot; and RoguelikeTheme == task:RoguelikeTheme.Sami and RoguelikeSquad == &quot;生活至上分队&quot; '}" />
             <hc:TextBox
                 hc:InfoElement.Title="{DynamicResource RoguelikeCollapseList}"
                 IsReadOnly="{c:Binding !Idle,
@@ -276,7 +277,7 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding RoguelikeStartWithSeedRaw}"
-                Visibility="{c:Binding 'RoguelikeMode == &quot;1&quot; and RoguelikeTheme == &quot;Sarkaz&quot; and (RoguelikeSquad == &quot;点刺成锭分队&quot; or RoguelikeSquad == &quot;后勤分队&quot;)'}">
+                Visibility="{c:Binding 'RoguelikeMode == &quot;1&quot; and RoguelikeTheme == task:RoguelikeTheme.Sarkaz and (RoguelikeSquad == &quot;点刺成锭分队&quot; or RoguelikeSquad == &quot;后勤分队&quot;)'}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource RoguelikeStartWithSeed}"

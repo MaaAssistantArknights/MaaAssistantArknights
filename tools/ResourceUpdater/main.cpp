@@ -90,10 +90,10 @@ int main([[maybe_unused]] int argc, char** argv)
     const auto resource_dir = solution_dir / "resource";
 
     std::unordered_map<fs::path, std::string> global_dirs = {
-        { "en_US", "YoStarEN" },
-        { "ja_JP", "YoStarJP" },
-        { "ko_KR", "YoStarKR" },
-        { "zh_TW", "txwy" },
+        { "en", "YoStarEN" },
+        { "jp", "YoStarJP" },
+        { "kr", "YoStarKR" },
+        { "tw", "txwy" },
     };
 
     // ---- METHODS CALLS ----
@@ -643,7 +643,7 @@ bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir)
 
 bool update_stages_data(const fs::path& input_dir, const fs::path& output_dir)
 {
-    auto stages_dir = input_dir / "zh_TW" / "gamedata" / "excel";
+    auto stages_dir = input_dir / "tw" / "gamedata" / "excel";
 
     // 国内访问可以改成 .cn 的域名
     const std::string PenguinAPI = R"(https://penguin-stats.io/PenguinStats/api/v2/stages?server=)";
@@ -891,10 +891,10 @@ bool update_battle_chars_info(const fs::path& official_dir, const fs::path& over
 
     auto range_opt = json::open(official_dir / "range_table.json");
     auto chars_cn_opt = json::open(official_dir / "character_table.json");
-    auto chars_en_opt = json::open(overseas_dir / "en_US" / to_char_json);
-    auto chars_jp_opt = json::open(overseas_dir / "ja_JP" / to_char_json);
-    auto chars_kr_opt = json::open(overseas_dir / "ko_KR" / to_char_json);
-    auto chars_tw_opt = json::open(overseas_dir / "zh_TW" / to_char_json);
+    auto chars_en_opt = json::open(overseas_dir / "en" / to_char_json);
+    auto chars_jp_opt = json::open(overseas_dir / "jp" / to_char_json);
+    auto chars_kr_opt = json::open(overseas_dir / "kr" / to_char_json);
+    auto chars_tw_opt = json::open(overseas_dir / "tw" / to_char_json);
 
     if (!chars_cn_opt || !chars_en_opt || !chars_jp_opt || !chars_kr_opt || !chars_tw_opt || !range_opt) {
         return false;

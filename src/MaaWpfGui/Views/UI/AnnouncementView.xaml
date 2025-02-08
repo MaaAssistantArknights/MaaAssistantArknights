@@ -86,16 +86,17 @@
                 <StackPanel
                     Grid.Row="1"
                     Margin="30,10,20,10"
-                    Orientation="Horizontal"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
                     <CheckBox
                         Height="30"
                         Margin="10"
                         HorizontalAlignment="Center"
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource ShowDisclaimerNoMore}"
-                        IsChecked="{Binding DoNotRemindThisAnnouncementAgain}" />
+                        IsChecked="{Binding DoNotRemindThisAnnouncementAgain}"
+                        IsEnabled="{Binding IsScrolledToBottom}" />
                     <Button
                         Height="50"
                         MinWidth="100"

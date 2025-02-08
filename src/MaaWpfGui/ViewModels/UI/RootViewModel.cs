@@ -19,7 +19,7 @@ using HandyControl.Tools;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
-using Microsoft.VisualBasic.Logging;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using Stylet;
 
@@ -42,7 +42,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             InitViewModels();
             InitProxy();
-            if (SettingsViewModel.VersionUpdateSettings.UpdateNightly && !SettingsViewModel.VersionUpdateSettings.HasAcknowledgedNightlyWarning)
+            if (SettingsViewModel.VersionUpdateSettings.VersionType == VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly && !SettingsViewModel.VersionUpdateSettings.HasAcknowledgedNightlyWarning)
             {
                 MessageBoxHelper.Show(LocalizationHelper.GetString("NightlyWarning"));
             }
@@ -60,10 +60,13 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
-                _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
+                if (Instances.AnnouncementViewModel.AnnouncementInfo != string.Empty)
+                {
+                    _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
+                }
             });
 
-            Instances.VersionUpdateViewModel.ShowUpdateOrDownload();
+            _ = Instances.VersionUpdateViewModel.ShowUpdateOrDownload();
         }
 
         private static async void InitProxy()

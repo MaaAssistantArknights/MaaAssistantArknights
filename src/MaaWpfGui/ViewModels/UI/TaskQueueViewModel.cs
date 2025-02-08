@@ -1847,7 +1847,7 @@ namespace MaaWpfGui.ViewModels.UI
                 RoguelikeTask.RoguelikeExpectedCollapsalParadigms,
                 RoguelikeTask.RoguelikeUseSupportUnit,
                 RoguelikeTask.RoguelikeEnableNonfriendSupport,
-                RoguelikeTask.RoguelikeTheme,
+                RoguelikeTask.RoguelikeTheme.ToString(),
                 RoguelikeTask.RoguelikeRefreshTraderWithDice,
                 RoguelikeTask.RoguelikeStopAtFinalBoss,
                 RoguelikeTask.RoguelikeMonthlySquadAutoIterate,

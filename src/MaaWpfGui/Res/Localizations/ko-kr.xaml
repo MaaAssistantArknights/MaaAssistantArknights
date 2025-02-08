@@ -240,7 +240,6 @@
     <system:String x:Key="UpdateCheckNow">지금 업데이트</system:String>
     <system:String x:Key="ShowChangelog">변경 내역</system:String>
     <system:String x:Key="ResourceUpdate">리소스 업데이트</system:String>
-    <system:String x:Key="ResourceUpdateSource">리소스 업데이트 소스</system:String>
     <system:String x:Key="MirrorChyan">미러짱</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">Mirror-chan 리소스 버전 업데이트 확인. '설정-소프트웨어 업데이트'로 이동하여 CDK를 구성하거나 GitHub 소스를 사용하여 리소스 버전을 업데이트하세요.</system:String>
     <system:String x:Key="NewVersionFoundTitle">새로운 버전 확인</system:String>

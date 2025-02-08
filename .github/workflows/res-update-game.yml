@@ -50,32 +50,32 @@ jobs:
         uses: actions/checkout@v4
         with:
           show-progress: false
-          repository: Kengxxiao/ArknightsGameData_Yostar
-          ref: main
+          repository: ArknightsAssets/ArknightsGamedata
+          ref: master
           path: ./Overseas
           sparse-checkout-cone-mode: false
           sparse-checkout: |
-            /en_US/gamedata/excel/item_table.json
-            /en_US/gamedata/excel/building_data.json
-            /en_US/gamedata/excel/range_table.json
-            /en_US/gamedata/excel/character_table.json
-            /en_US/gamedata/excel/gacha_table.json
-            /en_US/gamedata/excel/roguelike_topic_table.json
-            /en_US/gamedata/excel/activity_table.json
-            /ja_JP/gamedata/excel/item_table.json
-            /ja_JP/gamedata/excel/building_data.json
-            /ja_JP/gamedata/excel/range_table.json
-            /ja_JP/gamedata/excel/character_table.json
-            /ja_JP/gamedata/excel/gacha_table.json
-            /ja_JP/gamedata/excel/roguelike_topic_table.json
-            /ja_JP/gamedata/excel/activity_table.json
-            /ko_KR/gamedata/excel/item_table.json
-            /ko_KR/gamedata/excel/building_data.json
-            /ko_KR/gamedata/excel/range_table.json
-            /ko_KR/gamedata/excel/character_table.json
-            /ko_KR/gamedata/excel/gacha_table.json
-            /ko_KR/gamedata/excel/roguelike_topic_table.json
-            /ko_KR/gamedata/excel/activity_table.json
+            /en/gamedata/excel/item_table.json
+            /en/gamedata/excel/building_data.json
+            /en/gamedata/excel/range_table.json
+            /en/gamedata/excel/character_table.json
+            /en/gamedata/excel/gacha_table.json
+            /en/gamedata/excel/roguelike_topic_table.json
+            /en/gamedata/excel/activity_table.json
+            /jp/gamedata/excel/item_table.json
+            /jp/gamedata/excel/building_data.json
+            /jp/gamedata/excel/range_table.json
+            /jp/gamedata/excel/character_table.json
+            /jp/gamedata/excel/gacha_table.json
+            /jp/gamedata/excel/roguelike_topic_table.json
+            /jp/gamedata/excel/activity_table.json
+            /kr/gamedata/excel/item_table.json
+            /kr/gamedata/excel/building_data.json
+            /kr/gamedata/excel/range_table.json
+            /kr/gamedata/excel/character_table.json
+            /kr/gamedata/excel/gacha_table.json
+            /kr/gamedata/excel/roguelike_topic_table.json
+            /kr/gamedata/excel/activity_table.json
 
       - name: Upload Official
         uses: actions/upload-artifact@v4
@@ -189,7 +189,7 @@ jobs:
         continue-on-error: true
         with:
           name: txwy
-          path: ./tools/ResourceUpdater/x64/Release/Overseas/zh_TW/gamedata/excel
+          path: ./tools/ResourceUpdater/x64/Release/Overseas/tw/gamedata/excel
 
       - name: Delay txwy
         if: steps.download-txwy.outcome == 'failure'
@@ -201,7 +201,7 @@ jobs:
         uses: actions/download-artifact@v4.1.8
         with:
           name: txwy
-          path: ./tools/ResourceUpdater/x64/Release/Overseas/zh_TW/gamedata/excel
+          path: ./tools/ResourceUpdater/x64/Release/Overseas/tw/gamedata/excel
 
       - name: Download Overseas
         id: download-overseas
