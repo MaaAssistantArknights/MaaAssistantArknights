@@ -557,13 +557,7 @@ public:
     LogStream(std::unique_lock<std::mutex>&&, stream_t&&, Args&&...) -> LogStream<stream_t>;
 
 public:
-    virtual ~Logger() override
-    {
-        std::unique_lock<std::mutex> m_trace_lock(m_trace_mutex);
-        if (m_ofs.is_open()) {
-            m_ofs.close();
-        }
-    }
+    virtual ~Logger() override { flush(false); }
 
     // static bool set_directory(const std::filesystem::path& dir)
     // {
@@ -679,13 +673,15 @@ public:
          << ... << std::forward<Args>(args));
     }
 
-    void rotate_check()
+    void flush(bool rorate_log_file = true)
     {
-        if (!m_ofs || !m_ofs.is_open() || m_ofs.tellp() <= MaxLogSize) {
-            return;
+        std::unique_lock<std::mutex> m_trace_lock(m_trace_mutex);
+        if (m_ofs.is_open()) {
+            m_ofs.close();
         }
-        std::unique_lock<std::mutex> trace_lock(m_trace_mutex);
-        rotate();
+        if (rorate_log_file) {
+            rotate();
+        }
     }
 
 private:
@@ -695,18 +691,20 @@ private:
         m_directory(UserDir.get())
     {
         std::filesystem::create_directories(m_log_path.parent_path());
+        rotate();
         log_init_info();
     }
 
-    void rotate()
+    void rotate() const
     {
+        constexpr uintmax_t MaxLogSize = 4ULL * 1024 * 1024;
         try {
-            if (!std::filesystem::exists(m_log_path) || !std::filesystem::is_regular_file(m_log_path)) {
-                return;
+            if (std::filesystem::exists(m_log_path) && std::filesystem::is_regular_file(m_log_path)) {
+                const uintmax_t log_size = std::filesystem::file_size(m_log_path);
+                if (log_size >= MaxLogSize) {
+                    std::filesystem::rename(m_log_path, m_log_bak_path);
+                }
             }
-            m_ofs.close();
-            std::filesystem::rename(m_log_path, m_log_bak_path);
-            m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
         }
         catch (std::filesystem::filesystem_error& e) {
             std::cerr << e.what() << std::endl;
@@ -733,7 +731,6 @@ private:
     std::filesystem::path m_log_bak_path = m_directory / "debug" / "asst.bak.log";
     std::mutex m_trace_mutex;
     std::ofstream m_ofs;
-    const long long MaxLogSize = 64LL * 1024 * 1024;
 };
 
 inline constexpr Logger::separator Logger::separator::none;
