@@ -581,7 +581,6 @@ public:
         if (!m_ofs || !m_ofs.is_open()) {
             m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
         }
-        rotate_check();
         if constexpr (std::same_as<level, remove_cvref_t<T>>) {
 #ifdef ASST_DEBUG
             return LogStream(m_trace_mutex, ostreams { console_ostream(std::cout), m_ofs }, arg);
