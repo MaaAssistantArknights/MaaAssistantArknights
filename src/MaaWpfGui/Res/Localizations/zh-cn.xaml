@@ -225,9 +225,9 @@
     <system:String x:Key="UpdateAutoCheck">定时检查更新</system:String>
     <system:String x:Key="UpdateAutoDownload">自动下载更新包</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">自动安装更新包</system:String>
-    <system:String x:Key="UpdateCheckStable">中杯(正式版)</system:String>
-    <system:String x:Key="UpdateCheckBeta">大杯(公测版)</system:String>
-    <system:String x:Key="UpdateCheckNightly">超大杯(内测版)</system:String>
+    <system:String x:Key="UpdateCheckStable">中杯 (正式版)</system:String>
+    <system:String x:Key="UpdateCheckBeta">大杯 (公测版)</system:String>
+    <system:String x:Key="UpdateCheckNightly">超大杯 (内测版)</system:String>
     <system:String x:Key="NightlyWarning" xml:space="preserve">您已启用内测版更新。感谢您对 MAA 的支持与测试。
 
 请注意：
