@@ -58,6 +58,7 @@ protected:
     ReportType m_report_type = ReportType::Invalid;
     std::string m_body;
     std::unordered_map<std::string, std::string> m_extra_headers;
+    std::vector<std::future<void>> m_upload_pending;
 
     TaskCallback m_task_callback = nullptr;
     AbstractTask* m_upper_task = nullptr;
