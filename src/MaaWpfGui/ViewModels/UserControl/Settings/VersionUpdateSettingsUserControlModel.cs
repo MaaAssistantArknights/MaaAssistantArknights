@@ -212,26 +212,6 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
     private bool _updateCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateCheck, bool.TrueString));
 
-    public List<GenericCombinedData<string>> ResourceUpdateSourceList { get; } = [
-        new() { Display = "Github", Value = "Github" },
-        new() { Display = LocalizationHelper.GetString("MirrorChyan"), Value = "MirrorChyan" },
-    ];
-
-    private string _resourceUpdateSource = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ResourceUpdateSource, "Github");
-
-    /// <summary>
-    /// Gets or sets the type of version to update.
-    /// </summary>
-    public string ResourceUpdateSource
-    {
-        get => _resourceUpdateSource;
-        set
-        {
-            SetAndNotify(ref _resourceUpdateSource, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ResourceUpdateSource, value);
-        }
-    }
-
     private string _mirrorChyanCdk = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MirrorChyanCdk, string.Empty));
 
     public string MirrorChyanCdk
@@ -413,24 +393,10 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public async Task ManualUpdateResource()
     {
         IsCheckingForUpdates = true;
-        var success = false;
-        switch (ResourceUpdateSource)
-        {
-            case "Github":
-                if (await ResourceUpdater.UpdateFromGithubAsync())
-                {
-                    success = true;
-                }
 
-                break;
-            case "MirrorChyan":
-                if (await ResourceUpdater.UpdateFromMirrorChyanAsync())
-                {
-                    success = true;
-                }
-
-                break;
-        }
+        var success = string.IsNullOrEmpty(MirrorChyanCdk)
+            ? await ResourceUpdater.UpdateFromGithubAsync()
+            : await ResourceUpdater.UpdateFromMirrorChyanAsync();
 
         if (success)
         {
