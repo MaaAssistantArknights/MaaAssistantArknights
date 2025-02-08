@@ -173,7 +173,7 @@ MAA は中国語（簡体字）を第一言語とし、翻訳見出しはすべ�
 - ~~オペレーターおよび基地データ：[PRTSアークナイツ中国語WIKI](http://prts.wiki/)~~
 - ステージデータ：[PenguinStatsデータ統計](https://penguin-stats.io/)
 - ゲームのデータとリソース：[アークナイツのクライアント資料](https://github.com/yuanyan3060/ArknightsGameResource)
-- ゲームデータ：[アークナイツYostarのゲームデータ](https://github.com/Kengxxiao/ArknightsGameData_YoStar)
+- ゲームデータ：[アークナイツYostarのゲームデータ](https://github.com/ArknightsAssets/ArknightsGamedata)
 
 ### 貢献/協力者
 
