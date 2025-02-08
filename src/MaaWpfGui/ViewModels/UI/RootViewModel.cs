@@ -60,7 +60,10 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
-                _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
+                if (Instances.AnnouncementViewModel.AnnouncementInfo != string.Empty)
+                {
+                    _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
+                }
             });
 
             Instances.VersionUpdateViewModel.ShowUpdateOrDownload();
