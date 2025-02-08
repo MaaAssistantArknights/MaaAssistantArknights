@@ -449,7 +449,7 @@ public class VersionUpdateViewModel : Screen
             else
             {
                 // var ret = await CheckAndDownloadUpdate();
-                await ResourceUpdater.CheckAndDownloadUpdate();
+                // await ResourceUpdater.CheckAndDownloadUpdate();
                 // 跑个空任务避免 async warning
                 await Task.Run(() => { });
             }
