@@ -1415,6 +1415,14 @@
         "sortId": -10000,
         "usage": "ロドスが外勤オペレーターに配布する配給証明書。引換券が付属されており、ロドス本艦・各ロドス支部及びセーフハウスで資源の引換ができる。"
     },
+    "act17mini_token_ash": {
+        "classifyType": "NONE",
+        "description": "原因不明の理由により魂の炉から噴き出たスラグの巨大な塊が、飛空船の砲撃を受けて無数の破片に砕け散った。この類のスラグには少量の源石と異鉄成分が含まれているが、一般人が安全に精錬することは難しい。",
+        "icon": "act17mini_token_ash.png",
+        "name": "スラグ",
+        "sortId": -10000,
+        "usage": "空から降ってきた花火の欠片。とある中継炉の管理者がこの物体を大量に集めているらしいが、実際に何と交換できるかは人によって異なるようだ。"
+    },
     "act17side_token_compass": {
         "classifyType": "NONE",
         "description": "かつてのイベリア人はコンパスで自らの航路を導き、回転する針が彼らの広大な野心、黄金の夢を担っていた。しかし今ではそれもただの旧時代のたわ言。針は折れ、真鍮はほこりかぶり、巨艦の結末は知らない。ただ静寂の海だけが残る。",
@@ -2412,6 +2420,14 @@
         "description": null,
         "icon": "rogue_3_token_bp.png",
         "name": "生態標本",
+        "sortId": -10000,
+        "usage": null
+    },
+    "rogue_4_token_bp": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_4_token_bp.png",
+        "name": "魂のしおり",
         "sortId": -10000,
         "usage": null
     },

@@ -22,6 +22,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.ViewModels;
@@ -86,7 +87,7 @@ namespace MaaWpfGui.Models
 
         // 只有 Release 版本才会检查更新
         // ReSharper disable once UnusedMember.Global
-        public static async void UpdateAndToastAsync()
+        public static async Task UpdateAndToastAsync()
         {
             var ret = await UpdateAsync();
 
@@ -496,7 +497,7 @@ namespace MaaWpfGui.Models
             var url = $"{MaaUrls.MirrorChyanResourceUpdate}?current_version={currentVersion}&cdk={cdk}&user_agent=MaaWpfGui";
 
             var response = await Instances.HttpService.GetAsync(new(url), logUri: false);
-            _logger.Information($"current_version: {currentVersion}, cdk: {((cdk.Length > 6) ? (cdk[..3] + new string('*', cdk.Length - 6) + cdk[^3..]) : cdk)}");
+            _logger.Information($"current_version: {currentVersion}, cdk: {cdk.Mask()}");
 
             if (response is null)
             {
@@ -546,9 +547,9 @@ namespace MaaWpfGui.Models
                 return (CheckUpdateRetT.AlreadyLatest, null);
             }
 
+            // 到这里已经确定有新版本了
             _logger.Information($"New version found: {version}");
 
-            // 到这里已经确定有新版本了
             if (string.IsNullOrEmpty(cdk))
             {
                 ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanResourceUpdateTip"));
@@ -653,19 +654,13 @@ namespace MaaWpfGui.Models
                 return ret;
             }
 
-            switch (SettingsViewModel.VersionUpdateSettings.ResourceUpdateSource)
+            if (!string.IsNullOrEmpty(SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk))
             {
-                case "Github":
-                    break;
-
-                case "MirrorChyan":
-                    if (await DownloadFromMirrorChyanAsync(uri))
-                    {
-                        SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
-                        return CheckUpdateRetT.OnlyGameResourceUpdated;
-                    }
-
-                    break;
+                if (await DownloadFromMirrorChyanAsync(uri))
+                {
+                    SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
+                    return CheckUpdateRetT.OnlyGameResourceUpdated;
+                }
             }
 
             SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
@@ -706,10 +701,10 @@ namespace MaaWpfGui.Models
                 file.CopyTo(tempPath, true); // 覆盖现有文件
             }
 
-            foreach (DirectoryInfo subdir in dirs)
+            foreach (DirectoryInfo subDir in dirs)
             {
-                string tempPath = Path.Combine(destDirName, subdir.Name);
-                DirectoryMerge(subdir.FullName, tempPath);
+                string tempPath = Path.Combine(destDirName, subDir.Name);
+                DirectoryMerge(subDir.FullName, tempPath);
             }
         }
     }

@@ -34,30 +34,30 @@ $jobs += Start-Job -ScriptBlock {
 $jobs += Start-Job -ScriptBlock {
     Write-Host "`nArknightsGameData_Yostar - Overseas"
     git clone --filter=blob:none --no-checkout --depth 1 --sparse `
-        "https://github.com/Kengxxiao/ArknightsGameData_YoStar" Overseas
+        "https://github.com/ArknightsAssets/ArknightsGamedata" Overseas
     Set-Location Overseas
     git sparse-checkout set --no-cone `
-        "/en_US/gamedata/excel/item_table.json" `
-        "/en_US/gamedata/excel/building_data.json" `
-        "/en_US/gamedata/excel/range_table.json" `
-        "/en_US/gamedata/excel/character_table.json" `
-        "/en_US/gamedata/excel/gacha_table.json" `
-        "/en_US/gamedata/excel/roguelike_topic_table.json" `
-        "/en_US/gamedata/excel/activity_table.json" `
-        "/ja_JP/gamedata/excel/item_table.json" `
-        "/ja_JP/gamedata/excel/building_data.json" `
-        "/ja_JP/gamedata/excel/range_table.json" `
-        "/ja_JP/gamedata/excel/character_table.json" `
-        "/ja_JP/gamedata/excel/gacha_table.json" `
-        "/ja_JP/gamedata/excel/roguelike_topic_table.json" `
-        "/ja_JP/gamedata/excel/activity_table.json" `
-        "/ko_KR/gamedata/excel/item_table.json" `
-        "/ko_KR/gamedata/excel/building_data.json" `
-        "/ko_KR/gamedata/excel/range_table.json" `
-        "/ko_KR/gamedata/excel/character_table.json" `
-        "/ko_KR/gamedata/excel/gacha_table.json" `
-        "/ko_KR/gamedata/excel/roguelike_topic_table.json" `
-        "/ko_KR/gamedata/excel/activity_table.json"
+        "/en/gamedata/excel/item_table.json" `
+        "/en/gamedata/excel/building_data.json" `
+        "/en/gamedata/excel/range_table.json" `
+        "/en/gamedata/excel/character_table.json" `
+        "/en/gamedata/excel/gacha_table.json" `
+        "/en/gamedata/excel/roguelike_topic_table.json" `
+        "/en/gamedata/excel/activity_table.json" `
+        "/jp/gamedata/excel/item_table.json" `
+        "/jp/gamedata/excel/building_data.json" `
+        "/jp/gamedata/excel/range_table.json" `
+        "/jp/gamedata/excel/character_table.json" `
+        "/jp/gamedata/excel/gacha_table.json" `
+        "/jp/gamedata/excel/roguelike_topic_table.json" `
+        "/jp/gamedata/excel/activity_table.json" `
+        "/kr/gamedata/excel/item_table.json" `
+        "/kr/gamedata/excel/building_data.json" `
+        "/kr/gamedata/excel/range_table.json" `
+        "/kr/gamedata/excel/character_table.json" `
+        "/kr/gamedata/excel/gacha_table.json" `
+        "/kr/gamedata/excel/roguelike_topic_table.json" `
+        "/kr/gamedata/excel/activity_table.json"
     git checkout
 }
 
@@ -65,8 +65,8 @@ $jobs += Start-Job -ScriptBlock {
 $jobs += Start-Job -ScriptBlock {
     Write-Host "`narknights-toolbox-update - Taiwan"
     git clone --filter=blob:none --no-checkout --depth 1 -b data-tw `
-        "https://github.com/arkntools/arknights-toolbox-update" Overseas/zh_TW/gamedata/excel
-    Set-Location Overseas/zh_TW/gamedata/excel
+        "https://github.com/arkntools/arknights-toolbox-update" Overseas/tw/gamedata/excel
+    Set-Location Overseas/tw/gamedata/excel
     git checkout
     Set-Location ..
 }
@@ -76,7 +76,7 @@ $jobs += Start-Job -ScriptBlock {
     $scriptRoot = $using:scriptRoot
 
     # Change to the target directory
-    Set-Location -Path "$scriptRoot/x64/Release/Overseas/zh_TW/gamedata/excel"
+    Set-Location -Path "$scriptRoot/x64/Release/Overseas/tw/gamedata/excel"
 
     # Define the base URL
     $baseUrl = "https://penguin-stats.io/PenguinStats/api/v2/stages?server="
