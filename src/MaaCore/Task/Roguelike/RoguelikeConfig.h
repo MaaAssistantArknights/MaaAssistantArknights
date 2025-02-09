@@ -192,7 +192,7 @@ private:
     RoguelikeStatus m_status; // 局内状态
 
     // ------------------ 招募 ------------------
-    bool m_team_full_without_rookie = false; // 编队内没有预干员
+    bool m_team_full_without_rookie = false; // 编队内没有预备干员（晋升优先级<200
 
     // ------------------ 商店 ------------------
     bool m_trader_no_longer_buy = false; // 不再购买藏品
