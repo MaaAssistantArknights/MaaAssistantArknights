@@ -552,7 +552,7 @@ namespace MaaWpfGui.Models
 
             if (string.IsNullOrEmpty(cdk))
             {
-                ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanResourceUpdateTip"));
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanUpdateTip"));
                 return (CheckUpdateRetT.OK, null);
             }
 

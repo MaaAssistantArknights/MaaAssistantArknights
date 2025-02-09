@@ -401,7 +401,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
                 break;
 
             case VersionUpdateViewModel.CheckUpdateRetT.NoMirrorChyanCDKey:
-                toastMessage = LocalizationHelper.GetString("MirrorChyanResourceUpdateTip");
+                toastMessage = LocalizationHelper.GetString("MirrorChyanUpdateTip");
                 break;
 
             default:
