@@ -137,7 +137,11 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _selectedAnnouncementSection, value);
         }
 
-        private static readonly string _announcementInFile = Path.Combine(Environment.CurrentDirectory, "cache", "announcement.md");
+        private static readonly string _announcementInFile = SettingsViewModel.GuiSettings.Language switch
+        {
+            "zh-cn" or "zh-tw" => Path.Combine(Environment.CurrentDirectory, "cache", "announcement.md"),
+            _ => Path.Combine(Environment.CurrentDirectory, "cache", "announcement_en.md"),
+        };
 
         private static string AnnouncementInFile
         {
