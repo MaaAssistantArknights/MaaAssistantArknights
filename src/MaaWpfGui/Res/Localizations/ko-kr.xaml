@@ -235,11 +235,12 @@
 4. 비개발자 사용자에게 개발 버전 업데이트 방법을 공유하지 마세요. 불필요한 혼란과 위험을 피하기 위해서입니다.
 
 설정 - 정보 - 이슈 제보 링크를 클릭하여 이 팝업을 취소할 수 있습니다. 이해와 협조에 감사드립니다!</system:String>
-    <system:String x:Key="UpdateCheck">업데이트할 버전</system:String>
+    <system:String x:Key="UpdateCheck">업데이트 채널</system:String>
     <system:String x:Key="DownloadWithAria2">aria2로 다운로드</system:String>
-    <system:String x:Key="UpdateCheckNow">지금 업데이트</system:String>
+    <system:String x:Key="UpdateCheckNow">소프트웨어 업데이트</system:String>
     <system:String x:Key="ShowChangelog">변경 내역</system:String>
     <system:String x:Key="ResourceUpdate">리소스 업데이트</system:String>
+    <system:String x:Key="UpdateSource">업데이트 소스</system:String>
     <system:String x:Key="MirrorChyan">미러짱</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">Mirror-chan 리소스 버전 업데이트 확인. '설정-소프트웨어 업데이트'로 이동하여 CDK를 구성하거나 GitHub 소스를 사용하여 리소스 버전을 업데이트하세요.</system:String>
     <system:String x:Key="NewVersionFoundTitle">새로운 버전 확인</system:String>

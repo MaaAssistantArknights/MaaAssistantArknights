@@ -197,8 +197,8 @@ namespace MaaWpfGui.Constants
         public const string ProxyType = "VersionUpdate.ProxyType";
         public const string VersionType = "VersionUpdate.VersionType";
 
-        // public const string ResourceUpdateSource = "VersionUpdate.ResourceUpdateSource";
-        // MirrorChyanCdk 迁到新配置的话就不用加 ResourceUpdateSource 了，现在本体更新也加上了 MirrorChyan
+        // MirrorChyanCdk 迁到新配置的话就直接叫 UpdateSource，现在本体更新也加上了 MirrorChyan
+        public const string UpdateSource = "VersionUpdate.ResourceUpdateSource";
         public const string MirrorChyanCdk = "VersionUpdate.ResourceUpdateSource.MirrorChyanCdk";
         public const string UpdateCheck = "VersionUpdate.UpdateCheck";
         public const string UpdateAutoCheck = "VersionUpdate.ScheduledUpdateCheck";
