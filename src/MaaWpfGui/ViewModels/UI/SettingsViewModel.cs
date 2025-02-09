@@ -31,7 +31,6 @@ using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UserControl.Settings;
-using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
 using Serilog;
 using Stylet;
@@ -363,7 +362,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region 配置
 
-        public ObservableCollection<CombinedData> ConfigurationList { get; set; }
+        public ObservableCollection<CombinedData> ConfigurationList { get; set; } = [];
 
         private string? _currentConfiguration = ConfigurationHelper.GetCurrentConfiguration();
 
@@ -379,7 +378,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _newConfigurationName;
+        private string _newConfigurationName = string.Empty;
 
         public string NewConfigurationName
         {
@@ -496,7 +495,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private NotifyType _notifySource = NotifyType.None;
 
-        private Timer _resetNotifyTimer;
+        private Timer? _resetNotifyTimer;
 
         private void ResetNotifySource()
         {
