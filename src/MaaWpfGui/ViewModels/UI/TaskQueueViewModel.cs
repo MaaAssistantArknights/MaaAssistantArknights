@@ -467,6 +467,7 @@ namespace MaaWpfGui.ViewModels.UI
             var delayTime = CalculateRandomDelay();
             _ = Task.Run(async () =>
             {
+                _logger.Information($"waiting for update check: {delayTime}");
                 await Task.Delay(delayTime);
                 if (await Instances.VersionUpdateViewModel.CheckAndDownloadUpdate() == VersionUpdateViewModel.CheckUpdateRetT.OK)
                 {
