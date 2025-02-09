@@ -212,6 +212,26 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
     private bool _updateCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateCheck, bool.TrueString));
 
+    public List<GenericCombinedData<string>> UpdateSourceList { get; } = [
+        new() { Display = "Github", Value = "Github" },
+        new() { Display = LocalizationHelper.GetString("MirrorChyan"), Value = "MirrorChyan" },
+    ];
+
+    private string _updateSource = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateSource, "Github");
+
+    /// <summary>
+    /// Gets or sets the type of version to update.
+    /// </summary>
+    public string UpdateSource
+    {
+        get => _updateSource;
+        set
+        {
+            SetAndNotify(ref _updateSource, value);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateSource, value);
+        }
+    }
+
     private string _mirrorChyanCdk = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MirrorChyanCdk, string.Empty));
 
     public string MirrorChyanCdk
@@ -394,9 +414,12 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     {
         IsCheckingForUpdates = true;
 
-        var success = string.IsNullOrEmpty(MirrorChyanCdk)
-            ? await ResourceUpdater.UpdateFromGithubAsync()
-            : await ResourceUpdater.UpdateFromMirrorChyanAsync();
+        bool success = UpdateSource switch
+        {
+            "Github" => await ResourceUpdater.UpdateFromGithubAsync(),
+            "MirrorChyan" => await ResourceUpdater.UpdateFromMirrorChyanAsync(),
+            _ => await ResourceUpdater.UpdateFromGithubAsync(),
+        };
 
         if (success)
         {

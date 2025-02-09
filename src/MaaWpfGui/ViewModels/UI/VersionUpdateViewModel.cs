@@ -784,7 +784,7 @@ public class VersionUpdateViewModel : Screen
         if ((SettingsViewModel.VersionUpdateSettings.VersionType is
                 VersionUpdateSettingsUserControlModel.UpdateVersionType.Beta or
                 VersionUpdateSettingsUserControlModel.UpdateVersionType.Stable)
-            && !string.IsNullOrEmpty(SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk))
+            && SettingsViewModel.VersionUpdateSettings.UpdateSource == "MirrorChyan")
         {
             try
             {
