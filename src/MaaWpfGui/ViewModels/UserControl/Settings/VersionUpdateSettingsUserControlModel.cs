@@ -213,7 +213,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     private bool _updateCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateCheck, bool.TrueString));
 
     public List<GenericCombinedData<string>> UpdateSourceList { get; } = [
-        new() { Display = "Github", Value = "Github" },
+        new() { Display = LocalizationHelper.GetString("GlobalSource"), Value = "Github" },
         new() { Display = LocalizationHelper.GetString("MirrorChyan"), Value = "MirrorChyan" },
     ];
 
