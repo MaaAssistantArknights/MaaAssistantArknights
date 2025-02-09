@@ -44,6 +44,7 @@
                 IsHitTestVisible="{Binding Path=Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
                 ItemsSource="{Binding RoguelikeModeList}"
                 SelectedValue="{Binding RoguelikeMode}"
+                IsSynchronizedWithCurrentItem="True"
                 SelectedValuePath="Value" />
             <hc:ComboBox
                 Margin="0,5"
