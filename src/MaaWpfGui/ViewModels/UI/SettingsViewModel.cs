@@ -316,11 +316,10 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            if (now.IsAprilFoolsDay())
-            {
-                return true;
-            }
-
+            // if (now.IsAprilFoolsDay())
+            // {
+            //     return true;
+            // }
             string[] wineList = ["酒", "liquor", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶"];
             return wineList.Any(TaskQueueViewModel.MallTask.CreditFirstList.Contains);
         }
