@@ -60,7 +60,8 @@ bool asst::BattleFormationTask::_run()
         save_img(utils::path("debug") / utils::path("other"));
         return false;
     }
-    auto missing_operators = std::vector<OperGroup>();
+    formation_with_last_opers();
+    std::vector<OperGroup> missing_operators;
     for (auto& [role, oper_groups] : m_formation) {
         add_formation(role, oper_groups, missing_operators);
     }
@@ -137,6 +138,35 @@ bool asst::BattleFormationTask::_run()
     }
 
     return true;
+}
+
+void asst::BattleFormationTask::formation_with_last_opers()
+{
+    std::vector<OperGroup> opers;
+    for (const auto& [role, oper_groups] : m_formation) {
+        for (const auto& oper_group : oper_groups) {
+            if (oper_group.second.size() != 1) {
+                continue;
+            }
+            // 不支持干员组，以免选中练度更低的干员
+            opers.emplace_back(oper_group);
+        }
+    }
+
+    if (need_exit() || !select_opers_in_cur_page(opers)) {
+        return;
+    }
+
+    for (auto& [role, oper_groups] : m_formation) {
+        for (auto it = oper_groups.begin(); it != oper_groups.end(); ++it) {
+            if (it->second.size() != 1) {
+                continue;
+            }
+            if (ranges::find_if(opers, [&](OperGroup g) { return g.first == it->first; }) != opers.cend()) {
+                oper_groups.erase(it);
+            }
+        }
+    }
 }
 
 bool asst::BattleFormationTask::add_formation(
