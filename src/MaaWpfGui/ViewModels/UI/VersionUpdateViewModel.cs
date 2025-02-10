@@ -415,9 +415,9 @@ public class VersionUpdateViewModel : Screen
         OnlyGameResourceUpdated,
 
         /// <summary>
-        /// NoMirrorChyanCDKey
+        /// NoMirrorChyanCdk
         /// </summary>
-        NoMirrorChyanCDKey,
+        NoMirrorChyanCdk,
     }
 
     public enum AppUpdateSource
@@ -794,7 +794,7 @@ public class VersionUpdateViewModel : Screen
             try
             {
                 var ret = await CheckUpdateByMirrorChyan();
-                if (ret is CheckUpdateRetT.OK or CheckUpdateRetT.AlreadyLatest or CheckUpdateRetT.NoMirrorChyanCDKey)
+                if (ret is CheckUpdateRetT.OK or CheckUpdateRetT.AlreadyLatest or CheckUpdateRetT.NoMirrorChyanCdk)
                 {
                     return (ret, AppUpdateSource.MirrorChyan);
                 }
@@ -1007,7 +1007,7 @@ public class VersionUpdateViewModel : Screen
 
         if (string.IsNullOrEmpty(cdk))
         {
-            return CheckUpdateRetT.NoMirrorChyanCDKey;
+            return CheckUpdateRetT.NoMirrorChyanCdk;
         }
 
         _mirrorcDownloadUrl = data["data"]?["url"]?.ToString();
