@@ -49,21 +49,11 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
         return true;
     }
     if (type == RoguelikeCustomType::Squad) {
-        if (m_config->get_run_for_collectible()) { // 烧水分队
-            if (m_collectible_mode_squad.empty()) {
-                return false;
-            }
-            m_waiting_to_run = type;
-            return true;
+        if (m_config->get_run_for_collectible() && m_collectible_mode_squad.empty()) { // 烧水分队
+            return false;
         }
-        else {
-            if (m_squad.empty()) { // 开局分队
-                return false;
-            }
-            m_waiting_to_run = type;
-            return true;
-        }
-        return false;
+        m_waiting_to_run = type;
+        return true;
     }
 
     if (auto it = m_customs.find(type); it == m_customs.cend()) {
@@ -79,7 +69,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
 
 bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params)
 {
-    m_squad = params.get("squad", "");
+    m_squad = params.get("squad", "指挥分队");
     if (m_config->get_mode() == RoguelikeMode::Collectible) {
         m_collectible_mode_squad = params.get("collectible_mode_squad", m_squad);
     }
@@ -161,6 +151,21 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
         m_config->set_squad(std::move(squad));
         return true;
     }
+
+    // 深入调查偶尔对分队类型有强限制，选择唯一一个选项即可
+    if (m_config->get_mode() == RoguelikeMode::Exploration) {
+        auto image = ctrler()->get_image();
+        OCRer analyzer(image);
+        analyzer.set_task_info("RoguelikeCustom-HijackSquad");
+        analyzer.set_required({ "分队" });
+        if (analyzer.analyze()) {
+            const auto& rect = analyzer.get_result().front().rect;
+            ctrler()->click(rect);
+            m_config->set_squad(std::move(squad));
+            return true;
+        }
+    }
+
     ProcessTask(*this, { "SwipeToTheLeft" }).run();
     return false;
 }
