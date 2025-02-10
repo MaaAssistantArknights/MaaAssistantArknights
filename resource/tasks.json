@@ -2405,15 +2405,6 @@
     "AccountManagerTrashButtonBili": {
         "roi": [770, 270, 50, 280]
     },
-    "AccountListOcr": {
-        "algorithm": "OcrDetect",
-        "isAscii": true,
-        "text": []
-    },
-    "AccountListOcrBili": {
-        "algorithm": "OcrDetect",
-        "text": []
-    },
     "AccountListSwipe": {
         "algorithm": "JustReturn",
         "action": "Swipe",
