@@ -242,9 +242,9 @@
     <system:String x:Key="ResourceUpdate">리소스 업데이트</system:String>
     <system:String x:Key="UpdateSource">업데이트 소스</system:String>
     <system:String x:Key="GlobalSource">글로벌 소스</system:String>
-    <system:String x:Key="MirrorChyan">미러짱</system:String>
-    <system:String x:Key="MirrorChyanUpdateTip">MirrorChyan이 업데이트를 감지했습니다. '설정 - 소프트웨어 업데이트'로 이동하여 CDK를 구성하거나 글로벌 소스를 사용하세요.</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">MirrorChyan 리소스 버전 업데이트 확인. '설정-소프트웨어 업데이트'로 이동하여 CDK를 구성하거나 글로벌 소스를 사용하여 리소스 버전을 업데이트하세요.</system:String>
+    <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
+    <system:String x:Key="MirrorChyanSoftwareUpdateTip">MirrorChyan이 소프트웨어 업데이트를 감지했습니다. '설정 - 소프트웨어 업데이트'로 이동하여 CDK를 구성하거나 글로벌 소스를 사용하세요.</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">MirrorChyan이 리소스 업데이트를 감지했습니다. '설정 - 소프트웨어 업데이트'로 이동하여 CDK를 구성하거나 글로벌 소스를 사용하세요.</system:String>
     <system:String x:Key="NewVersionFoundTitle">새로운 버전 확인</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">백그라운드에서 다운로드 중……</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">버전: </system:String>

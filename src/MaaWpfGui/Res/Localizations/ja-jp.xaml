@@ -242,9 +242,9 @@
     <system:String x:Key="ResourceUpdate">リソース更新</system:String>
     <system:String x:Key="UpdateSource">更新ソース</system:String>
     <system:String x:Key="GlobalSource">グローバルソース</system:String>
-    <system:String x:Key="MirrorChyan">ミラーちゃん</system:String>
-    <system:String x:Key="MirrorChyanUpdateTip">Mirrorちゃんがソフトのバージョン更新を検出しましたが。CDKを設定するか、グローバル ソースを使用するには、「設定-アップデート設定」に移動してください。</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">Mirrorちゃんがリソースのバージョン更新を検出しましたが。「設定-アップデート設定」でCDKを設定するか、グローバルソースを使用してリソースのバージョンを更新してください。</system:String>
+    <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
+    <system:String x:Key="MirrorChyanSoftwareUpdateTip">MirrorChyan はソフトウェアの更新を検出しました。CDK を構成するか、グローバル ソースを使用するには、[設定-アップデート設定] に移動してください。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">MirrorChyan はリソースの更新を検出しました。CDK を構成するか、グローバル ソースを使用するには、[設定-アップデート設定] に移動してください。</system:String>
     <system:String x:Key="NewVersionFoundTitle">新しいバージョンが見つかりました</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">バックグラウンドでダウンロードを行います……</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">バージョン: </system:String>

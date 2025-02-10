@@ -246,8 +246,8 @@
     <system:String x:Key="UpdateSource">更新源</system:String>
     <system:String x:Key="GlobalSource">海外源</system:String>
     <system:String x:Key="MirrorChyan">Mirror 酱</system:String>
-    <system:String x:Key="MirrorChyanUpdateTip">Mirror酱检测到软件更新。请前往「设置-软件更新」配置 CDK 或使用海外源。</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">Mirror 酱检查到资源版本更新，可前往「设置-软件更新」配置 CDK 或使用 海外源 进行资源版本更新。</system:String>
+    <system:String x:Key="MirrorChyanSoftwareUpdateTip">Mirror 酱检测到软件更新，可前往「设置-软件更新」配置 CDK 或使用海外源。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">Mirror 酱检测到资源更新，可前往「设置-软件更新」配置 CDK 或使用海外源。</system:String>
     <system:String x:Key="NewVersionFoundTitle">检测到新版本</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">正在后台下载……</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">版本号: </system:String>
