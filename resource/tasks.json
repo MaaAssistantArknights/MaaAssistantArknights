@@ -7141,7 +7141,7 @@
         "template": "empty.png",
         "action": "ClickSelf",
         "roi": [569, 583, 141, 137],
-        "next": ["Roguelike@SquadDefault", "Roguelike@SquadBackup", "Roguelike@InitialDrop"]
+        "next": ["Roguelike@SquadDefault", "Roguelike@InitialDrop"]
     },
     "Roguelike@IntegratedStrategies": {
         "action": "ClickSelf",
@@ -7412,14 +7412,6 @@
         "Doc": "特殊值识别，如抗干扰值，需修改对应主题的roi",
         "text": [],
         "roi": [615, 0, 80, 45]
-    },
-    "Roguelike@SquadBackup": {
-        "Doc": "肉鸽未提供默认分队时的PlanB",
-        "algorithm": "OcrDetect",
-        "text": ["分队"],
-        "action": "ClickSelf",
-        "roi": [60, 410, 1180, 80],
-        "next": ["Roguelike@SquadConfirm"]
     },
     "Roguelike@SquadConfirm": {
         "Doc": "base_task",
@@ -7898,8 +7890,7 @@
             "Roguelike@SquadDefault",
             "Roguelike@InitialDrop",
             "Roguelike@ChooseDifficulty",
-            "Roguelike@StartExplore-EnterCheck",
-            "Roguelike@SquadBackup"
+            "Roguelike@StartExplore-EnterCheck"
         ]
     },
     "Roguelike@StartExplore-EnterCheck": {
