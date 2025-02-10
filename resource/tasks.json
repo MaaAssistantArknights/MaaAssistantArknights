@@ -8211,7 +8211,6 @@
     "Phantom@Roguelike@SelectTheme": {
         "text": ["古堡笔记"]
     },
-    "Phantom@Roguelike@SquadBackup": {},
     "Phantom@Roguelike@SquadConfirm": {
         "template": "Phantom@Roguelike@LastRewardConfirm.png",
         "next": [
@@ -8679,7 +8678,6 @@
     "Mizuki@Roguelike@SelectTheme": {
         "text": ["生态谱系"]
     },
-    "Mizuki@Roguelike@SquadBackup": {},
     "Mizuki@Roguelike@SquadConfirm": {
         "template": "Mizuki@Roguelike@LastRewardConfirm.png",
         "next": [
@@ -9502,7 +9500,6 @@
         "Doc": "特殊值识别，如抗干扰值，需修改对应主题的roi",
         "text": []
     },
-    "Sami@Roguelike@SquadBackup": {},
     "Sami@Roguelike@SquadConfirm": {
         "template": "Sami@Roguelike@LastRewardConfirm.png",
         "next": [
@@ -10855,7 +10852,6 @@
         "text": [],
         "roi": [848, 686, 46, 26]
     },
-    "Sarkaz@Roguelike@SquadBackup": {},
     "Sarkaz@Roguelike@SquadConfirm": {
         "template": "Sarkaz@Roguelike@LastRewardConfirm.png",
         "next": [
