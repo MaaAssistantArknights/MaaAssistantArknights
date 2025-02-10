@@ -511,12 +511,24 @@ jobs:
         uses: nick-fields/retry@v2
         with:
           max_attempts: 3
+          timeout_minutes: 15
           command: |
             cd release
             echo "$APPSTORE_KEY" > "AuthKey_${APPSTORE_KEYID}.p8"
             find . -name "*.dmg" | while read dmg; do
               xcrun notarytool submit -k "AuthKey_${APPSTORE_KEYID}.p8" -d "$APPSTORE_KEYID" -i "$ISSUER_ID" --wait ${dmg}
+
+              retVal=$?
+              if [ $retVal -ne 0 ]; then
+                exit 1
+              fi
+
               xcrun stapler staple ${dmg}
+
+              retVal=$?
+              if [ $retVal -ne 0 ]; then
+                exit 1
+              fi
             done
             cd -
         env:
