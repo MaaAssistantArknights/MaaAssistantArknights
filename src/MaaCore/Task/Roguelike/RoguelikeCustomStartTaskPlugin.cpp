@@ -131,7 +131,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
     LogTraceFunction;
 
     std::string squad = !m_config->get_run_for_collectible() ? m_squad : m_collectible_mode_squad;
-    if (squad.empty()) {// 简单处理，认为指挥分队无需滑屏
+    if (squad.empty()) { // 简单处理，认为指挥分队无需滑屏
         return ProcessTask(*this, { m_config->get_theme() + "@Roguelike@SquadDefault" }).run();
     }
 
