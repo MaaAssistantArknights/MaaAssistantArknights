@@ -65,9 +65,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 scrollViewer.ScrollToTop();
             });
-            AnnouncementSections = new(
-                ParseAnnouncementInfo(AnnouncementInfo));
-            SelectedAnnouncementSection = AnnouncementSections.FirstOrDefault();
+            AnnouncementSections = new(ParseAnnouncementInfo(AnnouncementInfo));
         }
 
         private void UpdateImageSource()
@@ -118,7 +116,11 @@ namespace MaaWpfGui.ViewModels.UI
         public ObservableCollection<AnnouncementSection> AnnouncementSections
         {
             get => _announcementSections;
-            set => SetAndNotify(ref _announcementSections, value);
+            set
+            {
+                SetAndNotify(ref _announcementSections, value);
+                SelectedAnnouncementSection = AnnouncementSections.FirstOrDefault();
+            }
         }
 
         private AnnouncementSection _selectedAnnouncementSection;
@@ -142,6 +144,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _announcementInfo, value);
                 ConfigFactory.Root.AnnouncementInfo.Info = value;
+                AnnouncementSections = new(ParseAnnouncementInfo(AnnouncementInfo));
             }
         }
 
