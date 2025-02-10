@@ -13,6 +13,7 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -21,6 +22,7 @@ using HandyControl.Tools.Command;
 using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using Serilog;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -32,6 +34,10 @@ namespace MaaWpfGui.ViewModels.UI
     // ReSharper disable once ClassNeverInstantiated.Global
     public class AnnouncementViewModel : Screen
     {
+        private static readonly ILogger _logger = Log.ForContext<AnnouncementViewModel>();
+
+        private static readonly object _lock = new();
+
         public string ImageSource { get; set; }
 
         public class AnnouncementSection
@@ -131,7 +137,53 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _selectedAnnouncementSection, value);
         }
 
-        private string _announcementInfo = ConfigFactory.Root.AnnouncementInfo.Info;
+        private static readonly string _announcementInFile = SettingsViewModel.GuiSettings.Language switch
+        {
+            "zh-cn" or "zh-tw" => Path.Combine(Environment.CurrentDirectory, "cache", "announcement.md"),
+            _ => Path.Combine(Environment.CurrentDirectory, "cache", "announcement_en.md"),
+        };
+
+        private static string AnnouncementInFile
+        {
+            get
+            {
+                if (!File.Exists(_announcementInFile))
+                {
+                    return null;
+                }
+
+                try
+                {
+                    lock (_lock)
+                    {
+                        return File.ReadAllText(_announcementInFile);
+                    }
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(e, "Failed to read announcement from file");
+                }
+
+                return null;
+            }
+
+            set
+            {
+                try
+                {
+                    lock (_lock)
+                    {
+                        File.WriteAllText(_announcementInFile, value);
+                    }
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(e, "Failed to write announcement to file");
+                }
+            }
+        }
+
+        private string _announcementInfo = AnnouncementInFile ?? string.Empty;
 
         /// <summary>
         /// Gets the announcement info.
@@ -143,7 +195,7 @@ namespace MaaWpfGui.ViewModels.UI
             private set
             {
                 SetAndNotify(ref _announcementInfo, value);
-                ConfigFactory.Root.AnnouncementInfo.Info = value;
+                AnnouncementInFile = value;
                 AnnouncementSections = new(ParseAnnouncementInfo(AnnouncementInfo));
             }
         }
