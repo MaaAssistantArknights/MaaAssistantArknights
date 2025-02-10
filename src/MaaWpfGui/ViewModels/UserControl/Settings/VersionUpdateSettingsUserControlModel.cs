@@ -400,6 +400,10 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
                 toastMessage = LocalizationHelper.GetString("GameResourceUpdated");
                 break;
 
+            case VersionUpdateViewModel.CheckUpdateRetT.NoMirrorChyanCdk:
+                toastMessage = LocalizationHelper.GetString("MirrorChyanSoftwareUpdateTip");
+                break;
+
             default:
                 throw new ArgumentOutOfRangeException();
         }
