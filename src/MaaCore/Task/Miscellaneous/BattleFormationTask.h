@@ -64,10 +64,7 @@ public:
         Random = 3 // 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则使用随机助战干员
     };
 
-    void set_support_unit_usage(const SupportUnitUsage& support_unit_usgae)
-    {
-        m_support_unit_usage = support_unit_usgae;
-    }
+    void set_support_unit_usage(const SupportUnitUsage& value) { m_support_unit_usage = value; }
 
     // 是否在有且仅有一名缺失干员时尝试寻找助战干员补齐编队
     bool use_suppprt_unit_when_needed() const
@@ -82,6 +79,8 @@ protected:
     using OperGroup = std::pair<std::string, std::vector<asst::battle::OperUsage>>;
 
     virtual bool _run() override;
+    // 进入快捷编队清空选择后执行，快速选择非干员组的干员
+    void formation_with_last_opers();
     bool add_formation(battle::Role role, std::vector<OperGroup> oper_group, std::vector<OperGroup>& missing);
     // 追加附加干员（按部署费用等小分类）
     bool add_additional();
