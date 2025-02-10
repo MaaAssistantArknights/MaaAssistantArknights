@@ -7150,7 +7150,7 @@
         "template": "empty.png",
         "action": "ClickSelf",
         "roi": [569, 583, 141, 137],
-        "next": ["Roguelike@SquadDefault", "Roguelike@InitialDrop"]
+        "next": ["Roguelike@SquadDefault", "Roguelike@SquadBackup", "Roguelike@InitialDrop"]
     },
     "Roguelike@IntegratedStrategies": {
         "action": "ClickSelf",
@@ -7421,6 +7421,14 @@
         "Doc": "特殊值识别，如抗干扰值，需修改对应主题的roi",
         "text": [],
         "roi": [615, 0, 80, 45]
+    },
+    "Roguelike@SquadBackup": {
+        "Doc": "肉鸽未提供默认分队时的PlanB",
+        "algorithm": "OcrDetect",
+        "text": ["分队"],
+        "action": "ClickSelf",
+        "roi": [60, 410, 1180, 80],
+        "next": ["Roguelike@SquadConfirm"]
     },
     "Roguelike@SquadConfirm": {
         "Doc": "base_task",
@@ -7899,7 +7907,8 @@
             "Roguelike@SquadDefault",
             "Roguelike@InitialDrop",
             "Roguelike@ChooseDifficulty",
-            "Roguelike@StartExplore-EnterCheck"
+            "Roguelike@StartExplore-EnterCheck",
+            "Roguelike@SquadBackup"
         ]
     },
     "Roguelike@StartExplore-EnterCheck": {
@@ -8202,6 +8211,7 @@
     "Phantom@Roguelike@SelectTheme": {
         "text": ["古堡笔记"]
     },
+    "Phantom@Roguelike@SquadBackup": {},
     "Phantom@Roguelike@SquadConfirm": {
         "template": "Phantom@Roguelike@LastRewardConfirm.png",
         "next": [
@@ -8669,6 +8679,7 @@
     "Mizuki@Roguelike@SelectTheme": {
         "text": ["生态谱系"]
     },
+    "Mizuki@Roguelike@SquadBackup": {},
     "Mizuki@Roguelike@SquadConfirm": {
         "template": "Mizuki@Roguelike@LastRewardConfirm.png",
         "next": [
@@ -9491,6 +9502,7 @@
         "Doc": "特殊值识别，如抗干扰值，需修改对应主题的roi",
         "text": []
     },
+    "Sami@Roguelike@SquadBackup": {},
     "Sami@Roguelike@SquadConfirm": {
         "template": "Sami@Roguelike@LastRewardConfirm.png",
         "next": [
@@ -10843,6 +10855,7 @@
         "text": [],
         "roi": [848, 686, 46, 26]
     },
+    "Sarkaz@Roguelike@SquadBackup": {},
     "Sarkaz@Roguelike@SquadConfirm": {
         "template": "Sarkaz@Roguelike@LastRewardConfirm.png",
         "next": [
