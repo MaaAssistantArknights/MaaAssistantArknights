@@ -77,11 +77,11 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
 
     if (analyzer.get_team_full() && !has_rookie) {
         Log.info("Team full and no rookie");
-        m_config->set_team_full_without_rookie(true);
+        m_config->status().team_full_without_rookie = true;
     }
     else {
         Log.info("Team not full or has rookie");
-        m_config->set_team_full_without_rookie(false);
+        m_config->status().team_full_without_rookie = false;
     }
     return true;
 }
