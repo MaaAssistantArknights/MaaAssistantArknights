@@ -57,6 +57,12 @@ public:
     std::unordered_map<std::string, RoguelikeOper> opers; // 干员精英&等级
     std::vector<std::string> collections;                 // 已获得的藏品
 
+    // ------------------ 招募 ------------------
+    bool team_full_without_rookie = false; // 编队内没有预备干员（晋升优先级<200
+
+    // ------------------ 商店 ------------------
+    bool trader_no_longer_buy = false; // 不再购买藏品
+
     // ------------------ 萨米 ------------------
     int chaos = 0;                           // 抗干扰指数
     std::vector<std::string> foldartal_list; // 所有已获得密文板
@@ -163,15 +169,7 @@ private:
     // 以下为局内数据，每次重置
     // ================================================================================
 public:
-    // ------------------ 招募 ------------------
-    void set_team_full_without_rookie(bool value) { m_team_full_without_rookie = value; }
-
-    bool get_team_full_without_rookie() const { return m_team_full_without_rookie; }
-
-    // ------------------ 商店 ------------------
-    void set_trader_no_longer_buy(bool value) { m_trader_no_longer_buy = value; }
-
-    bool get_trader_no_longer_buy() const { return m_trader_no_longer_buy; }
+    auto& status() { return m_status; }
 
     // ------------------ 开局 ------------------
     void set_core_char(std::string core_char) { m_core_char = std::move(core_char); }
@@ -186,16 +184,8 @@ public:
 
     bool get_use_nonfriend_support() const { return m_use_nonfriend_support; }
 
-    auto& status() { return m_status; }
-
 private:
     RoguelikeStatus m_status; // 局内状态
-
-    // ------------------ 招募 ------------------
-    bool m_team_full_without_rookie = false; // 编队内没有预备干员（晋升优先级<200
-
-    // ------------------ 商店 ------------------
-    bool m_trader_no_longer_buy = false; // 不再购买藏品
 
     // ------------------ 开局 ------------------
     std::string m_core_char;              // 开局干员名

@@ -98,7 +98,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         }
     }
 
-    bool team_full_without_rookie = m_config->get_team_full_without_rookie();
+    bool team_full_without_rookie = m_config->status().team_full_without_rookie;
     // Log.info("team_full_without_rookie", team_full_without_rookie);
 
     // 编队信息 (已有角色)
