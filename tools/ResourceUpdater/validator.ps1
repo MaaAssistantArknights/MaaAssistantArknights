@@ -110,7 +110,7 @@ foreach ($server in $listPerServer.Keys) {
 
 
 # Track if push is needed
-$update_resources = $false
+$updateResources = $false
 
 # Hardcoded paths for tasks.json files
 # DO NOT CHANGE THE ORDER
@@ -129,7 +129,7 @@ foreach ($relativePath in $taskFiles) {
 
     if (-not (Test-Path $originalPath)) {
         Write-Output "Original file not found in Git ($relativePath). Assuming new file, push required."
-        $update_resources = $true
+        $updateResources = $true
     } else {
         $originalFiles += $originalPath
     }
@@ -153,7 +153,7 @@ foreach ($relativePath in $taskFiles) {
 
     if ($modifiedContent -ne $originalContent) {
         Write-Output "Differences detected in $relativePath, push required."
-        $update_resources = $true
+        $updateResources = $true
     } else {
         Write-Output "No substantial changes in $relativePath."
     }
@@ -165,9 +165,9 @@ foreach ($relativePath in $taskFiles) {
 Write-Output "Diff check result:"
 Write-Output "hasPngDiff: $hasPngDiff"
 Write-Output "diff: $diff"
-Write-Output "update: $update_resources"
+Write-Output "update: $updateResources"
 Write-Output "contains_png=$hasPngDiff" >> $env:GITHUB_OUTPUT
 Write-Output "changes=$diff" >> $env:GITHUB_OUTPUT
-Write-Output "updateResources=$update_resources" >> $env:GITHUB_OUTPUT
+Write-Output "update_resources=$updateResources" >> $env:GITHUB_OUTPUT
 
 Pop-Location
