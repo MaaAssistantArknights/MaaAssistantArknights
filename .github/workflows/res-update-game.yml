@@ -324,7 +324,7 @@ jobs:
           github_token: ${{ secrets.MAA_RESOURCE_SYNC }}
 
       - name: Update OTA resource
-        if: steps.add_files.outputs.have_commits == 'True'
+        if: steps.add_files.outputs.update_resources == 'True'
         env:
           GH_TOKEN: ${{ secrets.MAA_RESOURCE_SYNC }}
         run: |
