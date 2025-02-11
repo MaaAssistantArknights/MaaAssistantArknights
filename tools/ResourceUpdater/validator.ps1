@@ -144,18 +144,19 @@ if ($update_resources) {
 
 $global_resources = "EN:$($originalFiles[0]),KR:$($originalFiles[1]),JP:$($originalFiles[2]),TW:$($originalFiles[3])"
 
-# Run Python sorting script on both modified and original files
+# Run Python sorting script
 & py ./tools/TaskSorter/TaskSorter.py --global_resources $global_resources
 
 # Run Prettier on all files
-& npx prettier -w $originalFiles[0] $originalFiles[1] $originalFiles[2] $originalFiles[3] --parser json
+# Default tasks.json is required as the python script will sort it as well
+& npx prettier -w resource/tasks.json $originalFiles[0] $originalFiles[1] $originalFiles[2] $originalFiles[3] --parser json
 
 # Compare sorted & formatted versions
 foreach ($relativePath in $taskFiles) {
     $originalPath = "$relativePath.original"
     
-    $modifiedContent = Get-Content -Raw -Path $relativePath
-    $originalContent = Get-Content -Raw -Path $originalPath
+    $modifiedContent = Get-Content -Raw -Path $relativePath -Encoding UTF8
+    $originalContent = Get-Content -Raw -Path $originalPath -Encoding UTF8
 
     if ($modifiedContent -ne $originalContent) {
         Write-Output "Differences detected in $relativePath, push required."
@@ -165,7 +166,7 @@ foreach ($relativePath in $taskFiles) {
     }
 
     # Clean up temp file
-    Remove-Item -Force $originalPath
+    # Remove-Item -Force $originalPath
 }
 
 Write-Output "Diff check result:"
