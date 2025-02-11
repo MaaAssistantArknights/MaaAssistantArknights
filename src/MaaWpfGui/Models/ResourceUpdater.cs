@@ -642,7 +642,7 @@ namespace MaaWpfGui.Models
             return await DownloadFromMirrorChyanAsync(uri);
         }
 
-        public static async Task<CheckUpdateRetT> CheckAndDownloadUpdate()
+        public static async Task<CheckUpdateRetT> CheckAndDownloadResourceUpdate()
         {
             SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = true;
 

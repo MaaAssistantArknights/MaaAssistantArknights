@@ -360,57 +360,31 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task ManualUpdate()
     {
-        var ret = await Instances.VersionUpdateViewModel.CheckAndDownloadUpdate();
+        var ret = await Instances.VersionUpdateViewModel.CheckAndDownloadVersionUpdate();
 
-        var toastMessage = string.Empty;
-        switch (ret)
+        var toastMessage = ret switch
         {
-            case VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdate:
-                break;
-
-            case VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdateDebugVersion:
-                toastMessage = LocalizationHelper.GetString("NoNeedToUpdateDebugVersion");
-                break;
-
-            case VersionUpdateViewModel.CheckUpdateRetT.AlreadyLatest:
-                toastMessage = LocalizationHelper.GetString("AlreadyLatest");
-                break;
-
-            case VersionUpdateViewModel.CheckUpdateRetT.UnknownError:
-                toastMessage = LocalizationHelper.GetString("NewVersionDetectFailedTitle");
-                break;
-
-            case VersionUpdateViewModel.CheckUpdateRetT.NetworkError:
-                toastMessage = LocalizationHelper.GetString("CheckNetworking");
-                break;
-
-            case VersionUpdateViewModel.CheckUpdateRetT.FailedToGetInfo:
-                toastMessage = LocalizationHelper.GetString("GetReleaseNoteFailed");
-                break;
-
-            case VersionUpdateViewModel.CheckUpdateRetT.OK:
-                _ = Instances.VersionUpdateViewModel.AskToRestart();
-                break;
-
-            case VersionUpdateViewModel.CheckUpdateRetT.NewVersionIsBeingBuilt:
-                toastMessage = LocalizationHelper.GetString("NewVersionIsBeingBuilt");
-                break;
-
-            case VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated:
-                toastMessage = LocalizationHelper.GetString("GameResourceUpdated");
-                break;
-
-            case VersionUpdateViewModel.CheckUpdateRetT.NoMirrorChyanCdk:
-                toastMessage = LocalizationHelper.GetString("MirrorChyanSoftwareUpdateTip");
-                break;
-
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+            VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdate => string.Empty,
+            VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdateDebugVersion => LocalizationHelper.GetString("NoNeedToUpdateDebugVersion"),
+            VersionUpdateViewModel.CheckUpdateRetT.AlreadyLatest => LocalizationHelper.GetString("AlreadyLatest"),
+            VersionUpdateViewModel.CheckUpdateRetT.UnknownError => LocalizationHelper.GetString("NewVersionDetectFailedTitle"),
+            VersionUpdateViewModel.CheckUpdateRetT.NetworkError => LocalizationHelper.GetString("CheckNetworking"),
+            VersionUpdateViewModel.CheckUpdateRetT.FailedToGetInfo => LocalizationHelper.GetString("GetReleaseNoteFailed"),
+            VersionUpdateViewModel.CheckUpdateRetT.OK => string.Empty,
+            VersionUpdateViewModel.CheckUpdateRetT.NewVersionIsBeingBuilt => LocalizationHelper.GetString("NewVersionIsBeingBuilt"),
+            VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated => LocalizationHelper.GetString("GameResourceUpdated"),
+            VersionUpdateViewModel.CheckUpdateRetT.NoMirrorChyanCdk => LocalizationHelper.GetString("MirrorChyanSoftwareUpdateTip"),
+            _ => string.Empty,
+        };
 
         if (toastMessage != string.Empty)
         {
             ToastNotification.ShowDirect(toastMessage);
+        }
+
+        if (ret == VersionUpdateViewModel.CheckUpdateRetT.OK)
+        {
+            _ = Instances.VersionUpdateViewModel.AskToRestart();
         }
     }
 
@@ -418,33 +392,44 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     {
         IsCheckingForUpdates = true;
 
+        var (ret, uri) = await ResourceUpdater.CheckFromMirrorChyanAsync();
+        var toastMessage = ret switch
+        {
+            VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdate => string.Empty,
+            VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdateDebugVersion => LocalizationHelper.GetString("NoNeedToUpdateDebugVersion"),
+            VersionUpdateViewModel.CheckUpdateRetT.AlreadyLatest => LocalizationHelper.GetString("AlreadyLatest"),
+            VersionUpdateViewModel.CheckUpdateRetT.UnknownError => LocalizationHelper.GetString("NewVersionDetectFailedTitle"),
+            VersionUpdateViewModel.CheckUpdateRetT.NetworkError => LocalizationHelper.GetString("CheckNetworking"),
+            VersionUpdateViewModel.CheckUpdateRetT.FailedToGetInfo => LocalizationHelper.GetString("GetReleaseNoteFailed"),
+            VersionUpdateViewModel.CheckUpdateRetT.OK => string.Empty,
+            VersionUpdateViewModel.CheckUpdateRetT.NewVersionIsBeingBuilt => LocalizationHelper.GetString("NewVersionIsBeingBuilt"),
+            VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated => LocalizationHelper.GetString("GameResourceUpdated"),
+            VersionUpdateViewModel.CheckUpdateRetT.NoMirrorChyanCdk => LocalizationHelper.GetString("MirrorChyanSoftwareUpdateTip"),
+            _ => string.Empty,
+        };
+
+        if (toastMessage != string.Empty)
+        {
+            ToastNotification.ShowDirect(toastMessage);
+        }
+
+        if (ret != VersionUpdateViewModel.CheckUpdateRetT.OK)
+        {
+            SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
+            return;
+        }
+
         bool success = UpdateSource switch
         {
             "Github" => await ResourceUpdater.UpdateFromGithubAsync(),
-            "MirrorChyan" => await ResourceUpdater.UpdateFromMirrorChyanAsync(),
+            "MirrorChyan" => await ResourceUpdater.DownloadFromMirrorChyanAsync(uri),
             _ => await ResourceUpdater.UpdateFromGithubAsync(),
         };
 
         if (success)
         {
-            if (AutoInstallUpdatePackage)
-            {
-                await Bootstrapper.RestartAfterIdleAsync();
-            }
-            else
-            {
-                var result = MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("GameResourceUpdated"),
-                    LocalizationHelper.GetString("Tip"),
-                    MessageBoxButton.OKCancel,
-                    MessageBoxImage.Question,
-                    ok: LocalizationHelper.GetString("Ok"),
-                    cancel: LocalizationHelper.GetString("ManualRestart"));
-                if (result == MessageBoxResult.OK)
-                {
-                    Bootstrapper.ShutdownAndRestartWithoutArgs();
-                }
-            }
+            Instances.AsstProxy.LoadResource();
+            ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
         }
 
         IsCheckingForUpdates = false;

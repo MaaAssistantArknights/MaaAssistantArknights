@@ -894,7 +894,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="GameResourceUpdating">게임 자원이 업데이트 중입니다.</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">색인 작성 중</system:String>
     <system:String x:Key="GameResourceNotModified">게임 리소스가 업데이트되었으니.</system:String>
-    <system:String x:Key="GameResourceUpdated">게임 리소스가 업데이트되었으니 MAA를 다시 시작해주세요.</system:String>
+    <system:String x:Key="GameResourceUpdated">게임 리소스가 업데이트되었으니.</system:String>
     <system:String x:Key="GameResourceFailed">게임 리소스 업데이트 실패, 나중에 다시 시도해주세요.</system:String>
     <!--  !Api  -->
     <!--  Remote Control  -->
