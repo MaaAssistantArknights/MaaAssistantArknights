@@ -108,59 +108,35 @@ foreach ($server in $listPerServer.Keys) {
     Write-Output "-------------------------------------------------------------------------------------------"
 }
 
-
-# Track if push is needed
 $updateResources = $false
 
-# Hardcoded paths for tasks.json files
-# DO NOT CHANGE THE ORDER
 $taskFiles = @(
-    "resource/global/YoStarEN/resource/tasks.json",     #EN
-    "resource/global/YoStarJP/resource/tasks.json",     #JP
-    "resource/global/YoStarKR/resource/tasks.json",     #KR
-    "resource/global/txwy/resource/tasks.json"          #TW
+    "resource/global/txwy/resource/tasks.json",
+    "resource/global/YoStarEN/resource/tasks.json",
+    "resource/global/YoStarJP/resource/tasks.json",
+    "resource/global/YoStarKR/resource/tasks.json"
 )
 
-# Retrieve original files from Git and create *.original versions
-$originalFiles = @()
-foreach ($relativePath in $taskFiles) {
-    $originalPath = "$relativePath.original"
-    git show HEAD:"$relativePath" 2>$null > $originalPath
+$originalFiles = @(
+    "original/txwy.json",
+    "original/YoStarEN.json",
+    "original/YoStarJP.json",
+    "original/YoStarKR.json"
+)
 
-    if (-not (Test-Path $originalPath)) {
-        Write-Output "Original file not found in Git ($relativePath). Assuming new file, push required."
+foreach ($i in 0..($taskFiles.Length - 1)) {
+    $taskFile = $taskFiles[$i]
+    $originalFile = $originalFiles[$i]
+
+    if ((Get-Content -Raw -Path $taskFile -Encoding utf8) -ne (Get-Content -Raw -Path $originalFile -Encoding utf8)) {
+        Write-Output "Differences detected in $taskFile, RUN UPDATE RESOURCES."
         $updateResources = $true
     } else {
-        $originalFiles += $originalPath
+        Write-Output "No substantial changes in $taskFile."
     }
 }
 
-$global_resources = "EN:$($originalFiles[0]),KR:$($originalFiles[1]),JP:$($originalFiles[2]),TW:$($originalFiles[3])"
-
-# Run Python sorting script
-& py ./tools/TaskSorter/TaskSorter.py --global_resources $global_resources
-
-# Run Prettier on all files
-# Default tasks.json is required as the python script will sort it as well
-& npx prettier -w resource/tasks.json $originalFiles[0] $originalFiles[1] $originalFiles[2] $originalFiles[3] --parser json
-
-# Compare sorted & formatted versions
-foreach ($relativePath in $taskFiles) {
-    $originalPath = "$relativePath.original"
-    
-    $modifiedContent = Get-Content -Raw -Path $relativePath -Encoding utf8
-    $originalContent = Get-Content -Raw -Path $originalPath -Encoding utf8
-
-    if ($modifiedContent -ne $originalContent) {
-        Write-Output "Differences detected in $relativePath, push required."
-        $updateResources = $true
-    } else {
-        Write-Output "No substantial changes in $relativePath."
-    }
-
-    # Clean up temp file
-    Remove-Item -Force $originalPath
-}
+Remove-Item "original" -Recurse -Force
 
 Write-Output "Diff check result:"
 Write-Output "hasPngDiff: $hasPngDiff"
