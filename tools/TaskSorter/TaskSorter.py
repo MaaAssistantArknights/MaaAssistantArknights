@@ -59,7 +59,7 @@ def main(cn_task_file, global_resources):
     cn_tasks = sort_tasks(cn_tasks)
     order = list(cn_tasks.keys())
 
-    with open(cn_task_file, "w", encoding="utf8") as f:
+    with open(cn_task_file, "w", encoding="utf8", newline="\n") as f:
         json.dump(cn_tasks, f, ensure_ascii=False, indent=4)
     print("CN:", str(len(order)).rjust(4, " "), "tasks")
 
@@ -76,7 +76,7 @@ def main(cn_task_file, global_resources):
             for k in sorted(tasks.keys(), key=lambda k: order.index(k) if k in order else -1)
         }
 
-        with open(path, "w", encoding="utf8") as f:
+        with open(path, "w", encoding="utf8", newline="\n") as f:
             json.dump(tasks, f, ensure_ascii=False, indent=4)
         print(server + ":", str(len(tasks)).rjust(4, " "), "tasks")
 
