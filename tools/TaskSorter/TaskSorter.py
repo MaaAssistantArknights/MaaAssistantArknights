@@ -1,10 +1,9 @@
 import json
 import re
-
+import argparse
 from pathlib import Path
 
 def sort_tasks(res: dict[str, any]):
-    # 暂时只对 Roguelike 和 Reclamation 任务进行类字典序排序，其他任务保持原有相对顺序
     classified_lists = {
         "UseSupportUnit...": [],
         "...@UseSupportUnit...": [],
@@ -53,9 +52,7 @@ def sort_tasks(res: dict[str, any]):
             sorted(target_list)
             for target_list in classified_lists.values()], [])}
 
-if __name__ == '__main__':
-    resource_dir = Path(__file__).parents[2] / "resource"
-    cn_task_file = resource_dir / "tasks.json"
+def main(cn_task_file, global_resources):
     with open(cn_task_file, "r", encoding="utf8") as f:
         cn_tasks = json.load(f)
 
@@ -65,13 +62,6 @@ if __name__ == '__main__':
     with open(cn_task_file, "w", encoding="utf8") as f:
         json.dump(cn_tasks, f, ensure_ascii=False, indent=4)
     print("CN:", str(len(order)).rjust(4, " "), "tasks")
-
-    global_resources = {
-        "EN": resource_dir / "global/YoStarEN/resource/tasks.json",
-        "JP": resource_dir / "global/YoStarJP/resource/tasks.json",
-        "KR": resource_dir / "global/YoStarKR/resource/tasks.json",
-        "TW": resource_dir / "global/txwy/resource/tasks.json"
-    }
 
     for server, path in global_resources.items():
         with open(path, "r", encoding="utf8") as f:
@@ -89,3 +79,25 @@ if __name__ == '__main__':
         with open(path, "w", encoding="utf8") as f:
             json.dump(tasks, f, ensure_ascii=False, indent=4)
         print(server + ":", str(len(tasks)).rjust(4, " "), "tasks")
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="Sort tasks in JSON files.")
+    parser.add_argument("--cn_task_file", type=str, help="Path to the CN tasks JSON file.")
+    parser.add_argument("--global_resources", type=str, help="Comma-separated paths to the global tasks JSON files in the format 'EN:path,JP:path,KR:path,TW:path'.")
+    args = parser.parse_args()
+
+    resource_dir = Path(__file__).parents[2] / "resource"
+    cn_task_file = args.cn_task_file if args.cn_task_file else resource_dir / "tasks.json"
+
+    default_global_resources = {
+        "EN": resource_dir / "global/YoStarEN/resource/tasks.json",
+        "JP": resource_dir / "global/YoStarJP/resource/tasks.json",
+        "KR": resource_dir / "global/YoStarKR/resource/tasks.json",
+        "TW": resource_dir / "global/txwy/resource/tasks.json"
+    }
+
+    global_resources = default_global_resources
+    if args.global_resources:
+        global_resources = {k: Path(v) for k, v in (item.split(':') for item in args.global_resources.split(','))}
+
+    main(cn_task_file, global_resources)

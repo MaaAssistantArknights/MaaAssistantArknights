@@ -108,10 +108,72 @@ foreach ($server in $listPerServer.Keys) {
     Write-Output "-------------------------------------------------------------------------------------------"
 }
 
+
+# Track if push is needed
+$update_resources = $false
+
+# Hardcoded paths for tasks.json files
+# DO NOT CHANGE THE ORDER
+$taskFiles = @(
+    "resource/global/YoStarEN/resource/tasks.json",     #EN
+    "resource/global/YoStarJP/resource/tasks.json",     #JP
+    "resource/global/YoStarKR/resource/tasks.json",     #KR
+    "resource/global/txwy/resource/tasks.json"          #TW
+)
+
+# Retrieve original files from Git and create *.original versions
+$originalFiles = @()
+foreach ($relativePath in $taskFiles) {
+    $originalPath = "$relativePath.original"
+    git show HEAD:"$relativePath" 2>$null | Out-File -Encoding utf8 $originalPath
+
+    if (-not (Test-Path $originalPath)) {
+        Write-Output "Original file not found in Git ($relativePath). Assuming new file, push required."
+        $update_resources = $true
+    } else {
+        $originalFiles += $originalPath
+    }
+}
+
+# If all original files are missing, no need to continue
+if ($update_resources) {
+    "push=$update_resources" | Out-File -FilePath $githubOutput -Append
+    Write-Output "Push required: $update_resources"
+    exit 0
+}
+
+$global_resources = "EN:$($originalFiles[0]),KR:$($originalFiles[1]),JP:$($originalFiles[2]),TW:$($originalFiles[3])"
+
+# Run Python sorting script on both modified and original files
+& py ./tools/TaskSorter/TaskSorter.py --global_resources $global_resources
+
+# Run Prettier on all files
+& npx prettier -w $originalFiles[0] $originalFiles[1] $originalFiles[2] $originalFiles[3]
+
+# Compare sorted & formatted versions
+foreach ($relativePath in $taskFiles) {
+    $originalPath = "$relativePath.original"
+    
+    $modifiedContent = Get-Content -Raw -Path $relativePath
+    $originalContent = Get-Content -Raw -Path $originalPath
+
+    if ($modifiedContent -ne $originalContent) {
+        Write-Output "Differences detected in $relativePath, push required."
+        $update_resources = $true
+    } else {
+        Write-Output "No substantial changes in $relativePath."
+    }
+
+    # Clean up temp file
+    Remove-Item -Force $originalPath
+}
+
 Write-Output "Diff check result:"
 Write-Output "hasPngDiff: $hasPngDiff"
 Write-Output "diff: $diff"
+Write-Output "update: $update_resources"
 Write-Output "contains_png=$hasPngDiff" >> $env:GITHUB_OUTPUT
 Write-Output "changes=$diff" >> $env:GITHUB_OUTPUT
+Write-Output "update=$update_resources" >> $env:GITHUB_OUTPUT
 
 Pop-Location
