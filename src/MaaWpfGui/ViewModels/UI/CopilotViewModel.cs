@@ -1002,8 +1002,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _caught;
-
         /// <summary>
         /// Starts copilot.
         /// </summary>
@@ -1036,17 +1034,12 @@ namespace MaaWpfGui.ViewModels.UI
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
             string errMsg = string.Empty;
-            _caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-            if (!_caught)
-            {
-                AddLog(errMsg, UiLogColor.Error);
-                return;
-            }
-
-            if (errMsg.Length != 0)
+            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            if (!caught)
             {
                 AddLog(errMsg, UiLogColor.Error);
                 Stop();
+                return;
             }
 
             UserAdditional = UserAdditional.Replace("，", ",").Replace("；", ";").Trim();
