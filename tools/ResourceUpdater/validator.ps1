@@ -148,7 +148,7 @@ $global_resources = "EN:$($originalFiles[0]),KR:$($originalFiles[1]),JP:$($origi
 & py ./tools/TaskSorter/TaskSorter.py --global_resources $global_resources
 
 # Run Prettier on all files
-& npx prettier -w $originalFiles[0] $originalFiles[1] $originalFiles[2] $originalFiles[3]
+& npx prettier -w $originalFiles[0] $originalFiles[1] $originalFiles[2] $originalFiles[3] --parser json
 
 # Compare sorted & formatted versions
 foreach ($relativePath in $taskFiles) {
