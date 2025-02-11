@@ -163,7 +163,7 @@ void asst::BattleFormationTask::formation_with_last_opers()
                 ++it;
                 continue;
             }
-            if (ranges::find_if(opers, [&](const OperGroup& g) { return g.first == it->first; }) != opers.cend()) {
+            if (ranges::find_if(opers, [&](const OperGroup& g) { return g.first == it->first; }) == opers.cend()) {
                 it = groups.erase(it);
             }
             else {
