@@ -166,7 +166,7 @@ foreach ($relativePath in $taskFiles) {
     }
 
     # Clean up temp file
-    # Remove-Item -Force $originalPath
+    Remove-Item -Force $originalPath
 }
 
 Write-Output "Diff check result:"
