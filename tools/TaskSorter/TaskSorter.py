@@ -82,8 +82,8 @@ def main(cn_task_file, global_resources):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Sort tasks in JSON files.")
-    parser.add_argument("--cn_task_file", type=str, help="Path to the CN tasks JSON file.")
-    parser.add_argument("--global_resources", type=str, help="Comma-separated paths to the global tasks JSON files in the format 'EN:path,JP:path,KR:path,TW:path'.")
+    parser.add_argument("--cn", type=str, help="Path to the CN tasks JSON file.")
+    parser.add_argument("--global", type=str, help="Comma-separated paths to the global tasks JSON files in the format 'EN:path,JP:path,KR:path,TW:path'.")
     args = parser.parse_args()
 
     resource_dir = Path(__file__).parents[2] / "resource"
