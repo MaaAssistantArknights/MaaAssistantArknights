@@ -83,11 +83,11 @@ def main(cn_task_file, global_resources):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Sort tasks in JSON files.")
     parser.add_argument("--cn", type=str, help="Path to the CN tasks JSON file.")
-    parser.add_argument("--global", type=str, help="Comma-separated paths to the global tasks JSON files in the format 'EN:path,JP:path,KR:path,TW:path'.")
+    parser.add_argument("--overseas", type=str, help="Comma-separated paths to the global tasks JSON files in the format 'EN:path,JP:path,KR:path,TW:path'.")
     args = parser.parse_args()
 
     resource_dir = Path(__file__).parents[2] / "resource"
-    cn_task_file = args.cn_task_file if args.cn_task_file else resource_dir / "tasks.json"
+    cn_task_file = args.cn if args.cn else resource_dir / "tasks.json"
 
     default_global_resources = {
         "EN": resource_dir / "global/YoStarEN/resource/tasks.json",
@@ -97,7 +97,7 @@ if __name__ == '__main__':
     }
 
     global_resources = default_global_resources
-    if args.global_resources:
-        global_resources = {k: Path(v) for k, v in (item.split(':') for item in args.global_resources.split(','))}
+    if args.overseas:
+        global_resources = {k: Path(v) for k, v in (item.split(':') for item in args.overseas.split(','))}
 
     main(cn_task_file, global_resources)
