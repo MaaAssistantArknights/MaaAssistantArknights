@@ -2526,7 +2526,7 @@
         "roi": [450, 480, 160, 45]
     },
     "Roguelike@Squad-EnterPoint": {
-        "text": ["分队"]
+        "text": ["分隊"]
     },
     "Roguelike@StageEncounterOcr": {
         "ocrReplace": [
