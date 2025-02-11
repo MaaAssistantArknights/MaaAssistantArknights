@@ -1567,6 +1567,11 @@ namespace MaaWpfGui.Main
                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("UnsupportedLevel") + subTaskDetails!["level"], UiLogColor.Error);
                     Task.Run(async () =>
                     {
+                        if (SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates)
+                        {
+                            return;
+                        }
+
                         var ret = await ResourceUpdater.CheckAndDownloadResourceUpdate();
                         if (ret == VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated)
                         {
