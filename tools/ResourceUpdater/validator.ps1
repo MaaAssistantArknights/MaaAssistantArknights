@@ -175,6 +175,6 @@ Write-Output "diff: $diff"
 Write-Output "update: $update_resources"
 Write-Output "contains_png=$hasPngDiff" >> $env:GITHUB_OUTPUT
 Write-Output "changes=$diff" >> $env:GITHUB_OUTPUT
-Write-Output "update=$update_resources" >> $env:GITHUB_OUTPUT
+Write-Output "updateResources=$update_resources" >> $env:GITHUB_OUTPUT
 
 Pop-Location
