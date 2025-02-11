@@ -125,7 +125,7 @@ $taskFiles = @(
 $originalFiles = @()
 foreach ($relativePath in $taskFiles) {
     $originalPath = "$relativePath.original"
-    git show HEAD:"$relativePath" 2>$null | Out-File -Encoding utf8 $originalPath
+    git show HEAD:"$relativePath" 2>$null > $originalPath
 
     if (-not (Test-Path $originalPath)) {
         Write-Output "Original file not found in Git ($relativePath). Assuming new file, push required."
@@ -133,13 +133,6 @@ foreach ($relativePath in $taskFiles) {
     } else {
         $originalFiles += $originalPath
     }
-}
-
-# If all original files are missing, no need to continue
-if ($update_resources) {
-    "push=$update_resources" | Out-File -FilePath $githubOutput -Append
-    Write-Output "Push required: $update_resources"
-    exit 0
 }
 
 $global_resources = "EN:$($originalFiles[0]),KR:$($originalFiles[1]),JP:$($originalFiles[2]),TW:$($originalFiles[3])"
@@ -155,8 +148,8 @@ $global_resources = "EN:$($originalFiles[0]),KR:$($originalFiles[1]),JP:$($origi
 foreach ($relativePath in $taskFiles) {
     $originalPath = "$relativePath.original"
     
-    $modifiedContent = Get-Content -Raw -Path $relativePath -Encoding UTF8
-    $originalContent = Get-Content -Raw -Path $originalPath -Encoding UTF8
+    $modifiedContent = Get-Content -Raw -Path $relativePath -Encoding utf8
+    $originalContent = Get-Content -Raw -Path $originalPath -Encoding utf8
 
     if ($modifiedContent -ne $originalContent) {
         Write-Output "Differences detected in $relativePath, push required."
