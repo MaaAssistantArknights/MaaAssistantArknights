@@ -157,13 +157,17 @@ void asst::BattleFormationTask::formation_with_last_opers()
         return;
     }
 
-    for (auto& [role, oper_groups] : m_formation) {
-        for (auto it = oper_groups.begin(); it != oper_groups.end(); ++it) {
+    for (auto& [role, groups] : m_formation) {
+        for (auto it = groups.begin(); it != groups.end();) {
             if (it->second.size() != 1) {
+                ++it;
                 continue;
             }
-            if (ranges::find_if(opers, [&](OperGroup g) { return g.first == it->first; }) != opers.cend()) {
-                oper_groups.erase(it);
+            if (ranges::find_if(opers, [&](const OperGroup& g) { return g.first == it->first; }) != opers.cend()) {
+                it = groups.erase(it);
+            }
+            else {
+                ++it;
             }
         }
     }
