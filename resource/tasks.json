@@ -4977,7 +4977,8 @@
         "text": ["开始行动", "开始突袭", "开始试炼", "开始测试"],
         "roi": [1000, 600, 280, 120],
         "action": "ClickSelf",
-        "postDelay": 1000
+        "postDelay": 1000,
+        "next": ["BattleStartPre@UseMedicine", "BattleStartPre@BattleQuickFormation"]
     },
     "BattleStartPre@UseMedicine": {
         "doc": "绑定MedicineCounter来使用理智药",
