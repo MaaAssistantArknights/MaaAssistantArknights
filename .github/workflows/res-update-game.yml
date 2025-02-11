@@ -146,7 +146,7 @@ jobs:
             filename=$(echo "{}" | cut -d"|" -f2)
             curl -s -o "$filename" "$url" && echo "Downloaded $filename" || echo "Failed to download $filename" >&2
           '
-          py TaskSorter.py --cn tasks.json --overseas EN:original/YoStarEN.json,JP:original/YoStarJP.json,KR:original/YoStarKR.json,TW:original/txwy.json
+          python3 TaskSorter.py --cn tasks.json --overseas EN:original/YoStarEN.json,JP:original/YoStarJP.json,KR:original/YoStarKR.json,TW:original/txwy.json
 
       - name: Prettify original JSON
         uses: Nerixyz/actionsx-prettier@v3-adj
