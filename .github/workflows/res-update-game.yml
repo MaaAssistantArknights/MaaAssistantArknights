@@ -151,7 +151,7 @@ jobs:
       - name: Prettify original JSON
         uses: Nerixyz/actionsx-prettier@v3-adj
         with:
-          args: -w . original/*.json
+          args: -w original/*.json
 
       - name: Upload Original
         uses: actions/upload-artifact@v4
