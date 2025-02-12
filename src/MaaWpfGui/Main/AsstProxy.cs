@@ -1976,10 +1976,10 @@ namespace MaaWpfGui.Main
             return false;
         }
 
-        private AsstTaskId AsstAppendTaskWithEncoding(string type, JObject? taskParams = null)
+        private AsstTaskId AsstAppendTaskWithEncoding(AsstTaskType type, JObject? taskParams = null)
         {
             taskParams ??= [];
-            return AsstAppendTask(_handle, type, JsonConvert.SerializeObject(taskParams));
+            return AsstAppendTask(_handle, type.ToString(), JsonConvert.SerializeObject(taskParams));
         }
 
         private bool AsstSetTaskParamsWithEncoding(AsstTaskId id, JObject? taskParams = null)
@@ -2081,7 +2081,7 @@ namespace MaaWpfGui.Main
         public bool AsstAppendFight(string stage, int maxMedicine, int maxStone, int maxTimes, int series, string dropsItemId, int dropsItemQuantity, bool isMainFight = true)
         {
             var taskParams = SerializeFightTaskParams(stage, maxMedicine, maxStone, maxTimes, series, dropsItemId, dropsItemQuantity, isMainFight);
-            AsstTaskId id = AsstAppendTaskWithEncoding("Fight", taskParams);
+            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Fight, taskParams);
             if (isMainFight)
             {
                 _latestTaskId[TaskType.Fight] = id;
@@ -2144,7 +2144,7 @@ namespace MaaWpfGui.Main
                 ["mining"] = mining,
                 ["specialaccess"] = specialaccess,
             };
-            AsstTaskId id = AsstAppendTaskWithEncoding("Award", taskParams);
+            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Award, taskParams);
             _latestTaskId[TaskType.Award] = id;
             return id != 0;
         }
@@ -2164,7 +2164,7 @@ namespace MaaWpfGui.Main
                 ["start_game_enabled"] = enable,
                 ["account_name"] = accountName,
             };
-            AsstTaskId id = AsstAppendTaskWithEncoding("StartUp", taskParams);
+            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.StartUp, taskParams);
             _latestTaskId[TaskType.StartUp] = id;
             return id != 0;
         }
@@ -2180,7 +2180,7 @@ namespace MaaWpfGui.Main
                 _logger.Warning("Failed to stop Asst");
             }
 
-            AsstTaskId id = AsstAppendTaskWithEncoding("CloseDown", taskParams);
+            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.CloseDown, taskParams);
             _latestTaskId[TaskType.CloseDown] = id;
             return id != 0;
         }
@@ -2227,7 +2227,7 @@ namespace MaaWpfGui.Main
                 ["only_buy_discount"] = onlyBuyDiscount,
                 ["reserve_max_credit"] = reserveMaxCredit,
             };
-            AsstTaskId id = AsstAppendTaskWithEncoding("Mall", taskParams);
+            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Mall, taskParams);
             _latestTaskId[TaskType.Mall] = id;
             return id != 0;
         }
@@ -2303,7 +2303,7 @@ namespace MaaWpfGui.Main
                 ["server"] = Instances.SettingsViewModel.ServerType,
             };
 
-            AsstTaskId id = AsstAppendTaskWithEncoding("Recruit", taskParams);
+            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Recruit, taskParams);
             _latestTaskId[TaskType.Recruit] = id;
             return id != 0;
         }
@@ -2385,7 +2385,7 @@ namespace MaaWpfGui.Main
                 isCustom,
                 filename,
                 planIndex);
-            AsstTaskId id = AsstAppendTaskWithEncoding("Infrast", taskParams);
+            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Infrast, taskParams);
             _latestTaskId[TaskType.Infrast] = id;
             return id != 0;
         }
@@ -2619,7 +2619,7 @@ namespace MaaWpfGui.Main
             taskParams["use_nonfriend_support"] = enableNonFriendSupport;
             taskParams["refresh_trader_with_dice"] = theme == "Mizuki" && refreshTraderWithDice;
 
-            AsstTaskId id = AsstAppendTaskWithEncoding("Roguelike", taskParams);
+            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Roguelike, taskParams);
             _latestTaskId[TaskType.Roguelike] = id;
             return id != 0;
         }
@@ -2655,7 +2655,7 @@ namespace MaaWpfGui.Main
                 ["increment_mode"] = incrementMode,
                 ["num_craft_batches"] = numCraftBatches,
             };
-            AsstTaskId id = AsstAppendTaskWithEncoding("Reclamation", taskParams);
+            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Reclamation, taskParams);
             _latestTaskId[TaskType.Reclamation] = id;
             return id != 0;
         }
@@ -2688,7 +2688,7 @@ namespace MaaWpfGui.Main
                 ["server"] = Instances.SettingsViewModel.ServerType,
             };
 
-            AsstTaskId id = AsstAppendTaskWithEncoding("Recruit", taskParams);
+            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Recruit, taskParams);
             _latestTaskId[TaskType.RecruitCalc] = id;
             return id != 0 && AsstStart();
         }
@@ -2700,7 +2700,7 @@ namespace MaaWpfGui.Main
         public bool AsstStartDepot()
         {
             var taskParams = new JObject();
-            AsstTaskId id = AsstAppendTaskWithEncoding("Depot", taskParams);
+            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Depot, taskParams);
             _latestTaskId[TaskType.Depot] = id;
             return id != 0 && AsstStart();
         }
@@ -2712,7 +2712,7 @@ namespace MaaWpfGui.Main
         public bool AsstStartOperBox()
         {
             var taskParams = new JObject();
-            AsstTaskId id = AsstAppendTaskWithEncoding("OperBox", taskParams);
+            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.OperBox, taskParams);
             _latestTaskId[TaskType.OperBox] = id;
             return id != 0 && AsstStart();
         }
@@ -2729,7 +2729,7 @@ namespace MaaWpfGui.Main
                     // "Block",
                 },
             };
-            AsstTaskId id = AsstAppendTaskWithEncoding("Custom", taskParams);
+            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Custom, taskParams);
             _latestTaskId[TaskType.Gacha] = id;
             return id != 0 && AsstStart();
         }
@@ -2750,7 +2750,7 @@ namespace MaaWpfGui.Main
         /// <param name="useSanityPotion">是否使用理智药</param>
         /// <param name="asstStart">是否启动战斗</param>
         /// <returns>是否成功。</returns>
-        public bool AsstStartCopilot(string filename, bool formation, bool addTrust, bool addUserAdditional, JArray userAdditional, bool needNavigate, string navigateName, bool isRaid, string type, int loopTimes, bool useSanityPotion, bool asstStart = true)
+        public bool AsstStartCopilot(string filename, bool formation, bool addTrust, bool addUserAdditional, JArray userAdditional, bool needNavigate, string navigateName, bool isRaid, AsstTaskType type, int loopTimes, bool useSanityPotion, bool asstStart = true)
         {
             var taskParams = new JObject
             {
@@ -2784,7 +2784,7 @@ namespace MaaWpfGui.Main
             {
                 ["filename"] = filename,
             };
-            AsstTaskId id = AsstAppendTaskWithEncoding("VideoRecognition", taskParams);
+            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.VideoRecognition, taskParams);
             _latestTaskId[TaskType.Copilot] = id;
             return id != 0 && AsstStart();
         }
