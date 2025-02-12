@@ -133,7 +133,10 @@ else {
         $taskFile = $taskFiles[$i]
         $originalFile = $originalFiles[$i]
 
-        if ((Get-Content -Raw -Path $taskFile -Encoding utf8) -ne (Get-Content -Raw -Path $originalFile -Encoding utf8)) {
+        $taskJson = Get-Content -Path $taskFile
+        $originalJson = Get-Content -Path $originalFile
+
+        if (Compare-Object -ReferenceObject $taskJson -DifferenceObject $originalJson) {
             Write-Output "Differences detected in $taskFile, RUN UPDATE RESOURCES."
             $updateResources = $true
         }
