@@ -896,7 +896,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="GameResourceUpdating">游戏资源正在更新。</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">正在编制索引</system:String>
     <system:String x:Key="GameResourceNotModified">游戏资源已更新。</system:String>
-    <system:String x:Key="GameResourceUpdated">游戏资源已更新，请重启 MAA。</system:String>
+    <system:String x:Key="GameResourceUpdated">游戏资源已更新。</system:String>
     <system:String x:Key="GameResourceFailed">游戏资源更新失败，请稍后尝试。</system:String>
     <!--  !Api  -->
     <!--  Remote Control  -->

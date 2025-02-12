@@ -469,14 +469,15 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 _logger.Information($"waiting for update check: {delayTime}");
                 await Task.Delay(delayTime);
-                if (await Instances.VersionUpdateViewModel.CheckAndDownloadUpdate() == VersionUpdateViewModel.CheckUpdateRetT.OK)
+                if (await Instances.VersionUpdateViewModel.CheckAndDownloadVersionUpdate() == VersionUpdateViewModel.CheckUpdateRetT.OK)
                 {
                     _ = Instances.VersionUpdateViewModel.AskToRestart();
                 }
 
-                if (await ResourceUpdater.CheckAndDownloadUpdate() == VersionUpdateViewModel.CheckUpdateRetT.OK)
+                if (await ResourceUpdater.CheckAndDownloadResourceUpdate() == VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated)
                 {
-                    _ = Instances.VersionUpdateViewModel.AskToRestart(true);
+                    Instances.AsstProxy.LoadResource();
+                    ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
                 }
 
                 _isCheckingForUpdates = false;

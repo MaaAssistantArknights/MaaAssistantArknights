@@ -476,54 +476,50 @@ public class VersionUpdateViewModel : Screen
         {
             if (!IsDebugVersion())
             {
-                var ret = await CheckAndDownloadUpdate();
+                var ret = await CheckAndDownloadVersionUpdate();
                 if (ret == CheckUpdateRetT.OK)
                 {
                     _ = AskToRestart();
                 }
 
-                var ret2 = await ResourceUpdater.CheckAndDownloadUpdate();
+                var ret2 = await ResourceUpdater.CheckAndDownloadResourceUpdate();
                 if (ret2 == CheckUpdateRetT.OnlyGameResourceUpdated)
                 {
-                    _ = AskToRestart(true);
+                    Instances.AsstProxy.LoadResource();
+                    ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
                 }
             }
             else
             {
-                // await ResourceUpdater.CheckAndDownloadUpdate();
+                // await ResourceUpdater.CheckAndDownloadResourceUpdate();
                 // 跑个空任务避免 async warning
                 await Task.Run(() => { });
             }
         }
     }
 
-    public async Task<CheckUpdateRetT> CheckAndDownloadUpdate()
-    {
-        SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = true;
-        var ret = await CheckAndDownloadVersionUpdate();
-        SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
-        return ret;
-    }
-
     /// <summary>
     /// 检查更新，并下载更新包。
     /// </summary>
     /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
-    private async Task<CheckUpdateRetT> CheckAndDownloadVersionUpdate()
+    public async Task<CheckUpdateRetT> CheckAndDownloadVersionUpdate()
     {
-        // 检查更新
+        SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = true;
         var (checkRet, source) = await CheckUpdate();
         if (checkRet != CheckUpdateRetT.OK)
         {
+            SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
             return checkRet;
         }
 
-        return source switch
+        var ret = source switch
         {
             AppUpdateSource.MaaApi => await HandleUpdateFromMaaApi(),
             AppUpdateSource.MirrorChyan => await HandleUpdateFromMirrorChyan(),
             _ => CheckUpdateRetT.UnknownError,
         };
+        SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
+        return ret;
     }
 
     private async Task<CheckUpdateRetT> HandleUpdateFromMaaApi()
@@ -750,7 +746,7 @@ public class VersionUpdateViewModel : Screen
         return CheckUpdateRetT.OK;
     }
 
-    public async Task AskToRestart(bool isResource = false)
+    public async Task AskToRestart()
     {
         if (SettingsViewModel.VersionUpdateSettings.AutoInstallUpdatePackage)
         {
@@ -761,8 +757,8 @@ public class VersionUpdateViewModel : Screen
         await _runningState.UntilIdleAsync(10000);
 
         var result = MessageBoxHelper.Show(
-            LocalizationHelper.GetString(isResource ? "GameResourceUpdated" : "NewVersionDownloadCompletedDesc"),
-            LocalizationHelper.GetString(isResource ? "Tip" : "NewVersionDownloadCompletedTitle"),
+            LocalizationHelper.GetString("NewVersionDownloadCompletedDesc"),
+            LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"),
             MessageBoxButton.OKCancel,
             MessageBoxImage.Question,
             ok: LocalizationHelper.GetString("Ok"),

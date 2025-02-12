@@ -19,7 +19,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,17 +33,16 @@ using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
-using MaaWpfGui.ViewModels;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using static MaaWpfGui.Helper.Instances.Data;
-using AsstHandle = System.IntPtr;
+using AsstHandle = nint;
 using AsstInstanceOptionKey = System.Int32;
-
 using AsstTaskId = System.Int32;
+using ToastNotification = MaaWpfGui.Helper.ToastNotification;
 
 namespace MaaWpfGui.Main
 {
@@ -1569,10 +1567,16 @@ namespace MaaWpfGui.Main
                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("UnsupportedLevel") + subTaskDetails!["level"], UiLogColor.Error);
                     Task.Run(async () =>
                     {
-                        var ret = await ResourceUpdater.CheckAndDownloadUpdate();
+                        if (SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates)
+                        {
+                            return;
+                        }
+
+                        var ret = await ResourceUpdater.CheckAndDownloadResourceUpdate();
                         if (ret == VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated)
                         {
-                            _ = Instances.VersionUpdateViewModel.AskToRestart(true);
+                            Instances.AsstProxy.LoadResource();
+                            ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
                         }
                     });
                     break;
