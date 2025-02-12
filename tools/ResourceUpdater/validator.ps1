@@ -110,33 +110,40 @@ foreach ($server in $listPerServer.Keys) {
 
 $updateResources = $false
 
-$taskFiles = @(
-    "resource/global/txwy/resource/tasks.json",
-    "resource/global/YoStarEN/resource/tasks.json",
-    "resource/global/YoStarJP/resource/tasks.json",
-    "resource/global/YoStarKR/resource/tasks.json"
-)
-
-$originalFiles = @(
-    "original/txwy.json",
-    "original/YoStarEN.json",
-    "original/YoStarJP.json",
-    "original/YoStarKR.json"
-)
-
-foreach ($i in 0..($taskFiles.Length - 1)) {
-    $taskFile = $taskFiles[$i]
-    $originalFile = $originalFiles[$i]
-
-    if ((Get-Content -Raw -Path $taskFile -Encoding utf8) -ne (Get-Content -Raw -Path $originalFile -Encoding utf8)) {
-        Write-Output "Differences detected in $taskFile, RUN UPDATE RESOURCES."
-        $updateResources = $true
-    } else {
-        Write-Output "No substantial changes in $taskFile."
-    }
+if (git diff --name-only | Where-Object { $_ -notmatch 'tasks\.json$|version\.json$' }) {
+    Write-Output "Differences detected in other files, RUN UPDATE RESOURCES."
+    $updateResources = $true
 }
+else {
+    $taskFiles = @(
+        "resource/global/txwy/resource/tasks.json",
+        "resource/global/YoStarEN/resource/tasks.json",
+        "resource/global/YoStarJP/resource/tasks.json",
+        "resource/global/YoStarKR/resource/tasks.json"
+    )
 
-Remove-Item "original" -Recurse -Force
+    $originalFiles = @(
+        "original/txwy.json",
+        "original/YoStarEN.json",
+        "original/YoStarJP.json",
+        "original/YoStarKR.json"
+    )
+
+    foreach ($i in 0..($taskFiles.Length - 1)) {
+        $taskFile = $taskFiles[$i]
+        $originalFile = $originalFiles[$i]
+
+        if ((Get-Content -Raw -Path $taskFile -Encoding utf8) -ne (Get-Content -Raw -Path $originalFile -Encoding utf8)) {
+            Write-Output "Differences detected in $taskFile, RUN UPDATE RESOURCES."
+            $updateResources = $true
+        }
+        else {
+            Write-Output "No substantial changes in $taskFile."
+        }
+    }
+
+    Remove-Item "original" -Recurse -Force
+}
 
 Write-Output "Diff check result:"
 Write-Output "hasPngDiff: $hasPngDiff"
