@@ -7142,7 +7142,7 @@
         "template": "empty.png",
         "action": "ClickSelf",
         "roi": [569, 583, 141, 137],
-        "next": ["Roguelike@SquadDefault", "Roguelike@InitialDrop"]
+        "next": ["Roguelike@Squad-EnterPoint", "Roguelike@InitialDrop"]
     },
     "Roguelike@IntegratedStrategies": {
         "action": "ClickSelf",
