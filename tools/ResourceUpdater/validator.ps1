@@ -8,7 +8,7 @@ Write-Output "Check git status..."
 $gitStatus = git status
 Write-Output $gitStatus
 
-Write-Output "-------------------------------------------------------------------------------------------"
+Write-Output "----------------------------------------------------------------------------------------------------"
 
 # Stage changes otherwise git diff doesn't work
 git add .
@@ -22,7 +22,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 Write-Output $gitdiff
 
-Write-Output "-------------------------------------------------------------------------------------------"
+Write-Output "----------------------------------------------------------------------------------------------------"
 
 $diff = $false
 $hasPngDiff = $false
@@ -53,7 +53,7 @@ foreach ($server in $listPerServer.Keys) {
     Write-Output "]`n"
 }
 
-Write-Output "-------------------------------------------------------------------------------------------"
+Write-Output "----------------------------------------------------------------------------------------------------"
 
 # Process each server's changes
 foreach ($server in $listPerServer.Keys) {
@@ -104,8 +104,8 @@ foreach ($server in $listPerServer.Keys) {
             git checkout HEAD -- $pathname
         }
     }
-    Write-Output "$serverName Server check result: { localHasPngDiff = $localHasPngDiff, localDiff = $localDiff }`n"
-    Write-Output "-------------------------------------------------------------------------------------------"
+    Write-Output "$serverName Server check result: { localHasPngDiff = $localHasPngDiff, localDiff = $localDiff }"
+    Write-Output "----------------------------------------------------------------------------------------------------"
 }
 
 $updateResources = $false
@@ -144,15 +144,16 @@ else {
             Write-Output "No substantial changes in $taskFile."
         }
     }
-
 }
 
 if (Test-Path -Path "original") { Remove-Item "original" -Recurse -Force }
 
+Write-Output "----------------------------------------------------------------------------------------------------"
+
 Write-Output "Diff check result:"
 Write-Output "hasPngDiff: $hasPngDiff"
 Write-Output "diff: $diff"
-Write-Output "update: $updateResources"
+Write-Output "updateResources: $updateResources"
 Write-Output "contains_png=$hasPngDiff" >> $env:GITHUB_OUTPUT
 Write-Output "changes=$diff" >> $env:GITHUB_OUTPUT
 Write-Output "update_resources=$updateResources" >> $env:GITHUB_OUTPUT
