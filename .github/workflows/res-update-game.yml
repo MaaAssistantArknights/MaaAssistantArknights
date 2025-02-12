@@ -131,6 +131,7 @@ jobs:
       - name: Initializization
         run: |
           urls=(
+            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/.prettierrc|.prettierrc"
             "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/tools/TaskSorter/TaskSorter.py|TaskSorter.py"
             "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/resource/tasks.json|tasks.json"
             "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/resource/global/txwy/resource/tasks.json|original/txwy.json"

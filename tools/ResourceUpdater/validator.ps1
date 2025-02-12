@@ -1,8 +1,5 @@
 Push-Location
 
-# Stage changes otherwise git diff doesn't work
-git add .
-
 # Change to the root directory of the repository
 Set-Location -Path (git rev-parse --show-toplevel)
 
@@ -12,6 +9,9 @@ $gitStatus = git status
 Write-Output $gitStatus
 
 Write-Output "-------------------------------------------------------------------------------------------"
+
+# Stage changes otherwise git diff doesn't work
+git add .
 
 # Start to diff the file changes
 Write-Output "Start to diff the file changes..."
@@ -110,7 +110,7 @@ foreach ($server in $listPerServer.Keys) {
 
 $updateResources = $false
 
-if (git diff --name-only | Where-Object { $_ -notmatch 'tasks\.json$|version\.json$' }) {
+if (git diff --name-only HEAD 2>$null | Where-Object { $_ -notmatch 'tasks\.json$|version\.json$' }) {
     Write-Output "Differences detected in other files, RUN UPDATE RESOURCES."
     $updateResources = $true
 }
@@ -145,8 +145,9 @@ else {
         }
     }
 
-    Remove-Item "original" -Recurse -Force
 }
+
+if (Test-Path -Path "original") { Remove-Item "original" -Recurse -Force }
 
 Write-Output "Diff check result:"
 Write-Output "hasPngDiff: $hasPngDiff"
