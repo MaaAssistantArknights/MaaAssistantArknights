@@ -486,6 +486,7 @@ public class VersionUpdateViewModel : Screen
                 if (ret2 == CheckUpdateRetT.OnlyGameResourceUpdated)
                 {
                     Instances.AsstProxy.LoadResource();
+                    DataHelper.ReloadBattleData();
                     ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
                 }
             }

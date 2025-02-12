@@ -429,6 +429,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         if (success)
         {
             Instances.AsstProxy.LoadResource();
+            DataHelper.ReloadBattleData();
             ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
         }
 
