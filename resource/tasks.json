@@ -5909,6 +5909,10 @@
         "baseTask": "BattleStartPre",
         "action": "DoNothing"
     },
+    "BattleFormationInvalid": {
+        "action": "DoNothing",
+        "roi": [200, 650, 400, 70]
+    },
     "BattleFormationOCRNameFlag": {
         "templThreshold": 0.6,
         "roi": [88, 264, 873, 354]

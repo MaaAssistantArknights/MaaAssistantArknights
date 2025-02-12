@@ -48,15 +48,20 @@ bool asst::BattleFormationTask::_run()
 {
     LogTraceFunction;
 
+    const auto& img = ctrler()->get_image();
+    if (!is_formation_valid(img)) {
+        return true; // 编队不可用，直接返回，常见于TR关卡
+    }
+
     if (!parse_formation()) {
         return false;
     }
 
-    if (m_select_formation_index > 0 && !select_formation(m_select_formation_index)) {
+    if (m_select_formation_index > 0 && !select_formation(m_select_formation_index, img)) {
         return false;
     }
 
-    if (!enter_selection_page()) {
+    if (!enter_selection_page(img)) {
         save_img(utils::path("debug") / utils::path("other"));
         return false;
     }
@@ -387,9 +392,9 @@ std::vector<asst::TemplDetOCRer::Result> asst::BattleFormationTask::analyzer_ope
     return opers_result;
 }
 
-bool asst::BattleFormationTask::enter_selection_page()
+bool asst::BattleFormationTask::enter_selection_page(const cv::Mat& img)
 {
-    return ProcessTask(*this, { "BattleQuickFormation" }).set_retry_times(3).run();
+    return ProcessTask(*this, { "BattleQuickFormation" }).set_reusable_image(img).set_retry_times(3).run();
 }
 
 bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>& groups)
@@ -534,17 +539,25 @@ bool asst::BattleFormationTask::parse_formation()
     return true;
 }
 
-bool asst::BattleFormationTask::select_formation(int select_index)
+bool asst::BattleFormationTask::select_formation(int select_index, const cv::Mat& img)
 {
     // 编队不会触发改名的区域有两组
     // 一组是上面的黑长条 260*9
     // 第二组是名字最左边和最右边的一块区域
     // 右边比左边窄，暂定为左边 10*58
 
-    static const std::vector<std::string> select_formation_task = { "BattleSelectFormation1",
-                                                                    "BattleSelectFormation2",
-                                                                    "BattleSelectFormation3",
-                                                                    "BattleSelectFormation4" };
+    static const std::array<std::string, 4> select_formation_task = { "BattleSelectFormation1",
+                                                                      "BattleSelectFormation2",
+                                                                      "BattleSelectFormation3",
+                                                                      "BattleSelectFormation4" };
 
-    return ProcessTask { *this, { select_formation_task[select_index - 1] } }.run();
+    return ProcessTask { *this, { select_formation_task[select_index - 1] } }.set_reusable_image(img).run();
+}
+
+bool asst::BattleFormationTask::is_formation_valid(const cv::Mat& img) const
+{
+    static const std::string valid_task = "BattleStartPre@BattleQuickFormation";
+    ProcessTask task(*this, { "BattleFormationInvalid", valid_task });
+    task.set_reusable_image(img);
+    return task.run() && task.get_last_task_name() == valid_task;
 }
