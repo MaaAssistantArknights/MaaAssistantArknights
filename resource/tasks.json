@@ -8350,8 +8350,8 @@
             ["落阳庭院", "_aggressive"],
             ["故土残躯", "_aggressive"],
             ["噩梦之始", "_pragmatic"],
-            ["血月长廊", "_exit"],
-            ["渴欲大厅", "_exit"]
+            ["血月长廊", "_pragmatic"],
+            ["渴欲大厅", "_default"]
         ]
     },
     "Phantom@Roguelike@StrategyChange_mode7": {
@@ -8899,8 +8899,8 @@
             ["离岸孤岛", "_aggressive"],
             ["波涛略地", "_pragmatic"],
             ["隐秘温床", "_pragmatic"],
-            ["失尘岩洞", "_exit"],
-            ["幽海丛林", "_exit"],
+            ["失尘岩洞", "_default"],
+            ["幽海丛林", "_default"],
             ["绀碧摇篮", "_SKIP_"]
         ]
     },
@@ -10196,8 +10196,8 @@
             [".*明冻土", "昧明冻土"],
             ["昧明冻土", "_pragmatic"],
             ["积冰岩骸", "_pragmatic"],
-            ["无瑕花园", "_exit"],
-            ["远见之构", "_exit"],
+            ["无瑕花园", "_default"],
+            ["远见之构", "_default"],
             ["深埋迷境", "_SKIP_"]
         ]
     },
@@ -11526,8 +11526,8 @@
             ["锻铁根须", "_default"],
             ["灰铸迷城", "_default"],
             ["或然歧域", "_default"],
-            ["虚实疆界", "_exit"],
-            ["辉光天顶", "_exit"],
+            ["虚实疆界", "_default"],
+            ["辉光天顶", "_default"],
             ["诡谲断章", "_SKIP_"]
         ]
     },
