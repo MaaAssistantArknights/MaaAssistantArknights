@@ -303,20 +303,17 @@ jobs:
           args: -w ${{ steps.task_sorting.outputs.gitdiff }}
 
       - name: Update version.json date if necessary
+        id: update_version
         run: pwsh tools/ResourceUpdater/version.ps1
 
-      - name: Check if only sorted and Templates
-        id: check_sorted_templates
-        run: pwsh tools/ResourceUpdater/validator.ps1
-
       - name: Setup python
-        if: steps.check_sorted_templates.outputs.contains_png == 'True'
+        if: steps.update_version.outputs.contains_png == 'True'
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
       - name: Cache Python packages
-        if: always() && steps.check_sorted_templates.outputs.contains_png == 'True'
+        if: always() && steps.update_version.outputs.contains_png == 'True'
         id: cache_python
         uses: actions/cache@v4
         with:
@@ -324,23 +321,23 @@ jobs:
           key: ${{ runner.os }}-pip-optimize-templates-${{ hashFiles('./tools/OptimizeTemplates/requirements.txt') }}
 
       - name: Install dependencies
-        if: steps.cache_python.outputs.cache-hit != 'true' && steps.check_sorted_templates.outputs.contains_png == 'True'
+        if: steps.cache_python.outputs.cache-hit != 'true' && steps.update_version.outputs.contains_png == 'True'
         run: |
           pip install -r tools/OptimizeTemplates/requirements.txt
 
       - name: Setup oxipng
-        if: steps.check_sorted_templates.outputs.contains_png == 'True'
+        if: steps.update_version.outputs.contains_png == 'True'
         uses: baptiste0928/cargo-install@v3
         with:
           crate: oxipng
 
       - name: Run optimize_templates
-        if: steps.check_sorted_templates.outputs.contains_png == 'True'
+        if: steps.update_version.outputs.contains_png == 'True'
         run: |
           python3 tools/OptimizeTemplates/optimize_templates.py -p resource/template/items/ resource/template/infrast/
 
       - name: Add files to git
-        if: steps.check_sorted_templates.outputs.changes == 'True'
+        if: steps.update_version.outputs.changes == 'True'
         id: add_files
         run: |
           git config user.name "github-actions[bot]"
@@ -386,7 +383,7 @@ jobs:
       #     gh cache delete
 
       - name: Add cancelled status
-        if: steps.check_sorted_templates.outputs.changes != 'True' || steps.add_files.outputs.have_commits != 'True'
+        if: steps.update_version.outputs.changes != 'True' || steps.add_files.outputs.have_commits != 'True'
         uses: andymckay/cancel-action@0.5
 
     #   - name: Release # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
