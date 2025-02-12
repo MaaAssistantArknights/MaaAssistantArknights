@@ -131,12 +131,12 @@ jobs:
       - name: Initializization
         run: |
           urls=(
-            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/ci/update-resources/tools/TaskSorter/TaskSorter.py|TaskSorter.py"
-            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/ci/update-resources/resource/tasks.json|tasks.json"
-            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/ci/update-resources/resource/global/txwy/resource/tasks.json|original/txwy.json"
-            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/ci/update-resources/resource/global/YoStarEN/resource/tasks.json|original/YoStarEN.json"
-            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/ci/update-resources/resource/global/YoStarJP/resource/tasks.json|original/YoStarJP.json"
-            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/ci/update-resources/resource/global/YoStarKR/resource/tasks.json|original/YoStarKR.json"
+            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/tools/TaskSorter/TaskSorter.py|TaskSorter.py"
+            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/resource/tasks.json|tasks.json"
+            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/resource/global/txwy/resource/tasks.json|original/txwy.json"
+            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/resource/global/YoStarEN/resource/tasks.json|original/YoStarEN.json"
+            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/resource/global/YoStarJP/resource/tasks.json|original/YoStarJP.json"
+            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/resource/global/YoStarKR/resource/tasks.json|original/YoStarKR.json"
           )
 
           mkdir -p original
