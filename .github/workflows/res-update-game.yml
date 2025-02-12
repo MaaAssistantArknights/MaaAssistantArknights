@@ -302,6 +302,9 @@ jobs:
         with:
           args: -w ${{ steps.task_sorting.outputs.gitdiff }}
 
+      - name: Update version.json date if necessary
+        run: pwsh tools/ResourceUpdater/version.ps1
+
       - name: Check if only sorted and Templates
         id: check_sorted_templates
         run: pwsh tools/ResourceUpdater/validator.ps1
