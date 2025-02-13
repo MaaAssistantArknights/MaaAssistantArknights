@@ -79,6 +79,10 @@ protected:
     using OperGroup = std::pair<std::string, std::vector<asst::battle::OperUsage>>;
 
     virtual bool _run() override;
+    bool parse_formation();
+    bool is_formation_valid(const cv::Mat& img) const;
+    bool select_formation(int select_index, const cv::Mat& img);
+    bool enter_selection_page(const cv::Mat& img = cv::Mat());
     // 进入快捷编队清空选择后执行，快速选择非干员组的干员
     void formation_with_last_opers();
     bool add_formation(battle::Role role, std::vector<OperGroup> oper_group, std::vector<OperGroup>& missing);
@@ -86,14 +90,11 @@ protected:
     bool add_additional();
     // 补充刷信赖的干员，从最小的开始
     bool add_trust_operators();
-    bool enter_selection_page();
     bool select_opers_in_cur_page(std::vector<OperGroup>& groups);
     void swipe_page();
     void swipe_to_the_left(int times = 2);
     bool confirm_selection();
     bool click_role_table(battle::Role role);
-    bool parse_formation();
-    bool select_formation(int select_index);
     bool select_random_support_unit();
     void report_missing_operators(std::vector<OperGroup>& groups);
 
