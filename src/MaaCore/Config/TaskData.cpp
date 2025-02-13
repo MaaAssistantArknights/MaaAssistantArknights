@@ -186,7 +186,7 @@ bool asst::TaskData::lazy_parse(const json::value& json)
                 Log.error("Task", name, "with Count method has empty color_scales");
                 validity = false;
             }
-
+            // 用于解决 a8d68dd72df6eef1d2f8feed3883299922ec1a17 类似的潜在regex非法问题
             if (auto ocr_task = std::dynamic_pointer_cast<OcrTaskInfo>(task);
                 task->algorithm == AlgorithmType::OcrDetect) {
                 for (const auto& [regex, new_str] : ocr_task->replace_map) {
