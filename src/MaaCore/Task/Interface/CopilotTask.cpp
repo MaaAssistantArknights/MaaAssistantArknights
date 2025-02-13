@@ -144,8 +144,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     m_not_use_prts_task_ptr->set_enable(need_navigate); // 不使用代理指挥
     m_medicine_plugin_ptr->set_enable(use_sanity_potion);
 
-    // 关卡名含有"TR"的为教学关,不需要编队
-    m_formation_task_ptr->set_enable(with_formation && navigate_name.find("TR") == std::string::npos);
+    m_formation_task_ptr->set_enable(with_formation);
     m_formation_task_ptr->set_select_formation(select_formation);
     m_formation_task_ptr->set_add_trust(add_trust);
     m_formation_task_ptr->set_support_unit_usage(support_unit_usage);
