@@ -1431,8 +1431,8 @@ bool update_version_info(const fs::path& input_dir, const fs::path& output_dir)
         result["activity"]["time"] = time_var;
         result["activity"]["name"] = name;
     }
-    static auto time = asst::utils::get_format_time();
-    result["last_updated"] = time;
+    auto version_opt = json::open(output_dir / "version.json");
+    result["last_updated"] = version_opt->at("last_updated").as_string();
 
     std::ofstream ofs(output_dir / "version.json", std::ios::out);
     ofs << result.format() << '\n';
