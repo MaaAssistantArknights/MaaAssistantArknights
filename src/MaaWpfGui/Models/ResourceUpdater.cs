@@ -501,15 +501,9 @@ namespace MaaWpfGui.Models
 
             if (response is null)
             {
-                _logger.Error("response is null, try mirrorc line2");
-                url = url.Replace(MaaUrls.MirrorChyanLine1, MaaUrls.MirrorChyanLine2);
-                response = await Instances.HttpService.GetAsync(new(url), logUri: false);
-                if (response is null)
-                {
-                    _logger.Error("mirrorc line2 failed too");
-                    ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
-                    return (CheckUpdateRetT.NetworkError, null);
-                }
+                _logger.Error("mirrorc failed");
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
+                return (CheckUpdateRetT.NetworkError, null);
             }
 
             var jsonStr = await response.Content.ReadAsStringAsync();
@@ -642,7 +636,6 @@ namespace MaaWpfGui.Models
             return await DownloadFromMirrorChyanAsync(uri);
         }
 
-
         /// <summary>
         /// 检查并下载资源更新。
         /// </summary>
@@ -670,6 +663,7 @@ namespace MaaWpfGui.Models
             {
                 case "Github":
                     break;
+
                 case "MirrorChyan":
                     if (await DownloadFromMirrorChyanAsync(uri))
                     {
