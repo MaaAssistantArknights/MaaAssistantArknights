@@ -2,9 +2,9 @@
 
 ### 新增 | New
 
+* 繁中服「巴別塔」活動導航 (#11863) @momomochi987
 * Mac支持肉鸽烧水参数配置: 烧水购物、烧水奖励选择、烧水分队选择 (#11866) @hguandl
 * YostarJP Sarkaz roguelike preload (#11850) @Manicsteiner
-* 繁中服「巴別塔」活動導航 (#11863) @momomochi987
 
 ### 改进 | Improved
 
@@ -23,6 +23,7 @@
 
 ### 文档 | Docs
 
+* 修改 MirrorChyan 官网链接 @ABA2396
 * 肉鸽参数注释 @status102
 
 ### 其他 | Other
@@ -43,7 +44,6 @@
 * 简化干员名正则 @ABA2396
 * WpfGui引入AsstTaskType代替硬编码 (#11856) @status102
 * MirrorChyan域名 @hguandl
-* 修改 MirrorChyan 官网链接 @ABA2396
 * issue_template bug-report Version 处添加提示 (#11848) @Daydreamer114
 * Wpf肉鸽任务RoguelikeMode参数类型改为int (#11821) @status102
 * update mirrorc tips (#11832) @MistEO @ABA2396
