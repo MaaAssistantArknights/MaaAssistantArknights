@@ -87,7 +87,7 @@ protected:
 
     std::unordered_set<std::string> m_all_tags;
     std::vector<Recruitment> m_all_opers;
-    std::unordered_map<TagId, std::string> m_all_tags_name; // 中文tag, 外文tag
+    std::unordered_map<TagId, std::string> m_all_tags_name; // <中文tag, 中文/外文tag>
 };
 
 // 公开招募的干员组合
