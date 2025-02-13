@@ -413,6 +413,11 @@ public class VersionUpdateViewModel : Screen
         /// 只更新了游戏资源
         /// </summary>
         OnlyGameResourceUpdated,
+
+        /// <summary>
+        /// NoMirrorChyanCdk
+        /// </summary>
+        NoMirrorChyanCdk,
     }
 
     public enum AppUpdateSource
@@ -471,54 +476,51 @@ public class VersionUpdateViewModel : Screen
         {
             if (!IsDebugVersion())
             {
-                var ret = await CheckAndDownloadUpdate();
+                var ret = await CheckAndDownloadVersionUpdate();
                 if (ret == CheckUpdateRetT.OK)
                 {
                     _ = AskToRestart();
                 }
 
-                var ret2 = await ResourceUpdater.CheckAndDownloadUpdate();
+                var ret2 = await ResourceUpdater.CheckAndDownloadResourceUpdate();
                 if (ret2 == CheckUpdateRetT.OnlyGameResourceUpdated)
                 {
-                    _ = AskToRestart(true);
+                    Instances.AsstProxy.LoadResource();
+                    DataHelper.ReloadBattleData();
+                    ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
                 }
             }
             else
             {
-                // await ResourceUpdater.CheckAndDownloadUpdate();
+                // await ResourceUpdater.CheckAndDownloadResourceUpdate();
                 // 跑个空任务避免 async warning
                 await Task.Run(() => { });
             }
         }
     }
 
-    public async Task<CheckUpdateRetT> CheckAndDownloadUpdate()
-    {
-        SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = true;
-        var ret = await CheckAndDownloadVersionUpdate();
-        SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
-        return ret;
-    }
-
     /// <summary>
     /// 检查更新，并下载更新包。
     /// </summary>
     /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
-    private async Task<CheckUpdateRetT> CheckAndDownloadVersionUpdate()
+    public async Task<CheckUpdateRetT> CheckAndDownloadVersionUpdate()
     {
-        // 检查更新
+        SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = true;
         var (checkRet, source) = await CheckUpdate();
         if (checkRet != CheckUpdateRetT.OK)
         {
+            SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
             return checkRet;
         }
 
-        return source switch
+        var ret = source switch
         {
             AppUpdateSource.MaaApi => await HandleUpdateFromMaaApi(),
             AppUpdateSource.MirrorChyan => await HandleUpdateFromMirrorChyan(),
             _ => CheckUpdateRetT.UnknownError,
         };
+        SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
+        return ret;
     }
 
     private async Task<CheckUpdateRetT> HandleUpdateFromMaaApi()
@@ -745,7 +747,7 @@ public class VersionUpdateViewModel : Screen
         return CheckUpdateRetT.OK;
     }
 
-    public async Task AskToRestart(bool isResource = false)
+    public async Task AskToRestart()
     {
         if (SettingsViewModel.VersionUpdateSettings.AutoInstallUpdatePackage)
         {
@@ -756,8 +758,8 @@ public class VersionUpdateViewModel : Screen
         await _runningState.UntilIdleAsync(10000);
 
         var result = MessageBoxHelper.Show(
-            LocalizationHelper.GetString(isResource ? "GameResourceUpdated" : "NewVersionDownloadCompletedDesc"),
-            LocalizationHelper.GetString(isResource ? "Tip" : "NewVersionDownloadCompletedTitle"),
+            LocalizationHelper.GetString("NewVersionDownloadCompletedDesc"),
+            LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"),
             MessageBoxButton.OKCancel,
             MessageBoxImage.Question,
             ok: LocalizationHelper.GetString("Ok"),
@@ -784,12 +786,12 @@ public class VersionUpdateViewModel : Screen
         if ((SettingsViewModel.VersionUpdateSettings.VersionType is
                 VersionUpdateSettingsUserControlModel.UpdateVersionType.Beta or
                 VersionUpdateSettingsUserControlModel.UpdateVersionType.Stable)
-            && !string.IsNullOrEmpty(SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk))
+            && SettingsViewModel.VersionUpdateSettings.UpdateSource == "MirrorChyan")
         {
             try
             {
                 var ret = await CheckUpdateByMirrorChyan();
-                if (ret is CheckUpdateRetT.OK or CheckUpdateRetT.AlreadyLatest)
+                if (ret is CheckUpdateRetT.OK or CheckUpdateRetT.AlreadyLatest or CheckUpdateRetT.NoMirrorChyanCdk)
                 {
                     return (ret, AppUpdateSource.MirrorChyan);
                 }
@@ -946,7 +948,7 @@ public class VersionUpdateViewModel : Screen
         if (response is null)
         {
             _logger.Error("response is null, try mirrorc line2");
-            url = url.Replace(MaaUrls.MirrorChyanWebsite, MaaUrls.MirrorChyanLine2);
+            url = url.Replace(MaaUrls.MirrorChyanLine1, MaaUrls.MirrorChyanLine2);
             response = await Instances.HttpService.GetAsync(new(url), logUri: false);
             if (response is null)
             {
@@ -1002,11 +1004,7 @@ public class VersionUpdateViewModel : Screen
 
         if (string.IsNullOrEmpty(cdk))
         {
-            ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanResourceUpdateTip"));
-
-            // 现在仅有cdk才会调用到这里，不应该没cdk的，直接先报个错
-            // 以后如果所有人都使用mirrorc检查更新，这里再改一下
-            return CheckUpdateRetT.UnknownError;
+            return CheckUpdateRetT.NoMirrorChyanCdk;
         }
 
         _mirrorcDownloadUrl = data["data"]?["url"]?.ToString();

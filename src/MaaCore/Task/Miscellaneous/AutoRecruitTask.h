@@ -50,6 +50,7 @@ protected:
     bool recruit_now();
     bool confirm();
     bool refresh();
+    // 检查是否有已完成且未领取的招募，有则领取，无则返回true
     bool hire_all(const cv::Mat&);
     bool hire_all();
     bool initialize_dirty_slot_info(const cv::Mat&);
@@ -155,7 +156,7 @@ protected:
     std::vector<int> m_select_level;
     std::vector<int> m_confirm_level;
     bool m_need_refresh = false;
-    bool m_use_expedited = false;
+    bool m_use_expedited = false; // 是否使用加急许可
     ExtraTagsMode m_select_extra_tags_mode = ExtraTagsMode::NoExtra;
     std::vector<std::string> m_first_tags;
     int m_max_times = 0;

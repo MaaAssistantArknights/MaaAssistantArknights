@@ -207,6 +207,7 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_server(std::string server) noe
 bool asst::AutoRecruitTask::_run()
 {
     if (is_calc_only_task()) {
+        // 小工具中的公招计算，不需要点击确认按钮
         return recruit_calc_task().success;
     }
 
@@ -215,6 +216,7 @@ bool asst::AutoRecruitTask::_run()
     }
 
     {
+        // 领取一下已完成的招募
         const auto image = ctrler()->get_image();
         // initialize_dirty_slot_info(image);
         m_dirty_slots = { 0, 1, 2, 3 };
@@ -427,7 +429,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         }
 #endif
 
-        const std::vector<TextRect>& tags = image_analyzer.get_tags_result();
+        const std::vector<TextRect>& tags = image_analyzer.get_tags_result(); // 中文的招募tag
         m_has_refresh = !image_analyzer.get_refresh_rect().empty();
         m_has_permit = image_analyzer.get_permit_rect().empty();
 

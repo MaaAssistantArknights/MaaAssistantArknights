@@ -467,15 +467,18 @@ namespace MaaWpfGui.ViewModels.UI
             var delayTime = CalculateRandomDelay();
             _ = Task.Run(async () =>
             {
+                _logger.Information($"waiting for update check: {delayTime}");
                 await Task.Delay(delayTime);
-                if (await Instances.VersionUpdateViewModel.CheckAndDownloadUpdate() == VersionUpdateViewModel.CheckUpdateRetT.OK)
+                if (await Instances.VersionUpdateViewModel.CheckAndDownloadVersionUpdate() == VersionUpdateViewModel.CheckUpdateRetT.OK)
                 {
                     _ = Instances.VersionUpdateViewModel.AskToRestart();
                 }
 
-                if (await ResourceUpdater.CheckAndDownloadUpdate() == VersionUpdateViewModel.CheckUpdateRetT.OK)
+                if (await ResourceUpdater.CheckAndDownloadResourceUpdate() == VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated)
                 {
-                    _ = Instances.VersionUpdateViewModel.AskToRestart(true);
+                    Instances.AsstProxy.LoadResource();
+                    DataHelper.ReloadBattleData();
+                    ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
                 }
 
                 _isCheckingForUpdates = false;
@@ -1822,10 +1825,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static bool AppendRoguelike()
         {
-            _ = int.TryParse(RoguelikeTask.RoguelikeMode, out var mode);
-
             return Instances.AsstProxy.AsstAppendRoguelike(
-                mode,
+                RoguelikeTask.RoguelikeMode,
                 RoguelikeTask.RoguelikeDifficulty,
                 RoguelikeTask.RoguelikeStartsCount,
                 RoguelikeTask.RoguelikeInvestmentEnabled,

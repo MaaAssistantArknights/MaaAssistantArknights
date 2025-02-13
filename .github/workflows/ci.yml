@@ -417,7 +417,7 @@ jobs:
 
       - name: Download Provisioning Profiles
         if: startsWith(github.ref, 'refs/tags/v')
-        uses: apple-actions/download-provisioning-profiles@v1
+        uses: apple-actions/download-provisioning-profiles@v3
         with:
           bundle-id: "com.hguandl.MeoAsstMac"
           issuer-id: ${{ secrets.HGUANDL_APPSTORE_ISSUER }}
@@ -508,16 +508,25 @@ jobs:
 
       - name: Notarize Image
         if: startsWith(github.ref, 'refs/tags/v')
-        run: |
-          echo "$APPSTORE_KEY" > "AuthKey_${APPSTORE_KEYID}.p8"
-          find . -name "*.dmg" | while read dmg; do
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          timeout_minutes: 15
+          command: |
+            cd release
+            echo "$APPSTORE_KEY" > "AuthKey_${APPSTORE_KEYID}.p8"
+            dmg="MAA-${{ needs.meta.outputs.tag }}-macos-universal.dmg"
             xcrun notarytool submit -k "AuthKey_${APPSTORE_KEYID}.p8" -d "$APPSTORE_KEYID" -i "$ISSUER_ID" --wait ${dmg}
-            xcrun stapler staple ${dmg}
-          done
         env:
           APPSTORE_KEYID: ${{ secrets.HGUANDL_APPSTORE_KEYID }}
           APPSTORE_KEY: ${{ secrets.HGUANDL_APPSTORE_KEY }}
           ISSUER_ID: ${{ secrets.HGUANDL_APPSTORE_ISSUER }}
+
+      - name: Attach Notarization Tickets
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          dmg="MAA-${{ needs.meta.outputs.tag }}-macos-universal.dmg"
+          xcrun stapler staple ${dmg}
         working-directory: release
 
       - name: Upload MAA to Github

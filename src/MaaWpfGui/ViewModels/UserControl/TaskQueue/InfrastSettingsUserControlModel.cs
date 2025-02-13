@@ -145,7 +145,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private string _dormThresholdLabel;
+    private string _dormThresholdLabel = string.Empty;
 
     /// <summary>
     /// Gets or sets the label of dormitory threshold.

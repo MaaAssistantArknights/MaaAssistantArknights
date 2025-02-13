@@ -12,11 +12,9 @@
 // </copyright>
 
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Security;
 using MaaWpfGui.Helper;
-using System.Windows;
 using MaaWpfGui.Main;
 using Microsoft.Win32;
 using Serilog;

@@ -54,7 +54,7 @@ bool asst::RoguelikeShoppingTaskPlugin::buy_once()
         return false;
     }
 
-    bool no_longer_buy = m_config->get_trader_no_longer_buy();
+    bool no_longer_buy = m_config->status().trader_no_longer_buy;
 
     std::unordered_map<battle::Role, size_t> map_roles_count;
     std::unordered_map<battle::Role, size_t> map_wait_promotion;
@@ -192,7 +192,7 @@ bool asst::RoguelikeShoppingTaskPlugin::buy_once()
         // 把goods.name存到已获得藏品里
         m_config->status().collections.emplace_back(goods.name);
         if (goods.no_longer_buy) {
-            m_config->set_trader_no_longer_buy(true);
+            m_config->status().trader_no_longer_buy = true;
         }
         break;
     }

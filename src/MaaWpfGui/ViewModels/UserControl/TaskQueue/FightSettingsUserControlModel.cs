@@ -554,7 +554,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     /// <summary>
     /// Gets or private sets the list of drops.
     /// </summary>
-    public ObservableCollection<CombinedData> DropsList { get; private set; }
+    public ObservableCollection<CombinedData> DropsList { get; private set; } = [];
 
     private string _dropsItemId = ConfigurationHelper.GetValue(ConfigurationKeys.DropsItemId, string.Empty);
 

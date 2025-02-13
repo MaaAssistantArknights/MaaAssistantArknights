@@ -53,6 +53,7 @@ namespace MaaWpfGui.Views.UserControl.Settings
         private void MaaVersionClick(object sender, MouseButtonEventArgs e)
         {
             CopyToClipboardAsync($"UI Version: {VersionUpdateSettingsUserControlModel.UiVersion}\nCore Version: {VersionUpdateSettingsUserControlModel.CoreVersion}\nBuild Time: {VersionUpdateSettingsUserControlModel.BuildDateTimeCurrentCultureString}");
+            EasterEggs();
         }
 
         private void CoreVersionClick(object sender, MouseButtonEventArgs e)
