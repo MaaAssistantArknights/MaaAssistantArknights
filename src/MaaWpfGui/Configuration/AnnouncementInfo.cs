@@ -20,11 +20,6 @@ namespace MaaWpfGui.Configuration
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Gets or sets 公告内容
-        /// </summary>
-        public string Info { get; set; } = string.Empty;
-
-        /// <summary>
         /// Gets or sets a value indicating whether 下次不再显示公告
         /// </summary>
         public bool DoNotShowAgain { get; set; } = false;

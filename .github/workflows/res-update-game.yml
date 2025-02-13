@@ -124,10 +124,47 @@ jobs:
           path: ./excel
           compression-level: 0
 
+  original-json:
+    if: github.repository_owner == 'MaaAssistantArknights'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Initializization
+        run: |
+          urls=(
+            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/.prettierrc|.prettierrc"
+            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/tools/TaskSorter/TaskSorter.py|TaskSorter.py"
+            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/resource/tasks.json|tasks.json"
+            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/resource/global/txwy/resource/tasks.json|original/txwy.json"
+            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/resource/global/YoStarEN/resource/tasks.json|original/YoStarEN.json"
+            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/resource/global/YoStarJP/resource/tasks.json|original/YoStarJP.json"
+            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/resource/global/YoStarKR/resource/tasks.json|original/YoStarKR.json"
+          )
+
+          mkdir -p original
+
+          printf "%s\n" "${urls[@]}" | xargs -P 6 -I {} bash -c '
+            url=$(echo "{}" | cut -d"|" -f1)
+            filename=$(echo "{}" | cut -d"|" -f2)
+            curl -s -o "$filename" "$url" && echo "Downloaded $filename" || echo "Failed to download $filename" >&2
+          '
+          python3 TaskSorter.py --cn tasks.json --overseas EN:original/YoStarEN.json,JP:original/YoStarJP.json,KR:original/YoStarKR.json,TW:original/txwy.json
+
+      - name: Prettify original JSON
+        uses: Nerixyz/actionsx-prettier@v3-adj
+        with:
+          args: -w original/YoStarEN.json original/YoStarJP.json original/YoStarKR.json original/txwy.json
+
+      - name: Upload Original
+        uses: actions/upload-artifact@v4
+        with:
+          name: original
+          path: ./original
+          compression-level: 0
+
   update-game-resources:
     # In case of rate limitations on the runners/instances, add dependency, by removing the comment
 
-    # needs: [clone-resources-official, clone-resources-overseas, clone-resources-txwy]
+    # needs: [clone-resources-official, clone-resources-overseas, clone-resources-txwy, original-json]
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: windows-latest
     steps:
@@ -182,6 +219,13 @@ jobs:
           path: |
             ./tools/ResourceUpdater/x64/Release/opencv_world4_maa.dll
             ./tools/ResourceUpdater/x64/Release/ResourceUpdater.exe
+
+      - name: Download original JSON
+        id: download-original
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: original
+          path: ./original
 
       - name: Download txwy
         id: download-txwy
@@ -258,18 +302,18 @@ jobs:
         with:
           args: -w ${{ steps.task_sorting.outputs.gitdiff }}
 
-      - name: Check if only sorted and Templates
-        id: check_sorted_templates
-        run: pwsh tools/ResourceUpdater/validator.ps1
+      - name: Update version.json date if necessary
+        id: update_version
+        run: pwsh tools/ResourceUpdater/version.ps1
 
       - name: Setup python
-        if: steps.check_sorted_templates.outputs.contains_png == 'True'
+        if: steps.update_version.outputs.contains_png == 'True'
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
       - name: Cache Python packages
-        if: always() && steps.check_sorted_templates.outputs.contains_png == 'True'
+        if: always() && steps.update_version.outputs.contains_png == 'True'
         id: cache_python
         uses: actions/cache@v4
         with:
@@ -277,23 +321,23 @@ jobs:
           key: ${{ runner.os }}-pip-optimize-templates-${{ hashFiles('./tools/OptimizeTemplates/requirements.txt') }}
 
       - name: Install dependencies
-        if: steps.cache_python.outputs.cache-hit != 'true' && steps.check_sorted_templates.outputs.contains_png == 'True'
+        if: steps.cache_python.outputs.cache-hit != 'true' && steps.update_version.outputs.contains_png == 'True'
         run: |
           pip install -r tools/OptimizeTemplates/requirements.txt
 
       - name: Setup oxipng
-        if: steps.check_sorted_templates.outputs.contains_png == 'True'
+        if: steps.update_version.outputs.contains_png == 'True'
         uses: baptiste0928/cargo-install@v3
         with:
           crate: oxipng
 
       - name: Run optimize_templates
-        if: steps.check_sorted_templates.outputs.contains_png == 'True'
+        if: steps.update_version.outputs.contains_png == 'True'
         run: |
           python3 tools/OptimizeTemplates/optimize_templates.py -p resource/template/items/ resource/template/infrast/
 
       - name: Add files to git
-        if: steps.check_sorted_templates.outputs.changes == 'True'
+        if: steps.update_version.outputs.changes == 'True'
         id: add_files
         run: |
           git config user.name "github-actions[bot]"
@@ -324,7 +368,7 @@ jobs:
           github_token: ${{ secrets.MAA_RESOURCE_SYNC }}
 
       - name: Update OTA resource
-        if: steps.add_files.outputs.have_commits == 'True'
+        if: steps.update_version.outputs.update_resources == 'True'
         env:
           GH_TOKEN: ${{ secrets.MAA_RESOURCE_SYNC }}
         run: |
@@ -339,7 +383,7 @@ jobs:
       #     gh cache delete
 
       - name: Add cancelled status
-        if: steps.check_sorted_templates.outputs.changes != 'True' || steps.add_files.outputs.have_commits != 'True'
+        if: steps.update_version.outputs.changes != 'True' || steps.add_files.outputs.have_commits != 'True'
         uses: andymckay/cancel-action@0.5
 
     #   - name: Release # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow

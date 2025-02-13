@@ -86,9 +86,10 @@ namespace MaaWpfGui.Constants
         // 资源更新更新源
         public const string GithubResourceUpdate = "https://github.com/MaaAssistantArknights/MaaResource/archive/refs/heads/main.zip";
 
-        public const string MirrorChyanWebsite = "https://mirrorc.top";
-        public const string MirrorChyanLine2 = "http://47.96.114.138:8800";
-        public const string MirrorChyanAppUpdate = $"{MirrorChyanWebsite}/api/resources/MAA/latest";
-        public const string MirrorChyanResourceUpdate = $"{MirrorChyanWebsite}/api/resources/MaaResource/latest";
+        public const string MirrorChyanWebsite = "https://mirrorchyan.com";
+        public const string MirrorChyanLine1 = "https://mirrorchyan.com";
+        public const string MirrorChyanLine2 = "http://cn.mirrorchyan.com:8800";
+        public const string MirrorChyanAppUpdate = $"{MirrorChyanLine1}/api/resources/MAA/latest";
+        public const string MirrorChyanResourceUpdate = $"{MirrorChyanLine1}/api/resources/MaaResource/latest";
     }
 }

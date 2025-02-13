@@ -1,8 +1,5 @@
 Push-Location
 
-# Stage changes otherwise git diff doesn't work
-git add .
-
 # Change to the root directory of the repository
 Set-Location -Path (git rev-parse --show-toplevel)
 
@@ -11,7 +8,10 @@ Write-Output "Check git status..."
 $gitStatus = git status
 Write-Output $gitStatus
 
-Write-Output "-------------------------------------------------------------------------------------------"
+Write-Output "----------------------------------------------------------------------------------------------------"
+
+# Stage changes otherwise git diff doesn't work
+git add .
 
 # Start to diff the file changes
 Write-Output "Start to diff the file changes..."
@@ -22,7 +22,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 Write-Output $gitdiff
 
-Write-Output "-------------------------------------------------------------------------------------------"
+Write-Output "----------------------------------------------------------------------------------------------------"
 
 $diff = $false
 $hasPngDiff = $false
@@ -53,7 +53,7 @@ foreach ($server in $listPerServer.Keys) {
     Write-Output "]`n"
 }
 
-Write-Output "-------------------------------------------------------------------------------------------"
+Write-Output "----------------------------------------------------------------------------------------------------"
 
 # Process each server's changes
 foreach ($server in $listPerServer.Keys) {
@@ -104,14 +104,58 @@ foreach ($server in $listPerServer.Keys) {
             git checkout HEAD -- $pathname
         }
     }
-    Write-Output "$serverName Server check result: { localHasPngDiff = $localHasPngDiff, localDiff = $localDiff }`n"
-    Write-Output "-------------------------------------------------------------------------------------------"
+    Write-Output "$serverName Server check result: { localHasPngDiff = $localHasPngDiff, localDiff = $localDiff }"
+    Write-Output "----------------------------------------------------------------------------------------------------"
 }
+
+$updateResources = $false
+
+if (git diff --name-only HEAD 2>$null | Where-Object { $_ -notmatch 'tasks\.json$|version\.json$' }) {
+    Write-Output "Differences detected in other files, RUN UPDATE RESOURCES."
+    $updateResources = $true
+}
+else {
+    $taskFiles = @(
+        "resource/global/txwy/resource/tasks.json",
+        "resource/global/YoStarEN/resource/tasks.json",
+        "resource/global/YoStarJP/resource/tasks.json",
+        "resource/global/YoStarKR/resource/tasks.json"
+    )
+
+    $originalFiles = @(
+        "original/txwy.json",
+        "original/YoStarEN.json",
+        "original/YoStarJP.json",
+        "original/YoStarKR.json"
+    )
+
+    foreach ($i in 0..($taskFiles.Length - 1)) {
+        $taskFile = $taskFiles[$i]
+        $originalFile = $originalFiles[$i]
+
+        $taskJson = Get-Content -Path $taskFile
+        $originalJson = Get-Content -Path $originalFile
+
+        if (Compare-Object -ReferenceObject $taskJson -DifferenceObject $originalJson) {
+            Write-Output "Differences detected in $taskFile, RUN UPDATE RESOURCES."
+            $updateResources = $true
+        }
+        else {
+            Write-Output "No substantial changes in $taskFile."
+        }
+    }
+}
+
+if (Test-Path -Path "original") { Remove-Item "original" -Recurse -Force }
+
+Write-Output "----------------------------------------------------------------------------------------------------"
 
 Write-Output "Diff check result:"
 Write-Output "hasPngDiff: $hasPngDiff"
 Write-Output "diff: $diff"
+Write-Output "updateResources: $updateResources"
 Write-Output "contains_png=$hasPngDiff" >> $env:GITHUB_OUTPUT
 Write-Output "changes=$diff" >> $env:GITHUB_OUTPUT
+Write-Output "update_resources=$updateResources" >> $env:GITHUB_OUTPUT
 
 Pop-Location

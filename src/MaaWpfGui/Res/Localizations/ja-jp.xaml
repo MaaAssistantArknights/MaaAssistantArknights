@@ -127,7 +127,7 @@
     <system:String x:Key="RoguelikeStrategyLastReward">支援選択を得るため3層到着後に終了</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">パラダイムロストをファーミングして、非レアパラダイムロストに遭遇したらすぐに再起動します</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">支援選択を得るモードの分隊</system:String>
-    <system:String x:Key="RoguelikeStrategyMonthlySquad">月間小隊をグラインドし、第五層に到達したら即座に退出</system:String>
+    <system:String x:Key="RoguelikeStrategyMonthlySquad">月間小隊をグラインドし、できるだけ多くの層をクリア</system:String>
     <system:String x:Key="RoguelikeStrategyDeepExploration">深層探索をグラインドし、できるだけ多くの層をクリア</system:String>
     <system:String x:Key="StartingSquad">最初の分隊</system:String>
     <system:String x:Key="StartingRoles">最初の職業</system:String>
@@ -148,6 +148,9 @@
     <system:String x:Key="RoguelikeStopAtFinalBoss">第5階層のボスの手前で一時停止する</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">最大レベル達成時に停止</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">启用刷钱种子</system:String>
+    <system:String x:Key="RoguelikeMonthlySquadAutoIterate">月度小队自动切换</system:String>
+    <system:String x:Key="RoguelikeMonthlySquadCheckComms">月度小队通讯</system:String>
+    <system:String x:Key="RoguelikeDeepExplorationAutoIterate">深入调查自动切换</system:String>
     <system:String x:Key="DeploymentWithPause">統合戦略/保全駐在でポーズトリックを使用します（ベータ機能のため非推奨です）</system:String>
     <system:String x:Key="AdbLiteEnabled">軽量ADBを使用(実験機能)</system:String>
     <system:String x:Key="KillAdbOnExit">終了時にADBを終了する</system:String>
@@ -159,10 +162,10 @@
     <system:String x:Key="IS3NewSquad2">生活重視分隊</system:String>
     <system:String x:Key="IS3NewSquad3">科学主義分隊</system:String>
     <system:String x:Key="IS3NewSquad4">特訓分隊</system:String>
-    <system:String x:Key="IS4NewSquad1">魂灵护送分队（占位）</system:String>
-    <system:String x:Key="IS4NewSquad2">博闻广记分队（占位）</system:String>
-    <system:String x:Key="IS4NewSquad3">蓝图测绘分队（占位）</system:String>
-    <system:String x:Key="IS4NewSquad4">因地制宜分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad1">霊魂護送分隊</system:String>
+    <system:String x:Key="IS4NewSquad2">博学多識分隊</system:String>
+    <system:String x:Key="IS4NewSquad3">位置測定分隊</system:String>
+    <system:String x:Key="IS4NewSquad4">臨機応変分隊</system:String>
     <system:String x:Key="IS4NewSquad5">异想天开分队（占位）</system:String>
     <system:String x:Key="IS4NewSquad6">点刺成锭分队（占位）</system:String>
     <system:String x:Key="IS4NewSquad7">拟态学者分队（占位）</system:String>
@@ -235,13 +238,16 @@
 4. 内部テスト版の更新方法を非開発ユーザーに共有しないでください。不要な混乱とリスクを避けるためです。
 
 設定 - About us - フィードバックのリンクをクリックして、このポップアップをキャンセルできます。ご理解とご協力をお願いいたします！</system:String>
-    <system:String x:Key="UpdateCheck">更新バージョン</system:String>
+    <system:String x:Key="UpdateCheck">更新チャネル</system:String>
     <system:String x:Key="DownloadWithAria2">aria2を使う</system:String>
-    <system:String x:Key="UpdateCheckNow">アップデートを確認する</system:String>
+    <system:String x:Key="UpdateCheckNow">ソフト更新</system:String>
     <system:String x:Key="ShowChangelog">変更履歴</system:String>
     <system:String x:Key="ResourceUpdate">リソース更新</system:String>
-    <system:String x:Key="MirrorChyan">ミラーちゃん</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">Mirrorちゃんがリソースのバージョン更新を検出しましたが。「設定-ソフトウェア更新」でCDKを設定するか、GitHubのソースを使用してリソースのバージョンを更新してください。</system:String>
+    <system:String x:Key="UpdateSource">更新ソース</system:String>
+    <system:String x:Key="GlobalSource">グローバルソース</system:String>
+    <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
+    <system:String x:Key="MirrorChyanSoftwareUpdateTip">MirrorChyan はソフトウェアの更新を検出しました。CDK を構成するか、グローバル ソースを使用するには、「設定-アップデート設定」に移動してください。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">MirrorChyan はリソースの更新を検出しました。「設定-ソフトウェア更新」に移動して CDK を構成するか、「リソース更新」をクリックして手動で更新してください。</system:String>
     <system:String x:Key="NewVersionFoundTitle">新しいバージョンが見つかりました</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">バックグラウンドでダウンロードを行います……</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">バージョン: </system:String>
@@ -328,7 +334,7 @@
     <system:String x:Key="RoguelikeStartWithRandomReward">ランダム報酬</system:String>
     <system:String x:Key="RoguelikeStartWithKey">鍵</system:String>
     <system:String x:Key="RoguelikeStartWithDice">ダイスロール回数</system:String>
-    <system:String x:Key="RoguelikeStartWithIdea">構想（占位）</system:String>
+    <system:String x:Key="RoguelikeStartWithIdea">構想</system:String>
     <system:String x:Key="RefreshTraderWithDice">ダイスで品揃えを更新する（ミチビキリンジュウ）</system:String>
     <system:String x:Key="PenguinId">Penguin-StatsのレポートのID（デジタル部分のみ）</system:String>
     <system:String x:Key="EnablePenguin">Penguin-Statsへ報告</system:String>
@@ -828,7 +834,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormation">編成開始</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">オペレーターを選択: </system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">サポートされていないステージです。ステージ名を確認するか、「設定 - ソフトウェア更新 - リソース更新」に移動してリソースバージョンを更新してみてください！</system:String>
+    <system:String x:Key="UnsupportedLevel">サポートされていないステージです。ステージ名を確認するか、「設定 - アップデート設定 - ソフト更新」に移動してリソースバージョンを更新してみてください！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">認識結果: </system:String>
     <system:String x:Key="ConnectFailed">接続失敗</system:String>
     <system:String x:Key="TryToReconnectByAdb">再接続を試みています</system:String>
@@ -891,7 +897,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="GameResourceUpdating">ゲームリソースが更新中です。</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">索引の作成中</system:String>
     <system:String x:Key="GameResourceNotModified">ゲームリソースが更新されました。</system:String>
-    <system:String x:Key="GameResourceUpdated">ゲームリソースが更新されました。MAAを再起動してください。</system:String>
+    <system:String x:Key="GameResourceUpdated">ゲームリソースが更新されました。</system:String>
     <system:String x:Key="GameResourceFailed">ゲームリソースの更新に失敗しました。後でもう一度お試しください。</system:String>
     <!--  !Api  -->
     <!--  Remote Control  -->

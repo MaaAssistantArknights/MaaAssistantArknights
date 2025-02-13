@@ -47,11 +47,17 @@ namespace MaaWpfGui.Helper
         // 储存角色信息的字典
         public static Dictionary<string, CharacterInfo> Characters { get; } = new();
 
-        public static HashSet<string> CharacterNames { get; } = new();
+        public static HashSet<string> CharacterNames { get; } = [];
 
         public static Dictionary<string, (string DisplayName, string ClientName)> RecruitTags { get; private set; } = [];
 
         static DataHelper()
+        {
+            ReloadBattleData();
+            InitRecruitTag();
+        }
+
+        public static void ReloadBattleData()
         {
             const string FilePath = "resource/battle_data.json";
             if (!File.Exists(FilePath))
@@ -75,8 +81,6 @@ namespace MaaWpfGui.Helper
                 characterNamesLangAdd.Invoke(value);
                 characterNamesClientAdd.Invoke(value);
             }
-
-            InitRecruitTag();
         }
 
         private static void InitRecruitTag()
@@ -99,10 +103,18 @@ namespace MaaWpfGui.Helper
             var displayTags = ParseRecruit(Path.Combine("resource", displayPath, "recruitment.json"));
 
             RecruitTags = clientTags.Keys
-                .Select(key => new KeyValuePair<string, (string DisplayName, string ClientName)>(key, (displayTags.TryGetValue(key, out var displayTag) ? displayTag : string.Empty, clientTags.TryGetValue(key, out var clientTag) ? clientTag : string.Empty)))
+                .Select(key => new KeyValuePair<string, (string DisplayName, string ClientName)>(
+                    key,
+                    (displayTags.TryGetValue(key, out var displayTag)
+                        ? displayTag
+                        : string.Empty,
+                    clientTags.TryGetValue(key, out var clientTag)
+                        ? clientTag
+                        : string.Empty)))
                 .Where(i => !string.IsNullOrEmpty(i.Value.ClientName))
                 .Select(i => !string.IsNullOrEmpty(i.Value.DisplayName) ? i : new(i.Key, (i.Value.ClientName, i.Value.ClientName)))
                 .ToDictionary();
+            return;
 
             static Dictionary<string, string> ParseRecruit(string path)
             {
@@ -149,14 +161,8 @@ namespace MaaWpfGui.Helper
         public static CharacterInfo? GetCharacterByNameOrAlias(string characterName)
         {
             return Characters.Values.FirstOrDefault(
-                character => new[]
-                    {
-                        character.Name,
-                        character.NameEn,
-                        character.NameJp,
-                        character.NameKr,
-                        character.NameTw,
-                    }.Any(name => name?.Equals(characterName, StringComparison.OrdinalIgnoreCase) ?? false));
+                character => new[] { character.Name, character.NameEn, character.NameJp, character.NameKr, character.NameTw, }
+                    .Any(name => name?.Equals(characterName, StringComparison.OrdinalIgnoreCase) ?? false));
         }
 
         public static string? GetLocalizedCharacterName(string? characterName, string? language = null)

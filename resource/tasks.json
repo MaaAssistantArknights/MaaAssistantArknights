@@ -2221,24 +2221,19 @@
             ["玛恩.*", "玛恩纳"],
             [".*默德克萨.*", "缄默德克萨斯"],
             ["^重岳.+", "重岳"],
-            [".*麟.*夜刀$", "麒麟R夜刀"],
-            ["麒.+夜刀$", "麒麟R夜刀"],
+            ["(麒.+夜刀|.*麟.*夜刀)$", "麒麟R夜刀"],
             [".*龙.*黑角$", "火龙S黑角"],
             [".*大陆调查团$", "泰拉大陆调查团"],
             ["[Uu]-[O0o]f{1,2}icial", "U-Official"],
             [".*威龙陈", "假日威龙陈"],
-            ["^夕.*", "夕"],
-            ["^H$", "夕"],
+            ["^(夕.*|H$)", "夕"],
             ["青积", "青枳"],
             [".*烬艾雅法.*", "纯烬艾雅法拉"],
-            ["^山.+", "山"],
+            ["^(山.+|一山$)", "山"],
             ["12E", "12F"],
             ["归.*幽灵鲨", "归溟幽灵鲨"],
-            ["临六$", "临光"],
-            ["^临光.*", "临光"],
-            ["^煌.*", "煌"],
-            ["^一煌$", "煌"],
-            ["^一山$", "山"],
+            ["(临六$|^临光.*)", "临光"],
+            ["^(煌.*|一煌$)", "煌"],
             [".*甜蜜狂搅.*", "“甜蜜狂搅”"],
             ["^尖端研究成果共享.*", "尖端研究成果共享终端"],
             ["^年.?$", "年"],
@@ -2255,7 +2250,7 @@
             ["^预备干员-狙.*", "预备干员-狙击"],
             ["^预备干员-重.*", "预备干员-重装"],
             ["^折光.*", "折光"],
-            ["^委$", "黍"],
+            ["^(委|泰)$", "黍"],
             ["^红集$", "红隼"],
             ["小.?满", "小满"],
             [".*夹子.*", "“夹子”"],
@@ -2268,8 +2263,7 @@
             ["^宝箱的肉.*", "宝箱的肉？"],
             [".*维多利亚$", "维娜·维多利亚"],
             [".*芜拉普兰德$", "荒芜拉普兰德"],
-            ["^盥心$", "塑心"],
-            ["^泰$", "黍"]
+            ["^盥心$", "塑心"]
         ]
     },
     "SwitchAccount@StartUpBegin": {
@@ -2404,15 +2398,6 @@
     },
     "AccountManagerTrashButtonBili": {
         "roi": [770, 270, 50, 280]
-    },
-    "AccountListOcr": {
-        "algorithm": "OcrDetect",
-        "isAscii": true,
-        "text": []
-    },
-    "AccountListOcrBili": {
-        "algorithm": "OcrDetect",
-        "text": []
     },
     "AccountListSwipe": {
         "algorithm": "JustReturn",
@@ -4986,7 +4971,8 @@
         "text": ["开始行动", "开始突袭", "开始试炼", "开始测试"],
         "roi": [1000, 600, 280, 120],
         "action": "ClickSelf",
-        "postDelay": 1000
+        "postDelay": 1000,
+        "next": ["BattleStartPre@UseMedicine", "BattleStartPre@BattleQuickFormation"]
     },
     "BattleStartPre@UseMedicine": {
         "doc": "绑定MedicineCounter来使用理智药",
@@ -5916,6 +5902,10 @@
     "BattleStartPreFlag": {
         "baseTask": "BattleStartPre",
         "action": "DoNothing"
+    },
+    "BattleFormationInvalid": {
+        "action": "DoNothing",
+        "roi": [200, 650, 400, 70]
     },
     "BattleFormationOCRNameFlag": {
         "templThreshold": 0.6,
@@ -7150,7 +7140,7 @@
         "template": "empty.png",
         "action": "ClickSelf",
         "roi": [569, 583, 141, 137],
-        "next": ["Roguelike@SquadDefault", "Roguelike@InitialDrop"]
+        "next": ["Roguelike@Squad-EnterPoint", "Roguelike@InitialDrop"]
     },
     "Roguelike@IntegratedStrategies": {
         "action": "ClickSelf",
@@ -7422,6 +7412,18 @@
         "text": [],
         "roi": [615, 0, 80, 45]
     },
+    "Roguelike@Squad-EnterPoint": {
+        "algorithm": "OcrDetect",
+        "text": ["分队"],
+        "roi": [620, 20, 100, 34],
+        "next": ["Roguelike@SquadConfirm"]
+    },
+    "Roguelike@Squad-Random": {
+        "Doc": "没得指挥分队，随便选一个",
+        "baseTask": "Roguelike@Squad-EnterPoint",
+        "action": "ClickSelf",
+        "roi": [60, 410, 1180, 80]
+    },
     "Roguelike@SquadConfirm": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -7430,11 +7432,10 @@
         "postDelay": 500
     },
     "Roguelike@SquadDefault": {
-        "Doc": "base_task",
+        "Doc": "base_task, 指挥分队logo",
         "template": "empty.png",
         "action": "ClickSelf",
-        "roi": [0, 153, 1280, 532],
-        "next": ["Roguelike@SquadConfirm"]
+        "roi": [0, 153, 1280, 532]
     },
     "Roguelike@SquadSlowlySwipeToTheRight": {
         "algorithm": "JustReturn",
@@ -7896,7 +7897,7 @@
         "postDelay": 2000,
         "exceededNext": ["RoguelikeControlTaskPlugin-Stop"],
         "next": [
-            "Roguelike@SquadDefault",
+            "Roguelike@Squad-EnterPoint",
             "Roguelike@InitialDrop",
             "Roguelike@ChooseDifficulty",
             "Roguelike@StartExplore-EnterCheck"
@@ -8347,8 +8348,8 @@
             ["落阳庭院", "_aggressive"],
             ["故土残躯", "_aggressive"],
             ["噩梦之始", "_pragmatic"],
-            ["血月长廊", "_exit"],
-            ["渴欲大厅", "_exit"]
+            ["血月长廊", "_pragmatic"],
+            ["渴欲大厅", "_default"]
         ]
     },
     "Phantom@Roguelike@StrategyChange_mode7": {
@@ -8896,8 +8897,8 @@
             ["离岸孤岛", "_aggressive"],
             ["波涛略地", "_pragmatic"],
             ["隐秘温床", "_pragmatic"],
-            ["失尘岩洞", "_exit"],
-            ["幽海丛林", "_exit"],
+            ["失尘岩洞", "_default"],
+            ["幽海丛林", "_default"],
             ["绀碧摇篮", "_SKIP_"]
         ]
     },
@@ -10193,8 +10194,8 @@
             [".*明冻土", "昧明冻土"],
             ["昧明冻土", "_pragmatic"],
             ["积冰岩骸", "_pragmatic"],
-            ["无瑕花园", "_exit"],
-            ["远见之构", "_exit"],
+            ["无瑕花园", "_default"],
+            ["远见之构", "_default"],
             ["深埋迷境", "_SKIP_"]
         ]
     },
@@ -11523,8 +11524,8 @@
             ["锻铁根须", "_default"],
             ["灰铸迷城", "_default"],
             ["或然歧域", "_default"],
-            ["虚实疆界", "_exit"],
-            ["辉光天顶", "_exit"],
+            ["虚实疆界", "_default"],
+            ["辉光天顶", "_default"],
             ["诡谲断章", "_SKIP_"]
         ]
     },

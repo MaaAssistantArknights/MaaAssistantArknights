@@ -35,14 +35,12 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst) :
     m_subtasks.emplace_back(m_change_difficulty_task_ptr);
 
     auto start_1_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
-    start_1_tp->set_tasks({ "BattleStartPre" }).set_retry_times(0).set_ignore_error(true);
-    m_subtasks.emplace_back(start_1_tp);
-
-    m_medicine_task_ptr = std::make_shared<ProcessTask>(callback, inst, TaskType);
-    m_medicine_task_ptr->set_tasks({ "BattleStartPre@UseMedicine", "BattleStartPre@BattleQuickFormation" })
+    start_1_tp->set_tasks({ "BattleStartPre@BattleQuickFormation", "BattleStartPre" })
+        .set_retry_times(0)
         .set_ignore_error(true);
-    m_medicine_task_ptr->register_plugin<MedicineCounterTaskPlugin>()->set_count(999999);
-    m_subtasks.emplace_back(m_medicine_task_ptr);
+    m_medicine_plugin_ptr = start_1_tp->register_plugin<MedicineCounterTaskPlugin>();
+    m_medicine_plugin_ptr->set_count(999999);
+    m_subtasks.emplace_back(start_1_tp);
 
     m_subtasks.emplace_back(m_formation_task_ptr)->set_retry_times(0);
 
@@ -144,10 +142,9 @@ bool asst::CopilotTask::set_params(const json::value& params)
     m_navigate_task_ptr->set_enable(need_navigate);
     m_change_difficulty_task_ptr->set_enable(need_navigate && is_raid);
     m_not_use_prts_task_ptr->set_enable(need_navigate); // 不使用代理指挥
-    m_medicine_task_ptr->set_enable(use_sanity_potion);
+    m_medicine_plugin_ptr->set_enable(use_sanity_potion);
 
-    // 关卡名含有"TR"的为教学关,不需要编队
-    m_formation_task_ptr->set_enable(with_formation && navigate_name.find("TR") == std::string::npos);
+    m_formation_task_ptr->set_enable(with_formation);
     m_formation_task_ptr->set_select_formation(select_formation);
     m_formation_task_ptr->set_add_trust(add_trust);
     m_formation_task_ptr->set_support_unit_usage(support_unit_usage);

@@ -38,8 +38,9 @@ body:
     id: version
     attributes:
       label: Version
-      description: >-
-        Please provide the MAA version. Can be found in MAA -> Settings -> Update. (Click to copy)
+      description: |
+        Please provide the MAA version. Can be found in MAA -> Settings -> Update. Click to copy.  
+        Click on `Resource Version` and `MAA Version` and paste them respectively. There should be 5 lines of version information in total.
       placeholder: |
         Resource Version:
         MAA Version:

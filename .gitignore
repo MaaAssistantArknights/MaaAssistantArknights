@@ -457,3 +457,7 @@ tools/RoguelikeRecruitmentTool/output
 
 # MaaDeps
 /MaaDeps/*
+
+# ResourceUpdater workflow
+
+/original/*

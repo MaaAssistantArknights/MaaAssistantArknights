@@ -24,6 +24,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Services;
 using MaaWpfGui.States;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -280,7 +281,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         private const string TempCopilotFile = "cache/_temp_copilot.json";
-        private string _taskType = "General";
+        private AsstTaskType _taskType = AsstTaskType.Copilot;
         private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX|S|TR|MO)-?)?(?:\d{1,2})(\(Raid\)(?=\.json))?";
 
         /// <summary>
@@ -402,7 +403,7 @@ namespace MaaWpfGui.ViewModels.UI
                     var type = typeValue.ToString();
                     if (type == "SSS")
                     {
-                        _taskType = "SSSCopilot";
+                        _taskType = AsstTaskType.SSSCopilot;
 
                         if (json.TryGetValue("buff", out var buffValue))
                         {
@@ -432,7 +433,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
                 else
                 {
-                    _taskType = "Copilot";
+                    _taskType = AsstTaskType.Copilot;
                 }
 
                 if (!IsDataFromWeb)
@@ -443,7 +444,7 @@ namespace MaaWpfGui.ViewModels.UI
                 File.Delete(TempCopilotFile);
                 File.WriteAllText(TempCopilotFile, json.ToString());
 
-                if (_taskType != "Copilot" || !UseCopilotList)
+                if (_taskType != AsstTaskType.Copilot || !UseCopilotList)
                 {
                     return;
                 }
@@ -794,7 +795,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (value)
                 {
-                    _taskType = "Copilot";
+                    _taskType = AsstTaskType.Copilot;
                     Form = true;
                 }
 
@@ -1002,8 +1003,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _caught;
-
         /// <summary>
         /// Starts copilot.
         /// </summary>
@@ -1036,17 +1035,12 @@ namespace MaaWpfGui.ViewModels.UI
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
             string errMsg = string.Empty;
-            _caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-            if (!_caught)
-            {
-                AddLog(errMsg, UiLogColor.Error);
-                return;
-            }
-
-            if (errMsg.Length != 0)
+            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            if (!caught)
             {
                 AddLog(errMsg, UiLogColor.Error);
                 Stop();
+                return;
             }
 
             UserAdditional = UserAdditional.Replace("，", ",").Replace("；", ";").Trim();

@@ -127,7 +127,7 @@
     <system:String x:Key="RoguelikeStrategyLastReward">전기주전자 획득까지 반복, 3번째 구역 도달 시 탐험 중도 포기</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">희귀 붕괴 패러다임 파밍, 일반 붕괴 패러다임이 나올 시 재시작</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">작전 지원 선택 분대</system:String>
-    <system:String x:Key="RoguelikeStrategyMonthlySquad">월간 소대를 그라인드하고, 5층에 도달하면 바로 종료</system:String>
+    <system:String x:Key="RoguelikeStrategyMonthlySquad">월간 소대를 그라인드하고 가능한 한 많은 층을 클리어</system:String>
     <system:String x:Key="RoguelikeStrategyDeepExploration">심층 탐사를 그라인드하고 가능한 한 많은 층을 클리어</system:String>
     <system:String x:Key="StartingSquad">시작 분대</system:String>
     <system:String x:Key="StartingRoles">모집 조합</system:String>
@@ -148,6 +148,9 @@
     <system:String x:Key="RoguelikeStopAtFinalBoss">5스테이지 보스 앞에서 일시정지</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">최대 레벨 달성 시 중지</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">启用刷钱种子</system:String>
+    <system:String x:Key="RoguelikeMonthlySquadAutoIterate">月度小队自动切换</system:String>
+    <system:String x:Key="RoguelikeMonthlySquadCheckComms">月度小队通讯</system:String>
+    <system:String x:Key="RoguelikeDeepExplorationAutoIterate">深入调查自动切换</system:String>
     <system:String x:Key="DeploymentWithPause" xml:space="preserve">일시정지 상태로 배치하기 - 통합전략, 자동 작전, 보안 파견에 적용 (비권장)</system:String>
     <system:String x:Key="AdbLiteEnabled">ADB Lite 사용 (실험적)</system:String>
     <system:String x:Key="KillAdbOnExit">종료 시 ADB도 종료</system:String>
@@ -235,13 +238,16 @@
 4. 비개발자 사용자에게 개발 버전 업데이트 방법을 공유하지 마세요. 불필요한 혼란과 위험을 피하기 위해서입니다.
 
 설정 - 정보 - 이슈 제보 링크를 클릭하여 이 팝업을 취소할 수 있습니다. 이해와 협조에 감사드립니다!</system:String>
-    <system:String x:Key="UpdateCheck">업데이트할 버전</system:String>
+    <system:String x:Key="UpdateCheck">업데이트 채널</system:String>
     <system:String x:Key="DownloadWithAria2">aria2로 다운로드</system:String>
-    <system:String x:Key="UpdateCheckNow">지금 업데이트</system:String>
+    <system:String x:Key="UpdateCheckNow">소프트웨어 업데이트</system:String>
     <system:String x:Key="ShowChangelog">변경 내역</system:String>
     <system:String x:Key="ResourceUpdate">리소스 업데이트</system:String>
-    <system:String x:Key="MirrorChyan">미러짱</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">Mirror-chan 리소스 버전 업데이트 확인. '설정-소프트웨어 업데이트'로 이동하여 CDK를 구성하거나 GitHub 소스를 사용하여 리소스 버전을 업데이트하세요.</system:String>
+    <system:String x:Key="UpdateSource">업데이트 소스</system:String>
+    <system:String x:Key="GlobalSource">글로벌 소스</system:String>
+    <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
+    <system:String x:Key="MirrorChyanSoftwareUpdateTip">MirrorChyan이 소프트웨어 업데이트를 감지했습니다.「설정 - 소프트웨어 업데이트」로 이동하여 CDK를 구성하거나 글로벌 소스를 사용하세요.</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">MirrorChyan이 리소스 업데이트를 감지했습니다.「설정 - 소프트웨어 업데이트」로 이동하여 CDK를 구성하거나「리소스 업데이트」를 클릭하여 수동으로 업데이트하세요.</system:String>
     <system:String x:Key="NewVersionFoundTitle">새로운 버전 확인</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">백그라운드에서 다운로드 중……</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">버전: </system:String>
@@ -357,7 +363,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="ReceiveMail">모든 메일 보상 받기</system:String>
     <system:String x:Key="ReceiveFreeRecruit">한정 가챠에서 일일 무료 뽑기 진행</system:String>
     <system:String x:Key="ReceiveFreeRecruitTip">무료 단챠가 없는 경우 가챠를 하지 않습니다</system:String>
-    <system:String x:Key="GachaWarning">이 기능은 위험한 기능이며 문제가 발생할 수 있습니다\n'확인' 버튼을 누름으로써 귀하는 발생 가능한 위험성을 인지하였음을 확인합니다</system:String>
+    <system:String x:Key="GachaWarning">이 기능은 위험한 기능이며 문제가 발생할 수 있습니다\n「확인」버튼을 누름으로써 귀하는 발생 가능한 위험성을 인지하였음을 확인합니다</system:String>
     <system:String x:Key="ReceiveOrundum">복권방에서 일일 합성옥 받기</system:String>
     <system:String x:Key="ReceiveMining">한정 채굴에서 일일 합성옥 받기</system:String>
     <system:String x:Key="ReceiveSpecialAccess">스페셜 액세스 보상 받기</system:String>
@@ -891,7 +897,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="GameResourceUpdating">게임 자원이 업데이트 중입니다.</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">색인 작성 중</system:String>
     <system:String x:Key="GameResourceNotModified">게임 리소스가 업데이트되었으니.</system:String>
-    <system:String x:Key="GameResourceUpdated">게임 리소스가 업데이트되었으니 MAA를 다시 시작해주세요.</system:String>
+    <system:String x:Key="GameResourceUpdated">게임 리소스가 업데이트되었으니.</system:String>
     <system:String x:Key="GameResourceFailed">게임 리소스 업데이트 실패, 나중에 다시 시도해주세요.</system:String>
     <!--  !Api  -->
     <!--  Remote Control  -->

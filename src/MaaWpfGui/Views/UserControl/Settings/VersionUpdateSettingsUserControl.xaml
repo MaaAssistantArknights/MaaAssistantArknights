@@ -74,11 +74,22 @@
                         SelectedValue="{Binding VersionType}"
                         SelectedValuePath="Value" />
                     <StackPanel>
+                        <hc:ComboBox
+                            Width="150"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            hc:TitleElement.Title="{DynamicResource UpdateSource}"
+                            DisplayMemberPath="Display"
+                            ItemsSource="{Binding UpdateSourceList}"
+                            SelectedValue="{Binding UpdateSource}"
+                            SelectedValuePath="Value" />
                         <hc:PasswordBox
                             Width="150"
                             Margin="10"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
+                            IsEnabled="{c:Binding 'UpdateSource == &quot;MirrorChyan&quot;'}"
                             IsSafeEnabled="False"
                             ShowEyeButton="True"
                             UnsafePassword="{Binding MirrorChyanCdk}">

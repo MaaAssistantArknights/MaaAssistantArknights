@@ -1,4 +1,4 @@
-name: MirrorChyan Release Note
+name: mirrorchyan_release_note
 
 on:
   workflow_dispatch:

@@ -16,7 +16,7 @@
     <system:String x:Key="UiSettings">介面設定</system:String>
     <system:String x:Key="UiTheme">介面主題</system:String>
     <system:String x:Key="HotKeySettings">熱鍵設定</system:String>
-    <system:String x:Key="UpdateSettings">軟體更新</system:String>
+    <system:String x:Key="UpdateSettings">更新設定</system:String>
     <system:String x:Key="AboutUs">關於我們</system:String>
     <system:String x:Key="MaaVersion">MAA 版本</system:String>
     <system:String x:Key="BuildDateTime">構建日期</system:String>
@@ -127,7 +127,7 @@
     <system:String x:Key="RoguelikeStrategyLastReward">刷開局，刷取熱水壺或精二幹員開局</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">刷坍縮範式，遇到非稀有坍縮範式後直接重開</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">燒水分隊</system:String>
-    <system:String x:Key="RoguelikeStrategyMonthlySquad">刷月度小隊，到達第五層後直接退出</system:String>
+    <system:String x:Key="RoguelikeStrategyMonthlySquad">刷月度小隊，盡可能穩定地打更多層數</system:String>
     <system:String x:Key="RoguelikeStrategyDeepExploration">刷深入調查，盡可能穩定地打更多層數</system:String>
     <system:String x:Key="StartingSquad">開局分隊</system:String>
     <system:String x:Key="StartingRoles">開局職業組</system:String>
@@ -148,6 +148,9 @@
     <system:String x:Key="RoguelikeStopAtFinalBoss">在第五層 BOSS 前暫停</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">滿級後自動停止</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">启用刷钱种子</system:String>
+    <system:String x:Key="RoguelikeMonthlySquadAutoIterate">月度小队自动切换</system:String>
+    <system:String x:Key="RoguelikeMonthlySquadCheckComms">月度小队通讯</system:String>
+    <system:String x:Key="RoguelikeDeepExplorationAutoIterate">深入调查自动切换</system:String>
     <system:String x:Key="DeploymentWithPause">暫停下幹員（自動戰鬥相關）（不穩定, 暫不推薦開啟）</system:String>
     <system:String x:Key="AdbLiteEnabled">使用 ADB Lite（實驗性功能）</system:String>
     <system:String x:Key="KillAdbOnExit">退出時釋放 ADB</system:String>
@@ -235,13 +238,16 @@
 4. 請勿將更新內測版的方法告知其他非開發用戶，以避免對他們造成不必要的困擾和風險。
 
 您可通過點擊 設置-關於我們-問題反饋 鏈接來取消該彈窗，感謝您的理解與配合！</system:String>
-    <system:String x:Key="UpdateCheck">更新版本</system:String>
+    <system:String x:Key="UpdateCheck">更新通道</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 進行下載</system:String>
-    <system:String x:Key="UpdateCheckNow">檢查更新</system:String>
+    <system:String x:Key="UpdateCheckNow">軟體更新</system:String>
     <system:String x:Key="ShowChangelog">更新日誌</system:String>
     <system:String x:Key="ResourceUpdate">資源更新</system:String>
+    <system:String x:Key="UpdateSource">更新來源</system:String>
+    <system:String x:Key="GlobalSource">全域來源</system:String>
     <system:String x:Key="MirrorChyan">Mirror 醬</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">Mirror 醬檢查到資源版本更新，可前往「設定-軟體更新」配置 CDK 或使用 github 源進行資源版本更新</system:String>
+    <system:String x:Key="MirrorChyanSoftwareUpdateTip">Mirror 醬偵測到軟體更新。請前往「設定-更新設定」設定 CDK 或使用全域來源。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">Mirror 醬偵測到資源更新。請前往「設定-更新設定」設定 CDK，或點選「資源更新」進行手動更新。</system:String>
     <system:String x:Key="NewVersionFoundTitle">檢測到新版本</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">正在後臺下載……</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">版本號: </system:String>
@@ -827,7 +833,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BattleFormation">開始編隊</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">選擇幹員: </system:String>
     <system:String x:Key="CurrentSteps">當前步驟: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">不支援的關卡，請檢查關卡名稱或前往「設置 - 軟體更新 - 資源更新」，嘗試更新資源版本！</system:String>
+    <system:String x:Key="UnsupportedLevel">不支援的關卡，請檢查關卡名稱或前往「設置 - 更新設定 - 資源更新」，嘗試更新資源版本！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">辨識結果: </system:String>
     <system:String x:Key="ConnectFailed">連接失敗</system:String>
     <system:String x:Key="TryToReconnectByAdb">正在嘗試重连</system:String>
@@ -890,7 +896,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="GameResourceUpdating">遊戲資源正在更新。</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">正在編製索引</system:String>
     <system:String x:Key="GameResourceNotModified">遊戲資源已更新。</system:String>
-    <system:String x:Key="GameResourceUpdated">遊戲資源已更新，請重啟 MAA。</system:String>
+    <system:String x:Key="GameResourceUpdated">遊戲資源已更新。</system:String>
     <system:String x:Key="GameResourceFailed">遊戲資源更新失敗，請稍後嘗試。</system:String>
     <!--  !Api  -->
     <!--  Remote Control  -->

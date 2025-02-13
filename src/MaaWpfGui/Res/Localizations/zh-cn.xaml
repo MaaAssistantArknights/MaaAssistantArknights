@@ -16,7 +16,7 @@
     <system:String x:Key="UiSettings">界面设置</system:String>
     <system:String x:Key="UiTheme">界面主题</system:String>
     <system:String x:Key="HotKeySettings">热键设置</system:String>
-    <system:String x:Key="UpdateSettings">软件更新</system:String>
+    <system:String x:Key="UpdateSettings">更新设置</system:String>
     <system:String x:Key="AboutUs">关于我们</system:String>
     <system:String x:Key="MaaVersion">MAA 版本</system:String>
     <system:String x:Key="BuildDateTime">构建日期</system:String>
@@ -127,7 +127,7 @@
     <system:String x:Key="RoguelikeStrategyLastReward">刷开局，刷取热水壶或精二干员开局</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">刷坍缩范式，遇到非稀有坍缩范式后直接重开</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">烧水使用分队</system:String>
-    <system:String x:Key="RoguelikeStrategyMonthlySquad">刷月度小队，到达第五层后直接退出</system:String>
+    <system:String x:Key="RoguelikeStrategyMonthlySquad">刷月度小队，尽可能稳定地打更多层数</system:String>
     <system:String x:Key="RoguelikeStrategyDeepExploration">刷深入调查，尽可能稳定地打更多层数</system:String>
     <system:String x:Key="StartingSquad">开局分队</system:String>
     <system:String x:Key="StartingRoles">开局职业组</system:String>
@@ -238,13 +238,16 @@
 4. 请勿将更新内测版的方法告知其他非开发用户，以避免对他们造成不必要的困扰和风险。
 
 您可通过点击 设置-关于我们-问题反馈 链接来取消该弹窗，感谢您的理解与配合！</system:String>
-    <system:String x:Key="UpdateCheck">更新版本</system:String>
+    <system:String x:Key="UpdateCheck">更新渠道</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 进行下载</system:String>
-    <system:String x:Key="UpdateCheckNow">检查更新</system:String>
+    <system:String x:Key="UpdateCheckNow">软件更新</system:String>
     <system:String x:Key="ShowChangelog">更新日志</system:String>
     <system:String x:Key="ResourceUpdate">资源更新</system:String>
+    <system:String x:Key="UpdateSource">更新源</system:String>
+    <system:String x:Key="GlobalSource">海外源</system:String>
     <system:String x:Key="MirrorChyan">Mirror 酱</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">Mirror 酱检查到资源版本更新，可前往「设置-软件更新」配置 CDK 或使用 github 源进行资源版本更新</system:String>
+    <system:String x:Key="MirrorChyanSoftwareUpdateTip">Mirror 酱检测到软件更新。请前往「设置-更新设置」配置 CDK 或使用海外源。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">Mirror 酱检测到资源更新。请前往「设置-更新设置」配置 CDK，或点击「资源更新」进行手动更新。</system:String>
     <system:String x:Key="NewVersionFoundTitle">检测到新版本</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">正在后台下载……</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">版本号: </system:String>
@@ -830,7 +833,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BattleFormation">开始编队</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">选择干员: </system:String>
     <system:String x:Key="CurrentSteps">当前步骤: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查关卡名或前往「设置 - 软件更新 - 资源更新」尝试更新资源版本！</system:String>
+    <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查关卡名或前往「设置 - 更新设置 - 资源更新」尝试更新资源版本！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">识别结果: </system:String>
     <system:String x:Key="ConnectFailed">连接失败</system:String>
     <system:String x:Key="TryToReconnectByAdb">正在尝试重连</system:String>
@@ -893,7 +896,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="GameResourceUpdating">游戏资源正在更新。</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">正在编制索引</system:String>
     <system:String x:Key="GameResourceNotModified">游戏资源已更新。</system:String>
-    <system:String x:Key="GameResourceUpdated">游戏资源已更新，请重启 MAA。</system:String>
+    <system:String x:Key="GameResourceUpdated">游戏资源已更新。</system:String>
     <system:String x:Key="GameResourceFailed">游戏资源更新失败，请稍后尝试。</system:String>
     <!--  !Api  -->
     <!--  Remote Control  -->
