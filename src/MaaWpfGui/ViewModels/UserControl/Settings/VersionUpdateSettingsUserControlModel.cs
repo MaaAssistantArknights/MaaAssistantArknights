@@ -86,7 +86,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
     public static string BuildDateTimeCurrentCultureString => BuildDateTime.ToLocalTimeString();
 
-    private static (DateTime DateTime, string VersionName) _resourceInfo = GetResourceVersionByClientType(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty));
+    private static (DateTime DateTime, string VersionName) _resourceInfo = GetResourceVersionByClientType(SettingsViewModel.GameSettings.ClientType);
 
     public (DateTime DateTime, string VersionName) ResourceInfo
     {
@@ -113,7 +113,21 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         set => SetAndNotify(ref _resourceDateTime, value);
     }
 
-    public string ResourceDateTimeCurrentCultureString => ResourceDateTime.ToLocalTimeString();
+    private string _resourceDateTimeCurrentCultureString = _resourceDateTime.ToLocalTimeString();
+
+    public string ResourceDateTimeCurrentCultureString
+    {
+        get => _resourceDateTimeCurrentCultureString;
+        set => SetAndNotify(ref _resourceDateTimeCurrentCultureString, value);
+    }
+
+    public void ResourceInfoUpdate()
+    {
+        ResourceInfo = GetResourceVersionByClientType(SettingsViewModel.GameSettings.ClientType);
+        ResourceVersion = ResourceInfo.VersionName;
+        ResourceDateTime = ResourceInfo.DateTime;
+        ResourceDateTimeCurrentCultureString = ResourceDateTime.ToLocalTimeString();
+    }
 
     public static (DateTime DateTime, string VersionName) GetResourceVersionByClientType(string clientType)
     {
@@ -430,6 +444,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         {
             Instances.AsstProxy.LoadResource();
             DataHelper.ReloadBattleData();
+            SettingsViewModel.VersionUpdateSettings.ResourceInfoUpdate();
             ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
         }
 
