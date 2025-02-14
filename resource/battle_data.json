@@ -2415,6 +2415,21 @@
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 6
         },
+        "char_4010_etlchi": {
+            "name": "隐德来希",
+            "name_en": "隐德来希",
+            "name_en_unavailable": true,
+            "name_jp": "隐德来希",
+            "name_jp_unavailable": true,
+            "name_kr": "隐德来希",
+            "name_kr_unavailable": true,
+            "name_tw": "隐德来希",
+            "name_tw_unavailable": true,
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": ["1-3", "1-3", "1-3"],
+            "rarity": 6
+        },
         "char_4011_lessng": {
             "name": "止颂",
             "name_en": "Lessing",
@@ -3528,6 +3543,21 @@
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": ["y-2", "y-6", "y-6"],
+            "rarity": 5
+        },
+        "char_4173_nowell": {
+            "name": "诺威尔",
+            "name_en": "诺威尔",
+            "name_en_unavailable": true,
+            "name_jp": "诺威尔",
+            "name_jp_unavailable": true,
+            "name_kr": "诺威尔",
+            "name_kr_unavailable": true,
+            "name_tw": "诺威尔",
+            "name_tw_unavailable": true,
+            "position": "RANGED",
+            "profession": "MEDIC",
+            "rangeId": ["3-3", "3-4", "3-4"],
             "rarity": 5
         },
         "char_420_flamtl": {
