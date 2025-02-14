@@ -2805,6 +2805,12 @@
             [".*Secluded ?Passage", "_SKIP_"]
         ]
     },
+    "Sarkaz@Roguelike@CheckLevel": {
+        "text": ["HYPOTHESES", "COMPILATION"]
+    },
+    "Sarkaz@Roguelike@SelectTheme": {
+        "text": ["Hypotheses Compilation"]
+    },
     "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
         "text": ["_fastInvestment", "_exit"],
         "ocrReplace": [
@@ -2888,9 +2894,6 @@
             ["Radiant Zenith", "_default"],
             ["Hermitage of Sv.tantrya", "_SKIP_"]
         ]
-    },
-    "Sarkaz@Roguelike@CheckLevel": {
-        "text": ["HYPOTHESES", "COMPILATION"]
     },
     "Reclamation2Begin": {
         "text": ["Commence"]
