@@ -2555,10 +2555,6 @@ namespace MaaWpfGui.Main
                 taskParams["stop_at_final_boss"] = stopAtFinalBoss;
                 taskParams["stop_at_max_level"] = stopAtMaxLevel;
             }
-            else if (mode == 1)
-            {
-                taskParams["start_with_seed"] = startWithSeed;
-            }
             else if (mode == 4)
             {
                 // 刷开局模式

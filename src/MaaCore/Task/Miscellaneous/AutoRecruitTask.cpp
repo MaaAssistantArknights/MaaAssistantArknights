@@ -416,15 +416,24 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
 #ifdef ASST_DEBUG
         // mock_test_001: 1/5/6 Star Operators appear when first recruited.
-        static bool RunRecruitMockTest_001 = true;
+        static bool RunRecruitMockTest_001 = false;
         if (RunRecruitMockTest_001) {
-            static int skip_once = 0;
-            if (skip_once == 0) {
+            static int skip_once_001 = 0;
+            if (skip_once_001 == 0) {
                 // image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::robot);
                 // image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::senior);
                 // image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::top);
                 // image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::highvalue);
-                skip_once++;
+                skip_once_001++;
+            }
+        }
+        // mock_test_002: The high-star combination tag and the 1-star tag appear at the same time
+        static bool RunRecruitMockTest_002 = false;
+        if (RunRecruitMockTest_002) {
+            static int skip_once_002 = 0;
+            if (skip_once_002 == 0) {
+                image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::combination_tag);
+                skip_once_002++;
             }
         }
 #endif
@@ -644,18 +653,22 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             return result;
         }
 
+        if (final_combination.min_level > 4) {
+            has_special_tag = true;
+        }
+
         if (!is_calc_only_task()) {
             if (!(has_robot_tag || has_special_tag)) {
-                // do not confirm, force skip
-                if (!(final_combination.min_level == 3 && has_preferred_tag) &&
-                    is_confirm_level_invalid(final_combination.min_level)) {
+                // do not confirm 3 star, force skip
+                if (!is_confirm_level_valid(3) && final_combination.min_level == 3 &&
+                    is_select_level_invalid(final_combination.min_level)) {
                     calc_task_result_type result(calc_task_result::force_skip);
                     return result;
                 }
             }
 
             // "Automatically recruit 5/6 Star operators" is not checked.
-            if (has_special_tag && is_confirm_level_invalid(final_combination.min_level)) {
+            if (has_special_tag && !is_confirm_level_valid(final_combination.min_level)) {
                 calc_task_result_type result(calc_task_result::special_tag_skip);
                 return result;
             }
@@ -686,9 +699,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                 ctrler()->click(image_analyzer.get_minute_decrement_rect());
             }
         }
-
-        // nothing to select, leave the selection empty
-        if (!(final_combination.min_level == 3 && has_preferred_tag) &&
+        // recruit 3 star but nothing to select, leave the selection empty
+        if (is_confirm_level_valid(3) && !has_preferred_tag && final_combination.min_level == 3 &&
             is_select_level_invalid(final_combination.min_level)) {
             calc_task_result_type result(calc_task_result::nothing_to_select, recruitment_time);
             return result;

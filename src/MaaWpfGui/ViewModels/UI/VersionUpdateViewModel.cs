@@ -947,14 +947,8 @@ public class VersionUpdateViewModel : Screen
 
         if (response is null)
         {
-            _logger.Error("response is null, try mirrorc line2");
-            url = url.Replace(MaaUrls.MirrorChyanLine1, MaaUrls.MirrorChyanLine2);
-            response = await Instances.HttpService.GetAsync(new(url), logUri: false);
-            if (response is null)
-            {
-                _logger.Error("mirrorc line2 failed too");
-                return CheckUpdateRetT.NetworkError;
-            }
+            _logger.Error("mirrorc failed");
+            return CheckUpdateRetT.NetworkError;
         }
 
         var jsonStr = await response.Content.ReadAsStringAsync();
