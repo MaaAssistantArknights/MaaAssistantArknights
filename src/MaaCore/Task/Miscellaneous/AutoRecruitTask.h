@@ -143,12 +143,14 @@ protected:
 
     bool is_confirm_level_valid(int opr_level)
     {
-        return std::find(this->m_confirm_level.begin(), this->m_confirm_level.end(), opr_level) != this->m_confirm_level.end();
+        return std::find(this->m_confirm_level.begin(), this->m_confirm_level.end(), opr_level) !=
+               this->m_confirm_level.end();
     }
 
     bool is_select_level_valid(int opr_level)
     {
-        return std::find(this->m_select_level.begin(), this->m_select_level.end(), opr_level) != this->m_select_level.end();
+        return std::find(this->m_select_level.begin(), this->m_select_level.end(), opr_level) !=
+               this->m_select_level.end();
     }
 
     calc_task_result_type recruit_calc_task(slot_index = 0);
