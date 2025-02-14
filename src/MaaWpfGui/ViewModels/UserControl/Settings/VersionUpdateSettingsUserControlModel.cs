@@ -127,6 +127,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         ResourceVersion = ResourceInfo.VersionName;
         ResourceDateTime = ResourceInfo.DateTime;
         ResourceDateTimeCurrentCultureString = ResourceDateTime.ToLocalTimeString();
+        Instances.SettingsViewModel.UpdateWindowTitle();
     }
 
     public static (DateTime DateTime, string VersionName) GetResourceVersionByClientType(string clientType)
