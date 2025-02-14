@@ -64,9 +64,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         {
             SetAndNotify(ref _clientType, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ClientType, value);
-            VersionUpdateSettings.ResourceInfo = VersionUpdateSettingsUserControlModel.GetResourceVersionByClientType(_clientType);
-            VersionUpdateSettings.ResourceVersion = VersionUpdateSettings.ResourceInfo.VersionName;
-            VersionUpdateSettings.ResourceDateTime = VersionUpdateSettings.ResourceInfo.DateTime;
+            VersionUpdateSettings.ResourceInfoUpdate();
             Instances.SettingsViewModel.UpdateWindowTitle(); // 每次修改客户端时更新WindowTitle
             Instances.TaskQueueViewModel.UpdateStageList();
             Instances.TaskQueueViewModel.UpdateDatePrompt();
