@@ -660,8 +660,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         if (!is_calc_only_task()) {
             if (!(has_robot_tag || has_special_tag)) {
                 // do not confirm 3 star, force skip
-                if (!is_confirm_level_valid(3) &&  
-                    final_combination.min_level == 3 &&
+                if (!is_confirm_level_valid(3) && final_combination.min_level == 3 &&
                     is_select_level_invalid(final_combination.min_level)) {
                     calc_task_result_type result(calc_task_result::force_skip);
                     return result;
@@ -701,10 +700,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             }
         }
         // recruit 3 star but nothing to select, leave the selection empty
-        if (is_confirm_level_valid(3) && 
-            !has_preferred_tag &&
-            final_combination.min_level == 3 &&
-            is_select_level_invalid(final_combination.min_level)){
+        if (is_confirm_level_valid(3) && !has_preferred_tag && final_combination.min_level == 3 &&
+            is_select_level_invalid(final_combination.min_level)) {
             calc_task_result_type result(calc_task_result::nothing_to_select, recruitment_time);
             return result;
         }

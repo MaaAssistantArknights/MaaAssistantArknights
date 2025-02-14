@@ -161,7 +161,6 @@ protected:
         return std::ranges::none_of(this->m_select_level, [&](const int& i) { return i != opr_level; });
     }
 
-
     calc_task_result_type recruit_calc_task(slot_index = 0);
 
     std::vector<int> m_select_level;
