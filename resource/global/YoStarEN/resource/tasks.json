@@ -1590,7 +1590,11 @@
             ["Scientific Thinking", "科学主义分队"],
             ["Life Prioritizing Squad", "生活至上分队"],
             ["Eternal Hunting Squad", "永恒狩猎分队"],
-            ["Special Training Squad", "特训分队"]
+            ["Special Training Squad", "特训分队"],
+            ["Soul Escort Squad", "魂灵护送分队"],
+            ["Erudite Squad", "博闻广记分队"],
+            ["Blueprint Squad", "蓝图测绘分队"],
+            ["Improvisation Squad", "因地制宜分队"]
         ]
     },
     "RoguelikeFormationOcr": {
@@ -2799,6 +2803,90 @@
             [".*Garden", "_SKIP_"],
             [".*Clairvoyant ?Carcass", "_SKIP_"],
             [".*Secluded ?Passage", "_SKIP_"]
+        ]
+    },
+        "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
+        "text": ["_fastInvestment", "_exit"],
+        "ocrReplace": [
+            ["Furnace Origin", "_fastInvestment"],
+            ["Wrought Ironroots", "_exit"],
+            ["Ashforged Ruins", "_exit"],
+            ["Probable Divergence", "_exit"],
+            ["Border of Truth", "_exit"],
+            ["Radiant Zenith", "_exit"],
+            ["Hermitage of Sv.tantrya", "_exit"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode0": {
+        "text": ["_default"],
+        "ocrReplace": [
+            ["Furnace Origin", "_default"],
+            ["Wrought Ironroots", "_default"],
+            ["Ashforged Ruins", "_default"],
+            ["Probable Divergence", "_default"],
+            ["Border of Truth", "_default"],
+            ["Radiant Zenith", "_default"],
+            ["Hermitage of Sv.tantrya", "_SKIP_"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
+        "text": ["_aggressive", "_pragmatic", "_default"],
+        "ocrReplace": [
+            ["Furnace Origin", "_aggressive"],
+            ["Wrought Ironroots", "_aggressive"],
+            ["Ashforged Ruins", "_pragmatic"],
+            ["Probable Divergence", "_pragmatic"],
+            ["Border of Truth", "_default"],
+            ["Radiant Zenith", "_default"],
+            ["Hermitage of Sv.tantrya", "_SKIP_"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode10001": {
+        "text": ["_routing", "_exit"],
+        "ocrReplace": [
+            ["Furnace Origin", "_routing"],
+            ["Wrought Ironroots", "_exit"],
+            ["Ashforged Ruins", "_exit"],
+            ["Probable Divergence", "_exit"],
+            ["Border of Truth", "_exit"],
+            ["Radiant Zenith", "_exit"],
+            ["Hermitage of Sv.tantrya", "_exit"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode4": {
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["Furnace Origin", "_default"],
+            ["Wrought Ironroots", "_default"],
+            ["Ashforged Ruins", "_exit"],
+            ["Probable Divergence", "_exit"],
+            ["Border of Truth", "_exit"],
+            ["Radiant Zenith", "_exit"],
+            ["Hermitage of Sv.tantrya", "_exit"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode6": {
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["Furnace Origin", "_default"],
+            ["Wrought Ironroots", "_default"],
+            ["Ashforged Ruins", "_default"],
+            ["Probable Divergence", "_default"],
+            ["Border of Truth", "_default"],
+            ["Radiant Zenith", "_default"],
+            ["Hermitage of Sv.tantrya", "_SKIP_"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode7": {
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["Furnace Origin", "_default"],
+            ["Wrought Ironroots", "_default"],
+            ["Ashforged Ruins", "_default"],
+            ["Probable Divergence", "_default"],
+            ["Border of Truth", "_default"],
+            ["Radiant Zenith", "_default"],
+            ["Hermitage of Sv.tantrya", "_SKIP_"]
         ]
     },
     "Sarkaz@Roguelike@CheckLevel": {

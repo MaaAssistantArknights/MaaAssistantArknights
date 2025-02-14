@@ -162,7 +162,7 @@
     <system:String x:Key="IS3NewSquad2">Life Prioritizing Squad</system:String>
     <system:String x:Key="IS3NewSquad3">Scientific Thinking</system:String>
     <system:String x:Key="IS3NewSquad4">Special Training Squad</system:String>
-    <system:String x:Key="IS4NewSquad1">Suol Escort Squad</system:String>
+    <system:String x:Key="IS4NewSquad1">Soul Escort Squad</system:String>
     <system:String x:Key="IS4NewSquad2">Erudite Squad</system:String>
     <system:String x:Key="IS4NewSquad3">Blueprint Squad</system:String>
     <system:String x:Key="IS4NewSquad4">Improvisation Squad</system:String>
