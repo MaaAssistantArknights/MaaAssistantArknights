@@ -788,8 +788,16 @@ bool asst::BattleHelper::click_skill(bool keep_waiting)
     }
 
     cv::Mat top_view;
+    cv::Mat image;
     for (int retry = 0; retry < (keep_waiting ? 1000 : 5); ++retry) {
-        top_view = get_top_view(m_inst_helper.ctrler()->get_image(), true);
+        if (m_inst_helper.need_exit()) {
+            return false;
+        }
+        image = m_inst_helper.ctrler()->get_image();
+        if (keep_waiting && retry > 0 && (retry % 10 == 0) && !check_in_battle(image)) {
+            return false;
+        }
+        top_view = get_top_view(image, true);
         Matcher skill_analyzer { top_view };
         skill_analyzer.set_task_info("BattleSkillReadyOnClick-TopView");
         skill_analyzer.set_roi({ 250, 250, 250, 250 });
