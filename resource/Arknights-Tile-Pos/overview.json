@@ -5021,6 +5021,168 @@
         "stageId": "act18d3_tr01",
         "width": 11
     },
+    "act18mini_01#f#-activities/act18mini/level_act18mini_01": {
+        "code": "SE-1",
+        "filename": "act18mini_01#f#-activities-act18mini-level_act18mini_01.json",
+        "height": 8,
+        "levelId": "activities/act18mini/level_act18mini_01",
+        "name": "灼热的风",
+        "stageId": "act18mini_01#f#",
+        "width": 11
+    },
+    "act18mini_01-activities/act18mini/level_act18mini_01": {
+        "code": "SE-1",
+        "filename": "act18mini_01-activities-act18mini-level_act18mini_01.json",
+        "height": 8,
+        "levelId": "activities/act18mini/level_act18mini_01",
+        "name": "灼热的风",
+        "stageId": "act18mini_01",
+        "width": 11
+    },
+    "act18mini_02#f#-activities/act18mini/level_act18mini_02": {
+        "code": "SE-2",
+        "filename": "act18mini_02#f#-activities-act18mini-level_act18mini_02.json",
+        "height": 7,
+        "levelId": "activities/act18mini/level_act18mini_02",
+        "name": "生为柴薪",
+        "stageId": "act18mini_02#f#",
+        "width": 11
+    },
+    "act18mini_02-activities/act18mini/level_act18mini_02": {
+        "code": "SE-2",
+        "filename": "act18mini_02-activities-act18mini-level_act18mini_02.json",
+        "height": 7,
+        "levelId": "activities/act18mini/level_act18mini_02",
+        "name": "生为柴薪",
+        "stageId": "act18mini_02",
+        "width": 11
+    },
+    "act18mini_03#f#-activities/act18mini/level_act18mini_03": {
+        "code": "SE-3",
+        "filename": "act18mini_03#f#-activities-act18mini-level_act18mini_03.json",
+        "height": 8,
+        "levelId": "activities/act18mini/level_act18mini_03",
+        "name": "荒草焚荡",
+        "stageId": "act18mini_03#f#",
+        "width": 11
+    },
+    "act18mini_03-activities/act18mini/level_act18mini_03": {
+        "code": "SE-3",
+        "filename": "act18mini_03-activities-act18mini-level_act18mini_03.json",
+        "height": 8,
+        "levelId": "activities/act18mini/level_act18mini_03",
+        "name": "荒草焚荡",
+        "stageId": "act18mini_03",
+        "width": 11
+    },
+    "act18mini_04#f#-activities/act18mini/level_act18mini_04": {
+        "code": "SE-4",
+        "filename": "act18mini_04#f#-activities-act18mini-level_act18mini_04.json",
+        "height": 8,
+        "levelId": "activities/act18mini/level_act18mini_04",
+        "name": "孽物哀鸣",
+        "stageId": "act18mini_04#f#",
+        "width": 10
+    },
+    "act18mini_04-activities/act18mini/level_act18mini_04": {
+        "code": "SE-4",
+        "filename": "act18mini_04-activities-act18mini-level_act18mini_04.json",
+        "height": 8,
+        "levelId": "activities/act18mini/level_act18mini_04",
+        "name": "孽物哀鸣",
+        "stageId": "act18mini_04",
+        "width": 10
+    },
+    "act18mini_05#f#-activities/act18mini/level_act18mini_05": {
+        "code": "SE-5",
+        "filename": "act18mini_05#f#-activities-act18mini-level_act18mini_05.json",
+        "height": 7,
+        "levelId": "activities/act18mini/level_act18mini_05",
+        "name": "不得安眠",
+        "stageId": "act18mini_05#f#",
+        "width": 11
+    },
+    "act18mini_05-activities/act18mini/level_act18mini_05": {
+        "code": "SE-5",
+        "filename": "act18mini_05-activities-act18mini-level_act18mini_05.json",
+        "height": 7,
+        "levelId": "activities/act18mini/level_act18mini_05",
+        "name": "不得安眠",
+        "stageId": "act18mini_05",
+        "width": 11
+    },
+    "act18mini_06#f#-activities/act18mini/level_act18mini_06": {
+        "code": "SE-6",
+        "filename": "act18mini_06#f#-activities-act18mini-level_act18mini_06.json",
+        "height": 7,
+        "levelId": "activities/act18mini/level_act18mini_06",
+        "name": "苦痛行军",
+        "stageId": "act18mini_06#f#",
+        "width": 11
+    },
+    "act18mini_06-activities/act18mini/level_act18mini_06": {
+        "code": "SE-6",
+        "filename": "act18mini_06-activities-act18mini-level_act18mini_06.json",
+        "height": 7,
+        "levelId": "activities/act18mini/level_act18mini_06",
+        "name": "苦痛行军",
+        "stageId": "act18mini_06",
+        "width": 11
+    },
+    "act18mini_07#f#-activities/act18mini/level_act18mini_07": {
+        "code": "SE-7",
+        "filename": "act18mini_07#f#-activities-act18mini-level_act18mini_07.json",
+        "height": 9,
+        "levelId": "activities/act18mini/level_act18mini_07",
+        "name": "血流倒涌",
+        "stageId": "act18mini_07#f#",
+        "width": 11
+    },
+    "act18mini_07-activities/act18mini/level_act18mini_07": {
+        "code": "SE-7",
+        "filename": "act18mini_07-activities-act18mini-level_act18mini_07.json",
+        "height": 9,
+        "levelId": "activities/act18mini/level_act18mini_07",
+        "name": "血流倒涌",
+        "stageId": "act18mini_07",
+        "width": 11
+    },
+    "act18mini_08#f#-activities/act18mini/level_act18mini_08": {
+        "code": "SE-8",
+        "filename": "act18mini_08#f#-activities-act18mini-level_act18mini_08.json",
+        "height": 8,
+        "levelId": "activities/act18mini/level_act18mini_08",
+        "name": "血河交响",
+        "stageId": "act18mini_08#f#",
+        "width": 12
+    },
+    "act18mini_08-activities/act18mini/level_act18mini_08": {
+        "code": "SE-8",
+        "filename": "act18mini_08-activities-act18mini-level_act18mini_08.json",
+        "height": 8,
+        "levelId": "activities/act18mini/level_act18mini_08",
+        "name": "血河交响",
+        "stageId": "act18mini_08",
+        "width": 12
+    },
+    "act18mini_s01-activities/act18mini/level_act18mini_sub-1-1": {
+        "code": "SE-S-1",
+        "filename": "act18mini_s01-activities-act18mini-level_act18mini_sub-1-1.json",
+        "height": 7,
+        "levelId": "activities/act18mini/level_act18mini_sub-1-1",
+        "name": "金铁失格",
+        "stageId": "act18mini_s01",
+        "width": 11
+    },
+    "act18mini_s02-activities/act18mini/level_act18mini_sub-2-1": {
+        "code": "SE-S-2",
+        "filename": "act18mini_s02-activities-act18mini-level_act18mini_sub-2-1.json",
+        "height": 7,
+        "levelId": "activities/act18mini/level_act18mini_sub-2-1",
+        "name": "血肉失控",
+        "stageId": "act18mini_s02",
+        "width": 11
+    },
     "act18side_01-activities/act18side/level_act18side_01": {
         "code": "LE-1",
         "filename": "act18side_01-activities-act18side-level_act18side_01.json",

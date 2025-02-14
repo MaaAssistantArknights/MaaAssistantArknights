@@ -487,6 +487,7 @@ public class VersionUpdateViewModel : Screen
                 {
                     Instances.AsstProxy.LoadResource();
                     DataHelper.ReloadBattleData();
+                    SettingsViewModel.VersionUpdateSettings.ResourceInfoUpdate();
                     ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
                 }
             }

@@ -370,7 +370,7 @@ jobs:
       - name: Update OTA resource
         if: steps.update_version.outputs.update_resources == 'True'
         env:
-          GH_TOKEN: ${{ secrets.MAA_RESOURCE_SYNC }}
+          GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
         run: |
           gh workflow --repo MaaAssistantArknights/MaaRelease run update-resource.yml
 
