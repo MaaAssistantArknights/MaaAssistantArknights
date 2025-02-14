@@ -800,9 +800,6 @@ bool asst::BattleHelper::click_skill(bool keep_waiting)
             }
             return true;
         }
-        if (m_inst_helper.need_exit()) {
-            return false;
-        }
         m_inst_helper.sleep(Config.get_options().task_delay);
     }
 
