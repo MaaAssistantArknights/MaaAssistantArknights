@@ -2670,7 +2670,101 @@
     },
     "Sarkaz@Roguelike@CheckLevel": {
         "doc": "살카즈 록라 추가 시 레벨 노트 이름 추가",
-        "text": ["TODO", "TODO"]
+        "text": ["가설 편찬 (假说辑录)"]
+    },
+    "Sarkaz@Roguelike@NextLevel": {
+        "text": [
+            "영혼 융합의 시작",
+            "단조된 철의 뿌리",
+            "먼지투성이 폐허",
+            "개연성의 갈림길",
+            "허와 실의 경계",
+            "휘황찬란한 하늘",
+            "괴이한 단장"
+        ]
+    },
+    "Sarkaz@Roguelike@SelectTheme": {
+        "text": ["가설 편찬 (假说辑录)"]
+    },
+    "Sarkaz@Roguelike@SpecialValRecognition": {
+        "text": []
+    },
+    "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
+        "ocrReplace": [
+            ["영혼 융합의 시작", "_fastInvestment"],
+            ["단조된 철의 뿌리", "_exit"],
+            ["먼지투성이 폐허", "_exit"],
+            ["개연성의 갈림길", "_exit"],
+            ["허와 실의 경계", "_exit"],
+            ["휘황찬란한 하늘", "_exit"],
+            ["괴이한 단장", "_exit"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode0": {
+        "ocrReplace": [
+            ["영혼 융합의 시작", "_default"],
+            ["단조된 철의 뿌리", "_default"],
+            ["먼지투성이 폐허", "_default"],
+            ["개연성의 갈림길", "_default"],
+            ["허와 실의 경계", "_default"],
+            ["휘황찬란한 하늘", "_default"],
+            ["괴이한 단장", "_SKIP_"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode1": {
+        "ocrReplace": [
+            ["영혼 융합의 시작", "_routing"],
+            ["단조된 철의 뿌리", "_exit"],
+            ["먼지투성이 폐허", "_exit"],
+            ["개연성의 갈림길", "_exit"],
+            ["허와 실의 경계", "_exit"],
+            ["휘황찬란한 하늘", "_exit"],
+            ["괴이한 단장", "_exit"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode10001": {
+        "ocrReplace": [
+            ["영혼 융합의 시작", "_routing"],
+            ["단조된 철의 뿌리", "_exit"],
+            ["먼지투성이 폐허", "_exit"],
+            ["개연성의 갈림길", "_exit"],
+            ["허와 실의 경계", "_exit"],
+            ["휘황찬란한 하늘", "_exit"],
+            ["괴이한 단장", "_exit"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode4": {
+        "ocrReplace": [
+            ["영혼 융합의 시작", "_default"],
+            ["단조된 철의 뿌리", "_default"],
+            ["먼지투성이 폐허", "_exit"],
+            ["개연성의 갈림길", "_exit"],
+            ["허와 실의 경계", "_exit"],
+            ["휘황찬란한 하늘", "_exit"],
+            ["괴이한 단장", "_exit"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode6": {
+        "ocrReplace": [
+            ["영혼 융합의 시작", "_default"],
+            ["단조된 철의 뿌리", "_default"],
+            ["먼지투성이 폐허", "_default"],
+            ["개연성의 갈림길", "_default"],
+            ["허와 실의 경계", "_default"],
+            ["휘황찬란한 하늘", "_default"],
+            ["괴이한 단장", "_SKIP_"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode7": {
+        "ocrReplace": [
+            ["영혼 융합의 시작", "_default"],
+            ["단조된 철의 뿌리", "_default"],
+            ["먼지투성이 폐허", "_default"],
+            ["개연성의 갈림길", "_default"],
+            ["허와 실의 경계", "_default"],
+            ["휘황찬란한 하늘", "_default"],
+            ["괴이한 단장", "_SKIP_"]
+        ]
     },
     "Reclamation2Begin": {
         "text": ["연", "산", "시", "작"]
