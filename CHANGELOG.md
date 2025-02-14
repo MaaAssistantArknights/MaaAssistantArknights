@@ -5,20 +5,16 @@
 * 添加资源更新提示 @ABA2396
 * CDK 改为密码框 @ABA2396
 * 添加 MirrorChyan 资源更新方式 (#11669) @ABA2396 @MistEO
-* discord link for website docs (#11687) @Constrat @momomochi987 @HX3N @Rbqwow
-* Discord link in About Us @Constrat
 * 适配新 ui 未进驻选项 @ABA2396
 * en announcement wpf logic @Constrat
 * Paradox Simulation update UI for YoStar (#11793) @Constrat
 * add format hint for proxy setting (#11781) @Rbqwow
-* 支持Mirror酱资源更新 (#11768) @hguandl
-* 添加mirror酱备用线路 (#11777) @MistEO
+* Mac支持Mirror酱资源更新 (#11768) @hguandl
 * update maa self by mirrorc (#11812) @MistEO @ABA2396
 * 开始唤醒支持账号切换 (#11803) @hguandl
 * 自动战斗遇到不支持的关卡时尝试检测资源版本更新 @ABA2396
-* script to update version.json (#11875) @Constrat
+* 添加mirror酱备用线路 (#11777) @MistEO
 * 自动战斗不再允许使用带TR的导航关卡名禁用自动编队，改为自动检测 (#11868) @status102
-* bypass update resources in formatting cases (#11867) @Constrat
 * 肉鸽参数配置新参数 (#11866) @hguandl
 * YostarJP Sarkaz roguelike preload (#11850) @Manicsteiner
 
@@ -50,14 +46,14 @@
 
 ### 修复 | Fix
 
+* JP 艾雅法拉 ocrReplace (#11685) @Saratoga-Official @status102 @Daydreamer114
 * 重复添加干员信息 @ABA2396
-* YostarJP OCR (#11884) @Manicsteiner
+* YostarJP 干员名 OCR (#11884) @Manicsteiner
 * mirror-chyan notify error @MistEO
 * missing `user_agent` param for mirrorchyan query @MistEO
 * Wpf肉鸽烧水时使用分队UI为空 @status102
 * 肉鸽临时招募预备干员时, 不额外提升权重 (#11442) @Daydreamer114
 * 公告窗口触控板滚动异常 (#11684) @Rbqwow
-* styling @Constrat
 * 添加不期而遇新事件空无前兆 (#11573) @DavidWang19
 * Attempt retry once screencap for MumuExtras (#11550) @teldd1
 * 肉鸽作战编队截图过快导致截图与实际不符 (#11527) @Daydreamer114
@@ -76,10 +72,8 @@
 * JP 塑心 OCR (#11792) @Daydreamer114
 * 肉鸽非投资模式禁用种子刷钱 @status102
 * 肉鸽烧水分队兼容 @status102
-* 禁止RoguelikeStatus拷贝 @status102
 * remove wrong commit @status102
 * CheckLevelMax OCR (#11764) @BxFS
-* 修复上传卡住的问题 @MistEO
 * mirrorc package name @MistEO
 * use_skill 在按下停止按钮后不退出 (#11761) @Daydreamer114
 * Resource Check ret 判断错误 @ABA2396
@@ -91,50 +85,40 @@
 * 繁中服無法進入薩米肉鴿 (#11733) @momomochi987
 * 肉鸽开局烧水奖励领取失败 @status102
 * rotate_check 位置错误 @ABA2396
-* revert: "fix: 修复上传卡住的问题" @MistEO
 * YostarJP OCR mismatched parenthesis (#11877) @Alan-Charred
 * 月度小队模式不再试图提前离开肉鸽 (#11872) @BxFS
 * Roguelike InitialDrop: SquadDefault -> Squad-EnterPoint (#11870) @BxFS
 * 肉鸽开局无法选择指挥分队时放弃探索 (#11847) @status102 @Constrat
 * 自动编队干员选择错误 @status102
 * Wpf自动战斗无法连接到模拟器后不能自动停止 @status102
-* 移除账号切换中不必要的任务 (#11820) @status102
 * Wpf公告内容显示错误显示为上次内容 (#11824) @status102
 * 肉鸽未提供指挥分队时用OCR随便选一个 (#11843) @BxFS
 
 ### 文档 | Docs
 
-* Auto Update Changelogs of v5.13.0-beta.2 (#11708) @github-actions[bot] @MistEO
-* Auto Update Changelogs of v5.13.0-beta.1 (#11703) @github-actions[bot] @Constrat
+* discord link for website docs (#11687) @Constrat @momomochi987 @HX3N @Rbqwow
+* Discord link in About Us @Constrat
 * 推荐分辨率720P或1080P (#11651) @Rbqwow
 * 替换.NET8 桌面运行时下载链接为直链 (#11693) @wryx166
 * 肉鸽推荐开局策略 (#11570) @Rbqwow @Constrat
-* Auto Update Changelogs of v5.13.0-beta.3 (#11719) @github-actions[bot] @status102
 * 更新 CHANGELOG.md @ABA2396
-* Auto Update Changelogs of v5.13.0-beta.4 (#11721) @github-actions[bot] @Rbqwow
-* Auto Update Changelogs of v5.13.0-beta.5 (#11731) @github-actions[bot]
-* Auto Update Changelogs of v5.13.0-beta.6 (#11791) @github-actions[bot] @ABA2396
 * 补充自动战斗可能遇到的问题 (#11749) @nmsl678 @Daydreamer114 @Rbqwow
-* Auto Update Changelogs of v5.13.0-beta.7 (#11814) @github-actions[bot] @ABA2396
 * change gamedata repo @Constrat
-* Auto Update Changelogs of v5.13.0-beta.8 (#11881) @github-actions[bot] @status102
 * 肉鸽参数注释 @status102
 
 ### 其他 | Other
 
+* styling @Constrat
+* 禁止RoguelikeStatus拷贝 @status102
+* 移除账号切换中不必要的任务 (#11820) @status102
+* script to update version.json (#11875) @Constrat
+* bypass update resources in formatting cases (#11867) @Constrat
 * remove mirrorchyan line2 @MistEO
-* Release v5.13.0-beta.8 (#11880) @MistEO
-* Release v5.13.0-beta.7 (#11807) @ABA2396
-* Release v5.13.0-beta.6 (#11786) @ABA2396
-* Release v5.13.0-beta.5 (#11730) @status102
-* Release v5.13.0-beta.4 (#11720) @Rbqwow
-* Release v5.13.0-beta.3 (#11718) @status102
 * Mirror酱说明调整 @status102
 * NoSkland 放到 wpf 内部 @ABA2396
 * 任务执行期间Log Rotate增加检查，并上调阈值至64MiB (#11670) @status102
 * 密钥改成 PasswordBox @ABA2396
 * remove chinese punctuation from en @Constrat
-* JP 艾雅法拉 ocrReplace (#11685) @Saratoga-Official @status102 @Daydreamer114
 * 调整肉鸽选择烧水奖励任务链，重新将Roguelike@LastRewardConfirm并入主任务链 (#11689) @status102
 * add discord link to main readme @Constrat
 * 修改划火柴设置界面布局 (#11682) @Rbqwow
