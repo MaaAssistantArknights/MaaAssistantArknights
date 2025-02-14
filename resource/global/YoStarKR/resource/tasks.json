@@ -2677,8 +2677,7 @@
         ]
     },
     "Sarkaz@Roguelike@CheckLevel": {
-        "text": ["가설 수록"],
-        "ocrReplace": [["가설수.*", "가설 수록"]]
+        "text": ["가설", "수록"]
     },
     "Sarkaz@Roguelike@NextLevel": {
         "text": [
