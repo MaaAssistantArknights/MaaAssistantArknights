@@ -14,15 +14,15 @@ repos:
       - id: clang-format
         files: ^src/MaaCore/.*
         args: ["--assume-filename", ".clang-format"]
-  - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v4.0.0-alpha.8
-    hooks:
-      - id: prettier
-        verbose: true
-        files: ^((\.github/ISSUE_TEMPLATE|docs|resource|src|tools|website)/.*|\.pre-commit-config\.yaml|package-definition\.json)
-        types_or:
-          - yaml
-          - json
+  # - repo: https://github.com/pre-commit/mirrors-prettier
+  #   rev: v4.0.0-alpha.8
+  #   hooks:
+  #     - id: prettier
+  #       verbose: true
+  #       files: ^((\.github/ISSUE_TEMPLATE|docs|resource|src|tools|website)/.*|\.pre-commit-config\.yaml|package-definition\.json)
+  #       types_or:
+  #         - yaml
+  #         - json
   - repo: https://github.com/DavidAnson/markdownlint-cli2
     rev: v0.13.0
     hooks:
