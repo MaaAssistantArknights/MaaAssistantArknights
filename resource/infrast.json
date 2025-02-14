@@ -528,6 +528,20 @@
                 "name": ["寻同路人"],
                 "template": "Bskill_dorm_hireToRecAll1.png"
             },
+            "bskill_dorm_hireToRecAll2": {
+                "desc": [
+                    "进驻宿舍时，该宿舍内所有干员心情每小时恢复+0.1，同时每个招募位（不包含初始招募位）额外+0.05恢复效果（叠加后的最终值同种效果取最高）"
+                ],
+                "name": ["无瑕心·α"],
+                "template": "Bskill_dorm_hireToRecAll2.png"
+            },
+            "bskill_dorm_hireToRecAll3": {
+                "desc": [
+                    "进驻宿舍时，该宿舍内所有干员心情每小时恢复+0.1，同时每个招募位（不包含初始招募位）额外+0.1恢复效果（叠加后的最终值同种效果取最高）"
+                ],
+                "name": ["无瑕心·β"],
+                "template": "Bskill_dorm_hireToRecAll3.png"
+            },
             "bskill_dorm_one": {
                 "desc": [
                     "进驻宿舍时，自身心情每小时恢复+0.7；如果该宿舍内有其他干员，则每人额外为自身心情每小时恢复+0.05"
