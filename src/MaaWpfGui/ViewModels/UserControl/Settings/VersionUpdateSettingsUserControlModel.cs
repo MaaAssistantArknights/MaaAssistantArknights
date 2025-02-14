@@ -413,7 +413,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             ToastNotification.ShowDirect(toastMessage);
         }
 
-        if (ret != VersionUpdateViewModel.CheckUpdateRetT.OK)
+        if (ret == VersionUpdateViewModel.CheckUpdateRetT.AlreadyLatest)
         {
             SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
             return;
@@ -422,7 +422,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         bool success = UpdateSource switch
         {
             "Github" => await ResourceUpdater.UpdateFromGithubAsync(),
-            "MirrorChyan" => await ResourceUpdater.DownloadFromMirrorChyanAsync(uri),
+            "MirrorChyan" => (ret == VersionUpdateViewModel.CheckUpdateRetT.OK) && await ResourceUpdater.DownloadFromMirrorChyanAsync(uri),
             _ => await ResourceUpdater.UpdateFromGithubAsync(),
         };
 
