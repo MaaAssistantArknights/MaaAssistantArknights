@@ -262,6 +262,12 @@
             ]
         },
         {
+            "name": "相逢",
+            "option_num": 4,
+            "choose": 1,
+            "docs": "#11907"
+        },
+        {
             "name": "虫卡兹！",
             "option_num": 3,
             "choose": 3
