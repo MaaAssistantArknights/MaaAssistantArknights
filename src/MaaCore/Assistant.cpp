@@ -423,7 +423,6 @@ void Assistant::working_proc()
         }
 
         m_running = true;
-        Log.flush();
         const auto [id, task_ptr] = m_tasks_list.front();
         lock.unlock();
         // only one instance of working_proc running, unlock here to allow set_task_param to the running task
