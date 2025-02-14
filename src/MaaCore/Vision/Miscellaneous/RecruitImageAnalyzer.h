@@ -31,7 +31,8 @@ public:
         top = 6,
         senior = 5,
         robot = 1,
-        highvalue = 11
+        highvalue = 11,
+        combination_tag = 12
     };
 
     void mock_set_special(operator_type type)
@@ -48,6 +49,14 @@ public:
         if (type == highvalue) {
             m_tags_result[0].text = "资深干员";
             m_tags_result[1].text = "高级资深干员";
+        }
+        if (type == combination_tag) {
+            // 近卫+防护=星极
+            m_tags_result[0].text = "近卫干员";
+            m_tags_result[1].text = "先锋干员";
+            m_tags_result[2].text = "费用回复";
+            m_tags_result[3].text = "防护";
+            m_tags_result[4].text = "元素";
         }
     }
 #endif // ASST_DEBUG
