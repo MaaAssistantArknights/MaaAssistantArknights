@@ -70,6 +70,9 @@ namespace MaaWpfGui.Helper
 
             var characterNamesLangAdd = GetCharacterNamesAddAction(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage));
             var characterNamesClientAdd = GetCharacterNamesAddAction(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty));
+
+            Characters.Clear();
+            CharacterNames.Clear();
             foreach (var (key, value) in characterData)
             {
                 Characters.Add(key, value);

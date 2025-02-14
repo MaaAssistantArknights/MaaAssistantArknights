@@ -72,14 +72,6 @@ bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params
         m_collectible_mode_squad = params.get("collectible_mode_squad", m_squad);
     }
 
-    if (m_config->get_mode() == RoguelikeMode::Investment &&
-        params.get("start_with_seed", false)) { // 种子刷钱，强制随心所欲
-        set_custom(RoguelikeCustomType::Roles, "随心所欲");
-    }
-    else {
-        set_custom(RoguelikeCustomType::Roles, params.get("roles", "")); // 开局职业组
-    }
-
     set_custom(RoguelikeCustomType::CoreChar, params.get("core_char", "")); // 开局干员名
     m_config->set_use_support(params.get("use_support", false));            // 开局干员是否为助战干员
     m_config->set_use_nonfriend_support(params.get("use_nonfriend_support", false)); // 是否可以是非好友助战干员
@@ -128,8 +120,6 @@ bool asst::RoguelikeCustomStartTaskPlugin::_run()
 
 bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
 {
-    LogTraceFunction;
-
     std::string squad = !m_config->get_run_for_collectible() ? m_squad : m_collectible_mode_squad;
     if (squad.empty()) { // 简单处理，认为指挥分队无需滑屏，没有就随机
         return ProcessTask(
@@ -195,8 +185,6 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_reward()
 
 bool asst::RoguelikeCustomStartTaskPlugin::hijack_roles()
 {
-    LogTraceFunction;
-
     auto image = ctrler()->get_image();
     OCRer analyzer(image);
     analyzer.set_task_info("RoguelikeCustom-HijackRoles");
@@ -212,25 +200,6 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_roles()
 
 bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
 {
-    LogTraceFunction;
-
-    if (m_config->get_start_with_seed()) {
-        Log.trace("Start with seed");
-        auto image = ctrler()->get_image();
-        OCRer analyzer(image);
-        analyzer.set_task_info("RoguelikeCustom-HijackCoChar");
-        analyzer.set_roi({ 186, 500, 913, 200 });
-        analyzer.set_required({ "招募" });
-        if (!analyzer.analyze()) {
-            return false;
-        }
-        const auto& role_rect = analyzer.get_result().front().rect;
-        ctrler()->click(role_rect);
-
-        m_config->set_core_char(m_customs[RoguelikeCustomType::CoreChar]);
-        return true;
-    }
-
     const std::string& char_name = m_customs[RoguelikeCustomType::CoreChar];
 
     static const std::unordered_map<battle::Role, std::string> RoleOcrNameMap = {

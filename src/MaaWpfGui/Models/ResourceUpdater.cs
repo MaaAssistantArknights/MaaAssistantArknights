@@ -482,7 +482,16 @@ namespace MaaWpfGui.Models
             return true;
         }
 
-        // 从 MirrorChyan 下载完整包
+        /// <summary>
+        /// 从 MirrorChyan 检查更新
+        /// </summary>
+        /// <returns>返回一个 <see cref="CheckUpdateRetT"/> 枚举值，指示更新检查的结果。
+        /// <list type="bullet">
+        /// <item><description><see cref="CheckUpdateRetT.AlreadyLatest"/>：已是最新版本。</description></item>
+        /// <item><description><see cref="CheckUpdateRetT.OK"/>：有新版本。</description></item>
+        /// <item><description><see cref="CheckUpdateRetT.NetworkError"/>：网络错误。</description></item>
+        /// <item><description><see cref="CheckUpdateRetT.UnknownError"/>：其他错误。</description></item>
+        /// </list></returns>
         public static async Task<(CheckUpdateRetT Ret, string? UpdateUrl)> CheckFromMirrorChyanAsync()
         {
             // https://mirrorc.top/api/resources/MaaResource/latest?current_version=<当前版本日期，从 version.json 里拿时间戳>&cdk=<cdk>&sp_id=<唯一识别码>
@@ -501,15 +510,9 @@ namespace MaaWpfGui.Models
 
             if (response is null)
             {
-                _logger.Error("response is null, try mirrorc line2");
-                url = url.Replace(MaaUrls.MirrorChyanLine1, MaaUrls.MirrorChyanLine2);
-                response = await Instances.HttpService.GetAsync(new(url), logUri: false);
-                if (response is null)
-                {
-                    _logger.Error("mirrorc line2 failed too");
-                    ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
-                    return (CheckUpdateRetT.NetworkError, null);
-                }
+                _logger.Error("mirrorc failed");
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
+                return (CheckUpdateRetT.NetworkError, null);
             }
 
             var jsonStr = await response.Content.ReadAsStringAsync();
@@ -642,14 +645,13 @@ namespace MaaWpfGui.Models
             return await DownloadFromMirrorChyanAsync(uri);
         }
 
-
         /// <summary>
         /// 检查并下载资源更新。
         /// </summary>
         /// <returns>返回一个 <see cref="CheckUpdateRetT"/> 枚举值，指示更新检查和下载的结果。
         /// <list type="bullet">
         /// <item><description><see cref="CheckUpdateRetT.AlreadyLatest"/>：已是最新版本。</description></item>
-        /// <item><description><see cref="CheckUpdateRetT.OK"/>：检查成功。（海外源不会自动下载）</description></item>
+        /// <item><description><see cref="CheckUpdateRetT.OK"/>：有新版本。（海外源不会自动下载）</description></item>
         /// <item><description><see cref="CheckUpdateRetT.OnlyGameResourceUpdated"/>：下载成功。</description></item>
         /// <item><description><see cref="CheckUpdateRetT.NetworkError"/>：网络错误。</description></item>
         /// <item><description><see cref="CheckUpdateRetT.UnknownError"/>：其他错误。</description></item>
@@ -670,6 +672,7 @@ namespace MaaWpfGui.Models
             {
                 case "Github":
                     break;
+
                 case "MirrorChyan":
                     if (await DownloadFromMirrorChyanAsync(uri))
                     {
