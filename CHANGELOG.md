@@ -1,4 +1,4 @@
-## v5.13.0
+## v5.13.1
 
 ### 牛牛送你一朵情人节花花 | Highlight
 
@@ -63,6 +63,25 @@ MAA 使用配置文件保存用户的设置，这里面**可能**会包含一些
 ----
 
 以下是详细内容：
+
+
+### 改进 | Improved
+
+* 水月肉鸽开端事件选择 3-3 @Daydreamer114
+
+### 修复 | Fix
+
+* 标题栏不会随资源重载更新 @ABA2396
+* 肉鸽职业组 @status102
+* Revert "fix: 修复招募功能中的逻辑漏洞，并添加相应的测试函数 (#11898)" @ABA2396
+* 资源重载后资源版本界面显示仍为旧版本 @ABA2396
+
+### 其他 | Other
+
+* Revert "perf: 自动战斗BattleStartPre任务合并理智药检测" @status102
+* Update CHANGELOG.md @AnnAngela
+
+## v5.13.0
 
 ### 新增 | New
 
