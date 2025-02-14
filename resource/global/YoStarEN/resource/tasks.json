@@ -2805,7 +2805,7 @@
             [".*Secluded ?Passage", "_SKIP_"]
         ]
     },
-        "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
+    "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
         "text": ["_fastInvestment", "_exit"],
         "ocrReplace": [
             ["Furnace Origin", "_fastInvestment"],
