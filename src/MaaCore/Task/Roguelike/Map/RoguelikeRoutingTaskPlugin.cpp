@@ -12,7 +12,7 @@
 #include "Vision/Miscellaneous/BrightPointAnalyzer.h"
 #include "Vision/MultiMatcher.h"
 
-bool asst::RoguelikeRoutingTaskPlugin::load_params(const json::value& params)
+bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::value& params)
 {
     const std::string& theme = m_config->get_theme();
 
@@ -36,8 +36,7 @@ bool asst::RoguelikeRoutingTaskPlugin::load_params(const json::value& params)
     const RoguelikeMode& mode = m_config->get_mode();
     const std::string squad = params.get("squad", "");
 
-    if (mode == RoguelikeMode::Investment &&
-        (squad == "点刺成锭分队" || (squad == "后勤分队" && params.get("start_with_seed", false)))) {
+    if (mode == RoguelikeMode::Investment && squad == "点刺成锭分队") {
         m_routing_strategy = RoutingStrategy::FastInvestment;
         return true;
     }
