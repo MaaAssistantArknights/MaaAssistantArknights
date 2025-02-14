@@ -2,27 +2,26 @@
 
 ### 新增 | New
 
+* 繁中服「巴別塔」活動導航 (#11863) @momomochi987
 * 添加资源更新提示 @ABA2396
 * CDK 改为密码框 @ABA2396
-* 添加 MirrorChyan 资源更新方式 (#11669) @ABA2396 @MistEO
 * 适配新 ui 未进驻选项 @ABA2396
 * en announcement wpf logic @Constrat
 * Paradox Simulation update UI for YoStar (#11793) @Constrat
-* add format hint for proxy setting (#11781) @Rbqwow
-* Mac支持Mirror酱资源更新 (#11768) @hguandl
+* Wpf代理设置格式提示 | add format hint for proxy setting (#11781) @Rbqwow
+* 添加 MirrorChyan 资源更新方式 (#11669) @ABA2396 @MistEO
 * update maa self by mirrorc (#11812) @MistEO @ABA2396
-* 开始唤醒支持账号切换 (#11803) @hguandl
-* 自动战斗遇到不支持的关卡时尝试检测资源版本更新 @ABA2396
+* Mac支持Mirror酱资源更新 (#11768) @hguandl
+* Mac开始唤醒支持账号切换 (#11803) @hguandl
 * 添加mirror酱备用线路 (#11777) @MistEO
+* 自动战斗遇到不支持的关卡时尝试检测资源版本更新 @ABA2396
 * 自动战斗不再允许使用带TR的导航关卡名禁用自动编队，改为自动检测 (#11868) @status102
-* 肉鸽参数配置新参数 (#11866) @hguandl
+* Mac支持肉鸽参数配置新参数 (#11866) @hguandl
 * YostarJP Sarkaz roguelike preload (#11850) @Manicsteiner
 
 ### 改进 | Improved
 
 * 优化肉鸽难度显示 @ABA2396
-* mirrorchyan toast @MistEO
-* 简化肉鸽任务使用助战参数内部存储流程 @status102
 * 添加资源更新提示翻译 @ABA2396
 * 将Sarkaz开局添加负荷干员的进入任务改为范围点击 (#11100) @Daydreamer114
 * 萨卡兹肉鸽不期而遇统一使用默认策略 (#11512) @Daydreamer114
@@ -63,20 +62,16 @@
 * 肉鸽开局干员使用助战失效 @status102
 * fix return value of RecruitImageAnalyzer @horror-proton
 * 肉鸽烧水使用分队失效 @status102
-* Wpf肉鸽烧水时使用分队UI为空 @status102
 * 自动战斗开始战斗时使用理智药检测失效 @status102
 * 自动战斗勾选使用理智药时自动编队卡住 @status102
 * 招募测试函数修复 (#11723) @Roland125
-* KR 黑角 OCR (#11794) @Daydreamer114
 * border not displaying for http proxy in versionupdatesettings @Constrat
+* KR 黑角 OCR (#11794) @Daydreamer114
 * JP 塑心 OCR (#11792) @Daydreamer114
 * 肉鸽非投资模式禁用种子刷钱 @status102
 * 肉鸽烧水分队兼容 @status102
-* remove wrong commit @status102
 * CheckLevelMax OCR (#11764) @BxFS
 * mirrorc package name @MistEO
-* use_skill 在按下停止按钮后不退出 (#11761) @Daydreamer114
-* Resource Check ret 判断错误 @ABA2396
 * 肉鸽开始探索反复重试后结束 @status102
 * 修复国际服无法通过文字OCR识别关闭雷电模拟器弹窗的问题 (#11756) @THSLP13
 * 狭路相逢事件识别失败 (#11752) @Daydreamer114
@@ -84,15 +79,12 @@
 * 繁中服「黍」辨識問題 (#11738) @momomochi987
 * 繁中服無法進入薩米肉鴿 (#11733) @momomochi987
 * 肉鸽开局烧水奖励领取失败 @status102
-* rotate_check 位置错误 @ABA2396
 * YostarJP OCR mismatched parenthesis (#11877) @Alan-Charred
 * 月度小队模式不再试图提前离开肉鸽 (#11872) @BxFS
-* Roguelike InitialDrop: SquadDefault -> Squad-EnterPoint (#11870) @BxFS
 * 肉鸽开局无法选择指挥分队时放弃探索 (#11847) @status102 @Constrat
 * 自动编队干员选择错误 @status102
 * Wpf自动战斗无法连接到模拟器后不能自动停止 @status102
 * Wpf公告内容显示错误显示为上次内容 (#11824) @status102
-* 肉鸽未提供指挥分队时用OCR随便选一个 (#11843) @BxFS
 
 ### 文档 | Docs
 
@@ -108,6 +100,12 @@
 
 ### 其他 | Other
 
+* remove wrong commit @status102
+* rotate_check 位置错误 @ABA2396
+* Resource Check ret 判断错误 @ABA2396
+* Roguelike InitialDrop: SquadDefault -> Squad-EnterPoint (#11870) @BxFS
+* mirrorchyan toast @MistEO
+* 简化肉鸽任务使用助战参数内部存储流程 @status102
 * styling @Constrat
 * 禁止RoguelikeStatus拷贝 @status102
 * 移除账号切换中不必要的任务 (#11820) @status102
@@ -116,7 +114,6 @@
 * remove mirrorchyan line2 @MistEO
 * Mirror酱说明调整 @status102
 * NoSkland 放到 wpf 内部 @ABA2396
-* 任务执行期间Log Rotate增加检查，并上调阈值至64MiB (#11670) @status102
 * 密钥改成 PasswordBox @ABA2396
 * remove chinese punctuation from en @Constrat
 * 调整肉鸽选择烧水奖励任务链，重新将Roguelike@LastRewardConfirm并入主任务链 (#11689) @status102
@@ -127,10 +124,7 @@
 * 繁中服「懷黍離」導航入口更動 (#11662) @momomochi987
 * 调整基建办公室阈值 @ABA2396
 * 调整 InfrastBottomLeftTab 的 specificRect @ABA2396
-* Revert "style: follow clang formatting" @status102
-* Revert "style: clang formatting" @status102
 * include @status102
-* Revert "fix: Wpf肉鸽烧水时使用分队UI为空" @status102
 * GetAsync catch 未处理 logUri @ABA2396
 * 加个 json 解析 catch @ABA2396
 * 移除RoguelikeLastRewardSelectTaskPlugin，合并烧水奖励选择 @status102
@@ -147,7 +141,6 @@
 * 繁中服「懷黍離」導航入口再更動 (#11732) @momomochi987
 * 添加翻译 @ABA2396
 * Wpf肉鸽任务界面主题参数调整 @status102
-* Revert "rft: 任务执行期间Log Rotate增加检查，并上调阈值至64MiB (#11670)" @status102
 * issue 模板 将阅读提醒提至 label (#11804) @Daydreamer114 @Saratoga-Official
 * 启动弹出公告前检查内容是否为空 @ABA2396
 * 单独为肉鸽添加日志检查 @MistEO
@@ -163,11 +156,9 @@
 * 简化干员名正则 @ABA2396
 * WpfGui引入AsstTaskType代替硬编码 (#11856) @status102
 * MirrorChyan域名 @hguandl
-* 繁中服「巴別塔」活動導航 (#11863) @momomochi987
 * 修改 MirrorChyan 官网链接 @ABA2396
 * issue_template bug-report Version 处添加提示 (#11848) @Daydreamer114
 * Wpf肉鸽任务RoguelikeMode参数类型改为int (#11821) @status102
-* Revert "fix: 肉鸽未提供指挥分队时用OCR随便选一个 (#11843)" @status102
 * update mirrorc tips (#11832) @MistEO @ABA2396
 * 上调MaaCore Log Rotate阈值为64MB (#11834) @status102
 * Wpf公告存储拆分 (#11825) @status102
