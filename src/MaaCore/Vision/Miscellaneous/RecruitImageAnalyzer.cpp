@@ -27,14 +27,10 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
     static OCRer tags_analyzer;
     if (!analyzer_inited) {
         tags_analyzer.set_task_info("RecruitTags");
-        auto& all_tags_set = RecruitData.get_all_tags();
+        auto& all_tags_set = RecruitData.get_all_tags_displayed();
 
         // 已经 fullMatch，不会再把 `支援机械` 匹配成 `支援`、`高级资深干员` 匹配成 `资深干员` 了，因此不必再排序。
-        std::vector<std::string> all_tags(all_tags_set.begin(), all_tags_set.end());
-        for (auto& tag : all_tags) {
-            tag = RecruitData.get_tag_name(tag); // 翻译一下
-        }
-        tags_analyzer.set_required(std::move(all_tags)); // 按理说，tags里面应该包含了所有的tag，不会有未知tag
+        tags_analyzer.set_required(std::vector(all_tags_set.begin(), all_tags_set.end()));
         analyzer_inited = true;
     }
 

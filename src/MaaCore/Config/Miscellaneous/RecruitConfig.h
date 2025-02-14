@@ -74,6 +74,8 @@ public:
 
     const std::unordered_set<std::string>& get_all_tags() const noexcept { return m_all_tags; }
 
+    const std::unordered_set<std::string>& get_all_tags_displayed() const noexcept { return m_all_tags_displayed; }
+
     const std::vector<Recruitment>& get_all_opers() const noexcept { return m_all_opers; }
 
     std::string get_tag_name(const TagId& id) const noexcept;
@@ -86,6 +88,7 @@ protected:
     void clear();
 
     std::unordered_set<std::string> m_all_tags;
+    std::unordered_set<std::string> m_all_tags_displayed;
     std::vector<Recruitment> m_all_opers;
     std::unordered_map<TagId, std::string> m_all_tags_name; // <中文tag, 中文/外文tag>
 };
