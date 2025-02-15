@@ -790,7 +790,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="SSSGamePass">보안 파견을 클리어했습니다!</system:String>
     <system:String x:Key="Trader">노드: 교활한 상인</system:String>
     <system:String x:Key="SafeHouse">노드: 안전가옥</system:String>
-    <system:String x:Key="FilterTruth">노드: 진위식별 (去伪存真)</system:String>
+    <system:String x:Key="FilterTruth">노드: 거짓과 진실</system:String>
     <system:String x:Key="CombatDps">노드: 작전</system:String>
     <system:String x:Key="EmergencyDps">노드: 긴급 작전</system:String>
     <system:String x:Key="DreadfulFoe">노드: 험난한 길</system:String>
