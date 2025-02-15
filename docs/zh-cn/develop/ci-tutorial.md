@@ -53,8 +53,8 @@ MAA 借助 Github Action 完成了大量的自动化工作，包括网站的构�
 
 + `release-nightly-ota.yml` 发布内测版
 + `release-ota.yml` 发布正式版/公测版
-  - `gen-changelog.yml` 为正式版/公测版生成 changelog
-  - `pr-auto-tag.yml` 对正式版/公测版生成 tag
+  + `gen-changelog.yml` 为正式版/公测版生成 changelog
+  + `pr-auto-tag.yml` 对正式版/公测版生成 tag
 
 ::: tip
 上述文件名内的 ota 意为 Over-the-Air，也就是我们常说的“增量更新包”，因此 MAA 的发版过程实际上包含了对过往版本构建 ota 包的步骤
@@ -93,7 +93,6 @@ MAA 借助 Github Action 完成了大量的自动化工作，包括网站的构�
 本工作流主要负责 MAA 官网的构建与发布，包括主页面与文档两个组件，
 
 请注意，网站的发布与发版强绑定，平常修改网页组件的时候只会进行构建以保证不会有错误，在发版时才会正式部署到 Azure 上
-
 
 ### Issues 管理
 
