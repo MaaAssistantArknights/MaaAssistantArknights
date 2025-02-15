@@ -1261,7 +1261,7 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_path,
     std::unordered_map</*id*/ std::string, /*name*/ std::string> encounter_names;
     std::unordered_map</*id*/ std::string, /*name*/ std::string> char_names;
 
-    bool remove_spaces = input_dir.string().ends_with("ko_KR\\gamedata\\excel");
+    bool remove_spaces = input_dir.string().ends_with("kr\\gamedata\\excel");
 
     std::string name_buffer; // Reused string buffer
 
