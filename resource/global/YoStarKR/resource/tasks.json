@@ -2702,6 +2702,9 @@
     "Sarkaz@Roguelike@SelectTheme": {
         "text": ["가설", "수록"]
     },
+    "Sarkaz@Roguelike@StageRefresh": {
+        "templThreshold": 0.7
+    },
     "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
         "ocrReplace": [
             [".*영혼융합.+", "영혼 융합의 시작"],
