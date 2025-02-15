@@ -1026,8 +1026,8 @@ bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, 
     std::string recruitment_details = recruitment_opt->at("recruitDetail").as_string();
 
     // FOR TW: intern-kun fucked up the gamedata
-    //string_replace_all_in_place(recruitment_details, "</>\n\n★\n", "/>\n\n★\n<");
-    //string_replace_all_in_place(recruitment_details, " <@rc.eml>夜", "\n★★\n<@rc.eml>夜");
+    // string_replace_all_in_place(recruitment_details, "</>\n\n★\n", "/>\n\n★\n<");
+    // string_replace_all_in_place(recruitment_details, " <@rc.eml>夜", "\n★★\n<@rc.eml>夜");
     // ----END-----
     remove_xml(recruitment_details);
     string_replace_all_in_place(recruitment_details, "\\n", "");
@@ -1064,14 +1064,14 @@ bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, 
 
             // ------- txwy -------
             // Issue in the gamedata: gacha_table.json has 食 鐵獸 while character_table.json has 食鐵獸
-            //if (name == "食 鐵獸") {
+            // if (name == "食 鐵獸") {
             //    name = "食鐵獸";
             //}
 
             // ------- YostarJP -------
             // https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/18c55553885342b3df2ccf93cc102f448f027f4b#commitcomment-144847169
             // EDIT: gacha_table.json uses サーマル-EX for THRM-EX so we force it.
-            //if (name == "サーマル-EX") {
+            // if (name == "サーマル-EX") {
             //    name = "THRM-EX";
             //}
 
@@ -1261,43 +1261,62 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_path,
     std::unordered_map</*id*/ std::string, /*name*/ std::string> encounter_names;
     std::unordered_map</*id*/ std::string, /*name*/ std::string> char_names;
 
+    bool remove_spaces = input_dir.string().ends_with("kr\\gamedata\\excel");
+
+    std::string name_buffer; // Reused string buffer
+
     auto& rg_json = rg_opt.value();
-    std::string encounter_nospace;
     for (auto& [rogue_index, rogue_details] : rg_json["details"].as_object()) {
         for (auto&& [id, stage_obj] : rogue_details["stages"].as_object()) {
-            if (!id.starts_with("ro1_e_") && !id.starts_with("ro2_e_") && !id.starts_with("ro3_e_")) {
-                stage_names.emplace(id, stage_obj["name"].as_string());
+            if (id.starts_with("ro1_e_") || id.starts_with("ro2_e_") || id.starts_with("ro3_e_")) {
+                continue;
             }
+
+            name_buffer = stage_obj["name"].as_string();
+            if (remove_spaces) {
+                name_buffer.erase(std::remove(name_buffer.begin(), name_buffer.end(), ' '), name_buffer.end());
+            }
+            stage_names.emplace(id, name_buffer);
         }
+
         for (auto&& [id, item_obj] : rogue_details["items"].as_object()) {
             // limits only buyable items
             // (08/03/2024 items 516 extracted items vs 514 shopping.json items)
-            if (!id.starts_with("rogue_1_relic_c") && !id.starts_with("rogue_1_relic_m")) {
-                if (id.starts_with(rogue_index + "_recruit") || id.starts_with(rogue_index + "_upgrade") ||
-                    id.starts_with(rogue_index + "_relic") || id.starts_with(rogue_index + "_active") ||
-                    id.ends_with("_item") || id.starts_with(rogue_index + "_totem")) {
-                    item_names.emplace(id, item_obj["name"].as_string());
+            if (id.starts_with("rogue_1_relic_c") || id.starts_with("rogue_1_relic_m")) {
+                continue;
+            }
+
+            if (id.starts_with(rogue_index + "_recruit") || id.starts_with(rogue_index + "_upgrade") ||
+                id.starts_with(rogue_index + "_relic") || id.starts_with(rogue_index + "_active") ||
+                id.ends_with("_item") || id.starts_with(rogue_index + "_totem")) {
+                name_buffer = item_obj["name"].as_string();
+                if (remove_spaces) {
+                    name_buffer.erase(std::remove(name_buffer.begin(), name_buffer.end(), ' '), name_buffer.end());
                 }
-                if (id.starts_with(rogue_index + "_totem")) {
-                    totem_names.emplace(id, item_obj["name"].as_string());
+                item_names.emplace(id, name_buffer);
+            }
+
+            if (id.starts_with(rogue_index + "_totem")) {
+                name_buffer = item_obj["name"].as_string();
+                if (remove_spaces) {
+                    name_buffer.erase(std::remove(name_buffer.begin(), name_buffer.end(), ' '), name_buffer.end());
                 }
+                totem_names.emplace(id, name_buffer);
             }
         }
+
         for (auto&& [id, encounter_obj] : rogue_details["choiceScenes"].as_object()) {
             // very complicated way to reduce dupes. Will probably break sooner or later.
-            if (id.ends_with("_enter")) {
-                if (!id.starts_with("scene_ro3_rest")) {
-                    if (!id.starts_with("scene_ro3_portal") || id.starts_with("scene_ro3_portalsample")) {
-                        encounter_nospace = encounter_obj["title"].as_string();
-                        if (input_dir.string().ends_with("ko_KR\\gamedata\\excel")) {
-                            encounter_nospace.erase(
-                                std::remove(encounter_nospace.begin(), encounter_nospace.end(), ' '),
-                                encounter_nospace.end());
-                        }
-                        encounter_names.emplace(id, encounter_nospace);
-                    }
-                }
+            if (!id.ends_with("_enter") || id.starts_with("scene_ro3_rest") ||
+                (id.starts_with("scene_ro3_portal") && !id.starts_with("scene_ro3_portalsample"))) {
+                continue;
             }
+
+            name_buffer = encounter_obj["title"].as_string();
+            if (remove_spaces) {
+                name_buffer.erase(std::remove(name_buffer.begin(), name_buffer.end(), ' '), name_buffer.end());
+            }
+            encounter_names.emplace(id, name_buffer);
         }
     }
 
@@ -1308,18 +1327,12 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_path,
     }
 
     auto& char_json = char_opt.value();
-    if (input_dir.string().ends_with("ko_KR\\gamedata\\excel")) {
-        for (auto&& [id, char_obj] : char_json.as_object()) {
-            std::string char_name = char_obj["name"].as_string();
-            char_name.erase(std::remove(char_name.begin(), char_name.end(), ' '), char_name.end());
-
-            char_names.emplace(id, char_name);
+    for (auto&& [id, char_obj] : char_json.as_object()) {
+        name_buffer = char_obj["name"].as_string();
+        if (remove_spaces) {
+            name_buffer.erase(std::remove(name_buffer.begin(), name_buffer.end(), ' '), name_buffer.end());
         }
-    }
-    else {
-        for (auto&& [id, char_obj] : char_json.as_object()) {
-            char_names.emplace(id, char_obj["name"].as_string());
-        }
+        char_names.emplace(id, name_buffer);
     }
 
     auto task_opt = json::open(tasks_path);
