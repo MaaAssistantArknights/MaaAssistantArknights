@@ -551,7 +551,7 @@ namespace MaaWpfGui.Models
             }
 
             // 到这里已经确定有新版本了
-            _logger.Information($"New version found: {version}");
+            _logger.Information($"New version found: {version:yyyy-MM-dd+HH:mm:ss.fff}");
 
             if (string.IsNullOrEmpty(cdk))
             {
