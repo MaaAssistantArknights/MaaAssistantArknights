@@ -2679,6 +2679,9 @@
     "Sarkaz@Roguelike@CheckLevel": {
         "text": ["가설", "수록"]
     },
+    "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart": {
+        "templThreshold": 0.7
+    },
     "Sarkaz@Roguelike@NextLevel": {
         "text": [
             "영혼 융합의 시작",
