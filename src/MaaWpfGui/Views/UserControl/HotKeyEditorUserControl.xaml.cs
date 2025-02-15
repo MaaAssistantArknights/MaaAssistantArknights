@@ -45,6 +45,8 @@ namespace MaaWpfGui.Views.UserControl
 
             // Get modifiers and key data
             var modifiers = Keyboard.Modifiers;
+            bool isWindowsKeyPressed = Keyboard.IsKeyDown(Key.LWin) || Keyboard.IsKeyDown(Key.RWin);
+            modifiers |= isWindowsKeyPressed ? ModifierKeys.Windows : ModifierKeys.None;
             var key = e.Key;
 
             // When Alt is pressed, SystemKey is used instead
