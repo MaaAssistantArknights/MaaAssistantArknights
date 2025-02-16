@@ -50,7 +50,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             new() { Display = "MAX", Value = int.MaxValue },
         ];
 
-        for (int i = 20; i >= 1; --i)
+        for (int i = 18; i >= 1; --i)
         {
             var value = i.ToString();
             RoguelikeDifficultyList.Add(new() { Display = value, Value = i });
