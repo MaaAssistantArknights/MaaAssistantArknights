@@ -11162,7 +11162,7 @@
         "postDelay": 500,
         "colorScales": [[0, 200]],
         "colorWithClose": false,
-        "roi": [790, 130, 60, 144],
+        "roi": [770, 141, 100, 117],
         "next": ["Sarkaz@Roguelike@StageRefreshConfirm", "Sarkaz@Roguelike@StageRefreshUpperLimit"]
     },
     "Sarkaz@Roguelike@StageRefreshClickLeft": {
