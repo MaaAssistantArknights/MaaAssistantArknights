@@ -2275,7 +2275,6 @@
         "roi": [620, 20, 110, 34]
     },
     "Roguelike@StageEncounterOcr": {
-        "fullMatch": true,
         "ocrReplace": [
             ["<", ""],
             ["\\.", ""],
