@@ -184,7 +184,7 @@ labels:
   # `module: roguelike`
   - name: roguelike
     content: "module: roguelike"
-    regexes: "肉[鸽鴿]|集成战略|[Rr]ogue|[Ii]ntegrated [Ss]tategy|I\\.S\\.|ローグ"
+    regexes: "肉[鸽鴿]|集成战略|[Rr]ogue|[Ii]ntegrated [Ss]tategy|I\\.S\\.|ローグ|IS[1-4]"
     skip-if:
       - skip all
       - skip module
