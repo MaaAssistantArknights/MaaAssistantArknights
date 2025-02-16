@@ -51,6 +51,9 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     name_analyzer.set_required(event_names);
     if (!name_analyzer.analyze()) {
         Log.info("Unknown Event");
+        auto info = basic_info_with_what("RoguelikeEvent");
+        info["details"]["name"] = "Unknown Event";
+        callback(AsstMsg::SubTaskExtraInfo, info);
         return true;
     }
     const auto& result_vec = name_analyzer.get_result();
