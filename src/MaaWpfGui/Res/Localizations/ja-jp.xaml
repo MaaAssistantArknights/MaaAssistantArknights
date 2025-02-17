@@ -795,6 +795,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="EmergencyDps">ステージ: 緊急作戦</system:String>
     <system:String x:Key="DreadfulFoe">ステージ: 悪路凶敵</system:String>
     <system:String x:Key="RoguelikeEvent">イベント:</system:String>
+    <system:String x:Key="EncounterOcrError">イベント名認識失敗</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">予見啓示板:</system:String>
     <system:String x:Key="RoguelikeInvestment">投資しました: {1}(+{0})、貯蓄: {2}</system:String>
     <system:String x:Key="RoguelikeSettlement">ローグライクスコア: {0}\n探索: {1} 階層 {2} ステップ\n戦闘: {3} / {4} 緊急 / {5} BOSS\n人材招集数: {6}\nアイテム入手数: {7}\n難度: {8}\nスコア: {9}\n経験値: {10}, スキル: {11}</system:String>
