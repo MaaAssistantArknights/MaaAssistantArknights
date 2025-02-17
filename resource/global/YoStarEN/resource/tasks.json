@@ -2901,7 +2901,7 @@
             ["Border of Truth", "_exit"],
             ["Radiant Zenith", "_exit"],
             ["Hermitage of Sv.tantrya", "_exit"],
-            ["Hermitate", "_exit"]
+            ["Hermitage", "_exit"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode0": {
@@ -2914,7 +2914,7 @@
             ["Border of Truth", "_default"],
             ["Radiant Zenith", "_default"],
             ["Hermitage of Sv.tantrya", "_SKIP_"],
-            ["Hermitate", "_SKIP_"]
+            ["Hermitage", "_SKIP_"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
@@ -2927,7 +2927,7 @@
             ["Border of Truth", "_default"],
             ["Radiant Zenith", "_default"],
             ["Hermitage of Sv.tantrya", "_SKIP_"],
-            ["Hermitate", "_SKIP_"]
+            ["Hermitage", "_SKIP_"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode10001": {
@@ -2940,7 +2940,7 @@
             ["Border of Truth", "_exit"],
             ["Radiant Zenith", "_exit"],
             ["Hermitage of Sv.tantrya", "_exit"],
-            ["Hermitate", "_exit"]
+            ["Hermitage", "_exit"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode4": {
@@ -2953,7 +2953,7 @@
             ["Border of Truth", "_exit"],
             ["Radiant Zenith", "_exit"],
             ["Hermitage of Sv.tantrya", "_exit"],
-            ["Hermitate", "_exit"]
+            ["Hermitage", "_exit"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode6": {
@@ -2966,7 +2966,7 @@
             ["Border of Truth", "_default"],
             ["Radiant Zenith", "_default"],
             ["Hermitage of Sv.tantrya", "_SKIP_"],
-            ["Hermitate", "_SKIP_"]
+            ["Hermitage", "_SKIP_"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode7": {
@@ -2979,7 +2979,7 @@
             ["Border of Truth", "_default"],
             ["Radiant Zenith", "_default"],
             ["Hermitage of Sv.tantrya", "_SKIP_"],
-            ["Hermitate", "_SKIP_"]
+            ["Hermitage", "_SKIP_"]
         ]
     },
     "Reclamation2Begin": {
