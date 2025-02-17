@@ -8,16 +8,15 @@ Issues may be present, so please be patient.
 
 ### 新增 | New
 
-* YostarEN I.S. modes (#11956) @Constrat
-* YostarJP Sarkaz roguelike (#11914) @Manicsteiner @Daydreamer114
 * YoStarEN Sarkaz roguelike (#11921) @Constrat @Daydreamer114
-* SimpleEncryptionHelper 支持默认字符串 @ABA2396
+* YostarJP Sarkaz roguelike (#11914) @Manicsteiner @Daydreamer114
 * YostarKR Sarkaz roguelike (#11920) @HX3N @Daydreamer114
+* SimpleEncryptionHelper 支持默认字符串 @ABA2396
 * Sarkaz extend II 专业人士分队 (#11938) @Daydreamer114
-* remove spaces for all ocrReplaces for KR + various optimizations (#11926) @Constrat
 
 ### 改进 | Improved
 
+* remove spaces for all ocrReplaces for KR + various optimizations (#11926) @Constrat
 * 调整IS4作战、招募 @Daydreamer114
 * 肉鸽为识别错误的事件也添加 callback (#11946) @Daydreamer114 @HX3N
 * Wpf重构自动公招任务序列化 (#11951) @status102
@@ -29,6 +28,7 @@ Issues may be present, so please be patient.
 
 ### 修复 | Fix
 
+* YostarEN I.S. modes (#11956) @Constrat
 * YostarKR updated the StartUpConnectingFlag template (#11960) @HX3N
 * Fix hidden floor Sarkaz EN @Constrat
 * EN 服 IS2 导航失效 (#11955) @Daydreamer114
@@ -45,7 +45,6 @@ Issues may be present, so please be patient.
 
 ### 其他 | Other
 
-* EN tasks [skip changelo] [skip ci] @Constrat
 * 加解密失败时通知 @ABA2396
 * TaskData增加OcrTask的ocrReplace合法性检查 (#11878) @status102
 * 使用RecruitData代替ocrReplace的外服适配 (#11879) @status102
