@@ -1567,6 +1567,7 @@
             ["First Move Advantage", "先手必胜"],
             ["Slow and Steady Wins", "稳扎稳打"],
             ["the Race", "稳扎稳打"],
+            ["Steadily, Surely", "稳扎稳打"],
             ["Overcoming Your", "取长补短"],
             ["Weaknesses", "取长补短"]
         ]
@@ -1589,7 +1590,11 @@
             ["Scientific Thinking", "科学主义分队"],
             ["Life Prioritizing Squad", "生活至上分队"],
             ["Eternal Hunting Squad", "永恒狩猎分队"],
-            ["Special Training Squad", "特训分队"]
+            ["Special Training Squad", "特训分队"],
+            ["Soul Escort Squad", "魂灵护送分队"],
+            ["Erudite Squad", "博闻广记分队"],
+            ["Blueprint Squad", "蓝图测绘分队"],
+            ["Improvisation Squad", "因地制宜分队"]
         ]
     },
     "RoguelikeFormationOcr": {
@@ -2270,7 +2275,6 @@
         "roi": [620, 20, 110, 34]
     },
     "Roguelike@StageEncounterOcr": {
-        "fullMatch": true,
         "ocrReplace": [
             ["<", ""],
             ["\\.", ""],
@@ -2278,7 +2282,7 @@
             ["The Kind Puppet", "善良的木偶"],
             ["Teller of Tales", "讲故事的人"],
             ["Adventurer Comm[ission]*", "委托冒险者"],
-            [".*Royal Rumble'?", "皇家争执"],
+            ["Royal Rumble'?", "皇家争执"],
             ["Advance Squad", "先遣小队"],
             ["Gaulish Veteran", "高卢老兵"],
             ["Hallucinatory Candlelights", "迷幻烛火"],
@@ -2300,12 +2304,12 @@
             ["Duck Lord.*s Improv", "即兴鸭子演出"],
             ["About That Ursus Man", "有关那位乌萨斯人"],
             ["Coffin of Evil", "邪恶之棺"],
-            [".*Eye For an Eye", "以血还血"],
+            ["Eye For an Eye", "以血还血"],
             ["Secret Entrance", "暗门"],
             ["Secret Chamber", "密室"],
             ["Junkyard Bazaar", "废品地摊"],
             ["Art Connoisseur", "鉴赏家"],
-            [".*Reprieve.*", "解脱"],
+            ["Reprieve", "解脱"],
             ["Crazy Puppets", "疯狂玩偶"],
             ["Attending a Banquet", "赴宴"],
             ["A Gathering of Followers", "追随者集会"],
@@ -2391,7 +2395,7 @@
             ["A ?Dark ?Room", "昏黑之室"],
             ["Regular ?Maintenance", "定期维护"],
             ["Auspicious ?Sign", "吉兆"],
-            ["Rain!.*", "雨！"],
+            ["Rain!", "雨！"],
             ["Sobbing ?in ?the ?Swamp", "沼泽里的抽泣声"],
             ["A ?Profitable ?Plan", "有利可图"],
             ["Entourage", "随行人员"],
@@ -2801,7 +2805,94 @@
         ]
     },
     "Sarkaz@Roguelike@CheckLevel": {
-        "text": ["TODO", "TODO"]
+        "text": ["HYPOTHESES", "COMPILATION"]
+    },
+    "Sarkaz@Roguelike@SelectTheme": {
+        "text": ["Hypotheses Compilation"]
+    },
+    "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
+        "text": ["_fastInvestment", "_exit"],
+        "ocrReplace": [
+            ["Furnace Origin", "_fastInvestment"],
+            ["Wrought Ironroots", "_exit"],
+            ["Ashforged Ruins", "_exit"],
+            ["Probable Divergence", "_exit"],
+            ["Border of Truth", "_exit"],
+            ["Radiant Zenith", "_exit"],
+            ["Hermitage of Sv.tantrya", "_exit"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode0": {
+        "text": ["_default"],
+        "ocrReplace": [
+            ["Furnace Origin", "_default"],
+            ["Wrought Ironroots", "_default"],
+            ["Ashforged Ruins", "_default"],
+            ["Probable Divergence", "_default"],
+            ["Border of Truth", "_default"],
+            ["Radiant Zenith", "_default"],
+            ["Hermitage of Sv.tantrya", "_SKIP_"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
+        "text": ["_aggressive", "_pragmatic", "_default"],
+        "ocrReplace": [
+            ["Furnace Origin", "_aggressive"],
+            ["Wrought Ironroots", "_aggressive"],
+            ["Ashforged Ruins", "_pragmatic"],
+            ["Probable Divergence", "_pragmatic"],
+            ["Border of Truth", "_default"],
+            ["Radiant Zenith", "_default"],
+            ["Hermitage of Sv.tantrya", "_SKIP_"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode10001": {
+        "text": ["_routing", "_exit"],
+        "ocrReplace": [
+            ["Furnace Origin", "_routing"],
+            ["Wrought Ironroots", "_exit"],
+            ["Ashforged Ruins", "_exit"],
+            ["Probable Divergence", "_exit"],
+            ["Border of Truth", "_exit"],
+            ["Radiant Zenith", "_exit"],
+            ["Hermitage of Sv.tantrya", "_exit"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode4": {
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["Furnace Origin", "_default"],
+            ["Wrought Ironroots", "_default"],
+            ["Ashforged Ruins", "_exit"],
+            ["Probable Divergence", "_exit"],
+            ["Border of Truth", "_exit"],
+            ["Radiant Zenith", "_exit"],
+            ["Hermitage of Sv.tantrya", "_exit"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode6": {
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["Furnace Origin", "_default"],
+            ["Wrought Ironroots", "_default"],
+            ["Ashforged Ruins", "_default"],
+            ["Probable Divergence", "_default"],
+            ["Border of Truth", "_default"],
+            ["Radiant Zenith", "_default"],
+            ["Hermitage of Sv.tantrya", "_SKIP_"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode7": {
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["Furnace Origin", "_default"],
+            ["Wrought Ironroots", "_default"],
+            ["Ashforged Ruins", "_default"],
+            ["Probable Divergence", "_default"],
+            ["Border of Truth", "_default"],
+            ["Radiant Zenith", "_default"],
+            ["Hermitage of Sv.tantrya", "_SKIP_"]
+        ]
     },
     "Reclamation2Begin": {
         "text": ["Commence"]
