@@ -16,10 +16,16 @@ using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.UI;
+using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
+/// <summary>
+/// 自动公招model
+/// </summary>
 public class RecruitSettingsUserControlModel : TaskViewModel
 {
     static RecruitSettingsUserControlModel()
@@ -72,18 +78,18 @@ public class RecruitSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private string _recruitMaxTimes = ConfigurationHelper.GetValue(ConfigurationKeys.RecruitMaxTimes, "4");
+    private int _recruitMaxTimes = int.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.RecruitMaxTimes, "4"), out var outMaxTimes) ? outMaxTimes : 4;
 
     /// <summary>
     /// Gets or sets the maximum times of recruit.
     /// </summary>
-    public string RecruitMaxTimes
+    public int RecruitMaxTimes
     {
         get => _recruitMaxTimes;
         set
         {
             SetAndNotify(ref _recruitMaxTimes, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.RecruitMaxTimes, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.RecruitMaxTimes, value.ToString());
         }
     }
 
@@ -128,40 +134,18 @@ public class RecruitSettingsUserControlModel : TaskViewModel
         set => SetAndNotify(ref _useExpedited, value);
     }
 
-    private string _selectExtraTags = ConfigurationHelper.GetValue(ConfigurationKeys.SelectExtraTags, "0");
+    private int _selectExtraTags = int.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.SelectExtraTags, "0"), out var outTags) ? outTags : 0;
 
     /// <summary>
     /// Gets or sets a value indicating three tags are always selected or select only rare tags as many as possible .
     /// </summary>
-    public string SelectExtraTags
+    public int SelectExtraTags
     {
-        get
-        {
-            if (int.TryParse(_selectExtraTags, out _))
-            {
-                return _selectExtraTags;
-            }
-
-            ConfigurationHelper.SetValue(ConfigurationKeys.SelectExtraTags, "0");
-            return "0";
-
-            // v4.28.0迁移，不再支持bool类型
-            /*
-            var value = "0";
-            if (bool.TryParse(_selectExtraTags, out bool boolValue))
-            {
-                value = boolValue ? "1" : "0";
-            }
-
-            SetAndNotify(ref _selectExtraTags, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.SelectExtraTags, value);
-            return value;*/
-        }
-
+        get => _selectExtraTags;
         set
         {
             SetAndNotify(ref _selectExtraTags, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.SelectExtraTags, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.SelectExtraTags, value.ToString());
         }
     }
 
@@ -382,5 +366,87 @@ public class RecruitSettingsUserControlModel : TaskViewModel
             SetAndNotify(ref _chooseLevel5Hour, value / 60, nameof(ChooseLevel5Hour));
             SetAndNotify(ref _chooseLevel5Min, value % 60, nameof(ChooseLevel5Min));
         }
+    }
+
+    /// <summary>
+    /// 公开招募。
+    /// </summary>
+    /// <param name="maxTimes">加急次数，仅在 <paramref name="useExpedited"/> 为 <see langword="true"/> 时有效。</param>
+    /// <param name="firstTags">首选 Tags，仅在 Tag 等级为 3 时有效。</param>
+    /// <param name="selectLevel">会去点击标签的 Tag 等级。</param>
+    /// <param name="confirmLevel">会去点击确认的 Tag 等级。若仅公招计算，可设置为空数组。</param>
+    /// <param name="needRefresh">是否刷新三星 Tags。</param>
+    /// <param name="needForceRefresh">无招募许可时是否继续尝试刷新 Tags。</param>
+    /// <param name="useExpedited">是否使用加急许可。</param>
+    /// <param name="selectExtraTagsMode">
+    /// 公招选择额外tag的模式。可用值包括：
+    /// <list type="bullet">
+    ///     <item>
+    ///         <term><c>0</c></term>
+    ///         <description>默认不选择额外tag。</description>
+    ///     </item>
+    ///     <item>
+    ///         <term><c>1</c></term>
+    ///         <description>选满至3个tag。</description>
+    ///     </item>
+    ///     <item>
+    ///         <term><c>2</c></term>
+    ///         <description>尽可能多选且只选四星以上的tag。</description>
+    ///     </item>
+    /// </list>
+    /// </param>
+    /// <param name="skipRobot">是否在识别到小车词条时跳过。</param>
+    /// <param name="chooseLevel3Time">3 星招募时间</param>
+    /// <param name="chooseLevel4Time">4 星招募时间</param>
+    /// <param name="chooseLevel5Time">5 星招募时间</param>
+    /// <returns>返回(Asst任务类型, 参数)</returns>
+    public override (AsstTaskType Type, JObject Params) Serialize()
+    {
+        var reqList = new List<int>();
+        var cfmList = new List<int>();
+
+        if (ChooseLevel3)
+        {
+            cfmList.Add(3);
+        }
+
+        if (ChooseLevel4)
+        {
+            reqList.Add(4);
+            cfmList.Add(4);
+        }
+
+        // ReSharper disable once InvertIf
+        if (ChooseLevel5)
+        {
+            reqList.Add(5);
+            cfmList.Add(5);
+        }
+
+        var param = new JObject
+        {
+            ["refresh"] = RefreshLevel3,
+            ["force_refresh"] = ForceRefresh,
+            ["select"] = new JArray(reqList.ToArray()),
+            ["confirm"] = new JArray(cfmList.ToArray()),
+            ["times"] = RecruitMaxTimes,
+            ["set_time"] = true,
+            ["expedite"] = UseExpedited,
+            ["extra_tags_mode"] = SelectExtraTags,
+            ["expedite_times"] = RecruitMaxTimes,
+            ["skip_robot"] = NotChooseLevel1,
+            ["first_tags"] = new JArray(AutoRecruitFirstList.Cast<CombinedData>().Select(i => i.Value).ToArray()),
+            ["recruitment_time"] = new JObject
+            {
+                ["3"] = ChooseLevel3Time,
+                ["4"] = ChooseLevel4Time,
+                ["5"] = ChooseLevel5Time,
+            },
+            ["report_to_penguin"] = SettingsViewModel.GameSettings.EnablePenguin,
+            ["report_to_yituliu"] = SettingsViewModel.GameSettings.EnableYituliu,
+            ["penguin_id"] = SettingsViewModel.GameSettings.PenguinId,
+            ["server"] = Instances.SettingsViewModel.ServerType,
+        };
+        return (AsstTaskType.Recruit, param);
     }
 }
