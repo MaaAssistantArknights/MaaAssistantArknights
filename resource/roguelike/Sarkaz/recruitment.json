@@ -784,6 +784,7 @@
                 {
                     "name": "古米",
                     "skill": 1,
+                    "skill_usage": 0,
                     "is_key": true,
                     "is_start": true,
                     "recruit_priority": 626,
@@ -2226,6 +2227,7 @@
                 {
                     "name": "史都华德",
                     "skill": 1,
+                    "skill_usage": 0,
                     "is_key": true,
                     "recruit_priority": 562
                 }
