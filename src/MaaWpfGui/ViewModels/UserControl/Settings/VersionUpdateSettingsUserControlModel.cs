@@ -269,18 +269,18 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _updateCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateCheck, bool.TrueString));
+    private bool _startupUpdateCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.StartupUpdateCheck, bool.TrueString));
 
     /// <summary>
     /// Gets or sets a value indicating whether to check update.
     /// </summary>
-    public bool UpdateCheck
+    public bool StartupUpdateCheck
     {
-        get => _updateCheck;
+        get => _startupUpdateCheck;
         set
         {
-            SetAndNotify(ref _updateCheck, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateCheck, value.ToString());
+            SetAndNotify(ref _startupUpdateCheck, value);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.StartupUpdateCheck, value.ToString());
         }
     }
 
