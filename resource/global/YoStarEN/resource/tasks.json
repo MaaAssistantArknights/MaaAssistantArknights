@@ -2529,6 +2529,30 @@
             ["Hall of Desires", "_exit"]
         ]
     },
+    "Phantom@Roguelike@StrategyChange_mode6": {
+        "roi": [541, 5, 241, 71],
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["Mist-stricken Missteps", "_aggressive"],
+            ["Sunset Courtyard", "_aggressive"],
+            ["Homeland Remnants", "_aggressive"],
+            ["Nightmare's Prelude", "_pragmatic"],
+            ["Blood-soaked Corridor", "_pragmatic"],
+            ["Hall of Desires", "_default"]
+        ]
+    },
+    "Phantom@Roguelike@StrategyChange_mode7": {
+        "roi": [541, 5, 241, 71],
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["Mist-stricken Missteps", "_aggressive"],
+            ["Sunset Courtyard", "_aggressive"],
+            ["Homeland Remnants", "_aggressive"],
+            ["Nightmare's Prelude", "_pragmatic"],
+            ["Blood-soaked Corridor", "_pragmatic"],
+            ["Hall of Desires", "_default"]
+        ]
+    },
     "Mizuki@Roguelike@CheckLevel": {
         "text": ["ECOSEQUENCE", "SEQUENCE"]
     },
@@ -2582,6 +2606,30 @@
             ["Sacrosant Cave", "_exit"],
             ["Deep Sea Woodland", "_exit"],
             ["Indigo Cradle", "_exit"]
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode6": {
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["Sunshine Coast", "_aggressive"],
+            ["Offshore Island", "_aggressive"],
+            ["Raging Billows", "_pragmatic"],
+            ["Secret Hotbed", "_pragmatic"],
+            ["Sacrosant Cave", "_default"],
+            ["Deep Sea Woodland", "_default"],
+            ["Indigo Cradle", "_SKIP_"]
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode7": {
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["Sunshine Coast", "_aggressive"],
+            ["Offshore Island", "_aggressive"],
+            ["Raging Billows", "_pragmatic"],
+            ["Secret Hotbed", "_pragmatic"],
+            ["Sacrosant Cave", "_default"],
+            ["Deep Sea Woodland", "_default"],
+            ["Indigo Cradle", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms": {
@@ -2805,6 +2853,38 @@
             [".*Secluded ?Passage", "_SKIP_"]
         ]
     },
+    "Sami@Roguelike@StrategyChange_mode6": {
+        "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
+        "roi": [593, 48, 135, 27],
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            [".*Brisk ?M?arshlands", "_aggressive"],
+            [".*Placid ?Forests", "_aggressive"],
+            [".*Dawning ?Frostbounds", "_pragmatic"],
+            [".*12.*", "_pragmatic"],
+            [".*Gelid ?Rockshelves", "_pragmatic"],
+            [".*Immaculate ?Garden", "_default"],
+            [".*Garden", "_default"],
+            [".*Clairvoyant ?Carcass", "_default"],
+            [".*Secluded ?Passage", "_SKIP_"]
+        ]
+    },
+    "Sami@Roguelike@StrategyChange_mode7": {
+        "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
+        "roi": [593, 48, 135, 27],
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            [".*Brisk ?M?arshlands", "_aggressive"],
+            [".*Placid ?Forests", "_aggressive"],
+            [".*Dawning ?Frostbounds", "_pragmatic"],
+            [".*12.*", "_pragmatic"],
+            [".*Gelid ?Rockshelves", "_pragmatic"],
+            [".*Immaculate ?Garden", "_default"],
+            [".*Garden", "_default"],
+            [".*Clairvoyant ?Carcass", "_default"],
+            [".*Secluded ?Passage", "_SKIP_"]
+        ]
+    },
     "Sarkaz@Roguelike@CheckLevel": {
         "text": ["HYPOTHESES", "COMPILATION"]
     },
@@ -2820,7 +2900,8 @@
             ["Probable Divergence", "_exit"],
             ["Border of Truth", "_exit"],
             ["Radiant Zenith", "_exit"],
-            ["Hermitage of Sv.tantrya", "_exit"]
+            ["Hermitage of Sv.tantrya", "_exit"],
+            ["Hermitate", "_exit"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode0": {
@@ -2832,7 +2913,8 @@
             ["Probable Divergence", "_default"],
             ["Border of Truth", "_default"],
             ["Radiant Zenith", "_default"],
-            ["Hermitage of Sv.tantrya", "_SKIP_"]
+            ["Hermitage of Sv.tantrya", "_SKIP_"],
+            ["Hermitate", "_SKIP_"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
@@ -2844,7 +2926,8 @@
             ["Probable Divergence", "_pragmatic"],
             ["Border of Truth", "_default"],
             ["Radiant Zenith", "_default"],
-            ["Hermitage of Sv.tantrya", "_SKIP_"]
+            ["Hermitage of Sv.tantrya", "_SKIP_"],
+            ["Hermitate", "_SKIP_"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode10001": {
@@ -2856,7 +2939,8 @@
             ["Probable Divergence", "_exit"],
             ["Border of Truth", "_exit"],
             ["Radiant Zenith", "_exit"],
-            ["Hermitage of Sv.tantrya", "_exit"]
+            ["Hermitage of Sv.tantrya", "_exit"],
+            ["Hermitate", "_exit"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode4": {
@@ -2868,7 +2952,8 @@
             ["Probable Divergence", "_exit"],
             ["Border of Truth", "_exit"],
             ["Radiant Zenith", "_exit"],
-            ["Hermitage of Sv.tantrya", "_exit"]
+            ["Hermitage of Sv.tantrya", "_exit"],
+            ["Hermitate", "_exit"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode6": {
@@ -2880,7 +2965,8 @@
             ["Probable Divergence", "_default"],
             ["Border of Truth", "_default"],
             ["Radiant Zenith", "_default"],
-            ["Hermitage of Sv.tantrya", "_SKIP_"]
+            ["Hermitage of Sv.tantrya", "_SKIP_"],
+            ["Hermitate", "_SKIP_"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode7": {
@@ -2892,7 +2978,8 @@
             ["Probable Divergence", "_default"],
             ["Border of Truth", "_default"],
             ["Radiant Zenith", "_default"],
-            ["Hermitage of Sv.tantrya", "_SKIP_"]
+            ["Hermitage of Sv.tantrya", "_SKIP_"],
+            ["Hermitate", "_SKIP_"]
         ]
     },
     "Reclamation2Begin": {
