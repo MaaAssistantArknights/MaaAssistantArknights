@@ -2554,8 +2554,8 @@
         ]
     },
     "Mizuki@Roguelike@SelectTheme": {
-        "text": ["Ecosequence"],
-        "ocrReplace": [["Ecoseguence", "Ecosequence"]]
+        "ocrReplace": [["Ecoseguence", "Ecosequence"]],
+        "text": ["Ecosequence"]
     },
     "Mizuki@Roguelike@StageSafeHouseReuse": {
         "text": ["Use the Safe House again", "Use the Safe"]
