@@ -2594,6 +2594,28 @@
             ["渇欲の大広間", "_exit"]
         ]
     },
+    "Phantom@Roguelike@StrategyChange_mode6": {
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["迷霧の岐路", "_aggressive"],
+            ["落陽の庭園", "_aggressive"],
+            ["凋落の故地", "_aggressive"],
+            ["悪夢の幕開け", "_pragmatic"],
+            ["緋月の回廊", "_pragmatic"],
+            ["渇欲の大広間", "_default"]
+        ]
+    },
+    "Phantom@Roguelike@StrategyChange_mode7": {
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["迷霧の岐路", "_aggressive"],
+            ["落陽の庭園", "_aggressive"],
+            ["凋落の故地", "_aggressive"],
+            ["悪夢の幕開け", "_pragmatic"],
+            ["緋月の回廊", "_pragmatic"],
+            ["渇欲の大広間", "_default"]
+        ]
+    },
     "Mizuki@Roguelike@CheckLevel": {
         "text": ["進化系図", "進化", "系図"]
     },
@@ -2637,6 +2659,30 @@
             ["不可侵の洞窟", "_exit"],
             ["深海の密林", "_exit"],
             ["紺碧の揺籃", "_exit"]
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode6": {
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["陽の射す海岸", "_aggressive"],
+            ["離れの孤島", "_aggressive"],
+            ["迫.*来る波濤", "_pragmatic"],
+            ["秘密の温床", "_pragmatic"],
+            ["不可侵の洞窟", "_default"],
+            ["深海の密林", "_default"],
+            ["紺碧の揺籃", "_SKIP_"]
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode7": {
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["陽の射す海岸", "_aggressive"],
+            ["離れの孤島", "_aggressive"],
+            ["迫.*来る波濤", "_pragmatic"],
+            ["秘密の温床", "_pragmatic"],
+            ["不可侵の洞窟", "_default"],
+            ["深海の密林", "_default"],
+            ["紺碧の揺籃", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms": {
@@ -2821,11 +2867,35 @@
             ["深埋の迷境", "_SKIP_"]
         ]
     },
+    "Sami@Roguelike@StrategyChange_mode6": {
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["初霜の湖沼", "_aggressive"],
+            ["静謐な.*", "_aggressive"],
+            ["夜明けの凍.*", "_pragmatic"],
+            ["凍てつく岩骸", "_pragmatic"],
+            ["汚れなき花園", "_default"],
+            ["遠見の巨構", "_default"],
+            ["深埋の迷境", "_SKIP_"]
+        ]
+    },
+    "Sami@Roguelike@StrategyChange_mode7": {
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["初霜の湖沼", "_aggressive"],
+            ["静謐な.*", "_aggressive"],
+            ["夜明けの凍.*", "_pragmatic"],
+            ["凍てつく岩骸", "_pragmatic"],
+            ["汚れなき花園", "_default"],
+            ["遠見の巨構", "_default"],
+            ["深埋の迷境", "_SKIP_"]
+        ]
+    },
     "Sarkaz@Roguelike@CheckLevel": {
         "text": ["仮説集"]
     },
     "Sarkaz@Roguelike@NextLevel": {
-        "text": ["溶魂の端緒", "錬鉄の根系", "灰燼の迷城", "蓋然の異域", "虚構の境目", "輝ける天上", "奇妙な断章"]
+        "text": ["溶魂の端緒", "錬鉄の根系", "灰燼の迷城", "蓋然の異域", "虚構の境(目)?", "輝ける天上", "奇妙な断章"]
     },
     "Sarkaz@Roguelike@RoutingRefreshNodeConfirm": {
         "text": ["確定"]
@@ -2846,7 +2916,7 @@
             ["錬鉄の根系", "_exit"],
             ["灰燼の迷城", "_exit"],
             ["蓋然の異域", "_exit"],
-            ["虚構の境目", "_exit"],
+            ["虚構の境(目)?", "_exit"],
             ["輝ける天上", "_exit"],
             ["奇妙な断章", "_exit"]
         ]
@@ -2858,7 +2928,7 @@
             ["錬鉄の根系", "_default"],
             ["灰燼の迷城", "_default"],
             ["蓋然の異域", "_default"],
-            ["虚構の境目", "_default"],
+            ["虚構の境(目)?", "_default"],
             ["輝ける天上", "_default"],
             ["奇妙な断章", "_SKIP_"]
         ]
@@ -2870,7 +2940,7 @@
             ["錬鉄の根系", "_aggressive"],
             ["灰燼の迷城", "_pragmatic"],
             ["蓋然の異域", "_pragmatic"],
-            ["虚構の境目", "_default"],
+            ["虚構の境(目)?", "_default"],
             ["輝ける天上", "_default"],
             ["奇妙な断章", "_SKIP_"]
         ]
@@ -2882,7 +2952,7 @@
             ["錬鉄の根系", "_exit"],
             ["灰燼の迷城", "_exit"],
             ["蓋然の異域", "_exit"],
-            ["虚構の境目", "_exit"],
+            ["虚構の境(目)?", "_exit"],
             ["輝ける天上", "_exit"],
             ["奇妙な断章", "_exit"]
         ]
@@ -2894,7 +2964,7 @@
             ["錬鉄の根系", "_default"],
             ["灰燼の迷城", "_exit"],
             ["蓋然の異域", "_exit"],
-            ["虚構の境目", "_exit"],
+            ["虚構の境(目)?", "_exit"],
             ["輝ける天上", "_exit"],
             ["奇妙な断章", "_exit"]
         ]
@@ -2906,7 +2976,7 @@
             ["錬鉄の根系", "_default"],
             ["灰燼の迷城", "_default"],
             ["蓋然の異域", "_default"],
-            ["虚構の境目", "_exit"],
+            ["虚構の境(目)?", "_exit"],
             ["輝ける天上", "_exit"],
             ["奇妙な断章", "_SKIP_"]
         ]
@@ -2918,7 +2988,7 @@
             ["錬鉄の根系", "_default"],
             ["灰燼の迷城", "_default"],
             ["蓋然の異域", "_default"],
-            ["虚構の境目", "_default"],
+            ["虚構の境(目)?", "_default"],
             ["輝ける天上", "_default"],
             ["奇妙な断章", "_SKIP_"]
         ]
