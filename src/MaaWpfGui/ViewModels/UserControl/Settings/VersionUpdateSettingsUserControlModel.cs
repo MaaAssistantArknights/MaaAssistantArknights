@@ -232,8 +232,6 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _updateCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateCheck, bool.TrueString));
-
     public List<GenericCombinedData<string>> UpdateSourceList { get; } = [
         new() { Display = LocalizationHelper.GetString("GlobalSource"), Value = "Github" },
         new() { Display = LocalizationHelper.GetString("MirrorChyan"), Value = "MirrorChyan" },
@@ -270,6 +268,8 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MirrorChyanCdk, value);
         }
     }
+
+    private bool _updateCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateCheck, bool.TrueString));
 
     /// <summary>
     /// Gets or sets a value indicating whether to check update.
