@@ -1,5 +1,11 @@
 ## v5.13.2
 
+### 强调 | Highlight
+
+#### Sarkaz I.S. for Global!
+YostarEN, YostarJP and YostarKR receive the update for Sarkaz I.S.    
+Issues may be present, so please be patient. 
+
 ### 新增 | New
 
 * YostarEN I.S. modes (#11956) @Constrat
