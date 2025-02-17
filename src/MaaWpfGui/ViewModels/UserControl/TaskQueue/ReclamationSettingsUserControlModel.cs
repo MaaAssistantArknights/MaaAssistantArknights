@@ -138,7 +138,6 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
     /// <summary>
     /// 自动生息演算。
     /// </summary>
-    /// <param name="toolToCraft">要组装的支援道具。</param>
     /// <param name="theme">生息演算主题["Tales"]</param>
     /// <param name="mode">
     /// 策略。可用值包括：
@@ -153,10 +152,11 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
     ///     </item>
     /// </list>
     /// </param>
-    /// <param name="incrementMode">点击类型：0 连点；1 长按</param>
-    /// <param name="numCraftBatches">单次最大制造轮数</param>
+    /// <param name="increment_mode">点击类型：0 连点；1 长按</param>
+    /// <param name="num_craft_batches">单次最大制造轮数</param>
+    /// <param name="tools_to_craft">要组装的支援道具。</param>
     /// <returns>返回(Asst任务类型, 参数)</returns>
-    public (AsstTaskType Type, JObject Params) Serialize()
+    public override (AsstTaskType Type, JObject Params) Serialize()
     {
         var data = new JObject
         {
