@@ -931,6 +931,9 @@
     "StartToWakeUpOCR": {
         "text": ["START"]
     },
+    "StartUpConnectingFlag": {
+        "roi": [0, 635, 550, 85]
+    },
     "TodaysSupplies": {
         "text": ["당일배급"]
     },
