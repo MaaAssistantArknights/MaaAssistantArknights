@@ -2529,6 +2529,30 @@
             ["Hall of Desires", "_exit"]
         ]
     },
+    "Phantom@Roguelike@StrategyChange_mode6": {
+        "roi": [541, 5, 241, 71],
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["Mist-stricken Missteps", "_aggressive"],
+            ["Sunset Courtyard", "_aggressive"],
+            ["Homeland Remnants", "_aggressive"],
+            ["Nightmare's Prelude", "_pragmatic"],
+            ["Blood-soaked Corridor", "_pragmatic"],
+            ["Hall of Desires", "_default"]
+        ]
+    },
+    "Phantom@Roguelike@StrategyChange_mode7": {
+        "roi": [541, 5, 241, 71],
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["Mist-stricken Missteps", "_aggressive"],
+            ["Sunset Courtyard", "_aggressive"],
+            ["Homeland Remnants", "_aggressive"],
+            ["Nightmare's Prelude", "_pragmatic"],
+            ["Blood-soaked Corridor", "_pragmatic"],
+            ["Hall of Desires", "_default"]
+        ]
+    },
     "Mizuki@Roguelike@CheckLevel": {
         "text": ["ECOSEQUENCE", "SEQUENCE"]
     },
