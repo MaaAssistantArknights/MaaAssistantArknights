@@ -10,11 +10,24 @@ public static class SimpleEncryptionHelper
 {
     private static readonly ILogger _logger = Log.ForContext("SourceContext", "SimpleEncryptionHelper");
 
-    public static string Encrypt(string plainText, DataProtectionScope dataProtectionScope = DataProtectionScope.CurrentUser, [CallerMemberName] string caller = "")
+    /// <summary>
+    /// 使用数据保护API对明文进行加密。
+    /// </summary>
+    /// <param name="plainText">需要加密的文本。如果为null或空字符串，则返回空字符串。</param>
+    /// <param name="defaultText">用于比较的默认文本。如果plainText与defaultText相同，则直接返回plainText而不加密。</param>
+    /// <param name="dataProtectionScope">数据保护的范围，默认为CurrentUser（当前用户）。</param>
+    /// <param name="caller">调用方法的名称，由编译器自动填充。</param>
+    /// <returns>返回加密后的Base64编码字符串。如果加密失败，则返回原始plainText。</returns>
+    public static string Encrypt(string plainText, string defaultText = "", DataProtectionScope dataProtectionScope = DataProtectionScope.CurrentUser, [CallerMemberName] string caller = "")
     {
         if (string.IsNullOrEmpty(plainText))
         {
             return string.Empty;
+        }
+
+        if (plainText == defaultText)
+        {
+            return plainText;
         }
 
         try
@@ -31,11 +44,24 @@ public static class SimpleEncryptionHelper
         }
     }
 
-    public static string Decrypt(string encryptedText, DataProtectionScope dataProtectionScope = DataProtectionScope.CurrentUser, [CallerMemberName] string caller = "")
+    /// <summary>
+    /// 使用数据保护API对加密文本进行解密。
+    /// </summary>
+    /// <param name="encryptedText">需要解密的Base64编码加密文本。如果为null或空字符串，则返回空字符串。</param>
+    /// <param name="defaultText">用于比较的默认文本。如果encryptedText与defaultText相同，则直接返回defaultText而不解密。</param>
+    /// <param name="dataProtectionScope">数据保护的范围，默认为CurrentUser（当前用户）。</param>
+    /// <param name="caller">调用方法的名称，由编译器自动填充。</param>
+    /// <returns>返回解密后的文本。如果解密失败，则返回原始encryptedText。</returns>
+    public static string Decrypt(string encryptedText, string defaultText = "", DataProtectionScope dataProtectionScope = DataProtectionScope.CurrentUser, [CallerMemberName] string caller = "")
     {
         if (string.IsNullOrEmpty(encryptedText))
         {
             return string.Empty;
+        }
+
+        if (encryptedText == defaultText)
+        {
+            return defaultText;
         }
 
         try
