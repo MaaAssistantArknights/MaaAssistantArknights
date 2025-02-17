@@ -2900,8 +2900,7 @@
             ["Probable Divergence", "_exit"],
             ["Border of Truth", "_exit"],
             ["Radiant Zenith", "_exit"],
-            ["Hermitage of Sv.tantrya", "_exit"],
-            ["Hermitage", "_exit"]
+            ["Bizarre Fragment", "_exit"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode0": {
@@ -2913,8 +2912,7 @@
             ["Probable Divergence", "_default"],
             ["Border of Truth", "_default"],
             ["Radiant Zenith", "_default"],
-            ["Hermitage of Sv.tantrya", "_SKIP_"],
-            ["Hermitage", "_SKIP_"]
+            ["Bizarre Fragment", "_SKIP_"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
@@ -2926,8 +2924,7 @@
             ["Probable Divergence", "_pragmatic"],
             ["Border of Truth", "_default"],
             ["Radiant Zenith", "_default"],
-            ["Hermitage of Sv.tantrya", "_SKIP_"],
-            ["Hermitage", "_SKIP_"]
+            ["Bizarre Fragment", "_SKIP_"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode10001": {
@@ -2939,8 +2936,7 @@
             ["Probable Divergence", "_exit"],
             ["Border of Truth", "_exit"],
             ["Radiant Zenith", "_exit"],
-            ["Hermitage of Sv.tantrya", "_exit"],
-            ["Hermitage", "_exit"]
+            ["Bizarre Fragment", "_exit"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode4": {
@@ -2952,8 +2948,7 @@
             ["Probable Divergence", "_exit"],
             ["Border of Truth", "_exit"],
             ["Radiant Zenith", "_exit"],
-            ["Hermitage of Sv.tantrya", "_exit"],
-            ["Hermitage", "_exit"]
+            ["Bizarre Fragment", "_exit"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode6": {
@@ -2965,8 +2960,7 @@
             ["Probable Divergence", "_default"],
             ["Border of Truth", "_default"],
             ["Radiant Zenith", "_default"],
-            ["Hermitage of Sv.tantrya", "_SKIP_"],
-            ["Hermitage", "_SKIP_"]
+            ["Bizarre Fragment", "_SKIP_"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode7": {
@@ -2978,8 +2972,7 @@
             ["Probable Divergence", "_default"],
             ["Border of Truth", "_default"],
             ["Radiant Zenith", "_default"],
-            ["Hermitage of Sv.tantrya", "_SKIP_"],
-            ["Hermitage", "_SKIP_"]
+            ["Bizarre Fragment", "_SKIP_"]
         ]
     },
     "Reclamation2Begin": {
