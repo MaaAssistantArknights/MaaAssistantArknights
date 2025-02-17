@@ -187,7 +187,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private string _barkServer = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkServer, "https://api.day.app"));
+    private string _barkServer = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkServer, "https://api.day.app"), "https://api.day.app");
 
     public string BarkServer
     {
