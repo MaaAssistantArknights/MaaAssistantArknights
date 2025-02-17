@@ -516,13 +516,21 @@ namespace MaaWpfGui.Helper
         /// <returns>是否成功</returns>
         public static bool FlashWindowEx(IntPtr hWnd = default, FlashType type = FlashType.FLASHW_TIMERNOFG, uint count = 5)
         {
-            var fInfo = default(FLASHWINFO);
-            fInfo.cbSize = Convert.ToUInt32(Marshal.SizeOf(fInfo));
-            fInfo.hwnd = hWnd != default ? hWnd : new WindowInteropHelper(System.Windows.Application.Current.MainWindow!).Handle;
-            fInfo.dwFlags = (uint)type;
-            fInfo.uCount = count;
-            fInfo.dwTimeout = 0;
-            return FlashWindowEx(ref fInfo);
+            try
+            {
+                var fInfo = default(FLASHWINFO);
+                fInfo.cbSize = Convert.ToUInt32(Marshal.SizeOf(fInfo));
+                fInfo.hwnd = hWnd != default ? hWnd : new WindowInteropHelper(System.Windows.Application.Current.MainWindow!).Handle;
+                fInfo.dwFlags = (uint)type;
+                fInfo.uCount = count;
+                fInfo.dwTimeout = 0;
+                return FlashWindowEx(ref fInfo);
+            }
+            catch
+            {
+                _logger.Warning("FlashWindowEx error");
+                return false;
+            }
         }
 
         #endregion 任务栏闪烁

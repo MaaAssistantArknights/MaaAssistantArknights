@@ -958,4 +958,7 @@ C:\\leidian\\LDPlayer9。\n
 如需多开 MAA，请复制一份新的 MAA 到其他文件夹下，并设置使用不同的 MAA，相同的 adb 和不同的模拟器地址进行多开操作。
     </system:String>
     <!--  !SingleInstance  -->
+    <!--  SimpleEncryptionHelper  -->
+    <system:String x:Key="EncryptionError">加解密失败，请重新配置相关设置，否则加密内容将以明文形式存储在配置文件中。</system:String>
+    <!--  !SimpleEncryptionHelper  -->
 </ResourceDictionary>
