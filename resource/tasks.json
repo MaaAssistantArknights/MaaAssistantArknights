@@ -10255,7 +10255,7 @@
         "next": ["Sarkaz@Roguelike@ChooseBurdenOperatorSelect1"]
     },
     "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart": {
-        "roi": [589, 584, 231, 121],
+        "roi": [590, 620, 200, 50],
         "templThreshold": 0.9,
         "action": "ClickRect",
         "specificRect": [600, 660, 220, 40],
