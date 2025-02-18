@@ -22,7 +22,6 @@ regex_ignore_list = [
     "Sami@Roguelike@FoldartalGainOcr",
 
     # FUTURE EVENTS
-    "Sarkaz.*",
 ]
 
 server_list = [

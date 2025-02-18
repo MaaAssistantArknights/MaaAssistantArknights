@@ -1778,50 +1778,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static bool AppendRecruit()
         {
-            // for debug
-            if (!int.TryParse(RecruitTask.RecruitMaxTimes, out var maxTimes))
-            {
-                maxTimes = 0;
-            }
-
-            var firstList = RecruitTask.AutoRecruitFirstList;
-
-            var reqList = new List<int>();
-            var cfmList = new List<int>();
-
-            if (RecruitTask.ChooseLevel3)
-            {
-                cfmList.Add(3);
-            }
-
-            if (RecruitTask.ChooseLevel4)
-            {
-                reqList.Add(4);
-                cfmList.Add(4);
-            }
-
-            // ReSharper disable once InvertIf
-            if (RecruitTask.ChooseLevel5)
-            {
-                reqList.Add(5);
-                cfmList.Add(5);
-            }
-
-            _ = int.TryParse(RecruitTask.SelectExtraTags, out var selectExtra);
-
-            return Instances.AsstProxy.AsstAppendRecruit(
-                maxTimes,
-                firstList.Cast<CombinedData>().Select(i => i.Value).ToArray(),
-                [.. reqList],
-                [.. cfmList],
-                RecruitTask.RefreshLevel3,
-                RecruitTask.ForceRefresh,
-                RecruitTask.UseExpedited,
-                selectExtra,
-                RecruitTask.NotChooseLevel1,
-                RecruitTask.ChooseLevel3Time,
-                RecruitTask.ChooseLevel4Time,
-                RecruitTask.ChooseLevel5Time);
+            // 被RemoteControlService反射调用，暂不移除
+            var (type, param) = RecruitTask.Serialize();
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Recruit, type, param);
         }
 
         private static bool AppendRoguelike()
@@ -1861,16 +1820,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static bool AppendReclamation()
         {
-            var toolToCraft = ReclamationTask.ReclamationToolToCraft.Split(';', '；').Select(s => s.Trim());
-
-            _ = int.TryParse(ReclamationTask.ReclamationMode, out var mode);
-
-            return Instances.AsstProxy.AsstAppendReclamation(
-                toolToCraft.ToArray(),
-                ReclamationTask.ReclamationTheme,
-                mode,
-                ReclamationTask.ReclamationIncrementMode,
-                ReclamationTask.ReclamationMaxCraftCountPerRound);
+            // 被RemoteControlService反射调用，暂不移除
+            var (type, param) = ReclamationTask.Serialize();
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Reclamation, type, param);
         }
 
         /// <summary>

@@ -147,10 +147,10 @@
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">自動ローグ 戦闘終了まえに「停止」を遅らせる</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">第5階層のボスの手前で一時停止する</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">最大レベル達成時に停止</system:String>
-    <system:String x:Key="RoguelikeStartWithSeed">启用刷钱种子</system:String>
-    <system:String x:Key="RoguelikeMonthlySquadAutoIterate">月度小队自动切换</system:String>
-    <system:String x:Key="RoguelikeMonthlySquadCheckComms">月度小队通讯</system:String>
-    <system:String x:Key="RoguelikeDeepExplorationAutoIterate">深入调查自动切换</system:String>
+    <system:String x:Key="RoguelikeStartWithSeed">投資のシードを有効にする</system:String>
+    <system:String x:Key="RoguelikeMonthlySquadAutoIterate">月次小隊自動切替</system:String>
+    <system:String x:Key="RoguelikeMonthlySquadCheckComms">月次小隊通信</system:String>
+    <system:String x:Key="RoguelikeDeepExplorationAutoIterate">多面調査自動切替</system:String>
     <system:String x:Key="DeploymentWithPause">統合戦略/保全駐在でポーズトリックを使用します（ベータ機能のため非推奨です）</system:String>
     <system:String x:Key="AdbLiteEnabled">軽量ADBを使用(実験機能)</system:String>
     <system:String x:Key="KillAdbOnExit">終了時にADBを終了する</system:String>
@@ -169,6 +169,7 @@
     <system:String x:Key="IS4NewSquad5">异想天开分队（占位）</system:String>
     <system:String x:Key="IS4NewSquad6">点刺成锭分队（占位）</system:String>
     <system:String x:Key="IS4NewSquad7">拟态学者分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad8">专业人士分队（占位）</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集団分隊</system:String>
     <system:String x:Key="SupportSquad">支援分隊</system:String>
@@ -180,10 +181,10 @@
     <system:String x:Key="ResearchSquad">研究分隊</system:String>
     <system:String x:Key="First-ClassSquad">高規格分隊</system:String>
     <system:String x:Key="DefaultRoles">デフォルト</system:String>
-    <system:String x:Key="FirstMoveAdvantage">先手必勝</system:String>
-    <system:String x:Key="SlowAndSteadyWinsTheRace">攻守一体</system:String>
-    <system:String x:Key="OvercomingYourWeaknesses">前線支援</system:String>
-    <system:String x:Key="AsYourHeartDesires">自由自在</system:String>
+    <system:String x:Key="FirstMoveAdvantage">先手必勝（先鋒、狙撃、特殊）</system:String>
+    <system:String x:Key="SlowAndSteadyWinsTheRace">攻守一体（重装、術師、狙撃）</system:String>
+    <system:String x:Key="OvercomingYourWeaknesses">前線支援（前衛、補助、医療）</system:String>
+    <system:String x:Key="AsYourHeartDesires">自由自在（ランダム）</system:String>
     <system:String x:Key="AlgorithmFinish">演算終了</system:String>
     <system:String x:Key="AlgorithmBadge">繁栄のバッジ</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">ビルドポイント</system:String>
@@ -313,7 +314,7 @@
     <system:String x:Key="BlockSleep">タスク実行時の休止状態の防止</system:String>
     <system:String x:Key="BlockSleepWithScreenOn">休止状態を防ぐときは画面をオンのままにします</system:String>
     <system:String x:Key="ScreencapCost">スクリーンショットの撮影には時間がかかります min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
-    <system:String x:Key="RoguelikeTheme">主題</system:String>
+    <system:String x:Key="RoguelikeTheme">テーマ</system:String>
     <system:String x:Key="RoguelikeThemePhantom">ファントム</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">ミヅキ</system:String>
     <system:String x:Key="RoguelikeThemeSami">サーミ</system:String>
@@ -789,11 +790,12 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="SSSGamePass">ゲームクリア、おめでとうございます！</system:String>
     <system:String x:Key="Trader">ステージ: 怪しい旅商人</system:String>
     <system:String x:Key="SafeHouse">ステージ: 安全な片隅</system:String>
-    <system:String x:Key="FilterTruth">节点: 去伪存真</system:String>
+    <system:String x:Key="FilterTruth">ステージ: 真実の選別</system:String>
     <system:String x:Key="CombatDps">ステージ: 通常作戦</system:String>
     <system:String x:Key="EmergencyDps">ステージ: 緊急作戦</system:String>
     <system:String x:Key="DreadfulFoe">ステージ: 悪路凶敵</system:String>
     <system:String x:Key="RoguelikeEvent">イベント:</system:String>
+    <system:String x:Key="EncounterOcrError">イベント名認識失敗</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">予見啓示板:</system:String>
     <system:String x:Key="RoguelikeInvestment">投資しました: {1}(+{0})、貯蓄: {2}</system:String>
     <system:String x:Key="RoguelikeSettlement">ローグライクスコア: {0}\n探索: {1} 階層 {2} ステップ\n戦闘: {3} / {4} 緊急 / {5} BOSS\n人材招集数: {6}\nアイテム入手数: {7}\n難度: {8}\nスコア: {9}\n経験値: {10}, スキル: {11}</system:String>
@@ -958,4 +960,7 @@ C:\\leidian\\LDPlayer9
 MAA を複数開くには、新しい MAA を他のフォルダにコピーし、異なる MAA、同じ adb、異なるシミュレータアドレスを使用して複数の操作を行うように設定します。
     </system:String>
     <!--  !SingleInstance  -->
+    <!--  SimpleEncryptionHelper  -->
+    <system:String x:Key="EncryptionError">暗号化と復号化に失敗しました。関連設定を再設定してください。そうでないと、暗号化された内容は設定ファイルに平文で保存されます。</system:String>
+    <!--  !SimpleEncryptionHelper  -->
 </ResourceDictionary>

@@ -162,13 +162,14 @@
     <system:String x:Key="IS3NewSquad2">Life Prioritizing Squad</system:String>
     <system:String x:Key="IS3NewSquad3">Scientific Thinking</system:String>
     <system:String x:Key="IS3NewSquad4">Special Training Squad</system:String>
-    <system:String x:Key="IS4NewSquad1">魂灵护送分队 (Wait global)</system:String>
-    <system:String x:Key="IS4NewSquad2">博闻广记分队 (Wait global)</system:String>
-    <system:String x:Key="IS4NewSquad3">蓝图测绘分队 (Wait global)</system:String>
-    <system:String x:Key="IS4NewSquad4">因地制宜分队 (Wait global)</system:String>
-    <system:String x:Key="IS4NewSquad5">异想天开分队 (Wait global) </system:String>
-    <system:String x:Key="IS4NewSquad6">点刺成锭分队 (Wait global) </system:String>
-    <system:String x:Key="IS4NewSquad7">拟态学者分队 (Wait global) </system:String>
+    <system:String x:Key="IS4NewSquad1">Soul Escort Squad</system:String>
+    <system:String x:Key="IS4NewSquad2">Erudite Squad</system:String>
+    <system:String x:Key="IS4NewSquad3">Blueprint Squad</system:String>
+    <system:String x:Key="IS4NewSquad4">Improvisation Squad</system:String>
+    <system:String x:Key="IS4NewSquad5">异想天开分队 (Wait global)</system:String>
+    <system:String x:Key="IS4NewSquad6">点刺成锭分队 (Wait global)</system:String>
+    <system:String x:Key="IS4NewSquad7">拟态学者分队 (Wait global)</system:String>
+    <system:String x:Key="IS4NewSquad8">专业人士分队 (Wait global)</system:String>
     <system:String x:Key="LeaderSquad">Leader Squad</system:String>
     <system:String x:Key="GatheringSquad">Gathering Squad</system:String>
     <system:String x:Key="SupportSquad">Support Squad</system:String>
@@ -573,7 +574,7 @@ The primary instance is 0, and other instances are the numbers after the version
     <system:String x:Key="Toolbox">Toolbox</system:String>
     <!--  Recruitment Recognition  -->
     <system:String x:Key="RecruitmentRecognition">Recruitment</system:String>
-    <system:String x:Key="RecruitmentRecognitionTip">This recruit recognition is independent from the 「Farming」 tab. Please open the in game recruit tag selection screen before pressing 「Begin to Recruit」 </system:String>
+    <system:String x:Key="RecruitmentRecognitionTip">This recruit recognition is independent from the 「Farming」 tab. Please open the in game recruit tag selection screen before pressing 「Begin to Recruit」</system:String>
     <system:String x:Key="AutoSettingTime">Auto set time</system:String>
     <system:String x:Key="RecruitmentShowPotential">Show Potential</system:String>
     <system:String x:Key="RecruitmentShowPotentialTips">Please use the 「Operator」 task to get the 「Potential」 information.</system:String>
@@ -654,7 +655,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="FailedToLikeWebJson">An error occurred, the like failed. : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">Thanks for the likes!\nThe comment section is already open on the web page, please feel free to leave your comment!</system:String>
     <system:String x:Key="AutoSquad">Auto Squad</system:String>
-    <system:String x:Key="AutoSquadTip"> 「Favourite」 marked operators cannot be recognized at this time</system:String>
+    <system:String x:Key="AutoSquadTip">「Favourite」 marked operators cannot be recognized at this time</system:String>
     <system:String x:Key="AddTrust">Add low-trust operators</system:String>
     <system:String x:Key="AddUserAdditional">Add custom operators</system:String>
     <system:String x:Key="AddUserAdditionalTip">Use 「;」 as the separator, 「,」 to separate the operator name and skills, for example: W, 3; Ash, 2</system:String>
@@ -791,6 +792,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="EmergencyDps">Node: Emergency Operation</system:String>
     <system:String x:Key="DreadfulFoe">Node: Dreadful Foe</system:String>
     <system:String x:Key="RoguelikeEvent">Event:</system:String>
+    <system:String x:Key="EncounterOcrError">Event Name OCR Failed</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">Foldartal Foresee:</system:String>
     <system:String x:Key="RoguelikeInvestment">Invested {1}(+{0}), deposit: {2}</system:String>
     <system:String x:Key="RoguelikeSettlement">Roguelike Settlement: {0}\nExplore: {1} Floor {2} Step\nCombat: {3} / {4} Emergency / {5} BOSS\nRecruit: {6}\nCollectibles: {7}\nDifficulty: {8}\nScore: {9}  Exp: {10}  Skill: {11}</system:String>
@@ -955,4 +957,7 @@ Only one instance can be launched under the same path!
 If you want to run multiple MAA at the same time, please copy the whole MAA and start under different path with the same adb and different connect address.
     </system:String>
     <!--  !SingleInstance  -->
+    <!--  SimpleEncryptionHelper  -->
+    <system:String x:Key="EncryptionError">Encryption and decryption failed, please reconfigure the relevant settings, otherwise the encrypted content will be stored in plain text in the configuration file.</system:String>
+    <!--  !SimpleEncryptionHelper  -->
 </ResourceDictionary>

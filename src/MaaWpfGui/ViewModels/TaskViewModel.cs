@@ -11,7 +11,9 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
+using System;
 using MaaWpfGui.Main;
+using MaaWpfGui.Services;
 using Newtonsoft.Json.Linq;
 using Stylet;
 
@@ -21,5 +23,14 @@ public class TaskViewModel : PropertyChangedBase
 {
     public virtual void ProcSubTaskMsg(AsstMsg msg, JObject details)
     {
+    }
+
+    /// <summary>
+    /// 序列化MAA任务
+    /// </summary>
+    /// <returns>返回(Asst任务类型, 参数)</returns>
+    public virtual (AsstTaskType Type, JObject Params) Serialize()
+    {
+        throw new NotImplementedException();
     }
 }

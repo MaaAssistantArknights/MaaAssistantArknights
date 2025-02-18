@@ -169,6 +169,7 @@
     <system:String x:Key="IS4NewSquad5">异想天开分队</system:String>
     <system:String x:Key="IS4NewSquad6">点刺成锭分队</system:String>
     <system:String x:Key="IS4NewSquad7">拟态学者分队</system:String>
+    <system:String x:Key="IS4NewSquad8">专业人士分队</system:String>
     <system:String x:Key="LeaderSquad">指挥分队</system:String>
     <system:String x:Key="GatheringSquad">集群分队</system:String>
     <system:String x:Key="SupportSquad">后勤分队</system:String>
@@ -221,7 +222,7 @@
     <system:String x:Key="CheckBoxesNotSaved">该选项仅生效一次</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">该选项右键选中时仅生效一次</system:String>
     <system:String x:Key="NoAutoNavigation">该选项不会自动导航至对应关卡</system:String>
-    <system:String x:Key="StartupUpdateCheck">自动检查更新</system:String>
+    <system:String x:Key="StartupUpdateCheck">启动时检查更新</system:String>
     <system:String x:Key="UpdateAutoCheck">定时检查更新</system:String>
     <system:String x:Key="UpdateAutoDownload">自动下载更新包</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">自动安装更新包</system:String>
@@ -793,6 +794,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="EmergencyDps">关卡: 紧急作战</system:String>
     <system:String x:Key="DreadfulFoe">关卡: 险路恶敌</system:String>
     <system:String x:Key="RoguelikeEvent">事件:</system:String>
+    <system:String x:Key="EncounterOcrError">事件名识别错误</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">预见:</system:String>
     <system:String x:Key="RoguelikeInvestment">已投资 {1}(+{0}), 存款: {2}</system:String>
     <system:String x:Key="RoguelikeSettlement">肉鸽结算: {0} (n{8})\n探索: {1} 层 {2} 步\n战斗: {3}/ {4}紧急/ {5}BOSS\n招募: {6}   收藏品: {7}\n得分: {9}\nExp: {10}   Skill: {11}</system:String>
@@ -957,4 +959,7 @@ C:\\leidian\\LDPlayer9。\n
 如需多开 MAA，请复制一份新的 MAA 到其他文件夹下，并设置使用不同的 MAA，相同的 adb 和不同的模拟器地址进行多开操作。
     </system:String>
     <!--  !SingleInstance  -->
+    <!--  SimpleEncryptionHelper  -->
+    <system:String x:Key="EncryptionError">加解密失败，请重新配置相关设置，否则加密内容将以明文形式存储在配置文件中。</system:String>
+    <!--  !SimpleEncryptionHelper  -->
 </ResourceDictionary>

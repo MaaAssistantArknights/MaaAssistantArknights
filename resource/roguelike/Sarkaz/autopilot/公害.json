@@ -15,8 +15,8 @@
         },
         {
             "groups": ["益达", "焰苇", "高台输出"],
-            "location": [6, 4],
-            "direction": "left"
+            "location": [4, 4],
+            "direction": "up"
         },
         {
             "groups": ["地面远程", "重装", "地面阻挡"],
@@ -25,7 +25,7 @@
         },
         {
             "groups": ["水陈", "高台输出", "盾法", "辅助"],
-            "location": [4, 4],
+            "location": [6, 4],
             "direction": "up"
         },
         {

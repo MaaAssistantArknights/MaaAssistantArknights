@@ -40,7 +40,6 @@ regex_ignore_list = [
     "DahuangCity",
     "Gaming",
     # UNRELEASED I.S.
-    "Sarkaz",
 ]
 
 server_list = [

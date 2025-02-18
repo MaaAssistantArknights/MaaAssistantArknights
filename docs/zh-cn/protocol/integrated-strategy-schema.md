@@ -32,7 +32,7 @@ icon: ri:game-fill
 `resource/roguelike/主题名/recruitment.json` 描述了干员招募的逻辑
 在 `tools/RoguelikeRecruitmentTool` 和 `tools/RoguelikeOperSearch` 中有辅助工具来帮助查看和编写
 
-```json
+```json5
 {
     "theme": "Phantom",              //肉鸽主题（这里是傀影）
     "priority": [                    //群组的优先度，有序
@@ -63,7 +63,7 @@ icon: ri:game-fill
 默认仅招募精 1 55 级以上等级干员
 :::
 
-```json
+```json5
 {
     "theme": "Phantom",
     "priority": [                     // 群组，有序
@@ -173,7 +173,7 @@ icon: ri:game-fill
 对于萌新号：在 10 次招募没有满足半队 key 干员的情况下，会放弃完备度检测，按照评分有啥用啥，所以没练三星的萌新号会出现只拿了两三个六星，剩下拿了一堆预备干员的情况
 :::
 
-```json
+```json5
 {
     "theme": "Phantom",              //肉鸽主题
     "priority": [                    //群组
@@ -224,7 +224,7 @@ icon: ri:game-fill
 
 4. 群组内干员各个字段的意思和脚本相关的逻辑
 
-    ```json
+    ```json5
     {
         "theme": "Phantom",
         "priority": [
@@ -235,11 +235,12 @@ icon: ri:game-fill
                 {
                     "name": "百炼嘉维尔",                      // 干员名称（这里是百嘉，在组内第1位，表示需要部署地面阻挡组的时候，首先检测是不是百嘉）
                     "skill": 3,                               // 使用几技能（这里举例使用3技能）
-                    "skill_usage": 2,                         // 技能使用模式，参考3-3战斗流程协议，不填或者1为自动放，2为只放x次（x通过"skill_times"字段设置），3暂时不支持
+                    "skill_usage": 2,                         // 技能使用模式，参考 战斗流程协议，不同在于，此处不写默认为1
+                                                              // （0为不自动使用，1为好了就用，2为好了就用x次（x通过"skill_times"字段设置），3暂时不支持）
                     "skill_times": 2,                         // 技能使用次数，默认为1，在"skill_usage"字段为2时生效
                     "alternate_skill": 2,                     // 当没有指定技能时使用的备选技能，一般是6星干员未精二且精二后使用3技能时才需要指定（这里指没有3技能时使用2技能）
-                    "alternate_skill_usage": 1                // 备选技能的技能使用模式（该字段尚未实现）
-                    "alternate_skill_times": 1                // 备选技能的技能使用次数（该字段尚未实现）
+                    "alternate_skill_usage": 1,               // 备选技能的技能使用模式（该字段尚未实现）
+                    "alternate_skill_times": 1,               // 备选技能的技能使用次数（该字段尚未实现）
                     "recruit_priority": 900,                  // 招募优先级，数字越大优先级越高，900以上属于看到必招，400以下招募优先级比一些关键干员精二优先度还低
                                                               // 临时招募的干员优先度自动+600
                     "promote_priority": 600,                  // 进阶优先级，数字越大优先级越高，900以上属于有希望就精二，400以下招募优先级低于招募普通三星干员
@@ -323,7 +324,7 @@ icon: ri:game-fill
 
     然后根据你的经验寻找需要优先防守的点的坐标和朝向（一般是朝向来怪的方向），写入到 json 的`"replacement_home"`里面
 
-    ```json
+    ```json5
      {
          "stage_name": "蓄水池", // 关卡名
          "replacement_home": [ // 重要防守点（蓝门替代点），至少需要填写1个
@@ -354,7 +355,7 @@ icon: ri:game-fill
     这里加入的格子，就算在后面的部署策略里面写进去的话，也是没法部署的
     :::
 
-    ```json
+    ```json5
         ...
         "blacklist_location_Doc": "这里是用法举例，不是说蓄水池这个图需要 ban 这两个点",
         "blacklist_location": [  // 禁止程序进行部署的位置
@@ -373,7 +374,7 @@ icon: ri:game-fill
 
     比如水月肉鸽中如果蓝门进怪了是不是要用骰子，缓解堆怪压力
 
-    ```json
+    ```json5
         "not_use_dice_Doc": "蓝门干员撤退时是否需要用骰子，不写默认false",
         "not_use_dice": false,
     ```
@@ -388,7 +389,7 @@ icon: ri:game-fill
 
 1. 使用各个群组部署干员
 
-    ```json
+    ```json5
     "deploy_plan": [ // 部署逻辑，按从上到下、从左到右的顺序进行检索，并尝试部署找到的第一个干员，如果没有就跳过
         {
             "groups": [ "百嘉", "基石", "地面C", "号角", "挡人先锋" ],//这一步从这些群组中寻找干员
@@ -431,7 +432,7 @@ icon: ri:game-fill
     适用于某些单切干员或者需要炮灰的使用场景
     :::
 
-    ```json
+    ```json5
     "deploy_plan": [
             {
                 "groups": [ "异德", "刺客", "挡人先锋", "其他地面" ],
@@ -456,7 +457,7 @@ icon: ri:game-fill
     同一位置的部署和撤退命令的 condition 数字尽量不要重叠，否则会秒上秒下
     :::
 
-    ```json
+    ```json5
     "retreat_plan": [  // 在特定时间点撤退目标
             {
                 "location": [ 4, 1 ],
@@ -469,7 +470,7 @@ icon: ri:game-fill
 
 5. 一些其他的字段（不推荐使用）
 
-    ```json
+    ```json5
         "role_order_Doc": "干员类型部署顺序，未写出部分以近卫，先锋，医疗，重装，狙击，术士，辅助，特种，召唤物的顺序补全，输入英文",
         "role_order": [ // 不推荐使用，请配置deploy_plan字段
             "warrior",
@@ -555,7 +556,7 @@ OCR 识别不期而遇事件名称，但是选项是操作固定的位置
 
 可以自己修改不期而遇事件选项以指引 MAA 走向某些图的特殊结局
 
-```json
+```json5
 {
     "theme": "Sami",                              //肉鸽主题
     "stage": [                                    //不期而遇类事件
@@ -587,7 +588,7 @@ OCR 识别不期而遇事件名称，但是选项是操作固定的位置
 
 `resource/roguelike/主题名/shopping.json` 描述了商店购买藏品(和战斗后选择藏品?)的策略
 
-```json
+```json5
 {
     "theme": "Phantom",                                       //肉鸽主题名（这里是傀影）
     "priority": [                                             //优先度,有序,顺序即为优先级,越在前面越优先购买,
@@ -649,7 +650,7 @@ OCR 识别不期而遇事件名称，但是选项是操作固定的位置
 
 `resource/roguelike/Sami/foldartal.json` 描述了萨米肉鸽密文板的策略
 
-```json
+```json5
 {
     "theme": "Sami",                                         //肉鸽主题名（这里是萨米）
     "groups": [                                              //对使用情况和用法的分组
@@ -716,7 +717,7 @@ OCR 识别不期而遇事件名称，但是选项是操作固定的位置
 
 以下为刷隐藏坍缩范式的任务配置示例：
 
-```json
+```json5
 {
     "theme": "Sami",
     "mode": 5,

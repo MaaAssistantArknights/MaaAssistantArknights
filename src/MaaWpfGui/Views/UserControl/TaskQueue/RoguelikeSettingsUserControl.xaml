@@ -233,7 +233,7 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding RoguelikeStopAtFinalBoss}"
-                Visibility="{c:Binding 'RoguelikeMode == 0'}">
+                Visibility="{c:Binding 'RoguelikeMode == 0 and RoguelikeTheme != task:RoguelikeTheme.Phantom'}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource RoguelikeStopAtFinalBoss}"

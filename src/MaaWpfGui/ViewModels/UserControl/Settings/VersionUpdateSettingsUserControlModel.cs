@@ -132,25 +132,27 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
     public static (DateTime DateTime, string VersionName) GetResourceVersionByClientType(string clientType)
     {
-        const string OfficialClientType = "Official";
-        const string BilibiliClientType = "Bilibili";
-        var jsonPath = "resource/version.json";
-        if (clientType is not ("" or OfficialClientType or BilibiliClientType))
-        {
-            jsonPath = $"resource/global/{clientType}/resource/version.json";
-        }
+        bool isDefaultClient = new HashSet<string> { string.Empty, "Official", "Bilibili" }.Contains(clientType);
+
+        const string DefaultJsonPath = "resource/version.json";
+        var jsonPath = isDefaultClient
+            ? DefaultJsonPath
+            : $"resource/global/{clientType}/resource/version.json";
 
         string versionName;
-        if (!File.Exists(jsonPath))
+        if (!File.Exists(DefaultJsonPath) || (!isDefaultClient && !File.Exists(jsonPath)))
         {
             return (DateTime.MinValue, string.Empty);
         }
 
-        var versionJson = (JObject?)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
+        var versionJson = LoadJson(jsonPath);
         var currentTime = (ulong)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         var poolTime = (ulong?)versionJson?["gacha"]?["time"]; // 卡池的开始时间
         var activityTime = (ulong?)versionJson?["activity"]?["time"]; // 活动的开始时间
-        var lastUpdated = (string?)versionJson?["last_updated"]; // 最后更新时间
+        var lastUpdated = isDefaultClient
+            ? (string?)versionJson?["last_updated"]
+            : (string?)LoadJson(DefaultJsonPath)?["last_updated"];
+
         var dateTime = lastUpdated == null
             ? DateTime.MinValue
             : DateTime.ParseExact(lastUpdated, "yyyy-MM-dd HH:mm:ss.fff", null);
@@ -177,6 +179,11 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
 
         return (dateTime, versionName);
+
+        static JObject? LoadJson(string path)
+        {
+            return JsonConvert.DeserializeObject<JObject>(File.ReadAllText(path));
+        }
     }
 
     private UpdateVersionType _versionType = (UpdateVersionType)Enum.Parse(
@@ -225,8 +232,6 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _updateCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateCheck, bool.TrueString));
-
     public List<GenericCombinedData<string>> UpdateSourceList { get; } = [
         new() { Display = LocalizationHelper.GetString("GlobalSource"), Value = "Github" },
         new() { Display = LocalizationHelper.GetString("MirrorChyan"), Value = "MirrorChyan" },
@@ -264,16 +269,18 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    private bool _startupUpdateCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.StartupUpdateCheck, bool.TrueString));
+
     /// <summary>
     /// Gets or sets a value indicating whether to check update.
     /// </summary>
-    public bool UpdateCheck
+    public bool StartupUpdateCheck
     {
-        get => _updateCheck;
+        get => _startupUpdateCheck;
         set
         {
-            SetAndNotify(ref _updateCheck, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateCheck, value.ToString());
+            SetAndNotify(ref _startupUpdateCheck, value);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.StartupUpdateCheck, value.ToString());
         }
     }
 

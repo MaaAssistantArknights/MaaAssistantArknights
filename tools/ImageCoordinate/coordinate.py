@@ -43,7 +43,7 @@ class ImageRectSelector:
 
         # Create a Canvas widget and display the photo image on it (leave some space below for the prompt message)
         self.canvas = tk.Canvas(
-            self.root, width=self.image.width, height=self.image.height + 20)
+            self.root, width=self.image.width, height=self.image.height + 20, cursor="tcross")        
         self.canvas.pack()
         self.canvas_image = self.canvas.create_image(
             0, 0, anchor=tk.NW, image=self.tk_image)

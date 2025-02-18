@@ -474,6 +474,11 @@ public class VersionUpdateViewModel : Screen
         }
         else
         {
+            if (!SettingsViewModel.VersionUpdateSettings.StartupUpdateCheck)
+            {
+                return;
+            }
+
             if (!IsDebugVersion())
             {
                 var ret = await CheckAndDownloadVersionUpdate();
