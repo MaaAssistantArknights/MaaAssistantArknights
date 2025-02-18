@@ -93,7 +93,6 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     if (event.name.starts_with("魂灵见闻：")) {
         Matcher matcher;
         matcher.set_task_info("Sarkaz@Roguelike@CloseCollectionClose");
-        matcher.set_image(image);
         auto matched = matcher.analyze();
         if (matched) {
             ctrler()->click(matched->rect);
