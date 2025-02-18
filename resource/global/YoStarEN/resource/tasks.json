@@ -2892,6 +2892,9 @@
         "roi": [589, 584, 231, 121]
     },
     "Sarkaz@Roguelike@SelectTheme": {
+        "ocrReplace": [
+            ["Hypothese.*", "Hypotheses Compilation"]
+        ],
         "text": ["Hypotheses Compilation"]
     },
     "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
