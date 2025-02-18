@@ -1,10 +1,10 @@
-## v5.13.2-beta.1
+## v5.14.0-beta.1
 
 ### 强调 | Highlight
 
 #### Sarkaz I.S. for Global!
 YostarEN, YostarJP and YostarKR receive the update for Sarkaz I.S.
-Issues may be present, so please be patient.
+Issues may be present, so please submit issues on Github patiently.
 
 ### 新增 | New
 
@@ -49,3 +49,4 @@ Issues may be present, so please be patient.
 * TaskData增加OcrTask的ocrReplace合法性检查 (#11878) @status102
 * 使用RecruitData代替ocrReplace的外服适配 (#11879) @status102
 * tools: ImageCoordinate cursor tweak @Constrat
+* 允许commit message以Reapply开始 (#11967) @Daydreamer114
