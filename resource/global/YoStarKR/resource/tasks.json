@@ -2664,6 +2664,7 @@
         "text": ["가설", "수록"]
     },
     "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart": {
+        "roi": [589, 584, 231, 121],
         "templThreshold": 0.7
     },
     "Sarkaz@Roguelike@NextLevel": {

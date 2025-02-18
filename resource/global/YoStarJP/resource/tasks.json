@@ -2894,6 +2894,9 @@
     "Sarkaz@Roguelike@CheckLevel": {
         "text": ["仮説集"]
     },
+    "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart": {
+        "roi": [589, 584, 231, 121]
+    },
     "Sarkaz@Roguelike@NextLevel": {
         "text": ["溶魂の端緒", "錬鉄の根系", "灰燼の迷城", "蓋然の異域", "虚構の境(目)?", "輝ける天上", "奇妙な断章"]
     },
