@@ -7182,7 +7182,7 @@
         "action": "ClickSelf",
         "template": "empty.png",
         "roi": [171, 474, 935, 205],
-        "next": ["Roguelike@RolesDefault", "Roguelike@CloseCollection"]
+        "next": ["Roguelike@RolesDefault", "Roguelike@CloseCollection", "Roguelike@RecruitMain"]
     },
     "Roguelike@LastRewardRand": {
         "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 问号",
@@ -10255,7 +10255,7 @@
         "next": ["Sarkaz@Roguelike@ChooseBurdenOperatorSelect1"]
     },
     "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart": {
-        "roi": [589, 584, 231, 121],
+        "roi": [527, 584, 352, 123],
         "templThreshold": 0.9,
         "action": "ClickRect",
         "specificRect": [600, 660, 220, 40],
@@ -11162,7 +11162,7 @@
         "postDelay": 500,
         "colorScales": [[0, 200]],
         "colorWithClose": false,
-        "roi": [790, 130, 60, 144],
+        "roi": [770, 141, 100, 117],
         "next": ["Sarkaz@Roguelike@StageRefreshConfirm", "Sarkaz@Roguelike@StageRefreshUpperLimit"]
     },
     "Sarkaz@Roguelike@StageRefreshClickLeft": {

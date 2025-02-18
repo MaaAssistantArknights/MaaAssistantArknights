@@ -43,7 +43,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Content="{DynamicResource StartupUpdateCheck}"
-                        IsChecked="{Binding UpdateCheck}"
+                        IsChecked="{Binding StartupUpdateCheck}"
                         IsEnabled="False" />
                     <CheckBox
                         Margin="10"
