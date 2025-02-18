@@ -88,6 +88,22 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     info["details"]["choose_option"] = choose_option;
     callback(AsstMsg::SubTaskExtraInfo, info);
 
+    // 萨卡兹内容拓展 II，#11861
+    if (event.name.starts_with("魂灵见闻：")) {
+        Matcher matcher;
+        matcher.set_task_info("Sarkaz@Roguelike@CloseCollectionClose");
+        matcher.set_image(image);
+        auto matched = matcher.analyze();
+        if (matched) {
+            ctrler()->click(matched->rect);
+            for (int i = 0; i < 2; ++i) {
+                auto click_rect = Task.get("Roguelike@StageEncounterJudgeClick");
+                ctrler()->click(click_rect->specific_rect);
+                sleep(click_rect->post_delay);
+            }
+        }
+    }
+
     const auto click_option_task_name = [&](const int item, const int total) {
         if (item > total) {
             Log.warn("Event:", event.name, "Total:", total, "Choice", item, "out of range, switch to choice", total);

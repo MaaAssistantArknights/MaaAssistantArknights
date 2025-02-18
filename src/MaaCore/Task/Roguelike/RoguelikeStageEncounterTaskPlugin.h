@@ -3,6 +3,7 @@
 #include "Config/Roguelike/RoguelikeStageEncounterConfig.h"
 #include "Config/TaskData.h"
 #include "Sami/RoguelikeCollapsalParadigmTaskPlugin.h"
+#include "Vision/Matcher.h"
 #include "Vision/OCRer.h"
 
 namespace asst
