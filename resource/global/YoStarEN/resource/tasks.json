@@ -2885,11 +2885,11 @@
             [".*Secluded ?Passage", "_SKIP_"]
         ]
     },
-    "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart": {
-        "roi": [589, 584, 231, 121]
-    },
     "Sarkaz@Roguelike@CheckLevel": {
         "text": ["HYPOTHESES", "COMPILATION"]
+    },
+    "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart": {
+        "roi": [589, 584, 231, 121]
     },
     "Sarkaz@Roguelike@SelectTheme": {
         "text": ["Hypotheses Compilation"]
