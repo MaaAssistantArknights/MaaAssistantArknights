@@ -242,9 +242,8 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
                 Matcher re_matcher(name_image);
                 re_matcher.set_task_info("BattleAvatarReMatch");
                 re_matcher.set_templ(oper.avatar);
-                auto rematched = re_matcher.analyze();
-                if (rematched) {
-                    oper_rect = rematched->rect;
+                if (re_matcher.analyze()) {
+                    oper_rect = re_matcher.get_result().rect;
                 }
             }
 
