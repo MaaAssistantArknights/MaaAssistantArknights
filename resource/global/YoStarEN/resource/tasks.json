@@ -1574,6 +1574,7 @@
     },
     "RoguelikeCustom-HijackSquad": {
         "ocrReplace": [
+            ["Sguad", "Squad"],
             ["Leader Squad", "指挥分队"],
             ["Gathering Squad", "集群分队"],
             ["Support Squad", "后勤分队"],
