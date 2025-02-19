@@ -2894,6 +2894,18 @@
     "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart": {
         "roi": [589, 584, 231, 121]
     },
+    "Sarkaz@Roguelike@NextLevel": {
+        "text": [
+            "Furnace Origin",
+            "Wrought Ironroots",
+            "Ashforged Ruins",
+            "Probable Divergence",
+            "Border of Truth",
+            "Radiant Zenith",
+            "Bizarre Fragment"
+        ],
+        "roi": [513, 564, 248, 63]
+    },
     "Sarkaz@Roguelike@SelectTheme": {
         "ocrReplace": [["Hypothese.*", "Hypotheses Compilation"]],
         "text": ["Hypotheses Compilation"]
