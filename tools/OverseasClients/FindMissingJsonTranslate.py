@@ -20,8 +20,9 @@ regex_ignore_list = [
     "MiningActivities",
     "RecruitingActivities",
     "Sami@Roguelike@FoldartalGainOcr",
+    "Roguelike@CheckLevelMax",
 
-    # FUTURE EVENTS
+    # FUTURE MODES/EVENTS
 ]
 
 server_list = [
