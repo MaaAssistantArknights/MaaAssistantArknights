@@ -92,8 +92,8 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     // 萨卡兹内容拓展 II，#11861
     if (event.name.starts_with("魂灵见闻：")) {
         Matcher matcher;
-        matcher.set_task_info("Sarkaz@Roguelike@CloseCollectionClose");
         matcher.set_image(image);
+        matcher.set_task_info("Sarkaz@Roguelike@CloseCollectionClose");
         auto matched = matcher.analyze();
         if (matched) {
             ctrler()->click(matched->rect);
