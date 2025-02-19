@@ -20,6 +20,9 @@ regex_ignore_list = [
     "MiningActivities",
     "RecruitingActivities",
     "Sami@Roguelike@FoldartalGainOcr",
+    "Sami@Roguelike@CheckCollapsalParadigms",
+    "Sami@Roguelike@CheckCollapsalParadigmsOnBanner",
+    "Sami@Roguelike@CheckCollapsalParadigmsOnPanel",
     "Roguelike@CheckLevelMax",
 
     # FUTURE MODES/EVENTS
