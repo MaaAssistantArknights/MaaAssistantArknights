@@ -96,6 +96,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
         matcher.set_task_info("Sarkaz@Roguelike@CloseCollectionClose");
         auto matched = matcher.analyze();
         if (matched) {
+            Log.trace("Found extra 'Plans', click CloseCollectionClose and StageEncounterJudgeClick");
             ctrler()->click(matched->rect);
             for (int i = 0; i < 2; ++i) {
                 auto click_rect = Task.get("Roguelike@StageEncounterJudgeClick");
