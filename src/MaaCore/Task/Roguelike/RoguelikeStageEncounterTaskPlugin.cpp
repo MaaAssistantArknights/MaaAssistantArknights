@@ -91,18 +91,13 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
 
     // 萨卡兹内容拓展 II，#11861
     if (event.name.starts_with("魂灵见闻：")) {
-        Matcher matcher;
-        matcher.set_image(image);
+        Matcher matcher(image);
         matcher.set_task_info("Sarkaz@Roguelike@CloseCollectionClose");
-        auto matched = matcher.analyze();
-        if (matched) {
+        if (matcher.analyze()) {
             Log.trace("Found extra 'Plans', click CloseCollectionClose and StageEncounterJudgeClick");
-            ctrler()->click(matched->rect);
-            for (int i = 0; i < 2; ++i) {
-                auto click_rect = Task.get("Roguelike@StageEncounterJudgeClick");
-                ctrler()->click(click_rect->specific_rect);
-                sleep(click_rect->post_delay);
-            }
+            ctrler()->click(matcher.get_result().rect);
+            ProcessTask(*this, { "Roguelike@StageEncounterJudgeClick" }).run();
+            ProcessTask(*this, { "Roguelike@StageEncounterJudgeClick2" }).run();
         }
     }
 
