@@ -2906,9 +2906,15 @@
         ],
         "roi": [513, 564, 248, 63]
     },
+    "Sarkaz@Roguelike@RoutingRefreshNodeConfirm": {
+        "text": ["Confirm"]
+    },
     "Sarkaz@Roguelike@SelectTheme": {
         "ocrReplace": [["Hypothese.*", "Hypotheses Compilation"]],
         "text": ["Hypotheses Compilation"]
+    },
+    "Sarkaz@Roguelike@StageSafeHouseReuse": {
+        "text": ["Use the Safe House again", "Use the Safe"]
     },
     "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
         "text": ["_fastInvestment", "_exit"],
