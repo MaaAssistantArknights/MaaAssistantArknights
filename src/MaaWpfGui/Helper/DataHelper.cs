@@ -62,11 +62,11 @@ namespace MaaWpfGui.Helper
 
         public static void Reload()
         {
-            ReloadBattleData();
-            InitMapData();
+            LoadBattleData();
+            LoadMapData();
         }
 
-        private static void ReloadBattleData()
+        private static void LoadBattleData()
         {
             const string FilePath = "resource/battle_data.json";
             if (!File.Exists(FilePath))
@@ -151,7 +151,7 @@ namespace MaaWpfGui.Helper
             }
         }
 
-        private static void InitMapData()
+        private static void LoadMapData()
         {
             MapData = [];
             var path = Path.Combine("resource", "Arknights-Tile-Pos", "overview.json");
