@@ -477,7 +477,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (await ResourceUpdater.CheckAndDownloadResourceUpdate() == VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated)
                 {
                     Instances.AsstProxy.LoadResource();
-                    DataHelper.ReloadBattleData();
+                    DataHelper.Reload();
                     SettingsViewModel.VersionUpdateSettings.ResourceInfoUpdate();
                     ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
                 }
