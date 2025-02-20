@@ -1390,6 +1390,9 @@
     "BattleStartSimulationForTwo": {
         "text": ["시작", "시뮬레이션"]
     },
+    "StageDrops-TimesCheck": {
+        "text": ["연속", "대리", "지휘"]
+    },
     "StageDrops-Quantity": {
         "maskRange": [200, 255],
         "template": "empty.png",
