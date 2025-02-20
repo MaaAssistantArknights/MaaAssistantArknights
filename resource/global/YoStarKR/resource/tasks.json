@@ -1457,6 +1457,9 @@
     "GachaLastOnceResult": {
         "text": ["증명서", "증표", "중복"]
     },
+    "GachaLastTenTimesResult2": {
+        "text": ["물자", "획득"]
+    },
     "GachaOncePrefix@DoGacha": {
         "text": ["1회진행"]
     },
