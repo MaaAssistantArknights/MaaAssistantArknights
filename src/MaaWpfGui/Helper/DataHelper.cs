@@ -173,6 +173,9 @@ namespace MaaWpfGui.Helper
             }
         }
 
+        public static MapInfo? FindMap(string mapId)
+            => MapData.FirstOrDefault(map => map.Code == mapId || map.Name == mapId || map.StageId == mapId || map.LevelId == mapId);
+
         private static Action<CharacterInfo> GetCharacterNamesAddAction(string str)
         {
             return str switch
