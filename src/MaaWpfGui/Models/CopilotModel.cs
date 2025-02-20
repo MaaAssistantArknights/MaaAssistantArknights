@@ -11,7 +11,11 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using MaaWpfGui.Constants;
+using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 
 namespace MaaWpfGui.Models;
@@ -47,6 +51,54 @@ public class CopilotModel
     /// </summary>
     [JsonProperty("doc")]
     public Doc? Documentation { get; set; }
+
+    /// <summary>
+    /// Gets or sets 难度。可选，默认为 0
+    /// </summary>
+    [JsonProperty("difficulty")]
+    public DifficultyFlags Difficulty { get; set; }
+
+    public List<(string Output, string? Color)> Output()
+    {
+        var output = new List<(string, string?)>();
+        if (Documentation is not null)
+        {
+            var title = Documentation.Title;
+            if (!string.IsNullOrEmpty(title))
+            {
+                output.Add((title, Documentation.TitleColor ?? UiLogColor.Message));
+            }
+
+            var details = Documentation.Details;
+            if (!string.IsNullOrEmpty(details))
+            {
+                output.Add((details, Documentation.DetailsColor ?? UiLogColor.Message));
+            }
+        }
+
+        output.Add((string.Empty, null));
+        output.Add(("------------------------------------------------", null));
+        output.Add((string.Empty, null));
+        int count = 0;
+        foreach (var oper in Opers)
+        {
+            count++;
+            var localizedName = DataHelper.GetLocalizedCharacterName(oper.Name);
+            output.Add(($"{localizedName}, {LocalizationHelper.GetString("CopilotSkill")} {oper.Skill}", UiLogColor.Message));
+        }
+
+        foreach (var group in Groups)
+        {
+            count++;
+            string groupName = group.Name + ": ";
+            var operInfos = group.Opers.Select(oper => $"{DataHelper.GetLocalizedCharacterName(oper.Name)} {oper.Skill}").ToList();
+
+            output.Add((groupName + string.Join(" / ", operInfos), UiLogColor.Message));
+        }
+
+        output.Add((string.Format(LocalizationHelper.GetString("TotalOperatorsCount"), count), UiLogColor.Message));
+        return output;
+    }
 
     public class Oper
     {
@@ -259,5 +311,24 @@ public class CopilotModel
 
         [JsonProperty("details_color")]
         public string? DetailsColor { get; set; }
+    }
+
+    [Flags]
+    public enum DifficultyFlags
+    {
+        /// <summary>
+        /// 缺省，未设置
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// 普通
+        /// </summary>
+        Normal = 1,
+
+        /// <summary>
+        /// 突袭
+        /// </summary>
+        Raid = 2,
     }
 }

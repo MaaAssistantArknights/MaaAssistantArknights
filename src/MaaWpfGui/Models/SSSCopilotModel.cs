@@ -12,6 +12,9 @@
 // </copyright>
 #nullable enable
 using System.Collections.Generic;
+using System.Linq;
+using MaaWpfGui.Constants;
+using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 
 namespace MaaWpfGui.Models;
@@ -89,6 +92,67 @@ public class SSSCopilotModel
     /// </summary>
     [JsonProperty("stages")]
     public List<Stage>? Stages { get; set; }
+
+    public List<(string Output, string? Color)> Output()
+    {
+        var output = new List<(string, string?)>();
+
+        if (Documentation is not null)
+        {
+            var title = Documentation.Title;
+            if (!string.IsNullOrEmpty(title))
+            {
+                output.Add((title, Documentation.TitleColor ));
+            }
+
+            var details = Documentation.Details;
+            if (!string.IsNullOrEmpty(details))
+            {
+                output.Add((details, Documentation.DetailsColor ));
+            }
+        }
+
+        output.Add((string.Empty, null));
+        output.Add(("------------------------------------------------", null));
+        output.Add((string.Empty, null));
+
+        int count = 0;
+        foreach (var oper in Opers ?? [])
+        {
+            count++;
+            var localizedName = DataHelper.GetLocalizedCharacterName(oper.Name);
+            output.Add(($"{localizedName}, {LocalizationHelper.GetString("CopilotSkill")} {oper.Skill}", null));
+        }
+
+        output.Add((string.Format(LocalizationHelper.GetString("TotalOperatorsCount"), count), null));
+
+        if (Buff is not null)
+        {
+            string buffLog = LocalizationHelper.GetString("DirectiveECTerm");
+            var localizedBuffName = DataHelper.GetLocalizedCharacterName(Buff);
+            output.Add((buffLog + (string.IsNullOrEmpty(localizedBuffName) ? Buff : localizedBuffName), null));
+        }
+
+        if (ToolMen is not null)
+        {
+            string toolMenLog = LocalizationHelper.GetString("OtherOperators");
+            output.Add((toolMenLog + JsonConvert.SerializeObject(ToolMen), null));
+        }
+
+        if (Equipment is not null)
+        {
+            string equipmentLog = LocalizationHelper.GetString("InitialEquipmentHorizontal") + '\n';
+            output.Add((equipmentLog + string.Join('\n', Equipment.Chunk(4).Select(i => string.Join(",", i))), null));
+        }
+
+        if (Strategy is not null)
+        {
+            string strategyLog = LocalizationHelper.GetString("InitialStrategy");
+            output.Add((strategyLog + Strategy, null));
+        }
+
+        return output;
+    }
 
     public class Doc
     {
