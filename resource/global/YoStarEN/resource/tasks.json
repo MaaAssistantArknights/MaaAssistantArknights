@@ -2700,6 +2700,12 @@
         "roi": [1108, 26, 126, 52],
         "text": ["EXPEDITION", "RECORDS"]
     },
+    "Sami@Roguelike@Collapsal": {
+        "text": ["Partial", "Partial Cecity", "Image", "Image Corruption"]
+    },
+    "Sami@Roguelike@CollapsalParadigmTaskBannerCheckConfig": {
+        "text": ["Collapsal Paradigm intensifies"]
+    },
     "Sami@Roguelike@ContinueClick": {
         "text": [
             "Brisk Marshalands",
