@@ -5,12 +5,12 @@ icon: devicon-plain:githubactions
 
 # CI 系统解析
 
-MAA 借助 Github Action 完成了大量的自动化工作，包括网站的构建，自动更新资源，最终文件的构建与发版等等过程。随着时间的推移，这些 ci 逐渐开始嵌套，部分甚至引向了其他的 repo。本文档旨在为想要对 MAA 的 ci 系统做出改进的各位做一个简要的介绍
+MAA 借助 Github Action 完成了大量的自动化工作，包括网站的构建，自动更新资源，最终文件的构建与发版等等过程。随着时间的推移，这些 CI 逐渐开始嵌套，部分甚至引向了其他的存储库。本文档旨在为想要对 MAA 的 CI 系统做出改进的各位做一个简要的介绍。
 
 阅读本文当前，最好对 MAA 的项目结构以及组成有一个基本的概念
 
 ::: tip
-你可以通过在本页面内搜索 ci 文件名来快速导航到想看的部分
+你可以通过在本页面内搜索 CI 文件名来快速导航到想看的部分
 :::
 
 工作流的文件均存放在 `.github/workflows` 下，各个文件可以按功能分为以下几部分：
@@ -20,12 +20,12 @@ MAA 借助 Github Action 完成了大量的自动化工作，包括网站的构�
 + [版本发布](#版本发布)
 + [资源更新](#资源更新)
 + [网站构建](#网站构建)
-+ [Issues 管理](#issues管理)
++ [Issues 管理](#issues-管理)
 + [Pull Requests 管理](#pull-requests-管理)
 + [MirrorChyan 相关](#mirrorchyan-相关)
 + [其他](#其他)
 
-此外，我们还通过 [pre-commit.ci](https://pre-commit.ci/) 实现了代码的自动格式化和图片资源的自动优化，它在发起 pr 后会自动执行，一般无需特别在意
+此外，我们还通过 [pre-commit.ci](https://pre-commit.ci/) 实现了代码的自动格式化和图片资源的自动优化，它在发起 PR 后会自动执行，一般无需特别在意。
 
 ## Github Action 部分
 
@@ -45,7 +45,7 @@ MAA 借助 Github Action 完成了大量的自动化工作，包括网站的构�
 
 除了必要的 MaaCore 外，Windows 构建产物会包含 MaaWpfGui，MacOS 构建产物会包含 MaaMacGui，Linux 构建产物会包含 MaaCLI
 
-该工作流在出现任何新 commit 以及 pr 时都会自动运行，且当该工作流由发版 pr 触发时，本次的构建产物将会直接用于发版，并且会创建一个 Release
+该工作流在出现任何新 Commit 以及 PR 时都会自动运行，且当该工作流由发版 PR 触发时，本次的构建产物将会直接用于发版，并且会创建一个 Release
 
 ### 版本发布
 
@@ -57,7 +57,7 @@ MAA 借助 Github Action 完成了大量的自动化工作，包括网站的构�
   + `pr-auto-tag.yml` 对正式版/公测版生成 tag
 
 ::: tip
-上述文件名内的 ota 意为 Over-the-Air，也就是我们常说的“增量更新包”，因此 MAA 的发版过程实际上包含了对过往版本构建 ota 包的步骤
+上述文件名内的 ota 意为 Over-the-Air，也就是我们常说的“增量更新包”，因此 MAA 的发版过程实际上包含了对过往版本构建 OTA 包的步骤
 :::
 
 #### 内测版
@@ -98,17 +98,17 @@ MAA 借助 Github Action 完成了大量的自动化工作，包括网站的构�
 
 `issue-checker.yml`
 
-通过关键词检索给各个 issue 打 tag，以此来标记 issue 内容的分类，方便查看与管理
+通过正则匹配给各个 Issue 打 Tag，以此来分类标记 Issue 内容，方便查看与管理
 
 `stale.yml`
 
-检查超过90 天没有活动的 issue，将其标记并发起通知，7 天后若还没有动静则关闭
+检查超过 90 天没有活动的 Bug Issue，将其标记并发起通知，7 天后若还没有活动则关闭
 
 ### Pull Requests 管理
 
 `pr-checker.yml`
 
-该工作流用于检查 pr 中的 commit message 是否符合 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)，以及是否包含 merge commit。若上述条件符合则会做出提示
+该工作流用于检查 PR 中的 Commit Message 是否符合 [约定式提交](https://www.conventionalcommits.org/zh-hans/v1.0.0/)，以及是否包含 Merge Commit，若上述条件符合则会作出提示。
 
 ### MirrorChyan 相关
 
@@ -121,12 +121,12 @@ MirrorChyan 是有偿的更新镜像服务，与其相关的工作流如下：
 
 `markdown-checker.yml`
 
-负责检查仓库中的所有 markdown 文件中是否包含无效链接
+负责检查仓库中的所有 Markdown 文件中是否包含无效链接
 
 `blame-ignore.yml`
 
-自动忽略 message 包含 `blame ignore` 的提交，保证仓库历史的干净
+自动忽略 Commit Message 包含 `blame ignore` 的提交，保证仓库历史的干净
 
 `cache-delete.yml`
 
-在 pr 合并后清理相关的 cache，以此来节省 cache 用量
+在 PR 合并后清理相关的缓存，以此来节省缓存用量
