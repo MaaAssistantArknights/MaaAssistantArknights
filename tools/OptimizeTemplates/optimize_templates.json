@@ -3025,5 +3025,6 @@
     "official/InfrastFilterMenu3": "a501421b39e9eaf150f2f01cb15229094226b15269e74aa562d6dc29fe7e2a37",
     "official/LeidianGoogleFrameworkConfirm": "19da6a5e5fe6014ac5610bedb8a41a26b0329edc8b94df39bedab2ce4fec9770",
     "resource/template/items/act18mini_token_petals": "2157e9c0555e38aafac32b815af5dccb37914f149dc189241e706d63a10779a9",
-    "official/BattleFormationInvalid": "f538d860169f5b6287398bb52e0b2ad7bcb0f328d0622853f296b13b4e3aeca0"
+    "official/BattleFormationInvalid": "f538d860169f5b6287398bb52e0b2ad7bcb0f328d0622853f296b13b4e3aeca0",
+    "resource/template/items/act3collection_point_token": "319f3987e04d04216a9518d550240521392331f68def40b6549a37c3f03006eb"
 }
