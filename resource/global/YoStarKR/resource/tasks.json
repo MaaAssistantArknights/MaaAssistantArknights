@@ -2431,6 +2431,26 @@
             ["욕망의로비", "_exit"]
         ]
     },
+    "Phantom@Roguelike@StrategyChange_mode6": {
+        "ocrReplace": [
+            ["안개의기로", "_aggressive"],
+            ["석양의정원", "_aggressive"],
+            ["고향의잔.+$", "_aggressive"],
+            ["악몽의시작", "_pragmatic"],
+            ["붉은달회랑", "_pragmatic"],
+            ["욕망의로비", "_default"]
+        ]
+    },
+    "Phantom@Roguelike@StrategyChange_mode7": {
+        "ocrReplace": [
+            ["안개의기로", "_aggressive"],
+            ["석양의정원", "_aggressive"],
+            ["고향의잔.+$", "_aggressive"],
+            ["악몽의시작", "_pragmatic"],
+            ["붉은달회랑", "_pragmatic"],
+            ["욕망의로비", "_default"]
+        ]
+    },
     "Mizuki@Roguelike@CheckLevel": {
         "roi": [1114, 36, 91, 28],
         "text": ["생태", "계보"]
@@ -2469,6 +2489,28 @@
             ["신성한동굴", "_exit"],
             ["심해의숲", "_exit"],
             ["짙푸른요람", "_exit"]
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode6": {
+        "ocrReplace": [
+            ["하늘빛해안", "_aggressive"],
+            ["연안외딴섬", "_aggressive"],
+            ["맹렬한파도", "_pragmatic"],
+            ["은밀한온상", "_pragmatic"],
+            ["신성한동굴", "_default"],
+            ["심해의숲", "_default"],
+            ["짙푸른요람", "_SKIP_"]
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode7": {
+        "ocrReplace": [
+            ["하늘빛해안", "_aggressive"],
+            ["연안외딴섬", "_aggressive"],
+            ["맹렬한파도", "_pragmatic"],
+            ["은밀한온상", "_pragmatic"],
+            ["신성한동굴", "_default"],
+            ["심해의숲", "_default"],
+            ["짙푸른요람", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms": {
@@ -2673,6 +2715,28 @@
             [".*얼어붙은바위", "_SKIP_"],
             [".*무결점의정원", "_SKIP_"],
             [".*예견의구상", "_SKIP_"],
+            [".*숨겨진비경", "_SKIP_"]
+        ]
+    },
+    "Sami@Roguelike@StrategyChange_mode6": {
+        "ocrReplace": [
+            [".*은빛의호.+", "_aggressive"],
+            [".*고요한숲", "_aggressive"],
+            [".*여명의.+", "_pragmatic"],
+            [".*얼어붙은바위", "_pragmatic"],
+            [".*무결점의정원", "_default"],
+            [".*예견의구상", "_default"],
+            [".*숨겨진비경", "_SKIP_"]
+        ]
+    },
+    "Sami@Roguelike@StrategyChange_mode7": {
+        "ocrReplace": [
+            [".*은빛의호.+", "_aggressive"],
+            [".*고요한숲", "_aggressive"],
+            [".*여명의.+", "_pragmatic"],
+            [".*얼어붙은바위", "_pragmatic"],
+            [".*무결점의정원", "_default"],
+            [".*예견의구상", "_default"],
             [".*숨겨진비경", "_SKIP_"]
         ]
     },
