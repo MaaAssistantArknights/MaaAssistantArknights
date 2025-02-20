@@ -310,7 +310,7 @@ namespace MaaWpfGui.Helper
 
             // main_01-07#f#, #f#是突袭关卡
             [JsonProperty("stageId")]
-            public string? NameJpUnavailable { get; set; }
+            public string? StageId { get; set; }
 
             [JsonProperty("height")]
             public int Height { get; set; }
