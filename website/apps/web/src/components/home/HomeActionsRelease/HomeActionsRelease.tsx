@@ -536,13 +536,22 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
         />
       )}
       {!viewAll && (
-        <GlowButton
-          key="view-all-switch"
-          bordered
-          onClick={() => setViewAll(true)}
-        >
-          查看全部
-        </GlowButton>
+        <div className="flex-row gap-4 items-center flex flex-col md:flex-row">
+          <GlowButton
+            key="view-all-switch"
+            bordered
+            onClick={() => setViewAll(true)}
+          >
+            查看全部
+          </GlowButton>
+          <div className="text-xs leading-5 text-center text-white/70">
+            <a href="https://mirrorchyan.com/zh/download?rid=MAA&os=windows&arch=x64&channel=stable">
+              <span><i><u>已有 Mirror酱 CDK？</u></i></span>
+              <br></br>
+              <span><i><u>前往 Mirror酱 高速下载</u></i></span>
+            </a>
+          </div>
+        </div>
       )}
     </AnimatePresence>
   )
