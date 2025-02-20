@@ -62,7 +62,7 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
     public List<GenericCombinedData<int>> ReclamationModeList { get; } =
         [
             new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityNoSave"), Value = 0 },
-            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityInSave"), Value = 0 },
+            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityInSave"), Value = 1 },
         ];
 
     private int _reclamationMode = int.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMode, "1"), out var outMode) ? outMode : 1;
