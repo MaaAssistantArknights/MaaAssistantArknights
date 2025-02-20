@@ -2397,6 +2397,10 @@
     "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
         "text": ["패스파인더", "패스파인더 핀"]
     },
+    "Roguelike@StartExploreCD": {
+        "doc": "로그라이크 재시작 딜레이",
+        "text": ["복귀", "재정비", "정리", "중"]
+    },
     "Phantom@Roguelike@CheckLevel": {
         "roi": [1106, 32, 117, 36],
         "text": ["고성", "노트"]
