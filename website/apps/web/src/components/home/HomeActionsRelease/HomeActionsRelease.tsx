@@ -524,7 +524,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
             查看全部
           </GlowButton>
           <div className="text-xs leading-5 text-center text-white/70">
-            <a href="https://mirrorchyan.com/zh/download?rid=MAA&os=windows&arch=x64&channel=stable" target="_blank>
+            <a href="https://mirrorchyan.com/zh/download?rid=MAA&os=windows&arch=x64&channel=stable" target="_blank">
               <span><i><u>已有 Mirror酱 CDK？</u></i></span>
               <br></br>
               <span><i><u>前往 Mirror酱 高速下载</u></i></span>
