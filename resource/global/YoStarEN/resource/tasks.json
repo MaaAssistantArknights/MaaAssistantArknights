@@ -948,6 +948,9 @@
             ["Guardian Bulwark", "圣卫坚盾"]
         ]
     },
+    "GameStartUpdateOCR": {
+        "text": ["Releasing", "neurotransmitter"]
+    },
     "StartToWakeUpOCR": {
         "text": ["START"]
     },
@@ -1437,6 +1440,9 @@
     "SSSBattleOperName": {
         "roi": [0, 105, 300, 31]
     },
+    "StageDrops-TimesCheck": {
+        "text": ["Continuous", "Auto", "Operation"]
+    },
     "StageDrops-DropType-ExpAndLMB": {
         "templThreshold": 0.7
     },
@@ -1528,6 +1534,9 @@
     },
     "GachaLastOnceResult": {
         "text": ["Certificate", "Token", "Duplicate"]
+    },
+    "GachaLastTenTimesResult2": {
+        "text": ["Resource", "Gained"]
     },
     "GachaOncePrefix@DoGacha": {
         "fullMatch": true,
@@ -2262,6 +2271,9 @@
     "Roguelike@IntegratedStrategies": {
         "templThreshold": 0.75
     },
+    "Roguelike@NoneSelected": {
+        "text": ["without recruiting"]
+    },
     "Roguelike@PreSelectTheme": {
         "text": ["View all Themes", "Themes", "TODO: image of //INTEGRATED STRATEGIES"],
         "roi": [450, 480, 160, 45]
@@ -2484,6 +2496,14 @@
     },
     "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
         "text": ["Pathfinder Fins"]
+    },
+    "Roguelike@StartExploreCD": {
+        "text": [
+            "Awaiting return to castle",
+            "Waiting for return to land",
+            "Awaiting expedition reconstruction",
+            "Organizing Thoughts"
+        ]
     },
     "Phantom@Roguelike@CheckLevel": {
         "text": ["Castle", "Notes"]
