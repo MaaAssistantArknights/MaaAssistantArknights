@@ -2508,6 +2508,9 @@
     "Sami@Roguelike@Collapsal": {
         "text": ["선택적", "선택적무시", "이미지", "이미지에러"]
     },
+    "Sami@Roguelike@CollapsalParadigmTaskBannerCheckConfig": {
+        "ocrReplace": [["붕괴패러다임심화", "坍缩范式加深"]]
+    },
     "Sami@Roguelike@ContinueClick": {
         "ocrReplace": [
             ["여명의.+", "여명의툰드라"],
