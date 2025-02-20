@@ -10,6 +10,10 @@ regex_ignore_list = [
     "\w{2}-Open",
     "\w{2}-OpenOcr",
     "\w{2}ChapterTo\w{2}",
+    "DT-8@SideStoryStage",
+    "DT-7@SideStoryStage",
+    "DT-6@SideStoryStage",
+    "DT-3@SideStoryStage",
 
     # CUSTOM
     "AccountManager",
@@ -24,8 +28,12 @@ regex_ignore_list = [
     "Sami@Roguelike@CheckCollapsalParadigmsOnBanner",
     "Sami@Roguelike@CheckCollapsalParadigmsOnPanel",
     "Roguelike@CheckLevelMax",
+    "StageDrops-StageCF-FoodBonusFlag",
+    "StageDrops-Stage12-TripleFlag",
+    "Tales@RA@PIS-ClickTool",
 
     # FUTURE MODES/EVENTS
+    "StartExploreWithSeed"
 ]
 
 server_list = [
