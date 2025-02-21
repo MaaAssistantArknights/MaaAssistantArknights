@@ -500,8 +500,6 @@ namespace MaaWpfGui.ViewModels.UI
         public void SelectCopilotTask(int index)
         {
             Filename = CopilotItemViewModels[index].FilePath;
-            ClearLog();
-            UpdateFilename();
         }
 
         // UI 绑定的方法
