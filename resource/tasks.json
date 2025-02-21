@@ -8178,6 +8178,7 @@
         "template": "Phantom@Roguelike@MonthlySquadComms.png"
     },
     "Phantom@Roguelike@MonthlySquadCommsMiss": {
+        "templThreshold": 0.92,
         "template": "Phantom@Roguelike@CommsMiss.png"
     },
     "Phantom@Roguelike@MonthlySquadRewardMiss": {
