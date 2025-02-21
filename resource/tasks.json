@@ -8356,7 +8356,7 @@
         ]
     },
     "Phantom@Roguelike@StrategyChange_mode6": {
-        "text": ["_default", "_exit"],
+        "text": ["_aggressive", "_pragmatic", "_default"],
         "ocrReplace": [
             ["迷雾歧途", "_aggressive"],
             ["落阳庭院", "_aggressive"],
@@ -8367,7 +8367,7 @@
         ]
     },
     "Phantom@Roguelike@StrategyChange_mode7": {
-        "text": ["_default", "_exit"],
+        "text": ["_aggressive", "_pragmatic", "_default", "_exit"],
         "ocrReplace": [
             ["迷雾歧途", "_aggressive"],
             ["落阳庭院", "_aggressive"],
@@ -8912,7 +8912,7 @@
         ]
     },
     "Mizuki@Roguelike@StrategyChange_mode6": {
-        "text": ["_default", "_exit"],
+        "text": ["_aggressive", "_pragmatic", "_default", "_exit"],
         "ocrReplace": [
             ["天光海岸", "_aggressive"],
             ["离岸孤岛", "_aggressive"],
@@ -8924,7 +8924,7 @@
         ]
     },
     "Mizuki@Roguelike@StrategyChange_mode7": {
-        "text": ["_default", "_exit"],
+        "text": ["_aggressive", "_pragmatic", "_default", "_exit"],
         "ocrReplace": [
             ["天光海岸", "_aggressive"],
             ["离岸孤岛", "_aggressive"],
@@ -10212,7 +10212,7 @@
         ]
     },
     "Sami@Roguelike@StrategyChange_mode6": {
-        "text": ["_default", "_exit"],
+        "text": ["_aggressive", "_pragmatic", "_default", "_exit"],
         "ocrReplace": [
             ["初霜湖泽", "_aggressive"],
             ["密静林地", "_aggressive"],
@@ -10225,7 +10225,7 @@
         ]
     },
     "Sami@Roguelike@StrategyChange_mode7": {
-        "text": ["_default", "_exit"],
+        "text": ["_aggressive", "_pragmatic", "_default", "_exit"],
         "ocrReplace": [
             ["初霜湖泽", "_aggressive"],
             ["密静林地", "_aggressive"],
