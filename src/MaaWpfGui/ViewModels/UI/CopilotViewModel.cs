@@ -80,36 +80,14 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            JArray jArray = JArray.Parse(copilotTaskList);
-            foreach (var it in jArray)
+            var list = JsonConvert.DeserializeObject<List<CopilotItemViewModel>>(copilotTaskList) ?? [];
+            for (int i = 0; i < list.Count; i++)
             {
-                if (it is not JObject item || !item.TryGetValue("file_path", out var pathToken) || !File.Exists(pathToken.ToString()))
-                {
-                    continue;
-                }
-
-                int copilotIdInFile = item.TryGetValue("copilot_id", out var copilotIdToken) ? (int)copilotIdToken : -1;
-                var name = (string?)item["name"];
-                if (string.IsNullOrEmpty(name))
-                {
-                    continue;
-                }
-
-                bool isRaid = false;
-                if (item.TryGetValue("is_raid", out var value))
-                {
-                    isRaid = (bool)value;
-                }
-                else if (name.EndsWith("-Adverse"))
-                {
-                    name = name[..^8];
-                    isRaid = true; // 用于迁移配置 (since 5.1.0, 后期移除)
-                }
-
-                CopilotItemViewModels.Add(new CopilotItemViewModel(name, (string)pathToken!, isRaid, copilotIdInFile, (bool?)item?["is_checked"] ?? true));
+                list[i].Index = i;
+                CopilotItemViewModels.Add(list[i]);
             }
 
-            CopilotItemIndexChanged();
+            SaveCopilotTask();
         }
 
         private void RunningState_IdleChanged(object? sender, bool e)
@@ -1022,15 +1000,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void SaveCopilotTask()
         {
-            JArray jArray = new JArray(CopilotItemViewModels.Select(item => new JObject
-            {
-                ["name"] = item.Name,
-                ["file_path"] = item.FilePath,
-                ["copilot_id"] = item.CopilotId,
-                ["is_raid"] = item.IsRaid,
-                ["is_checked"] = item.IsChecked,
-            }).ToList());
-            ConfigurationHelper.SetValue(ConfigurationKeys.CopilotTaskList, JsonConvert.SerializeObject(jArray));
+            var task = JsonConvert.SerializeObject(CopilotItemViewModels, new JsonSerializerSettings() { DefaultValueHandling = DefaultValueHandling.Ignore });
+            ConfigurationHelper.SetValue(ConfigurationKeys.CopilotTaskList, task);
         }
 
         /// <summary>
