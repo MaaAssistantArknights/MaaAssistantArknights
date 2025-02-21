@@ -51,7 +51,7 @@ bool asst::RoguelikeIterateMonthlySquadPlugin::_run()
         if (m_checkComms) {
             ProcessTask(*this, { m_config->get_theme() + "@Roguelike@MonthlySquadComms" }).run();
             if (!try_task("@Roguelike@MonthlySquadCommsMiss")) {
-                try_task("Roguelike@MonthlySquadCommsBackTwice");
+                try_task("@Roguelike@MonthlySquadCommsBackTwice");
                 m_completed = false;
                 break;
             }
