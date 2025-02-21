@@ -8068,10 +8068,10 @@
     "Phantom@Roguelike@CloseCollection": {
         "next": ["Phantom@Roguelike@LastReward-EnterPoint", "Phantom@Roguelike@RolesDefault"]
     },
+    "Phantom@Roguelike@CloseEvent": {},
     "Phantom@Roguelike@CloseInterview": {
         "template": "Phantom@Roguelike@StageEncounterSpecialClose.png"
     },
-    "Phantom@Roguelike@CloseEvent": {},
     "Phantom@Roguelike@Continue": {},
     "Phantom@Roguelike@DeepExploration": {
         "template": "Phantom@Roguelike@DeepExploration.png"
