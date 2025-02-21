@@ -7058,7 +7058,8 @@
     "Roguelike@GetDropLeaveConfirm": {
         "action": "ClickSelf",
         "roi": [0, 484, 1280, 138],
-        "next": ["Roguelike@DropsFlag"]
+        "postDelay": 1000,
+        "next": ["Roguelike@GetDropLeaveConfirm@LoadingText", "Roguelike@DropsFlag"]
     },
     "Roguelike@GetDropRecruit": {
         "Doc": "base_task",
