@@ -6913,7 +6913,7 @@
     },
     "Roguelike@DeepExplorationRewardMiss": {
         "Doc": "base_task 深入调查奖励已获取",
-        "template": "Roguelike@RewardMiss.png",
+        "template": "Roguelike@RewardCompleted.png",
         "action": "ClickRect",
         "roi": [60, 560, 330, 50],
         "specificRect": [940, 210, 50, 80],
@@ -7238,16 +7238,16 @@
         "postDelay": 300,
         "next": ["Roguelike@StartExplore", "#self"]
     },
-    "Roguelike@MonthlySquadCommsMiss": {
+    "Roguelike@MonthlySquadCommsCompleted": {
         "Doc": "base_task 月度小队通信已获取",
         "template": "empty.png",
         "roi": [110, 380, 370, 70],
         "next": ["Roguelike@MonthlySquadCommsBackTwice"],
         "postDelay": 300
     },
-    "Roguelike@MonthlySquadRewardMiss": {
+    "Roguelike@MonthlySquadRewardCompleted": {
         "Doc": "base_task 月度小队奖励已获取",
-        "template": "Roguelike@RewardMiss.png",
+        "template": "Roguelike@RewardCompleted.png",
         "action": "ClickRect",
         "roi": [735, 410, 280, 95],
         "specificRect": [466, 405, 40, 60],
@@ -8083,7 +8083,7 @@
         "template": "Roguelike@DeepExplorationNotUnlocked.png"
     },
     "Phantom@Roguelike@DeepExplorationRewardMiss": {
-        "template": "Roguelike@RewardMiss.png"
+        "template": "Roguelike@RewardCompleted.png"
     },
     "Phantom@Roguelike@DialogSkip": {
         "template": "Roguelike@DialogSkip.png",
@@ -8177,12 +8177,12 @@
     "Phantom@Roguelike@MonthlySquadComms": {
         "template": "Phantom@Roguelike@MonthlySquadComms.png"
     },
-    "Phantom@Roguelike@MonthlySquadCommsMiss": {
+    "Phantom@Roguelike@MonthlySquadCommsCompleted": {
         "templThreshold": 0.92,
-        "template": "Phantom@Roguelike@CommsMiss.png"
+        "template": "Phantom@Roguelike@CommsCompleted.png"
     },
-    "Phantom@Roguelike@MonthlySquadRewardMiss": {
-        "template": "Roguelike@RewardMiss.png"
+    "Phantom@Roguelike@MonthlySquadRewardCompleted": {
+        "template": "Roguelike@RewardCompleted.png"
     },
     "Phantom@Roguelike@NextLevel": {
         "text": ["迷雾歧途", "落阳庭院", "故土残躯", "噩梦之始", "血月长廊", "渴欲大厅"],
@@ -8480,7 +8480,7 @@
         "template": "Roguelike@DeepExplorationNotUnlocked.png"
     },
     "Mizuki@Roguelike@DeepExplorationRewardMiss": {
-        "template": "Roguelike@RewardMiss.png"
+        "template": "Roguelike@RewardCompleted.png"
     },
     "Mizuki@Roguelike@DialogSkip": {
         "template": "Roguelike@DialogSkip.png",
@@ -8650,12 +8650,12 @@
         "template": "Mizuki@Roguelike@MonthlySquadComms.png",
         "roi": [530, 420, 200, 60]
     },
-    "Mizuki@Roguelike@MonthlySquadCommsMiss": {
-        "template": "Roguelike@CommsMiss.png",
+    "Mizuki@Roguelike@MonthlySquadCommsCompleted": {
+        "template": "Roguelike@CommsCompleted.png",
         "roi": [390, 480, 160, 50]
     },
-    "Mizuki@Roguelike@MonthlySquadRewardMiss": {
-        "template": "Roguelike@RewardMiss.png",
+    "Mizuki@Roguelike@MonthlySquadRewardCompleted": {
+        "template": "Roguelike@RewardCompleted.png",
         "specificRect": [423, 536, 54, 62]
     },
     "Mizuki@Roguelike@NextLevel": {
@@ -9470,12 +9470,12 @@
         "template": "Roguelike@MonthlySquadComms.png",
         "roi": [560, 420, 190, 60]
     },
-    "Sami@Roguelike@MonthlySquadCommsMiss": {
-        "template": "Roguelike@CommsMiss.png",
+    "Sami@Roguelike@MonthlySquadCommsCompleted": {
+        "template": "Roguelike@CommsCompleted.png",
         "roi": [390, 480, 160, 50]
     },
-    "Sami@Roguelike@MonthlySquadRewardMiss": {
-        "template": "Roguelike@RewardMiss.png",
+    "Sami@Roguelike@MonthlySquadRewardCompleted": {
+        "template": "Roguelike@RewardCompleted.png",
         "specificRect": [490, 530, 45, 55]
     },
     "Sami@Roguelike@NextLevel": {
@@ -10558,7 +10558,7 @@
     },
     "Sarkaz@Roguelike@DeepExplorationRewardMiss": {
         "doc": "等出了记得看眼",
-        "template": "Roguelike@RewardMiss.png"
+        "template": "Roguelike@RewardCompleted.png"
     },
     "Sarkaz@Roguelike@DialogSkip": {
         "template": "Roguelike@DialogSkip.png",
@@ -10701,12 +10701,12 @@
         "template": "Roguelike@MonthlySquadComms.png",
         "roi": [560, 420, 190, 60]
     },
-    "Sarkaz@Roguelike@MonthlySquadCommsMiss": {
-        "template": "Roguelike@CommsMiss.png",
+    "Sarkaz@Roguelike@MonthlySquadCommsCompleted": {
+        "template": "Roguelike@CommsCompleted.png",
         "roi": [390, 480, 160, 50]
     },
-    "Sarkaz@Roguelike@MonthlySquadRewardMiss": {
-        "template": "Roguelike@RewardMiss.png",
+    "Sarkaz@Roguelike@MonthlySquadRewardCompleted": {
+        "template": "Roguelike@RewardCompleted.png",
         "specificRect": [490, 530, 45, 55]
     },
     "Sarkaz@Roguelike@NextLevel": {
