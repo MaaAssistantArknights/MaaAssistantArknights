@@ -2530,7 +2530,6 @@
     },
     "Phantom@Roguelike@StrategyChange_mode0": {
         "roi": [541, 5, 241, 71],
-        "text": ["_aggressive", "_pragmatic", "_default"],
         "ocrReplace": [
             ["Mist-stricken Missteps", "_aggressive"],
             ["Sunset Courtyard", "_aggressive"],
@@ -2542,7 +2541,6 @@
     },
     "Phantom@Roguelike@StrategyChange_mode4": {
         "roi": [541, 5, 241, 71],
-        "text": ["_default", "_exit"],
         "ocrReplace": [
             ["Mist-stricken Missteps", "_default"],
             ["Sunset Courtyard", "_default"],
@@ -2554,7 +2552,6 @@
     },
     "Phantom@Roguelike@StrategyChange_mode6": {
         "roi": [541, 5, 241, 71],
-        "text": ["_default", "_exit"],
         "ocrReplace": [
             ["Mist-stricken Missteps", "_aggressive"],
             ["Sunset Courtyard", "_aggressive"],
@@ -2566,7 +2563,6 @@
     },
     "Phantom@Roguelike@StrategyChange_mode7": {
         "roi": [541, 5, 241, 71],
-        "text": ["_default", "_exit"],
         "ocrReplace": [
             ["Mist-stricken Missteps", "_aggressive"],
             ["Sunset Courtyard", "_aggressive"],
@@ -2608,7 +2604,6 @@
         "text": ["Use the Safe House again", "Use the Safe"]
     },
     "Mizuki@Roguelike@StrategyChange_mode0": {
-        "text": ["_aggressive", "_pragmatic", "_default"],
         "ocrReplace": [
             ["Sunshine Coast", "_aggressive"],
             ["Offshore Island", "_aggressive"],
@@ -2620,7 +2615,6 @@
         ]
     },
     "Mizuki@Roguelike@StrategyChange_mode4": {
-        "text": ["_default", "_exit"],
         "ocrReplace": [
             ["Sunshine Coast", "_default"],
             ["Offshore Island", "_default"],
@@ -2632,7 +2626,6 @@
         ]
     },
     "Mizuki@Roguelike@StrategyChange_mode6": {
-        "text": ["_default", "_exit"],
         "ocrReplace": [
             ["Sunshine Coast", "_aggressive"],
             ["Offshore Island", "_aggressive"],
@@ -2644,7 +2637,6 @@
         ]
     },
     "Mizuki@Roguelike@StrategyChange_mode7": {
-        "text": ["_default", "_exit"],
         "ocrReplace": [
             ["Sunshine Coast", "_aggressive"],
             ["Offshore Island", "_aggressive"],
@@ -2838,7 +2830,6 @@
     "Sami@Roguelike@StrategyChange_mode0": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
         "roi": [593, 48, 135, 27],
-        "text": ["_aggressive", "_pragmatic", "_default"],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_aggressive"],
             [".*Placid ?Forests", "_aggressive"],
@@ -2854,7 +2845,6 @@
     "Sami@Roguelike@StrategyChange_mode4": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
         "roi": [593, 48, 135, 27],
-        "text": ["_default", "_exit"],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_default"],
             [".*Placid ?Forests", "_default"],
@@ -2869,7 +2859,6 @@
     },
     "Sami@Roguelike@StrategyChange_mode5": {
         "roi": [593, 48, 135, 27],
-        "text": ["_collapsal_paradigms"],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_collapsal_paradigms"],
             [".*Placid ?Forests", "_collapsal_paradigms"],
@@ -2885,7 +2874,6 @@
     "Sami@Roguelike@StrategyChange_mode6": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
         "roi": [593, 48, 135, 27],
-        "text": ["_default", "_exit"],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_aggressive"],
             [".*Placid ?Forests", "_aggressive"],
@@ -2901,7 +2889,6 @@
     "Sami@Roguelike@StrategyChange_mode7": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
         "roi": [593, 48, 135, 27],
-        "text": ["_default", "_exit"],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_aggressive"],
             [".*Placid ?Forests", "_aggressive"],
@@ -2943,7 +2930,6 @@
         "text": ["Use the Safe House again", "Use the Safe"]
     },
     "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
-        "text": ["_fastInvestment", "_exit"],
         "ocrReplace": [
             ["Furnace Origin", "_fastInvestment"],
             ["Wrought Ironroots", "_exit"],
@@ -2955,7 +2941,6 @@
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode0": {
-        "text": ["_default"],
         "ocrReplace": [
             ["Furnace Origin", "_default"],
             ["Wrought Ironroots", "_default"],
@@ -2967,7 +2952,6 @@
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
-        "text": ["_aggressive", "_pragmatic", "_default"],
         "ocrReplace": [
             ["Furnace Origin", "_aggressive"],
             ["Wrought Ironroots", "_aggressive"],
@@ -2979,7 +2963,6 @@
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode10001": {
-        "text": ["_routing", "_exit"],
         "ocrReplace": [
             ["Furnace Origin", "_routing"],
             ["Wrought Ironroots", "_exit"],
@@ -2991,7 +2974,6 @@
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode4": {
-        "text": ["_default", "_exit"],
         "ocrReplace": [
             ["Furnace Origin", "_default"],
             ["Wrought Ironroots", "_default"],
@@ -3003,7 +2985,6 @@
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode6": {
-        "text": ["_default", "_exit"],
         "ocrReplace": [
             ["Furnace Origin", "_default"],
             ["Wrought Ironroots", "_default"],
@@ -3015,7 +2996,6 @@
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode7": {
-        "text": ["_default", "_exit"],
         "ocrReplace": [
             ["Furnace Origin", "_default"],
             ["Wrought Ironroots", "_default"],
