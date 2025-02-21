@@ -8068,7 +8068,7 @@
     "Phantom@Roguelike@CloseCollection": {
         "next": ["Phantom@Roguelike@LastReward-EnterPoint", "Phantom@Roguelike@RolesDefault"]
     },
-    "Phantom@Roguleike@CloseInterview": {
+    "Phantom@Roguelike@CloseInterview": {
         "template": "Phantom@Roguelike@StageEncounterSpecialClose.png"
     },
     "Phantom@Roguelike@CloseEvent": {},
@@ -8452,7 +8452,7 @@
         "action": "ClickRect",
         "specificRect": [619, 615, 41, 17]
     },
-    "Mizuki@Roguleike@CloseInterview": {
+    "Mizuki@Roguelike@CloseInterview": {
         "template": "Mizuki@Roguelike@CloseCollectionClose.png"
     },
     "Mizuki@Roguelike@CommissionedMissionCompleted": {
@@ -9071,7 +9071,7 @@
         ]
     },
     "Sami@Roguelike@CloseEvent": {},
-    "Sami@Roguleike@CloseInterview": {
+    "Sami@Roguelike@CloseInterview": {
         "template": "Sami@Roguelike@CloseCollectionClose.png"
     },
     "Sami@Roguelike@Collapsal": {
@@ -10423,7 +10423,7 @@
         "action": "ClickRect",
         "specificRect": [153, 79, 63, 29]
     },
-    "Sarkaz@Roguleike@CloseInterview": {
+    "Sarkaz@Roguelike@CloseInterview": {
         "template": "Sarkaz@Roguelike@CloseCollectionClose.png"
     },
     "Sarkaz@Roguelike@Continue": {},
