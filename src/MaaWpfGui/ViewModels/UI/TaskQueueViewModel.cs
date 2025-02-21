@@ -1751,9 +1751,10 @@ namespace MaaWpfGui.ViewModels.UI
                 .Select(s => s.Trim());
 
             blackList = blackList.Union(_blackCharacterListMapping[SettingsViewModel.GameSettings.ClientType]);
+            var fightEnable = TaskItemViewModels.Where(x => x.OriginalName == "Combat").FirstOrDefault().IsCheckedWithNull is not false;
 
             return Instances.AsstProxy.AsstAppendMall(
-                !string.IsNullOrEmpty(FightTask.Stage) && MallTask.CreditFightTaskEnabled,
+                fightEnable ? (!string.IsNullOrEmpty(FightTask.Stage) && MallTask.CreditFightTaskEnabled) : MallTask.CreditFightTaskEnabled,
                 MallTask.CreditFightSelectFormation,
                 MallTask.CreditVisitFriendsEnabled,
                 MallTask.CreditShopping,
