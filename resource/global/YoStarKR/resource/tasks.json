@@ -2472,7 +2472,6 @@
         "text": ["안전가옥활용"]
     },
     "Mizuki@Roguelike@StrategyChange_mode0": {
-        "text": ["_aggressive", "_pragmatic", "_default"],
         "ocrReplace": [
             ["하늘빛해안", "_aggressive"],
             ["연안외딴섬", "_aggressive"],
@@ -2484,7 +2483,6 @@
         ]
     },
     "Mizuki@Roguelike@StrategyChange_mode4": {
-        "text": ["_default", "_exit"],
         "ocrReplace": [
             ["하늘빛해안", "_default"],
             ["연안외딴섬", "_default"],
@@ -2687,7 +2685,6 @@
         "text": ["안전가옥활용"]
     },
     "Sami@Roguelike@StrategyChange_mode0": {
-        "text": ["_aggressive", "_pragmatic", "_default"],
         "ocrReplace": [
             [".*은빛의호.+", "_aggressive"],
             [".*고요한숲", "_aggressive"],
@@ -2699,7 +2696,6 @@
         ]
     },
     "Sami@Roguelike@StrategyChange_mode4": {
-        "text": ["_default", "_exit"],
         "ocrReplace": [
             [".*은빛의호.+", "_default"],
             [".*고요한숲", "_default"],
@@ -2711,7 +2707,6 @@
         ]
     },
     "Sami@Roguelike@StrategyChange_mode5": {
-        "text": ["_collapsal_paradigms"],
         "ocrReplace": [
             [".*은빛의호.+", "_collapsal_paradigms"],
             [".*고요한숲", "_collapsal_paradigms"],
