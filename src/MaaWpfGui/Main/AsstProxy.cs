@@ -706,8 +706,14 @@ namespace MaaWpfGui.Main
                         }
                         else
                         {
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskError") + taskChain, UiLogColor.Error);
-                            ToastNotification.ShowDirect(LocalizationHelper.GetString("TaskError") + taskChain);
+                            var log = LocalizationHelper.GetString("TaskError") + taskChain;
+                            Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error);
+                            ToastNotification.ShowDirect(log);
+
+                            if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenError)
+                            {
+                                ExternalNotificationService.Send(log, log);
+                            }
                         }
 
                         if (isCopilotTaskChain)

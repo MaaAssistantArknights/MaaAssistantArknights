@@ -56,6 +56,18 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    private bool _externalNotificationSendWhenError = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenError, bool.FalseString));
+
+    public bool ExternalNotificationSendWhenError
+    {
+        get => _externalNotificationSendWhenError;
+        set
+        {
+            SetAndNotify(ref _externalNotificationSendWhenError, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSendWhenError, value.ToString());
+        }
+    }
+
     public static readonly List<string> ExternalNotificationProviders =
         [
             "ServerChan",

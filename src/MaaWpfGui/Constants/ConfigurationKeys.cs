@@ -247,6 +247,7 @@ namespace MaaWpfGui.Constants
 
         public const string ExternalNotificationEnabled = "ExternalNotification.Enabled";
         public const string ExternalNotificationEnableDetails = "ExternalNotification.EnableDetails";
+        public const string ExternalNotificationSendWhenError = "ExternalNotification.SendWhenError";
         public const string ExternalNotificationSmtpServer = "ExternalNotification.Smtp.Server";
         public const string ExternalNotificationSmtpPort = "ExternalNotification.Smtp.Port";
         public const string ExternalNotificationSmtpUser = "ExternalNotification.Smtp.User";

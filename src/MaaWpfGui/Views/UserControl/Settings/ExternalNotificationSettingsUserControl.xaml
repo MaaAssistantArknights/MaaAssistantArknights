@@ -55,11 +55,18 @@
                     Content="{DynamicResource ExternalNotificationSendTest}"
                     IsEnabled="{c:Binding 'EnabledExternalNotificationProviderCount > 0'}" />
             </StackPanel>
-            <CheckBox
-                Margin="10"
-                HorizontalAlignment="Center"
-                Content="输出详细信息"
-                IsChecked="{Binding ExternalNotificationEnableDetails}" />
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <CheckBox
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    Content="{DynamicResource ExternalNotificationEnableDetails}"
+                    IsChecked="{Binding ExternalNotificationEnableDetails}" />
+                <CheckBox
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    Content="{DynamicResource ExternalNotificationSendWhenError}"
+                    IsChecked="{Binding ExternalNotificationSendWhenError}" />
+            </StackPanel>
         </StackPanel>
 
         <StackPanel
