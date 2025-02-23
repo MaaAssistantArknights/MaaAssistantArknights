@@ -28,6 +28,8 @@
     <system:String x:Key="ExternalNotificationTips">Please note: The external notification feature currently only sends 「All tasks completed」 notifications.</system:String>
     <system:String x:Key="ExternalNotificationSettings">External notifications</system:String>
     <system:String x:Key="ExternalNotificationEnabled">Enabled configuration</system:String>
+    <system:String x:Key="ExternalNotificationEnableDetails">Output Detailed Information</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenError">Send additional notification when task fails</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">Send successfully</system:String>
     <system:String x:Key="ExternalNotificationSendFail">Send failed</system:String>
     <system:String x:Key="ExternalNotificationSendTest">Send Test</system:String>
