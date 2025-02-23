@@ -2820,7 +2820,7 @@
     "official/FriendsDelicious": "45b3d42c73c22e83ceb46568e4fe766f41aadce49c823ac10dbfc9f6ab0cee0f",
     "official/RecruitDelicious": "a9cda960864c08ed235bd6d315138029144fb48991390604760a956fd3b30cf8",
     "official/OperBoxEnterDelicious": "a2d2315a82d2ee4246b3b6c2693346b807fc5061ccacd2768d751cea8e406ca0",
-    "official/EnterInfrastDelicious": "1477121486393b3a6d7801510ce54345a86b425924879fc915438fdf1734dc84",
+    "official/EnterInfrastDelicious": "021ca4e9ee46c0e91f8b9ff81f6a4296979d9d94443711756fb25845a8cb1012",
     "official/TerminalDelicious": "8f7bae02282bac7b4e54780aef17db5f3befa030829a7e6e073d64755a8c7bf0",
     "official/MallDelicious": "439977d8a757819e01b01787a7f20a9f574dc052d6145b898b88558b6178be97",
     "official/GachaEnterDelicious": "adb8455d443fdc941a2d04c76e8d24843d5322230726626338815d1977b7598d",
@@ -3156,5 +3156,11 @@
     "YoStarJP/Sarkaz@Roguelike@SquadDefault": "518a5e44068acd081cd13cd718630e36c9e31e53d868fb7e2a9f2d631ad085d3",
     "YoStarJP/Sarkaz@Roguelike@Recruit": "49b4f4ce900e70d05b8ddde1a905fea85b78a97e4954827fa36297eb3068a742",
     "YoStarJP/Sarkaz@Roguelike@GetDrop3": "8dcadf730edeecc3e48040522e1a6f0b4606df6d831840f40b1285bacdb4b975",
-    "YoStarJP/Sarkaz@Roguelike@MissionFailedFlag2": "cebbf9a7cdff7ce9b41c32a0319f37a090379f0376768c60ee967bb4f16aa9f9"
+    "YoStarJP/Sarkaz@Roguelike@MissionFailedFlag2": "cebbf9a7cdff7ce9b41c32a0319f37a090379f0376768c60ee967bb4f16aa9f9",
+    "YoStarKR/Sarkaz@Roguelike@StageTraderCR": "61d3b8e6a4f7de60826184799a98efa46ea1aa0aceb45a7c8193b4855a551b5b",
+    "YoStarKR/Sarkaz@Roguelike@StageFilterTruthCR": "9f90d657bc5291e9faa64400b4c48a43a118f213b8305c21f1678267fab758e6",
+    "YoStarKR/Sarkaz@Roguelike@StageSafeHouseCR": "7a87206e8bf3c89cfec0ad25d2efae964be291fe01a5f5947700fffb6e12106d",
+    "official/Roguelike@RewardCompleted": "9c094d8f0291ef003f38268aa00da6881081be959c275f5a978f4258247c9ad2",
+    "official/Phantom@Roguelike@CommsCompleted": "a7fbc8483e1a9d18463e7c27184c186fe4e94407e6a4f66e6f3a4cd2f1abd60d",
+    "official/Roguelike@CommsCompleted": "58c9e507aebbca6df7ec0b24464d105a42e413ea5aa1bdd23f936e08a7419e88"
 }
