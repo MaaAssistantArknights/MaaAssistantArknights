@@ -44,6 +44,18 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             true);
     }
 
+    private bool _externalNotificationEnableDetails = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnableDetails, bool.FalseString));
+
+    public bool ExternalNotificationEnableDetails
+    {
+        get => _externalNotificationEnableDetails;
+        set
+        {
+            SetAndNotify(ref _externalNotificationEnableDetails, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationEnableDetails, value.ToString());
+        }
+    }
+
     public static readonly List<string> ExternalNotificationProviders =
         [
             "ServerChan",
@@ -278,7 +290,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _smtpUseSsl = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl, "false"));
+    private bool _smtpUseSsl = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl, bool.FalseString));
 
     public bool SmtpUseSsl
     {
@@ -290,7 +302,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _smtpRequireAuthentication = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication, "false"));
+    private bool _smtpRequireAuthentication = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication, bool.FalseString));
 
     public bool SmtpRequireAuthentication
     {
