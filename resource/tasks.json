@@ -4181,11 +4181,7 @@
         "roi": [1090, 480, 120, 140],
         "maxTimes": 5,
         "exceededNext": ["InfrastReceptionMessageBoard-Received#next"],
-        "next": [
-            "InfrastReceptionMessageBoard-Received",
-            "InfrastReceptionOpenMessageBoard@LoadingText",
-            "#self"
-        ]
+        "next": ["InfrastReceptionMessageBoard-Received", "InfrastReceptionOpenMessageBoard@LoadingText", "#self"]
     },
     "InfrastReceptionMessageBoard-Received": {
         "roi": [1090, 480, 120, 140],
