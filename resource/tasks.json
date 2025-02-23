@@ -4165,7 +4165,7 @@
         "next": [
             "InfrastReceptionMessageBoard-AccessRecord",
             "InfrastReceptionMessageBoard-CouldReceive",
-            "#self@LoadingText"
+            "InfrastReceptionOpenMessageBoard@LoadingText"
         ]
     },
     "InfrastReceptionMessageBoard-AccessRecord": {
