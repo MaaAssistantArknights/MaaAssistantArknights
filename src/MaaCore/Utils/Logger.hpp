@@ -744,7 +744,7 @@ private:
         log_init_info();
     }
 
-    void rotate([[maybe_unused]] std::unique_lock<std::mutex>& m_lock)
+    void rotate([[maybe_unused]] const std::unique_lock<std::mutex>& m_lock)
     {
         if (!m_ofs || !m_ofs.is_open() || m_bytes_written <= MaxLogSize) {
             return;
@@ -785,7 +785,7 @@ private:
     std::ofstream m_ofs;
     std::size_t m_bytes_written = 0;
     std::function<void(const std::unique_lock<std::mutex>&, std::size_t)> m_add_bytes_callback = nullptr;
-    const uintmax_t MaxLogSize = 64LL * 1024 * 1024;
+    const std::size_t MaxLogSize = 64LL * 1024 * 1024;
 };
 
 inline constexpr Logger::separator Logger::separator::none;
