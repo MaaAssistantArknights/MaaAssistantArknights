@@ -818,7 +818,7 @@ private:
     std::ofstream m_ofs;
     std::size_t m_bytes_written = 0;
     std::function<void(const std::unique_lock<std::mutex>&, std::size_t)> m_callback = nullptr;
-    const std::size_t MaxLogSize = 24 * 1024LL; //   64LL *1024 * 1024;
+    const std::size_t MaxLogSize = 64LL *1024 * 1024;
 };
 
 inline constexpr Logger::separator Logger::separator::none;
