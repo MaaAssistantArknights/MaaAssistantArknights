@@ -20,7 +20,6 @@
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
-            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -56,11 +55,5 @@
             Margin="10,5"
             Content="{DynamicResource GpuAllowDeprecated}"
             IsChecked="{Binding AllowDeprecatedGpu}" />
-        <controls:TextBlock
-            Grid.Row="2"
-            Grid.ColumnSpan="2"
-            Margin="10"
-            HorizontalAlignment="Center"
-            Text="{c:Binding ScreencapCost}" />
     </Grid>
 </UserControl>
