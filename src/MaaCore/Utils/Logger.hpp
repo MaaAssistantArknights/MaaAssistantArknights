@@ -424,6 +424,13 @@ public:
             return *this;
         }
 
+        LogStream&
+            set_bytes_count_callback(std::function<void(const std::unique_lock<std::mutex>&, std::size_t)>&& callback)
+        {
+            m_bytes_count_callback = callback;
+            return *this;
+        }
+
         template <typename _stream_t = stream_t>
         LogStream(std::mutex& mtx, _stream_t&& ofs, Logger::level lv) :
             m_trace_lock(mtx),
@@ -456,8 +463,9 @@ public:
         ~LogStream()
         {
             m_ofs << std::endl;
-            Logger* aa = &Logger::get_instance();
-            aa->add_byte_count(m_trace_lock, m_bytes_written);
+            if (m_bytes_count_callback != nullptr && m_bytes_written > 0) {
+                m_bytes_count_callback(m_trace_lock, m_bytes_written);
+            }
         }
 
     private:
@@ -547,6 +555,7 @@ public:
         std::unique_lock<std::mutex> m_trace_lock;
         stream_t m_ofs;
         std::size_t m_bytes_written = 0;
+        std::function<void(const std::unique_lock<std::mutex>&, std::size_t)> m_bytes_count_callback = nullptr;
 
         inline static thread_local const auto m_pid =
 #ifdef _WIN32
@@ -581,7 +590,7 @@ public:
 public:
     virtual ~Logger() override { flush(); }
 
-    void add_byte_count([[maybe_unused]] std::unique_lock<std::mutex>& lock, std::size_t byte_count = 0)
+    void add_byte_count([[maybe_unused]] const std::unique_lock<std::mutex>& lock, std::size_t byte_count = 0)
     {
         m_bytes_written += byte_count;
     }
@@ -607,16 +616,25 @@ public:
         rotate(lock);
         if constexpr (std::same_as<level, remove_cvref_t<T>>) {
 #ifdef ASST_DEBUG
-            return LogStream(std::move(lock), ostreams { console_ostream(std::cout), m_ofs }, arg);
+            return LogStream(std::move(lock), m_add_bytes_callback, ostreams { console_ostream(std::cout), m_ofs }, arg)
+                .set_add_bytes_callback(m_add_bytes_callback);
 #else
-            return LogStream(std::move(lock), m_ofs, arg);
+            return LogStream(std::move(lock), m_add_bytes_callback, m_ofs, arg)
+                .set_add_bytes_callback(m_add_bytes_callback);
 #endif
         }
         else {
 #ifdef ASST_DEBUG
-            return LogStream(std::move(lock), ostreams { console_ostream(std::cout), m_ofs }, level::trace, arg);
+            return LogStream(
+                       std::move(lock),
+                       m_add_bytes_callback,
+                       ostreams { console_ostream(std::cout), m_ofs },
+                       level::trace,
+                       arg)
+                .set_add_bytes_callback(m_add_bytes_callback);
 #else
-            return LogStream(std::move(lock), m_ofs, level::trace, arg);
+            return LogStream(std::move(lock), m_add_bytes_callback, m_ofs, level::trace, arg)
+                .set_add_bytes_callback(m_add_bytes_callback);
 #endif
         }
     }
@@ -696,12 +714,14 @@ public:
         rotate(lock);
         (LogStream(
              std::move(lock),
+             m_add_bytes_callback,
 #ifdef ASST_DEBUG
              ostreams { console_ostream(std::cout), m_ofs },
 #else
              m_ofs,
 #endif
              lv)
+             .set_add_bytes_callback(m_add_bytes_callback)
          << ... << std::forward<Args>(args));
     }
 
@@ -717,7 +737,8 @@ private:
     friend class SingletonHolder<Logger>;
 
     Logger() :
-        m_directory(UserDir.get())
+        m_directory(UserDir.get()),
+        m_add_bytes_callback([&](const auto& lock, size_t count) { add_byte_count(lock, count); })
     {
         std::filesystem::create_directories(m_log_path.parent_path());
         log_init_info();
@@ -763,6 +784,7 @@ private:
     std::mutex m_trace_mutex;
     std::ofstream m_ofs;
     std::size_t m_bytes_written = 0;
+    std::function<void(const std::unique_lock<std::mutex>&, std::size_t)> m_add_bytes_callback = nullptr;
     const uintmax_t MaxLogSize = 64LL * 1024 * 1024;
 };
 
