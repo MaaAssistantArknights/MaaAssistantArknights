@@ -7684,7 +7684,6 @@
     "Roguelike@StageSafeHouseSkipTextRewards": {
         "template": "empty.png",
         "action": "ClickRect",
-        "preDelay": 500,
         "specificRect": [0, 405, 725, 225],
         "next": ["Roguelike@StageEncounterOptions#next", "Roguelike@NextLevel"]
     },
