@@ -417,40 +417,50 @@ public:
             else {
                 // 如果是 level，则不输出 separator
                 if constexpr (!std::same_as<Logger::level, remove_cvref_t<T>>) {
-                    stream_put(m_ofs, m_sep.str, m_bytes_written);
+                    stream_put(m_ofs, m_bytes_written, m_sep.str);
                 }
-                stream_put(m_ofs, std::forward<T>(arg), m_bytes_written);
+                stream_put(m_ofs, m_bytes_written, std::forward<T>(arg));
             }
             return *this;
         }
 
-        LogStream&
-            set_bytes_count_callback(std::function<void(const std::unique_lock<std::mutex>&, std::size_t)>&& callback)
-        {
-            m_bytes_count_callback = callback;
-            return *this;
-        }
-
         template <typename _stream_t = stream_t>
-        LogStream(std::mutex& mtx, _stream_t&& ofs, Logger::level lv) :
+        LogStream(
+            std::mutex& mtx,
+            const std::function<void(const std::unique_lock<std::mutex>&, std::size_t)>& callback,
+            _stream_t&& ofs,
+            Logger::level lv) :
             m_trace_lock(mtx),
-            m_ofs(ofs)
+            m_ofs(ofs),
+            m_bytes_count_callback(callback)
         {
             *this << lv;
         }
 
         template <typename _stream_t = stream_t, typename... Args>
-        LogStream(std::mutex& mtx, _stream_t&& ofs, Logger::level lv, Args&&... buff) :
+        LogStream(
+            std::mutex& mtx,
+            const std::function<void(const std::unique_lock<std::mutex>&, std::size_t)>& callback,
+            _stream_t&& ofs,
+            Logger::level lv,
+            Args&&... buff) :
             m_trace_lock(mtx),
-            m_ofs(ofs)
+            m_ofs(ofs),
+            m_bytes_count_callback(callback)
         {
             ((*this << lv) << ... << std::forward<Args>(buff));
         }
 
         template <typename _stream_t = stream_t, typename... Args>
-        LogStream(std::unique_lock<std::mutex>&& lock, _stream_t&& ofs, Logger::level lv, Args&&... buff) :
+        LogStream(
+            std::unique_lock<std::mutex>&& lock,
+            const std::function<void(const std::unique_lock<std::mutex>&, std::size_t)>& callback,
+            _stream_t&& ofs,
+            Logger::level lv,
+            Args&&... buff) :
             m_trace_lock(std::move(lock)),
-            m_ofs(ofs)
+            m_ofs(ofs),
+            m_bytes_count_callback(callback)
         {
             ((*this << lv) << ... << std::forward<Args>(buff));
         }
@@ -463,6 +473,7 @@ public:
         ~LogStream()
         {
             m_ofs << std::endl;
+            m_bytes_written += m_endl_size;
             if (m_bytes_count_callback != nullptr && m_bytes_written > 0) {
                 m_bytes_count_callback(m_trace_lock, m_bytes_written);
             }
@@ -470,7 +481,7 @@ public:
 
     private:
         template <typename Stream, typename T>
-        static Stream& stream_put(Stream& s, T&& v, std::size_t& byte_count)
+        static Stream& stream_put(Stream& s, std::size_t& byte_count, T&& v)
         {
             if constexpr (std::same_as<std::filesystem::path, remove_cvref_t<T>>) {
                 const auto& str = utils::path_to_utf8_string(std::forward<T>(v));
@@ -532,7 +543,7 @@ public:
                 for (const auto& elem : std::forward<T>(v)) {
                     s << comma_space;
                     byte_count += comma_space.size();
-                    stream_put(s, elem, byte_count);
+                    stream_put(s, byte_count, elem);
                     comma_space = ", ";
                 }
                 s << "]";
@@ -554,6 +565,12 @@ public:
         separator m_sep = separator::space;
         std::unique_lock<std::mutex> m_trace_lock;
         stream_t m_ofs;
+
+#if defined(_WIN32) || defined(_WIN64)
+        const static std::size_t m_endl_size = 2; // \r\n;
+#else
+        const static std::size_t m_endl_size = 1; // \n;
+#endif
         std::size_t m_bytes_written = 0;
         std::function<void(const std::unique_lock<std::mutex>&, std::size_t)> m_bytes_count_callback = nullptr;
 
@@ -579,13 +596,25 @@ public:
     // LogStream(std::mutex&, stream_t&&) -> LogStream<stream_t>;
 
     template <typename stream_t, typename... Args>
-    LogStream(std::mutex&, stream_t&, Args&&...) -> LogStream<stream_t&>;
+    LogStream(
+        std::mutex&,
+        const std::function<void(const std::unique_lock<std::mutex>&, std::size_t)>&,
+        stream_t&,
+        Args&&...) -> LogStream<stream_t&>;
 
     template <typename stream_t, typename... Args>
-    LogStream(std::mutex&, stream_t&&, Args&&...) -> LogStream<stream_t>;
+    LogStream(
+        std::mutex&,
+        const std::function<void(const std::unique_lock<std::mutex>&, std::size_t)>&,
+        stream_t&&,
+        Args&&...) -> LogStream<stream_t>;
 
     template <typename stream_t, typename... Args>
-    LogStream(std::unique_lock<std::mutex>&&, stream_t&&, Args&&...) -> LogStream<stream_t>;
+    LogStream(
+        std::unique_lock<std::mutex>&&,
+        const std::function<void(const std::unique_lock<std::mutex>&, std::size_t)>&,
+        stream_t&&,
+        Args&&...) -> LogStream<stream_t>;
 
 public:
     virtual ~Logger() override { flush(); }
@@ -611,30 +640,27 @@ public:
         std::unique_lock lock { m_trace_mutex };
         if (!m_ofs || !m_ofs.is_open()) {
             m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
+            m_ofs.seekp(0, std::ios::end);
             m_bytes_written = m_ofs.tellp();
         }
         rotate(lock);
         if constexpr (std::same_as<level, remove_cvref_t<T>>) {
 #ifdef ASST_DEBUG
-            return LogStream(std::move(lock), m_add_bytes_callback, ostreams { console_ostream(std::cout), m_ofs }, arg)
-                .set_add_bytes_callback(m_add_bytes_callback);
+            return LogStream(std::move(lock), m_callback, ostreams { console_ostream(std::cout), m_ofs }, arg);
 #else
-            return LogStream(std::move(lock), m_add_bytes_callback, m_ofs, arg)
-                .set_add_bytes_callback(m_add_bytes_callback);
+            return LogStream(std::move(lock), m_callback, m_ofs, arg);
 #endif
         }
         else {
 #ifdef ASST_DEBUG
             return LogStream(
-                       std::move(lock),
-                       m_add_bytes_callback,
-                       ostreams { console_ostream(std::cout), m_ofs },
-                       level::trace,
-                       arg)
-                .set_add_bytes_callback(m_add_bytes_callback);
+                std::move(lock),
+                m_callback,
+                ostreams { console_ostream(std::cout), m_ofs },
+                level::trace,
+                arg);
 #else
-            return LogStream(std::move(lock), m_add_bytes_callback, m_ofs, level::trace, arg)
-                .set_add_bytes_callback(m_add_bytes_callback);
+            return LogStream(std::move(lock), m_callback, m_ofs, level::trace, arg);
 #endif
         }
     }
@@ -709,19 +735,19 @@ public:
         }
         if (!m_ofs || !m_ofs.is_open()) {
             m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
+            m_ofs.seekp(0, std::ios::end);
             m_bytes_written = m_ofs.tellp();
         }
         rotate(lock);
         (LogStream(
              std::move(lock),
-             m_add_bytes_callback,
+             m_callback,
 #ifdef ASST_DEBUG
              ostreams { console_ostream(std::cout), m_ofs },
 #else
              m_ofs,
 #endif
              lv)
-             .set_add_bytes_callback(m_add_bytes_callback)
          << ... << std::forward<Args>(args));
     }
 
@@ -738,7 +764,7 @@ private:
 
     Logger() :
         m_directory(UserDir.get()),
-        m_add_bytes_callback([&](const auto& lock, size_t count) { add_byte_count(lock, count); })
+        m_callback([&](const auto& lock, size_t count) { add_byte_count(lock, count); })
     {
         try {
             std::filesystem::create_directories(m_log_path.parent_path());
@@ -763,7 +789,7 @@ private:
             m_ofs.close();
             std::filesystem::rename(m_log_path, m_log_bak_path);
             m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
-            m_bytes_written = m_ofs.tellp();
+            m_bytes_written = 0;
         }
         catch (std::filesystem::filesystem_error& e) {
             std::cerr << e.what() << std::endl;
@@ -791,8 +817,8 @@ private:
     std::mutex m_trace_mutex;
     std::ofstream m_ofs;
     std::size_t m_bytes_written = 0;
-    std::function<void(const std::unique_lock<std::mutex>&, std::size_t)> m_add_bytes_callback = nullptr;
-    const std::size_t MaxLogSize = 64LL * 1024 * 1024;
+    std::function<void(const std::unique_lock<std::mutex>&, std::size_t)> m_callback = nullptr;
+    const std::size_t MaxLogSize = 24 * 1024LL; //   64LL *1024 * 1024;
 };
 
 inline constexpr Logger::separator Logger::separator::none;
