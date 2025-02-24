@@ -235,6 +235,14 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
     public string ScreencapTestCost { get; set; } = string.Empty;
 
+    private string _screencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), "---", "---", "---", "---");
+
+    public string ScreencapCost
+    {
+        get => _screencapCost;
+        set => SetAndNotify(ref _screencapCost, value);
+    }
+
     public class MuMuEmulator12ConnectionExtras : PropertyChangedBase
     {
         private bool _enable = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12ExtrasEnabled, bool.FalseString));

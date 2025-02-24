@@ -610,7 +610,7 @@ namespace MaaWpfGui.Main
                     var screencapCostAvg = details["details"]?["avg"]?.ToString() ?? "???";
                     var screencapCostMax = details["details"]?["max"]?.ToString() ?? "???";
                     var currentTime = DateTimeOffset.Now.ToString("HH:mm:ss");
-                    SettingsViewModel.PerformanceSettings.ScreencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), screencapCostMin, screencapCostAvg, screencapCostMax, currentTime);
+                    SettingsViewModel.ConnectSettings.ScreencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), screencapCostMin, screencapCostAvg, screencapCostMax, currentTime);
                     if (!HasPrintedScreencapWarning && int.TryParse(screencapCostAvg, out var screencapCostAvgInt))
                     {
                         static void AddLog(string message, string color)

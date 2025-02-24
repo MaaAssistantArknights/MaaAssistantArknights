@@ -24,6 +24,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -193,7 +194,12 @@
             </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Row="4" HorizontalAlignment="Center">
+        <controls:TextBlock
+            Grid.Row="4"
+            Margin="10"
+            HorizontalAlignment="Center"
+            Text="{c:Binding ScreencapCost}" />
+        <StackPanel Grid.Row="5" HorizontalAlignment="Center">
             <CheckBox
                 Margin="20,10"
                 Content="{DynamicResource RetryOnDisconnected}"
@@ -210,7 +216,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="5"
+            Grid.Row="6"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <hc:ComboBox
@@ -231,7 +237,7 @@
                 Content="{DynamicResource ForcedReplaceAdb}" />
         </StackPanel>
 
-        <StackPanel Grid.Row="6">
+        <StackPanel Grid.Row="7">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <CheckBox
                     Margin="20,10"
@@ -249,10 +255,9 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="7"
+            Grid.Row="8"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Orientation="Horizontal">
-        </StackPanel>
+            Orientation="Horizontal" />
     </Grid>
 </UserControl>

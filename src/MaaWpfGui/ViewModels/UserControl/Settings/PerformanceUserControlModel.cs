@@ -52,12 +52,4 @@ public class PerformanceUserControlModel : PropertyChangedBase
             NotifyOfPropertyChange();
         }
     }
-
-    private string _screencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), "---", "---", "---", "---");
-
-    public string ScreencapCost
-    {
-        get => _screencapCost;
-        set => SetAndNotify(ref _screencapCost, value);
-    }
 }
