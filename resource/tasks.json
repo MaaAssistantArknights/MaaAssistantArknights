@@ -4142,6 +4142,58 @@
         "roi": [627, 160, 653, 404],
         "templThreshold": 0.95
     },
+    "InfrastReceptionReceiveMessageBoard": {
+        "algorithm": "JustReturn",
+        "maxTimes": 3,
+        "next": ["InfrastReceptionOpenMessageBoard", "InfrastReceptionInteractive", "#self"]
+    },
+    "InfrastReceptionReceiveMessageBoard-Exit": {
+        "action": "DoNothing",
+        "baseTask": "InfrastReceptionInteractive",
+        "template": "InfrastReceptionInteractive.png",
+        "next": ["Stop"]
+    },
+    "InfrastReceptionInteractive": {
+        "action": "ClickSelf",
+        "roi": [400, 610, 100, 110],
+        "maxTimes": 3,
+        "next": ["InfrastReceptionOpenMessageBoard", "#self"]
+    },
+    "InfrastReceptionOpenMessageBoard": {
+        "action": "ClickSelf",
+        "roi": [0, 150, 1280, 250],
+        "maskRange": [1, 255],
+        "postDelay": 1000,
+        "next": [
+            "InfrastReceptionMessageBoard-AccessRecord",
+            "InfrastReceptionMessageBoard-CouldReceive",
+            "InfrastReceptionMessageBoard-Received",
+            "InfrastReceptionOpenMessageBoard@LoadingText"
+        ]
+    },
+    "InfrastReceptionMessageBoard-AccessRecord": {
+        "doc": "进信息板的上周记录，不一定会有",
+        "action": "ClickSelf",
+        "roi": [520, 50, 240, 140],
+        "maxTimes": 20,
+        "next": ["InfrastReceptionMessageBoard-CouldReceive", "InfrastReceptionMessageBoard-Received", "#self"]
+    },
+    "InfrastReceptionMessageBoard-CouldReceive": {
+        "action": "ClickSelf",
+        "roi": [1090, 480, 120, 140],
+        "maxTimes": 5,
+        "exceededNext": ["InfrastReceptionMessageBoard-Received#next"],
+        "next": ["InfrastReceptionMessageBoard-Received", "InfrastReceptionOpenMessageBoard@LoadingText", "#self"]
+    },
+    "InfrastReceptionMessageBoard-Received": {
+        "roi": [1090, 480, 120, 140],
+        "next": ["InfrastReceptionMessageBoard@Return"]
+    },
+    "InfrastReceptionMessageBoard@Return": {
+        "template": "Return.png",
+        "postDelay": 1000,
+        "next": ["InfrastReceptionReceiveMessageBoard-Exit"]
+    },
     "InfrastTraining": {
         "template": "Training.png",
         "maskRange": [1, 255],
