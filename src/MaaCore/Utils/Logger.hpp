@@ -8,6 +8,7 @@
 #include <thread>
 #include <type_traits>
 #include <utility>
+#include <string>
 
 #include "Common/AsstTypes.h"
 #include "Common/AsstVersion.h"
@@ -411,15 +412,16 @@ public:
         template <typename T>
         LogStream& operator<<(T&& arg)
         {
+            std::size_t byte_count = 0;
             if constexpr (std::same_as<separator, remove_cvref_t<T>>) {
                 m_sep = std::forward<T>(arg);
             }
             else {
                 // 如果是 level，则不输出 separator
                 if constexpr (!std::same_as<Logger::level, remove_cvref_t<T>>) {
-                    stream_put(m_ofs, m_sep.str);
+                    stream_put(m_ofs, m_sep.str, byte_count);
                 }
-                stream_put(m_ofs, std::forward<T>(arg));
+                stream_put(m_ofs, std::forward<T>(arg), byte_count);
             }
             return *this;
         }
@@ -453,14 +455,20 @@ public:
         LogStream& operator=(LogStream&&) = delete;
         LogStream& operator=(const LogStream&) = delete;
 
-        ~LogStream() { m_ofs << std::endl; }
+        ~LogStream()
+        {
+            m_ofs << std::endl;
+            Logger::get_instance().add_byte_count(m_trace_lock, m_bytes_written);
+        }
 
     private:
         template <typename Stream, typename T>
-        static Stream& stream_put(Stream& s, T&& v)
+        static Stream& stream_put(Stream& s, T&& v, std::size_t& byte_count)
         {
             if constexpr (std::same_as<std::filesystem::path, remove_cvref_t<T>>) {
-                s << utils::path_to_utf8_string(std::forward<T>(v));
+                const auto& str = utils::path_to_utf8_string(std::forward<T>(v));
+                s << str;
+                byte_count += str.size();
             }
             else if constexpr (std::same_as<Logger::level, remove_cvref_t<T>>) {
                 constexpr int buff_len = 128;
@@ -489,25 +497,36 @@ public:
                     m_tid);
 #endif // END _WIN32
                 s << buff;
+                byte_count += std::strlen(buff);
             }
             else if constexpr (std::is_enum_v<T> && enum_could_to_string<T>) {
-                s << asst::enum_to_string(std::forward<T>(v));
+                const auto& str = asst::enum_to_string(std::forward<T>(v));
+                s << str;
+                byte_count += str.size();
             }
             else if constexpr (has_stream_insertion_operator<Stream, T>) {
-                s << std::forward<T>(v);
+                std::ostringstream oss;
+                oss << std::forward<T>(v);
+                const auto& str = oss.str();
+                s << str;
+                byte_count += str.size();
             }
             else if constexpr (std::constructible_from<std::string, T>) {
-                s << std::string(std::forward<T>(v));
+                const auto& str = std::string(std::forward<T>(v));
+                s << str;
+                byte_count += str.size();
             }
             else if constexpr (ranges::input_range<T>) {
                 s << "[";
                 std::string_view comma_space {};
                 for (const auto& elem : std::forward<T>(v)) {
                     s << comma_space;
-                    stream_put(s, elem);
+                    byte_count += comma_space.size();
+                    stream_put(s, elem, byte_count);
                     comma_space = ", ";
                 }
                 s << "]";
+                byte_count += 2; // for '[]'
             }
             else {
                 ASST_STATIC_ASSERT_FALSE(
@@ -525,6 +544,7 @@ public:
         separator m_sep = separator::space;
         std::unique_lock<std::mutex> m_trace_lock;
         stream_t m_ofs;
+        std::size_t m_bytes_written = 0;
 
         inline static thread_local const auto m_pid =
 #ifdef _WIN32
@@ -557,7 +577,12 @@ public:
     LogStream(std::unique_lock<std::mutex>&&, stream_t&&, Args&&...) -> LogStream<stream_t>;
 
 public:
-    virtual ~Logger() override { flush(false); }
+    virtual ~Logger() override { flush(); }
+
+    void add_byte_count([[maybe_unused]] std::unique_lock<std::mutex>& lock, std::size_t byte_count = 0)
+    {
+        m_bytes_written += byte_count;
+    }
 
     // static bool set_directory(const std::filesystem::path& dir)
     // {
@@ -572,21 +597,24 @@ public:
     template <typename T>
     auto operator<<(T&& arg)
     {
+        std::unique_lock lock { m_trace_mutex };
         if (!m_ofs || !m_ofs.is_open()) {
             m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
+            m_bytes_written = m_ofs.tellp();
         }
+        rotate(lock);
         if constexpr (std::same_as<level, remove_cvref_t<T>>) {
 #ifdef ASST_DEBUG
-            return LogStream(m_trace_mutex, ostreams { console_ostream(std::cout), m_ofs }, arg);
+            return LogStream(std::move(lock), ostreams { console_ostream(std::cout), m_ofs }, arg);
 #else
-            return LogStream(m_trace_mutex, m_ofs, arg);
+            return LogStream(std::move(lock), m_ofs, arg);
 #endif
         }
         else {
 #ifdef ASST_DEBUG
-            return LogStream(m_trace_mutex, ostreams { console_ostream(std::cout), m_ofs }, level::trace, arg);
+            return LogStream(std::move(lock), ostreams { console_ostream(std::cout), m_ofs }, level::trace, arg);
 #else
-            return LogStream(m_trace_mutex, m_ofs, level::trace, arg);
+            return LogStream(std::move(lock), m_ofs, level::trace, arg);
 #endif
         }
     }
@@ -661,7 +689,9 @@ public:
         }
         if (!m_ofs || !m_ofs.is_open()) {
             m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
+            m_bytes_written = m_ofs.tellp();
         }
+        rotate(lock);
         (LogStream(
              std::move(lock),
 #ifdef ASST_DEBUG
@@ -673,14 +703,11 @@ public:
          << ... << std::forward<Args>(args));
     }
 
-    void flush(bool rorate_log_file = true)
+    void flush()
     {
         std::unique_lock<std::mutex> m_trace_lock(m_trace_mutex);
         if (m_ofs.is_open()) {
             m_ofs.close();
-        }
-        if (rorate_log_file) {
-            rotate();
         }
     }
 
@@ -691,20 +718,22 @@ private:
         m_directory(UserDir.get())
     {
         std::filesystem::create_directories(m_log_path.parent_path());
-        rotate();
         log_init_info();
     }
 
-    void rotate() const
+    void rotate([[maybe_unused]] std::unique_lock<std::mutex>& m_lock)
     {
-        constexpr uintmax_t MaxLogSize = 64ULL * 1024 * 1024;
+        if (!m_ofs || !m_ofs.is_open() || m_bytes_written <= MaxLogSize) {
+            return;
+        }
         try {
-            if (std::filesystem::exists(m_log_path) && std::filesystem::is_regular_file(m_log_path)) {
-                const uintmax_t log_size = std::filesystem::file_size(m_log_path);
-                if (log_size >= MaxLogSize) {
-                    std::filesystem::rename(m_log_path, m_log_bak_path);
-                }
+            if (!std::filesystem::exists(m_log_path) || !std::filesystem::is_regular_file(m_log_path)) {
+                return;
             }
+            m_ofs.close();
+            std::filesystem::rename(m_log_path, m_log_bak_path);
+            m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
+            m_bytes_written = m_ofs.tellp();
         }
         catch (std::filesystem::filesystem_error& e) {
             std::cerr << e.what() << std::endl;
@@ -731,6 +760,8 @@ private:
     std::filesystem::path m_log_bak_path = m_directory / "debug" / "asst.bak.log";
     std::mutex m_trace_mutex;
     std::ofstream m_ofs;
+    std::size_t m_bytes_written = 0;
+    const uintmax_t MaxLogSize = 64LL * 1024 * 1024;
 };
 
 inline constexpr Logger::separator Logger::separator::none;
