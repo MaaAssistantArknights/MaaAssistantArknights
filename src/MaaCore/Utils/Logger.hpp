@@ -1,11 +1,11 @@
 #pragma once
 
+#include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <functional>
 #include <iostream>
 #include <mutex>
-#include <cstring>
 #include <thread>
 #include <type_traits>
 #include <utility>
