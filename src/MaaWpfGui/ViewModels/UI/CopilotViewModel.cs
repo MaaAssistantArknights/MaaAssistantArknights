@@ -763,7 +763,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             // 不支持的关卡
-            if (DataHelper.FindMap(copilot.StageName) is null)
+            var stages = copilot.Stages?.Select(copilot => DataHelper.FindMap(copilot.StageName));
+            if (stages?.Any(i => i is null) is null or true)
             {
                 AddLog(LocalizationHelper.GetString("UnsupportedStages") + $"  {copilot.StageName}", UiLogColor.Error, showTime: false);
             }
