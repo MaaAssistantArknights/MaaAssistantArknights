@@ -5,7 +5,7 @@
 #include <functional>
 #include <iostream>
 #include <mutex>
-#include <string>
+#include <cstring>
 #include <thread>
 #include <type_traits>
 #include <utility>
