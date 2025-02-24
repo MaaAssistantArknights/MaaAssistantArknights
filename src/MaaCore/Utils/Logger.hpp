@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <functional>
@@ -457,7 +456,8 @@ public:
         ~LogStream()
         {
             m_ofs << std::endl;
-            Logger::get_instance().add_byte_count(m_trace_lock, m_bytes_written);
+            Logger* aa = &Logger::get_instance();
+            aa->add_byte_count(m_trace_lock, m_bytes_written);
         }
 
     private:
@@ -472,13 +472,14 @@ public:
             else if constexpr (std::same_as<Logger::level, remove_cvref_t<T>>) {
                 constexpr int buff_len = 128;
                 char buff[buff_len] = { 0 };
+                int out_len = -1;
 #ifdef _WIN32
 #ifdef _MSC_VER
-                sprintf_s(
+                out_len = sprintf_s(
                     buff,
                     buff_len,
 #else  // ! _MSC_VER
-                sprintf(
+                out_len = sprintf(
                     buff,
 #endif // END _MSC_VER
                     "[%s][%s][Px%x][Tx%4.4lx]",
@@ -487,7 +488,7 @@ public:
                     m_pid,
                     m_tid);
 #else  // ! _WIN32
-                sprintf(
+                out_len = sprintf(
                     buff,
                     "[%s][%s][Px%x][Tx%4.4hx]",
                     asst::utils::get_format_time().c_str(),
@@ -496,7 +497,9 @@ public:
                     m_tid);
 #endif // END _WIN32
                 s << buff;
-                byte_count += std::strlen(buff);
+                if (out_len > 0) {
+                    byte_count += out_len;
+                }
             }
             else if constexpr (std::is_enum_v<T> && enum_could_to_string<T>) {
                 const auto& str = asst::enum_to_string(std::forward<T>(v));
