@@ -4163,6 +4163,7 @@
         "action": "ClickSelf",
         "roi": [0, 150, 1280, 250],
         "maskRange": [1, 255],
+        "postDelay": 1000,
         "next": [
             "InfrastReceptionMessageBoard-AccessRecord",
             "InfrastReceptionMessageBoard-CouldReceive",
@@ -4173,7 +4174,7 @@
     "InfrastReceptionMessageBoard-AccessRecord": {
         "doc": "进信息板的上周记录，不一定会有",
         "action": "ClickSelf",
-        "roi": [520, 90, 240, 100],
+        "roi": [520, 50, 240, 140],
         "next": ["InfrastReceptionMessageBoard-CouldReceive", "InfrastReceptionMessageBoard-Received"]
     },
     "InfrastReceptionMessageBoard-CouldReceive": {
