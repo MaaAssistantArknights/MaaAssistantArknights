@@ -246,9 +246,10 @@ You can cancel this popup by clicking the Settings - About Us - Issue Reporting 
     <system:String x:Key="ResourceUpdate">Resource update</system:String>
     <system:String x:Key="UpdateSource">Update Source</system:String>
     <system:String x:Key="GlobalSource">Global Source</system:String>
+    <system:String x:Key="ForceGithubGlobalSource">Force using Github</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanSoftwareUpdateTip">MirrorChyan has detected a software update. Please go to 「Settings - Software Update」 to configure CDK or using the Global source.</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">MirrorChyan has detected a resource update. Please go to 「Settings - Software Update」 to configure CDK, or click 「Resource Update」 to update manually.</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">MirrorChyan has detected a resource update. Please go to 「Settings - Software Update」 to configure CDK, or using the Global source click 「Resource Update」 to update manually.</system:String>
     <system:String x:Key="NewVersionFoundTitle">New Version Found</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">Downloading in the background……</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">Version: </system:String>
