@@ -4175,7 +4175,8 @@
         "doc": "进信息板的上周记录，不一定会有",
         "action": "ClickSelf",
         "roi": [520, 50, 240, 140],
-        "next": ["InfrastReceptionMessageBoard-CouldReceive", "InfrastReceptionMessageBoard-Received"]
+        "maxTimes": 20,
+        "next": ["InfrastReceptionMessageBoard-CouldReceive", "InfrastReceptionMessageBoard-Received", "#self"]
     },
     "InfrastReceptionMessageBoard-CouldReceive": {
         "action": "ClickSelf",
