@@ -740,7 +740,14 @@ private:
         m_directory(UserDir.get()),
         m_add_bytes_callback([&](const auto& lock, size_t count) { add_byte_count(lock, count); })
     {
-        std::filesystem::create_directories(m_log_path.parent_path());
+        try {
+            std::filesystem::create_directories(m_log_path.parent_path());
+        }
+        catch (std::filesystem::filesystem_error& e) {
+            std::cerr << e.what() << std::endl;
+        }
+        catch (...) {
+        }
         log_init_info();
     }
 
