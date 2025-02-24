@@ -7671,9 +7671,21 @@
         "next": [
             "Roguelike@StageVerticalConfirmSafeHouse",
             "Roguelike@StageSafeHouseEnter",
-            "Roguelike@StageEncounterOptions#next",
-            "Roguelike@NextLevel"
+            "Roguelike@StageSafeHouseSkipText"
         ]
+    },
+    "Roguelike@StageSafeHouseSkipText": {
+        "template": "empty.png",
+        "action": "ClickRect",
+        "preDelay": 250,
+        "specificRect": [0, 405, 725, 225],
+        "next": ["Roguelike@StageSafeHouseSkipTextRewards"]
+    },
+    "Roguelike@StageSafeHouseSkipTextRewards": {
+        "template": "empty.png",
+        "action": "ClickRect",
+        "specificRect": [0, 405, 725, 225],
+        "next": ["Roguelike@StageEncounterOptions#next", "Roguelike@NextLevel"]
     },
     "Roguelike@StageTrader": {
         "Doc": "base_task",
@@ -7857,7 +7869,7 @@
     "Roguelike@StageVerticalConfirmSafeHouse": {
         "baseTask": "Roguelike@StageVerticalConfirm",
         "template": "Roguelike@StageVerticalConfirm.png",
-        "next": ["Roguelike@StageSafeHouseEnter", "Roguelike@StageEncounterOptions#next", "Roguelike@NextLevel"]
+        "next": ["Roguelike@StageSafeHouseEnter", "Roguelike@StageSafeHouseSkipText"]
     },
     "Roguelike@StageVerticalConfirmTrader": {
         "template": "Roguelike@StageVerticalConfirm.png",
