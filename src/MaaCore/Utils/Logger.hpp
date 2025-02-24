@@ -412,16 +412,15 @@ public:
         template <typename T>
         LogStream& operator<<(T&& arg)
         {
-            std::size_t byte_count = 0;
             if constexpr (std::same_as<separator, remove_cvref_t<T>>) {
                 m_sep = std::forward<T>(arg);
             }
             else {
                 // 如果是 level，则不输出 separator
                 if constexpr (!std::same_as<Logger::level, remove_cvref_t<T>>) {
-                    stream_put(m_ofs, m_sep.str, byte_count);
+                    stream_put(m_ofs, m_sep.str, m_bytes_written);
                 }
-                stream_put(m_ofs, std::forward<T>(arg), byte_count);
+                stream_put(m_ofs, std::forward<T>(arg), m_bytes_written);
             }
             return *this;
         }
