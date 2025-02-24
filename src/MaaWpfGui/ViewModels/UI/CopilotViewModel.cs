@@ -223,7 +223,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _userAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotUserAdditional, string.Empty);
+        private string _userAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotUserAdditional, string.Empty).Replace("，", ",").Replace("；", ";").Trim();
 
         /// <summary>
         /// Gets or sets a value indicating whether to use auto-formation.
@@ -233,6 +233,7 @@ namespace MaaWpfGui.ViewModels.UI
             get => _userAdditional;
             set
             {
+                value = value.Replace("，", ",").Replace("；", ";").Trim();
                 SetAndNotify(ref _userAdditional, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.CopilotUserAdditional, value);
             }
@@ -1121,7 +1122,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (UseCopilotList && !await VerifyCopilotListTask())
+            if (_taskType == AsstTaskType.Copilot && UseCopilotList && !await VerifyCopilotListTask())
             {
                 // 校验作业合法性
                 _runningState.SetIdle(true);
@@ -1148,7 +1149,6 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            UserAdditional = UserAdditional.Replace("，", ",").Replace("；", ";").Trim();
             Regex regex = new Regex(@"(?<=;)(?<name>[^,;]+)(?:, *(?<skill>\d))?(?=;)", RegexOptions.Compiled);
             JArray userAdditional = new(regex.Matches(";" + UserAdditional + ";").ToList().Select(match => new JObject
             {
@@ -1274,12 +1274,10 @@ namespace MaaWpfGui.ViewModels.UI
         private async Task<bool> VerifyCopilotListTask()
         {
             var list = CopilotItemViewModels.Where(i => i.IsChecked);
-            /*
             if (list.Any(i => string.IsNullOrEmpty(i.Name.Trim())))
             {
-                _runningState.SetIdle(false);
-                return;
-            }*/
+                return false;
+            }
 
             var stageNames = list.Select(i => i.FilePath).ToHashSet().Select(async path =>
             {
