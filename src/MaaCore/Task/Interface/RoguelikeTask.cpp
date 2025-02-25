@@ -107,6 +107,10 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
 bool asst::RoguelikeTask::set_params(const json::value& params)
 {
     LogTraceFunction;
+    if (m_running) {
+        Log.warn(__FUNCTION__, "RoguelikeTask is running, cannot set params");
+        return false;
+    }
     if (!m_config_ptr->verify_and_load_params(params)) {
         m_roguelike_task_ptr->set_tasks({ "Stop" });
         return false;
