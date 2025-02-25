@@ -47,9 +47,13 @@
                 },
                 "action": {
                     "type": "string",
-                    "pattern": "ClickSelf|ClickRand|DoNothing|Stop|ClickRect|Swipe",
+                    "pattern": "ClickSelf|ClickRand|DoNothing|Stop|ClickRect|Swipe|Input",
                     "default": "DoNothing",
                     "description": "Optional, indicates the action to be taken after recognition\nDefaults to DoNothing when not filled in"
+                },
+                "inputText": {
+                    "type": "string",
+                    "description": "Optional, valid when action is Input, indicating the text to be entered"
                 },
                 "sub": {
                     "$ref": "#/definitions/TaskNameList",
