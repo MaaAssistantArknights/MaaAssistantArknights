@@ -248,7 +248,7 @@
     <system:String x:Key="ResourceUpdate">资源更新</system:String>
     <system:String x:Key="UpdateSource">更新源</system:String>
     <system:String x:Key="GlobalSource">海外源</system:String>
-    <system:String x:Key="ForceGithubGlobalSource">强制使用 Github</system:String>
+    <system:String x:Key="ForceGithubGlobalSource">强制使用 GitHub</system:String>
     <system:String x:Key="MirrorChyan">Mirror 酱</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">切换更新源后填写</system:String>
     <system:String x:Key="MirrorChyanSoftwareUpdateTip">Mirror 酱检测到软件更新。请前往「设置-更新设置」配置 CDK 或使用海外源。</system:String>
