@@ -6877,7 +6877,7 @@
     "Roguelike@ClickToStartPoint": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [600, 600, 50, 10],
+        "specificRect": [600, 620, 50, 30],
         "postDelay_Doc": "这个延迟保证不会识别到 StartExplore 之后又弹出 每月委托/解锁收藏品 等。 #7033",
         "postDelay": 800,
         "next": [
@@ -9301,6 +9301,7 @@
         "next": ["Sami@Roguelike@FoldartalGain", "Sami@Roguelike@LastRewardChoose", "Sami@Roguelike@SquadConfirm#next"]
     },
     "Sami@Roguelike@FoldartalGainOcr": {
+        "doc": "深入调查调查装备也在这里",
         "algorithm": "OcrDetect",
         "roi": [584, 261, 315, 46],
         "text": [
@@ -9348,7 +9349,13 @@
             "繁衍",
             "迁徙",
             "歇息",
-            "空无"
+            "空无",
+            "雷达",
+            "留声机",
+            "景观",
+            "LUD",
+            "踢脚",
+            "自走车"
         ],
         "ocrReplace": [
             ["黜", "黜人"],
@@ -9528,6 +9535,9 @@
     },
     "Sami@Roguelike@MissionFailedFlag": {},
     "Sami@Roguelike@MissionFailedFlag2": {},
+    "Sami@Roguelike@MissionFailedFlag3": {
+        "baseTask": "Sami@Roguelike@MissionFailedFlag"
+    },
     "Sami@Roguelike@MonthlySquad": {
         "template": "Roguelike@MonthlySquad.png"
     },
@@ -9596,6 +9606,23 @@
         ]
     },
     "Sami@Roguelike@SquadDefault": {},
+    "Sami@Roguelike@StartAction": {
+        "Doc": "多一个Flag3",
+        "template": "Roguelike@StartAction.png",
+        "next": [
+            "Sami@Roguelike@NoneSelected",
+            "Sami@Roguelike@InBattleFlag",
+            "Sami@Roguelike@MissionCompletedFlag",
+            "Sami@Roguelike@MissionFailedFlag",
+            "Sami@Roguelike@MissionFailedFlag2",
+            "Sami@Roguelike@MissionFailedFlag3",
+            "Sami@Roguelike@GamePassSkip1",
+            "Sami@Roguelike@GamePassTheEndConfirm",
+            "Sami@Roguelike@GamePass",
+            "Sami@Roguelike@StartAction@LoadingText",
+            "Sami@Roguelike@StartAction@LoadingIcon"
+        ]
+    },
     "Sami@Roguelike@StageBoons": {
         "templThreshold": 0.95,
         "next": ["Sami@Roguelike@StageBoonsEnter", "Sami@Roguelike@Stages#next"]
