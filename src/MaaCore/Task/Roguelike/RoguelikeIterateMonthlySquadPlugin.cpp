@@ -9,8 +9,8 @@ bool asst::RoguelikeIterateMonthlySquadPlugin::load_params([[maybe_unused]] cons
 {
     m_checkComms = params.find<bool>("monthly_squad_check_comms").value_or(false);
 
-    auto iterateMS = params.find<bool>("monthly_squad_auto_iterate");
-    return m_config->get_mode() == RoguelikeMode::Squad && iterateMS.value_or(false);
+    m_iterateMS = params.find<bool>("monthly_squad_auto_iterate").value_or(false);
+    return m_config->get_mode() == RoguelikeMode::Squad;
 }
 
 bool asst::RoguelikeIterateMonthlySquadPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -45,6 +45,10 @@ bool asst::RoguelikeIterateMonthlySquadPlugin::_run()
     m_completed = true;
     if (monthlySquadCount[m_config->get_theme()] > 0) {
         ProcessTask(*this, { m_config->get_theme() + "@Roguelike@MonthlySquad" }).run();
+    }
+
+    if (!m_iterateMS) {
+        return true;
     }
 
     for (int i = 0; i < monthlySquadCount[m_config->get_theme()]; i++) {
