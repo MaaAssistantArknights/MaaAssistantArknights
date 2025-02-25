@@ -248,6 +248,7 @@
     <system:String x:Key="GlobalSource">グローバルソース</system:String>
     <system:String x:Key="ForceGithubGlobalSource">Github を強制使用</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
+    <system:String x:Key="MirrorChyanCdkPlaceholder">更新ソース切替後入力</system:String>
     <system:String x:Key="MirrorChyanSoftwareUpdateTip">MirrorChyan はソフトウェアの更新を検出しました。CDK を構成するか、グローバル ソースを使用するには、「設定-アップデート設定」に移動してください。</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">MirrorChyan はリソースの更新を検出しました。「設定-ソフトウェア更新」に移動して CDK を構成するか、「リソース更新」をクリックして手動で更新してください。</system:String>
     <system:String x:Key="NewVersionFoundTitle">新しいバージョンが見つかりました</system:String>
