@@ -13,13 +13,12 @@
 #nullable enable
 using System.Collections.Generic;
 using System.Linq;
-using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 
-namespace MaaWpfGui.Models;
+namespace MaaWpfGui.Models.Copilot;
 
-public class SSSCopilotModel
+public class SSSCopilotModel : CopilotBase
 {
     /// <summary>
     /// Gets 协议类型，SSS 表示保全派驻，必选，不可修改
@@ -32,18 +31,6 @@ public class SSSCopilotModel
     /// </summary>
     [JsonProperty("stage_name")]
     public string StageName { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets 最低要求 maa 版本号，必选
-    /// </summary>
-    [JsonProperty("minimum_required")]
-    public string MinimumRequired { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets 描述，可选
-    /// </summary>
-    [JsonProperty("doc")]
-    public Doc? Documentation { get; set; }
 
     /// <summary>
     /// Gets or sets 开局导能元件选择，可选
@@ -102,13 +89,13 @@ public class SSSCopilotModel
             var title = Documentation.Title;
             if (!string.IsNullOrEmpty(title))
             {
-                output.Add((title, Documentation.TitleColor ));
+                output.Add((title, Documentation.TitleColor));
             }
 
             var details = Documentation.Details;
             if (!string.IsNullOrEmpty(details))
             {
-                output.Add((details, Documentation.DetailsColor ));
+                output.Add((details, Documentation.DetailsColor));
             }
         }
 
@@ -116,7 +103,7 @@ public class SSSCopilotModel
         output.Add(("------------------------------------------------", null));
         output.Add((string.Empty, null));
 
-        int count = 0;
+        var count = 0;
         foreach (var oper in Opers ?? [])
         {
             count++;
@@ -128,26 +115,26 @@ public class SSSCopilotModel
 
         if (Buff is not null)
         {
-            string buffLog = LocalizationHelper.GetString("DirectiveECTerm");
+            var buffLog = LocalizationHelper.GetString("DirectiveECTerm");
             var localizedBuffName = DataHelper.GetLocalizedCharacterName(Buff);
             output.Add((buffLog + (string.IsNullOrEmpty(localizedBuffName) ? Buff : localizedBuffName), null));
         }
 
         if (ToolMen is not null)
         {
-            string toolMenLog = LocalizationHelper.GetString("OtherOperators");
+            var toolMenLog = LocalizationHelper.GetString("OtherOperators");
             output.Add((toolMenLog + JsonConvert.SerializeObject(ToolMen), null));
         }
 
         if (Equipment is not null)
         {
-            string equipmentLog = LocalizationHelper.GetString("InitialEquipmentHorizontal") + '\n';
+            var equipmentLog = LocalizationHelper.GetString("InitialEquipmentHorizontal") + '\n';
             output.Add((equipmentLog + string.Join('\n', Equipment.Chunk(4).Select(i => string.Join(",", i))), null));
         }
 
         if (Strategy is not null)
         {
-            string strategyLog = LocalizationHelper.GetString("InitialStrategy");
+            var strategyLog = LocalizationHelper.GetString("InitialStrategy");
             output.Add((strategyLog + Strategy, null));
         }
 
@@ -183,6 +170,9 @@ public class SSSCopilotModel
 
     public class Stage
     {
+        /// <summary>
+        /// Gets or sets 关卡名，必选，Core在识别时会转为识别LT-1~6
+        /// </summary>
         [JsonProperty("stage_name")]
         public string StageName { get; set; } = string.Empty;
 

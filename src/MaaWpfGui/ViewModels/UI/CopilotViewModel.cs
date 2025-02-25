@@ -26,8 +26,8 @@ using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
-using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
+using MaaWpfGui.Models.Copilot;
 using MaaWpfGui.Services;
 using MaaWpfGui.States;
 using Microsoft.Win32;
@@ -562,7 +562,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     using var reader = new StreamReader(File.OpenRead(filename));
                     var str = await reader.ReadToEndAsync();
-                    payload = JsonConvert.DeserializeObject<object>(str, new CopilotContentConverter());
+                    payload = JsonConvert.DeserializeObject<CopilotBase>(str, new CopilotContentConverter());
                 }
                 catch
                 {
@@ -629,7 +629,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region 作业解析
 
-        private async Task<(int CopilotId, object? Payload)> GetCopilotAsync(string copilotCodeString)
+        private async Task<(int CopilotId, CopilotBase? Payload)> GetCopilotAsync(string copilotCodeString)
         {
             if (copilotCodeString.StartsWith(CopilotIdPrefix, StringComparison.OrdinalIgnoreCase))
             {
@@ -645,7 +645,7 @@ namespace MaaWpfGui.ViewModels.UI
             return (0, null);
         }
 
-        private async Task<(int CopilotId, object? Payload)> GetCopilotAsync(int copilotId)
+        private async Task<(int CopilotId, CopilotBase? Payload)> GetCopilotAsync(int copilotId)
         {
             var (status, copilotset) = await RequestCopilotAsync(copilotId);
             if (status == PrtsStatus.NetworkError)
