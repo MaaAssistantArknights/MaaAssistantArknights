@@ -706,8 +706,14 @@ namespace MaaWpfGui.Main
                         }
                         else
                         {
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskError") + taskChain, UiLogColor.Error);
-                            ToastNotification.ShowDirect(LocalizationHelper.GetString("TaskError") + taskChain);
+                            var log = LocalizationHelper.GetString("TaskError") + taskChain;
+                            Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error);
+                            ToastNotification.ShowDirect(log);
+
+                            if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenError)
+                            {
+                                ExternalNotificationService.Send(log, log);
+                            }
                         }
 
                         if (isCopilotTaskChain)
@@ -845,7 +851,13 @@ namespace MaaWpfGui.Main
 
                             allTaskCompleteLog = allTaskCompleteLog + Environment.NewLine + sanityReport;
                             Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog);
-                            ExternalNotificationService.Send(allTaskCompleteTitle, allTaskCompleteMessage + Environment.NewLine + sanityReport);
+
+                            var logs = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationEnableDetails
+                                ? Instances.TaskQueueViewModel.LogItemViewModels.Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n")
+                                : string.Empty;
+                            logs += allTaskCompleteMessage + Environment.NewLine + sanityReport;
+
+                            ExternalNotificationService.Send(allTaskCompleteTitle, logs + Environment.NewLine + sanityReport);
 
                             if (_toastNotificationTimer is not null)
                             {
@@ -866,7 +878,13 @@ namespace MaaWpfGui.Main
                         else
                         {
                             Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog);
-                            ExternalNotificationService.Send(allTaskCompleteTitle, allTaskCompleteMessage);
+
+                            var logs = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationEnableDetails
+                                ? Instances.TaskQueueViewModel.LogItemViewModels.Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n")
+                                : string.Empty;
+                            logs += allTaskCompleteMessage;
+
+                            ExternalNotificationService.Send(allTaskCompleteTitle, logs);
                         }
 
                         using (var toast = new ToastNotification(allTaskCompleteTitle))
