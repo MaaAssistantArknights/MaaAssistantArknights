@@ -363,9 +363,9 @@
     "YoStarEN/Mizuki@Roguelike@GetDropBoxOpen": "30ba2ab89d2bbbe3cfaa6a16dccc3a9bab45d637dd17ee59cef213e2f7d2c31e",
     "YoStarEN/Mizuki@Roguelike@GetDropBoxSelect": "ec7baa9cedb1b9de32b7a750a9fbc0714658e604e9872cab4a76575b39f7636d",
     "YoStarEN/Mizuki@Roguelike@GetDropLeave": "387bfc2240a961ea8bf0d5ccedc199f46f22533ee0b5aba936a4c34d6aa4ed1e",
-    "YoStarEN/Mizuki@Roguelike@GetDropRecruit": "6f7247f9f4b2f21ddf2e2389342b9fc1f5253193253a2dbe3060b609ae99db8e",
+    "YoStarEN/Mizuki@Roguelike@GetDropRecruit": "040bc30134ea048917aea5081e298ec5ec195954db9e35913bb7cea6613d7420",
     "YoStarEN/Mizuki@Roguelike@GetDropSelect": "c4f0f642dd6feb4bbd0e9eb684573eb1cc51869ba7aabbee3cfbf558f37624fa",
-    "YoStarEN/Mizuki@Roguelike@GetDropSelectRecruit": "72060583696a6a97c384e9ad1d829645b70e5deba32cda8f0142e67e4cbb0bce",
+    "YoStarEN/Mizuki@Roguelike@GetDropSelectRecruit": "aecd2fd3be7daad1c359b765270e8a58d96ebba50910d21f7ba5f3152059655c",
     "YoStarEN/Mizuki@Roguelike@GetDropSelectReward": "e2e5b84dc09f52023e9511cfd66fa051bf026bfc830a3858c4d208c0ef55b499",
     "YoStarEN/Mizuki@Roguelike@LastRewardConfirm": "5ac821e6fad311092f6f6cf2ea1b5d65d96ab1b6be49ebcb9665fe11a69babe3",
     "YoStarEN/Mizuki@Roguelike@MapObject": "6930159572f6f2149dec2d2b10ae172ae45fea48453591838d99be545793d7c7",
@@ -3162,5 +3162,10 @@
     "YoStarKR/Sarkaz@Roguelike@StageSafeHouseCR": "7a87206e8bf3c89cfec0ad25d2efae964be291fe01a5f5947700fffb6e12106d",
     "official/Roguelike@RewardCompleted": "9c094d8f0291ef003f38268aa00da6881081be959c275f5a978f4258247c9ad2",
     "official/Phantom@Roguelike@CommsCompleted": "a7fbc8483e1a9d18463e7c27184c186fe4e94407e6a4f66e6f3a4cd2f1abd60d",
-    "official/Roguelike@CommsCompleted": "58c9e507aebbca6df7ec0b24464d105a42e413ea5aa1bdd23f936e08a7419e88"
+    "official/Roguelike@CommsCompleted": "58c9e507aebbca6df7ec0b24464d105a42e413ea5aa1bdd23f936e08a7419e88",
+    "official/InfrastReceptionInteractive": "0239712f8f59a7de1022bf69860c4e77a8540a5c017f3e8adf34312b790c9ece",
+    "official/InfrastReceptionMessageBoard-CouldReceive": "fca9787e613beb10ebdc94634a6c979933584181b18e3e7b7f3d34ef09dde054",
+    "official/InfrastReceptionMessageBoard-Received": "b4cff1af9123e604336bb1f446ad4727c4be9647c7ecc2ec15d74387d3428446",
+    "official/InfrastReceptionMessageBoard-AccessRecord": "1aed3b6c4ff50fe59cb975b70e38d53a7d3214d00a7c2245105c5a32f1c9f521",
+    "official/InfrastReceptionOpenMessageBoard": "2f027b40332b12658498de51ba738262bab3a3faade113d07a5f0c646bf8ed33"
 }
