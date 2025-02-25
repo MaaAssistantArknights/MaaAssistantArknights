@@ -3,9 +3,7 @@
 ### 新增 | New
 
 * Wpf外部通知可选输出详细信息 (#12020) @ABA2396
-* 基建收取会客室周限300信用 (#12014) @status102 @Constrat
-* Wpf地图查询 @status102
-* 读取地图数据 (#11973) @status102
+* 基建收取会客室信息板周限300信用 (#12014) @status102 @Constrat
 * 萨卡兹肉鸽事件 转机、似是而非 (#11971) @Daydreamer114
 
 ### 改进 | Improved
@@ -21,31 +19,23 @@
 * retake Mizuki IS recruit templates try to fix triple recruit issue @Constrat
 * 月度小队/深入调查未启用自动切换会以当前游戏模式开始探索 (#12032) @BxFS
 * 肉鸽深入调查没有指挥分队可选时，随机选择分队跳过干员招募 @status102
-* 自动战斗保全作业地图存在性判断 @status102
-* fast forward text in encounter (#12021) @Constrat
-* IS2, IS3 支援起重机 缺失 @Daydreamer114
+* 水月、萨米肉鸽支援起重机 缺失 @Daydreamer114
 * 「滋味」主题概率无法识别 @ABA2396
 * Wpf信用任务-OF-1战斗 修复未勾选刷理智时，仍判断刷理智关卡是否为`当前/上次` @status102
 * 肉鸽放弃战斗奖励后仍能识别到掉落 (#12000) @Daydreamer114
-* Monthly Squad for Global (#11993) @BxFS @Constrat
-* Wpf选中战斗列表作业时，作业内容重复显示 @status102
-* Wpf地图信息MapInfo字段名更正 @status102
+* Wpf选中战斗列表中的作业时，作业内容重复显示 @status102
 * 会客室进入失败 (#11950) @ABA2396 @Daydreamer114
+* Wpf生息演算任务参数设置异常 @status102
+* 狭路相逢遇到构想卡死 (#11970) @Daydreamer114
+* 萨卡兹肉鸽 绝境？抉择？ocr (#11969) @Daydreamer114
+* Monthly Squad for Global (#11993) @BxFS @Constrat
 * add an missing @ for MonthlySquadCommsBackTwice (#11991) @BxFS
-* Mac 日服 IS4 识别阈值 (#11979) @Daydreamer114
+* YostarJP IS4 Mac识别阈值 (#11979) @Daydreamer114
 * YostarJP IS4 计划耕种 (#11990) @Manicsteiner
-* missing tasks for EN @Constrat
-* 生息演算Mode序列化类型 @status102
 * YostarKR Sarkaz CR Node recognition (#11986) @HX3N
 * YostarKR missing tasks (#11981) @HX3N
-* typo in xaml themes for Idea Filter + i18n EN @Constrat
-* Missing EN Sarkaz tasks 2 @Constrat
 * EN Sarkaz missing NextLevel task @Constrat
 * EN replace Sguad with Squad @Constrat
-* 狭路相逢遇到构想卡死 (#11970) @Daydreamer114
-* 移除肉鸽结算插件中的Matcher复用 @status102
-* 修复BattleHelper中的意外报错 @status102
-* IS4 绝境？抉择？ocr (#11969) @Daydreamer114
 * EN remove all spaces from encounter and ignore spaces @Constrat
 * EN Sarkaz SelectTheme @Constrat
 
@@ -58,6 +48,16 @@
 
 ### 其他 | Other
 
+* 移除肉鸽结算插件中的Matcher复用 @status102
+* 修复BattleHelper中的意外报错 @status102
+* typo in xaml themes for Idea Filter + i18n EN @Constrat
+* Missing EN Sarkaz tasks 2 @Constrat
+* missing tasks for EN @Constrat
+* Wpf地图查询 @status102
+* 读取地图数据 (#11973) @status102
+* Wpf地图信息MapInfo字段名更正 @status102
+* 自动战斗保全作业地图存在性判断 @status102
+* fast forward text in encounter (#12021) @Constrat
 * wpf自动战斗战斗列表序列化 @status102
 * 萨卡兹肉鸽负荷干员编入入口ROI拆分 (#11966) @status102
 * Wpf自动战斗重构 (#11977) @status102
