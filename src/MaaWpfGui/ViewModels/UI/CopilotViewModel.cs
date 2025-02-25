@@ -54,6 +54,11 @@ namespace MaaWpfGui.ViewModels.UI
         private readonly List<int> _copilotIdList = []; // 用于保存作业列表中的作业的Id，对于同一个作业，只有都执行成功才点赞
         private readonly List<int> _recentlyRatedCopilotId = []; // TODO: 可能考虑加个持久化
         private AsstTaskType _taskType = AsstTaskType.Copilot;
+
+        /// <summary>
+        /// 缓存的已解析作业，非即时添加的作业会使用该缓存
+        /// </summary>
+        private CopilotBase? _copilotCache;
         private const string CopilotIdPrefix = "maa://";
         private const string TempCopilotFile = "cache/_temp_copilot.json";
         private static readonly string[] _supportExt = [".json", ".mp4", ".m4s", ".mkv", ".flv", ".avi"];
@@ -408,6 +413,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             CopilotId = 0;
+            _copilotCache = null;
             foreach (var file in dialog.FileNames)
             {
                 var fileInfo = new FileInfo(file);
@@ -544,6 +550,7 @@ namespace MaaWpfGui.ViewModels.UI
             MapUrl = MapUiUrl;
             IsDataFromWeb = false;
             CopilotId = 0;
+            _copilotCache = null;
 
             int copilotId = 0;
             bool writeToCache = false;
@@ -681,6 +688,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             _taskType = AsstTaskType.Copilot;
+            _copilotCache = copilot;
             if (copilot.Documentation?.Details is not null)
             {
                 CopilotUrl = CopilotUiUrl;
@@ -746,6 +754,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             _taskType = AsstTaskType.SSSCopilot;
+            _copilotCache = copilot;
             MapUrl = MapUiUrl.Replace("areas", "map/" + copilot.StageName);
             if (copilot.Documentation?.Details is not null)
             {
@@ -827,6 +836,7 @@ namespace MaaWpfGui.ViewModels.UI
         private async Task ParseCopilotSetAsync(PrtsCopilotSetModel.CopilotSetData? copilotSet)
         {
             CopilotId = 0;
+            _copilotCache = null;
             ClearLog();
             if (copilotSet?.CopilotIds is null)
             {
@@ -943,21 +953,9 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            string file;
             try
             {
-                file = await File.ReadAllTextAsync(IsDataFromWeb ? TempCopilotFile : Filename);
-            }
-            catch
-            {
-                AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error, showTime: false);
-                return;
-            }
-
-            try
-            {
-                var copilot = JsonConvert.DeserializeObject<CopilotModel>(file);
-                if (copilot is not null)
+                if (_copilotCache is CopilotModel { } copilot)
                 {
                     await AddCopilotTaskToList(copilot, !isRaid ? CopilotModel.DifficultyFlags.Normal : CopilotModel.DifficultyFlags.Raid, stageName, CopilotId);
                 }
