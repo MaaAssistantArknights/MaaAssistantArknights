@@ -2,26 +2,18 @@
 
 ### 新增 | New
 
-* ExternalNotification 可选输出详细信息 (#12020) @ABA2396
-* 猫猫 (#12017) @ABA2396
-* Wpf旧Config增加int读取 (#11987) @status102
+* Wpf外部通知可选输出详细信息 (#12020) @ABA2396
 * 基建收取会客室周限300信用 (#12014) @status102 @Constrat
-* IS4 extend2 事件 转机 @Daydreamer114
 * Wpf地图查询 @status102
 * 读取地图数据 (#11973) @status102
-* IS4 extend2 似是而非事件 (#11971) @Daydreamer114
+* 萨卡兹肉鸽事件 转机、似是而非 (#11971) @Daydreamer114
 
 ### 改进 | Improved
 
-* 自动战斗列表非即时添加作业时，使用已读取的缓存替代读取文件 @status102
-* 肉鸽任务参数禁止运行期修改 @status102
-* 合并视频任务判断 @status102
+* 移动截图耗时显示位置以避免产生GPU加速截图的误导 @status102
 * 添加强制使用 Github 进行版本更新 @ABA2396
-* Wpf自动战斗重构 (#11977) @status102
-* IS3 度假村冤魂 防爆桩 @Daydreamer114
-* IS2 精酿杀手 防爆桩 @Daydreamer114
-* wpf自动战斗战斗列表序列化 @status102
-* 萨卡兹肉鸽负荷干员编入入口ROI拆分 (#11966) @status102
+* 萨米肉鸽度假村冤魂关卡 防爆桩 @Daydreamer114
+* 水月肉鸽精酿杀手关卡 防爆桩 @Daydreamer114
 
 ### 修复 | Fix
 
@@ -59,21 +51,28 @@
 
 ### 文档 | Docs
 
+* 删除官网早就不能用了的镜像 @MistEO
+* 官网添加 MirrorChyan 下载链接 @ABA2396
 * 此AI非彼AI (#12005) @Rbqwow
 * 作业协议补充难度字段 (#11980) @status102
-* 更新文档 @Daydreamer114
 
 ### 其他 | Other
 
+* wpf自动战斗战斗列表序列化 @status102
+* 萨卡兹肉鸽负荷干员编入入口ROI拆分 (#11966) @status102
+* Wpf自动战斗重构 (#11977) @status102
+* 更新文档 @Daydreamer114
+* 自动战斗列表非即时添加作业时，使用已读取的缓存替代读取文件 @status102
+* 肉鸽任务参数禁止运行期修改 @status102
+* 合并视频任务判断 @status102
+* 猫猫 (#12017) @ABA2396
+* Wpf旧Config增加int读取 (#11987) @status102
 * MirrorChyanCdk 添加 Placeholder @ABA2396
 * Wpf自动战斗作业序列化调整 @status102
 * Wpf自动战斗任务序列化 @status102
-* 移动截图耗时显示位置以避免产生GPU加速截图的误导 @status102
 * 拆分 OF-1 与 访问好友回调显示 @ABA2396
 * clarify different originium types and unify deep investigation in EN (#11995) @dragonheart107 @Constrat
 * fix typo @MistEO
 * mirrorc with new tab @MistEO
-* 删除官网早就不能用了的镜像 @MistEO
-* 官网添加 MirrorChyan 下载链接 @ABA2396
 * add missing tasks and template for txwy (#11985) @momomochi987
 * ResourceUpdater to remove spaces from EN I.S. encounter @Constrat
