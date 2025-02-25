@@ -23,6 +23,7 @@ private:
                                                                { "Sarkaz", 1 } };
     bool m_checkComms;
     bool m_completed;
+    bool m_iterateMS;
     virtual bool try_task(const char*) const;
 };
 

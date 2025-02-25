@@ -45,6 +45,10 @@ bool asst::RoguelikeIterateDeepExplorationPlugin::_run()
         ProcessTask(*this, { m_config->get_theme() + "@Roguelike@DeepExploration" }).run();
     }
 
+    if (!m_iterateDE) {
+        return true;
+    }
+
     bool ret;
     for (int i = 0; i < deepExplorationCount[m_config->get_theme()]; i++) {
         ret = ProcessTask(*this, { m_config->get_theme() + "@Roguelike@DeepExplorationRewardMiss" }).run();

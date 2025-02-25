@@ -22,5 +22,6 @@ private:
                                                                   { "Sami", 13 },
                                                                   { "Sarkaz", 0 } };
     bool m_completed;
+    bool m_iterateDE;
 };
 }
