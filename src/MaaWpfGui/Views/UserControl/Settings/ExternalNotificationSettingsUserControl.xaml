@@ -36,26 +36,37 @@
             Text="{DynamicResource ExternalNotificationTips}"
             TextWrapping="Wrap" />
 
-        <StackPanel
-            Grid.Row="1"
-            HorizontalAlignment="Center"
-            Orientation="Horizontal">
-            <hc:CheckComboBox
-                Width="200"
-                Margin="10"
-                HorizontalContentAlignment="Center"
-                hc:InfoElement.Placeholder="{DynamicResource Off}"
-                hc:InfoElement.Title="{DynamicResource ExternalNotificationEnabled}"
-                hc:InfoElement.TitlePlacement="Top"
-                hc:ListBoxAttach.SelectedItems="{Binding EnabledExternalNotificationProviders}"
-                ItemsSource="{Binding ExternalNotificationProvidersShow}"
-                Style="{StaticResource CheckComboBoxExtend}" />
-            <Button
-                Margin="5"
-                Command="{s:Action ExternalNotificationSendTest,
-                                   Target={x:Type viewModels:ExternalNotificationSettingsUserControlModel}}"
-                Content="{DynamicResource ExternalNotificationSendTest}"
-                IsEnabled="{c:Binding 'EnabledExternalNotificationProviderCount > 0'}" />
+        <StackPanel Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <hc:CheckComboBox
+                    Width="200"
+                    Margin="10"
+                    HorizontalContentAlignment="Center"
+                    hc:InfoElement.Placeholder="{DynamicResource Off}"
+                    hc:InfoElement.Title="{DynamicResource ExternalNotificationEnabled}"
+                    hc:InfoElement.TitlePlacement="Top"
+                    hc:ListBoxAttach.SelectedItems="{Binding EnabledExternalNotificationProviders}"
+                    ItemsSource="{Binding ExternalNotificationProvidersShow}"
+                    Style="{StaticResource CheckComboBoxExtend}" />
+                <Button
+                    Margin="5"
+                    Command="{s:Action ExternalNotificationSendTest,
+                                       Target={x:Type viewModels:ExternalNotificationSettingsUserControlModel}}"
+                    Content="{DynamicResource ExternalNotificationSendTest}"
+                    IsEnabled="{c:Binding 'EnabledExternalNotificationProviderCount > 0'}" />
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <CheckBox
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    Content="{DynamicResource ExternalNotificationEnableDetails}"
+                    IsChecked="{Binding ExternalNotificationEnableDetails}" />
+                <CheckBox
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    Content="{DynamicResource ExternalNotificationSendWhenError}"
+                    IsChecked="{Binding ExternalNotificationSendWhenError}" />
+            </StackPanel>
         </StackPanel>
 
         <StackPanel

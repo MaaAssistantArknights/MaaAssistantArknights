@@ -28,6 +28,8 @@
     <system:String x:Key="ExternalNotificationTips">팁: 외부 알림 기능은 현재 「모든 작업 완료」 알림만 보냅니다.</system:String>
     <system:String x:Key="ExternalNotificationSettings">외부 알림</system:String>
     <system:String x:Key="ExternalNotificationEnabled">알림 구성 사용</system:String>
+    <system:String x:Key="ExternalNotificationEnableDetails">상세 정보 출력</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenError">작업 실패 시 추가 알림 전송</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">전송 성공</system:String>
     <system:String x:Key="ExternalNotificationSendFail">전송 실패</system:String>
     <system:String x:Key="ExternalNotificationSendTest">테스트</system:String>
