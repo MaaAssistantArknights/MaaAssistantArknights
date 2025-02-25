@@ -18,9 +18,9 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 
-namespace MaaWpfGui.Models;
+namespace MaaWpfGui.Models.Copilot;
 
-public class CopilotModel
+public class CopilotModel : CopilotBase
 {
     /// <summary>
     /// Gets or sets 关卡名，必选。关卡中文名、code、stageId、levelId等，只要能保证唯一均可。
@@ -39,18 +39,6 @@ public class CopilotModel
     /// </summary>
     [JsonProperty("actions")]
     public List<Action> Actions { get; set; } = [];
-
-    /// <summary>
-    /// Gets or sets 最低要求 maa 版本号，必选。保留字段，暂未实现。
-    /// </summary>
-    [JsonProperty("minimum_required")]
-    public string? MinimumRequired { get; set; }
-
-    /// <summary>
-    /// Gets or sets 描述信息。
-    /// </summary>
-    [JsonProperty("doc")]
-    public Doc? Documentation { get; set; }
 
     /// <summary>
     /// Gets or sets 难度。可选，默认为 0
@@ -79,7 +67,7 @@ public class CopilotModel
         output.Add((string.Empty, null));
         output.Add(("------------------------------------------------", null));
         output.Add((string.Empty, null));
-        int count = 0;
+        var count = 0;
         foreach (var oper in Opers)
         {
             count++;
@@ -90,7 +78,7 @@ public class CopilotModel
         foreach (var group in Groups)
         {
             count++;
-            string groupName = group.Name + ": ";
+            var groupName = group.Name + ": ";
             var operInfos = group.Opers.Select(oper => $"{DataHelper.GetLocalizedCharacterName(oper.Name)} {oper.Skill}").ToList();
 
             output.Add((groupName + string.Join(" / ", operInfos), UiLogColor.Message));
@@ -296,21 +284,6 @@ public class CopilotModel
         /// </summary>
         [JsonProperty("potentiality")]
         public int Potentiality { get; set; }
-    }
-
-    public class Doc
-    {
-        [JsonProperty("title")]
-        public string? Title { get; set; }
-
-        [JsonProperty("title_color")]
-        public string? TitleColor { get; set; }
-
-        [JsonProperty("details")]
-        public string? Details { get; set; }
-
-        [JsonProperty("details_color")]
-        public string? DetailsColor { get; set; }
     }
 
     [Flags]

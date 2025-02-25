@@ -15,7 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
-using MaaWpfGui.Models;
+using MaaWpfGui.Models.Copilot;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -140,7 +140,7 @@ public static class CopilotHelper
 
             [JsonProperty("content")]
             [JsonConverter(typeof(CopilotContentConverter))]
-            public object? Content { get; set; } = new();
+            public CopilotBase? Content { get; set; }
         }
     }
 
@@ -190,11 +190,9 @@ public static class CopilotHelper
         }
     }
 
-    public class CopilotContentConverter : JsonConverter
+    public class CopilotContentConverter : JsonConverter<CopilotBase>
     {
-        public override bool CanConvert(Type objectType) => objectType == typeof(object);
-
-        public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+        public override CopilotBase? ReadJson(JsonReader reader, Type objectType, CopilotBase? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             // 处理字符串或对象两种输入形式
             JToken token = JToken.Load(reader);
@@ -210,18 +208,18 @@ public static class CopilotHelper
                 // 根据 "type" 字段判断类型
                 if (obj.TryGetValue("type", StringComparison.OrdinalIgnoreCase, out var typeToken) && typeToken.ToString() == "SSS")
                 {
-                    return obj.ToObject<SSSCopilotModel>(serializer);
+                    return obj.ToObject<SSSCopilotModel>();
                 }
                 else
                 {
-                    return obj.ToObject<CopilotModel>(serializer);
+                    return obj.ToObject<CopilotModel>();
                 }
             }
 
             throw new JsonSerializationException("Unsupported JSON structure for Content");
         }
 
-        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, CopilotBase? value, JsonSerializer serializer)
         {
             writer.WriteValue(JsonConvert.SerializeObject(value));
         }
