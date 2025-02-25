@@ -9607,23 +9607,6 @@
         ]
     },
     "Sami@Roguelike@SquadDefault": {},
-    "Sami@Roguelike@StartAction": {
-        "Doc": "多一个Flag3",
-        "template": "Roguelike@StartAction.png",
-        "next": [
-            "Sami@Roguelike@NoneSelected",
-            "Sami@Roguelike@InBattleFlag",
-            "Sami@Roguelike@MissionCompletedFlag",
-            "Sami@Roguelike@MissionFailedFlag",
-            "Sami@Roguelike@MissionFailedFlag2",
-            "Sami@Roguelike@MissionFailedFlag3",
-            "Sami@Roguelike@GamePassSkip1",
-            "Sami@Roguelike@GamePassTheEndConfirm",
-            "Sami@Roguelike@GamePass",
-            "Sami@Roguelike@StartAction@LoadingText",
-            "Sami@Roguelike@StartAction@LoadingIcon"
-        ]
-    },
     "Sami@Roguelike@StageBoons": {
         "templThreshold": 0.95,
         "next": ["Sami@Roguelike@StageBoonsEnter", "Sami@Roguelike@Stages#next"]
@@ -10255,6 +10238,23 @@
             "Sami@Roguelike@StageVerticalEmergencyTransportation",
             "Sami@Roguelike@StageVerticalEmergencyTransportationAI6",
             "Sami@Roguelike@CloseCollectionClose"
+        ]
+    },
+    "Sami@Roguelike@StartAction": {
+        "Doc": "多一个Flag3",
+        "template": "Roguelike@StartAction.png",
+        "next": [
+            "Sami@Roguelike@NoneSelected",
+            "Sami@Roguelike@InBattleFlag",
+            "Sami@Roguelike@MissionCompletedFlag",
+            "Sami@Roguelike@MissionFailedFlag",
+            "Sami@Roguelike@MissionFailedFlag2",
+            "Sami@Roguelike@MissionFailedFlag3",
+            "Sami@Roguelike@GamePassSkip1",
+            "Sami@Roguelike@GamePassTheEndConfirm",
+            "Sami@Roguelike@GamePass",
+            "Sami@Roguelike@StartAction@LoadingText",
+            "Sami@Roguelike@StartAction@LoadingIcon"
         ]
     },
     "Sami@Roguelike@StartExplore": {
