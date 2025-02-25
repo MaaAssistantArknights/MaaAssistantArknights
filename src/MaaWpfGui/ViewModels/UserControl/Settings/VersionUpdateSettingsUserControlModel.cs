@@ -252,6 +252,18 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    private bool _forceGithubGlobalSource = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceGithubGlobalSource, bool.FalseString));
+
+    public bool ForceGithubGlobalSource
+    {
+        get => _forceGithubGlobalSource;
+        set
+        {
+            SetAndNotify(ref _forceGithubGlobalSource, value);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ForceGithubGlobalSource, value.ToString());
+        }
+    }
+
     private string _mirrorChyanCdk = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MirrorChyanCdk, string.Empty));
 
     public string MirrorChyanCdk
@@ -451,7 +463,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         if (success)
         {
             Instances.AsstProxy.LoadResource();
-            DataHelper.ReloadBattleData();
+            DataHelper.Reload();
             SettingsViewModel.VersionUpdateSettings.ResourceInfoUpdate();
             ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
         }

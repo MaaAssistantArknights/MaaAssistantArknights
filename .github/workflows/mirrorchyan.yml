@@ -6,23 +6,32 @@ on:
 jobs:
   mirrorchyan:
     runs-on: macos-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [win]
-        arch: [arm64, x64]
 
     steps:
-      - id: uploading
-        uses: MirrorChyan/uploading-action@v1
+      - uses: MirrorChyan/uploading-action@v1
+        if: always()
         with:
           filetype: latest-release
-          filename: "*MAA-*-${{ matrix.os }}-${{ matrix.arch }}.zip"
+          filename: "*MAA-*-win-x64.zip"
           mirrorchyan_rid: MAA
 
           github_token: ${{ secrets.GITHUB_TOKEN }}
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
           upload_token: ${{ secrets.MirrorChyanUploadToken }}
-          os: ${{ matrix.os }}
-          arch: ${{ matrix.arch }}
+          os: win
+          arch: x64
+
+      - uses: MirrorChyan/uploading-action@v1
+        if: always()
+        with:
+          filetype: latest-release
+          filename: "*MAA-*-win-arm64.zip"
+          mirrorchyan_rid: MAA
+
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          upload_token: ${{ secrets.MirrorChyanUploadToken }}
+          os: win
+          arch: arm64

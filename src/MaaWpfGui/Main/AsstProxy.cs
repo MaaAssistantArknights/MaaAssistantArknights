@@ -610,7 +610,7 @@ namespace MaaWpfGui.Main
                     var screencapCostAvg = details["details"]?["avg"]?.ToString() ?? "???";
                     var screencapCostMax = details["details"]?["max"]?.ToString() ?? "???";
                     var currentTime = DateTimeOffset.Now.ToString("HH:mm:ss");
-                    SettingsViewModel.PerformanceSettings.ScreencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), screencapCostMin, screencapCostAvg, screencapCostMax, currentTime);
+                    SettingsViewModel.ConnectSettings.ScreencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), screencapCostMin, screencapCostAvg, screencapCostMax, currentTime);
                     if (!HasPrintedScreencapWarning && int.TryParse(screencapCostAvg, out var screencapCostAvgInt))
                     {
                         static void AddLog(string message, string color)
@@ -706,8 +706,14 @@ namespace MaaWpfGui.Main
                         }
                         else
                         {
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskError") + taskChain, UiLogColor.Error);
-                            ToastNotification.ShowDirect(LocalizationHelper.GetString("TaskError") + taskChain);
+                            var log = LocalizationHelper.GetString("TaskError") + taskChain;
+                            Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error);
+                            ToastNotification.ShowDirect(log);
+
+                            if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenError)
+                            {
+                                ExternalNotificationService.Send(log, log);
+                            }
                         }
 
                         if (isCopilotTaskChain)
@@ -760,23 +766,6 @@ namespace MaaWpfGui.Main
                                 Instances.TaskQueueViewModel.IncreaseCustomInfrastPlanIndex();
                                 Instances.TaskQueueViewModel.RefreshCustomInfrastPlanIndexByPeriod();
                                 break;
-
-                            case "Mall":
-                                {
-                                    if (TaskQueueViewModel.FightTask.Stage != string.Empty && TaskQueueViewModel.MallTask.CreditFightTaskEnabled)
-                                    {
-                                        TaskQueueViewModel.MallTask.LastCreditFightTaskTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
-                                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("CreditFight"));
-                                    }
-
-                                    if (TaskQueueViewModel.MallTask.CreditVisitFriendsEnabled)
-                                    {
-                                        TaskQueueViewModel.MallTask.LastCreditVisitFriendsTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
-                                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("Visiting"));
-                                    }
-
-                                    break;
-                                }
                         }
 
                         if (taskChain == "Fight" && SanityReport.HasSanityReport)
@@ -862,7 +851,13 @@ namespace MaaWpfGui.Main
 
                             allTaskCompleteLog = allTaskCompleteLog + Environment.NewLine + sanityReport;
                             Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog);
-                            ExternalNotificationService.Send(allTaskCompleteTitle, allTaskCompleteMessage + Environment.NewLine + sanityReport);
+
+                            var logs = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationEnableDetails
+                                ? Instances.TaskQueueViewModel.LogItemViewModels.Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n")
+                                : string.Empty;
+                            logs += allTaskCompleteMessage + Environment.NewLine + sanityReport;
+
+                            ExternalNotificationService.Send(allTaskCompleteTitle, logs + Environment.NewLine + sanityReport);
 
                             if (_toastNotificationTimer is not null)
                             {
@@ -883,7 +878,13 @@ namespace MaaWpfGui.Main
                         else
                         {
                             Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog);
-                            ExternalNotificationService.Send(allTaskCompleteTitle, allTaskCompleteMessage);
+
+                            var logs = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationEnableDetails
+                                ? Instances.TaskQueueViewModel.LogItemViewModels.Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n")
+                                : string.Empty;
+                            logs += allTaskCompleteMessage;
+
+                            ExternalNotificationService.Send(allTaskCompleteTitle, logs);
                         }
 
                         using (var toast = new ToastNotification(allTaskCompleteTitle))
@@ -894,6 +895,11 @@ namespace MaaWpfGui.Main
                             }
 
                             toast.Show();
+                        }
+
+                        if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
+                        {
+                            Instances.TaskQueueViewModel.GifVisibility = true;
                         }
 
                         // Instances.TaskQueueViewModel.CheckAndShutdown();
@@ -1233,16 +1239,39 @@ namespace MaaWpfGui.Main
             switch (subTask)
             {
                 case "ProcessTask":
+                    var taskchain = details["taskchain"]?.ToString();
+                    switch (taskchain)
                     {
-                        string taskName = details!["details"]!["task"]!.ToString();
-                        int execTimes = (int)details!["details"]!["exec_times"]!;
+                        case "Roguelike":
+                            {
+                                var taskName = details!["details"]!["task"]!.ToString();
+                                int execTimes = (int)details!["details"]!["exec_times"]!;
 
-                        switch (taskName)
-                        {
-                            case "StartExplore":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("BegunToExplore") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
+                                if (taskName == "StartExplore")
+                                {
+                                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("BegunToExplore") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
+                                }
+
                                 break;
-                        }
+                            }
+
+                        case "Mall":
+                            {
+                                var taskName = details["details"]!["task"]!.ToString();
+                                switch (taskName)
+                                {
+                                    case "EndOfActionThenStop":
+                                        TaskQueueViewModel.MallTask.LastCreditFightTaskTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("CreditFight"));
+                                        break;
+                                    case "VisitLimited" or "VisitNextBlack":
+                                        TaskQueueViewModel.MallTask.LastCreditVisitFriendsTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("Visiting"));
+                                        break;
+                                }
+
+                                break;
+                            }
                     }
 
                     break;
@@ -1581,7 +1610,7 @@ namespace MaaWpfGui.Main
                         if (ret == VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated)
                         {
                             Instances.AsstProxy.LoadResource();
-                            DataHelper.ReloadBattleData();
+                            DataHelper.Reload();
                             SettingsViewModel.VersionUpdateSettings.ResourceInfoUpdate();
                             ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
                         }
@@ -2615,50 +2644,6 @@ namespace MaaWpfGui.Main
             AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Custom, taskParams);
             _taskStatus.Add(id, TaskType.Gacha);
             return id != 0 && AsstStart();
-        }
-
-        /// <summary>
-        /// 自动抄作业。
-        /// </summary>
-        /// <param name="filename">作业 JSON 的文件路径，绝对、相对路径均可。</param>
-        /// <param name="formation">是否进行 “快捷编队”。</param>
-        /// <param name="addTrust">是否追加信赖干员</param>
-        /// <param name="addUserAdditional">是否追加自定干员</param>
-        /// <param name="userAdditional">自定干员列表</param>
-        /// <param name="needNavigate">是否导航至关卡（启用自动战斗序列）</param>
-        /// <param name="navigateName">关卡名</param>
-        /// <param name="isRaid">是不是突袭</param>
-        /// <param name="type">任务类型</param>
-        /// <param name="loopTimes">任务重复执行次数</param>
-        /// <param name="useSanityPotion">是否使用理智药</param>
-        /// <param name="asstStart">是否启动战斗</param>
-        /// <returns>是否成功。</returns>
-        public bool AsstStartCopilot(string filename, bool formation, bool addTrust, bool addUserAdditional, JArray userAdditional, bool needNavigate, string navigateName, bool isRaid, AsstTaskType type, int loopTimes, bool useSanityPotion, bool asstStart = true)
-        {
-            var taskParams = new JObject
-            {
-                ["filename"] = filename,
-                ["formation"] = formation,
-                ["add_trust"] = addTrust,
-                ["need_navigate"] = needNavigate,
-                ["is_raid"] = isRaid,
-                ["loop_times"] = loopTimes,
-                ["use_sanity_potion"] = useSanityPotion,
-            };
-
-            if (addUserAdditional)
-            {
-                taskParams["user_additional"] = userAdditional;
-            }
-
-            if (needNavigate)
-            {
-                taskParams["navigate_name"] = navigateName;
-            }
-
-            AsstTaskId id = AsstAppendTaskWithEncoding(type, taskParams);
-            _taskStatus.Add(id, TaskType.Copilot);
-            return id != 0 && (!asstStart || AsstStart());
         }
 
         public bool AsstStartVideoRec(string filename)

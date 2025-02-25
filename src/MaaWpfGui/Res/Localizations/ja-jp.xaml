@@ -28,6 +28,8 @@
     <system:String x:Key="ExternalNotificationTips">注:外部通知機能は現在、「すべてのタスクが完了しました」という通知のみを送信します。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
     <system:String x:Key="ExternalNotificationEnabled">通知構成の有効化</system:String>
+    <system:String x:Key="ExternalNotificationEnableDetails">詳細情報を出力</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenError">タスクが失敗したときに追加の通知を送信する</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">正常に送信</system:String>
     <system:String x:Key="ExternalNotificationSendFail">送信に失敗しました</system:String>
     <system:String x:Key="ExternalNotificationSendTest">テストを送信する</system:String>
@@ -246,7 +248,9 @@
     <system:String x:Key="ResourceUpdate">リソース更新</system:String>
     <system:String x:Key="UpdateSource">更新ソース</system:String>
     <system:String x:Key="GlobalSource">グローバルソース</system:String>
+    <system:String x:Key="ForceGithubGlobalSource">Github を強制使用</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
+    <system:String x:Key="MirrorChyanCdkPlaceholder">更新ソース切替後入力</system:String>
     <system:String x:Key="MirrorChyanSoftwareUpdateTip">MirrorChyan はソフトウェアの更新を検出しました。CDK を構成するか、グローバル ソースを使用するには、「設定-アップデート設定」に移動してください。</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">MirrorChyan はリソースの更新を検出しました。「設定-ソフトウェア更新」に移動して CDK を構成するか、「リソース更新」をクリックして手動で更新してください。</system:String>
     <system:String x:Key="NewVersionFoundTitle">新しいバージョンが見つかりました</system:String>

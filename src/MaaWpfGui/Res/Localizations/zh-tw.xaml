@@ -28,6 +28,8 @@
     <system:String x:Key="ExternalNotificationTips">請注意：外部通知功能目前僅會發送「所有任務完成」 的通知。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
     <system:String x:Key="ExternalNotificationEnabled">啟用的通知配置</system:String>
+    <system:String x:Key="ExternalNotificationEnableDetails">輸出詳細信息</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenError">任務出錯時發送額外通知</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">發送成功</system:String>
     <system:String x:Key="ExternalNotificationSendFail">發送失敗</system:String>
     <system:String x:Key="ExternalNotificationSendTest">發送測試</system:String>
@@ -246,9 +248,11 @@
     <system:String x:Key="ResourceUpdate">資源更新</system:String>
     <system:String x:Key="UpdateSource">更新來源</system:String>
     <system:String x:Key="GlobalSource">全域來源</system:String>
+    <system:String x:Key="ForceGithubGlobalSource">強制使用 Github</system:String>
     <system:String x:Key="MirrorChyan">Mirror 醬</system:String>
+    <system:String x:Key="MirrorChyanCdkPlaceholder">切換更新源後填寫</system:String>
     <system:String x:Key="MirrorChyanSoftwareUpdateTip">Mirror 醬偵測到軟體更新。請前往「設定-更新設定」設定 CDK 或使用全域來源。</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">Mirror 醬偵測到資源更新。請前往「設定-更新設定」設定 CDK，或點選「資源更新」進行手動更新。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">Mirror 醬偵測到資源更新。請前往「設定-更新設定」設定 CDK，或使用全域來源點選「資源更新」進行手動更新。</system:String>
     <system:String x:Key="NewVersionFoundTitle">檢測到新版本</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">正在後臺下載……</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">版本號: </system:String>
