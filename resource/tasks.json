@@ -7481,7 +7481,8 @@
         "Doc": "没得指挥分队，随便选一个",
         "baseTask": "Roguelike@Squad-EnterPoint",
         "action": "ClickSelf",
-        "roi": [60, 410, 1180, 80]
+        "roi": [60, 410, 1180, 80],
+        "next": []
     },
     "Roguelike@SquadConfirm": {
         "Doc": "base_task",
