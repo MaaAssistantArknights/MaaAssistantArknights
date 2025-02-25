@@ -199,6 +199,7 @@ namespace MaaWpfGui.Constants
 
         // MirrorChyanCdk 迁到新配置的话就直接叫 UpdateSource，现在本体更新也加上了 MirrorChyan
         public const string UpdateSource = "VersionUpdate.ResourceUpdateSource";
+        public const string ForceGithubGlobalSource = "VersionUpdate.UpdateSource.ForceGithubGlobalSource";
         public const string MirrorChyanCdk = "VersionUpdate.ResourceUpdateSource.MirrorChyanCdk";
         public const string StartupUpdateCheck = "VersionUpdate.StartupUpdateCheck";
         public const string UpdateAutoCheck = "VersionUpdate.ScheduledUpdateCheck";
@@ -246,6 +247,8 @@ namespace MaaWpfGui.Constants
         public const string RemoteControlDeviceIdentity = "RemoteControl.RemoteControlDeviceIdentity";
 
         public const string ExternalNotificationEnabled = "ExternalNotification.Enabled";
+        public const string ExternalNotificationEnableDetails = "ExternalNotification.EnableDetails";
+        public const string ExternalNotificationSendWhenError = "ExternalNotification.SendWhenError";
         public const string ExternalNotificationSmtpServer = "ExternalNotification.Smtp.Server";
         public const string ExternalNotificationSmtpPort = "ExternalNotification.Smtp.Port";
         public const string ExternalNotificationSmtpUser = "ExternalNotification.Smtp.User";
