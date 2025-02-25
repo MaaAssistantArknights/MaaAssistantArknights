@@ -2623,50 +2623,6 @@ namespace MaaWpfGui.Main
             return id != 0 && AsstStart();
         }
 
-        /// <summary>
-        /// 自动抄作业。
-        /// </summary>
-        /// <param name="filename">作业 JSON 的文件路径，绝对、相对路径均可。</param>
-        /// <param name="formation">是否进行 “快捷编队”。</param>
-        /// <param name="addTrust">是否追加信赖干员</param>
-        /// <param name="addUserAdditional">是否追加自定干员</param>
-        /// <param name="userAdditional">自定干员列表</param>
-        /// <param name="needNavigate">是否导航至关卡（启用自动战斗序列）</param>
-        /// <param name="navigateName">关卡名</param>
-        /// <param name="isRaid">是不是突袭</param>
-        /// <param name="type">任务类型</param>
-        /// <param name="loopTimes">任务重复执行次数</param>
-        /// <param name="useSanityPotion">是否使用理智药</param>
-        /// <param name="asstStart">是否启动战斗</param>
-        /// <returns>是否成功。</returns>
-        public bool AsstStartCopilot(string filename, bool formation, bool addTrust, bool addUserAdditional, JArray userAdditional, bool needNavigate, string navigateName, bool isRaid, AsstTaskType type, int loopTimes, bool useSanityPotion, bool asstStart = true)
-        {
-            var taskParams = new JObject
-            {
-                ["filename"] = filename,
-                ["formation"] = formation,
-                ["add_trust"] = addTrust,
-                ["need_navigate"] = needNavigate,
-                ["is_raid"] = isRaid,
-                ["loop_times"] = loopTimes,
-                ["use_sanity_potion"] = useSanityPotion,
-            };
-
-            if (addUserAdditional)
-            {
-                taskParams["user_additional"] = userAdditional;
-            }
-
-            if (needNavigate)
-            {
-                taskParams["navigate_name"] = navigateName;
-            }
-
-            AsstTaskId id = AsstAppendTaskWithEncoding(type, taskParams);
-            _taskStatus.Add(id, TaskType.Copilot);
-            return id != 0 && (!asstStart || AsstStart());
-        }
-
         public bool AsstStartVideoRec(string filename)
         {
             var taskParams = new JObject

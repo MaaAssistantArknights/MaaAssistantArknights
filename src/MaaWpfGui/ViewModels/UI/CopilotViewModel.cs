@@ -25,15 +25,17 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using MaaWpfGui.Models;
+using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.States;
 using Microsoft.Win32;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using static MaaWpfGui.Helper.CopilotHelper;
+using static MaaWpfGui.Models.AsstTasks.AsstCopilotTask;
 using DataFormats = System.Windows.Forms.DataFormats;
 using Task = System.Threading.Tasks.Task;
 
@@ -56,7 +58,7 @@ namespace MaaWpfGui.ViewModels.UI
         private const string TempCopilotFile = "cache/_temp_copilot.json";
         private static readonly string[] _supportExt = [".json", ".mp4", ".m4s", ".mkv", ".flv", ".avi"];
         private const string CopilotJsonDir = "config/copilot";
-        private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX|S|TR|MO)-?)?(?:\d{1,2})(\(Raid\)(?=\.json))?";
+        private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX|S|TR|MO)-?)?(?:\d{1,2})";
         private const string InvalidStageNameChars = @"[:',\.\(\)\|\[\]\?，。【】｛｝；：]"; // 无效字符
 
         [GeneratedRegex(InvalidStageNameChars)]
@@ -1151,27 +1153,39 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             Regex regex = new Regex(@"(?<=;)(?<name>[^,;]+)(?:, *(?<skill>\d))?(?=;)", RegexOptions.Compiled);
-            JArray userAdditional = new(regex.Matches(";" + UserAdditional + ";").ToList().Select(match => new JObject
+
+            var userAdditional = regex.Matches(";" + UserAdditional + ";").ToList().Select(match => new UserAdditional
             {
-                ["name"] = match.Groups[1].Value.Trim(),
-                ["skill"] = string.IsNullOrEmpty(match.Groups[2].Value) ? 0 : int.Parse(match.Groups[2].Value),
-            }));
+                Name = match.Groups[1].Value.Trim(),
+                Skill = string.IsNullOrEmpty(match.Groups[2].Value) ? 0 : int.Parse(match.Groups[2].Value),
+            });
 
             bool ret = true;
             if (UseCopilotList)
             {
                 _copilotIdList.Clear();
-                bool startAny = false;
-                foreach (var model in CopilotItemViewModels.Where(i => i.IsChecked))
-                {
-                    _copilotIdList.Add(model.CopilotId);
-                    ret &= Instances.AsstProxy.AsstStartCopilot(model.FilePath, Form, AddTrust, AddUserAdditional, userAdditional, UseCopilotList, model.Name, model.IsRaid, _taskType, Loop ? LoopTimes : 1, _useSanityPotion, false);
-                    startAny = true;
-                }
+                var tasks = CopilotItemViewModels.Where(i => i.IsChecked).Select(model =>
+                 {
+                     _copilotIdList.Add(model.CopilotId);
+                     var task = new AsstCopilotTask()
+                     {
+                         FileName = model.FilePath,
+                         Formation = _form,
+                         AddTrust = _addTrust,
+                         UserAdditionals = userAdditional.ToList(),
+                         NeedNavigate = UseCopilotList,
+                         StageName = model.Name,
+                         IsRaid = model.IsRaid,
+                         LoopTimes = Loop ? LoopTimes : 1,
+                         UseSanityPotion = _useSanityPotion,
+                     };
+                     var (type, param) = task.Serialize();
+                     return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, type, param);
+                 }).ToList();
 
-                if (startAny)
+                if (tasks.Count > 0)
                 {
-                    ret &= Instances.AsstProxy.AsstStart();
+                    ret = tasks.All(t => t) && Instances.AsstProxy.AsstStart();
                 }
                 else
                 {// 一个都没启动，怎会有如此无聊之人
@@ -1181,7 +1195,18 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
-                ret &= Instances.AsstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, AddTrust, AddUserAdditional, userAdditional, UseCopilotList, string.Empty, false, _taskType, Loop ? LoopTimes : 1, false);
+                var task = new AsstCopilotTask()
+                {
+                    FileName = IsDataFromWeb ? TempCopilotFile : Filename,
+                    Formation = _form,
+                    AddTrust = _addTrust,
+                    UserAdditionals = userAdditional.ToList(),
+                    NeedNavigate = false,
+                    LoopTimes = Loop ? LoopTimes : 1,
+                    UseSanityPotion = _useSanityPotion,
+                };
+                ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, _taskType, task.Serialize().Params);
+                ret &= Instances.AsstProxy.AsstStart();
             }
 
             if (ret)
