@@ -542,7 +542,6 @@ namespace MaaWpfGui.ViewModels.UI
             ClearLog();
             CopilotUrl = CopilotUiUrl;
             MapUrl = MapUiUrl;
-            _isVideoTask = false;
             IsDataFromWeb = false;
             CopilotId = 0;
 
@@ -555,7 +554,7 @@ namespace MaaWpfGui.ViewModels.UI
                 bool isJsonFile = filename.ToLower().EndsWith(".json") || fileSize < 4 * 1024 * 1024;
                 if (!isJsonFile)
                 {
-                    _isVideoTask = true;
+                    _taskType = AsstTaskType.VideoRecognition;
                     return;
                 }
 
@@ -1119,7 +1118,7 @@ namespace MaaWpfGui.ViewModels.UI
             }*/
             _runningState.SetIdle(false);
 
-            if (_isVideoTask)
+            if (_taskType == AsstTaskType.VideoRecognition)
             {
                 _ = StartVideoTask();
                 return;
