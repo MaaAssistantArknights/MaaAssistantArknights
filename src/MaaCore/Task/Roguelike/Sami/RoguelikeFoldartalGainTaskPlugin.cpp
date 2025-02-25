@@ -121,7 +121,10 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::gain_stage_award()
     }
 
     auto foldartal = analyzer.get_result().front().text;
-    gain_foldartal(std::move(foldartal));
+    // 深入调查调查装备也使用同一个入口，先分类
+    if (foldartal != "雷达" || "留声机" || "景观" || "LUD" || "踢脚" || "自走车") {
+        gain_foldartal(std::move(foldartal));
+    }
     if (m_ocr_after_combat) {
         ctrler()->click(analyzer.get_result().front().rect);
     }
