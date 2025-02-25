@@ -60,7 +60,7 @@ namespace MaaWpfGui.Services.Notification
             var emailTo = SettingsViewModel.ExternalNotificationSettings.SmtpTo;
 
             title = title.Replace("\r", string.Empty).Replace("\n", string.Empty);
-            content = content.Replace("\r", string.Empty).Replace("\n", "<br>");
+            content = content.Replace("\r", string.Empty).Replace("\n", "<br/>");
 
             var email = Email
                 .From(emailFrom)
