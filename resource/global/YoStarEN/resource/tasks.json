@@ -2753,7 +2753,12 @@
             ["Departure", "离去"],
             ["Respite", "歇息"],
             ["Satisfy", "满足"],
-            ["Cry", "呼救"]
+            ["Cry", "呼救"],
+            ["Radar", "雷达"],
+            ["Portable", "留声机"],
+            ["Mushroom", "景观"],
+            ["Firecracker", "踢脚"],
+            ["Recon", "自走车"]
         ]
     },
     "Sami@Roguelike@FoldartalUseConfirm": {
