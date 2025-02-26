@@ -144,10 +144,10 @@ MAA 使用一系列的格式化工具来保证仓库中的代码和资源文件�
 
 - `python tools\ClangFormatter\clang-formatter.py --clang-format=PATH\TO\YOUR\clang-format.exe --input=src\MaaCore`
 
-## 使用 GitHub codespace 进行在线开发
+## 使用 GitHub Codespace 进行在线开发
 
-创建 GitHub codespace 自动配置 C++ 开发环境
+创建 GitHub Codespace 自动配置 C++ 开发环境
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights)
 
-随后根据 vscode 的提示或 [Linux 教程](./linux-tutorial.md) 配置 GCC 12 和 CMake 工程
+随后根据 VSCode 的提示或 [Linux 教程](./linux-tutorial.md) 配置 GCC 12 和 CMake 工程
