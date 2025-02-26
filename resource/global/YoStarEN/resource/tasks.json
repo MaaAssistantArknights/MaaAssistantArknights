@@ -2285,7 +2285,7 @@
     },
     "Roguelike@Squad-EnterPoint": {
         "text": ["Squad"],
-        "roi": [620, 20, 110, 34]
+        "roi": [600, 20, 130, 34]
     },
     "Roguelike@StageEncounterOcr": {
         "ocrReplace": [
