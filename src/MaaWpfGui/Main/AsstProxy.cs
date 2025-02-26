@@ -899,8 +899,11 @@ namespace MaaWpfGui.Main
 
                         if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
                         {
-                            Instances.TaskQueueViewModel.GifVisibility = true;
-                            Instances.TaskQueueViewModel.ChangeGif();
+                            if (Application.Current.MainWindow?.DataContext is RootViewModel rvm)
+                            {
+                                rvm.GifVisibility = true;
+                                rvm.ChangeGif();
+                            }
                         }
 
                         // Instances.TaskQueueViewModel.CheckAndShutdown();
