@@ -248,7 +248,7 @@ You can cancel this popup by clicking the Settings - About Us - Issue Reporting 
     <system:String x:Key="ResourceUpdate">Resource update</system:String>
     <system:String x:Key="UpdateSource">Update Source</system:String>
     <system:String x:Key="GlobalSource">Global Source</system:String>
-    <system:String x:Key="ForceGithubGlobalSource">Force using Github</system:String>
+    <system:String x:Key="ForceGithubGlobalSource">Force using GitHub</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">Fill after switching source</system:String>
     <system:String x:Key="MirrorChyanSoftwareUpdateTip">MirrorChyan has detected a software update. Please go to 「Settings - Software Update」 to configure CDK or using the Global source.</system:String>
