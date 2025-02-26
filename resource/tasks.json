@@ -4158,7 +4158,11 @@
         "action": "ClickSelf",
         "roi": [400, 610, 100, 110],
         "maxTimes": 3,
-        "next": ["InfrastReceptionMessageBoardWithNew", "InfrastReceptionMessageBoardWithoutNew", "InfrastReceptionInteractive"]
+        "next": [
+            "InfrastReceptionMessageBoardWithNew",
+            "InfrastReceptionMessageBoardWithoutNew",
+            "InfrastReceptionInteractive"
+        ]
     },
     "InfrastReceptionMessageBoardWithNew": {
         "action": "ClickSelf",
@@ -4189,14 +4193,22 @@
         "action": "ClickSelf",
         "roi": [520, 50, 240, 140],
         "maxTimes": 20,
-        "next": ["InfrastReceptionMessageBoard-CouldReceive", "InfrastReceptionMessageBoard-Received", "InfrastReceptionMessageBoard-AccessRecord"]
+        "next": [
+            "InfrastReceptionMessageBoard-CouldReceive",
+            "InfrastReceptionMessageBoard-Received",
+            "InfrastReceptionMessageBoard-AccessRecord"
+        ]
     },
     "InfrastReceptionMessageBoard-CouldReceive": {
         "action": "ClickSelf",
         "roi": [1090, 480, 120, 140],
         "maxTimes": 5,
         "exceededNext": ["InfrastReceptionMessageBoard-Received#next"],
-        "next": ["InfrastReceptionMessageBoard-Received", "InfrastReceptionMessageBoardWithNew@LoadingText", "InfrastReceptionMessageBoard-CouldReceive"]
+        "next": [
+            "InfrastReceptionMessageBoard-Received",
+            "InfrastReceptionMessageBoardWithNew@LoadingText",
+            "InfrastReceptionMessageBoard-CouldReceive"
+        ]
     },
     "InfrastReceptionMessageBoard-Received": {
         "roi": [1090, 480, 120, 140],
