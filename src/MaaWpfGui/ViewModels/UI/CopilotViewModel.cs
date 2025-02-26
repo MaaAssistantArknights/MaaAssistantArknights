@@ -1251,8 +1251,6 @@ namespace MaaWpfGui.ViewModels.UI
             _runningState.SetIdle(true);
         }
 
-        private bool _isVideoTask;
-
         private bool _isDataFromWeb;
 
         private bool IsDataFromWeb
@@ -1275,7 +1273,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private async void RateCopilot(int copilotId, bool isLike = true)
         {
-            if (copilotId <= 0 || _recentlyRatedCopilotId.Contains(copilotId) || IsDataFromWeb/*以防万一*/)
+            if (copilotId <= 0 || _recentlyRatedCopilotId.Contains(copilotId))
             {
                 return;
             }

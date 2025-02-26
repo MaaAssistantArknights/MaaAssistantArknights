@@ -3167,5 +3167,7 @@
     "official/InfrastReceptionMessageBoard-CouldReceive": "fca9787e613beb10ebdc94634a6c979933584181b18e3e7b7f3d34ef09dde054",
     "official/InfrastReceptionMessageBoard-Received": "b4cff1af9123e604336bb1f446ad4727c4be9647c7ecc2ec15d74387d3428446",
     "official/InfrastReceptionMessageBoard-AccessRecord": "1aed3b6c4ff50fe59cb975b70e38d53a7d3214d00a7c2245105c5a32f1c9f521",
-    "official/InfrastReceptionOpenMessageBoard": "2f027b40332b12658498de51ba738262bab3a3faade113d07a5f0c646bf8ed33"
+    "official/InfrastReceptionOpenMessageBoard": "2f027b40332b12658498de51ba738262bab3a3faade113d07a5f0c646bf8ed33",
+    "YoStarEN/Sami@Roguelike@MissionFailedFlag3": "bceddf2aa1f9671a97bfcdc9fdd0275dd74800078b7ec297c296b6b5cb3c3ede",
+    "official/Sami@Roguelike@MissionFailedFlag3": "0fdde7e39ddf04743d56090bb75f7f57741c12df6058bce1f37b19a1d86d1cc9"
 }
