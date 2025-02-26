@@ -148,7 +148,8 @@ InfrastNotification.png
 InfrastReceptionInteractive.png
 InfrastReceptionMessageBoard-AccessRecord.png
 InfrastReceptionMessageBoard-Received.png
-InfrastReceptionOpenMessageBoard.png
+InfrastReceptionMessageBoardWithNew.png
+InfrastReceptionMessageBoardWithoutNew.png
 InfrastTrainingConfirm.png
 InfrastTrainingContinue.png
 InfrastTrainingLevel1.png
