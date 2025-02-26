@@ -4145,7 +4145,7 @@
     "InfrastReceptionReceiveMessageBoard": {
         "algorithm": "JustReturn",
         "maxTimes": 3,
-        "next": ["InfrastReceptionOpenMessageBoard", "InfrastReceptionInteractive", "#self"]
+        "next": ["InfrastReceptionInteractive#next", "InfrastReceptionReceiveMessageBoard"]
     },
     "InfrastReceptionReceiveMessageBoard-Exit": {
         "action": "DoNothing",
@@ -4154,36 +4154,49 @@
         "next": ["Stop"]
     },
     "InfrastReceptionInteractive": {
+        "doc": "会客室左下第二个button, 点了之后可互动家具显示互动按钮",
         "action": "ClickSelf",
         "roi": [400, 610, 100, 110],
         "maxTimes": 3,
-        "next": ["InfrastReceptionOpenMessageBoard", "#self"]
+        "next": ["InfrastReceptionMessageBoardWithNew", "InfrastReceptionMessageBoardWithoutNew", "InfrastReceptionInteractive"]
     },
-    "InfrastReceptionOpenMessageBoard": {
+    "InfrastReceptionMessageBoardWithNew": {
         "action": "ClickSelf",
         "roi": [0, 150, 1280, 250],
-        "maskRange": [1, 255],
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [0, 0, 200],
+                [255, 255, 255]
+            ]
+        ],
         "postDelay": 1000,
         "next": [
             "InfrastReceptionMessageBoard-AccessRecord",
             "InfrastReceptionMessageBoard-CouldReceive",
             "InfrastReceptionMessageBoard-Received",
-            "InfrastReceptionOpenMessageBoard@LoadingText"
+            "InfrastReceptionMessageBoardWithNew@LoadingText"
         ]
+    },
+    "InfrastReceptionMessageBoardWithoutNew": {
+        "action": "DoNothing",
+        "baseTask": "InfrastReceptionMessageBoardWithNew",
+        "postDelay": 0,
+        "next": []
     },
     "InfrastReceptionMessageBoard-AccessRecord": {
         "doc": "进信息板的上周记录，不一定会有",
         "action": "ClickSelf",
         "roi": [520, 50, 240, 140],
         "maxTimes": 20,
-        "next": ["InfrastReceptionMessageBoard-CouldReceive", "InfrastReceptionMessageBoard-Received", "#self"]
+        "next": ["InfrastReceptionMessageBoard-CouldReceive", "InfrastReceptionMessageBoard-Received", "InfrastReceptionMessageBoard-AccessRecord"]
     },
     "InfrastReceptionMessageBoard-CouldReceive": {
         "action": "ClickSelf",
         "roi": [1090, 480, 120, 140],
         "maxTimes": 5,
         "exceededNext": ["InfrastReceptionMessageBoard-Received#next"],
-        "next": ["InfrastReceptionMessageBoard-Received", "InfrastReceptionOpenMessageBoard@LoadingText", "#self"]
+        "next": ["InfrastReceptionMessageBoard-Received", "InfrastReceptionMessageBoardWithNew@LoadingText", "InfrastReceptionMessageBoard-CouldReceive"]
     },
     "InfrastReceptionMessageBoard-Received": {
         "roi": [1090, 480, 120, 140],
