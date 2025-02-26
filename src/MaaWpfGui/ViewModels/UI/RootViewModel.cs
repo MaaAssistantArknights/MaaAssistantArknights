@@ -205,7 +205,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static readonly string[] _gitList =
         [
-           "/Res/Img/EasterEgg/1.gif",
+            "/Res/Img/EasterEgg/1.gif",
             "/Res/Img/EasterEgg/2.gif",
         ];
 
