@@ -36,7 +36,7 @@ icon: iconoir:developer
 
 5. 配置编程环境
 
-    - 下载并安装 `Visual Studio 2022 community`, 安装的时候需要选中 `基于c++的桌面开发` 和 `.NET桌面开发`。
+    - 下载并安装 `Visual Studio 2022 community`, 安装的时候需要选中 `基于 C++ 的桌面开发` 和 `.NET 桌面开发`。
 
 6. 双击打开 `MAA.sln` 文件，Visual Studio 会自动加载整个项目。
 7. 设置 VS
@@ -45,7 +45,7 @@ icon: iconoir:developer
     - 右键 `MaaWpfGui` - 属性 - 调试 - 启用本地调试（这样就能把断点挂到 C++ Core 那边了）
 
 8. 到这里，你就可以愉快地 ~~瞎 JB 改~~ 发电了
-9. 开发过程中，每一定数量，记得提交一个 commit, 别忘了写上 message  
+9. 开发过程中，每一定数量，记得提交一个 Commit, 别忘了写上 Message  
    假如你不熟悉 git 的使用，你可能想要新建一个分支进行更改，而不是直接提交在 `dev` 上
 
     ```bash
@@ -55,13 +55,13 @@ icon: iconoir:developer
 
     这样你的提交就能在新的分支上生长，不会受到 `dev` 更新的打扰
 
-10. 完成开发后，推送你修改过的本地分支（以 `dev` 为例）到远程（fork 的仓库）
+10. 完成开发后，推送你修改过的本地分支（以 `dev` 为例）到远程（Fork 的仓库）
 
     ```bash
     git push origin dev
     ```
 
-11. 打开 [MAA 主仓库](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一个 pull request，等待管理员通过。别忘了你是在 dev 分支上修改，别提交到 master 分支去了
+11. 打开 [MAA 主仓库](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一个 Rull Request，等待管理员通过。别忘了你是在 dev 分支上修改，别提交到 master 分支去了
 12. 当 MAA 原仓库出现更改（别人做的），你可能需要把这些更改同步到你的分支
 
     1. 关联 MAA 原仓库
@@ -91,7 +91,7 @@ icon: iconoir:developer
     4. 重复上述 7, 8, 9, 10 中的操作
 
 ::: tip
-在打开 VS2022 之后，和 git 有关的操作可以不用命令行工具，直接使用 vs 自带的“Git 更改”即可
+在打开 VS 之后，和 Git 有关的操作可以不用命令行工具，直接使用 VS 自带的“Git 更改”即可
 :::
 
 ## MAA 的文件格式化要求
