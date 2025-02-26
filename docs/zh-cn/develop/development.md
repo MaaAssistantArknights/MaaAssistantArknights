@@ -13,7 +13,7 @@ icon: iconoir:developer
 
 ### 我会编程，但没接触过 GitHub/C++/……，要怎么操作？
 
-1. 如果很久以前 fork 过，先在自己仓库的 `Settings` 里，翻到最下面，删除
+1. 如果很久以前 Fork 过，先在自己仓库的 `Settings` 里，翻到最下面，删除
 2. 打开 [MAA 主仓库](https://github.com/MaaAssistantArknights/MaaAssistantArknights)，点击 `Fork`，继续点击 `Create fork`
 3. 克隆你自己仓库下的 dev 分支到本地，并拉取子模块
 
@@ -119,7 +119,7 @@ MAA 使用一系列的格式化工具来保证仓库中的代码和资源文件�
     pre-commit install
     ```
 
-如果pip安装后依然无法运行pre-commit，请确认pip安装地址已被添加到PATH
+如果pip安装后依然无法运行 Pre-commit，请确认 PIP 安装地址已被添加到 PATH
 
 接下来，每次提交时都将会自动运行格式化工具，来确保你的代码格式符合规范
 
@@ -138,7 +138,7 @@ MAA 使用一系列的格式化工具来保证仓库中的代码和资源文件�
 
 ![Visual Studio 设置 clang-format](/images/zh-cn/development-enable-vs-clang-format.png)
 
-然后你的 Visual Studio 就能愉快的使用支持 c++20 语法的 clang-format 啦！
+然后你的 Visual Studio 就能愉快的使用支持 C++20 语法的 clang-format 啦！
 
 你也可以使用 `tools\ClangFormatter\clang-formatter.py` 来直接调用你的 clang-format 来进行格式化，只需要在项目根目录下执行：
 
