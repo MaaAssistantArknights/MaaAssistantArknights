@@ -1251,8 +1251,6 @@ namespace MaaWpfGui.ViewModels.UI
             _runningState.SetIdle(true);
         }
 
-        private bool _isVideoTask;
-
         private bool _isDataFromWeb;
 
         private bool IsDataFromWeb

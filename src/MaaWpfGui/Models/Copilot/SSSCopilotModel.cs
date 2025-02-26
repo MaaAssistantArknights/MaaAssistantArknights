@@ -141,21 +141,6 @@ public class SSSCopilotModel : CopilotBase
         return output;
     }
 
-    public class Doc
-    {
-        [JsonProperty("title")]
-        public string? Title { get; set; }
-
-        [JsonProperty("title_color")]
-        public string? TitleColor { get; set; }
-
-        [JsonProperty("details")]
-        public string? Details { get; set; }
-
-        [JsonProperty("details_color")]
-        public string? DetailsColor { get; set; }
-    }
-
     public class Oper
     {
         [JsonProperty("name")]
