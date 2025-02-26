@@ -23,9 +23,11 @@ icon: iconoir:developer
 
     ::: warning
     Visual Studio 등 --recurse-submodules 미지원 Git GUI 사용 시, 클론 후 다음 실행:
+
     ```bash
     git submodule update --init
     ```
+
     :::
 
 4. 사전 빌드된 외부 라이브러리 다운로드
