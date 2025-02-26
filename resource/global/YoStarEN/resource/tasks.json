@@ -2284,7 +2284,7 @@
         "roi": [641, 3, 35, 39]
     },
     "Roguelike@Squad-EnterPoint": {
-        "text": ["Squad"],
+        "text": ["Select"],
         "roi": [600, 20, 130, 34]
     },
     "Roguelike@StageEncounterOcr": {
@@ -2946,7 +2946,7 @@
         "action": "ClickRect",
         "roi": [600, 16, 145, 36],
         "specificRect": [545, 432, 187, 127],
-        "text": ["Squad", "Initial"],
+        "text": ["Members", "Initial"],
         "next": ["Sarkaz@Roguelike@Squad-EnterPoint", "Sarkaz@Roguelike@InitialDrop2"]
     },
     "Sarkaz@Roguelike@StageSafeHouseReuse": {
