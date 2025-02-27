@@ -13,83 +13,90 @@ icon: iconoir:developer
 
 ### プログラミングの仕方を知っていますが、GitHub/C++/...... に触れたことがありません、どうすればいいですか？
 
-1. かなり前にフォークした場合は、まず自分のリポジトリの `Settings` の一番下に移動してそのリポジトリを削除します。
-2. [MAAリポジトリ](https://github.com/MaaAssistantArknights/MaaAssistantArknights)を開いて、 `Fork` をクリックし、引き続き `Create fork` をクリックします。
-3. （自分のアカウントの）リポジトリの `dev` のブランチをローカルに clone をします。
+1. かなり前にフォークした場合は、まず自分のリポジトリの `Settings` の一番下で削除します
+2. [MAA メインリポジトリ](https://github.com/MaaAssistantArknights/MaaAssistantArknights)を開き、`Fork` → `Create fork` をクリック
+3. 自身のリポジトリの dev ブランチをクローン（サブモジュール含む）
 
     ```bash
-    git clone --recurse-submodules <リポジトリの git のリンク> -b dev
+    git clone --recurse-submodules <リポジトリの git リンク> -b dev
     ```
 
-    Visual Studioなどの `--recurse-submodules` パラメータを含まないGit GUIを使用している場合は、クローン後に `git submodule update --init` を実行して、サブモジュールを取得する必要があります。
+    ::: warning
+    Visual Studio など `--recurse-submodules` パラメータに対応していない Git GUI を使用する場合、クローン後に以下を実行：
 
-4. 構築済みのサードパーティライブラリをダウンロードする
+    ```bash
+    git submodule update --init
+    ```
 
-    **Python環境が必要ですので、Pythonインストールチュートリアルを自分で検索してください**  
-    _（maadeps-download.py ファイルはプロジェクトのルートにあります）_
+    :::
+
+4. 事前ビルド済みサードパーティライブラリのダウンロード
+
+    **Python環境が必要（インストール方法は各自検索）**  
+    _（maadeps-download.py はプロジェクトルートに配置）_
 
     ```cmd
     python maadeps-download.py
     ```
 
-5. プログラミング環境を構成
+5. 開発環境の設定
 
-    - `Visual Studio 2022 community` をダウンロードしてインストールします。インストール時に `C++ベースのデスクトップ開発` と `.NETデスクトップ開発` を選択する必要があります。
+    - `Visual Studio 2022 Community` をインストール時、`C++ によるデスクトップ開発` と `.NET デスクトップ開発` を選択必須
 
-6. ダブルクリックして `MAA.sln` ファイルを開きます。 Visual Studioは、プロジェクト全体を自動的に読み込みます。
-7. VS を設定する
+6. `MAA.sln` をダブルクリックで開き、Visual Studio にプロジェクトを自動ロード
+7. VS の設定
 
-    - VS 上で構成を `RelWithDebInfo` `x64` に選択します （リリースパッケージまたは ARM プラットフォームをコンパイルする場合は、この手順をスキップしてください）
-    - `MaaWpfGui` を右クリックして、 - `プロパティー` - `デバッグ` - `ローカル デバッグを有効にする` （これにより、ブレークポイントを C++ コアにフックできます）
+    - 上部設定バーで `RelWithDebInfo` `x64` を選択（Release ビルド/ARM プラットフォームの場合は不要）
+    - `MaaWpfGui` 右クリック → プロパティ → デバッグ → ネイティブデバッグを有効化（C++ Core へのブレークポイント設定可能）
 
-8. ここまで楽しくコードを変更できます～
-9. 開発中は、一定量修正するたびに commit を忘れず、コミットメッセージを書くことを忘れないでください。  
-    git を初めて使用する場合は、 `dev` に直接コミットする代わりに、新しいブランチを作成して変更を加えることをお勧めします
+8. これで自由に ~~改造~~ 開発を始められます
+9. 一定量の変更ごにコミット（メッセージ記入必須）  
+   Git 未経験者は dev ブランチ直接変更ではなく新規ブランチ作成推奨：
 
     ```bash
     git branch your_own_branch
     git checkout your_own_branch
     ```
 
-    このようにして、コミットは `dev` の更新に邪魔されることなく、新しいブランチで成長できます
+    これで dev の更新影響を受けずに開発可能
 
-10. 開発が完了したら、ローカルブランチを（自分の）リモートリポジトリにプッシュします。
+10. 開発完了後、変更をリモートリポジトリへプッシュ：
 
     ```bash
     git push origin dev
     ```
 
-11. [MAAリポジトリ](https://github.com/MaaAssistantArknights/MaaAssistantArknights)を開いて、プルリクエストを送信し、管理者が承認するのを待ちます。 dev ブランチで変更することを忘れないで、 master ブランチにコミットしないでください。
-12. 元のMAAリポジトリに変更がある場合（他のユーザーが行った）、これらの変更を自分のフォークリポジトリに同期する必要があります。
+11. [MAA メインリポジトリ](https://github.com/MaaAssistantArknights/MaaAssistantArknights) で Pull Request を提出（master ではなく dev ブランチを指定）
+12. 上流リポジトリの更新を同期する場合：
 
-    1. MAAオリジナル リポジトリーの関連付け
+    1. 上流リポジトリを追加：
 
         ```bash
         git remote add upstream https://github.com/MaaAssistantArknights/MaaAssistantArknights.git
         ```
 
-    2. MAAのオリジナル リポジトリーから更新をプルします
+    2. 更新を取得：
 
         ```bash
         git fetch upstream
         ```
 
-    3. リベース (推奨) またはマージでブランチに統合する
+    3. リベース（推奨）またはマージ：
 
         ```bash
-        git rebase upstream/dev  # リベース
+        git rebase upstream/dev
         ```
 
         または
 
         ```bash
-        git merge  # マージ
+        git merge
         ```
 
-    4. 上記の手順7、8、9、10を繰り返します
+    4. ステップ7、8、9、10 を繰り返し
 
 ::: tip
-VS2022を開いた後、gitに関する操作はコマンドラインツールなしで実行でき、VSに付属の「Git変更」を直接使用できます。
+Visual Studio 起動後、Git 操作は「Git 変更」画面からコマンドライン不要で可能
 :::
 
 ## Visual Studioでclang-formatを有効にする
