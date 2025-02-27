@@ -1964,18 +1964,6 @@ namespace MaaWpfGui.ViewModels.UI
         }
         */
 
-        private bool _customInfrastEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastEnabled, bool.FalseString));
-
-        public bool CustomInfrastEnabled
-        {
-            get => _customInfrastEnabled;
-            set
-            {
-                SetAndNotify(ref _customInfrastEnabled, value);
-                RefreshCustomInfrastPlan();
-            }
-        }
-
         public bool NeedAddCustomInfrastPlanInfo { get; set; } = true;
 
         private int _customInfrastPlanIndex = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastPlanIndex, "0"));
@@ -2033,7 +2021,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public ObservableCollection<GenericCombinedData<int>> CustomInfrastPlanList { get; } = new();
+        public ObservableCollection<GenericCombinedData<int>> CustomInfrastPlanList { get; } = [];
 
         public struct CustomInfrastPlanInfo
         {
@@ -2058,7 +2046,7 @@ namespace MaaWpfGui.ViewModels.UI
             // ReSharper restore InconsistentNaming
         }
 
-        private List<CustomInfrastPlanInfo> CustomInfrastPlanInfoList { get; } = new();
+        private List<CustomInfrastPlanInfo> CustomInfrastPlanInfoList { get; } = [];
 
         private bool _customInfrastPlanHasPeriod;
         private bool _customInfrastInfoOutput;
@@ -2069,7 +2057,7 @@ namespace MaaWpfGui.ViewModels.UI
             CustomInfrastPlanList.Clear();
             _customInfrastPlanHasPeriod = false;
 
-            if (!CustomInfrastEnabled)
+            if (!InfrastTask.CustomInfrastEnabled)
             {
                 return;
             }
@@ -2181,7 +2169,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void RefreshCustomInfrastPlanIndexByPeriod()
         {
-            if (!CustomInfrastEnabled || !_customInfrastPlanHasPeriod || InfrastTaskRunning)
+            if (!InfrastTask.CustomInfrastEnabled || !_customInfrastPlanHasPeriod || InfrastTaskRunning)
             {
                 return;
             }
@@ -2208,7 +2196,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void IncreaseCustomInfrastPlanIndex()
         {
-            if (!CustomInfrastEnabled || _customInfrastPlanHasPeriod || CustomInfrastPlanInfoList.Count == 0)
+            if (!InfrastTask.CustomInfrastEnabled || _customInfrastPlanHasPeriod || CustomInfrastPlanInfoList.Count == 0)
             {
                 return;
             }

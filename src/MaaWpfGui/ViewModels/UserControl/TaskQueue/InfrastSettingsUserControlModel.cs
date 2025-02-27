@@ -201,8 +201,6 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         }
     }
 
-    public static TaskQueueViewModel CustomInfrastPlanDataContext { get => Instances.TaskQueueViewModel; }
-
     private string _usesOfDrones = ConfigurationHelper.GetValue(ConfigurationKeys.UsesOfDrones, "Money");
 
     /// <summary>
@@ -329,7 +327,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         {
             SetAndNotify(ref _customInfrastEnabled, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastEnabled, value.ToString());
-            Instances.TaskQueueViewModel.CustomInfrastEnabled = value;
+            Instances.TaskQueueViewModel.RefreshCustomInfrastPlan();
         }
     }
 
