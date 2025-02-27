@@ -13,81 +13,90 @@ icon: iconoir:developer
 
 ### 프로그래밍을 할 줄 알지만 GitHub/C++/...에 익숙하지 않아요. 어떻게 해야 하나요?
 
-1. 이전에 `fork`한 적이 있다면 먼저 본인의 저장소의 `Settings`로 이동하여 가장 아래로 스크롤하여 삭제합니다.
-2. [MAA 메인 레포](https://github.com/MaaAssistantArknights/MaaAssistantArknights)를 열고 `Fork`를 클릭한 다음 `Create fork`를 클릭합니다.
-3. 로컬에서 레포(dev 브랜치)를 클론합니다.
+1. 이전에 fork 한 기록이 있다면 저장소 Settings 맨 아래에서 삭제
+2. [MAA 메인 저장소](https://github.com/MaaAssistantArknights/MaaAssistantArknights)에서 Fork → Create fork 클릭
+3. 본인 저장소의 dev 브랜치를 서브모듈 포함 클론:
 
-   ```bash
-   git clone --recurse-submodules <당신의 저장소의 git 링크> -b dev
-   ```
+    ```bash
+    git clone --recurse-submodules <저장소 git 링크> -b dev
+    ```
 
-4. Visual Studio와 같은 --recurse-submodules 매개변수가 포함되지 않은 Git GUI를 사용 중이라면, 클론한 후에 `git submodule update --init` 명령을 실행하여 서브모듈을 가져와야 합니다.
+    ::: warning
+    Visual Studio 등 --recurse-submodules 미지원 Git GUI 사용 시, 클론 후 다음 실행:
 
-   **Python 환경이 필요합니다. Python 설치 방법은 스스로 찾아보세요.**  
-   _（maadeps-download.py 파일은 프로젝트 루트에 있습니다）_
+    ```bash
+    git submodule update --init
+    ```
 
-   ```cmd
-   python maadeps-download.py
-   ```
+    :::
 
-5. 개발 환경을 설정합니다.
+4. 사전 빌드된 외부 라이브러리 다운로드
 
-   - `Visual Studio 2022 community`를 다운로드 및 설치하고 설치 중에 `C++ 기반 데스크톱 개발` 및 `.NET 데스크톱 개발`을 선택합니다.
+    **Python 환경 필요 (별도 설치 필요)**  
+    _（maadeps-download.py 파일은 프로젝트 루트에 위치）_
 
-6. `MAA.sln` 파일을 더블 클릭하여 엽니다. Visual Studio는 프로젝트를 자동으로 로드합니다.。
+    ```cmd
+    python maadeps-download.py
+    ```
+
+5. 개발 환경 구성
+
+    - Visual Studio 2022 Community 설치 시 `C++ 데스크톱 개발` 및 `.NET 데스크톱 개발` 필수 선택
+
+6. MAA.sln 파일 더블클릭 → Visual Studio에서 프로젝트 자동 로드
 7. VS 설정
 
-   - VS 상단의 구성을 `RelWithDebInfo x64`로 선택합니다. (릴리스 패키지 또는 ARM 플랫폼을 빌드하는 경우, 이 단계를 무시하세요)
-   - MaaWpfGui를 마우스 오른쪽 버튼으로 클릭하여 속성을 선택하고 `디버그` - `로컬 디버깅 활성화`를 선택합니다. (이렇게 하면 C++ 코어 부분에 중단점을 설정할 수 있습니다.)
+    - 상단 구성에서 RelWithDebInfo x64 선택 (릴리스 빌드/ARM 플랫폼 시 생략)
+    - MaaWpfGui 우클릭 → 속성 → 디버그 → 네이티브 디버깅 활성화 (C++ 코어 중단점 사용 가능)
 
-8. 이제 마음껏 개발을 시작할 수 있습니다.
-9. 개발 중에 정기적으로 커밋을 하고 메시지를 작성하는 것을 잊지 마세요.
-   Git 사용에 익숙하지 않다면 변경 사항을 직접 `dev` 브랜치에 제출하는 대신 새 브랜치를 만들어 작업하고 커밋하는 것이 좋습니다.
+8. 이제 자유롭게 ~~개조~~ 개발 시작!
+9. 주기적 커밋 (메시지 필수 작성)  
+   Git 초보자는 dev 브랜치 대신 새 브랜치 생성 권장:
 
-   ```bash
-   git branch your_own_branch
-   git checkout your_own_branch
-   ```
+    ```bash
+    git branch your_own_branch
+    git checkout your_own_branch
+    ```
 
-   이렇게 하면 새 브랜치에서 변경 사항이 발생하며 `dev` 브랜치의 업데이트에 영향을 받지 않습니다.
+    dev 브랜치 업데이트 영향에서 자유로움
 
-10. 개발이 완료되면 수정한 로컬 브랜치(dev를 기준으로 함)를 원격(fork한 저장소)에 푸시합니다.
+10. 개발 완료 후 변경사항 원격 저장소로 푸시:
 
     ```bash
     git push origin dev
     ```
 
-11. [MAA 메인 레포](https://github.com/MaaAssistantArknights/MaaAssistantArknights)를 엽니다. Pull request를 제출하고 관리자의 승인을 기다립니다. dev 브랜치에서 수정했는지 확인하세요.
-12. MAA 원본 저장소에 변경 사항이 발생할 때마다 (다른 사람이 한 경우), 이러한 변경 사항을 로컬 브랜치에 동기화해야 할 수 있습니다.
+11. [MAA 메인 저장소](https://github.com/MaaAssistantArknights/MaaAssistantArknights)에서 Pull Request 제출 (master 대신 dev 브랜치 지정 필수)
+12. 업스트림 저장소 변경사항 동기화 방법:
 
-    1. MAA 원본 저장소를 연결합니다.
+    1. 업스트림 저장소 추가:
 
-       ```bash
-       git remote add upstream https://github.com/MaaAssistantArknights/MaaAssistantArknights.git
-       ```
+        ```bash
+        git remote add upstream https://github.com/MaaAssistantArknights/MaaAssistantArknights.git
+        ```
 
-    2. 업데이트를 가져옵니다.
+    2. 변경사항 가져오기:
 
-       ```bash
-       git fetch upstream
-       ```
+        ```bash
+        git fetch upstream
+        ```
 
-    3. 리베이스(권장) 또는 변경 사항을 병합합니다.
+    3. 리베이스(권장) 또는 병합:
 
-       ```bash
-       git rebase upstream/dev # 리베이스
-       ```
+        ```bash
+        git rebase upstream/dev
+        ```
 
-       또는
+        또는
 
-       ```bash
-       git merge # 병합
-       ```
+        ```bash
+        git merge
+        ```
 
-    4. 7, 8, 9, 10 단계를 반복합니다.
+    4. 단계 7, 8, 9, 10 반복 수행
 
 ::: tip
-Visual Studio 2022를 열면 관련된 git 작업을 명령 줄 도구 대신 vs 자체 "Git 변경사항"을 사용하여 수행할 수 있습니다.
+Visual Studio 실행 시 Git 작업은 "Git 변경" 탭에서 명령어 없이 처리 가능
 :::
 
 ## MAA 파일의 포매팅 요구 사항
