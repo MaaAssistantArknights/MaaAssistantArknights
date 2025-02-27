@@ -436,6 +436,15 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                 skip_once_002++;
             }
         }
+        // mock_test_003: 4 star tag appear
+        static bool RunRecruitMockTest_003 = false;
+        if (RunRecruitMockTest_003) {
+            static int skip_once_003 = 0;
+            if (skip_once_003 == 0) {
+                image_analyzer.mock_set_special(asst::RecruitImageAnalyzer::operator_type::fourstar);
+                skip_once_003++;
+            }
+        }
 #endif
 
         const std::vector<TextRect>& tags = image_analyzer.get_tags_result(); // 中文的招募tag
@@ -666,7 +675,13 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                     return result;
                 }
             }
-
+            // do not confirm 4 star
+            if (!is_confirm_level_valid(4) && final_combination.min_level == 4 &&
+                !is_select_level_valid(final_combination.min_level))
+                {
+                    calc_task_result_type result(calc_task_result::force_skip);
+                    return result;
+                }
             // "Automatically recruit 5/6 Star operators" is not checked.
             if (has_special_tag && !is_confirm_level_valid(final_combination.min_level)) {
                 calc_task_result_type result(calc_task_result::special_tag_skip);
