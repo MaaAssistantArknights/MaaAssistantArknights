@@ -2591,7 +2591,7 @@ namespace MaaWpfGui.Main
             {
                 ["refresh"] = false,
                 ["select"] = new JArray(selectLevel),
-                ["confirm"] = new JArray(),
+                ["confirm"] = new JArray(-1), // 仅公招识别时将-1加入comfirm_level
                 ["times"] = 0,
                 ["set_time"] = setTime,
                 ["expedite"] = false,

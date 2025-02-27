@@ -374,7 +374,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     /// <param name="maxTimes">加急次数，仅在 <paramref name="useExpedited"/> 为 <see langword="true"/> 时有效。</param>
     /// <param name="firstTags">首选 Tags，仅在 Tag 等级为 3 时有效。</param>
     /// <param name="selectLevel">会去点击标签的 Tag 等级。</param>
-    /// <param name="confirmLevel">会去点击确认的 Tag 等级。若仅公招计算，可设置为空数组。</param>
+    /// <param name="confirmLevel">会去点击确认的 Tag 等级。若仅公招计算，将-1加入数组。</param>
     /// <param name="needRefresh">是否刷新三星 Tags。</param>
     /// <param name="needForceRefresh">无招募许可时是否继续尝试刷新 Tags。</param>
     /// <param name="useExpedited">是否使用加急许可。</param>
@@ -404,6 +404,10 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     {
         var reqList = new List<int>();
         var cfmList = new List<int>();
+        if (!NotChooseLevel1)
+        {
+            cfmList.Add(1);
+        }
 
         if (ChooseLevel3)
         {
