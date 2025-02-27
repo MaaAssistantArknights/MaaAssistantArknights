@@ -643,7 +643,7 @@ public:
             m_ofs.seekp(0, std::ios::end);
             m_bytes_written = m_ofs.tellp();
         }
-        rotate(lock);
+        rotate();
         if constexpr (std::same_as<level, remove_cvref_t<T>>) {
 #ifdef ASST_DEBUG
             return LogStream(std::move(lock), m_callback, ostreams { console_ostream(std::cout), m_ofs }, arg);
@@ -738,7 +738,7 @@ public:
             m_ofs.seekp(0, std::ios::end);
             m_bytes_written = m_ofs.tellp();
         }
-        rotate(lock);
+        rotate();
         (LogStream(
              std::move(lock),
              m_callback,
@@ -777,7 +777,7 @@ private:
         log_init_info();
     }
 
-    void rotate([[maybe_unused]] const std::unique_lock<std::mutex>& m_lock)
+    void rotate()
     {
         if (!m_ofs || !m_ofs.is_open() || m_bytes_written <= MaxLogSize) {
             return;
