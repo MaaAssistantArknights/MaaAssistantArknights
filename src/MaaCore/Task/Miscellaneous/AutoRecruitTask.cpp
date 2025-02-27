@@ -677,11 +677,10 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             }
             // do not confirm 4 star
             if (!is_confirm_level_valid(4) && final_combination.min_level == 4 &&
-                !is_select_level_valid(final_combination.min_level))
-                {
-                    calc_task_result_type result(calc_task_result::force_skip);
-                    return result;
-                }
+                !is_select_level_valid(final_combination.min_level)) {
+                calc_task_result_type result(calc_task_result::force_skip);
+                return result;
+            }
             // "Automatically recruit 5/6 Star operators" is not checked.
             if (has_special_tag && !is_confirm_level_valid(final_combination.min_level)) {
                 calc_task_result_type result(calc_task_result::special_tag_skip);
