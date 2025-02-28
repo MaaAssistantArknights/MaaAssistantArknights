@@ -76,24 +76,23 @@ bool asst::InfrastReceptionTask::get_clue()
 bool asst::InfrastReceptionTask::use_clue()
 {
     LogTraceFunction;
-    const static std::string clue_vacancy = "InfrastClueVacancy";
-    const static std::vector<std::string> clue_suffix = { "No1", "No2", "No3", "No4", "No5", "No6", "No7" };
-
-    proc_clue_vacancy(false);
+    const static std::vector<std::string> vacancy_suffix = { "VacancyNo1", "VacancyNo2", "VacancyNo3", "VacancyNo4",
+                                                             "VacancyNo5", "VacancyNo6", "VacancyNo7" };
+    proc_clue(false);
     sleep(1000);
     if (unlock_clue_exchange()) {
-        proc_clue_vacancy(false);
+        proc_clue(false);
     }
 
     cv::Mat image = ctrler()->get_image();
 
     // 所有的空位分析一次，看看还缺哪些线索
-    InfrastClueVacancyImageAnalyzer vacancy_analyzer(image);
+    InfrastClueImageAnalyzer vacancy_analyzer(image);
 
-    vacancy_analyzer.set_to_be_analyzed(clue_suffix);
+    vacancy_analyzer.set_to_be_analyzed(vacancy_suffix);
     vacancy_analyzer.analyze();
 
-    const auto& vacancy = vacancy_analyzer.get_vacancy();
+    const auto& vacancy = vacancy_analyzer.get_clue();
     for (const auto& id : vacancy | views::keys) {
         Log.trace("InfrastReceptionTask | Vacancy", id);
     }
@@ -202,7 +201,7 @@ bool asst::InfrastReceptionTask::send_clue()
     // 放个OCRer在这里
 
     if (m_prioritize_sending_clue) {
-        proc_clue_vacancy(true);
+        proc_clue(true);
     }
 
     for (int i = 0; i < m_amount_of_clue_to_send; i++) {
