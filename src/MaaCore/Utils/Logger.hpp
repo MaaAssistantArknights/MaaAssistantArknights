@@ -619,11 +619,6 @@ public:
 public:
     virtual ~Logger() override { flush(); }
 
-    void add_byte_count([[maybe_unused]] const std::unique_lock<std::mutex>& lock, std::size_t byte_count = 0)
-    {
-        m_file_size += byte_count;
-    }
-
     // static bool set_directory(const std::filesystem::path& dir)
     // {
     //     if (!std::filesystem::exists(dir) || !std::filesystem::is_directory(dir)) {
@@ -739,6 +734,7 @@ public:
     {
         std::unique_lock<std::mutex> m_trace_lock(m_trace_mutex);
         if (m_ofs.is_open()) {
+            m_of.flush();
             m_ofs.close();
         }
     }
@@ -760,14 +756,14 @@ private:
         catch (...) {
         }
 
-        OfsRenew();
+        LoadFileStream();
         log_init_info();
     }
 
     void rotate()
     {
-        if (!m_of || !m_ofs.is_open()) {
-            OfsRenew();
+        if (!m_of || !m_ofs || !m_ofs.is_open()) {
+            LoadFileStream();
         }
         if (m_file_size + m_buff.count_bytes() <= MaxLogSize) {
             return;
@@ -778,7 +774,7 @@ private:
             }
             m_ofs.close();
             std::filesystem::rename(m_log_path, m_log_bak_path);
-            OfsRenew();
+            LoadFileStream();
         }
         catch (std::filesystem::filesystem_error& e) {
             std::cerr << e.what() << std::endl;
@@ -787,7 +783,7 @@ private:
         }
     }
 
-    void OfsRenew()
+    void LoadFileStream()
     {
         m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
         m_file_size = std::filesystem::file_size(m_log_path);
