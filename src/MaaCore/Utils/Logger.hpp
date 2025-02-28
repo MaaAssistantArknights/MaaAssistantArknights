@@ -788,7 +788,7 @@ private:
         m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
         m_file_size = std::filesystem::file_size(m_log_path);
         m_buff = LogStreambuf(m_ofs.rdbuf());
-        m_of.set_rdbuf(&m_buff);
+        m_of.rdbuf(&m_buff);
     }
 
     void log_init_info()
