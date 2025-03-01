@@ -66,6 +66,7 @@ namespace MaaWpfGui.Services.Notification
                 .From(emailFrom)
                 .To(emailTo)
                 .Subject($"[MAA] {title}")
+                .Body(content, true)
                 .UsingTemplate(EmailTemplate, new
                 {
                     Title = title,
