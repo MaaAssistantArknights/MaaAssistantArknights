@@ -2333,6 +2333,23 @@
     "Roguelike@Squad-EnterPoint": {
         "text": ["分隊"]
     },
+    "Sarkaz@Roguelike@StartExplore": {
+        "next": [
+            "Sarkaz@Roguelike@Squad-EnterPoint",
+            "Sarkaz@Roguelike@InitialDrop",
+            "Sarkaz@Roguelike@ChooseDifficulty",
+            "Sarkaz@Roguelike@StartExplore-EnterCheck",
+            "Sarkaz@Roguelike@InitialDrop2"
+        ]
+    },
+    "Sarkaz@Roguelike@InitialDrop2": {
+        "algorithm": "OcrDetect",
+        "action": "ClickRect",
+        "roi": [600, 16, 145, 36],
+        "specificRect": [545, 432, 187, 127],
+        "text": ["初期所持秘宝", "小隊隊員"],
+        "next": ["Sarkaz@Roguelike@Squad-EnterPoint", "Sarkaz@Roguelike@InitialDrop2"]
+    },
     "Roguelike@StageEncounterOcr": {
         "ocrReplace": [
             ["野営", "扎营"],

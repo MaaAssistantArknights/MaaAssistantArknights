@@ -2780,6 +2780,25 @@
     "Sarkaz@Roguelike@StageRefresh": {
         "templThreshold": 0.7
     },
+    "Sarkaz@Roguelike@StartExplore": {
+        "doc": "월간 소대 시작 시 체크 표시가 없어서 만들어진 작업",
+        "next": [
+            "Sarkaz@Roguelike@Squad-EnterPoint",
+            "Sarkaz@Roguelike@InitialDrop",
+            "Sarkaz@Roguelike@ChooseDifficulty",
+            "Sarkaz@Roguelike@StartExplore-EnterCheck",
+            "Sarkaz@Roguelike@InitialDrop2"
+        ]
+    },
+    "Sarkaz@Roguelike@InitialDrop2": {
+        "doc": "월간 소대 시작 시 체크 표시가 없어서 만들어진 작업",
+        "algorithm": "OcrDetect",
+        "action": "ClickRect",
+        "roi": [600, 16, 145, 36],
+        "specificRect": [545, 432, 187, 127],
+        "text": ["오퍼", "레이터", "초기", "소장품"],
+        "next": ["Sarkaz@Roguelike@Squad-EnterPoint", "Sarkaz@Roguelike@InitialDrop2"]
+    },
     "Sarkaz@Roguelike@StageSafeHouseReuse": {
         "text": ["안전가옥활용"]
     },
