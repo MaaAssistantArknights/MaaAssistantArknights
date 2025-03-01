@@ -10,6 +10,14 @@
         "next": ["ODChapterToOD"],
         "template": "StageSideStory.png"
     },
+    "Sarkaz@Roguelike@InitialDrop2": {
+        "action": "ClickRect",
+        "algorithm": "OcrDetect",
+        "next": ["Sarkaz@Roguelike@Squad-EnterPoint", "Sarkaz@Roguelike@InitialDrop2"],
+        "roi": [600, 16, 145, 36],
+        "specificRect": [545, 432, 187, 127],
+        "text": ["Members", "Initial", "Collectibles"]
+    },
     "ClickChapter1": {
         "text": ["Hour of An Awakening", "Hour of An"]
     },
@@ -2931,26 +2939,18 @@
         "ocrReplace": [["Hypothese.*", "Hypotheses Compilation"]],
         "text": ["Hypotheses Compilation"]
     },
+    "Sarkaz@Roguelike@StageSafeHouseReuse": {
+        "text": ["Use the Safe House again", "Use the Safe"]
+    },
     "Sarkaz@Roguelike@StartExplore": {
-        "roi": [1014, 481, 266, 219],
         "next": [
             "Sarkaz@Roguelike@Squad-EnterPoint",
             "Sarkaz@Roguelike@InitialDrop",
             "Sarkaz@Roguelike@ChooseDifficulty",
             "Sarkaz@Roguelike@StartExplore-EnterCheck",
             "Sarkaz@Roguelike@InitialDrop2"
-        ]
-    },
-    "Sarkaz@Roguelike@InitialDrop2": {
-        "algorithm": "OcrDetect",
-        "action": "ClickRect",
-        "roi": [600, 16, 145, 36],
-        "specificRect": [545, 432, 187, 127],
-        "text": ["Members", "Initial", "Collectibles"],
-        "next": ["Sarkaz@Roguelike@Squad-EnterPoint", "Sarkaz@Roguelike@InitialDrop2"]
-    },
-    "Sarkaz@Roguelike@StageSafeHouseReuse": {
-        "text": ["Use the Safe House again", "Use the Safe"]
+        ],
+        "roi": [1014, 481, 266, 219]
     },
     "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
         "ocrReplace": [
