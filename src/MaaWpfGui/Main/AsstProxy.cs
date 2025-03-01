@@ -857,7 +857,7 @@ namespace MaaWpfGui.Main
                                 : string.Empty;
                             logs += allTaskCompleteMessage + Environment.NewLine + sanityReport;
 
-                            ExternalNotificationService.Send(allTaskCompleteTitle, logs + Environment.NewLine + sanityReport);
+                            ExternalNotificationService.Send(allTaskCompleteTitle, logs);
 
                             if (_toastNotificationTimer is not null)
                             {
