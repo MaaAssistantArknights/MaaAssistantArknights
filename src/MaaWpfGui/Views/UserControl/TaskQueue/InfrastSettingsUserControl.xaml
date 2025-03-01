@@ -146,7 +146,7 @@
 
         <!--  开自定义基建计划时，放在常规设置的部分  -->
         <StackPanel Visibility="{c:Binding 'CustomInfrastEnabled and !TaskSettingVisibilities.EnableAdvancedSettings'}">
-            <ComboBox
+            <hc:ComboBox
                 Margin="0,4"
                 VerticalContentAlignment="Center"
                 hc:InfoElement.Title="{DynamicResource CustomInfrastPlan}"
