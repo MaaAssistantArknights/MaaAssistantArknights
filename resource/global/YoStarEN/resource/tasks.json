@@ -2946,7 +2946,7 @@
         "action": "ClickRect",
         "roi": [600, 16, 145, 36],
         "specificRect": [545, 432, 187, 127],
-        "text": ["Members", "Initial"],
+        "text": ["Members", "Initial", "Collectibles"],
         "next": ["Sarkaz@Roguelike@Squad-EnterPoint", "Sarkaz@Roguelike@InitialDrop2"]
     },
     "Sarkaz@Roguelike@StageSafeHouseReuse": {
