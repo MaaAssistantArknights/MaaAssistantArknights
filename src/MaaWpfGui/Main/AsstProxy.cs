@@ -855,7 +855,7 @@ namespace MaaWpfGui.Main
                             var logs = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationEnableDetails
                                 ? Instances.TaskQueueViewModel.LogItemViewModels.Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n")
                                 : string.Empty;
-                            logs += allTaskCompleteMessage + Environment.NewLine + sanityReport;
+                            logs += allTaskCompleteMessage;
 
                             ExternalNotificationService.Send(allTaskCompleteTitle, logs + Environment.NewLine + sanityReport);
 
