@@ -11,10 +11,16 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media;
 using FluentEmail.Core;
 using FluentEmail.Liquid;
 using FluentEmail.MailKitSmtp;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UI;
 using Microsoft.Extensions.Options;
@@ -22,12 +28,60 @@ using Serilog;
 
 namespace MaaWpfGui.Services.Notification
 {
-    public class SmtpNotificationProvider : IExternalNotificationProvider
+    /// <inheritdoc />
+    public partial class SmtpNotificationProvider : IExternalNotificationProvider
     {
         private readonly ILogger _logger = Log.ForContext<SmtpNotificationProvider>();
 
+        [GeneratedRegex(@"\[(.*?)\]\[(.*?)\]([\s\S]*?)(?=\n\[|$)")]
+        private static partial Regex ContentRegex();
+
+        private static string ProcessContent(string content)
+        {
+            var matches = ContentRegex().Matches(content);
+            if (matches.Count == 0)
+            {
+                return content;
+            }
+
+            var resultContent = new StringBuilder(content);
+
+            string timeRgbColor = GetRgbColor(UiLogColor.Trace);
+            if (timeRgbColor == null)
+            {
+                return content;
+            }
+
+            foreach (Match match in matches)
+            {
+                string time = match.Groups[1].Value;
+                string colorCode = match.Groups[2].Value;
+                string contentText = match.Groups[3].Value;
+
+                string rgbColor = GetRgbColor(colorCode);
+                if (rgbColor == null)
+                {
+                    continue;
+                }
+
+                string replacement = $"<span style='color: {timeRgbColor};'>{time}  </span><span style='color: {rgbColor};'>{contentText}</span>";
+                resultContent.Replace(match.Value, replacement);
+            }
+
+            return resultContent.ToString();
+
+            static string GetRgbColor(string resourceKey)
+            {
+                return Application.Current.Resources[resourceKey] is SolidColorBrush brush
+                    ? $"rgb({brush.Color.R}, {brush.Color.G}, {brush.Color.B})"
+                    : null;
+            }
+        }
+
         public async Task<bool> SendAsync(string title, string content)
         {
+            content = ProcessContent(content);
+
             var smtpServer = SettingsViewModel.ExternalNotificationSettings.SmtpServer;
             var smtpPortValid = int.TryParse(SettingsViewModel.ExternalNotificationSettings.SmtpPort, out var smtpPort);
             var smtpUser = SettingsViewModel.ExternalNotificationSettings.SmtpUser;
