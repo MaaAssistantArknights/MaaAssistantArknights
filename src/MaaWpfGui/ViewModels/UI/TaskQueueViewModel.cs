@@ -22,8 +22,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -41,7 +39,6 @@ using Serilog;
 using Stylet;
 using Application = System.Windows.Application;
 using IContainer = StyletIoC.IContainer;
-using Point = System.Windows.Point;
 using Screen = Stylet.Screen;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -180,8 +177,8 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (actions.ExitArknights)
             {
-                var mode = SettingsViewModel.GameSettings.ClientType;
-                if (!Instances.AsstProxy.AsstStartCloseDown(mode))
+                var clientType = SettingsViewModel.GameSettings.ClientType;
+                if (!Instances.AsstProxy.AsstStartCloseDown(clientType))
                 {
                     AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
                 }

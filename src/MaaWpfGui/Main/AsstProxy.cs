@@ -30,6 +30,7 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
+using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
@@ -2207,18 +2208,13 @@ namespace MaaWpfGui.Main
 
         public bool AsstAppendCloseDown(string clientType)
         {
-            var taskParams = new JObject
-            {
-                ["client_type"] = clientType,
-            };
             if (!AsstStop())
             {
                 _logger.Warning("Failed to stop Asst");
             }
 
-            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.CloseDown, taskParams);
-            _taskStatus.Add(id, TaskType.CloseDown);
-            return id != 0;
+            var (type, param) = new AsstCloseDownTask() { ClientType = clientType }.Serialize();
+            return AsstAppendTaskWithEncoding(TaskType.CloseDown, type, param);
         }
 
         /// <summary>
