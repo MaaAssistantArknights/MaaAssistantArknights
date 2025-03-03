@@ -34,6 +34,5 @@ bool asst::RoguelikeResetTaskPlugin::_run()
         }
     }
     m_config->clear();
-    Log.flush();
     return true;
 }
