@@ -952,7 +952,7 @@ public class VersionUpdateViewModel : Screen
         var arch = IsArm ? "arm64" : "x64";
         var url = $"{MaaUrls.MirrorChyanAppUpdate}?current_version={_curVersion}&cdk={cdk}&user_agent=MaaWpfGui&os=win&arch={arch}&channel={channel}";
 
-        var response = await Instances.HttpService.GetAsync(new(url), logUri: false);
+        var response = await Instances.HttpService.GetAsync(new(url), logQuery: false);
         _logger.Information($"current_version: {_curVersion}, cdk: {cdk.Mask()}, arch: {arch}, channel: {channel}");
 
         if (response is null)

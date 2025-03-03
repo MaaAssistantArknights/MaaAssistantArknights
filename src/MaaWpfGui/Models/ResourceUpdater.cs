@@ -505,7 +505,7 @@ namespace MaaWpfGui.Models
 
             var url = $"{MaaUrls.MirrorChyanResourceUpdate}?current_version={currentVersion}&cdk={cdk}&user_agent=MaaWpfGui";
 
-            var response = await Instances.HttpService.GetAsync(new(url), logUri: false);
+            var response = await Instances.HttpService.GetAsync(new(url), logQuery: false);
             _logger.Information($"current_version: {currentVersion}, cdk: {cdk.Mask()}");
 
             if (response is null)
