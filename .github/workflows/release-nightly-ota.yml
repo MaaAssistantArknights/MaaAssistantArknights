@@ -46,7 +46,10 @@ jobs:
           #ref: ${{ inputs.ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 250
-          fetch-tags: true
+
+      - name: Fetch tags
+        run: |
+          git fetch --depth=250 --tags
 
       - name: Fetch submodules
         run: |
