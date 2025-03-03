@@ -63,6 +63,9 @@ jobs:
           # Fetch the latest tag from the repository
           $latest_tag = git describe --tags --abbrev=0
 
+          Write-Output "Previous Tag: $latest_tag"
+          Write-Output "latest_tag=$latest_tag" >> $env:GITHUB_OUTPUT
+
           # Check for changes between the latest tag and HEAD
           $recent_changes = git log "$latest_tag..HEAD" --oneline
 
@@ -75,9 +78,6 @@ jobs:
             Write-Output "Commits found. Continuing build..."
             Write-Output "cancel_run=false" >> $env:GITHUB_ENV
           }
-
-          Write-Output "Previous Tag: $latest_tag"
-          Write-Output "latest_tag=$latest_tag" >> $env:GITHUB_OUTPUT
 
           # Get the full description of the current commit
           $described = git describe --tags --long --match 'v*'
