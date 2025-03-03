@@ -561,9 +561,7 @@ public:
     {
     public:
         LogStreambuf(std::filebuf* dest_buf) :
-            ch(0),
-            dest(dest_buf),
-            count(0)
+            dest(dest_buf)
         {
         }
 
@@ -611,9 +609,9 @@ public:
 #else
         const static std::size_t NewLineSize = 1; // \n;
 #endif
-        char ch;
+        char ch = 0;
         std::filebuf* dest;
-        std::streamsize count;
+        std::streamsize count = 0;
     };
 
 public:
