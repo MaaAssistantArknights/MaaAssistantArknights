@@ -27,6 +27,7 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
+using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
@@ -1539,11 +1540,14 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static bool AppendStart()
         {
-            var mode = SettingsViewModel.GameSettings.ClientType;
-            var enable = mode.Length != 0;
-            StartUpTask.AccountName = StartUpTask.AccountName.Trim();
-            var accountName = StartUpTask.AccountName;
-            return Instances.AsstProxy.AsstAppendStartUp(mode, enable, accountName);
+            var clientType = SettingsViewModel.GameSettings.ClientType;
+            var (type, param) = new AsstStartUpTask()
+            {
+                ClientType = clientType,
+                StartGame = !string.IsNullOrEmpty(clientType),
+                AccountName = StartUpTask.AccountName,
+            }.Serialize();
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.StartUp, type, param);
         }
 
         private bool AppendFight()

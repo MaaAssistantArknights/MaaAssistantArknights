@@ -27,13 +27,14 @@ public class StartUpSettingsUserControlModel : TaskViewModel
 
     public static StartUpSettingsUserControlModel Instance { get; }
 
-    private string _accountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty);
+    private string _accountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty).Trim();
 
     public string AccountName
     {
         get => _accountName;
         set
         {
+            value = value.Trim();
             SetAndNotify(ref _accountName, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.AccountName, value);
         }

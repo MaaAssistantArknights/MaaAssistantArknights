@@ -2186,26 +2186,6 @@ namespace MaaWpfGui.Main
             return id != 0;
         }
 
-        /// <summary>
-        /// 开始唤醒。
-        /// </summary>
-        /// <param name="clientType">客户端版本。</param>
-        /// <param name="enable">是否自动启动客户端。</param>
-        /// <param name="accountName">需要切换到的登录名，留空以禁用</param>
-        /// <returns>是否成功。</returns>
-        public bool AsstAppendStartUp(string clientType, bool enable, string accountName)
-        {
-            var taskParams = new JObject
-            {
-                ["client_type"] = clientType,
-                ["start_game_enabled"] = enable,
-                ["account_name"] = accountName,
-            };
-            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.StartUp, taskParams);
-            _taskStatus.Add(id, TaskType.StartUp);
-            return id != 0;
-        }
-
         public bool AsstAppendCloseDown(string clientType)
         {
             if (!AsstStop())
