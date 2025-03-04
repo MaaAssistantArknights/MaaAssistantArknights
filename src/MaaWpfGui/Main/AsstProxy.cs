@@ -2244,88 +2244,6 @@ namespace MaaWpfGui.Main
             return id != 0;
         }
 
-        private static JObject SerializeInfrastTaskParams(
-            IEnumerable<string> order,
-            string usesOfDrones,
-            bool continueTraining,
-            double dormThreshold,
-            bool dormFilterNotStationedEnabled,
-            bool dormDormTrustEnabled,
-            bool originiumShardAutoReplenishment,
-            bool isCustom,
-            string filename,
-            int planIndex)
-        {
-            var taskParams = new JObject
-            {
-                ["facility"] = new JArray(order.ToArray<object>()),
-                ["drones"] = usesOfDrones,
-                ["continue_training"] = continueTraining,
-                ["threshold"] = dormThreshold,
-                ["dorm_notstationed_enabled"] = dormFilterNotStationedEnabled,
-                ["dorm_trust_enabled"] = dormDormTrustEnabled,
-                ["replenish"] = originiumShardAutoReplenishment,
-                ["mode"] = isCustom ? 10000 : 0,
-                ["filename"] = filename,
-                ["plan_index"] = planIndex,
-            };
-
-            return taskParams;
-        }
-
-        /// <summary>
-        /// 基建换班。
-        /// </summary>
-        /// <param name="order">要换班的设施（有序）。</param>
-        /// <param name="usesOfDrones">
-        /// 无人机用途。可用值包括：
-        /// <list type="bullet">
-        /// <item><c>_NotUse</c></item>
-        /// <item><c>Money</c></item>
-        /// <item><c>SyntheticJade</c></item>
-        /// <item><c>CombatRecord</c></item>
-        /// <item><c>PureGold</c></item>
-        /// <item><c>OriginStone</c></item>
-        /// <item><c>Chip</c></item>
-        /// </list>
-        /// </param>
-        /// <param name="continueTraining">训练室是否尝试连续专精</param>
-        /// <param name="dormThreshold">宿舍进驻心情阈值。</param>
-        /// <param name="dormFilterNotStationedEnabled">宿舍是否使用未进驻筛选标签</param>
-        /// <param name="dormDormTrustEnabled">宿舍是否使用蹭信赖功能</param>
-        /// <param name="originiumShardAutoReplenishment">制造站搓玉是否补货</param>
-        /// <param name="isCustom">是否开启自定义配置</param>
-        /// <param name="filename">自定义配置文件路径</param>
-        /// <param name="planIndex">自定义配置计划编号</param>
-        /// <returns>是否成功。</returns>
-        public bool AsstAppendInfrast(
-            IEnumerable<string> order,
-            string usesOfDrones,
-            bool continueTraining,
-            double dormThreshold,
-            bool dormFilterNotStationedEnabled,
-            bool dormDormTrustEnabled,
-            bool originiumShardAutoReplenishment,
-            bool isCustom,
-            string filename,
-            int planIndex)
-        {
-            var taskParams = SerializeInfrastTaskParams(
-                order,
-                usesOfDrones,
-                continueTraining,
-                dormThreshold,
-                dormFilterNotStationedEnabled,
-                dormDormTrustEnabled,
-                originiumShardAutoReplenishment,
-                isCustom,
-                filename,
-                planIndex);
-            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Infrast, taskParams);
-            _taskStatus.Add(id, TaskType.Infrast);
-            return id != 0;
-        }
-
         public bool AsstSetInfrastTaskParams(
             IEnumerable<string> order,
             string usesOfDrones,
@@ -2345,17 +2263,19 @@ namespace MaaWpfGui.Main
                 return false;
             }
 
-            var taskParams = SerializeInfrastTaskParams(
-                order,
-                usesOfDrones,
-                continueTraining,
-                dormThreshold,
-                dormFilterNotStationedEnabled,
-                dormDormTrustEnabled,
-                originiumShardAutoReplenishment,
-                isCustom,
-                filename,
-                planIndex);
+            var taskParams = new AsstInfrastTask
+            {
+                Facilitys = order.ToList(),
+                UsesOfDrones = usesOfDrones,
+                ContinueTraining = continueTraining,
+                DormThreshold = dormThreshold,
+                DormFilterNotStationedEnabled = dormFilterNotStationedEnabled,
+                DormDormTrustEnabled = dormDormTrustEnabled,
+                OriginiumShardAutoReplenishment = originiumShardAutoReplenishment,
+                IsCustom = isCustom,
+                Filename = filename,
+                PlanIndex = planIndex,
+            }.Serialize().Params;
             return AsstSetTaskParamsWithEncoding(id, taskParams);
         }
 

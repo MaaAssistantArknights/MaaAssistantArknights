@@ -10,10 +10,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:setting="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:taskQueue="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
+    xmlns:task="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     d:Background="White"
-    d:DataContext="{d:DesignInstance {x:Type taskQueue:FightSettingsUserControlModel}}"
+    d:DataContext="{d:DesignInstance {x:Type task:FightSettingsUserControlModel}}"
     d:DesignWidth="220"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
@@ -317,7 +317,7 @@
                     </StackPanel>
                 </StackPanel>
             </Grid>
-            <Grid Grid.Row="4" Visibility="{c:Binding 'CustomInfrastEnabled and TaskSettingVisibilities.CustomInfrastPlanShowInFightSettings', Source={x:Static helper:Instances.TaskQueueViewModel}}">
+            <Grid Grid.Row="4" Visibility="{c:Binding 'CustomInfrastEnabled and TaskSettingVisibilities.CustomInfrastPlanShowInFightSettings', Source={x:Static task:InfrastSettingsUserControlModel.Instance}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="100" />
                     <ColumnDefinition />
