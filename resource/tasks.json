@@ -7467,6 +7467,18 @@
         "specialParams": [1000, 0, 1, 1],
         "next": ["Roguelike@SelectTheme"]
     },
+    "Roguelike@Prtscctv": {
+        "Doc": "base_task, 关掉（各种原因误触出来的）地图",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [357, 555, 574, 36],
+        "text": ["EYES", "PRIESTESS", "CCTV"],
+        "ocrReplace": [
+            ["v", "V"],
+            ["工", "I"]
+        ],
+        "next": ["Roguelike@Stages#next"]
+    },
     "Roguelike@QuickFormation": {
         "Doc": "本任务注册了插件 RoguelikeFormationTaskPlugin",
         "action": "ClickSelf",
@@ -8437,6 +8449,7 @@
         "Doc": "优先紧急作战,1-3层",
         "algorithm": "JustReturn",
         "next": [
+            "Phantom@Roguelike@Prtscctv",
             "Phantom@Roguelike@NextLevel",
             "Phantom@Roguelike@DialogSkip",
             "Phantom@Roguelike@DialogTimeout",
@@ -8453,6 +8466,7 @@
         "Doc": "avoid battle,其他模式和6层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Phantom@Roguelike@Prtscctv",
             "Phantom@Roguelike@NextLevel",
             "Phantom@Roguelike@DialogSkip",
             "Phantom@Roguelike@DialogTimeout",
@@ -8469,6 +8483,7 @@
         "Doc": "避紧急作战,4-5层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Phantom@Roguelike@Prtscctv",
             "Phantom@Roguelike@NextLevel",
             "Phantom@Roguelike@DialogSkip",
             "Phantom@Roguelike@DialogTimeout",
@@ -8970,6 +8985,7 @@
         "Doc": "优先紧急作战,1-2层",
         "algorithm": "JustReturn",
         "next": [
+            "Mizuki@Roguelike@Prtscctv",
             "Mizuki@Roguelike@NextLevel",
             "Mizuki@Roguelike@StageEmergencyDps",
             "Mizuki@Roguelike@StageCombatDps",
@@ -8993,6 +9009,7 @@
         "Doc": "avoid battle,其他模式和5-6层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Mizuki@Roguelike@Prtscctv",
             "Mizuki@Roguelike@NextLevel",
             "Mizuki@Roguelike@StageTrader",
             "Mizuki@Roguelike@StageSafeHouse",
@@ -9016,6 +9033,7 @@
         "Doc": "避紧急作战,3-4层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Mizuki@Roguelike@Prtscctv",
             "Mizuki@Roguelike@NextLevel",
             "Mizuki@Roguelike@StageCombatDps",
             "Mizuki@Roguelike@StageTrader",
@@ -10089,6 +10107,7 @@
         "roi": [615, 0, 80, 45],
         "ocrReplace": [["O", "0"]],
         "next": [
+            "Sami@Roguelike@Prtscctv",
             "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@StageBoskyPassage",
             "Sami@Roguelike@StageBoskyPassageAI6",
@@ -10131,6 +10150,7 @@
         "Doc": "优先紧急作战,1-2层",
         "algorithm": "JustReturn",
         "next": [
+            "Sami@Roguelike@Prtscctv",
             "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@StagesChaosZero",
             "Sami@Roguelike@StageVerticalBoskyPassage",
@@ -10180,6 +10200,7 @@
         "Doc": "为了刷隐藏坍缩而优先作战",
         "algorithm": "JustReturn",
         "next": [
+            "Sami@Roguelike@Prtscctv",
             "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@StageCombatDps",
             "Sami@Roguelike@StageCombatDpsAI6",
@@ -10225,6 +10246,7 @@
         "Doc": "avoid battle,其他模式和5-6层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Sami@Roguelike@Prtscctv",
             "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@StagesChaosZero",
             "Sami@Roguelike@StageBoskyPassage",
@@ -10278,6 +10300,7 @@
         "Doc": "避紧急作战,3-4层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Sami@Roguelike@Prtscctv",
             "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@StagesChaosZero",
             "Sami@Roguelike@StageVerticalBoskyPassage",
@@ -11535,6 +11558,7 @@
         "Doc": "优先紧急作战,1-2层",
         "algorithm": "JustReturn",
         "next": [
+            "Sarkaz@Roguelike@Prtscctv",
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@CloseCollectionContinue",
             "Sarkaz@Roguelike@CloseCollectionClose",
@@ -11566,6 +11590,7 @@
         "Doc": "avoid battle,其他模式和5-6层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Sarkaz@Roguelike@Prtscctv",
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@CloseCollectionContinue",
             "Sarkaz@Roguelike@CloseCollectionClose",
@@ -11597,6 +11622,7 @@
         "doc": "点刺成锭分队专用投资策略，调用 RoguelikeRoutingTaskPlugin",
         "algorithm": "JustReturn",
         "next": [
+            "Sarkaz@Roguelike@Prtscctv",
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@CloseCollectionContinue",
             "Sarkaz@Roguelike@CloseCollectionClose",
@@ -11608,6 +11634,7 @@
         "Doc": "避紧急作战,3-4层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Sarkaz@Roguelike@Prtscctv",
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@CloseCollectionContinue",
             "Sarkaz@Roguelike@CloseCollectionClose",
@@ -11639,6 +11666,7 @@
     "Sarkaz@Roguelike@Stages_routing": {
         "algorithm": "JustReturn",
         "next": [
+            "Sarkaz@Roguelike@Prtscctv",
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@CloseCollectionContinue",
             "Sarkaz@Roguelike@CloseCollectionClose",
