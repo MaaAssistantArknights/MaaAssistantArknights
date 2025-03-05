@@ -2918,7 +2918,8 @@
         "text": ["HYPOTHESES", "COMPILATION"]
     },
     "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart": {
-        "roi": [589, 584, 231, 121]
+        "roi": [589, 584, 231, 121],
+        "templThreshold": 0.8
     },
     "Sarkaz@Roguelike@NextLevel": {
         "text": [

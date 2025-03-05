@@ -10595,7 +10595,6 @@
     },
     "Sarkaz@Roguelike@DecreaseBurdenRetardation": {
         "roi": [561, 607, 153, 113],
-        "templThreshold": 0.9,
         "action": "ClickSelf",
         "next": [
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
