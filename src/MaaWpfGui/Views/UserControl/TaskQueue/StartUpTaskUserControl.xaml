@@ -19,14 +19,15 @@
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <StackPanel>
-        <Grid Margin="0,5" Visibility="{c:Binding 'ClientType == &quot;Official&quot; or ClientType == &quot;Bilibili&quot; or ClientType == &quot;&quot;', Source={x:Static ui:SettingsViewModel.GameSettings}}">
+        <Grid Margin="0,5" Visibility="{c:Binding 'ClientType == &quot;Official&quot; or ClientType == &quot;Bilibili&quot;', Source={x:Static ui:SettingsViewModel.GameSettings}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <hc:TextBox
                 hc:TitleElement.Title="{DynamicResource AccountSwitch}"
-                IsReadOnly="{c:Binding !Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
+                IsReadOnly="{c:Binding !Idle,
+                                       Source={x:Static helper:Instances.SettingsViewModel}}"
                 Style="{StaticResource TextBoxExtend}"
                 Text="{Binding AccountName, UpdateSourceTrigger=PropertyChanged}"
                 ToolTip="{DynamicResource AccountSwitchTip}" />
@@ -135,7 +136,8 @@
             SelectedValue="{Binding ClientType, Source={x:Static ui:SettingsViewModel.GameSettings}}"
             SelectedValuePath="Value"
             Style="{StaticResource ComboBoxExtend}"
-            Visibility="{c:Binding !TaskSettingVisibilities.Guide, Source={x:Static helper:Instances.SettingsViewModel}}" />
+            Visibility="{c:Binding !TaskSettingVisibilities.Guide,
+                                   Source={x:Static helper:Instances.SettingsViewModel}}" />
 
     </StackPanel>
 </UserControl>

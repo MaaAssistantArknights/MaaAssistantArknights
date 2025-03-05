@@ -1541,13 +1541,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static bool AppendStart()
         {
-            var clientType = SettingsViewModel.GameSettings.ClientType;
-            var (type, param) = new AsstStartUpTask()
-            {
-                ClientType = clientType,
-                StartGame = !string.IsNullOrEmpty(clientType),
-                AccountName = StartUpTask.AccountName,
-            }.Serialize();
+            var (type, param) = StartUpTask.Serialize();
             return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.StartUp, type, param);
         }
 
