@@ -35,9 +35,6 @@
     "Sarkaz@Roguelike@DecreaseBurdenAbandonThought": {
         "templThreshold": 0.9
     },
-    "Sarkaz@Roguelike@DecreaseBurdenRetardation": {
-        "templThreshold": 0.8
-    },
     "Sarkaz@Roguelike@StageRefresh": {
         "templThreshold": 0.7
     }
