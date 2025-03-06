@@ -426,7 +426,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     {
         IsCheckingForUpdates = true;
 
-        var (ret, uri) = await ResourceUpdater.CheckFromMirrorChyanAsync();
+        var (ret, uri, releaseNote) = await ResourceUpdater.CheckFromMirrorChyanAsync();
         var toastMessage = ret switch
         {
             VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdate => string.Empty,
