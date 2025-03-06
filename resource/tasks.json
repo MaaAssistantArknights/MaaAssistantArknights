@@ -7453,6 +7453,13 @@
         "action": "ClickRect",
         "specificRect": [1175, 560, 100, 60]
     },
+    "Roguelike@TutorialButton": {
+        "doc": [
+            "肉鸽内部左上角的提示按钮, 左侧为红退出",
+            "仅在地图、商店、萨卡兹负荷页面为该坐标; 编队页面存在, 但向右偏移"
+        ],
+        "roi": [80, 0, 70, 70]
+    },
     "Roguelike@PreSelectTheme": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
