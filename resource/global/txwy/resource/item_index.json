@@ -1055,6 +1055,14 @@
         "sortId": 10023,
         "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
     },
+    "LMTGS_COIN_5001": {
+        "classifyType": "NORMAL",
+        "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
+        "icon": "LMTGS_COIN_5001.png",
+        "name": "尋訪數據契約",
+        "sortId": 10024,
+        "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
@@ -1470,6 +1478,14 @@
         "name": "里程碑碎片",
         "sortId": -10000,
         "usage": "可用於兌換里程碑獎勵。"
+    },
+    "act1mainss_token_medi": {
+        "classifyType": "NONE",
+        "description": "請注意，使用本藥劑時最好由週邊靜脈注射，如遇緊急搶救可嘗試經中央靜脈注射給藥。在第一次注射後，如發生休克，可在5-7分鐘內重複給予第二劑靜脈注射。戰場上的每一支藥劑都可能成為救治傷者的關鍵，請善加利用。",
+        "icon": "act1mainss_token_medi.png",
+        "name": "急性感染抑制劑",
+        "sortId": -10000,
+        "usage": "羅德島醫療部研製出的新型藥劑，能夠在天災和戰場等活性化的源石環境中起到暫時抑制礦石病惡化的作用。本藥品會對身體造成極大負擔，請謹慎使用。"
     },
     "act1sandbox_milestone_point": {
         "classifyType": "NONE",
@@ -2197,6 +2213,14 @@
         "icon": "randomMaterial_1.png",
         "name": "羅德島物資補給",
         "sortId": 60101,
+        "usage": "裝有各種物資補給，包含多種隨機材料。"
+    },
+    "randomMaterial_10": {
+        "classifyType": "CONSUME",
+        "description": "羅德島從各地採購、儲備的材料補給箱。不過因為缺乏系統性的整理收納，每一個箱子裡都裝著截然不同的材料。",
+        "icon": "randomMaterial_10.png",
+        "name": "羅德島物資補給VII",
+        "sortId": 60110,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
     "randomMaterial_2": {
