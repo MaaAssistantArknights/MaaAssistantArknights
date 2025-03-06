@@ -211,9 +211,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static int _gifIndex = -1;
 
-        private static string? _gifPath = null;
+        private static string _gifPath = string.Empty;
 
-        public string? GifPath
+        public string GifPath
         {
             get => _gifPath;
             set => SetAndNotify(ref _gifPath, value);
