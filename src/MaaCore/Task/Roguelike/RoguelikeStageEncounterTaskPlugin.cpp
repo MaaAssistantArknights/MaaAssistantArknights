@@ -126,6 +126,11 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     while (max_time > 0) {
         // 从下往上点
         for (int i = max_time; i > 0; --i) {
+            // 判断是否因为任何原因返回了Stages管辖范围
+            if (ProcessTask(*this, { "Roguelike@TutorialButton" }).run()) {
+                return true;
+            }
+
             for (int j = 0; j < 2; ++j) {
                 ProcessTask(*this, { click_option_task_name(i, max_time) }).run();
                 sleep(300);
