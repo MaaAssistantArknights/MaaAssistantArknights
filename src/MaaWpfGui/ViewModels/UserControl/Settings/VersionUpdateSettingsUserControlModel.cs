@@ -20,11 +20,9 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using System.Windows;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Properties;
 using MaaWpfGui.Services;
@@ -392,6 +390,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     /// Updates manually.
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    /// ReSharper disable once UnusedMember.Global
     public async Task ManualUpdate()
     {
         var ret = await Instances.VersionUpdateViewModel.CheckAndDownloadVersionUpdate();
@@ -422,6 +421,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    // ReSharper disable once UnusedMember.Global
     public async Task ManualUpdateResource()
     {
         IsCheckingForUpdates = true;
@@ -456,7 +456,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         bool success = UpdateSource switch
         {
             "Github" => await ResourceUpdater.UpdateFromGithubAsync(),
-            "MirrorChyan" => (ret == VersionUpdateViewModel.CheckUpdateRetT.OK) && await ResourceUpdater.DownloadFromMirrorChyanAsync(uri),
+            "MirrorChyan" => (ret == VersionUpdateViewModel.CheckUpdateRetT.OK) && await ResourceUpdater.DownloadFromMirrorChyanAsync(uri, releaseNote),
             _ => await ResourceUpdater.UpdateFromGithubAsync(),
         };
 
