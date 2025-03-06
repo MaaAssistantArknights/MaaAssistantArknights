@@ -637,6 +637,7 @@ namespace MaaWpfGui.ViewModels.UI
                     dialog.Close();
                     tcs.TrySetResult(true);
                 };
+                _logger.Information($"Timer wait time: {seconds}");
                 await Task.WhenAny(Task.Delay(delay), tcs.Task);
                 dialog.Close();
                 _logger.Information($"Timer canceled: {canceled}");
