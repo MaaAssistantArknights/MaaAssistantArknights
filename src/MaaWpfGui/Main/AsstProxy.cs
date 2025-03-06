@@ -35,6 +35,7 @@ using MaaWpfGui.Services;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -764,8 +765,8 @@ namespace MaaWpfGui.Main
 
                             case "Infrast":
                                 Instances.TaskQueueViewModel.InfrastTaskRunning = false;
-                                Instances.TaskQueueViewModel.IncreaseCustomInfrastPlanIndex();
-                                Instances.TaskQueueViewModel.RefreshCustomInfrastPlanIndexByPeriod();
+                                InfrastSettingsUserControlModel.Instance.IncreaseCustomInfrastPlanIndex();
+                                InfrastSettingsUserControlModel.Instance.RefreshCustomInfrastPlanIndexByPeriod();
                                 break;
                         }
 
