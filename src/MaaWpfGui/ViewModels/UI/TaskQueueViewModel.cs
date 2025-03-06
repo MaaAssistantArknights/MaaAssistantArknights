@@ -1770,14 +1770,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static bool AppendAward()
         {
-            var receiveAward = AwardTask.ReceiveAward;
-            var receiveMail = AwardTask.ReceiveMail;
-            var receiveFreeRecruit = AwardTask.ReceiveFreeRecruit;
-            var receiveOrundum = AwardTask.ReceiveOrundum;
-            var receiveMining = AwardTask.ReceiveMining;
-            var receiveSpecialAccess = AwardTask.ReceiveSpecialAccess;
-
-            return Instances.AsstProxy.AsstAppendAward(receiveAward, receiveMail, receiveFreeRecruit, receiveOrundum, receiveMining, receiveSpecialAccess);
+            // 被RemoteControlService反射调用，暂不移除
+            var (type, param) = AwardTask.Serialize();
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Award, type, param);
         }
 
         private static bool AppendRecruit()

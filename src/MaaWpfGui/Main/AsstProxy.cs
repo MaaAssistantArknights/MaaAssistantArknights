@@ -2161,32 +2161,6 @@ namespace MaaWpfGui.Main
             return AsstSetTaskParamsWithEncoding(id, taskParams);
         }
 
-        /// <summary>
-        /// 领取奖励。
-        /// </summary>
-        /// <param name="award">是否领取每日/每周任务奖励</param>
-        /// <param name="mail">是否领取所有邮件奖励</param>
-        /// <param name="recruit">是否进行每日免费单抽</param>
-        /// <param name="orundum">是否领取幸运墙合成玉奖励</param>
-        /// <param name="mining">是否领取限时开采许可合成玉奖励</param>
-        /// <param name="specialaccess">是否领取五周年赠送月卡奖励</param>
-        /// <returns>是否成功。</returns>
-        public bool AsstAppendAward(bool award, bool mail, bool recruit, bool orundum, bool mining, bool specialaccess)
-        {
-            var taskParams = new JObject
-            {
-                ["award"] = award,
-                ["mail"] = mail,
-                ["recruit"] = recruit,
-                ["orundum"] = orundum,
-                ["mining"] = mining,
-                ["specialaccess"] = specialaccess,
-            };
-            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Award, taskParams);
-            _taskStatus.Add(id, TaskType.Award);
-            return id != 0;
-        }
-
         public bool AsstAppendCloseDown(string clientType)
         {
             if (!AsstStop())
