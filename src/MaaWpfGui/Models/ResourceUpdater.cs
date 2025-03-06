@@ -493,7 +493,7 @@ namespace MaaWpfGui.Models
         /// <item><description><see cref="CheckUpdateRetT.NetworkError"/>：网络错误。</description></item>
         /// <item><description><see cref="CheckUpdateRetT.UnknownError"/>：其他错误。</description></item>
         /// </list></returns>
-        public static async Task<(CheckUpdateRetT Ret, string? UpdateUrl)> CheckFromMirrorChyanAsync()
+        public static async Task<(CheckUpdateRetT Ret, string? UpdateUrl, string? ReleaseNote)> CheckFromMirrorChyanAsync()
         {
             // https://mirrorc.top/api/resources/MaaResource/latest?current_version=<当前版本日期，从 version.json 里拿时间戳>&cdk=<cdk>&sp_id=<唯一识别码>
             // 响应格式为 {"code":0,"msg":"success","data":{"version_name":"2025-01-22 14:28:32.839","version_number":9,"url":"<增量更新网址>"}}
@@ -514,7 +514,7 @@ namespace MaaWpfGui.Models
             {
                 _logger.Error("mirrorc failed");
                 ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
-                return (CheckUpdateRetT.NetworkError, null);
+                return (CheckUpdateRetT.NetworkError, null, null);
             }
 
             var jsonStr = await response.Content.ReadAsStringAsync();
@@ -532,43 +532,44 @@ namespace MaaWpfGui.Models
             if (data is null)
             {
                 ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
-                return (CheckUpdateRetT.UnknownError, null);
+                return (CheckUpdateRetT.UnknownError, null, null);
             }
 
             if (data["code"]?.ToString() != "0")
             {
                 ToastNotification.ShowDirect(data["msg"]?.ToString() ?? LocalizationHelper.GetString("GameResourceFailed"));
-                return (CheckUpdateRetT.UnknownError, null);
+                return (CheckUpdateRetT.UnknownError, null, null);
             }
 
             if (!DateTime.TryParse(data["data"]?["version_name"]?.ToString(), out var version))
             {
                 ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
-                return (CheckUpdateRetT.UnknownError, null);
+                return (CheckUpdateRetT.UnknownError, null, null);
             }
 
             if (DateTime.Compare(currentVersionDateTime, version) >= 0)
             {
-                return (CheckUpdateRetT.AlreadyLatest, null);
+                return (CheckUpdateRetT.AlreadyLatest, null, null);
             }
 
             // 到这里已经确定有新版本了
-            _logger.Information($"New version found: {version:yyyy-MM-dd+HH:mm:ss.fff}");
+            var releaseNote = data["data"]?["release_note"]?.ToString();
+            _logger.Information($"New version found: {version:yyyy-MM-dd+HH:mm:ss.fff}, {releaseNote}");
 
             if (string.IsNullOrEmpty(cdk))
             {
                 ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanResourceUpdateTip"));
-                return (CheckUpdateRetT.OK, null);
+                return (CheckUpdateRetT.OK, null, releaseNote);
             }
 
             var uri = data["data"]?["url"]?.ToString();
             if (!string.IsNullOrEmpty(uri))
             {
-                return (CheckUpdateRetT.OK, uri);
+                return (CheckUpdateRetT.OK, uri, releaseNote);
             }
 
             ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
-            return (CheckUpdateRetT.UnknownError, null);
+            return (CheckUpdateRetT.UnknownError, null, null);
         }
 
         public static async Task<bool> DownloadFromMirrorChyanAsync(string? url)
@@ -630,7 +631,7 @@ namespace MaaWpfGui.Models
 
         public static async Task<bool> UpdateFromMirrorChyanAsync()
         {
-            var (checkRet, uri) = await CheckFromMirrorChyanAsync();
+            var (checkRet, uri, releaseNote) = await CheckFromMirrorChyanAsync();
             switch (checkRet)
             {
                 case CheckUpdateRetT.AlreadyLatest:
@@ -663,7 +664,7 @@ namespace MaaWpfGui.Models
             SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = true;
 
             // 可以用 MirrorChyan 资源更新了喵
-            var (ret, uri) = await CheckFromMirrorChyanAsync();
+            var (ret, uri, releaseNote) = await CheckFromMirrorChyanAsync();
             if (ret != CheckUpdateRetT.OK || string.IsNullOrEmpty(uri))
             {
                 SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
