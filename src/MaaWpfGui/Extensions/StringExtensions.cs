@@ -10,6 +10,11 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+
+using System;
+using System.Security.Cryptography;
+using System.Text;
+
 namespace MaaWpfGui.Extensions
 {
     public static class StringExtensions
@@ -32,6 +37,17 @@ namespace MaaWpfGui.Extensions
             var maskLength = input.Length - visibleStartLength - visibleEndLength;
             var maskedPart = new string(maskChar, maskLength);
             return input[..visibleStartLength] + maskedPart + input[^visibleEndLength..];
+        }
+
+        /// <summary>
+        /// Get the stable hash of the string.
+        /// </summary>
+        /// <param name="input">input text</param>
+        /// <returns>stable hash</returns>
+        public static string StableHash(this string input)
+        {
+            var hash = SHA256.HashData(Encoding.UTF8.GetBytes(input));
+            return BitConverter.ToString(hash).Replace("-", string.Empty);
         }
     }
 }
