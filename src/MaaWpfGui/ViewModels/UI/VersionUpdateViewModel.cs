@@ -29,6 +29,7 @@ using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using MaaWpfGui.States;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -941,16 +942,16 @@ public class VersionUpdateViewModel : Screen
     private async Task<CheckUpdateRetT> CheckUpdateByMirrorChyan()
     {
         var cdk = SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk.Trim();
-
+        var arch = IsArm ? "arm64" : "x64";
         string channel = SettingsViewModel.VersionUpdateSettings.VersionType switch
         {
             VersionUpdateSettingsUserControlModel.UpdateVersionType.Beta => "beta",
             VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly => "alpha",
             _ => "stable",
         };
+        var spid = HardwareInfoUtility.GetMachineGuid().StableHash();
 
-        var arch = IsArm ? "arm64" : "x64";
-        var url = $"{MaaUrls.MirrorChyanAppUpdate}?current_version={_curVersion}&cdk={cdk}&user_agent=MaaWpfGui&os=win&arch={arch}&channel={channel}";
+        var url = $"{MaaUrls.MirrorChyanAppUpdate}?current_version={_curVersion}&cdk={cdk}&user_agent=MaaWpfGui&os=win&arch={arch}&channel={channel}&sp_id={spid}";
 
         var response = await Instances.HttpService.GetAsync(new(url), logQuery: false);
         _logger.Information($"current_version: {_curVersion}, cdk: {cdk.Mask()}, arch: {arch}, channel: {channel}");

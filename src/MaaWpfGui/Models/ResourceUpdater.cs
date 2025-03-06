@@ -25,6 +25,7 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
@@ -496,14 +497,15 @@ namespace MaaWpfGui.Models
         {
             // https://mirrorc.top/api/resources/MaaResource/latest?current_version=<当前版本日期，从 version.json 里拿时间戳>&cdk=<cdk>&sp_id=<唯一识别码>
             // 响应格式为 {"code":0,"msg":"success","data":{"version_name":"2025-01-22 14:28:32.839","version_number":9,"url":"<增量更新网址>"}}
+            const string BaseUrl = MaaUrls.MirrorChyanResourceUpdate;
             var currentVersionDateTime = VersionUpdateSettingsUserControlModel
                 .GetResourceVersionByClientType(SettingsViewModel.GameSettings.ClientType)
                 .DateTime;
             var currentVersion = currentVersionDateTime.ToString("yyyy-MM-dd+HH:mm:ss.fff");
-            var cdk = SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk;
-            cdk = cdk.Trim();
+            var cdk = SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk.Trim();
+            var spid = HardwareInfoUtility.GetMachineGuid().StableHash();
 
-            var url = $"{MaaUrls.MirrorChyanResourceUpdate}?current_version={currentVersion}&cdk={cdk}&user_agent=MaaWpfGui";
+            var url = $"{BaseUrl}?current_version={currentVersion}&cdk={cdk}&user_agent=MaaWpfGui&sp_id={spid}";
 
             var response = await Instances.HttpService.GetAsync(new(url), logQuery: false);
             _logger.Information($"current_version: {currentVersion}, cdk: {cdk.Mask()}");
