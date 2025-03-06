@@ -6018,7 +6018,8 @@
         "template": "InfrastTradeSyntheticJadeFlag.png",
         "cache": true,
         "roi": [950, 585, 207, 105],
-        "next": ["ChooseMoneyOrder"]
+        "next": ["ChooseMoneyOrder"],
+        "preDelay": 500
     },
     "ChooseMoneyOrder": {
         "action": "ClickSelf",
@@ -6037,7 +6038,8 @@
         "template": "InfrastTradeMoneyFlag.png",
         "cache": true,
         "roi": [950, 585, 207, 105],
-        "next": ["ChooseSyntheticJadeOrder"]
+        "next": ["ChooseSyntheticJadeOrder"],
+        "preDelay": 500
     },
     "ChooseSyntheticJadeOrder": {
         "action": "ClickSelf",
