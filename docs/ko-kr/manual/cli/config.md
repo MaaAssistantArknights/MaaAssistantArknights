@@ -401,6 +401,7 @@ binary = true # maa-cli 바이너리 파일을 설치할지 여부, 기본값은
 # 리소스 핫 업데이트 관련 설정
 [resource]
 auto_update = true  # 각 작업 실행 시 리소스를 자동 업데이트할지 여부, 기본값은 false
+warn_on_update_failure = true # 업데이트 실패 시 오류를 바로 보고하지 않고 경고를 발행할지 여부
 backend = "libgit2" # 리소스 핫 업데이트 백엔드, 가능한 값은 "git" 또는 "libgit2", 기본값은 "git"
 
 [resource.remote]

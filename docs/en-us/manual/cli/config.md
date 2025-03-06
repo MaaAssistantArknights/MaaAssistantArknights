@@ -418,6 +418,7 @@ binary = true # whether install maa-cli binary
 # hot update resource configurations
 [resource]
 auto_update = true # whether auto update resource before running task
+warn_on_update_failure = true # Whether to warn on update failure instead of panic
 backend = "libgit2" # the backend of resource, can be "libgit2" or "git"
 
 # the remote of resource

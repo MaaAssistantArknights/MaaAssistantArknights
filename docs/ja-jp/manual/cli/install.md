@@ -116,8 +116,6 @@ maa install
 
 - Nix：
 
-  ```bash
-  nix-env -iA nixpkgs.maa-assistant-arknights
-  ```
+  Nix 上的 maa-cli 强制依赖 MaaCore。 因此，Nix 用户无需，也不应该手动安装 MaaCore。
 
-**注意**：只有使用包管理器安装 maa-cli 的用户才能使用包管理器安装 MaaCore，否则请使用 `maa install` 命令安装。此外，`maa install` 通过下载官方预编译的 MaaCore，而包管理器安装的 MaaCore 的编译选项和依赖版本与官方预编译的版本不同。这不会影响 maa-cli 的使用，但可能会导致 MaaCore 的功能和性能有所不同。比如，包管理器安装的 MaaCore 使用较新版本的 `fastdeploy`，而官方预编译的 MaaCore 使用较旧版本的 `fastdeploy`。而在新版本的 `fastdeploy` 中，日志可以被隐藏，这可以消除了一些不必要的日志输出。
+**注意**：只有使用包管理器安装 maa-cli 的用户才能使用包管理器安装 MaaCore，否则请使用 `maa install` 命令安装。此外，`maa install` 通过下载官方预编译的 MaaCore，而包管理器安装的 MaaCore 可能使用的编译选项和依赖版本与官方预编译的版本不同，这可能导致性能和功能上存在略微差异。
