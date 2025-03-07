@@ -10665,19 +10665,15 @@
         ]
     },
     "Sarkaz@Roguelike@DeepExploration": {
-        "doc": "等出了记得看眼",
         "template": "Roguelike@DeepExploration.png"
     },
     "Sarkaz@Roguelike@DeepExplorationEnd": {
-        "doc": "等出了记得看眼",
-        "template": "Roguelike@DeepExplorationEnd.png"
+        "template": "Sarkaz@Roguelike@Confirm.png"
     },
     "Sarkaz@Roguelike@DeepExplorationNotUnlockedComplain": {
-        "doc": "等出了记得看眼",
         "template": "Roguelike@DeepExplorationNotUnlocked.png"
     },
     "Sarkaz@Roguelike@DeepExplorationRewardMiss": {
-        "doc": "等出了记得看眼",
         "template": "Roguelike@RewardCompleted.png"
     },
     "Sarkaz@Roguelike@DialogSkip": {
@@ -10741,7 +10737,9 @@
         ]
     },
     "Sarkaz@Roguelike@GamePassSkip2": {},
-    "Sarkaz@Roguelike@GamePassTheEndConfirm": {},
+    "Sarkaz@Roguelike@GamePassTheEndConfirm": {
+        "template": "Sarkaz@Roguelike@Confirm.png"
+    },
     "Sarkaz@Roguelike@GetDrop1": {},
     "Sarkaz@Roguelike@GetDrop2": {},
     "Sarkaz@Roguelike@GetDrop3": {},
@@ -10775,7 +10773,9 @@
             "Sarkaz@Roguelike@GetDropRecruit"
         ]
     },
-    "Sarkaz@Roguelike@InitialDrop": {},
+    "Sarkaz@Roguelike@InitialDrop": {
+        "template": "Sarkaz@Roguelike@Confirm.png"
+    },
     "Sarkaz@Roguelike@LastReward": {},
     "Sarkaz@Roguelike@LastReward-EnterPoint": {
         "template": [
@@ -11699,7 +11699,9 @@
         "roi": [912, 648, 58, 58],
         "action": "ClickSelf"
     },
-    "Sarkaz@RoguelikeSettlementConfirm": {},
+    "Sarkaz@RoguelikeSettlementConfirm": {
+        "template": "Sarkaz@Roguelike@Confirm.png"
+    },
     "Reclamation2": {
         "doc": "生息演算「沙洲遗闻」",
         "algorithm": "JustReturn",
