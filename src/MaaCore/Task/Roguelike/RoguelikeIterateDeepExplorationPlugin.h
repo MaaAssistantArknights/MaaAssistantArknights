@@ -20,7 +20,7 @@ private:
     std::unordered_map<std::string, int> deepExplorationCount = { { "Phantom", 12 },
                                                                   { "Mizuki", 12 },
                                                                   { "Sami", 13 },
-                                                                  { "Sarkaz", 0 } };
+                                                                  { "Sarkaz", 12 } };
     bool m_completed;
     bool m_iterateDE;
 };

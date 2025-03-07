@@ -10665,19 +10665,13 @@
         ]
     },
     "Sarkaz@Roguelike@DeepExploration": {
-        "doc": "等出了记得看眼",
         "template": "Roguelike@DeepExploration.png"
     },
-    "Sarkaz@Roguelike@DeepExplorationEnd": {
-        "doc": "等出了记得看眼",
-        "template": "Roguelike@DeepExplorationEnd.png"
-    },
+    "Sarkaz@Roguelike@DeepExplorationEnd": {},
     "Sarkaz@Roguelike@DeepExplorationNotUnlockedComplain": {
-        "doc": "等出了记得看眼",
         "template": "Roguelike@DeepExplorationNotUnlocked.png"
     },
     "Sarkaz@Roguelike@DeepExplorationRewardMiss": {
-        "doc": "等出了记得看眼",
         "template": "Roguelike@RewardCompleted.png"
     },
     "Sarkaz@Roguelike@DialogSkip": {
