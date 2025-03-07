@@ -953,7 +953,8 @@
             ["Cherry-3", "樱桃三号"],
             ["Idle Exquisicart", "停滞巧械"],
             ["Theresa, Black-crowned Sage", "特蕾西娅，黑冠圣贤"],
-            ["Guardian Bulwark", "圣卫坚盾"]
+            ["Guardian Bulwark", "圣卫坚盾"],
+            ["Foldable Facility Maintainer", "设施建筑工"]
         ]
     },
     "GameStartUpdateOCR": {
