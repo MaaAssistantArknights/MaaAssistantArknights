@@ -252,7 +252,7 @@ You can cancel this popup by clicking the Settings - About Us - Issue Reporting 
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">Fill after switching source</system:String>
     <system:String x:Key="MirrorChyanSoftwareUpdateTip">MirrorChyan has detected a software update. Please go to 「Settings - Software Update」 to configure CDK or using the Global source.</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">MirrorChyan has detected a resource update{0}. Please go to 「Settings - Software Update」 to configure CDK, or using the Global source click 「Resource Update」 to update manually.</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">MirrorChyan has detected a resource update {0}. Please go to 「Settings - Software Update」 to configure CDK, or using the Global source click 「Resource Update」 to update manually.</system:String>
     <system:String x:Key="NewVersionFoundTitle">New Version Found</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">Downloading in the background……</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">Version: </system:String>
