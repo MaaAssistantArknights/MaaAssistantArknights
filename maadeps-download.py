@@ -128,7 +128,7 @@ def main():
     else:
         target_tag = TARGET_TAG
     print(
-        "about to download prebuilt dependency libraries for ",
+        "About to download prebuilt dependency libraries for",
         f"{target_triplet} of {target_tag}"
     )
     if args.target_triplet is None:
@@ -214,7 +214,7 @@ def main():
             with open(maadeps_version_file, "w") as f:
                 json.dump(versions, f, indent=2)
     else:
-        raise Exception(f"no binary release found for {target_triplet}")
+        raise Exception(f"No binary release found for {target_triplet}")
 
 
 if __name__ == "__main__":
