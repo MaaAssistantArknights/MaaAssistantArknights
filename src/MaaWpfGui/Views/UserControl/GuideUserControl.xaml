@@ -14,7 +14,7 @@
     xmlns:taskQueue="clr-namespace:MaaWpfGui.Views.UserControl.TaskQueue"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     d:Background="White"
-    d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
+    d:DataContext="{d:DesignInstance ui:SettingsViewModel}"
     d:DesignWidth="400"
     mc:Ignorable="d">
     <Grid>
@@ -117,14 +117,122 @@
                         </hc:TransitioningContentControl>
 
                         <hc:TransitioningContentControl TransitionMode="{Binding GuideTransitionMode}" Visibility="{c:Binding 'GuideStepIndex == 1'}">
-                            <settingsViews:GameSettingsUserControl DataContext="{Binding GameSettings}" />
+                            <StackPanel DataContext="{Binding GameSettings}">
+
+                                <controls:TextBlock
+                                    Margin="10,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{DynamicResource ClientType}" />
+                                <ComboBox
+                                    Width="200"
+                                    Margin="10"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    DisplayMemberPath="Display"
+                                    ItemsSource="{Binding ClientTypeList}"
+                                    SelectedValue="{Binding ClientType}"
+                                    SelectedValuePath="Value" />
+                                <CheckBox
+                                    Margin="20,10"
+                                    VerticalAlignment="Center"
+                                    IsChecked="{Binding DeploymentWithPause}">
+                                    <controls:TextBlock
+                                        Block.TextAlignment="Center"
+                                        Text="{DynamicResource DeploymentWithPause}"
+                                        TextWrapping="Wrap" />
+                                </CheckBox>
+                            </StackPanel>
                         </hc:TransitioningContentControl>
 
                         <hc:TransitioningContentControl
                             Width="240"
                             TransitionMode="{Binding GuideTransitionMode}"
                             Visibility="{c:Binding 'GuideStepIndex == 2'}">
-                            <taskQueue:StartUpTaskUserControl DataContext="{Binding StartUpTask, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
+                            <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding Source={x:Static ui:SettingsViewModel.ConnectSettings}}">
+                                <CheckBox
+                                    Margin="0,10"
+                                    Content="{DynamicResource AutoDetectConnection}"
+                                    IsChecked="{Binding AutoDetectConnection}"
+                                    ToolTip="{DynamicResource AutoDetectConnectionTip}" />
+                                <CheckBox
+                                    Margin="0,10"
+                                    Content="{DynamicResource AlwaysAutoDetectConnection}"
+                                    IsChecked="{Binding AlwaysAutoDetectConnection}"
+                                    Visibility="{c:Binding AutoDetectConnection}" />
+
+                                <Grid Margin="0,5" Visibility="{c:Binding !AutoDetectConnection}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <hc:TextBox
+                                        Grid.Column="0"
+                                        hc:BorderElement.CornerRadius="4,0,0,4"
+                                        hc:InfoElement.Title="{DynamicResource AdbPath}"
+                                        Text="{Binding AdbPath}" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Width="60"
+                                        VerticalAlignment="Bottom"
+                                        hc:BorderElement.CornerRadius="0,4,4,0"
+                                        BorderThickness="0,1,1,1"
+                                        Command="{s:Action SelectFile}"
+                                        Content="{DynamicResource Select}" />
+                                </Grid>
+
+                                <hc:ComboBox
+                                    Margin="0,5"
+                                    HorizontalContentAlignment="Stretch"
+                                    hc:InfoElement.Title="{DynamicResource ConnectionAddress}"
+                                    IsEditable="True"
+                                    ItemsSource="{Binding ConnectAddressHistory}"
+                                    Style="{StaticResource ComboBoxExtend}"
+                                    Text="{Binding ConnectAddress, UpdateSourceTrigger=LostFocus}"
+                                    ToolTip="{DynamicResource ConnectionAddressTip}"
+                                    Visibility="{c:Binding !AutoDetectConnection}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding}" />
+                                                <Button
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Right"
+                                                    Command="{s:Action RemoveAddressClick}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="×"
+                                                    FontWeight="Bold" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </hc:ComboBox>
+                                <hc:ComboBox
+                                    Margin="0,5"
+                                    hc:InfoElement.Title="{DynamicResource ConnectionPreset}"
+                                    DisplayMemberPath="Display"
+                                    ItemsSource="{Binding ConnectConfigList}"
+                                    SelectedValue="{Binding ConnectConfig}"
+                                    SelectedValuePath="Value"
+                                    Style="{StaticResource ComboBoxExtend}"
+                                    Visibility="{c:Binding !AutoDetectConnection}" />
+                                <hc:ComboBox
+                                    Margin="0,5"
+                                    hc:InfoElement.Title="{DynamicResource TouchMode}"
+                                    DisplayMemberPath="Display"
+                                    IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
+                                    ItemsSource="{Binding TouchModeList}"
+                                    SelectedValue="{Binding TouchMode}"
+                                    SelectedValuePath="Value"
+                                    Style="{StaticResource ComboBoxExtend}" />
+                            </StackPanel>
                         </hc:TransitioningContentControl>
 
                         <hc:TransitioningContentControl
