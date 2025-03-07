@@ -2820,7 +2820,7 @@
     "official/FriendsDelicious": "45b3d42c73c22e83ceb46568e4fe766f41aadce49c823ac10dbfc9f6ab0cee0f",
     "official/RecruitDelicious": "a9cda960864c08ed235bd6d315138029144fb48991390604760a956fd3b30cf8",
     "official/OperBoxEnterDelicious": "a2d2315a82d2ee4246b3b6c2693346b807fc5061ccacd2768d751cea8e406ca0",
-    "official/EnterInfrastDelicious": "021ca4e9ee46c0e91f8b9ff81f6a4296979d9d94443711756fb25845a8cb1012",
+    "official/EnterInfrastDelicious": "1ce6dbaa329d8bab9af16679aa90bbea6a611dca171b2b2d9d933f874702fa25",
     "official/TerminalDelicious": "8f7bae02282bac7b4e54780aef17db5f3befa030829a7e6e073d64755a8c7bf0",
     "official/MallDelicious": "439977d8a757819e01b01787a7f20a9f574dc052d6145b898b88558b6178be97",
     "official/GachaEnterDelicious": "adb8455d443fdc941a2d04c76e8d24843d5322230726626338815d1977b7598d",
@@ -3175,5 +3175,8 @@
     "resource/template/items/act41side_token_light": "0803222765c35bacc6f6c80d4dc80f03e1011af48f88d6f28915007db2ab792d",
     "resource/template/infrast/Bskill_hire_skgoat3": "b98fab4f563229b5cc2a63905ee01a02e9f1f64ab183f43d4f8490fe8355e7ec",
     "resource/template/infrast/Bskill_hire_skgoat4": "091628bc51ff50b9cd4a9eb758e4ff34f3fddf4fba166e26c96a549b0eaeb846",
-    "resource/template/infrast/Bskill_man_spd&limit6": "04371867add027ad7b5afe648058e34d5a1a371f134cc1bbb85feaf3b8820e7b"
+    "resource/template/infrast/Bskill_man_spd&limit6": "04371867add027ad7b5afe648058e34d5a1a371f134cc1bbb85feaf3b8820e7b",
+    "YoStarJP/Sami@Roguelike@MissionFailedFlag3": "7ce8328b9a2fc951946f2ade3c6305474f3a2aad920bab7ff858683bcd7b15a6",
+    "txwy/Sami@Roguelike@MissionFailedFlag3": "f4c2b32070661a860aff3e98b50c8c7391c942f3c307871fe398dfe9130654dc",
+    "YoStarKR/Sami@Roguelike@MissionFailedFlag3": "de5cff3e749fe98a962ed5babc748b465a0559503a8adbcf6cccb3d10e77ca8a"
 }
