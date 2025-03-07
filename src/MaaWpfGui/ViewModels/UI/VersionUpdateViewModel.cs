@@ -488,14 +488,7 @@ public class VersionUpdateViewModel : Screen
                     _ = AskToRestart();
                 }
 
-                var ret2 = await ResourceUpdater.CheckAndDownloadResourceUpdate();
-                if (ret2 == CheckUpdateRetT.OnlyGameResourceUpdated)
-                {
-                    Instances.AsstProxy.LoadResource();
-                    DataHelper.Reload();
-                    SettingsViewModel.VersionUpdateSettings.ResourceInfoUpdate();
-                    ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
-                }
+                await ResourceUpdater.ResourceUpdateAndReloadAsync();
             }
             else
             {

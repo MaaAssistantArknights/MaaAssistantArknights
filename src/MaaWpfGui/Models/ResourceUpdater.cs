@@ -291,6 +291,28 @@ namespace MaaWpfGui.Models
             return ret;
         }
 
+        public static async Task ResourceUpdateAndReloadAsync()
+        {
+            if (SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates)
+            {
+                return;
+            }
+
+            var ret = await CheckAndDownloadResourceUpdate();
+            if (ret == CheckUpdateRetT.OnlyGameResourceUpdated)
+            {
+                ResourceReload();
+            }
+        }
+
+        public static void ResourceReload()
+        {
+            Instances.AsstProxy.LoadResource();
+            DataHelper.Reload();
+            SettingsViewModel.VersionUpdateSettings.ResourceInfoUpdate();
+            ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
+        }
+
         private static async Task<bool> DownloadFullPackageAsync(string url, string saveTo)
         {
             using var response = await Instances.HttpService.GetAsync(new Uri(url));
