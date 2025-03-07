@@ -10667,7 +10667,9 @@
     "Sarkaz@Roguelike@DeepExploration": {
         "template": "Roguelike@DeepExploration.png"
     },
-    "Sarkaz@Roguelike@DeepExplorationEnd": {},
+    "Sarkaz@Roguelike@DeepExplorationEnd": {
+        "template": "Sarkaz@Roguelike@Confirm.png"
+    },
     "Sarkaz@Roguelike@DeepExplorationNotUnlockedComplain": {
         "template": "Roguelike@DeepExplorationNotUnlocked.png"
     },
@@ -10735,7 +10737,9 @@
         ]
     },
     "Sarkaz@Roguelike@GamePassSkip2": {},
-    "Sarkaz@Roguelike@GamePassTheEndConfirm": {},
+    "Sarkaz@Roguelike@GamePassTheEndConfirm": {
+        "template": "Sarkaz@Roguelike@Confirm.png"
+    },
     "Sarkaz@Roguelike@GetDrop1": {},
     "Sarkaz@Roguelike@GetDrop2": {},
     "Sarkaz@Roguelike@GetDrop3": {},
@@ -10769,7 +10773,9 @@
             "Sarkaz@Roguelike@GetDropRecruit"
         ]
     },
-    "Sarkaz@Roguelike@InitialDrop": {},
+    "Sarkaz@Roguelike@InitialDrop": {
+        "template": "Sarkaz@Roguelike@Confirm.png"
+    },
     "Sarkaz@Roguelike@LastReward": {},
     "Sarkaz@Roguelike@LastReward-EnterPoint": {
         "template": [
@@ -11693,7 +11699,9 @@
         "roi": [912, 648, 58, 58],
         "action": "ClickSelf"
     },
-    "Sarkaz@RoguelikeSettlementConfirm": {},
+    "Sarkaz@RoguelikeSettlementConfirm": {
+        "template": "Sarkaz@Roguelike@Confirm.png"
+    },
     "Reclamation2": {
         "doc": "生息演算「沙洲遗闻」",
         "algorithm": "JustReturn",
