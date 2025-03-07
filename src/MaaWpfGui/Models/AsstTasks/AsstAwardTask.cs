@@ -41,7 +41,7 @@ public class AsstAwardTask : AsstBaseTask
     /// Gets or sets a value indicating whether 是否进行每日免费单抽
     /// </summary>
     [JsonProperty("recruit")]
-    public bool Recruit { get; set; }
+    public bool FreeGacha { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether 是否领取幸运墙合成玉奖励
