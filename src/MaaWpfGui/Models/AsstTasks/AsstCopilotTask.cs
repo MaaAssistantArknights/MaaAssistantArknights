@@ -86,7 +86,7 @@ public class AsstCopilotTask : AsstBaseTask
 
         if (UserAdditionals?.Count > 0)
         {
-            taskParams["user_additional"] = new JArray(UserAdditionals.Select(JObject.FromObject));
+            taskParams["user_additional"] = JArray.FromObject(UserAdditionals);
         }
 
         if (NeedNavigate)
