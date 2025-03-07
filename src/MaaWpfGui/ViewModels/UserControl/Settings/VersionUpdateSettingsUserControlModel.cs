@@ -462,10 +462,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
         if (success)
         {
-            Instances.AsstProxy.LoadResource();
-            DataHelper.Reload();
-            SettingsViewModel.VersionUpdateSettings.ResourceInfoUpdate();
-            ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
+            ResourceUpdater.ResourceReload();
         }
 
         IsCheckingForUpdates = false;

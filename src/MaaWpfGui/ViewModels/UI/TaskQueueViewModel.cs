@@ -474,13 +474,7 @@ namespace MaaWpfGui.ViewModels.UI
                     _ = Instances.VersionUpdateViewModel.AskToRestart();
                 }
 
-                if (await ResourceUpdater.CheckAndDownloadResourceUpdate() == VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated)
-                {
-                    Instances.AsstProxy.LoadResource();
-                    DataHelper.Reload();
-                    SettingsViewModel.VersionUpdateSettings.ResourceInfoUpdate();
-                    ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
-                }
+                await ResourceUpdater.ResourceUpdateAndReloadAsync();
 
                 _isCheckingForUpdates = false;
             });

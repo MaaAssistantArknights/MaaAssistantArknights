@@ -1612,14 +1612,7 @@ namespace MaaWpfGui.Main
                             return;
                         }
 
-                        var ret = await ResourceUpdater.CheckAndDownloadResourceUpdate();
-                        if (ret == VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated)
-                        {
-                            Instances.AsstProxy.LoadResource();
-                            DataHelper.Reload();
-                            SettingsViewModel.VersionUpdateSettings.ResourceInfoUpdate();
-                            ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
-                        }
+                        await ResourceUpdater.ResourceUpdateAndReloadAsync();
                     });
                     break;
 
