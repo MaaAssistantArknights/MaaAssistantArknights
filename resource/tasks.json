@@ -669,9 +669,9 @@
     "EAChapterToEA": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["摇曳的影"],
+        "text": ["摇", "影"],
         "preDelay": 3000,
-        "roi": ["?????"],
+        "roi": [1097, 492, 115, 45],
         "next": ["#self", "ChapterSwipeToTheRight"]
     },
     "EP-8": {
