@@ -620,6 +620,60 @@
     "OR-4@SideStoryStage": {
         "text": ["OR-4"]
     },
+    "EA-8": {
+        "algorithm": "JustReturn",
+        "sub": ["EA-OpenOpt"],
+        "next": ["EA-8@SideStoryStage", "EA-8@SwipeToStage"]
+    },
+    "EA-8@SideStoryStage": {
+        "text": ["EA-8"]
+    },
+    "EA-7": {
+        "algorithm": "JustReturn",
+        "sub": ["EA-OpenOpt"],
+        "next": ["EA-7@SideStoryStage", "EA-7@SwipeToStage"]
+    },
+    "EA-7@SideStoryStage": {
+        "text": ["EA-7"]
+    },
+    "EA-6": {
+        "algorithm": "JustReturn",
+        "sub": ["EA-OpenOpt"],
+        "next": ["EA-6@SideStoryStage", "EA-6@SwipeToStage"]
+    },
+    "EA-6@SideStoryStage": {
+        "text": ["EA-6"]
+    },
+    "EA-3": {
+        "algorithm": "JustReturn",
+        "sub": ["EA-OpenOpt"],
+        "next": ["EA-3@SideStoryStage", "EA-3@SwipeToStage"]
+    },
+    "EA-3@SideStoryStage": {
+        "text": ["EA-3"]
+    },
+    "EA-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["EA-OpenOcr", "EA-Open"]
+    },
+    "EA-Open": {
+        "baseTask": "SS-Open",
+        "template": "StageSideStory.png",
+        "next": ["EAChapterToEA"]
+    },
+    "EA-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["挽歌燃烧殆尽", "将熄的火"],
+        "next": ["EAChapterToEA"]
+    },
+    "EAChapterToEA": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["摇曳的影"],
+        "preDelay": 3000,
+        "roi": ["?????"],
+        "next": ["#self", "ChapterSwipeToTheRight"]
+    },
     "EP-8": {
         "algorithm": "JustReturn",
         "sub": ["EP-OpenOpt"],
