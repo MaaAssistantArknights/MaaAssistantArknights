@@ -1600,15 +1600,7 @@ namespace MaaWpfGui.Main
 
                 case "UnsupportedLevel":
                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("UnsupportedLevel") + subTaskDetails!["level"], UiLogColor.Error);
-                    Task.Run(async () =>
-                    {
-                        if (SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates)
-                        {
-                            return;
-                        }
-
-                        await ResourceUpdater.ResourceUpdateAndReloadAsync();
-                    });
+                    _ = ResourceUpdater.ResourceUpdateAndReloadAsync();
                     break;
 
                 case "CustomInfrastRoomGroupsMatch":
