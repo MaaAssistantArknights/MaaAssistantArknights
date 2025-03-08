@@ -469,11 +469,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 _logger.Information($"waiting for update check: {delayTime}");
                 await Task.Delay(delayTime);
-                if (await Instances.VersionUpdateViewModel.CheckAndDownloadVersionUpdate() == VersionUpdateViewModel.CheckUpdateRetT.OK)
-                {
-                    _ = Instances.VersionUpdateViewModel.AskToRestart();
-                }
-
+                await Instances.VersionUpdateViewModel.VersionUpdateAndAskToRestartAsync();
                 await ResourceUpdater.ResourceUpdateAndReloadAsync();
 
                 _isCheckingForUpdates = false;
