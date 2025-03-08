@@ -274,6 +274,12 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
                 return;
             }
 
+            if (value.Length == 24)
+            {
+                _ = Instances.VersionUpdateViewModel.VersionUpdateAndAskToRestartAsync();
+                _ = ResourceUpdater.ResourceUpdateAndReloadAsync();
+            }
+
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MirrorChyanCdk, value);
         }

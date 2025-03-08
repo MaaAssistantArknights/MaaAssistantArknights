@@ -482,12 +482,7 @@ public class VersionUpdateViewModel : Screen
 
             if (!IsDebugVersion())
             {
-                var ret = await CheckAndDownloadVersionUpdate();
-                if (ret == CheckUpdateRetT.OK)
-                {
-                    _ = AskToRestart();
-                }
-
+                await VersionUpdateAndAskToRestartAsync();
                 await ResourceUpdater.ResourceUpdateAndReloadAsync();
             }
             else
@@ -496,6 +491,18 @@ public class VersionUpdateViewModel : Screen
                 // 跑个空任务避免 async warning
                 await Task.Run(() => { });
             }
+        }
+    }
+
+    /// <summary>
+    /// 检查更新并下载更新包，如果成功则提示重启。
+    /// </summary>
+    /// <returns>Task</returns>
+    public async Task VersionUpdateAndAskToRestartAsync()
+    {
+        if (await CheckAndDownloadVersionUpdate() == CheckUpdateRetT.OK)
+        {
+            _ = AskToRestart();
         }
     }
 
