@@ -26,6 +26,7 @@ using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Models.Copilot;
 using MaaWpfGui.Services;
@@ -712,6 +713,7 @@ namespace MaaWpfGui.ViewModels.UI
                 // 不支持的关卡
                 AddLog(LocalizationHelper.GetString("UnsupportedStages") + $"  {copilot.StageName}", UiLogColor.Error, showTime: false);
                 navigateName = FindStageName(copilot.Documentation?.Title ?? string.Empty);
+                _ = Task.Run(ResourceUpdater.ResourceUpdateAndReloadAsync);
             }
 
             CopilotTaskName = navigateName;
@@ -777,6 +779,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (stages?.Any(i => i is null) is null or true)
             {
                 AddLog(LocalizationHelper.GetString("UnsupportedStages") + $"  {copilot.StageName}", UiLogColor.Error, showTime: false);
+                _ = Task.Run(ResourceUpdater.ResourceUpdateAndReloadAsync);
             }
 
             if (writeToCache)
@@ -1324,6 +1327,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (string.IsNullOrEmpty(name) || DataHelper.FindMap(name) is null)
                 {
                     AddLog(LocalizationHelper.GetString("UnsupportedStages") + $"  {name}", UiLogColor.Error, showTime: false);
+                    _ = Task.Run(ResourceUpdater.ResourceUpdateAndReloadAsync);
                     return false;
                 }
             }
