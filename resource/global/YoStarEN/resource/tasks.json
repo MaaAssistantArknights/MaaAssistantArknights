@@ -40,6 +40,15 @@
         "text": ["Rerun", "Retrospection"],
         "roi": [0, 500, 500, 150]
     },
+    "DT-Open": {
+        "text": ["Delicious", "Terra", "Culinary"]
+    },
+    "DT-OpenOcr": {
+        "text": ["Delicious", "Terra", "Culinary"]
+    },
+    "DTChapterToDT": {
+        "text": ["MONSTER", "Monster", "GOURMAND", "Gourman"]
+    },
     "BP-OpenOcr": {
         "text": ["Path", "Life", "event", "open", "Fortify", "Defense"]
     },
