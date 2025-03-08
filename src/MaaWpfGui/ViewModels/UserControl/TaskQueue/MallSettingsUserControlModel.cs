@@ -14,10 +14,15 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Models.AsstTasks;
+using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.UI;
+using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
@@ -32,6 +37,17 @@ public class MallSettingsUserControlModel : TaskViewModel
     }
 
     public static MallSettingsUserControlModel Instance { get; }
+
+    private readonly Dictionary<string, IEnumerable<string>> _blackCharacterListMapping = new()
+        {
+            { string.Empty, ["讯使", "嘉维尔", "坚雷"] },
+            { "Official", ["讯使", "嘉维尔", "坚雷"] },
+            { "Bilibili", ["讯使", "嘉维尔", "坚雷"] },
+            { "YoStarEN", ["Courier", "Gavial", "Dur-nar"] },
+            { "YoStarJP", ["クーリエ", "ガヴィル", "ジュナー"] },
+            { "YoStarKR", ["쿠리어", "가비알", "듀나"] },
+            { "txwy", ["訊使", "嘉維爾", "堅雷"] },
+        };
 
     private string _lastCreditFightTaskTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditFightTaskTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
 
@@ -206,7 +222,7 @@ public class MallSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private string _creditFirstList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFirstListNew, LocalizationHelper.GetString("HighPriorityDefault"));
+    private string _creditFirstList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFirstListNew, LocalizationHelper.GetString("HighPriorityDefault")).Replace("；", ";").Trim();
 
     /// <summary>
     /// Gets or sets the priority item list of credit shop.
@@ -216,12 +232,13 @@ public class MallSettingsUserControlModel : TaskViewModel
         get => _creditFirstList;
         set
         {
+            value = value.Replace("；", ";").Trim();
             SetAndNotify(ref _creditFirstList, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CreditFirstListNew, value);
         }
     }
 
-    private string _creditBlackList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditBlackListNew, LocalizationHelper.GetString("BlacklistDefault"));
+    private string _creditBlackList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditBlackListNew, LocalizationHelper.GetString("BlacklistDefault")).Replace("；", ";").Trim();
 
     /// <summary>
     /// Gets or sets the blacklist of credit shop.
@@ -231,6 +248,7 @@ public class MallSettingsUserControlModel : TaskViewModel
         get => _creditBlackList;
         set
         {
+            value = value.Replace("；", ";").Trim();
             SetAndNotify(ref _creditBlackList, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CreditBlackListNew, value);
         }
@@ -279,5 +297,23 @@ public class MallSettingsUserControlModel : TaskViewModel
             SetAndNotify(ref _creditReserveMaxCredit, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CreditReserveMaxCredit, value.ToString());
         }
+    }
+
+    public override (AsstTaskType Type, JObject Params) Serialize()
+    {
+        var fightEnable = Instances.TaskQueueViewModel.TaskItemViewModels.Where(x => x.OriginalName == "Combat").FirstOrDefault()?.IsCheckedWithNull is not false;
+        var task = new AsstMallTask()
+        {
+            CreditFight = fightEnable ? (!string.IsNullOrEmpty(FightSettingsUserControlModel.Instance.Stage) && CreditFightTaskEnabled) : CreditFightTaskEnabled,
+            SelectFormation = CreditFightSelectFormation,
+            VisitFriends = CreditVisitFriendsEnabled,
+            WithShopping = CreditShopping,
+            FirstList = CreditFirstList.Split(';').Select(s => s.Trim()).ToList(),
+            Blacklist = CreditBlackList.Split(';').Select(s => s.Trim()).Union(_blackCharacterListMapping[SettingsViewModel.GameSettings.ClientType]).ToList(),
+            ForceShoppingIfCreditFull = CreditForceShoppingIfCreditFull,
+            OnlyBuyDiscount = CreditOnlyBuyDiscount,
+            ReserveMaxCredit = CreditReserveMaxCredit,
+        };
+        return task.Serialize();
     }
 }
