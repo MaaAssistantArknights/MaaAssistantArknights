@@ -2180,38 +2180,6 @@ namespace MaaWpfGui.Main
             return MaaService.AsstBackToHome(_handle);
         }
 
-        /// <summary>
-        /// 领取信用及商店购物。
-        /// </summary>
-        /// <param name="creditFight">是否信用战斗。</param>
-        /// <param name="selectFormation">信用战斗选择编队</param>
-        /// <param name="visitFriends">是否访问好友。</param>
-        /// <param name="withShopping">是否购物。</param>
-        /// <param name="firstList">优先购买列表。</param>
-        /// <param name="blacklist">黑名单列表。</param>
-        /// <param name="forceShoppingIfCreditFull">是否在信用溢出时无视黑名单</param>
-        /// <param name="onlyBuyDiscount">只购买折扣信用商品(未打折的白名单物品仍会购买)。</param>
-        /// <param name="reserveMaxCredit">设置300以下信用点停止购买商品。</param>
-        /// <returns>是否成功。</returns>
-        public bool AsstAppendMall(bool creditFight, int selectFormation, bool visitFriends, bool withShopping, string[] firstList, string[] blacklist, bool forceShoppingIfCreditFull, bool onlyBuyDiscount, bool reserveMaxCredit)
-        {
-            var taskParams = new JObject
-            {
-                ["credit_fight"] = creditFight,
-                ["select_formation"] = selectFormation,
-                ["visit_friends"] = visitFriends,
-                ["shopping"] = withShopping,
-                ["buy_first"] = new JArray(firstList),
-                ["blacklist"] = new JArray(blacklist),
-                ["force_shopping_if_credit_full"] = forceShoppingIfCreditFull,
-                ["only_buy_discount"] = onlyBuyDiscount,
-                ["reserve_max_credit"] = reserveMaxCredit,
-            };
-            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Mall, taskParams);
-            _taskStatus.Add(id, TaskType.Mall);
-            return id != 0;
-        }
-
         public bool AsstSetInfrastTaskParams(
             IEnumerable<string> order,
             string usesOfDrones,

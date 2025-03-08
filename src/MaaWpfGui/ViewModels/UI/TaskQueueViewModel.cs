@@ -1741,25 +1741,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         private bool AppendMall()
         {
-            var buyFirst = MallTask.CreditFirstList.Split(';', '；')
-                .Select(s => s.Trim());
-
-            var blackList = MallTask.CreditBlackList.Split(';', '；')
-                .Select(s => s.Trim());
-
-            blackList = blackList.Union(_blackCharacterListMapping[SettingsViewModel.GameSettings.ClientType]);
-            var fightEnable = TaskItemViewModels.Where(x => x.OriginalName == "Combat").FirstOrDefault().IsCheckedWithNull is not false;
-
-            return Instances.AsstProxy.AsstAppendMall(
-                fightEnable ? (!string.IsNullOrEmpty(FightTask.Stage) && MallTask.CreditFightTaskEnabled) : MallTask.CreditFightTaskEnabled,
-                MallTask.CreditFightSelectFormation,
-                MallTask.CreditVisitFriendsEnabled,
-                MallTask.CreditShopping,
-                buyFirst.ToArray(),
-                blackList.ToArray(),
-                MallTask.CreditForceShoppingIfCreditFull,
-                MallTask.CreditOnlyBuyDiscount,
-                MallTask.CreditReserveMaxCredit);
+            // 被RemoteControlService反射调用，暂不移除
+            var (type, param) = MallTask.Serialize();
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Mall, type, param);
         }
 
         private static bool AppendAward()
