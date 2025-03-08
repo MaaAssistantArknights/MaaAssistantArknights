@@ -47,6 +47,15 @@
     "SideStoryReopen": {
         "text": ["재개방"]
     },
+    "DT-Open": {
+        "text": ["테라", "이벤트", "개방중"]
+    },
+    "DT-OpenOcr": {
+        "text": ["테라", "이벤트", "개방중"]
+    },
+    "DTChapterToDT": {
+        "text": ["마물", "맛"]
+    },
     "BP-OpenOcr": {
         "text": ["삶의", "길", "이벤트", "개방"]
     },
