@@ -2447,10 +2447,7 @@ namespace MaaWpfGui.Main
         /// <returns>是否成功。</returns>
         public bool AsstStartDepot()
         {
-            var taskParams = new JObject();
-            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Depot, taskParams);
-            _taskStatus.Add(id, TaskType.Depot);
-            return id != 0 && AsstStart();
+            return AsstAppendTaskWithEncoding(TaskType.Depot, AsstTaskType.Depot) && AsstStart();
         }
 
         /// <summary>
@@ -2459,10 +2456,7 @@ namespace MaaWpfGui.Main
         /// <returns>是否成功。</returns>
         public bool AsstStartOperBox()
         {
-            var taskParams = new JObject();
-            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.OperBox, taskParams);
-            _taskStatus.Add(id, TaskType.OperBox);
-            return id != 0 && AsstStart();
+            return AsstAppendTaskWithEncoding(TaskType.OperBox, AsstTaskType.OperBox) && AsstStart();
         }
 
         public bool AsstStartGacha(bool once = true)
