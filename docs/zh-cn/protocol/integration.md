@@ -168,6 +168,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 
     "dorm_notstationed_enabled": bool, // 是否启用宿舍“未进驻”选项，可选，默认 false
     "dorm_trust_enabled": bool, // 是否将宿舍剩余位置填入信赖未满干员，可选，默认 false
+    "reception_message_board": bool, // 是否领取会客室交流板信用，可选，默认 true
 
     /* 以下参数仅在 mode=10000 时生效，否则会被忽略 */
     "filename": string,     // 自定义配置路径，必选。不支持运行中设置
