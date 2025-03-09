@@ -230,10 +230,10 @@ bool asst::BattleHelper::update_deployment_(
             click_oper_on_deployment(oper_rect);
 
             name_image = m_inst_helper.ctrler()->get_image();
-            // 不是，我不是都暂停了吗为什么还会出战斗？
-            // if (!check_in_battle(name_image)) {
-            //     return false;
-            // }
+            // 理论上已经暂停了，不需要进行下面的检查，但是暂停有可能失败，所以还是先保留吧
+            if (!check_in_battle(name_image)) {
+                return false;
+            }
 
             std::string name = analyze_detail_page_oper_name(name_image);
             // 这时候即使名字不合法也只能凑合用了，但是为空还是不行的
@@ -315,7 +315,9 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
             return false;
         }
 
-        update_deployment_(init, oper_result_opt->deployment, old_deployment_opers, false);
+        if (update_deployment_(init, oper_result_opt->deployment, old_deployment_opers, false)) {
+            return false;
+        }
 
         pause();
     }
