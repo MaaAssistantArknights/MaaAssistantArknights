@@ -300,9 +300,8 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
 
         // 重新截图、重新识别
         image = m_inst_helper.ctrler()->get_image();
-        BattlefieldMatcher oper_analyzer2(image);
 
-        // 保全要识别开局费用，先用init判断了，之后别的地方要用的话再做cache
+        BattlefieldMatcher oper_analyzer2(image);
         if (init || need_oper_cost) {
             oper_analyzer2.set_object_of_interest({ .deployment = true, .oper_cost = true });
         }
@@ -320,6 +319,8 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
         }
 
         pause();
+
+        image = m_inst_helper.ctrler()->get_image();
     }
 
     if (init) {
