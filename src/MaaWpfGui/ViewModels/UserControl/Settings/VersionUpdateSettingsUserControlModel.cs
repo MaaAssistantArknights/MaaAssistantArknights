@@ -20,11 +20,9 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using System.Windows;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Properties;
 using MaaWpfGui.Services;
@@ -276,6 +274,12 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
                 return;
             }
 
+            if (value.Length == 24)
+            {
+                _ = Instances.VersionUpdateViewModel.VersionUpdateAndAskToRestartAsync();
+                _ = ResourceUpdater.ResourceUpdateAndReloadAsync();
+            }
+
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MirrorChyanCdk, value);
         }
@@ -392,6 +396,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     /// Updates manually.
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    /// ReSharper disable once UnusedMember.Global
     public async Task ManualUpdate()
     {
         var ret = await Instances.VersionUpdateViewModel.CheckAndDownloadVersionUpdate();
@@ -422,11 +427,12 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    // ReSharper disable once UnusedMember.Global
     public async Task ManualUpdateResource()
     {
         IsCheckingForUpdates = true;
 
-        var (ret, uri) = await ResourceUpdater.CheckFromMirrorChyanAsync();
+        var (ret, uri, releaseNote) = await ResourceUpdater.CheckFromMirrorChyanAsync();
         var toastMessage = ret switch
         {
             VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdate => string.Empty,
@@ -456,16 +462,13 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         bool success = UpdateSource switch
         {
             "Github" => await ResourceUpdater.UpdateFromGithubAsync(),
-            "MirrorChyan" => (ret == VersionUpdateViewModel.CheckUpdateRetT.OK) && await ResourceUpdater.DownloadFromMirrorChyanAsync(uri),
+            "MirrorChyan" => (ret == VersionUpdateViewModel.CheckUpdateRetT.OK) && await ResourceUpdater.DownloadFromMirrorChyanAsync(uri, releaseNote),
             _ => await ResourceUpdater.UpdateFromGithubAsync(),
         };
 
         if (success)
         {
-            Instances.AsstProxy.LoadResource();
-            DataHelper.Reload();
-            SettingsViewModel.VersionUpdateSettings.ResourceInfoUpdate();
-            ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
+            ResourceUpdater.ResourceReload();
         }
 
         IsCheckingForUpdates = false;

@@ -252,7 +252,7 @@
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">소스 전환 후 입력</system:String>
     <system:String x:Key="MirrorChyanSoftwareUpdateTip">MirrorChyan이 소프트웨어 업데이트를 감지했습니다.「설정 - 소프트웨어 업데이트」로 이동하여 CDK를 구성하거나 글로벌 소스를 사용하세요.</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">MirrorChyan이 리소스 업데이트를 감지했습니다.「설정 - 소프트웨어 업데이트」로 이동하여 CDK를 구성하거나「리소스 업데이트」를 클릭하여 수동으로 업데이트하세요.</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">MirrorChyan이 리소스 업데이트를 감지했습니다{0}.「설정 - 소프트웨어 업데이트」로 이동하여 CDK를 구성하거나「리소스 업데이트」를 클릭하여 수동으로 업데이트하세요.</system:String>
     <system:String x:Key="NewVersionFoundTitle">새로운 버전 확인</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">백그라운드에서 다운로드 중……</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">버전: </system:String>
@@ -901,6 +901,7 @@ C:\\leidian\\LDPlayer9
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">스테이지 데이터 획득 성공</system:String>
     <system:String x:Key="GameResourceUpdating">게임 리소스가 업데이트 중입니다.</system:String>
+    <system:String x:Key="GameResourceUpdatingMirrorChyan">MirrorChyan이 리소스를 업데이트하는 중입니다{0}.</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">색인 작성 중</system:String>
     <system:String x:Key="GameResourceNotModified">게임 리소스가 업데이트되었습니다.</system:String>
     <system:String x:Key="GameResourceUpdated">게임 리소스가 업데이트되었습니다.</system:String>

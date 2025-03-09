@@ -30,10 +30,12 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
+using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -763,8 +765,8 @@ namespace MaaWpfGui.Main
 
                             case "Infrast":
                                 Instances.TaskQueueViewModel.InfrastTaskRunning = false;
-                                Instances.TaskQueueViewModel.IncreaseCustomInfrastPlanIndex();
-                                Instances.TaskQueueViewModel.RefreshCustomInfrastPlanIndexByPeriod();
+                                InfrastSettingsUserControlModel.Instance.IncreaseCustomInfrastPlanIndex();
+                                InfrastSettingsUserControlModel.Instance.RefreshCustomInfrastPlanIndexByPeriod();
                                 break;
                         }
 
@@ -855,7 +857,7 @@ namespace MaaWpfGui.Main
                             var logs = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationEnableDetails
                                 ? Instances.TaskQueueViewModel.LogItemViewModels.Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n")
                                 : string.Empty;
-                            logs += allTaskCompleteMessage + Environment.NewLine + sanityReport;
+                            logs += allTaskCompleteMessage;
 
                             ExternalNotificationService.Send(allTaskCompleteTitle, logs + Environment.NewLine + sanityReport);
 
@@ -899,8 +901,11 @@ namespace MaaWpfGui.Main
 
                         if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
                         {
-                            Instances.TaskQueueViewModel.GifVisibility = true;
-                            Instances.TaskQueueViewModel.ChangeGif();
+                            if (Application.Current.MainWindow?.DataContext is RootViewModel rvm)
+                            {
+                                rvm.GifVisibility = true;
+                                rvm.ChangeGif();
+                            }
                         }
 
                         // Instances.TaskQueueViewModel.CheckAndShutdown();
@@ -1044,12 +1049,7 @@ namespace MaaWpfGui.Main
                 case "ReportToPenguinStats":
                     {
                         var why = details["why"]!.ToString();
-                        Instances.TaskQueueViewModel.AddLog(why + ", " + LocalizationHelper.GetString("GiveUpUploadingPenguins"), UiLogColor.Error);
-                        if (why == "UnknownStage")
-                        {
-                            Instances.TaskQueueViewModel.AddLog(details["details"]?["stage_code"] + ": " + LocalizationHelper.GetString("UnsupportedLevel"), UiLogColor.Error);
-                        }
-
+                        Instances.TaskQueueViewModel.AddLog(why + ", " + LocalizationHelper.GetString("GiveUpUploadingPenguins"), UiLogColor.Warning);
                         break;
                     }
 
@@ -1600,22 +1600,7 @@ namespace MaaWpfGui.Main
 
                 case "UnsupportedLevel":
                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("UnsupportedLevel") + subTaskDetails!["level"], UiLogColor.Error);
-                    Task.Run(async () =>
-                    {
-                        if (SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates)
-                        {
-                            return;
-                        }
-
-                        var ret = await ResourceUpdater.CheckAndDownloadResourceUpdate();
-                        if (ret == VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated)
-                        {
-                            Instances.AsstProxy.LoadResource();
-                            DataHelper.Reload();
-                            SettingsViewModel.VersionUpdateSettings.ResourceInfoUpdate();
-                            ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
-                        }
-                    });
+                    _ = ResourceUpdater.ResourceUpdateAndReloadAsync();
                     break;
 
                 case "CustomInfrastRoomGroupsMatch":
@@ -2156,66 +2141,15 @@ namespace MaaWpfGui.Main
             return AsstSetTaskParamsWithEncoding(id, taskParams);
         }
 
-        /// <summary>
-        /// 领取奖励。
-        /// </summary>
-        /// <param name="award">是否领取每日/每周任务奖励</param>
-        /// <param name="mail">是否领取所有邮件奖励</param>
-        /// <param name="recruit">是否进行每日免费单抽</param>
-        /// <param name="orundum">是否领取幸运墙合成玉奖励</param>
-        /// <param name="mining">是否领取限时开采许可合成玉奖励</param>
-        /// <param name="specialaccess">是否领取五周年赠送月卡奖励</param>
-        /// <returns>是否成功。</returns>
-        public bool AsstAppendAward(bool award, bool mail, bool recruit, bool orundum, bool mining, bool specialaccess)
-        {
-            var taskParams = new JObject
-            {
-                ["award"] = award,
-                ["mail"] = mail,
-                ["recruit"] = recruit,
-                ["orundum"] = orundum,
-                ["mining"] = mining,
-                ["specialaccess"] = specialaccess,
-            };
-            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Award, taskParams);
-            _taskStatus.Add(id, TaskType.Award);
-            return id != 0;
-        }
-
-        /// <summary>
-        /// 开始唤醒。
-        /// </summary>
-        /// <param name="clientType">客户端版本。</param>
-        /// <param name="enable">是否自动启动客户端。</param>
-        /// <param name="accountName">需要切换到的登录名，留空以禁用</param>
-        /// <returns>是否成功。</returns>
-        public bool AsstAppendStartUp(string clientType, bool enable, string accountName)
-        {
-            var taskParams = new JObject
-            {
-                ["client_type"] = clientType,
-                ["start_game_enabled"] = enable,
-                ["account_name"] = accountName,
-            };
-            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.StartUp, taskParams);
-            _taskStatus.Add(id, TaskType.StartUp);
-            return id != 0;
-        }
-
         public bool AsstAppendCloseDown(string clientType)
         {
-            var taskParams = new JObject
-            {
-                ["client_type"] = clientType,
-            };
             if (!AsstStop())
             {
                 _logger.Warning("Failed to stop Asst");
             }
 
-            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.CloseDown, taskParams);
-            _taskStatus.Add(id, TaskType.CloseDown);
-            return id != 0;
+            var (type, param) = new AsstCloseDownTask() { ClientType = clientType }.Serialize();
+            return AsstAppendTaskWithEncoding(TaskType.CloseDown, type, param);
         }
 
         /// <summary>
@@ -2231,120 +2165,6 @@ namespace MaaWpfGui.Main
         public bool AsstBackToHome()
         {
             return MaaService.AsstBackToHome(_handle);
-        }
-
-        /// <summary>
-        /// 领取信用及商店购物。
-        /// </summary>
-        /// <param name="creditFight">是否信用战斗。</param>
-        /// <param name="selectFormation">信用战斗选择编队</param>
-        /// <param name="visitFriends">是否访问好友。</param>
-        /// <param name="withShopping">是否购物。</param>
-        /// <param name="firstList">优先购买列表。</param>
-        /// <param name="blacklist">黑名单列表。</param>
-        /// <param name="forceShoppingIfCreditFull">是否在信用溢出时无视黑名单</param>
-        /// <param name="onlyBuyDiscount">只购买折扣信用商品(未打折的白名单物品仍会购买)。</param>
-        /// <param name="reserveMaxCredit">设置300以下信用点停止购买商品。</param>
-        /// <returns>是否成功。</returns>
-        public bool AsstAppendMall(bool creditFight, int selectFormation, bool visitFriends, bool withShopping, string[] firstList, string[] blacklist, bool forceShoppingIfCreditFull, bool onlyBuyDiscount, bool reserveMaxCredit)
-        {
-            var taskParams = new JObject
-            {
-                ["credit_fight"] = creditFight,
-                ["select_formation"] = selectFormation,
-                ["visit_friends"] = visitFriends,
-                ["shopping"] = withShopping,
-                ["buy_first"] = new JArray(firstList),
-                ["blacklist"] = new JArray(blacklist),
-                ["force_shopping_if_credit_full"] = forceShoppingIfCreditFull,
-                ["only_buy_discount"] = onlyBuyDiscount,
-                ["reserve_max_credit"] = reserveMaxCredit,
-            };
-            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Mall, taskParams);
-            _taskStatus.Add(id, TaskType.Mall);
-            return id != 0;
-        }
-
-        private static JObject SerializeInfrastTaskParams(
-            IEnumerable<string> order,
-            string usesOfDrones,
-            bool continueTraining,
-            double dormThreshold,
-            bool dormFilterNotStationedEnabled,
-            bool dormDormTrustEnabled,
-            bool originiumShardAutoReplenishment,
-            bool isCustom,
-            string filename,
-            int planIndex)
-        {
-            var taskParams = new JObject
-            {
-                ["facility"] = new JArray(order.ToArray<object>()),
-                ["drones"] = usesOfDrones,
-                ["continue_training"] = continueTraining,
-                ["threshold"] = dormThreshold,
-                ["dorm_notstationed_enabled"] = dormFilterNotStationedEnabled,
-                ["dorm_trust_enabled"] = dormDormTrustEnabled,
-                ["replenish"] = originiumShardAutoReplenishment,
-                ["mode"] = isCustom ? 10000 : 0,
-                ["filename"] = filename,
-                ["plan_index"] = planIndex,
-            };
-
-            return taskParams;
-        }
-
-        /// <summary>
-        /// 基建换班。
-        /// </summary>
-        /// <param name="order">要换班的设施（有序）。</param>
-        /// <param name="usesOfDrones">
-        /// 无人机用途。可用值包括：
-        /// <list type="bullet">
-        /// <item><c>_NotUse</c></item>
-        /// <item><c>Money</c></item>
-        /// <item><c>SyntheticJade</c></item>
-        /// <item><c>CombatRecord</c></item>
-        /// <item><c>PureGold</c></item>
-        /// <item><c>OriginStone</c></item>
-        /// <item><c>Chip</c></item>
-        /// </list>
-        /// </param>
-        /// <param name="continueTraining">训练室是否尝试连续专精</param>
-        /// <param name="dormThreshold">宿舍进驻心情阈值。</param>
-        /// <param name="dormFilterNotStationedEnabled">宿舍是否使用未进驻筛选标签</param>
-        /// <param name="dormDormTrustEnabled">宿舍是否使用蹭信赖功能</param>
-        /// <param name="originiumShardAutoReplenishment">制造站搓玉是否补货</param>
-        /// <param name="isCustom">是否开启自定义配置</param>
-        /// <param name="filename">自定义配置文件路径</param>
-        /// <param name="planIndex">自定义配置计划编号</param>
-        /// <returns>是否成功。</returns>
-        public bool AsstAppendInfrast(
-            IEnumerable<string> order,
-            string usesOfDrones,
-            bool continueTraining,
-            double dormThreshold,
-            bool dormFilterNotStationedEnabled,
-            bool dormDormTrustEnabled,
-            bool originiumShardAutoReplenishment,
-            bool isCustom,
-            string filename,
-            int planIndex)
-        {
-            var taskParams = SerializeInfrastTaskParams(
-                order,
-                usesOfDrones,
-                continueTraining,
-                dormThreshold,
-                dormFilterNotStationedEnabled,
-                dormDormTrustEnabled,
-                originiumShardAutoReplenishment,
-                isCustom,
-                filename,
-                planIndex);
-            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Infrast, taskParams);
-            _taskStatus.Add(id, TaskType.Infrast);
-            return id != 0;
         }
 
         public bool AsstSetInfrastTaskParams(
@@ -2366,17 +2186,19 @@ namespace MaaWpfGui.Main
                 return false;
             }
 
-            var taskParams = SerializeInfrastTaskParams(
-                order,
-                usesOfDrones,
-                continueTraining,
-                dormThreshold,
-                dormFilterNotStationedEnabled,
-                dormDormTrustEnabled,
-                originiumShardAutoReplenishment,
-                isCustom,
-                filename,
-                planIndex);
+            var taskParams = new AsstInfrastTask
+            {
+                Facilitys = order.ToList(),
+                UsesOfDrones = usesOfDrones,
+                ContinueTraining = continueTraining,
+                DormThreshold = dormThreshold,
+                DormFilterNotStationedEnabled = dormFilterNotStationedEnabled,
+                DormDormTrustEnabled = dormDormTrustEnabled,
+                OriginiumShardAutoReplenishment = originiumShardAutoReplenishment,
+                IsCustom = isCustom,
+                Filename = filename,
+                PlanIndex = planIndex,
+            }.Serialize().Params;
             return AsstSetTaskParamsWithEncoding(id, taskParams);
         }
 
@@ -2588,7 +2410,7 @@ namespace MaaWpfGui.Main
             {
                 ["refresh"] = false,
                 ["select"] = new JArray(selectLevel),
-                ["confirm"] = new JArray(),
+                ["confirm"] = new JArray(-1), // 仅公招识别时将-1加入comfirm_level
                 ["times"] = 0,
                 ["set_time"] = setTime,
                 ["expedite"] = false,
@@ -2612,10 +2434,7 @@ namespace MaaWpfGui.Main
         /// <returns>是否成功。</returns>
         public bool AsstStartDepot()
         {
-            var taskParams = new JObject();
-            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Depot, taskParams);
-            _taskStatus.Add(id, TaskType.Depot);
-            return id != 0 && AsstStart();
+            return AsstAppendTaskWithEncoding(TaskType.Depot, AsstTaskType.Depot) && AsstStart();
         }
 
         /// <summary>
@@ -2624,10 +2443,7 @@ namespace MaaWpfGui.Main
         /// <returns>是否成功。</returns>
         public bool AsstStartOperBox()
         {
-            var taskParams = new JObject();
-            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.OperBox, taskParams);
-            _taskStatus.Add(id, TaskType.OperBox);
-            return id != 0 && AsstStart();
+            return AsstAppendTaskWithEncoding(TaskType.OperBox, AsstTaskType.OperBox) && AsstStart();
         }
 
         public bool AsstStartGacha(bool once = true)

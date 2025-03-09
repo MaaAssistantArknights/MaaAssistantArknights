@@ -5,6 +5,7 @@
 #include <functional>
 #include <iostream>
 #include <mutex>
+#include <streambuf>
 #include <thread>
 #include <type_traits>
 #include <utility>
@@ -556,8 +557,65 @@ public:
     template <typename stream_t, typename... Args>
     LogStream(std::unique_lock<std::mutex>&&, stream_t&&, Args&&...) -> LogStream<stream_t>;
 
+    class LogStreambuf : public std::filebuf
+    {
+    public:
+        LogStreambuf(std::filebuf* dest_buf) :
+            dest(dest_buf)
+        {
+        }
+
+        std::streamsize count_bytes() const { return count; }
+
+    protected:
+        int_type overflow(int_type c) override
+        {
+            if (c != traits_type::eof()) {
+                ch = static_cast<char>(c);
+                if (ch == '\n') {
+                    count += NewLineSize;
+                }
+                else {
+                    count++;
+                }
+                if (dest) {
+                    dest->sputc(ch);
+                }
+            }
+            return ch;
+        }
+
+        int sync() override
+        {
+            if (dest) {
+                return dest->pubsync();
+            }
+            return 0;
+        }
+
+        // 处理字符块
+        std::streamsize xsputn(const char* s, std::streamsize n) override
+        {
+            count += n;
+            if (dest) {
+                return dest->sputn(s, n);
+            }
+            return n;
+        }
+
+    private:
+#if defined(_WIN32) || defined(_WIN64)
+        const static std::size_t NewLineSize = 2; // \r\n;
+#else
+        const static std::size_t NewLineSize = 1; // \n;
+#endif
+        char ch = 0;
+        std::filebuf* dest;
+        std::streamsize count = 0;
+    };
+
 public:
-    virtual ~Logger() override { flush(false); }
+    virtual ~Logger() override { flush(); }
 
     // static bool set_directory(const std::filesystem::path& dir)
     // {
@@ -572,21 +630,20 @@ public:
     template <typename T>
     auto operator<<(T&& arg)
     {
-        if (!m_ofs || !m_ofs.is_open()) {
-            m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
-        }
+        std::unique_lock lock { m_trace_mutex };
+        rotate();
         if constexpr (std::same_as<level, remove_cvref_t<T>>) {
 #ifdef ASST_DEBUG
-            return LogStream(m_trace_mutex, ostreams { console_ostream(std::cout), m_ofs }, arg);
+            return LogStream(std::move(lock), ostreams { console_ostream(std::cout), m_of }, arg);
 #else
-            return LogStream(m_trace_mutex, m_ofs, arg);
+            return LogStream(std::move(lock), m_of, arg);
 #endif
         }
         else {
 #ifdef ASST_DEBUG
-            return LogStream(m_trace_mutex, ostreams { console_ostream(std::cout), m_ofs }, level::trace, arg);
+            return LogStream(std::move(lock), ostreams { console_ostream(std::cout), m_of }, level::trace, arg);
 #else
-            return LogStream(m_trace_mutex, m_ofs, level::trace, arg);
+            return LogStream(std::move(lock), m_of, level::trace, arg);
 #endif
         }
     }
@@ -659,28 +716,24 @@ public:
         if (!lv.is_enabled()) {
             return;
         }
-        if (!m_ofs || !m_ofs.is_open()) {
-            m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
-        }
+        rotate();
         (LogStream(
              std::move(lock),
 #ifdef ASST_DEBUG
-             ostreams { console_ostream(std::cout), m_ofs },
+             ostreams { console_ostream(std::cout), m_of },
 #else
-             m_ofs,
+             m_of,
 #endif
              lv)
          << ... << std::forward<Args>(args));
     }
 
-    void flush(bool rorate_log_file = true)
+    void flush()
     {
         std::unique_lock<std::mutex> m_trace_lock(m_trace_mutex);
         if (m_ofs.is_open()) {
+            m_of.flush();
             m_ofs.close();
-        }
-        if (rorate_log_file) {
-            rotate();
         }
     }
 
@@ -688,29 +741,52 @@ private:
     friend class SingletonHolder<Logger>;
 
     Logger() :
-        m_directory(UserDir.get())
+        m_directory(UserDir.get()),
+        m_buff(nullptr),
+        m_of(&m_buff)
     {
-        std::filesystem::create_directories(m_log_path.parent_path());
-        rotate();
-        log_init_info();
-    }
-
-    void rotate() const
-    {
-        constexpr uintmax_t MaxLogSize = 64ULL * 1024 * 1024;
         try {
-            if (std::filesystem::exists(m_log_path) && std::filesystem::is_regular_file(m_log_path)) {
-                const uintmax_t log_size = std::filesystem::file_size(m_log_path);
-                if (log_size >= MaxLogSize) {
-                    std::filesystem::rename(m_log_path, m_log_bak_path);
-                }
-            }
+            std::filesystem::create_directories(m_log_path.parent_path());
         }
         catch (std::filesystem::filesystem_error& e) {
             std::cerr << e.what() << std::endl;
         }
         catch (...) {
         }
+
+        LoadFileStream();
+        log_init_info();
+    }
+
+    void rotate()
+    {
+        if (!m_of || !m_ofs || !m_ofs.is_open()) {
+            LoadFileStream();
+        }
+        if (m_file_size + m_buff.count_bytes() <= MaxLogSize) {
+            return;
+        }
+        try {
+            if (!std::filesystem::exists(m_log_path) || !std::filesystem::is_regular_file(m_log_path)) {
+                return;
+            }
+            m_ofs.close();
+            std::filesystem::rename(m_log_path, m_log_bak_path);
+            LoadFileStream();
+        }
+        catch (std::filesystem::filesystem_error& e) {
+            std::cerr << e.what() << std::endl;
+        }
+        catch (...) {
+        }
+    }
+
+    void LoadFileStream()
+    {
+        m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
+        m_file_size = std::filesystem::file_size(m_log_path);
+        m_buff = LogStreambuf(m_ofs.rdbuf());
+        m_of.rdbuf(&m_buff);
     }
 
     void log_init_info()
@@ -731,6 +807,10 @@ private:
     std::filesystem::path m_log_bak_path = m_directory / "debug" / "asst.bak.log";
     std::mutex m_trace_mutex;
     std::ofstream m_ofs;
+    LogStreambuf m_buff;
+    std::ostream m_of;
+    std::size_t m_file_size = 0;
+    const std::size_t MaxLogSize = 64LL * 1024 * 1024;
 };
 
 inline constexpr Logger::separator Logger::separator::none;

@@ -620,6 +620,60 @@
     "OR-4@SideStoryStage": {
         "text": ["OR-4"]
     },
+    "EA-8": {
+        "algorithm": "JustReturn",
+        "sub": ["EA-OpenOpt"],
+        "next": ["EA-8@SideStoryStage", "EA-8@SwipeToStage"]
+    },
+    "EA-8@SideStoryStage": {
+        "text": ["EA-8"]
+    },
+    "EA-7": {
+        "algorithm": "JustReturn",
+        "sub": ["EA-OpenOpt"],
+        "next": ["EA-7@SideStoryStage", "EA-7@SwipeToStage"]
+    },
+    "EA-7@SideStoryStage": {
+        "text": ["EA-7"]
+    },
+    "EA-6": {
+        "algorithm": "JustReturn",
+        "sub": ["EA-OpenOpt"],
+        "next": ["EA-6@SideStoryStage", "EA-6@SwipeToStage"]
+    },
+    "EA-6@SideStoryStage": {
+        "text": ["EA-6"]
+    },
+    "EA-3": {
+        "algorithm": "JustReturn",
+        "sub": ["EA-OpenOpt"],
+        "next": ["EA-3@SideStoryStage", "EA-3@SwipeToStage"]
+    },
+    "EA-3@SideStoryStage": {
+        "text": ["EA-3"]
+    },
+    "EA-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["EA-OpenOcr", "EA-Open"]
+    },
+    "EA-Open": {
+        "baseTask": "SS-Open",
+        "template": "StageSideStory.png",
+        "next": ["EAChapterToEA"]
+    },
+    "EA-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["挽歌燃烧殆尽", "将熄的火"],
+        "next": ["EAChapterToEA"]
+    },
+    "EAChapterToEA": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["摇", "影"],
+        "preDelay": 3000,
+        "roi": [1097, 492, 115, 45],
+        "next": ["#self", "ChapterSwipeToTheRight"]
+    },
     "EP-8": {
         "algorithm": "JustReturn",
         "sub": ["EP-OpenOpt"],
@@ -4145,7 +4199,7 @@
     "InfrastReceptionReceiveMessageBoard": {
         "algorithm": "JustReturn",
         "maxTimes": 3,
-        "next": ["InfrastReceptionOpenMessageBoard", "InfrastReceptionInteractive", "#self"]
+        "next": ["InfrastReceptionInteractive#next", "InfrastReceptionReceiveMessageBoard"]
     },
     "InfrastReceptionReceiveMessageBoard-Exit": {
         "action": "DoNothing",
@@ -4154,36 +4208,61 @@
         "next": ["Stop"]
     },
     "InfrastReceptionInteractive": {
+        "doc": "会客室左下第二个button, 点了之后可互动家具显示互动按钮",
         "action": "ClickSelf",
         "roi": [400, 610, 100, 110],
         "maxTimes": 3,
-        "next": ["InfrastReceptionOpenMessageBoard", "#self"]
+        "next": [
+            "InfrastReceptionMessageBoardWithNew",
+            "InfrastReceptionMessageBoardWithoutNew",
+            "InfrastReceptionInteractive"
+        ]
     },
-    "InfrastReceptionOpenMessageBoard": {
+    "InfrastReceptionMessageBoardWithNew": {
         "action": "ClickSelf",
         "roi": [0, 150, 1280, 250],
-        "maskRange": [1, 255],
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [0, 0, 200],
+                [255, 255, 255]
+            ]
+        ],
         "postDelay": 1000,
         "next": [
             "InfrastReceptionMessageBoard-AccessRecord",
             "InfrastReceptionMessageBoard-CouldReceive",
             "InfrastReceptionMessageBoard-Received",
-            "InfrastReceptionOpenMessageBoard@LoadingText"
+            "InfrastReceptionMessageBoardWithNew@LoadingText"
         ]
+    },
+    "InfrastReceptionMessageBoardWithoutNew": {
+        "action": "DoNothing",
+        "baseTask": "InfrastReceptionMessageBoardWithNew",
+        "postDelay": 0,
+        "next": []
     },
     "InfrastReceptionMessageBoard-AccessRecord": {
         "doc": "进信息板的上周记录，不一定会有",
         "action": "ClickSelf",
         "roi": [520, 50, 240, 140],
         "maxTimes": 20,
-        "next": ["InfrastReceptionMessageBoard-CouldReceive", "InfrastReceptionMessageBoard-Received", "#self"]
+        "next": [
+            "InfrastReceptionMessageBoard-CouldReceive",
+            "InfrastReceptionMessageBoard-Received",
+            "InfrastReceptionMessageBoard-AccessRecord"
+        ]
     },
     "InfrastReceptionMessageBoard-CouldReceive": {
         "action": "ClickSelf",
         "roi": [1090, 480, 120, 140],
         "maxTimes": 5,
         "exceededNext": ["InfrastReceptionMessageBoard-Received#next"],
-        "next": ["InfrastReceptionMessageBoard-Received", "InfrastReceptionOpenMessageBoard@LoadingText", "#self"]
+        "next": [
+            "InfrastReceptionMessageBoard-Received",
+            "InfrastReceptionMessageBoardWithNew@LoadingText",
+            "InfrastReceptionMessageBoard-CouldReceive"
+        ]
     },
     "InfrastReceptionMessageBoard-Received": {
         "roi": [1090, 480, 120, 140],
@@ -5993,7 +6072,8 @@
         "template": "InfrastTradeSyntheticJadeFlag.png",
         "cache": true,
         "roi": [950, 585, 207, 105],
-        "next": ["ChooseMoneyOrder"]
+        "next": ["ChooseMoneyOrder"],
+        "preDelay": 500
     },
     "ChooseMoneyOrder": {
         "action": "ClickSelf",
@@ -6012,7 +6092,8 @@
         "template": "InfrastTradeMoneyFlag.png",
         "cache": true,
         "roi": [950, 585, 207, 105],
-        "next": ["ChooseSyntheticJadeOrder"]
+        "next": ["ChooseSyntheticJadeOrder"],
+        "preDelay": 500
     },
     "ChooseSyntheticJadeOrder": {
         "action": "ClickSelf",
@@ -7441,6 +7522,7 @@
         "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [0, 0, 180, 80],
+        "preDelay": 500,
         "next": ["Roguelike@StageEnterBattleAgain"]
     },
     "Roguelike@RolesConfirm": {
@@ -10569,7 +10651,6 @@
     },
     "Sarkaz@Roguelike@DecreaseBurdenRetardation": {
         "roi": [561, 607, 153, 113],
-        "templThreshold": 0.9,
         "action": "ClickSelf",
         "next": [
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
@@ -10638,19 +10719,15 @@
         ]
     },
     "Sarkaz@Roguelike@DeepExploration": {
-        "doc": "等出了记得看眼",
         "template": "Roguelike@DeepExploration.png"
     },
     "Sarkaz@Roguelike@DeepExplorationEnd": {
-        "doc": "等出了记得看眼",
-        "template": "Roguelike@DeepExplorationEnd.png"
+        "template": "Sarkaz@Roguelike@Confirm.png"
     },
     "Sarkaz@Roguelike@DeepExplorationNotUnlockedComplain": {
-        "doc": "等出了记得看眼",
         "template": "Roguelike@DeepExplorationNotUnlocked.png"
     },
     "Sarkaz@Roguelike@DeepExplorationRewardMiss": {
-        "doc": "等出了记得看眼",
         "template": "Roguelike@RewardCompleted.png"
     },
     "Sarkaz@Roguelike@DialogSkip": {
@@ -10714,7 +10791,9 @@
         ]
     },
     "Sarkaz@Roguelike@GamePassSkip2": {},
-    "Sarkaz@Roguelike@GamePassTheEndConfirm": {},
+    "Sarkaz@Roguelike@GamePassTheEndConfirm": {
+        "template": "Sarkaz@Roguelike@Confirm.png"
+    },
     "Sarkaz@Roguelike@GetDrop1": {},
     "Sarkaz@Roguelike@GetDrop2": {},
     "Sarkaz@Roguelike@GetDrop3": {},
@@ -10748,7 +10827,9 @@
             "Sarkaz@Roguelike@GetDropRecruit"
         ]
     },
-    "Sarkaz@Roguelike@InitialDrop": {},
+    "Sarkaz@Roguelike@InitialDrop": {
+        "template": "Sarkaz@Roguelike@Confirm.png"
+    },
     "Sarkaz@Roguelike@LastReward": {},
     "Sarkaz@Roguelike@LastReward-EnterPoint": {
         "template": [
@@ -11672,7 +11753,9 @@
         "roi": [912, 648, 58, 58],
         "action": "ClickSelf"
     },
-    "Sarkaz@RoguelikeSettlementConfirm": {},
+    "Sarkaz@RoguelikeSettlementConfirm": {
+        "template": "Sarkaz@Roguelike@Confirm.png"
+    },
     "Reclamation2": {
         "doc": "生息演算「沙洲遗闻」",
         "algorithm": "JustReturn",

@@ -36,9 +36,9 @@ namespace MaaWpfGui.Services.Web
         /// <param name="uri">Target Uri</param>
         /// <param name="extraHeader">Extra HTTP Request Headers</param>
         /// <param name="httpCompletionOption">The HTTP completion option</param>
-        /// <param name="logUri">Whether to log uri</param>
+        /// <param name="logQuery">Whether to log uri</param>
         /// <returns>Response string, null when failed</returns>
-        Task<string?> GetStringAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead, bool logUri = true);
+        Task<string?> GetStringAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead, bool logQuery = true);
 
         /// <summary>
         /// Send HTTP GET request and get a body stream response
@@ -46,10 +46,10 @@ namespace MaaWpfGui.Services.Web
         /// <param name="uri">Target Uri</param>
         /// <param name="extraHeader">Extra HTTP Request Headers</param>
         /// <param name="httpCompletionOption">The HTTP completion option</param>
-        /// <param name="logUri">Whether to log uri</param>
+        /// <param name="logQuery">Whether to log uri</param>
         /// <returns>Response stream, null when failed</returns>
         // ReSharper disable once UnusedMember.Global
-        Task<Stream?> GetStreamAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead, bool logUri = true);
+        Task<Stream?> GetStreamAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead, bool logQuery = true);
 
         /// <summary>
         /// Send HTTP GET request and get the original <see cref="HttpRequestMessage"/>
@@ -57,9 +57,9 @@ namespace MaaWpfGui.Services.Web
         /// <param name="uri">Target Uri</param>
         /// <param name="extraHeader">Extra HTTP Request Headers</param>
         /// <param name="httpCompletionOption">The HTTP completion option</param>
-        /// <param name="logUri">Whether to log uri</param>
+        /// <param name="logQuery">Whether to log uri</param>
         /// <returns><see cref="HttpRequestMessage"/> object</returns>
-        Task<HttpResponseMessage?> GetAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseHeadersRead, bool logUri = true);
+        Task<HttpResponseMessage?> GetAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseHeadersRead, bool logQuery = true);
 
         /// <summary>
         /// Send HTTP POST request and a string response

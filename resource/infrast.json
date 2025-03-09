@@ -880,8 +880,11 @@
                 "template": "Bskill_man_limit&cost2.png"
             },
             "bskill_man_limit&cost3": {
-                "desc": ["进驻制造站时，仓库容量上限+16，心情每小时消耗-0.25"],
-                "name": ["探险者"],
+                "desc": [
+                    "进驻制造站时，仓库容量上限+16，心情每小时消耗-0.25",
+                    "进驻制造站时，仓库容量上限+16，心情每小时消耗-0.25"
+                ],
+                "name": ["探险者", "收纳达人"],
                 "template": "Bskill_man_limit&cost3.png"
             },
             "bskill_man_limit&cost5": {
@@ -1002,6 +1005,11 @@
                 "desc": ["进驻制造站时，生产力+25%，仓库容量上限+6"],
                 "name": ["得心应手"],
                 "template": "Bskill_man_spd&limit5.png"
+            },
+            "bskill_man_spd&limit6": {
+                "desc": ["进驻制造站时，生产力+20%，仓库容量上限-8"],
+                "name": ["行动派"],
+                "template": "Bskill_man_spd&limit6.png"
             },
             "bskill_man_spd&limit_felyne": {
                 "desc": ["进驻制造站时，仓库容量上限+8，生产力+5%，同时每有1个木天蓼，则生产力+1%"],
@@ -1693,6 +1701,16 @@
                 },
                 "name": ["法为正典"],
                 "template": "Bskill_hire_skgoat2.png"
+            },
+            "bskill_hire_skgoat3": {
+                "desc": ["进驻人力办公室时，人脉资源的联络速度+30%，心情每小时消耗+1"],
+                "name": ["永不停歇·α"],
+                "template": "Bskill_hire_skgoat3.png"
+            },
+            "bskill_hire_skgoat4": {
+                "desc": ["进驻人力办公室时，人脉资源的联络速度+45%，心情每小时消耗+1"],
+                "name": ["永不停歇·β"],
+                "template": "Bskill_hire_skgoat4.png"
             },
             "bskill_hire_spd&blacksteel2": {
                 "desc": [

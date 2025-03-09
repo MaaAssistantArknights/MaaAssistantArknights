@@ -10,6 +10,15 @@
     "Sami@Roguelike@StageEnterBattleAgain": {
         "specificRect": [1180, 460, 30, 20]
     },
+    "Sarkaz@Roguelike@InitialDrop2": {
+        "action": "ClickRect",
+        "algorithm": "OcrDetect",
+        "doc": "월간 소대 시작 시 체크 표시가 없어서 만들어진 작업",
+        "next": ["Sarkaz@Roguelike@Squad-EnterPoint", "Sarkaz@Roguelike@InitialDrop2"],
+        "roi": [600, 16, 145, 36],
+        "specificRect": [545, 432, 187, 127],
+        "text": ["오퍼", "레이터", "초기", "소장품"]
+    },
     "StartUpNotificationKR": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -37,6 +46,15 @@
     },
     "SideStoryReopen": {
         "text": ["재개방"]
+    },
+    "DT-Open": {
+        "text": ["테라", "이벤트", "개방중"]
+    },
+    "DT-OpenOcr": {
+        "text": ["테라", "이벤트", "개방중"]
+    },
+    "DTChapterToDT": {
+        "text": ["마물", "맛"]
     },
     "BP-OpenOcr": {
         "text": ["삶의", "길", "이벤트", "개방"]
@@ -908,7 +926,8 @@
             ["임시임명조항", "临时任命条款"],
             ["로열사이언스아카데미망원경", "皇家科学院望远镜"],
             ["전문디스플레이모듈", "专业显示模块"],
-            ["신축성설치모듈", "灵活架设模块"]
+            ["신축성설치모듈", "灵活架设模块"],
+            ["시설정비공", "设施建筑工"]
         ]
     },
     "StartUpThemes": {
@@ -2617,7 +2636,12 @@
             ["떠남", "离去"],
             ["휴식", "歇息"],
             ["만족", "满足"],
-            ["도움요청", "呼救"]
+            ["도움요청", "呼救"],
+            ["(제단식|레이더)", "雷达"],
+            ["(휴대용|축음기)", "留声机"],
+            ["(관상용|거대버섯)", "景观"],
+            ["(양자|폭죽|데이터)", "踢脚"],
+            ["(탐사용|자율차)", "自走车"]
         ]
     },
     "Sami@Roguelike@FoldartalUseConfirm": {
@@ -2777,6 +2801,16 @@
     },
     "Sarkaz@Roguelike@StageSafeHouseReuse": {
         "text": ["안전가옥활용"]
+    },
+    "Sarkaz@Roguelike@StartExplore": {
+        "doc": "월간 소대 시작 시 체크 표시가 없어서 만들어진 작업",
+        "next": [
+            "Sarkaz@Roguelike@Squad-EnterPoint",
+            "Sarkaz@Roguelike@InitialDrop",
+            "Sarkaz@Roguelike@ChooseDifficulty",
+            "Sarkaz@Roguelike@StartExplore-EnterCheck",
+            "Sarkaz@Roguelike@InitialDrop2"
+        ]
     },
     "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
         "ocrReplace": [

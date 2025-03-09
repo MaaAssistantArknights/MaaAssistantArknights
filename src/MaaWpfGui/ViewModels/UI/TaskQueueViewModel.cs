@@ -22,26 +22,23 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
+using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using Application = System.Windows.Application;
 using IContainer = StyletIoC.IContainer;
-using Point = System.Windows.Point;
 using Screen = Stylet.Screen;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -180,8 +177,8 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (actions.ExitArknights)
             {
-                var mode = SettingsViewModel.GameSettings.ClientType;
-                if (!Instances.AsstProxy.AsstStartCloseDown(mode))
+                var clientType = SettingsViewModel.GameSettings.ClientType;
+                if (!Instances.AsstProxy.AsstStartCloseDown(clientType))
                 {
                     AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
                 }
@@ -418,7 +415,7 @@ namespace MaaWpfGui.ViewModels.UI
             HandleDatePromptUpdate();
             HandleCheckForUpdates();
 
-            RefreshCustomInfrastPlanIndexByPeriod();
+            InfrastTask.RefreshCustomInfrastPlanIndexByPeriod();
 
             await HandleTimerLogic(currentTime);
         }
@@ -472,18 +469,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 _logger.Information($"waiting for update check: {delayTime}");
                 await Task.Delay(delayTime);
-                if (await Instances.VersionUpdateViewModel.CheckAndDownloadVersionUpdate() == VersionUpdateViewModel.CheckUpdateRetT.OK)
-                {
-                    _ = Instances.VersionUpdateViewModel.AskToRestart();
-                }
-
-                if (await ResourceUpdater.CheckAndDownloadResourceUpdate() == VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated)
-                {
-                    Instances.AsstProxy.LoadResource();
-                    DataHelper.Reload();
-                    SettingsViewModel.VersionUpdateSettings.ResourceInfoUpdate();
-                    ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
-                }
+                await Instances.VersionUpdateViewModel.VersionUpdateAndAskToRestartAsync();
+                await ResourceUpdater.ResourceUpdateAndReloadAsync();
 
                 _isCheckingForUpdates = false;
             });
@@ -608,7 +595,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 FightTask.ResetFightVariables();
                 ResetTaskSelection();
-                RefreshCustomInfrastPlanIndexByPeriod();
+                InfrastTask.RefreshCustomInfrastPlanIndexByPeriod();
             }
 
             LinkStart();
@@ -640,6 +627,7 @@ namespace MaaWpfGui.ViewModels.UI
                     dialog.Close();
                     tcs.TrySetResult(true);
                 };
+                _logger.Information($"Timer wait time: {seconds}");
                 await Task.WhenAny(Task.Delay(delay), tcs.Task);
                 dialog.Close();
                 _logger.Information($"Timer canceled: {canceled}");
@@ -710,7 +698,7 @@ namespace MaaWpfGui.ViewModels.UI
             FightTask.InitDrops();
             NeedToUpdateDatePrompt();
             UpdateDatePromptAndStagesLocally();
-            RefreshCustomInfrastPlan();
+            InfrastTask.RefreshCustomInfrastPlan();
 
             if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
             {
@@ -1372,6 +1360,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     ResetTaskSelection();
                 }
+
                 return;
             }
 
@@ -1542,11 +1531,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static bool AppendStart()
         {
-            var mode = SettingsViewModel.GameSettings.ClientType;
-            var enable = mode.Length != 0;
-            StartUpTask.AccountName = StartUpTask.AccountName.Trim();
-            var accountName = StartUpTask.AccountName;
-            return Instances.AsstProxy.AsstAppendStartUp(mode, enable, accountName);
+            var (type, param) = StartUpTask.Serialize();
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.StartUp, type, param);
         }
 
         private bool AppendFight()
@@ -1691,7 +1677,7 @@ namespace MaaWpfGui.ViewModels.UI
             Instances.AsstProxy.AsstSetFightTaskParams(FightTask.RemainingSanityStage, 0, 0, int.MaxValue, 1, string.Empty, 0, false);
         }
 
-        private void SetInfrastParams()
+        public void SetInfrastParams()
         {
             if (!Instances.AsstProxy.ContainsTask(AsstProxy.TaskType.Infrast))
             {
@@ -1709,29 +1695,33 @@ namespace MaaWpfGui.ViewModels.UI
                 InfrastTask.OriginiumShardAutoReplenishment,
                 InfrastTask.CustomInfrastEnabled,
                 InfrastTask.CustomInfrastFile,
-                CustomInfrastPlanIndex);
+                InfrastTask.CustomInfrastPlanIndex);
         }
 
         private bool AppendInfrast()
         {
-            if (InfrastTask.CustomInfrastEnabled && (!File.Exists(InfrastTask.CustomInfrastFile) || CustomInfrastPlanInfoList.Count == 0))
+            // 被RemoteControlService反射调用，暂不移除
+            if (InfrastTask.CustomInfrastEnabled && (!File.Exists(InfrastTask.CustomInfrastFile) || InfrastTask.CustomInfrastPlanInfoList.Count == 0))
             {
                 AddLog(LocalizationHelper.GetString("CustomizeInfrastSelectionEmpty"), UiLogColor.Error);
                 return false;
             }
 
-            var order = InfrastTask.GetInfrastOrderList();
-            return Instances.AsstProxy.AsstAppendInfrast(
-                order,
-                InfrastTask.UsesOfDrones,
-                InfrastTask.ContinueTraining,
-                InfrastTask.DormThreshold / 100.0,
-                InfrastTask.DormFilterNotStationedEnabled,
-                InfrastTask.DormTrustEnabled,
-                InfrastTask.OriginiumShardAutoReplenishment,
-                InfrastTask.CustomInfrastEnabled,
-                InfrastTask.CustomInfrastFile,
-                CustomInfrastPlanIndex);
+            var (type, param) = new AsstInfrastTask
+            {
+                Facilitys = InfrastTask.GetInfrastOrderList(),
+                UsesOfDrones = InfrastTask.UsesOfDrones,
+                ContinueTraining = InfrastTask.ContinueTraining,
+                DormThreshold = InfrastTask.DormThreshold / 100.0,
+                DormFilterNotStationedEnabled = InfrastTask.DormFilterNotStationedEnabled,
+                DormDormTrustEnabled = InfrastTask.DormTrustEnabled,
+                OriginiumShardAutoReplenishment = InfrastTask.OriginiumShardAutoReplenishment,
+                IsCustom = InfrastTask.CustomInfrastEnabled,
+                Filename = InfrastTask.CustomInfrastFile,
+                PlanIndex = InfrastTask.CustomInfrastPlanIndex,
+            }.Serialize();
+
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Infrast, type, param);
         }
 
         private readonly Dictionary<string, IEnumerable<string>> _blackCharacterListMapping = new()
@@ -1747,37 +1737,16 @@ namespace MaaWpfGui.ViewModels.UI
 
         private bool AppendMall()
         {
-            var buyFirst = MallTask.CreditFirstList.Split(';', '；')
-                .Select(s => s.Trim());
-
-            var blackList = MallTask.CreditBlackList.Split(';', '；')
-                .Select(s => s.Trim());
-
-            blackList = blackList.Union(_blackCharacterListMapping[SettingsViewModel.GameSettings.ClientType]);
-            var fightEnable = TaskItemViewModels.Where(x => x.OriginalName == "Combat").FirstOrDefault().IsCheckedWithNull is not false;
-
-            return Instances.AsstProxy.AsstAppendMall(
-                fightEnable ? (!string.IsNullOrEmpty(FightTask.Stage) && MallTask.CreditFightTaskEnabled) : MallTask.CreditFightTaskEnabled,
-                MallTask.CreditFightSelectFormation,
-                MallTask.CreditVisitFriendsEnabled,
-                MallTask.CreditShopping,
-                buyFirst.ToArray(),
-                blackList.ToArray(),
-                MallTask.CreditForceShoppingIfCreditFull,
-                MallTask.CreditOnlyBuyDiscount,
-                MallTask.CreditReserveMaxCredit);
+            // 被RemoteControlService反射调用，暂不移除
+            var (type, param) = MallTask.Serialize();
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Mall, type, param);
         }
 
         private static bool AppendAward()
         {
-            var receiveAward = AwardTask.ReceiveAward;
-            var receiveMail = AwardTask.ReceiveMail;
-            var receiveFreeRecruit = AwardTask.ReceiveFreeRecruit;
-            var receiveOrundum = AwardTask.ReceiveOrundum;
-            var receiveMining = AwardTask.ReceiveMining;
-            var receiveSpecialAccess = AwardTask.ReceiveSpecialAccess;
-
-            return Instances.AsstProxy.AsstAppendAward(receiveAward, receiveMail, receiveFreeRecruit, receiveOrundum, receiveMining, receiveSpecialAccess);
+            // 被RemoteControlService反射调用，暂不移除
+            var (type, param) = AwardTask.Serialize();
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Award, type, param);
         }
 
         private static bool AppendRecruit()
@@ -1961,265 +1930,6 @@ namespace MaaWpfGui.ViewModels.UI
         }
         */
 
-        private bool _customInfrastEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastEnabled, bool.FalseString));
-
-        public bool CustomInfrastEnabled
-        {
-            get => _customInfrastEnabled;
-            set
-            {
-                SetAndNotify(ref _customInfrastEnabled, value);
-                RefreshCustomInfrastPlan();
-            }
-        }
-
-        public bool NeedAddCustomInfrastPlanInfo { get; set; } = true;
-
-        private int _customInfrastPlanIndex = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastPlanIndex, "0"));
-
-        public int CustomInfrastPlanIndex
-        {
-            get
-            {
-                if (CustomInfrastPlanInfoList.Count == 0)
-                {
-                    return 0;
-                }
-
-                if (_customInfrastPlanIndex >= CustomInfrastPlanInfoList.Count || _customInfrastPlanIndex < 0)
-                {
-                    CustomInfrastPlanIndex = _customInfrastPlanIndex;
-                }
-
-                return _customInfrastPlanIndex;
-            }
-
-            set
-            {
-                if (CustomInfrastPlanInfoList.Count == 0)
-                {
-                    return;
-                }
-
-                if (value >= CustomInfrastPlanInfoList.Count || value < 0)
-                {
-                    var count = CustomInfrastPlanInfoList.Count;
-                    value = ((value % count) + count) % count;
-                    _logger.Warning($"CustomInfrastPlanIndex out of range, reset to Index % Count: {value}");
-                }
-
-                if (value != _customInfrastPlanIndex && NeedAddCustomInfrastPlanInfo)
-                {
-                    var plan = CustomInfrastPlanInfoList[value];
-                    AddLog(plan.Name, UiLogColor.Message);
-
-                    foreach (var period in plan.PeriodList)
-                    {
-                        AddLog($"[ {period.BeginHour:D2}:{period.BeginMinute:D2} - {period.EndHour:D2}:{period.EndMinute:D2} ]");
-                    }
-
-                    if (plan.Description != string.Empty)
-                    {
-                        AddLog(plan.Description);
-                    }
-                }
-
-                SetAndNotify(ref _customInfrastPlanIndex, value);
-                SetInfrastParams();
-                ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastPlanIndex, value.ToString());
-            }
-        }
-
-        public ObservableCollection<GenericCombinedData<int>> CustomInfrastPlanList { get; } = new();
-
-        public struct CustomInfrastPlanInfo
-        {
-            // ReSharper disable InconsistentNaming
-            public int Index;
-
-            public string Name;
-            public string Description;
-            public string DescriptionPost;
-
-            // 有效时间段
-            public struct Period
-            {
-                public int BeginHour;
-                public int BeginMinute;
-                public int EndHour;
-                public int EndMinute;
-            }
-
-            public List<Period> PeriodList;
-
-            // ReSharper restore InconsistentNaming
-        }
-
-        private List<CustomInfrastPlanInfo> CustomInfrastPlanInfoList { get; } = new();
-
-        private bool _customInfrastPlanHasPeriod;
-        private bool _customInfrastInfoOutput;
-
-        public void RefreshCustomInfrastPlan()
-        {
-            CustomInfrastPlanInfoList.Clear();
-            CustomInfrastPlanList.Clear();
-            _customInfrastPlanHasPeriod = false;
-
-            if (!CustomInfrastEnabled)
-            {
-                return;
-            }
-
-            if (!File.Exists(InfrastTask.CustomInfrastFile))
-            {
-                return;
-            }
-
-            try
-            {
-                string jsonStr = File.ReadAllText(InfrastTask.CustomInfrastFile);
-                var root = (JObject)JsonConvert.DeserializeObject(jsonStr);
-
-                if (root != null && _customInfrastInfoOutput && root.TryGetValue("title", out var title))
-                {
-                    AddLog(LocalizationHelper.GetString("CustomInfrastTitle"), UiLogColor.Message);
-                    AddLog($"title: {title}", UiLogColor.Info);
-                    if (root.TryGetValue("description", out var value))
-                    {
-                        AddLog($"description: {value}", UiLogColor.Info);
-                    }
-                }
-
-                var planList = (JArray)root?["plans"];
-                if (planList != null)
-                {
-                    for (int i = 0; i < planList.Count; ++i)
-                    {
-                        var plan = (JObject)planList[i];
-                        string display = plan.TryGetValue("name", out var name) ? name.ToString() : ("Plan " + ((char)('A' + i)));
-                        CustomInfrastPlanList.Add(new GenericCombinedData<int> { Display = display, Value = i });
-                        string desc = plan.TryGetValue("description", out var description) ? description.ToString() : string.Empty;
-                        string descPost = plan.TryGetValue("description_post", out var descriptionPost) ? descriptionPost.ToString() : string.Empty;
-
-                        if (_customInfrastInfoOutput)
-                        {
-                            AddLog(display, UiLogColor.Message);
-                        }
-
-                        var periodList = new List<CustomInfrastPlanInfo.Period>();
-                        if (plan.TryGetValue("period", out var token))
-                        {
-                            var periodArray = (JArray)token;
-                            foreach (var periodJson in periodArray)
-                            {
-                                var period = default(CustomInfrastPlanInfo.Period);
-                                string beginTime = periodJson[0]?.ToString();
-                                if (beginTime != null)
-                                {
-                                    var beginSplit = beginTime.Split(':');
-                                    period.BeginHour = int.Parse(beginSplit[0]);
-                                    period.BeginMinute = int.Parse(beginSplit[1]);
-                                }
-
-                                string endTime = periodJson[1]?.ToString();
-                                if (endTime != null)
-                                {
-                                    var endSplit = endTime.Split(':');
-                                    period.EndHour = int.Parse(endSplit[0]);
-                                    period.EndMinute = int.Parse(endSplit[1]);
-                                }
-
-                                periodList.Add(period);
-                                if (_customInfrastInfoOutput)
-                                {
-                                    AddLog($"[ {period.BeginHour:D2}:{period.BeginMinute:D2} - {period.EndHour:D2}:{period.EndMinute:D2} ]");
-                                }
-                            }
-
-                            if (periodList.Count != 0)
-                            {
-                                _customInfrastPlanHasPeriod = true;
-                            }
-                        }
-
-                        if (_customInfrastInfoOutput && desc != string.Empty)
-                        {
-                            AddLog(desc);
-                        }
-
-                        if (_customInfrastInfoOutput && descPost != string.Empty)
-                        {
-                            AddLog(descPost);
-                        }
-
-                        CustomInfrastPlanInfoList.Add(new CustomInfrastPlanInfo
-                        {
-                            Index = i,
-                            Name = display,
-                            Description = desc,
-                            DescriptionPost = descPost,
-                            PeriodList = periodList,
-                        });
-                    }
-                }
-
-                _customInfrastInfoOutput = true;
-            }
-            catch (Exception)
-            {
-                _customInfrastInfoOutput = true;
-                AddLog(LocalizationHelper.GetString("CustomInfrastFileParseFailed"), UiLogColor.Error);
-                return;
-            }
-
-            RefreshCustomInfrastPlanIndexByPeriod();
-        }
-
-        public void RefreshCustomInfrastPlanIndexByPeriod()
-        {
-            if (!CustomInfrastEnabled || !_customInfrastPlanHasPeriod || InfrastTaskRunning)
-            {
-                return;
-            }
-
-            var now = DateTime.Now;
-            foreach (var plan in CustomInfrastPlanInfoList.Where(
-                         plan => plan.PeriodList.Any(
-                             period => TimeLess(period.BeginHour, period.BeginMinute, now.Hour, now.Minute)
-                                       && TimeLess(now.Hour, now.Minute, period.EndHour, period.EndMinute))))
-            {
-                CustomInfrastPlanIndex = plan.Index;
-                return;
-            }
-
-            if (CustomInfrastPlanIndex >= CustomInfrastPlanList.Count || CustomInfrastPlanList.Count < 0)
-            {
-                CustomInfrastPlanIndex = 0;
-            }
-
-            return;
-
-            static bool TimeLess(int lHour, int lMin, int rHour, int rMin) => (lHour != rHour) ? (lHour < rHour) : (lMin <= rMin);
-        }
-
-        public void IncreaseCustomInfrastPlanIndex()
-        {
-            if (!CustomInfrastEnabled || _customInfrastPlanHasPeriod || CustomInfrastPlanInfoList.Count == 0)
-            {
-                return;
-            }
-
-            AddLog(LocalizationHelper.GetString("CustomInfrastPlanIndexAutoSwitch"), UiLogColor.Message);
-            var prePlanPostDesc = CustomInfrastPlanInfoList[CustomInfrastPlanIndex].DescriptionPost;
-            if (prePlanPostDesc != string.Empty)
-            {
-                AddLog(prePlanPostDesc);
-            }
-
-            ++CustomInfrastPlanIndex;
-        }
-
         private static IEnumerable<TaskViewModel> InitTaskViewModelList()
         {
             var types = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.Namespace == "MaaWpfGui.ViewModels.UserControl.TaskQueue" && t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(TaskViewModel)));
@@ -2246,91 +1956,6 @@ namespace MaaWpfGui.ViewModels.UI
                 // 调用 ProcSubTaskMsg 方法
                 instance.ProcSubTaskMsg(msg, details);
             }
-        }
-
-        private static readonly string[] _gitList =
-        [
-            "/Res/Img/EasterEgg/1.gif",
-            "/Res/Img/EasterEgg/2.gif",
-        ];
-
-        private static int _gifIndex = -1;
-
-        private static string _gifPath = null;
-
-        public string GifPath
-        {
-            get => _gifPath;
-            set => SetAndNotify(ref _gifPath, value);
-        }
-
-        private bool _gifVisibility = false;
-
-        public bool GifVisibility
-        {
-            get => _gifVisibility;
-            set => SetAndNotify(ref _gifVisibility, value);
-        }
-
-        // ReSharper disable once UnusedMember.Global
-        public void ChangeGif()
-        {
-            if (++_gifIndex >= _gitList.Length)
-            {
-                _gifIndex = 0;
-            }
-
-            GifPath = _gitList[_gifIndex];
-        }
-
-        private static bool _isDragging = false;
-        private static Point _offset;
-
-        // ReSharper disable once UnusedMember.Global
-        public void DraggableElementMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (sender is not HandyControl.Controls.GifImage childElement)
-            {
-                return;
-            }
-
-            _isDragging = true;
-            _offset = e.GetPosition(childElement);
-            childElement.CaptureMouse();
-        }
-
-        public void DraggableElementMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (sender is not HandyControl.Controls.GifImage childElement)
-            {
-                return;
-            }
-
-            _isDragging = false;
-            childElement.ReleaseMouseCapture();
-        }
-
-        // ReSharper disable once UnusedMember.Global
-        public void DraggableElementMouseMove(object sender, MouseEventArgs e)
-        {
-            if (!_isDragging || sender is not HandyControl.Controls.GifImage { Parent: Grid parentElement } childElement)
-            {
-                return;
-            }
-
-            Point currentPosition = e.GetPosition(parentElement);
-
-            // 计算偏移量
-            double newX = currentPosition.X - _offset.X;
-            double newY = currentPosition.Y - _offset.Y;
-
-            // 确保元素在父元素范围内
-            newX = Math.Max(0, Math.Min(newX, parentElement.ActualWidth - childElement.ActualWidth - 10));
-            newY = Math.Max(0, Math.Min(newY, parentElement.ActualHeight - childElement.ActualHeight - 10));
-
-            childElement.HorizontalAlignment = HorizontalAlignment.Left;
-            childElement.VerticalAlignment = VerticalAlignment.Top;
-            childElement.Margin = new(newX, newY, 0, 0);
         }
     }
 }

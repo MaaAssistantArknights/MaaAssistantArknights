@@ -12365,6 +12365,87 @@
         "stageId": "act40side_tr01",
         "width": 10
     },
+    "act41side_01-activities/act41side/level_act41side_01": {
+        "code": "EA-1",
+        "filename": "act41side_01-activities-act41side-level_act41side_01.json",
+        "height": 7,
+        "levelId": "activities/act41side/level_act41side_01",
+        "name": "扉页所见",
+        "stageId": "act41side_01",
+        "width": 10
+    },
+    "act41side_02-activities/act41side/level_act41side_02": {
+        "code": "EA-2",
+        "filename": "act41side_02-activities-act41side-level_act41side_02.json",
+        "height": 7,
+        "levelId": "activities/act41side/level_act41side_02",
+        "name": "不过别离",
+        "stageId": "act41side_02",
+        "width": 11
+    },
+    "act41side_03-activities/act41side/level_act41side_03": {
+        "code": "EA-3",
+        "filename": "act41side_03-activities-act41side-level_act41side_03.json",
+        "height": 7,
+        "levelId": "activities/act41side/level_act41side_03",
+        "name": "惶惑与冲动",
+        "stageId": "act41side_03",
+        "width": 12
+    },
+    "act41side_04-activities/act41side/level_act41side_04": {
+        "code": "EA-4",
+        "filename": "act41side_04-activities-act41side-level_act41side_04.json",
+        "height": 7,
+        "levelId": "activities/act41side/level_act41side_04",
+        "name": "旧舞步",
+        "stageId": "act41side_04",
+        "width": 10
+    },
+    "act41side_05-activities/act41side/level_act41side_05": {
+        "code": "EA-5",
+        "filename": "act41side_05-activities-act41side-level_act41side_05.json",
+        "height": 7,
+        "levelId": "activities/act41side/level_act41side_05",
+        "name": "溺火",
+        "stageId": "act41side_05",
+        "width": 11
+    },
+    "act41side_06-activities/act41side/level_act41side_06": {
+        "code": "EA-6",
+        "filename": "act41side_06-activities-act41side-level_act41side_06.json",
+        "height": 8,
+        "levelId": "activities/act41side/level_act41side_06",
+        "name": "失路人",
+        "stageId": "act41side_06",
+        "width": 11
+    },
+    "act41side_07-activities/act41side/level_act41side_07": {
+        "code": "EA-7",
+        "filename": "act41side_07-activities-act41side-level_act41side_07.json",
+        "height": 8,
+        "levelId": "activities/act41side/level_act41side_07",
+        "name": "烧灯者",
+        "stageId": "act41side_07",
+        "width": 12
+    },
+    "act41side_08-activities/act41side/level_act41side_08": {
+        "code": "EA-8",
+        "filename": "act41side_08-activities-act41side-level_act41side_08.json",
+        "height": 8,
+        "levelId": "activities/act41side/level_act41side_08",
+        "name": "夜尽之时",
+        "stageId": "act41side_08",
+        "width": 12
+    },
+    "act41side_tr01-activities/act41side/level_act41side_tr01": {
+        "code": "EA-TR-1",
+        "filename": "act41side_tr01-activities-act41side-level_act41side_tr01.json",
+        "height": 7,
+        "levelId": "activities/act41side/level_act41side_tr01",
+        "name": "拨雾声",
+        "stageId": "act41side_tr01",
+        "width": 10
+    },
     "act4bossrush_01-activities/act4bossrush/level_bossrush4_01": {
         "code": "TN-1",
         "filename": "act4bossrush_01-activities-act4bossrush-level_bossrush4_01.json",
@@ -19608,6 +19689,15 @@
         "levelId": "obt/memory/level_memory_fang_1",
         "name": "愉快合作",
         "stageId": "mem_fang_1",
+        "width": 12
+    },
+    "mem_fartth_1-obt/memory/level_memory_fartth_1": {
+        "code": "mem_fartth_1",
+        "filename": "mem_fartth_1-obt-memory-level_memory_fartth_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_fartth_1",
+        "name": "聆风",
+        "stageId": "mem_fartth_1",
         "width": 12
     },
     "mem_finlpp_1-obt/memory/level_memory_finlpp_1": {

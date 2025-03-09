@@ -11,8 +11,12 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media;
 using FluentEmail.Core;
 using FluentEmail.Liquid;
 using FluentEmail.MailKitSmtp;
@@ -24,12 +28,60 @@ using Serilog;
 
 namespace MaaWpfGui.Services.Notification
 {
-    public class SmtpNotificationProvider : IExternalNotificationProvider
+    /// <inheritdoc />
+    public partial class SmtpNotificationProvider : IExternalNotificationProvider
     {
         private readonly ILogger _logger = Log.ForContext<SmtpNotificationProvider>();
 
+        [GeneratedRegex(@"\[(.*?)\]\[(.*?)\]([\s\S]*?)(?=\n\[|$)")]
+        private static partial Regex ContentRegex();
+
+        private static string ProcessContent(string content)
+        {
+            var matches = ContentRegex().Matches(content);
+            if (matches.Count == 0)
+            {
+                return content;
+            }
+
+            var resultContent = new StringBuilder(content);
+
+            string timeRgbColor = GetRgbColor(UiLogColor.Trace);
+            if (timeRgbColor == null)
+            {
+                return content;
+            }
+
+            foreach (Match match in matches)
+            {
+                string time = match.Groups[1].Value;
+                string colorCode = match.Groups[2].Value;
+                string contentText = match.Groups[3].Value;
+
+                string rgbColor = GetRgbColor(colorCode);
+                if (rgbColor == null)
+                {
+                    continue;
+                }
+
+                string replacement = $"<span style='color: {timeRgbColor};'>{time}  </span><span style='color: {rgbColor};'>{contentText}</span>";
+                resultContent.Replace(match.Value, replacement);
+            }
+
+            return resultContent.ToString();
+
+            static string GetRgbColor(string resourceKey)
+            {
+                return Application.Current.Resources[resourceKey] is SolidColorBrush brush
+                    ? $"rgb({brush.Color.R}, {brush.Color.G}, {brush.Color.B})"
+                    : null;
+            }
+        }
+
         public async Task<bool> SendAsync(string title, string content)
         {
+            content = ProcessContent(content);
+
             var smtpServer = SettingsViewModel.ExternalNotificationSettings.SmtpServer;
             var smtpPortValid = int.TryParse(SettingsViewModel.ExternalNotificationSettings.SmtpPort, out var smtpPort);
             var smtpUser = SettingsViewModel.ExternalNotificationSettings.SmtpUser;
@@ -66,16 +118,7 @@ namespace MaaWpfGui.Services.Notification
                 .From(emailFrom)
                 .To(emailTo)
                 .Subject($"[MAA] {title}")
-                .UsingTemplate(EmailTemplate, new
-                {
-                    Title = title,
-                    Content = content,
-                    Hello = LocalizationHelper.GetString("ExternalNotificationEmailTemplateHello"),
-                    FooterLineOne = LocalizationHelper.GetString("ExternalNotificationEmailTemplateFooterLineOne"),
-                    FooterLineTwo = LocalizationHelper.GetString("ExternalNotificationEmailTemplateFooterLineTwo"),
-                    LinkTextOfficialSite = LocalizationHelper.GetString("ExternalNotificationEmailTemplateLinkOfficialSite"),
-                    LinkTextCopilotSite = LocalizationHelper.GetString("ExternalNotificationEmailTemplateLinkCopilotSite"),
-                });
+                .Body(_emailTemplate.Replace("{title}", title).Replace("{content}", content), true);
 
             var sendResult = await email.SendAsync();
 
@@ -89,73 +132,72 @@ namespace MaaWpfGui.Services.Notification
             return false;
         }
 
-        private const string EmailTemplate = """
-
- <html lang="zh">
-   <style>
-     .title {
-       font-size: xx-large;
-       font-weight: bold;
-       color: black;
-       text-align: center;
-     }
- 
-     .heading {
-       font-size: large;
-     }
- 
-     .notification h1 {
-       font-size: large;
-       font-weight: bold;
-     }
- 
-     .notification p {
-       font-size: medium;
-     }
- 
-     .footer {
-       font-size: small;
-     }
- 
-     .space {
-       padding-left: 0.5rem;
-       padding-right: 0.5rem;
-     }
-   </style>
- 
-   <h1 class="title">Maa Assistant Arknights</h1>
- 
-   <div class="heading">
-     <p>{{ Hello }}</p>
-   </div>
- 
-   <hr />
- 
-   <div class="notification">
-     <h1>{{ Title }}</h1>
-     <p>{{ Content }}</p>
-   </div>
- 
-   <hr />
- 
-   <div class="footer">
-     <p>
-       {{ FooterLineOne }}
-     </p>
-     <p>{{ FooterLineTwo }}</p>
-     <p>
-       <a class="space" href="https://github.com/MaaAssistantArknights">
-         GitHub
-       </a>
-       <a class="space" href="https://space.bilibili.com/3493274731940507">
-         Bilibili
-       </a>
-       <a class="space" href="https://maa.plus">{{ LinkTextOfficialSite }}</a>
-       <a class="space" href="https://prts.plus">{{ LinkTextCopilotSite }}</a>
-     </p>
-   </div>
- </html>
-
- """;
+        private static readonly string _emailTemplate =
+        $$"""
+        <html lang="zh">
+        <style>
+            .title {
+            font-size: xx-large;
+            font-weight: bold;
+            color: black;
+            text-align: center;
+            }
+          
+            .heading {
+            font-size: large;
+            }
+          
+            .notification h1 {
+            font-size: large;
+            font-weight: bold;
+            }
+          
+            .notification p {
+            font-size: medium;
+            }
+          
+            .footer {
+            font-size: small;
+            }
+          
+            .space {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            }
+        </style>
+          
+        <h1 class="title">Maa Assistant Arknights</h1>
+          
+        <div class="heading">
+            <p>{{LocalizationHelper.GetString("ExternalNotificationEmailTemplateHello")}}</p>
+        </div>
+          
+        <hr />
+          
+        <div class="notification">
+            <h1>{title}</h1>
+            <p>{content}</p>
+        </div>
+          
+        <hr />
+          
+        <div class="footer">
+            <p>
+            {{LocalizationHelper.GetString("ExternalNotificationEmailTemplateFooterLineOne")}}
+            </p>
+            <p>{{LocalizationHelper.GetString("ExternalNotificationEmailTemplateFooterLineTwo")}}</p>
+            <p>
+            <a class="space" href="https://github.com/MaaAssistantArknights">
+                GitHub
+            </a>
+            <a class="space" href="https://space.bilibili.com/3493274731940507">
+                Bilibili
+            </a>
+            <a class="space" href="https://maa.plus">{{LocalizationHelper.GetString("ExternalNotificationEmailTemplateLinkOfficialSite")}}</a>
+            <a class="space" href="https://prts.plus">{{LocalizationHelper.GetString("ExternalNotificationEmailTemplateLinkCopilotSite")}}</a>
+            </p>
+        </div>
+        </html>
+        """;
     }
 }

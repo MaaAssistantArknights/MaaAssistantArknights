@@ -29,6 +29,7 @@ using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using MaaWpfGui.States;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -481,20 +482,8 @@ public class VersionUpdateViewModel : Screen
 
             if (!IsDebugVersion())
             {
-                var ret = await CheckAndDownloadVersionUpdate();
-                if (ret == CheckUpdateRetT.OK)
-                {
-                    _ = AskToRestart();
-                }
-
-                var ret2 = await ResourceUpdater.CheckAndDownloadResourceUpdate();
-                if (ret2 == CheckUpdateRetT.OnlyGameResourceUpdated)
-                {
-                    Instances.AsstProxy.LoadResource();
-                    DataHelper.Reload();
-                    SettingsViewModel.VersionUpdateSettings.ResourceInfoUpdate();
-                    ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
-                }
+                await VersionUpdateAndAskToRestartAsync();
+                await ResourceUpdater.ResourceUpdateAndReloadAsync();
             }
             else
             {
@@ -502,6 +491,18 @@ public class VersionUpdateViewModel : Screen
                 // 跑个空任务避免 async warning
                 await Task.Run(() => { });
             }
+        }
+    }
+
+    /// <summary>
+    /// 检查更新并下载更新包，如果成功则提示重启。
+    /// </summary>
+    /// <returns>Task</returns>
+    public async Task VersionUpdateAndAskToRestartAsync()
+    {
+        if (await CheckAndDownloadVersionUpdate() == CheckUpdateRetT.OK)
+        {
+            _ = AskToRestart();
         }
     }
 
@@ -941,18 +942,18 @@ public class VersionUpdateViewModel : Screen
     private async Task<CheckUpdateRetT> CheckUpdateByMirrorChyan()
     {
         var cdk = SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk.Trim();
-
+        var arch = IsArm ? "arm64" : "x64";
         string channel = SettingsViewModel.VersionUpdateSettings.VersionType switch
         {
             VersionUpdateSettingsUserControlModel.UpdateVersionType.Beta => "beta",
             VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly => "alpha",
             _ => "stable",
         };
+        var spid = HardwareInfoUtility.GetMachineGuid().StableHash();
 
-        var arch = IsArm ? "arm64" : "x64";
-        var url = $"{MaaUrls.MirrorChyanAppUpdate}?current_version={_curVersion}&cdk={cdk}&user_agent=MaaWpfGui&os=win&arch={arch}&channel={channel}";
+        var url = $"{MaaUrls.MirrorChyanAppUpdate}?current_version={_curVersion}&cdk={cdk}&user_agent=MaaWpfGui&os=win&arch={arch}&channel={channel}&sp_id={spid}";
 
-        var response = await Instances.HttpService.GetAsync(new(url), logUri: false);
+        var response = await Instances.HttpService.GetAsync(new(url), logQuery: false);
         _logger.Information($"current_version: {_curVersion}, cdk: {cdk.Mask()}, arch: {arch}, channel: {channel}");
 
         if (response is null)
