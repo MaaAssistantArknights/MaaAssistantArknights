@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
@@ -158,14 +159,13 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
     /// <returns>返回(Asst任务类型, 参数)</returns>
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
-        var data = new JObject
+        return new AsstReclamationTask()
         {
-            ["theme"] = ReclamationTheme,
-            ["mode"] = ReclamationMode,
-            ["increment_mode"] = ReclamationIncrementMode,
-            ["num_craft_batches"] = ReclamationMaxCraftCountPerRound,
-            ["tools_to_craft"] = new JArray(ReclamationToolToCraft.Split(';').Select(s => s.Trim())),
-        };
-        return (AsstTaskType.Reclamation, data);
+            Theme = ReclamationTheme,
+            Mode = ReclamationMode,
+            IncrementMode = ReclamationIncrementMode,
+            MaxCraftCountPerRound = ReclamationMaxCraftCountPerRound,
+            ToolToCraft = ReclamationToolToCraft.Split(';').Select(s => s.Trim()).ToList(),
+        }.Serialize();
     }
 }

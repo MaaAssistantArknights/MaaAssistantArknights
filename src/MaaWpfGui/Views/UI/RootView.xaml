@@ -53,22 +53,35 @@
     </hc:Window.NonClientAreaContent>
     <DockPanel>
         <local:NotifyIcon x:Name="NotifyIcon" Visibility="Hidden" />
-        <TabControl
-            BorderThickness="0,1,0,0"
-            DisplayMemberPath="DisplayName"
-            ItemsSource="{Binding Items}"
-            SelectedItem="{s:RethrowingBinding ActiveItem}"
-            Style="{StaticResource TabControlInLine}">
-            <TabControl.ContentTemplate>
-                <DataTemplate>
-                    <ContentControl
-                        HorizontalContentAlignment="Stretch"
-                        VerticalContentAlignment="Stretch"
-                        s:View.Model="{Binding}"
-                        IsTabStop="False" />
-                </DataTemplate>
-            </TabControl.ContentTemplate>
-        </TabControl>
+        <Grid>
+            <TabControl
+                BorderThickness="0,1,0,0"
+                DisplayMemberPath="DisplayName"
+                ItemsSource="{Binding Items}"
+                SelectedItem="{s:RethrowingBinding ActiveItem}"
+                Style="{StaticResource TabControlInLine}">
+                <TabControl.ContentTemplate>
+                    <DataTemplate>
+                        <ContentControl
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            s:View.Model="{Binding}"
+                            IsTabStop="False" />
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+            </TabControl>
+            <hc:GifImage
+                Width="100"
+                Margin="10"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                MouseLeftButtonDown="{s:Action DraggableElementMouseLeftButtonDown}"
+                MouseLeftButtonUp="{s:Action DraggableElementMouseLeftButtonUp}"
+                MouseMove="{s:Action DraggableElementMouseMove}"
+                MouseRightButtonDown="{s:Action ChangeGif}"
+                Uri="{Binding GifPath}"
+                Visibility="{c:Binding GifVisibility}" />
+        </Grid>
     </DockPanel>
     <hc:Interaction.Behaviors>
         <hc:TaskbarRebuildBehavior Element="{Binding ElementName=NotifyIcon}" />

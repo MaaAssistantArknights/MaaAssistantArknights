@@ -14,6 +14,9 @@
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.Models.AsstTasks;
+using MaaWpfGui.Services;
+using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -27,13 +30,14 @@ public class StartUpSettingsUserControlModel : TaskViewModel
 
     public static StartUpSettingsUserControlModel Instance { get; }
 
-    private string _accountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty);
+    private string _accountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty).Trim();
 
     public string AccountName
     {
         get => _accountName;
         set
         {
+            value = value.Trim();
             SetAndNotify(ref _accountName, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.AccountName, value);
         }
@@ -52,5 +56,24 @@ public class StartUpSettingsUserControlModel : TaskViewModel
         {
             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + $" -->> {details["details"]!["account_name"]}", UiLogColor.Info); // subTaskDetails!["current_account"]
         }
+    }
+
+    public override (AsstTaskType Type, JObject Params) Serialize()
+    {
+        var clientType = SettingsViewModel.GameSettings.ClientType;
+        var accountName = clientType switch
+        {
+            "Official" or "Bilibili" => AccountName,
+            _ => string.Empty,
+        };
+
+        var task = new AsstStartUpTask()
+        {
+            ClientType = clientType,
+            StartGame = !string.IsNullOrEmpty(clientType),
+            AccountName = accountName,
+        };
+
+        return task.Serialize();
     }
 }

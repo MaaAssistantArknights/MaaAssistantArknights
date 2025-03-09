@@ -15,6 +15,9 @@ using System;
 using System.Windows;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Models.AsstTasks;
+using MaaWpfGui.Services;
+using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
@@ -131,5 +134,19 @@ public class AwardSettingsUserControlModel : TaskViewModel
             SetAndNotify(ref _receiveReceiveSpecialAccess, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveSpecialAccess, value.ToString());
         }
+    }
+
+    public override (AsstTaskType Type, JObject Params) Serialize()
+    {
+        var task = new AsstAwardTask()
+        {
+            Award = ReceiveAward,
+            Mail = ReceiveMail,
+            FreeGacha = ReceiveFreeRecruit,
+            Orundum = ReceiveOrundum,
+            Mining = ReceiveMining,
+            SpecialAccess = ReceiveSpecialAccess,
+        };
+        return task.Serialize();
     }
 }

@@ -32,7 +32,8 @@ public:
         senior = 5,
         robot = 1,
         highvalue = 11,
-        combination_tag = 12
+        combination_tag = 12,
+        fourstar = 4
     };
 
     void mock_set_special(operator_type type)
@@ -57,6 +58,9 @@ public:
             m_tags_result[2].text = "费用回复";
             m_tags_result[3].text = "防护";
             m_tags_result[4].text = "元素";
+        }
+        if (type == fourstar) {
+            m_tags_result[0].text = "快速复活";
         }
     }
 #endif // ASST_DEBUG

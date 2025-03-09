@@ -12,6 +12,7 @@
 // </copyright>
 #nullable enable
 using System.Collections.Generic;
+using System.Linq;
 using MaaWpfGui.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -85,7 +86,7 @@ public class AsstCopilotTask : AsstBaseTask
 
         if (UserAdditionals?.Count > 0)
         {
-            taskParams["user_additional"] = JsonConvert.SerializeObject(UserAdditionals);
+            taskParams["user_additional"] = JArray.FromObject(UserAdditionals);
         }
 
         if (NeedNavigate)

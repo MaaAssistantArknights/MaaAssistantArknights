@@ -20,6 +20,21 @@
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <StackPanel>
+        <!--  开自定义基建计划时，放在常规设置的部分  -->
+        <StackPanel Visibility="{c:Binding 'CustomInfrastEnabled and !TaskSettingVisibilities.EnableAdvancedSettings'}">
+            <hc:ComboBox
+                Margin="0,4"
+                VerticalContentAlignment="Center"
+                hc:InfoElement.Title="{DynamicResource CustomInfrastPlan}"
+                DisplayMemberPath="Display"
+                IsHitTestVisible="{c:Binding !InfrastTaskRunning,
+                                             Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                ItemsSource="{Binding CustomInfrastPlanList}"
+                SelectedValue="{Binding CustomInfrastPlanIndex}"
+                SelectedValuePath="Value"
+                Style="{StaticResource ComboBoxExtend}" />
+        </StackPanel>
+
         <!--  只放在高级设置的部分  -->
         <StackPanel Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}">
             <CheckBox
@@ -76,9 +91,8 @@
             </StackPanel>
         </StackPanel>
 
-        <!--  不开自定义基建计划时，放在常规设置的部分  -->
+        <!--  不开自定义基建计划时，放在常规设置的部分 / 开启自定义基建则放在高级  -->
         <StackPanel Visibility="{c:Binding 'CustomInfrastEnabled and TaskSettingVisibilities.EnableAdvancedSettings or !CustomInfrastEnabled and !TaskSettingVisibilities.EnableAdvancedSettings'}">
-
             <ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource DroneUsage}"
@@ -142,21 +156,6 @@
                     Content="{DynamicResource Clear}"
                     IsEnabled="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}" />
             </Grid>
-        </StackPanel>
-
-        <!--  开自定义基建计划时，放在常规设置的部分  -->
-        <StackPanel Visibility="{c:Binding 'CustomInfrastEnabled and !TaskSettingVisibilities.EnableAdvancedSettings'}">
-            <ComboBox
-                Margin="0,4"
-                VerticalContentAlignment="Center"
-                hc:InfoElement.Title="{DynamicResource CustomInfrastPlan}"
-                DataContext="{Binding CustomInfrastPlanDataContext}"
-                DisplayMemberPath="Display"
-                IsHitTestVisible="{c:Binding !InfrastTaskRunning}"
-                ItemsSource="{Binding CustomInfrastPlanList}"
-                SelectedValue="{Binding CustomInfrastPlanIndex}"
-                SelectedValuePath="Value"
-                Style="{StaticResource ComboBoxExtend}" />
         </StackPanel>
     </StackPanel>
 </UserControl>
