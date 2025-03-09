@@ -95,42 +95,23 @@ bool asst::BattleHelper::abandon()
     return ProcessTask(this_task(), { "RoguelikeBattleExitBegin" }).run();
 }
 
-bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, bool need_oper_cost)
+bool asst::BattleHelper::update_deployment_(
+    const bool init,
+    std::vector<battle::DeploymentOper>& cur_opers,
+    const std::vector<battle::DeploymentOper>& old_deployment_opers,
+    const bool stop_on_unknown)
 {
     LogTraceFunction;
 
-    if (init) {
-        AvatarCache.remove_avatars(Role::Drone); // 移除小龙等不同技能很像的召唤物，防止错误识别
-        wait_until_start(false);
-    }
-
-    cv::Mat image = init || reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
-
-    if (init) {
-        auto draw_future = std::async(std::launch::async, [&]() { save_map(image); });
-    }
-
-    BattlefieldMatcher oper_analyzer(image);
-
-    // 保全要识别开局费用，先用init判断了，之后别的地方要用的话再做cache
-    if (init || need_oper_cost) {
-        oper_analyzer.set_object_of_interest({ .deployment = true, .oper_cost = true });
-    }
-    else {
-        oper_analyzer.set_object_of_interest({ .deployment = true });
-    }
-    auto oper_result_opt = oper_analyzer.analyze();
-    if (!oper_result_opt) {
-        check_in_battle(image);
-        return false;
-    }
-    const auto old_deployment_opers = std::move(m_cur_deployment_opers);
-    m_cur_deployment_opers = std::vector<battle::DeploymentOper>();
-    m_cur_deployment_opers.reserve(oper_result_opt->deployment.size());
-
+    // ————————————————————————————————————————————————————————————————————————————————
+    // 准备 lamda 函数
+    // ————————————————————————————————————————————————————————————————————————————————
     // 从场上干员和已占用格子中移除冷却中的干员
     auto remove_cooling_from_battlefield = [&](const DeploymentOper& oper) {
         if (!oper.cooling) {
+            // 若 update_deployment 被调用得足够频繁，则离场干员被首次检测到时必然在 CD 中；此处利用了这个假设
+            // 注意：这个假设在某些极端情况下并不成立（比如生息盐酸中在食品加成下夜刀和四月的 CD 可降低为 0）-- by
+            // Charred
             return;
         }
         auto iter = m_battlefield_opers.find(oper.name);
@@ -142,15 +123,23 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
         m_battlefield_opers.erase(iter);
     };
 
+    // 设置干员名与部署位类型（近战/远程）
     auto set_oper_name = [&](DeploymentOper& oper, const std::string& name) {
         oper.name = name;
         oper.location_type = BattleData.get_location_type(name);
         oper.is_usual_location = battle::get_role_usual_location(oper.role) == oper.location_type;
     };
 
-    auto& cur_opers = oper_result_opt->deployment;
+    // ————————————————————————————————————————————————————————————————————————————————
+    // 初始化变量
+    // ————————————————————————————————————————————————————————————————————————————————
+    m_cur_deployment_opers = std::vector<battle::DeploymentOper>();
+    m_cur_deployment_opers.reserve(cur_opers.size());
     std::vector<DeploymentOper> unknown_opers;
 
+    // ————————————————————————————————————————————————————————————————————————————————
+    // 匹配已知干员
+    // ————————————————————————————————————————————————————————————————————————————————
     for (auto& oper : cur_opers) {
         BestMatcher avatar_analyzer(oper.avatar);
         avatar_analyzer.set_method(MatchMethod::Ccoeff);
@@ -196,6 +185,9 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
             }
             else {
                 Log.info("unknown oper", oper.index);
+                if (stop_on_unknown) {
+                    return false;
+                }
                 unknown_opers.emplace_back(oper);
             }
         }
@@ -207,24 +199,12 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
         }
     }
 
+    // ————————————————————————————————————————————————————————————————————————————————
+    // 匹配未知干员
+    // ————————————————————————————————————————————————————————————————————————————————
     if (ranges::count_if(unknown_opers, [](const DeploymentOper& it) { return !it.cooling; }) > 0 || init) {
         // 一个都没匹配上的，挨个点开来看一下
         LogTraceScope("rec unknown opers");
-
-        // 暂停游戏准备识别干员
-        do {
-            pause();
-            // 在刚进入游戏的时候（画面刚刚完全亮起来的时候），点暂停是没反应的
-            // 所以这里一直点，直到真的点上了为止
-            if (!init || !check_pause_button()) {
-                break;
-            }
-            std::this_thread::yield();
-        } while (!m_inst_helper.need_exit());
-
-        if (!check_in_battle(image)) {
-            return false;
-        }
 
         cv::Mat name_image;
         for (auto& oper : unknown_opers) {
@@ -250,9 +230,10 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
             click_oper_on_deployment(oper_rect);
 
             name_image = m_inst_helper.ctrler()->get_image();
-            if (!check_in_battle(name_image)) {
-                return false;
-            }
+            // 不是，我不是都暂停了吗为什么还会出战斗？
+            // if (!check_in_battle(name_image)) {
+            //     return false;
+            // }
 
             std::string name = analyze_detail_page_oper_name(name_image);
             // 这时候即使名字不合法也只能凑合用了，但是为空还是不行的
@@ -266,12 +247,77 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
             m_cur_deployment_opers[oper.index] = oper;
             AvatarCache.set_avatar(name, oper.role, oper.avatar);
         }
-        pause();
         if (!unknown_opers.empty()) {
             cancel_oper_selection();
         }
+    }
 
+    return true;
+}
+
+bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, bool need_oper_cost)
+{
+    LogTraceFunction;
+
+    if (init) {
+        AvatarCache.remove_avatars(Role::Drone); // 移除小龙等不同技能很像的召唤物，防止错误识别
+        wait_until_start(false);
+    }
+
+    cv::Mat image = init || reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+
+    if (init) {
+        auto draw_future = std::async(std::launch::async, [&]() { save_map(image); });
+    }
+
+    BattlefieldMatcher oper_analyzer(image);
+
+    // 保全要识别开局费用，先用init判断了，之后别的地方要用的话再做cache
+    if (init || need_oper_cost) {
+        oper_analyzer.set_object_of_interest({ .deployment = true, .oper_cost = true });
+    }
+    else {
+        oper_analyzer.set_object_of_interest({ .deployment = true });
+    }
+    auto oper_result_opt = oper_analyzer.analyze();
+    if (!oper_result_opt) {
+        check_in_battle(image);
+        return false;
+    }
+    const auto old_deployment_opers = std::move(m_cur_deployment_opers);
+
+    if (!update_deployment_(init, oper_result_opt->deployment, old_deployment_opers, true)) {
+        // 发现未知干员，暂停游戏后再重新识别干员
+        do {
+            pause();
+            // 在刚进入游戏的时候（画面刚刚完全亮起来的时候），点暂停是没反应的
+            // 所以这里一直点，直到真的点上了为止
+            if (!init || !check_pause_button()) {
+                break;
+            }
+            std::this_thread::yield();
+        } while (!m_inst_helper.need_exit());
+
+        // 重新截图、重新识别
         image = m_inst_helper.ctrler()->get_image();
+        BattlefieldMatcher oper_analyzer2(image);
+
+        // 保全要识别开局费用，先用init判断了，之后别的地方要用的话再做cache
+        if (init || need_oper_cost) {
+            oper_analyzer2.set_object_of_interest({ .deployment = true, .oper_cost = true });
+        }
+        else {
+            oper_analyzer2.set_object_of_interest({ .deployment = true });
+        }
+        oper_result_opt = oper_analyzer2.analyze();
+        if (!oper_result_opt) {
+            check_in_battle(image);
+            return false;
+        }
+
+        update_deployment_(init, oper_result_opt->deployment, old_deployment_opers, false);
+
+        pause();
     }
 
     if (init) {
