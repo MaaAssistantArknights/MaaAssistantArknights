@@ -41,7 +41,7 @@ public class AsstInfrastTask : AsstBaseTask
     /// <item><c>Chip</c></item>
     /// </list>
     /// </summary>
-    public string UsesOfDrones { get; set; }
+    public string UsesOfDrones { get; set; } = "_NotUse";
 
     /// <summary>
     /// Gets or sets a value indicating whether 训练室是否尝试连续专精
@@ -76,7 +76,7 @@ public class AsstInfrastTask : AsstBaseTask
     /// <summary>
     /// Gets or sets 自定义配置文件路径
     /// </summary>
-    public string Filename { get; set; }
+    public string Filename { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets 自定义配置计划编号
@@ -95,9 +95,13 @@ public class AsstInfrastTask : AsstBaseTask
             ["dorm_trust_enabled"] = DormDormTrustEnabled,
             ["replenish"] = OriginiumShardAutoReplenishment,
             ["mode"] = IsCustom ? 10000 : 0,
-            ["filename"] = Filename,
-            ["plan_index"] = PlanIndex,
         };
+
+        if (IsCustom)
+        {
+            taskParams["filename"] = Filename;
+            taskParams["plan_index"] = PlanIndex;
+        }
 
         return (TaskType, taskParams);
     }
