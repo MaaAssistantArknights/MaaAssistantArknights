@@ -5,7 +5,6 @@
 #include "Task/ProcessTask.h"
 #include "Task/Roguelike/RoguelikeControlTaskPlugin.h"
 #include "Utils/Logger.hpp"
-#include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
 
 bool asst::RoguelikeInvestTaskPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -40,11 +39,10 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
     LogTraceFunction;
 
     auto image = ctrler()->get_image();
-
-    int count = 0;                                                          // 当次已投资的个数
-    int retry = 0;                                                          // 重试次数
-    auto deposit = ocr_count(image, "Roguelike@StageTraderInvest-Deposit"); // 当前的存款
-    int count_limit = m_maximum - m_invest_count;                           // 可用投资次数
+    int count = 0;                                // 当次已投资的个数
+    int retry = 0;                                // 重试次数
+    auto deposit = get_deposit(image);            // 当前的存款
+    int count_limit = m_maximum - m_invest_count; // 可用投资次数
     // 投资确认按钮
     const auto& click_rect = Task.get("Roguelike@StageTraderInvest-Confirm")->specific_rect;
     LogInfo << __FUNCTION__ << "开始投资, 存款" << deposit.value_or(-1) << ", 可投资次数" << count_limit;
@@ -60,14 +58,13 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
         }
         image = ctrler()->get_image();
         if (is_investment_available(image)) { // 检查是否处于可投资状态
-            if (auto ocr = ocr_count(image, "Roguelike@StageTraderInvest-Deposit"); ocr) {
+            if (auto ocr = get_deposit(image); ocr) {
                 if (*ocr >= 0 && *ocr <= 999 && *ocr != *deposit) {
                     count += *ocr - *deposit;
                     deposit = *ocr;
                     retry = 0;
                 }
-                else if (auto wallet = ocr_count(image, "Roguelike@StageTraderInvest-Wallet");
-                         *wallet && *wallet == 0) {
+                else if (auto wallet = get_wallet(image); *wallet && *wallet == 0) {
                     Log.info(__FUNCTION__, "钱包为0, 退出投资");
                     break;
                 }
@@ -86,7 +83,7 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
             Log.info(__FUNCTION__, "投资系统错误, 退出投资");
 
             sleep(300); // 此处UI有一个从左往右的移动，等待后重新截图，防止UI错位
-            auto ocr = ocr_count(ctrler()->get_image(), "Roguelike@StageTraderInvestError-Count");
+            auto ocr = get_deposit_when_error(ctrler()->get_image());
             if (ocr) {
                 // 可继续投资 / 到达投资上限999
                 count += *ocr - deposit.value_or(0);
@@ -143,7 +140,7 @@ std::optional<int> asst::RoguelikeInvestTaskPlugin::ocr_count(const auto& img, c
     ocr.set_use_raw(false);
     ocr.set_replace(merge_map);
     if (!ocr.analyze()) {
-        Log.error(__FUNCTION__, "unable to analyze current investment count.");
+        Log.error(__FUNCTION__, "unable to analyze current investment count. task:", task_name);
         return std::nullopt;
     }
     int count = 0;
@@ -170,6 +167,21 @@ bool asst::RoguelikeInvestTaskPlugin::is_investment_error(const cv::Mat& image) 
         .set_times_limit("Roguelike@StageTraderInvestSystemError", 0)
         .set_retry_times(0);
     return task.run();
+}
+
+std::optional<int> asst::RoguelikeInvestTaskPlugin::get_deposit(const cv::Mat& image) const
+{
+    return ocr_count(image, "Roguelike@StageTraderInvest-Deposit");
+}
+
+std::optional<int> asst::RoguelikeInvestTaskPlugin::get_deposit_when_error(const cv::Mat& image) const
+{
+    return ocr_count(image, "Roguelike@StageTraderInvestError-Count");
+}
+
+std::optional<int> asst::RoguelikeInvestTaskPlugin::get_wallet(const cv::Mat& image) const
+{
+    return ocr_count(image, "Roguelike@StageTraderInvest-Wallet");
 }
 
 void asst::RoguelikeInvestTaskPlugin::stop_roguelike() const

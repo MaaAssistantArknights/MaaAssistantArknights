@@ -21,6 +21,12 @@ private:
     std::optional<int> ocr_count(const auto& img, const auto& task_name) const;
     bool is_investment_available(const cv::Mat& image) const;
     bool is_investment_error(const cv::Mat& image) const;
+    // 获取存款
+    std::optional<int> get_deposit(const cv::Mat& image) const;
+    // 获取错误状态下的存款
+    std::optional<int> get_deposit_when_error(const cv::Mat& image) const;
+    // 获取钱包余额
+    std::optional<int> get_wallet(const cv::Mat& image) const;
     void stop_roguelike() const;
 
     int m_invest_count = 0;
