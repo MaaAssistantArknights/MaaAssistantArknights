@@ -5326,7 +5326,7 @@
         "algorithm": "OcrDetect",
         "isAscii": true,
         "text": [],
-        "roi": [1196, 494, 83, 44]
+        "roi": [1199, 494, 80, 44]
     },
     "BattleSkillReady": {
         "rectMove": [-28, -140, 64, 64]
