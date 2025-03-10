@@ -314,7 +314,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
             return false;
         }
 
-        if (update_deployment_(init, oper_result_opt->deployment, old_deployment_opers, false)) {
+        if (!update_deployment_(init, oper_result_opt->deployment, old_deployment_opers, false)) {
             return false;
         }
 
