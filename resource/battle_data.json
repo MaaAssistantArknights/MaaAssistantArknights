@@ -3306,8 +3306,7 @@
         },
         "char_4141_marcil": {
             "name": "玛露西尔",
-            "name_en": "玛露西尔",
-            "name_en_unavailable": true,
+            "name_en": "Marcille",
             "name_jp": "マルシル",
             "name_kr": "마르실",
             "name_tw": "玛露西尔",
@@ -3319,8 +3318,7 @@
         },
         "char_4142_laios": {
             "name": "莱欧斯",
-            "name_en": "莱欧斯",
-            "name_en_unavailable": true,
+            "name_en": "Laios",
             "name_jp": "ライオス",
             "name_kr": "라이오스",
             "name_tw": "莱欧斯",
@@ -3332,8 +3330,7 @@
         },
         "char_4143_sensi": {
             "name": "森西",
-            "name_en": "森西",
-            "name_en_unavailable": true,
+            "name_en": "Senshi",
             "name_jp": "センシ",
             "name_kr": "센시",
             "name_tw": "森西",
@@ -3345,8 +3342,7 @@
         },
         "char_4144_chilc": {
             "name": "齐尔查克",
-            "name_en": "齐尔查克",
-            "name_en_unavailable": true,
+            "name_en": "Chilchuck",
             "name_jp": "チルチャック",
             "name_kr": "칠책",
             "name_tw": "齐尔查克",
@@ -7782,8 +7778,7 @@
         },
         "trap_171_trpot": {
             "name": "很大的锅",
-            "name_en": "很大的锅",
-            "name_en_unavailable": true,
+            "name_en": "Really Big Pot",
             "name_jp": "大鍋",
             "name_kr": "커다란 냄비",
             "name_tw": "很大的锅",
@@ -7795,8 +7790,7 @@
         },
         "trap_172_trbox": {
             "name": "“宝箱”",
-            "name_en": "“宝箱”",
-            "name_en_unavailable": true,
+            "name_en": "'Treasure Chest'",
             "name_jp": "「宝箱」",
             "name_kr": "'보물상자'",
             "name_tw": "“宝箱”",
@@ -7808,8 +7802,7 @@
         },
         "trap_173_slfrut": {
             "name": "闪亮果实",
-            "name_en": "闪亮果实",
-            "name_en_unavailable": true,
+            "name_en": "Shiny Berries",
             "name_jp": "ピカピカフルーツ",
             "name_kr": "반짝 열매",
             "name_tw": "闪亮果实",
@@ -7821,8 +7814,7 @@
         },
         "trap_174_smfrut": {
             "name": "奇异黑光果实",
-            "name_en": "奇异黑光果实",
-            "name_en_unavailable": true,
+            "name_en": "Glooming Berry",
             "name_jp": "変な黒いフルーツ",
             "name_kr": "검은 빛 열매",
             "name_tw": "奇异黑光果实",
@@ -7834,8 +7826,7 @@
         },
         "trap_175_frfrut": {
             "name": "香甜烤果子",
-            "name_en": "香甜烤果子",
-            "name_en_unavailable": true,
+            "name_en": "Roast Berry",
             "name_jp": "あま焼きフルーツ",
             "name_kr": "열매 구이",
             "name_tw": "香甜烤果子",
@@ -7847,8 +7838,7 @@
         },
         "trap_176_frutwn": {
             "name": "缤纷果酒",
-            "name_en": "缤纷果酒",
-            "name_en_unavailable": true,
+            "name_en": "Shiny Brew",
             "name_jp": "フルーツのお酒",
             "name_kr": "영롱 과일주",
             "name_tw": "缤纷果酒",
@@ -7860,8 +7850,7 @@
         },
         "trap_177_tentcl": {
             "name": "宝箱的肉？",
-            "name_en": "宝箱的肉？",
-            "name_en_unavailable": true,
+            "name_en": "Chest Limb?",
             "name_jp": "宝箱のお肉？",
             "name_kr": "상자 고기?",
             "name_tw": "宝箱的肉？",
@@ -7873,8 +7862,7 @@
         },
         "trap_178_trrbox": {
             "name": "“宝箱”",
-            "name_en": "“宝箱”",
-            "name_en_unavailable": true,
+            "name_en": "'Treasure Chest'",
             "name_jp": "「宝箱」",
             "name_kr": "'보물상자'",
             "name_tw": "“宝箱”",
