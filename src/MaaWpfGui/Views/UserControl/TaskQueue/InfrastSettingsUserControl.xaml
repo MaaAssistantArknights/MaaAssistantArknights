@@ -50,7 +50,7 @@
             <CheckBox Margin="0,10" IsChecked="{Binding OriginiumShardAutoReplenishment}">
                 <controls:TextBlock Text="{DynamicResource OriginiumShardAutoReplenishment}" TextWrapping="Wrap" />
             </CheckBox>
-            <CheckBox Margin="0,10" IsChecked="{Binding InfrastReceptionMessageBoardReceive}">
+            <CheckBox Margin="0,10" IsChecked="{Binding ReceptionMessageBoardReceive}">
                 <controls:TextBlock Text="{DynamicResource InfrastReceptionMessageBoardReceive}" TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox Margin="0,10" IsChecked="{Binding ContinueTraining}">

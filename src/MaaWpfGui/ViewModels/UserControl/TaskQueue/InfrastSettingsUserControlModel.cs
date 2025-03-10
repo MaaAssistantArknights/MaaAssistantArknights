@@ -20,6 +20,8 @@ using System.Linq;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
+using MaaWpfGui.Models.AsstTasks;
+using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -221,14 +223,14 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private bool _infrastReceptionMessageBoardReceive = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.InfrastReceptionMessageBoardReceive, bool.TrueString));
+    private bool _receptionMessageBoardReceive = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.InfrastReceptionMessageBoardReceive, bool.TrueString));
 
-    public bool InfrastReceptionMessageBoardReceive
+    public bool ReceptionMessageBoardReceive
     {
-        get => _infrastReceptionMessageBoardReceive;
+        get => _receptionMessageBoardReceive;
         set
         {
-            SetAndNotify(ref _infrastReceptionMessageBoardReceive, value);
+            SetAndNotify(ref _receptionMessageBoardReceive, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.InfrastReceptionMessageBoardReceive, value.ToString());
         }
     }
@@ -631,5 +633,23 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         }
 
         ++CustomInfrastPlanIndex;
+    }
+
+    public override (AsstTaskType Type, JObject Params) Serialize()
+    {
+        return new AsstInfrastTask
+        {
+            Facilitys = GetInfrastOrderList(),
+            UsesOfDrones = UsesOfDrones,
+            ContinueTraining = ContinueTraining,
+            DormThreshold = DormThreshold / 100.0,
+            DormFilterNotStationedEnabled = DormFilterNotStationedEnabled,
+            DormDormTrustEnabled = DormTrustEnabled,
+            OriginiumShardAutoReplenishment = OriginiumShardAutoReplenishment,
+            IsCustom = CustomInfrastEnabled,
+            ReceptionMessageBoard = ReceptionMessageBoardReceive,
+            Filename = CustomInfrastFile,
+            PlanIndex = CustomInfrastPlanIndex,
+        }.Serialize();
     }
 }

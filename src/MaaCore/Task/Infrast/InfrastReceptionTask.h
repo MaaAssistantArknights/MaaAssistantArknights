@@ -10,12 +10,7 @@ public:
     virtual ~InfrastReceptionTask() override = default;
 
     virtual size_t max_num_of_opers() const noexcept override { return 2ULL; }
-
-    InfrastReceptionTask& set_receive_message_board(bool value) noexcept
-    {
-        m_receive_message_board = value;
-        return *this;
-    }
+    void set_receive_message_board(bool value) noexcept { m_receive_message_board = value; }
 
 protected:
     virtual bool _run() override;
