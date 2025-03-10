@@ -367,15 +367,9 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         }
     }
 
-    public bool RoguelikeSquadIsProfessional =>
-        RoguelikeMode == 4 &&
-        RoguelikeTheme != Theme.Phantom &&
-        RoguelikeSquad is "突击战术分队" or "堡垒战术分队" or "远程战术分队" or "破坏战术分队";
+    public bool RoguelikeSquadIsProfessional => RoguelikeMode == 4 && RoguelikeTheme != Theme.Phantom && RoguelikeSquad is "突击战术分队" or "堡垒战术分队" or "远程战术分队" or "破坏战术分队";
 
-    public bool RoguelikeSquadIsFoldartal =>
-        RoguelikeMode == 4 &&
-        RoguelikeTheme == Theme.Sami &&
-        RoguelikeSquad == "生活至上分队";
+    public bool RoguelikeSquadIsFoldartal => RoguelikeMode == 4 && RoguelikeTheme == Theme.Sami && RoguelikeSquad == "生活至上分队";
 
     private string _roguelikeRoles = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeRoles, string.Empty);
 
@@ -437,7 +431,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// <summary>
     /// Gets or sets a value indicating whether core char need start with elite two.
     /// </summary>
-    public bool RoguelikeStartWithEliteTwoRaw
+    public bool RoguelikeStartWithEliteTwo
     {
         get => _roguelikeStartWithEliteTwo;
         set
@@ -458,11 +452,6 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         }
     }
 
-    /// <summary>
-    /// Gets a value indicating whether core char need start with elite two.
-    /// </summary>
-    public bool RoguelikeStartWithEliteTwo => _roguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional;
-
     private bool _roguelikeOnlyStartWithEliteTwo = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeOnlyStartWithEliteTwo, bool.FalseString));
 
     /// <summary>
@@ -481,7 +470,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// <summary>
     /// Gets a value indicating whether only need with elite two's core char.
     /// </summary>
-    public bool RoguelikeOnlyStartWithEliteTwo => _roguelikeOnlyStartWithEliteTwo && RoguelikeStartWithEliteTwo;
+    public bool RoguelikeOnlyStartWithEliteTwo => _roguelikeOnlyStartWithEliteTwo && _roguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional;
 
     public static Dictionary<string, string> RoguelikeStartWithAllDict { get; } = new()
     {
@@ -495,7 +484,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         { "Sarkaz@Roguelike@LastReward5", LocalizationHelper.GetString("RoguelikeStartWithIdea") },
     };
 
-    private static object[] _roguelikeStartWithSelectListRaw = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.RoguelikeStartWithSelectList, "Roguelike@LastReward Roguelike@LastReward4 Sarkaz@Roguelike@LastReward5")
+    private object[] _roguelikeStartWithSelectListRaw = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.RoguelikeStartWithSelectList, "Roguelike@LastReward Roguelike@LastReward4 Sarkaz@Roguelike@LastReward5")
         .Split(' ')
         .Where(s => RoguelikeStartWithAllDict.ContainsKey(s.ToString()))
         .Select(s => (object)new KeyValuePair<string, string>(s, RoguelikeStartWithAllDict[s]))
@@ -513,14 +502,14 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         }
     }
 
-    public List<string> RoguelikeStartWithSelectList => (RoguelikeMode == 4 && !RoguelikeOnlyStartWithEliteTwo) ? _roguelikeStartWithSelectListRaw.Cast<KeyValuePair<string, string>>().Select(pair => pair.Key).ToList() : [];
+    public List<string> RoguelikeStartWithSelectList => _roguelikeStartWithSelectListRaw.Cast<KeyValuePair<string, string>>().Select(pair => pair.Key).ToList();
 
     private bool _roguelike3FirstFloorFoldartal = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3FirstFloorFoldartal, bool.FalseString));
 
     /// <summary>
     /// Gets or sets a value indicating whether core char need start with elite two.
     /// </summary>
-    public bool Roguelike3FirstFloorFoldartalRaw
+    public bool Roguelike3FirstFloorFoldartal
     {
         get => _roguelike3FirstFloorFoldartal;
         set
@@ -530,20 +519,16 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private string _roguelike3StartFloorFoldartal = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3StartFloorFoldartal, string.Empty).Trim();
-    /// Gets a value indicating whether core char need start with elite two.
-    /// </summary>
-    public bool Roguelike3FirstFloorFoldartal => _roguelike3FirstFloorFoldartal && RoguelikeMode == 4 && RoguelikeTheme == Theme.Sami;
+    private string _roguelike3FirstFloorFoldartals = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3FirstFloorFoldartals, string.Empty).Trim();
 
-
-    public string Roguelike3StartFloorFoldartal
+    public string Roguelike3FirstFloorFoldartals
     {
-        get => _roguelike3StartFloorFoldartal;
+        get => _roguelike3FirstFloorFoldartals;
         set
         {
             value = value.Trim();
-            SetAndNotify(ref _roguelike3StartFloorFoldartal, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.Roguelike3StartFloorFoldartal, value);
+            SetAndNotify(ref _roguelike3FirstFloorFoldartals, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.Roguelike3FirstFloorFoldartals, value);
         }
     }
 
@@ -552,7 +537,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// <summary>
     /// Gets or sets a value indicating whether core char need start with elite two.
     /// </summary>
-    public bool Roguelike3NewSquad2StartingFoldartalRaw
+    public bool Roguelike3NewSquad2StartingFoldartal
     {
         get => _roguelike3NewSquad2StartingFoldartal;
         set
@@ -561,11 +546,6 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             ConfigurationHelper.SetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartal, value.ToString());
         }
     }
-
-    /// <summary>
-    /// Gets a value indicating whether core char need start with elite two.
-    /// </summary>
-    public bool Roguelike3NewSquad2StartingFoldartal => _roguelike3NewSquad2StartingFoldartal && RoguelikeSquadIsFoldartal;
 
     private string _roguelike3NewSquad2StartingFoldartals = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartals, string.Empty).Replace('；', ';').Trim();
 
@@ -607,9 +587,9 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         get => _roguelikeUseSupportUnit;
         set
         {
-            if (value && RoguelikeStartWithEliteTwo)
+            if (value && _roguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional)
             {
-                RoguelikeStartWithEliteTwoRaw = false;
+                RoguelikeStartWithEliteTwo = false;
             }
 
             SetAndNotify(ref _roguelikeUseSupportUnit, value);
@@ -632,17 +612,17 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private string _roguelikeStartsCount = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartsCount, "99999");
+    private int _roguelikeStartsCount = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartsCount, 99999);
 
     /// <summary>
     /// Gets or sets the start count of roguelike.
     /// </summary>
     public int RoguelikeStartsCount
     {
-        get => int.Parse(_roguelikeStartsCount);
+        get => _roguelikeStartsCount;
         set
         {
-            SetAndNotify(ref _roguelikeStartsCount, value.ToString());
+            SetAndNotify(ref _roguelikeStartsCount, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStartsCount, value.ToString());
         }
     }
@@ -824,17 +804,17 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private bool _roguelikeStartWithSeedRaw = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartWithSeed, bool.FalseString));
+    private bool _roguelikeStartWithSeed = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartWithSeed, bool.FalseString));
 
     /// <summary>
     /// Gets or sets a value indicating whether start with seed when investing in Sarkaz.
     /// </summary>
-    public bool RoguelikeStartWithSeedRaw
+    public bool RoguelikeStartWithSeed
     {
-        get => _roguelikeStartWithSeedRaw;
+        get => _roguelikeStartWithSeed;
         set
         {
-            SetAndNotify(ref _roguelikeStartWithSeedRaw, value);
+            SetAndNotify(ref _roguelikeStartWithSeed, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStartWithSeed, value.ToString());
         }
     }
@@ -865,7 +845,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             // 刷开局
             CollectibleModeSquad = RoguelikeCollectibleModeSquad,
             CollectibleModeShopping = RoguelikeCollectibleModeShopping,
-            StartWithEliteTwo = RoguelikeStartWithEliteTwoRaw && RoguelikeSquadIsProfessional,
+            StartWithEliteTwo = RoguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional,
             StartWithEliteTwoNonBattle = RoguelikeOnlyStartWithEliteTwo,
 
             // 月度小队
@@ -875,16 +855,16 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             // 深入探索
             DeepExplorationAutoIterate = RoguelikeDeepExplorationAutoIterate,
 
-            SamiFirstFloorFoldartal = RoguelikeTheme == Theme.Sami && RoguelikeMode == 4 && Roguelike3FirstFloorFoldartalRaw,
-            SamiStartFloorFoldartal = Roguelike3StartFloorFoldartal,
-            SamiNewSquad2StartingFoldartal = Roguelike3NewSquad2StartingFoldartalRaw && RoguelikeSquadIsFoldartal,
+            SamiFirstFloorFoldartal = RoguelikeTheme == Theme.Sami && RoguelikeMode == 4 && Roguelike3FirstFloorFoldartal,
+            SamiStartFloorFoldartal = Roguelike3FirstFloorFoldartals,
+            SamiNewSquad2StartingFoldartal = Roguelike3NewSquad2StartingFoldartal && RoguelikeSquadIsFoldartal,
             SamiNewSquad2StartingFoldartals = Roguelike3NewSquad2StartingFoldartals.Split(';').Where(i => !string.IsNullOrEmpty(i)).Take(3).ToList(),
 
             ExpectedCollapsalParadigms = RoguelikeExpectedCollapsalParadigms.Split(';').Where(i => !string.IsNullOrEmpty(i)).ToList(),
             StartWithSeed = RoguelikeStartWithSeed && RoguelikeTheme == Theme.Sarkaz && RoguelikeMode == 1 && RoguelikeSquad is "点刺成锭分队" or "后勤分队",
         };
 
-        if (RoguelikeMode == 4)
+        if (RoguelikeMode == 4 && !RoguelikeOnlyStartWithEliteTwo)
         {
             var rewardKeys = new Dictionary<string, string>
             {
