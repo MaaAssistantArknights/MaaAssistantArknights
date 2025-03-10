@@ -2079,7 +2079,7 @@
     "resource/template/infrast/Bskill_man_spd&power1": "54f9b61f68f315488961008ce07680edcb0e0a2d43ecd83ac894b001a8dc7ac5",
     "resource/template/infrast/Bskill_man_spd&power2": "f41eba848e50902f9c4aec07bc8bf5273036dca92bc4bc837e0ef4c30f9fd571",
     "resource/template/infrast/Bskill_man_spd&power3": "9eaddd739348baba7ac62709ca546b5a7e8963a7fff5d989a34d1384ccee4aff",
-    "resource/template/infrast/Bskill_man_spd&trade": "4a6f6fcdca940a739945aae9c897a0d491793146a5a781621bc7fdce47d95d07",
+    "resource/template/infrast/Bskill_man_spd&trade": "99595fc7d04705b98841a589904d974ac7666e3fefe2a9c952f8650c6ee1ae3f",
     "resource/template/infrast/Bskill_man_spd1": "035f7bf395d949a154d06cde53be5df346aec28acda6593d62a8b5bfc7d5bf17",
     "resource/template/infrast/Bskill_man_spd2": "41f8499758eca4a1cee52414005bbfa2f1685b1954907127bf9569343d3bfe8f",
     "resource/template/infrast/Bskill_man_spd3": "98aa1f0e06661a70df4c4a6985922e6a3a77025d1369aecbc7ba6c0924e5d935",
@@ -3178,5 +3178,7 @@
     "resource/template/infrast/Bskill_man_spd&limit6": "04371867add027ad7b5afe648058e34d5a1a371f134cc1bbb85feaf3b8820e7b",
     "YoStarJP/Sami@Roguelike@MissionFailedFlag3": "7ce8328b9a2fc951946f2ade3c6305474f3a2aad920bab7ff858683bcd7b15a6",
     "txwy/Sami@Roguelike@MissionFailedFlag3": "f4c2b32070661a860aff3e98b50c8c7391c942f3c307871fe398dfe9130654dc",
-    "YoStarKR/Sami@Roguelike@MissionFailedFlag3": "de5cff3e749fe98a962ed5babc748b465a0559503a8adbcf6cccb3d10e77ca8a"
+    "YoStarKR/Sami@Roguelike@MissionFailedFlag3": "de5cff3e749fe98a962ed5babc748b465a0559503a8adbcf6cccb3d10e77ca8a",
+    "official/Roguelike@TutorialButton": "11c0da208b9667db469542dbbdd53ec4d17fcd1a1f792a1b723f78562498af7f",
+    "official/Sarkaz@Roguelike@Confirm": "b4b14e83699b4f5b2a004e06e70fd4ba40eff38448b59ed8b2ee8ccc1b9989c2"
 }
