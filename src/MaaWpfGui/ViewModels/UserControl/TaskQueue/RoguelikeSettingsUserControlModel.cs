@@ -18,6 +18,8 @@ using System.IO;
 using System.Linq;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Models.AsstTasks;
+using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
@@ -528,18 +530,18 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         }
     }
 
-    /// <summary>
+    private string _roguelike3StartFloorFoldartal = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3StartFloorFoldartal, string.Empty).Trim();
     /// Gets a value indicating whether core char need start with elite two.
     /// </summary>
     public bool Roguelike3FirstFloorFoldartal => _roguelike3FirstFloorFoldartal && RoguelikeMode == 4 && RoguelikeTheme == Theme.Sami;
 
-    private string _roguelike3StartFloorFoldartal = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3StartFloorFoldartal, string.Empty);
 
     public string Roguelike3StartFloorFoldartal
     {
         get => _roguelike3StartFloorFoldartal;
         set
         {
+            value = value.Trim();
             SetAndNotify(ref _roguelike3StartFloorFoldartal, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.Roguelike3StartFloorFoldartal, value);
         }
@@ -565,19 +567,20 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool Roguelike3NewSquad2StartingFoldartal => _roguelike3NewSquad2StartingFoldartal && RoguelikeSquadIsFoldartal;
 
-    private string _roguelike3NewSquad2StartingFoldartals = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartals, string.Empty);
+    private string _roguelike3NewSquad2StartingFoldartals = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartals, string.Empty).Replace('；', ';').Trim();
 
     public string Roguelike3NewSquad2StartingFoldartals
     {
         get => _roguelike3NewSquad2StartingFoldartals;
         set
         {
+            value = value.Replace('；', ';').Trim();
             SetAndNotify(ref _roguelike3NewSquad2StartingFoldartals, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartals, value);
         }
     }
 
-    private string _roguelikeExpectedCollapsalParadigms = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeExpectedCollapsalParadigms, string.Empty);
+    private string _roguelikeExpectedCollapsalParadigms = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeExpectedCollapsalParadigms, string.Empty).Replace("；", ";").Trim();
 
     /// <summary>
     /// Gets or sets the expected collapsal paradigms.
@@ -588,6 +591,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         get => _roguelikeExpectedCollapsalParadigms;
         set
         {
+            value = value.Replace('；', ';').Trim();
             SetAndNotify(ref _roguelikeExpectedCollapsalParadigms, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeExpectedCollapsalParadigms, value);
         }
@@ -715,17 +719,17 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private string _roguelikeInvestsCount = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeInvestsCount, "9999999");
+    private int _roguelikeInvestsCount = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeInvestsCount, 999);
 
     /// <summary>
     /// Gets or sets the invests count of roguelike.
     /// </summary>
     public int RoguelikeInvestsCount
     {
-        get => int.Parse(_roguelikeInvestsCount);
+        get => _roguelikeInvestsCount;
         set
         {
-            SetAndNotify(ref _roguelikeInvestsCount, value.ToString());
+            SetAndNotify(ref _roguelikeInvestsCount, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeInvestsCount, value.ToString());
         }
     }
@@ -835,7 +839,76 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         }
     }
 
-    public bool RoguelikeStartWithSeed => _roguelikeStartWithSeedRaw && RoguelikeTheme == Theme.Sarkaz && RoguelikeMode == 1 && RoguelikeSquad is "点刺成锭分队" or "后勤分队";
+    public override (AsstTaskType Type, JObject Params) Serialize()
+    {
+        var task = new AsstRoguelikeTask()
+        {
+            Theme = RoguelikeTheme,
+            Mode = RoguelikeMode,
+            Starts = RoguelikeStartsCount,
+            Difficulty = RoguelikeDifficulty,
+            Squad = RoguelikeSquad,
+            Roles = RoguelikeRoles,
+            CoreChar = DataHelper.GetCharacterByNameOrAlias(RoguelikeCoreChar)?.Name ?? RoguelikeCoreChar,
+            UseSupport = RoguelikeUseSupportUnit,
+            UseSupportNonFriend = RoguelikeEnableNonfriendSupport,
+
+            InvestmentEnabled = RoguelikeInvestmentEnabled,
+            InvestmentCount = RoguelikeInvestsCount,
+            InvestmentStopWhenFull = RoguelikeStopWhenInvestmentFull,
+            InvestmentWithMoreScore = RoguelikeInvestmentWithMoreScore,
+            RefreshTraderWithDice = RoguelikeTheme == Theme.Mizuki && RoguelikeRefreshTraderWithDice,
+
+            StopAtFinalBoss = RoguelikeStopAtFinalBoss,
+            StopAtMaxLevel = RoguelikeStopAtMaxLevel,
+
+            // 刷开局
+            CollectibleModeSquad = RoguelikeCollectibleModeSquad,
+            CollectibleModeShopping = RoguelikeCollectibleModeShopping,
+            StartWithEliteTwo = RoguelikeStartWithEliteTwoRaw && RoguelikeSquadIsProfessional,
+            StartWithEliteTwoNonBattle = RoguelikeOnlyStartWithEliteTwo,
+
+            // 月度小队
+            MonthlySquadAutoIterate = RoguelikeMonthlySquadAutoIterate,
+            MonthlySquadCheckComms = RoguelikeMonthlySquadCheckComms,
+
+            // 深入探索
+            DeepExplorationAutoIterate = RoguelikeDeepExplorationAutoIterate,
+
+            SamiFirstFloorFoldartal = RoguelikeTheme == Theme.Sami && RoguelikeMode == 4 && Roguelike3FirstFloorFoldartalRaw,
+            SamiStartFloorFoldartal = Roguelike3StartFloorFoldartal,
+            SamiNewSquad2StartingFoldartal = Roguelike3NewSquad2StartingFoldartalRaw && RoguelikeSquadIsFoldartal,
+            SamiNewSquad2StartingFoldartals = Roguelike3NewSquad2StartingFoldartals.Split(';').Where(i => !string.IsNullOrEmpty(i)).Take(3).ToList(),
+
+            ExpectedCollapsalParadigms = RoguelikeExpectedCollapsalParadigms.Split(';').Where(i => !string.IsNullOrEmpty(i)).ToList(),
+            StartWithSeed = RoguelikeStartWithSeed && RoguelikeTheme == Theme.Sarkaz && RoguelikeMode == 1 && RoguelikeSquad is "点刺成锭分队" or "后勤分队",
+        };
+
+        if (RoguelikeMode == 4)
+        {
+            var rewardKeys = new Dictionary<string, string>
+            {
+                { "Roguelike@LastReward", "hot_water" },
+                { "Roguelike@LastReward2", "shield" },
+                { "Roguelike@LastReward3", "ingot" },
+                { "Roguelike@LastReward4", "hope" },
+                { "Roguelike@LastRewardRand", "random" },
+                { "Mizuki@Roguelike@LastReward5", "key" },
+                { "Mizuki@Roguelike@LastReward6", "dice" },
+                { "Sarkaz@Roguelike@LastReward5", "ideas" },
+            };
+            var startWithSelect = new JObject();
+            foreach (var select in RoguelikeStartWithSelectList)
+            {
+                if (rewardKeys.TryGetValue(select, out var paramKey))
+                {
+                    task.CollectibleModeStartRewards[paramKey] = true;
+                }
+            }
+        }
+
+        return task.Serialize();
+    }
 }
 
 public enum RoguelikeTheme
