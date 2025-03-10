@@ -49,6 +49,26 @@
     "DTChapterToDT": {
         "text": ["MONSTER", "Monster", "GOURMAND", "Gourmand"]
     },
+    "DT-8@SideStoryStage": {
+        "isAscii": true,
+        "text": ["RHODES", "ISLAND", "CAFETERIA"],
+        "roi": [652, 457, 166, 54]
+    },
+    "DT-7@SideStoryStage": {
+        "isAscii": true,
+        "text": ["HEALTHY", "SNACKS"],
+        "roi": [657, 437, 169, 40]
+    },
+    "DT-6@SideStoryStage": {
+        "isAscii": true,
+        "text": ["SEAFOOD", "PLATTER"],
+        "roi": [661, 410, 168, 30]
+    },
+    "DT-3@SideStoryStage": {
+        "isAscii": true,
+        "text": ["GOLDEN", "CARROT"],
+        "roi": [672, 317, 171, 30]
+    },
     "BP-OpenOcr": {
         "text": ["Path", "Life", "event", "open", "Fortify", "Defense"]
     },
