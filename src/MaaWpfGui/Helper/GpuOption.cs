@@ -79,6 +79,13 @@ namespace MaaWpfGui.Helper
 
         // https://dgpu-docs.intel.com/devices/hardware-table.html#gpus-with-unsupported-drivers
         private static ReadOnlySpan<ushort> _intel_blacklist => MemoryMarshal.Cast<char, ushort>(
+            /* Xe (Tiger Lake, Elkhart Lake, Jasper Lake, Rocket Lake, Alder Lake, Raptor Lake)    */ "\uA780\uA781" +
+            "\uA788\uA789\uA78A\uA782\uA78B\uA783\uA7A0\uA7A1\uA7A8\uA7AA\uA7AB\uA7AC\uA7AD\uA7A9\uA721\u4905\u4907" +
+            "\u4908\u4909\u4680\u4690\u4688\u468A\u468B\u4682\u4692\u4693\u46D3\u46D4\u46D0\u46D1\u46D2\u4626\u4628" +
+            "\u462A\u46A2\u46B3\u46C2\u46A3\u46B2\u46C3\u46A0\u46B0\u46C0\u46A6\u46AA\u46A8\u46A1\u46B1\u46C1\u4C8A" +
+            "\u4C8B\u4C90\u4C9A\u4E71\u4E61\u4E57\u4E55\u4E51\u4557\u4555\u4571\u4551\u4541\u9A59\u9A78\u9A60\u9A70" +
+            "\u9A68\u9A40\u9A49" +
+            /* Xe-LPG (Meteor Lake) */ "\u7D40\u7D45\u7D55\u7DD5" +
             /* Gen11 */ "\u8A70\u8A71\u8A56\u8A58\u8A5B\u8A5D\u8A54\u8A5A\u8A5C\u8A57\u8A59\u8A50\u8A51\u8A52\u8A53" +
             /* Gen9  */ "\u3EA5\u3EA8\u3EA6\u3EA7\u3EA2\u3E90\u3E93\u3E99\u3E9C\u3EA1\u9BA5\u9BA8\u3EA4\u9B21\u9BA0" +
             "\u9BA2\u9BA4\u9BAA\u9BAB\u9BAC\u87CA\u3EA3\u9B41\u9BC0\u9BC2\u9BC4\u9BCA\u9BCB\u9BCC\u3E91\u3E92\u3E98" +
