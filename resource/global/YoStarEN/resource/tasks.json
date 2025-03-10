@@ -963,7 +963,19 @@
             ["Idle Exquisicart", "停滞巧械"],
             ["Theresa, Black-crowned Sage", "特蕾西娅，黑冠圣贤"],
             ["Guardian Bulwark", "圣卫坚盾"],
-            ["Foldable Facility Maintainer", "设施建筑工"]
+            ["Foldable Facility Maintainer", "设施建筑工"],
+            ["Marcille", "玛露西尔"],
+            ["Roast Berry", "香甜烤果子"],
+            ["Chilchuck", "齐尔查克"],
+            ["Really Big Pot", "很大的锅"],
+            ["Laios", "莱欧斯"],
+            ["Senshi", "森西"],
+            ["Chest Limb?", "宝箱的肉？"],
+            ["'Treasure Chest'", "“宝箱”"],
+            ["Shiny Berries", "闪亮果实"],
+            ["Glooming Berry", "奇异黑光果实"],
+            ["Shiny Brew", "缤纷果酒"],
+            ["'Treasure Chest'", "“宝箱”"]
         ]
     },
     "GameStartUpdateOCR": {
