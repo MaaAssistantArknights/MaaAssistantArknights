@@ -404,6 +404,7 @@ binary = true # 是否安装 maa-cli 的二进制文件，默认为 true
 # 资源热更新相关配置
 [resource]
 auto_update = true  # 是否在每次运行任务时自动更新资源，默认为 false
+warn_on_update_failure = true # 是否在更新失败时发出警告而不是直接报错
 backend = "libgit2" # 资源热更新后端，可选值为 "git" 或者 "libgit2"，默认为 "git"
 
 # 资源热更新远程仓库相关配置
