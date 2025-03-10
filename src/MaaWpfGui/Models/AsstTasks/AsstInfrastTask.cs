@@ -69,6 +69,11 @@ public class AsstInfrastTask : AsstBaseTask
     public bool OriginiumShardAutoReplenishment { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 领取基建会客室留言板奖励
+    /// </summary>
+    public bool ReceptionMessageBoard { get; set; } = true;
+
+    /// <summary>
     /// Gets or sets a value indicating whether 是否开启自定义配置
     /// </summary>
     public bool IsCustom { get; set; }
@@ -94,6 +99,7 @@ public class AsstInfrastTask : AsstBaseTask
             ["dorm_notstationed_enabled"] = DormFilterNotStationedEnabled,
             ["dorm_trust_enabled"] = DormDormTrustEnabled,
             ["replenish"] = OriginiumShardAutoReplenishment,
+            ["reception_message_board"] = ReceptionMessageBoard,
             ["mode"] = IsCustom ? 10000 : 0,
         };
 

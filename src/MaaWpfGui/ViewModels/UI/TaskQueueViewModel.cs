@@ -27,7 +27,6 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
-using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
@@ -1684,18 +1683,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            var order = InfrastTask.GetInfrastOrderList();
-            Instances.AsstProxy.AsstSetInfrastTaskParams(
-                order,
-                InfrastTask.UsesOfDrones,
-                InfrastTask.ContinueTraining,
-                InfrastTask.DormThreshold / 100.0,
-                InfrastTask.DormFilterNotStationedEnabled,
-                InfrastTask.DormTrustEnabled,
-                InfrastTask.OriginiumShardAutoReplenishment,
-                InfrastTask.CustomInfrastEnabled,
-                InfrastTask.CustomInfrastFile,
-                InfrastTask.CustomInfrastPlanIndex);
+            Instances.AsstProxy.AsstSetInfrastTaskParams();
         }
 
         private bool AppendInfrast()
@@ -1707,20 +1695,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            var (type, param) = new AsstInfrastTask
-            {
-                Facilitys = InfrastTask.GetInfrastOrderList(),
-                UsesOfDrones = InfrastTask.UsesOfDrones,
-                ContinueTraining = InfrastTask.ContinueTraining,
-                DormThreshold = InfrastTask.DormThreshold / 100.0,
-                DormFilterNotStationedEnabled = InfrastTask.DormFilterNotStationedEnabled,
-                DormDormTrustEnabled = InfrastTask.DormTrustEnabled,
-                OriginiumShardAutoReplenishment = InfrastTask.OriginiumShardAutoReplenishment,
-                IsCustom = InfrastTask.CustomInfrastEnabled,
-                Filename = InfrastTask.CustomInfrastFile,
-                PlanIndex = InfrastTask.CustomInfrastPlanIndex,
-            }.Serialize();
-
+            var (type, param) = InfrastTask.Serialize();
             return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Infrast, type, param);
         }
 
