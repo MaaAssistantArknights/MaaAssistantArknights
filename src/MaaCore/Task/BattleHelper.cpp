@@ -10,12 +10,12 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
+#include "Utils/Ranges.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
 #include "Utils/Time.hpp"
 #include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Battle/BattlefieldMatcher.h"
-#include "Vision/BestMatcher.h"
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
 
@@ -105,23 +105,6 @@ bool asst::BattleHelper::update_deployment_(
     // ————————————————————————————————————————————————————————————————————————————————
     // 准备 lambda 函数
     // ————————————————————————————————————————————————————————————————————————————————
-    // 从场上干员和已占用格子中移除冷却中的干员
-    auto remove_cooling_from_battlefield = [&](const DeploymentOper& oper) {
-        if (!oper.cooling) {
-            // 若 update_deployment 被调用得足够频繁，则离场干员被首次检测到时必然在 CD 中；此处利用了这个假设
-            // 注意：这个假设在某些极端情况下并不成立（比如生息盐酸中在食品加成下夜刀和四月的 CD 可降低为 0）
-            // -- by Charred
-            return;
-        }
-        auto iter = m_battlefield_opers.find(oper.name);
-        if (iter == m_battlefield_opers.end()) {
-            return;
-        }
-        auto loc = iter->second;
-        m_used_tiles.erase(loc);
-        m_battlefield_opers.erase(iter);
-    };
-
     // 设置干员名与部署位类型（近战/远程）
     auto set_oper_name = [&](DeploymentOper& oper, const std::string& name) {
         oper.name = name;
@@ -140,46 +123,26 @@ bool asst::BattleHelper::update_deployment_(
     // 匹配已知干员
     // ————————————————————————————————————————————————————————————————————————————————
     for (auto& oper : cur_opers) {
-        BestMatcher avatar_analyzer(oper.avatar);
-        avatar_analyzer.set_method(MatchMethod::Ccoeff);
-        if (oper.cooling) {
-            Log.trace("start matching cooling", oper.index);
-            static const auto cooling_threshold =
-                Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_thresholds.front();
-            static const auto cooling_mask_range = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_ranges;
-            avatar_analyzer.set_threshold(cooling_threshold);
-            avatar_analyzer.set_mask_ranges(cooling_mask_range, true, true);
-        }
-        else {
-            static const auto threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_thresholds.front();
-            static const auto drone_threshold =
-                Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_thresholds.front();
-            avatar_analyzer.set_threshold(oper.role == Role::Drone ? drone_threshold : threshold);
-        }
-
         bool is_analyzed = false;
         if (!old_deployment_opers.empty()) {
-            for (const auto& old_oper :
-                 old_deployment_opers | views::filter([&](const battle::DeploymentOper& temp_oper) {
-                     return temp_oper.role == oper.role;
-                 })) {
-                avatar_analyzer.append_templ(old_oper.name, old_oper.avatar);
-            }
-            if (avatar_analyzer.analyze()) {
-                set_oper_name(oper, avatar_analyzer.get_result().templ_info.name);
+            auto avatar =
+                old_deployment_opers |
+                views::filter([&](const battle::DeploymentOper& temp_oper) { return temp_oper.role == oper.role; }) |
+                views::transform([&](const battle::DeploymentOper& temp_oper) {
+                    return std::make_pair(temp_oper.name, temp_oper.avatar);
+                });
+            const auto& result = analyze_oper_with_cache(oper, avatar);
+            if (result) {
+                set_oper_name(oper, result->templ_info.name);
                 remove_cooling_from_battlefield(oper);
                 is_analyzed = true;
             }
         }
         if (!is_analyzed) {
             // 之前的干员都没匹配上，那就把所有的干员都加进去
-            // 可能的优化: 移除之前添加的模板
-            auto& avatar_cache = AvatarCache.get_avatars(oper.role);
-            for (const auto& [name, avatar] : avatar_cache) {
-                avatar_analyzer.append_templ(name, avatar);
-            }
-            if (avatar_analyzer.analyze()) {
-                set_oper_name(oper, avatar_analyzer.get_result().templ_info.name);
+            const auto& result2 = analyze_oper_with_cache(oper, AvatarCache.get_avatars(oper.role));
+            if (result2) {
+                set_oper_name(oper, result2->templ_info.name);
                 remove_cooling_from_battlefield(oper);
             }
             else {
@@ -998,4 +961,50 @@ std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const 
     }
 
     return oper_iter->rect;
+}
+
+template <typename T>
+requires asst::ranges::range<T> && asst::PairStringMat<asst::ranges::range_value_t<T>>
+std::optional<asst::BestMatcher::Result>
+    asst::BattleHelper::analyze_oper_with_cache(const asst::battle::DeploymentOper& oper, const T& avatar_cache)
+{
+    BestMatcher avatar_analyzer(oper.avatar);
+    avatar_analyzer.set_method(MatchMethod::Ccoeff);
+    if (oper.cooling) {
+        Log.trace("start matching cooling", oper.index);
+        static const auto cooling_threshold =
+            Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_thresholds.front();
+        static const auto cooling_mask_range = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_ranges;
+        avatar_analyzer.set_threshold(cooling_threshold);
+        avatar_analyzer.set_mask_ranges(cooling_mask_range, true, true);
+    }
+    else {
+        static const auto threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_thresholds.front();
+        static const auto drone_threshold = Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_thresholds.front();
+        avatar_analyzer.set_threshold(oper.role == Role::Drone ? drone_threshold : threshold);
+    }
+
+    for (const auto& [name, avatar] : avatar_cache) {
+        avatar_analyzer.append_templ(name, avatar);
+    }
+
+    if (avatar_analyzer.analyze()) {
+        return avatar_analyzer.get_result();
+    }
+
+    return std::nullopt;
+}
+
+void asst::BattleHelper::remove_cooling_from_battlefield(const battle::DeploymentOper& oper)
+{
+    if (!oper.cooling) {
+        return;
+    }
+    auto iter = m_battlefield_opers.find(oper.name);
+    if (iter == m_battlefield_opers.end()) {
+        return;
+    }
+    auto loc = iter->second;
+    m_used_tiles.erase(loc);
+    m_battlefield_opers.erase(iter);
 }

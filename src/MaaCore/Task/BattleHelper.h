@@ -8,12 +8,26 @@
 #include "Utils/NoWarningCVMat.h"
 #include "Utils/Platform.hpp"
 #include "Utils/WorkingDir.hpp"
+#include "Vision/BestMatcher.h"
 
+#include <concepts>
 #include <filesystem>
 #include <map>
 
 namespace asst
 {
+template <typename T>
+concept PairStringMat =
+    std::same_as<T, std::pair<std::string, cv::Mat>> || std::same_as<T, std::pair<const std::string, cv::Mat>>;
+
+template <typename T>
+concept OperAvatarPair = requires {
+    typename T::first_type;
+    typename T::second_type;
+    std::same_as<std::string, std::remove_cvref_t<typename T::first_type>>;
+    std::same_as<cv::Mat, std::remove_cvref_t<typename T::second_type>>;
+};
+
 class BattleHelper
 {
 public:
@@ -83,8 +97,15 @@ protected:
     bool move_camera(const std::pair<double, double>& delta);
 
     std::string analyze_detail_page_oper_name(const cv::Mat& image);
-
     std::optional<Rect> get_oper_rect_on_deployment(const std::string& name) const;
+
+    template <typename T>
+    requires ranges::range<T> && PairStringMat<ranges::range_value_t<T>>
+    std::optional<asst::BestMatcher::Result>
+        analyze_oper_with_cache(const battle::DeploymentOper& oper, const T& avatar_cache);
+
+    // 从场上干员和已占用格子中移除冷却中的干员
+    void remove_cooling_from_battlefield(const battle::DeploymentOper& oper);
 
     std::string m_stage_name;
     Map::Level m_map_data;
