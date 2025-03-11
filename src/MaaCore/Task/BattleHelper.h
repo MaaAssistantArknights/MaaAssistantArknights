@@ -39,7 +39,6 @@ protected:
 
     bool update_deployment(bool init = false, const cv::Mat& reusable = cv::Mat(), bool need_oper_cost = false);
     bool update_deployment_(
-        bool init,
         std::vector<battle::DeploymentOper>& cur_opers,
         const std::vector<battle::DeploymentOper>& old_deployment_opers,
         bool stop_on_unknown);

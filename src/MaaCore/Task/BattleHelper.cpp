@@ -96,7 +96,6 @@ bool asst::BattleHelper::abandon()
 }
 
 bool asst::BattleHelper::update_deployment_(
-    const bool init,
     std::vector<battle::DeploymentOper>& cur_opers,
     const std::vector<battle::DeploymentOper>& old_deployment_opers,
     const bool stop_on_unknown)
@@ -159,7 +158,7 @@ bool asst::BattleHelper::update_deployment_(
         }
 
         bool is_analyzed = false;
-        if (!init) {
+        if (!old_deployment_opers.empty()) {
             for (const auto& old_oper :
                  old_deployment_opers | views::filter([&](const battle::DeploymentOper& temp_oper) {
                      return temp_oper.role == oper.role;
@@ -200,9 +199,9 @@ bool asst::BattleHelper::update_deployment_(
     }
 
     // ————————————————————————————————————————————————————————————————————————————————
-    // 匹配未知干员
+    // 匹配未知非冷却干员
     // ————————————————————————————————————————————————————————————————————————————————
-    if (ranges::count_if(unknown_opers, [](const DeploymentOper& it) { return !it.cooling; }) > 0 || init) {
+    if (ranges::count_if(unknown_opers, [](const DeploymentOper& it) { return !it.cooling; }) > 0) {
         // 一个都没匹配上的，挨个点开来看一下
         LogTraceScope("rec unknown opers");
 
@@ -230,10 +229,6 @@ bool asst::BattleHelper::update_deployment_(
             click_oper_on_deployment(oper_rect);
 
             name_image = m_inst_helper.ctrler()->get_image();
-            // 理论上已经暂停了，不需要进行下面的检查，但是暂停有可能失败，所以还是先保留吧
-            if (!check_in_battle(name_image)) {
-                return false;
-            }
 
             std::string name = analyze_detail_page_oper_name(name_image);
             // 这时候即使名字不合法也只能凑合用了，但是为空还是不行的
@@ -286,7 +281,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
     }
     const auto old_deployment_opers = std::move(m_cur_deployment_opers);
 
-    if (!update_deployment_(init, oper_result_opt->deployment, old_deployment_opers, true)) {
+    if (!update_deployment_(oper_result_opt->deployment, old_deployment_opers, true)) {
         // 发现未知干员，暂停游戏后再重新识别干员
         do {
             pause();
@@ -301,6 +296,11 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
         // 重新截图、重新识别
         image = m_inst_helper.ctrler()->get_image();
 
+        // 如果需要停止任务或者已经不在战斗中，则退出；否则默认之后的操作一直都在战斗中
+        if (m_inst_helper.need_exit() || !check_in_battle(image)) {
+            return false;
+        }
+
         BattlefieldMatcher oper_analyzer2(image);
         if (init || need_oper_cost) {
             oper_analyzer2.set_object_of_interest({ .deployment = true, .oper_cost = true });
@@ -314,9 +314,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
             return false;
         }
 
-        if (!update_deployment_(init, oper_result_opt->deployment, old_deployment_opers, false)) {
-            return false;
-        }
+        update_deployment_(oper_result_opt->deployment, old_deployment_opers, false);
 
         pause();
 
