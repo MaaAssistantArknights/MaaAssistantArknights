@@ -104,14 +104,14 @@ bool asst::BattleHelper::update_deployment_(
     LogTraceFunction;
 
     // ————————————————————————————————————————————————————————————————————————————————
-    // 准备 lamda 函数
+    // 准备 lambda 函数
     // ————————————————————————————————————————————————————————————————————————————————
     // 从场上干员和已占用格子中移除冷却中的干员
     auto remove_cooling_from_battlefield = [&](const DeploymentOper& oper) {
         if (!oper.cooling) {
             // 若 update_deployment 被调用得足够频繁，则离场干员被首次检测到时必然在 CD 中；此处利用了这个假设
-            // 注意：这个假设在某些极端情况下并不成立（比如生息盐酸中在食品加成下夜刀和四月的 CD 可降低为 0）-- by
-            // Charred
+            // 注意：这个假设在某些极端情况下并不成立（比如生息盐酸中在食品加成下夜刀和四月的 CD 可降低为 0）
+            // -- by Charred
             return;
         }
         auto iter = m_battlefield_opers.find(oper.name);
