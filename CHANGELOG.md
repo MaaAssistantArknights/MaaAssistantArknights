@@ -4,35 +4,32 @@
 
 * 适配「滋味」界面主题（YoStarEN） (#12135) @gui-ying233
 * SideStory「挽歌燃烧殆尽」导航 (#12094) @SherkeyXD
+* 基建收取会客室周限300信用 (#12014) @status102 @pre-commit-ci[bot] @Constrat
+* ExternalNotification 可选输出详细信息 (#12020) @ABA2396
 * 更新 243 极限效率一天四换排班表（20250310 修订） (#12132) @bodayw @Daydreamer114
-* Sarkaz extend II 专业人士分队 (#11938) @Daydreamer114
 * 萨卡兹肉鸽深入调查实装 (#12098) @BxFS
-* IS4 extend2 事件 转机、似是而非 (#11971) @Daydreamer114
+* 萨卡兹肉鸽 extend2 事件 转机、似是而非 (#11971) @Daydreamer114
+* 萨卡兹肉鸽 extend2 专业人士分队 (#11938) @Daydreamer114
 * YostarEN DT navigation @Constrat
 * YostarEN I.S. modes (#11956) @Constrat
 * YoStarEN Sarkaz roguelike (#11921) @Constrat @Daydreamer114
 * YostarJP Sarkaz roguelike (#11914) @Manicsteiner @Daydreamer114
 * YostarKR Sarkaz roguelike (#11920) @HX3N @Daydreamer114 @pre-commit-ci[bot]
-* ExternalNotification 可选输出详细信息 (#12020) @ABA2396
-* 基建收取会客室周限300信用 (#12014) @status102 @pre-commit-ci[bot] @Constrat
 
 ### 改进 | Improved
 
 * 基建信息板收取信用增加开关 (#12050) @status102 @pre-commit-ci[bot]
-* 调整IS4作战、招募 @Daydreamer114
-* 肉鸽难度选项降到18个 (#11934) @Daydreamer114
-* IS4 调整公害ew部署 (#11935) @Daydreamer114
 * 热键支持 Windows 键 @ABA2396
-* 自动战斗列表非即时添加作业时，使用已读取的缓存替代读取文件 @status102
 * 添加强制使用 Github 进行版本更新 @ABA2396
 * Wpf自动战斗重构 (#11977) @status102
-* IS3 度假村冤魂 防爆桩 @Daydreamer114
-* IS2 精酿杀手 防爆桩 @Daydreamer114
-* wpf自动战斗战斗列表序列化 @status102
-* 萨卡兹肉鸽负荷干员编入入口ROI拆分 (#11966) @status102
 * 填写完cdk后自动检查一次更新 @ABA2396
-* 企鹅物流上报失败-不支持的关卡，输出降级为警告，移除提示中的更新提醒 @status102
+* 刷理智企鹅物流上报失败-不支持的关卡，输出降级为警告，移除提示中的更新提醒 @status102
 * 自动战斗在作业地图不支持时，自动检测资源更新 @status102
+* 水月肉鸽 精酿杀手 防爆桩 @Daydreamer114
+* 萨米肉鸽 度假村冤魂 防爆桩 @Daydreamer114
+* 调整萨卡兹肉鸽作战、招募 @Daydreamer114
+* 肉鸽难度选项降到18个 (#11934) @Daydreamer114
+* 萨卡兹肉鸽调整公害ew部署 (#11935) @Daydreamer114
 
 ### 修复 | Fix
 
@@ -95,10 +92,8 @@
 * wpf开始唤醒任务在未选择官服/B服时，不再提供账号切换输入 @status102
 * wpf自动战斗-自动编队追加自定干员意外激活 @status102
 * log rotate (#12025) @status102 @pre-commit-ci[bot]
-* remove duplicate strings (#12065) @Constrat
 * Sarkaz MS unable to progress from post StartExplore (#12039) @BxFS @HX3N @Constrat
 * stuck on StageEnterBattleAgain while in team selection screen (#12059) @BxFS
-* smtp 格式 @ABA2396
 * 「滋味」主题在有多个 badge 时无法识别基建入口 (#12057) @Alan-Charred
 * 修复公招的几个问题 (#12056) @Roland125 @pre-commit-ci[bot]
 * 修复不自动招募4星干员时，会执行空招募的问题 (#12054) @Roland125 @pre-commit-ci[bot]
@@ -115,6 +110,11 @@
 
 ### 其他 | Other
 
+* wpf自动战斗战斗列表序列化 @status102
+* 萨卡兹肉鸽负荷干员编入入口ROI拆分 (#11966) @status102
+* remove duplicate strings (#12065) @Constrat
+* smtp 格式 @ABA2396
+* 自动战斗列表非即时添加作业时，使用已读取的缓存替代读取文件 @status102
 * 优化日志输出 @ABA2396
 * 肉鸽为识别错误的事件也添加 callback (#11946) @Daydreamer114 @HX3N
 * Wpf重构自动公招任务序列化 (#11951) @status102
