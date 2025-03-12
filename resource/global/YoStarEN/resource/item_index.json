@@ -943,6 +943,14 @@
         "sortId": 40003,
         "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
     },
+    "LINKAGE_TKT_GACHA_10_5401": {
+        "classifyType": "NORMAL",
+        "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
+        "icon": "LINKAGE_TKT_GACHA_10_5401.png",
+        "name": "Have A Good Meal Headhunting Permit",
+        "sortId": 40003,
+        "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
+    },
     "LMTGS_COIN_1401": {
         "classifyType": "NORMAL",
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
@@ -1758,6 +1766,14 @@
         "name": "Flowing Glimmerdust",
         "sortId": -10000,
         "usage": "Fine grains of gems that glitter like stars in the sky, older than the City of Radiance, and brighter than its hidden treasures."
+    },
+    "act36side_token_recipe": {
+        "classifyType": "NONE",
+        "description": "A reminder for certain operators, especially Kay: The meals recommended in the cookbook are FULL meals! Stop asking if they're just snacks already!",
+        "icon": "act36side_token_recipe.png",
+        "name": "Daily Recipe",
+        "sortId": -10000,
+        "usage": "A daily recipe waiting to be sent to Senshi's Dungeon Diner. If it's nutritionally balanced, you'll get a prize. If you're not sure which ingredients go with which, you can ask Matterhorn, Gummy, or Hibiscus."
     },
     "act38d1_token_coin": {
         "classifyType": "NONE",

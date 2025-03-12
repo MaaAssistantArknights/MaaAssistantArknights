@@ -428,8 +428,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     using var reader = new StreamReader(File.OpenRead(file));
                     var str = await reader.ReadToEndAsync();
-                    var payload = JsonConvert.DeserializeObject<object>(str, new CopilotContentConverter());
-
+                    var payload = JsonConvert.DeserializeObject<CopilotBase>(str, new CopilotContentConverter());
                     if (payload is CopilotModel copilot)
                     {
                         var difficulty = copilot.Difficulty;

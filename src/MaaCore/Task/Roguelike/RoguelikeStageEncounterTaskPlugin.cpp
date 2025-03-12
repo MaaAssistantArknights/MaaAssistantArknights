@@ -37,7 +37,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
 
     const std::string& theme = m_config->get_theme();
     const RoguelikeMode& mode = m_config->get_mode();
-    std::unordered_map<std::string, Config::RoguelikeEvent> event_map = RoguelikeStageEncounter.get_events(theme, mode);
+    const auto& event_map = RoguelikeStageEncounter.get_events(theme, mode);
     std::vector<std::string> event_names = RoguelikeStageEncounter.get_event_names(theme);
 
     const auto event_name_task_ptr = Task.get("Roguelike@StageEncounterOcr");
@@ -126,6 +126,12 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     while (max_time > 0) {
         // 从下往上点
         for (int i = max_time; i > 0; --i) {
+            // 判断是否因为任何原因返回了Stages管辖范围
+            bool ret = ProcessTask(*this, { "Roguelike@TutorialButton" }).set_reusable_image(image).run();
+            if (ret) {
+                return true;
+            }
+
             for (int j = 0; j < 2; ++j) {
                 ProcessTask(*this, { click_option_task_name(i, max_time) }).run();
                 sleep(300);

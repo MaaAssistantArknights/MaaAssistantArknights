@@ -2167,17 +2167,7 @@ namespace MaaWpfGui.Main
             return MaaService.AsstBackToHome(_handle);
         }
 
-        public bool AsstSetInfrastTaskParams(
-            IEnumerable<string> order,
-            string usesOfDrones,
-            bool continueTraining,
-            double dormThreshold,
-            bool dormFilterNotStationedEnabled,
-            bool dormDormTrustEnabled,
-            bool originiumShardAutoReplenishment,
-            bool isCustom,
-            string filename,
-            int planIndex)
+        public bool AsstSetInfrastTaskParams()
         {
             const TaskType Type = TaskType.Infrast;
             int id = _taskStatus.FirstOrDefault(i => i.Value == Type).Key;
@@ -2186,19 +2176,7 @@ namespace MaaWpfGui.Main
                 return false;
             }
 
-            var taskParams = new AsstInfrastTask
-            {
-                Facilitys = order.ToList(),
-                UsesOfDrones = usesOfDrones,
-                ContinueTraining = continueTraining,
-                DormThreshold = dormThreshold,
-                DormFilterNotStationedEnabled = dormFilterNotStationedEnabled,
-                DormDormTrustEnabled = dormDormTrustEnabled,
-                OriginiumShardAutoReplenishment = originiumShardAutoReplenishment,
-                IsCustom = isCustom,
-                Filename = filename,
-                PlanIndex = planIndex,
-            }.Serialize().Params;
+            var taskParams = InfrastSettingsUserControlModel.Instance.Serialize().Params;
             return AsstSetTaskParamsWithEncoding(id, taskParams);
         }
 
@@ -2406,26 +2384,18 @@ namespace MaaWpfGui.Main
         /// <returns>是否成功。</returns>
         public bool AsstStartRecruitCalc(int[] selectLevel, bool setTime, int chooseLevel3Time, int chooseLevel4Time, int chooseLevel5Time)
         {
-            var taskParams = new JObject
+            var task = new AsstRecruitTask()
             {
-                ["refresh"] = false,
-                ["select"] = new JArray(selectLevel),
-                ["confirm"] = new JArray(-1), // 仅公招识别时将-1加入comfirm_level
-                ["times"] = 0,
-                ["set_time"] = setTime,
-                ["expedite"] = false,
-                ["expedite_times"] = 0,
-                ["report_to_penguin"] = false,
-                ["report_to_yituliu"] = false,
-                ["recruitment_time"] = new JObject { ["3"] = chooseLevel3Time, ["4"] = chooseLevel4Time, ["5"] = chooseLevel5Time },
-                ["penguin_id"] = SettingsViewModel.GameSettings.PenguinId,
-                ["yituliu_id"] = SettingsViewModel.GameSettings.PenguinId, // 一图流说随便传个uuid就行，让client自己生成，所以先直接嫖一下企鹅的（
-                ["server"] = Instances.SettingsViewModel.ServerType,
+                SelectList = selectLevel.ToList(),
+                ConfirmList = [-1], // 仅公招识别时将-1加入comfirm_level
+                SetRecruitTime = setTime,
+                ChooseLevel3Time = chooseLevel3Time,
+                ChooseLevel4Time = chooseLevel4Time,
+                ChooseLevel5Time = chooseLevel5Time,
+                ServerType = Instances.SettingsViewModel.ServerType,
             };
-
-            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Recruit, taskParams);
-            _taskStatus.Add(id, TaskType.RecruitCalc);
-            return id != 0 && AsstStart();
+            var (type, taskParams) = task.Serialize();
+            return AsstAppendTaskWithEncoding(TaskType.RecruitCalc, type, taskParams) && AsstStart();
         }
 
         /// <summary>
