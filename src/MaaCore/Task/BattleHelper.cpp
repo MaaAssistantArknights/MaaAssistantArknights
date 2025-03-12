@@ -293,7 +293,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
             std::this_thread::yield();
         } while (!m_inst_helper.need_exit());
 
-        // 重新截图、重新识别
+        // 重新截图
         image = m_inst_helper.ctrler()->get_image();
 
         // 如果需要停止任务或者已经不在战斗中，则退出；否则默认之后的操作一直都在战斗中
@@ -301,6 +301,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
             return false;
         }
 
+        // 重新识别
         BattlefieldMatcher oper_analyzer2(image);
         if (init || need_oper_cost) {
             oper_analyzer2.set_object_of_interest({ .deployment = true, .oper_cost = true });
@@ -313,7 +314,6 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
             check_in_battle(image);
             return false;
         }
-
         update_deployment_(oper_result_opt->deployment, old_deployment_opers, false);
 
         pause();
