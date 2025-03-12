@@ -25,11 +25,13 @@
 
 本次更新，我们也修复了大量基建相关问题，例如无法进入会客室、无法切换贸易站订单等，同时也优化了各部分流程，降低卡住的概率。
 
-#### 萨卡兹肉鸽部分
+#### 萨卡兹肉鸽部分 | Sarkaz Roguelike
 
 本次更新，恰逢萨卡兹肉鸽深入调查模式的实装，我们也跟进并优化了部分事件和分队的交互逻辑。
 
 但请注意，牛牛只是一个自动机，还不能很好地应对一些肉鸽关卡，我们仍然在继续优化中。
+
+Additionally, Sarkaz Roguelike's adaptation for global clients has been completed in this version. Issues are welcome.
 
 #### 其他部分
 
