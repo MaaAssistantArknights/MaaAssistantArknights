@@ -2167,17 +2167,7 @@ namespace MaaWpfGui.Main
             return MaaService.AsstBackToHome(_handle);
         }
 
-        public bool AsstSetInfrastTaskParams(
-            IEnumerable<string> order,
-            string usesOfDrones,
-            bool continueTraining,
-            double dormThreshold,
-            bool dormFilterNotStationedEnabled,
-            bool dormDormTrustEnabled,
-            bool originiumShardAutoReplenishment,
-            bool isCustom,
-            string filename,
-            int planIndex)
+        public bool AsstSetInfrastTaskParams()
         {
             const TaskType Type = TaskType.Infrast;
             int id = _taskStatus.FirstOrDefault(i => i.Value == Type).Key;
@@ -2186,19 +2176,7 @@ namespace MaaWpfGui.Main
                 return false;
             }
 
-            var taskParams = new AsstInfrastTask
-            {
-                Facilitys = order.ToList(),
-                UsesOfDrones = usesOfDrones,
-                ContinueTraining = continueTraining,
-                DormThreshold = dormThreshold,
-                DormFilterNotStationedEnabled = dormFilterNotStationedEnabled,
-                DormDormTrustEnabled = dormDormTrustEnabled,
-                OriginiumShardAutoReplenishment = originiumShardAutoReplenishment,
-                IsCustom = isCustom,
-                Filename = filename,
-                PlanIndex = planIndex,
-            }.Serialize().Params;
+            var taskParams = InfrastSettingsUserControlModel.Instance.Serialize().Params;
             return AsstSetTaskParamsWithEncoding(id, taskParams);
         }
 

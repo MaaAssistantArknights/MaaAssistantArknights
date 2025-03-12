@@ -141,6 +141,9 @@ bool asst::InfrastTask::set_params(const json::value& params)
     bool dorm_trust_enabled = params.get("dorm_trust_enabled", false);
     m_dorm_task_ptr->set_trust_enabled(dorm_trust_enabled);
 
+    bool reception_message_board = params.get("reception_message_board", true);
+    m_reception_task_ptr->set_receive_message_board(reception_message_board);
+
     bool replenish = params.get("replenish", false);
     m_replenish_task_ptr->set_enable(replenish);
 
