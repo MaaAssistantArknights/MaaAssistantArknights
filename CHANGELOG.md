@@ -35,61 +35,32 @@
 
 * 枯朽祭坛 维什戴尔 逻各斯 OCR辨識 (#12096) @XuQingTW @pre-commit-ci[bot]
 * 更新 243 极限效率一天四换排班表 (#12137) @bodayw
-* add custom text and roi for SideStory DT @Constrat
 * 自动战斗费用识别在部分分辨率下概率出错 @status102
-* 尝试修复肉鸽不期而遇退出后仍在尝试点击事件 @BxFS @Constrat
 * 修复自动战斗-战斗列表批量导入失效 @status102
-* EN服萨卡兹肉鸽负荷干员icon ROI @status102
-* YostarKR updated the StartUpConnectingFlag template (#11960) @HX3N
-* Fix hidden floor Sarkaz EN @Constrat
-* EN 服 IS2 导航失效 (#11955) @Daydreamer114
+* 尝试修复肉鸽不期而遇退出后仍在尝试点击事件 @BxFS @Constra
 * 傀影肉鸽可以选择在第五层 BOSS 前暂停 @Daydreamer114
-* StartupUpdateCheck 不生效 @ABA2396
 * 外服重复检查资源 (#11927) @ABA2396
 * 支持肉鸽特定模式下跳过选队直接选人 (#11915) @BxFS
-* Log Rotate 临时性检查措施 (#11835) @status102
 * 3星招募逻辑修复 (#11913) @Roland125
+* 「滋味」主题概率无法识别 @ABA2396
 * 萨米第二次调查装备获取+萨米暂时撤退适配 (#12030) @BxFS
 * retake Mizuki IS recruit templates try to fix triple recruit issue @Constrat
 * 月度小队/深入调查未启用自动切换会以当前游戏模式开始探索 (#12032) @BxFS
 * 肉鸽深入调查没有指挥分队可选时，随机选择分队跳过干员招募 @status102
-* 自动战斗保全作业地图存在性判断 @status102
 * fast forward text in encounter (#12021) @Constrat
 * IS2, IS3 支援起重机 缺失 @Daydreamer114
-* 「滋味」主题概率无法识别 @ABA2396
 * Wpf信用任务-OF-1战斗 修复未勾选刷理智时，仍判断刷理智关卡是否为`当前/上次` @status102
 * 肉鸽放弃战斗奖励后仍能识别到掉落 (#12000) @Daydreamer114
 * Monthly Squad for Global (#11993) @BxFS @Constrat
-* Wpf选中战斗列表作业时，作业内容重复显示 @status102
-* Wpf地图信息MapInfo字段名更正 @status102
 * 会客室进入失败 (#11950) @ABA2396 @pre-commit-ci[bot] @Daydreamer114
 * add an missing @ for MonthlySquadCommsBackTwice (#11991) @BxFS
-* Mac 日服 IS4 识别阈值 (#11979) @Daydreamer114
-* YostarJP IS4 计划耕种 (#11990) @Manicsteiner
-* missing tasks for EN @Constrat
-* 生息演算Mode序列化类型 @status102
-* YostarKR Sarkaz CR Node recognition (#11986) @HX3N
-* YostarKR missing tasks (#11981) @HX3N
-* typo in xaml themes for Idea Filter + i18n EN @Constrat
-* Missing EN Sarkaz tasks 2 @Constrat
-* EN Sarkaz missing NextLevel task @Constrat
-* EN replace Sguad with Squad @Constrat
 * 狭路相逢遇到构想卡死 (#11970) @Daydreamer114
-* 移除肉鸽结算插件中的Matcher复用 @status102
-* 修复BattleHelper中的意外报错 @status102
 * IS4 绝境？抉择？ocr (#11969) @Daydreamer114
-* EN remove all spaces from encounter and ignore spaces @Constrat
-* EN Sarkaz SelectTheme @Constrat
-* 尝试修复启动时不显示ui @ABA2396
-* YoStarEN 肉鸽开局分队界面检测ROI扩大 @status102
-* 自动战斗移除点赞时判断作业是否来自云端 @status102
 * wpf自动战斗-追加自定干员失效 @status102
-* wpf领取奖励任务序列化错误 @status102
 * sarkaz MS count 1->8 (#12085) @BxFS
 * 修复截图速度过快导致不能切换贸易站订单的问题 (#12090) @Roland125
 * 基建设置UI绑定失效 @status102
 * burden/toil tasks threshold 0.9 -> 0.8 (#12087) @BxFS @Constrat
-* wpf开始唤醒任务在未选择官服/B服时，不再提供账号切换输入 @status102
 * wpf自动战斗-自动编队追加自定干员意外激活 @status102
 * log rotate (#12025) @status102 @pre-commit-ci[bot]
 * Sarkaz MS unable to progress from post StartExplore (#12039) @BxFS @HX3N @Constrat
@@ -98,9 +69,26 @@
 * 修复公招的几个问题 (#12056) @Roland125 @pre-commit-ci[bot]
 * 修复不自动招募4星干员时，会执行空招募的问题 (#12054) @Roland125 @pre-commit-ci[bot]
 * 自动战斗追加自定义干员序列化 @status102
+* add custom text and roi for SideStory DT @Constratt
+* EN remove all spaces from encounter and ignore spaces @Constrat
+* EN Sarkaz SelectTheme @Constrat
+* YoStarEN 肉鸽开局分队界面检测ROI扩大 @status102
+* EN服萨卡兹肉鸽负荷干员icon ROI @status102
+* YostarKR updated the StartUpConnectingFlag template (#11960) @HX3N
+* Fix hidden floor Sarkaz EN @Constrat
+* EN 服 IS2 导航失效 (#11955) @Daydreamer114
+* YostarJP IS4 计划耕种 (#11990) @Manicsteiner
+* YostarKR Sarkaz CR Node recognition (#11986) @HX3N
+* YostarKR missing tasks (#11981) @HX3N
+* Missing EN Sarkaz tasks 2 @Constrat
+* EN Sarkaz missing NextLevel task @Constrat
+* EN replace Sguad with Squad @Constrat
+* Mac 日服 IS4 识别阈值 (#11979) @Daydreamer114
 
 ### 文档 | Docs
 
+* Wpf选中战斗列表作业时，作业内容重复显示 @status102
+* StartupUpdateCheck 不生效 @ABA2396
 * 调整肉鸽文档 skill_usage 描述，尝试 json5 @Daydreamer114
 * 此AI非彼AI (#12005) @Rbqwow
 * 作业协议补充难度字段 (#11980) @status102
@@ -110,6 +98,18 @@
 
 ### 其他 | Other
 
+* wpf领取奖励任务序列化错误 @status102
+* 自动战斗移除点赞时判断作业是否来自云端 @status102
+* Log Rotate 临时性检查措施 (#11835) @status102
+* 自动战斗保全作业地图存在性判断 @status102
+* missing tasks for EN @Constrat
+* 生息演算Mode序列化类型 @status102
+* 移除肉鸽结算插件中的Matcher复用 @status102
+* 修复BattleHelper中的意外报错 @status102
+* 尝试修复启动时不显示ui @ABA2396
+* wpf开始唤醒任务在未选择官服/B服时，不再提供账号切换输入 @status102
+* Wpf地图信息MapInfo字段名更正 @status102
+* typo in xaml themes for Idea Filter + i18n EN @Constrat
 * wpf自动战斗战斗列表序列化 @status102
 * 萨卡兹肉鸽负荷干员编入入口ROI拆分 (#11966) @status102
 * remove duplicate strings (#12065) @Constrat
