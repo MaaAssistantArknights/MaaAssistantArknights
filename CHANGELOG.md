@@ -3,59 +3,40 @@
 ### 新增 | New
 
 * 适配「滋味」界面主题（YoStarEN） (#12135) @gui-ying233
-* 更新 243 极限效率一天四换排班表（20250310 修订） (#12132) @bodayw @Daydreamer114
-* YostarEN I.S. modes (#11956) @Constrat
-* YostarJP Sarkaz roguelike (#11914) @Manicsteiner @Daydreamer114
-* YoStarEN Sarkaz roguelike (#11921) @Constrat @Daydreamer114
-* SimpleEncryptionHelper 支持默认字符串 @ABA2396
-* YostarKR Sarkaz roguelike (#11920) @HX3N @Daydreamer114 @pre-commit-ci[bot]
-* Sarkaz extend II 专业人士分队 (#11938) @Daydreamer114
-* remove spaces for all ocrReplaces for KR + various optimizations (#11926) @Constrat
-* ExternalNotification 可选输出详细信息 (#12020) @ABA2396
-* 猫猫 (#12017) @ABA2396
-* Wpf旧Config增加int读取 (#11987) @status102
-* 基建收取会客室周限300信用 (#12014) @status102 @pre-commit-ci[bot] @Constrat
-* IS4 extend2 事件 转机 @Daydreamer114
-* Wpf地图查询 @status102
-* 读取地图数据 (#11973) @status102
-* IS4 extend2 似是而非事件 (#11971) @Daydreamer114
 * SideStory「挽歌燃烧殆尽」导航 (#12094) @SherkeyXD
-* YostarEN DT navigation @Constrat
+* 更新 243 极限效率一天四换排班表（20250310 修订） (#12132) @bodayw @Daydreamer114
+* Sarkaz extend II 专业人士分队 (#11938) @Daydreamer114
 * 萨卡兹肉鸽深入调查实装 (#12098) @BxFS
-* parse release note for resource updater (#12092) @MistEO @ABA2396 @Constrat
+* IS4 extend2 事件 转机、似是而非 (#11971) @Daydreamer114
+* YostarEN DT navigation @Constrat
+* YostarEN I.S. modes (#11956) @Constrat
+* YoStarEN Sarkaz roguelike (#11921) @Constrat @Daydreamer114
+* YostarJP Sarkaz roguelike (#11914) @Manicsteiner @Daydreamer114
+* YostarKR Sarkaz roguelike (#11920) @HX3N @Daydreamer114 @pre-commit-ci[bot]
+* ExternalNotification 可选输出详细信息 (#12020) @ABA2396
+* 基建收取会客室周限300信用 (#12014) @status102 @pre-commit-ci[bot] @Constrat
 
 ### 改进 | Improved
 
 * 基建信息板收取信用增加开关 (#12050) @status102 @pre-commit-ci[bot]
 * 调整IS4作战、招募 @Daydreamer114
-* 肉鸽为识别错误的事件也添加 callback (#11946) @Daydreamer114 @HX3N
-* Wpf重构自动公招任务序列化 (#11951) @status102
-* Wpf重构生息演算任务参数序列化 (#11916) @status102
 * 肉鸽难度选项降到18个 (#11934) @Daydreamer114
 * IS4 调整公害ew部署 (#11935) @Daydreamer114
-* 优化日志输出 @ABA2396
 * 热键支持 Windows 键 @ABA2396
 * 自动战斗列表非即时添加作业时，使用已读取的缓存替代读取文件 @status102
-* 肉鸽任务参数禁止运行期修改 @status102
-* 合并视频任务判断 @status102
 * 添加强制使用 Github 进行版本更新 @ABA2396
 * Wpf自动战斗重构 (#11977) @status102
 * IS3 度假村冤魂 防爆桩 @Daydreamer114
 * IS2 精酿杀手 防爆桩 @Daydreamer114
 * wpf自动战斗战斗列表序列化 @status102
 * 萨卡兹肉鸽负荷干员编入入口ROI拆分 (#11966) @status102
-* 肉鸽投资ocr封装 @status102
-* 手动更新下活动名称 @ABA2396
 * 填写完cdk后自动检查一次更新 @ABA2396
 * 企鹅物流上报失败-不支持的关卡，输出降级为警告，移除提示中的更新提醒 @status102
 * 自动战斗在作业地图不支持时，自动检测资源更新 @status102
-* 调整干员识别及仓库识别开始流程 @status102
-* 修改初次设置引导中的项目，移除账号切换相关 @status102
-* 移除无用的彩蛋控件 @status102
-* 基建会客室信息板无新访客时，不再进入领取页 @status102
 
 ### 修复 | Fix
 
+* 枯朽祭坛 维什戴尔 逻各斯 OCR辨識 (#12096) @XuQingTW @pre-commit-ci[bot]
 * 更新 243 极限效率一天四换排班表 (#12137) @bodayw
 * add custom text and roi for SideStory DT @Constrat
 * 自动战斗费用识别在部分分辨率下概率出错 @status102
@@ -107,7 +88,6 @@
 * 自动战斗移除点赞时判断作业是否来自云端 @status102
 * wpf自动战斗-追加自定干员失效 @status102
 * wpf领取奖励任务序列化错误 @status102
-* 修改彩蛋gif默认路径为string.Empty @status102
 * sarkaz MS count 1->8 (#12085) @BxFS
 * 修复截图速度过快导致不能切换贸易站订单的问题 (#12090) @Roland125
 * 基建设置UI绑定失效 @status102
@@ -126,22 +106,35 @@
 
 ### 文档 | Docs
 
-* Auto Update Changelogs of v5.13.2-beta.1 (#11968) @github-actions[bot] @Daydreamer114
-* Auto Update Changelogs of v5.13.2 (#11963) @github-actions[bot] @Constrat
 * 调整肉鸽文档 skill_usage 描述，尝试 json5 @Daydreamer114
-* chaneglog @status102
-* Auto Update Changelogs of v5.14.0-beta.2 (#12008) @github-actions[bot] @status102
 * 此AI非彼AI (#12005) @Rbqwow
 * 作业协议补充难度字段 (#11980) @status102
 * 更新文档 @Daydreamer114
-* Auto Update Changelogs of v5.14.0-beta.3 (#12041) @github-actions[bot] @status102 @ABA2396
 * update english schema @Constrat
-* Auto Update Changelogs of v5.14.0-beta.4 (#12122) @github-actions[bot] @status102
-* 枯朽祭坛 维什戴尔 逻各斯 OCR辨識 (#12096) @XuQingTW @pre-commit-ci[bot]
 * 更新开发前须知 (#12043) @Rbqwow @pre-commit-ci[bot]
 
 ### 其他 | Other
 
+* 优化日志输出 @ABA2396
+* 肉鸽为识别错误的事件也添加 callback (#11946) @Daydreamer114 @HX3N
+* Wpf重构自动公招任务序列化 (#11951) @status102
+* Wpf重构生息演算任务参数序列化 (#11916) @status102
+* 修改初次设置引导中的项目，移除账号切换相关 @status102
+* 调整干员识别及仓库识别开始流程 @status102
+* 基建会客室信息板无新访客时，不再进入领取页 @status102
+* 移除无用的彩蛋控件 @status102
+* 肉鸽投资ocr封装 @status102
+* 手动更新下活动名称 @ABA2396
+* 修改彩蛋gif默认路径为string.Empty @status102
+* remove spaces for all ocrReplaces for KR + various optimizations (#11926) @Constrat
+* parse release note for resource updater (#12092) @MistEO @ABA2396 @Constrat
+* 猫猫 (#12017) @ABA2396
+* 肉鸽任务参数禁止运行期修改 @status102
+* 合并视频任务判断 @status102
+* SimpleEncryptionHelper 支持默认字符串 @ABA2396
+* Wpf地图查询 @status102
+* 读取地图数据 (#11973) @status102
+* Wpf旧Config增加int读取 (#11987) @status102
 * deprecate more Intel integrated GPUs @dantmnf
 * give priority to flint item compared to flint operator @Constrat
 * YostarKR Theme Delicious (#12131) @HX3N
@@ -149,10 +142,6 @@
 * YostarJP DT stage (#12129) @Manicsteiner
 * YostarKR DT stage roi and text (#12127) @HX3N
 * wpf招募任务序列化 (#12080) @status102
-* Release v5.14.0-beta.4 (#12121) @MistEO
-* Release v5.14.0-beta.3 (#12040) @ABA2396
-* Release v5.14.0-beta.2 (#12007) @MistEO
-* Release v5.14.0-beta.1 (#11962) @Constrat
 * Revert "chore: Auto Update Game Resources - 2025-02-18" @Daydreamer114
 * revert c3d98ec8822fc41892c07f6b6caef5fd435fbc43 @status102
 * EN tasks [skip changelo] [skip ci] @Constrat
