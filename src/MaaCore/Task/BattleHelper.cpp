@@ -10,9 +10,9 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
-#include "Utils/Ranges.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
+#include "Utils/Ranges.hpp"
 #include "Utils/Time.hpp"
 #include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Battle/BattlefieldMatcher.h"
@@ -964,9 +964,9 @@ std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const 
 }
 
 template <typename T>
-requires asst::ranges::range<T> && asst::PairStringMat<asst::ranges::range_value_t<T>>
+requires asst::ranges::range<T> && asst::OperAvatarPair<asst::ranges::range_value_t<T>>
 std::optional<asst::BestMatcher::Result>
-    asst::BattleHelper::analyze_oper_with_cache(const asst::battle::DeploymentOper& oper, const T& avatar_cache)
+    asst::BattleHelper::analyze_oper_with_cache(const asst::battle::DeploymentOper& oper, T&& avatar_cache)
 {
     BestMatcher avatar_analyzer(oper.avatar);
     avatar_analyzer.set_method(MatchMethod::Ccoeff);
