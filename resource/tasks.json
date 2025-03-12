@@ -5326,7 +5326,7 @@
         "algorithm": "OcrDetect",
         "isAscii": true,
         "text": [],
-        "roi": [1196, 494, 83, 44]
+        "roi": [1199, 494, 80, 44]
     },
     "BattleSkillReady": {
         "rectMove": [-28, -140, 64, 64]
@@ -8194,6 +8194,13 @@
         "action": "ClickSelf",
         "roi": [872, 425, 221, 136],
         "next": ["Roguelike@TraderRandomShopping", "Roguelike@ChooseOperFlag", "Roguelike@StageTraderLeave"]
+    },
+    "Roguelike@TutorialButton": {
+        "doc": [
+            "肉鸽内部左上角的提示按钮, 左侧为红退出",
+            "仅在地图、商店、萨卡兹负荷页面为该坐标; 编队页面存在, 但向右偏移"
+        ],
+        "roi": [80, 0, 70, 70]
     },
     "Roguelike@WaitForStartButtonClicked": {
         "Doc": "点了开始行动之后，可能会网络不好一直loading，用这个任务等一会",

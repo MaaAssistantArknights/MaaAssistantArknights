@@ -312,6 +312,7 @@ Roguelike@StageTraderRefreshWithDiceConfirm.png
 Roguelike@StageTraderRefreshWithDiceDoubleConfirm.png
 Roguelike@StageVerticalConfirm.png
 Roguelike@TraderRandomShopping.png
+Roguelike@TutorialButton.png
 RoguelikeBattleExitBegin.png
 RoguelikeFormationOper.png
 RoguelikeQuickFormationClearAndReselect.png

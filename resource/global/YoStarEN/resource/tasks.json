@@ -49,6 +49,26 @@
     "DTChapterToDT": {
         "text": ["MONSTER", "Monster", "GOURMAND", "Gourmand"]
     },
+    "DT-8@SideStoryStage": {
+        "isAscii": true,
+        "text": ["RHODES", "ISLAND", "CAFETERIA"],
+        "roi": [652, 457, 166, 54]
+    },
+    "DT-7@SideStoryStage": {
+        "isAscii": true,
+        "text": ["HEALTHY", "SNACKS"],
+        "roi": [657, 437, 169, 40]
+    },
+    "DT-6@SideStoryStage": {
+        "isAscii": true,
+        "text": ["SEAFOOD", "PLATTER"],
+        "roi": [661, 410, 168, 30]
+    },
+    "DT-3@SideStoryStage": {
+        "isAscii": true,
+        "text": ["GOLDEN", "CARROT"],
+        "roi": [672, 317, 171, 30]
+    },
     "BP-OpenOcr": {
         "text": ["Path", "Life", "event", "open", "Fortify", "Defense"]
     },
@@ -793,8 +813,8 @@
             ["Degenbrecher", "锏"],
             ["Harold", "哈洛德"],
             ["Emergency Heater", "紧急供暖器"],
-            ["Flint", "燧石"],
             ["Flint", "点火石"],
+            ["Flint", "燧石"],
             ["Warmy", "温米"],
             ["Ray", "莱伊"],
             ["Sandbeast", "沙地兽"],
@@ -963,7 +983,19 @@
             ["Idle Exquisicart", "停滞巧械"],
             ["Theresa, Black-crowned Sage", "特蕾西娅，黑冠圣贤"],
             ["Guardian Bulwark", "圣卫坚盾"],
-            ["Foldable Facility Maintainer", "设施建筑工"]
+            ["Foldable Facility Maintainer", "设施建筑工"],
+            ["Marcille", "玛露西尔"],
+            ["Roast Berry", "香甜烤果子"],
+            ["Chilchuck", "齐尔查克"],
+            ["Really Big Pot", "很大的锅"],
+            ["Laios", "莱欧斯"],
+            ["Senshi", "森西"],
+            ["Chest Limb?", "宝箱的肉？"],
+            ["'Treasure Chest'", "“宝箱”"],
+            ["Shiny Berries", "闪亮果实"],
+            ["Glooming Berry", "奇异黑光果实"],
+            ["Shiny Brew", "缤纷果酒"],
+            ["'Treasure Chest'", "“宝箱”"]
         ]
     },
     "GameStartUpdateOCR": {

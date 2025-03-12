@@ -19,7 +19,9 @@ bool asst::InfrastReceptionTask::_run()
         return false;
     }
 
-    receive_message_board();
+    if (m_receive_message_board) {
+        receive_message_board();
+    }
     click_bottom_left_tab();
 
     close_end_of_clue_exchange();

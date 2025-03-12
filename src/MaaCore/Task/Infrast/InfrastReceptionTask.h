@@ -11,6 +11,8 @@ public:
 
     virtual size_t max_num_of_opers() const noexcept override { return 2ULL; }
 
+    void set_receive_message_board(bool value) noexcept { m_receive_message_board = value; }
+
 protected:
     virtual bool _run() override;
 
@@ -27,5 +29,7 @@ private:
     bool back_to_reception_main();
     bool send_clue();
     bool shift();
+
+    bool m_receive_message_board = true;
 };
 }
