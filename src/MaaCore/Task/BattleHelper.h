@@ -20,8 +20,8 @@ template <typename T>
 concept OperAvatarPair = requires {
     typename T::first_type;
     typename T::second_type;
-    std::same_as<std::string, std::remove_cvref_t<typename T::first_type>>;
-    std::same_as<cv::Mat, std::remove_cvref_t<typename T::second_type>>;
+    requires std::same_as<std::string, std::remove_cvref_t<typename T::first_type>>;
+    requires std::same_as<cv::Mat, std::remove_cvref_t<typename T::second_type>>;
 };
 
 class BattleHelper
