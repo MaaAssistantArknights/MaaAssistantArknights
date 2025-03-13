@@ -197,7 +197,7 @@ Thanks to all friends who contribute to development/testing for making MAA bette
 
 ### DirectML Support Information
 
-This software supports GPU acceleration, which relies on an independent component [DirectML](https://learn.microsoft.com/en-us/windows/ai/directml/) provided by Microsoft on Windows platforms. DirectML is not an open source part of this project and is not subject to LGPL-3.0. For the convenience of users, we have included an unmodified DirectML.dll file with the installation package. If you do not need GPU acceleration, you can safely delete the DLL file and the core functions of the software will still run normally.
+This software supports GPU acceleration, which relies on an independent component [DirectML](https://learn.microsoft.com/en-us/windows/ai/directml/) provided by Microsoft on Windows platforms. DirectML is not an open source part of this project and is not subject to AGPL 3.0. For the convenience of users, we have included an unmodified DirectML.dll file with the installation package. If you do not need GPU acceleration, you can safely delete the DLL file and the core functions of the software will still run normally.
 
 ## Advertisement
 
