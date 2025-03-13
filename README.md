@@ -198,15 +198,7 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 
 ### DirectML 支持说明
 
-本软件支持 GPU 加速功能，但 GPU 加速依赖于 Microsoft 提供的 DirectML（Microsoft.AI.DirectML）。为了方便用户，我们随安装包附带了一个未修改的 DirectML.dll 文件。
-
-#### 关于 DirectML.dll
-
-- 来源：Microsoft 官方
-- 许可证：请参考 Microsoft 的 DirectML 使用条款
-  [DirectML 官方文档](https://learn.microsoft.com/en-us/windows/ai/directml/)
-
-DirectML.dll 是 Microsoft 提供的独立组件，不属于本软件的开源部分，也不受 AGPL-3.0 的约束。
+本软件支持 GPU 加速功能，其在 Windows 平台上依赖于 Microsoft 提供的独立组件 [DirectML](https://learn.microsoft.com/en-us/windows/ai/directml/)。DirectML 并非本项目的开源部分，也不受 LGPL-3.0 的约束。为方便用户，我们随安装包附带了一个未经修改的 DirectML.dll 文件。如果您无需 GPU 加速功能，可安全删除该 DLL 文件，软件的核心功能仍可正常运行。
 
 如果您不需要 GPU 支持，可以安全地删除该 DLL 文件，软件核心功能仍然可以正常运行。
 
