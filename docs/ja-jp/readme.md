@@ -189,7 +189,7 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 
 ### DirectML サポート説明
 
-このソフトウェアは、Windows プラットフォームで Microsoft が提供する独立したコンポーネント [DirectML](https://learn.microsoft.com/en-us/windows/ai/directml/) に依存する GPU アクセラレーションをサポートしています。DirectML はこのプロジェクトのオープン ソース部分ではなく、LGPL-3.0 の対象ではありません。ユーザーの利便性のために、インストール パッケージには変更されていない DirectML.dll ファイルが含まれています。GPU アクセラレーションが不要な場合は、DLL ファイルを安全に削除しても、ソフトウェアのコア機能は正常に実行されます。
+このソフトウェアは、Windows プラットフォームで Microsoft が提供する独立したコンポーネント [DirectML](https://learn.microsoft.com/en-us/windows/ai/directml/) に依存する GPU アクセラレーションをサポートしています。DirectML はこのプロジェクトのオープン ソース部分ではなく、AGPL 3.0 の対象ではありません。ユーザーの利便性のために、インストール パッケージには変更されていない DirectML.dll ファイルが含まれています。GPU アクセラレーションが不要な場合は、DLL ファイルを安全に削除しても、ソフトウェアのコア機能は正常に実行されます。
 
 ## 広告
 
