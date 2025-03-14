@@ -184,7 +184,7 @@ bool asst::BattleHelper::update_deployment_(
             }
             else {
                 Log.info("unknown oper", oper.index);
-                if (stop_on_unknown) {
+                if (stop_on_unknown && !oper.cooling) {
                     return false;
                 }
                 unknown_opers.emplace_back(oper);
@@ -210,7 +210,7 @@ bool asst::BattleHelper::update_deployment_(
             LogTraceScope("rec unknown oper: " + std::to_string(oper.index));
             if (oper.cooling) {
                 Log.info("cooling oper, skip");
-                oper.name = "UnknownCooling_" + std::to_string(oper.index);
+                // oper.name = "UnknownCooling_" + std::to_string(oper.index); // 为什么还要取名字啊喵
                 continue;
             }
 
