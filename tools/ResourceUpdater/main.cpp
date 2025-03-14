@@ -1449,9 +1449,11 @@ bool update_version_info(const fs::path& input_dir, const fs::path& output_dir)
 
     std::cout << result.format() << std::endl;
 
-    std::ofstream ofs(output_dir / "version.json", std::ios::out);
-    ofs << result.format() << '\n';
-    ofs.close();
+    std::cout << " upstream has error, skiping resource update: https://github.com/yuanyan3060/ArknightsGameResource/issues/25" << std::endl;
+
+    // std::ofstream ofs(output_dir / "version.json", std::ios::out);
+    // ofs << result.format() << '\n';
+    // ofs.close();
 
     return true;
 }
