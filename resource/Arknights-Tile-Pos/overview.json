@@ -12437,6 +12437,150 @@
         "stageId": "act41side_08",
         "width": 12
     },
+    "act41side_ex01#f#-activities/act41side/level_act41side_ex01": {
+        "code": "EA-EX-1",
+        "filename": "act41side_ex01#f#-activities-act41side-level_act41side_ex01.json",
+        "height": 9,
+        "levelId": "activities/act41side/level_act41side_ex01",
+        "name": "帷幕另一侧",
+        "stageId": "act41side_ex01#f#",
+        "width": 13
+    },
+    "act41side_ex01-activities/act41side/level_act41side_ex01": {
+        "code": "EA-EX-1",
+        "filename": "act41side_ex01-activities-act41side-level_act41side_ex01.json",
+        "height": 9,
+        "levelId": "activities/act41side/level_act41side_ex01",
+        "name": "帷幕另一侧",
+        "stageId": "act41side_ex01",
+        "width": 13
+    },
+    "act41side_ex02#f#-activities/act41side/level_act41side_ex02": {
+        "code": "EA-EX-2",
+        "filename": "act41side_ex02#f#-activities-act41side-level_act41side_ex02.json",
+        "height": 7,
+        "levelId": "activities/act41side/level_act41side_ex02",
+        "name": "以篝火占卜",
+        "stageId": "act41side_ex02#f#",
+        "width": 11
+    },
+    "act41side_ex02-activities/act41side/level_act41side_ex02": {
+        "code": "EA-EX-2",
+        "filename": "act41side_ex02-activities-act41side-level_act41side_ex02.json",
+        "height": 7,
+        "levelId": "activities/act41side/level_act41side_ex02",
+        "name": "以篝火占卜",
+        "stageId": "act41side_ex02",
+        "width": 11
+    },
+    "act41side_ex03#f#-activities/act41side/level_act41side_ex03": {
+        "code": "EA-EX-3",
+        "filename": "act41side_ex03#f#-activities-act41side-level_act41side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act41side/level_act41side_ex03",
+        "name": "暖春游行",
+        "stageId": "act41side_ex03#f#",
+        "width": 11
+    },
+    "act41side_ex03-activities/act41side/level_act41side_ex03": {
+        "code": "EA-EX-3",
+        "filename": "act41side_ex03-activities-act41side-level_act41side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act41side/level_act41side_ex03",
+        "name": "暖春游行",
+        "stageId": "act41side_ex03",
+        "width": 11
+    },
+    "act41side_ex04#f#-activities/act41side/level_act41side_ex04": {
+        "code": "EA-EX-4",
+        "filename": "act41side_ex04#f#-activities-act41side-level_act41side_ex04.json",
+        "height": 9,
+        "levelId": "activities/act41side/level_act41side_ex04",
+        "name": "窗边玩偶",
+        "stageId": "act41side_ex04#f#",
+        "width": 12
+    },
+    "act41side_ex04-activities/act41side/level_act41side_ex04": {
+        "code": "EA-EX-4",
+        "filename": "act41side_ex04-activities-act41side-level_act41side_ex04.json",
+        "height": 9,
+        "levelId": "activities/act41side/level_act41side_ex04",
+        "name": "窗边玩偶",
+        "stageId": "act41side_ex04",
+        "width": 12
+    },
+    "act41side_ex05#f#-activities/act41side/level_act41side_ex05": {
+        "code": "EA-EX-5",
+        "filename": "act41side_ex05#f#-activities-act41side-level_act41side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act41side/level_act41side_ex05",
+        "name": "五月树",
+        "stageId": "act41side_ex05#f#",
+        "width": 12
+    },
+    "act41side_ex05-activities/act41side/level_act41side_ex05": {
+        "code": "EA-EX-5",
+        "filename": "act41side_ex05-activities-act41side-level_act41side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act41side/level_act41side_ex05",
+        "name": "五月树",
+        "stageId": "act41side_ex05",
+        "width": 12
+    },
+    "act41side_ex06#f#-activities/act41side/level_act41side_ex06": {
+        "code": "EA-EX-6",
+        "filename": "act41side_ex06#f#-activities-act41side-level_act41side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act41side/level_act41side_ex06",
+        "name": "歌唱时",
+        "stageId": "act41side_ex06#f#",
+        "width": 12
+    },
+    "act41side_ex06-activities/act41side/level_act41side_ex06": {
+        "code": "EA-EX-6",
+        "filename": "act41side_ex06-activities-act41side-level_act41side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act41side/level_act41side_ex06",
+        "name": "歌唱时",
+        "stageId": "act41side_ex06",
+        "width": 12
+    },
+    "act41side_ex07#f#-activities/act41side/level_act41side_ex07": {
+        "code": "EA-EX-7",
+        "filename": "act41side_ex07#f#-activities-act41side-level_act41side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act41side/level_act41side_ex07",
+        "name": "花环",
+        "stageId": "act41side_ex07#f#",
+        "width": 11
+    },
+    "act41side_ex07-activities/act41side/level_act41side_ex07": {
+        "code": "EA-EX-7",
+        "filename": "act41side_ex07-activities-act41side-level_act41side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act41side/level_act41side_ex07",
+        "name": "花环",
+        "stageId": "act41side_ex07",
+        "width": 11
+    },
+    "act41side_ex08#f#-activities/act41side/level_act41side_ex08": {
+        "code": "EA-EX-8",
+        "filename": "act41side_ex08#f#-activities-act41side-level_act41side_ex08.json",
+        "height": 8,
+        "levelId": "activities/act41side/level_act41side_ex08",
+        "name": "冠冕",
+        "stageId": "act41side_ex08#f#",
+        "width": 13
+    },
+    "act41side_ex08-activities/act41side/level_act41side_ex08": {
+        "code": "EA-EX-8",
+        "filename": "act41side_ex08-activities-act41side-level_act41side_ex08.json",
+        "height": 8,
+        "levelId": "activities/act41side/level_act41side_ex08",
+        "name": "冠冕",
+        "stageId": "act41side_ex08",
+        "width": 13
+    },
     "act41side_tr01-activities/act41side/level_act41side_tr01": {
         "code": "EA-TR-1",
         "filename": "act41side_tr01-activities-act41side-level_act41side_tr01.json",
