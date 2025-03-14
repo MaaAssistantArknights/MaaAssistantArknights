@@ -1447,6 +1447,8 @@ bool update_version_info(const fs::path& input_dir, const fs::path& output_dir)
     auto version_opt = json::open(output_dir / "version.json");
     result["last_updated"] = version_opt->at("last_updated").as_string();
 
+    std::cout << result.format() << std::endl;
+
     std::ofstream ofs(output_dir / "version.json", std::ios::out);
     ofs << result.format() << '\n';
     ofs.close();
