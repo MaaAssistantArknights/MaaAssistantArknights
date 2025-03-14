@@ -97,6 +97,8 @@ public:
 
     const std::unordered_set<std::string>& get_all_oper_names() const noexcept { return m_opers; }
 
+    const std::vector<std::string>& get_drones_confusing() const noexcept { return m_drones_confusing; }
+
 protected:
     virtual bool parse(const json::value& json) override;
 
@@ -104,6 +106,7 @@ private:
     std::unordered_map<std::string, battle::OperProps> m_chars;
     std::unordered_map<std::string, battle::AttackRange> m_ranges;
     std::unordered_set<std::string> m_opers;
+    std::vector<std::string> m_drones_confusing; // 容易混淆的召唤物（同一个干员的多个召唤物
 };
 
 inline static auto& BattleData = BattleDataConfig::get_instance();
