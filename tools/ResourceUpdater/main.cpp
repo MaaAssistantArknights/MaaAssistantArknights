@@ -68,6 +68,8 @@ bool update_version_info(const fs::path& input_dir, const fs::path& output_dir);
 
 int main([[maybe_unused]] int argc, char** argv)
 {
+    SetConsoleOutputCP(CP_UTF8);
+
     // ---- PATH DECLARATION ----
 
     int result;
