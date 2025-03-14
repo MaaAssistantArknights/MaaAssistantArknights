@@ -7453,9 +7453,6 @@
         "action": "ClickRect",
         "specificRect": [1175, 560, 100, 60]
     },
-    "Roguelike@TutorialButton": {
-        "roi": [80, 0, 70, 70]
-    },
     "Roguelike@PreSelectTheme": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
