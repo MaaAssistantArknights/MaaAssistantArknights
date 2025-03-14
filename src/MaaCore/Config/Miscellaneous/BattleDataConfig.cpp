@@ -7,7 +7,7 @@
 bool asst::BattleDataConfig::parse(const json::value& json)
 {
     LogTraceFunction;
-
+    m_drones_confusing.clear();
     for (const auto& [id, char_data_json] : json.at("chars").as_object()) {
         battle::OperProps data;
         data.id = id;
@@ -62,6 +62,9 @@ bool asst::BattleDataConfig::parse(const json::value& json)
         if (auto tokens_opt = char_data_json.find<json::array>("tokens")) {
             for (const auto& token : *tokens_opt) {
                 data.tokens.emplace_back(token.as_string());
+                if (tokens_opt->size() > 1) {
+                    m_drones_confusing.emplace_back(token.as_string());
+                }
             }
         }
 
