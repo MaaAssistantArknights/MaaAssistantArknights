@@ -36,7 +36,7 @@ namespace MaaWpfGui.Models
         public static async Task<bool> UpdateFromGithubAsync()
         {
             ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdating"));
-            bool download = await DownloadFullPackageAsync(MaaUrls.GithubResourceUpdate, "MaaResource.zip").ConfigureAwait(false);
+            bool download = await DownloadFullPackageAsync(MaaUrls.GithubResourceUpdate, "MaaResourceGithub.zip").ConfigureAwait(false);
             if (!download)
             {
                 ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
@@ -46,16 +46,16 @@ namespace MaaWpfGui.Models
             // 解压到 MaaResource 文件夹
             try
             {
-                if (Directory.Exists("MaaResource"))
+                if (Directory.Exists("MaaResourceGithub"))
                 {
-                    Directory.Delete("MaaResource", true);
+                    Directory.Delete("MaaResourceGithub", true);
                 }
 
-                ZipFile.ExtractToDirectory("MaaResource.zip", "MaaResource");
+                ZipFile.ExtractToDirectory("MaaResourceGithub.zip", "MaaResourceGithub");
             }
             catch (Exception e)
             {
-                _logger.Error("Failed to extract MaaResource.zip: " + e.Message);
+                _logger.Error("Failed to extract MaaResourceGithub.zip: " + e.Message);
                 ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
                 return false;
             }
@@ -63,7 +63,7 @@ namespace MaaWpfGui.Models
             // 把 \MaaResource-main 中的 cache 和 resource 文件夹复制到当前目录
             try
             {
-                string sourcePath = Path.Combine("MaaResource", "MaaResource-main");
+                string sourcePath = Path.Combine("MaaResourceGithub", "MaaResource-main");
                 string[] foldersToCopy = ["cache", "resource"];
 
                 foreach (var folder in foldersToCopy)
@@ -84,8 +84,8 @@ namespace MaaWpfGui.Models
             // 删除 MaaResource 文件夹 和 MaaResource.zip
             try
             {
-                Directory.Delete("MaaResource", true);
-                File.Delete("MaaResource.zip");
+                Directory.Delete("MaaResourceGithub", true);
+                File.Delete("MaaResourceGithub.zip");
             }
             catch (Exception e)
             {
@@ -200,7 +200,7 @@ namespace MaaWpfGui.Models
             }
 
             ToastNotification.ShowDirect(string.Format(LocalizationHelper.GetString("GameResourceUpdatingMirrorChyan"), releaseNote));
-            bool download = await DownloadFullPackageAsync(url, "MaaResource.zip").ConfigureAwait(false);
+            bool download = await DownloadFullPackageAsync(url, "MaaResourceMirrorchyan.zip").ConfigureAwait(false);
             if (!download)
             {
                 ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
@@ -209,23 +209,23 @@ namespace MaaWpfGui.Models
 
             try
             {
-                if (Directory.Exists("MaaResource"))
+                if (Directory.Exists("MaaResourceMirrorchyan"))
                 {
-                    Directory.Delete("MaaResource", true);
+                    Directory.Delete("MaaResourceMirrorchyan", true);
                 }
 
-                ZipFile.ExtractToDirectory("MaaResource.zip", "MaaResource");
+                ZipFile.ExtractToDirectory("MaaResourceMirrorchyan.zip", "MaaResourceMirrorchyan");
             }
             catch (Exception e)
             {
-                _logger.Error("Failed to extract MaaResource.zip: " + e.Message);
+                _logger.Error("Failed to extract MaaResourceMirrorchyan.zip: " + e.Message);
                 ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
                 return false;
             }
 
             try
             {
-                const string SourcePath = "MaaResource";
+                const string SourcePath = "MaaResourceMirrorchyan";
                 string destinationPath = Directory.GetCurrentDirectory();
                 DirectoryMerge(SourcePath, destinationPath);
             }
@@ -238,12 +238,12 @@ namespace MaaWpfGui.Models
 
             try
             {
-                Directory.Delete("MaaResource", true);
-                File.Delete("MaaResource.zip");
+                Directory.Delete("MaaResourceMirrorchyan", true);
+                File.Delete("MaaResourceMirrorchyan.zip");
             }
             catch (Exception e)
             {
-                _logger.Error("Failed to delete MaaResource: " + e.Message);
+                _logger.Error("Failed to delete MaaResourceMirrorchyan: " + e.Message);
             }
 
             return true;
