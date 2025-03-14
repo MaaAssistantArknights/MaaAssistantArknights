@@ -130,7 +130,7 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeStartWithSelectList = "Roguelike.RoguelikeStartWithSelectList";
         public const string RoguelikeStartWithTwoIdeas = "Roguelike.RoguelikeStartWithTwoIdeas";
         public const string Roguelike3FirstFloorFoldartal = "Roguelike.Roguelike3FirstFloorFoldartal";
-        public const string Roguelike3StartFloorFoldartal = "Roguelike.Roguelike3StartFloorFoldartal";
+        public const string Roguelike3FirstFloorFoldartals = "Roguelike.Roguelike3StartFloorFoldartal";
         public const string Roguelike3NewSquad2StartingFoldartal = "Roguelike.Roguelike3NewSquad2StartingFoldartal";
         public const string Roguelike3NewSquad2StartingFoldartals = "Roguelike.Roguelike3NewSquad2StartingFoldartals";
         public const string RoguelikeExpectedCollapsalParadigms = "Roguelike.RoguelikeExpectedCollapsalParadigms";
