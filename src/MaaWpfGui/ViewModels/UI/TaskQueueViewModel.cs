@@ -1733,37 +1733,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static bool AppendRoguelike()
         {
-            return Instances.AsstProxy.AsstAppendRoguelike(
-                RoguelikeTask.RoguelikeMode,
-                RoguelikeTask.RoguelikeDifficulty,
-                RoguelikeTask.RoguelikeStartsCount,
-                RoguelikeTask.RoguelikeInvestmentEnabled,
-                RoguelikeTask.RoguelikeInvestmentWithMoreScore,
-                RoguelikeTask.RoguelikeCollectibleModeShopping,
-                RoguelikeTask.RoguelikeInvestsCount,
-                RoguelikeTask.RoguelikeStopWhenInvestmentFull,
-                RoguelikeTask.RoguelikeCollectibleModeSquad,
-                RoguelikeTask.RoguelikeSquad,
-                RoguelikeTask.RoguelikeRoles,
-                DataHelper.GetCharacterByNameOrAlias(RoguelikeTask.RoguelikeCoreChar)?.Name ?? RoguelikeTask.RoguelikeCoreChar,
-                RoguelikeTask.RoguelikeStartWithEliteTwo,
-                RoguelikeTask.RoguelikeOnlyStartWithEliteTwo,
-                RoguelikeTask.RoguelikeStartWithSelectList,
-                RoguelikeTask.Roguelike3FirstFloorFoldartal,
-                RoguelikeTask.Roguelike3StartFloorFoldartal,
-                RoguelikeTask.Roguelike3NewSquad2StartingFoldartal,
-                RoguelikeTask.Roguelike3NewSquad2StartingFoldartals,
-                RoguelikeTask.RoguelikeExpectedCollapsalParadigms,
-                RoguelikeTask.RoguelikeUseSupportUnit,
-                RoguelikeTask.RoguelikeEnableNonfriendSupport,
-                RoguelikeTask.RoguelikeTheme.ToString(),
-                RoguelikeTask.RoguelikeRefreshTraderWithDice,
-                RoguelikeTask.RoguelikeStopAtFinalBoss,
-                RoguelikeTask.RoguelikeMonthlySquadAutoIterate,
-                RoguelikeTask.RoguelikeMonthlySquadCheckComms,
-                RoguelikeTask.RoguelikeDeepExplorationAutoIterate,
-                RoguelikeTask.RoguelikeStopAtMaxLevel,
-                RoguelikeTask.RoguelikeStartWithSeed);
+            // 被RemoteControlService反射调用，暂不移除
+            var (type, param) = RoguelikeTask.Serialize();
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Roguelike, type, param);
         }
 
         private static bool AppendReclamation()
