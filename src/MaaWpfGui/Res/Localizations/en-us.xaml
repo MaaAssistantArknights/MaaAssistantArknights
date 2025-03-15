@@ -256,8 +256,8 @@ You can cancel this popup by clicking the Settings - About Us - Issue Reporting 
     <system:String x:Key="MirrorChyanNotSupportNightly">MirrorChyan does not support nightly updates for now, and will use Global Source to check...</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">MirrorChyan has detected a resource update {0}. Please go to 「Settings - Software Update」 to configure CDK, or using the Global source click 「Resource Update」 to update manually.</system:String>
     <system:String x:Key="NewVersionFoundTitle">New Version Found</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">Downloading from Global Source...</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">Downloading from MirrorChyan...</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">Downloading from 「Global Source」...</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">Downloading from 「MirrorChyan」...</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">Version: </system:String>
     <system:String x:Key="NewVersionFoundDescInfo" xml:space="preserve">Info: </system:String>
     <system:String x:Key="NewVersionFoundButtonGoWebpage">Go to the website</system:String>
