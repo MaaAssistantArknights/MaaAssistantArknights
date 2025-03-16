@@ -553,7 +553,7 @@ public class VersionUpdateViewModel : Screen
         bool otaFound = _assetsObject != null;
         bool goDownload = otaFound && SettingsViewModel.VersionUpdateSettings.AutoDownloadUpdatePackage;
 
-        ShowUpdateInfo(otaFound, LocalizationHelper.GetString("NewVersionFoundButtonGoWebpage"));
+        ShowUpdateInfo(otaFound, LocalizationHelper.GetString("NewVersionFoundButtonGoWebpage"), true);
 
         UpdatePackageName = _assetsObject?["name"]?.ToString() ?? string.Empty;
 
@@ -679,7 +679,7 @@ public class VersionUpdateViewModel : Screen
         }
     }
 
-    private void ShowUpdateInfo(bool otaFound, string? text)
+    private void ShowUpdateInfo(bool otaFound, string? text, bool globalSource)
     {
         bool goDownload = otaFound && SettingsViewModel.VersionUpdateSettings.AutoDownloadUpdatePackage;
 
@@ -687,7 +687,14 @@ public class VersionUpdateViewModel : Screen
         if (goDownload)
         {
             OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadPreparing"));
-            toast.AppendContentText(LocalizationHelper.GetString("NewVersionFoundDescDownloading"));
+            if (globalSource)
+            {
+                toast.AppendContentText(LocalizationHelper.GetString("NewVersionFoundDescDownloadingWithGlobalSource"));
+            }
+            else
+            {
+                toast.AppendContentText(LocalizationHelper.GetString("NewVersionFoundDescDownloadingWithMirrorChyan"));
+            }
         }
 
         if (!otaFound)
@@ -734,6 +741,8 @@ public class VersionUpdateViewModel : Screen
             OutputDownloadProgress(string.Empty);
             return CheckUpdateRetT.NoNeedToUpdate;
         }
+
+        ShowUpdateInfo(true, null, false);
 
         UpdatePackageName = "MirrorChyanApp" + _mirrorcVersionName + ".zip";
         var downloaded = await DownloadFromMirrorChyan(_mirrorcDownloadUrl,
@@ -791,6 +800,13 @@ public class VersionUpdateViewModel : Screen
         if (IsDebugVersion())
         {
             return (CheckUpdateRetT.NoNeedToUpdateDebugVersion, null);
+        }
+
+        if (SettingsViewModel.VersionUpdateSettings.VersionType ==
+                VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly
+            && SettingsViewModel.VersionUpdateSettings.UpdateSource == "MirrorChyan")
+        {
+            ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanNotSupportNightly"));
         }
 
         // mirrorChyan 暂时没有支持 nightly，之后加一加
@@ -1087,14 +1103,25 @@ public class VersionUpdateViewModel : Screen
         OutputDownloadProgress(progress + $" {speedDisplay}");
     }
 
-    private static void OutputDownloadProgress(string output, bool downloading = true)
+    private static void OutputDownloadProgress(string output, bool downloading = true, bool globalSource = true)
     {
         if (_logItemViewModels == null)
         {
             return;
         }
 
-        var log = new LogItemViewModel(downloading ? LocalizationHelper.GetString("NewVersionFoundDescDownloading") + "\n" + output : output, UiLogColor.Download);
+        string fullText = string.Empty;
+        if (downloading)
+        {
+            string key = globalSource ? "NewVersionFoundDescDownloadingWithGlobalSource" : "NewVersionFoundDescDownloadingWithMirrorChyan";
+            fullText = LocalizationHelper.GetString(key) + "\n" + output;
+        }
+        else
+        {
+            fullText = output;
+        }
+
+        var log = new LogItemViewModel(fullText, UiLogColor.Download);
 
         Execute.OnUIThread(() =>
         {
