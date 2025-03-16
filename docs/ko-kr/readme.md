@@ -194,17 +194,7 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 
 ### DirectML 지원 설명
 
-이 소프트웨어는 GPU 가속 기능을 지원하며, GPU 가속은 Microsoft에서 제공하는 DirectML(Microsoft.AI.DirectML)에 의존합니다. 사용자 편의를 위해 설치 패키지에 수정되지 않은 DirectML.dll 파일이 포함되어 있습니다.
-
-#### DirectML.dll에 대하여
-
-- 출처: Microsoft 공식
-- 라이선스: Microsoft의 DirectML 사용 약관을 참조하세요  
-  [DirectML 공식 문서](https://learn.microsoft.com/en-us/windows/ai/directml/)
-
-DirectML.dll은 Microsoft에서 제공하는 독립적인 구성 요소로, 본 소프트웨어의 오픈 소스 부분에 포함되지 않으며 AGPL-3.0의 적용을 받지 않습니다.
-
-GPU 지원이 필요하지 않은 경우, 이 DLL 파일을 안전하게 삭제할 수 있으며 소프트웨어의 핵심 기능은 정상적으로 작동합니다.
+이 소프트웨어는 Microsoft에서 Windows 플랫폼에서 제공하는 독립 구성 요소 [DirectML](https://learn.microsoft.com/en-us/windows/ai/directml/)에 의존하는 GPU 가속을 지원합니다. DirectML은 이 프로젝트의 오픈 소스 부분이 아니며 AGPL 3.0의 적용을 받지 않습니다. 사용자의 편의를 위해 설치 패키지에 수정되지 않은 DirectML.dll 파일을 포함했습니다. GPU 가속이 필요하지 않으면 DLL 파일을 안전하게 삭제해도 소프트웨어의 핵심 기능은 정상적으로 실행됩니다.
 
 ## 광고
 

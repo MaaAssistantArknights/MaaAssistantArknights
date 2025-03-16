@@ -16,8 +16,26 @@ else {
 
     $modifiedFiles = $allModifiedFiles | Where-Object { $_ -notmatch 'tasks\.json$' }  # Ignore only for version.json updates
     $directories = $modifiedFiles | ForEach-Object { Split-Path $_ } | Sort-Object -Unique
-
+    
+    # Build a list of directories containing version.json files to update
+    $versionJsonDirs = @()
+    
     foreach ($dir in $directories) {
+        # If this is Arknights-Tile-Pos folder, we need its parent's version.json
+        if ($dir -match '\\Arknights-Tile-Pos$') {
+            $versionJsonDirs += Split-Path $dir
+        }
+        # Otherwise check for version.json in the current directory
+        else {
+            $versionJsonDirs += $dir
+        }
+    }
+    
+    # Remove duplicates
+    $versionJsonDirs = $versionJsonDirs | Select-Object -Unique
+    
+    # Update all version.json files
+    foreach ($dir in $versionJsonDirs) {
         $versionFile = Join-Path $dir "version.json"
     
         if (Test-Path $versionFile) {

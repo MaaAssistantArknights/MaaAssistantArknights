@@ -1679,6 +1679,14 @@
         "sortId": -10000,
         "usage": "用於對遏制單元進行數據迭代。"
     },
+    "act2vmulti_token_cap": {
+        "classifyType": "NONE",
+        "description": "參賽紀念的累積代表了賽事熱度的攀升，達到一定熱度等級即可獲取對應獎勵。",
+        "icon": "act2vmulti_token_cap.png",
+        "name": "參賽紀念",
+        "sortId": -10000,
+        "usage": "留在賽場上的是汗水，從賽場帶走的是友誼"
+    },
     "act30side_token_box": {
         "classifyType": "NONE",
         "description": "“跑跑馱獸”聯動文創盲盒，系列共九款造型各異的馱獸擺件，內含一限量隱藏款。\n特別提示：在全新建成的耶拉岡德像下虔誠祈禱，獲得祝福，抽中隱藏款的機率更高哦！",

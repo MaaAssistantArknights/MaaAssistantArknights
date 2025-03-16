@@ -253,9 +253,11 @@
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">소스 전환 후 입력</system:String>
     <system:String x:Key="MirrorChyanSoftwareUpdateTip">MirrorChyan이 소프트웨어 업데이트를 감지했습니다.「설정 - 소프트웨어 업데이트」로 이동하여 CDK를 구성하거나 글로벌 소스를 사용하세요.</system:String>
+    <system:String x:Key="MirrorChyanNotSupportNightly">MirrorChyan은 현재 야간 업데이트를 지원하지 않으며, 글로벌 소스를 사용하여 확인합니다.</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">MirrorChyan이 리소스 업데이트를 감지했습니다{0}.「설정 - 소프트웨어 업데이트」로 이동하여 CDK를 구성하거나「리소스 업데이트」를 클릭하여 수동으로 업데이트하세요.</system:String>
     <system:String x:Key="NewVersionFoundTitle">새로운 버전 확인</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloading">백그라운드에서 다운로드 중……</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">「Global Source」에서 다운로드 중...</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">「MirrorChyan」에서 다운로드 중...</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">버전: </system:String>
     <system:String x:Key="NewVersionFoundDescInfo" xml:space="preserve">정보: </system:String>
     <system:String x:Key="NewVersionFoundButtonGoWebpage">웹사이트로 가기</system:String>
