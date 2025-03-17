@@ -802,18 +802,7 @@ public class VersionUpdateViewModel : Screen
             return (CheckUpdateRetT.NoNeedToUpdateDebugVersion, null);
         }
 
-        if (SettingsViewModel.VersionUpdateSettings.VersionType ==
-                VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly
-            && SettingsViewModel.VersionUpdateSettings.UpdateSource == "MirrorChyan")
-        {
-            ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanNotSupportNightly"));
-        }
-
-        // mirrorChyan 暂时没有支持 nightly，之后加一加
-        if ((SettingsViewModel.VersionUpdateSettings.VersionType is
-                VersionUpdateSettingsUserControlModel.UpdateVersionType.Beta or
-                VersionUpdateSettingsUserControlModel.UpdateVersionType.Stable)
-            && SettingsViewModel.VersionUpdateSettings.UpdateSource == "MirrorChyan")
+        if (SettingsViewModel.VersionUpdateSettings.UpdateSource == "MirrorChyan")
         {
             try
             {
