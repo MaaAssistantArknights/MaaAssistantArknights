@@ -253,7 +253,6 @@
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">更新ソース切替後入力</system:String>
     <system:String x:Key="MirrorChyanSoftwareUpdateTip">MirrorChyan はソフトウェアの更新を検出しました。CDK を構成するか、グローバル ソースを使用するには、「設定-アップデート設定」に移動してください。</system:String>
-    <system:String x:Key="MirrorChyanNotSupportNightly">MirrorChyan は現時点では夜間更新をサポートしておらず、グローバル ソースを使用してチェックします...</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">MirrorChyan はリソースの更新を検出しました{0}。「設定-ソフトウェア更新」に移動して CDK を構成するか、「リソース更新」をクリックして手動で更新してください。</system:String>
     <system:String x:Key="NewVersionFoundTitle">新しいバージョンが見つかりました</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">「Global Source」からダウンロード中...</system:String>
