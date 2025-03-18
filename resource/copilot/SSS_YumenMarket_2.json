@@ -35,13 +35,9 @@
     ],
     "tool_men": {
         "vanguard": 4,
-        "guard": 0,
         "defender": 3,
         "sniper": 3,
-        "caster": 6,
-        "medic": 0,
-        "supporter": 0,
-        "specialist": 0
+        "caster": 6
     },
     "drops": [
         "无需增调干员",

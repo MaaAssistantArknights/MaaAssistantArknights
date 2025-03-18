@@ -40,10 +40,10 @@
         }
     ],
     "tool_men": {
-        "pioneer": 5,
-        "tank": 3,
+        "vanguard": 5,
+        "defender": 3,
         "caster": 6,
-        "support": 1
+        "supporter": 1
     },
     "drops": [
         "无需增调干员",
