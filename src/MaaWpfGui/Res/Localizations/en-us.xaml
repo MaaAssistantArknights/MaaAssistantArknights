@@ -365,7 +365,7 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="ReserveMaxCredit">Stop purchasing items when credits below 300</system:String>
     <system:String x:Key="OnlyBuyDiscountTips">⚠ Caution: Risk of credits overflow! Purchases of whitelisted items at regular prices will still occur!</system:String>
     <system:String x:Key="ReserveMaxCreditTips">Will still purchase whitelisted items even if credits are below 300!</system:String>
-    <system:String x:Key="CreditFullOnlyBuyDiscount">Doctor! \nPurchasing only discounted items has caused an overflow in credits! \nBe cautious of wasting credits!\nRemaining credits:</system:String>
+    <system:String x:Key="CreditFullOnlyBuyDiscount">Doctor! \nPurchasing only discounted items has caused an overflow in credits! \nBe cautious of wasting credits!\nRemaining credits: </system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">Collect daily/weekly mission rewards</system:String>
     <system:String x:Key="ReceiveMail">Collect all mail rewards</system:String>
     <system:String x:Key="ReceiveFreeRecruit">Conducting daily free single pull from the limited banner</system:String>
@@ -675,10 +675,10 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="VideoLink">Video Link</system:String>
     <system:String x:Key="CopilotSkill">Skill</system:String>
     <system:String x:Key="TotalOperatorsCount">Total {0} Operator(s)</system:String>
-    <system:String x:Key="DirectiveECTerm">Directive EC unit:</system:String>
-    <system:String x:Key="OtherOperators">Other operators:</system:String>
-    <system:String x:Key="InitialEquipmentHorizontal">Tactical Equipment (horizontal):</system:String>
-    <system:String x:Key="InitialStrategy">Initial Strategy:</system:String>
+    <system:String x:Key="DirectiveECTerm">Directive EC unit: </system:String>
+    <system:String x:Key="OtherOperators">Other operators: </system:String>
+    <system:String x:Key="InitialEquipmentHorizontal">Tactical Equipment (horizontal): </system:String>
+    <system:String x:Key="InitialStrategy">Initial Strategy: </system:String>
     <!--  Logs  -->
     <system:String x:Key="CopilotTip">
         Tips: \n\n
@@ -760,9 +760,9 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="DropRecognitionError">Drops recognition error</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Abort upload to Penguin Statistics</system:String>
     <system:String x:Key="TheEx">No bonus stage, stopped</system:String>
-    <system:String x:Key="MissingOperators">Operators of the following operator groups are missing:</system:String>
+    <system:String x:Key="MissingOperators">Operators of the following operator groups are missing: </system:String>
     <system:String x:Key="RecruitSuppportOperator">Add support unit: {0}</system:String>
-    <system:String x:Key="StageQueue">Stage Queue:</system:String>
+    <system:String x:Key="StageQueue">Stage Queue: </system:String>
     <system:String x:Key="UnableToAgent">Unable to use PRTS</system:String>
     <system:String x:Key="MissionStart">Mission started</system:String>
     <system:String x:Key="UnitTime">times</system:String>
@@ -797,9 +797,9 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="CombatDps">Node: Combat Operation</system:String>
     <system:String x:Key="EmergencyDps">Node: Emergency Operation</system:String>
     <system:String x:Key="DreadfulFoe">Node: Dreadful Foe</system:String>
-    <system:String x:Key="RoguelikeEvent">Event:</system:String>
+    <system:String x:Key="RoguelikeEvent">Event: </system:String>
     <system:String x:Key="EncounterOcrError">Event Name OCR Failed</system:String>
-    <system:String x:Key="FoldartalGainOcrNextLevel">Foldartal Foresee:</system:String>
+    <system:String x:Key="FoldartalGainOcrNextLevel">Foldartal Foresee: </system:String>
     <system:String x:Key="RoguelikeInvestment">Invested {1}(+{0}), deposit: {2}</system:String>
     <system:String x:Key="RoguelikeSettlement">Roguelike Settlement: {0}\nExplore: {1} Floor {2} Step\nCombat: {3} / {4} Emergency / {5} BOSS\nRecruit: {6}\nCollectibles: {7}\nDifficulty: {8}\nScore: {9}  Exp: {10}  Skill: {11}</system:String>
     <system:String x:Key="RoguelikeGainParadigm">Collapsal Paradigm Deepening: {0}</system:String>
