@@ -253,8 +253,8 @@ PR로도 알려져 있으며, "풀 리퀘스트"라는 용어는 너무 길고 �
     [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
     :::
 
-15. 다음에 다른 PR을 제출하려면 먼저 개인 저장소의 홈 페이지로 이동하여 `Sync fork`를 클릭하여 개인 저장소와 메인 저장소를 동기화하세요. 여기서 주의할 점은, 빨간색 `Discard 1 Commit`이 있다면 빨간색 버튼을 클릭하세요.   
-    만약 없다면, 오른쪽에 초록색 `Update Branch` 버튼을 클릭하세요. 그 후, 이전의 단계를 반복하여 다시 수정할 수 있습니다.    
+15. 다음에 다른 PR을 제출하려면 먼저 개인 저장소의 홈 페이지로 이동하여 `Sync fork`를 클릭하여 개인 저장소와 메인 저장소를 동기화하세요. 여기서 주의할 점은, 빨간색 `Discard 1 Commit`이 있다면 빨간색 버튼을 클릭하세요.
+    만약 없다면, 오른쪽에 초록색 `Update Branch` 버튼을 클릭하세요. 그 후, 이전의 단계를 반복하여 다시 수정할 수 있습니다.
 
     ```component Image1
     {
