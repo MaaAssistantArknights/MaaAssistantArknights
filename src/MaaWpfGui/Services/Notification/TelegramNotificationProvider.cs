@@ -70,6 +70,3 @@ public class TelegramNotificationProvider(IHttpService httpService) : IExternalN
         public string? MessageThreadId { get; set; }
     }
 }
-
-// In ExternalNotificationSettings.cs
-public string? TelegramTopicId { get; set; }
