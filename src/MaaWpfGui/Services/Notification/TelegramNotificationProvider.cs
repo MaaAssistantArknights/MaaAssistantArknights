@@ -31,12 +31,23 @@ public class TelegramNotificationProvider(IHttpService httpService) : IExternalN
     {
         var botToken = SettingsViewModel.ExternalNotificationSettings.TelegramBotToken;
         var chatId = SettingsViewModel.ExternalNotificationSettings.TelegramChatId;
+        var topicId = SettingsViewModel.ExternalNotificationSettings.TelegramTopicId;
 
         var uri = $"https://api.telegram.org/bot{botToken}/sendMessage";
 
-        var response = await httpService.PostAsJsonAsync(
-            new Uri(uri),
-            new TelegramPostContent { ChatId = chatId, Content = $"{title}: {content}" });
+        var postContent = new TelegramPostContent
+        {
+            ChatId = chatId,
+            Content = $"{title}: {content}"
+        };
+
+        // Only add the topic ID if one is provided
+        if (!string.IsNullOrEmpty(topicId))
+        {
+            postContent.MessageThreadId = topicId;
+        }
+
+        var response = await httpService.PostAsJsonAsync(new Uri(uri), postContent);
 
         if (response is not null)
         {
@@ -49,11 +60,16 @@ public class TelegramNotificationProvider(IHttpService httpService) : IExternalN
 
     private class TelegramPostContent
     {
-        // ReSharper disable UnusedAutoPropertyAccessor.Local
         [JsonPropertyName("chat_id")]
         public string? ChatId { get; set; }
 
         [JsonPropertyName("text")]
         public string? Content { get; set; }
+
+        [JsonPropertyName("message_thread_id")]
+        public string? MessageThreadId { get; set; }
     }
 }
+
+// In ExternalNotificationSettings.cs
+public string? TelegramTopicId { get; set; }
