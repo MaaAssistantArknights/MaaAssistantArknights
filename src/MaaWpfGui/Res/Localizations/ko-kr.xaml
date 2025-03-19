@@ -51,6 +51,7 @@
     <system:String x:Key="ExternalNotificationDiscordWebhookUrl">웹후크 URL</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">봇 토큰</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">채팅 ID</system:String>
+    <system:String x:Key="ExternalNotificationTelegramTopicId">토픽 ID (선택사항)</system:String>
     <system:String x:Key="ExternalNotificationQmsgServer">섬기는 사람</system:String>
     <system:String x:Key="ExternalNotificationQmsgKey">Qmsg Key</system:String>
     <system:String x:Key="ExternalNotificationQmsgUser">사용자 QQ</system:String>
