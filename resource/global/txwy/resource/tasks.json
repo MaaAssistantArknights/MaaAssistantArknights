@@ -2203,7 +2203,8 @@
         "text": ["開始組裝", "組裝"]
     },
     "Reclamation2ExManufactureConfirmClickToContinue": {
-        "text": ["點擊", "空白", "繼續"]
+        "text": ["點擊", "空白", "繼續"],
+        "ocrReplace": [["空百", "空白"]]
     },
     "Reclamation2ExReadArchiveConfirm": {
         "text": ["確認"]
@@ -2383,6 +2384,7 @@
         "text": ["演算", "開始"]
     },
     "Tales@RA@ResourceGained": {
-        "text": ["點擊空白處繼續", "空白"]
+        "text": ["點擊空白處繼續", "空白"],
+        "ocrReplace": [["空百", "空白"]]
     }
 }
