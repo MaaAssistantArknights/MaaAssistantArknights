@@ -498,24 +498,6 @@ namespace MaaWpfGui.Main
                         _logger.Warning("Failed to stop Asst");
                     }
 
-                    // TODO: 之后把这个 OnUIThread 拆出来
-                    // ReSharper disable once AsyncVoidLambda
-                    Execute.OnUIThread(
-                        async () =>
-                    {
-                        if (!SettingsViewModel.ConnectSettings.RetryOnDisconnected)
-                        {
-                            return;
-                        }
-
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TryToStartEmulator"), UiLogColor.Error);
-                        EmulatorHelper.KillEmulator();
-                        await Task.Delay(3000);
-                        await Instances.TaskQueueViewModel.Stop();
-                        Instances.TaskQueueViewModel.SetStopped();
-                        Instances.TaskQueueViewModel.LinkStart();
-                    });
-
                     break;
 
                 case "ScreencapFailed":
