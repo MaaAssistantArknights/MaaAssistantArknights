@@ -44,7 +44,7 @@ public class TelegramNotificationProvider(IHttpService httpService) : IExternalN
         // Only add the topic ID if one is provided
         if (!string.IsNullOrEmpty(topicId))
         {
-            postContent.MessageThreadId = topicId;
+            postContent.TopicId = topicId;
         }
 
         var response = await httpService.PostAsJsonAsync(new Uri(uri), postContent);
@@ -67,6 +67,6 @@ public class TelegramNotificationProvider(IHttpService httpService) : IExternalN
         public string? Content { get; set; }
 
         [JsonPropertyName("message_thread_id")]
-        public string? MessageThreadId { get; set; }
+        public string? TopicId { get; set; }
     }
 }
