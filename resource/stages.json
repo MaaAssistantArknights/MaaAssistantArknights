@@ -102,7 +102,7 @@
                 "itemId": "2001"
             },
             {
-                "dropType": "NORMAL_DROP",
+                "dropType": "EXTRA_DROP",
                 "itemId": "30011"
             },
             {
