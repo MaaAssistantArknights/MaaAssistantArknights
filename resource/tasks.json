@@ -5869,7 +5869,7 @@
         "algorithm": "OcrDetect",
         "text": ["开始部署", "重新部署"],
         "roi": [992, 576, 288, 144],
-        "next": ["SSSStartFighting2", "SSSDropRecruitmentFlag"]
+        "next": ["SSSStartFighting2", "SSSDropRecruitmentFlag", "SSSStartFighting"]
     },
     "SSSStartFighting2": {
         "action": "ClickSelf",
