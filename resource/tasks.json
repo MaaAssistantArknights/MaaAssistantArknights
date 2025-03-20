@@ -1492,6 +1492,11 @@
         "sub": ["CW-Open"],
         "next": ["CW-8@SideStoryStage", "CW-8@SwipeToStage"]
     },
+    "CW-6": {
+        "algorithm": "JustReturn",
+        "sub": ["CW-Open"],
+        "next": ["CW-6@SideStoryStage", "CW-6@SwipeToStage"]
+    },
     "CW-Open": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -1518,6 +1523,10 @@
     },
     "CW-8@SideStoryStage": {
         "text": ["CW-8"],
+        "roi": [0, 305, 1277, 38]
+    },
+    "CW-6@SideStoryStage": {
+        "text": ["CW-6"],
         "roi": [0, 305, 1277, 38]
     },
     "CF-8": {
