@@ -1567,6 +1567,14 @@
         "sortId": -10000,
         "usage": "罗德岛医疗部研制出的新型药剂，能够在天灾和战场等活性化的源石环境里起到暂时抑制矿石病恶化的作用。本药品会给身体带来极大负担，请谨慎使用。"
     },
+    "act1multi_token_cap": {
+        "classifyType": "NONE",
+        "description": "罗德岛促融共竞的参赛认证。“留在赛场上的是汗水，从赛场带走的是友谊。”",
+        "icon": "act1multi_token_cap.png",
+        "name": "参赛认证-S1",
+        "sortId": -10000,
+        "usage": "参赛认证的累积代表着赛事热度的攀升，达到一定热度等级即可获取对应奖励。"
+    },
     "act1sandbox_milestone_point": {
         "classifyType": "NONE",
         "description": "生息繁荣，代代相传，以此为证。",
@@ -2094,6 +2102,14 @@
         "name": "通用凭证",
         "sortId": 10006,
         "usage": "代表干员拥有中坚能力的凭证，可用于兑换稀有物资。"
+    },
+    "emoticon_originium_slug": {
+        "classifyType": "NONE",
+        "description": "“不要再扯着嘴角摆出这个僵硬的微笑了，试着像源石虫那样，敞开甲壳，舒展软体组织......相信我，只要这么做，你们很快就不会再尴尬了。”",
+        "icon": "emoticon_originium_slug.png",
+        "name": "表情套组：虫动",
+        "sortId": 2000002,
+        "usage": "基于源石虫的动作设计的表情套组，用于协作者之间的沟通交流。"
     },
     "et_ObsidianPass": {
         "classifyType": "NONE",
