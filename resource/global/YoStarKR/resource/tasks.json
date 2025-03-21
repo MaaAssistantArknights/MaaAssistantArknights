@@ -1073,6 +1073,9 @@
     "NoFriends": {
         "text": ["등록된", "없습니다"]
     },
+    "StartToVisit": {
+        "templThreshold": 0.7
+    },
     "VisitNextOcr": {
         "text": ["다음", "방문"]
     },
