@@ -63,13 +63,6 @@
                         VerticalAlignment="Center"
                         Content="{DynamicResource AutoInstallUpdatePackage}"
                         IsChecked="{Binding AutoInstallUpdatePackage}" />
-                    <CheckBox
-                        Margin="10"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Content="{DynamicResource ForceGithubGlobalSource}"
-                        IsChecked="{Binding ForceGithubGlobalSource}"
-                        Visibility="{c:Binding 'UpdateSource == &quot;Github&quot;'}" />
                     <hc:ComboBox
                         Width="150"
                         Margin="10"
@@ -97,7 +90,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             hc:InfoElement.Placeholder="{DynamicResource MirrorChyanCdkPlaceholder}"
-                            IsEnabled="{c:Binding 'UpdateSource == &quot;MirrorChyan&quot;'}"
+                            Visibility="{c:Binding 'UpdateSource == &quot;MirrorChyan&quot;'}"
                             IsSafeEnabled="False"
                             ShowEyeButton="True"
                             UnsafePassword="{Binding MirrorChyanCdk}">
@@ -107,7 +100,7 @@
                                 </MultiBinding>
                             </hc:TitleElement.Title>
                         </hc:PasswordBox>
-                        <controls:TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <controls:TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{c:Binding 'UpdateSource == &quot;MirrorChyan&quot;'}">
                             <Hyperlink
                                 Cursor="Hand"
                                 NavigateUri="{Binding Source={x:Static constants:MaaUrls.MirrorChyanWebsite}}"
@@ -116,6 +109,13 @@
                             </Hyperlink>
                         </controls:TextBlock>
                     </StackPanel>
+                    <CheckBox
+                        Margin="10"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="{DynamicResource ForceGithubGlobalSource}"
+                        IsChecked="{Binding ForceGithubGlobalSource}"
+                        Visibility="{c:Binding 'UpdateSource == &quot;Github&quot;'}" />
                 </StackPanel>
             </StackPanel>
             <StackPanel
