@@ -63,13 +63,6 @@
                         VerticalAlignment="Center"
                         Content="{DynamicResource AutoInstallUpdatePackage}"
                         IsChecked="{Binding AutoInstallUpdatePackage}" />
-                    <CheckBox
-                        Margin="10"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Content="{DynamicResource ForceGithubGlobalSource}"
-                        IsChecked="{Binding ForceGithubGlobalSource}"
-                        Visibility="{c:Binding 'UpdateSource == &quot;Github&quot;'}" />
                     <hc:ComboBox
                         Width="150"
                         Margin="10"
@@ -116,6 +109,13 @@
                             </Hyperlink>
                         </controls:TextBlock>
                     </StackPanel>
+                    <CheckBox
+                        Margin="10"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="{DynamicResource ForceGithubGlobalSource}"
+                        IsChecked="{Binding ForceGithubGlobalSource}"
+                        Visibility="{c:Binding 'UpdateSource == &quot;Github&quot;'}" />
                 </StackPanel>
             </StackPanel>
             <StackPanel
