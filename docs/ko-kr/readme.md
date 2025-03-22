@@ -32,7 +32,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 ## 다운로드 및 설치
 
-[문서](./manual/newbie.md)를 읽은 후 [공식 웹사이트](https://maa.plus) 또는 [Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)에서 다운로드하십시오. [초보자 가이드](./manual/newbie.md)를 참고하여 설치하십시오.
+[문서](./manual/newbie.md) 를 읽은 후 [공식 웹사이트](https://maa.plus) 또는 [Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 에서 다운로드하십시오. [초보자 가이드](./manual/newbie.md) 를 참고하여 설치하십시오.
 
 ## 개요
 
