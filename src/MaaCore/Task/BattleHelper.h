@@ -38,6 +38,10 @@ protected:
     bool abandon();
 
     bool update_deployment(bool init = false, const cv::Mat& reusable = cv::Mat(), bool need_oper_cost = false);
+    bool update_deployment_(
+        std::vector<battle::DeploymentOper>& cur_opers,
+        const std::vector<battle::DeploymentOper>& old_deployment_opers,
+        bool stop_on_unknown);
     bool update_kills(const cv::Mat& reusable = cv::Mat());
     bool update_cost(const cv::Mat& reusable = cv::Mat());
 
