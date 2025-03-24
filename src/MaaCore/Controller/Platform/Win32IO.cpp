@@ -542,6 +542,7 @@ std::string asst::IOHandlerWin32::read(unsigned timeout_sec)
         }
     }
 
+    CloseHandle(pipeov.hEvent);
     return pipe_buffer.get();
 }
 
