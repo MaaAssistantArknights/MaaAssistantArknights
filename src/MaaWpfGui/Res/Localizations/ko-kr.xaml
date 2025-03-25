@@ -255,6 +255,10 @@
     <system:String x:Key="MirrorChyanCdkPlaceholder">소스 전환 후 입력</system:String>
     <system:String x:Key="MirrorChyanSoftwareUpdateTip">소프트웨어 업데이트가 감지되었습니다. 「설정 - 업데이트 설정」으로 이동하여 MirrorChyan CDK를 구성하거나 글로벌 소스로 전환하세요.</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">리소스 업데이트 {0}이 감지되었습니다. 「설정 - 업데이트 설정 - 리소스 업데이트」로 이동하여 수동으로 업데이트하거나 MirrorChayn CDK를 입력하여 자동으로 업데이트하세요.</system:String>
+    <system:String x:Key="MirrorChyanCdkExpired">CDK가 만료되었습니다. 새 CDK를 사용하여 인증하세요.</system:String>
+    <system:String x:Key="MirrorChyanCdkInvalid">CDK가 유효하지 않습니다. 입력이 올바른지 확인하세요.</system:String>
+    <system:String x:Key="MirrorChyanCdkQuotaExhausted">CDK의 오늘 다운로드 횟수가 제한에 도달했습니다. 내일 다시 시도하세요.</system:String>
+    <system:String x:Key="MirrorChyanCdkMismatched">CDK 유형이 다운로드할 리소스와 일치하지 않습니다. CDK의 적용 범위를 확인하세요.</system:String>
     <system:String x:Key="NewVersionFoundTitle">새로운 버전 확인</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">「Global Source」에서 다운로드 중...</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">「MirrorChyan」에서 다운로드 중...</system:String>
