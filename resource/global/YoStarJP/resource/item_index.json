@@ -1527,6 +1527,14 @@
         "sortId": -10000,
         "usage": "一定数集めるごとに報酬を獲得できる。"
     },
+    "act1vecb_milestone_point": {
+        "classifyType": "NONE",
+        "description": "ロドスエンジニア部が制作した特別な記念品。デザインを担当したオペレーターは、最近ロドスで流行っているボードゲームからインスピレーションを得たようだ。",
+        "icon": "act1vecb_milestone_point.png",
+        "name": "勝利記念品",
+        "sortId": -10000,
+        "usage": "突破記録において報酬と交換できる。"
+    },
     "act20side_token_book": {
         "classifyType": "NONE",
         "description": "紙の上には様々な筆跡が残されており、その数から多くの人の手を経てきたものであることが分かる。内容のほとんどは落書きであるが、まれに鋭いアイデアも隠れている。",
