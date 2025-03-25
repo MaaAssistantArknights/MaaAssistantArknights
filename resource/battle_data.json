@@ -7701,8 +7701,7 @@
         },
         "trap_163_foolcrate": {
             "name": "障碍物",
-            "name_en": "障碍物",
-            "name_en_unavailable": true,
+            "name_en": "Roadblock",
             "name_jp": "障害物",
             "name_kr": "장애물",
             "name_tw": "障碍物",
