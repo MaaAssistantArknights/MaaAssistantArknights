@@ -686,15 +686,10 @@ public class VersionUpdateViewModel : Screen
         using var toast = new ToastNotification((otaFound ? LocalizationHelper.GetString("NewVersionFoundTitle") : LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);
         if (goDownload)
         {
-            OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadPreparing"));
-            if (globalSource)
-            {
-                toast.AppendContentText(LocalizationHelper.GetString("NewVersionFoundDescDownloadingWithGlobalSource"));
-            }
-            else
-            {
-                toast.AppendContentText(LocalizationHelper.GetString("NewVersionFoundDescDownloadingWithMirrorChyan"));
-            }
+            OutputDownloadProgress(LocalizationHelper.GetString("NewVersionDownloadPreparing"), false, globalSource);
+            toast.AppendContentText(globalSource
+                ? LocalizationHelper.GetString("NewVersionFoundDescDownloadingWithGlobalSource")
+                : LocalizationHelper.GetString("NewVersionFoundDescDownloadingWithMirrorChyan"));
         }
 
         if (!otaFound)
