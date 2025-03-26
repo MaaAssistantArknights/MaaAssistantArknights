@@ -11,14 +11,26 @@ from pathlib import Path
 import shutil
 import http.client
 
+BASE_TIMEOUT = 10
 TARGET_TAG = "2024-08-17"
 # FIXME: update DirectML to 1.15.2 for Windows
 if platform.system() == "Windows":
     TARGET_TAG = "2024-10-16"
+
+# The root directory of the project such as "E:\ProgramProjects\MaaAssistantArknights"
 basedir = Path(__file__).parent
 
 
 def detect_host_triplet():
+    """detect and get host_triplet
+
+    Raises:
+        Exception: unsupported architecture
+        Exception: unsupported system
+
+    Returns:
+        str: host_triplet such as "x64-windows"
+    """
     machine = platform.machine().lower()
     system = platform.system().lower()
     if machine in {"amd64", "x86_64"}:
@@ -33,7 +45,7 @@ def detect_host_triplet():
         raise Exception("unsupported architecture: " + machine)
     if system in {"windows", "linux"}:
         pass
-    elif 'mingw' in system or 'cygwin' in system:
+    elif "mingw" in system or "cygwin" in system:
         system = "windows"
     elif system == "darwin":
         system = "osx"
@@ -65,7 +77,7 @@ class ProgressHook:
                     f"\r [{self.downloaded / total * 100.0:3.1f}%] ",
                     f"{format_size(self.downloaded)} / {format_size(total)}",
                     "      \r",
-                    end=''
+                    end="",
                 )
         if self.downloaded == total:
             print("")
@@ -74,9 +86,9 @@ class ProgressHook:
 def sanitize_filename(filename: str):
     system = platform.system()
     if system == "Windows":
-        filename = filename.translate(
-            str.maketrans("/\\:\"?*|\0", "________")
-        ).rstrip('.')
+        filename = filename.translate(str.maketrans('/\\:"?*|\0', "________")).rstrip(
+            "."
+        )
     elif system == "Darwin":
         filename = filename.translate(str.maketrans("/:\0", "___"))
     else:
@@ -84,11 +96,12 @@ def sanitize_filename(filename: str):
     return filename
 
 
-def retry_urlopen(*args, **kwargs):
-    for _ in range(5):
+def retry_urlopen(*args, retries=3, delay=1, **kwargs):
+    for attempt in range(retries):
         try:
-            resp: http.client.HTTPResponse = urllib.request.urlopen(*args,
-                                                                    **kwargs)
+            resp: http.client.HTTPResponse = urllib.request.urlopen(
+                *args, **kwargs, timeout=attempt * BASE_TIMEOUT
+            )
             return resp
         except urllib.error.HTTPError as e:
             if (e.status == 403 and
@@ -103,19 +116,47 @@ def retry_urlopen(*args, **kwargs):
                 reset_time = max(reset_time, t0 + 10)
                 print(
                     "rate limit exceeded, retrying after ",
-                    f"{reset_time - t0:.1f} seconds"
+                    f"{reset_time - t0:.1f} seconds",
                 )
                 time.sleep(reset_time - t0)
-                continue
-            raise
+            else:
+                print(f"HTTPError: {e} (attempt {attempt + 1}/{retries})!")
+                time.sleep(delay)
+        except (urllib.error.URLError, http.client.HTTPException) as e:
+            print(f"Network error: {e} (attempt {attempt + 1}/{retries})!")
+            time.sleep(delay)
+    raise Exception(f"Failed after {retries} attempts with retry!")
+
+
+def split_asset_name(name: str):
+    """get target_triplet in asset name
+
+    Args:
+        name (str): asset name such as "MaaDeps-x64-windows-dbg.tar.xz"
+
+    Returns:
+        tuple(str, str): get target_triplet in asset name,such as ('x64-windows', 'dbg')
+    """
+    *remainder, component_suffix = name.rsplit("-", 1)
+    component = component_suffix.split(".", 1)[0]
+    if remainder:
+        _, *target = remainder[0].split("-", 1)
+        if target:
+            return target[0], component
+    return None, None
 
 
 def main():
+    maadeps_url = "https://api.github.com/repos/MaaAssistantArknights/MaaDeps/releases"
     parser = argparse.ArgumentParser()
     parser.add_argument("target_triplet", nargs="?", default=None)
     parser.add_argument("tag", nargs="?", default=None)
-    parser.add_argument("-f", "--force", action="store_true",
-                        help="force download even if already exists")
+    parser.add_argument(
+        "-f",
+        "--force",
+        action="store_true",
+        help="force download even if already exists",
+    )
     args = parser.parse_args()
 
     if args.target_triplet is not None:
@@ -129,16 +170,16 @@ def main():
         target_tag = TARGET_TAG
     print(
         "About to download prebuilt dependency libraries for",
-        f"{target_triplet} of {target_tag}"
+        f"{target_triplet} of {target_tag}",
     )
     if args.target_triplet is None:
         print(
             "to specify another triplet [and tag], ",
-            f"run `{sys.argv[0]} <target triplet> [tag]`"
+            f"run `{sys.argv[0]} <target triplet> [tag]`",
         )
         print(
             f"e.g. `{sys.argv[0]} arm64-windows` ",
-            f"or `{sys.argv[0]} arm64-windows 2023-04-24-3`"
+            f"or `{sys.argv[0]} arm64-windows 2023-04-24-3`",
         )
 
     maadeps_dir = Path(basedir, "MaaDeps")
@@ -151,28 +192,18 @@ def main():
     if not args.force and versions.get(target_triplet) == target_tag:
         print(
             f"prebuilt dependencies for {target_triplet} of {target_tag} ",
-            "already exist, skipping download"
+            "already exist, skipping download",
         )
         print(f"to force download, run `{sys.argv[0]} -f`")
         return
 
-    req = urllib.request.Request(
-        "https://api.github.com/repos/MaaAssistantArknights/MaaDeps/releases"
-    )
+    req = urllib.request.Request(maadeps_url)
     token = os.environ.get("GH_TOKEN", os.environ.get("GITHUB_TOKEN", None))
     if token:
         req.add_header("Authorization", f"Bearer {token}")
     resp = retry_urlopen(req).read()
     releases = json.loads(resp)
 
-    def split_asset_name(name: str):
-        *remainder, component_suffix = name.rsplit('-', 1)
-        component = component_suffix.split(".", 1)[0]
-        if remainder:
-            _, *target = remainder[0].split("-", 1)
-            if target:
-                return target[0], component
-        return None, None
     devel_asset = None
     runtime_asset = None
     for release in releases:
@@ -181,9 +212,9 @@ def main():
         for asset in release["assets"]:
             target, component = split_asset_name(asset["name"])
             if target == target_triplet:
-                if component == 'devel':
+                if component == "devel":
                     devel_asset = asset
-                elif component == 'runtime':
+                elif component == "runtime":
                     runtime_asset = asset
         if devel_asset and runtime_asset:
             break
@@ -194,16 +225,18 @@ def main():
         download_dir = Path(maadeps_dir, "tarball")
         download_dir.mkdir(parents=True, exist_ok=True)
         try:
-            shutil.rmtree(maadeps_dir / "runtime" / f"maa-{target_triplet}",
-                          ignore_errors=True)
-            shutil.rmtree(maadeps_dir / "vcpkg" / "installed" /
-                          f"maa-{target_triplet}", ignore_errors=True)
+            shutil.rmtree(
+                maadeps_dir / "runtime" / f"maa-{target_triplet}", ignore_errors=True
+            )
+            shutil.rmtree(
+                maadeps_dir / "vcpkg" / "installed" / f"maa-{target_triplet}",
+                ignore_errors=True,
+            )
             for asset in [devel_asset, runtime_asset]:
-                url = asset['browser_download_url']
+                url = asset["browser_download_url"]
                 print("downloading from", url)
                 local_file = download_dir / sanitize_filename(asset["name"])
-                urllib.request.urlretrieve(url, local_file,
-                                           reporthook=ProgressHook())
+                urllib.request.urlretrieve(url, local_file, reporthook=ProgressHook())
                 print("extracting", asset["name"])
                 shutil.unpack_archive(local_file, maadeps_dir)
             versions[target_triplet] = target_tag
