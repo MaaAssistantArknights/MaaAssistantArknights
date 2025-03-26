@@ -54,10 +54,17 @@
     <Grid>
         <Rectangle Fill="{DynamicResource RegionBrush}" />
         <Image
-            Opacity="{Binding BackgroundOpacity}"
+            Name="BgImage"
+            Opacity="{c:Binding 'BackgroundOpacity / 100.0'}"
             RenderOptions.BitmapScalingMode="LowQuality"
+            RenderOptions.CachingHint="Cache"
             Source="{c:Binding BackgroundImage}"
-            Stretch="Fill" />
+            Stretch="Fill"
+            Visibility="{c:Binding BackgroundExist}">
+            <Image.Effect>
+                <BlurEffect Radius="10" />
+            </Image.Effect>
+        </Image>
         <DockPanel>
             <local:NotifyIcon x:Name="NotifyIcon" Visibility="Hidden" />
             <Grid>
@@ -92,11 +99,12 @@
                 <hc:PreviewSlider
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Bottom"
-                    Maximum="1"
+                    Maximum="100"
+                    PreviewMouseUp="{s:Action PreviewSlider_MouseUp}"
                     Visibility="{c:Binding BackgroundExist}"
                     Value="{Binding BackgroundOpacity}">
                     <hc:PreviewSlider.PreviewContent>
-                        <Label Content="{Binding Path=(hc:PreviewSlider.PreviewPosition), RelativeSource={RelativeSource Self}}" ContentStringFormat="P0" />
+                        <Label Content="{c:Binding Path='hc:PreviewSlider.PreviewPosition / 100.0', RelativeSource={RelativeSource Self}}" ContentStringFormat="P0" />
                     </hc:PreviewSlider.PreviewContent>
                 </hc:PreviewSlider>
             </Grid>

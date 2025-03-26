@@ -21,6 +21,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using HandyControl.Tools;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
@@ -295,17 +296,52 @@ namespace MaaWpfGui.ViewModels.UI
 
         public static bool BackgroundExist => File.Exists(_backgroundImagePath);
 
-        public static string? BackgroundImage => BackgroundExist ? _backgroundImagePath : null;
+        public static BitmapImage? BackgroundImage
+        {
+            get
+            {
+                if (!BackgroundExist || string.IsNullOrEmpty(_backgroundImagePath))
+                {
+                    return null;
+                }
 
-        private double _backgroundOpacity = double.Parse(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundOpacity, "0.5"));
+                try
+                {
+                    var imageBytes = File.ReadAllBytes(_backgroundImagePath);
+                    using var memoryStream = new MemoryStream(imageBytes);
 
-        public double BackgroundOpacity
+                    var bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.StreamSource = memoryStream;
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.EndInit();
+                    bitmap.Freeze();
+
+                    return bitmap;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+
+        private int _backgroundOpacity = int.Parse(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundOpacity, "50"));
+
+        public int BackgroundOpacity
         {
             get => _backgroundOpacity;
             set
             {
                 SetAndNotify(ref _backgroundOpacity, value);
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.BackgroundOpacity, value.ToString(CultureInfo.InvariantCulture));
+            }
+        }
+
+        public void PreviewSlider_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.BackgroundOpacity, BackgroundOpacity.ToString(CultureInfo.InvariantCulture));
             }
         }
     }
