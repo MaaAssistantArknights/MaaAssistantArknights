@@ -305,7 +305,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _backgroundOpacity, value);
-                ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundOpacity, value.ToString(CultureInfo.InvariantCulture));
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.BackgroundOpacity, value.ToString(CultureInfo.InvariantCulture));
             }
         }
     }
