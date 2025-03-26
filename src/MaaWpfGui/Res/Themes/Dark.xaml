@@ -15,6 +15,10 @@
 
     <!--  背景颜色  -->
     <SolidColorBrush x:Key="RegionBrush" Color="#1c1c1c" />
+    <SolidColorBrush
+        x:Key="TransparentRegionBrush"
+        Opacity="0.5"
+        Color="#1c1c1c" />
     <!--  背景颜色 没用到（建议和背景颜色一致）  -->
     <SolidColorBrush x:Key="MainContentBackgroundBrush" Color="#FF1C1C1C" />
 
@@ -46,12 +50,12 @@
     <SolidColorBrush x:Key="MuMuSpecialScreenshot" Color="#02BFFF" />
     <SolidColorBrush x:Key="LdSpecialScreenshot" Color="#6666FF" />
 
-    <!--  UiLogColor - I.S. -->
+    <!--  UiLogColor - I.S.  -->
     <SolidColorBrush x:Key="SuccessIS" Color="LimeGreen" />
     <SolidColorBrush x:Key="SafehouseIS" Color="DodgerBlue" />
     <SolidColorBrush x:Key="TraderIS" Color="MediumSeaGreen" />
     <SolidColorBrush x:Key="EventIS" Color="LightSkyBlue" />
-    <SolidColorBrush x:Key="TruthIS" Color="#8D701C"/>
+    <SolidColorBrush x:Key="TruthIS" Color="#8D701C" />
     <SolidColorBrush x:Key="CombatIS" Color="DarkOrange" />
     <SolidColorBrush x:Key="EmergencyIS" Color="MediumVioletRed" />
     <SolidColorBrush x:Key="BossIS" Color="Firebrick " />

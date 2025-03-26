@@ -36,6 +36,7 @@
             <Border
                 Width="210"
                 MaxWidth="210"
+                Background="{DynamicResource TransparentRegionBrush}"
                 BorderBrush="{DynamicResource BorderBrush}"
                 BorderThickness="1"
                 CornerRadius="4">
@@ -53,8 +54,8 @@
                         HorizontalAlignment="Center"
                         dd:DragDrop.IsDragSource="{Binding Idle}"
                         dd:DragDrop.IsDropTarget="{Binding Idle}"
+                        Background="Transparent"
                         BorderThickness="0"
-                        ItemContainerStyle="{StaticResource CustomListBoxItemStyle}"
                         ItemsSource="{Binding TaskItemViewModels}"
                         ToolTip="{DynamicResource LabelSequenceTip}">
                         <ListBox.ItemTemplate>
@@ -94,6 +95,11 @@
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
+                        <ListBox.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource CustomListBoxItemStyle}" TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
+                            </Style>
+                        </ListBox.ItemContainerStyle>
                     </ListBox>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
@@ -112,6 +118,7 @@
                             Width="90"
                             Height="30"
                             VerticalAlignment="Top"
+                            Background="{DynamicResource TransparentRegionBrush}"
                             Command="{s:Action InverseSelected}"
                             Content="{Binding InverseShowText}"
                             IsEnabled="{Binding Idle}"
@@ -281,14 +288,17 @@
                 Grid.Row="1"
                 Width="220"
                 Margin="0,0,10,0"
+                Background="Transparent"
                 Orientation="Horizontal"
                 Visibility="{c:Binding !TaskSettingVisibilities.AfterAction,
                                        FalseToVisibility=Hidden}">
                 <RadioButton
+                    Background="{DynamicResource TransparentRegionBrush}"
                     Content="{DynamicResource GeneralSettings}"
                     IsChecked="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}"
                     IsEnabled="True" />
                 <RadioButton
+                    Background="{DynamicResource TransparentRegionBrush}"
                     Content="{DynamicResource AdvancedSettings}"
                     IsChecked="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}"
                     IsEnabled="{c:Binding TaskSettingVisibilities.AdvancedSettingsVisibility}" />

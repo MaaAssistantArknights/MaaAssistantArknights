@@ -3,7 +3,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:main="clr-namespace:MaaWpfGui.Main"
-    xmlns:s="https://github.com/canton7/Stylet">
+    xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:hc="https://handyorg.github.io/handycontrol">
     <Application.Resources>
         <!--<ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -26,6 +27,10 @@
 
             <Style TargetType="Hyperlink">
                 <EventSetter Event="Click" Handler="Hyperlink_Click" />
+            </Style>
+
+            <Style BasedOn="{StaticResource ComboBoxBaseStyle}" TargetType="{x:Type hc:ComboBox}">
+                <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

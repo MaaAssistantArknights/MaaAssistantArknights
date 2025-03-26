@@ -32,7 +32,7 @@
                 ItemsSource="{Binding CustomInfrastPlanList}"
                 SelectedValue="{Binding CustomInfrastPlanIndex}"
                 SelectedValuePath="Value"
-                Style="{StaticResource ComboBoxExtend}" />
+                 />
         </StackPanel>
 
         <!--  只放在高级设置的部分  -->
@@ -79,7 +79,7 @@
                         ItemsSource="{Binding DefaultInfrastList}"
                         SelectedValue="{Binding DefaultInfrast}"
                         SelectedValuePath="Value"
-                        Style="{StaticResource ComboBoxExtend}" />
+                         />
                     <Button
                         Width="60"
                         Margin="10,5"
@@ -104,7 +104,7 @@
                 ItemsSource="{Binding UsesOfDronesList}"
                 SelectedValue="{Binding UsesOfDrones}"
                 SelectedValuePath="Value"
-                Style="{StaticResource ComboBoxExtend}" />
+                 />
             <StackPanel Margin="0">
                 <TextBlock
                     Margin="0,5"
@@ -137,6 +137,11 @@
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
+                <ListBox.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource CustomListBoxItemStyle}" TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
             </ListBox>
             <Grid>
                 <Grid.ColumnDefinitions>

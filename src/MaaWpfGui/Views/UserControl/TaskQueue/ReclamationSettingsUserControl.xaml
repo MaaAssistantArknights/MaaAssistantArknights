@@ -26,7 +26,7 @@
                 ItemsSource="{Binding ReclamationThemeList}"
                 SelectedValue="{Binding ReclamationTheme}"
                 SelectedValuePath="Value"
-                Style="{StaticResource ComboBoxExtend}" />
+                 />
             <ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource Strategy}"
@@ -35,7 +35,7 @@
                 ItemsSource="{Binding ReclamationModeList}"
                 SelectedValue="{Binding ReclamationMode}"
                 SelectedValuePath="Value"
-                Style="{StaticResource ComboBoxExtend}" />
+                 />
             <controls:TextBlock
                 Margin="5,10,5,10"
                 Style="{StaticResource TextBlockDefault}"
@@ -60,7 +60,7 @@
                 ItemsSource="{Binding ReclamationIncrementModeList}"
                 SelectedValue="{Binding ReclamationIncrementMode}"
                 SelectedValuePath="Value"
-                Style="{StaticResource ComboBoxExtend}" />
+                 />
             <hc:NumericUpDown
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource ReclamationMaxCraftCountPerRound}"

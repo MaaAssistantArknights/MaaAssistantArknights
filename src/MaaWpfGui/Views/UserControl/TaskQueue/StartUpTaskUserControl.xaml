@@ -80,7 +80,7 @@
                 hc:InfoElement.Title="{DynamicResource ConnectionAddress}"
                 IsEditable="True"
                 ItemsSource="{Binding ConnectAddressHistory}"
-                Style="{StaticResource ComboBoxExtend}"
+                
                 Text="{Binding ConnectAddress, UpdateSourceTrigger=LostFocus}"
                 ToolTip="{DynamicResource ConnectionAddressTip}"
                 Visibility="{c:Binding !AutoDetectConnection}">
@@ -114,7 +114,7 @@
                 ItemsSource="{Binding ConnectConfigList}"
                 SelectedValue="{Binding ConnectConfig}"
                 SelectedValuePath="Value"
-                Style="{StaticResource ComboBoxExtend}"
+                
                 Visibility="{c:Binding !AutoDetectConnection}" />
             <hc:ComboBox
                 Margin="0,5"
@@ -124,7 +124,7 @@
                 ItemsSource="{Binding TouchModeList}"
                 SelectedValue="{Binding TouchMode}"
                 SelectedValuePath="Value"
-                Style="{StaticResource ComboBoxExtend}" />
+                 />
         </StackPanel>
 
         <hc:ComboBox
@@ -135,7 +135,7 @@
             ItemsSource="{Binding ClientTypeList, Source={x:Static ui:SettingsViewModel.GameSettings}}"
             SelectedValue="{Binding ClientType, Source={x:Static ui:SettingsViewModel.GameSettings}}"
             SelectedValuePath="Value"
-            Style="{StaticResource ComboBoxExtend}"
+            
             Visibility="{c:Binding !TaskSettingVisibilities.Guide,
                                    Source={x:Static helper:Instances.SettingsViewModel}}" />
 

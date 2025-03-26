@@ -14,6 +14,8 @@
 #nullable enable
 
 using System;
+using System.Globalization;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -287,6 +289,24 @@ namespace MaaWpfGui.ViewModels.UI
             childElement.HorizontalAlignment = HorizontalAlignment.Left;
             childElement.VerticalAlignment = VerticalAlignment.Top;
             childElement.Margin = new(newX, newY, 10, 10);
+        }
+
+        private static readonly string _backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "background/background.png");
+
+        public static bool BackgroundExist => File.Exists(_backgroundImagePath);
+
+        public static string? BackgroundImage => BackgroundExist ? _backgroundImagePath : null;
+
+        private double _backgroundOpacity = double.Parse(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundOpacity, "0.5"));
+
+        public double BackgroundOpacity
+        {
+            get => _backgroundOpacity;
+            set
+            {
+                SetAndNotify(ref _backgroundOpacity, value);
+                ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundOpacity, value.ToString(CultureInfo.InvariantCulture));
+            }
         }
     }
 }

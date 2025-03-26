@@ -316,6 +316,7 @@
                     Width="680"
                     HorizontalAlignment="Center"
                     AutoGenerateColumns="False"
+                    Background="{DynamicResource TransparentRegionBrush}"
                     HeadersVisibility="None"
                     IsReadOnly="True"
                     ItemsSource="{Binding DepotResult}"
