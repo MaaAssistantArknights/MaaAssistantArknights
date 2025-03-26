@@ -1087,17 +1087,21 @@ public class VersionUpdateViewModel : Screen
         OutputDownloadProgress(progress + $" {speedDisplay}");
     }
 
-    private static void OutputDownloadProgress(string output, bool downloading = true, bool globalSource = true)
+    private static bool _globalSource = true;
+
+    private static void OutputDownloadProgress(string output, bool downloading = true, bool? globalSource = null)
     {
+        globalSource ??= _globalSource;
+        _globalSource = globalSource.Value;
         if (_logItemViewModels == null)
         {
             return;
         }
 
-        string fullText = string.Empty;
+        string fullText;
         if (downloading)
         {
-            string key = globalSource ? "NewVersionFoundDescDownloadingWithGlobalSource" : "NewVersionFoundDescDownloadingWithMirrorChyan";
+            string key = globalSource.Value ? "NewVersionFoundDescDownloadingWithGlobalSource" : "NewVersionFoundDescDownloadingWithMirrorChyan";
             fullText = LocalizationHelper.GetString(key) + "\n" + output;
         }
         else
