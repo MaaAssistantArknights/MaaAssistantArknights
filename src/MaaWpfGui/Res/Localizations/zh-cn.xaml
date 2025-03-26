@@ -384,6 +384,7 @@
     <system:String x:Key="WindowTitleScrollable">窗口标题滚动</system:String>
     <system:String x:Key="NullFunctionality">反转右键单击复选框功能</system:String>
     <system:String x:Key="TitleBarDisplayContent">标题栏显示内容</system:String>
+    <system:String x:Key="CustomBackgroundTip">手动创建 background 文件夹，将 background.png 放入即可自定义背景图片</system:String>
     <system:String x:Key="UseLogItemDateFormat">自选日志日期格式</system:String>
     <system:String x:Key="LogItemDateFormatString">日期格式字符串</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">是否立刻重启应用更改？</system:String>

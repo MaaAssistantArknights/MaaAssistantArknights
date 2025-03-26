@@ -25,6 +25,9 @@
             TextAlignment="Center"
             Visibility="{c:Binding 'ConfigurationList.Count > 1',
                                    Source={x:Static helper:Instances.SettingsViewModel}}" />
+        <controls:TextBlock
+            Text="{DynamicResource CustomBackgroundTip}"
+            TextWrapping="Wrap" />
         <Grid
             Margin="10"
             HorizontalAlignment="Center"
