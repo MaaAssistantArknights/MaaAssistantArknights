@@ -124,6 +124,7 @@
                 ItemsSource="{Binding Path=InfrastItemViewModels}"
                 PreviewMouseWheel="{s:Action HandlePreviewMouseWheel,
                                              Target={x:Type helper:MouseWheelHelper}}"
+                Style="{DynamicResource NoHighlightListBoxStyle}"
                 ToolTip="{DynamicResource LabelSequenceTip}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>

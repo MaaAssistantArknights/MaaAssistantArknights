@@ -1,8 +1,37 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--  基样式（共用部分）  -->
     <Style
-        x:Key="CustomListBoxItemStyle"
+        x:Key="BaseListBoxStyle"
+        BasedOn="{StaticResource ListBoxBaseStyle}"
+        TargetType="{x:Type ListBox}">
+        <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
+    </Style>
+
+    <!--  透明项样式  -->
+    <Style BasedOn="{StaticResource BaseListBoxStyle}" TargetType="{x:Type ListBox}">
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource TransparentListBoxItemStyle}" />
+    </Style>
+
+    <!--  无高亮样式  -->
+    <Style
+        x:Key="NoHighlightListBoxStyle"
+        BasedOn="{StaticResource BaseListBoxStyle}"
+        TargetType="{x:Type ListBox}">
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource NoHighlightListBoxItemStyle}" />
+    </Style>
+
+    <Style
+        x:Key="TransparentListBoxItemStyle"
         BasedOn="{StaticResource ListBoxItemBaseStyle}"
         TargetType="{x:Type ListBoxItem}">
+        <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
+    </Style>
+
+    <Style
+        x:Key="NoHighlightListBoxItemStyle"
+        BasedOn="{StaticResource ListBoxItemBaseStyle}"
+        TargetType="{x:Type ListBoxItem}">
+        <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
         <Setter Property="Padding" Value="10,0,0,0" />
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="true">
@@ -10,17 +39,5 @@
                 <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
             </Trigger>
         </Style.Triggers>
-    </Style>
-
-    <Style BasedOn="{StaticResource ListBoxBaseStyle}" TargetType="{x:Type ListBox}">
-        <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource TransparentListBoxItemStyle}" />
-    </Style>
-
-    <Style
-        x:Key="TransparentListBoxItemStyle"
-        BasedOn="{StaticResource CustomListBoxItemStyle}"
-        TargetType="{x:Type ListBoxItem}">
-        <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
     </Style>
 </ResourceDictionary>
