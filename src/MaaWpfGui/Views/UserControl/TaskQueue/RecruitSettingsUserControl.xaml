@@ -30,7 +30,6 @@
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource RecruitMaxTimes}"
                 Minimum="0"
-                Style="{StaticResource NumericUpDownExtend}"
                 Value="{Binding RecruitMaxTimes}" />
         </StackPanel>
 

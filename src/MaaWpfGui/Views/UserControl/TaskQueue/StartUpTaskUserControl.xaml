@@ -28,7 +28,6 @@
                 hc:TitleElement.Title="{DynamicResource AccountSwitch}"
                 IsReadOnly="{c:Binding !Idle,
                                        Source={x:Static helper:Instances.SettingsViewModel}}"
-                Style="{StaticResource TextBoxExtend}"
                 Text="{Binding AccountName, UpdateSourceTrigger=PropertyChanged}"
                 ToolTip="{DynamicResource AccountSwitchTip}" />
             <Button
