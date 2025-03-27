@@ -15,4 +15,11 @@
     <Style BasedOn="{StaticResource ListBoxBaseStyle}" TargetType="{x:Type ListBox}">
         <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
     </Style>
+
+    <Style
+        x:Key="TransparentListBoxItemStyle"
+        BasedOn="{StaticResource CustomListBoxItemStyle}"
+        TargetType="{x:Type ListBoxItem}">
+        <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
+    </Style>
 </ResourceDictionary>

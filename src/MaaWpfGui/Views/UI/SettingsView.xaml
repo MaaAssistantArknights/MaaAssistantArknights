@@ -30,14 +30,9 @@
             Grid.Column="0"
             Margin="10"
             IsSynchronizedWithCurrentItem="true"
+            ItemContainerStyle="{StaticResource TransparentListBoxItemStyle}"
             ItemsSource="{Binding ListTitle}"
-            SelectedIndex="{Binding SelectedIndex}">
-            <ListBox.ItemContainerStyle>
-                <Style BasedOn="{StaticResource ListBoxItemBaseStyle}" TargetType="{x:Type ListBoxItem}">
-                    <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
-                </Style>
-            </ListBox.ItemContainerStyle>
-        </ListBox>
+            SelectedIndex="{Binding SelectedIndex}" />
 
         <hc:ScrollViewer
             Grid.Column="1"

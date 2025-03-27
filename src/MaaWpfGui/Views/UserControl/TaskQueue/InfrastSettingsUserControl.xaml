@@ -121,6 +121,7 @@
                 Margin="0,5"
                 dd:DragDrop.IsDragSource="True"
                 dd:DragDrop.IsDropTarget="True"
+                ItemContainerStyle="{StaticResource TransparentListBoxItemStyle}"
                 ItemsSource="{Binding Path=InfrastItemViewModels}"
                 PreviewMouseWheel="{s:Action HandlePreviewMouseWheel,
                                              Target={x:Type helper:MouseWheelHelper}}"
@@ -134,11 +135,6 @@
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
-                <ListBox.ItemContainerStyle>
-                    <Style BasedOn="{StaticResource CustomListBoxItemStyle}" TargetType="{x:Type ListBoxItem}">
-                        <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
-                    </Style>
-                </ListBox.ItemContainerStyle>
             </ListBox>
             <Grid>
                 <Grid.ColumnDefinitions>
