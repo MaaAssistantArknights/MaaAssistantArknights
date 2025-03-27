@@ -296,6 +296,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         public static bool BackgroundExist => File.Exists(_backgroundImagePath);
 
+        private static BitmapImage? _backgroundImage;
+
         public static BitmapImage? BackgroundImage
         {
             get
@@ -303,6 +305,11 @@ namespace MaaWpfGui.ViewModels.UI
                 if (!BackgroundExist || string.IsNullOrEmpty(_backgroundImagePath))
                 {
                     return null;
+                }
+
+                if (_backgroundImage != null)
+                {
+                    return _backgroundImage;
                 }
 
                 try
@@ -316,8 +323,9 @@ namespace MaaWpfGui.ViewModels.UI
                     bitmap.CacheOption = BitmapCacheOption.OnLoad;
                     bitmap.EndInit();
                     bitmap.Freeze();
+                    _backgroundImage = bitmap;
 
-                    return bitmap;
+                    return _backgroundImage;
                 }
                 catch
                 {
