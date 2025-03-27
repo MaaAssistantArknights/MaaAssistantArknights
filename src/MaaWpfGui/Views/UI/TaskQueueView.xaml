@@ -56,7 +56,6 @@
                         dd:DragDrop.IsDropTarget="{Binding Idle}"
                         Background="Transparent"
                         BorderThickness="0"
-                        ItemContainerStyle="{StaticResource TransparentListBoxItemStyle}"
                         ItemsSource="{Binding TaskItemViewModels}"
                         ToolTip="{DynamicResource LabelSequenceTip}">
                         <ListBox.ItemTemplate>

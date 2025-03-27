@@ -30,7 +30,6 @@
             Grid.Column="0"
             Margin="10"
             IsSynchronizedWithCurrentItem="true"
-            ItemContainerStyle="{StaticResource TransparentListBoxItemStyle}"
             ItemsSource="{Binding ListTitle}"
             SelectedIndex="{Binding SelectedIndex}" />
 
