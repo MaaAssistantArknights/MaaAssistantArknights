@@ -9,7 +9,7 @@
     <Style
         x:Key="TransparentDataGridCellStyle"
         BasedOn="{StaticResource DataGridCellStyle}"
-        TargetType="{x:Type DataGridRow}">
+        TargetType="{x:Type DataGridCell}">
         <Setter Property="Background" Value="Transparent" />
     </Style>
 
