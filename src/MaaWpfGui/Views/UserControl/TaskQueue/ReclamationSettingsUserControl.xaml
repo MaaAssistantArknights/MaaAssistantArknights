@@ -25,8 +25,7 @@
                 IsHitTestVisible="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
                 ItemsSource="{Binding ReclamationThemeList}"
                 SelectedValue="{Binding ReclamationTheme}"
-                SelectedValuePath="Value"
-                 />
+                SelectedValuePath="Value" />
             <ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource Strategy}"
@@ -34,8 +33,7 @@
                 IsHitTestVisible="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
                 ItemsSource="{Binding ReclamationModeList}"
                 SelectedValue="{Binding ReclamationMode}"
-                SelectedValuePath="Value"
-                 />
+                SelectedValuePath="Value" />
             <controls:TextBlock
                 Margin="5,10,5,10"
                 Style="{StaticResource TextBlockDefault}"
@@ -59,8 +57,7 @@
                 IsHitTestVisible="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
                 ItemsSource="{Binding ReclamationIncrementModeList}"
                 SelectedValue="{Binding ReclamationIncrementMode}"
-                SelectedValuePath="Value"
-                 />
+                SelectedValuePath="Value" />
             <hc:NumericUpDown
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource ReclamationMaxCraftCountPerRound}"
