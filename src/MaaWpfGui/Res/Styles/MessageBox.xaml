@@ -3,7 +3,7 @@
     <Style
         x:Key="MessageBoxButtonStyle"
         BasedOn="{StaticResource ButtonDefault}"
-        TargetType="Button">
+        TargetType="{x:Type Button}">
         <Setter Property="MinWidth" Value="88" />
         <Setter Property="Visibility" Value="{c:Binding IsEnabled, RelativeSource={RelativeSource Self}}" />
         <Setter Property="Margin" Value="5,0" />
@@ -12,13 +12,13 @@
     <Style
         x:Key="MessageBoxPrimaryButtonStyle"
         BasedOn="{StaticResource ButtonPrimary}"
-        TargetType="Button">
+        TargetType="{x:Type Button}">
         <Setter Property="MinWidth" Value="88" />
         <Setter Property="Visibility" Value="{c:Binding IsEnabled, RelativeSource={RelativeSource Self}}" />
         <Setter Property="Margin" Value="5,0" />
     </Style>
 
-    <Style BasedOn="{StaticResource WindowWin10}" TargetType="hc:MessageBox">
+    <Style BasedOn="{StaticResource WindowWin10}" TargetType="{x:Type hc:MessageBox}">
         <Setter Property="MinHeight" Value="172" />
         <Setter Property="ShowInTaskbar" Value="False" />
         <Setter Property="MinWidth" Value="335" />
@@ -28,7 +28,7 @@
         <Setter Property="SizeToContent" Value="WidthAndHeight" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="hc:MessageBox">
+                <ControlTemplate TargetType="{x:Type hc:MessageBox}">
                     <Border
                         Background="{DynamicResource RegionBrush}"
                         BorderBrush="{TemplateBinding BorderBrush}"

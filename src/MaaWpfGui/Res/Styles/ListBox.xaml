@@ -2,7 +2,7 @@
     <Style
         x:Key="CustomListBoxItemStyle"
         BasedOn="{StaticResource ListBoxItemBaseStyle}"
-        TargetType="ListBoxItem">
+        TargetType="{x:Type ListBoxItem}">
         <Setter Property="Padding" Value="10,0,0,0" />
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="true">

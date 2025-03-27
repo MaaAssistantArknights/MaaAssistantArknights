@@ -37,7 +37,7 @@
             ItemsSource="{Binding GpuOptions}"
             SelectedValue="{Binding ActiveGpuOption}">
             <hc:ComboBox.ItemContainerStyle>
-                <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="ComboBoxItem">
+                <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="{x:Type ComboBoxItem}">
                     <Style.Triggers>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>

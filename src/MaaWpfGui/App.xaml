@@ -25,7 +25,7 @@
                 <ResourceDictionary Source="/MAA;component/Res/Style.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <Style TargetType="Hyperlink">
+            <Style TargetType="{x:Type Hyperlink}">
                 <EventSetter Event="Click" Handler="Hyperlink_Click" />
             </Style>
         </ResourceDictionary>
