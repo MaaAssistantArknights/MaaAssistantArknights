@@ -16,6 +16,7 @@
     mc:Ignorable="d">
     <TabControl
         Margin="0,10"
+        Background="{DynamicResource TransparentRegionBrush}"
         BorderThickness="0"
         Style="{StaticResource TabControlSliding}">
         <TabItem Header="{DynamicResource RecruitmentRecognition}">
@@ -599,7 +600,6 @@
                         hc:TitleElement.TitlePlacement="Top"
                         Maximum="60"
                         Minimum="1"
-                        Style="{StaticResource NumericUpDownExtend}"
                         Value="{Binding PeepTargetFps, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </Grid>

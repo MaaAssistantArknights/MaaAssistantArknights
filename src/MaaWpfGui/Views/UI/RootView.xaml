@@ -84,6 +84,11 @@
                                 IsTabStop="False" />
                         </DataTemplate>
                     </TabControl.ContentTemplate>
+                    <TabControl.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource TabItemInLine}" TargetType="TabItem">
+                            <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
+                        </Style>
+                    </TabControl.ItemContainerStyle>
                 </TabControl>
                 <hc:GifImage
                     Width="100"
