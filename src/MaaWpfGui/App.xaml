@@ -28,10 +28,6 @@
             <Style TargetType="Hyperlink">
                 <EventSetter Event="Click" Handler="Hyperlink_Click" />
             </Style>
-
-            <Style BasedOn="{StaticResource ComboBoxBaseStyle}" TargetType="{x:Type hc:ComboBox}">
-                <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
-            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
