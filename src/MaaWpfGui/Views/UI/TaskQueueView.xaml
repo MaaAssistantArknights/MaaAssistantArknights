@@ -284,11 +284,11 @@
                 Grid.Row="1"
                 Width="220"
                 Margin="0,0,10,0"
-                Background="Transparent"
                 Orientation="Horizontal"
                 Visibility="{c:Binding !TaskSettingVisibilities.AfterAction,
                                        FalseToVisibility=Hidden}">
                 <RadioButton
+                    hc:VisualElement.HighlightBackground="{DynamicResource TransparentRegionBrush}"
                     Background="{DynamicResource TransparentRegionBrush}"
                     Content="{DynamicResource GeneralSettings}"
                     IsChecked="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}"
@@ -296,6 +296,7 @@
                 <RadioButton
                     Background="{DynamicResource TransparentRegionBrush}"
                     Content="{DynamicResource AdvancedSettings}"
+                    hc:VisualElement.HighlightBackground="{DynamicResource TransparentRegionBrush}"
                     IsChecked="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}"
                     IsEnabled="{c:Binding TaskSettingVisibilities.AdvancedSettingsVisibility}" />
             </hc:ButtonGroup>
