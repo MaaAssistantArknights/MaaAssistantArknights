@@ -19,6 +19,20 @@
         x:Key="TransparentRegionBrush"
         Opacity="0.25"
         Color="#1c1c1c" />
+    <SolidColorBrush
+        x:Key="TransparentRegionBrush50"
+        Opacity="0.50"
+        Color="#1c1c1c" />
+    <SolidColorBrush
+        x:Key="TransparentRegionBrush75"
+        Opacity="0.75"
+        Color="#1c1c1c" />
+
+    <SolidColorBrush
+        x:Key="MouseOverRegionBrush"
+        Opacity="0.75"
+        Color="#303036" />
+
     <!--  背景颜色 没用到（建议和背景颜色一致）  -->
     <SolidColorBrush x:Key="MainContentBackgroundBrush" Color="#FF1C1C1C" />
 

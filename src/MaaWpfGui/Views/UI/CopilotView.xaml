@@ -202,7 +202,7 @@
                     DragDrop.Drop="{s:Action CopilotItemIndexChanged}"
                     IsEnabled="{c:Binding StartEnabled}"
                     ItemsSource="{Binding Path=CopilotItemViewModels}"
-                    Style="{DynamicResource NoHighlightListBoxStyle}"
+                    Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
                     ToolTip="{DynamicResource LabelSequenceTip}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>

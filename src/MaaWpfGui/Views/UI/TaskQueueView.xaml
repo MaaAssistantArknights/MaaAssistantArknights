@@ -57,7 +57,7 @@
                         Background="Transparent"
                         BorderThickness="0"
                         ItemsSource="{Binding TaskItemViewModels}"
-                        Style="{DynamicResource NoHighlightListBoxStyle}"
+                        Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
                         ToolTip="{DynamicResource LabelSequenceTip}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>

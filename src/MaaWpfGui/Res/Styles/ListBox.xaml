@@ -14,10 +14,10 @@
 
     <!--  无高亮样式  -->
     <Style
-        x:Key="NoHighlightListBoxStyle"
+        x:Key="NoSelectedHighlightListBoxStyle"
         BasedOn="{StaticResource BaseListBoxStyle}"
         TargetType="{x:Type ListBox}">
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource NoHighlightListBoxItemStyle}" />
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource NoSelectedHighlightListBoxItemStyle}" />
     </Style>
 
     <Style
@@ -25,10 +25,18 @@
         BasedOn="{StaticResource ListBoxItemBaseStyle}"
         TargetType="{x:Type ListBoxItem}">
         <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="true">
+                <Setter Property="Background" Value="{DynamicResource MouseOverRegionBrush}" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource MouseOverRegionBrush}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style
-        x:Key="NoHighlightListBoxItemStyle"
+        x:Key="NoSelectedHighlightListBoxItemStyle"
         BasedOn="{StaticResource ListBoxItemBaseStyle}"
         TargetType="{x:Type ListBoxItem}">
         <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
@@ -36,7 +44,9 @@
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="true">
                 <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
-                <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource MouseOverRegionBrush}" />
             </Trigger>
         </Style.Triggers>
     </Style>

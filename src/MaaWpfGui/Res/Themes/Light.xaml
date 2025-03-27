@@ -11,6 +11,14 @@
         x:Key="TransparentRegionBrush"
         Opacity="0.25"
         Color="#ffffff" />
+    <SolidColorBrush
+        x:Key="TransparentRegionBrush50"
+        Opacity="0.50"
+        Color="#ffffff" />
+    <SolidColorBrush
+        x:Key="TransparentRegionBrush75"
+        Opacity="0.75"
+        Color="#ffffff" />
 
     <!--  MdXaml Brush  -->
     <SolidColorBrush x:Key="MdXamlBackground" Color="#ffffff" />
