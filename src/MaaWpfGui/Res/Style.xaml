@@ -11,5 +11,6 @@
         <ResourceDictionary Source="Styles/NumericUpDown.xaml" />
         <ResourceDictionary Source="Styles/TextBox.xaml" />
         <ResourceDictionary Source="Styles/CheckComboBox.xaml" />
+        <ResourceDictionary Source="Styles/DataGrid.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

@@ -1,0 +1,23 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls">
+
+    <Style BasedOn="{StaticResource DataGridBaseStyle}" TargetType="{x:Type DataGrid}">
+        <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
+        <Setter Property="CellStyle" Value="{DynamicResource TransparentDataGridCellStyle}" />
+        <Setter Property="RowStyle" Value="{DynamicResource TransparentDataGridRowStyle}" />
+    </Style>
+
+    <Style
+        x:Key="TransparentDataGridCellStyle"
+        BasedOn="{StaticResource DataGridCellStyle}"
+        TargetType="{x:Type DataGridRow}">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style
+        x:Key="TransparentDataGridRowStyle"
+        BasedOn="{StaticResource DataGridRowStyle}"
+        TargetType="{x:Type DataGridRow}">
+        <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
+    </Style>
+
+</ResourceDictionary>
