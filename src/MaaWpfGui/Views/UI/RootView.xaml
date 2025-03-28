@@ -47,8 +47,18 @@
                 Grid.Column="1"
                 BorderThickness="0"
                 Command="{s:Action ToggleTopMostCommand}"
-                Content="📌"
-                Foreground="{Binding WindowTopMostButtonForeground}" />
+                Content="📌">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource ButtonBaseStyle}" TargetType="Button">
+                        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsWindowTopMost}" Value="True">
+                                <Setter Property="Foreground" Value="{DynamicResource TitleBrush}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
         </Grid>
     </hc:Window.NonClientAreaContent>
     <Grid>

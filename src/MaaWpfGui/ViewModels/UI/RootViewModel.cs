@@ -182,22 +182,11 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private Brush? _windowTopMostButtonForeground = (SolidColorBrush?)Application.Current.FindResource("PrimaryTextBrush");
-
-        public Brush? WindowTopMostButtonForeground
-        {
-            get => _windowTopMostButtonForeground;
-            set => SetAndNotify(ref _windowTopMostButtonForeground, value);
-        }
-
         // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void ToggleTopMostCommand()
         {
             IsWindowTopMost = !IsWindowTopMost;
-            WindowTopMostButtonForeground = IsWindowTopMost
-                ? (Brush?)Application.Current.FindResource("TitleBrush")
-                : (Brush?)Application.Current.FindResource("PrimaryTextBrush");
         }
 
         /// <inheritdoc/>
