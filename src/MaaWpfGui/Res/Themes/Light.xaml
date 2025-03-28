@@ -20,6 +20,11 @@
         Opacity="0.75"
         Color="#ffffff" />
 
+    <SolidColorBrush
+        x:Key="MouseOverRegionBrush"
+        Opacity="0.75"
+        Color="#eeeeee" />
+
     <!--  MdXaml Brush  -->
     <SolidColorBrush x:Key="MdXamlBackground" Color="#ffffff" />
     <SolidColorBrush x:Key="MdXamlCodeBackground" Color="#f6f8fa" />

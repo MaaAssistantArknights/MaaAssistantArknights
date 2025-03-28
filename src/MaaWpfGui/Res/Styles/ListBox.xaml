@@ -26,7 +26,8 @@
         TargetType="{x:Type ListBoxItem}">
         <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
         <Style.Triggers>
-            <Trigger Property="IsSelected" Value="true">
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
                 <Setter Property="Background" Value="{DynamicResource MouseOverRegionBrush}" />
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
@@ -42,7 +43,7 @@
         <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
         <Setter Property="Padding" Value="10,0,0,0" />
         <Style.Triggers>
-            <Trigger Property="IsSelected" Value="true">
+            <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
