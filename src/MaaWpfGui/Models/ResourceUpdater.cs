@@ -147,9 +147,33 @@ namespace MaaWpfGui.Models
                 return (CheckUpdateRetT.UnknownError, null, null);
             }
 
-            if (data["code"]?.ToString() != "0")
+            var errorCode = data["code"]?.ToObject<Enums.MirrorChyanErrorCode>() ?? Enums.MirrorChyanErrorCode.Undivided;
+            if (errorCode != Enums.MirrorChyanErrorCode.Success)
             {
-                ToastNotification.ShowDirect(data["msg"]?.ToString() ?? LocalizationHelper.GetString("GameResourceFailed"));
+                switch (errorCode)
+                {
+                    case Enums.MirrorChyanErrorCode.KeyExpired:
+                        ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkExpired"));
+                        break;
+                    case Enums.MirrorChyanErrorCode.KeyInvalid:
+                        ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkInvalid"));
+                        break;
+                    case Enums.MirrorChyanErrorCode.ResourceQuotaExhausted:
+                        ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkQuotaExhausted"));
+                        break;
+                    case Enums.MirrorChyanErrorCode.KeyMismatched:
+                        ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkMismatched"));
+                        break;
+                    case Enums.MirrorChyanErrorCode.InvalidParams:
+                    case Enums.MirrorChyanErrorCode.ResourceNotFound:
+                    case Enums.MirrorChyanErrorCode.InvalidOs:
+                    case Enums.MirrorChyanErrorCode.InvalidArch:
+                    case Enums.MirrorChyanErrorCode.InvalidChannel:
+                    case Enums.MirrorChyanErrorCode.Undivided:
+                        ToastNotification.ShowDirect(data["msg"]?.ToString() ?? LocalizationHelper.GetString("GameResourceFailed"));
+                        break;
+                }
+
                 return (CheckUpdateRetT.UnknownError, null, null);
             }
 
