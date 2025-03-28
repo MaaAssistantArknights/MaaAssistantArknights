@@ -16,6 +16,7 @@
     mc:Ignorable="d">
     <TabControl
         Margin="0,10"
+        hc:TitleElement.Background="{DynamicResource TransparentRegionBrush}"
         Background="{DynamicResource TransparentRegionBrush}"
         BorderThickness="0"
         Style="{StaticResource TabControlSliding}">
