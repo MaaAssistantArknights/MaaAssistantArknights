@@ -686,15 +686,10 @@ public class VersionUpdateViewModel : Screen
         using var toast = new ToastNotification((otaFound ? LocalizationHelper.GetString("NewVersionFoundTitle") : LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);
         if (goDownload)
         {
-            OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadPreparing"));
-            if (globalSource)
-            {
-                toast.AppendContentText(LocalizationHelper.GetString("NewVersionFoundDescDownloadingWithGlobalSource"));
-            }
-            else
-            {
-                toast.AppendContentText(LocalizationHelper.GetString("NewVersionFoundDescDownloadingWithMirrorChyan"));
-            }
+            OutputDownloadProgress(LocalizationHelper.GetString("NewVersionDownloadPreparing"), false, globalSource);
+            toast.AppendContentText(globalSource
+                ? LocalizationHelper.GetString("NewVersionFoundDescDownloadingWithGlobalSource")
+                : LocalizationHelper.GetString("NewVersionFoundDescDownloadingWithMirrorChyan"));
         }
 
         if (!otaFound)
@@ -1092,17 +1087,21 @@ public class VersionUpdateViewModel : Screen
         OutputDownloadProgress(progress + $" {speedDisplay}");
     }
 
-    private static void OutputDownloadProgress(string output, bool downloading = true, bool globalSource = true)
+    private static bool _globalSource = true;
+
+    private static void OutputDownloadProgress(string output, bool downloading = true, bool? globalSource = null)
     {
+        globalSource ??= _globalSource;
+        _globalSource = globalSource.Value;
         if (_logItemViewModels == null)
         {
             return;
         }
 
-        string fullText = string.Empty;
+        string fullText;
         if (downloading)
         {
-            string key = globalSource ? "NewVersionFoundDescDownloadingWithGlobalSource" : "NewVersionFoundDescDownloadingWithMirrorChyan";
+            string key = globalSource.Value ? "NewVersionFoundDescDownloadingWithGlobalSource" : "NewVersionFoundDescDownloadingWithMirrorChyan";
             fullText = LocalizationHelper.GetString(key) + "\n" + output;
         }
         else
