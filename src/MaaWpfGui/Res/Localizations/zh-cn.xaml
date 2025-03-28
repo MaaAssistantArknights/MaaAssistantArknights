@@ -254,7 +254,7 @@
     <system:String x:Key="MirrorChyan">Mirror酱</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">切换更新源后填写</system:String>
     <system:String x:Key="MirrorChyanSoftwareUpdateTip">检测到软件更新。请前往「设置-更新设置」配置 Mirror酱 CDK 或切换海外源。</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">检测到资源更新{0}。可前往「设置-更新设置-资源更新」手动更新，或配置 Mirror酱 CDK 以自动更新。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">检测到资源更新{0}。请前往「设置-更新设置-资源更新」手动更新，或配置 Mirror酱 CDK 以自动更新。</system:String>
     <system:String x:Key="NewVersionFoundTitle">检测到新版本</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">正在使用「海外源」下载……</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">正在使用「Mirror酱」下载……</system:String>
