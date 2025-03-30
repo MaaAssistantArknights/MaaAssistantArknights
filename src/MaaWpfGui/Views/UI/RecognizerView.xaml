@@ -222,7 +222,7 @@
                             HeadersVisibility="None"
                             IsReadOnly="True"
                             ItemsSource="{Binding OperBoxNotHaveList}"
-                            PreviewMouseWheel="{s:Action HandlePreviewMouseWheel,
+                            PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
                                                          Target={x:Type helper:MouseWheelHelper}}"
                             ScrollViewer.CanContentScroll="True"
                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -253,7 +253,7 @@
                             HeadersVisibility="None"
                             IsReadOnly="True"
                             ItemsSource="{Binding OperBoxHaveList}"
-                            PreviewMouseWheel="{s:Action HandlePreviewMouseWheel,
+                            PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
                                                          Target={x:Type helper:MouseWheelHelper}}"
                             ScrollViewer.CanContentScroll="True"
                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"

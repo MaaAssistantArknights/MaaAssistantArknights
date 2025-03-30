@@ -34,6 +34,8 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             ItemsSource="{Binding GpuOptions}"
+            PreviewMouseWheel="{s:Action DisableComboBoxScrollWhenClosed,
+                                         Target={x:Type helper:MouseWheelHelper}}"
             SelectedValue="{Binding ActiveGpuOption}">
             <hc:ComboBox.ItemContainerStyle>
                 <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="ComboBoxItem">
