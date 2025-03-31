@@ -6888,7 +6888,8 @@
         "Doc": "base_task 等级界面检查是否满级",
         "algorithm": "OcrDetect",
         "roi": [1024, 20, 47, 27],
-        "text": ["-", "一"]
+        "text": ["nope"],
+        "ocrReplace": [["[0-9]", "nope"]]
     },
     "Roguelike@ChooseDifficulty": {
         "Doc": "base_task",
