@@ -14,11 +14,14 @@
 #nullable enable
 
 using System;
+using System.Globalization;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using HandyControl.Tools;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
@@ -179,22 +182,11 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private Brush? _windowTopMostButtonForeground = (SolidColorBrush?)Application.Current.FindResource("PrimaryTextBrush");
-
-        public Brush? WindowTopMostButtonForeground
-        {
-            get => _windowTopMostButtonForeground;
-            set => SetAndNotify(ref _windowTopMostButtonForeground, value);
-        }
-
         // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void ToggleTopMostCommand()
         {
             IsWindowTopMost = !IsWindowTopMost;
-            WindowTopMostButtonForeground = IsWindowTopMost
-                ? (Brush?)Application.Current.FindResource("TitleBrush")
-                : (Brush?)Application.Current.FindResource("PrimaryTextBrush");
         }
 
         /// <inheritdoc/>
@@ -287,6 +279,67 @@ namespace MaaWpfGui.ViewModels.UI
             childElement.HorizontalAlignment = HorizontalAlignment.Left;
             childElement.VerticalAlignment = VerticalAlignment.Top;
             childElement.Margin = new(newX, newY, 10, 10);
+        }
+
+        private static readonly string _backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "background/background.png");
+
+        public static bool BackgroundExist => File.Exists(_backgroundImagePath);
+
+        private static BitmapImage? _backgroundImage;
+
+        public static BitmapImage? BackgroundImage
+        {
+            get
+            {
+                if (!BackgroundExist || string.IsNullOrEmpty(_backgroundImagePath))
+                {
+                    return null;
+                }
+
+                if (_backgroundImage != null)
+                {
+                    return _backgroundImage;
+                }
+
+                try
+                {
+                    var imageBytes = File.ReadAllBytes(_backgroundImagePath);
+                    using var memoryStream = new MemoryStream(imageBytes);
+
+                    var bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.StreamSource = memoryStream;
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.EndInit();
+                    bitmap.Freeze();
+                    _backgroundImage = bitmap;
+
+                    return _backgroundImage;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+
+        private int _backgroundOpacity = int.Parse(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundOpacity, "50"));
+
+        public int BackgroundOpacity
+        {
+            get => _backgroundOpacity;
+            set
+            {
+                SetAndNotify(ref _backgroundOpacity, value);
+            }
+        }
+
+        public void PreviewSlider_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.BackgroundOpacity, BackgroundOpacity.ToString(CultureInfo.InvariantCulture));
+            }
         }
     }
 }

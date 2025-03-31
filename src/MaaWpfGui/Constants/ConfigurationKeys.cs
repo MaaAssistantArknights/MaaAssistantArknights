@@ -54,6 +54,7 @@ namespace MaaWpfGui.Constants
         public const string Hangover = "GUI.Hangover";
         public const string LastBuyWineTime = "GUI.LastBuyWineTime";
         public const string CustomCulture = "GUI.CustomCulture";
+        public const string BackgroundOpacity = "GUI.BackgroundOpacity";
 
         public const string AddressHistory = "Connect.AddressHistory";
         public const string AutoDetect = "Connect.AutoDetect";

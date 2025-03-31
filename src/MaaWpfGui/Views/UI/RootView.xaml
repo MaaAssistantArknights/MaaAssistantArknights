@@ -6,6 +6,7 @@
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:local="clr-namespace:MaaWpfGui.Views.UI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
@@ -47,42 +48,120 @@
                 Grid.Column="1"
                 BorderThickness="0"
                 Command="{s:Action ToggleTopMostCommand}"
-                Content="📌"
-                Foreground="{Binding WindowTopMostButtonForeground}" />
+                Content="📌">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource ButtonBaseStyle}" TargetType="Button">
+                        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsWindowTopMost}" Value="True">
+                                <Setter Property="Foreground" Value="{DynamicResource TitleBrush}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
         </Grid>
     </hc:Window.NonClientAreaContent>
-    <DockPanel>
-        <local:NotifyIcon x:Name="NotifyIcon" Visibility="Hidden" />
-        <Grid>
-            <TabControl
-                BorderThickness="0,1,0,0"
-                DisplayMemberPath="DisplayName"
-                ItemsSource="{Binding Items}"
-                SelectedItem="{s:RethrowingBinding ActiveItem}"
-                Style="{StaticResource TabControlInLine}">
-                <TabControl.ContentTemplate>
-                    <DataTemplate>
-                        <ContentControl
-                            HorizontalContentAlignment="Stretch"
-                            VerticalContentAlignment="Stretch"
-                            s:View.Model="{Binding}"
-                            IsTabStop="False" />
-                    </DataTemplate>
-                </TabControl.ContentTemplate>
-            </TabControl>
-            <hc:GifImage
-                Width="100"
-                Margin="10"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                MouseLeftButtonDown="{s:Action DraggableElementMouseLeftButtonDown}"
-                MouseLeftButtonUp="{s:Action DraggableElementMouseLeftButtonUp}"
-                MouseMove="{s:Action DraggableElementMouseMove}"
-                MouseRightButtonDown="{s:Action ChangeGif}"
-                Uri="{Binding GifPath}"
-                Visibility="{c:Binding GifVisibility}" />
-        </Grid>
-    </DockPanel>
+    <Grid>
+        <Rectangle Fill="{DynamicResource RegionBrush}" />
+        <Image
+            Name="BgImage"
+            Opacity="{c:Binding 'BackgroundOpacity / 100.0'}"
+            RenderOptions.BitmapScalingMode="LowQuality"
+            RenderOptions.CachingHint="Cache"
+            Source="{c:Binding BackgroundImage}"
+            Stretch="Fill"
+            Visibility="{c:Binding BackgroundExist}">
+            <Image.Effect>
+                <BlurEffect Radius="10" />
+            </Image.Effect>
+        </Image>
+        <DockPanel>
+            <local:NotifyIcon x:Name="NotifyIcon" Visibility="Hidden" />
+            <Grid>
+                <TabControl
+                    Background="{DynamicResource TransparentRegionBrush}"
+                    BorderThickness="0,1,0,0"
+                    DisplayMemberPath="DisplayName"
+                    ItemsSource="{Binding Items}"
+                    SelectedItem="{s:RethrowingBinding ActiveItem}"
+                    Style="{StaticResource TabControlInLine}">
+                    <TabControl.ContentTemplate>
+                        <DataTemplate>
+                            <ContentControl
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch"
+                                s:View.Model="{Binding}"
+                                IsTabStop="False" />
+                        </DataTemplate>
+                    </TabControl.ContentTemplate>
+                    <TabControl.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource TabItemInLine}" TargetType="TabItem">
+                            <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
+                        </Style>
+                    </TabControl.ItemContainerStyle>
+                </TabControl>
+                <hc:GifImage
+                    Width="100"
+                    Margin="10"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    MouseLeftButtonDown="{s:Action DraggableElementMouseLeftButtonDown}"
+                    MouseLeftButtonUp="{s:Action DraggableElementMouseLeftButtonUp}"
+                    MouseMove="{s:Action DraggableElementMouseMove}"
+                    MouseRightButtonDown="{s:Action ChangeGif}"
+                    Uri="{Binding GifPath}"
+                    Visibility="{c:Binding GifVisibility}" />
+                <hc:PreviewSlider
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom"
+                    helper:HoverDelayHelper.Delay="50"
+                    Maximum="100"
+                    PreviewMouseUp="{s:Action PreviewSlider_MouseUp}"
+                    Visibility="{c:Binding BackgroundExist}"
+                    Value="{Binding BackgroundOpacity}">
+                    <hc:PreviewSlider.PreviewContent>
+                        <Label Content="{c:Binding Path='hc:PreviewSlider.PreviewPosition / 100.0', RelativeSource={RelativeSource Self}}" ContentStringFormat="P0" />
+                    </hc:PreviewSlider.PreviewContent>
+                    <hc:PreviewSlider.Style>
+                        <Style BasedOn="{StaticResource {x:Type hc:PreviewSlider}}" TargetType="{x:Type hc:PreviewSlider}">
+                            <Setter Property="Opacity" Value="0.1" />
+                            <Style.Triggers>
+                                <Trigger Property="helper:HoverDelayHelper.IsHovered" Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation
+                                                    AccelerationRatio="0.3"
+                                                    DecelerationRatio="0.7"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    From="0.1"
+                                                    To="1.0"
+                                                    Duration="0:0:0.2" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation
+                                                    AccelerationRatio="0.3"
+                                                    DecelerationRatio="0.7"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    From="1.0"
+                                                    To="0.1"
+                                                    Duration="0:0:0.3" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </hc:PreviewSlider.Style>
+                </hc:PreviewSlider>
+            </Grid>
+        </DockPanel>
+    </Grid>
     <hc:Interaction.Behaviors>
         <hc:TaskbarRebuildBehavior Element="{Binding ElementName=NotifyIcon}" />
     </hc:Interaction.Behaviors>

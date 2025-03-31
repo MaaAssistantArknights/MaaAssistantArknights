@@ -101,8 +101,7 @@
                                     DisplayMemberPath="Display"
                                     ItemsSource="{Binding LanguageList}"
                                     SelectedValue="{Binding Language}"
-                                    SelectedValuePath="Value"
-                                    Style="{StaticResource ComboBoxExtend}" />
+                                    SelectedValuePath="Value" />
                                 <ComboBox
                                     hc:InfoElement.HorizontalAlignment="Center"
                                     hc:InfoElement.Title="{DynamicResource UiTheme}"
@@ -111,8 +110,7 @@
                                     DisplayMemberPath="Display"
                                     ItemsSource="{Binding DarkModeList}"
                                     SelectedValue="{Binding DarkMode}"
-                                    SelectedValuePath="Value"
-                                    Style="{StaticResource ComboBoxExtend}" />
+                                    SelectedValuePath="Value" />
                             </hc:UniformSpacingPanel>
                         </hc:TransitioningContentControl>
 
@@ -187,7 +185,6 @@
                                     hc:InfoElement.Title="{DynamicResource ConnectionAddress}"
                                     IsEditable="True"
                                     ItemsSource="{Binding ConnectAddressHistory}"
-                                    Style="{StaticResource ComboBoxExtend}"
                                     Text="{Binding ConnectAddress, UpdateSourceTrigger=LostFocus}"
                                     ToolTip="{DynamicResource ConnectionAddressTip}"
                                     Visibility="{c:Binding !AutoDetectConnection}">
@@ -221,7 +218,6 @@
                                     ItemsSource="{Binding ConnectConfigList}"
                                     SelectedValue="{Binding ConnectConfig}"
                                     SelectedValuePath="Value"
-                                    Style="{StaticResource ComboBoxExtend}"
                                     Visibility="{c:Binding !AutoDetectConnection}" />
                                 <hc:ComboBox
                                     Margin="0,5"
@@ -230,8 +226,7 @@
                                     IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
                                     ItemsSource="{Binding TouchModeList}"
                                     SelectedValue="{Binding TouchMode}"
-                                    SelectedValuePath="Value"
-                                    Style="{StaticResource ComboBoxExtend}" />
+                                    SelectedValuePath="Value" />
                             </StackPanel>
                         </hc:TransitioningContentControl>
 

@@ -25,6 +25,9 @@
             TextAlignment="Center"
             Visibility="{c:Binding 'ConfigurationList.Count > 1',
                                    Source={x:Static helper:Instances.SettingsViewModel}}" />
+        <controls:TextBlock
+            Text="{DynamicResource CustomBackgroundTip}"
+            TextWrapping="Wrap" />
         <Grid
             Margin="10"
             HorizontalAlignment="Center"
@@ -61,14 +64,12 @@
                     Content="{DynamicResource NullFunctionality}"
                     IsChecked="{Binding InvertNullFunction}" />-->
                 <hc:CheckComboBox
-                    x:Name="CheckComboBox"
                     Width="180"
                     Margin="10"
                     hc:ListBoxAttach.SelectedItems="{Binding WindowTitleSelectShowList}"
                     hc:TitleElement.Title="{DynamicResource TitleBarDisplayContent}"
                     DisplayMemberPath="Value"
-                    ItemsSource="{Binding WindowTitleAllShowDict}"
-                    Style="{StaticResource CheckComboBoxExtend}" />
+                    ItemsSource="{Binding WindowTitleAllShowDict}" />
             </StackPanel>
 
             <StackPanel Grid.Row="0" Grid.Column="1">
@@ -79,24 +80,21 @@
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding LanguageList}"
                     SelectedValue="{Binding Language}"
-                    SelectedValuePath="Value"
-                    Style="{StaticResource ComboBoxExtend}" />
+                    SelectedValuePath="Value" />
                 <ComboBox
                     Margin="10,5"
                     hc:InfoElement.Title="{DynamicResource OperNameLanguage}"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding OperNameLanguageModeList}"
                     SelectedValue="{Binding OperNameLanguage}"
-                    SelectedValuePath="Value"
-                    Style="{StaticResource ComboBoxExtend}" />
+                    SelectedValuePath="Value" />
                 <ComboBox
                     Margin="10,5"
                     hc:InfoElement.Title="{DynamicResource UiTheme}"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding DarkModeList}"
                     SelectedValue="{Binding DarkMode}"
-                    SelectedValuePath="Value"
-                    Style="{StaticResource ComboBoxExtend}" />
+                    SelectedValuePath="Value" />
                 <ComboBox
                     Margin="10,5"
                     hc:InfoElement.Title="{DynamicResource MainViewButtonFeature}"
@@ -104,14 +102,12 @@
                     IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
                     ItemsSource="{Binding InverseClearModeList}"
                     SelectedValue="{Binding InverseClearMode}"
-                    SelectedValuePath="Value"
-                    Style="{StaticResource ComboBoxExtend}" />
+                    SelectedValuePath="Value" />
                 <ComboBox
                     Margin="10,5"
                     hc:InfoElement.Title="{DynamicResource LogItemDateFormatString}"
                     ItemsSource="{Binding LogItemDateFormatStringList}"
-                    SelectedValue="{Binding LogItemDateFormatString}"
-                    Style="{StaticResource ComboBoxExtend}" />
+                    SelectedValue="{Binding LogItemDateFormatString}" />
             </StackPanel>
         </Grid>
     </StackPanel>
