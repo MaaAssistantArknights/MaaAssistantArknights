@@ -7,6 +7,23 @@
 
     <!--  HandyControl Brush  -->
     <SolidColorBrush x:Key="SecondaryRegionBrush" Color="#F3F3F3" />
+    <SolidColorBrush
+        x:Key="TransparentRegionBrush"
+        Opacity="0.25"
+        Color="#ffffff" />
+    <SolidColorBrush
+        x:Key="TransparentRegionBrush50"
+        Opacity="0.50"
+        Color="#ffffff" />
+    <SolidColorBrush
+        x:Key="TransparentRegionBrush75"
+        Opacity="0.75"
+        Color="#ffffff" />
+
+    <SolidColorBrush
+        x:Key="MouseOverRegionBrush"
+        Opacity="0.75"
+        Color="#eeeeee" />
 
     <!--  MdXaml Brush  -->
     <SolidColorBrush x:Key="MdXamlBackground" Color="#ffffff" />
@@ -28,12 +45,12 @@
     <SolidColorBrush x:Key="MuMuSpecialScreenshot" Color="#02BFFF" />
     <SolidColorBrush x:Key="LdSpecialScreenshot" Color="#6666FF" />
 
-    <!--  UiLogColor - I.S. -->
+    <!--  UiLogColor - I.S.  -->
     <SolidColorBrush x:Key="SuccessIS" Color="LimeGreen" />
     <SolidColorBrush x:Key="SafehouseIS" Color="DodgerBlue" />
     <SolidColorBrush x:Key="TraderIS" Color="MediumSeaGreen" />
     <SolidColorBrush x:Key="EventIS" Color="LightSkyBlue" />
-    <SolidColorBrush x:Key="TruthIS" Color="#8D701C"/>
+    <SolidColorBrush x:Key="TruthIS" Color="#8D701C" />
     <SolidColorBrush x:Key="CombatIS" Color="DarkOrange" />
     <SolidColorBrush x:Key="EmergencyIS" Color="MediumVioletRed" />
     <SolidColorBrush x:Key="BossIS" Color="Firebrick " />

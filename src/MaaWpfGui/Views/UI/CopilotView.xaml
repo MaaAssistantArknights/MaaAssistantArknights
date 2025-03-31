@@ -201,8 +201,8 @@
                     BorderThickness="1,1,1,0"
                     DragDrop.Drop="{s:Action CopilotItemIndexChanged}"
                     IsEnabled="{c:Binding StartEnabled}"
-                    ItemContainerStyle="{StaticResource CustomListBoxItemStyle}"
                     ItemsSource="{Binding Path=CopilotItemViewModels}"
+                    Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
                     ToolTip="{DynamicResource LabelSequenceTip}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>

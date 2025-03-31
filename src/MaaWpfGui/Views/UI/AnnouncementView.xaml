@@ -72,7 +72,7 @@
                         d:Markdown="#Test&#10;This is a test text.&#10;&#10;~~This is a test text~~&#10;&#10;*This is a test text*&#10;&#10;**This is a test text**"
                         ClickAction="SafetyOpenBrowser"
                         Markdown="{Binding SelectedAnnouncementSection.Content}"
-                        PreviewMouseWheel="{s:Action HandlePreviewMouseWheel,
+                        PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
                                                      Target={x:Type helper:MouseWheelHelper}}">
                         <mdxam:MarkdownScrollViewer.MarkdownStyle>
                             <StaticResource ResourceKey="MdXamlStyle" />

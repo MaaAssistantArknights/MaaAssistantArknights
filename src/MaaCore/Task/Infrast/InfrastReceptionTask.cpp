@@ -72,6 +72,7 @@ bool asst::InfrastReceptionTask::use_clue()
     const static std::vector<std::string> clue_suffix = { "No1", "No2", "No3", "No4", "No5", "No6", "No7" };
 
     proc_clue_vacancy();
+    sleep(1000);
     if (unlock_clue_exchange()) {
         proc_clue_vacancy();
     }

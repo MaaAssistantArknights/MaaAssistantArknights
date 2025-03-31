@@ -32,7 +32,7 @@ MAAは、MAA Assistant Arknightsです。
 
 ## ダウンロードとインストール
 
-[ドキュメント](./manual/newbie.md)を読んでから、[公式サイト](https://maa.plus)または[リリース](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)にアクセスしてダウンロードしてください。[新規ユーザーガイド](./manual/newbie.md)を参考にインストールを行ってください。
+[ドキュメント](./manual/newbie.md) を読んでから、[公式サイト](https://maa.plus) または [リリース](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) にアクセスしてダウンロードしてください。[新規ユーザーガイド](./manual/newbie.md) を参考にインストールを行ってください。
 
 ## 機能一覧
 

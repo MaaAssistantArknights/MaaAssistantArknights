@@ -1,0 +1,3127 @@
+{
+    "code": "IG-S-5",
+    "height": 23,
+    "levelId": "activities/act1multi/level_act1multi_fortress_hard-01",
+    "name": "请买纪念品",
+    "stageId": "act1multi_fortress-hard-01",
+    "tiles": [
+        [
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_start_cooperate"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_start_cooperate"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_start_cooperate"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_start_cooperate"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_start_cooperate"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_start_cooperate"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_start_cooperate"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_start_cooperate"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_start_cooperate"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_start_cooperate"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_start_cooperate"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_start_cooperate"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_start_cooperate"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 2,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_wall"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 2,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_wall"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 2,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_wall"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 2,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_wall"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 3,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 3,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 2,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_wall"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 3,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": true,
+                "isStart": false,
+                "tileKey": "tile_end_cooperate"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": true,
+                "isStart": false,
+                "tileKey": "tile_end_cooperate"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": true,
+                "isStart": false,
+                "tileKey": "tile_end_cooperate"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": true,
+                "isStart": false,
+                "tileKey": "tile_end_cooperate"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 3,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 3,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 3,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 3,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": true,
+                "isStart": false,
+                "tileKey": "tile_end_cooperate"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 1,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 2,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_wall"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 3,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 3,
+                "heightType": 0,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 0,
+                "isEnd": true,
+                "isStart": false,
+                "tileKey": "tile_end_cooperate"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": true,
+                "isStart": true,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": 0,
+                "heightType": 1,
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ]
+    ],
+    "view": [
+        [
+            -4.5,
+            -13.1,
+            -8.9
+        ],
+        [
+            -3.636166107319256,
+            -13.6,
+            -10.546205801309839
+        ]
+    ],
+    "width": 19
+}

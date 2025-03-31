@@ -1130,6 +1130,12 @@ namespace MaaWpfGui.ViewModels.UI
                 _runningState.SetIdle(true);
                 return;
             }
+            else if (_taskType == AsstTaskType.Copilot && !UseCopilotList && _copilotCache is null)
+            {
+                AddLog("copilot is empty", UiLogColor.Error, showTime: false);
+                _runningState.SetIdle(true);
+                return;
+            }
 
             if (SettingsViewModel.GameSettings.CopilotWithScript)
             {
@@ -1194,6 +1200,20 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
+                if (IsDataFromWeb)
+                {
+                    try
+                    {
+                        await File.WriteAllTextAsync(TempCopilotFile, JsonConvert.SerializeObject(_copilotCache, Formatting.Indented));
+                    }
+                    catch
+                    {
+                        AddLog("Could not save copilot task to file: " + TempCopilotFile, UiLogColor.Error);
+                        Stop();
+                        return;
+                    }
+                }
+
                 var task = new AsstCopilotTask()
                 {
                     FileName = IsDataFromWeb ? TempCopilotFile : Filename,

@@ -44,9 +44,11 @@ const asst::AvatarCacheManager::AvatarsMap& asst::AvatarCacheManager::get_avatar
     return m_avatars[role];
 }
 
-void asst::AvatarCacheManager::remove_avatars(battle::Role role)
+void asst::AvatarCacheManager::remove_confusing_avatars()
 {
-    m_avatars.erase(role);
+    for (const auto& name : BattleData.get_drones_confusing()) {
+        m_avatars[battle::Role::Drone].erase(name);
+    }
 }
 
 void asst::AvatarCacheManager::set_avatar(

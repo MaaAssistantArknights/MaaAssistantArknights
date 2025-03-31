@@ -391,6 +391,19 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    private string _telegramTopicId = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationTelegramTopicId, string.Empty));
+
+    public string TelegramTopicId
+    {
+        get => _telegramTopicId;
+        set
+        {
+            SetAndNotify(ref _telegramTopicId, value);
+            value = SimpleEncryptionHelper.Encrypt(value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationTelegramTopicId, value);
+        }
+    }
+
     private string _qmsgServer = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgServer, string.Empty));
 
     public string QmsgServer

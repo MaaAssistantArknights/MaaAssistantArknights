@@ -33,10 +33,13 @@
             Margin="10,5"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
+            Background="{DynamicResource TransparentRegionBrush}"
             ItemsSource="{Binding GpuOptions}"
+            PreviewMouseWheel="{s:Action DisableComboBoxScrollWhenClosed,
+                                         Target={x:Type helper:MouseWheelHelper}}"
             SelectedValue="{Binding ActiveGpuOption}">
             <hc:ComboBox.ItemContainerStyle>
-                <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="ComboBoxItem">
+                <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="{x:Type ComboBoxItem}">
                     <Style.Triggers>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>

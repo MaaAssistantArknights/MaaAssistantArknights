@@ -51,6 +51,7 @@
     <system:String x:Key="ExternalNotificationDiscordWebhookUrl">Webhook URL</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">机器人 Token</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">聊天 ID</system:String>
+    <system:String x:Key="ExternalNotificationTelegramTopicId">话题ID（可选）</system:String>
     <system:String x:Key="ExternalNotificationQmsgServer">Server</system:String>
     <system:String x:Key="ExternalNotificationQmsgKey">Key</system:String>
     <system:String x:Key="ExternalNotificationQmsgUser">用户 QQ</system:String>
@@ -252,9 +253,12 @@
     <system:String x:Key="ForceGithubGlobalSource">强制使用 GitHub</system:String>
     <system:String x:Key="MirrorChyan">Mirror酱</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">切换更新源后填写</system:String>
-    <system:String x:Key="MirrorChyanSoftwareUpdateTip">Mirror酱检测到软件更新。请前往「设置-更新设置」配置 CDK 或使用海外源。</system:String>
-    <system:String x:Key="MirrorChyanNotSupportNightly">Mirror酱暂不支持内测版更新，即将使用海外源检查……</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">Mirror酱检测到资源更新{0}。可前往「设置-更新设置」配置 CDK，或使用海外源点击「资源更新」进行手动更新。</system:String>
+    <system:String x:Key="MirrorChyanSoftwareUpdateTip">检测到软件更新。请前往「设置-更新设置」配置 Mirror酱 CDK 或切换海外源。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">检测到资源更新{0}。请前往「设置-更新设置-资源更新」手动更新，或配置 Mirror酱 CDK 以自动更新。</system:String>
+    <system:String x:Key="MirrorChyanCdkExpired">CDK 已过期，请使用新的 CDK 进行授权。</system:String>
+    <system:String x:Key="MirrorChyanCdkInvalid">CDK 无效，请检查输入是否正确。</system:String>
+    <system:String x:Key="MirrorChyanCdkQuotaExhausted">CDK 今日下载次数已达上限，请明日再试。</system:String>
+    <system:String x:Key="MirrorChyanCdkMismatched">CDK 类型与待下载的资源不匹配，请检查 CDK 适用范围。</system:String>
     <system:String x:Key="NewVersionFoundTitle">检测到新版本</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">正在使用「海外源」下载……</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">正在使用「Mirror酱」下载……</system:String>
@@ -384,6 +388,7 @@
     <system:String x:Key="WindowTitleScrollable">窗口标题滚动</system:String>
     <system:String x:Key="NullFunctionality">反转右键单击复选框功能</system:String>
     <system:String x:Key="TitleBarDisplayContent">标题栏显示内容</system:String>
+    <system:String x:Key="CustomBackgroundTip">手动创建 background 文件夹，将 background.png 放入即可自定义背景图片</system:String>
     <system:String x:Key="UseLogItemDateFormat">自选日志日期格式</system:String>
     <system:String x:Key="LogItemDateFormatString">日期格式字符串</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">是否立刻重启应用更改？</system:String>
@@ -903,7 +908,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">关卡数据获取成功</system:String>
     <system:String x:Key="GameResourceUpdating">游戏资源正在更新。</system:String>
-    <system:String x:Key="GameResourceUpdatingMirrorChyan">Mirror酱正在更新资源{0}。</system:String>
+    <system:String x:Key="GameResourceUpdatingMirrorChyan">正在使用「Mirror酱」更新资源{0}……</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">正在编制索引</system:String>
     <system:String x:Key="GameResourceNotModified">游戏资源已更新。</system:String>
     <system:String x:Key="GameResourceUpdated">游戏资源已更新。</system:String>

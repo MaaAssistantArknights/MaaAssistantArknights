@@ -100,7 +100,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
     LogTraceFunction;
 
     if (init) {
-        AvatarCache.remove_avatars(Role::Drone); // 移除小龙等不同技能很像的召唤物，防止错误识别
+        AvatarCache.remove_confusing_avatars(); // 移除小龙等不同技能很像的召唤物，防止错误识别
         wait_until_start(false);
     }
 

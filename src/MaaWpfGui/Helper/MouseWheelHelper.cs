@@ -6,7 +6,7 @@ namespace MaaWpfGui.Helper
 {
     public static class MouseWheelHelper
     {
-        public static void HandlePreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        public static void RouteMouseWheelToParent(object sender, MouseWheelEventArgs e)
         {
             if (e.Handled)
             {
@@ -20,6 +20,14 @@ namespace MaaWpfGui.Helper
             };
             var parent = ((Control)sender).Parent as UIElement;
             parent?.RaiseEvent(eventArg);
+        }
+
+        public static void DisableComboBoxScrollWhenClosed(object sender, MouseWheelEventArgs e)
+        {
+            if (sender is ComboBox { IsDropDownOpen: false })
+            {
+                e.Handled = true; // 阻止滚动
+            }
         }
     }
 }

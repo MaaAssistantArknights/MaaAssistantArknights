@@ -52,7 +52,7 @@
                                    ElementName=ErrorViewWindow}">
             <RichTextBox.Resources>
                 <!--  This will give us a LARGER scroll bar  -->
-                <Style TargetType="ScrollViewer">
+                <Style TargetType="{x:Type ScrollViewer}">
                     <Setter Property="hc:ScrollViewerAttach.AutoHide" Value="False" />
                 </Style>
             </RichTextBox.Resources>
@@ -103,12 +103,12 @@
                 <ImageBrush ImageSource="/Res/Backgrounds/Congratulations.png" Stretch="UniformToFill" />
             </RichTextBox.Background>
             <RichTextBox.Resources>
-                <Style TargetType="ScrollViewer">
+                <Style TargetType="{x:Type ScrollViewer}">
                     <Setter Property="hc:ScrollViewerAttach.AutoHide" Value="False" />
                 </Style>
             </RichTextBox.Resources>
             <RichTextBox.Style>
-                <Style TargetType="RichTextBox">
+                <Style TargetType="{x:Type RichTextBox}">
                     <Style.Triggers>
                         <DataTrigger Binding="{c:Binding CongratulationsOnError, ElementName=ErrorViewWindow}" Value="True">
                             <DataTrigger.EnterActions>
@@ -251,7 +251,7 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center">
                     <WrapPanel.Resources>
-                        <Style TargetType="controls:TextBlock">
+                        <Style TargetType="{x:Type controls:TextBlock}">
                             <Setter Property="Margin" Value="12,0,0,0" />
                         </Style>
                     </WrapPanel.Resources>

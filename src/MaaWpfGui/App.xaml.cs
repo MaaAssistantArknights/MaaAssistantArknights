@@ -11,13 +11,9 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System;
 using System.Diagnostics;
-using System.IO;
 using System.Windows;
 using System.Windows.Documents;
-using MaaWpfGui.Helper;
-using MaaWpfGui.Main;
 using MaaWpfGui.WineCompat;
 using MaaWpfGui.WineCompat.FontConfig;
 using Serilog;

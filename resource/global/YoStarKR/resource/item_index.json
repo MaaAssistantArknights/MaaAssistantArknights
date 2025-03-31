@@ -1527,6 +1527,14 @@
         "sortId": -10000,
         "usage": "이정표에서 보상 교환할 때 사용된다."
     },
+    "act1vecb_milestone_point": {
+        "classifyType": "NONE",
+        "description": "로도스 아일랜드 엔지니어링부에서 제작한 특별 기념물. 설계를 담당한 오퍼레이터는 최근 로도스 아일랜드에서 유행하는 보드 게임에서 영감을 얻은 것 같다.",
+        "icon": "act1vecb_milestone_point.png",
+        "name": "승점",
+        "sortId": -10000,
+        "usage": "돌파 마일스톤에서 보상을 교환할 수 있다."
+    },
     "act20side_token_book": {
         "classifyType": "NONE",
         "description": "수많은 필체의 흔적으로부터 잡지가 얼마나 많은 사람들의 손을 거쳐 갔는지 알 수 있다. 대부분은 무의미한 낙서이지만, 반짝이는 지성 또한 사이사이에 숨어 있다.",

@@ -32,7 +32,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 下載與安裝
 
-請閱讀[文檔](./manual/newbie.md)後前往 [官網](https://maa.plus) 或 [Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下載，並參考[新手上路](./manual/newbie.md)進行安裝。
+請閱讀 [文檔](./manual/newbie.md) 後前往 [官網](https://maa.plus) 或 [Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下載，並參考 [新手上路](./manual/newbie.md) 進行安裝。
 
 ## 亮點功能
 

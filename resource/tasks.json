@@ -1492,6 +1492,11 @@
         "sub": ["CW-Open"],
         "next": ["CW-8@SideStoryStage", "CW-8@SwipeToStage"]
     },
+    "CW-6": {
+        "algorithm": "JustReturn",
+        "sub": ["CW-Open"],
+        "next": ["CW-6@SideStoryStage", "CW-6@SwipeToStage"]
+    },
     "CW-Open": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -1518,6 +1523,10 @@
     },
     "CW-8@SideStoryStage": {
         "text": ["CW-8"],
+        "roi": [0, 305, 1277, 38]
+    },
+    "CW-6@SideStoryStage": {
+        "text": ["CW-6"],
         "roi": [0, 305, 1277, 38]
     },
     "CF-8": {
@@ -2317,7 +2326,8 @@
             ["^宝箱的肉.*", "宝箱的肉？"],
             [".*维多利亚$", "维娜·维多利亚"],
             [".*芜拉普兰德$", "荒芜拉普兰德"],
-            ["^盥心$", "塑心"]
+            ["^盥心$", "塑心"],
+            ["^钳铅$", "钼铅"]
         ]
     },
     "SwitchAccount@StartUpBegin": {
@@ -5868,7 +5878,7 @@
         "algorithm": "OcrDetect",
         "text": ["开始部署", "重新部署"],
         "roi": [992, 576, 288, 144],
-        "next": ["SSSStartFighting2", "SSSDropRecruitmentFlag"]
+        "next": ["SSSStartFighting2", "SSSDropRecruitmentFlag", "SSSStartFighting"]
     },
     "SSSStartFighting2": {
         "action": "ClickSelf",
@@ -6878,7 +6888,8 @@
         "Doc": "base_task 等级界面检查是否满级",
         "algorithm": "OcrDetect",
         "roi": [1024, 20, 47, 27],
-        "text": ["-", "一"]
+        "text": ["nope"],
+        "ocrReplace": [["[0-9]", "nope"]]
     },
     "Roguelike@ChooseDifficulty": {
         "Doc": "base_task",
