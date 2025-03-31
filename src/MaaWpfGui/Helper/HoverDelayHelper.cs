@@ -21,88 +21,38 @@ namespace MaaWpfGui.Helper
 {
     public static class HoverDelayHelper
     {
-        public static readonly DependencyProperty TargetPropertyProperty =
-            DependencyProperty.RegisterAttached(
-                "TargetProperty",
-                typeof(DependencyProperty),
+        // 是否已完成悬停计时（只读，供外部绑定）
+        public static readonly DependencyPropertyKey IsHoveredPropertyKey =
+            DependencyProperty.RegisterAttachedReadOnly(
+                "IsHovered",
+                typeof(bool),
                 typeof(HoverDelayHelper),
-                new(null, OnPropertyChanged));
+                new(false, OnPropertyChanged));
 
-        public static readonly DependencyProperty TargetValueProperty =
-            DependencyProperty.RegisterAttached(
-                "TargetValue",
-                typeof(double),
-                typeof(HoverDelayHelper),
-                new(0.0));
+        public static readonly DependencyProperty IsHoveredProperty = IsHoveredPropertyKey.DependencyProperty;
 
-        public static readonly DependencyProperty DefaultValueProperty =
-            DependencyProperty.RegisterAttached(
-                "DefaultValue",
-                typeof(double),
-                typeof(HoverDelayHelper),
-                new(0.0));
-
-        public static readonly DependencyProperty AnimationDurationProperty =
-            DependencyProperty.RegisterAttached(
-                "AnimationDuration",
-                typeof(TimeSpan),
-                typeof(HoverDelayHelper),
-                new(TimeSpan.FromMilliseconds(300)));
-
-        public static readonly DependencyProperty AccelerationRatioProperty =
-            DependencyProperty.RegisterAttached(
-                "AccelerationRatio",
-                typeof(double),
-                typeof(HoverDelayHelper),
-                new(0.3));
-
-        public static readonly DependencyProperty DecelerationRatioProperty =
-            DependencyProperty.RegisterAttached(
-                "DecelerationRatio",
-                typeof(double),
-                typeof(HoverDelayHelper),
-                new(0.3));
+        public static bool GetIsHovered(DependencyObject obj) => (bool)obj.GetValue(IsHoveredProperty);
 
         private static readonly DependencyProperty _hoverTimerProperty =
             DependencyProperty.RegisterAttached(
                 "_hoverTimer",
                 typeof(DispatcherTimer),
                 typeof(HoverDelayHelper),
-                new PropertyMetadata(null));
+                new(null));
 
         public static readonly DependencyProperty DelayProperty =
             DependencyProperty.RegisterAttached(
                 "Delay",
                 typeof(int),
                 typeof(HoverDelayHelper),
-                new PropertyMetadata(500, OnPropertyChanged));
+                new(-1, OnPropertyChanged));
 
         // Getter/Setter 方法
-        public static DependencyProperty GetTargetProperty(DependencyObject obj) => (DependencyProperty)obj.GetValue(TargetPropertyProperty);
-
-        public static void SetTargetProperty(DependencyObject obj, DependencyProperty value) => obj.SetValue(TargetPropertyProperty, value);
-
-        public static double GetTargetValue(DependencyObject obj) => (double)obj.GetValue(TargetValueProperty);
-
-        public static void SetTargetValue(DependencyObject obj, double value) => obj.SetValue(TargetValueProperty, value);
-
-        public static double GetDefaultValue(DependencyObject obj) => (double)obj.GetValue(DefaultValueProperty);
-
-        public static void SetDefaultValue(DependencyObject obj, double value) => obj.SetValue(DefaultValueProperty, value);
-
-        public static TimeSpan GetAnimationDuration(DependencyObject obj) => (TimeSpan)obj.GetValue(AnimationDurationProperty);
-
-        public static void SetAnimationDuration(DependencyObject obj, TimeSpan value) => obj.SetValue(AnimationDurationProperty, value);
-
-        public static double GetAccelerationRatio(DependencyObject obj) => (double)obj.GetValue(AccelerationRatioProperty);
-
-        public static void SetAccelerationRatio(DependencyObject obj, double value) => obj.SetValue(AccelerationRatioProperty, value);
-
-        public static double GetDecelerationRatio(DependencyObject obj) => (double)obj.GetValue(DecelerationRatioProperty);
-
-        public static void SetDecelerationRatio(DependencyObject obj, double value) => obj.SetValue(DecelerationRatioProperty, value);
-
-        public static int GetDelay(DependencyObject obj) => (int)obj.GetValue(DelayProperty);
+        public static int GetDelay(DependencyObject obj)
+        {
+            int value = (int)obj.GetValue(DelayProperty);
+            return value == -1 ? 0 : value;
+        }
 
         public static void SetDelay(DependencyObject obj, int value) => obj.SetValue(DelayProperty, value);
 
@@ -117,12 +67,6 @@ namespace MaaWpfGui.Helper
             element.MouseLeave -= OnMouseLeave;
             var timer = (DispatcherTimer)element.GetValue(_hoverTimerProperty);
             timer?.Stop();
-
-            var targetProperty = GetTargetProperty(element);
-            if (targetProperty != null)
-            {
-                element.SetValue(targetProperty, GetDefaultValue(element));
-            }
 
             element.MouseEnter += OnMouseEnter;
             element.MouseLeave += OnMouseLeave;
@@ -145,11 +89,7 @@ namespace MaaWpfGui.Helper
                     return;
                 }
 
-                var targetProperty = GetTargetProperty(element);
-                if (targetProperty != null)
-                {
-                    AnimateToValue(element, targetProperty, GetTargetValue(element));
-                }
+                element.SetValue(IsHoveredPropertyKey, true);
             };
             element.SetValue(_hoverTimerProperty, timer);
             timer.Start();
@@ -161,24 +101,7 @@ namespace MaaWpfGui.Helper
             var timer = (DispatcherTimer)element.GetValue(_hoverTimerProperty);
             timer?.Stop();
 
-            var targetProperty = GetTargetProperty(element);
-            if (targetProperty != null)
-            {
-                AnimateToValue(element, targetProperty, GetDefaultValue(element));
-            }
-        }
-
-        private static void AnimateToValue(UIElement element, DependencyProperty property, double value)
-        {
-            var animation = new DoubleAnimation
-            {
-                To = value,
-                Duration = GetAnimationDuration(element),
-                AccelerationRatio = GetAccelerationRatio(element),
-                DecelerationRatio = GetDecelerationRatio(element),
-            };
-
-            element.BeginAnimation(property, animation);
+            element.SetValue(IsHoveredPropertyKey, false);
         }
     }
 }

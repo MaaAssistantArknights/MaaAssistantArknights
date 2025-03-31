@@ -113,23 +113,52 @@
                     Uri="{Binding GifPath}"
                     Visibility="{c:Binding GifVisibility}" />
                 <hc:PreviewSlider
+                    x:Name="PreviewSlider"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Bottom"
-                    helper:HoverDelayHelper.AccelerationRatio="0.3"
-                    helper:HoverDelayHelper.AnimationDuration="0:0:0.3"
-                    helper:HoverDelayHelper.DecelerationRatio="0.3"
-                    helper:HoverDelayHelper.DefaultValue="0.0"
-                    helper:HoverDelayHelper.Delay="100"
-                    helper:HoverDelayHelper.TargetProperty="{x:Static UIElement.OpacityProperty}"
-                    helper:HoverDelayHelper.TargetValue="1.0"
+                    helper:HoverDelayHelper.Delay="500"
                     Maximum="100"
-                    Opacity="0"
                     PreviewMouseUp="{s:Action PreviewSlider_MouseUp}"
                     Visibility="{c:Binding BackgroundExist}"
                     Value="{Binding BackgroundOpacity}">
                     <hc:PreviewSlider.PreviewContent>
                         <Label Content="{c:Binding Path='hc:PreviewSlider.PreviewPosition / 100.0', RelativeSource={RelativeSource Self}}" ContentStringFormat="P0" />
                     </hc:PreviewSlider.PreviewContent>
+                    <hc:PreviewSlider.Style>
+                        <Style BasedOn="{StaticResource {x:Type hc:PreviewSlider}}" TargetType="{x:Type hc:PreviewSlider}">
+                            <Setter Property="Opacity" Value="0" />
+                            <Style.Triggers>
+                                <Trigger Property="helper:HoverDelayHelper.IsHovered" Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation
+                                                    AccelerationRatio="0.3"
+                                                    DecelerationRatio="0.7"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    From="0.0"
+                                                    To="1.0"
+                                                    Duration="0:0:0.3" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation
+                                                    AccelerationRatio="0.3"
+                                                    DecelerationRatio="0.7"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    From="1.0"
+                                                    To="0.0"
+                                                    Duration="0:0:0.3" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </hc:PreviewSlider.Style>
                 </hc:PreviewSlider>
             </Grid>
         </DockPanel>
