@@ -113,10 +113,9 @@
                     Uri="{Binding GifPath}"
                     Visibility="{c:Binding GifVisibility}" />
                 <hc:PreviewSlider
-                    x:Name="PreviewSlider"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Bottom"
-                    helper:HoverDelayHelper.Delay="500"
+                    helper:HoverDelayHelper.Delay="50"
                     Maximum="100"
                     PreviewMouseUp="{s:Action PreviewSlider_MouseUp}"
                     Visibility="{c:Binding BackgroundExist}"
@@ -126,7 +125,7 @@
                     </hc:PreviewSlider.PreviewContent>
                     <hc:PreviewSlider.Style>
                         <Style BasedOn="{StaticResource {x:Type hc:PreviewSlider}}" TargetType="{x:Type hc:PreviewSlider}">
-                            <Setter Property="Opacity" Value="0" />
+                            <Setter Property="Opacity" Value="0.1" />
                             <Style.Triggers>
                                 <Trigger Property="helper:HoverDelayHelper.IsHovered" Value="True">
                                     <Trigger.EnterActions>
@@ -136,9 +135,9 @@
                                                     AccelerationRatio="0.3"
                                                     DecelerationRatio="0.7"
                                                     Storyboard.TargetProperty="Opacity"
-                                                    From="0.0"
+                                                    From="0.1"
                                                     To="1.0"
-                                                    Duration="0:0:0.3" />
+                                                    Duration="0:0:0.2" />
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </Trigger.EnterActions>
@@ -150,7 +149,7 @@
                                                     DecelerationRatio="0.7"
                                                     Storyboard.TargetProperty="Opacity"
                                                     From="1.0"
-                                                    To="0.0"
+                                                    To="0.1"
                                                     Duration="0:0:0.3" />
                                             </Storyboard>
                                         </BeginStoryboard>
