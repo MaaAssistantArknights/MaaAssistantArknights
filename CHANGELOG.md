@@ -2,6 +2,7 @@
 
 ### 新增 | New
 
+* 添加控件半透明背景色，新增自定义背景 (#12204) @ABA2396 @status102
 * YoStarEN Sarkaz theme + JP and KR template optimization @Constrat
 * 新增 MirrorChyan ErrorCode 提示 (#12202) @ABA2396
 * Telegram Topic notification (#12188) @Constrat
@@ -18,6 +19,7 @@
 
 ### 修复 | Fix
 
+* CheckLevelMax ocr target "-" -> digits (#12223) @BxFS
 * handle leak @dantmnf
 * YostarKR lower StartToVisit templThreshold (#12193) @HX3N
 * 保全开始部署 点击过快导致点击无效 (#12185) @Daydreamer114
@@ -33,10 +35,10 @@
 ### 文档 | Docs
 
 * add space @MistEO
-* add space @MistEO
 
 ### 其他 | Other
 
+* 繁中服「生路」活動導航 (#12224) @momomochi987
 * YostarKR Sarkaz Theme (#12220) @HX3N
 * gpu 选项禁用滚轮切换 @ABA2396
 * YostarJP Sarkaz Theme (#12216) @Manicsteiner
