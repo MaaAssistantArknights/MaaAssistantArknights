@@ -1,13 +1,53 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--  基样式（共用部分）  -->
+    <Style
+        x:Key="BaseListBoxStyle"
+        BasedOn="{StaticResource ListBoxBaseStyle}"
+        TargetType="{x:Type ListBox}">
+        <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
+    </Style>
+
+    <!--  透明项样式  -->
+    <Style BasedOn="{StaticResource BaseListBoxStyle}" TargetType="{x:Type ListBox}">
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource TransparentListBoxItemStyle}" />
+    </Style>
+
+    <!--  无高亮样式  -->
+    <Style
+        x:Key="NoSelectedHighlightListBoxStyle"
+        BasedOn="{StaticResource BaseListBoxStyle}"
+        TargetType="{x:Type ListBox}">
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource NoSelectedHighlightListBoxItemStyle}" />
+    </Style>
 
     <Style
-        x:Key="CustomListBoxItemStyle"
+        x:Key="TransparentListBoxItemStyle"
         BasedOn="{StaticResource ListBoxItemBaseStyle}"
-        TargetType="ListBoxItem">
+        TargetType="{x:Type ListBoxItem}">
+        <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+                <Setter Property="Background" Value="{DynamicResource MouseOverRegionBrush}" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource MouseOverRegionBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style
+        x:Key="NoSelectedHighlightListBoxItemStyle"
+        BasedOn="{StaticResource ListBoxItemBaseStyle}"
+        TargetType="{x:Type ListBoxItem}">
+        <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
         <Setter Property="Padding" Value="10,0,0,0" />
         <Style.Triggers>
-            <Trigger Property="IsSelected" Value="true">
-                <Setter Property="Background" Value="{DynamicResource RegionBrush}" />
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource MouseOverRegionBrush}" />
             </Trigger>
         </Style.Triggers>
     </Style>

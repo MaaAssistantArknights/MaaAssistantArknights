@@ -46,8 +46,7 @@
                     hc:InfoElement.Title="{DynamicResource ExternalNotificationEnabled}"
                     hc:InfoElement.TitlePlacement="Top"
                     hc:ListBoxAttach.SelectedItems="{Binding EnabledExternalNotificationProviders}"
-                    ItemsSource="{Binding ExternalNotificationProvidersShow}"
-                    Style="{StaticResource CheckComboBoxExtend}" />
+                    ItemsSource="{Binding ExternalNotificationProvidersShow}" />
                 <Button
                     Margin="5"
                     Command="{s:Action ExternalNotificationSendTest,

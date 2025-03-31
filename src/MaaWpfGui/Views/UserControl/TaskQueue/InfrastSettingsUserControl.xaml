@@ -31,8 +31,7 @@
                                              Source={x:Static helper:Instances.TaskQueueViewModel}}"
                 ItemsSource="{Binding CustomInfrastPlanList}"
                 SelectedValue="{Binding CustomInfrastPlanIndex}"
-                SelectedValuePath="Value"
-                Style="{StaticResource ComboBoxExtend}" />
+                SelectedValuePath="Value" />
         </StackPanel>
 
         <!--  只放在高级设置的部分  -->
@@ -78,8 +77,7 @@
                         hc:InfoElement.Title="{DynamicResource DefaultInfrast}"
                         ItemsSource="{Binding DefaultInfrastList}"
                         SelectedValue="{Binding DefaultInfrast}"
-                        SelectedValuePath="Value"
-                        Style="{StaticResource ComboBoxExtend}" />
+                        SelectedValuePath="Value" />
                     <Button
                         Width="60"
                         Margin="10,5"
@@ -103,8 +101,7 @@
                 IsEnabled="{c:Binding !CustomInfrastEnabled}"
                 ItemsSource="{Binding UsesOfDronesList}"
                 SelectedValue="{Binding UsesOfDrones}"
-                SelectedValuePath="Value"
-                Style="{StaticResource ComboBoxExtend}" />
+                SelectedValuePath="Value" />
             <StackPanel Margin="0">
                 <TextBlock
                     Margin="0,5"
@@ -127,6 +124,7 @@
                 ItemsSource="{Binding Path=InfrastItemViewModels}"
                 PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
                                              Target={x:Type helper:MouseWheelHelper}}"
+                Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
                 ToolTip="{DynamicResource LabelSequenceTip}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
