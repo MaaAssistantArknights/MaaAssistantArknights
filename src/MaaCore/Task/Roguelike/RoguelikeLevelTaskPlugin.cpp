@@ -42,10 +42,10 @@ bool asst::RoguelikeLevelTaskPlugin::_run()
         ret = ProcessTask(*this, { "Roguelike@CheckLevelMax" }).set_retry_times(2).run();
         if (ret) {
             ProcessTask(*this, { "Return" }).run();
-            m_task_ptr->set_enable(false);
         }
         else {
             ProcessTask(*this, { "Return" }).run();
+            m_task_ptr->set_enable(false);
         }
     }
     return true;

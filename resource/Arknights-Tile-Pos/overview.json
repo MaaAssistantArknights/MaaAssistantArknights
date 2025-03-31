@@ -5840,6 +5840,393 @@
         "stageId": "act1bossrush_tm04",
         "width": 33
     },
+    "act1multi_01-activities/act1multi/level_act1multi_01": {
+        "code": "IG-1",
+        "filename": "act1multi_01-activities-act1multi-level_act1multi_01.json",
+        "height": 9,
+        "levelId": "activities/act1multi/level_act1multi_01",
+        "name": "逃离火线",
+        "stageId": "act1multi_01",
+        "width": 12
+    },
+    "act1multi_02-activities/act1multi/level_act1multi_02": {
+        "code": "IG-8",
+        "filename": "act1multi_02-activities-act1multi-level_act1multi_02.json",
+        "height": 8,
+        "levelId": "activities/act1multi/level_act1multi_02",
+        "name": "密探有专车接送",
+        "stageId": "act1multi_02",
+        "width": 12
+    },
+    "act1multi_03-activities/act1multi/level_act1multi_03": {
+        "code": "IG-2",
+        "filename": "act1multi_03-activities-act1multi-level_act1multi_03.json",
+        "height": 8,
+        "levelId": "activities/act1multi/level_act1multi_03",
+        "name": "黑吃黑",
+        "stageId": "act1multi_03",
+        "width": 12
+    },
+    "act1multi_04-activities/act1multi/level_act1multi_04": {
+        "code": "IG-9",
+        "filename": "act1multi_04-activities-act1multi-level_act1multi_04.json",
+        "height": 9,
+        "levelId": "activities/act1multi/level_act1multi_04",
+        "name": "移动靶射击练习",
+        "stageId": "act1multi_04",
+        "width": 13
+    },
+    "act1multi_05-activities/act1multi/level_act1multi_05": {
+        "code": "IG-3",
+        "filename": "act1multi_05-activities-act1multi-level_act1multi_05.json",
+        "height": 8,
+        "levelId": "activities/act1multi/level_act1multi_05",
+        "name": "填陆造海",
+        "stageId": "act1multi_05",
+        "width": 13
+    },
+    "act1multi_06-activities/act1multi/level_act1multi_06": {
+        "code": "IG-10",
+        "filename": "act1multi_06-activities-act1multi-level_act1multi_06.json",
+        "height": 9,
+        "levelId": "activities/act1multi/level_act1multi_06",
+        "name": "匪帮集会",
+        "stageId": "act1multi_06",
+        "width": 13
+    },
+    "act1multi_07-activities/act1multi/level_act1multi_07": {
+        "code": "IG-4",
+        "filename": "act1multi_07-activities-act1multi-level_act1multi_07.json",
+        "height": 9,
+        "levelId": "activities/act1multi/level_act1multi_07",
+        "name": "当意外来敲门",
+        "stageId": "act1multi_07",
+        "width": 13
+    },
+    "act1multi_ex-football-activities/act1multi/level_act1multi_football": {
+        "code": "IG-FT-2",
+        "filename": "act1multi_ex-football-activities-act1multi-level_act1multi_football.json",
+        "height": 9,
+        "levelId": "activities/act1multi/level_act1multi_football",
+        "name": "大力出奇迹",
+        "stageId": "act1multi_ex-football",
+        "width": 13
+    },
+    "act1multi_ex01-activities/act1multi/level_act1multi_01": {
+        "code": "IG-EX-1",
+        "filename": "act1multi_ex01-activities-act1multi-level_act1multi_01.json",
+        "height": 9,
+        "levelId": "activities/act1multi/level_act1multi_01",
+        "name": "逃离火线",
+        "stageId": "act1multi_ex01",
+        "width": 12
+    },
+    "act1multi_ex02-activities/act1multi/level_act1multi_02": {
+        "code": "IG-EX-8",
+        "filename": "act1multi_ex02-activities-act1multi-level_act1multi_02.json",
+        "height": 8,
+        "levelId": "activities/act1multi/level_act1multi_02",
+        "name": "密探有专车接送",
+        "stageId": "act1multi_ex02",
+        "width": 12
+    },
+    "act1multi_ex03-activities/act1multi/level_act1multi_03": {
+        "code": "IG-EX-2",
+        "filename": "act1multi_ex03-activities-act1multi-level_act1multi_03.json",
+        "height": 8,
+        "levelId": "activities/act1multi/level_act1multi_03",
+        "name": "黑吃黑",
+        "stageId": "act1multi_ex03",
+        "width": 12
+    },
+    "act1multi_ex04-activities/act1multi/level_act1multi_04": {
+        "code": "IG-EX-9",
+        "filename": "act1multi_ex04-activities-act1multi-level_act1multi_04.json",
+        "height": 9,
+        "levelId": "activities/act1multi/level_act1multi_04",
+        "name": "移动靶射击练习",
+        "stageId": "act1multi_ex04",
+        "width": 13
+    },
+    "act1multi_ex05-activities/act1multi/level_act1multi_05": {
+        "code": "IG-EX-3",
+        "filename": "act1multi_ex05-activities-act1multi-level_act1multi_05.json",
+        "height": 8,
+        "levelId": "activities/act1multi/level_act1multi_05",
+        "name": "填陆造海",
+        "stageId": "act1multi_ex05",
+        "width": 13
+    },
+    "act1multi_ex06-activities/act1multi/level_act1multi_06": {
+        "code": "IG-EX-10",
+        "filename": "act1multi_ex06-activities-act1multi-level_act1multi_06.json",
+        "height": 9,
+        "levelId": "activities/act1multi/level_act1multi_06",
+        "name": "匪帮集会",
+        "stageId": "act1multi_ex06",
+        "width": 13
+    },
+    "act1multi_ex07-activities/act1multi/level_act1multi_07": {
+        "code": "IG-EX-4",
+        "filename": "act1multi_ex07-activities-act1multi-level_act1multi_07.json",
+        "height": 9,
+        "levelId": "activities/act1multi/level_act1multi_07",
+        "name": "当意外来敲门",
+        "stageId": "act1multi_ex07",
+        "width": 13
+    },
+    "act1multi_football-activities/act1multi/level_act1multi_football": {
+        "code": "IG-FT-1",
+        "filename": "act1multi_football-activities-act1multi-level_act1multi_football.json",
+        "height": 9,
+        "levelId": "activities/act1multi/level_act1multi_football",
+        "name": "大力出奇迹",
+        "stageId": "act1multi_football",
+        "width": 13
+    },
+    "act1multi_fortress-01-activities/act1multi/level_act1multi_fortress_01": {
+        "code": "IG-DF-2",
+        "filename": "act1multi_fortress-01-activities-act1multi-level_act1multi_fortress_01.json",
+        "height": 14,
+        "levelId": "activities/act1multi/level_act1multi_fortress_01",
+        "name": "湿地跨栏",
+        "stageId": "act1multi_fortress-01",
+        "width": 22
+    },
+    "act1multi_fortress-02-activities/act1multi/level_act1multi_fortress_02": {
+        "code": "IG-DF-3",
+        "filename": "act1multi_fortress-02-activities-act1multi-level_act1multi_fortress_02.json",
+        "height": 14,
+        "levelId": "activities/act1multi/level_act1multi_fortress_02",
+        "name": "机械质检通道",
+        "stageId": "act1multi_fortress-02",
+        "width": 32
+    },
+    "act1multi_fortress-ex-01-activities/act1multi/level_act1multi_fortress_01": {
+        "code": "IG-DF-5",
+        "filename": "act1multi_fortress-ex-01-activities-act1multi-level_act1multi_fortress_01.json",
+        "height": 14,
+        "levelId": "activities/act1multi/level_act1multi_fortress_01",
+        "name": "湿地跨栏",
+        "stageId": "act1multi_fortress-ex-01",
+        "width": 22
+    },
+    "act1multi_fortress-ex-02-activities/act1multi/level_act1multi_fortress_02": {
+        "code": "IG-DF-6",
+        "filename": "act1multi_fortress-ex-02-activities-act1multi-level_act1multi_fortress_02.json",
+        "height": 14,
+        "levelId": "activities/act1multi/level_act1multi_fortress_02",
+        "name": "机械质检通道",
+        "stageId": "act1multi_fortress-ex-02",
+        "width": 32
+    },
+    "act1multi_fortress-ex-rm01-activities/act1multi/level_act1multi_fortress_rm01": {
+        "code": "IG-DF-4",
+        "filename": "act1multi_fortress-ex-rm01-activities-act1multi-level_act1multi_fortress_rm01.json",
+        "height": 16,
+        "levelId": "activities/act1multi/level_act1multi_fortress_rm01",
+        "name": "团体战竞技场",
+        "stageId": "act1multi_fortress-ex-rm01",
+        "width": 26
+    },
+    "act1multi_fortress-hard-01-activities/act1multi/level_act1multi_fortress_hard-01": {
+        "code": "IG-S-5",
+        "filename": "act1multi_fortress-hard-01-activities-act1multi-level_act1multi_fortress_hard-01.json",
+        "height": 23,
+        "levelId": "activities/act1multi/level_act1multi_fortress_hard-01",
+        "name": "请买纪念品",
+        "stageId": "act1multi_fortress-hard-01",
+        "width": 19
+    },
+    "act1multi_fortress-rm01-activities/act1multi/level_act1multi_fortress_rm01": {
+        "code": "IG-DF-1",
+        "filename": "act1multi_fortress-rm01-activities-act1multi-level_act1multi_fortress_rm01.json",
+        "height": 16,
+        "levelId": "activities/act1multi/level_act1multi_fortress_rm01",
+        "name": "团体战竞技场",
+        "stageId": "act1multi_fortress-rm01",
+        "width": 26
+    },
+    "act1multi_hard-01-activities/act1multi/level_act1multi_hard-01": {
+        "code": "IG-S-1",
+        "filename": "act1multi_hard-01-activities-act1multi-level_act1multi_hard-01.json",
+        "height": 9,
+        "levelId": "activities/act1multi/level_act1multi_hard-01",
+        "name": "别有洞天",
+        "stageId": "act1multi_hard-01",
+        "width": 11
+    },
+    "act1multi_hard-02-activities/act1multi/level_act1multi_hard-02": {
+        "code": "IG-S-2",
+        "filename": "act1multi_hard-02-activities-act1multi-level_act1multi_hard-02.json",
+        "height": 9,
+        "levelId": "activities/act1multi/level_act1multi_hard-02",
+        "name": "爬高上低",
+        "stageId": "act1multi_hard-02",
+        "width": 13
+    },
+    "act1multi_hard-03-activities/act1multi/level_act1multi_hard-03": {
+        "code": "IG-S-3",
+        "filename": "act1multi_hard-03-activities-act1multi-level_act1multi_hard-03.json",
+        "height": 9,
+        "levelId": "activities/act1multi/level_act1multi_hard-03",
+        "name": "鼷流滚滚",
+        "stageId": "act1multi_hard-03",
+        "width": 13
+    },
+    "act1multi_rm-ex01-activities/act1multi/level_act1multi_rm01": {
+        "code": "IG-EX-11",
+        "filename": "act1multi_rm-ex01-activities-act1multi-level_act1multi_rm01.json",
+        "height": 9,
+        "levelId": "activities/act1multi/level_act1multi_rm01",
+        "name": "糖果派送",
+        "stageId": "act1multi_rm-ex01",
+        "width": 13
+    },
+    "act1multi_rm-ex02-activities/act1multi/level_act1multi_rm02": {
+        "code": "IG-EX-5",
+        "filename": "act1multi_rm-ex02-activities-act1multi-level_act1multi_rm02.json",
+        "height": 9,
+        "levelId": "activities/act1multi/level_act1multi_rm02",
+        "name": "腐坏森林",
+        "stageId": "act1multi_rm-ex02",
+        "width": 13
+    },
+    "act1multi_rm-ex03-activities/act1multi/level_act1multi_rm03": {
+        "code": "IG-EX-12",
+        "filename": "act1multi_rm-ex03-activities-act1multi-level_act1multi_rm03.json",
+        "height": 9,
+        "levelId": "activities/act1multi/level_act1multi_rm03",
+        "name": "火山泳池",
+        "stageId": "act1multi_rm-ex03",
+        "width": 13
+    },
+    "act1multi_rm-ex04-activities/act1multi/level_act1multi_rm04": {
+        "code": "IG-EX-13",
+        "filename": "act1multi_rm-ex04-activities-act1multi-level_act1multi_rm04.json",
+        "height": 8,
+        "levelId": "activities/act1multi/level_act1multi_rm04",
+        "name": "拒宾大道",
+        "stageId": "act1multi_rm-ex04",
+        "width": 12
+    },
+    "act1multi_rm-ex05-activities/act1multi/level_act1multi_rm05": {
+        "code": "IG-EX-6",
+        "filename": "act1multi_rm-ex05-activities-act1multi-level_act1multi_rm05.json",
+        "height": 9,
+        "levelId": "activities/act1multi/level_act1multi_rm05",
+        "name": "战场留声",
+        "stageId": "act1multi_rm-ex05",
+        "width": 13
+    },
+    "act1multi_rm-ex06-activities/act1multi/level_act1multi_rm06": {
+        "code": "IG-EX-7",
+        "filename": "act1multi_rm-ex06-activities-act1multi-level_act1multi_rm06.json",
+        "height": 11,
+        "levelId": "activities/act1multi/level_act1multi_rm06",
+        "name": "黑夜留形",
+        "stageId": "act1multi_rm-ex06",
+        "width": 14
+    },
+    "act1multi_rm-ex07-activities/act1multi/level_act1multi_rm07": {
+        "code": "IG-EX-14",
+        "filename": "act1multi_rm-ex07-activities-act1multi-level_act1multi_rm07.json",
+        "height": 7,
+        "levelId": "activities/act1multi/level_act1multi_rm07",
+        "name": "创造与繁殖",
+        "stageId": "act1multi_rm-ex07",
+        "width": 13
+    },
+    "act1multi_rm01-activities/act1multi/level_act1multi_rm01": {
+        "code": "IG-11",
+        "filename": "act1multi_rm01-activities-act1multi-level_act1multi_rm01.json",
+        "height": 9,
+        "levelId": "activities/act1multi/level_act1multi_rm01",
+        "name": "糖果派送",
+        "stageId": "act1multi_rm01",
+        "width": 13
+    },
+    "act1multi_rm02-activities/act1multi/level_act1multi_rm02": {
+        "code": "IG-5",
+        "filename": "act1multi_rm02-activities-act1multi-level_act1multi_rm02.json",
+        "height": 9,
+        "levelId": "activities/act1multi/level_act1multi_rm02",
+        "name": "腐坏森林",
+        "stageId": "act1multi_rm02",
+        "width": 13
+    },
+    "act1multi_rm03-activities/act1multi/level_act1multi_rm03": {
+        "code": "IG-12",
+        "filename": "act1multi_rm03-activities-act1multi-level_act1multi_rm03.json",
+        "height": 9,
+        "levelId": "activities/act1multi/level_act1multi_rm03",
+        "name": "火山泳池",
+        "stageId": "act1multi_rm03",
+        "width": 13
+    },
+    "act1multi_rm04-activities/act1multi/level_act1multi_rm04": {
+        "code": "IG-13",
+        "filename": "act1multi_rm04-activities-act1multi-level_act1multi_rm04.json",
+        "height": 8,
+        "levelId": "activities/act1multi/level_act1multi_rm04",
+        "name": "拒宾大道",
+        "stageId": "act1multi_rm04",
+        "width": 12
+    },
+    "act1multi_rm05-activities/act1multi/level_act1multi_rm05": {
+        "code": "IG-6",
+        "filename": "act1multi_rm05-activities-act1multi-level_act1multi_rm05.json",
+        "height": 9,
+        "levelId": "activities/act1multi/level_act1multi_rm05",
+        "name": "战场留声",
+        "stageId": "act1multi_rm05",
+        "width": 13
+    },
+    "act1multi_rm06-activities/act1multi/level_act1multi_rm06": {
+        "code": "IG-7",
+        "filename": "act1multi_rm06-activities-act1multi-level_act1multi_rm06.json",
+        "height": 11,
+        "levelId": "activities/act1multi/level_act1multi_rm06",
+        "name": "黑夜留形",
+        "stageId": "act1multi_rm06",
+        "width": 14
+    },
+    "act1multi_rm07-activities/act1multi/level_act1multi_rm07": {
+        "code": "IG-14",
+        "filename": "act1multi_rm07-activities-act1multi-level_act1multi_rm07.json",
+        "height": 7,
+        "levelId": "activities/act1multi/level_act1multi_rm07",
+        "name": "创造与繁殖",
+        "stageId": "act1multi_rm07",
+        "width": 13
+    },
+    "act1multi_tr01-activities/act1multi/level_act1multi_tr01": {
+        "code": "IG-TR-1",
+        "filename": "act1multi_tr01-activities-act1multi-level_act1multi_tr01.json",
+        "height": 8,
+        "levelId": "activities/act1multi/level_act1multi_tr01",
+        "name": "规则教学-常规项目",
+        "stageId": "act1multi_tr01",
+        "width": 10
+    },
+    "act1multi_tr02-activities/act1multi/level_act1multi_tr02": {
+        "code": "IG-TR-2",
+        "filename": "act1multi_tr02-activities-act1multi-level_act1multi_tr02.json",
+        "height": 9,
+        "levelId": "activities/act1multi/level_act1multi_tr02",
+        "name": "规则教学-阵地足球",
+        "stageId": "act1multi_tr02",
+        "width": 13
+    },
+    "act1multi_tr03-activities/act1multi/level_act1multi_tr03": {
+        "code": "IG-TR-3",
+        "filename": "act1multi_tr03-activities-act1multi-level_act1multi_tr03.json",
+        "height": 9,
+        "levelId": "activities/act1multi/level_act1multi_tr03",
+        "name": "规则教学-堡垒守御",
+        "stageId": "act1multi_tr03",
+        "width": 20
+    },
     "act1vautochess_m01-activities/act1vautochess/level_act1vautochess_m01": {
         "code": "新手模式",
         "filename": "act1vautochess_m01-activities-act1vautochess-level_act1vautochess_m01.json",

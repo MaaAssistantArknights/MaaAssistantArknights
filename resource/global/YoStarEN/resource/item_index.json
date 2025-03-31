@@ -1527,6 +1527,14 @@
         "sortId": -10000,
         "usage": "Can be exchanged at milestones for rewards."
     },
+    "act1vecb_milestone_point": {
+        "classifyType": "NONE",
+        "description": "Special memorabilia of Rhodes Island Engineering Department make. Apparently, the Engineering op who designed it took inspiration from a board game that's been all the rage at Rhodes Island.",
+        "icon": "act1vecb_milestone_point.png",
+        "name": "Attainment Point",
+        "sortId": -10000,
+        "usage": "Can be exchanged at Breakthrough Milestones for rewards."
+    },
     "act20side_token_book": {
         "classifyType": "NONE",
         "description": "The pages retain handwriting of all shapes and sizes, the amount even serving to tell you how often the magazine's changed hands. Most of it is meaningless scrawls, but flashes of wisdom are scattered throughout.",

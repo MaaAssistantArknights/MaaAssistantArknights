@@ -46,8 +46,7 @@
                     hc:InfoElement.Title="{DynamicResource ExternalNotificationEnabled}"
                     hc:InfoElement.TitlePlacement="Top"
                     hc:ListBoxAttach.SelectedItems="{Binding EnabledExternalNotificationProviders}"
-                    ItemsSource="{Binding ExternalNotificationProvidersShow}"
-                    Style="{StaticResource CheckComboBoxExtend}" />
+                    ItemsSource="{Binding ExternalNotificationProvidersShow}" />
                 <Button
                     Margin="5"
                     Command="{s:Action ExternalNotificationSendTest,
@@ -106,6 +105,13 @@
                 Margin="10"
                 hc:InfoElement.Title="{DynamicResource ExternalNotificationTelegramChatId}"
                 Text="{c:Binding TelegramChatId}" />
+            <hc:TextBox
+                x:Name="TelegramTopicId"
+                Width="400"
+                Height="30"
+                Margin="10"
+                hc:InfoElement.Title="{DynamicResource ExternalNotificationTelegramTopicId}"
+                Text="{c:Binding TelegramTopicId}" />
         </StackPanel>
 
         <StackPanel

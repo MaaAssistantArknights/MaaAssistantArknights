@@ -113,17 +113,18 @@ public class SSSCopilotModel : CopilotBase
 
         output.Add((string.Format(LocalizationHelper.GetString("TotalOperatorsCount"), count), null));
 
+        if (ToolMen is not null)
+        {
+            var toolMenLog = LocalizationHelper.GetString("OtherOperators");
+            var toolMenString = string.Join("\n", ToolMen.Select(kv => $"{char.ToUpper(kv.Key[0]) + kv.Key[1..].ToLower()}: {kv.Value}"));
+            output.Add((toolMenLog + "\n" + toolMenString, null));
+        }
+
         if (Buff is not null)
         {
             var buffLog = LocalizationHelper.GetString("DirectiveECTerm");
             var localizedBuffName = DataHelper.GetLocalizedCharacterName(Buff);
             output.Add((buffLog + (string.IsNullOrEmpty(localizedBuffName) ? Buff : localizedBuffName), null));
-        }
-
-        if (ToolMen is not null)
-        {
-            var toolMenLog = LocalizationHelper.GetString("OtherOperators");
-            output.Add((toolMenLog + JsonConvert.SerializeObject(ToolMen), null));
         }
 
         if (Equipment is not null)

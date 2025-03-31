@@ -54,6 +54,7 @@ namespace MaaWpfGui.Constants
         public const string Hangover = "GUI.Hangover";
         public const string LastBuyWineTime = "GUI.LastBuyWineTime";
         public const string CustomCulture = "GUI.CustomCulture";
+        public const string BackgroundOpacity = "GUI.BackgroundOpacity";
 
         public const string AddressHistory = "Connect.AddressHistory";
         public const string AutoDetect = "Connect.AutoDetect";
@@ -130,7 +131,7 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeStartWithSelectList = "Roguelike.RoguelikeStartWithSelectList";
         public const string RoguelikeStartWithTwoIdeas = "Roguelike.RoguelikeStartWithTwoIdeas";
         public const string Roguelike3FirstFloorFoldartal = "Roguelike.Roguelike3FirstFloorFoldartal";
-        public const string Roguelike3StartFloorFoldartal = "Roguelike.Roguelike3StartFloorFoldartal";
+        public const string Roguelike3FirstFloorFoldartals = "Roguelike.Roguelike3StartFloorFoldartal";
         public const string Roguelike3NewSquad2StartingFoldartal = "Roguelike.Roguelike3NewSquad2StartingFoldartal";
         public const string Roguelike3NewSquad2StartingFoldartals = "Roguelike.Roguelike3NewSquad2StartingFoldartals";
         public const string RoguelikeExpectedCollapsalParadigms = "Roguelike.RoguelikeExpectedCollapsalParadigms";
@@ -264,6 +265,7 @@ namespace MaaWpfGui.Constants
         public const string ExternalNotificationDiscordWebhookUrl = "ExternalNotification.Discord.WebhookUrl";
         public const string ExternalNotificationTelegramBotToken = "ExternalNotification.Telegram.BotToken";
         public const string ExternalNotificationTelegramChatId = "ExternalNotification.Telegram.ChatId";
+        public const string ExternalNotificationTelegramTopicId = "ExternalNotification.TelegramTopicId";
         public const string ExternalNotificationBarkSendKey = "ExternalNotification.Bark.SendKey";
         public const string ExternalNotificationBarkServer = "ExternalNotification.Bark.Server";
         public const string ExternalNotificationQmsgServer = "ExternalNotification.Qmsg.Server";

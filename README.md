@@ -39,7 +39,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 下载与安装
 
-请阅读[文档](https://maa.plus/docs/zh-cn/manual/newbie.html)后前往 [官网](https://maa.plus) 或 [Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下载，并参考[新手上路](https://maa.plus/docs/zh-cn/manual/newbie.html)进行安装。
+请阅读 [文档](https://maa.plus/docs/zh-cn/manual/newbie.html) 后前往 [官网](https://maa.plus) 或 [Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下载，并参考 [新手上路](https://maa.plus/docs/zh-cn/manual/newbie.html) 进行安装。
 
 ## 亮点功能
 

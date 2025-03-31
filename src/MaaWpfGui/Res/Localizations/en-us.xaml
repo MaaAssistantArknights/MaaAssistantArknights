@@ -51,6 +51,7 @@
     <system:String x:Key="ExternalNotificationDiscordWebhookUrl">Webhook URL</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">Bot Token</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">Chat ID</system:String>
+    <system:String x:Key="ExternalNotificationTelegramTopicId">Topic ID (Optional)</system:String>
     <system:String x:Key="ExternalNotificationQmsgServer">Qmsg Server</system:String>
     <system:String x:Key="ExternalNotificationQmsgKey">Qmsg Key</system:String>
     <system:String x:Key="ExternalNotificationQmsgUser">User QQ</system:String>
@@ -108,7 +109,7 @@
     <system:String x:Key="333Time3">333 3 times a day</system:String>
     <system:String x:Key="CustomInfrastFile">Base Configuration</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">Base Configuration Parsing Error!</system:String>
-    <system:String x:Key="CustomInfrastTitle" xml:space="preserve">Base Configuration: </system:String>
+    <system:String x:Key="CustomInfrastTitle" xml:space="preserve">Base Configuration:&#160;</system:String>
     <system:String x:Key="CustomInfrastPlan">Base Plan</system:String>
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">Auto save for next plan</system:String>
     <system:String x:Key="CustomizeInfrastSelectionEmpty">Custom Base infrastructure selection is empty. Please check your configuration or turn off the Custom Base function.</system:String>
@@ -252,19 +253,22 @@ You can cancel this popup by clicking the Settings - About Us - Issue Reporting 
     <system:String x:Key="ForceGithubGlobalSource">Force using GitHub</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">Fill after switching source</system:String>
-    <system:String x:Key="MirrorChyanSoftwareUpdateTip">MirrorChyan has detected a software update. Please go to 「Settings - Software Update」 to configure CDK or using the Global source.</system:String>
-    <system:String x:Key="MirrorChyanNotSupportNightly">MirrorChyan does not support nightly updates for now, and will use Global Source to check...</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">MirrorChyan has detected a resource update {0}. Please go to 「Settings - Software Update」 to configure CDK, or using the Global source click 「Resource Update」 to update manually.</system:String>
+    <system:String x:Key="MirrorChyanSoftwareUpdateTip">Software update detected. Please go to 「Settings - Update Settings」 to configure MirrorChyan CDK or switch to Global Source.</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">Resource update {0} detected. Please go to 「Settings- Update Settings- Resource Update」 to update manually, or fill in MirrorChayn CDK to update automatically.</system:String>
+    <system:String x:Key="MirrorChyanCdkExpired">The CDK has expired. Please use a new CDK for authorization.</system:String>
+    <system:String x:Key="MirrorChyanCdkInvalid">The CDK is invalid. Please check if the input is correct.</system:String>
+    <system:String x:Key="MirrorChyanCdkQuotaExhausted">The CDK has reached the maximum download limit for today. Please try again tomorrow.</system:String>
+    <system:String x:Key="MirrorChyanCdkMismatched">The CDK type does not match the resource to be downloaded. Please check the CDK's applicable scope.</system:String>
     <system:String x:Key="NewVersionFoundTitle">New Version Found</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">Downloading from 「Global Source」...</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">Downloading from 「MirrorChyan」...</system:String>
-    <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">Version: </system:String>
-    <system:String x:Key="NewVersionFoundDescInfo" xml:space="preserve">Info: </system:String>
+    <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">Version:&#160;</system:String>
+    <system:String x:Key="NewVersionFoundDescInfo" xml:space="preserve">Info:&#160;</system:String>
     <system:String x:Key="NewVersionFoundButtonGoWebpage">Go to the website</system:String>
     <system:String x:Key="NewVersionZipFileFoundTitle">Update Package Found</system:String>
     <system:String x:Key="NewVersionZipFileFoundDescDecompressing">Decompressing, please wait……</system:String>
     <system:String x:Key="NewVersionZipFileBrokenTitle">Update Package Broken!</system:String>
-    <system:String x:Key="NewVersionZipFileBrokenDescFilename" xml:space="preserve">Filename: </system:String>
+    <system:String x:Key="NewVersionZipFileBrokenDescFilename" xml:space="preserve">Filename:&#160;</system:String>
     <system:String x:Key="NewVersionZipFileBrokenDescDeleted">Removed!</system:String>
     <system:String x:Key="AlreadyLatest">The latest version has already been installed</system:String>
     <system:String x:Key="NoNeedToUpdateDebugVersion">Now using debug version, no need to update</system:String>
@@ -366,7 +370,7 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="ReserveMaxCredit">Stop purchasing items when credits below 300</system:String>
     <system:String x:Key="OnlyBuyDiscountTips">⚠ Caution: Risk of credits overflow! Purchases of whitelisted items at regular prices will still occur!</system:String>
     <system:String x:Key="ReserveMaxCreditTips">Will still purchase whitelisted items even if credits are below 300!</system:String>
-    <system:String x:Key="CreditFullOnlyBuyDiscount">Doctor! \nPurchasing only discounted items has caused an overflow in credits! \nBe cautious of wasting credits!\nRemaining credits:</system:String>
+    <system:String x:Key="CreditFullOnlyBuyDiscount">Doctor! \nPurchasing only discounted items has caused an overflow in credits! \nBe cautious of wasting credits!\nRemaining credits:&#160;</system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">Collect daily/weekly mission rewards</system:String>
     <system:String x:Key="ReceiveMail">Collect all mail rewards</system:String>
     <system:String x:Key="ReceiveFreeRecruit">Conducting daily free single pull from the limited banner</system:String>
@@ -384,6 +388,7 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="WindowTitleScrollable">Window Title Scrolling</system:String>
     <system:String x:Key="NullFunctionality">Invert right click checkbox function</system:String>
     <system:String x:Key="TitleBarDisplayContent">Title Bar Display Content</system:String>
+    <system:String x:Key="CustomBackgroundTip">Manually create a 「background」 folder and place 「background.png」 inside to customize the background</system:String>
     <system:String x:Key="UseLogItemDateFormat">Custom log date format</system:String>
     <system:String x:Key="LogItemDateFormatString">Date format string</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">Restart immediately to apply changes?</system:String>
@@ -524,8 +529,8 @@ The primary instance is 0, and other instances are the numbers after the version
     <system:String x:Key="ClosedStage">The event is not open</system:String>
     <system:String x:Key="UnsupportedStages">Unsupported stages</system:String>
     <system:String x:Key="LowVersion">Old Version, Update required</system:String>
-    <system:String x:Key="MinimumRequirements" xml:space="preserve">Minimum Requirements: </system:String>
-    <system:String x:Key="DaysLeftOpen" xml:space="preserve">Days left open: </system:String>
+    <system:String x:Key="MinimumRequirements" xml:space="preserve">Minimum Requirements:&#160;</system:String>
+    <system:String x:Key="DaysLeftOpen" xml:space="preserve">Days left open:&#160;</system:String>
     <system:String x:Key="LessThanOneDay">Less than 1 day</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6</system:String>
@@ -542,7 +547,7 @@ The primary instance is 0, and other instances are the numbers after the version
     <system:String x:Key="PR-D-1">Grd/Spc Ⅰ</system:String>
     <system:String x:Key="PR-D-2">Grd/Spc Ⅱ</system:String>
     <system:String x:Key="Annihilation">Annihilation</system:String>
-    <system:String x:Key="TodaysStageTip" xml:space="preserve">Today's open stages: </system:String>
+    <system:String x:Key="TodaysStageTip" xml:space="preserve">Today's open stages:&#160;</system:String>
     <system:String x:Key="CETip">CE (LMD)</system:String>
     <system:String x:Key="APTip">AP (Purchase Certificate)</system:String>
     <system:String x:Key="CATip">CA (Skill Summary)</system:String>
@@ -676,10 +681,10 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="VideoLink">Video Link</system:String>
     <system:String x:Key="CopilotSkill">Skill</system:String>
     <system:String x:Key="TotalOperatorsCount">Total {0} Operator(s)</system:String>
-    <system:String x:Key="DirectiveECTerm">Directive EC unit:</system:String>
-    <system:String x:Key="OtherOperators">Other operators:</system:String>
-    <system:String x:Key="InitialEquipmentHorizontal">Tactical Equipment (horizontal):</system:String>
-    <system:String x:Key="InitialStrategy">Initial Strategy:</system:String>
+    <system:String x:Key="DirectiveECTerm">Directive EC unit:&#160;</system:String>
+    <system:String x:Key="OtherOperators">Other operators:&#160;</system:String>
+    <system:String x:Key="InitialEquipmentHorizontal">Tactical Equipment (horizontal):&#160;</system:String>
+    <system:String x:Key="InitialStrategy">Initial Strategy:&#160;</system:String>
     <!--  Logs  -->
     <system:String x:Key="CopilotTip">
         Tips: \n\n
@@ -744,11 +749,11 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="FastestWayToScreencapWarningTip">Screencap takes a long time (avg: {0}ms) which may cause some abnormal behaviors using automatic combat functions (e.g. Auto I. S.).</system:String>
     <system:String x:Key="FastestWayToScreencapErrorTip">Screencap takes too long (avg: {0}ms), so automatic combat functions (e.g. Auto I. S.) may not run properly. It is recommended to try restarting or changing the simulator!</system:String>
     <system:String x:Key="IdentifyTheMistakes">Recognition error</system:String>
-    <system:String x:Key="TaskError" xml:space="preserve">Task error: </system:String>
+    <system:String x:Key="TaskError" xml:space="preserve">Task error:&#160;</system:String>
     <system:String x:Key="CombatError">Combat error</system:String>
-    <system:String x:Key="StartTask" xml:space="preserve">Start task: </system:String>
-    <system:String x:Key="CompleteTask" xml:space="preserve">Complete task: </system:String>
-    <system:String x:Key="StartCombat" xml:space="preserve">Start combat: </system:String>
+    <system:String x:Key="StartTask" xml:space="preserve">Start task:&#160;</system:String>
+    <system:String x:Key="CompleteTask" xml:space="preserve">Complete task:&#160;</system:String>
+    <system:String x:Key="StartCombat" xml:space="preserve">Start combat:&#160;</system:String>
     <system:String x:Key="CompleteCombat">Complete combat</system:String>
     <system:String x:Key="AllTasksComplete">All task(s) completed!\n(in {0})</system:String>
     <system:String x:Key="SanityReport">Sanity will be full at {DateTime} (in {TimeDiff})</system:String>
@@ -761,9 +766,9 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="DropRecognitionError">Drops recognition error</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Abort upload to Penguin Statistics</system:String>
     <system:String x:Key="TheEx">No bonus stage, stopped</system:String>
-    <system:String x:Key="MissingOperators">Operators of the following operator groups are missing:</system:String>
+    <system:String x:Key="MissingOperators">Operators of the following operator groups are missing:&#160;</system:String>
     <system:String x:Key="RecruitSuppportOperator">Add support unit: {0}</system:String>
-    <system:String x:Key="StageQueue">Stage Queue:</system:String>
+    <system:String x:Key="StageQueue">Stage Queue:&#160;</system:String>
     <system:String x:Key="UnableToAgent">Unable to use PRTS</system:String>
     <system:String x:Key="MissionStart">Mission started</system:String>
     <system:String x:Key="UnitTime">times</system:String>
@@ -798,9 +803,9 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="CombatDps">Node: Combat Operation</system:String>
     <system:String x:Key="EmergencyDps">Node: Emergency Operation</system:String>
     <system:String x:Key="DreadfulFoe">Node: Dreadful Foe</system:String>
-    <system:String x:Key="RoguelikeEvent">Event:</system:String>
+    <system:String x:Key="RoguelikeEvent">Event:&#160;</system:String>
     <system:String x:Key="EncounterOcrError">Event Name OCR Failed</system:String>
-    <system:String x:Key="FoldartalGainOcrNextLevel">Foldartal Foresee:</system:String>
+    <system:String x:Key="FoldartalGainOcrNextLevel">Foldartal Foresee:&#160;</system:String>
     <system:String x:Key="RoguelikeInvestment">Invested {1}(+{0}), deposit: {2}</system:String>
     <system:String x:Key="RoguelikeSettlement">Roguelike Settlement: {0}\nExplore: {1} Floor {2} Step\nCombat: {3} / {4} Emergency / {5} BOSS\nRecruit: {6}\nCollectibles: {7}\nDifficulty: {8}\nScore: {9}  Exp: {10}  Skill: {11}</system:String>
     <system:String x:Key="RoguelikeGainParadigm">Collapsal Paradigm Deepening: {0}</system:String>
@@ -809,17 +814,17 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="RoguelikeWeakenParadigm">Collapsal Paradigm {1} Regressed to {0}</system:String>
     <system:String x:Key="CurTimes">Current times</system:String>
     <system:String x:Key="NoDrop">Nothing</system:String>
-    <system:String x:Key="Drop" xml:space="preserve">Drops: </system:String>
-    <system:String x:Key="TotalDrop" xml:space="preserve">Total Drops: </system:String>
+    <system:String x:Key="Drop" xml:space="preserve">Drops:&#160;</system:String>
+    <system:String x:Key="TotalDrop" xml:space="preserve">Total Drops:&#160;</system:String>
     <system:String x:Key="FurnitureDrop">Furniture</system:String>
-    <system:String x:Key="ThisFacility" xml:space="preserve">Current Facility: </system:String>
-    <system:String x:Key="RoomGroupsMatch" xml:space="preserve">Match Group: </system:String>
-    <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">Failed to match operator groups, group list: </system:String>
-    <system:String x:Key="RoomOperators" xml:space="preserve">Preferred operators: </system:String>
+    <system:String x:Key="ThisFacility" xml:space="preserve">Current Facility:&#160;</system:String>
+    <system:String x:Key="RoomGroupsMatch" xml:space="preserve">Match Group:&#160;</system:String>
+    <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">Failed to match operator groups, group list:&#160;</system:String>
+    <system:String x:Key="RoomOperators" xml:space="preserve">Preferred operators:&#160;</system:String>
     <system:String x:Key="ProductIncorrect">Product does NOT match the configuration.</system:String>
     <system:String x:Key="ProductUnknown">Unknown Product</system:String>
     <system:String x:Key="ProductChanged">Product has changed</system:String>
-    <system:String x:Key="RecruitingResults" xml:space="preserve">Recruitment Results: </system:String>
+    <system:String x:Key="RecruitingResults" xml:space="preserve">Recruitment Results:&#160;</system:String>
     <system:String x:Key="RecruitingTips">Recruiting Tips</system:String>
     <system:String x:Key="RecruitmentOfStar">{0}★ has been recruited!</system:String>
     <system:String x:Key="RecruitmentOfBot">Robot! Robot! More Robot!</system:String>
@@ -838,10 +843,10 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="UseFormation">Use formation</system:String>
     <system:String x:Key="Current">Current</system:String>
     <system:String x:Key="BattleFormation">Start formation</system:String>
-    <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selected: </system:String>
+    <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selected:&#160;</system:String>
     <system:String x:Key="CurrentSteps">Step: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">Unsupported stage, please check the stage name or go to 「Settings - Update - Resource update」 and try updating the resource version!</system:String>
-    <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results: </system:String>
+    <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results:&#160;</system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToReconnectByAdb">Attempting to reconnect</system:String>
     <system:String x:Key="TryToStartEmulator">Trying to start the emulator</system:String>
@@ -892,7 +897,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  VersionUpdatePopup  -->
     <system:String x:Key="UpdateNotificationOk">OK!</system:String>
     <system:String x:Key="VersionUpdated">Version Updated</system:String>
-    <system:String x:Key="VersionUpdatedTo" xml:space="preserve">Updated Version: </system:String>
+    <system:String x:Key="VersionUpdatedTo" xml:space="preserve">Updated Version:&#160;</system:String>
     <!--  !VersionUpdatePopup  -->
     <!--  RootViewModel  -->
     <system:String x:Key="ConfirmExitTitle">MAA is running tasks</system:String>
@@ -901,7 +906,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">Stage data retrieval successful</system:String>
     <system:String x:Key="GameResourceUpdating">Game resources are being updated.</system:String>
-    <system:String x:Key="GameResourceUpdatingMirrorChyan">MirrorChyan is updating resources{0}.</system:String>
+    <system:String x:Key="GameResourceUpdatingMirrorChyan">Updating resource {0} from 「MirrorChyan」...</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">Indexing in progress</system:String>
     <system:String x:Key="GameResourceNotModified">Game resources updated.</system:String>
     <system:String x:Key="GameResourceUpdated">Game resources updated.</system:String>
