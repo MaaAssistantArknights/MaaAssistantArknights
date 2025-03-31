@@ -18,7 +18,7 @@ body:
           required: true
         - label: I am using the latest version of the current update version and have reviewed both the [Unreleased changes](https://github.com/MaaAssistantArknights/MaaAssistantArknights/commits/dev/) and there is no mention of the bug being fixed.
           required: true
-        - label: I have reviewed the [FAQs](https://maa.plus/docs/en-us/manual/faq.html), [Announcement](/MaaAssistantArknights/MaaAssistantArknights/issues/7732), [Open Issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues), [Closed Issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues?q=is%3Aissue%20state%3Aclosed) to ensure that my feature/suggestion has not been mentioned.
+        - label: I have reviewed the [FAQs](https://maa.plus/docs/en-us/manual/faq.html), [Announcement](/MaaAssistantArknights/MaaAssistantArknights/issues/7732), [Open Issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues), [Closed Issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues?q=is%3Aissue%20state%3Aclosed) to ensure that my issue/bug has not been mentioned.
           required: true
   - type: textarea
     id: describe
