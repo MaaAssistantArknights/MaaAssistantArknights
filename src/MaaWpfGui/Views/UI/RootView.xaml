@@ -6,6 +6,7 @@
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:local="clr-namespace:MaaWpfGui.Views.UI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
@@ -114,7 +115,15 @@
                 <hc:PreviewSlider
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Bottom"
+                    helper:HoverDelayHelper.AccelerationRatio="0.3"
+                    helper:HoverDelayHelper.AnimationDuration="0:0:0.3"
+                    helper:HoverDelayHelper.DecelerationRatio="0.3"
+                    helper:HoverDelayHelper.DefaultValue="0.0"
+                    helper:HoverDelayHelper.Delay="100"
+                    helper:HoverDelayHelper.TargetProperty="{x:Static UIElement.OpacityProperty}"
+                    helper:HoverDelayHelper.TargetValue="1.0"
                     Maximum="100"
+                    Opacity="0"
                     PreviewMouseUp="{s:Action PreviewSlider_MouseUp}"
                     Visibility="{c:Binding BackgroundExist}"
                     Value="{Binding BackgroundOpacity}">
