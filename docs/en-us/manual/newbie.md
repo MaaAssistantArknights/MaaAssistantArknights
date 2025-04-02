@@ -13,19 +13,19 @@ icon: ri:guide-fill
 
     Non-Windows users, please refer to [Emulator and Device Supports](./device/).
 
-2. Install the runtime library
+2. Download the correct version
+
+    [MAA official website](https://maa.plus/) will automatically select the correct version architecture, which for most users reading this article should be Windows x64.
+
+3. Unzip correctly
+
+    Verify that the extraction is complete and make sure to extract the MAA to a separate folder. Do not extract MAA to a path that requires UAC permissions such as `C:\`, `C:\Program Files\`, etc.
+
+4. Install the runtime library
 
     MAA requires VCRedist x64 and .NET 8. Please run `DependencySetup_依赖库安装.bat` in the MAA directory to install.
 
     Refer to [FAQ](faq.md#missing-runtime-libraries) for more information
-
-3. Download the correct version
-
-    [MAA official website](https://maa.plus/) will automatically select the correct version architecture, which for most users reading this article should be Windows x64.
-
-4. Unzip correctly
-
-    Verify that the extraction is complete and make sure to extract the MAA to a separate folder. Do not extract MAA to a path that requires UAC permissions such as `C:\`, `C:\Program Files\`, etc.
 
 5. Confirm simulator support
 
