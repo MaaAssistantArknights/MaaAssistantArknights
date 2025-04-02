@@ -2225,14 +2225,7 @@
         "text": ["確認"]
     },
     "Reclamation2ExReadArchiveEnter": {
-        "doc": "TODO: 讀取存檔不會再有確認彈窗時，需保留 text 和移除其他內容",
-        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
-        "text": ["讀取"],
-        "sub": [
-            "Reclamation2ExReadArchiveConfirm*2",
-            "Reclamation2ExReadArchiveSelectDay",
-            "Reclamation2ExReadArchiveSelectDayConfirm"
-        ]
+        "text": ["讀取"]
     },
     "Reclamation2ExReadArchiveSelectDay": {
         "text": ["生息", "日"]
@@ -2368,26 +2361,6 @@
     },
     "Tales@RA@FinishCalc": {
         "text": ["點選任意處繼續", "任意", "王意", "點選"]
-    },
-    "Tales@RA@PIS-ProsperityBelowLimit-LoadSave": {
-        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
-        "doc": "TODO: 讀取存檔不會再有確認彈窗時，需移除此任務",
-        "sub": [
-            "Tales@RA@DialogConfirmYellow",
-            "Tales@RA@DialogConfirmRed",
-            "Tales@RA@SelectSecondLastSave",
-            "Tales@RA@ConfirmToLoadSave"
-        ]
-    },
-    "Tales@RA@PIS-ProsperityReachLimit-LoadSave": {
-        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
-        "doc": "TODO: 讀取存檔不會再有確認彈窗時，需移除此任務",
-        "sub": [
-            "Tales@RA@DialogConfirmYellow",
-            "Tales@RA@DialogConfirmRed",
-            "Tales@RA@SelectSecondLastSave",
-            "Tales@RA@ConfirmToLoadSave"
-        ]
     },
     "Tales@RA@PIS-Resume": {
         "text": ["繼續演算", "演算"]
