@@ -11,22 +11,37 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System.ComponentModel;
+using Stylet;
+
 namespace MaaWpfGui.Utilities.ValueType
 {
     /// <summary>
     /// Generic combined data class.
     /// </summary>
     /// <typeparam name="TValueType">The type of value.</typeparam>
-    public class GenericCombinedData<TValueType>
+    public class GenericCombinedData<TValueType> : PropertyChangedBase
     {
+        private string _name = string.Empty;
+
         /// <summary>
         /// Gets or sets the name displayed.
         /// </summary>
-        public string Display { get; set; }
+        public string Display
+        {
+            get => _name;
+            set => SetAndNotify(ref _name, value);
+        }
+
+        private TValueType _value;
 
         /// <summary>
         /// Gets or sets the value.
         /// </summary>
-        public TValueType Value { get; set; }
+        public TValueType Value
+        {
+            get => _value;
+            set => SetAndNotify(ref _value, value);
+        }
     }
 }
