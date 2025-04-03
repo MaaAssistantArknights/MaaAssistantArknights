@@ -71,7 +71,7 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::select_difficulty(const int d
 {
     LogTraceFunction;
 
-    if (difficulty == INT_MAX) {
+    if (difficulty >= MAX_DIFFICULTY) {
         ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficulty_Hardest" }).run();
     }
     else if (difficulty == 0) {
