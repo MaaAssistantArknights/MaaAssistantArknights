@@ -81,7 +81,7 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::select_difficulty(const int d
         // 从最高难度依次点下来
         ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficulty_Hardest" }).run();
         std::vector<std::string> difficulty_list;
-        for (int i = 20; i >= difficulty; --i) { // 难度识别内容为 20 ~ difficulty
+        for (int i = MAX_DIFFICULTY; i >= difficulty; --i) { // 难度识别内容为 MAX_DIFFICULTY ~ difficulty
             difficulty_list.push_back(std::to_string(i));
         }
         Task.get<OcrTaskInfo>(m_config->get_theme() + "@Roguelike@ChooseDifficulty_Specified")->text = difficulty_list;
