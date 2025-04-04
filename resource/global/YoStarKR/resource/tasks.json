@@ -47,6 +47,12 @@
     "SideStoryReopen": {
         "text": ["재개방"]
     },
+    "GO-OpenOcr": {
+        "text": ["위대한", "서곡의", "끝", "이벤트", "개방중"]
+    },
+    "GOChapterToGO": {
+        "text": ["무명", "공훈"]
+    },
     "DT-Open": {
         "text": ["테라", "이벤트", "개방중"]
     },
