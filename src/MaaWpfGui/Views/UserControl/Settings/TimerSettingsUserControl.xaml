@@ -73,6 +73,7 @@
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -444,6 +445,56 @@
                     SelectedValue="{Binding TimerModels.Timers[7].TimerConfig}"
                     SelectedValuePath="Value"
                     ToolTip="{Binding TimerModels.Timers[7].TimerConfig}"
+                    Visibility="{c:Binding CustomConfig}" />
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="4"
+                Grid.Column="0"
+                Grid.ColumnSpan="2">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <CheckBox
+                        Margin="10"
+                        Content="{Binding TimerModels.Timers[8].TimerName}"
+                        IsChecked="{Binding TimerModels.Timers[8].IsOn}"
+                        ToolTip="{DynamicResource CheckBoxesNotSaved}" />
+                    <StackPanel Orientation="Horizontal">
+                        <hc:NumericUpDown
+                            Width="55"
+                            Margin="10"
+                            d:Value="0"
+                            InputMethod.IsInputMethodEnabled="False"
+                            IsEnabled="{c:Binding TimerModels.Timers[8].IsOn}"
+                            Maximum="23"
+                            Minimum="0"
+                            ValueFormat="00"
+                            Value="{Binding TimerModels.Timers[8].Hour}" />
+                        <controls:TextBlock Text=":" />
+                        <hc:NumericUpDown
+                            Width="55"
+                            Margin="10"
+                            d:Value="0"
+                            InputMethod.IsInputMethodEnabled="False"
+                            IsEnabled="{c:Binding TimerModels.Timers[8].IsOn}"
+                            Maximum="59"
+                            Minimum="0"
+                            ValueFormat="00"
+                            Value="{Binding TimerModels.Timers[8].Min}" />
+                    </StackPanel>
+                </StackPanel>
+                <ComboBox
+                    Width="150"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Focusable="False"
+                    IsEnabled="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
+                    ItemsSource="{Binding ConfigurationList, Source={x:Static helper:Instances.SettingsViewModel}}"
+                    SelectedValue="{Binding TimerModels.Timers[8].TimerConfig}"
+                    SelectedValuePath="Value"
+                    ToolTip="{Binding TimerModels.Timers[8].TimerConfig}"
                     Visibility="{c:Binding CustomConfig}" />
             </StackPanel>
         </Grid>
