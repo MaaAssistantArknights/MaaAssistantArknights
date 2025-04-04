@@ -40,6 +40,12 @@
         "text": ["Rerun", "Retrospection"],
         "roi": [0, 500, 500, 150]
     },
+    "GO-OpenOcr": {
+        "text": ["Ending", "Grand", "Overture", "Once", "Upon", "Time"]
+    },
+    "GOChapterToGO": {
+        "text": ["DIE", "HERO", "VILLAIN", "Die", "Hero", "Villain"]
+    },
     "DT-Open": {
         "text": ["Delicious", "Terra", "Culinary"]
     },
@@ -1557,12 +1563,6 @@
             ["Cloudstepper", "攀云机"],
             ["Pinnacle Insights? Port", "尖端研究成果共享终端"]
         ]
-    },
-    "GO-OpenOcr": {
-        "text": ["Ending", "Grand", "Overture", "Once", "Upon", "Time"]
-    },
-    "GOChapterToGO": {
-        "text": ["DIE", "HERO", "VILLAIN", "Die", "Hero", "Villain"]
     },
     "SSSBuffChooseConfirm": {
         "text": ["Confirm Selection"],
