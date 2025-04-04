@@ -151,6 +151,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          pip3 install -r requirements.txt
           python3 maadeps-download.py ${{ matrix.lowercase_target }}-windows
 
       - name: Create fake event file
@@ -239,6 +240,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          pip3 install -r requirements.txt
           python3 maadeps-download.py ${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux
 
       - name: Build MAA
@@ -352,6 +354,7 @@ jobs:
       # Caching not necessary on macOS runner
       - name: Bootstrap MaaDeps
         run: |
+          pip3 install -r requirements.txt
           [[ ${{ matrix.arch }} = "arm64" ]] && triplet="arm64-osx" || triplet="x64-osx"
           python3 maadeps-download.py ${triplet}
         env:
