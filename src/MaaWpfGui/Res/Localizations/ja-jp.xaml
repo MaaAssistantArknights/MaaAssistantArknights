@@ -253,8 +253,12 @@
     <system:String x:Key="ForceGithubGlobalSource">GitHub を強制使用</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">更新ソース切替後入力</system:String>
-    <system:String x:Key="MirrorChyanSoftwareUpdateTip">MirrorChyan はソフトウェアの更新を検出しました。CDK を構成するか、グローバル ソースを使用するには、「設定-アップデート設定」に移動してください。</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">MirrorChyan はリソースの更新を検出しました{0}。「設定-ソフトウェア更新」に移動して CDK を構成するか、「リソース更新」をクリックして手動で更新してください。</system:String>
+    <system:String x:Key="MirrorChyanSoftwareUpdateTip">ソフトウェア更新が検出されました。「設定 - 更新設定」に移動して MirrorChyan CDK を設定するか、グローバル ソースに切り替えてください。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">リソース更新 {0} が検出されました。「設定 - 更新設定 - リソース更新」に移動して手動で更新するか、MirrorChayn CDK を入力して自動的に更新してください。</system:String>
+    <system:String x:Key="MirrorChyanCdkExpired">CDK の有効期限が切れました。新しい CDK を使用して認証してください。</system:String>
+    <system:String x:Key="MirrorChyanCdkInvalid">CDK が無効です。入力が正しいか確認してください。</system:String>
+    <system:String x:Key="MirrorChyanCdkQuotaExhausted">CDK の本日のダウンロード回数が上限に達しました。明日もう一度お試しください。</system:String>
+    <system:String x:Key="MirrorChyanCdkMismatched">CDK の種類がダウンロード対象のリソースと一致しません。CDK の適用範囲を確認してください。</system:String>
     <system:String x:Key="NewVersionFoundTitle">新しいバージョンが見つかりました</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">「Global Source」からダウンロード中...</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">「MirrorChyan」からダウンロード中...</system:String>
@@ -384,6 +388,7 @@
     <system:String x:Key="WindowTitleScrollable">タイトルのスクロール機能</system:String>
     <system:String x:Key="NullFunctionality">右クリックチェックボックス機能を反転する</system:String>
     <system:String x:Key="TitleBarDisplayContent">タイトルバー表示コンテンツ</system:String>
+    <system:String x:Key="CustomBackgroundTip">「background」 フォルダを手動で作成し、background.png を配置すると背景画像をカスタマイズできます</system:String>
     <system:String x:Key="UseLogItemDateFormat">カスタムログ日付形式</system:String>
     <system:String x:Key="LogItemDateFormatString">日付書式文字列</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">変更を適用するためにすぐに再起動しますか？</system:String>
@@ -904,7 +909,7 @@ C:\\leidian\\LDPlayer9
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">ステージデータの取得に成功しました</system:String>
     <system:String x:Key="GameResourceUpdating">ゲームリソースが更新中です。</system:String>
-    <system:String x:Key="GameResourceUpdatingMirrorChyan">MirrorChyanがリソースを更新しています{0}。</system:String>
+    <system:String x:Key="GameResourceUpdatingMirrorChyan">「MirrorChyan」からリソース {0} を更新しています...</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">索引の作成中</system:String>
     <system:String x:Key="GameResourceNotModified">ゲームリソースが更新されました。</system:String>
     <system:String x:Key="GameResourceUpdated">ゲームリソースが更新されました。</system:String>

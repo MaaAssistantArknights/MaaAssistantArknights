@@ -1,0 +1,8 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls">
+
+    <Style BasedOn="{StaticResource ButtonBaseStyle}" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+    </Style>
+
+</ResourceDictionary>

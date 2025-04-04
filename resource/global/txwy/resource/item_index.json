@@ -1719,6 +1719,14 @@
         "sortId": -10000,
         "usage": "巴別塔上的“硬通貨”，如果有多餘的，積攢一些，可以去工程隊的血魔小姐那裡換取一些稀缺的好東西。"
     },
+    "act34side_token_chip": {
+        "classifyType": "NONE",
+        "description": "“緊急物資”藍圖晶片，內建近千套可列印的藍圖。藍圖內容既包含了生存必需品，也包含了各主流學科的實驗器具和創作材料。即使您身陷窘境，也勿忘探究與表達，思想的停滯與精神的麻木無異於死亡。",
+        "icon": "act34side_token_chip.png",
+        "name": "“緊急物資”藍圖晶片",
+        "sortId": -10000,
+        "usage": "儲存了許多設計藍圖的微縮晶片，憑藉它就可以在物質塑形操作終端列印出對應的實物。"
+    },
     "act38d1_token_coin": {
         "classifyType": "NONE",
         "description": "純淨無瑕的源石晶體，聖所對此視若珍寶。",
@@ -1870,6 +1878,14 @@
         "name": "高級材料提貨券",
         "sortId": 30201,
         "usage": "羅德島採購部特別發行的提貨券，憑此券可限時領取一份高級品質的精英材料。"
+    },
+    "advanced_material_voucher_perm": {
+        "classifyType": "CONSUME",
+        "description": "為應對加工時部分材料緊缺的問題，採購部發行了提貨券供幹員們自行取用所需的材料。",
+        "icon": "advanced_material_voucher_perm.png",
+        "name": "高級材料提貨券",
+        "sortId": 60005,
+        "usage": "羅德島採購部特別發行的提貨券，憑此券可領取一份高級品質的精英材料。"
     },
     "ap_supply_lt_010": {
         "classifyType": "CONSUME",
@@ -2094,6 +2110,14 @@
         "name": "特級材料提貨券",
         "sortId": 30200,
         "usage": "羅德島採購部特別發行的提貨券，憑此券可限時領取一份特級品質的精英材料。"
+    },
+    "premium_material_voucher_perm": {
+        "classifyType": "CONSUME",
+        "description": "為應對加工時部分材料緊缺的問題，採購部發行了提貨券供幹員們自行取用所需的材料。",
+        "icon": "premium_material_voucher_perm.png",
+        "name": "特級材料提貨券",
+        "sortId": 60004,
+        "usage": "羅德島採購部特別發行的提貨券，憑此券可以領取一份特級品質的精英材料。"
     },
     "randomDiamondShd_1": {
         "classifyType": "CONSUME",

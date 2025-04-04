@@ -253,8 +253,12 @@
     <system:String x:Key="ForceGithubGlobalSource">GitHub 강제 사용</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">소스 전환 후 입력</system:String>
-    <system:String x:Key="MirrorChyanSoftwareUpdateTip">MirrorChyan이 소프트웨어 업데이트를 감지했습니다.「설정 - 소프트웨어 업데이트」로 이동하여 CDK를 구성하거나 글로벌 소스를 사용하세요.</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">MirrorChyan이 리소스 업데이트를 감지했습니다{0}.「설정 - 소프트웨어 업데이트」로 이동하여 CDK를 구성하거나「리소스 업데이트」를 클릭하여 수동으로 업데이트하세요.</system:String>
+    <system:String x:Key="MirrorChyanSoftwareUpdateTip">소프트웨어 업데이트가 감지되었습니다. 「설정 - 업데이트 설정」으로 이동하여 MirrorChyan CDK를 구성하거나 글로벌 소스로 전환하세요.</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">리소스 업데이트 {0}이 감지되었습니다. 「설정 - 업데이트 설정 - 리소스 업데이트」로 이동하여 수동으로 업데이트하거나 MirrorChayn CDK를 입력하여 자동으로 업데이트하세요.</system:String>
+    <system:String x:Key="MirrorChyanCdkExpired">CDK가 만료되었습니다. 새 CDK를 사용하여 인증하세요.</system:String>
+    <system:String x:Key="MirrorChyanCdkInvalid">CDK가 유효하지 않습니다. 입력이 올바른지 확인하세요.</system:String>
+    <system:String x:Key="MirrorChyanCdkQuotaExhausted">CDK의 오늘 다운로드 횟수가 제한에 도달했습니다. 내일 다시 시도하세요.</system:String>
+    <system:String x:Key="MirrorChyanCdkMismatched">CDK 유형이 다운로드할 리소스와 일치하지 않습니다. CDK의 적용 범위를 확인하세요.</system:String>
     <system:String x:Key="NewVersionFoundTitle">새로운 버전 확인</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">「Global Source」에서 다운로드 중...</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">「MirrorChyan」에서 다운로드 중...</system:String>
@@ -384,6 +388,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="WindowTitleScrollable">윈도우 제목 스크롤</system:String>
     <system:String x:Key="NullFunctionality">오른쪽 클릭 체크박스 기능 반전</system:String>
     <system:String x:Key="TitleBarDisplayContent">타이틀 바 표시 내용</system:String>
+    <system:String x:Key="CustomBackgroundTip">「background」 폴더를 직접 생성한 후 background.png를 넣으면 배경 이미지를 변경할 수 있습니다</system:String>
     <system:String x:Key="UseLogItemDateFormat">사용자 정의 로그 날짜 형식</system:String>
     <system:String x:Key="LogItemDateFormatString">날짜 형식 문자열</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">변경 사항을 적용을 위해 즉시 다시 시작하시겠습니까?</system:String>
@@ -904,7 +909,7 @@ C:\\leidian\\LDPlayer9
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">스테이지 데이터 획득 성공</system:String>
     <system:String x:Key="GameResourceUpdating">게임 리소스가 업데이트 중입니다.</system:String>
-    <system:String x:Key="GameResourceUpdatingMirrorChyan">MirrorChyan이 리소스를 업데이트하는 중입니다{0}.</system:String>
+    <system:String x:Key="GameResourceUpdatingMirrorChyan">「MirrorChyan」에서 리소스 {0}을(를) 업데이트하는 중...</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">색인 작성 중</system:String>
     <system:String x:Key="GameResourceNotModified">게임 리소스가 업데이트되었습니다.</system:String>
     <system:String x:Key="GameResourceUpdated">게임 리소스가 업데이트되었습니다.</system:String>

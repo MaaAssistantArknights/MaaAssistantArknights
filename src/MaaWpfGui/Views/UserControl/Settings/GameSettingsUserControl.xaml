@@ -164,6 +164,7 @@
             Margin="10,5"
             hc:InfoElement.Title="{DynamicResource PenguinId}"
             hc:TitleElement.TitlePlacement="Left"
+            Background="{DynamicResource TransparentRegionBrush}"
             InputMethod.IsInputMethodEnabled="False"
             Style="{StaticResource TextBoxExtend}"
             Text="{Binding PenguinId}"

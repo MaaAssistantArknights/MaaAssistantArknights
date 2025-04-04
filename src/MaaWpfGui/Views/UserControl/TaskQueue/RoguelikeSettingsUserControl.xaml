@@ -101,7 +101,6 @@
                 hc:InfoElement.Title="{DynamicResource StartTimesLimit}"
                 Maximum="99999"
                 Minimum="0"
-                Style="{StaticResource NumericUpDownExtend}"
                 Value="{Binding RoguelikeStartsCount}" />
             <CheckBox
                 Name="InvestmentEnabled"
@@ -142,7 +141,6 @@
                 hc:InfoElement.Title="{DynamicResource GoldTimesLimit}"
                 Maximum="999"
                 Minimum="0"
-                Style="{StaticResource NumericUpDownExtend}"
                 Visibility="{c:Binding ElementName=InvestmentEnabled,
                                        Path=IsChecked}"
                 Value="{Binding RoguelikeInvestsCount}" />
@@ -170,13 +168,11 @@
                     TextWrapping="Wrap" />
             </CheckBox>
             <hc:CheckComboBox
-                x:Name="CheckComboBox"
                 Margin="0,10"
                 hc:ListBoxAttach.SelectedItems="{Binding RoguelikeStartWithSelectListRaw}"
                 hc:TitleElement.Title="{DynamicResource RoguelikeStartWithSelectList}"
                 DisplayMemberPath="Value"
                 ItemsSource="{Binding RoguelikeStartWithAllDict}"
-                Style="{StaticResource CheckComboBoxExtend}"
                 Visibility="{c:Binding 'RoguelikeMode == 4 and !RoguelikeOnlyStartWithEliteTwoRaw'}" />
             <CheckBox
                 Margin="0,10"

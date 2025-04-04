@@ -36,6 +36,7 @@
             <Border
                 Width="210"
                 MaxWidth="210"
+                Background="{DynamicResource TransparentRegionBrush}"
                 BorderBrush="{DynamicResource BorderBrush}"
                 BorderThickness="1"
                 CornerRadius="4">
@@ -53,21 +54,21 @@
                         HorizontalAlignment="Center"
                         dd:DragDrop.IsDragSource="{Binding Idle}"
                         dd:DragDrop.IsDropTarget="{Binding Idle}"
+                        Background="Transparent"
                         BorderThickness="0"
-                        ItemContainerStyle="{StaticResource CustomListBoxItemStyle}"
                         ItemsSource="{Binding TaskItemViewModels}"
+                        Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
                         ToolTip="{DynamicResource LabelSequenceTip}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="110" />
+                                        <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
-                                    <!--<maa:TextBlock  Text="{Binding ID}" />
-                                    <maa:TextBlock  Text=". " />-->
+
                                     <CheckBox
-                                        Grid.ColumnSpan="2"
+                                        Grid.Column="0"
                                         HorizontalAlignment="Left"
                                         Content="{Binding Name}"
                                         IsChecked="{Binding IsCheckedWithNull}"
@@ -75,11 +76,12 @@
                                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                                       Target={x:Type helper:CheckBoxHelper}}"
                                         ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
-                                    <hc:ButtonGroup Grid.Column="1" HorizontalAlignment="Left">
-                                        <!--  ReSharper disable once Xaml.StaticResourceNotResolved  -->
+
+                                    <hc:ButtonGroup Grid.Column="1" HorizontalAlignment="Stretch">
                                         <RadioButton
                                             Margin="0"
-                                            Padding="45,0,0,0"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Right"
                                             hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
                                             hc:VisualElement.HighlightBackground="Transparent"
                                             hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
@@ -94,6 +96,11 @@
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
+                        <ListBox.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource NoSelectedHighlightListBoxItemStyle}" TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </ListBox.ItemContainerStyle>
                     </ListBox>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
@@ -112,6 +119,7 @@
                             Width="90"
                             Height="30"
                             VerticalAlignment="Top"
+                            Background="{DynamicResource TransparentRegionBrush}"
                             Command="{s:Action InverseSelected}"
                             Content="{Binding InverseShowText}"
                             IsEnabled="{Binding Idle}"
@@ -285,10 +293,14 @@
                 Visibility="{c:Binding !TaskSettingVisibilities.AfterAction,
                                        FalseToVisibility=Hidden}">
                 <RadioButton
+                    hc:VisualElement.HighlightBackground="{DynamicResource TransparentRegionBrush}"
+                    Background="{DynamicResource TransparentRegionBrush}"
                     Content="{DynamicResource GeneralSettings}"
                     IsChecked="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}"
                     IsEnabled="True" />
                 <RadioButton
+                    hc:VisualElement.HighlightBackground="{DynamicResource TransparentRegionBrush}"
+                    Background="{DynamicResource TransparentRegionBrush}"
                     Content="{DynamicResource AdvancedSettings}"
                     IsChecked="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}"
                     IsEnabled="{c:Binding TaskSettingVisibilities.AdvancedSettingsVisibility}" />
