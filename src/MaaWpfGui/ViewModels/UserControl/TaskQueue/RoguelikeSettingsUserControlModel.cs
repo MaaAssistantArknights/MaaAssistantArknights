@@ -47,18 +47,60 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
     private void UpdateRoguelikeDifficultyList()
     {
-        RoguelikeDifficultyList = [
-            new() { Display = LocalizationHelper.GetString("Current"), Value = -1 },
-            new() { Display = "MAX", Value = int.MaxValue },
-        ];
+        int maxThemeDifficulty = GetMaxDifficultyForTheme(RoguelikeTheme);
 
-        for (int i = 18; i >= 1; --i)
+        if (RoguelikeDifficultyList.Count == 0)
         {
-            var value = i.ToString();
-            RoguelikeDifficultyList.Add(new() { Display = value, Value = i });
+            RoguelikeDifficultyList =
+            [
+                new() { Display = "MAX", Value = int.MaxValue }
+            ];
+            for (int i = 20; i >= -1; --i)
+            {
+                RoguelikeDifficultyList.Add(new() { Display = i.ToString(), Value = i });
+            }
         }
 
-        RoguelikeDifficultyList.Add(new() { Display = "MIN", Value = 0 });
+        var sortedItems = RoguelikeDifficultyList
+            .Select(item => item)
+            .OrderBy(item => item.Value switch
+            {
+                -1 => 0,
+                int.MaxValue => 1,
+                _ when item.Value <= maxThemeDifficulty => 2 + (maxThemeDifficulty - item.Value),
+                _ => 2 + maxThemeDifficulty + 1 + (20 - item.Value),
+            })
+            .ToList();
+
+        for (int newIndex = 0; newIndex < sortedItems.Count; newIndex++)
+        {
+            int currentIndex = RoguelikeDifficultyList.IndexOf(sortedItems[newIndex]);
+            if (currentIndex != newIndex)
+            {
+                RoguelikeDifficultyList.Move(currentIndex, newIndex);
+            }
+
+            int value = RoguelikeDifficultyList[newIndex].Value;
+            RoguelikeDifficultyList[newIndex].Display = value switch
+            {
+                -1 => LocalizationHelper.GetString("Current"),
+                int.MaxValue => "MAX",
+                0 => "MIN",
+                _ => value > maxThemeDifficulty ? $"{value} (NONSUPPORT)" : value.ToString(),
+            };
+        }
+    }
+
+    private static int GetMaxDifficultyForTheme(Theme theme)
+    {
+        return theme switch
+        {
+            Theme.Phantom => 0,
+            Theme.Mizuki => 18,
+            Theme.Sami => 15,
+            Theme.Sarkaz => 18,
+            _ => 20,
+        };
     }
 
     private void UpdateRoguelikeModeList()
@@ -296,7 +338,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         {
             SetAndNotify(ref _roguelikeTheme, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeTheme, value.ToString());
-
+            UpdateRoguelikeDifficultyList();
             UpdateRoguelikeModeList();
             UpdateRoguelikeSquadList();
             UpdateRoguelikeCoreCharList();

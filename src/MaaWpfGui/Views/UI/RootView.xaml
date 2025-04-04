@@ -73,7 +73,7 @@
             Stretch="Fill"
             Visibility="{c:Binding BackgroundExist}">
             <Image.Effect>
-                <BlurEffect Radius="10" />
+                <BlurEffect Radius="{Binding BackgroundBlurEffectRadius}" />
             </Image.Effect>
         </Image>
         <DockPanel>

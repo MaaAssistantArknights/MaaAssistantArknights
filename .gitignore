@@ -459,5 +459,11 @@ tools/RoguelikeRecruitmentTool/output
 /MaaDeps/*
 
 # ResourceUpdater workflow
-
 /original/*
+
+# Windows Explorer Shits
+desktop.ini
+Thumbs.db
+
+# macOS Finder Shit
+.DS_Store

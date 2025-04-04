@@ -15,19 +15,19 @@ icon: ri:guide-fill
 
     非 Windows 用户请参阅[模拟器及设备支持](./device/)。
 
-2. 安装运行库
+2. 下载正确的版本
+
+    [MAA 官网](https://maa.plus/)一般会自动选择正确的版本架构，对于大多数阅读本文的用户来说，应为 Windows x64。
+
+3. 正确解压
+
+    确认解压完整，并确保将 MAA 解压到一个独立的文件夹中。请勿将 MAA 解压到如 `C:\`、`C:\Program Files\` 等需要 UAC 权限的路径。
+
+4. 安装运行库
 
     MAA 需要 VCRedist x64 和 .NET 8，请运行 MAA 目录下的 `DependencySetup_依赖库安装.bat` 以安装。
 
     更多信息请参考[常见问题](./faq.md)置顶。
-
-3. 下载正确的版本
-
-    [MAA 官网](https://maa.plus/)一般会自动选择正确的版本架构，对于大多数阅读本文的用户来说，应为 Windows x64。
-
-4. 正确解压
-
-    确认解压完整，并确保将 MAA 解压到一个独立的文件夹中。请勿将 MAA 解压到如 `C:\`、`C:\Program Files\` 等需要 UAC 权限的路径。
 
 5. 确认模拟器支持
 
