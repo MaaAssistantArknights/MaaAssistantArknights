@@ -334,7 +334,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public static int BackgroundBlurEffectRadius => int.Parse(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundBlurEffectRadius, "50"));
+        public static int BackgroundBlurEffectRadius => int.Parse(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundBlurEffectRadius, "5"));
 
         public void PreviewSlider_MouseUp(object sender, MouseButtonEventArgs e)
         {
