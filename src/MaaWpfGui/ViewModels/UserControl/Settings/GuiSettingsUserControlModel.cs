@@ -150,6 +150,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         set
         {
             ConfigFactory.Root.GUI.UseNotify = value;
+            NotifyOfPropertyChange();
             if (value)
             {
                 ToastNotification.ShowDirect("Test test");
@@ -163,6 +164,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         set
         {
             ConfigFactory.Root.GUI.MainTasksInvertNullFunction = value;
+            NotifyOfPropertyChange();
         }
     }
 
