@@ -593,6 +593,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 FightTask.ResetFightVariables();
+                RecruitTask.ResetRecruitVariables();
                 ResetTaskSelection();
                 InfrastTask.RefreshCustomInfrastPlanIndexByPeriod();
             }
