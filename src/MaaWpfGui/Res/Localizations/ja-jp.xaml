@@ -225,6 +225,7 @@
     <system:String x:Key="LabelSequenceTip">タブの順番はドラッグ可能です</system:String>
     <system:String x:Key="CheckBoxesNotSaved">このオプションは一度有効です</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">このオプションは、右クリックで選択した時のみ一度だけ有効です</system:String>
+    <system:String x:Key="CheckBoxesNotSavedAsNullInvert">このオプションは、右クリックで選択した時のみ一度だけスキップします</system:String>
     <system:String x:Key="NoAutoNavigation">このオプションは、対応するステージに自動的に移動するものではありません</system:String>
     <system:String x:Key="StartupUpdateCheck">起動時の更新チェック</system:String>
     <system:String x:Key="UpdateAutoCheck">定期的な更新チェック</system:String>
