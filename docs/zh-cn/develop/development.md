@@ -55,7 +55,7 @@ icon: iconoir:developer
 
 8. 点击`MaaWpfGui`构建并运行，到这里，你就可以愉快地 ~~瞎 JB 改~~ 发电了
     - 如果构建过程中显示错误缺少或找不到LD/dnopengl或Mumu/external_renderer_ipc模块，请前往[EmulatorExtras](https://github.com/MaaXYZ/EmulatorExtras)下载，然后copy到对应应该导入的位置。
-    - 如果构建错误无法通过AI搜索自行解决，建议去[MAA发电群](655031753)咨询详情。
+    - 如果构建错误无法通过AI搜索自行解决，建议去`MAA 发电群`咨询详情。
 
 9. 开发过程中，每一定数量，记得提交一个 Commit, 别忘了写上 Message  
    假如你不熟悉 git 的使用，你可能想要新建一个分支进行更改，而不是直接提交在 `dev` 上
