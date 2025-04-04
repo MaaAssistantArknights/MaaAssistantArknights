@@ -29,16 +29,21 @@ icon: iconoir:developer
 
     **需要有 Python 环境，请自行搜索 Python 安装教程**  
     _（maadeps-download.py 文件在项目根目录）_
-    
+
     Python环境需要安装requests库
+
     ```cmd
     pip3 install requests
     ```
+
     运行以下python脚本下载预构建的第三方库（用于构建MAA项目）
+
     ```cmd
     python maadeps-download.py
     ```
+
     如果需要强制重新下载，可以使用 `-f` 参数
+
     ```cmd
     python maadeps-download.py -f
     ```
