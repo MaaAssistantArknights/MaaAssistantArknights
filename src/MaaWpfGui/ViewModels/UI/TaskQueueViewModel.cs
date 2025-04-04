@@ -1104,7 +1104,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (item.IsCheckedWithNull == null)
                 {
-                    item.IsChecked = GuiSettingsUserControlModel.Instance.InvertNullFunction;
+                    item.IsChecked = GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction;
                 }
             }
         }
@@ -1293,7 +1293,7 @@ namespace MaaWpfGui.ViewModels.UI
             int count = 0;
             foreach (var item in TaskItemViewModels)
             {
-                if (item.IsChecked == false || (GuiSettingsUserControlModel.Instance.InvertNullFunction && item.IsCheckedWithNull == null))
+                if (item.IsChecked == false || (GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && item.IsCheckedWithNull == null))
                 {
                     continue;
                 }
@@ -1355,11 +1355,6 @@ namespace MaaWpfGui.ViewModels.UI
                 _runningState.SetIdle(true);
                 Instances.AsstProxy.AsstStop();
                 SetStopped();
-                if (GuiSettingsUserControlModel.Instance.InvertNullFunction)
-                {
-                    ResetTaskSelection();
-                }
-
                 return;
             }
 

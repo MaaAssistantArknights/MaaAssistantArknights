@@ -386,7 +386,8 @@
     <system:String x:Key="SystemNotification">重要な通知をポップアップする</system:String>
     <system:String x:Key="HideCloseButton">「閉じる」ボタンを隠す</system:String>
     <system:String x:Key="WindowTitleScrollable">タイトルのスクロール機能</system:String>
-    <system:String x:Key="NullFunctionality">右クリックチェックボックス機能を反転する</system:String>
+    <system:String x:Key="MainTasksNullFunctionality">メインタスクの右クリック効果を反転</system:String>
+    <system:String x:Key="MainTasksNullFunctionalityTip">デフォルト：1回のみ有効、チェック後：1回のみスキップ</system:String>
     <system:String x:Key="TitleBarDisplayContent">タイトルバー表示コンテンツ</system:String>
     <system:String x:Key="CustomBackgroundTip">「background」 フォルダを手動で作成し、background.png を配置すると背景画像をカスタマイズできます</system:String>
     <system:String x:Key="UseLogItemDateFormat">カスタムログ日付形式</system:String>

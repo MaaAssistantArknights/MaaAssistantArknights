@@ -386,7 +386,8 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="SystemNotification">System Notification</system:String>
     <system:String x:Key="HideCloseButton">Hide close button</system:String>
     <system:String x:Key="WindowTitleScrollable">Window Title Scrolling</system:String>
-    <system:String x:Key="NullFunctionality">Invert right click checkbox function</system:String>
+    <system:String x:Key="MainTasksNullFunctionality">Reverse right-click effect for main task</system:String>
+    <system:String x:Key="MainTasksNullFunctionalityTip">Default: Apply once; Checked: Skip once</system:String>
     <system:String x:Key="TitleBarDisplayContent">Title Bar Display Content</system:String>
     <system:String x:Key="CustomBackgroundTip">Manually create a 「background」 folder and place 「background.png」 inside to customize the background</system:String>
     <system:String x:Key="UseLogItemDateFormat">Custom log date format</system:String>
