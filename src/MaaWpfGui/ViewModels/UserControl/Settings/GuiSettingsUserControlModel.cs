@@ -157,12 +157,12 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    public bool InvertNullFunction
+    public bool MainTasksInvertNullFunction
     {
-        get => ConfigFactory.Root.GUI.InvertNullFunction;
+        get => ConfigFactory.Root.GUI.MainTasksInvertNullFunction;
         set
         {
-            ConfigFactory.Root.GUI.InvertNullFunction = value;
+            ConfigFactory.Root.GUI.MainTasksInvertNullFunction = value;
         }
     }
 

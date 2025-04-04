@@ -807,6 +807,7 @@ namespace MaaWpfGui.Main
                     _taskStatus.Clear();
 
                     TaskQueueViewModel.FightTask.ResetFightVariables();
+                    TaskQueueViewModel.RecruitTask.ResetRecruitVariables();
                     Instances.TaskQueueViewModel.ResetTaskSelection();
                     _runningState.SetIdle(true);
 

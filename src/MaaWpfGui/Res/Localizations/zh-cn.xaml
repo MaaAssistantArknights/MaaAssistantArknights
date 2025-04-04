@@ -386,7 +386,8 @@
     <system:String x:Key="SystemNotification">重要信息弹出系统通知</system:String>
     <system:String x:Key="HideCloseButton">隐藏关闭按钮</system:String>
     <system:String x:Key="WindowTitleScrollable">窗口标题滚动</system:String>
-    <system:String x:Key="NullFunctionality">反转右键单击复选框功能</system:String>
+    <system:String x:Key="MainTasksNullFunctionality">反转主任务右键单击效果</system:String>
+    <system:String x:Key="MainTasksNullFunctionalityTip">默认仅一次生效，勾选后仅一次跳过</system:String>
     <system:String x:Key="TitleBarDisplayContent">标题栏显示内容</system:String>
     <system:String x:Key="CustomBackgroundTip">手动创建 background 文件夹，将 background.png 放入即可自定义背景图片</system:String>
     <system:String x:Key="UseLogItemDateFormat">自选日志日期格式</system:String>
