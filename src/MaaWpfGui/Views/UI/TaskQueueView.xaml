@@ -76,6 +76,19 @@
                                         IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}"
                                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                                       Target={x:Type helper:CheckBoxHelper}}">
+                                        <CheckBox.Style>
+                                            <Style BasedOn="{StaticResource CheckBoxBaseStyle}" TargetType="{x:Type CheckBox}">
+                                                <Style.Triggers>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding Source={x:Static setting:SettingsViewModel.GuiSettings}, Path=MainTasksInvertNullFunction}" Value="True" />
+                                                            <Condition Binding="{Binding IsCheckedWithNull}" Value="{x:Null}" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="Foreground" Value="{DynamicResource TraceLogBrush}" />
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </CheckBox.Style>
                                         <CheckBox.ToolTip>
                                             <ToolTip>
                                                 <ToolTip.Style>
