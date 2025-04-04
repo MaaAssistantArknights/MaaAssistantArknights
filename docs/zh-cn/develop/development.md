@@ -25,13 +25,22 @@ icon: iconoir:developer
     如果正在使用 Visual Studio 等不附带 `--recurse-submodules` 参数的 Git GUI，则需在克隆后再执行 `git submodule update --init` 以拉取子模块。
     :::
 
-4. 下载预构建的第三方库
+4. 下载预构建的第三方库（用于构建MAA项目）
 
     **需要有 Python 环境，请自行搜索 Python 安装教程**  
     _（maadeps-download.py 文件在项目根目录）_
-
+    
+    Python环境需要安装requests库
+    ```cmd
+    pip3 install requests
+    ```
+    运行以下python脚本下载预构建的第三方库（用于构建MAA项目）
     ```cmd
     python maadeps-download.py
+    ```
+    如果需要强制重新下载，可以使用 `-f` 参数
+    ```cmd
+    python maadeps-download.py -f
     ```
 
 5. 配置编程环境
@@ -61,16 +70,16 @@ icon: iconoir:developer
     git push origin dev
     ```
 
-11. 打开 [MAA 主仓库](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一个 Rull Request，等待管理员通过。别忘了你是在 dev 分支上修改，别提交到 master 分支去了
-12. 当 MAA 原仓库出现更改（别人做的），你可能需要把这些更改同步到你的分支
+11. 打开 [MAA 源仓库](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一个 Rull Request，等待管理员通过。别忘了你是在 dev 分支上修改，别提交到 master 分支去了
+12. 当 MAA 上游仓库出现更改（别人做的），你可能需要把这些更改同步到你的fork仓库分支
 
-    1. 关联 MAA 原仓库
+    1. 关联 MAA 上游仓库
 
         ```bash
         git remote add upstream https://github.com/MaaAssistantArknights/MaaAssistantArknights.git
         ```
 
-    2. 从 MAA 原仓库拉取更新
+    2. 从 MAA 上游仓库拉取更新
 
         ```bash
         git fetch upstream
@@ -82,7 +91,7 @@ icon: iconoir:developer
         git rebase upstream/dev # 变基
         ```
 
-        或者
+        或者merge（目前不推荐，过不了PR Checker）
 
         ```bash
         git merge # 合并
