@@ -481,7 +481,7 @@ namespace MaaWpfGui.ViewModels.UI
             bool timeToChangeConfig = false;
             int configIndex = 0;
 
-            for (int i = 0; i < 9; ++i)
+            for (int i = 0; i < 8; ++i)
             {
                 if (SettingsViewModel.TimerSettings.TimerModels.Timers[i].IsOn == false)
                 {
@@ -543,10 +543,7 @@ namespace MaaWpfGui.ViewModels.UI
                 _logger.Information($"Scheduled start: Timer Index: {configIndex}");
                 await HandleScheduledStart(configIndex);
 
-                if (configIndex == 8)
-                {
-                    SettingsViewModel.TimerSettings.TimerModels.Timers[8].IsOn = false;
-                }
+                SettingsViewModel.TimerSettings.TimerModels.Timers[configIndex].IsOn ??= false;
             }
         }
 

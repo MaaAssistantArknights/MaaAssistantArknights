@@ -73,7 +73,6 @@
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
-                <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -88,7 +87,10 @@
                     <CheckBox
                         Margin="10"
                         Content="{Binding TimerModels.Timers[0].TimerName}"
-                        IsChecked="{Binding TimerModels.Timers[0].IsOn}" />
+                        IsChecked="{Binding TimerModels.Timers[0].IsOn}"
+                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                      Target={x:Type helper:CheckBoxHelper}}"
+                        ToolTip="{DynamicResource CheckBoxesNotSaved}" />
                     <StackPanel Orientation="Horizontal">
                         <hc:NumericUpDown
                             Width="55"
@@ -134,7 +136,10 @@
                     <CheckBox
                         Margin="10"
                         Content="{Binding TimerModels.Timers[1].TimerName}"
-                        IsChecked="{Binding TimerModels.Timers[1].IsOn}" />
+                        IsChecked="{Binding TimerModels.Timers[1].IsOn}"
+                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                      Target={x:Type helper:CheckBoxHelper}}"
+                        ToolTip="{DynamicResource CheckBoxesNotSaved}" />
                     <StackPanel Orientation="Horizontal">
                         <hc:NumericUpDown
                             Width="55"
@@ -180,7 +185,10 @@
                     <CheckBox
                         Margin="10"
                         Content="{Binding TimerModels.Timers[2].TimerName}"
-                        IsChecked="{Binding TimerModels.Timers[2].IsOn}" />
+                        IsChecked="{Binding TimerModels.Timers[2].IsOn}"
+                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                      Target={x:Type helper:CheckBoxHelper}}"
+                        ToolTip="{DynamicResource CheckBoxesNotSaved}" />
                     <StackPanel Orientation="Horizontal">
                         <hc:NumericUpDown
                             Width="55"
@@ -226,7 +234,10 @@
                     <CheckBox
                         Margin="10"
                         Content="{Binding TimerModels.Timers[3].TimerName}"
-                        IsChecked="{Binding TimerModels.Timers[3].IsOn}" />
+                        IsChecked="{Binding TimerModels.Timers[3].IsOn}"
+                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                      Target={x:Type helper:CheckBoxHelper}}"
+                        ToolTip="{DynamicResource CheckBoxesNotSaved}" />
                     <StackPanel Orientation="Horizontal">
                         <hc:NumericUpDown
                             Width="55"
@@ -272,7 +283,10 @@
                     <CheckBox
                         Margin="10"
                         Content="{Binding TimerModels.Timers[4].TimerName}"
-                        IsChecked="{Binding TimerModels.Timers[4].IsOn}" />
+                        IsChecked="{Binding TimerModels.Timers[4].IsOn}"
+                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                      Target={x:Type helper:CheckBoxHelper}}"
+                        ToolTip="{DynamicResource CheckBoxesNotSaved}" />
                     <StackPanel Orientation="Horizontal">
                         <hc:NumericUpDown
                             Width="55"
@@ -318,7 +332,10 @@
                     <CheckBox
                         Margin="10"
                         Content="{Binding TimerModels.Timers[5].TimerName}"
-                        IsChecked="{Binding TimerModels.Timers[5].IsOn}" />
+                        IsChecked="{Binding TimerModels.Timers[5].IsOn}"
+                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                      Target={x:Type helper:CheckBoxHelper}}"
+                        ToolTip="{DynamicResource CheckBoxesNotSaved}" />
                     <StackPanel Orientation="Horizontal">
                         <hc:NumericUpDown
                             Width="55"
@@ -364,7 +381,10 @@
                     <CheckBox
                         Margin="10"
                         Content="{Binding TimerModels.Timers[6].TimerName}"
-                        IsChecked="{Binding TimerModels.Timers[6].IsOn}" />
+                        IsChecked="{Binding TimerModels.Timers[6].IsOn}"
+                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                      Target={x:Type helper:CheckBoxHelper}}"
+                        ToolTip="{DynamicResource CheckBoxesNotSaved}" />
                     <StackPanel Orientation="Horizontal">
                         <hc:NumericUpDown
                             Width="55"
@@ -410,7 +430,10 @@
                     <CheckBox
                         Margin="10"
                         Content="{Binding TimerModels.Timers[7].TimerName}"
-                        IsChecked="{Binding TimerModels.Timers[7].IsOn}" />
+                        IsChecked="{Binding TimerModels.Timers[7].IsOn}"
+                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                      Target={x:Type helper:CheckBoxHelper}}"
+                        ToolTip="{DynamicResource CheckBoxesNotSaved}" />
                     <StackPanel Orientation="Horizontal">
                         <hc:NumericUpDown
                             Width="55"
@@ -445,56 +468,6 @@
                     SelectedValue="{Binding TimerModels.Timers[7].TimerConfig}"
                     SelectedValuePath="Value"
                     ToolTip="{Binding TimerModels.Timers[7].TimerConfig}"
-                    Visibility="{c:Binding CustomConfig}" />
-            </StackPanel>
-
-            <StackPanel
-                Grid.Row="4"
-                Grid.Column="0"
-                Grid.ColumnSpan="2">
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-                    <CheckBox
-                        Margin="10"
-                        Content="{Binding TimerModels.Timers[8].TimerName}"
-                        IsChecked="{Binding TimerModels.Timers[8].IsOn}"
-                        ToolTip="{DynamicResource CheckBoxesNotSaved}" />
-                    <StackPanel Orientation="Horizontal">
-                        <hc:NumericUpDown
-                            Width="55"
-                            Margin="10"
-                            d:Value="0"
-                            InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding TimerModels.Timers[8].IsOn}"
-                            Maximum="23"
-                            Minimum="0"
-                            ValueFormat="00"
-                            Value="{Binding TimerModels.Timers[8].Hour}" />
-                        <controls:TextBlock Text=":" />
-                        <hc:NumericUpDown
-                            Width="55"
-                            Margin="10"
-                            d:Value="0"
-                            InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding TimerModels.Timers[8].IsOn}"
-                            Maximum="59"
-                            Minimum="0"
-                            ValueFormat="00"
-                            Value="{Binding TimerModels.Timers[8].Min}" />
-                    </StackPanel>
-                </StackPanel>
-                <ComboBox
-                    Width="150"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Focusable="False"
-                    IsEnabled="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    ItemsSource="{Binding ConfigurationList, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    SelectedValue="{Binding TimerModels.Timers[8].TimerConfig}"
-                    SelectedValuePath="Value"
-                    ToolTip="{Binding TimerModels.Timers[8].TimerConfig}"
                     Visibility="{c:Binding CustomConfig}" />
             </StackPanel>
         </Grid>
