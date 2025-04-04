@@ -112,20 +112,10 @@
                     MouseRightButtonDown="{s:Action ChangeGif}"
                     Uri="{Binding GifPath}"
                     Visibility="{c:Binding GifVisibility}" />
-                <hc:PreviewSlider
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Bottom"
-                    helper:HoverDelayHelper.Delay="50"
-                    Maximum="100"
-                    PreviewMouseUp="{s:Action PreviewSlider_MouseUp}"
-                    Visibility="{c:Binding BackgroundExist}"
-                    Value="{Binding BackgroundOpacity}">
-                    <hc:PreviewSlider.PreviewContent>
-                        <Label Content="{c:Binding Path='hc:PreviewSlider.PreviewPosition / 100.0', RelativeSource={RelativeSource Self}}" ContentStringFormat="P0" />
-                    </hc:PreviewSlider.PreviewContent>
-                    <hc:PreviewSlider.Style>
+                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                    <StackPanel.Resources>
                         <Style BasedOn="{StaticResource {x:Type hc:PreviewSlider}}" TargetType="{x:Type hc:PreviewSlider}">
-                            <Setter Property="Opacity" Value="0.1" />
+                            <Setter Property="Opacity" Value="0.01" />
                             <Style.Triggers>
                                 <Trigger Property="helper:HoverDelayHelper.IsHovered" Value="True">
                                     <Trigger.EnterActions>
@@ -157,8 +147,31 @@
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
-                    </hc:PreviewSlider.Style>
-                </hc:PreviewSlider>
+                    </StackPanel.Resources>
+                    <hc:PreviewSlider
+                        Margin="0,-5"
+                        helper:HoverDelayHelper.Delay="500"
+                        Focusable="False"
+                        Maximum="100"
+                        PreviewMouseUp="{s:Action PreviewSlider_MouseUp}"
+                        Visibility="{c:Binding BackgroundExist}"
+                        Value="{Binding BackgroundOpacity}">
+                        <hc:PreviewSlider.PreviewContent>
+                            <Label Content="{c:Binding Path='hc:PreviewSlider.PreviewPosition / 100.0', RelativeSource={RelativeSource Self}}" ContentStringFormat="α:{0:P0}" />
+                        </hc:PreviewSlider.PreviewContent>
+                    </hc:PreviewSlider>
+                    <hc:PreviewSlider
+                        helper:HoverDelayHelper.Delay="500"
+                        Focusable="False"
+                        Maximum="50"
+                        PreviewMouseUp="{s:Action PreviewSlider_MouseUp}"
+                        Visibility="{c:Binding BackgroundExist}"
+                        Value="{Binding BackgroundBlurEffectRadius}">
+                        <hc:PreviewSlider.PreviewContent>
+                            <Label Content="{c:Binding Path='hc:PreviewSlider.PreviewPosition', RelativeSource={RelativeSource Self}}" ContentStringFormat="R:{0:F0}" />
+                        </hc:PreviewSlider.PreviewContent>
+                    </hc:PreviewSlider>
+                </StackPanel>
             </Grid>
         </DockPanel>
     </Grid>

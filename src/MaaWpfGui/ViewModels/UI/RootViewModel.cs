@@ -334,13 +334,23 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public static int BackgroundBlurEffectRadius => int.Parse(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundBlurEffectRadius, "5"));
+        private static int _backgroundBlurEffectRadius = int.Parse(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundBlurEffectRadius, "5"));
+
+        public int BackgroundBlurEffectRadius
+        {
+            get => _backgroundBlurEffectRadius;
+            set
+            {
+                SetAndNotify(ref _backgroundBlurEffectRadius, value);
+            }
+        }
 
         public void PreviewSlider_MouseUp(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
             {
                 ConfigurationHelper.SetGlobalValue(ConfigurationKeys.BackgroundOpacity, BackgroundOpacity.ToString(CultureInfo.InvariantCulture));
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.BackgroundBlurEffectRadius, BackgroundBlurEffectRadius.ToString(CultureInfo.InvariantCulture));
             }
         }
     }
