@@ -18,5 +18,6 @@ private:
     bool select_difficulty(const int difficulty = 0);
 
     int m_current_difficulty = -1;
+    static constexpr int MAX_DIFFICULTY = 20;
 };
 }
