@@ -314,21 +314,27 @@
                 </StackPanel>
                 <DataGrid
                     Grid.Row="1"
-                    Width="680"
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
                     AutoGenerateColumns="False"
                     HeadersVisibility="None"
                     IsReadOnly="True"
                     ItemsSource="{Binding DepotResult}"
-                    ScrollViewer.CanContentScroll="True"
+                    ScrollViewer.CanContentScroll="False"
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <DataGrid.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <WrapPanel HorizontalAlignment="Center" />
+                            <!--<WrapPanel
+                                HorizontalAlignment="Center"
+                                ItemHeight="80"
+                                ItemWidth="300"
+                                Orientation="Horizontal" />-->
+                            <WrapPanel HorizontalAlignment="Center" Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </DataGrid.ItemsPanel>
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="100">
+
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Image
@@ -338,8 +344,16 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
-                        <DataGridTextColumn Binding="{Binding Count}" Header="Count" />
+                        <DataGridTextColumn
+                            Width="100"
+                            Binding="{Binding Name}"
+                            Header="Name" />
+
+                        <DataGridTextColumn
+                            Width="60"
+                            Binding="{Binding Count}"
+                            Header="Count" />
+
                     </DataGrid.Columns>
                 </DataGrid>
                 <StackPanel
