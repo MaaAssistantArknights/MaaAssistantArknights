@@ -2120,7 +2120,7 @@
         "action": "ClickSelf",
         "Doc": "进入资源关卡",
         "templThreshold": 0.77,
-        "roi": [0, 600, 1280, 110]
+        "roi": [600, 600, 250, 110]
     },
     "Stage": {
         "Doc": "base_task",
@@ -7295,7 +7295,7 @@
     },
     "Roguelike@IntegratedStrategies": {
         "action": "ClickSelf",
-        "roi": [0, 600, 1280, 110],
+        "roi": [963, 599, 148, 121],
         "next": ["Roguelike@IntegratedStrategies", "Roguelike@PreSelectTheme"]
     },
     "Roguelike@LastReward": {
