@@ -60,7 +60,24 @@ export const HomeActions: FC = () => {
       </div>
 
       <div className="mt-6 text-xs leading-5 text-center md:mt-8 text-white/70">
-        MAA 以 AGPL-3.0 协议开源；使用即表示您同意并知悉「用户协议」的相关内容。
+        MAA 以&nbsp;
+        <a
+          href="https://www.gnu.org/licenses/agpl-3.0.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline"
+        >
+          AGPL-3.0
+        </a>&nbsp;协议开源；使用即表示您同意并知悉「
+        <a
+          href="https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/docs/terms-of-service/terms-of-service.md"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline"
+        >
+          用户协议
+        </a>
+        」的相关内容。
       </div>
     </div>
   )
