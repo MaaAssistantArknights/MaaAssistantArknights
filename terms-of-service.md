@@ -12,6 +12,8 @@
 
 MAA（MaaAssistantArknights）是由 MAA Team 开发的开源第三方《明日方舟》辅助工具。MAA 基于 [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html) 许可证在 [GitHub](https://github.com/MaaAssistantArknights/MaaAssistantArknights) 平台开源，并通过自动打包流程提供二进制文件下载。
 
+用户开始阅读本协议，即视为该用户已满 18 周岁，并具有完全民事行为能力。若用户未满 18 周岁或不具有完全民事行为能力，则需在其监护人的陪同下阅读本协议。
+
 ## 使用许可
 
 1. MAA 基于 AGPL-3.0 许可证发布，用户可以在遵守该许可证的前提下使用、修改和分发 MAA 及其源代码。
@@ -50,7 +52,7 @@ MAA（MaaAssistantArknights）是由 MAA Team 开发的开源第三方《明日�
 ## 结语
 
 若用户对本协议存在任何异议，可在开始使用 MAA 前通过 GitHub Issue 提出意见或建议。  
-用户开始使用 MAA，即表示其已完整阅读、充分理解并同意遵守本协议的全部条款。
+用户开始使用 MAA，即视为该用户或其监护人为已满 18 周岁的具有完全民事行为能力的自然人，并已完整阅读、充分理解并同意遵守本协议的全部条款。
 
 _协议版本：1.0_  
-_生效日期：2025年2月4日_
+_生效日期：2025年5月1日_
