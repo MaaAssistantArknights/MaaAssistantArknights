@@ -1,7 +1,10 @@
 import { defineUserConfig } from "vuepress";
+import { getDirname, path } from "vuepress/utils";
 import { viteBundler } from "@vuepress/bundler-vite";
 import { googleAnalyticsPlugin } from "@vuepress/plugin-google-analytics";
 import Theme from "./theme";
+
+const __dirname = getDirname(import.meta.url);
 
 export default defineUserConfig({
   base: "/docs/",
@@ -11,24 +14,25 @@ export default defineUserConfig({
   port: 3001,
 
   locales: {
+    "/": { },
     "/zh-cn/": {
-      lang: "zh-CN",
+      lang: "zh-cn",
       description: "文档",
     },
     "/zh-tw/": {
-      lang: "zh-TW",
+      lang: "zh-tw",
       description: "文件",
     },
     "/en-us/": {
-      lang: "en-US",
+      lang: "en-us",
       description: "Documentation",
     },
     "/ja-jp/": {
-      lang: "ja-JP",
+      lang: "ja-jp",
       description: "ドキュメンテーション",
     },
     "/ko-kr/": {
-      lang: "ko-KR",
+      lang: "ko-kr",
       description: "선적 서류 비치",
     },
   },
@@ -40,6 +44,13 @@ export default defineUserConfig({
   },
 
   theme: Theme,
+
+  alias: {
+    "@theme-hope/modules/navbar/components/LanguageDropdown": path.resolve(
+      __dirname,
+      "./components/LanguageDropdown.ts",
+    ),
+  },
 
   plugins: [
     googleAnalyticsPlugin({
