@@ -21,7 +21,6 @@
     },
     "scripts": {
         "dev": "vuepress dev .",
-        "dev:docs": "vuepress dev .",
         "build": "vuepress build .",
         "clean": "vuepress dev . --clean-cache"
     }
