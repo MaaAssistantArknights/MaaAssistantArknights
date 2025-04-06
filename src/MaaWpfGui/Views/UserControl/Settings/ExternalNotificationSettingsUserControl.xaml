@@ -156,6 +156,7 @@
         <StackPanel
             Grid.Row="6"
             HorizontalAlignment="Center"
+            hc:InfoElement.TitleWidth="0"
             Visibility="{c:Binding SmtpEnabled}">
             <hc:Divider Content="SMTP" />
             <Grid>
@@ -318,6 +319,7 @@
 
         <StackPanel
             Grid.Row="8"
+            hc:InfoElement.TitleWidth="0"
             Orientation="Vertical"
             Visibility="{c:Binding QmsgEnabled}">
             <hc:Divider Content="Qmsg" />
