@@ -129,8 +129,11 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
                 if (m_next_step == NextStep::Fill) {
                     to_fill = true;
                     Log.info("set to_fill = true;");
-                    ctrler()->click(oper.rect);
-                    ++num_of_selected;
+                    if (oper.doing != infrast::Doing::Working && !oper.selected) {
+                        Log.info("to fill");
+                        ctrler()->click(oper.rect);
+                        ++num_of_selected;
+                    }
                     continue;
                 }
                 // 如果所有心情不满的干员已经放入宿舍，就把信赖不满的干员放入宿舍

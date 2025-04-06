@@ -96,7 +96,7 @@ maa-cli only provides an interface for MaaCore, it needs MaaCore and resources t
 maa install
 ```
 
-For users who installed via package managers, MaaCore can be installed via package managers:
+For users who installed via package managers, MaaCore can also be installed via package managers:
 
 - Homebrew：
 
@@ -112,8 +112,6 @@ For users who installed via package managers, MaaCore can be installed via packa
 
 - Nix：
 
-  ```bash
-  nix-env -iA nixpkgs.maa-assistant-arknights
-  ```
+  maa-cli on Nix depends on the MaaCore package, so no additional installation is required.
 
-**NOTE**: Only users who installed maa-cli via package managers can install MaaCore via package managers. Otherwise, please use the `maa install` command to install. In addition, the `maa install` downloads the official precompiled MaaCore, while the MaaCore installed by package managers has different compilation options and dependency versions from the official precompiled version. This does not affect the use of maa-cli but may cause differences in the functionality and performance of MaaCore. For example, the MaaCore installed by package managers uses a newer version of `fastdeploy`, while the official precompiled MaaCore uses an older version of `fastdeploy`. In the new version of `fastdeploy`, logs can be hidden, which can eliminate some unnecessary log output.
+**NOTE**: Only users who installed maa-cli via package managers can install MaaCore via package managers. Otherwise, please use the `maa install` command to install. In addition, the `maa install` downloads the official precompiled MaaCore, while the MaaCore installed by package managers has different compilation options and dependency versions from the official precompiled version, potentially causing variations in behavior and performance.

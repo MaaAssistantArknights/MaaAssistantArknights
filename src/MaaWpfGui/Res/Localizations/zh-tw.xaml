@@ -14,6 +14,10 @@
     <system:String x:Key="StartupSettings">啟動設定</system:String>
     <system:String x:Key="ScheduleSettings">定時執行</system:String>
     <system:String x:Key="UiSettings">介面設定</system:String>
+    <system:String x:Key="BackgroundSettings">背景設定</system:String>
+    <system:String x:Key="BackgroundImage">背景圖片</system:String>
+    <system:String x:Key="BackgroundOpacity">背景不透明度</system:String>
+    <system:String x:Key="BackgroundBlurRadius">背景模糊半徑</system:String>
     <system:String x:Key="UiTheme">介面主題</system:String>
     <system:String x:Key="HotKeySettings">熱鍵設定</system:String>
     <system:String x:Key="UpdateSettings">更新設定</system:String>
@@ -225,6 +229,7 @@
     <system:String x:Key="LabelSequenceTip">標籤順序可拖動</system:String>
     <system:String x:Key="CheckBoxesNotSaved">該選項僅生效一次</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">該選項右鍵選中時僅生效一次</system:String>
+    <system:String x:Key="CheckBoxesNotSavedAsNullInvert">該選項右鍵選中時僅跳過一次</system:String>
     <system:String x:Key="NoAutoNavigation">該選項不會自動導航至對應關卡</system:String>
     <system:String x:Key="StartupUpdateCheck">啟動時檢查更新</system:String>
     <system:String x:Key="UpdateAutoCheck">定時檢查更新</system:String>
@@ -386,7 +391,8 @@
     <system:String x:Key="SystemNotification">重要訊息彈出系統通知</system:String>
     <system:String x:Key="HideCloseButton">隱藏關閉按鈕</system:String>
     <system:String x:Key="WindowTitleScrollable">窗口標題滾動</system:String>
-    <system:String x:Key="NullFunctionality">反轉右鍵點選複選框功能</system:String>
+    <system:String x:Key="MainTasksNullFunctionality">反轉主任務右鍵單擊效果</system:String>
+    <system:String x:Key="MainTasksNullFunctionalityTip">預設僅一次生效，勾選後僅一次跳過</system:String>
     <system:String x:Key="TitleBarDisplayContent">標題欄顯示內容</system:String>
     <system:String x:Key="CustomBackgroundTip">手動建立 background 資料夾，將 background.png 放入即可自訂背景圖片</system:String>
     <system:String x:Key="UseLogItemDateFormat">自訂日誌日期格式</system:String>

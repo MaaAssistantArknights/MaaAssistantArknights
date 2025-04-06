@@ -114,6 +114,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public static ReclamationSettingsUserControlModel ReclamationTask => ReclamationSettingsUserControlModel.Instance;
 
+        /// <summary>
+        /// Gets 生稀盐酸任务Model
+        /// </summary>
+        public static CustomSettingsUserControlModel CustomTask => CustomSettingsUserControlModel.Instance;
+
         #endregion 长草任务Model
 
         private static readonly IEnumerable<TaskViewModel> TaskViewModelTypes = InitTaskViewModelList();
@@ -483,7 +488,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             for (int i = 0; i < 8; ++i)
             {
-                if (!SettingsViewModel.TimerSettings.TimerModels.Timers[i].IsOn)
+                if (SettingsViewModel.TimerSettings.TimerModels.Timers[i].IsOn == false)
                 {
                     continue;
                 }
@@ -542,6 +547,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 _logger.Information($"Scheduled start: Timer Index: {configIndex}");
                 await HandleScheduledStart(configIndex);
+
+                SettingsViewModel.TimerSettings.TimerModels.Timers[configIndex].IsOn ??= false;
             }
         }
 
@@ -593,6 +600,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 FightTask.ResetFightVariables();
+                RecruitTask.ResetRecruitVariables();
                 ResetTaskSelection();
                 InfrastTask.RefreshCustomInfrastPlanIndexByPeriod();
             }
@@ -650,6 +658,11 @@ namespace MaaWpfGui.ViewModels.UI
                 "AutoRoguelike",
                 "Reclamation"
             ];
+
+            if (Instances.VersionUpdateViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt"))
+            {
+                taskList.Add("Custom");
+            }
 
             var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[taskList.Count]);
             var nonOrderList = new List<DragItemViewModel>();
@@ -1104,7 +1117,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (item.IsCheckedWithNull == null)
                 {
-                    item.IsChecked = GuiSettingsUserControlModel.Instance.InvertNullFunction;
+                    item.IsChecked = GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction;
                 }
             }
         }
@@ -1293,7 +1306,7 @@ namespace MaaWpfGui.ViewModels.UI
             int count = 0;
             foreach (var item in TaskItemViewModels)
             {
-                if (item.IsChecked == false || (GuiSettingsUserControlModel.Instance.InvertNullFunction && item.IsCheckedWithNull == null))
+                if (item.IsChecked == false || (GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && item.IsCheckedWithNull == null))
                 {
                     continue;
                 }
@@ -1333,6 +1346,10 @@ namespace MaaWpfGui.ViewModels.UI
                         taskRet &= AppendReclamation();
                         break;
 
+                    case "Custom":
+                        taskRet &= AppendCustom();
+                        break;
+
                     default:
                         --count;
                         _logger.Error("Unknown task: " + item.OriginalName);
@@ -1355,11 +1372,6 @@ namespace MaaWpfGui.ViewModels.UI
                 _runningState.SetIdle(true);
                 Instances.AsstProxy.AsstStop();
                 SetStopped();
-                if (GuiSettingsUserControlModel.Instance.InvertNullFunction)
-                {
-                    ResetTaskSelection();
-                }
-
                 return;
             }
 
@@ -1743,6 +1755,18 @@ namespace MaaWpfGui.ViewModels.UI
             // 被RemoteControlService反射调用，暂不移除
             var (type, param) = ReclamationTask.Serialize();
             return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Reclamation, type, param);
+        }
+
+        private static bool AppendCustom()
+        {
+            var taskParams = new JObject
+            {
+                ["task_names"] = new JArray
+                {
+                   CustomTask.TaskName,
+                },
+            };
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Custom, AsstTaskType.Custom, taskParams);
         }
 
         /// <summary>

@@ -14,6 +14,10 @@
     <system:String x:Key="StartupSettings">Startup</system:String>
     <system:String x:Key="ScheduleSettings">Schedule</system:String>
     <system:String x:Key="UiSettings">GUI</system:String>
+    <system:String x:Key="BackgroundSettings">Background Setting</system:String>
+    <system:String x:Key="BackgroundImage">Background Image</system:String>
+    <system:String x:Key="BackgroundOpacity">Background Opacity</system:String>
+    <system:String x:Key="BackgroundBlurRadius">Background Blur Radius</system:String>
     <system:String x:Key="UiTheme">UI Theme</system:String>
     <system:String x:Key="HotKeySettings">HotKeys</system:String>
     <system:String x:Key="UpdateSettings">Update</system:String>
@@ -225,6 +229,7 @@
     <system:String x:Key="LabelSequenceTip">The label sequence can be dragged</system:String>
     <system:String x:Key="CheckBoxesNotSaved">This option is effective once</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">This option only takes effect once when right-clicked</system:String>
+    <system:String x:Key="CheckBoxesNotSavedAsNullInvert">This option only skips once when right-clicked</system:String>
     <system:String x:Key="NoAutoNavigation">This feature does not automatically navigate to the stage</system:String>
     <system:String x:Key="StartupUpdateCheck">Startup Update Check</system:String>
     <system:String x:Key="UpdateAutoCheck">Scheduled Update Check</system:String>
@@ -386,7 +391,8 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="SystemNotification">System Notification</system:String>
     <system:String x:Key="HideCloseButton">Hide close button</system:String>
     <system:String x:Key="WindowTitleScrollable">Window Title Scrolling</system:String>
-    <system:String x:Key="NullFunctionality">Invert right click checkbox function</system:String>
+    <system:String x:Key="MainTasksNullFunctionality">Reverse right-click effect for main task</system:String>
+    <system:String x:Key="MainTasksNullFunctionalityTip">Default: Apply once; Checked: Skip once</system:String>
     <system:String x:Key="TitleBarDisplayContent">Title Bar Display Content</system:String>
     <system:String x:Key="CustomBackgroundTip">Manually create a 「background」 folder and place 「background.png」 inside to customize the background</system:String>
     <system:String x:Key="UseLogItemDateFormat">Custom log date format</system:String>
