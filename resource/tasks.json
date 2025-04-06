@@ -4773,9 +4773,12 @@
     },
     "ClueGiveToNextPage": {
         "action": "ClickSelf",
-        "templThreshold": 0.95,
+        "method": "RGBCount",
+        "colorScales": [[150, 250]],
         "roi": [1184, 655, 50, 48],
         "maskRange": [1, 255],
+        "maxTimes": 10,
+        "exceededNext": ["ClueGiveTo1stConfirm"],
         "next": [
             "ClueGiveTo1st",
             "ClueGiveTo2nd",
