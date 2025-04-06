@@ -18,7 +18,7 @@
     mc:Ignorable="d">
     <StackPanel>
         <StackPanel Margin="10">
-            <controls:TextBlock HorizontalAlignment="Center" Text="背景图片" />
+            <controls:TextBlock HorizontalAlignment="Center" Text="{DynamicResource BackgroundImage}" />
             <StackPanel
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -34,7 +34,7 @@
             Margin="10"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
-            <controls:TextBlock HorizontalAlignment="Center" Text="背景不透明度" />
+            <controls:TextBlock HorizontalAlignment="Center" Text="{DynamicResource BackgroundOpacity}" />
             <hc:PreviewSlider
                 Width="400"
                 d:Value="50"
@@ -51,7 +51,7 @@
             Margin="10"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
-            <controls:TextBlock HorizontalAlignment="Center" Text="背景模糊半径" />
+            <controls:TextBlock HorizontalAlignment="Center" Text="{DynamicResource BackgroundBlurRadius}" />
             <hc:PreviewSlider
                 Width="400"
                 d:Value="5"

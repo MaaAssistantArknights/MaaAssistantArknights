@@ -14,6 +14,10 @@
     <system:String x:Key="StartupSettings">啟動設定</system:String>
     <system:String x:Key="ScheduleSettings">定時執行</system:String>
     <system:String x:Key="UiSettings">介面設定</system:String>
+    <system:String x:Key="BackgroundSettings">背景設定</system:String>
+    <system:String x:Key="BackgroundImage">背景圖片</system:String>
+    <system:String x:Key="BackgroundOpacity">背景不透明度</system:String>
+    <system:String x:Key="BackgroundBlurRadius">背景模糊半徑</system:String>
     <system:String x:Key="UiTheme">介面主題</system:String>
     <system:String x:Key="HotKeySettings">熱鍵設定</system:String>
     <system:String x:Key="UpdateSettings">更新設定</system:String>
