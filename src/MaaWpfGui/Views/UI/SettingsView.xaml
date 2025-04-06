@@ -93,21 +93,27 @@
                     DataContext="{Binding GuiSettings}" />
 
                 <hc:Divider Content="{Binding ListTitle[8]}" />
+                <settingsViews:BackgroundSettingsUserControl
+                    Margin="0,20"
+                    HorizontalAlignment="Center"
+                    DataContext="{Binding BackgroundSettings}" />
+
+                <hc:Divider Content="{Binding ListTitle[9]}" />
                 <settingsViews:ExternalNotificationSettingsUserControl
                     Margin="0,20"
                     HorizontalAlignment="Center"
                     DataContext="{Binding ExternalNotificationSettings}" />
 
-                <hc:Divider Content="{Binding ListTitle[9]}" />
+                <hc:Divider Content="{Binding ListTitle[10]}" />
                 <userControl:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
 
-                <hc:Divider Content="{Binding ListTitle[10]}" />
+                <hc:Divider Content="{Binding ListTitle[11]}" />
                 <settingsViews:VersionUpdateSettingsUserControl
                     Margin="0,20"
                     HorizontalAlignment="Center"
                     DataContext="{Binding VersionUpdateSettings}" />
 
-                <hc:Divider Content="{Binding ListTitle[11]}" />
+                <hc:Divider Content="{Binding ListTitle[12]}" />
                 <settingsViews:AboutUserControl Margin="0,20" HorizontalAlignment="Center" />
                 <!--<Rectangle HorizontalAlignment="Stretch" Fill="{DynamicResource BorderBrush}" Height="1" />-->
             </StackPanel>

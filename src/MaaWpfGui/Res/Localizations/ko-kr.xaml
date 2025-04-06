@@ -15,6 +15,10 @@
     <system:String x:Key="ScheduleSettings">예약 설정</system:String>
     <system:String x:Key="UiSettings">UI 설정</system:String>
     <system:String x:Key="UiTheme">UI 테마</system:String>
+    <system:String x:Key="BackgroundSettings">배경 설정</system:String>
+    <system:String x:Key="BackgroundImage">배경 이미지</system:String>
+    <system:String x:Key="BackgroundOpacity">배경 불투명도</system:String>
+    <system:String x:Key="BackgroundBlurRadius">배경 흐림 반경</system:String>
     <system:String x:Key="HotKeySettings">단축키 설정</system:String>
     <system:String x:Key="UpdateSettings">업데이트</system:String>
     <system:String x:Key="AboutUs">정보</system:String>

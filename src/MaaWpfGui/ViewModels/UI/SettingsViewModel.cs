@@ -76,6 +76,11 @@ namespace MaaWpfGui.ViewModels.UI
         public static GuiSettingsUserControlModel GuiSettings { get; } = GuiSettingsUserControlModel.Instance;
 
         /// <summary>
+        /// Gets 背景设置model
+        /// </summary>
+        public static BackgroundSettingsUserControlModel BackgroundSettings { get; } = BackgroundSettingsUserControlModel.Instance;
+
+        /// <summary>
         /// Gets 定时设置model
         /// </summary>
         public static TimerSettingsUserControlModel TimerSettings { get; } = TimerSettingsUserControlModel.Instance;
@@ -128,6 +133,7 @@ namespace MaaWpfGui.ViewModels.UI
             LocalizationHelper.GetString("StartupSettings"),
             LocalizationHelper.GetString("RemoteControlSettings"),
             LocalizationHelper.GetString("UiSettings"),
+            LocalizationHelper.GetString("BackgroundSettings"),
             LocalizationHelper.GetString("ExternalNotificationSettings"),
             LocalizationHelper.GetString("HotKeySettings"),
             LocalizationHelper.GetString("UpdateSettings"),
