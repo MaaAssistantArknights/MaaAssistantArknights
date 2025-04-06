@@ -25,9 +25,7 @@
             TextAlignment="Center"
             Visibility="{c:Binding 'ConfigurationList.Count > 1',
                                    Source={x:Static helper:Instances.SettingsViewModel}}" />
-        <controls:TextBlock
-            Text="{DynamicResource CustomBackgroundTip}"
-            TextWrapping="Wrap" />
+        <!--<controls:TextBlock Text="{DynamicResource CustomBackgroundTip}" TextWrapping="Wrap" />-->
         <Grid
             Margin="10"
             HorizontalAlignment="Center"
@@ -59,10 +57,12 @@
                     Margin="10"
                     Content="{DynamicResource WindowTitleScrollable}"
                     IsChecked="{Binding WindowTitleScrollable}" />
-                <!-- <CheckBox
+                <CheckBox
                     Margin="10"
-                    Content="{DynamicResource NullFunctionality}"
-                    IsChecked="{Binding InvertNullFunction}" />-->
+                    Content="{DynamicResource MainTasksNullFunctionality}"
+                    IsChecked="{Binding MainTasksInvertNullFunction}"
+                    ToolTip="{DynamicResource MainTasksNullFunctionalityTip}"
+                    ToolTipService.InitialShowDelay="0" />
                 <hc:CheckComboBox
                     Width="180"
                     Margin="10"

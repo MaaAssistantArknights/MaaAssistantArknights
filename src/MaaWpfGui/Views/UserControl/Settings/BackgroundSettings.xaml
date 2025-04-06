@@ -1,0 +1,68 @@
+<UserControl
+    x:Class="MaaWpfGui.Views.UserControl.Settings.BackgroundSettingsUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
+    d:Background="White"
+    d:DataContext="{d:DesignInstance {x:Type viewModels:BackgroundSettingsUserControlModel}}"
+    d:DesignHeight="300"
+    d:DesignWidth="550"
+    s:View.ActionTarget="{Binding}"
+    mc:Ignorable="d">
+    <StackPanel>
+        <StackPanel Margin="10">
+            <controls:TextBlock HorizontalAlignment="Center" Text="{DynamicResource BackgroundImage}" />
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <TextBox Width="350" Text="{Binding BackgroundImagePath}" />
+                <Button
+                    Width="50"
+                    Command="{s:Action SelectImagePath}"
+                    Content="{DynamicResource Select}" />
+            </StackPanel>
+        </StackPanel>
+        <StackPanel
+            Margin="10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <controls:TextBlock HorizontalAlignment="Center" Text="{DynamicResource BackgroundOpacity}" />
+            <hc:PreviewSlider
+                Width="400"
+                d:Value="50"
+                Focusable="False"
+                Maximum="100"
+                PreviewMouseUp="{s:Action PreviewSlider_MouseUp}"
+                Value="{Binding BackgroundOpacity}">
+                <hc:PreviewSlider.PreviewContent>
+                    <Label Content="{c:Binding Path=(hc:PreviewSlider.PreviewPosition), RelativeSource={RelativeSource Self}}" ContentStringFormat="α: {0:F0}%" />
+                </hc:PreviewSlider.PreviewContent>
+            </hc:PreviewSlider>
+        </StackPanel>
+        <StackPanel
+            Margin="10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <controls:TextBlock HorizontalAlignment="Center" Text="{DynamicResource BackgroundBlurRadius}" />
+            <hc:PreviewSlider
+                Width="400"
+                d:Value="5"
+                Focusable="False"
+                Maximum="50"
+                PreviewMouseUp="{s:Action PreviewSlider_MouseUp}"
+                Value="{Binding BackgroundBlurEffectRadius}">
+                <hc:PreviewSlider.PreviewContent>
+                    <Label Content="{c:Binding Path=(hc:PreviewSlider.PreviewPosition), RelativeSource={RelativeSource Self}}" ContentStringFormat="R: {0:F0}px" />
+                </hc:PreviewSlider.PreviewContent>
+            </hc:PreviewSlider>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

@@ -66,14 +66,14 @@
         <Rectangle Fill="{DynamicResource RegionBrush}" />
         <Image
             Name="BgImage"
+            DataContext="{Binding Source={x:Static ui:SettingsViewModel.BackgroundSettings}}"
             Opacity="{c:Binding 'BackgroundOpacity / 100.0'}"
             RenderOptions.BitmapScalingMode="LowQuality"
             RenderOptions.CachingHint="Cache"
             Source="{c:Binding BackgroundImage}"
-            Stretch="Fill"
-            Visibility="{c:Binding BackgroundExist}">
+            Stretch="Fill">
             <Image.Effect>
-                <BlurEffect Radius="10" />
+                <BlurEffect Radius="{Binding BackgroundBlurEffectRadius}" />
             </Image.Effect>
         </Image>
         <DockPanel>
@@ -112,53 +112,6 @@
                     MouseRightButtonDown="{s:Action ChangeGif}"
                     Uri="{Binding GifPath}"
                     Visibility="{c:Binding GifVisibility}" />
-                <hc:PreviewSlider
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Bottom"
-                    helper:HoverDelayHelper.Delay="50"
-                    Maximum="100"
-                    PreviewMouseUp="{s:Action PreviewSlider_MouseUp}"
-                    Visibility="{c:Binding BackgroundExist}"
-                    Value="{Binding BackgroundOpacity}">
-                    <hc:PreviewSlider.PreviewContent>
-                        <Label Content="{c:Binding Path='hc:PreviewSlider.PreviewPosition / 100.0', RelativeSource={RelativeSource Self}}" ContentStringFormat="P0" />
-                    </hc:PreviewSlider.PreviewContent>
-                    <hc:PreviewSlider.Style>
-                        <Style BasedOn="{StaticResource {x:Type hc:PreviewSlider}}" TargetType="{x:Type hc:PreviewSlider}">
-                            <Setter Property="Opacity" Value="0.1" />
-                            <Style.Triggers>
-                                <Trigger Property="helper:HoverDelayHelper.IsHovered" Value="True">
-                                    <Trigger.EnterActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation
-                                                    AccelerationRatio="0.3"
-                                                    DecelerationRatio="0.7"
-                                                    Storyboard.TargetProperty="Opacity"
-                                                    From="0.1"
-                                                    To="1.0"
-                                                    Duration="0:0:0.2" />
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.EnterActions>
-                                    <Trigger.ExitActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation
-                                                    AccelerationRatio="0.3"
-                                                    DecelerationRatio="0.7"
-                                                    Storyboard.TargetProperty="Opacity"
-                                                    From="1.0"
-                                                    To="0.1"
-                                                    Duration="0:0:0.3" />
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.ExitActions>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </hc:PreviewSlider.Style>
-                </hc:PreviewSlider>
             </Grid>
         </DockPanel>
     </Grid>

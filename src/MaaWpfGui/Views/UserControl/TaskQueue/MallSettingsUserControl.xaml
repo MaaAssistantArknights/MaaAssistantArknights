@@ -54,7 +54,6 @@
                 ItemsSource="{Binding FormationSelectList}"
                 SelectedValue="{Binding CreditFightSelectFormation}"
                 SelectedValuePath="Value"
-                
                 Visibility="{c:Binding CreditFightTaskEnabledDisplay}" />
         </StackPanel>
 

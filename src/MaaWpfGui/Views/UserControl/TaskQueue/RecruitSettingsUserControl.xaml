@@ -24,7 +24,7 @@
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource AutoUseExpedited}"
-                IsChecked="{Binding UseExpedited}"
+                IsChecked="{Binding UseExpeditedWithNull}"
                 ToolTip="{DynamicResource CheckBoxesNotSaved}" />
             <hc:NumericUpDown
                 Margin="0,5"

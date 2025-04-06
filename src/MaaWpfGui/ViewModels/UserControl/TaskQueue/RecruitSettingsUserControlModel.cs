@@ -124,15 +124,37 @@ public class RecruitSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private bool _useExpedited;
+    private bool? _useExpeditedWithNull = false;
+
+    public bool? UseExpeditedWithNull
+    {
+        get => _useExpeditedWithNull;
+        set
+        {
+            if (value == true)
+            {
+                value = null;
+            }
+
+            SetAndNotify(ref _useExpeditedWithNull, value);
+        }
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether to use expedited.
     /// </summary>
     public bool UseExpedited
     {
-        get => _useExpedited;
-        set => SetAndNotify(ref _useExpedited, value);
+        get => UseExpeditedWithNull != false;
+        set => UseExpeditedWithNull = value;
+    }
+
+    public void ResetRecruitVariables()
+    {
+        if (UseExpeditedWithNull == null)
+        {
+            UseExpedited = false;
+        }
     }
 
     private int _selectExtraTags = int.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.SelectExtraTags, "0"), out var outTags) ? outTags : 0;

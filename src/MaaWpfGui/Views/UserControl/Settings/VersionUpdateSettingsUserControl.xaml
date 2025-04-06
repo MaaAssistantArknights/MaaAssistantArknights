@@ -97,7 +97,6 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             hc:InfoElement.Placeholder="{DynamicResource MirrorChyanCdkPlaceholder}"
-                            Background="{DynamicResource TransparentRegionBrush}"
                             IsEnabled="{c:Binding 'UpdateSource == &quot;MirrorChyan&quot;'}"
                             IsSafeEnabled="False"
                             ShowEyeButton="True"

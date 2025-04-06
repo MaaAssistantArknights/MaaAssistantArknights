@@ -11,6 +11,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:setting="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:taskQueue="clr-namespace:MaaWpfGui.Views.UserControl.TaskQueue"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:userControl="clr-namespace:MaaWpfGui.Views.UserControl"
@@ -74,8 +75,35 @@
                                         IsChecked="{Binding IsCheckedWithNull}"
                                         IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}"
                                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
-                                                                      Target={x:Type helper:CheckBoxHelper}}"
-                                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
+                                                                      Target={x:Type helper:CheckBoxHelper}}">
+                                        <CheckBox.Style>
+                                            <Style BasedOn="{StaticResource CheckBoxBaseStyle}" TargetType="{x:Type CheckBox}">
+                                                <Style.Triggers>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding Source={x:Static setting:SettingsViewModel.GuiSettings}, Path=MainTasksInvertNullFunction}" Value="True" />
+                                                            <Condition Binding="{Binding IsCheckedWithNull}" Value="{x:Null}" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="Foreground" Value="{DynamicResource TraceLogBrush}" />
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </CheckBox.Style>
+                                        <CheckBox.ToolTip>
+                                            <ToolTip>
+                                                <ToolTip.Style>
+                                                    <Style BasedOn="{StaticResource ToolTipBaseStyle}" TargetType="{x:Type ToolTip}">
+                                                        <Setter Property="Content" Value="{DynamicResource CheckBoxesNotSavedAsNull}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Source={x:Static setting:SettingsViewModel.GuiSettings}, Path=MainTasksInvertNullFunction}" Value="True">
+                                                                <Setter Property="Content" Value="{DynamicResource CheckBoxesNotSavedAsNullInvert}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ToolTip.Style>
+                                            </ToolTip>
+                                        </CheckBox.ToolTip>
+                                    </CheckBox>
 
                                     <hc:ButtonGroup Grid.Column="1" HorizontalAlignment="Stretch">
                                         <RadioButton
@@ -283,6 +311,7 @@
                     <taskQueue:RoguelikeSettingsUserControl DataContext="{Binding RoguelikeTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.AutoRoguelike, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
                     <taskQueue:ReclamationSettingsUserControl DataContext="{Binding ReclamationTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Reclamation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
                     <taskQueue:PostActionUserControl DataContext="{Binding PostActionSetting}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.AfterAction, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
+                    <taskQueue:CustomUserControl DataContext="{Binding CustomTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Custom, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
                 </hc:SimpleStackPanel>
             </hc:ScrollViewer>
             <hc:ButtonGroup
