@@ -54,6 +54,8 @@ namespace MaaWpfGui.Constants
         public const string Hangover = "GUI.Hangover";
         public const string LastBuyWineTime = "GUI.LastBuyWineTime";
         public const string CustomCulture = "GUI.CustomCulture";
+
+        public const string BackgroundImagePath = "GUI.BackgroundImagePath";
         public const string BackgroundOpacity = "GUI.BackgroundOpacity";
         public const string BackgroundBlurEffectRadius = "GUI.BackgroundBlurEffectRadius";
 
