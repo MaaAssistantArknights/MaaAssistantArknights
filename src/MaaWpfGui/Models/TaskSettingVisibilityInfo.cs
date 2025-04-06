@@ -35,6 +35,7 @@ namespace MaaWpfGui.Models
         private bool _autoRoguelike;
         private bool _reclamation;
         private bool _afterAction;
+        private bool _custom;
 
         public bool WakeUp { get => _wakeUp; set => SetAndNotify(ref _wakeUp, value); }
 
@@ -53,6 +54,8 @@ namespace MaaWpfGui.Models
         public bool Reclamation { get => _reclamation; set => SetAndNotify(ref _reclamation, value); }
 
         public bool AfterAction { get => _afterAction; set => SetAndNotify(ref _afterAction, value); }
+
+        public bool Custom { get => _custom; set => SetAndNotify(ref _custom, value); }
 
         public static TaskSettingVisibilityInfo Current { get; } = new();
 
@@ -92,6 +95,9 @@ namespace MaaWpfGui.Models
                     break;
                 case "AfterAction":
                     AfterAction = enable;
+                    break;
+                case "Custom":
+                    Custom = enable;
                     break;
             }
 
