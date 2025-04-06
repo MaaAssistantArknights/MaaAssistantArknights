@@ -55,9 +55,9 @@ namespace MaaWpfGui.Constants
         public const string LastBuyWineTime = "GUI.LastBuyWineTime";
         public const string CustomCulture = "GUI.CustomCulture";
 
-        public const string BackgroundImagePath = "GUI.BackgroundImagePath";
-        public const string BackgroundOpacity = "GUI.BackgroundOpacity";
-        public const string BackgroundBlurEffectRadius = "GUI.BackgroundBlurEffectRadius";
+        public const string BackgroundImagePath = "GUI.Background.ImagePath";
+        public const string BackgroundOpacity = "GUI.Background.Opacity";
+        public const string BackgroundBlurEffectRadius = "GUI.Background.BlurEffectRadius";
 
         public const string AddressHistory = "Connect.AddressHistory";
         public const string AutoDetect = "Connect.AutoDetect";
