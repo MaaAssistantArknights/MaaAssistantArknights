@@ -82,7 +82,7 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
     {
         public class TimerProperties : PropertyChangedBase
         {
-            public TimerProperties(int timeId, bool isOn, int hour, int min, string? timerConfig)
+            public TimerProperties(int timeId, bool? isOn, int hour, int min, string? timerConfig)
             {
                 TimerId = timeId;
                 _isOn = isOn;
@@ -102,17 +102,14 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
 
             private readonly string _timerName = LocalizationHelper.GetString("Timer");
 
-            public string TimerName
-            {
-                get => $"{_timerName} {TimerId + 1}";
-            }
+            public string TimerName => $"{_timerName} {TimerId + 1}";
 
-            private bool _isOn;
+            private bool? _isOn;
 
             /// <summary>
             /// Gets or sets a value indicating whether the timer is set.
             /// </summary>
-            public bool IsOn
+            public bool? IsOn
             {
                 get => _isOn;
                 set
@@ -174,12 +171,12 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
         {
             for (int i = 0; i < 8; i++)
             {
-                Timers[i] = new TimerProperties(
-                    i,
-                    ConfigurationHelper.GetTimer(i, bool.FalseString) == bool.TrueString,
-                    int.Parse(ConfigurationHelper.GetTimerHour(i, $"{i * 3}")),
-                    int.Parse(ConfigurationHelper.GetTimerMin(i, "0")),
-                    ConfigurationHelper.GetTimerConfig(i, ConfigurationHelper.GetCurrentConfiguration()));
+                var timerState = ConfigurationHelper.GetTimer(i, bool.FalseString);
+                bool? isOn = bool.TryParse(timerState, out bool parsedBool) ? parsedBool : null;
+                var hour = int.Parse(ConfigurationHelper.GetTimerHour(i, $"{i * 3}"));
+                var minute = int.Parse(ConfigurationHelper.GetTimerMin(i, "0"));
+                var config = ConfigurationHelper.GetTimerConfig(i, ConfigurationHelper.GetCurrentConfiguration());
+                Timers[i] = new(i, isOn, hour, minute, config);
             }
         }
     }
