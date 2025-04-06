@@ -50,7 +50,7 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
     {
         var dialog = new OpenFileDialog
         {
-            Filter = "Image|*.jpg;*png",
+            Filter = "Image|*.jpg;*.png",
         };
 
         if (dialog.ShowDialog() == true)
