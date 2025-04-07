@@ -30,6 +30,10 @@ public class CustomSettingsUserControlModel : TaskViewModel
     public string TaskName
     {
         get => _taskName;
-        set => SetAndNotify(ref _taskName, value);
+        set
+        {
+            SetAndNotify(ref _taskName, value);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.DebugTaskName, value);
+        }
     }
 }
