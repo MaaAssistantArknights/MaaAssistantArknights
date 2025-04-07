@@ -52,7 +52,17 @@ jobs:
             /zh_CN/gamedata/excel/gacha_table.json
             /zh_CN/gamedata/excel/roguelike_topic_table.json
             /zh_CN/gamedata/excel/activity_table.json
-  
+          
+      - name: Move data up a folder
+        run: |
+          mv ./Official/zh_CN/gamedata/excel/item_table.json ./Official/item_table.json
+          mv ./Official/zh_CN/gamedata/excel/building_data.json ./Official/building_data.json
+          mv ./Official/zh_CN/gamedata/excel/range_table.json ./Official/range_table.json
+          mv ./Official/zh_CN/gamedata/excel/character_table.json ./Official/character_table.json
+          mv ./Official/zh_CN/gamedata/excel/gacha_table.json ./Official/gacha_table.json
+          mv ./Official/zh_CN/gamedata/excel/roguelike_topic_table.json ./Official/roguelike_topic_table.json
+          mv ./Official/zh_CN/gamedata/excel/activity_table.json ./Official/activity_table.json
+
       - name: Upload Official
         uses: actions/upload-artifact@v4
         with:
