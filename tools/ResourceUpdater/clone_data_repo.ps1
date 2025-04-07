@@ -15,6 +15,7 @@ $jobs += Start-Job -ScriptBlock {
     Write-Host "ArknightsGameResource - Official"
     git clone --filter=blob:none --no-checkout --depth 1 --sparse `
         "https://github.com/yuanyan3060/ArknightsGameResource" Official
+    git clone --depth 1 https://github.com/Kengxxiao/ArknightsGameData.git OfficialBackup
     Set-Location Official
     git sparse-checkout set --no-cone `
         "/levels.json" `
@@ -28,6 +29,7 @@ $jobs += Start-Job -ScriptBlock {
         "/gamedata/excel/roguelike_topic_table.json" `
         "/gamedata/excel/activity_table.json"
     git checkout
+    Copy-Item -Path "..\OfficialBackup\zh_CN\gamedata\*" -Destination "gamedata" -Recurse
 }
 
 # Job for cloning and sparse-checkout of Overseas repository
