@@ -1,0 +1,710 @@
+{
+    "code": "15-15",
+    "height": 8,
+    "levelId": "obt/main/level_main_15-14",
+    "name": "永恒与此刻的误差",
+    "stageId": "main_15-14",
+    "tiles": [
+        [
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_telout"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_start"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_start"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_telout"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "RANGED",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_wall"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_mpprts_enemy_born"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "RANGED",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_wall"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "RANGED",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_wall"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "RANGED",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_wall"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": true,
+                "isStart": false,
+                "tileKey": "tile_end"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": true,
+                "isStart": false,
+                "tileKey": "tile_end"
+            }
+        ],
+        [
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "RANGED",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_wall"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_floor"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "RANGED",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_wall"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "RANGED",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_wall"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_telin"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_telin"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "MELEE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "RANGED",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_wall"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ]
+    ],
+    "view": [
+        [
+            0,
+            0,
+            0
+        ],
+        [
+            -0.75,
+            -0.5,
+            -1.0
+        ]
+    ],
+    "width": 12
+}

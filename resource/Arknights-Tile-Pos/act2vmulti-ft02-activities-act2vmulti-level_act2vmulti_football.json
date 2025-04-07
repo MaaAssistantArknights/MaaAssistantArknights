@@ -1,0 +1,859 @@
+{
+    "code": "IG-S-3",
+    "height": 9,
+    "levelId": "activities/act2vmulti/level_act2vmulti_football",
+    "name": "大力出奇迹",
+    "stageId": "act2vmulti-ft02",
+    "tiles": [
+        [
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ],
+        [
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_allygoal"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": true,
+                "isStart": false,
+                "tileKey": "tile_enemygoal"
+            }
+        ],
+        [
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_allygoal"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_enemygoal"
+            }
+        ],
+        [
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_allygoal"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_enemygoal"
+            }
+        ],
+        [
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": true,
+                "isStart": false,
+                "tileKey": "tile_allygoal"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": true,
+                "isStart": true,
+                "tileKey": "tile_enemygoal"
+            }
+        ],
+        [
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_allygoal"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_enemygoal"
+            }
+        ],
+        [
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_allygoal"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_enemygoal"
+            }
+        ],
+        [
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": true,
+                "isStart": false,
+                "tileKey": "tile_allygoal"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": true,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "ALL",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_road"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "LOWLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_enemygoal"
+            }
+        ],
+        [
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": true,
+                "isStart": true,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            },
+            {
+                "buildableType": "NONE",
+                "heightType": "HIGHLAND",
+                "isEnd": false,
+                "isStart": false,
+                "tileKey": "tile_forbidden"
+            }
+        ]
+    ],
+    "view": [
+        [
+            0.0,
+            -6.1,
+            -9.76
+        ],
+        [
+            0.9448062140292399,
+            -6.6,
+            -10.61172366939915
+        ]
+    ],
+    "width": 13
+}
