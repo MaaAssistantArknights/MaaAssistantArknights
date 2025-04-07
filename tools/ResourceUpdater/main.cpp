@@ -92,10 +92,10 @@ int main([[maybe_unused]] int argc, char** argv)
     const auto resource_dir = solution_dir / "resource";
 
     std::unordered_map<fs::path, std::string> global_dirs = {
-        // { "en", "YoStarEN" },
-        // { "jp", "YoStarJP" },
-        // { "kr", "YoStarKR" },
-        // { "tw", "txwy" },
+        { "en", "YoStarEN" },
+        { "jp", "YoStarJP" },
+        { "kr", "YoStarKR" },
+        { "tw", "txwy" },
     };
 
     // ---- METHODS CALLS ----
@@ -235,24 +235,24 @@ bool run_parallel_tasks(
         }
     });
 
-    // std::thread check_roguelike_thread([&]() {
-    //     for (const auto& [in, out] : global_dirs) {
-    //         if (error_occurred.load()) {
-    //             return;
-    //         }
-    //         std::cout << "------- OCR replace " << out << " -------" << '\n';
-    //         if (!ocr_replace_overseas(
-    //                 overseas_data_dir / in / "gamedata" / "excel",
-    //                 resource_dir / "global" / out / "resource" / "tasks.json",
-    //                 official_data_dir / "gamedata" / "excel")) {
-    //             std::cerr << "ocr_replace_overseas failed " << out << '\n';
-    //             error_occurred.store(true);
-    //         }
-    //         else {
-    //             std::cout << ">Done OCR replace " << out << '\n';
-    //         }
-    //     }
-    // });
+    std::thread check_roguelike_thread([&]() {
+        for (const auto& [in, out] : global_dirs) {
+            if (error_occurred.load()) {
+                return;
+            }
+            std::cout << "------- OCR replace " << out << " -------" << '\n';
+            if (!ocr_replace_overseas(
+                    overseas_data_dir / in / "gamedata" / "excel",
+                    resource_dir / "global" / out / "resource" / "tasks.json",
+                    official_data_dir / "gamedata" / "excel")) {
+                std::cerr << "ocr_replace_overseas failed " << out << '\n';
+                error_occurred.store(true);
+            }
+            else {
+                std::cout << ">Done OCR replace " << out << '\n';
+            }
+        }
+    });
 
     std::thread recruit_thread([&]() {
         if (error_occurred.load()) {
@@ -341,7 +341,7 @@ bool run_parallel_tasks(
     infrast_templates_thread.join();
     battle_thread.join();
     version_thread.join();
-    // check_roguelike_thread.join();
+    check_roguelike_thread.join();
     recruit_thread.join();
     items_data_thread.join();
 
@@ -1098,7 +1098,7 @@ bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, 
 
         if (is_base) {
             RecruitmentInfo info;
-            info.rarity = char_data["rarity"].as_integer() + 1;
+            info.rarity = std::stoi(std::string() + char_data["rarity"].as_string().back());
             for (const auto& tag : char_data["tagList"].as_array()) {
                 info.tags.emplace_back(tag.as_string());
             }
