@@ -35,20 +35,10 @@ jobs:
             /gamedata/excel/roguelike_topic_table.json
             /gamedata/excel/activity_table.json
 
-      - name: Clone ArknightsGameData for Official
-        uses: actions/checkout@v4
-        with:
-          show-progress: false
-          repository: Kengxxiao/ArknightsGameData
-          ref: main
-          path: ./OfficialBackup
-          sparse-checkout-cone-mode: false
-          sparse-checkout: |
-            /zh_CN/gamedata/*
-
       - name: Overlay files
         shell: bash
         run: |
+          git clone --depth=1 https://github.com/Kengxxiao/ArknightsGameData.git OfficialBackup
           cp -r OfficialBackup/zh_CN/gamedata/* Official/gamedata
 
       - name: Upload Official
