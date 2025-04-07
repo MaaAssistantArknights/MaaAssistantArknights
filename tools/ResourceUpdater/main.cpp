@@ -945,7 +945,17 @@ bool update_battle_chars_info(const fs::path& official_dir, const fs::path& over
             char_data.get("phases", 1, "rangeId", default_range),
             char_data.get("phases", 2, "rangeId", default_range),
         };
-        char_new_data["rarity"] = static_cast<int>(char_data["rarity"]) + 1;
+        if (char_data["rarity"].is_string()) {
+            std::string rarity_str = char_data["rarity"].as_string();
+            if (rarity_str.starts_with("TIER_")) {
+                char_new_data["rarity"] = std::stoi(rarity_str.substr(5));
+            } else {
+                char_new_data["rarity"] = 1; // Default fallback
+            }
+        } else {
+            // Maintain backward compatibility
+            char_new_data["rarity"] = static_cast<int>(char_data["rarity"]) + 1;
+        }
         char_new_data["position"] = char_data["position"];
 
         if (auto token_opt = char_data.find<std::string>("tokenKey")) {
@@ -1098,7 +1108,17 @@ bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, 
 
         if (is_base) {
             RecruitmentInfo info;
-            info.rarity = char_data["rarity"].as_integer() + 1;
+            if (char_data["rarity"].is_string()) {
+                std::string rarity_str = char_data["rarity"].as_string();
+                if (rarity_str.starts_with("TIER_")) {
+                    info.rarity = std::stoi(rarity_str.substr(5));
+                } else {
+                    info.rarity = 1; // Default fallback
+                }
+            } else {
+                // Maintain backward compatibility
+                info.rarity = char_data["rarity"].as_integer() + 1;
+            }
             for (const auto& tag : char_data["tagList"].as_array()) {
                 info.tags.emplace_back(tag.as_string());
             }
