@@ -2208,19 +2208,12 @@ namespace MaaWpfGui.Main
 
         public bool AsstStartGacha(bool once = true)
         {
-            var taskParams = new JObject
+            var task = new AsstCustomTask()
             {
-                ["task_names"] = new JArray
-                {
-                    once ? "GachaOnce" : "GachaTenTimes",
-
-                    // TEST
-                    // "Block",
-                },
+                CustomTasks = [once ? "GachaOnce" : "GachaTenTimes"],
             };
-            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Custom, taskParams);
-            _taskStatus.Add(id, TaskType.Gacha);
-            return id != 0 && AsstStart();
+            var (type, param) = task.Serialize();
+            return AsstAppendTaskWithEncoding(TaskType.Gacha, type, param) && AsstStart();
         }
 
         public bool AsstStartVideoRec(string filename)

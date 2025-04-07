@@ -1347,8 +1347,11 @@ namespace MaaWpfGui.ViewModels.UI
                         break;
 
                     case "Custom":
-                        taskRet &= AppendCustom();
-                        break;
+                        {
+                            var (type, param) = CustomTask.Serialize();
+                            taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Reclamation, type, param);
+                            break;
+                        }
 
                     default:
                         --count;
@@ -1755,18 +1758,6 @@ namespace MaaWpfGui.ViewModels.UI
             // 被RemoteControlService反射调用，暂不移除
             var (type, param) = ReclamationTask.Serialize();
             return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Reclamation, type, param);
-        }
-
-        private static bool AppendCustom()
-        {
-            var taskParams = new JObject
-            {
-                ["task_names"] = new JArray
-                {
-                   CustomTask.TaskName,
-                },
-            };
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Custom, AsstTaskType.Custom, taskParams);
         }
 
         /// <summary>
