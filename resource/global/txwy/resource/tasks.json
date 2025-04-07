@@ -1,4 +1,13 @@
 {
+    "StageResource": {
+        "roi": [600, 600, 250, 110]
+    },
+    "Roguelike@IntegratedStrategies": {
+        "roi": [0, 600, 1280, 110]
+    },
+    "StageTheme": {
+        "roi": [200, 640, 300, 60]
+    },
     "BI-6": {
         "algorithm": "JustReturn",
         "next": ["BI-6@SideStoryStage", "BI-6@SwipeToStage"],
