@@ -235,24 +235,24 @@ bool run_parallel_tasks(
         }
     });
 
-    std::thread check_roguelike_thread([&]() {
-        for (const auto& [in, out] : global_dirs) {
-            if (error_occurred.load()) {
-                return;
-            }
-            std::cout << "------- OCR replace " << out << " -------" << '\n';
-            if (!ocr_replace_overseas(
-                    overseas_data_dir / in / "gamedata" / "excel",
-                    resource_dir / "global" / out / "resource" / "tasks.json",
-                    official_data_dir / "gamedata" / "excel")) {
-                std::cerr << "ocr_replace_overseas failed " << out << '\n';
-                error_occurred.store(true);
-            }
-            else {
-                std::cout << ">Done OCR replace " << out << '\n';
-            }
-        }
-    });
+    // std::thread check_roguelike_thread([&]() {
+    //     for (const auto& [in, out] : global_dirs) {
+    //         if (error_occurred.load()) {
+    //             return;
+    //         }
+    //         std::cout << "------- OCR replace " << out << " -------" << '\n';
+    //         if (!ocr_replace_overseas(
+    //                 overseas_data_dir / in / "gamedata" / "excel",
+    //                 resource_dir / "global" / out / "resource" / "tasks.json",
+    //                 official_data_dir / "gamedata" / "excel")) {
+    //             std::cerr << "ocr_replace_overseas failed " << out << '\n';
+    //             error_occurred.store(true);
+    //         }
+    //         else {
+    //             std::cout << ">Done OCR replace " << out << '\n';
+    //         }
+    //     }
+    // });
 
     std::thread recruit_thread([&]() {
         if (error_occurred.load()) {
@@ -341,7 +341,7 @@ bool run_parallel_tasks(
     infrast_templates_thread.join();
     battle_thread.join();
     version_thread.join();
-    check_roguelike_thread.join();
+    // check_roguelike_thread.join();
     recruit_thread.join();
     items_data_thread.join();
 
