@@ -55,6 +55,7 @@ jobs:
 
       - name: Move data up a folder
         run: | 
+          mkdir -p ./Official/gamedata/excel
           mv ./Official/zh_CN/gamedata/excel/item_table.json ./Official/gamedata/excel/item_table.json
           mv ./Official/zh_CN/gamedata/excel/building_data.json ./Official/gamedata/excel/building_data.json
           mv ./Official/zh_CN/gamedata/excel/range_table.json ./Official/gamedata/excel/range_table.json
