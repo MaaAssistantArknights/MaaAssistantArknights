@@ -27,14 +27,32 @@ jobs:
             /levels.json
             /item
             /building_skill
-            /gamedata/excel/item_table.json
-            /gamedata/excel/building_data.json
-            /gamedata/excel/range_table.json
-            /gamedata/excel/character_table.json
-            /gamedata/excel/gacha_table.json
-            /gamedata/excel/roguelike_topic_table.json
-            /gamedata/excel/activity_table.json
+          # /gamedata/excel/item_table.json
+          # /gamedata/excel/building_data.json
+          # /gamedata/excel/range_table.json
+          # /gamedata/excel/character_table.json
+          # /gamedata/excel/gacha_table.json
+          # /gamedata/excel/roguelike_topic_table.json
+          # /gamedata/excel/activity_table.json
 
+      # temp fix for outdated data
+      - name: Clone ArknightsGameData for Official
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+          repository: Kengxxiao/ArknightsGameData
+          ref: master
+          path: ./Official
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /zh_CN/gamedata/excel/item_table.json
+            /zh_CN/gamedata/excel/building_data.json
+            /zh_CN/gamedata/excel/range_table.json
+            /zh_CN/gamedata/excel/character_table.json
+            /zh_CN/gamedata/excel/gacha_table.json
+            /zh_CN/gamedata/excel/roguelike_topic_table.json
+            /zh_CN/gamedata/excel/activity_table.json
+  
       - name: Upload Official
         uses: actions/upload-artifact@v4
         with:
