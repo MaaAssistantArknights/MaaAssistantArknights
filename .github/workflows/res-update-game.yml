@@ -42,7 +42,7 @@ jobs:
           show-progress: false
           repository: Kengxxiao/ArknightsGameData
           ref: master
-          path: ./Official
+          path: ./OfficialKengxxiao
           sparse-checkout-cone-mode: false
           sparse-checkout: |
             /zh_CN/gamedata/excel/item_table.json
@@ -56,13 +56,13 @@ jobs:
       - name: Move data up a folder
         run: | 
           mkdir -p ./Official/gamedata/excel
-          mv ./Official/zh_CN/gamedata/excel/item_table.json ./Official/gamedata/excel/item_table.json
-          mv ./Official/zh_CN/gamedata/excel/building_data.json ./Official/gamedata/excel/building_data.json
-          mv ./Official/zh_CN/gamedata/excel/range_table.json ./Official/gamedata/excel/range_table.json
-          mv ./Official/zh_CN/gamedata/excel/character_table.json ./Official/gamedata/excel/character_table.json
-          mv ./Official/zh_CN/gamedata/excel/gacha_table.json ./Official/gamedata/excel/gacha_table.json
-          mv ./Official/zh_CN/gamedata/excel/roguelike_topic_table.json ./Official/gamedata/excel/roguelike_topic_table.json
-          mv ./Official/zh_CN/gamedata/excel/activity_table.json ./Official/gamedata/excel/activity_table.json
+          mv ./OfficialKengxxiao/zh_CN/gamedata/excel/item_table.json ./Official/gamedata/excel/item_table.json
+          mv ./OfficialKengxxiao/zh_CN/gamedata/excel/building_data.json ./Official/gamedata/excel/building_data.json
+          mv ./OfficialKengxxiao/zh_CN/gamedata/excel/range_table.json ./Official/gamedata/excel/range_table.json
+          mv ./OfficialKengxxiao/zh_CN/gamedata/excel/character_table.json ./Official/gamedata/excel/character_table.json
+          mv ./OfficialKengxxiao/zh_CN/gamedata/excel/gacha_table.json ./Official/gamedata/excel/gacha_table.json
+          mv ./OfficialKengxxiao/zh_CN/gamedata/excel/roguelike_topic_table.json ./Official/gamedata/excel/roguelike_topic_table.json
+          mv ./OfficialKengxxiao/zh_CN/gamedata/excel/activity_table.json ./Official/gamedata/excel/activity_table.json
 
       - name: Upload Official
         uses: actions/upload-artifact@v4
