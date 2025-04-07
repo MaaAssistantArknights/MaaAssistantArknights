@@ -92,10 +92,10 @@ int main([[maybe_unused]] int argc, char** argv)
     const auto resource_dir = solution_dir / "resource";
 
     std::unordered_map<fs::path, std::string> global_dirs = {
-        { "en", "YoStarEN" },
-        { "jp", "YoStarJP" },
-        { "kr", "YoStarKR" },
-        { "tw", "txwy" },
+        // { "en", "YoStarEN" },
+        // { "jp", "YoStarJP" },
+        // { "kr", "YoStarKR" },
+        // { "tw", "txwy" },
     };
 
     // ---- METHODS CALLS ----
