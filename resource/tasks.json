@@ -2823,7 +2823,7 @@
         "doc": "绑定插件调整连战次数",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["开始行动"],
+        "text": ["开始行动", "开始作战", "开始推演"],
         "preDelay": 500,
         "postDelay": 1000,
         "roi": [1038, 625, 206, 61],
