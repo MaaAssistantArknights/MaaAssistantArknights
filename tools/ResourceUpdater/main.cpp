@@ -92,10 +92,10 @@ int main([[maybe_unused]] int argc, char** argv)
     const auto resource_dir = solution_dir / "resource";
 
     std::unordered_map<fs::path, std::string> global_dirs = {
-        // { "en", "YoStarEN" },
-        // { "jp", "YoStarJP" },
-        // { "kr", "YoStarKR" },
-        // { "tw", "txwy" },
+        //{ "en", "YoStarEN" },
+        //{ "jp", "YoStarJP" },
+        //{ "kr", "YoStarKR" },
+        //{ "tw", "txwy" },
     };
 
     // ---- METHODS CALLS ----
@@ -125,227 +125,149 @@ bool run_parallel_tasks(
     const std::filesystem::path& overseas_data_dir,
     const std::unordered_map<fs::path, std::string>& global_dirs)
 {
-    std::atomic<bool> error_occurred(false);
-
-    std::thread stages_thread([&]() {
-        if (error_occurred.load()) {
-            return;
-        }
+    {
         std::cout << "------- Update stages data -------" << '\n';
         if (!update_stages_data(overseas_data_dir, resource_dir)) {
             std::cerr << "update_stages_data failed" << '\n';
-            error_occurred.store(true);
         }
         else {
             std::cout << ">Done stages.json" << '\n';
         }
-    });
+    };
 
-    std::thread levels_thread([&]() {
-        if (error_occurred.load()) {
-            return;
-        }
+    {
         std::cout << "------- Update levels.json for Official -------" << '\n';
         if (!update_levels_json(official_data_dir / "levels.json", resource_dir / "Arknights-Tile-Pos")) {
             std::cerr << "update_levels_json failed" << '\n';
-            error_occurred.store(true);
         }
         else {
             std::cout << ">Done levels.json" << '\n';
         }
-    });
+    };
 
-    std::thread infrast_data_thread([&]() {
-        if (error_occurred.load()) {
-            return;
-        }
+    {
         std::cout << "------- Update infrast data -------" << '\n';
         if (!update_infrast_data(official_data_dir / "gamedata" / "excel", resource_dir)) {
             std::cerr << "update_infrast_data failed" << '\n';
-            error_occurred.store(true);
         }
         else {
             std::cout << ">Done infrast data" << '\n';
         }
-    });
+    };
 
-    std::thread infrast_templates_thread([&]() {
-        if (error_occurred.load()) {
-            return;
-        }
+    {
         std::cout << "------- Update infrast templates -------" << '\n';
         if (!update_infrast_templates(official_data_dir / "building_skill", resource_dir / "template" / "infrast")) {
             std::cerr << "update_infrast_templates failed" << '\n';
-            error_occurred.store(true);
         }
         else {
             std::cout << ">Done infrast templates" << '\n';
         }
-    });
+    };
 
-    std::thread battle_thread([&]() {
-        if (error_occurred.load()) {
-            return;
-        }
+    {
         std::cout << "------- Update battle chars info -------" << '\n';
         if (!update_battle_chars_info(official_data_dir / "gamedata" / "excel", overseas_data_dir, resource_dir)) {
             std::cerr << "update_battle_chars_info failed" << '\n';
-            error_occurred.store(true);
         }
         else {
             std::cout << ">Done battle chars" << '\n';
         }
-    });
+    };
 
-    std::thread version_thread([&]() {
-        if (error_occurred.load()) {
-            return;
-        }
+    {
         std::cout << "------- Update version info for Official -------" << '\n';
         if (!update_version_info(official_data_dir / "gamedata" / "excel", resource_dir)) {
             std::cerr << "update_version_info failed" << '\n';
-            error_occurred.store(true);
         }
         else {
             std::cout << ">Done version Official" << '\n';
         }
 
-        std::vector<std::thread> version_threads;
-
         for (const auto& [in, out] : global_dirs) {
-            version_threads.emplace_back([&, in, out]() {
-                if (error_occurred.load()) {
-                    return;
-                }
+            {
                 std::cout << "------- Update version info " << out << " -------" << '\n';
                 if (!update_version_info(
                         overseas_data_dir / in / "gamedata" / "excel",
                         resource_dir / "global" / out / "resource")) {
                     std::cerr << "update_version_info failed " << out << '\n';
-                    error_occurred.store(true);
                 }
                 else {
                     std::cout << ">Done version " << out << '\n';
                 }
-            });
+            };
         }
+    };
 
-        for (auto& thread : version_threads) {
-            thread.join();
-        }
-    });
-
-    std::thread check_roguelike_thread([&]() {
+    {
         for (const auto& [in, out] : global_dirs) {
-            if (error_occurred.load()) {
-                return;
-            }
             std::cout << "------- OCR replace " << out << " -------" << '\n';
             if (!ocr_replace_overseas(
                     overseas_data_dir / in / "gamedata" / "excel",
                     resource_dir / "global" / out / "resource" / "tasks.json",
                     official_data_dir / "gamedata" / "excel")) {
                 std::cerr << "ocr_replace_overseas failed " << out << '\n';
-                error_occurred.store(true);
             }
             else {
                 std::cout << ">Done OCR replace " << out << '\n';
             }
         }
-    });
+    };
 
-    std::thread recruit_thread([&]() {
-        if (error_occurred.load()) {
-            return;
-        }
+    {
         std::cout << "------- Update recruitment data for Official -------" << '\n';
         if (!update_recruitment_data(
                 official_data_dir / "gamedata" / "excel",
                 resource_dir / "recruitment.json",
                 true)) {
             std::cerr << "Update recruitment data failed" << '\n';
-            error_occurred.store(true);
         }
         else {
             std::cout << ">Done recruitment Official" << '\n';
         }
 
-        std::vector<std::thread> recruitment_threads;
-
         for (const auto& [in, out] : global_dirs) {
-            recruitment_threads.emplace_back([&, in, out]() {
-                if (error_occurred.load()) {
-                    return;
-                }
+            {
                 std::cout << "------- Update recruitment data " << out << " -------" << '\n';
                 if (!update_recruitment_data(
                         overseas_data_dir / in / "gamedata" / "excel",
                         resource_dir / "global" / out / "resource" / "recruitment.json",
                         false)) {
                     std::cerr << "update_recruitment_data failed " << out << '\n';
-                    error_occurred.store(true);
                 }
                 else {
                     std::cout << ">Done recruitment " << out << '\n';
                 }
-            });
+            };
         }
+    };
 
-        for (auto& thread : recruitment_threads) {
-            thread.join();
-        }
-    });
-
-    std::thread items_data_thread([&]() {
-        if (error_occurred.load()) {
-            return;
-        }
+    {
         std::cout << "------- Update items data for Official -------" << '\n';
         if (!update_items_data(official_data_dir, resource_dir, true)) {
             std::cerr << "Update items data failed" << '\n';
-            error_occurred.store(true);
         }
         else {
             std::cout << ">Done items Official" << '\n';
         }
 
-        std::vector<std::thread> items_threads;
-
         for (const auto& [in, out] : global_dirs) {
-            items_threads.emplace_back([&, in, out]() {
-                if (error_occurred.load()) {
-                    return;
-                }
+            {
                 std::cout << "------- Update items data " << out << " -------" << '\n';
                 if (!update_items_data(
                         overseas_data_dir / in / "gamedata" / "excel",
                         resource_dir / "global" / out / "resource",
                         false)) {
                     std::cerr << "update_items_data failed " << out << '\n';
-                    error_occurred.store(true);
                 }
                 else {
                     std::cout << ">Done items " << out << '\n';
                 }
-            });
+            };
         }
+    };
 
-        for (auto& thread : items_threads) {
-            thread.join();
-        }
-    });
-
-    stages_thread.join();
-    levels_thread.join();
-    infrast_data_thread.join();
-    infrast_templates_thread.join();
-    battle_thread.join();
-    version_thread.join();
-    check_roguelike_thread.join();
-    recruit_thread.join();
-    items_data_thread.join();
-
-    return error_occurred.load() ? false : true;
+    return true;
 }
 
 bool update_items_data(const fs::path& input_dir, const fs::path& output_dir, bool with_imgs)
