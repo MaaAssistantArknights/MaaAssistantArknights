@@ -2,6 +2,7 @@ import linksIconArkNights from '@/assets/links/ark-nights.com.png?url'
 import linksIconPenguinStats from '@/assets/links/penguin-stats.png?url'
 import linksIconPrtsPlus from '@/assets/links/prts.plus.png?url'
 import linksIconYituliu from '@/assets/links/yituliu.site.png?url'
+import linksIconArkntools from '@/assets/links/arkntools.app.png?url'
 import chevronRight from '@iconify/icons-mdi/chevron-right'
 import mdiGitHub from '@iconify/icons-mdi/github'
 import { Icon } from '@iconify/react'
@@ -62,6 +63,14 @@ const LINKS = [
     title="明日方舟一图流"
     icon={
       <img src={linksIconYituliu} alt="明日方舟一图流" className="h-8 w-8" />
+    }
+  />,
+  <HomeLink
+    key="arkntools"
+    href="https://arkntools.app/"
+    title="明日方舟工具箱"
+    icon={
+      <img src={linksIconArkntools} alt="明日方舟工具箱" className="h-8 w-8" />
     }
   />,
   <HomeLink
