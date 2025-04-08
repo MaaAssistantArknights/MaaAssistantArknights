@@ -1135,6 +1135,22 @@
         "sortId": 40003,
         "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
     },
+    "SINGLE_55_0_1_GACHA": {
+        "classifyType": "NORMAL",
+        "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
+        "icon": "SINGLE_55_0_1_GACHA.png",
+        "name": "Never Gilded Headhunting Permit",
+        "sortId": 40003,
+        "usage": "A special permit from Rhodes Island HR for recruiting special talents at special points in time. Can be used to recruit one operator."
+    },
+    "SINGLE_55_0_1_GACHA_10": {
+        "classifyType": "NORMAL",
+        "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
+        "icon": "SINGLE_55_0_1_GACHA_10.png",
+        "name": "Exclusive Ten-roll Headhunting Permit",
+        "sortId": 40003,
+        "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
+    },
     "SOCIAL_PT": {
         "classifyType": "NONE",
         "description": "Credit holds communities together and stands as a symbol of social stability. Sometimes it's even more valuable than money, so do please cherish it.",
@@ -1783,6 +1799,14 @@
         "sortId": -10000,
         "usage": "A daily recipe waiting to be sent to Senshi's Dungeon Diner. If it's nutritionally balanced, you'll get a prize. If you're not sure which ingredients go with which, you can ask Matterhorn, Gummy, or Hibiscus."
     },
+    "act37side_token_nay": {
+        "classifyType": "NONE",
+        "description": "An emblem personally gifted by the Madam Speaker for outstanding behavior during battle or reconstruction. Anyone can use them as valuable tokens of opposition during the notice periods of the proposals deciding Londinium's future.\nNote that Parliament strictly forbids the trading of this honor!",
+        "icon": "act37side_token_nay.png",
+        "name": "'Nay!'",
+        "sortId": -10000,
+        "usage": "Every respectable citizen has the right to oppose Parliament's public proposals, and these emblems are Parliament's acknowledgment of said right. But rumor has it that some civil servants at the Office of Proposed Resolutions will secretly trade goods for this valuable right?"
+    },
     "act38d1_token_coin": {
         "classifyType": "NONE",
         "description": "A chunk of flawless Originium crystal. The Sanctuary considers it a precious treasure.",
@@ -2172,7 +2196,7 @@
         "description": "Nobody knows who ended up footing the bill. What we do know is the hope they have for Rhodes Island.",
         "icon": "randomDiamondShd_1.png",
         "name": "Half Year Anniversary Red Envelope",
-        "sortId": 60111,
+        "sortId": 60112,
         "usage": "Red envelopes passed out to every member of Rhodes Island. The goods inside may be random, but they are always filled to the brim with blessings."
     },
     "randomDiamondShd_2": {
@@ -2180,7 +2204,7 @@
         "description": "Nobody knows who ended up footing the bill. What we do know is the hope they have for Rhodes Island.",
         "icon": "randomDiamondShd_2.png",
         "name": "Celebratory Box",
-        "sortId": 60112,
+        "sortId": 60113,
         "usage": "Gift boxes distributed to all members of Rhodes Island, random in amount, and full of the joy that comes with celebration."
     },
     "randomMaterialRune_0": {
@@ -2335,6 +2359,14 @@
         "sortId": 60105,
         "usage": "Filled with an assortment of supplies and materials."
     },
+    "randomMaterial_5d5": {
+        "classifyType": "CONSUME",
+        "description": "Rhodes Island purchases and stores boxes of supplies from various places. However, due to the lack of an organized storage system, each box contains seemingly random materials.",
+        "icon": "randomMaterial_5d5.png",
+        "name": "Thank-You Celebration Supplies",
+        "sortId": 60111,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
     "randomMaterial_6": {
         "classifyType": "CONSUME",
         "description": "Rhodes Island purchases and stores boxes of supplies from various places. However, due to the lack of an organized storage system, each box contains seemingly random materials.",
@@ -2372,7 +2404,7 @@
         "description": "'Though the contents are as unalike as the sounds of the heart, they will help you in your search for the truth. Follow the echoes not yet forgotten, and you will eventually find the answer.'",
         "icon": "randomMaterial_leith2.png",
         "name": "Investigation Resupply",
-        "sortId": 60114,
+        "sortId": 60115,
         "usage": "Package from an unknown source containing various supplies, including random materials."
     },
     "randomMaterial_rhine2": {
@@ -2388,7 +2420,7 @@
         "description": "A material resupply box from Mountaincomm Trade. We the vendor are delighted to work with such a major client, and offer these complimentary gifts to you courtesy of our partner logistics firm.",
         "icon": "randomMaterial_siesta2.png",
         "name": "Mountaincomm Trade Supplies",
-        "sortId": 60113,
+        "sortId": 60114,
         "usage": "Filled with an assortment of supplies and materials."
     },
     "return_credit_token": {
