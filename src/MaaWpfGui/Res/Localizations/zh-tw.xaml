@@ -883,9 +883,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CheckHelpBeforeReportingIssue">請在確認您的問題不屬於常見問題後，再進行問題回饋</system:String>
     <system:String x:Key="Help">常見問題</system:String>
     <system:String x:Key="Issue">問題回饋</system:String>
-    <system:String x:Key="GenerateSupportPayload">產生問題回饋壓縮包</system:String>
-    <system:String x:Key="OpenDebugFolder">打開Debug資料夾</system:String>
-    <system:String x:Key="DebugFolderMissing">Debug資料夾不存在！</system:String>
+    <system:String x:Key="GenerateSupportPayload">產生紀錄壓縮包</system:String>
+    <system:String x:Key="OpenDebugFolder">打開紀錄資料夾</system:String>
+    <system:String x:Key="DebugFolderMissing">紀錄資料夾不存在！</system:String>
     <system:String x:Key="GenerateSupportPayloadSuccessful">壓縮包產生成功</system:String>
     <system:String x:Key="GenerateSupportPayloadException">產生壓縮包時發生問題：</system:String>
     <!--  !Issues  -->
