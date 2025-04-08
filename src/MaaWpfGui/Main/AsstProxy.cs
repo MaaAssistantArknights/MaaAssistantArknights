@@ -2036,6 +2036,8 @@ namespace MaaWpfGui.Main
         private readonly Dictionary<AsstTaskId, TaskType> _taskStatus = [];
 
         private static JObject SerializeFightTaskParams(
+        public IReadOnlyDictionary<AsstTaskId, TaskType> TaskStatus => _taskStatus;
+
             string stage,
             int maxMedicine,
             int maxStone,
@@ -2150,19 +2152,6 @@ namespace MaaWpfGui.Main
             return MaaService.AsstBackToHome(_handle);
         }
 
-        public bool AsstSetInfrastTaskParams()
-        {
-            const TaskType Type = TaskType.Infrast;
-            int id = _taskStatus.FirstOrDefault(i => i.Value == Type).Key;
-            if (id == 0)
-            {
-                return false;
-            }
-
-            var taskParams = InfrastSettingsUserControlModel.Instance.Serialize().Params;
-            return AsstSetTaskParamsWithEncoding(id, taskParams);
-        }
-
         /// <summary>
         /// 仓库识别。
         /// </summary>
@@ -2213,6 +2202,17 @@ namespace MaaWpfGui.Main
 
             _taskStatus.Add(id, wpfTasktype);
             return true;
+        }
+
+        public bool AsstSetTaskParamsEncoded(AsstTaskId id, JObject? taskParams = null)
+        {
+            if (id == 0)
+            {
+                return false;
+            }
+
+            taskParams ??= [];
+            return AsstSetTaskParams(_handle, id, JsonConvert.SerializeObject(taskParams));
         }
 
         public bool ContainsTask(TaskType type)
