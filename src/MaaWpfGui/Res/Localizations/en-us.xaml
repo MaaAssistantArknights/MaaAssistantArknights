@@ -878,7 +878,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="Discord">Discord</system:String>
     <!--  !About  -->
     <!--  Issues  -->
-    <system:String x:Key="CheckHelpBeforeReportingIssue">Please check FAQ before reporting any issue </system:String>
+    <system:String x:Key="CheckHelpBeforeReportingIssue">Please check the FAQ before reporting any issues</system:String>
     <system:String x:Key="Help">FAQ</system:String>
     <system:String x:Key="Issue">Issues</system:String>
     <system:String x:Key="GenerateSupportPayload">Generate Support Payload</system:String>
