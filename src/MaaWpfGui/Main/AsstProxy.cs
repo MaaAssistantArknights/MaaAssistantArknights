@@ -270,8 +270,8 @@ namespace MaaWpfGui.Main
             else
             {
                 // Read resources first, then read cache
-                loaded = LoadResIfExists(mainRes) && LoadResIfExists(globalResource);
-                loaded &= LoadResIfExists(mainCache) && LoadResIfExists(globalCache);
+                loaded = LoadResIfExists(mainRes) && LoadResIfExists(mainCache);
+                loaded &= LoadResIfExists(globalResource) && LoadResIfExists(globalCache);
             }
 
             return loaded;
