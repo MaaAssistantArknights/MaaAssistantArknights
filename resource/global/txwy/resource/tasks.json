@@ -1,13 +1,4 @@
 {
-    "StageResource": {
-        "roi": [600, 600, 250, 110]
-    },
-    "Roguelike@IntegratedStrategies": {
-        "roi": [0, 600, 1280, 110]
-    },
-    "StageTheme": {
-        "roi": [200, 640, 300, 60]
-    },
     "BI-6": {
         "algorithm": "JustReturn",
         "next": ["BI-6@SideStoryStage", "BI-6@SwipeToStage"],
@@ -58,6 +49,9 @@
         "next": ["CVChapterToCV"],
         "postDelay": 2000,
         "text": ["特爾", "梅之", "之金", "活動", "開啟"]
+    },
+    "StageTheme": {
+        "roi": [200, 640, 300, 60]
     },
     "ClickChapter1": {
         "text": ["覺醒"]
@@ -283,6 +277,9 @@
     },
     "DHChapterToDH": {
         "text": ["極限", "鐵人", "大獎"]
+    },
+    "StageResource": {
+        "roi": [600, 600, 250, 110]
     },
     "CharsNameOcrReplace": {
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的繁中识别任务复用，先全字符串匹配再部分匹配",
@@ -1724,7 +1721,7 @@
         "text": ["選擇"]
     },
     "Roguelike@IntegratedStrategies": {
-        "templThreshold": 0.75
+        "roi": [0, 600, 1280, 110]
     },
     "Roguelike@NoneSelected": {
         "text": ["不編入"]
