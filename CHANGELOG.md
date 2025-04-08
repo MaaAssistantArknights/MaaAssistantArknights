@@ -46,7 +46,7 @@
 * Telegram Topic notification (#12188) @Constrat
 * SSS#6 for EN (#12168) @dragonheart107
 * check nightly version with mirrorchyan (#12173) @MistEO
-* YostarEN GO navigation @Constrat @Manicsteiner @HX3N
+* YostarEN/JP/KR GO navigation @Constrat @Manicsteiner @HX3N
 
 ### 改进 | Improved
 
