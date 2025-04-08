@@ -2164,31 +2164,6 @@ namespace MaaWpfGui.Main
         }
 
         /// <summary>
-        /// 公招识别。
-        /// </summary>
-        /// <param name="selectLevel">会去点击标签的 Tag 等级。</param>
-        /// <param name="setTime">是否设置 9 小时。</param>
-        /// <param name="chooseLevel3Time">3 星招募时间</param>
-        /// <param name="chooseLevel4Time">4 星招募时间</param>
-        /// <param name="chooseLevel5Time">5 星招募时间</param>
-        /// <returns>是否成功。</returns>
-        public bool AsstStartRecruitCalc(int[] selectLevel, bool setTime, int chooseLevel3Time, int chooseLevel4Time, int chooseLevel5Time)
-        {
-            var task = new AsstRecruitTask()
-            {
-                SelectList = selectLevel.ToList(),
-                ConfirmList = [-1], // 仅公招识别时将-1加入comfirm_level
-                SetRecruitTime = setTime,
-                ChooseLevel3Time = chooseLevel3Time,
-                ChooseLevel4Time = chooseLevel4Time,
-                ChooseLevel5Time = chooseLevel5Time,
-                ServerType = Instances.SettingsViewModel.ServerType,
-            };
-            var (type, taskParams) = task.Serialize();
-            return AsstAppendTaskWithEncoding(TaskType.RecruitCalc, type, taskParams) && AsstStart();
-        }
-
-        /// <summary>
         /// 仓库识别。
         /// </summary>
         /// <returns>是否成功。</returns>
