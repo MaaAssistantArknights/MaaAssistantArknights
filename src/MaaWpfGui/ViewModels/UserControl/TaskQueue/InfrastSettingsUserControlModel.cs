@@ -23,6 +23,7 @@ using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.UI;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -440,7 +441,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             }
 
             SetAndNotify(ref _customInfrastPlanIndex, value);
-            Instances.TaskQueueViewModel.SetInfrastParams();
+            TaskQueueViewModel.SetInfrastParams();
             ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastPlanIndex, value.ToString());
         }
     }

@@ -27,6 +27,7 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
+using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
@@ -36,6 +37,7 @@ using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
+using static MaaWpfGui.Main.AsstProxy;
 using Application = System.Windows.Application;
 using IContainer = StyletIoC.IContainer;
 using Screen = Stylet.Screen;
@@ -1691,14 +1693,17 @@ namespace MaaWpfGui.ViewModels.UI
             Instances.AsstProxy.AsstSetFightTaskParams(FightTask.RemainingSanityStage, 0, 0, int.MaxValue, 1, string.Empty, 0, false);
         }
 
-        public void SetInfrastParams()
+        public static void SetInfrastParams()
         {
-            if (!Instances.AsstProxy.ContainsTask(AsstProxy.TaskType.Infrast))
+            const TaskType Type = TaskType.Infrast;
+            int id = Instances.AsstProxy.TaskStatus.FirstOrDefault(i => i.Value == Type).Key;
+            if (id == default)
             {
                 return;
             }
 
-            Instances.AsstProxy.AsstSetInfrastTaskParams();
+            var taskParams = InfrastSettingsUserControlModel.Instance.Serialize().Params;
+            Instances.AsstProxy.AsstSetTaskParamsEncoded(id, taskParams);
         }
 
         public bool AppendInfrast()
