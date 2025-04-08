@@ -1007,7 +1007,15 @@
             ["Shiny Berries", "闪亮果实"],
             ["Glooming Berry", "奇异黑光果实"],
             ["Shiny Brew", "缤纷果酒"],
-            ["'Treasure Chest'", "“宝箱”"]
+            ["'Treasure Chest'", "“宝箱”"],
+            ["Vina Victoria", "维娜·维多利亚"],
+            ["Catherine", "凯瑟琳"],
+            ["Bobbing", "波卜"],
+            ["Golden Vows", "黄金盟誓"],
+            ["Crawler Protection Unit", "爬行号·防护单元"],
+            ["Munitions Factory Command Center", "军工厂指令平台"],
+            ["Golden Echo", "黄金回响"],
+            ["Aggini of Nila", "尼卢火"]
         ]
     },
     "GameStartUpdateOCR": {
