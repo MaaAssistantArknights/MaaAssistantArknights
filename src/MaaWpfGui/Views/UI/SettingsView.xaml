@@ -115,6 +115,9 @@
 
                 <hc:Divider Content="{Binding ListTitle[12]}" />
                 <settingsViews:AboutUserControl Margin="0,20" HorizontalAlignment="Center" />
+
+                <hc:Divider Content="{Binding ListTitle[13]}" />
+                <settingsViews:IssueReportUserControl Margin="0,20" HorizontalAlignment="Center" DataContext="{Binding IssueReportSettings}"/>
                 <!--<Rectangle HorizontalAlignment="Stretch" Fill="{DynamicResource BorderBrush}" Height="1" />-->
             </StackPanel>
         </hc:ScrollViewer>
