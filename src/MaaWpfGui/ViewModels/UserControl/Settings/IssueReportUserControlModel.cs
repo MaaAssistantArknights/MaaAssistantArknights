@@ -16,34 +16,45 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Helper;
+using Serilog;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
+/// <summary>
+/// 问题反馈
+/// </summary>
 public class IssueReportUserControlModel : PropertyChangedBase
 {
-
     static IssueReportUserControlModel()
     {
         Instance = new();
     }
 
+    private static readonly string[] LogFileNames = ["gui.log", "gui.bak.log", "asst.log", "asst.bak.log"];
+
     public static IssueReportUserControlModel Instance { get; }
 
     public void OpenDebugFolder()
     {
-        string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "debug");
-
-        if (Directory.Exists(path))
+        string path = "debug";
+        try
         {
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory("debug");
+            }
+
             Process.Start("explorer.exe", path);
         }
-        else
+        catch (Exception ex)
         {
-            ShowGrowl(LocalizationHelper.GetString("DebugFolderMissing"));
+            ToastNotification.ShowDirect($"Failed to open debug folder\n{ex.Message}");
+            Log.Error(ex, "Failed to open debug folder");
         }
     }
 
@@ -51,13 +62,13 @@ public class IssueReportUserControlModel : PropertyChangedBase
     {
         try
         {
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "debug");
-            string zipPath = Path.Combine(path, "debug.zip");
+            string path = "debug";
+            string zipPath = Path.Combine(path, "log.zip");
             string tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
 
             if (!Directory.Exists(path))
             {
-                ShowGrowl(LocalizationHelper.GetString("DebugFolderMissing"));
+                Directory.CreateDirectory("debug");
                 return;
             }
 
@@ -67,7 +78,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
             }
 
             Directory.CreateDirectory(tempDir);
-            foreach (var file in Directory.GetFiles(path, "*.log"))
+            foreach (var file in Directory.EnumerateFiles(path, "*.log").Where(f => LogFileNames.Contains(f)))
             {
                 string dest = Path.Combine(tempDir, Path.GetFileName(file));
                 File.Copy(file, dest, overwrite: true);
@@ -85,11 +96,20 @@ public class IssueReportUserControlModel : PropertyChangedBase
 
             Directory.Delete(tempDir, recursive: true);
             ShowGrowl(LocalizationHelper.GetString("GenerateSupportPayloadSuccessful"));
+            OpenDebugFolder();
         }
         catch (Exception ex)
         {
             ShowGrowl($"{LocalizationHelper.GetString("GenerateSupportPayloadException")}\n{ex.Message}");
+            Log.Error(ex, "Failed to create log zip");
         }
+    }
+
+    // UI 绑定的方法
+    // ReSharper disable once UnusedMember.Global
+    public void SetAcknowledgedNightlyWarning()
+    {
+        VersionUpdateSettingsUserControlModel.Instance.HasAcknowledgedNightlyWarning = true;
     }
 
     private static void ShowGrowl(string message)

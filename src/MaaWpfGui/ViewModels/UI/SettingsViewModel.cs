@@ -142,8 +142,8 @@ namespace MaaWpfGui.ViewModels.UI
             LocalizationHelper.GetString("ExternalNotificationSettings"),
             LocalizationHelper.GetString("HotKeySettings"),
             LocalizationHelper.GetString("UpdateSettings"),
-            LocalizationHelper.GetString("AboutUs"),
             LocalizationHelper.GetString("IssueReport"),
+            LocalizationHelper.GetString("AboutUs"),
         ];
 
         /// <summary>
@@ -672,13 +672,6 @@ namespace MaaWpfGui.ViewModels.UI
         {
             await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
             _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
-        }
-
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
-        public void SetAcknowledgedNightlyWarning()
-        {
-            VersionUpdateSettings.HasAcknowledgedNightlyWarning = true;
         }
 
         /// <summary>

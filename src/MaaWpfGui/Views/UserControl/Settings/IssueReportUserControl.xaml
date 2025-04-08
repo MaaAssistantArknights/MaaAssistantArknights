@@ -33,7 +33,7 @@
             <controls:TextBlock
                 Grid.Row="0"
                 Grid.Column="0"
-                Margin="5"
+                Margin="5,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
                 <Hyperlink
@@ -47,11 +47,11 @@
             <controls:TextBlock
                 Grid.Row="1"
                 Grid.Column="0"
-                Margin="5"
+                Margin="5,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
                 <Hyperlink
-                    Command="{Binding DataContext.SetAcknowledgedNightlyWarning, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                    Command="{s:Action SetAcknowledgedNightlyWarning}"
                     Cursor="Hand"
                     NavigateUri="{Binding Source={x:Static constants:MaaUrls.GitHubIssues}}"
                     TextDecorations="None">
@@ -62,14 +62,14 @@
                 Grid.Row="0"
                 Grid.Column="1"
                 Width="Auto"
-                Margin="5"
+                Margin="5,2"
                 Command="{s:Action GenerateSupportPayload}"
                 Content="{DynamicResource GenerateSupportPayload}" />
             <Button
                 Grid.Row="1"
                 Grid.Column="1"
                 Width="Auto"
-                Margin="5"
+                Margin="5,2"
                 Command="{s:Action OpenDebugFolder}"
                 Content="{DynamicResource OpenDebugFolder}" />
         </Grid>
