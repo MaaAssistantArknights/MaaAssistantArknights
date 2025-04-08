@@ -113,17 +113,41 @@
         "baseTask": "ClickChapter",
         "text": ["残阳"]
     },
+    "ClickChapterNew": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [991, 0, 289, 170],
+        "text": ["乐章收录"],
+        "next": ["ClickChapterNewOpenTime", "ClickChapterNewOverview"]
+    },
+    "ClickChapterNewOpenTime": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [987, 0, 293, 156],
+        "text": ["开启时间"]
+    },
+    "ClickChapterNewOverview": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [987, 0, 293, 156],
+        "text": ["乐章"],
+        "next": ["ClickChapterNewOpenTime"]
+    },
     "ToChapter1": {
         "algorithm": "JustReturn",
-        "next": ["ClickChapter1@(ToChapter2#next^Stop)", "ClickChapter1", "Stop"]
+        "next": ["ClickChapterNew", "ClickChapter1@(ToChapter2#next^Stop)", "ClickChapter1", "Stop"]
     },
     "ToChapter2": {
         "algorithm": "JustReturn",
-        "next": ["ClickChapter2@(ToChapter3#next^Stop)", "ClickChapter2", "Stop"]
+        "next": ["ClickChapterNew", "ClickChapter2@(ToChapter3#next^Stop)", "ClickChapter2", "Stop"]
     },
     "ToChapter3": {
         "algorithm": "JustReturn",
-        "next": ["ClickChapter3", "Stop"]
+        "next": ["ClickChapterNew", "ClickChapter3", "Stop"]
+    },
+    "ToChapterNew": {
+        "algorithm": "JustReturn",
+        "next": ["ClickChapterNew", "Stop"]
     },
     "EpisodeOcrReplace": {
         "Doc": "base_task",
@@ -136,6 +160,26 @@
             [" ", ""]
         ]
     },
+    "EnterEpisodeNew": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf"
+    },
+    "00@EnterEpisodeNew": {},
+    "01@EnterEpisodeNew": {},
+    "02@EnterEpisodeNew": {},
+    "03@EnterEpisodeNew": {},
+    "04@EnterEpisodeNew": {},
+    "05@EnterEpisodeNew": {},
+    "06@EnterEpisodeNew": {},
+    "07@EnterEpisodeNew": {},
+    "08@EnterEpisodeNew": {},
+    "09@EnterEpisodeNew": {},
+    "10@EnterEpisodeNew": {},
+    "11@EnterEpisodeNew": {},
+    "12@EnterEpisodeNew": {},
+    "13@EnterEpisodeNew": {},
+    "14@EnterEpisodeNew": {},
     "EnterEpisode": {
         "Doc": "base_task",
         "baseTask": "EpisodeOcrReplace",
@@ -353,7 +397,7 @@
     "Episode": {
         "Doc": "base_task",
         "algorithm": "JustReturn",
-        "next": ["SwipeLeftToEpisode", "EnterEpisode"]
+        "next": ["EnterEpisodeNew", "SwipeLeftToEpisode", "EnterEpisode"]
     },
     "Episode0": {
         "baseTask": "00@Episode",
