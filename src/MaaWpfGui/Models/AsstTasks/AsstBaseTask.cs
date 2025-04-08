@@ -11,7 +11,6 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
-using System;
 using MaaWpfGui.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -19,12 +18,9 @@ using Newtonsoft.Json.Linq;
 namespace MaaWpfGui.Models.AsstTasks;
 
 [JsonObject(MemberSerialization.OptIn)]
-public class AsstBaseTask
+public abstract class AsstBaseTask
 {
     public virtual AsstTaskType TaskType { get; private set; }
 
-    public virtual (AsstTaskType TaskType, JObject Params) Serialize()
-    {
-        throw new NotImplementedException();
-    }
+    public abstract (AsstTaskType TaskType, JObject Params) Serialize();
 }

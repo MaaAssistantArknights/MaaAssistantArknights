@@ -17,7 +17,11 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Models.AsstTasks;
+using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.UI;
+using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
@@ -251,7 +255,7 @@ public class FightSettingsUserControlModel : TaskViewModel
             }
 
             SetAndNotify(ref _remainingSanityStage, value);
-            Instances.TaskQueueViewModel.SetFightRemainingSanityParams();
+            TaskQueueViewModel.SetFightRemainingSanityParams();
             ConfigurationHelper.SetValue(ConfigurationKeys.RemainingSanityStage, value);
         }
     }
@@ -313,12 +317,12 @@ public class FightSettingsUserControlModel : TaskViewModel
         set => UseMedicineWithNull = value;
     }
 
-    private string _medicineNumber = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicineQuantity, "999");
+    private int _medicineNumber = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicineQuantity, 999);
 
     /// <summary>
     /// Gets or sets the amount of medicine used.
     /// </summary>
-    public string MedicineNumber
+    public int MedicineNumber
     {
         get => _medicineNumber;
         set
@@ -329,9 +333,8 @@ public class FightSettingsUserControlModel : TaskViewModel
             }
 
             SetAndNotify(ref _medicineNumber, value);
-
             Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseMedicineQuantity, MedicineNumber);
+            ConfigurationHelper.SetValue(ConfigurationKeys.UseMedicineQuantity, value.ToString());
         }
     }
 
@@ -356,7 +359,7 @@ public class FightSettingsUserControlModel : TaskViewModel
             SetAndNotify(ref _useStoneWithNull, value);
             if (value != false)
             {
-                MedicineNumber = "999";
+                MedicineNumber = 999;
                 if (!UseMedicine)
                 {
                     UseMedicineWithNull = value;
@@ -384,12 +387,12 @@ public class FightSettingsUserControlModel : TaskViewModel
         set => UseStoneWithNull = value;
     }
 
-    private string _stoneNumber = ConfigurationHelper.GetValue(ConfigurationKeys.UseStoneQuantity, "0");
+    private int _stoneNumber = ConfigurationHelper.GetValue(ConfigurationKeys.UseStoneQuantity, 0);
 
     /// <summary>
     /// Gets or sets the amount of originiums used.
     /// </summary>
-    public string StoneNumber
+    public int StoneNumber
     {
         get => _stoneNumber;
         set
@@ -401,7 +404,7 @@ public class FightSettingsUserControlModel : TaskViewModel
 
             SetAndNotify(ref _stoneNumber, value);
             Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseStoneQuantity, StoneNumber);
+            ConfigurationHelper.SetValue(ConfigurationKeys.UseStoneQuantity, value.ToString());
         }
     }
 
@@ -431,12 +434,12 @@ public class FightSettingsUserControlModel : TaskViewModel
         set => HasTimesLimitedWithNull = value;
     }
 
-    private string _maxTimes = ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimitedQuantity, "5");
+    private int _maxTimes = ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimitedQuantity, 5);
 
     /// <summary>
     /// Gets or sets the max number of times.
     /// </summary>
-    public string MaxTimes
+    public int MaxTimes
     {
         get => _maxTimes;
         set
@@ -448,17 +451,16 @@ public class FightSettingsUserControlModel : TaskViewModel
 
             SetAndNotify(ref _maxTimes, value);
             Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.TimesLimitedQuantity, MaxTimes);
+            ConfigurationHelper.SetValue(ConfigurationKeys.TimesLimitedQuantity, value.ToString());
         }
     }
 
-    private string _series = ConfigurationHelper.GetValue(ConfigurationKeys.SeriesQuantity, "1");
+    private int _series = ConfigurationHelper.GetValue(ConfigurationKeys.SeriesQuantity, 1);
 
     /// <summary>
     /// Gets or sets the max number of times.
     /// </summary>
-    // 所以为啥这玩意是 string 呢？改配置的时候把上面那些也都改成 int 吧
-    public string Series
+    public int Series
     {
         get => _series;
         set
@@ -470,7 +472,7 @@ public class FightSettingsUserControlModel : TaskViewModel
 
             SetAndNotify(ref _series, value);
             Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.SeriesQuantity, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.SeriesQuantity, value.ToString());
         }
     }
 
@@ -612,19 +614,19 @@ public class FightSettingsUserControlModel : TaskViewModel
         DropsItemName = LocalizationHelper.GetString("NotSelected");
     }
 
-    private string _dropsQuantity = ConfigurationHelper.GetValue(ConfigurationKeys.DropsQuantity, "5");
+    private int _dropsQuantity = ConfigurationHelper.GetValue(ConfigurationKeys.DropsQuantity, 5);
 
     /// <summary>
     /// Gets or sets the quantity of drops.
     /// </summary>
-    public string DropsQuantity
+    public int DropsQuantity
     {
         get => _dropsQuantity;
         set
         {
             SetAndNotify(ref _dropsQuantity, value);
             Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.DropsQuantity, DropsQuantity);
+            ConfigurationHelper.SetValue(ConfigurationKeys.DropsQuantity, value.ToString());
         }
     }
 
@@ -769,6 +771,33 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
 
         return value;
+    }
+
+    public override (AsstTaskType Type, JObject Params) Serialize()
+    {
+        var task = new AsstFightTask()
+        {
+            Stage = Stage,
+            Medicine = UseMedicine ? MedicineNumber : 0,
+            Stone = UseStone ? StoneNumber : 0,
+            Series = Series,
+            MaxTimes = HasTimesLimited ? MaxTimes : int.MaxValue,
+            ExpiringMedicine = UseExpiringMedicine ? 9999 : 0,
+            IsDrGrandet = IsDrGrandet,
+            ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
+            ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
+            PenguinId = SettingsViewModel.GameSettings.PenguinId,
+            YituliuId = SettingsViewModel.GameSettings.PenguinId,
+            ServerType = Instances.SettingsViewModel.ServerType,
+            ClientType = SettingsViewModel.GameSettings.ClientType,
+        };
+
+        if (IsSpecifiedDrops)
+        {
+            task.Drops.Add(DropsItemId, DropsQuantity);
+        }
+
+        return task.Serialize();
     }
 
     #region 双入口设置可见性
