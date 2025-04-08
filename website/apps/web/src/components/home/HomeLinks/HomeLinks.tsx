@@ -115,7 +115,7 @@ export const HomeLinks = forwardRef<HTMLDivElement>((_props, ref) => (
   >
     <h1 className="text-4xl font-bold mb-3 px-2">
       友情链接
-      <span className="text-md ml-4 font-bold opacity-80 tracking-wider">
+      <span className="text-base ml-4 font-bold opacity-80 tracking-wider">
         LINKS
       </span>
     </h1>
