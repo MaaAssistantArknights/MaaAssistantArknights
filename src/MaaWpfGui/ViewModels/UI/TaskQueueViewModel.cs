@@ -1543,13 +1543,13 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private static bool AppendStart()
+        public static bool AppendStart()
         {
             var (type, param) = StartUpTask.Serialize();
             return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.StartUp, type, param);
         }
 
-        private bool AppendFight()
+        public bool AppendFight()
         {
             int medicine = 0;
             if (FightTask.UseMedicine)
@@ -1701,9 +1701,8 @@ namespace MaaWpfGui.ViewModels.UI
             Instances.AsstProxy.AsstSetInfrastTaskParams();
         }
 
-        private bool AppendInfrast()
+        public bool AppendInfrast()
         {
-            // 被RemoteControlService反射调用，暂不移除
             if (InfrastTask.CustomInfrastEnabled && (!File.Exists(InfrastTask.CustomInfrastFile) || InfrastTask.CustomInfrastPlanInfoList.Count == 0))
             {
                 AddLog(LocalizationHelper.GetString("CustomizeInfrastSelectionEmpty"), UiLogColor.Error);
@@ -1714,48 +1713,32 @@ namespace MaaWpfGui.ViewModels.UI
             return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Infrast, type, param);
         }
 
-        private readonly Dictionary<string, IEnumerable<string>> _blackCharacterListMapping = new()
+        public static bool AppendMall()
         {
-            { string.Empty, ["讯使", "嘉维尔", "坚雷"] },
-            { "Official", ["讯使", "嘉维尔", "坚雷"] },
-            { "Bilibili", ["讯使", "嘉维尔", "坚雷"] },
-            { "YoStarEN", ["Courier", "Gavial", "Dur-nar"] },
-            { "YoStarJP", ["クーリエ", "ガヴィル", "ジュナー"] },
-            { "YoStarKR", ["쿠리어", "가비알", "듀나"] },
-            { "txwy", ["訊使", "嘉維爾", "堅雷"] },
-        };
-
-        private bool AppendMall()
-        {
-            // 被RemoteControlService反射调用，暂不移除
             var (type, param) = MallTask.Serialize();
             return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Mall, type, param);
         }
 
-        private static bool AppendAward()
+        public static bool AppendAward()
         {
-            // 被RemoteControlService反射调用，暂不移除
             var (type, param) = AwardTask.Serialize();
             return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Award, type, param);
         }
 
-        private static bool AppendRecruit()
+        public static bool AppendRecruit()
         {
-            // 被RemoteControlService反射调用，暂不移除
             var (type, param) = RecruitTask.Serialize();
             return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Recruit, type, param);
         }
 
-        private static bool AppendRoguelike()
+        public static bool AppendRoguelike()
         {
-            // 被RemoteControlService反射调用，暂不移除
             var (type, param) = RoguelikeTask.Serialize();
             return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Roguelike, type, param);
         }
 
-        private static bool AppendReclamation()
+        public static bool AppendReclamation()
         {
-            // 被RemoteControlService反射调用，暂不移除
             var (type, param) = ReclamationTask.Serialize();
             return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Reclamation, type, param);
         }
