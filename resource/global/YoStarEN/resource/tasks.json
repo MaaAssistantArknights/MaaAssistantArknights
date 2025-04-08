@@ -1,13 +1,4 @@
 {
-    "StageResource": {
-        "roi": [600, 600, 250, 110]
-    },
-    "Roguelike@IntegratedStrategies": {
-        "roi": [0, 600, 1280, 110]
-    },
-    "StageTheme": {
-        "roi": [200, 640, 300, 60]
-    },
     "HS-Open": {
         "baseTask": "SS-Open"
     },
@@ -26,6 +17,9 @@
         "roi": [600, 16, 145, 36],
         "specificRect": [545, 432, 187, 127],
         "text": ["Members", "Initial", "Collectibles"]
+    },
+    "StageTheme": {
+        "roi": [200, 640, 300, 60]
     },
     "ClickChapter1": {
         "text": ["Hour of An Awakening", "Hour of An"]
@@ -269,6 +263,9 @@
     },
     "DH-Open": {
         "text": ["Dossoles", "Holiday", "Rerun", "open"]
+    },
+    "StageResource": {
+        "roi": [600, 600, 250, 110]
     },
     "CharsNameOcrReplace": {
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的英文识别任务复用 This task's ocrReplace is reused by all recognition tasks related to operator names",
@@ -2337,7 +2334,7 @@
         "text": ["Select"]
     },
     "Roguelike@IntegratedStrategies": {
-        "templThreshold": 0.75
+        "roi": [0, 600, 1280, 110]
     },
     "Roguelike@NoneSelected": {
         "text": ["without recruiting"]
