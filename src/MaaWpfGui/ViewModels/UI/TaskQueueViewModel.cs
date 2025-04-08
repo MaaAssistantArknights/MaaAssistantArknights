@@ -41,6 +41,7 @@ using static MaaWpfGui.Main.AsstProxy;
 using Application = System.Windows.Application;
 using IContainer = StyletIoC.IContainer;
 using Screen = Stylet.Screen;
+using Task = System.Threading.Tasks.Task;
 
 namespace MaaWpfGui.ViewModels.UI
 {
@@ -1351,7 +1352,7 @@ namespace MaaWpfGui.ViewModels.UI
                     case "Custom":
                         {
                             var (type, param) = CustomTask.Serialize();
-                            taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Reclamation, type, param);
+                            taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, type, param);
                             break;
                         }
 
@@ -1548,56 +1549,15 @@ namespace MaaWpfGui.ViewModels.UI
         public static bool AppendStart()
         {
             var (type, param) = StartUpTask.Serialize();
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.StartUp, type, param);
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, type, param);
         }
 
         public bool AppendFight()
         {
-            int medicine = 0;
-            if (FightTask.UseMedicine)
-            {
-                if (!int.TryParse(FightTask.MedicineNumber, out medicine))
-                {
-                    medicine = 0;
-                }
-            }
-
-            int stone = 0;
-            if (FightTask.UseStone)
-            {
-                if (!int.TryParse(FightTask.StoneNumber, out stone))
-                {
-                    stone = 0;
-                }
-            }
-
-            int times = int.MaxValue;
-            if (FightTask.HasTimesLimited)
-            {
-                if (!int.TryParse(FightTask.MaxTimes, out times))
-                {
-                    times = 0;
-                }
-            }
-
-            if (!int.TryParse(FightTask.Series, out var series))
-            {
-                series = 1;
-            }
-
-            int dropsQuantity = 0;
-            if (FightTask.IsSpecifiedDrops)
-            {
-                if (!int.TryParse(FightTask.DropsQuantity, out dropsQuantity))
-                {
-                    dropsQuantity = 0;
-                }
-            }
-
             string curStage = FightTask.Stage;
 
-            bool mainFightRet = Instances.AsstProxy.AsstAppendFight(curStage, medicine, stone, times, series, FightTask.DropsItemId, dropsQuantity);
-
+            var (type, mainParam) = FightTask.Serialize();
+            bool mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightRemainingSanity, type, mainParam);
             if (!mainFightRet)
             {
                 AddLog(LocalizationHelper.GetString("UnsupportedStages") + ": " + curStage, UiLogColor.Error);
@@ -1614,14 +1574,32 @@ namespace MaaWpfGui.ViewModels.UI
                     }
 
                     AddLog(LocalizationHelper.GetString("AnnihilationTaskTip"), UiLogColor.Info);
-                    mainFightRet = Instances.AsstProxy.AsstAppendFight(stage, medicine, 0, int.MaxValue, series, string.Empty, 0);
+                    var task = mainParam.ToObject<AsstFightTask>();
+                    task.Stage = stage;
+                    task.Stone = 0;
+                    task.MaxTimes = int.MaxValue;
+                    task.Drops = [];
+                    mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightRemainingSanity, type, task.Serialize().Params);
                     break;
                 }
             }
 
             if (mainFightRet && FightTask.UseRemainingSanityStage && !string.IsNullOrEmpty(FightTask.RemainingSanityStage))
             {
-                return Instances.AsstProxy.AsstAppendFight(FightTask.RemainingSanityStage, 0, 0, int.MaxValue, 1, string.Empty, 0, false);
+                var task = new AsstFightTask()
+                {
+                    Stage = FightTask.RemainingSanityStage,
+                    MaxTimes = int.MaxValue,
+                    Series = 1,
+                    IsDrGrandet = FightTask.IsDrGrandet,
+                    ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
+                    ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
+                    PenguinId = SettingsViewModel.GameSettings.PenguinId,
+                    YituliuId = SettingsViewModel.GameSettings.PenguinId,
+                    ServerType = Instances.SettingsViewModel.ServerType,
+                    ClientType = SettingsViewModel.GameSettings.ClientType,
+                };
+                return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightRemainingSanity, type, task.Serialize().Params);
             }
 
             return mainFightRet;
@@ -1634,63 +1612,42 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public void SetFightParams()
         {
-            if (!EnableSetFightParams || !Instances.AsstProxy.ContainsTask(AsstProxy.TaskType.Fight))
+            var type = TaskType.Fight;
+            var id = Instances.AsstProxy.TaskStatus.FirstOrDefault(t => t.Value == type).Key;
+            if (!EnableSetFightParams || id == default)
             {
                 return;
             }
 
-            int medicine = 0;
-            if (FightTask.UseMedicine)
-            {
-                if (!int.TryParse(FightTask.MedicineNumber, out medicine))
-                {
-                    medicine = 0;
-                }
-            }
-
-            int stone = 0;
-            if (FightTask.UseStone)
-            {
-                if (!int.TryParse(FightTask.StoneNumber, out stone))
-                {
-                    stone = 0;
-                }
-            }
-
-            int times = int.MaxValue;
-            if (FightTask.HasTimesLimited)
-            {
-                if (!int.TryParse(FightTask.MaxTimes, out times))
-                {
-                    times = 0;
-                }
-            }
-
-            if (!int.TryParse(FightTask.Series, out var series))
-            {
-                series = 1;
-            }
-
-            int dropsQuantity = 0;
-            if (FightTask.IsSpecifiedDrops)
-            {
-                if (!int.TryParse(FightTask.DropsQuantity, out dropsQuantity))
-                {
-                    dropsQuantity = 0;
-                }
-            }
-
-            Instances.AsstProxy.AsstSetFightTaskParams(FightTask.Stage, medicine, stone, times, series, FightTask.DropsItemId, dropsQuantity);
+            var taskParams = FightTask.Serialize().Params;
+            Instances.AsstProxy.AsstSetTaskParamsEncoded(id, taskParams);
         }
 
-        public void SetFightRemainingSanityParams()
+        public static void SetFightRemainingSanityParams()
         {
-            if (!Instances.AsstProxy.ContainsTask(AsstProxy.TaskType.FightRemainingSanity))
+            var type = TaskType.FightRemainingSanity;
+            var id = Instances.AsstProxy.TaskStatus.FirstOrDefault(t => t.Value == type).Key;
+            if (id == default)
             {
                 return;
             }
 
-            Instances.AsstProxy.AsstSetFightTaskParams(FightTask.RemainingSanityStage, 0, 0, int.MaxValue, 1, string.Empty, 0, false);
+            var task = new AsstFightTask()
+            {
+                Stage = FightTask.RemainingSanityStage,
+                MaxTimes = int.MaxValue,
+                Series = 1,
+                IsDrGrandet = FightTask.IsDrGrandet,
+                ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
+                ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
+                PenguinId = SettingsViewModel.GameSettings.PenguinId,
+                YituliuId = SettingsViewModel.GameSettings.PenguinId,
+                ServerType = Instances.SettingsViewModel.ServerType,
+                ClientType = SettingsViewModel.GameSettings.ClientType,
+            };
+
+            var taskParams = task.Serialize().Params;
+            Instances.AsstProxy.AsstSetTaskParamsEncoded(id, taskParams);
         }
 
         public static void SetInfrastParams()
@@ -1715,37 +1672,37 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             var (type, param) = InfrastTask.Serialize();
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Infrast, type, param);
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Infrast, type, param);
         }
 
         public static bool AppendMall()
         {
             var (type, param) = MallTask.Serialize();
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Mall, type, param);
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Mall, type, param);
         }
 
         public static bool AppendAward()
         {
             var (type, param) = AwardTask.Serialize();
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Award, type, param);
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Award, type, param);
         }
 
         public static bool AppendRecruit()
         {
             var (type, param) = RecruitTask.Serialize();
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Recruit, type, param);
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Recruit, type, param);
         }
 
         public static bool AppendRoguelike()
         {
             var (type, param) = RoguelikeTask.Serialize();
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Roguelike, type, param);
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Roguelike, type, param);
         }
 
         public static bool AppendReclamation()
         {
             var (type, param) = ReclamationTask.Serialize();
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Reclamation, type, param);
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, type, param);
         }
 
         /// <summary>
