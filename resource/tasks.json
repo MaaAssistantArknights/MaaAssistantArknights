@@ -5171,15 +5171,15 @@
     "BattleStartAll": {
         "algorithm": "JustReturn",
         "next": [
-            "BattleStartOCR",
             "BattleStartNormal",
             "BattleStartRaid",
             "BattleStartExercise",
             "BattleStartAdverse",
+            "BattleStartSimulation",
+            "BattleStartSimulationForTwo",
             "BattleStartTrials",
             "BattleStartTrialsRaid",
-            "BattleStartSimulation",
-            "BattleStartSimulationForTwo"
+            "BattleStartOCR"
         ]
     },
     "BattleStartNormal": {
@@ -5203,7 +5203,7 @@
     "BattleStartOCR": {
         "baseTask": "BattleStart",
         "algorithm": "OcrDetect",
-        "text": ["开始行动", "开始作战", "开始推演"],
+        "text": ["开始", "行动"],
         "roi": [999, 398, 222, 237]
     },
     "BattleStartSimulation": {
