@@ -3226,5 +3226,6 @@
     "YoStarKR/OperBoxEnterSarkaz": "17c2b70337b84080c0df9cbd6ae3e35b7c85aa4ad762ad67e90e76ad8b2a3392",
     "YoStarKR/RecruitSarkaz": "f0bea1e1960c759123b4fea1c1a36fb01e87ed4f0789939d03973a1ecfa19ae0",
     "YoStarKR/TaskSarkaz": "6f23f81ab63b4960cb59d19f2381bb2a8dc602e57f6bb25d5e24cc9d62e86fbf",
-    "resource/template/items/randomMaterial_11": "df1f4e9926510c4c423e6247623285b5467ec0517c70855d225756c1c8bd1b0d"
+    "resource/template/items/randomMaterial_11": "df1f4e9926510c4c423e6247623285b5467ec0517c70855d225756c1c8bd1b0d",
+    "web/src/assets/links/arkntools.app": "32096ebccafd89c47a2dfccf3358b65071b198f4941badc04ca3c51dc868cb73"
 }
