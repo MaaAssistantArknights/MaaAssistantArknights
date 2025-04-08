@@ -384,7 +384,7 @@
     "ChangeToRaidDifficulty": {
         "template": "RaidDifficulty.png",
         "action": "ClickSelf",
-        "roi": [625, 640, 80, 65],
+        "roi": [620, 600, 80, 100],
         "maxTimes": 3,
         "next": ["RaidConfirm", "#self"]
     },
