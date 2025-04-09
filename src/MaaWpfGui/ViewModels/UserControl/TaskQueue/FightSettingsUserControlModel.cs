@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
@@ -105,7 +106,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     /// <summary>
     /// Gets or private sets the list of series.
     /// </summary>
-    public List<string> SeriesList { get; private set; } = ["1", "2", "3", "4", "5", "6"];
+    public List<int> SeriesList { get; private set; } = Enumerable.Range(1, 6).ToList();
 
     public string?[] Stages => [Stage1, Stage2, Stage3];
 
