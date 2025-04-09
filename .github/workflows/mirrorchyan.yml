@@ -39,7 +39,7 @@ jobs:
           arch: arm64
 
       - name: Upload MAA-macos universal
-      - uses: MirrorChyan/uploading-action@v1
+        uses: MirrorChyan/uploading-action@v1
         if: always()
         with:
           filetype: latest-release
