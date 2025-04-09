@@ -493,6 +493,17 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
     }
   }, [validPlatforms, viewAll, envPlatformId])
 
+  const [os, arch] = useMemo(() => {
+    if (!envPlatformId) return ['unknown', 'unknown']
+    return envPlatformId.toString()
+      .replace(/macos-universal/i, 'macos-arm64')
+      .split('-')
+  }, [envPlatformId])
+
+  const mirrorchyanAvailable = useMemo(() => {
+    return os === 'windows' || os === 'macos'
+  }, [os, arch])
+
   if (!envPlatformId) {
     return (
       <DownloadState
@@ -523,13 +534,15 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
           >
             查看全部
           </GlowButton>
-          <div className="text-xs leading-5 text-center text-white/70">
-            <a href="https://mirrorchyan.com/zh/download?rid=MAA&os=windows&arch=x64&channel=stable" target="_blank">
-              <span><i><u>已有 Mirror酱 CDK？</u></i></span>
-              <br></br>
-              <span><i><u>前往 Mirror酱 高速下载</u></i></span>
-            </a>
-          </div>
+          {mirrorchyanAvailable && (
+            <div className="text-xs leading-5 text-center text-white/70">
+              <a href={`https://mirrorchyan.com/zh/download?rid=MAA&os=${os}&arch=${arch}&channel=stable`} target="_blank">
+                <span><i><u>已有 Mirror酱 CDK？</u></i></span>
+                <br></br>
+                <span><i><u>前往 Mirror酱 高速下载</u></i></span>
+              </a>
+            </div>
+          )}
         </div>
       )}
     </AnimatePresence>
