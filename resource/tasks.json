@@ -3128,8 +3128,8 @@
         "template": "MedicineConfirm.png",
         "reduceOtherTimes": [],
         "postDelay": 500,
-        "exceededNext": [ "CloseStonePage" ],
-        "next": [ "StoneConfirmWait", "StoneConfirm#next" ]
+        "exceededNext": ["CloseStonePage"],
+        "next": ["StoneConfirmWait", "StoneConfirm#next"]
     },
     "NoStone": {
         "roi": [800, 250, 350, 250],
