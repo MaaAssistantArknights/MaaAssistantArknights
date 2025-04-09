@@ -1869,6 +1869,15 @@ namespace MaaWpfGui.Main
             if (Connected && _connectedAdb == SettingsViewModel.ConnectSettings.AdbPath &&
                 _connectedAddress == SettingsViewModel.ConnectSettings.ConnectAddress)
             {
+                var actualConnectionStatus = IfPortEstablished(SettingsViewModel.ConnectSettings.ConnectAddress);
+                if (!actualConnectionStatus)
+                {
+                    Connected = false;
+                    _logger.Information($"Connection lost to {_connectedAdb} {_connectedAddress}");
+                    error = "Connection lost";
+                    return false;
+                }
+
                 _logger.Information($"Already connected to {_connectedAdb} {_connectedAddress}");
                 if (!_forcedReloadResource)
                 {
