@@ -23,11 +23,13 @@ using System.Windows.Threading;
 using HandyControl.Controls;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.States;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
+using static MaaWpfGui.Main.AsstProxy;
 using Timer = System.Timers.Timer;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -219,7 +221,19 @@ namespace MaaWpfGui.ViewModels.UI
                 levelList.Add(6);
             }
 
-            Instances.AsstProxy.AsstStartRecruitCalc(levelList.ToArray(), RecruitAutoSetTime, TaskQueueViewModel.RecruitTask.ChooseLevel3Time, TaskQueueViewModel.RecruitTask.ChooseLevel4Time, TaskQueueViewModel.RecruitTask.ChooseLevel5Time);
+            var task = new AsstRecruitTask()
+            {
+                SelectList = levelList,
+                ConfirmList = [-1], // 仅公招识别时将-1加入comfirm_level
+                SetRecruitTime = RecruitAutoSetTime,
+                ChooseLevel3Time = TaskQueueViewModel.RecruitTask.ChooseLevel3Time,
+                ChooseLevel4Time = TaskQueueViewModel.RecruitTask.ChooseLevel4Time,
+                ChooseLevel5Time = TaskQueueViewModel.RecruitTask.ChooseLevel5Time,
+                ServerType = Instances.SettingsViewModel.ServerType,
+            };
+            var (type, taskParams) = task.Serialize();
+            bool ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.RecruitCalc, type, taskParams);
+            ret &= Instances.AsstProxy.AsstStart();
         }
 
         private bool _recruitmentShowPotential = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RecruitmentShowPotential, bool.TrueString));
