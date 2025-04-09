@@ -19,7 +19,9 @@ using System.IO.Compression;
 using System.Linq;
 using HandyControl.Controls;
 using HandyControl.Data;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using Serilog;
 using Stylet;
 
@@ -35,21 +37,21 @@ public class IssueReportUserControlModel : PropertyChangedBase
         Instance = new();
     }
 
-    private static readonly string[] LogFileNames = ["gui.log", "gui.bak.log", "asst.log", "asst.bak.log"];
+    private static readonly string[] PayloadFileNames = [Bootstrapper.LogFilename, Bootstrapper.LogBakFilename, "debug/asst.log", "debug/asst.bak.log", ConfigurationHelper.ConfigurationFile, ConfigFactory.ConfigFileName];
+    private const string DebugDir = "debug";
 
     public static IssueReportUserControlModel Instance { get; }
 
     public void OpenDebugFolder()
     {
-        string path = "debug";
         try
         {
-            if (!Directory.Exists(path))
+            if (!Directory.Exists(DebugDir))
             {
-                Directory.CreateDirectory("debug");
+                Directory.CreateDirectory(DebugDir);
             }
 
-            Process.Start("explorer.exe", path);
+            Process.Start("explorer.exe", DebugDir);
         }
         catch (Exception ex)
         {
@@ -62,39 +64,34 @@ public class IssueReportUserControlModel : PropertyChangedBase
     {
         try
         {
-            string path = "debug";
-            string zipPath = Path.Combine(path, "log.zip");
-            string tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
-
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory("debug");
-                return;
-            }
-
+            string zipPath = Path.Combine(DebugDir, $"report_{DateTimeOffset.Now:MM-dd_HH-mm-ss}.zip");
+            string tempPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
             if (File.Exists(zipPath))
             {
                 File.Delete(zipPath);
             }
 
-            Directory.CreateDirectory(tempDir);
-            foreach (var file in Directory.EnumerateFiles(path, "*.log").Where(f => LogFileNames.Contains(Path.GetFileName(f))))
+            Directory.CreateDirectory(tempPath);
+            foreach (var file in PayloadFileNames)
             {
-                string dest = Path.Combine(tempDir, Path.GetFileName(file));
-                File.Copy(file, dest, overwrite: true);
+                if (File.Exists(file))
+                {
+                    string dest = Path.Combine(tempPath, Path.GetFileName(file));
+                    File.Copy(file, dest, overwrite: true);
+                }
             }
 
             using (FileStream zipToOpen = new FileStream(zipPath, FileMode.Create))
             {
                 using var archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create);
-                foreach (var file in Directory.GetFiles(tempDir))
+                foreach (var file in Directory.GetFiles(tempPath))
                 {
                     string entryName = Path.GetFileName(file);
                     archive.CreateEntryFromFile(file, entryName, CompressionLevel.Optimal);
                 }
             }
 
-            Directory.Delete(tempDir, recursive: true);
+            Directory.Delete(tempPath, recursive: true);
             ShowGrowl(LocalizationHelper.GetString("GenerateSupportPayloadSuccessful"));
             OpenDebugFolder();
         }

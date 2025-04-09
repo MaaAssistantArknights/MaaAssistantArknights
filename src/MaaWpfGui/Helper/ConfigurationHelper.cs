@@ -25,7 +25,8 @@ namespace MaaWpfGui.Helper
 {
     public class ConfigurationHelper
     {
-        private static readonly string _configurationFile = Path.Combine(Environment.CurrentDirectory, "config/gui.json");
+        public const string ConfigurationFile = "config/gui.json";
+        private static readonly string _configurationFile = Path.Combine(Environment.CurrentDirectory, ConfigurationFile);
         private static readonly string _configurationBakFile = Path.Combine(Environment.CurrentDirectory, "config/gui.json.bak");
         private static readonly string _configurationErrorFile = Path.Combine(Environment.CurrentDirectory, "config/gui.error.json");
         private static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> _kvsMap;
