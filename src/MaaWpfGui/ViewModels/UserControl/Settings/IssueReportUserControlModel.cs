@@ -19,7 +19,9 @@ using System.IO.Compression;
 using System.Linq;
 using HandyControl.Controls;
 using HandyControl.Data;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using Serilog;
 using Stylet;
 
@@ -35,21 +37,21 @@ public class IssueReportUserControlModel : PropertyChangedBase
         Instance = new();
     }
 
-    private static readonly string[] PayloadFileNames = ["gui.log", "gui.bak.log", "asst.log", "asst.bak.log", "gui.json", "gui.json.bak", "gui.new.json", "gui.new.json.bak"];
+    private static readonly string[] PayloadFileNames = [Bootstrapper.LogFilename, Bootstrapper.LogBakFilename, "debug/asst.log", "debug/asst.bak.log", ConfigurationHelper.ConfigurationFile, ConfigFactory.ConfigFileName];
+    private const string DebugDir = "debug";
 
     public static IssueReportUserControlModel Instance { get; }
 
     public void OpenDebugFolder()
     {
-        string path = "debug";
         try
         {
-            if (!Directory.Exists(path))
+            if (!Directory.Exists(DebugDir))
             {
-                Directory.CreateDirectory("debug");
+                Directory.CreateDirectory(DebugDir);
             }
 
-            Process.Start("explorer.exe", path);
+            Process.Start("explorer.exe", DebugDir);
         }
         catch (Exception ex)
         {
@@ -62,42 +64,21 @@ public class IssueReportUserControlModel : PropertyChangedBase
     {
         try
         {
-            string debugPath = "debug";
-            string configPath = "config";
-            string zipPath = Path.Combine(debugPath, "log.zip");
+            string zipPath = Path.Combine(DebugDir, $"report_{DateTimeOffset.Now:MM-dd_HH-mm-ss}.zip");
             string tempPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
-
-            if (!Directory.Exists(debugPath))
-            {
-                Directory.CreateDirectory("debug");
-            }
-
-            if (!Directory.Exists(configPath))
-            {
-                Directory.CreateDirectory("config");
-            }
-
             if (File.Exists(zipPath))
             {
                 File.Delete(zipPath);
             }
 
             Directory.CreateDirectory(tempPath);
-            var debugFiles = Directory.EnumerateFiles(debugPath, "*.log")
-                .Where(f => PayloadFileNames.Contains(Path.GetFileName(f)));
-            foreach (var file in debugFiles)
+            foreach (var file in PayloadFileNames)
             {
-                string dest = Path.Combine(tempPath, Path.GetFileName(file));
-                File.Copy(file, dest, overwrite: true);
-            }
-
-            var configFiles = Directory.EnumerateFiles(configPath, "*.json")
-                .Concat(Directory.EnumerateFiles(configPath, "*.json.bak"))
-                .Where(f => PayloadFileNames.Contains(Path.GetFileName(f)));
-            foreach (var file in configFiles)
-            {
-                string dest = Path.Combine(tempPath, Path.GetFileName(file));
-                File.Copy(file, dest, overwrite: true);
+                if (File.Exists(file))
+                {
+                    string dest = Path.Combine(tempPath, Path.GetFileName(file));
+                    File.Copy(file, dest, overwrite: true);
+                }
             }
 
             using (FileStream zipToOpen = new FileStream(zipPath, FileMode.Create))
