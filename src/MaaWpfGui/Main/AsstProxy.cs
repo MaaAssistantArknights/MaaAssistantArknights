@@ -947,7 +947,7 @@ namespace MaaWpfGui.Main
             }
         }
 
-        private void ProcSubTaskMsg(AsstMsg msg, JObject details)
+        private static void ProcSubTaskMsg(AsstMsg msg, JObject details)
         {
             // 下面几行注释暂时没用到，先注释起来...
             // string taskChain = details["taskchain"].ToString();
@@ -2035,94 +2035,7 @@ namespace MaaWpfGui.Main
 
         private readonly Dictionary<AsstTaskId, TaskType> _taskStatus = [];
 
-        private static JObject SerializeFightTaskParams(
-            string stage,
-            int maxMedicine,
-            int maxStone,
-            int maxTimes,
-            int series,
-            string dropsItemId,
-            int dropsItemQuantity,
-            bool isMainFight = true)
-        {
-            var taskParams = new JObject
-            {
-                ["stage"] = stage,
-                ["medicine"] = maxMedicine,
-                ["stone"] = maxStone,
-                ["times"] = maxTimes,
-                ["series"] = series,
-                ["report_to_penguin"] = SettingsViewModel.GameSettings.EnablePenguin,
-                ["report_to_yituliu"] = SettingsViewModel.GameSettings.EnableYituliu,
-            };
-            if (dropsItemQuantity != 0 && !string.IsNullOrWhiteSpace(dropsItemId))
-            {
-                taskParams["drops"] = new JObject
-                {
-                    [dropsItemId] = dropsItemQuantity,
-                };
-            }
-
-            taskParams["client_type"] = SettingsViewModel.GameSettings.ClientType;
-            taskParams["penguin_id"] = SettingsViewModel.GameSettings.PenguinId;
-            taskParams["DrGrandet"] = TaskQueueViewModel.FightTask.IsDrGrandet;
-            taskParams["expiring_medicine"] = isMainFight && TaskQueueViewModel.FightTask.UseExpiringMedicine ? 9999 : 0;
-            taskParams["server"] = Instances.SettingsViewModel.ServerType;
-            return taskParams;
-        }
-
-        /// <summary>
-        /// 刷理智。
-        /// </summary>
-        /// <param name="stage">关卡名。</param>
-        /// <param name="maxMedicine">最大使用理智药数量。</param>
-        /// <param name="maxStone">最大吃石头数量。</param>
-        /// <param name="maxTimes">指定次数。</param>
-        /// <param name="series">连战次数。</param>
-        /// <param name="dropsItemId">指定掉落 ID。</param>
-        /// <param name="dropsItemQuantity">指定掉落数量。</param>
-        /// <param name="isMainFight">是否是主任务，决定c#侧是否记录任务id</param>
-        /// <returns>是否成功。</returns>
-        public bool AsstAppendFight(string stage, int maxMedicine, int maxStone, int maxTimes, int series, string dropsItemId, int dropsItemQuantity, bool isMainFight = true)
-        {
-            var taskParams = SerializeFightTaskParams(stage, maxMedicine, maxStone, maxTimes, series, dropsItemId, dropsItemQuantity, isMainFight);
-            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Fight, taskParams);
-            if (isMainFight)
-            {
-                _taskStatus.Add(id, TaskType.Fight);
-            }
-            else
-            {
-                _taskStatus.Add(id, TaskType.FightRemainingSanity);
-            }
-
-            return id != 0;
-        }
-
-        /// <summary>
-        /// 设置刷理智任务参数。
-        /// </summary>
-        /// <param name="stage">关卡名。</param>
-        /// <param name="maxMedicine">最大使用理智药数量。</param>
-        /// <param name="maxStone">最大吃石头数量。</param>
-        /// <param name="maxTimes">指定次数。</param>
-        /// <param name="series">连战次数。</param>
-        /// <param name="dropsItemId">指定掉落 ID。</param>
-        /// <param name="dropsItemQuantity">指定掉落数量。</param>
-        /// <param name="isMainFight">是否是主任务，决定c#侧是否记录任务id</param>
-        /// <returns>是否成功。</returns>
-        public bool AsstSetFightTaskParams(string stage, int maxMedicine, int maxStone, int maxTimes, int series, string dropsItemId, int dropsItemQuantity, bool isMainFight = true)
-        {
-            var type = isMainFight ? TaskType.Fight : TaskType.FightRemainingSanity;
-            var id = _taskStatus.FirstOrDefault(t => t.Value == type).Key;
-            if (id == 0)
-            {
-                return false;
-            }
-
-            var taskParams = SerializeFightTaskParams(stage, maxMedicine, maxStone, maxTimes, series, dropsItemId, dropsItemQuantity);
-            return AsstSetTaskParamsWithEncoding(id, taskParams);
-        }
+        public IReadOnlyDictionary<AsstTaskId, TaskType> TaskStatus => _taskStatus;
 
         public bool AsstAppendCloseDown(string clientType)
         {
@@ -2148,44 +2061,6 @@ namespace MaaWpfGui.Main
         public bool AsstBackToHome()
         {
             return MaaService.AsstBackToHome(_handle);
-        }
-
-        public bool AsstSetInfrastTaskParams()
-        {
-            const TaskType Type = TaskType.Infrast;
-            int id = _taskStatus.FirstOrDefault(i => i.Value == Type).Key;
-            if (id == 0)
-            {
-                return false;
-            }
-
-            var taskParams = InfrastSettingsUserControlModel.Instance.Serialize().Params;
-            return AsstSetTaskParamsWithEncoding(id, taskParams);
-        }
-
-        /// <summary>
-        /// 公招识别。
-        /// </summary>
-        /// <param name="selectLevel">会去点击标签的 Tag 等级。</param>
-        /// <param name="setTime">是否设置 9 小时。</param>
-        /// <param name="chooseLevel3Time">3 星招募时间</param>
-        /// <param name="chooseLevel4Time">4 星招募时间</param>
-        /// <param name="chooseLevel5Time">5 星招募时间</param>
-        /// <returns>是否成功。</returns>
-        public bool AsstStartRecruitCalc(int[] selectLevel, bool setTime, int chooseLevel3Time, int chooseLevel4Time, int chooseLevel5Time)
-        {
-            var task = new AsstRecruitTask()
-            {
-                SelectList = selectLevel.ToList(),
-                ConfirmList = [-1], // 仅公招识别时将-1加入comfirm_level
-                SetRecruitTime = setTime,
-                ChooseLevel3Time = chooseLevel3Time,
-                ChooseLevel4Time = chooseLevel4Time,
-                ChooseLevel5Time = chooseLevel5Time,
-                ServerType = Instances.SettingsViewModel.ServerType,
-            };
-            var (type, taskParams) = task.Serialize();
-            return AsstAppendTaskWithEncoding(TaskType.RecruitCalc, type, taskParams) && AsstStart();
         }
 
         /// <summary>
@@ -2240,9 +2115,15 @@ namespace MaaWpfGui.Main
             return true;
         }
 
-        public bool ContainsTask(TaskType type)
+        public bool AsstSetTaskParamsEncoded(AsstTaskId id, JObject? taskParams = null)
         {
-            return _taskStatus.ContainsValue(type);
+            if (id == 0)
+            {
+                return false;
+            }
+
+            taskParams ??= [];
+            return AsstSetTaskParams(_handle, id, JsonConvert.SerializeObject(taskParams));
         }
 
         /// <summary>
