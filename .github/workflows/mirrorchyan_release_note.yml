@@ -10,10 +10,16 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - id: uploading
-        uses: MirrorChyan/release-note-action@v1
+      - uses: MirrorChyan/release-note-action@v1
         with:
           mirrorchyan_rid: MAA
+
+          upload_token: ${{ secrets.MirrorChyanUploadToken }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: MirrorChyan/release-note-action@v1
+        with:
+          mirrorchyan_rid: MAA-macos
 
           upload_token: ${{ secrets.MirrorChyanUploadToken }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
