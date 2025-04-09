@@ -124,7 +124,14 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "roi": [987, 0, 293, 156],
-        "text": ["开启时间"]
+        "text": ["开启时间"],
+        "next": ["ClickChapterNewDefaultProgress"]
+    },
+    "ClickChapterNewDefaultProgress": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [695, 26, 85, 38],
+        "text": ["默认进度"]
     },
     "ClickChapterNewOverview": {
         "algorithm": "OcrDetect",
