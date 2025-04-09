@@ -379,7 +379,7 @@
             ["(H\\d+)O(?=-)", "$010"],
             ["(-\\d+)O", "$010"]
         ],
-        "roi": [845, 72, 170, 50]
+        "roi": [845, 72, 220, 50]
     },
     "ChangeToRaidDifficulty": {
         "template": "RaidDifficulty.png",
