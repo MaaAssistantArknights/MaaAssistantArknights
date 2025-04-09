@@ -10,7 +10,7 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - id: uploading
+      - name: Release Note for MAA
         uses: MirrorChyan/release-note-action@v1
         with:
           mirrorchyan_rid: MAA

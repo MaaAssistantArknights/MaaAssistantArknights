@@ -70,25 +70,13 @@
 
                                     <CheckBox
                                         Grid.Column="0"
+                                        MaxWidth="140"
                                         HorizontalAlignment="Left"
-                                        Content="{Binding Name}"
                                         IsChecked="{Binding IsCheckedWithNull}"
                                         IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}"
                                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                                       Target={x:Type helper:CheckBoxHelper}}">
-                                        <CheckBox.Style>
-                                            <Style BasedOn="{StaticResource CheckBoxBaseStyle}" TargetType="{x:Type CheckBox}">
-                                                <Style.Triggers>
-                                                    <MultiDataTrigger>
-                                                        <MultiDataTrigger.Conditions>
-                                                            <Condition Binding="{Binding Source={x:Static setting:SettingsViewModel.GuiSettings}, Path=MainTasksInvertNullFunction}" Value="True" />
-                                                            <Condition Binding="{Binding IsCheckedWithNull}" Value="{x:Null}" />
-                                                        </MultiDataTrigger.Conditions>
-                                                        <Setter Property="Foreground" Value="{DynamicResource TraceLogBrush}" />
-                                                    </MultiDataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </CheckBox.Style>
+                                        <controls:TextBlock Text="{Binding Name}" Visibility="Hidden" />
                                         <CheckBox.ToolTip>
                                             <ToolTip>
                                                 <ToolTip.Style>
@@ -105,22 +93,44 @@
                                         </CheckBox.ToolTip>
                                     </CheckBox>
 
-                                    <hc:ButtonGroup Grid.Column="1" HorizontalAlignment="Stretch">
-                                        <RadioButton
-                                            Margin="0"
-                                            HorizontalAlignment="Stretch"
-                                            HorizontalContentAlignment="Right"
-                                            hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
-                                            hc:VisualElement.HighlightBackground="Transparent"
-                                            hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
-                                            Background="Transparent"
-                                            BorderThickness="0"
-                                            Foreground="{DynamicResource SecondaryTextBrush}"
-                                            GroupName="TaskSettings"
-                                            IsChecked="{Binding EnableSetting}"
-                                            Style="{DynamicResource RadioGroupItemSingle}"
-                                            ToolTip="{DynamicResource TaskSettings}" />
-                                    </hc:ButtonGroup>
+                                    <controls:TextBlock
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        Margin="22,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        Background="Transparent"
+                                        IsHitTestVisible="False"
+                                        Text="{Binding Name}">
+                                        <TextBlock.Style>
+                                            <Style BasedOn="{StaticResource TextBlockBaseStyle}" TargetType="{x:Type TextBlock}">
+                                                <Style.Triggers>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding Source={x:Static setting:SettingsViewModel.GuiSettings}, Path=MainTasksInvertNullFunction}" Value="True" />
+                                                            <Condition Binding="{Binding IsCheckedWithNull}" Value="{x:Null}" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="Foreground" Value="{DynamicResource TraceLogBrush}" />
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </controls:TextBlock>
+
+                                    <RadioButton
+                                        Grid.Column="1"
+                                        Margin="0"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Right"
+                                        hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
+                                        hc:VisualElement.HighlightBackground="Transparent"
+                                        hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Foreground="{DynamicResource SecondaryTextBrush}"
+                                        GroupName="TaskSettings"
+                                        IsChecked="{Binding EnableSetting}"
+                                        Style="{DynamicResource RadioGroupItemSingle}"
+                                        ToolTip="{DynamicResource TaskSettings}" />
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

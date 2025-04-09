@@ -38,7 +38,7 @@ public class TelegramNotificationProvider(IHttpService httpService) : IExternalN
         var postContent = new TelegramPostContent
         {
             ChatId = chatId,
-            Content = $"{title}: {content}"
+            Content = $"{title}: {content}",
         };
 
         // Only add the topic ID if one is provided

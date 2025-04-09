@@ -26,6 +26,10 @@
         "next": ["StartUpThemes#next"],
         "text": ["알겠습니다"]
     },
+    "StageTheme": {
+        "doc": "Delete when the UI is updated (#12266)",
+        "roi": [200, 640, 300, 60]
+    },
     "ClickChapter1": {
         "text": ["각성"]
     },
@@ -192,6 +196,10 @@
         "ocrReplace": [[".*?전당", "붉은노을전당"]],
         "text": ["붉은노을전당"]
     },
+    "StageResource": {
+        "doc": "Delete when the UI is updated (#12266)",
+        "roi": [600, 600, 250, 110]
+    },
     "CharsNameOcrReplace": {
         "Doc": "이 작업의 'ocrReplace'는 오퍼레이터 이름과 관련된 모든 인식 작업에서 사용됩니다",
         "ocrReplace": [
@@ -206,7 +214,7 @@
             ["^Doc$", "医生"],
             ["^E[lI1]a$", "艾拉"],
             ["^[Il1]ana$", "双月"],
-            ["^Fuze$", "导火索"],
+            ["^Fu[zZ]e$", "导火索"],
             [
                 "\\b(?!(.*ancet2|THRMEX|Friston3|[CcOo0]ast.*le3|[Pp]honoR0|[Ww]|12F|Mon3tr|Sharp|Pith|Touch|Stormeye|[JUu][O0o]f{0,2}icial))(\\w)+$",
                 ""
@@ -960,7 +968,15 @@
             ["반짝열매", "闪亮果实"],
             ["검은빛열매", "奇异黑光果实"],
             ["영롱과일주", "缤纷果酒"],
-            ["'보물상자'", "“宝箱”"]
+            ["'보물상자'", "“宝箱”"],
+            ["비나빅토리아", "维娜·维多利亚"],
+            ["캐서린", "凯瑟琳"],
+            ["보빙", "波卜"],
+            ["황금의맹세", "黄金盟誓"],
+            ["크.?러호.?방호유닛", "爬行号·防护单元"],
+            ["군수공장지.?플랫폼", "军工厂指令平台"],
+            ["황금메아리", "黄金回响"],
+            ["푸른불꽃", "尼卢火"]
         ]
     },
     "StartUpThemes": {
@@ -982,7 +998,7 @@
     },
     "StartToWakeUp": {
         "Doc": "CN서버보다 ROI를 크게 조절하세요",
-        "roi": [540, 480, 192, 56]
+        "roi": [540, 480, 200, 62]
     },
     "StartToWakeUpOCR": {
         "text": ["START"]
@@ -2243,7 +2259,8 @@
         "text": ["선택"]
     },
     "Roguelike@IntegratedStrategies": {
-        "templThreshold": 0.75
+        "doc": "Delete when the UI is updated (#12266)",
+        "roi": [0, 600, 1280, 110]
     },
     "Roguelike@NoneSelected": {
         "text": ["편성하지", "않은상태"]

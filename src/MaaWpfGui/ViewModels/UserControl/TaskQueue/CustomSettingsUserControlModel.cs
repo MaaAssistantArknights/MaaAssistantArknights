@@ -1,4 +1,4 @@
-// <copyright file="ReclamationSettingsUserControlModel.cs" company="MaaAssistantArknights">
+// <copyright file="CustomSettingsUserControlModel.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -13,6 +13,9 @@
 #nullable enable
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Models.AsstTasks;
+using MaaWpfGui.Services;
+using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
@@ -30,6 +33,19 @@ public class CustomSettingsUserControlModel : TaskViewModel
     public string TaskName
     {
         get => _taskName;
-        set => SetAndNotify(ref _taskName, value);
+        set
+        {
+            SetAndNotify(ref _taskName, value);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.DebugTaskName, value);
+        }
+    }
+
+    public override (AsstTaskType Type, JObject Params) Serialize()
+    {
+        var task = new AsstCustomTask()
+        {
+            CustomTasks = { TaskName },
+        };
+        return task.Serialize();
     }
 }
