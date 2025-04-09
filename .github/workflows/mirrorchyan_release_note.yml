@@ -17,11 +17,3 @@ jobs:
 
           upload_token: ${{ secrets.MirrorChyanUploadToken }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Release Note for MAA-macos
-        uses: MirrorChyan/release-note-action@v1
-        with:
-          mirrorchyan_rid: MAA-macos
-
-          upload_token: ${{ secrets.MirrorChyanUploadToken }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
