@@ -886,7 +886,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Issue">フィードバック</system:String>
     <system:String x:Key="GenerateSupportPayload">サポート用ZIPを生成</system:String>
     <system:String x:Key="OpenDebugFolder">デバッグフォルダーを開く</system:String>
-    <system:String x:Key="DebugFolderMissing">デバッグフォルダーが存在しません！</system:String>
     <system:String x:Key="GenerateSupportPayloadSuccessful">サポート用ZIPの生成に成功しました</system:String>
     <system:String x:Key="GenerateSupportPayloadException">サポート用ZIPの生成中にエラーが発生しました：</system:String>
     <!--  !Issues  -->

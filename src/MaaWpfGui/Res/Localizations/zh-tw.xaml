@@ -885,7 +885,6 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Issue">問題回饋</system:String>
     <system:String x:Key="GenerateSupportPayload">產生紀錄壓縮包</system:String>
     <system:String x:Key="OpenDebugFolder">打開紀錄資料夾</system:String>
-    <system:String x:Key="DebugFolderMissing">紀錄資料夾不存在！</system:String>
     <system:String x:Key="GenerateSupportPayloadSuccessful">壓縮包產生成功</system:String>
     <system:String x:Key="GenerateSupportPayloadException">產生壓縮包時發生問題：</system:String>
     <!--  !Issues  -->

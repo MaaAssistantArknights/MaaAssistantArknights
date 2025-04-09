@@ -883,7 +883,6 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="Issue">Issues</system:String>
     <system:String x:Key="GenerateSupportPayload">Generate Support Payload</system:String>
     <system:String x:Key="OpenDebugFolder">Open Debug Folder</system:String>
-    <system:String x:Key="DebugFolderMissing">Debug folder is missing!</system:String>
     <system:String x:Key="GenerateSupportPayloadSuccessful">Support payload generated successfully</system:String>
     <system:String x:Key="GenerateSupportPayloadException">An error occurred while generating the support payload:</system:String>
     <!--  !Issues  -->

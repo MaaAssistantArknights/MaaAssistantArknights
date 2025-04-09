@@ -886,7 +886,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Issue">이슈 제보</system:String>
     <system:String x:Key="GenerateSupportPayload">지원 ZIP 생성</system:String>
     <system:String x:Key="OpenDebugFolder">디버그 폴더 열기</system:String>
-    <system:String x:Key="DebugFolderMissing">디버그 폴더가 존재하지 않습니다!</system:String>
     <system:String x:Key="GenerateSupportPayloadSuccessful">지원 ZIP이 성공적으로 생성되었습니다</system:String>
     <system:String x:Key="GenerateSupportPayloadException">지원 ZIP 생성 중 오류가 발생했습니다:</system:String>
     <!--  !Issues  -->

@@ -885,7 +885,6 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Issue">问题反馈</system:String>
     <system:String x:Key="GenerateSupportPayload">生成日志压缩包</system:String>
     <system:String x:Key="OpenDebugFolder">打开日志文件夹</system:String>
-    <system:String x:Key="DebugFolderMissing">日志文件夹不存在！</system:String>
     <system:String x:Key="GenerateSupportPayloadSuccessful">生成压缩包成功</system:String>
     <system:String x:Key="GenerateSupportPayloadException">生成压缩包时出现问题：</system:String>
     <!--  !Issues  -->
