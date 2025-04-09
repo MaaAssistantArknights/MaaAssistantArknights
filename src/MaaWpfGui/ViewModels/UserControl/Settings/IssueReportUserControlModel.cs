@@ -35,7 +35,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
         Instance = new();
     }
 
-    private static readonly string[] LogFileNames = ["gui.log", "gui.bak.log", "asst.log", "asst.bak.log"];
+    private static readonly string[] PayloadFileNames = ["gui.log", "gui.bak.log", "asst.log", "asst.bak.log", "gui.json", "gui.json.bak", "gui.new.json", "gui.new.json.bak"];
 
     public static IssueReportUserControlModel Instance { get; }
 
@@ -62,11 +62,12 @@ public class IssueReportUserControlModel : PropertyChangedBase
     {
         try
         {
-            string path = "debug";
-            string zipPath = Path.Combine(path, "log.zip");
-            string tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            string debugPath = "debug";
+            string configPath = "config";
+            string zipPath = Path.Combine(debugPath, "log.zip");
+            string tempPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
 
-            if (!Directory.Exists(path))
+            if (!Directory.Exists(debugPath))
             {
                 Directory.CreateDirectory("debug");
                 return;
@@ -77,24 +78,35 @@ public class IssueReportUserControlModel : PropertyChangedBase
                 File.Delete(zipPath);
             }
 
-            Directory.CreateDirectory(tempDir);
-            foreach (var file in Directory.EnumerateFiles(path, "*.log").Where(f => LogFileNames.Contains(Path.GetFileName(f))))
+            Directory.CreateDirectory(tempPath);
+            var debugFiles = Directory.EnumerateFiles(debugPath, "*.log")
+                .Where(f => PayloadFileNames.Contains(Path.GetFileName(f)));
+            foreach (var file in debugFiles)
             {
-                string dest = Path.Combine(tempDir, Path.GetFileName(file));
+                string dest = Path.Combine(tempPath, Path.GetFileName(file));
+                File.Copy(file, dest, overwrite: true);
+            }
+
+            var configFiles = Directory.EnumerateFiles(configPath, "*.json")
+                .Concat(Directory.EnumerateFiles(configPath, "*.json.bak"))
+                .Where(f => PayloadFileNames.Contains(Path.GetFileName(f)));
+            foreach (var file in configFiles)
+            {
+                string dest = Path.Combine(tempPath, Path.GetFileName(file));
                 File.Copy(file, dest, overwrite: true);
             }
 
             using (FileStream zipToOpen = new FileStream(zipPath, FileMode.Create))
             {
                 using var archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create);
-                foreach (var file in Directory.GetFiles(tempDir))
+                foreach (var file in Directory.GetFiles(tempPath))
                 {
                     string entryName = Path.GetFileName(file);
                     archive.CreateEntryFromFile(file, entryName, CompressionLevel.Optimal);
                 }
             }
 
-            Directory.Delete(tempDir, recursive: true);
+            Directory.Delete(tempPath, recursive: true);
             ShowGrowl(LocalizationHelper.GetString("GenerateSupportPayloadSuccessful"));
             OpenDebugFolder();
         }
