@@ -3031,7 +3031,7 @@
         "templThreshold": 0.7,
         "roi": [580, 50, 400, 100],
         "reduceOtherTimes": ["StartButton1"],
-        "next": ["UsePrts", "StartButton1", "OfflineConfirm", "CloseStonePage"]
+        "next": ["StartButton1", "OfflineConfirm", "CloseStonePage"]
     },
     "MedicineConfirm": {
         "action": "ClickSelf",
@@ -3116,7 +3116,7 @@
         "roi": [1000, 500, 200, 150],
         "reduceOtherTimes": ["StartButton1"],
         "exceededNext": ["CloseStonePage"],
-        "next": ["UsePrts", "StartButton1", "OfflineConfirm", "StoneConfirmAgain@LoadingText"]
+        "next": ["StartButton1", "OfflineConfirm", "StoneConfirmAgain@LoadingText"]
     },
     "StoneConfirmAgain": {
         "Doc": "StoneConfirm 波动进入 LoadingText 之后，加载完成后碎石界面可能不会立即消失，这时候需要防止重复计数",
