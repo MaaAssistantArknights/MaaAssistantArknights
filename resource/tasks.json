@@ -89,7 +89,7 @@
     },
     "StageTheme": {
         "action": "ClickSelf",
-        "roi": [200, 640, 300, 60],
+        "roi": [243, 598, 147, 122],
         "postDelay": 1000,
         "next": ["#next"]
     },
@@ -113,17 +113,41 @@
         "baseTask": "ClickChapter",
         "text": ["残阳"]
     },
+    "ClickChapterNew": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [991, 0, 289, 170],
+        "text": ["乐章收录"],
+        "next": ["ClickChapterNewOpenTime", "ClickChapterNewOverview"]
+    },
+    "ClickChapterNewOpenTime": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [987, 0, 293, 156],
+        "text": ["开启时间"]
+    },
+    "ClickChapterNewOverview": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [987, 0, 293, 156],
+        "text": ["乐章"],
+        "next": ["ClickChapterNewOpenTime"]
+    },
     "ToChapter1": {
         "algorithm": "JustReturn",
-        "next": ["ClickChapter1@(ToChapter2#next^Stop)", "ClickChapter1", "Stop"]
+        "next": ["ClickChapterNew", "ClickChapter1@(ToChapter2#next^Stop)", "ClickChapter1", "Stop"]
     },
     "ToChapter2": {
         "algorithm": "JustReturn",
-        "next": ["ClickChapter2@(ToChapter3#next^Stop)", "ClickChapter2", "Stop"]
+        "next": ["ClickChapterNew", "ClickChapter2@(ToChapter3#next^Stop)", "ClickChapter2", "Stop"]
     },
     "ToChapter3": {
         "algorithm": "JustReturn",
-        "next": ["ClickChapter3", "Stop"]
+        "next": ["ClickChapterNew", "ClickChapter3", "Stop"]
+    },
+    "ToChapterNew": {
+        "algorithm": "JustReturn",
+        "next": ["ClickChapterNew", "Stop"]
     },
     "EpisodeOcrReplace": {
         "Doc": "base_task",
@@ -136,6 +160,26 @@
             [" ", ""]
         ]
     },
+    "EnterEpisodeNew": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf"
+    },
+    "00@EnterEpisodeNew": {},
+    "01@EnterEpisodeNew": {},
+    "02@EnterEpisodeNew": {},
+    "03@EnterEpisodeNew": {},
+    "04@EnterEpisodeNew": {},
+    "05@EnterEpisodeNew": {},
+    "06@EnterEpisodeNew": {},
+    "07@EnterEpisodeNew": {},
+    "08@EnterEpisodeNew": {},
+    "09@EnterEpisodeNew": {},
+    "10@EnterEpisodeNew": {},
+    "11@EnterEpisodeNew": {},
+    "12@EnterEpisodeNew": {},
+    "13@EnterEpisodeNew": {},
+    "14@EnterEpisodeNew": {},
     "EnterEpisode": {
         "Doc": "base_task",
         "baseTask": "EpisodeOcrReplace",
@@ -340,7 +384,7 @@
     "ChangeToRaidDifficulty": {
         "template": "RaidDifficulty.png",
         "action": "ClickSelf",
-        "roi": [625, 640, 80, 65],
+        "roi": [620, 600, 80, 100],
         "maxTimes": 3,
         "next": ["RaidConfirm", "#self"]
     },
@@ -353,7 +397,7 @@
     "Episode": {
         "Doc": "base_task",
         "algorithm": "JustReturn",
-        "next": ["SwipeLeftToEpisode", "EnterEpisode"]
+        "next": ["EnterEpisodeNew", "SwipeLeftToEpisode", "EnterEpisode"]
     },
     "Episode0": {
         "baseTask": "00@Episode",
@@ -2120,7 +2164,7 @@
         "action": "ClickSelf",
         "Doc": "进入资源关卡",
         "templThreshold": 0.77,
-        "roi": [0, 600, 1280, 110]
+        "roi": [462, 600, 140, 120]
     },
     "Stage": {
         "Doc": "base_task",
@@ -2823,7 +2867,7 @@
         "doc": "绑定插件调整连战次数",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["开始行动"],
+        "text": ["开始行动", "开始作战", "开始推演"],
         "preDelay": 500,
         "postDelay": 1000,
         "roi": [1038, 625, 206, 61],
@@ -5112,7 +5156,7 @@
     },
     "BattleStartPre": {
         "algorithm": "OcrDetect",
-        "text": ["开始行动", "开始突袭", "开始试炼", "开始测试"],
+        "text": ["开始行动", "开始作战", "开始推演", "开始突袭", "开始试炼", "开始测试"],
         "roi": [1000, 600, 280, 120],
         "action": "ClickSelf",
         "postDelay": 1000
@@ -7298,7 +7342,7 @@
     },
     "Roguelike@IntegratedStrategies": {
         "action": "ClickSelf",
-        "roi": [0, 600, 1280, 110],
+        "roi": [884, 606, 146, 114],
         "next": ["Roguelike@IntegratedStrategies", "Roguelike@PreSelectTheme"]
     },
     "Roguelike@LastReward": {

@@ -2,6 +2,7 @@ import linksIconArkNights from '@/assets/links/ark-nights.com.png?url'
 import linksIconPenguinStats from '@/assets/links/penguin-stats.png?url'
 import linksIconPrtsPlus from '@/assets/links/prts.plus.png?url'
 import linksIconYituliu from '@/assets/links/yituliu.site.png?url'
+import linksIconArkntools from '@/assets/links/arkntools.app.png?url'
 import chevronRight from '@iconify/icons-mdi/chevron-right'
 import mdiGitHub from '@iconify/icons-mdi/github'
 import { Icon } from '@iconify/react'
@@ -65,6 +66,14 @@ const LINKS = [
     }
   />,
   <HomeLink
+    key="arkntools"
+    href="https://arkntools.app/"
+    title="明日方舟工具箱"
+    icon={
+      <img src={linksIconArkntools} alt="明日方舟工具箱" className="h-8 w-8" />
+    }
+  />,
+  <HomeLink
     key="alas"
     href="https://github.com/LmeSzinc/AzurLaneAutoScript"
     title="AzurLaneAutoScript (ALAS)"
@@ -100,14 +109,16 @@ export const HomeLinks = forwardRef<HTMLDivElement>((_props, ref) => (
   <div
     ref={ref}
     className={clsx(
-      'fixed right-[5vw] top-[15vh] hidden md:flex flex-col p-8 h-[50vh] w-[20vw] min-w-[25rem] text-[#eee] bg-black/80 rounded-xl opacity-0',
+      'fixed right-[5vw] top-[15vh] hidden md:flex flex-col px-6 pt-4 pb-6 h-[50vh] w-[20vw] min-w-[25rem] text-[#eee] bg-black/80 rounded-xl opacity-0',
       styles.root,
     )}
   >
-    <div className="text-md font-bold mb-1 opacity-80 tracking-wider">
-      LINKS
-    </div>
-    <h1 className="text-4xl font-bold mb-4">友情链接</h1>
-    <div className="flex-1 overflow-y-auto flex flex-col gap-2">{LINKS}</div>
+    <h1 className="text-4xl font-bold mb-3 px-2">
+      友情链接
+      <span className="text-base ml-4 font-bold opacity-80 tracking-wider">
+        LINKS
+      </span>
+    </h1>
+    <div className="flex-1 overflow-y-auto flex flex-col gap-1">{LINKS}</div>
   </div>
 ))

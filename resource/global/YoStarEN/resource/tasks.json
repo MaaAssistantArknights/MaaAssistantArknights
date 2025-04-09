@@ -18,6 +18,9 @@
         "specificRect": [545, 432, 187, 127],
         "text": ["Members", "Initial", "Collectibles"]
     },
+    "StageTheme": {
+        "roi": [200, 640, 300, 60]
+    },
     "ClickChapter1": {
         "text": ["Hour of An Awakening", "Hour of An"]
     },
@@ -260,6 +263,9 @@
     },
     "DH-Open": {
         "text": ["Dossoles", "Holiday", "Rerun", "open"]
+    },
+    "StageResource": {
+        "roi": [600, 600, 250, 110]
     },
     "CharsNameOcrReplace": {
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的英文识别任务复用 This task's ocrReplace is reused by all recognition tasks related to operator names",
@@ -1001,7 +1007,15 @@
             ["Shiny Berries", "闪亮果实"],
             ["Glooming Berry", "奇异黑光果实"],
             ["Shiny Brew", "缤纷果酒"],
-            ["'Treasure Chest'", "“宝箱”"]
+            ["'Treasure Chest'", "“宝箱”"],
+            ["Vina Victoria", "维娜·维多利亚"],
+            ["Catherine", "凯瑟琳"],
+            ["Bobbing", "波卜"],
+            ["Golden Vows", "黄金盟誓"],
+            ["Crawler Protection Unit", "爬行号·防护单元"],
+            ["Munitions Factory Command Center", "军工厂指令平台"],
+            ["Golden Echo", "黄金回响"],
+            ["Aggini of Nila", "尼卢火"]
         ]
     },
     "GameStartUpdateOCR": {
@@ -2328,7 +2342,7 @@
         "text": ["Select"]
     },
     "Roguelike@IntegratedStrategies": {
-        "templThreshold": 0.75
+        "roi": [0, 600, 1280, 110]
     },
     "Roguelike@NoneSelected": {
         "text": ["without recruiting"]

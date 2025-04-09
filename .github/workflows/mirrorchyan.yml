@@ -8,7 +8,8 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - uses: MirrorChyan/uploading-action@v1
+      - name: Upload MAA win x64
+        uses: MirrorChyan/uploading-action@v1
         if: always()
         with:
           filetype: latest-release
@@ -22,7 +23,8 @@ jobs:
           os: win
           arch: x64
 
-      - uses: MirrorChyan/uploading-action@v1
+      - name: Upload MAA win arm64
+        uses: MirrorChyan/uploading-action@v1
         if: always()
         with:
           filetype: latest-release
@@ -35,3 +37,35 @@ jobs:
           upload_token: ${{ secrets.MirrorChyanUploadToken }}
           os: win
           arch: arm64
+
+      - name: Upload MAA macos arm64
+        uses: MirrorChyan/uploading-action@v1
+        if: always()
+        with:
+          filetype: latest-release
+          filename: "MAA-*-macos-universal.dmg"
+          extra_zip: true
+          mirrorchyan_rid: MAA
+
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          upload_token: ${{ secrets.MirrorChyanUploadToken }}
+          os: macos
+          arch: arm64
+
+      - name: Upload MAA macos x64
+        uses: MirrorChyan/uploading-action@v1
+        if: always()
+        with:
+          filetype: latest-release
+          filename: "MAA-*-macos-universal.dmg"
+          extra_zip: true
+          mirrorchyan_rid: MAA
+
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          upload_token: ${{ secrets.MirrorChyanUploadToken }}
+          os: macos
+          arch: x64

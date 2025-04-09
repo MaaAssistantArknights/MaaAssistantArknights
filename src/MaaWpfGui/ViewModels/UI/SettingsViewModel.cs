@@ -105,6 +105,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public static PerformanceUserControlModel PerformanceSettings { get; } = PerformanceUserControlModel.Instance;
 
+        /// <summary>
+        /// Gets 问题反馈model
+        /// </summary>
+        public static IssueReportUserControlModel IssueReportSettings { get; } = IssueReportUserControlModel.Instance;
+
         #endregion 设置界面Model
 
         /// <summary>
@@ -137,6 +142,7 @@ namespace MaaWpfGui.ViewModels.UI
             LocalizationHelper.GetString("ExternalNotificationSettings"),
             LocalizationHelper.GetString("HotKeySettings"),
             LocalizationHelper.GetString("UpdateSettings"),
+            LocalizationHelper.GetString("IssueReport"),
             LocalizationHelper.GetString("AboutUs"),
         ];
 
@@ -666,13 +672,6 @@ namespace MaaWpfGui.ViewModels.UI
         {
             await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
             _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
-        }
-
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
-        public void SetAcknowledgedNightlyWarning()
-        {
-            VersionUpdateSettings.HasAcknowledgedNightlyWarning = true;
         }
 
         /// <summary>
