@@ -150,10 +150,10 @@ bool asst::StageDropsImageAnalyzer::analyze_times()
 bool asst::StageDropsImageAnalyzer::analyze_stars()
 {
     LogTraceFunction;
-
-    static const std::unordered_map<int, std::string> StarsTaskName = {
-        { 2, "StageDrops-Stars-2" },
-        { 3, "StageDrops-Stars-3" },
+    static const std::unordered_map<std::string, int> StarsTaskName = {
+        { "StageDrops-Stars-2", 2 },
+        { "StageDrops-Stars-3", 3 },
+        { "StageDrops-Stars-Adverse", 3 },
     };
 
     Matcher analyzer(m_image);
@@ -164,7 +164,7 @@ bool asst::StageDropsImageAnalyzer::analyze_stars()
     Rect matched_rect(72, 292, 205, 58);
 #endif
 
-    for (const auto& [stars, task_name] : StarsTaskName) {
+    for (const auto& [task_name, stars] : StarsTaskName) {
         auto task_ptr = Task.get(task_name);
         analyzer.set_task_info(task_name);
 
