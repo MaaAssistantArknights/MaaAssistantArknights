@@ -121,6 +121,6 @@ public class AsstFightTask : AsstBaseTask
             param["drops"] = JObject.FromObject(Drops);
         }
 
-        return (AsstTaskType.Fight, param);
+        return (TaskType, param);
     }
 }

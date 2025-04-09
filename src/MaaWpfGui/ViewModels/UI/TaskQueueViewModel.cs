@@ -1557,7 +1557,7 @@ namespace MaaWpfGui.ViewModels.UI
             string curStage = FightTask.Stage;
 
             var (type, mainParam) = FightTask.Serialize();
-            bool mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightRemainingSanity, type, mainParam);
+            bool mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, type, mainParam);
             if (!mainFightRet)
             {
                 AddLog(LocalizationHelper.GetString("UnsupportedStages") + ": " + curStage, UiLogColor.Error);

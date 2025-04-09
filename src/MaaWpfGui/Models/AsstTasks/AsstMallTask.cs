@@ -80,5 +80,5 @@ public class AsstMallTask : AsstBaseTask
     [JsonProperty("reserve_max_credit")]
     public bool ReserveMaxCredit { get; set; }
 
-    public override (AsstTaskType TaskType, JObject Params) Serialize() => (AsstTaskType.Mall, JObject.FromObject(this));
+    public override (AsstTaskType TaskType, JObject Params) Serialize() => (TaskType, JObject.FromObject(this));
 }

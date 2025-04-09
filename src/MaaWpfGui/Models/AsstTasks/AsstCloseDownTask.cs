@@ -31,5 +31,5 @@ public class AsstCloseDownTask : AsstBaseTask
     [JsonProperty("client_type")]
     public string ClientType { get; set; } = string.Empty;
 
-    public override (AsstTaskType TaskType, JObject Params) Serialize() => (AsstTaskType.CloseDown, JObject.FromObject(this));
+    public override (AsstTaskType TaskType, JObject Params) Serialize() => (TaskType, JObject.FromObject(this));
 }
