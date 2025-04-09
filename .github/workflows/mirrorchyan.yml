@@ -38,7 +38,7 @@ jobs:
           os: win
           arch: arm64
 
-      - name: Upload MAA-macos arm64
+      - name: Upload MAA macos arm64
         uses: MirrorChyan/uploading-action@v1
         if: always()
         with:
@@ -54,7 +54,7 @@ jobs:
           os: macos
           arch: arm64
 
-      - name: Upload MAA-macos x64
+      - name: Upload MAA macos x64
         uses: MirrorChyan/uploading-action@v1
         if: always()
         with:
