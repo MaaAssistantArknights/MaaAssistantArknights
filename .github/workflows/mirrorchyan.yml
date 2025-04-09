@@ -35,3 +35,15 @@ jobs:
           upload_token: ${{ secrets.MirrorChyanUploadToken }}
           os: win
           arch: arm64
+
+      - uses: MirrorChyan/uploading-action@v1
+        if: always()
+        with:
+          filetype: latest-release
+          filename: "MAA-*-macos-universal.dmg"
+          mirrorchyan_rid: MAA-macos
+
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          upload_token: ${{ secrets.MirrorChyanUploadToken }}
