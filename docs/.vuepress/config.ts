@@ -14,7 +14,11 @@ export default defineUserConfig({
   port: 3001,
 
   locales: {
-    "/": { },
+    "/": {
+      lang: " ",
+      title: " ",
+      description: " ",
+    },
     "/zh-cn/": {
       lang: "zh-cn",
       description: "文档",
