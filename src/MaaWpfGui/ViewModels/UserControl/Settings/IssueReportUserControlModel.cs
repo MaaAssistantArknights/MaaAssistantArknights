@@ -78,7 +78,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
             }
 
             Directory.CreateDirectory(tempDir);
-            foreach (var file in Directory.EnumerateFiles(path, "*.log").Where(f => LogFileNames.Contains(f)))
+            foreach (var file in Directory.EnumerateFiles(path, "*.log").Where(f => LogFileNames.Contains(Path.GetFileName(f))))
             {
                 string dest = Path.Combine(tempDir, Path.GetFileName(file));
                 File.Copy(file, dest, overwrite: true);
