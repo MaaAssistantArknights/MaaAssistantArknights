@@ -920,7 +920,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ConfirmExitText">确定要退出吗？</system:String>
     <!--  !RootViewModel  -->
     <!--  Api  -->
-    <system:String x:Key="ApiUpdateSuccess">关卡数据获取成功</system:String>
+    <system:String x:Key="ApiUpdateSuccess">热更数据获取成功</system:String>
     <system:String x:Key="GameResourceUpdating">游戏资源正在更新。</system:String>
     <system:String x:Key="GameResourceUpdatingMirrorChyan">正在使用「Mirror酱」更新资源{0}……</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">正在编制索引</system:String>

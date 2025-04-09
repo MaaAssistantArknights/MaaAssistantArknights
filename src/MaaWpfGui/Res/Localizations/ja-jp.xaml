@@ -921,7 +921,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ConfirmExitText">終了しますか？</system:String>
     <!--  !RootViewModel  -->
     <!--  Api  -->
-    <system:String x:Key="ApiUpdateSuccess">ステージデータの取得に成功しました</system:String>
+    <system:String x:Key="ApiUpdateSuccess">ホットアップデートデータの取得に成功しました</system:String>
     <system:String x:Key="GameResourceUpdating">ゲームリソースが更新中です。</system:String>
     <system:String x:Key="GameResourceUpdatingMirrorChyan">「MirrorChyan」からリソース {0} を更新しています...</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">索引の作成中</system:String>

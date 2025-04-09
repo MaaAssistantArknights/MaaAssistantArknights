@@ -918,7 +918,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="ConfirmExitText">Are you sure want to exit?</system:String>
     <!--  !RootViewModel  -->
     <!--  Api  -->
-    <system:String x:Key="ApiUpdateSuccess">Stage data retrieval successful</system:String>
+    <system:String x:Key="ApiUpdateSuccess">Hot update data retrieval successful</system:String>
     <system:String x:Key="GameResourceUpdating">Game resources are being updated.</system:String>
     <system:String x:Key="GameResourceUpdatingMirrorChyan">Updating resource {0} from 「MirrorChyan」...</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">Indexing in progress</system:String>
