@@ -46,7 +46,7 @@ namespace MaaWpfGui.Services
         private static readonly ILogger _logger = Log.ForContext<StageManager>();
 
         // data
-        private Dictionary<string, StageInfo> _stages;
+        private Dictionary<string, StageInfo> _stages = [];
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StageManager"/> class.
@@ -158,7 +158,10 @@ namespace MaaWpfGui.Services
                 await Instances.MaaApiService.RequestMaaApiWithCache(tasksPath);
             }
 
-            Instances.AsstProxy.LoadResource();
+            await Task.Run(() =>
+            {
+                Instances.AsstProxy.LoadResource();
+            });
             return activity;
         }
 
