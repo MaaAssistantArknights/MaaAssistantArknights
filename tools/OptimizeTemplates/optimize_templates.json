@@ -3242,5 +3242,9 @@
     "official/11@EnterEpisodeNew": "55741e66432a67738dbe6bc3bf118836909951e149267c6c18991567011d3b60",
     "official/12@EnterEpisodeNew": "c5fd890bb9456d7902448031b330a3536f89ed7410334499d0f516d44448a1e0",
     "official/13@EnterEpisodeNew": "fa94166654b174a80e59830a82f9ffb386bc04f9521672153a467a3a16775dec",
-    "official/14@EnterEpisodeNew": "73a9847bf3ed0e7fb6f0106cd77fd59ef0b6d71a363613a6dacabaf4168265c7"
+    "official/14@EnterEpisodeNew": "73a9847bf3ed0e7fb6f0106cd77fd59ef0b6d71a363613a6dacabaf4168265c7",
+    "resource/template/items/30165": "d16f36498c6ceb21d677ef4cba118afd681df10fc560a873fcb39e05a6ac7a42",
+    "resource/template/items/31093": "9d4e6cb06bd0510947c339c6a730d8c430085e94103e535a8c9e5a0f678680ca",
+    "resource/template/items/31094": "870447c849102b59e3db2cbf1a346e82f56bc4db6c324b3f3521de2ebf2820cf",
+    "resource/template/items/act2mainss_token": "3578ed7764463a933a677b0c9ce4e42bf093c30f7d96d633ca06d279ebcc929f"
 }
