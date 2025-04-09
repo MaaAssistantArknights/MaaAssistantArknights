@@ -3116,19 +3116,20 @@
         "roi": [1000, 500, 200, 150],
         "reduceOtherTimes": ["StartButton1", "StoneConfirmWait"],
         "exceededNext": ["CloseStonePage"],
-        "next": ["StartButton1", "OfflineConfirm", "StoneConfirmAgain@LoadingText"]
+        "next": ["StartButton1", "OfflineConfirm", "StoneConfirmWait@LoadingText"]
     },
     "StoneConfirmWait": {
         "Doc": "StoneConfirm 波动进入 LoadingText 之后，加载完成后碎石界面可能不会立即消失，这时候需要防止重复计数",
         "Doc2": "如果在碎石界面还没消失的期间再点碎石，应该不会碎掉第二颗吧 :)",
         "Doc3": "另外，应该不会又卡好几分钟吧，这个 task 就不用注册博朗台插件了",
+        "action": "DoNothing",
         "maxTimes": 3,
         "baseTask": "StoneConfirm",
         "template": "MedicineConfirm.png",
         "reduceOtherTimes": [],
         "postDelay": 500,
-        "exceededNext": ["CloseStonePage"],
-        "next": ["StoneConfirmWait", "StoneConfirm#next"]
+        "exceededNext": [ "CloseStonePage" ],
+        "next": [ "StoneConfirmWait", "StoneConfirm#next" ]
     },
     "NoStone": {
         "roi": [800, 250, 350, 250],
