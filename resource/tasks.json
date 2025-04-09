@@ -2826,7 +2826,7 @@
         "next": ["StartButton1"]
     },
     "FightSeries-Icon": {
-        "roi": [945, 580, 100, 50]
+        "roi": [930, 570, 110, 50]
     },
     "FightSeries-Indicator": {
         "roi": [940, 190, 80, 380],
