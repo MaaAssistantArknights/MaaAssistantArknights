@@ -70,7 +70,11 @@ public class IssueReportUserControlModel : PropertyChangedBase
             if (!Directory.Exists(debugPath))
             {
                 Directory.CreateDirectory("debug");
-                return;
+            }
+
+            if (!Directory.Exists(configPath))
+            {
+                Directory.CreateDirectory("config");
             }
 
             if (File.Exists(zipPath))
