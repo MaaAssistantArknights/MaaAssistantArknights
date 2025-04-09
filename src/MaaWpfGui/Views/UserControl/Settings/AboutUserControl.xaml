@@ -55,7 +55,13 @@
                     <TextBlock Text="{DynamicResource Github}" />
                 </Hyperlink>
             </controls:TextBlock>
-
+            <Button
+                Width="Auto"
+                Margin="5"
+                Command="{s:Action CheckAndDownloadAnnouncement}"
+                Content="{DynamicResource CheckAndDownloadAnnouncement}" />
+        </StackPanel>
+        <StackPanel Grid.Column="1">
             <controls:TextBlock
                 Margin="5"
                 HorizontalAlignment="Center"
@@ -79,10 +85,6 @@
                     <TextBlock Text="{DynamicResource QqChannel}" />
                 </Hyperlink>
             </controls:TextBlock>
-        </StackPanel>
-        <StackPanel Grid.Column="1">
-
-
             <controls:TextBlock
                 Margin="5"
                 HorizontalAlignment="Center"
@@ -107,11 +109,6 @@
                 </Hyperlink>
             </controls:TextBlock>
 
-            <Button
-                Width="Auto"
-                Margin="5"
-                Command="{s:Action CheckAndDownloadAnnouncement}"
-                Content="{DynamicResource CheckAndDownloadAnnouncement}" />
         </StackPanel>
     </Grid>
 </UserControl>
