@@ -10,14 +10,16 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - uses: MirrorChyan/release-note-action@v1
+      - name: Release Note for MAA
+        uses: MirrorChyan/release-note-action@v1
         with:
           mirrorchyan_rid: MAA
 
           upload_token: ${{ secrets.MirrorChyanUploadToken }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: MirrorChyan/release-note-action@v1
+      - name: Release Note for MAA-macos
+        uses: MirrorChyan/release-note-action@v1
         with:
           mirrorchyan_rid: MAA-macos
 
