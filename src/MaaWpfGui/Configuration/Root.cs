@@ -13,10 +13,14 @@
 #nullable enable
 using System.ComponentModel;
 using System.Text.Json.Serialization;
+using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Global;
+using MaaWpfGui.Configuration.SingleConfig;
+using MaaWpfGui.Constants;
 using ObservableCollections;
 
-namespace MaaWpfGui.Configuration
-{
+namespace MaaWpfGui.Configuration;
+
     public class Root : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -27,7 +31,7 @@ namespace MaaWpfGui.Configuration
         [JsonInclude]
         public ObservableDictionary<int, Timer> Timers { get; private set; } = [];
 
-        public string Current { get; set; } = "Default";
+        public string Current { get; set; } = ConfigurationKeys.DefaultConfiguration;
 
         [JsonInclude]
         public VersionUpdate VersionUpdate { get; private set; } = new VersionUpdate();
@@ -56,4 +60,3 @@ namespace MaaWpfGui.Configuration
             PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));
         }
     }
-}

@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using HandyControl.Controls;
 using HandyControl.Tools.Command;
-using MaaWpfGui.Configuration;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Serilog;
