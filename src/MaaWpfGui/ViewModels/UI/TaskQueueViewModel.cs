@@ -66,7 +66,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the visibility of task setting views.
         /// </summary>
-        public static TaskSettingVisibilityInfo TaskSettingVisibilities => TaskSettingVisibilityInfo.Current;
+        public static TaskSettingVisibilityInfo TaskSettingVisibilities => TaskSettingVisibilityInfo.Instance;
 
         public static SettingsViewModel TaskSettingDataContext => Instances.SettingsViewModel;
 
@@ -163,7 +163,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _enableAfterActionSetting, value);
-                TaskSettingVisibilityInfo.Current.Set("AfterAction", value);
+                TaskSettingVisibilityInfo.Instance.Set("AfterAction", value);
             }
         }
 

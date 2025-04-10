@@ -48,7 +48,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     /// <summary>
     /// Gets the visibility of task setting views.
     /// </summary>
-    public static TaskSettingVisibilityInfo TaskSettingVisibilities => TaskSettingVisibilityInfo.Current;
+    public static TaskSettingVisibilityInfo TaskSettingVisibilities => TaskSettingVisibilityInfo.Instance;
 
     public void InitInfrast()
     {
