@@ -29,7 +29,7 @@ namespace MaaWpfGui.Models
         private bool _wakeUp;
         private bool _recruiting;
         private bool _base;
-        private bool _combat;
+        private bool _fight;
         private bool _mall;
         private bool _mission;
         private bool _autoRoguelike;
@@ -43,7 +43,7 @@ namespace MaaWpfGui.Models
 
         public bool Base { get => _base; set => SetAndNotify(ref _base, value); }
 
-        public bool Combat { get => _combat; set => SetAndNotify(ref _combat, value); }
+        public bool Combat { get => _fight; set => SetAndNotify(ref _fight, value); }
 
         public bool Mall { get => _mall; set => SetAndNotify(ref _mall, value); }
 
@@ -57,7 +57,7 @@ namespace MaaWpfGui.Models
 
         public bool Custom { get => _custom; set => SetAndNotify(ref _custom, value); }
 
-        public static TaskSettingVisibilityInfo Current { get; } = new();
+        public static TaskSettingVisibilityInfo Instance { get; } = new();
 
         public void Set(string taskName, bool enable)
         {
