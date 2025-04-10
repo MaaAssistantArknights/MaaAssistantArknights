@@ -138,20 +138,5 @@ namespace MaaWpfGui.ViewModels
             get => _runStatus;
             set => SetAndNotify(ref _runStatus, value);
         }
-
-        private bool _enableSetting;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the setting enabled.
-        /// </summary>
-        public bool EnableSetting
-        {
-            get => _enableSetting;
-            set
-            {
-                SetAndNotify(ref _enableSetting, value);
-                TaskSettingVisibilityInfo.Instance.Set(OriginalName, value);
-            }
-        }
     }
 }

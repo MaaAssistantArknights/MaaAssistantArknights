@@ -22,13 +22,13 @@
                 Margin="0,10"
                 Block.TextAlignment="Left"
                 Content="{DynamicResource Visiting}"
-                IsChecked="{Binding CreditVisitFriendsEnabledDisplay}" />
+                IsChecked="{Binding CreditVisitFriendsEnabled}" />
             <CheckBox
                 Margin="20,10,0,10"
                 Block.TextAlignment="Left"
                 Content="{DynamicResource OnlyOnceADay}"
                 IsChecked="{Binding CreditVisitOnceADay}"
-                Visibility="{c:Binding CreditVisitFriendsEnabledDisplay}" />
+                Visibility="{c:Binding CreditVisitFriendsEnabled}" />
             <CheckBox
                 Margin="0,10"
                 Block.TextAlignment="Left"
@@ -40,7 +40,7 @@
                     MaxWidth="{c:Binding '220 - ActualWidth',
                                          ElementName=CreditFightTipTooltipBlock}"
                     Block.TextAlignment="Left"
-                    IsChecked="{Binding CreditFightTaskEnabledDisplay}">
+                    IsChecked="{Binding CreditFightTaskEnabled}">
                     <TextBlock
                         Block.TextAlignment="Left"
                         Text="{DynamicResource CreditFight}"
@@ -59,7 +59,7 @@
                 ItemsSource="{Binding FormationSelectList}"
                 SelectedValue="{Binding CreditFightSelectFormation}"
                 SelectedValuePath="Value"
-                Visibility="{c:Binding CreditFightTaskEnabledDisplay}" />
+                Visibility="{c:Binding CreditFightTaskEnabled}" />
         </StackPanel>
 
         <StackPanel Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}">

@@ -73,7 +73,7 @@
                                         Grid.Column="0"
                                         MaxWidth="140"
                                         HorizontalAlignment="Left"
-                                        IsChecked="{Binding IsCheckedWithNull}"
+                                        IsChecked="{Binding IsEnable}"
                                         IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}"
                                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                                       Target={x:Type helper:CheckBoxHelper}}">
@@ -108,7 +108,7 @@
                                                     <MultiDataTrigger>
                                                         <MultiDataTrigger.Conditions>
                                                             <Condition Binding="{Binding Source={x:Static setting:SettingsViewModel.GuiSettings}, Path=MainTasksInvertNullFunction}" Value="True" />
-                                                            <Condition Binding="{Binding IsCheckedWithNull}" Value="{x:Null}" />
+                                                            <Condition Binding="{Binding IsEnable}" Value="{x:Null}" />
                                                         </MultiDataTrigger.Conditions>
                                                         <Setter Property="Foreground" Value="{DynamicResource TraceLogBrush}" />
                                                     </MultiDataTrigger>
@@ -272,7 +272,10 @@
             DataContext="{Binding TaskSettingDataContext}"
             Visibility="{c:Binding TaskSettingVisibilities.Guide}" />
 
-        <Grid Grid.Column="1">
+        <Grid
+            Grid.Column="1"
+            d:Visibility="Visible"
+            Visibility="{c:Binding !TaskSettingVisibilities.Guide}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" MinHeight="360" />
                 <RowDefinition Height="Auto" />
@@ -367,6 +370,7 @@
             Margin="10"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Top"
+            d:Visibility="Visible"
             properties:AutoScroll.AutoScroll="True"
             HorizontalScrollBarVisibility="Disabled"
             IsInertiaEnabled="True"
