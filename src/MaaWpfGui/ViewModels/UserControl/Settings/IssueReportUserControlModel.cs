@@ -64,7 +64,8 @@ public class IssueReportUserControlModel : PropertyChangedBase
     {
         try
         {
-            string zipPath = Path.Combine(DebugDir, $"report_{DateTimeOffset.Now:MM-dd_HH-mm-ss}.zip");
+            var reportFileName = $"report_{DateTimeOffset.Now:MM-dd_HH-mm-ss}.zip";
+            string zipPath = Path.Combine(DebugDir, reportFileName);
             string tempPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
             if (File.Exists(zipPath))
             {
@@ -92,7 +93,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
             }
 
             Directory.Delete(tempPath, recursive: true);
-            ShowGrowl(LocalizationHelper.GetString("GenerateSupportPayloadSuccessful"));
+            ShowGrowl($"{LocalizationHelper.GetString("GenerateSupportPayloadSuccessful")}\n{reportFileName}");
             OpenDebugFolder();
         }
         catch (Exception ex)
