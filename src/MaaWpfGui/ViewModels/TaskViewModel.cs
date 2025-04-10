@@ -23,7 +23,22 @@ using Stylet;
 namespace MaaWpfGui.ViewModels;
 public class TaskViewModel : PropertyChangedBase
 {
+    protected T GetConfigTask<T>()
+        where T : BaseTask
+    {
+        return ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilityInfo.Instance.CurrentIndex] as T ??
+               throw new InvalidOperationException("当前任务不是指定类型");
+    }
+
     public virtual void ProcSubTaskMsg(AsstMsg msg, JObject details)
+    {
+    }
+
+    /// <summary>
+    /// 刷新UI
+    /// </summary>
+    /// <param name="baseTask">需要刷新的任务</param>
+    public virtual void RefreshUI(BaseTask baseTask)
     {
     }
 

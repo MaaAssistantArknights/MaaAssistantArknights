@@ -13,9 +13,9 @@
 
 using System;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
 
@@ -60,6 +60,76 @@ namespace MaaWpfGui.Models
         public bool Custom { get => _custom; set => SetAndNotify(ref _custom, value); }
 
         public static TaskSettingVisibilityInfo Instance { get; } = new();
+
+        public int CurrentIndex { get; set; }
+
+        public void Set(int taskIndex, bool enable)
+        {
+            if (Guide && enable)
+            {
+                // TODO Config修复引导
+                // _currentEnableSetting = taskName;
+                enable = false;
+            }
+
+            if (enable)
+            {
+                CurrentIndex = taskIndex;
+            }
+
+            if (enable || ConfigFactory.CurrentConfig.TaskQueue[taskIndex].GetType() != ConfigFactory.CurrentConfig.TaskQueue[CurrentIndex].GetType())
+            {
+                var task = ConfigFactory.CurrentConfig.TaskQueue[taskIndex];
+                if (task is StartUpTask)
+                {
+                    WakeUp = enable;
+                }
+                else if (task is RecruitTask)
+                {
+                    Recruiting = enable;
+                }
+                else if (task is InfrastTask)
+                {
+                    Base = enable;
+                }
+                else if (task is FightTask)
+                {
+                    Combat = enable;
+                }
+                else if (task is MallTask)
+                {
+                    Mall = enable;
+                }
+                else if (task is AwardTask)
+                {
+                    Mission = enable;
+                }
+                else if (task is RoguelikeTask)
+                {
+                    AutoRoguelike = enable;
+                }
+                else if (task is ReclamationTask)
+                {
+                    Reclamation = enable;
+                }
+            }
+
+            EnableAdvancedSettings = false;
+            if (Mission || WakeUp)
+            {
+                AdvancedSettingsVisibility = false;
+            }
+            else
+            {
+                AdvancedSettingsVisibility = true;
+            }
+
+            if (enable)
+            {
+                // Instances.SettingsViewModel.Refresh();
+                Instances.TaskQueueViewModel.RefreshTaskModel(ConfigFactory.CurrentConfig.TaskQueue[taskIndex]);
+            }
+        }
 
         public void Set(string taskName, bool enable)
         {
