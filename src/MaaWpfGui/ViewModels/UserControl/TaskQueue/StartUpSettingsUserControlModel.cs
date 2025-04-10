@@ -59,12 +59,10 @@ public class StartUpSettingsUserControlModel : TaskViewModel
 
     public override void RefreshUI(BaseTask baseTask)
     {
-        if (baseTask is not StartUpTask)
+        if (baseTask is StartUpTask)
         {
-            return;
+            Refresh();
         }
-
-        NotifyOfPropertyChange(nameof(AccountName));
     }
 
     public override (AsstTaskType Type, JObject Params) Serialize()
