@@ -33,7 +33,7 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
 
     public static BackgroundSettingsUserControlModel Instance { get; }
 
-    private static string _backgroundImagePath = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundImagePath, Path.Combine(Environment.CurrentDirectory, "background\\background.png"));
+    private static string _backgroundImagePath = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundImagePath, "background/background.png");
 
     public string BackgroundImagePath
     {
