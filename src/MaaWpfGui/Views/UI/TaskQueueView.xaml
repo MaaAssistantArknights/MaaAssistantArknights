@@ -116,21 +116,24 @@
                                         </TextBlock.Style>
                                     </controls:TextBlock>
 
-                                    <RadioButton
+                                    <hc:ButtonGroup
                                         Grid.Column="1"
-                                        Margin="0"
-                                        HorizontalAlignment="Stretch"
-                                        HorizontalContentAlignment="Right"
-                                        hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
-                                        hc:VisualElement.HighlightBackground="Transparent"
-                                        hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
-                                        Background="Transparent"
-                                        BorderThickness="0"
-                                        Foreground="{DynamicResource SecondaryTextBrush}"
-                                        GroupName="TaskSettings"
-                                        IsChecked="{Binding EnableSetting}"
-                                        Style="{DynamicResource RadioGroupItemSingle}"
-                                        ToolTip="{DynamicResource TaskSettings}" />
+                                        HorizontalAlignment="Stretch">
+                                        <RadioButton
+                                            Margin="0"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Right"
+                                            hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
+                                            hc:VisualElement.HighlightBackground="Transparent"
+                                            hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Foreground="{DynamicResource SecondaryTextBrush}"
+                                            GroupName="TaskSettings"
+                                            IsChecked="{Binding EnableSetting}"
+                                            Style="{DynamicResource RadioGroupItemSingle}"
+                                            ToolTip="{DynamicResource TaskSettings}" />
+                                    </hc:ButtonGroup>
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
