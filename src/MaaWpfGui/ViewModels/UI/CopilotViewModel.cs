@@ -1003,7 +1003,13 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            stageName ??= navigateName;
+            navigateName = string.IsNullOrEmpty(navigateName) ? stageName : navigateName;
+            if (stageName != navigateName)
+            {
+                stageName = navigateName;
+                AddLog("stageName NOT equal with navigateName, using navigateName", UiLogColor.Warning, showTime: false);
+            }
+
             var fileName = !string.IsNullOrEmpty(stageName!) ? stageName : DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
             var cachePath = $"{CopilotJsonDir}/{fileName}.json";
             await _semaphore.WaitAsync();
