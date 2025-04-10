@@ -389,21 +389,19 @@
         "roi": [845, 72, 220, 50]
     },
     "ChangeToRaidDifficulty": {
-        "doc": [
-            "突袭", "15章险地"
-        ],
-        "template": [ "RaidDifficulty.png", "RaidDifficulty-Chapter15.png" ],
+        "doc": ["突袭", "15章险地"],
+        "template": ["RaidDifficulty.png", "RaidDifficulty-Chapter15.png"],
         "action": "ClickSelf",
-        "maskRange": [0,220],
-        "roi": [ 600, 610, 130, 110 ],
+        "maskRange": [0, 220],
+        "roi": [600, 610, 130, 110],
         "maxTimes": 3,
-        "next": [ "RaidConfirm", "#self" ]
+        "next": ["RaidConfirm", "#self"]
     },
     "RaidConfirm": {
         "baseTask": "ChangeToRaidDifficulty",
         "action": "DoNothing",
-        "maskRange": [ 0, 220 ],
-        "template": [ "NormalDifficulty.png", "NormalDifficulty-Chapter15.png" ],
+        "maskRange": [0, 220],
+        "template": ["NormalDifficulty.png", "NormalDifficulty-Chapter15.png"],
         "next": []
     },
     "Episode": {
