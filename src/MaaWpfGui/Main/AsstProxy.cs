@@ -2290,7 +2290,12 @@ namespace MaaWpfGui.Main
             return id != 0 && AsstStart();
         }
 
-        public bool AsstAppendTaskWithEncoding(TaskType wpfTaskType, (AsstTaskType Type, JObject? TaskParams) task)
+        public bool AsstAppendTaskWithEncoding(TaskType wpfTasktype, AsstBaseTask task)
+        {
+            return AsstAppendTaskWithEncoding(wpfTasktype, task.Serialize());
+        }
+
+        public bool AsstAppendTaskWithEncoding(TaskType wpfTasktype, (AsstTaskType Type, JObject? TaskParams) task)
         {
             return AsstAppendTaskWithEncoding(wpfTaskType, task.Type, task.TaskParams);
         }
@@ -2306,6 +2311,11 @@ namespace MaaWpfGui.Main
 
             _tasksStatus.Add(id, (wpfTaskType, TaskStatus.Idle));
             return true;
+        }
+
+        public bool AsstSetTaskParamsEncoded(AsstTaskId id, AsstBaseTask task)
+        {
+            return AsstSetTaskParamsEncoded(id, task.Serialize().Params);
         }
 
         public bool AsstSetTaskParamsEncoded(AsstTaskId id, JObject? taskParams = null)

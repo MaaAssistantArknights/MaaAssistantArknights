@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
@@ -25,6 +26,7 @@ using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
@@ -847,6 +849,14 @@ public class FightSettingsUserControlModel : TaskViewModel
         return value;
     }
 
+    public override void RefreshUI(BaseTask baseTask)
+    {
+        if (baseTask is FightTask)
+        {
+            Refresh();
+        }
+    }
+
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
         var task = new AsstFightTask()
@@ -872,6 +882,45 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
 
         return task.Serialize();
+    }
+
+    public override bool? SerializeTask(BaseTask baseTask, int? taskId = null)
+    {
+        if (baseTask is not FightTask fight)
+        {
+            return null;
+        }
+
+        var task = new AsstFightTask()
+        {
+            Stage = fight.Stage,
+            Medicine = UseMedicine ? MedicineNumber : 0,
+            Stone = UseStone ? StoneNumber : 0,
+            Series = Series,
+            MaxTimes = HasTimesLimited ? MaxTimes : int.MaxValue,
+            ExpiringMedicine = UseExpiringMedicine ? 9999 : 0,
+            IsDrGrandet = IsDrGrandet,
+            ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
+            ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
+            PenguinId = SettingsViewModel.GameSettings.PenguinId,
+            YituliuId = SettingsViewModel.GameSettings.PenguinId,
+            ServerType = Instances.SettingsViewModel.ServerType,
+            ClientType = SettingsViewModel.GameSettings.ClientType,
+        };
+
+        if (IsSpecifiedDrops && !string.IsNullOrEmpty(DropsItemId))
+        {
+            task.Drops.Add(DropsItemId, DropsQuantity);
+        }
+
+        if (taskId is int id)
+        {
+            return Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task);
+        }
+        else
+        {
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, task);
+        }
     }
 
     #region 双入口设置可见性

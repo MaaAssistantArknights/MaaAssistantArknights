@@ -12,6 +12,8 @@
 // </copyright>
 
 #nullable enable
+using System.Windows.Media.Media3D;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -19,6 +21,7 @@ using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json.Linq;
+using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
@@ -31,16 +34,13 @@ public class StartUpSettingsUserControlModel : TaskViewModel
 
     public static StartUpSettingsUserControlModel Instance { get; }
 
-    private string _accountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty).Trim();
-
     public string AccountName
     {
-        get => _accountName;
+        get => GetTaskConfig<StartUpTask>()?.AccountName ?? string.Empty;
         set
         {
             value = value.Trim();
-            SetAndNotify(ref _accountName, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.AccountName, value);
+            SetTaskConfig<StartUpTask>(t => t.AccountName == value, t => t.AccountName = value);
         }
     }
 
@@ -56,6 +56,14 @@ public class StartUpSettingsUserControlModel : TaskViewModel
         if (msg == AsstMsg.SubTaskExtraInfo && details["what"]?.ToString() == "AccountSwitch")
         {
             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + $" -->> {details["details"]!["account_name"]}", UiLogColor.Info); // subTaskDetails!["current_account"]
+        }
+    }
+
+    public override void RefreshUI(BaseTask baseTask)
+    {
+        if (baseTask is StartUpTask)
+        {
+            Refresh();
         }
     }
 
@@ -76,5 +84,36 @@ public class StartUpSettingsUserControlModel : TaskViewModel
         };
 
         return task.Serialize();
+    }
+
+    public override bool? SerializeTask(BaseTask baseTask, int? taskId = null)
+    {
+        if (baseTask is not StartUpTask startUp)
+        {
+            return null;
+        }
+
+        var clientType = SettingsViewModel.GameSettings.ClientType;
+        var accountName = clientType switch
+        {
+            "Official" or "Bilibili" => startUp.AccountName,
+            _ => string.Empty,
+        };
+
+        var task = new AsstStartUpTask()
+        {
+            ClientType = clientType,
+            StartGame = !string.IsNullOrEmpty(clientType),
+            AccountName = accountName,
+        };
+
+        if (taskId is int id)
+        {
+            return Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task);
+        }
+        else
+        {
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, task);
+        }
     }
 }
