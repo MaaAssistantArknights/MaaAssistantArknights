@@ -19,7 +19,7 @@ using System.IO.Compression;
 using System.Linq;
 using HandyControl.Controls;
 using HandyControl.Data;
-using MaaWpfGui.Configuration;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using Serilog;
