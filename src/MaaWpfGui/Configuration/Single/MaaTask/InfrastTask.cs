@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using System.Collections.Generic;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using static MaaWpfGui.Main.AsstProxy;
 
@@ -69,4 +70,55 @@ public class InfrastTask : BaseTask
     /// Gets or sets 自定义配置计划编号
     /// </summary>
     public int PlanIndex { get; set; }
+
+    public List<(RoomType Room, bool IsEnabled)> RoomList { get; set; } = [];
 }
+
+public enum RoomType
+{
+    /// <summary>
+    /// 制造站
+    /// </summary>
+    Mfg,
+
+    /// <summary>
+    /// 贸易站
+    /// </summary>
+    Trade,
+
+    /// <summary>
+    /// 控制中心
+    /// </summary>
+    Control,
+
+    /// <summary>
+    /// 发电站
+    /// </summary>
+    Power,
+
+    /// <summary>
+    /// 会客室
+    /// </summary>
+    Reception,
+
+    /// <summary>
+    /// 办公室(+速公招那个
+    /// </summary>
+    Office,
+
+    /// <summary>
+    /// 宿舍
+    /// </summary>
+    Dorm,
+
+    /// <summary>
+    /// 加工站(合精英材料
+    /// </summary>
+    Processing,
+
+    /// <summary>
+    /// 训练室
+    /// </summary>
+    Training,
+}
+

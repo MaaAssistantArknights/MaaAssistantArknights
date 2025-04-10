@@ -268,7 +268,7 @@ public static class ConfigFactory
         }
     }
 
-    private static bool Save(string? file = null, Root? root = null)
+    public static bool Save(string? file = null, Root? root = null)
     {
         lock (_lock)
         {

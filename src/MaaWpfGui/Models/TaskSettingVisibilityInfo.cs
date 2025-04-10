@@ -12,10 +12,13 @@
 // </copyright>
 
 using System;
+using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
+using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Models
 {
@@ -189,6 +192,87 @@ namespace MaaWpfGui.Models
             set => SetAndNotify(ref _isCurrentTaskRunning, value);
         }
 
+        public void Set(int taskIndex, bool enable)
+        {
+            if (Guide && enable)
+            {
+                // TODO Config修复引导
+                // _currentEnableSetting = taskName;
+                enable = false;
+            }
+
+            if (enable)
+            {
+                CurrentIndex = taskIndex;
+            }
+
+            if (enable || ConfigFactory.CurrentConfig.TaskQueue[taskIndex].GetType() != ConfigFactory.CurrentConfig.TaskQueue[CurrentIndex].GetType())
+            {
+                var task = ConfigFactory.CurrentConfig.TaskQueue[taskIndex];
+                if (task is StartUpTask)
+                {
+                    WakeUp = enable;
+                }
+                else if (task is RecruitTask)
+                {
+                    Recruiting = enable;
+                }
+                else if (task is InfrastTask)
+                {
+                    Base = enable;
+                }
+                else if (task is FightTask)
+                {
+                    Combat = enable;
+                }
+                else if (task is MallTask)
+                {
+                    Mall = enable;
+                }
+                else if (task is AwardTask)
+                {
+                    Mission = enable;
+                }
+                else if (task is RoguelikeTask)
+                {
+                    AutoRoguelike = enable;
+                }
+                else if (task is ReclamationTask)
+                {
+                    Reclamation = enable;
+                }
+            }
+
+            EnableAdvancedSettings = false;
+            if (Mission || WakeUp)
+            {
+                AdvancedSettingsVisibility = false;
+            }
+            else
+            {
+                AdvancedSettingsVisibility = true;
+            }
+
+            if (enable)
+            {
+                Instances.TaskQueueViewModel.RefreshTaskModel(ConfigFactory.CurrentConfig.TaskQueue[taskIndex]);
+            }
+        }
+
+        public void SetPostAction(bool value)
+        {
+            /*WakeUp = false;
+            Recruiting = false;
+            Base = false;
+            Combat = false;
+            Mall = false;
+            Mission = false;
+            AutoRoguelike = false;
+            Reclamation = false;
+            Custom = false;*/
+            AfterAction = value;
+        }
+
         private bool _enableAdvancedSettings;
 
         public bool EnableAdvancedSettings
@@ -205,9 +289,7 @@ namespace MaaWpfGui.Models
             set => SetAndNotify(ref _advancedSettingsVisibility, value);
         }
 
-        private string _currentEnableSetting;
-
-        private bool _guide = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, "0")) < SettingsViewModel.GuideMaxStep;
+        private bool _guide = ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, 0) < SettingsViewModel.GuideMaxStep;
 
         public bool Guide
         {
@@ -215,7 +297,22 @@ namespace MaaWpfGui.Models
             set
             {
                 SetAndNotify(ref _guide, value);
-                Set(_currentEnableSetting, !value);
+                if (!value)
+                {
+                    var index = 0;
+                    foreach (var task in ConfigFactory.CurrentConfig.TaskQueue)
+                    {
+                        if (task.TaskType == TaskType.Fight)
+                        {
+                            Set(index, true);
+                            return;
+                        }
+
+                        index++;
+                    }
+
+                    Set(0, true);
+                }
             }
         }
 
