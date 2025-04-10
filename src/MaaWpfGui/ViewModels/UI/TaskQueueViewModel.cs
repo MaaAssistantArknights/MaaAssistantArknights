@@ -22,6 +22,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -1862,6 +1863,14 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 // 调用 ProcSubTaskMsg 方法
                 instance.ProcSubTaskMsg(msg, details);
+            }
+        }
+
+        public void RefreshTaskModel(BaseTask task)
+        {
+            foreach (var instance in TaskViewModelTypes)
+            {
+                instance.RefreshUI(task);
             }
         }
     }
