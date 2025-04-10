@@ -26,7 +26,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
 using GlobalHotKey;
-using MaaWpfGui.Configuration;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Properties;
 using MaaWpfGui.Services;
@@ -315,7 +315,7 @@ namespace MaaWpfGui.Main
             Execute.OnUIThread(Application.Current.Shutdown);
         }
 
-        public static void Shutdown([CallerMemberName]string caller = "")
+        public static void Shutdown([CallerMemberName] string caller = "")
         {
             _logger.Information($"Shutdown called by {caller}");
             Execute.OnUIThread(Application.Current.Shutdown);
