@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using HandyControl.Controls;
 using HandyControl.Data;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -768,7 +769,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private readonly Dictionary<string, string> _serverMapping = new()
+        private static readonly Dictionary<string, string> _serverMapping = new()
         {
             { string.Empty, "CN" },
             { "Official", "CN" },
