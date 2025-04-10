@@ -12,8 +12,9 @@
 // </copyright>
 
 using System.Text.Json.Serialization;
+using MaaWpfGui.Configuration.Factory;
 
-namespace MaaWpfGui.Configuration
+namespace MaaWpfGui.Configuration.Global
 {
     public class Timer
     {

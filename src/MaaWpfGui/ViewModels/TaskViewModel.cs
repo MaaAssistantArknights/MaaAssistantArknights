@@ -18,7 +18,6 @@ using Newtonsoft.Json.Linq;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels;
-
 public abstract class TaskViewModel : PropertyChangedBase
 {
     public virtual void ProcSubTaskMsg(AsstMsg msg, JObject details)
