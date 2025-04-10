@@ -12,23 +12,22 @@
 // </copyright>
 
 using System.Text.Json.Serialization;
-using MaaWpfGui.Models.AsstTasks;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using ObservableCollections;
 
-namespace MaaWpfGui.Configuration.SingleConfig
+namespace MaaWpfGui.Configuration.SingleConfig;
+
+public class SpecificConfig
 {
-    public class SpecificConfig
-    {
-        [JsonInclude]
-        public ObservableDictionary<string, int> InfrastOrder { get; private set; } = new ObservableDictionary<string, int>();
+    [JsonInclude]
+    public ObservableDictionary<string, int> InfrastOrder { get; private set; } = [];
 
-        [JsonInclude]
-        public ObservableDictionary<string, int> TaskQueueOrder { get; private set; } = [];
+    [JsonInclude]
+    public ObservableDictionary<string, int> TaskQueueOrder { get; private set; } = [];
 
-        [JsonInclude]
-        public ObservableList<AsstBaseTask> TaskQueue { get; private set; } = [];
+    [JsonInclude]
+    public ObservableList<BaseTask> TaskQueue { get; private set; } = [];
 
-        [JsonInclude]
-        public ObservableDictionary<string, bool> DragItemIsChecked { get; private set; } = new ObservableDictionary<string, bool>();
-    }
+    [JsonInclude]
+    public ObservableDictionary<string, bool> DragItemIsChecked { get; private set; } = [];
 }
