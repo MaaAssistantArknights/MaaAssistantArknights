@@ -88,7 +88,9 @@ public class ConfigConverter
             return;
         }
 
-        string[] configKeys = ["Announcement.AnnouncementInfo", "Announcement.DoNotRemindThisAnnouncementAgain", "Announcement.DoNotShowAnnouncement"];
+        string[] configKeys = ["Announcement.AnnouncementInfo", "Announcement.DoNotRemindThisAnnouncementAgain", "Announcement.DoNotShowAnnouncement",
+            ConfigurationKeys.VersionName, ConfigurationKeys.VersionUpdateBody, ConfigurationKeys.VersionUpdateIsFirstBoot, ConfigurationKeys.VersionUpdatePackage, ConfigurationKeys.VersionUpdateDoNotShowUpdate,
+        ];
         var currentConfigName = ConfigurationHelper.GetCurrentConfiguration();
         foreach (var configName in ConfigurationHelper.GetConfigurationList())
         {
@@ -109,7 +111,7 @@ public class ConfigConverter
     {
         if (curVersion >= 1)
         {
-            return true;
+            //return true;
         }
 
         var currentConfigName = ConfigurationHelper.GetCurrentConfiguration();
