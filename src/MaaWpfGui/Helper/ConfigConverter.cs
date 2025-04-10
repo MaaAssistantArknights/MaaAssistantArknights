@@ -137,13 +137,13 @@ public class ConfigConverter
 
                 awardTask.Award = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveAward, bool.TrueString));
                 awardTask.Mail = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveMail, bool.FalseString));
-                awardTask.FreeGacha = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveFreeRecruit, bool.FalseString));
+                awardTask.FreeGacha = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveFreeGacha, bool.FalseString));
                 awardTask.Orundum = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveOrundum, bool.FalseString));
                 awardTask.Mining = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveMining, bool.FalseString));
                 awardTask.SpecialAccess = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveSpecialAccess, bool.FalseString));
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ReceiveAward);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ReceiveMail);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReceiveFreeRecruit);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReceiveFreeGacha);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ReceiveOrundum);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ReceiveMining);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ReceiveSpecialAccess);
