@@ -60,12 +60,11 @@ public class AwardSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private bool _receiveFreeRecruit = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveFreeRecruit, bool.FalseString));
+    public bool ReceiveFreeGacha
 
     /// <summary>
     /// Gets or sets a value indicating whether receive mail is enabled.
     /// </summary>
-    public bool ReceiveFreeRecruit
     {
         get => _receiveFreeRecruit;
         set
