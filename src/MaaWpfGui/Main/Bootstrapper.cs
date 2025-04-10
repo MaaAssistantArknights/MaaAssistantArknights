@@ -175,6 +175,7 @@ namespace MaaWpfGui.Main
             _logger.Information("===================================");
 
             ConfigurationHelper.Load();
+            ConfigConverter.ConvertConfig();
             LocalizationHelper.Load();
             ETagCache.Load();
 
