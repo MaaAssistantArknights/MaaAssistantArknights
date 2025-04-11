@@ -15,7 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using MaaWpfGui.Constants;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
@@ -49,15 +49,11 @@ public class MallSettingsUserControlModel : TaskViewModel
             { "txwy", ["訊使", "嘉維爾", "堅雷"] },
         };
 
-    private string _lastCreditFightTaskTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditFightTaskTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
-
     public string LastCreditFightTaskTime
     {
         get => GetTaskConfig<MallTask>()?.CreditFightLastTime ?? string.Empty;
         set => SetTaskConfig<MallTask>(t => t.CreditFightLastTime == value, t => t.CreditFightLastTime = value);
     }
-
-    private bool _creditFightTaskEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightTaskEnabled, bool.FalseString));
 
     /// <summary>
     /// Gets or sets a value indicating whether credit fight task is enabled.
@@ -66,20 +62,6 @@ public class MallSettingsUserControlModel : TaskViewModel
     {
         get => GetTaskConfig<MallTask>()?.CreditFight ?? default;
         set => SetTaskConfig<MallTask>(t => t.CreditFight == value, t => t.CreditFight = value);
-    }
-
-    public bool CreditFightTaskEnabledDisplay
-    {
-        get
-        {
-            return _creditFightTaskEnabled;
-        }
-
-        set
-        {
-            SetAndNotify(ref _creditFightTaskEnabled, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CreditFightTaskEnabled, value.ToString());
-        }
     }
 
     /// <summary>
@@ -95,15 +77,11 @@ public class MallSettingsUserControlModel : TaskViewModel
             new() { Display = "4", Value = 4 },
         ];
 
-    private string _lastCreditVisitFriendsTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditVisitFriendsTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
-
     public string LastCreditVisitFriendsTime
     {
         get => GetTaskConfig<MallTask>()?.VisitFriendsLastTime ?? string.Empty;
         set => SetTaskConfig<MallTask>(t => t.VisitFriendsLastTime == value, t => t.VisitFriendsLastTime = value);
     }
-
-    private bool _creditVisitOnceADay = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitOnceADay, bool.FalseString));
 
     /// <summary>
     /// Gets or sets a value indicating whether to bypass the daily limit.
@@ -114,8 +92,6 @@ public class MallSettingsUserControlModel : TaskViewModel
         set => SetTaskConfig<MallTask>(t => t.VisitFriendsOnceADay == value, t => t.VisitFriendsOnceADay = value);
     }
 
-    private bool _creditVisitFriendsEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitFriendsEnabled, bool.TrueString));
-
     /// <summary>
     /// Gets or sets a value indicating whether visiting friends task is enabled.
     /// </summary>
@@ -124,22 +100,6 @@ public class MallSettingsUserControlModel : TaskViewModel
         get => GetTaskConfig<MallTask>()?.VisitFriends ?? default;
         set => SetTaskConfig<MallTask>(t => t.VisitFriends == value, t => t.VisitFriends = value);
     }
-
-    public bool CreditVisitFriendsEnabledDisplay
-    {
-        get
-        {
-            return _creditVisitFriendsEnabled;
-        }
-
-        set
-        {
-            SetAndNotify(ref _creditVisitFriendsEnabled, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CreditVisitFriendsEnabled, value.ToString());
-        }
-    }
-
-    private int _creditFightSelectFormation = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightSelectFormation, "0"));
 
     /// <summary>
     /// Gets or sets a value indicating which formation will be select in credit fight.
@@ -150,8 +110,6 @@ public class MallSettingsUserControlModel : TaskViewModel
         set => SetTaskConfig<MallTask>(t => t.CreditFightFormation == value, t => t.CreditFightFormation = value);
     }
 
-    private bool _creditShopping = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditShopping, bool.TrueString));
-
     /// <summary>
     /// Gets or sets a value indicating whether to shop with credit.
     /// </summary>
@@ -161,14 +119,12 @@ public class MallSettingsUserControlModel : TaskViewModel
         set => SetTaskConfig<MallTask>(t => t.Shopping == value, t => t.Shopping = value);
     }
 
-    private string _creditFirstList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFirstListNew, LocalizationHelper.GetString("HighPriorityDefault")).Replace("；", ";").Trim();
-
     /// <summary>
     /// Gets or sets the priority item list of credit shop.
     /// </summary>
     public string CreditFirstList
     {
-        get => _creditFirstList;
+        get => GetTaskConfig<MallTask>()?.FirstList ?? string.Empty;
         set
         {
             value = value.Replace("；", ";").Trim();
@@ -176,22 +132,18 @@ public class MallSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private string _creditBlackList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditBlackListNew, LocalizationHelper.GetString("BlacklistDefault")).Replace("；", ";").Trim();
-
     /// <summary>
     /// Gets or sets the blacklist of credit shop.
     /// </summary>
     public string CreditBlackList
     {
-        get => _creditBlackList;
+        get => GetTaskConfig<MallTask>()?.BlackList ?? string.Empty;
         set
         {
             value = value.Replace("；", ";").Trim();
             SetTaskConfig<MallTask>(t => t.BlackList == value, t => t.BlackList = value);
         }
     }
-
-    private bool _creditForceShoppingIfCreditFull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditForceShoppingIfCreditFull, bool.FalseString));
 
     /// <summary>
     /// Gets or sets a value indicating whether save credit is enabled.
@@ -202,8 +154,6 @@ public class MallSettingsUserControlModel : TaskViewModel
         set => SetTaskConfig<MallTask>(t => t.ShoppingIgnoreBlackListWhenFull == value, t => t.ShoppingIgnoreBlackListWhenFull = value);
     }
 
-    private bool _creditOnlyBuyDiscount = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditOnlyBuyDiscount, bool.FalseString));
-
     /// <summary>
     /// Gets or sets a value indicating whether only buy discount is enabled.
     /// </summary>
@@ -212,8 +162,6 @@ public class MallSettingsUserControlModel : TaskViewModel
         get => GetTaskConfig<MallTask>()?.OnlyBuyDiscount ?? default;
         set => SetTaskConfig<MallTask>(t => t.OnlyBuyDiscount == value, t => t.OnlyBuyDiscount = value);
     }
-
-    private bool _creditReserveMaxCredit = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditReserveMaxCredit, bool.FalseString));
 
     /// <summary>
     /// Gets or sets a value indicating whether reserve max credit is enabled.
@@ -236,11 +184,30 @@ public class MallSettingsUserControlModel : TaskViewModel
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
         var fightEnable = Instances.TaskQueueViewModel.TaskItemViewModels.Where(x => x.OriginalName == "Combat").FirstOrDefault()?.IsCheckedWithNull is not false;
+
+        var creditFight = CreditFightTaskEnabled; // 要换成对应Task
+        var visitFriends = CreditVisitFriendsEnabled;
+        try
+        {
+            creditFight &= DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(LastCreditFightTaskTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
+        }
+        catch
+        {
+        }
+
+        try
+        {
+            visitFriends &= !CreditVisitOnceADay || DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(LastCreditVisitFriendsTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
+        }
+        catch
+        {
+        }
+
         var task = new AsstMallTask()
         {
-            CreditFight = fightEnable ? (!string.IsNullOrEmpty(FightSettingsUserControlModel.Instance.Stage) && CreditFightTaskEnabled) : CreditFightTaskEnabled,
+            CreditFight = creditFight && (!fightEnable || !string.IsNullOrEmpty(FightSettingsUserControlModel.Instance.Stage)),
             SelectFormation = CreditFightSelectFormation,
-            VisitFriends = CreditVisitFriendsEnabled,
+            VisitFriends = visitFriends,
             WithShopping = CreditShopping,
             FirstList = CreditFirstList.Split(';').Select(s => s.Trim()).ToList(),
             Blacklist = CreditBlackList.Split(';').Select(s => s.Trim()).Union(_blackCharacterListMapping[SettingsViewModel.GameSettings.ClientType]).ToList(),
