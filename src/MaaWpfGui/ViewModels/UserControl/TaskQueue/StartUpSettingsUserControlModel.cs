@@ -33,12 +33,11 @@ public class StartUpSettingsUserControlModel : TaskViewModel
 
     public string AccountName
     {
-        get => GetConfigTask<StartUpTask>().AccountName;
+        get => GetTaskConfig<StartUpTask>()?.AccountName ?? string.Empty;
         set
         {
             value = value.Trim();
-            GetConfigTask<StartUpTask>().AccountName = value;
-            NotifyOfPropertyChange();
+            SetTaskConfig<StartUpTask>(t => t.AccountName = value);
         }
     }
 
