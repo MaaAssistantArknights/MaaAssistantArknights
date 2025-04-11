@@ -159,11 +159,11 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeMonthlySquadAutoIterate = "Roguelike.MonthlySquadAutoIterate";
         public const string RoguelikeMonthlySquadCheckComms = "Roguelike.MonthlySquadCheckComms";
         public const string RoguelikeDeepExplorationAutoIterate = "Roguelike.DeepExplorationAutoIterate";
-        public const string ReclamationTheme = "Reclamation.Theme";
-        public const string ReclamationMode = "Reclamation.Mode";
-        public const string ReclamationToolToCraft = "Reclamation.ToolToCraft";
-        public const string ReclamationIncrementMode = "Reclamation.ReclamationIncrementMode";
-        public const string ReclamationMaxCraftCountPerRound = "Reclamation.ReclamationMaxCraftCountPerRound";
+        public const string ReclamationTheme = "Reclamation.Theme"; // 已迁移
+        public const string ReclamationMode = "Reclamation.Mode"; // 已迁移
+        public const string ReclamationToolToCraft = "Reclamation.ToolToCraft"; // 已迁移
+        public const string ReclamationIncrementMode = "Reclamation.ReclamationIncrementMode"; // 已迁移
+        public const string ReclamationMaxCraftCountPerRound = "Reclamation.ReclamationMaxCraftCountPerRound"; // 已迁移
         public const string ReclamationClearStore = "Reclamation.ReclamationClearStore";
 
         public const string RecruitMaxTimes = "AutoRecruit.MaxTimes";
