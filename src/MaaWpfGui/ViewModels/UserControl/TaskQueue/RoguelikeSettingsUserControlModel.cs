@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -25,9 +26,10 @@ using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Mode = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeMode;
+using Theme = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeTheme;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
-using Theme = RoguelikeTheme;
 public class RoguelikeSettingsUserControlModel : TaskViewModel
 {
     static RoguelikeSettingsUserControlModel()
