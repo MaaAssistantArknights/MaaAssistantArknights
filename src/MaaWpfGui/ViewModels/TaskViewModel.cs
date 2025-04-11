@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Main;
@@ -82,11 +83,20 @@ public abstract class TaskViewModel : PropertyChangedBase
         }
     }
 
-    protected T GetConfigTask<T>()
+    protected T? GetTaskConfig<T>()
         where T : BaseTask
     {
-        return ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilityInfo.Instance.CurrentIndex] as T ??
-               throw new InvalidOperationException("当前任务不是指定类型");
+        return ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilityInfo.Instance.CurrentIndex] as T;
+    }
+
+    protected void SetTaskConfig<T>(Action<T> action, [CallerMemberName] string propertyName = "")
+        where T : BaseTask
+    {
+        if (ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilityInfo.Instance.CurrentIndex] is T task)
+        {
+            action.Invoke(task);
+            NotifyOfPropertyChange(propertyName);
+        }
     }
 
     public virtual void ProcSubTaskMsg(AsstMsg msg, JObject details)
