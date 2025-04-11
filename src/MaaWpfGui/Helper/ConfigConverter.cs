@@ -159,6 +159,18 @@ public class ConfigConverter
                 mallTask.VisitFriends = ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitFriendsEnabled, true);
                 mallTask.VisitFriendsOnceADay = ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitOnceADay, false);
                 mallTask.VisitFriendsLastTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditVisitFriendsTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditShopping);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditFirstListNew);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditBlackListNew);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditForceShoppingIfCreditFull);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditOnlyBuyDiscount);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditReserveMaxCredit);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditFightTaskEnabled);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditFightSelectFormation);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.LastCreditFightTaskTime);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditVisitFriendsEnabled);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditVisitOnceADay);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.LastCreditVisitFriendsTime);
 
                 roguelikeTask.Theme = Enum.Parse<RoguelikeTheme>(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, RoguelikeTheme.Sarkaz.ToString()));
                 roguelikeTask.Difficulty = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDifficulty, "MAX").Replace("MAX", int.MaxValue.ToString()));
