@@ -31,27 +31,19 @@ public class AwardSettingsUserControlModel : TaskViewModel
 
     public bool ReceiveAward
     {
-        get => GetConfigTask<AwardTask>().Award;
-        set
-        {
-            GetConfigTask<AwardTask>().Award = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetTaskConfig<AwardTask>()?.Award ?? default;
+        set => SetTaskConfig<AwardTask>(t => t.Award = value);
     }
 
     public bool ReceiveMail
     {
-        get => GetConfigTask<AwardTask>().Mail;
-        set
-        {
-            GetConfigTask<AwardTask>().Mail = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetTaskConfig<AwardTask>()?.Mail ?? default;
+        set => SetTaskConfig<AwardTask>(t => t.Mail = value);
     }
 
     public bool ReceiveFreeGacha
     {
-        get => GetConfigTask<AwardTask>().FreeGacha;
+        get => GetTaskConfig<AwardTask>()?.FreeGacha ?? default;
         set
         {
             if (value)
@@ -70,39 +62,26 @@ public class AwardSettingsUserControlModel : TaskViewModel
                 }
             }
 
-            GetConfigTask<AwardTask>().FreeGacha = value;
-            NotifyOfPropertyChange();
+            SetTaskConfig<AwardTask>(t => t.FreeGacha = value);
         }
     }
 
     public bool ReceiveOrundum
     {
-        get => GetConfigTask<AwardTask>().Orundum;
-        set
-        {
-            GetConfigTask<AwardTask>().Orundum = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetTaskConfig<AwardTask>()?.Orundum ?? default;
+        set => SetTaskConfig<AwardTask>(t => t.Orundum = value);
     }
 
     public bool ReceiveMining
     {
-        get => GetConfigTask<AwardTask>().Mining;
-        set
-        {
-            GetConfigTask<AwardTask>().Mining = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetTaskConfig<AwardTask>()?.Mining ?? default;
+        set => SetTaskConfig<AwardTask>(t => t.Mining = value);
     }
 
     public bool ReceiveSpecialAccess
     {
-        get => GetConfigTask<AwardTask>().SpecialAccess;
-        set
-        {
-            GetConfigTask<AwardTask>().SpecialAccess = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetTaskConfig<AwardTask>()?.SpecialAccess ?? default;
+        set => SetTaskConfig<AwardTask>(t => t.SpecialAccess = value);
     }
 
     public override void RefreshUI(BaseTask baseTask)
