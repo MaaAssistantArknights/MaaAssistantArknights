@@ -15,7 +15,7 @@ using System.ComponentModel;
 using System.Text.Json.Serialization;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Global;
-using MaaWpfGui.Configuration.SingleConfig;
+using MaaWpfGui.Configuration.Single;
 using MaaWpfGui.Constants;
 using ObservableCollections;
 

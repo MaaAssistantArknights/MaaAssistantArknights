@@ -15,7 +15,7 @@ using System.Text.Json.Serialization;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using ObservableCollections;
 
-namespace MaaWpfGui.Configuration.SingleConfig;
+namespace MaaWpfGui.Configuration.Single;
 
 public class SpecificConfig
 {
