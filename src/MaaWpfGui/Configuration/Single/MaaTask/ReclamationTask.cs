@@ -12,8 +12,6 @@
 // </copyright>
 
 #nullable enable
-using MaaWpfGui.Helper;
-using Newtonsoft.Json.Linq;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;
@@ -32,7 +30,7 @@ public class ReclamationTask : BaseTask
     /// <summary>
     /// Gets or sets 要组装的支援道具
     /// </summary>
-    public string? ToolToCraft { get; set; }
+    public string ToolToCraft { get; set; } = string.Empty;
 
     public int IncrementMode { get; set; }
 
@@ -40,30 +38,30 @@ public class ReclamationTask : BaseTask
     /// Gets or sets 单次最大制造轮数
     /// </summary>
     public int MaxCraftCountPerRound { get; set; } = 16;
+}
 
-    public enum ReclamationTheme
-    {
-        /// <summary>
-        /// 沙中之火
-        /// </summary>
-        Fire,
+public enum ReclamationTheme
+{
+    /// <summary>
+    /// 沙中之火
+    /// </summary>
+    Fire,
 
-        /// <summary>
-        /// 沙洲遗闻
-        /// </summary>
-        Tales,
-    }
+    /// <summary>
+    /// 沙洲遗闻
+    /// </summary>
+    Tales,
+}
 
-    public enum ReclamationMode
-    {
-        /// <summary>
-        /// 无存档，通过进出关卡刷生息点数
-        /// </summary>
-        NoArchive = 0,
+public enum ReclamationMode
+{
+    /// <summary>
+    /// 无存档，通过进出关卡刷生息点数
+    /// </summary>
+    NoArchive = 0,
 
-        /// <summary>
-        /// 有存档，通过组装支援道具刷生息点数
-        /// </summary>
-        Archive = 1,
-    }
+    /// <summary>
+    /// 有存档，通过组装支援道具刷生息点数
+    /// </summary>
+    Archive = 1,
 }
