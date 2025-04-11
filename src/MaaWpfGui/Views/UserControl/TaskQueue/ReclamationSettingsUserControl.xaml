@@ -22,6 +22,7 @@
             <ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource ReclamationTheme}"
+                DisplayMemberPath="Display"
                 IsHitTestVisible="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
                 ItemsSource="{Binding ReclamationThemeList}"
                 SelectedValue="{Binding ReclamationTheme}"
@@ -52,6 +53,7 @@
             <ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource ReclamationIncrementMode}"
+                DisplayMemberPath="Display"
                 IsEnabled="{c:Binding 'ReclamationMode == &quot;1&quot;'}"
                 IsHitTestVisible="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
                 ItemsSource="{Binding ReclamationIncrementModeList}"
