@@ -69,6 +69,9 @@
     <!--  설정 가이드  -->
     <system:String x:Key="TaskSettings">작업 설정</system:String>
     <system:String x:Key="SettingsGuide">설정 가이드</system:String>
+    <system:String x:Key="GuideStepClarification" xml:space="preserve">ADB가 활성화되어 있는지 확인하세요:
+• BlueStacks: 설정 → 고급 → Android Debug Bridge → 활성화
+• LDPlayer: 설정 → 기타 → ADB 디버깅 → 로컬 연결 활성화</system:String>
     <system:String x:Key="PrevGuide">이전 단계</system:String>
     <system:String x:Key="NextGuide">다음 단계</system:String>
     <system:String x:Key="DoneGuide">완료</system:String>

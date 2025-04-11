@@ -69,6 +69,9 @@
     <!--  设置指引  -->
     <system:String x:Key="TaskSettings">任务设置</system:String>
     <system:String x:Key="SettingsGuide">设置指引</system:String>
+    <system:String x:Key="GuideStepClarification" xml:space="preserve">请确保ADB已启用：
+• BlueStacks：设置 → 高级 → Android调试桥 → 启用
+• LDPlayer：设置 → 其他设置 → ADB调试 → 启用本地连接</system:String>
     <system:String x:Key="PrevGuide">上一步</system:String>
     <system:String x:Key="NextGuide">下一步</system:String>
     <system:String x:Key="DoneGuide">完成</system:String>
