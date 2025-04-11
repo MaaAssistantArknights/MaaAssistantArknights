@@ -118,18 +118,19 @@ public class ConfigConverter
         {
             ConfigurationHelper.SwitchConfiguration(configName);
             ConfigFactory.SwitchConfig(configName);
+            var local = GuiSettingsUserControlModel.Instance.Language;
 
             // TaskQueue部分
             {
-                var startUpTask = new StartUpTask();
+                var startUpTask = new StartUpTask(); // √
                 var fightTask = new FightTask();
                 var fightTask2 = new FightTask(); // 剩余理智
-                var awardTask = new AwardTask();
-                var mallTask = new MallTask();
+                var awardTask = new AwardTask(); // √
+                var mallTask = new MallTask(); // √
                 var infrastTask = new InfrastTask();
                 var recruitTask = new RecruitTask();
                 var roguelikeTask = new RoguelikeTask();
-                var reclamationTask = new ReclamationTask();
+                var reclamationTask = new ReclamationTask(); // √
 
                 startUpTask.AccountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.AccountName);
@@ -148,8 +149,8 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ReceiveSpecialAccess);
 
                 mallTask.Shopping = ConfigurationHelper.GetValue(ConfigurationKeys.CreditShopping, true);
-                mallTask.FirstList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFirstListNew, LocalizationHelper.GetString("HighPriorityDefault")).Replace("；", ";").Trim();
-                mallTask.BlackList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditBlackListNew, LocalizationHelper.GetString("BlacklistDefault")).Replace("；", ";").Trim();
+                mallTask.FirstList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFirstListNew, LocalizationHelper.GetString("HighPriorityDefault", local)).Replace("；", ";").Trim();
+                mallTask.BlackList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditBlackListNew, LocalizationHelper.GetString("BlacklistDefault", local)).Replace("；", ";").Trim();
                 mallTask.ShoppingIgnoreBlackListWhenFull = ConfigurationHelper.GetValue(ConfigurationKeys.CreditForceShoppingIfCreditFull, false);
                 mallTask.OnlyBuyDiscount = ConfigurationHelper.GetValue(ConfigurationKeys.CreditOnlyBuyDiscount, false);
                 mallTask.ReserveMaxCredit = ConfigurationHelper.GetValue(ConfigurationKeys.CreditReserveMaxCredit, false);
@@ -194,11 +195,16 @@ public class ConfigConverter
                 roguelikeTask.SamiNewSquad2StartingFoldartal = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartal, bool.FalseString));
                 roguelikeTask.SamiNewSquad2StartingFoldartals = EmptyStringToNull(ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartals, string.Empty));
 
-                reclamationTask.Theme = Enum.Parse<ReclamationTheme>(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationTheme, ReclamationTheme.Tales.ToString()));
-                reclamationTask.Mode = Enum.Parse<ReclamationMode>(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMode, ReclamationMode.Archive.ToString()));
-                reclamationTask.ToolToCraft = EmptyStringToNull(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationToolToCraft, string.Empty));
+                reclamationTask.Theme = GetEnum(ConfigurationKeys.ReclamationTheme, ReclamationTheme.Tales);
+                reclamationTask.Mode = GetEnum(ConfigurationKeys.ReclamationMode,  ReclamationMode.Archive);
+                reclamationTask.ToolToCraft = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationToolToCraft, string.Empty).Replace('；', ';').Trim();
                 reclamationTask.IncrementMode = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationIncrementMode, 0);
                 reclamationTask.MaxCraftCountPerRound = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, 16);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReclamationTheme);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReclamationMode);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReclamationToolToCraft);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReclamationIncrementMode);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound);
 
                 // 任务导入排序
                 List<(string OldName, int Index, bool IsEnable)> taskList = [("WakeUp", 0, true), ("Recruiting", 1, true), ("Base", 2, true), ("Combat", 3, true), ("Mall", 4, true), ("Mission", 5, true), ("AutoRoguelike", 6, false)];
@@ -221,7 +227,6 @@ public class ConfigConverter
                 }
 
                 ConfigFactory.CurrentConfig.TaskQueue.Clear();
-                var local = GuiSettingsUserControlModel.Instance.Language;
                 taskList.OrderBy(x => x.Index).ToList().ForEach(task =>
                 {
                     switch (task.OldName)
@@ -281,6 +286,12 @@ public class ConfigConverter
     private static string? EmptyStringToNull(string value)
     {
         return string.IsNullOrEmpty(value) ? null : value;
+    }
+
+    private static T GetEnum<T>(string key, T defaultValue)
+        where T : struct, Enum
+    {
+        return Enum.TryParse<T>(ConfigurationHelper.GetValue(key, defaultValue.ToString()), out var @out) ? @out : defaultValue;
     }
 
     private static JObject? ParseJsonFile(string filePath)

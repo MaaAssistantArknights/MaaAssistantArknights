@@ -172,6 +172,14 @@ public class MallSettingsUserControlModel : TaskViewModel
         set => SetTaskConfig<MallTask>(t => t.ReserveMaxCredit = value);
     }
 
+    public override void RefreshUI(BaseTask baseTask)
+    {
+        if (baseTask is MallTask)
+        {
+            Refresh();
+        }
+    }
+
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
         var fightEnable = Instances.TaskQueueViewModel.TaskItemViewModels.Where(x => x.OriginalName == "Combat").FirstOrDefault()?.IsCheckedWithNull is not false;
