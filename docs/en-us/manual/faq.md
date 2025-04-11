@@ -9,7 +9,7 @@ If this is your first time using MAA, please read [Getting Started](./newbie.md)
 
 ::: warning
 
-If MAA fails to run after an update, or if you’ve reached this page via an error window in MAA, it’s highly likely due to outdated runtime libraries.  
+If MAA fails to run after an update, or if you've reached this page via an error window in MAA, it's highly likely due to outdated runtime libraries.  
 The most frequent issue is runtime-related, yet many users ignore the documentation and ask around, so we replaced the pinned message with this. It's frustrating.
 
 Please run `DependencySetup_依赖库安装.bat` in the MAA directory, or execute the commands below in a terminal,
