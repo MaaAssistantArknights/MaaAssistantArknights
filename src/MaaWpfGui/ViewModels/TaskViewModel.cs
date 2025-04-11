@@ -12,16 +12,43 @@
 // </copyright>
 #nullable enable
 using System;
+using System.Runtime.CompilerServices;
+using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Main;
+using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using Newtonsoft.Json.Linq;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels;
-
 public class TaskViewModel : PropertyChangedBase
 {
+    protected T? GetTaskConfig<T>()
+        where T : BaseTask
+    {
+        return ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilityInfo.Instance.CurrentIndex] as T;
+    }
+
+    protected void SetTaskConfig<T>(Action<T> action, [CallerMemberName] string propertyName = "")
+        where T : BaseTask
+    {
+        if (ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilityInfo.Instance.CurrentIndex] is T task)
+        {
+            action.Invoke(task);
+            NotifyOfPropertyChange(propertyName);
+        }
+    }
+
     public virtual void ProcSubTaskMsg(AsstMsg msg, JObject details)
+    {
+    }
+
+    /// <summary>
+    /// 刷新UI
+    /// </summary>
+    /// <param name="baseTask">需要刷新的任务</param>
+    public virtual void RefreshUI(BaseTask baseTask)
     {
     }
 

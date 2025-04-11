@@ -82,7 +82,7 @@ namespace MaaWpfGui.Constants
         public const string AdbReplaced = "Connect.AdbReplaced";
 
         public const string ClientType = "Start.ClientType";
-        public const string AccountName = "Start.AccountName";
+        public const string AccountName = "Start.AccountName"; // 已迁移
         public const string RunDirectly = "Start.RunDirectly";
         public const string MinimizeDirectly = "Start.MinimizeDirectly";
         public const string StartEmulator = "Start.OpenEmulatorAfterLaunch";
@@ -155,11 +155,11 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeMonthlySquadAutoIterate = "Roguelike.MonthlySquadAutoIterate";
         public const string RoguelikeMonthlySquadCheckComms = "Roguelike.MonthlySquadCheckComms";
         public const string RoguelikeDeepExplorationAutoIterate = "Roguelike.DeepExplorationAutoIterate";
-        public const string ReclamationTheme = "Reclamation.Theme";
-        public const string ReclamationMode = "Reclamation.Mode";
-        public const string ReclamationToolToCraft = "Reclamation.ToolToCraft";
-        public const string ReclamationIncrementMode = "Reclamation.ReclamationIncrementMode";
-        public const string ReclamationMaxCraftCountPerRound = "Reclamation.ReclamationMaxCraftCountPerRound";
+        public const string ReclamationTheme = "Reclamation.Theme"; // 已迁移
+        public const string ReclamationMode = "Reclamation.Mode"; // 已迁移
+        public const string ReclamationToolToCraft = "Reclamation.ToolToCraft"; // 已迁移
+        public const string ReclamationIncrementMode = "Reclamation.ReclamationIncrementMode"; // 已迁移
+        public const string ReclamationMaxCraftCountPerRound = "Reclamation.ReclamationMaxCraftCountPerRound"; // 已迁移
 
         public const string RecruitMaxTimes = "AutoRecruit.MaxTimes";
         public const string AutoRecruitFirstList = "AutoRecruit.AutoRecruitFirstList";
@@ -174,26 +174,26 @@ namespace MaaWpfGui.Constants
         public const string RecruitChooseLevel5 = "AutoRecruit.ChooseLevel5";
         public const string ChooseLevel5Time = "AutoRecruit.ChooseLevel5.Time";
 
-        public const string LastCreditFightTaskTime = "Visit.LastCreditFightTaskTime";
-        public const string CreditFightTaskEnabled = "Visit.CreditFightTaskEnabled";
-        public const string CreditFightSelectFormation = "Visit.CreditFightSelectFormation";
+        public const string LastCreditFightTaskTime = "Visit.LastCreditFightTaskTime"; // 已迁移
+        public const string CreditFightTaskEnabled = "Visit.CreditFightTaskEnabled"; // 已迁移
+        public const string CreditFightSelectFormation = "Visit.CreditFightSelectFormation"; // 已迁移
 
-        public const string LastCreditVisitFriendsTime = "Mall.LastCreditVisitFriendsTime";
-        public const string CreditVisitOnceADay = "Mall.CreditVisitOnceADay";
-        public const string CreditVisitFriendsEnabled = "Mall.CreditVisitFriendsEnabled";
-        public const string CreditShopping = "Mall.CreditShopping";
-        public const string CreditFirstListNew = "Mall.CreditFirstListNew";
-        public const string CreditBlackListNew = "Mall.CreditBlackListNew";
-        public const string CreditForceShoppingIfCreditFull = "Mall.CreditForceShoppingIfCreditFull";
-        public const string CreditOnlyBuyDiscount = "Mall.CreditOnlyBuyDiscount";
-        public const string CreditReserveMaxCredit = "Mall.CreidtReserveMaxCredit";
+        public const string LastCreditVisitFriendsTime = "Mall.LastCreditVisitFriendsTime"; // 已迁移
+        public const string CreditVisitOnceADay = "Mall.CreditVisitOnceADay"; // 已迁移
+        public const string CreditVisitFriendsEnabled = "Mall.CreditVisitFriendsEnabled"; // 已迁移
+        public const string CreditShopping = "Mall.CreditShopping"; // 已迁移
+        public const string CreditFirstListNew = "Mall.CreditFirstListNew"; // 已迁移
+        public const string CreditBlackListNew = "Mall.CreditBlackListNew"; // 已迁移
+        public const string CreditForceShoppingIfCreditFull = "Mall.CreditForceShoppingIfCreditFull"; // 已迁移
+        public const string CreditOnlyBuyDiscount = "Mall.CreditOnlyBuyDiscount"; // 已迁移
+        public const string CreditReserveMaxCredit = "Mall.CreidtReserveMaxCredit"; // 已迁移
 
-        public const string ReceiveAward = "Mission.ReceiveAward";
-        public const string ReceiveMail = "Mission.ReceiveMail";
-        public const string ReceiveFreeRecruit = "Mission.ReceiveFreeRecruit";
-        public const string ReceiveOrundum = "Mission.ReceiveOrundum";
-        public const string ReceiveMining = "Mission.ReceiveMining";
-        public const string ReceiveSpecialAccess = "Mission.ReceiveSpecialAccess";
+        public const string ReceiveAward = "Mission.ReceiveAward"; // 已迁移
+        public const string ReceiveMail = "Mission.ReceiveMail"; // 已迁移
+        public const string ReceiveFreeGacha = "Mission.ReceiveFreeRecruit"; // 已迁移
+        public const string ReceiveOrundum = "Mission.ReceiveOrundum"; // 已迁移
+        public const string ReceiveMining = "Mission.ReceiveMining"; // 已迁移
+        public const string ReceiveSpecialAccess = "Mission.ReceiveSpecialAccess"; // 已迁移
         public const string CopilotAddUserAdditional = "Copilot.AddUserAdditional";
         public const string CopilotUserAdditional = "Copilot.UserAdditional";
         public const string CopilotLoopTimes = "Copilot.LoopTimes";
