@@ -69,9 +69,9 @@
     <!--  設定指引  -->
     <system:String x:Key="TaskSettings">任務設定</system:String>
     <system:String x:Key="SettingsGuide">設定指引</system:String>
-    <system:String x:Key="GuideStepClarification" xml:space="preserve">請確保ADB已啟用：
-• BlueStacks：設置 → 高級 → Android調試橋 → 啟用
-• LDPlayer：設置 → 其他設置 → ADB調試 → 啟用本地連接</system:String>
+    <system:String x:Key="GuideStepClarification" xml:space="preserve">請確保 ADB 已啟用：
+• BlueStacks：設定 → 進階 → Android 調試橋 (ADB) → 啟用
+• 雷電模擬器：設定 → 其他 → ADB 偵錯 → 開啟本機連接</system:String>
     <system:String x:Key="PrevGuide">上一步</system:String>
     <system:String x:Key="NextGuide">下一步</system:String>
     <system:String x:Key="DoneGuide">完成</system:String>
