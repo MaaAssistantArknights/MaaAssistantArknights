@@ -16,12 +16,14 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Text.Unicode;
 using System.Threading;
 using System.Threading.Tasks;
-using MaaWpfGui.Configuration.Single;
+using MaaWpfGui.Configuration.SingleConfig;
 using MaaWpfGui.Helper;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using ObservableCollections;
 using Serilog;
 
@@ -49,12 +51,7 @@ public static class ConfigFactory
     // ReSharper disable once EventNeverSubscribedTo.Global
     public static event ConfigurationUpdateEventHandler? ConfigurationUpdateEvent;
 
-    private static readonly JsonSerializerSettings _settings = new()
-    {
-        Converters = { new StringEnumConverter() },
-        Formatting = Formatting.Indented,
-        DefaultValueHandling = DefaultValueHandling.Ignore,
-    };
+    private static readonly JsonSerializerOptions _options = new() { WriteIndented = true, Converters = { new JsonStringEnumConverter() }, Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.CjkUnifiedIdeographs, UnicodeRanges.CjkSymbolsandPunctuation, UnicodeRanges.HalfwidthandFullwidthForms), DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
 
     // TODO: 参考 ConfigurationHelper ，拆几个函数出来
     private static readonly Lazy<Root> _rootConfig = new(() =>
@@ -71,7 +68,7 @@ public static class ConfigFactory
             {
                 try
                 {
-                    parsed = JsonConvert.DeserializeObject<Root>(File.ReadAllText(_configurationFile), _settings);
+                    parsed = JsonSerializer.Deserialize<Root>(File.ReadAllText(_configurationFile), _options);
                     if (parsed is null)
                     {
                         _logger.Warning("Failed to load configuration file, copying configuration file to error file");
@@ -89,7 +86,7 @@ public static class ConfigFactory
                 _logger.Information("trying to use backup file");
                 try
                 {
-                    parsed = JsonConvert.DeserializeObject<Root>(File.ReadAllText(_configurationBakFile), _settings);
+                    parsed = JsonSerializer.Deserialize<Root>(File.ReadAllText(_configurationBakFile), _options);
                     if (parsed is not null)
                     {
                         _logger.Information("Backup file loaded successfully, copying backup file to configuration file");
@@ -261,7 +258,7 @@ public static class ConfigFactory
         {
             try
             {
-                File.WriteAllText(file ?? _configurationFile, JsonConvert.SerializeObject(Root, _settings));
+                File.WriteAllText(file ?? _configurationFile, JsonSerializer.Serialize(Root, _options));
             }
             catch (Exception e)
             {
@@ -279,7 +276,7 @@ public static class ConfigFactory
         try
         {
             var filePath = file ?? _configurationFile;
-            var jsonString = JsonConvert.SerializeObject(Root, _settings);
+            var jsonString = JsonSerializer.Serialize(Root, _options);
             await File.WriteAllTextAsync(filePath, jsonString);
             return true;
         }
@@ -355,7 +352,7 @@ public static class ConfigFactory
                 return false;
             }
 
-            Root.Configurations[configName] = JsonConvert.DeserializeObject<SpecificConfig>(JsonConvert.SerializeObject(Root.Configurations[copyFrom], _settings), _settings);
+            Root.Configurations[configName] = JsonSerializer.Deserialize<SpecificConfig>(JsonSerializer.Serialize(Root.Configurations[copyFrom], _options), _options);
         }
 
         return true;
