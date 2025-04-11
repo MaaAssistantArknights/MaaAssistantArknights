@@ -13,8 +13,8 @@
 
 #nullable enable
 using System.Collections.Generic;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Services;
-using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.Models.AsstTasks;

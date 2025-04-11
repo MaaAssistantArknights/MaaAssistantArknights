@@ -22,7 +22,7 @@ using System.Text.Json.Serialization;
 using System.Text.Unicode;
 using System.Threading;
 using System.Threading.Tasks;
-using MaaWpfGui.Configuration.SingleConfig;
+using MaaWpfGui.Configuration.Single;
 using MaaWpfGui.Helper;
 using ObservableCollections;
 using Serilog;
