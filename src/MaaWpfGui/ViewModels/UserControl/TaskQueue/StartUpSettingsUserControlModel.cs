@@ -37,7 +37,7 @@ public class StartUpSettingsUserControlModel : TaskViewModel
         set
         {
             value = value.Trim();
-            SetTaskConfig<StartUpTask>(t => t.AccountName = value);
+            SetTaskConfig<StartUpTask>(t => t.AccountName == value, t => t.AccountName = value);
         }
     }
 

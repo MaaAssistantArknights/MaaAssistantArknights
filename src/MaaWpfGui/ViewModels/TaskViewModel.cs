@@ -40,6 +40,19 @@ public class TaskViewModel : PropertyChangedBase
         }
     }
 
+    protected void SetTaskConfig<T>(Func<T, bool> isEqual, Action<T> @setValue, [CallerMemberName] string propertyName = "")
+        where T : BaseTask
+    {
+        if (ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilityInfo.Instance.CurrentIndex] is T task)
+        {
+            if (!isEqual(task))
+            {
+                setValue(task);
+                NotifyOfPropertyChange(propertyName);
+            }
+        }
+    }
+
     public virtual void ProcSubTaskMsg(AsstMsg msg, JObject details)
     {
     }

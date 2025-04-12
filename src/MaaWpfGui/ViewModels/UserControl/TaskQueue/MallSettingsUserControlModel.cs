@@ -52,7 +52,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     public string LastCreditFightTaskTime
     {
         get => GetTaskConfig<MallTask>()?.CreditFightLastTime ?? string.Empty;
-        set => SetTaskConfig<MallTask>(t => t.CreditFightLastTime = value);
+        set => SetTaskConfig<MallTask>(t => t.CreditFightLastTime == value, t => t.CreditFightLastTime = value);
     }
 
     /// <summary>
@@ -61,7 +61,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     public bool CreditFightTaskEnabled
     {
         get => GetTaskConfig<MallTask>()?.CreditFight ?? default;
-        set => SetTaskConfig<MallTask>(t => t.CreditFight = value);
+        set => SetTaskConfig<MallTask>(t => t.CreditFight == value, t => t.CreditFight = value);
     }
 
     /// <summary>
@@ -80,7 +80,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     public string LastCreditVisitFriendsTime
     {
         get => GetTaskConfig<MallTask>()?.VisitFriendsLastTime ?? string.Empty;
-        set => SetTaskConfig<MallTask>(t => t.VisitFriendsLastTime = value);
+        set => SetTaskConfig<MallTask>(t => t.VisitFriendsLastTime == value, t => t.VisitFriendsLastTime = value);
     }
 
     /// <summary>
@@ -89,7 +89,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     public bool CreditVisitOnceADay
     {
         get => GetTaskConfig<MallTask>()?.VisitFriendsOnceADay ?? default;
-        set => SetTaskConfig<MallTask>(t => t.VisitFriendsOnceADay = value);
+        set => SetTaskConfig<MallTask>(t => t.VisitFriendsOnceADay == value, t => t.VisitFriendsOnceADay = value);
     }
 
     /// <summary>
@@ -98,7 +98,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     public bool CreditVisitFriendsEnabled
     {
         get => GetTaskConfig<MallTask>()?.VisitFriends ?? default;
-        set => SetTaskConfig<MallTask>(t => t.VisitFriends = value);
+        set => SetTaskConfig<MallTask>(t => t.VisitFriends == value, t => t.VisitFriends = value);
     }
 
     /// <summary>
@@ -107,7 +107,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     public int CreditFightSelectFormation
     {
         get => GetTaskConfig<MallTask>()?.CreditFightFormation ?? default;
-        set => SetTaskConfig<MallTask>(t => t.CreditFightFormation = value);
+        set => SetTaskConfig<MallTask>(t => t.CreditFightFormation == value, t => t.CreditFightFormation = value);
     }
 
     /// <summary>
@@ -116,7 +116,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     public bool CreditShopping
     {
         get => GetTaskConfig<MallTask>()?.Shopping ?? default;
-        set => SetTaskConfig<MallTask>(t => t.Shopping = value);
+        set => SetTaskConfig<MallTask>(t => t.Shopping == value, t => t.Shopping = value);
     }
 
     /// <summary>
@@ -128,7 +128,7 @@ public class MallSettingsUserControlModel : TaskViewModel
         set
         {
             value = value.Replace("；", ";").Trim();
-            SetTaskConfig<MallTask>(t => t.FirstList = value);
+            SetTaskConfig<MallTask>(t => t.FirstList == value, t => t.FirstList = value);
         }
     }
 
@@ -141,7 +141,7 @@ public class MallSettingsUserControlModel : TaskViewModel
         set
         {
             value = value.Replace("；", ";").Trim();
-            SetTaskConfig<MallTask>(t => t.BlackList = value);
+            SetTaskConfig<MallTask>(t => t.BlackList == value, t => t.BlackList = value);
         }
     }
 
@@ -151,7 +151,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     public bool CreditForceShoppingIfCreditFull
     {
         get => GetTaskConfig<MallTask>()?.ShoppingIgnoreBlackListWhenFull ?? default;
-        set => SetTaskConfig<MallTask>(t => t.ShoppingIgnoreBlackListWhenFull = value);
+        set => SetTaskConfig<MallTask>(t => t.ShoppingIgnoreBlackListWhenFull == value, t => t.ShoppingIgnoreBlackListWhenFull = value);
     }
 
     /// <summary>
@@ -160,7 +160,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     public bool CreditOnlyBuyDiscount
     {
         get => GetTaskConfig<MallTask>()?.OnlyBuyDiscount ?? default;
-        set => SetTaskConfig<MallTask>(t => t.OnlyBuyDiscount = value);
+        set => SetTaskConfig<MallTask>(t => t.OnlyBuyDiscount == value, t => t.OnlyBuyDiscount = value);
     }
 
     /// <summary>
@@ -169,7 +169,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     public bool CreditReserveMaxCredit
     {
         get => GetTaskConfig<MallTask>()?.ReserveMaxCredit ?? default;
-        set => SetTaskConfig<MallTask>(t => t.ReserveMaxCredit = value);
+        set => SetTaskConfig<MallTask>(t => t.ReserveMaxCredit == value, t => t.ReserveMaxCredit = value);
     }
 
     public override void RefreshUI(BaseTask baseTask)

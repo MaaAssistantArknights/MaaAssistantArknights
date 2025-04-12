@@ -65,7 +65,7 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
     public ReclamationMode ReclamationMode
     {
         get => GetTaskConfig<ReclamationTask>()?.Mode ?? default;
-        set => SetTaskConfig<ReclamationTask>(t => t.Mode = value);
+        set => SetTaskConfig<ReclamationTask>(t => t.Mode == value, t => t.Mode = value);
     }
 
     public string ReclamationToolToCraft
@@ -74,7 +74,7 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
         set
         {
             value = value.Replace('；', ';').Trim();
-            SetTaskConfig<ReclamationTask>(t => t.ToolToCraft = value);
+            SetTaskConfig<ReclamationTask>(t => t.ToolToCraft == value, t => t.ToolToCraft = value);
         }
     }
 
@@ -90,13 +90,13 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
     public int ReclamationIncrementMode
     {
         get => GetTaskConfig<ReclamationTask>()?.IncrementMode ?? default;
-        set => SetTaskConfig<ReclamationTask>(t => t.IncrementMode = value);
+        set => SetTaskConfig<ReclamationTask>(t => t.IncrementMode == value, t => t.IncrementMode = value);
     }
 
     public int ReclamationMaxCraftCountPerRound
     {
-        get => GetTaskConfig<ReclamationTask>()?.IncrementMode ?? default;
-        set => SetTaskConfig<ReclamationTask>(t => t.IncrementMode = value);
+        get => GetTaskConfig<ReclamationTask>()?.MaxCraftCountPerRound ?? default;
+        set => SetTaskConfig<ReclamationTask>(t => t.MaxCraftCountPerRound == value, t => t.MaxCraftCountPerRound = value);
     }
 
     public override void RefreshUI(BaseTask baseTask)
