@@ -229,9 +229,25 @@ public class FightSettingsUserControlModel : TaskViewModel
         get => _customStageCode;
         set
         {
+            if (!value)
+            {
+                RemoveNonExistStage();
+            }
+
             SetAndNotify(ref _customStageCode, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CustomStageCode, value.ToString());
         }
+    }
+
+    /// <summary>
+    /// 移除不在关卡列表中的关卡，关闭自定义和刷新关卡列表时调用
+    /// </summary>
+    public void RemoveNonExistStage()
+    {
+        Stage1 = StageList.Where(x => x.Value == Stage1).FirstOrDefault()?.Value ?? string.Empty;
+        Stage2 = StageList.Where(x => x.Value == Stage2).FirstOrDefault()?.Value ?? string.Empty;
+        Stage3 = StageList.Where(x => x.Value == Stage3).FirstOrDefault()?.Value ?? string.Empty;
+        RemainingSanityStage = RemainingSanityStageList.Where(x => x.Value == RemainingSanityStage).FirstOrDefault()?.Value ?? string.Empty;
     }
 
     private string _remainingSanityStage = ConfigurationHelper.GetValue(ConfigurationKeys.RemainingSanityStage, string.Empty) ?? string.Empty;

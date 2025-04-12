@@ -915,6 +915,10 @@ namespace MaaWpfGui.ViewModels.UI
                 FightTask.Stage2 = stage2;
                 FightTask.Stage3 = stage3;
                 FightTask.RemainingSanityStage = rss;
+                if (!FightTask.CustomStageCode)
+                {
+                    FightTask.RemoveNonExistStage();
+                }
 
                 Instances.TaskQueueViewModel.EnableSetFightParams = true;
             });
@@ -1367,7 +1371,7 @@ namespace MaaWpfGui.ViewModels.UI
                     continue;
                 }
 
-                AddLog(item.OriginalName + "Error", UiLogColor.Error);
+                AddLog($"{LocalizationHelper.GetString(item.OriginalName)} task append error", UiLogColor.Error);
                 taskRet = true;
                 --count;
             }
