@@ -1882,17 +1882,19 @@
     },
     "OF-1": {
         "algorithm": "JustReturn",
-        "sub": [
-            "ClickChapterNew@StageTheme",
-            "ClickOFStage",
-            "OFToOF-Chapter",
-            "ChapterSwipeToTheLeft",
-            "OF-1@SideStoryStage"
-        ]
+        "sub": ["ToOF", "ChapterSwipeToTheLeft", "OF-1@SideStoryStage"]
     },
     "OF-F3": {
         "algorithm": "JustReturn",
         "sub": ["StageEpisode", "StageEpisodeToOF", "OFToOF-Chapter", "OF-Chapter2", "StageOF-F3"]
+    },
+    "ToOF": {
+        "algorithm": "JustReturn",
+        "next": ["StageEpisode", "StageEpisodeToOF", "OFToOF-Chapter", "ToOFNew"]
+    },
+    "ToOFNew": {
+        "algorithm": "JustReturn",
+        "sub": ["ClickChapterNew@StageTheme", "ClickOFStage", "OFToOF-ChapterNew"]
     },
     "StageEpisodeToOF": {
         "algorithm": "OcrDetect",
@@ -1921,9 +1923,13 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["进入", "活动"],
-        "roi": [1060, 590, 1200, 640],
+        "roi": [993, 439, 287, 168],
         "postDelay": 1000,
         "next": ["#self", "Stop"]
+    },
+    "OFToOF-ChapterNew": {
+        "baseTask": "OFToOF-Chapter",
+        "roi": [1060, 590, 1200, 640]
     },
     "OF-Chapter2": {
         "action": "ClickSelf",

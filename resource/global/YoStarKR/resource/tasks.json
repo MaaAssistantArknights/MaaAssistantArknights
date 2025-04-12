@@ -180,16 +180,11 @@
     "EnterChapterIS": {
         "text": ["볼시니"]
     },
-    "OF-1": {
-        "algorithm": "JustReturn",
-        "sub": ["StageEpisode", "StageEpisodeToOF", "OFToOF-Chapter", "ChapterSwipeToTheLeft", "OF-1@SideStoryStage"]
-    },
     "StageEpisodeToOF": {
         "text": ["파란 불꽃의 마음", "파란", "불꽃의", "마음"]
     },
     "OFToOF-Chapter": {
-        "text": ["진입하기"],
-        "roi": [993, 439, 287, 168]
+        "text": ["진입하기"]
     },
     "IC-Open": {
         "text": ["이상적인", "엔드리스", "카니발", "개방중"]

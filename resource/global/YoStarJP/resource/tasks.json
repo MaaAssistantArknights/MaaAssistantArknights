@@ -238,16 +238,11 @@
     "EnterChapterIS": {
         "text": ["ウォルシーニ", "ウォル"]
     },
-    "OF-1": {
-        "algorithm": "JustReturn",
-        "sub": ["StageEpisode", "StageEpisodeToOF", "OFToOF-Chapter", "ChapterSwipeToTheLeft", "OF-1@SideStoryStage"]
-    },
     "StageEpisodeToOF": {
         "text": ["青く燃ゆる心", "青く", "燃ゆる"]
     },
     "OFToOF-Chapter": {
-        "text": ["イベントへ", "イベント"],
-        "roi": [993, 439, 287, 168]
+        "text": ["イベントへ", "イベント"]
     },
     "IC-Open": {
         "text": ["理想都市", "エンドレス", "カーニバル", "開催中"]

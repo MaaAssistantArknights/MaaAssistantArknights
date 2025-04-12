@@ -232,16 +232,11 @@
     "NLChapterToNL": {
         "text": ["大騎士領"]
     },
-    "OF-1": {
-        "algorithm": "JustReturn",
-        "sub": ["StageEpisode", "StageEpisodeToOF", "OFToOF-Chapter", "ChapterSwipeToTheLeft", "OF-1@SideStoryStage"]
-    },
     "StageEpisodeToOF": {
         "text": ["火藍之心"]
     },
     "OFToOF-Chapter": {
-        "text": ["進入", "活動"],
-        "roi": [993, 439, 287, 168]
+        "text": ["進入", "活動"]
     },
     "IC-Open": {
         "action": "ClickSelf",
