@@ -59,13 +59,13 @@ public class CustomSettingsUserControlModel : TaskViewModel
                 return string.Empty;
             }
 
-            var groups = TaskName.Split(';', StringSplitOptions.RemoveEmptyEntries)
+            var taskGroups = TaskName.Split(';', StringSplitOptions.RemoveEmptyEntries)
                 .Select(group =>
                     "[" + string.Join(", ",
                         group.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                            .Select(t => $"\"{t.Trim()}\"")) + "],");
+                            .Select(t => $"\"{t.Trim()}\"")) + "]");
 
-            return string.Join(Environment.NewLine, groups);
+            return string.Join("," + Environment.NewLine, taskGroups);
         }
     }
 
