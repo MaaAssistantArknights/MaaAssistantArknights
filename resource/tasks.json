@@ -136,7 +136,7 @@
     "ClickChapterNewOverview": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "roi": [987, 0, 293, 156],
+        "roi": [1175, 20, 65, 40],
         "text": ["乐章"],
         "next": ["ClickChapterNewOpenTime"]
     },
@@ -1882,17 +1882,43 @@
     },
     "OF-1": {
         "algorithm": "JustReturn",
-        "sub": ["StageEpisode", "StageEpisodeToOF", "OFToOF-Chapter", "ChapterSwipeToTheLeft", "OF-1@SideStoryStage"]
+        "sub": ["ToOF", "ChapterSwipeToTheLeft", "OF-1@SideStoryStage"]
     },
     "OF-F3": {
         "algorithm": "JustReturn",
-        "sub": ["StageEpisode", "StageEpisodeToOF", "OFToOF-Chapter", "OF-Chapter2", "StageOF-F3"]
+        "sub": ["ToOF", "OF-Chapter2", "StageOF-F3"]
+    },
+    "ToOF": {
+        "algorithm": "JustReturn",
+        "next": ["ToOFOld", "ToOFNew"]
+    },
+    "ToOFOld": {
+        "baseTask": "StageEpisode",
+        "template": "StageEpisode.png",
+        "sub": ["StageEpisodeToOF", "OFToOF-Chapter"]
+    },
+    "ToOFNew": {
+        "algorithm": "JustReturn",
+        "sub": ["ToChapterNew@StageTheme", "SwipeToOFStage", "OFToOF-ChapterNew"]
     },
     "StageEpisodeToOF": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["火蓝之心"],
         "roi": [0, 41, 372, 627]
+    },
+    "SwipeToOFStage": {
+        "baseTask": "SlowlySwipeToTheUp",
+        "specificRect": [1250, 580, 20, 20],
+        "rectMove": [1250, 110, 20, 20],
+        "specialParams": [1000, 0, 3, 0],
+        "next": ["StageOFNew", "#self"],
+        "maxTimes": 30,
+        "exceededNext": ["Stop"]
+    },
+    "StageOFNew": {
+        "action": "ClickSelf",
+        "roi": [58, 83, 1142, 628]
     },
     "OFToOF-Chapter": {
         "algorithm": "OcrDetect",
@@ -1901,6 +1927,10 @@
         "roi": [993, 439, 287, 168],
         "postDelay": 1000,
         "next": ["#self", "Stop"]
+    },
+    "OFToOF-ChapterNew": {
+        "baseTask": "OFToOF-Chapter",
+        "roi": [1060, 590, 140, 50]
     },
     "OF-Chapter2": {
         "action": "ClickSelf",
