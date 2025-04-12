@@ -1584,30 +1584,25 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            if (!mainFightRet || !FightTask.UseRemainingSanityStage || string.IsNullOrEmpty(FightTask.RemainingSanityStage))
+            if (mainFightRet && FightTask.UseRemainingSanityStage && !string.IsNullOrEmpty(FightTask.RemainingSanityStage))
             {
-                return mainFightRet;
+                var task = new AsstFightTask()
+                {
+                    Stage = FightTask.RemainingSanityStage,
+                    MaxTimes = int.MaxValue,
+                    Series = 1,
+                    IsDrGrandet = FightTask.IsDrGrandet,
+                    ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
+                    ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
+                    PenguinId = SettingsViewModel.GameSettings.PenguinId,
+                    YituliuId = SettingsViewModel.GameSettings.PenguinId,
+                    ServerType = Instances.SettingsViewModel.ServerType,
+                    ClientType = SettingsViewModel.GameSettings.ClientType,
+                };
+                return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightRemainingSanity, type, task.Serialize().Params);
             }
 
-            var remainingSanityTask = new AsstFightTask()
-            {
-                Stage = FightTask.RemainingSanityStage,
-                MaxTimes = int.MaxValue,
-                Series = 1,
-                IsDrGrandet = FightTask.IsDrGrandet,
-                ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
-                ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
-                PenguinId = SettingsViewModel.GameSettings.PenguinId,
-                YituliuId = SettingsViewModel.GameSettings.PenguinId,
-                ServerType = Instances.SettingsViewModel.ServerType,
-                ClientType = SettingsViewModel.GameSettings.ClientType,
-            };
-            if (!Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightRemainingSanity, type, remainingSanityTask.Serialize().Params))
-            {
-                AddLog("RemainingSanity Error", UiLogColor.Error);
-            }
-
-            return true;
+            return mainFightRet;
         }
 
         public bool EnableSetFightParams { get; set; } = true;
