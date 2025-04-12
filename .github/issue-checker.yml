@@ -522,7 +522,7 @@ labels:
   # `incomplete`
   - name: incomplete
     content: incomplete
-    regexes: '(?:\[Uploading asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)…\]\(\))|<!-- Uploading "log[^"]*\.zip"\.\.\. -->'
+    regexes: '(?:\[Uploading asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)…\]\(\))|<!-- Uploading "(log|report)[^"]*\.zip"\.\.\. -->'
     mode: add
     skip-if:
       - skip all
@@ -532,7 +532,7 @@ labels:
       - remove incomplete
   - name: complete
     content:
-    regexes: '(?:\[asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)\]\([^\)]+\))|log[^.]*.zip'
+    regexes: '(?:\[asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)\]\([^\)]+\))|(log|report)[^.]*.zip'
   - name: remove incomplete
     content: incomplete
     mode: remove
