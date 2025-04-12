@@ -69,12 +69,8 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
     /// </summary>
     public int ReclamationMode
     {
-        get => _reclamationMode;
-        set
-        {
-            SetAndNotify(ref _reclamationMode, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationMode, value.ToString());
-        }
+        get => GetTaskConfig<ReclamationTask>()?.Mode ?? default;
+        set => SetTaskConfig<ReclamationTask>(t => t.Mode == value, t => t.Mode = value);
     }
 
     private string _reclamationToolToCraft = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationToolToCraft, string.Empty).Replace('；', ';');
@@ -93,9 +89,8 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
 
         set
         {
-            value = value.Replace('；', ';');
-            SetAndNotify(ref _reclamationToolToCraft, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationToolToCraft, value);
+            value = value.Replace('；', ';').Trim();
+            SetTaskConfig<ReclamationTask>(t => t.ToolToCraft == value, t => t.ToolToCraft = value);
         }
     }
 
@@ -120,12 +115,21 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
             new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeHold"), Value = "1" },
         ];
 
-    private string _reclamationMaxCraftCountPerRound = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, "16");
+    public int ReclamationIncrementMode
+    {
+        get => GetTaskConfig<ReclamationTask>()?.IncrementMode ?? default;
+        set => SetTaskConfig<ReclamationTask>(t => t.IncrementMode == value, t => t.IncrementMode = value);
+    }
 
     public int ReclamationMaxCraftCountPerRound
     {
-        get => int.Parse(_reclamationMaxCraftCountPerRound);
-        set
+        get => GetTaskConfig<ReclamationTask>()?.MaxCraftCountPerRound ?? default;
+        set => SetTaskConfig<ReclamationTask>(t => t.MaxCraftCountPerRound == value, t => t.MaxCraftCountPerRound = value);
+    }
+
+    public override void RefreshUI(BaseTask baseTask)
+    {
+        if (baseTask is ReclamationTask)
         {
             SetAndNotify(ref _reclamationMaxCraftCountPerRound, value.ToString());
             ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, value.ToString());
