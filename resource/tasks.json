@@ -1882,7 +1882,7 @@
     },
     "OF-1": {
         "algorithm": "JustReturn",
-        "sub": ["StageEpisode", "StageEpisodeToOF", "OFToOF-Chapter", "ChapterSwipeToTheLeft", "OF-1@SideStoryStage"]
+        "sub": ["ClickChapterNew@StageTheme", "ClickOFStage", "OFToOF-Chapter", "ChapterSwipeToTheLeft", "OF-1@SideStoryStage"]
     },
     "OF-F3": {
         "algorithm": "JustReturn",
@@ -1894,11 +1894,28 @@
         "text": ["火蓝之心"],
         "roi": [0, 41, 372, 627]
     },
+    "SwipeUpToOFStage": {
+        "baseTask": "SlowlySwipeToTheUp",
+        "specificRect": [180, 580, 20, 20],
+        "rectMove": [180, 110, 20, 20],
+        "specialParams": [200, 0, 2, 0]
+    },
+    "ClickOFStage": {
+        "algorithm": "JustReturn",
+        "baseTask": "SwipeUpToOFStage",
+        "next": ["StageOF", "ClickOFStage"]
+    },
+    "StageOF": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "OFStageNew.png",
+        "roi": [57, 66, 311, 653]
+    },
     "OFToOF-Chapter": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["进入", "活动"],
-        "roi": [993, 439, 287, 168],
+        "roi": [1060, 590, 1200, 640],
         "postDelay": 1000,
         "next": ["#self", "Stop"]
     },
