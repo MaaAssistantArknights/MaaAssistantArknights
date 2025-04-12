@@ -32,13 +32,13 @@ public class AwardSettingsUserControlModel : TaskViewModel
     public bool ReceiveAward
     {
         get => GetTaskConfig<AwardTask>()?.Award ?? default;
-        set => SetTaskConfig<AwardTask>(t => t.Award = value);
+        set => SetTaskConfig<AwardTask>(t => t.Award == value, t => t.Award = value);
     }
 
     public bool ReceiveMail
     {
         get => GetTaskConfig<AwardTask>()?.Mail ?? default;
-        set => SetTaskConfig<AwardTask>(t => t.Mail = value);
+        set => SetTaskConfig<AwardTask>(t => t.Mail == value, t => t.Mail = value);
     }
 
     public bool ReceiveFreeGacha
@@ -62,26 +62,26 @@ public class AwardSettingsUserControlModel : TaskViewModel
                 }
             }
 
-            SetTaskConfig<AwardTask>(t => t.FreeGacha = value);
+            SetTaskConfig<AwardTask>(t => t.FreeGacha == value, t => t.FreeGacha = value);
         }
     }
 
     public bool ReceiveOrundum
     {
         get => GetTaskConfig<AwardTask>()?.Orundum ?? default;
-        set => SetTaskConfig<AwardTask>(t => t.Orundum = value);
+        set => SetTaskConfig<AwardTask>(t => t.Orundum == value, t => t.Orundum = value);
     }
 
     public bool ReceiveMining
     {
         get => GetTaskConfig<AwardTask>()?.Mining ?? default;
-        set => SetTaskConfig<AwardTask>(t => t.Mining = value);
+        set => SetTaskConfig<AwardTask>(t => t.Mining == value, t => t.Mining = value);
     }
 
     public bool ReceiveSpecialAccess
     {
         get => GetTaskConfig<AwardTask>()?.SpecialAccess ?? default;
-        set => SetTaskConfig<AwardTask>(t => t.SpecialAccess = value);
+        set => SetTaskConfig<AwardTask>(t => t.SpecialAccess == value, t => t.SpecialAccess = value);
     }
 
     public override void RefreshUI(BaseTask baseTask)
