@@ -1886,7 +1886,7 @@
     },
     "OF-F3": {
         "algorithm": "JustReturn",
-        "sub": ["StageEpisode", "StageEpisodeToOF", "OFToOF-Chapter", "OF-Chapter2", "StageOF-F3"]
+        "sub": ["ToOF", "OF-Chapter2", "StageOF-F3"]
     },
     "ToOF": {
         "algorithm": "JustReturn",
@@ -1899,7 +1899,7 @@
     },
     "ToOFNew": {
         "algorithm": "JustReturn",
-        "sub": ["ToChapterNew@StageTheme", "ClickOFStage", "OFToOF-ChapterNew"]
+        "sub": ["ToChapterNew@StageTheme", "SwipeToOFStage", "OFToOF-ChapterNew"]
     },
     "StageEpisodeToOF": {
         "algorithm": "OcrDetect",
@@ -1907,22 +1907,18 @@
         "text": ["火蓝之心"],
         "roi": [0, 41, 372, 627]
     },
-    "SwipeUpToOFStage": {
+    "SwipeToOFStage": {
         "baseTask": "SlowlySwipeToTheUp",
-        "specificRect": [180, 580, 20, 20],
-        "rectMove": [180, 110, 20, 20],
-        "specialParams": [2000, 0, 2, 0]
+        "specificRect": [1250, 580, 20, 20],
+        "rectMove": [1250, 110, 20, 20],
+        "specialParams": [1000, 0, 3, 0],
+        "next": ["StageOFNew", "#self"],
+        "maxTimes": 30,
+        "exceededNext": ["Stop"]
     },
-    "ClickOFStage": {
-        "algorithm": "JustReturn",
-        "baseTask": "SwipeUpToOFStage",
-        "next": ["StageOF", "ClickOFStage"]
-    },
-    "StageOF": {
-        "algorithm": "MatchTemplate",
+    "StageOFNew": {
         "action": "ClickSelf",
-        "template": "OFStageNew.png",
-        "roi": [50, 66, 260, 587]
+        "roi": [58, 83, 1142, 628]
     },
     "OFToOF-Chapter": {
         "algorithm": "OcrDetect",
