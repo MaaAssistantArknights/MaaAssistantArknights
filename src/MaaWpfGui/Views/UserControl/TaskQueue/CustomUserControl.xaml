@@ -2,6 +2,7 @@
     x:Class="MaaWpfGui.Views.UserControl.TaskQueue.CustomUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -14,6 +15,21 @@
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <StackPanel>
-        <TextBox hc:TitleElement.Title="Task Name" Text="{Binding TaskName}" />
+        <TextBox
+            hc:TitleElement.Title="Task Name(s)"
+            LostFocus="{s:Action SaveTaskName}"
+            Text="{Binding TaskName, UpdateSourceTrigger=PropertyChanged}"
+            TextWrapping="Wrap" />
+        <controls:TextBlock
+            Margin="0,10"
+            Text="{Binding FormattedTaskNames}"
+            TextWrapping="Wrap" />
+        <TextBlock
+            xml:space="preserve"
+            FontSize="12"
+            Foreground="{DynamicResource TraceLogBrush}"
+            Text="Input Rules:&#10;• Comma &quot;,&quot; separated list: Executes first matching task.&#10;• Semicolon &quot;;&quot; separated groups: Executes each group sequentially.&#10;&#10;Examples:&#10;• 'TaskA, TaskB' → Runs TaskA (or TaskB if TaskA fails)&#10;• 'TaskA; TaskB' → Runs both TaskA and TaskB&#10;• 'TaskA, TaskB; TaskC' → First runs TaskA/TaskB, then TaskC"
+            TextAlignment="Left"
+            TextWrapping="Wrap" />
     </StackPanel>
 </UserControl>
