@@ -136,7 +136,7 @@
     "ClickChapterNewOverview": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "roi": [987, 0, 293, 156],
+        "roi": [1175, 20, 1240, 60],
         "text": ["乐章"],
         "next": ["ClickChapterNewOpenTime"]
     },
