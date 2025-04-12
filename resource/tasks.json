@@ -1882,7 +1882,13 @@
     },
     "OF-1": {
         "algorithm": "JustReturn",
-        "sub": ["ClickChapterNew@StageTheme", "ClickOFStage", "OFToOF-Chapter", "ChapterSwipeToTheLeft", "OF-1@SideStoryStage"]
+        "sub": [
+            "ClickChapterNew@StageTheme",
+            "ClickOFStage",
+            "OFToOF-Chapter",
+            "ChapterSwipeToTheLeft",
+            "OF-1@SideStoryStage"
+        ]
     },
     "OF-F3": {
         "algorithm": "JustReturn",
