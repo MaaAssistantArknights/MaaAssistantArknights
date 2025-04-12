@@ -1890,11 +1890,16 @@
     },
     "ToOF": {
         "algorithm": "JustReturn",
-        "next": ["StageEpisode", "StageEpisodeToOF", "OFToOF-Chapter", "ToOFNew"]
+        "next": ["ToOFOld", "ToOFNew"]
+    },
+    "ToOFOld": {
+        "baseTask": "StageEpisode",
+        "template": "StageEpisode.png",
+        "sub": ["StageEpisodeToOF", "OFToOF-Chapter"]
     },
     "ToOFNew": {
         "algorithm": "JustReturn",
-        "sub": ["ClickChapterNew@StageTheme", "ClickOFStage", "OFToOF-ChapterNew"]
+        "sub": ["ToChapterNew@StageTheme", "ClickOFStage", "OFToOF-ChapterNew"]
     },
     "StageEpisodeToOF": {
         "algorithm": "OcrDetect",
