@@ -236,7 +236,8 @@
         "sub": ["StageEpisode", "StageEpisodeToOF", "OFToOF-Chapter", "ChapterSwipeToTheLeft", "OF-1@SideStoryStage"]
     },
     "OFToOF-Chapter": {
-        "text": ["Enter", "Event"]
+        "text": ["Enter", "Event"],
+        "roi": [993, 439, 287, 168]
     },
     "IC-Open": {
         "text": ["Ideal", "City", "Endless", "Carnival"]
