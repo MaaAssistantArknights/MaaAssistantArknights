@@ -231,6 +231,10 @@
     "StageEpisodeToOF": {
         "text": ["Heart of Surging Flame"]
     },
+    "OF-1": {
+        "algorithm": "JustReturn",
+        "sub": ["StageEpisode", "StageEpisodeToOF", "OFToOF-Chapter", "ChapterSwipeToTheLeft", "OF-1@SideStoryStage"]
+    },
     "OFToOF-Chapter": {
         "text": ["Enter", "Event"]
     },
