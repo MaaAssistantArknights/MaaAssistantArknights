@@ -136,7 +136,7 @@
     "ClickChapterNewOverview": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "roi": [1175, 20, 1240, 60],
+        "roi": [1175, 20, 65, 40],
         "text": ["乐章"],
         "next": ["ClickChapterNewOpenTime"]
     },
@@ -1922,7 +1922,7 @@
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "OFStageNew.png",
-        "roi": [57, 66, 311, 653]
+        "roi": [50, 66, 260, 587]
     },
     "OFToOF-Chapter": {
         "algorithm": "OcrDetect",
@@ -1934,7 +1934,7 @@
     },
     "OFToOF-ChapterNew": {
         "baseTask": "OFToOF-Chapter",
-        "roi": [1060, 590, 1200, 640]
+        "roi": [1060, 590, 140, 50]
     },
     "OF-Chapter2": {
         "action": "ClickSelf",
