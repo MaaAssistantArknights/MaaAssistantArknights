@@ -1911,7 +1911,7 @@
         "baseTask": "SlowlySwipeToTheUp",
         "specificRect": [180, 580, 20, 20],
         "rectMove": [180, 110, 20, 20],
-        "specialParams": [200, 0, 2, 0]
+        "specialParams": [2000, 0, 2, 0]
     },
     "ClickOFStage": {
         "algorithm": "JustReturn",
