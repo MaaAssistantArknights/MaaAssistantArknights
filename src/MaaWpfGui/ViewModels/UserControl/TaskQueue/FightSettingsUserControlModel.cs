@@ -125,7 +125,6 @@ public class FightSettingsUserControlModel : TaskViewModel
         {
             if (_stage1 == value)
             {
-                SetAndNotify(ref _stage1, value);
                 return;
             }
 
@@ -157,7 +156,6 @@ public class FightSettingsUserControlModel : TaskViewModel
         {
             if (_stage2 == value)
             {
-                SetAndNotify(ref _stage2, value);
                 return;
             }
 
@@ -188,7 +186,6 @@ public class FightSettingsUserControlModel : TaskViewModel
         {
             if (_stage3 == value)
             {
-                SetAndNotify(ref _stage3, value);
                 return;
             }
 
@@ -259,7 +256,6 @@ public class FightSettingsUserControlModel : TaskViewModel
         {
             if (_remainingSanityStage == value)
             {
-                SetAndNotify(ref _remainingSanityStage, value);
                 return;
             }
 
