@@ -53,12 +53,8 @@ public class MallSettingsUserControlModel : TaskViewModel
 
     public string LastCreditFightTaskTime
     {
-        get => _lastCreditFightTaskTime;
-        set
-        {
-            SetAndNotify(ref _lastCreditFightTaskTime, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.LastCreditFightTaskTime, value);
-        }
+        get => GetTaskConfig<MallTask>()?.CreditFightLastTime ?? string.Empty;
+        set => SetTaskConfig<MallTask>(t => t.CreditFightLastTime == value, t => t.CreditFightLastTime = value);
     }
 
     private bool _creditFightTaskEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightTaskEnabled, bool.FalseString));
@@ -68,28 +64,8 @@ public class MallSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool CreditFightTaskEnabled
     {
-        get
-        {
-            try
-            {
-                if (DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(_lastCreditFightTaskTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
-                {
-                    return _creditFightTaskEnabled;
-                }
-            }
-            catch
-            {
-                return _creditFightTaskEnabled;
-            }
-
-            return false;
-        }
-
-        set
-        {
-            SetAndNotify(ref _creditFightTaskEnabled, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CreditFightTaskEnabled, value.ToString());
-        }
+        get => GetTaskConfig<MallTask>()?.CreditFight ?? default;
+        set => SetTaskConfig<MallTask>(t => t.CreditFight == value, t => t.CreditFight = value);
     }
 
     public bool CreditFightTaskEnabledDisplay
@@ -123,12 +99,8 @@ public class MallSettingsUserControlModel : TaskViewModel
 
     public string LastCreditVisitFriendsTime
     {
-        get => _lastCreditVisitFriendsTime;
-        set
-        {
-            SetAndNotify(ref _lastCreditVisitFriendsTime, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.LastCreditVisitFriendsTime, value);
-        }
+        get => GetTaskConfig<MallTask>()?.VisitFriendsLastTime ?? string.Empty;
+        set => SetTaskConfig<MallTask>(t => t.VisitFriendsLastTime == value, t => t.VisitFriendsLastTime = value);
     }
 
     private bool _creditVisitOnceADay = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitOnceADay, bool.FalseString));
@@ -138,12 +110,8 @@ public class MallSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool CreditVisitOnceADay
     {
-        get => _creditVisitOnceADay;
-        set
-        {
-            SetAndNotify(ref _creditVisitOnceADay, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CreditVisitOnceADay, value.ToString());
-        }
+        get => GetTaskConfig<MallTask>()?.VisitFriendsOnceADay ?? default;
+        set => SetTaskConfig<MallTask>(t => t.VisitFriendsOnceADay == value, t => t.VisitFriendsOnceADay = value);
     }
 
     private bool _creditVisitFriendsEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitFriendsEnabled, bool.TrueString));
@@ -153,29 +121,8 @@ public class MallSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool CreditVisitFriendsEnabled
     {
-        get
-        {
-            if (!_creditVisitOnceADay)
-            {
-                return _creditVisitFriendsEnabled;
-            }
-
-            try
-            {
-                return DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(_lastCreditVisitFriendsTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture)
-                       && _creditVisitFriendsEnabled;
-            }
-            catch
-            {
-                return _creditVisitFriendsEnabled;
-            }
-        }
-
-        set
-        {
-            SetAndNotify(ref _creditVisitFriendsEnabled, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CreditVisitFriendsEnabled, value.ToString());
-        }
+        get => GetTaskConfig<MallTask>()?.VisitFriends ?? default;
+        set => SetTaskConfig<MallTask>(t => t.VisitFriends == value, t => t.VisitFriends = value);
     }
 
     public bool CreditVisitFriendsEnabledDisplay
@@ -199,12 +146,8 @@ public class MallSettingsUserControlModel : TaskViewModel
     /// </summary>
     public int CreditFightSelectFormation
     {
-        get => _creditFightSelectFormation;
-        set
-        {
-            SetAndNotify(ref _creditFightSelectFormation, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CreditFightSelectFormation, value.ToString());
-        }
+        get => GetTaskConfig<MallTask>()?.CreditFightFormation ?? default;
+        set => SetTaskConfig<MallTask>(t => t.CreditFightFormation == value, t => t.CreditFightFormation = value);
     }
 
     private bool _creditShopping = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditShopping, bool.TrueString));
@@ -214,12 +157,8 @@ public class MallSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool CreditShopping
     {
-        get => _creditShopping;
-        set
-        {
-            SetAndNotify(ref _creditShopping, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CreditShopping, value.ToString());
-        }
+        get => GetTaskConfig<MallTask>()?.Shopping ?? default;
+        set => SetTaskConfig<MallTask>(t => t.Shopping == value, t => t.Shopping = value);
     }
 
     private string _creditFirstList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFirstListNew, LocalizationHelper.GetString("HighPriorityDefault")).Replace("；", ";").Trim();
@@ -233,8 +172,7 @@ public class MallSettingsUserControlModel : TaskViewModel
         set
         {
             value = value.Replace("；", ";").Trim();
-            SetAndNotify(ref _creditFirstList, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CreditFirstListNew, value);
+            SetTaskConfig<MallTask>(t => t.FirstList == value, t => t.FirstList = value);
         }
     }
 
@@ -249,8 +187,7 @@ public class MallSettingsUserControlModel : TaskViewModel
         set
         {
             value = value.Replace("；", ";").Trim();
-            SetAndNotify(ref _creditBlackList, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CreditBlackListNew, value);
+            SetTaskConfig<MallTask>(t => t.BlackList == value, t => t.BlackList = value);
         }
     }
 
@@ -261,12 +198,8 @@ public class MallSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool CreditForceShoppingIfCreditFull
     {
-        get => _creditForceShoppingIfCreditFull;
-        set
-        {
-            SetAndNotify(ref _creditForceShoppingIfCreditFull, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CreditForceShoppingIfCreditFull, value.ToString());
-        }
+        get => GetTaskConfig<MallTask>()?.ShoppingIgnoreBlackListWhenFull ?? default;
+        set => SetTaskConfig<MallTask>(t => t.ShoppingIgnoreBlackListWhenFull == value, t => t.ShoppingIgnoreBlackListWhenFull = value);
     }
 
     private bool _creditOnlyBuyDiscount = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditOnlyBuyDiscount, bool.FalseString));
@@ -276,12 +209,8 @@ public class MallSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool CreditOnlyBuyDiscount
     {
-        get => _creditOnlyBuyDiscount;
-        set
-        {
-            SetAndNotify(ref _creditOnlyBuyDiscount, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CreditOnlyBuyDiscount, value.ToString());
-        }
+        get => GetTaskConfig<MallTask>()?.OnlyBuyDiscount ?? default;
+        set => SetTaskConfig<MallTask>(t => t.OnlyBuyDiscount == value, t => t.OnlyBuyDiscount = value);
     }
 
     private bool _creditReserveMaxCredit = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditReserveMaxCredit, bool.FalseString));
@@ -291,8 +220,13 @@ public class MallSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool CreditReserveMaxCredit
     {
-        get => _creditReserveMaxCredit;
-        set
+        get => GetTaskConfig<MallTask>()?.ReserveMaxCredit ?? default;
+        set => SetTaskConfig<MallTask>(t => t.ReserveMaxCredit == value, t => t.ReserveMaxCredit = value);
+    }
+
+    public override void RefreshUI(BaseTask baseTask)
+    {
+        if (baseTask is MallTask)
         {
             SetAndNotify(ref _creditReserveMaxCredit, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CreditReserveMaxCredit, value.ToString());
