@@ -4685,6 +4685,7 @@
     "InfrastClueSelfFull": {
         "algorithm": "OcrDetect",
         "text": ["已达线索上限", "无法获取新的线索", "上限", "无法"],
+        "reduceOtherTimes": ["SelectClue*3"],
         "roi": [286, 550, 366, 130],
         "next": ["CloseCluePageThenSendClue"]
     },
@@ -4797,6 +4798,7 @@
             ]
         ],
         "templThreshold": 0.75,
+        "reduceOtherTimes": ["SelectClue*3"],
         "next": [
             "ClueGiveTo1st",
             "ClueGiveTo2nd",
