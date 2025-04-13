@@ -173,6 +173,20 @@ namespace MaaWpfGui.Models
                     break;
             }
 
+            var list = Instances.TaskQueueViewModel.TaskItemViewModels;
+            if (enable && list is not null)
+            {
+                for (int index = 0; index < list.Count; index++)
+                {
+                    var item = Instances.TaskQueueViewModel.TaskItemViewModels[index];
+                    if (enable && item.OriginalName == taskName)
+                    {
+                        CurrentIndex = index;
+                        Instances.TaskQueueViewModel.RefreshTaskModel(ConfigFactory.CurrentConfig.TaskQueue[index]);
+                    }
+                }
+            }
+
             EnableAdvancedSettings = false;
             if (Mission || WakeUp || AfterAction)
             {
