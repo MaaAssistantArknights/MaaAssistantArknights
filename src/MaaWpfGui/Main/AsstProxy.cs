@@ -947,7 +947,7 @@ namespace MaaWpfGui.Main
             }
         }
 
-        private void ProcSubTaskMsg(AsstMsg msg, JObject details)
+        private static void ProcSubTaskMsg(AsstMsg msg, JObject details)
         {
             // 下面几行注释暂时没用到，先注释起来...
             // string taskChain = details["taskchain"].ToString();
@@ -1796,35 +1796,45 @@ namespace MaaWpfGui.Main
         private static readonly bool _forcedReloadResource = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
 
         /// <summary>
-        /// 检查端口是否有效。
+        /// 使用 TCP 或 adb devices 命令检查连接。TCP 检测相比 adb devices 更快，但不支持实体机。
         /// </summary>
-        /// <param name="address">连接地址。</param>
-        /// <returns>是否有效。</returns>
-        private static bool IfPortEstablished(string? address)
+        /// <param name="adbPath">adb path，用于实体机检测</param>
+        /// <param name="address">连接地址</param>
+        /// <returns>设备是否在线</returns>
+        private static bool CheckConnection(string adbPath, string? address)
         {
-            if (string.IsNullOrEmpty(address) || !address.Contains(':'))
+            if (string.IsNullOrEmpty(address))
             {
                 return false;
+            }
+
+            // 实体机可能设备名 -> [host]
+            if (!address.Contains(':') && !address.Contains('-'))
+            {
+                return WinAdapter.GetAdbAddresses(adbPath).Contains(address);
             }
 
             // normal -> [host]:[port]
-            string[] hostAndPort = address.Split(':');
-            if (hostAndPort.Length != 2)
+            // LdPlayer -> emulator-[port]
+            string[] hostAndPort = address.Split([':', '-'], StringSplitOptions.RemoveEmptyEntries);
+
+            if (hostAndPort.Length != 2 || !int.TryParse(hostAndPort[1], out var port))
             {
                 return false;
             }
 
-            string host = hostAndPort[0].Equals("emulator") ? "127.0.0.1" : hostAndPort[0];
-            if (!int.TryParse(hostAndPort[1], out int port))
+            string host = hostAndPort[0];
+            if (host.StartsWith("emulator"))
             {
-                return false;
+                host = "127.0.0.1";
+                port += 1;
             }
 
             using var client = new TcpClient();
             try
             {
                 IAsyncResult result = client.BeginConnect(host, port, null, null);
-                bool success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(.5));
+                bool success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(0.5));
 
                 if (success)
                 {
@@ -1835,7 +1845,7 @@ namespace MaaWpfGui.Main
                 client.Close();
                 return false;
             }
-            catch (Exception)
+            catch
             {
                 return false;
             }
@@ -1869,22 +1879,32 @@ namespace MaaWpfGui.Main
             if (Connected && _connectedAdb == SettingsViewModel.ConnectSettings.AdbPath &&
                 _connectedAddress == SettingsViewModel.ConnectSettings.ConnectAddress)
             {
-                _logger.Information($"Already connected to {_connectedAdb} {_connectedAddress}");
-                if (!_forcedReloadResource)
+                var actualConnectionStatus = CheckConnection(_connectedAdb, _connectedAddress);
+                if (!actualConnectionStatus)
                 {
+                    Connected = false;
+                    _logger.Information($"Connection lost to {_connectedAdb} {_connectedAddress}");
+                    error = "Connection lost";
+                }
+                else
+                {
+                    _logger.Information($"Already connected to {_connectedAdb} {_connectedAddress}");
+                    if (!_forcedReloadResource)
+                    {
+                        return true;
+                    }
+
+                    _logger.Information("Forced reload resource");
+                    if (!LoadResource())
+                    {
+                        error = "Load Resource Failed";
+                        return false;
+                    }
+
+                    ToastNotification.ShowDirect("Auto Reload");
+
                     return true;
                 }
-
-                _logger.Information("Forced reload resource");
-                if (!LoadResource())
-                {
-                    error = "Load Resource Failed";
-                    return false;
-                }
-
-                ToastNotification.ShowDirect("Auto Reload");
-
-                return true;
             }
 
             bool ret = AsstConnect(_handle, SettingsViewModel.ConnectSettings.AdbPath, SettingsViewModel.ConnectSettings.ConnectAddress, SettingsViewModel.ConnectSettings.ConnectConfig);
@@ -1931,21 +1951,11 @@ namespace MaaWpfGui.Main
 
         private static bool AutoDetectConnection(ref string error)
         {
-            // 本地设备如果选了自动检测，还是重新检测一下，不然重新插拔地址变了之后就再也不会检测了
-            /*
-            // tcp连接测试端口是否有效，超时时间500ms
-            // 如果是本地设备，没有冒号
-            bool adbResult = !string.IsNullOrEmpty(Instances.SettingsViewModel.AdbPath) &&
-                             ((!Instances.SettingsViewModel.ConnectAddress.Contains(':') &&
-                               !string.IsNullOrEmpty(Instances.SettingsViewModel.ConnectAddress)) ||
-                              IfPortEstablished(Instances.SettingsViewModel.ConnectAddress));
-            */
-
             var adbPath = SettingsViewModel.ConnectSettings.AdbPath;
             bool adbResult = !string.IsNullOrEmpty(adbPath) &&
                              File.Exists(adbPath) &&
                              Path.GetFileName(adbPath).Contains("adb", StringComparison.InvariantCultureIgnoreCase) &&
-                             IfPortEstablished(SettingsViewModel.ConnectSettings.ConnectAddress);
+                             CheckConnection(adbPath, SettingsViewModel.ConnectSettings.ConnectAddress);
 
             if (adbResult)
             {
@@ -1956,7 +1966,7 @@ namespace MaaWpfGui.Main
             // 蓝叠的特殊处理
             {
                 string bsHvAddress = SettingsViewModel.ConnectSettings.TryToSetBlueStacksHyperVAddress() ?? string.Empty;
-                bool bsResult = IfPortEstablished(bsHvAddress);
+                bool bsResult = CheckConnection(adbPath, bsHvAddress);
                 if (bsResult)
                 {
                     error = string.Empty;
@@ -2035,94 +2045,7 @@ namespace MaaWpfGui.Main
 
         private readonly Dictionary<AsstTaskId, TaskType> _taskStatus = [];
 
-        private static JObject SerializeFightTaskParams(
-            string stage,
-            int maxMedicine,
-            int maxStone,
-            int maxTimes,
-            int series,
-            string dropsItemId,
-            int dropsItemQuantity,
-            bool isMainFight = true)
-        {
-            var taskParams = new JObject
-            {
-                ["stage"] = stage,
-                ["medicine"] = maxMedicine,
-                ["stone"] = maxStone,
-                ["times"] = maxTimes,
-                ["series"] = series,
-                ["report_to_penguin"] = SettingsViewModel.GameSettings.EnablePenguin,
-                ["report_to_yituliu"] = SettingsViewModel.GameSettings.EnableYituliu,
-            };
-            if (dropsItemQuantity != 0 && !string.IsNullOrWhiteSpace(dropsItemId))
-            {
-                taskParams["drops"] = new JObject
-                {
-                    [dropsItemId] = dropsItemQuantity,
-                };
-            }
-
-            taskParams["client_type"] = SettingsViewModel.GameSettings.ClientType;
-            taskParams["penguin_id"] = SettingsViewModel.GameSettings.PenguinId;
-            taskParams["DrGrandet"] = TaskQueueViewModel.FightTask.IsDrGrandet;
-            taskParams["expiring_medicine"] = isMainFight && TaskQueueViewModel.FightTask.UseExpiringMedicine ? 9999 : 0;
-            taskParams["server"] = Instances.SettingsViewModel.ServerType;
-            return taskParams;
-        }
-
-        /// <summary>
-        /// 刷理智。
-        /// </summary>
-        /// <param name="stage">关卡名。</param>
-        /// <param name="maxMedicine">最大使用理智药数量。</param>
-        /// <param name="maxStone">最大吃石头数量。</param>
-        /// <param name="maxTimes">指定次数。</param>
-        /// <param name="series">连战次数。</param>
-        /// <param name="dropsItemId">指定掉落 ID。</param>
-        /// <param name="dropsItemQuantity">指定掉落数量。</param>
-        /// <param name="isMainFight">是否是主任务，决定c#侧是否记录任务id</param>
-        /// <returns>是否成功。</returns>
-        public bool AsstAppendFight(string stage, int maxMedicine, int maxStone, int maxTimes, int series, string dropsItemId, int dropsItemQuantity, bool isMainFight = true)
-        {
-            var taskParams = SerializeFightTaskParams(stage, maxMedicine, maxStone, maxTimes, series, dropsItemId, dropsItemQuantity, isMainFight);
-            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Fight, taskParams);
-            if (isMainFight)
-            {
-                _taskStatus.Add(id, TaskType.Fight);
-            }
-            else
-            {
-                _taskStatus.Add(id, TaskType.FightRemainingSanity);
-            }
-
-            return id != 0;
-        }
-
-        /// <summary>
-        /// 设置刷理智任务参数。
-        /// </summary>
-        /// <param name="stage">关卡名。</param>
-        /// <param name="maxMedicine">最大使用理智药数量。</param>
-        /// <param name="maxStone">最大吃石头数量。</param>
-        /// <param name="maxTimes">指定次数。</param>
-        /// <param name="series">连战次数。</param>
-        /// <param name="dropsItemId">指定掉落 ID。</param>
-        /// <param name="dropsItemQuantity">指定掉落数量。</param>
-        /// <param name="isMainFight">是否是主任务，决定c#侧是否记录任务id</param>
-        /// <returns>是否成功。</returns>
-        public bool AsstSetFightTaskParams(string stage, int maxMedicine, int maxStone, int maxTimes, int series, string dropsItemId, int dropsItemQuantity, bool isMainFight = true)
-        {
-            var type = isMainFight ? TaskType.Fight : TaskType.FightRemainingSanity;
-            var id = _taskStatus.FirstOrDefault(t => t.Value == type).Key;
-            if (id == 0)
-            {
-                return false;
-            }
-
-            var taskParams = SerializeFightTaskParams(stage, maxMedicine, maxStone, maxTimes, series, dropsItemId, dropsItemQuantity);
-            return AsstSetTaskParamsWithEncoding(id, taskParams);
-        }
+        public IReadOnlyDictionary<AsstTaskId, TaskType> TaskStatus => _taskStatus;
 
         public bool AsstAppendCloseDown(string clientType)
         {
@@ -2148,44 +2071,6 @@ namespace MaaWpfGui.Main
         public bool AsstBackToHome()
         {
             return MaaService.AsstBackToHome(_handle);
-        }
-
-        public bool AsstSetInfrastTaskParams()
-        {
-            const TaskType Type = TaskType.Infrast;
-            int id = _taskStatus.FirstOrDefault(i => i.Value == Type).Key;
-            if (id == 0)
-            {
-                return false;
-            }
-
-            var taskParams = InfrastSettingsUserControlModel.Instance.Serialize().Params;
-            return AsstSetTaskParamsWithEncoding(id, taskParams);
-        }
-
-        /// <summary>
-        /// 公招识别。
-        /// </summary>
-        /// <param name="selectLevel">会去点击标签的 Tag 等级。</param>
-        /// <param name="setTime">是否设置 9 小时。</param>
-        /// <param name="chooseLevel3Time">3 星招募时间</param>
-        /// <param name="chooseLevel4Time">4 星招募时间</param>
-        /// <param name="chooseLevel5Time">5 星招募时间</param>
-        /// <returns>是否成功。</returns>
-        public bool AsstStartRecruitCalc(int[] selectLevel, bool setTime, int chooseLevel3Time, int chooseLevel4Time, int chooseLevel5Time)
-        {
-            var task = new AsstRecruitTask()
-            {
-                SelectList = selectLevel.ToList(),
-                ConfirmList = [-1], // 仅公招识别时将-1加入comfirm_level
-                SetRecruitTime = setTime,
-                ChooseLevel3Time = chooseLevel3Time,
-                ChooseLevel4Time = chooseLevel4Time,
-                ChooseLevel5Time = chooseLevel5Time,
-                ServerType = Instances.SettingsViewModel.ServerType,
-            };
-            var (type, taskParams) = task.Serialize();
-            return AsstAppendTaskWithEncoding(TaskType.RecruitCalc, type, taskParams) && AsstStart();
         }
 
         /// <summary>
@@ -2240,9 +2125,15 @@ namespace MaaWpfGui.Main
             return true;
         }
 
-        public bool ContainsTask(TaskType type)
+        public bool AsstSetTaskParamsEncoded(AsstTaskId id, JObject? taskParams = null)
         {
-            return _taskStatus.ContainsValue(type);
+            if (id == 0)
+            {
+                return false;
+            }
+
+            taskParams ??= [];
+            return AsstSetTaskParams(_handle, id, JsonConvert.SerializeObject(taskParams));
         }
 
         /// <summary>

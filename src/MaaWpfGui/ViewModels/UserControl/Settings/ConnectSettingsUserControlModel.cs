@@ -708,7 +708,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             return false;
         }
 
-        var addresses = adapter.GetAdbAddresses(AdbPath);
+        var addresses = WinAdapter.GetAdbAddresses(AdbPath);
 
         switch (addresses.Count)
         {

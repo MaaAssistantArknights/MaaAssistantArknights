@@ -26,5 +26,5 @@ public class AsstCustomTask : AsstBaseTask
     [JsonProperty("task_names")]
     public List<string> CustomTasks { get; set; } = [];
 
-    public override (AsstTaskType TaskType, JObject Params) Serialize() => (AsstTaskType.Custom, JObject.FromObject(this));
+    public override (AsstTaskType TaskType, JObject Params) Serialize() => (TaskType, JObject.FromObject(this));
 }

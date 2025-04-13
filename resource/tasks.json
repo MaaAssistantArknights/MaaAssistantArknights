@@ -124,12 +124,19 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "roi": [987, 0, 293, 156],
-        "text": ["开启时间"]
+        "text": ["开启时间"],
+        "next": ["ClickChapterNewDefaultProgress"]
+    },
+    "ClickChapterNewDefaultProgress": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [695, 26, 85, 38],
+        "text": ["默认进度"]
     },
     "ClickChapterNewOverview": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "roi": [987, 0, 293, 156],
+        "roi": [1175, 20, 65, 40],
         "text": ["乐章"],
         "next": ["ClickChapterNewOpenTime"]
     },
@@ -379,19 +386,22 @@
             ["(H\\d+)O(?=-)", "$010"],
             ["(-\\d+)O", "$010"]
         ],
-        "roi": [845, 72, 170, 50]
+        "roi": [845, 72, 220, 50]
     },
     "ChangeToRaidDifficulty": {
-        "template": "RaidDifficulty.png",
+        "doc": ["突袭", "15章险地"],
+        "template": ["RaidDifficulty.png", "RaidDifficulty-Chapter15.png"],
         "action": "ClickSelf",
-        "roi": [620, 600, 80, 100],
+        "maskRange": [0, 220],
+        "roi": [600, 610, 130, 110],
         "maxTimes": 3,
         "next": ["RaidConfirm", "#self"]
     },
     "RaidConfirm": {
         "baseTask": "ChangeToRaidDifficulty",
         "action": "DoNothing",
-        "template": "NormalDifficulty.png",
+        "maskRange": [0, 220],
+        "template": ["NormalDifficulty.png", "NormalDifficulty-Chapter15.png"],
         "next": []
     },
     "Episode": {
@@ -1872,17 +1882,43 @@
     },
     "OF-1": {
         "algorithm": "JustReturn",
-        "sub": ["StageEpisode", "StageEpisodeToOF", "OFToOF-Chapter", "ChapterSwipeToTheLeft", "OF-1@SideStoryStage"]
+        "sub": ["ToOF", "ChapterSwipeToTheLeft", "OF-1@SideStoryStage"]
     },
     "OF-F3": {
         "algorithm": "JustReturn",
-        "sub": ["StageEpisode", "StageEpisodeToOF", "OFToOF-Chapter", "OF-Chapter2", "StageOF-F3"]
+        "sub": ["ToOF", "OF-Chapter2", "StageOF-F3"]
+    },
+    "ToOF": {
+        "algorithm": "JustReturn",
+        "next": ["ToOFOld", "ToOFNew"]
+    },
+    "ToOFOld": {
+        "baseTask": "StageEpisode",
+        "template": "StageEpisode.png",
+        "sub": ["StageEpisodeToOF", "OFToOF-Chapter"]
+    },
+    "ToOFNew": {
+        "algorithm": "JustReturn",
+        "sub": ["ToChapterNew@StageTheme", "SwipeToOFStage", "OFToOF-ChapterNew"]
     },
     "StageEpisodeToOF": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["火蓝之心"],
         "roi": [0, 41, 372, 627]
+    },
+    "SwipeToOFStage": {
+        "baseTask": "SlowlySwipeToTheUp",
+        "specificRect": [1250, 580, 20, 20],
+        "rectMove": [1250, 110, 20, 20],
+        "specialParams": [1000, 0, 3, 0],
+        "next": ["StageOFNew", "#self"],
+        "maxTimes": 30,
+        "exceededNext": ["Stop"]
+    },
+    "StageOFNew": {
+        "action": "ClickSelf",
+        "roi": [58, 83, 1142, 628]
     },
     "OFToOF-Chapter": {
         "algorithm": "OcrDetect",
@@ -1891,6 +1927,10 @@
         "roi": [993, 439, 287, 168],
         "postDelay": 1000,
         "next": ["#self", "Stop"]
+    },
+    "OFToOF-ChapterNew": {
+        "baseTask": "OFToOF-Chapter",
+        "roi": [1060, 590, 140, 50]
     },
     "OF-Chapter2": {
         "action": "ClickSelf",
@@ -2819,7 +2859,7 @@
         "next": ["StartButton1"]
     },
     "FightSeries-Icon": {
-        "roi": [945, 580, 100, 50]
+        "roi": [927, 567, 122, 66]
     },
     "FightSeries-Indicator": {
         "roi": [940, 190, 80, 380],
@@ -2885,13 +2925,14 @@
     },
     "StartButton1TryAgain": {
         "baseTask": "StartButton1",
+        "action": "ClickRect",
         "exceededNext": [],
         "reduceOtherTimes": [],
         "preDelay": 0,
         "postDelay_Doc": "理智不足时弹出吃药界面约需两秒，理智足够则不到一秒就能进入StartButton2",
         "postDelay": 3000,
-        "rectMove_Doc": "点击“行动”避免第二次点击时点到StartButton2",
-        "rectMove": [38, 0, 35, 17]
+        "specificRect_Doc": "避免第二次点击时点到StartButton2",
+        "specificRect": [1260, 650, 1, 1]
     },
     "AnnihilationConfirm": {
         "action": "ClickSelf",
@@ -3107,18 +3148,22 @@
         "action": "ClickSelf",
         "maxTimes": 0,
         "roi": [1000, 500, 200, 150],
-        "reduceOtherTimes": ["StartButton1"],
+        "reduceOtherTimes": ["StartButton1", "StoneConfirmWait"],
         "exceededNext": ["CloseStonePage"],
-        "next": ["StartButton1", "OfflineConfirm", "StoneConfirmAgain@LoadingText"]
+        "next": ["StartButton1", "OfflineConfirm", "StoneConfirmWait@LoadingText"]
     },
-    "StoneConfirmAgain": {
+    "StoneConfirmWait": {
         "Doc": "StoneConfirm 波动进入 LoadingText 之后，加载完成后碎石界面可能不会立即消失，这时候需要防止重复计数",
         "Doc2": "如果在碎石界面还没消失的期间再点碎石，应该不会碎掉第二颗吧 :)",
         "Doc3": "另外，应该不会又卡好几分钟吧，这个 task 就不用注册博朗台插件了",
-        "maxTimes": 2147483647,
+        "action": "DoNothing",
+        "maxTimes": 3,
         "baseTask": "StoneConfirm",
         "template": "MedicineConfirm.png",
-        "reduceOtherTimes": []
+        "reduceOtherTimes": [],
+        "postDelay": 500,
+        "exceededNext": ["CloseStonePage"],
+        "next": ["StoneConfirmWait", "StoneConfirm#next"]
     },
     "NoStone": {
         "roi": [800, 250, 350, 250],
@@ -4640,6 +4685,7 @@
     "InfrastClueSelfFull": {
         "algorithm": "OcrDetect",
         "text": ["已达线索上限", "无法获取新的线索", "上限", "无法"],
+        "reduceOtherTimes": ["SelectClue*3"],
         "roi": [286, 550, 366, 130],
         "next": ["CloseCluePageThenSendClue"]
     },
@@ -4736,22 +4782,25 @@
     },
     "SelectClue": {
         "action": "ClickSelf",
-        "roi": [2, 133, 418, 196],
-        "maskRange": [1, 255],
+        "roi": [99, 222, 177, 147],
+        "method": "RGBCount",
+        "colorScales": [[200, 255]],
         "maxTimes": 3,
         "exceededNext": ["CloseSendClue"],
         "next": ["ClueSelected", "SelectClue"]
     },
     "ClueSelected": {
-        "roi": [2, 133, 418, 196],
+        "roi": [361, 130, 112, 225],
         "method": "RGBCount",
         "colorScales": [
             [
-                [160, 0, 0],
-                [255, 255, 255]
+                [200, 90, 50],
+                [255, 150, 100]
             ]
         ],
         "templThreshold": 0.75,
+        "maxTimes": 3,
+        "reduceOtherTimes": ["SelectClue*3"],
         "next": [
             "ClueGiveTo1st",
             "ClueGiveTo2nd",

@@ -95,6 +95,161 @@ bool asst::BattleHelper::abandon()
     return ProcessTask(this_task(), { "RoguelikeBattleExitBegin" }).run();
 }
 
+bool asst::BattleHelper::update_deployment_(
+    std::vector<battle::DeploymentOper>& cur_opers,
+    const std::vector<battle::DeploymentOper>& old_deployment_opers,
+    const bool stop_on_unknown)
+{
+    LogTraceFunction;
+
+    // ————————————————————————————————————————————————————————————————————————————————
+    // 准备 lambda 函数
+    // ————————————————————————————————————————————————————————————————————————————————
+    // 从场上干员和已占用格子中移除冷却中的干员
+    auto remove_cooling_from_battlefield = [&](const DeploymentOper& oper) {
+        if (!oper.cooling) {
+            // 若 update_deployment 被调用得足够频繁，则离场干员被首次检测到时必然在 CD 中；此处利用了这个假设
+            // 注意：这个假设在某些极端情况下并不成立（比如生息盐酸中在食品加成下夜刀和四月的 CD 可降低为 0）
+            // -- by Charred
+            return;
+        }
+        auto iter = m_battlefield_opers.find(oper.name);
+        if (iter == m_battlefield_opers.end()) {
+            return;
+        }
+        auto loc = iter->second;
+        m_used_tiles.erase(loc);
+        m_battlefield_opers.erase(iter);
+    };
+
+    // 设置干员名与部署位类型（近战/远程）
+    auto set_oper_name = [&](DeploymentOper& oper, const std::string& name) {
+        oper.name = name;
+        oper.location_type = BattleData.get_location_type(name);
+        oper.is_usual_location = battle::get_role_usual_location(oper.role) == oper.location_type;
+    };
+
+    // ————————————————————————————————————————————————————————————————————————————————
+    // 初始化变量
+    // ————————————————————————————————————————————————————————————————————————————————
+    m_cur_deployment_opers = std::vector<battle::DeploymentOper>();
+    m_cur_deployment_opers.reserve(cur_opers.size());
+    std::vector<DeploymentOper> unknown_opers;
+
+    // ————————————————————————————————————————————————————————————————————————————————
+    // 匹配已知干员
+    // ————————————————————————————————————————————————————————————————————————————————
+    for (auto& oper : cur_opers) {
+        BestMatcher avatar_analyzer(oper.avatar);
+        avatar_analyzer.set_method(MatchMethod::Ccoeff);
+        if (oper.cooling) {
+            Log.trace("start matching cooling", oper.index);
+            static const auto cooling_threshold =
+                Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_thresholds.front();
+            static const auto cooling_mask_range = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_ranges;
+            avatar_analyzer.set_threshold(cooling_threshold);
+            avatar_analyzer.set_mask_ranges(cooling_mask_range, true, true);
+        }
+        else {
+            static const auto threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_thresholds.front();
+            static const auto drone_threshold =
+                Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_thresholds.front();
+            avatar_analyzer.set_threshold(oper.role == Role::Drone ? drone_threshold : threshold);
+        }
+
+        bool is_analyzed = false;
+        if (!old_deployment_opers.empty()) {
+            for (const auto& old_oper :
+                 old_deployment_opers | views::filter([&](const battle::DeploymentOper& temp_oper) {
+                     return temp_oper.role == oper.role;
+                 })) {
+                avatar_analyzer.append_templ(old_oper.name, old_oper.avatar);
+            }
+            if (avatar_analyzer.analyze()) {
+                set_oper_name(oper, avatar_analyzer.get_result().templ_info.name);
+                remove_cooling_from_battlefield(oper);
+                is_analyzed = true;
+            }
+        }
+        if (!is_analyzed) {
+            // 之前的干员都没匹配上，那就把所有的干员都加进去
+            // 可能的优化: 移除之前添加的模板
+            auto& avatar_cache = AvatarCache.get_avatars(oper.role);
+            for (const auto& [name, avatar] : avatar_cache) {
+                avatar_analyzer.append_templ(name, avatar);
+            }
+            if (avatar_analyzer.analyze()) {
+                set_oper_name(oper, avatar_analyzer.get_result().templ_info.name);
+                remove_cooling_from_battlefield(oper);
+            }
+            else {
+                Log.info("unknown oper", oper.index);
+                if (stop_on_unknown && !oper.cooling) {
+                    return false;
+                }
+                unknown_opers.emplace_back(oper);
+            }
+        }
+
+        m_cur_deployment_opers.emplace_back(oper);
+
+        if (oper.cooling) {
+            Log.trace("stop matching cooling", oper.index);
+        }
+    }
+
+    // ————————————————————————————————————————————————————————————————————————————————
+    // 匹配未知非冷却干员
+    // ————————————————————————————————————————————————————————————————————————————————
+    if (ranges::count_if(unknown_opers, [](const DeploymentOper& it) { return !it.cooling; }) > 0) {
+        // 一个都没匹配上的，挨个点开来看一下
+        LogTraceScope("rec unknown opers");
+
+        cv::Mat name_image;
+        for (auto& oper : unknown_opers) {
+            LogTraceScope("rec unknown oper: " + std::to_string(oper.index));
+            if (oper.cooling) {
+                Log.info("cooling oper, skip");
+                // oper.name = "UnknownCooling_" + std::to_string(oper.index); // 为什么还要取名字啊喵
+                continue;
+            }
+
+            Rect oper_rect = oper.rect;
+            // 点完部署区的一个干员之后，他的头像会放大；其他干员的位置都被挤开了，不在原来的位置了
+            // 所以只有第一个干员可以直接点，后面干员都要重新识别一下位置
+            if (!name_image.empty()) {
+                Matcher re_matcher(name_image);
+                re_matcher.set_task_info("BattleAvatarReMatch");
+                re_matcher.set_templ(oper.avatar);
+                if (re_matcher.analyze()) {
+                    oper_rect = re_matcher.get_result().rect;
+                }
+            }
+
+            click_oper_on_deployment(oper_rect);
+
+            name_image = m_inst_helper.ctrler()->get_image();
+
+            std::string name = analyze_detail_page_oper_name(name_image);
+            // 这时候即使名字不合法也只能凑合用了，但是为空还是不行的
+            if (name.empty()) {
+                Log.error("name is empty");
+                continue;
+            }
+            set_oper_name(oper, name);
+            remove_cooling_from_battlefield(oper);
+
+            m_cur_deployment_opers[oper.index] = oper;
+            AvatarCache.set_avatar(name, oper.role, oper.avatar);
+        }
+        if (!unknown_opers.empty()) {
+            cancel_oper_selection();
+        }
+    }
+
+    return true;
+}
+
 bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, bool need_oper_cost)
 {
     LogTraceFunction;
@@ -125,93 +280,9 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
         return false;
     }
     const auto old_deployment_opers = std::move(m_cur_deployment_opers);
-    m_cur_deployment_opers = std::vector<battle::DeploymentOper>();
-    m_cur_deployment_opers.reserve(oper_result_opt->deployment.size());
 
-    // 从场上干员和已占用格子中移除冷却中的干员
-    auto remove_cooling_from_battlefield = [&](const DeploymentOper& oper) {
-        if (!oper.cooling) {
-            return;
-        }
-        auto iter = m_battlefield_opers.find(oper.name);
-        if (iter == m_battlefield_opers.end()) {
-            return;
-        }
-        auto loc = iter->second;
-        m_used_tiles.erase(loc);
-        m_battlefield_opers.erase(iter);
-    };
-
-    auto set_oper_name = [&](DeploymentOper& oper, const std::string& name) {
-        oper.name = name;
-        oper.location_type = BattleData.get_location_type(name);
-        oper.is_usual_location = battle::get_role_usual_location(oper.role) == oper.location_type;
-    };
-
-    auto& cur_opers = oper_result_opt->deployment;
-    std::vector<DeploymentOper> unknown_opers;
-
-    for (auto& oper : cur_opers) {
-        BestMatcher avatar_analyzer(oper.avatar);
-        avatar_analyzer.set_method(MatchMethod::Ccoeff);
-        if (oper.cooling) {
-            Log.trace("start matching cooling", oper.index);
-            static const auto cooling_threshold =
-                Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_thresholds.front();
-            static const auto cooling_mask_range = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_ranges;
-            avatar_analyzer.set_threshold(cooling_threshold);
-            avatar_analyzer.set_mask_ranges(cooling_mask_range, true, true);
-        }
-        else {
-            static const auto threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_thresholds.front();
-            static const auto drone_threshold =
-                Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_thresholds.front();
-            avatar_analyzer.set_threshold(oper.role == Role::Drone ? drone_threshold : threshold);
-        }
-
-        bool is_analyzed = false;
-        if (!init) {
-            for (const auto& old_oper :
-                 old_deployment_opers | views::filter([&](const battle::DeploymentOper& temp_oper) {
-                     return temp_oper.role == oper.role;
-                 })) {
-                avatar_analyzer.append_templ(old_oper.name, old_oper.avatar);
-            }
-            if (avatar_analyzer.analyze()) {
-                set_oper_name(oper, avatar_analyzer.get_result().templ_info.name);
-                remove_cooling_from_battlefield(oper);
-                is_analyzed = true;
-            }
-        }
-        if (!is_analyzed) {
-            // 之前的干员都没匹配上，那就把所有的干员都加进去
-            // 可能的优化: 移除之前添加的模板
-            auto& avatar_cache = AvatarCache.get_avatars(oper.role);
-            for (const auto& [name, avatar] : avatar_cache) {
-                avatar_analyzer.append_templ(name, avatar);
-            }
-            if (avatar_analyzer.analyze()) {
-                set_oper_name(oper, avatar_analyzer.get_result().templ_info.name);
-                remove_cooling_from_battlefield(oper);
-            }
-            else {
-                Log.info("unknown oper", oper.index);
-                unknown_opers.emplace_back(oper);
-            }
-        }
-
-        m_cur_deployment_opers.emplace_back(oper);
-
-        if (oper.cooling) {
-            Log.trace("stop matching cooling", oper.index);
-        }
-    }
-
-    if (ranges::count_if(unknown_opers, [](const DeploymentOper& it) { return !it.cooling; }) > 0 || init) {
-        // 一个都没匹配上的，挨个点开来看一下
-        LogTraceScope("rec unknown opers");
-
-        // 暂停游戏准备识别干员
+    if (!update_deployment_(oper_result_opt->deployment, old_deployment_opers, true)) {
+        // 发现未知干员，暂停游戏后再重新识别干员
         do {
             pause();
             // 在刚进入游戏的时候（画面刚刚完全亮起来的时候），点暂停是没反应的
@@ -222,54 +293,30 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
             std::this_thread::yield();
         } while (!m_inst_helper.need_exit());
 
-        if (!check_in_battle(image)) {
+        // 重新截图
+        image = m_inst_helper.ctrler()->get_image();
+
+        // 如果需要停止任务或者已经不在战斗中，则退出；否则默认之后的操作一直都在战斗中
+        if (m_inst_helper.need_exit() || !check_in_battle(image)) {
             return false;
         }
 
-        cv::Mat name_image;
-        for (auto& oper : unknown_opers) {
-            LogTraceScope("rec unknown oper: " + std::to_string(oper.index));
-            if (oper.cooling) {
-                Log.info("cooling oper, skip");
-                oper.name = "UnknownCooling_" + std::to_string(oper.index);
-                continue;
-            }
-
-            Rect oper_rect = oper.rect;
-            // 点完部署区的一个干员之后，他的头像会放大；其他干员的位置都被挤开了，不在原来的位置了
-            // 所以只有第一个干员可以直接点，后面干员都要重新识别一下位置
-            if (!name_image.empty()) {
-                Matcher re_matcher(name_image);
-                re_matcher.set_task_info("BattleAvatarReMatch");
-                re_matcher.set_templ(oper.avatar);
-                if (re_matcher.analyze()) {
-                    oper_rect = re_matcher.get_result().rect;
-                }
-            }
-
-            click_oper_on_deployment(oper_rect);
-
-            name_image = m_inst_helper.ctrler()->get_image();
-            if (!check_in_battle(name_image)) {
-                return false;
-            }
-
-            std::string name = analyze_detail_page_oper_name(name_image);
-            // 这时候即使名字不合法也只能凑合用了，但是为空还是不行的
-            if (name.empty()) {
-                Log.error("name is empty");
-                continue;
-            }
-            set_oper_name(oper, name);
-            remove_cooling_from_battlefield(oper);
-
-            m_cur_deployment_opers[oper.index] = oper;
-            AvatarCache.set_avatar(name, oper.role, oper.avatar);
+        // 重新识别
+        BattlefieldMatcher oper_analyzer2(image);
+        if (init || need_oper_cost) {
+            oper_analyzer2.set_object_of_interest({ .deployment = true, .oper_cost = true });
         }
+        else {
+            oper_analyzer2.set_object_of_interest({ .deployment = true });
+        }
+        oper_result_opt = oper_analyzer2.analyze();
+        if (!oper_result_opt) {
+            check_in_battle(image);
+            return false;
+        }
+        update_deployment_(oper_result_opt->deployment, old_deployment_opers, false);
+
         pause();
-        if (!unknown_opers.empty()) {
-            cancel_oper_selection();
-        }
 
         image = m_inst_helper.ctrler()->get_image();
     }

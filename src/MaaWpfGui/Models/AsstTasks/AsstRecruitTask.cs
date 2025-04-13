@@ -174,6 +174,6 @@ public class AsstRecruitTask : AsstBaseTask
             param["yituliu_id"] = YituliuId;
         }
 
-        return (AsstTaskType.Recruit, param);
+        return (TaskType, param);
     }
 }

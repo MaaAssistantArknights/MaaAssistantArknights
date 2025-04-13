@@ -69,6 +69,9 @@
     <!--  Settings Guide  -->
     <system:String x:Key="TaskSettings">Task Settings</system:String>
     <system:String x:Key="SettingsGuide">Settings Guide</system:String>
+    <system:String x:Key="GuideStepClarification" xml:space="preserve">Make sure ADB is enabled:
+• BlueStacks: Settings → Advanced → Android Debug Bridge → Enable
+• LDPlayer: Settings → Others → ADB debugging → Enable local connection</system:String>
     <system:String x:Key="PrevGuide">Prev</system:String>
     <system:String x:Key="NextGuide">Next</system:String>
     <system:String x:Key="DoneGuide">Done</system:String>
@@ -160,7 +163,7 @@
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">Monthly Squad Auto-Switch</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">Monthly Squad Communication</system:String>
     <system:String x:Key="RoguelikeDeepExplorationAutoIterate">Deep Investigation Auto-Switch</system:String>
-    <system:String x:Key="DeploymentWithPause" xml:space="preserve">Pause Deployment (Pause Trick) (Experimental)</system:String>
+    <system:String x:Key="DeploymentWithPause" xml:space="preserve">Pause Trick (Experimental)</system:String>
     <system:String x:Key="AdbLiteEnabled">Use ADB Lite (Experimental)</system:String>
     <system:String x:Key="KillAdbOnExit">Kill ADB On Exit</system:String>
     <system:String x:Key="DefaultSquad">Default Squad</system:String>
@@ -255,6 +258,15 @@ You can cancel this popup by clicking the Settings - About Us - Issue Reporting 
     <system:String x:Key="ShowChangelog">Changelog</system:String>
     <system:String x:Key="ResourceUpdate">Resource update</system:String>
     <system:String x:Key="UpdateSource">Update Source</system:String>
+    <system:String x:Key="UpdateSourceTip" xml:space="preserve">
+🌏 Using overseas source:
+    ● Software version: Update checks via API provided by MAA Team, automatically pulls update packages from GitHub or CN Mirrors provided by MAA Team
+    ● Resource version: Free update detection provided by MirrorChyan, manually click 「Resource update」 in settings to download from GitHub
+
+🔑 Using MirrorChyan:
+    ● Software and resources are prioritized for high-speed download via MirrorChyan
+    ● Additional automatic updates for resource version provided
+</system:String>
     <system:String x:Key="GlobalSource">Global Source</system:String>
     <system:String x:Key="ForceGithubGlobalSource">Force using GitHub</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
@@ -918,7 +930,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="ConfirmExitText">Are you sure want to exit?</system:String>
     <!--  !RootViewModel  -->
     <!--  Api  -->
-    <system:String x:Key="ApiUpdateSuccess">Stage data retrieval successful</system:String>
+    <system:String x:Key="ApiUpdateSuccess">Hot update data retrieval successful</system:String>
     <system:String x:Key="GameResourceUpdating">Game resources are being updated.</system:String>
     <system:String x:Key="GameResourceUpdatingMirrorChyan">Updating resource {0} from 「MirrorChyan」...</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">Indexing in progress</system:String>

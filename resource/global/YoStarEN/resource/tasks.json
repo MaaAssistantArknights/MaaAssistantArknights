@@ -1148,7 +1148,7 @@
     },
     "InfrastReward": {
         "fullMatch": true,
-        "text": ["Collectable", "Orders Acquired", "Trust"]
+        "text": ["Collectable", "Orders", "Acquired", "Trust"]
     },
     "ShamareThumbnail1": {
         "maskRange": [1, 255]
@@ -1625,7 +1625,7 @@
         "text": ["Reclamation", "Algorithm"]
     },
     "RecruitSupportConfirm": {
-        "text": ["Recruit support"]
+        "text": ["Recruit support", "Recruit Support"]
     },
     "RoguelikeChooseSupportBtnOcr": {
         "text": ["Select Support"]

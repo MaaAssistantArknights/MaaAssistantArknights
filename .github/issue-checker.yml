@@ -522,7 +522,7 @@ labels:
   # `incomplete`
   - name: incomplete
     content: incomplete
-    regexes: '(?:\[Uploading asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)…\]\(\))'
+    regexes: '(?:\[Uploading asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)…\]\(\))|<!-- Uploading "(log|report)[^"]*\.zip"\.\.\. -->'
     mode: add
     skip-if:
       - skip all
@@ -532,7 +532,7 @@ labels:
       - remove incomplete
   - name: complete
     content:
-    regexes: '(?:\[asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)\]\([^\)]+\))'
+    regexes: '(?:\[asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)\]\([^\)]+\))|(log|report)[^.]*.zip'
   - name: remove incomplete
     content: incomplete
     mode: remove
@@ -547,7 +547,7 @@ labels:
 
 comments:
   - name: Log upload failed
-    regexes: '\[Uploading asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)…\]\(\)'
+    regexes: '\[Uploading asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)…\]\(\)|<!-- Uploading "log[^"]*\.zip"\.\.\. -->'
     content: "你的日志没有上传成功，请重新上传。\n\n\
       Your log did not upload successfully, please re-upload it."
     mode: add

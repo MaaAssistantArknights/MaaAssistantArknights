@@ -25,7 +25,8 @@ namespace MaaWpfGui.Helper
 {
     public class ConfigurationHelper
     {
-        private static readonly string _configurationFile = Path.Combine(Environment.CurrentDirectory, "config/gui.json");
+        public const string ConfigurationFile = "config/gui.json";
+        private static readonly string _configurationFile = Path.Combine(Environment.CurrentDirectory, ConfigurationFile);
         private static readonly string _configurationBakFile = Path.Combine(Environment.CurrentDirectory, "config/gui.json.bak");
         private static readonly string _configurationErrorFile = Path.Combine(Environment.CurrentDirectory, "config/gui.error.json");
         private static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> _kvsMap;
@@ -72,17 +73,18 @@ namespace MaaWpfGui.Helper
             return defaultValue;
         }
 
-        /// <summary>
-        /// Get a configuration value
-        /// </summary>
-        /// <param name="key">The config key</param>
-        /// <param name="defaultValue">The default value to return if the key is not existed</param>
-        /// <returns>The config value</returns>
         public static int GetValue(string key, int defaultValue)
         {
             var value = GetValue(key, defaultValue.ToString());
             return int.TryParse(value, out var result) ? result : defaultValue;
         }
+
+        public static bool GetValue(string key, bool defaultValue)
+        {
+            var value = GetValue(key, defaultValue.ToString());
+            return bool.TryParse(value, out var result) ? result : defaultValue;
+        }
+
 
         public static string GetGlobalValue(string key, string defaultValue)
         {
@@ -171,12 +173,11 @@ namespace MaaWpfGui.Helper
         public static bool DeleteValue(string key)
         {
             var old = string.Empty;
-            if (_kvs.TryGetValue(key, out var kv))
+            if (_kvs.Remove(key, out var kv))
             {
                 old = kv;
             }
 
-            _kvs.Remove(key, out _);
             var result = Save();
             if (result)
             {
@@ -186,6 +187,28 @@ namespace MaaWpfGui.Helper
             else
             {
                 _logger.Warning("Failed to save configuration file when deleted {Key}", key);
+            }
+
+            return result;
+        }
+
+        public static bool DeleteGlobalValue(string key)
+        {
+            var old = string.Empty;
+            if (_globalKvs.Remove(key, out var kv))
+            {
+                old = kv;
+            }
+
+            var result = Save();
+            if (result)
+            {
+                ConfigurationUpdateEvent?.Invoke(key, old, string.Empty);
+                _logger.Debug("Global configuration {Key} has been deleted", key);
+            }
+            else
+            {
+                _logger.Warning("Failed to save global configuration file when deleted {Key}", key);
             }
 
             return result;

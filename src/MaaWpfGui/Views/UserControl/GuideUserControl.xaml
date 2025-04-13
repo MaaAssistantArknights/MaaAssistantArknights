@@ -148,6 +148,14 @@
                             TransitionMode="{Binding GuideTransitionMode}"
                             Visibility="{c:Binding 'GuideStepIndex == 2'}">
                             <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding Source={x:Static ui:SettingsViewModel.ConnectSettings}}">
+                                <controls:TextBlock
+                                    Margin="0,5"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Block.TextAlignment="Left"
+                                    Foreground="{DynamicResource InfoBrush}"
+                                    Text="{DynamicResource GuideStepClarification}"
+                                    TextWrapping="Wrap" />
                                 <CheckBox
                                     Margin="0,10"
                                     Content="{DynamicResource AutoDetectConnection}"
