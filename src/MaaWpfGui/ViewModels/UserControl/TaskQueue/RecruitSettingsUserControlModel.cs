@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
@@ -388,6 +389,14 @@ public class RecruitSettingsUserControlModel : TaskViewModel
             ConfigurationHelper.SetValue(ConfigurationKeys.ChooseLevel5Time, value.ToString());
             SetAndNotify(ref _chooseLevel5Hour, value / 60, nameof(ChooseLevel5Hour));
             SetAndNotify(ref _chooseLevel5Min, value % 60, nameof(ChooseLevel5Min));
+        }
+    }
+
+    public override void RefreshUI(BaseTask baseTask)
+    {
+        if (baseTask is RecruitTask)
+        {
+            Refresh();
         }
     }
 

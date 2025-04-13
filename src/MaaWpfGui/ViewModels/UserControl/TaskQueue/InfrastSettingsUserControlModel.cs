@@ -17,6 +17,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
@@ -653,6 +654,14 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         }
 
         ++CustomInfrastPlanIndex;
+    }
+
+    public override void RefreshUI(BaseTask baseTask)
+    {
+        if (baseTask is InfrastTask)
+        {
+            Refresh();
+        }
     }
 
     public override (AsstTaskType Type, JObject Params) Serialize()

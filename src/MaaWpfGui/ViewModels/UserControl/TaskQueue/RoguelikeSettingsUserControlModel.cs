@@ -691,6 +691,13 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         }
     }
 
+    public override void RefreshUI(BaseTask baseTask)
+    {
+        if (baseTask is RoguelikeTask)
+        {
+            Refresh();
+        }
+    }
     public override void ProcSubTaskMsg(AsstMsg msg, JObject details)
     {
         if (msg != AsstMsg.SubTaskExtraInfo)
