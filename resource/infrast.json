@@ -127,6 +127,7 @@
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
+                    "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05"
                 ],
                 "efficient": {
@@ -144,7 +145,8 @@
                     "独善其身",
                     "笑靥如春",
                     "金盏花诗会",
-                    "捍卫之道"
+                    "捍卫之道",
+                    "博识生手"
                 ],
                 "template": "Bskill_ctrl_cost.png"
             },
@@ -1169,6 +1171,11 @@
                 "name": ["超感"],
                 "template": "Bskill_man_spd_bd_n1.png"
             },
+            "bskill_man_spd_double": {
+                "desc": ["进驻制造站时，当与温米在同一个制造站时，贵金属类配方的生产力+15%"],
+                "name": ["“搭把手！”"],
+                "template": "Bskill_man_spd_double.png"
+            },
             "bskill_man_spd_reduce": {
                 "desc": ["进驻制造站时，生产力+30%，自身每有4点心情落差，生产力-5%"],
                 "efficient": {
@@ -1200,6 +1207,16 @@
                 ],
                 "name": ["大就是好！"],
                 "template": "Bskill_man_spd_variable31.png"
+            },
+            "bskill_man_token_spd1": {
+                "desc": ["进驻制造站时，每有1台作业平台进驻发电站，贵金属类配方的生产力+5%"],
+                "name": ["机械精通·α"],
+                "template": "Bskill_man_token_spd1.png"
+            },
+            "bskill_man_token_spd2": {
+                "desc": ["进驻制造站时，每有1台作业平台进驻发电站，贵金属类配方的生产力+10%"],
+                "name": ["机械精通·β"],
+                "template": "Bskill_man_token_spd2.png"
             }
         },
         "skillsGroup": [
@@ -2338,6 +2355,11 @@
                 "name": ["显眼的调查者"],
                 "template": "Bskill_meet_spdOwned1.png"
             },
+            "bskill_meet_spd_clue": {
+                "desc": ["进驻会客室时，每个招募位（不包含初始招募位）提升5%线索搜集速度"],
+                "name": ["广交义友"],
+                "template": "Bskill_meet_spd_clue.png"
+            },
             "bskill_meet_spd_hast1": {
                 "desc": ["进驻会客室时，线索搜集速度提升20%，此后每小时提升2%，最终达到30%"],
                 "efficient": {
@@ -2345,6 +2367,11 @@
                 },
                 "name": ["聚影"],
                 "template": "Bskill_meet_spd_hast1.png"
+            },
+            "bskill_meet_spd_notOwned_exchange": {
+                "desc": ["进驻会客室时，处于线索交流时更容易获得线索板上尚未拥有的线索"],
+                "name": ["眼观六路"],
+                "template": "Bskill_meet_spd_notOwned_exchange.png"
             },
             "bskill_meet_ursus1": {
                 "desc": ["进驻会客室时，更容易获得乌萨斯学生自治团线索（工作时长影响概率）"],
