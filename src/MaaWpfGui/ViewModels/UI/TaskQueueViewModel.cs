@@ -678,7 +678,7 @@ namespace MaaWpfGui.ViewModels.UI
                     LocalizationHelper.GetString(task),
                     task,
                     "TaskQueue.",
-                    task is not ("AutoRoguelike" or "Reclamation"));
+                    task is not ("AutoRoguelike" or "Reclamation" or "Custom"));
 
                 if (task == TaskSettingVisibilityInfo.DefaultVisibleTaskSetting)
                 {
@@ -996,6 +996,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     case "AutoRoguelike":
                     case "Reclamation":
+                    case "Custom":
                         continue;
                 }
 
@@ -1099,6 +1100,7 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         case "AutoRoguelike":
                         case "Reclamation":
+                        case "Custom":
                             item.IsChecked = false;
                             continue;
                     }
