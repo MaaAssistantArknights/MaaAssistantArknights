@@ -127,7 +127,7 @@ public class ConfigConverter
                 var mallTask = new MallTask(); // √
                 var infrastTask = new InfrastTask();
                 var recruitTask = new RecruitTask();
-                var roguelikeTask = new RoguelikeTask();
+                var roguelikeTask = new RoguelikeTask(); // √
                 var reclamationTask = new ReclamationTask(); // √
 
                 startUpTask.AccountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty);
