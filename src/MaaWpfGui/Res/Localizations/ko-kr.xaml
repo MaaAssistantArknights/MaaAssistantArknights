@@ -260,7 +260,7 @@
     <system:String x:Key="UpdateSource">업데이트 소스</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 해외 소스 사용:
-    ● 소프트웨어 버전: MAA Team이 제공하는 API로 업데이트 확인, GitHub 또는 MAA Team이 제공하는 중국 내 미러에서 자동으로 업데이트 패키지 가져옴
+    ● 소프트웨어 버전: MAA Team이 제공하는 API로 업데이트 확인, GitHub 또는 MAA Team이 제공하는 CN Mirrors에서 자동으로 업데이트 패키지 가져옴
     ● 리소스 버전: MirrorChyan이 무료 업데이트 감지 제공, 설정에서 「리소스 업데이트」 클릭하여 GitHub에서 수동 다운로드 가능
 
 🔑 MirrorChyan 사용:
