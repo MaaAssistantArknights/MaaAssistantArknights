@@ -54,9 +54,7 @@ public abstract class TaskViewModel : PropertyChangedBase
     /// 刷新UI
     /// </summary>
     /// <param name="baseTask">需要刷新的任务</param>
-    public virtual void RefreshUI(BaseTask baseTask)
-    {
-    }
+    public abstract void RefreshUI(BaseTask baseTask);
 
     /// <summary>
     /// 序列化MAA任务
