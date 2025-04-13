@@ -201,7 +201,19 @@ public class ConfigConverter
                 roguelikeTask.MonthlySquadCheckComms = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMonthlySquadCheckComms, false);
                 roguelikeTask.DeepExplorationAutoIterate = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDeepExplorationAutoIterate, false);
 
-                roguelikeTask.CollectibleStartAwards = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartWithSelectList, string.Empty);
+                Dictionary<string, RoguelikeCollectibleAward> dic = new()
+                {
+                    { "Roguelike@LastReward", RoguelikeCollectibleAward.HotWater },
+                    { "Roguelike@LastReward2", RoguelikeCollectibleAward.Shield },
+                    { "Roguelike@LastReward3", RoguelikeCollectibleAward.Ingot },
+                    { "Roguelike@LastReward4", RoguelikeCollectibleAward.Hope },
+                    { "Roguelike@LastRewardRand", RoguelikeCollectibleAward.Random },
+                    { "Mizuki@Roguelike@LastReward5", RoguelikeCollectibleAward.Key },
+                    { "Mizuki@Roguelike@LastReward6", RoguelikeCollectibleAward.Dice },
+                    { "Sarkaz@Roguelike@LastReward5", RoguelikeCollectibleAward.Idea },
+                };
+                roguelikeTask.CollectibleStartAwards = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartWithSelectList, string.Empty)
+                    .Split(' ').Select(v => dic.TryGetValue(v, out var @out) ? @out : 0).Aggregate((a, b) => a | b);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeTheme);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeDifficulty);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeMode);
