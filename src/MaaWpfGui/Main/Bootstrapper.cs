@@ -55,6 +55,8 @@ namespace MaaWpfGui.Main
 
         private static Mutex _mutex;
         private static bool _hasMutex;
+        public const string LogFilename = "debug/gui.log";
+        public const string LogBakFilename = "debug/gui.bak.log";
 
         /// <inheritdoc/>
         /// <remarks>初始化些啥自己加。</remarks>
@@ -66,8 +68,6 @@ namespace MaaWpfGui.Main
                 Directory.CreateDirectory("debug");
             }
 
-            const string LogFilename = "debug/gui.log";
-            const string LogBakFilename = "debug/gui.bak.log";
             if (File.Exists(LogFilename) && new FileInfo(LogFilename).Length > 4 * 1024 * 1024)
             {
                 if (File.Exists(LogBakFilename))

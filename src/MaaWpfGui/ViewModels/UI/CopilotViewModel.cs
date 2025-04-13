@@ -1003,7 +1003,13 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            stageName ??= navigateName;
+            navigateName = string.IsNullOrEmpty(navigateName) ? stageName : navigateName;
+            if (stageName != navigateName)
+            {
+                stageName = navigateName;
+                AddLog("stageName NOT equal with navigateName, using navigateName", UiLogColor.Warning, showTime: false);
+            }
+
             var fileName = !string.IsNullOrEmpty(stageName!) ? stageName : DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
             var cachePath = $"{CopilotJsonDir}/{fileName}.json";
             await _semaphore.WaitAsync();
@@ -1024,7 +1030,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             catch
             {
-                _logger.Error("Could not save copilot task to file: " + cachePath);
+                AddLog("Could not save copilot task to file: " + cachePath, UiLogColor.Error, showTime: false);
                 _semaphore.Release();
                 return false;
             }
@@ -1319,6 +1325,7 @@ namespace MaaWpfGui.ViewModels.UI
             var list = CopilotItemViewModels.Where(i => i.IsChecked);
             if (list.Any(i => string.IsNullOrEmpty(i.Name.Trim())))
             {
+                AddLog("copilot tasks with empty name", UiLogColor.Error, showTime: false);
                 return false;
             }
 
@@ -1326,6 +1333,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (!File.Exists(path))
                 {
+                    AddLog("could not find copilot file:" + path, UiLogColor.Error, showTime: false);
                     return null;
                 }
 

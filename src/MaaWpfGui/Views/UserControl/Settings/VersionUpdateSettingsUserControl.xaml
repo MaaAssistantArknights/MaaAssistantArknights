@@ -6,12 +6,10 @@
     xmlns:constants="clr-namespace:MaaWpfGui.Constants"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type viewModels:VersionUpdateSettingsUserControlModel}}"
@@ -20,7 +18,6 @@
     mc:Ignorable="d">
     <StackPanel>
         <controls:TextBlock
-            Grid.Row="0"
             HorizontalAlignment="Center"
             FontWeight="Bold"
             Text="{DynamicResource GlobalConfigTip}"
@@ -28,6 +25,10 @@
             Visibility="{c:Binding 'ConfigurationList.Count > 1',
                                    Source={x:Static helper:Instances.SettingsViewModel}}" />
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
@@ -39,74 +40,107 @@
                 VerticalAlignment="Center">
                 <StackPanel VerticalAlignment="Center">
                     <CheckBox
-                        Margin="10"
+                        Margin="8"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Content="{DynamicResource StartupUpdateCheck}"
                         IsChecked="{Binding StartupUpdateCheck}"
                         IsEnabled="False" />
                     <CheckBox
-                        Margin="10"
+                        Margin="8"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Content="{DynamicResource UpdateAutoCheck}"
                         IsChecked="{Binding UpdateAutoCheck}" />
                     <CheckBox
-                        Margin="10"
+                        Margin="8"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Content="{DynamicResource UpdateAutoDownload}"
                         IsChecked="{Binding AutoDownloadUpdatePackage}" />
                     <CheckBox
-                        Margin="10"
+                        Margin="8"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Content="{DynamicResource AutoInstallUpdatePackage}"
                         IsChecked="{Binding AutoInstallUpdatePackage}" />
                     <CheckBox
-                        Margin="10"
+                        Margin="8"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Content="{DynamicResource ForceGithubGlobalSource}"
                         IsChecked="{Binding ForceGithubGlobalSource}"
                         Visibility="{c:Binding 'UpdateSource == &quot;Github&quot;'}" />
-                    <hc:ComboBox
-                        Width="150"
-                        Margin="10"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        hc:TitleElement.Title="{DynamicResource UpdateCheck}"
-                        DisplayMemberPath="Display"
-                        ItemsSource="{Binding VersionTypeList}"
-                        SelectedValue="{Binding VersionType}"
-                        SelectedValuePath="Value" />
-                    <StackPanel>
+                    <StackPanel Margin="8">
+                        <controls:TextBlock
+                            Margin="8,0,0,5"
+                            HorizontalAlignment="Left"
+                            Text="{DynamicResource UpdateCheck}" />
                         <hc:ComboBox
                             Width="150"
-                            Margin="10"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            hc:TitleElement.Title="{DynamicResource UpdateSource}"
                             DisplayMemberPath="Display"
-                            ItemsSource="{Binding UpdateSourceList}"
-                            SelectedValue="{Binding UpdateSource}"
+                            ItemsSource="{Binding VersionTypeList}"
+                            SelectedValue="{Binding VersionType}"
                             SelectedValuePath="Value" />
-                        <hc:PasswordBox
-                            Width="150"
-                            Margin="10"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            hc:InfoElement.Placeholder="{DynamicResource MirrorChyanCdkPlaceholder}"
-                            IsEnabled="{c:Binding 'UpdateSource == &quot;MirrorChyan&quot;'}"
-                            IsSafeEnabled="False"
-                            ShowEyeButton="True"
-                            UnsafePassword="{Binding MirrorChyanCdk}">
-                            <hc:TitleElement.Title>
-                                <MultiBinding StringFormat="{}{0} CDK">
-                                    <Binding Source="{StaticResource MirrorChyan}" />
-                                </MultiBinding>
-                            </hc:TitleElement.Title>
-                        </hc:PasswordBox>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <StackPanel Margin="8">
+                            <StackPanel Orientation="Horizontal">
+                                <controls:TextBlock
+                                    Margin="8,0,0,5"
+                                    HorizontalAlignment="Left"
+                                    Text="{DynamicResource UpdateSource}" />
+                                <Border
+                                    Width="15"
+                                    Height="15"
+                                    Margin="5,0,0,2.5"
+                                    Background="{DynamicResource TransparentRegionBrush}"
+                                    Style="{StaticResource BorderCircular}"
+                                    ToolTipService.InitialShowDelay="0">
+                                    <Border.ToolTip>
+                                        <TextBlock
+                                            MaxWidth="350"
+                                            Text="{DynamicResource UpdateSourceTip}"
+                                            TextWrapping="Wrap" />
+                                    </Border.ToolTip>
+                                    <TextBlock
+                                        FontSize="10"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Text="?" />
+                                </Border>
+
+                            </StackPanel>
+                            <hc:ComboBox
+                                Width="150"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                DisplayMemberPath="Display"
+                                ItemsSource="{Binding UpdateSourceList}"
+                                SelectedValue="{Binding UpdateSource}"
+                                SelectedValuePath="Value" />
+                        </StackPanel>
+                        <StackPanel Margin="8">
+                            <controls:TextBlock Margin="8,0,0,5" HorizontalAlignment="Left">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} CDK">
+                                        <Binding Source="{StaticResource MirrorChyan}" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </controls:TextBlock>
+                            <hc:PasswordBox
+                                Width="150"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                hc:InfoElement.Placeholder="{DynamicResource MirrorChyanCdkPlaceholder}"
+                                IsEnabled="{c:Binding 'UpdateSource == &quot;MirrorChyan&quot;'}"
+                                IsSafeEnabled="False"
+                                ShowEyeButton="True"
+                                UnsafePassword="{Binding MirrorChyanCdk}" />
+                        </StackPanel>
                         <controls:TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Hyperlink
                                 Cursor="Hand"
@@ -136,6 +170,7 @@
                         Grid.Row="0"
                         Width="130"
                         HorizontalContentAlignment="Center"
+                        Background="Transparent"
                         BorderThickness="0"
                         DisplayMemberPath="Display"
                         ItemsSource="{Binding ProxyTypeList}"

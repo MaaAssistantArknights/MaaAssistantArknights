@@ -344,12 +344,12 @@
         "usage": "对工艺要求极高的现代科技产物。用于高级强化场合。"
     },
     "30165": {
-        "name": "重相位对映体",
-        "icon": "30165.png",
-        "usage": "光功能材料领域最尖端技术的产物。用于高级强化场合。",
+        "classifyType": "MATERIAL",
         "description": "仍处于试验阶段的新材料，不仅能够承受高功率的能量输出，甚至对源石技艺展现出了自适应的特性。这或许预示了光学防护材料的发展方向。",
+        "icon": "30165.png",
+        "name": "重相位对映体",
         "sortId": 100001,
-        "classifyType": "MATERIAL"
+        "usage": "光功能材料领域最尖端技术的产物。用于高级强化场合。"
     },
     "31013": {
         "classifyType": "MATERIAL",
@@ -488,20 +488,20 @@
         "usage": "由多种优良材料预加工而成的工业用材。可用于多种强化场合。"
     },
     "31093": {
-        "name": "类凝结核",
-        "icon": "31093.png",
-        "usage": "在实验室中人工合成的微粒，拥有良好的吸附性能。可用于多种强化场合。",
+        "classifyType": "MATERIAL",
         "description": "能够吸附多种物质的微粒，最初仅被当作廉价吸附剂使用，后因其通用性和易于实现的凝结条件而被应用于尖端领域。",
+        "icon": "31093.png",
+        "name": "类凝结核",
         "sortId": 100008,
-        "classifyType": "MATERIAL"
+        "usage": "在实验室中人工合成的微粒，拥有良好的吸附性能。可用于多种强化场合。"
     },
     "31094": {
-        "name": "手性屈光体",
-        "icon": "31094.png",
-        "usage": "具备良好光学性能和物理性能的特种光学材料。用于高级强化场合。",
+        "classifyType": "MATERIAL",
         "description": "拥有良好的物理强度，源石技艺耐受力也相当惊人的光学材料，目前可用于光学防护领域。其他用途仍在测试当中。",
+        "icon": "31094.png",
+        "name": "手性屈光体",
         "sortId": 100007,
-        "classifyType": "MATERIAL"
+        "usage": "具备良好光学性能和物理性能的特种光学材料。用于高级强化场合。"
     },
     "3112": {
         "classifyType": "NORMAL",
@@ -1191,6 +1191,22 @@
         "sortId": 40003,
         "usage": "罗德岛人事部特别批发的许可书，在特殊的时间点上招揽特殊的人才，一次可招聘十位干员。"
     },
+    "SINGLE_60_0_1_GACHA": {
+        "classifyType": "NORMAL",
+        "description": "为了确保人才扩展而应博士要求准备的应急手段，该批寻访条目具有一定的针对性与时效性，以及，小小的风险。",
+        "icon": "SINGLE_60_0_1_GACHA.png",
+        "name": "指令重构寻访凭证",
+        "sortId": 40003,
+        "usage": "罗德岛人事部特别批发的许可书，在特殊的时间点上招揽特殊的人才，一次可招聘一位干员。"
+    },
+    "SINGLE_60_0_1_GACHA_10": {
+        "classifyType": "NORMAL",
+        "description": "为了确保人才扩展而应博士要求准备的应急手段，该批寻访条目具有一定的针对性与时效性，以及，小小的风险。",
+        "icon": "SINGLE_60_0_1_GACHA_10.png",
+        "name": "指令重构十连寻访凭证",
+        "sortId": 40003,
+        "usage": "罗德岛人事部特别批发的许可书，在特殊的时间点上招揽特殊的人才，一次可招聘十位干员。"
+    },
     "SOCIAL_PT": {
         "classifyType": "NONE",
         "description": "信用维系着各个群体间的关系，也是社会稳定的象征，有时候甚至比金钱还有用哦，请好好珍惜。",
@@ -1591,14 +1607,6 @@
         "sortId": -10000,
         "usage": "罗德岛医疗部研制出的新型药剂，能够在天灾和战场等活性化的源石环境里起到暂时抑制矿石病恶化的作用。本药品会给身体带来极大负担，请谨慎使用。"
     },
-    "act2mainss_token": {
-        "name": "“勇气”胸章",
-        "icon": "act2mainss_token.png",
-        "usage": "Raidian制作的胸章型通讯器。回收它们可以减少通讯网络受到的信号干扰，还可以在可露希尔那里兑换各类物资。",
-        "description": "为了安慰那些因即将离舰而惶恐不安的孩子，Raidian制作了大批具有寻呼和留言功能的胸章，鼓励他们保持微笑，也保持联系。不少干员听说后也向Raidian求取了胸章，他们录下了祝福与鼓励的话语，撤离前将胸章藏在了各个角落。",
-        "sortId": -10000,
-        "classifyType": "NONE"
-    },
     "act1multi_token_cap": {
         "classifyType": "NONE",
         "description": "罗德岛促融共竞的参赛认证。“留在赛场上的是汗水，从赛场带走的是友谊。”",
@@ -1774,6 +1782,14 @@
         "name": "“战略家”点数",
         "sortId": -10000,
         "usage": "用于兑换相应的阶段性活动奖励。"
+    },
+    "act2mainss_token": {
+        "classifyType": "NONE",
+        "description": "为了安慰那些因即将离舰而惶恐不安的孩子，Raidian制作了大批具有寻呼和留言功能的胸章，鼓励他们保持微笑，也保持联系。不少干员听说后也向Raidian求取了胸章，他们录下了祝福与鼓励的话语，撤离前将胸章藏在了各个角落。",
+        "icon": "act2mainss_token.png",
+        "name": "“勇气”胸章",
+        "sortId": -10000,
+        "usage": "Raidian制作的胸章型通讯器。回收它们可以减少通讯网络受到的信号干扰，还可以在可露希尔那里兑换各类物资。"
     },
     "act2vmulti_token_cap": {
         "classifyType": "NONE",
@@ -2166,6 +2182,14 @@
         "name": "福运鼓鼓礼袋",
         "sortId": -10000,
         "usage": "获得“合作限定十连寻访凭证”和头像“苍暮印象”。“合作限定十连寻访凭证”过期时间：2023/03/21 03:59"
+    },
+    "itempack_main_1": {
+        "classifyType": "NONE",
+        "description": "配发理智小样的材料补给箱，在恢复理智的同时能获得一种随机材料。",
+        "icon": "itempack_main_1.png",
+        "name": "罗德岛补给箱",
+        "sortId": -10000,
+        "usage": "装有一个应急理智小样与一份罗德岛物资补给。"
     },
     "itempack_mod_10": {
         "classifyType": "CONSUME",

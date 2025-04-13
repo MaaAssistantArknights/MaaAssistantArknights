@@ -1,4 +1,17 @@
-                                                                                                                                  
+---
+home: true
+pageInfo: false
+breadcrumb: false
+navbar: false
+sidebar: false
+index: false
+lastUpdated: false
+editLink: false
+contributors: false
+prev: false
+next: false
+---
+
                                                                                                                                   
                                                      !:           .7:~!.                                                          
                           :.                       :?55          ?5~::~J?:                                                        
@@ -47,7 +60,6 @@
                                                                                                                                   
                                                                                                                                   
                                                                                                                                   
-                                                                                                                                  
                   .            .         .            .                                         .                                 
              7^.::?7:^: :7?:...P:.  :~~~7P~~~^. :Y ^~~G!~~. :J?:^.?^^5  !! Y^ :Y.. ~~~^~Y!^~~: :P. :^^^JY .7~!.!~::5.             
             .:. ~^  7?  :YJ.77.P:~?  Y~~7P~~J: ~7J^~!!P7!!.::JY?J:Y ?^ ^G..5~:P^!J    .YJ      Y7^Y   Y^  :? 5 Y.  P              
@@ -57,6 +69,6 @@
                                        .                                                                                          
                                                                                                                                   
                                                                                                                                   
-                                                                                                                                   
+                                                                                                                                  
 
 <!-- markdownlint-disable-file -->

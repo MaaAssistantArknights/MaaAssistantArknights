@@ -1,46 +1,26 @@
-## v5.15.0
+## v5.15.1
 
 ### Highlight
 
-本次更新我们带来了全新的导航系统与视觉体验升级，并持续优化错误反馈机制，让牛牛更聪明更贴心！
+本次更新我们并带来多项体验优化与问题修复。
 
-#### 主线导航系统更新
+#### 基建排班
 
-国服新版 UI 导航系统已实装适配（注：第 15 章与 OF-1 因关卡结构特殊暂未支持导航），例如 `1-7`、`R8-11`、`12-17 磨难` 均支持自动导航到关卡。
+更新了243/153排班表（20250412修订版）
 
-现在牛牛能更精准识别主界面入口逻辑，自动作战时遇到路径变动也不会迷路啦~
+#### 运行稳定性提升
 
-#### 随附资源更新
+- 修复雷电模拟器重连误判问题
+- 优化网络波动时的操作容错（特别是碎石/吃药场景）
+- 高延迟下进入战斗判断错误
+- 线索选择逻辑更加智能精准
 
-本次版本随附游戏资源更新至【离解复合#0408】，新主线关卡现已支持自动战斗，欢迎到 <https://prts.plus/> 查看大佬们的作业（注：作业站暂不支持筛选第 15 章关卡）
+#### 细节体验优化
 
-#### 视觉体验升级
-
-全新【背景设置】面板现已加入豪华套餐！你可以：
-
-- 自定义壁纸并实时显示效果
-- 调节背景透明度打造朦胧美
-- 开启高斯模糊获得毛玻璃质感
-
-（悄悄说：设置路径在【设置】→【背景设置】，快去试试吧！）
-
-#### 信息反馈优化
-
-新增 MirrorChyan 镜像服务的错误代码提示，至少能让你知道锅是谁背。
-
-SMTP 邮件通知也已支持 HTML 彩色标记，可以在邮件里显示和 MAA 中一样的彩色信息咯~
-
-#### 问题反馈优化
-
-在 MAA 的【设置】界面，新增了“问题反馈”一节，用户可以使用【生成日志压缩包】按钮一键打包日志，然后使用【打开日志文件夹】按钮找到日志压缩包。
-
-这样，大家在反馈问题时应该都会记得带上日志吧，**应该都会吧（盯）**
-
-#### 关键问题修复
-
-- 修复了第15章自动战斗失效的小 bug
-- 会客室现在可以愉快地赠送线索啦，如果牛牛翻了 10 页，或是翻到最后一页，也找不到缺对应线索的好友，就会把线索送给当前页第一个好友
-- 肉鸽难度选择界面显示逻辑更加清晰直观
+- 热更新资源改为异步加载，启动速度更快
+- 日志包现在会一并打包 GUI 配置，问题排查更全面
+- 官网 mirror酱 下载链接现在会根据操作系统自动生成
+- 背景图默认路径改为相对路径，迁移配置更方便
 
 ----
 
@@ -48,97 +28,66 @@ SMTP 邮件通知也已支持 HTML 彩色标记，可以在邮件里显示和 MA
 
 ### 新增 | New
 
-* 支持新 UI 主线导航 (#12278) @ABA2396
-* 添加控件半透明背景色，新增自定义背景 (#12204) @ABA2396 @status102
-* 新增 MirrorChyan ErrorCode 提示 (#12202) @ABA2396
-* 调整下载来源提示 (#12156) @MistEO
-* Mac 任务列表支持多个开始唤醒，以实现多账号 (#12144) @hguandl
-* Telegram Topic notification (#12188) @Constrat
-* YoStarEN Sarkaz theme + JP and KR template optimization @Constrat
-* SSS#6 for EN (#12168) @dragonheart107
-* EN Siege Alter gamedata @Constrat
-* YostarEN/JP/KR GO navigation @Constrat @Manicsteiner @HX3N
+* 新增更新源 tooltip @ABA2396
+* CustomTasks 支持逗号、分号切割任务列表 (#12342) @ABA2396 @Constrat @status102
+* 配置增加全局键移除 & bool自动转换 @status102
+* 更新 243/153 极限效率一天四换排班表（20250412 修订） (#12337) @bodayw
+* 支持新 UI 的 OF-1 导航 (#12335) @Szzrain @pre-commit-ci[bot] @ABA2396
+* Guide enable ADB (#12329) @Constrat @HX3N @ABA2396 @Rbqwow
+* 自动战斗15章突袭难度适配 @status102
+* mirror酱链接按照操作系统自动生成 @ChingCdesu
+* 日志包一并打包gui配置文件 (#12310) @status102 @pre-commit-ci[bot]
 
 ### 改进 | Improved
 
-* 资源更新换一个解压目录 (#12153) @MistEO
-* 自动战斗开始前仅移除相似的召唤物头像缓存 @status102
-* 优化肉鸽难度选择显示 @ABA2396
+* 优化自定义任务显示 @ABA2396
+* 优化线索选择逻辑 @ABA2396
+* wpf自动战斗增加启动失败时的log @status102
+* 移除无效调用 @status102
+* 使用 MirrorChyan 进行软件更新时未处理 errorCode 显示 @ABA2396
+* 背景图默认值修改为相对路径 @status102
+* 热更新资源改为异步加载避免启动阻塞 @ABA2396
 
 ### 修复 | Fix
 
-* 自动战斗-战斗列表 突袭难度切换失效 @status102
-* wpf 外服资源加载错误 @status102
-* 修复资源/肉鸽导航 (#12266) @ABA2396
-* 保全开始部署 点击过快导致点击无效 (#12185) @Daydreamer114
-* 自动战斗在开启战斗列表时导入作业后，关闭战斗列表开始任务时作业使用错误 @status102
-* 15章 自动战斗 @ABA2396
-* 钼铅识别错误 @ABA2396
-* 线索翻页限制 10 次，超出次数或未识别到下一页强制给当页第一个好友送线索 @ABA2396
-* mac下选择难度 999 导致卡死 (#12235) @Alan-Charred
-* 修复宿舍填充干员时不经过检测盲点首位干员的问题 (#12234) @Alan-Charred
-* 繁中服生息演算無法讀檔 (#12230) @momomochi987
-* CheckLevelMax ocr target "-" -> digits (#12223) @BxFS
-* YostarKR lower StartToVisit templThreshold (#12193) @HX3N
-* SSS#6 directional EC and branches @Constrat
-* 繁中服_生息演算組裝道具後卡住 (#12182) @momomochi987 @Daydreamer114
+* Connection lost 提前返回 false @ABA2396
+* 无法选中线索 @ABA2396
+* 雷电模拟器重新连接时误认为断开连接 @ABA2396
+* 自动战斗网络请求返回失败时，错误提示异常 @status102
+* FightSeries for global (#12332) @Manicsteiner
+* 非自定义关卡名情况下，未能移除不显示的关卡 @status102
+* 点击开始行动三秒未进入备战界面导致二次点击 @ABA2396
+* trade post rewards post base update @Constrat
+* YostarKR InfrastReward ocr fix (#12317) @HX3N
+* Wpf一键长草任务栏设置按钮绑定报错 @status102
+* new Support GUI for EN fix #12285#issuecomment-2788133440 @Constrat
+* 修复手动关闭模拟器导致的连接状态不一致问题 @ABA2396
+* 连战次数 @ABA2396
+* update deployment (#11959) @Alan-Charred @ABA2396
+* Wpf刷理智连战次数UI为空 @status102
+* 刷理智碎石时网络卡顿造成重复点击 @status102
+* task type @status102
+* 修复刷理智错误识别突袭关3星结算 @status102
+* 主线关卡未选择默认进度时无法导航 @ABA2396
+* 吃药/碎石 时网络波动延迟导致二次确认时点到取消代理 @ABA2396
+* 15 章战斗列表 @ABA2396
 
 ### 文档 | Docs
 
-* 添加ci文档 (#11924) @SherkeyXD @Rbqwow
-* 调整新手上路步骤顺序 (#12228) @Rbqwow
-* add space @MistEO
+* fix punctuation for en-us @Constrat
 
 ### 其他 | Other
 
-* handle leak @dantmnf
-* 开始作战 @ABA2396
-* 自动更新 @hguandl
-* 控制中枢模板mask (#12177) @Daydreamer114
-* warning SA1413 in Telegram notifications @Constrat
-* xaml requires &#160; @Constrat
-* update version.json on Arknights-Tile-Pos changes fix 43c672df541bae77b484c2faeb23c4522230e3ca @Constrat
-* roguelike already left encounter check and return from map screen (#12088) @BxFS
-* prettier formatting @Constrat
-* revert infrast.json temporary @MistEO
-* 外部通知 SMTP 与 Qmsg 输入框样式错误 @ABA2396
-* 落了个 ResetRecruitVariables @ABA2396
-* 其他地图数据修复 @status102
-* 主线 15 章地图修复 @status102
-* 反转右键效果时更新 tooltip 悬浮提示 @ABA2396
-* check nightly version with mirrorchyan (#12173) @MistEO
-* overseas (JP & KR) data (#12274) @Constrat
-* 添加自定义任务，仅在 debug 模式下可见入口 @ABA2396
-* 调整主任务勾选框显示 (#12283) @ABA2396
-* Wpf CustomTask 序列化 (#12264) @status102
-* 繁中服「生路」活動導航 (#12224) @momomochi987
-* gpu 选项禁用滚轮切换 @ABA2396
-* 移除过时的重连代码 @ABA2396
-* 繁中服_聲浪安保派駐_定向導能元件 (#12174) @momomochi987
-* Wpf肉鸽任务序列化 (#12124) @status102
-* 添加一个临时定时 (#12243) @ABA2396
-* 将密码框样式独立出来 @ABA2396
-* 提前适应新 UI 的资源关卡和肉鸽图标 @ABA2396
-* 给反转 CheckBox 加个样式 @ABA2396
-* 添加背景模糊半径滑块 @ABA2396
-* 添加反转主任务右键单击效果勾选项 @ABA2396
-* 调整背景模糊默认半径 @ABA2396
-* 可修改 gui.json 自定义 Background 模糊半径 @ABA2396
-* YostarKR ocr and UI updates (#12284) @HX3N
-* YostarJP clue and GUI updates (#12276) @Manicsteiner
-* fix version time @MistEO
-* update en-bug-report template @Daydreamer114
-* YostarKR Sarkaz Theme (#12220) @HX3N
-* YostarJP Sarkaz Theme (#12216) @Manicsteiner
-* YostarJP 琳琅诗怀雅 ocr fix (#12219) @Manicsteiner
-* update wording about mirrorchyan (#12208) @MistEO
-* add delay pre UnlockClues @Constrat
-* YostarKR SSS#6 BuffChoose (#12191) @HX3N
-* update issue_template to remove new lines for EN @Constrat
-* tweak SSS files for global @Constrat
-* tweaked SSS copilot operators output @Constrat
-* add space after `:` @Constrat
-* YostarJP EnterInfrastDelicious (#12176) @Manicsteiner
-* set output to UTF_8 for ResourceUpdater @Constrat
-* manual update version @MistEO
-* bump maa-cli to 0.5.4 (#12091) @wangl-cc
+* 修改描述 @ABA2396
+* 支持实体机检测 @ABA2396
+* miss brackets @ABA2396
+* FightSeries use the same ROI for all clients @ABA2396
+* 给剩余理智加个兜底 @ABA2396
+* manual stages resources @Constrat
+* file header & warning @status102
+* YostarKR InfrastReward ocr replace operator to trust @HX3N
+* 顺序检查 @ABA2396
+* 弹窗加个文件名 @ABA2396
+* 自动战斗 战斗列表 关卡导航名允许覆盖 @status102
+* 调整热更提示 @ABA2396
+* Wpf刷理智任务、基建任务序列化 (#12281) @status102

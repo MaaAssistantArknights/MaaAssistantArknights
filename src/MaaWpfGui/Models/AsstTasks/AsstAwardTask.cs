@@ -61,5 +61,5 @@ public class AsstAwardTask : AsstBaseTask
     [JsonProperty("specialaccess")]
     public bool SpecialAccess { get; set; }
 
-    public override (AsstTaskType TaskType, JObject Params) Serialize() => (AsstTaskType.Award, JObject.FromObject(this));
+    public override (AsstTaskType TaskType, JObject Params) Serialize() => (TaskType, JObject.FromObject(this));
 }

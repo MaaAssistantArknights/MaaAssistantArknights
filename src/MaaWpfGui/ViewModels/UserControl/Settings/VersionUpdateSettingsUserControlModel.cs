@@ -276,8 +276,11 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
             if (value.Length == 24)
             {
-                _ = Instances.VersionUpdateViewModel.VersionUpdateAndAskToRestartAsync();
-                _ = ResourceUpdater.ResourceUpdateAndReloadAsync();
+                Task.Run(async () =>
+                {
+                    await Instances.VersionUpdateViewModel.VersionUpdateAndAskToRestartAsync();
+                    await ResourceUpdater.ResourceUpdateAndReloadAsync();
+                });
             }
 
             value = SimpleEncryptionHelper.Encrypt(value);

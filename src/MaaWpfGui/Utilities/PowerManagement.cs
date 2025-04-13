@@ -10,11 +10,11 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-
 using System;
 using System.Runtime.InteropServices;
 using Serilog;
 
+#pragma warning disable SA1310 // Field names should not contain underscore
 namespace MaaWpfGui.Utilities
 {
     public class PowerManagement

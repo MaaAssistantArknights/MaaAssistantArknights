@@ -644,35 +644,35 @@ namespace MaaWpfGui.Services.RemoteControl
                     switch (item)
                     {
                         case "Base":
-                            taskRet &= InvokeInstanceFunction<bool>(Instances.TaskQueueViewModel, "AppendInfrast");
+                            taskRet &= Instances.TaskQueueViewModel.AppendInfrast();
                             break;
 
                         case "WakeUp":
-                            taskRet &= InvokeStaticFunction<bool>(Instances.TaskQueueViewModel.GetType(), "AppendStart");
+                            taskRet &= TaskQueueViewModel.AppendStart();
                             break;
 
                         case "Combat":
-                            taskRet &= InvokeInstanceFunction<bool>(Instances.TaskQueueViewModel, "AppendFight");
+                            taskRet &= Instances.TaskQueueViewModel.AppendFight();
                             break;
 
                         case "Recruiting":
-                            taskRet &= InvokeStaticFunction<bool>(Instances.TaskQueueViewModel.GetType(), "AppendRecruit");
+                            taskRet &= TaskQueueViewModel.AppendRecruit();
                             break;
 
                         case "Mall":
-                            taskRet &= InvokeInstanceFunction<bool>(Instances.TaskQueueViewModel, "AppendMall");
+                            taskRet &= TaskQueueViewModel.AppendMall();
                             break;
 
                         case "Mission":
-                            taskRet &= InvokeStaticFunction<bool>(Instances.TaskQueueViewModel.GetType(), "AppendAward");
+                            taskRet &= TaskQueueViewModel.AppendAward();
                             break;
 
                         case "AutoRoguelike":
-                            taskRet &= InvokeStaticFunction<bool>(Instances.TaskQueueViewModel.GetType(), "AppendRoguelike");
+                            taskRet &= TaskQueueViewModel.AppendRoguelike();
                             break;
 
                         case "Reclamation":
-                            taskRet &= InvokeStaticFunction<bool>(Instances.TaskQueueViewModel.GetType(), "AppendReclamation");
+                            taskRet &= TaskQueueViewModel.AppendReclamation();
                             break;
 
                         default:

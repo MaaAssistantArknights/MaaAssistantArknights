@@ -27,38 +27,36 @@ namespace MaaWpfGui.Helper
     {
         private static readonly ILogger _logger = Log.ForContext<WinAdapter>();
 
-        private static readonly Dictionary<string, string> _emulatorIdDict = new Dictionary<string, string>
+        private static readonly Dictionary<string, string> _emulatorIdDict = new()
         {
-            { "HD-Player",  "BlueStacks" },
+            { "HD-Player", "BlueStacks" },
             { "dnplayer", "LDPlayer" },
             { "Nox", "Nox" },
             { "MuMuPlayer", "MuMuEmulator12" }, // MuMu 12
             { "MEmu", "XYAZ" },
         };
 
-        private static readonly Dictionary<string, List<string>> _adbRelativePathDict = new Dictionary<string, List<string>>
+        private static readonly Dictionary<string, List<string>> _adbRelativePathDict = new()
         {
             {
-                "BlueStacks", new List<string>
-                {
+                "BlueStacks", [
                     @".\HD-Adb.exe",
-                    @".\Engine\ProgramFiles\HD-Adb.exe",
-                }
+                    @".\Engine\ProgramFiles\HD-Adb.exe"
+                ]
             },
-            { "LDPlayer", new List<string> { @".\adb.exe" } },
-            { "Nox", new List<string> { @".\nox_adb.exe" } },
+            { "LDPlayer", [@".\adb.exe"] },
+            { "Nox", [@".\nox_adb.exe"] },
             {
-                "MuMuEmulator12",  new List<string>
-                {
+                "MuMuEmulator12", [
                     @"..\vmonitor\bin\adb_server.exe",
                     @"..\..\MuMu\emulator\nemu\vmonitor\bin\adb_server.exe",
-                    @".\adb.exe",
-                }
+                    @".\adb.exe"
+                ]
             },
-            { "XYAZ",  new List<string> { @".\adb.exe" } },
+            { "XYAZ", [@".\adb.exe"] },
         };
 
-        private readonly Dictionary<string, string> _adbAbsolutePathDict = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _adbAbsolutePathDict = new();
 
         /// <summary>
         /// Refreshes emulator information.
@@ -70,12 +68,11 @@ namespace MaaWpfGui.Helper
             var emulators = new List<string>();
             foreach (var process in allProcess)
             {
-                if (!_emulatorIdDict.ContainsKey(process.ProcessName))
+                if (!_emulatorIdDict.TryGetValue(process.ProcessName, out var emulatorId))
                 {
                     continue;
                 }
 
-                var emulatorId = _emulatorIdDict[process.ProcessName];
                 emulators.Add(emulatorId);
                 var processPath = process.MainModule?.FileName;
                 foreach (string adbPath in _adbRelativePathDict[emulatorId]
@@ -96,9 +93,7 @@ namespace MaaWpfGui.Helper
         /// <returns>The ADB path of the emulator.</returns>
         public string GetAdbPathByEmulatorName(string emulatorName)
         {
-            return _adbAbsolutePathDict.Keys.Contains(emulatorName)
-                ? _adbAbsolutePathDict[emulatorName]
-                : null;
+            return _adbAbsolutePathDict.GetValueOrDefault(emulatorName);
         }
 
         /// <summary>
@@ -106,29 +101,49 @@ namespace MaaWpfGui.Helper
         /// </summary>
         /// <param name="adbPath">The ADB path.</param>
         /// <returns>The list of ADB addresses.</returns>
-        public List<string> GetAdbAddresses(string adbPath)
+        public static List<string> GetAdbAddresses(string adbPath)
+        {
+            string output = ExecuteAdbCommand(adbPath, "devices");
+            var lines = output.Split('\r', '\n');
+            return lines
+                .Where(line => !line.StartsWith("List of devices attached") &&
+                               !string.IsNullOrWhiteSpace(line) &&
+                               line.Contains("device"))
+                .Select(line => line.Split('\t')[0])
+                .ToList();
+        }
+
+        /// <summary>
+        /// Executes an ADB command.
+        /// </summary>
+        /// <param name="adbPath">adb path</param>
+        /// <param name="command">adb command</param>
+        /// <returns>output</returns>
+        public static string ExecuteAdbCommand(string adbPath, string command)
         {
             try
             {
-                using Process process = new Process();
-                process.StartInfo.FileName = adbPath;
-                process.StartInfo.Arguments = "devices";
+                var process = new Process
+                {
+                    StartInfo = new()
+                    {
+                        FileName = adbPath,
+                        Arguments = command,
+                        RedirectStandardOutput = true,
+                        UseShellExecute = false,
+                        CreateNoWindow = true,
+                    },
+                };
 
-                // 禁用操作系统外壳程序
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.CreateNoWindow = true;
-                process.StartInfo.RedirectStandardOutput = true;
                 process.Start();
-                var output = process.StandardOutput.ReadToEnd();
-                _logger.Information(adbPath + " devices | output:\n" + output);
-                var outLines = output.Split('\r', '\n');
-
-                return (from line in outLines where !line.StartsWith("List of devices attached") && line.Length != 0 && line.Contains("device") select line.Split('\t')[0]).ToList();
+                string output = process.StandardOutput.ReadToEnd();
+                process.WaitForExit();
+                return output;
             }
             catch (Exception e)
             {
                 _logger.Error(e.Message);
-                return new List<string>();
+                return string.Empty;
             }
         }
     }

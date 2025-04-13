@@ -69,6 +69,9 @@
     <!--  설정 가이드  -->
     <system:String x:Key="TaskSettings">작업 설정</system:String>
     <system:String x:Key="SettingsGuide">설정 가이드</system:String>
+    <system:String x:Key="GuideStepClarification" xml:space="preserve">ADB가 활성화되어 있는지 확인하세요:
+• BlueStacks: 설정 → 고급 기능 설정 → ADB → 활성화
+• LDPlayer: 설정 → 기타 → ADB 디버깅 → 로컬 디버깅</system:String>
     <system:String x:Key="PrevGuide">이전 단계</system:String>
     <system:String x:Key="NextGuide">다음 단계</system:String>
     <system:String x:Key="DoneGuide">완료</system:String>
@@ -255,6 +258,15 @@
     <system:String x:Key="ShowChangelog">변경 내역</system:String>
     <system:String x:Key="ResourceUpdate">리소스 업데이트</system:String>
     <system:String x:Key="UpdateSource">업데이트 소스</system:String>
+    <system:String x:Key="UpdateSourceTip" xml:space="preserve">
+🌏 해외 소스 사용:
+    ● 소프트웨어 버전: MAA Team이 제공하는 API로 업데이트 확인, GitHub 또는 MAA Team이 제공하는 CN Mirrors에서 자동으로 업데이트 패키지 가져옴
+    ● 리소스 버전: MirrorChyan이 무료 업데이트 감지 제공, 설정에서 「리소스 업데이트」 클릭하여 GitHub에서 수동 다운로드 가능
+
+🔑 MirrorChyan 사용:
+    ● 소프트웨어와 리소스는 MirrorChyan을 통해 고속 다운로드 우선 지원
+    ● 리소스 버전 자동 업데이트 추가 제공
+</system:String>
     <system:String x:Key="GlobalSource">글로벌 소스</system:String>
     <system:String x:Key="ForceGithubGlobalSource">GitHub 강제 사용</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
@@ -921,7 +933,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ConfirmExitText">정말로 종료하시겠습니까?</system:String>
     <!--  !RootViewModel  -->
     <!--  Api  -->
-    <system:String x:Key="ApiUpdateSuccess">스테이지 데이터 획득 성공</system:String>
+    <system:String x:Key="ApiUpdateSuccess">핫 업데이트 데이터를 성공적으로 가져왔습니다</system:String>
     <system:String x:Key="GameResourceUpdating">게임 리소스가 업데이트 중입니다.</system:String>
     <system:String x:Key="GameResourceUpdatingMirrorChyan">「MirrorChyan」에서 리소스 {0}을(를) 업데이트하는 중...</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">색인 작성 중</system:String>

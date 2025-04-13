@@ -25,7 +25,7 @@ public static class CopilotHelper
 {
     public static async Task<(PrtsStatus Status, PrtsCopilotModel? Copilot)> RequestCopilotAsync(int copilotId)
     {
-        var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri(MaaUrls.PrtsPlusCopilotGet + copilotId)) ?? string.Empty;
+        var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri(MaaUrls.PrtsPlusCopilotGet + copilotId));
         if (jsonResponse is null)
         {
             return (PrtsStatus.NetworkError, null);
@@ -42,7 +42,7 @@ public static class CopilotHelper
 
     public static async Task<(PrtsStatus Status, PrtsCopilotSetModel? CopilotSet)> RequestCopilotSetAsync(int copilotId)
     {
-        var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri(MaaUrls.PrtsPlusCopilotSetGet + copilotId)) ?? string.Empty;
+        var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri(MaaUrls.PrtsPlusCopilotSetGet + copilotId));
         if (jsonResponse is null)
         {
             return (PrtsStatus.NetworkError, null);
