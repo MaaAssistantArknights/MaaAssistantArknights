@@ -12,7 +12,6 @@
 // </copyright>
 
 #nullable enable
-using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;
@@ -39,6 +38,11 @@ public class RoguelikeTask : BaseTask
     public string Squad { get; set; } = string.Empty;
 
     /// <summary>
+    /// Gets or sets 烧水时候的分队
+    /// </summary>
+    public string SquadCollectible { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets 开局职业组
     /// </summary>
     public string Roles { get; set; } = string.Empty;
@@ -48,7 +52,7 @@ public class RoguelikeTask : BaseTask
     /// </summary>
     public int StartCount { get; set; } = 999999;
 
-    public string? CoreChar { get; set; }
+    public string CoreChar { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets a value indicating whether 启用投资
@@ -66,14 +70,14 @@ public class RoguelikeTask : BaseTask
     public bool InvestWithMoreScore { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether 存款满了停
+    /// Gets or sets a value indicating whether 烧水开局奖励
     /// </summary>
-    public bool StopWhenDepositFull { get; set; }
+    public string CollectibleStartAwards { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets a value indicating whether 最终boss停
+    /// Gets or sets a value indicating whether gets or sets 烧水购物
     /// </summary>
-    public bool StopAtFinalBoss { get; set; }
+    public bool CollectibleShopping { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether 凹开局直升
@@ -84,6 +88,26 @@ public class RoguelikeTask : BaseTask
     /// Gets or sets a value indicating whether 凹开局直升，不打关
     /// </summary>
     public bool StartWithEliteTwoOnly { get; set; }
+
+    /// <summary>
+    /// Gets or sets 期望的坍缩范式
+    /// </summary>
+    public string ExpectedCollapsalParadigms { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 月度小队自动切换
+    /// </summary>
+    public bool MonthlySquadAutoIterate { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 月度小队刷通讯
+    /// </summary>
+    public bool MonthlySquadCheckComms { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 深入调查自动切换
+    /// </summary>
+    public bool DeepExplorationAutoIterate { get; set; } = true;
 
     /// <summary>
     /// Gets or sets a value indicating whether 使用好友助战
@@ -112,7 +136,7 @@ public class RoguelikeTask : BaseTask
     /// <summary>
     /// Gets or sets 萨米肉鸽刷一层远见板子
     /// </summary>
-    public string? SamiFirstFloorFoldartals { get; set; }
+    public string SamiFirstFloorFoldartals { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets a value indicating whether 在萨米肉鸽生活队凹开局板子
@@ -122,7 +146,45 @@ public class RoguelikeTask : BaseTask
     /// <summary>
     /// Gets or sets 在萨米肉鸽生活队凹开局板子
     /// </summary>
-    public string? SamiNewSquad2StartingFoldartals { get; set; }
+    public string SamiNewSquad2StartingFoldartals { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 存款满了停
+    /// </summary>
+    public bool StopWhenDepositFull { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 最终boss停
+    /// </summary>
+    public bool StopAtFinalBoss { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 等级满了停
+    /// </summary>
+    public bool StopWhenLevelMax { get; set; }
+}
+
+public enum RoguelikeTheme
+{
+    /// <summary>
+    /// 傀影
+    /// </summary>
+    Phantom,
+
+    /// <summary>
+    /// 水月
+    /// </summary>
+    Mizuki,
+
+    /// <summary>
+    /// 萨米
+    /// </summary>
+    Sami,
+
+    /// <summary>
+    /// 萨卡兹
+    /// </summary>
+    Sarkaz,
 }
 
 public enum RoguelikeMode
@@ -146,4 +208,14 @@ public enum RoguelikeMode
     /// 5 - 刷隐藏坍缩范式,以增加坍缩值为最优先目标
     /// </summary>
     CLP_PDS = 5,
+
+    /// <summary>
+    /// 月度小队，尽可能稳定地打更多层数，不期而遇采用激进策略
+    /// </summary>
+    Squad = 6,
+
+    /// <summary>
+    /// 深入调查，尽可能稳定地打更多层数，不期而遇采用激进策略
+    /// </summary>
+    Exploration = 7,
 }
