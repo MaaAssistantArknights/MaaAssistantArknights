@@ -1885,25 +1885,26 @@ namespace MaaWpfGui.Main
                     Connected = false;
                     _logger.Information($"Connection lost to {_connectedAdb} {_connectedAddress}");
                     error = "Connection lost";
-                    return false;
                 }
-
-                _logger.Information($"Already connected to {_connectedAdb} {_connectedAddress}");
-                if (!_forcedReloadResource)
+                else
                 {
+                    _logger.Information($"Already connected to {_connectedAdb} {_connectedAddress}");
+                    if (!_forcedReloadResource)
+                    {
+                        return true;
+                    }
+
+                    _logger.Information("Forced reload resource");
+                    if (!LoadResource())
+                    {
+                        error = "Load Resource Failed";
+                        return false;
+                    }
+
+                    ToastNotification.ShowDirect("Auto Reload");
+
                     return true;
                 }
-
-                _logger.Information("Forced reload resource");
-                if (!LoadResource())
-                {
-                    error = "Load Resource Failed";
-                    return false;
-                }
-
-                ToastNotification.ShowDirect("Auto Reload");
-
-                return true;
             }
 
             bool ret = AsstConnect(_handle, SettingsViewModel.ConnectSettings.AdbPath, SettingsViewModel.ConnectSettings.ConnectAddress, SettingsViewModel.ConnectSettings.ConnectConfig);
