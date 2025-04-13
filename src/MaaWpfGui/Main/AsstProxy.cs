@@ -1796,46 +1796,45 @@ namespace MaaWpfGui.Main
         private static readonly bool _forcedReloadResource = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
 
         /// <summary>
-        /// 检查端口是否有效。
+        /// 使用 TCP 或 adb devices 命令检查连接。TCP 检测相比 adb devices 更快，但不支持实体机。
         /// </summary>
-        /// <param name="address">连接地址。</param>
-        /// <returns>是否有效。</returns>
-        private static bool IfPortEstablished(string? address)
+        /// <param name="adbPath">adb path，用于实体机检测</param>
+        /// <param name="address">连接地址</param>
+        /// <returns>设备是否在线</returns>
+        private static bool CheckConnection(string adbPath, string? address)
         {
-            if (string.IsNullOrEmpty(address) || (!address.Contains(':') && !address.Contains('-')))
+            if (string.IsNullOrEmpty(address))
             {
                 return false;
+            }
+
+            // 实体机可能设备名 -> [host]
+            if (!address.Contains(':') && !address.Contains('-'))
+            {
+                return WinAdapter.GetAdbAddresses(adbPath).Contains(address);
             }
 
             // normal -> [host]:[port]
             // LdPlayer -> emulator-[port]
-            string[] hostAndPort = address.Split([':', '-']);
-            if (hostAndPort.Length != 2)
+            string[] hostAndPort = address.Split([':', '-'], StringSplitOptions.RemoveEmptyEntries);
+
+            if (hostAndPort.Length != 2 || !int.TryParse(hostAndPort[1], out var port))
             {
                 return false;
             }
 
-            string host;
-            if (!int.TryParse(hostAndPort[1], out var port))
-            {
-                return false;
-            }
-
-            if (hostAndPort[0].StartsWith("emulator"))
+            string host = hostAndPort[0];
+            if (host.StartsWith("emulator"))
             {
                 host = "127.0.0.1";
                 port += 1;
-            }
-            else
-            {
-                host = hostAndPort[0];
             }
 
             using var client = new TcpClient();
             try
             {
                 IAsyncResult result = client.BeginConnect(host, port, null, null);
-                bool success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(.5));
+                bool success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(0.5));
 
                 if (success)
                 {
@@ -1846,7 +1845,7 @@ namespace MaaWpfGui.Main
                 client.Close();
                 return false;
             }
-            catch (Exception)
+            catch
             {
                 return false;
             }
@@ -1880,7 +1879,7 @@ namespace MaaWpfGui.Main
             if (Connected && _connectedAdb == SettingsViewModel.ConnectSettings.AdbPath &&
                 _connectedAddress == SettingsViewModel.ConnectSettings.ConnectAddress)
             {
-                var actualConnectionStatus = IfPortEstablished(SettingsViewModel.ConnectSettings.ConnectAddress);
+                var actualConnectionStatus = CheckConnection(_connectedAdb, _connectedAddress);
                 if (!actualConnectionStatus)
                 {
                     Connected = false;
@@ -1951,21 +1950,11 @@ namespace MaaWpfGui.Main
 
         private static bool AutoDetectConnection(ref string error)
         {
-            // 本地设备如果选了自动检测，还是重新检测一下，不然重新插拔地址变了之后就再也不会检测了
-            /*
-            // tcp连接测试端口是否有效，超时时间500ms
-            // 如果是本地设备，没有冒号
-            bool adbResult = !string.IsNullOrEmpty(Instances.SettingsViewModel.AdbPath) &&
-                             ((!Instances.SettingsViewModel.ConnectAddress.Contains(':') &&
-                               !string.IsNullOrEmpty(Instances.SettingsViewModel.ConnectAddress)) ||
-                              IfPortEstablished(Instances.SettingsViewModel.ConnectAddress));
-            */
-
             var adbPath = SettingsViewModel.ConnectSettings.AdbPath;
             bool adbResult = !string.IsNullOrEmpty(adbPath) &&
                              File.Exists(adbPath) &&
                              Path.GetFileName(adbPath).Contains("adb", StringComparison.InvariantCultureIgnoreCase) &&
-                             IfPortEstablished(SettingsViewModel.ConnectSettings.ConnectAddress);
+                             CheckConnection(adbPath, SettingsViewModel.ConnectSettings.ConnectAddress);
 
             if (adbResult)
             {
@@ -1976,7 +1965,7 @@ namespace MaaWpfGui.Main
             // 蓝叠的特殊处理
             {
                 string bsHvAddress = SettingsViewModel.ConnectSettings.TryToSetBlueStacksHyperVAddress() ?? string.Empty;
-                bool bsResult = IfPortEstablished(bsHvAddress);
+                bool bsResult = CheckConnection(adbPath, bsHvAddress);
                 if (bsResult)
                 {
                     error = string.Empty;
