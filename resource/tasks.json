@@ -4782,22 +4782,24 @@
     },
     "SelectClue": {
         "action": "ClickSelf",
-        "roi": [2, 133, 418, 196],
-        "maskRange": [1, 255],
+        "roi": [99, 222, 177, 147],
+        "method": "RGBCount",
+        "colorScales": [[200, 255]],
         "maxTimes": 3,
         "exceededNext": ["CloseSendClue"],
         "next": ["ClueSelected", "SelectClue"]
     },
     "ClueSelected": {
-        "roi": [2, 133, 418, 196],
+        "roi": [361, 130, 112, 225],
         "method": "RGBCount",
         "colorScales": [
             [
-                [160, 0, 0],
-                [255, 255, 255]
+                [200, 90, 50],
+                [255, 150, 100]
             ]
         ],
         "templThreshold": 0.75,
+        "maxTimes": 3,
         "reduceOtherTimes": ["SelectClue*3"],
         "next": [
             "ClueGiveTo1st",
