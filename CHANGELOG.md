@@ -1,5 +1,31 @@
 ## v5.15.1
 
+### Highlight
+
+本次更新我们并带来多项体验优化与问题修复。
+
+#### 基建排班
+
+更新了243/153排班表（20250412修订版）
+
+#### 运行稳定性提升
+
+- 修复雷电模拟器重连误判问题
+- 优化网络波动时的操作容错（特别是碎石/吃药场景）
+- 高延迟下进入战斗判断错误
+- 线索选择逻辑更加智能精准
+
+#### 细节体验优化
+
+- 热更新资源改为异步加载，启动速度更快
+- 日志包现在会一并打包 GUI 配置，问题排查更全面
+- 官网 mirror酱 下载链接现在会根据操作系统自动生成
+- 背景图默认路径改为相对路径，迁移配置更方便
+
+----
+
+以下是详细内容：
+
 ### 新增 | New
 
 * 新增更新源 tooltip @ABA2396
@@ -34,7 +60,7 @@
 * trade post rewards post base update @Constrat
 * YostarKR InfrastReward ocr fix (#12317) @HX3N
 * Wpf一键长草任务栏设置按钮绑定报错 @status102
-* new Support GUI for EN fix https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/12285#issuecomment-2788133440 @Constrat
+* new Support GUI for EN fix #12285#issuecomment-2788133440 @Constrat
 * 修复手动关闭模拟器导致的连接状态不一致问题 @ABA2396
 * 连战次数 @ABA2396
 * update deployment (#11959) @Alan-Charred @ABA2396
@@ -56,7 +82,6 @@
 * 支持实体机检测 @ABA2396
 * miss brackets @ABA2396
 * FightSeries use the same ROI for all clients @ABA2396
-* Revert "chore: 给剩余理智加个兜底" @status102
 * 给剩余理智加个兜底 @ABA2396
 * manual stages resources @Constrat
 * file header & warning @status102
@@ -64,6 +89,5 @@
 * 顺序检查 @ABA2396
 * 弹窗加个文件名 @ABA2396
 * 自动战斗 战斗列表 关卡导航名允许覆盖 @status102
-* Revert "fix: 吃药/碎石 时网络波动延迟导致二次确认时点到取消代理" @status102
 * 调整热更提示 @ABA2396
 * Wpf刷理智任务、基建任务序列化 (#12281) @status102
