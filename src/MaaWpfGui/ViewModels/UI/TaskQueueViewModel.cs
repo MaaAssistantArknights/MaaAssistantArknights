@@ -1355,8 +1355,12 @@ namespace MaaWpfGui.ViewModels.UI
 
                     case "Custom":
                         {
-                            var (type, param) = CustomTask.Serialize();
-                            taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, type, param);
+                            var tasks = CustomTask.SerializeMultiTasks();
+                            foreach (var (type, param) in tasks)
+                            {
+                                taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Custom, type, param);
+                            }
+
                             break;
                         }
 

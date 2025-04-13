@@ -11,11 +11,15 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using Newtonsoft.Json.Linq;
+using static Microsoft.WindowsAPICodePack.Shell.PropertySystem.SystemProperties.System;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
@@ -35,8 +39,33 @@ public class CustomSettingsUserControlModel : TaskViewModel
         get => _taskName;
         set
         {
+            value = value.Replace("，", ",").Replace("；", ";");
             SetAndNotify(ref _taskName, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.DebugTaskName, value);
+            OnPropertyChanged(nameof(FormattedTaskNames));
+        }
+    }
+
+    public void SaveTaskName()
+    {
+        ConfigurationHelper.SetGlobalValue(ConfigurationKeys.DebugTaskName, TaskName);
+    }
+
+    public string FormattedTaskNames
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(TaskName))
+            {
+                return string.Empty;
+            }
+
+            var taskGroups = TaskName.Split(';', StringSplitOptions.RemoveEmptyEntries)
+                .Select(group =>
+                    "[" + string.Join(", ",
+                        group.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                            .Select(t => $"\"{t.Trim()}\"")) + "]");
+
+            return string.Join("," + Environment.NewLine, taskGroups);
         }
     }
 
@@ -44,8 +73,34 @@ public class CustomSettingsUserControlModel : TaskViewModel
     {
         var task = new AsstCustomTask()
         {
-            CustomTasks = { TaskName },
+            CustomTasks = TaskName.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(task => task.Trim())
+                .ToList(),
         };
         return task.Serialize();
+    }
+
+    public List<(AsstTaskType Type, JObject Params)> SerializeMultiTasks()
+    {
+        if (string.IsNullOrWhiteSpace(TaskName))
+        {
+            return new List<(AsstTaskType, JObject)>();
+        }
+
+        if (!TaskName.Contains(';'))
+        {
+            return new List<(AsstTaskType, JObject)> { Serialize() };
+        }
+
+        var taskGroups = TaskName.Split(';', StringSplitOptions.RemoveEmptyEntries);
+
+        return taskGroups.Select(group => new AsstCustomTask()
+            {
+                CustomTasks = group.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(task => task.Trim())
+                    .ToList(),
+            })
+            .Select(task => task.Serialize())
+            .ToList();
     }
 }
