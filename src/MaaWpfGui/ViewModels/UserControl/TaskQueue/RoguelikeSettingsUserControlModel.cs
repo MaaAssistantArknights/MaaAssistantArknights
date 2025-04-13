@@ -690,6 +690,14 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         }
     }
 
+    public override void RefreshUI(BaseTask baseTask)
+    {
+        if (baseTask is RoguelikeTask)
+        {
+            Refresh();
+        }
+    }
+
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
         var task = new AsstRoguelikeTask()

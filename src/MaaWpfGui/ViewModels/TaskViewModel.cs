@@ -22,7 +22,7 @@ using Newtonsoft.Json.Linq;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels;
-public class TaskViewModel : PropertyChangedBase
+public abstract class TaskViewModel : PropertyChangedBase
 {
     protected T? GetTaskConfig<T>()
         where T : BaseTask
@@ -54,16 +54,11 @@ public class TaskViewModel : PropertyChangedBase
     /// 刷新UI
     /// </summary>
     /// <param name="baseTask">需要刷新的任务</param>
-    public virtual void RefreshUI(BaseTask baseTask)
-    {
-    }
+    public abstract void RefreshUI(BaseTask baseTask);
 
     /// <summary>
     /// 序列化MAA任务
     /// </summary>
     /// <returns>返回(Asst任务类型, 参数)</returns>
-    public virtual (AsstTaskType Type, JObject Params) Serialize()
-    {
-        throw new NotImplementedException();
-    }
+    public abstract (AsstTaskType Type, JObject Params) Serialize();
 }
