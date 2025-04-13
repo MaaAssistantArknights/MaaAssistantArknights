@@ -260,7 +260,7 @@ You can cancel this popup by clicking the Settings - About Us - Issue Reporting 
     <system:String x:Key="UpdateSource">Update Source</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 Using overseas source:
-    ● Software version: Update checks via API provided by MAA Team, automatically pulls update packages from GitHub or China mirrors provided by MAA Team
+    ● Software version: Update checks via API provided by MAA Team, automatically pulls update packages from GitHub or CN Mirrors provided by MAA Team
     ● Resource version: Free update detection provided by MirrorChyan, manually click 「Resource update」 in settings to download from GitHub
 
 🔑 Using MirrorChyan:
