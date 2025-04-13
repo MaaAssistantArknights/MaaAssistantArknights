@@ -1802,22 +1802,33 @@ namespace MaaWpfGui.Main
         /// <returns>是否有效。</returns>
         private static bool IfPortEstablished(string? address)
         {
-            if (string.IsNullOrEmpty(address) || !address.Contains(':'))
+            if (string.IsNullOrEmpty(address) || !address.Contains(':') && !address.Contains('-'))
             {
                 return false;
             }
 
             // normal -> [host]:[port]
-            string[] hostAndPort = address.Split(':');
+            // LdPlayer -> emulator-[port]
+            string[] hostAndPort = address.Split([':', '-']);
             if (hostAndPort.Length != 2)
             {
                 return false;
             }
 
-            string host = hostAndPort[0].Equals("emulator") ? "127.0.0.1" : hostAndPort[0];
-            if (!int.TryParse(hostAndPort[1], out int port))
+            string host;
+            if (!int.TryParse(hostAndPort[1], out var port))
             {
                 return false;
+            }
+
+            if (hostAndPort[0].StartsWith("emulator"))
+            {
+                host = "127.0.0.1";
+                port += 1;
+            }
+            else
+            {
+                host = hostAndPort[0];
             }
 
             using var client = new TcpClient();
