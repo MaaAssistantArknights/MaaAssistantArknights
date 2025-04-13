@@ -3254,5 +3254,8 @@
     "resource/template/infrast/Bskill_man_token_spd1": "a64fb2596dac7ee03b27818782daaa0a091f56e3fd4b30c75796c5b8b8670ad4",
     "resource/template/infrast/Bskill_man_token_spd2": "2d47f1d0786dc2b1ebbc5a51c1fe8852aa0a679f7915448139aa7c59a548584f",
     "resource/template/infrast/Bskill_meet_spd_clue": "2dc893244948b22e5477c9095706a308775a2a74cf636ae2e113ddde6ae5debb",
-    "resource/template/infrast/Bskill_meet_spd_notOwned_exchange": "f79094f745499eb75a6aebaf4198955642667d7792a6293e8acf54d0efaf6d1c"
+    "resource/template/infrast/Bskill_meet_spd_notOwned_exchange": "f79094f745499eb75a6aebaf4198955642667d7792a6293e8acf54d0efaf6d1c",
+    "official/StageOFNew": "72496b1429cf880243aa1e3d9eb16bf73b282ae0bb97aeb7a39fafec058de5ef",
+    "official/RaidDifficulty-Chapter15": "ab72f6d3e7b3226c06c17b612b79e5b0fa3f8991730bc7ef03b2d691da2930bc",
+    "official/NormalDifficulty-Chapter15": "a6ccebe5a829b23b16ff5b81b7d1fa2e3f64975559c23b1a3877965f2f880a0d"
 }
