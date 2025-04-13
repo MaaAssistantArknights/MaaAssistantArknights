@@ -258,6 +258,15 @@
     <system:String x:Key="ShowChangelog">更新日誌</system:String>
     <system:String x:Key="ResourceUpdate">資源更新</system:String>
     <system:String x:Key="UpdateSource">更新來源</system:String>
+    <system:String x:Key="UpdateSourceTip" xml:space="preserve">
+🌏 使用海外源：
+    ● 軟體版本：由 MAA Team 提供 API 檢查更新，從 GitHub 或由 MAA Team 提供的國內鏡像自動拉取更新包
+    ● 資源版本：由 MirrorChyan 提供免費的更新檢測，可手動在設定中點擊「資源更新」從 GitHub 下載
+
+🔑 使用 MirrorChyan：
+    ● 軟體與資源優先通過 MirrorChyan 高速下載
+    ● 額外提供資源版本的自動更新
+</system:String>
     <system:String x:Key="GlobalSource">全域來源</system:String>
     <system:String x:Key="ForceGithubGlobalSource">強制使用 GitHub</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>

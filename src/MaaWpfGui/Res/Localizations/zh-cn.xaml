@@ -258,6 +258,15 @@
     <system:String x:Key="ShowChangelog">更新日志</system:String>
     <system:String x:Key="ResourceUpdate">资源更新</system:String>
     <system:String x:Key="UpdateSource">更新源</system:String>
+    <system:String x:Key="UpdateSourceTip" xml:space="preserve">
+🌏 使用海外源：
+    ● 软件版本：由 MAA Team 提供 API 检查更新，从 GitHub 或由 MAA Team 提供的国内镜像自动拉取更新包
+    ● 资源版本：由 Mirror酱 提供免费的更新检测，可手动在设置中点击「资源更新」从 GitHub 下载
+
+🔑 使用 Mirror酱：
+    ● 软件与资源优先通过 Mirror酱 高速下载
+    ● 额外提供资源版本的自动更新
+</system:String>
     <system:String x:Key="GlobalSource">海外源</system:String>
     <system:String x:Key="ForceGithubGlobalSource">强制使用 GitHub</system:String>
     <system:String x:Key="MirrorChyan">Mirror酱</system:String>
