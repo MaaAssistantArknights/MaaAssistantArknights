@@ -88,7 +88,7 @@ public class ConfigConverter
             return;
         }
 
-        string[] configKeys = ["Announcement.AnnouncementInfo", "Announcement.DoNotRemindThisAnnouncementAgain", "Announcement.DoNotShowAnnouncement",
+        string[] configKeys = [ConfigurationKeys.AnnouncementInfo, ConfigurationKeys.DoNotRemindThisAnnouncementAgain, ConfigurationKeys.DoNotShowAnnouncement,
             ConfigurationKeys.VersionName, ConfigurationKeys.VersionUpdateBody, ConfigurationKeys.VersionUpdateIsFirstBoot, ConfigurationKeys.VersionUpdatePackage, ConfigurationKeys.VersionUpdateDoNotShowUpdate,
         ];
         foreach (var configName in ConfigurationHelper.GetConfigurationList())
@@ -196,7 +196,7 @@ public class ConfigConverter
                 roguelikeTask.SamiNewSquad2StartingFoldartals = EmptyStringToNull(ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartals, string.Empty));
 
                 reclamationTask.Theme = GetEnum(ConfigurationKeys.ReclamationTheme, ReclamationTheme.Tales);
-                reclamationTask.Mode = GetEnum(ConfigurationKeys.ReclamationMode,  ReclamationMode.Archive);
+                reclamationTask.Mode = GetEnum(ConfigurationKeys.ReclamationMode, ReclamationMode.Archive);
                 reclamationTask.ToolToCraft = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationToolToCraft, string.Empty).Replace('；', ';').Trim();
                 reclamationTask.IncrementMode = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationIncrementMode, 0);
                 reclamationTask.MaxCraftCountPerRound = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, 16);
