@@ -1802,7 +1802,7 @@ namespace MaaWpfGui.Main
         /// <returns>是否有效。</returns>
         private static bool IfPortEstablished(string? address)
         {
-            if (string.IsNullOrEmpty(address) || !address.Contains(':') && !address.Contains('-'))
+            if (string.IsNullOrEmpty(address) || (!address.Contains(':') && !address.Contains('-')))
             {
                 return false;
             }
