@@ -47,7 +47,7 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
     public ReclamationTheme ReclamationTheme
     {
         get => GetTaskConfig<ReclamationTask>()?.Theme ?? default;
-        set => SetTaskConfig<ReclamationTask>(t => t.Theme = value);
+        set => SetTaskConfig<ReclamationTask>(t => t.Theme == value, t => t.Theme = value);
     }
 
     /// <summary>
