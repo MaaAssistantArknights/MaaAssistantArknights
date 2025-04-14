@@ -15245,6 +15245,42 @@
         "stageId": "hard_14-04",
         "width": 13
     },
+    "hard_15-01-obt/hard/level_hard_15-01": {
+        "code": "H15-1",
+        "filename": "hard_15-01-obt-hard-level_hard_15-01.json",
+        "height": 8,
+        "levelId": "obt/hard/level_hard_15-01",
+        "name": "机密预案-1",
+        "stageId": "hard_15-01",
+        "width": 12
+    },
+    "hard_15-02-obt/hard/level_hard_15-02": {
+        "code": "H15-2",
+        "filename": "hard_15-02-obt-hard-level_hard_15-02.json",
+        "height": 8,
+        "levelId": "obt/hard/level_hard_15-02",
+        "name": "机密预案-2",
+        "stageId": "hard_15-02",
+        "width": 12
+    },
+    "hard_15-03-obt/hard/level_hard_15-03": {
+        "code": "H15-3",
+        "filename": "hard_15-03-obt-hard-level_hard_15-03.json",
+        "height": 8,
+        "levelId": "obt/hard/level_hard_15-03",
+        "name": "机密预案-3",
+        "stageId": "hard_15-03",
+        "width": 13
+    },
+    "hard_15-04-obt/hard/level_hard_15-04": {
+        "code": "H15-4",
+        "filename": "hard_15-04-obt-hard-level_hard_15-04.json",
+        "height": 9,
+        "levelId": "obt/hard/level_hard_15-04",
+        "name": "机密预案-4",
+        "stageId": "hard_15-04",
+        "width": 14
+    },
     "level_act38rune_01-01-activities/act38rune/level_act38rune_01-01": {
         "code": "哥伦比亚",
         "filename": "level_act38rune_01-01-activities-act38rune-level_act38rune_01-01.json",
@@ -16657,6 +16693,60 @@
         "name": "“音乐之心”",
         "stageId": "lt_17_06",
         "width": 11
+    },
+    "lt_18_01-obt/legion/lt18/level_lt18_01": {
+        "code": "LT-1",
+        "filename": "lt_18_01-obt-legion-lt18-level_lt18_01.json",
+        "height": 7,
+        "levelId": "obt/legion/lt18/level_lt18_01",
+        "name": "巷道里",
+        "stageId": "lt_18_01",
+        "width": 9
+    },
+    "lt_18_02-obt/legion/lt18/level_lt18_02": {
+        "code": "LT-2",
+        "filename": "lt_18_02-obt-legion-lt18-level_lt18_02.json",
+        "height": 7,
+        "levelId": "obt/legion/lt18/level_lt18_02",
+        "name": "楼台边",
+        "stageId": "lt_18_02",
+        "width": 10
+    },
+    "lt_18_03-obt/legion/lt18/level_lt18_03": {
+        "code": "LT-3",
+        "filename": "lt_18_03-obt-legion-lt18-level_lt18_03.json",
+        "height": 7,
+        "levelId": "obt/legion/lt18/level_lt18_03",
+        "name": "墓地旁",
+        "stageId": "lt_18_03",
+        "width": 10
+    },
+    "lt_18_04-obt/legion/lt18/level_lt18_04": {
+        "code": "LT-4",
+        "filename": "lt_18_04-obt-legion-lt18-level_lt18_04.json",
+        "height": 8,
+        "levelId": "obt/legion/lt18/level_lt18_04",
+        "name": "舞台上",
+        "stageId": "lt_18_04",
+        "width": 11
+    },
+    "lt_18_05-obt/legion/lt18/level_lt18_05": {
+        "code": "LT-5",
+        "filename": "lt_18_05-obt-legion-lt18-level_lt18_05.json",
+        "height": 8,
+        "levelId": "obt/legion/lt18/level_lt18_05",
+        "name": "城门下",
+        "stageId": "lt_18_05",
+        "width": 12
+    },
+    "lt_18_06-obt/legion/lt18/level_lt18_06": {
+        "code": "LT-6",
+        "filename": "lt_18_06-obt-legion-lt18-level_lt18_06.json",
+        "height": 9,
+        "levelId": "obt/legion/lt18/level_lt18_06",
+        "name": "天地间",
+        "stageId": "lt_18_06",
+        "width": 12
     },
     "lt_tr_01-obt/legion/lttr/level_lt_tr01": {
         "code": "TR-1",

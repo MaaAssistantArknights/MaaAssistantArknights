@@ -10698,6 +10698,51 @@
             "profession": "TRAP",
             "rangeId": ["x-6", "x-6", "x-6"],
             "rarity": 1
+        },
+        "trap_780_supspt": {
+            "name": "天工夜行套装",
+            "name_en": "天工夜行套装",
+            "name_en_unavailable": true,
+            "name_jp": "天工夜行套装",
+            "name_jp_unavailable": true,
+            "name_kr": "天工夜行套装",
+            "name_kr_unavailable": true,
+            "name_tw": "天工夜行套装",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
+        "trap_781_supspta": {
+            "name": "夜行斗篷模块",
+            "name_en": "夜行斗篷模块",
+            "name_en_unavailable": true,
+            "name_jp": "夜行斗篷模块",
+            "name_jp_unavailable": true,
+            "name_kr": "夜行斗篷模块",
+            "name_kr_unavailable": true,
+            "name_tw": "夜行斗篷模块",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
+        "trap_782_supsptb": {
+            "name": "夜行钩爪模块",
+            "name_en": "夜行钩爪模块",
+            "name_en_unavailable": true,
+            "name_jp": "夜行钩爪模块",
+            "name_jp_unavailable": true,
+            "name_kr": "夜行钩爪模块",
+            "name_kr_unavailable": true,
+            "name_tw": "夜行钩爪模块",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
         }
     },
     "ranges": {
