@@ -4801,6 +4801,7 @@
         "templThreshold": 0.75,
         "maxTimes": 3,
         "reduceOtherTimes": ["SelectClue*3"],
+        "exceededNext": ["CloseSendClue"],
         "next": [
             "ClueGiveTo1st",
             "ClueGiveTo2nd",
