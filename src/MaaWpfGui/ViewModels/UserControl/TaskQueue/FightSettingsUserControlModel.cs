@@ -340,12 +340,15 @@ public class FightSettingsUserControlModel : TaskViewModel
         get => _medicineNumber;
         set
         {
-            if (_medicineNumber == value)
+            if (!SetAndNotify(ref _medicineNumber, value))
             {
                 return;
             }
+            else if (value == 0)
+            {
+                UseMedicine = false;
+            }
 
-            SetAndNotify(ref _medicineNumber, value);
             Instances.TaskQueueViewModel.SetFightParams();
             ConfigurationHelper.SetValue(ConfigurationKeys.UseMedicineQuantity, value.ToString());
         }
@@ -410,12 +413,15 @@ public class FightSettingsUserControlModel : TaskViewModel
         get => _stoneNumber;
         set
         {
-            if (_stoneNumber == value)
+            if (!SetAndNotify(ref _stoneNumber, value))
             {
                 return;
             }
+            else if (value == 0)
+            {
+                UseStone = false;
+            }
 
-            SetAndNotify(ref _stoneNumber, value);
             Instances.TaskQueueViewModel.SetFightParams();
             ConfigurationHelper.SetValue(ConfigurationKeys.UseStoneQuantity, value.ToString());
         }
@@ -571,7 +577,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     /// </summary>
     public ObservableCollection<CombinedData> DropsList { get; private set; } = [];
 
-    private string _dropsItemId = ConfigurationHelper.GetValue(ConfigurationKeys.DropsItemId, string.Empty);
+    private string _dropsItemId = ConfigurationHelper.GetValue(ConfigurationKeys.DropsItemId, string.Empty) ?? string.Empty;
 
     /// <summary>
     /// Gets or sets the item ID of drops.
@@ -637,6 +643,11 @@ public class FightSettingsUserControlModel : TaskViewModel
         get => _dropsQuantity;
         set
         {
+            if (value == 0)
+            {
+                IsSpecifiedDrops = false;
+            }
+
             SetAndNotify(ref _dropsQuantity, value);
             Instances.TaskQueueViewModel.SetFightParams();
             ConfigurationHelper.SetValue(ConfigurationKeys.DropsQuantity, value.ToString());
@@ -805,7 +816,11 @@ public class FightSettingsUserControlModel : TaskViewModel
             ClientType = SettingsViewModel.GameSettings.ClientType,
         };
 
-        if (IsSpecifiedDrops)
+        if (string.IsNullOrEmpty(DropsItemId))
+        {
+            IsSpecifiedDrops = false;
+        }
+        else if (IsSpecifiedDrops)
         {
             task.Drops.Add(DropsItemId, DropsQuantity);
         }
