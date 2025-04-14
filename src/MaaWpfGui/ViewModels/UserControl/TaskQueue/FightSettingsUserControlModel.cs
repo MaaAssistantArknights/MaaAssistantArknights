@@ -344,10 +344,6 @@ public class FightSettingsUserControlModel : TaskViewModel
             {
                 return;
             }
-            else if (value == 0)
-            {
-                UseMedicine = false;
-            }
 
             Instances.TaskQueueViewModel.SetFightParams();
             ConfigurationHelper.SetValue(ConfigurationKeys.UseMedicineQuantity, value.ToString());
@@ -416,10 +412,6 @@ public class FightSettingsUserControlModel : TaskViewModel
             if (!SetAndNotify(ref _stoneNumber, value))
             {
                 return;
-            }
-            else if (value == 0)
-            {
-                UseStone = false;
             }
 
             Instances.TaskQueueViewModel.SetFightParams();
@@ -643,11 +635,6 @@ public class FightSettingsUserControlModel : TaskViewModel
         get => _dropsQuantity;
         set
         {
-            if (value == 0)
-            {
-                IsSpecifiedDrops = false;
-            }
-
             SetAndNotify(ref _dropsQuantity, value);
             Instances.TaskQueueViewModel.SetFightParams();
             ConfigurationHelper.SetValue(ConfigurationKeys.DropsQuantity, value.ToString());
