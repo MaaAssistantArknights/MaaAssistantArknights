@@ -85,7 +85,6 @@ namespace MaaWpfGui.Helper
             return bool.TryParse(value, out var result) ? result : defaultValue;
         }
 
-
         public static string GetGlobalValue(string key, string defaultValue)
         {
             var hasValue = _globalKvs.TryGetValue(key, out var value);
