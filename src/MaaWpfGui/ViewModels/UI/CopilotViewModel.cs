@@ -648,7 +648,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return await GetCopilotAsync(copilotCode);
             }
 
-            AddLog(LocalizationHelper.GetString("CopilotNoFound"), UiLogColor.Error, showTime: false);
+            AddLog(LocalizationHelper.GetString("CopilotNoFound") + $":{copilotCodeString}", UiLogColor.Error, showTime: false);
             return (0, null);
         }
 
@@ -675,7 +675,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return (0, null);
             }
 
-            AddLog(LocalizationHelper.GetString("CopilotNoFound"), UiLogColor.Error, showTime: false);
+            AddLog(LocalizationHelper.GetString("CopilotNoFound") + $":{copilotId}", UiLogColor.Error, showTime: false);
             return (0, null);
         }
 
