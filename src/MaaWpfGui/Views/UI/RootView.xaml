@@ -71,7 +71,7 @@
             RenderOptions.BitmapScalingMode="LowQuality"
             RenderOptions.CachingHint="Cache"
             Source="{c:Binding BackgroundImage}"
-            Stretch="Fill">
+            Stretch="{c:Binding BackgroundImageStretchMode}">
             <Image.Effect>
                 <BlurEffect Radius="{Binding BackgroundBlurEffectRadius}" />
             </Image.Effect>

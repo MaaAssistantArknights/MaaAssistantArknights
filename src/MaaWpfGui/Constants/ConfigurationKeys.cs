@@ -56,6 +56,7 @@ namespace MaaWpfGui.Constants
         public const string CustomCulture = "GUI.CustomCulture";
 
         public const string BackgroundImagePath = "GUI.Background.ImagePath";
+        public const string BackgroundImageStretchMode = "GUI.Background.StretchMode";
         public const string BackgroundOpacity = "GUI.Background.Opacity";
         public const string BackgroundBlurEffectRadius = "GUI.Background.BlurEffectRadius";
 
