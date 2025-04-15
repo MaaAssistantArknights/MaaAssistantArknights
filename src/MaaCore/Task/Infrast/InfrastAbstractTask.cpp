@@ -306,11 +306,6 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
         pre_partial_result = partial_result;
         swipe_of_operlist();
         ++swipe_times;
-        // 最后一页会触底反弹，先糊个屎避免一下
-        // 总不能有成体系的干员了还没160个人吧）
-        if (swipe_times > 20) {
-            sleep(500);
-        }
     }
 
     // 先按任意其他的tab排序，游戏会自动把已经选中的人放到最前面
@@ -434,7 +429,11 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
         return false;
     }
 
-    const auto image = ctrler()->get_image();
+    bool need_to_select = false;
+    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+
+    // 预检查循环
+    auto image = ctrler()->get_image();
     InfrastOperImageAnalyzer oper_analyzer(image);
     oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
     if (!oper_analyzer.analyze()) {
@@ -443,9 +442,41 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
     }
     oper_analyzer.sort_by_loc();
     partial_result.clear();
-
-    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     for (const auto& oper : oper_analyzer.get_result()) {
+        RegionOCRer name_analyzer;
+        name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
+        name_analyzer.set_image(oper.name_img);
+        name_analyzer.set_bin_expansion(0);
+        if (!name_analyzer.analyze()) {
+            continue;
+        }
+        const std::string& name = name_analyzer.get_result().text;
+        partial_result.emplace_back(name);
+        if (auto iter = ranges::find(room_config.names, name); iter != room_config.names.end() ||
+            ranges::find(room_config.candidates, name) != room_config.candidates.end()) {
+            need_to_select = true;
+            break;
+        }
+    }
+
+    if (!need_to_select) {
+        Log.warn("no custom operators found.");
+        return true;
+    }
+
+    // 如果识别到了自定义的干员，延迟 500 ms 后重新识别准确位置，避免触底动画影响
+    sleep(500);
+
+    image = ctrler()->get_image();
+    InfrastOperImageAnalyzer oper_analyzer2(image);
+    oper_analyzer2.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
+    if (!oper_analyzer2.analyze()) {
+        Log.warn("No oper");
+        return false;
+    }
+    oper_analyzer2.sort_by_loc();
+    partial_result.clear();
+    for (const auto& oper : oper_analyzer2.get_result()) {
         RegionOCRer name_analyzer;
         name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         name_analyzer.set_image(oper.name_img);
@@ -644,11 +675,6 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
 {
     if (loop_times < 0) {
         loop_times = operlist_swipe_times();
-    }
-    // 如果大于10，说明选择了排在很后面或者干脆不是这个站的技能的角色，例如加工站放红脸小车
-    // 连续快速的滑动可能会丢失滑动距离，干脆多滑几次
-    if (loop_times > 10) {
-        loop_times = static_cast<int>(1.2 * loop_times) + 1;
     }
     for (int i = 0; i < loop_times; ++i) {
         ProcessTask(*this, { "InfrastOperListSwipeToTheLeft" }).run();
