@@ -452,7 +452,8 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
         }
         const std::string& name = name_analyzer.get_result().text;
         partial_result.emplace_back(name);
-        if (auto iter = ranges::find(room_config.names, name); iter != room_config.names.end() ||
+        if (auto iter = ranges::find(room_config.names, name);
+            iter != room_config.names.end() ||
             ranges::find(room_config.candidates, name) != room_config.candidates.end()) {
             need_to_select = true;
             break;
