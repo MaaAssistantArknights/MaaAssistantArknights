@@ -768,7 +768,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="TouchModeNotAvailable">터치 수행 방식이 사용 불가능합니다. 설정 - 연결 설정에서 다른 방식으로 변경해 주세요.</system:String>
     <system:String x:Key="ScreencapFailed">스크린샷 캡처에 실패했습니다. 반복적으로 발생 시 에뮬레이터를 다시 시작하거나 변경해 보세요!</system:String>
     <system:String x:Key="FastestWayToScreencap">스크린샷 캡쳐 속도: {0}ms ({1})</system:String>
-    <system:String x:Key="FastestWayToScreencapWarningTip">스크린샷 캡쳐 속도가 느리므로 (평균: {0}ms) Copilot 기능을 사용하면 비정상적인 동작이 발생할 수 있습니다.</system:String>
+    <system:String x:Key="FastestWayToScreencapWarningTip">스크린샷 캡쳐 속도가 느리므로 (평균: {0}ms) Copilot 기능에서 비정상적인 동작이 발생할 수 있습니다.</system:String>
     <system:String x:Key="FastestWayToScreencapErrorTip">스크린샷 캡쳐 속도가 느리므로 (평균: {0}ms) Copilot 기능이 제대로 실행되지 않을 수 있습니다. 에뮬레이터를 다시 시작하거나 변경해 보는 것이 좋습니다!</system:String>
     <system:String x:Key="IdentifyTheMistakes">인식 오류</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">작업 오류: </system:String>
@@ -815,9 +815,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="GameDropNoRestart">게임 중단, 다시 연결되지 않음, 퀘스트 중지</system:String>
     <system:String x:Key="RoguelikeGamePass">통합전략을 클리어했습니다!</system:String>
     <system:String x:Key="RoguelikeSpecialItemBought">특별한 유물을 구매했습니다!</system:String>
-    <system:String x:Key="MonthlySquadCompleted">월간 팀 모두 완료! 축하합니다!</system:String>
-    <system:String x:Key="DeepExplorationCompleted">심층 탐험 모두 완료! 축하합니다!</system:String>
-    <system:String x:Key="DeepExplorationNotUnlockedComplain">심층 탐험이 아직 잠금 해제되지 않았습니다</system:String>
+    <system:String x:Key="MonthlySquadCompleted">모든 월간 분대 클리어! 축하합니다!</system:String>
+    <system:String x:Key="DeepExplorationCompleted">모든 심층 조사 클리어! 축하합니다!</system:String>
+    <system:String x:Key="DeepExplorationNotUnlockedComplain">심층 조사가 아직 잠금 해제되지 않았습니다</system:String>
     <system:String x:Key="SSSGamePass">보안 파견을 클리어했습니다!</system:String>
     <system:String x:Key="Trader">노드: 교활한 상인</system:String>
     <system:String x:Key="SafeHouse">노드: 안전가옥</system:String>
@@ -826,7 +826,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="EmergencyDps">노드: 긴급 작전</system:String>
     <system:String x:Key="DreadfulFoe">노드: 험난한 길</system:String>
     <system:String x:Key="RoguelikeEvent">이벤트:</system:String>
-    <system:String x:Key="EncounterOcrError">이벤트명 인식 오류</system:String>
+    <system:String x:Key="EncounterOcrError">이벤트 인식 오류</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">암호판:</system:String>
     <system:String x:Key="RoguelikeInvestment">각뿔 투자: {1}(+{0}), 예금: {2}</system:String>
     <system:String x:Key="RoguelikeSettlement">로그라이크 종착점: {0}\n클리어 : {1} 구역 {2} 노드\n전투 횟수: {3} 일반 / {4} 정예 / {5} 리더\n모집 횟수 : {6} 회\n수집: {7}\n난이도: {8}\n점수: {9}\n경험치: {10}, 스킬: {11}</system:String>
