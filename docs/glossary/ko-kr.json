@@ -480,7 +480,7 @@
             "char_4066_highmo": "하이모어",
             "char_4071_peper": "파프리카",
             "char_4078_bdhkgt": "지에윈",
-            "char_4079_haini": "",
+            "char_4079_haini": "루실라라",
             "char_4081_warmy": "워미",
             "char_4083_chimes": "윈드차임스",
             "char_4102_threye": "발라크빈",
@@ -497,13 +497,13 @@
             "char_4126_fuze": "Fuze",
             "char_4131_odda": "오다",
             "char_4137_udflow": "",
-            "char_4139_papyrs": "",
+            "char_4139_papyrs": "파피루스",
             "char_4140_lasher": "",
-            "char_4142_laios": "",
-            "char_4143_sensi": "",
-            "char_4144_chilc": "",
-            "char_4147_mitm": "",
-            "char_4151_tinman": ""
+            "char_4142_laios": "라이오스",
+            "char_4143_sensi": "센시",
+            "char_4144_chilc": "칠책",
+            "char_4147_mitm": "미틈",
+            "char_4151_tinman": "틴맨"
         },
         "6": {
             "char_003_kalts": "켈시",
@@ -601,10 +601,10 @@
             "char_4132_ascln": "아스카론",
             "char_4133_logos": "로고스",
             "char_4134_cetsyr": "시빌라이트 에테르나",
-            "char_4138_narant": "",
-            "char_4141_marcil": "",
-            "char_4145_ulpia": "",
-            "char_4146_nymph": ""
+            "char_4138_narant": "나란투야",
+            "char_4141_marcil": "마르실",
+            "char_4145_ulpia": "울피아누스",
+            "char_4146_nymph": "님프"
         }
     }
 }
