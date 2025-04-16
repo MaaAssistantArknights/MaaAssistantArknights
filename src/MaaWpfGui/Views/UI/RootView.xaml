@@ -66,12 +66,14 @@
         <Rectangle Fill="{DynamicResource RegionBrush}" />
         <Image
             Name="BgImage"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
             DataContext="{Binding Source={x:Static ui:SettingsViewModel.BackgroundSettings}}"
             Opacity="{c:Binding 'BackgroundOpacity / 100.0'}"
             RenderOptions.BitmapScalingMode="LowQuality"
             RenderOptions.CachingHint="Cache"
             Source="{c:Binding BackgroundImage}"
-            Stretch="Fill">
+            Stretch="{c:Binding BackgroundImageStretchMode}">
             <Image.Effect>
                 <BlurEffect Radius="{Binding BackgroundBlurEffectRadius}" />
             </Image.Effect>

@@ -18,6 +18,11 @@
     <system:String x:Key="BackgroundImage">背景圖片</system:String>
     <system:String x:Key="BackgroundOpacity">背景不透明度</system:String>
     <system:String x:Key="BackgroundBlurRadius">背景模糊半徑</system:String>
+    <system:String x:Key="BackgroundImageStretchMode">背景填充模式</system:String>
+    <system:String x:Key="BackgroundImageStretchModeNone">無拉伸</system:String>
+    <system:String x:Key="BackgroundImageStretchModeFill">拉伸填充</system:String>
+    <system:String x:Key="BackgroundImageStretchModeUniform">等比適應</system:String>
+    <system:String x:Key="BackgroundImageStretchModeUniformToFill">等比填充（裁剪）</system:String>
     <system:String x:Key="UiTheme">介面主題</system:String>
     <system:String x:Key="HotKeySettings">熱鍵設定</system:String>
     <system:String x:Key="UpdateSettings">更新設定</system:String>
