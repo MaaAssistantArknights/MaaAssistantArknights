@@ -207,9 +207,6 @@ bool asst::BattleHelper::update_deployment_(
             }
             click_oper_on_deployment(oper_rect);
         }
-        if (!unknown_opers.empty()) {
-            return false;
-        }
     }
 
     return true;
