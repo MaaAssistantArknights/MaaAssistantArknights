@@ -88,14 +88,23 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 
     std::unique_lock<std::mutex> lock(m_entry_mutex);
 
-#define LoadResourceAndCheckRet(Config, Filename)                 \
-    {                                                             \
-        auto full_path = path / Filename;                         \
-        bool ret = load_resource<Config>(full_path);              \
-        if (!ret) {                                               \
-            Log.error(#Config, " load failed, path:", full_path); \
-            return false;                                         \
-        }                                                         \
+#define LoadResourceAndCheckRet(Config, FilenameExpr)                           \
+    {                                                                           \
+        auto filename = FilenameExpr;                                           \
+        auto full_path = path / filename;                                       \
+        bool ret = load_resource<Config>(full_path);                            \
+        if (!ret) {                                                             \
+            Log.error(#Config, " load failed, path:", full_path);               \
+            return false;                                                       \
+        }                                                                       \
+        auto custom_path = path / (full_path.stem().string() + "_custom.json"); \
+        if (std::filesystem::exists(custom_path)) {                             \
+            ret = load_resource<Config>(custom_path);                           \
+            if (!ret) {                                                         \
+                Log.error(#Config, " load failed, path:", custom_path);         \
+                return false;                                                   \
+            }                                                                   \
+        }                                                                       \
     }
 
 #ifdef ASST_DEBUG
