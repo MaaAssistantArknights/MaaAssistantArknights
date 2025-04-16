@@ -1,1297 +1,956 @@
 {
-  "minimum_required": "v5.15.0",
-  "stage_name": "阿卡胡拉丛林",
-  "actions": [],
-  "doc": {
-    "title": "保全派驻-阿卡胡拉丛林-澄闪+荒芜拉普兰德+Mon3tr+逻各斯-丛林用示踪信标",
-    "title_color": "dark",
-    "details": "\n应急一命通关视频已上传，求三连\n═══════════════════════════════════\n作业代码：maa://50393\n目前只能手动编队，所有工具人请尽量选择费用低的干员，练度最好精二，最低精一满级\n所有工具人技能不要选只能开一次的技能（类似山2技能那种）和接敌才能放的技能（类似锏3技能那种），否则MAA会一直放技能，也不要选攻击范围太奇怪的（类似黑3技能那种）\n请在确认导能原件选择【丛林用示踪信标】、战术装备全选A、手动编队并阵容确认后，再点击开始\n作业作者：萨拉托加\n作业视频：【MAA保全派驻 阿卡胡拉丛林 应急一命通关】 https://www.bilibili.com/video/BV1pmoTYVECF/?share_source=copy_web&vd_source=3fd5040fe25f6a00e19e6072bcccfa4e\nJSON作者：萨拉托加\n═══════════════════════════════════\n不包括核心选择的额外干员：\n先锋4（选有不需要接敌就能回费的技能的先锋，不要选接敌回费的）\n术士5（尽量选20费左右的术士，如果选群法要带减费模组）\n重装3（优先选自回血的奶盾，例如塞雷娅黍临光）\n狙击4（优先选速狙）\n═══════════════════════════════════\n有问题反馈进群545928846，评论区反馈不一定能及时回复\n部分核心可根据自己需求修改作业文件替换，但不可发上作业站，用此作业默认同意",
-    "details_color": "dark"
-  },
-  "groups": [],
-  "opers": [
-    {
-      "name": "Mon3tr",
-      "skill": 2,
-      "skill_usage": 1
+    "minimum_required": "v5.15.0",
+    "stage_name": "阿卡胡拉丛林",
+    "actions": [],
+    "doc": {
+        "title": "保全派驻-阿卡胡拉丛林-澄闪+荒芜拉普兰德+Mon3tr+逻各斯-丛林用示踪信标",
+        "title_color": "dark",
+        "details": "\n应急一命通关视频已上传，求三连\n═══════════════════════════════════\n作业代码：maa://50393\n目前只能手动编队，所有工具人请尽量选择费用低的干员，练度最好精二，最低精一满级\n所有工具人技能不要选只能开一次的技能（类似山2技能那种）和接敌才能放的技能（类似锏3技能那种），否则MAA会一直放技能，也不要选攻击范围太奇怪的（类似黑3技能那种）\n请在确认导能原件选择【丛林用示踪信标】、战术装备全选A、手动编队并阵容确认后，再点击开始\n作业作者：萨拉托加\n作业视频：【MAA保全派驻 阿卡胡拉丛林 应急一命通关】 https://www.bilibili.com/video/BV1pmoTYVECF/?share_source=copy_web&vd_source=3fd5040fe25f6a00e19e6072bcccfa4e\nJSON作者：萨拉托加\n═══════════════════════════════════\n不包括核心选择的额外干员：\n先锋4（选有不需要接敌就能回费的技能的先锋，不要选接敌回费的）\n术士5（尽量选20费左右的术士，如果选群法要带减费模组）\n重装3（优先选自回血的奶盾，例如塞雷娅黍临光）\n狙击4（优先选速狙）\n═══════════════════════════════════\n有问题反馈进群545928846，评论区反馈不一定能及时回复\n部分核心可根据自己需求修改作业文件替换，但不可发上作业站，用此作业默认同意",
+        "details_color": "dark"
     },
-    {
-      "name": "荒芜拉普兰德",
-      "skill": 3,
-      "skill_usage": 1
+    "groups": [],
+    "opers": [
+        {
+            "name": "Mon3tr",
+            "skill": 2,
+            "skill_usage": 1
+        },
+        {
+            "name": "荒芜拉普兰德",
+            "skill": 3,
+            "skill_usage": 1
+        },
+        {
+            "name": "澄闪",
+            "skill": 3,
+            "skill_usage": 1
+        },
+        {
+            "name": "逻各斯",
+            "skill": 1,
+            "skill_usage": 0
+        }
+    ],
+    "type": "SSS",
+    "buff": "丛林用示踪信标",
+    "equipment": ["A", "A", "A", "A", "A", "A", "A", "A"],
+    "strategy": "优选策略",
+    "tool_men": {
+        "vanguard": 4,
+        "guard": 0,
+        "defender": 3,
+        "sniper": 4,
+        "caster": 5,
+        "medic": 0,
+        "supporter": 0,
+        "specialist": 0
     },
-    {
-      "name": "澄闪",
-      "skill": 3,
-      "skill_usage": 1
-    },
-    {
-      "name": "逻各斯",
-      "skill": 1,
-      "skill_usage": 0
-    }
-  ],
-  "type": "SSS",
-  "buff": "丛林用示踪信标",
-  "equipment": [
-    "A",
-    "A",
-    "A",
-    "A",
-    "A",
-    "A",
-    "A",
-    "A"
-  ],
-  "strategy": "优选策略",
-  "tool_men": {
-    "vanguard": 4,
-    "guard": 0,
-    "defender": 3,
-    "sniper": 4,
-    "caster": 5,
-    "medic": 0,
-    "supporter": 0,
-    "specialist": 0
-  },
-  "drops": [
-    "辅助",
-    "无需增调干员",
-    "狙击",
-    "术师",
-    "先锋",
-    "重装",
-    "干扰波长"
-  ],
-  "blacklist": [
-    "罗比菈塔",
-    "掠风",
-    "白铁",
-    "伺夜",
-    "豆苗",
-    "夜半",
-    "缪尔赛思",
-    "森蚺",
-    "极光",
-    "迷迭香",
-    "早露",
-    "菲亚梅塔",
-    "承曦格雷伊",
-    "莫斯提马",
-    "死芒",
-    "凯尔希",
-    "异客",
-    "伊芙利特",
-    "寒檀",
-    "莱恩哈特",
-    "惊蛰",
-    "蚀清",
-    "天火",
-    "星源",
-    "炎狱炎熔",
-    "布丁",
-    "格雷伊",
-    "远山",
-    "炎熔",
-    "假日威龙陈",
-    "埃拉托",
-    "奥斯塔",
-    "截云",
-    "熔泉",
-    "慑砂",
-    "送葬人",
-    "陨星",
-    "白雪",
-    "铅踝",
-    "松果",
-    "泰拉大陆调查团",
-    "正义骑士号",
-    "黑",
-    "洋灰",
-    "火哨",
-    "斥罪",
-    "号角",
-    "火神",
-    "灰毫",
-    "泥岩",
-    "车尔尼",
-    "暮落",
-    "石棉",
-    "坚雷",
-    "阿米娅",
-    "风笛",
-    "黑键",
-    "伊内丝",
-    "晓歌",
-    "格拉尼",
-    "苇草",
-    "野鬃",
-    "历阵锐枪芬",
-    "谜图",
-    "红豆",
-    "翎羽",
-    "W",
-    "U-Official",
-    "12F",
-    "Lancet-2"
-  ],
-  "stages": [
-    {
-      "stage_name": "丛林式寒暄",
-      "strategies": [
+    "drops": ["辅助", "无需增调干员", "狙击", "术师", "先锋", "重装", "干扰波长"],
+    "blacklist": [
+        "罗比菈塔",
+        "掠风",
+        "白铁",
+        "伺夜",
+        "豆苗",
+        "夜半",
+        "缪尔赛思",
+        "森蚺",
+        "极光",
+        "迷迭香",
+        "早露",
+        "菲亚梅塔",
+        "承曦格雷伊",
+        "莫斯提马",
+        "死芒",
+        "凯尔希",
+        "异客",
+        "伊芙利特",
+        "寒檀",
+        "莱恩哈特",
+        "惊蛰",
+        "蚀清",
+        "天火",
+        "星源",
+        "炎狱炎熔",
+        "布丁",
+        "格雷伊",
+        "远山",
+        "炎熔",
+        "假日威龙陈",
+        "埃拉托",
+        "奥斯塔",
+        "截云",
+        "熔泉",
+        "慑砂",
+        "送葬人",
+        "陨星",
+        "白雪",
+        "铅踝",
+        "松果",
+        "泰拉大陆调查团",
+        "正义骑士号",
+        "黑",
+        "洋灰",
+        "火哨",
+        "斥罪",
+        "号角",
+        "火神",
+        "灰毫",
+        "泥岩",
+        "车尔尼",
+        "暮落",
+        "石棉",
+        "坚雷",
+        "阿米娅",
+        "风笛",
+        "黑键",
+        "伊内丝",
+        "晓歌",
+        "格拉尼",
+        "苇草",
+        "野鬃",
+        "历阵锐枪芬",
+        "谜图",
+        "红豆",
+        "翎羽",
+        "W",
+        "U-Official",
+        "12F",
+        "Lancet-2"
+    ],
+    "stages": [
         {
-          "tool_men": {
-            "vanguard": 1
-          },
-          "location": [
-            4,
-            1
-          ],
-          "direction": "Down"
+            "stage_name": "丛林式寒暄",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [4, 1],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [6, 3],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [6, 2],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [5, 2],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [4, 1],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "defender": 1
+                    },
+                    "location": [6, 3],
+                    "direction": "Left"
+                },
+                {
+                    "core": "荒芜拉普兰德",
+                    "tool_men": {
+                        "caster": 2
+                    },
+                    "location": [6, 2],
+                    "direction": "Left"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "caster": 1,
+                        "sniper": 1
+                    },
+                    "location": [5, 2],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 99
+                    },
+                    "location": [4, 1],
+                    "direction": "Down"
+                },
+                {
+                    "core": "丛林用示踪信标",
+                    "tool_men": {
+                        "defender": 99
+                    },
+                    "location": [6, 3],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [2, 5],
+                    "direction": "none",
+                    "cost": 48
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [3, 5],
+                    "direction": "none",
+                    "cost": 49
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [1, 4],
+                    "direction": "none",
+                    "cost": 50
+                }
+            ],
+            "retry_times": 9
         },
         {
-          "tool_men": {
-            "vanguard": 1
-          },
-          "location": [
-            6,
-            3
-          ],
-          "direction": "Left"
+            "stage_name": "生物多样性",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [3, 2],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [3, 3],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [3, 2],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [4, 1],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "defender": 1
+                    },
+                    "location": [4, 2],
+                    "direction": "Right"
+                },
+                {
+                    "core": "荒芜拉普兰德",
+                    "tool_men": {
+                        "caster": 1,
+                        "sniper": 1
+                    },
+                    "location": [4, 1],
+                    "direction": "Down"
+                },
+                {
+                    "core": "逻各斯",
+                    "tool_men": {
+                        "caster": 2
+                    },
+                    "location": [3, 3],
+                    "direction": "Right"
+                },
+                {
+                    "core": "Mon3tr",
+                    "tool_men": {},
+                    "location": [4, 3],
+                    "direction": "Up"
+                },
+                {
+                    "core": "重构体",
+                    "tool_men": {},
+                    "location": [5, 4],
+                    "direction": "none"
+                },
+                {
+                    "tool_men": {
+                        "defender": 99
+                    },
+                    "location": [4, 2],
+                    "direction": "Right"
+                },
+                {
+                    "core": "丛林用示踪信标",
+                    "tool_men": {
+                        "vanguard": 99
+                    },
+                    "location": [3, 2],
+                    "direction": "Right"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [8, 1],
+                    "direction": "none",
+                    "cost": 48
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [8, 3],
+                    "direction": "none",
+                    "cost": 49
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [8, 4],
+                    "direction": "none",
+                    "cost": 50
+                }
+            ],
+            "retry_times": 9
         },
         {
-          "tool_men": {
-            "sniper": 1
-          },
-          "location": [
-            6,
-            2
-          ],
-          "direction": "Left"
+            "stage_name": "习以为常",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [4, 5],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [7, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [5, 3],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [6, 4],
+                    "direction": "Up"
+                },
+                {
+                    "core": "逻各斯",
+                    "tool_men": {
+                        "caster": 2
+                    },
+                    "location": [7, 4],
+                    "direction": "Left"
+                },
+                {
+                    "core": "荒芜拉普兰德",
+                    "tool_men": {
+                        "caster": 1,
+                        "sniper": 1
+                    },
+                    "location": [5, 3],
+                    "direction": "Down"
+                },
+                {
+                    "core": "Mon3tr",
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [3, 4],
+                    "direction": "Up"
+                },
+                {
+                    "core": "重构体",
+                    "tool_men": {},
+                    "location": [4, 2],
+                    "direction": "none"
+                },
+                {
+                    "tool_men": {
+                        "defender": 1
+                    },
+                    "location": [6, 4],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 99
+                    },
+                    "location": [4, 5],
+                    "direction": "Up"
+                },
+                {
+                    "core": "丛林用示踪信标",
+                    "tool_men": {
+                        "defender": 99
+                    },
+                    "location": [6, 4],
+                    "direction": "Up"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [1, 3],
+                    "direction": "none",
+                    "cost": 48
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [8, 5],
+                    "direction": "none",
+                    "cost": 49
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [7, 5],
+                    "direction": "none",
+                    "cost": 50
+                }
+            ],
+            "retry_times": 9
         },
         {
-          "tool_men": {
-            "caster": 1
-          },
-          "location": [
-            5,
-            2
-          ],
-          "direction": "Down"
+            "stage_name": "林间空地",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [4, 6],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [7, 6],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [5, 5],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [6, 6],
+                    "direction": "Up"
+                },
+                {
+                    "core": "干扰波长",
+                    "tool_men": {},
+                    "location": [5, 4],
+                    "direction": "none"
+                },
+                {
+                    "core": "阻断波长",
+                    "tool_men": {},
+                    "location": [5, 3],
+                    "direction": "none"
+                },
+                {
+                    "core": "逻各斯",
+                    "tool_men": {
+                        "caster": 2
+                    },
+                    "location": [5, 5],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 1
+                    },
+                    "location": [3, 6],
+                    "direction": "Right"
+                },
+                {
+                    "core": "荒芜拉普兰德",
+                    "tool_men": {
+                        "caster": 1,
+                        "sniper": 1
+                    },
+                    "location": [7, 6],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "defender": 1
+                    },
+                    "location": [4, 6],
+                    "direction": "Up"
+                },
+                {
+                    "core": "Mon3tr",
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [2, 5],
+                    "direction": "Right"
+                },
+                {
+                    "core": "重构体",
+                    "tool_men": {},
+                    "location": [4, 4],
+                    "direction": "none"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 99
+                    },
+                    "location": [3, 6],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "caster": 99,
+                        "sniper": 99
+                    },
+                    "location": [3, 6],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 99
+                    },
+                    "location": [6, 6],
+                    "direction": "Up"
+                },
+                {
+                    "core": "丛林用示踪信标",
+                    "tool_men": {
+                        "defender": 99
+                    },
+                    "location": [4, 6],
+                    "direction": "Up"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [3, 1],
+                    "direction": "none",
+                    "cost": 38
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [4, 1],
+                    "direction": "none",
+                    "cost": 39
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [5, 1],
+                    "direction": "none",
+                    "cost": 40
+                }
+            ],
+            "retry_times": 9
         },
         {
-          "tool_men": {
-            "vanguard": 1
-          },
-          "location": [
-            4,
-            1
-          ],
-          "direction": "Down"
+            "stage_name": "纠缠不休",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [7, 4],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [6, 3],
+                    "direction": "Down"
+                },
+                {
+                    "core": "干扰波长",
+                    "tool_men": {},
+                    "location": [7, 5],
+                    "direction": "none"
+                },
+                {
+                    "core": "阻断波长",
+                    "tool_men": {},
+                    "location": [6, 5],
+                    "direction": "none"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [6, 4],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [8, 5],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "defender": 1
+                    },
+                    "location": [7, 4],
+                    "direction": "Down"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 1,
+                        "caster": 1
+                    },
+                    "location": [6, 4],
+                    "direction": "Down"
+                },
+                {
+                    "core": "荒芜拉普兰德",
+                    "tool_men": {
+                        "caster": 2
+                    },
+                    "location": [6, 3],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 1
+                    },
+                    "location": [9, 5],
+                    "direction": "Left"
+                },
+                {
+                    "core": "Mon3tr",
+                    "tool_men": {},
+                    "location": [6, 2],
+                    "direction": "Down"
+                },
+                {
+                    "core": "重构体",
+                    "tool_men": {},
+                    "location": [6, 1],
+                    "direction": "none"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 99
+                    },
+                    "location": [9, 5],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 99,
+                        "sniper": 99
+                    },
+                    "location": [9, 5],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 99
+                    },
+                    "location": [8, 5],
+                    "direction": "Left"
+                },
+                {
+                    "core": "丛林用示踪信标",
+                    "tool_men": {
+                        "defender": 99
+                    },
+                    "location": [7, 4],
+                    "direction": "Down"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [1, 4],
+                    "direction": "none",
+                    "cost": 38
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [2, 4],
+                    "direction": "none",
+                    "cost": 39
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [3, 4],
+                    "direction": "none",
+                    "cost": 40
+                }
+            ],
+            "retry_times": 9
         },
         {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            6,
-            3
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "荒芜拉普兰德",
-          "tool_men": {
-            "caster": 2
-          },
-          "location": [
-            6,
-            2
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "澄闪",
-          "tool_men": {
-            "caster": 1,
-            "sniper": 1
-          },
-          "location": [
-            5,
-            2
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "vanguard": 99
-          },
-          "location": [
-            4,
-            1
-          ],
-          "direction": "Down"
-        },
-        {
-          "core": "丛林用示踪信标",
-          "tool_men": {
-            "defender": 99
-          },
-          "location": [
-            6,
-            3
-          ],
-          "direction": "Left"
+            "stage_name": "人与自然",
+            "strategies": [
+                {
+                    "core": "改性植物激素",
+                    "tool_men": {},
+                    "location": [11, 3],
+                    "direction": "none"
+                },
+                {
+                    "core": "改性植物激素",
+                    "tool_men": {},
+                    "location": [10, 5],
+                    "direction": "none"
+                },
+                {
+                    "core": "改性植物激素",
+                    "tool_men": {},
+                    "location": [9, 2],
+                    "direction": "none"
+                },
+                {
+                    "core": "改性植物激素",
+                    "tool_men": {},
+                    "location": [11, 2],
+                    "direction": "none"
+                },
+                {
+                    "core": "改性植物激素",
+                    "tool_men": {},
+                    "location": [11, 4],
+                    "direction": "none"
+                },
+                {
+                    "core": "改性植物激素",
+                    "tool_men": {},
+                    "location": [9, 5],
+                    "direction": "none"
+                },
+                {
+                    "core": "改性植物激素",
+                    "tool_men": {},
+                    "location": [10, 4],
+                    "direction": "none"
+                },
+                {
+                    "core": "改性植物激素",
+                    "tool_men": {},
+                    "location": [10, 6],
+                    "direction": "none"
+                },
+                {
+                    "core": "改性植物激素",
+                    "tool_men": {},
+                    "location": [9, 3],
+                    "direction": "none"
+                },
+                {
+                    "core": "改性植物激素",
+                    "tool_men": {},
+                    "location": [10, 2],
+                    "direction": "none"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [4, 5],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [2, 5],
+                    "direction": "Right"
+                },
+                {
+                    "core": "阻断波长",
+                    "tool_men": {},
+                    "location": [5, 3],
+                    "direction": "none"
+                },
+                {
+                    "core": "干扰波长",
+                    "tool_men": {},
+                    "location": [6, 5],
+                    "direction": "none"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [3, 4],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [5, 5],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "defender": 1
+                    },
+                    "location": [5, 5],
+                    "direction": "Right"
+                },
+                {
+                    "core": "荒芜拉普兰德",
+                    "tool_men": {
+                        "caster": 1,
+                        "sniper": 1
+                    },
+                    "location": [3, 4],
+                    "direction": "Right"
+                },
+                {
+                    "core": "Mon3tr",
+                    "tool_men": {},
+                    "location": [2, 4],
+                    "direction": "Right"
+                },
+                {
+                    "core": "重构体",
+                    "tool_men": {},
+                    "location": [1, 3],
+                    "direction": "none"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 1
+                    },
+                    "location": [4, 6],
+                    "direction": "Right"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "caster": 2
+                    },
+                    "location": [2, 5],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 99
+                    },
+                    "location": [4, 6],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "caster": 99,
+                        "sniper": 99
+                    },
+                    "location": [4, 6],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 99
+                    },
+                    "location": [4, 5],
+                    "direction": "Right"
+                },
+                {
+                    "core": "丛林用示踪信标",
+                    "tool_men": {
+                        "defender": 99
+                    },
+                    "location": [5, 5],
+                    "direction": "Right"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [2, 1],
+                    "direction": "none",
+                    "cost": 48
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [3, 1],
+                    "direction": "none",
+                    "cost": 49
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [4, 1],
+                    "direction": "none",
+                    "cost": 50
+                }
+            ],
+            "retry_times": 9
         }
-      ],
-      "draw_as_possible": true,
-      "actions": [
-        {
-          "type": "二倍速"
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            2,
-            5
-          ],
-          "direction": "none",
-          "cost": 48
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            3,
-            5
-          ],
-          "direction": "none",
-          "cost": 49
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            1,
-            4
-          ],
-          "direction": "none",
-          "cost": 50
-        }
-      ],
-      "retry_times": 9
-    },
-    {
-      "stage_name": "生物多样性",
-      "strategies": [
-        {
-          "tool_men": {
-            "vanguard": 1
-          },
-          "location": [
-            3,
-            2
-          ],
-          "direction": "Up"
-        },
-        {
-          "tool_men": {
-            "caster": 1
-          },
-          "location": [
-            3,
-            3
-          ],
-          "direction": "Up"
-        },
-        {
-          "tool_men": {
-            "vanguard": 1
-          },
-          "location": [
-            3,
-            2
-          ],
-          "direction": "Up"
-        },
-        {
-          "tool_men": {
-            "sniper": 1
-          },
-          "location": [
-            4,
-            1
-          ],
-          "direction": "Down"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            4,
-            2
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "荒芜拉普兰德",
-          "tool_men": {
-            "caster": 1,
-            "sniper": 1
-          },
-          "location": [
-            4,
-            1
-          ],
-          "direction": "Down"
-        },
-        {
-          "core": "逻各斯",
-          "tool_men": {
-            "caster": 2
-          },
-          "location": [
-            3,
-            3
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "Mon3tr",
-          "tool_men": {},
-          "location": [
-            4,
-            3
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "重构体",
-          "tool_men": {},
-          "location": [
-            5,
-            4
-          ],
-          "direction": "none"
-        },
-        {
-          "tool_men": {
-            "defender": 99
-          },
-          "location": [
-            4,
-            2
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "丛林用示踪信标",
-          "tool_men": {
-            "vanguard": 99
-          },
-          "location": [
-            3,
-            2
-          ],
-          "direction": "Right"
-        }
-      ],
-      "draw_as_possible": true,
-      "actions": [
-        {
-          "type": "二倍速"
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            8,
-            1
-          ],
-          "direction": "none",
-          "cost": 48
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            8,
-            3
-          ],
-          "direction": "none",
-          "cost": 49
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            8,
-            4
-          ],
-          "direction": "none",
-          "cost": 50
-        }
-      ],
-      "retry_times": 9
-    },
-    {
-      "stage_name": "习以为常",
-      "strategies": [
-        {
-          "tool_men": {
-            "vanguard": 1
-          },
-          "location": [
-            4,
-            5
-          ],
-          "direction": "Up"
-        },
-        {
-          "tool_men": {
-            "caster": 1
-          },
-          "location": [
-            7,
-            4
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "sniper": 1
-          },
-          "location": [
-            5,
-            3
-          ],
-          "direction": "Down"
-        },
-        {
-          "tool_men": {
-            "vanguard": 1
-          },
-          "location": [
-            6,
-            4
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "逻各斯",
-          "tool_men": {
-            "caster": 2
-          },
-          "location": [
-            7,
-            4
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "荒芜拉普兰德",
-          "tool_men": {
-            "caster": 1,
-            "sniper": 1
-          },
-          "location": [
-            5,
-            3
-          ],
-          "direction": "Down"
-        },
-        {
-          "core": "Mon3tr",
-          "tool_men": {
-            "sniper": 1
-          },
-          "location": [
-            3,
-            4
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "重构体",
-          "tool_men": {},
-          "location": [
-            4,
-            2
-          ],
-          "direction": "none"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            6,
-            4
-          ],
-          "direction": "Up"
-        },
-        {
-          "tool_men": {
-            "vanguard": 99
-          },
-          "location": [
-            4,
-            5
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "丛林用示踪信标",
-          "tool_men": {
-            "defender": 99
-          },
-          "location": [
-            6,
-            4
-          ],
-          "direction": "Up"
-        }
-      ],
-      "draw_as_possible": true,
-      "actions": [
-        {
-          "type": "二倍速"
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            1,
-            3
-          ],
-          "direction": "none",
-          "cost": 48
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            8,
-            5
-          ],
-          "direction": "none",
-          "cost": 49
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            7,
-            5
-          ],
-          "direction": "none",
-          "cost": 50
-        }
-      ],
-      "retry_times": 9
-    },
-    {
-      "stage_name": "林间空地",
-      "strategies": [
-        {
-          "tool_men": {
-            "vanguard": 1
-          },
-          "location": [
-            4,
-            6
-          ],
-          "direction": "Up"
-        },
-        {
-          "tool_men": {
-            "sniper": 1
-          },
-          "location": [
-            7,
-            6
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "caster": 1
-          },
-          "location": [
-            5,
-            5
-          ],
-          "direction": "Up"
-        },
-        {
-          "tool_men": {
-            "vanguard": 1
-          },
-          "location": [
-            6,
-            6
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "干扰波长",
-          "tool_men": {},
-          "location": [
-            5,
-            4
-          ],
-          "direction": "none"
-        },
-        {
-          "core": "阻断波长",
-          "tool_men": {},
-          "location": [
-            5,
-            3
-          ],
-          "direction": "none"
-        },
-        {
-          "core": "逻各斯",
-          "tool_men": {
-            "caster": 2
-          },
-          "location": [
-            5,
-            5
-          ],
-          "direction": "Up"
-        },
-        {
-          "tool_men": {
-            "supporter": 1
-          },
-          "location": [
-            3,
-            6
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "荒芜拉普兰德",
-          "tool_men": {
-            "caster": 1,
-            "sniper": 1
-          },
-          "location": [
-            7,
-            6
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            4,
-            6
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "Mon3tr",
-          "tool_men": {
-            "sniper": 1
-          },
-          "location": [
-            2,
-            5
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "重构体",
-          "tool_men": {},
-          "location": [
-            4,
-            4
-          ],
-          "direction": "none"
-        },
-        {
-          "tool_men": {
-            "supporter": 99
-          },
-          "location": [
-            3,
-            6
-          ],
-          "direction": "Right"
-        },
-        {
-          "tool_men": {
-            "caster": 99,
-            "sniper": 99
-          },
-          "location": [
-            3,
-            6
-          ],
-          "direction": "Right"
-        },
-        {
-          "tool_men": {
-            "vanguard": 99
-          },
-          "location": [
-            6,
-            6
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "丛林用示踪信标",
-          "tool_men": {
-            "defender": 99
-          },
-          "location": [
-            4,
-            6
-          ],
-          "direction": "Up"
-        }
-      ],
-      "draw_as_possible": true,
-      "actions": [
-        {
-          "type": "二倍速"
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            3,
-            1
-          ],
-          "direction": "none",
-          "cost": 38
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            4,
-            1
-          ],
-          "direction": "none",
-          "cost": 39
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            5,
-            1
-          ],
-          "direction": "none",
-          "cost": 40
-        }
-      ],
-      "retry_times": 9
-    },
-    {
-      "stage_name": "纠缠不休",
-      "strategies": [
-        {
-          "tool_men": {
-            "vanguard": 1
-          },
-          "location": [
-            7,
-            4
-          ],
-          "direction": "Down"
-        },
-        {
-          "tool_men": {
-            "sniper": 1
-          },
-          "location": [
-            6,
-            3
-          ],
-          "direction": "Down"
-        },
-        {
-          "core": "干扰波长",
-          "tool_men": {},
-          "location": [
-            7,
-            5
-          ],
-          "direction": "none"
-        },
-        {
-          "core": "阻断波长",
-          "tool_men": {},
-          "location": [
-            6,
-            5
-          ],
-          "direction": "none"
-        },
-        {
-          "tool_men": {
-            "caster": 1
-          },
-          "location": [
-            6,
-            4
-          ],
-          "direction": "Down"
-        },
-        {
-          "tool_men": {
-            "vanguard": 1
-          },
-          "location": [
-            8,
-            5
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            7,
-            4
-          ],
-          "direction": "Down"
-        },
-        {
-          "core": "澄闪",
-          "tool_men": {
-            "sniper": 1,
-            "caster": 1
-          },
-          "location": [
-            6,
-            4
-          ],
-          "direction": "Down"
-        },
-        {
-          "core": "荒芜拉普兰德",
-          "tool_men": {
-            "caster": 2
-          },
-          "location": [
-            6,
-            3
-          ],
-          "direction": "Down"
-        },
-        {
-          "tool_men": {
-            "supporter": 1
-          },
-          "location": [
-            9,
-            5
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "Mon3tr",
-          "tool_men": {},
-          "location": [
-            6,
-            2
-          ],
-          "direction": "Down"
-        },
-        {
-          "core": "重构体",
-          "tool_men": {},
-          "location": [
-            6,
-            1
-          ],
-          "direction": "none"
-        },
-        {
-          "tool_men": {
-            "supporter": 99
-          },
-          "location": [
-            9,
-            5
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "caster": 99,
-            "sniper": 99
-          },
-          "location": [
-            9,
-            5
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "vanguard": 99
-          },
-          "location": [
-            8,
-            5
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "丛林用示踪信标",
-          "tool_men": {
-            "defender": 99
-          },
-          "location": [
-            7,
-            4
-          ],
-          "direction": "Down"
-        }
-      ],
-      "draw_as_possible": true,
-      "actions": [
-        {
-          "type": "二倍速"
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            1,
-            4
-          ],
-          "direction": "none",
-          "cost": 38
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            2,
-            4
-          ],
-          "direction": "none",
-          "cost": 39
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            3,
-            4
-          ],
-          "direction": "none",
-          "cost": 40
-        }
-      ],
-      "retry_times": 9
-    },
-    {
-      "stage_name": "人与自然",
-      "strategies": [
-        {
-          "core": "改性植物激素",
-          "tool_men": {},
-          "location": [
-            11,
-            3
-          ],
-          "direction": "none"
-        },
-        {
-          "core": "改性植物激素",
-          "tool_men": {},
-          "location": [
-            10,
-            5
-          ],
-          "direction": "none"
-        },
-        {
-          "core": "改性植物激素",
-          "tool_men": {},
-          "location": [
-            9,
-            2
-          ],
-          "direction": "none"
-        },
-        {
-          "core": "改性植物激素",
-          "tool_men": {},
-          "location": [
-            11,
-            2
-          ],
-          "direction": "none"
-        },
-        {
-          "core": "改性植物激素",
-          "tool_men": {},
-          "location": [
-            11,
-            4
-          ],
-          "direction": "none"
-        },
-        {
-          "core": "改性植物激素",
-          "tool_men": {},
-          "location": [
-            9,
-            5
-          ],
-          "direction": "none"
-        },
-        {
-          "core": "改性植物激素",
-          "tool_men": {},
-          "location": [
-            10,
-            4
-          ],
-          "direction": "none"
-        },
-        {
-          "core": "改性植物激素",
-          "tool_men": {},
-          "location": [
-            10,
-            6
-          ],
-          "direction": "none"
-        },
-        {
-          "core": "改性植物激素",
-          "tool_men": {},
-          "location": [
-            9,
-            3
-          ],
-          "direction": "none"
-        },
-        {
-          "core": "改性植物激素",
-          "tool_men": {},
-          "location": [
-            10,
-            2
-          ],
-          "direction": "none"
-        },
-        {
-          "tool_men": {
-            "vanguard": 1
-          },
-          "location": [
-            4,
-            5
-          ],
-          "direction": "Right"
-        },
-        {
-          "tool_men": {
-            "sniper": 1
-          },
-          "location": [
-            2,
-            5
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "阻断波长",
-          "tool_men": {},
-          "location": [
-            5,
-            3
-          ],
-          "direction": "none"
-        },
-        {
-          "core": "干扰波长",
-          "tool_men": {},
-          "location": [
-            6,
-            5
-          ],
-          "direction": "none"
-        },
-        {
-          "tool_men": {
-            "caster": 1
-          },
-          "location": [
-            3,
-            4
-          ],
-          "direction": "Right"
-        },
-        {
-          "tool_men": {
-            "vanguard": 1
-          },
-          "location": [
-            5,
-            5
-          ],
-          "direction": "Up"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            5,
-            5
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "荒芜拉普兰德",
-          "tool_men": {
-            "caster": 1,
-            "sniper": 1
-          },
-          "location": [
-            3,
-            4
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "Mon3tr",
-          "tool_men": {},
-          "location": [
-            2,
-            4
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "重构体",
-          "tool_men": {},
-          "location": [
-            1,
-            3
-          ],
-          "direction": "none"
-        },
-        {
-          "tool_men": {
-            "supporter": 1
-          },
-          "location": [
-            4,
-            6
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "澄闪",
-          "tool_men": {
-            "caster": 2
-          },
-          "location": [
-            2,
-            5
-          ],
-          "direction": "Right"
-        },
-        {
-          "tool_men": {
-            "supporter": 99
-          },
-          "location": [
-            4,
-            6
-          ],
-          "direction": "Right"
-        },
-        {
-          "tool_men": {
-            "caster": 99,
-            "sniper": 99
-          },
-          "location": [
-            4,
-            6
-          ],
-          "direction": "Right"
-        },
-        {
-          "tool_men": {
-            "vanguard": 99
-          },
-          "location": [
-            4,
-            5
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "丛林用示踪信标",
-          "tool_men": {
-            "defender": 99
-          },
-          "location": [
-            5,
-            5
-          ],
-          "direction": "Right"
-        }
-      ],
-      "draw_as_possible": true,
-      "actions": [
-        {
-          "type": "二倍速"
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            2,
-            1
-          ],
-          "direction": "none",
-          "cost": 48
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            3,
-            1
-          ],
-          "direction": "none",
-          "cost": 49
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            4,
-            1
-          ],
-          "direction": "none",
-          "cost": 50
-        }
-      ],
-      "retry_times": 9
-    }
-  ]
+    ]
 }
