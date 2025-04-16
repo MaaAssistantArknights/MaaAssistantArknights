@@ -197,16 +197,26 @@ bool asst::BattleHelper::update_deployment_(
             // 这时候即使名字不合法也只能凑合用了，但是为空还是不行的
             if (name.empty()) {
                 Log.error("name is empty");
-                continue;
             }
-            set_oper_name(oper, name);
-            remove_cooling_from_battlefield(oper);
+            else {
+                set_oper_name(oper, name);
+                remove_cooling_from_battlefield(oper);
 
-            m_cur_deployment_opers[oper.index] = oper;
-            AvatarCache.set_avatar(name, oper.role, oper.avatar);
-        }
-        if (!unknown_opers.empty()) {
-            cancel_oper_selection();
+                m_cur_deployment_opers[oper.index] = oper;
+                AvatarCache.set_avatar(name, oper.role, oper.avatar);
+            }
+
+            // 再点一下部署栏头像取消选择
+            // 注意，点完部署区的干员之后，他的头像会放大；干员的位置都被挤开了，不在原来的位置了
+            // 所以要重新识别一下位置
+            Matcher re_matcher(name_image);
+            re_matcher.set_task_info("BattleAvatarReMatch");
+            re_matcher.set_templ(oper.avatar);
+            if (re_matcher.analyze()) {
+                oper_rect = re_matcher.get_result().rect;
+            }
+            click_oper_on_deployment(oper_rect);
+            name_image = m_inst_helper.ctrler()->get_image();
         }
     }
 
