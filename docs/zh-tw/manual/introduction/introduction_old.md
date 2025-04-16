@@ -74,7 +74,7 @@ icon: ic:baseline-article
 
 #### 自定義基建換班（測試功能）
 
-- 一圖流的大佬們幫忙寫了一個 [排班產生器](https://ark.yituliu.cn/tools/schedule)，可參考 [基建排班協議](3.6-基建排班協議.md) 使用。
+- 一圖流的大佬們幫忙寫了一個 [排班產生器](https://ark.yituliu.cn/tools/schedule)，可參考 [基建排班協議](../../protocol/base-scheduling-schema.md) 使用。
 - 在 MAA 資料夾 `/resource/custom_infrast/` 下內建了幾套極限效率的作業，可用作參考。（全幹員且精二大佬可以試著直接用）
 
 ### 一鍵長草：獲取信用及購物
@@ -118,7 +118,7 @@ icon: ic:baseline-article
 
 #### 寫作業
 
-- 可以在 [作業編輯器](https://prts.plus/create) 上製作，可參考 [戰鬥流程協議](3.3-戰鬥流程協議.md) 使用。
+- 可以在 [作業編輯器](https://prts.plus/create) 上製作，可參考 [戰鬥流程協議](../../protocol/copilot-schema.md) 使用。
 - 地圖座標獲取：填寫 `stage_name` 後直接開一局，會在目錄下產生 `map.png`，可以用於參考。也可參考 [PRTS.Map](https://map.ark-nights.com/areas) 網站，在設定中將 `座標展示` 修改為 `MAA` 後使用。
 - 支援演習模式，不用一直浪費理智測試的。
 - 推薦在作業描述裡填上你的署名（作者名）、參考的攻略影片連結、其他想說的等等。
@@ -156,7 +156,7 @@ icon: ic:baseline-article
   - 進入軟體 `設定` - `連接設定`，選擇 `adb.exe` 的檔案路徑，填寫 adb 地址（需要填寫 IP + 通訊埠，例如 `127.0.0.1:5555`），並選擇模擬器類型。
 
 - 方式 2 : 查找模擬器 adb 執行通訊埠並連接
-  - 對於本身帶有 adb 的模擬器，可按照 [確認 adb 地址一節](1.2-常見問題.md#方式-1-確認-adb-及連接地址正確) 找到 adb 執行檔位置。
+  - 對於本身帶有 adb 的模擬器，可按照 [確認 adb 地址一節](../../manual/faq.md#方式-1-確認-adb-及連接地址正確) 找到 adb 執行檔位置。
   - Mac 安卓模擬器一般安裝在 `/Application/` 目錄下，右鍵點擊 `[模擬器名稱].app` 後選擇顯示檔案內容，在目錄下查找 adb 執行檔即可。
 
 #### 獲取通訊埠號
@@ -221,7 +221,7 @@ icon: ic:baseline-article
 ### 自動啟動多開模擬器
 
 - 若需要多開模擬器同時操作，可將 MAA 資料夾複製多份，使用 **不同的 MAA**、**同一個 adb.exe**、**不同的連接地址** 來進行連接。
-- **以[藍疊國際版](1.3-模擬器支援.md##-✅-[藍疊模擬器國際版5](https://www.bluestacks.com/tw/index.html)（最穩定👍）)為例**，介紹兩種啟動多開模擬器的方式。
+- **以[藍疊國際版](../../manual/device/windows.md##✅-完美支援)為例**，介紹兩種啟動多開模擬器的方式。
 
   - 通過為 `HD-Player.exe` 附加命令來進行多開操作。
 

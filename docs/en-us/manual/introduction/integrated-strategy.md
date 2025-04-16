@@ -1,5 +1,6 @@
 ---
 order: 7
+icon: ri:game-fill
 ---
 
 # Integrated Strategy (I.S.)

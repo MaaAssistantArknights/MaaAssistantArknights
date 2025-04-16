@@ -1,5 +1,6 @@
 ---
 order: 3
+icon: hugeicons:brain-02
 ---
 
 # 刷理智

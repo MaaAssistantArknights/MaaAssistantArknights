@@ -1,5 +1,6 @@
 ---
 order: 3
+icon: hugeicons:brain-02
 ---
 
 # Combat
@@ -20,6 +21,7 @@ order: 3
 - `Use Originium` will only be used after `Use Sanity Option`, because MAA will only use Originium to replenish sanity when there are no Sanity Potions left. Therefore, after checking `Use Originium`, MAA will lock the number of `Use Sanity Potion` to 999, making sure to consume all the Sanity Potions to avoid skipping the `Use Originium` judgment.
 
 ::: details Example
+
 | Use Sanity Potion | Use Originium | Perform Battles | Material | Result |
 | :------: | :----: | :------: | :------: | -------------------------------------------------------------------------------------------------------------------------------------- |
 | | | | | Ends after using up the existing Sanity. |

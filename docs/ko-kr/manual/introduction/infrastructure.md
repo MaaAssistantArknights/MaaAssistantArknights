@@ -1,5 +1,6 @@
 ---
 order: 4
+icon: material-symbols:view-quilt-rounded
 ---
 
 # 기반시설

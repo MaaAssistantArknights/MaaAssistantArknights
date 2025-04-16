@@ -1,5 +1,6 @@
 ---
 order: 8
+icon: solar:streets-map-point-linear
 ---
 
 # 생존연산
