@@ -19,10 +19,11 @@
     <system:String x:Key="BackgroundImage">배경 이미지</system:String>
     <system:String x:Key="BackgroundOpacity">배경 불투명도</system:String>
     <system:String x:Key="BackgroundBlurRadius">배경 흐림 반경</system:String>
-    <system:String x:Key="BackgroundImageStretchMode">배경 채우기 모드</system:String>
-    <system:String x:Key="BackgroundImageStretchModeFill">늘이기</system:String>
-    <system:String x:Key="BackgroundImageStretchModeUniform">전체 맞춤</system:String>
-    <system:String x:Key="BackgroundImageStretchModeUniformToFill">채움</system:String>
+    <system:String x:Key="BackgroundImageStretchMode">배경 이미지 채우기 모드</system:String>
+    <system:String x:Key="BackgroundImageStretchModeNone">늘리지 않음</system:String>
+    <system:String x:Key="BackgroundImageStretchModeFill">늘려 채움</system:String>
+    <system:String x:Key="BackgroundImageStretchModeUniform">비율 유지 (맞춤)</system:String>
+    <system:String x:Key="BackgroundImageStretchModeUniformToFill">비율 유지 (자르기)</system:String>
     <system:String x:Key="HotKeySettings">단축키 설정</system:String>
     <system:String x:Key="UpdateSettings">업데이트</system:String>
     <system:String x:Key="AboutUs">정보</system:String>

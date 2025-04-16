@@ -88,6 +88,7 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
 
     public static List<CombinedData> BackgroundImageStretchModeList { get; } =
         [
+            new() { Display = LocalizationHelper.GetString("BackgroundImageStretchModeNone"), Value = Stretch.None.ToString() },
             new() { Display = LocalizationHelper.GetString("BackgroundImageStretchModeFill"), Value = Stretch.Fill.ToString() },
             new() { Display = LocalizationHelper.GetString("BackgroundImageStretchModeUniform"), Value = Stretch.Uniform.ToString() },
             new() { Display = LocalizationHelper.GetString("BackgroundImageStretchModeUniformToFill"), Value = Stretch.UniformToFill.ToString() },

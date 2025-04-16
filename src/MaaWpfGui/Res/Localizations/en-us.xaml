@@ -19,9 +19,10 @@
     <system:String x:Key="BackgroundOpacity">Background Opacity</system:String>
     <system:String x:Key="BackgroundBlurRadius">Background Blur Radius</system:String>
     <system:String x:Key="BackgroundImageStretchMode">Background Stretch Mode</system:String>
+    <system:String x:Key="BackgroundImageStretchModeNone">None</system:String>
     <system:String x:Key="BackgroundImageStretchModeFill">Fill</system:String>
-    <system:String x:Key="BackgroundImageStretchModeUniform">Contain</system:String>
-    <system:String x:Key="BackgroundImageStretchModeUniformToFill">Cover</system:String>
+    <system:String x:Key="BackgroundImageStretchModeUniform">Uniform (Fit)</system:String>
+    <system:String x:Key="BackgroundImageStretchModeUniformToFill">Uniform to Fill (Cover)</system:String>
     <system:String x:Key="UiTheme">UI Theme</system:String>
     <system:String x:Key="HotKeySettings">HotKeys</system:String>
     <system:String x:Key="UpdateSettings">Update</system:String>

@@ -18,10 +18,11 @@
     <system:String x:Key="BackgroundImage">背景画像</system:String>
     <system:String x:Key="BackgroundOpacity">背景の不透明度</system:String>
     <system:String x:Key="BackgroundBlurRadius">背景のぼかし半径</system:String>
-    <system:String x:Key="BackgroundImageStretchMode">背景塗りつぶしモード</system:String>
-    <system:String x:Key="BackgroundImageStretchModeFill">引き伸ばし</system:String>
-    <system:String x:Key="BackgroundImageStretchModeUniform">全体表示</system:String>
-    <system:String x:Key="BackgroundImageStretchModeUniformToFill">切り抜き</system:String>
+    <system:String x:Key="BackgroundImageStretchMode">背景画像の伸縮モード</system:String>
+    <system:String x:Key="BackgroundImageStretchModeNone">伸縮なし</system:String>
+    <system:String x:Key="BackgroundImageStretchModeFill">引き伸ばし（フィル）</system:String>
+    <system:String x:Key="BackgroundImageStretchModeUniform">アスペクト比保持（フィット）</system:String>
+    <system:String x:Key="BackgroundImageStretchModeUniformToFill">アスペクト比保持（トリミング）</system:String>
     <system:String x:Key="UiTheme">UI主題</system:String>
     <system:String x:Key="HotKeySettings">ホットキー設定</system:String>
     <system:String x:Key="UpdateSettings">アップデート設定</system:String>
