@@ -6039,7 +6039,7 @@
     "SSSDropRecruitmentOCR": {
         "baseTask": "CharsNameOcrReplace",
         "text": [],
-        "roi": [0, 352, 1280, 263],
+        "roi": [0, 230, 1280, 400],
         "postDelay": 1000
     },
     "SSSDropRecruitmentConfirm": {
