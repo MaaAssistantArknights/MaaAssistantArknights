@@ -2,7 +2,7 @@
     "code": "15-11",
     "height": 8,
     "levelId": "obt/main/level_main_15-10",
-    "name": "目击众神死亡的荒原",
+    "name": "一段长梦将醒",
     "stageId": "main_15-10",
     "tiles": [
         [
@@ -107,7 +107,7 @@
                 "tileKey": "tile_floor"
             },
             {
-                "buildableType": 0,
+                "buildableType": 1,
                 "heightType": 0,
                 "isEnd": false,
                 "isStart": false,
@@ -149,7 +149,7 @@
                 "tileKey": "tile_floor"
             },
             {
-                "buildableType": 0,
+                "buildableType": 1,
                 "heightType": 0,
                 "isEnd": false,
                 "isStart": false,
@@ -465,7 +465,7 @@
                 "tileKey": "tile_road"
             },
             {
-                "buildableType": 0,
+                "buildableType": 1,
                 "heightType": 0,
                 "isEnd": false,
                 "isStart": false,
@@ -495,7 +495,7 @@
                 "tileKey": "tile_forbidden"
             },
             {
-                "buildableType": 0,
+                "buildableType": 1,
                 "heightType": 0,
                 "isEnd": false,
                 "isStart": false,
@@ -537,7 +537,7 @@
                 "tileKey": "tile_forbidden"
             },
             {
-                "buildableType": 0,
+                "buildableType": 1,
                 "heightType": 0,
                 "isEnd": false,
                 "isStart": false,

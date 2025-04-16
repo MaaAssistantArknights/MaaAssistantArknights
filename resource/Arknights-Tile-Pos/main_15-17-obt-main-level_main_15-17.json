@@ -186,7 +186,7 @@
                 "tileKey": "tile_wall"
             },
             {
-                "buildableType": 1,
+                "buildableType": 3,
                 "heightType": 0,
                 "isEnd": false,
                 "isStart": false,
@@ -221,7 +221,7 @@
                 "tileKey": "tile_road"
             },
             {
-                "buildableType": 1,
+                "buildableType": 3,
                 "heightType": 0,
                 "isEnd": false,
                 "isStart": false,

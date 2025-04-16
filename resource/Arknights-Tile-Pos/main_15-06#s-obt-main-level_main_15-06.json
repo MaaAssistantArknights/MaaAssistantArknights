@@ -495,7 +495,7 @@
                 "tileKey": "tile_telout"
             },
             {
-                "buildableType": 0,
+                "buildableType": 1,
                 "heightType": 0,
                 "isEnd": false,
                 "isStart": true,
