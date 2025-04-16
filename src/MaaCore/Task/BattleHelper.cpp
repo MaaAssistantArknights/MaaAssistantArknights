@@ -206,7 +206,7 @@ bool asst::BattleHelper::update_deployment_(
             AvatarCache.set_avatar(name, oper.role, oper.avatar);
         }
         if (!unknown_opers.empty()) {
-            cancel_oper_selection();
+            return false;
         }
     }
 
@@ -277,9 +277,13 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
             check_in_battle(image);
             return false;
         }
-        update_deployment_(oper_result_opt->deployment, old_deployment_opers, false);
+        const bool has_unknown_opers = !update_deployment_(oper_result_opt->deployment, old_deployment_opers, false);
 
         pause();
+
+        if (has_unknown_opers) {
+            cancel_oper_selection(); // 注意，此操作仅在非暂停状态下有效
+        }
 
         image = m_inst_helper.ctrler()->get_image();
     }
