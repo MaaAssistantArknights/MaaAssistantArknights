@@ -1,5 +1,6 @@
 ---
 order: 9
+icon: ph:sword-bold
 ---
 
 # Copilot

@@ -1,5 +1,6 @@
 ---
 order: 6
+icon: lucide:gift
 ---
 
 # 임무

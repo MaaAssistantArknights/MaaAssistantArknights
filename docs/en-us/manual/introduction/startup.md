@@ -1,5 +1,6 @@
 ---
 order: 1
+icon: ic:round-rocket-launch
 ---
 
 # Startup

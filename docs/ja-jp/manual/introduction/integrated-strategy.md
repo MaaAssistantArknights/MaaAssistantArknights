@@ -1,5 +1,6 @@
 ---
 order: 7
+icon: ri:game-fill
 ---
 
 # 自动肉鸽

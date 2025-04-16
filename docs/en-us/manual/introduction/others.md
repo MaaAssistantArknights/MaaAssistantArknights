@@ -1,5 +1,6 @@
 ---
 order: 11
+icon: icon-park-solid:other
 ---
 
 # Others
