@@ -31,6 +31,35 @@
             ]
         },
         {
+            "name": "Mon3tr",
+            "opers": [
+                {
+                    "name": "Mon3tr",
+                    "skill": 2,
+                    "recruit_priority": 710,
+                    "promote_priority": 506,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["单奶", "群奶"],
+                            "threshold": 2,
+                            "offset": -300
+                        },
+                        {
+                            "groups": ["高台输出"],
+                            "threshold": 1,
+                            "offset": 250
+                        },
+                        {
+                            "groups": ["凯尔希"],
+                            "threshold": 1,
+                            "offset": -700,
+                            "doc": "如果有凯尔希，不招募Mon3tr（MAA无法区别召唤物）"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "name": "凯尔希",
             "opers": [
                 {
@@ -66,6 +95,12 @@
                             "groups": ["单奶", "群奶"],
                             "threshold": 2,
                             "offset": -100
+                        },
+                        {
+                            "groups": ["Mon3tr"],
+                            "threshold": 1,
+                            "offset": -600,
+                            "doc": "如果有Mon3tr，不招募凯尔希（MAA无法区别召唤物）"
                         }
                     ]
                 }
@@ -1488,6 +1523,9 @@
                     ]
                 },
                 {
+                    "name": "Mon3tr"
+                },
+                {
                     "name": "调香师",
                     "skill": 1,
                     "recruit_priority": 688,
@@ -2741,6 +2779,9 @@
                 },
                 {
                     "name": "白面鸮"
+                },
+                {
+                    "name": "Mon3tr"
                 },
                 {
                     "name": "纯烬艾雅法拉"

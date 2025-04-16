@@ -100,14 +100,14 @@
                 "tileKey": "tile_forbidden"
             },
             {
-                "buildableType": 0,
+                "buildableType": 1,
                 "heightType": 0,
                 "isEnd": false,
                 "isStart": false,
                 "tileKey": "tile_fence_bound"
             },
             {
-                "buildableType": 0,
+                "buildableType": 2,
                 "heightType": 1,
                 "isEnd": false,
                 "isStart": false,
@@ -121,7 +121,7 @@
                 "tileKey": "tile_forbidden"
             },
             {
-                "buildableType": 0,
+                "buildableType": 1,
                 "heightType": 0,
                 "isEnd": false,
                 "isStart": false,
@@ -135,14 +135,14 @@
                 "tileKey": "tile_forbidden"
             },
             {
-                "buildableType": 0,
+                "buildableType": 2,
                 "heightType": 1,
                 "isEnd": false,
                 "isStart": false,
                 "tileKey": "tile_smog"
             },
             {
-                "buildableType": 0,
+                "buildableType": 1,
                 "heightType": 0,
                 "isEnd": false,
                 "isStart": false,
@@ -172,7 +172,7 @@
                 "tileKey": "tile_forbidden"
             },
             {
-                "buildableType": 0,
+                "buildableType": 1,
                 "heightType": 0,
                 "isEnd": false,
                 "isStart": false,
@@ -265,7 +265,7 @@
                 "tileKey": "tile_road"
             },
             {
-                "buildableType": 0,
+                "buildableType": 2,
                 "heightType": 1,
                 "isEnd": false,
                 "isStart": false,
@@ -279,14 +279,14 @@
                 "tileKey": "tile_forbidden"
             },
             {
-                "buildableType": 0,
+                "buildableType": 1,
                 "heightType": 0,
                 "isEnd": false,
                 "isStart": false,
                 "tileKey": "tile_fence_bound"
             },
             {
-                "buildableType": 0,
+                "buildableType": 2,
                 "heightType": 1,
                 "isEnd": false,
                 "isStart": false,
@@ -307,7 +307,7 @@
                 "tileKey": "tile_road"
             },
             {
-                "buildableType": 0,
+                "buildableType": 2,
                 "heightType": 1,
                 "isEnd": false,
                 "isStart": false,
@@ -344,7 +344,7 @@
                 "tileKey": "tile_road"
             },
             {
-                "buildableType": 0,
+                "buildableType": 2,
                 "heightType": 1,
                 "isEnd": false,
                 "isStart": false,
@@ -358,7 +358,7 @@
                 "tileKey": "tile_forbidden"
             },
             {
-                "buildableType": 0,
+                "buildableType": 1,
                 "heightType": 0,
                 "isEnd": false,
                 "isStart": false,
@@ -409,7 +409,7 @@
                 "tileKey": "tile_forbidden"
             },
             {
-                "buildableType": 0,
+                "buildableType": 1,
                 "heightType": 0,
                 "isEnd": false,
                 "isStart": false,
@@ -465,7 +465,7 @@
                 "tileKey": "tile_floor"
             },
             {
-                "buildableType": 0,
+                "buildableType": 1,
                 "heightType": 0,
                 "isEnd": false,
                 "isStart": false,

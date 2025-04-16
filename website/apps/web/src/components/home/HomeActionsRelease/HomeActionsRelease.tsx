@@ -526,7 +526,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
         />
       )}
       {!viewAll && (
-        <div className="flex-row gap-4 items-center flex flex-col md:flex-row">
+        <div className="gap-4 items-center flex flex-col md:flex-row">
           <GlowButton
             key="view-all-switch"
             bordered
@@ -534,16 +534,19 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
           >
             查看全部
           </GlowButton>
-          {mirrorchyanAvailable && (
-            <div className="text-xs leading-5 text-center text-white/70">
-              <a href={`https://mirrorchyan.com/zh/download?rid=MAA&os=${os}&arch=${arch}&channel=stable`} target="_blank">
-                <span><i><u>已有 Mirror酱 CDK？</u></i></span>
-                <br></br>
-                <span><i><u>前往 Mirror酱 高速下载</u></i></span>
-              </a>
-            </div>
-          )}
         </div>
+      )}
+      {!viewAll && mirrorchyanAvailable && (
+        <GlowButton
+          key="mirrorchyan"
+          bordered
+          href={`https://mirrorchyan.com/zh/download?rid=MAA&os=${os}&arch=${arch}&channel=stable`}
+        >
+          <div className="text-xs">
+            <p><i>已有 Mirror酱 CDK？</i></p>
+            <p><i>前往 Mirror酱 高速下载</i></p>
+          </div>
+        </GlowButton>
       )}
     </AnimatePresence>
   )

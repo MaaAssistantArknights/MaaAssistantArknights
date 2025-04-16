@@ -1,5 +1,6 @@
 ---
 order: 5
+icon: solar:shop-2-bold
 ---
 
 # 获取信用及购物
