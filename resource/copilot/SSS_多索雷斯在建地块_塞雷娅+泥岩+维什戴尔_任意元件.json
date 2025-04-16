@@ -9,16 +9,7 @@
         "details_color": "dark"
     },
     "buff": "手动选择任意元件",
-    "equipment": [
-        "A",
-        "A",
-        "A",
-        "A",
-        "A",
-        "B",
-        "B",
-        "B"
-    ],
+    "equipment": ["A", "A", "A", "A", "A", "B", "B", "B"],
     "strategy": "优选策略",
     "opers": [
         {
@@ -222,20 +213,14 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        6,
-                        2
-                    ],
+                    "location": [6, 2],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "tank": 1
                     },
-                    "location": [
-                        6,
-                        2
-                    ],
+                    "location": [6, 2],
                     "direction": "Left"
                 },
                 {
@@ -243,10 +228,7 @@
                     "tool_men": {
                         "caster": 3
                     },
-                    "location": [
-                        5,
-                        1
-                    ],
+                    "location": [5, 1],
                     "direction": "Down"
                 },
                 {
@@ -255,10 +237,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        6,
-                        2
-                    ],
+                    "location": [6, 2],
                     "direction": "Left"
                 },
                 {
@@ -266,10 +245,7 @@
                     "tool_men": {
                         "caster": 6
                     },
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "Left"
                 },
                 {
@@ -277,10 +253,7 @@
                     "tool_men": {
                         "support": 27
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Right"
                 }
             ],
@@ -299,30 +272,21 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "tank": 1
                     },
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "support": 1
                     },
-                    "location": [
-                        4,
-                        1
-                    ],
+                    "location": [4, 1],
                     "direction": "Down"
                 },
                 {
@@ -330,10 +294,7 @@
                     "tool_men": {
                         "caster": 3
                     },
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "Left"
                 },
                 {
@@ -341,10 +302,7 @@
                     "tool_men": {
                         "tank": 1
                     },
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "Left"
                 },
                 {
@@ -353,10 +311,7 @@
                         "pioneer": 2,
                         "tank": 1
                     },
-                    "location": [
-                        4,
-                        5
-                    ],
+                    "location": [4, 5],
                     "direction": "Up"
                 },
                 {
@@ -364,10 +319,7 @@
                     "tool_men": {
                         "caster": 6
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Right"
                 },
                 {
@@ -375,10 +327,7 @@
                     "tool_men": {
                         "support": 27
                     },
-                    "location": [
-                        4,
-                        1
-                    ],
+                    "location": [4, 1],
                     "direction": "Down"
                 }
             ],
@@ -397,40 +346,28 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        6,
-                        3
-                    ],
+                    "location": [6, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "tank": 1
                     },
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "support": 1
                     },
-                    "location": [
-                        5,
-                        2
-                    ],
+                    "location": [5, 2],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "support": 1
                     },
-                    "location": [
-                        6,
-                        4
-                    ],
+                    "location": [6, 4],
                     "direction": "Left"
                 },
                 {
@@ -438,10 +375,7 @@
                     "tool_men": {
                         "caster": 3
                     },
-                    "location": [
-                        6,
-                        2
-                    ],
+                    "location": [6, 2],
                     "direction": "Left"
                 },
                 {
@@ -450,10 +384,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "Left"
                 },
                 {
@@ -462,10 +393,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        6,
-                        3
-                    ],
+                    "location": [6, 3],
                     "direction": "Left"
                 },
                 {
@@ -473,10 +401,7 @@
                     "tool_men": {
                         "caster": 6
                     },
-                    "location": [
-                        6,
-                        4
-                    ],
+                    "location": [6, 4],
                     "direction": "Left"
                 },
                 {
@@ -484,10 +409,7 @@
                     "tool_men": {
                         "support": 27
                     },
-                    "location": [
-                        5,
-                        2
-                    ],
+                    "location": [5, 2],
                     "direction": "Left"
                 }
             ],
@@ -506,40 +428,28 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        6,
-                        1
-                    ],
+                    "location": [6, 1],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "tank": 1
                     },
-                    "location": [
-                        5,
-                        1
-                    ],
+                    "location": [5, 1],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "support": 1
                     },
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "Up"
                 },
                 {
                     "tool_men": {
                         "support": 1
                     },
-                    "location": [
-                        6,
-                        2
-                    ],
+                    "location": [6, 2],
                     "direction": "Left"
                 },
                 {
@@ -547,10 +457,7 @@
                     "tool_men": {
                         "caster": 3
                     },
-                    "location": [
-                        5,
-                        2
-                    ],
+                    "location": [5, 2],
                     "direction": "Left"
                 },
                 {
@@ -559,10 +466,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        5,
-                        1
-                    ],
+                    "location": [5, 1],
                     "direction": "Left"
                 },
                 {
@@ -571,10 +475,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        6,
-                        1
-                    ],
+                    "location": [6, 1],
                     "direction": "Left"
                 },
                 {
@@ -582,10 +483,7 @@
                     "tool_men": {
                         "caster": 6
                     },
-                    "location": [
-                        6,
-                        2
-                    ],
+                    "location": [6, 2],
                     "direction": "Left"
                 },
                 {
@@ -594,10 +492,7 @@
                         "pioneer": 2,
                         "tank": 4
                     },
-                    "location": [
-                        7,
-                        1
-                    ],
+                    "location": [7, 1],
                     "direction": "Left"
                 },
                 {
@@ -605,10 +500,7 @@
                     "tool_men": {
                         "support": 27
                     },
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "Up"
                 }
             ],
@@ -627,20 +519,14 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        8,
-                        4
-                    ],
+                    "location": [8, 4],
                     "direction": "Up"
                 },
                 {
                     "tool_men": {
                         "tank": 1
                     },
-                    "location": [
-                        8,
-                        2
-                    ],
+                    "location": [8, 2],
                     "direction": "Down"
                 },
                 {
@@ -648,10 +534,7 @@
                     "tool_men": {
                         "caster": 4
                     },
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "Left"
                 },
                 {
@@ -660,10 +543,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        8,
-                        4
-                    ],
+                    "location": [8, 4],
                     "direction": "Up"
                 },
                 {
@@ -672,10 +552,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        8,
-                       2
-                    ],
+                    "location": [8, 2],
                     "direction": "Down"
                 },
                 {
@@ -683,10 +560,7 @@
                     "tool_men": {
                         "caster": 6
                     },
-                    "location": [
-                        7,
-                        5
-                    ],
+                    "location": [7, 5],
                     "direction": "Up"
                 },
                 {
@@ -695,10 +569,7 @@
                         "pioneer": 2,
                         "tank": 4
                     },
-                    "location": [
-                        8,
-                        5
-                    ],
+                    "location": [8, 5],
                     "direction": "Up"
                 },
                 {
@@ -706,10 +577,7 @@
                     "tool_men": {
                         "support": 27
                     },
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "Up"
                 }
             ],
@@ -728,40 +596,28 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        8,
-                        5
-                    ],
+                    "location": [8, 5],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        7,
-                        5
-                    ],
+                    "location": [7, 5],
                     "direction": "Up"
                 },
                 {
                     "tool_men": {
                         "support": 1
                     },
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "caster": 2
                     },
-                    "location": [
-                        6,
-                        6
-                    ],
+                    "location": [6, 6],
                     "direction": "Up"
                 },
                 {
@@ -770,10 +626,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        7,
-                        5
-                    ],
+                    "location": [7, 5],
                     "direction": "Up"
                 },
                 {
@@ -781,10 +634,7 @@
                     "tool_men": {
                         "caster": 3
                     },
-                    "location": [
-                        6,
-                        6
-                    ],
+                    "location": [6, 6],
                     "direction": "Up"
                 },
                 {
@@ -792,10 +642,7 @@
                     "tool_men": {
                         "tank": 3
                     },
-                    "location": [
-                        5,
-                        4
-                    ],
+                    "location": [5, 4],
                     "direction": "Up"
                 },
                 {
@@ -803,10 +650,7 @@
                     "tool_men": {
                         "caster": 6
                     },
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "Left"
                 },
                 {
@@ -815,10 +659,7 @@
                         "pioneer": 4,
                         "tank": 2
                     },
-                    "location": [
-                        8,
-                        5
-                    ],
+                    "location": [8, 5],
                     "direction": "Left"
                 },
                 {
@@ -826,10 +667,7 @@
                     "tool_men": {
                         "support": 27
                     },
-                    "location": [
-                        8,
-                        4
-                    ],
+                    "location": [8, 4],
                     "direction": "Left"
                 }
             ],
