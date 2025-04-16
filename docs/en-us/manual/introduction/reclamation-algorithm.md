@@ -1,5 +1,6 @@
 ---
 order: 8
+icon: solar:streets-map-point-linear
 ---
 
 # Reclamation Algorithm (R.A.)

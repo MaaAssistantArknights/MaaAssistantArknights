@@ -85,7 +85,7 @@ icon: ic:baseline-article
 
 ### カスタム基地設定（テスト中）
 
-- [Yituliu](https://ark.yituliu.cn/)のエキスパートが、基地シフトをドキュメントでエクスポートできる[ジェネレーター](https://ark.yituliu.cn/tools/schedule)の作成に協力しました。[ドキュメント](../プロトコルドキュメント/基地シフトAPI.md)を参照して使用できます。
+- [Yituliu](https://ark.yituliu.cn/)のエキスパートが、基地シフトをドキュメントでエクスポートできる[ジェネレーター](https://ark.yituliu.cn/tools/schedule)の作成に協力しました。[ドキュメント](../../protocol/base-scheduling-schema.md)を参照して使用できます。
 - `/resource/custom_infrast/`のフォルダに、非常に効率的なタスクのセットがいくつか組み込まれており、参考として使用することができます。(昇進2の該当オペレーターがいれば、直接使用可能です。)
 
 ### FPと購買部
@@ -149,7 +149,7 @@ icon: ic:baseline-article
 
 #### 攻略ファイルの作成
 
-- [ジョブエディター](https://prts.plus/create)を使用して作成してください、[自動戦闘API](../プロトコルドキュメント/自動戦闘API.md)を参照してください。
+- [ジョブエディター](https://prts.plus/create)を使用して作成してください、[自動戦闘API](../../protocol/copilot-schema.md)を参照してください。
 - マップ座標の取得：
   - ジョブエディターでステージ名を入力すると、ドラッグ可能な座標マップが左下隅に自動的にロードされ、クリックして現在のオペレーターの位置を設定できます。
   - ステージ名を入力して JSON をエクスポートすると、直接行動開始され、座標情報で覆われたマップのスクリーンショットが MAA ディレクトリの `debug\map` ディレクトリに生成されます。
@@ -175,7 +175,7 @@ Windows MAAには `設定` タブの他に `タスク設定` もあります。 
 
 #### adbパスの取得
 
-- [エミュレータの組み込みadb](./よくある質問.md#adbと接続アドレスが正しいことを確認する) を使用するか、 [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) を自分でダウンロードして解凍します。
+- [エミュレータの組み込みadb](../../manual/faq.md#adbと接続アドレスが正しいことを確認する) を使用するか、 [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) を自分でダウンロードして解凍します。
 - ソフトウェアの `設定` - `接続設定` に進み、`adb.exe`のファイルパスを選択し、adbアドレス（IP +ポートを入力する必要があります。例：`127.0.0.1:5555`）を記入し、エミュレータのタイプを選択します。
 
 #### ポート番号の取得
@@ -213,7 +213,7 @@ Windows MAAには `設定` タブの他に `タスク設定` もあります。 
 ### マルチインスタンスでのエミュレータの自動起動
 
 - 複数のエミュレータを同時に操作する必要がある場合は、MAAフォルダを複製し、**別のMAA**、**同じadb.exe**、**異なる接続アドレス**を使用して接続します。
-- **[BlueStacks International Version](./エミュレータのサポート/Windowsでのエミューレータ.md#✅-Bluestacks-5（おすすめ👍）)を例にして**、2つのマルチインスタンスでのエミュレータ起動方法を紹介します。
+- **[BlueStacks International Version](../../manual/device/windows.md#-完全サポート)を例にして**、2つのマルチインスタンスでのエミュレータ起動方法を紹介します。
 
 #### エミュレータexeにコマンドを付加することによるマルチインスタンスを実行する方法
 
