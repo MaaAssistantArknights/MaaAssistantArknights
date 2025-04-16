@@ -9,7 +9,7 @@ icon: icon-park-solid:other
 
 使用 DirectML 调用 GPU 进行识别推理加速<sup>[PR](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9236)</sup>，可通过少量的 GPU 占用降低大量的 CPU 占用，推荐启用。
 
-经测试，部分显卡因缺少功能或性能较低，在使用本功能时会出现识别问题。MAA 已内置了部分 GPU 黑名单<sup>[PR](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9990)</sup>，若列表外的显卡在启用本功能后也出现识别问题，请发 Issue。
+经测试，部分显卡因缺少功能或性能较低，在使用本功能时会出现识别问题。MAA 已内置了部分 GPU 黑名单<sup>[PR1](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9990)[PR2](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/12134)</sup>，若列表外的显卡在启用本功能后也出现识别问题，请发 Issue。
 
 ## 仅一次
 
