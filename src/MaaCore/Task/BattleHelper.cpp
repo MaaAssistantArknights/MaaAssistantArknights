@@ -216,6 +216,7 @@ bool asst::BattleHelper::update_deployment_(
                 oper_rect = re_matcher.get_result().rect;
             }
             click_oper_on_deployment(oper_rect);
+            name_image = m_inst_helper.ctrler()->get_image();
         }
     }
 
