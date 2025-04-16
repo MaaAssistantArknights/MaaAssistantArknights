@@ -1,26 +1,26 @@
-## v5.15.1
+## v5.15.2
 
 ### Highlight
 
-本次更新我们并带来多项体验优化与问题修复。
+本次更新我们带来了保全派驻新作业与自定义背景图片填充模式，修复若干已知问题，让牛牛跑得更快更稳~
 
-#### 基建排班
+#### 保全派驻作业更新
 
-更新了243/153排班表（20250412修订版）
+新增以下场景的保全派驻作业支持：
+- 阿卡胡拉丛林（萨拉托加）
+- 尚蜀夜市/多索雷斯在建地块/荒地群兽音乐厅（DL_君逸寒）
 
-#### 运行稳定性提升
+#### 背景设置自定义升级
 
-- 修复雷电模拟器重连误判问题
-- 优化网络波动时的操作容错（特别是碎石/吃药场景）
-- 高延迟下进入战斗判断错误
-- 线索选择逻辑更加智能精准
+「背景设置」新增自定义填充模式，可以放心选择喜欢的图片啦  
+（设置路径依然在「设置」→「背景设置」，搭配透明度食用更佳哦~）
 
-#### 细节体验优化
+#### 问题修复专项
 
-- 热更新资源改为异步加载，启动速度更快
-- 日志包现在会一并打包 GUI 配置，问题排查更全面
-- 官网 mirror酱 下载链接现在会根据操作系统自动生成
-- 背景图默认路径改为相对路径，迁移配置更方便
+- 修复导能元件选择异常
+- 解决线索窗口无法关闭的 BUG
+- 优化 OF-1 导航逻辑，适配新 UI
+- 修复理智勾选「指定材料」刷取「不选择」时 UI 崩溃 → [详情](https://www.bilibili.com/opus/1055580503270227987)
 
 ----
 
@@ -28,66 +28,35 @@
 
 ### 新增 | New
 
-* 新增更新源 tooltip @ABA2396
-* CustomTasks 支持逗号、分号切割任务列表 (#12342) @ABA2396 @Constrat @status102
-* 配置增加全局键移除 & bool自动转换 @status102
-* 更新 243/153 极限效率一天四换排班表（20250412 修订） (#12337) @bodayw
-* 支持新 UI 的 OF-1 导航 (#12335) @Szzrain @pre-commit-ci[bot] @ABA2396
-* Guide enable ADB (#12329) @Constrat @HX3N @ABA2396 @Rbqwow
-* 自动战斗15章突袭难度适配 @status102
-* mirror酱链接按照操作系统自动生成 @ChingCdesu
-* 日志包一并打包gui配置文件 (#12310) @status102 @pre-commit-ci[bot]
+* 新增 阿卡胡拉丛林 保全派驻作业 (#12375) @Saratoga-Official
+* 新增 尚蜀夜市、多索雷斯在建地块、荒地群兽音乐厅 保全派驻作业 (#12370, #12374) @junyihan233
+* Background stretch modes (#12365) @BxFS @ABA2396
+* 在肉鸽招募中增加m3作为群奶 (#12353) @Cerulime
 
 ### 改进 | Improved
 
-* 优化自定义任务显示 @ABA2396
-* 优化线索选择逻辑 @ABA2396
-* wpf自动战斗增加启动失败时的log @status102
-* 移除无效调用 @status102
-* 使用 MirrorChyan 进行软件更新时未处理 errorCode 显示 @ABA2396
-* 背景图默认值修改为相对路径 @status102
-* 热更新资源改为异步加载避免启动阻塞 @ABA2396
+* 基建干员选择滑动优化 @status102
+* 加快无基建技能干员选择速度，加快选择列表回正速度 (#12363) @ABA2396
+* 优化 OF-1 截图 @ABA2396
 
 ### 修复 | Fix
 
-* Connection lost 提前返回 false @ABA2396
-* 无法选中线索 @ABA2396
-* 雷电模拟器重新连接时误认为断开连接 @ABA2396
-* 自动战斗网络请求返回失败时，错误提示异常 @status102
-* FightSeries for global (#12332) @Manicsteiner
-* 非自定义关卡名情况下，未能移除不显示的关卡 @status102
-* 点击开始行动三秒未进入备战界面导致二次点击 @ABA2396
-* trade post rewards post base update @Constrat
-* YostarKR InfrastReward ocr fix (#12317) @HX3N
-* Wpf一键长草任务栏设置按钮绑定报错 @status102
-* new Support GUI for EN fix #12285#issuecomment-2788133440 @Constrat
-* 修复手动关闭模拟器导致的连接状态不一致问题 @ABA2396
-* 连战次数 @ABA2396
-* update deployment (#11959) @Alan-Charred @ABA2396
-* Wpf刷理智连战次数UI为空 @status102
-* 刷理智碎石时网络卡顿造成重复点击 @status102
-* task type @status102
-* 修复刷理智错误识别突袭关3星结算 @status102
-* 主线关卡未选择默认进度时无法导航 @ABA2396
-* 吃药/碎石 时网络波动延迟导致二次确认时点到取消代理 @ABA2396
-* 15 章战斗列表 @ABA2396
+* 自动战斗卡子弹时间，锁干员导致cache混乱 (#12369) @Alan-Charred
+* EN SSS buffs regex @Constrat
+* 导能元件界面更改 @ABA2396
+* 刷理智掉落物指定参数异常检查 @status102
+* 无法关闭线索窗口 @ABA2396
 
 ### 文档 | Docs
 
-* fix punctuation for en-us @Constrat
+* 优化文档 (#12361) @SherkeyXD @Rbqwow
+* add glossary missing operator name (#12360) @rosmontisu
 
 ### 其他 | Other
 
-* 修改描述 @ABA2396
-* 支持实体机检测 @ABA2396
-* miss brackets @ABA2396
-* FightSeries use the same ROI for all clients @ABA2396
-* 给剩余理智加个兜底 @ABA2396
-* manual stages resources @Constrat
-* file header & warning @status102
-* YostarKR InfrastReward ocr replace operator to trust @HX3N
-* 顺序检查 @ABA2396
-* 弹窗加个文件名 @ABA2396
-* 自动战斗 战斗列表 关卡导航名允许覆盖 @status102
-* 调整热更提示 @ABA2396
-* Wpf刷理智任务、基建任务序列化 (#12281) @status102
+* 更新Mirror酱下载为按钮，保持动画一致 @ChingCdesu
+* 移除battleHelper中的BestMatcher复用 (#12136) @status102
+* 优化界面显示 @ABA2396
+* tile resource (#12372) @MistEO @github-actions[bot]
+* KR translation tweaks (#12366) @HX3N
+* 自动战斗加点输出 @status102
