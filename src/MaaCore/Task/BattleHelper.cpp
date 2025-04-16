@@ -178,6 +178,16 @@ bool asst::BattleHelper::update_deployment_(
             }
 
             Rect oper_rect = oper.rect;
+            // 点完部署区的一个干员之后，他的头像会放大；其他干员的位置都被挤开了，不在原来的位置了
+            // 所以只有第一个干员可以直接点，后面干员都要重新识别一下位置
+            if (!name_image.empty()) {
+                Matcher re_matcher(name_image);
+                re_matcher.set_task_info("BattleAvatarReMatch");
+                re_matcher.set_templ(oper.avatar);
+                if (re_matcher.analyze()) {
+                    oper_rect = re_matcher.get_result().rect;
+                }
+            }
 
             click_oper_on_deployment(oper_rect);
 
