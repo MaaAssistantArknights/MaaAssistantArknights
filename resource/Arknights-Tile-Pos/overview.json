@@ -9359,29 +9359,11 @@
         "stageId": "act2vmulti-01",
         "width": 13
     },
-    "act2vmulti-01-activities\\act2vmulti\\level_act2vmulti_01": {
-        "code": "IG-1",
-        "filename": "act2vmulti-01-activities\\act2vmulti\\level_act2vmulti_01.json",
-        "height": 9,
-        "levelId": "activities\\act2vmulti\\level_act2vmulti_01",
-        "name": "嘟嘟喇叭",
-        "stageId": "act2vmulti-01",
-        "width": 13
-    },
     "act2vmulti-02-activities/act2vmulti/level_act2vmulti_02": {
         "code": "IG-2",
         "filename": "act2vmulti-02-activities-act2vmulti-level_act2vmulti_02.json",
         "height": 9,
         "levelId": "activities/act2vmulti/level_act2vmulti_02",
-        "name": "军事化训练",
-        "stageId": "act2vmulti-02",
-        "width": 13
-    },
-    "act2vmulti-02-activities\\act2vmulti\\level_act2vmulti_02": {
-        "code": "IG-2",
-        "filename": "act2vmulti-02-activities\\act2vmulti\\level_act2vmulti_02.json",
-        "height": 9,
-        "levelId": "activities\\act2vmulti\\level_act2vmulti_02",
         "name": "军事化训练",
         "stageId": "act2vmulti-02",
         "width": 13
@@ -9395,29 +9377,11 @@
         "stageId": "act2vmulti-03",
         "width": 13
     },
-    "act2vmulti-03-activities\\act2vmulti\\level_act2vmulti_03": {
-        "code": "IG-3",
-        "filename": "act2vmulti-03-activities\\act2vmulti\\level_act2vmulti_03.json",
-        "height": 9,
-        "levelId": "activities\\act2vmulti\\level_act2vmulti_03",
-        "name": "单行赛道",
-        "stageId": "act2vmulti-03",
-        "width": 13
-    },
     "act2vmulti-04-activities/act2vmulti/level_act2vmulti_04": {
         "code": "IG-4",
         "filename": "act2vmulti-04-activities-act2vmulti-level_act2vmulti_04.json",
         "height": 8,
         "levelId": "activities/act2vmulti/level_act2vmulti_04",
-        "name": "迎宾大道",
-        "stageId": "act2vmulti-04",
-        "width": 12
-    },
-    "act2vmulti-04-activities\\act2vmulti\\level_act2vmulti_04": {
-        "code": "IG-4",
-        "filename": "act2vmulti-04-activities\\act2vmulti\\level_act2vmulti_04.json",
-        "height": 8,
-        "levelId": "activities\\act2vmulti\\level_act2vmulti_04",
         "name": "迎宾大道",
         "stageId": "act2vmulti-04",
         "width": 12
@@ -9431,29 +9395,11 @@
         "stageId": "act2vmulti-05",
         "width": 13
     },
-    "act2vmulti-05-activities\\act2vmulti\\level_act2vmulti_05": {
-        "code": "IG-5",
-        "filename": "act2vmulti-05-activities\\act2vmulti\\level_act2vmulti_05.json",
-        "height": 9,
-        "levelId": "activities\\act2vmulti\\level_act2vmulti_05",
-        "name": "夜舞与晨跑",
-        "stageId": "act2vmulti-05",
-        "width": 13
-    },
     "act2vmulti-06-activities/act2vmulti/level_act2vmulti_06": {
         "code": "IG-6",
         "filename": "act2vmulti-06-activities-act2vmulti-level_act2vmulti_06.json",
         "height": 11,
         "levelId": "activities/act2vmulti/level_act2vmulti_06",
-        "name": "黑夜骑士",
-        "stageId": "act2vmulti-06",
-        "width": 14
-    },
-    "act2vmulti-06-activities\\act2vmulti\\level_act2vmulti_06": {
-        "code": "IG-6",
-        "filename": "act2vmulti-06-activities\\act2vmulti\\level_act2vmulti_06.json",
-        "height": 11,
-        "levelId": "activities\\act2vmulti\\level_act2vmulti_06",
         "name": "黑夜骑士",
         "stageId": "act2vmulti-06",
         "width": 14
@@ -9467,29 +9413,11 @@
         "stageId": "act2vmulti-07",
         "width": 13
     },
-    "act2vmulti-07-activities\\act2vmulti\\level_act2vmulti_07": {
-        "code": "IG-7",
-        "filename": "act2vmulti-07-activities\\act2vmulti\\level_act2vmulti_07.json",
-        "height": 7,
-        "levelId": "activities\\act2vmulti\\level_act2vmulti_07",
-        "name": "发射试验场",
-        "stageId": "act2vmulti-07",
-        "width": 13
-    },
     "act2vmulti-de01-activities/act2vmulti/level_act2vmulti_fortress": {
         "code": "IG-S-2",
         "filename": "act2vmulti-de01-activities-act2vmulti-level_act2vmulti_fortress.json",
         "height": 16,
         "levelId": "activities/act2vmulti/level_act2vmulti_fortress",
-        "name": "请无序入场",
-        "stageId": "act2vmulti-de01",
-        "width": 26
-    },
-    "act2vmulti-de01-activities\\act2vmulti\\level_act2vmulti_fortress": {
-        "code": "IG-S-2",
-        "filename": "act2vmulti-de01-activities\\act2vmulti\\level_act2vmulti_fortress.json",
-        "height": 16,
-        "levelId": "activities\\act2vmulti\\level_act2vmulti_fortress",
         "name": "请无序入场",
         "stageId": "act2vmulti-de01",
         "width": 26
@@ -9503,29 +9431,11 @@
         "stageId": "act2vmulti-de02",
         "width": 26
     },
-    "act2vmulti-de02-activities\\act2vmulti\\level_act2vmulti_fortress": {
-        "code": "IG-S-4",
-        "filename": "act2vmulti-de02-activities\\act2vmulti\\level_act2vmulti_fortress.json",
-        "height": 16,
-        "levelId": "activities\\act2vmulti\\level_act2vmulti_fortress",
-        "name": "请无序入场",
-        "stageId": "act2vmulti-de02",
-        "width": 26
-    },
     "act2vmulti-ex01-activities/act2vmulti/level_act2vmulti_01": {
         "code": "IG-EX-1",
         "filename": "act2vmulti-ex01-activities-act2vmulti-level_act2vmulti_01.json",
         "height": 9,
         "levelId": "activities/act2vmulti/level_act2vmulti_01",
-        "name": "嘟嘟喇叭",
-        "stageId": "act2vmulti-ex01",
-        "width": 13
-    },
-    "act2vmulti-ex01-activities\\act2vmulti\\level_act2vmulti_01": {
-        "code": "IG-EX-1",
-        "filename": "act2vmulti-ex01-activities\\act2vmulti\\level_act2vmulti_01.json",
-        "height": 9,
-        "levelId": "activities\\act2vmulti\\level_act2vmulti_01",
         "name": "嘟嘟喇叭",
         "stageId": "act2vmulti-ex01",
         "width": 13
@@ -9539,29 +9449,11 @@
         "stageId": "act2vmulti-ex02",
         "width": 13
     },
-    "act2vmulti-ex02-activities\\act2vmulti\\level_act2vmulti_02": {
-        "code": "IG-EX-2",
-        "filename": "act2vmulti-ex02-activities\\act2vmulti\\level_act2vmulti_02.json",
-        "height": 9,
-        "levelId": "activities\\act2vmulti\\level_act2vmulti_02",
-        "name": "军事化训练",
-        "stageId": "act2vmulti-ex02",
-        "width": 13
-    },
     "act2vmulti-ex03-activities/act2vmulti/level_act2vmulti_03": {
         "code": "IG-EX-3",
         "filename": "act2vmulti-ex03-activities-act2vmulti-level_act2vmulti_03.json",
         "height": 9,
         "levelId": "activities/act2vmulti/level_act2vmulti_03",
-        "name": "单行赛道",
-        "stageId": "act2vmulti-ex03",
-        "width": 13
-    },
-    "act2vmulti-ex03-activities\\act2vmulti\\level_act2vmulti_03": {
-        "code": "IG-EX-3",
-        "filename": "act2vmulti-ex03-activities\\act2vmulti\\level_act2vmulti_03.json",
-        "height": 9,
-        "levelId": "activities\\act2vmulti\\level_act2vmulti_03",
         "name": "单行赛道",
         "stageId": "act2vmulti-ex03",
         "width": 13
@@ -9575,29 +9467,11 @@
         "stageId": "act2vmulti-ex04",
         "width": 12
     },
-    "act2vmulti-ex04-activities\\act2vmulti\\level_act2vmulti_04": {
-        "code": "IG-EX-4",
-        "filename": "act2vmulti-ex04-activities\\act2vmulti\\level_act2vmulti_04.json",
-        "height": 8,
-        "levelId": "activities\\act2vmulti\\level_act2vmulti_04",
-        "name": "迎宾大道",
-        "stageId": "act2vmulti-ex04",
-        "width": 12
-    },
     "act2vmulti-ex05-activities/act2vmulti/level_act2vmulti_05": {
         "code": "IG-EX-5",
         "filename": "act2vmulti-ex05-activities-act2vmulti-level_act2vmulti_05.json",
         "height": 9,
         "levelId": "activities/act2vmulti/level_act2vmulti_05",
-        "name": "夜舞与晨跑",
-        "stageId": "act2vmulti-ex05",
-        "width": 13
-    },
-    "act2vmulti-ex05-activities\\act2vmulti\\level_act2vmulti_05": {
-        "code": "IG-EX-5",
-        "filename": "act2vmulti-ex05-activities\\act2vmulti\\level_act2vmulti_05.json",
-        "height": 9,
-        "levelId": "activities\\act2vmulti\\level_act2vmulti_05",
         "name": "夜舞与晨跑",
         "stageId": "act2vmulti-ex05",
         "width": 13
@@ -9611,29 +9485,11 @@
         "stageId": "act2vmulti-ex06",
         "width": 14
     },
-    "act2vmulti-ex06-activities\\act2vmulti\\level_act2vmulti_06": {
-        "code": "IG-EX-6",
-        "filename": "act2vmulti-ex06-activities\\act2vmulti\\level_act2vmulti_06.json",
-        "height": 11,
-        "levelId": "activities\\act2vmulti\\level_act2vmulti_06",
-        "name": "黑夜骑士",
-        "stageId": "act2vmulti-ex06",
-        "width": 14
-    },
     "act2vmulti-ex07-activities/act2vmulti/level_act2vmulti_07": {
         "code": "IG-EX-7",
         "filename": "act2vmulti-ex07-activities-act2vmulti-level_act2vmulti_07.json",
         "height": 7,
         "levelId": "activities/act2vmulti/level_act2vmulti_07",
-        "name": "发射试验场",
-        "stageId": "act2vmulti-ex07",
-        "width": 13
-    },
-    "act2vmulti-ex07-activities\\act2vmulti\\level_act2vmulti_07": {
-        "code": "IG-EX-7",
-        "filename": "act2vmulti-ex07-activities\\act2vmulti\\level_act2vmulti_07.json",
-        "height": 7,
-        "levelId": "activities\\act2vmulti\\level_act2vmulti_07",
         "name": "发射试验场",
         "stageId": "act2vmulti-ex07",
         "width": 13
@@ -9647,29 +9503,11 @@
         "stageId": "act2vmulti-ft01",
         "width": 13
     },
-    "act2vmulti-ft01-activities\\act2vmulti\\level_act2vmulti_football": {
-        "code": "IG-S-1",
-        "filename": "act2vmulti-ft01-activities\\act2vmulti\\level_act2vmulti_football.json",
-        "height": 9,
-        "levelId": "activities\\act2vmulti\\level_act2vmulti_football",
-        "name": "大力出奇迹",
-        "stageId": "act2vmulti-ft01",
-        "width": 13
-    },
     "act2vmulti-ft02-activities/act2vmulti/level_act2vmulti_football": {
         "code": "IG-S-3",
         "filename": "act2vmulti-ft02-activities-act2vmulti-level_act2vmulti_football.json",
         "height": 9,
         "levelId": "activities/act2vmulti/level_act2vmulti_football",
-        "name": "大力出奇迹",
-        "stageId": "act2vmulti-ft02",
-        "width": 13
-    },
-    "act2vmulti-ft02-activities\\act2vmulti\\level_act2vmulti_football": {
-        "code": "IG-S-3",
-        "filename": "act2vmulti-ft02-activities\\act2vmulti\\level_act2vmulti_football.json",
-        "height": 9,
-        "levelId": "activities\\act2vmulti\\level_act2vmulti_football",
         "name": "大力出奇迹",
         "stageId": "act2vmulti-ft02",
         "width": 13
@@ -9683,15 +9521,6 @@
         "stageId": "act2vmulti-tr01",
         "width": 10
     },
-    "act2vmulti-tr01-activities\\act2vmulti\\level_act2vmulti_tr01": {
-        "code": "IG-TR-1",
-        "filename": "act2vmulti-tr01-activities\\act2vmulti\\level_act2vmulti_tr01.json",
-        "height": 8,
-        "levelId": "activities\\act2vmulti\\level_act2vmulti_tr01",
-        "name": "规则教学-常规项目",
-        "stageId": "act2vmulti-tr01",
-        "width": 10
-    },
     "act2vmulti-tr02-activities/act2vmulti/level_act2vmulti_tr02": {
         "code": "IG-TR-2",
         "filename": "act2vmulti-tr02-activities-act2vmulti-level_act2vmulti_tr02.json",
@@ -9701,29 +9530,11 @@
         "stageId": "act2vmulti-tr02",
         "width": 13
     },
-    "act2vmulti-tr02-activities\\act2vmulti\\level_act2vmulti_tr02": {
-        "code": "IG-TR-2",
-        "filename": "act2vmulti-tr02-activities\\act2vmulti\\level_act2vmulti_tr02.json",
-        "height": 9,
-        "levelId": "activities\\act2vmulti\\level_act2vmulti_tr02",
-        "name": "规则教学-阵地足球",
-        "stageId": "act2vmulti-tr02",
-        "width": 13
-    },
     "act2vmulti-tr03-activities/act2vmulti/level_act2vmulti_tr03": {
         "code": "IG-TR-3",
         "filename": "act2vmulti-tr03-activities-act2vmulti-level_act2vmulti_tr03.json",
         "height": 9,
         "levelId": "activities/act2vmulti/level_act2vmulti_tr03",
-        "name": "规则教学-堡垒守御",
-        "stageId": "act2vmulti-tr03",
-        "width": 20
-    },
-    "act2vmulti-tr03-activities\\act2vmulti\\level_act2vmulti_tr03": {
-        "code": "IG-TR-3",
-        "filename": "act2vmulti-tr03-activities\\act2vmulti\\level_act2vmulti_tr03.json",
-        "height": 9,
-        "levelId": "activities\\act2vmulti\\level_act2vmulti_tr03",
         "name": "规则教学-堡垒守御",
         "stageId": "act2vmulti-tr03",
         "width": 20
@@ -11852,27 +11663,9 @@
         "stageId": "act38side_01",
         "width": 9
     },
-    "act38side_01-activities/act38sidelevel_act38side_01": {
-        "code": "PV-1",
-        "filename": "level_act38side_01.json",
-        "height": 7,
-        "levelId": "activities/act38side/level_act38side_01",
-        "name": "失途",
-        "stageId": "act38side_01",
-        "width": 9
-    },
     "act38side_02-activities/act38side/level_act38side_02": {
         "code": "PV-2",
         "filename": "act38side_02-activities-act38side-level_act38side_02.json",
-        "height": 8,
-        "levelId": "activities/act38side/level_act38side_02",
-        "name": "择路",
-        "stageId": "act38side_02",
-        "width": 9
-    },
-    "act38side_02-activities/act38sidelevel_act38side_02": {
-        "code": "PV-2",
-        "filename": "level_act38side_02.json",
         "height": 8,
         "levelId": "activities/act38side/level_act38side_02",
         "name": "择路",
@@ -11888,27 +11681,9 @@
         "stageId": "act38side_03",
         "width": 11
     },
-    "act38side_03-activities/act38sidelevel_act38side_03": {
-        "code": "PV-3",
-        "filename": "level_act38side_03.json",
-        "height": 9,
-        "levelId": "activities/act38side/level_act38side_03",
-        "name": "恶客盈门",
-        "stageId": "act38side_03",
-        "width": 11
-    },
     "act38side_04-activities/act38side/level_act38side_04": {
         "code": "PV-4",
         "filename": "act38side_04-activities-act38side-level_act38side_04.json",
-        "height": 7,
-        "levelId": "activities/act38side/level_act38side_04",
-        "name": "体面来宾",
-        "stageId": "act38side_04",
-        "width": 14
-    },
-    "act38side_04-activities/act38sidelevel_act38side_04": {
-        "code": "PV-4",
-        "filename": "level_act38side_04.json",
         "height": 7,
         "levelId": "activities/act38side/level_act38side_04",
         "name": "体面来宾",
@@ -11924,27 +11699,9 @@
         "stageId": "act38side_05",
         "width": 11
     },
-    "act38side_05-activities/act38sidelevel_act38side_05": {
-        "code": "PV-5",
-        "filename": "level_act38side_05.json",
-        "height": 7,
-        "levelId": "activities/act38side/level_act38side_05",
-        "name": "“致新生活”",
-        "stageId": "act38side_05",
-        "width": 11
-    },
     "act38side_06-activities/act38side/level_act38side_06": {
         "code": "PV-6",
         "filename": "act38side_06-activities-act38side-level_act38side_06.json",
-        "height": 10,
-        "levelId": "activities/act38side/level_act38side_06",
-        "name": "“复仇于我”",
-        "stageId": "act38side_06",
-        "width": 13
-    },
-    "act38side_06-activities/act38sidelevel_act38side_06": {
-        "code": "PV-6",
-        "filename": "level_act38side_06.json",
         "height": 10,
         "levelId": "activities/act38side/level_act38side_06",
         "name": "“复仇于我”",
@@ -11960,27 +11717,9 @@
         "stageId": "act38side_07",
         "width": 13
     },
-    "act38side_07-activities/act38sidelevel_act38side_07": {
-        "code": "PV-7",
-        "filename": "level_act38side_07.json",
-        "height": 8,
-        "levelId": "activities/act38side/level_act38side_07",
-        "name": "揭幕时刻",
-        "stageId": "act38side_07",
-        "width": 13
-    },
     "act38side_08-activities/act38side/level_act38side_08": {
         "code": "PV-8",
         "filename": "act38side_08-activities-act38side-level_act38side_08.json",
-        "height": 11,
-        "levelId": "activities/act38side/level_act38side_08",
-        "name": "无私铁棘",
-        "stageId": "act38side_08",
-        "width": 13
-    },
-    "act38side_08-activities/act38sidelevel_act38side_08": {
-        "code": "PV-8",
-        "filename": "level_act38side_08.json",
         "height": 11,
         "levelId": "activities/act38side/level_act38side_08",
         "name": "无私铁棘",
@@ -11996,27 +11735,9 @@
         "stageId": "act38side_09",
         "width": 12
     },
-    "act38side_09-activities/act38sidelevel_act38side_09": {
-        "code": "PV-9",
-        "filename": "level_act38side_09.json",
-        "height": 10,
-        "levelId": "activities/act38side/level_act38side_09",
-        "name": "狼群与群狼",
-        "stageId": "act38side_09",
-        "width": 12
-    },
     "act38side_10-activities/act38side/level_act38side_10": {
         "code": "PV-10",
         "filename": "act38side_10-activities-act38side-level_act38side_10.json",
-        "height": 11,
-        "levelId": "activities/act38side/level_act38side_10",
-        "name": "铳响",
-        "stageId": "act38side_10",
-        "width": 15
-    },
-    "act38side_10-activities/act38sidelevel_act38side_10": {
-        "code": "PV-10",
-        "filename": "level_act38side_10.json",
         "height": 11,
         "levelId": "activities/act38side/level_act38side_10",
         "name": "铳响",
@@ -12266,27 +11987,9 @@
         "stageId": "act38side_sp01",
         "width": 13
     },
-    "act38side_sp01-activities/act38sidelevel_act38side_sp01": {
-        "code": "PV-P-1",
-        "filename": "level_act38side_sp01.json",
-        "height": 7,
-        "levelId": "activities/act38side/level_act38side_sp01",
-        "name": "试演烟花秀",
-        "stageId": "act38side_sp01",
-        "width": 13
-    },
     "act38side_sp02-activities/act38side/level_act38side_sp02": {
         "code": "PV-P-2",
         "filename": "act38side_sp02-activities-act38side-level_act38side_sp02.json",
-        "height": 10,
-        "levelId": "activities/act38side/level_act38side_sp02",
-        "name": "即兴烟花秀",
-        "stageId": "act38side_sp02",
-        "width": 13
-    },
-    "act38side_sp02-activities/act38sidelevel_act38side_sp02": {
-        "code": "PV-P-2",
-        "filename": "level_act38side_sp02.json",
         "height": 10,
         "levelId": "activities/act38side/level_act38side_sp02",
         "name": "即兴烟花秀",
@@ -12302,27 +12005,9 @@
         "stageId": "act38side_sp03",
         "width": 9
     },
-    "act38side_sp03-activities/act38sidelevel_act38side_sp03": {
-        "code": "PV-P-3",
-        "filename": "level_act38side_sp03.json",
-        "height": 9,
-        "levelId": "activities/act38side/level_act38side_sp03",
-        "name": "狂欢之夜烟花秀",
-        "stageId": "act38side_sp03",
-        "width": 9
-    },
     "act38side_tr01-activities/act38side/level_act38side_tr01": {
         "code": "PV-TR-1",
         "filename": "act38side_tr01-activities-act38side-level_act38side_tr01.json",
-        "height": 8,
-        "levelId": "activities/act38side/level_act38side_tr01",
-        "name": "《烟花燃放须知》",
-        "stageId": "act38side_tr01",
-        "width": 10
-    },
-    "act38side_tr01-activities/act38sidelevel_act38side_tr01": {
-        "code": "PV-TR-1",
-        "filename": "level_act38side_tr01.json",
         "height": 8,
         "levelId": "activities/act38side/level_act38side_tr01",
         "name": "《烟花燃放须知》",
@@ -19966,7 +19651,7 @@
         "filename": "main_15-10#s-obt-main-level_main_15-10.json",
         "height": 8,
         "levelId": "obt/main/level_main_15-10",
-        "name": "目击众神死亡的荒原",
+        "name": "一段长梦将醒",
         "stageId": "main_15-10#s",
         "width": 11
     },
@@ -19975,7 +19660,7 @@
         "filename": "main_15-10-obt-main-level_main_15-10.json",
         "height": 8,
         "levelId": "obt/main/level_main_15-10",
-        "name": "目击众神死亡的荒原",
+        "name": "一段长梦将醒",
         "stageId": "main_15-10",
         "width": 11
     },
@@ -19984,7 +19669,7 @@
         "filename": "main_15-11#s-obt-main-level_main_15-11.json",
         "height": 7,
         "levelId": "obt/main/level_main_15-11",
-        "name": "成为你的眼睛",
+        "name": "目击众神死亡的荒原",
         "stageId": "main_15-11#s",
         "width": 11
     },
@@ -19993,7 +19678,7 @@
         "filename": "main_15-11-obt-main-level_main_15-11.json",
         "height": 7,
         "levelId": "obt/main/level_main_15-11",
-        "name": "成为你的眼睛",
+        "name": "目击众神死亡的荒原",
         "stageId": "main_15-11",
         "width": 11
     },
@@ -20002,7 +19687,7 @@
         "filename": "main_15-12#s-obt-main-level_main_15-12.json",
         "height": 7,
         "levelId": "obt/main/level_main_15-12",
-        "name": "在尘或血中",
+        "name": "成为你的眼睛",
         "stageId": "main_15-12#s",
         "width": 11
     },
@@ -20011,7 +19696,7 @@
         "filename": "main_15-12-obt-main-level_main_15-12.json",
         "height": 7,
         "levelId": "obt/main/level_main_15-12",
-        "name": "在尘或血中",
+        "name": "成为你的眼睛",
         "stageId": "main_15-12",
         "width": 11
     },
@@ -20020,7 +19705,7 @@
         "filename": "main_15-13#s-obt-main-level_main_15-13.json",
         "height": 8,
         "levelId": "obt/main/level_main_15-13",
-        "name": "拒绝哀悼",
+        "name": "在尘或血中",
         "stageId": "main_15-13#s",
         "width": 12
     },
@@ -20029,7 +19714,7 @@
         "filename": "main_15-13-obt-main-level_main_15-13.json",
         "height": 8,
         "levelId": "obt/main/level_main_15-13",
-        "name": "拒绝哀悼",
+        "name": "在尘或血中",
         "stageId": "main_15-13",
         "width": 12
     },
@@ -20038,7 +19723,7 @@
         "filename": "main_15-14#s-obt-main-level_main_15-14.json",
         "height": 8,
         "levelId": "obt/main/level_main_15-14",
-        "name": "永恒与此刻的误差",
+        "name": "拒绝哀悼",
         "stageId": "main_15-14#s",
         "width": 12
     },
@@ -20047,7 +19732,7 @@
         "filename": "main_15-14-obt-main-level_main_15-14.json",
         "height": 8,
         "levelId": "obt/main/level_main_15-14",
-        "name": "永恒与此刻的误差",
+        "name": "拒绝哀悼",
         "stageId": "main_15-14",
         "width": 12
     },
