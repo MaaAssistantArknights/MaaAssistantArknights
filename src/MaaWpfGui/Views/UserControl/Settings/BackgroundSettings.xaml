@@ -64,5 +64,21 @@
                 </hc:PreviewSlider.PreviewContent>
             </hc:PreviewSlider>
         </StackPanel>
+        <StackPanel
+            Margin="10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <controls:TextBlock HorizontalAlignment="Center" Text="{DynamicResource BackgroundImageStretchMode}" />
+            <hc:ComboBox
+                Width="200"
+                Margin="10"
+                HorizontalContentAlignment="Stretch"
+                DisplayMemberPath="Display"
+                IsEditable="True"
+                IsEnabled="True"
+                ItemsSource="{c:Binding BackgroundImageStretchModeList}"
+                SelectedValue="{c:Binding BackgroundImageStretchMode}"
+                SelectedValuePath="Value" />
+        </StackPanel>
     </StackPanel>
 </UserControl>

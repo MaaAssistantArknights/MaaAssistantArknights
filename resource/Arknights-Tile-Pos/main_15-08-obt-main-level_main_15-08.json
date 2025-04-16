@@ -286,7 +286,7 @@
                 "tileKey": "tile_floor"
             },
             {
-                "buildableType": 0,
+                "buildableType": 1,
                 "heightType": 0,
                 "isEnd": false,
                 "isStart": false,
@@ -300,7 +300,7 @@
                 "tileKey": "tile_road"
             },
             {
-                "buildableType": 0,
+                "buildableType": 1,
                 "heightType": 0,
                 "isEnd": false,
                 "isStart": false,
@@ -351,7 +351,7 @@
                 "tileKey": "tile_wall"
             },
             {
-                "buildableType": 0,
+                "buildableType": 1,
                 "heightType": 0,
                 "isEnd": false,
                 "isStart": false,
@@ -451,7 +451,7 @@
                 "tileKey": "tile_wall"
             },
             {
-                "buildableType": 0,
+                "buildableType": 1,
                 "heightType": 0,
                 "isEnd": false,
                 "isStart": false,

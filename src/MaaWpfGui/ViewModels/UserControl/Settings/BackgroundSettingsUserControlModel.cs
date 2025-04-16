@@ -13,12 +13,16 @@
 
 #nullable enable
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Utilities.ValueType;
 using Microsoft.Win32;
 using Stylet;
 
@@ -69,6 +73,26 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
             SetAndNotify(ref _backgroundImage, value);
         }
     }
+
+    private static Stretch _backgroundImageStretchMode = (Stretch)Enum.Parse(typeof(Stretch), ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundImageStretchMode, Stretch.Fill.ToString()));
+
+    public Stretch BackgroundImageStretchMode
+    {
+        get => _backgroundImageStretchMode;
+        set
+        {
+            SetAndNotify(ref _backgroundImageStretchMode, value);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.BackgroundImageStretchMode, value.ToString());
+        }
+    }
+
+    public static List<CombinedData> BackgroundImageStretchModeList { get; } =
+        [
+            new() { Display = LocalizationHelper.GetString("BackgroundImageStretchModeNone"), Value = Stretch.None.ToString() },
+            new() { Display = LocalizationHelper.GetString("BackgroundImageStretchModeFill"), Value = Stretch.Fill.ToString() },
+            new() { Display = LocalizationHelper.GetString("BackgroundImageStretchModeUniform"), Value = Stretch.Uniform.ToString() },
+            new() { Display = LocalizationHelper.GetString("BackgroundImageStretchModeUniformToFill"), Value = Stretch.UniformToFill.ToString() },
+        ];
 
     private static BitmapImage? RefreshBackgroundImage(string imagePath)
     {

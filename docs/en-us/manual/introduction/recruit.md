@@ -1,5 +1,6 @@
 ---
 order: 2
+icon: fluent:people-24-filled
 ---
 
 # Recruit

@@ -4801,6 +4801,7 @@
         "templThreshold": 0.75,
         "maxTimes": 3,
         "reduceOtherTimes": ["SelectClue*3"],
+        "exceededNext": ["CloseSendClue"],
         "next": [
             "ClueGiveTo1st",
             "ClueGiveTo2nd",
@@ -5776,8 +5777,6 @@
     },
     "InfrastOperListSlowlySwipeToTheRight": {
         "baseTask": "SlowlySwipeToTheRight",
-        "postDelay_Doc": "滑动到右边列表末尾后会有一个反弹动画，这个动画持续约 300ms，设定延时需要比这个数字长",
-        "postDelay": 300,
         "specificRect": [1000, 350, 20, 20],
         "rectMove": [400, 350, 20, 20]
     },
@@ -6038,7 +6037,7 @@
     "SSSDropRecruitmentOCR": {
         "baseTask": "CharsNameOcrReplace",
         "text": [],
-        "roi": [0, 352, 1280, 263],
+        "roi": [0, 230, 1280, 400],
         "postDelay": 1000
     },
     "SSSDropRecruitmentConfirm": {
