@@ -442,7 +442,8 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
     }
     oper_analyzer.sort_by_loc();
     partial_result.clear();
-    for (const auto& oper : oper_analyzer.get_result()) {
+    const auto& result = oper_analyzer.get_result();
+    for (const auto& oper : result) {
         RegionOCRer name_analyzer;
         name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         name_analyzer.set_image(oper.name_img);
@@ -466,7 +467,18 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
     }
 
     // 如果识别到了自定义的干员，延迟 500 ms 后重新识别准确位置，避免触底动画影响
-    sleep(500);
+    if (result.size() >= 3) {
+        const auto views = result | views::drop(result.size() - 3);
+        const auto& first = views.front();
+        const auto& end = views.back();
+        if (image.cols > end.rect.x + (end.rect.x - first.rect.x)) {
+            // 如果最后一列干员后，还能塞一列，则认为是触底了
+            sleep(500);
+        }
+    }
+    else {
+        sleep(500);
+    }
 
     image = ctrler()->get_image();
     InfrastOperImageAnalyzer oper_analyzer2(image);
