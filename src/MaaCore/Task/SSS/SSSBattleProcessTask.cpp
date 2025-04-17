@@ -137,7 +137,7 @@ bool asst::SSSBattleProcessTask::wait_until_start(bool weak)
     if (!ProcessTask(*this, { "SSSFightStart-PreSelect-Match" }).set_retry_times(300).run()) {
         return false;
     }
-    update_deployment();
+    update_deployment(false, cv::Mat(), true);
     ProcessTask(*this, { "SSSFightStart-PreSelect-Clear" }).run();
 
     int replace_count;     // 替换干员数量，装置不计数
