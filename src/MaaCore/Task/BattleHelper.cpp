@@ -148,7 +148,7 @@ bool asst::BattleHelper::update_deployment_(
             else {
                 Log.info("unknown oper", oper.index);
                 // 冷却中的未知干员不进行匹配
-                if (analyze_unknown && !oper.cooling) {
+                if (!analyze_unknown && !oper.cooling) {
                     return false;
                 }
                 unknown_opers.emplace_back(oper);
