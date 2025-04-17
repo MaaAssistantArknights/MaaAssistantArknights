@@ -462,11 +462,11 @@ struct TaskPipelineInfo
     constexpr TaskPipelineInfo(TaskPipelineInfo&&) noexcept = default;
     constexpr TaskPipelineInfo& operator=(const TaskPipelineInfo&) = default;
     constexpr TaskPipelineInfo& operator=(TaskPipelineInfo&&) noexcept = default;
-    std::string name;            // 任务名
-    TaskList next;               // 下一个可能的任务（列表）
-    TaskList sub;                // 子任务（列表）
-    TaskList on_error_next;      // 任务出错之后要去执行什么
-    TaskList exceeded_next;      // 达到最多次数了之后，下一个可能的任务（列表）
+    std::string name;       // 任务名
+    TaskList next;          // 下一个可能的任务（列表）
+    TaskList sub;           // 子任务（列表）
+    TaskList on_error_next; // 任务出错之后要去执行什么
+    TaskList exceeded_next; // 达到最多次数了之后，下一个可能的任务（列表）
     TaskList reduce_other_times; // 执行了该任务后，需要减少别的任务的执行次数。例如执行了吃理智药，
                                  // 则说明上一次点击蓝色开始行动按钮没生效，所以蓝色开始行动要-1
 };
@@ -502,17 +502,17 @@ struct TaskInfo : public TaskPipelineInfo
     constexpr TaskInfo& operator=(TaskInfo&&) noexcept = default;
     AlgorithmType algorithm = AlgorithmType::Invalid;      // 图像算法类型
     ProcessTaskAction action = ProcessTaskAction::Invalid; // 要进行的操作
-    bool sub_error_ignored = false;                        // 子任务如果失败了，是否继续执行剩下的任务
-    int max_times = INT_MAX;                               // 任务最多执行多少次
-    Rect specific_rect;                                    // 指定区域，目前仅针对ClickRect任务有用，会点这个区域
-    int pre_delay = 0;                                     // 执行该任务前的延时
-    int post_delay = 0;                                    // 执行该任务后的延时
-    int retry_times = INT_MAX;                             // 未找到图像时的重试次数
-    Rect roi;                                              // 要识别的区域，若为0则全图识别
-    Rect rect_move;                                        // 识别结果移动：有些结果识别到的，和要点击的不是同一个位置。
-                                                           // 即识别到了res，点击res + result_move的位置
-    bool cache = false;                                    // 是否使用缓存区域
-    std::vector<int> special_params;                       // 某些任务会用到的特殊参数
+    bool sub_error_ignored = false; // 子任务如果失败了，是否继续执行剩下的任务
+    int max_times = INT_MAX;        // 任务最多执行多少次
+    Rect specific_rect;             // 指定区域，目前仅针对ClickRect任务有用，会点这个区域
+    int pre_delay = 0;              // 执行该任务前的延时
+    int post_delay = 0;             // 执行该任务后的延时
+    int retry_times = INT_MAX;      // 未找到图像时的重试次数
+    Rect roi;                       // 要识别的区域，若为0则全图识别
+    Rect rect_move;     // 识别结果移动：有些结果识别到的，和要点击的不是同一个位置。
+                        // 即识别到了res，点击res + result_move的位置
+    bool cache = false; // 是否使用缓存区域
+    std::vector<int> special_params; // 某些任务会用到的特殊参数
     std::string input_text; // 输入任务的文字，目前希望仅针对 Input 任务有效， algorithm 为 JustReturn
 };
 
@@ -532,9 +532,9 @@ struct OcrTaskInfo : public TaskInfo
     bool full_match = false;       // 是否需要全匹配，否则搜索到子串就算匹配上了
     bool is_ascii = false;         // 是否启用字符数字模型
     bool without_det = false;      // 是否不使用检测模型
-    bool replace_full = false;     // 匹配之后，是否将整个字符串replace（false是只替换match的部分）
+    bool replace_full = false; // 匹配之后，是否将整个字符串replace（false是只替换match的部分）
     std::vector<std::pair<std::string, std::string>>
-        replace_map;               // 部分文字容易识别错，字符串强制replace之后，再进行匹配
+        replace_map;           // 部分文字容易识别错，字符串强制replace之后，再进行匹配
 };
 
 using OcrTaskPtr = std::shared_ptr<OcrTaskInfo>;
@@ -556,9 +556,9 @@ struct MatchTaskInfo : public TaskInfo
     std::vector<std::string> templ_names; // 匹配模板图片文件名
     std::vector<double> templ_thresholds; // 模板匹配阈值
     std::vector<MatchMethod> methods;     // 匹配方法
-    Ranges mask_ranges;                   // 匹配掩码范围，TaskData 仅允许 array<int, 2>，但保留彩色掩码支持
-    Ranges color_scales;                  // 数色掩码范围
-    bool color_close = true;              // 数色时是否使用闭运算处理
+    Ranges mask_ranges;      // 匹配掩码范围，TaskData 仅允许 array<int, 2>，但保留彩色掩码支持
+    Ranges color_scales;     // 数色掩码范围
+    bool color_close = true; // 数色时是否使用闭运算处理
 };
 
 using MatchTaskPtr = std::shared_ptr<MatchTaskInfo>;
