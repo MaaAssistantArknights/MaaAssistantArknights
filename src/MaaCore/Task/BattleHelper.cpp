@@ -205,14 +205,10 @@ bool asst::BattleHelper::update_deployment_(
             re_matcher.set_task_info("BattleAvatarReMatch");
             re_matcher.set_templ(oper.avatar);
             if (re_matcher.analyze()) {
-                if (const auto& results = re_matcher.get_result();
-                    !results.empty()) {
+                if (const auto& results = re_matcher.get_result(); !results.empty()) {
                     // 遍历结果，找到 y 最小的（之前选中的） rect
                     auto min_rect_iter =
-                        ranges::min_element(
-                            results, [](const auto& a, const auto& b) {
-                            return a.rect.y < b.rect.y;
-                        });
+                        ranges::min_element(results, [](const auto& a, const auto& b) { return a.rect.y < b.rect.y; });
 
                     oper_rect = min_rect_iter->rect;
                 }
