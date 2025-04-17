@@ -48,6 +48,7 @@ protected:
     bool abandon();
 
     bool update_deployment(bool init = false, const cv::Mat& reusable = cv::Mat(), bool need_oper_cost = false);
+    // 更新部署区的干员，仅当存在未识别干员且不处于冷却中return false
     bool update_deployment_(
         std::vector<battle::DeploymentOper>& cur_opers,
         const std::vector<battle::DeploymentOper>& old_deployment_opers,

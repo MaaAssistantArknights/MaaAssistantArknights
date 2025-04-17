@@ -98,13 +98,13 @@ bool asst::BattleHelper::abandon()
 bool asst::BattleHelper::update_deployment_(
     std::vector<battle::DeploymentOper>& cur_opers,
     const std::vector<battle::DeploymentOper>& old_deployment_opers,
-    const bool stop_on_unknown)
+    const bool analyze_unknown)
 {
     LogTraceFunction;
 
-    // ————————————————————————————————————————————————————————————————————————————————
+    // ————————————————————————————————————————
     // 准备 lambda 函数
-    // ————————————————————————————————————————————————————————————————————————————————
+    // ————————————————————————————————————————
     // 设置干员名与部署位类型（近战/远程）
     auto set_oper_name = [&](DeploymentOper& oper, const std::string& name) {
         oper.name = name;
@@ -112,16 +112,16 @@ bool asst::BattleHelper::update_deployment_(
         oper.is_usual_location = battle::get_role_usual_location(oper.role) == oper.location_type;
     };
 
-    // ————————————————————————————————————————————————————————————————————————————————
+    // ————————————————————————————————————————
     // 初始化变量
-    // ————————————————————————————————————————————————————————————————————————————————
+    // ————————————————————————————————————————
     m_cur_deployment_opers = std::vector<battle::DeploymentOper>();
     m_cur_deployment_opers.reserve(cur_opers.size());
     std::vector<DeploymentOper> unknown_opers;
 
-    // ————————————————————————————————————————————————————————————————————————————————
+    // ————————————————————————————————————————
     // 匹配已知干员
-    // ————————————————————————————————————————————————————————————————————————————————
+    // ————————————————————————————————————————
     for (auto& oper : cur_opers) {
         bool is_analyzed = false;
         if (!old_deployment_opers.empty()) {
@@ -147,7 +147,8 @@ bool asst::BattleHelper::update_deployment_(
             }
             else {
                 Log.info("unknown oper", oper.index);
-                if (stop_on_unknown && !oper.cooling) {
+                // 冷却中的未知干员不进行匹配
+                if (analyze_unknown && !oper.cooling) {
                     return false;
                 }
                 unknown_opers.emplace_back(oper);
@@ -161,9 +162,9 @@ bool asst::BattleHelper::update_deployment_(
         }
     }
 
-    // ————————————————————————————————————————————————————————————————————————————————
+    // ————————————————————————————————————————
     // 匹配未知非冷却干员
-    // ————————————————————————————————————————————————————————————————————————————————
+    // ————————————————————————————————————————
     if (ranges::count_if(unknown_opers, [](const DeploymentOper& it) { return !it.cooling; }) > 0) {
         // 一个都没匹配上的，挨个点开来看一下
         LogTraceScope("rec unknown opers");
@@ -233,7 +234,6 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
     }
 
     cv::Mat image = init || reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
-
     if (init) {
         auto draw_future = std::async(std::launch::async, [&]() { save_map(image); });
     }
@@ -254,7 +254,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
     }
     const auto old_deployment_opers = std::move(m_cur_deployment_opers);
 
-    if (!update_deployment_(oper_result_opt->deployment, old_deployment_opers, true)) {
+    if (!update_deployment_(oper_result_opt->deployment, old_deployment_opers, false)) {
         // 发现未知干员，暂停游戏后再重新识别干员
         do {
             pause();
@@ -287,10 +287,9 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
             check_in_battle(image);
             return false;
         }
-        update_deployment_(oper_result_opt->deployment, old_deployment_opers, false);
-
+        update_deployment_(oper_result_opt->deployment, old_deployment_opers, true);
         pause();
-
+        cancel_oper_selection();
         image = m_inst_helper.ctrler()->get_image();
     }
 
