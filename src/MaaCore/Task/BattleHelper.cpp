@@ -20,6 +20,7 @@
 #include "Vision/RegionOCRer.h"
 
 #include "Arknights-Tile-Pos/TileCalc2.hpp"
+#include "Vision/MultiMatcher.h"
 
 using namespace asst::battle;
 
@@ -179,16 +180,6 @@ bool asst::BattleHelper::update_deployment_(
             }
 
             Rect oper_rect = oper.rect;
-            // 点完部署区的一个干员之后，他的头像会放大；其他干员的位置都被挤开了，不在原来的位置了
-            // 所以只有第一个干员可以直接点，后面干员都要重新识别一下位置
-            if (!name_image.empty()) {
-                Matcher re_matcher(name_image);
-                re_matcher.set_task_info("BattleAvatarReMatch");
-                re_matcher.set_templ(oper.avatar);
-                if (re_matcher.analyze()) {
-                    oper_rect = re_matcher.get_result().rect;
-                }
-            }
 
             click_oper_on_deployment(oper_rect);
 
@@ -207,20 +198,26 @@ bool asst::BattleHelper::update_deployment_(
                 AvatarCache.set_avatar(name, oper.role, oper.avatar);
             }
 
-            // 已知问题：保全中待部署如果有俩水泥, 可能会点错, 展开第二个水泥
-            // 导致识别到第二个水泥的时候, 点击的时候实际为关闭了第二个水泥，导致无法识别名字
-            // 
             // 再点一下部署栏头像取消选择
             // 注意，点完部署区的干员之后，他的头像会放大；干员的位置都被挤开了，不在原来的位置了
             // 所以要重新识别一下位置
-            Matcher re_matcher(name_image);
+            MultiMatcher re_matcher(name_image);
             re_matcher.set_task_info("BattleAvatarReMatch");
             re_matcher.set_templ(oper.avatar);
             if (re_matcher.analyze()) {
-                oper_rect = re_matcher.get_result().rect;
+                if (const auto& results = re_matcher.get_result();
+                    !results.empty()) {
+                    // 遍历结果，找到 y 最小的（之前选中的） rect
+                    auto min_rect_iter =
+                        ranges::min_element(
+                            results, [](const auto& a, const auto& b) {
+                            return a.rect.y < b.rect.y;
+                        });
+
+                    oper_rect = min_rect_iter->rect;
+                }
             }
             click_oper_on_deployment(oper_rect);
-            name_image = m_inst_helper.ctrler()->get_image();
         }
     }
 
