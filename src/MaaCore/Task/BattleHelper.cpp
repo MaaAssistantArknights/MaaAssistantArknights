@@ -17,10 +17,10 @@
 #include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/Matcher.h"
+#include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
 
 #include "Arknights-Tile-Pos/TileCalc2.hpp"
-#include "Vision/MultiMatcher.h"
 
 using namespace asst::battle;
 
