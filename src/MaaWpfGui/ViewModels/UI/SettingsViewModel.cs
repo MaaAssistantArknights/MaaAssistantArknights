@@ -681,6 +681,16 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var rvm = (RootViewModel)this.Parent;
 
+            string updateTip = string.Empty;
+            var updateTag = Instances.VersionUpdateViewModel.UpdateTag;
+            var coreVersion = VersionUpdateSettingsUserControlModel.CoreVersion;
+            var startupUpdateCheck = VersionUpdateSettings.StartupUpdateCheck;
+            var isDebug = Instances.VersionUpdateViewModel.IsDebugVersion();
+            if (updateTag != coreVersion && !isDebug && !string.IsNullOrEmpty(updateTag) && startupUpdateCheck)
+            {
+                updateTip = $"{LocalizationHelper.GetString("NewVersionFoundTitle")}: {updateTag} - ";
+            }
+
             string prefix = ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitlePrefix, string.Empty);
             if (!string.IsNullOrEmpty(prefix))
             {
@@ -731,7 +741,7 @@ namespace MaaWpfGui.ViewModels.UI
                     _ => $" - {VersionUpdateSettings.ResourceDateTime.ToString(LocalizationHelper.CustomCultureInfo.DateTimeFormat.ShortDatePattern.Replace("yyyy", string.Empty).Trim('/', '.'))} {VersionUpdateSettings.ResourceVersion}",
                 }
                 : string.Empty;
-            rvm.WindowTitle = $"{prefix}MAA{currentConfiguration} - {VersionUpdateSettingsUserControlModel.CoreVersion}{resourceVersion}{connectConfigName}{connectAddress}{clientName}";
+            rvm.WindowTitle = $"{updateTip}{prefix}MAA{currentConfiguration} - {VersionUpdateSettingsUserControlModel.CoreVersion}{resourceVersion}{connectConfigName}{connectAddress}{clientName}";
         }
 
         /// <summary>
