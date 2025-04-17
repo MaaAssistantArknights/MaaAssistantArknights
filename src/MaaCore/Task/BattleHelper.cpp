@@ -179,8 +179,21 @@ bool asst::BattleHelper::update_deployment_(
             }
 
             Rect oper_rect = oper.rect;
+            // 点完部署区的一个干员之后，他的头像会放大；其他干员的位置都被挤开了，不在原来的位置了
+            // 所以只有第一个干员可以直接点，后面干员都要重新识别一下位置
+            if (!name_image.empty()) {
+                Matcher re_matcher(name_image);
+                re_matcher.set_task_info("BattleAvatarReMatch");
+                re_matcher.set_templ(oper.avatar);
+                if (re_matcher.analyze()) {
+                    oper_rect = re_matcher.get_result().rect;
+                }
+            }
+
             click_oper_on_deployment(oper_rect);
+
             name_image = m_inst_helper.ctrler()->get_image();
+
             std::string name = analyze_detail_page_oper_name(name_image);
             // 这时候即使名字不合法也只能凑合用了，但是为空还是不行的
             if (name.empty()) {
@@ -243,6 +256,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
         return false;
     }
     const auto old_deployment_opers = std::move(m_cur_deployment_opers);
+
     if (!update_deployment_(oper_result_opt->deployment, old_deployment_opers, false)) {
         // 发现未知干员，暂停游戏后再重新识别干员
         do {
@@ -278,7 +292,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
         }
         update_deployment_(oper_result_opt->deployment, old_deployment_opers, true);
         pause();
-
+        cancel_oper_selection();
         image = m_inst_helper.ctrler()->get_image();
     }
 
