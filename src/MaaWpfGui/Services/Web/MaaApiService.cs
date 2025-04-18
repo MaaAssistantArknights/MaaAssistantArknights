@@ -29,15 +29,24 @@ namespace MaaWpfGui.Services.Web
         {
             var url = MaaUrls.MaaApi + api;
 
-            var response = await Instances.HttpService.GetStringAsync(new Uri(url));
-            if (response == null)
+            // await Instances.HttpService.GetStringAsync(new Uri(url));
+            var response = await ETagCache.FetchResponseWithEtag(url);
+            if (response == null ||
+                response.StatusCode == System.Net.HttpStatusCode.NotModified ||
+                response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                return LoadApiCache(api);
+            }
+
+            var body = await HttpResponseHelper.GetStringAsync(response);
+            if (string.IsNullOrEmpty(body))
             {
                 return LoadApiCache(api);
             }
 
             try
             {
-                var json = (JObject)JsonConvert.DeserializeObject(response);
+                var json = (JObject)JsonConvert.DeserializeObject(body);
                 var cache = CacheDir + api;
                 string directoryPath = Path.GetDirectoryName(cache);
 
@@ -46,7 +55,9 @@ namespace MaaWpfGui.Services.Web
                     Directory.CreateDirectory(directoryPath!);
                 }
 
-                await File.WriteAllTextAsync(cache, response);
+                await File.WriteAllTextAsync(cache, body);
+
+                ETagCache.Set(response);
 
                 return json;
             }
