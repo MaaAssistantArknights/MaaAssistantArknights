@@ -1,0 +1,34 @@
+{
+    "IS-10": {
+        "algorithm": "JustReturn",
+        "next": ["IS-10@IS-Open", "IS-10@IS-OpenOcr"]
+    },
+    "IS-9": {
+        "algorithm": "JustReturn",
+        "next": ["IS-9@IS-Open", "IS-9@IS-OpenOcr"]
+    },
+    "IS-8": {
+        "algorithm": "JustReturn",
+        "next": ["IS-8@IS-Open", "IS-8@IS-OpenOcr"]
+    },
+    "IS-Open": {
+        "baseTask": "SS-Open",
+        "sub": ["EnterChapterIS"],
+        "next": ["SideStoryStage", "SwipeToStageIS"]
+    },
+    "IS-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["叙拉古人", "复刻"],
+        "sub": ["EnterChapterIS"],
+        "next": ["SideStoryStage", "SwipeToStageIS"]
+    },
+    "IS-10@SideStoryStage": {
+        "text": ["IS-10"]
+    },
+    "IS-9@SideStoryStage": {
+        "text": ["IS-9"]
+    },
+    "IS-8@SideStoryStage": {
+        "text": ["IS-8"]
+    }
+}
