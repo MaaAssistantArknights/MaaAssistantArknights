@@ -61,6 +61,12 @@ namespace MaaWpfGui.Services
         public static extern bool AsstStop(AsstHandle handle);
 
         [DllImport("MaaCore.dll")]
+        public static extern bool AsstPause(AsstHandle handle);
+
+        [DllImport("MaaCore.dll")]
+        public static extern bool AsstResume(AsstHandle handle);
+
+        [DllImport("MaaCore.dll")]
         public static extern unsafe Int32 AsstAsyncScreencap(AsstHandle handle, bool block);
 
         [DllImport("MaaCore.dll")]

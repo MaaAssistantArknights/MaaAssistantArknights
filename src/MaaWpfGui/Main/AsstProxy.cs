@@ -1014,6 +1014,9 @@ namespace MaaWpfGui.Main
                 case AsstMsg.TaskChainStopped:
                     break;
 
+                case AsstMsg.TaskChainPaused:
+                    break;
+
                 case AsstMsg.SubTaskStopped:
                     break;
 
@@ -2198,6 +2201,24 @@ namespace MaaWpfGui.Main
         }
 
         /// <summary>
+        /// 暂停。
+        /// </summary>
+        /// <returns>是否成功。</returns>
+        public bool AsstPause()
+        {
+            return MaaService.AsstPause(_handle);
+        }
+
+        /// <summary>
+        /// 继续。
+        /// </summary>
+        /// <returns>是否成功。</returns>
+        public bool AsstResume()
+        {
+            return MaaService.AsstResume(_handle);
+        }
+
+        /// <summary>
         /// 销毁。
         /// </summary>
         public void AsstDestroy()
@@ -2270,6 +2291,11 @@ namespace MaaWpfGui.Main
         /// 任务链手动停止
         /// </summary>
         TaskChainStopped,
+
+        /// <summary>
+        /// 任务链暂停
+        /// </summary>
+        TaskChainPaused,
 
         /* SubTask Info */
 
