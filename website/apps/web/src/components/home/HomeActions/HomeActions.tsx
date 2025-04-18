@@ -59,7 +59,7 @@ export const HomeActions: FC = () => {
         </GlowButton>
       </div>
 
-      <div className="mt-6 text-xs leading-5 text-center md:mt-8 text-white/70">
+      <div className="mt-6 text-xs leading-5 text-center md:mt-8 dark:text-white/70 text-black/70 transition-colors duration-300">
         MAA 以 AGPL-3.0 协议开源；使用即表示您同意并知悉「用户协议」的相关内容。
       </div>
     </div>

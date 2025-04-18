@@ -2,3 +2,47 @@
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 0px 4px rgba(0, 0, 0, 0.6),
     0 0px 24px rgba(0, 0, 0, 0.6);
 }
+
+:global(.dark) .root {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 0px 4px rgba(0, 0, 0, 0.6),
+    0 0px 24px rgba(0, 0, 0, 0.6);
+}
+
+:global(:not(.dark)) .root {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 0px 4px rgba(0, 0, 0, 0.1),
+    0 0px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* 自定义滚动条样式 */
+.root :global(::-webkit-scrollbar) {
+  width: 6px;
+  height: 6px;
+}
+
+.root :global(::-webkit-scrollbar-track) {
+  background: transparent;
+  border-radius: 3px;
+  margin: 2px;
+}
+
+/* 暗色主题滚动条样式 */
+:global(.dark) .root :global(::-webkit-scrollbar-thumb) {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+}
+
+:global(.dark) .root :global(::-webkit-scrollbar-thumb:hover) {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* 亮色主题滚动条样式 */
+:global(:not(.dark)) .root :global(::-webkit-scrollbar-thumb) {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+}
+
+:global(:not(.dark)) .root :global(::-webkit-scrollbar-thumb:hover) {
+  background-color: rgba(0, 0, 0, 0.4);
+}

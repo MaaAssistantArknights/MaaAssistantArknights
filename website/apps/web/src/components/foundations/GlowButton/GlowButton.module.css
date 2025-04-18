@@ -5,19 +5,41 @@
   box-shadow: -15px 0 45px -15px rgba(154, 52, 18, 0.4),
     0 0 45px -15px rgba(157, 23, 77, 0.4),
     15px 0 45px -15px rgba(91, 33, 182, 0.4);
+  transition: all 0.2s ease-out !important;
+}
+
+:global(.dark) .root {
+  border: thin solid rgba(255, 255, 255, 0.2);
+  transition: all 0.2s ease-out;
+}
+
+:global(.light) .root {
+  border: thin solid rgba(0, 0, 0, 0.1);
+  box-shadow: -15px 0 45px -15px rgba(154, 52, 18, 0.2),
+    0 0 45px -15px rgba(157, 23, 77, 0.2),
+    15px 0 45px -15px rgba(91, 33, 182, 0.2);
+  transition: all 0.2s ease-out;
 }
 
 .root:hover {
   box-shadow: -15px 0 60px -15px rgba(154, 52, 18, 0.4),
     0 0 60px -15px rgba(157, 23, 77, 0.4),
     15px 0 60px -15px rgba(91, 33, 182, 0.4);
+  transition: all 0.2s ease-out !important;
 }
 
 .link {
   text-decoration: none;
 }
-.link:hover * {
+
+:global(.dark) .link:hover * {
   text-decoration: underline;
   text-underline-offset: 1px;
   text-decoration-color: rgba(255, 255, 255, 0.15);
+}
+
+:global(.light) .link:hover * {
+  text-decoration: underline;
+  text-underline-offset: 1px;
+  text-decoration-color: rgba(0, 0, 0, 0.15);
 }

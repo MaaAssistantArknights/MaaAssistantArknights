@@ -19,8 +19,16 @@ code {
 html,
 body,
 #root {
-  background: #080808;
   height: 100%;
+  transition: background-color 300ms ease;
+}
+
+.dark {
+  background-color: #080808;
+}
+
+html:not(.dark) {
+  background-color: #f5f5f5;
 }
 
 .font-logo {
