@@ -82,6 +82,7 @@ public class VersionUpdateViewModel : Screen
         {
             SetAndNotify(ref _updateTag, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionName, value);
+            Instances.SettingsViewModel.UpdateWindowTitle();
         }
     }
 

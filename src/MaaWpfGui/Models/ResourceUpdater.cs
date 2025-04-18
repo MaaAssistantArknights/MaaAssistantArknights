@@ -92,6 +92,8 @@ namespace MaaWpfGui.Models
                 _logger.Error("Failed to delete MaaResource: " + e.Message);
             }
 
+            SettingsViewModel.VersionUpdateSettings.NewResourceFoundInfo = string.Empty;
+
             return true;
         }
 
@@ -200,6 +202,8 @@ namespace MaaWpfGui.Models
                 _ => $"「{version.ToString(LocalizationHelper.CustomCultureInfo.DateTimeFormat.ShortDatePattern.Replace("yyyy", string.Empty).Trim('/', '.'))} {releaseNote}」",
             };
 
+            SettingsViewModel.VersionUpdateSettings.NewResourceFoundInfo = string.Format(LocalizationHelper.GetString("MirrorChyanResourceUpdateShortTip"), releaseNote);
+
             if (string.IsNullOrEmpty(cdk))
             {
                 ToastNotification.ShowDirect(string.Format(LocalizationHelper.GetString("MirrorChyanResourceUpdateTip"), releaseNote));
@@ -269,6 +273,8 @@ namespace MaaWpfGui.Models
             {
                 _logger.Error("Failed to delete MaaResourceMirrorchyan: " + e.Message);
             }
+
+            SettingsViewModel.VersionUpdateSettings.NewResourceFoundInfo = string.Empty;
 
             return true;
         }

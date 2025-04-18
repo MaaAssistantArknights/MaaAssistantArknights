@@ -277,7 +277,8 @@ You can cancel this popup by clicking the Settings - About Us - Issue Reporting 
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">Fill after switching source</system:String>
     <system:String x:Key="MirrorChyanSoftwareUpdateTip">Software update detected. Please go to 「Settings - Update Settings」 to configure MirrorChyan CDK or switch to Global Source.</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">Resource update {0} detected. Please go to 「Settings- Update Settings- Resource Update」 to update manually, or fill in MirrorChayn CDK to update automatically.</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">Resource update {0} detected. Please go to 「Settings- Update Settings - Resource Update」 to update manually, or fill in MirrorChayn CDK to update automatically.</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateShortTip">Resource update {0} detected</system:String>
     <system:String x:Key="MirrorChyanCdkExpired">The CDK has expired. Please use a new CDK for authorization.</system:String>
     <system:String x:Key="MirrorChyanCdkInvalid">The CDK is invalid. Please check if the input is correct.</system:String>
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">The CDK has reached the maximum download limit for today. Please try again tomorrow.</system:String>

@@ -278,6 +278,7 @@
     <system:String x:Key="MirrorChyanCdkPlaceholder">切換更新源後填寫</system:String>
     <system:String x:Key="MirrorChyanSoftwareUpdateTip">偵測到軟體更新。請前往「設定-更新設定」設定 MirrorChyan CDK 或切換到全域來源。</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">偵測到資源更新{0}。請前往「設定-更新設定-資源更新」手動更新，或設定 MirrorChayn CDK 以自動更新。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateShortTip">偵測到資源更新{0}</system:String>
     <system:String x:Key="MirrorChyanCdkExpired">CDK 已過期，請使用新的 CDK 進行授權。</system:String>
     <system:String x:Key="MirrorChyanCdkInvalid">CDK 無效，請檢查輸入是否正確。</system:String>
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">CDK 今日下載次數已達上限，請明日再試。</system:String>
