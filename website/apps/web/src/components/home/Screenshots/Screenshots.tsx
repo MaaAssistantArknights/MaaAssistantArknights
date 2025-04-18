@@ -177,7 +177,7 @@ export function Screenshots({
           const { clientX, clientY } = e instanceof MouseEvent ? e : e.touches[0]
           
           // 新增：计算右侧触发区域（示例右侧75%）
-          const rightEdgeThreshold = window.innerWidth * 0.75
+          const rightEdgeThreshold = window.innerWidth * 0.8
           const isInRightEdge = clientX >= rightEdgeThreshold
             && clientY >= window.innerHeight * 0.25
             && clientY <= window.innerHeight * 0.65
@@ -189,7 +189,7 @@ export function Screenshots({
           // 修改：仅在右侧边缘区域时赋予有效值
           lerpRotationTo.current.set(y, x)
           lerpPositionXTo.current = isInRightEdge ? 
-            (clientX - rightEdgeThreshold) / (window.innerWidth * 0.25) : 0 // 在右侧25%区域内从0渐变到1
+            (clientX - rightEdgeThreshold) / (window.innerWidth * 0.2) : 0 // 在右侧25%区域内从0渐变到1
         }
       }
 
