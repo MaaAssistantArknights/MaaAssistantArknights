@@ -109,7 +109,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     }
 
 #ifdef ASST_DEBUG
-// DEBUG 模式下这里同步加载，并检查返回值的，方便排查问题
+    // DEBUG 模式下这里同步加载，并检查返回值的，方便排查问题
 #define AsyncLoadConfig(Config, Filename) LoadResourceAndCheckRet(Config, Filename)
 #else
 #define AsyncLoadConfig(Config, Filename)                                         \
@@ -138,6 +138,37 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         SingletonHolder<Config>::get_instance().load(full_path); \
     }
 
+#define LoadTaskDirectory(Config, DirName, TemplDir)                                            \
+{                                                                                               \
+    bool ret = true;                                                                            \
+    auto tasks_dir = path / DirName;                                                            \
+    auto full_templ_dir = path / TemplDir;                                                      \
+    std::function<void(const std::filesystem::path&)> load_dir =                                \
+        [&](const std::filesystem::path& dir) {                                                 \
+            for (const auto& entry : std::filesystem::directory_iterator(dir)) {                \
+                if (entry.is_directory()) {                                                     \
+                    load_dir(entry.path());                                                     \
+                } else if (entry.path().extension() == ".json") {                               \
+                    Log.debug("loading tasks from", entry.path());                              \
+                    bool load_ret = load_resource_with_templ<Config>(                           \
+                        entry.path(), full_templ_dir);                                          \
+                    if (!load_ret) {                                                            \
+                        Log.error(#Config, "load failed, file:", entry.path());                 \
+                        ret = false;                                                            \
+                    }                                                                           \
+                }                                                                               \
+            }                                                                                   \
+        };                                                                                      \
+    if (std::filesystem::exists(tasks_dir)) {                                                   \
+        load_dir(tasks_dir);                                                                    \
+    } else {                                                                                    \
+        Log.error(#Config, "directory not exists, path:", tasks_dir);                           \
+    }                                                                                           \
+    if (!ret) {                                                                                 \
+        return false;                                                                           \
+    }                                                                                           \
+}
+
     LogTraceFunction;
     using namespace asst::utils::path_literals;
 
@@ -165,7 +196,8 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LoadCacheWithoutRet(AvatarCacheManager, "avatars"_p);
 
     // 重要的资源，实时加载（图片还是惰性的）
-    LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
+    LoadTaskDirectory(TaskData, "tasks"_p, "template"_p); // 加载实现与 LoadResourceWithTemplAndCheckRet 一致
+
     // 下面这几个资源都是会带OTA功能的，路径不能动
     LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
     LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
