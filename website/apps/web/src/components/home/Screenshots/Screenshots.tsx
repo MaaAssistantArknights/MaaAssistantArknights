@@ -152,7 +152,7 @@ export function Screenshots({
       )
 
       sidebarRef.current.style.transform = `translateX(${
-        -window.innerWidth * 0.03 * sidebarExpansionRatio
+        -window.innerWidth * 0.001 * sidebarExpansionRatio
       }px) rotateY(${(1 - sidebarExpansionSlowRatio) * 30}deg)`
       sidebarRef.current.style.scale = `${
         sidebarExpansionSlowRatio * 0.1 + 0.9
@@ -165,7 +165,7 @@ export function Screenshots({
         // indicator
         indicatorRef.current.style.opacity = `${1 - sidebarExpansionRatio}`
         indicatorRef.current.style.transform = `translateX(${
-          window.innerWidth * -0.03 * sidebarExpansionRatio
+          window.innerWidth * -0.001 * sidebarExpansionRatio
         }px)`
       }
     }
@@ -189,7 +189,7 @@ export function Screenshots({
           // 修改：仅在右侧边缘区域时赋予有效值
           lerpRotationTo.current.set(y, x)
           lerpPositionXTo.current = isInRightEdge ? 
-            (clientX - rightEdgeThreshold) / (window.innerWidth * 0.2) : 0 // 在右侧25%区域内从0渐变到1
+            (clientX - rightEdgeThreshold) / (window.innerWidth * 0.5) : 0 // 在右侧25%区域内从0渐变到1
         }
       }
 

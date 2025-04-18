@@ -69,7 +69,7 @@ const HomeIndicator = forwardRef<HTMLDivElement>((_props, ref) => {
       initial={{ opacity: 0, y: 50, filter: 'blur(10px)' }}
       animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
       transition={{ duration: 0.8, ease: 'easeOut', delay: 0.6 }}
-      className="fixed right-[2vw] top-[50vh] pointer-events-none select-none hidden md:block"
+      className="fixed right-0 top-[50vh] pointer-events-none select-none hidden md:block"
       ref={ref}
     >
       <div className={`-rotate-90 text-lg font-light transition-all duration-300 ${theme === 'dark' ? 'text-white/30 hover:text-white/50' : 'text-gray-800/30 hover:text-gray-800/60'}`}>

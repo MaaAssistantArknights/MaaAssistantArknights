@@ -28,10 +28,10 @@ const HomeLink: FC<{
         ? 'text-white/80 bg-black hover:text-black/100 hover:bg-white active:bg-white/60' 
         : 'text-black/80 bg-white hover:text-white/100 hover:bg-black active:bg-black/60'}`}
     >
-      <div className="text-2xl h-8 w-8 rounded-sm overflow-hidden">{icon}</div>
-      <span className="text-xl">{title}</span>
+      <div className="text-lg h-6 w-6 rounded-sm overflow-hidden">{icon}</div>
+      <span className="text-base">{title}</span>
       <div className="flex-1" />
-      <Icon icon={chevronRight} className="text-2xl" />
+      <Icon icon={chevronRight} className="text-lg" />
     </a>
   )
 }
@@ -45,7 +45,7 @@ const LINKS = [
       <img
         src={linksIconPenguinStats}
         alt="企鹅物流数据统计"
-        className="h-8 w-8"
+        className="h-6 w-6"
       />
     }
   />,
@@ -57,7 +57,7 @@ const LINKS = [
       <img
         src={linksIconArkNights}
         alt="Arknights | Planner"
-        className="h-8 w-8"
+        className="h-6 w-6"
       />
     }
   />,
@@ -66,7 +66,7 @@ const LINKS = [
     href="https://ark.yituliu.cn/"
     title="明日方舟一图流"
     icon={
-      <img src={linksIconYituliu} alt="明日方舟一图流" className="h-8 w-8" />
+      <img src={linksIconYituliu} alt="明日方舟一图流" className="h-6 w-6" />
     }
   />,
   <HomeLink
@@ -74,24 +74,24 @@ const LINKS = [
     href="https://arkntools.app/"
     title="明日方舟工具箱"
     icon={
-      <img src={linksIconArkntools} alt="明日方舟工具箱" className="h-8 w-8" />
+      <img src={linksIconArkntools} alt="明日方舟工具箱" className="h-6 w-6" />
     }
   />,
   <HomeLink
     key="alas"
     href="https://github.com/LmeSzinc/AzurLaneAutoScript"
-    title="AzurLaneAutoScript (ALAS)"
-    icon={<Icon icon={mdiGitHub} className="h-8 w-8" />}
+    title="ALAS"
+    icon={<Icon icon={mdiGitHub} className="h-6 w-6" />}
   />,
   <HomeLink
     key="prts-plus"
     href="https://prts.plus"
-    title="MAA Copilot 作业分享站"
+    title="PRTS 作业站"
     icon={
       <img
         src={linksIconPrtsPlus}
-        alt="MAA Copilot 作业分享站"
-        className="h-8 w-8"
+        alt="PRTS 作业站"
+        className="h-6 w-6"
       />
     }
   />,
@@ -103,7 +103,7 @@ const LINKS = [
       <img
         src={linksIconPrtsPlus}
         alt="MAA 用户群"
-        className="h-8 w-8"
+        className="h-6 w-6"
       />
     }
   />,
@@ -116,14 +116,14 @@ export const HomeLinks = forwardRef<HTMLDivElement>((_props, ref) => {
   <div
     ref={ref}
     className={clsx(
-      'fixed right-[5vw] top-[15vh] hidden md:flex flex-col px-6 pt-4 pb-6 h-[50vh] w-[20vw] min-w-[25rem] rounded-xl opacity-0 transition-all duration-200',
+      'fixed right-0 top-[20vh] hidden md:flex flex-col pr-1 pl-6 pt-4 pb-6 h-[45vh] w-[15vw] min-w-[15rem] rounded-xl opacity-0 transition-all duration-200',
       theme === 'dark' ? 'text-[#eee] bg-black/80' : 'text-gray-800 bg-white/90',
       styles.root,
     )}
   >
-    <h1 className="text-4xl font-bold mb-3 px-2">
+    <h1 className="text-2xl font-bold mb-3 px-2">
       友情链接
-      <span className={`text-base ml-4 font-bold opacity-80 tracking-wider ${theme === 'dark' ? '' : 'text-gray-700'}`}>
+      <span className={`text-sm ml-4 font-bold opacity-80 tracking-wider ${theme === 'dark' ? '' : 'text-gray-700'}`}>
         LINKS
       </span>
     </h1>
