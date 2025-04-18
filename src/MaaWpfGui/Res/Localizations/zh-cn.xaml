@@ -278,6 +278,7 @@
     <system:String x:Key="MirrorChyanCdkPlaceholder">切换更新源后填写</system:String>
     <system:String x:Key="MirrorChyanSoftwareUpdateTip">检测到软件更新。请前往「设置-更新设置」配置 Mirror酱 CDK 或切换海外源。</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">检测到资源更新{0}。请前往「设置-更新设置-资源更新」手动更新，或配置 Mirror酱 CDK 以自动更新。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateShortTip">检测到资源更新{0}</system:String>
     <system:String x:Key="MirrorChyanCdkExpired">CDK 已过期，请使用新的 CDK 进行授权。</system:String>
     <system:String x:Key="MirrorChyanCdkInvalid">CDK 无效，请检查输入是否正确。</system:String>
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">CDK 今日下载次数已达上限，请明日再试。</system:String>

@@ -691,6 +691,12 @@ namespace MaaWpfGui.ViewModels.UI
                 updateTip = $"{LocalizationHelper.GetString("NewVersionFoundTitle")}: {updateTag} - ";
             }
 
+            var newResourceFoundInfo = VersionUpdateSettings.NewResourceFoundInfo;
+            if (!string.IsNullOrEmpty(newResourceFoundInfo))
+            {
+                updateTip += $"{newResourceFoundInfo} - ";
+            }
+
             string prefix = ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitlePrefix, string.Empty);
             if (!string.IsNullOrEmpty(prefix))
             {
