@@ -72,7 +72,7 @@ const HomeIndicator = forwardRef<HTMLDivElement>((_props, ref) => {
       className="fixed right-[2vw] top-[50vh] pointer-events-none select-none hidden md:block"
       ref={ref}
     >
-      <div className={`-rotate-90 text-[2rem] font-light transition-all duration-300 ${theme === 'dark' ? 'text-white/30 hover:text-white/50' : 'text-gray-800/30 hover:text-gray-800/60'}`}>
+      <div className={`-rotate-90 text-lg font-light transition-all duration-300 ${theme === 'dark' ? 'text-white/30 hover:text-white/50' : 'text-gray-800/30 hover:text-gray-800/60'}`}>
         友情链接
       </div>
     </motion.div>
