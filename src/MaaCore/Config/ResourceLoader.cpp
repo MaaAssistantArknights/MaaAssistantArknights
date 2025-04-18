@@ -138,40 +138,39 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         SingletonHolder<Config>::get_instance().load(full_path); \
     }
 
-#define LoadTaskDirectory(Config, DirName, TemplDir)                                            \
-{                                                                                               \
-    bool ret = true;                                                                            \
-    auto tasks_dir = path / DirName;                                                            \
-    auto full_templ_dir = path / TemplDir;                                                      \
-    std::function<void(const std::filesystem::path&)> load_dir =                                \
-        [&](const std::filesystem::path& dir) {                                                 \
-            for (const auto& entry : std::filesystem::directory_iterator(dir)) {                \
-                if (entry.path().extension() == ".json") {                                      \
-                    Log.debug("loading tasks from", entry.path());                              \
-                    bool load_ret = load_resource_with_templ<Config>(                           \
-                        entry.path(), full_templ_dir);                                          \
-                    if (!load_ret) {                                                            \
-                        Log.error(#Config, "load failed, file:", entry.path());                 \
-                        ret = false;                                                            \
-                    }                                                                           \
-                }                                                                               \
-                else if (entry.is_directory()) {                                                \
-                    load_dir(entry.path());                                                     \
-                }                                                                               \
-                else {                                                                          \
-                    Log.error(#Config, "unknown file type:", entry.path());                     \
-                }                                                                               \
-            }                                                                                   \
-        };                                                                                      \
-    if (std::filesystem::exists(tasks_dir)) {                                                   \
-        load_dir(tasks_dir);                                                                    \
-    } else {                                                                                    \
-        Log.error(#Config, "directory not exists, path:", tasks_dir);                           \
-    }                                                                                           \
-    if (!ret) {                                                                                 \
-        return false;                                                                           \
-    }                                                                                           \
-}
+#define LoadTaskDirectory(Config, DirName, TemplDir)                                                         \
+    {                                                                                                        \
+        bool ret = true;                                                                                     \
+        auto tasks_dir = path / DirName;                                                                     \
+        auto full_templ_dir = path / TemplDir;                                                               \
+        std::function<void(const std::filesystem::path&)> load_dir = [&](const std::filesystem::path& dir) { \
+            for (const auto& entry : std::filesystem::directory_iterator(dir)) {                             \
+                if (entry.path().extension() == ".json") {                                                   \
+                    Log.debug("loading tasks from", entry.path());                                           \
+                    bool load_ret = load_resource_with_templ<Config>(entry.path(), full_templ_dir);          \
+                    if (!load_ret) {                                                                         \
+                        Log.error(#Config, "load failed, file:", entry.path());                              \
+                        ret = false;                                                                         \
+                    }                                                                                        \
+                }                                                                                            \
+                else if (entry.is_directory()) {                                                             \
+                    load_dir(entry.path());                                                                  \
+                }                                                                                            \
+                else {                                                                                       \
+                    Log.error(#Config, "unknown file type:", entry.path());                                  \
+                }                                                                                            \
+            }                                                                                                \
+        };                                                                                                   \
+        if (std::filesystem::exists(tasks_dir)) {                                                            \
+            load_dir(tasks_dir);                                                                             \
+        }                                                                                                    \
+        else {                                                                                               \
+            Log.error(#Config, "directory not exists, path:", tasks_dir);                                    \
+        }                                                                                                    \
+        if (!ret) {                                                                                          \
+            return false;                                                                                    \
+        }                                                                                                    \
+    }
 
     LogTraceFunction;
     using namespace asst::utils::path_literals;
