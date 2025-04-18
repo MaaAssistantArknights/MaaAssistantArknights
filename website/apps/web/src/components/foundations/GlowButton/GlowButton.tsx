@@ -4,7 +4,8 @@ import clsx from 'clsx'
 import { MotionProps, motion } from 'framer-motion'
 import { MouseEventHandler, forwardRef } from 'react'
 
-import { WithChildren } from '../../../types'
+import { WithChildren } from '@/types'
+import { useTheme } from '@/contexts/ThemeContext'
 
 import moduleStyles from './GlowButton.module.css'
 
@@ -19,14 +20,20 @@ export const GlowButton: FCC<GlowButtonProps> = forwardRef<
   HTMLButtonElement,
   GlowButtonProps
 >(({ children, translucent, bordered, href, onClick }, ref) => {
+  const { theme } = useTheme();
+
   const motionConfig: MotionProps = {
     whileHover: {
       scale: 1.05,
-      backgroundColor: translucent ? 'rgba(39, 39, 42, 0.6)' : 'rgba(39, 39, 42, 0.8)',
+      backgroundColor: theme === 'dark'
+        ? (translucent ? 'rgba(39, 39, 42, 0.6)' : 'rgba(39, 39, 42, 0.8)')
+        : (translucent ? 'rgba(229, 229, 229, 0.6)' : 'rgba(229, 229, 229, 0.8)')
     },
     whileTap: {
       scale: 0.95,
-      backgroundColor: 'rgba(39, 39, 42, 0.7)',
+      backgroundColor: theme === 'dark'
+        ? 'rgba(39, 39, 42, 0.7)'
+        : 'rgba(229, 229, 229, 0.7)',
     },
     exit: {
       scale: 0.4,
@@ -48,6 +55,8 @@ export const GlowButton: FCC<GlowButtonProps> = forwardRef<
       stiffness: 200,
       damping: 30,
       mass: 0.8,
+      background: { type: 'tween', duration: 0.2 },
+      color: { type: 'tween', duration: 0.2 },
     },
   }
 
@@ -57,13 +66,14 @@ export const GlowButton: FCC<GlowButtonProps> = forwardRef<
       type="button"
       className={clsx(
         moduleStyles.root,
-        !translucent && 'bg-zinc-900/80',
-        translucent && 'bg-zinc-900/80',
+        !translucent && 'dark:bg-zinc-900/80 bg-zinc-200/80',
+        translucent && 'dark:bg-zinc-900/80 bg-zinc-200/80',
         !bordered && 'border-none',
-        'flex px-6 py-3 active:bg-zinc-800 rounded-lg hover:-translate-y-[1px] active:translate-y-[1px] text-2xl text-white/80 whitespace-nowrap',
+        'flex px-6 py-3 dark:active:bg-zinc-800 active:bg-zinc-300 rounded-lg hover:-translate-y-[1px] active:translate-y-[1px] text-2xl dark:text-white/80 text-black/80 whitespace-nowrap transition-colors transition-transform transition-all duration-200',
       )}
       onClick={onClick}
       {...motionConfig}
+      key={theme}
       ref={ref}
     >
       {children}

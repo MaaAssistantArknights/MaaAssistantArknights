@@ -2,10 +2,10 @@ import clsx from 'clsx'
 import { motion } from 'framer-motion'
 
 const blobs = [
-  ['bg-red-900 translate-y-36', 'left-[30%]'],
-  ['bg-orange-900 translate-y-1', 'left-[45%]'],
-  ['bg-blue-900 -translate-y-40', 'left-[55%]'],
-  ['bg-cyan-900 translate-y-20', 'left-[68%]'],
+  ['dark:bg-red-900 bg-red-200 translate-y-36', 'left-[30%]'],
+  ['dark:bg-orange-900 bg-orange-200 translate-y-1', 'left-[45%]'],
+  ['dark:bg-blue-900 bg-blue-200 -translate-y-40', 'left-[55%]'],
+  ['dark:bg-cyan-900 bg-cyan-200 translate-y-20', 'left-[68%]'],
 ]
 
 export function AnimatedBlobs() {
