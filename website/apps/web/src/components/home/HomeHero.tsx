@@ -20,7 +20,7 @@ export const HomeHero: FC = () => {
   const { theme } = useTheme()
 
   return (
-    <>
+    <div key={theme}>
       <AnimatedBlobs />
       <motion.div
         className="absolute h-full w-full flex items-center"
@@ -58,7 +58,7 @@ export const HomeHero: FC = () => {
       <HomeActions />
       <HomeLinks ref={linkRef} />
       <HomeIndicator ref={indicatorRef} />
-    </>
+    </div>
   )
 }
 const HomeIndicator = forwardRef<HTMLDivElement>((_props, ref) => {
