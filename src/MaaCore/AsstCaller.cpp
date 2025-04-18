@@ -145,6 +145,24 @@ AsstBool AsstRunning(AsstHandle handle)
     return handle->running() ? AsstTrue : AsstFalse;
 }
 
+AsstBool AsstPause(AsstHandle handle)
+{
+    if (!inited() || handle == nullptr) {
+        return AsstFalse;
+    }
+
+    return handle->pause() ? AsstTrue : AsstFalse;
+}
+
+AsstBool AsstResume(AsstHandle handle)
+{
+    if (!inited() || handle == nullptr) {
+        return AsstFalse;
+    }
+
+    return handle->resume() ? AsstTrue : AsstFalse;
+}
+
 AsstBool AsstConnected(AsstHandle handle)
 {
     if (!inited() || handle == nullptr) {

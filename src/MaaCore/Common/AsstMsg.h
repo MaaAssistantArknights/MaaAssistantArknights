@@ -23,6 +23,7 @@ enum class AsstMsg
     TaskChainCompleted,     // 任务链完成
     TaskChainExtraInfo,     // 任务链额外信息
     TaskChainStopped,       // 任务链停止（手动停止）
+    TaskChainPaused,        // 任务链暂停
     /* SubTask Info */
     SubTaskError = 20000, // 原子任务执行/识别错误
     SubTaskStart,         // 原子任务开始
@@ -47,6 +48,7 @@ inline std::ostream& operator<<(std::ostream& os, const AsstMsg& type)
         { AsstMsg::TaskChainCompleted, "TaskChainCompleted" },
         { AsstMsg::TaskChainExtraInfo, "TaskChainExtraInfo" },
         { AsstMsg::TaskChainStopped, "TaskChainStopped" },
+        { AsstMsg::TaskChainPaused, "TaskChainPaused" },
         /* SubTask Info */
         { AsstMsg::SubTaskError, "SubTaskError" },
         { AsstMsg::SubTaskStart, "SubTaskStart" },

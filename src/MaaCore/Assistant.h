@@ -52,6 +52,10 @@ public:
     virtual bool stop(bool block = true) = 0;
     // 是否正在运行
     virtual bool running() const = 0;
+    // 暂停任务队列
+    virtual bool pause(bool block = true) = 0;
+    // 恢复任务队列
+    virtual bool resume(bool block = true) = 0;
 
     // 获取上次的截图
     virtual std::vector<unsigned char> get_image() const = 0;
@@ -94,6 +98,8 @@ public:
     virtual bool start(bool block = true) override;
     virtual bool stop(bool block = true) override;
     virtual bool running() const override;
+    virtual bool pause(bool block = true) override;
+    virtual bool resume(bool block = true) override;
 
     virtual std::vector<unsigned char> get_image() const override;
     virtual std::string get_uuid() const override;
@@ -181,6 +187,10 @@ private:
     std::queue<std::pair<AsstMsg, json::value>> m_msg_queue;
     std::mutex m_msg_mutex;
     std::condition_variable m_msg_condvar;
+
+    std::atomic_bool m_paused = false;
+    std::mutex m_paused_mutex;
+    std::condition_variable m_paused_condvar;
 
     inline static std::atomic<AsyncCallId> m_call_id = 0; // 进程级唯一
     std::queue<AsyncCallItem> m_call_queue;
