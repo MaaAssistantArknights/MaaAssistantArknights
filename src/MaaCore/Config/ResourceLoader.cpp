@@ -146,9 +146,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     std::function<void(const std::filesystem::path&)> load_dir =                                \
         [&](const std::filesystem::path& dir) {                                                 \
             for (const auto& entry : std::filesystem::directory_iterator(dir)) {                \
-                if (entry.is_directory()) {                                                     \
-                    load_dir(entry.path());                                                     \
-                } else if (entry.path().extension() == ".json") {                               \
+                if (entry.path().extension() == ".json") {                                      \
                     Log.debug("loading tasks from", entry.path());                              \
                     bool load_ret = load_resource_with_templ<Config>(                           \
                         entry.path(), full_templ_dir);                                          \
@@ -156,6 +154,12 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
                         Log.error(#Config, "load failed, file:", entry.path());                 \
                         ret = false;                                                            \
                     }                                                                           \
+                }                                                                               \
+                else if (entry.is_directory()) {                                                \
+                    load_dir(entry.path());                                                     \
+                }                                                                               \
+                else {                                                                          \
+                    Log.error(#Config, "unknown file type:", entry.path());                     \
                 }                                                                               \
             }                                                                                   \
         };                                                                                      \
