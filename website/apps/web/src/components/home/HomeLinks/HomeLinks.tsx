@@ -29,14 +29,14 @@ const HomeLink: FC<{
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={`flex items-center space-x-2 p-2 rounded-md transition-all duration-300 ${theme === 'dark' 
+      className={`flex items-center p-2 rounded-md transition-all duration-300 ${theme === 'dark' 
         ? 'text-white/80 bg-black hover:text-black/100 hover:bg-white active:bg-white/60' 
         : 'text-black/80 bg-white hover:text-white/100 hover:bg-black active:bg-black/60'}`}
     >
-      <div className="text-lg h-6 w-6 rounded-sm overflow-hidden">{icon}</div>
-      <span className="text-base">{title}</span>
-      <div className="flex-1" />
-      <Icon icon={chevronRight} className="text-lg" />
+      <div className="text-lg h-6 w-6 rounded-sm overflow-hidden flex-shrink-0 mr-2">{icon}</div>
+      <span className="text-base whitespace-nowrap">{title}</span>
+      <div className="flex-1 min-w-[10px]" />
+      <Icon icon={chevronRight} className="text-lg flex-shrink-0" />
     </a>
   )
 }
@@ -181,53 +181,91 @@ export const HomeLinks = forwardRef<HTMLDivElement, HomeLinksProps>(({ showLinks
       
       // 获取按钮位置信息
       const buttonRect = linkButton.getBoundingClientRect();
-      console.log('Button position:', buttonRect);
       
       if (showLinks) {
-        // 计算面板位置 - 在按钮右侧显示
-        const buttonRight = buttonRect.right;
-        const buttonTop = buttonRect.top;
+        // 设置初始高度，稍后再根据内容调整
+        panel.current.style.maxHeight = 'none';
+        panel.current.style.width = 'auto'; // 先设为自动宽度来测量内容宽度
         
         // 确保面板不超出窗口范围
         const windowHeight = window.innerHeight;
         const windowWidth = window.innerWidth;
         
-        // 设置初始高度，稍后再根据内容调整
-        panel.current.style.maxHeight = 'none';
+        // 计算面板实际需要的宽度和高度
+        // 先设置一个临时的宽度，让内容能够正常布局
+        panel.current.style.maxWidth = '480px';
         
-        // 调整面板最终位置 - 修改为显示在按钮右侧
-        panel.current.style.position = 'fixed';
-        panel.current.style.left = `${buttonRight + 10}px`; // 距离按钮右侧10px
-        panel.current.style.top = `${buttonTop}px`;
+        // 强制浏览器重新计算布局
+        void panel.current.offsetWidth;
         
-        // 计算实际高度
+        // 获取内容实际宽度（加上一些内边距）
+        const contentWidth = Math.min(
+          Math.max(panel.current.scrollWidth, 240), // 至少240px宽，最多不超过面板宽度
+          480 // 最大宽度限制为480px
+        );
+        
         const panelHeight = Math.min(panel.current.scrollHeight, windowHeight * 0.6);
         
-        // 确保面板不超出窗口底部
-        if (buttonTop + panelHeight > windowHeight - 20) {
-          // 如果会超出，调整顶部位置使面板底部不超出窗口
-          const newTop = Math.max(20, windowHeight - panelHeight - 20);
-          panel.current.style.top = `${newTop}px`;
-        }
+        // 计算面板在按钮右侧显示时是否会超出窗口右边缘
+        const buttonRight = buttonRect.right;
+        const buttonTop = buttonRect.top;
+        const spaceOnRight = windowWidth - buttonRight - 20; // 右侧可用空间（减去20px边距）
         
-        // 确保面板不超出窗口右侧
-        const maxWidth = windowWidth - buttonRight - 30; // 距离窗口右侧至少留20px
-        panel.current.style.maxWidth = `${Math.min(400, maxWidth)}px`; // 限制最大宽度
-        panel.current.style.maxHeight = `${panelHeight}px`;
+        // 判断是否有足够空间在按钮右侧显示
+        const isSufficientSpaceOnRight = spaceOnRight >= contentWidth;
+        
+        // 如果右侧空间不足或是移动设备，则居中显示
+        const shouldCenterPanel = !isSufficientSpaceOnRight;
+        
+        if (shouldCenterPanel) {
+          // 居中显示
+          panel.current.style.position = 'fixed';
+          panel.current.style.left = '50%';
+          panel.current.style.top = '50%';
+          panel.current.style.transform = 'translate(-50%, -50%)';
+          
+            // 设置宽度为内容实际需要的宽度
+            const panelWidth = Math.min(windowWidth * 0.9, contentWidth);
+          
+          panel.current.style.width = `${panelWidth}px`;
+          panel.current.style.maxHeight = `${Math.min(panelHeight, windowHeight * 0.8)}px`;
+        } else {
+          // 在按钮右侧显示
+          panel.current.style.position = 'fixed';
+          panel.current.style.left = `${buttonRight + 10}px`;
+          panel.current.style.top = `${buttonTop}px`;
+          panel.current.style.transform = 'translateX(0) rotateY(0)';
+          
+          // 设置宽度为内容实际需要的宽度，但不超过右侧可用空间
+          panel.current.style.width = `${Math.min(contentWidth, spaceOnRight)}px`;
+          
+          // 确保面板不超出窗口底部
+          if (buttonTop + panelHeight > windowHeight - 20) {
+            // 调整顶部位置使面板底部不超出窗口
+            const newTop = Math.max(20, windowHeight - panelHeight - 20);
+            panel.current.style.top = `${newTop}px`;
+          }
+          
+          panel.current.style.maxHeight = `${panelHeight}px`;
+        }
         
         // 确保面板可见
         panel.current.style.opacity = '1';
         panel.current.style.pointerEvents = 'auto';
-        panel.current.style.transform = 'translateX(0) rotateY(0)';
         
-        console.log('Panel positioned and shown');
+        // console.log(`Panel positioned ${shouldCenterPanel ? 'centered' : 'at right'}, content width: ${contentWidth}px`);
       } else {
         // 隐藏面板
         panel.current.style.opacity = '0';
         panel.current.style.pointerEvents = 'none';
-        panel.current.style.transform = 'translateX(-10px) rotateY(10deg)';
         
-        console.log('Panel hidden');
+        // 根据面板位置应用不同的隐藏动画
+        const isPanelCentered = panel.current.style.left === '50%';
+        if (isPanelCentered) {
+          panel.current.style.transform = 'translate(-50%, -60%)'; // 居中时向上移动一点，制造淡出效果
+        } else {
+          panel.current.style.transform = 'translateX(-10px) rotateY(10deg)'; // 在右侧时向左移动，添加旋转效果
+        }
       }
     };
     
@@ -248,21 +286,21 @@ export const HomeLinks = forwardRef<HTMLDivElement, HomeLinksProps>(({ showLinks
     <div
       ref={ref}
       className={clsx(
-        'fixed w-[15vw] min-w-[15rem] max-w-xs rounded-xl transition-all duration-300 z-50',
+        'fixed min-w-[15rem] rounded-xl transition-all duration-300 z-50',
         theme === 'dark' ? 'text-[#eee] bg-black/80' : 'text-gray-800 bg-white/90',
         styles.root,
         showLinks ? 'visible' : 'invisible' // 使用 CSS 类来控制可见性，作为 JS 控制的备份
       )}
       style={{ opacity: 0 }} // 初始状态为隐藏
     >
-      <div className="pt-4 pb-6 px-4">
+      <div className="pt-4 pb-4 px-4">
         <h1 className="text-2xl font-bold mb-3 px-2">
           友情链接
           <span className={`text-sm ml-4 font-bold opacity-80 tracking-wider ${theme === 'dark' ? '' : 'text-gray-700'}`}>
             LINKS
           </span>
         </h1>
-        <div className="max-h-[40vh] overflow-y-auto flex flex-col gap-1">{LINKS}</div>
+        <div className="max-h-[40vh] overflow-y-auto flex flex-col gap-2 pb-2">{LINKS}</div>
       </div>
     </div>
   )
