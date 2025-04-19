@@ -12,6 +12,7 @@ import { FC, ReactNode, forwardRef, useEffect } from 'react'
 import { useTheme } from '@/contexts/ThemeContext'
 
 import styles from './HomeLinks.module.css'
+import React from 'react'
 
 interface HomeLinksProps {
   showLinks?: boolean;
@@ -116,6 +117,8 @@ const LINKS = [
 
 export const HomeLinks = forwardRef<HTMLDivElement, HomeLinksProps>(({ showLinks = false, onClose }, ref) => {
   const { theme } = useTheme()
+  // 添加一个引用变量来跟踪面板的定位状态
+  const isPanelCenteredRef = React.useRef(false);
   
   // console.log('HomeLinks rendered, showLinks:', showLinks);
   
@@ -143,10 +146,10 @@ export const HomeLinks = forwardRef<HTMLDivElement, HomeLinksProps>(({ showLinks
       const panel = ref as React.MutableRefObject<HTMLDivElement | null>;
       if (!panel.current) return;
       
-      // 查找友情链接按钮
+      // 查找友链按钮
       const linkButton = document.querySelector('.friend-link-button');
       
-      // 如果点击的是面板内部或友情链接按钮，不关闭
+      // 如果点击的是面板内部或友链按钮，不关闭
       if (panel.current.contains(event.target as Node) || 
           (linkButton && linkButton.contains(event.target as Node))) {
         return;
@@ -165,13 +168,13 @@ export const HomeLinks = forwardRef<HTMLDivElement, HomeLinksProps>(({ showLinks
     };
   }, [ref, showLinks, onClose]);
   
-  // 监听友情链接按钮位置变化，相应调整面板位置
+  // 监听友链按钮位置变化，相应调整面板位置
   useEffect(() => {
     const positionLinksPanel = () => {
       const panel = ref as React.MutableRefObject<HTMLDivElement | null>;
       if (!panel.current) return;
       
-      // 查找友情链接按钮
+      // 查找友链按钮
       const linkButton = document.querySelector('.friend-link-button');
       if (!linkButton) {
         console.error('Friend link button not found!');
@@ -216,6 +219,9 @@ export const HomeLinks = forwardRef<HTMLDivElement, HomeLinksProps>(({ showLinks
         // 如果右侧空间不足则居中显示
         const shouldCenterPanel = !isSufficientSpaceOnRight;
         
+        // 更新面板定位状态
+        isPanelCenteredRef.current = shouldCenterPanel;
+        
         if (shouldCenterPanel) {
           // 居中显示
           panel.current.style.position = 'fixed';
@@ -259,11 +265,10 @@ export const HomeLinks = forwardRef<HTMLDivElement, HomeLinksProps>(({ showLinks
         panel.current.style.pointerEvents = 'none';
         
         // 根据面板位置应用不同的隐藏动画
-        const isPanelCentered = panel.current.style.left === '50%';
-        if (isPanelCentered) {
-          panel.current.style.transform = 'translate(-50%, -60%)'; // 居中时向上移动一点，制造淡出效果
+        if (isPanelCenteredRef.current) {
+          panel.current.style.transform = 'translate(-50%, -60%)'; // 居中时向上移动一点，纵向淡出
         } else {
-          panel.current.style.transform = 'translateX(-10px) rotateY(10deg)'; // 在右侧时向左移动，添加旋转效果
+          panel.current.style.transform = 'translateX(-10px) rotateY(10deg)'; // 在右侧时向左移动，横向淡出
         }
       }
     };

@@ -81,7 +81,6 @@ export const HomeActions: FC<HomeActionsProps> = ({ toggleLinks, showLinks }) =>
           </div>
         </GlowButton>
         
-        {}
         <GlowButton 
           translucent 
           onClick={() => {
