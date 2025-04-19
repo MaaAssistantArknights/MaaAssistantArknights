@@ -3,6 +3,7 @@ import linksIconPenguinStats from '@/assets/links/penguin-stats.png?url'
 import linksIconPrtsPlus from '@/assets/links/prts.plus.png?url'
 import linksIconYituliu from '@/assets/links/yituliu.site.png?url'
 import linksIconArkntools from '@/assets/links/arkntools.app.png?url'
+import linksIconMirrorChyan from '@/assets/links/mirrorc.png?url'
 import chevronRight from '@iconify/icons-mdi/chevron-right'
 import mdiGitHub from '@iconify/icons-mdi/github'
 import { Icon } from '@iconify/react'
@@ -44,52 +45,6 @@ const HomeLink: FC<{
 
 const LINKS = [
   <HomeLink
-    key="penguin-stats"
-    href="https://penguin-stats.io"
-    title="企鹅物流数据统计"
-    icon={
-      <img
-        src={linksIconPenguinStats}
-        alt="企鹅物流数据统计"
-        className="h-6 w-6"
-      />
-    }
-  />,
-  <HomeLink
-    key="ark-nights"
-    href="https://ark-nights.com"
-    title="Arknights | Planner"
-    icon={
-      <img
-        src={linksIconArkNights}
-        alt="Arknights | Planner"
-        className="h-6 w-6"
-      />
-    }
-  />,
-  <HomeLink
-    key="yituliu"
-    href="https://ark.yituliu.cn/"
-    title="明日方舟一图流"
-    icon={
-      <img src={linksIconYituliu} alt="明日方舟一图流" className="h-6 w-6" />
-    }
-  />,
-  <HomeLink
-    key="arkntools"
-    href="https://arkntools.app/"
-    title="明日方舟工具箱"
-    icon={
-      <img src={linksIconArkntools} alt="明日方舟工具箱" className="h-6 w-6" />
-    }
-  />,
-  <HomeLink
-    key="alas"
-    href="https://github.com/LmeSzinc/AzurLaneAutoScript"
-    title="ALAS"
-    icon={<Icon icon={mdiGitHub} className="h-6 w-6" />}
-  />,
-  <HomeLink
     key="prts-plus"
     href="https://prts.plus"
     title="PRTS 作业站"
@@ -112,6 +67,64 @@ const LINKS = [
         className="h-6 w-6"
       />
     }
+  />,
+  <HomeLink
+    key="mirrorc"
+    href="https://mirrorchyan.com/zh/projects"
+    title="Mirror酱"
+    icon={
+      <img
+        src={linksIconMirrorChyan}
+        alt="Mirror酱"
+        className="h-6 w-6"
+      />
+    }
+  />,
+  <HomeLink
+    key="penguin-stats"
+    href="https://penguin-stats.cn/"
+    title="企鹅物流数据统计"
+    icon={
+      <img
+        src={linksIconPenguinStats}
+        alt="企鹅物流数据统计"
+        className="h-6 w-6"
+      />
+    }
+  />,
+  <HomeLink
+    key="yituliu"
+    href="https://ark.yituliu.cn/"
+    title="明日方舟一图流"
+    icon={
+      <img src={linksIconYituliu} alt="明日方舟一图流" className="h-6 w-6" />
+    }
+  />,
+  <HomeLink
+    key="arkntools"
+    href="https://arkntools.app/"
+    title="明日方舟工具箱"
+    icon={
+      <img src={linksIconArkntools} alt="明日方舟工具箱" className="h-6 w-6" />
+    }
+  />,
+  <HomeLink
+    key="ark-nights"
+    href="https://ark-nights.com"
+    title="Arknights | Planner"
+    icon={
+      <img
+        src={linksIconArkNights}
+        alt="Arknights | Planner"
+        className="h-6 w-6"
+      />
+    }
+  />,
+  <HomeLink
+    key="alas"
+    href="https://alas.azurlane.cloud/"
+    title="ALAS"
+    icon={<Icon icon={mdiGitHub} className="h-6 w-6" />}
   />,
 ]
 
