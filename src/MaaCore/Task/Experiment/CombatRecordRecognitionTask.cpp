@@ -356,11 +356,12 @@ bool asst::CombatRecordRecognitionTask::slice_video()
         cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
 
         BattlefieldMatcher analyzer(frame);
-        analyzer.set_object_of_interest({
-            .deployment = true,
-            .kills = true,
-            .speed_button = true,
-        });
+        analyzer.set_object_of_interest(
+            {
+                .deployment = true,
+                .kills = true,
+                .speed_button = true,
+            });
 
         analyzer.set_total_kills_prompt(total_kills);
         auto result_opt = analyzer.analyze();

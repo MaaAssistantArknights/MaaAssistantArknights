@@ -252,6 +252,7 @@ asst::battle::RoleCounts asst::CopilotConfig::parse_role_counts(const json::valu
 
 asst::battle::DeployDirection asst::CopilotConfig::string_to_direction(const std::string& str)
 {
+    // clang-format off
     static const std::unordered_map<std::string, DeployDirection> DeployDirectionMapping = {
         { "Right", DeployDirection::Right }, { "RIGHT", DeployDirection::Right },
         { "right", DeployDirection::Right }, { "右", DeployDirection::Right },
@@ -267,7 +268,7 @@ asst::battle::DeployDirection asst::CopilotConfig::string_to_direction(const std
 
         { "None", DeployDirection::None },   { "NONE", DeployDirection::None },
         { "none", DeployDirection::None },   { "无", DeployDirection::None },
-    };
+    }; // clang-format on
 
     if (auto iter = DeployDirectionMapping.find(str); iter != DeployDirectionMapping.end()) {
         return iter->second;

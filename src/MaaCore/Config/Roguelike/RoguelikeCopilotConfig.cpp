@@ -41,6 +41,7 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
     std::string stage_name = json.at("stage_name").as_string();
     CombatData data;
     data.stage_name = stage_name;
+    // clang-format off
     static const std::unordered_map<std::string, DeployDirection> DeployDirectionMapping = {
         { "Right", DeployDirection::Right }, { "RIGHT", DeployDirection::Right },
         { "right", DeployDirection::Right }, { "右", DeployDirection::Right },
@@ -56,7 +57,7 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
 
         { "None", DeployDirection::None },   { "NONE", DeployDirection::None },
         { "none", DeployDirection::None },   { "无", DeployDirection::None },
-    };
+    }; // clang-format on
     if (auto opt = json.find<json::array>("replacement_home")) {
         for (auto& point : opt.value()) {
             ReplacementHome home;

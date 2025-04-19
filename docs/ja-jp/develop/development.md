@@ -101,7 +101,7 @@ Visual Studio 起動後、Git 操作は「Git 変更」画面からコマンド�
 
 ## Visual Studioでclang-formatを有効にする
 
-1. clang-format バージョン17以上をインストールします。
+1. clang-format バージョン20.1.0以上をインストールします。
 
     ```bash
     python -m pip install clang-format

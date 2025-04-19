@@ -73,27 +73,29 @@ void asst::OperBoxRecognitionTask::callback_analyze_result(bool done)
 
     for (const auto& name : all_oper_names) {
         bool own = m_own_opers.contains(name);
-        all_opers.emplace_back(json::object {
-            { "id", BattleData.get_id(name) },
-            { "name", name },
-            { "name_en", BattleData.get_en(name) },
-            { "name_jp", BattleData.get_jp(name) },
-            { "name_kr", BattleData.get_kr(name) },
-            { "name_tw", BattleData.get_tw(name) },
-            { "rarity", BattleData.get_rarity(name) },
-            { "own", own },
-        });
+        all_opers.emplace_back(
+            json::object {
+                { "id", BattleData.get_id(name) },
+                { "name", name },
+                { "name_en", BattleData.get_en(name) },
+                { "name_jp", BattleData.get_jp(name) },
+                { "name_kr", BattleData.get_kr(name) },
+                { "name_tw", BattleData.get_tw(name) },
+                { "rarity", BattleData.get_rarity(name) },
+                { "own", own },
+            });
     }
     for (const auto& [name, box_info] : m_own_opers) {
-        own_opers.emplace_back(json::object {
-            { "id", box_info.id },
-            { "name", box_info.name },
-            { "own", box_info.own },
-            { "elite", box_info.elite },
-            { "level", box_info.level },
-            { "potential", box_info.potential },
-            { "rarity", box_info.rarity },
-        });
+        own_opers.emplace_back(
+            json::object {
+                { "id", box_info.id },
+                { "name", box_info.name },
+                { "own", box_info.own },
+                { "elite", box_info.elite },
+                { "level", box_info.level },
+                { "potential", box_info.potential },
+                { "rarity", box_info.rarity },
+            });
     }
 
     callback(AsstMsg::SubTaskExtraInfo, info);

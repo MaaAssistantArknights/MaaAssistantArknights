@@ -1,5 +1,5 @@
 # https://clang.llvm.org/docs/ClangFormatStyleOptions.html
-# for clang-format 17.0.1
+# for clang-format 20.0.0
 Language: Cpp
 BasedOnStyle: "WebKit"
 # AccessModifierOffset: 2
@@ -26,9 +26,9 @@ AllowShortIfStatementsOnASingleLine: Never
 AllowShortLambdasOnASingleLine: Inline
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterDefinitionReturnType: None
-AlwaysBreakAfterReturnType: None
+BreakAfterReturnType: Automatic
 AlwaysBreakBeforeMultilineStrings: true
-AlwaysBreakTemplateDeclarations: Yes
+BreakTemplateDeclarations: Yes
 # AttributeMacros:
 #   - __pragma
 #   - _Pragma
@@ -145,7 +145,7 @@ PointerAlignment: Left
 #  - constexpr
 #  - type
 ReferenceAlignment: Left
-ReflowComments: true
+ReflowComments: Always
 RemoveBracesLLVM: false
 RemoveParentheses: Leave
 RemoveSemicolon: false
@@ -188,3 +188,4 @@ TabWidth: 4
 UseTab: Never
 # VerilogBreakBetweenInstancePorts:
 # WhitespaceSensitiveMacros:
+RemoveEmptyLinesInUnwrappedLines: true

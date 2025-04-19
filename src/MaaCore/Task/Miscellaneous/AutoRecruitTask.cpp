@@ -566,17 +566,19 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             for (const auto& comb : result_vec) {
                 json::array opers_json;
                 for (const Recruitment& oper_info : comb.opers | views::reverse) { // print reversely
-                    opers_json.emplace_back(json::object {
-                        { "name", oper_info.name },
-                        { "id", oper_info.id },
-                        { "level", oper_info.level },
-                    });
+                    opers_json.emplace_back(
+                        json::object {
+                            { "name", oper_info.name },
+                            { "id", oper_info.id },
+                            { "level", oper_info.level },
+                        });
                 }
-                results_json["result"].as_array().emplace_back(json::object {
-                    { "tags", json::array(get_tag_names(comb.tags)) },
-                    { "opers", opers_json },
-                    { "level", comb.min_level },
-                });
+                results_json["result"].as_array().emplace_back(
+                    json::object {
+                        { "tags", json::array(get_tag_names(comb.tags)) },
+                        { "opers", opers_json },
+                        { "level", comb.min_level },
+                    });
             }
             info["details"] |= results_json;
 
@@ -968,11 +970,12 @@ void asst::AutoRecruitTask::upload_to_penguin(Rng&& tags)
     body["stageId"] = "recruit";
     auto& all_drops = body["drops"];
     for (const auto& tag : tags) {
-        all_drops.emplace(json::object {
-            { "dropType", "NORMAL_DROP" },
-            { "itemId", tag },
-            { "quantity", 1 },
-        });
+        all_drops.emplace(
+            json::object {
+                { "dropType", "NORMAL_DROP" },
+                { "itemId", tag },
+                { "quantity", 1 },
+            });
     }
     body["source"] = UploadDataSource;
     body["version"] = Version;

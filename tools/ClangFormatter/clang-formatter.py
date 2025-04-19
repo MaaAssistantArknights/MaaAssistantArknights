@@ -7,7 +7,7 @@ def ArgParser():
     parser.add_argument("--input", help="input dir", metavar="I", dest="src")
     parser.add_argument("--clang-format", help="the path of clang-format.exe", metavar="PATH", dest="exe", default="clang-format")
     parser.add_argument("--style", help="clang-format style", dest="style", default="file")
-    parser.add_argument("--rule", help="json-style '.xxx' array", dest="rule", default="[\".c\", \".h\", \".cpp\", \".hpp\", \".json\"]")
+    parser.add_argument("--rule", help="json-style '.xxx' array", dest="rule", default="[\".c\", \".h\", \".cpp\", \".hpp\"]")
     parser.add_argument("--ignore", help="json-style path array", dest="ignore", default="[]")
     return parser
 

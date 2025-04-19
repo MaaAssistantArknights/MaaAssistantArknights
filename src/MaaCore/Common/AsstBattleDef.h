@@ -56,6 +56,7 @@ enum class Role
 
 inline static Role get_role_type(const std::string& role_name)
 {
+    // clang-format off
     static const std::unordered_map<std::string, Role> NameToRole = {
         { "WARRIOR", Role::Warrior },    { "Warrior", Role::Warrior },    { "warrior", Role::Warrior },
         { "GUARD", Role::Warrior },      { "Guard", Role::Warrior },      { "guard", Role::Warrior },
@@ -89,7 +90,7 @@ inline static Role get_role_type(const std::string& role_name)
         { "DRONE", Role::Drone },        { "Drone", Role::Drone },        { "drone", Role::Drone },
         { "SUMMON", Role::Drone },       { "Summon", Role::Drone },       { "summon", Role::Drone },
         { "无人机", Role::Drone },       { "召唤物", Role::Drone },
-    };
+    }; // clang-format on
     if (auto iter = NameToRole.find(role_name); iter != NameToRole.end()) {
         return iter->second;
     }
