@@ -20,8 +20,7 @@ interface HomeActionsProps {
 }
 
 export const HomeActions: FC<HomeActionsProps> = ({ toggleLinks, showLinks }) => {
-  // 添加调试日志，帮助我们追踪状态变化
-  console.log('HomeActions rendered, showLinks:', showLinks);
+  // console.log('HomeActions rendered, showLinks:', showLinks);
   
   return (
     <div className="absolute bottom-0 left-0 right-0 mb-24 md:mb-[7vh] flex flex-col mx-8">
@@ -82,11 +81,11 @@ export const HomeActions: FC<HomeActionsProps> = ({ toggleLinks, showLinks }) =>
           </div>
         </GlowButton>
         
-        {/* 添加友情链接按钮 */}
+        {}
         <GlowButton 
           translucent 
           onClick={() => {
-            console.log('Friend link button clicked, current state:', showLinks);
+            // console.log('Friend link button clicked, current state:', showLinks);
             if (toggleLinks) toggleLinks();
           }}
           className={`friend-link-button ${showLinks ? 'active-link-button' : ''}`}

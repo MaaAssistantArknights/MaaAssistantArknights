@@ -117,12 +117,11 @@ const LINKS = [
 export const HomeLinks = forwardRef<HTMLDivElement, HomeLinksProps>(({ showLinks = false, onClose }, ref) => {
   const { theme } = useTheme()
   
-  // 添加调试日志
-  console.log('HomeLinks rendered, showLinks:', showLinks);
+  // console.log('HomeLinks rendered, showLinks:', showLinks);
   
   // 使用 useEffect 直接响应 showLinks 状态变化
   useEffect(() => {
-    console.log('showLinks changed to:', showLinks);
+    // console.log('showLinks changed to:', showLinks);
     const panel = ref as React.MutableRefObject<HTMLDivElement | null>;
     if (!panel.current) return;
     
@@ -154,7 +153,7 @@ export const HomeLinks = forwardRef<HTMLDivElement, HomeLinksProps>(({ showLinks
       }
       
       // 点击了面板和按钮以外的区域，关闭面板
-      console.log('点击了面板外部，关闭友情链接');
+      // console.log('Clicked outside the panel, close the friend link');
       onClose();
     };
     
@@ -175,7 +174,7 @@ export const HomeLinks = forwardRef<HTMLDivElement, HomeLinksProps>(({ showLinks
       // 查找友情链接按钮
       const linkButton = document.querySelector('.friend-link-button');
       if (!linkButton) {
-        console.log('Friend link button not found!');
+        console.error('Friend link button not found!');
         return;
       }
       
@@ -214,7 +213,7 @@ export const HomeLinks = forwardRef<HTMLDivElement, HomeLinksProps>(({ showLinks
         // 判断是否有足够空间在按钮右侧显示
         const isSufficientSpaceOnRight = spaceOnRight >= contentWidth;
         
-        // 如果右侧空间不足或是移动设备，则居中显示
+        // 如果右侧空间不足则居中显示
         const shouldCenterPanel = !isSufficientSpaceOnRight;
         
         if (shouldCenterPanel) {
