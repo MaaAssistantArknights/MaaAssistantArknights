@@ -3263,5 +3263,6 @@
     "web/src/assets/screenshots/light/left": "70c4ccb0dd7f10f37418ed851c9d05a9476e0645fd8b2569d2f0a2cd3ad3660d",
     "web/src/assets/screenshots/dark/center": "f5779b3b8cb3d0816872500ee38923664a6b53c88d3c7056eefaf40d42dbb897",
     "web/src/assets/screenshots/dark/right": "512c363f9fd11f6533f252d23564da387c5f9e6f3453dfe4113fba1f67611d54",
-    "web/src/assets/screenshots/dark/left": "e243b3463a47f040cc3b4436a7b935c33585e0b567e7c4128a3cf79c3ab92d92"
+    "web/src/assets/screenshots/dark/left": "e243b3463a47f040cc3b4436a7b935c33585e0b567e7c4128a3cf79c3ab92d92",
+    "web/src/assets/links/mirrorc": "b7702af037f4c03379c8ebecee835f65ffe5c571f4d71bda80914e344ff24595"
 }
