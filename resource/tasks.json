@@ -5756,7 +5756,7 @@
         ],
         "maskRange": [1, 255],
         "roi": [1109, 560, 171, 160],
-        "next": ["DepotMaterialTab"],
+        "next": ["#self", "DepotMaterialTab"],
         "crop_doc": {
             "roi": [1153, 606, 77, 79],
             "mask": []
