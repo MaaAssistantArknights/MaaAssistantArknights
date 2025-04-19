@@ -317,7 +317,7 @@ export const HomeLinks = forwardRef<HTMLDivElement, HomeLinksProps>(({ showLinks
             LINKS
           </span>
         </h1>
-        <div className="max-h-[40vh] overflow-y-auto flex flex-col gap-2 pb-2">{LINKS}</div>
+        <div className="max-h-[50vh] overflow-y-auto flex flex-col gap-2 pb-2">{LINKS}</div>
       </div>
     </div>
   )
