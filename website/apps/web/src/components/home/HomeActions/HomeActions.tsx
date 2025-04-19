@@ -6,7 +6,8 @@ import {
 } from '@/components/home/HomeActionsRelease/HomeActionsRelease'
 import mdiDocument from '@iconify/icons-mdi/document'
 import mdiGitHub from '@iconify/icons-mdi/github'
-import mdiMonitorEye from '@iconify/icons-mdi/monitor-eye'
+import mdiQqchat from '@iconify/icons-mdi/qqchat'
+import mdiMinidisc from '@iconify/icons-mdi/minidisc'
 import mdiLoading from '@iconify/icons-mdi/loading'
 import { Icon } from '@iconify/react'
 
@@ -43,18 +44,25 @@ export const HomeActions: FC = () => {
             <span className="ml-2">使用文档</span>
           </div>
         </GlowButton>
+        
+        <GlowButton translucent href="https://ota.maa.plus/MaaAssistantArknights/api/qqgroup">
+          <div className="flex items-center -ml-1 text-sm">
+            <Icon icon={mdiQqchat} fontSize="20px" />
+            <span className="ml-2">QQ 群</span>
+          </div>
+        </GlowButton>
+        
+        <GlowButton translucent href="https://discord.gg/23DfZ9uA4V">
+          <div className="flex items-center -ml-1 text-sm">
+            <Icon icon={mdiMinidisc} fontSize="20px" />
+            <span className="ml-2">Discord</span>
+          </div>
+        </GlowButton>
 
         <GlowButton translucent href="https://github.com/MaaAssistantArknights/MaaAssistantArknights">
           <div className="flex items-center -ml-1 text-sm">
             <Icon icon={mdiGitHub} fontSize="20px" />
             <span className="ml-2">GitHub</span>
-          </div>
-        </GlowButton>
-
-        <GlowButton translucent href="https://status.annangela.cn/status/maa">
-          <div className="flex items-center -ml-1 text-sm">
-            <Icon icon={mdiMonitorEye} fontSize="20px" />
-            <span className="ml-2">状态监测</span>
           </div>
         </GlowButton>
       </div>

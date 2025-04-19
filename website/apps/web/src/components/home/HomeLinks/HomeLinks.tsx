@@ -97,12 +97,12 @@ const LINKS = [
   />,
   <HomeLink
     key="QQ"
-    href="https://ota.maa.plus/MaaAssistantArknights/api/qqgroup"
-    title="MAA 用户群"
+    href="https://status.annangela.cn/status/maa"
+    title="MAA 状态监测"
     icon={
       <img
         src={linksIconPrtsPlus}
-        alt="MAA 用户群"
+        alt="MAA 状态监测"
         className="h-6 w-6"
       />
     }
