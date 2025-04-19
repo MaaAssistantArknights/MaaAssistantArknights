@@ -455,12 +455,11 @@ public class FightSettingsUserControlModel : TaskViewModel
         get => _maxTimes;
         set
         {
-            if (MaxTimes == value)
+            if (SetAndNotify(ref _maxTimes, value))
             {
                 return;
             }
 
-            SetAndNotify(ref _maxTimes, value);
             Instances.TaskQueueViewModel.SetFightParams();
             ConfigurationHelper.SetValue(ConfigurationKeys.TimesLimitedQuantity, value.ToString());
         }
@@ -476,12 +475,11 @@ public class FightSettingsUserControlModel : TaskViewModel
         get => _series;
         set
         {
-            if (_series == value)
+            if (SetAndNotify(ref _series, value))
             {
                 return;
             }
 
-            SetAndNotify(ref _series, value);
             Instances.TaskQueueViewModel.SetFightParams();
             ConfigurationHelper.SetValue(ConfigurationKeys.SeriesQuantity, value.ToString());
         }
@@ -499,7 +497,11 @@ public class FightSettingsUserControlModel : TaskViewModel
         get => _isSpecifiedDropsWithNull;
         set
         {
-            SetAndNotify(ref _isSpecifiedDropsWithNull, value);
+            if (!SetAndNotify(ref _isSpecifiedDropsWithNull, value))
+            {
+                return;
+            }
+
             Instances.TaskQueueViewModel.SetFightParams();
             value ??= false;
             ConfigurationHelper.SetValue(ConfigurationKeys.DropsEnable, value.ToString());
@@ -803,11 +805,7 @@ public class FightSettingsUserControlModel : TaskViewModel
             ClientType = SettingsViewModel.GameSettings.ClientType,
         };
 
-        if (string.IsNullOrEmpty(DropsItemId))
-        {
-            IsSpecifiedDrops = false;
-        }
-        else if (IsSpecifiedDrops)
+        if (IsSpecifiedDrops && !string.IsNullOrEmpty(DropsItemId))
         {
             task.Drops.Add(DropsItemId, DropsQuantity);
         }
