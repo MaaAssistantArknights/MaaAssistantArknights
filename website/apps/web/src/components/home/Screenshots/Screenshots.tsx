@@ -1,10 +1,15 @@
-import screenshotCenter from '@/assets/screenshots/center.webp?url'
-import screenshotLeft from '@/assets/screenshots/left.webp?url'
-import screenshotRight from '@/assets/screenshots/right.webp?url'
 import { useFrame, useLoader } from '@react-three/fiber'
-
 import { useEffect, useRef } from 'react'
 import { Mesh, TextureLoader, Vector2 } from 'three'
+import { useTheme } from '@/contexts/ThemeContext'
+
+import darkScreenshotCenter from '@/assets/screenshots/dark/center.png?url'
+import darkScreenshotLeft from '@/assets/screenshots/dark/left.png?url'
+import darkScreenshotRight from '@/assets/screenshots/dark/right.png?url'
+
+import lightScreenshotCenter from '@/assets/screenshots/light/center.png?url'
+import lightScreenshotLeft from '@/assets/screenshots/light/left.png?url'
+import lightScreenshotRight from '@/assets/screenshots/light/right.png?url'
 
 function lerp(v0: number, v1: number, t: number) {
   return v0 * (1 - t) + v1 * t
@@ -28,8 +33,14 @@ export function Screenshots({
   sidebarRef: React.MutableRefObject<HTMLDivElement | null>
   indicatorRef: React.MutableRefObject<HTMLDivElement | null>
 }) {
+  const { theme } = useTheme()
   const lerpRotationTo = useRef<Vector2>(new Vector2(0, 0))
   const lerpPositionXTo = useRef<number>(0)
+  
+  const screenshotCenter = theme === 'dark' ? darkScreenshotCenter : lightScreenshotCenter
+  const screenshotLeft = theme === 'dark' ? darkScreenshotLeft : lightScreenshotLeft
+  const screenshotRight = theme === 'dark' ? darkScreenshotRight : lightScreenshotRight
+  
   const textureCenter = useLoader(TextureLoader, screenshotCenter)
   const textureLeft = useLoader(TextureLoader, screenshotLeft)
   const textureRight = useLoader(TextureLoader, screenshotRight)
@@ -108,8 +119,7 @@ export function Screenshots({
 
       // position
       // posOffset and posOffsetConstant "smoothly" transitions using a sigmoid function
-      const baseSigmoid =
-        2 / (1 + Math.exp(-(lerpPositionXTo.current - 0.3) * 10))
+      const baseSigmoid = 2 / (1 + Math.exp(-(lerpPositionXTo.current - 0.3) * 30))
       const posOffset = baseSigmoid
       const posOffsetConstant = -baseSigmoid + 3
       meshCenterRef.current.position.x = lerp(
@@ -130,9 +140,9 @@ export function Screenshots({
 
       // sidebarExpansion
       const sidebarExpansionRatio = snapTo(
-        1 / (1 + Math.exp(-(lerpPositionXTo.current - 0.3) * 30)),
+        baseSigmoid,
         0,
-        1e-2,
+        1e-2
       )
 
       const sidebarExpansionSlowRatio = snapTo(
@@ -142,7 +152,7 @@ export function Screenshots({
       )
 
       sidebarRef.current.style.transform = `translateX(${
-        -window.innerWidth * 0.03 * sidebarExpansionRatio
+        -window.innerWidth * 0.001 * sidebarExpansionRatio
       }px) rotateY(${(1 - sidebarExpansionSlowRatio) * 30}deg)`
       sidebarRef.current.style.scale = `${
         sidebarExpansionSlowRatio * 0.1 + 0.9
@@ -155,7 +165,7 @@ export function Screenshots({
         // indicator
         indicatorRef.current.style.opacity = `${1 - sidebarExpansionRatio}`
         indicatorRef.current.style.transform = `translateX(${
-          window.innerWidth * -0.03 * sidebarExpansionRatio
+          window.innerWidth * -0.001 * sidebarExpansionRatio
         }px)`
       }
     }
@@ -163,19 +173,25 @@ export function Screenshots({
 
   useEffect(() => {
     const onMove = (e: MouseEvent | TouchEvent) => {
-      if (
-        meshCenterRef.current &&
-        meshLeftRef.current &&
-        meshRightRef.current
-      ) {
-        const { clientX, clientY } = e instanceof MouseEvent ? e : e.touches[0]
-        const x = (clientX / window.innerWidth) * 2 - 1
-        const y = (clientY / window.innerHeight) * 2 - 1
-
-        lerpRotationTo.current.set(y, x) // inverted intentionally
-        lerpPositionXTo.current = x
+        if (meshCenterRef.current && meshLeftRef.current && meshRightRef.current) {
+          const { clientX, clientY } = e instanceof MouseEvent ? e : e.touches[0]
+          
+          // 新增：计算右侧触发区域（示例右侧75%）
+          const rightEdgeThreshold = window.innerWidth * 0.8
+          const isInRightEdge = clientX >= rightEdgeThreshold
+            && clientY >= window.innerHeight * 0.25
+            && clientY <= window.innerHeight * 0.65
+          
+          // 原始坐标转换保持不变
+          const x = (clientX / window.innerWidth) * 2 - 1
+          const y = (clientY / window.innerHeight) * 2 - 1
+      
+          // 修改：仅在右侧边缘区域时赋予有效值
+          lerpRotationTo.current.set(y, x)
+          lerpPositionXTo.current = isInRightEdge ? 
+            (clientX - rightEdgeThreshold) / (window.innerWidth * 0.5) : 0 // 在右侧25%区域内从0渐变到1
+        }
       }
-    }
 
     const onEnd = () => {
       if (

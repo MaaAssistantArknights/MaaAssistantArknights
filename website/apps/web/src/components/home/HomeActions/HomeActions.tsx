@@ -39,12 +39,12 @@ export const HomeActions: FC = () => {
       <div className="flex-row gap-4 items-center justify-center mt-4 flex flex-col md:flex-row">
         <GlowButton translucent href="/docs">
           <div className="flex items-center -ml-1 font-light">
-            <Icon icon={mdiDocument} fontSize="28px" />
-            <span className="ml-2">文档与 FAQ</span>
+            <Icon icon={mdiDocument} fontSize="30px" />
+            <span className="ml-2">使用文档</span>
           </div>
         </GlowButton>
 
-        <GlowButton translucent href="https://github.com/MaaAssistantArknights">
+        <GlowButton translucent href="https://github.com/MaaAssistantArknights/MaaAssistantArknights">
           <div className="flex items-center -ml-1 text-sm">
             <Icon icon={mdiGitHub} fontSize="20px" />
             <span className="ml-2">GitHub</span>
@@ -54,12 +54,12 @@ export const HomeActions: FC = () => {
         <GlowButton translucent href="https://status.annangela.cn/status/maa">
           <div className="flex items-center -ml-1 text-sm">
             <Icon icon={mdiMonitorEye} fontSize="20px" />
-            <span className="ml-2">MAA 状态监测</span>
+            <span className="ml-2">状态监测</span>
           </div>
         </GlowButton>
       </div>
 
-      <div className="mt-6 text-xs leading-5 text-center md:mt-8 text-white/70">
+      <div className="mt-6 text-xs leading-5 text-center md:mt-8 dark:text-white/70 text-black/70 transition-colors duration-300">
         MAA 以 AGPL-3.0 协议开源；使用即表示您同意并知悉「用户协议」的相关内容。
       </div>
     </div>

@@ -1,14 +1,18 @@
 import { motion } from 'framer-motion'
 import { FC } from 'react'
 
+import { useTheme } from '@/contexts/ThemeContext'
+
 export const HomeHeroHeader: FC = () => {
+  const { theme } = useTheme();
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
       animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
       transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }}
     >
-      <header className="h-full w-full text-white opacity-80 pt-24 md:pt-[10vh]">
+      <header className={`h-full w-full pt-24 md:pt-[10vh] ${theme === 'dark' ? 'text-white opacity-80' : 'text-gray-800 opacity-90'}`}>
         <div className="flex flex-col items-center justify-center px-4">
           <motion.h1
             className="text-3xl md:text-5xl font-logo font-light mb-4 select-none"

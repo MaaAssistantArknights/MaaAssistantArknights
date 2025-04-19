@@ -695,7 +695,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="FailedToLikeWebJson">出现错误，评价失败 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">感谢评价！\n网页已经开放评论区，欢迎前往留下你的评论！</system:String>
     <system:String x:Key="AutoSquad">自动编队</system:String>
-    <system:String x:Key="AutoSquadTip">自动编队暂时无法识别「特别关注」的干员</system:String>
+    <system:String x:Key="AutoSquadTip">自动编队可能暂时无法识别带有「特别关注」标记的干员</system:String>
     <system:String x:Key="AddTrust">补充低信赖干员</system:String>
     <system:String x:Key="AddUserAdditional">追加自定干员</system:String>
     <system:String x:Key="AddUserAdditionalTip">以英文「;」为分隔符，英文「,」分隔干员名与技能，例: 史尔特尔,3;艾雅法拉,1</system:String>
@@ -721,7 +721,7 @@ C:\\leidian\\LDPlayer9。\n
         3. 保全派驻 在 resource/copilot 文件夹下内置了多份作业。\n
         请手动编队后在「开始部署」界面开始（可配合「循环次数」使用）。\n\n
         4. 使用好友助战可以关闭「自动编队」，手动选择干员后开始。\n\n
-        5. 启用「特别关注」功能可能会影响「自动编队」的干员选择。建议在使用「自动编队」时关闭「特别关注」，或手动补充缺失的干员以确保编队完整。\n\n
+        5. 将干员标为「特别关注」可能会影响「自动编队」时的识别与选择。建议在使用「自动编队」时考虑移除「特别关注」标记，或手动补充缺失的干员以确保编队完整。\n\n
         6. Copilot 作业站的神秘代码可点击输入框右侧的粘贴按钮粘贴。左键单击可粘贴单个作业，右键单击则可粘贴整个作业集。\n\n
         7. 战斗列表:\n
         选择作业后，检查列表下方的关卡名是否正确 (如: CV-EX-1)。\n

@@ -718,7 +718,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
         3. For SSS, there are multiple built-in files under the 「resource/copilot」 folder.\n
         Please start on the 「Start Deployment」 screen after manual formation (can be used with 「Loop Times」 )\n\n
         4. You need turn off the 「Auto Squad」 when using a friendly support unit, then start with your support unit selected.\n\n
-        5. Enabling the 「Favourite」 feature may affect the operator selection in 「Auto Squad」 . It is recommended to turn off 「Favourite」 when using 「Auto Squad」 , or manually supplement missing operators to ensure the formation is complete.\n\n
+        5. Marking an operator as「Favourite」 may affect the operator selection in 「Auto Squad」 . It is recommended to turn off 「Favourite」 when using 「Auto Squad」 , or manually supplement missing operators to ensure the formation is complete.\n\n
         6. In the Copilot workstation, you can paste the mysterious code by clicking the paste button on the right side of the input box. Left-click to paste a single job, and right-click to paste the entire job set.\n\n
         7. Battle list:\n
         After selecting the job, check that the stage name below the list is correct (e.g.: CV-EX-1). \n

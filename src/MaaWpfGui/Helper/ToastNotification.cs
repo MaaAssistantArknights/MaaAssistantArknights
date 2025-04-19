@@ -21,6 +21,8 @@ using System.Media;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Interop;
+using HandyControl.Controls;
+using HandyControl.Data;
 using MaaWpfGui.Configuration;
 using MaaWpfGui.Helper.Notification;
 using MaaWpfGui.WineCompat;
@@ -310,6 +312,7 @@ namespace MaaWpfGui.Helper
                 // TODO: 整理过时代码
                 if (!ConfigFactory.Root.GUI.UseNotify)
                 {
+                    Growl.Info(_notificationTitle + _contentCollection);
                     return;
                 }
 

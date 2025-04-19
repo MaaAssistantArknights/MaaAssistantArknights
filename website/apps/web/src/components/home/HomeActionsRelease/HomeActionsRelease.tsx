@@ -532,7 +532,9 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
             bordered
             onClick={() => setViewAll(true)}
           >
-            查看全部
+            <div className="text-base">
+                查看全部
+            </div>
           </GlowButton>
         </div>
       )}
@@ -542,7 +544,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
           bordered
           href={`https://mirrorchyan.com/zh/download?rid=MAA&os=${os}&arch=${arch}&channel=stable`}
         >
-          <div className="text-xs">
+          <div className="text-sm">
             <p><i>已有 Mirror酱 CDK？</i></p>
             <p><i>前往 Mirror酱 高速下载</i></p>
           </div>
