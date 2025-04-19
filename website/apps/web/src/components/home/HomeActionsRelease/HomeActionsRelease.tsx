@@ -543,7 +543,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
         <GlowButton
           key="mirrorchyan"
           bordered
-          href={`https://mirrorchyan.com/zh/download?rid=MAA&os=${os}&arch=${arch}&channel=stable`}
+          href={`https://mirrorchyan.com/zh/projects?rid=MAA&os=${os}&arch=${arch}&channel=stable`}
         >
           <div className="text-sm">
             <p><i>已有 Mirror酱 CDK？</i></p>
