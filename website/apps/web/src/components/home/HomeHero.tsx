@@ -1,4 +1,3 @@
-import { PerformanceMonitor } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { ErrorBoundary } from '@sentry/react'
 import { motion } from 'framer-motion'
