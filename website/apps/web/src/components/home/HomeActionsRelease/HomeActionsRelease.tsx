@@ -159,10 +159,13 @@ type DownloadDetectionStates =
       state: 'fallback'
     }
 
-const DownloadButton: FC<{
-  platform: ResolvedPlatform
-  releaseName: string | null
-}> = ({ platform, releaseName }) => {
+const DownloadButton = forwardRef<
+  HTMLDivElement,
+  {
+    platform: ResolvedPlatform
+    releaseName: string | null
+  }
+>(({ platform, releaseName }, ref) => {
   const href = platform.asset.browser_download_url
 
   const [loadState, setLoadState] = useState<DownloadDetectionStates>({
@@ -435,7 +438,7 @@ const DownloadButton: FC<{
       />
     )
   }
-}
+})
 
 export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
   const [viewAll, setViewAll] = useState(false)
