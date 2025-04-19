@@ -21,14 +21,14 @@ import {
 } from 'react'
 import { useMount } from 'react-use'
 
-import { downloadBlob } from '../../../utils/blob'
+import { downloadBlob } from '@/utils/blob'
 import {
   checkUrlConnectivity,
   checkUrlSpeed,
   download,
-} from '../../../utils/fetch'
-import { formatBytes } from '../../../utils/format'
-import sleep from '../../../utils/sleep'
+} from '@/utils/fetch'
+import { formatBytes } from '@/utils/format'
+import sleep from '@/utils/sleep'
 import {
   DetectionFailedSymbol,
   PLATFORMS,
@@ -60,17 +60,17 @@ const DataLoadRate: FC<{ loaded: number; total: number }> = ({
   return (
     <div className="flex flex-row items-center justify-center gap-2 font-mono">
       <div className="flex flex-col items-start justify-center gap-1">
-        <div className="text-sm">{percentage.toFixed(0)}%</div>
-        <div className="w-12 h-1 bg-white/10 rounded-full">
+        <div className="text-sm transition-colors duration-300">{percentage.toFixed(0)}%</div>
+        <div className={clsx("w-12 h-1 rounded-full", "dark:bg-white/10" , "bg-stone-800/10")}>
           <div
-            className="h-full rounded-full bg-white"
+            className={clsx("h-full rounded-full", 'dark:text-white', 'text-stone-800')}
             style={{ width: `${percentage}%` }}
           />
         </div>
       </div>
       <div className="flex flex-col items-end justify-center">
-        <div className="text-sm">{formatBytes(loaded, 1)}</div>
-        <div className="text-sm">{formatBytes(total, 1)}</div>
+        <div className="text-sm transition-colors duration-300">{formatBytes(loaded, 1)}</div>
+        <div className="text-sm transition-colors duration-300">{formatBytes(total, 1)}</div>
       </div>
     </div>
   )
@@ -90,7 +90,8 @@ export const DownloadState: FC<DownloadStateProps> = forwardRef<
   return (
     <motion.div
       className={clsx(
-        'flex py-6 px-3 flex-col items-center justify-center text-white font-normal',
+        'flex py-6 px-3 flex-col items-center justify-center font-normal transition-colors duration-300',
+        'dark:text-white', 'text-stone-800',
         className,
       )}
       {...{
@@ -115,8 +116,8 @@ export const DownloadState: FC<DownloadStateProps> = forwardRef<
       ref={ref}
     >
       <div className="flex items-center -ml-1">
-        <Icon className={iconClassName} icon={icon} fontSize="28px" />
-        <span className="ml-2">{title}</span>
+        <Icon className={clsx(iconClassName, "transition-colors duration-300")} icon={icon} fontSize="28px" />
+        <span className="ml-2 transition-colors duration-300">{title}</span>
       </div>
     </motion.div>
   )
