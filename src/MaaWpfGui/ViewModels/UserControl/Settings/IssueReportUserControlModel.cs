@@ -101,7 +101,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
             const string ResourceDir = "resource";
             if (Directory.Exists(ResourceDir))
             {
-                foreach (var file in Directory.GetFiles(ResourceDir, "*_custom.*", SearchOption.AllDirectories))
+                foreach (var file in Directory.EnumerateFiles(ResourceDir, "*_custom.*", SearchOption.AllDirectories))
                 {
                     string relativePath = Path.GetRelativePath(ResourceDir, file);
                     string dest = Path.Combine(resourceTempPath, relativePath);
@@ -113,7 +113,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
             using (FileStream zipToOpen = new FileStream(zipPath, FileMode.Create))
             {
                 using var archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create);
-                foreach (var file in Directory.GetFiles(tempPath, "*", SearchOption.AllDirectories))
+                foreach (var file in Directory.EnumerateFiles(tempPath, "*", SearchOption.AllDirectories))
                 {
                     string entryName = Path.GetRelativePath(tempPath, file);
                     archive.CreateEntryFromFile(file, entryName, CompressionLevel.Optimal);
