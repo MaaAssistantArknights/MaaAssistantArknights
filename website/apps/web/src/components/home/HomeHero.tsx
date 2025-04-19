@@ -86,15 +86,8 @@ function ScreenshotsCanvas({
   sidebarRef: React.MutableRefObject<HTMLDivElement | null>
   indicatorRef: React.MutableRefObject<HTMLDivElement | null>
 }) {
-  const [dpr, setDpr] = useState(1.5)
   return (
-    <Canvas camera={{ fov: 35, position: [0, -1, 14] }} flat linear dpr={dpr}>
-      <PerformanceMonitor
-        onIncline={() => setDpr(2)}
-        onDecline={() => setDpr(1)}
-        flipflops={5}
-        onFallback={() => setDpr(1)}
-      />
+    <Canvas camera={{ fov: 35, position: [0, -1, 14] }} flat linear dpr={window.devicePixelRatio || 1.5}>
       <ambientLight intensity={1} />
       <Screenshots sidebarRef={sidebarRef} indicatorRef={indicatorRef} />
     </Canvas>
