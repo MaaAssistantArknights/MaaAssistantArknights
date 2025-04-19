@@ -3257,5 +3257,11 @@
     "resource/template/infrast/Bskill_meet_spd_notOwned_exchange": "f79094f745499eb75a6aebaf4198955642667d7792a6293e8acf54d0efaf6d1c",
     "official/StageOFNew": "6cd97bf1b3bceb62577a3dabded9a361cbbfebb2db0a86ae7284e48dbbd03078",
     "official/RaidDifficulty-Chapter15": "ab72f6d3e7b3226c06c17b612b79e5b0fa3f8991730bc7ef03b2d691da2930bc",
-    "official/NormalDifficulty-Chapter15": "a6ccebe5a829b23b16ff5b81b7d1fa2e3f64975559c23b1a3877965f2f880a0d"
+    "official/NormalDifficulty-Chapter15": "a6ccebe5a829b23b16ff5b81b7d1fa2e3f64975559c23b1a3877965f2f880a0d",
+    "web/src/assets/screenshots/light/center": "82bc731abc39a6b105cead31d3c3f91f1aac20d2f42db90cbe85141d0f96d57d",
+    "web/src/assets/screenshots/light/right": "90924688dd94a15cf40bc652f11d66f74bcedaf3887539d52d110337897d07d3",
+    "web/src/assets/screenshots/light/left": "70c4ccb0dd7f10f37418ed851c9d05a9476e0645fd8b2569d2f0a2cd3ad3660d",
+    "web/src/assets/screenshots/dark/center": "f5779b3b8cb3d0816872500ee38923664a6b53c88d3c7056eefaf40d42dbb897",
+    "web/src/assets/screenshots/dark/right": "512c363f9fd11f6533f252d23564da387c5f9e6f3453dfe4113fba1f67611d54",
+    "web/src/assets/screenshots/dark/left": "e243b3463a47f040cc3b4436a7b935c33585e0b567e7c4128a3cf79c3ab92d92"
 }
