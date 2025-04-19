@@ -1,0 +1,50 @@
+{
+    "CV-8": {
+        "algorithm": "JustReturn",
+        "sub": ["CV-Open"],
+        "next": ["CV-8@SideStoryStage", "CV-8@SwipeToStage"]
+    },
+    "CV-7": {
+        "algorithm": "JustReturn",
+        "sub": ["CV-Open"],
+        "next": ["CV-7@SideStoryStage", "CV-7@SwipeToStage"]
+    },
+    "CV-6": {
+        "algorithm": "JustReturn",
+        "sub": ["CV-Open"],
+        "next": ["CV-6@SideStoryStage", "CV-6@SwipeToStage"]
+    },
+    "CV-4": {
+        "algorithm": "JustReturn",
+        "sub": ["CV-Open"],
+        "next": ["CV-4@SideStoryStage", "CV-4@SwipeToStage"]
+    },
+    "CV-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["不义之财", "已开放"],
+        "postDelay": 2000,
+        "roi": [0, 500, 500, 150],
+        "next": ["CVChapterToCV"]
+    },
+    "CVChapterToCV": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["苍白", "平台"],
+        "preDelay": 1000,
+        "roi": [1092, 438, 118, 36],
+        "next": ["ChapterSwipeToTheRight"]
+    },
+    "CV-8@SideStoryStage": {
+        "text": ["CV-8"]
+    },
+    "CV-7@SideStoryStage": {
+        "text": ["CV-7"]
+    },
+    "CV-6@SideStoryStage": {
+        "text": ["CV-6"]
+    },
+    "CV-4@SideStoryStage": {
+        "text": ["CV-4"]
+    }
+}

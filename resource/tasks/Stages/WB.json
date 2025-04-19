@@ -1,0 +1,40 @@
+{
+    "WB-7": {
+        "algorithm": "JustReturn",
+        "sub": ["WB-Open"],
+        "next": ["WB-7@SideStoryStage", "WB-7@SwipeToStage"]
+    },
+    "WB-8": {
+        "algorithm": "JustReturn",
+        "sub": ["WB-Open"],
+        "next": ["WB-8@SideStoryStage", "WB-8@SwipeToStage"]
+    },
+    "WB-9": {
+        "algorithm": "JustReturn",
+        "sub": ["WB-Open"],
+        "next": ["WB-9@SideStoryStage", "WB-9@SwipeToStage"]
+    },
+    "WB-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["登临意", "关卡已开放"],
+        "roi": [0, 500, 500, 150],
+        "postDelay": 2000,
+        "next": ["WBChapterToWB"]
+    },
+    "WBChapterToWB": {
+        "action": "ClickSelf",
+        "roi": [1071, 589, 209, 131],
+        "postDelay": 2000,
+        "next": ["WBChapterToWB", "ChapterSwipeToTheRight"]
+    },
+    "WB-7@SideStoryStage": {
+        "text": ["WB-7"]
+    },
+    "WB-8@SideStoryStage": {
+        "text": ["WB-8"]
+    },
+    "WB-9@SideStoryStage": {
+        "text": ["WB-9"]
+    }
+}

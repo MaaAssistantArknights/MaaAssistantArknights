@@ -1,0 +1,26 @@
+{
+    "DH-9": {
+        "algorithm": "JustReturn",
+        "sub": ["DH-Open"],
+        "next": ["DH-9@SideStoryStage", "DH-9@SwipeToStage"]
+    },
+    "DH-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["假日", "复刻", "活动", "开放"],
+        "roi": [0, 500, 500, 150],
+        "postDelay": 2000,
+        "next": ["DHChapterToDH"]
+    },
+    "DHChapterToDH": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["极限", "铁人", "大奖"],
+        "roi": [934, 280, 234, 124],
+        "postDelay": 2000,
+        "next": ["DHChapterToDH", "ChapterSwipeToTheRight"]
+    },
+    "DH-9@SideStoryStage": {
+        "text": ["DH-9"]
+    }
+}
