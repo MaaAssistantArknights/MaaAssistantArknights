@@ -1552,8 +1552,7 @@
         "text": ["지원 유닛 모집"]
     },
     "RoguelikeChooseSupportBtnOcr": {
-        "ocrReplace": [[".?(원|운).?(유|우).?", "지원 유닛"]],
-        "text": ["지원 유닛"]
+        "text": ["지원", "유닛"]
     },
     "RoguelikeCustom-HijackCoChar": {
         "ocrReplace": [
