@@ -8,12 +8,20 @@ import mdiDocument from '@iconify/icons-mdi/document'
 import mdiGitHub from '@iconify/icons-mdi/github'
 import mdiQqchat from '@iconify/icons-mdi/qqchat'
 import mdiLoading from '@iconify/icons-mdi/loading'
+import mdiLink from '@iconify/icons-mdi/link-variant'
 import { Icon } from '@iconify/react'
 
 import { motion } from 'framer-motion'
 import { FC, Suspense } from 'react'
 
-export const HomeActions: FC = () => {
+interface HomeActionsProps {
+  toggleLinks?: () => void;
+  showLinks?: boolean;
+}
+
+export const HomeActions: FC<HomeActionsProps> = ({ toggleLinks, showLinks }) => {
+  // console.log('HomeActions rendered, showLinks:', showLinks);
+  
   return (
     <div className="absolute bottom-0 left-0 right-0 mb-24 md:mb-[7vh] flex flex-col mx-8">
       <motion.div
@@ -72,10 +80,25 @@ export const HomeActions: FC = () => {
             <span className="ml-2">GitHub</span>
           </div>
         </GlowButton>
+        
+        <GlowButton 
+          translucent 
+          onClick={() => {
+            // console.log('Friend link button clicked, current state:', showLinks);
+            if (toggleLinks) toggleLinks();
+          }}
+          className={`friend-link-button ${showLinks ? 'active-link-button' : ''}`}
+        >
+          <div className="flex items-center -ml-1 text-sm">
+            <Icon icon={mdiLink} fontSize="20px" />
+            <span className="ml-2">友情链接</span>
+          </div>
+        </GlowButton>
       </div>
 
       <div className="mt-6 text-xs leading-5 text-center md:mt-8 dark:text-white/70 text-black/70 transition-colors duration-300">
-        MAA 以 AGPL-3.0 协议开源；使用即表示您同意并知悉「用户协议」的相关内容。
+        <span style={{ display: 'inline-block' }}>MAA 以 AGPL-3.0 协议开源；</span>
+        <span style={{ display: 'inline-block' }}>使用即表示您同意并知悉「用户协议」的相关内容。</span>
       </div>
     </div>
   )
