@@ -5,11 +5,11 @@
         }
     },
     "routes": [
-    {
-      "route": "/*.{jpg,gif,png,ico,svg,css,scss,js,webp,webmanifest}",
-      "headers": {
-        "cache-control": "public, max-age=604800, immutable"
-      }
-    }
-  ]
+        {
+            "route": "/*.{jpg,gif,png,ico,svg,css,scss,js,webp,webmanifest}",
+            "headers": {
+                "cache-control": "public, max-age=604800, immutable"
+            }
+        }
+    ]
 }
