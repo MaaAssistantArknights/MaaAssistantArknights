@@ -1,0 +1,40 @@
+{
+    "LE-5": {
+        "algorithm": "JustReturn",
+        "sub": ["LE-Open", "LEChapterToLE"],
+        "next": ["LE-5@SideStoryStage", "LE-5@SwipeToStage"]
+    },
+    "LE-6": {
+        "algorithm": "JustReturn",
+        "sub": ["LE-Open", "LEChapterToLE"],
+        "next": ["LE-6@SideStoryStage", "LE-6@SwipeToStage"]
+    },
+    "LE-7": {
+        "algorithm": "JustReturn",
+        "sub": ["LE-Open", "LEChapterToLE"],
+        "next": ["LE-7@SideStoryStage", "LE-7@SwipeToStage"]
+    },
+    "LE-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["复刻", "已开放"],
+        "postDelay": 2000,
+        "roi": [0, 500, 500, 150]
+    },
+    "LEChapterToLE": {
+        "algorithm": "OcrDetect",
+        "text": ["夕照大厅", "大厅"],
+        "roi": [1011, 495, 217, 139],
+        "action": "ClickSelf",
+        "sub": ["ChapterSwipeToTheRight"]
+    },
+    "LE-5@SideStoryStage": {
+        "text": ["LE-5"]
+    },
+    "LE-6@SideStoryStage": {
+        "text": ["LE-6"]
+    },
+    "LE-7@SideStoryStage": {
+        "text": ["LE-7"]
+    }
+}

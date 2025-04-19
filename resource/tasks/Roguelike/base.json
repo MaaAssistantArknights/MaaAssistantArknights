@@ -1,0 +1,1741 @@
+{
+    "Roguelike": {
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png",
+            "TerminalMistCity.png",
+            "TerminalSiege.png",
+            "TerminalSarkaz.png",
+            "TerminalDelicious.png",
+            "TerminalGaming.png",
+            "TerminalDahuangCity.png"
+        ],
+        "action": "ClickSelf",
+        "roi": [844, 58, 268, 272],
+        "next": ["Roguelike", "Roguelike@CloseAnnos#next", "Roguelike@TodoEnter", "Roguelike@IntegratedStrategies"],
+        "postDelay": 1000
+    },
+    "RoguelikeBattleAbandon": {
+        "action": "ClickSelf",
+        "roi": [648, 229, 220, 246],
+        "next": ["RoguelikeBattleAbandonConfirm", "RoguelikeBattleAbandon"]
+    },
+    "RoguelikeBattleAbandonConfirm": {
+        "action": "ClickSelf",
+        "roi": [716, 416, 259, 153],
+        "next": ["RoguelikeBattleAbandonConfirm", "Stop"]
+    },
+    "RoguelikeBattleExitBegin": {
+        "action": "ClickSelf",
+        "roi": [3, 0, 153, 154],
+        "maskRange": [100, 255],
+        "next": ["RoguelikeBattleAbandon", "RoguelikeBattleExitBegin", "NormalBattleAbandon"]
+    },
+    "RoguelikeBattleSpeedUp": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1070, 20, 60, 60],
+        "preDelay": 3000
+    },
+    "RoguelikeChooseSupportBtnOcr": {
+        "algorithm": "OcrDetect",
+        "text": ["选择助战"],
+        "roi": [1011, 9, 177, 47]
+    },
+    "RoguelikeControlTaskPlugin-ExitThenStop": {
+        "Doc": "本任务注册了插件 RoguelikeControlTaskPlugin",
+        "algorithm": "JustReturn"
+    },
+    "RoguelikeControlTaskPlugin-Stop": {
+        "Doc": "本任务注册了插件 RoguelikeControlTaskPlugin",
+        "algorithm": "JustReturn"
+    },
+    "RoguelikeCustom-HijackCoChar": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [186, 298, 913, 200],
+        "preDelay": 1000
+    },
+    "RoguelikeCustom-HijackRoles": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [54, 356, 1172, 183]
+    },
+    "RoguelikeCustom-HijackSquad": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [0, 383, 1280, 142],
+        "postDelay": 800,
+        "ocrReplace": [["蓝图测绘分.*", "蓝图测绘分队"]]
+    },
+    "RoguelikeFoldartalSlowlySwipeToTheUp": {
+        "baseTask": "SlowlySwipeToTheUp",
+        "specificRect": [180, 580, 20, 20],
+        "rectMove": [180, 110, 20, 20],
+        "postDelay": 500
+    },
+    "RoguelikeFoldartalSwipeToTheDown": {
+        "baseTask": "SwipeToTheDown",
+        "specificRect": [180, 110, 20, 20],
+        "rectMove": [180, 570, 20, 20]
+    },
+    "RoguelikeFormationOcr": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "fullMatch": true,
+        "roi": [205, 83, 100, 23],
+        "specialParams": [100]
+    },
+    "RoguelikeFormationOper": {
+        "roi": [363, 11, 891, 668],
+        "maskRange": [1, 255],
+        "templThreshold": 0.9
+    },
+    "RoguelikeQuickFormationClearAndReselect": {
+        "action": "ClickSelf",
+        "roi": [821, 608, 139, 112],
+        "next": ["RoguelikeQuickFormationClearAndReselect-Confirm"]
+    },
+    "RoguelikeQuickFormationClearAndReselect-Confirm": {
+        "template": "Roguelike@FormationConfirm.png",
+        "action": "ClickSelf",
+        "roi": [1015, 601, 265, 119],
+        "next": ["RoguelikeQuickFormationClearAndReselect-Formation", "RoguelikeQuickFormationClearAndReselect-Confirm"]
+    },
+    "RoguelikeQuickFormationClearAndReselect-Formation": {
+        "template": "Roguelike@QuickFormation.png",
+        "action": "ClickSelf",
+        "roi": [817, 0, 402, 146],
+        "next": ["RoguelikeQuickFormationClearAndReselect-Stop", "RoguelikeQuickFormationClearAndReselect-Formation"],
+        "postDelay": 500
+    },
+    "RoguelikeQuickFormationClearAndReselect-Stop": {
+        "template": "Roguelike@FormationConfirm.png",
+        "roi": [1015, 601, 265, 119],
+        "postDelay": 500
+    },
+    "RoguelikeQuickFormationDelay": {
+        "algorithm": "JustReturn",
+        "postDelay": 100
+    },
+    "RoguelikeRecruitElite": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "rectMove": [-170, -60, 60, 50]
+    },
+    "RoguelikeRecruitElite0": {
+        "baseTask": "RoguelikeRecruitElite"
+    },
+    "RoguelikeRecruitElite1": {
+        "baseTask": "RoguelikeRecruitElite"
+    },
+    "RoguelikeRecruitElite2": {
+        "baseTask": "RoguelikeRecruitElite"
+    },
+    "RoguelikeRecruitLazyClick1": {
+        "Doc": "招募第一个干员时，快速由下往上依次点击，防止第一个干员无法招募",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [525, 549, 16, 25],
+        "next": ["RoguelikeRecruitLazyClick2"]
+    },
+    "RoguelikeRecruitLazyClick2": {
+        "baseTask": "RoguelikeRecruitLazyClick1",
+        "specificRect": [525, 410, 16, 25],
+        "next": ["RoguelikeRecruitLazyClick3"]
+    },
+    "RoguelikeRecruitLazyClick3": {
+        "baseTask": "RoguelikeRecruitLazyClick1",
+        "specificRect": [525, 258, 16, 25],
+        "next": ["RoguelikeRecruitLazyClick4"]
+    },
+    "RoguelikeRecruitLazyClick4": {
+        "baseTask": "RoguelikeRecruitLazyClick1",
+        "specificRect": [525, 123, 16, 25],
+        "next": []
+    },
+    "RoguelikeRecruitLevel": {
+        "template": "empty.png",
+        "rectMove_Doc": "肉鸽招募时检测等级用，相对flag的位移",
+        "rectMove": [-171, 0, 15, 11]
+    },
+    "RoguelikeRecruitOcr": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "fullMatch": true,
+        "roi": [13, 26, 120, 23],
+        "specificRect_Doc": "x拿来当文字灰度二值化下限用",
+        "specificRect": [170, 0, 0, 0]
+    },
+    "RoguelikeRecruitOcrFlag": {
+        "roi": [525, 110, 640, 500],
+        "templThreshold": 0.9
+    },
+    "RoguelikeRecruitOperListSlowlySwipeToTheLeft": {
+        "baseTask": "SlowlySwipeToTheLeft",
+        "Doc": "为了保证每次滑动至少多出一列 且 不能跳过一列，应保证滑动距离在400-500之间。",
+        "specificRect": [500, 340, 20, 20],
+        "rectMove": [980, 340, 20, 20],
+        "postDelay": 500
+    },
+    "RoguelikeRecruitOperListSlowlySwipeToTheRight": {
+        "baseTask": "SlowlySwipeToTheRight",
+        "specificRect": [1150, 340, 20, 20],
+        "rectMove": [670, 340, 20, 20],
+        "postDelay": 500
+    },
+    "RoguelikeRecruitOperListSwipeToTheLeft": {
+        "baseTask": "RoguelikeRecruitOperListSlowlySwipeToTheLeft",
+        "specialParams": [150, 0, 0.5]
+    },
+    "RoguelikeRecruitSupportElite": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "templThreshold": 0.6
+    },
+    "RoguelikeRecruitSupportElite0": {
+        "baseTask": "RoguelikeRecruitSupportElite"
+    },
+    "RoguelikeRecruitSupportElite1": {
+        "baseTask": "RoguelikeRecruitSupportElite"
+    },
+    "RoguelikeRecruitSupportElite2": {
+        "baseTask": "RoguelikeRecruitSupportElite"
+    },
+    "RoguelikeRecruitSupportEliteOff": {
+        "template": "empty.png",
+        "rectMove_Doc": "肉鸽招募助战时，精英化状态相对名字中心的偏移",
+        "rectMove": [-26, -133, 50, 41],
+        "specialParams_Doc": "二值化的阈值",
+        "specialParams": [250]
+    },
+    "RoguelikeRecruitSupportEnterFlag": {
+        "baseTask": "RoguelikeRefreshSupportBtnOcr",
+        "postDelay": 0
+    },
+    "RoguelikeRecruitSupportLevelOff": {
+        "template": "empty.png",
+        "rectMove_Doc": "肉鸽招募助战时，等级相对名字中心的偏移",
+        "rectMove": [18, -81, 33, 21]
+    },
+    "RoguelikeRecruitSupportOcr": {
+        "algorithm": "OcrDetect",
+        "doc": "肉鸽招募助战时干员姓名位置，仅使用roi域",
+        "text": [],
+        "roi": [120, 565, 1160, 35]
+    },
+    "RoguelikeRecruitSupportOff1": {
+        "template": "empty.png",
+        "rectMove_Doc": "肉鸽招募助战时，干员名下方颜色区域相对名字中心的偏移",
+        "rectMove": [-64, 54, 45, 33],
+        "specialParams_Doc": "判定是否为好友的r通道阈值",
+        "specialParams": [70]
+    },
+    "RoguelikeRecruitSwipeMaxTime": {
+        "algorithm": "JustReturn",
+        "maxTimes_Doc": "这个参数是肉鸽招募时，向右划动的最大次数",
+        "maxTimes": 5
+    },
+    "RoguelikeRefreshSupportBtnOcr": {
+        "algorithm": "OcrDetect",
+        "text": ["更新助战列表"],
+        "roi": [1097, 13, 164, 38],
+        "postDelay": 3000,
+        "postDelay_Doc": "点击刷新后的等待时间",
+        "specialParams_Doc": "助战刷新最大次数",
+        "specialParams": [5]
+    },
+    "RoguelikeSettlementConfirm": {
+        "preDelayDoc": "结算界面Part2检测是否加载完成的延迟，减少截图消耗",
+        "preDelay": 6000,
+        "roi": [580, 590, 130, 130],
+        "postDelay": 3000,
+        "specialParamsDoc": ["结算界面Part1等待加载完的延迟"],
+        "specialParams": [2000]
+    },
+    "RoguelikeSettlementOcr-BOSS": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [680, 238, 95, 40]
+    },
+    "RoguelikeSettlementOcr-Collection": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [680, 170, 95, 40]
+    },
+    "RoguelikeSettlementOcr-Combat": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [102, 304, 100, 40]
+    },
+    "RoguelikeSettlementOcr-Difficulty": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [750, 372, 120, 31],
+        "ocrReplace": [
+            ["^[^\\d]+(?=\\d+$)", ""],
+            ["^[^\\d]+$", "0"]
+        ]
+    },
+    "RoguelikeSettlementOcr-Emergency": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [680, 304, 95, 40]
+    },
+    "RoguelikeSettlementOcr-Exp": {
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "text": [],
+        "roi": [643, 525, 160, 40]
+    },
+    "RoguelikeSettlementOcr-Floor": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [102, 170, 100, 40]
+    },
+    "RoguelikeSettlementOcr-Recruit": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [102, 374, 100, 40]
+    },
+    "RoguelikeSettlementOcr-Score": {
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "text": [],
+        "roi": [280, 525, 160, 55]
+    },
+    "RoguelikeSettlementOcr-Skill": {
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "text": [],
+        "roi": [920, 530, 100, 40]
+    },
+    "RoguelikeSettlementOcr-Step": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [102, 238, 100, 40]
+    },
+    "RoguelikeSkillSelectionFlag": {
+        "templThreshold": 0.9,
+        "maskRange": [1, 255]
+    },
+    "RoguelikeSkillSelectionMove1": {
+        "algorithm": "JustReturn",
+        "rectMove_Doc": "技能1相对flag的坐标",
+        "rectMove": [180, -40, 40, 30]
+    },
+    "RoguelikeSkillSelectionMove2": {
+        "algorithm": "JustReturn",
+        "rectMove_Doc": "技能2相对flag的坐标",
+        "rectMove": [240, -40, 30, 30]
+    },
+    "RoguelikeSkillSelectionMove3": {
+        "algorithm": "JustReturn",
+        "rectMove_Doc": "技能3相对flag的坐标",
+        "rectMove": [300, -40, 30, 30]
+    },
+    "RoguelikeSkillSelectionName": {
+        "algorithm": "OcrDetect",
+        "fullMatch": true,
+        "text": [],
+        "roi": [210, 8, 120, 20],
+        "specificRect_Doc": "x拿来当文字灰度二值化下限用",
+        "specificRect": [95, 0, 0, 0]
+    },
+    "RoguelikeSkillSelectionTeamFull": {
+        "roi": [135, 22, 1032, 668],
+        "maskRange": [200, 255]
+    },
+    "RoguelikeSupportSwipeLeft": {
+        "baseTask": "SwipeToTheLeft",
+        "postDelay": 1000
+    },
+    "RoguelikeSupportSwipeRight": {
+        "baseTask": "SwipeToTheRight",
+        "postDelay": 1000
+    },
+    "RoguelikeTraderShopping": {
+        "template": "Roguelike@TraderRandomShopping.png",
+        "templThreshold": 0.7,
+        "roi": [480, 240, 750, 295],
+        "maskRange": [1, 255]
+    },
+    "RoguelikeTraderShoppingOcr": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [406, 90, 825, 284],
+        "ocrReplace": [["指路.*", "指路鳞"]]
+    },
+    "RoguelikeTraderShoppingOver": {
+        "template": "Roguelike@StageTraderLeave.png",
+        "action": "ClickSelf",
+        "roi": [1046, 443, 234, 204]
+    },
+    "Roguelike@Abandon": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [1076, 243, 177, 179],
+        "next": ["Roguelike@AbandonConfirm", "Roguelike@Abandon"]
+    },
+    "Roguelike@AbandonConfirm": {
+        "action": "ClickSelf",
+        "roi": [720, 413, 249, 168],
+        "postDelay": 1000,
+        "next": ["Roguelike@MissionFailedFlag2", "Roguelike@StartExplore", "Roguelike@StartExploreCD"]
+    },
+    "Roguelike@Begin": {
+        "algorithm": "JustReturn",
+        "next": [
+            "Roguelike@ChooseDifficulty",
+            "Roguelike@StartExplore",
+            "Roguelike@Stages#next",
+            "Roguelike@GetDrops#next",
+            "Roguelike@NextLevel",
+            "Roguelike@ExitThenAbandon",
+            "Roguelike@Abandon",
+            "Roguelike@TodoEnter",
+            "Roguelike@Continue",
+            "Roguelike@StartExploreCD",
+            "Roguelike@ReturnButtons#next",
+            "Roguelike@ReturnConfirm",
+            "Roguelike@StartUpThemes#next"
+        ]
+    },
+    "Roguelike@CheckLevel": {
+        "Doc": "base_task 进入肉鸽等级界面",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [910, 0, 370, 110],
+        "text": []
+    },
+    "Roguelike@CheckLevelMax": {
+        "Doc": "base_task 等级界面检查是否满级",
+        "algorithm": "OcrDetect",
+        "roi": [1024, 20, 47, 27],
+        "text": ["nope"],
+        "ocrReplace": [["[0-9]", "nope"]]
+    },
+    "Roguelike@ChooseDifficulty": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [1061, 373, 208, 71],
+        "next": ["Roguelike@StartExplore"]
+    },
+    "Roguelike@ChooseDifficultyConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "text": ["选择"],
+        "roi": [1064, 294, 216, 170]
+    },
+    "Roguelike@ChooseDifficulty_AnalyzeCurrentDifficulty": {
+        "doc": "用于 RoguelikeDifficultySelectionTaskPlugin",
+        "baseTask": "NumberOcrReplace",
+        "roi": [400, 300, 225, 160],
+        "fullMatch": true
+    },
+    "Roguelike@ChooseDifficulty_Specified": {
+        "doc": "用于 RoguelikeDifficultySelectionTaskPlugin",
+        "baseTask": "NumberOcrReplace",
+        "ocrReplaceDoc": "不知道为啥有些人会识别到\\.，全部替换下得了",
+        "ocrReplace": [
+            ["[Oo]", "0"],
+            ["[IiLl]", "1"],
+            ["\\|", "1"],
+            ["B", "8"],
+            ["\\.", ""],
+            [" ", ""]
+        ],
+        "roi": [400, 450, 225, 160],
+        "fullMatch": true,
+        "action": "ClickSelf",
+        "postDelay": 800,
+        "next": ["#self", "Stop"]
+    },
+    "Roguelike@ChooseOper": {
+        "Doc": "本任务注册了插件 RoguelikeRecruitTaskPlugin",
+        "algorithm": "JustReturn"
+    },
+    "Roguelike@ChooseOperConfirm": {
+        "action": "ClickSelf",
+        "roi": [1016, 602, 264, 118],
+        "next": [
+            "Roguelike@RecruitSkip",
+            "Roguelike@TraderRandomShopping",
+            "Roguelike@StageEncounterGiveUpRecruitConfirm",
+            "Roguelike@ChooseOperConfirm",
+            "Roguelike@RecruitWithoutButton"
+        ]
+    },
+    "Roguelike@ChooseOperFlag": {
+        "template": "Roguelike@ChooseOperConfirm.png",
+        "roi": [1016, 602, 264, 118],
+        "next": ["Roguelike@RecruitCloseGuide", "Roguelike@ChooseOper"]
+    },
+    "Roguelike@ClickToDrops": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [600, 600, 50, 50],
+        "postDelay": 500,
+        "next": [
+            "Roguelike@DropsFlag",
+            "Roguelike@ChooseOperFlag",
+            "Roguelike@StageEncounterSpecialClose",
+            "Roguelike@TraderRandomShopping",
+            "Roguelike@StageTraderLeave",
+            "Roguelike@Stages#next",
+            "Roguelike@StartUpThemes#next",
+            "Roguelike@StageTraderLeave",
+            "Roguelike@ClickToDrops"
+        ]
+    },
+    "Roguelike@ClickToStartPoint": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [600, 620, 50, 30],
+        "postDelay_Doc": "这个延迟保证不会识别到 StartExplore 之后又弹出 每月委托/解锁收藏品 等。 #7033",
+        "postDelay": 800,
+        "next": [
+            "Roguelike@StartExplore",
+            "Roguelike@Stages#next",
+            "Roguelike@GamePass",
+            "Roguelike@TodoEnter",
+            "Roguelike@Continue",
+            "Roguelike@ReturnButtons#next",
+            "Roguelike@ReturnConfirm",
+            "Roguelike@StartUpThemes#next",
+            "Roguelike@ClickToStartPoint"
+        ]
+    },
+    "Roguelike@ClickToStartPointAfterFailed": {
+        "doc": "因为是从肉鸽失败界面进入，删除了对下个stage的判断",
+        "baseTask": "Roguelike@ClickToStartPoint",
+        "next": [
+            "Roguelike@StartExplore",
+            "Roguelike@StartExploreCD",
+            "Roguelike@StartUpThemes#next",
+            "Roguelike@ClickToStartPointAfterFailed"
+        ]
+    },
+    "Roguelike@CloseCollection": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [569, 400, 140, 139]
+    },
+    "Roguelike@CloseEvent": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [567, 584, 145, 136],
+        "postDelay": 1000,
+        "next": [
+            "Roguelike@StageEncounterEnter",
+            "Roguelike@Stages#next",
+            "Roguelike@StageEncounterOptions#next",
+            "Roguelike@DropsFlag",
+            "Roguelike@CloseEvent"
+        ]
+    },
+    "Roguelike@CloseInterview": {
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "templThreshold": 0.9,
+        "roi": [572, 434, 144, 141],
+        "next": ["Roguelike@StrategyChange"]
+    },
+    "Roguelike@CollectReward": {
+        "Doc": "多点一下回收奖励",
+        "template": "Phantom@Roguelike@GamePassSkip1Confirm.png",
+        "action": "ClickSelf",
+        "roi": [310, 409, 648, 165],
+        "postDelay": 1000
+    },
+    "Roguelike@Continue": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [1032, 487, 248, 215],
+        "postDelay": 500,
+        "next": ["Roguelike@MissionFailedFlag2", "Roguelike@ExitThenAbandon"]
+    },
+    "Roguelike@DeepExploration": {
+        "Doc": "base_task 深入调查入口",
+        "template": "Roguelike@DeepExploration.png",
+        "action": "ClickSelf",
+        "roi": [320, 620, 270, 95],
+        "maskRange": [1, 255],
+        "onErrorNext": ["Roguelike@DeepExplorationNotUnlockedComplain"]
+    },
+    "Roguelike@DeepExplorationEnd": {
+        "template": "Roguelike@DeepExplorationEnd.png",
+        "action": "ClickSelf",
+        "roi": [600, 620, 90, 90],
+        "next": ["Roguelike@StartExplore", "Roguelike@StartUpThemes#next"]
+    },
+    "Roguelike@DeepExplorationNotUnlockedComplain": {
+        "Doc": "base_task 深入调查没解锁",
+        "template": "Roguelike@DeepExplorationNotUnlocked.png",
+        "maskRange": [1, 255]
+    },
+    "Roguelike@DeepExplorationRewardMiss": {
+        "Doc": "base_task 深入调查奖励已获取",
+        "template": "Roguelike@RewardCompleted.png",
+        "action": "ClickRect",
+        "roi": [60, 560, 330, 50],
+        "specificRect": [940, 210, 50, 80],
+        "postDelay": 300
+    },
+    "Roguelike@DialogSkip": {
+        "Doc": "月度小队，跳过对话",
+        "action": "ClickSelf",
+        "roi": [1106, 0, 174, 139],
+        "next": ["Roguelike@DialogSkipConfirm"]
+    },
+    "Roguelike@DialogSkipConfirm": {
+        "action": "ClickSelf",
+        "roi": [725, 409, 249, 169]
+    },
+    "Roguelike@DropsFlag": {
+        "roi": [875, 601, 152, 119]
+    },
+    "Roguelike@DropsFlag_default": {
+        "template": "Roguelike@DropsFlag.png",
+        "baseTask": "Roguelike@DropsFlag",
+        "next": [
+            "Roguelike@GetDrops#next",
+            "Roguelike@GetDropCompleted",
+            "Roguelike@GetDropLeave",
+            "Roguelike@StageTraderLeave",
+            "Roguelike@Stages#next",
+            "Roguelike@StageEncounterOptions#next",
+            "Roguelike@StageEncounterSpecialClose",
+            "Roguelike@EnterAfterRecruit",
+            "Roguelike@CloseEvent",
+            "Roguelike@DialogSkip",
+            "Roguelike@RecruitOther"
+        ]
+    },
+    "Roguelike@DropsFlag_mode1": {
+        "template": "Roguelike@DropsFlag.png",
+        "baseTask": "Roguelike@DropsFlag",
+        "next": ["Roguelike@GetDropLeave", "Roguelike@DropsFlag_default#next"]
+    },
+    "Roguelike@EnterAfterRecruit": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [1078, 234, 202, 239],
+        "postDelay": 3000,
+        "next": ["Roguelike@EnterAfterRecruit", "Roguelike@Stages#next"]
+    },
+    "Roguelike@Exit": {
+        "template": "Roguelike@ExitThenAbandon.png",
+        "action": "ClickSelf",
+        "roi": [0, 0, 320, 160],
+        "next": ["Stop"]
+    },
+    "Roguelike@ExitThenAbandon": {
+        "action": "ClickSelf",
+        "roi": [0, 0, 320, 160]
+    },
+    "Roguelike@ExitThenAbandon_ToHardest": {
+        "template": "Roguelike@ExitThenAbandon.png",
+        "action": "ClickSelf",
+        "roi": [0, 0, 320, 160]
+    },
+    "Roguelike@FormationConfirm": {
+        "action": "ClickSelf",
+        "roi": [1015, 601, 265, 119],
+        "next": ["Roguelike@ReturnToMap"]
+    },
+    "Roguelike@FromIntegratedStrategies": {
+        "algorithm": "JustReturn",
+        "next": ["Roguelike@Begin"]
+    },
+    "Roguelike@GamePass": {
+        "Doc": "base_task, 注册了RoguelikeSettlement插件用于存储结算图",
+        "template": "empty.png",
+        "roi": [400, 0, 500, 300],
+        "next": ["Roguelike@ClickToStartPoint"]
+    },
+    "Roguelike@GamePassSkip1": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [1090, 0, 190, 144],
+        "postDelay": 1000,
+        "next": ["Roguelike@GamePassSkip1Confirm", "Roguelike@GamePassSkip1"]
+    },
+    "Roguelike@GamePassSkip1Confirm": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [715, 282, 171, 155]
+    },
+    "Roguelike@GamePassSkip2": {
+        "action": "ClickSelf",
+        "roi": [1109, 0, 171, 138],
+        "next": ["Roguelike@GamePassTheEndConfirm", "Roguelike@GamePass", "Roguelike@ClickToStartPoint"]
+    },
+    "Roguelike@GamePassTheEndConfirm": {
+        "action": "ClickSelf",
+        "roi": [554, 512, 177, 161],
+        "next": ["Roguelike@GamePass"]
+    },
+    "Roguelike@GetDrop": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [0, 471, 1280, 157],
+        "templThreshold": 0.85,
+        "postDelay": 1000
+    },
+    "Roguelike@GetDrop1": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Roguelike@GetDrop",
+        "Doc2": "源石锭，绿色的“拿走”按钮",
+        "next": ["Roguelike@DropsFlag", "Roguelike@ChooseOperFlag"]
+    },
+    "Roguelike@GetDrop2": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Roguelike@GetDrop",
+        "Doc2": "希望，黄色的“拿走”按钮",
+        "next": ["Roguelike@DropsFlag", "Roguelike@ChooseOperFlag", "Roguelike@DropsFlag", "Roguelike@ClickToDrops"]
+    },
+    "Roguelike@GetDrop3": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Roguelike@GetDrop",
+        "Doc2": "未知的剧目，黄色的“翻开”按钮",
+        "next": ["Roguelike@ChooseOperFlag", "Roguelike@DropsFlag", "Roguelike@ClickToDrops"]
+    },
+    "Roguelike@GetDropCompleted": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickRect",
+        "specificRect": [600, 600, 50, 50],
+        "roi": [488, 206, 302, 289],
+        "postDelay": 3000,
+        "next": ["Roguelike@GetDrops#next", "Roguelike@ChooseOperFlag", "Roguelike@ClickToDrops"]
+    },
+    "Roguelike@GetDropLeave": {
+        "Doc": "base_task",
+        "Doc2": "不要了，走了（",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [0, 218, 1280, 296],
+        "next": ["Roguelike@GetDropLeaveConfirm", "Roguelike@DropsFlag", "Roguelike@ChooseOperFlag"]
+    },
+    "Roguelike@GetDropLeaveConfirm": {
+        "action": "ClickSelf",
+        "roi": [0, 484, 1280, 138],
+        "postDelay": 1000,
+        "next": ["Roguelike@GetDropLeaveConfirm@LoadingText", "Roguelike@DropsFlag"]
+    },
+    "Roguelike@GetDropRecruit": {
+        "Doc": "base_task",
+        "Doc2": "招募券，白色的“招募”按钮",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [0, 471, 1280, 157],
+        "postDelay": 1000,
+        "next": [
+            "Roguelike@ChooseOperFlag",
+            "Roguelike@GetDrops#next",
+            "Roguelike@GetDropCompleted",
+            "Roguelike@GetDropLeave"
+        ]
+    },
+    "Roguelike@GetDropSelect": {
+        "Doc": "base_task",
+        "Doc2": "“选择”按钮，有可能是招募二选一，也有收藏品二选一",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [0, 471, 1280, 157],
+        "postDelay": 2000,
+        "next": [
+            "Roguelike@GetDropSelectRecruit",
+            "Roguelike@GetDropSelectReward",
+            "Roguelike@ChooseOperFlag",
+            "Roguelike@GetDropCompleted",
+            "Roguelike@GetDropSelect"
+        ]
+    },
+    "Roguelike@GetDropSelectRecruit": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [0, 420, 1280, 175],
+        "postDelay": 1000,
+        "templThreshold": 0.85,
+        "next": ["Roguelike@ChooseOperFlag", "Roguelike@GetDropSelectRecruit"]
+    },
+    "Roguelike@GetDropSelectReward": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [0, 420, 1280, 175],
+        "postDelay": 1000,
+        "next": [
+            "Roguelike@GetDropSelectReward",
+            "Roguelike@ChooseOperFlag",
+            "Roguelike@DropsFlag",
+            "Roguelike@ClickToDrops"
+        ]
+    },
+    "Roguelike@GetDrops": {
+        "Doc": "base_sharp_task",
+        "algorithm": "JustReturn"
+    },
+    "Roguelike@HpRecognition": {
+        "baseTask": "NumberOcrReplace",
+        "Doc": "生命值识别，暂时是把整个框进去，估计会把后面的生命值也识别到，后面得改改",
+        "text": [],
+        "roi": [190, 30, 60, 30]
+    },
+    "Roguelike@InBattleFlag": {
+        "template": "BattleOfficiallyBegin.png",
+        "roi": [1165, 20, 65, 65],
+        "maskRange": [100, 255],
+        "postDelay": 5000,
+        "next": [
+            "Roguelike@InBattleFlag",
+            "Roguelike@MissionCompletedFlag",
+            "Roguelike@MissionFailedFlag",
+            "Roguelike@MissionFailedFlag2"
+        ]
+    },
+    "Roguelike@InitialDrop": {
+        "Doc": "base_task",
+        "Doc2": "古堡观光（简单模式）初始会有一个免费道具，点确认。月度小队也有，再多几次",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [569, 583, 141, 137],
+        "next": ["Roguelike@Squad-EnterPoint", "Roguelike@InitialDrop"]
+    },
+    "Roguelike@IntegratedStrategies": {
+        "action": "ClickSelf",
+        "roi": [884, 606, 146, 114],
+        "next": ["Roguelike@IntegratedStrategies", "Roguelike@PreSelectTheme"]
+    },
+    "Roguelike@LastReward": {
+        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援——热水壶",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [225, 199, 829, 241],
+        "next": []
+    },
+    "Roguelike@LastReward-EnterPoint": {
+        "Doc": "插件挂载，选择期望的奖励，template为所有LastReward集合，进入插件后重新匹配，有就Confirm，没有就Abandon",
+        "template": "empty.png",
+        "roi": [225, 199, 829, 241],
+        "next": ["Roguelike@LastRewardConfirm", "Roguelike@AbandonConfirm#next"]
+    },
+    "Roguelike@LastReward-Strategy": {
+        "Doc": "未指定期望时，默认选择策略",
+        "algorithm": "JustReturn"
+    },
+    "Roguelike@LastReward2": {
+        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 5 源石锭",
+        "baseTask": "Roguelike@LastReward",
+        "template": "empty.png"
+    },
+    "Roguelike@LastReward3": {
+        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 3 目标生命",
+        "baseTask": "Roguelike@LastReward",
+        "template": "empty.png"
+    },
+    "Roguelike@LastReward4": {
+        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 2 希望",
+        "baseTask": "Roguelike@LastReward",
+        "template": "empty.png"
+    },
+    "Roguelike@LastRewardConfirm": {
+        "action": "ClickSelf",
+        "template": "empty.png",
+        "roi": [171, 474, 935, 205],
+        "next": ["Roguelike@RolesDefault", "Roguelike@CloseCollection", "Roguelike@RecruitMain"]
+    },
+    "Roguelike@LastRewardRand": {
+        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 问号",
+        "baseTask": "Roguelike@LastReward",
+        "template": "empty.png"
+    },
+    "Roguelike@MainThemes": {
+        "next": ["Roguelike", "Roguelike@ChooseDifficulty", "Roguelike@StartExplore", "Roguelike@Abandon"]
+    },
+    "Roguelike@MissionCompletedFlag": {
+        "baseTask": "Roguelike@ExitThenAbandon",
+        "template": "Roguelike@ExitThenAbandon.png",
+        "action": "DoNothing",
+        "next": ["Roguelike@ClickToDrops"]
+    },
+    "Roguelike@MissionFailedFlag": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "roi": [504, 163, 480, 267],
+        "next": ["Roguelike@Stages#next", "Roguelike@MissionFailedFlag2", "Roguelike@ClickToStartPoint"]
+    },
+    "Roguelike@MissionFailedFlag2": {
+        "Doc": "base_task, 注册了RoguelikeSettlement插件用于存储结算图",
+        "template": "empty.png",
+        "roi": [473, 0, 351, 194],
+        "next": ["Roguelike@ClickToStartPointAfterFailed"]
+    },
+    "Roguelike@MonthlySquad": {
+        "Doc": "base_task 月度小队入口",
+        "template": "Roguelike@MonthlySquad.png",
+        "action": "ClickSelf",
+        "roi": [520, 630, 270, 85],
+        "maskRange": [1, 255]
+    },
+    "Roguelike@MonthlySquadComms": {
+        "Doc": "base_task 月度小队通信",
+        "template": "Roguelike@MonthlySquadComms.png",
+        "action": "ClickSelf",
+        "roi": [538, 446, 180, 50]
+    },
+    "Roguelike@MonthlySquadCommsBackTwice": {
+        "doc": "队员访谈录返回开始探索界面",
+        "baseTask": "Return",
+        "template": "Return.png",
+        "maxTimes": 10,
+        "postDelay": 300,
+        "next": ["Roguelike@StartExplore", "#self"]
+    },
+    "Roguelike@MonthlySquadCommsCompleted": {
+        "Doc": "base_task 月度小队通信已获取",
+        "template": "empty.png",
+        "roi": [110, 380, 370, 70],
+        "next": ["Roguelike@MonthlySquadCommsBackTwice"],
+        "postDelay": 300
+    },
+    "Roguelike@MonthlySquadRewardCompleted": {
+        "Doc": "base_task 月度小队奖励已获取",
+        "template": "Roguelike@RewardCompleted.png",
+        "action": "ClickRect",
+        "roi": [735, 410, 280, 95],
+        "specificRect": [466, 405, 40, 60],
+        "postDelay": 300
+    },
+    "Roguelike@NextLevel": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [],
+        "roi": [522, 431, 245, 144],
+        "postDelay": 1000,
+        "next": ["Roguelike@CloseInterview", "Roguelike@StrategyChange"]
+    },
+    "Roguelike@NoneSelected": {
+        "algorithm": "OcrDetect",
+        "action": "ClickRect",
+        "text": ["不编入"],
+        "roi": [390, 300, 500, 50],
+        "specificRect": [650, 460, 310, 70],
+        "next": ["Roguelike@StartAction"]
+    },
+    "Roguelike@OptionChoose1-1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1175, 335, 100, 60]
+    },
+    "Roguelike@OptionChoose2-1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1175, 255, 100, 60]
+    },
+    "Roguelike@OptionChoose2-2": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1175, 415, 100, 60]
+    },
+    "Roguelike@OptionChoose3-1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1175, 170, 100, 60]
+    },
+    "Roguelike@OptionChoose3-2": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1175, 340, 100, 60]
+    },
+    "Roguelike@OptionChoose3-3": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1175, 500, 100, 60]
+    },
+    "Roguelike@OptionChoose4-1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1175, 110, 100, 60]
+    },
+    "Roguelike@OptionChoose4-2": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1175, 260, 100, 60]
+    },
+    "Roguelike@OptionChoose4-3": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1175, 417, 100, 60]
+    },
+    "Roguelike@OptionChoose4-4": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1175, 560, 100, 60]
+    },
+    "Roguelike@PreSelectTheme": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["查看", "TODO: image of //INTEGRATED STRATEGIES"],
+        "roi": [450, 480, 60, 45],
+        "next": ["#self", "Roguelike@PreSelectThemeSwipe"]
+    },
+    "Roguelike@PreSelectThemeSwipe": {
+        "baseTask": "SwipeToTheLeft",
+        "specificRect": [100, 560, 100, 100],
+        "rectMove": [550, 560, 100, 100],
+        "specialParams": [1000, 0, 1, 1],
+        "next": ["Roguelike@SelectTheme"]
+    },
+    "Roguelike@QuickFormation": {
+        "Doc": "本任务注册了插件 RoguelikeFormationTaskPlugin",
+        "action": "ClickSelf",
+        "roi": [817, 0, 402, 146],
+        "next": ["Roguelike@FormationConfirm"],
+        "preDelay": 100,
+        "postDelay": 2000
+    },
+    "Roguelike@RecruitCloseGuide": {
+        "action": "ClickSelf",
+        "roi": [56, 41, 194, 134],
+        "next": ["Roguelike@ChooseOperFlag"]
+    },
+    "Roguelike@RecruitMain": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "templThreshold": 0.6,
+        "roi": [80, 470, 410, 154],
+        "next": ["Roguelike@ChooseOperFlag", "Roguelike@RecruitCloseGuide"],
+        "postDelay": 1000
+    },
+    "Roguelike@RecruitOther": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Roguelike@RecruitMain",
+        "roi": [80, 470, 1120, 154]
+    },
+    "Roguelike@RecruitSkip": {
+        "template": "RecruitSkip.png",
+        "next": [
+            "Roguelike@RecruitSkip",
+            "Roguelike@RecruitOther",
+            "Roguelike@TraderRandomShopping",
+            "Roguelike@StageTraderLeave",
+            "Roguelike@DropsFlag",
+            "Roguelike@ChooseOperFlag",
+            "Roguelike@RecruitWithoutButton"
+        ]
+    },
+    "Roguelike@RecruitSupportConfirm": {
+        "doc": "集成战略模式招募助战干员后点击确认按钮，注意 roi 变化",
+        "roi": [810, 500, 200, 40]
+    },
+    "Roguelike@RecruitWithoutButton": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1180, 15, 85, 60]
+    },
+    "Roguelike@ReturnToMap": {
+        "Doc": "这两步专门用来消除技能框出现白边闪烁，导致识别干员名出错的问题",
+        "template": "Return.png",
+        "templThreshold": 0.7,
+        "action": "ClickSelf",
+        "roi": [0, 0, 180, 80],
+        "preDelay": 500,
+        "next": ["Roguelike@StageEnterBattleAgain"]
+    },
+    "Roguelike@RolesConfirm": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [0, 153, 1280, 529],
+        "next": ["Roguelike@RecruitMain"]
+    },
+    "Roguelike@RolesDefault": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [601, 153, 363, 529],
+        "next": ["Roguelike@RolesConfirm"]
+    },
+    "Roguelike@SelectTheme": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "maxTimes": 20,
+        "text": [],
+        "roi": [0, 400, 1280, 30],
+        "next": ["#self", "Roguelike@FromIntegratedStrategies"]
+    },
+    "Roguelike@SpecialValRecognition": {
+        "algorithm": "OcrDetect",
+        "Doc": "特殊值识别，如抗干扰值，需修改对应主题的roi",
+        "text": [],
+        "roi": [615, 0, 80, 45]
+    },
+    "Roguelike@Squad-EnterPoint": {
+        "algorithm": "OcrDetect",
+        "text": ["分队"],
+        "roi": [620, 20, 100, 34],
+        "next": ["Roguelike@SquadConfirm"]
+    },
+    "Roguelike@Squad-Random": {
+        "Doc": "没得指挥分队，随便选一个",
+        "baseTask": "Roguelike@Squad-EnterPoint",
+        "action": "ClickSelf",
+        "roi": [60, 410, 1180, 80],
+        "next": []
+    },
+    "Roguelike@SquadConfirm": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [0, 483, 1280, 200],
+        "postDelay": 500
+    },
+    "Roguelike@SquadDefault": {
+        "Doc": "base_task, 指挥分队logo",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [0, 153, 1280, 532]
+    },
+    "Roguelike@SquadSlowlySwipeToTheRight": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [1160, 310, 100, 100],
+        "rectMove": [0, 310, 100, 100],
+        "specialParams": [200, 1, 3, 0],
+        "postDelay": 200
+    },
+    "Roguelike@Stage": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "roi": [0, 53, 1280, 554]
+    },
+    "Roguelike@StageBoons": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Roguelike@Stage",
+        "Doc2": "古堡馈赠（随机奖励）",
+        "next": ["Roguelike@StageEncounterEnter", "Roguelike@Stages#next"]
+    },
+    "Roguelike@StageCombatDps": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Roguelike@Stage",
+        "Doc2": "普通作战",
+        "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错",
+        "next": ["Roguelike@StageCombatDpsEnter", "Roguelike@StageEmergencyDpsEnter", "Roguelike@Stages#next"]
+    },
+    "Roguelike@StageCombatDpsEnter": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Roguelike@StageEnterBattle"
+    },
+    "Roguelike@StageDreadfulFoe": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Roguelike@Stage",
+        "Doc2": "险路恶敌（boss关卡）",
+        "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错",
+        "next": [
+            "Roguelike@StageDreadfulFoeEnter",
+            "Roguelike@StageEmergencyDpsEnter",
+            "Roguelike@StageCombatDpsEnter",
+            "Roguelike@Stages#next"
+        ]
+    },
+    "Roguelike@StageDreadfulFoeEnter": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Roguelike@StageEnterBattle"
+    },
+    "Roguelike@StageEmergencyDps": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Roguelike@Stage",
+        "Doc2": "紧急作战",
+        "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错",
+        "next": ["Roguelike@StageEmergencyDpsEnter", "Roguelike@StageCombatDpsEnter", "Roguelike@Stages#next"]
+    },
+    "Roguelike@StageEmergencyDpsEnter": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Roguelike@StageEnterBattle"
+    },
+    "Roguelike@StageEncounter": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Roguelike@Stage",
+        "Doc2": "不期而遇（随机奖励）",
+        "next": ["Roguelike@StageEncounterEnter", "Roguelike@Stages#next"]
+    },
+    "Roguelike@StageEncounterEnter": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Roguelike@StageEnter",
+        "next": [
+            "Roguelike@StageVerticalConfirmEncounter",
+            "Roguelike@StageEncounterEnter",
+            "Roguelike@StageEncounterJudgeClick"
+        ]
+    },
+    "Roguelike@StageEncounterGiveUpRecruitConfirm": {
+        "action": "ClickSelf",
+        "roi": [613, 410, 424, 171],
+        "next": [
+            "Roguelike@TraderRandomShopping",
+            "Roguelike@StageTraderLeave",
+            "Roguelike@DropsFlag",
+            "Roguelike@ClickToDrops"
+        ]
+    },
+    "Roguelike@StageEncounterJudgeClick": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [640, 360, 0, 0],
+        "preDelay": 150,
+        "next": ["Roguelike@StageEncounterJudgeClick2"]
+    },
+    "Roguelike@StageEncounterJudgeClick2": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [640, 360, 0, 0],
+        "preDelay": 150,
+        "next": ["Roguelike@StageEncounterJudgeOption"]
+    },
+    "Roguelike@StageEncounterJudgeOption": {
+        "algorithm": "JustReturn",
+        "Doc": "本任务注册了插件RoguelikeStageEncounterTaskPlugin",
+        "next": ["Roguelike@StageEncounterOptions#next", "Roguelike@Stages#next"]
+    },
+    "Roguelike@StageEncounterLeaveConfirm": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [1069, 0, 211, 700],
+        "postDelay": 1000,
+        "next": [
+            "Roguelike@StageEncounterOptions#next",
+            "Roguelike@StageEncounterSpecialClose",
+            "Roguelike@StageCombatDpsEnter",
+            "Roguelike@StageEmergencyDpsEnter",
+            "Roguelike@ClickToDrops"
+        ]
+    },
+    "Roguelike@StageEncounterOcr": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [],
+        "ocrReplace": [
+            ["绝境(？|\\?)抉择(？|\\?)", "绝境？抉择？"],
+            ["魂灵见闻.*以血还血", "魂灵见闻：以血还血"],
+            ["魂灵见闻.*善恶同道", "魂灵见闻：善恶同道"],
+            ["魂灵见闻.*石心双(子)?", "魂灵见闻：石心双子"]
+        ],
+        "preDelay": 600,
+        "roi": [0, 405, 725, 225]
+    },
+    "Roguelike@StageEncounterOption": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [1100, 0, 180, 700],
+        "preDelay": 500,
+        "next": ["Roguelike@StageEncounterLeaveConfirm", "Roguelike@StageEncounterOptions#next"]
+    },
+    "Roguelike@StageEncounterOptionFree": {
+        "baseTask": "Roguelike@StageEncounterOption",
+        "Doc": "base_task",
+        "template": "empty.png",
+        "next": [
+            "Roguelike@StageEncounterLeaveConfirm",
+            "Roguelike@StageEncounterOptionLeave",
+            "Roguelike@Stages#next",
+            "Roguelike@StageEncounterOptions#next"
+        ]
+    },
+    "Roguelike@StageEncounterOptionLeave": {
+        "baseTask": "Roguelike@StageEncounterOption",
+        "Doc": "base_task",
+        "template": "empty.png",
+        "next": [
+            "Roguelike@StageEncounterLeaveConfirm",
+            "Roguelike@StageEncounterOptionFree",
+            "Roguelike@Stages#next",
+            "Roguelike@StageEncounterOptions#next"
+        ]
+    },
+    "Roguelike@StageEncounterOptionUnknown": {
+        "baseTask": "Roguelike@StageEncounterOption",
+        "Doc": "base_task",
+        "template": "empty.png",
+        "next": [
+            "Roguelike@StageEncounterLeaveConfirm",
+            "Roguelike@StageEncounterOptionFree",
+            "Roguelike@Stages#next",
+            "Roguelike@StageEncounterOptions#next"
+        ]
+    },
+    "Roguelike@StageEncounterOptionWonderland": {
+        "baseTask": "Roguelike@StageEncounterOption",
+        "Doc": "base_task",
+        "template": "empty.png"
+    },
+    "Roguelike@StageEncounterOptions": {
+        "algorithm": "JustReturn"
+    },
+    "Roguelike@StageEncounterSpecialClose": {
+        "Doc": "base_task",
+        "Doc2": "关掉“大锁”",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [570, 400, 140, 138],
+        "next": ["Roguelike@StageEncounterSpecialClose", "Roguelike@ClickToDrops"]
+    },
+    "Roguelike@StageEnter": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [1035, 370, 226, 300]
+    },
+    "Roguelike@StageEnterBattle": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Roguelike@StageEnter",
+        "next": ["Roguelike@QuickFormation"]
+    },
+    "Roguelike@StageEnterBattleAgain": {
+        "Doc": "这两步专门用来消除技能框出现白边闪烁，导致识别干员名出错的问题",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1180, 495, 30, 20],
+        "next": ["Roguelike@StartAction", "Roguelike@StageEnterBattleAgain"]
+    },
+    "Roguelike@StageSafeHouse": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Roguelike@Stage",
+        "Doc2": "安全的角落",
+        "next": ["Roguelike@StageSafeHouseEnter", "Roguelike@Stages#next"]
+    },
+    "Roguelike@StageSafeHouseEnter": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Roguelike@StageEnter",
+        "next": [
+            "Roguelike@StageVerticalConfirmSafeHouse",
+            "Roguelike@StageSafeHouseEnter",
+            "Roguelike@StageSafeHouseSkipText"
+        ]
+    },
+    "Roguelike@StageSafeHouseSkipText": {
+        "template": "empty.png",
+        "action": "ClickRect",
+        "preDelay": 250,
+        "specificRect": [0, 405, 725, 225],
+        "next": ["Roguelike@StageSafeHouseSkipTextRewards"]
+    },
+    "Roguelike@StageSafeHouseSkipTextRewards": {
+        "template": "empty.png",
+        "action": "ClickRect",
+        "specificRect": [0, 405, 725, 225],
+        "next": ["Roguelike@StageEncounterOptions#next", "Roguelike@NextLevel"]
+    },
+    "Roguelike@StageTrader": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Roguelike@Stage",
+        "Doc2": "诡意行商（交易所）",
+        "next": ["Roguelike@StageTraderEnter", "Roguelike@Stages#next"]
+    },
+    "Roguelike@StageTraderEnter": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Roguelike@StageEnter",
+        "postDelay": 3000,
+        "next": [
+            "Roguelike@StageVerticalConfirmTrader",
+            "Roguelike@StageTraderEnter",
+            "Roguelike@StageTraderRefreshWithDice",
+            "Roguelike@StageTraderInvestSystem",
+            "Roguelike@TraderRandomShopping",
+            "Roguelike@StageTraderLeave",
+            "Roguelike@StageTraderLeaveConfirm"
+        ]
+    },
+    "Roguelike@StageTraderInvest-Arrow": {
+        "templThreshold": 0.75,
+        "doc": "商店投资界面的箭头，99 >> 100",
+        "roi": [750, 320, 100, 100]
+    },
+    "Roguelike@StageTraderInvest-Confirm": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [850, 470, 300, 45]
+    },
+    "Roguelike@StageTraderInvest-Deposit": {
+        "doc": "商店投资界面的余额显示，99 >> 100",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "isAscii": true,
+        "roi": [570, 335, 150, 60],
+        "ocrReplace": [[">", ""]]
+    },
+    "Roguelike@StageTraderInvest-Wallet": {
+        "doc": "商店投资界面的右上角的单局余额",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "isAscii": true,
+        "roi": [1180, 20, 80, 25]
+    },
+    "Roguelike@StageTraderInvestCancel": {
+        "action": "ClickSelf",
+        "roi": [507, 418, 242, 149],
+        "exceededNext": ["Roguelike@ExitThenAbandon"],
+        "next": ["Roguelike@StageTraderInvestSystemLeave", "Roguelike@StageTraderInvestSystemLeave#next"]
+    },
+    "Roguelike@StageTraderInvestConfirm": {
+        "doc": "绑定 RoguelikeInvestTaskPlugin 插件进行投资，本任务仅作为进入投资系统时的初始化确认",
+        "roi": [852, 422, 278, 144],
+        "templThreshold": 0.72,
+        "exceededNext": ["RoguelikeControlTaskPlugin-ExitThenStop"],
+        "next": ["Roguelike@StageTraderInvestSystemError", "Roguelike@StageTraderInvestCancel"]
+    },
+    "Roguelike@StageTraderInvestError-Count": {
+        "doc": "商店投资界面系统出错时余额显示",
+        "baseTask": "NumberOcrReplace",
+        "roi": [635, 205, 70, 40]
+    },
+    "Roguelike@StageTraderInvestSystem": {
+        "templThreshold": 0.75,
+        "action": "ClickSelf",
+        "roi": [360, 51, 450, 450],
+        "exceededNext": ["Roguelike@TraderRandomShopping", "Roguelike@StageTraderLeave"],
+        "next": [
+            "Roguelike@StageTraderInvestSystemEnter",
+            "Roguelike@TraderRandomShopping",
+            "Roguelike@StageTraderLeave"
+        ]
+    },
+    "Roguelike@StageTraderInvestSystemEnter": {
+        "action": "ClickSelf",
+        "roi": [417, 228, 502, 247],
+        "next": [
+            "Roguelike@StageTraderInvestSystemError",
+            "Roguelike@StageTraderInvestConfirm",
+            "Roguelike@StageTraderInvestCancel"
+        ]
+    },
+    "Roguelike@StageTraderInvestSystemError": {
+        "roi": [508, 204, 235, 240],
+        "next": ["Roguelike@StageTraderInvestCancel"]
+    },
+    "Roguelike@StageTraderInvestSystemFull": {
+        "algorithm": "OcrDetect",
+        "reduceOtherTimes": ["Roguelike@StageTraderInvestConfirm"],
+        "text": ["当前储备余额已达上限", "当前", "上限"],
+        "roi": [982, 28, 298, 289],
+        "exceededNext": ["RoguelikeControlTaskPlugin-ExitThenStop"],
+        "next": ["Roguelike@StageTraderInvestCancel"]
+    },
+    "Roguelike@StageTraderInvestSystemLeave": {
+        "action": "ClickSelf",
+        "roi": [682, 420, 245, 143],
+        "next": ["Roguelike@TraderRandomShopping", "Roguelike@StageTraderLeave"]
+    },
+    "Roguelike@StageTraderLeave": {
+        "action": "ClickSelf",
+        "roi": [1046, 443, 234, 204],
+        "next": ["Roguelike@StageTraderLeaveConfirm", "Roguelike@StageTraderLeave"]
+    },
+    "Roguelike@StageTraderLeaveConfirm": {
+        "action": "ClickSelf",
+        "roi": [985, 447, 295, 203],
+        "next": ["Roguelike@Stages#next"]
+    },
+    "Roguelike@StageTraderRefreshWithDice": {
+        "template": "Roguelike@StageTraderRefresh.png",
+        "action": "ClickSelf",
+        "roi": [230, 47, 211, 182],
+        "next": [
+            "Roguelike@StageTraderRefreshWithDiceConfirm",
+            "Roguelike@StageTraderRefreshWithDiceNotAvaiable",
+            "Roguelike@StageTraderInvestSystem",
+            "Roguelike@TraderRandomShopping",
+            "Roguelike@StageTraderLeave"
+        ],
+        "exceededNext": [
+            "Roguelike@StageTraderInvestSystem",
+            "Roguelike@TraderRandomShopping",
+            "Roguelike@StageTraderLeave"
+        ]
+    },
+    "Roguelike@StageTraderRefreshWithDiceConfirm": {
+        "action": "ClickSelf",
+        "roi": [759, 415, 171, 161],
+        "next": ["Roguelike@StageTraderRefreshWithDiceConfirm", "Roguelike@StageTraderRefreshWithDiceDoubleConfirm"]
+    },
+    "Roguelike@StageTraderRefreshWithDiceDoubleConfirm": {
+        "action": "ClickRect",
+        "algorithm": "JustReturn",
+        "specificRect": [545, 568, 182, 152],
+        "next": [
+            "Roguelike@StageTraderSpecialShoppingAfterRefresh",
+            "Roguelike@StageTraderRefreshWithDice",
+            "Roguelike@TraderRandomShopping",
+            "Roguelike@StageTraderInvestSystem",
+            "Roguelike@StageTraderLeave",
+            "Roguelike@StageTraderRefreshWithDiceDoubleConfirm"
+        ]
+    },
+    "Roguelike@StageTraderRefreshWithDiceNotAvaiable": {
+        "algorithm": "OcrDetect",
+        "text": ["本商店", "刷新次数", "已用完"],
+        "roi": [988, 47, 292, 139],
+        "next": ["Roguelike@StageTraderInvestSystem", "Roguelike@TraderRandomShopping", "Roguelike@StageTraderLeave"]
+    },
+    "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "roi": [308, 25, 972, 442],
+        "text": ["指路", "指路鳞"],
+        "next": ["Roguelike@TraderRandomShopping#next"]
+    },
+    "Roguelike@StageVertical": {
+        "Doc": "理论上只在左边屏幕出现",
+        "template": "empty.png",
+        "templThreshold": 0.9,
+        "action": "ClickSelf",
+        "roi": [0, 53, 680, 554]
+    },
+    "Roguelike@StageVerticalConfirm": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [701, 416, 560, 159],
+        "next": ["#back"]
+    },
+    "Roguelike@StageVerticalConfirmEncounter": {
+        "baseTask": "Roguelike@StageVerticalConfirm",
+        "template": "Roguelike@StageVerticalConfirm.png",
+        "next": ["Roguelike@StageEncounterEnter", "Roguelike@StageEncounterJudgeClick"]
+    },
+    "Roguelike@StageVerticalConfirmSafeHouse": {
+        "baseTask": "Roguelike@StageVerticalConfirm",
+        "template": "Roguelike@StageVerticalConfirm.png",
+        "next": ["Roguelike@StageSafeHouseEnter", "Roguelike@StageSafeHouseSkipText"]
+    },
+    "Roguelike@StageVerticalConfirmTrader": {
+        "template": "Roguelike@StageVerticalConfirm.png",
+        "baseTask": "Roguelike@StageVerticalConfirm",
+        "next": [
+            "Roguelike@StageTraderEnter",
+            "Roguelike@StageTraderRefreshWithDice",
+            "Roguelike@StageTraderInvestSystem",
+            "Roguelike@TraderRandomShopping",
+            "Roguelike@StageTraderLeave"
+        ]
+    },
+    "Roguelike@Stages": {
+        "Doc": "base_task",
+        "algorithm": "JustReturn"
+    },
+    "Roguelike@Stages_exit": {
+        "Doc": "烧水和直升，在进入第三层之后直接退出",
+        "algorithm": "JustReturn",
+        "next": ["Roguelike@ExitThenAbandon_ToHardest"]
+    },
+    "Roguelike@StartAction": {
+        "Doc": "本任务注册了插件 RoguelikeSkillSelectionTaskPlugin、RoguelikeBattleTaskPlugin",
+        "action": "ClickSelf",
+        "preDelay": 500,
+        "roi": [905, 593, 375, 127],
+        "next": [
+            "Roguelike@NoneSelected",
+            "Roguelike@InBattleFlag",
+            "Roguelike@MissionCompletedFlag",
+            "Roguelike@MissionFailedFlag",
+            "Roguelike@MissionFailedFlag2",
+            "Roguelike@GamePassSkip1",
+            "Roguelike@GamePassTheEndConfirm",
+            "Roguelike@GamePass",
+            "Roguelike@StartAction@LoadingText",
+            "Roguelike@StartAction@LoadingIcon"
+        ]
+    },
+    "Roguelike@StartExplore": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [1026, 470, 254, 248],
+        "postDelay": 2000,
+        "exceededNext": ["RoguelikeControlTaskPlugin-Stop"],
+        "next": [
+            "Roguelike@Squad-EnterPoint",
+            "Roguelike@InitialDrop",
+            "Roguelike@ChooseDifficulty",
+            "Roguelike@StartExplore-EnterCheck"
+        ]
+    },
+    "Roguelike@StartExplore-EnterCheck": {
+        "baseTask": "Roguelike@StartExplore",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "maxTimes": 50,
+        "postDelay": 0,
+        "exceededNext": [],
+        "next": ["#self", "Roguelike@StartExplore#next"]
+    },
+    "Roguelike@StartExploreCD": {
+        "algorithm": "OcrDetect",
+        "text": ["等待重返城堡入口", "等待重返陆地", "等待科考队重建", "正在清理思绪"],
+        "roi": [1026, 470, 254, 248],
+        "postDelay": 1000,
+        "next": ["Roguelike@StartExplore", "Roguelike@StartExploreCD"]
+    },
+    "Roguelike@StartExploreWithSeed": {
+        "Doc": "萨卡兹点刺刷钱，由 cpp 内启用",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["启用参数"],
+        "roi": [851, 567, 93, 33],
+        "next": ["Roguelike@StartExploreWithSeed-ClickPen"]
+    },
+    "Roguelike@StartExploreWithSeed-BackToMainPage": {
+        "Doc": "识别到 ‘停用参数’ 就行了，不做难度解锁的检查了",
+        "algorithm": "OcrDetect",
+        "text": ["停用参数"],
+        "action": "ClickRect",
+        "roi": [631, 209, 118, 49],
+        "specificRect": [600, 5, 300, 70],
+        "next": ["Roguelike@StartExplore", "Roguelike@StartExploreWithSeed-BackToMainPage"]
+    },
+    "Roguelike@StartExploreWithSeed-ClickInputBox": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["参数"],
+        "roi": [323, 267, 200, 147],
+        "next": ["Roguelike@StartExploreWithSeed-InputSeed"]
+    },
+    "Roguelike@StartExploreWithSeed-ClickPen": {
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [640, 163, 145, 141],
+        "next": ["Roguelike@StartExploreWithSeed-ClickInputBox"]
+    },
+    "Roguelike@StartExploreWithSeed-Confirm": {
+        "Doc": "找到一个 “RecruitConfirm.png” 可能复用，但是分数太低，放弃",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [645, 393, 585, 173],
+        "postDelay": 1000,
+        "next": [
+            "Roguelike@StartExploreWithSeed-Confirm",
+            "Roguelike@StartExploreWithSeed-SetDifficulty",
+            "Roguelike@StartExploreWithSeed-BackToMainPage"
+        ]
+    },
+    "Roguelike@StartExploreWithSeed-InputSeed": {
+        "algorithm": "JustReturn",
+        "action": "Input",
+        "inputText": "",
+        "next": ["Roguelike@StartExploreWithSeed-Confirm"]
+    },
+    "Roguelike@StartExploreWithSeed-SetDifficulty": {
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [847, 246, 276, 205],
+        "next": ["Roguelike@StartExploreWithSeed-BackToMainPage"]
+    },
+    "Roguelike@StrategyChange": {
+        "baseTask": "Roguelike@StrategyChange_default"
+    },
+    "Roguelike@StrategyChange_default": {
+        "algorithm": "OcrDetect",
+        "text": ["_SKIP_"],
+        "roi": [593, 0, 186, 129],
+        "next": ["Roguelike@Stages"]
+    },
+    "Roguelike@StrategyChange_mode0": {
+        "baseTask": "Roguelike@StrategyChange_default"
+    },
+    "Roguelike@StrategyChange_mode1": {
+        "baseTask": "Roguelike@StrategyChange_default"
+    },
+    "Roguelike@StrategyChange_mode10001": {
+        "baseTask": "Roguelike@StrategyChange_default"
+    },
+    "Roguelike@StrategyChange_mode4": {
+        "baseTask": "Roguelike@StrategyChange_default"
+    },
+    "Roguelike@StrategyChange_mode5": {
+        "baseTask": "Roguelike@StrategyChange_default"
+    },
+    "Roguelike@StrategyChange_mode6": {
+        "baseTask": "Roguelike@StrategyChange_default"
+    },
+    "Roguelike@StrategyChange_mode7": {
+        "baseTask": "Roguelike@StrategyChange_default"
+    },
+    "Roguelike@TempRecruitFlag": {
+        "roi": [587, 76, 100, 20],
+        "templThreshold": 0.5
+    },
+    "Roguelike@TodoEnter": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [908, 54, 372, 500],
+        "maskRange": [1, 255],
+        "next": ["Roguelike@TodoEnter", "Roguelike@Begin"]
+    },
+    "Roguelike@TraderRandomShopping": {
+        "Doc": "该任务注册了 RoguelikeShoppingTaskPlugin，若是点完了仍在当前界面，说明没啥要买的，直接离开商店（next 里的 PhantomStageTraderLeave）",
+        "templThreshold": 0.7,
+        "roi": [480, 240, 750, 280],
+        "rectMove": [-40, -100, 20, 60],
+        "next": [
+            "Roguelike@TraderRandomShoppingConfirm",
+            "Roguelike@TraderRandomShoppingCancel",
+            "Roguelike@ChooseOperFlag",
+            "Roguelike@StageTraderLeave",
+            "Roguelike@StageTraderLeaveConfirm"
+        ],
+        "maskRange": [1, 255]
+    },
+    "Roguelike@TraderRandomShoppingCancel": {
+        "template": "Roguelike@StageTraderInvestCancel.png",
+        "action": "ClickSelf",
+        "roi": [350, 350, 500, 250],
+        "next": ["Roguelike@StageTraderLeave"]
+    },
+    "Roguelike@TraderRandomShoppingConfirm": {
+        "action": "ClickSelf",
+        "roi": [872, 425, 221, 136],
+        "next": ["Roguelike@TraderRandomShopping", "Roguelike@ChooseOperFlag", "Roguelike@StageTraderLeave"]
+    },
+    "Roguelike@TutorialButton": {
+        "doc": [
+            "肉鸽内部左上角的提示按钮, 左侧为红退出",
+            "仅在地图、商店、萨卡兹负荷页面为该坐标; 编队页面存在, 但向右偏移"
+        ],
+        "roi": [80, 0, 70, 70]
+    },
+    "Roguelike@WaitForStartButtonClicked": {
+        "Doc": "点了开始行动之后，可能会网络不好一直loading，用这个任务等一会",
+        "template": "Roguelike@QuickFormation.png",
+        "roi": [817, 0, 402, 146],
+        "next": ["Roguelike@WaitForStartButtonClicked"]
+    }
+}

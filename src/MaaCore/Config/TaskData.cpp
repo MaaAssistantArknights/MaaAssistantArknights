@@ -218,6 +218,66 @@ bool asst::TaskData::lazy_parse(const json::value& json)
     return true;
 }
 
+bool asst::TaskData::load(const std::filesystem::path& path)
+{
+    LogTraceScope("TaskData::load");
+
+    json::value merged = json::object();
+
+    if (is_regular_file(path)) {
+        auto ret = json::open(path, true);
+        if (!ret) {
+            Log.error("TaskData::load", "Json open failed:", path);
+            return false;
+        }
+        merged = ret.value();
+    }
+    else if (is_directory(path)) {
+        std::vector<std::filesystem::path> json_files;
+        for (const auto& entry : std::filesystem::recursive_directory_iterator(path)) {
+            if (entry.is_regular_file() && entry.path().extension() == ".json") {
+                json_files.push_back(entry.path());
+            }
+        }
+        for (const auto& file : json_files) {
+            Log.debug("TaskData::load", "Loading json file:", file);
+            auto ret = json::open(file, true);
+            if (!ret) {
+                Log.error("TaskData::load", "Json open failed:", file);
+                continue;
+            }
+            json::value file_json = ret.value();
+            if (!file_json.is_object()) {
+                Log.error("TaskData::load", "Json content is not an object:", file);
+                continue;
+            }
+            for (auto& [key, value] : file_json.as_object()) {
+                merged.as_object()[key] = std::move(value);
+            }
+        }
+    }
+    else {
+        Log.error("TaskData::load", "Path is neither file nor directory:", path);
+        return false;
+    }
+
+#ifdef ASST_DEBUG
+    return parse(merged);
+#else
+    try {
+        return parse(merged);
+    }
+    catch (const json::exception& e) {
+        Log.error("TaskData::load", "Json parse failed:", path, e.what());
+        return false;
+    }
+    catch (const std::exception& e) {
+        Log.error("TaskData::load", "Json parse failed:", path, e.what());
+        return false;
+    }
+#endif
+}
+
 bool asst::TaskData::parse(const json::value& json)
 {
     LogTraceFunction;

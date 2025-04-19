@@ -1,0 +1,42 @@
+{
+    "ZT-9": {
+        "algorithm": "JustReturn",
+        "sub": ["ZT-OpenOcr"],
+        "next": ["ZT-9@SideStoryStage", "ZT-9@SwipeToStage"]
+    },
+    "ZT-8": {
+        "algorithm": "JustReturn",
+        "sub": ["ZT-OpenOcr"],
+        "next": ["ZT-8@SideStoryStage", "ZT-8@SwipeToStage"]
+    },
+    "ZT-7": {
+        "algorithm": "JustReturn",
+        "sub": ["ZT-OpenOcr"],
+        "next": ["ZT-7@SideStoryStage", "ZT-7@SwipeToStage"]
+    },
+    "ZT-OpenOcr": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["崔林", "之金", "恩典", "无情"],
+        "postDelay": 2000,
+        "roi": [0, 500, 500, 150],
+        "next": ["ZTChapterToZT"]
+    },
+    "ZTChapterToZT": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["朝见", "双塔"],
+        "preDelay": 1000,
+        "roi": [1059, 367, 206, 129],
+        "next": ["ChapterSwipeToTheRight"]
+    },
+    "ZT-9@SideStoryStage": {
+        "text": ["ZT-9"]
+    },
+    "ZT-8@SideStoryStage": {
+        "text": ["ZT-8"]
+    },
+    "ZT-7@SideStoryStage": {
+        "text": ["ZT-7"]
+    }
+}
