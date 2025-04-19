@@ -8,12 +8,21 @@ import mdiDocument from '@iconify/icons-mdi/document'
 import mdiGitHub from '@iconify/icons-mdi/github'
 import mdiQqchat from '@iconify/icons-mdi/qqchat'
 import mdiLoading from '@iconify/icons-mdi/loading'
+import mdiLink from '@iconify/icons-mdi/link-variant'
 import { Icon } from '@iconify/react'
 
 import { motion } from 'framer-motion'
 import { FC, Suspense } from 'react'
 
-export const HomeActions: FC = () => {
+interface HomeActionsProps {
+  toggleLinks?: () => void;
+  showLinks?: boolean;
+}
+
+export const HomeActions: FC<HomeActionsProps> = ({ toggleLinks, showLinks }) => {
+  // 添加调试日志，帮助我们追踪状态变化
+  console.log('HomeActions rendered, showLinks:', showLinks);
+  
   return (
     <div className="absolute bottom-0 left-0 right-0 mb-24 md:mb-[7vh] flex flex-col mx-8">
       <motion.div
@@ -70,6 +79,21 @@ export const HomeActions: FC = () => {
           <div className="flex items-center -ml-1 text-sm">
             <Icon icon={mdiGitHub} fontSize="20px" />
             <span className="ml-2">GitHub</span>
+          </div>
+        </GlowButton>
+        
+        {/* 添加友情链接按钮 */}
+        <GlowButton 
+          translucent 
+          onClick={() => {
+            console.log('Friend link button clicked, current state:', showLinks);
+            if (toggleLinks) toggleLinks();
+          }}
+          className={`friend-link-button ${showLinks ? 'active-link-button' : ''}`}
+        >
+          <div className="flex items-center -ml-1 text-sm">
+            <Icon icon={mdiLink} fontSize="20px" />
+            <span className="ml-2">友情链接</span>
           </div>
         </GlowButton>
       </div>

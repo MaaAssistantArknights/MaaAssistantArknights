@@ -14,12 +14,13 @@ type GlowButtonProps = WithChildren<{
   bordered?: boolean
   href?: string
   onClick?: MouseEventHandler<HTMLButtonElement>
+  className?: string
 }>
 
 export const GlowButton: FCC<GlowButtonProps> = forwardRef<
   HTMLButtonElement,
   GlowButtonProps
->(({ children, translucent, bordered, href, onClick }, ref) => {
+>(({ children, translucent, bordered, href, onClick, className }, ref) => {
   const { theme } = useTheme();
 
   const motionConfig: MotionProps = {
@@ -70,6 +71,7 @@ export const GlowButton: FCC<GlowButtonProps> = forwardRef<
         translucent && 'dark:bg-slate-900/90 bg-stone-100/90',
         !bordered && 'border-none',
         'flex px-6 py-3 dark:active:bg-slate-800 active:bg-stone-200 rounded-lg hover:-translate-y-[1px] active:translate-y-[1px] text-2xl dark:text-white/90 text-stone-800 whitespace-nowrap transition-colors transition-transform transition-all duration-200',
+        className
       )}
       onClick={onClick}
       {...motionConfig}

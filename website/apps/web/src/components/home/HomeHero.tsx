@@ -3,7 +3,7 @@ import { Canvas } from '@react-three/fiber'
 import { ErrorBoundary } from '@sentry/react'
 import { motion } from 'framer-motion'
 
-import { FC, forwardRef, useRef, useState } from 'react'
+import { FC, useRef, useState } from 'react'
 import { useWindowSize } from 'react-use'
 import { useTheme } from '@/contexts/ThemeContext'
 
@@ -18,6 +18,8 @@ export const HomeHero: FC = () => {
   const indicatorRef = useRef<HTMLDivElement | null>(null)
   const windowDimensions = useWindowSize()
   const { theme } = useTheme()
+  // 添加控制友情链接显示的状态
+  const [showLinks, setShowLinks] = useState(false)
 
   return (
     <div key={theme}>
@@ -47,6 +49,7 @@ export const HomeHero: FC = () => {
               <ScreenshotsCanvas
                 sidebarRef={linkRef}
                 indicatorRef={indicatorRef}
+                showLinks={showLinks}
               />
             </ErrorBoundary>
           )}
@@ -55,36 +58,25 @@ export const HomeHero: FC = () => {
       
       <HomeHeroHeader />
 
-      <HomeActions />
-      <HomeLinks ref={linkRef} />
-      <HomeIndicator ref={indicatorRef} />
+      <HomeActions toggleLinks={() => setShowLinks(!showLinks)} showLinks={showLinks} />
+      <HomeLinks 
+        ref={linkRef} 
+        showLinks={showLinks} 
+        onClose={() => setShowLinks(false)} 
+      />
+      {/* 移除指示器组件，不再需要通过鼠标触发友情链接 */}
     </div>
   )
 }
-const HomeIndicator = forwardRef<HTMLDivElement>((_props, ref) => {
-  const { theme } = useTheme()
-  
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 50, filter: 'blur(10px)' }}
-      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-      transition={{ duration: 0.8, ease: 'easeOut', delay: 0.6 }}
-      className="fixed right-0 top-[50vh] pointer-events-none select-none hidden md:block"
-      ref={ref}
-    >
-      <div className={`-rotate-90 text-lg font-light transition-all duration-300 ${theme === 'dark' ? 'text-white/30 hover:text-white/50' : 'text-gray-800/30 hover:text-gray-800/60'}`}>
-        友情链接
-      </div>
-    </motion.div>
-  )
-})
 
 function ScreenshotsCanvas({
   sidebarRef,
   indicatorRef,
+  showLinks = false,
 }: {
   sidebarRef: React.MutableRefObject<HTMLDivElement | null>
   indicatorRef: React.MutableRefObject<HTMLDivElement | null>
+  showLinks?: boolean
 }) {
   const [dpr, setDpr] = useState(1.5)
   return (
@@ -96,7 +88,7 @@ function ScreenshotsCanvas({
         onFallback={() => setDpr(1)}
       />
       <ambientLight intensity={1} />
-      <Screenshots sidebarRef={sidebarRef} indicatorRef={indicatorRef} />
+      <Screenshots sidebarRef={sidebarRef} indicatorRef={indicatorRef} showLinks={showLinks} />
     </Canvas>
   )
 }

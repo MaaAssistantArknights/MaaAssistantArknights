@@ -29,13 +29,14 @@ const sidePanelRotationOffset = 0.15
 export function Screenshots({
   sidebarRef,
   indicatorRef,
+  showLinks = false,
 }: {
   sidebarRef: React.MutableRefObject<HTMLDivElement | null>
   indicatorRef: React.MutableRefObject<HTMLDivElement | null>
+  showLinks?: boolean
 }) {
   const { theme } = useTheme()
   const lerpRotationTo = useRef<Vector2>(new Vector2(0, 0))
-  const lerpPositionXTo = useRef<number>(0)
   
   const screenshotCenter = theme === 'dark' ? darkScreenshotCenter : lightScreenshotCenter
   const screenshotLeft = theme === 'dark' ? darkScreenshotLeft : lightScreenshotLeft
@@ -80,8 +81,7 @@ export function Screenshots({
     if (
       meshCenterRef.current &&
       meshLeftRef.current &&
-      meshRightRef.current &&
-      sidebarRef.current
+      meshRightRef.current
     ) {
       const lerpT = 0.25
       meshCenterRef.current.rotation.x = lerp(
@@ -116,82 +116,20 @@ export function Screenshots({
         -sidePanelRotationOffset + lerpRotationTo.current.y * 0.1,
         lerpT,
       )
-
-      // position
-      // posOffset and posOffsetConstant "smoothly" transitions using a sigmoid function
-      const baseSigmoid = 2 / (1 + Math.exp(-(lerpPositionXTo.current - 0.3) * 30))
-      const posOffset = baseSigmoid
-      const posOffsetConstant = -baseSigmoid + 3
-      meshCenterRef.current.position.x = lerp(
-        meshCenterRef.current.position.x,
-        -lerpPositionXTo.current * posOffset,
-        lerpT,
-      )
-      meshLeftRef.current.position.x = lerp(
-        meshLeftRef.current.position.x,
-        -lerpPositionXTo.current * posOffset - posOffsetConstant,
-        lerpT,
-      )
-      meshRightRef.current.position.x = lerp(
-        meshRightRef.current.position.x,
-        -lerpPositionXTo.current * posOffset + posOffsetConstant,
-        lerpT,
-      )
-
-      // sidebarExpansion
-      const sidebarExpansionRatio = snapTo(
-        baseSigmoid,
-        0,
-        1e-2
-      )
-
-      const sidebarExpansionSlowRatio = snapTo(
-        1 / (1 + Math.exp(-(lerpPositionXTo.current - 0.3) * 10)),
-        0,
-        1e-2,
-      )
-
-      sidebarRef.current.style.transform = `translateX(${
-        -window.innerWidth * 0.001 * sidebarExpansionRatio
-      }px) rotateY(${(1 - sidebarExpansionSlowRatio) * 30}deg)`
-      sidebarRef.current.style.scale = `${
-        sidebarExpansionSlowRatio * 0.1 + 0.9
-      }`
-      sidebarRef.current.style.opacity = `${sidebarExpansionRatio}`
-      sidebarRef.current.style.pointerEvents =
-        sidebarExpansionRatio < 1e-2 ? 'none' : 'unset'
-
-      if (indicatorRef.current) {
-        // indicator
-        indicatorRef.current.style.opacity = `${1 - sidebarExpansionRatio}`
-        indicatorRef.current.style.transform = `translateX(${
-          window.innerWidth * -0.001 * sidebarExpansionRatio
-        }px)`
-      }
     }
   })
 
   useEffect(() => {
     const onMove = (e: MouseEvent | TouchEvent) => {
-        if (meshCenterRef.current && meshLeftRef.current && meshRightRef.current) {
-          const { clientX, clientY } = e instanceof MouseEvent ? e : e.touches[0]
-          
-          // 新增：计算右侧触发区域（示例右侧75%）
-          const rightEdgeThreshold = window.innerWidth * 0.8
-          const isInRightEdge = clientX >= rightEdgeThreshold
-            && clientY >= window.innerHeight * 0.25
-            && clientY <= window.innerHeight * 0.65
-          
-          // 原始坐标转换保持不变
-          const x = (clientX / window.innerWidth) * 2 - 1
-          const y = (clientY / window.innerHeight) * 2 - 1
-      
-          // 修改：仅在右侧边缘区域时赋予有效值
-          lerpRotationTo.current.set(y, x)
-          lerpPositionXTo.current = isInRightEdge ? 
-            (clientX - rightEdgeThreshold) / (window.innerWidth * 0.5) : 0 // 在右侧25%区域内从0渐变到1
-        }
+      if (meshCenterRef.current && meshLeftRef.current && meshRightRef.current) {
+        const { clientX, clientY } = e instanceof MouseEvent ? e : e.touches[0]
+        
+        const x = (clientX / window.innerWidth) * 2 - 1
+        const y = (clientY / window.innerHeight) * 2 - 1
+    
+        lerpRotationTo.current.set(y, x)
       }
+    }
 
     const onEnd = () => {
       if (
@@ -199,9 +137,7 @@ export function Screenshots({
         meshLeftRef.current &&
         meshRightRef.current
       ) {
-        // lerp back to 0
         lerpRotationTo.current.set(0, 0)
-        lerpPositionXTo.current = 0
       }
     }
 
