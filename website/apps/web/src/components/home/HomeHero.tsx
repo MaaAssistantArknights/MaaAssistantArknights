@@ -90,10 +90,9 @@ function ScreenshotsCanvas({
   return (
     <Canvas camera={{ fov: 35, position: [0, -1, 14] }} flat linear dpr={dpr}>
       <PerformanceMonitor
-        onIncline={() => setDpr(2)}
-        onDecline={() => setDpr(1)}
+        onIncline={() => setDpr(dpr+0.1)}
+        onDecline={() => setDpr(dpr-0.1)}
         flipflops={5}
-        onFallback={() => setDpr(1)}
       />
       <ambientLight intensity={1} />
       <Screenshots sidebarRef={sidebarRef} indicatorRef={indicatorRef} />
