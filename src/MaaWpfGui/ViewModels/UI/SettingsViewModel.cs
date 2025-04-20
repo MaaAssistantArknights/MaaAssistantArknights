@@ -739,13 +739,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             string resourceVersion = !string.IsNullOrEmpty(VersionUpdateSettings.ResourceVersion)
-                ? LocalizationHelper.CustomCultureInfo.Name.ToLowerInvariant() switch
-                {
-                    "zh-cn" => $" - {VersionUpdateSettings.ResourceVersion}{VersionUpdateSettings.ResourceDateTime:#MMdd}",
-                    "zh-tw" => $" - {VersionUpdateSettings.ResourceVersion}{VersionUpdateSettings.ResourceDateTime:#MMdd}",
-                    "en-us" => $" - {VersionUpdateSettings.ResourceDateTime:dd/MM} {VersionUpdateSettings.ResourceVersion}",
-                    _ => $" - {VersionUpdateSettings.ResourceDateTime.ToString(LocalizationHelper.CustomCultureInfo.DateTimeFormat.ShortDatePattern.Replace("yyyy", string.Empty).Trim('/', '.'))} {VersionUpdateSettings.ResourceVersion}",
-                }
+                ? LocalizationHelper.FormatResourceVersion(VersionUpdateSettings.ResourceVersion, VersionUpdateSettings.ResourceDateTime)
                 : string.Empty;
             rvm.WindowTitle = $"{updateTip}{prefix}MAA{currentConfiguration} - {VersionUpdateSettingsUserControlModel.CoreVersion}{resourceVersion}{connectConfigName}{connectAddress}{clientName}";
         }

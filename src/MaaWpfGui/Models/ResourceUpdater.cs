@@ -194,13 +194,7 @@ namespace MaaWpfGui.Models
             var releaseNote = data["data"]?["release_note"]?.ToString();
             _logger.Information($"New version found: {version:yyyy-MM-dd+HH:mm:ss.fff}, {releaseNote}");
 
-            releaseNote = LocalizationHelper.CustomCultureInfo.Name.ToLowerInvariant() switch
-            {
-                "zh-cn" => $"「{releaseNote}{version:#MMdd}」",
-                "zh-tw" => $"「{releaseNote}{version:#MMdd}」",
-                "en-us" => $"「{version:dd/MM} {releaseNote}」",
-                _ => $"「{version.ToString(LocalizationHelper.CustomCultureInfo.DateTimeFormat.ShortDatePattern.Replace("yyyy", string.Empty).Trim('/', '.'))} {releaseNote}」",
-            };
+            releaseNote = LocalizationHelper.FormatResourceVersion(releaseNote, version);
 
             SettingsViewModel.VersionUpdateSettings.NewResourceFoundInfo = string.Format(LocalizationHelper.GetString("MirrorChyanResourceUpdateShortTip"), releaseNote);
 

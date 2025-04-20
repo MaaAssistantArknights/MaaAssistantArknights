@@ -195,5 +195,25 @@ namespace MaaWpfGui.Helper
 
             return cheersBuilder.ToString();
         }
+
+        public static string FormatResourceVersion(string? resourceVersion, DateTime resourceDateTime)
+        {
+            return CustomCultureInfo.Name.ToLowerInvariant() switch
+            {
+                "zh-cn" => $" - {resourceVersion}{resourceDateTime:#MMdd}",
+                "zh-tw" => $" - {resourceVersion}{resourceDateTime:#MMdd}",
+                "en-us" => $" - {resourceDateTime:dd/MM} {resourceVersion}",
+                _ => $" - {resourceDateTime.ToString(CustomCultureInfo.DateTimeFormat.ShortDatePattern.Replace("yyyy", string.Empty).Trim('/', '.'))} {resourceVersion}",
+            };
+        }
+
+        public static string FormatDateTime(DateTime dateTime)
+        {
+            return CustomCultureInfo.Name.ToLowerInvariant() switch
+            {
+                "en-us" => dateTime.ToString("yyyy/MM/dd"),
+                _ => dateTime.ToString(CustomCultureInfo.DateTimeFormat.ShortDatePattern),
+            };
+        }
     }
 }
