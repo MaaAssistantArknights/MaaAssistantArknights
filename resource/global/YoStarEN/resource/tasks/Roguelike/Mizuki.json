@@ -1,0 +1,80 @@
+{
+    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
+        "text": ["Select"]
+    },
+    "Mizuki@Roguelike@CheckLevel": {
+        "text": ["ECOSEQUENCE", "SEQUENCE"]
+    },
+    "Mizuki@Roguelike@GetDropBoxOpen": {
+        "templThreshold": 0.95
+    },
+    "Mizuki@Roguelike@GetDropRecruit": {
+        "templThreshold": 0.7
+    },
+    "Mizuki@Roguelike@GetDropSelectRecruit": {
+        "templThreshold": 0.8,
+        "template": "Mizuki@Roguelike@GetDropSelectRecruit.png"
+    },
+    "Mizuki@Roguelike@NextLevel": {
+        "text": [
+            "Sunshine Coast",
+            "Offshore Island",
+            "Raging Billows",
+            "Secret Hotbed",
+            "Sacrosant Cave",
+            "Deep Sea Woodland",
+            "Indigo Cradle"
+        ]
+    },
+    "Mizuki@Roguelike@SelectTheme": {
+        "ocrReplace": [["Ecoseguence", "Ecosequence"]],
+        "text": ["Ecosequence"]
+    },
+    "Mizuki@Roguelike@StageSafeHouseReuse": {
+        "text": ["Use the Safe House again", "Use the Safe"]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode0": {
+        "ocrReplace": [
+            ["Sunshine Coast", "_aggressive"],
+            ["Offshore Island", "_aggressive"],
+            ["Raging Billows", "_pragmatic"],
+            ["Secret Hotbed", "_pragmatic"],
+            ["Sacrosant Cave", "_default"],
+            ["Deep Sea Woodland", "_default"],
+            ["Indigo Cradle", "_SKIP_"]
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode4": {
+        "ocrReplace": [
+            ["Sunshine Coast", "_default"],
+            ["Offshore Island", "_default"],
+            ["Raging Billows", "_exit"],
+            ["Secret Hotbed", "_exit"],
+            ["Sacrosant Cave", "_exit"],
+            ["Deep Sea Woodland", "_exit"],
+            ["Indigo Cradle", "_exit"]
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode6": {
+        "ocrReplace": [
+            ["Sunshine Coast", "_aggressive"],
+            ["Offshore Island", "_aggressive"],
+            ["Raging Billows", "_pragmatic"],
+            ["Secret Hotbed", "_pragmatic"],
+            ["Sacrosant Cave", "_default"],
+            ["Deep Sea Woodland", "_default"],
+            ["Indigo Cradle", "_SKIP_"]
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode7": {
+        "ocrReplace": [
+            ["Sunshine Coast", "_aggressive"],
+            ["Offshore Island", "_aggressive"],
+            ["Raging Billows", "_pragmatic"],
+            ["Secret Hotbed", "_pragmatic"],
+            ["Sacrosant Cave", "_default"],
+            ["Deep Sea Woodland", "_default"],
+            ["Indigo Cradle", "_SKIP_"]
+        ]
+    }
+}

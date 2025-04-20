@@ -1,0 +1,261 @@
+{
+    "Sami@Roguelike@CheckCollapsalParadigms": {
+        "ocrReplace": [
+            ["De-quantification", "去量化"],
+            ["Intensified De-quantification", "去量深化"],
+            ["Substantial Collapse", "实质性坍缩"],
+            ["Propagating Collapse", "蔓延性坍缩"],
+            ["Non-linear Movement", "非线性移动"],
+            ["Non-linear Action", "非线性行动"],
+            ["Emotional Entity", "情绪实体"],
+            ["Terrifying Entity", "恐怖实体"],
+            ["Pan-Society Paradox", "泛社会悖论"],
+            ["Pan-Civilization Paradox", "泛文明悖论"],
+            ["Barometric Anomaly", "气压异常"],
+            ["Barometric Disorder", "气压失序"],
+            ["Injury Trigger", "触发性损伤"],
+            ["Crisis Trigger", "触发性危殆"],
+            ["Convergence Consumption", "趋同性消耗"],
+            ["Convergence Deficiency", "趋同性缺失"],
+            ["Partial Cecity", "目空一些"],
+            ["Complete Cecity", "睁眼瞎"],
+            ["Image Corruption", "图像损坏"],
+            ["Image Blackout", "一抹黑"]
+        ]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigmsOnBanner": {
+        "ocrReplace": [
+            ["Collapsal Paradigm intensifies", "坍缩范式加深"],
+            ["Collapsal Paradigm wanes", "坍缩范式消退"]
+        ]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigmsOnPanel": {
+        "ocrReplace": [["Current Collapse Value", "当前坍缩值"]]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigms_loading": {
+        "action": "DoNothing",
+        "cache": false,
+        "algorithm": "OcrDetect",
+        "text": ["正在提交反馈至神经"],
+        "ocrReplace": [["Submitting feedback to the neural network", "正在提交反馈至神经"]],
+        "roi": [720, 645, 355, 45]
+    },
+    "Sami@Roguelike@CheckLevel": {
+        "roi": [1108, 26, 126, 52],
+        "text": ["EXPEDITION", "RECORDS"]
+    },
+    "Sami@Roguelike@Collapsal": {
+        "text": ["Partial", "Partial Cecity", "Image", "Image Corruption"]
+    },
+    "Sami@Roguelike@CollapsalParadigmTaskBannerCheckConfig": {
+        "text": ["Collapsal Paradigm intensifies"]
+    },
+    "Sami@Roguelike@ContinueClick": {
+        "text": [
+            "Brisk Marshalands",
+            "Placid Forests",
+            "Dawning Frostbounds",
+            "Gelid Rockshelves",
+            "Immaculate Garden",
+            "Clayrovant Carcass"
+        ],
+        "roi": [467, 531, 357, 72]
+    },
+    "Sami@Roguelike@FoldartalGainOcr": {
+        "ocrReplace": [
+            ["Hunt", "捕猎"],
+            ["Patrol", "巡视"],
+            ["Nest", "筑巢"],
+            ["Plunder", "掠夺"],
+            ["Reproduce", "繁衍"],
+            ["Migrate", "迁徙"],
+            ["Originium", "源石"],
+            ["Tree", "乔木"],
+            ["Stone", "砂石"],
+            ["Shrub", "灌木"],
+            ["Beast", "兽类"],
+            ["Human", "人类"],
+            ["Delight", "喜悦"],
+            ["Surprise", "惊讶"],
+            ["Rage", "愤怒"],
+            ["Doubt", "疑惑"],
+            ["Anticipate", "憧憬"],
+            ["Love", "爱恋"],
+            ["Hero", "英雄"],
+            ["Canopy", "树冠"],
+            ["Snowpriest", "雪祀"],
+            ["Water", "水面"],
+            ["Shaman", "萨满"],
+            ["Eye", "眼睛"],
+            ["Warrior", "战士"],
+            ["Arch", "拱门"],
+            ["Hunter", "猎手"],
+            ["Light", "光芒"],
+            ["Outcast", "黜人"],
+            ["Earth", "大地"],
+            ["Sing", "歌唱"],
+            ["Silence", "沉默"],
+            ["Recite", "朗诵"],
+            ["Debate", "辩论"],
+            ["Scar", "伤痕"],
+            ["Console", "慰藉"],
+            ["Void", "空无"],
+            ["Confess", "告解"],
+            ["Advent", "到来"],
+            ["Departure", "离去"],
+            ["Respite", "歇息"],
+            ["Satisfy", "满足"],
+            ["Cry", "呼救"],
+            ["Radar", "雷达"],
+            ["Portable", "留声机"],
+            ["Mushroom", "景观"],
+            ["Firecracker", "踢脚"],
+            ["Recon", "自走车"]
+        ]
+    },
+    "Sami@Roguelike@FoldartalUseConfirm": {
+        "text": ["DECLARE"]
+    },
+    "Sami@Roguelike@FoldartalUseOcr": {
+        "text": ["Layout", "Lavout"],
+        "roi": [36, 64, 90, 578],
+        "ocrReplace": [
+            ["Hunt", "捕猎"],
+            ["Patrol", "巡视"],
+            ["Nest", "筑巢"],
+            ["Plunder", "掠夺"],
+            ["Reproduce", "繁衍"],
+            ["Migrate", "迁徙"],
+            ["Originium", "源石"],
+            ["Tree", "乔木"],
+            ["Stone", "砂石"],
+            ["Shrub", "灌木"],
+            ["Beast", "兽类"],
+            ["Human", "人类"],
+            ["Delight", "喜悦"],
+            ["Surprise", "惊讶"],
+            ["Rage", "愤怒"],
+            ["Doubt", "疑惑"],
+            ["Anticipate", "憧憬"],
+            ["Love", "爱恋"],
+            ["Hero", "英雄"],
+            ["Canopy", "树冠"],
+            ["Snowpriest", "雪祀"],
+            ["Water", "水面"],
+            ["Shaman", "萨满"],
+            ["Eye", "眼睛"],
+            ["Warrior", "战士"],
+            ["Arch", "拱门"],
+            ["Hunter", "猎手"],
+            ["Light", "光芒"],
+            ["Outcast", "黜人"],
+            ["Earth", "大地"],
+            ["Sing", "歌唱"],
+            ["Silence", "沉默"],
+            ["Recite", "朗诵"],
+            ["Debate", "辩论"],
+            ["Scar", "伤痕"],
+            ["Console", "慰藉"],
+            ["Void", "空无"],
+            ["Confess", "告解"],
+            ["Advent", "到来"],
+            ["Departure", "离去"],
+            ["Respite", "歇息"],
+            ["Satisfy", "满足"],
+            ["Cry", "呼救"]
+        ]
+    },
+    "Sami@Roguelike@GetDropSelectRecruit": {
+        "template": "Sami@Roguelike@GetDropSelectRecruit.png"
+    },
+    "Sami@Roguelike@NextLevel": {
+        "text": ["Obtain after", "this floor", "Collapse will trigger", "no next floor"],
+        "roi": [218, 600, 247, 78]
+    },
+    "Sami@Roguelike@RecruitOther": {
+        "templThreshold": 0.75
+    },
+    "Sami@Roguelike@SelectTheme": {
+        "text": ["Expedition Record"]
+    },
+    "Sami@Roguelike@SpecialValRecognition": {
+        "text": []
+    },
+    "Sami@Roguelike@StageSafeHouseReuse": {
+        "text": ["Use the Safe House again", "Use the Safe"]
+    },
+    "Sami@Roguelike@StrategyChange_mode0": {
+        "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
+        "roi": [593, 48, 135, 27],
+        "ocrReplace": [
+            [".*Brisk ?M?arshlands", "_aggressive"],
+            [".*Placid ?Forests", "_aggressive"],
+            [".*Dawning ?Frostbounds", "_pragmatic"],
+            [".*12.*", "_pragmatic"],
+            [".*Gelid ?Rockshelves", "_pragmatic"],
+            [".*Immaculate ?Garden", "_default"],
+            ["Garden", "_default"],
+            [".*Clairvoyant ?Carcass", "_default"],
+            [".*Secluded ?Passage", "_SKIP_"]
+        ]
+    },
+    "Sami@Roguelike@StrategyChange_mode4": {
+        "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
+        "roi": [593, 48, 135, 27],
+        "ocrReplace": [
+            [".*Brisk ?M?arshlands", "_default"],
+            [".*Placid ?Forests", "_default"],
+            [".*Dawning ?Frostbounds", "_exit"],
+            [".*12.*", "_exit"],
+            [".*Gelid ?Rockshelves", "_exit"],
+            [".*Immaculate ?Garden", "_exit"],
+            [".*Garden", "_exit"],
+            [".*Clairvoyant ?Carcass", "_exit"],
+            [".*Secluded ?Passage", "_exit"]
+        ]
+    },
+    "Sami@Roguelike@StrategyChange_mode5": {
+        "roi": [593, 48, 135, 27],
+        "ocrReplace": [
+            [".*Brisk ?M?arshlands", "_collapsal_paradigms"],
+            [".*Placid ?Forests", "_collapsal_paradigms"],
+            [".*Dawning ?Frostbounds", "_SKIP_"],
+            [".*12.*", "_SKIP_"],
+            [".*Gelid ?Rockshelves", "_SKIP_"],
+            [".*Immaculate ?Garden", "_SKIP_"],
+            [".*Garden", "_SKIP_"],
+            [".*Clairvoyant ?Carcass", "_SKIP_"],
+            [".*Secluded ?Passage", "_SKIP_"]
+        ]
+    },
+    "Sami@Roguelike@StrategyChange_mode6": {
+        "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
+        "roi": [593, 48, 135, 27],
+        "ocrReplace": [
+            [".*Brisk ?M?arshlands", "_aggressive"],
+            [".*Placid ?Forests", "_aggressive"],
+            [".*Dawning ?Frostbounds", "_pragmatic"],
+            [".*12.*", "_pragmatic"],
+            [".*Gelid ?Rockshelves", "_pragmatic"],
+            [".*Immaculate ?Garden", "_default"],
+            [".*Garden", "_default"],
+            [".*Clairvoyant ?Carcass", "_default"],
+            [".*Secluded ?Passage", "_SKIP_"]
+        ]
+    },
+    "Sami@Roguelike@StrategyChange_mode7": {
+        "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
+        "roi": [593, 48, 135, 27],
+        "ocrReplace": [
+            [".*Brisk ?M?arshlands", "_aggressive"],
+            [".*Placid ?Forests", "_aggressive"],
+            [".*Dawning ?Frostbounds", "_pragmatic"],
+            [".*12.*", "_pragmatic"],
+            [".*Gelid ?Rockshelves", "_pragmatic"],
+            [".*Immaculate ?Garden", "_default"],
+            [".*Garden", "_default"],
+            [".*Clairvoyant ?Carcass", "_default"],
+            [".*Secluded ?Passage", "_SKIP_"]
+        ]
+    }
+}

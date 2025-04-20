@@ -7,18 +7,6 @@
         "next": ["ODChapterToOD"],
         "template": "StageSideStory.png"
     },
-    "Sami@Roguelike@StageEnterBattleAgain": {
-        "specificRect": [1180, 460, 30, 20]
-    },
-    "Sarkaz@Roguelike@InitialDrop2": {
-        "action": "ClickRect",
-        "algorithm": "OcrDetect",
-        "doc": "월간 소대 시작 시 체크 표시가 없어서 만들어진 작업",
-        "next": ["Sarkaz@Roguelike@Squad-EnterPoint", "Sarkaz@Roguelike@InitialDrop2"],
-        "roi": [600, 16, 145, 36],
-        "specificRect": [545, 432, 187, 127],
-        "text": ["오퍼", "레이터", "초기", "소장품"]
-    },
     "StartUpNotificationKR": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -1574,12 +1562,6 @@
     },
     "GachaTenTimesPrefix@DoGacha": {
         "text": ["10회진행"]
-    },
-    "RA@Navigation-RecogniseTheme": {
-        "text": ["연", "산", "시", "작", "계", "속", "하", "기"]
-    },
-    "RA@Navigation-EnterCurrentTheme": {
-        "text": ["생존", "연산"]
     },
     "RecruitSupportConfirm": {
         "ocrReplace": [[".?(원|운).?(유|우).+", "지원 유닛 모집"]],
