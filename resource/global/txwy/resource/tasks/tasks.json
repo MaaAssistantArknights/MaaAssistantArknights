@@ -1,52 +1,4 @@
 {
-    "BI-6": {
-        "algorithm": "JustReturn",
-        "next": ["BI-6@SideStoryStage", "BI-6@SwipeToStage"],
-        "sub": ["BI-Open"]
-    },
-    "BI-6@SideStoryStage": {
-        "text": ["BI-6"]
-    },
-    "BI-7": {
-        "algorithm": "JustReturn",
-        "next": ["BI-7@SideStoryStage", "BI-7@SwipeToStage"],
-        "sub": ["BI-Open"]
-    },
-    "BI-7@SideStoryStage": {
-        "text": ["BI-7"]
-    },
-    "BI-8": {
-        "algorithm": "JustReturn",
-        "next": ["BI-8@SideStoryStage", "BI-8@SwipeToStage"],
-        "sub": ["BI-Open"]
-    },
-    "BI-8@SideStoryStage": {
-        "text": ["BI-8"]
-    },
-    "BI-Open": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
-        "next": ["BIChapterToBI"],
-        "postDelay": 2000,
-        "roi": [0, 500, 500, 150],
-        "text": ["風雪", "復刻", "活動", "開放"]
-    },
-    "BIChapterToBI": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
-        "cache": false,
-        "next": ["ChapterSwipeToTheRight"],
-        "preDelay": 1000,
-        "roi": [999, 243, 281, 176],
-        "text": ["雪山大典", "雪山", "大典"]
-    },
-    "ZT-Open": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
-        "next": ["CVChapterToCV"],
-        "postDelay": 2000,
-        "text": ["特爾", "梅之", "之金", "活動", "開啟"]
-    },
     "StageTheme": {
         "roi": [200, 640, 300, 60]
     },
@@ -70,6 +22,27 @@
     },
     "SideStoryReopen": {
         "text": ["復刻"]
+    },
+    "AS-OpenOcr": {
+        "text": [
+            "太陽甩在身後",
+            "太陽",
+            "甩在",
+            "用在",
+            "身後",
+            "市民花園",
+            "市民",
+            "花園",
+            "豐獲集會",
+            "豐獲",
+            "集會",
+            "藏珍寶庫",
+            "藏珍",
+            "寶庫"
+        ]
+    },
+    "ASChapterToAS": {
+        "text": ["市民花園", "市民", "花園"]
     },
     "BP-Open": {
         "text": ["生路", "防線鞏固", "防線", "線鞏", "鞏固"]
@@ -118,27 +91,6 @@
     },
     "BBChapterToBB": {
         "text": ["來", "V5", "v5"]
-    },
-    "AS-OpenOcr": {
-        "text": [
-            "太陽甩在身後",
-            "太陽",
-            "甩在",
-            "用在",
-            "身後",
-            "市民花園",
-            "市民",
-            "花園",
-            "豐獲集會",
-            "豐獲",
-            "集會",
-            "藏珍寶庫",
-            "藏珍",
-            "寶庫"
-        ]
-    },
-    "ASChapterToAS": {
-        "text": ["市民花園", "市民", "花園"]
     },
     "OD-OpenOcr": {
         "text": ["源石塵行動", "源石", "石塵", "塵行"]
@@ -239,62 +191,11 @@
     "EnterChapterIS": {
         "text": ["沃爾西尼"]
     },
-    "NL-Open": {
-        "algorithm": "OcrDetect",
-        "postDelay": 2000,
-        "text": ["長夜", "復刻", "活動", "開放"],
-        "action": "ClickSelf",
-        "roi": [0, 500, 500, 150],
-        "next": ["NLChapterToNL"]
-    },
-    "NLChapterToNL": {
-        "text": ["大騎士領"]
-    },
     "StageEpisodeToOF": {
         "text": ["火藍之心"]
     },
     "OFToOF-Chapter": {
         "text": ["進入", "活動"]
-    },
-    "IC-Open": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
-        "roi": [0, 500, 500, 150],
-        "text": ["理想城", "活動", "開放"]
-    },
-    "ICChapterToIC": {
-        "cache": false,
-        "action": "ClickSelf",
-        "roi": [1030, 400, 219, 130],
-        "postDelay": 2000,
-        "next": ["ICChapterToIC", "ChapterSwipeToTheRight"]
-    },
-    "DV-Open": {
-        "text": ["綠野幻夢", "復刻", "活動", "開放"]
-    },
-    "DVChapterToDV": {
-        "text": ["實驗基地"]
-    },
-    "LE-Open": {
-        "text": ["復刻", "已開放"]
-    },
-    "LEChapterToLE": {
-        "text": ["夕照大廳", "大廳"]
-    },
-    "SN-Open": {
-        "text": ["已開放"]
-    },
-    "SN-Chapter2": {
-        "text": ["失落旗艦", "失落", "旗艦"]
-    },
-    "SN-Chapter3": {
-        "text": ["無名之海", "無名", "之海"]
-    },
-    "DH-Open": {
-        "text": ["假日", "復刻", "活動", "開放"]
-    },
-    "DHChapterToDH": {
-        "text": ["極限", "鐵人", "大獎"]
     },
     "StageResource": {
         "roi": [600, 600, 250, 110]

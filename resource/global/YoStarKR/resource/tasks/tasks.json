@@ -1,12 +1,4 @@
 {
-    "HS-Open": {
-        "baseTask": "SS-Open"
-    },
-    "OD-Open": {
-        "baseTask": "SS-Open",
-        "next": ["ODChapterToOD"],
-        "template": "StageSideStory.png"
-    },
     "StartUpNotificationKR": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -46,132 +38,6 @@
         "ocrReplace": [[".+무$", "윤무"]],
         "text": ["사중", "윤무"]
     },
-    "GO-OpenOcr": {
-        "text": ["위대한", "서곡의", "끝", "이벤트", "개방중"]
-    },
-    "GOChapterToGO": {
-        "text": ["무명", "공훈"]
-    },
-    "DT-Open": {
-        "text": ["테라", "이벤트", "개방중"]
-    },
-    "DT-OpenOcr": {
-        "text": ["테라", "이벤트", "개방중"]
-    },
-    "DTChapterToDT": {
-        "text": ["마물", "맛"]
-    },
-    "DT-8@SideStoryStage": {
-        "text": ["로", "도", "스"],
-        "roi": [700, 463, 73, 26]
-    },
-    "DT-7@SideStoryStage": {
-        "text": ["건", "강", "간", "식"],
-        "roi": [676, 434, 132, 43]
-    },
-    "DT-6@SideStoryStage": {
-        "text": ["해", "물", "모", "둠"],
-        "roi": [692, 408, 113, 33]
-    },
-    "DT-3@SideStoryStage": {
-        "text": ["황", "금", "당", "근"],
-        "roi": [709, 314, 103, 35]
-    },
-    "BP-OpenOcr": {
-        "text": ["삶의", "길", "이벤트", "개방"]
-    },
-    "BPChapterToBP": {
-        "text": ["비콘", "설치"]
-    },
-    "BB-OpenOcr": {
-        "text": ["바벨", "개방", "이벤트"]
-    },
-    "BBChapterToBB": {
-        "text": ["미래", "선사", "하리라"]
-    },
-    "AS-OpenOcr": {
-        "text": ["태양을", "뿌리쳐라", "이벤트", "개방중"],
-        "roi": [0, 500, 500, 150]
-    },
-    "ASChapterToAS": {
-        "text": ["시민", "정원"]
-    },
-    "OD-8": {
-        "sub": ["OD-Open"]
-    },
-    "OD-7": {
-        "sub": ["OD-Open"]
-    },
-    "OD-6": {
-        "sub": ["OD-Open"]
-    },
-    "CR-OpenOcr": {
-        "text": ["스테이지", "개방"]
-    },
-    "CRChapterToCR": {
-        "text": ["전시", "회", "관람"]
-    },
-    "HS-9": {
-        "sub": ["HS-Open", "HSChapterToHS"]
-    },
-    "HS-8": {
-        "sub": ["HS-Open", "HSChapterToHS"]
-    },
-    "HS-7": {
-        "sub": ["HS-Open", "HSChapterToHS"]
-    },
-    "HS-5": {
-        "sub": ["HS-Open", "HSChapterToHS"]
-    },
-    "HS-OpenOcr": {
-        "text": ["회서리", "이벤트", "개방중"]
-    },
-    "HSChapterToHS": {
-        "text": ["경작지"]
-    },
-    "RS-OpenOcr": {
-        "text": ["은심호", "열차", "개방중"]
-    },
-    "RSChapterToRS": {
-        "text": ["3번", "승강장"]
-    },
-    "ZT-OpenOcr": {
-        "text": ["츠빌링", "슈튀르메", "가을", "이벤트", "개방중"]
-    },
-    "ZTChapterToZT": {
-        "text": ["쌍둥이", "둥이탑", "탑알현"]
-    },
-    "CV-Open": {
-        "text": ["부정축재", "이벤트", "개방중"]
-    },
-    "CVChapterToCV": {
-        "text": ["하얀", "플랫폼"]
-    },
-    "SL-Open": {
-        "text": ["화산의꿈여행", "이벤트", "개방중"],
-        "roi": [0, 500, 500, 150]
-    },
-    "SLChapterToSL": {
-        "text": ["온천", "휴가"]
-    },
-    "HE-Open": {
-        "text": ["공상의", "정원", "이벤트", "개방"]
-    },
-    "HEChapterToHE": {
-        "text": ["암브로", "시우스", "수도원"]
-    },
-    "WB-Open": {
-        "text": ["등림의", "개방"]
-    },
-    "FC-OpenOcr": {
-        "text": ["스테이지", "개방"]
-    },
-    "FCChapterToFC": {
-        "text": ["안갯속", "늪지대"]
-    },
-    "IS-OpenOcr": {
-        "text": ["시라쿠사인", "이벤트", "재개방", "개방중"]
-    },
     "EnterChapterIS": {
         "text": ["볼시니"]
     },
@@ -180,16 +46,6 @@
     },
     "OFToOF-Chapter": {
         "text": ["진입하기"]
-    },
-    "IC-Open": {
-        "text": ["이상적인", "엔드리스", "카니발", "개방중"]
-    },
-    "LE-Open": {
-        "text": ["링거링에코스", "스테이지", "개방중"]
-    },
-    "LEChapterToLE": {
-        "ocrReplace": [[".*?전당", "붉은노을전당"]],
-        "text": ["붉은노을전당"]
     },
     "StageResource": {
         "doc": "Delete when the UI is updated (#12266)",

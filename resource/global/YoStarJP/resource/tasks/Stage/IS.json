@@ -1,0 +1,11 @@
+{
+    "IS-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "roi": [0, 500, 500, 150],
+        "text": ["シラクザーノ"]
+    },
+    "IS-OpenOcr": {
+        "text": ["シラクザーノ", "イベント復刻開催中"]
+    }
+}
