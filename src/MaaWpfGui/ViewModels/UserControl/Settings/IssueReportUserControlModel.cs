@@ -17,6 +17,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Windows;
 using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Configuration;
@@ -93,7 +94,9 @@ public class IssueReportUserControlModel : PropertyChangedBase
                     continue;
                 }
 
-                string dest = Path.Combine(debugTempPath, Path.GetFileName(file));
+                string relativePath = Path.GetRelativePath(Environment.CurrentDirectory, file);
+                string dest = Path.Combine(tempPath, relativePath);
+                Directory.CreateDirectory(Path.GetDirectoryName(dest)!);
                 File.Copy(file, dest, overwrite: true);
             }
 
