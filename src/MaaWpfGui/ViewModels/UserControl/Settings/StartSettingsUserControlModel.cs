@@ -22,6 +22,7 @@ using System.Management;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using System.Windows;
+using HandyControl.Controls;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -116,6 +117,16 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         get => _openEmulatorAfterLaunch;
         set
         {
+            if (string.IsNullOrEmpty(SettingsViewModel.StartSettings.EmulatorPath))
+            {
+                MessageBoxHelper.Show(
+                    LocalizationHelper.GetString("RetryOnDisconnectedEmulatorPathEmptyError"),
+                    LocalizationHelper.GetString("Tip"),
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                value = false;
+            }
+
             SetAndNotify(ref _openEmulatorAfterLaunch, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.StartEmulator, value.ToString());
             if (SettingsViewModel.GameSettings.ClientType == string.Empty && _runningState.GetIdle())
@@ -135,7 +146,15 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         get => _emulatorPath;
         set
         {
-            if (Path.GetFileName(value).ToLower().Contains("maa"))
+            value = value.Trim();
+
+            // 这里不用 SetAndNotify 判断
+            if (value == _emulatorPath)
+            {
+                return;
+            }
+
+            if (Path.GetFileName(value).Contains("maa", StringComparison.OrdinalIgnoreCase))
             {
                 int count = 3;
                 while (count-- > 0)
@@ -152,6 +171,24 @@ public class StartSettingsUserControlModel : PropertyChangedBase
                         return;
                     }
                 }
+            }
+
+            if (string.IsNullOrEmpty(value))
+            {
+                if (ConnectSettings.RetryOnDisconnected || OpenEmulatorAfterLaunch)
+                {
+                    ConnectSettings.RetryOnDisconnected = false;
+                    OpenEmulatorAfterLaunch = false;
+                    Growl.Warning(
+                        string.Format(
+                            LocalizationHelper.GetString("EmulatorPathEmptyWarning"),
+                            LocalizationHelper.GetString("RetryOnDisconnected"),
+                            LocalizationHelper.GetString("OpenEmulatorAfterLaunch")));
+                }
+            }
+            else if (!File.Exists(EmulatorPath))
+            {
+                Growl.Warning(LocalizationHelper.GetString("EmulatorPathNotExist"));
             }
 
             SetAndNotify(ref _emulatorPath, value);

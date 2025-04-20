@@ -335,6 +335,8 @@
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">バーでバーを注文したいですか？</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">確かに間違って選択していないと思います</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">はい、もう一度選択します</system:String>
+    <system:String x:Key="EmulatorPathNotExist">エミュレータのパスが存在しません</system:String>
+    <system:String x:Key="EmulatorPathEmptyWarning">エミュレータのパスが空です。「{0}」 と 「{1}」 のチェック状態がリセットされました</system:String>
     <system:String x:Key="Select">選択</system:String>
     <system:String x:Key="ForcedReplaceAdb">ADB強制置き換え</system:String>
     <system:String x:Key="TouchMode">タッチモード</system:String>

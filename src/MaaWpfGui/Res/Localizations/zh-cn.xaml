@@ -335,6 +335,8 @@
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">你也想在酒吧里点酒吧？</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">我确定没选错</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">好的，我会重新选择</system:String>
+    <system:String x:Key="EmulatorPathNotExist">模拟器路径不存在</system:String>
+    <system:String x:Key="EmulatorPathEmptyWarning">模拟器路径为空，「{0}」与「{1}」勾选状态已被还原</system:String>
     <system:String x:Key="Select">选择</system:String>
     <system:String x:Key="ForcedReplaceAdb">强制替换 ADB</system:String>
     <system:String x:Key="TouchMode">触控模式</system:String>
