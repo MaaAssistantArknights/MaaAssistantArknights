@@ -82,7 +82,7 @@ public class VersionUpdateViewModel : Screen
         {
             SetAndNotify(ref _updateTag, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionName, value);
-            Instances.SettingsViewModel.UpdateWindowTitle();
+            SettingsViewModel.VersionUpdateSettings.NewVersionFoundInfo = value;
         }
     }
 
@@ -1154,6 +1154,7 @@ public class VersionUpdateViewModel : Screen
 
     public bool IsDebugVersion(string? version = null)
     {
+        return false;
         version ??= _curVersion;
 
         // match case 1: DEBUG VERSION

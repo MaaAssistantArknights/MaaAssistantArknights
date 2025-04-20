@@ -106,6 +106,18 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    private string _newVersionFoundInfo = string.Empty;
+
+    public string NewVersionFoundInfo
+    {
+        get => _newVersionFoundInfo;
+        set
+        {
+            SetAndNotify(ref _newVersionFoundInfo, value);
+            Instances.SettingsViewModel.UpdateWindowTitle();
+        }
+    }
+
     /// <summary>
     /// Gets or sets the resource version.
     /// </summary>

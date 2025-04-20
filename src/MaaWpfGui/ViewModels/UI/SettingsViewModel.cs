@@ -682,13 +682,13 @@ namespace MaaWpfGui.ViewModels.UI
             var rvm = (RootViewModel)this.Parent;
 
             string updateTip = string.Empty;
-            var updateTag = Instances.VersionUpdateViewModel.UpdateTag;
+            var newVersionFoundInfo = VersionUpdateSettings.NewVersionFoundInfo;
             var coreVersion = VersionUpdateSettingsUserControlModel.CoreVersion;
             var startupUpdateCheck = VersionUpdateSettings.StartupUpdateCheck;
             var isDebug = Instances.VersionUpdateViewModel.IsDebugVersion();
-            if (updateTag != coreVersion && !isDebug && !string.IsNullOrEmpty(updateTag) && startupUpdateCheck)
+            if (newVersionFoundInfo != coreVersion && !isDebug && !string.IsNullOrEmpty(newVersionFoundInfo) && startupUpdateCheck)
             {
-                updateTip = $"{LocalizationHelper.GetString("NewVersionFoundTitle")}: {updateTag} - ";
+                updateTip = $"{LocalizationHelper.GetString("NewVersionFoundTitle")}: {newVersionFoundInfo} - ";
             }
 
             var newResourceFoundInfo = VersionUpdateSettings.NewResourceFoundInfo;
