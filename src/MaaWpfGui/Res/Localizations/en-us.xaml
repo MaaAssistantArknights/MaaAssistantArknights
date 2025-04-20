@@ -335,6 +335,8 @@ You can cancel this popup by clicking the Settings - About Us - Issue Reporting 
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">Do you also want to order a bar in a bar?</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">I'm sure I haven't selected the wrong one</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">Okay, I will choose again</system:String>
+    <system:String x:Key="EmulatorPathNotExist">The emulator path does not exist</system:String>
+    <system:String x:Key="EmulatorPathEmptyWarning">The emulator path is empty, 「{0}」 and 「{1}」 check states have been reset</system:String>
     <system:String x:Key="Select">Select</system:String>
     <system:String x:Key="ForcedReplaceAdb">Replace ADB</system:String>
     <system:String x:Key="TouchMode">Touch Mode</system:String>
