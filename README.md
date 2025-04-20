@@ -33,7 +33,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 基于图像识别技术，一键完成全部日常任务！
 
-绝赞更新中  ✿✿ヽ(°▽°)ノ✿
+绝赞更新中 ✿✿ヽ(°▽°)ノ✿
 
 </div>
 
@@ -206,9 +206,9 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 Discord 服务器: [邀请链接](https://discord.gg/23DfZ9uA4V)  
 用户交流 TG 群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)  
 自动战斗 JSON 作业分享：[prts.plus](https://prts.plus)  
-Bilibili 直播间：[MrEO 直播间](https://live.bilibili.com/2808861) 直播敲代码 & [MAA-Official 直播间](https://live.bilibili.com/27548877) 游戏/杂谈  
+Bilibili 直播间：[MrEO 直播间](https://live.bilibili.com/2808861) 直播敲代码 & [MAA-Official 直播间](https://live.bilibili.com/27548877) 游戏/杂谈
 
 技术群（舟无关、禁水）：[内卷地狱！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
-开发者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
+开发者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 如果觉得软件对你有帮助，帮忙点个 Star 吧！~（网页最上方右上角的小星星），这就是对我们最大的支持了！
