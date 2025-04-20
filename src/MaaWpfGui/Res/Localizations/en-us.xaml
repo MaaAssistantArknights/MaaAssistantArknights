@@ -899,6 +899,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  !About  -->
     <!--  Issues  -->
     <system:String x:Key="CheckHelpBeforeReportingIssue">Please check the FAQ before reporting any issues</system:String>
+    <system:String x:Key="CheckUpdateBeforeReportingIssue">Please upgrade first and test if the issue persists in the new version. Confirm it's not a common issue before reporting.</system:String>
     <system:String x:Key="Help">FAQ</system:String>
     <system:String x:Key="Issue">Issues</system:String>
     <system:String x:Key="GenerateSupportPayload">Generate Support Payload</system:String>
