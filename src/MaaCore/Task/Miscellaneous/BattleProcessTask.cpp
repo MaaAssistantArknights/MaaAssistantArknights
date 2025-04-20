@@ -87,8 +87,8 @@ void asst::BattleProcessTask::set_wait_until_end(bool wait_until_end)
     m_need_to_wait_until_end = wait_until_end;
 }
 
-void asst::BattleProcessTask::set_formation_task_ptr(
-    std::shared_ptr<std::unordered_map<std::string, std::string>> value)
+void
+    asst::BattleProcessTask::set_formation_task_ptr(std::shared_ptr<std::unordered_map<std::string, std::string>> value)
 {
     m_formation_ptr = value;
 }
