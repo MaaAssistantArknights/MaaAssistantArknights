@@ -243,7 +243,7 @@ bool run_parallel_tasks(
             std::cout << "------- OCR replace " << out << " -------" << '\n';
             if (!ocr_replace_overseas(
                     overseas_data_dir / in / "gamedata" / "excel",
-                    resource_dir / "global" / out / "resource" / "tasks.json",
+                    resource_dir / "global" / out / "resource" / "tasks" / "tasks.json",
                     official_data_dir / "gamedata" / "excel")) {
                 std::cerr << "ocr_replace_overseas failed " << out << '\n';
                 error_occurred.store(true);

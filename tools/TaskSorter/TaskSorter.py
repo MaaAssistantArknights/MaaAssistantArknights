@@ -87,13 +87,13 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     resource_dir = Path(__file__).parents[2] / "resource"
-    cn_task_file = args.cn if args.cn else resource_dir / "tasks.json"
+    cn_task_file = args.cn if args.cn else resource_dir / "tasks" / "tasks.json"
 
     default_global_resources = {
-        "EN": resource_dir / "global/YoStarEN/resource/tasks.json",
-        "JP": resource_dir / "global/YoStarJP/resource/tasks.json",
-        "KR": resource_dir / "global/YoStarKR/resource/tasks.json",
-        "TW": resource_dir / "global/txwy/resource/tasks.json"
+        "EN": resource_dir / "global/YoStarEN/resource/tasks/tasks.json",
+        "JP": resource_dir / "global/YoStarJP/resource/tasks/tasks.json",
+        "KR": resource_dir / "global/YoStarKR/resource/tasks/tasks.json",
+        "TW": resource_dir / "global/txwy/resource/tasks/tasks.json"
     }
 
     global_resources = default_global_resources
