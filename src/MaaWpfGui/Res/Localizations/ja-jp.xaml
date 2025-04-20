@@ -902,6 +902,7 @@ C:\\leidian\\LDPlayer9
     <!--  !About  -->
     <!--  Issues  -->
     <system:String x:Key="CheckHelpBeforeReportingIssue">問題を報告する前に、よくある質問に該当しないことを確認してください</system:String>
+    <system:String x:Key="CheckUpdateBeforeReportingIssue">まずアップグレードして新しいバージョンで問題が再現するか確認し、一般的な問題でないことを確認してから報告してください。</system:String>
     <system:String x:Key="Help">よくある質問</system:String>
     <system:String x:Key="Issue">フィードバック</system:String>
     <system:String x:Key="GenerateSupportPayload">サポート用ZIPを生成</system:String>

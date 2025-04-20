@@ -200,10 +200,10 @@ namespace MaaWpfGui.Helper
         {
             return CustomCultureInfo.Name.ToLowerInvariant() switch
             {
-                "zh-cn" => $" - {resourceVersion}{resourceDateTime:#MMdd}",
-                "zh-tw" => $" - {resourceVersion}{resourceDateTime:#MMdd}",
-                "en-us" => $" - {resourceDateTime:dd/MM} {resourceVersion}",
-                _ => $" - {resourceDateTime.ToString(CustomCultureInfo.DateTimeFormat.ShortDatePattern.Replace("yyyy", string.Empty).Trim('/', '.'))} {resourceVersion}",
+                "zh-cn" => $"{resourceVersion}{resourceDateTime:#MMdd}",
+                "zh-tw" => $"{resourceVersion}{resourceDateTime:#MMdd}",
+                "en-us" => $"{resourceDateTime:dd/MM} {resourceVersion}",
+                _ => $"{resourceDateTime.ToString(CustomCultureInfo.DateTimeFormat.ShortDatePattern.Replace("yyyy", string.Empty).Trim('/', '.'))} {resourceVersion}",
             };
         }
 
