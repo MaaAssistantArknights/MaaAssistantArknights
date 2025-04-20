@@ -770,15 +770,16 @@ private:
             if (!std::filesystem::exists(m_log_path) || !std::filesystem::is_regular_file(m_log_path)) {
                 return;
             }
+            m_buff.close();
             m_ofs.close();
             std::filesystem::rename(m_log_path, m_log_bak_path);
-            LoadFileStream();
         }
         catch (std::filesystem::filesystem_error& e) {
             std::cerr << e.what() << std::endl;
         }
         catch (...) {
         }
+        LoadFileStream();
     }
 
     void LoadFileStream()
