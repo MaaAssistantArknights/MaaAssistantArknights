@@ -128,7 +128,7 @@ MAA는 리포지토리의 코드 및 리소스 파일들을 아름답고 일관�
 
 ## Visual Studio에서 clang-format 사용 설정
 
-1. clang-format 17 또는 그 이상 버전을 설치합니다.
+1. clang-format 20.1.0 또는 그 이상 버전을 설치합니다.
 
     ```bash
     python -m pip install clang-format
