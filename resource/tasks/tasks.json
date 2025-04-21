@@ -3987,6 +3987,12 @@
         "fullMatch": true,
         "roi": [5, 177, 191, 37]
     },
+    "SSSBattleOperName": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "fullMatch": true,
+        "roi": [0, 102, 190, 37]
+    },
     "BattleOfficiallyBegin": {
         "roi": [1165, 20, 65, 65],
         "maskRange": [100, 255],
@@ -4559,6 +4565,171 @@
         "isAscii": true,
         "text": [],
         "roi": [5, 230, 37, 23]
+    },
+    "SSSBegin": {
+        "Doc": "保全派驻",
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["开始保全作战"],
+        "roi": [992, 576, 288, 144],
+        "next": ["SSSBuffChoose", "SSSDebuffConfirm"]
+    },
+    "SSSDebuffConfirm": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["确认完毕"],
+        "roi": [992, 576, 288, 144],
+        "next": ["SSSBuffChoose"]
+    },
+    "SSSBuffChoose": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["自适应补给元件"],
+        "roi": [0, 136, 1280, 162],
+        "next": ["SSSBuffChooseConfirm"]
+    },
+    "SSSBuffChooseConfirm": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["确认选择"],
+        "roi": [992, 576, 288, 144],
+        "next": ["SSSEquipmentConfirm"]
+    },
+    "SSSEquipmentConfirm": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["装备确认"],
+        "roi": [992, 576, 288, 144]
+    },
+    "SSSTeamConfirm": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["阵容确认"],
+        "roi": [992, 576, 288, 144]
+    },
+    "SSSStageNameOCR": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "isAscii": true,
+        "roi": [33, 272, 85, 36],
+        "ocrReplace": [
+            ["LT(?=\\d)", "LT-"],
+            ["Lt", "LT"],
+            ["LT\\+", "LT-"]
+        ]
+    },
+    "SSSCloseTip": {
+        "action": "ClickSelf",
+        "roi": [54, 40, 201, 136],
+        "next": ["SSSStartFighting"]
+    },
+    "SSSStartFighting": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["开始部署", "重新部署"],
+        "roi": [992, 576, 288, 144],
+        "next": ["SSSStartFighting2", "SSSDropRecruitmentFlag", "SSSStartFighting"]
+    },
+    "SSSStartFighting2": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["开始行动"],
+        "roi": [992, 576, 288, 144],
+        "preDelay": 1000,
+        "maxTimes": 5,
+        "next": ["#self", "Stop"]
+    },
+    "SSSFightStart-PreSelect": {
+        "action": "ClickSelf",
+        "roi": [1052, 360, 154, 144]
+    },
+    "SSSFightStart-PreSelect-Match": {
+        "Doc": "等待并匹配图标",
+        "baseTask": "SSSFightStart-PreSelect",
+        "action": "DoNothing",
+        "template": "SSSFightStart-PreSelect.png"
+    },
+    "SSSFightStart-PreSelect-Confirm": {
+        "action": "ClickSelf",
+        "roi": [1052, 360, 154, 144]
+    },
+    "SSSFightStart-PreSelect-Clear": {
+        "Doc": "清除预选",
+        "action": "ClickSelf",
+        "roi": [1060, 440, 120, 120]
+    },
+    "SSSDrawCard": {
+        "action": "ClickSelf",
+        "templThreshold": 0.98,
+        "roi": [1151, 319, 129, 157]
+    },
+    "SSSSettlement": {
+        "action": "ClickSelf",
+        "roi": [1009, 0, 155, 143],
+        "next": ["SSSSettlementConfirm"]
+    },
+    "SSSSettlementConfirm": {
+        "action": "ClickSelf",
+        "roi": [756, 414, 174, 160]
+    },
+    "SSSConfirmBattleComplete": {
+        "algorithm": "JustReturn",
+        "next": ["SSSStartFighting", "SSSBegin", "SSSClickUntilStartScreen"]
+    },
+    "SSSDropRecruitmentFlag": {
+        "algorithm": "OcrDetect",
+        "text": ["请选择", "请进行", "增调", "异能", "获得", "甄选", "导能"],
+        "roi": [163, 78, 900, 112],
+        "postDelay": 3000,
+        "next": ["SSSStartFighting2", "SSSDropRecruitmentFlag"]
+    },
+    "SSSClickUntilStartScreen": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [529, 27, 227, 126],
+        "next": ["SSSConfirmBattleComplete"]
+    },
+    "SSSDropRecruitmentOCR": {
+        "baseTask": "CharsNameOcrReplace",
+        "text": [],
+        "roi": [0, 230, 1280, 400],
+        "postDelay": 1000
+    },
+    "SSSDropRecruitmentConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["确认调用", "放弃调用", "确认选择"],
+        "roi": [1105, 525, 175, 132],
+        "postDelay": 1000
+    },
+    "SSSHalfTimeDropsBegin": {
+        "template": "SSSHalfTimeDropsCancel.png",
+        "templThreshold": 0.7,
+        "roi": [148, 332, 46, 46],
+        "next": ["SSSHalfTimeDrops", "SSSHalfTimeDropsCancel"]
+    },
+    "SSSHalfTimeDrops": {
+        "baseTask": "CharsNameOcrReplace",
+        "action": "ClickSelf",
+        "text": [],
+        "roi": [206, 452, 897, 88],
+        "next": ["SSSHalfTimeDropsConfirm"]
+    },
+    "SSSHalfTimeDropsConfirm": {
+        "action": "ClickSelf",
+        "templThreshold": 0.7,
+        "roi": [1035, 284, 145, 145]
+    },
+    "SSSHalfTimeDropsCancel": {
+        "action": "ClickSelf",
+        "templThreshold": 0.7,
+        "roi": [100, 284, 145, 145],
+        "next": ["SSSHalfTimeDropsCancelConfirm"]
+    },
+    "SSSHalfTimeDropsCancelConfirm": {
+        "action": "ClickSelf",
+        "templThreshold": 0.7,
+        "roi": [716, 410, 254, 163]
     },
     "Copilot@StageNavigationSlowlySwipeLeft": {
         "doc": "禁掉copilot的找不到关卡返回",
