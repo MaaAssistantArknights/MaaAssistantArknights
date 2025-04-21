@@ -133,11 +133,11 @@ jobs:
           urls=(
             "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/.prettierrc|.prettierrc"
             "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/tools/TaskSorter/TaskSorter.py|TaskSorter.py"
-            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/resource/tasks.json|tasks.json"
-            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/resource/global/txwy/resource/tasks.json|original/txwy.json"
-            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/resource/global/YoStarEN/resource/tasks.json|original/YoStarEN.json"
-            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/resource/global/YoStarJP/resource/tasks.json|original/YoStarJP.json"
-            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/resource/global/YoStarKR/resource/tasks.json|original/YoStarKR.json"
+            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/resource/tasks/tasks.json|tasks.json"
+            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/resource/global/txwy/resource/tasks/tasks.json|original/txwy.json"
+            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/resource/global/YoStarEN/resource/tasks/tasks.json|original/YoStarEN.json"
+            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/resource/global/YoStarJP/resource/tasks/tasks.json|original/YoStarJP.json"
+            "https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/refs/heads/${{ github.ref_name }}/resource/global/YoStarKR/resource/tasks/tasks.json|original/YoStarKR.json"
           )
 
           mkdir -p original
