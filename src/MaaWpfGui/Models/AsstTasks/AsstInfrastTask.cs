@@ -25,6 +25,11 @@ public class AsstInfrastTask : AsstBaseTask
     public override AsstTaskType TaskType => AsstTaskType.Infrast;
 
     /// <summary>
+    /// Gets or sets a value indicating whether 是否启用游戏内队列轮换及干员休整
+    /// </summary>
+    public bool UseInfrastRotation { get; set; }
+
+    /// <summary>
     /// Gets or sets 要换班的设施（有序）
     /// </summary>
     public List<string> Facilitys { get; set; } = [];
@@ -92,6 +97,7 @@ public class AsstInfrastTask : AsstBaseTask
     {
         var taskParams = new JObject
         {
+            ["infrast_rotation"] = UseInfrastRotation,
             ["facility"] = JArray.FromObject(Facilitys),
             ["drones"] = UsesOfDrones,
             ["continue_training"] = ContinueTraining,

@@ -94,6 +94,15 @@
 
         <!--  不开自定义基建计划时，放在常规设置的部分 / 开启自定义基建则放在高级  -->
         <StackPanel Visibility="{c:Binding 'CustomInfrastEnabled and TaskSettingVisibilities.EnableAdvancedSettings or !CustomInfrastEnabled and !TaskSettingVisibilities.EnableAdvancedSettings'}">
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding UseInfrastRotation}"
+                IsEnabled="{c:Binding !CustomInfrastEnabled}"
+                Visibility="{c:Binding !CustomInfrastEnabled}">
+                <controls:TextBlock
+                    Text="{DynamicResource UseInfrastRotation}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
             <ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource DroneUsage}"
@@ -102,7 +111,7 @@
                 ItemsSource="{Binding UsesOfDronesList}"
                 SelectedValue="{Binding UsesOfDrones}"
                 SelectedValuePath="Value" />
-            <StackPanel Margin="0">
+            <StackPanel Margin="0" Visibility="{c:Binding !UseInfrastRotation}" >
                 <TextBlock
                     Margin="0,5"
                     HorizontalAlignment="Stretch"
@@ -125,7 +134,8 @@
                 PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
                                              Target={x:Type helper:MouseWheelHelper}}"
                 Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
-                ToolTip="{DynamicResource LabelSequenceTip}">
+                ToolTip="{DynamicResource LabelSequenceTip}"
+                Visibility="{c:Binding !UseInfrastRotation}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -136,7 +146,8 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <Grid>
+            <Grid
+                Visibility="{c:Binding !UseInfrastRotation}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />

@@ -255,18 +255,25 @@ public class InfrastSettingsUserControlModel : TaskViewModel
 
     private const string UserDefined = "user_defined";
 
-    private bool _useInGameInfrastSwitch = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseInGameInfrastSwitch, bool.TrueString));
+    private bool _useInfrastRotation = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseInfrastRotation, bool.TrueString));
 
     /// <summary>
-    /// Gets or sets a value indicating whether the in-game Infrast usage is enabled.
+    /// Gets or sets a value indicating whether the in-game Rotate Squads and Rest Operators is enabled.
     /// </summary>
-    public bool UseInGameInfrastSwitch
+    public bool UseInfrastRotation
     {
-        get => _useInGameInfrastSwitch;
+        get => _useInfrastRotation;
         set
         {
-            SetAndNotify(ref _useInGameInfrastSwitch, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseInGameInfrastSwitch, value.ToString());
+            if (value && _customInfrastEnabled)
+            {
+                CustomInfrastEnabled = false;
+
+                ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastEnabled, "False");
+            }
+
+            SetAndNotify(ref _useInfrastRotation, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.UseInfrastRotation, value.ToString());
         }
     }
 
@@ -363,6 +370,14 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             SetAndNotify(ref _customInfrastEnabled, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastEnabled, value.ToString());
             RefreshCustomInfrastPlan();
+
+            if (!value)
+            {
+                return;
+            }
+
+            UseInfrastRotation = false;
+            ConfigurationHelper.SetValue(ConfigurationKeys.UseInfrastRotation, "False");
         }
     }
 
@@ -656,6 +671,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         return new AsstInfrastTask
         {
             Facilitys = GetInfrastOrderList(),
+            UseInfrastRotation = UseInfrastRotation,
             UsesOfDrones = UsesOfDrones,
             ContinueTraining = ContinueTraining,
             DormThreshold = DormThreshold / 100.0,
