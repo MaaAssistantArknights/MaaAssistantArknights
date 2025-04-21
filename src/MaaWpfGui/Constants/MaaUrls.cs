@@ -18,7 +18,7 @@ namespace MaaWpfGui.Constants
 {
     public static class MaaUrls
     {
-        public const string MaaPlus = "https://www.maa.plus";
+        public const string MaaPlus = "https://maa.plus";
 
         public const string Bilibili = "https://space.bilibili.com/3493274731940507";
 
