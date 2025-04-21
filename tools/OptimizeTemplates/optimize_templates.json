@@ -1253,7 +1253,7 @@
     "official/CloseAnnoTexas": "3346dc4b09f87e3a93c03adde4c8d4890995fc99174997a47bab4117d7d820bf",
     "official/CloseCluePage": "668510af1e1d8dfbbc68370d17ad7e8580013d612158a9e13ad0c3bc8e725905",
     "official/CloseHomeSanity": "5bd7262431db3808db62f224b3b9a384f52ab5b1d972b58496cc8869449f24df",
-    "official/CloseSendClue": "cddecab75cd7b7a1f221abddf776e8a9dd07e9f6910d27937b8b02c6e775a2bd",
+    "official/CloseSendClue": "2cde2a916cd493e104428a11af172ccc7a4e1234a8ad997cb187b6940df7f298",
     "official/Clue": "f33998f6031f86ce3b54e32b1473341dd5926020cd8b039404995210bcb92cf1",
     "official/ClueGiveToNextPage": "e89b1cbe70ee52120be6ab60def7b75dbfc117f6bd129f5b72f08a31288bf45d",
     "official/ClueNew": "f617ec61739b0641e066b89836547cac015356b4be98ee38849c22d9f1b4511b",
@@ -1336,7 +1336,7 @@
     "official/ICChapterToIC": "2490065368970573fc08f11e33fd0179be33616d92df6829046dec336f9165ee",
     "official/InfrastClearButton": "5fa15d71684b01b0cd3ccad3b956d7f606051225334057562c53ae439e5f65f1",
     "official/InfrastClueSelfMaybeFull": "c33a7af864242a485eb257b6c4f921dd7ff193d915814b3e384958abef4c9dc3",
-    "official/InfrastFilterMenu": "15406325057ea61933db79e8bd1ebad3fbbd9d57bfa00c734a7ada0aa65681b9",
+    "official/InfrastFilterMenu": "118cb8ae50b3181de68bb36d6db29efc86cf6cdb656865c05fb245e3e455c6d9",
     "official/InfrastFilterMenuConfirmButton": "4c04390045ae3eb81ac3cdfa183b35fcaccd084dc93e61dfd89e471dbcb5611f",
     "official/InfrastFilterMenuNotStationedButton": "346670164d1a1a33e368dd52049b1f8fe8aac4a9facf9fb932e7dc842f8c2758",
     "official/InfrastFilterMenuNotStationedButtonAlreadyClicked": "fa3e4759361e245ad9dd498a1e435078777fb6ec16abc221df083ec37a212164",
@@ -3264,5 +3264,6 @@
     "web/src/assets/screenshots/dark/center": "f5779b3b8cb3d0816872500ee38923664a6b53c88d3c7056eefaf40d42dbb897",
     "web/src/assets/screenshots/dark/right": "512c363f9fd11f6533f252d23564da387c5f9e6f3453dfe4113fba1f67611d54",
     "web/src/assets/screenshots/dark/left": "e243b3463a47f040cc3b4436a7b935c33585e0b567e7c4128a3cf79c3ab92d92",
-    "web/src/assets/links/mirrorc": "6e91286fd01a27d2aa32667b1c07c4b38c04659858d8185e22c10991b4be18d4"
+    "web/src/assets/links/mirrorc": "6e91286fd01a27d2aa32667b1c07c4b38c04659858d8185e22c10991b4be18d4",
+    "official/15@EnterEpisodeNew": "25a3e96bb26e7c663b22f4b1e2c80d8505583015bfdcd983000d96dc8e0ea405"
 }
