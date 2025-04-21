@@ -63,7 +63,7 @@ bool update_infrast_templates(const fs::path& input_dir, const fs::path& output_
 bool generate_english_roguelike_stage_name_replacement(const fs::path& ch_file, const fs::path& en_file);
 bool update_battle_chars_info(const fs::path& input_dir, const fs::path& overseas_dir, const fs::path& output_dir);
 bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, bool is_base);
-bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_path, const fs::path& base_dir);
+bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_base_path, const fs::path& base_dir);
 bool update_version_info(const fs::path& input_dir, const fs::path& output_dir);
 
 int main([[maybe_unused]] int argc, char** argv)
@@ -243,7 +243,7 @@ bool run_parallel_tasks(
             std::cout << "------- OCR replace " << out << " -------" << '\n';
             if (!ocr_replace_overseas(
                     overseas_data_dir / in / "gamedata" / "excel",
-                    resource_dir / "global" / out / "resource" / "tasks" / "tasks.json",
+                    resource_dir / "global" / out / "resource" / "tasks",
                     official_data_dir / "gamedata" / "excel")) {
                 std::cerr << "ocr_replace_overseas failed " << out << '\n';
                 error_occurred.store(true);
@@ -701,10 +701,11 @@ bool update_stages_data(const fs::path& input_dir, const fs::path& output_dir)
     for (const auto& [stage_id, drops] : drop_infos) {
         json::array drops_json;
         for (const auto& d : drops) {
-            drops_json.emplace_back(json::object {
-                { "itemId", d.item_id },
-                { "dropType", d.drop_type },
-            });
+            drops_json.emplace_back(
+                json::object {
+                    { "itemId", d.item_id },
+                    { "dropType", d.drop_type },
+                });
         }
         auto& stage = stage_basic_infos.at(stage_id);
         stage["dropInfos"] = std::move(drops_json);
@@ -1158,10 +1159,11 @@ bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, 
             return false;
         }
 
-        opers.emplace(json::object { { "id", id },
-                                     { "name", name },
-                                     { "rarity", info_iter->second.rarity },
-                                     { "tags", json::array(info_iter->second.tags) } });
+        opers.emplace(
+            json::object { { "id", id },
+                           { "name", name },
+                           { "rarity", info_iter->second.rarity },
+                           { "tags", json::array(info_iter->second.tags) } });
     }
 
     static std::unordered_map</*id*/ int, /*tag*/ std::string> base_tags_name;
@@ -1189,7 +1191,7 @@ bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, 
     return true;
 }
 
-bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_path, const fs::path& base_dir)
+bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_base_path, const fs::path& base_dir)
 {
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_stage_names;
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_item_names;
@@ -1337,12 +1339,21 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_path,
         char_names.emplace(id, name_buffer);
     }
 
-    auto task_opt = json::open(tasks_path);
-    if (!task_opt) {
+    auto tasks_path = tasks_base_path / "tasks.json";
+    auto tasks_opt = json::open(tasks_path);
+    if (!tasks_opt) {
         std::cerr << "Failed to open tasks file: " << tasks_path << '\n';
         return false;
     }
-    auto& task_json = task_opt.value();
+    auto& tasks_json = tasks_opt.value();
+
+    auto roguelike_path = tasks_base_path / "Roguelike" / "base.json";
+    auto roguelike_opt = json::open(roguelike_path);
+    if (!roguelike_opt) {
+        std::cerr << "Failed to open Roguelike base file: " << roguelike_path << '\n';
+        return false;
+    }
+    auto& roguelike_json = roguelike_opt.value();
 
     auto proc = [](json::array& replace_array,
                    const std::unordered_map<std::string, std::string>& base_map,
@@ -1370,16 +1381,21 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_path,
         }
     };
 
-    proc(task_json["BattleStageName"]["ocrReplace"].as_array(), base_stage_names, stage_names);
-    proc(task_json["CharsNameOcrReplace"]["ocrReplace"].as_array(), base_char_names, char_names);
-    proc(task_json["RoguelikeTraderShoppingOcr"]["ocrReplace"].as_array(), base_item_names, item_names);
-    proc(task_json["Sami@Roguelike@FoldartalGainOcr"]["ocrReplace"].as_array(), base_totem_names, totem_names);
-    proc(task_json["Sami@Roguelike@FoldartalUseOcr"]["ocrReplace"].as_array(), base_totem_names, totem_names);
-    proc(task_json["Roguelike@StageEncounterOcr"]["ocrReplace"].as_array(), base_encounter_names, encounter_names);
+    proc(tasks_json["BattleStageName"]["ocrReplace"].as_array(), base_stage_names, stage_names);
+    proc(tasks_json["CharsNameOcrReplace"]["ocrReplace"].as_array(), base_char_names, char_names);
 
-    std::ofstream ofs(tasks_path, std::ios::out);
-    ofs << task_json.format() << '\n';
-    ofs.close();
+    proc(roguelike_json["RoguelikeTraderShoppingOcr"]["ocrReplace"].as_array(), base_item_names, item_names);
+    proc(roguelike_json["Sami@Roguelike@FoldartalGainOcr"]["ocrReplace"].as_array(), base_totem_names, totem_names);
+    proc(roguelike_json["Sami@Roguelike@FoldartalUseOcr"]["ocrReplace"].as_array(), base_totem_names, totem_names);
+    proc(roguelike_json["Roguelike@StageEncounterOcr"]["ocrReplace"].as_array(), base_encounter_names, encounter_names);
+
+    std::ofstream tasks_ofs(tasks_path, std::ios::out);
+    tasks_ofs << tasks_json.format() << '\n';
+    tasks_ofs.close();
+
+    std::ofstream roguelike_ofs(roguelike_path, std::ios::out);
+    roguelike_ofs << roguelike_json.format() << '\n';
+    roguelike_ofs.close();
 
     return true;
 }
