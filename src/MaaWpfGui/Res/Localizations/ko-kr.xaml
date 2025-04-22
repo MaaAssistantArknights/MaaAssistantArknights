@@ -932,6 +932,21 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DrunkAndStaggering">어머, 박사님. 왜 그렇게 비틀비틀 걷고 계시나요?</system:String>
     <system:String x:Key="Hangover">다, 다음엔 적당히 마셔야지……</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
+    <system:String x:Key="EasterEggsRules" xml:space="preserve">1. MAA 정식 버전에는 디버그 모드가 없습니다. 실행 중에 디버그 옵션이 표시되면 소프트웨어를 즉시 닫고 클릭하지 말고 가까운 MAA 개발자에게 문의하세요.\n
+2. 인프라 교대 근무는 자동입니다. 작업자가 72시간 이상 연속으로 작업하는 경우 수동으로 교대를 조정하고 시스템 시간이 올바른지 확인하세요.\n
+3. 공개 모집 태그는 변경되지 않습니다. 카운트다운이 끝나기 전에 태그가 변경된 것을 발견하면 모집을 계속하지 말고 MAA를 다시 시작한 후 작업하세요.\n
+4. MAA는 친구 요청을 보내지 않습니다. "MAA_System"으로부터 친구 요청을 받으면 수락하지 말고 해당 계정을 삭제하세요.\n
+5. 로그라이크 지원은 제안만 제공합니다. 게임이 존재하지 않는 옵션을 자동으로 선택한 경우 강제로 종료하고 클라이언트를 다시 시작하세요.\n
+6. MAA의 로그 파일에는 깨진 문자가 포함되어 있지 않아야 합니다. "ERROR: 데이터 분석 실패" 외의 오류 정보가 로그에 표시되면 로그를 삭제하고 소프트웨어를 다시 설치하세요.\n
+7. 야간 모드는 안전합니다. 그러나 MAA가 오전 3시 33분에 자동으로 시작되어 "알 수 없는 작업"을 실행하는 경우 전원을 뽑고 해가 뜰 때까지 기다렸다가 다시 사용하세요.\n
+8. 마지막 규칙은 존재하지 않습니다. 이 규칙을 본 경우 잊어버리고 MAA를 정상적으로 사용하세요.\n
+9. MAA에서炒...锟斤拷拷拷拷喜报拷拷拷饭을 클릭하지 마세요.\n
+10. MirrorChyan는 안전합니다. 약간의 대가를 지불하면 그녀의 보호를 받을 수 있습니다.\n
+11. MAA는 미래 버전을 지원하지 않습니다. 소프트웨어가 미발표 버전 번호(예: v10.0.0)로 자동 업데이트된 경우 실행하지 말고 공식 발표를 기다리세요.\n
+12. MAA에는 음성 프롬프트가 없습니다. 속삭임, 웃음소리 또는 프로그램 생성이 아닌 음성이 들리면 스피커를 끄고 알 수 없는 스크립트가 실행 중인지 확인하세요.\n
+13. MAA는 일요일 자정에 업데이트되지 않습니다. 업데이트 알림을 받으면 무시하고 월요일까지 업데이트 공지를 확인하지 마세요.
+    </system:String>
+    <system:String x:Key="EmployeeGuidelines">직원 수칙</system:String>
     <!--  !EasterEggs  -->
     <!--  VersionUpdatePopup  -->
     <system:String x:Key="UpdateNotificationOk">좋아요!</system:String>
