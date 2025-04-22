@@ -929,6 +929,21 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="DrunkAndStaggering">Ah, doctor, why do you sway so much in your movement today?</system:String>
     <system:String x:Key="Hangover">I won't drink so much next time……</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
+    <system:String x:Key="EasterEggsRules" xml:space="preserve">1. The official version of MAA will not have Debug mode. If you see a Debug option while running, close the software immediately, do not click it, and contact the nearest MAA developer.\n
+2. Infrastructure shift changes are automatic. If you find an operator working continuously for more than 72 hours, manually adjust the shifts and check if the system time is correct.\n
+3. Recruitment tags will not change. If you notice tags changing before the countdown ends, do not continue recruiting. Restart MAA and try again.\n
+4. MAA will not send friend requests. If you receive a friend request from "MAA_System," do not accept it and delete the account.\n
+5. Roguelike assistance only provides suggestions. If the game automatically selects a non-existent option, force quit and restart the client.\n
+6. MAA's log files should not contain garbled text. If you find logs with errors other than "ERROR: Data parsing failed," delete the logs and reinstall the software.\n
+7. Night mode is safe. However, if MAA starts automatically at 3:33 AM and runs "unknown tasks," unplug the power and wait until sunrise to use it again.\n
+8. The last rule does not exist. If you see this, forget it and use MAA as usual.\n
+9. Do not click on炒...锟斤拷拷拷拷喜报拷拷拷饭 in MAA.\n
+10. MirrorChyan is kind. You only need to pay a small price to receive its protection.\n
+11. MAA does not support future versions. If the software updates to an unreleased version number (e.g., v10.0.0), do not run it and wait for an official announcement.\n
+12. MAA has no voice prompts. If you hear whispers, laughter, or non-program-generated voices, turn off the speakers and check for unknown scripts running.\n
+13. MAA will not update at midnight on Sunday. If you receive an update prompt, ignore it and do not check the update announcement until Monday.
+    </system:String>
+    <system:String x:Key="EmployeeGuidelines">Employee Guidelines</system:String>
     <!--  !EasterEggs  -->
     <!--  VersionUpdatePopup  -->
     <system:String x:Key="UpdateNotificationOk">OK!</system:String>

@@ -932,6 +932,21 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="DrunkAndStaggering">呀，博士。你今天走起路来，怎么看着摇摇晃晃的？</system:String>
     <system:String x:Key="Hangover">下次不能喝、喝这么多了……</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
+    <system:String x:Key="EasterEggsRules" xml:space="preserve">1. MAA 正式版不会出现 Debug 模式。如果你在运行时看到 Debug 选项，请立即关闭软件，不要点击它，并联系最近的 MAA 开发者。\n
+2. 基建换班是自动的。如果你发现某个干员连续工作了 72 小时以上，请手动调整班次，并检查系统时间是否正常。\n
+3. 公开招募的标签不会改变。如果发现标签在倒计时结束前自行更换，不要继续招募，重启 MAA 后再操作。\n
+4. MAA 不会主动发送好友申请。如果收到来自 “MAA_System” 的好友请求，不要接受，并删除该账号。\n
+5. 肉鸽辅助仅提供建议。若游戏自动选择了 不存在的选项，强制退出并重新启动客户端。\n
+6. MAA 的日志文件不应包含乱码。如果发现日志中出现 “ERROR: 数据解析失败” 以外的异常信息，删除日志并重新安装软件。\n
+7. 夜间模式是安全的。但如果 MAA 在 凌晨 3:33 自动启动并运行 “未知任务”，请拔掉电源，等待日出后再使用。\n
+8. 最后一条规则不存在。如果你看到了这条，请忘记它，并正常使用 MAA。\n
+9. 请不要在 MAA 里点炒...锟斤拷拷拷拷喜报拷拷拷饭。\n
+10. Mirror酱是善良的，你只要付出小小的代价，就能得到祂的庇护。\n
+11. MAA 不支持未来版本。如果软件自动更新到一个 尚未发布的版本号（如 v10.0.0），不要运行，等待官方公告。\n
+12. MAA 的没有语音提示。如果听到 低语声、笑声或非程序生成的语音，关闭扬声器，并检查是否有未知脚本在运行。\n
+13. MAA 不会在周日凌晨更新。如果收到更新提示，请忽略，不要查看更新公告，直到周一。
+    </system:String>
+    <system:String x:Key="EmployeeGuidelines">员工守则</system:String>
     <!--  !EasterEggs  -->
     <!--  VersionUpdatePopup  -->
     <system:String x:Key="UpdateNotificationOk">好的！</system:String>
