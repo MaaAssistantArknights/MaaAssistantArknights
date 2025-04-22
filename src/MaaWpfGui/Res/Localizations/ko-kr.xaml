@@ -41,6 +41,7 @@
     <system:String x:Key="ExternalNotificationEnableDetails">상세 정보 출력</system:String>
     <system:String x:Key="ExternalNotificationSendWhenComplete">작업 완료 시 알림 전송</system:String>
     <system:String x:Key="ExternalNotificationSendWhenError">작업 실패 시 알림 전송</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenTimeout">작업이 시간 초과될 때 알림 보내기</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">전송 성공</system:String>
     <system:String x:Key="ExternalNotificationSendFail">전송 실패</system:String>
     <system:String x:Key="ExternalNotificationSendTest">테스트</system:String>

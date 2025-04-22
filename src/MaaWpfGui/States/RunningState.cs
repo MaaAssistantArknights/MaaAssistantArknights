@@ -103,7 +103,7 @@ namespace MaaWpfGui.States
             var message = string.Format(
                 LocalizationHelper.GetString("TaskTimeoutWarning"),
                 TaskTimeoutMinutes,
-                $"{elapsedMinutes:F1}");
+                Math.Floor(elapsedMinutes));
 
             TimeoutOccurred?.Invoke(this, message);
         }
