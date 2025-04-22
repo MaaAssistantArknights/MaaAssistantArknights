@@ -33,10 +33,16 @@ Homebrew 用户可以通过非官方的 [tap](https://github.com/MaaAssistantArk
 
 ### Linux
 
-- Arch Linux 用户可以安装 [AUR 包](https://aur.archlinux.org/packages/maa-cli/)：
+- Arch Linux 用户可以安装 [AUR 包](https://aur.archlinux.org/packages/maa-assistant-arknights)：
 
   ```bash
-  yay -S maa-cli
+  yay -S maa-assistant-arknights
+  ```
+
+  或者使用预编译版本 [AUR 包](https://aur.archlinux.org/packages/maa-assistant-arknights-bin)：
+
+  ```bash
+  yay -S maa-assistant-arknights-bin
   ```
 
 - ❄️ Nix 用户可以直接运行:

@@ -29,10 +29,16 @@ Homebrew 사용자는 비공식 [tap](https://github.com/MaaAssistantArknights/h
 
 ### Linux
 
-- Arch Linux 사용자는 [AUR 패캐지](https://aur.archlinux.org/packages/maa-cli/)를 설치할 수 있습니다:
+- Arch Linux 사용자는 [AUR 패캐지](https://aur.archlinux.org/packages/maa-assistant-arknights)를 설치할 수 있습니다:
 
   ```bash
-  yay -S maa-cli
+  yay -S maa-assistant-arknights
+  ```
+
+  또는 사전 컴파일된 버전 [AUR 패캐지](https://aur.archlinux.org/packages/maa-assistant-arknights-bin)를 사용할 수 있습니다:
+
+  ```bash
+  yay -S maa-assistant-arknights-bin
   ```
 
 - ❄️ Nix 사용자는 다음 명령어를 실행할 수 있습니다:

@@ -29,10 +29,16 @@ Homebrew users can install maa-cli via the unofficial [tap](https://github.com/M
 
 ### Linux
 
-- Arch Linux users can install the [AUR package](https://aur.archlinux.org/packages/maa-cli/):
+- Arch Linux users can install the [AUR package](https://aur.archlinux.org/packages/maa-assistant-arknights):
 
   ```bash
-  yay -S maa-cli
+  yay -S maa-assistant-arknights
+  ```
+  
+  Or use the precompiled version [AUR package](https://aur.archlinux.org/packages/maa-assistant-arknights-bin):
+
+  ```bash
+  yay -S maa-assistant-arknights-bin
   ```
 
 - ❄️ Nix users can run directly:
