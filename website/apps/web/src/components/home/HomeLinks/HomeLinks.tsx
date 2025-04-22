@@ -280,7 +280,7 @@ export const HomeLinks = forwardRef<HTMLDivElement, HomeLinksProps>(({ showLinks
         // 根据面板位置应用不同的隐藏动画
         if (isPanelCenteredRef.current) {
           // 居中时向下纵向淡出
-          panel.current.style.transform = 'translate(-50%, -50%) translateY(10px) rotateX(5deg)';
+          panel.current.style.transform = 'translate(-50%, -50%) translateY(10px) rotateX(5deg)'; // 有点屎的实现，但能用
         } else {
           // 在右侧时向左横向淡出
           panel.current.style.transform = 'translateX(-10px) rotateY(10deg)';
