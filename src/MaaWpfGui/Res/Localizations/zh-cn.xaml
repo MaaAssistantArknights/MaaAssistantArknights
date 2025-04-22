@@ -39,7 +39,8 @@
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
     <system:String x:Key="ExternalNotificationEnabled">启用的通知配置</system:String>
     <system:String x:Key="ExternalNotificationEnableDetails">输出详细信息</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenError">任务出错时发送额外通知</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenComplete">任务完成后发送通知</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenError">任务出错时发送通知</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">发送成功</system:String>
     <system:String x:Key="ExternalNotificationSendFail">发送失败</system:String>
     <system:String x:Key="ExternalNotificationSendTest">发送测试</system:String>

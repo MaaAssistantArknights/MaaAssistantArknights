@@ -837,12 +837,15 @@ namespace MaaWpfGui.Main
                             allTaskCompleteLog = allTaskCompleteLog + Environment.NewLine + sanityReport;
                             Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog);
 
-                            var logs = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationEnableDetails
-                                ? Instances.TaskQueueViewModel.LogItemViewModels.Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n")
-                                : string.Empty;
-                            logs += allTaskCompleteMessage;
+                            if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenComplete)
+                            {
+                                var logs = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationEnableDetails
+                                    ? Instances.TaskQueueViewModel.LogItemViewModels.Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n")
+                                    : string.Empty;
+                                logs += allTaskCompleteMessage;
 
-                            ExternalNotificationService.Send(allTaskCompleteTitle, logs + Environment.NewLine + sanityReport);
+                                ExternalNotificationService.Send(allTaskCompleteTitle, logs + Environment.NewLine + sanityReport);
+                            }
 
                             if (_toastNotificationTimer is not null)
                             {
@@ -864,12 +867,15 @@ namespace MaaWpfGui.Main
                         {
                             Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog);
 
-                            var logs = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationEnableDetails
-                                ? Instances.TaskQueueViewModel.LogItemViewModels.Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n")
-                                : string.Empty;
-                            logs += allTaskCompleteMessage;
+                            if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenComplete)
+                            {
+                                var logs = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationEnableDetails
+                                    ? Instances.TaskQueueViewModel.LogItemViewModels.Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n")
+                                    : string.Empty;
+                                logs += allTaskCompleteMessage;
 
-                            ExternalNotificationService.Send(allTaskCompleteTitle, logs);
+                                ExternalNotificationService.Send(allTaskCompleteTitle, logs);
+                            }
                         }
 
                         using (var toast = new ToastNotification(allTaskCompleteTitle))
