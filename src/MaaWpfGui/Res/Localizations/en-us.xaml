@@ -39,7 +39,8 @@
     <system:String x:Key="ExternalNotificationSettings">External notifications</system:String>
     <system:String x:Key="ExternalNotificationEnabled">Enabled configuration</system:String>
     <system:String x:Key="ExternalNotificationEnableDetails">Output Detailed Information</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenError">Send additional notification when task fails</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenComplete">タスク完了時に通知を送信</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenError">Send notification when task fails</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">Send successfully</system:String>
     <system:String x:Key="ExternalNotificationSendFail">Send failed</system:String>
     <system:String x:Key="ExternalNotificationSendTest">Send Test</system:String>
