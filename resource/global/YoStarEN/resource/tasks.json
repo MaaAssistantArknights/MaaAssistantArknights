@@ -21,6 +21,12 @@
     "StageTheme": {
         "roi": [200, 640, 300, 60]
     },
+    "PV-OpenOcr": {
+        "text": ["Portatori", "Velluti", "Splendida", "Cavalcata", "Decadenza"]
+    },
+    "PVChapterToPV": {
+        "text": ["Quadriglia", "QUADRIGLIA"]
+    },
     "ClickChapter1": {
         "text": ["Hour of An Awakening", "Hour of An"]
     },
