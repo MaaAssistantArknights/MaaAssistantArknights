@@ -1,0 +1,67 @@
+{
+    "OF-1": {
+        "algorithm": "JustReturn",
+        "sub": ["ToOF", "ChapterSwipeToTheLeft", "OF-1@SideStoryStage"]
+    },
+    "OF-F3": {
+        "algorithm": "JustReturn",
+        "sub": ["ToOF", "OF-Chapter2", "StageOF-F3"]
+    },
+    "ToOF": {
+        "algorithm": "JustReturn",
+        "next": ["ToOFOld", "ToOFNew"]
+    },
+    "ToOFOld": {
+        "baseTask": "StageEpisode",
+        "template": "StageEpisode.png",
+        "sub": ["StageEpisodeToOF", "OFToOF-Chapter"]
+    },
+    "ToOFNew": {
+        "algorithm": "JustReturn",
+        "sub": ["ToChapterNew@StageTheme", "SwipeToOFStage", "OFToOF-ChapterNew"]
+    },
+    "StageEpisodeToOF": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["火蓝之心"],
+        "roi": [0, 41, 372, 627]
+    },
+    "SwipeToOFStage": {
+        "baseTask": "SlowlySwipeToTheUp",
+        "specificRect": [1250, 580, 20, 20],
+        "rectMove": [1250, 110, 20, 20],
+        "specialParams": [1000, 0, 3, 0],
+        "next": ["StageOFNew", "#self"],
+        "maxTimes": 30,
+        "exceededNext": ["Stop"]
+    },
+    "StageOFNew": {
+        "action": "ClickSelf",
+        "roi": [58, 83, 1142, 628]
+    },
+    "OFToOF-Chapter": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["进入", "活动"],
+        "roi": [993, 439, 287, 168],
+        "postDelay": 1000,
+        "next": ["#self", "Stop"]
+    },
+    "OFToOF-ChapterNew": {
+        "baseTask": "OFToOF-Chapter",
+        "roi": [1060, 590, 140, 50]
+    },
+    "OF-Chapter2": {
+        "action": "ClickSelf",
+        "roi": [1042, 565, 141, 143]
+    },
+    "StageOF-F3": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "isAscii": true,
+        "text": ["OF-F3", "0F-F3"]
+    },
+    "OF-1@SideStoryStage": {
+        "text": ["OF-1", "0F-1"]
+    }
+}

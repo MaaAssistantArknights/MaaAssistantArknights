@@ -1,0 +1,51 @@
+{
+    "SN-8": {
+        "algorithm": "JustReturn",
+        "sub": ["SN-Open", "SN-Chapter2", "SN-8@SideStoryStage"]
+    },
+    "SN-9": {
+        "algorithm": "JustReturn",
+        "sub": ["SN-Open", "SN-Chapter3", "SN-9@SideStoryStage"]
+    },
+    "SN-10": {
+        "algorithm": "JustReturn",
+        "sub": ["SN-Open", "SN-Chapter3", "SN-10@SideStoryStage"]
+    },
+    "SN-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["已开放"],
+        "roi": [0, 500, 500, 150]
+    },
+    "SN-Chapter2": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["失落旗舰", "失落", "旗舰"],
+        "roi": [163, 417, 195, 125],
+        "preDelay": 2000,
+        "next": ["SN-Chapter2", "ChapterSwipeToTheRight"]
+    },
+    "SN-Chapter3": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["无名之海", "无名", "之海"],
+        "roi": [258, 503, 194, 123],
+        "preDelay": 2000,
+        "next": ["SN-Chapter3", "ChapterSwipeToTheLeft"]
+    },
+    "SN-8@SideStoryStage": {
+        "algorithm": "MatchTemplate",
+        "template": "SN-8.png",
+        "roi": [296, 93, 171, 195]
+    },
+    "SN-9@SideStoryStage": {
+        "algorithm": "MatchTemplate",
+        "template": "SN-9.png",
+        "roi": [610, 328, 176, 198]
+    },
+    "SN-10@SideStoryStage": {
+        "algorithm": "MatchTemplate",
+        "template": "SN-10.png",
+        "roi": [678, 220, 173, 200]
+    }
+}
