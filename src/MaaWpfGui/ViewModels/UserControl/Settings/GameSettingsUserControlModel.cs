@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
@@ -27,6 +28,8 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
 public class GameSettingsUserControlModel : PropertyChangedBase
 {
+    private static RunningState _runningState => RunningState.Instance;
+
     static GameSettingsUserControlModel()
     {
         Instance = new();
@@ -334,4 +337,34 @@ public class GameSettingsUserControlModel : PropertyChangedBase
     }
 
     #endregion 企鹅和一图流上报
+
+    #region 任务超时
+
+    private int _taskTimeoutMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.TaskTimeoutMinutes, 60);
+
+    public int TaskTimeoutMinutes
+    {
+        get => _taskTimeoutMinutes;
+        set
+        {
+            SetAndNotify(ref _taskTimeoutMinutes, value);
+            _runningState.TaskTimeoutMinutes = value;
+            ConfigurationHelper.SetValue(ConfigurationKeys.TaskTimeoutMinutes, value.ToString());
+        }
+    }
+
+    private int _reminderIntervalMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.ReminderIntervalMinutes, 30);
+
+    public int ReminderIntervalMinutes
+    {
+        get => _reminderIntervalMinutes;
+        set
+        {
+            SetAndNotify(ref _reminderIntervalMinutes, value);
+            _runningState.ReminderIntervalMinutes = value;
+            ConfigurationHelper.SetValue(ConfigurationKeys.ReminderIntervalMinutes, value.ToString());
+        }
+    }
+
+    #endregion 任务超时
 }

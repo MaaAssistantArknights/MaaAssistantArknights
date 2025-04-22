@@ -316,6 +316,14 @@ namespace MaaWpfGui.ViewModels.UI
             _container = container;
             _runningState = RunningState.Instance;
             _runningState.IdleChanged += RunningState_IdleChanged;
+            _runningState.TimeoutOccurred += (_, message) =>
+            {
+                Execute.OnUIThread(() =>
+                {
+                    AddLog(message, UiLogColor.Warning);
+                    ToastNotification.ShowDirect(message);
+                });
+            };
         }
 
         private void RunningState_IdleChanged(object sender, bool e)

@@ -1013,4 +1013,9 @@ C:\\leidian\\LDPlayer9。\n
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">加解密失敗，請重新配置相關設置，否則加密內容將以明文形式存儲在配置文件中。</system:String>
     <!--  !SimpleEncryptionHelper  -->
+    <!--  TimeOutTimer  -->
+    <system:String x:Key="TaskTimeoutMinutes">任務超時時間（分鐘）</system:String>
+    <system:String x:Key="ReminderIntervalMinutes">提醒間隔時間（分鐘）</system:String>
+    <system:String x:Key="TaskTimeoutWarning">任務已運行超過 {0} 分鐘（當前已運行 {1} 分鐘），請檢查是否需要手動干預。</system:String>
+    <!--  !TimeOutTimer  -->
 </ResourceDictionary>

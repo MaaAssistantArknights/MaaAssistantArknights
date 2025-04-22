@@ -226,6 +226,9 @@ namespace MaaWpfGui.Constants
 
         public const string EnableYituliu = "Yituliu.EnableYituliu";
 
+        public const string TaskTimeoutMinutes = "TimeOut.Timer.TaskTimeoutMinutes";
+        public const string ReminderIntervalMinutes = "TimeOut.Timer.ReminderIntervalMinutes";
+
         public const string BluestacksConfigPath = "Bluestacks.Config.Path";
         public const string BluestacksConfigKeyword = "Bluestacks.Config.Keyword";
         public const string BluestacksConfigError = "Bluestacks.Config.Error";
