@@ -17,7 +17,6 @@ export const HomeHero: FC = () => {
   const indicatorRef = useRef<HTMLDivElement | null>(null)
   const windowDimensions = useWindowSize()
   const { theme } = useTheme()
-  // 添加控制友情链接显示的状态
   const [showLinks, setShowLinks] = useState(false)
 
   return (
@@ -63,7 +62,6 @@ export const HomeHero: FC = () => {
         showLinks={showLinks} 
         onClose={() => setShowLinks(false)} 
       />
-      {/* 移除指示器组件，不再需要通过鼠标触发友情链接 */}
     </div>
   )
 }

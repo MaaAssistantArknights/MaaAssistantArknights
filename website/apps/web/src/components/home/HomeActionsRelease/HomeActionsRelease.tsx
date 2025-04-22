@@ -469,11 +469,12 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
   const allPlatformDownloadBtns = useMemo(
     () =>
       validPlatforms.map((platform) => (
-        <DownloadButton
-          platform={platform}
-          releaseName={release.name}
-          key={platform.platform.id}
-        />
+        <motion.div layout key={platform.platform.id}>
+          <DownloadButton
+            platform={platform}
+            releaseName={release.name}
+          />
+        </motion.div>
       )),
     [validPlatforms],
   )
@@ -488,11 +489,12 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
       if (!platform) return allPlatformDownloadBtns
 
       return [
-        <DownloadButton
-          platform={platform}
-          releaseName={release.name}
-          key={platform.platform.id}
-        />,
+        <motion.div layout key={platform.platform.id}>
+          <DownloadButton
+            platform={platform}
+            releaseName={release.name}
+          />
+        </motion.div>,
       ]
     }
   }, [validPlatforms, viewAll, envPlatformId])
@@ -530,9 +532,15 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
         />
       )}
       {!viewAll && (
-        <div className="gap-4 items-center flex flex-col md:flex-row">
+        <motion.div
+          layout
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+          key="view-all-switch"
+          className="gap-4 items-center flex flex-col md:flex-row"
+        >
           <GlowButton
-            key="view-all-switch"
             bordered
             onClick={() => setViewAll(true)}
           >
@@ -540,19 +548,26 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
                 查看全部
             </div>
           </GlowButton>
-        </div>
+        </motion.div>
       )}
       {!viewAll && mirrorchyanAvailable && (
-        <GlowButton
+        <motion.div
+          layout
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
           key="mirrorchyan"
-          bordered
-          href={`https://mirrorchyan.com/zh/projects?rid=MAA&os=${os}&arch=${arch}&channel=stable`}
         >
-          <div className="text-sm">
-            <p><i>已有 Mirror酱 CDK？</i></p>
-            <p><i>前往 Mirror酱 高速下载</i></p>
-          </div>
-        </GlowButton>
+          <GlowButton
+            bordered
+            href={`https://mirrorchyan.com/zh/projects?rid=MAA&os=${os}&arch=${arch}&channel=stable`}
+          >
+            <div className="text-sm">
+              <p><i>已有 Mirror酱 CDK？</i></p>
+              <p><i>前往 Mirror酱 高速下载</i></p>
+            </div>
+          </GlowButton>
+        </motion.div>
       )}
     </AnimatePresence>
   )

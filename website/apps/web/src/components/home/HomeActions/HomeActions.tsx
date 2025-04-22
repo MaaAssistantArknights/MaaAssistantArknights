@@ -95,10 +95,33 @@ export const HomeActions: FC<HomeActionsProps> = ({ toggleLinks, showLinks }) =>
           </div>
         </GlowButton>
       </div>
-
       <div className="mt-6 text-xs leading-5 text-center md:mt-8 dark:text-white/70 text-black/70 transition-colors duration-300">
-        <span style={{ display: 'inline-block' }}>MAA 以 AGPL-3.0 协议开源；</span>
-        <span style={{ display: 'inline-block' }}>使用即表示您同意并知悉「用户协议」的相关内容。</span>
+        <motion.span
+          className="whitespace-nowrap"
+          initial={{ opacity: 0, x: -10, }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, ease: 'easeOut', delay: 1.3 }}
+          style={{ display: 'inline-block' }}
+        >
+          MAA 以 AGPL-3.0 协议开源
+        </motion.span>
+        <motion.span
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3, ease: 'easeOut', delay: 1.4 }}
+          style={{ display: 'inline-block' }}
+        >
+          ；
+        </motion.span>
+        <motion.span
+          className="whitespace-nowrap"
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.4, ease: 'easeOut', delay: 1.4 }}
+          style={{ display: 'inline-block' }}
+        >
+          使用即表示您同意并知悉「用户协议」的相关内容。
+        </motion.span>
       </div>
     </div>
   )
