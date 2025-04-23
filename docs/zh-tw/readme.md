@@ -187,7 +187,7 @@ MAA 以中文（簡體）為第一語言，翻譯詞條皆以中文（簡體）�
 
 ## 聲明
 
-- 本軟體使用 [GNU Affero General Public License v3.0 only](https://spdx.org/licenses/AGPL-3.0-only.html) 開源。
+- 本軟體使用 [GNU Affero General Public License v3.0 only](https://spdx.org/licenses/AGPL-3.0-only.html) 開源，並附帶額外 [用戶協議](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/terms-of-service.md)。
 - 本軟體 logo 並非使用 AGPL 3.0 協議開源，[耗毛](https://weibo.com/u/3251357314)、vie 兩位畫師及軟體全體開發者保留所有權利。不得以 AGPL 3.0 協議已授權為由在未經授權的情況下使用本軟體 logo，不得在未經授權的情況下將本軟體 logo 用於任何商業用途。
 - 本軟體開源、免費，僅供學習交流使用。若您遇到商家使用本軟體進行代練並收費，可能是設備與時間等費用，產生的問題及後果與本軟體無關。
 

@@ -103,7 +103,15 @@ export const HomeActions: FC<HomeActionsProps> = ({ toggleLinks, showLinks }) =>
           transition={{ duration: 0.5, ease: 'easeOut', delay: 1.3 }}
           style={{ display: 'inline-block' }}
         >
-          MAA 以 AGPL-3.0 协议开源
+          MAA 以&nbsp;
+        <a
+          href="https://spdx.org/licenses/AGPL-3.0-only.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline"
+        >
+          AGPL-3.0
+        </a>&nbsp;协议开源
         </motion.span>
         <motion.span
           initial={{ opacity: 0, x: -10 }}
@@ -120,7 +128,16 @@ export const HomeActions: FC<HomeActionsProps> = ({ toggleLinks, showLinks }) =>
           transition={{ duration: 0.4, ease: 'easeOut', delay: 1.4 }}
           style={{ display: 'inline-block' }}
         >
-          使用即表示您同意并知悉「用户协议」的相关内容。
+          使用即表示您同意并知悉「
+        <a
+          href="https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/terms-of-service.md"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline"
+        >
+          用户协议
+        </a>
+        」的相关内容。
         </motion.span>
       </div>
     </div>
