@@ -176,15 +176,6 @@ public class MallSettingsUserControlModel : TaskViewModel
     {
         if (baseTask is MallTask)
         {
-            SetAndNotify(ref _creditReserveMaxCredit, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CreditReserveMaxCredit, value.ToString());
-        }
-    }
-
-    public override void RefreshUI(BaseTask baseTask)
-    {
-        if (baseTask is MallTask)
-        {
             Refresh();
         }
     }
