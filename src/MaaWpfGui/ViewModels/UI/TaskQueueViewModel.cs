@@ -336,10 +336,15 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 AddLog(message, UiLogColor.Warning);
                 ToastNotification.ShowDirect(message);
-                if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenTimeout)
+                if (!SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenTimeout)
                 {
-                    ExternalNotificationService.Send(message, message);
+                    return;
                 }
+
+                var lastLogs = LogItemViewModels
+                    .TakeLast(5)
+                    .Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n");
+                ExternalNotificationService.Send(message, lastLogs);
             });
         }
 

@@ -83,6 +83,11 @@ namespace MaaWpfGui.States
             _taskStartTime = null;
         }
 
+        public void ResetTimeout()
+        {
+            _taskStartTime = DateTime.Now;
+        }
+
         // 超时计时器回调
         private void TimeoutReminderTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
