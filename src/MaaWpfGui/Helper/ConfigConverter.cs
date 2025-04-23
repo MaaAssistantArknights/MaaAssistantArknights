@@ -126,12 +126,37 @@ public class ConfigConverter
                 var awardTask = new AwardTask(); // √
                 var mallTask = new MallTask(); // √
                 var infrastTask = new InfrastTask();
-                var recruitTask = new RecruitTask();
+                var recruitTask = new RecruitTask(); // √
                 var roguelikeTask = new RoguelikeTask(); // √
                 var reclamationTask = new ReclamationTask(); // √
 
                 startUpTask.AccountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.AccountName);
+
+                recruitTask.ExtraTagMode = ConfigurationHelper.GetValue(ConfigurationKeys.SelectExtraTags, 0);
+                recruitTask.Level3PreferTags = [.. ConfigurationHelper.GetValue(ConfigurationKeys.AutoRecruitFirstList, string.Empty).Split(";")];
+                recruitTask.RefreshLevel3 = ConfigurationHelper.GetValue(ConfigurationKeys.RefreshLevel3, true);
+                recruitTask.ForceRefresh = ConfigurationHelper.GetValue(ConfigurationKeys.ForceRefresh, true);
+                recruitTask.Level1NotChoose = ConfigurationHelper.GetValue(ConfigurationKeys.NotChooseLevel1, true);
+                recruitTask.MaxTimes = ConfigurationHelper.GetValue(ConfigurationKeys.RecruitMaxTimes, 4);
+                recruitTask.Level3Choose = ConfigurationHelper.GetValue(ConfigurationKeys.RecruitChooseLevel3, true);
+                recruitTask.Level3Time = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3Time, 540);
+                recruitTask.Level4Choose = ConfigurationHelper.GetValue(ConfigurationKeys.RecruitChooseLevel4, true);
+                recruitTask.Level4Time = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel4Time, 540);
+                recruitTask.Level5Choose = ConfigurationHelper.GetValue(ConfigurationKeys.RecruitChooseLevel5, false);
+                recruitTask.Level5Time = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel5Time, 540);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.SelectExtraTags);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.AutoRecruitFirstList);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RefreshLevel3);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ForceRefresh);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.NotChooseLevel1);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RecruitMaxTimes);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RecruitChooseLevel3);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RecruitChooseLevel4);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RecruitChooseLevel5);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ChooseLevel3Time);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ChooseLevel4Time);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ChooseLevel5Time);
 
                 awardTask.Award = ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveAward, true);
                 awardTask.Mail = ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveMail, false);
@@ -193,7 +218,6 @@ public class ConfigConverter
                 roguelikeTask.SamiFirstFloorFoldartals = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3FirstFloorFoldartals, string.Empty);
                 roguelikeTask.SamiNewSquad2StartingFoldartal = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartal, false);
                 roguelikeTask.SamiNewSquad2StartingFoldartals = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartals, string.Empty).Replace("；", ";").Trim();
-
                 roguelikeTask.CollectibleShopping = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeCollectibleModeShopping, false);
                 roguelikeTask.ExpectedCollapsalParadigms = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeExpectedCollapsalParadigms, string.Empty).Replace("；", ";").Trim();
                 roguelikeTask.StopWhenLevelMax = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStopAtMaxLevel, false);
