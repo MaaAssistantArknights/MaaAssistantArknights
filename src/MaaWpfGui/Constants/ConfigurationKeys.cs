@@ -166,18 +166,18 @@ namespace MaaWpfGui.Constants
         public const string ReclamationMaxCraftCountPerRound = "Reclamation.ReclamationMaxCraftCountPerRound"; // 已迁移
         public const string ReclamationClearStore = "Reclamation.ReclamationClearStore";
 
-        public const string RecruitMaxTimes = "AutoRecruit.MaxTimes";
-        public const string AutoRecruitFirstList = "AutoRecruit.AutoRecruitFirstList";
-        public const string RefreshLevel3 = "AutoRecruit.RefreshLevel3";
-        public const string ForceRefresh = "AutoRecruit.ForceRefresh";
-        public const string SelectExtraTags = "AutoRecruit.SelectExtraTags";
-        public const string NotChooseLevel1 = "AutoRecruit.NotChooseLevel1";
-        public const string RecruitChooseLevel3 = "AutoRecruit.ChooseLevel3";
-        public const string ChooseLevel3Time = "AutoRecruit.ChooseLevel3.Time";
-        public const string RecruitChooseLevel4 = "AutoRecruit.ChooseLevel4";
-        public const string ChooseLevel4Time = "AutoRecruit.ChooseLevel4.Time";
-        public const string RecruitChooseLevel5 = "AutoRecruit.ChooseLevel5";
-        public const string ChooseLevel5Time = "AutoRecruit.ChooseLevel5.Time";
+        public const string RecruitMaxTimes = "AutoRecruit.MaxTimes"; // 已迁移
+        public const string AutoRecruitFirstList = "AutoRecruit.AutoRecruitFirstList"; // 已迁移
+        public const string RefreshLevel3 = "AutoRecruit.RefreshLevel3"; // 已迁移
+        public const string ForceRefresh = "AutoRecruit.ForceRefresh"; // 已迁移
+        public const string SelectExtraTags = "AutoRecruit.SelectExtraTags"; // 已迁移
+        public const string NotChooseLevel1 = "AutoRecruit.NotChooseLevel1"; // 已迁移
+        public const string RecruitChooseLevel3 = "AutoRecruit.ChooseLevel3"; // 已迁移
+        public const string ChooseLevel3Time = "AutoRecruit.ChooseLevel3.Time"; // 已迁移
+        public const string RecruitChooseLevel4 = "AutoRecruit.ChooseLevel4"; // 已迁移
+        public const string ChooseLevel4Time = "AutoRecruit.ChooseLevel4.Time"; // 已迁移
+        public const string RecruitChooseLevel5 = "AutoRecruit.ChooseLevel5"; // 已迁移
+        public const string ChooseLevel5Time = "AutoRecruit.ChooseLevel5.Time"; // 已迁移
 
         public const string LastCreditFightTaskTime = "Visit.LastCreditFightTaskTime"; // 已迁移
         public const string CreditFightTaskEnabled = "Visit.CreditFightTaskEnabled"; // 已迁移

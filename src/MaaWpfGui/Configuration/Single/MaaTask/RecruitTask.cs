@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using static MaaWpfGui.Main.AsstProxy;
 
@@ -36,41 +37,15 @@ public class RecruitTask : BaseTask
     public int MaxTimes { get; set; } = 4;
 
     /// <summary>
-    /// Gets or sets a value indicating whether 无招聘许可仍然刷新
+    /// Gets or sets 多Tag策略
+    /// TODO 改枚举？
     /// </summary>
-    public bool ForceRefresh { get; set; } = true;
+    public int ExtraTagMode { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether 不自动确认1星
+    /// Gets or sets 3星首选Tag
     /// </summary>
-    public bool NotChooseLevel1 { get; set; } = true;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether 自动确认3星
-    /// </summary>
-    public bool ChooseLevel3 { get; set; } = true;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether 自动确认4星
-    /// </summary>
-    public bool ChooseLevel4 { get; set; } = true;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether 自动确认5星
-    /// </summary>
-    public bool ChooseLevel5 { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether 3星使用01:00
-    /// TODO 重命名? / 枚举
-    /// </summary>
-    public bool Level3Time0100 { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether 3星使用07:40
-    /// TODO 重命名?
-    /// </summary>
-    public bool Level3Time0740 { get; set; }
+    public List<string> Level3PreferTags { get; set; } = [];
 
     /// <summary>
     /// Gets or sets a value indicating whether 无倾向Tag时是否刷新3星
@@ -79,13 +54,42 @@ public class RecruitTask : BaseTask
     public bool RefreshLevel3 { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets 3星首选Tag
+    /// Gets or sets a value indicating whether 无招聘许可仍然刷新
     /// </summary>
-    public string? Level3FirstTags { get; set; }
+    public bool ForceRefresh { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets 多Tag策略
-    /// TODO 改枚举？
+    /// Gets or sets a value indicating whether 不自动确认1星
     /// </summary>
-    public int ExtraTagStrategy { get; set; }
+    public bool Level1NotChoose { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 自动确认3星
+    /// </summary>
+    public bool Level3Choose { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 自动确认4星
+    /// </summary>
+    public bool Level4Choose { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 自动确认5星
+    /// </summary>
+    public bool Level5Choose { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 3星时间
+    /// </summary>
+    public int Level3Time { get; set; } = 540;
+
+    /// <summary>
+    /// Gets or sets 4星时间
+    /// </summary>
+    public int Level4Time { get; set; } = 540;
+
+    /// <summary>
+    /// Gets or sets 5星时间
+    /// </summary>
+    public int Level5Time { get; set; } = 540;
 }
