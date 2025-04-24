@@ -1019,12 +1019,16 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationToolToCraftTip">支援道具名</system:String>
     <system:String x:Key="ReclamationToolToCraftPlaceholder">ケミカルライト</system:String>
     <!--  !Reclamation  -->
-    <!--  SingleInstance  -->
+    <!--  Boot  -->
+    <system:String x:Key="VC++NotInstalled" xml:space="preserve">
+Microsoft Visual C++ redistributable 2015-2022 (x64) がインストールされていないことが検出されました。
+「OK」をクリックするとインストールスクリプトが実行され、MAA が終了します。「キャンセル」をクリックすると MAA が直接終了します。
+    </system:String>
     <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">
 同じパスの下で起動できるのは1つのインスタンスのみ！
 MAA を複数開くには、新しい MAA を他のフォルダにコピーし、異なる MAA、同じ adb、異なるシミュレータアドレスを使用して複数の操作を行うように設定します。
     </system:String>
-    <!--  !SingleInstance  -->
+    <!--  !Boot  -->
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">暗号化と復号化に失敗しました。関連設定を再設定してください。そうでないと、暗号化された内容は設定ファイルに平文で保存されます。</system:String>
     <!--  !SimpleEncryptionHelper  -->

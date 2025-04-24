@@ -1020,12 +1020,16 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ReclamationToolToCraftTip">支援道具名稱</system:String>
     <system:String x:Key="ReclamationToolToCraftPlaceholder">螢光棒</system:String>
     <!--  !Reclamation  -->
-    <!--  SingleInstance  -->
+    <!--  Boot  -->
+    <system:String x:Key="VC++NotInstalled" xml:space="preserve">
+偵測到 Microsoft Visual C++ Redistributable 2015-2022 (x64) 未安裝,
+點擊 "確定" 將執行安裝腳本並退出 MAA, 點擊 "取消" 將直接退出 MAA.
+    </system:String>
     <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">
 同一路徑下只能啟動一個實例！
 如需多開MAA，請複製一份新的MAA到其他資料夾下，並設定使用不同的 MAA，相同的 adb 和不同的模擬器地址進行多開操作。
     </system:String>
-    <!--  !SingleInstance  -->
+    <!--  !Boot  -->
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">加解密失敗，請重新配置相關設置，否則加密內容將以明文形式存儲在配置文件中。</system:String>
     <!--  !SimpleEncryptionHelper  -->
