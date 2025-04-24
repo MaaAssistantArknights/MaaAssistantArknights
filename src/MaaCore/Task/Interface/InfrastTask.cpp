@@ -19,6 +19,7 @@
 asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
     InterfaceTask(callback, inst, TaskType),
     m_infrast_begin_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
+    m_queue_rotation_task(std::make_shared<ProcessTask>(callback, inst, TaskType)),
     m_info_task_ptr(std::make_shared<InfrastInfoTask>(callback, inst, TaskType)),
     m_mfg_task_ptr(std::make_shared<InfrastMfgTask>(callback, inst, TaskType)),
     m_trade_task_ptr(std::make_shared<InfrastTradeTask>(callback, inst, TaskType)),
@@ -33,6 +34,7 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
     LogTraceFunction;
 
     m_infrast_begin_task_ptr->set_tasks({ "InfrastBegin" }).set_ignore_error(false);
+    m_queue_rotation_task->set_tasks({ "InfrastEnterRotation" }).set_ignore_error(true);
     m_replenish_task_ptr = m_mfg_task_ptr->register_plugin<ReplenishOriginiumShardTaskPlugin>();
     m_info_task_ptr->set_ignore_error(true);
     m_mfg_task_ptr->set_ignore_error(true);
@@ -54,6 +56,19 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
     int mode = params.get("mode", 0);
     bool is_custom = static_cast<Mode>(mode) == Mode::Custom;
+    bool use_rotation = params.get("infrast_rotation", false);
+
+    const std::initializer_list<std::shared_ptr<InfrastProductionTask>> shift_tasks = {
+        m_mfg_task_ptr,
+        m_trade_task_ptr,
+        m_reception_task_ptr
+    };
+
+    for (auto&& task : shift_tasks) {
+        if (task) {
+            task->set_skip_shift(use_rotation);
+        }
+    }
 
     if (!m_running) {
         auto facility_opt = params.find<json::array>("facility");
@@ -67,7 +82,19 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
         m_subtasks.clear();
         append_infrast_begin();
+
+        if (use_rotation) {
+            m_subtasks.emplace_back(m_queue_rotation_task);
+        }
+        
         m_subtasks.emplace_back(m_info_task_ptr);
+
+        const std::unordered_set<std::string> rotation_skip_facilities = {
+            "Dorm",
+            "Power",
+            "Office",
+            "Control"
+        };
 
         for (const auto& facility_json : facility_opt.value()) {
             if (!facility_json.is_string()) {
@@ -77,6 +104,12 @@ bool asst::InfrastTask::set_params(const json::value& params)
             }
 
             std::string facility = facility_json.as_string();
+
+            if (use_rotation && rotation_skip_facilities.find(facility) != rotation_skip_facilities.cend()) {
+                Log.info("skip facility in rotation mode", facility);
+                continue;
+            }
+            
             if (facility == "Dorm") {
                 m_subtasks.emplace_back(m_dorm_task_ptr);
             }
