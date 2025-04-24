@@ -20,8 +20,16 @@
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <StackPanel>
-        <!--  开自定义基建计划时，放在常规设置的部分  -->
-        <StackPanel Visibility="{c:Binding 'CustomInfrastEnabled and !TaskSettingVisibilities.EnableAdvancedSettings'}">
+        <!--  常规设置  -->
+        <StackPanel Visibility="{c:Binding '!TaskSettingVisibilities.EnableAdvancedSettings'}">
+            <ComboBox
+                Margin="0,4"
+                VerticalContentAlignment="Center"
+                hc:InfoElement.Title="{DynamicResource InfrastMode}"
+                DisplayMemberPath="Display"
+                ItemsSource="{Binding InfrastModeList}"
+                SelectedValue="{Binding InfrastMode}"
+                SelectedValuePath="Value" />
             <hc:ComboBox
                 Margin="0,4"
                 VerticalContentAlignment="Center"
@@ -31,33 +39,8 @@
                                              Source={x:Static helper:Instances.TaskQueueViewModel}}"
                 ItemsSource="{Binding CustomInfrastPlanList}"
                 SelectedValue="{Binding CustomInfrastPlanIndex}"
-                SelectedValuePath="Value" />
-        </StackPanel>
-
-        <!--  只放在高级设置的部分  -->
-        <StackPanel Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}">
-            <CheckBox
-                Margin="0,10"
-                Content="{DynamicResource DormTrustEnabled}"
-                IsChecked="{Binding DormTrustEnabled}" />
-            <CheckBox Margin="0,10" IsChecked="{c:Binding DormFilterNotStationedEnabled}">
-                <controls:TextBlock
-                    Text="{DynamicResource DormFilterNotStationedEnabled}"
-                    TextWrapping="Wrap"
-                    ToolTip="{DynamicResource DormFilterNotStationedTips}" />
-            </CheckBox>
-            <CheckBox Margin="0,10" IsChecked="{Binding OriginiumShardAutoReplenishment}">
-                <controls:TextBlock Text="{DynamicResource OriginiumShardAutoReplenishment}" TextWrapping="Wrap" />
-            </CheckBox>
-            <CheckBox Margin="0,10" IsChecked="{Binding ReceptionMessageBoardReceive}">
-                <controls:TextBlock Text="{DynamicResource InfrastReceptionMessageBoardReceive}" TextWrapping="Wrap" />
-            </CheckBox>
-            <CheckBox Margin="0,10" IsChecked="{Binding ContinueTraining}">
-                <controls:TextBlock Text="{DynamicResource ContinueTraining}" TextWrapping="Wrap" />
-            </CheckBox>
-            <CheckBox Margin="0,10" IsChecked="{Binding CustomInfrastEnabled}">
-                <controls:TextBlock Text="{DynamicResource CustomInfrastEnabled}" TextWrapping="Wrap" />
-            </CheckBox>
+                SelectedValuePath="Value"
+                Visibility="{c:Binding CustomInfrastEnabled}"/>
             <StackPanel Visibility="{c:Binding CustomInfrastEnabled}">
                 <controls:TextBlock
                     Margin="0,5"
@@ -90,19 +73,6 @@
                     IsReadOnly="{Binding IsCustomInfrastFileReadOnly}"
                     Text="{Binding CustomInfrastFile}" />
             </StackPanel>
-        </StackPanel>
-
-        <!--  不开自定义基建计划时，放在常规设置的部分 / 开启自定义基建则放在高级  -->
-        <StackPanel Visibility="{c:Binding 'CustomInfrastEnabled and TaskSettingVisibilities.EnableAdvancedSettings or !CustomInfrastEnabled and !TaskSettingVisibilities.EnableAdvancedSettings'}">
-            <CheckBox
-                Margin="0,10"
-                IsChecked="{Binding UseInfrastRotation}"
-                IsEnabled="{c:Binding !CustomInfrastEnabled}"
-                Visibility="{c:Binding !CustomInfrastEnabled}">
-                <controls:TextBlock
-                    Text="{DynamicResource UseInfrastRotation}"
-                    TextWrapping="Wrap" />
-            </CheckBox>
             <ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource DroneUsage}"
@@ -168,6 +138,29 @@
                     Content="{DynamicResource Clear}"
                     IsEnabled="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}" />
             </Grid>
+        </StackPanel>
+
+        <!--  高级设置  -->
+        <StackPanel Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}">
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource DormTrustEnabled}"
+                IsChecked="{Binding DormTrustEnabled}" />
+            <CheckBox Margin="0,10" IsChecked="{c:Binding DormFilterNotStationedEnabled}">
+                <controls:TextBlock
+                    Text="{DynamicResource DormFilterNotStationedEnabled}"
+                    TextWrapping="Wrap"
+                    ToolTip="{DynamicResource DormFilterNotStationedTips}" />
+            </CheckBox>
+            <CheckBox Margin="0,10" IsChecked="{Binding OriginiumShardAutoReplenishment}">
+                <controls:TextBlock Text="{DynamicResource OriginiumShardAutoReplenishment}" TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox Margin="0,10" IsChecked="{Binding ReceptionMessageBoardReceive}">
+                <controls:TextBlock Text="{DynamicResource InfrastReceptionMessageBoardReceive}" TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox Margin="0,10" IsChecked="{Binding ContinueTraining}">
+                <controls:TextBlock Text="{DynamicResource ContinueTraining}" TextWrapping="Wrap" />
+            </CheckBox>
         </StackPanel>
     </StackPanel>
 </UserControl>

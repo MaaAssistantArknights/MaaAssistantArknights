@@ -114,7 +114,10 @@
     <system:String x:Key="TrainingCompleted">Training completed</system:String>
     <system:String x:Key="TrainingLevel">Skill Rank</system:String>
     <system:String x:Key="TrainingTimeLeft">Remaining Time</system:String>
-    <system:String x:Key="CustomInfrastEnabled">Enable Custom Base (beta)</system:String>
+    <system:String x:Key="InfrastMode">Base Mode</system:String>
+    <system:String x:Key="NormalMode">Normal Mode</system:String>
+    <system:String x:Key="RotationMode">One-click Rotation Mode</system:String>
+    <system:String x:Key="CustomMode">Custom Base Mode</system:String>
     <system:String x:Key="DefaultInfrast">Default Base infrastructure</system:String>
     <system:String x:Key="UserDefined">User defined</system:String>
     <system:String x:Key="153Time3">153 3 times a day</system:String>
@@ -407,7 +410,6 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="ReceiveOrundum">Collect daily Orundum reward from the Lucky Strips</system:String>
     <system:String x:Key="ReceiveMining">Collect daily Orundum reward from the provisional mining permit</system:String>
     <system:String x:Key="ReceiveSpecialAccess">Collect Special Access rewards</system:String>
-    <system:String x:Key="UseInfrastRotation">Use the in-game Rotate Squads and Rest Operators</system:String>
     <system:String x:Key="DroneUsage">Drone Usage</system:String>
     <system:String x:Key="UseTray">Display Tray Icon</system:String>
     <system:String x:Key="HideTray">Disable Tray Icon</system:String>

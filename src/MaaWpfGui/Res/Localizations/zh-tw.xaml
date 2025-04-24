@@ -114,7 +114,10 @@
     <system:String x:Key="TrainingCompleted">訓練完成</system:String>
     <system:String x:Key="TrainingLevel">專精等級</system:String>
     <system:String x:Key="TrainingTimeLeft">剩餘時間</system:String>
-    <system:String x:Key="CustomInfrastEnabled">啟用自定義基建配置（beta）</system:String>
+    <system:String x:Key="InfrastMode">基建模式</system:String>
+    <system:String x:Key="NormalMode">常規模式</system:String>
+    <system:String x:Key="RotationMode">一鍵輪休</system:String>
+    <system:String x:Key="CustomMode">自定義基建配置</system:String>
     <system:String x:Key="DefaultInfrast">內建配置</system:String>
     <system:String x:Key="UserDefined">自定義</system:String>
     <system:String x:Key="153Time3">153 一天 3 換</system:String>
@@ -407,7 +410,6 @@
     <system:String x:Key="ReceiveOrundum">收集幸運牆的每日合成玉獎勵</system:String>
     <system:String x:Key="ReceiveMining">領取限時開採許可的每日合成玉獎勵</system:String>
     <system:String x:Key="ReceiveSpecialAccess">領取特殊贈送月卡獎勵</system:String>
-    <system:String x:Key="UseInfrastRotation">使用遊戲內隊列輪換與幹員休整</system:String>
     <system:String x:Key="DroneUsage">無人機用途</system:String>
     <system:String x:Key="UseTray">顯示工作列圖標</system:String>
     <system:String x:Key="HideTray">隱藏工作列圖標</system:String>

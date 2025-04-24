@@ -111,6 +111,16 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     public ObservableCollection<DragItemViewModel> InfrastItemViewModels { get; set; } = [];
 
     /// <summary>
+    /// Gets the list of uses of infrast mode.
+    /// </summary>
+    public List<CombinedData> InfrastModeList { get; } =
+    [
+        new() { Display = LocalizationHelper.GetString("NormalMode"), Value = "NormalMode" },
+        new() { Display = LocalizationHelper.GetString("RotationMode"), Value = "RotationMode" },
+        new() { Display = LocalizationHelper.GetString("CustomMode"), Value = "CustomMode" },
+    ];
+
+    /// <summary>
     /// Gets the list of uses of drones.
     /// </summary>
     public List<CombinedData> UsesOfDronesList { get; } =
@@ -209,6 +219,36 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         }
     }
 
+    private static readonly Dictionary<string, (bool Custom, bool Rotation)> _infrastModeMapping = new()
+    {
+        ["CustomMode"] = (true, false),
+        ["RotationMode"] = (false, true),
+        ["NormalMode"] = (false, false),
+    };
+
+    private string _infrastMode = ConfigurationHelper.GetValue(ConfigurationKeys.InfrastMode, "NormalMode");
+
+    /// <summary>
+    /// Gets or sets the infrast mode.
+    /// </summary>
+    public string InfrastMode
+    {
+        get => _infrastMode;
+        set
+        {
+            if (!SetAndNotify(ref _infrastMode, value))
+            {
+                return;
+            }
+
+            ConfigurationHelper.SetValue(ConfigurationKeys.InfrastMode, value);
+
+            var (isCustom, useRotation) = _infrastModeMapping.GetValueOrDefault(value, _infrastModeMapping["NormalMode"]);
+            CustomInfrastEnabled = isCustom;
+            UseInfrastRotation = useRotation;
+        }
+    }
+
     private string _usesOfDrones = ConfigurationHelper.GetValue(ConfigurationKeys.UsesOfDrones, "Money");
 
     /// <summary>
@@ -265,15 +305,10 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         get => _useInfrastRotation;
         set
         {
-            if (value && _customInfrastEnabled)
+            if (SetAndNotify(ref _useInfrastRotation, value))
             {
-                CustomInfrastEnabled = false;
-
-                ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastEnabled, "False");
+                ConfigurationHelper.SetValue(ConfigurationKeys.UseInfrastRotation, value.ToString());
             }
-
-            SetAndNotify(ref _useInfrastRotation, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseInfrastRotation, value.ToString());
         }
     }
 
@@ -367,17 +402,13 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         get => _customInfrastEnabled;
         set
         {
-            SetAndNotify(ref _customInfrastEnabled, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastEnabled, value.ToString());
-            RefreshCustomInfrastPlan();
-
-            if (!value)
+            if (SetAndNotify(ref _customInfrastEnabled, value))
             {
-                return;
-            }
+                ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastEnabled, value.ToString());
+                RefreshCustomInfrastPlan();
 
-            UseInfrastRotation = false;
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseInfrastRotation, "False");
+                NotifyOfPropertyChange(nameof(CustomInfrastPlanIndex));
+            }
         }
     }
 

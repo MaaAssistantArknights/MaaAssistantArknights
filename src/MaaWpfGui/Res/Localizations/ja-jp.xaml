@@ -114,7 +114,10 @@
     <system:String x:Key="TrainingCompleted">訓練が完了しました</system:String>
     <system:String x:Key="TrainingLevel">スキルランク</system:String>
     <system:String x:Key="TrainingTimeLeft">残り時間</system:String>
-    <system:String x:Key="CustomInfrastEnabled">カスタムされた基地構成を有効にする（ベータ）</system:String>
+    <system:String x:Key="InfrastMode">インフラモード</system:String>
+    <system:String x:Key="NormalMode">通常モード</system:String>
+    <system:String x:Key="RotationMode">一括シフト休暇</system:String>
+    <system:String x:Key="CustomMode">カスタムされた基地構成</system:String>
     <system:String x:Key="DefaultInfrast">標準設定</system:String>
     <system:String x:Key="UserDefined">ユーザー定義</system:String>
     <system:String x:Key="153Time3">153 3周/日</system:String>
@@ -406,7 +409,6 @@
     <system:String x:Key="ReceiveOrundum">ラッキーウォールから毎日合成玉の報酬を受け取る</system:String>
     <system:String x:Key="ReceiveMining">期間限定の採掘許可で毎日合成玉の報酬を受け取る</system:String>
     <system:String x:Key="ReceiveSpecialAccess">スペシャルアクセス特典を集める</system:String>
-    <system:String x:Key="UseInfrastRotation">ゲーム内キュー回転とオペレーター休養を有効化する</system:String>
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
     <system:String x:Key="UseTray">トレイアイコンを表示</system:String>
     <system:String x:Key="HideTray">トレイアイコンを隠す</system:String>
