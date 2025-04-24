@@ -96,6 +96,7 @@ private:
 
 public:
     virtual ~TaskData() override = default;
+    bool load(const std::filesystem::path& path) override;
     virtual const std::unordered_set<std::string>& get_templ_required() const noexcept override;
     void clear_tasks();
     void set_task_base(const std::string_view task_name, std::string base_task_name);

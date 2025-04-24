@@ -1,0 +1,13 @@
+{
+    "NL-Open": {
+        "algorithm": "OcrDetect",
+        "postDelay": 2000,
+        "text": ["長夜", "復刻", "活動", "開放"],
+        "action": "ClickSelf",
+        "roi": [0, 500, 500, 150],
+        "next": ["NLChapterToNL"]
+    },
+    "NLChapterToNL": {
+        "text": ["大騎士領"]
+    }
+}

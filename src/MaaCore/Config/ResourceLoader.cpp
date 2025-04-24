@@ -109,7 +109,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     }
 
 #ifdef ASST_DEBUG
-// DEBUG 模式下这里同步加载，并检查返回值的，方便排查问题
+    // DEBUG 模式下这里同步加载，并检查返回值的，方便排查问题
 #define AsyncLoadConfig(Config, Filename) LoadResourceAndCheckRet(Config, Filename)
 #else
 #define AsyncLoadConfig(Config, Filename)                                         \
@@ -165,7 +165,8 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LoadCacheWithoutRet(AvatarCacheManager, "avatars"_p);
 
     // 重要的资源，实时加载（图片还是惰性的）
-    LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
+    LoadResourceWithTemplAndCheckRet(TaskData, "tasks"_p, "template"_p);
+
     // 下面这几个资源都是会带OTA功能的，路径不能动
     LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
     LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);

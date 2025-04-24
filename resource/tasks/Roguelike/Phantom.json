@@ -1,0 +1,340 @@
+{
+    "Phantom@Roguelike@Abandon": {},
+    "Phantom@Roguelike@CheckLevel": {
+        "text": ["古堡笔记"]
+    },
+    "Phantom@Roguelike@ChooseDifficulty": {},
+    "Phantom@Roguelike@ChooseOper": {
+        "next": [
+            "Phantom@Roguelike@ChooseOperConfirm",
+            "Phantom@Roguelike@Abandon",
+            "Phantom@Roguelike@ChooseOperConfirm#next"
+        ]
+    },
+    "Phantom@Roguelike@CloseCollection": {
+        "next": ["Phantom@Roguelike@LastReward-EnterPoint", "Phantom@Roguelike@RolesDefault"]
+    },
+    "Phantom@Roguelike@CloseEvent": {},
+    "Phantom@Roguelike@CloseInterview": {
+        "template": "Phantom@Roguelike@StageEncounterSpecialClose.png"
+    },
+    "Phantom@Roguelike@Continue": {},
+    "Phantom@Roguelike@DeepExploration": {
+        "template": "Phantom@Roguelike@DeepExploration.png"
+    },
+    "Phantom@Roguelike@DeepExplorationEnd": {
+        "template": "Roguelike@DeepExplorationEnd.png"
+    },
+    "Phantom@Roguelike@DeepExplorationNotUnlockedComplain": {
+        "template": "Roguelike@DeepExplorationNotUnlocked.png"
+    },
+    "Phantom@Roguelike@DeepExplorationRewardMiss": {
+        "template": "Roguelike@RewardCompleted.png"
+    },
+    "Phantom@Roguelike@DialogSkip": {
+        "template": "Roguelike@DialogSkip.png",
+        "next": ["Phantom@Roguelike@DialogSkipConfirm"]
+    },
+    "Phantom@Roguelike@DialogSkipConfirm": {
+        "template": "Roguelike@DialogSkipConfirm.png",
+        "next": ["Phantom@Roguelike@Stages#next"]
+    },
+    "Phantom@Roguelike@DialogTimeout": {
+        "doc": "傀影肉鸽的小队对话会自动跳过stage导致一卡卡一串，进skip的时候已经读完对话只剩一个叉了，放一个timeout在这里抓一下",
+        "template": "Phantom@Roguelike@DialogTimeout.png",
+        "action": "ClickSelf",
+        "roi": [500, 590, 300, 100],
+        "next": ["Phantom@Roguelike@Stages#next"]
+    },
+    "Phantom@Roguelike@DropsFlag": {
+        "template": "Roguelike@DropsFlag.png",
+        "baseTask": "Phantom@Roguelike@DropsFlag_default"
+    },
+    "Phantom@Roguelike@EnterAfterRecruit": {},
+    "Phantom@Roguelike@ExitThenAbandon": {
+        "template": "Roguelike@ExitThenAbandon.png",
+        "next": ["Phantom@Roguelike@ExitThenAbandon", "Phantom@Roguelike@Abandon"]
+    },
+    "Phantom@Roguelike@ExitThenAbandon_ToHardest": {
+        "template": "Roguelike@ExitThenAbandon.png",
+        "next": ["Phantom@Roguelike@ExitThenAbandon_ToHardest", "Phantom@Roguelike@Abandon"]
+    },
+    "Phantom@Roguelike@GamePass": {},
+    "Phantom@Roguelike@GamePassSkip1": {},
+    "Phantom@Roguelike@GamePassSkip1Confirm": {
+        "next": [
+            "Phantom@Roguelike@GamePassSkip2",
+            "Phantom@Roguelike@GamePassTheEndConfirm",
+            "Phantom@Roguelike@GamePass"
+        ]
+    },
+    "Phantom@Roguelike@GetDrop1": {},
+    "Phantom@Roguelike@GetDrop2": {},
+    "Phantom@Roguelike@GetDrop3": {},
+    "Phantom@Roguelike@GetDropCompleted": {},
+    "Phantom@Roguelike@GetDropLeave": {},
+    "Phantom@Roguelike@GetDropRecruit": {},
+    "Phantom@Roguelike@GetDropSelect": {},
+    "Phantom@Roguelike@GetDropSelectRecruit": {
+        "template": "Phantom@Roguelike@GetDropRecruit.png"
+    },
+    "Phantom@Roguelike@GetDropSelectReward": {},
+    "Phantom@Roguelike@GetDrops": {
+        "next": [
+            "Phantom@Roguelike@GetDrop1",
+            "Phantom@Roguelike@GetDrop2",
+            "Phantom@Roguelike@GetDrop3",
+            "Phantom@Roguelike@GetDropSelect",
+            "Phantom@Roguelike@GetDropRecruit"
+        ]
+    },
+    "Phantom@Roguelike@InitialDrop": {},
+    "Phantom@Roguelike@LastReward": {},
+    "Phantom@Roguelike@LastReward-EnterPoint": {
+        "template": [
+            "Phantom@Roguelike@LastReward.png",
+            "Phantom@Roguelike@LastReward4.png",
+            "Phantom@Roguelike@LastReward2.png",
+            "Phantom@Roguelike@LastReward3.png",
+            "Phantom@Roguelike@LastRewardRand.png"
+        ]
+    },
+    "Phantom@Roguelike@LastReward-Strategy": {
+        "next": [
+            "Phantom@Roguelike@LastReward",
+            "Phantom@Roguelike@LastReward4",
+            "Phantom@Roguelike@LastReward2",
+            "Phantom@Roguelike@LastReward3",
+            "Phantom@Roguelike@LastRewardRand"
+        ]
+    },
+    "Phantom@Roguelike@LastReward2": {},
+    "Phantom@Roguelike@LastReward3": {},
+    "Phantom@Roguelike@LastReward4": {},
+    "Phantom@Roguelike@LastRewardConfirm": {},
+    "Phantom@Roguelike@LastRewardRand": {},
+    "Phantom@Roguelike@MissionFailedFlag": {
+        "roi": [450, 163, 540, 267]
+    },
+    "Phantom@Roguelike@MissionFailedFlag2": {},
+    "Phantom@Roguelike@MonthlySquad": {
+        "template": "Phantom@Roguelike@MonthlySquad.png"
+    },
+    "Phantom@Roguelike@MonthlySquadComms": {
+        "template": "Phantom@Roguelike@MonthlySquadComms.png"
+    },
+    "Phantom@Roguelike@MonthlySquadCommsCompleted": {
+        "templThreshold": 0.92,
+        "template": "Phantom@Roguelike@CommsCompleted.png"
+    },
+    "Phantom@Roguelike@MonthlySquadRewardCompleted": {
+        "template": "Roguelike@RewardCompleted.png"
+    },
+    "Phantom@Roguelike@NextLevel": {
+        "text": ["迷雾歧途", "落阳庭院", "故土残躯", "噩梦之始", "血月长廊", "渴欲大厅"],
+        "next": [
+            "Phantom@Roguelike@CloseInterview",
+            "Phantom@Roguelike@StrategyChange",
+            "Phantom@Roguelike@DialogSkip"
+        ],
+        "onErrorNext": ["Phantom@Roguelike@DialogTimeout", "Phantom@Roguelike@Stages#next"]
+    },
+    "Phantom@Roguelike@RecruitMain": {
+        "template": "Phantom@Roguelike@Recruit.png"
+    },
+    "Phantom@Roguelike@RecruitOther": {
+        "template": "Phantom@Roguelike@Recruit.png"
+    },
+    "Phantom@Roguelike@RecruitWithoutButton": {
+        "next": [
+            "Phantom@Roguelike@RecruitOther",
+            "Phantom@Roguelike@EnterAfterRecruit",
+            "Phantom@Roguelike@TraderRandomShopping",
+            "Phantom@Roguelike@StageTraderLeave",
+            "Phantom@Roguelike@DropsFlag",
+            "Phantom@Roguelike@ChooseOperFlag",
+            "Phantom@Roguelike@StageEncounterGiveUpRecruitConfirm",
+            "Phantom@Roguelike@RecruitWithoutButton"
+        ]
+    },
+    "Phantom@Roguelike@RolesConfirm": {
+        "template": "Phantom@Roguelike@LastRewardConfirm.png"
+    },
+    "Phantom@Roguelike@RolesDefault": {},
+    "Phantom@Roguelike@SelectTheme": {
+        "text": ["古堡笔记"]
+    },
+    "Phantom@Roguelike@SquadConfirm": {
+        "template": "Phantom@Roguelike@LastRewardConfirm.png",
+        "next": [
+            "Phantom@Roguelike@LastReward-EnterPoint",
+            "Phantom@Roguelike@RolesDefault",
+            "Phantom@Roguelike@CloseCollection",
+            "Phantom@Roguelike@Stages#next"
+        ]
+    },
+    "Phantom@Roguelike@SquadDefault": {},
+    "Phantom@Roguelike@StageBoons": {
+        "templThreshold": 0.85
+    },
+    "Phantom@Roguelike@StageCombatDps": {
+        "templThreshold": 0.9
+    },
+    "Phantom@Roguelike@StageCombatDpsEnter": {},
+    "Phantom@Roguelike@StageDreadfulFoe": {},
+    "Phantom@Roguelike@StageDreadfulFoeEnter": {},
+    "Phantom@Roguelike@StageEmergencyDps": {
+        "templThreshold": 0.9
+    },
+    "Phantom@Roguelike@StageEmergencyDpsEnter": {},
+    "Phantom@Roguelike@StageEncounter": {
+        "templThreshold": 0.85
+    },
+    "Phantom@Roguelike@StageEncounterEnter": {},
+    "Phantom@Roguelike@StageEncounterLeaveConfirm": {},
+    "Phantom@Roguelike@StageEncounterOptionFree": {},
+    "Phantom@Roguelike@StageEncounterOptionLeave": {},
+    "Phantom@Roguelike@StageEncounterOptionUnknown": {
+        "templThreshold": 0.85
+    },
+    "Phantom@Roguelike@StageEncounterOptions": {
+        "next": [
+            "Phantom@Roguelike@StageEncounterOptionFree",
+            "Phantom@Roguelike@StageEncounterOptionLeave",
+            "Phantom@Roguelike@ChooseOperFlag",
+            "Phantom@Roguelike@StageEmergencyDpsEnter",
+            "Phantom@Roguelike@StageCombatDpsEnter",
+            "Phantom@Roguelike@CloseEvent",
+            "Phantom@Roguelike@StageEncounterOptionUnknown"
+        ]
+    },
+    "Phantom@Roguelike@StageEncounterSpecialClose": {},
+    "Phantom@Roguelike@StageSafeHouse": {
+        "templThreshold": 0.85
+    },
+    "Phantom@Roguelike@StageSafeHouseEnter": {},
+    "Phantom@Roguelike@StageTrader": {
+        "templThreshold": 0.85
+    },
+    "Phantom@Roguelike@StageTraderEnter": {},
+    "Phantom@Roguelike@StageTraderLeaveConfirm": {
+        "template": "Roguelike@StageTraderLeaveConfirm.png",
+        "exceededNext": ["Phantom@Roguelike@ExitThenAbandon"]
+    },
+    "Phantom@Roguelike@Stages": {
+        "baseTask": "Phantom@Roguelike@Stages_default"
+    },
+    "Phantom@Roguelike@Stages_aggressive": {
+        "Doc": "优先紧急作战,1-3层",
+        "algorithm": "JustReturn",
+        "next": [
+            "Phantom@Roguelike@NextLevel",
+            "Phantom@Roguelike@DialogSkip",
+            "Phantom@Roguelike@DialogTimeout",
+            "Phantom@Roguelike@StageEmergencyDps",
+            "Phantom@Roguelike@StageCombatDps",
+            "Phantom@Roguelike@StageEncounter",
+            "Phantom@Roguelike@StageBoons",
+            "Phantom@Roguelike@StageTrader",
+            "Phantom@Roguelike@StageSafeHouse",
+            "Phantom@Roguelike@StageDreadfulFoe"
+        ]
+    },
+    "Phantom@Roguelike@Stages_default": {
+        "Doc": "avoid battle,其他模式和6层策略",
+        "algorithm": "JustReturn",
+        "next": [
+            "Phantom@Roguelike@NextLevel",
+            "Phantom@Roguelike@DialogSkip",
+            "Phantom@Roguelike@DialogTimeout",
+            "Phantom@Roguelike@StageTrader",
+            "Phantom@Roguelike@StageSafeHouse",
+            "Phantom@Roguelike@StageEncounter",
+            "Phantom@Roguelike@StageBoons",
+            "Phantom@Roguelike@StageCombatDps",
+            "Phantom@Roguelike@StageEmergencyDps",
+            "Phantom@Roguelike@StageDreadfulFoe"
+        ]
+    },
+    "Phantom@Roguelike@Stages_pragmatic": {
+        "Doc": "避紧急作战,4-5层策略",
+        "algorithm": "JustReturn",
+        "next": [
+            "Phantom@Roguelike@NextLevel",
+            "Phantom@Roguelike@DialogSkip",
+            "Phantom@Roguelike@DialogTimeout",
+            "Phantom@Roguelike@StageCombatDps",
+            "Phantom@Roguelike@StageTrader",
+            "Phantom@Roguelike@StageBoons",
+            "Phantom@Roguelike@StageEncounter",
+            "Phantom@Roguelike@StageSafeHouse",
+            "Phantom@Roguelike@StageEmergencyDps",
+            "Phantom@Roguelike@StageDreadfulFoe"
+        ]
+    },
+    "Phantom@Roguelike@StartExplore": {},
+    "Phantom@Roguelike@StartExplore-EnterCheck": {
+        "template": "Phantom@Roguelike@StartExplore.png"
+    },
+    "Phantom@Roguelike@StrategyChange_mode0": {
+        "text": ["_aggressive", "_pragmatic", "_default"],
+        "ocrReplace": [
+            ["迷雾歧途", "_aggressive"],
+            ["落阳庭院", "_aggressive"],
+            ["故土残躯", "_aggressive"],
+            ["噩梦之始", "_pragmatic"],
+            ["血月长廊", "_pragmatic"],
+            ["渴欲大厅", "_default"]
+        ]
+    },
+    "Phantom@Roguelike@StrategyChange_mode1": {
+        "baseTask": "Phantom@Roguelike@StrategyChange_mode4",
+        "Doc": "刷源石锭第二层就会退，这里借用第三层退的刷开局策略"
+    },
+    "Phantom@Roguelike@StrategyChange_mode4": {
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["迷雾歧途", "_default"],
+            ["落阳庭院", "_default"],
+            ["故土残躯", "_exit"],
+            ["噩梦之始", "_exit"],
+            ["血月长廊", "_exit"],
+            ["渴欲大厅", "_exit"]
+        ]
+    },
+    "Phantom@Roguelike@StrategyChange_mode6": {
+        "text": ["_aggressive", "_pragmatic", "_default"],
+        "ocrReplace": [
+            ["迷雾歧途", "_aggressive"],
+            ["落阳庭院", "_aggressive"],
+            ["故土残躯", "_aggressive"],
+            ["噩梦之始", "_pragmatic"],
+            ["血月长廊", "_pragmatic"],
+            ["渴欲大厅", "_default"]
+        ]
+    },
+    "Phantom@Roguelike@StrategyChange_mode7": {
+        "text": ["_aggressive", "_pragmatic", "_default"],
+        "ocrReplace": [
+            ["迷雾歧途", "_aggressive"],
+            ["落阳庭院", "_aggressive"],
+            ["故土残躯", "_aggressive"],
+            ["噩梦之始", "_pragmatic"],
+            ["血月长廊", "_pragmatic"],
+            ["渴欲大厅", "_default"]
+        ]
+    },
+    "Phantom@Roguelike@TodoEnter": {},
+    "Phantom@Roguelike@WaitForStartButtonClicked": {
+        "template": "Roguelike@QuickFormation.png"
+    },
+    "Phantom@RoguelikeSettlementConfirm": {
+        "template": "RoguelikeSettlementConfirm.png"
+    },
+    "Phantom@RoguelikeSettlementOcr-Exp": {
+        "roi": [760, 525, 160, 40]
+    },
+    "Phantom@RoguelikeSettlementOcr-Score": {
+        "roi": [460, 525, 160, 55]
+    }
+}

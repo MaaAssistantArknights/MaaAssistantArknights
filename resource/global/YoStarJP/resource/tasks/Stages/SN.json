@@ -1,0 +1,13 @@
+{
+    "SN-Open": {
+        "baseTask": "#none",
+        "action": "ClickSelf",
+        "roi": [554, 104, 362, 346]
+    },
+    "SN-Chapter2": {
+        "text": ["失われし旗艦", "失われし", "旗艦"]
+    },
+    "SN-Chapter3": {
+        "text": ["名もなき海", "名もなき", "海"]
+    }
+}

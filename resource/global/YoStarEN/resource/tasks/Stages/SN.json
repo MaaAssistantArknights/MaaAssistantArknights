@@ -1,0 +1,13 @@
+{
+    "SN-Open": {
+        "baseTask": "#none",
+        "action": "ClickSelf",
+        "roi": [537, 66, 398, 402]
+    },
+    "SN-Chapter2": {
+        "text": ["LOST", "FLAGSHIP"]
+    },
+    "SN-Chapter3": {
+        "text": ["NAMELESS", "OCEAN"]
+    }
+}

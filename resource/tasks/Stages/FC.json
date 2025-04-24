@@ -1,0 +1,47 @@
+{
+    "FC-5": {
+        "algorithm": "JustReturn",
+        "sub": ["FC-OpenOpt"],
+        "next": ["FC-5@SideStoryStage", "FC-5@SwipeToStage"]
+    },
+    "FC-6": {
+        "algorithm": "JustReturn",
+        "sub": ["FC-OpenOpt"],
+        "next": ["FC-6@SideStoryStage", "FC-6@SwipeToStage"]
+    },
+    "FC-7": {
+        "algorithm": "JustReturn",
+        "sub": ["FC-OpenOpt"],
+        "next": ["FC-7@SideStoryStage", "FC-7@SwipeToStage"]
+    },
+    "FC-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["FC-OpenOcr", "FC-Open"]
+    },
+    "FC-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["照我以火", "关卡已开放"],
+        "next": ["FCChapterToFC"]
+    },
+    "FC-Open": {
+        "baseTask": "SS-Open",
+        "next": ["FCChapterToFC"]
+    },
+    "FCChapterToFC": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["荒烟林沼"],
+        "roi": [1054, 405, 202, 130],
+        "postDelay": 2000,
+        "next": ["#self", "ChapterSwipeToTheRight"]
+    },
+    "FC-5@SideStoryStage": {
+        "text": ["FC-5"]
+    },
+    "FC-6@SideStoryStage": {
+        "text": ["FC-6"]
+    },
+    "FC-7@SideStoryStage": {
+        "text": ["FC-7"]
+    }
+}
