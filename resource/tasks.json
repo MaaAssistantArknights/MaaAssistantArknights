@@ -1,4 +1,10 @@
 {
+    "Block": {
+        "Doc": "base_task",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": ["#self"]
+    },
     "SlowlySwipeToTheLeft": {
         "algorithm": "JustReturn",
         "action": "Swipe",

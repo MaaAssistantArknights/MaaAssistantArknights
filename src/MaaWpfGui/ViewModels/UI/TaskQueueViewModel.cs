@@ -29,6 +29,7 @@ using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
+using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
@@ -316,6 +317,7 @@ namespace MaaWpfGui.ViewModels.UI
             _container = container;
             _runningState = RunningState.Instance;
             _runningState.IdleChanged += RunningState_IdleChanged;
+            _runningState.TimeoutOccurred += RunningState_TimeOut;
         }
 
         private void RunningState_IdleChanged(object sender, bool e)
@@ -326,6 +328,24 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 Instances.Data.ClearCache();
             }
+        }
+
+        private void RunningState_TimeOut(object sender, string message)
+        {
+            Execute.OnUIThread(() =>
+            {
+                AddLog(message, UiLogColor.Warning);
+                ToastNotification.ShowDirect(message);
+                if (!SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenTimeout)
+                {
+                    return;
+                }
+
+                var lastLogs = LogItemViewModels
+                    .TakeLast(5)
+                    .Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n");
+                ExternalNotificationService.Send(message, lastLogs);
+            });
         }
 
         protected override void OnInitialActivate()
