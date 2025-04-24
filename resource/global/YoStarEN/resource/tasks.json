@@ -1021,7 +1021,14 @@
             ["Crawler Protection Unit", "爬行号·防护单元"],
             ["Munitions Factory Command Center", "军工厂指令平台"],
             ["Golden Echo", "黄金回响"],
-            ["Aggini of Nila", "尼卢火"]
+            ["Aggini of Nila", "尼卢火"],
+            ["Lappland the Decadenza", "荒芜拉普兰德"],
+            ["CrownSlayer", "弑君者"],
+            ["Contrail", "云迹"],
+            ["Vulpisfoglia", "忍冬"],
+            ["Philae", "菲莱"],
+            ["Figurino", "裁度"],
+            ["Firework Launcher", "烟花发射器"]
         ]
     },
     "GameStartUpdateOCR": {
@@ -1480,7 +1487,27 @@
             ["Property Dispute", "物权纠纷"],
             ["Narrative Offer", "叙事要约"],
             ["Failed Dare", "失败的试胆"],
-            ["Victory Rewind", "时光凯旋"]
+            ["Victory Rewind", "时光凯旋"],
+            ["Elusive Merc", "神出鬼没"],
+            ["Regular Army", "建制"],
+            ["'Heretics'", "“外道”"],
+            ["Cognitive Correction", "思维矫正"],
+            ["Heavenly Paradise", "洞天福地"],
+            ["Regular Army", "建制"],
+            ["Heavenly Paradise", "洞天福地"],
+            ["Cognitive Correction", "思维矫正"],
+            ["The Court of Souls", "魂灵朝谒"],
+            ["The Court of Souls", "魂灵朝谒"],
+            ["The Dharma Sermon", "授法"],
+            ["The Boat Home", "轻舟共渡"],
+            ["Kaz Falls", "卡兹瀑布"],
+            ["Firepower Squad", "火力小队"],
+            ["Elusive Merc", "神出鬼没"],
+            ["Chaos", "混沌"],
+            ["Kaz Falls", "卡兹瀑布"],
+            ["Firepower Squad", "火力小队"],
+            ["Chaos", "混沌"],
+            ["'Heretics'", "“外道”"]
         ]
     },
     "BattleQuickFormationExpandRole": {
@@ -2341,7 +2368,11 @@
             ["Thoughts Catcher", "思维捕手"],
             ["Gift of Remembrance", "铭记的贺礼"],
             ["'Song to Make A Tenacious Mind'", "《神魂坚韧之歌》"],
-            ["Anchor For Five Seconds Ago", "为五秒前准备的锚"]
+            ["Anchor For Five Seconds Ago", "为五秒前准备的锚"],
+            ["Anasa's Karma", "阿纳萨羯磨"],
+            ["Petal", "片瓣"],
+            ["Lamp of Wishes", "美愿时代的留恋"],
+            ["Rolling Ancestors", "滚动先祖"]
         ]
     },
     "Roguelike@ChooseDifficultyConfirm": {
@@ -2561,7 +2592,10 @@
             ["DecisioninDespair", "绝境？抉择？"],
             ["TheOrigins", "原初异途"],
             ["SoulTales.*UnityofExtremes", "魂灵见闻：善恶同道"],
-            ["WarmandCozy", "温暖余韵"]
+            ["WarmandCozy", "温暖余韵"],
+            ["GoodFortuneToYou", "财源广进"],
+            ["DesiretoExpress", "表达欲"],
+            ["ASmallSkiff", "一叶扁舟"]
         ]
     },
     "Roguelike@StageTraderInvestSystem": {
