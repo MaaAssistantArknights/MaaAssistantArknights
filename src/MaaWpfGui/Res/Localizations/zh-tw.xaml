@@ -1022,7 +1022,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  !Reclamation  -->
     <!--  Boot  -->
     <system:String x:Key="VC++NotInstalled" xml:space="preserve">
-偵測到 Microsoft Visual C++ Redistributable 2015-2022 (x64) 未安裝,
+偵測到 Microsoft Visual C++ Redistributable 2015-2022 (x64) 未安裝或版本過低,
 點擊 "確定" 將執行安裝腳本並退出 MAA, 點擊 "取消" 將直接退出 MAA.
     </system:String>
     <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">

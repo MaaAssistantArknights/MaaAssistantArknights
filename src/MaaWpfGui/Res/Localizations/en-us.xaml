@@ -1018,7 +1018,7 @@ With save file: farm points through crafting (advanced).
     <!--  !Reclamation  -->
     <!--  Boot  -->
     <system:String x:Key="VC++NotInstalled" xml:space="preserve">
-Detected that Microsoft Visual C++ Redistributable 2015-2022 (x64) is NOT installed.
+Detected that Microsoft Visual C++ Redistributable 2015-2022 (x64) is NOT installed or the version is too low.
 Click "OK" to execute the installation script and exit MAA. Click "Cancel" to exit MAA directly.
     </system:String>
     <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">

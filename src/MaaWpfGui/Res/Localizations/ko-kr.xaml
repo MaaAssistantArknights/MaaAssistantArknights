@@ -1019,7 +1019,7 @@ C:\\leidian\\LDPlayer9
     <!--  !Reclamation  -->
     <!--  Boot  -->
     <system:String x:Key="VC++NotInstalled" xml:space="preserve">
-Microsoft Visual C++ redistributable 2015-2022(x64)가 설치되어 있지 않은 것으로 감지되었습니다.
+Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거나 버전이 너무 낮은 것으로 감지되었습니다..
 "확인"을 클릭하여 설치 스크립트를 실행하고 MAA를 종료하세요. "취소"를 클릭하여 MAA를 바로 종료하세요.
     </system:String>
     <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">
