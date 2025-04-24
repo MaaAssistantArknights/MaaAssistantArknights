@@ -44,13 +44,11 @@ body:
     attributes:
       label: Log and config files
       description: >-
-        **After closing MAA, upload the following 5 files:**
-          1. The `asst.log` `gui.log` `asst.bak.log` and `gui.bak.log` log file in the `debug` folder, and indicate the approximate point in time when the problem occurred.
-          2. The `gui.json` config file in the `config` folder
+        **Please locate the Generate Support Payload button under MAA Settings -> Issue Report, click the button, and upload the generated zip file**
+
+        **Please drag and drop the full file in, not your own cuttings or copies; compress it before uploading if too large.**
 
         If you are using MacBook, please click the "File" option in the top-left corner of the screen, then click "Open Log Folder".
-        **Please drag and drop the full file in, not your own cuttings or copies;**
-        **compress it before uploading if too large.**
       placeholder: |
         Please confirm that MAA is not running before uploading files.
     validations:

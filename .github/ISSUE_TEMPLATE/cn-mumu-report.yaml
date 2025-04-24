@@ -11,7 +11,7 @@ body:
           required: true
         - label: 我填写了简短且清晰明确的标题，以便开发者在翻阅 Issue 列表时能快速确定大致问题。而不是“一个建议”、“卡住了”等
           required: true
-        - label: 我已检查了置顶议题（Pinned Issue），确认我的问题未被提及
+        - label: 我已检查了[公告](/MaaAssistantArknights/MaaAssistantArknights/issues/7732)、[活跃议题](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues)、[已关闭议题](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues?q=is%3Aissue%20state%3Aclosed)，确认我的问题未被提及
           required: true
         - label: 我正在使用最新的 MAA 公测版本和最新的官版或方舟专版 MuMu 模拟器
           required: true
@@ -44,10 +44,8 @@ body:
     attributes:
       label: MAA 日志和配置文件
       description: |
-        **请在关闭 MAA 后，上传以下三个文件：**
-        1. `debug` 文件夹中的 `asst.log` 和 `gui.log` 日志文件，并说明问题出现的大致时间点
-          若 asst.log 文件小于 10 KB，则需同时上传 asst.log.bak 文件
-        2. `config` 文件夹中的 `gui.json` 配置文件
+        **请在 MAA -> 设置 -> 问题反馈中找到生成日志压缩包按钮，点击并上传压缩包**
+
         **请直接将完整的文件拖拽进来，而非自己裁切或复制的片段；若文件体积过大可压缩后再上传**
       placeholder: |
         请确认上传文件前已关闭 MAA
