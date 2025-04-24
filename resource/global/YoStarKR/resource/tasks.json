@@ -1075,10 +1075,9 @@
         "text": ["채굴", "허가증"]
     },
     "OrundumActivities": {
-        "ocrReplace": [["복.+방", "복권방"]],
-        "doc": "Orundum Lucky Draw from Limited Event",
+        "ocrReplace": [[".*(복|권).*", "복권방"]],
         "text": ["용문", "복권방", "소원"],
-        "roi": [5, 65, 170, 110]
+        "roi": [76, 151, 80, 18]
     },
     "OrundumActivitiesChoose": {
         "text": ["행운티켓", "선택"]
