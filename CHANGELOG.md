@@ -69,6 +69,9 @@
 
 ### 其他 | Other
 
+* 使用 mumu 网络桥接时通过填写的实例号关闭模拟器 @ABA2396
+* issue模板添加使用生成日志压缩包按钮提示 (#12386) @Saratoga-Official
+* 优化官网动画效果 (#12432) @Rbqwow
 * wpf反馈压缩包分离日志和配置 @status102
 * image size @MistEO
 * enumerable @status102
