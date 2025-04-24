@@ -701,10 +701,11 @@ bool update_stages_data(const fs::path& input_dir, const fs::path& output_dir)
     for (const auto& [stage_id, drops] : drop_infos) {
         json::array drops_json;
         for (const auto& d : drops) {
-            drops_json.emplace_back(json::object {
-                { "itemId", d.item_id },
-                { "dropType", d.drop_type },
-            });
+            drops_json.emplace_back(
+                json::object {
+                    { "itemId", d.item_id },
+                    { "dropType", d.drop_type },
+                });
         }
         auto& stage = stage_basic_infos.at(stage_id);
         stage["dropInfos"] = std::move(drops_json);
@@ -1069,6 +1070,11 @@ bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, 
             // if (name == "食 鐵獸") {
             //    name = "食鐵獸";
             //}
+            // Issue in the gamedata: gacha_table.json has 奧斯塔 while character_table.json has 奥斯塔
+            // (character_table.json also shows 奧斯塔 in the descriptions)
+            if (name == "奧斯塔") {
+                name = "奥斯塔";
+            }
 
             // ------- YostarJP -------
             // https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/18c55553885342b3df2ccf93cc102f448f027f4b#commitcomment-144847169
@@ -1158,10 +1164,11 @@ bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, 
             return false;
         }
 
-        opers.emplace(json::object { { "id", id },
-                                     { "name", name },
-                                     { "rarity", info_iter->second.rarity },
-                                     { "tags", json::array(info_iter->second.tags) } });
+        opers.emplace(
+            json::object { { "id", id },
+                           { "name", name },
+                           { "rarity", info_iter->second.rarity },
+                           { "tags", json::array(info_iter->second.tags) } });
     }
 
     static std::unordered_map</*id*/ int, /*tag*/ std::string> base_tags_name;
@@ -1449,7 +1456,7 @@ bool update_version_info(const fs::path& input_dir, const fs::path& output_dir)
     auto version_opt = json::open(output_dir / "version.json");
     result["last_updated"] = version_opt->at("last_updated").as_string();
 
-    std::cout << result.to_string() << std::endl;
+    // std::cout << result.to_string() << std::endl;
 
     std::ofstream ofs(output_dir / "version.json", std::ios::out);
     ofs << result.format() << '\n';
