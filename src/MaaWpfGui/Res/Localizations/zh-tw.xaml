@@ -395,7 +395,7 @@
     <system:String x:Key="Drink">要來一杯美酒嗎🍷？博士</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">信用溢出時無視黑名單</system:String>
     <system:String x:Key="OnlyBuyDiscount">只購買打折的信用商品</system:String>
-    <system:String x:Key="ReserveMaxCredit">300以下信用點停止購買商品</system:String>
+    <system:String x:Key="ReserveMaxCredit">300 以下信用點停止購買商品</system:String>
     <system:String x:Key="OnlyBuyDiscountTips">⚠可能會導致信用點數溢出！仍然會購買未打折的商品！</system:String>
     <system:String x:Key="ReserveMaxCreditTips">低於 300 信用點數也仍然會購買白名單物品！</system:String>
     <system:String x:Key="CreditFullOnlyBuyDiscount">博士! \n只購買折扣商品讓信用點數溢出了！\n小心信用點數浪費哦！\n剩餘信用點數：</system:String>
