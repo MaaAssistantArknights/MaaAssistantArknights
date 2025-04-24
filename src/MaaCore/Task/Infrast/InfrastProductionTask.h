@@ -17,6 +17,7 @@ public:
     std::string get_uses_of_drone() const noexcept;
     void set_custom_drones_config(infrast::CustomDronesConfig drones_config);
     void clear_custom_drones_config();
+
     void set_skip_shift(bool skip) noexcept { m_skip_shift = skip; }
 
 protected:

@@ -41,7 +41,7 @@ bool asst::InfrastReceptionTask::_run()
     if (need_exit()) {
         return false;
     }
-    
+
     if (!m_skip_shift) {
         shift();
     }
