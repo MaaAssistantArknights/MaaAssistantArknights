@@ -775,7 +775,14 @@
             ["Crawler Protection Unit", "爬行号·防护单元"],
             ["Munitions Factory Command Center", "军工厂指令平台"],
             ["Golden Echo", "黄金回响"],
-            ["Aggini of Nila", "尼卢火"]
+            ["Aggini of Nila", "尼卢火"],
+            ["Lappland the Decadenza", "荒芜拉普兰德"],
+            ["CrownSlayer", "弑君者"],
+            ["Contrail", "云迹"],
+            ["Vulpisfoglia", "忍冬"],
+            ["Philae", "菲莱"],
+            ["Figurino", "裁度"],
+            ["Firework Launcher", "烟花发射器"]
         ]
     },
     "GameStartUpdateOCR": {
@@ -849,7 +856,7 @@
         "text": ["Provisional", "Mining", "Permit"]
     },
     "OrundumActivities": {
-        "text": ["Lucky Strips", "Wishing Wall", "Bazaar"]
+        "text": ["Lucky Strips", "Wishing", "Lucky", "Wall", "Bazaar"]
     },
     "OrundumActivitiesChoose": {
         "text": ["Choose", "spot", "Please select", "Wishing", "Tickets"]
@@ -1234,7 +1241,19 @@
             ["Property Dispute", "物权纠纷"],
             ["Narrative Offer", "叙事要约"],
             ["Failed Dare", "失败的试胆"],
-            ["Victory Rewind", "时光凯旋"]
+            ["Victory Rewind", "时光凯旋"],
+            ["Elusive Merc", "神出鬼没"],
+            ["Regular Army", "建制"],
+            ["'Heretics'", "“外道”"],
+            ["Cognitive Correction", "思维矫正"],
+            ["Heavenly Paradise", "洞天福地"],
+            ["The Court of Souls", "魂灵朝谒"],
+            ["The Dharma Sermon", "授法"],
+            ["The Boat Home", "轻舟共渡"],
+            ["Kaz Falls", "卡兹瀑布"],
+            ["Firepower Squad", "火力小队"],
+            ["Chaos", "混沌"],
+            ["'Heretics'", "“外道”"]
         ]
     },
     "BattleQuickFormationExpandRole": {
