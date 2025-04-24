@@ -1,10 +1,15 @@
-import screenshotCenter from '@/assets/screenshots/center.webp?url'
-import screenshotLeft from '@/assets/screenshots/left.webp?url'
-import screenshotRight from '@/assets/screenshots/right.webp?url'
 import { useFrame, useLoader } from '@react-three/fiber'
-
 import { useEffect, useRef } from 'react'
 import { Mesh, TextureLoader, Vector2 } from 'three'
+import { useTheme } from '@/contexts/ThemeContext'
+
+import darkScreenshotCenter from '@/assets/screenshots/dark/center.png?url'
+import darkScreenshotLeft from '@/assets/screenshots/dark/left.png?url'
+import darkScreenshotRight from '@/assets/screenshots/dark/right.png?url'
+
+import lightScreenshotCenter from '@/assets/screenshots/light/center.png?url'
+import lightScreenshotLeft from '@/assets/screenshots/light/left.png?url'
+import lightScreenshotRight from '@/assets/screenshots/light/right.png?url'
 
 function lerp(v0: number, v1: number, t: number) {
   return v0 * (1 - t) + v1 * t
@@ -24,12 +29,19 @@ const sidePanelRotationOffset = 0.15
 export function Screenshots({
   sidebarRef,
   indicatorRef,
+  showLinks = false,
 }: {
   sidebarRef: React.MutableRefObject<HTMLDivElement | null>
   indicatorRef: React.MutableRefObject<HTMLDivElement | null>
+  showLinks?: boolean
 }) {
+  const { theme } = useTheme()
   const lerpRotationTo = useRef<Vector2>(new Vector2(0, 0))
-  const lerpPositionXTo = useRef<number>(0)
+  
+  const screenshotCenter = theme === 'dark' ? darkScreenshotCenter : lightScreenshotCenter
+  const screenshotLeft = theme === 'dark' ? darkScreenshotLeft : lightScreenshotLeft
+  const screenshotRight = theme === 'dark' ? darkScreenshotRight : lightScreenshotRight
+  
   const textureCenter = useLoader(TextureLoader, screenshotCenter)
   const textureLeft = useLoader(TextureLoader, screenshotLeft)
   const textureRight = useLoader(TextureLoader, screenshotRight)
@@ -69,8 +81,7 @@ export function Screenshots({
     if (
       meshCenterRef.current &&
       meshLeftRef.current &&
-      meshRightRef.current &&
-      sidebarRef.current
+      meshRightRef.current
     ) {
       const lerpT = 0.25
       meshCenterRef.current.rotation.x = lerp(
@@ -105,75 +116,18 @@ export function Screenshots({
         -sidePanelRotationOffset + lerpRotationTo.current.y * 0.1,
         lerpT,
       )
-
-      // position
-      // posOffset and posOffsetConstant "smoothly" transitions using a sigmoid function
-      const baseSigmoid =
-        2 / (1 + Math.exp(-(lerpPositionXTo.current - 0.3) * 10))
-      const posOffset = baseSigmoid
-      const posOffsetConstant = -baseSigmoid + 3
-      meshCenterRef.current.position.x = lerp(
-        meshCenterRef.current.position.x,
-        -lerpPositionXTo.current * posOffset,
-        lerpT,
-      )
-      meshLeftRef.current.position.x = lerp(
-        meshLeftRef.current.position.x,
-        -lerpPositionXTo.current * posOffset - posOffsetConstant,
-        lerpT,
-      )
-      meshRightRef.current.position.x = lerp(
-        meshRightRef.current.position.x,
-        -lerpPositionXTo.current * posOffset + posOffsetConstant,
-        lerpT,
-      )
-
-      // sidebarExpansion
-      const sidebarExpansionRatio = snapTo(
-        1 / (1 + Math.exp(-(lerpPositionXTo.current - 0.3) * 30)),
-        0,
-        1e-2,
-      )
-
-      const sidebarExpansionSlowRatio = snapTo(
-        1 / (1 + Math.exp(-(lerpPositionXTo.current - 0.3) * 10)),
-        0,
-        1e-2,
-      )
-
-      sidebarRef.current.style.transform = `translateX(${
-        -window.innerWidth * 0.03 * sidebarExpansionRatio
-      }px) rotateY(${(1 - sidebarExpansionSlowRatio) * 30}deg)`
-      sidebarRef.current.style.scale = `${
-        sidebarExpansionSlowRatio * 0.1 + 0.9
-      }`
-      sidebarRef.current.style.opacity = `${sidebarExpansionRatio}`
-      sidebarRef.current.style.pointerEvents =
-        sidebarExpansionRatio < 1e-2 ? 'none' : 'unset'
-
-      if (indicatorRef.current) {
-        // indicator
-        indicatorRef.current.style.opacity = `${1 - sidebarExpansionRatio}`
-        indicatorRef.current.style.transform = `translateX(${
-          window.innerWidth * -0.03 * sidebarExpansionRatio
-        }px)`
-      }
     }
   })
 
   useEffect(() => {
     const onMove = (e: MouseEvent | TouchEvent) => {
-      if (
-        meshCenterRef.current &&
-        meshLeftRef.current &&
-        meshRightRef.current
-      ) {
+      if (meshCenterRef.current && meshLeftRef.current && meshRightRef.current) {
         const { clientX, clientY } = e instanceof MouseEvent ? e : e.touches[0]
+        
         const x = (clientX / window.innerWidth) * 2 - 1
         const y = (clientY / window.innerHeight) * 2 - 1
-
-        lerpRotationTo.current.set(y, x) // inverted intentionally
-        lerpPositionXTo.current = x
+    
+        lerpRotationTo.current.set(y, x)
       }
     }
 
@@ -183,9 +137,7 @@ export function Screenshots({
         meshLeftRef.current &&
         meshRightRef.current
       ) {
-        // lerp back to 0
         lerpRotationTo.current.set(0, 0)
-        lerpPositionXTo.current = 0
       }
     }
 

@@ -241,10 +241,10 @@ public class FightSettingsUserControlModel : TaskViewModel
     /// </summary>
     public void RemoveNonExistStage()
     {
-        Stage1 = StageList.Where(x => x.Value == Stage1).FirstOrDefault()?.Value ?? string.Empty;
-        Stage2 = StageList.Where(x => x.Value == Stage2).FirstOrDefault()?.Value ?? string.Empty;
-        Stage3 = StageList.Where(x => x.Value == Stage3).FirstOrDefault()?.Value ?? string.Empty;
-        RemainingSanityStage = RemainingSanityStageList.Where(x => x.Value == RemainingSanityStage).FirstOrDefault()?.Value ?? string.Empty;
+        Stage1 = StageList.FirstOrDefault(x => x.Value == Stage1)?.Value ?? string.Empty;
+        Stage2 = StageList.FirstOrDefault(x => x.Value == Stage2)?.Value ?? string.Empty;
+        Stage3 = StageList.FirstOrDefault(x => x.Value == Stage3)?.Value ?? string.Empty;
+        RemainingSanityStage = RemainingSanityStageList.FirstOrDefault(x => x.Value == RemainingSanityStage)?.Value ?? string.Empty;
     }
 
     private string _remainingSanityStage = ConfigurationHelper.GetValue(ConfigurationKeys.RemainingSanityStage, string.Empty) ?? string.Empty;
@@ -455,12 +455,11 @@ public class FightSettingsUserControlModel : TaskViewModel
         get => _maxTimes;
         set
         {
-            if (MaxTimes == value)
+            if (SetAndNotify(ref _maxTimes, value))
             {
                 return;
             }
 
-            SetAndNotify(ref _maxTimes, value);
             Instances.TaskQueueViewModel.SetFightParams();
             ConfigurationHelper.SetValue(ConfigurationKeys.TimesLimitedQuantity, value.ToString());
         }
@@ -476,12 +475,11 @@ public class FightSettingsUserControlModel : TaskViewModel
         get => _series;
         set
         {
-            if (_series == value)
+            if (SetAndNotify(ref _series, value))
             {
                 return;
             }
 
-            SetAndNotify(ref _series, value);
             Instances.TaskQueueViewModel.SetFightParams();
             ConfigurationHelper.SetValue(ConfigurationKeys.SeriesQuantity, value.ToString());
         }
@@ -499,7 +497,11 @@ public class FightSettingsUserControlModel : TaskViewModel
         get => _isSpecifiedDropsWithNull;
         set
         {
-            SetAndNotify(ref _isSpecifiedDropsWithNull, value);
+            if (!SetAndNotify(ref _isSpecifiedDropsWithNull, value))
+            {
+                return;
+            }
+
             Instances.TaskQueueViewModel.SetFightParams();
             value ??= false;
             ConfigurationHelper.SetValue(ConfigurationKeys.DropsEnable, value.ToString());
@@ -803,11 +805,7 @@ public class FightSettingsUserControlModel : TaskViewModel
             ClientType = SettingsViewModel.GameSettings.ClientType,
         };
 
-        if (string.IsNullOrEmpty(DropsItemId))
-        {
-            IsSpecifiedDrops = false;
-        }
-        else if (IsSpecifiedDrops)
+        if (IsSpecifiedDrops && !string.IsNullOrEmpty(DropsItemId))
         {
             task.Drops.Add(DropsItemId, DropsQuantity);
         }

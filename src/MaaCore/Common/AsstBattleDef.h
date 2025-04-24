@@ -18,15 +18,15 @@ enum class SkillUsage // 技能用法
 {
     NotUse = 0,       // 不自动使用
     Possibly = 1,     // 有就用，例如干员 棘刺 3 技能
-    Times = 2, // 用 X 次，例如干员 山 2 技能用 1 次、重岳 3 技能用 5 次，由 "skill_times" 字段控制
-    InTime = 3, // 自动判断使用时机，画饼.jpg
-    TimesUsed   // 已经使用了 X 次
+    Times = 2,        // 用 X 次，例如干员 山 2 技能用 1 次、重岳 3 技能用 5 次，由 "skill_times" 字段控制
+    InTime = 3,       // 自动判断使用时机，画饼.jpg
+    TimesUsed         // 已经使用了 X 次
 };
 
 struct OperUsage // 干员用法
 {
     std::string name;
-    int skill = 0; // 技能序号，取值范围 [0, 3]，0时使用默认技能 或 上次编队时使用的技能
+    int skill = 0;       // 技能序号，取值范围 [0, 3]，0时使用默认技能 或 上次编队时使用的技能
     SkillUsage skill_usage = SkillUsage::NotUse;
     int skill_times = 1; // 使用技能的次数，默认为 1，兼容曾经的作业
 };
@@ -56,6 +56,7 @@ enum class Role
 
 inline static Role get_role_type(const std::string& role_name)
 {
+    // clang-format off
     static const std::unordered_map<std::string, Role> NameToRole = {
         { "WARRIOR", Role::Warrior },    { "Warrior", Role::Warrior },    { "warrior", Role::Warrior },
         { "GUARD", Role::Warrior },      { "Guard", Role::Warrior },      { "guard", Role::Warrior },
@@ -89,7 +90,7 @@ inline static Role get_role_type(const std::string& role_name)
         { "DRONE", Role::Drone },        { "Drone", Role::Drone },        { "drone", Role::Drone },
         { "SUMMON", Role::Drone },       { "Summon", Role::Drone },       { "summon", Role::Drone },
         { "无人机", Role::Drone },       { "召唤物", Role::Drone },
-    };
+    }; // clang-format on
     if (auto iter = NameToRole.find(role_name); iter != NameToRole.end()) {
         return iter->second;
     }

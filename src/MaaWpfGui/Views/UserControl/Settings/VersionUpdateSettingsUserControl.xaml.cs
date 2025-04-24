@@ -12,7 +12,9 @@
 // </copyright>
 
 using System;
+using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -47,7 +49,7 @@ namespace MaaWpfGui.Views.UserControl.Settings
 
         private readonly DispatcherTimer _timer = new()
         {
-            Interval = new TimeSpan(0, 0, 6),
+            Interval = new(0, 0, 6),
         };
 
         private void MaaVersionClick(object sender, MouseButtonEventArgs e)
@@ -111,21 +113,33 @@ namespace MaaWpfGui.Views.UserControl.Settings
                 _timer.IsEnabled = true;
             }
 
-            if (_easterEggsCount <= 1)
+            if (_easterEggsCount < 5)
             {
                 ++_easterEggsCount;
                 return;
             }
 
+            MessageBoxInfo info = new()
+            {
+                Message = LocalizationHelper.GetString("EasterEggsRules"),
+                Caption = LocalizationHelper.GetString("EmployeeGuidelines"),
+                IconKey = "EasterEggsRulesIcon",
+                IconBrushKey = "TextIconBrush",
+                ConfirmContent = LocalizationHelper.GetString("ConfirmExitText"),
+            };
+            MessageBoxHelper.Show(info);
+
+            /*
             var growlInfo = new GrowlInfo
             {
                 IsCustom = true,
                 Message = LocalizationHelper.GetString("BuyWineOnAprilFoolsDay"),
-                IconKey = "HangoverGeometry",
-                IconBrushKey = "PallasBrush",
+                IconKey = "EasterEggsRulesIcon",
+                IconBrushKey = "TextIconBrush",
             };
 
             Growl.Info(growlInfo);
+            */
         }
     }
 }

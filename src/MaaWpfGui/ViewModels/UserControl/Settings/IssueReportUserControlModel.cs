@@ -17,6 +17,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Windows;
 using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Configuration;
@@ -37,7 +38,14 @@ public class IssueReportUserControlModel : PropertyChangedBase
         Instance = new();
     }
 
-    private static readonly string[] PayloadFileNames = [Bootstrapper.LogFilename, Bootstrapper.LogBakFilename, "debug/asst.log", "debug/asst.bak.log", ConfigurationHelper.ConfigurationFile, ConfigFactory.ConfigFileName];
+    private static readonly string[] _payloadFileNames = [
+        Bootstrapper.UiLogFilename,
+        Bootstrapper.UiLogBakFilename,
+        Bootstrapper.CoreLogFilename,
+        Bootstrapper.CoreLogBakFilename,
+        ConfigurationHelper.ConfigurationFile,
+        ConfigFactory.ConfigFileName];
+
     private const string DebugDir = "debug";
 
     public static IssueReportUserControlModel Instance { get; }
@@ -67,17 +75,40 @@ public class IssueReportUserControlModel : PropertyChangedBase
             var reportFileName = $"report_{DateTimeOffset.Now:MM-dd_HH-mm-ss}.zip";
             string zipPath = Path.Combine(DebugDir, reportFileName);
             string tempPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            string debugTempPath = Path.Combine(tempPath, "debug");
+            string resourceTempPath = Path.Combine(tempPath, "resource");
             if (File.Exists(zipPath))
             {
                 File.Delete(zipPath);
             }
 
             Directory.CreateDirectory(tempPath);
-            foreach (var file in PayloadFileNames)
+            Directory.CreateDirectory(debugTempPath);
+            Directory.CreateDirectory(resourceTempPath);
+
+            // 复制 _payloadFileNames 中的文件到 tempPath/debug
+            foreach (var file in _payloadFileNames)
             {
-                if (File.Exists(file))
+                if (!File.Exists(file))
                 {
-                    string dest = Path.Combine(tempPath, Path.GetFileName(file));
+                    continue;
+                }
+
+                string relativePath = Path.GetRelativePath(Environment.CurrentDirectory, file);
+                string dest = Path.Combine(tempPath, relativePath);
+                Directory.CreateDirectory(Path.GetDirectoryName(dest)!);
+                File.Copy(file, dest, overwrite: true);
+            }
+
+            // 遍历 resource 文件夹下带 _custom 后缀的文件，复制到 tempPath/resource
+            const string ResourceDir = "resource";
+            if (Directory.Exists(ResourceDir))
+            {
+                foreach (var file in Directory.EnumerateFiles(ResourceDir, "*_custom.*", SearchOption.AllDirectories))
+                {
+                    string relativePath = Path.GetRelativePath(ResourceDir, file);
+                    string dest = Path.Combine(resourceTempPath, relativePath);
+                    Directory.CreateDirectory(Path.GetDirectoryName(dest)!);
                     File.Copy(file, dest, overwrite: true);
                 }
             }
@@ -85,9 +116,9 @@ public class IssueReportUserControlModel : PropertyChangedBase
             using (FileStream zipToOpen = new FileStream(zipPath, FileMode.Create))
             {
                 using var archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create);
-                foreach (var file in Directory.GetFiles(tempPath))
+                foreach (var file in Directory.EnumerateFiles(tempPath, "*", SearchOption.AllDirectories))
                 {
-                    string entryName = Path.GetFileName(file);
+                    string entryName = Path.GetRelativePath(tempPath, file);
                     archive.CreateEntryFromFile(file, entryName, CompressionLevel.Optimal);
                 }
             }

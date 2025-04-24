@@ -88,7 +88,7 @@ MAA はコマンドラインインタフェース（CLI）操作をサポート�
 - 新しいFramework: [MaaFramework](https://github.com/MaaAssistantArknights/MaaFramework)
 - [作業シェアサイト](https://prts.plus)：[フロントエンド](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
 - バックエンド：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
-- [公式ウェブサイト](https://www.maa.plus): [フロントエンド](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/website)
+- [公式ウェブサイト](https://maa.plus): [フロントエンド](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/website)
 - Deep Learning: [MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
 
 ### 多言語 (i18n)

@@ -39,7 +39,9 @@
     <system:String x:Key="ExternalNotificationSettings">External notifications</system:String>
     <system:String x:Key="ExternalNotificationEnabled">Enabled configuration</system:String>
     <system:String x:Key="ExternalNotificationEnableDetails">Output Detailed Information</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenError">Send additional notification when task fails</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenComplete">Send notification when complete</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenError">Send notification when task fails</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenTimeout">Send notification when task times out</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">Send successfully</system:String>
     <system:String x:Key="ExternalNotificationSendFail">Send failed</system:String>
     <system:String x:Key="ExternalNotificationSendTest">Send Test</system:String>
@@ -277,7 +279,8 @@ You can cancel this popup by clicking the Settings - About Us - Issue Reporting 
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">Fill after switching source</system:String>
     <system:String x:Key="MirrorChyanSoftwareUpdateTip">Software update detected. Please go to 「Settings - Update Settings」 to configure MirrorChyan CDK or switch to Global Source.</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">Resource update {0} detected. Please go to 「Settings- Update Settings- Resource Update」 to update manually, or fill in MirrorChayn CDK to update automatically.</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">Resource update {0} detected. Please go to 「Settings- Update Settings - Resource Update」 to update manually, or fill in MirrorChayn CDK to update automatically.</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateShortTip">Resource update {0} detected</system:String>
     <system:String x:Key="MirrorChyanCdkExpired">The CDK has expired. Please use a new CDK for authorization.</system:String>
     <system:String x:Key="MirrorChyanCdkInvalid">The CDK is invalid. Please check if the input is correct.</system:String>
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">The CDK has reached the maximum download limit for today. Please try again tomorrow.</system:String>
@@ -334,6 +337,8 @@ You can cancel this popup by clicking the Settings - About Us - Issue Reporting 
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">Do you also want to order a bar in a bar?</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">I'm sure I haven't selected the wrong one</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">Okay, I will choose again</system:String>
+    <system:String x:Key="EmulatorPathNotExist">The emulator path does not exist</system:String>
+    <system:String x:Key="EmulatorPathEmptyWarning">The emulator path is empty, 「{0}」 and 「{1}」 check states have been reset</system:String>
     <system:String x:Key="Select">Select</system:String>
     <system:String x:Key="ForcedReplaceAdb">Replace ADB</system:String>
     <system:String x:Key="TouchMode">Touch Mode</system:String>
@@ -717,7 +722,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
         3. For SSS, there are multiple built-in files under the 「resource/copilot」 folder.\n
         Please start on the 「Start Deployment」 screen after manual formation (can be used with 「Loop Times」 )\n\n
         4. You need turn off the 「Auto Squad」 when using a friendly support unit, then start with your support unit selected.\n\n
-        5. Enabling the 「Favourite」 feature may affect the operator selection in 「Auto Squad」 . It is recommended to turn off 「Favourite」 when using 「Auto Squad」 , or manually supplement missing operators to ensure the formation is complete.\n\n
+        5. Marking an operator as「Favourite」 may affect the operator selection in 「Auto Squad」 . It is recommended to turn off 「Favourite」 when using 「Auto Squad」 , or manually supplement missing operators to ensure the formation is complete.\n\n
         6. In the Copilot workstation, you can paste the mysterious code by clicking the paste button on the right side of the input box. Left-click to paste a single job, and right-click to paste the entire job set.\n\n
         7. Battle list:\n
         After selecting the job, check that the stage name below the list is correct (e.g.: CV-EX-1). \n
@@ -896,6 +901,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  !About  -->
     <!--  Issues  -->
     <system:String x:Key="CheckHelpBeforeReportingIssue">Please check the FAQ before reporting any issues</system:String>
+    <system:String x:Key="CheckUpdateBeforeReportingIssue">Please upgrade first and test if the issue persists in the new version. Confirm it's not a common issue before reporting.</system:String>
     <system:String x:Key="Help">FAQ</system:String>
     <system:String x:Key="Issue">Issues</system:String>
     <system:String x:Key="GenerateSupportPayload">Generate Support Payload</system:String>
@@ -924,6 +930,21 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="DrunkAndStaggering">Ah, doctor, why do you sway so much in your movement today?</system:String>
     <system:String x:Key="Hangover">I won't drink so much next time……</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
+    <system:String x:Key="EasterEggsRules" xml:space="preserve">1. The official version of MAA will not have Debug mode. If you see a Debug option while running, close the software immediately, do not click it, and contact the nearest MAA developer.\n
+2. Infrastructure shift changes are automatic. If you find an operator working continuously for more than 72 hours, manually adjust the shifts and check if the system time is correct.\n
+3. Recruitment tags will not change. If you notice tags changing before the countdown ends, do not continue recruiting. Restart MAA and try again.\n
+4. MAA will not send friend requests. If you receive a friend request from "MAA_System," do not accept it and delete the account.\n
+5. Roguelike assistance only provides suggestions. If the game automatically selects a non-existent option, force quit and restart the client.\n
+6. MAA's log files should not contain garbled text. If you find logs with errors other than "ERROR: Data parsing failed," delete the logs and reinstall the software.\n
+7. Night mode is safe. However, if MAA starts automatically at 3:33 AM and runs "unknown tasks," unplug the power and wait until sunrise to use it again.\n
+8. The last rule does not exist. If you see this, forget it and use MAA as usual.\n
+9. Do not click on炒...锟斤拷拷拷拷喜报拷拷拷饭 in MAA.\n
+10. MirrorChyan is kind. You only need to pay a small price to receive its protection.\n
+11. MAA does not support future versions. If the software updates to an unreleased version number (e.g., v10.0.0), do not run it and wait for an official announcement.\n
+12. MAA has no voice prompts. If you hear whispers, laughter, or non-program-generated voices, turn off the speakers and check for unknown scripts running.\n
+13. MAA will not update at midnight on Sunday. If you receive an update prompt, ignore it and do not check the update announcement until Monday.
+    </system:String>
+    <system:String x:Key="EmployeeGuidelines">Employee Guidelines</system:String>
     <!--  !EasterEggs  -->
     <!--  VersionUpdatePopup  -->
     <system:String x:Key="UpdateNotificationOk">OK!</system:String>
@@ -1004,4 +1025,9 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">Encryption and decryption failed, please reconfigure the relevant settings, otherwise the encrypted content will be stored in plain text in the configuration file.</system:String>
     <!--  !SimpleEncryptionHelper  -->
+    <!--  TimeOutTimer  -->
+    <system:String x:Key="TaskTimeoutMinutes">Task timeout duration (minutes)</system:String>
+    <system:String x:Key="ReminderIntervalMinutes">Reminder interval (minutes)</system:String>
+    <system:String x:Key="TaskTimeoutWarning">The task has been running for more than {0} minutes (currently running for {1} minutes). Please check if manual intervention is needed.</system:String>
+    <!--  !TimeOutTimer  -->
 </ResourceDictionary>

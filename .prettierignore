@@ -6,5 +6,10 @@ src/maa-cli
 src/MaaMacGui
 
 website/
+docs/
+
 resource/Arknights-Tile-Pos/
 tools/OptimizeTemplates/optimize_templates.json
+
+CITATION.cff
+CHANGELOG.md

@@ -4,18 +4,18 @@ ci:
   autofix_prs: true
 repos:
   - repo: https://github.com/shssoichiro/oxipng
-    rev: v9.1.2
+    rev: v9.1.4
     hooks:
       - id: oxipng
         args: ["-q", "-o", "2", "-s", "--ng"]
   - repo: https://github.com/pre-commit/mirrors-clang-format
-    rev: v17.0.1
+    rev: v20.1.0
     hooks:
       - id: clang-format
         files: ^src/MaaCore/.*
         args: ["--assume-filename", ".clang-format"]
   - repo: https://github.com/rbubley/mirrors-prettier
-    rev: v3.5.1
+    rev: v3.5.3
     hooks:
       - id: prettier
         files: ^((\.github/ISSUE_TEMPLATE|docs|resource|src|tools|website)/.*|\.pre-commit-config\.yaml|package-definition\.json)
@@ -23,7 +23,7 @@ repos:
           - yaml
           - json
   - repo: https://github.com/DavidAnson/markdownlint-cli2
-    rev: v0.13.0
+    rev: v0.17.2
     hooks:
       - id: markdownlint-cli2
         files: ^docs/.*|^README\.md$
