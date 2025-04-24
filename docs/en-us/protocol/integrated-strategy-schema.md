@@ -87,6 +87,7 @@ By default, only E1 Level 55 operators will be recruited
 1. Introduction to existing groups
 
     Take Phantom's I.S. as an example: operators are mainly divided in
+
     | Group  | Considerations | Class | Operators |  
     | :--- | :--- | :--- | :--- |
     | ***Ground block***  | 站场和清杂  | 重装, 近卫 | 奶盾, 基石, 羽毛笔, 山, M3, 令和稀音的召唤物, 斑点, 重装预备干员 |
@@ -101,6 +102,7 @@ By default, only E1 Level 55 operators will be recruited
 2. Groups requiring special handling
 
     In addition to those general groups, sometimes we need more custom tweaks for some operators or types such as
+
     | Group | Operators | Features |
     | :--- | :--- | :--- |
     | Thorns | Thorns, Horn | Long-range melee, many maps have good spots |

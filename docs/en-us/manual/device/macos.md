@@ -55,7 +55,7 @@ Fully compatible. Need to turn on `Settings` - `Advanced` - `Android Debug Bridg
 
 ### ✅ [Nox](https://www.yeshen.com/)
 
-Fully compatible. MAAX cannot auto-detect adb port now, so you need to fill in adb port `127.0.0.1:62001` in MAA `Setting` - `Connect Setting`. Notice that port is not default `5555` , you can get more info in [Common ADB ports for popular Android emulators](../faq.md#common-adb-ports-for-popular-android-emulators)
+Fully compatible.
 
 P.S.: Nox adb bin file path in Mac is `/Applications/NoxAppPlayer.app/Contents/MacOS/adb` , in parent path `MacOS` you are able to use `adb devices` command to get adb path.
 

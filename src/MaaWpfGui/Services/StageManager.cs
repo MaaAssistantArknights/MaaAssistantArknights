@@ -119,11 +119,11 @@ namespace MaaWpfGui.Services
         private static async Task<bool> CheckWebUpdate()
         {
             // Check if we need to update from the web
-            const string LastUpdateTimeFile = "lastUpdateTime.json";
+            const string StageAndTasksUpdateTime = "stageAndTasksUpdateTime.json";
             const string AllFileDownloadCompleteFile = "allFileDownloadComplete.json";
-            JObject localLastUpdatedJson = Instances.MaaApiService.LoadApiCache(LastUpdateTimeFile);
+            JObject localLastUpdatedJson = Instances.MaaApiService.LoadApiCache(StageAndTasksUpdateTime);
             JObject allFileDownloadCompleteJson = Instances.MaaApiService.LoadApiCache(AllFileDownloadCompleteFile);
-            JObject webLastUpdatedJson = await Instances.MaaApiService.RequestMaaApiWithCache(LastUpdateTimeFile).ConfigureAwait(false);
+            JObject webLastUpdatedJson = await Instances.MaaApiService.RequestMaaApiWithCache(StageAndTasksUpdateTime).ConfigureAwait(false);
 
             if (localLastUpdatedJson?["timestamp"] == null || webLastUpdatedJson?["timestamp"] == null)
             {

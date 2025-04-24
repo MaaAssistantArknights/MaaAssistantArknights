@@ -535,6 +535,7 @@ public class VersionUpdateViewModel : Screen
         // 保存新版本的信息
         var name = _latestJson?["name"]?.ToString();
         UpdateTag = string.IsNullOrEmpty(name) ? (_latestJson?["tag_name"]?.ToString() ?? string.Empty) : name;
+        SettingsViewModel.VersionUpdateSettings.NewVersionFoundInfo = $"{LocalizationHelper.GetString("NewVersionFoundTitle")}: {UpdateTag}";
         var body = _latestJson?["body"]?.ToString() ?? string.Empty;
         if (string.IsNullOrEmpty(body))
         {
@@ -729,6 +730,7 @@ public class VersionUpdateViewModel : Screen
 
         UpdateTag = _mirrorcVersionName ?? string.Empty;
         UpdateInfo = _mirrorcReleaseNote ?? string.Empty;
+        SettingsViewModel.VersionUpdateSettings.NewVersionFoundInfo = $"{LocalizationHelper.GetString("NewVersionFoundTitle")}: {UpdateTag}";
 
         bool goDownload = SettingsViewModel.VersionUpdateSettings.AutoDownloadUpdatePackage;
         if (!goDownload)

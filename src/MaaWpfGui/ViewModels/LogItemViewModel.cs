@@ -31,9 +31,14 @@ namespace MaaWpfGui.ViewModels
         /// <param name="color">The font color.</param>
         /// <param name="weight">The font weight.</param>
         /// <param name="dateFormat">The Date format string</param>
-        public LogItemViewModel(string content, string color = UiLogColor.Message, string weight = "Regular", string dateFormat = "MM'-'dd'  'HH':'mm':'ss", bool showTime = true)
+        /// <param name="showTime">The showtime bool.</param>
+        public LogItemViewModel(string content, string color = UiLogColor.Message, string weight = "Regular", string dateFormat = "", bool showTime = true)
         {
-            dateFormat = SettingsViewModel.GuiSettings.LogItemDateFormatString;
+            if (string.IsNullOrEmpty(dateFormat))
+            {
+                dateFormat = SettingsViewModel.GuiSettings.LogItemDateFormatString;
+            }
+
             Time = DateTime.Now.ToString(dateFormat);
             Content = content;
             Color = color;

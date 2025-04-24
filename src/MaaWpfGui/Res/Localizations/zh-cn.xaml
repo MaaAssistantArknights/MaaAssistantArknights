@@ -39,7 +39,9 @@
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
     <system:String x:Key="ExternalNotificationEnabled">启用的通知配置</system:String>
     <system:String x:Key="ExternalNotificationEnableDetails">输出详细信息</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenError">任务出错时发送额外通知</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenComplete">任务完成后发送通知</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenError">任务出错时发送通知</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenTimeout">任务超时时发送通知</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">发送成功</system:String>
     <system:String x:Key="ExternalNotificationSendFail">发送失败</system:String>
     <system:String x:Key="ExternalNotificationSendTest">发送测试</system:String>
@@ -277,7 +279,8 @@
     <system:String x:Key="MirrorChyan">Mirror酱</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">切换更新源后填写</system:String>
     <system:String x:Key="MirrorChyanSoftwareUpdateTip">检测到软件更新。请前往「设置-更新设置」配置 Mirror酱 CDK 或切换海外源。</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">检测到资源更新{0}。请前往「设置-更新设置-资源更新」手动更新，或配置 Mirror酱 CDK 以自动更新。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">检测到资源更新: {0}。请前往「设置-更新设置-资源更新」手动更新，或配置 Mirror酱 CDK 以自动更新。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateShortTip">检测到资源更新: {0}</system:String>
     <system:String x:Key="MirrorChyanCdkExpired">CDK 已过期，请使用新的 CDK 进行授权。</system:String>
     <system:String x:Key="MirrorChyanCdkInvalid">CDK 无效，请检查输入是否正确。</system:String>
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">CDK 今日下载次数已达上限，请明日再试。</system:String>
@@ -334,6 +337,8 @@
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">你也想在酒吧里点酒吧？</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">我确定没选错</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">好的，我会重新选择</system:String>
+    <system:String x:Key="EmulatorPathNotExist">模拟器路径不存在</system:String>
+    <system:String x:Key="EmulatorPathEmptyWarning">模拟器路径为空，「{0}」与「{1}」勾选状态已被还原</system:String>
     <system:String x:Key="Select">选择</system:String>
     <system:String x:Key="ForcedReplaceAdb">强制替换 ADB</system:String>
     <system:String x:Key="TouchMode">触控模式</system:String>
@@ -390,9 +395,9 @@
     <system:String x:Key="Drink">要来一杯美酒吗🍷？博士</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">信用溢出时无视黑名单</system:String>
     <system:String x:Key="OnlyBuyDiscount">只购买打折的信用商品</system:String>
-    <system:String x:Key="ReserveMaxCredit">信用点低于300时停止购买商品</system:String>
+    <system:String x:Key="ReserveMaxCredit">信用点低于 300 时停止购买商品</system:String>
     <system:String x:Key="OnlyBuyDiscountTips">⚠ 注意：可能会导致信用点数溢出！仍然会购买未打折的白名单物品！</system:String>
-    <system:String x:Key="ReserveMaxCreditTips">低于300信用点也仍然会购买白名单物品！</system:String>
+    <system:String x:Key="ReserveMaxCreditTips">低于 300 信用点也仍然会购买白名单物品！</system:String>
     <system:String x:Key="CreditFullOnlyBuyDiscount">博士！ \n只购买折扣商品让信用点数溢出了！\n小心信用点数浪费哦！\n剩余信用点数：</system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">领取每日/每周任务奖励</system:String>
     <system:String x:Key="ReceiveMail">领取所有邮件奖励</system:String>
@@ -694,7 +699,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="FailedToLikeWebJson">出现错误，评价失败 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">感谢评价！\n网页已经开放评论区，欢迎前往留下你的评论！</system:String>
     <system:String x:Key="AutoSquad">自动编队</system:String>
-    <system:String x:Key="AutoSquadTip">自动编队暂时无法识别「特别关注」的干员</system:String>
+    <system:String x:Key="AutoSquadTip">自动编队可能暂时无法识别带有「特别关注」标记的干员</system:String>
     <system:String x:Key="AddTrust">补充低信赖干员</system:String>
     <system:String x:Key="AddUserAdditional">追加自定干员</system:String>
     <system:String x:Key="AddUserAdditionalTip">以英文「;」为分隔符，英文「,」分隔干员名与技能，例: 史尔特尔,3;艾雅法拉,1</system:String>
@@ -720,7 +725,7 @@ C:\\leidian\\LDPlayer9。\n
         3. 保全派驻 在 resource/copilot 文件夹下内置了多份作业。\n
         请手动编队后在「开始部署」界面开始（可配合「循环次数」使用）。\n\n
         4. 使用好友助战可以关闭「自动编队」，手动选择干员后开始。\n\n
-        5. 启用「特别关注」功能可能会影响「自动编队」的干员选择。建议在使用「自动编队」时关闭「特别关注」，或手动补充缺失的干员以确保编队完整。\n\n
+        5. 将干员标为「特别关注」可能会影响「自动编队」时的识别与选择。建议在使用「自动编队」时考虑移除「特别关注」标记，或手动补充缺失的干员以确保编队完整。\n\n
         6. Copilot 作业站的神秘代码可点击输入框右侧的粘贴按钮粘贴。左键单击可粘贴单个作业，右键单击则可粘贴整个作业集。\n\n
         7. 战斗列表:\n
         选择作业后，检查列表下方的关卡名是否正确 (如: CV-EX-1)。\n
@@ -898,7 +903,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Discord">Discord</system:String>
     <!--  !About  -->
     <!--  Issues  -->
-    <system:String x:Key="CheckHelpBeforeReportingIssue">请在确认您的问题不属于常见问题后，再进行问题反馈</system:String>
+    <system:String x:Key="CheckHelpBeforeReportingIssue">请在确认您的问题不属于「常见问题」后，再进行「问题反馈」</system:String>
+    <system:String x:Key="CheckUpdateBeforeReportingIssue">请先升级并测试新版是否仍有此问题，确认非「常见问题」后再进行「问题反馈」</system:String>
     <system:String x:Key="Help">常见问题</system:String>
     <system:String x:Key="Issue">问题反馈</system:String>
     <system:String x:Key="GenerateSupportPayload">生成日志压缩包</system:String>
@@ -927,6 +933,21 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="DrunkAndStaggering">呀，博士。你今天走起路来，怎么看着摇摇晃晃的？</system:String>
     <system:String x:Key="Hangover">下次不能喝、喝这么多了……</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
+    <system:String x:Key="EasterEggsRules" xml:space="preserve">1. MAA 正式版不会出现 Debug 模式。如果你在运行时看到 Debug 选项，请立即关闭软件，不要点击它，并联系最近的 MAA 开发者。\n
+2. 基建换班是自动的。如果你发现某个干员连续工作了 72 小时以上，请手动调整班次，并检查系统时间是否正常。\n
+3. 公开招募的标签不会改变。如果发现标签在倒计时结束前自行更换，不要继续招募，重启 MAA 后再操作。\n
+4. MAA 不会主动发送好友申请。如果收到来自 “MAA_System” 的好友请求，不要接受，并删除该账号。\n
+5. 肉鸽辅助仅提供建议。若游戏自动选择了 不存在的选项，强制退出并重新启动客户端。\n
+6. MAA 的日志文件不应包含乱码。如果发现日志中出现 “ERROR: 数据解析失败” 以外的异常信息，删除日志并重新安装软件。\n
+7. 夜间模式是安全的。但如果 MAA 在 凌晨 3:33 自动启动并运行 “未知任务”，请拔掉电源，等待日出后再使用。\n
+8. 最后一条规则不存在。如果你看到了这条，请忘记它，并正常使用 MAA。\n
+9. 请不要在 MAA 里点炒...锟斤拷拷拷拷喜报拷拷拷饭。\n
+10. Mirror酱是善良的，你只要付出小小的代价，就能得到祂的庇护。\n
+11. MAA 不支持未来版本。如果软件自动更新到一个 尚未发布的版本号（如 v10.0.0），不要运行，等待官方公告。\n
+12. MAA 的没有语音提示。如果听到 低语声、笑声或非程序生成的语音，关闭扬声器，并检查是否有未知脚本在运行。\n
+13. MAA 不会在周日凌晨更新。如果收到更新提示，请忽略，不要查看更新公告，直到周一。
+    </system:String>
+    <system:String x:Key="EmployeeGuidelines">员工守则</system:String>
     <!--  !EasterEggs  -->
     <!--  VersionUpdatePopup  -->
     <system:String x:Key="UpdateNotificationOk">好的！</system:String>
@@ -1007,4 +1028,9 @@ C:\\leidian\\LDPlayer9。\n
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">加解密失败，请重新配置相关设置，否则加密内容将以明文形式存储在配置文件中。</system:String>
     <!--  !SimpleEncryptionHelper  -->
+    <!--  TimeOutTimer  -->
+    <system:String x:Key="TaskTimeoutMinutes">任务超时时间（分钟）</system:String>
+    <system:String x:Key="ReminderIntervalMinutes">提醒间隔时间（分钟）</system:String>
+    <system:String x:Key="TaskTimeoutWarning">任务已运行超过 {0} 分钟（当前已运行 {1} 分钟），请检查是否需要手动干预。</system:String>
+    <!--  !TimeOutTimer  -->
 </ResourceDictionary>

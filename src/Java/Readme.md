@@ -5,18 +5,18 @@
 
 ## 接口实现情况
 
-| 功能名称   | 接口路径(命令)      | HTTP实现 | WebSocket实现 |
-|:-------|:--------------|:-------|:------------|
-| 获取版本号  | getVersion    | Yes    | Yes |
-| 创建连接   | connect       | Yes    | Yes |
-| 添加任务   | appendTask    | Yes    | Yes |
-| 设定任务参数 | setTaskParams | Yes    | Yes |
-| 开始执行   | start         | Yes    | Yes |
-| 停止执行   | stop          | Yes    | Yes |
-| 销毁实例   | destroy       | Yes    | Yes |
-| 列出实例连接 | listInstance  | Yes    | Yes |
-| 消息回调通知 | callBack  | No     | Yes |
-| 获取截图   | getImage  | Yes     | No |
+| 功能名称     | 接口路径(命令) | HTTP实现 | WebSocket实现 |
+| :----------- | :------------- | :------- | :------------ |
+| 获取版本号   | getVersion     | Yes      | Yes           |
+| 创建连接     | connect        | Yes      | Yes           |
+| 添加任务     | appendTask     | Yes      | Yes           |
+| 设定任务参数 | setTaskParams  | Yes      | Yes           |
+| 开始执行     | start          | Yes      | Yes           |
+| 停止执行     | stop           | Yes      | Yes           |
+| 销毁实例     | destroy        | Yes      | Yes           |
+| 列出实例连接 | listInstance   | Yes      | Yes           |
+| 消息回调通知 | callBack       | No       | Yes           |
+| 获取截图     | getImage       | Yes      | No            |
 
 ## 环境依赖
 
@@ -34,7 +34,7 @@
     ```text
     MaaCoreArknights_v3.9.0-beta.8
     │   MAA.exe
-    │   MaaCore.dll  
+    │   MaaCore.dll
     │   ...
     └───Java-HTTP
         │   Maa-HTTP-0.0.1.jar
@@ -58,17 +58,17 @@
 
 提供了如下功能
 
-| 功能名称   | 接口路径          |
-|:-------|:--------------|
-| 获取版本号  | getVersion    |
-| 创建连接   | connect       |
-| 添加任务   | appendTask    |
+| 功能名称     | 接口路径      |
+| :----------- | :------------ |
+| 获取版本号   | getVersion    |
+| 创建连接     | connect       |
+| 添加任务     | appendTask    |
 | 设定任务参数 | setTaskParams |
-| 开始执行   | start         |
-| 停止执行   | stop          |
-| 销毁实例   | destroy       |
-| 列出连接   | listInstance  |
-| 获取截图   | getImage  |
+| 开始执行     | start         |
+| 停止执行     | stop          |
+| 销毁实例     | destroy       |
+| 列出连接     | listInstance  |
+| 获取截图     | getImage      |
 
 ---
 
@@ -86,11 +86,11 @@
 
 ```json
 {
-  "data": {
-    "version": "v3.9.0-beta"
-  },
-  "code": 0,
-  "message": "success"
+    "data": {
+        "version": "v3.9.0-beta"
+    },
+    "code": 0,
+    "message": "success"
 }
 ```
 
@@ -108,39 +108,39 @@
 
 ```json
 {
-  "adbPath": "C:\\MaaCoreArknights3\\platform-tools\\adb.exe",
-  "host": "127.0.0.1:62001",
-  "detailJson": ""
+    "adbPath": "C:\\MaaCoreArknights3\\platform-tools\\adb.exe",
+    "host": "127.0.0.1:62001",
+    "detailJson": ""
 }
 ```
 
 ###### Post 参数
 
-|  字段名称   | 字段说明            | 类型     | 必填  | 备注  |
-|  ----  |-----------------|--------|-----|-----|
-| adbPath  | ADB地址           | String | Y   | -   |
-| host  | 实例地址            | String   | Y   | -   |
-| detailJson  | 有什么用我也不知道，反正就是有 | String   | N   | -   |
+| 字段名称   | 字段说明                       | 类型   | 必填 | 备注 |
+| ---------- | ------------------------------ | ------ | ---- | ---- |
+| adbPath    | ADB地址                        | String | Y    | -    |
+| host       | 实例地址                       | String | Y    | -    |
+| detailJson | 有什么用我也不知道，反正就是有 | String | N    | -    |
 
 ###### 4) 请求返回结果
 
 ```json
 {
-  "data": {
-    "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
-    "result": true
-  },
-  "code": 0,
-  "message": "success"
+    "data": {
+        "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
+        "result": true
+    },
+    "code": 0,
+    "message": "success"
 }
 ```
 
 ###### 5) 请求返回结果参数说明
 
-| 字段名称 | 字段说明        | 类型      | 备注 |
-|------|-------------|---------|----  |
-| id   | 给连接实例创建的ID | String  | - |
-| result    | 是否成功        | Boolean | - |
+| 字段名称 | 字段说明           | 类型    | 备注 |
+| -------- | ------------------ | ------- | ---- |
+| id       | 给连接实例创建的ID | String  | -    |
+| result   | 是否成功           | Boolean | -    |
 
 ---
 
@@ -158,41 +158,41 @@
 
 ```json
 {
-  "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
-  "type": "Fight",
-  "params": {
-    "stage": "LastBattle"
-  }
+    "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
+    "type": "Fight",
+    "params": {
+        "stage": "LastBattle"
+    }
 }
 ```
 
 ###### Post 参数
 
-|  字段名称   | 字段说明                                                                                                                          | 类型     | 必填 | 备注  |
-|  ----  |-------------------------------------------------------------------------------------------------------------------------------|--------|----  |-----|
-| id  | 创建连接返回的实例ID                                                                                                                   | String | Y | -   |
-| type  | 任务类型,此次示例为刷理智战斗,详情参考[集成文档](https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/master/docs/集成文档.md) | String | Y | -   |
-| params  | 任务参数                                                                                                                          | Json   | Y | -   |
+| 字段名称 | 字段说明                                                                                                                                                | 类型   | 必填 | 备注 |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ---- | ---- |
+| id       | 创建连接返回的实例ID                                                                                                                                    | String | Y    | -    |
+| type     | 任务类型,此次示例为刷理智战斗,详情参考[集成文档](https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/master/docs/集成文档.md) | String | Y    | -    |
+| params   | 任务参数                                                                                                                                                | Json   | Y    | -    |
 
 ###### 4) 请求返回结果
 
 ```json
 {
-  "data": {
-    "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
-    "taskId": 0
-  },
-  "code": 0,
-  "message": "success"
+    "data": {
+        "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
+        "taskId": 0
+    },
+    "code": 0,
+    "message": "success"
 }
 ```
 
 ###### 5) 请求返回结果参数说明
 
-| 字段名称 | 字段说明       | 类型     | 备注 |
-|------|------------|--------|----  |
-| id   | 实例ID       | String | - |
-| taskId    | 任务ID,为0则失败 | Int    | - |
+| 字段名称 | 字段说明         | 类型   | 备注 |
+| -------- | ---------------- | ------ | ---- |
+| id       | 实例ID           | String | -    |
+| taskId   | 任务ID,为0则失败 | Int    | -    |
 
 ---
 
@@ -208,43 +208,43 @@
 
 ```json
 {
-  "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
-  "type": "Fight",
-  "taskId": 0,
-  "params": {
-    "stage": "LastBattle"
-  }
+    "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
+    "type": "Fight",
+    "taskId": 0,
+    "params": {
+        "stage": "LastBattle"
+    }
 }
 ```
 
 ###### Post 参数
 
-|  字段名称   | 字段说明                                                                                                                          | 类型     | 必填 | 备注  |
-|  ----  |-------------------------------------------------------------------------------------------------------------------------------|--------|----  |-----|
-| id  | 创建连接返回的实例ID                                                                                                                   | String | Y | -   |
-| taskId  | 任务ID                                                                                                                   | Int    | Y | -   |
-| type  | 任务类型,此次示例为刷理智战斗,详情参考[集成文档](https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/master/docs/集成文档.md) | String | Y | -   |
-| params  | 任务参数                                                                                                                          | Json   | Y | -   |
+| 字段名称 | 字段说明                                                                                                                                                | 类型   | 必填 | 备注 |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ---- | ---- |
+| id       | 创建连接返回的实例ID                                                                                                                                    | String | Y    | -    |
+| taskId   | 任务ID                                                                                                                                                  | Int    | Y    | -    |
+| type     | 任务类型,此次示例为刷理智战斗,详情参考[集成文档](https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/master/docs/集成文档.md) | String | Y    | -    |
+| params   | 任务参数                                                                                                                                                | Json   | Y    | -    |
 
 ###### 4) 请求返回结果
 
 ```json
 {
-  "data": {
-    "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
-    "result": false
-  },
-  "code": 0,
-  "message": "success"
+    "data": {
+        "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
+        "result": false
+    },
+    "code": 0,
+    "message": "success"
 }
 ```
 
 ###### 5) 请求返回结果参数说明
 
-| 字段名称 | 字段说明        | 类型      | 备注 |
-|------|-------------|---------|----  |
-| id   | 给连接实例创建的ID | String  | - |
-| result    | 是否成功        | Boolean | - |
+| 字段名称 | 字段说明           | 类型    | 备注 |
+| -------- | ------------------ | ------- | ---- |
+| id       | 给连接实例创建的ID | String  | -    |
+| result   | 是否成功           | Boolean | -    |
 
 ---
 
@@ -260,35 +260,35 @@
 
 ```json
 {
-  "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3"
+    "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3"
 }
 ```
 
 ###### Post 参数
 
-|  字段名称   | 字段说明                                                                                                                       | 类型     | 必填 | 备注  |
-|  ----  |--------|--------|----  |-----|
-| id  | 创建连接返回的实例ID   | String | Y | -   |
+| 字段名称 | 字段说明             | 类型   | 必填 | 备注 |
+| -------- | -------------------- | ------ | ---- | ---- |
+| id       | 创建连接返回的实例ID | String | Y    | -    |
 
 ###### 4) 请求返回结果
 
 ```json
 {
-  "data": {
-    "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3",
-    "result": true
-  },
-  "code": 0,
-  "message": "success"
+    "data": {
+        "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3",
+        "result": true
+    },
+    "code": 0,
+    "message": "success"
 }
 ```
 
 ###### 5) 请求返回结果参数说明
 
-| 字段名称 | 字段说明        | 类型      | 备注 |
-|------|-------------|---------|----  |
-| id   | 给连接实例创建的ID | String  | - |
-| result    | 是否成功        | Boolean | - |
+| 字段名称 | 字段说明           | 类型    | 备注 |
+| -------- | ------------------ | ------- | ---- |
+| id       | 给连接实例创建的ID | String  | -    |
+| result   | 是否成功           | Boolean | -    |
 
 ---
 
@@ -304,35 +304,35 @@
 
 ```json
 {
-  "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3"
+    "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3"
 }
 ```
 
 ###### Post 参数
 
-|  字段名称   | 字段说明                                                                                                                       | 类型     | 必填 | 备注  |
-|  ----  |--------|--------|----  |-----|
-| id  | 创建连接返回的实例ID   | String | Y | -   |
+| 字段名称 | 字段说明             | 类型   | 必填 | 备注 |
+| -------- | -------------------- | ------ | ---- | ---- |
+| id       | 创建连接返回的实例ID | String | Y    | -    |
 
 ###### 4) 请求返回结果
 
 ```json
 {
-  "data": {
-    "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3",
-    "result": true
-  },
-  "code": 0,
-  "message": "success"
+    "data": {
+        "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3",
+        "result": true
+    },
+    "code": 0,
+    "message": "success"
 }
 ```
 
 ###### 5) 请求返回结果参数说明
 
-| 字段名称 | 字段说明        | 类型      | 备注 |
-|------|-------------|---------|----  |
-| id   | 给连接实例创建的ID | String  | - |
-| result    | 是否成功        | Boolean | - |
+| 字段名称 | 字段说明           | 类型    | 备注 |
+| -------- | ------------------ | ------- | ---- |
+| id       | 给连接实例创建的ID | String  | -    |
+| result   | 是否成功           | Boolean | -    |
 
 ---
 
@@ -348,35 +348,35 @@
 
 ```json
 {
-  "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3"
+    "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3"
 }
 ```
 
 ###### Post 参数
 
-|  字段名称   | 字段说明                                                                                                                       | 类型     | 必填 | 备注  |
-|  ----  |--------|--------|----  |-----|
-| id  | 创建连接返回的实例ID   | String | Y | -   |
+| 字段名称 | 字段说明             | 类型   | 必填 | 备注 |
+| -------- | -------------------- | ------ | ---- | ---- |
+| id       | 创建连接返回的实例ID | String | Y    | -    |
 
 ###### 4) 请求返回结果
 
 ```json
 {
-  "data": {
-    "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3",
-    "result": true
-  },
-  "code": 0,
-  "message": "success"
+    "data": {
+        "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3",
+        "result": true
+    },
+    "code": 0,
+    "message": "success"
 }
 ```
 
 ###### 5) 请求返回结果参数说明
 
-| 字段名称 | 字段说明        | 类型      | 备注 |
-|------|-------------|---------|----  |
-| id   | 给连接实例创建的ID | String  | - |
-| result    | 是否成功        | Boolean | - |
+| 字段名称 | 字段说明           | 类型    | 备注 |
+| -------- | ------------------ | ------- | ---- |
+| id       | 给连接实例创建的ID | String  | -    |
+| result   | 是否成功           | Boolean | -    |
 
 ---
 
@@ -394,31 +394,31 @@
 
 ```json
 {
-  "data": {
-    "list": [
-      {
-        "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3",
-        "host": "127.0.0.1:62026",
-        "adbPath": "C:\\Users\\atmzx\\Desktop\\MaaCoreArknights3\\platform-tools\\adb.exe",
-        "uuid": "",
-        "status": 0
-      }
-    ]
-  },
-  "code": 0,
-  "message": "success"
+    "data": {
+        "list": [
+            {
+                "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3",
+                "host": "127.0.0.1:62026",
+                "adbPath": "C:\\Users\\atmzx\\Desktop\\MaaCoreArknights3\\platform-tools\\adb.exe",
+                "uuid": "",
+                "status": 0
+            }
+        ]
+    },
+    "code": 0,
+    "message": "success"
 }
 ```
 
 ###### 5) 请求返回结果参数说明
 
-| 字段名称 | 字段说明        | 类型     | 备注 |
-|------|-------------|--------|----  |
-| id   | 实例ID        | String | - |
-| host    | 连接的Host     | String | - |
-| adbPath    | 使用的Adb地址    | String | - |
-| uuid    | 设备备ID，保留    | String | - |
-| status    | 0待机中,1任务执行中 | Int    | - |
+| 字段名称 | 字段说明            | 类型   | 备注 |
+| -------- | ------------------- | ------ | ---- |
+| id       | 实例ID              | String | -    |
+| host     | 连接的Host          | String | -    |
+| adbPath  | 使用的Adb地址       | String | -    |
+| uuid     | 设备备ID，保留      | String | -    |
+| status   | 0待机中,1任务执行中 | Int    | -    |
 
 ---
 
@@ -434,9 +434,9 @@
 
 ###### Get参数
 
-|  字段名称   | 字段说明                                                                                                                       | 类型     | 必填 | 备注  |
-|  ----  |--------|--------|----  |-----|
-| id  | 创建连接返回的实例ID   | String | Y | -   |
+| 字段名称 | 字段说明             | 类型   | 必填 | 备注 |
+| -------- | -------------------- | ------ | ---- | ---- |
+| id       | 创建连接返回的实例ID | String | Y    | -    |
 
 ###### 4) 请求返回结果: 图片内容, PNG 格式
 
@@ -448,16 +448,16 @@
 
 提供了如下功能
 
-| 功能名称   | 命令            |
-|:-------|:--------------|
-| 获取版本号  | getVersion    |
-| 创建连接   | connect       |
-| 添加任务   | appendTask    |
+| 功能名称     | 命令          |
+| :----------- | :------------ |
+| 获取版本号   | getVersion    |
+| 创建连接     | connect       |
+| 添加任务     | appendTask    |
 | 设定任务参数 | setTaskParams |
-| 开始执行   | start         |
-| 停止执行   | stop          |
-| 销毁实例   | destroy       |
-| 列出实例连接   | listInstance  |
+| 开始执行     | start         |
+| 停止执行     | stop          |
+| 销毁实例     | destroy       |
+| 列出实例连接 | listInstance  |
 | 消息回调通知 | callBack      |
 
 所有的的WebSocket接口跟HTTP接口请求响应参数均完全一致
@@ -468,37 +468,37 @@
 
 ```json
 {
-  "command": "getVersion",
-  "msgId": 114514,
-  "data": {}
+    "command": "getVersion",
+    "msgId": 114514,
+    "data": {}
 }
 ```
 
-|  字段名称   | 字段说明                              | 类型     | 必填 | 备注  |
-|  ----  |-----------------------------------|--------|----  |-----|
-| command  | 操作命令                              | String |,Y | -   |
-| msgId  | 消息ID，服务端收到此次请求，会用同一个ID答复，便于请求响应关联 | Int    | Y | -   |
-| data  | 请求参数，请参考同名接口的HTTP接口文档，与HTTP接口完全一致 | Json   | Y | -   |
+| 字段名称 | 字段说明                                                       | 类型   | 必填 | 备注 |
+| -------- | -------------------------------------------------------------- | ------ | ---- | ---- |
+| command  | 操作命令                                                       | String | ,Y   | -    |
+| msgId    | 消息ID，服务端收到此次请求，会用同一个ID答复，便于请求响应关联 | Int    | Y    | -    |
+| data     | 请求参数，请参考同名接口的HTTP接口文档，与HTTP接口完全一致     | Json   | Y    | -    |
 
 ###### 请求返回结果
 
 ```json
 {
-  "data": {
-    "version": "v3.9.0-beta"
-  },
-  "command": "getVersion",
-  "msgId": 114514,
-  "code": 0,
-  "message": "success"
+    "data": {
+        "version": "v3.9.0-beta"
+    },
+    "command": "getVersion",
+    "msgId": 114514,
+    "code": 0,
+    "message": "success"
 }
 ```
 
-| 字段名称 | 字段说明                              | 类型     | 备注 |
-|------|-----------------------------------|--------|----  |
-| command   | 操作命令,与请求一致                        | String | - |
-| msgId    | 消息ID，此次请求的消息ID为114514则响应也是114514  | Int    | - |
-| data    | 响应内容,请参考同名接口的HTTP接口文档，与HTTP接口完全一致 | Json   | - |
+| 字段名称 | 字段说明                                                  | 类型   | 备注 |
+| -------- | --------------------------------------------------------- | ------ | ---- |
+| command  | 操作命令,与请求一致                                       | String | -    |
+| msgId    | 消息ID，此次请求的消息ID为114514则响应也是114514          | Int    | -    |
+| data     | 响应内容,请参考同名接口的HTTP接口文档，与HTTP接口完全一致 | Json   | -    |
 
 ---
 
@@ -506,41 +506,41 @@
 
 ```json
 {
-  "command": "connect",
-  "msgId": 114514,
-  "data": {
-    "adbPath": "C:\\Users\\atmzx\\Desktop\\MaaCoreArknights3\\platform-tools\\adb.exe",
-    "host": "127.0.0.1:62001"
-  }
+    "command": "connect",
+    "msgId": 114514,
+    "data": {
+        "adbPath": "C:\\Users\\atmzx\\Desktop\\MaaCoreArknights3\\platform-tools\\adb.exe",
+        "host": "127.0.0.1:62001"
+    }
 }
 ```
 
-|  字段名称   | 字段说明                            | 类型     | 必填 | 备注  |
-|  ----  |---------------------------------|--------|----  |-----|
-| command  | 操作命令                            | String |,Y | -   |
-| msgId  | 消息ID，服务端收到此次请求，会用同一个ID答复，便于请求响应关联 | Int    | Y | -   |
-| data  | 请求参数，请参考同名接口的HTTP文档，与HTTP接口完全一致 | Json   | Y | -   |
+| 字段名称 | 字段说明                                                       | 类型   | 必填 | 备注 |
+| -------- | -------------------------------------------------------------- | ------ | ---- | ---- |
+| command  | 操作命令                                                       | String | ,Y   | -    |
+| msgId    | 消息ID，服务端收到此次请求，会用同一个ID答复，便于请求响应关联 | Int    | Y    | -    |
+| data     | 请求参数，请参考同名接口的HTTP文档，与HTTP接口完全一致         | Json   | Y    | -    |
 
 ###### 请求返回结果
 
 ```json
 {
-  "data": {
-    "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
-    "result": true
-  },
-  "command": "connect",
-  "msgId": 114514,
-  "code": 0,
-  "message": "success"
+    "data": {
+        "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
+        "result": true
+    },
+    "command": "connect",
+    "msgId": 114514,
+    "code": 0,
+    "message": "success"
 }
 ```
 
-| 字段名称 | 字段说明                              | 类型     | 备注 |
-|------|-----------------------------------|--------|----  |
-| command   | 操作命令,与请求一致                        | String | - |
-| msgId    | 消息ID，此次请求的消息ID为114514则响应也是114514  | Int    | - |
-| data    | 响应内容,请参考同名接口的HTTP接口文档，与HTTP接口完全一致 | Json   | - |
+| 字段名称 | 字段说明                                                  | 类型   | 备注 |
+| -------- | --------------------------------------------------------- | ------ | ---- |
+| command  | 操作命令,与请求一致                                       | String | -    |
+| msgId    | 消息ID，此次请求的消息ID为114514则响应也是114514          | Int    | -    |
+| data     | 响应内容,请参考同名接口的HTTP接口文档，与HTTP接口完全一致 | Json   | -    |
 
 appendTask setTaskParams start stop等接口不再描述，均可遵循以上规则，参考HTTP接口文档实现。
 
@@ -552,32 +552,32 @@ appendTask setTaskParams start stop等接口不再描述，均可遵循以上规
 
 ```json
 {
-  "data": {
-    "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
-    "logId": 1,
-    "msg": 2,
-    "details": {
-      "uuid": "",
-      "details": {
-        "adb": "C:\\MaaCoreArknights3\\platform-tools\\adb.exe",
-        "address": "127.0.0.1:62001",
-        "config": "General",
-        "width": 1280,
-        "height": 720
-      },
-      "what": "ResolutionGot",
-      "why": ""
-    }
-  },
-  "command": "callBack",
-  "msgId": 0,
-  "code": 0,
-  "message": "success"
+    "data": {
+        "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
+        "logId": 1,
+        "msg": 2,
+        "details": {
+            "uuid": "",
+            "details": {
+                "adb": "C:\\MaaCoreArknights3\\platform-tools\\adb.exe",
+                "address": "127.0.0.1:62001",
+                "config": "General",
+                "width": 1280,
+                "height": 720
+            },
+            "what": "ResolutionGot",
+            "why": ""
+        }
+    },
+    "command": "callBack",
+    "msgId": 0,
+    "code": 0,
+    "message": "success"
 }
 ```
 
-| 字段名称 | 字段说明                              | 类型     | 备注 |
-|------|-----------------------------------|--------|----  |
-| command   | 操作命令,callBack类型                        | String | - |
-| msgId    | 消息ID，callBack 一律为0 | Int    | - |
-| data    | 响应内容,详情参考[集成文档](https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/master/docs/集成文档.md)   | Json   | - |
+| 字段名称 | 字段说明                                                                                                                           | 类型   | 备注 |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------ | ---- |
+| command  | 操作命令,callBack类型                                                                                                              | String | -    |
+| msgId    | 消息ID，callBack 一律为0                                                                                                           | Int    | -    |
+| data     | 响应内容,详情参考[集成文档](https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/master/docs/集成文档.md) | Json   | -    |

@@ -8,7 +8,7 @@ Maa 的构建工具
 
 在解决方案根目录执行：
 
-``` sh
+```sh
 # PowerShell
 ./build.ps1 --target <TARGET>
 # Command Prompt
@@ -28,7 +28,7 @@ Maa 的构建工具
 
 关于 Target 之间的流程联系，请在安装 `Nuke.GlobalTool` 后再 Repo 的任意位置执行
 
-``` sh
+```sh
 nuke --plan
 ```
 
@@ -36,7 +36,7 @@ nuke --plan
 
 [可选] 安装 `Nuke.GlobalTool`
 
-``` sh
+```sh
 dotnet tool install Nuke.GlobalTool --global
 ```
 

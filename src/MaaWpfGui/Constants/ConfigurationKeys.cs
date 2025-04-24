@@ -226,6 +226,9 @@ namespace MaaWpfGui.Constants
 
         public const string EnableYituliu = "Yituliu.EnableYituliu";
 
+        public const string TaskTimeoutMinutes = "TimeOut.Timer.TaskTimeoutMinutes";
+        public const string ReminderIntervalMinutes = "TimeOut.Timer.ReminderIntervalMinutes";
+
         public const string BluestacksConfigPath = "Bluestacks.Config.Path";
         public const string BluestacksConfigKeyword = "Bluestacks.Config.Keyword";
         public const string BluestacksConfigError = "Bluestacks.Config.Error";
@@ -253,8 +256,10 @@ namespace MaaWpfGui.Constants
         public const string RemoteControlDeviceIdentity = "RemoteControl.RemoteControlDeviceIdentity";
 
         public const string ExternalNotificationEnabled = "ExternalNotification.Enabled";
+        public const string ExternalNotificationSendWhenComplete = "ExternalNotification.SendWhenComplete";
         public const string ExternalNotificationEnableDetails = "ExternalNotification.EnableDetails";
         public const string ExternalNotificationSendWhenError = "ExternalNotification.SendWhenError";
+        public const string ExternalNotificationSendWhenTimeout = "ExternalNotification.SendWhenTimeout";
         public const string ExternalNotificationSmtpServer = "ExternalNotification.Smtp.Server";
         public const string ExternalNotificationSmtpPort = "ExternalNotification.Smtp.Port";
         public const string ExternalNotificationSmtpUser = "ExternalNotification.Smtp.User";

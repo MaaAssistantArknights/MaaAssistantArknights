@@ -72,6 +72,10 @@ public class EmulatorHelper
         {
             emuIndex = 0;
         }
+        else if (SettingsViewModel.ConnectSettings.MuMuEmulator12Extras.MuMuBridgeConnection)
+        {
+            emuIndex = int.TryParse(SettingsViewModel.ConnectSettings.MuMuEmulator12Extras.Index, out var indexParse) ? indexParse : 0;
+        }
         else
         {
             string portStr = address.Split(':')[1];

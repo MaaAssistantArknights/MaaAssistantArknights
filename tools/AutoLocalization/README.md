@@ -23,16 +23,16 @@ options:
    -h, --help            show this help message and exit
 
 positional arguments:
-   
+
    {init,create,update}
-   
+
    init                初始化工具
-    
+
    create              初始化其他语言的文档
       -f, --force       强制覆盖已有的部分
       -t, --test        跳过chatgpt翻译进行测试
       -l, --language    指定语言，可选参数：en-us, zh-tw, ja-jp, ko-kr
-      
+
    update              更新本地化翻译
       -t, --test        跳过chatgpt翻译进行测试
       -l, --language    指定语言，可选参数：en-us, zh-tw, ja-jp, ko-kr
@@ -67,7 +67,7 @@ Enjoy!
     check duplicate Key()
     if exist duplicate Key:
         throw (or raise) an exception
-    
+
     zh-cn -> zh-tw
     if exist en-us:
         en-us -> ja-jp

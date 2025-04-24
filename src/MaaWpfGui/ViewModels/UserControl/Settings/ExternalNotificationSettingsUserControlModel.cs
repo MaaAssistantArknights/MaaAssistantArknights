@@ -44,6 +44,18 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             true);
     }
 
+    private bool _externalNotificationSendWhenComplete = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenComplete, bool.TrueString));
+
+    public bool ExternalNotificationSendWhenComplete
+    {
+        get => _externalNotificationSendWhenComplete;
+        set
+        {
+            SetAndNotify(ref _externalNotificationSendWhenComplete, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSendWhenComplete, value.ToString());
+        }
+    }
+
     private bool _externalNotificationEnableDetails = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnableDetails, bool.FalseString));
 
     public bool ExternalNotificationEnableDetails
@@ -56,7 +68,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _externalNotificationSendWhenError = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenError, bool.FalseString));
+    private bool _externalNotificationSendWhenError = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenError, bool.TrueString));
 
     public bool ExternalNotificationSendWhenError
     {
@@ -65,6 +77,18 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         {
             SetAndNotify(ref _externalNotificationSendWhenError, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSendWhenError, value.ToString());
+        }
+    }
+
+    private bool _externalNotificationSendWhenTimeout = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenTimeout, bool.TrueString));
+
+    public bool ExternalNotificationSendWhenTimeout
+    {
+        get => _externalNotificationSendWhenTimeout;
+        set
+        {
+            SetAndNotify(ref _externalNotificationSendWhenTimeout, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSendWhenTimeout, value.ToString());
         }
     }
 

@@ -1,4 +1,10 @@
 {
+    "Block": {
+        "Doc": "base_task",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": ["#self"]
+    },
     "SlowlySwipeToTheLeft": {
         "algorithm": "JustReturn",
         "action": "Swipe",
@@ -187,6 +193,7 @@
     "12@EnterEpisodeNew": {},
     "13@EnterEpisodeNew": {},
     "14@EnterEpisodeNew": {},
+    "15@EnterEpisodeNew": {},
     "EnterEpisode": {
         "Doc": "base_task",
         "baseTask": "EpisodeOcrReplace",
@@ -409,6 +416,21 @@
         "algorithm": "JustReturn",
         "next": ["EnterEpisodeNew", "SwipeLeftToEpisode", "EnterEpisode"]
     },
+    "EpisodeNew": {
+        "Doc": "base_task",
+        "Doc2": "15 章开始全部用新导航",
+        "algorithm": "JustReturn",
+        "next": ["EnterEpisodeNew", "SwipeUpToEpisode"]
+    },
+    "SwipeUpToEpisode": {
+        "baseTask": "SlowlySwipeToTheUp",
+        "specificRect": [1250, 580, 20, 20],
+        "rectMove": [1250, 110, 20, 20],
+        "specialParams": [1000, 0, 3, 0],
+        "next": ["EnterEpisodeNew", "#self"],
+        "maxTimes": 30,
+        "exceededNext": ["Stop"]
+    },
     "Episode0": {
         "baseTask": "00@Episode",
         "sub": ["ToChapter1@StageTheme"]
@@ -468,6 +490,10 @@
     "Episode14": {
         "baseTask": "14@Episode",
         "sub": ["ToChapter3@StageTheme"]
+    },
+    "Episode15": {
+        "baseTask": "15@EpisodeNew",
+        "sub": ["ToChapterNew@StageTheme"]
     },
     "1-7": {
         "algorithm": "JustReturn",
@@ -5756,7 +5782,7 @@
         ],
         "maskRange": [1, 255],
         "roi": [1109, 560, 171, 160],
-        "next": ["DepotMaterialTab"],
+        "next": ["#self", "DepotMaterialTab"],
         "crop_doc": {
             "roi": [1153, 606, 77, 79],
             "mask": []

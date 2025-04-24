@@ -35,7 +35,7 @@ private:
     int m_medicine = 0;
     int m_expiring_medicine = 0;
     int m_stone = 0;
-    int m_cur_medicine; // 已使用的理智药数量，不计算临期药品。在每次任务开始前，通过clear()清空
+    int m_cur_medicine;               // 已使用的理智药数量，不计算临期药品。在每次任务开始前，通过clear()清空
     int m_cur_stone;                  // 已碎石数量。在每次任务开始前，通过clear()清空
     bool m_sanity_not_enough = false; // 理智不够，需要吃药 / 碎石
     std::unordered_map<std::string, int> m_drop_stats;

@@ -39,7 +39,9 @@
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
     <system:String x:Key="ExternalNotificationEnabled">啟用的通知配置</system:String>
     <system:String x:Key="ExternalNotificationEnableDetails">輸出詳細信息</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenError">任務出錯時發送額外通知</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenComplete">任務完成後發送通知</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenError">任務出錯時發送通知</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenTimeout">任務超時時發送通知</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">發送成功</system:String>
     <system:String x:Key="ExternalNotificationSendFail">發送失敗</system:String>
     <system:String x:Key="ExternalNotificationSendTest">發送測試</system:String>
@@ -277,7 +279,8 @@
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">切換更新源後填寫</system:String>
     <system:String x:Key="MirrorChyanSoftwareUpdateTip">偵測到軟體更新。請前往「設定-更新設定」設定 MirrorChyan CDK 或切換到全域來源。</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">偵測到資源更新{0}。請前往「設定-更新設定-資源更新」手動更新，或設定 MirrorChayn CDK 以自動更新。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">偵測到資源更新: {0}。請前往「設定-更新設定-資源更新」手動更新，或設定 MirrorChayn CDK 以自動更新。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateShortTip">偵測到資源更新: {0}</system:String>
     <system:String x:Key="MirrorChyanCdkExpired">CDK 已過期，請使用新的 CDK 進行授權。</system:String>
     <system:String x:Key="MirrorChyanCdkInvalid">CDK 無效，請檢查輸入是否正確。</system:String>
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">CDK 今日下載次數已達上限，請明日再試。</system:String>
@@ -334,6 +337,8 @@
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">你也想在酒吧裡點酒吧？</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">我確定沒選錯</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">好的，我會重新選擇</system:String>
+    <system:String x:Key="EmulatorPathNotExist">模擬器路徑不存在</system:String>
+    <system:String x:Key="EmulatorPathEmptyWarning">模擬器路徑為空，「{0}」與「{1}」勾選狀態已被還原</system:String>
     <system:String x:Key="Select">選擇</system:String>
     <system:String x:Key="ForcedReplaceAdb">強制替換 ADB</system:String>
     <system:String x:Key="TouchMode">觸控模式</system:String>
@@ -390,7 +395,7 @@
     <system:String x:Key="Drink">要來一杯美酒嗎🍷？博士</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">信用溢出時無視黑名單</system:String>
     <system:String x:Key="OnlyBuyDiscount">只購買打折的信用商品</system:String>
-    <system:String x:Key="ReserveMaxCredit">300以下信用點停止購買商品</system:String>
+    <system:String x:Key="ReserveMaxCredit">300 以下信用點停止購買商品</system:String>
     <system:String x:Key="OnlyBuyDiscountTips">⚠可能會導致信用點數溢出！仍然會購買未打折的商品！</system:String>
     <system:String x:Key="ReserveMaxCreditTips">低於 300 信用點數也仍然會購買白名單物品！</system:String>
     <system:String x:Key="CreditFullOnlyBuyDiscount">博士! \n只購買折扣商品讓信用點數溢出了！\n小心信用點數浪費哦！\n剩餘信用點數：</system:String>
@@ -719,7 +724,7 @@ C:\\leidian\\LDPlayer9。\n
         3. 保全派駐 在 resource/copilot 文件夾下內建了多份作業。\n
         請手動編隊後在「開始部署」介面開始（可配合「循環次數」使用）。\n\n
         4. 使用好友助戰可以關閉「自動編隊」，手動選擇幹員後開始。\n\n
-        5. 啟用「特別關注」功能可能會影響「自動編隊」的幹員選擇。建議在使用「自動編隊」時關閉「特別關注」，或手動補充缺失的幹員以確保編隊完整。\n\n
+        5. 將幹員標為「特別關注」可能會影響「自動編隊」時的識別與選擇。建議在使用「自動編隊」時考慮移除「特別注意」標記，或手動補充缺少的幹員以確保編隊完整。\n\n
         6. Copilot 作業站的神秘代碼可點擊輸入框右側的貼上按鈕貼上。左鍵單擊可貼上單個作業，右鍵單擊則可貼上整個作業集。\n\n
         7. 戰鬥列表:\n
         選擇作業後，檢查列表下方的關卡名是否正確 (如: CV-EX-1)。\n
@@ -897,7 +902,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Discord">Discord</system:String>
     <!--  !About  -->
     <!--  Issues  -->
-    <system:String x:Key="CheckHelpBeforeReportingIssue">請在確認您的問題不屬於常見問題後，再進行問題回饋</system:String>
+    <system:String x:Key="CheckHelpBeforeReportingIssue">請在確認您的問題不屬於「常見問題」後，再進行「問題回饋」</system:String>
+    <system:String x:Key="CheckUpdateBeforeReportingIssue">請先升級並測試新版是否仍有此問題，確認非「常見問題」後再進行「問題回饋」</system:String>
     <system:String x:Key="Help">常見問題</system:String>
     <system:String x:Key="Issue">問題回饋</system:String>
     <system:String x:Key="GenerateSupportPayload">產生紀錄壓縮包</system:String>
@@ -926,6 +932,21 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="DrunkAndStaggering">呀，博士。你今天走起路來，怎麼看著搖搖晃晃的？</system:String>
     <system:String x:Key="Hangover">下次不能喝、喝這麼多了……</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
+    <system:String x:Key="EasterEggsRules" xml:space="preserve">1. MAA 正式版不會出現 Debug 模式。如果你在運行時看到 Debug 選項，請立即關閉軟件，不要點擊它，並聯繫最近的 MAA 開發者。\n
+2. 基建換班是自動的。如果你發現某個幹員連續工作了 72 小時以上，請手動調整班次，並檢查系統時間是否正常。\n
+3. 公開招募的標籤不會改變。如果發現標籤在倒計時結束前自行更換，不要繼續招募，重啟 MAA 後再操作。\n
+4. MAA 不會主動發送好友申請。如果收到來自 “MAA_System” 的好友請求，不要接受，並刪除該賬號。\n
+5. 肉鴿輔助僅提供建議。若遊戲自動選擇了 不存在的選項，強制退出並重新啟動客戶端。\n
+6. MAA 的日誌文件不應包含亂碼。如果發現日誌中出現 “ERROR: 數據解析失敗” 以外的異常信息，刪除日誌並重新安裝軟件。\n
+7. 夜間模式是安全的。但如果 MAA 在 凌晨 3:33 自動啟動並運行 “未知任務”，請拔掉電源，等待日出後再使用。\n
+8. 最後一條規則不存在。如果你看到了這條，請忘記它，並正常使用 MAA。\n
+9. 請不要在 MAA 裡點炒...锟斤拷拷拷拷喜報拷拷拷飯。\n
+10. Mirror醬是善良的，你只要付出小小的代價，就能得到祂的庇護。\n
+11. MAA 不支持未來版本。如果軟件自動更新到一個 尚未發布的版本號（如 v10.0.0），不要運行，等待官方公告。\n
+12. MAA 的沒有語音提示。如果聽到 低語聲、笑聲或非程序生成的語音，關閉揚聲器，並檢查是否有未知腳本在運行。\n
+13. MAA 不會在周日凌晨更新。如果收到更新提示，請忽略，不要查看更新公告，直到周一。
+    </system:String>
+    <system:String x:Key="EmployeeGuidelines">員工守則</system:String>
     <!--  !EasterEggs  -->
     <!--  VersionUpdatePopup  -->
     <system:String x:Key="UpdateNotificationOk">好的！</system:String>
@@ -1008,4 +1029,9 @@ C:\\leidian\\LDPlayer9。\n
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">加解密失敗，請重新配置相關設置，否則加密內容將以明文形式存儲在配置文件中。</system:String>
     <!--  !SimpleEncryptionHelper  -->
+    <!--  TimeOutTimer  -->
+    <system:String x:Key="TaskTimeoutMinutes">任務超時時間（分鐘）</system:String>
+    <system:String x:Key="ReminderIntervalMinutes">提醒間隔時間（分鐘）</system:String>
+    <system:String x:Key="TaskTimeoutWarning">任務已運行超過 {0} 分鐘（當前已運行 {1} 分鐘），請檢查是否需要手動干預。</system:String>
+    <!--  !TimeOutTimer  -->
 </ResourceDictionary>

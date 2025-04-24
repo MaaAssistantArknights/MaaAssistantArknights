@@ -43,6 +43,12 @@
         "text": ["Rerun", "Retrospection"],
         "roi": [0, 500, 500, 150]
     },
+    "PV-OpenOcr": {
+        "text": ["Portatori", "Velluti", "Splendida", "Cavalcata", "Decadenza"]
+    },
+    "PVChapterToPV": {
+        "text": ["Quadriglia", "QUADRIGLIA"]
+    },
     "GO-OpenOcr": {
         "text": ["Ending", "Grand", "Overture", "Once", "Upon", "Time"]
     },

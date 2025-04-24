@@ -102,7 +102,7 @@ MAA supports command line interface (CLI) operation, supports Linux, macOS and W
 - New Framework: [MaaFramework](https://github.com/MaaXYZ/MaaFramework)
 - [Co-pilot (auto-battle) site](https://prts.plus) Frontend: [maa-copilot-frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
 - [Co-pilot (auto-battle) site](https://prts.plus) Backend: [MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
-- [Website](https://www.maa.plus): [Frontend](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/website)
+- [Website](https://maa.plus): [Frontend](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/website)
 - Deep Learning: [MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
 
 ### i18n
