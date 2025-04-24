@@ -24,27 +24,6 @@
         "text": ["Rerun", "Retrospection"],
         "roi": [0, 500, 500, 150]
     },
-    "PV-OpenOcr": {
-        "text": ["Portatori", "Velluti", "Splendida", "Cavalcata", "Decadenza"]
-    },
-    "PVChapterToPV": {
-        "text": ["Quadriglia", "QUADRIGLIA"]
-    },
-    "EnterChapterIS": {
-        "text": ["Volsinii"]
-    },
-    "StageEpisodeToGT": {
-        "text": ["Grani and the Knights' Treasure", "Grani and the Knights"]
-    },
-    "GTToGT-5": {
-        "text": ["Enter", "Event"]
-    },
-    "StageEpisodeToOF": {
-        "text": ["Heart of Surging Flame"]
-    },
-    "OFToOF-Chapter": {
-        "text": ["Enter", "Event"]
-    },
     "StageResource": {
         "roi": [600, 600, 250, 110]
     },
