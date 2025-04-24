@@ -1,4 +1,7 @@
 {
+    "EnterChapterIS": {
+        "text": ["沃爾西尼"]
+    },
     "IS-Open": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
