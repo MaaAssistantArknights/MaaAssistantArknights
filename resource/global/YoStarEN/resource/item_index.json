@@ -1079,6 +1079,14 @@
         "sortId": 10025,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
+    "LMTGS_COIN_5601": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_5601.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10026,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
@@ -1815,6 +1823,14 @@
         "sortId": -10000,
         "usage": "Reward obtained by completing Pinch-Out Experimental Operation. Can be exchanged for supplies."
     },
+    "act38side_token_ticket": {
+        "classifyType": "NONE",
+        "description": "The anonymous sender calls themselves 'Il Signore del Carnevale'. It is unclear if this title is a threat or in jest. The dark red soaking the paper isn't blood, but rather a fragrant wine, which seems to say that this invitation was born alongside Carnevale itself.",
+        "icon": "act38side_token_ticket.png",
+        "name": "Invito Mistico",
+        "sortId": -10000,
+        "usage": "Invitations handed out by an anonymous figure at Carnevale. You can exchange them for generous gifts at any Fiera delle Meraviglie Notturne. Relax, once people see the invitation, you will receive a warm welcome."
+    },
     "act3bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
@@ -2398,6 +2414,14 @@
         "name": "Rhodes Island Supplies VI",
         "sortId": 60109,
         "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterial_act38side": {
+        "classifyType": "CONSUME",
+        "description": "Carnival Canisters specially made by the Commissione di Fuochi d'Artificio for Carnevale, also usable to wrap presents. There is a very small chance of it exploding when opening. Treat it as a surprise gift.",
+        "icon": "randomMaterial_act38side.png",
+        "name": "Carnival Canister",
+        "sortId": 60115,
+        "usage": "Contains various supplies that can be used during Carnevale, including random materials."
     },
     "randomMaterial_leith2": {
         "classifyType": "CONSUME",
