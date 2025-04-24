@@ -1,7 +1,4 @@
 {
-    "EnterChapterIS": {
-        "text": ["沃爾西尼"]
-    },
     "IS-Open": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -9,5 +6,8 @@
         "roi": [0, 500, 500, 150],
         "text": ["敘拉古人", "活動", "已開放"],
         "next": ["EnterChapterIS"]
+    },
+    "EnterChapterIS": {
+        "text": ["沃爾西尼"]
     }
 }
