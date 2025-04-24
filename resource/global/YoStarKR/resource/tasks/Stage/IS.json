@@ -1,5 +1,8 @@
 {
     "IS-OpenOcr": {
         "text": ["시라쿠사인", "이벤트", "재개방", "개방중"]
+    },
+    "EnterChapterIS": {
+        "text": ["볼시니"]
     }
 }
