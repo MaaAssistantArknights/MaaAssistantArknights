@@ -41,6 +41,7 @@
     <system:String x:Key="ExternalNotificationEnableDetails">輸出詳細信息</system:String>
     <system:String x:Key="ExternalNotificationSendWhenComplete">任務完成後發送通知</system:String>
     <system:String x:Key="ExternalNotificationSendWhenError">任務出錯時發送通知</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenTimeout">任務超時時發送通知</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">發送成功</system:String>
     <system:String x:Key="ExternalNotificationSendFail">發送失敗</system:String>
     <system:String x:Key="ExternalNotificationSendTest">發送測試</system:String>
@@ -1028,4 +1029,9 @@ C:\\leidian\\LDPlayer9。\n
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">加解密失敗，請重新配置相關設置，否則加密內容將以明文形式存儲在配置文件中。</system:String>
     <!--  !SimpleEncryptionHelper  -->
+    <!--  TimeOutTimer  -->
+    <system:String x:Key="TaskTimeoutMinutes">任務超時時間（分鐘）</system:String>
+    <system:String x:Key="ReminderIntervalMinutes">提醒間隔時間（分鐘）</system:String>
+    <system:String x:Key="TaskTimeoutWarning">任務已運行超過 {0} 分鐘（當前已運行 {1} 分鐘），請檢查是否需要手動干預。</system:String>
+    <!--  !TimeOutTimer  -->
 </ResourceDictionary>

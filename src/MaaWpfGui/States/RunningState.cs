@@ -13,7 +13,10 @@
 
 using System;
 using System.Threading.Tasks;
+using MaaWpfGui.Constants;
+using MaaWpfGui.Helper;
 using MaaWpfGui.Utilities;
+using MaaWpfGui.ViewModels.UI;
 
 namespace MaaWpfGui.States
 {
@@ -23,15 +26,91 @@ namespace MaaWpfGui.States
 
         private RunningState()
         {
+            if (ReminderIntervalMinutes < 1)
+            {
+                ReminderIntervalMinutes = 1;
+            }
+
+            _timeoutReminderTimer.Interval = ReminderIntervalMinutes * 60 * 1000;
+            _timeoutReminderTimer.Elapsed += TimeoutReminderTimer_Elapsed;
         }
 
         public static RunningState Instance
         {
             get
             {
-                _instance ??= new RunningState();
+                _instance ??= new();
                 return _instance;
             }
+        }
+
+        // 超时相关字段
+        private readonly System.Timers.Timer _timeoutReminderTimer = new();
+        private DateTime? _taskStartTime;
+
+        public int TaskTimeoutMinutes { get; set; } = SettingsViewModel.GameSettings.TaskTimeoutMinutes;
+
+        private int _reminderIntervalMinutes = SettingsViewModel.GameSettings.ReminderIntervalMinutes;
+
+        public int ReminderIntervalMinutes
+        {
+            get => _reminderIntervalMinutes;
+            set
+            {
+                if (value < 1)
+                {
+                    return;
+                }
+
+                _reminderIntervalMinutes = value;
+                TimeoutReminderTimer_Elapsed(null, null);
+                _timeoutReminderTimer.Interval = value * 60 * 1000;
+            }
+        }
+
+        // 超时事件
+        public event EventHandler<string> TimeoutOccurred;
+
+        public void StartTimeoutTimer()
+        {
+            _taskStartTime = DateTime.Now;
+            _timeoutReminderTimer.Start();
+        }
+
+        public void StopTimeoutTimer()
+        {
+            _timeoutReminderTimer.Stop();
+            _taskStartTime = null;
+        }
+
+        public void ResetTimeout()
+        {
+            _taskStartTime = DateTime.Now;
+        }
+
+        // 超时计时器回调
+        private void TimeoutReminderTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            if (!_taskStartTime.HasValue || _idle)
+            {
+                return;
+            }
+
+            var elapsedMinutes = (DateTime.Now - _taskStartTime.Value).TotalMinutes;
+
+            // 如果任务运行时间未超过超时时间，则直接返回
+            if (elapsedMinutes <= TaskTimeoutMinutes)
+            {
+                return;
+            }
+
+            // 每隔 ReminderIntervalMinutes 提示一次
+            var message = string.Format(
+                LocalizationHelper.GetString("TaskTimeoutWarning"),
+                TaskTimeoutMinutes,
+                Math.Round(elapsedMinutes));
+
+            TimeoutOccurred?.Invoke(this, message);
         }
 
         // values
@@ -52,10 +131,12 @@ namespace MaaWpfGui.States
 
                 if (value)
                 {
+                    StopTimeoutTimer();
                     SleepManagement.AllowSleep();
                 }
                 else
                 {
+                    StartTimeoutTimer();
                     SleepManagement.BlockSleep();
                 }
 

@@ -50,7 +50,6 @@ namespace MaaWpfGui.Main
     /// </summary>
     public class Bootstrapper : Bootstrapper<RootViewModel>
     {
-        private static readonly RunningState _runningState = RunningState.Instance;
         private static ILogger _logger = Logger.None;
 
         private static Mutex _mutex;
@@ -334,7 +333,7 @@ namespace MaaWpfGui.Main
 
             _isWaitingToRestart = true;
 
-            await _runningState.UntilIdleAsync(60000);
+            await RunningState.Instance.UntilIdleAsync(60000);
             ShutdownAndRestartWithoutArgs();
         }
 

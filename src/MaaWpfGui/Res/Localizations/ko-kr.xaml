@@ -41,6 +41,7 @@
     <system:String x:Key="ExternalNotificationEnableDetails">상세 정보 출력</system:String>
     <system:String x:Key="ExternalNotificationSendWhenComplete">작업 완료 시 알림 전송</system:String>
     <system:String x:Key="ExternalNotificationSendWhenError">작업 실패 시 알림 전송</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenTimeout">작업이 시간 초과될 때 알림 보내기</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">전송 성공</system:String>
     <system:String x:Key="ExternalNotificationSendFail">전송 실패</system:String>
     <system:String x:Key="ExternalNotificationSendTest">테스트</system:String>
@@ -1025,4 +1026,9 @@ C:\\leidian\\LDPlayer9
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">암호화 또는 복호화에 실패했습니다. 관련 설정을 다시 구성해 주세요. 그렇지 않으면 암호화된 내용이 설정 파일에 그대로 저장됩니다.</system:String>
     <!--  !SimpleEncryptionHelper  -->
+    <!--  TimeOutTimer  -->
+    <system:String x:Key="TaskTimeoutMinutes">작업 시간 초과 시간(분)</system:String>
+    <system:String x:Key="ReminderIntervalMinutes">알림 간격 시간(분)</system:String>
+    <system:String x:Key="TaskTimeoutWarning">작업이 {0}분 이상 실행되었습니다(현재 {1}분 실행 중). 수동 개입이 필요한지 확인하세요.</system:String>
+    <!--  !TimeOutTimer  -->
 </ResourceDictionary>

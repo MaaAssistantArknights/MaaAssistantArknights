@@ -41,6 +41,7 @@
     <system:String x:Key="ExternalNotificationEnableDetails">詳細情報を出力</system:String>
     <system:String x:Key="ExternalNotificationSendWhenComplete">タスク完了時に通知を送信</system:String>
     <system:String x:Key="ExternalNotificationSendWhenError">タスクが失敗したときに通知を送信</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenTimeout">タスクがタイムアウトしたときに通知を送信する</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">正常に送信</system:String>
     <system:String x:Key="ExternalNotificationSendFail">送信に失敗しました</system:String>
     <system:String x:Key="ExternalNotificationSendTest">テストを送信する</system:String>
@@ -1027,4 +1028,9 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">暗号化と復号化に失敗しました。関連設定を再設定してください。そうでないと、暗号化された内容は設定ファイルに平文で保存されます。</system:String>
     <!--  !SimpleEncryptionHelper  -->
+    <!--  TimeOutTimer  -->
+    <system:String x:Key="TaskTimeoutMinutes">タスクのタイムアウト時間（分）</system:String>
+    <system:String x:Key="ReminderIntervalMinutes">リマインダー間隔時間（分）</system:String>
+    <system:String x:Key="TaskTimeoutWarning">タスクが {0} 分以上実行されています（現在 {1} 分実行中）。手動での介入が必要かどうか確認してください。</system:String>
+    <!--  !TimeOutTimer  -->
 </ResourceDictionary>
