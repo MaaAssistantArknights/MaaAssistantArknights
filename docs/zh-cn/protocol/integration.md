@@ -154,6 +154,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
     "mode": int,            // 换班工作模式，可选，默认 0
                             // 0 - 默认换班模式，单设施最优解
                             // 10000 - 自定义换班模式，读取用户配置，可参考 protocol/base-scheduling-schema.md
+                            // 20000 - 一键轮换模式，会跳过控制中枢、发电站、宿舍以及办公室设施，其余设施不进行换班但保留基本操作（如使用无人机、会客室逻辑）
 
     "facility": [           // 要换班的设施（有序），必选。不支持运行中设置
         string,             // 设施名，"Mfg" | "Trade" | "Power" | "Control" | "Reception" | "Office" | "Dorm"
@@ -164,6 +165,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
                             // "_NotUse"、"Money"、"SyntheticJade"、"CombatRecord"、"PureGold"、"OriginStone"、"Chip"
     "threshold": float,     // 工作心情阈值，可选，取值范围 [0, 1.0]，默认 0.3
                             // mode==10000 时该字段仅针对 "autofill" 有效
+                            // mode==20000 时该字段无效（会被忽略）
     "replenish": bool,      // 贸易站“源石碎片”是否自动补货，可选，默认 false
 
     "dorm_notstationed_enabled": bool, // 是否启用宿舍“未进驻”选项，可选，默认 false
