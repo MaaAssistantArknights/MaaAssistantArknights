@@ -1,0 +1,35 @@
+{
+    "Tales@RA@CancelEnterBuildMode": {
+        "text": ["Enter Build Mode"]
+    },
+    "Tales@RA@ClickGatheringOfFeathers": {
+        "text": ["Gathering of Feathers", "Hunting Zone"]
+    },
+    "Tales@RA@ClickShrubberyGalore": {
+        "text": ["Shrubbery Galore", "Resource", "Zone"]
+    },
+    "Tales@RA@ConfirmSquad": {
+        "text": ["Start"]
+    },
+    "Tales@RA@ConfirmToLoadSave": {
+        "text": ["Confirm"]
+    },
+    "Tales@RA@EnterNode": {
+        "text": ["Start"]
+    },
+    "Tales@RA@FinishCalc": {
+        "text": ["Tap anywhere to continue"]
+    },
+    "Tales@RA@PIS-Resume": {
+        "text": ["Resume"]
+    },
+    "Tales@RA@PNS-ClickBaseCamp": {
+        "text": ["Gathering Grounds", "Base Camp"]
+    },
+    "Tales@RA@PNS-Commence": {
+        "text": ["Commence"]
+    },
+    "Tales@RA@ResourceGained": {
+        "text": ["Tap anywhere to continue"]
+    }
+}

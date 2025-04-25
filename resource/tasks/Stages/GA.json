@@ -1,0 +1,42 @@
+{
+    "GA-6": {
+        "algorithm": "JustReturn",
+        "sub": ["GA-Open"],
+        "next": ["GA-6@SideStoryStage", "GA-6@SwipeToStage"]
+    },
+    "GA-7": {
+        "algorithm": "JustReturn",
+        "sub": ["GA-Open"],
+        "next": ["GA-7@SideStoryStage", "GA-7@SwipeToStage"]
+    },
+    "GA-8": {
+        "algorithm": "JustReturn",
+        "sub": ["GA-Open"],
+        "next": ["GA-8@SideStoryStage", "GA-8@SwipeToStage"]
+    },
+    "GA-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["吾导先路", "复刻"],
+        "roi": [0, 500, 500, 150],
+        "postDelay": 2000,
+        "next": ["GAChapterToGA"]
+    },
+    "GAChapterToGA": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["万国峰会"],
+        "roi": [1007, 431, 227, 140],
+        "postDelay": 2000,
+        "next": ["GAChapterToGA", "ChapterSwipeToTheRight"]
+    },
+    "GA-6@SideStoryStage": {
+        "text": ["GA-6"]
+    },
+    "GA-7@SideStoryStage": {
+        "text": ["GA-7"]
+    },
+    "GA-8@SideStoryStage": {
+        "text": ["GA-8"]
+    }
+}

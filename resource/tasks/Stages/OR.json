@@ -1,0 +1,56 @@
+{
+    "OR-9": {
+        "algorithm": "JustReturn",
+        "sub": ["OR-OpenOpt"],
+        "next": ["OR-9@SideStoryStage", "OR-9@SwipeToStage"]
+    },
+    "OR-8": {
+        "algorithm": "JustReturn",
+        "sub": ["OR-OpenOpt"],
+        "next": ["OR-8@SideStoryStage", "OR-8@SwipeToStage"]
+    },
+    "OR-7": {
+        "algorithm": "JustReturn",
+        "sub": ["OR-OpenOpt"],
+        "next": ["OR-7@SideStoryStage", "OR-7@SwipeToStage"]
+    },
+    "OR-4": {
+        "algorithm": "JustReturn",
+        "sub": ["OR-OpenOpt"],
+        "next": ["OR-4@SideStoryStage", "OR-4@SwipeToStage"]
+    },
+    "OR-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["OR-OpenOcr", "OR-Open"]
+    },
+    "OR-Open": {
+        "baseTask": "SS-Open",
+        "template": "StageSideStory.png",
+        "next": ["ORChapterToOR"]
+    },
+    "OR-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["相见欢", "阅世情", "怅别离"],
+        "next": ["ORChapterToOR"]
+    },
+    "ORChapterToOR": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["识七味", "识七", "七味"],
+        "preDelay": 3000,
+        "roi": [786, 478, 201, 144],
+        "next": ["#self", "ChapterSwipeToTheRight"]
+    },
+    "OR-9@SideStoryStage": {
+        "text": ["OR-9"]
+    },
+    "OR-8@SideStoryStage": {
+        "text": ["OR-8"]
+    },
+    "OR-7@SideStoryStage": {
+        "text": ["OR-7"]
+    },
+    "OR-4@SideStoryStage": {
+        "text": ["OR-4"]
+    }
+}

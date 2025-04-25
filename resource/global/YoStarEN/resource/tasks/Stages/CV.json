@@ -1,0 +1,9 @@
+{
+    "CV-Open": {
+        "text": ["Catastrophes", "Vultures", "open"]
+    },
+    "CVChapterToCV": {
+        "text": ["ANEMIC", "PLATFORM"],
+        "roi": [1087, 434, 128, 57]
+    }
+}

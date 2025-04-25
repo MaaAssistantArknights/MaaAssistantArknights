@@ -1,0 +1,9 @@
+{
+    "IW-Open": {
+        "text": ["<将進酒>イベント復刻開催中"]
+    },
+    "IWChapterToIW": {
+        "algorithm": "OcrDetect",
+        "text": ["三山奇聞"]
+    }
+}

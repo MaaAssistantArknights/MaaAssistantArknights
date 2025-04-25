@@ -1,0 +1,39 @@
+{
+    "IC-9": {
+        "algorithm": "JustReturn",
+        "sub": ["IC-Open"],
+        "next": ["IC-9@SideStoryStage", "IC-9@SwipeToStage"]
+    },
+    "IC-8": {
+        "algorithm": "JustReturn",
+        "sub": ["IC-Open"],
+        "next": ["IC-8@SideStoryStage", "IC-8@SwipeToStage"]
+    },
+    "IC-7": {
+        "algorithm": "JustReturn",
+        "sub": ["IC-Open"],
+        "next": ["IC-7@SideStoryStage", "IC-7@SwipeToStage"]
+    },
+    "IC-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "roi": [0, 500, 500, 150],
+        "text": ["理想城", "活动", "开放"],
+        "next": ["ICChapterToIC"]
+    },
+    "ICChapterToIC": {
+        "action": "ClickSelf",
+        "roi": [1028, 402, 223, 126],
+        "postDelay": 2000,
+        "next": ["ICChapterToIC", "ChapterSwipeToTheRight"]
+    },
+    "IC-9@SideStoryStage": {
+        "text": ["IC-9", "1C-9"]
+    },
+    "IC-8@SideStoryStage": {
+        "text": ["IC-8", "1C-8"]
+    },
+    "IC-7@SideStoryStage": {
+        "text": ["IC-7", "1C-7"]
+    }
+}
