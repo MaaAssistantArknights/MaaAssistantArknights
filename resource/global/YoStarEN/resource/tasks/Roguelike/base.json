@@ -707,7 +707,11 @@
             ["Thoughts Catcher", "思维捕手"],
             ["Gift of Remembrance", "铭记的贺礼"],
             ["'Song to Make A Tenacious Mind'", "《神魂坚韧之歌》"],
-            ["Anchor For Five Seconds Ago", "为五秒前准备的锚"]
+            ["Anchor For Five Seconds Ago", "为五秒前准备的锚"],
+            ["Anasa's Karma", "阿纳萨羯磨"],
+            ["Petal", "片瓣"],
+            ["Lamp of Wishes", "美愿时代的留恋"],
+            ["Rolling Ancestors", "滚动先祖"]
         ]
     },
     "Roguelike@ChooseDifficultyConfirm": {
@@ -927,7 +931,10 @@
             ["DecisioninDespair", "绝境？抉择？"],
             ["TheOrigins", "原初异途"],
             ["SoulTales.*UnityofExtremes", "魂灵见闻：善恶同道"],
-            ["WarmandCozy", "温暖余韵"]
+            ["WarmandCozy", "温暖余韵"],
+            ["GoodFortuneToYou", "财源广进"],
+            ["DesiretoExpress", "表达欲"],
+            ["ASmallSkiff", "一叶扁舟"]
         ]
     },
     "Roguelike@StageTraderInvestSystem": {
