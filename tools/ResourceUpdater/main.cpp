@@ -1398,7 +1398,10 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_base_
     proc(tasks_json["CharsNameOcrReplace"]["ocrReplace"].as_array(), base_char_names, char_names);
 
     proc(roguelike_json["RoguelikeTraderShoppingOcr"]["ocrReplace"].as_array(), base_item_names, item_names);
-    proc(roguelike_sami_json["Sami@Roguelike@FoldartalGainOcr"]["ocrReplace"].as_array(), base_totem_names, totem_names);
+    proc(
+        roguelike_sami_json["Sami@Roguelike@FoldartalGainOcr"]["ocrReplace"].as_array(),
+        base_totem_names,
+        totem_names);
     proc(roguelike_sami_json["Sami@Roguelike@FoldartalUseOcr"]["ocrReplace"].as_array(), base_totem_names, totem_names);
     proc(roguelike_json["Roguelike@StageEncounterOcr"]["ocrReplace"].as_array(), base_encounter_names, encounter_names);
 
@@ -1478,7 +1481,7 @@ bool update_version_info(const fs::path& input_dir, const fs::path& output_dir)
     auto version_opt = json::open(output_dir / "version.json");
     result["last_updated"] = version_opt->at("last_updated").as_string();
 
-    std::cout << result.to_string() << std::endl;
+    // std::cout << result.to_string() << std::endl;
 
     std::ofstream ofs(output_dir / "version.json", std::ios::out);
     ofs << result.format() << '\n';
