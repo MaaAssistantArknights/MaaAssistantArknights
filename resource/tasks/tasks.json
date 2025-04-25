@@ -2427,6 +2427,38 @@
         "specificRect": [250, 100, 380, 140],
         "next": ["Stop"]
     },
+    "InfrastEnterRotation": {
+        "template": "InfrastOverviewEnter.png",
+        "roi": [120, 50, 160, 160],
+        "postDelay": 1000,
+        "action": "ClickSelf",
+        "next": ["InfrastRotationClick"]
+    },
+    "InfrastRotationClick": {
+        "template": "InfrastQueueRotation.png",
+        "roi": [1020, 600, 150, 130],
+        "action": "ClickSelf",
+        "next": ["InfrastEnterTrim"]
+    },
+    "InfrastEnterTrim": {
+        "template": "InfrastEnterTrim.png",
+        "roi": [1000, 0, 150, 100],
+        "action": "ClickSelf",
+        "next": ["InfrastTrimClick", "InfrastEnterTrim"]
+    },
+    "InfrastTrimClick": {
+        "template": "InfrastOperatorTrim.png",
+        "roi": [1020, 600, 150, 130],
+        "postDelay": 1000,
+        "action": "ClickSelf",
+        "next": ["InfrastRotationReturn"]
+    },
+    "InfrastRotationReturn": {
+        "template": "Return.png",
+        "roi": [0, 0, 180, 80],
+        "action": "ClickSelf",
+        "next": ["Stop"]
+    },
     "DroneAssistMfg": {
         "action": "ClickSelf",
         "roi": [1180, 500, 100, 100],
