@@ -1313,9 +1313,6 @@
     "StageDrops-DropType-Reward": {
         "templThreshold": 0.7
     },
-    "ScreenshotTaskPlugin-Config-Debug": {
-        "next": ["Roguelike@TraderRandomShopping"]
-    },
     "OperBoxRoleTabSelect": {
         "roi": [1158, 0, 122, 126]
     },
