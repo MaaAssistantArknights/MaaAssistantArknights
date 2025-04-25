@@ -30,18 +30,17 @@
                 ItemsSource="{Binding InfrastModeList}"
                 SelectedValue="{Binding InfrastMode}"
                 SelectedValuePath="Value" />
-            <hc:ComboBox
-                Margin="0,4"
-                VerticalContentAlignment="Center"
-                hc:InfoElement.Title="{DynamicResource CustomInfrastPlan}"
-                DisplayMemberPath="Display"
-                IsHitTestVisible="{c:Binding !InfrastTaskRunning,
-                                             Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                ItemsSource="{Binding CustomInfrastPlanList}"
-                SelectedValue="{Binding CustomInfrastPlanIndex}"
-                SelectedValuePath="Value"
-                Visibility="{c:Binding CustomInfrastEnabled}"/>
             <StackPanel Visibility="{c:Binding CustomInfrastEnabled}">
+                <hc:ComboBox
+                    Margin="0,4"
+                    VerticalContentAlignment="Center"
+                    hc:InfoElement.Title="{DynamicResource CustomInfrastPlan}"
+                    DisplayMemberPath="Display"
+                    IsHitTestVisible="{c:Binding !InfrastTaskRunning,
+                                                 Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                    ItemsSource="{Binding CustomInfrastPlanList}"
+                    SelectedValue="{Binding CustomInfrastPlanIndex}"
+                    SelectedValuePath="Value" />
                 <controls:TextBlock
                     Margin="0,5"
                     HorizontalAlignment="Center"
@@ -81,7 +80,7 @@
                 ItemsSource="{Binding UsesOfDronesList}"
                 SelectedValue="{Binding UsesOfDrones}"
                 SelectedValuePath="Value" />
-            <StackPanel Margin="0" Visibility="{c:Binding !UseInfrastRotation}" >
+            <StackPanel Margin="0" Visibility="{c:Binding !UseInfrastRotation}">
                 <TextBlock
                     Margin="0,5"
                     HorizontalAlignment="Stretch"
@@ -95,49 +94,47 @@
                     Minimum="0"
                     ToolTip="{DynamicResource InfrastThresholdTip}"
                     Value="{Binding DormThreshold}" />
-            </StackPanel>
-            <ListBox
-                Margin="0,5"
-                dd:DragDrop.IsDragSource="True"
-                dd:DragDrop.IsDropTarget="True"
-                ItemsSource="{Binding Path=InfrastItemViewModels}"
-                PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
-                                             Target={x:Type helper:MouseWheelHelper}}"
-                Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
-                ToolTip="{DynamicResource LabelSequenceTip}"
-                Visibility="{c:Binding !UseInfrastRotation}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <!--<maa:TextBlock  Text="{Binding ID}" />
+                <ListBox
+                    Margin="0,5"
+                    dd:DragDrop.IsDragSource="True"
+                    dd:DragDrop.IsDropTarget="True"
+                    ItemsSource="{Binding Path=InfrastItemViewModels}"
+                    PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
+                                                 Target={x:Type helper:MouseWheelHelper}}"
+                    Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
+                    ToolTip="{DynamicResource LabelSequenceTip}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <!--<maa:TextBlock  Text="{Binding ID}" />
                             <maa:TextBlock  Text=". " />-->
-                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsCheckedWithNull}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-            <Grid
-                Visibility="{c:Binding !UseInfrastRotation}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Button
-                    Height="30"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Top"
-                    Command="{s:Action InfrastItemSelectedAll}"
-                    Content="{DynamicResource SelectAll}"
-                    IsEnabled="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}" />
-                <Button
-                    Grid.Column="1"
-                    Height="30"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Top"
-                    Command="{s:Action InfrastItemUnselectedAll}"
-                    Content="{DynamicResource Clear}"
-                    IsEnabled="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}" />
-            </Grid>
+                                <CheckBox Content="{Binding Name}" IsChecked="{Binding IsCheckedWithNull}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        Height="30"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        Command="{s:Action InfrastItemSelectedAll}"
+                        Content="{DynamicResource SelectAll}"
+                        IsEnabled="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}" />
+                    <Button
+                        Grid.Column="1"
+                        Height="30"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        Command="{s:Action InfrastItemUnselectedAll}"
+                        Content="{DynamicResource Clear}"
+                        IsEnabled="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}" />
+                </Grid>
+            </StackPanel>
         </StackPanel>
 
         <!--  高级设置  -->
