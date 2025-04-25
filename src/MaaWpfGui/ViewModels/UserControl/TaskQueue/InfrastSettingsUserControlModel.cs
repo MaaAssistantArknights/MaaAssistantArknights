@@ -286,7 +286,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
 
     private const string UserDefined = "user_defined";
 
-    private bool _useInfrastRotation = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseInfrastRotation, bool.TrueString));
+    private bool _useInfrastRotation = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseInfrastRotation, bool.FalseString));
 
     /// <summary>
     /// Gets or sets a value indicating whether the in-game Rotate Squads and Rest Operators is enabled.

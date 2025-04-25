@@ -97,7 +97,6 @@ public class AsstInfrastTask : AsstBaseTask
     {
         var taskParams = new JObject
         {
-            ["infrast_rotation"] = UseInfrastRotation,
             ["facility"] = JArray.FromObject(Facilitys),
             ["drones"] = UsesOfDrones,
             ["continue_training"] = ContinueTraining,
@@ -106,7 +105,7 @@ public class AsstInfrastTask : AsstBaseTask
             ["dorm_trust_enabled"] = DormDormTrustEnabled,
             ["replenish"] = OriginiumShardAutoReplenishment,
             ["reception_message_board"] = ReceptionMessageBoard,
-            ["mode"] = IsCustom ? 10000 : 0,
+            ["mode"] = IsCustom ? 10000 : (UseInfrastRotation ? 20000 : 0),
         };
 
         if (IsCustom)

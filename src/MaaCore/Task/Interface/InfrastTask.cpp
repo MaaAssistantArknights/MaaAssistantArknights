@@ -56,7 +56,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
     int mode = params.get("mode", 0);
     bool is_custom = static_cast<Mode>(mode) == Mode::Custom;
-    bool use_rotation = params.get("infrast_rotation", false);
+    bool use_rotation = static_cast<Mode>(mode) == Mode::Rotation;
 
     const std::initializer_list<std::shared_ptr<InfrastProductionTask>> shift_tasks = { m_mfg_task_ptr,
                                                                                         m_trade_task_ptr,
