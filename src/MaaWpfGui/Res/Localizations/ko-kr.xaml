@@ -1017,12 +1017,16 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationToolToCraftTip">제작할 도구 이름</system:String>
     <system:String x:Key="ReclamationToolToCraftPlaceholder">형광봉</system:String>
     <!--  !Reclamation  -->
-    <!--  SingleInstance  -->
+    <!--  Boot  -->
+    <system:String x:Key="VC++NotInstalled" xml:space="preserve">
+Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거나 버전이 너무 낮은 것으로 감지되었습니다..
+"확인"을 클릭하여 설치 스크립트를 실행하고 MAA를 종료하세요. "취소"를 클릭하여 MAA를 바로 종료하세요.
+    </system:String>
     <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">
 동일한 경로에서는 하나의 인스턴스만 실행할 수 있습니다!
 여러 개의 MAA를 동시에 실행하려면 MAA 전체 폴더를 복사한 뒤, 같은 adb를 사용하되 연결 주소는 다르게 설정하여 서로 다른 경로에서 실행하세요.
     </system:String>
-    <!--  !SingleInstance  -->
+    <!--  !Boot  -->
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">암호화 또는 복호화에 실패했습니다. 관련 설정을 다시 구성해 주세요. 그렇지 않으면 암호화된 내용이 설정 파일에 그대로 저장됩니다.</system:String>
     <!--  !SimpleEncryptionHelper  -->
