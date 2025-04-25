@@ -115,9 +115,9 @@
     <system:String x:Key="TrainingLevel">スキルランク</system:String>
     <system:String x:Key="TrainingTimeLeft">残り時間</system:String>
     <system:String x:Key="InfrastMode">インフラモード</system:String>
-    <system:String x:Key="NormalMode">通常モード</system:String>
-    <system:String x:Key="RotationMode">一括シフト休暇</system:String>
-    <system:String x:Key="CustomMode">カスタムされた基地構成</system:String>
+    <system:String x:Key="InfrastModeNormal">通常モード</system:String>
+    <system:String x:Key="InfrastModeRotation">一括シフト休暇</system:String>
+    <system:String x:Key="InfrastModeCustom">カスタムされた基地構成</system:String>
     <system:String x:Key="DefaultInfrast">標準設定</system:String>
     <system:String x:Key="UserDefined">ユーザー定義</system:String>
     <system:String x:Key="153Time3">153 3周/日</system:String>

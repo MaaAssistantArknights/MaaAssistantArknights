@@ -111,16 +111,6 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     public ObservableCollection<DragItemViewModel> InfrastItemViewModels { get; set; } = [];
 
     /// <summary>
-    /// Gets the list of uses of infrast mode.
-    /// </summary>
-    public List<CombinedData> InfrastModeList { get; } =
-    [
-        new() { Display = LocalizationHelper.GetString("NormalMode"), Value = "NormalMode" },
-        new() { Display = LocalizationHelper.GetString("RotationMode"), Value = "RotationMode" },
-        new() { Display = LocalizationHelper.GetString("CustomMode"), Value = "CustomMode" },
-    ];
-
-    /// <summary>
     /// Gets the list of uses of drones.
     /// </summary>
     public List<CombinedData> UsesOfDronesList { get; } =
@@ -219,19 +209,22 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private static readonly Dictionary<string, (bool Custom, bool Rotation)> _infrastModeMapping = new()
-    {
-        ["CustomMode"] = (true, false),
-        ["RotationMode"] = (false, true),
-        ["NormalMode"] = (false, false),
-    };
+    /// <summary>
+    /// Gets the list of uses of infrast mode.
+    /// </summary>
+    public List<GenericCombinedData<InfrastMode>> InfrastModeList { get; } =
+    [
+        new() { Display = LocalizationHelper.GetString("InfrastModeRotation"), Value = InfrastMode.Rotation },
+        new() { Display = LocalizationHelper.GetString("InfrastModeCustom"), Value = InfrastMode.Custom },
+        new() { Display = LocalizationHelper.GetString("InfrastModeNormal"), Value = InfrastMode.Normal },
+    ];
 
-    private string _infrastMode = ConfigurationHelper.GetValue(ConfigurationKeys.InfrastMode, "NormalMode");
+    private InfrastMode _infrastMode = Enum.TryParse<InfrastMode>(ConfigurationHelper.GetValue(ConfigurationKeys.InfrastMode, InfrastMode.Normal.ToString()), out var outInfrastMode) ? outInfrastMode : InfrastMode.Normal;
 
     /// <summary>
     /// Gets or sets the infrast mode.
     /// </summary>
-    public string InfrastMode
+    public InfrastMode InfrastMode
     {
         get => _infrastMode;
         set
@@ -241,11 +234,9 @@ public class InfrastSettingsUserControlModel : TaskViewModel
                 return;
             }
 
-            ConfigurationHelper.SetValue(ConfigurationKeys.InfrastMode, value);
-
-            var (isCustom, useRotation) = _infrastModeMapping.GetValueOrDefault(value, _infrastModeMapping["NormalMode"]);
-            CustomInfrastEnabled = isCustom;
-            UseInfrastRotation = useRotation;
+            ConfigurationHelper.SetValue(ConfigurationKeys.InfrastMode, value.ToString());
+            CustomInfrastEnabled = value == InfrastMode.Custom;
+            UseInfrastRotation = value == InfrastMode.Rotation;
         }
     }
 
@@ -715,4 +706,22 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             PlanIndex = CustomInfrastPlanIndex,
         }.Serialize();
     }
+}
+
+public enum InfrastMode
+{
+    /// <summary>
+    /// 普通
+    /// </summary>
+    Normal,
+
+    /// <summary>
+    /// 自定义
+    /// </summary>
+    Custom,
+
+    /// <summary>
+    /// 轮换
+    /// </summary>
+    Rotation,
 }
