@@ -59,6 +59,35 @@ namespace MaaWpfGui.Main
         public const string CoreLogFilename = "debug/asst.log";
         public const string CoreLogBakFilename = "debug/asst.bak.log";
 
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern IntPtr LoadLibrary(string dllName);
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+        private static extern bool FreeLibrary(IntPtr hModule);
+
+        private bool IsVCppInstalled()
+        {
+            IntPtr handle = IntPtr.Zero;
+            try
+            {
+                handle = LoadLibrary("MaaCore.dll");
+
+                // 如果句柄非空，说明 DLL 存在且可加载
+                return handle != IntPtr.Zero;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            finally
+            {
+                if (handle != IntPtr.Zero)
+                {
+                    FreeLibrary(handle); // 释放 DLL 句柄
+                }
+            }
+        }
+
         /// <inheritdoc/>
         /// <remarks>初始化些啥自己加。</remarks>
         protected override void OnStart()
@@ -151,10 +180,33 @@ namespace MaaWpfGui.Main
                 }
             }
 
-            base.OnStart();
             ConfigurationHelper.Load();
             LocalizationHelper.Load();
             ETagCache.Load();
+            if (!IsVCppInstalled())
+            {
+                var ret = MessageBox.Show(LocalizationHelper.GetString("VC++NotInstalled"), "MAA", MessageBoxButton.OKCancel);
+                if (ret == MessageBoxResult.OK)
+                {
+                    var startInfo = new ProcessStartInfo
+                    {
+                        FileName = "DependencySetup_依赖库安装.bat",
+                        WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory, // 设置工作目录
+                        WindowStyle = ProcessWindowStyle.Normal, // 显示窗口让用户看到进度
+                    };
+
+                    try
+                    {
+                        // 启动进程
+                        Process process = Process.Start(startInfo);
+                    }
+                    catch
+                    {
+                    }
+                }
+
+                Shutdown();
+            }
 
             if (!HandleMultipleInstances())
             {
@@ -162,6 +214,7 @@ namespace MaaWpfGui.Main
                 return;
             }
 
+            base.OnStart();
             _hasMutex = true;
 
             const string ConfigFlag = "--config";
@@ -316,7 +369,7 @@ namespace MaaWpfGui.Main
             Execute.OnUIThread(Application.Current.Shutdown);
         }
 
-        public static void Shutdown([CallerMemberName]string caller = "")
+        public static void Shutdown([CallerMemberName] string caller = "")
         {
             _logger.Information($"Shutdown called by {caller}");
             Execute.OnUIThread(Application.Current.Shutdown);
