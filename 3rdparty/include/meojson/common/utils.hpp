@@ -1,7 +1,14 @@
+// IWYU pragma: private, include <meojson/json.hpp>
+
 #pragma once
 
+#include <iomanip>
+#include <limits>
+#include <sstream>
 #include <string>
 #include <type_traits>
+#include <utility>
+#include <variant>
 
 namespace json
 {
@@ -61,12 +68,28 @@ constexpr bool is_container<T, std::void_t<typename T::value_type, range_value_t
 template <typename T, typename = void>
 constexpr bool is_map = false;
 template <typename T>
-constexpr bool is_map<T, std::void_t<typename T::key_type, typename T::mapped_type>> = is_container<T>;
+constexpr bool is_map<T, std::void_t<typename T::key_type, typename T::mapped_type>> =
+    is_container<T>;
+
+template <typename T, typename = void>
+constexpr bool is_fixed_array = false;
+template <template <typename, size_t> typename arr_t, typename value_t, size_t size>
+constexpr bool is_fixed_array<arr_t<value_t, size>> = true;
+
+template <typename T, typename = std::enable_if_t<is_fixed_array<T>>>
+constexpr size_t fixed_array_size = 0;
+template <template <typename, size_t> typename arr_t, typename value_t, size_t size>
+constexpr size_t fixed_array_size<arr_t<value_t, size>> = size;
 
 template <typename T, typename = void>
 constexpr bool is_collection = false;
 template <typename T>
-constexpr bool is_collection<T> = is_container<T> && !is_map<T>;
+constexpr bool is_collection<T> = is_container<T> && !is_map<T> && !is_fixed_array<T>;
+
+template <typename T>
+constexpr bool is_variant = false;
+template <typename... args_t>
+constexpr bool is_variant<std::variant<args_t...>> = true;
 
 template <typename T>
 class has_to_json_in_member
@@ -85,7 +108,8 @@ template <typename T>
 class has_to_json_in_templ_spec
 {
     template <typename U>
-    static auto test(int) -> decltype(std::declval<ext::jsonization<U>>().to_json(std::declval<U>()), std::true_type());
+    static auto test(int)
+        -> decltype(std::declval<ext::jsonization<U>>().to_json(std::declval<U>()), std::true_type());
 
     template <typename U>
     static std::false_type test(...);
@@ -113,8 +137,7 @@ class has_check_json_in_templ_spec
 {
     template <typename U>
     static auto test(int)
-        -> decltype(std::declval<ext::jsonization<U>>().check_json(std::declval<json::basic_value<string_t>>()),
-                    std::true_type());
+        -> decltype(std::declval<ext::jsonization<U>>().check_json(std::declval<json::basic_value<string_t>>()), std::true_type());
 
     template <typename U>
     static std::false_type test(...);
@@ -142,9 +165,7 @@ class has_from_json_in_templ_spec
 {
     template <typename U>
     static auto test(int)
-        -> decltype(std::declval<ext::jsonization<U>>().from_json(std::declval<json::basic_value<string_t>>(),
-                                                                  std::declval<U&>()),
-                    std::true_type());
+        -> decltype(std::declval<ext::jsonization<U>>().from_json(std::declval<json::basic_value<string_t>>(), std::declval<U&>()), std::true_type());
 
     template <typename U>
     static std::false_type test(...);
@@ -154,7 +175,7 @@ public:
 };
 
 template <typename string_t>
-static constexpr string_t unescape_string(const string_t& str)
+inline constexpr string_t unescape_string(const string_t& str)
 {
     using char_t = typename string_t::value_type;
 
@@ -202,26 +223,41 @@ static constexpr string_t unescape_string(const string_t& str)
 }
 
 template <typename string_t>
-static constexpr string_t true_string()
+inline constexpr string_t true_string()
 {
     return { 't', 'r', 'u', 'e' };
 }
 
 template <typename string_t>
-static constexpr string_t false_string()
+inline constexpr string_t false_string()
 {
     return { 'f', 'a', 'l', 's', 'e' };
 }
 
 template <typename string_t>
-static constexpr string_t null_string()
+inline constexpr string_t null_string()
 {
     return { 'n', 'u', 'l', 'l' };
 }
 
 template <typename string_t, typename any_t>
-string_t to_basic_string(any_t&& arg)
+inline string_t to_basic_string(any_t&& arg)
 {
+#ifdef MEOJSON_KEEP_FLOATING_PRECISION
+    using real_type = std::remove_reference_t<any_t>;
+    if constexpr (std::is_floating_point_v<real_type>) {
+        if constexpr (std::is_same_v<string_t, std::string>) {
+            std::ostringstream oss;
+            oss << std::setprecision(std::numeric_limits<real_type>::max_digits10) << arg;
+            return oss.str();
+        }
+        else if constexpr (std::is_same_v<string_t, std::wstring>) {
+            std::wostringstream oss;
+            oss << std::setprecision(std::numeric_limits<real_type>::max_digits10) << arg;
+            return oss.str();
+        }
+    }
+#endif
     if constexpr (std::is_same_v<string_t, std::string>) {
         return std::to_string(std::forward<any_t>(arg));
     }
@@ -232,4 +268,57 @@ string_t to_basic_string(any_t&& arg)
         static_assert(!sizeof(any_t), "Unsupported type");
     }
 }
+
+template <std::size_t id, typename string_t, typename variant_t>
+inline bool serialize_variant_impl(basic_value<string_t>& val, variant_t&& var)
+{
+    if (var.index() != id) {
+        return false;
+    }
+    val = basic_value<string_t>(std::get<id>(std::forward<variant_t>(var)));
+    return true;
+}
+
+template <typename string_t, typename variant_t, std::size_t... ids>
+inline basic_value<string_t> serialize_variant(variant_t&& var, std::index_sequence<ids...>)
+{
+    basic_value<string_t> val;
+    (serialize_variant_impl<ids>(val, std::forward<variant_t>(var)) || ...);
+    return val;
+}
+
+template <std::size_t id, typename string_t, typename variant_t>
+inline bool deserialize_variant_impl(const basic_value<string_t>& val, variant_t& var)
+{
+    using alt_t = std::variant_alternative_t<id, variant_t>;
+    if (!val.template is<alt_t>()) {
+        return false;
+    }
+    var = val.template as<alt_t>();
+    return true;
+}
+
+template <typename string_t, typename variant_t, std::size_t... ids>
+inline variant_t deserialize_variant(const basic_value<string_t>& val, std::index_sequence<ids...>)
+{
+    variant_t var;
+    (deserialize_variant_impl<ids>(val, var) || ...);
+    return var;
+}
+
+template <typename string_t, typename alt_t>
+inline bool detect_variant_impl(const basic_value<string_t>& val)
+{
+    if (val.template is<alt_t>()) {
+        return true;
+    }
+    return false;
+}
+
+template <typename string_t, typename variant_t, std::size_t... ids>
+inline bool detect_variant(const basic_value<string_t>& val, std::index_sequence<ids...>)
+{
+    return (detect_variant_impl<string_t, std::variant_alternative_t<ids, variant_t>>(val) || ...);
+}
+
 } // namespace json::_utils
