@@ -1360,6 +1360,14 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_base_
     }
     auto& roguelike_json = roguelike_opt.value();
 
+    auto roguelike_sami_path = tasks_base_path / "Roguelike" / "Sami.json";
+    auto roguelike_sami_opt = json::open(roguelike_sami_path);
+    if (!roguelike_sami_opt) {
+        std::cerr << "Failed to open Roguelike Sami file: " << roguelike_sami_path << '\n';
+        return false;
+    }
+    auto& roguelike_sami_json = roguelike_sami_opt.value();
+
     auto proc = [](json::array& replace_array,
                    const std::unordered_map<std::string, std::string>& base_map,
                    const std::unordered_map<std::string, std::string>& cur_map) {
@@ -1390,8 +1398,8 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_base_
     proc(tasks_json["CharsNameOcrReplace"]["ocrReplace"].as_array(), base_char_names, char_names);
 
     proc(roguelike_json["RoguelikeTraderShoppingOcr"]["ocrReplace"].as_array(), base_item_names, item_names);
-    proc(roguelike_json["Sami@Roguelike@FoldartalGainOcr"]["ocrReplace"].as_array(), base_totem_names, totem_names);
-    proc(roguelike_json["Sami@Roguelike@FoldartalUseOcr"]["ocrReplace"].as_array(), base_totem_names, totem_names);
+    proc(roguelike_sami_json["Sami@Roguelike@FoldartalGainOcr"]["ocrReplace"].as_array(), base_totem_names, totem_names);
+    proc(roguelike_sami_json["Sami@Roguelike@FoldartalUseOcr"]["ocrReplace"].as_array(), base_totem_names, totem_names);
     proc(roguelike_json["Roguelike@StageEncounterOcr"]["ocrReplace"].as_array(), base_encounter_names, encounter_names);
 
     std::ofstream tasks_ofs(tasks_path, std::ios::out);
