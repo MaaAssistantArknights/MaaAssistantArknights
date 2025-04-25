@@ -1413,6 +1413,10 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_base_
     roguelike_ofs << roguelike_json.format() << '\n';
     roguelike_ofs.close();
 
+    std::ofstream roguelike_sami_ofs(roguelike_sami_path, std::ios::out);
+    roguelike_sami_ofs << roguelike_sami_json.format() << '\n';
+    roguelike_sami_ofs.close();
+
     return true;
 }
 
