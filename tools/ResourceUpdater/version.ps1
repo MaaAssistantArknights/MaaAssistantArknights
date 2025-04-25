@@ -40,7 +40,7 @@ else {
     
         if (Test-Path $versionFile) {
             $json = Get-Content -Path $versionFile | ConvertFrom-Json
-            $json.last_updated = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss.fff")
+            $json.last_updated = (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss.fff")
             $jsonFormatted = $json | ConvertTo-Json -Depth 3
             
             $jsonFormatted = $jsonFormatted -replace "  ", "    "
