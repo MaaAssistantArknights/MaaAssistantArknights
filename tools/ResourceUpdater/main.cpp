@@ -1070,6 +1070,11 @@ bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, 
             // if (name == "食 鐵獸") {
             //    name = "食鐵獸";
             //}
+            // Issue in the gamedata: gacha_table.json has 奧斯塔 while character_table.json has 奥斯塔
+            // (character_table.json also shows 奧斯塔 in the descriptions)
+            if (name == "奧斯塔") {
+                name = "奥斯塔";
+            }
 
             // ------- YostarJP -------
             // https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/18c55553885342b3df2ccf93cc102f448f027f4b#commitcomment-144847169
