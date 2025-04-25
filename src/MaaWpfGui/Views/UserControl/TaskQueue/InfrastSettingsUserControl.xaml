@@ -12,10 +12,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:setting="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:taskQueue="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
-    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:task="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
     d:Background="White"
-    d:DataContext="{d:DesignInstance {x:Type taskQueue:InfrastSettingsUserControlModel}}"
+    d:DataContext="{d:DesignInstance {x:Type task:InfrastSettingsUserControlModel}}"
     d:DesignWidth="220"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
@@ -30,7 +29,7 @@
                 ItemsSource="{Binding InfrastModeList}"
                 SelectedValue="{Binding InfrastMode}"
                 SelectedValuePath="Value" />
-            <StackPanel Visibility="{c:Binding CustomInfrastEnabled}">
+            <StackPanel Visibility="{c:Binding 'InfrastMode == task:InfrastMode.Custom'}">
                 <hc:ComboBox
                     Margin="0,4"
                     VerticalContentAlignment="Center"
@@ -76,11 +75,11 @@
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource DroneUsage}"
                 DisplayMemberPath="Display"
-                IsEnabled="{c:Binding !CustomInfrastEnabled}"
+                IsEnabled="{c:Binding 'InfrastMode != task:InfrastMode.Custom'}"
                 ItemsSource="{Binding UsesOfDronesList}"
                 SelectedValue="{Binding UsesOfDrones}"
                 SelectedValuePath="Value" />
-            <StackPanel Margin="0" Visibility="{c:Binding !UseInfrastRotation}">
+            <StackPanel Margin="0" Visibility="{c:Binding 'InfrastMode != task:InfrastMode.Rotation'}">
                 <TextBlock
                     Margin="0,5"
                     HorizontalAlignment="Stretch"

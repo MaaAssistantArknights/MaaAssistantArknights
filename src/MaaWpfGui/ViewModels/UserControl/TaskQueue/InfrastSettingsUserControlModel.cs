@@ -28,6 +28,7 @@ using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
+using static MaaWpfGui.Models.AsstTasks.AsstInfrastTask;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
@@ -236,7 +237,6 @@ public class InfrastSettingsUserControlModel : TaskViewModel
 
             ConfigurationHelper.SetValue(ConfigurationKeys.InfrastMode, value.ToString());
             CustomInfrastEnabled = value == InfrastMode.Custom;
-            UseInfrastRotation = value == InfrastMode.Rotation;
         }
     }
 
@@ -285,23 +285,6 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     private string _defaultInfrast = ConfigurationHelper.GetValue(ConfigurationKeys.DefaultInfrast, UserDefined);
 
     private const string UserDefined = "user_defined";
-
-    private bool _useInfrastRotation = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseInfrastRotation, bool.FalseString));
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the in-game Rotate Squads and Rest Operators is enabled.
-    /// </summary>
-    public bool UseInfrastRotation
-    {
-        get => _useInfrastRotation;
-        set
-        {
-            if (SetAndNotify(ref _useInfrastRotation, value))
-            {
-                ConfigurationHelper.SetValue(ConfigurationKeys.UseInfrastRotation, value.ToString());
-            }
-        }
-    }
 
     /// <summary>
     /// Gets or sets the uses of drones.
@@ -692,15 +675,14 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     {
         return new AsstInfrastTask
         {
+            Mode = InfrastMode,
             Facilitys = GetInfrastOrderList(),
-            UseInfrastRotation = UseInfrastRotation,
             UsesOfDrones = UsesOfDrones,
             ContinueTraining = ContinueTraining,
             DormThreshold = DormThreshold / 100.0,
             DormFilterNotStationedEnabled = DormFilterNotStationedEnabled,
             DormDormTrustEnabled = DormTrustEnabled,
             OriginiumShardAutoReplenishment = OriginiumShardAutoReplenishment,
-            IsCustom = CustomInfrastEnabled,
             ReceptionMessageBoard = ReceptionMessageBoardReceive,
             Filename = CustomInfrastFile,
             PlanIndex = CustomInfrastPlanIndex,

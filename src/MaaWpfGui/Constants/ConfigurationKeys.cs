@@ -106,7 +106,6 @@ namespace MaaWpfGui.Constants
         public const string RecruitmentShowPotential = "Recruit.ShowPotential";
 
         public const string InfrastMode = "Infrast.InfrastMode";
-        public const string UseInfrastRotation = "Infrast.useInfrastRotation";
         public const string DormThreshold = "Infrast.DormThreshold";
         public const string UsesOfDrones = "Infrast.UsesOfDrones";
         public const string InfrastReceptionMessageBoardReceive = "Infrast.ReceptionMessageBoardReceive";
