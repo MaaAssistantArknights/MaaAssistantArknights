@@ -1,0 +1,21 @@
+{
+    "GT-5": {
+        "algorithm": "JustReturn",
+        "sub": ["StageEpisode", "StageEpisodeToGT", "GTToGT-5", "GT-5@SideStoryStage"]
+    },
+    "StageEpisodeToGT": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["骑兵与猎人"],
+        "roi": [0, 41, 372, 627]
+    },
+    "GTToGT-5": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["进入", "活动"],
+        "roi": [993, 439, 287, 168]
+    },
+    "GT-5@SideStoryStage": {
+        "text": ["GT-5"]
+    }
+}

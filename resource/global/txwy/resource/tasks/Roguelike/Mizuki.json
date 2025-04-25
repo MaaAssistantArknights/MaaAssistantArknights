@@ -1,0 +1,58 @@
+{
+    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
+        "text": ["選擇"]
+    },
+    "Mizuki@Roguelike@CheckLevel": {
+        "text": ["生態譜系", "生態", "譜系"]
+    },
+    "Mizuki@Roguelike@NextLevel": {
+        "text": ["天光海岸", "離岸孤島", "波濤略地", "隱秘溫床", "失塵岩洞", "幽海叢林", "紺碧搖籃"]
+    },
+    "Mizuki@Roguelike@SelectTheme": {
+        "text": ["生態譜系", "生態", "譜系"]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode0": {
+        "ocrReplace": [
+            ["天光海岸", "_aggressive"],
+            ["離岸孤島", "_aggressive"],
+            ["波濤略地", "_pragmatic"],
+            ["隱秘溫床", "_pragmatic"],
+            ["失塵岩洞", "_default"],
+            ["幽海叢林", "_default"],
+            ["紺碧搖籃", "_SKIP_"]
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode4": {
+        "ocrReplace": [
+            ["天光海岸", "_default"],
+            ["離岸孤島", "_default"],
+            ["波濤略地", "_exit"],
+            ["隱秘溫床", "_exit"],
+            ["失塵岩洞", "_exit"],
+            ["幽海叢林", "_exit"],
+            ["紺碧搖籃", "_exit"]
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode6": {
+        "ocrReplace": [
+            ["天光海岸", "_aggressive"],
+            ["離岸孤島", "_aggressive"],
+            ["波濤略地", "_pragmatic"],
+            ["隱秘溫床", "_pragmatic"],
+            ["失塵岩洞", "_default"],
+            ["幽海叢林", "_default"],
+            ["紺碧搖籃", "_SKIP_"]
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode7": {
+        "ocrReplace": [
+            ["天光海岸", "_aggressive"],
+            ["離岸孤島", "_aggressive"],
+            ["波濤略地", "_pragmatic"],
+            ["隱秘溫床", "_pragmatic"],
+            ["失塵岩洞", "_default"],
+            ["幽海叢林", "_default"],
+            ["紺碧搖籃", "_SKIP_"]
+        ]
+    }
+}

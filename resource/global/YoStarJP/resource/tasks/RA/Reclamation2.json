@@ -1,0 +1,118 @@
+{
+    "Reclamation2Begin": {
+        "text": ["開", "始"]
+    },
+    "Reclamation2BeginContinue": {
+        "text": ["継", "続"]
+    },
+    "Reclamation2BeginStage": {
+        "ocrReplace": [
+            ["集会環", "集会場"],
+            ["人タカ", "人々"]
+        ],
+        "text": ["人々", "が集う", "集会場"]
+    },
+    "Reclamation2Birdland": {
+        "text": ["羽獣", "集う地", "狩猟エリア"]
+    },
+    "Reclamation2ClickDrop": {
+        "text": ["行動", "完了"]
+    },
+    "Reclamation2CopiousCoppice": {
+        "text": ["豊かな", "低木林", "資源エリア"],
+        "ocrReplace": [
+            ["(資|予|青|諸|賛|替)(源|原|厚)(工|正)", "資源エリア"],
+            ["夢方.?な", "豊かな"],
+            ["豊.+", "豊かな"]
+        ]
+    },
+    "Reclamation2DeleteArchiveEnterConfirm": {
+        "text": ["データ", "削除"]
+    },
+    "Reclamation2DeleteArchiveLastConfirm": {
+        "text": ["削除する", "削除"]
+    },
+    "Reclamation2ExAssemblyStationOcr": {
+        "text": ["組立台"]
+    },
+    "Reclamation2ExBegin": {
+        "text": ["継", "続"]
+    },
+    "Reclamation2ExClickProduct": {
+        "ocrReplace": [["ケミカルライト", "荧光棒"]]
+    },
+    "Reclamation2ExDeleteArchiveConfirm": {
+        "text": ["削除する", "削除"]
+    },
+    "Reclamation2ExDeleteArchiveEnter": {
+        "text": ["データ", "削除"]
+    },
+    "Reclamation2ExManufactureConfirm": {
+        "ocrReplace": [["狙", "組"]],
+        "text": ["組立開始"]
+    },
+    "Reclamation2ExManufactureConfirmClickToContinue": {
+        "text": ["空白", "箇所", "タップ", "続ける"]
+    },
+    "Reclamation2ExReadArchiveConfirm": {
+        "text": ["確定"]
+    },
+    "Reclamation2ExReadArchiveEnter": {
+        "text": ["ロード"]
+    },
+    "Reclamation2ExReadArchiveSelectDay": {
+        "text": ["生息", "日"]
+    },
+    "Reclamation2ExReadArchiveSelectDayConfirm": {
+        "text": ["確認する", "確認"]
+    },
+    "Reclamation2ExSkipDays2ExSkipTime": {
+        "text": ["時間", "経過"]
+    },
+    "Reclamation2ExSkipDays2ExSkipTimeConfig": {
+        "text": ["確定"]
+    },
+    "Reclamation2ExSkipDaysAward2": {
+        "text": ["タップ", "続く"]
+    },
+    "Reclamation2ExSkipDaysBeginNewDay": {
+        "text": ["次へ"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveEnterConfirm": {
+        "text": ["データ", "削除"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm1": {
+        "text": ["削除する", "削除"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
+        "text": ["削除する", "削除"]
+    },
+    "Reclamation2ProsperityMaxSkipDayClickContinue": {
+        "text": ["タップ", "続く"]
+    },
+    "Reclamation2SkipDayClickContinue": {
+        "text": ["タップ", "続く"]
+    },
+    "Reclamation2SkipTimeSkip": {
+        "text": ["時間", "経過"]
+    },
+    "Reclamation2SkipTimeSkipConfirm": {
+        "text": ["確定"]
+    },
+    "Reclamation2StageEnter": {
+        "text": ["行動", "開始"]
+    },
+    "Reclamation2StageFight": {
+        "text": ["作戦", "開始"]
+    },
+    "Reclamation2StageFightConfirm": {
+        "ocrReplace": [["にい", "はい"]],
+        "text": ["確定", "はい"]
+    },
+    "Reclamation2StageLeaveConfirm": {
+        "text": ["離脱する", "離脱"]
+    },
+    "Reclamation2StageSquadClearConfirm": {
+        "text": ["確定"]
+    }
+}

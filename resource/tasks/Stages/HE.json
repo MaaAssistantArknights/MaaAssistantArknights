@@ -1,0 +1,42 @@
+{
+    "HE-8": {
+        "algorithm": "JustReturn",
+        "sub": ["HE-Open"],
+        "next": ["HE-8@SideStoryStage", "HE-8@SwipeToStage"]
+    },
+    "HE-7": {
+        "algorithm": "JustReturn",
+        "sub": ["HE-Open"],
+        "next": ["HE-7@SideStoryStage", "HE-7@SwipeToStage"]
+    },
+    "HE-6": {
+        "algorithm": "JustReturn",
+        "sub": ["HE-Open"],
+        "next": ["HE-6@SideStoryStage", "HE-6@SwipeToStage"]
+    },
+    "HE-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["空想花庭", "已开放"],
+        "postDelay": 2000,
+        "roi": [0, 500, 500, 150],
+        "next": ["HEChapterToHE"]
+    },
+    "HEChapterToHE": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["安布罗修修道院", "安布罗修", "修道院"],
+        "preDelay": 1000,
+        "roi": [1005, 461, 275, 129],
+        "next": ["ChapterSwipeToTheRight"]
+    },
+    "HE-8@SideStoryStage": {
+        "text": ["HE-8"]
+    },
+    "HE-7@SideStoryStage": {
+        "text": ["HE-7"]
+    },
+    "HE-6@SideStoryStage": {
+        "text": ["HE-6"]
+    }
+}

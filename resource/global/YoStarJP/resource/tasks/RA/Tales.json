@@ -1,0 +1,45 @@
+{
+    "Tales@RA@CancelEnterBuildMode": {
+        "text": ["建設開始"]
+    },
+    "Tales@RA@ClickGatheringOfFeathers": {
+        "text": ["羽獣", "集う地", "狩猟エリア"]
+    },
+    "Tales@RA@ClickShrubberyGalore": {
+        "text": ["豊かな", "低木林", "資源エリア"],
+        "ocrReplace": [
+            ["(資|予|青|諸|賛|替)(源|原|厚)(工|正)", "資源エリア"],
+            ["夢方.?な", "豊かな"],
+            ["豊.+", "豊かな"]
+        ]
+    },
+    "Tales@RA@ConfirmSquad": {
+        "text": ["作戦", "開始"]
+    },
+    "Tales@RA@ConfirmToLoadSave": {
+        "text": ["確認"]
+    },
+    "Tales@RA@EnterNode": {
+        "text": ["行動", "開始"]
+    },
+    "Tales@RA@FinishCalc": {
+        "text": ["タップ", "続く"]
+    },
+    "Tales@RA@PIS-Resume": {
+        "text": ["継", "続"]
+    },
+    "Tales@RA@PNS-ClickBaseCamp": {
+        "ocrReplace": [
+            ["集会環", "集会場"],
+            ["人タカ", "人々"]
+        ],
+        "text": ["人々", "が集う", "集会場"]
+    },
+    "Tales@RA@PNS-Commence": {
+        "text": ["開", "始"]
+    },
+    "Tales@RA@ResourceGained": {
+        "text": ["空白", "箇所", "タップ", "続ける"],
+        "roi": [480, 444, 320, 48]
+    }
+}

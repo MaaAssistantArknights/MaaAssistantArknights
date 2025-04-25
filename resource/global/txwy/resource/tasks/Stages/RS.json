@@ -1,0 +1,8 @@
+{
+    "RS-OpenOcr": {
+        "text": ["銀心", "列車", "特快"]
+    },
+    "RSChapterToRS": {
+        "text": ["月台"]
+    }
+}

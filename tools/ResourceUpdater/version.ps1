@@ -13,8 +13,7 @@ if ($allModifiedFiles.Count -eq 0) {
 }
 else {
     $hasChanges = $true
-
-    $modifiedFiles = $allModifiedFiles | Where-Object { $_ -notmatch 'tasks\.json$' }  # Ignore only for version.json updates
+    $modifiedFiles = $allModifiedFiles | Where-Object { $_ -notmatch '^resource([\\/]global[\\/][^\\\/]+[\\/]resource)?[\\/]tasks[\\/]' }   
     $directories = $modifiedFiles | ForEach-Object { Split-Path $_ } | Sort-Object -Unique
     
     # Build a list of directories containing version.json files to update

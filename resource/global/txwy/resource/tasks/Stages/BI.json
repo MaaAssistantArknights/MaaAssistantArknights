@@ -1,0 +1,43 @@
+{
+    "BI-6": {
+        "algorithm": "JustReturn",
+        "next": ["BI-6@SideStoryStage", "BI-6@SwipeToStage"],
+        "sub": ["BI-Open"]
+    },
+    "BI-6@SideStoryStage": {
+        "text": ["BI-6"]
+    },
+    "BI-7": {
+        "algorithm": "JustReturn",
+        "next": ["BI-7@SideStoryStage", "BI-7@SwipeToStage"],
+        "sub": ["BI-Open"]
+    },
+    "BI-7@SideStoryStage": {
+        "text": ["BI-7"]
+    },
+    "BI-8": {
+        "algorithm": "JustReturn",
+        "next": ["BI-8@SideStoryStage", "BI-8@SwipeToStage"],
+        "sub": ["BI-Open"]
+    },
+    "BI-8@SideStoryStage": {
+        "text": ["BI-8"]
+    },
+    "BI-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "next": ["BIChapterToBI"],
+        "postDelay": 2000,
+        "roi": [0, 500, 500, 150],
+        "text": ["風雪", "復刻", "活動", "開放"]
+    },
+    "BIChapterToBI": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "next": ["ChapterSwipeToTheRight"],
+        "preDelay": 1000,
+        "roi": [999, 243, 281, 176],
+        "text": ["雪山大典", "雪山", "大典"]
+    }
+}
