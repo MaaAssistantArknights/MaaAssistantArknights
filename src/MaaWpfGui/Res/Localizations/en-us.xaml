@@ -1016,12 +1016,16 @@ With save file: farm points through crafting (advanced).
     <system:String x:Key="ReclamationToolToCraftTip">Support prop name</system:String>
     <system:String x:Key="ReclamationToolToCraftPlaceholder">Glow Stick</system:String>
     <!--  !Reclamation  -->
-    <!--  SingleInstance  -->
+    <!--  Boot  -->
+    <system:String x:Key="VC++NotInstalled" xml:space="preserve">
+Detected that Microsoft Visual C++ Redistributable 2015-2022 (x64) is NOT installed or the version is too low.
+Click "OK" to execute the installation script and exit MAA. Click "Cancel" to exit MAA directly.
+    </system:String>
     <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">
 Only one instance can be launched under the same path!
 If you want to run multiple MAA at the same time, please copy the whole MAA and start under different path with the same adb and different connect address.
     </system:String>
-    <!--  !SingleInstance  -->
+    <!--  !Boot  -->
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">Encryption and decryption failed, please reconfigure the relevant settings, otherwise the encrypted content will be stored in plain text in the configuration file.</system:String>
     <!--  !SimpleEncryptionHelper  -->

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+  <Type Name="json::basic_value&lt;*&gt;">
+    <DisplayString>{{ type={_type} str={to_string()} }}</DisplayString>
+    <Expand>
+      <Item Name="[type]">_type</Item>
+      <Item Name="[str]">format(4)</Item>
+      <Item Name="[value]" Condition="_type&lt;5">_raw_data._Head</Item>
+      <Item Name="[array]" Condition="_type==5">*_raw_data._Tail._Head</Item>
+      <Item Name="[object]" Condition="_type==6">*_raw_data._Tail._Tail._Head</Item>
+    </Expand>
+  </Type>
+  <Type Name="json::basic_array&lt;*&gt;">
+    <DisplayString>{{ size={_array_data.size()} str={to_string()} }}</DisplayString>
+    <Expand>
+      <ExpandedItem>_array_data</ExpandedItem>
+    </Expand>
+  </Type>
+  <Type Name="json::basic_object&lt;*&gt;">
+    <DisplayString>{{ size={_object_data._Mypair._Myval2._Myval2._Mysize} str={to_string()} }}</DisplayString>
+    <Expand>
+      <ExpandedItem>_object_data</ExpandedItem>
+    </Expand>
+  </Type>
+</AutoVisualizer>

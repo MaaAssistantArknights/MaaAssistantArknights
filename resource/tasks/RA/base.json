@@ -1,0 +1,57 @@
+{
+    "RA@Navigation": {
+        "doc": "导航到 <生息演算>",
+        "algorithm": "JustReturn",
+        "next": ["RA@Navigation-RecogniseTheme", "RA@Navigation@ReturnButtons#next", "RA@Navigation@StartUpThemes#next"]
+    },
+    "RA@Navigation-RecogniseTheme": {
+        "doc": "通过识别右下角 <开始演算> 或 <继续演算> 文字判断是否已到达主题入口界面",
+        "algorithm": "OcrDetect",
+        "text": ["开始演算", "继续演算"],
+        "roi": [1064, 620, 171, 50]
+    },
+    "RA@Navigation@MainThemes": {
+        "doc": "用于 <RA@StartUpThemes#next> 任务链, 标记导航到生息演算的所有入口",
+        "next": ["RA@Navigation-FromMainInterface", "RA@Navigation@CloseAnnos#next"]
+    },
+    "RA@Navigation-FromMainInterface": {
+        "doc": "模版任务: 从主界面导航到对应的生息演算主题",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png",
+            "TerminalMistCity.png",
+            "TerminalSiege.png",
+            "TerminalSarkaz.png",
+            "TerminalDelicious.png",
+            "TerminalGaming.png",
+            "TerminalDahuangCity.png"
+        ],
+        "action": "ClickSelf",
+        "roi": [844, 58, 268, 272],
+        "next": ["RA@Navigation-FromTodoList", "RA@Navigation-LongTermExploration", "RA@Navigation-FromMainInterface"],
+        "postDelay": 1000
+    },
+    "RA@Navigation-LongTermExploration": {
+        "doc": "在 <终端> 下方导航条点击 <长期探索> 图标, 此处引用 <集成战略> 相关任务作为 baseTask",
+        "baseTask": "Roguelike@IntegratedStrategies",
+        "template": "Roguelike@IntegratedStrategies.png",
+        "next": ["RA@Navigation-EnterCurrentTheme", "RA@Navigation-LongTermExploration"]
+    },
+    "RA@Navigation-EnterCurrentTheme": {
+        "doc": "点击 <生息演算> 文字位置以进入当前主题",
+        "algorithm": "OcrDetect",
+        "text": ["生息演算"],
+        "roi": [673, 441, 348, 99],
+        "action": "ClickSelf",
+        "next": ["RA@Navigation-EnterCurrentTheme", "RA@Navigation#next"]
+    },
+    "RA@Navigation-FromTodoList": {
+        "doc": "纯虚任务: 从 <终端> 的 <TO-DO LIST> 进入对应的生息演算主题",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [908, 54, 372, 500],
+        "maskRange": [1, 255],
+        "next": ["RA@Navigation#next"]
+    }
+}

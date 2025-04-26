@@ -1,0 +1,11 @@
+{
+    "WB-Open": {
+        "text": ["Event <Where Vernal Winds Will Never", "Blow> is now open", "Criminal Pursuit,Offsite'stages opened"]
+    },
+    "WBChapterToWB": {
+        "action": "ClickSelf",
+        "roi": [1071, 589, 209, 131],
+        "postDelay": 2000,
+        "next": ["ChapterSwipeToTheRight"]
+    }
+}

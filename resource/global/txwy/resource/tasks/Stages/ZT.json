@@ -1,0 +1,12 @@
+{
+    "ZT-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "next": ["CVChapterToCV"],
+        "postDelay": 2000,
+        "text": ["特爾", "梅之", "之金", "活動", "開啟"]
+    },
+    "ZTChapterToZT": {
+        "text": ["朝見", "雙塔"]
+    }
+}

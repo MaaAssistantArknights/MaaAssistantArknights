@@ -419,6 +419,9 @@
     <ClCompile Include="Utils\Platform\PlatformPosix.cpp" />
     <ClCompile Include="Utils\Platform\PlatformWin32.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="meojson.natvis" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

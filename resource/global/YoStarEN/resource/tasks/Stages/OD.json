@@ -1,0 +1,16 @@
+{
+    "OD-Open": {
+        "baseTask": "SS-Open",
+        "next": ["ODChapterToOD"],
+        "template": "StageSideStory.png"
+    },
+    "OD-8": {
+        "sub": ["OD-Open"]
+    },
+    "OD-7": {
+        "sub": ["OD-Open"]
+    },
+    "OD-6": {
+        "sub": ["OD-Open"]
+    }
+}

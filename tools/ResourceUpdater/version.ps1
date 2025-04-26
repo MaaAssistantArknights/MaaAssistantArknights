@@ -13,8 +13,7 @@ if ($allModifiedFiles.Count -eq 0) {
 }
 else {
     $hasChanges = $true
-
-    $modifiedFiles = $allModifiedFiles | Where-Object { $_ -notmatch 'tasks\.json$' }  # Ignore only for version.json updates
+    $modifiedFiles = $allModifiedFiles | Where-Object { $_ -notmatch '^resource([\\/]global[\\/][^\\\/]+[\\/]resource)?[\\/]tasks[\\/]' }   
     $directories = $modifiedFiles | ForEach-Object { Split-Path $_ } | Sort-Object -Unique
     
     # Build a list of directories containing version.json files to update
@@ -40,7 +39,7 @@ else {
     
         if (Test-Path $versionFile) {
             $json = Get-Content -Path $versionFile | ConvertFrom-Json
-            $json.last_updated = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss.fff")
+            $json.last_updated = (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss.fff")
             $jsonFormatted = $json | ConvertTo-Json -Depth 3
             
             $jsonFormatted = $jsonFormatted -replace "  ", "    "

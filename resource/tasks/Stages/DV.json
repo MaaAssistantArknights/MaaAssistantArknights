@@ -1,0 +1,41 @@
+{
+    "DV-8": {
+        "algorithm": "JustReturn",
+        "sub": ["DV-Open"],
+        "next": ["DV-8@SideStoryStage", "DV-8@SwipeToStage"]
+    },
+    "DV-7": {
+        "algorithm": "JustReturn",
+        "sub": ["DV-Open"],
+        "next": ["DV-7@SideStoryStage", "DV-7@SwipeToStage"]
+    },
+    "DV-6": {
+        "algorithm": "JustReturn",
+        "sub": ["DV-Open"],
+        "next": ["DV-6@SideStoryStage", "DV-6@SwipeToStage"]
+    },
+    "DV-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["绿野幻梦", "活动", "开放"],
+        "roi": [0, 500, 500, 150],
+        "next": ["DVChapterToDV"]
+    },
+    "DVChapterToDV": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["实验基地"],
+        "roi": [1025, 176, 241, 180],
+        "postDelay": 2000,
+        "next": ["DVChapterToDV", "ChapterSwipeToTheRight"]
+    },
+    "DV-8@SideStoryStage": {
+        "text": ["DV-8"]
+    },
+    "DV-7@SideStoryStage": {
+        "text": ["DV-7"]
+    },
+    "DV-6@SideStoryStage": {
+        "text": ["DV-6"]
+    }
+}

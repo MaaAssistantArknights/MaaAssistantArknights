@@ -1,0 +1,186 @@
+{
+    "Sami@Roguelike@CheckCollapsalParadigms": {
+        "ocrReplace": [
+            ["去量化", "去量化"],
+            ["去量深化", "去量深化"],
+            ["實質性坍縮", "实质性坍缩"],
+            ["蔓延性坍縮", "蔓延性坍缩"],
+            ["非線性移動", "非线性移动"],
+            ["非線性行動", "非线性行动"],
+            ["情緒實體", "情绪实体"],
+            ["恐怖實體", "恐怖实体"],
+            ["泛社會悖論", "泛社会悖论"],
+            ["泛文明悖論", "泛文明悖论"],
+            ["氣壓異常", "气压异常"],
+            ["氣壓失序", "气压失序"],
+            ["觸發性損傷", "触发性损伤"],
+            ["觸發性危殆", "触发性危殆"],
+            ["趨同性消耗", "趋同性消耗"],
+            ["趨同性缺失", "趋同性缺失"],
+            ["目空一些", "目空一些"],
+            ["睜眼瞎", "睁眼瞎"],
+            ["圖像損壞", "图像损坏"],
+            ["一抹黑", "一抹黑"]
+        ]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigmsOnBanner": {
+        "ocrReplace": [
+            ["坍縮範式加深", "坍缩范式加深"],
+            ["坍縮範式消退", "坍缩范式消退"]
+        ]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigmsOnPanel": {
+        "ocrReplace": [["當前坍縮值", "当前坍缩值"]]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigms_loading": {
+        "action": "DoNothing",
+        "cache": false,
+        "algorithm": "OcrDetect",
+        "text": ["正在提交反馈至神经"],
+        "ocrReplace": [["正在提交反饋至神經", "正在提交反馈至神经"]],
+        "roi": [720, 645, 355, 45]
+    },
+    "Sami@Roguelike@CheckLevel": {
+        "text": ["科考紀錄", "科考", "紀錄"]
+    },
+    "Sami@Roguelike@Collapsal": {
+        "text": ["目空", "目空一些", "圖像", "圖像損壞"]
+    },
+    "Sami@Roguelike@ContinueClick": {
+        "text": ["初霜湖澤", "密靜林地", "昧明凍土", "積冰巖骸", "無瑕花園", "遠見之構", "深埋迷境"]
+    },
+    "Sami@Roguelike@FoldartalGainOcr": {
+        "ocrReplace": [
+            ["捕獵", "捕猎"],
+            ["巡視", "巡视"],
+            ["築巢", "筑巢"],
+            ["掠奪", "掠夺"],
+            ["遷徙", "迁徙"],
+            ["喬木", "乔木"],
+            ["獸類", "兽类"],
+            ["人類", "人类"],
+            ["喜悅", "喜悦"],
+            ["驚訝", "惊讶"],
+            ["憤怒", "愤怒"],
+            ["愛戀", "爱恋"],
+            ["樹冠", "树冠"],
+            ["薩滿", "萨满"],
+            ["戰士", "战士"],
+            ["拱門", "拱门"],
+            ["獵手", "猎手"],
+            ["朗誦", "朗诵"],
+            ["辯論", "辩论"],
+            ["傷痕", "伤痕"],
+            ["空無", "空无"],
+            ["到來", "到来"],
+            ["離去", "离去"],
+            ["滿足", "满足"],
+            ["雷達", "雷达"],
+            ["留聲機", "留声机"],
+            ["景觀", "景观"],
+            ["踢腳", "踢脚"],
+            ["自走車", "自走车"]
+        ]
+    },
+    "Sami@Roguelike@FoldartalUseConfirm": {
+        "text": ["開始宣告"],
+        "ocrReplace": [
+            ["開始告", "開始宣告"],
+            ["^開始宣.*", "開始宣告"],
+            ["開始宜告", "開始宣告"],
+            ["^開始宜.*", "開始宣告"]
+        ]
+    },
+    "Sami@Roguelike@FoldartalUseOcr": {
+        "ocrReplace": [
+            ["捕獵", "捕猎"],
+            ["巡視", "巡视"],
+            ["築巢", "筑巢"],
+            ["掠奪", "掠夺"],
+            ["遷徙", "迁徙"],
+            ["喬木", "乔木"],
+            ["獸類", "兽类"],
+            ["人類", "人类"],
+            ["喜悅", "喜悦"],
+            ["驚訝", "惊讶"],
+            ["憤怒", "愤怒"],
+            ["愛戀", "爱恋"],
+            ["樹冠", "树冠"],
+            ["薩滿", "萨满"],
+            ["戰士", "战士"],
+            ["拱門", "拱门"],
+            ["獵手", "猎手"],
+            ["朗誦", "朗诵"],
+            ["辯論", "辩论"],
+            ["傷痕", "伤痕"],
+            ["空無", "空无"],
+            ["到來", "到来"],
+            ["離去", "离去"],
+            ["滿足", "满足"]
+        ]
+    },
+    "Sami@Roguelike@GetDropSelectReward": {
+        "templThreshold": 0.9
+    },
+    "Sami@Roguelike@NextLevel": {
+        "text": ["完成本", "完成本層", "下一層級"]
+    },
+    "Sami@Roguelike@SelectTheme": {
+        "text": ["科考記錄", "科考", "記錄"]
+    },
+    "Sami@Roguelike@StrategyChange_mode0": {
+        "ocrReplace": [
+            ["初霜湖澤", "_aggressive"],
+            ["密靜林地", "_aggressive"],
+            [".*明凍(土|士)", "_pragmatic"],
+            ["積冰巖骸", "_pragmatic"],
+            ["無瑕花園", "_default"],
+            ["遠見之構", "_default"],
+            ["深埋迷境", "_SKIP_"]
+        ]
+    },
+    "Sami@Roguelike@StrategyChange_mode4": {
+        "ocrReplace": [
+            ["初霜湖澤", "_default"],
+            ["密靜林地", "_default"],
+            [".*明凍(土|士)", "_exit"],
+            ["積冰巖骸", "_exit"],
+            ["無瑕花園", "_exit"],
+            ["遠見之構", "_exit"],
+            ["深埋迷境", "_exit"]
+        ]
+    },
+    "Sami@Roguelike@StrategyChange_mode5": {
+        "ocrReplace": [
+            ["初霜湖澤", "_collapsal_paradigms"],
+            ["密靜林地", "_collapsal_paradigms"],
+            [".*明凍(土|士)", "_SKIP_"],
+            ["積冰岩骸", "_SKIP_"],
+            ["無瑕花園", "_SKIP_"],
+            ["遠見之構", "_SKIP_"],
+            ["深埋迷境", "_SKIP_"]
+        ]
+    },
+    "Sami@Roguelike@StrategyChange_mode6": {
+        "ocrReplace": [
+            ["初霜湖澤", "_aggressive"],
+            ["密靜林地", "_aggressive"],
+            [".*明凍(土|士)", "_pragmatic"],
+            ["積冰岩骸", "_pragmatic"],
+            ["無瑕花園", "_default"],
+            ["遠見之構", "_default"],
+            ["深埋迷境", "_SKIP_"]
+        ]
+    },
+    "Sami@Roguelike@StrategyChange_mode7": {
+        "ocrReplace": [
+            ["初霜湖澤", "_aggressive"],
+            ["密靜林地", "_aggressive"],
+            [".*明凍(土|士)", "_pragmatic"],
+            ["積冰岩骸", "_pragmatic"],
+            ["無瑕花園", "_default"],
+            ["遠見之構", "_default"],
+            ["深埋迷境", "_SKIP_"]
+        ]
+    }
+}
