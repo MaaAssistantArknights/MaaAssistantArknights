@@ -24,23 +24,8 @@
         "next": ["BB-OpenOcr", "BB-Open"]
     },
     "BB-Open": {
-        "baseTask": "SS-OpenOcr",
-        "text": [
-            "巴别塔",
-            "巴别",
-            "别塔",
-            "我驻留往昔",
-            "我驻",
-            "驻留",
-            "留往",
-            "往昔",
-            "我始终如一",
-            "我始",
-            "始终",
-            "终如",
-            "如一"
-        ],
-        "roi": [505, 57, 462, 628],
+        "baseTask": "SS-Open",
+        "template": ["StageSideStory.png", "StageActivity.png"],
         "next": ["BBChapterToBB"]
     },
     "BB-OpenOcr": {

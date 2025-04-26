@@ -167,6 +167,11 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     // 重要的资源，实时加载（图片还是惰性的）
     LoadResourceWithTemplAndCheckRet(TaskData, "tasks"_p, "template"_p);
 
+    // 热更是旧格式，现在这个实现很屎，但是可以利用一下屎
+    if (m_loaded) {
+        LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
+    }
+
     // 下面这几个资源都是会带OTA功能的，路径不能动
     LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
     LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
