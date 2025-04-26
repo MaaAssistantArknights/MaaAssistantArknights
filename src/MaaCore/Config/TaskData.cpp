@@ -225,6 +225,7 @@ bool asst::TaskData::load(const std::filesystem::path& path)
     json::value merged = json::object();
 
     if (is_regular_file(path)) {
+        Log.debug("TaskData::load", "Loading json file:", path);
         auto ret = json::open(path, true);
         if (!ret) {
             Log.error("TaskData::load", "Json open failed:", path);
