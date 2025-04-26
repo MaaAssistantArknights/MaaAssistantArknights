@@ -1,13 +1,5 @@
 ## v5.15.4
 
-### 主要更新 | Highlight
-
-支持了六周年月卡的自动领取！现在只要在“领取奖励”中勾选“领取周年赠送月卡奖励”，牛牛就会帮你自动领取啦~
-
----
-
-以下是详细内容：
-
 ### 新增 | New
 
 * 六周年月卡 @SherkeyXD
@@ -23,6 +15,7 @@
 
 ### 文档 | Docs
 
+* Auto Update Changelogs of v5.15.4 (#12464) @github-actions[bot]
 * add ADB connection tip for bluestacks and ldplayer @Constrat
 
 ### 其他 | Other
