@@ -25,7 +25,7 @@
     },
     "BB-Open": {
         "baseTask": "SS-Open",
-        "template": "StageSideStory.png",
+        "template": ["StageSideStory.png", "StageActivity.png"],
         "next": ["BBChapterToBB"]
     },
     "BB-OpenOcr": {
