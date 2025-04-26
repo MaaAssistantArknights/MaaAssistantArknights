@@ -1049,7 +1049,7 @@
     },
     "CloseAnnoSpecialAccess": {
         "baseTask": "CloseAnnoBase",
-        "roi": [997, 90, 146, 141]
+        "roi": [998, 87, 143, 143]
     },
     "NotDownloadVoice": {
         "baseTask": "CloseAnnoBase",
@@ -1892,9 +1892,9 @@
         "next": ["SpecialAccessActivities", "Stop"]
     },
     "SpecialAccessActivities": {
-        "doc": "五周年月卡",
+        "doc": "五/六周年月卡",
         "algorithm": "OcrDetect",
-        "text": ["五周年", "专享", "专享活动"],
+        "text": ["五周年", "专享", "专享活动", "活动推荐", "月卡"],
         "action": "ClickSelf",
         "roi": [74, 79, 79, 41],
         "next": ["SpecialAccessActivitiesConfirm", "SpecialAccessActivitiesReturn"],
@@ -1905,17 +1905,20 @@
         "text": ["立即", "立即领取"],
         "action": "ClickSelf",
         "roi": [933, 495, 156, 41],
+        "postDelay": 500,
         "next": ["SpecialAccessActivitiesEarnRewards"]
     },
     "SpecialAccessActivitiesEarnRewards": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [600, 600, 70, 70],
+        "specificRect": [606, 609, 68, 63],
+        "postDelay": 500,
         "next": ["SpecialAccessActivitiesReturn"]
     },
     "SpecialAccessActivitiesReturn": {
         "baseTask": "CloseAnnoSpecialAccess",
         "template": "CloseAnnoSpecialAccess.png",
+        "postDelay": 500,
         "next": ["Stop"]
     },
     "AwardBegin": {
