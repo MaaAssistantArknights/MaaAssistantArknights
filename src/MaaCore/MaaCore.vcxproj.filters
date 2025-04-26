@@ -1264,4 +1264,7 @@
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="meojson.natvis" />
+  </ItemGroup>
 </Project>
