@@ -1,9 +1,4 @@
 {
-    "BB-Open": {
-        "template": ["StageSideStory.png", "StageActivity.png"],
-        "baseTask": "SS-Open",
-        "next": ["BBChapterToBB"]
-    },
     "BB-OpenOcr": {
         "text": [
             "バベル",

@@ -1,4 +1,4 @@
-## v5.15.4
+## v5.15.5
 
 ### 主要更新 | Highlight
 
@@ -15,6 +15,7 @@
 
 ### 修复 | Fix
 
+* 给 5.15.4 擦屁股 @ABA2396
 * YostarKR OrundumActivitiesConfirm add ocrReplace @HX3N
 * missing roguelike sami writer to json for resource updater @Constrat
 * 定时执行tooltip修正 (#12453) @BxFS
