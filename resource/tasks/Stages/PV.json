@@ -1,0 +1,60 @@
+{
+    "PV-10": {
+        "algorithm": "JustReturn",
+        "sub": ["PV-OpenOpt"],
+        "next": ["PV-10@SideStoryStage", "PV-10@SwipeToStage"]
+    },
+    "PV-9": {
+        "algorithm": "JustReturn",
+        "sub": ["PV-OpenOpt"],
+        "next": ["PV-9@SideStoryStage", "PV-9@SwipeToStage"]
+    },
+    "PV-8": {
+        "algorithm": "JustReturn",
+        "sub": ["PV-OpenOpt"],
+        "next": ["PV-8@SideStoryStage", "PV-8@SwipeToStage"]
+    },
+    "PV-5": {
+        "algorithm": "JustReturn",
+        "sub": ["PV-OpenOpt"],
+        "next": ["PV-5@SideStoryStage", "PV-5@SwipeToStage"]
+    },
+    "PV-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["PV-OpenOcr", "PV-Open"]
+    },
+    "PV-Open": {
+        "baseTask": "SS-Open",
+        "template": ["StageSideStory.png", "StageActivity.png"],
+        "postDelay": 3000,
+        "next": ["PVChapterToPV"]
+    },
+    "PV-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["揭幕者们", "彩车游行", "荒芜之舞"],
+        "postDelay": 3000,
+        "next": ["PVChapterToPV"]
+    },
+    "PVChapterToPV": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["四幕汇演"],
+        "roi": [69, 594, 123, 40],
+        "postDelay": 1000,
+        "next": ["#self", "ChapterSwipeToTheRight"]
+    },
+    "PV-10@SideStoryStage": {
+        "doc": "<PV-10> 文字与 <装配工坊> 位置靠近，容易误点，向右偏移一些",
+        "text": ["PV-10"],
+        "rectMove": [95, 0, 1, 1]
+    },
+    "PV-9@SideStoryStage": {
+        "text": ["PV-9"]
+    },
+    "PV-8@SideStoryStage": {
+        "text": ["PV-8"]
+    },
+    "PV-5@SideStoryStage": {
+        "text": ["PV-5"]
+    }
+}

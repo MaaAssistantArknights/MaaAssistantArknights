@@ -1,0 +1,554 @@
+{
+    "Mizuki@Roguelike@Abandon": {},
+    "Mizuki@Roguelike@CheckLevel": {
+        "text": ["生态谱系"]
+    },
+    "Mizuki@Roguelike@ChooseDifficulty": {},
+    "Mizuki@Roguelike@ChooseDifficulty_Easiest": {
+        "action": "ClickRect",
+        "specificRect": [1144, 472, 78, 24],
+        "postDelay": 800,
+        "template": "Mizuki@Roguelike@StartExplore.png",
+        "roi": [1026, 470, 254, 248],
+        "sub": ["SwipeToTheUp*2"]
+    },
+    "Mizuki@Roguelike@ChooseDifficulty_Hardest": {
+        "action": "ClickRect",
+        "specificRect": [1144, 472, 78, 24],
+        "postDelay": 800,
+        "template": "Mizuki@Roguelike@StartExplore.png",
+        "roi": [1026, 470, 254, 248],
+        "sub": ["SwipeToTheDown*2"]
+    },
+    "Mizuki@Roguelike@ChooseOper": {
+        "next": [
+            "Mizuki@Roguelike@CloseCollectionContinue",
+            "Mizuki@Roguelike@CloseCollectionClose",
+            "Mizuki@Roguelike@ChooseOperConfirm",
+            "Mizuki@Roguelike@Abandon",
+            "Mizuki@Roguelike@ChooseOperConfirm#next"
+        ]
+    },
+    "Mizuki@Roguelike@CloseCollection": {
+        "next": ["Mizuki@Roguelike@LastReward-EnterPoint", "Mizuki@Roguelike@RolesDefault"]
+    },
+    "Mizuki@Roguelike@CloseCollectionClose": {
+        "action": "ClickSelf",
+        "templThreshold": 0.9,
+        "roi": [572, 434, 144, 141],
+        "next": [
+            "Mizuki@Roguelike@StageEncounterEnter",
+            "Mizuki@Roguelike@Stages#next",
+            "Mizuki@Roguelike@DropsFlag",
+            "Mizuki@Roguelike@CloseEvent",
+            "Mizuki@Roguelike@ChooseOperFlag"
+        ]
+    },
+    "Mizuki@Roguelike@CloseCollectionContinue": {
+        "action": "ClickSelf",
+        "templThreshold": 0.9,
+        "roi": [549, 440, 123, 130],
+        "maskRange": [100, 255],
+        "next": [
+            "Mizuki@Roguelike@StageEncounterEnter",
+            "Mizuki@Roguelike@Stages#next",
+            "Mizuki@Roguelike@DropsFlag",
+            "Mizuki@Roguelike@CloseEvent",
+            "Mizuki@Roguelike@ChooseOperFlag"
+        ]
+    },
+    "Mizuki@Roguelike@CloseEvent": {
+        "action": "ClickRect",
+        "specificRect": [619, 615, 41, 17]
+    },
+    "Mizuki@Roguelike@CloseInterview": {
+        "template": "Mizuki@Roguelike@CloseCollectionClose.png"
+    },
+    "Mizuki@Roguelike@CommissionedMissionCompleted": {
+        "action": "ClickRect",
+        "specificRect": [600, 600, 50, 50],
+        "postDelay": 1000,
+        "roi": [519, 202, 282, 154],
+        "next": ["Mizuki@Roguelike@StageEncounterEnter", "Mizuki@Roguelike@Stages#next"]
+    },
+    "Mizuki@Roguelike@Continue": {},
+    "Mizuki@Roguelike@DataTraceback": {
+        "action": "ClickSelf",
+        "roi": [1114, 0, 166, 134],
+        "postDelay": 500,
+        "next": ["Mizuki@Roguelike@ClickToStartPoint"]
+    },
+    "Mizuki@Roguelike@DeepExploration": {
+        "template": "Roguelike@DeepExploration.png"
+    },
+    "Mizuki@Roguelike@DeepExplorationEnd": {
+        "template": "Roguelike@DeepExplorationEnd.png"
+    },
+    "Mizuki@Roguelike@DeepExplorationNotUnlockedComplain": {
+        "template": "Roguelike@DeepExplorationNotUnlocked.png"
+    },
+    "Mizuki@Roguelike@DeepExplorationRewardMiss": {
+        "template": "Roguelike@RewardCompleted.png"
+    },
+    "Mizuki@Roguelike@DialogSkip": {
+        "template": "Roguelike@DialogSkip.png",
+        "next": ["Mizuki@Roguelike@DialogSkipConfirm"]
+    },
+    "Mizuki@Roguelike@DialogSkipConfirm": {
+        "template": "Roguelike@DialogSkipConfirm.png",
+        "next": ["Mizuki@Roguelike@Stages#next"]
+    },
+    "Mizuki@Roguelike@DiceConfirm": {
+        "Doc": "骰子的确认按钮",
+        "action": "ClickSelf",
+        "roi": [551, 577, 174, 143],
+        "templThreshold": 0.95,
+        "postDelay": 1000,
+        "next": [
+            "Mizuki@Roguelike@StageEncounterEnter",
+            "Mizuki@Roguelike@Stages#next",
+            "Mizuki@Roguelike@ClickToDrops"
+        ]
+    },
+    "Mizuki@Roguelike@DiceConfirmAfterNextLevel": {
+        "baseTask": "Mizuki@Roguelike@DiceConfirm",
+        "template": "Mizuki@Roguelike@DiceConfirm.png",
+        "next": ["Mizuki@Roguelike@StrategyChange"]
+    },
+    "Mizuki@Roguelike@DiceConfirmThenAbandon": {
+        "baseTask": "Mizuki@Roguelike@DiceConfirm",
+        "template": "Mizuki@Roguelike@DiceConfirm.png",
+        "postDelay": 0,
+        "next": ["Mizuki@Roguelike@ExitThenAbandon"]
+    },
+    "Mizuki@Roguelike@DropsFlag": {
+        "template": "Roguelike@DropsFlag.png",
+        "baseTask": "Mizuki@Roguelike@DropsFlag_default"
+    },
+    "Mizuki@Roguelike@EnterAfterRecruit": {},
+    "Mizuki@Roguelike@ExitThenAbandon": {
+        "template": "Roguelike@ExitThenAbandon.png",
+        "next": [
+            "Mizuki@Roguelike@ExitThenAbandon",
+            "Mizuki@Roguelike@Abandon",
+            "Mizuki@Roguelike@DiceConfirmThenAbandon",
+            "Mizuki@Roguelike@DataTraceback"
+        ]
+    },
+    "Mizuki@Roguelike@ExitThenAbandon_ToHardest": {
+        "template": "Roguelike@ExitThenAbandon.png",
+        "next": [
+            "Mizuki@Roguelike@ExitThenAbandon_ToHardest",
+            "Mizuki@Roguelike@Abandon",
+            "Mizuki@Roguelike@DiceConfirmThenAbandon",
+            "Mizuki@Roguelike@DataTraceback"
+        ]
+    },
+    "Mizuki@Roguelike@GamePass": {},
+    "Mizuki@Roguelike@GamePassSkip1": {},
+    "Mizuki@Roguelike@GamePassSkip1Confirm": {
+        "next": [
+            "Mizuki@Roguelike@DataTraceback",
+            "Mizuki@Roguelike@GamePassSkip2",
+            "Mizuki@Roguelike@GamePassTheEndConfirm",
+            "Mizuki@Roguelike@GamePass"
+        ]
+    },
+    "Mizuki@Roguelike@GetDrop1": {},
+    "Mizuki@Roguelike@GetDrop2": {},
+    "Mizuki@Roguelike@GetDrop3": {},
+    "Mizuki@Roguelike@GetDropBox": {
+        "baseTask": "Mizuki@Roguelike@GetDrop",
+        "Doc": "漂流密匣“打开”按钮",
+        "next": [
+            "Mizuki@Roguelike@DropsFlag",
+            "Mizuki@Roguelike@GetDropBoxOpen",
+            "Mizuki@Roguelike@GetDropBoxSelect",
+            "Mizuki@Roguelike@ChooseOperFlag"
+        ]
+    },
+    "Mizuki@Roguelike@GetDropBoxOpen": {
+        "Doc": "漂流密匣-打开的“选择”按钮",
+        "action": "ClickSelf",
+        "roi": [0, 471, 800, 157],
+        "templThreshold": 0.85,
+        "postDelay": 1000,
+        "next": [
+            "Mizuki@Roguelike@DropsFlag",
+            "Mizuki@Roguelike@ChooseOperFlag",
+            "Mizuki@Roguelike@GetDropSelectReward",
+            "Mizuki@Roguelike@ClickToDrops"
+        ]
+    },
+    "Mizuki@Roguelike@GetDropBoxSelect": {
+        "Doc": "漂流密匣-锤子砸开“选择”按钮",
+        "action": "ClickSelf",
+        "roi": [830, 438, 276, 140],
+        "templThreshold": 0.85,
+        "postDelay": 1000,
+        "next": ["Mizuki@Roguelike@DropsFlag", "Mizuki@Roguelike@ChooseOperFlag", "Mizuki@Roguelike@ClickToDrops"]
+    },
+    "Mizuki@Roguelike@GetDropCompleted": {},
+    "Mizuki@Roguelike@GetDropLeave": {},
+    "Mizuki@Roguelike@GetDropRecruit": {},
+    "Mizuki@Roguelike@GetDropSelect": {},
+    "Mizuki@Roguelike@GetDropSelectRecruit": {
+        "template": "Mizuki@Roguelike@GetDropRecruit.png"
+    },
+    "Mizuki@Roguelike@GetDropSelectReward": {},
+    "Mizuki@Roguelike@GetDrops": {
+        "next": [
+            "Mizuki@Roguelike@GetDrop1",
+            "Mizuki@Roguelike@GetDrop2",
+            "Mizuki@Roguelike@GetDrop3",
+            "Mizuki@Roguelike@GetDropSelectReward",
+            "Mizuki@Roguelike@GetDropBoxOpen",
+            "Mizuki@Roguelike@GetDropSelect",
+            "Mizuki@Roguelike@GetDropRecruit",
+            "Mizuki@Roguelike@GetDropBox"
+        ]
+    },
+    "Mizuki@Roguelike@InitialDrop": {},
+    "Mizuki@Roguelike@LastReward": {},
+    "Mizuki@Roguelike@LastReward-EnterPoint": {
+        "template": [
+            "Mizuki@Roguelike@LastReward.png",
+            "Mizuki@Roguelike@LastReward4.png",
+            "Mizuki@Roguelike@LastReward2.png",
+            "Mizuki@Roguelike@LastReward3.png",
+            "Mizuki@Roguelike@LastReward5.png",
+            "Mizuki@Roguelike@LastReward6.png",
+            "Mizuki@Roguelike@LastRewardRand.png"
+        ]
+    },
+    "Mizuki@Roguelike@LastReward-Strategy": {
+        "next": [
+            "Mizuki@Roguelike@LastReward",
+            "Mizuki@Roguelike@LastReward4",
+            "Mizuki@Roguelike@LastReward2",
+            "Mizuki@Roguelike@LastReward3",
+            "Mizuki@Roguelike@LastReward5",
+            "Mizuki@Roguelike@LastReward6",
+            "Mizuki@Roguelike@LastRewardRand"
+        ]
+    },
+    "Mizuki@Roguelike@LastReward2": {},
+    "Mizuki@Roguelike@LastReward3": {},
+    "Mizuki@Roguelike@LastReward4": {},
+    "Mizuki@Roguelike@LastReward5": {
+        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 1 钥匙",
+        "baseTask": "Mizuki@Roguelike@LastReward"
+    },
+    "Mizuki@Roguelike@LastReward6": {
+        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 1 骰子",
+        "baseTask": "Mizuki@Roguelike@LastReward"
+    },
+    "Mizuki@Roguelike@LastRewardConfirm": {},
+    "Mizuki@Roguelike@LastRewardRand": {},
+    "Mizuki@Roguelike@MapObject": {
+        "roi": [257, 488, 189, 123],
+        "next": ["Mizuki@Roguelike@RecruitOther"]
+    },
+    "Mizuki@Roguelike@MissionFailedFlag": {},
+    "Mizuki@Roguelike@MissionFailedFlag2": {},
+    "Mizuki@Roguelike@MonthlySquad": {
+        "template": "Roguelike@MonthlySquad.png"
+    },
+    "Mizuki@Roguelike@MonthlySquadComms": {
+        "template": "Mizuki@Roguelike@MonthlySquadComms.png",
+        "roi": [530, 420, 200, 60]
+    },
+    "Mizuki@Roguelike@MonthlySquadCommsCompleted": {
+        "template": "Roguelike@CommsCompleted.png",
+        "roi": [390, 480, 160, 50]
+    },
+    "Mizuki@Roguelike@MonthlySquadRewardCompleted": {
+        "template": "Roguelike@RewardCompleted.png",
+        "specificRect": [423, 536, 54, 62]
+    },
+    "Mizuki@Roguelike@NextLevel": {
+        "text": ["天光海岸", "离岸孤岛", "波涛略地", "隐秘温床", "失尘岩洞", "幽海丛林", "绀碧摇篮"],
+        "next": [
+            "Mizuki@Roguelike@DiceConfirmAfterNextLevel",
+            "Mizuki@Roguelike@CloseInterview",
+            "Mizuki@Roguelike@StrategyChange"
+        ]
+    },
+    "Mizuki@Roguelike@RecruitMain": {
+        "template": "Mizuki@Roguelike@Recruit.png"
+    },
+    "Mizuki@Roguelike@RecruitOther": {
+        "template": "Mizuki@Roguelike@Recruit.png"
+    },
+    "Mizuki@Roguelike@RecruitWithoutButton": {
+        "next": [
+            "Mizuki@Roguelike@RecruitOther",
+            "Mizuki@Roguelike@EnterAfterRecruit",
+            "Mizuki@Roguelike@TraderRandomShopping",
+            "Mizuki@Roguelike@StageTraderLeave",
+            "Mizuki@Roguelike@DropsFlag",
+            "Mizuki@Roguelike@ChooseOperFlag",
+            "Mizuki@Roguelike@DiceConfirm",
+            "Mizuki@Roguelike@StageEncounterGiveUpRecruitConfirm",
+            "Mizuki@Roguelike@RecruitWithoutButton"
+        ]
+    },
+    "Mizuki@Roguelike@RolesConfirm": {
+        "template": "Mizuki@Roguelike@LastRewardConfirm.png"
+    },
+    "Mizuki@Roguelike@RolesDefault": {},
+    "Mizuki@Roguelike@SelectTheme": {
+        "text": ["生态谱系"]
+    },
+    "Mizuki@Roguelike@SquadConfirm": {
+        "template": "Mizuki@Roguelike@LastRewardConfirm.png",
+        "next": [
+            "Mizuki@Roguelike@LastReward-EnterPoint",
+            "Mizuki@Roguelike@RolesDefault",
+            "Mizuki@Roguelike@CloseCollection",
+            "Mizuki@Roguelike@Stages#next",
+            "Mizuki@Roguelike@MapObject"
+        ]
+    },
+    "Mizuki@Roguelike@SquadDefault": {},
+    "Mizuki@Roguelike@StageBoons": {
+        "templThreshold": 0.95
+    },
+    "Mizuki@Roguelike@StageCombatDps": {
+        "templThreshold": 0.95
+    },
+    "Mizuki@Roguelike@StageCombatDpsEnter": {},
+    "Mizuki@Roguelike@StageDreadfulFoe": {},
+    "Mizuki@Roguelike@StageDreadfulFoe-5": {
+        "baseTask": "Mizuki@Roguelike@Stage",
+        "templThreshold": 0.85,
+        "exceededNext": ["RoguelikeControlTaskPlugin-Stop"],
+        "next": [
+            "Mizuki@Roguelike@StageDreadfulFoe-5Enter",
+            "Mizuki@Roguelike@StageDreadfulFoeEnter",
+            "Mizuki@Roguelike@StageEmergencyDpsEnter",
+            "Mizuki@Roguelike@StageCombatDpsEnter",
+            "Mizuki@Roguelike@Stages#next"
+        ]
+    },
+    "Mizuki@Roguelike@StageDreadfulFoe-5Enter": {
+        "baseTask": "Mizuki@Roguelike@StageEnterBattle"
+    },
+    "Mizuki@Roguelike@StageDreadfulFoeEnter": {},
+    "Mizuki@Roguelike@StageEmergencyDps": {
+        "templThreshold": 0.95
+    },
+    "Mizuki@Roguelike@StageEmergencyDpsEnter": {},
+    "Mizuki@Roguelike@StageEmergencyTransportation": {
+        "Doc": "紧急运输，拒绝可以获取3希望",
+        "baseTask": "Mizuki@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": ["Mizuki@Roguelike@StageEncounterEnter", "Mizuki@Roguelike@Stages#next"]
+    },
+    "Mizuki@Roguelike@StageEncounter": {
+        "templThreshold": 0.96
+    },
+    "Mizuki@Roguelike@StageEncounterEnter": {},
+    "Mizuki@Roguelike@StageEncounterLeaveConfirm": {},
+    "Mizuki@Roguelike@StageEncounterOptionFree": {
+        "maskRange": [5, 255]
+    },
+    "Mizuki@Roguelike@StageEncounterOptionLeave": {
+        "maskRange": [5, 255]
+    },
+    "Mizuki@Roguelike@StageEncounterOptionUnknown": {
+        "templThreshold": 0.91
+    },
+    "Mizuki@Roguelike@StageEncounterOptionWonderland": {},
+    "Mizuki@Roguelike@StageEncounterOptions": {
+        "next": [
+            "Mizuki@Roguelike@StageEncounterOptionFree",
+            "Mizuki@Roguelike@StageSafeHouseReuse",
+            "Mizuki@Roguelike@StageEncounterOptionLeave",
+            "Mizuki@Roguelike@StageEncounterOptionWonderland",
+            "Mizuki@Roguelike@ChooseOperFlag",
+            "Mizuki@Roguelike@StageEmergencyDpsEnter",
+            "Mizuki@Roguelike@StageCombatDpsEnter",
+            "Mizuki@Roguelike@CloseEvent",
+            "Mizuki@Roguelike@StageEncounterOptionUnknown"
+        ]
+    },
+    "Mizuki@Roguelike@StageEncounterSpecialClose": {},
+    "Mizuki@Roguelike@StageGambling": {
+        "Doc": "骰子关卡",
+        "baseTask": "Mizuki@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": ["Mizuki@Roguelike@StageEncounterEnter", "Mizuki@Roguelike@Stages#next"]
+    },
+    "Mizuki@Roguelike@StageRegionalCommissioning": {
+        "Doc": "地区委托（随机奖励）",
+        "baseTask": "Mizuki@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": ["Mizuki@Roguelike@StageEncounterEnter", "Mizuki@Roguelike@Stages#next"]
+    },
+    "Mizuki@Roguelike@StageSafeHouse": {
+        "templThreshold": 0.95
+    },
+    "Mizuki@Roguelike@StageSafeHouseEnter": {},
+    "Mizuki@Roguelike@StageSafeHouseReuse": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "withoutDet": true,
+        "roi": [880, 210, 140, 36],
+        "text": ["活用安全屋"],
+        "preDelay": 500,
+        "next": ["Mizuki@Roguelike@StageEncounterOption#next"]
+    },
+    "Mizuki@Roguelike@StageTrader": {
+        "templThreshold": 0.95
+    },
+    "Mizuki@Roguelike@StageTraderEnter": {},
+    "Mizuki@Roguelike@StageTraderLeaveConfirm": {
+        "template": "Roguelike@StageTraderLeaveConfirm.png",
+        "exceededNext": ["Mizuki@Roguelike@DiceConfirmThenAbandon", "Mizuki@Roguelike@ExitThenAbandon"]
+    },
+    "Mizuki@Roguelike@StageVerticalConfirm": {
+        "next": ["#back"]
+    },
+    "Mizuki@Roguelike@StageWindAndRain": {
+        "Doc": "风雨际会，拒绝可以获取4生命值",
+        "baseTask": "Mizuki@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": ["Mizuki@Roguelike@StageEncounterEnter", "Mizuki@Roguelike@Stages#next"]
+    },
+    "Mizuki@Roguelike@Stages": {
+        "baseTask": "Mizuki@Roguelike@Stages_default"
+    },
+    "Mizuki@Roguelike@Stages_aggressive": {
+        "Doc": "优先紧急作战,1-2层",
+        "algorithm": "JustReturn",
+        "next": [
+            "Mizuki@Roguelike@NextLevel",
+            "Mizuki@Roguelike@StageEmergencyDps",
+            "Mizuki@Roguelike@StageCombatDps",
+            "Mizuki@Roguelike@StageEncounter",
+            "Mizuki@Roguelike@StageSafeHouse",
+            "Mizuki@Roguelike@StageBoons",
+            "Mizuki@Roguelike@StageTrader",
+            "Mizuki@Roguelike@StageWindAndRain",
+            "Mizuki@Roguelike@StageEmergencyTransportation",
+            "Mizuki@Roguelike@StageRegionalCommissioning",
+            "Mizuki@Roguelike@StageGambling",
+            "Mizuki@Roguelike@CommissionedMissionCompleted",
+            "Mizuki@Roguelike@DiceConfirm",
+            "Mizuki@Roguelike@CloseCollectionContinue",
+            "Mizuki@Roguelike@CloseCollectionClose",
+            "Mizuki@Roguelike@StageDreadfulFoe",
+            "Mizuki@Roguelike@StageDreadfulFoe-5"
+        ]
+    },
+    "Mizuki@Roguelike@Stages_default": {
+        "Doc": "avoid battle,其他模式和5-6层策略",
+        "algorithm": "JustReturn",
+        "next": [
+            "Mizuki@Roguelike@NextLevel",
+            "Mizuki@Roguelike@StageTrader",
+            "Mizuki@Roguelike@StageSafeHouse",
+            "Mizuki@Roguelike@StageWindAndRain",
+            "Mizuki@Roguelike@StageEmergencyTransportation",
+            "Mizuki@Roguelike@StageEncounter",
+            "Mizuki@Roguelike@StageBoons",
+            "Mizuki@Roguelike@StageGambling",
+            "Mizuki@Roguelike@StageCombatDps",
+            "Mizuki@Roguelike@StageEmergencyDps",
+            "Mizuki@Roguelike@StageDreadfulFoe",
+            "Mizuki@Roguelike@StageDreadfulFoe-5",
+            "Mizuki@Roguelike@StageRegionalCommissioning",
+            "Mizuki@Roguelike@CommissionedMissionCompleted",
+            "Mizuki@Roguelike@DiceConfirm",
+            "Mizuki@Roguelike@CloseCollectionContinue",
+            "Mizuki@Roguelike@CloseCollectionClose"
+        ]
+    },
+    "Mizuki@Roguelike@Stages_pragmatic": {
+        "Doc": "避紧急作战,3-4层策略",
+        "algorithm": "JustReturn",
+        "next": [
+            "Mizuki@Roguelike@NextLevel",
+            "Mizuki@Roguelike@StageCombatDps",
+            "Mizuki@Roguelike@StageTrader",
+            "Mizuki@Roguelike@StageSafeHouse",
+            "Mizuki@Roguelike@StageEncounter",
+            "Mizuki@Roguelike@StageBoons",
+            "Mizuki@Roguelike@StageWindAndRain",
+            "Mizuki@Roguelike@StageEmergencyTransportation",
+            "Mizuki@Roguelike@StageEmergencyDps",
+            "Mizuki@Roguelike@StageDreadfulFoe",
+            "Mizuki@Roguelike@StageDreadfulFoe-5",
+            "Mizuki@Roguelike@StageRegionalCommissioning",
+            "Mizuki@Roguelike@StageGambling",
+            "Mizuki@Roguelike@CommissionedMissionCompleted",
+            "Mizuki@Roguelike@DiceConfirm",
+            "Mizuki@Roguelike@CloseCollectionContinue",
+            "Mizuki@Roguelike@CloseCollectionClose"
+        ]
+    },
+    "Mizuki@Roguelike@StartExplore": {},
+    "Mizuki@Roguelike@StartExplore-EnterCheck": {
+        "template": "Mizuki@Roguelike@StartExplore.png"
+    },
+    "Mizuki@Roguelike@StrategyChange_mode0": {
+        "text": ["_aggressive", "_pragmatic", "_default"],
+        "ocrReplace": [
+            ["天光海岸", "_aggressive"],
+            ["离岸孤岛", "_aggressive"],
+            ["波涛略地", "_pragmatic"],
+            ["隐秘温床", "_pragmatic"],
+            ["失尘岩洞", "_default"],
+            ["幽海丛林", "_default"],
+            ["绀碧摇篮", "_SKIP_"]
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode1": {
+        "baseTask": "Mizuki@Roguelike@StrategyChange_mode4",
+        "Doc": "刷源石锭第二层就会退，这里借用第三层退的刷开局策略"
+    },
+    "Mizuki@Roguelike@StrategyChange_mode4": {
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["天光海岸", "_default"],
+            ["离岸孤岛", "_default"],
+            ["波涛略地", "_exit"],
+            ["隐秘温床", "_exit"],
+            ["失尘岩洞", "_exit"],
+            ["幽海丛林", "_exit"],
+            ["绀碧摇篮", "_exit"]
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode6": {
+        "text": ["_aggressive", "_pragmatic", "_default"],
+        "ocrReplace": [
+            ["天光海岸", "_aggressive"],
+            ["离岸孤岛", "_aggressive"],
+            ["波涛略地", "_pragmatic"],
+            ["隐秘温床", "_pragmatic"],
+            ["失尘岩洞", "_default"],
+            ["幽海丛林", "_default"],
+            ["绀碧摇篮", "_SKIP_"]
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode7": {
+        "text": ["_aggressive", "_pragmatic", "_default"],
+        "ocrReplace": [
+            ["天光海岸", "_aggressive"],
+            ["离岸孤岛", "_aggressive"],
+            ["波涛略地", "_pragmatic"],
+            ["隐秘温床", "_pragmatic"],
+            ["失尘岩洞", "_default"],
+            ["幽海丛林", "_default"],
+            ["绀碧摇篮", "_SKIP_"]
+        ]
+    },
+    "Mizuki@Roguelike@TodoEnter": {},
+    "Mizuki@Roguelike@WaitForStartButtonClicked": {
+        "template": "Roguelike@QuickFormation.png"
+    },
+    "Mizuki@RoguelikeSettlementConfirm": {
+        "template": "RoguelikeSettlementConfirm.png"
+    }
+}

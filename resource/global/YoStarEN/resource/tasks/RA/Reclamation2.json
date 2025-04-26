@@ -1,0 +1,107 @@
+{
+    "Reclamation2Begin": {
+        "text": ["Commence"]
+    },
+    "Reclamation2BeginContinue": {
+        "text": ["Resume"]
+    },
+    "Reclamation2BeginStage": {
+        "text": ["Gathering Grounds", "Base Camp"]
+    },
+    "Reclamation2Birdland": {
+        "text": ["Gathering of Feathers", "Hunting Zone"]
+    },
+    "Reclamation2ClickDrop": {
+        "text": ["MISSION RESULTS"]
+    },
+    "Reclamation2CopiousCoppice": {
+        "text": ["Shrubbery Galore", "Resource", "Zone"]
+    },
+    "Reclamation2DeleteArchiveEnterConfirm": {
+        "text": ["Wipe Save"]
+    },
+    "Reclamation2DeleteArchiveLastConfirm": {
+        "text": ["Confirm Wipe"]
+    },
+    "Reclamation2ExAssemblyStationOcr": {
+        "text": ["Workbench"]
+    },
+    "Reclamation2ExBegin": {
+        "text": ["Resume"]
+    },
+    "Reclamation2ExClickProduct": {
+        "text": ["Glow Stick"]
+    },
+    "Reclamation2ExDeleteArchiveConfirm": {
+        "text": ["Confirm Wipe"]
+    },
+    "Reclamation2ExDeleteArchiveEnter": {
+        "text": ["Wipe Save"]
+    },
+    "Reclamation2ExManufactureConfirm": {
+        "text": ["Craft"]
+    },
+    "Reclamation2ExManufactureConfirmClickToContinue": {
+        "text": ["Tap anywhere to continue"]
+    },
+    "Reclamation2ExReadArchiveConfirm": {
+        "text": ["Confirm"]
+    },
+    "Reclamation2ExReadArchiveEnter": {
+        "text": ["Load Save"]
+    },
+    "Reclamation2ExReadArchiveSelectDay": {
+        "text": ["Days"]
+    },
+    "Reclamation2ExReadArchiveSelectDayConfirm": {
+        "text": ["Confirm"]
+    },
+    "Reclamation2ExSkipDays2ExSkipTime": {
+        "text": ["Skip Day"]
+    },
+    "Reclamation2ExSkipDays2ExSkipTimeConfig": {
+        "text": ["Confirm"]
+    },
+    "Reclamation2ExSkipDaysAward2": {
+        "text": ["Tap anywhere to continue"]
+    },
+    "Reclamation2ExSkipDaysBeginNewDay": {
+        "text": ["Start Today"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveEnterConfirm": {
+        "text": ["Wipe Save"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm1": {
+        "text": ["Confirm Wipe"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
+        "text": ["Confirm Wipe"]
+    },
+    "Reclamation2ProsperityMaxSkipDayClickContinue": {
+        "text": ["Tap anywhere to continue"]
+    },
+    "Reclamation2SkipDayClickContinue": {
+        "text": ["Tap anywhere to continue"]
+    },
+    "Reclamation2SkipTimeSkip": {
+        "text": ["Skip Day"]
+    },
+    "Reclamation2SkipTimeSkipConfirm": {
+        "text": ["Confirm"]
+    },
+    "Reclamation2StageEnter": {
+        "text": ["Start"]
+    },
+    "Reclamation2StageFight": {
+        "text": ["Start"]
+    },
+    "Reclamation2StageFightConfirm": {
+        "text": ["Confirm", "Proceed"]
+    },
+    "Reclamation2StageLeaveConfirm": {
+        "text": ["Are you sure you"]
+    },
+    "Reclamation2StageSquadClearConfirm": {
+        "text": ["Confirm"]
+    }
+}

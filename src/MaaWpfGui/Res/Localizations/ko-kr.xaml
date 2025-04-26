@@ -41,12 +41,12 @@
     <system:String x:Key="ExternalNotificationEnableDetails">상세 정보 출력</system:String>
     <system:String x:Key="ExternalNotificationSendWhenComplete">작업 완료 시 알림 전송</system:String>
     <system:String x:Key="ExternalNotificationSendWhenError">작업 실패 시 알림 전송</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenTimeout">작업이 시간 초과될 때 알림 보내기</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenTimeout">작업 시간 초과 시 알림 전송</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">전송 성공</system:String>
     <system:String x:Key="ExternalNotificationSendFail">전송 실패</system:String>
     <system:String x:Key="ExternalNotificationSendTest">테스트</system:String>
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA 외부 알림 테스트</system:String>
-    <system:String x:Key="ExternalNotificationSendTestContent">MAA 외부 알림 테스트 정보입니다. 이 콘텐츠가 표시되면 알림이 성공적으로 전송된 것입니다!</system:String>
+    <system:String x:Key="ExternalNotificationSendTestContent">MAA 외부 알림 테스트입니다. 이 메시지가 표시되었다면 알림 전송이 성공한 것입니다!</system:String>
     <system:String x:Key="ExternalNotificationServerChanSendKey">Server Chan 전송 키</system:String>
     <system:String x:Key="ExternalNotificationBarkSendKey">Bark 전송 키</system:String>
     <system:String x:Key="ExternalNotificationBarkServer">Bark 서버</system:String>
@@ -185,9 +185,9 @@
     <system:String x:Key="IS4NewSquad2">박학다식 분대</system:String>
     <system:String x:Key="IS4NewSquad3">도면 제작 분대</system:String>
     <system:String x:Key="IS4NewSquad4">임기응변 분대</system:String>
-    <system:String x:Key="IS4NewSquad5">기상천외 분대 (异想天开分队)</system:String>
-    <system:String x:Key="IS4NewSquad6">각뿔 가공 분대 (点刺成锭分队)</system:String>
-    <system:String x:Key="IS4NewSquad7">모방학자 분대 (拟态学者分队)</system:String>
+    <system:String x:Key="IS4NewSquad5">기상천외 분대</system:String>
+    <system:String x:Key="IS4NewSquad6">연금술 분대</system:String>
+    <system:String x:Key="IS4NewSquad7">의태학자 분대</system:String>
     <system:String x:Key="IS4NewSquad8">전문가 분대 (专业人士分队)</system:String>
     <system:String x:Key="LeaderSquad">지휘 분대</system:String>
     <system:String x:Key="GatheringSquad">집합 분대</system:String>
@@ -286,7 +286,7 @@
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">해당 CDK의 일일 다운로드 횟수가 제한에 도달했습니다. 내일 다시 시도해 주세요.</system:String>
     <system:String x:Key="MirrorChyanCdkMismatched">CDK 유형이 다운로드할 리소스와 일치하지 않습니다. CDK의 적용 범위를 확인해 주세요.</system:String>
     <system:String x:Key="NewVersionFoundTitle">새로운 버전 확인</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">「Global Source」에서 다운로드 중...</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">「글로벌 소스」에서 다운로드 중...</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">「MirrorChyan」에서 다운로드 중...</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">버전: </system:String>
     <system:String x:Key="NewVersionFoundDescInfo" xml:space="preserve">정보: </system:String>
@@ -1017,18 +1017,22 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationToolToCraftTip">제작할 도구 이름</system:String>
     <system:String x:Key="ReclamationToolToCraftPlaceholder">형광봉</system:String>
     <!--  !Reclamation  -->
-    <!--  SingleInstance  -->
+    <!--  Boot  -->
+    <system:String x:Key="VC++NotInstalled" xml:space="preserve">
+Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거나 버전이 너무 낮은 것으로 감지되었습니다..
+"확인"을 클릭하여 설치 스크립트를 실행하고 MAA를 종료하세요. "취소"를 클릭하여 MAA를 바로 종료하세요.
+    </system:String>
     <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">
 동일한 경로에서는 하나의 인스턴스만 실행할 수 있습니다!
 여러 개의 MAA를 동시에 실행하려면 MAA 전체 폴더를 복사한 뒤, 같은 adb를 사용하되 연결 주소는 다르게 설정하여 서로 다른 경로에서 실행하세요.
     </system:String>
-    <!--  !SingleInstance  -->
+    <!--  !Boot  -->
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">암호화 또는 복호화에 실패했습니다. 관련 설정을 다시 구성해 주세요. 그렇지 않으면 암호화된 내용이 설정 파일에 그대로 저장됩니다.</system:String>
     <!--  !SimpleEncryptionHelper  -->
     <!--  TimeOutTimer  -->
-    <system:String x:Key="TaskTimeoutMinutes">작업 시간 초과 시간(분)</system:String>
-    <system:String x:Key="ReminderIntervalMinutes">알림 간격 시간(분)</system:String>
-    <system:String x:Key="TaskTimeoutWarning">작업이 {0}분 이상 실행되었습니다(현재 {1}분 실행 중). 수동 개입이 필요한지 확인하세요.</system:String>
+    <system:String x:Key="TaskTimeoutMinutes">작업 시간 초과 기준 (분)</system:String>
+    <system:String x:Key="ReminderIntervalMinutes">알림 반복 간격 (분)</system:String>
+    <system:String x:Key="TaskTimeoutWarning">현재 {0}분 이상 작업 중입니다. 조치가 필요한지 확인해 주세요. ({1}분째 작업 실행 중)</system:String>
     <!--  !TimeOutTimer  -->
 </ResourceDictionary>

@@ -1,0 +1,8 @@
+{
+    "BP-OpenOcr": {
+        "text": ["Path", "Life", "event", "open", "Fortify", "Defense"]
+    },
+    "BPChapterToBP": {
+        "text": ["Deploy", "DEPLOY", "Beacons", "BEACONS"]
+    }
+}

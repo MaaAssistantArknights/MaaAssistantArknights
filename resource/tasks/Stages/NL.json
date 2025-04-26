@@ -1,0 +1,39 @@
+{
+    "NL-10": {
+        "algorithm": "JustReturn",
+        "sub": ["NL-Open"],
+        "next": ["NL-10@SideStoryStage", "NL-10@SwipeToStage"]
+    },
+    "NL-9": {
+        "algorithm": "JustReturn",
+        "sub": ["NL-Open"],
+        "next": ["NL-9@SideStoryStage", "NL-9@SwipeToStage"]
+    },
+    "NL-8": {
+        "algorithm": "JustReturn",
+        "sub": ["NL-Open"],
+        "next": ["NL-8@SideStoryStage", "NL-8@SwipeToStage"]
+    },
+    "NL-Open": {
+        "action": "ClickSelf",
+        "roi": [471, 0, 530, 711],
+        "next": ["NLChapterToNL"]
+    },
+    "NLChapterToNL": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["大骑士领"],
+        "postDelay": 2000,
+        "roi": [998, 346, 282, 191],
+        "next": ["NLChapterToNL", "ChapterSwipeToTheRight"]
+    },
+    "NL-10@SideStoryStage": {
+        "text": ["NL-10"]
+    },
+    "NL-9@SideStoryStage": {
+        "text": ["NL-9"]
+    },
+    "NL-8@SideStoryStage": {
+        "text": ["NL-8"]
+    }
+}

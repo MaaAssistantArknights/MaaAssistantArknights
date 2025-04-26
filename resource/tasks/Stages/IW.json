@@ -1,0 +1,40 @@
+{
+    "IW-6": {
+        "algorithm": "JustReturn",
+        "sub": ["IW-Open", "IWChapterToIW"],
+        "next": ["IW-6@SideStoryStage", "IW-6@SwipeToStage"]
+    },
+    "IW-7": {
+        "algorithm": "JustReturn",
+        "sub": ["IW-Open", "IWChapterToIW"],
+        "next": ["IW-7@SideStoryStage", "IW-7@SwipeToStage"]
+    },
+    "IW-8": {
+        "algorithm": "JustReturn",
+        "sub": ["IW-Open", "IWChapterToIW"],
+        "next": ["IW-8@SideStoryStage", "IW-8@SwipeToStage"]
+    },
+    "IW-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["将进酒", "关卡已开放"],
+        "roi": [0, 500, 500, 150]
+    },
+    "IWChapterToIW": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["三山奇闻"],
+        "roi": [890, 517, 210, 134],
+        "postDelay": 2000,
+        "next": ["IWChapterToIW", "ChapterSwipeToTheRight"]
+    },
+    "IW-6@SideStoryStage": {
+        "text": ["IW-6"]
+    },
+    "IW-7@SideStoryStage": {
+        "text": ["IW-7"]
+    },
+    "IW-8@SideStoryStage": {
+        "text": ["IW-8"]
+    }
+}

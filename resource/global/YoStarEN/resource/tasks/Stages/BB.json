@@ -1,0 +1,9 @@
+{
+    "BB-OpenOcr": {
+        "text": ["Babel", "open", "event", "Past", "Ward", "Constant", "stages"]
+    },
+    "BBChapterToBB": {
+        "text": ["Future", "FUTURE", "Gifts", "Gifts"],
+        "roi": [1000, 589, 209, 131]
+    }
+}

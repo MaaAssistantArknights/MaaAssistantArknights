@@ -1,0 +1,126 @@
+{
+    "Sarkaz@Roguelike@InitialDrop2": {
+        "action": "ClickRect",
+        "algorithm": "OcrDetect",
+        "next": ["Sarkaz@Roguelike@Squad-EnterPoint", "Sarkaz@Roguelike@InitialDrop2"],
+        "roi": [600, 16, 145, 36],
+        "specificRect": [545, 432, 187, 127],
+        "text": ["Members", "Initial", "Collectibles"]
+    },
+    "Sarkaz@Roguelike@CheckLevel": {
+        "text": ["HYPOTHESES", "COMPILATION"]
+    },
+    "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart": {
+        "roi": [589, 584, 231, 121],
+        "templThreshold": 0.8
+    },
+    "Sarkaz@Roguelike@NextLevel": {
+        "text": [
+            "Furnace Origin",
+            "Wrought Ironroots",
+            "Ashforged Ruins",
+            "Probable Divergence",
+            "Border of Truth",
+            "Radiant Zenith",
+            "Bizarre Fragment"
+        ],
+        "roi": [513, 564, 248, 63]
+    },
+    "Sarkaz@Roguelike@RoutingRefreshNodeConfirm": {
+        "text": ["Confirm"]
+    },
+    "Sarkaz@Roguelike@SelectTheme": {
+        "ocrReplace": [["Hypothese.*", "Hypotheses Compilation"]],
+        "text": ["Hypotheses Compilation"]
+    },
+    "Sarkaz@Roguelike@StageSafeHouseReuse": {
+        "text": ["Use the Safe House again", "Use the Safe"]
+    },
+    "Sarkaz@Roguelike@StartExplore": {
+        "next": [
+            "Sarkaz@Roguelike@Squad-EnterPoint",
+            "Sarkaz@Roguelike@InitialDrop",
+            "Sarkaz@Roguelike@ChooseDifficulty",
+            "Sarkaz@Roguelike@StartExplore-EnterCheck",
+            "Sarkaz@Roguelike@InitialDrop2"
+        ],
+        "roi": [1014, 481, 266, 219]
+    },
+    "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
+        "ocrReplace": [
+            ["Furnace Origin", "_fastInvestment"],
+            ["Wrought Ironroots", "_exit"],
+            ["Ashforged Ruins", "_exit"],
+            ["Probable Divergence", "_exit"],
+            ["Border of Truth", "_exit"],
+            ["Radiant Zenith", "_exit"],
+            ["Bizarre Fragment", "_exit"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode0": {
+        "ocrReplace": [
+            ["Furnace Origin", "_default"],
+            ["Wrought Ironroots", "_default"],
+            ["Ashforged Ruins", "_default"],
+            ["Probable Divergence", "_default"],
+            ["Border of Truth", "_default"],
+            ["Radiant Zenith", "_default"],
+            ["Bizarre Fragment", "_SKIP_"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
+        "ocrReplace": [
+            ["Furnace Origin", "_aggressive"],
+            ["Wrought Ironroots", "_aggressive"],
+            ["Ashforged Ruins", "_pragmatic"],
+            ["Probable Divergence", "_pragmatic"],
+            ["Border of Truth", "_default"],
+            ["Radiant Zenith", "_default"],
+            ["Bizarre Fragment", "_SKIP_"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode10001": {
+        "ocrReplace": [
+            ["Furnace Origin", "_routing"],
+            ["Wrought Ironroots", "_exit"],
+            ["Ashforged Ruins", "_exit"],
+            ["Probable Divergence", "_exit"],
+            ["Border of Truth", "_exit"],
+            ["Radiant Zenith", "_exit"],
+            ["Bizarre Fragment", "_exit"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode4": {
+        "ocrReplace": [
+            ["Furnace Origin", "_default"],
+            ["Wrought Ironroots", "_default"],
+            ["Ashforged Ruins", "_exit"],
+            ["Probable Divergence", "_exit"],
+            ["Border of Truth", "_exit"],
+            ["Radiant Zenith", "_exit"],
+            ["Bizarre Fragment", "_exit"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode6": {
+        "ocrReplace": [
+            ["Furnace Origin", "_default"],
+            ["Wrought Ironroots", "_default"],
+            ["Ashforged Ruins", "_default"],
+            ["Probable Divergence", "_default"],
+            ["Border of Truth", "_default"],
+            ["Radiant Zenith", "_default"],
+            ["Bizarre Fragment", "_SKIP_"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode7": {
+        "ocrReplace": [
+            ["Furnace Origin", "_default"],
+            ["Wrought Ironroots", "_default"],
+            ["Ashforged Ruins", "_default"],
+            ["Probable Divergence", "_default"],
+            ["Border of Truth", "_default"],
+            ["Radiant Zenith", "_default"],
+            ["Bizarre Fragment", "_SKIP_"]
+        ]
+    }
+}

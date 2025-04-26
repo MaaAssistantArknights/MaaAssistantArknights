@@ -1,0 +1,10 @@
+{
+    "IW-Open": {
+        "text": ["Event <Invitation to Wine - Rerun> is", "now open"]
+    },
+    "IWChapterToIW": {
+        "algorithm": "OcrDetect",
+        "text": ["TALES OF", "THREE-MOUNTAINS"],
+        "roi": [856, 511, 247, 159]
+    }
+}
