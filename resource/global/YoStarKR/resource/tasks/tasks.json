@@ -910,6 +910,7 @@
         "text": ["행운티켓", "선택"]
     },
     "OrundumActivitiesConfirm": {
+        "ocrReplace": [["뽑.?", "뽑기"]],
         "text": ["뽑기"]
     },
     "RecruitingActivities": {
