@@ -4895,13 +4895,22 @@
     "GreenGrass@DuelChannel@Loading": {
         "algorithm": "JustReturn",
         "postDelay": 2000,
-        "next": ["GreenGrass@DuelChannel@ChooseFlag", "GreenGrass@DuelChannel@Enter", "GreenGrass@DuelChannel@Loading"]
+        "next": [
+            "GreenGrass@DuelChannel@ChooseFlag",
+            "GreenGrass@DuelChannel@Enter",
+            "GreenGrass@DuelChannel@End",
+            "GreenGrass@DuelChannel@Loading"
+        ]
     },
     "GreenGrass@DuelChannel@ChooseFlag": {
         "algorithm": "OcrDetect",
         "text": ["支持"],
         "roi": [18, 549, 314, 139],
-        "next": ["GreenGrass@DuelChannel@ChooseLeft", "GreenGrass@DuelChannel@ChooseRight"]
+        "next": [
+            "GreenGrass@DuelChannel@ChooseLeft",
+            "GreenGrass@DuelChannel@ChooseRight",
+            "GreenGrass@DuelChannel@End"
+        ]
     },
     "GreenGrass@DuelChannel@ChooseLeft": {
         "algorithm": "MatchTemplate",
