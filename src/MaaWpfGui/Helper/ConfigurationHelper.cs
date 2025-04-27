@@ -85,6 +85,13 @@ namespace MaaWpfGui.Helper
             return bool.TryParse(value, out var result) ? result : defaultValue;
         }
 
+        public static TOut GetValue<TOut>(string key, TOut defaultValue)
+            where TOut : struct, Enum
+        {
+            var value = GetValue(key, defaultValue.ToString());
+            return Enum.TryParse<TOut>(value, out var result) ? result : defaultValue;
+        }
+
         public static string GetGlobalValue(string key, string defaultValue)
         {
             var hasValue = _globalKvs.TryGetValue(key, out var value);
@@ -100,7 +107,7 @@ namespace MaaWpfGui.Helper
             {
                 _logger.Information("Read global configuration key {Key} with current configuration value {Value}, configuration hit: {HasValue}, configuration value {Value}", key, value, true, value);
                 SetGlobalValue(key, value);
-                DeleteValue(key);
+                DeleteValue(key, out _);
                 return value;
             }
 
@@ -167,20 +174,25 @@ namespace MaaWpfGui.Helper
         /// Deletes a configuration
         /// </summary>
         /// <param name="key">The configuration key.</param>
+        /// <param name="value">The old value.</param>
         /// <returns>The return value of <see cref="Save"/>.</returns>
         // ReSharper disable once UnusedMember.Global
-        public static bool DeleteValue(string key)
+        public static bool DeleteValue(string key, out string value)
         {
-            var old = string.Empty;
+            value = string.Empty;
             if (_kvs.Remove(key, out var kv))
             {
-                old = kv;
+                value = kv;
+            }
+            else
+            {
+                return false;
             }
 
             var result = Save();
             if (result)
             {
-                ConfigurationUpdateEvent?.Invoke(key, old, string.Empty);
+                ConfigurationUpdateEvent?.Invoke(key, value, string.Empty);
                 _logger.Debug("Configuration {Key} has been deleted", key);
             }
             else
@@ -191,18 +203,22 @@ namespace MaaWpfGui.Helper
             return result;
         }
 
-        public static bool DeleteGlobalValue(string key)
+        public static bool DeleteGlobalValue(string key, out string value)
         {
-            var old = string.Empty;
+            value = string.Empty;
             if (_globalKvs.Remove(key, out var kv))
             {
-                old = kv;
+                value = kv;
+            }
+            else
+            {
+                return false;
             }
 
             var result = Save();
             if (result)
             {
-                ConfigurationUpdateEvent?.Invoke(key, old, string.Empty);
+                ConfigurationUpdateEvent?.Invoke(key, value, string.Empty);
                 _logger.Debug("Global configuration {Key} has been deleted", key);
             }
             else
