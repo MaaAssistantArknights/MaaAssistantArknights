@@ -4869,5 +4869,61 @@
     "Tank@UseSupportUnit-RoleSelected": {},
     "Tank@UseSupportUnit-SelectRole": {},
     "Warrior@UseSupportUnit-RoleSelected": {},
-    "Warrior@UseSupportUnit-SelectRole": {}
+    "Warrior@UseSupportUnit-SelectRole": {},
+    "GreenGrass@DuelChannel@Begin": {
+        "doc": "争锋频道：青草城",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["加入赛事"],
+        "roi": [1072, 581, 201, 125],
+        "next": ["GreenGrass@DuelChannel@ChooseMode", "GreenGrass@DuelChannel@Begin"]
+    },
+    "GreenGrass@DuelChannel@ChooseMode": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["自娱自乐"],
+        "roi": [228, 584, 864, 58],
+        "next": ["GreenGrass@DuelChannel@Enter"]
+    },
+    "GreenGrass@DuelChannel@Enter": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["开始", "游戏"],
+        "roi": [1107, 499, 157, 157],
+        "next": ["GreenGrass@DuelChannel@Loading"]
+    },
+    "GreenGrass@DuelChannel@Loading": {
+        "algorithm": "JustReturn",
+        "postDelay": 2000,
+        "next": ["GreenGrass@DuelChannel@ChooseFlag", "GreenGrass@DuelChannel@Enter", "GreenGrass@DuelChannel@Loading"]
+    },
+    "GreenGrass@DuelChannel@ChooseFlag": {
+        "algorithm": "OcrDetect",
+        "text": ["支持"],
+        "roi": [18, 549, 314, 139],
+        "next": ["GreenGrass@DuelChannel@ChooseLeft", "GreenGrass@DuelChannel@ChooseRight"]
+    },
+    "GreenGrass@DuelChannel@ChooseLeft": {
+        "algorithm": "MatchTemplate",
+        "template": "GreenGrass@DuelChannel@duck.png",
+        "roi": [13, 118, 54, 394],
+        "action": "ClickRect",
+        "specificRect": [65, 608, 44, 63],
+        "next": ["GreenGrass@DuelChannel@Loading"]
+    },
+    "GreenGrass@DuelChannel@ChooseRight": {
+        "algorithm": "MatchTemplate",
+        "template": "GreenGrass@DuelChannel@duck.png",
+        "roi": [1201, 117, 58, 386],
+        "action": "ClickRect",
+        "specificRect": [1156, 596, 56, 84],
+        "next": ["GreenGrass@DuelChannel@Loading"]
+    },
+    "GreenGrass@DuelChannel@End": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [1010, 611, 212, 109],
+        "text": ["返回主页"],
+        "next": ["GreenGrass@DuelChannel@Begin", "GreenGrass@DuelChannel@End"]
+    }
 }
