@@ -29,7 +29,7 @@
                 ItemsSource="{Binding InfrastModeList}"
                 SelectedValue="{Binding InfrastMode}"
                 SelectedValuePath="Value" />
-            <StackPanel Visibility="{c:Binding 'InfrastMode == task:InfrastMode.Custom', Source={x:Static setting:TaskQueueViewModel.InfrastTask}}">
+            <StackPanel Visibility="{c:Binding 'InfrastMode == task:InfrastMode.Custom', Source={x:Static task:InfrastSettingsUserControlModel.Instance}}">
                 <hc:ComboBox
                     Margin="0,4"
                     VerticalContentAlignment="Center"
