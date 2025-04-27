@@ -679,13 +679,9 @@ namespace MaaWpfGui.ViewModels.UI
                 "Mall",
                 "Mission",
                 "AutoRoguelike",
-                "Reclamation"
+                "Reclamation",
+                "Custom"
             ];
-
-            if (Instances.VersionUpdateViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt"))
-            {
-                taskList.Add("Custom");
-            }
 
             var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[taskList.Count]);
             var nonOrderList = new List<DragItemViewModel>();

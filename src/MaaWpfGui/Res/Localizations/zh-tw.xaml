@@ -505,6 +505,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Mission">領取獎勵</system:String>
     <system:String x:Key="AutoRoguelike">自動肉鴿</system:String>
     <system:String x:Key="Reclamation">生息演算</system:String>
+    <system:String x:Key="Custom">自定義任務</system:String>
+    <system:String x:Key="CustomWarning">請勿啟用此功能，除非您知道自己在做什麼</system:String>
     <system:String x:Key="ReclamationTheme">生息演算主題</system:String>
     <system:String x:Key="ReclamationThemeFire">沙中之火</system:String>
     <system:String x:Key="ReclamationThemeTales">沙洲遺聞</system:String>

@@ -505,6 +505,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Mission">報酬受取</system:String>
     <system:String x:Key="AutoRoguelike">自動ローグ</system:String>
     <system:String x:Key="Reclamation">生息演算</system:String>
+    <system:String x:Key="Custom">カスタムタスク</system:String>
+    <system:String x:Key="CustomWarning">この機能は、何をしているのか分からない限り使用しないでください</system:String>
     <system:String x:Key="ReclamationTheme">主題</system:String>
     <system:String x:Key="ReclamationThemeFire">砂中の火</system:String>
     <system:String x:Key="ReclamationThemeTales">熱砂秘聞</system:String>
