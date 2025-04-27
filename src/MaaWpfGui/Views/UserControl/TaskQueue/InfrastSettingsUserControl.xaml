@@ -29,7 +29,7 @@
                 ItemsSource="{Binding InfrastModeList}"
                 SelectedValue="{Binding InfrastMode}"
                 SelectedValuePath="Value" />
-            <StackPanel Visibility="{c:Binding 'InfrastMode == task:InfrastMode.Custom'}">
+            <StackPanel Visibility="{c:Binding 'InfrastMode == task:InfrastMode.Custom', Source={x:Static setting:TaskQueueViewModel.InfrastTask}}">
                 <hc:ComboBox
                     Margin="0,4"
                     VerticalContentAlignment="Center"
@@ -75,11 +75,12 @@
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource DroneUsage}"
                 DisplayMemberPath="Display"
-                IsEnabled="{c:Binding 'InfrastMode != task:InfrastMode.Custom'}"
+                IsEnabled="{c:Binding 'InfrastMode != task:InfrastMode.Custom',
+                                      Source={x:Static setting:TaskQueueViewModel.InfrastTask}}"
                 ItemsSource="{Binding UsesOfDronesList}"
                 SelectedValue="{Binding UsesOfDrones}"
                 SelectedValuePath="Value" />
-            <StackPanel Margin="0" Visibility="{c:Binding 'InfrastMode != task:InfrastMode.Rotation'}">
+            <StackPanel Margin="0" Visibility="{c:Binding 'InfrastMode != task:InfrastMode.Rotation', Source={x:Static setting:TaskQueueViewModel.InfrastTask}}">
                 <TextBlock
                     Margin="0,5"
                     HorizontalAlignment="Stretch"
