@@ -4904,12 +4904,12 @@
     },
     "GreenGrass@DuelChannel@ChooseFlag": {
         "algorithm": "OcrDetect",
-        "text": ["支持"],
-        "roi": [18, 549, 314, 139],
+        "text": ["剩余礼物"],
+        "roi": [562, 0, 184, 125],
         "next": [
             "GreenGrass@DuelChannel@ChooseLeft",
             "GreenGrass@DuelChannel@ChooseRight",
-            "GreenGrass@DuelChannel@End"
+            "GreenGrass@DuelChannel@ChooseRandom"
         ]
     },
     "GreenGrass@DuelChannel@ChooseLeft": {
@@ -4926,6 +4926,12 @@
         "roi": [1201, 117, 58, 386],
         "action": "ClickRect",
         "specificRect": [1156, 596, 56, 84],
+        "next": ["GreenGrass@DuelChannel@Loading"]
+    },
+    "GreenGrass@DuelChannel@ChooseRandom": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [65, 608, 44, 63],
         "next": ["GreenGrass@DuelChannel@Loading"]
     },
     "GreenGrass@DuelChannel@End": {
