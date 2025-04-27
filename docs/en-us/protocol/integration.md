@@ -147,8 +147,9 @@ Supports some of the special stages,Please refer to [autoLocalization example](h
 {
     "enable": bool,             // Whether to enable this task, optional, by default true
     "mode": int,            // Shift mode, optional. Editing in run-time is not supported.
-                            // 0 - By Default, auto shift
+                            // 0     - By Default, auto shift
                             // 10000 - Custom Mode, please refer 3.6-INFRASTRUCTURE_SCHEDULING_SCHEMA
+                            // 20000 - Rotation: One-key rotation mode, skips control center, power station, dormitory and office, other facilities do not change shifts but retain basic operations (such as using drones, reception room logic)
     "facility": [           // Facilities for shifting, required. Editing in run-time is not supported.
         string,             // Facility name: "Mfg" | "Trade" | "Power" | "Control" | "Reception" | "Office" | "Dorm"
         ...
