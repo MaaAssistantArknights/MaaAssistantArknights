@@ -49,7 +49,11 @@
             ["Soul Escort Squad", "魂灵护送分队"],
             ["Erudite Squad", "博闻广记分队"],
             ["Blueprint Squad", "蓝图测绘分队"],
-            ["Improvisation Squad", "因地制宜分队"]
+            ["Improvisation Squad", "因地制宜分队"],
+            ["Ingots Squad", "点刺成锭分队 "],
+            ["Collection Squad", "拟态学者分队"],
+            ["Mimic Squad", "异想天开分队"],
+            ["_TODO: DLC-2_", "专业人士分队"]
         ]
     },
     "RoguelikeFormationOcr": {
