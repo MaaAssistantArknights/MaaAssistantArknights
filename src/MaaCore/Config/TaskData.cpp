@@ -231,7 +231,7 @@ bool asst::TaskData::load(const std::filesystem::path& path)
             Log.error("TaskData::load", "Json open failed:", path);
             return false;
         }
-        merged = ret->as_object();
+        merged = std::move(ret->as_object());
     }
     else if (is_directory(path)) {
         std::vector<std::filesystem::path> json_files;
