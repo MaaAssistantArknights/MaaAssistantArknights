@@ -23,6 +23,7 @@ using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.ViewModels.UserControl.Settings;
+using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -87,7 +88,8 @@ public class ConfigConverter
         }
 
         string[] configKeys = [ConfigurationKeys.AnnouncementInfo, ConfigurationKeys.DoNotRemindThisAnnouncementAgain, ConfigurationKeys.DoNotShowAnnouncement,
-            ConfigurationKeys.VersionName, ConfigurationKeys.VersionUpdateBody, ConfigurationKeys.VersionUpdateIsFirstBoot, ConfigurationKeys.VersionUpdatePackage, ConfigurationKeys.VersionUpdateDoNotShowUpdate,
+            ConfigurationKeys.VersionName, ConfigurationKeys.VersionUpdateBody, ConfigurationKeys.VersionUpdateIsFirstBoot, ConfigurationKeys.VersionUpdatePackage,
+            ConfigurationKeys.VersionUpdateDoNotShowUpdate, ConfigurationKeys.CustomInfrastEnabled
         ];
         foreach (var configName in ConfigurationHelper.GetConfigurationList())
         {
@@ -98,7 +100,7 @@ public class ConfigConverter
             // 删除旧的配置
             foreach (var key in configKeys)
             {
-                ConfigurationHelper.DeleteValue(key, out _);
+                ConfigurationHelper.DeleteValue(key);
             }
         }
     }
@@ -131,10 +133,28 @@ public class ConfigConverter
                 var reclamationTask = new ReclamationTask(); // √
 
                 startUpTask.AccountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.AccountName, out _);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.AccountName);
+
+                fightTask.UseMedicine = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, false);
+                fightTask.MedicineCount = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicineQuantity, 999);
+                fightTask.UseStone = ConfigurationHelper.GetValue(ConfigurationKeys.UseStone, false);
+                fightTask.StoneCount = ConfigurationHelper.GetValue(ConfigurationKeys.UseStoneQuantity, 999);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.UseMedicine);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.UseMedicineQuantity);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.UseStone);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.UseStoneQuantity);
+                fightTask.Stage1 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty);
+                fightTask.Stage2 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage2, string.Empty);
+                fightTask.Stage3 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage3, string.Empty);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.Stage1);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.Stage2);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.Stage3);
 
                 fightTask2.Stage1 = ConfigurationHelper.GetValue(ConfigurationKeys.RemainingSanityStage, string.Empty);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RemainingSanityStage, out _);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RemainingSanityStage);
+
+                infrastTask.Mode = ConfigurationHelper.GetValue(ConfigurationKeys.InfrastMode, InfrastMode.Normal);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.InfrastMode);
 
                 recruitTask.ExtraTagMode = ConfigurationHelper.GetValue(ConfigurationKeys.SelectExtraTags, 0);
                 recruitTask.Level3PreferTags = [.. ConfigurationHelper.GetValue(ConfigurationKeys.AutoRecruitFirstList, string.Empty).Split(";")];
@@ -148,18 +168,18 @@ public class ConfigConverter
                 recruitTask.Level4Time = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel4Time, 540);
                 recruitTask.Level5Choose = ConfigurationHelper.GetValue(ConfigurationKeys.RecruitChooseLevel5, false);
                 recruitTask.Level5Time = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel5Time, 540);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.SelectExtraTags, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.AutoRecruitFirstList, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RefreshLevel3, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ForceRefresh, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.NotChooseLevel1, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RecruitMaxTimes, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RecruitChooseLevel3, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RecruitChooseLevel4, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RecruitChooseLevel5, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ChooseLevel3Time, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ChooseLevel4Time, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ChooseLevel5Time, out _);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.SelectExtraTags);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.AutoRecruitFirstList);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RefreshLevel3);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ForceRefresh);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.NotChooseLevel1);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RecruitMaxTimes);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RecruitChooseLevel3);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RecruitChooseLevel4);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RecruitChooseLevel5);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ChooseLevel3Time);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ChooseLevel4Time);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ChooseLevel5Time);
 
                 awardTask.Award = ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveAward, true);
                 awardTask.Mail = ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveMail, false);
@@ -167,12 +187,12 @@ public class ConfigConverter
                 awardTask.Orundum = ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveOrundum, false);
                 awardTask.Mining = ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveMining, false);
                 awardTask.SpecialAccess = ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveSpecialAccess, false);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReceiveAward, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReceiveMail, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReceiveFreeGacha, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReceiveOrundum, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReceiveMining, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReceiveSpecialAccess, out _);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReceiveAward);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReceiveMail);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReceiveFreeGacha);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReceiveOrundum);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReceiveMining);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReceiveSpecialAccess);
 
                 mallTask.Shopping = ConfigurationHelper.GetValue(ConfigurationKeys.CreditShopping, true);
                 mallTask.FirstList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFirstListNew, LocalizationHelper.GetString("HighPriorityDefault", local)).Replace("；", ";").Trim();
@@ -186,18 +206,18 @@ public class ConfigConverter
                 mallTask.VisitFriends = ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitFriendsEnabled, true);
                 mallTask.VisitFriendsOnceADay = ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitOnceADay, false);
                 mallTask.VisitFriendsLastTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditVisitFriendsTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditShopping, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditFirstListNew, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditBlackListNew, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditForceShoppingIfCreditFull, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditOnlyBuyDiscount, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditReserveMaxCredit, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditFightTaskEnabled, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditFightSelectFormation, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.LastCreditFightTaskTime, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditVisitFriendsEnabled, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditVisitOnceADay, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.LastCreditVisitFriendsTime, out _);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditShopping);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditFirstListNew);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditBlackListNew);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditForceShoppingIfCreditFull);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditOnlyBuyDiscount);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditReserveMaxCredit);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditFightTaskEnabled);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditFightSelectFormation);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.LastCreditFightTaskTime);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditVisitFriendsEnabled);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditVisitOnceADay);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.LastCreditVisitFriendsTime);
 
                 roguelikeTask.Theme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, RoguelikeTheme.Sarkaz);
                 roguelikeTask.Difficulty = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDifficulty, int.MaxValue);
@@ -241,47 +261,47 @@ public class ConfigConverter
                 };
                 roguelikeTask.CollectibleStartAwards = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartWithSelectList, string.Empty)
                     .Split(' ').Select(v => dic.TryGetValue(v, out var @out) ? @out : 0).Aggregate((a, b) => a | b);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeTheme, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeDifficulty, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeMode, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeCoreChar, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeSquad, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeRoles, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeStartsCount, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeInvestmentEnabled, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeInvestsCount, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeInvestmentEnterSecondFloor, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeStopWhenInvestmentFull, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeStopAtFinalBoss, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeUseSupportUnit, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeEnableNonfriendSupport, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeOnlyStartWithEliteTwo, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.Roguelike3FirstFloorFoldartal, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.Roguelike3FirstFloorFoldartals, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartal, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartals, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeStartWithTwoIdeas, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeStartWithSelectList, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeCollectibleModeShopping, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeExpectedCollapsalParadigms, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeStartWithSeed, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeMonthlySquadAutoIterate, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeMonthlySquadCheckComms, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeDeepExplorationAutoIterate, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeStopAtMaxLevel, out _);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeTheme);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeDifficulty);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeMode);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeCoreChar);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeSquad);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeRoles);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeStartsCount);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeInvestmentEnabled);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeInvestsCount);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeInvestmentEnterSecondFloor);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeStopWhenInvestmentFull);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeStopAtFinalBoss);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeUseSupportUnit);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeEnableNonfriendSupport);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeStartWithEliteTwo);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeOnlyStartWithEliteTwo);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.Roguelike3FirstFloorFoldartal);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.Roguelike3FirstFloorFoldartals);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartal);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartals);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeStartWithTwoIdeas);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeStartWithSelectList);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeCollectibleModeShopping);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeExpectedCollapsalParadigms);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeStartWithSeed);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeMonthlySquadAutoIterate);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeMonthlySquadCheckComms);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeDeepExplorationAutoIterate);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeStopAtMaxLevel);
 
                 reclamationTask.Theme = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationTheme, ReclamationTheme.Tales);
                 reclamationTask.Mode = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMode, ReclamationMode.Archive);
                 reclamationTask.ToolToCraft = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationToolToCraft, string.Empty).Replace('；', ';').Trim();
                 reclamationTask.IncrementMode = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationIncrementMode, 0);
                 reclamationTask.MaxCraftCountPerRound = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, 16);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReclamationTheme, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReclamationMode, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReclamationToolToCraft, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReclamationIncrementMode, out _);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, out _);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReclamationTheme);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReclamationMode);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReclamationToolToCraft);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReclamationIncrementMode);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound);
 
                 // 任务导入排序
                 List<(string OldName, int Index, bool IsEnable)> taskList = [("WakeUp", 0, true), ("Recruiting", 1, true), ("Base", 2, true), ("Combat", 3, true), ("Mall", 4, true), ("Mission", 5, true), ("AutoRoguelike", 6, false)];

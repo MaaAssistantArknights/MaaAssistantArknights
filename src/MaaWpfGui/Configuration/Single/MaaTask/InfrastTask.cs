@@ -12,10 +12,18 @@
 // </copyright>
 
 #nullable enable
+using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;
 public class InfrastTask : BaseTask
 {
     public InfrastTask() => TaskType = TaskType.Infrast;
+
+    /// <summary>
+    /// Gets or sets 基建切换模式
+    /// </summary>
+    public InfrastMode Mode { get; set; } = InfrastMode.Normal;
+
+
 }
