@@ -2033,6 +2033,7 @@ namespace MaaWpfGui.Main
             OperBox,
             Gacha,
             Reclamation,
+            MiniGame,
             Custom,
         }
 
@@ -2046,7 +2047,7 @@ namespace MaaWpfGui.Main
             TaskType.Mall,
             TaskType.Award,
             TaskType.Roguelike,
-            TaskType.Reclamation
+            TaskType.Reclamation,
         ];
 
         private readonly Dictionary<AsstTaskId, TaskType> _taskStatus = [];
@@ -2105,6 +2106,16 @@ namespace MaaWpfGui.Main
             };
             var (type, param) = task.Serialize();
             return AsstAppendTaskWithEncoding(TaskType.Gacha, type, param) && AsstStart();
+        }
+
+        public bool AsstMiniGame(string taskName)
+        {
+            var task = new AsstCustomTask()
+            {
+                CustomTasks = [taskName],
+            };
+            var (type, param) = task.Serialize();
+            return AsstAppendTaskWithEncoding(TaskType.MiniGame, type, param) && AsstStart();
         }
 
         public bool AsstStartVideoRec(string filename)
