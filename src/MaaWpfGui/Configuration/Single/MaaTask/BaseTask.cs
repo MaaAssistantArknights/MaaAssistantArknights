@@ -64,10 +64,6 @@ public class CloseDownTask : BaseTask
 {
 }
 
-public class FightTask : BaseTask
-{
-}
-
 public class CopilotTask : BaseTask
 {
 }
