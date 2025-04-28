@@ -25,6 +25,7 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.States;
+using MaaWpfGui.Utilities.ValueType;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -1032,6 +1033,56 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 IsPeepTransitioning = false;
             }
+        }
+
+        #endregion
+
+        #region MiniGame
+
+        public static ObservableCollection<CombinedData> MiniGameTaskList { get; } =
+        [
+            new() { Display = LocalizationHelper.GetString("NotSelected"), Value = "Stop" },
+            new() { Display = LocalizationHelper.GetString("MiniGameNameGreenGrass"), Value = "GreenGrass@DuelChannel@Begin" },
+        ];
+
+        private string _miniGameTaskName = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MiniGameTaskName, "Stop");
+
+        public string MiniGameTaskName
+        {
+            get => _miniGameTaskName;
+            set
+            {
+                SetAndNotify(ref _miniGameTaskName, value);
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MiniGameTaskName, value);
+                MiniGameTip = GetMiniGameTip(value);
+            }
+        }
+
+        private string? _miniGameTip;
+
+        public string MiniGameTip
+        {
+            get
+            {
+                _miniGameTip ??= GetMiniGameTip(MiniGameTaskName);
+                return _miniGameTip;
+            }
+            set => SetAndNotify(ref _miniGameTip, value);
+        }
+
+        private static string GetMiniGameTip(string name)
+        {
+            return name switch
+            {
+                "GreenGrass@DuelChannel@Begin" => LocalizationHelper.GetString("MiniGameNameGreenGrassTip"),
+                _ => string.Empty,
+            };
+        }
+
+        public void StartMiniGame()
+        {
+            string errMsg = string.Empty;
+            Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg) && Instances.AsstProxy.AsstMiniGame(MiniGameTaskName));
         }
 
         #endregion

@@ -604,5 +604,28 @@
                 </StackPanel>
             </Grid>
         </TabItem>
+        <TabItem Header="{DynamicResource MiniGame}">
+            <Grid Margin="20,0,20,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="100" />
+                </Grid.RowDefinitions>
+                <ComboBox
+                    hc:TitleElement.Title="{DynamicResource MiniGameName}"
+                    ItemsSource="{Binding MiniGameTaskList}"
+                    SelectedValue="{Binding MiniGameTaskName}"
+                    SelectedValuePath="Value" />
+                <controls:TextBlock Grid.Row="1" Text="{Binding MiniGameTip}" />
+                <Button
+                    Grid.Row="2"
+                    Height="70"
+                    Margin="10"
+                    Command="{s:Action StartMiniGame}"
+                    Content="{DynamicResource LinkStart}"
+                    FontSize="16"
+                    IsEnabled="{Binding Idle}" />
+            </Grid>
+        </TabItem>
     </TabControl>
 </UserControl>

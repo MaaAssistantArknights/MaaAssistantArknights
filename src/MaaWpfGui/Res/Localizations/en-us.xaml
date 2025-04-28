@@ -505,6 +505,7 @@ The primary instance is 0, and other instances are the numbers after the version
     <system:String x:Key="Mission">Collect Rewards</system:String>
     <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>
     <system:String x:Key="Reclamation">Reclamation Algorithm</system:String>
+    <system:String x:Key="MiniGame">Mini-Game</system:String>
     <system:String x:Key="ReclamationTheme">Reclamation Algorithm Theme</system:String>
     <system:String x:Key="ReclamationThemeFire">Fire Within the Sand</system:String>
     <system:String x:Key="ReclamationThemeTales">Tales Within the Sand</system:String>
@@ -679,6 +680,10 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="Peep">Peep</system:String>
     <system:String x:Key="PeepTargetFps">Target Frame Rate</system:String>
     <!--  !Peep  -->
+    <!--  小游戏  -->
+    <system:String x:Key="MiniGameName">Mini Game Name</system:String>
+    <system:String x:Key="MiniGameNameGreenGrass">Contest Channel: Green Grass City (Unofficial)</system:String>
+    <!--  !小游戏  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">Identifying……</system:String>
     <system:String x:Key="IdentificationCompleted">Identification completed</system:String>

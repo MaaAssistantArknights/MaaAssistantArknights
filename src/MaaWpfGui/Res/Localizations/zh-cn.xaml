@@ -505,6 +505,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Mission">领取奖励</system:String>
     <system:String x:Key="AutoRoguelike">自动肉鸽</system:String>
     <system:String x:Key="Reclamation">生息演算</system:String>
+    <system:String x:Key="MiniGame">小游戏</system:String>
     <system:String x:Key="Custom">Debug</system:String>
     <system:String x:Key="ReclamationTheme">生息演算主题</system:String>
     <system:String x:Key="ReclamationThemeFire">沙中之火</system:String>
@@ -682,6 +683,11 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Peep">牛牛监控</system:String>
     <system:String x:Key="PeepTargetFps">目标帧率</system:String>
     <!--  !牛牛监控  -->
+    <!--  小游戏  -->
+    <system:String x:Key="MiniGameName">小游戏名称</system:String>
+    <system:String x:Key="MiniGameNameGreenGrass">争锋频道：青草城</system:String>
+    <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">在活动界面开始任务。&#10;跟着鸭总喝口汤。</system:String>
+    <!--  !小游戏  -->
     <!--  日志  -->
     <system:String x:Key="Identifying">正在识别……</system:String>
     <system:String x:Key="IdentificationCompleted">识别完成</system:String>

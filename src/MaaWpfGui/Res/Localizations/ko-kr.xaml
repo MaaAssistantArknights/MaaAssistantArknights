@@ -506,6 +506,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Mission">보상 수령</system:String>
     <system:String x:Key="AutoRoguelike">통합전략</system:String>
     <system:String x:Key="Reclamation">생존연산</system:String>
+    <system:String x:Key="MiniGame">미니게임</system:String>
     <system:String x:Key="ReclamationTheme">생존연산 테마</system:String>
     <system:String x:Key="ReclamationThemeFire">모래 속의 불</system:String>
     <system:String x:Key="ReclamationThemeTales">사막 이야기</system:String>
@@ -682,6 +683,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Peep">Peep</system:String>
     <system:String x:Key="PeepTargetFps">목표 프레임 속도</system:String>
     <!--  !Peep  -->
+    <!--  小游戏  -->
+    <system:String x:Key="MiniGameName">미니 게임 이름</system:String>
+    <system:String x:Key="MiniGameNameGreenGrass">대결 채널: 그린그래스 시티 (비공식)</system:String>
+    <!--  !小游戏  -->
     <!--  로그  -->
     <system:String x:Key="Identifying">인식 중……</system:String>
     <system:String x:Key="IdentificationCompleted">인식 완료</system:String>
