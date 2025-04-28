@@ -651,7 +651,7 @@ namespace MaaWpfGui.Services.RemoteControl
                             break;
 
                         case "WakeUp":
-                            taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, StartUpTask.Serialize());
+                            taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, StartUpSettingsUserControlModel.Instance.Serialize());
                             break;
 
                         case "Combat":
