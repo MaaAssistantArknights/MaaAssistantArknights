@@ -1583,6 +1583,14 @@
         "sortId": -10000,
         "usage": "用于兑换相应的阶段性活动奖励。"
     },
+    "act1enemyduel_milestone_point": {
+        "classifyType": "NONE",
+        "description": "听说使用它之后可以在整个争锋频道发送一条带有全屏烟花特效的文字。但终日使用它们对骂的有钱人或许并不知道，网站设置内能够一键屏蔽这些特效。",
+        "icon": "act1enemyduel_milestone_point.png",
+        "name": "争锋大礼花",
+        "sortId": -10000,
+        "usage": "争锋频道礼物中比较昂贵的类型，可以在网站内兑换一些实物奖励，包邮，送货上门。"
+    },
     "act1lock_point_reward": {
         "classifyType": "NONE",
         "description": "通过击破假想敌队伍获得的赛事积分，将以奖章形式颁发给参赛队伍。由米诺斯工匠制作的奖牌上，刻有“英雄都是从普通人做起”的谚语。",
@@ -2182,6 +2190,14 @@
         "name": "福运鼓鼓礼袋",
         "sortId": -10000,
         "usage": "获得“合作限定十连寻访凭证”和头像“苍暮印象”。“合作限定十连寻访凭证”过期时间：2023/03/21 03:59"
+    },
+    "itempack_gold_1": {
+        "classifyType": "NONE",
+        "description": "能天使今天突然想起来为你履行兑换奖章的承诺，在确认了你已收集的“最佳老板奖章”数量后，她将之前的规则糊弄过去并为你颁发了这枚奖章。",
+        "icon": "itempack_gold_1.png",
+        "name": "特别版!超强!老板奖章",
+        "sortId": -10000,
+        "usage": "似乎使用了昂贵的金属制作，可兑换龙门币。"
     },
     "itempack_main_1": {
         "classifyType": "NONE",
