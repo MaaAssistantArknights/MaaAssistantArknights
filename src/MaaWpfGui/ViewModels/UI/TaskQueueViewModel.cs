@@ -1426,6 +1426,193 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        public async void Link()
+        {
+            if (!_runningState.GetIdle())
+            {
+                _logger.Information("Not idle, return.");
+                return;
+            }
+
+            ClearLog();
+
+            var buildDateTimeLong = VersionUpdateSettingsUserControlModel.BuildDateTimeCurrentCultureString;
+            var resourceDateTimeLong = SettingsViewModel.VersionUpdateSettings.ResourceDateTimeCurrentCultureString;
+            AddLog($"Build Time:\n{buildDateTimeLong}\nResource Time:\n{resourceDateTimeLong}");
+
+            var uiVersion = VersionUpdateSettingsUserControlModel.UiVersion;
+            var coreVersion = VersionUpdateSettingsUserControlModel.CoreVersion;
+            if (uiVersion != coreVersion &&
+                Instances.VersionUpdateViewModel.IsStdVersion(uiVersion) &&
+                Instances.VersionUpdateViewModel.IsStdVersion(coreVersion))
+            {
+                AddLog(string.Format(LocalizationHelper.GetString("VersionMismatch"), uiVersion, coreVersion), UiLogColor.Error);
+                return;
+            }
+
+            MainTasksCompletedCount = 0;
+
+
+            // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
+            TaskItemSelectionChanged();
+            InfrastTask.InfrastOrderSelectionChanged();
+
+            InfrastTaskRunning = true;
+
+            await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript"));
+
+            AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
+
+            /*
+            // 现在的主流模拟器都已经更新过自带的 adb 了，不再需要替换
+            if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
+            {
+                AddLog(LocalizationHelper.GetString("AdbReplacementTips"), UiLogColor.Info);
+            }
+            */
+
+            // 一般是点了“停止”按钮了
+            if (Stopping)
+            {
+                SetStopped();
+                return;
+            }
+
+            if (!await ConnectToEmulator())
+            {
+                return;
+            }
+
+            // 一般是点了“停止”按钮了
+            if (Stopping)
+            {
+                SetStopped();
+                return;
+            }
+        }
+
+        public async void Execution()
+        {
+            if (!_runningState.GetIdle())
+            {
+                _logger.Information("Not idle, return.");
+                return;
+            }
+
+            _runningState.SetIdle(false);
+
+            // 一般是点了“停止”按钮了
+            if (Stopping)
+            {
+                SetStopped();
+                return;
+            }
+
+            // 一般是点了“停止”按钮了
+            if (Stopping)
+            {
+                SetStopped();
+                return;
+            }
+
+            bool taskRet = true;
+
+            // 直接遍历TaskItemViewModels里面的内容，是排序后的
+            int count = 0;
+            foreach (var item in TaskItemViewModels)
+            {
+                if (item.IsChecked == false || (GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && item.IsCheckedWithNull == null))
+                {
+                    continue;
+                }
+
+                ++count;
+                switch (item.OriginalName)
+                {
+                    case "Base":
+                        taskRet &= AppendInfrast();
+                        break;
+
+                    case "WakeUp":
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, StartUpTask.Serialize());
+                        break;
+
+                    case "Combat":
+                        taskRet &= AppendFight();
+                        break;
+
+                    case "Recruiting":
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Recruit, RecruitTask.Serialize());
+                        break;
+
+                    case "Mall":
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Mall, MallTask.Serialize());
+                        break;
+
+                    case "Mission":
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Award, AwardTask.Serialize());
+                        break;
+
+                    case "AutoRoguelike":
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Roguelike, RoguelikeTask.Serialize());
+                        break;
+
+                    case "Reclamation":
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, ReclamationTask.Serialize());
+                        break;
+
+                    case "Custom":
+                        {
+                            var tasks = CustomTask.SerializeMultiTasks();
+                            foreach (var (type, param) in tasks)
+                            {
+                                taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Custom, type, param);
+                            }
+
+                            break;
+                        }
+
+                    default:
+                        --count;
+                        _logger.Error("Unknown task: " + item.OriginalName);
+                        break;
+                }
+
+                if (taskRet)
+                {
+                    continue;
+                }
+
+                AddLog($"{LocalizationHelper.GetString(item.OriginalName)} task append error", UiLogColor.Error);
+                taskRet = true;
+                --count;
+            }
+
+            if (count == 0)
+            {
+                AddLog(LocalizationHelper.GetString("UnselectedTask"));
+                _runningState.SetIdle(true);
+                Instances.AsstProxy.AsstStop();
+                SetStopped();
+                return;
+            }
+
+            taskRet &= Instances.AsstProxy.AsstStart();
+
+            if (taskRet)
+            {
+                AddLog(LocalizationHelper.GetString("Running"));
+                Instances.AsstProxy.StartTaskTime = DateTimeOffset.Now;
+            }
+            else
+            {
+                AddLog(LocalizationHelper.GetString("UnknownErrorOccurs"));
+                await Stop();
+                SetStopped();
+            }
+        }
+
+
         /// <summary>
         /// <para>通常要和 <see cref="SetStopped()"/> 一起使用，除非能保证回调消息能收到 `AsstMsg.TaskChainStopped`</para>
         /// <para>This is usually done with <see cref="SetStopped()"/> Unless you are guaranteed to receive the callback message `AsstMsg.TaskChainStopped`</para>

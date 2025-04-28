@@ -18,6 +18,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using HandyControl.Controls;
@@ -26,8 +27,10 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Org.BouncyCastle.Asn1.X509;
 using Serilog;
 using Stylet;
 using static MaaWpfGui.Main.AsstProxy;
@@ -482,6 +485,211 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         #endregion Depot
+        #region DepotManagement
+
+        // The end state that the management agent tends to reach.
+        private ObservableCollection<DepotResultDate> _target = [];
+
+        public ObservableCollection<DepotResultDate> Target
+        {
+            get => _target;
+            set => SetAndNotify(ref _target, value);
+        }
+
+        // TODO: Calculate the expected resources' gain/lose before taking action.
+        private ObservableCollection<DepotResultDate> _expected = [];
+
+        public ObservableCollection<DepotResultDate> Expected
+        {
+            get => _expected;
+            set => SetAndNotify(ref _expected, value);
+        }
+
+        /// <summary>
+        /// Initiate the target.
+        /// </summary>
+        public void Initiation()
+        {
+            List<string> resourceList = new List<string>
+                {
+                    "30135", "30125", "30115", "30074", "30073", "30084", "30083", "30094", "30093", "30104", "30103",
+                    "30014", "30013", "30012", "30011", "30064", "30063", "30062", "30061", "30034", "30033", "30032",
+                    "30031", "30024", "30023", "30022", "30021", "30044", "30043", "30042", "30041", "30054", "30053",
+                    "30052", "30051", "31014", "31013", "31024", "31023", "30145", "31034", "31033", "31044", "31043",
+                    "31054", "31053", "30155", "31064", "31063", "31074", "31073", "31084", "31083", "30165", "31094",
+                    "31093",
+                };
+
+            foreach (string id in resourceList)
+            {
+                if (!_imageCache.TryGetValue(id, out var image))
+                {
+                    image = ItemListHelper.GetItemImage(id);
+                    _imageCache[id] = image;
+                }
+
+                DepotResultDate item = new()
+                {
+                    Id = id,
+                    Name = ItemListHelper.GetItemName(id),
+                    Image = image,
+                    Count = "0",
+                };
+
+                Target.Add(item);
+            }
+        }
+
+        /// <summary>
+        /// Policy I: you want to have 20 of each resource.
+        /// </summary>
+        public void Policy_I()
+        {
+            foreach (var item in Target)
+            {
+                item.Count = "20";
+            }
+
+            CollectionViewSource.GetDefaultView(Target).Refresh();
+        }
+
+        /// <summary>
+        /// Represents an action that operates on the state of a depot resource.
+        /// </summary>
+        public class Operation
+        {
+            /// <summary>
+            /// Gets or sets the ID of the Material.
+            /// </summary>
+            public string ID { get; set; } = null!;
+
+            /// <summary>
+            /// Gets or sets the name of the action. Should be good for asst to accept.
+            /// </summary>
+            // TODO: Currently only supports battles; extend support for synthesis operations.
+            public string Act { get; set; } = null!;
+
+            /// <summary>
+            /// Gets or sets the expected changes after the action is performed.
+            /// </summary>
+            // TODO: It needs to be more detailed.
+            public string Expected { get; set; } = null!;
+        }
+
+        /// <summary>
+        /// Gets or sets the Operation List.
+        /// </summary>
+        // TODO: Need data from penguin statistics.
+        public ObservableCollection<Operation> Actions { get; set; } = new ObservableCollection<Operation>
+        {
+            new Operation { ID = "30012", Act = "1-7",  Expected = ItemListHelper.GetItemName("30012") + " + " },
+            new Operation { ID = "30013", Act = "10-6", Expected = ItemListHelper.GetItemName("30013") + " + " },
+            new Operation { ID = "30023", Act = "2-5",  Expected = ItemListHelper.GetItemName("30023") + " + " },
+            new Operation { ID = "30033", Act = "7-4",  Expected = ItemListHelper.GetItemName("30033") + " + " },
+            new Operation { ID = "30093", Act = "9-16", Expected = ItemListHelper.GetItemName("30093") + " + " },
+        };
+
+        /// <summary>
+        /// Gets or sets the Operation Stack.
+        /// </summary>
+        public ObservableCollection<Operation> ActionStack { get; set; } = [];
+
+        private string _stackInfo;
+
+        public string StackInfo
+        {
+            get => _stackInfo;
+            set => SetAndNotify(ref _stackInfo, value);
+        }
+
+        // One step forward
+        public void Forward()
+        {
+            foreach (var item in Target)
+            {
+                var refer = _depotResult.FirstOrDefault(x => x.Id == item.Id);
+
+                string count = refer != null ? refer.Count : "0";
+
+                int count1 = int.Parse(count);
+                int count2 = int.Parse(item.Count);
+
+                if (count1 < count2)
+                {
+                    var action = Actions.FirstOrDefault(x => x.ID == item.Id);
+
+                    if (action != null)
+                    {
+                        ActionStack.Add(action);
+                        StackInfo = "Operation: " + action.Act + ", Expectation: " + action.Expected + ", Trigger Info: " + count1 + "/" + count2;
+
+                        CollectionViewSource.GetDefaultView(ActionStack).Refresh();
+                        return;
+                    }
+                }
+            }
+        }
+
+        public async void Step1()
+        {
+            StartDepot();
+
+            while (!Idle)
+            {
+                await Task.Delay(500);
+            }
+
+            Step2();
+        }
+
+        public void Step2()
+        {
+            Instances.AsstProxy.AsstStop();
+
+            Forward();
+            Step3();
+        }
+
+        public async void Step3()
+        {
+            string act = "1-7";
+
+            if (ActionStack.Count > 0)
+            {
+                act = ActionStack[^1].Act;
+            }
+
+            var taskQueue = Instances.TaskQueueViewModel;
+            var settings = FightSettingsUserControlModel.Instance;
+
+            settings.CustomStageCode = true;
+            settings.Stage1 = act;
+
+            taskQueue.Execution();
+
+            while (!taskQueue.Idle)
+            {
+                await Task.Delay(500);
+            }
+
+            if (ActionStack.Count > 0)
+            {
+                ActionStack.RemoveAt(ActionStack.Count - 1);
+            }
+
+            Step1();
+        }
+
+        public void MainLoop()
+        {
+            Instances.TaskQueueViewModel.Link();
+            Step1();
+        }
+
+        #endregion DepotManagement
+
+
+
 
         #region OperBox
 
