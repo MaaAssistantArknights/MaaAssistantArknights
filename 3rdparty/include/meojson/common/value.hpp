@@ -1,3 +1,5 @@
+// IWYU pragma: private, include <meojson/json.hpp>
+
 #pragma once
 
 #include <cstddef>
@@ -7,6 +9,8 @@
 #include <ostream>
 #include <string>
 #include <tuple>
+#include <type_traits>
+#include <utility>
 #include <variant>
 
 #include "exception.hpp"
@@ -64,30 +68,87 @@ public:
     template <typename... args_t>
     basic_value(value_type type, args_t&&... args);
 
-    template <typename collection_t,
-              std::enable_if_t<_utils::is_collection<collection_t> &&
-                                   std::is_constructible_v<typename basic_array<string_t>::value_type,
-                                                           _utils::range_value_t<collection_t>>,
-                               bool> = true>
-    basic_value(collection_t&& collection) : basic_value(basic_array<string_t>(std::forward<collection_t>(collection)))
-    {}
-    template <typename map_t, std::enable_if_t<_utils::is_map<map_t> &&
-                                                   std::is_constructible_v<typename basic_object<string_t>::value_type,
-                                                                           _utils::range_value_t<map_t>>,
-                                               bool> = true>
-    basic_value(map_t&& map) : basic_value(basic_object<string_t>(std::forward<map_t>(map)))
-    {}
+    template <
+        typename collection_t,
+        std::enable_if_t<
+            _utils::is_collection<collection_t>
+                && std::is_constructible_v<
+                    typename basic_array<string_t>::value_type,
+                    _utils::range_value_t<collection_t>>,
+            bool> = true>
+    basic_value(collection_t&& collection)
+        : basic_value(basic_array<string_t>(std::forward<collection_t>(collection)))
+    {
+    }
 
-    template <typename jsonization_t,
-              std::enable_if_t<_utils::has_to_json_in_member<jsonization_t>::value, bool> = true>
-    basic_value(const jsonization_t& value) : basic_value(value.to_json())
-    {}
-    template <typename jsonization_t,
-              std::enable_if_t<_utils::has_to_json_in_templ_spec<jsonization_t>::value, bool> = true>
-    basic_value(const jsonization_t& value) : basic_value(ext::jsonization<jsonization_t>().to_json(value))
-    {}
+    template <
+        typename fixed_array_t,
+        std::enable_if_t<_utils::is_fixed_array<fixed_array_t>, bool> = true>
+    basic_value(const fixed_array_t& arr)
+        : basic_value(basic_array<string_t>(arr))
+    {
+    }
 
-    template <typename value_t, std::enable_if_t<!std::is_convertible_v<value_t, basic_value<string_t>>, bool> = true>
+    template <
+        typename map_t,
+        std::enable_if_t<
+            _utils::is_map<map_t>
+                && std::is_constructible_v<
+                    typename basic_object<string_t>::value_type,
+                    _utils::range_value_t<map_t>>,
+            bool> = true>
+    basic_value(map_t&& map)
+        : basic_value(basic_object<string_t>(std::forward<map_t>(map)))
+    {
+    }
+
+    template <typename enum_t, std::enable_if_t<std::is_enum_v<enum_t>, bool> = true>
+    basic_value(enum_t e)
+        : basic_value(static_cast<std::underlying_type_t<enum_t>>(e))
+    {
+    }
+
+    template <
+        typename jsonization_t,
+        std::enable_if_t<_utils::has_to_json_in_member<jsonization_t>::value, bool> = true>
+    basic_value(const jsonization_t& value)
+        : basic_value(value.to_json())
+    {
+    }
+
+    template <
+        typename jsonization_t,
+        std::enable_if_t<_utils::has_to_json_in_templ_spec<jsonization_t>::value, bool> = true>
+    basic_value(const jsonization_t& value)
+        : basic_value(ext::jsonization<jsonization_t>().to_json(value))
+    {
+    }
+
+    template <typename... elem_ts>
+    basic_value(std::tuple<elem_ts...>&& tup)
+        : basic_value(basic_array<string_t>(std::forward<std::tuple<elem_ts...>>(tup)))
+    {
+    }
+
+    template <typename elem1_t, typename elem2_t>
+    basic_value(std::pair<elem1_t, elem2_t>&& pair)
+        : basic_value(basic_array<string_t>(std::pair<elem1_t, elem2_t>(pair)))
+    {
+    }
+
+    template <
+        typename variant_t,
+        std::enable_if_t<_utils::is_variant<std::decay_t<variant_t>>, bool> = true>
+    basic_value(variant_t&& var)
+        : basic_value(_utils::serialize_variant<string_t>(
+              std::forward<variant_t>(var),
+              std::make_index_sequence<std::variant_size_v<std::decay_t<variant_t>>>()))
+    {
+    }
+
+    template <
+        typename value_t,
+        std::enable_if_t<!std::is_convertible_v<value_t, basic_value<string_t>>, bool> = true>
     basic_value(value_t) = delete;
 
     // I don't know if you want to convert char to string or number, so I delete these constructors.
@@ -99,13 +160,21 @@ public:
     ~basic_value();
 
     bool valid() const noexcept { return _type != value_type::invalid; }
+
     bool empty() const noexcept { return is_null(); }
+
     bool is_null() const noexcept { return _type == value_type::null; }
+
     bool is_number() const noexcept { return _type == value_type::number; }
+
     bool is_boolean() const noexcept { return _type == value_type::boolean; }
+
     bool is_string() const noexcept { return _type == value_type::string; }
+
     bool is_array() const noexcept { return _type == value_type::array; }
+
     bool is_object() const noexcept { return _type == value_type::object; }
+
     template <typename value_t>
     bool is() const noexcept;
 
@@ -114,9 +183,13 @@ public:
 
     bool contains(const string_t& key) const;
     bool contains(size_t pos) const;
+
     bool exists(const string_t& key) const { return contains(key); }
+
     bool exists(size_t pos) const { return contains(pos); }
+
     value_type type() const noexcept { return _type; }
+
     const basic_value<string_t>& at(size_t pos) const;
     const basic_value<string_t>& at(const string_t& key) const;
 
@@ -148,6 +221,11 @@ public:
 
     template <typename value_t, template <typename...> typename collection_t = std::vector>
     collection_t<value_t> as_collection() const;
+    template <
+        typename value_t,
+        size_t Size,
+        template <typename, size_t> typename fixed_array_t = std::array>
+    fixed_array_t<value_t, Size> as_fixed_array() const;
     template <typename value_t, template <typename...> typename map_t = std::map>
     map_t<string_t, value_t> as_map() const;
 
@@ -162,20 +240,29 @@ public:
 
     void clear() noexcept;
 
-    string_t dumps(std::optional<size_t> indent = std::nullopt) const { return indent ? format(*indent) : to_string(); }
+    string_t dumps(std::optional<size_t> indent = std::nullopt) const
+    {
+        return indent ? format(*indent) : to_string();
+    }
+
     // return raw string
     string_t to_string() const;
+
     string_t format(size_t indent = 4) const { return format(indent, 0); }
 
     basic_value<string_t>& operator=(const basic_value<string_t>& rhs);
     basic_value<string_t>& operator=(basic_value<string_t>&&) noexcept;
-    template <typename value_t, std::enable_if_t<std::is_convertible_v<value_t, basic_value<string_t>>, bool> = true>
+
+    template <
+        typename value_t,
+        std::enable_if_t<std::is_convertible_v<value_t, basic_value<string_t>>, bool> = true>
     basic_value<string_t>& operator=(value_t rhs)
     {
         return *this = basic_value<string_t>(std::move(rhs));
     }
 
     bool operator==(const basic_value<string_t>& rhs) const;
+
     bool operator!=(const basic_value<string_t>& rhs) const { return !(*this == rhs); }
 
     const basic_value<string_t>& operator[](size_t pos) const;
@@ -200,34 +287,63 @@ public:
     basic_value<string_t>& operator+=(basic_array<string_t>&& rhs);
 
     explicit operator bool() const { return as_boolean(); }
+
     explicit operator int() const { return as_integer(); }
+
     explicit operator unsigned() const { return as_unsigned(); }
+
     explicit operator long() const { return as_long(); }
+
     explicit operator unsigned long() const { return as_unsigned_long(); }
+
     explicit operator long long() const { return as_long_long(); }
+
     explicit operator unsigned long long() const { return as_unsigned_long_long(); }
+
     explicit operator float() const { return as_float(); }
+
     explicit operator double() const { return as_double(); }
+
     explicit operator long double() const { return as_long_double(); }
+
     explicit operator string_t() const { return as_string(); }
 
     explicit operator basic_array<string_t>() const { return as_array(); }
+
     explicit operator basic_object<string_t>() const { return as_object(); }
 
-    template <typename value_t, template <typename...> typename collection_t = std::vector,
-              std::enable_if_t<_utils::is_collection<collection_t<value_t>>, bool> = true>
+    template <
+        typename value_t,
+        template <typename...> typename collection_t = std::vector,
+        std::enable_if_t<_utils::is_collection<collection_t<value_t>>, bool> = true>
     explicit operator collection_t<value_t>() const
     {
         return as_collection<value_t, collection_t>();
     }
-    template <typename value_t, template <typename...> typename map_t = std::map,
-              std::enable_if_t<_utils::is_map<map_t<string_t, value_t>>, bool> = true>
+
+    template <
+        typename value_t,
+        size_t Size,
+        template <typename, size_t> typename fixed_array_t = std::array,
+        std::enable_if_t<_utils::is_fixed_array<fixed_array_t<value_t, Size>>, bool> = true>
+    explicit operator fixed_array_t<value_t, Size>() const
+    {
+        return as_fixed_array<value_t, Size, fixed_array_t>();
+    }
+
+    template <
+        typename value_t,
+        template <typename...> typename map_t = std::map,
+        std::enable_if_t<_utils::is_map<map_t<string_t, value_t>>, bool> = true>
     explicit operator map_t<string_t, value_t>() const
     {
         return as_map<value_t, map_t>();
     }
-    template <typename jsonization_t,
-              std::enable_if_t<_utils::has_from_json_in_member<jsonization_t, string_t>::value, bool> = true>
+
+    template <
+        typename jsonization_t,
+        std::enable_if_t<_utils::has_from_json_in_member<jsonization_t, string_t>::value, bool> =
+            true>
     explicit operator jsonization_t() const
     {
         jsonization_t dst {};
@@ -236,8 +352,12 @@ public:
         }
         return dst;
     }
-    template <typename jsonization_t,
-              std::enable_if_t<_utils::has_from_json_in_templ_spec<jsonization_t, string_t>::value, bool> = true>
+
+    template <
+        typename jsonization_t,
+        std::enable_if_t<
+            _utils::has_from_json_in_templ_spec<jsonization_t, string_t>::value,
+            bool> = true>
     explicit operator jsonization_t() const
     {
         jsonization_t dst {};
@@ -245,6 +365,32 @@ public:
             throw exception("Wrong JSON");
         }
         return dst;
+    }
+
+    template <typename enum_t, std::enable_if_t<std::is_enum_v<enum_t>, bool> = true>
+    explicit operator enum_t() const
+    {
+        return static_cast<enum_t>(static_cast<std::underlying_type_t<enum_t>>(*this));
+    }
+
+    template <typename... elem_ts>
+    explicit operator std::tuple<elem_ts...>() const
+    {
+        return as_array().template as_tuple<elem_ts...>();
+    }
+
+    template <typename elem1_t, typename elem2_t>
+    explicit operator std::pair<elem1_t, elem2_t>() const
+    {
+        return as_array().template as_pair<elem1_t, elem2_t>();
+    }
+
+    template <typename... args_t>
+    explicit operator std::variant<args_t...>() const
+    {
+        return _utils::deserialize_variant<string_t, std::variant<args_t...>>(
+            *this,
+            std::make_index_sequence<std::variant_size_v<std::variant<args_t...>>>());
     }
 
 private:
@@ -256,8 +402,9 @@ private:
     static var_t deep_copy(const var_t& src);
 
     template <typename... key_then_default_value_t, size_t... keys_indexes_t>
-    auto get(std::tuple<key_then_default_value_t...> keys_then_default_value,
-             std::index_sequence<keys_indexes_t...>) const;
+    auto
+        get(std::tuple<key_then_default_value_t...> keys_then_default_value,
+            std::index_sequence<keys_indexes_t...>) const;
 
     template <typename value_t, typename first_key_t, typename... rest_keys_t>
     auto get_helper(const value_t& default_value, first_key_t&& first, rest_keys_t&&... rest) const;
@@ -276,89 +423,125 @@ inline basic_value<string_t>::basic_value() = default;
 
 template <typename string_t>
 inline basic_value<string_t>::basic_value(const basic_value<string_t>& rhs)
-    : _type(rhs._type), _raw_data(deep_copy(rhs._raw_data))
-{}
+    : _type(rhs._type)
+    , _raw_data(deep_copy(rhs._raw_data))
+{
+}
 
 template <typename string_t>
 inline basic_value<string_t>::basic_value(basic_value<string_t>&& rhs) noexcept = default;
 
 template <typename string_t>
 inline basic_value<string_t>::basic_value(bool b)
-    : _type(value_type::boolean),
-      _raw_data(string_t(b ? _utils::true_string<string_t>() : _utils::false_string<string_t>()))
-{}
+    : _type(value_type::boolean)
+    , _raw_data(string_t(b ? _utils::true_string<string_t>() : _utils::false_string<string_t>()))
+{
+}
 
 template <typename string_t>
 inline basic_value<string_t>::basic_value(int num)
-    : _type(value_type::number), _raw_data(_utils::to_basic_string<string_t>(num))
-{}
+    : _type(value_type::number)
+    , _raw_data(_utils::to_basic_string<string_t>(num))
+{
+}
 
 template <typename string_t>
 inline basic_value<string_t>::basic_value(unsigned num)
-    : _type(value_type::number), _raw_data(_utils::to_basic_string<string_t>(num))
-{}
+    : _type(value_type::number)
+    , _raw_data(_utils::to_basic_string<string_t>(num))
+{
+}
 
 template <typename string_t>
 inline basic_value<string_t>::basic_value(long num)
-    : _type(value_type::number), _raw_data(_utils::to_basic_string<string_t>(num))
-{}
+    : _type(value_type::number)
+    , _raw_data(_utils::to_basic_string<string_t>(num))
+{
+}
 
 template <typename string_t>
 inline basic_value<string_t>::basic_value(unsigned long num)
-    : _type(value_type::number), _raw_data(_utils::to_basic_string<string_t>(num))
-{}
+    : _type(value_type::number)
+    , _raw_data(_utils::to_basic_string<string_t>(num))
+{
+}
 
 template <typename string_t>
 inline basic_value<string_t>::basic_value(long long num)
-    : _type(value_type::number), _raw_data(_utils::to_basic_string<string_t>(num))
-{}
+    : _type(value_type::number)
+    , _raw_data(_utils::to_basic_string<string_t>(num))
+{
+}
 
 template <typename string_t>
 inline basic_value<string_t>::basic_value(unsigned long long num)
-    : _type(value_type::number), _raw_data(_utils::to_basic_string<string_t>(num))
-{}
+    : _type(value_type::number)
+    , _raw_data(_utils::to_basic_string<string_t>(num))
+{
+}
 
 template <typename string_t>
 inline basic_value<string_t>::basic_value(float num)
-    : _type(value_type::number), _raw_data(_utils::to_basic_string<string_t>(num))
-{}
+    : _type(value_type::number)
+    , _raw_data(_utils::to_basic_string<string_t>(num))
+{
+}
 
 template <typename string_t>
 inline basic_value<string_t>::basic_value(double num)
-    : _type(value_type::number), _raw_data(_utils::to_basic_string<string_t>(num))
-{}
+    : _type(value_type::number)
+    , _raw_data(_utils::to_basic_string<string_t>(num))
+{
+}
 
 template <typename string_t>
 inline basic_value<string_t>::basic_value(long double num)
-    : _type(value_type::number), _raw_data(_utils::to_basic_string<string_t>(num))
-{}
+    : _type(value_type::number)
+    , _raw_data(_utils::to_basic_string<string_t>(num))
+{
+}
 
 template <typename string_t>
-inline basic_value<string_t>::basic_value(const char_t* str) : _type(value_type::string), _raw_data(string_t(str))
-{}
+inline basic_value<string_t>::basic_value(const char_t* str)
+    : _type(value_type::string)
+    , _raw_data(string_t(str))
+{
+}
 
 template <typename string_t>
-inline basic_value<string_t>::basic_value(string_t str) : _type(value_type::string), _raw_data(std::move(str))
-{}
+inline basic_value<string_t>::basic_value(string_t str)
+    : _type(value_type::string)
+    , _raw_data(std::move(str))
+{
+}
 
 template <typename string_t>
-inline basic_value<string_t>::basic_value(std::nullptr_t) : _type(value_type::null)
-{}
+inline basic_value<string_t>::basic_value(std::nullptr_t)
+    : _type(value_type::null)
+{
+}
 
 template <typename string_t>
 inline basic_value<string_t>::basic_value(basic_array<string_t> arr)
-    : _type(value_type::array), _raw_data(std::make_unique<basic_array<string_t>>(std::move(arr)))
-{}
+    : _type(value_type::array)
+    , _raw_data(std::make_unique<basic_array<string_t>>(std::move(arr)))
+{
+}
 
 template <typename string_t>
 inline basic_value<string_t>::basic_value(basic_object<string_t> obj)
-    : _type(value_type::object), _raw_data(std::make_unique<basic_object<string_t>>(std::move(obj)))
-{}
+    : _type(value_type::object)
+    , _raw_data(std::make_unique<basic_object<string_t>>(std::move(obj)))
+{
+}
 
 template <typename string_t>
-inline basic_value<string_t>::basic_value(std::initializer_list<typename basic_object<string_t>::value_type> init_list)
-    : _type(value_type::object), _raw_data(std::make_unique<basic_object<string_t>>(init_list))
-{}
+inline basic_value<string_t>::basic_value(
+    std::initializer_list<typename basic_object<string_t>::value_type> init_list)
+    : _type(value_type::object)
+    , _raw_data(std::make_unique<basic_object<string_t>>(init_list))
+{
+}
 
 // for Pimpl
 template <typename string_t>
@@ -380,7 +563,7 @@ inline bool basic_value<string_t>::is() const noexcept
     else if constexpr (std::is_same_v<bool, value_t>) {
         return is_boolean();
     }
-    else if constexpr (std::is_arithmetic_v<value_t>) {
+    else if constexpr (std::is_arithmetic_v<value_t> || std::is_enum_v<value_t>) {
         return is_number();
     }
     else if constexpr (std::is_constructible_v<string_t, value_t>) {
@@ -392,12 +575,31 @@ inline bool basic_value<string_t>::is() const noexcept
     else if constexpr (_utils::is_collection<value_t>) {
         return is_array() && all<typename value_t::value_type>();
     }
+    else if constexpr (_utils::is_fixed_array<value_t>) {
+        return is_array() && all<typename value_t::value_type>()
+               && as_array().size() == _utils::fixed_array_size<value_t>;
+    }
     else if constexpr (std::is_same_v<basic_object<string_t>, value_t>) {
         return is_object();
     }
     else if constexpr (_utils::is_map<value_t>) {
-        return is_object() && std::is_constructible_v<string_t, typename value_t::key_type> &&
-               all<typename value_t::mapped_type>();
+        return is_object() && std::is_constructible_v<string_t, typename value_t::key_type>
+               && all<typename value_t::mapped_type>();
+    }
+    else if constexpr (_utils::is_variant<value_t>) {
+        return _utils::detect_variant<string_t, value_t>(
+            *this,
+            std::make_index_sequence<std::variant_size_v<value_t>>());
+    }
+    else if constexpr (_utils::is_pair<value_t>) {
+        return is_array() && as_array().size() == 2
+               && at(0).template is<typename value_t::first_type>()
+               && at(1).template is<typename value_t::second_type>();
+    }
+    else if constexpr (_utils::is_tuple<value_t>) {
+        return _utils::detect_tuple<string_t, value_t>(
+            *this,
+            std::make_index_sequence<std::tuple_size_v<value_t>>());
     }
     else {
         static_assert(!sizeof(value_t), "Unsupported type");
@@ -444,33 +646,42 @@ template <typename string_t>
 template <typename... key_then_default_value_t>
 inline auto basic_value<string_t>::get(key_then_default_value_t&&... keys_then_default_value) const
 {
-    return get(std::forward_as_tuple(keys_then_default_value...),
-               std::make_index_sequence<sizeof...(keys_then_default_value) - 1> {});
+    return get(
+        std::forward_as_tuple(keys_then_default_value...),
+        std::make_index_sequence<sizeof...(keys_then_default_value) - 1> {});
 }
 
 template <typename string_t>
 template <typename... key_then_default_value_t, size_t... keys_indexes_t>
-inline auto basic_value<string_t>::get(std::tuple<key_then_default_value_t...> keys_then_default_value,
-                                       std::index_sequence<keys_indexes_t...>) const
+inline auto basic_value<string_t>::get(
+    std::tuple<key_then_default_value_t...> keys_then_default_value,
+    std::index_sequence<keys_indexes_t...>) const
 {
     constexpr unsigned long default_value_index = sizeof...(key_then_default_value_t) - 1;
-    return get_helper(std::get<default_value_index>(keys_then_default_value),
-                      std::get<keys_indexes_t>(keys_then_default_value)...);
+    return get_helper(
+        std::get<default_value_index>(keys_then_default_value),
+        std::get<keys_indexes_t>(keys_then_default_value)...);
 }
 
 template <typename string_t>
 template <typename value_t, typename first_key_t, typename... rest_keys_t>
-inline auto basic_value<string_t>::get_helper(const value_t& default_value, first_key_t&& first,
-                                              rest_keys_t&&... rest) const
+inline auto basic_value<string_t>::get_helper(
+    const value_t& default_value,
+    first_key_t&& first,
+    rest_keys_t&&... rest) const
 {
     if constexpr (std::is_constructible_v<string_t, first_key_t>) {
-        return is_object() ? as_object().get_helper(default_value, std::forward<first_key_t>(first),
-                                                    std::forward<rest_keys_t>(rest)...)
+        return is_object() ? as_object().get_helper(
+                                 default_value,
+                                 std::forward<first_key_t>(first),
+                                 std::forward<rest_keys_t>(rest)...)
                            : default_value;
     }
     else if constexpr (std::is_integral_v<std::decay_t<first_key_t>>) {
-        return is_array() ? as_array().get_helper(default_value, std::forward<first_key_t>(first),
-                                                  std::forward<rest_keys_t>(rest)...)
+        return is_array() ? as_array().get_helper(
+                                default_value,
+                                std::forward<first_key_t>(first),
+                                std::forward<rest_keys_t>(rest)...)
                           : default_value;
     }
     else {
@@ -480,16 +691,22 @@ inline auto basic_value<string_t>::get_helper(const value_t& default_value, firs
 
 template <typename string_t>
 template <typename value_t, typename unique_key_t>
-inline auto basic_value<string_t>::get_helper(const value_t& default_value, unique_key_t&& first) const
+inline auto
+    basic_value<string_t>::get_helper(const value_t& default_value, unique_key_t&& first) const
 {
     if constexpr (std::is_constructible_v<string_t, unique_key_t>) {
-        return is_object() ? as_object().get_helper(default_value, std::forward<unique_key_t>(first)) : default_value;
+        return is_object()
+                   ? as_object().get_helper(default_value, std::forward<unique_key_t>(first))
+                   : default_value;
     }
     else if constexpr (std::is_integral_v<std::decay_t<unique_key_t>>) {
-        return is_array() ? as_array().get_helper(default_value, std::forward<unique_key_t>(first)) : default_value;
+        return is_array() ? as_array().get_helper(default_value, std::forward<unique_key_t>(first))
+                          : default_value;
     }
     else {
-        static_assert(!sizeof(unique_key_t), "Parameter must be integral or string_t constructible");
+        static_assert(
+            !sizeof(unique_key_t),
+            "Parameter must be integral or string_t constructible");
     }
 }
 
@@ -722,10 +939,14 @@ template <typename string_t>
 template <typename... args_t>
 inline decltype(auto) basic_value<string_t>::emplace(args_t&&... args)
 {
-    constexpr bool is_array_args = std::is_constructible_v<typename basic_array<string_t>::value_type, args_t...>;
-    constexpr bool is_object_args = std::is_constructible_v<typename basic_object<string_t>::value_type, args_t...>;
+    constexpr bool is_array_args =
+        std::is_constructible_v<typename basic_array<string_t>::value_type, args_t...>;
+    constexpr bool is_object_args =
+        std::is_constructible_v<typename basic_object<string_t>::value_type, args_t...>;
 
-    static_assert(is_array_args || is_object_args, "Args can not constructure a array or object value");
+    static_assert(
+        is_array_args || is_object_args,
+        "Args can not constructure a array or object value");
 
     if constexpr (is_array_args) {
         return as_array().emplace_back(std::forward<args_t>(args)...);
@@ -802,6 +1023,13 @@ inline collection_t<value_t> basic_value<string_t>::as_collection() const
 }
 
 template <typename string_t>
+template <typename value_t, size_t Size, template <typename, size_t> typename fixed_array_t>
+inline fixed_array_t<value_t, Size> basic_value<string_t>::as_fixed_array() const
+{
+    return as_array().template as_fixed_array<value_t, Size>();
+}
+
+template <typename string_t>
 template <typename value_t, template <typename...> typename map_t>
 inline map_t<string_t, value_t> basic_value<string_t>::as_map() const
 {
@@ -818,12 +1046,15 @@ inline basic_value<string_t>& basic_value<string_t>::operator=(const basic_value
 }
 
 template <typename string_t>
-inline basic_value<string_t>& basic_value<string_t>::operator=(basic_value<string_t>&& rhs) noexcept = default;
+inline basic_value<string_t>&
+    basic_value<string_t>::operator=(basic_value<string_t>&& rhs) noexcept = default;
 
 template <typename string_t>
 inline bool basic_value<string_t>::operator==(const basic_value<string_t>& rhs) const
 {
-    if (_type != rhs._type) return false;
+    if (_type != rhs._type) {
+        return false;
+    }
 
     switch (_type) {
     case value_type::null:
@@ -878,7 +1109,8 @@ inline basic_value<string_t>& basic_value<string_t>::operator[](string_t&& key)
 }
 
 template <typename string_t>
-inline basic_value<string_t> basic_value<string_t>::operator|(const basic_object<string_t>& rhs) const&
+inline basic_value<string_t>
+    basic_value<string_t>::operator|(const basic_object<string_t>& rhs) const&
 {
     return as_object() | rhs;
 }
@@ -916,7 +1148,8 @@ inline basic_value<string_t>& basic_value<string_t>::operator|=(basic_object<str
 }
 
 template <typename string_t>
-inline basic_value<string_t> basic_value<string_t>::operator+(const basic_array<string_t>& rhs) const&
+inline basic_value<string_t>
+    basic_value<string_t>::operator+(const basic_array<string_t>& rhs) const&
 {
     return as_array() + rhs;
 }
@@ -956,9 +1189,12 @@ inline basic_value<string_t>& basic_value<string_t>::operator+=(basic_array<stri
 template <typename string_t>
 template <typename... args_t>
 inline basic_value<string_t>::basic_value(value_type type, args_t&&... args)
-    : _type(type), _raw_data(std::forward<args_t>(args)...)
+    : _type(type)
+    , _raw_data(std::forward<args_t>(args)...)
 {
-    static_assert(std::is_constructible_v<var_t, args_t...>, "Parameter can't be used to construct a var_t");
+    static_assert(
+        std::is_constructible_v<var_t, args_t...>,
+        "Parameter can't be used to construct a var_t");
 }
 
 template <typename string_t>
@@ -981,11 +1217,14 @@ inline typename basic_value<string_t>::var_t basic_value<string_t>::deep_copy(co
     return dst;
 }
 
-template <typename ostream_t, typename string_t,
-          typename std_ostream_t =
-              std::basic_ostream<typename string_t::value_type, std::char_traits<typename string_t::value_type>>,
-          typename =
-              std::enable_if_t<std::is_same_v<std_ostream_t, ostream_t> || std::is_base_of_v<std_ostream_t, ostream_t>>>
+template <
+    typename ostream_t,
+    typename string_t,
+    typename std_ostream_t = std::basic_ostream<
+        typename string_t::value_type,
+        std::char_traits<typename string_t::value_type>>,
+    typename = std::enable_if_t<
+        std::is_same_v<std_ostream_t, ostream_t> || std::is_base_of_v<std_ostream_t, ostream_t>>>
 ostream_t& operator<<(ostream_t& out, const basic_value<string_t>& val)
 {
     out << val.format();

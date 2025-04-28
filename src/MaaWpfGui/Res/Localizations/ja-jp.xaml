@@ -505,6 +505,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Mission">報酬受取</system:String>
     <system:String x:Key="AutoRoguelike">自動ローグ</system:String>
     <system:String x:Key="Reclamation">生息演算</system:String>
+    <system:String x:Key="MiniGame">ミニゲーム</system:String>
     <system:String x:Key="ReclamationTheme">主題</system:String>
     <system:String x:Key="ReclamationThemeFire">砂中の火</system:String>
     <system:String x:Key="ReclamationThemeTales">熱砂秘聞</system:String>
@@ -681,6 +682,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Peep">Peep</system:String>
     <system:String x:Key="PeepTargetFps">目標フレームレート</system:String>
     <!--  !Peep  -->
+    <!--  小游戏  -->
+    <system:String x:Key="MiniGameName">ミニゲーム名</system:String>
+    <system:String x:Key="MiniGameNameGreenGrass">対決チャンネル：グリーングラスシティ（非公式）</system:String>
+    <!--  !小游戏  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">認識中……</system:String>
     <system:String x:Key="IdentificationCompleted">認識完了</system:String>

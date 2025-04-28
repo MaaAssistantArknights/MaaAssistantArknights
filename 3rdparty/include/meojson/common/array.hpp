@@ -1,3 +1,5 @@
+// IWYU pragma: private, include <meojson/json.hpp>
+
 #pragma once
 
 #include <initializer_list>
@@ -37,37 +39,86 @@ public:
     // explicit basic_array(const basic_value<string_t>& val);
     // explicit basic_array(basic_value<string_t>&& val);
 
-    template <typename collection_t,
-              std::enable_if_t<_utils::is_collection<collection_t> &&
-                                   std::is_constructible_v<value_type, _utils::range_value_t<collection_t>>,
-                               bool> = true>
+    template <
+        typename collection_t,
+        std::enable_if_t<
+            _utils::is_collection<collection_t>
+                && std::is_constructible_v<value_type, _utils::range_value_t<collection_t>>,
+            bool> = true>
     basic_array(collection_t arr)
         : _array_data(std::make_move_iterator(arr.begin()), std::make_move_iterator(arr.end()))
-    {}
-    template <typename jsonization_t,
-              std::enable_if_t<_utils::has_to_json_in_member<jsonization_t>::value, bool> = true>
-    basic_array(const jsonization_t& value) : basic_array(value.to_json())
-    {}
-    template <typename jsonization_t,
-              std::enable_if_t<_utils::has_to_json_in_templ_spec<jsonization_t>::value, bool> = true>
-    basic_array(const jsonization_t& value) : basic_array(ext::jsonization<jsonization_t>().to_json(value))
-    {}
+    {
+    }
+
+    template <
+        typename fixed_array_t,
+        std::enable_if_t<_utils::is_fixed_array<fixed_array_t>, bool> = true>
+    basic_array(const fixed_array_t& arr)
+        : _array_data(arr.begin(), arr.end())
+    {
+    }
+
+    template <
+        typename jsonization_t,
+        std::enable_if_t<_utils::has_to_json_in_member<jsonization_t>::value, bool> = true>
+    basic_array(const jsonization_t& value)
+        : basic_array(value.to_json())
+    {
+    }
+
+    template <
+        typename jsonization_t,
+        std::enable_if_t<_utils::has_to_json_in_templ_spec<jsonization_t>::value, bool> = true>
+    basic_array(const jsonization_t& value)
+        : basic_array(ext::jsonization<jsonization_t>().to_json(value))
+    {
+    }
+
+    template <typename... elem_ts>
+    basic_array(const std::tuple<elem_ts...>& tup)
+    {
+        foreach_tuple(tup, std::make_index_sequence<std::tuple_size_v<std::tuple<elem_ts...>>>());
+    }
+    template <typename first_t, typename second_t>
+    basic_array(std::pair<first_t, second_t> pair)
+        : _array_data({ std::move(pair.first), std::move(pair.second) })
+    {
+    }
 
     ~basic_array() noexcept = default;
 
     bool empty() const noexcept { return _array_data.empty(); }
+
     size_t size() const noexcept { return _array_data.size(); }
+
     bool contains(size_t pos) const { return pos < _array_data.size(); }
+
     bool exists(size_t pos) const { return contains(pos); }
+
     const basic_value<string_t>& at(size_t pos) const;
 
-    string_t dumps(std::optional<size_t> indent = std::nullopt) const { return indent ? format(*indent) : to_string(); }
+    string_t dumps(std::optional<size_t> indent = std::nullopt) const
+    {
+        return indent ? format(*indent) : to_string();
+    }
+
     string_t to_string() const;
+
     string_t format(size_t indent = 4) const { return format(indent, 0); }
+
     template <typename value_t>
     bool all() const;
     template <typename value_t, template <typename...> typename collection_t = std::vector>
     collection_t<value_t> as_collection() const;
+    template <
+        typename value_t,
+        size_t Size,
+        template <typename, size_t> typename fixed_array_t = std::array>
+    fixed_array_t<value_t, Size> as_fixed_array() const;
+    template <typename... elem_ts>
+    std::tuple<elem_ts...> as_tuple() const;
+    template <typename first_t, typename second_t>
+    std::pair<first_t, second_t> as_pair() const;
 
     // Usage: get(key_1, key_2, ..., default_value);
     template <typename... key_then_default_value_t>
@@ -112,23 +163,54 @@ public:
 
     basic_array<string_t>& operator=(const basic_array<string_t>&) = default;
     basic_array<string_t>& operator=(basic_array<string_t>&&) noexcept = default;
-    template <typename value_t, std::enable_if_t<std::is_convertible_v<value_t, basic_array<string_t>>, bool> = true>
+
+    template <
+        typename value_t,
+        std::enable_if_t<std::is_convertible_v<value_t, basic_array<string_t>>, bool> = true>
     basic_array<string_t>& operator=(value_t rhs)
     {
         return *this = basic_array<string_t>(std::move(rhs));
     }
 
     bool operator==(const basic_array<string_t>& rhs) const;
+
     bool operator!=(const basic_array<string_t>& rhs) const { return !(*this == rhs); }
 
-    template <typename value_t, template <typename...> typename collection_t = std::vector,
-              std::enable_if_t<_utils::is_collection<collection_t<value_t>>, bool> = true>
+    template <
+        typename value_t,
+        template <typename...> typename collection_t = std::vector,
+        std::enable_if_t<_utils::is_collection<collection_t<value_t>>, bool> = true>
     explicit operator collection_t<value_t>() const
     {
         return as_collection<value_t, collection_t>();
     }
-    template <typename jsonization_t,
-              std::enable_if_t<_utils::has_from_json_in_member<jsonization_t, string_t>::value, bool> = true>
+
+    template <
+        typename value_t,
+        size_t Size,
+        template <typename, size_t> typename fixed_array_t = std::array,
+        std::enable_if_t<_utils::is_fixed_array<fixed_array_t<value_t, Size>>, bool> = true>
+    explicit operator fixed_array_t<value_t, Size>() const
+    {
+        return as_fixed_array<value_t, Size, fixed_array_t>();
+    }
+
+    template <typename... elem_ts>
+    explicit operator std::tuple<elem_ts...>() const
+    {
+        return as_tuple<elem_ts...>();
+    }
+
+    template <typename elem1_t, typename elem2_t>
+    explicit operator std::pair<elem1_t, elem2_t>() const
+    {
+        return as_pair<elem1_t, elem2_t>();
+    }
+
+    template <
+        typename jsonization_t,
+        std::enable_if_t<_utils::has_from_json_in_member<jsonization_t, string_t>::value, bool> =
+            true>
     explicit operator jsonization_t() const
     {
         jsonization_t dst {};
@@ -137,8 +219,12 @@ public:
         }
         return dst;
     }
-    template <typename jsonization_t,
-              std::enable_if_t<_utils::has_from_json_in_templ_spec<jsonization_t, string_t>::value, bool> = true>
+
+    template <
+        typename jsonization_t,
+        std::enable_if_t<
+            _utils::has_from_json_in_templ_spec<jsonization_t, string_t>::value,
+            bool> = true>
     explicit operator jsonization_t() const
     {
         jsonization_t dst {};
@@ -150,12 +236,24 @@ public:
 
 private:
     template <typename... key_then_default_value_t, size_t... keys_indexes_t>
-    auto get(std::tuple<key_then_default_value_t...> keys_then_default_value,
-             std::index_sequence<keys_indexes_t...>) const;
+    auto
+        get(std::tuple<key_then_default_value_t...> keys_then_default_value,
+            std::index_sequence<keys_indexes_t...>) const;
     template <typename value_t, typename... rest_keys_t>
     auto get_helper(const value_t& default_value, size_t pos, rest_keys_t&&... rest) const;
     template <typename value_t>
     auto get_helper(const value_t& default_value, size_t pos) const;
+
+    template <typename tuple_t>
+    tuple_t as_tuple_templ() const;
+    template <size_t index, typename tuple_t>
+    void set_tuple(tuple_t& tup) const;
+
+    template <typename Tuple, std::size_t... Is>
+    void foreach_tuple(const Tuple& t, std::index_sequence<Is...>)
+    {
+        (_array_data.emplace_back(std::get<Is>(t)), ...);
+    }
 
     string_t format(size_t indent, size_t indent_times) const;
 
@@ -164,15 +262,20 @@ private:
 };
 
 template <typename string_t>
-inline basic_array<string_t>::basic_array(std::initializer_list<value_type> init_list) : _array_data(init_list)
-{}
+inline basic_array<string_t>::basic_array(std::initializer_list<value_type> init_list)
+    : _array_data(init_list)
+{
+}
 
 template <typename string_t>
-inline basic_array<string_t>::basic_array(typename raw_array::size_type size) : _array_data(size)
-{}
+inline basic_array<string_t>::basic_array(typename raw_array::size_type size)
+    : _array_data(size)
+{
+}
 
 // template <typename string_t>
-// inline basic_array<string_t>::basic_array(const basic_value<string_t>& val) : basic_array<string_t>(val.as_array())
+// inline basic_array<string_t>::basic_array(const basic_value<string_t>& val) :
+// basic_array<string_t>(val.as_array())
 //{}
 //
 // template <typename string_t>
@@ -202,8 +305,9 @@ template <typename string_t>
 template <typename... args_t>
 inline decltype(auto) basic_array<string_t>::emplace_back(args_t&&... args)
 {
-    static_assert(std::is_constructible_v<value_type, args_t...>,
-                  "Parameter can't be used to construct a raw_array::value_type");
+    static_assert(
+        std::is_constructible_v<value_type, args_t...>,
+        "Parameter can't be used to construct a raw_array::value_type");
     return _array_data.emplace_back(std::forward<args_t>(args)...);
 }
 
@@ -266,18 +370,18 @@ inline bool basic_array<string_t>::all() const
 
 namespace _as_collection_helper
 {
-    template <typename T>
-    class has_emplace_back
-    {
-        template <typename U>
-        static auto test(int) -> decltype(std::declval<U>().emplace_back(), std::true_type());
+template <typename T>
+class has_emplace_back
+{
+    template <typename U>
+    static auto test(int) -> decltype(std::declval<U>().emplace_back(), std::true_type());
 
-        template <typename U>
-        static std::false_type test(...);
+    template <typename U>
+    static std::false_type test(...);
 
-    public:
-        static constexpr bool value = decltype(test<T>(0))::value;
-    };
+public:
+    static constexpr bool value = decltype(test<T>(0))::value;
+};
 }
 
 template <typename string_t>
@@ -299,30 +403,93 @@ inline collection_t<value_t> basic_array<string_t>::as_collection() const
 }
 
 template <typename string_t>
+template <typename value_t, size_t Size, template <typename, size_t> typename fixed_array_t>
+inline fixed_array_t<value_t, Size> basic_array<string_t>::as_fixed_array() const
+{
+    if (size() != Size) {
+        throw exception("Wrong array size");
+    }
+
+    fixed_array_t<value_t, Size> result;
+    for (size_t i = 0; i < Size; ++i) {
+        result.at(i) = _array_data.at(i).template as<value_t>();
+    }
+    return result;
+}
+
+template <typename string_t>
+template <size_t index, typename tuple_t>
+inline void basic_array<string_t>::set_tuple(tuple_t& tup) const
+{
+    using elem_t = std::tuple_element_t<index, tuple_t>;
+
+    if constexpr (index > 0) {
+        set_tuple<index - 1>(tup);
+    }
+
+    std::get<index>(tup) = static_cast<elem_t>(at(index));
+}
+
+template <typename string_t>
+template <typename tuple_t>
+inline tuple_t basic_array<string_t>::as_tuple_templ() const
+{
+    constexpr size_t tuple_size = std::tuple_size_v<tuple_t>;
+
+    if (size() != tuple_size) {
+        throw exception("Wrong array size");
+    }
+
+    tuple_t result;
+    set_tuple<tuple_size - 1>(result);
+    return result;
+}
+
+template <typename string_t>
+template <typename... elem_ts>
+inline std::tuple<elem_ts...> basic_array<string_t>::as_tuple() const
+{
+    return as_tuple_templ<std::tuple<elem_ts...>>();
+}
+
+template <typename string_t>
+template <typename first_t, typename second_t>
+inline std::pair<first_t, second_t> basic_array<string_t>::as_pair() const
+{
+    return as_tuple_templ<std::pair<first_t, second_t>>();
+}
+
+template <typename string_t>
 template <typename... key_then_default_value_t>
 inline auto basic_array<string_t>::get(key_then_default_value_t&&... keys_then_default_value) const
 {
-    return get(std::forward_as_tuple(keys_then_default_value...),
-               std::make_index_sequence<sizeof...(keys_then_default_value) - 1> {});
+    return get(
+        std::forward_as_tuple(keys_then_default_value...),
+        std::make_index_sequence<sizeof...(keys_then_default_value) - 1> {});
 }
 
 template <typename string_t>
 template <typename... key_then_default_value_t, size_t... keys_indexes_t>
-inline auto basic_array<string_t>::get(std::tuple<key_then_default_value_t...> keys_then_default_value,
-                                       std::index_sequence<keys_indexes_t...>) const
+inline auto basic_array<string_t>::get(
+    std::tuple<key_then_default_value_t...> keys_then_default_value,
+    std::index_sequence<keys_indexes_t...>) const
 {
     constexpr unsigned long default_value_index = sizeof...(key_then_default_value_t) - 1;
-    return get_helper(std::get<default_value_index>(keys_then_default_value),
-                      std::get<keys_indexes_t>(keys_then_default_value)...);
+    return get_helper(
+        std::get<default_value_index>(keys_then_default_value),
+        std::get<keys_indexes_t>(keys_then_default_value)...);
 }
 
 template <typename string_t>
 template <typename value_t, typename... rest_keys_t>
-inline auto basic_array<string_t>::get_helper(const value_t& default_value, size_t pos, rest_keys_t&&... rest) const
+inline auto basic_array<string_t>::get_helper(
+    const value_t& default_value,
+    size_t pos,
+    rest_keys_t&&... rest) const
 {
-    constexpr bool is_json = std::is_same_v<basic_value<string_t>, value_t> ||
-                             std::is_same_v<basic_array<string_t>, value_t> ||
-                             std::is_same_v<basic_object<string_t>, value_t>;
+    constexpr bool is_json = std::is_same_v<basic_value<string_t>, value_t>
+                             || std::is_same_v<basic_array<string_t>, value_t>
+                             || std::is_same_v<basic_object<string_t>, value_t>;
     constexpr bool is_string = std::is_constructible_v<string_t, value_t> && !is_json;
 
     if (!contains(pos)) {
@@ -341,9 +508,9 @@ template <typename string_t>
 template <typename value_t>
 inline auto basic_array<string_t>::get_helper(const value_t& default_value, size_t pos) const
 {
-    constexpr bool is_json = std::is_same_v<basic_value<string_t>, value_t> ||
-                             std::is_same_v<basic_array<string_t>, value_t> ||
-                             std::is_same_v<basic_object<string_t>, value_t>;
+    constexpr bool is_json = std::is_same_v<basic_value<string_t>, value_t>
+                             || std::is_same_v<basic_array<string_t>, value_t>
+                             || std::is_same_v<basic_object<string_t>, value_t>;
     constexpr bool is_string = std::is_constructible_v<string_t, value_t> && !is_json;
 
     if (!contains(pos)) {
@@ -382,7 +549,8 @@ inline std::optional<value_t> basic_array<string_t>::find(size_t pos) const
         return std::nullopt;
     }
     const auto& val = _array_data.at(pos);
-    return val.template is<value_t>() ? std::optional<value_t>(val.template as<value_t>()) : std::nullopt;
+    return val.template is<value_t>() ? std::optional<value_t>(val.template as<value_t>())
+                                      : std::nullopt;
 }
 
 template <typename string_t>
@@ -434,25 +602,29 @@ inline typename basic_array<string_t>::reverse_iterator basic_array<string_t>::r
 }
 
 template <typename string_t>
-inline typename basic_array<string_t>::const_reverse_iterator basic_array<string_t>::rbegin() const noexcept
+inline typename basic_array<string_t>::const_reverse_iterator
+    basic_array<string_t>::rbegin() const noexcept
 {
     return _array_data.rbegin();
 }
 
 template <typename string_t>
-inline typename basic_array<string_t>::const_reverse_iterator basic_array<string_t>::rend() const noexcept
+inline typename basic_array<string_t>::const_reverse_iterator
+    basic_array<string_t>::rend() const noexcept
 {
     return _array_data.rend();
 }
 
 template <typename string_t>
-inline typename basic_array<string_t>::const_reverse_iterator basic_array<string_t>::crbegin() const noexcept
+inline typename basic_array<string_t>::const_reverse_iterator
+    basic_array<string_t>::crbegin() const noexcept
 {
     return _array_data.crbegin();
 }
 
 template <typename string_t>
-inline typename basic_array<string_t>::const_reverse_iterator basic_array<string_t>::crend() const noexcept
+inline typename basic_array<string_t>::const_reverse_iterator
+    basic_array<string_t>::crend() const noexcept
 {
     return _array_data.crend();
 }
@@ -470,7 +642,8 @@ inline const basic_value<string_t>& basic_array<string_t>::operator[](size_t pos
 }
 
 template <typename string_t>
-inline basic_array<string_t> basic_array<string_t>::operator+(const basic_array<string_t>& rhs) const&
+inline basic_array<string_t>
+    basic_array<string_t>::operator+(const basic_array<string_t>& rhs) const&
 {
     basic_array<string_t> temp = *this;
     temp._array_data.insert(_array_data.end(), rhs.begin(), rhs.end());
@@ -481,8 +654,10 @@ template <typename string_t>
 inline basic_array<string_t> basic_array<string_t>::operator+(basic_array<string_t>&& rhs) const&
 {
     basic_array<string_t> temp = *this;
-    temp._array_data.insert(_array_data.end(), std::make_move_iterator(rhs.begin()),
-                            std::make_move_iterator(rhs.end()));
+    temp._array_data.insert(
+        _array_data.end(),
+        std::make_move_iterator(rhs.begin()),
+        std::make_move_iterator(rhs.end()));
     return temp;
 }
 
@@ -496,7 +671,10 @@ inline basic_array<string_t> basic_array<string_t>::operator+(const basic_array<
 template <typename string_t>
 inline basic_array<string_t> basic_array<string_t>::operator+(basic_array<string_t>&& rhs) &&
 {
-    _array_data.insert(_array_data.end(), std::make_move_iterator(rhs.begin()), std::make_move_iterator(rhs.end()));
+    _array_data.insert(
+        _array_data.end(),
+        std::make_move_iterator(rhs.begin()),
+        std::make_move_iterator(rhs.end()));
     return std::move(*this);
 }
 
@@ -510,7 +688,10 @@ inline basic_array<string_t>& basic_array<string_t>::operator+=(const basic_arra
 template <typename string_t>
 inline basic_array<string_t>& basic_array<string_t>::operator+=(basic_array<string_t>&& rhs)
 {
-    _array_data.insert(_array_data.end(), std::make_move_iterator(rhs.begin()), std::make_move_iterator(rhs.end()));
+    _array_data.insert(
+        _array_data.end(),
+        std::make_move_iterator(rhs.begin()),
+        std::make_move_iterator(rhs.end()));
     return *this;
 }
 
@@ -520,11 +701,14 @@ inline bool basic_array<string_t>::operator==(const basic_array<string_t>& rhs) 
     return _array_data == rhs._array_data;
 }
 
-template <typename ostream_t, typename string_t,
-          typename std_ostream_t =
-              std::basic_ostream<typename string_t::value_type, std::char_traits<typename string_t::value_type>>,
-          typename enable_t =
-              std::enable_if_t<std::is_same_v<std_ostream_t, ostream_t> || std::is_base_of_v<std_ostream_t, ostream_t>>>
+template <
+    typename ostream_t,
+    typename string_t,
+    typename std_ostream_t = std::basic_ostream<
+        typename string_t::value_type,
+        std::char_traits<typename string_t::value_type>>,
+    typename enable_t = std::enable_if_t<
+        std::is_same_v<std_ostream_t, ostream_t> || std::is_base_of_v<std_ostream_t, ostream_t>>>
 ostream_t& operator<<(ostream_t& out, const basic_array<string_t>& arr)
 {
     out << arr.format();

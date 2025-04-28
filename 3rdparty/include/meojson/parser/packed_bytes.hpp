@@ -1,3 +1,5 @@
+// IWYU pragma: private, include <meojson/json.hpp>
+
 #pragma once
 
 #include <cstdint>
@@ -28,10 +30,12 @@ struct packed_bytes
 };
 }
 
+#ifndef MEOJSON_DISABLE_PACKED_BYTES
 #if defined(__SSE2__) || defined(_M_X64) || (defined(_M_IX86_FP) && _M_IX86_FP)
 #include "packed_bytes_x86.hpp"
 #elif defined(__ARM_NEON) || defined(_M_ARM) || defined(_M_ARM64)
 #include "packed_bytes_arm.hpp"
+#endif
 #endif
 
 namespace json::_packed_bytes
@@ -66,14 +70,19 @@ struct packed_bytes_trait_uint64
         return is_zero_memberwise((x) ^ (UINT64_C(0x0101010101010101) * (n)));
     }
 
-    __packed_bytes_strong_inline static value_type bitwise_or(value_type a, value_type b) { return a | b; }
+    __packed_bytes_strong_inline static value_type bitwise_or(value_type a, value_type b)
+    {
+        return a | b;
+    }
 
     __packed_bytes_strong_inline static size_t first_nonzero_byte(value_type x)
     {
-        if (_bitops::is_little_endian())
+        if (_bitops::is_little_endian()) {
             return _bitops::countr_zero(x) / 8;
-        else
+        }
+        else {
             return _bitops::countl_zero(x) / 8;
+        }
     }
 };
 
@@ -108,16 +117,22 @@ struct packed_bytes_trait_uint32
         return is_zero_memberwise((x) ^ (~UINT32_C(0) / 255 * (n)));
     }
 
-    __packed_bytes_strong_inline static value_type bitwise_or(value_type a, value_type b) { return a | b; }
+    __packed_bytes_strong_inline static value_type bitwise_or(value_type a, value_type b)
+    {
+        return a | b;
+    }
 
     __packed_bytes_strong_inline static size_t first_nonzero_byte(value_type x)
     {
-        if (_bitops::is_little_endian())
+        if (_bitops::is_little_endian()) {
             return _bitops::countr_zero(x) / 8;
-        else
+        }
+        else {
             return _bitops::countl_zero(x) / 8;
+        }
     }
 };
+
 template <>
 struct packed_bytes<8>
 {
@@ -133,9 +148,14 @@ struct packed_bytes<4>
 template <size_t N>
 using packed_bytes_trait = typename packed_bytes<N>::traits;
 
-using packed_bytes_trait_max =
-    std::conditional_t<packed_bytes_trait<32>::available, packed_bytes_trait<32>,
-                       std::conditional_t<packed_bytes_trait<16>::available, packed_bytes_trait<16>,
-                                          std::conditional_t<packed_bytes_trait<8>::available, packed_bytes_trait<8>,
-                                                             packed_bytes_trait<4>>>>;
+using packed_bytes_trait_max = std::conditional_t<
+    packed_bytes_trait<32>::available,
+    packed_bytes_trait<32>,
+    std::conditional_t<
+        packed_bytes_trait<16>::available,
+        packed_bytes_trait<16>,
+        std::conditional_t<
+            packed_bytes_trait<8>::available,
+            packed_bytes_trait<8>,
+            packed_bytes_trait<4>>>>;
 } // namespace json::_packed_bytes

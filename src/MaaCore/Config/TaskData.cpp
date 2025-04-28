@@ -222,7 +222,7 @@ bool asst::TaskData::load(const std::filesystem::path& path)
 {
     LogTraceScope("TaskData::load");
 
-    json::value merged = json::object();
+    json::object merged;
 
     if (is_regular_file(path)) {
         Log.debug("TaskData::load", "Loading json file:", path);
@@ -231,7 +231,7 @@ bool asst::TaskData::load(const std::filesystem::path& path)
             Log.error("TaskData::load", "Json open failed:", path);
             return false;
         }
-        merged = ret.value();
+        merged = std::move(ret->as_object());
     }
     else if (is_directory(path)) {
         std::vector<std::filesystem::path> json_files;
@@ -253,7 +253,10 @@ bool asst::TaskData::load(const std::filesystem::path& path)
                 continue;
             }
             for (auto& [key, value] : file_json.as_object()) {
-                merged.as_object()[key] = std::move(value);
+                if (!merged.emplace(key, std::move(value)).second) {
+                    Log.error(__FUNCTION__, "Duplicate key in json file:", file, key);
+                    return false;
+                }
             }
         }
     }

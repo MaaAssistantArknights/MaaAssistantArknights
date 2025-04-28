@@ -19,7 +19,6 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using Newtonsoft.Json.Linq;
-using static Microsoft.WindowsAPICodePack.Shell.PropertySystem.SystemProperties.System;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 

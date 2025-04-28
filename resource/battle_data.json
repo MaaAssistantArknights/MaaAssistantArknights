@@ -8357,6 +8357,36 @@
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1
         },
+        "trap_213_dqore": {
+            "name": "源石祭坛",
+            "name_en": "源石祭坛",
+            "name_en_unavailable": true,
+            "name_jp": "源石祭坛",
+            "name_jp_unavailable": true,
+            "name_kr": "源石祭坛",
+            "name_kr_unavailable": true,
+            "name_tw": "源石祭坛",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["x-1", "x-1", "x-1"],
+            "rarity": 1
+        },
+        "trap_214_dqballis": {
+            "name": "弩炮",
+            "name_en": "弩炮",
+            "name_en_unavailable": true,
+            "name_jp": "弩炮",
+            "name_jp_unavailable": true,
+            "name_kr": "弩炮",
+            "name_kr_unavailable": true,
+            "name_tw": "弩炮",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
         "trap_218_fttree": {
             "name": "树丛",
             "name_en": "树丛",

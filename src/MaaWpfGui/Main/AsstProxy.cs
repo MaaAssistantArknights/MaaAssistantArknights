@@ -2033,6 +2033,7 @@ namespace MaaWpfGui.Main
             OperBox,
             Gacha,
             Reclamation,
+            MiniGame,
             Custom,
         }
 
@@ -2046,7 +2047,7 @@ namespace MaaWpfGui.Main
             TaskType.Mall,
             TaskType.Award,
             TaskType.Roguelike,
-            TaskType.Reclamation
+            TaskType.Reclamation,
         ];
 
         private readonly Dictionary<AsstTaskId, TaskType> _taskStatus = [];
@@ -2107,6 +2108,16 @@ namespace MaaWpfGui.Main
             return AsstAppendTaskWithEncoding(TaskType.Gacha, type, param) && AsstStart();
         }
 
+        public bool AsstMiniGame(string taskName)
+        {
+            var task = new AsstCustomTask()
+            {
+                CustomTasks = [taskName],
+            };
+            var (type, param) = task.Serialize();
+            return AsstAppendTaskWithEncoding(TaskType.MiniGame, type, param) && AsstStart();
+        }
+
         public bool AsstStartVideoRec(string filename)
         {
             var taskParams = new JObject
@@ -2116,6 +2127,11 @@ namespace MaaWpfGui.Main
             AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.VideoRecognition, taskParams);
             _taskStatus.Add(id, TaskType.Copilot);
             return id != 0 && AsstStart();
+        }
+
+        public bool AsstAppendTaskWithEncoding(TaskType wpfTasktype, (AsstTaskType Type, JObject? TaskParams) task)
+        {
+            return AsstAppendTaskWithEncoding(wpfTasktype, task.Type, task.TaskParams);
         }
 
         public bool AsstAppendTaskWithEncoding(TaskType wpfTasktype, AsstTaskType type, JObject? taskParams = null)
