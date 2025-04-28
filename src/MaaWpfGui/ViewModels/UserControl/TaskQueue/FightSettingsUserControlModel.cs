@@ -455,7 +455,7 @@ public class FightSettingsUserControlModel : TaskViewModel
         get => _maxTimes;
         set
         {
-            if (SetAndNotify(ref _maxTimes, value))
+            if (!SetAndNotify(ref _maxTimes, value))
             {
                 return;
             }
@@ -475,7 +475,7 @@ public class FightSettingsUserControlModel : TaskViewModel
         get => _series;
         set
         {
-            if (SetAndNotify(ref _series, value))
+            if (!SetAndNotify(ref _series, value))
             {
                 return;
             }
