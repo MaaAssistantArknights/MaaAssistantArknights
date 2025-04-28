@@ -24,6 +24,26 @@ public class FightTask : BaseTask
     public FightTask() => TaskType = TaskType.Fight;
 
     /// <summary>
+    /// Gets or sets a value indicating whether 是否使用理智药
+    /// </summary>
+    public bool UseMedicine { get; set; }
+
+    /// <summary>
+    /// Gets or sets 理智药数量
+    /// </summary>
+    public int MedicineCount { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 是否碎石
+    /// </summary>
+    public bool UseStone { get; set; }
+
+    /// <summary>
+    /// Gets or sets 碎石数量
+    /// </summary>
+    public int StoneCount { get; set; }
+
+    /// <summary>
     /// Gets or sets 首选关卡
     /// </summary>
     public string Stage1 { get; set; } = string.Empty;
