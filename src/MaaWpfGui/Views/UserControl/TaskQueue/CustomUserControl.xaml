@@ -26,16 +26,9 @@
             TextWrapping="Wrap" />
         <TextBlock
             xml:space="preserve"
-            FontSize="14"
-            Foreground="{DynamicResource PrimaryTextBrush}"
-            Text="{DynamicResource CustomWarning}"
-            TextAlignment="Left"
-            TextWrapping="Wrap" />
-        <TextBlock
-            xml:space="preserve"
             FontSize="12"
             Foreground="{DynamicResource TraceLogBrush}"
-            Text="&#10;Input Rules:&#10;• Comma &quot;,&quot; separated list: Executes first matching task.&#10;• Semicolon &quot;;&quot; separated groups: Executes each group sequentially.&#10;&#10;Examples:&#10;• 'TaskA, TaskB' → Runs TaskA (or TaskB if TaskA doesn't match)&#10;• 'TaskA; TaskB' → Runs both TaskA and TaskB&#10;• 'TaskA, TaskB; TaskC' → First runs TaskA/TaskB, then TaskC"
+            Text="Input Rules:&#10;• Comma &quot;,&quot; separated list: Executes first matching task.&#10;• Semicolon &quot;;&quot; separated groups: Executes each group sequentially.&#10;&#10;Examples:&#10;• 'TaskA, TaskB' → Runs TaskA (or TaskB if TaskA doesn't match)&#10;• 'TaskA; TaskB' → Runs both TaskA and TaskB&#10;• 'TaskA, TaskB; TaskC' → First runs TaskA/TaskB, then TaskC"
             TextAlignment="Left"
             TextWrapping="Wrap" />
     </StackPanel>

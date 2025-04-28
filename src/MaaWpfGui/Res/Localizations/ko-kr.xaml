@@ -506,8 +506,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Mission">보상 수령</system:String>
     <system:String x:Key="AutoRoguelike">통합전략</system:String>
     <system:String x:Key="Reclamation">생존연산</system:String>
-    <system:String x:Key="Custom">사용자 지정 작업</system:String>
-    <system:String x:Key="CustomWarning">무엇을 하고 있는지 모른다면 이 기능을 사용하지 마세요</system:String>
     <system:String x:Key="ReclamationTheme">생존연산 테마</system:String>
     <system:String x:Key="ReclamationThemeFire">모래 속의 불</system:String>
     <system:String x:Key="ReclamationThemeTales">사막 이야기</system:String>

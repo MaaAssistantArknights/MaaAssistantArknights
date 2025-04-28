@@ -505,8 +505,6 @@ The primary instance is 0, and other instances are the numbers after the version
     <system:String x:Key="Mission">Collect Rewards</system:String>
     <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>
     <system:String x:Key="Reclamation">Reclamation Algorithm</system:String>
-    <system:String x:Key="Custom">CustomTask</system:String>
-    <system:String x:Key="CustomWarning">Don't use this function unless you know what you are doing</system:String>
     <system:String x:Key="ReclamationTheme">Reclamation Algorithm Theme</system:String>
     <system:String x:Key="ReclamationThemeFire">Fire Within the Sand</system:String>
     <system:String x:Key="ReclamationThemeTales">Tales Within the Sand</system:String>
