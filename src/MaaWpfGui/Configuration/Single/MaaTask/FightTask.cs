@@ -22,4 +22,19 @@ namespace MaaWpfGui.Configuration.Single.MaaTask;
 public class FightTask : BaseTask
 {
     public FightTask() => TaskType = TaskType.Fight;
+
+    /// <summary>
+    /// Gets or sets 首选关卡
+    /// </summary>
+    public string Stage1 { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets 备选关卡
+    /// </summary>
+    public string Stage2 { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets 备选关卡
+    /// </summary>
+    public string Stage3 { get; set; } = string.Empty;
 }
