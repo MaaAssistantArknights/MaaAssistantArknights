@@ -122,7 +122,7 @@ public class ConfigConverter
             {
                 var startUpTask = new StartUpTask(); // √
                 var fightTask = new FightTask();
-                var fightTask2 = new FightTask(); // 剩余理智
+                var fightTask2 = new FightTask(); // 剩余理智 √
                 var awardTask = new AwardTask(); // √
                 var mallTask = new MallTask(); // √
                 var infrastTask = new InfrastTask();
@@ -133,6 +133,8 @@ public class ConfigConverter
                 startUpTask.AccountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.AccountName, out _);
 
+                fightTask2.Stage1 = ConfigurationHelper.GetValue(ConfigurationKeys.RemainingSanityStage, string.Empty);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RemainingSanityStage, out _);
 
                 recruitTask.ExtraTagMode = ConfigurationHelper.GetValue(ConfigurationKeys.SelectExtraTags, 0);
                 recruitTask.Level3PreferTags = [.. ConfigurationHelper.GetValue(ConfigurationKeys.AutoRecruitFirstList, string.Empty).Split(";")];
@@ -315,7 +317,7 @@ public class ConfigConverter
                             fightTask.Name = LocalizationHelper.GetString(task.OldName, local);
                             fightTask2.Name = LocalizationHelper.GetString("RemainingSanityStage", local);
                             fightTask.IsEnable = task.IsEnable;
-                            fightTask2.IsEnable = task.IsEnable;
+                            fightTask2.IsEnable = task.IsEnable && ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, true);
                             ConfigFactory.CurrentConfig.TaskQueue.Add(fightTask);
                             ConfigFactory.CurrentConfig.TaskQueue.Add(fightTask2);
                             break;
