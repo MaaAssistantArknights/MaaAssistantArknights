@@ -1081,23 +1081,25 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void StartMiniGame()
         {
+            _ = StartMiniGameAsync();
+        }
+
+        private async Task StartMiniGameAsync()
+        {
+            if (!Idle)
+            {
+                await Instances.TaskQueueViewModel.Stop();
+                Instances.TaskQueueViewModel.SetStopped();
+                return;
+            }
+
+            _runningState.SetIdle(false);
             string errMsg = string.Empty;
-            Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg) && Instances.AsstProxy.AsstMiniGame(MiniGameTaskName));
-            Started = true;
-        }
-
-        private bool _started;
-
-        public bool Started
-        {
-            get => _started;
-            private set => SetAndNotify(ref _started, value);
-        }
-
-        public void StopMiniGame()
-        {
-            Instances.AsstProxy.AsstStop();
-            Started = false;
+            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg) && Instances.AsstProxy.AsstMiniGame(MiniGameTaskName));
+            if (!caught)
+            {
+                _runningState.SetIdle(true);
+            }
         }
 
         #endregion
