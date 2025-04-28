@@ -1,3 +1,5 @@
+// IWYU pragma: private, include <meojson/json.hpp>
+
 #pragma once
 
 #include <initializer_list>
@@ -36,31 +38,54 @@ public:
     // explicit basic_object(const basic_value<string_t>& val);
     // explicit basic_object(basic_value<string_t>&& val);
 
-    template <typename map_t, std::enable_if_t<_utils::is_map<map_t> &&
-                                                   std::is_constructible_v<value_type, _utils::range_value_t<map_t>>,
-                                               bool> = true>
-    basic_object(map_t map) : _object_data(std::make_move_iterator(map.begin()), std::make_move_iterator(map.end()))
-    {}
-    template <typename jsonization_t,
-              std::enable_if_t<_utils::has_to_json_in_member<jsonization_t>::value, bool> = true>
-    basic_object(const jsonization_t& value) : basic_object(value.to_json())
-    {}
-    template <typename jsonization_t,
-              std::enable_if_t<_utils::has_to_json_in_templ_spec<jsonization_t>::value, bool> = true>
-    basic_object(const jsonization_t& value) : basic_object(ext::jsonization<jsonization_t>().to_json(value))
-    {}
+    template <
+        typename map_t,
+        std::enable_if_t<
+            _utils::is_map<map_t>
+                && std::is_constructible_v<value_type, _utils::range_value_t<map_t>>,
+            bool> = true>
+    basic_object(map_t map)
+        : _object_data(std::make_move_iterator(map.begin()), std::make_move_iterator(map.end()))
+    {
+    }
+
+    template <
+        typename jsonization_t,
+        std::enable_if_t<_utils::has_to_json_in_member<jsonization_t>::value, bool> = true>
+    basic_object(const jsonization_t& value)
+        : basic_object(value.to_json())
+    {
+    }
+
+    template <
+        typename jsonization_t,
+        std::enable_if_t<_utils::has_to_json_in_templ_spec<jsonization_t>::value, bool> = true>
+    basic_object(const jsonization_t& value)
+        : basic_object(ext::jsonization<jsonization_t>().to_json(value))
+    {
+    }
 
     ~basic_object() = default;
 
     bool empty() const noexcept { return _object_data.empty(); }
+
     size_t size() const noexcept { return _object_data.size(); }
+
     bool contains(const string_t& key) const;
+
     bool exists(const string_t& key) const { return contains(key); }
+
     const basic_value<string_t>& at(const string_t& key) const;
 
-    string_t dumps(std::optional<size_t> indent = std::nullopt) const { return indent ? format(*indent) : to_string(); }
+    string_t dumps(std::optional<size_t> indent = std::nullopt) const
+    {
+        return indent ? format(*indent) : to_string();
+    }
+
     string_t to_string() const;
+
     string_t format(size_t indent = 4) const { return format(indent, 0); }
+
     template <typename value_t>
     bool all() const;
     template <typename value_t, template <typename...> typename map_t = std::map>
@@ -102,23 +127,32 @@ public:
 
     basic_object<string_t>& operator=(const basic_object<string_t>&) = default;
     basic_object<string_t>& operator=(basic_object<string_t>&&) = default;
-    template <typename value_t, std::enable_if_t<std::is_convertible_v<value_t, basic_object<string_t>>, bool> = true>
+
+    template <
+        typename value_t,
+        std::enable_if_t<std::is_convertible_v<value_t, basic_object<string_t>>, bool> = true>
     basic_object<string_t>& operator=(value_t rhs)
     {
         return *this = basic_object<string_t>(std::move(rhs));
     }
 
     bool operator==(const basic_object<string_t>& rhs) const;
+
     bool operator!=(const basic_object<string_t>& rhs) const { return !(*this == rhs); }
 
-    template <typename value_t, template <typename...> typename map_t = std::map,
-              std::enable_if_t<_utils::is_map<map_t<string_t, value_t>>, bool> = true>
+    template <
+        typename value_t,
+        template <typename...> typename map_t = std::map,
+        std::enable_if_t<_utils::is_map<map_t<string_t, value_t>>, bool> = true>
     explicit operator map_t<string_t, value_t>() const
     {
         return as_map<value_t, map_t>();
     }
-    template <typename jsonization_t,
-              std::enable_if_t<_utils::has_from_json_in_member<jsonization_t, string_t>::value, bool> = true>
+
+    template <
+        typename jsonization_t,
+        std::enable_if_t<_utils::has_from_json_in_member<jsonization_t, string_t>::value, bool> =
+            true>
     explicit operator jsonization_t() const
     {
         jsonization_t dst {};
@@ -127,8 +161,12 @@ public:
         }
         return dst;
     }
-    template <typename jsonization_t,
-              std::enable_if_t<_utils::has_from_json_in_templ_spec<jsonization_t, string_t>::value, bool> = true>
+
+    template <
+        typename jsonization_t,
+        std::enable_if_t<
+            _utils::has_from_json_in_templ_spec<jsonization_t, string_t>::value,
+            bool> = true>
     explicit operator jsonization_t() const
     {
         jsonization_t dst {};
@@ -140,8 +178,9 @@ public:
 
 private:
     template <typename... key_then_default_value_t, size_t... keys_indexes_t>
-    auto get(std::tuple<key_then_default_value_t...> keys_then_default_value,
-             std::index_sequence<keys_indexes_t...>) const;
+    auto
+        get(std::tuple<key_then_default_value_t...> keys_then_default_value,
+            std::index_sequence<keys_indexes_t...>) const;
     template <typename value_t, typename... rest_keys_t>
     auto get_helper(const value_t& default_value, const string_t& key, rest_keys_t&&... rest) const;
     template <typename value_t>
@@ -155,8 +194,11 @@ private:
 
 template <typename string_t>
 inline basic_object<string_t>::basic_object(std::initializer_list<value_type> init_list)
-    : _object_data(std::make_move_iterator(init_list.begin()), std::make_move_iterator(init_list.end()))
-{}
+    : _object_data(
+        std::make_move_iterator(init_list.begin()),
+        std::make_move_iterator(init_list.end()))
+{
+}
 
 // template <typename string_t>
 // inline basic_object<string_t>::basic_object(const basic_value<string_t>& val) :
@@ -202,9 +244,10 @@ template <typename string_t>
 template <typename... args_t>
 inline decltype(auto) basic_object<string_t>::emplace(args_t&&... args)
 {
-    static_assert(std::is_constructible_v<value_type, args_t...>,
-                  "Parameter can't be used to construct a raw_object::value_type");
-    return _object_data.emplace(std::forward<args_t>(args)...);
+    static_assert(
+        std::is_constructible_v<value_type, args_t...>,
+        "Parameter can't be used to construct a raw_object::value_type");
+    return _object_data.insert_or_assign(std::forward<args_t>(args)...);
 }
 
 template <typename string_t>
@@ -220,7 +263,8 @@ inline string_t basic_object<string_t>::to_string() const
     string_t str { '{' };
     for (auto iter = _object_data.cbegin(); iter != _object_data.cend();) {
         const auto& [key, val] = *iter;
-        str += char_t('"') + _utils::unescape_string(key) + string_t { '\"', ':' } + val.to_string();
+        str +=
+            char_t('"') + _utils::unescape_string(key) + string_t { '\"', ':' } + val.to_string();
         if (++iter != _object_data.cend()) {
             str += ',';
         }
@@ -238,8 +282,8 @@ inline string_t basic_object<string_t>::format(size_t indent, size_t indent_time
     string_t str { '{', '\n' };
     for (auto iter = _object_data.cbegin(); iter != _object_data.cend();) {
         const auto& [key, val] = *iter;
-        str += body_indent + char_t('"') + _utils::unescape_string(key) + string_t { '\"', ':', ' ' } +
-               val.format(indent, indent_times + 1);
+        str += body_indent + char_t('"') + _utils::unescape_string(key)
+               + string_t { '\"', ':', ' ' } + val.format(indent, indent_times + 1);
         if (++iter != _object_data.cend()) {
             str += ',';
         }
@@ -276,28 +320,33 @@ template <typename string_t>
 template <typename... key_then_default_value_t>
 inline auto basic_object<string_t>::get(key_then_default_value_t&&... keys_then_default_value) const
 {
-    return get(std::forward_as_tuple(keys_then_default_value...),
-               std::make_index_sequence<sizeof...(keys_then_default_value) - 1> {});
+    return get(
+        std::forward_as_tuple(keys_then_default_value...),
+        std::make_index_sequence<sizeof...(keys_then_default_value) - 1> {});
 }
 
 template <typename string_t>
 template <typename... key_then_default_value_t, size_t... keys_indexes_t>
-inline auto basic_object<string_t>::get(std::tuple<key_then_default_value_t...> keys_then_default_value,
-                                        std::index_sequence<keys_indexes_t...>) const
+inline auto basic_object<string_t>::get(
+    std::tuple<key_then_default_value_t...> keys_then_default_value,
+    std::index_sequence<keys_indexes_t...>) const
 {
     constexpr unsigned long default_value_index = sizeof...(key_then_default_value_t) - 1;
-    return get_helper(std::get<default_value_index>(keys_then_default_value),
-                      std::get<keys_indexes_t>(keys_then_default_value)...);
+    return get_helper(
+        std::get<default_value_index>(keys_then_default_value),
+        std::get<keys_indexes_t>(keys_then_default_value)...);
 }
 
 template <typename string_t>
 template <typename value_t, typename... rest_keys_t>
-inline auto basic_object<string_t>::get_helper(const value_t& default_value, const string_t& key,
-                                               rest_keys_t&&... rest) const
+inline auto basic_object<string_t>::get_helper(
+    const value_t& default_value,
+    const string_t& key,
+    rest_keys_t&&... rest) const
 {
-    constexpr bool is_json = std::is_same_v<basic_value<string_t>, value_t> ||
-                             std::is_same_v<basic_array<string_t>, value_t> ||
-                             std::is_same_v<basic_object<string_t>, value_t>;
+    constexpr bool is_json = std::is_same_v<basic_value<string_t>, value_t>
+                             || std::is_same_v<basic_array<string_t>, value_t>
+                             || std::is_same_v<basic_object<string_t>, value_t>;
     constexpr bool is_string = std::is_constructible_v<string_t, value_t> && !is_json;
 
     if (!contains(key)) {
@@ -314,11 +363,12 @@ inline auto basic_object<string_t>::get_helper(const value_t& default_value, con
 
 template <typename string_t>
 template <typename value_t>
-inline auto basic_object<string_t>::get_helper(const value_t& default_value, const string_t& key) const
+inline auto
+    basic_object<string_t>::get_helper(const value_t& default_value, const string_t& key) const
 {
-    constexpr bool is_json = std::is_same_v<basic_value<string_t>, value_t> ||
-                             std::is_same_v<basic_array<string_t>, value_t> ||
-                             std::is_same_v<basic_object<string_t>, value_t>;
+    constexpr bool is_json = std::is_same_v<basic_value<string_t>, value_t>
+                             || std::is_same_v<basic_array<string_t>, value_t>
+                             || std::is_same_v<basic_object<string_t>, value_t>;
     constexpr bool is_string = std::is_constructible_v<string_t, value_t> && !is_json;
 
     if (!contains(key)) {
@@ -358,7 +408,8 @@ inline std::optional<value_t> basic_object<string_t>::find(const string_t& key) 
         return std::nullopt;
     }
     const auto& val = iter->second;
-    return val.template is<value_t>() ? std::optional<value_t>(val.template as<value_t>()) : std::nullopt;
+    return val.template is<value_t>() ? std::optional<value_t>(val.template as<value_t>())
+                                      : std::nullopt;
 }
 
 template <typename string_t>
@@ -374,7 +425,8 @@ inline typename basic_object<string_t>::iterator basic_object<string_t>::end() n
 }
 
 template <typename string_t>
-inline typename basic_object<string_t>::const_iterator basic_object<string_t>::begin() const noexcept
+inline typename basic_object<string_t>::const_iterator
+    basic_object<string_t>::begin() const noexcept
 {
     return _object_data.begin();
 }
@@ -386,7 +438,8 @@ inline typename basic_object<string_t>::const_iterator basic_object<string_t>::e
 }
 
 template <typename string_t>
-inline typename basic_object<string_t>::const_iterator basic_object<string_t>::cbegin() const noexcept
+inline typename basic_object<string_t>::const_iterator
+    basic_object<string_t>::cbegin() const noexcept
 {
     return _object_data.cbegin();
 }
@@ -410,7 +463,8 @@ inline basic_value<string_t>& basic_object<string_t>::operator[](string_t&& key)
 }
 
 template <typename string_t>
-inline basic_object<string_t> basic_object<string_t>::operator|(const basic_object<string_t>& rhs) const&
+inline basic_object<string_t>
+    basic_object<string_t>::operator|(const basic_object<string_t>& rhs) const&
 {
     basic_object<string_t> temp = *this;
     temp._object_data.insert(rhs.begin(), rhs.end());
@@ -422,12 +476,15 @@ inline basic_object<string_t> basic_object<string_t>::operator|(basic_object<str
 {
     basic_object<string_t> temp = *this;
     // temp._object_data.merge(std::move(rhs._object_data));
-    temp._object_data.insert(std::make_move_iterator(rhs.begin()), std::make_move_iterator(rhs.end()));
+    temp._object_data.insert(
+        std::make_move_iterator(rhs.begin()),
+        std::make_move_iterator(rhs.end()));
     return temp;
 }
 
 template <typename string_t>
-inline basic_object<string_t> basic_object<string_t>::operator|(const basic_object<string_t>& rhs) &&
+inline basic_object<string_t>
+    basic_object<string_t>::operator|(const basic_object<string_t>& rhs) &&
 {
     _object_data.insert(rhs.begin(), rhs.end());
     return std::move(*this);
@@ -461,11 +518,14 @@ inline bool basic_object<string_t>::operator==(const basic_object<string_t>& rhs
     return _object_data == rhs._object_data;
 }
 
-template <typename ostream_t, typename string_t,
-          typename std_ostream_t =
-              std::basic_ostream<typename string_t::value_type, std::char_traits<typename string_t::value_type>>,
-          typename enable_t =
-              std::enable_if_t<std::is_same_v<std_ostream_t, ostream_t> || std::is_base_of_v<std_ostream_t, ostream_t>>>
+template <
+    typename ostream_t,
+    typename string_t,
+    typename std_ostream_t = std::basic_ostream<
+        typename string_t::value_type,
+        std::char_traits<typename string_t::value_type>>,
+    typename enable_t = std::enable_if_t<
+        std::is_same_v<std_ostream_t, ostream_t> || std::is_base_of_v<std_ostream_t, ostream_t>>>
 ostream_t& operator<<(ostream_t& out, const basic_object<string_t>& obj)
 {
     out << obj.format();

@@ -1,3 +1,5 @@
+// IWYU pragma: private, include <meojson/json5.hpp>
+
 // This is a generated file. Do not edit.
 #pragma once
 #include <array>
