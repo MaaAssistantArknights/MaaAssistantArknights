@@ -3265,5 +3265,7 @@
     "web/src/assets/screenshots/dark/right": "512c363f9fd11f6533f252d23564da387c5f9e6f3453dfe4113fba1f67611d54",
     "web/src/assets/screenshots/dark/left": "e243b3463a47f040cc3b4436a7b935c33585e0b567e7c4128a3cf79c3ab92d92",
     "web/src/assets/links/mirrorc": "6e91286fd01a27d2aa32667b1c07c4b38c04659858d8185e22c10991b4be18d4",
-    "official/15@EnterEpisodeNew": "25a3e96bb26e7c663b22f4b1e2c80d8505583015bfdcd983000d96dc8e0ea405"
+    "official/15@EnterEpisodeNew": "25a3e96bb26e7c663b22f4b1e2c80d8505583015bfdcd983000d96dc8e0ea405",
+    "resource/template/items/act1enemyduel_milestone_point": "5782db16520036bf43fc9429115036e23f29695ec93bf356d432105fd89f4108",
+    "resource/template/items/itempack_gold_1": "884b830db6b2485eb3590e376c85db137fd8a2cf82d7504e925a39284aaed000"
 }

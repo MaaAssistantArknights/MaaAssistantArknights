@@ -26,10 +26,13 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
+using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
+using Windows.ApplicationModel;
+using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Services.RemoteControl
 {
@@ -648,7 +651,7 @@ namespace MaaWpfGui.Services.RemoteControl
                             break;
 
                         case "WakeUp":
-                            taskRet &= TaskQueueViewModel.AppendStart();
+                            taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, StartUpSettingsUserControlModel.Instance.Serialize());
                             break;
 
                         case "Combat":
@@ -656,23 +659,23 @@ namespace MaaWpfGui.Services.RemoteControl
                             break;
 
                         case "Recruiting":
-                            taskRet &= TaskQueueViewModel.AppendRecruit();
+                            taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Recruit, RecruitSettingsUserControlModel.Instance.Serialize());
                             break;
 
                         case "Mall":
-                            taskRet &= TaskQueueViewModel.AppendMall();
+                            taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Mall, MallSettingsUserControlModel.Instance.Serialize());
                             break;
 
                         case "Mission":
-                            taskRet &= TaskQueueViewModel.AppendAward();
+                            taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Award, AwardSettingsUserControlModel.Instance.Serialize());
                             break;
 
                         case "AutoRoguelike":
-                            taskRet &= TaskQueueViewModel.AppendRoguelike();
+                            taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Roguelike, RoguelikeSettingsUserControlModel.Instance.Serialize());
                             break;
 
                         case "Reclamation":
-                            taskRet &= TaskQueueViewModel.AppendReclamation();
+                            taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, ReclamationSettingsUserControlModel.Instance.Serialize());
                             break;
 
                         default:

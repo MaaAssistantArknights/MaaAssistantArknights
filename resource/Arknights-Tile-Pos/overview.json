@@ -5840,6 +5840,24 @@
         "stageId": "act1bossrush_tm04",
         "width": 33
     },
+    "act1enemyduel_01a-activities/act1enemyduel/level_act1enemyduel_01a": {
+        "code": "VS-1",
+        "filename": "act1enemyduel_01a-activities-act1enemyduel-level_act1enemyduel_01a.json",
+        "height": 11,
+        "levelId": "activities/act1enemyduel/level_act1enemyduel_01a",
+        "name": "争锋试炼！",
+        "stageId": "act1enemyduel_01a",
+        "width": 15
+    },
+    "act1enemyduel_02a-activities/act1enemyduel/level_act1enemyduel_02a": {
+        "code": "VS-2",
+        "filename": "act1enemyduel_02a-activities-act1enemyduel-level_act1enemyduel_02a.json",
+        "height": 11,
+        "levelId": "activities/act1enemyduel/level_act1enemyduel_02a",
+        "name": "争锋对决！",
+        "stageId": "act1enemyduel_02a",
+        "width": 15
+    },
     "act1multi_01-activities/act1multi/level_act1multi_01": {
         "code": "IG-1",
         "filename": "act1multi_01-activities-act1multi-level_act1multi_01.json",
@@ -13614,6 +13632,15 @@
         "levelId": "obt/campaign/level_camp_r_27",
         "name": "选帝侯广场",
         "stageId": "camp_r_27",
+        "width": 13
+    },
+    "camp_r_28-obt/campaign/level_camp_r_28": {
+        "code": "萨尔贡",
+        "filename": "camp_r_28-obt-campaign-level_camp_r_28.json",
+        "height": 9,
+        "levelId": "obt/campaign/level_camp_r_28",
+        "name": "大巴扎",
+        "stageId": "camp_r_28",
         "width": 13
     },
     "easy_09-01-obt/main/level_easy_09-01": {
