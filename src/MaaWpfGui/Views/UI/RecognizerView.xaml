@@ -624,7 +624,17 @@
                     Margin="10"
                     Command="{s:Action StartMiniGame}"
                     Content="{DynamicResource LinkStart}"
-                    IsEnabled="{Binding Idle}" />
+                    IsEnabled="{Binding Idle}"
+                    Visibility="{c:Binding '!Started'}"/>
+                <Button
+                    Grid.Row="2"
+                    Width="100"
+                    Height="50"
+                    Margin="10"
+                    Command="{s:Action StopMiniGame}"
+                    Content="{DynamicResource Stop}"
+                    IsEnabled="{Binding Idle}"
+                    Visibility="{c:Binding 'Started'}"/>
             </Grid>
         </TabItem>
     </TabControl>

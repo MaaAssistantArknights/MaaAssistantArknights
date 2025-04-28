@@ -1083,6 +1083,21 @@ namespace MaaWpfGui.ViewModels.UI
         {
             string errMsg = string.Empty;
             Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg) && Instances.AsstProxy.AsstMiniGame(MiniGameTaskName));
+            Started = true;
+        }
+
+        private bool _started;
+
+        public bool Started
+        {
+            get => _started;
+            private set => SetAndNotify(ref _started, value);
+        }
+
+        public void StopMiniGame()
+        {
+            Instances.AsstProxy.AsstStop();
+            Started = false;
         }
 
         #endregion
