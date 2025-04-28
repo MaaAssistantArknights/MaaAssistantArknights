@@ -133,6 +133,21 @@ public class ConfigConverter
                 startUpTask.AccountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.AccountName, out _);
 
+                fightTask.UseMedicine = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, false);
+                fightTask.MedicineCount = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicineQuantity, 999);
+                fightTask.UseStone = ConfigurationHelper.GetValue(ConfigurationKeys.UseStone, false);
+                fightTask.StoneCount = ConfigurationHelper.GetValue(ConfigurationKeys.UseStoneQuantity, 999);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.UseMedicine, out _);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.UseMedicineQuantity, out _);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.UseStone, out _);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.UseStoneQuantity, out _);
+                fightTask.Stage1 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty);
+                fightTask.Stage2 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage2, string.Empty);
+                fightTask.Stage3 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage3, string.Empty);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.Stage1, out _);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.Stage2, out _);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.Stage3, out _);
+
                 fightTask2.Stage1 = ConfigurationHelper.GetValue(ConfigurationKeys.RemainingSanityStage, string.Empty);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RemainingSanityStage, out _);
 
