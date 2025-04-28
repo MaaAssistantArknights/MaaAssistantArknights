@@ -12,8 +12,9 @@
 // </copyright>
 
 #nullable enable
-namespace MaaWpfGui.Configuration.Single.MaaTask;
 using static MaaWpfGui.Main.AsstProxy;
+
+namespace MaaWpfGui.Configuration.Single.MaaTask;
 
 public class AwardTask : BaseTask
 {
