@@ -686,7 +686,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">小游戏名称</system:String>
     <system:String x:Key="MiniGameNameGreenGrass">争锋频道：青草城</system:String>
-    <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">在活动界面开始任务。&#10;跟着鸭总喝口汤。</system:String>
+    <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">在活动界面（右下角 → 加入赛事）开始任务。&#10;跟着鸭总喝口汤。</system:String>
     <!--  !小游戏  -->
     <!--  日志  -->
     <system:String x:Key="Identifying">正在识别……</system:String>
