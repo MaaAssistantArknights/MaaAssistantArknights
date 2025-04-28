@@ -1348,7 +1348,7 @@ namespace MaaWpfGui.ViewModels.UI
                         break;
 
                     case "WakeUp":
-                        taskRet &= AppendStart();
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, StartUpTask.Serialize());
                         break;
 
                     case "Combat":
@@ -1356,23 +1356,23 @@ namespace MaaWpfGui.ViewModels.UI
                         break;
 
                     case "Recruiting":
-                        taskRet &= AppendRecruit();
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Recruit, RecruitTask.Serialize());
                         break;
 
                     case "Mall":
-                        taskRet &= AppendMall();
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Mall, MallTask.Serialize());
                         break;
 
                     case "Mission":
-                        taskRet &= AppendAward();
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Award, AwardTask.Serialize());
                         break;
 
                     case "AutoRoguelike":
-                        taskRet &= AppendRoguelike();
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Roguelike, RoguelikeTask.Serialize());
                         break;
 
                     case "Reclamation":
-                        taskRet &= AppendReclamation();
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, ReclamationTask.Serialize());
                         break;
 
                     case "Custom":
@@ -1560,8 +1560,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             bool taskRet = true;
-            taskRet &= AppendStart();
-
+            taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, StartUpTask.Serialize());
             taskRet &= Instances.AsstProxy.AsstStart();
 
             if (taskRet)
@@ -1574,12 +1573,6 @@ namespace MaaWpfGui.ViewModels.UI
                 await Stop();
                 SetStopped();
             }
-        }
-
-        public static bool AppendStart()
-        {
-            var (type, param) = StartUpTask.Serialize();
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, type, param);
         }
 
         public bool AppendFight()
@@ -1701,38 +1694,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            var (type, param) = InfrastTask.Serialize();
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Infrast, type, param);
-        }
-
-        public static bool AppendMall()
-        {
-            var (type, param) = MallTask.Serialize();
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Mall, type, param);
-        }
-
-        public static bool AppendAward()
-        {
-            var (type, param) = AwardTask.Serialize();
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Award, type, param);
-        }
-
-        public static bool AppendRecruit()
-        {
-            var (type, param) = RecruitTask.Serialize();
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Recruit, type, param);
-        }
-
-        public static bool AppendRoguelike()
-        {
-            var (type, param) = RoguelikeTask.Serialize();
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Roguelike, type, param);
-        }
-
-        public static bool AppendReclamation()
-        {
-            var (type, param) = ReclamationTask.Serialize();
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, type, param);
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Infrast, InfrastTask.Serialize());
         }
 
         /// <summary>

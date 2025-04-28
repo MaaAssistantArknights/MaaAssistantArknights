@@ -2118,6 +2118,11 @@ namespace MaaWpfGui.Main
             return id != 0 && AsstStart();
         }
 
+        public bool AsstAppendTaskWithEncoding(TaskType wpfTasktype, (AsstTaskType Type, JObject? TaskParams) task)
+        {
+            return AsstAppendTaskWithEncoding(wpfTasktype, task.Type, task.TaskParams);
+        }
+
         public bool AsstAppendTaskWithEncoding(TaskType wpfTasktype, AsstTaskType type, JObject? taskParams = null)
         {
             taskParams ??= [];

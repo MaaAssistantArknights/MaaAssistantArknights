@@ -19,7 +19,7 @@ using Stylet;
 
 namespace MaaWpfGui.ViewModels;
 
-public class TaskViewModel : PropertyChangedBase
+public abstract class TaskViewModel : PropertyChangedBase
 {
     public virtual void ProcSubTaskMsg(AsstMsg msg, JObject details)
     {
@@ -29,8 +29,5 @@ public class TaskViewModel : PropertyChangedBase
     /// 序列化MAA任务
     /// </summary>
     /// <returns>返回(Asst任务类型, 参数)</returns>
-    public virtual (AsstTaskType Type, JObject Params) Serialize()
-    {
-        throw new NotImplementedException();
-    }
+    public abstract (AsstTaskType Type, JObject Params) Serialize();
 }
