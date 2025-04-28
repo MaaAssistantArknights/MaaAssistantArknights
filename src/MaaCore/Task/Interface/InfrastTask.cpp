@@ -54,17 +54,14 @@ bool asst::InfrastTask::set_params(const json::value& params)
 {
     LogTraceFunction;
 
-    int mode = params.get("mode", 0);
-    bool is_custom = static_cast<Mode>(mode) == Mode::Custom;
-    bool use_rotation = static_cast<Mode>(mode) == Mode::Rotation;
-
+    auto mode = static_cast<Mode>(params.get("mode", 0));
     const std::initializer_list<std::shared_ptr<InfrastProductionTask>> shift_tasks = { m_mfg_task_ptr,
                                                                                         m_trade_task_ptr,
                                                                                         m_reception_task_ptr };
 
     for (auto&& task : shift_tasks) {
         if (task) {
-            task->set_skip_shift(use_rotation);
+            task->set_skip_shift(mode == Mode::Rotation);
         }
     }
 
@@ -81,7 +78,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
         m_subtasks.clear();
         append_infrast_begin();
 
-        if (use_rotation) {
+        if (mode == Mode::Rotation) {
             m_subtasks.emplace_back(m_queue_rotation_task);
         }
 
@@ -98,7 +95,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
             std::string facility = facility_json.as_string();
 
-            if (use_rotation && rotation_skip_facilities.find(facility) != rotation_skip_facilities.cend()) {
+            if (mode == Mode::Rotation && rotation_skip_facilities.find(facility) != rotation_skip_facilities.cend()) {
                 Log.info("skip facility in rotation mode", facility);
                 continue;
             }
@@ -143,7 +140,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
     bool continue_training = params.get("continue_training", false);
     m_training_task_ptr->set_continue_training(continue_training);
 
-    if (!is_custom) {
+    if (mode != Mode::Custom) {
         std::string drones = params.get("drones", "_NotUse");
         m_mfg_task_ptr->set_uses_of_drone(drones);
         m_trade_task_ptr->set_uses_of_drone(drones);
@@ -173,7 +170,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
     bool replenish = params.get("replenish", false);
     m_replenish_task_ptr->set_enable(replenish);
 
-    if (is_custom && !m_running) {
+    if (mode == Mode::Custom && !m_running) {
         auto filename_opt = params.find<std::string>("filename");
         if (!filename_opt) {
             Log.error("filename is not set while custom mode is enabled");
