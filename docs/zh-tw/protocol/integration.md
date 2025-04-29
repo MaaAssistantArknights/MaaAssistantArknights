@@ -151,24 +151,26 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 {
     "enable": bool,         // 是否啟用本任務，可選，預設為 true
     "mode": int,            // 換班工作模式，可選，預設 0
-                            // 0 - 預設換班模式，單設施最優解
-                            // 10000 - 自定義換班模式，讀取用戶配置，可參考 3.6-基建排班協議.md
+                            // 0     - Default: 預設換班模式，單一設施最適解
+                            // 10000 - Custom: 自訂換班模式，讀取使用者配置，可參考 protocol/base-scheduling-schema.md
+                            // 20000 - Rotation: 一鍵輪換模式，會跳過控制中樞、發電站、宿舍以及辦公室，其餘設施不進行換班但保留基本操作（如使用無人機、會客室邏輯）
 
     "facility": [           // 要換班的設施（有序），必選。不支援執行中設定
         string,             // 設施名，"Mfg" | "Trade" | "Power" | "Control" | "Reception" | "Office" | "Dorm"
         ...
     ],
     "drones": string,       // 無人機用途，可選項，預設 _NotUse
-                            // mode==10000 時該欄位無效（會被忽略）
+                            // mode = 10000 時該欄位無效（會被忽略）
                             // "_NotUse"、"Money"、"SyntheticJade"、"CombatRecord"、"PureGold"、"OriginStone"、"Chip"
     "threshold": float,     // 工作心情閾值，可選，取值範圍 [0, 1.0]，預設 0.3
-                            // mode==10000 時該欄位僅針對 "autofill" 有效
+                            // mode = 10000 時該欄位僅針對 "autofill" 有效
+                            // mode = 20000 時該欄位無效（會被忽略）
     "replenish": bool,      // 貿易站 “源石碎片” 是否自動補貨，可選，預設 false
 
     "dorm_notstationed_enabled": bool, // 是否啟用宿舍 “未進駐” 選項，可選，預設 false
     "dorm_trust_enabled": bool, // 是否將宿舍剩餘位置填入信賴未滿幹員，可選，預設 false
 
-    /* 以下參數僅在 mode=10000 時生效，否則會被忽略 */
+    /* 以下參數僅在 mode = 10000 時生效，否則會被忽略 */
     "filename": string,     // 自定義配置路徑，必選。不支援執行中設定
     "plan_index": int,      // 使用配置中的方案序號，必選。不支援執行中設定
 }

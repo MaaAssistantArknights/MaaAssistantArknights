@@ -18,6 +18,8 @@ public:
     void set_custom_drones_config(infrast::CustomDronesConfig drones_config);
     void clear_custom_drones_config();
 
+    void set_skip_shift(bool skip) noexcept { m_skip_shift = skip; }
+
 protected:
     bool shift_facility_list();
     bool facility_list_detect();
@@ -40,6 +42,7 @@ protected:
     size_t max_num_of_opers_per_page = 0;
     bool m_is_use_custom_drones = false;
     infrast::CustomDronesConfig m_custom_drones_config;
+    bool m_skip_shift = false;
 
 protected:
     void change_product();
