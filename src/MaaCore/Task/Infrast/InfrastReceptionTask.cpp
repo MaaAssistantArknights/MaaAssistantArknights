@@ -41,7 +41,13 @@ bool asst::InfrastReceptionTask::_run()
     if (need_exit()) {
         return false;
     }
-    shift();
+
+    if (!m_skip_shift) {
+        shift();
+    }
+    else {
+        Log.info("skip shift in rotation mode");
+    }
 
     return true;
 }
