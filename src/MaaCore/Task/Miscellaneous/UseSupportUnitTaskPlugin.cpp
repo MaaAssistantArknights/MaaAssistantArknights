@@ -187,7 +187,7 @@ bool asst::UseSupportUnitTaskPlugin::try_use_support_unit_with_skill(
     ProcessTask(*this, { "UseSupportUnit-Confirm" }).run();
 
     // callback
-    json::value info = basic_info_with_what("RecruitSuppportOperator");
+    json::value info = basic_info_with_what("RecruitSupportOperator");
     info["details"]["name"] = support_unit.name;
     info["details"]["skill"] = skill;
     callback(AsstMsg::SubTaskExtraInfo, info);

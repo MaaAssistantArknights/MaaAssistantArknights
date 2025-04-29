@@ -1418,10 +1418,10 @@ namespace MaaWpfGui.Main
                         break;
                     }
 
-                case "RecruitSuppportOperator":
+                case "RecruitSupportOperator":
                     {
                         var name = subTaskDetails!["name"]!.ToString();
-                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RecruitSuppportOperator"), name), UiLogColor.Info);
+                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RecruitSupportOperator"), name), UiLogColor.Info);
                         break;
                     }
 
