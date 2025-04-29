@@ -1,3 +1,20 @@
+
+00@EnterEpisodeNew.png
+01@EnterEpisodeNew.png
+02@EnterEpisodeNew.png
+03@EnterEpisodeNew.png
+04@EnterEpisodeNew.png
+05@EnterEpisodeNew.png
+06@EnterEpisodeNew.png
+07@EnterEpisodeNew.png
+08@EnterEpisodeNew.png
+09@EnterEpisodeNew.png
+10@EnterEpisodeNew.png
+11@EnterEpisodeNew.png
+12@EnterEpisodeNew.png
+13@EnterEpisodeNew.png
+14@EnterEpisodeNew.png
+15@EnterEpisodeNew.png
 AccountManager.png
 AccountManagerBili.png
 AccountManagerListAccount.png
@@ -140,6 +157,7 @@ GachaLastTenTimesResult1.png
 GachaNoMoney.png
 GachaSkip.png
 GameStart.png
+GreenGrass@DuelChannel@duck.png
 IC-Open.png
 InfrastClueSelfMaybeFull.png
 InfrastFilterMenu.png
@@ -206,6 +224,7 @@ Mizuki@Roguelike@StageVerticalConfirm.png
 Mizuki@Roguelike@StageWindAndRain.png
 ng
 NL-Open.png
+NormalDifficulty-Chapter15.png
 NormalDifficulty.png
 NoStone.png
 OF-Chapter2.png
@@ -264,6 +283,7 @@ Pioneer@UseSupportUnit-RoleSelected.png
 Pioneer@UseSupportUnit-SelectRole.png
 PopupCancel.png
 PopupConfirm.png
+RaidDifficulty-Chapter15.png
 RaidDifficulty.png
 ReceivedAllMail.png
 Reclamation2BeginStageTalk.png
@@ -294,8 +314,8 @@ Roguelike@DeepExplorationNotUnlocked.png
 Roguelike@DeepExplorationRewardMissSuperDark.png
 Roguelike@DialogSkip.png
 Roguelike@DialogSkipConfirm.png
-Roguelike@ExitThenAbandon_mode4.png
 Roguelike@ExitThenAbandon.png
+Roguelike@ExitThenAbandon_mode4.png
 Roguelike@GamePassSkip2.png
 Roguelike@GamePassTheEndConfirm.png
 Roguelike@GetDropLeaveConfirm.png
@@ -428,6 +448,7 @@ Sarkaz@Roguelike@CloseCollection.png
 Sarkaz@Roguelike@CloseCollectionClose.png
 Sarkaz@Roguelike@CloseCollectionContinue.png
 Sarkaz@Roguelike@CloseEvent.png
+Sarkaz@Roguelike@Confirm.png
 Sarkaz@Roguelike@DecreaseBurdenAbandon.png
 Sarkaz@Roguelike@DecreaseBurdenChaos.png
 Sarkaz@Roguelike@DecreaseBurdenCheckChaos.png
@@ -540,6 +561,7 @@ StageDrops-Tough.png
 StageEpisode.png
 StageLS5.png
 StageLS6.png
+StageOFNew.png
 StageResource.png
 StageSideStory.png
 StageTheme.png
