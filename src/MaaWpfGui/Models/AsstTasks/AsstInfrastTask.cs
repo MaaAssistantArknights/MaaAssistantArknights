@@ -13,6 +13,7 @@
 #nullable enable
 using System.Collections.Generic;
 using MaaWpfGui.Services;
+using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.Models.AsstTasks;
@@ -23,6 +24,11 @@ namespace MaaWpfGui.Models.AsstTasks;
 public class AsstInfrastTask : AsstBaseTask
 {
     public override AsstTaskType TaskType => AsstTaskType.Infrast;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 是否启用游戏内队列轮换及干员休整
+    /// </summary>
+    public InfrastMode Mode { get; set; }
 
     /// <summary>
     /// Gets or sets 要换班的设施（有序）
@@ -74,11 +80,6 @@ public class AsstInfrastTask : AsstBaseTask
     public bool ReceptionMessageBoard { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets a value indicating whether 是否开启自定义配置
-    /// </summary>
-    public bool IsCustom { get; set; }
-
-    /// <summary>
     /// Gets or sets 自定义配置文件路径
     /// </summary>
     public string Filename { get; set; } = string.Empty;
@@ -100,10 +101,10 @@ public class AsstInfrastTask : AsstBaseTask
             ["dorm_trust_enabled"] = DormDormTrustEnabled,
             ["replenish"] = OriginiumShardAutoReplenishment,
             ["reception_message_board"] = ReceptionMessageBoard,
-            ["mode"] = IsCustom ? 10000 : 0,
+            ["mode"] = (int)Mode,
         };
 
-        if (IsCustom)
+        if (Mode == InfrastMode.Custom)
         {
             taskParams["filename"] = Filename;
             taskParams["plan_index"] = PlanIndex;

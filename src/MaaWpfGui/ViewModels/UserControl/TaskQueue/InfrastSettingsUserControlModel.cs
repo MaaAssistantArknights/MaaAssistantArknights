@@ -30,6 +30,7 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
+using Mode = InfrastMode;
 
 /// <summary>
 /// 基建任务
@@ -54,15 +55,15 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     {
         var facilityList = new[]
         {
-                "Mfg",
-                "Trade",
-                "Control",
-                "Power",
-                "Reception",
-                "Office",
-                "Dorm",
-                "Processing",
-                "Training",
+            "Mfg",
+            "Trade",
+            "Control",
+            "Power",
+            "Reception",
+            "Office",
+            "Dorm",
+            "Processing",
+            "Training",
         };
 
         var tempOrderList = new List<DragItemViewModel?>(new DragItemViewModel[facilityList.Length]);
@@ -209,6 +210,50 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         }
     }
 
+    /// <summary>
+    /// Gets the list of uses of infrast mode.
+    /// </summary>
+    public List<GenericCombinedData<Mode>> InfrastModeList { get; } =
+    [
+        new() { Display = LocalizationHelper.GetString("InfrastModeNormal"), Value = Mode.Normal },
+        new() { Display = LocalizationHelper.GetString("InfrastModeRotation"), Value = Mode.Rotation },
+        new() { Display = LocalizationHelper.GetString("InfrastModeCustom"), Value = Mode.Custom },
+    ];
+
+    // 5.16.0-b1，后续版本直接使用 ConfigurationHelper.GetValue(ConfigurationKeys.InfrastMode, Mode.Normal);
+    private Mode _infrastMode = GetInfrastMode();
+
+    private static Mode GetInfrastMode()
+    {
+        if (ConfigurationHelper.ContainsKey(ConfigurationKeys.CustomInfrastEnabled) &&
+            ConfigurationHelper.DeleteValue(ConfigurationKeys.CustomInfrastEnabled, out string outStr) &&
+            bool.TryParse(outStr, out bool enable) && enable)
+        {
+            return Mode.Custom;
+        }
+
+        return ConfigurationHelper.GetValue(ConfigurationKeys.InfrastMode, Mode.Normal);
+    }
+
+    /// <summary>
+    /// Gets or sets the infrast mode.
+    /// </summary>
+    public Mode InfrastMode
+    {
+        get => _infrastMode;
+        set
+        {
+            if (!SetAndNotify(ref _infrastMode, value))
+            {
+                return;
+            }
+
+            ConfigurationHelper.SetValue(ConfigurationKeys.InfrastMode, value.ToString());
+            RefreshCustomInfrastPlan();
+            NotifyOfPropertyChange(nameof(CustomInfrastPlanIndex));
+        }
+    }
+
     private string _usesOfDrones = ConfigurationHelper.GetValue(ConfigurationKeys.UsesOfDrones, "Money");
 
     /// <summary>
@@ -335,19 +380,6 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         {
             SetAndNotify(ref _originiumShardAutoReplenishment, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.OriginiumShardAutoReplenishment, value.ToString());
-        }
-    }
-
-    private bool _customInfrastEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastEnabled, bool.FalseString));
-
-    public bool CustomInfrastEnabled
-    {
-        get => _customInfrastEnabled;
-        set
-        {
-            SetAndNotify(ref _customInfrastEnabled, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastEnabled, value.ToString());
-            RefreshCustomInfrastPlan();
         }
     }
 
@@ -482,7 +514,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         CustomInfrastPlanList.Clear();
         _customInfrastPlanHasPeriod = false;
 
-        if (!CustomInfrastEnabled)
+        if (InfrastMode != Mode.Custom)
         {
             return;
         }
@@ -594,7 +626,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
 
     public void RefreshCustomInfrastPlanIndexByPeriod()
     {
-        if (!CustomInfrastEnabled || !_customInfrastPlanHasPeriod || Instances.TaskQueueViewModel.InfrastTaskRunning)
+        if (InfrastMode != Mode.Custom || !_customInfrastPlanHasPeriod || Instances.TaskQueueViewModel.InfrastTaskRunning)
         {
             return;
         }
@@ -621,7 +653,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
 
     public void IncreaseCustomInfrastPlanIndex()
     {
-        if (!CustomInfrastEnabled || _customInfrastPlanHasPeriod || CustomInfrastPlanInfoList.Count == 0)
+        if (InfrastMode != Mode.Custom || _customInfrastPlanHasPeriod || CustomInfrastPlanInfoList.Count == 0)
         {
             return;
         }
@@ -640,6 +672,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     {
         return new AsstInfrastTask
         {
+            Mode = InfrastMode,
             Facilitys = GetInfrastOrderList(),
             UsesOfDrones = UsesOfDrones,
             ContinueTraining = ContinueTraining,
@@ -647,10 +680,27 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             DormFilterNotStationedEnabled = DormFilterNotStationedEnabled,
             DormDormTrustEnabled = DormTrustEnabled,
             OriginiumShardAutoReplenishment = OriginiumShardAutoReplenishment,
-            IsCustom = CustomInfrastEnabled,
             ReceptionMessageBoard = ReceptionMessageBoardReceive,
             Filename = CustomInfrastFile,
             PlanIndex = CustomInfrastPlanIndex,
         }.Serialize();
     }
+}
+
+public enum InfrastMode
+{
+    /// <summary>
+    /// 普通
+    /// </summary>
+    Normal,
+
+    /// <summary>
+    /// 自定义
+    /// </summary>
+    Custom = 10000,
+
+    /// <summary>
+    /// 轮换
+    /// </summary>
+    Rotation = 20000,
 }

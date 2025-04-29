@@ -114,7 +114,11 @@
     <system:String x:Key="TrainingCompleted">Training completed</system:String>
     <system:String x:Key="TrainingLevel">Skill Rank</system:String>
     <system:String x:Key="TrainingTimeLeft">Remaining Time</system:String>
-    <system:String x:Key="CustomInfrastEnabled">Enable Custom Base (beta)</system:String>
+    <system:String x:Key="InfrastMode">Base Mode</system:String>
+    <system:String x:Key="InfrastModeNormal">Normal Mode</system:String>
+    <system:String x:Key="InfrastModeRotation">One-click Rotation Mode</system:String>
+    <system:String x:Key="InfrastModeRotationTip">Please manually set up operator queues in game before using One-click Rotation Mode</system:String>
+    <system:String x:Key="InfrastModeCustom">Custom Base Mode</system:String>
     <system:String x:Key="DefaultInfrast">Default Base infrastructure</system:String>
     <system:String x:Key="UserDefined">User defined</system:String>
     <system:String x:Key="153Time3">153 3 times a day</system:String>
