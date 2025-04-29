@@ -117,6 +117,7 @@
     <system:String x:Key="InfrastMode">인프라 모드</system:String>
     <system:String x:Key="InfrastModeNormal">표준 모드</system:String>
     <system:String x:Key="InfrastModeRotation">일괄 쉬프트</system:String>
+    <system:String x:Key="InfrastModeRotationTip">일괄 쉬프트 사용 전에 게임 내에서 오퍼레이터 대열을 수동으로 설정해 주세요</system:String>
     <system:String x:Key="InfrastModeCustom">커스텀 기반시설</system:String>
     <system:String x:Key="DefaultInfrast">기본 구성</system:String>
     <system:String x:Key="UserDefined">사용자 설정</system:String>

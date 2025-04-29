@@ -55,15 +55,15 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     {
         var facilityList = new[]
         {
-                "Mfg",
-                "Trade",
-                "Control",
-                "Power",
-                "Reception",
-                "Office",
-                "Dorm",
-                "Processing",
-                "Training",
+            "Mfg",
+            "Trade",
+            "Control",
+            "Power",
+            "Reception",
+            "Office",
+            "Dorm",
+            "Processing",
+            "Training",
         };
 
         var tempOrderList = new List<DragItemViewModel?>(new DragItemViewModel[facilityList.Length]);
@@ -215,17 +215,25 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     /// </summary>
     public List<GenericCombinedData<Mode>> InfrastModeList { get; } =
     [
+        new() { Display = LocalizationHelper.GetString("InfrastModeNormal"), Value = Mode.Normal },
         new() { Display = LocalizationHelper.GetString("InfrastModeRotation"), Value = Mode.Rotation },
         new() { Display = LocalizationHelper.GetString("InfrastModeCustom"), Value = Mode.Custom },
-        new() { Display = LocalizationHelper.GetString("InfrastModeNormal"), Value = Mode.Normal },
     ];
 
-    private Mode _infrastMode = ConfigurationHelper.ContainsKey(ConfigurationKeys.CustomInfrastEnabled) switch
+    // 5.16.0-b1，后续版本直接使用 ConfigurationHelper.GetValue(ConfigurationKeys.InfrastMode, Mode.Normal);
+    private Mode _infrastMode = GetInfrastMode();
+
+    private static Mode GetInfrastMode()
     {
-        true when ConfigurationHelper.DeleteValue(ConfigurationKeys.CustomInfrastEnabled, out var @outStr) && bool.TryParse(@outStr, out var enable) && enable => Mode.Custom,
-        false => ConfigurationHelper.GetValue(ConfigurationKeys.InfrastMode, Mode.Normal),
-        _ => Mode.Normal,
-    }; // v5.15.4
+        if (ConfigurationHelper.ContainsKey(ConfigurationKeys.CustomInfrastEnabled) &&
+            ConfigurationHelper.DeleteValue(ConfigurationKeys.CustomInfrastEnabled, out string outStr) &&
+            bool.TryParse(outStr, out bool enable) && enable)
+        {
+            return Mode.Custom;
+        }
+
+        return ConfigurationHelper.GetValue(ConfigurationKeys.InfrastMode, Mode.Normal);
+    }
 
     /// <summary>
     /// Gets or sets the infrast mode.
