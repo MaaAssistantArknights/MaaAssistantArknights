@@ -183,6 +183,19 @@ namespace MaaWpfGui.Main
             ConfigurationHelper.Load();
             LocalizationHelper.Load();
             ETagCache.Load();
+
+            // 检查 MaaCore.dll 是否存在
+            if (!File.Exists("MaaCore.dll"))
+            {
+                throw new FileNotFoundException("File not found!");
+            }
+
+            // 检查 resource 文件夹是否存在
+            if (!Directory.Exists("resource"))
+            {
+                throw new DirectoryNotFoundException("resource folder not found!");
+            }
+
             if (!IsVCppInstalled())
             {
                 var ret = MessageBox.Show(LocalizationHelper.GetString("VC++NotInstalled"), "MAA", MessageBoxButton.OKCancel);
@@ -202,10 +215,12 @@ namespace MaaWpfGui.Main
                     }
                     catch
                     {
+                        // ignored
                     }
                 }
 
                 Shutdown();
+                return;
             }
 
             if (!HandleMultipleInstances())
@@ -225,18 +240,6 @@ namespace MaaWpfGui.Main
             if (parsedArgs.TryGetValue(ConfigFlag, out string configArgs) && Config(configArgs))
             {
                 return;
-            }
-
-            // 检查 MaaCore.dll 是否存在
-            if (!File.Exists("MaaCore.dll"))
-            {
-                throw new FileNotFoundException("MaaCore.dll not found!");
-            }
-
-            // 检查 resource 文件夹是否存在
-            if (!Directory.Exists("resource"))
-            {
-                throw new DirectoryNotFoundException("resource folder not found!");
             }
         }
 

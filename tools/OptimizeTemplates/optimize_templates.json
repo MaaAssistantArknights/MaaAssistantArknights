@@ -3039,7 +3039,7 @@
     "YoStarEN/Sarkaz@Roguelike@GetDropSelectRecruit": "212728951031ae4718882e8004a7f7b37866cc9a98ec35ac6c72511123e30413",
     "YoStarEN/Sarkaz@Roguelike@GamePass": "b1b112dc6aae992573749585313717a5d2ce450231bc5b46adde60c706628471",
     "YoStarEN/Sarkaz@Roguelike@StageBoskyPassageEnter": "fc0120bdcef4c02291cc5b658bfa55c84d6bcba4e8ff91e455ef14eb8ccb128e",
-    "YoStarEN/Sarkaz@Roguelike@RoutingRefreshNode": "4fdfb638ea9ab6952b4dd1e67a631a5c1459428b627047823567860233e304d6",
+    "YoStarEN/Sarkaz@Roguelike@RoutingRefreshNode": "70b6224cfe7ab08a73fa757ff4d5b81138ed8dde68478f487c205a2a6552ff8b",
     "YoStarEN/Sarkaz@Roguelike@StageEncounterLeaveConfirm": "5001b3a7e7e5c001d9b91359119cfd2ffef503c184302850c6da28f8775cdc31",
     "YoStarEN/Sarkaz@Roguelike@StageTraderEnter": "4c8a15a0ed50c585249771085d70333bc7ed07fbcd0a490317fea075a72774cf",
     "YoStarEN/Sarkaz@Roguelike@EnterAfterRecruit": "f9079bae12a24bbab374ab7efc1052189ab43b8f5a81cb035d3273dea3d9206d",
@@ -3082,7 +3082,7 @@
     "YoStarKR/Sarkaz@Roguelike@GetDropSelectRecruit": "5708d7e68552676d62611b2cf49f3760ffcc2b95369ccf2375825488d524c0cd",
     "YoStarKR/Sarkaz@Roguelike@GamePass": "596b675ec295a2196fe1935dd428ac48b3479b3b58e5092cd8e8b607d4d2c735",
     "YoStarKR/Sarkaz@Roguelike@StageBoskyPassageEnter": "ac1d0e68f793284aea59362c994c8561b7153e7f3adfdc032d16cde1ccdac405",
-    "YoStarKR/Sarkaz@Roguelike@RoutingRefreshNode": "59bd61a70264856c8d516d05cde49ce1251d95dccab652c807097a3c739e5624",
+    "YoStarKR/Sarkaz@Roguelike@RoutingRefreshNode": "c667cf87e270918f2dff966d36bc35baae3564c1784923e76ff5d3ea38d12143",
     "YoStarKR/Sarkaz@Roguelike@StageEncounterLeaveConfirm": "a75be08a5264a380b4622220d50e93e5c023b82187cd52c388203d39dad67708",
     "YoStarKR/Sarkaz@Roguelike@StageTraderEnter": "7a9777c864238c3ffac31401fb977f547f691cafd62a15ecb95646ff26413518",
     "YoStarKR/Sarkaz@Roguelike@EnterAfterRecruit": "02581efc901d6a6c386dc0726126ac5f24f4e72a47d51c82791696f853d29fa7",
@@ -3103,7 +3103,7 @@
     "YoStarKR/Sarkaz@Roguelike@ChooseDifficulty": "8c3082d872ec41845daf13b6aae504819d2076f4c6e144ddef2dc45f0cf53272",
     "YoStarKR/Sarkaz@Roguelike@RolesDefault": "e7e2eade06af9d63f0910bb97fec6984bee25d4c1333b91ca8547ad70f8e645b",
     "YoStarKR/Sarkaz@Roguelike@GetDrop1": "d9a55037b7697985ae52840b728cc5a94b6e44129b524c2216478339fde7148f",
-    "YoStarKR/Sarkaz@Roguelike@StageRefresh": "b65aeb69e2355562a5ab36661d1e601494da322d9567dd8992fc94233bcd2b05",
+    "YoStarKR/Sarkaz@Roguelike@StageRefresh": "c667cf87e270918f2dff966d36bc35baae3564c1784923e76ff5d3ea38d12143",
     "YoStarKR/Sarkaz@Roguelike@GetDrop2": "c26faa77b5a374468d912eb5c767735e1edb16cf7e82b8505afcd386d37e1eee",
     "YoStarKR/Sarkaz@Roguelike@StageRefreshUpperLimit": "05ddffc1e2bc3b36bee9370d77d0695e04b96f69527ff284a2f82676bb23e0d9",
     "YoStarKR/Sarkaz@Roguelike@MapObject": "6aa834ff9ebe02029ba93b82938ac6b42a545881a992d9321d0968e2e7a88546",
@@ -3267,5 +3267,6 @@
     "web/src/assets/links/mirrorc": "6e91286fd01a27d2aa32667b1c07c4b38c04659858d8185e22c10991b4be18d4",
     "official/15@EnterEpisodeNew": "25a3e96bb26e7c663b22f4b1e2c80d8505583015bfdcd983000d96dc8e0ea405",
     "resource/template/items/act1enemyduel_milestone_point": "5782db16520036bf43fc9429115036e23f29695ec93bf356d432105fd89f4108",
-    "resource/template/items/itempack_gold_1": "884b830db6b2485eb3590e376c85db137fd8a2cf82d7504e925a39284aaed000"
+    "resource/template/items/itempack_gold_1": "884b830db6b2485eb3590e376c85db137fd8a2cf82d7504e925a39284aaed000",
+    "official/GreenGrass@DuelChannel@duck": "9edf371202d6373616470d093b4cc3cfc698adfd6732e0ed02ff772b7df8d654"
 }

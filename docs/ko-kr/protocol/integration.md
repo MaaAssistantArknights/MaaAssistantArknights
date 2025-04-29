@@ -144,6 +144,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
     "mode": int,            // 전환 모드, 선택 사항입니다. 실행 중에는 편집할 수 없습니다.
                             // 0 - 기본값, 자동 전환
                             // 10000 - 사용자 정의 모드, 인프라 스키마 문서를 참조하세요.
+                            // 20000 - 로테이션: 원키 로테이션 모드로 제어센터, 발전소, 기숙사, 사무실을 스킵하고, 기타 시설은 교대근무를 하지 않고 기본 운영(드론 사용, 접수실 로직 등)을 그대로 유지
     "facility": [           // 전환할 시설, 필수입니다. 실행 중에 편집할 수 없습니다.
         string,             // 시설 이름: "Mfg" | "Trade" | "Power" | "Control" | "Reception" | "Office" | "Dorm"
         ...
