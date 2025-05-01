@@ -24,7 +24,34 @@
 
 ----
 
+### Base Construction Changes… Again | Highlight
+
+This version update is the first wave of the 6th Anniversary content, and includes urgent fixes for issues caused by the new base system and other related changes.
+
+#### New Base System
+
+The main changes to the base in the 6th Anniversary update are:  
+1. A new row of *Facilities* has been added.  
+2. The background of the top-left "Operator Overview" and "Construction Mode" buttons is now semi-transparent.
+
+We’ve updated MAA to adapt to these changes in this version, and have started initial work on supporting base queues and operator rest functionality.
+
+If you encounter any issues while using the base system, please let us know promptly!
+
+#### New Events
+
+In this version, we’ve added support for the 6th Anniversary’s featured events like the Monthly Pass recommendation, Lucky Wall, and more. We’ve also adapted the navigation for the SideStory **"An Obscure Wanderer"**. Hopefully we didn’t miss anything this time (x
+
+#### Improved Skill Recognition
+
+We’ve updated the skill recognition model to better handle edge cases, like when the HP bar covers the skill icon.
+
+If you run into problems using Auto Battle, don’t hesitate to report them~
+
+----
+
 以下是详细内容：
+Below is the full changelog:
 
 ### 新增 | New
 
