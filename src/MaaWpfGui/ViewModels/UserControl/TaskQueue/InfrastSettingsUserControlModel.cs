@@ -229,6 +229,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             ConfigurationHelper.DeleteValue(ConfigurationKeys.CustomInfrastEnabled, out string outStr) &&
             bool.TryParse(outStr, out bool enable) && enable)
         {
+            ConfigurationHelper.SetValue(ConfigurationKeys.InfrastMode, Mode.Custom.ToString());
             return Mode.Custom;
         }
 
