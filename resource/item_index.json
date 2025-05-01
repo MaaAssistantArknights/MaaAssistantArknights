@@ -1127,6 +1127,14 @@
         "sortId": 10009,
         "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
     },
+    "LMTGS_COIN_6101": {
+        "classifyType": "NORMAL",
+        "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
+        "icon": "LMTGS_COIN_6101.png",
+        "name": "寻访数据契约",
+        "sortId": 10027,
+        "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
+    },
     "LMTGS_COIN_903": {
         "classifyType": "NORMAL",
         "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
@@ -1935,6 +1943,14 @@
         "sortId": -10000,
         "usage": "在黑林中找到的破损源石灯。纳斯尔纱城内的匮乏缓解后，居民们自发组织起来，拿出手头仅有的物资，回收这些战争时期的遗存。"
     },
+    "act42side_token_pacifier": {
+        "classifyType": "NONE",
+        "description": "一枚沾满口水渍的奶嘴，已经长出了小小的光环。丢了它的孩子此刻正不安地啼哭，为迷途的奶嘴指引方向，它终将回到孩子身边。",
+        "icon": "act42side_token_pacifier.png",
+        "name": "蒙恩的奶嘴",
+        "sortId": -10000,
+        "usage": "育婴圣堂的启圣工作进行得如火如荼，生灵与死物一齐长出了光环。初获光环的奶嘴在育婴圣堂内迷茫地游荡，导致无数婴儿夜不能寐。若你能劝它们回归职守，焦头烂额的保育员们一定很愿意以礼相谢。"
+    },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "模拟中的对错并不重要，它们只是种辅助，帮助你在实战中做出正确的选择。",
@@ -2558,6 +2574,14 @@
         "name": "狂欢烟花桶",
         "sortId": 60115,
         "usage": "装有狂欢节上可能用到的各种物资补给，包含多种随机材料。"
+    },
+    "randomMaterial_act42side": {
+        "classifyType": "CONSUME",
+        "description": "潘格尼尼的铳械工坊从来没有所谓“废料”，铳械定制过程中产生的余料，会被学徒梵里妮精心加工成小小的工艺品，作为赠品送给客户。",
+        "icon": "randomMaterial_act42side.png",
+        "name": "铳械工坊赠品盒",
+        "sortId": 60116,
+        "usage": "装有铳械工坊送来的各种物资补给，包含多种随机材料。"
     },
     "randomMaterial_leith2": {
         "classifyType": "CONSUME",

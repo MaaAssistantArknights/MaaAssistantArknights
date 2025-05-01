@@ -62,11 +62,20 @@ namespace MaaWpfGui.Extensions
 
         public static string ToLocalTimeString(this DateTime dt, string? format = null)
         {
-            var dateTimeFormat = LocalizationHelper.FormatDateTime(DateTime.Now);
+            var localTime = dt.Kind switch
+            {
+                DateTimeKind.Utc => dt.ToLocalTime(),
+                DateTimeKind.Local => dt,
+                _ => DateTime.SpecifyKind(dt, DateTimeKind.Utc).ToLocalTime(),
+            };
 
-            return string.IsNullOrEmpty(format)
-                ? dt.ToLocalTime().ToString($"{dateTimeFormat} HH:mm:ss", CustomCultureInfo)
-                : dt.ToLocalTime().ToString(format, CustomCultureInfo);
+            if (!string.IsNullOrEmpty(format))
+            {
+                return localTime.ToString(format, CustomCultureInfo);
+            }
+
+            var dateTimeFormat = LocalizationHelper.FormatDateTime(localTime);
+            return localTime.ToString($"{dateTimeFormat} HH:mm:ss", CustomCultureInfo);
         }
 
         public static DateTime ToDateTime(this System.Runtime.InteropServices.ComTypes.FILETIME filetime)

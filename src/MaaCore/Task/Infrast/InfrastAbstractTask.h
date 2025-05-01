@@ -43,6 +43,8 @@ protected:
     void swipe_to_the_left_of_main_ui();
     // 滑动基建的主界面到最右侧
     void swipe_to_the_right_of_main_ui();
+    // 往右滑一点
+    void swipe_to_right_of_main_ui();
     void swipe_of_operlist();
     bool is_use_custom_opers();
     infrast::CustomRoomConfig& current_room_config();
