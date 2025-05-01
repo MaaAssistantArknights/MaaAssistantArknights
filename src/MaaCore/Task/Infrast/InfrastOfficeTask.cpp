@@ -14,10 +14,14 @@ bool asst::InfrastOfficeTask::_run()
         Log.info("skip this room");
         return true;
     }
-    swipe_to_the_right_of_main_ui();
+    swipe_to_the_left_of_main_ui();
     if (!enter_facility()) {
-        return false;
+        swipe_to_right_of_main_ui();
+        if (!enter_facility()) {
+            return false;
+        }
     }
+
     if (!enter_oper_list_page()) {
         return false;
     }
