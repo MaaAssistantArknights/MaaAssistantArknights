@@ -1831,7 +1831,7 @@
     "RecruitingActivitiesRecruit": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["寻访一次", "寻访"],
+        "text": ["赠送一次", "赠送"],
         "roi": [770, 577, 267, 143],
         "next": ["RecruitingActivitiesRecruitNowConfirm"]
     },
