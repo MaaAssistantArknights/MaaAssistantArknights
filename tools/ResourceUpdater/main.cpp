@@ -203,11 +203,11 @@ bool run_parallel_tasks(
         }
         std::cout << "------- Update version info for Official -------" << '\n';
         if (!update_version_info(official_data_dir / "gamedata" / "excel", resource_dir)) {
-            std::cerr << "update_version_info failed" << '\n';
+            std::cerr << "update_version_info failed for Official" << '\n';
             error_occurred.store(true);
         }
         else {
-            std::cout << ">Done version Official" << '\n';
+            std::cout << ">Done version for Official" << '\n';
         }
 
         std::vector<std::thread> version_threads;
@@ -217,7 +217,7 @@ bool run_parallel_tasks(
                 if (error_occurred.load()) {
                     return;
                 }
-                std::cout << "------- Update version info " << out << " -------" << '\n';
+                std::cout << "------- Update version info for " << out << " -------" << '\n';
                 if (!update_version_info(
                         overseas_data_dir / in / "gamedata" / "excel",
                         resource_dir / "global" / out / "resource")) {
@@ -225,7 +225,7 @@ bool run_parallel_tasks(
                     error_occurred.store(true);
                 }
                 else {
-                    std::cout << ">Done version " << out << '\n';
+                    std::cout << ">Done version for " << out << '\n';
                 }
             });
         }
@@ -240,16 +240,16 @@ bool run_parallel_tasks(
             if (error_occurred.load()) {
                 return;
             }
-            std::cout << "------- OCR replace " << out << " -------" << '\n';
+            std::cout << "------- OCR replace for " << out << " -------" << '\n';
             if (!ocr_replace_overseas(
                     overseas_data_dir / in / "gamedata" / "excel",
                     resource_dir / "global" / out / "resource" / "tasks",
                     official_data_dir / "gamedata" / "excel")) {
-                std::cerr << "ocr_replace_overseas failed " << out << '\n';
+                std::cerr << "ocr_replace_overseas failed for " << out << '\n';
                 error_occurred.store(true);
             }
             else {
-                std::cout << ">Done OCR replace " << out << '\n';
+                std::cout << ">Done OCR replace for " << out << '\n';
             }
         }
     });
@@ -263,11 +263,11 @@ bool run_parallel_tasks(
                 official_data_dir / "gamedata" / "excel",
                 resource_dir / "recruitment.json",
                 true)) {
-            std::cerr << "Update recruitment data failed" << '\n';
+            std::cerr << "Update recruitment data failed for Official" << '\n';
             error_occurred.store(true);
         }
         else {
-            std::cout << ">Done recruitment Official" << '\n';
+            std::cout << ">Done recruitment for Official" << '\n';
         }
 
         std::vector<std::thread> recruitment_threads;
@@ -282,11 +282,11 @@ bool run_parallel_tasks(
                         overseas_data_dir / in / "gamedata" / "excel",
                         resource_dir / "global" / out / "resource" / "recruitment.json",
                         false)) {
-                    std::cerr << "update_recruitment_data failed " << out << '\n';
+                    std::cerr << "update_recruitment_data failed for " << out << '\n';
                     error_occurred.store(true);
                 }
                 else {
-                    std::cout << ">Done recruitment " << out << '\n';
+                    std::cout << ">Done recruitment for " << out << '\n';
                 }
             });
         }
@@ -302,11 +302,11 @@ bool run_parallel_tasks(
         }
         std::cout << "------- Update items data for Official -------" << '\n';
         if (!update_items_data(official_data_dir, resource_dir, true)) {
-            std::cerr << "Update items data failed" << '\n';
+            std::cerr << "Update items data failed for Official" << '\n';
             error_occurred.store(true);
         }
         else {
-            std::cout << ">Done items Official" << '\n';
+            std::cout << ">Done items for Official" << '\n';
         }
 
         std::vector<std::thread> items_threads;
@@ -316,16 +316,16 @@ bool run_parallel_tasks(
                 if (error_occurred.load()) {
                     return;
                 }
-                std::cout << "------- Update items data " << out << " -------" << '\n';
+                std::cout << "------- Update items data for " << out << " -------" << '\n';
                 if (!update_items_data(
                         overseas_data_dir / in / "gamedata" / "excel",
                         resource_dir / "global" / out / "resource",
                         false)) {
-                    std::cerr << "update_items_data failed " << out << '\n';
+                    std::cerr << "update_items_data failed for " << out << '\n';
                     error_occurred.store(true);
                 }
                 else {
-                    std::cout << ">Done items " << out << '\n';
+                    std::cout << ">Done items for " << out << '\n';
                 }
             });
         }
