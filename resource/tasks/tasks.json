@@ -2402,6 +2402,7 @@
     },
     "InfrastEnteredFlag": {
         "template": "InfrastOverview.png",
+        "templThreshold": 0.95,
         "roi": [0, 100, 300, 150],
         "next": ["InfrastNotification", "Stop"],
         "postDelay": 5000
@@ -2429,6 +2430,8 @@
     },
     "InfrastEnterRotation": {
         "template": "InfrastOverviewEnter.png",
+        "method": "RGBCount",
+        "colorScales": [[250, 255]],
         "roi": [120, 50, 160, 160],
         "postDelay": 1000,
         "action": "ClickSelf",
@@ -2639,7 +2642,7 @@
     "InfrastOffice": {
         "template": "Office.png",
         "maskRange": [1, 255],
-        "roi": [378, 94, 589, 529],
+        "roi": [378, 94, 900, 529],
         "templThreshold": 0.9
     },
     "InfrastOfficeMini": {
@@ -2650,7 +2653,7 @@
     },
     "InfrastProcessing": {
         "maskRange": [1, 255],
-        "roi": [378, 94, 589, 529],
+        "roi": [378, 94, 900, 529],
         "templThreshold": 0.95
     },
     "InfrastProcessingMini": {
@@ -2668,7 +2671,7 @@
     "InfrastReception": {
         "template": "Reception.png",
         "maskRange": [1, 255],
-        "roi": [378, 94, 589, 529],
+        "roi": [378, 94, 900, 529],
         "templThreshold": 0.95
     },
     "InfrastReceptionMini": {
@@ -2757,7 +2760,7 @@
     "InfrastTraining": {
         "template": "Training.png",
         "maskRange": [1, 255],
-        "roi": [378, 94, 589, 529],
+        "roi": [378, 94, 900, 529],
         "templThreshold": 0.95
     },
     "InfrastTrainingMini": {
@@ -4161,6 +4164,11 @@
         "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [1000, 350, 20, 20],
         "rectMove": [400, 350, 20, 20]
+    },
+    "InfrastSwipeToRightOfMainUi": {
+        "baseTask": "SlowlySwipeToTheRight",
+        "specificRect": [1080, 4, 1, 1],
+        "rectMove": [650, 4, 1, 1]
     },
     "InfrastOperListSwipeToTheLeft": {
         "baseTask": "SwipeToTheLeft",
