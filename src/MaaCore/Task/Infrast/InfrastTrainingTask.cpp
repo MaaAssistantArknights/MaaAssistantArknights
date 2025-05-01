@@ -21,7 +21,6 @@ bool asst::InfrastTrainingTask::_run()
     if (!enter_facility()) {
         return false;
     }
-    enter_facility();
 
     if (!analyze_status()) {
         return false;

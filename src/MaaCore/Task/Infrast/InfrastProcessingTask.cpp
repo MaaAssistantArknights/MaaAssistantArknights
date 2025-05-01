@@ -23,7 +23,9 @@ bool asst::InfrastProcessingTask::_run()
     }
 
     swipe_to_the_right_of_main_ui();
-    enter_facility();
+    if (!enter_facility()) {
+        return false;
+    }
     click_bottom_left_tab();
 
     ProcessTask(*this, { "InfrastProcessingEnterOperList" }).run();
