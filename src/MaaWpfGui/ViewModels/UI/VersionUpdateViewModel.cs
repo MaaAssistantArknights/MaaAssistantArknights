@@ -630,6 +630,7 @@ public class VersionUpdateViewModel : Screen
         if (latencies[selected] < 0)
         {
             _logger.Error("All mirrors are not available");
+            OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
             return CheckUpdateRetT.NetworkError;
         }
 
