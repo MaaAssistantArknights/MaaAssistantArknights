@@ -429,7 +429,17 @@ bool update_items_data(const fs::path& input_dir, const fs::path& output_dir, bo
         output["usage"] = item_info["usage"];
         output["description"] = item_info["description"];
         output["sortId"] = item_info["sortId"];
-        output["classifyType"] = item_info["classifyType"];
+
+        auto map_classify_type = [](const int type) -> std::string {
+            switch(type) {
+                case 0: return "NONE";
+                case 1: return "CONSUME";
+                case 2: return "NORMAL";
+                case 3: return "MATERIAL";
+                default: return "UNKNOWN";
+            }
+        };
+        output["classifyType"] = map_classify_type(item_info.get("classifyType", -1));
     }
     auto output_json_path = output_dir / "item_index.json";
     std::ofstream ofs(output_json_path, std::ios::out);
