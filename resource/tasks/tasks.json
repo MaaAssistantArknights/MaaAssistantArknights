@@ -2403,8 +2403,8 @@
     "InfrastEnteredFlag": {
         "template": "InfrastOverview.png",
         "templThreshold": 0.95,
-        "roi": [ 0, 100, 300, 150 ],
-        "next": [ "InfrastNotification", "Stop" ],
+        "roi": [0, 100, 300, 150],
+        "next": ["InfrastNotification", "Stop"],
         "postDelay": 5000
     },
     "InfrastNotification": {
