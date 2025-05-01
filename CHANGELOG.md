@@ -21,21 +21,19 @@
 * CheckLevelMax too fast without delay (#12498) @BxFS
 * 构建日期显示错误 @ABA2396
 * 下载源选择 MirrorChyan 时如果关闭自动下载，手动点击软件更新无提示 @ABA2396
-* EN RoutingRefreshNodeConfirm roi too small (#12491) @BxFS
 * RecruitSupportOperator 拼写错误 @ABA2396
 * vc++ 检测移动至文件检测后 @ABA2396
+* EN RoutingRefreshNodeConfirm roi too small (#12491) @BxFS
 * EN RoutingRefreshNode dimension too large (#12484) @BxFS
 * KR RoutingRefreshNode dimension too large (#12487) @HX3N
 
 ### 文档 | Docs
 
 * 移除过期描述 @ABA2396
-* Auto Update Changelogs of v5.16.0-beta.1 (#12489) @github-actions[bot]
 
 ### 其他 | Other
 
 * manually update version.json @Constrat
 * Manual update resources @Constrat
 * 不启用外部通知时隐藏可选项 @ABA2396
-* Release v5.16.0-beta.1 (#12488) @ABA2396
 * ignore templates for global @Constrat
