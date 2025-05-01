@@ -715,7 +715,7 @@ public class VersionUpdateViewModel : Screen
 
         if (!string.IsNullOrEmpty(text))
         {
-            toast.AddButton(text, ToastNotification.GetActionTagForOpenWeb(UpdateUrl));
+            toast.AddButton(text, ToastNotification.GetActionTagForOpenWeb(globalSource ? UpdateUrl : MaaUrls.MirrorChyanManualUpdate));
         }
 
         toast.ShowUpdateVersion();
@@ -733,13 +733,14 @@ public class VersionUpdateViewModel : Screen
         SettingsViewModel.VersionUpdateSettings.NewVersionFoundInfo = $"{LocalizationHelper.GetString("NewVersionFoundTitle")}: {UpdateTag}";
 
         bool goDownload = SettingsViewModel.VersionUpdateSettings.AutoDownloadUpdatePackage;
+
+        ShowUpdateInfo(true, LocalizationHelper.GetString("NewVersionFoundButtonGoWebpage"), false);
+
         if (!goDownload)
         {
             OutputDownloadProgress(string.Empty);
             return CheckUpdateRetT.NoNeedToUpdate;
         }
-
-        ShowUpdateInfo(true, null, false);
 
         UpdatePackageName = "MirrorChyanApp" + _mirrorcVersionName + ".zip";
         var downloaded = await DownloadFromMirrorChyan(_mirrorcDownloadUrl,

@@ -1,0 +1,64 @@
+{
+    "MT-10": {
+        "algorithm": "JustReturn",
+        "sub": ["MT-OpenOpt"],
+        "next": ["MT-10@SideStoryStage", "MT-10@SwipeToStage"]
+    },
+    "MT-10@SideStoryStage": {
+        "text": ["MT-10"]
+    },
+    "MT-9": {
+        "algorithm": "JustReturn",
+        "sub": ["MT-OpenOpt"],
+        "next": ["MT-9@SideStoryStage", "MT-9@SwipeToStage"]
+    },
+    "MT-9@SideStoryStage": {
+        "text": ["MT-9"]
+    },
+    "MT-8": {
+        "algorithm": "JustReturn",
+        "sub": ["MT-OpenOpt"],
+        "next": ["MT-8@SideStoryStage", "MT-8@SwipeToStage"]
+    },
+    "MT-8@SideStoryStage": {
+        "text": ["MT-8"]
+    },
+    "MT-6": {
+        "algorithm": "JustReturn",
+        "sub": ["MT-OpenOpt"],
+        "next": ["MT-6@SideStoryStage", "MT-6@SwipeToStage"]
+    },
+    "MT-6@SideStoryStage": {
+        "text": ["MT-6"]
+    },
+    "MT-4": {
+        "algorithm": "JustReturn",
+        "sub": ["MT-OpenOpt"],
+        "next": ["MT-4@SideStoryStage", "MT-4@SwipeToStage"]
+    },
+    "MT-4@SideStoryStage": {
+        "text": ["MT-4"]
+    },
+    "MT-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["MT-OpenOcr", "MT-Open"]
+    },
+    "MT-Open": {
+        "baseTask": "SS-Open",
+        "template": ["StageSideStory.png", "StageActivity.png"],
+        "next": ["MTChapterToMT"]
+    },
+    "MT-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["众生行记", "谒见神祇", "息止安所"],
+        "next": ["MTChapterToMT"]
+    },
+    "MTChapterToMT": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["瞻望圣堂"],
+        "preDelay": 4000,
+        "roi": [622, 588, 234, 132],
+        "next": ["#self", "ChapterSwipeToTheRight"]
+    }
+}

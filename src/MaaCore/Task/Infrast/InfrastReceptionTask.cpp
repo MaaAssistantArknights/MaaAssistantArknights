@@ -14,9 +14,12 @@ bool asst::InfrastReceptionTask::_run()
 {
     m_all_available_opers.clear();
 
-    swipe_to_the_right_of_main_ui();
+    swipe_to_the_left_of_main_ui();
     if (!enter_facility()) {
-        return false;
+        swipe_to_right_of_main_ui();
+        if (!enter_facility()) {
+            return false;
+        }
     }
 
     if (m_receive_message_board) {

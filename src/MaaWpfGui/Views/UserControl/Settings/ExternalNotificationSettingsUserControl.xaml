@@ -58,7 +58,7 @@
                     Content="{DynamicResource ExternalNotificationSendTest}"
                     IsEnabled="{c:Binding 'EnabledExternalNotificationProviderCount > 0'}" />
             </StackPanel>
-            <StackPanel HorizontalAlignment="Center">
+            <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding 'EnabledExternalNotificationProviderCount > 0'}">
                 <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
                     <CheckBox
                         Margin="5"

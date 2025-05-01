@@ -5849,6 +5849,15 @@
         "stageId": "act1enemyduel_01a",
         "width": 15
     },
+    "act1enemyduel_01b-activities/act1enemyduel/level_act1enemyduel_01b": {
+        "code": "VS-1",
+        "filename": "act1enemyduel_01b-activities-act1enemyduel-level_act1enemyduel_01b.json",
+        "height": 11,
+        "levelId": "activities/act1enemyduel/level_act1enemyduel_01b",
+        "name": "争锋试炼！",
+        "stageId": "act1enemyduel_01b",
+        "width": 15
+    },
     "act1enemyduel_02a-activities/act1enemyduel/level_act1enemyduel_02a": {
         "code": "VS-2",
         "filename": "act1enemyduel_02a-activities-act1enemyduel-level_act1enemyduel_02a.json",
@@ -5856,6 +5865,15 @@
         "levelId": "activities/act1enemyduel/level_act1enemyduel_02a",
         "name": "争锋对决！",
         "stageId": "act1enemyduel_02a",
+        "width": 15
+    },
+    "act1enemyduel_02b-activities/act1enemyduel/level_act1enemyduel_02b": {
+        "code": "VS-2",
+        "filename": "act1enemyduel_02b-activities-act1enemyduel-level_act1enemyduel_02b.json",
+        "height": 11,
+        "levelId": "activities/act1enemyduel/level_act1enemyduel_02b",
+        "name": "争锋对决！",
+        "stageId": "act1enemyduel_02b",
         "width": 15
     },
     "act1multi_01-activities/act1multi/level_act1multi_01": {
@@ -12867,6 +12885,105 @@
         "levelId": "activities/act41side/level_act41side_tr01",
         "name": "拨雾声",
         "stageId": "act41side_tr01",
+        "width": 10
+    },
+    "act42side_01-activities/act42side/level_act42side_01": {
+        "code": "MT-1",
+        "filename": "act42side_01-activities-act42side-level_act42side_01.json",
+        "height": 7,
+        "levelId": "activities/act42side/level_act42side_01",
+        "name": "圣秩",
+        "stageId": "act42side_01",
+        "width": 10
+    },
+    "act42side_02-activities/act42side/level_act42side_02": {
+        "code": "MT-2",
+        "filename": "act42side_02-activities-act42side-level_act42side_02.json",
+        "height": 7,
+        "levelId": "activities/act42side/level_act42side_02",
+        "name": "祈祷",
+        "stageId": "act42side_02",
+        "width": 9
+    },
+    "act42side_03-activities/act42side/level_act42side_03": {
+        "code": "MT-3",
+        "filename": "act42side_03-activities-act42side-level_act42side_03.json",
+        "height": 7,
+        "levelId": "activities/act42side/level_act42side_03",
+        "name": "礼拜",
+        "stageId": "act42side_03",
+        "width": 10
+    },
+    "act42side_04-activities/act42side/level_act42side_04": {
+        "code": "MT-4",
+        "filename": "act42side_04-activities-act42side-level_act42side_04.json",
+        "height": 7,
+        "levelId": "activities/act42side/level_act42side_04",
+        "name": "求道",
+        "stageId": "act42side_04",
+        "width": 9
+    },
+    "act42side_05-activities/act42side/level_act42side_05": {
+        "code": "MT-5",
+        "filename": "act42side_05-activities-act42side-level_act42side_05.json",
+        "height": 7,
+        "levelId": "activities/act42side/level_act42side_05",
+        "name": "共融",
+        "stageId": "act42side_05",
+        "width": 9
+    },
+    "act42side_06-activities/act42side/level_act42side_06": {
+        "code": "MT-6",
+        "filename": "act42side_06-activities-act42side-level_act42side_06.json",
+        "height": 8,
+        "levelId": "activities/act42side/level_act42side_06",
+        "name": "告解",
+        "stageId": "act42side_06",
+        "width": 11
+    },
+    "act42side_07-activities/act42side/level_act42side_07": {
+        "code": "MT-7",
+        "filename": "act42side_07-activities-act42side-level_act42side_07.json",
+        "height": 8,
+        "levelId": "activities/act42side/level_act42side_07",
+        "name": "丧礼",
+        "stageId": "act42side_07",
+        "width": 11
+    },
+    "act42side_08-activities/act42side/level_act42side_08": {
+        "code": "MT-8",
+        "filename": "act42side_08-activities-act42side-level_act42side_08.json",
+        "height": 8,
+        "levelId": "activities/act42side/level_act42side_08",
+        "name": "朝圣",
+        "stageId": "act42side_08",
+        "width": 13
+    },
+    "act42side_09-activities/act42side/level_act42side_09": {
+        "code": "MT-9",
+        "filename": "act42side_09-activities-act42side-level_act42side_09.json",
+        "height": 8,
+        "levelId": "activities/act42side/level_act42side_09",
+        "name": "解经",
+        "stageId": "act42side_09",
+        "width": 11
+    },
+    "act42side_10-activities/act42side/level_act42side_10": {
+        "code": "MT-10",
+        "filename": "act42side_10-activities-act42side-level_act42side_10.json",
+        "height": 8,
+        "levelId": "activities/act42side/level_act42side_10",
+        "name": "降生",
+        "stageId": "act42side_10",
+        "width": 12
+    },
+    "act42side_tr01-activities/act42side/level_act42side_tr01": {
+        "code": "MT-TR-1",
+        "filename": "act42side_tr01-activities-act42side-level_act42side_tr01.json",
+        "height": 7,
+        "levelId": "activities/act42side/level_act42side_tr01",
+        "name": "圣城的异常",
+        "stageId": "act42side_tr01",
         "width": 10
     },
     "act4bossrush_01-activities/act4bossrush/level_bossrush4_01": {
@@ -21383,6 +21500,15 @@
         "stageId": "mem_nothin_1",
         "width": 12
     },
+    "mem_nowell_1-obt/memory/level_memory_nowell_1": {
+        "code": "mem_nowell_1",
+        "filename": "mem_nowell_1-obt-memory-level_memory_nowell_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_nowell_1",
+        "name": "背后援手",
+        "stageId": "mem_nowell_1",
+        "width": 10
+    },
     "mem_orchid_1-obt/memory/level_memory_orchid_1": {
         "code": "mem_orchid_1",
         "filename": "mem_orchid_1-obt-memory-level_memory_orchid_1.json",
@@ -21813,6 +21939,15 @@
         "levelId": "obt/memory/level_memory_sora_1",
         "name": "准备好了，一起上吧",
         "stageId": "mem_sora_1",
+        "width": 9
+    },
+    "mem_spikes_1-obt/memory/level_memory_spikes_1": {
+        "code": "mem_spikes_1",
+        "filename": "mem_spikes_1-obt-memory-level_memory_spikes_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_spikes_1",
+        "name": "插翅难逃",
+        "stageId": "mem_spikes_1",
         "width": 9
     },
     "mem_spot_1-obt/memory/level_memory_spot_1": {
