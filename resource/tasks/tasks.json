@@ -3496,7 +3496,7 @@
     "BattleQuickFormationRole-All-OCR": {
         "baseTask": "BattleQuickFormationRole-All",
         "algorithm": "OcrDetect",
-        "text": ["全部"]
+        "text": ["ALL"]
     },
     "BattleQuickFormationRole-Pioneer": {
         "baseTask": "BattleQuickFormationRole"
