@@ -208,15 +208,7 @@ namespace MaaWpfGui.Main
                         WindowStyle = ProcessWindowStyle.Normal, // 显示窗口让用户看到进度
                     };
 
-                    try
-                    {
-                        // 启动进程
-                        Process process = Process.Start(startInfo);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
+                    Process.Start(startInfo);
                 }
 
                 Shutdown();
