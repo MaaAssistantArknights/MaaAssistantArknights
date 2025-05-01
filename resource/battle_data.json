@@ -402,8 +402,8 @@
             "position": "RANGED",
             "profession": "SPECIAL",
             "rangeId": ["3-1", "3-3", "3-3"],
-            "rarity": 7,
-            "tokens": []
+            "rarity": 6,
+            "tokens": ["投递坐标"]
         },
         "char_106_franka": {
             "name": "芙兰卡",
@@ -3601,7 +3601,7 @@
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": ["1-1", "1-1", "1-1"],
-            "rarity": 6
+            "rarity": 5
         },
         "char_4188_confes": {
             "name": "CONFESS-47",
@@ -3631,7 +3631,7 @@
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": ["3-3", "3-9", "3-9"],
-            "rarity": 7
+            "rarity": 6
         },
         "char_4194_rmixer": {
             "name": "信仰搅拌机",
@@ -3646,7 +3646,7 @@
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": ["2-2", "2-2", "2-2"],
-            "rarity": 7
+            "rarity": 6
         },
         "char_420_flamtl": {
             "name": "焰尾",
@@ -5172,6 +5172,21 @@
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": ["x-4", "x-4", "x-4"],
+            "rarity": 6
+        },
+        "token_10056_angel2_target": {
+            "name": "投递坐标",
+            "name_en": "投递坐标",
+            "name_en_unavailable": true,
+            "name_jp": "投递坐标",
+            "name_jp_unavailable": true,
+            "name_kr": "投递坐标",
+            "name_kr_unavailable": true,
+            "name_tw": "投递坐标",
+            "name_tw_unavailable": true,
+            "position": "MELEE",
+            "profession": "TOKEN",
+            "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 6
         },
         "trap_001_crate": {
@@ -8463,6 +8478,36 @@
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1
         },
+        "trap_215_dqcrsbow": {
+            "name": "解雇者清债程序",
+            "name_en": "解雇者清债程序",
+            "name_en_unavailable": true,
+            "name_jp": "解雇者清债程序",
+            "name_jp_unavailable": true,
+            "name_kr": "解雇者清债程序",
+            "name_kr_unavailable": true,
+            "name_tw": "解雇者清债程序",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
+        "trap_216_dqelec": {
+            "name": "梅什科线圈",
+            "name_en": "梅什科线圈",
+            "name_en_unavailable": true,
+            "name_jp": "梅什科线圈",
+            "name_jp_unavailable": true,
+            "name_kr": "梅什科线圈",
+            "name_kr_unavailable": true,
+            "name_tw": "梅什科线圈",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["x-2", "x-2", "x-2"],
+            "rarity": 1
+        },
         "trap_218_fttree": {
             "name": "树丛",
             "name_en": "树丛",
@@ -8637,6 +8682,66 @@
             "name_kr": "活性态萨卡兹术师结晶",
             "name_kr_unavailable": true,
             "name_tw": "活性态萨卡兹术师结晶",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
+        "trap_235_hlnpcm": {
+            "name": "圣徒像扮演者",
+            "name_en": "圣徒像扮演者",
+            "name_en_unavailable": true,
+            "name_jp": "圣徒像扮演者",
+            "name_jp_unavailable": true,
+            "name_kr": "圣徒像扮演者",
+            "name_kr_unavailable": true,
+            "name_tw": "圣徒像扮演者",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
+        "trap_236_hlnpcs": {
+            "name": "圣堂射手扮演者",
+            "name_en": "圣堂射手扮演者",
+            "name_en_unavailable": true,
+            "name_jp": "圣堂射手扮演者",
+            "name_jp_unavailable": true,
+            "name_kr": "圣堂射手扮演者",
+            "name_kr_unavailable": true,
+            "name_tw": "圣堂射手扮演者",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["3-3", "3-3", "3-3"],
+            "rarity": 1
+        },
+        "trap_237_hlnpcb": {
+            "name": "圣堂保育员扮演者",
+            "name_en": "圣堂保育员扮演者",
+            "name_en_unavailable": true,
+            "name_jp": "圣堂保育员扮演者",
+            "name_jp_unavailable": true,
+            "name_kr": "圣堂保育员扮演者",
+            "name_kr_unavailable": true,
+            "name_tw": "圣堂保育员扮演者",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["x-2", "x-2", "x-2"],
+            "rarity": 1
+        },
+        "trap_250_hlctrl": {
+            "name": "寻根圣事",
+            "name_en": "寻根圣事",
+            "name_en_unavailable": true,
+            "name_jp": "寻根圣事",
+            "name_jp_unavailable": true,
+            "name_kr": "寻根圣事",
+            "name_kr_unavailable": true,
+            "name_tw": "寻根圣事",
             "name_tw_unavailable": true,
             "position": "NONE",
             "profession": "TRAP",
