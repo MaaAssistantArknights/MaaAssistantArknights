@@ -16,10 +16,13 @@ bool asst::InfrastTrainingTask::_run()
 
     set_product("SkillLevel");
 
-    swipe_to_the_right_of_main_ui();
+    swipe_to_the_left_of_main_ui();
 
     if (!enter_facility()) {
-        return false;
+        swipe_to_right_of_main_ui();
+        if (!enter_facility()) {
+            return false;
+        }
     }
 
     if (!analyze_status()) {

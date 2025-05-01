@@ -22,10 +22,14 @@ bool asst::InfrastProcessingTask::_run()
         return true;
     }
 
-    swipe_to_the_right_of_main_ui();
+    swipe_to_the_left_of_main_ui();
     if (!enter_facility()) {
-        return false;
+        swipe_to_right_of_main_ui();
+        if (!enter_facility()) {
+            return false;
+        }
     }
+
     click_bottom_left_tab();
 
     ProcessTask(*this, { "InfrastProcessingEnterOperList" }).run();

@@ -706,3 +706,9 @@ void asst::InfrastAbstractTask::swipe_to_the_right_of_main_ui()
     ProcessTask(*this, { "SwipeToTheRight" }).run();
     sleep(500);
 }
+
+void asst::InfrastAbstractTask::swipe_to_right_of_main_ui()
+{
+    ProcessTask(*this, { "InfrastSwipeToRightOfMainUi" }).run();
+    sleep(500);
+}
