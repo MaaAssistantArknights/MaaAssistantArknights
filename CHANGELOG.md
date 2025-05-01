@@ -16,9 +16,11 @@
 
 这个版本我们适配了六周年活动推荐月卡、幸运墙等活动内容，适配了SideStory「众生行记」导航，应该没有遗漏了的吧（x
 
-#### 新的技能识别
+#### 新的技能识别与自动编队
 
 我们更新了牛牛的技能识别模型，应该能更好的处理一些特殊情况，例如血条挡住技能图标之类的。
+
+同时，由于六周年版本对部分职业图标做了改动，我们在这个版本也同步调整了自动编队的职业图标识别功能。
 
 如果你在使用自动战斗功能的过程中遇到问题，请及时反馈~
 
@@ -34,19 +36,21 @@ The main changes to the base in the 6th Anniversary update are:
 1. A new row of *Facilities* has been added.  
 2. The background of the top-left "Operator Overview" and "Construction Mode" buttons is now semi-transparent.
 
-We’ve updated MAA to adapt to these changes in this version, and have started initial work on supporting base queues and operator rest functionality.
+We've updated MAA to adapt to these changes in this version, and have started initial work on supporting base queues and operator rest functionality.
 
 If you encounter any issues while using the base system, please let us know promptly!
 
 #### New Events
 
-In this version, we’ve added support for the 6th Anniversary’s featured events like the Monthly Pass recommendation, Lucky Wall, and more. We’ve also adapted the navigation for the SideStory **"An Obscure Wanderer"**. Hopefully we didn’t miss anything this time (x
+In this version, we've added support for the 6th Anniversary's featured events like the Monthly Pass recommendation, Lucky Wall, and more. We've also adapted the navigation for the SideStory **"An Obscure Wanderer"**. Hopefully we didn't miss anything this time (x
 
 #### Improved Skill Recognition
 
-We’ve updated the skill recognition model to better handle edge cases, like when the HP bar covers the skill icon.
+We've updated the skill recognition model to better handle edge cases, like when the HP bar covers the skill icon.
 
-If you run into problems using Auto Battle, don’t hesitate to report them~
+As the icons of some classes have been changed, we've also updated the Auto Squad to match these changes.
+
+If you run into problems using Auto Battle, don't hesitate to report them~
 
 ----
 
