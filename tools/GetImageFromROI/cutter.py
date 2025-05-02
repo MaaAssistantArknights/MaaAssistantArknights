@@ -15,11 +15,11 @@ std_height: int = 720
 std_ratio = std_width / std_height
 
 task_paths = {
-    "CN": Path(__file__).parent.parent.parent / "resource" / "tasks.json",
-    "twxy": Path(__file__).parent.parent.parent / "resource" / "global" / "txwy" / "resource" / "tasks.json",
-    "YoStarEN": Path(__file__).parent.parent.parent / "resource" / "global" / "YoStarEN" / "resource" / "tasks.json",
-    "YoStarJP": Path(__file__).parent.parent.parent / "resource" / "global" / "YoStarJP" / "resource" / "tasks.json",
-    "YoStarKR": Path(__file__).parent.parent.parent / "resource" / "global" / "YoStarKR" / "resource" / "tasks.json"
+    "CN": Path(__file__).parent.parent.parent / "resource" / "tasks",
+    "twxy": Path(__file__).parent.parent.parent / "resource" / "global" / "txwy" / "resource" / "tasks",
+    "YoStarEN": Path(__file__).parent.parent.parent / "resource" / "global" / "YoStarEN" / "resource" / "tasks",
+    "YoStarJP": Path(__file__).parent.parent.parent / "resource" / "global" / "YoStarJP" / "resource" / "tasks",
+    "YoStarKR": Path(__file__).parent.parent.parent / "resource" / "global" / "YoStarKR" / "resource" / "tasks"
 }
 
 # Change this to your client
@@ -47,8 +47,14 @@ dst_path = Path(__file__).parent / "dst"
 
 
 if __name__ == "__main__":
-    with task_file.open("r", encoding="utf-8") as f:
-        tasks = json.load(f)
+    tasks = {}
+    if task_file.is_dir():
+        for json_file in task_file.rglob("*.json"):
+            with json_file.open("r", encoding="utf-8") as f:
+                tasks.update(json.load(f))
+    else:
+        with task_file.open("r", encoding="utf-8") as f:
+            tasks = json.load(f)
 
     for raw_image in src_path.glob("*.png"):
         print("Processing file:", str(raw_image))
