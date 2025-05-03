@@ -606,23 +606,30 @@ bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir)
     // 这里面有些是手动修改的，要保留
     json::value& root = old_json;
     std::unordered_set<std::string> rooms;
+
+    static const std::unordered_map<int, std::string> RoomTypeMapInt = {
+        { 1, "Control" }, { 2, "Power" },   { 4, "Mfg" }, { 16, "Dorm" }, { 32, "Reception" },
+        { 64, "Office" }, { 512, "Trade" }, { 1024, "" }, { 2048, "" },
+    };
+
+    static const std::unordered_map<std::string, std::string> RoomTypeMapString = {
+        { "POWER", "Power" },       { "CONTROL", "Control" }, { "DORMITORY", "Dorm" },
+        { "WORKSHOP", "" },         { "MANUFACTURE", "Mfg" }, { "TRADING", "Trade" },
+        { "MEETING", "Reception" }, { "HIRE", "Office" },     { "TRAINING", "" },
+    };
+
     for (auto& buff_obj : buffs | asst::views::values) {
-        int raw_room_type = static_cast<int>(buff_obj["roomType"]);
+        std::string room_type;
 
-        // 为了兼容老版本的字段 orz
-        // static const std::unordered_map<std::string, std::string> RoomTypeMapping = {
-        //    { "POWER", "Power" },       { "CONTROL", "Control" }, { "DORMITORY", "Dorm" },
-        //    { "WORKSHOP", "" },         { "MANUFACTURE", "Mfg" }, { "TRADING", "Trade" },
-        //    { "MEETING", "Reception" }, { "HIRE", "Office" },     { "TRAINING", "" },
-        //};
-        // 2025-05-01 no longer using strings as roomType
+        if (buff_obj["roomType"].is_number()) {
+            int raw_room_type = buff_obj["roomType"].as_integer();
+            room_type = RoomTypeMapInt.at(raw_room_type);
+        }
+        else {
+            std::string raw_room_type = buff_obj["roomType"].as_string();
+            room_type = RoomTypeMapString.at(raw_room_type);
+        }
 
-        static const std::unordered_map<int, std::string> RoomTypeMapping = {
-            { 1, "Control" }, { 2, "Power" },   { 4, "Mfg" }, { 16, "Dorm" }, { 32, "Reception" },
-            { 64, "Office" }, { 512, "Trade" }, { 1024, "" }, { 2048, "" },
-        };
-
-        std::string room_type = RoomTypeMapping.at(raw_room_type);
         if (room_type.empty()) {
             continue;
         }

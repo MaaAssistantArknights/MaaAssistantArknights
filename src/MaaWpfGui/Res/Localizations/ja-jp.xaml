@@ -261,7 +261,7 @@
 3. 内部テスト版の問題をユーザーグループやコメントセクションなどの他の場所で議論しないでください。これにより公共のリソースが占有され、迅速なフィードバックと解決が妨げられます。
 4. 内部テスト版の更新方法を非開発ユーザーに共有しないでください。不要な混乱とリスクを避けるためです。
 
-設定 - About us - フィードバックのリンクをクリックして、このポップアップをキャンセルできます。ご理解とご協力をお願いいたします！</system:String>
+設定 - フィードバックのリンクをクリックして、このポップアップをキャンセルできます。ご理解とご協力をお願いいたします！</system:String>
     <system:String x:Key="UpdateCheck">更新チャネル</system:String>
     <system:String x:Key="DownloadWithAria2">aria2を使う</system:String>
     <system:String x:Key="UpdateCheckNow">ソフト更新</system:String>
@@ -642,7 +642,7 @@ C:\\leidian\\LDPlayer9
     <!--  !倉庫アイテム認識  -->
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">オペレーター</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">「戦術要員」は、オペレーター識別の正確性に影響します。戦術要員のオペレーターの識別が誤っている場合は、自己判断してください。\nこの機能はまだテスト中です。もし統計情報に問題があれば、debug/depotフォルダを圧縮し、issueを提出してください~</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">「戦術要員」は、オペレーター識別の正確性に影響します。戦術要員のオペレーターの識別が誤っている場合は、自己判断してください。</system:String>
     <system:String x:Key="OperBoxHaveList">所有している: {0}</system:String>
     <system:String x:Key="OperBoxNotHaveList">所有していない: {0}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">認識開始</system:String>
@@ -684,6 +684,7 @@ C:\\leidian\\LDPlayer9
     <!--  !Gacha Recognition  -->
     <!--  Peep  -->
     <system:String x:Key="Peep">Peep</system:String>
+    <system:String x:Key="PeepTip">パラスの目に映る世界を見てみませんか？</system:String>
     <system:String x:Key="PeepTargetFps">目標フレームレート</system:String>
     <!--  !Peep  -->
     <!--  小游戏  -->

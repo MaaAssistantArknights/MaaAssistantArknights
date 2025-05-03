@@ -758,7 +758,8 @@
             [".*维多利亚$", "维娜·维多利亚"],
             [".*芜拉普兰德$", "荒芜拉普兰德"],
             ["^盥心$", "塑心"],
-            ["^钳铅$", "钼铅"]
+            ["^钳铅$", "钼铅"],
+            [".*NFESS-47$", "CONFESS-47"]
         ]
     },
     "SwitchAccount@StartUpBegin": {
@@ -1206,6 +1207,8 @@
         "next": ["StartButton1"]
     },
     "FightSeries-Icon": {
+        "method": "RGBCount",
+        "colorScales": [[30, 70]],
         "roi": [927, 567, 122, 66]
     },
     "FightSeries-Indicator": {
@@ -1826,13 +1829,14 @@
         "algorithm": "OcrDetect",
         "text": ["赠送", "次", "小时"],
         "roi": [729, 515, 303, 135],
-        "next": ["RecruitingActivitiesRecruit", "RecruitingActivitiesConfirm"]
+        "next": ["RecruitingActivitiesRecruit", "RecruitingActivitiesConfirm"],
+        "maxTimes": 3
     },
     "RecruitingActivitiesRecruit": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["赠送一次", "赠送"],
-        "roi": [770, 577, 267, 143],
+        "roi": [802, 619, 198, 61],
         "next": ["RecruitingActivitiesRecruitNowConfirm"]
     },
     "RecruitingActivitiesRecruitNowConfirm": {

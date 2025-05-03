@@ -10,6 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors"
     d:DataContext="{d:DesignInstance {x:Type ui:RecognizerViewModel}}"
     d:DesignHeight="600"
     d:DesignWidth="800"
@@ -416,7 +417,9 @@
                         Margin="10"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Source="{Binding PeepImage}" />
+                        uiBehaviors:FadeBehavior.IsActive="{c:Binding Peeping}"
+                        Source="{Binding PeepImage}"
+                        Visibility="Collapsed" />
                     <Canvas Visibility="{c:Binding !Idle}">
                         <Viewbox Canvas.Left="15" Canvas.Top="15">
                             <Border
@@ -549,16 +552,26 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="100" />
                 </Grid.RowDefinitions>
+                <controls:TextBlock
+                    Grid.Row="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    uiBehaviors:FadeBehavior.IsActive="{c:Binding !Peeping}"
+                    FontSize="24"
+                    Text="{DynamicResource PeepTip}"
+                    Visibility="Visible" />
                 <Grid
                     Grid.Row="0"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
+                    VerticalAlignment="Center"
+                    uiBehaviors:FadeBehavior.IsActive="{c:Binding Peeping}"
+                    Visibility="Collapsed">
                     <Image
                         Margin="10"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Source="{Binding PeepImage}" />
-                    <Canvas Visibility="{c:Binding !Idle}">
+                    <Canvas>
                         <Viewbox Canvas.Left="15" Canvas.Top="15">
                             <Border
                                 Padding="4,2"
@@ -623,7 +636,7 @@
                     Height="50"
                     Margin="10"
                     Command="{s:Action StartMiniGame}"
-                    Content="{c:Binding 'Idle ? &quot;Link Start!&quot; : &quot;Stop!&quot;'}"/>
+                    Content="{c:Binding 'Idle ? &quot;Link Start!&quot; : &quot;Stop!&quot;'}" />
             </Grid>
         </TabItem>
     </TabControl>

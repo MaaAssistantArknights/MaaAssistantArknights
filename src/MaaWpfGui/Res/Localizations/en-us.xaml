@@ -262,7 +262,7 @@ Please note:
 3. Please do not discuss nightly build issues in other places, such as user groups or comment sections. This occupies public resources and prevents timely feedback and resolution.
 4. Do not share the method to enable nightly updates with non-developer users to avoid unnecessary confusion and risk.
 
-You can cancel this popup by clicking the Settings - About Us - Issue Reporting link. Thank you for your understanding and cooperation!</system:String>
+You can cancel this popup by clicking the Settings - Issue Report link. Thank you for your understanding and cooperation!</system:String>
     <system:String x:Key="UpdateCheck">Update Channel</system:String>
     <system:String x:Key="DownloadWithAria2">Download via aria2</system:String>
     <system:String x:Key="UpdateCheckNow">Software update</system:String>
@@ -640,7 +640,7 @@ The primary instance is 0, and other instances are the numbers after the version
     <!--  !Depot Recognition  -->
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">Operator</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">"Marked" operators can't be recognized. Please unmark them before starting.\nThis function is still in testing. If you encounter any unexpected results, please zip the 「debug/oper」 folder in the installation path and submit an issue on GitHub</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">"Marked" operators can't be recognized. Please unmark them before starting.</system:String>
     <system:String x:Key="OperBoxHaveList">Owned: {0}</system:String>
     <system:String x:Key="OperBoxNotHaveList">Not owned: {0}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">Start to Identify</system:String>
@@ -682,6 +682,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  !Gacha Recognition  -->
     <!--  Peep  -->
     <system:String x:Key="Peep">Peep</system:String>
+    <system:String x:Key="PeepTip">See the world through Pallas?</system:String>
     <system:String x:Key="PeepTargetFps">Target Frame Rate</system:String>
     <!--  !Peep  -->
     <!--  小游戏  -->
