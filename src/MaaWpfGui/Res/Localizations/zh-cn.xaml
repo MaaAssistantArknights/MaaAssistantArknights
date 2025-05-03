@@ -262,7 +262,7 @@
 3. 请不要在其他地方讨论内测版问题，例如用户群、评论区等。这会占用公共资源且无法及时反馈和解决问题。
 4. 请勿将更新内测版的方法告知其他非开发用户，以避免对他们造成不必要的困扰和风险。
 
-您可通过点击 设置-关于我们-问题反馈 链接来取消该弹窗，感谢您的理解与配合！</system:String>
+您可通过点击 设置-问题反馈 链接来取消该弹窗，感谢您的理解与配合！</system:String>
     <system:String x:Key="UpdateCheck">更新渠道</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 进行下载</system:String>
     <system:String x:Key="UpdateCheckNow">软件更新</system:String>

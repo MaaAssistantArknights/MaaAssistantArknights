@@ -262,7 +262,7 @@ Please note:
 3. Please do not discuss nightly build issues in other places, such as user groups or comment sections. This occupies public resources and prevents timely feedback and resolution.
 4. Do not share the method to enable nightly updates with non-developer users to avoid unnecessary confusion and risk.
 
-You can cancel this popup by clicking the Settings - About Us - Issue Reporting link. Thank you for your understanding and cooperation!</system:String>
+You can cancel this popup by clicking the Settings - Issue Report link. Thank you for your understanding and cooperation!</system:String>
     <system:String x:Key="UpdateCheck">Update Channel</system:String>
     <system:String x:Key="DownloadWithAria2">Download via aria2</system:String>
     <system:String x:Key="UpdateCheckNow">Software update</system:String>

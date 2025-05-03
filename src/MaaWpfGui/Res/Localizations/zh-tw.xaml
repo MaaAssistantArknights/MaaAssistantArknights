@@ -262,7 +262,7 @@
 3. 請不要在其他地方討論內測版問題，例如用戶群、評論區等。這會佔用公共資源且無法及時反饋和解決問題。
 4. 請勿將更新內測版的方法告知其他非開發用戶，以避免對他們造成不必要的困擾和風險。
 
-您可通過點擊 設置-關於我們-問題反饋 鏈接來取消該彈窗，感謝您的理解與配合！</system:String>
+您可通過點擊 設置-問題回饋 鏈接來取消該彈窗，感謝您的理解與配合！</system:String>
     <system:String x:Key="UpdateCheck">更新通道</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 進行下載</system:String>
     <system:String x:Key="UpdateCheckNow">軟體更新</system:String>
