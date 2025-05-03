@@ -71,6 +71,12 @@ bool asst::InfrastTask::set_params(const json::value& params)
             return false;
         }
 
+        if (mode == Mode::Rotation) {
+            for (const auto& facility : { "Mfg", "Trade", "Reception" }) {
+                facility_opt->emplace_back(facility);
+            }
+        }
+
         auto append_infrast_begin = [&]() {
             m_subtasks.emplace_back(m_infrast_begin_task_ptr);
         };
