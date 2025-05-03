@@ -25,10 +25,8 @@ bool asst::FightSeriesAdjustPlugin::_run()
     int exceeded_num = get_exceeded_num();
     if (exceeded_num < 7 && exceeded_num > 1) {
         ProcessTask(*this, { "FightSeries-List-" + std::to_string(exceeded_num - 1) }).run();
+        ProcessTask(*this, { "StartButton1" }).set_retry_times(3).run();
     }
-    else {
-    }
-    ProcessTask(*this, { "StartButton1" }).set_retry_times(3).run();
     return true;
 }
 
