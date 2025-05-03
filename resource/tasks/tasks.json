@@ -1207,6 +1207,8 @@
         "next": ["StartButton1"]
     },
     "FightSeries-Icon": {
+        "method": "RGBCount",
+        "colorScales": [[30, 70]],
         "roi": [927, 567, 122, 66]
     },
     "FightSeries-Indicator": {
