@@ -1,3 +1,4 @@
+
 00@EnterEpisodeNew.png
 01@EnterEpisodeNew.png
 02@EnterEpisodeNew.png
@@ -230,6 +231,7 @@ NormalDifficulty.png
 NoStone.png
 OF-Chapter2.png
 OfflineConfirm.png
+OperBoxEnterDelicious.png
 OperBoxEnterSiege.png
 OperBoxFlagElite1.png
 OperBoxFlagElite2.png
@@ -604,6 +606,7 @@ Tales@RA@WorkbenchIcon.png
 Tank@UseSupportUnit-RoleSelected.png
 Tank@UseSupportUnit-SelectRole.png
 TaskSiege.png
+TerminalDelicious.png
 TerminalSiege.png
 UnableToAgent.png
 UnableToAgent2.png
