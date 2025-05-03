@@ -261,7 +261,7 @@
 3. 内部テスト版の問題をユーザーグループやコメントセクションなどの他の場所で議論しないでください。これにより公共のリソースが占有され、迅速なフィードバックと解決が妨げられます。
 4. 内部テスト版の更新方法を非開発ユーザーに共有しないでください。不要な混乱とリスクを避けるためです。
 
-設定 - About us - フィードバックのリンクをクリックして、このポップアップをキャンセルできます。ご理解とご協力をお願いいたします！</system:String>
+設定 - フィードバックのリンクをクリックして、このポップアップをキャンセルできます。ご理解とご協力をお願いいたします！</system:String>
     <system:String x:Key="UpdateCheck">更新チャネル</system:String>
     <system:String x:Key="DownloadWithAria2">aria2を使う</system:String>
     <system:String x:Key="UpdateCheckNow">ソフト更新</system:String>
