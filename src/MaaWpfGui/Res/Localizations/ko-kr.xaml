@@ -685,6 +685,7 @@ C:\\leidian\\LDPlayer9
     <!--  !헤드헌팅  -->
     <!--  Peep  -->
     <system:String x:Key="Peep">Peep</system:String>
+    <system:String x:Key="PeepTip">팔라스의 눈에 비친 세상을 보시겠어요?</system:String>
     <system:String x:Key="PeepTargetFps">목표 프레임 속도</system:String>
     <!--  !Peep  -->
     <!--  小游戏  -->
