@@ -759,7 +759,7 @@
             [".*芜拉普兰德$", "荒芜拉普兰德"],
             ["^盥心$", "塑心"],
             ["^钳铅$", "钼铅"],
-            [".*NFESS-47$","CONFESS-47"]
+            [".*NFESS-47$", "CONFESS-47"]
         ]
     },
     "SwitchAccount@StartUpBegin": {
