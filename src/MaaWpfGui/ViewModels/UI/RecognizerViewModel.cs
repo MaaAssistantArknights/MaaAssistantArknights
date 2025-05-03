@@ -423,7 +423,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return true;
             }
 
-            DepotInfo = LocalizationHelper.GetString("IdentificationCompleted") + "\n" + LocalizationHelper.GetString("DepotRecognitionTip");
+            DepotInfo = LocalizationHelper.GetString("IdentificationCompleted");
 
             return true;
         }
