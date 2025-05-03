@@ -65,7 +65,7 @@ icon: iconoir:developer
     git push origin dev
     ```
 
-11. 打开 [MAA 主仓库](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一个 Rull Request，等待管理员通过。别忘了你是在 dev 分支上修改，别提交到 master 分支去了
+11. 打开 [MAA 主仓库](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一个 Pull Request，等待管理员通过。别忘了你是在 dev 分支上修改，别提交到 master 分支去了
 12. 当 MAA 原仓库出现更改（别人做的），你可能需要把这些更改同步到你的分支
 
     1. 关联 MAA 原仓库

@@ -262,7 +262,7 @@
 3. 사용자 그룹이나 댓글 섹션 등 다른 곳에서 개발 버전 문제를 논의하지 마세요. 이는 공공 리소스를 차지하고 신속한 피드백과 해결을 방해합니다.
 4. 비개발자 사용자에게 개발 버전 업데이트 방법을 공유하지 마세요. 불필요한 혼란과 위험을 피하기 위해서입니다.
 
-설정 - 정보 - 이슈 제보 링크를 클릭하여 이 팝업을 취소할 수 있습니다. 이해와 협조에 감사드립니다!</system:String>
+설정 - 이슈 제보 링크를 클릭하여 이 팝업을 취소할 수 있습니다. 이해와 협조에 감사드립니다!</system:String>
     <system:String x:Key="UpdateCheck">업데이트 채널</system:String>
     <system:String x:Key="DownloadWithAria2">aria2로 다운로드</system:String>
     <system:String x:Key="UpdateCheckNow">소프트웨어 업데이트</system:String>
@@ -643,7 +643,7 @@ C:\\leidian\\LDPlayer9
     <!--  !창고 인식  -->
     <!--  오퍼레이터 인식  -->
     <system:String x:Key="OperBoxRecognition">오퍼레이터 인식</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">시작하기 전에 등록된 「선호」오퍼레이터를 등록 해제하세요.\n이 기능은 현재 테스트 중입니다. 만약 오류가 있다면 MAA 경로 내 debug 폴더 안의 oper 폴더 전체를 압축해서 Github의 issue로 올려주세요~</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">시작하기 전에 등록된 「선호」오퍼레이터를 등록 해제하세요.</system:String>
     <system:String x:Key="OperBoxHaveList">보유: {0}</system:String>
     <system:String x:Key="OperBoxNotHaveList">미보유: {0}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">인식 시작</system:String>
@@ -685,6 +685,7 @@ C:\\leidian\\LDPlayer9
     <!--  !헤드헌팅  -->
     <!--  Peep  -->
     <system:String x:Key="Peep">Peep</system:String>
+    <system:String x:Key="PeepTip">팔라스의 눈에 비친 세상을 보시겠어요?</system:String>
     <system:String x:Key="PeepTargetFps">목표 프레임 속도</system:String>
     <!--  !Peep  -->
     <!--  小游戏  -->
