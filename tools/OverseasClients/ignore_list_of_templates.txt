@@ -55,7 +55,6 @@ BattleQuickFormation-OperNameFlag5.png
 BattleQuickFormation-OperNameFlag6.png
 BattleQuickFormation-OperNameFlag7.png
 BattleQuickFormation.png
-BattleQuickFormationFilter
 BattleQuickFormationFilter-Click2.png
 BattleQuickFormationFilter-PinActivated.png
 BattleQuickFormationFilter-PinUnactivated.png
@@ -225,7 +224,6 @@ Mizuki@Roguelike@StageSafeHouse.png
 Mizuki@Roguelike@StageTrader.png
 Mizuki@Roguelike@StageVerticalConfirm.png
 Mizuki@Roguelike@StageWindAndRain.png
-ng
 NL-Open.png
 NormalDifficulty-Chapter15.png
 NormalDifficulty.png
@@ -618,6 +616,5 @@ UseSupportUnit-MaxSpecLvl.png
 UseSupportUnit-Refresh.png
 UseSupportUnit-RefreshCooldown.png
 UseSupportUnit-SelectSkill.png
-Warrior@UseSupportUnit-RoleSelected.p
 Warrior@UseSupportUnit-RoleSelected.png
 Warrior@UseSupportUnit-SelectRole.png
