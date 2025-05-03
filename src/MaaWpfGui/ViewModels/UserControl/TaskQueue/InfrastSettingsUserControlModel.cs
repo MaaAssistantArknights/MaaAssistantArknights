@@ -171,7 +171,9 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     /// <returns>The infrast order list.</returns>
     public List<string> GetInfrastOrderList()
     {
-        return (from item in InfrastItemViewModels where item.IsChecked select item.OriginalName).ToList();
+        return InfrastMode == Mode.Rotation
+            ? (from item in InfrastItemViewModels select item.OriginalName).ToList()
+            : (from item in InfrastItemViewModels where item.IsChecked select item.OriginalName).ToList();
     }
 
     // UI 绑定的方法
