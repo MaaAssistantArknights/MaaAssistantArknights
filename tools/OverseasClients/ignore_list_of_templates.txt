@@ -1,4 +1,3 @@
-
 00@EnterEpisodeNew.png
 01@EnterEpisodeNew.png
 02@EnterEpisodeNew.png
@@ -160,9 +159,13 @@ GameStart.png
 GreenGrass@DuelChannel@duck.png
 IC-Open.png
 InfrastClueSelfMaybeFull.png
+InfrastEnterTrim.png
 InfrastFilterMenu.png
 InfrastFilterMenuConfirmButton.png
 InfrastNotification.png
+InfrastOperatorTrim.png
+InfrastOverviewEnter.png
+InfrastQueueRotation.png
 InfrastReceptionInteractive.png
 InfrastReceptionMessageBoard-AccessRecord.png
 InfrastReceptionMessageBoard-Received.png
