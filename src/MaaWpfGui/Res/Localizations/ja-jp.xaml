@@ -684,6 +684,7 @@ C:\\leidian\\LDPlayer9
     <!--  !Gacha Recognition  -->
     <!--  Peep  -->
     <system:String x:Key="Peep">Peep</system:String>
+    <system:String x:Key="PeepTip">パラスの目に映る世界を見てみませんか？</system:String>
     <system:String x:Key="PeepTargetFps">目標フレームレート</system:String>
     <!--  !Peep  -->
     <!--  小游戏  -->

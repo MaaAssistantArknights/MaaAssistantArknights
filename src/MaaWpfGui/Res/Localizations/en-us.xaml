@@ -682,6 +682,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  !Gacha Recognition  -->
     <!--  Peep  -->
     <system:String x:Key="Peep">Peep</system:String>
+    <system:String x:Key="PeepTip">See the world through Pallas?</system:String>
     <system:String x:Key="PeepTargetFps">Target Frame Rate</system:String>
     <!--  !Peep  -->
     <!--  小游戏  -->

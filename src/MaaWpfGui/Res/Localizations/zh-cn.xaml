@@ -685,6 +685,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  !牛牛抽卡  -->
     <!--  牛牛监控  -->
     <system:String x:Key="Peep">牛牛监控</system:String>
+    <system:String x:Key="PeepTip">看看牛牛眼中的世界？</system:String>
     <system:String x:Key="PeepTargetFps">目标帧率</system:String>
     <!--  !牛牛监控  -->
     <!--  小游戏  -->

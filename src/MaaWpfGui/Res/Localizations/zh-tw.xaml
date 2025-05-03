@@ -684,6 +684,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  !Gacha Recognition  -->
     <!--  牛牛監控  -->
     <system:String x:Key="Peep">牛牛監控</system:String>
+    <system:String x:Key="PeepTip">看看牛牛眼中的世界？</system:String>
     <system:String x:Key="PeepTargetFps">目標幀率</system:String>
     <!--  !牛牛監控  -->
     <!--  小游戏  -->
