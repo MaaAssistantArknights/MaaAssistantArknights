@@ -116,8 +116,8 @@
     <system:String x:Key="TrainingTimeLeft">剩余时间</system:String>
     <system:String x:Key="InfrastMode">基建模式</system:String>
     <system:String x:Key="InfrastModeNormal">常规模式</system:String>
-    <system:String x:Key="InfrastModeRotation">一键轮休</system:String>
-    <system:String x:Key="InfrastModeRotationTip">使用一键轮休需提前在游戏中设置好队列</system:String>
+    <system:String x:Key="InfrastModeRotation">队列轮换</system:String>
+    <system:String x:Key="InfrastModeRotationTip">使用队列轮换需提前在游戏中设置好队列</system:String>
     <system:String x:Key="InfrastModeCustom">自定义基建配置</system:String>
     <system:String x:Key="DefaultInfrast">内置配置</system:String>
     <system:String x:Key="UserDefined">自定义</system:String>
