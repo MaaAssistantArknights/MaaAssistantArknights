@@ -688,6 +688,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">Mini Game Name</system:String>
     <system:String x:Key="MiniGameNameGreenGrass">Contest Channel: Green Grass City (Unofficial)</system:String>
+    <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">Manually skip the tutorial dialogue, then you can exit directly.&#10;Start the task from the event screen (there is a “Join Event” button in the bottom right corner).&#10;&#10;Follow the Duck Lord’s choice.</system:String>
     <!--  !小游戏  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">Identifying……</system:String>
