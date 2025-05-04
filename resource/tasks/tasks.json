@@ -3219,7 +3219,7 @@
     "ClueGiveTo2nd": {
         "template": "ClueCanBeSent.png",
         "maskRange": [1, 255],
-        "roi": [830, 220, 320, 100],
+        "roi": [830, 220, 340, 100],
         "next": ["ClueGiveTo2ndConfirm"]
     },
     "ClueGiveTo2ndConfirm": {
@@ -3231,7 +3231,7 @@
     "ClueGiveTo3rd": {
         "template": "ClueCanBeSent.png",
         "maskRange": [1, 255],
-        "roi": [830, 370, 320, 100],
+        "roi": [830, 370, 340, 100],
         "next": ["ClueGiveTo3rdConfirm"]
     },
     "ClueGiveTo3rdConfirm": {
@@ -3243,7 +3243,7 @@
     "ClueGiveTo4th": {
         "template": "ClueCanBeSent.png",
         "maskRange": [1, 255],
-        "roi": [830, 520, 320, 100],
+        "roi": [830, 520, 340, 100],
         "next": ["ClueGiveTo4thConfirm"]
     },
     "ClueGiveTo4thConfirm": {
