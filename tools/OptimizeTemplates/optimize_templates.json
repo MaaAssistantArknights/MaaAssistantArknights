@@ -1454,7 +1454,7 @@
     "official/Office": "b42cb033014618c35ba55d772ba8dc42be45f1785eeeb6424005f2916f22ffa2",
     "official/OfficeMini": "92109cf6cf9faea00a92c71089bee6d25f9f6b19fb3052a08271774ed842be7f",
     "official/OfflineConfirm": "0091fe563a20265aec44747b34bea4dc3a99bcf37a7d7ba157343eab0f39fe1f",
-    "official/OnShift": "bbbf2b1882377ada31e995404cba02dda0d7fde914cc99aada1c72c4958acaad",
+    "official/OnShift": "ffa8b510e22a7662c81746cee76029295f58f835b06453cb2aec28655d69f6c4",
     "official/OperBoxEnter": "2bc328b9156afced8fc0f0d8ae85437edebb9291b67eff3e26d59fe9b6190252",
     "official/OperBoxEnterDark": "1a24e4f3e5cb0dd6c8c2bda838c8b5499a19bcbd6f7be6e5d2fada12cc516125",
     "official/OperBoxEnterMistCity": "e88d0f9ffe673d5243e140ae84c137c6cace3a3bfcb0a258ba87c73513a15988",
@@ -3016,7 +3016,7 @@
     "YoStarJP/ClueCanBeSent": "f3d25f776a116df5d77602a164fa4710e11cf85f6e4f86243eab53823c5b93e4",
     "YoStarJP/EnterInfrastSiege": "3c6933e13a6fcd5f960a5e45789dc50be58f9d2d9e4101088a88c9821650d803",
     "YoStarJP/EnterInfrastSami": "dcce70c21dc958473ab6be58cabd15d7f15cc54cf640ee5e08e7658540bb7908",
-    "official/ClueCanBeSent": "ac04de9c1c7f9f82d806f867775168c0e3d283a407f0c3e191b175ed1ac430f0",
+    "official/ClueCanBeSent": "0474bb82eeaba243ed95c7d0c7a182b4ec75fec34d9692c74de7b13f7f870fb3",
     "txwy/TrainingMini": "7aaaedf5da5639c5532fba22d7e0643c2d4b15db5325ca201f85b02d5aeb3b1f",
     "txwy/InfrastProcessing": "1016ddae490dcad3883cda098f2f922b93b5f9956683605ebd5dc758e75f5309",
     "txwy/Training": "661a5d27dded8787bbadffa96e59f4b08f99bdf15868963be81e140ea3314eb1",
@@ -3311,5 +3311,8 @@
     "YoStarEN/BattleQuickFormationRole-Special": "719fab9f95659dc38c99d4baf0b61656134b5d2e44f3a21b0eb0ca4bc7e966ba",
     "YoStarEN/BattleQuickFormationRole-Tank": "9244a059dc472ee11c9165b9b3291782747fe38cc7ad296fa349e7af1d2c65a6",
     "YoStarEN/BattleQuickFormationRole-Support": "39936a10fb28f1b8de5082bb527e23f8a3ecd6ec93f27ae80216bea1db77bc1d",
-    "YoStarEN/BattleQuickFormationRole-Caster": "079fefd1c416dac68d1eb9f7e7163d56187b9412e6b30761eeaf561e94380b26"
+    "YoStarEN/BattleQuickFormationRole-Caster": "079fefd1c416dac68d1eb9f7e7163d56187b9412e6b30761eeaf561e94380b26",
+    "YoStarJP/InfrastCloseQuickFormationExpandRole": "b5f06214e10f70d2716ad6a3dba9dfdba47ca3f35a4c39f291149c2fdc466fc9",
+    "YoStarEN/InfrastCloseQuickFormationExpandRole": "e3443ac94ce6156461394dcb7210a0b3ad898f1a08df37457fe475bc8fcd3bba",
+    "official/InfrastCloseQuickFormationExpandRole": "e512e8f4f23c5625ec8dbf9de791eee41708233a28c9b85f154919b237b35dc1"
 }
