@@ -644,7 +644,7 @@ namespace MaaWpfGui.ViewModels.UI
                     // 未拥有干员
                     if (DataHelper.IsCharacterAvailableInClient(tuple.Name, SettingsViewModel.GameSettings.ClientType))
                     {
-                        _operBoxNotHaveList.Add(new(tuple.Name, tuple.Rarity));
+                        OperBoxNotHaveList.Add(new(tuple.Name, tuple.Rarity));
                     }
                 }
             }
