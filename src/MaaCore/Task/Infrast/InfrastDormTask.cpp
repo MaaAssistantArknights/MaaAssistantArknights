@@ -8,7 +8,6 @@
 #include "Utils/Logger.hpp"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 #include "Vision/Matcher.h"
-#include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
 
 asst::InfrastDormTask& asst::InfrastDormTask::set_notstationed_enabled(bool dorm_notstationed_enabled) noexcept
@@ -50,6 +49,8 @@ bool asst::InfrastDormTask::_run()
         if (!enter_oper_list_page()) {
             return false;
         }
+
+        close_quick_formation_expand_role();
 
         auto origin_room_config = current_room_config();
         if (is_use_custom_opers()) {
