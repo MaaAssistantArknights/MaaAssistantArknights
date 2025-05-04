@@ -19,6 +19,8 @@ bool asst::InfrastControlTask::_run()
         return false;
     }
 
+    close_quick_formation_expand_role();
+
     // 如果是使用了编队组来排班
     if (current_room_config().use_operator_groups) {
         match_operator_groups();

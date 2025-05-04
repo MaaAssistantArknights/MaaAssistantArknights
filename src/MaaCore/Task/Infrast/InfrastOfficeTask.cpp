@@ -26,6 +26,8 @@ bool asst::InfrastOfficeTask::_run()
         return false;
     }
 
+    close_quick_formation_expand_role();
+
     for (int i = 0; i <= OperSelectRetryTimes; ++i) {
         if (need_exit()) {
             return false;

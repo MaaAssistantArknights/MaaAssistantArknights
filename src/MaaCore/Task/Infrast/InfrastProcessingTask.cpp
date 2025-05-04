@@ -34,6 +34,8 @@ bool asst::InfrastProcessingTask::_run()
 
     ProcessTask(*this, { "InfrastProcessingEnterOperList" }).run();
 
+    close_quick_formation_expand_role();
+
     for (int i = 0; i <= OperSelectRetryTimes; ++i) {
         if (need_exit()) {
             return false;

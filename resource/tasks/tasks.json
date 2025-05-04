@@ -3017,6 +3017,10 @@
         "templThreshold": 0.8,
         "rectMove": [0, -95, 70, 50]
     },
+    "InfrastCloseQuickFormationExpandRole": {
+        "action": "ClickSelf",
+        "roi": [1163, 0, 117, 133]
+    },
     "InfrastClueVacancyNo1": {
         "template": "ClueVacancyNo1.png",
         "templThreshold": 0.75,
