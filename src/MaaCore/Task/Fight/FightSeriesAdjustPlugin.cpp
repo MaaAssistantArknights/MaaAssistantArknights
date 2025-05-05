@@ -14,7 +14,6 @@ bool asst::FightSeriesAdjustPlugin::verify(AsstMsg msg, const json::value& detai
     }
 
     return details.get("details", "task", "").ends_with("CloseStonePage");
-    ;
 }
 
 bool asst::FightSeriesAdjustPlugin::_run()
@@ -25,7 +24,7 @@ bool asst::FightSeriesAdjustPlugin::_run()
     task.run();
 
     int exceeded_num = get_exceeded_num();
-    if (exceeded_num < 7 && exceeded_num > 1) {
+    if (exceeded_num <= 6 && exceeded_num > 1) {
         ProcessTask(*this, { "FightSeries-List-" + std::to_string(exceeded_num - 1) }).run();
         auto modified_next = original_close_stone_page_next;
         modified_next.insert(modified_next.begin(), "Fight@StartButton1");
@@ -84,12 +83,12 @@ int asst::FightSeriesAdjustPlugin::get_exceeded_num() const
             return max_number + 1;
         }
 
-        return 7;
+        return -1;
     }
     auto match_result = multi_matcher.get_result();
     if (match_result.empty()) {
         LogInfo << __FUNCTION__ << "No matches found for FightSeries-List-Exceeded.";
-        return 7; // 没有匹配结果，返回 7
+        return -1;
     }
     sort_by_vertical_(match_result);
     int exceeded_y_pos = match_result.back().rect.y;
