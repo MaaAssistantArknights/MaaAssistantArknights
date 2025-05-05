@@ -26,6 +26,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Check out code
         uses: actions/checkout@v4
