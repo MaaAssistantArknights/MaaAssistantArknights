@@ -12,12 +12,18 @@ bool asst::InfrastControlTask::_run()
         Log.info("skip this room");
         return true;
     }
+    swipe_to_the_left_of_main_ui();
     if (!enter_facility()) {
-        return false;
+        swipe_to_right_of_main_ui();
+        if (!enter_facility()) {
+            return false;
+        }
     }
     if (!enter_oper_list_page()) {
         return false;
     }
+
+    close_quick_formation_expand_role();
 
     // 如果是使用了编队组来排班
     if (current_room_config().use_operator_groups) {

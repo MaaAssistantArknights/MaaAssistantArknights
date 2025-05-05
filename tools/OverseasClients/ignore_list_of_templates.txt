@@ -55,7 +55,6 @@ BattleQuickFormation-OperNameFlag5.png
 BattleQuickFormation-OperNameFlag6.png
 BattleQuickFormation-OperNameFlag7.png
 BattleQuickFormation.png
-BattleQuickFormationFilter
 BattleQuickFormationFilter-Click2.png
 BattleQuickFormationFilter-PinActivated.png
 BattleQuickFormationFilter-PinUnactivated.png
@@ -136,6 +135,7 @@ FightSeries-Default-1.png
 FightSeries-Icon.png
 FightSeries-Indicator.png
 FightSeries-List-1.png
+FightSeries-List-Exceeded.png
 Fire@Reclamation@Badge.png
 Fire@Reclamation@BetweenDayFlag.png
 Fire@Reclamation@ClickBlackMarket.png
@@ -225,13 +225,13 @@ Mizuki@Roguelike@StageSafeHouse.png
 Mizuki@Roguelike@StageTrader.png
 Mizuki@Roguelike@StageVerticalConfirm.png
 Mizuki@Roguelike@StageWindAndRain.png
-ng
 NL-Open.png
 NormalDifficulty-Chapter15.png
 NormalDifficulty.png
 NoStone.png
 OF-Chapter2.png
 OfflineConfirm.png
+OperBoxEnterDelicious.png
 OperBoxEnterSiege.png
 OperBoxFlagElite1.png
 OperBoxFlagElite2.png
@@ -606,6 +606,7 @@ Tales@RA@WorkbenchIcon.png
 Tank@UseSupportUnit-RoleSelected.png
 Tank@UseSupportUnit-SelectRole.png
 TaskSiege.png
+TerminalDelicious.png
 TerminalSiege.png
 UnableToAgent.png
 UnableToAgent2.png
@@ -618,6 +619,5 @@ UseSupportUnit-MaxSpecLvl.png
 UseSupportUnit-Refresh.png
 UseSupportUnit-RefreshCooldown.png
 UseSupportUnit-SelectSkill.png
-Warrior@UseSupportUnit-RoleSelected.p
 Warrior@UseSupportUnit-RoleSelected.png
 Warrior@UseSupportUnit-SelectRole.png

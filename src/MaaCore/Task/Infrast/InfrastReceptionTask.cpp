@@ -15,6 +15,7 @@ bool asst::InfrastReceptionTask::_run()
     m_all_available_opers.clear();
 
     swipe_to_the_left_of_main_ui();
+
     if (!enter_facility()) {
         swipe_to_right_of_main_ui();
         if (!enter_facility()) {
@@ -204,6 +205,8 @@ bool asst::InfrastReceptionTask::shift()
         break;
     }
     sleep(raw_task_ptr->post_delay);
+
+    close_quick_formation_expand_role();
 
     for (int i = 0; i <= OperSelectRetryTimes; ++i) {
         if (need_exit()) {

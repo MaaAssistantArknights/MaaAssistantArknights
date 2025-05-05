@@ -601,6 +601,12 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
     sleep(500); // 此处刚刚选择了一位干员，因后续任务需截图识别，所以需要一个延迟，以保证后续截图选中状态无误
 }
 
+void asst::InfrastAbstractTask::close_quick_formation_expand_role() const
+{
+    LogTraceFunction;
+    ProcessTask(*this, { "InfrastCloseQuickFormationExpandRole", "Stop" }).run();
+}
+
 void asst::InfrastAbstractTask::click_return_button()
 {
     LogTraceFunction;

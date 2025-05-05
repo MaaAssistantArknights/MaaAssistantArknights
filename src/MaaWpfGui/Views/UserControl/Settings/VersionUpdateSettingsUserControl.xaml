@@ -51,7 +51,8 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Content="{DynamicResource UpdateAutoCheck}"
-                        IsChecked="{Binding UpdateAutoCheck}" />
+                        IsChecked="{Binding UpdateAutoCheck}"
+                        ToolTip="{DynamicResource UpdateAutoCheckTip}" />
                     <CheckBox
                         Margin="8"
                         HorizontalAlignment="Left"

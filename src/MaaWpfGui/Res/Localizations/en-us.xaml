@@ -640,7 +640,7 @@ The primary instance is 0, and other instances are the numbers after the version
     <!--  !Depot Recognition  -->
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">Operator</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">"Marked" operators can't be recognized. Please unmark them before starting.</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">Favourited (marked) operators can't be recognized. Please remove them from your favourites before starting.</system:String>
     <system:String x:Key="OperBoxHaveList">Owned: {0}</system:String>
     <system:String x:Key="OperBoxNotHaveList">Not owned: {0}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">Start to Identify</system:String>
@@ -688,6 +688,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">Mini Game Name</system:String>
     <system:String x:Key="MiniGameNameGreenGrass">Contest Channel: Green Grass City (Unofficial)</system:String>
+    <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">Manually skip the tutorial dialogue, then you can exit directly.&#10;Start the task from the event screen (there is a “Join Event” button in the bottom right corner).&#10;&#10;Follow the Duck Lord’s choice.</system:String>
     <!--  !小游戏  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">Identifying……</system:String>

@@ -36,7 +36,6 @@ ignore_list_file_name = "ignore_list_of_templates.txt"
 regex_ignore_list = [
     # OVERSEAS
     # UNRELEASED THEMES
-    "Delicious",
     "DahuangCity",
     "Gaming",
     r"Sarkaz(?!@)"

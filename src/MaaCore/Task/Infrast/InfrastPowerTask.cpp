@@ -29,6 +29,8 @@ bool asst::InfrastPowerTask::_run()
             return false;
         }
 
+        close_quick_formation_expand_role();
+
         for (int j = 0; j <= OperSelectRetryTimes; ++j) {
             if (is_use_custom_opers()) {
                 bool name_select_ret = swipe_and_select_custom_opers();

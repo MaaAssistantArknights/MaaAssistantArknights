@@ -16,12 +16,12 @@ on:
       limit_maa:
         description: "Number of releases to fetch from MaaAssistantArknights"
         required: true
-        default: "10"
+        default: 10
         type: number
-      limit_mr:
+      limit_maarelease:
         description: "Number of releases to fetch from MaaRelease"
         required: true
-        default: "10"
+        default: 10
         type: number
 
 jobs:
@@ -298,17 +298,8 @@ jobs:
         run: |
           mkdir -pv build-ota && cd build-ota
 
-          # Convert inputs to integers
-          limit_maa=${{ inputs.limit_maa || 10 }}
-          limit_maa=${limit_maa%.*}
-          echo "Parsed limit_maa: $limit_maa"
-
-          limit_mr=${{ inputs.limit_mr || 10 }}
-          limit_mr=${limit_mr%.*}
-          echo "Parsed limit_mr: $limit_mr"
-
-          gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit $limit_maa | tee ./release_maa.txt
-          gh release list --repo "${{ github.repository_owner }}/MaaRelease" --limit $limit_mr | tee ./release_mr.txt
+          gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit_maa }} | tee ./release_maa.txt
+          gh release list --repo "${{ github.repository_owner }}/MaaRelease" --limit ${{ inputs.limit_maarelease }} | tee ./release_mr.txt
           echo ${{ needs.build-win-nightly.outputs.tag }} > ./config
 
           cat ./release_maa.txt | awk '{ print $1 }' > ./tags_maa.txt
