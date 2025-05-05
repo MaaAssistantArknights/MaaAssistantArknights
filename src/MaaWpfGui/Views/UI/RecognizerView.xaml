@@ -182,7 +182,7 @@
             </Grid>
         </TabItem>
         <TabItem Header="{DynamicResource OperBoxRecognition}">
-            <Grid Margin="20,0,20,20" IsEnabled="{Binding Idle}">
+            <Grid Margin="20,0,20,20">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
@@ -235,7 +235,7 @@
                                 </ItemsPanelTemplate>
                             </DataGrid.ItemsPanel>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding}" />
+                                <DataGridTextColumn Binding="{Binding Name}" />
                             </DataGrid.Columns>
                         </DataGrid>
                         <controls:TextBlock
@@ -266,7 +266,7 @@
                                 </ItemsPanelTemplate>
                             </DataGrid.ItemsPanel>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding}" />
+                                <DataGridTextColumn Binding="{Binding Name}" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>
@@ -276,6 +276,7 @@
                     Margin="27,0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    IsEnabled="{Binding Idle}"
                     Orientation="Horizontal">
                     <Button
                         Width="180"
