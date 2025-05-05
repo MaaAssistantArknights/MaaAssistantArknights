@@ -103,10 +103,16 @@ public class FightSettingsUserControlModel : TaskViewModel
             { "炭", "SK-5" },
         };
 
-    /// <summary>
-    /// Gets or private sets the list of series.
-    /// </summary>
-    public List<int> SeriesList { get; private set; } = Enumerable.Range(1, 6).ToList();
+    public Dictionary<string, int> SeriesList { get; } = new()
+    {
+        { "AUTO", 1000 },
+        { "6", 6 },
+        { "5", 5 },
+        { "4", 4 },
+        { "3", 6 },
+        { "2", 2 },
+        { "1", 1 },
+    };
 
     public string?[] Stages => [Stage1, Stage2, Stage3];
 
@@ -465,7 +471,7 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private int _series = ConfigurationHelper.GetValue(ConfigurationKeys.SeriesQuantity, 1);
+    private int _series = ConfigurationHelper.GetValue(ConfigurationKeys.SeriesQuantity, 1000);
 
     /// <summary>
     /// Gets or sets the max number of times.

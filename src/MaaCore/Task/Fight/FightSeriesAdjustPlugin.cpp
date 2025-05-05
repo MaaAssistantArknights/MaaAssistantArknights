@@ -26,12 +26,10 @@ bool asst::FightSeriesAdjustPlugin::_run()
     int exceeded_num = get_exceeded_num();
     if (exceeded_num <= 6 && exceeded_num > 1) {
         ProcessTask(*this, { "FightSeries-List-" + std::to_string(exceeded_num - 1) }).run();
-        auto modified_next = original_close_stone_page_next;
-        modified_next.insert(modified_next.begin(), "Fight@StartButton1");
-        Task.get("Fight@CloseStonePage")->next = modified_next;
+        set_close_stone_page_next(true);
     }
     else {
-        Task.get("Fight@CloseStonePage")->next = original_close_stone_page_next;
+        set_close_stone_page_next(false);
     }
     return true;
 }

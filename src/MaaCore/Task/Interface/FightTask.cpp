@@ -73,11 +73,19 @@ bool asst::FightTask::set_params(const json::value& params)
     const int expiring_medicine = params.get("expiring_medicine", 0);
     const int stone = params.get("stone", 0);
     const int times = params.get("times", INT_MAX);
-    const int series = params.get("series", 1);
-    if (series < 1 || series > 6) {
+    int series = params.get("series", 1);
+
+    m_fight_series_adjust_plugin_ptr->set_close_stone_page_next(false);
+    m_fight_series_adjust_plugin_ptr->set_enable(false);
+    if (series == 1000) {
+        m_fight_series_adjust_plugin_ptr->set_enable(true);
+        series = 6;
+    }
+    else if (series < 1 || series > 6) {
         Log.error("Invalid series");
         return false;
     }
+
     bool enable_penguin = params.get("report_to_penguin", false);
     bool enable_yituliu = params.get("report_to_yituliu", false);
     std::string penguin_id = params.get("penguin_id", "");
