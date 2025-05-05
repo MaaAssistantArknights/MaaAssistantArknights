@@ -11,19 +11,9 @@
 > 典型流程示例：  
 > 当前0理智，关卡消耗21理智（6连战需126理智）
 > 
-> 情况1：有2瓶80理智药
-> - 自动吃掉2瓶（+160）
-> - 不触发调整 → 保持6连战
-> 
-> 情况2：有2瓶80理智药，设置只吃1瓶
-> - 第一次吃1瓶（+80）
-> - 第二次达到吃药上限，关闭窗口
-> - 触发调整 → 自动调整为3连战
-> 
-> 情况3：有1瓶80理智药
-> - 自动吃掉1瓶（+80）
-> - 无药可吃时
-> - 触发调整 → 自动调整为3连战
+> 情况1：有2瓶80理智药，自动吃掉2瓶（+160）不触发调整 → 保持6连战  
+> 情况2：有2瓶80理智药，设置只吃1瓶 吃1瓶（+80）达到吃药上限，关闭窗口 触发调整 → 自动调整为3连战  
+> 情况3：有1瓶80理智药，自动吃掉1瓶（+80）无药可吃 触发调整 → 自动调整为3连战
 
 **不过，目前有个已知问题，当已有较多理智的同时设置了较大的【吃理智药】【吃源石】次数，在打消耗理智较多的关卡时，容易产生理智溢出现象，即使开启了博朗台模式。**
 
@@ -52,19 +42,9 @@ When you set the `Series` to 「AUTO」, MAA will:
 > Typical workflow examples:  
 > Current Sanity: 0, Stage cost: 21 (6 repeats require 126 Sanity)
 >
-> Case 1: Two 80-Sanity potions available
-> - Auto-consume both (+160)
-> - No adjustment needed → Maintains 6 repeats
->
-> Case 2: Two 80-Sanity potions available, but usage limited to 1
-> - First consume 1 potion (+80)
-> - Reaches usage limit, closes potion window
-> - Triggers adjustment → Auto-adjusts to 3 repeats
->
-> Case 3: One 80-Sanity potion available
-> - Auto-consumes the potion (+80)
-> - No more potions available
-> - Triggers adjustment → Auto-adjusts to 3 repeats
+> Case 1: Two 80-Sanity potions available, Auto-consume both (+160) No adjustment needed → Maintains 6 repeats  
+> Case 2: Two 80-Sanity potions available, but usage limited to 1, consume 1 potion (+80), Reaches usage limit, Triggers adjustment → Auto-adjusts to 3 repeats  
+> Case 3: One 80-Sanity potion available, Auto-consumes the potion (+80), No more potions available, Triggers adjustment → Auto-adjusts to 3 repeats
 
 **However, there is a known issue: when you already have a high amount of Sanity and have set high usage for *Sanity Potions* or *Originium*, running high-cost stages can sometimes cause Sanity overflow — even with Dr. Grandet Mode enabled.**
 
