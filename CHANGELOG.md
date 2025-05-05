@@ -4,7 +4,9 @@
 
 #### 一份时间，六份收益
 
-在这个版本，我们带来了智能连战次数调整功能。当`刷理智`功能的`连战次数`设置为「AUTO」时，牛牛会尽可能保持6连战，仅在最后一次理智不足时（包括达到吃药设定上限无法继续补充时）动态调整连战次数。
+在这个版本，我们将会带来自适应调整连战次数功能，这个功能可以让牛牛充分利用六周年版本的代理指挥功能更新。
+
+简单来说，就是当`刷理智`功能的`连战次数`设置为「AUTO」时，牛牛会尽可能保持6连战，仅在最后一次理智不足时（包括达到吃药设定上限无法继续补充时）动态调整连战次数。
 
 > 典型流程示例：  
 > 当前0理智，关卡消耗21理智（6连战需126理智）
@@ -38,7 +40,9 @@
 
 **!!! CN ONLY !!!**
 
-This version introduces an intelligent repeat count adjustment feature. When you set the `Series` to 「AUTO」, MAA will:
+This version introduces an adaptive adjustment feature for `Combat`, allowing MAA to fully utilize the 6th Anniversary improvements to ZOOT.
+
+When you set the `Series` to 「AUTO」, MAA will:
 
 1. Always attempt to maintain 6-repeat combat by default
 2. Only adjust the count when:
