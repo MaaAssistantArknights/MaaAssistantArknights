@@ -7,9 +7,6 @@
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
 
-#include <opencv2/core.hpp>
-#include <opencv2/imgproc.hpp>
-
 bool asst::FightSeriesAdjustPlugin::verify(AsstMsg msg, const json::value& details) const
 {
     if (msg != AsstMsg::SubTaskCompleted || details.get("subtask", std::string()) != "ProcessTask") {
