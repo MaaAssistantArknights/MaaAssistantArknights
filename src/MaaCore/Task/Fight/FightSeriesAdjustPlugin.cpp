@@ -12,7 +12,8 @@ bool asst::FightSeriesAdjustPlugin::verify(AsstMsg msg, const json::value& detai
         return false;
     }
 
-    return details.get("details", "task", "").ends_with("CloseStonePage");;
+    return details.get("details", "task", "").ends_with("CloseStonePage");
+    ;
 }
 
 bool asst::FightSeriesAdjustPlugin::_run()
@@ -28,7 +29,8 @@ bool asst::FightSeriesAdjustPlugin::_run()
         auto modified_next = original_close_stone_page_next;
         modified_next.insert(modified_next.begin(), "Fight@StartButton1");
         Task.get("Fight@CloseStonePage")->next = modified_next;
-    } else {
+    }
+    else {
         Task.get("Fight@CloseStonePage")->next = original_close_stone_page_next;
     }
     return true;
