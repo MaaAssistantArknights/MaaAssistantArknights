@@ -45,7 +45,7 @@ int asst::FightSeriesAdjustPlugin::get_exceeded_num() const
     MultiMatcher multi_matcher(img);
     multi_matcher.set_task_info("FightSeries-List-Exceeded");
     if (!multi_matcher.analyze()) {
-        Log.error(__FUNCTION__, "fight seriers exceeded analyze failed");
+        Log.error(__FUNCTION__, "fight series exceeded analyze failed");
         return 7;
     }
     auto match_result = multi_matcher.get_result();
