@@ -380,6 +380,91 @@
                 </StackPanel>
             </Grid>
         </TabItem>
+        <TabItem Header="Depot Agent">
+            <Grid Margin="20,0,20,20" IsEnabled="{Binding Idle}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="150" />
+                </Grid.RowDefinitions>
+                <StackPanel>
+                    <controls:TextBlock
+                Height="36"
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Focusable="True"
+                FontSize="14"
+                Style="{StaticResource TextBlockDefaultBold}"
+                Text="{Binding StackInfo}"
+                TextWrapping="Wrap" />
+                </StackPanel>
+                <DataGrid
+            Grid.Row="1"
+            Width="680"
+            HorizontalAlignment="Center"
+            AutoGenerateColumns="False"
+            HeadersVisibility="None"
+            IsReadOnly="True"
+            ItemsSource="{Binding Target}"
+            ScrollViewer.CanContentScroll="True"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <DataGrid.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel HorizontalAlignment="Center" />
+                        </ItemsPanelTemplate>
+                    </DataGrid.ItemsPanel>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image
+                                Width="30"
+                                Height="30"
+                                Source="{Binding Image}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
+                        <DataGridTextColumn Binding="{Binding Count}" Header="Count" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <StackPanel
+            Grid.Row="2"
+            Margin="27,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+                    <Button
+                Width="180"
+                Height="70"
+                Margin="30"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Command="{s:Action Initiation}"
+                Content="Step I: Init"
+                IsEnabled="{Binding Idle}" />
+                    <Button
+                Width="180"
+                Height="70"
+                Margin="30"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Command="{s:Action Policy_I}"
+                Content="Step II: Set Target(Default)"
+                IsEnabled="{Binding Idle}" />
+                    <Button
+                Width="180"
+                Height="70"
+                Margin="30"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Command="{s:Action MainLoop}"
+                Content="Step III: Run MainLoop"
+                IsEnabled="{Binding Idle}" />
+                </StackPanel>
+            </Grid>
+        </TabItem>
         <TabItem Header="{DynamicResource VideoRecognition}" Visibility="Collapsed">
             <controls:TextBlock
                 Height="80"
