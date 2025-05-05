@@ -64,14 +64,15 @@ int asst::FightSeriesAdjustPlugin::get_exceeded_num() const
             RegionOCRer analyzer(img);
             analyzer.set_task_info("NumberOcrReplace");
             analyzer.set_bin_threshold(150, 255);
-            analyzer.set_roi({980, range.first, 40, range.second - range.first});
+            analyzer.set_roi({ 980, range.first, 40, range.second - range.first });
 
             auto result_opt = analyzer.analyze();
             if (result_opt && !result_opt->text.empty()) {
                 try {
                     int number = std::stoi(result_opt->text);
                     detected_numbers.push_back(number);
-                } catch (const std::invalid_argument&) {
+                }
+                catch (const std::invalid_argument&) {
                     LogInfo << __FUNCTION__ << "OCR failed to parse number: " << result_opt->text;
                 }
             }
