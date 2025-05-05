@@ -32,8 +32,6 @@ Simply put, when you set the *Sanity Farming* feature’s *Continuous Combat Cou
 
 > For example, after using 80 Sanity worth of potion, your current Sanity changed from 14 to 94, MAA will change the in-game continuous combat count to 4 in farming a stage that costs 21 Sanity.
 
-This adjustment will take into account the number of *Sanity Potions* and *Originium* you’ve configured to use, aiming to maximize the use of Continuous Combat.
-
 This way, whether you're farming 1-7 or trying to use up sanity potions that expire in 48 hours, it can save a great deal of time.
 
 **However, there is a known issue: when you already have a high amount of Sanity and have also configured a large number of *Sanity Potions* and *Originium* to be used, Sanity overflow may occur when running high-cost stages — even with Dr. Grandet Mode enabled.**
