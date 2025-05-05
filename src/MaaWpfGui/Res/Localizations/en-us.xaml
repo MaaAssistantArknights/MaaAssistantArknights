@@ -640,7 +640,7 @@ The primary instance is 0, and other instances are the numbers after the version
     <!--  !Depot Recognition  -->
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">Operator</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">"Marked" operators can't be recognized. Please unmark them before starting.</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">Favourited (marked) operators can't be recognized. Please remove them from your favourites before starting.</system:String>
     <system:String x:Key="OperBoxHaveList">Owned: {0}</system:String>
     <system:String x:Key="OperBoxNotHaveList">Not owned: {0}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">Start to Identify</system:String>
