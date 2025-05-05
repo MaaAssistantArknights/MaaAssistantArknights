@@ -974,7 +974,7 @@ std::optional<asst::RoguelikeBattleTaskPlugin::DeployInfo>
     // 取距离最近的N个点，计算分数。然后使用得分最高的点
     constexpr int CalcPointCount = 4;
     for (const auto& loc : available_loc | views::take(CalcPointCount)) {
-        const auto& [cur_direction, cur_socre] = calc_best_direction_and_score(loc, oper, home.direction);
+        const auto& [cur_direction, cur_score] = calc_best_direction_and_score(loc, oper, home.direction);
         // 离得远的要扣分
         constexpr int DistWeights = -1050;
         int extra_dist = std::abs(loc.x - home.location.x) + std::abs(loc.y - home.location.y) - min_dist;
@@ -983,8 +983,8 @@ std::optional<asst::RoguelikeBattleTaskPlugin::DeployInfo>
             extra_dist_score = 0;
         }
 
-        if (cur_socre + extra_dist_score > max_score) {
-            max_score = cur_socre + extra_dist_score;
+        if (cur_score + extra_dist_score > max_score) {
+            max_score = cur_score + extra_dist_score;
             best_location = loc;
             best_direction = cur_direction;
         }

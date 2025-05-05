@@ -569,9 +569,24 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private ObservableCollection<string> _operBoxHaveList = [];
+        public class Operator(string name, int rarity)
+        {
+            public string Name { get; } = name;
 
-        public ObservableCollection<string> OperBoxHaveList
+            public int Rarity { get; } = rarity;
+
+            public bool Equals(Operator? other) => other != null && Name == other.Name && Rarity == other.Rarity;
+
+            public override bool Equals(object? obj) => obj is Operator other && Equals(other);
+
+            public override int GetHashCode() => HashCode.Combine(Name, Rarity);
+
+            public override string ToString() => $"{Name} (★{Rarity})";
+        }
+
+        private ObservableCollection<Operator> _operBoxHaveList = [];
+
+        public ObservableCollection<Operator> OperBoxHaveList
         {
             get => _operBoxHaveList;
             set
@@ -580,9 +595,9 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private ObservableCollection<string> _operBoxNotHaveList = [];
+        private ObservableCollection<Operator> _operBoxNotHaveList = [];
 
-        public ObservableCollection<string> OperBoxNotHaveList
+        public ObservableCollection<Operator> OperBoxNotHaveList
         {
             get => _operBoxNotHaveList;
             set
@@ -590,6 +605,9 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _operBoxNotHaveList, value);
             }
         }
+
+        // 每次传进来的都是完整数据，所以需要一个 HashSet 来去重
+        private HashSet<Operator> _tempHaveSet = [];
 
         public bool OperBoxParse(JObject? details)
         {
@@ -600,8 +618,8 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            List<(string Name, int Rarity)> operHave = [];
-            List<(string Name, int Rarity)> operNotHave = [];
+            bool done = (bool)(details?["done"] ?? false);
+
             (string Name, int Rarity) tuple = ("???", -1);
             foreach (JObject operBox in operBoxes.Cast<JObject>())
             {
@@ -615,25 +633,22 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if ((bool)(operBox["own"] ?? false))
                 {
-                    /*已拥有干员*/
-                    operHave.Add(tuple);
+                    // 已拥有干员
+                    if (_tempHaveSet.Add(new(tuple.Name, tuple.Rarity)))
+                    {
+                        OperBoxHaveList.Add(new(tuple.Name, tuple.Rarity));
+                    }
                 }
-                else
+                else if (done)
                 {
+                    // 未拥有干员
                     if (DataHelper.IsCharacterAvailableInClient(tuple.Name, SettingsViewModel.GameSettings.ClientType))
                     {
-                        operNotHave.Add(tuple);
+                        OperBoxNotHaveList.Add(new(tuple.Name, tuple.Rarity));
                     }
                 }
             }
 
-            operHave.Sort((x, y) => y.Rarity.CompareTo(x.Rarity));
-            operNotHave.Sort((x, y) => y.Rarity.CompareTo(x.Rarity));
-
-            OperBoxHaveList = new(operHave.Select(valueTuple => valueTuple.Name));
-            OperBoxNotHaveList = new(operNotHave.Select(valueTuple => valueTuple.Name));
-
-            bool done = (bool)(details?["done"] ?? false);
             if (!done)
             {
                 return true;
@@ -656,6 +671,9 @@ namespace MaaWpfGui.ViewModels.UI
         public async void StartOperBox()
         {
             OperBoxExportData = string.Empty;
+            _tempHaveSet = [];
+            OperBoxHaveList = [];
+            OperBoxNotHaveList = [];
             _runningState.SetIdle(false);
 
             string errMsg = string.Empty;

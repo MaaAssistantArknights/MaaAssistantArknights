@@ -187,7 +187,7 @@ namespace MaaWpfGui.Main
             // 检查 MaaCore.dll 是否存在
             if (!File.Exists("MaaCore.dll"))
             {
-                throw new FileNotFoundException("File not found!");
+                throw new FileNotFoundException("MaaCore.dll not found!");
             }
 
             // 检查 resource 文件夹是否存在

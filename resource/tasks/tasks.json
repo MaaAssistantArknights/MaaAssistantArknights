@@ -1253,6 +1253,11 @@
         "action": "ClickRect",
         "specificRect": [965, 200, 70, 50]
     },
+    "FightSeries-List-Exceeded": {
+        "template": "FightSeries-List-Exceeded.png",
+        "roi": [965, 200, 70, 325],
+        "doc": "找到每一个需要补充理智的连战次数"
+    },
     "StartButton1": {
         "doc": "绑定插件调整连战次数",
         "algorithm": "OcrDetect",
@@ -1520,6 +1525,7 @@
         "next": ["CloseStonePage"]
     },
     "CloseStonePage": {
+        "Doc": "2025.5.5：next 在 FightSeriesAdjustPlugin 插件中被动态修改",
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [0, 200, 300, 400],
@@ -3017,6 +3023,10 @@
         "templThreshold": 0.8,
         "rectMove": [0, -95, 70, 50]
     },
+    "InfrastCloseQuickFormationExpandRole": {
+        "action": "ClickSelf",
+        "roi": [1163, 0, 117, 133]
+    },
     "InfrastClueVacancyNo1": {
         "template": "ClueVacancyNo1.png",
         "templThreshold": 0.75,
@@ -3215,7 +3225,7 @@
     "ClueGiveTo2nd": {
         "template": "ClueCanBeSent.png",
         "maskRange": [1, 255],
-        "roi": [830, 220, 320, 100],
+        "roi": [830, 220, 340, 100],
         "next": ["ClueGiveTo2ndConfirm"]
     },
     "ClueGiveTo2ndConfirm": {
@@ -3227,7 +3237,7 @@
     "ClueGiveTo3rd": {
         "template": "ClueCanBeSent.png",
         "maskRange": [1, 255],
-        "roi": [830, 370, 320, 100],
+        "roi": [830, 370, 340, 100],
         "next": ["ClueGiveTo3rdConfirm"]
     },
     "ClueGiveTo3rdConfirm": {
@@ -3239,7 +3249,7 @@
     "ClueGiveTo4th": {
         "template": "ClueCanBeSent.png",
         "maskRange": [1, 255],
-        "roi": [830, 520, 320, 100],
+        "roi": [830, 520, 340, 100],
         "next": ["ClueGiveTo4thConfirm"]
     },
     "ClueGiveTo4thConfirm": {

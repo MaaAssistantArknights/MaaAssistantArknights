@@ -796,32 +796,19 @@ namespace MaaWpfGui.ViewModels.UI
         private bool NeedToUpdateDatePrompt()
         {
             var now = DateTime.UtcNow.ToYjDateTime();
-            var hour = now.Hour;
-            var min = now.Minute;
-
-            // yj历的4/16点
-            if (min == 0 && hour == 12)
-            {
-                return true;
-            }
-
-            if (_curDayOfWeek == now.DayOfWeek)
-            {
-                return false;
-            }
 
             _curDayOfWeek = now.DayOfWeek;
-            return true;
+
+            // yj历的4/16点
+            return now is { Minute: 0, Hour: 0 or 12 };
         }
 
         private static bool NeedToCheckForUpdates()
         {
             var now = DateTime.UtcNow.ToYjDateTime();
-            var hour = now.Hour;
-            var min = now.Minute;
 
             // yj历的4/22点
-            return min == 0 && hour == 18;
+            return now is { Minute: 0, Hour: 0 or 18 };
         }
 
         /// <summary>
