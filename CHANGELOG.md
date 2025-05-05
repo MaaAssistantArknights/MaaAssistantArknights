@@ -24,27 +24,27 @@
 
 ----
 
-#### Single Run, Sixfold Gains
+#### One Run, Sixfold Reward
 
 **!!! CN ONLY !!!**
 
-In this version, we’re introducing the adaptive auto-adjustment feature for Continuous Combat count. This feature allows MAA to fully leverage the Auto Deploy Command enhancements from the 6th Anniversary update.
+This version introduces an adaptive adjustment feature for *Continuous Combat*, allowing MAA to fully utilize the 6th Anniversary improvements to Auto Deploy Command.
 
-Simply put, when you set the *Sanity Farming* feature’s *Continuous Combat Count* to "AUTO", MAA will automatically adjust the in-game continuous combat count when using *Sanity Potions* and/or *Originium*.
+In simple terms, when you set the *Sanity Farming* feature’s *Continuous Combat Count* to "AUTO", MAA will automatically adjust the in-game repeat count based on how much Sanity you have after consuming *Sanity Potions* or *Originium*.
 
-> For example, after using 80 Sanity worth of potion, your current Sanity changed from 14 to 94, MAA will change the in-game continuous combat count to 4 in farming a stage that costs 21 Sanity.
+> For example, if your current Sanity is 14 and you use a Sanity Potion worth 80, it increases to 94. When running a stage that costs 21 Sanity, MAA will automatically adjust the repeat count to 4.
 
-This way, whether you're farming 1-7 or trying to use up sanity potions that expire in 48 hours, it can save a great deal of time.
+This can save a great deal of time — for instance, when farming 1-7 or trying to quickly use up Sanity Potions before they expire within 48 hours.
 
-**However, there is a known issue: when you already have a high amount of Sanity and have also configured a large number of *Sanity Potions* and *Originium* to be used, Sanity overflow may occur when running high-cost stages — even with Dr. Grandet Mode enabled.**
+**However, there is a known issue: when you already have a high amount of Sanity and have set high usage for *Sanity Potions* or *Originium*, running high-cost stages can sometimes cause Sanity overflow — even with Dr. Grandet Mode enabled.**
 
-> For example, if your current Sanity is 100, you've enabled Sanity Potion usage, and only have 120 Sanity worth of potions remaining, then when farming a stage that costs 21 Sanity, the following may happen:
+> For example, if your current Sanity is 100, you’ve enabled potion usage, and you only have 120 Sanity worth of potions left, then:
 > 
-> Since running the stage 6 times requires 126 Sanity and your current Sanity is insufficient, in order to maximize the Continuous Combat count, 120 Sanity from potions will be consumed — bringing your total Sanity to 220 and causing an overflow.
+> Running a 21-cost stage 6 times would require 126 Sanity. Since you don’t have enough, MAA will use the full 120 from potions, bringing your Sanity to 220 and causing overflow.
 
-That said, in most cases, this will only waste 1–2 Sanity at most, and the overall impact is minimal.
+In most cases, this will waste only 1–2 Sanity points, so the impact is minimal.
 
-Since this is a significant change and may introduce bugs, feel free to use the *Settings* → *Feedback* feature to generate a log archive and report any issues to us~
+Because this is a significant feature change, it may introduce bugs. If you encounter any issues, please use the *Settings* → *Feedback* feature to generate a log archive and report any issues to us for troubleshooting.
 
 ----
 
