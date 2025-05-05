@@ -1,6 +1,6 @@
 ## v5.16.2
 
-### 比详细内容还要长的 Highlight
+### 比详细内容还要长的 | Highlight
 
 #### 一份时间，六份收益
 
@@ -26,34 +26,34 @@
 
 ----
 
-#### One Run, Sixfold Reward
+#### One Run, Sixfold Rewards
 
 **!!! CN ONLY !!!**
 
-This version introduces an adaptive adjustment feature for `Combat`, allowing MAA to fully utilize the 6th Anniversary improvements to ZOOT.
+This update introduces an adaptive adjustment feature for `Combat`, enabling MAA to fully take advantage of the 6th Anniversary upgrade to the Auto Deploy system.
 
-When you set the `Series` to 「AUTO」, MAA will:
+In simple terms, when the `Series` setting for `Sanity Farming` is set to 「AUTO」, MAA will:
 
-1. Always attempt to maintain 6-repeat combat by default
-2. Only adjust the count when:
-   - Insufficient Sanity for the next run
-   - Reached the potion/originium usage limit
+1. Always attempt to maintain 6-repeat combat by default  
+2. Only adjust the repeat count when:  
+   - Sanity is insufficient for the full run  
+   - Potion or Originium usage has reached your configured limit  
 
-> Typical workflow examples:  
-> Current Sanity: 0, Stage cost: 21 (6 repeats require 126 Sanity)
+> Typical scenario examples:  
+> Current Sanity: 0, Stage cost: 21 (6 repeats require 126 Sanity)  
 >
-> Case 1: Two 80-Sanity potions available, Auto-consume both (+160) No adjustment needed → Maintains 6 repeats  
-> Case 2: Two 80-Sanity potions available, but usage limited to 1, consume 1 potion (+80), Reaches usage limit, Triggers adjustment → Auto-adjusts to 3 repeats  
-> Case 3: One 80-Sanity potion available, Auto-consumes the potion (+80), No more potions available, Triggers adjustment → Auto-adjusts to 3 repeats
+> Case 1: Two 80-Sanity potions available, auto-consumes both (+160) → Maintains 6 repeats  
+> Case 2: Two 80-Sanity potions available, but limit set to 1 → Consumes 1 (+80), hits cap → Auto-adjusts to 3 repeats  
+> Case 3: One 80-Sanity potion available → Auto-consumes it (+80), no more available → Auto-adjusts to 3 repeats
 
-**However, there is a known issue: when you already have a high amount of Sanity and have set high usage for *Sanity Potions* or *Originium*, running high-cost stages can sometimes cause Sanity overflow — even with Dr. Grandet Mode enabled.**
+**Note:** There is a known issue where, if you already have a high amount of Sanity and have allowed high potion/originium usage, running high-cost stages may cause Sanity overflow — even if *Dr. Grandet Mode* is enabled.
 
-> For example, if your current Sanity is 100, you’ve enabled potion usage, and you only have 120 Sanity worth of potions left, then:  
-> Running a 21-cost stage 6 times would require 126 Sanity. Since you don’t have enough, MAA will use the full 120 from potions, bringing your Sanity to 220 and causing overflow.
+> Example: Current Sanity is 100, potion usage is enabled, and only 120 Sanity worth of potions remain.  
+> To run a 21-cost stage 6 times (requires 126 Sanity), MAA will use all 120, raising your Sanity to 220 and causing overflow.
 
-In most cases, this will waste only 1–2 Sanity points, so the impact is minimal.
+In most cases, this may result in wasting just 1–2 Sanity points, which has minimal impact.
 
-Because this is a significant feature change, it may introduce bugs. If you encounter any issues, please use the *Settings* → *Feedback* feature to generate a log archive and report any issues to us for troubleshooting.
+If you experience any unexpected behavior, please use *Settings* → *Feedback* to generate a log archive and send it to us for troubleshooting.
 
 ----
 
