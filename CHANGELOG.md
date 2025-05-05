@@ -25,7 +25,8 @@
 
 #### Single Run, Sixfold Gains
 
-!!! CN ONLY !!!
+**!!! CN ONLY !!!**
+
 In this version, we’re introducing the adaptive auto-adjustment feature for Continuous Combat count. This feature allows MAA to fully leverage the Auto Deploy Command enhancements from the 6th Anniversary update.
 
 Simply put, when you set the *Sanity Farming* feature’s *Continuous Combat Count* to "AUTO", MAA will automatically adjust the in-game continuous combat count when using *Sanity Potions* and/or *Originium*.
