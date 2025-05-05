@@ -1,4 +1,5 @@
 #pragma once
+#include "Config/TaskData.h"
 #include "Task/AbstractTaskPlugin.h"
 
 namespace asst
@@ -15,6 +16,8 @@ protected:
     virtual bool _run() override;
 
 private:
-    int get_exceeded_num();
+    // 临时处理
+    std::vector<std::string> original_close_stone_page_next = {"Fight@StageSNReturnFlag", "Fight@Stop"};
+    int get_exceeded_num() const;
 };
 }

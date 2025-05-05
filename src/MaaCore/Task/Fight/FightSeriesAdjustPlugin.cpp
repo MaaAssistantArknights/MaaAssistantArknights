@@ -1,5 +1,6 @@
 #include "FightSeriesAdjustPlugin.h"
 
+#include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
@@ -10,9 +11,8 @@ bool asst::FightSeriesAdjustPlugin::verify(AsstMsg msg, const json::value& detai
     if (msg != AsstMsg::SubTaskCompleted || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
-    bool result = details.get("details", "task", "").ends_with("CloseStonePage");
 
-    return result;
+    return details.get("details", "task", "").ends_with("CloseStonePage");;
 }
 
 bool asst::FightSeriesAdjustPlugin::_run()
@@ -25,12 +25,16 @@ bool asst::FightSeriesAdjustPlugin::_run()
     int exceeded_num = get_exceeded_num();
     if (exceeded_num < 7 && exceeded_num > 1) {
         ProcessTask(*this, { "FightSeries-List-" + std::to_string(exceeded_num - 1) }).run();
-        ProcessTask(*this, { "StartButton1" }).set_retry_times(3).run();
+        auto modified_next = original_close_stone_page_next;
+        modified_next.insert(modified_next.begin(), "Fight@StartButton1");
+        Task.get("Fight@CloseStonePage")->next = modified_next;
+    } else {
+        Task.get("Fight@CloseStonePage")->next = original_close_stone_page_next;
     }
     return true;
 }
 
-int asst::FightSeriesAdjustPlugin::get_exceeded_num()
+int asst::FightSeriesAdjustPlugin::get_exceeded_num() const
 {
     auto img = ctrler()->get_image();
     if (img.empty()) {
