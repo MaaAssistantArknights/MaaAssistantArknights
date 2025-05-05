@@ -1,4 +1,3 @@
-
 00@EnterEpisodeNew.png
 01@EnterEpisodeNew.png
 02@EnterEpisodeNew.png
@@ -136,6 +135,7 @@ FightSeries-Default-1.png
 FightSeries-Icon.png
 FightSeries-Indicator.png
 FightSeries-List-1.png
+FightSeries-List-Exceeded.png
 Fire@Reclamation@Badge.png
 Fire@Reclamation@BetweenDayFlag.png
 Fire@Reclamation@ClickBlackMarket.png
