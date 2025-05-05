@@ -138,35 +138,35 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         ],
         ["Mizuki_Default"] =
         [
-            ("IS2NewSquad1", "心胜于物分队"),
-            ("IS2NewSquad2", "物尽其用分队"),
-            ("IS2NewSquad3", "以人为本分队"),
+            ("IS3NewSquad1", "心胜于物分队"),
+            ("IS3NewSquad2", "物尽其用分队"),
+            ("IS3NewSquad3", "以人为本分队"),
             ("ResearchSquad", "研究分队"),
         ],
         ["Sami_Default"] =
         [
-            ("IS3NewSquad1", "永恒狩猎分队"),
-            ("IS3NewSquad2", "生活至上分队"),
-            ("IS3NewSquad3", "科学主义分队"),
-            ("IS3NewSquad4", "特训分队"),
+            ("IS4NewSquad1", "永恒狩猎分队"),
+            ("IS4NewSquad2", "生活至上分队"),
+            ("IS4NewSquad3", "科学主义分队"),
+            ("IS4NewSquad4", "特训分队"),
         ],
         ["Sarkaz_1"] =
         [
-            ("IS4NewSquad2", "博闻广记分队"),
-            ("IS4NewSquad3", "蓝图测绘分队"),
-            ("IS4NewSquad6", "点刺成锭分队"),
-            ("IS4NewSquad7", "拟态学者分队"),
+            ("IS5NewSquad2", "博闻广记分队"),
+            ("IS5NewSquad3", "蓝图测绘分队"),
+            ("IS5NewSquad6", "点刺成锭分队"),
+            ("IS5NewSquad7", "拟态学者分队"),
         ],
         ["Sarkaz_Default"] =
         [
-            ("IS4NewSquad1", "魂灵护送分队"),
-            ("IS4NewSquad2", "博闻广记分队"),
-            ("IS4NewSquad3", "蓝图测绘分队"),
-            ("IS4NewSquad4", "因地制宜分队"),
-            ("IS4NewSquad5", "异想天开分队"),
-            ("IS4NewSquad6", "点刺成锭分队"),
-            ("IS4NewSquad7", "拟态学者分队"),
-            ("IS4NewSquad8", "专业人士分队"),
+            ("IS5NewSquad1", "魂灵护送分队"),
+            ("IS5NewSquad2", "博闻广记分队"),
+            ("IS5NewSquad3", "蓝图测绘分队"),
+            ("IS5NewSquad4", "因地制宜分队"),
+            ("IS5NewSquad5", "异想天开分队"),
+            ("IS5NewSquad6", "点刺成锭分队"),
+            ("IS5NewSquad7", "拟态学者分队"),
+            ("IS5NewSquad8", "专业人士分队"),
         ],
     };
 

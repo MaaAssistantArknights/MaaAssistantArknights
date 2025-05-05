@@ -136,9 +136,9 @@
             <s:String x:Key="RoguelikeUseNonFriendSupport">Enable nonfirend support</s:String>
 
             <s:String x:Key="DefaultSquad">Default</s:String>
-            <s:String x:Key="IS2NewSquad1">Mind over matter (to be updated)</s:String>
-            <s:String x:Key="IS2NewSquad2">The best uses (to be updated)</s:String>
-            <s:String x:Key="IS2NewSquad3">People oriented (to be updated)</s:String>
+            <s:String x:Key="IS3NewSquad1">Mind over matter (to be updated)</s:String>
+            <s:String x:Key="IS3NewSquad2">The best uses (to be updated)</s:String>
+            <s:String x:Key="IS3NewSquad3">People oriented (to be updated)</s:String>
             <s:String x:Key="LeaderSquad">Leader Squad</s:String>
             <s:String x:Key="GatheringSquad">Gathering Squad</s:String>
             <s:String x:Key="SupportSquad">Support Squad</s:String>

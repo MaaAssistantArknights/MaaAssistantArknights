@@ -133,9 +133,9 @@
             <s:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</s:String>
 
             <s:String x:Key="DefaultSquad">默认分队</s:String>
-            <s:String x:Key="IS2NewSquad1">心胜于物分队</s:String>
-            <s:String x:Key="IS2NewSquad2">物尽其用分队</s:String>
-            <s:String x:Key="IS2NewSquad3">以人为本分队</s:String>
+            <s:String x:Key="IS3NewSquad1">心胜于物分队</s:String>
+            <s:String x:Key="IS3NewSquad2">物尽其用分队</s:String>
+            <s:String x:Key="IS3NewSquad3">以人为本分队</s:String>
             <s:String x:Key="LeaderSquad">指挥分队</s:String>
             <s:String x:Key="GatheringSquad">集群分队</s:String>
             <s:String x:Key="SupportSquad">后勤分队</s:String>

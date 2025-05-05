@@ -125,9 +125,9 @@
             <s:String x:Key="RoguelikeUseNonFriendSupport">フレンド以外のサポートの使用を許可</s:String>
 
             <s:String x:Key="DefaultSquad">デフォルト</s:String>
-            <s:String x:Key="IS2NewSquad1">（ミヅキ）心胜于物分队</s:String>
-            <s:String x:Key="IS2NewSquad2">（ミヅキ）物尽其用分队</s:String>
-            <s:String x:Key="IS2NewSquad3">（ミヅキ）以人为本分队</s:String>
+            <s:String x:Key="IS3NewSquad1">（ミヅキ）心胜于物分队</s:String>
+            <s:String x:Key="IS3NewSquad2">（ミヅキ）物尽其用分队</s:String>
+            <s:String x:Key="IS3NewSquad3">（ミヅキ）以人为本分队</s:String>
             <s:String x:Key="LeaderSquad">指揮分隊</s:String>
             <s:String x:Key="GatheringSquad">集団分隊</s:String>
             <s:String x:Key="SupportSquad">支援分隊</s:String>
