@@ -31,6 +31,13 @@ This adjustment will take into account the number of [Sanity Potions] and [Origi
 
 This way, whether you're farming 1-7 or trying to use up sanity potions that expire in 48 hours, it can save a great deal of time.
 
+**However, there is a known issue: when you already have a high amount of Sanity and have also configured a large number of [Sanity Potions] and [Originium] to be used, Sanity overflow may occur when running high-cost stages — even with Dr. Grandet Mode enabled.**
+
+For example, if your current Sanity is 100, you've enabled Sanity Potion usage, and only have 120 Sanity worth of potions remaining, then when farming a stage that costs 21 Sanity, the following may happen:  
+"Since running the stage 6 times requires 126 Sanity and your current Sanity is insufficient, in order to maximize the Continuous Combat count, 120 Sanity from potions will be consumed — bringing your total Sanity to 220 and causing an overflow."
+
+That said, in most cases, this will only waste 1–2 Sanity at most, and the overall impact is minimal.
+
 Since this is a significant change and may introduce bugs, feel free to use the [Settings] → [Feedback] feature to generate a log archive and report any issues to us~
 
 ----
