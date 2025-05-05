@@ -1,6 +1,8 @@
 ## v5.16.2
 
-### 一份时间，六份收益 | Highlight
+### Highlight
+
+### 一份时间，六份收益
 
 在这个版本，我们将会带来自适应调整连战次数功能，这个功能可以让牛牛充分利用六周年版本的代理指挥功能更新。
 
@@ -12,9 +14,23 @@
 
 由于这个改动影响较大，可能产生 bug，欢迎你在遇到问题时使用【设置】的【问题反馈】功能生成日志压缩包，并将其反馈给我们~
 
+### Single Run, Sixfold Gains
+
+!!! CN ONLY !!!
+In this version, we’re introducing the adaptive auto-adjustment feature for Continuous Combat count. This feature allows MAA to fully leverage the Auto Deploy Command enhancements from the 6th Anniversary update.
+
+Simply put, when you set the [Sanity Farming] feature’s [Continuous Combat Count] to "AUTO", MAA will automatically adjust the in-game continuous combat count.
+
+This adjustment will take into account the number of [Sanity Potions] and [Originium] you’ve configured to use, aiming to maximize the use of Continuous Combat.
+
+This way, whether you're farming 1-7 or trying to use up sanity potions that expire in 48 hours, it can save a great deal of time.
+
+Since this is a significant change and may introduce bugs, feel free to use the [Settings] → [Feedback] feature to generate a log archive and report any issues to us~
+
 ----
 
 以下是详细内容：
+Changelog below:
 
 ### 新增 | New
 
