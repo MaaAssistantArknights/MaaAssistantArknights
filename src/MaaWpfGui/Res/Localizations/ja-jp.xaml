@@ -692,6 +692,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGameName">ミニゲーム名</system:String>
     <system:String x:Key="MiniGameNameGreenGrass">対決チャンネル：グリーングラスシティ（非公式）</system:String>
     <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">手動でチュートリアルの会話をスキップし、直接退出することができます。&#10;イベント画面（右下角に｢イベントに参加｣ボタンがあります）でタスクを開始します。&#10;&#10;ダック卿の選択をフォローする。</system:String>
+    <system:String x:Key="MiniGameNameGreenTicketStore">緑チケット商店</system:String>
+    <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1階は全部購入。&#10;2階は訪問証と募集許可を購入。</system:String>
+    <system:String x:Key="MiniGameNameYellowTicketStore">黄チケット商店</system:String>
+    <system:String x:Key="MiniGameNameYellowTicketStoreTip" xml:space="preserve">少なくとも258枚の黄チケットを持っていることを確認してください。</system:String>
     <!--  !小游戏  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">認識中……</system:String>
