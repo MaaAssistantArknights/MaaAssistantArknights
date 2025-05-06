@@ -690,7 +690,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="MiniGameNameGreenGrass">Contest Channel: Green Grass City (Unofficial)</system:String>
     <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">Manually skip the tutorial dialogue, then you can exit directly.&#10;Start the task from the event screen (there is a ｢Join Event｣ button in the bottom right corner).&#10;&#10;Follow the Duck Lord's choice.</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">Green Ticket Store</system:String>
-    <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">Buy everything on the 1st floor.&#10;Buy visitation vouchers and recruitment permits on the 2nd floor.</system:String>
+    <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">Buy everything on the 1st floor.&#10;Buy Headhunting Permits and Recruitment Permits on the 2nd floor.</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">Yellow Ticket Store</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStoreTip" xml:space="preserve">Please ensure you have at least 258 yellow tickets.</system:String>
     <!--  !小游戏  -->
