@@ -49,8 +49,6 @@ extern "C"
     AsstBool ASSTAPI AsstStart(AsstHandle handle);
     AsstBool ASSTAPI AsstStop(AsstHandle handle);
     AsstBool ASSTAPI AsstRunning(AsstHandle handle);
-    AsstBool ASSTAPI AsstPause(AsstHandle handle);
-    AsstBool ASSTAPI AsstResume(AsstHandle handle);
     AsstBool ASSTAPI AsstConnected(AsstHandle handle);
     AsstBool ASSTAPI AsstBackToHome(AsstHandle handle);
 
