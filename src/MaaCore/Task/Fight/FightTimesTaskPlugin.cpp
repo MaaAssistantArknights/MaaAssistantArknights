@@ -38,4 +38,3 @@ bool asst::FightTimesTaskPlugin::_run()
     inited = true;
     return true;
 }
-
