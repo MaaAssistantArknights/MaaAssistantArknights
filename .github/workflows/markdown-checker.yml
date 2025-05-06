@@ -58,6 +58,8 @@ jobs:
             --exclude-path 'docs/ja-jp/manual/introduction/introduction_old.md'
             --exclude 'files/MAA_Runtime_Fix_Pwsh.ps1$'
             -- './docs/**/*.md' './README.md'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Comment (only for PR)
         if: failure() && github.event_name == 'pull_request'
