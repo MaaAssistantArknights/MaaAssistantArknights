@@ -261,7 +261,7 @@
                 {
                     "name": "隐德来希",
                     "skill": 2,
-                    "recruit_priority": 630,
+                    "recruit_priority": 600,
                     "promote_priority": 700,
                     "recruit_priority_offsets": [
                         {
@@ -1653,6 +1653,21 @@
                     ]
                 },
                 {
+                    "name": "弑君者",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "auto_retreat": 16,
+                    "recruit_priority": 501,
+                    "promote_priority": 555,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["处决者", "史尔特尔"],
+                            "threshold": 1,
+                            "offset": -200
+                        }
+                    ]
+                },
+                {
                     "name": "红",
                     "skill": 1,
                     "auto_retreat": 7,
@@ -2210,8 +2225,8 @@
                     "skill": 3,
                     "alternate_skill": 2,
                     "is_key": true,
-                    "recruit_priority": 785,
-                    "promote_priority": 845,
+                    "recruit_priority": 800,
+                    "promote_priority": 900,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["术师"],
@@ -2426,9 +2441,15 @@
                     "name": "蕾缪安",
                     "skill": 2,
                     "is_key": true,
-                    "is_start": true,
                     "recruit_priority": 800,
-                    "promote_priority": 2000
+                    "promote_priority": 900,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["益达"],
+                            "threshold": 1,
+                            "offset": -200
+                        }
+                    ]
                 },
                 {
                     "name": "提丰",
@@ -3818,6 +3839,9 @@
                 },
                 {
                     "name": "缄默德克萨斯"
+                },
+                {
+                    "name": "弑君者"
                 },
                 {
                     "name": "移动摄影器"
