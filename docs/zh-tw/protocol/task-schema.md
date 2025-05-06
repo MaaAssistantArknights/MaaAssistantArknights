@@ -5,7 +5,7 @@ icon: material-symbols:task
 
 # 任務流程協議
 
-`resource/tasks.json` 的使用方法及各欄位說明
+`resource/tasks` 的使用方法及各欄位說明
 
 ::: tip
 請注意 JSON 檔是不支援註解的，下方的註解僅用於說明，請勿直接複製使用
