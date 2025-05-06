@@ -401,45 +401,12 @@ bool asst::Assistant::running() const
     return m_running;
 }
 
-bool asst::Assistant::pause(bool block)
-{
-    LogTraceFunction;
-    Log.info("Pause |", block ? "block" : "non block");
-    if (m_paused || !m_running) {
-        return false;
-    }
-    std::unique_lock<std::mutex> lock;
-    if (block) {
-        lock = std::unique_lock<std::mutex>(m_paused_mutex);
-    }
-    m_paused = true;
-    m_paused_condvar.notify_one();
-    return true;
-}
-
-bool asst::Assistant::resume(bool block)
-{
-    LogTraceFunction;
-    Log.info("Resume |", block ? "block" : "non block");
-    if (!m_paused) {
-        return false;
-    }
-    std::unique_lock<std::mutex> lock;
-    if (block) {
-        lock = std::unique_lock<std::mutex>(m_paused_mutex);
-    }
-    m_paused = false;
-    m_paused_condvar.notify_one();
-    return true;
-}
-
 void Assistant::working_proc()
 {
     LogTraceFunction;
 
     std::vector<TaskId> finished_tasks;
     while (true) {
-        std::unique_lock<std::mutex> pause_lock(m_paused_mutex);
         std::unique_lock<std::mutex> lock(m_mutex);
         pause_lock.unlock();
         if (m_thread_exit) {
@@ -499,12 +466,6 @@ void Assistant::working_proc()
         if (m_thread_idle) {
             append_callback(AsstMsg::TaskChainStopped, callback_json);
         }
-
-        pause_lock.lock();
-        if (m_paused) {
-            append_callback(AsstMsg::TaskChainPaused, callback_json);
-        }
-        m_paused_condvar.wait(pause_lock, [this]() { return !m_paused.load() || m_thread_exit; });
     }
 }
 
