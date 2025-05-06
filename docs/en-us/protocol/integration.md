@@ -76,8 +76,11 @@ Appends a task.
     "medicine": int,            // Maximum number Sanity Potion used, optional, by default 0
     "expiring_medicine": int,   // Maximum number of expired Sanity Potion within 48 hours, optional, by default 0
     "stone": int,               // Maximum number of Originite Prime used, optional, by default 0
-    "times": int,               // Maximum times, optional, by default infinite
-    "series": int,              // Number of series, optional, 1~6
+    "times": int,               // Fight times, optional, by int32.max
+    "series": int,              // Number of series, optional, -1~6
+                                // -1  To disable switching series
+                                // 0   To automatically switch to the maximum number of series currently available, if the current sanity is less than 6 times, select the minimum number of times available
+                                // 1~6 To modify to a specified number of times
     "drops": {                  // Specifying the number of drops, optional, no specification by default
         "30011": int,           // Key: item ID; value: number of items. Key refers to resource/item_index.json
         "30062": int            // OR combination
