@@ -25,7 +25,6 @@ jobs:
     name: Check Dead Links
     runs-on: ubuntu-latest
     permissions:
-      contents: read
       pull-requests: write
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -48,7 +47,7 @@ jobs:
         with:
           # 仅检查内部链接和 Github 相关链接
           args: >
-            --verbose --no-progress
+            --verbose --no-progress --github-token ${{ secrets.GITHUB_TOKEN }}
             --cache --max-cache-age 1d --cache-exclude-status '429, 500..599'
             --exclude 'https?://.*'
             --include 'https?://github\.com/.*'
