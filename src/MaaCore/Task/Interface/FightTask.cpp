@@ -78,16 +78,28 @@ bool asst::FightTask::set_params(const json::value& params)
     // 重置插件状态 1000 表示自动连战，-1 表示禁用连战切换
     m_fight_times_task_plugin_prt->set_enable(series != -1);
     m_fight_series_adjust_plugin_ptr->set_close_stone_page_next(false);
-    m_fight_series_adjust_plugin_ptr->set_enable(series == 1000);
-    if (series == 1000) {
-        series = 6;
+    if (series == 0) {
+        m_fight_series_adjust_plugin_ptr->set_enable(true);
+        m_fight_times_task_plugin_prt->set_series(6);
     }
     else if (series == -1) {
-        series = 1;
+        m_fight_times_task_plugin_prt->set_series(1);
+        m_fight_series_adjust_plugin_ptr->set_enable(false);
+    }
+    else if (series == 1000) {
+        Log.warn("================  DEPRECATED  ================");
+        Log.warn("series = 1000, 已弃用");
+        Log.warn("================  DEPRECATED  ================");
+        m_fight_times_task_plugin_prt->set_series(6);
+        m_fight_series_adjust_plugin_ptr->set_enable(true);
     }
     else if (series < 1 || series > 6) {
         Log.error("Invalid series");
         return false;
+    }
+    else {
+        m_fight_times_task_plugin_prt->set_series(series);
+        m_fight_series_adjust_plugin_ptr->set_enable(false);
     }
 
     bool enable_penguin = params.get("report_to_penguin", false);
@@ -142,7 +154,6 @@ bool asst::FightTask::set_params(const json::value& params)
         .set_times_limit("StoneConfirm", stone)
         .set_times_limit("StartButton1", times)
         .set_times_limit("StartButton2", times);
-    m_fight_times_task_plugin_prt->set_series(series);
     m_medicine_plugin->set_count(medicine);
     m_medicine_plugin->set_use_expiring(expiring_medicine != 0);
     m_medicine_plugin->set_dr_grandet(is_dr_grandet);
