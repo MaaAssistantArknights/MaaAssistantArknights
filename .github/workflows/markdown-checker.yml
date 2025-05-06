@@ -47,8 +47,9 @@ jobs:
         uses: lycheeverse/lychee-action@v2
         with:
           # 仅检查内部链接和 Github 相关链接
+          token: ${{ secrets.GITHUB_TOKEN }}
           args: >
-            --verbose --no-progress --github-token ${{ secrets.GITHUB_TOKEN }}
+            --verbose --no-progress
             --cache --max-cache-age 1d --cache-exclude-status '429, 500..599'
             --exclude 'https?://.*'
             --include 'https?://github\.com/.*'
@@ -58,8 +59,6 @@ jobs:
             --exclude-path 'docs/ja-jp/manual/introduction/introduction_old.md'
             --exclude 'files/MAA_Runtime_Fix_Pwsh.ps1$'
             -- './docs/**/*.md' './README.md'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Comment (only for PR)
         if: failure() && github.event_name == 'pull_request'
