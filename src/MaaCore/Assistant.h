@@ -205,5 +205,6 @@ private:
     std::unique_ptr<Watchdog> m_watchdog;
     std::mutex m_watchdog_mutex;
     std::condition_variable m_watchdog_condvar;
+    json::value m_last_task_json = json::value();
 };
 } // namespace asst

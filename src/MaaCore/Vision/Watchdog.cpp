@@ -5,8 +5,8 @@ namespace asst
 {
 
 Watchdog::Watchdog(int matchIntervalSec, int freezeThreshold, const AsstCallback& callback, Assistant* inst) :
-    m_matchIntervalSec(matchIntervalSec > 0 ? matchIntervalSec : defaultMatchIntervalSec),
     InstHelper(inst),
+    m_matchIntervalSec(matchIntervalSec > 0 ? matchIntervalSec : defaultMatchIntervalSec),
     m_freezeThreshold(freezeThreshold > 0 ? freezeThreshold : defaultFreezeThreshold),
     m_callback(callback),
     m_lastMatchTime(std::chrono::steady_clock::now()),

@@ -1850,5 +1850,10 @@ namespace MaaWpfGui.ViewModels.UI
                 instance.ProcSubTaskMsg(msg, details);
             }
         }
+
+        internal static void RecoverFromFreeze(JObject details)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
