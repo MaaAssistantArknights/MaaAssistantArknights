@@ -3,6 +3,12 @@
 
 namespace asst
 {
+struct SanityResult
+{
+    int current = 0; // 当前理智
+    int max = 0;     // 最大理智
+};
+
 class SanityBeforeStageTaskPlugin final : public AbstractTaskPlugin
 {
 public:
@@ -10,11 +16,11 @@ public:
     virtual ~SanityBeforeStageTaskPlugin() override = default;
     virtual bool verify(AsstMsg msg, const json::value& details) const override;
 
-private:
-    virtual bool _run() override;
-
     // 获取 当前理智/最大理智
     // 返回 是否获取成功
-    bool get_sanity_before_stage();
+    static std::optional<asst::SanityResult> get_sanity_before_stage(const cv::Mat image);
+
+private:
+    virtual bool _run() override;
 };
 }
