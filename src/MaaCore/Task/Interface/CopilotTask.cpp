@@ -78,10 +78,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
         Log.warn("================  DEPRECATED  ================");
         Log.warn("`is_adverse` has been deprecated since v5.0.0-beta.3; Please use 'is_raid'");
         Log.warn("================  DEPRECATED  ================");
-        if (!params.contains("is_raid")) {
-            // 兼容旧版本，在v6.0改为存在此参数时直接return false
-            is_raid = params.get("is_adverse", false);
-        }
+        return false;
     }
     bool use_sanity_potion = params.get("use_sanity_potion", false);                 // 是否吃理智药
     bool with_formation = params.get("formation", false);                            // 是否使用自动编队
@@ -96,6 +93,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
         Log.warn("================  DEPRECATED  ================");
         Log.warn("`add_user_additional` has been deprecated since v5.1.0-beta.1;");
         Log.warn("================  DEPRECATED  ================");
+        return false;
     }
 
     auto filename_opt = params.find<std::string>("filename");
