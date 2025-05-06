@@ -367,4 +367,43 @@ public class GameSettingsUserControlModel : PropertyChangedBase
     }
 
     #endregion 任务超时
+
+    private bool _enableWatchdog = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.EnableWatchdog, bool.TrueString));
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to enable watchdog thread.
+    /// </summary>
+    public bool EnableWatchdog
+    {
+        get => _enableWatchdog;
+        set
+        {
+            SetAndNotify(ref _enableWatchdog, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.EnableWatchdog, value.ToString());
+        }
+    }
+
+    private int _watchdogIntervalSec = ConfigurationHelper.GetValue(ConfigurationKeys.WatchdogIntervalSec, 60);
+
+    public int WatchdogIntervalSec
+    {
+        get => _watchdogIntervalSec;
+        set
+        {
+            SetAndNotify(ref _watchdogIntervalSec, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.WatchdogIntervalSec, value.ToString());
+        }
+    }
+
+    private int _watchdogThreshold = ConfigurationHelper.GetValue(ConfigurationKeys.WatchdogThreshold, 5);
+
+    public int WatchdogThreshold
+    {
+        get => _watchdogThreshold;
+        set
+        {
+            SetAndNotify(ref _watchdogThreshold, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.WatchdogThreshold, value.ToString());
+        }
+    }
 }

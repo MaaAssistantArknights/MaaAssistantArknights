@@ -2267,6 +2267,11 @@ namespace MaaWpfGui.Main
         {
             MaaService.AsstDestroy(_handle);
         }
+
+        public void AsstStartWatchdog(int interval, int threshold)
+        {
+            MaaService.AsstStartWatchdog(_handle, interval, threshold);
+        }
     }
 
     /// <summary>

@@ -49,6 +49,8 @@ extern "C"
     AsstBool ASSTAPI AsstStart(AsstHandle handle);
     AsstBool ASSTAPI AsstStop(AsstHandle handle);
     AsstBool ASSTAPI AsstRunning(AsstHandle handle);
+    AsstBool ASSTAPI AsstPause(AsstHandle handle);
+    AsstBool ASSTAPI AsstResume(AsstHandle handle);
     AsstBool ASSTAPI AsstConnected(AsstHandle handle);
     AsstBool ASSTAPI AsstBackToHome(AsstHandle handle);
 
@@ -71,6 +73,8 @@ extern "C"
 
     ASSTAPI_PORT const char* ASST_CALL AsstGetVersion();
     void ASSTAPI AsstLog(const char* level, const char* message);
+
+    AsstBool ASSTAPI AsstStartWatchdog(AsstHandle handle, int32_t matchIntervalSec, int32_t freezeThreshold);
 
 #ifdef __cplusplus
 }

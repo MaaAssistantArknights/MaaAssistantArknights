@@ -441,6 +441,7 @@ void Assistant::working_proc()
     while (true) {
         std::unique_lock<std::mutex> pause_lock(m_paused_mutex);
         std::unique_lock<std::mutex> lock(m_mutex);
+        pause_lock.unlock();
         if (m_thread_exit) {
             m_running = false;
             return;
@@ -687,4 +688,34 @@ bool asst::Assistant::inited() const noexcept
 bool asst::Assistant::back_to_home() const
 {
     return m_ctrler->back_to_home();
+}
+
+bool Assistant::start_watchdog(int matchIntervalSec, int freezeThreshold)
+{
+    Log.info("Assistant::start_watchdog | interval:", matchIntervalSec, "thres:", freezeThreshold);
+    m_watchdog_thread = std::thread(&Assistant::watchdog_proc, this);
+    m_watchdog = std::make_unique<Watchdog>(matchIntervalSec, freezeThreshold, append_callback_for_inst, this);
+    return true;
+}
+
+void Assistant::watchdog_proc()
+{
+    LogTraceFunction;
+    while (true) {
+        std::unique_lock<std::mutex> lock(m_watchdog_mutex);
+        std::cv_status status = m_watchdog_condvar.wait_until(lock, m_watchdog->next_wakeup_time());
+        if (m_thread_exit) {
+            return;
+        }
+        if (status != std::cv_status::timeout) {
+            continue;
+        }
+        lock.unlock();
+        cv::Mat frame = m_ctrler->get_image(true);
+        if (!m_watchdog->check(frame)) {
+            Log.error("Assistant::watchdog_proc | freeze detected");
+            // pause worker, drop current task, insert a new one with same parameter, callback with freeze, wait until
+            // resume signal, resume worker
+        }
+    }
 }

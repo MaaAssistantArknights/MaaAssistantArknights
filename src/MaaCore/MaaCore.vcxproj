@@ -422,6 +422,7 @@
     <ClInclude Include="Utils\StringMisc.hpp" />
     <ClInclude Include="Utils\Time.hpp" />
     <ClInclude Include="Utils\WorkingDir.hpp" />
+    <ClInclude Include="Vision\Watchdog.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Assistant.cpp" />
@@ -597,6 +598,7 @@
     <ClCompile Include="Task\Interface\CustomTask.cpp" />
     <ClCompile Include="Utils\Platform\PlatformPosix.cpp" />
     <ClCompile Include="Utils\Platform\PlatformWin32.cpp" />
+    <ClCompile Include="Vision\Watchdog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="meojson.natvis" />

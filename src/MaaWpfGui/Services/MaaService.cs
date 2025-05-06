@@ -83,6 +83,9 @@ namespace MaaWpfGui.Services
 
         [DllImport("MaaCore.dll")]
         public static extern unsafe void AsstSetConnectionExtras(byte* name, byte* extras);
+
+        [DllImport("MaaCore.dll")]
+        public static extern bool AsstStartWatchdog(AsstHandle handle, int matchIntervalSec, int freezeThreshold);
     }
 
     public enum AsstTaskType : byte

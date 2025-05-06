@@ -10,6 +10,7 @@
 
 #include "Common/AsstMsg.h"
 #include "Common/AsstTypes.h"
+#include "Vision/Watchdog.h"
 
 struct AsstExtAPI
 {
@@ -65,6 +66,8 @@ public:
     virtual std::vector<TaskId> get_tasks_list() const = 0;
 
     virtual bool back_to_home() const = 0;
+
+    virtual bool start_watchdog(int matchIntervalSec, int freezeThreshold) = 0;
 };
 
 namespace asst
@@ -114,6 +117,8 @@ public:
 
     bool need_exit() const { return m_thread_idle && m_running; }
 
+    bool start_watchdog(int matchIntervalSec, int freezeThreshold);
+
 private:
     void append_callback(AsstMsg msg, const json::value& detail);
     static void append_callback_for_inst(AsstMsg msg, const json::value& detail, Assistant* inst);
@@ -159,6 +164,7 @@ private:
     void call_proc();
     void working_proc();
     void msg_proc();
+    void watchdog_proc();
 
 private:
     void clear_cache();
@@ -204,5 +210,10 @@ private:
     std::thread m_msg_thread;
     std::thread m_call_thread;
     std::thread m_working_thread;
+    std::thread m_watchdog_thread;
+
+    std::unique_ptr<Watchdog> m_watchdog;
+    std::mutex m_watchdog_mutex;
+    std::condition_variable m_watchdog_condvar;
 };
 } // namespace asst
