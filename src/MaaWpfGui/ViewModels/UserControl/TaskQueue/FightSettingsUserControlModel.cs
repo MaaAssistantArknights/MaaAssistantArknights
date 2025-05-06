@@ -112,6 +112,7 @@ public class FightSettingsUserControlModel : TaskViewModel
         { "3", 6 },
         { "2", 2 },
         { "1", 1 },
+        { LocalizationHelper.GetString("NotSelected"), -1 },
     };
 
     public string?[] Stages => [Stage1, Stage2, Stage3];

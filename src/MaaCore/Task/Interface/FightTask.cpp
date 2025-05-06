@@ -75,11 +75,15 @@ bool asst::FightTask::set_params(const json::value& params)
     const int times = params.get("times", INT_MAX);
     int series = params.get("series", 1);
 
+    // 重置插件状态 1000 表示自动连战，-1 表示禁用连战切换
+    m_fight_times_task_plugin_prt->set_enable(series != -1);
     m_fight_series_adjust_plugin_ptr->set_close_stone_page_next(false);
-    m_fight_series_adjust_plugin_ptr->set_enable(false);
+    m_fight_series_adjust_plugin_ptr->set_enable(series == 1000);
     if (series == 1000) {
-        m_fight_series_adjust_plugin_ptr->set_enable(true);
         series = 6;
+    }
+    else if (series == -1) {
+        series = 1;
     }
     else if (series < 1 || series > 6) {
         Log.error("Invalid series");
