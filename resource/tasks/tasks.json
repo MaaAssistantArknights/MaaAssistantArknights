@@ -1253,11 +1253,6 @@
         "action": "ClickRect",
         "specificRect": [965, 200, 70, 50]
     },
-    "FightSeries-List-Exceeded": {
-        "template": "FightSeries-List-Exceeded.png",
-        "roi": [965, 200, 70, 325],
-        "doc": "找到每一个需要补充理智的连战次数"
-    },
     "StartButton1": {
         "doc": "绑定插件调整连战次数",
         "algorithm": "OcrDetect",
@@ -1525,7 +1520,6 @@
         "next": ["CloseStonePage"]
     },
     "CloseStonePage": {
-        "Doc": "2025.5.5：next 在 FightSeriesAdjustPlugin 插件中被动态修改",
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [0, 200, 300, 400],

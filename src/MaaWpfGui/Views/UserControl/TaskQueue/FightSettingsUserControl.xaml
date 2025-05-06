@@ -170,9 +170,7 @@
                         IsHitTestVisible="{c:Binding !FightTaskRunning,
                                                      Source={x:Static helper:Instances.TaskQueueViewModel}}"
                         ItemsSource="{Binding SeriesList}"
-                        SelectedValue="{Binding Series}"
-                        DisplayMemberPath="Key"
-                        SelectedValuePath="Value" />
+                        SelectedValue="{Binding Series}" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="3">
