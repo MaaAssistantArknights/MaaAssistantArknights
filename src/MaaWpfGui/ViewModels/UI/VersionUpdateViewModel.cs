@@ -500,9 +500,15 @@ public class VersionUpdateViewModel : Screen
     /// <returns>Task</returns>
     public async Task VersionUpdateAndAskToRestartAsync()
     {
-        if (await CheckAndDownloadVersionUpdate() == CheckUpdateRetT.OK)
+        var ret = await CheckAndDownloadVersionUpdate();
+        switch (ret)
         {
-            _ = AskToRestart();
+            case CheckUpdateRetT.OK:
+                _ = AskToRestart();
+                break;
+            case CheckUpdateRetT.NoMirrorChyanCdk:
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanSoftwareUpdateTip"));
+                break;
         }
     }
 
