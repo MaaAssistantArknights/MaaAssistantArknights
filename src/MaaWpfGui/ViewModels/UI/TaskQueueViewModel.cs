@@ -1404,6 +1404,11 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 AddLog(LocalizationHelper.GetString("Running"));
                 Instances.AsstProxy.StartTaskTime = DateTimeOffset.Now;
+
+                if (GameSettingsUserControlModel.Instance.EnableWatchdog)
+                {
+                    Instances.AsstProxy.AsstStartWatchdog(GameSettingsUserControlModel.Instance.WatchdogIntervalSec, GameSettingsUserControlModel.Instance.WatchdogThreshold);
+                }
             }
             else
             {
@@ -1443,6 +1448,8 @@ namespace MaaWpfGui.ViewModels.UI
 
             return !Instances.AsstProxy.AsstRunning();
         }
+
+
 
         // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
