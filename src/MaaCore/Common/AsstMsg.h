@@ -17,6 +17,7 @@ enum class AsstMsg
     AllTasksCompleted, // 全部任务完成
     AsyncCallInfo,     // 外部异步调用信息
     Destroyed,         // 实例已销毁
+    Freeze,            // 模拟器冻结
     /* TaskChain Info */
     TaskChainError = 10000, // 任务链执行/识别错误
     TaskChainStart,         // 任务链开始
@@ -42,6 +43,7 @@ inline std::ostream& operator<<(std::ostream& os, const AsstMsg& type)
         { AsstMsg::AllTasksCompleted, "AllTasksCompleted" },
         { AsstMsg::AsyncCallInfo, "AsyncCallInfo" },
         { AsstMsg::Destroyed, "Destroyed" },
+        { AsstMsg::Freeze, "Freeze" },
         /* TaskChain Info */
         { AsstMsg::TaskChainError, "TaskChainError" },
         { AsstMsg::TaskChainStart, "TaskChainStart" },

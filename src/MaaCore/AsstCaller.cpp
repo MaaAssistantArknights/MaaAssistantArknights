@@ -295,3 +295,11 @@ void AsstLog(const char* level, const char* message)
     }
     Log.log(asst::Logger::level(level), message);
 }
+
+AsstBool AsstStartWatchdog(AsstHandle handle, int32_t matchIntervalSec, int32_t freezeThreshold)
+{
+    if (!inited() || handle == nullptr) {
+        return AsstFalse;
+    }
+    return handle->start_watchdog(matchIntervalSec, freezeThreshold) ? AsstTrue : AsstFalse;
+}
