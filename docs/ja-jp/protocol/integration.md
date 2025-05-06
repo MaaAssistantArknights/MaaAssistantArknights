@@ -84,8 +84,11 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
     "medicine": int,            // 理性回復剤の最大使用数、オプション、デフォルトは 0
     "expiring_medicine": int,   // 48 時間以内に期限切れになった理性回復剤の最大使用数、オプション、デフォルトは 0
     "stone": int,               // 純正源石の最大使用数、オプション、デフォルトは 0
-    "times": int,               // 最大周回数、オプション、デフォルトは無限
+    "times": int,               // 最戦闘回数、オプション、デフォルトは無限
     "series": int,              // 連戦回数、オプション、1~6
+                                // -1  シリーズの切り替えを無効にするには
+                                // 0   現在利用可能なシリーズ数の最大数に自動的に切り替えるには、現在のサニティが6回未満の場合は、利用可能な最小回数を選択します.
+                                // 1~6 指定した回数に変更するには
     "drops": {                  // ドロップ数の指定、オプション、デフォルトは指定なし
         "30011": int,           // Key: item_ID; value: 素材の数。Keyは resource/item_index.json に記載されています
         "30062": int            // OR 組み合わせ

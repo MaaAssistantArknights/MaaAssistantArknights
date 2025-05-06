@@ -77,6 +77,9 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
     "stone": int,               // 최대 사용 가능한 오리지늄의 수, 선택 사항, 기본값은 0
     "times": int,               // 최대 반복 횟수, 선택 사항, 기본값은 무한대입니다.
     "series": int,              // 연전 횟수, 선택사항, 1~6
+                                // -1  시리즈 전환을 비활성화하려면
+                                // 0   현재 사용 가능한 최대 시리즈 수로 자동 전환하려면, 현재 사용 가능한 횟수가 6회 미만인 경우 사용 가능한 최소 횟수를 선택하세요.
+                                // 1~6 지정된 횟수로 변경하려면
     "drops": {                  // 드랍 수량을 지정합니다. 선택 사항, 기본적으로 지정되지 않습니다.
         "30011": int,           // 키: 아이템 ID; 값: 아이템 수량. 키는 resource/item_index.json을 참조합니다.
         "30062": int            // OR 조합
