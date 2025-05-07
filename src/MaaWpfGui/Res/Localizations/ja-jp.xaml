@@ -1046,6 +1046,6 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <!--  TimeOutTimer  -->
     <system:String x:Key="TaskTimeoutMinutes">タスクのタイムアウト時間（分）</system:String>
     <system:String x:Key="ReminderIntervalMinutes">リマインダー間隔時間（分）</system:String>
-    <system:String x:Key="TaskTimeoutWarning">タスクが {0} 分以上実行されています（現在 {1} 分実行中）。手動での介入が必要かどうか確認してください。</system:String>
+    <system:String x:Key="TaskTimeoutWarning">タスクが {0} 分以上実行されています（現在 {1} 分実行中）。長時間ログの更新がない場合、手動で介入する必要があるかもしれません。</system:String>
     <!--  !TimeOutTimer  -->
 </ResourceDictionary>
