@@ -1044,6 +1044,6 @@ Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거�
     <!--  TimeOutTimer  -->
     <system:String x:Key="TaskTimeoutMinutes">작업 시간 초과 기준 (분)</system:String>
     <system:String x:Key="ReminderIntervalMinutes">알림 반복 간격 (분)</system:String>
-    <system:String x:Key="TaskTimeoutWarning">현재 {0}분 이상 작업 중입니다. 조작이 필요한지 확인해 주세요. ({1}분째 작업 실행 중)</system:String>
+    <system:String x:Key="TaskTimeoutWarning">작업 실행 시간이 {0}분을 초과했습니다(현재 {1}분 동안 실행 중입니다). 장시간 추가 로그 업데이트가 없을 경우 수동 조치가 필요할 수 있습니다.</system:String>
     <!--  !TimeOutTimer  -->
 </ResourceDictionary>
