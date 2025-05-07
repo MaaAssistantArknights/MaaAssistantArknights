@@ -1087,7 +1087,7 @@ namespace MaaWpfGui.Main
                             case "StartButton2":
                             case "AnnihilationConfirm":
                                 StringBuilder missionStartLogBuilder = new();
-                                missionStartLogBuilder.AppendLine(LocalizationHelper.GetString("MissionStart") + $" {FightTimes.FightTimesFinished + 1}~{FightTimes.FightTimesFinished + FightTimes.Series} {LocalizationHelper.GetString("UnitTime")}");
+                                missionStartLogBuilder.AppendLine(LocalizationHelper.GetString("MissionStart") + $" {FightTimes.TimesFinished + 1}~{FightTimes.TimesFinished + FightTimes.Series} {LocalizationHelper.GetString("UnitTime")}");
                                 if (SanityReport is not null)
                                 {
                                     missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("CurrentSanity"), SanityReport.SanityCurrent, SanityReport.SanityMax);

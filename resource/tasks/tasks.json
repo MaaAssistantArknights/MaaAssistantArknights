@@ -602,6 +602,8 @@
         "next": ["StageQueue@StartButton1"]
     },
     "StageQueue@CloseStonePage": {
+        "maxTimes": 2147483647,
+        "exceededNext": [],
         "next": []
     },
     "StageQueue@StartButton1": {
@@ -1543,7 +1545,9 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [0, 200, 300, 400],
-        "next": ["StageSNReturnFlag", "Stop"]
+        "exceededNext": ["StageSNReturnFlag", "Stop"],
+        "maxTimes": 1,
+        "next": ["StartButton1"]
     },
     "PrtsErrorConfirm": {
         "roi": [0, 120, 1280, 480],

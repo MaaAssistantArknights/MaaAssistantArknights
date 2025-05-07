@@ -56,14 +56,15 @@ protected:
 private:
     bool open_series_list(const cv::Mat& image = cv::Mat());
     // 计算并调整连续战斗次数, 返回是否修改了次数
-    bool change_series(int sanity_remain, int sanity_cost, int series);
-    bool select_series(bool available_only);
+    std::optional<int> change_series(int sanity_remain, int sanity_cost, int series);
+    std::optional<int> select_series(bool available_only);
     bool select_series(int times);
 
-    mutable int m_fight_times = 0;            // 已战斗次数
-    int m_fight_times_max = INT_MAX;          // 最大战斗次数
-    int m_series = -1;                        // 连续战斗次数
-    int m_series_current = 1;                 // 当前连战次数
-    mutable bool m_has_used_medicine = false; // 是否使用过药品
+    mutable int m_fight_times = 0;                // 已战斗次数
+    int m_fight_times_max = INT_MAX;              // 最大战斗次数
+    int m_series = -1;                            // 连续战斗次数
+    int m_series_current = 1;                     // 当前连战次数
+    mutable bool m_has_used_medicine = false;     // 是否使用过药品
+    mutable bool m_is_medicine_exhausted = false; // 是否药品用完
 };
 }

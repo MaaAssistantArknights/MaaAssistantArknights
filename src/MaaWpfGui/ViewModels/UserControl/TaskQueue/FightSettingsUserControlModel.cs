@@ -869,7 +869,7 @@ public class FightSettingsUserControlModel : TaskViewModel
         [JsonProperty("series")]
         public int Series { get; set; }
 
-        [JsonProperty("fight_times_finished")]
-        public int FightTimesFinished { get; set; }
+        [JsonProperty("times_finished")]
+        public int TimesFinished { get; set; }
     }
 }
