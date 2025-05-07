@@ -2064,7 +2064,7 @@
                     "name": "烛煌",
                     "skill": 3,
                     "alternate_skill": 2,
-                    "recruit_priority": 630,
+                    "recruit_priority": 530,
                     "promote_priority": 800,
                     "recruit_priority_offsets": [
                         {
@@ -2191,7 +2191,7 @@
                     "skill": 2,
                     "is_key": true,
                     "is_start": true,
-                    "recruit_priority": 800,
+                    "recruit_priority": 850,
                     "promote_priority": 900,
                     "recruit_priority_offsets": [
                         {
@@ -3219,6 +3219,9 @@
                     "skill": 2,
                     "recruit_priority": 680,
                     "promote_priority": 710
+                },
+                {
+                    "name": "死芒"
                 },
                 {
                     "name": "梅"
