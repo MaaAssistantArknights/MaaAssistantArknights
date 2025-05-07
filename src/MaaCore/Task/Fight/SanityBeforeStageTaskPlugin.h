@@ -1,6 +1,6 @@
 #pragma once
-#include "Task/AbstractTaskPlugin.h"
 #include "FightTimesTaskPlugin.h"
+#include "Task/AbstractTaskPlugin.h"
 
 namespace asst
 {
