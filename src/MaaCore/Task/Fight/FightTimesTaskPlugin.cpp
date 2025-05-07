@@ -133,8 +133,8 @@ std::optional<int> asst::FightTimesTaskPlugin::change_series(int sanity_current,
         return series;
     }
 
-    // 用过药品, 选择最大可用次数
-    if (sanity_cost <= sanity_current) { // 吃药前一般选择最大可用次数, 吃完药已经够理智了
+    // 用过药品, 认为已选择最大可用次数
+    if (m_has_used_medicine && sanity_cost <= sanity_current) { // 吃药前一般选择最大可用次数, 吃完药已经够理智了
         return series;
     }
 
