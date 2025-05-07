@@ -1235,9 +1235,6 @@
     <ClInclude Include="Vision\Config\OCRerConfig.h">
       <Filter>Source\Vision\Config</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Fight\SanityBeforeStageTaskPlugin.h">
-      <Filter>Source\Task\Fight</Filter>
-    </ClInclude>
     <ClInclude Include="Task\Fight\SideStoryReopenTask.h">
       <Filter>Source\Task\Fight</Filter>
     </ClInclude>
@@ -1754,9 +1751,6 @@
     </ClCompile>
     <ClCompile Include="Vision\Config\OCRerConfig.cpp">
       <Filter>Source\Vision\Config</Filter>
-    </ClCompile>
-    <ClCompile Include="Task\Fight\SanityBeforeStageTaskPlugin.cpp">
-      <Filter>Source\Task\Fight</Filter>
     </ClCompile>
     <ClCompile Include="Task\Fight\SideStoryReopenTask.cpp">
       <Filter>Source\Task\Fight</Filter>

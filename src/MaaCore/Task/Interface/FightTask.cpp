@@ -6,7 +6,6 @@
 #include "Task/Fight/DrGrandetTaskPlugin.h"
 #include "Task/Fight/FightTimesTaskPlugin.h"
 #include "Task/Fight/MedicineCounterTaskPlugin.h"
-#include "Task/Fight/SanityBeforeStageTaskPlugin.h"
 #include "Task/Fight/SideStoryReopenTask.h"
 #include "Task/Fight/StageDropsTaskPlugin.h"
 #include "Task/Fight/StageNavigationTask.h"
@@ -50,7 +49,6 @@ asst::FightTask::FightTask(const AsstCallback& callback, Assistant* inst) :
     m_stage_drops_plugin_ptr->set_retry_times(0);
     m_dr_grandet_task_plugin_ptr = m_fight_task_ptr->register_plugin<DrGrandetTaskPlugin>();
     m_dr_grandet_task_plugin_ptr->set_enable(false);
-    m_fight_task_ptr->register_plugin<SanityBeforeStageTaskPlugin>()->set_retry_times(3);
     m_fight_times_prt = m_fight_task_ptr->register_plugin<FightTimesTaskPlugin>();
     m_fight_times_prt->set_retry_times(3);
     m_medicine_plugin = m_fight_task_ptr->register_plugin<MedicineCounterTaskPlugin>();

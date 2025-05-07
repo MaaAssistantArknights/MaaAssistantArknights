@@ -250,7 +250,6 @@
     <ClInclude Include="Task\Experiment\SingleStepBattleProcessTask.h" />
     <ClInclude Include="Task\Fight\FightTimesTaskPlugin.h" />
     <ClInclude Include="Task\Fight\MedicineCounterTaskPlugin.h" />
-    <ClInclude Include="Task\Fight\SanityBeforeStageTaskPlugin.h" />
     <ClInclude Include="Task\Fight\SideStoryReopenTask.h" />
     <ClInclude Include="Task\Fight\StageQueueMissionCompletedTaskPlugin.h" />
     <ClInclude Include="Task\Infrast\InfrastProcessingTask.h" />
@@ -448,7 +447,6 @@
     <ClCompile Include="Task\Experiment\SingleStepBattleProcessTask.cpp" />
     <ClCompile Include="Task\Fight\FightTimesTaskPlugin.cpp" />
     <ClCompile Include="Task\Fight\MedicineCounterTaskPlugin.cpp" />
-    <ClCompile Include="Task\Fight\SanityBeforeStageTaskPlugin.cpp" />
     <ClCompile Include="Task\Fight\SideStoryReopenTask.cpp" />
     <ClCompile Include="Task\Fight\StageQueueMissionCompletedTaskPlugin.cpp" />
     <ClCompile Include="Task\Infrast\InfrastProcessingTask.cpp" />
