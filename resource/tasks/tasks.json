@@ -1228,36 +1228,6 @@
         "sub": ["FightSeries-Opened"],
         "next": ["Stop"]
     },
-    "FightSeries-List-1": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [965, 505, 70, 55]
-    },
-    "FightSeries-List-2": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [965, 445, 70, 55]
-    },
-    "FightSeries-List-3": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [965, 383, 70, 55]
-    },
-    "FightSeries-List-4": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [965, 320, 70, 55]
-    },
-    "FightSeries-List-5": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [965, 260, 70, 55]
-    },
-    "FightSeries-List-6": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [965, 200, 70, 50]
-    },
     "FightSeries-List-Exceeded": {
         "doc": "连战列表中需要使用理智药才能打的次数会带+号标记",
         "roi": [965, 200, 70, 325]
