@@ -5016,7 +5016,7 @@
         "next": ["Store@EnterStore", "Store@EnterTicketStore"]
     },
     "Store@EnterStore": {
-        "doc": "与 Mall 任务相同模板",
+        "baseTask": "Mall",
         "template": [
             "Mall.png",
             "MallDark.png",
@@ -5028,9 +5028,6 @@
             "MallGaming.png",
             "MallDahuangCity.png"
         ],
-        "action": "ClickSelf",
-        "roi": [772, 407, 186, 171],
-        "postDelay": 500,
         "next": ["Store@EnterTicketStore"]
     },
     "Store@EnterTicketStore": {
