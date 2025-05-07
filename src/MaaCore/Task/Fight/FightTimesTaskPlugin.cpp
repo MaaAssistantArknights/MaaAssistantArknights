@@ -22,6 +22,9 @@ bool asst::FightTimesTaskPlugin::verify(AsstMsg msg, const json::value& details)
     else if (task.ends_with("StartButton2")) {
         m_has_used_medicine = false;
     }
+    else if (task == "Fight@EndOfAction" || task == "Fight@EndOfActionAnnihilation") {
+        m_fight_times += m_series_current;
+    }
     else if (task.ends_with("StartButton1")) {
         return true;
     }
@@ -29,33 +32,32 @@ bool asst::FightTimesTaskPlugin::verify(AsstMsg msg, const json::value& details)
         // 次数达限, 由其他插件触发
         return true;
     }
-    else {
-        return false;
-    }
+    return false;
 }
 
 bool asst::FightTimesTaskPlugin::_run()
 {
     LogTraceFunction;
-    json::value info = basic_info_with_what("FightInfoBeforeStage");
+    json::value sanity_info = basic_info_with_what("SanityBeforeStage");
+    sanity_info["details"]["report_time"] = utils::get_format_time();
     // {"sanity_current": 100, "sanity_max": 135, "report_time": "2023-09-01 09:31:53.527"}
     auto image = ctrler()->get_image();
     auto sanity = analyze_sanity_remain(image);
     if (!sanity) {
         Log.error(__FUNCTION__, "unable to analyze sanity");
-        callback(AsstMsg::SubTaskExtraInfo, info);
+        callback(AsstMsg::SubTaskExtraInfo, sanity_info);
         return false;
     }
+    sanity_info["details"]["sanity_current"] = sanity->current;
+    sanity_info["details"]["sanity_max"] = sanity->max;
+    callback(AsstMsg::SubTaskExtraInfo, sanity_info);
 
-    info["details"]["report_time"] = utils::get_format_time();
-    info["details"]["sanity_current"] = sanity->current;
-    info["details"]["sanity_max"] = sanity->max;
-    info["details"]["fight_times_finished"] = m_fight_times;
+    json::value fight = basic_info_with_what("FightTimes");
+    fight["details"]["fight_times_finished"] = m_fight_times;
 
     if (m_fight_times >= m_fight_times_max) {
         m_task_ptr->set_enable(false); // 战斗次数已达上限
         Log.info(__FUNCTION__, "fight times reached max");
-        callback(AsstMsg::SubTaskExtraInfo, info);
         return true;
     }
 
@@ -63,14 +65,14 @@ bool asst::FightTimesTaskPlugin::_run()
     auto series = analyze_stage_series(image);
     if (sanity_cost.value_or(-1) < 0 || (series && (*series < 1 || *series > 6))) [[unlikely]] {
         Log.error(__FUNCTION__, "unable to analyze sanity cost or series");
-        callback(AsstMsg::SubTaskExtraInfo, info);
         return false;
     }
     if (!series) { // 默认连续战斗次数为1, 部分关卡不支持连战
-        info["details"]["series"] = 1;
-        info["details"]["sanity_cost"] = *sanity_cost;
+        m_series_current = 1;
+        fight["details"]["series"] = 1;
+        fight["details"]["sanity_cost"] = *sanity_cost;
         Log.info(__FUNCTION__, "series not support");
-        callback(AsstMsg::SubTaskExtraInfo, info);
+        callback(AsstMsg::SubTaskExtraInfo, fight);
         return true;
     }
 
@@ -82,7 +84,7 @@ bool asst::FightTimesTaskPlugin::_run()
         series = analyze_stage_series(image);
         if (sanity_cost.value_or(-1) < 0 || !series || *series < 1 || *series > 6) [[unlikely]] {
             Log.error(__FUNCTION__, "unable to analyze sanity cost or series");
-            callback(AsstMsg::SubTaskExtraInfo, info);
+            callback(AsstMsg::SubTaskExtraInfo, fight);
             return false;
         }
     }
@@ -92,7 +94,7 @@ bool asst::FightTimesTaskPlugin::_run()
         series = analyze_stage_series(image);
         if (sanity_cost.value_or(-1) < 0 || !series || *series < 1 || *series > 6) [[unlikely]] {
             Log.error(__FUNCTION__, "unable to analyze sanity cost or series");
-            callback(AsstMsg::SubTaskExtraInfo, info);
+            callback(AsstMsg::SubTaskExtraInfo, fight);
             return false;
         }
     }
@@ -100,14 +102,15 @@ bool asst::FightTimesTaskPlugin::_run()
     if (m_fight_times + *series > m_fight_times_max) {
         m_task_ptr->set_enable(false); // 战斗次数超过上限
         Log.info(__FUNCTION__, "fight times reached max");
-        callback(AsstMsg::SubTaskExtraInfo, info);
+        callback(AsstMsg::SubTaskExtraInfo, fight);
         return true;
     }
 
     // 连续战斗次数+当前战斗次数 <= 最大战斗次数
-    info["details"]["series"] = *series;
-    info["details"]["sanity_cost"] = *sanity_cost;
-    callback(AsstMsg::SubTaskExtraInfo, info);
+    m_series_current = *series;
+    fight["details"]["series"] = *series;
+    fight["details"]["sanity_cost"] = *sanity_cost;
+    callback(AsstMsg::SubTaskExtraInfo, fight);
     return true;
 }
 
@@ -122,7 +125,7 @@ bool asst::FightTimesTaskPlugin::change_series(int sanity_current, int sanity_co
     if (!m_has_used_medicine) {
         if (fight_times_remain != series) {
             // 调整到剩余次数
-            set_series(false);
+            select_series(false);
             return true;
         }
         return false;
@@ -133,13 +136,13 @@ bool asst::FightTimesTaskPlugin::change_series(int sanity_current, int sanity_co
         return false;
     }
 
-    set_series(true);
+    select_series(true);
     return true;
 }
 
 bool asst::FightTimesTaskPlugin::select_series(bool available_only)
 {
-    if (open_series_list()) {
+    if (!open_series_list()) {
         Log.error(__FUNCTION__, "unable to open series list");
         return false;
     }
@@ -167,7 +170,7 @@ bool asst::FightTimesTaskPlugin::select_series(bool available_only)
 
 bool asst::FightTimesTaskPlugin::select_series(int times)
 {
-    if (open_series_list()) {
+    if (!open_series_list()) {
         Log.error(__FUNCTION__, "unable to open series list");
         return false;
     }

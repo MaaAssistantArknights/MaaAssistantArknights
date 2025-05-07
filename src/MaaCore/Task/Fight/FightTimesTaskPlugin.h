@@ -39,7 +39,7 @@ public:
 
     void set_fight_times(int times) { m_fight_times_max = times; }
 
-    void finish_fight(int times) { m_fight_times += times; }
+    void finish_fight() { m_fight_times += m_series_current; }
 
     // 获取 当前理智/最大理智
     static std::optional<asst::SanityResult> analyze_sanity_remain(const cv::Mat& image);
@@ -60,9 +60,10 @@ private:
     bool select_series(bool available_only);
     bool select_series(int times);
 
-    int m_fight_times = 0;                    // 已战斗次数
+    mutable int m_fight_times = 0;            // 已战斗次数
     int m_fight_times_max = INT_MAX;          // 最大战斗次数
     int m_series = -1;                        // 连续战斗次数
+    int m_series_current = 1;                 // 当前连战次数
     mutable bool m_has_used_medicine = false; // 是否使用过药品
 };
 }

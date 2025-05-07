@@ -17,7 +17,6 @@
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
-#include "Task/Fight/FightTimesTaskPlugin.h"
 
 bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -191,9 +190,6 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     m_stars = analyzer.get_stars();
     m_cur_drops = analyzer.get_drops();
     m_times = analyzer.get_times();
-    if (auto times_plugin = m_task_ptr->find_plugin<FightTimesTaskPlugin>(); times_plugin) {
-        times_plugin->finish_fight(m_times);
-    }
 
     if (!ret) {
         auto info = basic_info();

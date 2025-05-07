@@ -1540,7 +1540,6 @@
         "next": ["CloseStonePage"]
     },
     "CloseStonePage": {
-        "Doc": "2025.5.5：next 在 FightSeriesAdjustPlugin 插件中被动态修改",
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [0, 200, 300, 400],
