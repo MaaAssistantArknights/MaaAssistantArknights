@@ -688,13 +688,13 @@ namespace MaaWpfGui.ViewModels.UI
             var isDebug = Instances.VersionUpdateViewModel.IsDebugVersion();
             if (newVersionFoundInfo != coreVersion && !isDebug && !string.IsNullOrEmpty(newVersionFoundInfo) && startupUpdateCheck)
             {
-                updateTip = $"{newVersionFoundInfo} - ";
+                updateTip = $"{newVersionFoundInfo}";
             }
 
             var newResourceFoundInfo = VersionUpdateSettings.NewResourceFoundInfo;
             if (!string.IsNullOrEmpty(newResourceFoundInfo))
             {
-                updateTip += $"{newResourceFoundInfo} - ";
+                updateTip += $" {newResourceFoundInfo}";
             }
 
             string prefix = ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitlePrefix, string.Empty);
@@ -741,7 +741,8 @@ namespace MaaWpfGui.ViewModels.UI
             string resourceVersion = !string.IsNullOrEmpty(VersionUpdateSettings.ResourceVersion)
                 ? $" - {LocalizationHelper.FormatResourceVersion(VersionUpdateSettings.ResourceVersion, VersionUpdateSettings.ResourceDateTime)}"
                 : string.Empty;
-            rvm.WindowTitle = $"{updateTip}{prefix}MAA{currentConfiguration} - {coreVersion}{resourceVersion}{connectConfigName}{connectAddress}{clientName}";
+            rvm.WindowUpdateInfo = updateTip.Trim();
+            rvm.WindowTitle = $"{prefix}MAA{currentConfiguration} - {coreVersion}{resourceVersion}{connectConfigName}{connectAddress}{clientName}";
         }
 
         /// <summary>
