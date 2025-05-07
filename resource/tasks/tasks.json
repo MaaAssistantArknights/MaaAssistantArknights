@@ -5053,7 +5053,7 @@
         "text": ["1", "T", "I"],
         "action": "ClickSelf",
         "roi": [263, 196, 35, 73],
-        "sub": "SlowlySwipeToTheLeft",
+        "sub": ["SlowlySwipeToTheLeft"],
         "postDelay": 1000,
         "next": ["GreenTicket@Store@ClickItem", "GreenTicket@Store@ClickSecondFloor"]
     },
@@ -5104,7 +5104,7 @@
         "action": "ClickSelf",
         "roi": [262, 364, 38, 58],
         "maxTimes": 1,
-        "sub": "SlowlySwipeToTheLeft*3",
+        "sub": ["SlowlySwipeToTheLeft*3"],
         "postDelay": 1000,
         "next": ["GreenTicket@Store@ClickItem", "Stop"]
     },
@@ -5118,7 +5118,7 @@
     },
     "YellowTicket@Store@Swipe": {
         "algorithm": "JustReturn",
-        "sub": "SlowlySwipeToTheLeft*6",
+        "sub": ["SlowlySwipeToTheLeft*6"],
         "next": ["YellowTicket@Store@ClickItem", "Stop"]
     },
     "YellowTicket@Store@ClickItem": {
