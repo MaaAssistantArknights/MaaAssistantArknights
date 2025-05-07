@@ -39,12 +39,15 @@ public:
 
     void set_fight_times(int times) { m_fight_times_max = times; }
 
+    void finish_fight(int times) { m_fight_times += times; }
+
     // 获取 当前理智/最大理智
     static std::optional<asst::SanityResult> analyze_sanity_remain(const cv::Mat& image);
-
+    // 获取 连战次数
     static std::optional<int> analyze_stage_series(const cv::Mat& image);
-
+    // 获取 理智消耗
     static std::optional<int> analyze_sanity_cost(const cv::Mat& image);
+    // 获取 连战列表
     static std::vector<asst::FightSeriesListItem> analyze_series_list(const cv::Mat& image);
 
 protected:
@@ -52,14 +55,14 @@ protected:
 
 private:
     bool open_series_list(const cv::Mat& image = cv::Mat());
-    // 计算并调整连续战斗次数, 返回修改后次数
+    // 计算并调整连续战斗次数, 返回是否修改了次数
     bool change_series(int sanity_remain, int sanity_cost, int series);
-    bool set_series(bool available_only);
-    bool modify_series(int series, const cv::Mat& image = cv::Mat());
+    bool select_series(bool available_only);
+    bool select_series(int times);
 
-    int m_fight_times = 0;                      // 已战斗次数
-    int m_fight_times_max = INT_MAX;            // 最大战斗次数
-    std::optional<int> m_series = std::nullopt; // 连续战斗次数
-    bool m_has_used_medicine = false;           // 是否使用过药品
+    int m_fight_times = 0;                    // 已战斗次数
+    int m_fight_times_max = INT_MAX;          // 最大战斗次数
+    int m_series = -1;                        // 连续战斗次数
+    mutable bool m_has_used_medicine = false; // 是否使用过药品
 };
 }

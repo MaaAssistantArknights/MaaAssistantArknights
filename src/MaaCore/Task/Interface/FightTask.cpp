@@ -76,6 +76,19 @@ bool asst::FightTask::set_params(const json::value& params)
     const int series = params.get("series", 1);
 
     m_fight_times_prt->set_fight_times(times);
+    if (series == 1000) {
+        Log.warn("================  DEPRECATED  ================");
+        Log.warn("series = 1000, 已弃用");
+        Log.warn("================  DEPRECATED  ================");
+        m_fight_times_prt->set_series(0);
+    }
+    else if (series < -1 || series > 6) {
+        Log.error("Invalid series");
+        return false;
+    }
+    else {
+        m_fight_times_prt->set_series(series);
+    }
 
     m_fight_series_adjust_plugin_ptr->set_close_stone_page_next(false);
     if (series == 0) {

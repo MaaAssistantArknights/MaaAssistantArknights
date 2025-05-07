@@ -15,7 +15,23 @@ bool asst::FightTimesTaskPlugin::verify(AsstMsg msg, const json::value& details)
         return false;
     }
 
-    return details.get("details", "task", "").ends_with("StartButton1");
+    const std::string task = details.get("details", "task", "");
+    if (task.ends_with("MedicineConfirm") || task.ends_with("StoneConfirm")) {
+        m_has_used_medicine = true;
+    }
+    else if (task.ends_with("StartButton2")) {
+        m_has_used_medicine = false;
+    }
+    else if (task.ends_with("StartButton1")) {
+        return true;
+    }
+    else if (task.ends_with("Stop") && details.get("pre_task", "").ends_with("StartButton1")) {
+        // 次数达限, 由其他插件触发
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 bool asst::FightTimesTaskPlugin::_run()
@@ -58,7 +74,9 @@ bool asst::FightTimesTaskPlugin::_run()
         return true;
     }
 
-    if (change_series(sanity->current, *sanity_cost, *series)) {
+    if (m_series == -1) { // 禁用切换
+    }
+    else if (m_series == 0 && change_series(sanity->current, *sanity_cost, *series)) {
         image = ctrler()->get_image();
         sanity_cost = analyze_sanity_cost(image);
         series = analyze_stage_series(image);
@@ -67,6 +85,23 @@ bool asst::FightTimesTaskPlugin::_run()
             callback(AsstMsg::SubTaskExtraInfo, info);
             return false;
         }
+    }
+    else if (m_series > 0 && m_series < 7 && select_series(m_series)) {
+        image = ctrler()->get_image();
+        sanity_cost = analyze_sanity_cost(image);
+        series = analyze_stage_series(image);
+        if (sanity_cost.value_or(-1) < 0 || !series || *series < 1 || *series > 6) [[unlikely]] {
+            Log.error(__FUNCTION__, "unable to analyze sanity cost or series");
+            callback(AsstMsg::SubTaskExtraInfo, info);
+            return false;
+        }
+    }
+
+    if (m_fight_times + *series > m_fight_times_max) {
+        m_task_ptr->set_enable(false); // 战斗次数超过上限
+        Log.info(__FUNCTION__, "fight times reached max");
+        callback(AsstMsg::SubTaskExtraInfo, info);
+        return true;
     }
 
     // 连续战斗次数+当前战斗次数 <= 最大战斗次数
@@ -102,7 +137,7 @@ bool asst::FightTimesTaskPlugin::change_series(int sanity_current, int sanity_co
     return true;
 }
 
-bool asst::FightTimesTaskPlugin::set_series(bool available_only)
+bool asst::FightTimesTaskPlugin::select_series(bool available_only)
 {
     if (open_series_list()) {
         Log.error(__FUNCTION__, "unable to open series list");
@@ -130,9 +165,28 @@ bool asst::FightTimesTaskPlugin::set_series(bool available_only)
     return false;
 }
 
-bool asst::FightTimesTaskPlugin::modify_series(int series, const cv::Mat& image)
+bool asst::FightTimesTaskPlugin::select_series(int times)
 {
-    return ProcessTask(*this, { "FightSeries-List-" + std::to_string(series) }).set_reusable_image(image).run();
+    if (open_series_list()) {
+        Log.error(__FUNCTION__, "unable to open series list");
+        return false;
+    }
+    int fight_times_remain = std::min(m_fight_times_max - m_fight_times, times);
+    auto image = ctrler()->get_image();
+    auto list = analyze_series_list(image);
+    if (list.empty()) {
+        Log.error(__FUNCTION__, "unable to analyze series list");
+        return false;
+    }
+    for (const auto& item : list) {
+        if (item.times == fight_times_remain) {
+            ctrler()->click(item.rect);
+            sleep(Config.get_options().task_delay);
+            return true;
+        }
+    }
+    Log.error(__FUNCTION__, "no available series found");
+    return false;
 }
 
 std::vector<asst::FightSeriesListItem> asst::FightTimesTaskPlugin::analyze_series_list(const cv::Mat& image)
