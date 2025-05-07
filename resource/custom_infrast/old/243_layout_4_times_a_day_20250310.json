@@ -1,7 +1,7 @@
 {
-    "author": "公孙长乐, bodayw",
-    "description": "干员配置要求极高，若缺少干员请自行调整\n默认每八小时使用无人机加速制造作战记录，请按实际需求修改\n首次使用前将令的心情消耗至 12\n请在一图流排班表生成器上导入本文件，修改后下载导出（请勿直接修改本文件，以免 MAA 更新时被覆盖）\n\n[20250507 修订] 视频地址: https://www.bilibili.com/video/BV1vbVsz2EWj/?t=156",
-    "id": 1746615586785171,
+    "author": "公孙长乐",
+    "description": "干员配置要求极高，若缺少干员请自行调整\n默认每八小时使用无人机加速制造作战记录，请按实际需求修改\n首次使用前将令的心情消耗至 12\n请在一图流排班表生成器上导入本文件，修改后下载导出（请勿直接修改本文件，以免 MAA 更新时被覆盖）\n\n[20250310 修订] 视频地址: https://www.bilibili.com/video/BV1QARvYFEWi/?t=87",
+    "id": 1741865853371304,
     "title": "243 极限效率，一天四换",
     "buildingType": 243,
     "planTimes": "3班",
@@ -102,7 +102,7 @@
                     },
                     {
                         "skip": false,
-                        "operators": ["爱丽丝", "车尔尼", "塑心", "伊内丝", "苍苔"],
+                        "operators": ["爱丽丝", "车尔尼", "塑心", "伺夜", "苍苔"],
                         "sort": false,
                         "autofill": false
                     },
@@ -124,8 +124,8 @@
                 "meeting": [
                     {
                         "skip": false,
-                        "operators": ["信仰搅拌机", "见行者"],
-                        "sort": false,
+                        "operators": ["伊内丝", "陈"],
+                        "sort": true,
                         "autofill": false
                     }
                 ],
@@ -237,7 +237,7 @@
                     },
                     {
                         "skip": false,
-                        "operators": ["诗怀雅", "Mon3tr", "夕", "引星棘刺", "见行者"],
+                        "operators": ["诗怀雅", "凯尔希", "夕", "引星棘刺", "陈"],
                         "sort": false,
                         "autofill": false
                     },
@@ -265,7 +265,7 @@
                 "meeting": [
                     {
                         "skip": false,
-                        "operators": ["信仰搅拌机", "伊内丝"],
+                        "operators": ["伊内丝", "伺夜"],
                         "sort": true,
                         "autofill": false
                     }
@@ -384,7 +384,7 @@
                     },
                     {
                         "skip": false,
-                        "operators": ["断罪者", "承曦格雷伊", "信仰搅拌机", "絮雨", "琴柳"],
+                        "operators": ["断罪者", "承曦格雷伊", "伊内丝", "絮雨", "琴柳"],
                         "sort": false,
                         "autofill": false
                     },
@@ -406,8 +406,8 @@
                 "meeting": [
                     {
                         "skip": false,
-                        "operators": ["见行者", "伊内丝"],
-                        "sort": true,
+                        "operators": ["陈", "伺夜"],
+                        "sort": false,
                         "autofill": false
                     }
                 ],
@@ -525,7 +525,7 @@
                     },
                     {
                         "skip": false,
-                        "operators": ["爱丽丝", "车尔尼", "塑心", "缪尔赛思", "见行者"],
+                        "operators": ["爱丽丝", "车尔尼", "塑心", "缪尔赛思", "杜林"],
                         "sort": false,
                         "autofill": false
                     },
@@ -539,7 +539,7 @@
                 "control": [
                     {
                         "skip": false,
-                        "operators": ["诗怀雅", "歌蕾蒂娅", "Mon3tr", "夕", "琴柳"],
+                        "operators": ["诗怀雅", "歌蕾蒂娅", "凯尔希", "夕", "琴柳"],
                         "sort": false,
                         "autofill": false
                     }
@@ -547,7 +547,7 @@
                 "meeting": [
                     {
                         "skip": false,
-                        "operators": ["信仰搅拌机", "伊内丝"],
+                        "operators": ["伊内丝", "陈"],
                         "sort": true,
                         "autofill": false
                     }
