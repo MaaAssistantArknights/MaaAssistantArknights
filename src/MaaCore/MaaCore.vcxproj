@@ -248,10 +248,8 @@
     <ClInclude Include="LDExtras.h" />
     <ClInclude Include="Task\Experiment\CombatRecordRecognitionTask.h" />
     <ClInclude Include="Task\Experiment\SingleStepBattleProcessTask.h" />
-    <ClInclude Include="Task\Fight\FightSeriesAdjustPlugin.h" />
     <ClInclude Include="Task\Fight\FightTimesTaskPlugin.h" />
     <ClInclude Include="Task\Fight\MedicineCounterTaskPlugin.h" />
-    <ClInclude Include="Task\Fight\SanityBeforeStageTaskPlugin.h" />
     <ClInclude Include="Task\Fight\SideStoryReopenTask.h" />
     <ClInclude Include="Task\Fight\StageQueueMissionCompletedTaskPlugin.h" />
     <ClInclude Include="Task\Infrast\InfrastProcessingTask.h" />
@@ -447,10 +445,8 @@
     <ClCompile Include="LDExtras.cpp" />
     <ClCompile Include="Task\Experiment\CombatRecordRecognitionTask.cpp" />
     <ClCompile Include="Task\Experiment\SingleStepBattleProcessTask.cpp" />
-    <ClCompile Include="Task\Fight\FightSeriesAdjustPlugin.cpp" />
     <ClCompile Include="Task\Fight\FightTimesTaskPlugin.cpp" />
     <ClCompile Include="Task\Fight\MedicineCounterTaskPlugin.cpp" />
-    <ClCompile Include="Task\Fight\SanityBeforeStageTaskPlugin.cpp" />
     <ClCompile Include="Task\Fight\SideStoryReopenTask.cpp" />
     <ClCompile Include="Task\Fight\StageQueueMissionCompletedTaskPlugin.cpp" />
     <ClCompile Include="Task\Infrast\InfrastProcessingTask.cpp" />
@@ -1022,7 +1018,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties _1_1_4_1_1_4resource_4config_1json__JsonSchema="" />
+      <UserProperties _1_1_4_1_1_4resource_4tasks_4tasks_1json__JsonSchema="..\..\docs\maa_tasks_schema.json" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

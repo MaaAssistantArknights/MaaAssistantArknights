@@ -4,10 +4,8 @@
 
 #include "Config/TaskData.h"
 #include "Task/Fight/DrGrandetTaskPlugin.h"
-#include "Task/Fight/FightSeriesAdjustPlugin.h"
 #include "Task/Fight/FightTimesTaskPlugin.h"
 #include "Task/Fight/MedicineCounterTaskPlugin.h"
-#include "Task/Fight/SanityBeforeStageTaskPlugin.h"
 #include "Task/Fight/SideStoryReopenTask.h"
 #include "Task/Fight/StageDropsTaskPlugin.h"
 #include "Task/Fight/StageNavigationTask.h"
@@ -51,12 +49,9 @@ asst::FightTask::FightTask(const AsstCallback& callback, Assistant* inst) :
     m_stage_drops_plugin_ptr->set_retry_times(0);
     m_dr_grandet_task_plugin_ptr = m_fight_task_ptr->register_plugin<DrGrandetTaskPlugin>();
     m_dr_grandet_task_plugin_ptr->set_enable(false);
-    m_fight_task_ptr->register_plugin<SanityBeforeStageTaskPlugin>()->set_retry_times(3);
-    m_fight_times_task_plugin_prt = m_fight_task_ptr->register_plugin<FightTimesTaskPlugin>();
-    m_fight_times_task_plugin_prt->set_retry_times(3);
+    m_fight_times_prt = m_fight_task_ptr->register_plugin<FightTimesTaskPlugin>();
+    m_fight_times_prt->set_retry_times(3);
     m_medicine_plugin = m_fight_task_ptr->register_plugin<MedicineCounterTaskPlugin>();
-    m_fight_series_adjust_plugin_ptr = m_fight_task_ptr->register_plugin<FightSeriesAdjustPlugin>();
-    m_fight_series_adjust_plugin_ptr->set_retry_times(3);
 
     m_subtasks.emplace_back(m_start_up_task_ptr);
     m_subtasks.emplace_back(m_stage_navigation_task_ptr);
@@ -73,33 +68,21 @@ bool asst::FightTask::set_params(const json::value& params)
     const int expiring_medicine = params.get("expiring_medicine", 0);
     const int stone = params.get("stone", 0);
     const int times = params.get("times", INT_MAX);
-    int series = params.get("series", 1);
+    const int series = params.get("series", 1);
 
-    // 重置插件状态 1000 表示自动连战，-1 表示禁用连战切换
-    m_fight_times_task_plugin_prt->set_enable(series != -1);
-    m_fight_series_adjust_plugin_ptr->set_close_stone_page_next(false);
-    if (series == 0) {
-        m_fight_series_adjust_plugin_ptr->set_enable(true);
-        m_fight_times_task_plugin_prt->set_series(6);
-    }
-    else if (series == -1) {
-        m_fight_times_task_plugin_prt->set_series(1);
-        m_fight_series_adjust_plugin_ptr->set_enable(false);
-    }
-    else if (series == 1000) {
+    m_fight_times_prt->set_fight_times(times);
+    if (series == 1000) {
         Log.warn("================  DEPRECATED  ================");
         Log.warn("series = 1000, 已弃用");
         Log.warn("================  DEPRECATED  ================");
-        m_fight_times_task_plugin_prt->set_series(6);
-        m_fight_series_adjust_plugin_ptr->set_enable(true);
+        m_fight_times_prt->set_series(0);
     }
-    else if (series < 1 || series > 6) {
+    else if (series < -1 || series > 6) {
         Log.error("Invalid series");
         return false;
     }
     else {
-        m_fight_times_task_plugin_prt->set_series(series);
-        m_fight_series_adjust_plugin_ptr->set_enable(false);
+        m_fight_times_prt->set_series(series);
     }
 
     bool enable_penguin = params.get("report_to_penguin", false);
