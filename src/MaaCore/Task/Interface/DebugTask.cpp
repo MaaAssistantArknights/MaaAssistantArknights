@@ -3,9 +3,7 @@
 #include <filesystem>
 
 #include "Utils/NoWarningCV.h"
-
 #include "Config/TaskData.h"
-
 #include "Common/AsstTypes.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
@@ -14,6 +12,9 @@
 #include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/DepotImageAnalyzer.h"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
+#include "Vision/MultiMatcher.h"
+#include "Vision/OCRer.h"
+#include "Vision/RegionOCRer.h"
 
 asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
     InterfaceTask(callback, inst, TaskType)
