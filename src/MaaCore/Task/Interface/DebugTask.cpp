@@ -2,11 +2,11 @@
 
 #include <filesystem>
 
-#include "Utils/NoWarningCV.h"
-#include "Config/TaskData.h"
 #include "Common/AsstTypes.h"
+#include "Config/TaskData.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
+#include "Utils/NoWarningCV.h"
 #include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/Matcher.h"
