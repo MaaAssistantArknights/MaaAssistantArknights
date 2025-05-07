@@ -663,6 +663,7 @@ bool Assistant::start_watchdog(int matchIntervalSec, int freezeThreshold)
     if (m_watchdog_thread.joinable()) {
         Log.info("Assistant::start_watchdog | reset, interval:", matchIntervalSec, "thres:", freezeThreshold);
         m_watchdog->reset(matchIntervalSec, freezeThreshold);
+        m_watchdog_condvar.notify_one();
     }
     else {
         Log.info("Assistant::start_watchdog | start, interval:", matchIntervalSec, "thres:", freezeThreshold);
@@ -677,18 +678,25 @@ void Assistant::watchdog_proc()
     LogTraceFunction;
     while (true) {
         std::unique_lock<std::mutex> lock(m_watchdog_mutex);
-        std::cv_status status = m_watchdog_condvar.wait_until(lock, m_watchdog->next_wakeup_time());
         if (m_thread_exit) {
             return;
         }
+        if (m_thread_idle) {
+            m_watchdog_condvar.wait(lock);
+        }
+
+        std::cv_status status = m_watchdog_condvar.wait_until(lock, m_watchdog->next_wakeup_time());
         if (status != std::cv_status::timeout) {
             continue;
         }
-        cv::Mat frame = m_ctrler->get_image(true);
-        if (!m_watchdog->check(frame)) {
-            Log.error("Assistant::watchdog_proc | freeze detected");
-            stop(false);
-            append_callback_for_inst(AsstMsg::Freeze, m_last_task_json, this);
+
+        if (m_ctrler && m_ctrler->inited()) {
+            cv::Mat frame = m_ctrler->get_image(true);
+            if (!m_watchdog->check(frame)) {
+                Log.error("Assistant::watchdog_proc | freeze detected");
+                stop(false);
+                append_callback_for_inst(AsstMsg::Freeze, m_last_task_json, this);
+            }
         }
     }
 }
