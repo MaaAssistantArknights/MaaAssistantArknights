@@ -1,14 +1,9 @@
 #pragma once
 #include "Task/AbstractTaskPlugin.h"
+#include "FightTimesTaskPlugin.h"
 
 namespace asst
 {
-struct SanityResult
-{
-    int current = 0; // 当前理智
-    int max = 0;     // 最大理智
-};
-
 class SanityBeforeStageTaskPlugin final : public AbstractTaskPlugin
 {
 public:

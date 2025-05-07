@@ -1207,11 +1207,14 @@
         "next": ["StartButton1"]
     },
     "FightSeries-Icon": {
+        "doc": "代理指挥左侧的连战乘号, rectMove为乘号到次数偏移",
         "method": "RGBCount",
         "colorScales": [[30, 70]],
-        "roi": [927, 567, 122, 66]
+        "roi": [927, 567, 122, 66],
+        "rectMove": [27, -10, 25, 32]
     },
-    "FightSeries-Indicator": {
+    "FightSeries-Opened": {
+        "template": "FightSeries-Indicator.png",
         "roi": [940, 190, 80, 380],
         "templThreshold": 0.9,
         "maskRange": [1, 255]
@@ -1220,8 +1223,8 @@
         "baseTask": "FightSeries-Icon",
         "template": "FightSeries-Icon.png",
         "action": "ClickSelf",
-        "sub": ["FightSeries-Indicator"],
-        "postDelay": 500
+        "sub": ["FightSeries-Opened"],
+        "next": ["Stop"]
     },
     "FightSeries-List-1": {
         "algorithm": "JustReturn",
@@ -1254,9 +1257,16 @@
         "specificRect": [965, 200, 70, 50]
     },
     "FightSeries-List-Exceeded": {
-        "template": "FightSeries-List-Exceeded.png",
-        "roi": [965, 200, 70, 325],
-        "doc": "找到每一个需要补充理智的连战次数"
+        "doc": "连战列表中需要使用理智药才能打的次数会带+号标记",
+        "roi": [965, 200, 70, 325]
+    },
+    "FightSeries-List-Multiply": {
+        "Doc": "连战次数列表每个选项的乘号, rectMove到次数, 灰度低于150为碎石才能打",
+        "action": "ClickRect",
+        "roi": [970, 200, 40, 360],
+        "rectMove": [25, 10, 20, 25],
+        "specificRect": [0, 0, 55, 40],
+        "specialParams": [150]
     },
     "StartButton1": {
         "doc": "绑定插件调整连战次数",
@@ -1414,6 +1424,11 @@
     "SanityMatch": {
         "baseTask": "NumberOcrReplace",
         "roi": [1120, 20, 160, 40]
+    },
+    "StageSanityCost": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [1178, 676, 49, 24],
+        "ocrReplace": [["-", ""]]
     },
     "UseMedicine": {
         "doc": "绑定MedicineCounter来使用理智药",
