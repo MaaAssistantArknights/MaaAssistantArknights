@@ -1322,7 +1322,8 @@
         "action": "ClickSelf",
         "preDelay": 1000,
         "roi": [1000, 350, 220, 340],
-        "next": ["StartButton2TryAgain", "StartButton2WaitTime"]
+        "next": ["StartButton2TryAgain", "StartButton2WaitTime"],
+        "reduceOtherTimes": ["CloseStonePage"]
     },
     "StartButton2TryAgain": {
         "baseTask": "StartButton2",
