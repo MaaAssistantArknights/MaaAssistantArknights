@@ -451,7 +451,7 @@ namespace MaaWpfGui.Main
                     break;
 
                 case AsstMsg.Freeze:
-                    TaskQueueViewModel.RecoverFromFreeze(details);
+                    Instances.TaskQueueViewModel.RecoverFromFreeze(details);
                     break;
 
                 case AsstMsg.TaskChainStart:
