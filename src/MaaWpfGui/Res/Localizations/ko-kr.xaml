@@ -696,6 +696,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1층은 전부 구매.&#10;2층은 방문 증서와 모집 허가를 구매.</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">황색 티켓 상점</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStoreTip" xml:space="preserve">최소한 258장의 노란색 티켓을 가지고 있는지 확인하세요.</system:String>
+    <system:String x:Key="MiniGameNameSSStore">이벤트 상점</system:String>
+    <system:String x:Key="MiniGameNameSSStoreTip" xml:space="preserve">이벤트 메인 페이지 또는 상점 페이지에서 시작하세요.&#10;구매 수량이 무제한인 아이템은 구매하지 마세요.</system:String>
     <!--  !小游戏  -->
     <!--  로그  -->
     <system:String x:Key="Identifying">인식 중……</system:String>

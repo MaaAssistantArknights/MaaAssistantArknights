@@ -693,6 +693,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">Buy everything on the 1st floor.&#10;Buy Headhunting Permits and Recruitment Permits on the 2nd floor.</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">Yellow Ticket Store</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStoreTip" xml:space="preserve">Please ensure you have at least 258 yellow tickets.</system:String>
+    <system:String x:Key="MiniGameNameSSStore">Event Shop</system:String>
+    <system:String x:Key="MiniGameNameSSStoreTip" xml:space="preserve">Please start from the event main page or shop page.&#10;Won't buy items with unlimited purchase quantities.</system:String>
     <!--  !小游戏  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">Identifying……</system:String>

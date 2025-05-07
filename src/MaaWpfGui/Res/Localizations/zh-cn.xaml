@@ -697,6 +697,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1层全买。&#10;2层买寻访凭证和招聘许可。</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">黄票商店</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStoreTip" xml:space="preserve">请确保自己至少有258张黄票。</system:String>
+    <system:String x:Key="MiniGameNameSSStore">活动商店</system:String>
+    <system:String x:Key="MiniGameNameSSStoreTip" xml:space="preserve">请在活动主页面或商店页面开始。&#10;不买无限池。</system:String>
     <!--  !小游戏  -->
     <!--  日志  -->
     <system:String x:Key="Identifying">正在识别……</system:String>
