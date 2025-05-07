@@ -1449,8 +1449,6 @@ namespace MaaWpfGui.ViewModels.UI
             return !Instances.AsstProxy.AsstRunning();
         }
 
-
-
         // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public async void WaitAndStop()
@@ -1851,9 +1849,151 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        internal static void RecoverFromFreeze(JObject details)
+        public async void RecoverFromFreeze(JObject details)
         {
-            throw new NotImplementedException();
+            string taskRec = details["taskchain"]?.ToString() ?? string.Empty;
+
+            if (!EmulatorHelper.KillEmulatorModeSwitcher())
+            {
+                AddLog(LocalizationHelper.GetString("ExitEmulatorFailed"), UiLogColor.Error);
+                return;
+            }
+
+            await Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
+
+            await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript"));
+
+            AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
+
+            if (Stopping)
+            {
+                SetStopped();
+                return;
+            }
+
+            if (!await ConnectToEmulator())
+            {
+                return;
+            }
+
+            if (Stopping)
+            {
+                SetStopped();
+                return;
+            }
+
+            bool taskRet = true;
+            bool recRet = true;
+
+            int count = 0;
+            foreach (var item in TaskItemViewModels)
+            {
+                if (item.IsChecked == false || (GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && item.IsCheckedWithNull == null))
+                {
+                    continue;
+                }
+
+                if (recRet)
+                {
+                    if (item.OriginalName == taskRec)
+                    {
+                        recRet = false;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+
+                ++count;
+                switch (item.OriginalName)
+                {
+                    case "Base":
+                        taskRet &= AppendInfrast();
+                        break;
+
+                    case "WakeUp":
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, StartUpTask.Serialize());
+                        break;
+
+                    case "Combat":
+                        taskRet &= AppendFight();
+                        break;
+
+                    case "Recruiting":
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Recruit, RecruitTask.Serialize());
+                        break;
+
+                    case "Mall":
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Mall, MallTask.Serialize());
+                        break;
+
+                    case "Mission":
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Award, AwardTask.Serialize());
+                        break;
+
+                    case "AutoRoguelike":
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Roguelike, RoguelikeTask.Serialize());
+                        break;
+
+                    case "Reclamation":
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, ReclamationTask.Serialize());
+                        break;
+
+                    case "Custom":
+                        {
+                            var tasks = CustomTask.SerializeMultiTasks();
+                            foreach (var (type, param) in tasks)
+                            {
+                                taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Custom, type, param);
+                            }
+
+                            break;
+                        }
+
+                    default:
+                        --count;
+                        _logger.Error("Unknown task: " + item.OriginalName);
+                        break;
+                }
+
+                if (taskRet)
+                {
+                    continue;
+                }
+
+                AddLog($"{LocalizationHelper.GetString(item.OriginalName)} task append error", UiLogColor.Error);
+                taskRet = true;
+                --count;
+            }
+
+            if (count == 0)
+            {
+                AddLog(LocalizationHelper.GetString("UnselectedTask"));
+                _runningState.SetIdle(true);
+                Instances.AsstProxy.AsstStop();
+                SetStopped();
+                return;
+            }
+
+            taskRet &= Instances.AsstProxy.AsstStart();
+
+            if (taskRet)
+            {
+                AddLog(LocalizationHelper.GetString("Running"));
+                Instances.AsstProxy.StartTaskTime = DateTimeOffset.Now;
+
+                if (GameSettingsUserControlModel.Instance.EnableWatchdog)
+                {
+                    Instances.AsstProxy.AsstStartWatchdog(GameSettingsUserControlModel.Instance.WatchdogIntervalSec, GameSettingsUserControlModel.Instance.WatchdogThreshold);
+                }
+            }
+            else
+            {
+                AddLog(LocalizationHelper.GetString("UnknownErrorOccurs"));
+                await Stop();
+                SetStopped();
+            }
         }
     }
 }
