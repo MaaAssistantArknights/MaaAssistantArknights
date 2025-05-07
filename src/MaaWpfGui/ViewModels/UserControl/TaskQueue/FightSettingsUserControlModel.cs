@@ -22,6 +22,7 @@ using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -847,4 +848,28 @@ public class FightSettingsUserControlModel : TaskViewModel
     }
 
     #endregion
+
+    public class SanityInfo
+    {
+        [JsonProperty("sanity_current")]
+        public int SanityCurrent { get; set; }
+
+        [JsonProperty("sanity_max")]
+        public int SanityMax { get; set; }
+
+        [JsonProperty("report_time")]
+        public DateTimeOffset ReportTime { get; set; }
+    }
+
+    public class FightTimes
+    {
+        [JsonProperty("sanity_cost")]
+        public int SanityCost { get; set; }
+
+        [JsonProperty("series")]
+        public int Series { get; set; }
+
+        [JsonProperty("times_finished")]
+        public int TimesFinished { get; set; }
+    }
 }

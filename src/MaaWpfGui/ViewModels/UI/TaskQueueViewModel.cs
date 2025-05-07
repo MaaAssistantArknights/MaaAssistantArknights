@@ -1578,7 +1578,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 foreach (var stage in FightTask.Stages)
                 {
-                    if (!IsStageOpen(stage) || (stage == curStage))
+                    if (stage is null || !IsStageOpen(stage) || (stage == curStage))
                     {
                         continue;
                     }
@@ -1600,7 +1600,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     Stage = FightTask.RemainingSanityStage,
                     MaxTimes = int.MaxValue,
-                    Series = 1,
+                    Series = 0,
                     IsDrGrandet = FightTask.IsDrGrandet,
                     ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
                     ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
