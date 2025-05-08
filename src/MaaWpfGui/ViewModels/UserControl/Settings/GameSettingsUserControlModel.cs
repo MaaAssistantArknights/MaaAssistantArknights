@@ -406,4 +406,28 @@ public class GameSettingsUserControlModel : PropertyChangedBase
             ConfigurationHelper.SetValue(ConfigurationKeys.WatchdogThreshold, value.ToString());
         }
     }
+
+    private bool _freezeStartWithScript = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.FreezeStartWithScript, bool.TrueString));
+
+    public bool FreezeStartWithScript
+    {
+        get => _freezeStartWithScript;
+        set
+        {
+            SetAndNotify(ref _freezeStartWithScript, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.FreezeStartWithScript, value.ToString());
+        }
+    }
+
+    private bool _freezeEndWithScript = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.FreezeEndWithScript, bool.TrueString));
+
+    public bool FreezeEndWithScript
+    {
+        get => _freezeEndWithScript;
+        set
+        {
+            SetAndNotify(ref _freezeEndWithScript, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.FreezeEndWithScript, value.ToString());
+        }
+    }
 }

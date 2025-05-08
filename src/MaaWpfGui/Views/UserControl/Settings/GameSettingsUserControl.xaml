@@ -205,5 +205,19 @@
                 Minimum="1"
                 Value="{Binding WatchdogThreshold}" />
         </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="{DynamicResource FreezeStartWithScript}"
+                IsChecked="{Binding FreezeStartWithScript}" />
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="{DynamicResource FreezeEndWithScript}"
+                IsChecked="{Binding FreezeEndWithScript}" />
+        </StackPanel>
     </StackPanel>
 </UserControl>

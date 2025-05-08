@@ -1853,34 +1853,37 @@ namespace MaaWpfGui.ViewModels.UI
         {
             string taskRec = details["taskchain"]?.ToString() ?? string.Empty;
 
+            AddLog(LocalizationHelper.GetString("FreezeDetected"));
+
             if (!EmulatorHelper.KillEmulatorModeSwitcher())
             {
                 AddLog(LocalizationHelper.GetString("ExitEmulatorFailed"), UiLogColor.Error);
                 return;
             }
 
-            await Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
+            CheckStop();
 
-            await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript"));
-
-            AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
-
-            if (Stopping)
+            if (GameSettingsUserControlModel.Instance.FreezeEndWithScript)
             {
-                SetStopped();
-                return;
+                await Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
             }
 
+            CheckStop();
+
+            if (GameSettingsUserControlModel.Instance.FreezeStartWithScript)
+            {
+                await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript"));
+            }
+
+            CheckStop();
+
+            AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
             if (!await ConnectToEmulator())
             {
                 return;
             }
 
-            if (Stopping)
-            {
-                SetStopped();
-                return;
-            }
+            CheckStop();
 
             bool taskRet = true;
             bool recRet = true;
@@ -1993,6 +1996,15 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(LocalizationHelper.GetString("UnknownErrorOccurs"));
                 await Stop();
                 SetStopped();
+            }
+
+            void CheckStop()
+            {
+                if (Stopping)
+                {
+                    SetStopped();
+                    return;
+                }
             }
         }
     }
