@@ -448,7 +448,7 @@
     <system:String x:Key="AccountSwitch">帳號切換</system:String>
     <system:String x:Key="AccountSwitchManualRun">立即切换</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">需要切換到的帳號，留空以停用。
-輸入登入介面顯示的內容，如“123****4567”，可輸入“123****4567”或“4567”或“23****45”
+輸入登入介面顯示的內容，如「123****4567」，可輸入「123****4567」或「4567」或「23****45」
 僅支援官服、B服，不支援登入帳號。</system:String>
     <system:String x:Key="AdbPath">ADB 路徑（相對/絕對）</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">所選檔案名稱不包含 ADB，請檢查是否選擇了錯誤的檔案或誤選成了模擬器本體。</system:String>
@@ -945,10 +945,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="EasterEggsRules" xml:space="preserve">1. MAA 正式版不會出現 Debug 模式。如果你在運行時看到 Debug 選項，請立即關閉軟件，不要點擊它，並聯繫最近的 MAA 開發者。\n
 2. 基建換班是自動的。如果你發現某個幹員連續工作了 72 小時以上，請手動調整班次，並檢查系統時間是否正常。\n
 3. 公開招募的標籤不會改變。如果發現標籤在倒計時結束前自行更換，不要繼續招募，重啟 MAA 後再操作。\n
-4. MAA 不會主動發送好友申請。如果收到來自 “MAA_System” 的好友請求，不要接受，並刪除該賬號。\n
+4. MAA 不會主動發送好友申請。如果收到來自 「MAA_System」 的好友請求，不要接受，並刪除該賬號。\n
 5. 肉鴿輔助僅提供建議。若遊戲自動選擇了 不存在的選項，強制退出並重新啟動客戶端。\n
-6. MAA 的日誌文件不應包含亂碼。如果發現日誌中出現 “ERROR: 數據解析失敗” 以外的異常信息，刪除日誌並重新安裝軟件。\n
-7. 夜間模式是安全的。但如果 MAA 在 凌晨 3:33 自動啟動並運行 “未知任務”，請拔掉電源，等待日出後再使用。\n
+6. MAA 的日誌文件不應包含亂碼。如果發現日誌中出現 「ERROR: 數據解析失敗」 以外的異常信息，刪除日誌並重新安裝軟件。\n
+7. 夜間模式是安全的。但如果 MAA 在 凌晨 3:33 自動啟動並運行 「未知任務」，請拔掉電源，等待日出後再使用。\n
 8. 最後一條規則不存在。如果你看到了這條，請忘記它，並正常使用 MAA。\n
 9. 請不要在 MAA 裡點炒...锟斤拷拷拷拷喜報拷拷拷飯。\n
 10. Mirror醬是善良的，你只要付出小小的代價，就能得到祂的庇護。\n
@@ -1012,7 +1012,7 @@ C:\\leidian\\LDPlayer9。\n
 目前生息演算的支援仍處於中期階段，使用時請注意以下幾點：
 
  透過開局刷點數：(小心已有存檔被刪除)
-  1. 點數刷滿後會輸出 “任務完成”，自動停止任務
+  1. 點數刷滿後會輸出 「任務完成」，自動停止任務
   2. 不要在生息演算的編隊中有幹員的情況下使用
   3. 手動確認存檔情況並刪除，以免 MAA 刪除你的珍貴存檔
   4. 導航還沒寫，不能從生息演算以外的位置開始任務
@@ -1048,4 +1048,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ReminderIntervalMinutes">提醒間隔時間（分鐘）</system:String>
     <system:String x:Key="TaskTimeoutWarning">任務已運行超過 {0} 分鐘（當前已運行 {1} 分鐘）。如果長時間無進一步日誌更新，可能需要手動干預。</system:String>
     <!--  !TimeOutTimer  -->
+    <system:String x:Key="ExternalNotificationCustomWebhookUrl">Webhook URL</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhookBody">訊息體模板</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhookPlaceholders">可用佔位符：&#123;title&#125;、&#123;content&#125;、&#123;time&#125; ...</system:String>
 </ResourceDictionary>
