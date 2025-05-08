@@ -35,7 +35,7 @@
     <system:String x:Key="ResourceVersion">资源版本</system:String>
     <system:String x:Key="ResourceDateTime">资源日期</system:String>
     <system:String x:Key="Off">关闭</system:String>
-    <system:String x:Key="ExternalNotificationTips">请注意：外部通知功能目前仅会发送“所有任务完成”的通知。</system:String>
+    <system:String x:Key="ExternalNotificationTips">请注意：外部通知功能目前仅会发送「所有任务完成」的通知。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
     <system:String x:Key="ExternalNotificationEnabled">启用的通知配置</system:String>
     <system:String x:Key="ExternalNotificationEnableDetails">输出详细信息</system:String>
@@ -692,7 +692,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">小游戏名称</system:String>
     <system:String x:Key="MiniGameNameGreenGrass">争锋频道：青草城</system:String>
-    <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">手动跳过教程对话，然后可以直接退出。&#10;在活动主界面（右下角有 “加入赛事” 处）开始任务。&#10;&#10;跟着鸭总喝口汤。</system:String>
+    <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">手动跳过教程对话，然后可以直接退出。&#10;在活动主界面（右下角有 「加入赛事」 处）开始任务。&#10;&#10;跟着鸭总喝口汤。</system:String>
     <!--  !小游戏  -->
     <!--  日志  -->
     <system:String x:Key="Identifying">正在识别……</system:String>
@@ -948,10 +948,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="EasterEggsRules" xml:space="preserve">1. MAA 正式版不会出现 Debug 模式。如果你在运行时看到 Debug 选项，请立即关闭软件，不要点击它，并联系最近的 MAA 开发者。\n
 2. 基建换班是自动的。如果你发现某个干员连续工作了 72 小时以上，请手动调整班次，并检查系统时间是否正常。\n
 3. 公开招募的标签不会改变。如果发现标签在倒计时结束前自行更换，不要继续招募，重启 MAA 后再操作。\n
-4. MAA 不会主动发送好友申请。如果收到来自 “MAA_System” 的好友请求，不要接受，并删除该账号。\n
+4. MAA 不会主动发送好友申请。如果收到来自 「MAA_System」 的好友请求，不要接受，并删除该账号。\n
 5. 肉鸽辅助仅提供建议。若游戏自动选择了 不存在的选项，强制退出并重新启动客户端。\n
-6. MAA 的日志文件不应包含乱码。如果发现日志中出现 “ERROR: 数据解析失败” 以外的异常信息，删除日志并重新安装软件。\n
-7. 夜间模式是安全的。但如果 MAA 在 凌晨 3:33 自动启动并运行 “未知任务”，请拔掉电源，等待日出后再使用。\n
+6. MAA 的日志文件不应包含乱码。如果发现日志中出现 「ERROR: 数据解析失败」 以外的异常信息，删除日志并重新安装软件。\n
+7. 夜间模式是安全的。但如果 MAA 在 凌晨 3:33 自动启动并运行 「未知任务」，请拔掉电源，等待日出后再使用。\n
 8. 最后一条规则不存在。如果你看到了这条，请忘记它，并正常使用 MAA。\n
 9. 请不要在 MAA 里点炒...锟斤拷拷拷拷喜报拷拷拷饭。\n
 10. Mirror酱是善良的，你只要付出小小的代价，就能得到祂的庇护。\n
@@ -1015,7 +1015,7 @@ C:\\leidian\\LDPlayer9。\n
 目前生息演算的支持仍处于中期阶段，使用时请注意以下几点：
 
  通过开局刷点数：(小心已有存档被删除)
-  1. 点数刷满后会输出“任务完成”，自动停止任务
+  1. 点数刷满后会输出「任务完成」，自动停止任务
   2. 不要在生息演算的编队中有干员的情况下使用
   3. 手动确认存档情况并删除，以免 MAA 删除你的珍贵存档
   4. 导航还没写，不能从生息演算以外的位置开始任务
@@ -1049,4 +1049,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ReminderIntervalMinutes">提醒间隔时间（分钟）</system:String>
     <system:String x:Key="TaskTimeoutWarning">任务已运行超过 {0} 分钟（当前已运行 {1} 分钟）。如果长时间无进一步日志更新，可能需要手动干预。</system:String>
     <!--  !TimeOutTimer  -->
+    <system:String x:Key="ExternalNotificationCustomWebhookUrl">Webhook URL</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhookBody">消息体模板</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhookPlaceholders">可用占位符：&#123;title&#125;、&#123;content&#125;、&#123;time&#125; ...</system:String>
 </ResourceDictionary>

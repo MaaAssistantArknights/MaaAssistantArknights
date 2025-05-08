@@ -428,7 +428,7 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="SwitchResolutionTip">에뮬레이터 해상도를 1920x1080으로 변경!</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">에뮬레이터가 1920x1080으로 설정되어 있는지 확인하세요</system:String>
     <system:String x:Key="AllowUseStoneSave">순오리지늄 사용 상태 저장 허용</system:String>
-    <system:String x:Key="AllowUseStoneSaveWarning">이 기능은 위험할 수 있습니다. "확인" 버튼을 누르면 잠재적인 위험을 이해하고 감수하는 것으로 간주됩니다.</system:String>
+    <system:String x:Key="AllowUseStoneSaveWarning">이 기능은 위험할 수 있습니다. 「확인」 버튼을 누르면 잠재적인 위험을 이해하고 감수하는 것으로 간주됩니다.</system:String>
     <system:String x:Key="UseAlternateStage">대체 스테이지 사용</system:String>
     <system:String x:Key="UseRemainingSanityStage">남은 이성 활용</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">주 작업을 완료한 후 지정된 스테이지를 실행하며, 이성 회복제/오리지늄을 사용하지 않습니다</system:String>
@@ -448,7 +448,7 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="AccountSwitch">계정 전환</system:String>
     <system:String x:Key="AccountSwitchManualRun">수동 스위치</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">전환할 계정을 입력하고, 계정 전환을 종료하려면 공백으로 남겨두세요.
-"123****4567"과 같이 로그인 인터페이스에 표시된 내용을 입력하세요. "123****4567", "4567" 또는 "23****45"를 입력할 수 있습니다.
+「123****4567」과 같이 로그인 인터페이스에 표시된 내용을 입력하세요. 「123****4567」, 「4567」 또는 「23****45」를 입력할 수 있습니다.
 공식(CN) 및 Bilibili 서버만 지원합니다. 로그인 계정은 지원되지 않습니다.</system:String>
     <system:String x:Key="AdbPath">ADB 경로 (상대/절대)</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">선택한 파일 이름에 ADB가 포함되어 있지 않습니다.\n잘못된 파일/에뮬레이터를 선택한 것은 아닌지 확인하세요.</system:String>
@@ -691,7 +691,7 @@ C:\\leidian\\LDPlayer9
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">미니 게임 이름</system:String>
     <system:String x:Key="MiniGameNameGreenGrass">대결 채널: 그린그래스 시티 (비공식)</system:String>
-    <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">튜토리얼 대화를 수동으로 건너뛴 후, 바로 종료할 수 있습니다.&#10;이벤트 메인 화면(오른쪽 아래에 "이벤트 참가" 표시 있음)에서 임무를 시작하세요.&#10;&#10;덕로드만 믿고 따라가면 손해는 없을거에요.</system:String>
+    <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">튜토리얼 대화를 수동으로 건너뛴 후, 바로 종료할 수 있습니다.&#10;이벤트 메인 화면(오른쪽 아래에 「이벤트 참가」 표시 있음)에서 임무를 시작하세요.&#10;&#10;덕로드만 믿고 따라가면 손해는 없을거에요.</system:String>
     <!--  !小游戏  -->
     <!--  로그  -->
     <system:String x:Key="Identifying">인식 중……</system:String>
@@ -764,7 +764,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">업데이트 패키지 압축 해제에 실패했습니다. 루트 디렉토리에 있는 업데이트 패키지를 수동으로 압축 해제해 보세요.</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">에뮬레이터와 ADB를 종료하거나 컴퓨터를 재시작하고 관리자 권한으로 MAA를 실행해 주세요.</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">파일이 사용 중입니다. 컴퓨터를 다시 시작하고 다시 시도하세요.</system:String>
-    <system:String x:Key="ErrorSolutionSelectDefaultBrowser">링크 열기 실패. "Windows 설정"으로 이동하여 기본 브라우저를 선택하세요.</system:String>
+    <system:String x:Key="ErrorSolutionSelectDefaultBrowser">링크 열기 실패. 「Windows 설정」으로 이동하여 기본 브라우저를 선택하세요.</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">GitHub에 issue 생성</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">QQ 그룹 가입</system:String>
     <system:String x:Key="CopyErrorMessage">오류 메시지 복사</system:String>
@@ -947,10 +947,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="EasterEggsRules" xml:space="preserve">1. MAA 정식 버전에는 디버그 모드가 없습니다. 실행 중에 디버그 옵션이 표시되면 소프트웨어를 즉시 닫고 클릭하지 말고 가까운 MAA 개발자에게 문의하세요.\n
 2. 인프라 교대 근무는 자동입니다. 작업자가 72시간 이상 연속으로 작업하는 경우 수동으로 교대를 조정하고 시스템 시간이 올바른지 확인하세요.\n
 3. 공개 모집 태그는 변경되지 않습니다. 카운트다운이 끝나기 전에 태그가 변경된 것을 발견하면 모집을 계속하지 말고 MAA를 다시 시작한 후 작업하세요.\n
-4. MAA는 친구 요청을 보내지 않습니다. "MAA_System"으로부터 친구 요청을 받으면 수락하지 말고 해당 계정을 삭제하세요.\n
+4. MAA는 친구 요청을 보내지 않습니다. 「MAA_System」으로부터 친구 요청을 받으면 수락하지 말고 해당 계정을 삭제하세요.\n
 5. 로그라이크 지원은 제안만 제공합니다. 게임이 존재하지 않는 옵션을 자동으로 선택한 경우 강제로 종료하고 클라이언트를 다시 시작하세요.\n
-6. MAA의 로그 파일에는 깨진 문자가 포함되어 있지 않아야 합니다. "ERROR: 데이터 분석 실패" 외의 오류 정보가 로그에 표시되면 로그를 삭제하고 소프트웨어를 다시 설치하세요.\n
-7. 야간 모드는 안전합니다. 그러나 MAA가 오전 3시 33분에 자동으로 시작되어 "알 수 없는 작업"을 실행하는 경우 전원을 뽑고 해가 뜰 때까지 기다렸다가 다시 사용하세요.\n
+6. MAA의 로그 파일에는 깨진 문자가 포함되어 있지 않아야 합니다. 「ERROR: 데이터 분석 실패」 외의 오류 정보가 로그에 표시되면 로그를 삭제하고 소프트웨어를 다시 설치하세요.\n
+7. 야간 모드는 안전합니다. 그러나 MAA가 오전 3시 33분에 자동으로 시작되어 「알 수 없는 작업」을 실행하는 경우 전원을 뽑고 해가 뜰 때까지 기다렸다가 다시 사용하세요.\n
 8. 마지막 규칙은 존재하지 않습니다. 이 규칙을 본 경우 잊어버리고 MAA를 정상적으로 사용하세요.\n
 9. MAA에서炒...锟斤拷拷拷拷喜报拷拷拷饭을 클릭하지 마세요.\n
 10. MirrorChyan는 안전합니다. 약간의 대가를 지불하면 그녀의 보호를 받을 수 있습니다.\n
@@ -1046,4 +1046,7 @@ Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거�
     <system:String x:Key="ReminderIntervalMinutes">알림 반복 간격 (분)</system:String>
     <system:String x:Key="TaskTimeoutWarning">작업 실행 시간이 {0}분을 초과했습니다(현재 {1}분 동안 실행 중입니다). 장시간 추가 로그 업데이트가 없을 경우 수동 조치가 필요할 수 있습니다.</system:String>
     <!--  !TimeOutTimer  -->
+    <system:String x:Key="ExternalNotificationCustomWebhookUrl">Webhook URL</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhookBody">메시지 본문 템플릿</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhookPlaceholders">사용 가능한 플레이스홀더: {title}, {content}, {time} ...</system:String>
 </ResourceDictionary>
