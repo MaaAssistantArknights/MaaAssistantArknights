@@ -1516,9 +1516,14 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [0, 200, 300, 400],
-        "exceededNext": ["StageSNReturnFlag", "Stop"],
+        "exceededNext": ["CloseStonePageExceeded"],
         "maxTimes": 1,
         "next": ["StartButton1"]
+    },
+    "CloseStonePageExceeded": {
+        "baseTask": "CloseStonePage",
+        "exceededNext": [],
+        "next": ["StageSNReturnFlag", "Stop"]
     },
     "PrtsErrorConfirm": {
         "roi": [0, 120, 1280, 480],
