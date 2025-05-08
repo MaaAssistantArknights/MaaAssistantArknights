@@ -540,7 +540,12 @@ namespace MaaWpfGui.Main
                         switch (SettingsViewModel.ConnectSettings.ConnectConfig)
                         {
                             case "MuMuEmulator12":
-                                if (SettingsViewModel.ConnectSettings.MuMuEmulator12Extras.Enable && method != "MumuExtras")
+                                if (!SettingsViewModel.ConnectSettings.MuMuEmulator12Extras.Enable)
+                                {
+                                    break;
+                                }
+
+                                if (method != "MumuExtras")
                                 {
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage"), UiLogColor.Error);
                                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage"), UiLogColor.Error, showTime: false);
@@ -549,12 +554,16 @@ namespace MaaWpfGui.Main
                                 else if (timeCost < 100)
                                 {
                                     color = UiLogColor.MuMuSpecialScreenshot;
-                                    method = "MuMuExtras";
                                 }
 
                                 break;
                             case "LDPlayer":
-                                if (SettingsViewModel.ConnectSettings.LdPlayerExtras.Enable && method != "LDExtras")
+                                if (!SettingsViewModel.ConnectSettings.LdPlayerExtras.Enable)
+                                {
+                                    break;
+                                }
+
+                                if (method != "LDExtras")
                                 {
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("LdExtrasNotEnabledMessage"), UiLogColor.Error);
                                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("LdExtrasNotEnabledMessage"), UiLogColor.Error, showTime: false);
@@ -563,7 +572,6 @@ namespace MaaWpfGui.Main
                                 else if (timeCost < 100)
                                 {
                                     color = UiLogColor.LdSpecialScreenshot;
-                                    method = "LDExtras";
                                 }
 
                                 break;
