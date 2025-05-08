@@ -107,75 +107,65 @@ namespace MaaWpfGui.Services.Web
             }
         }
 
-        public async Task<string?> GetStringAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead, bool logQuery = true)
-        {
-            var response = await GetAsync(uri, extraHeader, httpCompletionOption, logQuery);
-
-            if (response?.StatusCode != HttpStatusCode.OK)
-            {
-                return null;
-            }
-
-            return await response.Content.ReadAsStringAsync();
-        }
-
-        public async Task<Stream?> GetStreamAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead, bool logQuery = true)
-        {
-            var response = await GetAsync(uri, extraHeader, httpCompletionOption, logQuery);
-
-            if (response?.StatusCode != HttpStatusCode.OK)
-            {
-                return null;
-            }
-
-            return await response.Content.ReadAsStreamAsync();
-        }
-
-        public async Task<HttpResponseMessage?> GetAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseHeadersRead, bool logQuery = true)
+        public async Task<string?> GetStringAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead)
         {
             try
             {
-                var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Get, Version = HttpVersion.Version20, };
-
-                if (extraHeader != null)
+                var response = await GetAsync(uri, extraHeader, httpCompletionOption);
+                if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    foreach (var kvp in extraHeader)
-                    {
-                        request.Headers.Add(kvp.Key, kvp.Value);
-                    }
+                    return null;
                 }
 
-                var response = await _client.SendAsync(request, httpCompletionOption);
-                response.Log(logQuery);
-
-                return response;
+                return await response.Content.ReadAsStringAsync();
             }
             catch (Exception e)
             {
-                _logger.Error(e, "Failed to send GET request to {Uri}", uri.GetLeftPart(logQuery ? UriPartial.Query : UriPartial.Path));
+                _logger.Error(e, "Failed to send GET request to {Uri}", uri);
                 return null;
             }
+        }
+
+        public async Task<Stream?> GetStreamAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead)
+        {
+            try
+            {
+                var response = await GetAsync(uri, extraHeader, httpCompletionOption);
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    return null;
+                }
+
+                return await response.Content.ReadAsStreamAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Failed to send GET request to {Uri}", uri);
+                return null;
+            }
+        }
+
+        public async Task<HttpResponseMessage> GetAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseHeadersRead, bool logQuery = true)
+        {
+            var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Get, Version = HttpVersion.Version20, };
+            if (extraHeader != null)
+            {
+                foreach (var kvp in extraHeader)
+                {
+                    request.Headers.Add(kvp.Key, kvp.Value);
+                }
+            }
+
+            var response = await _client.SendAsync(request, httpCompletionOption);
+            response.Log(logQuery);
+            return response;
         }
 
         public async Task<string?> PostAsJsonAsync<T>(Uri uri, T content, Dictionary<string, string>? extraHeader = null)
         {
             try
             {
-                var body = JsonSerializer.Serialize(content);
-                var message = new HttpRequestMessage(HttpMethod.Post, uri) { Version = HttpVersion.Version20 };
-
-                if (extraHeader is not null)
-                {
-                    foreach (var header in extraHeader)
-                    {
-                        message.Headers.Add(header.Key, header.Value);
-                    }
-                }
-
-                message.Headers.Accept.ParseAdd("application/json");
-                message.Content = new StringContent(body, Encoding.UTF8, "application/json");
-                var response = await _client.SendAsync(message);
-                response.Log();
+                var response = await PostAsync(uri, new StringContent(JsonSerializer.Serialize(content), Encoding.UTF8, "application/json"), extraHeader);
                 return await response.Content.ReadAsStringAsync();
             }
             catch (Exception e)
@@ -189,20 +179,7 @@ namespace MaaWpfGui.Services.Web
         {
             try
             {
-                var message = new HttpRequestMessage(HttpMethod.Post, uri) { Version = HttpVersion.Version20 };
-                message.Headers.Accept.ParseAdd("application/json");
-
-                if (extraHeader is not null)
-                {
-                    foreach (var header in extraHeader)
-                    {
-                        message.Headers.Add(header.Key, header.Value);
-                    }
-                }
-
-                message.Content = new FormUrlEncodedContent(content);
-                var response = await _client.SendAsync(message);
-                response.Log();
+                var response = await PostAsync(uri, new FormUrlEncodedContent(content), extraHeader);
                 return await response.Content.ReadAsStringAsync();
             }
             catch (Exception e)
@@ -210,6 +187,24 @@ namespace MaaWpfGui.Services.Web
                 _logger.Error(e, "Failed to send POST request to {Uri}", uri);
                 return null;
             }
+        }
+
+        public async Task<HttpResponseMessage> PostAsync(Uri uri, HttpContent content, Dictionary<string, string>? extraHeader = null)
+        {
+            var message = new HttpRequestMessage(HttpMethod.Post, uri) { Version = HttpVersion.Version20 };
+            if (extraHeader is not null)
+            {
+                foreach (var header in extraHeader)
+                {
+                    message.Headers.Add(header.Key, header.Value);
+                }
+            }
+
+            message.Headers.Accept.ParseAdd("application/json");
+            message.Content = content;
+            var response = await _client.SendAsync(message);
+            response.Log();
+            return response;
         }
 
         public async Task<bool> DownloadFileAsync(Uri uri, string fileName, string? contentType = "application/octet-stream")
@@ -220,10 +215,18 @@ namespace MaaWpfGui.Services.Web
             string fullFilePathWithTemp = Path.Combine(fileDir, fileNameWithTemp);
             _logger.Information("Start to download file from {Uri} and save to {TempPath}", uri, fullFilePathWithTemp);
 
-            var response = await GetAsync(uri, extraHeader: new Dictionary<string, string> { { "Accept", contentType ?? "application/octet-stream" } }, httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
-
-            if (response?.StatusCode != HttpStatusCode.OK)
+            HttpResponseMessage response;
+            try
             {
+                response = await GetAsync(uri, extraHeader: new Dictionary<string, string> { { "Accept", contentType ?? "application/octet-stream" } }, httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Failed to send GET request to {Uri}", uri);
                 return false;
             }
 

@@ -98,8 +98,16 @@ namespace MaaWpfGui.Helper
                 headers["If-None-Match"] = etag;
             }
 
-            var response = await Instances.HttpService.GetAsync(new Uri(url), headers);
-            return response;
+            try
+            {
+                var response = await Instances.HttpService.GetAsync(new Uri(url), headers);
+                return response;
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Failed to send GET request to {Uri}", url);
+                return null;
+            }
         }
     }
 }
