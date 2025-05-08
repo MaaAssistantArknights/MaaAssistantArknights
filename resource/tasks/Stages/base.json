@@ -73,9 +73,10 @@
         "next": ["SS@Store@ClickItem", "SS@Store@PurchasedConfirm", "SS@Store@Swipe"]
     },
     "SS@Store@Swipe": {
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "SlowlySwipeToTheRight",
         "postDelay": 1000,
-        "next": ["SS@Store@ClickItem", "Stop"],
-        "maxTimes": 2147483647
+        "next": ["SS@Store@ClickItem", "#self"],
+        "maxTimes": 10,
+        "exceededNext": ["Stop"]
     }
 }
