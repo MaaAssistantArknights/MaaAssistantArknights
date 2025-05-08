@@ -5087,10 +5087,8 @@
         "next": ["GreenTicket@Store@PurchasedConfirm"]
     },
     "GreenTicket@Store@PurchasedConfirm": {
-        "template": "Store@PurchasedConfirm.png",
-        "action": "ClickSelf",
-        "roi": [560, 560, 160, 160],
-        "postDelay": 1000,
+        "baseTask": "CreditShop-Bought",
+        "template": "CreditShop-Bought.png",
         "next": [
             "GreenTicket@Store@PurchasedConfirm",
             "GreenTicket@Store@ClickItem",
@@ -5139,10 +5137,8 @@
         "next": ["YellowTicket@Store@PurchasedConfirm"]
     },
     "YellowTicket@Store@PurchasedConfirm": {
-        "template": "Store@PurchasedConfirm.png",
-        "action": "ClickSelf",
-        "roi": [560, 560, 160, 160],
-        "postDelay": 1000,
-        "next": ["YellowTicket@Store@PurchasedConfirm", "YellowTicket@Store@ClickItem", "Stop"]
+        "baseTask": "CreditShop-Bought",
+        "template": "CreditShop-Bought.png",
+        "next": [ "YellowTicket@Store@PurchasedConfirm", "YellowTicket@Store@ClickItem", "Stop" ]
     }
 }

@@ -66,11 +66,9 @@
         "next": ["SS@Store@ClickItem", "SS@Store@Swipe"]
     },
     "SS@Store@PurchasedConfirm": {
-        "template": "Store@PurchasedConfirm.png",
-        "action": "ClickSelf",
-        "roi": [560, 560, 160, 160],
-        "postDelay": 1000,
-        "next": ["SS@Store@PurchasedConfirm", "SS@Store@ClickItem", "SS@Store@Swipe"]
+        "baseTask": "CreditShop-Bought",
+        "template": "CreditShop-Bought.png",
+        "next": [ "SS@Store@PurchasedConfirm", "SS@Store@ClickItem", "SS@Store@Swipe" ]
     },
     "SS@Store@Swipe": {
         "baseTask": "SlowlySwipeToTheRight",
