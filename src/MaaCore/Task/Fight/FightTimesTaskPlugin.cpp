@@ -122,6 +122,11 @@ bool asst::FightTimesTaskPlugin::open_series_list(const cv::Mat& image)
     return ProcessTask(*this, { "FightSeries-Opened", "FightSeries-Open" }).set_reusable_image(image).run();
 }
 
+void asst::FightTimesTaskPlugin::close_series_list(const cv::Mat& image)
+{
+    ProcessTask(*this, { "FightSeries-CloseList" }).set_reusable_image(image).run();
+}
+
 std::optional<int> asst::FightTimesTaskPlugin::change_series(int sanity_current, int sanity_cost, int series)
 {
     int fight_times_remain = std::min(m_fight_times_max - m_fight_times, 6);
@@ -138,7 +143,15 @@ std::optional<int> asst::FightTimesTaskPlugin::change_series(int sanity_current,
         return series;
     }
 
-    return select_series(true);
+    auto ret = select_series(true);
+    if (!ret) {
+        select_series(1);
+        if (m_is_medicine_exhausted) { // 药品用完, 且没有次数可用, 刷理智结束
+            m_task_ptr->set_enable(false);
+        }
+    }
+
+    return ret;
 }
 
 std::optional<int> asst::FightTimesTaskPlugin::select_series(bool available_only)
@@ -151,6 +164,7 @@ std::optional<int> asst::FightTimesTaskPlugin::select_series(bool available_only
     auto image = ctrler()->get_image();
     auto list = analyze_series_list(image);
     if (list.empty()) {
+        close_series_list();
         Log.error(__FUNCTION__, "unable to analyze series list");
         return std::nullopt;
     }
@@ -165,6 +179,7 @@ std::optional<int> asst::FightTimesTaskPlugin::select_series(bool available_only
             return item.times;
         }
     }
+    close_series_list();
     Log.error(__FUNCTION__, "no available series found");
     return std::nullopt;
 }
@@ -179,6 +194,7 @@ bool asst::FightTimesTaskPlugin::select_series(int times)
     auto image = ctrler()->get_image();
     auto list = analyze_series_list(image);
     if (list.empty()) {
+        close_series_list();
         Log.error(__FUNCTION__, "unable to analyze series list");
         return false;
     }
@@ -189,6 +205,7 @@ bool asst::FightTimesTaskPlugin::select_series(int times)
             return true;
         }
     }
+    close_series_list();
     Log.error(__FUNCTION__, "no available series found");
     return false;
 }

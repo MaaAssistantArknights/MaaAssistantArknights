@@ -1228,6 +1228,21 @@
         "sub": ["FightSeries-Opened"],
         "next": ["Stop"]
     },
+    "FightSeries-NotClosed": {
+        "baseTask": "FightSeries-Opened",
+        "template": "FightSeries-Indicator.png",
+        "next": ["FightSeries-CloseList"]
+    },
+    "FightSeries-Close": {
+        "baseTask": "FightSeries-Icon",
+        "template": "FightSeries-Icon.png",
+        "action": "ClickSelf",
+        "next": ["Stop"]
+    },
+    "FightSeries-CloseList": {
+        "algorithm": "JustReturn",
+        "next": ["FightSeries-NotClosed", "FightSeries-Close"]
+    },
     "FightSeries-List-Exceeded": {
         "doc": "连战列表中需要使用理智药才能打的次数会带+号标记",
         "roi": [965, 200, 70, 325]
