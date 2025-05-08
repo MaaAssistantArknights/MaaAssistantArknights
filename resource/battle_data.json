@@ -4341,8 +4341,7 @@
         },
         "char_600_cpione": {
             "name": "预备干员-先锋",
-            "name_en": "预备干员-先锋",
-            "name_en_unavailable": true,
+            "name_en": "Reserve Operator - Vanguard",
             "name_jp": "予備隊員-先鋒",
             "name_kr": "예비 오퍼레이터 - 뱅가드",
             "name_tw": "预备干员-先锋",
@@ -4354,8 +4353,7 @@
         },
         "char_601_cguard": {
             "name": "预备干员-近卫",
-            "name_en": "预备干员-近卫",
-            "name_en_unavailable": true,
+            "name_en": "Reserve Operator - Guard",
             "name_jp": "予備隊員-前衛",
             "name_kr": "예비 오퍼레이터 - 가드",
             "name_tw": "预备干员-近卫",
@@ -4367,8 +4365,7 @@
         },
         "char_602_cdfend": {
             "name": "预备干员-重装",
-            "name_en": "预备干员-重装",
-            "name_en_unavailable": true,
+            "name_en": "Reserve Operator - Defender",
             "name_jp": "予備隊員-重装",
             "name_kr": "예비 인원 - 디펜더",
             "name_tw": "预备干员-重装",
@@ -4380,8 +4377,7 @@
         },
         "char_603_csnipe": {
             "name": "预备干员-狙击",
-            "name_en": "预备干员-狙击",
-            "name_en_unavailable": true,
+            "name_en": "Reserve Operator - Sniper",
             "name_jp": "予備隊員-狙撃",
             "name_kr": "예비 인원 - 스나이퍼",
             "name_tw": "预备干员-狙击",
@@ -4393,8 +4389,7 @@
         },
         "char_604_ccast": {
             "name": "预备干员-术师",
-            "name_en": "预备干员-术师",
-            "name_en_unavailable": true,
+            "name_en": "Reserve Operator - Caster",
             "name_jp": "予備隊員-術師",
             "name_kr": "예비 인원 - 캐스터",
             "name_tw": "预备干员-术师",
@@ -4406,8 +4401,7 @@
         },
         "char_605_cmedic": {
             "name": "预备干员-医疗",
-            "name_en": "预备干员-医疗",
-            "name_en_unavailable": true,
+            "name_en": "Reserve Operator - Medic",
             "name_jp": "予備隊員-医療",
             "name_kr": "예비 오퍼레이터 - 메딕",
             "name_tw": "预备干员-医疗",
@@ -4419,8 +4413,7 @@
         },
         "char_606_csuppo": {
             "name": "预备干员-辅助",
-            "name_en": "预备干员-辅助",
-            "name_en_unavailable": true,
+            "name_en": "Reserve Operator - Supporter",
             "name_jp": "予備隊員-補助",
             "name_kr": "예비 오퍼레이터 - 서포터",
             "name_tw": "预备干员-辅助",
@@ -4432,8 +4425,7 @@
         },
         "char_607_cspec": {
             "name": "预备干员-特种",
-            "name_en": "预备干员-特种",
-            "name_en_unavailable": true,
+            "name_en": "Reserve Operator - Specialist",
             "name_jp": "予備隊員-特殊",
             "name_kr": "예비 오퍼레이터 - 스페셜리스트",
             "name_tw": "预备干员-特种",
@@ -4445,8 +4437,7 @@
         },
         "char_608_acpion": {
             "name": "郁金香",
-            "name_en": "郁金香",
-            "name_en_unavailable": true,
+            "name_en": "Tulip",
             "name_jp": "チューリップ",
             "name_kr": "튤립",
             "name_tw": "郁金香",
@@ -4459,7 +4450,6 @@
         "char_609_acguad": {
             "name": "Sharp",
             "name_en": "Sharp",
-            "name_en_unavailable": true,
             "name_jp": "Sharp",
             "name_kr": "Sharp",
             "name_tw": "Sharp",
@@ -4472,7 +4462,6 @@
         "char_610_acfend": {
             "name": "Mechanist",
             "name_en": "Mechanist",
-            "name_en_unavailable": true,
             "name_jp": "Mechanist",
             "name_kr": "Mechanist",
             "name_tw": "Mechanist",
@@ -4485,7 +4474,6 @@
         "char_611_acnipe": {
             "name": "Stormeye",
             "name_en": "Stormeye",
-            "name_en_unavailable": true,
             "name_jp": "Stormeye",
             "name_kr": "Stormeye",
             "name_tw": "Stormeye",
@@ -4498,7 +4486,6 @@
         "char_612_accast": {
             "name": "Pith",
             "name_en": "Pith",
-            "name_en_unavailable": true,
             "name_jp": "Pith",
             "name_kr": "Pith",
             "name_tw": "Pith",
@@ -4511,7 +4498,6 @@
         "char_613_acmedc": {
             "name": "Touch",
             "name_en": "Touch",
-            "name_en_unavailable": true,
             "name_jp": "Touch",
             "name_kr": "Touch",
             "name_tw": "Touch",
@@ -4524,7 +4510,6 @@
         "char_614_acsupo": {
             "name": "Raidian",
             "name_en": "Raidian",
-            "name_en_unavailable": true,
             "name_jp": "Raidian",
             "name_kr": "Raidian",
             "name_tw": "Raidian",
@@ -4537,7 +4522,6 @@
         "char_615_acspec": {
             "name": "Misery",
             "name_en": "Misery",
-            "name_en_unavailable": true,
             "name_jp": "Misery",
             "name_kr": "Misery",
             "name_tw": "Misery",
@@ -6215,8 +6199,7 @@
         },
         "trap_1000_acarm000": {
             "name": "小盾",
-            "name_en": "小盾",
-            "name_en_unavailable": true,
+            "name_en": "Small Shield",
             "name_jp": "小盾",
             "name_kr": "소형 방패",
             "name_tw": "小盾",
@@ -6228,8 +6211,7 @@
         },
         "trap_1001_acarm001": {
             "name": "短剑",
-            "name_en": "短剑",
-            "name_en_unavailable": true,
+            "name_en": "Dirk",
             "name_jp": "短剣",
             "name_kr": "단검",
             "name_tw": "短剑",
@@ -6241,8 +6223,7 @@
         },
         "trap_1002_acarm002": {
             "name": "幸运币",
-            "name_en": "幸运币",
-            "name_en_unavailable": true,
+            "name_en": "Lucky Coin",
             "name_jp": "ラッキーコイン",
             "name_kr": "럭키코인",
             "name_tw": "幸运币",
@@ -6254,8 +6235,7 @@
         },
         "trap_1003_acarm003": {
             "name": "冰块",
-            "name_en": "冰块",
-            "name_en_unavailable": true,
+            "name_en": "Chunk of Ice",
             "name_jp": "氷",
             "name_kr": "얼음 조각",
             "name_tw": "冰块",
@@ -6267,8 +6247,7 @@
         },
         "trap_1004_acarm004": {
             "name": "压缩饼干",
-            "name_en": "压缩饼干",
-            "name_en_unavailable": true,
+            "name_en": "Hardtack",
             "name_jp": "レーション",
             "name_kr": "건빵",
             "name_tw": "压缩饼干",
@@ -6280,8 +6259,7 @@
         },
         "trap_1005_acarm005": {
             "name": "信标",
-            "name_en": "信标",
-            "name_en_unavailable": true,
+            "name_en": "Transmitter",
             "name_jp": "ビーコン",
             "name_kr": "비콘",
             "name_tw": "信标",
@@ -6293,8 +6271,7 @@
         },
         "trap_1006_acarm006": {
             "name": "源岩匕首",
-            "name_en": "源岩匕首",
-            "name_en_unavailable": true,
+            "name_en": "Orirock Dagger",
             "name_jp": "源岩ナイフ",
             "name_kr": "원암 비수",
             "name_tw": "源岩匕首",
@@ -6306,8 +6283,7 @@
         },
         "trap_1007_acarm007": {
             "name": "源石溶剂",
-            "name_en": "源石溶剂",
-            "name_en_unavailable": true,
+            "name_en": "Originium Solvent",
             "name_jp": "源石溶剤",
             "name_kr": "원암 용제",
             "name_tw": "源石溶剂",
@@ -6319,8 +6295,7 @@
         },
         "trap_1008_acarm008": {
             "name": "激光发射器",
-            "name_en": "激光发射器",
-            "name_en_unavailable": true,
+            "name_en": "Laser Sighter",
             "name_jp": "レーザー発射機",
             "name_kr": "레이저 발사기",
             "name_tw": "激光发射器",
@@ -6332,8 +6307,7 @@
         },
         "trap_1009_acarm009": {
             "name": "喀兰贸易文档",
-            "name_en": "喀兰贸易文档",
-            "name_en_unavailable": true,
+            "name_en": "Karlan Trade File",
             "name_jp": "カランド貿易ファイル",
             "name_kr": "카란 무역회사 서류",
             "name_tw": "喀兰贸易文档",
@@ -6356,8 +6330,7 @@
         },
         "trap_1010_acarm010": {
             "name": "卡西米尔文档",
-            "name_en": "卡西米尔文档",
-            "name_en_unavailable": true,
+            "name_en": "Kazimierz File",
             "name_jp": "カジミエーシュファイル",
             "name_kr": "카시미어 서류",
             "name_tw": "卡西米尔文档",
@@ -6369,8 +6342,7 @@
         },
         "trap_1011_acarm011": {
             "name": "深海猎人文档",
-            "name_en": "深海猎人文档",
-            "name_en_unavailable": true,
+            "name_en": "Abyssal Hunter File",
             "name_jp": "アビサルハンターファイル",
             "name_kr": "어비설 헌터스 서류",
             "name_tw": "深海猎人文档",
@@ -6382,8 +6354,7 @@
         },
         "trap_1012_acarm012": {
             "name": "浓茶",
-            "name_en": "浓茶",
-            "name_en_unavailable": true,
+            "name_en": "Strong Tea",
             "name_jp": "渋茶",
             "name_kr": "농차",
             "name_tw": "浓茶",
@@ -6395,8 +6366,7 @@
         },
         "trap_1013_acarm013": {
             "name": "蜂鸣器",
-            "name_en": "蜂鸣器",
-            "name_en_unavailable": true,
+            "name_en": "Buzzer",
             "name_jp": "警報器",
             "name_kr": "버저",
             "name_tw": "蜂鸣器",
@@ -6408,8 +6378,7 @@
         },
         "trap_1014_acarm014": {
             "name": "精打细算玩偶",
-            "name_en": "精打细算玩偶",
-            "name_en_unavailable": true,
+            "name_en": "Budget-Savvy Doll",
             "name_jp": "倹約家の人形",
             "name_kr": "알뜰살뜰 인형",
             "name_tw": "精打细算玩偶",
@@ -6421,8 +6390,7 @@
         },
         "trap_1015_acarm015": {
             "name": "见钱眼开玩偶",
-            "name_en": "见钱眼开玩偶",
-            "name_en_unavailable": true,
+            "name_en": "Money-Grubbing Doll",
             "name_jp": "守銭奴の人形",
             "name_kr": "돈독 오른 인형",
             "name_tw": "见钱眼开玩偶",
@@ -6434,8 +6402,7 @@
         },
         "trap_1016_acarm016": {
             "name": "预备进阶许可",
-            "name_en": "预备进阶许可",
-            "name_en_unavailable": true,
+            "name_en": "Promotion Permit",
             "name_jp": "予備隊員昇進許可",
             "name_kr": "예비 승진 허가증",
             "name_tw": "预备进阶许可",
@@ -6447,8 +6414,7 @@
         },
         "trap_1017_acarm017": {
             "name": "战场分析仪",
-            "name_en": "战场分析仪",
-            "name_en_unavailable": true,
+            "name_en": "Battlefield Analyzer",
             "name_jp": "戦場分析装置",
             "name_kr": "전장 분석기",
             "name_tw": "战场分析仪",
@@ -6460,8 +6426,7 @@
         },
         "trap_1018_acarm018": {
             "name": "震撼弹",
-            "name_en": "震撼弹",
-            "name_en_unavailable": true,
+            "name_en": "Stun Grenade",
             "name_jp": "スタングレネード",
             "name_kr": "진동탄",
             "name_tw": "震撼弹",
@@ -6473,8 +6438,7 @@
         },
         "trap_1019_acarm019": {
             "name": "制式重装盾",
-            "name_en": "制式重装盾",
-            "name_en_unavailable": true,
+            "name_en": "Standard Defender Shield",
             "name_jp": "制式重装シールド",
             "name_kr": "제식 중형 방패",
             "name_tw": "制式重装盾",
@@ -6497,8 +6461,7 @@
         },
         "trap_1020_acarm020": {
             "name": "制式狙击镜",
-            "name_en": "制式狙击镜",
-            "name_en_unavailable": true,
+            "name_en": "Standard Sniper Scope",
             "name_jp": "制式狙撃ゴーグル",
             "name_kr": "제식 조준경",
             "name_tw": "制式狙击镜",
@@ -6510,8 +6473,7 @@
         },
         "trap_1021_acarm021": {
             "name": "制式术师杖",
-            "name_en": "制式术师杖",
-            "name_en_unavailable": true,
+            "name_en": "Standard Caster Wand",
             "name_jp": "制式術師ロッド",
             "name_kr": "제식 스태프",
             "name_tw": "制式术师杖",
@@ -6523,8 +6485,7 @@
         },
         "trap_1022_acarm022": {
             "name": "口袋法阵",
-            "name_en": "口袋法阵",
-            "name_en_unavailable": true,
+            "name_en": "Pocket Arts Circle",
             "name_jp": "携帯式アーツバリア",
             "name_kr": "주머니 마법진",
             "name_tw": "口袋法阵",
@@ -6536,8 +6497,7 @@
         },
         "trap_1023_acarm023": {
             "name": "竞技投币机",
-            "name_en": "竞技投币机",
-            "name_en_unavailable": true,
+            "name_en": "Coin-Operated Machine",
             "name_jp": "競技アーケードマシン",
             "name_kr": "경기용 동전 투입기",
             "name_tw": "竞技投币机",
@@ -6549,8 +6509,7 @@
         },
         "trap_1024_acarm024": {
             "name": "工匠锤",
-            "name_en": "工匠锤",
-            "name_en_unavailable": true,
+            "name_en": "Engineer's Hammer",
             "name_jp": "職人のハンマー",
             "name_kr": "장인의 망치",
             "name_tw": "工匠锤",
@@ -6562,8 +6521,7 @@
         },
         "trap_1025_acarm025": {
             "name": "休眠子裔",
-            "name_en": "休眠子裔",
-            "name_en_unavailable": true,
+            "name_en": "Dormant Heir",
             "name_jp": "眠れる眷属",
             "name_kr": "잠자는 후예",
             "name_tw": "休眠子裔",
@@ -6575,8 +6533,7 @@
         },
         "trap_1026_acarm026": {
             "name": "术师无人机",
-            "name_en": "术师无人机",
-            "name_en_unavailable": true,
+            "name_en": "Caster Drone",
             "name_jp": "術師ドローン",
             "name_kr": "캐스터 드론",
             "name_tw": "术师无人机",
@@ -6588,8 +6545,7 @@
         },
         "trap_1027_acarm027": {
             "name": "卡西米尔模型",
-            "name_en": "卡西米尔模型",
-            "name_en_unavailable": true,
+            "name_en": "Kazimierz Model",
             "name_jp": "カジミエーシュのオブジェ",
             "name_kr": "카시미어 모형",
             "name_tw": "卡西米尔模型",
@@ -6601,8 +6557,7 @@
         },
         "trap_1028_acarm028": {
             "name": "喀兰贸易模型",
-            "name_en": "喀兰贸易模型",
-            "name_en_unavailable": true,
+            "name_en": "Karlan Trade Model",
             "name_jp": "カランド貿易のオブジェ",
             "name_kr": "카란 무역회사 모형",
             "name_tw": "喀兰贸易模型",
@@ -6614,8 +6569,7 @@
         },
         "trap_1029_acarm029": {
             "name": "深海猎人模型",
-            "name_en": "深海猎人模型",
-            "name_en_unavailable": true,
+            "name_en": "Abyssal Hunter Model",
             "name_jp": "アビサルハンターのオブジェ",
             "name_kr": "어비설 헌터스 모형",
             "name_tw": "深海猎人模型",
@@ -6638,8 +6592,7 @@
         },
         "trap_1030_acarm030": {
             "name": "精英重装套组",
-            "name_en": "精英重装套组",
-            "name_en_unavailable": true,
+            "name_en": "Elite Defender Set",
             "name_jp": "エリート重装セット",
             "name_kr": "정예 디펜더 세트",
             "name_tw": "精英重装套组",
@@ -6651,8 +6604,7 @@
         },
         "trap_1031_acarm031": {
             "name": "精英狙击套组",
-            "name_en": "精英狙击套组",
-            "name_en_unavailable": true,
+            "name_en": "Elite Sniper Set",
             "name_jp": "エリート狙撃セット",
             "name_kr": "정예 스나이퍼 세트",
             "name_tw": "精英狙击套组",
@@ -6664,8 +6616,7 @@
         },
         "trap_1032_acarm032": {
             "name": "精英术师套组",
-            "name_en": "精英术师套组",
-            "name_en_unavailable": true,
+            "name_en": "Elite Caster Set",
             "name_jp": "エリート術師セット",
             "name_kr": "정예 캐스터 세트",
             "name_tw": "精英术师套组",
@@ -6677,8 +6628,7 @@
         },
         "trap_1033_acarm033": {
             "name": "歌利亚头盔",
-            "name_en": "歌利亚头盔",
-            "name_en_unavailable": true,
+            "name_en": "Goliath Helmet",
             "name_jp": "ゴリアテの兜",
             "name_kr": "골리앗 투구",
             "name_tw": "歌利亚头盔",
@@ -6690,8 +6640,7 @@
         },
         "trap_1034_acarm034": {
             "name": "M3护甲",
-            "name_en": "M3护甲",
-            "name_en_unavailable": true,
+            "name_en": "M3 Armor",
             "name_jp": "M3アーマー",
             "name_kr": "M3 갑옷",
             "name_tw": "M3护甲",
@@ -6703,8 +6652,7 @@
         },
         "trap_1035_acarm035": {
             "name": "M3利爪",
-            "name_en": "M3利爪",
-            "name_en_unavailable": true,
+            "name_en": "M3 Claw",
             "name_jp": "M3クロー",
             "name_kr": "M3 발톱",
             "name_tw": "M3利爪",
@@ -6716,8 +6664,7 @@
         },
         "trap_1036_acarm036": {
             "name": "便携弹射器",
-            "name_en": "便携弹射器",
-            "name_en_unavailable": true,
+            "name_en": "Portable Launcher",
             "name_jp": "携帯式射出装置",
             "name_kr": "휴대용 사출기",
             "name_tw": "便携弹射器",
@@ -6729,8 +6676,7 @@
         },
         "trap_1037_acarm037": {
             "name": "有限加速器",
-            "name_en": "有限加速器",
-            "name_en_unavailable": true,
+            "name_en": "Miniature Accelerator",
             "name_jp": "有限加速マシン",
             "name_kr": "제한 가속기",
             "name_tw": "有限加速器",
@@ -6742,8 +6688,7 @@
         },
         "trap_1038_acarm038": {
             "name": "全能机械臂",
-            "name_en": "全能机械臂",
-            "name_en_unavailable": true,
+            "name_en": "Multi-Purpose Robotic Arm",
             "name_jp": "万能ロボットアーム",
             "name_kr": "만능 기계팔",
             "name_tw": "全能机械臂",
@@ -6755,8 +6700,7 @@
         },
         "trap_1039_acarm039": {
             "name": "博士投影",
-            "name_en": "博士投影",
-            "name_en_unavailable": true,
+            "name_en": "Doctor Hologram",
             "name_jp": "ドクターのホログラム",
             "name_kr": "박사의 홀로그램",
             "name_tw": "博士投影",
@@ -6823,8 +6767,7 @@
         },
         "trap_1080_acspell001": {
             "name": "法术：恢复",
-            "name_en": "法术：恢复",
-            "name_en_unavailable": true,
+            "name_en": "Arts: Recovery",
             "name_jp": "アーツ：治療",
             "name_kr": "아츠: 회복",
             "name_tw": "法术：恢复",
@@ -6836,8 +6779,7 @@
         },
         "trap_1081_acspell002": {
             "name": "法术：力量",
-            "name_en": "法术：力量",
-            "name_en_unavailable": true,
+            "name_en": "Arts: Strength",
             "name_jp": "アーツ：剛力",
             "name_kr": "아츠: 파워",
             "name_tw": "法术：力量",
@@ -6849,8 +6791,7 @@
         },
         "trap_1082_acspell003": {
             "name": "法术：传动",
-            "name_en": "法术：传动",
-            "name_en_unavailable": true,
+            "name_en": "Arts: Transmission",
             "name_jp": "アーツ：伝動",
             "name_kr": "아츠: 구동",
             "name_tw": "法术：传动",
@@ -6862,8 +6803,7 @@
         },
         "trap_1083_acspell004": {
             "name": "法术：贪婪",
-            "name_en": "法术：贪婪",
-            "name_en_unavailable": true,
+            "name_en": "Arts: Greed",
             "name_jp": "アーツ：貪欲",
             "name_kr": "아츠: 탐욕",
             "name_tw": "法术：贪婪",
@@ -6875,8 +6815,7 @@
         },
         "trap_1084_acspell005": {
             "name": "法术：满足",
-            "name_en": "法术：满足",
-            "name_en_unavailable": true,
+            "name_en": "Arts: Satisfaction",
             "name_jp": "アーツ：充足",
             "name_kr": "아츠: 만족",
             "name_tw": "法术：满足",
@@ -6888,8 +6827,7 @@
         },
         "trap_1085_acspell006": {
             "name": "法术：护盾",
-            "name_en": "法术：护盾",
-            "name_en_unavailable": true,
+            "name_en": "Arts: Shield",
             "name_jp": "アーツ：防壁",
             "name_kr": "아츠: 실드",
             "name_tw": "法术：护盾",
@@ -6901,8 +6839,7 @@
         },
         "trap_1086_acspell007": {
             "name": "法术：榜样",
-            "name_en": "法术：榜样",
-            "name_en_unavailable": true,
+            "name_en": "Arts: Role Model",
             "name_jp": "アーツ：昇進",
             "name_kr": "아츠: 귀감",
             "name_tw": "法术：榜样",
@@ -6914,8 +6851,7 @@
         },
         "trap_1087_acspell008": {
             "name": "法术：屏障",
-            "name_en": "法术：屏障",
-            "name_en_unavailable": true,
+            "name_en": "Arts: Barrier",
             "name_jp": "アーツ：護身",
             "name_kr": "아츠: 보호막",
             "name_tw": "法术：屏障",
@@ -6927,8 +6863,7 @@
         },
         "trap_1088_acspell009": {
             "name": "法术：熟人",
-            "name_en": "法术：熟人",
-            "name_en_unavailable": true,
+            "name_en": "Arts: Familiar Face",
             "name_jp": "アーツ：伝心",
             "name_kr": "아츠: 지인",
             "name_tw": "法术：熟人",
@@ -6940,8 +6875,7 @@
         },
         "trap_1089_acspell010": {
             "name": "法术：同行",
-            "name_en": "法术：同行",
-            "name_en_unavailable": true,
+            "name_en": "Arts: Peer",
             "name_jp": "アーツ：同行",
             "name_kr": "아츠: 동행",
             "name_tw": "法术：同行",
@@ -6964,8 +6898,7 @@
         },
         "trap_1090_acspell011": {
             "name": "法术：提升",
-            "name_en": "法术：提升",
-            "name_en_unavailable": true,
+            "name_en": "Arts: Boost",
             "name_jp": "アーツ：向上",
             "name_kr": "아츠: 향상",
             "name_tw": "法术：提升",
@@ -6977,8 +6910,7 @@
         },
         "trap_1091_acspell012": {
             "name": "法术：迟缓",
-            "name_en": "法术：迟缓",
-            "name_en_unavailable": true,
+            "name_en": "Arts: Slow",
             "name_jp": "アーツ：緩速",
             "name_kr": "아츠: 지연",
             "name_tw": "法术：迟缓",
@@ -6990,8 +6922,7 @@
         },
         "trap_1093_acspell014": {
             "name": "法术：全力",
-            "name_en": "法术：全力",
-            "name_en_unavailable": true,
+            "name_en": "Arts: All-Out",
             "name_jp": "アーツ：全力",
             "name_kr": "아츠: 전력",
             "name_tw": "法术：全力",
@@ -7003,8 +6934,7 @@
         },
         "trap_1094_acspell015": {
             "name": "法术：血税",
-            "name_en": "法术：血税",
-            "name_en_unavailable": true,
+            "name_en": "Arts: Blood Tax",
             "name_jp": "アーツ：血税",
             "name_kr": "아츠: 혈세",
             "name_tw": "法术：血税",
@@ -7016,8 +6946,7 @@
         },
         "trap_1095_acspell016": {
             "name": "法术：破袭",
-            "name_en": "法术：破袭",
-            "name_en_unavailable": true,
+            "name_en": "Arts: Infiltration",
             "name_jp": "アーツ：奇兵",
             "name_kr": "아츠: 습격",
             "name_tw": "法术：破袭",
@@ -7029,8 +6958,7 @@
         },
         "trap_1096_acshopup": {
             "name": "驳船操作员",
-            "name_en": "驳船操作员",
-            "name_en_unavailable": true,
+            "name_en": "Barge Captain",
             "name_jp": "補給船操舵手",
             "name_kr": "보급선 담당자",
             "name_tw": "驳船操作员",
@@ -7042,8 +6970,7 @@
         },
         "trap_1097_acshopre": {
             "name": "补给调配器",
-            "name_en": "补给调配器",
-            "name_en_unavailable": true,
+            "name_en": "Supply Distributor",
             "name_jp": "物資調達器",
             "name_kr": "보급 관리기",
             "name_tw": "补给调配器",
@@ -7055,8 +6982,7 @@
         },
         "trap_1098_acshopfr": {
             "name": "补给留存器",
-            "name_en": "补给留存器",
-            "name_en_unavailable": true,
+            "name_en": "Supply Retainer",
             "name_jp": "物資保管器",
             "name_kr": "보급 저장기",
             "name_tw": "补给留存器",
@@ -7068,8 +6994,7 @@
         },
         "trap_1099_acspell017": {
             "name": "晋升调配特许",
-            "name_en": "晋升调配特许",
-            "name_en_unavailable": true,
+            "name_en": "Advanced Deployment Permit",
             "name_jp": "昇進配分許可証",
             "name_kr": "승진 모집 허가증",
             "name_tw": "晋升调配特许",
@@ -7092,8 +7017,7 @@
         },
         "trap_1100_acreddoor": {
             "name": "敌人入口",
-            "name_en": "敌人入口",
-            "name_en_unavailable": true,
+            "name_en": "Enemy Entrance",
             "name_jp": "敵の入口",
             "name_kr": "침입 포인트",
             "name_tw": "敌人入口",
@@ -7105,8 +7029,7 @@
         },
         "trap_1101_acplane": {
             "name": "补给驳船",
-            "name_en": "补给驳船",
-            "name_en_unavailable": true,
+            "name_en": "Supply Barge",
             "name_jp": "補給船",
             "name_kr": "보급선",
             "name_tw": "补给驳船",
