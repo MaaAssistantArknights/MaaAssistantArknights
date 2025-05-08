@@ -35,7 +35,7 @@
     <system:String x:Key="ResourceVersion">資源版本</system:String>
     <system:String x:Key="ResourceDateTime">資源日期</system:String>
     <system:String x:Key="Off">關閉</system:String>
-    <system:String x:Key="ExternalNotificationTips">請注意：外部通知功能目前僅會發送「所有任務完成」 的通知。</system:String>
+    <system:String x:Key="ExternalNotificationTips">請注意：外部通知功能目前僅會發送｢所有任務完成｣ 的通知。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
     <system:String x:Key="ExternalNotificationEnabled">啟用的通知配置</system:String>
     <system:String x:Key="ExternalNotificationEnableDetails">輸出詳細信息</system:String>
@@ -71,7 +71,7 @@
     <system:String x:Key="UseGpuForInference">使用 GPU 加速推理</system:String>
     <system:String x:Key="GpuOptionDisable">不使用</system:String>
     <system:String x:Key="GpuOptionSystemDefault">系統預設 GPU</system:String>
-    <system:String x:Key="GpuDeprecatedMessage">不推薦使用當前選擇的推理加速 GPU（{0}）。\n\n您可以前往「設置 - 性能設置」選擇其他 GPU 或禁用此消息。</system:String>
+    <system:String x:Key="GpuDeprecatedMessage">不推薦使用當前選擇的推理加速 GPU（{0}）。\n\n您可以前往｢設置 - 性能設置｣選擇其他 GPU 或禁用此消息。</system:String>
     <system:String x:Key="GpuAllowDeprecated">允許使用不推薦的 GPU</system:String>
     <!--  設定指引  -->
     <system:String x:Key="TaskSettings">任務設定</system:String>
@@ -157,17 +157,17 @@
     <system:String x:Key="StartingCoreChar">開局幹員（單個）</system:String>
     <system:String x:Key="StartingCoreCharTip">不填寫則使用預設策略。</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">輸入的幹員未在 battle_data 中。</system:String>
-    <system:String x:Key="RoguelikeStartWithEliteTwo">凹「開局幹員」直升精二</system:String>
-    <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">只凹「開局幹員」直升精二，不進行作戰</system:String>
+    <system:String x:Key="RoguelikeStartWithEliteTwo">凹｢開局幹員｣直升精二</system:String>
+    <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">只凹｢開局幹員｣直升精二，不進行作戰</system:String>
     <system:String x:Key="RoguelikeStartWithTwoIdeas">Repeat for a start with 2 ideas</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">凹第一層遠見密文板，不進行作戰</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活隊凹開局密文板</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最多寫三個，並用英文分號;隔開</system:String>
     <system:String x:Key="RoguelikeCollapseList">坍縮範式列表</system:String>
-    <system:String x:Key="RoguelikeCollapseListTip">用英文分號「;」隔開，留白將使用默認列表。</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit">「開局幹員」使用助戰</system:String>
+    <system:String x:Key="RoguelikeCollapseListTip">用英文分號｢;｣隔開，留白將使用默認列表。</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnit">｢開局幹員｣使用助戰</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助戰</system:String>
-    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">肉鴿在戰鬥結束前延遲「停止」動作</system:String>
+    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">肉鴿在戰鬥結束前延遲｢停止｣動作</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">在第五層 BOSS 前暫停</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">滿級後自動停止</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">启用刷钱种子</system:String>
@@ -272,7 +272,7 @@
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 使用海外源：
     ● 軟體版本：由 MAA Team 提供 API 檢查更新，從 GitHub 或由 MAA Team 提供的國內鏡像自動拉取更新包
-    ● 資源版本：由 MirrorChyan 提供免費的更新檢測，可手動在設定中點擊「資源更新」從 GitHub 下載
+    ● 資源版本：由 MirrorChyan 提供免費的更新檢測，可手動在設定中點擊｢資源更新｣從 GitHub 下載
 
 🔑 使用 MirrorChyan：
     ● 軟體與資源優先通過 MirrorChyan 高速下載
@@ -282,16 +282,16 @@
     <system:String x:Key="ForceGithubGlobalSource">強制使用 GitHub</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">切換更新源後填寫</system:String>
-    <system:String x:Key="MirrorChyanSoftwareUpdateTip">偵測到軟體更新。請前往「設定-更新設定」設定 MirrorChyan CDK 或切換到全域來源。</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">偵測到資源更新: {0}。請前往「設定-更新設定-資源更新」手動更新，或設定 MirrorChayn CDK 以自動更新。</system:String>
+    <system:String x:Key="MirrorChyanSoftwareUpdateTip">偵測到軟體更新。請前往｢設定-更新設定｣設定 MirrorChyan CDK 或切換到全域來源。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">偵測到資源更新: {0}。請前往｢設定-更新設定-資源更新｣手動更新，或設定 MirrorChayn CDK 以自動更新。</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateShortTip">偵測到資源更新: {0}</system:String>
     <system:String x:Key="MirrorChyanCdkExpired">CDK 已過期，請使用新的 CDK 進行授權。</system:String>
     <system:String x:Key="MirrorChyanCdkInvalid">CDK 無效，請檢查輸入是否正確。</system:String>
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">CDK 今日下載次數已達上限，請明日再試。</system:String>
     <system:String x:Key="MirrorChyanCdkMismatched">CDK 類型與待下載的資源不匹配，請檢查 CDK 適用範圍。</system:String>
     <system:String x:Key="NewVersionFoundTitle">檢測到新版本</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">正在使用「全域來源」下載…</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">正在使用「MirrorChyan」下載…</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">正在使用｢全域來源｣下載…</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">正在使用｢MirrorChyan｣下載…</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">版本號: </system:String>
     <system:String x:Key="NewVersionFoundDescInfo" xml:space="preserve">更新資訊: </system:String>
     <system:String x:Key="NewVersionFoundButtonGoWebpage">前往頁面查看</system:String>
@@ -327,7 +327,7 @@
     <system:String x:Key="ConfigExists">配置 &lt;{0}&gt; 已存在</system:String>
     <system:String x:Key="LaunchOnSystemStartup">開機自動啟動 MAA</system:String>
     <system:String x:Key="LaunchOnSystemStartupAdminPrompt">
-        "以系統管理員身分執行" 不支援開機自動啟動。不建議長期以系統管理員身分執行 MAA。\n如有需要，請前往 控制台 &gt; 系統管理工具 &gt; 工作排程器 建立工作。設定安全性選項時，請確保已勾選「以最高權限執行」。
+        "以系統管理員身分執行" 不支援開機自動啟動。不建議長期以系統管理員身分執行 MAA。\n如有需要，請前往 控制台 &gt; 系統管理工具 &gt; 工作排程器 建立工作。設定安全性選項時，請確保已勾選｢以最高權限執行｣。
     </system:String>
     <system:String x:Key="RunTaskAfterLaunch">啟動 MAA 後直接執行</system:String>
     <system:String x:Key="MinimizeAfterLaunch">啟動 MAA 後直接最小化</system:String>
@@ -342,7 +342,7 @@
     <system:String x:Key="EmulatorPathSelectionErrorImSure">我確定沒選錯</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">好的，我會重新選擇</system:String>
     <system:String x:Key="EmulatorPathNotExist">模擬器路徑不存在</system:String>
-    <system:String x:Key="EmulatorPathEmptyWarning">模擬器路徑為空，「{0}」與「{1}」勾選狀態已被還原</system:String>
+    <system:String x:Key="EmulatorPathEmptyWarning">模擬器路徑為空，｢{0}｣與｢{1}｣勾選狀態已被還原</system:String>
     <system:String x:Key="Select">選擇</system:String>
     <system:String x:Key="ForcedReplaceAdb">強制替換 ADB</system:String>
     <system:String x:Key="TouchMode">觸控模式</system:String>
@@ -390,8 +390,8 @@
     <system:String x:Key="CreditFight">借助戰打 OF-1 賺信用</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">訪問好友後借助戰打一把 OF-1 賺 30 信用。
 一日只執行一次。
-關卡選擇爲「當前/上次」時此功能無效。
-別傳「火藍之心」關卡 OF-1 未解鎖時請勿勾選。</system:String>
+關卡選擇爲｢當前/上次｣時此功能無效。
+別傳｢火藍之心｣關卡 OF-1 未解鎖時請勿勾選。</system:String>
     <system:String x:Key="HighPriority">優先購買 子串即可 分號分隔</system:String>
     <system:String x:Key="Blacklist">黑名單 子串即可 分號分隔</system:String>
     <system:String x:Key="HighPriorityDefault">招聘許可</system:String>
@@ -407,7 +407,7 @@
     <system:String x:Key="ReceiveMail">領取所有郵件獎勵</system:String>
     <system:String x:Key="ReceiveFreeRecruit">進行限定池贈送的每日免費單抽</system:String>
     <system:String x:Key="ReceiveFreeRecruitTip">若不存在免費單抽，則不會抽取</system:String>
-    <system:String x:Key="GachaWarning">該功能屬於危險功能，可能會造成誤抽\n按下「確認」鍵即視為你了解並願意承擔可能出現的風險</system:String>
+    <system:String x:Key="GachaWarning">該功能屬於危險功能，可能會造成誤抽\n按下｢確認｣鍵即視為你了解並願意承擔可能出現的風險</system:String>
     <system:String x:Key="ReceiveOrundum">收集幸運牆的每日合成玉獎勵</system:String>
     <system:String x:Key="ReceiveMining">領取限時開採許可的每日合成玉獎勵</system:String>
     <system:String x:Key="ReceiveSpecialAccess">領取特殊贈送月卡獎勵</system:String>
@@ -428,7 +428,7 @@
     <system:String x:Key="SwitchResolutionTip">將模擬器解析度更改為 1920x1080！</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">請確保模擬器設定為 1920x1080</system:String>
     <system:String x:Key="AllowUseStoneSave">允許吃源石保存狀態</system:String>
-    <system:String x:Key="AllowUseStoneSaveWarning">該功能屬於危險功能。按下「確認」鍵即視為你了解並願意承擔可能出現的風險。</system:String>
+    <system:String x:Key="AllowUseStoneSaveWarning">該功能屬於危險功能。按下｢確認｣鍵即視為你了解並願意承擔可能出現的風險。</system:String>
     <system:String x:Key="UseAlternateStage">使用備選關卡</system:String>
     <system:String x:Key="UseRemainingSanityStage">使用剩餘理智</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">在完成主任務後刷取指定關卡，不使用理智藥 / 碎石</system:String>
@@ -439,8 +439,8 @@
     <system:String x:Key="MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
     <system:String x:Key="CustomStageCode">手動輸入關卡名</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">支援大部分主線關卡名與原清單的關卡名（如 4-10、AP-5、H10-1-Hard）
-可在關卡結尾輸入「Normal/Hard」表示需要切換標準與磨難難度
-可輸入「SSReopen-XX」一次性代理 SS 複刻的普通關</system:String>
+可在關卡結尾輸入｢Normal/Hard｣表示需要切換標準與磨難難度
+可輸入｢SSReopen-XX｣一次性代理 SS 複刻的普通關</system:String>
     <system:String x:Key="AutoDetectConnection">自動檢測連接</system:String>
     <system:String x:Key="AutoDetectConnectionNotSupported">該連接配置不支援自動檢測連接，請嘗試手動填寫端口號</system:String>
     <system:String x:Key="AutoDetectConnectionTip">每次檢測完成後會自動取消勾選，若需要重新檢測可再次勾選</system:String>
@@ -448,7 +448,7 @@
     <system:String x:Key="AccountSwitch">帳號切換</system:String>
     <system:String x:Key="AccountSwitchManualRun">立即切换</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">需要切換到的帳號，留空以停用。
-輸入登入介面顯示的內容，如「123****4567」，可輸入「123****4567」或「4567」或「23****45」
+輸入登入介面顯示的內容，如｢123****4567｣，可輸入｢123****4567｣或｢4567｣或｢23****45｣
 僅支援官服、B服，不支援登入帳號。</system:String>
     <system:String x:Key="AdbPath">ADB 路徑（相對/絕對）</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">所選檔案名稱不包含 ADB，請檢查是否選擇了錯誤的檔案或誤選成了模擬器本體。</system:String>
@@ -494,7 +494,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="LdExtrasNotEnabledMessage">LD 截圖增強未生效，请檢查相關設定</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 連線失敗時嘗試啟動模擬器</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">重連失敗 20 次後嘗試重開模擬器，使用後台定時任務且設定任務完成關閉模擬器時必須勾選</system:String>
-    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">模擬器路徑為空！請填寫「啟動設定-模擬器路徑」後重新勾選。</system:String>
+    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">模擬器路徑為空！請填寫｢啟動設定-模擬器路徑｣後重新勾選。</system:String>
     <system:String x:Key="AllowAdbRestart">連接失敗後嘗試重開 ADB 伺服器</system:String>
     <system:String x:Key="AllowAdbHardRestart">連接失敗後嘗試重開 ADB 程式</system:String>
     <!--  !設定  -->
@@ -625,7 +625,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="RecruitmentRecognitionTip">小提示: 和主介面的自動公招是兩個獨立的功能，請手動打開遊戲公招 Tags 介面後使用 ~</system:String>
     <system:String x:Key="AutoSettingTime">自動設定時間</system:String>
     <system:String x:Key="RecruitmentShowPotential">顯示幹員潛能（四星及以上）</system:String>
-    <system:String x:Key="RecruitmentShowPotentialTips">請使用「幹員辨識」獲得幹員資訊。</system:String>
+    <system:String x:Key="RecruitmentShowPotentialTips">請使用｢幹員辨識｣獲得幹員資訊。</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">自動選擇 3 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">自動選擇 4 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">自動選擇 5 星 Tags</system:String>
@@ -652,7 +652,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="VideoRecognition">影片辨識</system:String>
     <system:String x:Key="StartToVideoRecognition">開始辨識</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">打開資料夾</system:String>
-    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">請打開「自動戰鬥」頁，將攻略影片文件拖入後開始即可。
+    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">請打開｢自動戰鬥｣頁，將攻略影片文件拖入後開始即可。
 需要影片分辨率為 16:9，且無黑邊、模擬器邊框、異形屏矯正等干擾因素。</system:String>
     <!--  !自動戰鬥  -->
     <!--  Gacha Recognition  -->
@@ -708,10 +708,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="FailedToLikeWebJson">出現錯誤，評價失敗 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">感謝評價！\n網頁已經開放評論區，歡迎前往留下你的評論！</system:String>
     <system:String x:Key="AutoSquad">自動編隊</system:String>
-    <system:String x:Key="AutoSquadTip">自動編隊暫時無法辨識「特別關注」的幹員</system:String>
+    <system:String x:Key="AutoSquadTip">自動編隊暫時無法辨識｢特別關注｣的幹員</system:String>
     <system:String x:Key="AddTrust">補充低信賴幹員</system:String>
     <system:String x:Key="AddUserAdditional">追加自定幹員</system:String>
-    <system:String x:Key="AddUserAdditionalTip">使用「;」作為分隔符，用「,」分隔操作員姓名和技能，例：史尔特尔,3;艾雅法拉,1</system:String>
+    <system:String x:Key="AddUserAdditionalTip">使用｢;｣作為分隔符，用｢,｣分隔操作員姓名和技能，例：史尔特尔,3;艾雅法拉,1</system:String>
     <system:String x:Key="UseCopilotList">戰鬥列表</system:String>
     <system:String x:Key="UseCopilotListTip">開始前請切換至關卡選擇頁面</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(突襲)</system:String>
@@ -729,12 +729,12 @@ C:\\leidian\\LDPlayer9。\n
     <!--  日誌  -->
     <system:String x:Key="CopilotTip">
         小提示: \n\n
-        1. 主線、故事集、SideStory 請在有「開始行動」按鈕的介面再使用本功能。\n\n
-        2. 模擬悖論需要關閉「自動編隊」，選好技能後在「開始模擬」按鈕的介面再開始。\n\n
+        1. 主線、故事集、SideStory 請在有｢開始行動｣按鈕的介面再使用本功能。\n\n
+        2. 模擬悖論需要關閉｢自動編隊｣，選好技能後在｢開始模擬｣按鈕的介面再開始。\n\n
         3. 保全派駐 在 resource/copilot 文件夾下內建了多份作業。\n
-        請手動編隊後在「開始部署」介面開始（可配合「循環次數」使用）。\n\n
-        4. 使用好友助戰可以關閉「自動編隊」，手動選擇幹員後開始。\n\n
-        5. 將幹員標為「特別關注」可能會影響「自動編隊」時的識別與選擇。建議在使用「自動編隊」時考慮移除「特別注意」標記，或手動補充缺少的幹員以確保編隊完整。\n\n
+        請手動編隊後在｢開始部署｣介面開始（可配合｢循環次數｣使用）。\n\n
+        4. 使用好友助戰可以關閉｢自動編隊｣，手動選擇幹員後開始。\n\n
+        5. 將幹員標為｢特別關注｣可能會影響｢自動編隊｣時的識別與選擇。建議在使用｢自動編隊｣時考慮移除｢特別注意｣標記，或手動補充缺少的幹員以確保編隊完整。\n\n
         6. Copilot 作業站的神秘代碼可點擊輸入框右側的貼上按鈕貼上。左鍵單擊可貼上單個作業，右鍵單擊則可貼上整個作業集。\n\n
         7. 戰鬥列表:\n
         選擇作業後，檢查列表下方的關卡名是否正確 (如: CV-EX-1)。\n
@@ -762,7 +762,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">解壓更新包失敗，請嘗試手動解壓根目錄下更新包。</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">請關閉模擬器與 ADB 或重開電腦後，使用系統管理員身分執行 MAA 進行操作。</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">檔被佔用，請重開電腦後重試。</system:String>
-    <system:String x:Key="ErrorSolutionSelectDefaultBrowser">打開連結失敗，請前往「Windows 設置」選擇默認瀏覽器。</system:String>
+    <system:String x:Key="ErrorSolutionSelectDefaultBrowser">打開連結失敗，請前往｢Windows 設置｣選擇默認瀏覽器。</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">建立 GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">加入 QQ 群</system:String>
     <system:String x:Key="CopyErrorMessage">複製錯誤資訊</system:String>
@@ -777,7 +777,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="AdbDownloadFailedDesc">請手動進行操作（將 adb.exe 重新命名後替換上方模擬器自帶 ADB 即可）</system:String>
     <system:String x:Key="SuccessfullyReplacedAdb">成功替換 ADB 文件</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">替換 ADB 失敗</system:String>
-    <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">已使用本地 ADB 進行連接。如果要再次嘗試，請「關閉模擬器與 ADB」，或「重新啟動電腦後在未開啟模擬器的情況下使用管理員權限打開 MAA」進行操作。</system:String>
+    <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">已使用本地 ADB 進行連接。如果要再次嘗試，請｢關閉模擬器與 ADB｣，或｢重新啟動電腦後在未開啟模擬器的情況下使用管理員權限打開 MAA｣進行操作。</system:String>
     <system:String x:Key="InitializationError">初始化錯誤！</system:String>
     <system:String x:Key="ResolutionNotSupported">模擬器解析度不支持，請設定為 720p 或更高，且為 16:9 比例</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">模擬器解析度獲取失敗，建議重開模擬器與 ADB 或重開電腦，或更換模擬器後再次嘗試</system:String>
@@ -886,14 +886,14 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BattleFormation">開始編隊</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">選擇幹員: </system:String>
     <system:String x:Key="CurrentSteps">當前步驟: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">不支援的關卡，請檢查關卡名稱或前往「設置 - 更新設定 - 資源更新」，嘗試更新資源版本！</system:String>
+    <system:String x:Key="UnsupportedLevel">不支援的關卡，請檢查關卡名稱或前往｢設置 - 更新設定 - 資源更新｣，嘗試更新資源版本！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">辨識結果: </system:String>
     <system:String x:Key="ConnectFailed">連接失敗</system:String>
     <system:String x:Key="TryToReconnectByAdb">正在嘗試重连</system:String>
     <system:String x:Key="TryToStartEmulator">正在嘗試啟動模擬器</system:String>
     <system:String x:Key="RestartAdb">正在嘗試重開 ADB 伺服器</system:String>
     <system:String x:Key="HardRestartAdb">正在嘗試重開 ADB 程式</system:String>
-    <system:String x:Key="CheckSettings">請「檢查連接設定」、「嘗試重開模擬器與 ADB」或「重開電腦」</system:String>
+    <system:String x:Key="CheckSettings">請｢檢查連接設定｣、｢嘗試重開模擬器與 ADB｣或｢重開電腦｣</system:String>
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">強制顯示 MAA</system:String>
@@ -912,8 +912,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Discord">Discord</system:String>
     <!--  !About  -->
     <!--  Issues  -->
-    <system:String x:Key="CheckHelpBeforeReportingIssue">請在確認您的問題不屬於「常見問題」後，再進行「問題回饋」</system:String>
-    <system:String x:Key="CheckUpdateBeforeReportingIssue">請先升級並測試新版是否仍有此問題，確認非「常見問題」後再進行「問題回饋」</system:String>
+    <system:String x:Key="CheckHelpBeforeReportingIssue">請在確認您的問題不屬於｢常見問題｣後，再進行｢問題回饋｣</system:String>
+    <system:String x:Key="CheckUpdateBeforeReportingIssue">請先升級並測試新版是否仍有此問題，確認非｢常見問題｣後再進行｢問題回饋｣</system:String>
     <system:String x:Key="Help">常見問題</system:String>
     <system:String x:Key="Issue">問題回饋</system:String>
     <system:String x:Key="GenerateSupportPayload">產生紀錄壓縮包</system:String>
@@ -945,10 +945,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="EasterEggsRules" xml:space="preserve">1. MAA 正式版不會出現 Debug 模式。如果你在運行時看到 Debug 選項，請立即關閉軟件，不要點擊它，並聯繫最近的 MAA 開發者。\n
 2. 基建換班是自動的。如果你發現某個幹員連續工作了 72 小時以上，請手動調整班次，並檢查系統時間是否正常。\n
 3. 公開招募的標籤不會改變。如果發現標籤在倒計時結束前自行更換，不要繼續招募，重啟 MAA 後再操作。\n
-4. MAA 不會主動發送好友申請。如果收到來自 「MAA_System」 的好友請求，不要接受，並刪除該賬號。\n
+4. MAA 不會主動發送好友申請。如果收到來自 ｢MAA_System｣ 的好友請求，不要接受，並刪除該賬號。\n
 5. 肉鴿輔助僅提供建議。若遊戲自動選擇了 不存在的選項，強制退出並重新啟動客戶端。\n
-6. MAA 的日誌文件不應包含亂碼。如果發現日誌中出現 「ERROR: 數據解析失敗」 以外的異常信息，刪除日誌並重新安裝軟件。\n
-7. 夜間模式是安全的。但如果 MAA 在 凌晨 3:33 自動啟動並運行 「未知任務」，請拔掉電源，等待日出後再使用。\n
+6. MAA 的日誌文件不應包含亂碼。如果發現日誌中出現 ｢ERROR: 數據解析失敗｣ 以外的異常信息，刪除日誌並重新安裝軟件。\n
+7. 夜間模式是安全的。但如果 MAA 在 凌晨 3:33 自動啟動並運行 ｢未知任務｣，請拔掉電源，等待日出後再使用。\n
 8. 最後一條規則不存在。如果你看到了這條，請忘記它，並正常使用 MAA。\n
 9. 請不要在 MAA 裡點炒...锟斤拷拷拷拷喜報拷拷拷飯。\n
 10. Mirror醬是善良的，你只要付出小小的代價，就能得到祂的庇護。\n
@@ -970,7 +970,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">熱更數據獲取成功</system:String>
     <system:String x:Key="GameResourceUpdating">遊戲資源正在更新。</system:String>
-    <system:String x:Key="GameResourceUpdatingMirrorChyan">正在使用「MirrorChyan」更新資源{0}……</system:String>
+    <system:String x:Key="GameResourceUpdatingMirrorChyan">正在使用｢MirrorChyan｣更新資源{0}……</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">正在編製索引</system:String>
     <system:String x:Key="GameResourceNotModified">遊戲資源已更新。</system:String>
     <system:String x:Key="GameResourceUpdated">遊戲資源已更新。</system:String>
@@ -1012,7 +1012,7 @@ C:\\leidian\\LDPlayer9。\n
 目前生息演算的支援仍處於中期階段，使用時請注意以下幾點：
 
  透過開局刷點數：(小心已有存檔被刪除)
-  1. 點數刷滿後會輸出 「任務完成」，自動停止任務
+  1. 點數刷滿後會輸出 ｢任務完成｣，自動停止任務
   2. 不要在生息演算的編隊中有幹員的情況下使用
   3. 手動確認存檔情況並刪除，以免 MAA 刪除你的珍貴存檔
   4. 導航還沒寫，不能從生息演算以外的位置開始任務
