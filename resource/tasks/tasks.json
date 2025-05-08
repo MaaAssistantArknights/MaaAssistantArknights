@@ -5092,8 +5092,8 @@
         "roi": [560, 560, 160, 160],
         "postDelay": 1000,
         "next": [
-            "GreenTicket@Store@ClickItem",
             "GreenTicket@Store@PurchasedConfirm",
+            "GreenTicket@Store@ClickItem",
             "GreenTicket@Store@ClickSecondFloor",
             "Stop"
         ]
@@ -5143,6 +5143,6 @@
         "action": "ClickSelf",
         "roi": [560, 560, 160, 160],
         "postDelay": 1000,
-        "next": ["YellowTicket@Store@ClickItem", "YellowTicket@Store@PurchasedConfirm", "Stop"]
+        "next": ["YellowTicket@Store@PurchasedConfirm", "YellowTicket@Store@ClickItem", "Stop"]
     }
 }

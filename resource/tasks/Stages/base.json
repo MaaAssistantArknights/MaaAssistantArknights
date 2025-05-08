@@ -70,7 +70,7 @@
         "action": "ClickSelf",
         "roi": [560, 560, 160, 160],
         "postDelay": 1000,
-        "next": ["SS@Store@ClickItem", "SS@Store@PurchasedConfirm", "SS@Store@Swipe"]
+        "next": ["SS@Store@PurchasedConfirm", "SS@Store@ClickItem", "SS@Store@Swipe"]
     },
     "SS@Store@Swipe": {
         "baseTask": "SlowlySwipeToTheRight",
