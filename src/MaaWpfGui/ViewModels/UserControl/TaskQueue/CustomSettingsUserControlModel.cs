@@ -11,7 +11,8 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
-using System;
+
+using MaaWpfGui.Configuration.Single.MaaTask;using System;
 using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Constants;
@@ -41,6 +42,14 @@ public class CustomSettingsUserControlModel : TaskViewModel
             value = value.Replace("，", ",").Replace("；", ";");
             SetAndNotify(ref _taskName, value);
             OnPropertyChanged(nameof(FormattedTaskNames));
+        }
+    }
+
+    public override void RefreshUI(BaseTask baseTask)
+    {
+        if (baseTask is CustomTask)
+        {
+            Refresh();
         }
     }
 

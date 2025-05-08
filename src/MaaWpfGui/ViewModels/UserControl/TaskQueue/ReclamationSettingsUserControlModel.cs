@@ -11,10 +11,9 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using MaaWpfGui.Constants;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
@@ -36,103 +35,75 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
     /// <summary>
     /// Gets the list of reclamation themes.
     /// </summary>
-    public List<CombinedData> ReclamationThemeList { get; } =
+    public List<GenericCombinedData<ReclamationTheme>> ReclamationThemeList { get; } =
         [
-            new() { Display = $"{LocalizationHelper.GetString("ReclamationThemeFire")} ({LocalizationHelper.GetString("ClosedStage")})", Value = "Fire" },
-            new() { Display = LocalizationHelper.GetString("ReclamationThemeTales"), Value = "Tales" },
+            new() { Display = $"{LocalizationHelper.GetString("ReclamationThemeFire")} ({LocalizationHelper.GetString("ClosedStage")})", Value = ReclamationTheme.Fire },
+            new() { Display = LocalizationHelper.GetString("ReclamationThemeTales"), Value = ReclamationTheme.Tales },
         ];
-
-    private string _reclamationTheme = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationTheme, "Tales");
 
     /// <summary>
     /// Gets or sets the Reclamation theme.
     /// </summary>
-    public string ReclamationTheme
+    public ReclamationTheme ReclamationTheme
     {
-        get => _reclamationTheme;
-        set
-        {
-            SetAndNotify(ref _reclamationTheme, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationTheme, value);
-        }
+        get => GetTaskConfig<ReclamationTask>()?.Theme ?? default;
+        set => SetTaskConfig<ReclamationTask>(t => t.Theme == value, t => t.Theme = value);
     }
 
     /// <summary>
     /// Gets the list of reclamation modes.
     /// </summary>
-    public List<GenericCombinedData<int>> ReclamationModeList { get; } =
+    public List<GenericCombinedData<ReclamationMode>> ReclamationModeList { get; } =
         [
-            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityNoSave"), Value = 0 },
-            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityInSave"), Value = 1 },
+            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityNoSave"), Value = ReclamationMode.NoArchive },
+            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityInSave"), Value = ReclamationMode.Archive },
         ];
-
-    private int _reclamationMode = int.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMode, "1"), out var outMode) ? outMode : 1;
 
     /// <summary>
     /// Gets or sets 策略，无存档刷生息点数 / 有存档刷生息点数
     /// </summary>
-    public int ReclamationMode
+    public ReclamationMode ReclamationMode
     {
-        get => _reclamationMode;
-        set
-        {
-            SetAndNotify(ref _reclamationMode, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationMode, value.ToString());
-        }
+        get => GetTaskConfig<ReclamationTask>()?.Mode ?? default;
+        set => SetTaskConfig<ReclamationTask>(t => t.Mode == value, t => t.Mode = value);
     }
-
-    private string _reclamationToolToCraft = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationToolToCraft, string.Empty).Replace('；', ';');
 
     public string ReclamationToolToCraft
     {
-        get
-        {
-            if (string.IsNullOrEmpty(_reclamationToolToCraft))
-            {
-                return LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);
-            }
-
-            return _reclamationToolToCraft;
-        }
-
+        get => GetTaskConfig<ReclamationTask>()?.ToolToCraft ?? string.Empty;
         set
         {
-            value = value.Replace('；', ';');
-            SetAndNotify(ref _reclamationToolToCraft, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationToolToCraft, value);
-        }
-    }
-
-    private int _reclamationIncrementMode = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationIncrementMode, "0"));
-
-    public int ReclamationIncrementMode
-    {
-        get => _reclamationIncrementMode;
-        set
-        {
-            SetAndNotify(ref _reclamationIncrementMode, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationIncrementMode, value.ToString());
+            value = value.Replace('；', ';').Trim();
+            SetTaskConfig<ReclamationTask>(t => t.ToolToCraft == value, t => t.ToolToCraft = value);
         }
     }
 
     /// <summary>
     /// Gets the list of reclamation increment modes.
     /// </summary>
-    public List<CombinedData> ReclamationIncrementModeList { get; } =
+    public List<GenericCombinedData<int>> ReclamationIncrementModeList { get; } =
         [
-            new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeClick"), Value = "0" },
-            new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeHold"), Value = "1" },
+            new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeClick"), Value = 0 },
+            new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeHold"), Value = 1 },
         ];
 
-    private string _reclamationMaxCraftCountPerRound = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, "16");
+    public int ReclamationIncrementMode
+    {
+        get => GetTaskConfig<ReclamationTask>()?.IncrementMode ?? default;
+        set => SetTaskConfig<ReclamationTask>(t => t.IncrementMode == value, t => t.IncrementMode = value);
+    }
 
     public int ReclamationMaxCraftCountPerRound
     {
-        get => int.Parse(_reclamationMaxCraftCountPerRound);
-        set
+        get => GetTaskConfig<ReclamationTask>()?.MaxCraftCountPerRound ?? default;
+        set => SetTaskConfig<ReclamationTask>(t => t.MaxCraftCountPerRound == value, t => t.MaxCraftCountPerRound = value);
+    }
+
+    public override void RefreshUI(BaseTask baseTask)
+    {
+        if (baseTask is ReclamationTask)
         {
-            SetAndNotify(ref _reclamationMaxCraftCountPerRound, value.ToString());
-            ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, value.ToString());
+            Refresh();
         }
     }
 
@@ -159,13 +130,15 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
     /// <returns>返回(Asst任务类型, 参数)</returns>
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
+        var toolToCraft = !string.IsNullOrEmpty(ReclamationToolToCraft) ? ReclamationToolToCraft : LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);
+
         return new AsstReclamationTask()
         {
             Theme = ReclamationTheme,
             Mode = ReclamationMode,
             IncrementMode = ReclamationIncrementMode,
             MaxCraftCountPerRound = ReclamationMaxCraftCountPerRound,
-            ToolToCraft = ReclamationToolToCraft.Split(';').Select(s => s.Trim()).ToList(),
+            ToolToCraft = toolToCraft.Split(';').Select(s => s.Trim()).ToList(),
         }.Serialize();
     }
 }

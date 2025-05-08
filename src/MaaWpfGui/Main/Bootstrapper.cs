@@ -26,7 +26,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
 using GlobalHotKey;
-using MaaWpfGui.Configuration;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Properties;
 using MaaWpfGui.Services;
@@ -181,6 +181,7 @@ namespace MaaWpfGui.Main
             }
 
             ConfigurationHelper.Load();
+            ConfigConverter.ConvertConfig();
             LocalizationHelper.Load();
             ETagCache.Load();
 
@@ -471,7 +472,7 @@ namespace MaaWpfGui.Main
         {
             // 配置名可能就包在引号中，需要转义符，如 \"a\"
             string currentConfig = ConfigurationHelper.GetCurrentConfiguration();
-            return currentConfig != desiredConfig && ConfigurationHelper.SwitchConfiguration(desiredConfig);
+            return currentConfig != desiredConfig && ConfigurationHelper.SwitchConfiguration(desiredConfig) && ConfigFactory.SwitchConfig(desiredConfig);
         }
     }
 }
