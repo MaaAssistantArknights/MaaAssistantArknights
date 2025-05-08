@@ -1370,7 +1370,10 @@
         "text": ["전체"]
     },
     "BattleStartPre": {
-        "ocrReplace": [["개.+", "개시"]],
+        "ocrReplace": [
+            [".+드모드", "하드모드"],
+            ["개.+", "개시"]
+        ],
         "text": ["작전개시", "하드모드개시"]
     },
     "BattleStartOCR": {
