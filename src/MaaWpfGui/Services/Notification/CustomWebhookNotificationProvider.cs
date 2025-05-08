@@ -52,14 +52,16 @@ public class CustomWebhookNotificationProvider(IHttpService httpService) : IExte
             return false;
         }
 
-        // 只要返回200/204等都算成功
-        if (response.StatusCode != System.Net.HttpStatusCode.OK && response.StatusCode != System.Net.HttpStatusCode.NoContent)
+        try
         {
-            _logger.Warning("Custom Webhook failed to send: " + response.StatusCode);
+            response.EnsureSuccessStatusCode();
+            _logger.Information("Custom Webhook sent successfully, response: " + response);
+            return true;
+        }
+        catch (HttpRequestException ex)
+        {
+            _logger.Warning("Custom Webhook failed to send: " + ex.Message);
             return false;
         }
-
-        _logger.Information("Custom Webhook sent successfully, response:" + response);
-        return true;
     }
 }
