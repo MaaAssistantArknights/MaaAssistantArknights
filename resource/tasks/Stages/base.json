@@ -18,14 +18,6 @@
     "SS@Store@Begin": {
         "doc": "当期活动商店",
         "algorithm": "JustReturn",
-        "next": ["SS@Store@EnterStore", "SS@Store@ClickItem"]
-    },
-    "SS@Store@EnterStore": {
-        "algorithm": "OcrDetect",
-        "text": ["甜"],
-        "action": "ClickSelf",
-        "roi": [1111, 285, 126, 42],
-        "postDelay": 1000,
         "next": ["SS@Store@ClickItem", "SS@Store@Swipe"]
     },
     "SS@Store@ClickItem": {
