@@ -490,6 +490,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     }
 
     private string _customWebhookUrl = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookUrl, string.Empty));
+
     public string CustomWebhookUrl
     {
         get => _customWebhookUrl;
@@ -502,6 +503,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     }
 
     private string _customWebhookBody = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookBody, string.Empty));
+
     public string CustomWebhookBody
     {
         get => _customWebhookBody;

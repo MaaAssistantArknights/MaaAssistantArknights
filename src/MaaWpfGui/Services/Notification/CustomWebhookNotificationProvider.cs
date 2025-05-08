@@ -13,9 +13,9 @@
 
 #nullable enable
 using System;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Net.Http;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.ViewModels.UI;
 using Serilog;
@@ -32,7 +32,7 @@ public class CustomWebhookNotificationProvider(IHttpService httpService) : IExte
         var bodyTemplate = SettingsViewModel.ExternalNotificationSettings.CustomWebhookBody;
         if (string.IsNullOrEmpty(webhookUrl) || string.IsNullOrEmpty(bodyTemplate))
         {
-            _logger.Warning("自定义Webhook发送失败，URL或消息体为空");
+            _logger.Warning("Custom Webhook failed to send: URL or message body is empty");
             return false;
         }
 
@@ -44,16 +44,22 @@ public class CustomWebhookNotificationProvider(IHttpService httpService) : IExte
             .Replace("{time}", now);
 
         var requestContent = new StringContent(body, Encoding.UTF8, "application/json");
-        var response = await httpService.PostAsync(new Uri(webhookUrl), requestContent, null);
+        var response = await httpService.PostAsync(new(webhookUrl), requestContent);
 
         if (response == null)
         {
-            _logger.Warning("自定义Webhook发送失败，response为null");
+            _logger.Warning("Custom Webhook failed to send: response is null");
             return false;
         }
 
         // 只要返回200/204等都算成功
-        _logger.Information("自定义Webhook发送完成，返回：" + response);
+        if (response.StatusCode != System.Net.HttpStatusCode.OK && response.StatusCode != System.Net.HttpStatusCode.NoContent)
+        {
+            _logger.Warning("Custom Webhook failed to send: " + response.StatusCode);
+            return false;
+        }
+
+        _logger.Information("Custom Webhook sent successfully, response:" + response);
         return true;
     }
-} 
+}
