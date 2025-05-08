@@ -588,6 +588,11 @@ namespace MaaWpfGui.ViewModels.UI
             get => _scrollOffset;
             set
             {
+                if (!AllowScrollOffsetChange)
+                {
+                    return;
+                }
+
                 switch (_notifySource)
                 {
                     case NotifyType.None:
@@ -629,6 +634,8 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
         }
+
+        public bool AllowScrollOffsetChange { get; set; } = true;
 
         #endregion 设置页面列表和滚动视图联动绑定
 

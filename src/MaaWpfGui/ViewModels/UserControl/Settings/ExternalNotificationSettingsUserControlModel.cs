@@ -18,6 +18,7 @@ using System.Linq;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services.Notification;
+using MaaWpfGui.ViewModels.UI;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.Settings;
@@ -514,6 +515,11 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationCustomWebhookBody, value);
         }
     }
+
+    // FIXME: 不知道为什么 TextBox 在高度变化时会导致 ScrollViewer 的偏移位置变成 0，直接锁到第一个元素去了。在编辑的时候先给它禁用了
+    public static void CustomWebhookBodyGotFocus() => Instances.SettingsViewModel.AllowScrollOffsetChange = false;
+
+    public static void CustomWebhookBodyLostFocus() => Instances.SettingsViewModel.AllowScrollOffsetChange = true;
 
     #endregion External Notification Config
 }

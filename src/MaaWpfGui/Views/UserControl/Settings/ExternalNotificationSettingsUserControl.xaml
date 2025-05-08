@@ -447,15 +447,16 @@
             <hc:TextBox
                 x:Name="CustomWebhookBody"
                 Width="400"
-                Height="60"
+                MinHeight="20"
                 Margin="10"
+                hc:InfoElement.Placeholder="{DynamicResource ExternalNotificationCustomWebhookPlaceholders}"
                 hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhookBody}"
                 AcceptsReturn="True"
-                Text="{c:Binding CustomWebhookBody}" />
-            <TextBlock
-                Margin="10,0,0,0"
-                Foreground="Gray"
-                Text="{DynamicResource ExternalNotificationCustomWebhookPlaceholders}" />
+                GotFocus="{s:Action CustomWebhookBodyGotFocus}"
+                LostFocus="{s:Action CustomWebhookBodyLostFocus}"
+                Text="{c:Binding CustomWebhookBody}"
+                TextWrapping="Wrap"
+                ToolTip="{DynamicResource ExternalNotificationCustomWebhookPlaceholders}" />
         </StackPanel>
     </Grid>
 </UserControl>
