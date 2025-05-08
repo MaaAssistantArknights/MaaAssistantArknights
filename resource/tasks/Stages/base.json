@@ -63,7 +63,7 @@
         "algorithm": "OcrDetect",
         "text": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
         "roi": [1160, 16, 97, 42],
-        "next": ["SS@Store@ClickItem"]
+        "next": ["SS@Store@ClickItem", "SS@Store@Swipe"]
     },
     "SS@Store@PurchasedConfirm": {
         "template": "Store@PurchasedConfirm.png",
