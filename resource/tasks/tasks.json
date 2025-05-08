@@ -5139,6 +5139,6 @@
     "YellowTicket@Store@PurchasedConfirm": {
         "baseTask": "CreditShop-Bought",
         "template": "CreditShop-Bought.png",
-        "next": [ "YellowTicket@Store@PurchasedConfirm", "YellowTicket@Store@ClickItem", "Stop" ]
+        "next": ["YellowTicket@Store@PurchasedConfirm", "YellowTicket@Store@ClickItem", "Stop"]
     }
 }

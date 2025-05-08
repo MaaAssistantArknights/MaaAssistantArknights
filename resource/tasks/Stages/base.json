@@ -68,7 +68,7 @@
     "SS@Store@PurchasedConfirm": {
         "baseTask": "CreditShop-Bought",
         "template": "CreditShop-Bought.png",
-        "next": [ "SS@Store@PurchasedConfirm", "SS@Store@ClickItem", "SS@Store@Swipe" ]
+        "next": ["SS@Store@PurchasedConfirm", "SS@Store@ClickItem", "SS@Store@Swipe"]
     },
     "SS@Store@Swipe": {
         "baseTask": "SlowlySwipeToTheRight",
