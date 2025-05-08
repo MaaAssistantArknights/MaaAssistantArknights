@@ -28,18 +28,12 @@
         "next": ["SS@Store@ChooseMaxAmount", "SS@Store@Purchase"]
     },
     "SS@Store@ChooseMaxAmount": {
-        "algorithm": "OcrDetect",
-        "text": ["最多"],
-        "action": "ClickSelf",
         "roi": [986, 352, 164, 139],
         "next": ["SS@Store@Purchase"]
     },
     "SS@Store@Purchase": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
         "text": ["支付"],
         "roi": [772, 476, 292, 144],
-        "postDelay": 1000,
         "next": ["SS@Store@PurchasedConfirm", "SS@Store@RecruitSkip", "SS@Store@Underfunded"]
     },
     "SS@Store@Underfunded": {

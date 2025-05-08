@@ -5041,6 +5041,18 @@
         "algorithm": "JustReturn",
         "doc": "base_task"
     },
+    "Store@ChooseMaxAmount": {
+        "algorithm": "OcrDetect",
+        "text": ["最多"],
+        "action": "ClickSelf"
+    },
+    "Store@Purchase": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["购买物品"],
+        "roi": [872, 556, 137, 48],
+        "postDelay": 1000
+    },
     "GreenTicket@Store@ChooseTicketType": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
@@ -5072,18 +5084,10 @@
         "next": ["GreenTicket@Store@ChooseMaxAmount"]
     },
     "GreenTicket@Store@ChooseMaxAmount": {
-        "algorithm": "OcrDetect",
-        "text": ["最多"],
-        "action": "ClickSelf",
         "roi": [1027, 405, 79, 53],
         "next": ["GreenTicket@Store@Purchase"]
     },
     "GreenTicket@Store@Purchase": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["购买物品"],
-        "roi": [872, 556, 137, 48],
-        "postDelay": 1000,
         "next": ["GreenTicket@Store@PurchasedConfirm"]
     },
     "GreenTicket@Store@PurchasedConfirm": {
@@ -5129,11 +5133,6 @@
         "next": ["YellowTicket@Store@Purchase"]
     },
     "YellowTicket@Store@Purchase": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["购买物品"],
-        "roi": [872, 556, 137, 48],
-        "postDelay": 1000,
         "next": ["YellowTicket@Store@PurchasedConfirm"]
     },
     "YellowTicket@Store@PurchasedConfirm": {
