@@ -18,6 +18,7 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Models.Copilot;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Serilog;
 
 namespace MaaWpfGui.Helper;
 
@@ -25,16 +26,23 @@ public static class CopilotHelper
 {
     public static async Task<(PrtsStatus Status, PrtsCopilotModel? Copilot)> RequestCopilotAsync(int copilotId)
     {
-        var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri(MaaUrls.PrtsPlusCopilotGet + copilotId));
-        if (jsonResponse is null)
+        try
         {
-            return (PrtsStatus.NetworkError, null);
+            var response = await Instances.HttpService.GetAsync(new Uri(MaaUrls.PrtsPlusCopilotGet + copilotId));
+            response.EnsureSuccessStatusCode();
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var json = JsonConvert.DeserializeObject<PrtsCopilotModel>(jsonResponse);
+            if (json != null && json.StatusCode == 200)
+            {
+                return (PrtsStatus.Success, json);
+            }
         }
-
-        var json = JsonConvert.DeserializeObject<PrtsCopilotModel>(jsonResponse);
-        if (json != null && json.StatusCode == 200)
+        catch (Exception e)
         {
-            return (PrtsStatus.Success, json);
+            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("NetworkServiceError"), UiLogColor.Error, showTime: false);
+            Instances.CopilotViewModel.AddLog($"{e.Message}", UiLogColor.Error, showTime: false);
+            Log.Error(e.ToString());
+            return (PrtsStatus.NetworkError, null);
         }
 
         return (PrtsStatus.NotFound, null);
@@ -42,16 +50,23 @@ public static class CopilotHelper
 
     public static async Task<(PrtsStatus Status, PrtsCopilotSetModel? CopilotSet)> RequestCopilotSetAsync(int copilotId)
     {
-        var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri(MaaUrls.PrtsPlusCopilotSetGet + copilotId));
-        if (jsonResponse is null)
+        try
         {
-            return (PrtsStatus.NetworkError, null);
+            var response = await Instances.HttpService.GetAsync(new Uri(MaaUrls.PrtsPlusCopilotSetGet + copilotId));
+            response.EnsureSuccessStatusCode();
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var json = JsonConvert.DeserializeObject<PrtsCopilotSetModel>(jsonResponse);
+            if (json != null && json.StatusCode == 200)
+            {
+                return (PrtsStatus.Success, json);
+            }
         }
-
-        var json = JsonConvert.DeserializeObject<PrtsCopilotSetModel>(jsonResponse);
-        if (json != null && json.StatusCode == 200)
+        catch (Exception e)
         {
-            return (PrtsStatus.Success, json);
+            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("NetworkServiceError"), UiLogColor.Error, showTime: false);
+            Instances.CopilotViewModel.AddLog($"{e.Message}", UiLogColor.Error, showTime: false);
+            Log.Error(e.ToString());
+            return (PrtsStatus.NetworkError, null);
         }
 
         return (PrtsStatus.NotFound, null);

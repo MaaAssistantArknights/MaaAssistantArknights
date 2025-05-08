@@ -657,7 +657,6 @@ namespace MaaWpfGui.ViewModels.UI
             var (status, copilotset) = await RequestCopilotAsync(copilotId);
             if (status == PrtsStatus.NetworkError)
             {
-                AddLog(LocalizationHelper.GetString("NetworkServiceError"), UiLogColor.Error, showTime: false);
                 return (0, null);
             }
             else if (status == PrtsStatus.Success && copilotset is PrtsCopilotModel { StatusCode: 200 })
@@ -822,7 +821,6 @@ namespace MaaWpfGui.ViewModels.UI
             var (status, copilotset) = await RequestCopilotSetAsync(copilotCode);
             if (status == PrtsStatus.NetworkError)
             {
-                AddLog(LocalizationHelper.GetString("NetworkServiceError"), UiLogColor.Error, showTime: false);
                 return;
             }
             else if (status == PrtsStatus.Success && copilotset is PrtsCopilotSetModel { StatusCode: 200 })
