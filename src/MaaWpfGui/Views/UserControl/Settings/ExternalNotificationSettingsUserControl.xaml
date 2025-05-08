@@ -28,6 +28,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <!--<controls:TextBlock
@@ -429,6 +430,32 @@
                     Text="{c:Binding QmsgBot}" />
 
             </Grid>
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="9"
+            Orientation="Vertical"
+            Visibility="{c:Binding CustomWebhookEnabled}">
+            <hc:Divider Content="自定义 Webhook" />
+            <hc:TextBox
+                x:Name="CustomWebhookUrl"
+                Width="400"
+                Height="30"
+                Margin="10"
+                hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhookUrl}"
+                Text="{c:Binding CustomWebhookUrl}" />
+            <hc:TextBox
+                x:Name="CustomWebhookBody"
+                Width="400"
+                Height="60"
+                Margin="10"
+                AcceptsReturn="True"
+                hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhookBody}"
+                Text="{c:Binding CustomWebhookBody}" />
+            <TextBlock
+                Margin="10,0,0,0"
+                Foreground="Gray"
+                Text="{DynamicResource ExternalNotificationCustomWebhookPlaceholders}" />
         </StackPanel>
     </Grid>
 </UserControl>

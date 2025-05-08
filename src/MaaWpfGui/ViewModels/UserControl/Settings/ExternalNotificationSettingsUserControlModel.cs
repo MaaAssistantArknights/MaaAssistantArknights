@@ -101,6 +101,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             "SMTP",
             "Bark",
             "Qmsg",
+            "Custom Webhook"
         ];
 
     public static List<string> ExternalNotificationProvidersShow => ExternalNotificationProviders;
@@ -194,6 +195,13 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         set => SetAndNotify(ref _qmsgEnabled, value);
     }
 
+    private bool _customWebhookEnabled = false;
+    public bool CustomWebhookEnabled
+    {
+        get => _customWebhookEnabled;
+        set => SetAndNotify(ref _customWebhookEnabled, value);
+    }
+
     public void UpdateExternalNotificationProvider()
     {
         ServerChanEnabled = _enabledExternalNotificationProviders.Contains("ServerChan");
@@ -203,6 +211,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         SmtpEnabled = _enabledExternalNotificationProviders.Contains("SMTP");
         BarkEnabled = _enabledExternalNotificationProviders.Contains("Bark");
         QmsgEnabled = _enabledExternalNotificationProviders.Contains("Qmsg");
+        CustomWebhookEnabled = _enabledExternalNotificationProviders.Contains("Custom Webhook");
     }
 
     #endregion External Enable
@@ -477,6 +486,30 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             SetAndNotify(ref _qmsgBot, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgBot, value);
+        }
+    }
+
+    private string _customWebhookUrl = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookUrl, string.Empty));
+    public string CustomWebhookUrl
+    {
+        get => _customWebhookUrl;
+        set
+        {
+            SetAndNotify(ref _customWebhookUrl, value);
+            value = SimpleEncryptionHelper.Encrypt(value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationCustomWebhookUrl, value);
+        }
+    }
+
+    private string _customWebhookBody = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookBody, string.Empty));
+    public string CustomWebhookBody
+    {
+        get => _customWebhookBody;
+        set
+        {
+            SetAndNotify(ref _customWebhookBody, value);
+            value = SimpleEncryptionHelper.Encrypt(value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationCustomWebhookBody, value);
         }
     }
 
