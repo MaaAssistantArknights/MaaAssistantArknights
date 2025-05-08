@@ -15,6 +15,7 @@
 using System;
 using System.IO;
 using System.IO.Compression;
+using System.Net.Http;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
@@ -121,8 +122,16 @@ namespace MaaWpfGui.Models
 
             var url = $"{BaseUrl}?current_version={currentVersion}&cdk={cdk}&user_agent=MaaWpfGui&sp_id={spid}";
 
-            var response = await Instances.HttpService.GetAsync(new(url), logQuery: false);
-            _logger.Information($"current_version: {currentVersion}, cdk: {cdk.Mask()}");
+            HttpResponseMessage? response = null;
+            try
+            {
+                response = await Instances.HttpService.GetAsync(new(url), logQuery: false);
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Failed to send GET request to {Uri}", new Uri(url).GetLeftPart(UriPartial.Path));
+                _logger.Information($"current_version: {currentVersion}, cdk: {cdk.Mask()}");
+            }
 
             if (response is null)
             {
@@ -339,14 +348,21 @@ namespace MaaWpfGui.Models
 
         private static async Task<bool> DownloadFullPackageAsync(string url, string saveTo)
         {
-            using var response = await Instances.HttpService.GetAsync(new Uri(url));
-
-            if (response is not { StatusCode: System.Net.HttpStatusCode.OK })
+            try
             {
+                using var response = await Instances.HttpService.GetAsync(new Uri(url));
+                if (response is not { StatusCode: System.Net.HttpStatusCode.OK })
+                {
+                    return false;
+                }
+
+                return await HttpResponseHelper.SaveResponseToFileAsync(response, saveTo);
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Failed to send GET request to {Uri}", url);
                 return false;
             }
-
-            return await HttpResponseHelper.SaveResponseToFileAsync(response, saveTo);
         }
 
         private static void DirectoryMerge(string sourceDirName, string destDirName)
