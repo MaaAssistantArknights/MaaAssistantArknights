@@ -55,6 +55,7 @@ protected:
 
 private:
     bool open_series_list(const cv::Mat& image = cv::Mat());
+    void close_series_list(const cv::Mat& image = cv::Mat());
     // 计算并调整连续战斗次数, 返回是否修改了次数
     std::optional<int> change_series(int sanity_remain, int sanity_cost, int series);
     std::optional<int> select_series(bool available_only);
