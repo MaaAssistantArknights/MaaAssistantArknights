@@ -700,6 +700,9 @@
     <None Include="..\..\resource\global\YoStarKR\resource\tasks\RA\Tales.json">
       <Filter>Resource\tasks\YoStarKR\RA</Filter>
     </None>
+    <None Include="..\..\resource\tasks\Stages\MT.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\AsstCaller.h">

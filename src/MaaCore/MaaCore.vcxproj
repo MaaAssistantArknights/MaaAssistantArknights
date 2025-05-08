@@ -196,6 +196,7 @@
     <None Include="..\..\resource\tasks\Stages\IS.json" />
     <None Include="..\..\resource\tasks\Stages\IW.json" />
     <None Include="..\..\resource\tasks\Stages\LE.json" />
+    <None Include="..\..\resource\tasks\Stages\MT.json" />
     <None Include="..\..\resource\tasks\Stages\NL.json" />
     <None Include="..\..\resource\tasks\Stages\OD.json" />
     <None Include="..\..\resource\tasks\Stages\OF.json" />
