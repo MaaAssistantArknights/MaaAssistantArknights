@@ -35,7 +35,7 @@
     <system:String x:Key="ResourceVersion">リソースバーション</system:String>
     <system:String x:Key="ResourceDateTime">リソース日付</system:String>
     <system:String x:Key="Off">シャットダウン</system:String>
-    <system:String x:Key="ExternalNotificationTips">注:外部通知機能は現在、「すべてのタスクが完了しました」という通知のみを送信します。</system:String>
+    <system:String x:Key="ExternalNotificationTips">注:外部通知機能は現在、｢すべてのタスクが完了しました｣という通知のみを送信します。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
     <system:String x:Key="ExternalNotificationEnabled">通知構成の有効化</system:String>
     <system:String x:Key="ExternalNotificationEnableDetails">詳細情報を出力</system:String>
@@ -71,7 +71,7 @@
     <system:String x:Key="UseGpuForInference">推論加速のためにGPUを使用する</system:String>
     <system:String x:Key="GpuOptionDisable">使用しない</system:String>
     <system:String x:Key="GpuOptionSystemDefault">システムデフォルトGPU</system:String>
-    <system:String x:Key="GpuDeprecatedMessage">現在選択されている推論加速 GPU ({0})は推奨されません。\n\n「設定」-「パフォーマンス設定」で別の GPU を選択するか、このメッセージを無効にできます。</system:String>
+    <system:String x:Key="GpuDeprecatedMessage">現在選択されている推論加速 GPU ({0})は推奨されません。\n\n｢設定｣-｢パフォーマンス設定｣で別の GPU を選択するか、このメッセージを無効にできます。</system:String>
     <system:String x:Key="GpuAllowDeprecated">非推奨 GPU の使用を許可する</system:String>
     <!--  設定ガイド  -->
     <system:String x:Key="TaskSettings">タスク設定</system:String>
@@ -157,17 +157,17 @@
     <system:String x:Key="StartingCoreChar">最初のオペレーター（一人だけ）</system:String>
     <system:String x:Key="StartingCoreCharTip">記入がない場合はデフォルトの方針を使用します。</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">このオペレーターがbattle_dataにありません。</system:String>
-    <system:String x:Key="RoguelikeStartWithEliteTwo">「最初のオペレーター」直接昇進</system:String>
+    <system:String x:Key="RoguelikeStartWithEliteTwo">｢最初のオペレーター｣直接昇進</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">指定オペレーターの昇進招集までリセマラし、戦闘を行わない</system:String>
     <system:String x:Key="RoguelikeStartWithTwoIdeas">Repeat for a start with 2 ideas</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">第一層遠見で指定された啓示板を取得し、戦闘を行わない</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活重視分隊で開始、指定された啓示板を取得する</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最大3つ書き込み、半角セミコロン;で区切る</system:String>
     <system:String x:Key="RoguelikeCollapseList">崩壊パラダイムリスト</system:String>
-    <system:String x:Key="RoguelikeCollapseListTip">英語のセミコロン「;」で区切る、空白のままにするとデフォルトリストが使用されます。</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit">「最初のオペレーター」をサポートから選択</system:String>
+    <system:String x:Key="RoguelikeCollapseListTip">英語のセミコロン｢;｣で区切る、空白のままにするとデフォルトリストが使用されます。</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnit">｢最初のオペレーター｣をサポートから選択</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">戦友以外のサポートの使用を許可</system:String>
-    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">自動ローグ 戦闘終了まえに「停止」を遅らせる</system:String>
+    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">自動ローグ 戦闘終了まえに｢停止｣を遅らせる</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">第5階層のボスの手前で一時停止する</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">最大レベル達成時に停止</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">投資のシードを有効にする</system:String>
@@ -272,7 +272,7 @@
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 海外ソースを使用：
     ● ソフトウェアバージョン：MAA Teamが提供するAPIで更新をチェックし、GitHubまたはMAA Teamが提供するCN Mirrorsから自動的に更新パッケージを取得
-    ● リソースバージョン：MirrorChyanが無料の更新検出を提供、設定で「リソース更新」をクリックしてGitHubから手動でダウンロード可能
+    ● リソースバージョン：MirrorChyanが無料の更新検出を提供、設定で｢リソース更新｣をクリックしてGitHubから手動でダウンロード可能
 
 🔑 MirrorChyanを使用：
     ● ソフトウェアとリソースはMirrorChyan経由で優先的に高速ダウンロード
@@ -282,16 +282,16 @@
     <system:String x:Key="ForceGithubGlobalSource">GitHub を強制使用</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">更新ソース切替後入力</system:String>
-    <system:String x:Key="MirrorChyanSoftwareUpdateTip">ソフトウェア更新が検出されました。「設定 - 更新設定」に移動して MirrorChyan CDK を設定するか、グローバル ソースに切り替えてください。</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">リソース更新 {0} が検出されました。「設定 - 更新設定 - リソース更新」に移動して手動で更新するか、MirrorChayn CDK を入力して自動的に更新してください。</system:String>
+    <system:String x:Key="MirrorChyanSoftwareUpdateTip">ソフトウェア更新が検出されました。｢設定 - 更新設定｣に移動して MirrorChyan CDK を設定するか、グローバル ソースに切り替えてください。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">リソース更新 {0} が検出されました。｢設定 - 更新設定 - リソース更新｣に移動して手動で更新するか、MirrorChayn CDK を入力して自動的に更新してください。</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateShortTip">リソース更新 {0} が検出されました</system:String>
     <system:String x:Key="MirrorChyanCdkExpired">CDK の有効期限が切れました。新しい CDK を使用して認証してください。</system:String>
     <system:String x:Key="MirrorChyanCdkInvalid">CDK が無効です。入力が正しいか確認してください。</system:String>
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">CDK の本日のダウンロード回数が上限に達しました。明日もう一度お試しください。</system:String>
     <system:String x:Key="MirrorChyanCdkMismatched">CDK の種類がダウンロード対象のリソースと一致しません。CDK の適用範囲を確認してください。</system:String>
     <system:String x:Key="NewVersionFoundTitle">新しいバージョンが見つかりました</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">「Global Source」からダウンロード中...</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">「MirrorChyan」からダウンロード中...</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">｢Global Source｣からダウンロード中...</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">｢MirrorChyan｣からダウンロード中...</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">バージョン: </system:String>
     <system:String x:Key="NewVersionFoundDescInfo" xml:space="preserve">内容: </system:String>
     <system:String x:Key="NewVersionFoundButtonGoWebpage">Webサイトで確認</system:String>
@@ -327,7 +327,7 @@
     <system:String x:Key="ConfigExists">構成 &lt; {0}&gt; は既に存在します</system:String>
     <system:String x:Key="LaunchOnSystemStartup">スタートアップ</system:String>
     <system:String x:Key="LaunchOnSystemStartupAdminPrompt">
-        管理者権限での起動は、起動時の自動実行をサポートしていません。MAAを長時間管理者権限で実行することはお勧めしません。\n必要な場合は、「コントロールパネル &gt; Windowsツール &gt; タスクスケジューラ」に移動してカスタムタスクを作成してください。トリガーを設定する際に、「最も高い特権で実行」を必ず選択してください。
+        管理者権限での起動は、起動時の自動実行をサポートしていません。MAAを長時間管理者権限で実行することはお勧めしません。\n必要な場合は、｢コントロールパネル &gt; Windowsツール &gt; タスクスケジューラ｣に移動してカスタムタスクを作成してください。トリガーを設定する際に、｢最も高い特権で実行｣を必ず選択してください。
     </system:String>
     <system:String x:Key="RunTaskAfterLaunch">アプリの起動時に自動的に実行</system:String>
     <system:String x:Key="MinimizeAfterLaunch">アプリの起動時に自動的に最小化</system:String>
@@ -342,7 +342,7 @@
     <system:String x:Key="EmulatorPathSelectionErrorImSure">確かに間違って選択していないと思います</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">はい、もう一度選択します</system:String>
     <system:String x:Key="EmulatorPathNotExist">エミュレータのパスが存在しません</system:String>
-    <system:String x:Key="EmulatorPathEmptyWarning">エミュレータのパスが空です。「{0}」 と 「{1}」 のチェック状態がリセットされました</system:String>
+    <system:String x:Key="EmulatorPathEmptyWarning">エミュレータのパスが空です。｢{0}｣ と ｢{1}｣ のチェック状態がリセットされました</system:String>
     <system:String x:Key="Select">選択</system:String>
     <system:String x:Key="ForcedReplaceAdb">ADB強制置き換え</system:String>
     <system:String x:Key="TouchMode">タッチモード</system:String>
@@ -407,7 +407,7 @@
     <system:String x:Key="ReceiveMail">すべてのメール報酬を受取</system:String>
     <system:String x:Key="ReceiveFreeRecruit">リミテッドスカウトから毎日無料スカウトを行う</system:String>
     <system:String x:Key="ReceiveFreeRecruitTip">無料スカウトがない場合はスカウトしない</system:String>
-    <system:String x:Key="GachaWarning">これは危険な機能であり、誤用につながる可能性があります\n「確認」ボタンを押すことで、起こりうる危険を理解し、それを引き受ける意思があるとみなされます</system:String>
+    <system:String x:Key="GachaWarning">これは危険な機能であり、誤用につながる可能性があります\n｢確認｣ボタンを押すことで、起こりうる危険を理解し、それを引き受ける意思があるとみなされます</system:String>
     <system:String x:Key="ReceiveOrundum">ラッキーウォールから毎日合成玉の報酬を受け取る</system:String>
     <system:String x:Key="ReceiveMining">期間限定の採掘許可で毎日合成玉の報酬を受け取る</system:String>
     <system:String x:Key="ReceiveSpecialAccess">スペシャルアクセス特典を集める</system:String>
@@ -416,19 +416,19 @@
     <system:String x:Key="HideTray">トレイアイコンを隠す</system:String>
     <system:String x:Key="MinimizeToTray">最小化した際にトレイに表示</system:String>
     <system:String x:Key="SystemNotification">重要な通知をポップアップする</system:String>
-    <system:String x:Key="HideCloseButton">「閉じる」ボタンを隠す</system:String>
+    <system:String x:Key="HideCloseButton">｢閉じる｣ボタンを隠す</system:String>
     <system:String x:Key="WindowTitleScrollable">タイトルのスクロール機能</system:String>
     <system:String x:Key="MainTasksNullFunctionality">メインタスクの右クリック効果を反転</system:String>
     <system:String x:Key="MainTasksNullFunctionalityTip">デフォルト：1回のみ有効、チェック後：1回のみスキップ</system:String>
     <system:String x:Key="TitleBarDisplayContent">タイトルバー表示コンテンツ</system:String>
-    <system:String x:Key="CustomBackgroundTip">「background」 フォルダを手動で作成し、background.png を配置すると背景画像をカスタマイズできます</system:String>
+    <system:String x:Key="CustomBackgroundTip">｢background｣ フォルダを手動で作成し、background.png を配置すると背景画像をカスタマイズできます</system:String>
     <system:String x:Key="UseLogItemDateFormat">カスタムログ日付形式</system:String>
     <system:String x:Key="LogItemDateFormatString">日付書式文字列</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">変更を適用するためにすぐに再起動しますか？</system:String>
     <system:String x:Key="SwitchResolutionTip">エミュレータの解像度を1920x1080に変更!</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">エミュレータが1920x1080に設定されていることを確認してください</system:String>
     <system:String x:Key="AllowUseStoneSave">源石の数を割る保存状態を許可</system:String>
-    <system:String x:Key="AllowUseStoneSaveWarning">この機能は危険な機能と見なされます。「確認」ボタンを押すと、リスクを理解し、受け入れることに同意したと見なされます。</system:String>
+    <system:String x:Key="AllowUseStoneSaveWarning">この機能は危険な機能と見なされます。｢確認｣ボタンを押すと、リスクを理解し、受け入れることに同意したと見なされます。</system:String>
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
     <system:String x:Key="UseRemainingSanityStage">余剰理性の使用</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">メインタスク終了後に指定されたステージを選択しても、理性剤も源石も使わない</system:String>
@@ -439,8 +439,8 @@
     <system:String x:Key="MainViewButtonFeature">スタート画面に表示する便利ボタン</system:String>
     <system:String x:Key="CustomStageCode">ステージ名を入力する</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">(テスト機能)ステージ名と番号（例: 4-10、AP-5、H10-1-Hardなど）
-の両方がサポートされています。ステージの最後に「Normal/Hard」を入力することで、標準から強襲/厄難に難易度を切り替えることができます</system:String>
-    <!--ワンタイム代理SS一般パスとして「SSReopen-XX」を入力できます</system:String>-->
+の両方がサポートされています。ステージの最後に｢Normal/Hard｣を入力することで、標準から強襲/厄難に難易度を切り替えることができます</system:String>
+    <!--ワンタイム代理SS一般パスとして｢SSReopen-XX｣を入力できます</system:String>-->
     <system:String x:Key="AutoDetectConnection">接続自動認識</system:String>
     <system:String x:Key="AutoDetectConnectionNotSupported">この接続構成では自動接続検出はサポートされていません。手動でポート番号を入力してみてください</system:String>
     <system:String x:Key="AutoDetectConnectionTip">このチェックボックスは、検出が完了するたびに自動的にチェックが外れますが、再検出が必要な場合は再度チェックを入れることができます</system:String>
@@ -448,7 +448,7 @@
     <system:String x:Key="AccountSwitch">アカウントの切り替え</system:String>
     <system:String x:Key="AccountSwitchManualRun">今すぐ切り替える</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">切り替える必要があるアカウントを入力し、空白のままにしてアカウントの切り替えを完了します。
-ログインインターフェイスに表示される内容を入力します（「123****4567」など）。「123****4567」または「4567」または「23****45」を入力できます。
+ログインインターフェイスに表示される内容を入力します（｢123****4567｣など）。｢123****4567｣または｢4567｣または｢23****45｣を入力できます。
 公式(CN)とBilibiliサーバーのみをサポートします。 ログインアカウントはサポートされていません。</system:String>
     <system:String x:Key="AdbPath">ADBパス（相対/絶対）</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">選択されたファイル名にADBが含まれていません。誤ったファイルを選択していないか、エミュレータ自体を選択していないか確認してください。</system:String>
@@ -495,7 +495,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="LdExtrasNotEnabledMessage">LD スクリーンショットの強化 が有効になっていません。関連する設定を確認してください</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB接続が失敗した場合、エミュレータの起動を試みる</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">再接続に20回失敗した後、エミュレータを再起動してみてください，バックグラウンドのタイムドタスクを使用し、終了時にエミュレータを終了させるタスクを設定する場合は、必ずチェックを入れること</system:String>
-    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">エミュレータのパスが空です！「起動設定-エミュレータのパス」を入力してから再度選択してください。</system:String>
+    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">エミュレータのパスが空です！｢起動設定-エミュレータのパス｣を入力してから再度選択してください。</system:String>
     <system:String x:Key="AllowAdbRestart">接続失敗後にADBサーバーの再起動を試みる</system:String>
     <system:String x:Key="AllowAdbHardRestart">接続失敗後にADBプロセスの再起動を試みる</system:String>
     <!--  !設定  -->
@@ -626,7 +626,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RecruitmentRecognitionTip">ヒント: スタート画面の公開求人とは、別々の機能になっています。使用する前にゲームの公開求人を手動で開いてください</system:String>
     <system:String x:Key="AutoSettingTime">募集期間を自動的に設定する</system:String>
     <system:String x:Key="RecruitmentShowPotential">潜在数を表示する（星4以上）</system:String>
-    <system:String x:Key="RecruitmentShowPotentialTips">情報を取得するために「オペレーター」を使用してください。</system:String>
+    <system:String x:Key="RecruitmentShowPotentialTips">情報を取得するために｢オペレーター｣を使用してください。</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">星3タグを自動的に選択する</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">星4タグを自動的に選択する</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">星5タグを自動的に選択する</system:String>
@@ -643,7 +643,7 @@ C:\\leidian\\LDPlayer9
     <!--  !倉庫アイテム認識  -->
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">オペレーター</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">「戦術要員」は、オペレーター識別の正確性に影響します。戦術要員のオペレーターの識別が誤っている場合は、自己判断してください。</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">｢戦術要員｣は、オペレーター識別の正確性に影響します。戦術要員のオペレーターの識別が誤っている場合は、自己判断してください。</system:String>
     <system:String x:Key="OperBoxHaveList">所有している: {0}</system:String>
     <system:String x:Key="OperBoxNotHaveList">所有していない: {0}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">認識開始</system:String>
@@ -653,7 +653,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="VideoRecognition">映像</system:String>
     <system:String x:Key="StartToVideoRecognition">認識を始める</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">ディレクトリを開く</system:String>
-    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">映像認識のために、「自動戦闘」ページを開き、映像をドラッグしてください。
+    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">映像認識のために、｢自動戦闘｣ページを開き、映像をドラッグしてください。
 映像の解像度は16: 9である必要があり、黒枠、エミュレータ枠、特殊な形状、画面効果などが無いことを確認してください。</system:String>
     <!--  VideoRecognition  -->
     <!--  Gacha Recognition  -->
@@ -691,7 +691,7 @@ C:\\leidian\\LDPlayer9
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">ミニゲーム名</system:String>
     <system:String x:Key="MiniGameNameGreenGrass">対決チャンネル：グリーングラスシティ（非公式）</system:String>
-    <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">手動でチュートリアルの会話をスキップし、直接退出することができます。&#10;イベント画面（右下角に「イベントに参加」ボタンがあります）でタスクを開始します。&#10;&#10;ダック卿の選択をフォローする。</system:String>
+    <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">手動でチュートリアルの会話をスキップし、直接退出することができます。&#10;イベント画面（右下角に｢イベントに参加｣ボタンがあります）でタスクを開始します。&#10;&#10;ダック卿の選択をフォローする。</system:String>
     <!--  !小游戏  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">認識中……</system:String>
@@ -710,10 +710,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FailedToLikeWebJson">エラーが発生しました、いいねに失敗しました。 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">感謝と評価！\nウェブページには既にコメント欄が開放されており、あなたのコメントを心待ちにしています！</system:String>
     <system:String x:Key="AutoSquad">自動編成</system:String>
-    <system:String x:Key="AutoSquadTip">自動編成では、一時的に「戦術要員」オペレーターを認識できません</system:String>
+    <system:String x:Key="AutoSquadTip">自動編成では、一時的に｢戦術要員｣オペレーターを認識できません</system:String>
     <system:String x:Key="AddTrust">信頼度が低いオペレーターを追加する</system:String>
     <system:String x:Key="AddUserAdditional">カスタムで指定したオペレーターを追加する</system:String>
-    <system:String x:Key="AddUserAdditionalTip">「;」 はセパレータ、「,」 でオペレーターの名前とスキルを区切ります。例: Surtr, 3; Eyjafjalla,1</system:String>
+    <system:String x:Key="AddUserAdditionalTip">｢;｣ はセパレータ、｢,｣ でオペレーターの名前とスキルを区切ります。例: Surtr, 3; Eyjafjalla,1</system:String>
     <system:String x:Key="UseCopilotList">バトルリスト</system:String>
     <system:String x:Key="UseCopilotListTip">開始前にステージ選択ページに切り替えてください</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(強襲)</system:String>
@@ -731,12 +731,12 @@ C:\\leidian\\LDPlayer9
     <!--  Logs  -->
     <system:String x:Key="CopilotTip">
         ヒント: \n\n
-        1. この機能を使用する際には、メインストーリー、ストーリーコレクション、またはサイドストーリーに「行動開始」ボタンが表示されている場合に限ります。\n\n
-        2. 逆理演算の場合は、「自動編成」をオフにする必要があり、スキルを選択した後、「演算開始」ボタンのインターフェースから開始する必要があります；\n\n
+        1. この機能を使用する際には、メインストーリー、ストーリーコレクション、またはサイドストーリーに｢行動開始｣ボタンが表示されている場合に限ります。\n\n
+        2. 逆理演算の場合は、｢自動編成｣をオフにする必要があり、スキルを選択した後、｢演算開始｣ボタンのインターフェースから開始する必要があります；\n\n
         3. SSSには、resource/copilot フォルダー内に複数の組み込みファイルがあります。\n
-        手動形成後、「開始デプロイメント」画面から開始してください（「ループ回数」で使用可能）。\n\n
-        4. サポートを使うときは、「自動編成」をオフにし、手動でオペレーターを選択してから始めましょう；\n\n
-        5. 「戦術要員」機能を有効にすると、「自動編成」のオペレーター選択に影響を与える可能性があります。「自動編成」を使用する際は「戦術要員」をオフにするか、不足しているオペレーターを手動で補充して編成を完成させることをお勧めします。\n\n
+        手動形成後、｢開始デプロイメント｣画面から開始してください（｢ループ回数｣で使用可能）。\n\n
+        4. サポートを使うときは、｢自動編成｣をオフにし、手動でオペレーターを選択してから始めましょう；\n\n
+        5. ｢戦術要員｣機能を有効にすると、｢自動編成｣のオペレーター選択に影響を与える可能性があります。｢自動編成｣を使用する際は｢戦術要員｣をオフにするか、不足しているオペレーターを手動で補充して編成を完成させることをお勧めします。\n\n
         6. Copilot作業ステーションでは、入力欄の右側にある貼り付けボタンをクリックして、謎のコードを貼り付けることができます。左クリックで単一のジョブを貼り付け、右クリックでジョブセット全体を貼り付けます。\n\n
         7. バトルリスト:\n
         ジョブを選択した後、リストの下のステージ名が正しいことを確認してください (例: CV-EX-1)。 \n
@@ -760,7 +760,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorDetails">詳細情報</system:String>
     <system:String x:Key="ErrorSolution">解決策</system:String>
     <system:String x:Key="ErrorSolutionMoveMaaExeOutOfFolder">MAA.exe ファイルを単独で移動しないでください。ソフトウェアの場所を変更する必要がある場合は、フォルダー全体を移動するか、このフォルダーに MAA.exe のショートカットを作成してから、ショートカットを別の場所にドラッグしてください。</system:String>
-    <system:String x:Key="ErrorSolutionCrash">ドキュメント「よくある問題 - クラッシュ」を参照してください。</system:String>
+    <system:String x:Key="ErrorSolutionCrash">ドキュメント｢よくある問題 - クラッシュ｣を参照してください。</system:String>
     <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">アップデートパッケージの解凍に失敗しました。ルートディレクトリにあるアップデートパッケージを手動で解凍してみてください。</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">エミュレータとADBを閉じるか、コンピューターを再起動してから、管理者権限でMAAを開いて操作してください。</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">ファイルが占有されています。コンピュータを再起動して再試行してください。</system:String>
@@ -888,7 +888,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormation">編成開始</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">オペレーターを選択: </system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">サポートされていないステージです。ステージ名を確認するか、「設定 - アップデート設定 - ソフト更新」に移動してリソースバージョンを更新してみてください！</system:String>
+    <system:String x:Key="UnsupportedLevel">サポートされていないステージです。ステージ名を確認するか、｢設定 - アップデート設定 - ソフト更新｣に移動してリソースバージョンを更新してみてください！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">認識結果: </system:String>
     <system:String x:Key="ConnectFailed">接続失敗</system:String>
     <system:String x:Key="TryToReconnectByAdb">再接続を試みています</system:String>
@@ -939,7 +939,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Level1Tip">チェックの際に星1タグが特定された場合、募集はスキップされ、チェックされていない場合、星1タグは無視されます。</system:String>
     <!--  !自動募集設定  -->
     <!--  EasterEggs  -->
-    <system:String x:Key="BuyWineOnAprilFoolsDay">尊敬なるドクター、クロージャ様のお店で「酒」の新しいリストがあると聞いたことがありませんか？一緒に確認しませんか？</system:String>
+    <system:String x:Key="BuyWineOnAprilFoolsDay">尊敬なるドクター、クロージャ様のお店で｢酒｣の新しいリストがあると聞いたことがありませんか？一緒に確認しませんか？</system:String>
     <system:String x:Key="Burping">うぅ……オエッ</system:String>
     <system:String x:Key="DrunkAndStaggering">あれ、ドクター。どうしてそんなフラフラと歩いておられるのですか？</system:String>
     <system:String x:Key="Hangover">つ、次は飲みすぎないようにしないと……</system:String>
@@ -947,10 +947,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="EasterEggsRules" xml:space="preserve">1. MAA の正式版にはデバッグモードはありません。実行中にデバッグオプションが表示された場合は、すぐにソフトウェアを閉じ、それをクリックせず、最寄りの MAA 開発者に連絡してください。\n
 2. インフラのシフト変更は自動です。オペレーターが 72 時間以上連続して働いている場合は、手動でシフトを調整し、システム時間が正しいか確認してください。\n
 3. 公開募集のタグは変更されません。カウントダウンが終了する前にタグが変更された場合は、募集を続けず、MAA を再起動してから操作してください。\n
-4. MAA はフレンドリクエストを送信しません。「MAA_System」からフレンドリクエストを受け取った場合は、承認せず、そのアカウントを削除してください。\n
+4. MAA はフレンドリクエストを送信しません。｢MAA_System｣からフレンドリクエストを受け取った場合は、承認せず、そのアカウントを削除してください。\n
 5. ローグライクの支援は提案のみを提供します。ゲームが存在しないオプションを自動的に選択した場合は、強制終了してクライアントを再起動してください。\n
-6. MAA のログファイルに文字化けが含まれているべきではありません。「ERROR: データ解析に失敗しました」以外のエラー情報がログに表示された場合は、ログを削除してソフトウェアを再インストールしてください。\n
-7. ナイトモードは安全です。ただし、MAA が午前 3 時 33 分に自動的に起動して「不明なタスク」を実行した場合は、電源を抜き、日の出まで待ってから使用してください。\n
+6. MAA のログファイルに文字化けが含まれているべきではありません。｢ERROR: データ解析に失敗しました｣以外のエラー情報がログに表示された場合は、ログを削除してソフトウェアを再インストールしてください。\n
+7. ナイトモードは安全です。ただし、MAA が午前 3 時 33 分に自動的に起動して｢不明なタスク｣を実行した場合は、電源を抜き、日の出まで待ってから使用してください。\n
 8. 最後のルールは存在しません。このルールを見た場合は、それを忘れて、通常どおり MAA を使用してください。\n
 9. MAA 内で炒...锟斤拷拷拷拷喜报拷拷拷饭 をクリックしないでください。\n
 10. MirrorChyan親切です。少しの代償を払うだけで、彼女の保護を受けることができます。\n
@@ -972,7 +972,7 @@ C:\\leidian\\LDPlayer9
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">ホットアップデートデータの取得に成功しました</system:String>
     <system:String x:Key="GameResourceUpdating">ゲームリソースが更新中です。</system:String>
-    <system:String x:Key="GameResourceUpdatingMirrorChyan">「MirrorChyan」からリソース {0} を更新しています...</system:String>
+    <system:String x:Key="GameResourceUpdatingMirrorChyan">｢MirrorChyan｣からリソース {0} を更新しています...</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">索引の作成中</system:String>
     <system:String x:Key="GameResourceNotModified">ゲームリソースが更新されました。</system:String>
     <system:String x:Key="GameResourceUpdated">ゲームリソースが更新されました。</system:String>
@@ -1014,7 +1014,7 @@ C:\\leidian\\LDPlayer9
 生息演算のサポートはまだ初期段階にありますので、ご利用の際は以下の点にご注意ください：
 
  初期設定でポイントを稼ぐ：（既存のセーブデータが削除されることに注意してください）
-  0.ポイントがいっぱいになると「タスク完了」が出力され、タスクは自動的に停止します
+  0.ポイントがいっぱいになると｢タスク完了｣が出力され、タスクは自動的に停止します
   1. 理論的には、タスクは、セーブデータの有無に関係なく、ポイント獲得のためのどの時点からでもタスクを開始できる。
   2. 生息演算の編成にオペレーターを入れることができるが、テストしていないのでお勧めしない。
   3. ナビゲーションがまだ書かれていないので、生息演算の画面以外の場所からタスクを開始することはできない。
@@ -1033,7 +1033,7 @@ C:\\leidian\\LDPlayer9
     <!--  Boot  -->
     <system:String x:Key="VC++NotInstalled" xml:space="preserve">
 Microsoft Visual C++ redistributable 2015-2022 (x64) がインストールされていないか、バージョンが低すぎることが検出されました.
-「OK」をクリックするとインストールスクリプトが実行され、MAA が終了します。「キャンセル」をクリックすると MAA が直接終了します。
+｢OK｣をクリックするとインストールスクリプトが実行され、MAA が終了します。｢キャンセル｣をクリックすると MAA が直接終了します。
     </system:String>
     <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">
 同じパスの下で起動できるのは1つのインスタンスのみ！
