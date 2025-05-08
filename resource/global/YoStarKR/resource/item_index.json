@@ -1551,6 +1551,14 @@
         "sortId": -10000,
         "usage": "이정표에서 보상 교환할 때 사용된다."
     },
+    "act1vautochess_token_chess": {
+        "classifyType": "NONE",
+        "description": "로도스 아일랜드 공방에서 위수 협의에 참여한 오퍼레이터를 위해 준비한 훈장. 자성이 있으며, 일정 수량을 모으면 룩 기물로 조립할 수 있다고 한다.",
+        "icon": "act1vautochess_token_chess.png",
+        "name": "위수 인증서",
+        "sortId": -10000,
+        "usage": "위수 협의에서 각종 물자를 교환하는데 사용된다."
+    },
     "act1vecb_milestone_point": {
         "classifyType": "NONE",
         "description": "로도스 아일랜드 엔지니어링부에서 제작한 특별 기념물. 설계를 담당한 오퍼레이터는 최근 로도스 아일랜드에서 유행하는 보드 게임에서 영감을 얻은 것 같다.",

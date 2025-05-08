@@ -1551,6 +1551,14 @@
         "sortId": -10000,
         "usage": "一定数集めるごとに報酬を獲得できる。"
     },
+    "act1vautochess_token_chess": {
+        "classifyType": "NONE",
+        "description": "ロドスの工房が堅守協定に参加するオペレーターのために用意した勲章。磁力を帯びており、一定数集めるとルークの駒になるらしい。",
+        "icon": "act1vautochess_token_chess.png",
+        "name": "堅守認証",
+        "sortId": -10000,
+        "usage": "堅守協定で様々な物資と交換できる。"
+    },
     "act1vecb_milestone_point": {
         "classifyType": "NONE",
         "description": "ロドスエンジニア部が制作した特別な記念品。デザインを担当したオペレーターは、最近ロドスで流行っているボードゲームからインスピレーションを得たようだ。",
