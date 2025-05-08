@@ -436,7 +436,7 @@
             Grid.Row="9"
             Orientation="Vertical"
             Visibility="{c:Binding CustomWebhookEnabled}">
-            <hc:Divider Content="自定义 Webhook" />
+            <hc:Divider Content="{DynamicResource ExternalNotificationCustomWebhook}" />
             <hc:TextBox
                 x:Name="CustomWebhookUrl"
                 Width="400"
@@ -449,8 +449,8 @@
                 Width="400"
                 Height="60"
                 Margin="10"
-                AcceptsReturn="True"
                 hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhookBody}"
+                AcceptsReturn="True"
                 Text="{c:Binding CustomWebhookBody}" />
             <TextBlock
                 Margin="10,0,0,0"

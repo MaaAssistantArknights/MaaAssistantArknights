@@ -68,6 +68,10 @@
     <system:String x:Key="ExternalNotificationQmsgKey">Key</system:String>
     <system:String x:Key="ExternalNotificationQmsgUser">用户 QQ</system:String>
     <system:String x:Key="ExternalNotificationQmsgBot">机器人 QQ</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook">自定义 Webhook</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhookUrl">Webhook URL</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhookBody">消息体模板</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhookPlaceholders">可用占位符：&#123;title&#125;、&#123;content&#125;、&#123;time&#125; ...</system:String>
     <system:String x:Key="UseGpuForInference">使用 GPU 加速推理</system:String>
     <system:String x:Key="GpuOptionDisable">不使用</system:String>
     <system:String x:Key="GpuOptionSystemDefault">系统默认 GPU</system:String>
@@ -1049,7 +1053,4 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ReminderIntervalMinutes">提醒间隔时间（分钟）</system:String>
     <system:String x:Key="TaskTimeoutWarning">任务已运行超过 {0} 分钟（当前已运行 {1} 分钟）。如果长时间无进一步日志更新，可能需要手动干预。</system:String>
     <!--  !TimeOutTimer  -->
-    <system:String x:Key="ExternalNotificationCustomWebhookUrl">Webhook URL</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhookBody">消息体模板</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhookPlaceholders">可用占位符：&#123;title&#125;、&#123;content&#125;、&#123;time&#125; ...</system:String>
 </ResourceDictionary>
