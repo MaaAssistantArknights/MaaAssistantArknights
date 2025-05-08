@@ -66,6 +66,6 @@ private:
     int m_series = -1;                            // 连续战斗次数
     int m_series_current = 1;                     // 当前连战次数
     mutable bool m_has_used_medicine = false;     // 是否使用过药品
-    mutable bool m_is_medicine_exhausted = false; // 是否药品用完
+    mutable bool m_is_medicine_exhausted = false; // 是否药品、石头用完
 };
 }

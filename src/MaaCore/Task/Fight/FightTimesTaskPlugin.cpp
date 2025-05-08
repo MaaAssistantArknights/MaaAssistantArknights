@@ -144,11 +144,8 @@ std::optional<int> asst::FightTimesTaskPlugin::change_series(int sanity_current,
     }
 
     auto ret = select_series(true);
-    if (!ret) {
-        select_series(1);
-        if (m_is_medicine_exhausted) { // 药品用完, 且没有次数可用, 刷理智结束
-            m_task_ptr->set_enable(false);
-        }
+    if (!ret && m_is_medicine_exhausted) { // 药品用完, 且没有次数可用, 刷理智结束
+        m_task_ptr->set_enable(false);
     }
 
     return ret;
