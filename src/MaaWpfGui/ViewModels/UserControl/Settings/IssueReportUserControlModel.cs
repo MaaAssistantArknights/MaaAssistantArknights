@@ -119,7 +119,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
                 foreach (var file in Directory.EnumerateFiles(tempPath, "*", SearchOption.AllDirectories))
                 {
                     string entryName = Path.GetRelativePath(tempPath, file);
-                    archive.CreateEntryFromFile(file, entryName, CompressionLevel.Optimal);
+                    archive.CreateEntryFromFile(file, entryName, CompressionLevel.SmallestSize);
                 }
             }
 
