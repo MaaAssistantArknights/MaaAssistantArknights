@@ -813,7 +813,7 @@
     "LogoutConfirm": {
         "action": "ClickSelf",
         "roi": [650, 450, 280, 60],
-        "next": ["AccountManager", "AccountManager@LoadingText"],
+        "next": ["AccountManager", "LogoutConfirm@LoadingText"],
         "postDelay": 3000
     },
     "LogoutConfirmOCR": {
@@ -821,7 +821,7 @@
         "action": "ClickSelf",
         "text": ["是"],
         "roi": [650, 450, 280, 60],
-        "next": ["AccountManager", "AccountManager@LoadingText"],
+        "next": ["AccountManager", "LogoutConfirmOCR@LoadingText"],
         "postDelay": 3000
     },
     "ExitOld": {
