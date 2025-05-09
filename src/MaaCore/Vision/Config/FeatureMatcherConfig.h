@@ -47,9 +47,6 @@ public:
 
     void set_templ(std::variant<std::string, cv::Mat> templ) { m_params.templs = { std::move(templ) }; }
 
-    // void set_templ(std::vector<std::variant<std::string, cv::Mat>> templs);
-    // void set_threshold(double templ_thres) noexcept;
-    // void set_threshold(std::vector<double> templ_thres) noexcept;
     void set_detector(Detector detector) noexcept { m_params.detector = detector; }
 
     void set_distance_ratio(double distance_ratio) noexcept { m_params.distance_ratio = distance_ratio; }
