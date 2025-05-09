@@ -893,7 +893,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="TryToStartEmulator">Trying to start the emulator</system:String>
     <system:String x:Key="RestartAdb">Trying to restart the ADB Server</system:String>
     <system:String x:Key="HardRestartAdb">Trying to kill and restart the ADB process</system:String>
-    <system:String x:Key="CheckSettings">Please check your connection settings or try restarting the emulator and ADB, or restart your computer</system:String>
+    <system:String x:Key="CheckSettings">Please ｢Check connection settings｣ → ｢Try restarting the emulator and ADB｣ → ｢Restart the computer｣</system:String>
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">Force display of MAA</system:String>
