@@ -236,13 +236,16 @@
                 ],
                 "dormitory": [
                     {
-                        "operators": ["爱丽丝"]
+                        "operators": ["爱丽丝"],
+                        "autofill": true
                     },
                     {
-                        "operators": ["车尔尼"]
+                        "operators": ["车尔尼"],
+                        "autofill": true
                     },
                     {
-                        "operators": ["塑心"]
+                        "operators": ["塑心"],
+                        "autofill": true
                     },
                     {
                         "autofill": true
