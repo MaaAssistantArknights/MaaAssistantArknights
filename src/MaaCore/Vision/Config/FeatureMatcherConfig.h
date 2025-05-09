@@ -33,7 +33,7 @@ public:
         // Matcher matcher = Matcher::FLANN;
 
         double distance_ratio = 0.6; // KNN 匹配算法的距离比值，[0 - 1.0], 越大则匹配越宽松,更容易连线。默认0.6
-        int count = 4; // 匹配的特征点的数量要求（阈值），默认4
+        int count = 4;               // 匹配的特征点的数量要求（阈值），默认4
     };
 
 public:

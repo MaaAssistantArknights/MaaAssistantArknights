@@ -253,10 +253,8 @@ struct MatchRect
 
 struct FeatureMatchRect
 {
-    std::string to_string() const
-    {
-        return "{ rect: " + rect.to_string() + ", count: " + std::to_string(count) + " }";
-    }
+    std::string to_string() const { return "{ rect: " + rect.to_string() + ", count: " + std::to_string(count) + " }"; }
+
     explicit operator std::string() const { return to_string(); }
 
     Rect rect;

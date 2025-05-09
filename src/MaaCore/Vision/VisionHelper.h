@@ -36,7 +36,6 @@ public:
 
     bool save_img(const std::filesystem::path& relative_dir = utils::path("debug"));
 
-
 #ifdef ASST_DEBUG
     const cv::Mat& get_draw() const { return m_image_draw; }
 #endif
@@ -46,9 +45,9 @@ protected:
 
 protected:
     static Rect correct_rect(const Rect& rect, const cv::Mat& image);
-        static cv::Mat create_mask(const cv::Mat& image, bool green_mask);
-        static cv::Mat create_mask(const cv::Mat& image, const cv::Rect& roi);
-        cv::Mat draw_roi(const cv::Rect& roi, const cv::Mat& base) const;
+    static cv::Mat create_mask(const cv::Mat& image, bool green_mask);
+    static cv::Mat create_mask(const cv::Mat& image, const cv::Rect& roi);
+    cv::Mat draw_roi(const cv::Rect& roi, const cv::Mat& base) const;
 
     cv::Mat m_image;
 #ifdef ASST_DEBUG

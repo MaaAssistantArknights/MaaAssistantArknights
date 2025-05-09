@@ -24,8 +24,9 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
 
 bool asst::DebugTask::run()
 {
-    auto temp = imread(utils::path(
-        "D:/My_Program/Visual_Studio/MaaAssistantArknights/resource/template/AccountManagerListAccountBili2.png"));
+    auto temp = imread(
+        utils::path(
+            "D:/My_Program/Visual_Studio/MaaAssistantArknights/resource/template/AccountManagerListAccountBili2.png"));
     auto img =
         imread(utils::path("C:/Users/status102/Nox_share/ImageShare/Screenshots/Screenshot_20231118-220105.png"));
     auto img2 = imread(utils::path("C:/Users/status102/Desktop/login.png"));
