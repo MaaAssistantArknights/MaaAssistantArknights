@@ -60,7 +60,7 @@ asst::FeatureMatcher::ResultsVecOpt asst::FeatureMatcher::analyze() const
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(r.rect), cv::Scalar(0, 0, 255), 2);
 #endif
     }
-    Log.trace("count:", m_result.size(), ", cost:", cost);
+    Log.trace("count:", m_result.size(), ", cost:", cost.count());
     return m_result;
 }
 
