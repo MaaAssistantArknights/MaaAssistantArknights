@@ -1095,7 +1095,15 @@ namespace MaaWpfGui.Main
                             case "StartButton2":
                             case "AnnihilationConfirm":
                                 StringBuilder missionStartLogBuilder = new();
-                                missionStartLogBuilder.AppendLine(LocalizationHelper.GetString("MissionStart") + $" {FightTimes.TimesFinished + 1}~{FightTimes.TimesFinished + FightTimes.Series} {LocalizationHelper.GetString("UnitTime")}");
+                                if (FightTimes is null)
+                                {
+                                    missionStartLogBuilder.AppendLine(LocalizationHelper.GetString("MissionStart") + $" ??? {LocalizationHelper.GetString("UnitTime")}");
+                                }
+                                else
+                                {
+                                    missionStartLogBuilder.AppendLine(LocalizationHelper.GetString("MissionStart") + $" {FightTimes.TimesFinished + 1}~{FightTimes.TimesFinished + FightTimes.Series} {LocalizationHelper.GetString("UnitTime")} (-{FightTimes.SanityCost}{LocalizationHelper.GetString("Sanity")})");
+                                }
+
                                 if (SanityReport is not null)
                                 {
                                     missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("CurrentSanity"), SanityReport.SanityCurrent, SanityReport.SanityMax);
@@ -1675,6 +1683,7 @@ namespace MaaWpfGui.Main
 
                 case "SanityBeforeStage":
                     {
+                        SanityReport = null;
                         if (subTaskDetails?.ToObject<FightSettingsUserControlModel.SanityInfo>() is FightSettingsUserControlModel.SanityInfo report && report.SanityMax > 0)
                         {
                             SanityReport = report;

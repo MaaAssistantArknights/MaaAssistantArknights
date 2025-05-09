@@ -32,7 +32,7 @@ namespace MaaWpfGui.Helper
     {
         public static class Data
         {
-            public static FightSettingsUserControlModel.FightTimes FightTimes { get; set; } = new();
+            public static FightSettingsUserControlModel.FightTimes? FightTimes { get; set; }
 
             public static FightSettingsUserControlModel.SanityInfo? SanityReport { get; set; }
 
