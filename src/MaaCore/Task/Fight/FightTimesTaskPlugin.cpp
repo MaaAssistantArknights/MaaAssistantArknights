@@ -347,18 +347,27 @@ std::optional<int> asst::FightTimesTaskPlugin::analyze_sanity_cost(const cv::Mat
 {
     LogTraceFunction;
 
+    const auto& ocr_task = Task.get<OcrTaskInfo>("StageSanityCostOcr");
     const auto& number_replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
-    auto task_replace = Task.get<OcrTaskInfo>("StageSanityCost")->replace_map;
+    auto task_replace = ocr_task->replace_map;
     auto merge_map = std::vector(number_replace);
     ranges::copy(task_replace, std::back_inserter(merge_map));
 
+    Matcher match(image);
+    match.set_task_info("StageSanityCost");
+    if (!match.analyze()) {
+        Log.warn(__FUNCTION__, "Sanity cost ocr failed");
+        return std::nullopt;
+    }
+
     RegionOCRer analyzer(image);
-    analyzer.set_task_info("StageSanityCost");
+    analyzer.set_task_info(ocr_task);
+    analyzer.set_roi(match.get_result().rect.move(ocr_task->roi));
     analyzer.set_bin_threshold(0, 255);
     analyzer.set_replace(merge_map);
 
     if (!analyzer.analyze()) [[unlikely]] {
-        Log.warn(__FUNCTION__, "Sanity ocr failed");
+        Log.warn(__FUNCTION__, "Sanity cost ocr failed");
         analyzer.save_img(utils::path("debug") / utils::path("sanity"));
         return std::nullopt;
     }

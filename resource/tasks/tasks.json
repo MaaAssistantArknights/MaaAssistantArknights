@@ -1419,8 +1419,12 @@
         "roi": [1120, 20, 160, 40]
     },
     "StageSanityCost": {
+        "roi": [1100, 660, 180, 60]
+    },
+    "StageSanityCostOcr": {
+        "Doc": "先拿理智标记匹配完, 偏移roi再ocr",
         "baseTask": "NumberOcrReplace",
-        "roi": [1178, 676, 49, 24],
+        "roi": [40, 0, 49, 24],
         "ocrReplace": [["-", ""]]
     },
     "UseMedicine": {

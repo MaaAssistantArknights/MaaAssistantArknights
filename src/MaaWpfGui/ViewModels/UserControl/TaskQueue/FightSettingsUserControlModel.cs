@@ -851,10 +851,10 @@ public class FightSettingsUserControlModel : TaskViewModel
 
     public class SanityInfo
     {
-        [JsonProperty("sanity_current")]
+        [JsonProperty("current_sanity")]
         public int SanityCurrent { get; set; }
 
-        [JsonProperty("sanity_max")]
+        [JsonProperty("max_sanity")]
         public int SanityMax { get; set; }
 
         [JsonProperty("report_time")]
@@ -864,12 +864,12 @@ public class FightSettingsUserControlModel : TaskViewModel
     public class FightTimes
     {
         [JsonProperty("sanity_cost")]
-        public int SanityCost { get; set; } = -1;
+        public int SanityCost { get; set; }
 
         [JsonProperty("series")]
-        public int Series { get; set; } = -1;
+        public int Series { get; set; }
 
         [JsonProperty("times_finished")]
-        public int TimesFinished { get; set; } = -1;
+        public int TimesFinished { get; set; }
     }
 }
