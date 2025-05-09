@@ -864,12 +864,12 @@ public class FightSettingsUserControlModel : TaskViewModel
     public class FightTimes
     {
         [JsonProperty("sanity_cost")]
-        public int SanityCost { get; set; }
+        public int SanityCost { get; set; } = -1;
 
         [JsonProperty("series")]
-        public int Series { get; set; }
+        public int Series { get; set; } = -1;
 
         [JsonProperty("times_finished")]
-        public int TimesFinished { get; set; }
+        public int TimesFinished { get; set; } = -1;
     }
 }
