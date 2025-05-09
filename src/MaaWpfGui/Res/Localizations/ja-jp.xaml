@@ -896,7 +896,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="TryToStartEmulator">エミュレータを起動しようとしています</system:String>
     <system:String x:Key="RestartAdb">ADBサーバーの再起動を試みています</system:String>
     <system:String x:Key="HardRestartAdb">ADBプロセスの再起動を試みています</system:String>
-    <system:String x:Key="CheckSettings">接続設定を確認するか、エミュレータとADBを再起動するか、コンピューターを再起動してください</system:String>
+    <system:String x:Key="CheckSettings">｢接続設定を確認｣ → ｢エミュレーターとADBを再起動してみる｣ → ｢コンピュータを再起動｣ してください</system:String>
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">MAAの強制表示</system:String>
