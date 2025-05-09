@@ -26,7 +26,7 @@ public:
 
     struct Params
     {
-        std::vector<std::variant<std::string, cv::Mat>> templs;
+        std::variant<std::string, cv::Mat> templs;
         bool green_mask = false;
 
         Detector detector = Detector::SIFT;
