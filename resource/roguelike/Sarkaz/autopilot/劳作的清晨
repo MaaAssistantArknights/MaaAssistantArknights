@@ -1,0 +1,56 @@
+{
+    "stage_name": "劳作的清晨",
+    "replacement_home": [
+        {
+            "location": [4, 1],
+            "direction": "left"
+        }
+        {
+            "location": [8, 1],
+            "direction": "left"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["高台输出"],
+            "location": [5, 4],
+            "direction": "up"
+        },
+        {
+            "groups": ["奶盾", "重装", "地面阻挡", "地面远程"],
+            "location": [4, 1],
+            "direction": "down"
+        },
+
+        {
+            "groups": [ "高台输出"],
+            "location": [3, 3],
+            "direction": "left"
+        },
+        {
+            "groups": [ "高台输出"],
+            "location": [3, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["单奶", "群奶", "高台输出"],
+            "location": [5, 3],
+            "direction": "up"
+        },
+        {
+            "groups": ["单奶", "群奶", "高台输出"],
+            "location": [5, 2],
+            "direction": "up"
+        },
+        {
+            "groups": ["补给站", "支援陷阱", "无人机"],
+            "location": [5, 5],
+            "direction": "up"
+        },
+        {
+            "groups": ["炮灰", "奶盾", "重装", "地面阻挡", "地面远程"],
+            "location": [8, 1],
+            "direction": "left"
+        }
+    ]
+}
