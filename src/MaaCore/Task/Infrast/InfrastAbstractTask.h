@@ -38,7 +38,7 @@ protected:
     virtual int operlist_swipe_times() const noexcept { return 2; }
 
     // 滑动到干员列表的最左侧
-    void swipe_to_the_left_of_operlist(int loop_times = -1);
+    void swipe_to_the_left_of_operlist();
     // 滑动基建的主界面到最左侧
     void swipe_to_the_left_of_main_ui();
     // 滑动基建的主界面到最右侧
