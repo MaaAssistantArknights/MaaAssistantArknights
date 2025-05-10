@@ -39,8 +39,8 @@ public class CustomWebhookNotificationProvider(IHttpService httpService) : IExte
         // 占位符替换
         string now = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         string body = bodyTemplate
-            .Replace("{title}", title)
-            .Replace("{content}", content)
+            .Replace("{title}", title.Replace("\r", string.Empty).Replace("\n", string.Empty))
+            .Replace("{content}", content.Replace("\r", string.Empty).Replace("\n", "\\n"))
             .Replace("{time}", now);
 
         var requestContent = new StringContent(body, Encoding.UTF8, "application/json");
