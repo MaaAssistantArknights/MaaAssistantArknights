@@ -2,6 +2,7 @@
 
 ### 新增 | New
 
+* 指定次数联动连战, 修复连战导致指定次数失效, Auto模式不再溢出理智 (#12592) @status102 @pre-commit-ci[bot] @ABA2396 @Constrat
 * 添加 自定义 webhook 功能 (#12602) @KagurazakaIris @ABA2396
 * 肉鸽适配新干员 (#12599) @Saratoga-Official
 * Mac AUTO连续作战 @hguandl
@@ -10,7 +11,6 @@
 
 ### 改进 | Improved
 
-* 指定次数联动连战, 修复连战导致指定次数失效, Auto模式不再溢出理智 (#12592) @status102 @pre-commit-ci[bot] @ABA2396 @Constrat
 * 日志压缩包压缩等级提升 (#12622) @BxFS
 * 基建使用切换职业栏返回列表最左侧 (#12594) @ABA2396
 
