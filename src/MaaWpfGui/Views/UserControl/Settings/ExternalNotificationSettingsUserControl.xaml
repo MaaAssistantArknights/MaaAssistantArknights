@@ -28,6 +28,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <!--<controls:TextBlock
@@ -429,6 +430,33 @@
                     Text="{c:Binding QmsgBot}" />
 
             </Grid>
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="9"
+            Orientation="Vertical"
+            Visibility="{c:Binding CustomWebhookEnabled}">
+            <hc:Divider Content="{DynamicResource ExternalNotificationCustomWebhook}" />
+            <hc:TextBox
+                x:Name="CustomWebhookUrl"
+                Width="400"
+                Height="30"
+                Margin="10"
+                hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhookUrl}"
+                Text="{c:Binding CustomWebhookUrl}" />
+            <hc:TextBox
+                x:Name="CustomWebhookBody"
+                Width="400"
+                MinHeight="20"
+                Margin="10"
+                hc:InfoElement.Placeholder="{DynamicResource ExternalNotificationCustomWebhookPlaceholders}"
+                hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhookBody}"
+                AcceptsReturn="True"
+                GotFocus="{s:Action CustomWebhookBodyGotFocus}"
+                LostFocus="{s:Action CustomWebhookBodyLostFocus}"
+                Text="{c:Binding CustomWebhookBody}"
+                TextWrapping="Wrap"
+                ToolTip="{DynamicResource ExternalNotificationCustomWebhookPlaceholders}" />
         </StackPanel>
     </Grid>
 </UserControl>
