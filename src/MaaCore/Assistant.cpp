@@ -543,7 +543,6 @@ void Assistant::monitor_proc()
                 }
             }
             else { // 游戏在跑, 检查一下画面
-
             }
         }
         m_monitor_condvar.wait_for(lock, std::chrono::seconds(60));
