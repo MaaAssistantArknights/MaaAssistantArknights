@@ -94,7 +94,7 @@
                         {
                             "groups": ["单奶", "群奶"],
                             "is_less": true,
-                            "threshold": 1,
+                            "threshold": 1,  
                             "offset": 105,
                             "doc": "治疗位≤1时，凯尔希的招募优先级+105"
                         },
@@ -2132,16 +2132,24 @@
             "opers": [
                 {
                     "name": "逻各斯",
-                    "skill": 3,
+                    "skill": 3,    
                     "alternate_skill": 1,
-                    "is_key": true,
-                    "recruit_priority": 782,
+                    "is_key": true,  
+                    "recruit_priority": 782,  
                     "promote_priority": 841
+                },
+                {
+                    "name": "死芒",
+                    "skill": 3,    
+                    "alternate_skill": 1,
+                    "is_key": true,  
+                    "recruit_priority": 781,            
+                    "promote_priority": 841          
                 },
                 {
                     "name": "澄闪",
                     "skill": 3,
-                    "alternate_skill": 2,
+                    "alternate_skill": 2,  
                     "is_key": true,
                     "recruit_priority": 783,
                     "promote_priority": 841,
@@ -2159,6 +2167,25 @@
                         }
                     ]
                 },
+                                    "name": "荒芜拉普兰德",
+                    "skill": 3,  
+                    "alternate_skill": 2,          
+                    "is_key": true,
+                    "recruit_priority": 783,        
+                    "promote_priority": 841,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["术师"],
+                            "threshold": 1,
+                            "offset": -120
+                        }
+                    ],
+                    "collection_priority_offsets": [  
+                        {
+                            "collection": "波纹之手",
+                            "offset": 300
+                        }
+                    ]
                 {
                     "name": "艾雅法拉",
                     "skill": 2,
@@ -3289,6 +3316,12 @@
                 },
                 {
                     "name": "逻各斯"
+                },
+                {
+                    "name": "荒芜拉普兰德"
+                },
+                {
+                    "name": "死芒"
                 },
                 {
                     "name": "澄闪"
