@@ -575,10 +575,6 @@ public:
         int_type overflow(int_type c) override
         {
             if (c != traits_type::eof()) {
-                // ch = static_cast<char>(c);
-                // if (ch == '\n') {
-                //     count += NewLineSize;
-                // }
                 count++;
                 if (dest) {
                     dest->sputc(ch);
@@ -803,11 +799,10 @@ private:
             }
         }
 #else
-        // 非Windows平台不支持"N"模式，保持原样
         std::string path_str = m_log_path.string();
-        if (fopen_s(&fp, path_str.c_str(), "a") != 0) { // a:追加, N:不可继承
-            fp = nullptr;
-        }
+        // Linux、macOS等POSIX平台使用标准fopen
+        // 非Windows平台不支持"N"模式，保持原样
+        fp = fopen(path_str.c_str(), "a");
 #endif
 
         if (!fp) {
