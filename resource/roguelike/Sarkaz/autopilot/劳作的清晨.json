@@ -4,7 +4,7 @@
         {
             "location": [4, 1],
             "direction": "left"
-        }
+        },
         {
             "location": [8, 1],
             "direction": "left"
@@ -21,7 +21,6 @@
             "location": [4, 1],
             "direction": "down"  
         },
-
         {
             "groups": [ "高台输出"],
             "location": [3, 3],
