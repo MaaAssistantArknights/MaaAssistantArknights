@@ -1,8 +1,10 @@
 #pragma once
 
+#include <fcntl.h>
 #include <filesystem>
 #include <fstream>
 #include <functional>
+#include <io.h>
 #include <iostream>
 #include <mutex>
 #include <streambuf>
@@ -784,8 +786,52 @@ private:
 
     void LoadFileStream()
     {
-        m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
-        m_file_size = std::filesystem::file_size(m_log_path);
+        // 使用fopen with "N"模式打开文件 (a:追加, N:不可继承)
+        FILE* fp = nullptr;
+#ifdef _WIN32
+        // 在Windows平台使用UTF-8路径
+        std::string path_str = utils::path_to_utf8_string(m_log_path);
+        int file_handle = -1;
+
+        int oflag = _O_WRONLY | _O_APPEND | _O_CREAT | _O_BINARY | _O_NOINHERIT; // 写入、追加、创建、二进制、不可继承
+        int shflag = _SH_DENYWR;                                                 // 允许其他进程读取但不能写入
+        int pmode = _S_IREAD | _S_IWRITE;                                        // 读写权限
+
+        // 打开文件
+        if (_sopen_s(&file_handle, path_str.c_str(), oflag, shflag, pmode) == 0) {
+            // 文件打开成功，转换为FILE*指针
+            fp = _fdopen(file_handle, "a"); // 使用追加模式
+            if (!fp) {
+                // 如果转换失败，关闭文件句柄
+                _close(file_handle);
+            }
+        }
+#else
+        // 非Windows平台不支持"N"模式，保持原样
+        std::string path_str = m_log_path.string();
+        if (fopen_s(&fp, path_str.c_str(), "a") != 0) { // a:追加, N:不可继承
+            fp = nullptr;
+        }
+#endif
+
+        if (!fp) {
+            // 打开失败时回退到原始方法
+            m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::ate);
+        }
+        else {
+            // 使用文件指针创建新的std::ofstream
+            // 注意：传递文件指针的所有权给ofstream
+            m_ofs = std::ofstream(fp);
+
+            // 如果需要，这里还可以添加一个安全检查
+            if (!m_ofs) {
+                fclose(fp);
+                m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::ate);
+            }
+        }
+
+        // 获取文件大小并设置缓冲区
+        m_file_size = std::filesystem::exists(m_log_path) ? std::filesystem::file_size(m_log_path) : 0;
         m_buff = LogStreambuf(m_ofs.rdbuf());
         m_of.rdbuf(&m_buff);
     }
