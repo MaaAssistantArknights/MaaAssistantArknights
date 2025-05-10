@@ -1694,7 +1694,12 @@ namespace MaaWpfGui.Main
 
                 case "FightTimes":
                     {
-                        FightTimes = subTaskDetails?.ToObject<FightSettingsUserControlModel.FightTimes>()!;
+                        FightTimes = null;
+                        if (subTaskDetails?.Children().Count() > 0)
+                        {
+                            FightTimes = subTaskDetails?.ToObject<FightSettingsUserControlModel.FightTimes>()!;
+                        }
+
                         break;
                     }
 

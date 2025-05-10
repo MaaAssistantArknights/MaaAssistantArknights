@@ -42,6 +42,7 @@ bool asst::FightTimesTaskPlugin::_run()
 {
     LogTraceFunction;
     json::value sanity_info = basic_info_with_what("SanityBeforeStage");
+    json::value fight = basic_info_with_what("FightTimes");
     sanity_info["details"]["report_time"] = utils::get_format_time();
     // {"sanity_current": 100, "sanity_max": 135, "report_time": "2023-09-01 09:31:53.527"}
     auto image = ctrler()->get_image();
@@ -49,18 +50,18 @@ bool asst::FightTimesTaskPlugin::_run()
     if (!sanity) {
         Log.error(__FUNCTION__, "unable to analyze sanity");
         callback(AsstMsg::SubTaskExtraInfo, sanity_info);
+        callback(AsstMsg::SubTaskExtraInfo, fight);
         return false;
     }
     sanity_info["details"]["current_sanity"] = sanity->current;
     sanity_info["details"]["max_sanity"] = sanity->max;
     callback(AsstMsg::SubTaskExtraInfo, sanity_info);
 
-    json::value fight = basic_info_with_what("FightTimes");
     fight["details"]["times_finished"] = m_fight_times;
-
     if (m_fight_times >= m_fight_times_max) {
         m_task_ptr->set_enable(false); // 战斗次数已达上限
         Log.info(__FUNCTION__, "fight times reached max");
+        callback(AsstMsg::SubTaskExtraInfo, fight);
         return true;
     }
 
@@ -68,6 +69,7 @@ bool asst::FightTimesTaskPlugin::_run()
     auto series = analyze_stage_series(image);
     if (sanity_cost.value_or(-1) < 0 || (series && (*series < 1 || *series > 6))) [[unlikely]] {
         Log.error(__FUNCTION__, "unable to analyze sanity cost or series");
+        callback(AsstMsg::SubTaskExtraInfo, fight);
         return false;
     }
     if (!series) { // 默认连续战斗次数为1, 部分关卡不支持连战
