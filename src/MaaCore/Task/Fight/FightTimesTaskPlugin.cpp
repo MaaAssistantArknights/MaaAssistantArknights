@@ -93,7 +93,7 @@ bool asst::FightTimesTaskPlugin::_run()
             return false;
         }
     }
-    else if (m_series > 0 && m_series < 7 && select_series(m_series)) {
+    else if (m_series > 0 && m_series < 7 && *series != m_series && select_series(m_series)) {
         image = ctrler()->get_image();
         sanity_cost = analyze_sanity_cost(image);
         series = analyze_stage_series(image);
