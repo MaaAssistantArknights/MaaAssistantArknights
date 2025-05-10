@@ -798,12 +798,6 @@ private:
                 _close(file_handle);
             }
         }
-#else
-        std::string path_str = m_log_path.string();
-        // Linux、macOS等POSIX平台使用标准fopen
-        // 非Windows平台不支持"N"模式，保持原样
-        fp = fopen(path_str.c_str(), "a");
-#endif
 
         if (!fp) {
             // 打开失败时回退到原始方法
@@ -820,7 +814,9 @@ private:
                 m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::ate);
             }
         }
-
+#else
+        m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::ate);
+#endif
         // 获取文件大小并设置缓冲区
         m_file_size = std::filesystem::exists(m_log_path) ? std::filesystem::file_size(m_log_path) : 0;
         m_buff = LogStreambuf(m_ofs.rdbuf());
