@@ -5,7 +5,7 @@ icon: material-symbols:task
 
 # 任务流程协议
 
-`resource/tasks.json` 的使用方法及各字段说明
+`resource/tasks` 的使用方法及各字段说明
 
 ::: tip
 请注意 JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直接复制使用

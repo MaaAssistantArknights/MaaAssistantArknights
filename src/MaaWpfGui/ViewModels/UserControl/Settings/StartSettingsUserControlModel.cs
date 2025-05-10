@@ -186,7 +186,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
                             LocalizationHelper.GetString("OpenEmulatorAfterLaunch")));
                 }
             }
-            else if (!File.Exists(EmulatorPath))
+            else if (!File.Exists(value))
             {
                 Growl.Warning(LocalizationHelper.GetString("EmulatorPathNotExist"));
             }

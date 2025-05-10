@@ -226,7 +226,9 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
 
     if (init) {
         AvatarCache.remove_confusing_avatars(); // 移除小龙等不同技能很像的召唤物，防止错误识别
-        wait_until_start(false);
+        if (!wait_until_start(false)) {
+            return false;
+        }
     }
 
     cv::Mat image = init || reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
@@ -590,8 +592,16 @@ bool asst::BattleHelper::wait_until_start(bool weak)
 {
     LogTraceFunction;
 
+    constexpr auto timeout_duration = std::chrono::minutes(1);
+    const auto start_time = std::chrono::steady_clock::now();
+
     cv::Mat image = m_inst_helper.ctrler()->get_image();
     while (!m_inst_helper.need_exit() && !check_in_battle(image, weak)) {
+        if (std::chrono::steady_clock::now() - start_time > timeout_duration) {
+            Log.warn("Timeout reached while waiting to start the battle.");
+            return false;
+        }
+
         do_strategic_action(image);
         std::this_thread::yield();
 

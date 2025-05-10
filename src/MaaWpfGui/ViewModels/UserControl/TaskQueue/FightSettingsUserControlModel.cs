@@ -22,6 +22,7 @@ using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -102,17 +103,6 @@ public class FightSettingsUserControlModel : TaskViewModel
             { "碳", "SK-5" },
             { "炭", "SK-5" },
         };
-
-    public Dictionary<string, int> SeriesList { get; } = new()
-    {
-        { "AUTO", 1000 },
-        { "6", 6 },
-        { "5", 5 },
-        { "4", 4 },
-        { "3", 6 },
-        { "2", 2 },
-        { "1", 1 },
-    };
 
     public string?[] Stages => [Stage1, Stage2, Stage3];
 
@@ -471,7 +461,31 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private int _series = ConfigurationHelper.GetValue(ConfigurationKeys.SeriesQuantity, 1000);
+    public Dictionary<string, int> SeriesList { get; } = new()
+    {
+        { "AUTO", 0 },
+        { "6", 6 },
+        { "5", 5 },
+        { "4", 4 },
+        { "3", 3 },
+        { "2", 2 },
+        { "1", 1 },
+        { LocalizationHelper.GetString("NotSelected"), -1 },
+    };
+
+    private int _series = InitFightSeries();
+
+    private static int InitFightSeries()
+    {
+        var series = ConfigurationHelper.GetValue(ConfigurationKeys.SeriesQuantity, 0);
+        if (Enumerable.Range(-1, 8).Contains(series))
+        {
+            return series;
+        }
+
+        ConfigurationHelper.SetValue(ConfigurationKeys.SeriesQuantity, "0");
+        return 0;
+    }
 
     /// <summary>
     /// Gets or sets the max number of times.
@@ -834,4 +848,28 @@ public class FightSettingsUserControlModel : TaskViewModel
     }
 
     #endregion
+
+    public class SanityInfo
+    {
+        [JsonProperty("current_sanity")]
+        public int SanityCurrent { get; set; }
+
+        [JsonProperty("max_sanity")]
+        public int SanityMax { get; set; }
+
+        [JsonProperty("report_time")]
+        public DateTimeOffset ReportTime { get; set; }
+    }
+
+    public class FightTimes
+    {
+        [JsonProperty("sanity_cost")]
+        public int SanityCost { get; set; }
+
+        [JsonProperty("series")]
+        public int Series { get; set; }
+
+        [JsonProperty("times_finished")]
+        public int TimesFinished { get; set; }
+    }
 }

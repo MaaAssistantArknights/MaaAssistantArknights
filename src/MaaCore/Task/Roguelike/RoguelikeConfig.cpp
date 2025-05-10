@@ -82,10 +82,10 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
         if (!params.contains("investment_with_more_score") && params.contains("investment_enter_second_floor")) {
             investment_with_more_score = params.get("investment_enter_second_floor", true);
             Log.warn("================  DEPRECATED  ================");
-            Log.warn(
-                "`investment_enter_second_floor` has been deprecated since v5.2.1; Please use "
-                "'investment_with_more_score'");
+            LogWarn << "`investment_enter_second_floor` has been deprecated since v5.2.1; Please use "
+                       "'investment_with_more_score'";
             Log.warn("================  DEPRECATED  ================");
+            return false;
         }
         m_invest_with_more_score = (investment_with_more_score);
     }

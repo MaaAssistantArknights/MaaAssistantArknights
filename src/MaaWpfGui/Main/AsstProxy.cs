@@ -540,7 +540,12 @@ namespace MaaWpfGui.Main
                         switch (SettingsViewModel.ConnectSettings.ConnectConfig)
                         {
                             case "MuMuEmulator12":
-                                if (SettingsViewModel.ConnectSettings.MuMuEmulator12Extras.Enable && method != "MumuExtras")
+                                if (!SettingsViewModel.ConnectSettings.MuMuEmulator12Extras.Enable)
+                                {
+                                    break;
+                                }
+
+                                if (method != "MumuExtras")
                                 {
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage"), UiLogColor.Error);
                                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage"), UiLogColor.Error, showTime: false);
@@ -549,12 +554,16 @@ namespace MaaWpfGui.Main
                                 else if (timeCost < 100)
                                 {
                                     color = UiLogColor.MuMuSpecialScreenshot;
-                                    method = "MuMuExtras";
                                 }
 
                                 break;
                             case "LDPlayer":
-                                if (SettingsViewModel.ConnectSettings.LdPlayerExtras.Enable && method != "LDExtras")
+                                if (!SettingsViewModel.ConnectSettings.LdPlayerExtras.Enable)
+                                {
+                                    break;
+                                }
+
+                                if (method != "LDExtras")
                                 {
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("LdExtrasNotEnabledMessage"), UiLogColor.Error);
                                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("LdExtrasNotEnabledMessage"), UiLogColor.Error, showTime: false);
@@ -563,7 +572,6 @@ namespace MaaWpfGui.Main
                                 else if (timeCost < 100)
                                 {
                                     color = UiLogColor.LdSpecialScreenshot;
-                                    method = "LDExtras";
                                 }
 
                                 break;
@@ -624,10 +632,13 @@ namespace MaaWpfGui.Main
 
         private void OnToastNotificationTimerTick(object? sender, EventArgs e)
         {
-            var sanityReport = LocalizationHelper.GetString("SanityReport");
-            var recoveryTime = SanityReport.ReportTime.AddMinutes(SanityReport.Sanity[0] < SanityReport.Sanity[1] ? (SanityReport.Sanity[1] - SanityReport.Sanity[0]) * 6 : 0);
-            sanityReport = sanityReport.Replace("{DateTime}", recoveryTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", (recoveryTime - DateTimeOffset.Now).ToString(@"h\h\ m\m"));
-            ToastNotification.ShowDirect(sanityReport);
+            if (SanityReport is not null)
+            {
+                var sanityReport = LocalizationHelper.GetString("SanityReport");
+                var recoveryTime = SanityReport.ReportTime.AddMinutes(SanityReport.SanityCurrent < SanityReport.SanityMax ? (SanityReport.SanityMax - SanityReport.SanityCurrent) * 6 : 0);
+                sanityReport = sanityReport.Replace("{DateTime}", recoveryTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", (recoveryTime - DateTimeOffset.Now).ToString(@"h\h\ m\m"));
+                ToastNotification.ShowDirect(sanityReport);
+            }
 
             DisposeTimer();
         }
@@ -752,9 +763,9 @@ namespace MaaWpfGui.Main
                                 break;
                         }
 
-                        if (taskChain == "Fight" && SanityReport.HasSanityReport)
+                        if (taskChain == "Fight" && SanityReport is not null)
                         {
-                            var sanityLog = "\n" + string.Format(LocalizationHelper.GetString("CurrentSanity"), SanityReport.Sanity[0], SanityReport.Sanity[1]);
+                            var sanityLog = "\n" + string.Format(LocalizationHelper.GetString("CurrentSanity"), SanityReport.SanityCurrent, SanityReport.SanityMax);
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskChain + sanityLog);
                         }
                         else
@@ -829,9 +840,9 @@ namespace MaaWpfGui.Main
 
                         var allTaskCompleteLog = string.Format(LocalizationHelper.GetString("AllTasksComplete"), diffTaskTime);
 
-                        if (SanityReport.HasSanityReport)
+                        if (SanityReport is not null)
                         {
-                            var recoveryTime = SanityReport.ReportTime.AddMinutes(SanityReport.Sanity[0] < SanityReport.Sanity[1] ? (SanityReport.Sanity[1] - SanityReport.Sanity[0]) * 6 : 0);
+                            var recoveryTime = SanityReport.ReportTime.AddMinutes(SanityReport.SanityCurrent < SanityReport.SanityMax ? (SanityReport.SanityMax - SanityReport.SanityCurrent) * 6 : 0);
                             sanityReport = sanityReport.Replace("{DateTime}", recoveryTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", (recoveryTime - DateTimeOffset.Now).ToString(@"h\h\ m\m"));
 
                             allTaskCompleteLog = allTaskCompleteLog + Environment.NewLine + sanityReport;
@@ -880,7 +891,7 @@ namespace MaaWpfGui.Main
 
                         using (var toast = new ToastNotification(allTaskCompleteTitle))
                         {
-                            if (SanityReport.HasSanityReport)
+                            if (SanityReport is not null)
                             {
                                 toast.AppendContentText(sanityReport);
                             }
@@ -1084,10 +1095,18 @@ namespace MaaWpfGui.Main
                             case "StartButton2":
                             case "AnnihilationConfirm":
                                 StringBuilder missionStartLogBuilder = new();
-                                missionStartLogBuilder.AppendLine(LocalizationHelper.GetString("MissionStart") + $" {execTimes} {LocalizationHelper.GetString("UnitTime")}");
-                                if (SanityReport.HasSanityReport)
+                                if (FightTimes is null)
                                 {
-                                    missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("CurrentSanity"), SanityReport.Sanity[0], SanityReport.Sanity[1]);
+                                    missionStartLogBuilder.AppendLine(LocalizationHelper.GetString("MissionStart") + $" ??? {LocalizationHelper.GetString("UnitTime")}");
+                                }
+                                else
+                                {
+                                    missionStartLogBuilder.AppendLine(LocalizationHelper.GetString("MissionStart") + $" {FightTimes.TimesFinished + 1}~{FightTimes.TimesFinished + FightTimes.Series} {LocalizationHelper.GetString("UnitTime")} (-{FightTimes.SanityCost}{LocalizationHelper.GetString("Sanity")})");
+                                }
+
+                                if (SanityReport is not null)
+                                {
+                                    missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("CurrentSanity"), SanityReport.SanityCurrent, SanityReport.SanityMax);
                                 }
 
                                 if (ExpiringMedicineUsedTimes > 0)
@@ -1663,35 +1682,26 @@ namespace MaaWpfGui.Main
                     break;
 
                 case "SanityBeforeStage":
-                    SanityReport.HasSanityReport = false;
-                    var sanityReport = (JObject?)subTaskDetails;
-                    if (sanityReport is null || !sanityReport.ContainsKey("current_sanity") || !sanityReport.ContainsKey("max_sanity") || !sanityReport.ContainsKey("report_time"))
                     {
+                        SanityReport = null;
+                        if (subTaskDetails?.ToObject<FightSettingsUserControlModel.SanityInfo>() is FightSettingsUserControlModel.SanityInfo report && report.SanityMax > 0)
+                        {
+                            SanityReport = report;
+                        }
+
                         break;
                     }
 
-                    int sanityCur = sanityReport.TryGetValue("current_sanity", out var sanityCurToken) ? (int)sanityCurToken : -1;
-                    int sanityMax = sanityReport.TryGetValue("max_sanity", out var sanityMaxToken) ? (int)sanityMaxToken : -1;
-                    var reportTime = sanityReport.TryGetValue("report_time", out var reportTimeToken) ? (string?)reportTimeToken : string.Empty;
-                    if (sanityCur < 0 || sanityMax < 1 || reportTime?.Length < 12)
+                case "FightTimes":
                     {
+                        FightTimes = null;
+                        if (subTaskDetails?.Children().Count() > 0)
+                        {
+                            FightTimes = subTaskDetails?.ToObject<FightSettingsUserControlModel.FightTimes>()!;
+                        }
+
                         break;
                     }
-
-                    SanityReport.Sanity[0] = sanityCur;
-                    SanityReport.Sanity[1] = sanityMax;
-                    try
-                    {
-                        SanityReport.ReportTime = DateTimeOffset.Parse(reportTime ?? string.Empty);
-                    }
-                    catch (FormatException)
-                    {
-                        _logger.Error("SanityReport analyze failed: report time format is invalid, {time}.", reportTime);
-                        break;
-                    }
-
-                    SanityReport.HasSanityReport = true;
-                    break;
 
                 case "UseMedicine":
                     var medicineReport = (JObject?)subTaskDetails;

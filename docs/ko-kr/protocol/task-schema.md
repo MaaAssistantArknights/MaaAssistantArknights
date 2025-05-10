@@ -9,7 +9,7 @@ icon: material-symbols:task
 주의: JSON 형식은 주석을 지원하지 않으므로 아래의 예시에서 주석은 제거해주시기 바랍니다.
 :::
 
-`resource/tasks.json`의 사용법 및 각 필드 설명
+`resource/tasks`의 사용법 및 각 필드 설명
 
 ## 개요
 

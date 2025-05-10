@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -500,9 +501,15 @@ public class VersionUpdateViewModel : Screen
     /// <returns>Task</returns>
     public async Task VersionUpdateAndAskToRestartAsync()
     {
-        if (await CheckAndDownloadVersionUpdate() == CheckUpdateRetT.OK)
+        var ret = await CheckAndDownloadVersionUpdate();
+        switch (ret)
         {
-            _ = AskToRestart();
+            case CheckUpdateRetT.OK:
+                _ = AskToRestart();
+                break;
+            case CheckUpdateRetT.NoMirrorChyanCdk:
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanSoftwareUpdateTip"));
+                break;
         }
     }
 
@@ -957,8 +964,16 @@ public class VersionUpdateViewModel : Screen
 
         var url = $"{MaaUrls.MirrorChyanAppUpdate}?current_version={_curVersion}&cdk={cdk}&user_agent=MaaWpfGui&os=win&arch={arch}&channel={channel}&sp_id={spid}";
 
-        var response = await Instances.HttpService.GetAsync(new(url), logQuery: false);
-        _logger.Information($"current_version: {_curVersion}, cdk: {cdk.Mask()}, arch: {arch}, channel: {channel}");
+        HttpResponseMessage? response = null;
+        try
+        {
+            response = await Instances.HttpService.GetAsync(new(url), logQuery: false);
+        }
+        catch (Exception e)
+        {
+            _logger.Error(e, "Failed to send GET request to {Uri}", new Uri(url).GetLeftPart(UriPartial.Path));
+            _logger.Information($"current_version: {_curVersion}, cdk: {cdk.Mask()}, arch: {arch}, channel: {channel}");
+        }
 
         if (response is null)
         {

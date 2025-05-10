@@ -18,6 +18,7 @@ using System.Linq;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services.Notification;
+using MaaWpfGui.ViewModels.UI;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.Settings;
@@ -101,6 +102,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             "SMTP",
             "Bark",
             "Qmsg",
+            "Custom Webhook"
         ];
 
     public static List<string> ExternalNotificationProvidersShow => ExternalNotificationProviders;
@@ -194,6 +196,13 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         set => SetAndNotify(ref _qmsgEnabled, value);
     }
 
+    private bool _customWebhookEnabled = false;
+    public bool CustomWebhookEnabled
+    {
+        get => _customWebhookEnabled;
+        set => SetAndNotify(ref _customWebhookEnabled, value);
+    }
+
     public void UpdateExternalNotificationProvider()
     {
         ServerChanEnabled = _enabledExternalNotificationProviders.Contains("ServerChan");
@@ -203,6 +212,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         SmtpEnabled = _enabledExternalNotificationProviders.Contains("SMTP");
         BarkEnabled = _enabledExternalNotificationProviders.Contains("Bark");
         QmsgEnabled = _enabledExternalNotificationProviders.Contains("Qmsg");
+        CustomWebhookEnabled = _enabledExternalNotificationProviders.Contains("Custom Webhook");
     }
 
     #endregion External Enable
@@ -479,6 +489,38 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgBot, value);
         }
     }
+
+    private string _customWebhookUrl = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookUrl, string.Empty));
+
+    public string CustomWebhookUrl
+    {
+        get => _customWebhookUrl;
+        set
+        {
+            SetAndNotify(ref _customWebhookUrl, value);
+            value = SimpleEncryptionHelper.Encrypt(value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationCustomWebhookUrl, value);
+        }
+    }
+
+    private string _customWebhookBody = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookBody, string.Empty));
+
+    public string CustomWebhookBody
+    {
+        get => _customWebhookBody;
+        set
+        {
+            SetAndNotify(ref _customWebhookBody, value);
+            value = SimpleEncryptionHelper.Encrypt(value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationCustomWebhookBody, value);
+        }
+    }
+
+    // FIXME: 不知道为什么 TextBox 在高度变化时会导致 ScrollViewer 的偏移位置变成 0，直接锁到第一个元素去了。在编辑的时候先给它禁用了
+    // 不要用 static，s:Action 找不到
+    public void CustomWebhookBodyGotFocus() => Instances.SettingsViewModel.AllowScrollOffsetChange = false;
+
+    public void CustomWebhookBodyLostFocus() => Instances.SettingsViewModel.AllowScrollOffsetChange = true;
 
     #endregion External Notification Config
 }
