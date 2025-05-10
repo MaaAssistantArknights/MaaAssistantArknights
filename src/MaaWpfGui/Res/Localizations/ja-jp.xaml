@@ -388,6 +388,12 @@
     <system:String x:Key="PenguinId">Penguin-StatsのレポートのID（デジタル部分のみ）</system:String>
     <system:String x:Key="EnablePenguin">Penguin-Statsへ報告</system:String>
     <system:String x:Key="EnableYituliu">Yituliuへ報告</system:String>
+    <system:String x:Key="EnableWatchdog">ウォッチドッグスレッドを有効にする</system:String>
+    <system:String x:Key="WatchdogIntervalSec">ウォッチドッグの確認間隔（秒）</system:String>
+    <system:String x:Key="WatchdogThreshold">フリーズ検出のしきい値</system:String>
+    <system:String x:Key="FreezeStartWithScript">フリーズ時、上記スクリプトで再起動</system:String>
+    <system:String x:Key="FreezeEndWithScript">フリーズ時、上記スクリプトで終了</system:String>
+    <system:String x:Key="FreezeDetected">フリーズを検出、再起動中</system:String>
     <system:String x:Key="DrGrandet">Dr.グランデモード</system:String>
     <system:String x:Key="DrGrandetTip">理性の回復画面で、現在の待機中の回復が完了するまで待ってから、理性剤などを使用します。</system:String>
     <system:String x:Key="SocialPtShop">FP交換</system:String>
