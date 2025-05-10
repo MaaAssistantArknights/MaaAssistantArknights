@@ -103,17 +103,8 @@ bool asst::FightTimesTaskPlugin::_run()
             return false;
         }
     }
-    if (m_fight_times + *series > m_fight_times_max && select_series(m_fight_times_max - m_fight_times)) { // 次数超过后降至可用次数
-        image = ctrler()->get_image();
-        sanity_cost = analyze_sanity_cost(image);
-        series = analyze_stage_series(image);
-        if (sanity_cost.value_or(-1) < 0 || !series || *series < 1 || *series > 6) [[unlikely]] {
-            Log.error(__FUNCTION__, "unable to analyze sanity cost or series");
-            callback(AsstMsg::SubTaskExtraInfo, fight);
-            return false;
-        }
-    }    
-    if (m_fight_times + *series > m_fight_times_max ) {
+
+    if (m_fight_times + *series > m_fight_times_max) {
         m_task_ptr->set_enable(false); // 战斗次数超过上限
         Log.info(__FUNCTION__, "fight times reached max");
         callback(AsstMsg::SubTaskExtraInfo, fight);
