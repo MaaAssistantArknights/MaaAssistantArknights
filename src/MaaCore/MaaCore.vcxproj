@@ -175,6 +175,7 @@
     <None Include="..\..\resource\tasks\Roguelike\Sami.json" />
     <None Include="..\..\resource\tasks\Roguelike\Sarkaz.json" />
     <None Include="..\..\resource\tasks\Stages\AS.json" />
+    <None Include="..\..\resource\tasks\Stages\base.json" />
     <None Include="..\..\resource\tasks\Stages\BB.json" />
     <None Include="..\..\resource\tasks\Stages\BP.json" />
     <None Include="..\..\resource\tasks\Stages\CF.json" />
@@ -205,7 +206,6 @@
     <None Include="..\..\resource\tasks\Stages\RS.json" />
     <None Include="..\..\resource\tasks\Stages\SL.json" />
     <None Include="..\..\resource\tasks\Stages\SN.json" />
-    <None Include="..\..\resource\tasks\Stages\SS.json" />
     <None Include="..\..\resource\tasks\Stages\Supplies.json" />
     <None Include="..\..\resource\tasks\Stages\WB.json" />
     <None Include="..\..\resource\tasks\Stages\ZT.json" />
