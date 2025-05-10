@@ -9,18 +9,18 @@
     "deploy_plan": [
         {
             "groups": ["投掷手"],
-            "location": [3, 1],
-            "direction": "down"
-        },
-        {
-            "groups": ["高台输出"],
-            "location": [5, 4],
+            "location": [3, 3],
             "direction": "up"
         },
         {
             "groups": ["奶盾", "重装", "地面阻挡", "地面远程"],
             "location": [4, 1],
             "direction": "down"
+        },
+        {
+            "groups": ["高台输出"],
+            "location": [5, 4],
+            "direction": "up"
         },
         {
             "groups": ["高台输出"],
