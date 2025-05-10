@@ -517,9 +517,10 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     }
 
     // FIXME: 不知道为什么 TextBox 在高度变化时会导致 ScrollViewer 的偏移位置变成 0，直接锁到第一个元素去了。在编辑的时候先给它禁用了
-    public static void CustomWebhookBodyGotFocus() => Instances.SettingsViewModel.AllowScrollOffsetChange = false;
+    // 不要用 static，s:Action 找不到
+    public void CustomWebhookBodyGotFocus() => Instances.SettingsViewModel.AllowScrollOffsetChange = false;
 
-    public static void CustomWebhookBodyLostFocus() => Instances.SettingsViewModel.AllowScrollOffsetChange = true;
+    public void CustomWebhookBodyLostFocus() => Instances.SettingsViewModel.AllowScrollOffsetChange = true;
 
     #endregion External Notification Config
 }
