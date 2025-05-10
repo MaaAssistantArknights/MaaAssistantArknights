@@ -630,7 +630,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RecruitmentRecognitionTip">시작 화면의 공개모집 기능과는 별도로 독립된 기능입니다\n게임 내 공개모집 태그 화면에 진입한 뒤 인식 시작 버튼을 누르세요~</system:String>
     <system:String x:Key="AutoSettingTime">자동 시간 설정</system:String>
     <system:String x:Key="RecruitmentShowPotential">잠재능력 확인 (★4 이상)</system:String>
-    <system:String x:Key="RecruitmentShowPotentialTips">오퍼레이터 정보를 불러오려면 “오퍼레이터 인식” 기능을 사용하세요.</system:String>
+    <system:String x:Key="RecruitmentShowPotentialTips">오퍼레이터 정보를 불러오려면 ｢오퍼레이터 인식｣ 기능을 사용하세요.</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">★3 태그를 자동 선택</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">★4 태그를 자동 선택</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">★5 태그를 자동 선택</system:String>
