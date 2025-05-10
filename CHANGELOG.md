@@ -2,6 +2,7 @@
 
 ### 新增 | New
 
+* 添加萨卡兹肉鸽劳作的清晨关卡策略 (#12626) @1286587265 @Daydreamer114 @Saratoga-Official
 * 指定次数联动连战, 修复连战导致指定次数失效, Auto模式不再溢出理智 (#12592) @status102 @pre-commit-ci[bot] @ABA2396 @Constrat
 * 添加 自定义 webhook 功能 (#12602) @KagurazakaIris @ABA2396
 * 肉鸽适配新干员 (#12599) @Saratoga-Official
