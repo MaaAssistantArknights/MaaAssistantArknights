@@ -68,6 +68,10 @@
     <system:String x:Key="ExternalNotificationQmsgKey">Qmsg Key</system:String>
     <system:String x:Key="ExternalNotificationQmsgUser">User QQ</system:String>
     <system:String x:Key="ExternalNotificationQmsgBot">Bot QQ</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook">Custom Webhook</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhookUrl">Webhook URL</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhookBody">Message body template</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhookPlaceholders">Placeholders: {title}, {content}, {time}</system:String>
     <system:String x:Key="UseGpuForInference">Use GPU for inference acceleration</system:String>
     <system:String x:Key="GpuOptionDisable">Don’t use</system:String>
     <system:String x:Key="GpuOptionSystemDefault">System default GPU</system:String>
@@ -1046,7 +1050,4 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
     <system:String x:Key="ReminderIntervalMinutes">Reminder interval (minutes)</system:String>
     <system:String x:Key="TaskTimeoutWarning">The task has been running for more than {0} minutes (currently running for {1} minutes). If there are no further log updates for a long time, manual intervention may be required.</system:String>
     <!--  !TimeOutTimer  -->
-    <system:String x:Key="ExternalNotificationCustomWebhookUrl">Webhook URL</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhookBody">Message body template</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhookPlaceholders">Available placeholders: {title}, {content}, {time} ...</system:String>
 </ResourceDictionary>
