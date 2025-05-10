@@ -5,7 +5,7 @@ icon: material-symbols:task
 
 # Task Schema
 
-Usage of `resource/tasks.json` and description of each field
+Usage of `resource/tasks` and description of each field
 
 ## Overview
 

@@ -65,7 +65,7 @@ namespace MaaWpfGui.Main
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         private static extern bool FreeLibrary(IntPtr hModule);
 
-        private bool IsVCppInstalled()
+        private static bool IsVCppInstalled()
         {
             IntPtr handle = IntPtr.Zero;
             try

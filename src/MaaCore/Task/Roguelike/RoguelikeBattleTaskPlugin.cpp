@@ -62,7 +62,12 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
     if (!calc_stage_info()) {
         return false;
     }
-    update_deployment(true);
+
+    if (!update_deployment(true)) {
+        Log.error("update deployment failed");
+        return false;
+    }
+
     cache_oper_elite_status();
     speed_up();
 
@@ -128,7 +133,7 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
     sleep(stage_name_task_ptr->pre_delay);
 
     auto start = std::chrono::steady_clock::now();
-    constexpr auto kTimeout = std::chrono::seconds(20);
+    constexpr auto kTimeout = std::chrono::minutes(1);
 
     while (std::chrono::steady_clock::now() - start < kTimeout) {
         if (need_exit()) {

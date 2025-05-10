@@ -35,7 +35,7 @@
     <system:String x:Key="ResourceVersion">Resource Version</system:String>
     <system:String x:Key="ResourceDateTime">Resource Date</system:String>
     <system:String x:Key="Off">Off</system:String>
-    <system:String x:Key="ExternalNotificationTips">Please note: The external notification feature currently only sends 「All tasks completed」 notifications.</system:String>
+    <system:String x:Key="ExternalNotificationTips">Please note: The external notification feature currently only sends ｢All tasks completed｣ notifications.</system:String>
     <system:String x:Key="ExternalNotificationSettings">External notifications</system:String>
     <system:String x:Key="ExternalNotificationEnabled">Enabled configuration</system:String>
     <system:String x:Key="ExternalNotificationEnableDetails">Output Detailed Information</system:String>
@@ -68,10 +68,14 @@
     <system:String x:Key="ExternalNotificationQmsgKey">Qmsg Key</system:String>
     <system:String x:Key="ExternalNotificationQmsgUser">User QQ</system:String>
     <system:String x:Key="ExternalNotificationQmsgBot">Bot QQ</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook">Custom Webhook</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhookUrl">Webhook URL</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhookBody">Message body template</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhookPlaceholders">Placeholders: {title}, {content}, {time}</system:String>
     <system:String x:Key="UseGpuForInference">Use GPU for inference acceleration</system:String>
     <system:String x:Key="GpuOptionDisable">Don’t use</system:String>
     <system:String x:Key="GpuOptionSystemDefault">System default GPU</system:String>
-    <system:String x:Key="GpuDeprecatedMessage">The current selected GPU ({0}) for inference acceleration is not recommended.\n\nYou can choose another GPU or suppress this message in “Settings - Performance”.</system:String>
+    <system:String x:Key="GpuDeprecatedMessage">The current selected GPU ({0}) for inference acceleration is not recommended.\n\nYou can choose another GPU or suppress this message in ｢Settings - Performance｣.</system:String>
     <system:String x:Key="GpuAllowDeprecated">Allow deprecated GPU</system:String>
     <!--  Settings Guide  -->
     <system:String x:Key="TaskSettings">Task Settings</system:String>
@@ -157,15 +161,15 @@
     <system:String x:Key="StartingCoreChar">Starting Operator (single)</system:String>
     <system:String x:Key="StartingCoreCharTip">If not filled out, the default policy will be used.</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">The operator is not in battle_data.</system:String>
-    <system:String x:Key="RoguelikeStartWithEliteTwo">Repeat for 「Starting Operator」 Elite 2</system:String>
-    <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">Only Repeat for 「Starting Operator」 Elite 2, No Battle</system:String>
+    <system:String x:Key="RoguelikeStartWithEliteTwo">Repeat for ｢Starting Operator｣ Elite 2</system:String>
+    <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">Only Repeat for ｢Starting Operator｣ Elite 2, No Battle</system:String>
     <system:String x:Key="RoguelikeStartWithTwoIdeas">Repeat for a start with 2 ideas</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">Repeat for foldartal foreseed first floor, No Battle</system:String>
-    <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">Start with "Life Prioritizing Squad" and acquire the cypherboard</system:String>
-    <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">Write up to three and separate with ";"</system:String>
+    <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">Start with ｢Life Prioritizing Squad｣ and acquire the cypherboard</system:String>
+    <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">Write up to three and separate with ｢;｣</system:String>
     <system:String x:Key="RoguelikeCollapseList">Collapse Paradigm List</system:String>
-    <system:String x:Key="RoguelikeCollapseListTip">Separate with ";". Leave blank to use the default list.</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit">Select 「Starting Operator」 from support unit list</system:String>
+    <system:String x:Key="RoguelikeCollapseListTip">Separate with ｢;｣. Leave blank to use the default list.</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnit">Select ｢Starting Operator｣ from support unit list</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable non-friend support</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">Don't abort Auto IS until the end of battle</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">Stop before final boss</system:String>
@@ -272,7 +276,7 @@ You can cancel this popup by clicking the Settings - Issue Report link. Thank yo
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 Using Global Source:
     ● Software version: Update checks via API provided by MAA Team, automatically pulls update packages from GitHub or CN Mirrors provided by MAA Team
-    ● Resource version: Free update detection provided by MirrorChyan, manually click 「Resource update」 in settings to download from GitHub
+    ● Resource version: Free update detection provided by MirrorChyan, manually click ｢Resource update｣ in settings to download from GitHub
 
 🔑 Using MirrorChyan:
     ● Software and resources are prioritized for high-speed download via MirrorChyan
@@ -282,16 +286,16 @@ You can cancel this popup by clicking the Settings - Issue Report link. Thank yo
     <system:String x:Key="ForceGithubGlobalSource">Force using GitHub</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">Fill after switching source</system:String>
-    <system:String x:Key="MirrorChyanSoftwareUpdateTip">Software update detected. Please go to 「Settings - Update Settings」 to configure MirrorChyan CDK or switch to Global Source.</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">Resource update {0} detected. Please go to 「Settings- Update Settings - Resource Update」 to update manually, or fill in MirrorChayn CDK to update automatically.</system:String>
+    <system:String x:Key="MirrorChyanSoftwareUpdateTip">Software update detected. Please go to ｢Settings - Update Settings｣ to configure MirrorChyan CDK or switch to Global Source.</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">Resource update {0} detected. Please go to ｢Settings- Update Settings - Resource Update｣ to update manually, or fill in MirrorChayn CDK to update automatically.</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateShortTip">Resource update {0} detected</system:String>
     <system:String x:Key="MirrorChyanCdkExpired">The CDK has expired. Please use a new CDK for authorization.</system:String>
     <system:String x:Key="MirrorChyanCdkInvalid">The CDK is invalid. Please check if the input is correct.</system:String>
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">The CDK has reached the maximum download limit for today. Please try again tomorrow.</system:String>
     <system:String x:Key="MirrorChyanCdkMismatched">The CDK type does not match the resource to be downloaded. Please check the CDK's applicable scope.</system:String>
     <system:String x:Key="NewVersionFoundTitle">New Version Found</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">Downloading from 「Global Source」...</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">Downloading from 「MirrorChyan」...</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">Downloading from ｢Global Source｣...</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">Downloading from ｢MirrorChyan｣...</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">Version:&#160;</system:String>
     <system:String x:Key="NewVersionFoundDescInfo" xml:space="preserve">Info:&#160;</system:String>
     <system:String x:Key="NewVersionFoundButtonGoWebpage">Go to the website</system:String>
@@ -327,7 +331,7 @@ You can cancel this popup by clicking the Settings - Issue Report link. Thank yo
     <system:String x:Key="ConfigExists">Configuration &lt;{0}&gt; already exists</system:String>
     <system:String x:Key="LaunchOnSystemStartup">Auto start with PC</system:String>
     <system:String x:Key="LaunchOnSystemStartupAdminPrompt">
-        Administrator mode does not support startup on boot. It is not recommended to run MAA with administrator privileges for an extended period.\nIf necessary, please go to Control Panel &gt; Windows Tools &gt; Task Scheduler to create a custom task. When setting the trigger, make sure to check 「Run with highest privileges」
+        Administrator mode does not support startup on boot. It is not recommended to run MAA with administrator privileges for an extended period.\nIf necessary, please go to Control Panel &gt; Windows Tools &gt; Task Scheduler to create a custom task. When setting the trigger, make sure to check ｢Run with highest privileges｣
     </system:String>
     <system:String x:Key="RunTaskAfterLaunch">Auto Run task after launched</system:String>
     <system:String x:Key="MinimizeAfterLaunch">Auto Minimize after launched</system:String>
@@ -342,7 +346,7 @@ You can cancel this popup by clicking the Settings - Issue Report link. Thank yo
     <system:String x:Key="EmulatorPathSelectionErrorImSure">I'm sure I haven't selected the wrong one</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">Okay, I will choose again</system:String>
     <system:String x:Key="EmulatorPathNotExist">The emulator path does not exist</system:String>
-    <system:String x:Key="EmulatorPathEmptyWarning">The emulator path is empty, 「{0}」 and 「{1}」 check states have been reset</system:String>
+    <system:String x:Key="EmulatorPathEmptyWarning">The emulator path is empty, ｢{0}｣ and ｢{1}｣ check states have been reset</system:String>
     <system:String x:Key="Select">Select</system:String>
     <system:String x:Key="ForcedReplaceAdb">Replace ADB</system:String>
     <system:String x:Key="TouchMode">Touch Mode</system:String>
@@ -407,7 +411,7 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="ReceiveMail">Collect all mail rewards</system:String>
     <system:String x:Key="ReceiveFreeRecruit">Conducting daily free single pull from the limited banner</system:String>
     <system:String x:Key="ReceiveFreeRecruitTip">If there is no free single pull, it will not be pooled</system:String>
-    <system:String x:Key="GachaWarning">It's a dangerous feature and may result in a mis-pull.\nBy pressing "Confirm", you understand and are willing to accept the possible risks.</system:String>
+    <system:String x:Key="GachaWarning">It's a dangerous feature and may result in a mis-pull.\nBy pressing ｢Confirm｣, you understand and are willing to accept the possible risks.</system:String>
     <system:String x:Key="ReceiveOrundum">Collect daily Orundum reward from the Lucky Strips</system:String>
     <system:String x:Key="ReceiveMining">Collect daily Orundum reward from the provisional mining permit</system:String>
     <system:String x:Key="ReceiveSpecialAccess">Collect Special Access rewards</system:String>
@@ -421,14 +425,14 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="MainTasksNullFunctionality">Reverse right-click effect for main task</system:String>
     <system:String x:Key="MainTasksNullFunctionalityTip">Default: Apply once; Checked: Skip once</system:String>
     <system:String x:Key="TitleBarDisplayContent">Title Bar Display Content</system:String>
-    <system:String x:Key="CustomBackgroundTip">Manually create a 「background」 folder and place 「background.png」 inside to customize the background</system:String>
+    <system:String x:Key="CustomBackgroundTip">Manually create a ｢background｣ folder and place ｢background.png｣ inside to customize the background</system:String>
     <system:String x:Key="UseLogItemDateFormat">Custom log date format</system:String>
     <system:String x:Key="LogItemDateFormatString">Date format string</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">Restart immediately to apply changes?</system:String>
     <system:String x:Key="SwitchResolutionTip">Change the emulator resolution to 1920x1080!</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">Make sure the emulator is set to 1920x1080</system:String>
-    <system:String x:Key="AllowUseStoneSave">Save "Use Originium"</system:String>
-    <system:String x:Key="AllowUseStoneSaveWarning">This function is considered dangerous. Pressing the "Confirm" button indicates that you understand and are willing to accept the potential risks.</system:String>
+    <system:String x:Key="AllowUseStoneSave">Save ｢Use Originium｣</system:String>
+    <system:String x:Key="AllowUseStoneSaveWarning">This function is considered dangerous. Pressing the ｢Confirm｣ button indicates that you understand and are willing to accept the potential risks.</system:String>
     <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
     <system:String x:Key="UseRemainingSanityStage">Use remaining sanity stage</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">Farm the specified stage after completing the main task, won't use sanity potion or Originium</system:String>
@@ -439,8 +443,8 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
     <system:String x:Key="CustomStageCode">Manual entry of stage names</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">Support most main stage names + stage names from the original list (e.g. 4-10, AP-5, H10-1-Hard, etc.)
-At the end of the stage, enter 「Normal/Hard」 to switch between Standard and Adverse environment
-Enter 「SSReopen-XX」 once to clear all normal stages with Auto-Deploy in SS rerun events</system:String>
+At the end of the stage, enter ｢Normal/Hard｣ to switch between Standard and Adverse environment
+Enter ｢SSReopen-XX｣ once to clear all normal stages with Auto-Deploy in SS rerun events</system:String>
     <system:String x:Key="AutoDetectConnection">Auto detect connection</system:String>
     <system:String x:Key="AutoDetectConnectionNotSupported">Automatic connection detection is not supported for this configuration, please try manually entering the port number</system:String>
     <system:String x:Key="AutoDetectConnectionTip">This checkbox will be automatically unchecked after each detect is completed, and can be checked again if you need to re-detect</system:String>
@@ -448,7 +452,7 @@ Enter 「SSReopen-XX」 once to clear all normal stages with Auto-Deploy in SS r
     <system:String x:Key="AccountSwitch">Account Switch</system:String>
     <system:String x:Key="AccountSwitchManualRun">Switch now</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">Fill in the account that needs to be switched to, leave blank to close the account switching.
-Enter the content displayed on the login interface, such as "123****4567", you can enter "123****4567" or "4567" or "23****45"
+Enter the content displayed on the login interface, such as ｢123****4567｣, you can enter ｢123****4567｣ or ｢4567｣ or ｢23****45｣
 Only supports Official(CN) and Bilibili server. Login account is not supported.</system:String>
     <system:String x:Key="AdbPath">ADB path (rel/abs)</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">The selected file name does not contain ADB. Please check if you have chosen the wrong file or mistakenly selected the emulator itself.</system:String>
@@ -494,7 +498,7 @@ The primary instance is 0, and other instances are the numbers after the version
     <system:String x:Key="LdExtrasNotEnabledMessage">LD screenshot enhancement not enabled, please check related settings</system:String>
     <system:String x:Key="RetryOnDisconnected">Retry launching the emulator when ADB connection fails</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">Try restarting the emulator after 20 failed reconnect attempts, must be checked when using a background timed task and setting the task to close the emulator when finished</system:String>
-    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">Emulator path is empty! Please fill in "Launch Settings - Emulator Path" and reselect.</system:String>
+    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">Emulator path is empty! Please fill in ｢Launch Settings - Emulator Path｣ and reselect.</system:String>
     <system:String x:Key="AllowAdbRestart">Attempt to restart ADB Server after connection failure</system:String>
     <system:String x:Key="AllowAdbHardRestart">Attempt to kill and restart ADB process after connection failure</system:String>
     <!--  !Settings  -->
@@ -620,10 +624,10 @@ The primary instance is 0, and other instances are the numbers after the version
     <system:String x:Key="Toolbox">Toolbox</system:String>
     <!--  Recruitment Recognition  -->
     <system:String x:Key="RecruitmentRecognition">Recruitment</system:String>
-    <system:String x:Key="RecruitmentRecognitionTip">This recruit recognition is independent from the 「Farming」 tab. Please open the in game recruit tag selection screen before pressing 「Begin to Recruit」</system:String>
+    <system:String x:Key="RecruitmentRecognitionTip">This recruit recognition is independent from the ｢Farming｣ tab. Please open the in game recruit tag selection screen before pressing ｢Begin to Recruit｣</system:String>
     <system:String x:Key="AutoSettingTime">Auto set time</system:String>
     <system:String x:Key="RecruitmentShowPotential">Show Potential</system:String>
-    <system:String x:Key="RecruitmentShowPotentialTips">Please use the 「Operator」 task to get the 「Potential」 information.</system:String>
+    <system:String x:Key="RecruitmentShowPotentialTips">Please use the ｢Operator｣ task to get the ｢Potential｣ information.</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">Auto select 3★ Tags</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">Auto select 4★ Tags</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">Auto select 5★ Tags</system:String>
@@ -632,7 +636,7 @@ The primary instance is 0, and other instances are the numbers after the version
     <!--  !Recruitment Recognition  -->
     <!--  Depot Recognition  -->
     <system:String x:Key="DepotRecognition">Depot</system:String>
-    <system:String x:Key="DepotRecognitionTip">This function is still in testing. If you encounter any unexpected results, please zip the 「debug/depot」 folder in the installation path and submit an issue on GitHub</system:String>
+    <system:String x:Key="DepotRecognitionTip">This function is still in testing. If you encounter any unexpected results, please zip the ｢debug/depot｣ folder in the installation path and submit an issue on GitHub</system:String>
     <system:String x:Key="StartToDepotRecognition">Start to Identify</system:String>
     <system:String x:Key="ExportToArkplanner">Export to Arkplanner</system:String>
     <system:String x:Key="ExportToLolicon">Export to Arkntools</system:String>
@@ -650,7 +654,7 @@ The primary instance is 0, and other instances are the numbers after the version
     <system:String x:Key="VideoRecognition">Video</system:String>
     <system:String x:Key="StartToVideoRecognition">Start to identify</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">Open Directory</system:String>
-    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">For video recognition, please open the 「Copilot」 tab and drag the strategy video into it.
+    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">For video recognition, please open the ｢Copilot｣ tab and drag the strategy video into it.
 The video aspect ratio needs to be 16:9 without interference factors such as black borders, emulator borders, special shapes and screen corrections.</system:String>
     <!--  !Video Recognition  -->
     <!--  Gacha Recognition  -->
@@ -688,7 +692,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">Mini Game Name</system:String>
     <system:String x:Key="MiniGameNameGreenGrass">Contest Channel: Green Grass City (Unofficial)</system:String>
-    <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">Manually skip the tutorial dialogue, then you can exit directly.&#10;Start the task from the event screen (there is a “Join Event” button in the bottom right corner).&#10;&#10;Follow the Duck Lord’s choice.</system:String>
+    <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">Manually skip the tutorial dialogue, then you can exit directly.&#10;Start the task from the event screen (there is a ｢Join Event｣ button in the bottom right corner).&#10;&#10;Follow the Duck Lord's choice.</system:String>
     <!--  !小游戏  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">Identifying……</system:String>
@@ -707,10 +711,10 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="FailedToLikeWebJson">An error occurred, the like failed. : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">Thanks for the likes!\nThe comment section is already open on the web page, please feel free to leave your comment!</system:String>
     <system:String x:Key="AutoSquad">Auto Squad</system:String>
-    <system:String x:Key="AutoSquadTip">「Favourite」 marked operators cannot be recognized at this time</system:String>
+    <system:String x:Key="AutoSquadTip">｢Favourite｣ marked operators cannot be recognized at this time</system:String>
     <system:String x:Key="AddTrust">Add low-trust operators</system:String>
     <system:String x:Key="AddUserAdditional">Add custom operators</system:String>
-    <system:String x:Key="AddUserAdditionalTip">Use 「;」 as the separator, 「,」 to separate the operator name and skills, for example: W, 3; Ash, 2</system:String>
+    <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the operator name and skills, for example: W, 3; Ash, 2</system:String>
     <system:String x:Key="UseCopilotList">Battle list</system:String>
     <system:String x:Key="UseCopilotListTip">Please switch to the stage selection page before starting</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(Challenge)</system:String>
@@ -728,12 +732,12 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  Logs  -->
     <system:String x:Key="CopilotTip">
         Tips: \n\n
-        1. Please use this function only when the 「Mission Start」 button is visible in the main stage, story collection, or SideStory.\n\n
-        2. For Paradox Simulation, you need to turn off 「Auto Squad」 and select the skill before, then start in game 「Start」 screen.\n\n
-        3. For SSS, there are multiple built-in files under the 「resource/copilot」 folder.\n
-        Please start on the 「Start Deployment」 screen after manual formation (can be used with 「Loop Times」 )\n\n
-        4. You need turn off the 「Auto Squad」 when using a friendly support unit, then start with your support unit selected.\n\n
-        5. Marking an operator as「Favourite」 may affect the operator selection in 「Auto Squad」 . It is recommended to turn off 「Favourite」 when using 「Auto Squad」 , or manually supplement missing operators to ensure the formation is complete.\n\n
+        1. Please use this function only when the ｢Mission Start｣ button is visible in the main stage, story collection, or SideStory.\n\n
+        2. For Paradox Simulation, you need to turn off ｢Auto Squad｣ and select the skill before, then start in game ｢Start｣ screen.\n\n
+        3. For SSS, there are multiple built-in files under the ｢resource/copilot｣ folder.\n
+        Please start on the ｢Start Deployment｣ screen after manual formation (can be used with ｢Loop Times｣ )\n\n
+        4. You need turn off the ｢Auto Squad｣ when using a friendly support unit, then start with your support unit selected.\n\n
+        5. Marking an operator as｢Favourite｣ may affect the operator selection in ｢Auto Squad｣ . It is recommended to turn off ｢Favourite｣ when using ｢Auto Squad｣ , or manually supplement missing operators to ensure the formation is complete.\n\n
         6. In the Copilot workstation, you can paste the mysterious code by clicking the paste button on the right side of the input box. Left-click to paste a single job, and right-click to paste the entire job set.\n\n
         7. Battle list:\n
         After selecting the job, check that the stage name below the list is correct (e.g.: CV-EX-1). \n
@@ -757,11 +761,11 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="ErrorDetails">Details</system:String>
     <system:String x:Key="ErrorSolution">Solution</system:String>
     <system:String x:Key="ErrorSolutionMoveMaaExeOutOfFolder">Do not move the MAA.exe file alone. If you need to change the software location, please move the entire folder, or create a shortcut for MAA.exe in this folder and then drag the shortcut to another location.</system:String>
-    <system:String x:Key="ErrorSolutionCrash">Please refer to the documentation: 「FAQ - Crashes」 to solve.</system:String>
+    <system:String x:Key="ErrorSolutionCrash">Please refer to the documentation: ｢FAQ - Crashes｣ to solve.</system:String>
     <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">Failed to extract the update package. Please try to manually extract the update package in the root directory.</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">Please retry after shutting down the emulator and killing ADB. Otherwise restart your computer, then run MAA as administrator without opening the emulator, finally retry it.</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">The file is occupied, please restart the computer and try again.</system:String>
-    <system:String x:Key="ErrorSolutionSelectDefaultBrowser">Open link failure, please go to "Windows Settings" and select the default browser.</system:String>
+    <system:String x:Key="ErrorSolutionSelectDefaultBrowser">Open link failure, please go to ｢Windows Settings｣ and select the default browser.</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
     <system:String x:Key="CopyErrorMessage">Copy error message</system:String>
@@ -783,7 +787,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="TryToReconnect">Emulator disconnected, trying to reconnect</system:String>
     <system:String x:Key="ReconnectSuccess">Reconnection succeeded. Continuing the task</system:String>
     <system:String x:Key="ReconnectFailed">Reconnection failed. The connection is down!</system:String>
-    <system:String x:Key="TouchModeNotAvailable">Touch mode is not available, please go to 「Settings - Connection Settings」 to switch to a different touch mode.</system:String>
+    <system:String x:Key="TouchModeNotAvailable">Touch mode is not available, please go to ｢Settings - Connection Settings｣ to switch to a different touch mode.</system:String>
     <system:String x:Key="ScreencapFailed">Screencap failed. If it happens repeatedly, try to restart or change the emulator!</system:String>
     <system:String x:Key="FastestWayToScreencap">Screenshot test tasks: {0}ms ({1})</system:String>
     <system:String x:Key="FastestWayToScreencapWarningTip">Screencap takes a long time (avg: {0}ms) which may cause some abnormal behaviors using automatic combat functions (e.g. Auto I. S.).</system:String>
@@ -812,6 +816,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="UnableToAgent">Unable to use PRTS</system:String>
     <system:String x:Key="MissionStart">Mission started</system:String>
     <system:String x:Key="UnitTime">times</system:String>
+    <system:String x:Key="Sanity">Sanity</system:String>
     <system:String x:Key="CurrentSanity" xml:space="preserve">Sanity: {0}/{1}  </system:String>
     <system:String x:Key="MedicineUsedTimes" xml:space="preserve">Medicine: {0}  </system:String>
     <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">Medicine: {0},{1}(Expiring)  </system:String>
@@ -885,14 +890,14 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="BattleFormation">Start formation</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selected:&#160;</system:String>
     <system:String x:Key="CurrentSteps">Step: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">Unsupported stage, please check the stage name or go to 「Settings - Update - Resource update」 and try updating the resource version!</system:String>
+    <system:String x:Key="UnsupportedLevel">Unsupported stage, please check the stage name or go to ｢Settings - Update - Resource update｣ and try updating the resource version!</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results:&#160;</system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToReconnectByAdb">Attempting to reconnect</system:String>
     <system:String x:Key="TryToStartEmulator">Trying to start the emulator</system:String>
     <system:String x:Key="RestartAdb">Trying to restart the ADB Server</system:String>
     <system:String x:Key="HardRestartAdb">Trying to kill and restart the ADB process</system:String>
-    <system:String x:Key="CheckSettings">Please check your connection settings or try restarting the emulator and ADB, or restart your computer</system:String>
+    <system:String x:Key="CheckSettings">Please ｢Check connection settings｣ → ｢Try restarting the emulator and ADB｣ → ｢Restart the computer｣</system:String>
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">Force display of MAA</system:String>
@@ -936,7 +941,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="Level1Tip">If checked when 1★ tags are identified, will skip the recruitment. If not checked when 1★ tags are identified, they will be ignored.</system:String>
     <!--  !AutoRecruitSettings  -->
     <!--  EasterEggs  -->
-    <system:String x:Key="BuyWineOnAprilFoolsDay">Dear Doctor, ever heard of the new listings of 「liquor」 in Ms. Closure's store? Let's check it out?</system:String>
+    <system:String x:Key="BuyWineOnAprilFoolsDay">Dear Doctor, ever heard of the new listings of ｢liquor｣ in Ms. Closure's store? Let's check it out?</system:String>
     <system:String x:Key="Burping">Ugh…… Ehem</system:String>
     <system:String x:Key="DrunkAndStaggering">Ah, doctor, why do you sway so much in your movement today?</system:String>
     <system:String x:Key="Hangover">I won't drink so much next time……</system:String>
@@ -944,10 +949,10 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="EasterEggsRules" xml:space="preserve">1. The official version of MAA will not have Debug mode. If you see a Debug option while running, close the software immediately, do not click it, and contact the nearest MAA developer.\n
 2. Infrastructure shift changes are automatic. If you find an operator working continuously for more than 72 hours, manually adjust the shifts and check if the system time is correct.\n
 3. Recruitment tags will not change. If you notice tags changing before the countdown ends, do not continue recruiting. Restart MAA and try again.\n
-4. MAA will not send friend requests. If you receive a friend request from "MAA_System," do not accept it and delete the account.\n
+4. MAA will not send friend requests. If you receive a friend request from ｢MAA_System｣, do not accept it and delete the account.\n
 5. Roguelike assistance only provides suggestions. If the game automatically selects a non-existent option, force quit and restart the client.\n
-6. MAA's log files should not contain garbled text. If you find logs with errors other than "ERROR: Data parsing failed," delete the logs and reinstall the software.\n
-7. Night mode is safe. However, if MAA starts automatically at 3:33 AM and runs "unknown tasks," unplug the power and wait until sunrise to use it again.\n
+6. MAA's log files should not contain garbled text. If you find logs with errors other than ｢ERROR: Data parsing failed｣, delete the logs and reinstall the software.\n
+7. Night mode is safe. However, if MAA starts automatically at 3:33 AM and runs ｢unknown tasks｣, unplug the power and wait until sunrise to use it again.\n
 8. The last rule does not exist. If you see this, forget it and use MAA as usual.\n
 9. Do not click on炒...锟斤拷拷拷拷喜报拷拷拷饭 in MAA.\n
 10. MirrorChyan is kind. You only need to pay a small price to receive its protection.\n
@@ -969,7 +974,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">Hot update data retrieval successful</system:String>
     <system:String x:Key="GameResourceUpdating">Game resources are being updated.</system:String>
-    <system:String x:Key="GameResourceUpdatingMirrorChyan">Updating resource {0} from 「MirrorChyan」...</system:String>
+    <system:String x:Key="GameResourceUpdatingMirrorChyan">Updating resource {0} from ｢MirrorChyan｣...</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">Indexing in progress</system:String>
     <system:String x:Key="GameResourceNotModified">Game resources updated.</system:String>
     <system:String x:Key="GameResourceUpdated">Game resources updated.</system:String>
@@ -1011,7 +1016,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
 The support for reclamation algorithm is still under development at present. Please mind the following:
 
 Farm points through initial setup: (Be careful that existing save files might be deleted)
-  1. After reaching the maximum points, it will output 'Task Completed' and automatically stop the task.
+  1. After reaching the maximum points, it will output ｢Task Completed｣ and automatically stop the task.
   2. Cannot be used when squads are not empty (simply clear the current squad).
   3. Manually check and delete save files to prevent MAA from deleting your valuable saves.
   4. Navigation is not yet implemented, so the task cannot be started from locations outside the Reclamation mode.
@@ -1043,6 +1048,6 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
     <!--  TimeOutTimer  -->
     <system:String x:Key="TaskTimeoutMinutes">Task timeout duration (minutes)</system:String>
     <system:String x:Key="ReminderIntervalMinutes">Reminder interval (minutes)</system:String>
-    <system:String x:Key="TaskTimeoutWarning">The task has been running for more than {0} minutes (currently running for {1} minutes). Please check if manual intervention is needed.</system:String>
+    <system:String x:Key="TaskTimeoutWarning">The task has been running for more than {0} minutes (currently running for {1} minutes). If there are no further log updates for a long time, manual intervention may be required.</system:String>
     <!--  !TimeOutTimer  -->
 </ResourceDictionary>

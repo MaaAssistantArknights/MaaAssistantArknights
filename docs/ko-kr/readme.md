@@ -188,7 +188,7 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 
 ## 주의사항
 
-- 본 소프트웨어는 [GNU Affero General Public License v3.0 only](https://spdx.org/licenses/AGPL-3.0-only.html) 오픈소스 라이선스를 사용합니다.
+- 본 소프트웨어는 [GNU Affero General Public License v3.0 only](https://spdx.org/licenses/AGPL-3.0-only.html) 오픈소스 라이선스를 사용합니다, 또한 추가의 [사용자 계약](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/terms-of-service.md)이 포함됩니다.
 - 이 프로그램의 로고는 AGPL 3.0 라이센스의 적용 대상이 아닙니다. [耗毛](https://weibo.com/u/3251357314)와 Vie 두 명의 아티스트와 프로그램의 개발자들이 모든 권리를 가집니다. 프로젝트가 AGPL 3.0 라이센스 하에 있다고 하더라도 프로그램의 로고는 동의 없이 사용되어서는 안 되며, 동의 없는 상업적 이용 또한 금지됩니다.
 - 이 프로그램은 오픈소스이자 무료이며 학습 및 커뮤니케이션 전용입니다. 이 프로그램을 이용해 장비값이나 시간당 수수료 등을 대가로 서비스를 제공하는 판매자로 인해 발생하는 문제와 결과는 프로그램의 개발자들에게는 책임이 없습니다.
 

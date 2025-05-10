@@ -60,6 +60,58 @@
                     ]
                 },
                 {
+                    "name": "新约能天使",
+                    "skill": 2,
+                    "is_key": true,
+                    "is_start": true,
+                    "recruit_priority": 950,
+                    "promote_priority": 950,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["高台C", "益达"],
+                            "threshold": 1,
+                            "offset": -200
+                        }
+                    ]
+                },
+                {
+                    "name": "蕾缪安",
+                    "skill": 2,
+                    "is_key": true,
+                    "is_start": true,
+                    "recruit_priority": 850,
+                    "promote_priority": 900,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["高台C", "益达"],
+                            "threshold": 1,
+                            "offset": -200
+                        }
+                    ]
+                },
+                {
+                    "name": "荒芜拉普兰德",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "is_key": true,
+                    "recruit_priority": 800,
+                    "promote_priority": 900,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["高台C", "高台输出"],
+                            "is_less": true,
+                            "threshold": 2,
+                            "offset": 300
+                        }
+                    ],
+                    "collection_priority_offsets": [
+                        {
+                            "collection": "波纹之手",
+                            "offset": 300
+                        }
+                    ]
+                },
+                {
                     "name": "澄闪",
                     "skill": 3,
                     "alternate_skill": 2,
@@ -194,6 +246,34 @@
                     ]
                 },
                 {
+                    "name": "隐德来希",
+                    "skill": 2,
+                    "recruit_priority": 600,
+                    "promote_priority": 700,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["凯尔希", "近卫", "召唤", "重装"],
+                            "threshold": 1,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "佩佩",
+                    "skill": 2,
+                    "is_key": true,
+                    "is_start": true,
+                    "recruit_priority": 819,
+                    "promote_priority": 801,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["凯尔希", "近卫", "召唤"],
+                            "threshold": 1,
+                            "offset": -210
+                        }
+                    ]
+                },
+                {
                     "name": "百炼嘉维尔",
                     "skill": 2,
                     "is_key": true,
@@ -311,6 +391,34 @@
                             "groups": ["凯尔希", "近卫", "召唤", "重装"],
                             "threshold": 1,
                             "offset": -200
+                        }
+                    ]
+                },
+                {
+                    "name": "维娜·维多利亚",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "recruit_priority": 601,
+                    "promote_priority": 850,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["凯尔希", "重装", "召唤", "近卫", "情报官", "挡人先锋", "其他地面"],
+                            "is_less": true,
+                            "threshold": 2,
+                            "offset": -350,
+                            "doc": "地面阻挡≤2时，维娜·维多利亚的招募优先级-350"
+                        },
+                        {
+                            "groups": ["凯尔希", "玛恩纳"],
+                            "threshold": 1,
+                            "offset": -200,
+                            "doc": "玛恩纳或凯尔希在队伍中时，维娜·维多利亚的招募优先级-200"
+                        }
+                    ],
+                    "collection_priority_offsets": [
+                        {
+                            "collection": "“文明的存续”",
+                            "offset": 120
                         }
                     ]
                 },
@@ -551,6 +659,19 @@
                     ]
                 },
                 {
+                    "name": "信仰搅拌机",
+                    "skill": 2,
+                    "recruit_priority": 620,
+                    "promote_priority": 650,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["凯尔希", "重装"],
+                            "threshold": 2,
+                            "offset": -120
+                        }
+                    ]
+                },
+                {
                     "name": "雷蛇",
                     "skill": 1,
                     "recruit_priority": 613,
@@ -644,6 +765,20 @@
                             "groups": ["重装"],
                             "threshold": 1,
                             "offset": -100
+                        }
+                    ]
+                },
+                {
+                    "name": "余",
+                    "skill": 2,
+                    "is_key": true,
+                    "recruit_priority": 620,
+                    "promote_priority": 650,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["重装", "凯尔希", "近卫"],
+                            "threshold": 2,
+                            "offset": -200
                         }
                     ]
                 },
@@ -1595,6 +1730,21 @@
                     ]
                 },
                 {
+                    "name": "弑君者",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "auto_retreat": 16,
+                    "recruit_priority": 600,
+                    "promote_priority": 550,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["地面单切", "史尔特尔"],
+                            "threshold": 2,
+                            "offset": -200
+                        }
+                    ]
+                },
+                {
                     "name": "红",
                     "skill": 1,
                     "is_key": true,
@@ -1726,6 +1876,20 @@
                     "is_key": true,
                     "recruit_priority": 807,
                     "promote_priority": 550
+                },
+                {
+                    "name": "忍冬",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": 550,
+                    "promote_priority": 350,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["投锋", "挡人先锋", "情报官"],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
                 },
                 {
                     "name": "推进之王",
@@ -1922,10 +2086,40 @@
                     "name": "澄闪"
                 },
                 {
+                    "name": "荒芜拉普兰德"
+                },
+                {
                     "name": "艾雅法拉"
                 },
                 {
                     "name": "逻各斯"
+                },
+                {
+                    "name": "妮芙",
+                    "skill": 2,
+                    "recruit_priority": 640,
+                    "promote_priority": 801,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["术师"],
+                            "threshold": 1,
+                            "offset": -120
+                        }
+                    ]
+                },
+                {
+                    "name": "烛煌",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": 630,
+                    "promote_priority": 800,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["术师"],
+                            "threshold": 1,
+                            "offset": -120
+                        }
+                    ]
                 },
                 {
                     "name": "莫斯提马",
@@ -2018,6 +2212,9 @@
                     "name": "维什戴尔"
                 },
                 {
+                    "name": "蕾缪安"
+                },
+                {
                     "name": "提丰",
                     "skill": 2,
                     "is_key": true,
@@ -2040,6 +2237,9 @@
             "opers": [
                 {
                     "name": "维什戴尔"
+                },
+                {
+                    "name": "蕾缪安"
                 },
                 {
                     "name": "提丰"
@@ -2288,6 +2488,15 @@
                     "name": "圣约送葬人"
                 },
                 {
+                    "name": "隐德来希"
+                },
+                {
+                    "name": "佩佩"
+                },
+                {
+                    "name": "圣约送葬人"
+                },
+                {
                     "name": "黍"
                 },
                 {
@@ -2300,6 +2509,9 @@
                     "name": "煌"
                 },
                 {
+                    "name": "维娜·维多利亚"
+                },
+                {
                     "name": "山"
                 },
                 {
@@ -2310,6 +2522,9 @@
                 },
                 {
                     "name": "涤火杰西卡"
+                },
+                {
+                    "name": "信仰搅拌机"
                 },
                 {
                     "name": "瑕光"
@@ -2394,6 +2609,9 @@
                     "name": "仇白"
                 },
                 {
+                    "name": "忍冬"
+                },
+                {
                     "name": "推进之王"
                 },
                 {
@@ -2422,6 +2640,9 @@
                 },
                 {
                     "name": "艾丽妮"
+                },
+                {
+                    "name": "余"
                 },
                 {
                     "name": "泥岩"
@@ -2690,6 +2911,9 @@
                     "name": "涤火杰西卡"
                 },
                 {
+                    "name": "信仰搅拌机"
+                },
+                {
                     "name": "雷蛇"
                 },
                 {
@@ -2781,6 +3005,9 @@
                     "name": "嵯峨"
                 },
                 {
+                    "name": "忍冬"
+                },
+                {
                     "name": "推进之王"
                 },
                 {
@@ -2819,6 +3046,15 @@
                     "name": "维什戴尔"
                 },
                 {
+                    "name": "新约能天使"
+                },
+                {
+                    "name": "蕾缪安"
+                },
+                {
+                    "name": "荒芜拉普兰德"
+                },
+                {
                     "name": "空弦"
                 },
                 {
@@ -2844,6 +3080,12 @@
                 },
                 {
                     "name": "令"
+                },
+                {
+                    "name": "妮芙"
+                },
+                {
+                    "name": "烛煌"
                 },
                 {
                     "name": "莫斯提马"
@@ -2886,6 +3128,18 @@
                     "name": "白金",
                     "skill": 2,
                     "promote_priority": 550
+                },
+                {
+                    "name": "引星棘刺",
+                    "skill": 2,
+                    "recruit_priority": 680,
+                    "promote_priority": 710
+                },
+                {
+                    "name": "死芒",
+                    "skill": 3,
+                    "recruit_priority": 400,
+                    "promote_priority": 600
                 },
                 {
                     "name": "梅"
@@ -3121,6 +3375,9 @@
                 },
                 {
                     "name": "傀影"
+                },
+                {
+                    "name": "弑君者"
                 },
                 {
                     "name": "麒麟R夜刀"
@@ -3490,6 +3747,9 @@
                     "skill": 2,
                     "recruit_priority": 596,
                     "promote_priority": 466
+                },
+                {
+                    "name": "死芒"
                 },
                 {
                     "name": "缪尔赛思",

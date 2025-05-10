@@ -40,7 +40,11 @@ bool asst::BattleProcessTask::_run()
         return false;
     }
 
-    update_deployment(true);
+    if (!update_deployment(true)) {
+        Log.error("update deployment failed");
+        return false;
+    }
+
     to_group();
 
     size_t action_size = get_combat_data().actions.size();

@@ -79,8 +79,11 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
     "medicine": int,            // 最大使用理智藥數量，可選，預設 0
     "expiring_medicine": int,   // 最大使用 48 小時內過期理智藥數量，可選，預設 0
     "stone": int,               // 最大吃石頭數量，可選，預設 0
-    "times": int,               // 指定次數，可選，預設無窮大
-    "series": int,              // 連戰次數，可選，1~6
+    "times": int,               // 戰鬥次數，可選，預設int32.max
+    "series": int,              // 連戰次數, 可選, -1~6
+                                // -1  為禁用切換
+                                // 0   為自動切換為目前可用的最大次數, 如當前理智不夠6次, 則選擇最低可用次數
+                                // 1~6 為指定連戰次數
     "drops": {                  // 指定掉落數量，可選，預設不指定
         "30011": int,           // key - item_id, value 數量. key 可參考 resource/item_index.json 檔案
         "30062": int            // 是或的關系

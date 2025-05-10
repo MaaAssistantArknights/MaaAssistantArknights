@@ -1551,6 +1551,14 @@
         "sortId": -10000,
         "usage": "Can be exchanged at milestones for rewards."
     },
+    "act1vautochess_token_chess": {
+        "classifyType": "NONE",
+        "description": "Medals prepared by Rhodes Island's workshop for operators participating in Stronghold Protocol. Magnetic. Apparently, if you gather enough of them, you can make a fortress out of chess pieces.",
+        "icon": "act1vautochess_token_chess.png",
+        "name": "Stronghold Credits",
+        "sortId": -10000,
+        "usage": "Can be exchanged for all sorts of supplies in Stronghold Protocol."
+    },
     "act1vecb_milestone_point": {
         "classifyType": "NONE",
         "description": "Special memorabilia of Rhodes Island Engineering Department make. Apparently, the Engineering op who designed it took inspiration from a board game that's been all the rage at Rhodes Island.",

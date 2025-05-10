@@ -135,6 +135,7 @@ FightSeries-Default-1.png
 FightSeries-Icon.png
 FightSeries-Indicator.png
 FightSeries-List-1.png
+FightSeries-List-Multiply.png
 FightSeries-List-Exceeded.png
 Fire@Reclamation@Badge.png
 Fire@Reclamation@BetweenDayFlag.png

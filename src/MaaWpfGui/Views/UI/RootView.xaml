@@ -28,22 +28,68 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <hc:RunningBlock
-                Grid.Column="0"
-                HorizontalAlignment="Left"
-                BorderThickness="0"
-                Content="{Binding WindowTitle}"
-                IsHitTestVisible="False"
-                Runaway="False"
-                Speed="10"
-                Visibility="{c:Binding WindowTitleScrollable}" />
-            <controls:TextBlock
-                Grid.Column="0"
-                Margin="10,0"
-                HorizontalAlignment="Left"
-                IsHitTestVisible="False"
-                Text="{Binding WindowTitle}"
-                Visibility="{c:Binding !WindowTitleScrollable}" />
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <controls:TextBlock
+                    Margin="10,0,-5,0"
+                    HorizontalAlignment="Left"
+                    IsHitTestVisible="False"
+                    Text="{Binding WindowUpdateInfo}">
+                    <controls:TextBlock.Foreground>
+                        <SolidColorBrush Color="Red" />
+                    </controls:TextBlock.Foreground>
+                    <controls:TextBlock.Resources>
+                        <Storyboard x:Key="SmoothColorCycle" RepeatBehavior="Forever">
+                            <ColorAnimation
+                                AutoReverse="False"
+                                Storyboard.TargetProperty="Foreground.Color"
+                                From="#FF4285F4"
+                                To="#FFEA4335"
+                                Duration="0:0:1" />
+                            <ColorAnimation
+                                AutoReverse="False"
+                                BeginTime="0:0:1"
+                                Storyboard.TargetProperty="Foreground.Color"
+                                From="#FFEA4335"
+                                To="#FFFBBC05"
+                                Duration="0:0:1" />
+                            <ColorAnimation
+                                AutoReverse="False"
+                                BeginTime="0:0:2"
+                                Storyboard.TargetProperty="Foreground.Color"
+                                From="#FFFBBC05"
+                                To="#FF34A853"
+                                Duration="0:0:1" />
+                            <ColorAnimation
+                                AutoReverse="False"
+                                BeginTime="0:0:3"
+                                Storyboard.TargetProperty="Foreground.Color"
+                                From="#FF34A853"
+                                To="#FF4285F4"
+                                Duration="0:0:1" />
+                        </Storyboard>
+                    </controls:TextBlock.Resources>
+                    <controls:TextBlock.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard Storyboard="{StaticResource SmoothColorCycle}" />
+                        </EventTrigger>
+                    </controls:TextBlock.Triggers>
+                </controls:TextBlock>
+                <hc:RunningBlock
+                    Margin="10,0"
+                    HorizontalAlignment="Left"
+                    BorderThickness="0"
+                    Content="{Binding WindowTitle}"
+                    IsHitTestVisible="False"
+                    Runaway="False"
+                    Speed="10"
+                    Visibility="{c:Binding WindowTitleScrollable}" />
+                <controls:TextBlock
+                    Margin="10,0"
+                    HorizontalAlignment="Left"
+                    IsHitTestVisible="False"
+                    Text="{Binding WindowTitle}"
+                    Visibility="{c:Binding !WindowTitleScrollable}" />
+            </StackPanel>
             <Button
                 Grid.Column="1"
                 BorderThickness="0"

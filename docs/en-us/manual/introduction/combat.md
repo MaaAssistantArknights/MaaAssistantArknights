@@ -89,9 +89,19 @@ It starts after the `Combat` task ends and is not controlled by `Use Sanity Poti
 
 ### Series
 
-- MAA currently only performs consecutive battles according to the number of times set by the user and does not yet support automatic recognition of the maximum number of consecutive battles.
-- If the set number of times is too high but sanity is insufficient, MAA will directly perform the `Use Sanity Potion` or `Use Originium` operation and continue to attempt consecutive battles.
-- If `Use Sanity Potion` or `Use Originium` is not set, MAA will directly consider sanity insufficient and terminate the sanity farming task. If `Remaining Sanity` is set, MAA will directly start farming the `Remaining Sanity` stages.
+MAA will fight according to the number of consecutive battles set by the user:
+
+- **AUTO mode** (0):
+  - Automatically identify the maximum number of consecutive battles in the level, maintain the maximum number of consecutive battles and do not overflow sanity
+  - Enter the `Remaining Sanity` process after completion (if set)
+
+- **Numerical mode** (1~6):
+  - Perform consecutive battles according to the set number of times
+  - If the current sanity is not enough to complete the set number of times (such as only 5 times but set to 6 times), it will directly end the task and enter the `Remaining Sanity` process (if set)
+
+- **Disable mode** (-1):
+  - Do not adjust the number of consecutive battles in the game
+  - If the sanity is not enough to complete the current set number of times in the game, directly end the task and enter the `Remaining Sanity` process (if set)
 
 ### Drop Recognition
 

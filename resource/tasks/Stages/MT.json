@@ -50,7 +50,7 @@
     },
     "MT-OpenOcr": {
         "baseTask": "SS-OpenOcr",
-        "text": ["众生行记", "谒见神祇", "息止安所"],
+        "text": ["众生行记", "谒见神祇", "见神", "息止安所"],
         "next": ["MTChapterToMT"]
     },
     "MTChapterToMT": {

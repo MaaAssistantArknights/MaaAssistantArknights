@@ -10,9 +10,8 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-#pragma warning disable SA1401
+#pragma warning disable SA1401, CS8632
 
-using System;
 using GlobalHotKey;
 using MaaWpfGui.Main;
 using MaaWpfGui.Services.HotKeys;
@@ -20,6 +19,7 @@ using MaaWpfGui.Services.Managers;
 using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Stylet;
 using StyletIoC;
 
@@ -32,30 +32,21 @@ namespace MaaWpfGui.Helper
     {
         public static class Data
         {
-            // 理智数据缓存，HasSanityReport判定数据是否可用
-            public static class SanityReport
-            {
-                public static bool HasSanityReport { get; set; }
+            public static FightSettingsUserControlModel.FightTimes? FightTimes { get; set; }
 
-                /// <summary>
-                /// Gets 当前理智 / 最大理智
-                /// </summary>
-                public static int[] Sanity { get; } = [-1, -1];
+            public static FightSettingsUserControlModel.SanityInfo? SanityReport { get; set; }
 
-                public static DateTimeOffset ReportTime { get; set; }
-            }
+            public static int MedicineUsedTimes { get; set; }
 
-            public static int MedicineUsedTimes;
+            public static int ExpiringMedicineUsedTimes { get; set; }
 
-            public static int ExpiringMedicineUsedTimes;
+            public static int StoneUsedTimes { get; set; }
 
-            public static int StoneUsedTimes;
-
-            public static bool HasPrintedScreencapWarning;
+            public static bool HasPrintedScreencapWarning { get; set; }
 
             public static void ClearCache()
             {
-                SanityReport.HasSanityReport = false;
+                SanityReport = null;
                 MedicineUsedTimes = 0;
                 ExpiringMedicineUsedTimes = 0;
                 StoneUsedTimes = 0;
