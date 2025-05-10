@@ -1,6 +1,6 @@
 {
     "stage_name": "劳作的清晨",
-    "replacement_home": [    
+    "replacement_home": [
         {
             "location": [4, 1],
             "direction": "left"
@@ -19,15 +19,15 @@
         {
             "groups": ["奶盾", "重装", "地面阻挡", "地面远程"],
             "location": [4, 1],
-            "direction": "down"  
+            "direction": "down"
         },
         {
-            "groups": [ "高台输出"],
+            "groups": ["高台输出"],
             "location": [3, 3],
             "direction": "left"
         },
         {
-            "groups": [ "高台输出"],
+            "groups": ["高台输出"],
             "location": [3, 4],
             "direction": "left"
         },
