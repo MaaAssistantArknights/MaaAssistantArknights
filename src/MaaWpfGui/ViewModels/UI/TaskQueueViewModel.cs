@@ -1404,6 +1404,11 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 AddLog(LocalizationHelper.GetString("Running"));
                 Instances.AsstProxy.StartTaskTime = DateTimeOffset.Now;
+
+                if (GameSettingsUserControlModel.Instance.EnableWatchdog)
+                {
+                    Instances.AsstProxy.AsstStartWatchdog(GameSettingsUserControlModel.Instance.WatchdogIntervalSec, GameSettingsUserControlModel.Instance.WatchdogThreshold);
+                }
             }
             else
             {
@@ -1841,6 +1846,165 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 // 调用 ProcSubTaskMsg 方法
                 instance.ProcSubTaskMsg(msg, details);
+            }
+        }
+
+        public async void RecoverFromFreeze(JObject details)
+        {
+            string taskRec = details["taskchain"]?.ToString() ?? string.Empty;
+
+            AddLog(LocalizationHelper.GetString("FreezeDetected"));
+
+            if (!EmulatorHelper.KillEmulatorModeSwitcher())
+            {
+                AddLog(LocalizationHelper.GetString("ExitEmulatorFailed"), UiLogColor.Error);
+                return;
+            }
+
+            CheckStop();
+
+            if (GameSettingsUserControlModel.Instance.FreezeEndWithScript)
+            {
+                await Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
+            }
+
+            CheckStop();
+
+            if (GameSettingsUserControlModel.Instance.FreezeStartWithScript)
+            {
+                await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript"));
+            }
+
+            CheckStop();
+
+            AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
+            if (!await ConnectToEmulator())
+            {
+                return;
+            }
+
+            CheckStop();
+
+            bool taskRet = true;
+            bool recRet = true;
+
+            int count = 0;
+            foreach (var item in TaskItemViewModels)
+            {
+                if (item.IsChecked == false || (GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && item.IsCheckedWithNull == null))
+                {
+                    continue;
+                }
+
+                if (recRet)
+                {
+                    if (item.OriginalName == taskRec)
+                    {
+                        recRet = false;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+
+                ++count;
+                switch (item.OriginalName)
+                {
+                    case "Base":
+                        taskRet &= AppendInfrast();
+                        break;
+
+                    case "WakeUp":
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, StartUpTask.Serialize());
+                        break;
+
+                    case "Combat":
+                        taskRet &= AppendFight();
+                        break;
+
+                    case "Recruiting":
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Recruit, RecruitTask.Serialize());
+                        break;
+
+                    case "Mall":
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Mall, MallTask.Serialize());
+                        break;
+
+                    case "Mission":
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Award, AwardTask.Serialize());
+                        break;
+
+                    case "AutoRoguelike":
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Roguelike, RoguelikeTask.Serialize());
+                        break;
+
+                    case "Reclamation":
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, ReclamationTask.Serialize());
+                        break;
+
+                    case "Custom":
+                        {
+                            var tasks = CustomTask.SerializeMultiTasks();
+                            foreach (var (type, param) in tasks)
+                            {
+                                taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Custom, type, param);
+                            }
+
+                            break;
+                        }
+
+                    default:
+                        --count;
+                        _logger.Error("Unknown task: " + item.OriginalName);
+                        break;
+                }
+
+                if (taskRet)
+                {
+                    continue;
+                }
+
+                AddLog($"{LocalizationHelper.GetString(item.OriginalName)} task append error", UiLogColor.Error);
+                taskRet = true;
+                --count;
+            }
+
+            if (count == 0)
+            {
+                AddLog(LocalizationHelper.GetString("UnselectedTask"));
+                _runningState.SetIdle(true);
+                Instances.AsstProxy.AsstStop();
+                SetStopped();
+                return;
+            }
+
+            taskRet &= Instances.AsstProxy.AsstStart();
+
+            if (taskRet)
+            {
+                AddLog(LocalizationHelper.GetString("Running"));
+                Instances.AsstProxy.StartTaskTime = DateTimeOffset.Now;
+
+                if (GameSettingsUserControlModel.Instance.EnableWatchdog)
+                {
+                    Instances.AsstProxy.AsstStartWatchdog(GameSettingsUserControlModel.Instance.WatchdogIntervalSec, GameSettingsUserControlModel.Instance.WatchdogThreshold);
+                }
+            }
+            else
+            {
+                AddLog(LocalizationHelper.GetString("UnknownErrorOccurs"));
+                await Stop();
+                SetStopped();
+            }
+
+            void CheckStop()
+            {
+                if (Stopping)
+                {
+                    SetStopped();
+                    return;
+                }
             }
         }
     }

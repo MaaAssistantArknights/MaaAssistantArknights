@@ -105,6 +105,10 @@ Assistant::~Assistant()
     }
     if (m_msg_thread.joinable()) {
         m_msg_thread.join();
+
+        if (m_watchdog_thread.joinable()) {
+            m_watchdog_thread.join();
+        }
     }
     if (m_callback) {
         m_callback(static_cast<AsstMsgId>(AsstMsg::Destroyed), "{}", m_callback_arg);
@@ -433,6 +437,10 @@ void Assistant::working_proc()
         };
         append_callback(AsstMsg::TaskChainStart, callback_json);
 
+        std::unique_lock<std::mutex> wdlock(m_watchdog_mutex);
+        m_last_task_json = callback_json;
+        wdlock.unlock();
+
         bool ret = task_ptr->run();
         finished_tasks.emplace_back(id);
 
@@ -648,4 +656,47 @@ bool asst::Assistant::inited() const noexcept
 bool asst::Assistant::back_to_home() const
 {
     return m_ctrler->back_to_home();
+}
+
+bool Assistant::start_watchdog(int matchIntervalSec, int freezeThreshold)
+{
+    if (m_watchdog_thread.joinable()) {
+        Log.info("Assistant::start_watchdog | reset, interval:", matchIntervalSec, "thres:", freezeThreshold);
+        m_watchdog->reset(matchIntervalSec, freezeThreshold);
+        m_watchdog_condvar.notify_one();
+    }
+    else {
+        Log.info("Assistant::start_watchdog | start, interval:", matchIntervalSec, "thres:", freezeThreshold);
+        m_watchdog_thread = std::thread(&Assistant::watchdog_proc, this);
+        m_watchdog = std::make_unique<Watchdog>(matchIntervalSec, freezeThreshold, append_callback_for_inst, this);
+    }
+    return true;
+}
+
+void Assistant::watchdog_proc()
+{
+    LogTraceFunction;
+    while (true) {
+        std::unique_lock<std::mutex> lock(m_watchdog_mutex);
+        if (m_thread_exit) {
+            return;
+        }
+        if (m_thread_idle) {
+            m_watchdog_condvar.wait(lock);
+        }
+
+        std::cv_status status = m_watchdog_condvar.wait_until(lock, m_watchdog->next_wakeup_time());
+        if (status != std::cv_status::timeout) {
+            continue;
+        }
+
+        if (m_ctrler && m_ctrler->inited()) {
+            cv::Mat frame = m_ctrler->get_image(true);
+            if (!m_watchdog->check(frame)) {
+                Log.error("Assistant::watchdog_proc | freeze detected");
+                stop(false);
+                append_callback_for_inst(AsstMsg::Freeze, m_last_task_json, this);
+            }
+        }
+    }
 }

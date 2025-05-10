@@ -419,6 +419,10 @@ namespace MaaWpfGui.Main
                     ProcConnectInfo(details);
                     break;
 
+                case AsstMsg.Freeze:
+                    Instances.TaskQueueViewModel.RecoverFromFreeze(details);
+                    break;
+
                 case AsstMsg.TaskChainStart:
                     Instances.TaskQueueViewModel.Running = true;
                     goto case AsstMsg.TaskChainExtraInfo; // fallthrough
@@ -2209,6 +2213,16 @@ namespace MaaWpfGui.Main
         {
             MaaService.AsstDestroy(_handle);
         }
+
+        /// <summary>
+        /// 启动Watchdog。
+        /// </summary>
+        /// <param name="interval">检查间隔（秒）</param>
+        /// <param name="threshold">认为模拟器冻结的所需次数</param>
+        public void AsstStartWatchdog(int interval, int threshold)
+        {
+            MaaService.AsstStartWatchdog(_handle, interval, threshold);
+        }
     }
 
     /// <summary>
@@ -2248,6 +2262,11 @@ namespace MaaWpfGui.Main
         /// 实例已销毁
         /// </summary>
         Destroyed,
+
+        /// <summary>
+        /// 模拟器冻结
+        /// </summary>
+        Freeze,
 
         /* TaskChain Info */
 
