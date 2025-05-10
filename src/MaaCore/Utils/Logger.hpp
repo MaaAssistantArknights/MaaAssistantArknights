@@ -1,10 +1,12 @@
 #pragma once
 
+#ifdef _WIN32
 #include <fcntl.h>
+#include <io.h>
+#endif
 #include <filesystem>
 #include <fstream>
 #include <functional>
-#include <io.h>
 #include <iostream>
 #include <mutex>
 #include <streambuf>
@@ -573,13 +575,11 @@ public:
         int_type overflow(int_type c) override
         {
             if (c != traits_type::eof()) {
-                ch = static_cast<char>(c);
-                if (ch == '\n') {
-                    count += NewLineSize;
-                }
-                else {
-                    count++;
-                }
+                // ch = static_cast<char>(c);
+                // if (ch == '\n') {
+                //     count += NewLineSize;
+                // }
+                count++;
                 if (dest) {
                     dest->sputc(ch);
                 }
@@ -606,11 +606,7 @@ public:
         }
 
     private:
-#if defined(_WIN32) || defined(_WIN64)
-        const static std::size_t NewLineSize = 2; // \r\n;
-#else
         const static std::size_t NewLineSize = 1; // \n;
-#endif
         char ch = 0;
         std::filebuf* dest;
         std::streamsize count = 0;
