@@ -387,6 +387,12 @@ You can cancel this popup by clicking the Settings - Issue Report link. Thank yo
     <system:String x:Key="PenguinId">Penguin Report ID (Number part)</system:String>
     <system:String x:Key="EnablePenguin">Report Penguin</system:String>
     <system:String x:Key="EnableYituliu">Report Yituliu</system:String>
+    <system:String x:Key="EnableWatchdog">Enable Watchdog Thread</system:String>
+    <system:String x:Key="WatchdogIntervalSec">Watchdog Check Interval(Seconds)</system:String>
+    <system:String x:Key="WatchdogThreshold">Freeze Detection Threshold</system:String>
+    <system:String x:Key="FreezeStartWithScript">On freeze, start with above script</system:String>
+    <system:String x:Key="FreezeEndWithScript">On freeze, end with above script</system:String>
+    <system:String x:Key="FreezeDetected">Freeze detected, restart underway</system:String>
     <system:String x:Key="DrGrandet">Dr. Grandet Mode</system:String>
     <system:String x:Key="DrGrandetTip">Wait on the sanity confirmation screen until the current sanity recovers to 1 point, then confirm immediately.</system:String>
     <system:String x:Key="SocialPtShop">Credit shopping</system:String>
