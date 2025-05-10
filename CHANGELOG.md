@@ -13,11 +13,32 @@
 
 > 示例: 假设当前 100 理智, 关卡消耗 6 理智  
 > 
-> 旧版本: 指定次数设为 3, 连战次数设为 5, 将作战 3 * 5 = 15 次, 消耗 15 x 6 = 90 理智  
+> 旧版本: 指定次数设为 3, 连战次数设为 5, 将作战 5 * 3 = 15 次, 消耗 15 x 6 = 90 理智  
 > 新版本: 指定次数设为 10, 连战次数设为 4, 将作战 4 * floor(10 / 4) = 8 次, 消耗 8 x 6 = 48 理智  
 > 新版本: 指定次数设为 10, 连战次数设为 AUTO, 将作战 6 * floor(10 / 6) + (10 % 6) = 10 次, 消耗 10 x 6 = 60 理智  
 
 如果您遇到任何意外行为，请通过【设置】→【问题反馈】生成日志并提交给我们~
+
+----
+
+In this version, we've optimized the adaptive Serie count adjustment feature. Before each operation, the system will now automatically adjust to the maximum available Serie count, eliminating the risk of sanity overflow.
+
+> Typical workflow examples:  
+> Current sanity: 20, Max sanity: 150, Stage cost: 21 sanity (6-Serie requires 126 sanity)  
+> 
+> Case 1: Having 2×80 sanity potions, set to consume 2 potions. Full consumption would exceed max sanity (20 + 160 = 180) → First consume one potion (20 + 80 = 100) and adjust to 4-Serie (4 × 21 = 84). After completion, consume the second potion and expend remaining sanity.  
+> Case 2: Having 2×80 sanity potions, set to consume only 1 potion (+80) reaches consumption limit. Closing window triggers adjustment → Automatically adjusts to 4-Serie.  
+> Case 3: Having 1×80 sanity potion, auto-consume 1 potion (+80). With no remaining potions, triggers adjustment → Automatically adjusts to 4-Serie.
+
+Additionally, specified operation count will now coordinate with Serie count:
+
+> Example: Current 100 sanity, stage cost 6 sanity  
+> 
+> Old version: Specified count set to 3, Serie count set to 5 → Would complete 5 * 3 = 15 operations, consuming 15 x 6 = 90 sanity.  
+> New version: Specified count set to 10, Serie count set to 4 → Will complete 4 * floor(10 / 4) = 8 operations, consuming 8 x 6 = 48 sanity.  
+> New version: Specified count set to 10, Serie count set to AUTO → Will complete 6 * floor(10 / 6) + (10 % 6) = 10 operations, consuming 10 x 6 = 60 sanity.  
+
+If you encounter any unexpected behavior, please generate logs via [Settings] → [Issue Report] and submit them to us~
 
 ----
 
