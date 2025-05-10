@@ -71,6 +71,7 @@ Assistant::Assistant(ApiCallback callback, void* callback_arg) :
     m_msg_thread = std::thread(&Assistant::msg_proc, this);
     m_call_thread = std::thread(&Assistant::call_proc, this);
     m_working_thread = std::thread(&Assistant::working_proc, this);
+    m_monitor_thread = std::thread(&Assistant::monitor_proc, this);
 }
 
 Assistant::~Assistant()
@@ -96,6 +97,10 @@ Assistant::~Assistant()
         std::unique_lock<std::mutex> lock(m_msg_mutex);
         m_msg_condvar.notify_all();
     }
+    {
+        std::unique_lock<std::mutex> lock(m_monitor_mutex);
+        m_monitor_condvar.notify_all();
+    }
 
     if (m_working_thread.joinable()) {
         m_working_thread.join();
@@ -105,6 +110,9 @@ Assistant::~Assistant()
     }
     if (m_msg_thread.joinable()) {
         m_msg_thread.join();
+    }
+    if (m_monitor_thread.joinable()) {
+        m_monitor_thread.join();
     }
     if (m_callback) {
         m_callback(static_cast<AsstMsgId>(AsstMsg::Destroyed), "{}", m_callback_arg);
@@ -419,6 +427,7 @@ void Assistant::working_proc()
             m_running = false;
             Log.flush();
             m_condvar.wait(lock);
+            m_monitor_condvar.notify_one();
             continue;
         }
 
@@ -490,6 +499,53 @@ void Assistant::msg_proc()
         if (m_callback) {
             m_callback(static_cast<AsstMsgId>(msg), detail.to_string().c_str(), m_callback_arg);
         }
+    }
+}
+
+void Assistant::monitor_proc()
+{
+    LogTraceFunction;
+
+    while (true) {
+        std::unique_lock<std::mutex> lock(m_monitor_mutex);
+        if (m_thread_exit) {
+            return;
+        }
+
+        if (m_thread_idle || m_tasks_list.empty()) {
+            m_monitor_condvar.wait(lock);
+            m_guard_activity_name.reset();
+            continue;
+        }
+
+        if (m_ctrler && m_ctrler->inited()) {
+            const auto& _task = m_tasks_list.front().second;
+            if (auto task = std::dynamic_pointer_cast<StartUpTask>(_task); task) {
+                continue;
+            }
+            const auto& activities = m_ctrler->get_activities();
+            if (!activities) {              // 拿不到activity, 命令执行失败
+            }
+            else if (activities->empty()) { // 突然没activity了, 游戏没掉了
+                Log.warn("Assistant::monitor_proc | activity died");
+                m_ctrler->start_game("Official");
+                std::this_thread::sleep_for(std::chrono::seconds(120));
+                m_working_thread.
+            }
+            else if (!m_guard_activity_name.has_value()) { // 第一次拿到activity, 存一下
+                const auto& loc = activities->rfind("ACTIVITY ");
+                if (loc == std::string::npos) [[unlikely]] {
+                    Log.warn("not found");
+                }
+                else {
+                    m_guard_activity_name = activities->substr(loc + 9, activities->find(' ', loc + 9) - loc - 9);
+                    Log.info("Assistant::guard_proc | activity_name:", *m_guard_activity_name);
+                }
+            }
+            else { // 游戏在跑, 检查一下画面
+            }
+        }
+        m_monitor_condvar.wait_for(lock, std::chrono::seconds(60));
     }
 }
 

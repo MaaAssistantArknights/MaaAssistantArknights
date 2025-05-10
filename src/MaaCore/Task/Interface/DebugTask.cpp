@@ -23,6 +23,7 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
 
 bool asst::DebugTask::run()
 {
+    test_match_template();
     return true;
 }
 

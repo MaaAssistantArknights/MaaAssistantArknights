@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <string>
 
 #include "Common/AsstTypes.h"
@@ -65,6 +66,8 @@ public:
     ControllerAPI& operator=(ControllerAPI&&) = delete;
 
     virtual void back_to_home() noexcept {}
+
+    virtual std::optional<std::string> get_activities() = 0;
 };
 
 struct InputEvent
