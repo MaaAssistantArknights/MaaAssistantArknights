@@ -42,23 +42,30 @@
                             <ColorAnimation
                                 AutoReverse="False"
                                 Storyboard.TargetProperty="Foreground.Color"
-                                From="Red"
-                                To="Green"
-                                Duration="0:0:2" />
+                                From="#FF4285F4"
+                                To="#FFEA4335"
+                                Duration="0:0:1" />
+                            <ColorAnimation
+                                AutoReverse="False"
+                                BeginTime="0:0:1"
+                                Storyboard.TargetProperty="Foreground.Color"
+                                From="#FFEA4335"
+                                To="#FFFBBC05"
+                                Duration="0:0:1" />
                             <ColorAnimation
                                 AutoReverse="False"
                                 BeginTime="0:0:2"
                                 Storyboard.TargetProperty="Foreground.Color"
-                                From="Green"
-                                To="Blue"
-                                Duration="0:0:2" />
+                                From="#FFFBBC05"
+                                To="#FF34A853"
+                                Duration="0:0:1" />
                             <ColorAnimation
                                 AutoReverse="False"
-                                BeginTime="0:0:4"
+                                BeginTime="0:0:3"
                                 Storyboard.TargetProperty="Foreground.Color"
-                                From="Blue"
-                                To="Red"
-                                Duration="0:0:2" />
+                                From="#FF34A853"
+                                To="#FF4285F4"
+                                Duration="0:0:1" />
                         </Storyboard>
                     </controls:TextBlock.Resources>
                     <controls:TextBlock.Triggers>
