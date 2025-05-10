@@ -778,19 +778,15 @@ private:
 
     void LoadFileStream()
     {
-        // 使用fopen with "N"模式打开文件 (a:追加, N:不可继承)
-        FILE* fp = nullptr;
 #ifdef _WIN32
-        // 在Windows平台使用UTF-8路径
-        std::string path_str = utils::path_to_utf8_string(m_log_path);
+        FILE* fp = nullptr;
         int file_handle = -1;
-
         int oflag = _O_WRONLY | _O_APPEND | _O_CREAT | _O_BINARY | _O_NOINHERIT; // 写入、追加、创建、二进制、不可继承
         int shflag = _SH_DENYWR;                                                 // 允许其他进程读取但不能写入
         int pmode = _S_IREAD | _S_IWRITE;                                        // 读写权限
 
         // 打开文件
-        if (_sopen_s(&file_handle, path_str.c_str(), oflag, shflag, pmode) == 0) {
+        if (_sopen_s(&file_handle, utils::path_to_utf8_string(m_log_path).c_str(), oflag, shflag, pmode) == 0) {
             // 文件打开成功，转换为FILE*指针
             fp = _fdopen(file_handle, "a"); // 使用追加模式
             if (!fp) {
