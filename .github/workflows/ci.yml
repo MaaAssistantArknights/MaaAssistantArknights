@@ -89,6 +89,8 @@ jobs:
           fi
           echo >> CHANGELOG.md
           echo "**Full Changelog**: [$last_tag -> $this_tag](https://github.com/MaaAssistantArknights/MaaAssistantArknights/compare/${last_tag}...${this_tag})" >> CHANGELOG.md
+          echo >> CHANGELOG.md
+          echo "[已有 Mirror酱 CDK？前往 Mirror酱 高速下载](https://mirrorchyan.com/zh/projects?rid=MAA)" >> CHANGELOG.md
 
       - name: Upload changelog to Github
         uses: actions/upload-artifact@v4
