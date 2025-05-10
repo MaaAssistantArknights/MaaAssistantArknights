@@ -708,7 +708,7 @@ bool asst::InfrastProductionTask::opers_choose()
     }
 
     if (swipe_times) {
-        swipe_to_the_left_of_operlist(swipe_times + 1);
+        swipe_to_the_left_of_operlist();
     }
     // 点两次排序，让已选干员排到最前面
     ProcessTask(*this, { "InfrastOperListTabSkillUnClicked" }).run();
