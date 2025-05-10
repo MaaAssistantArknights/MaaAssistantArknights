@@ -12,6 +12,11 @@
     ],
     "deploy_plan": [
         {
+            "groups": ["投掷手"],
+            "location": [3, 1],
+            "direction": "down"
+        },
+        {
             "groups": ["高台输出"],
             "location": [5, 4],
             "direction": "up"
