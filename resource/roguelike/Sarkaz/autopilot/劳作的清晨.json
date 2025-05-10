@@ -24,11 +24,6 @@
         },
         {
             "groups": ["高台输出"],
-            "location": [3, 3],
-            "direction": "left"
-        },
-        {
-            "groups": ["高台输出"],
             "location": [3, 4],
             "direction": "left"
         },
