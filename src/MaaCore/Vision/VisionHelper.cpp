@@ -13,12 +13,10 @@ using namespace asst;
 
 VisionHelper::VisionHelper(const cv::Mat& image, const Rect& roi, Assistant* inst) :
     InstHelper(inst),
-    m_image(image)
+    m_image(image),
 #ifdef ASST_DEBUG
-    ,
-    m_image_draw(image.clone())
+    m_image_draw(image.clone()),
 #endif
-    ,
     m_roi(correct_rect(roi, image))
 {
 }
