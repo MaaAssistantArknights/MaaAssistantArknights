@@ -55,7 +55,7 @@ jobs:
             --include 'https?://user-images\.githubusercontent\.com/.*'
             --exclude-path 'docs/zh-tw/manual/introduction/introduction_old.md'
             --exclude-path 'docs/ja-jp/manual/introduction/introduction_old.md'
-            --exclude-path 'docs/*/manual/cli/*.md'
+            --exclude-path 'docs/[\w-]*/manual/cli/.*\.md'
             --exclude 'files/MAA_Runtime_Fix_Pwsh.ps1$'
             -- './docs/**/*.md' './README.md'
 
