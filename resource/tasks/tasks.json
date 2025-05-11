@@ -3043,7 +3043,8 @@
     },
     "InfrastCloseQuickFormationExpandRole": {
         "action": "ClickSelf",
-        "roi": [1163, 0, 117, 133]
+        "roi": [1163, 0, 117, 133],
+        "next": ["Stop"]
     },
     "InfrastClueVacancyNo1": {
         "template": "ClueVacancyNo1.png",
@@ -3465,7 +3466,7 @@
     "BattleQuickFormationExpandRole": {
         "action": "ClickSelf",
         "roi": [1152, 0, 128, 138],
-        "postDelay": 500
+        "next": ["Stop"]
     },
     "BattleQuickFormationRole": {
         "Doc": "base_task",
@@ -3476,7 +3477,7 @@
         "templThreshold": 0.7,
         "colorScales": [[90, 150]],
         "colorWithClose": false,
-        "postDelay": 500
+        "next": ["Stop"]
     },
     "BattleQuickFormationFilter": {
         "action": "ClickSelf",
