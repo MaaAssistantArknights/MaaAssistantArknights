@@ -29,7 +29,10 @@
     },
     "SS@Store@ChooseMaxAmount": {
         "roi": [986, 352, 164, 139],
-        "next": ["SS@Store@Purchase"]
+        "next": ["SS@Store@UnderfundedOCR", "SS@Store@Purchase"]
+    },
+    "SS@Store@UnderfundedOCR": {
+        "roi": [878, 397, 82, 48]
     },
     "SS@Store@Purchase": {
         "text": ["支付"],

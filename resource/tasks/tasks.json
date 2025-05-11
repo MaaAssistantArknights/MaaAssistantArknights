@@ -5046,6 +5046,10 @@
         "text": ["最多"],
         "action": "ClickSelf"
     },
+    "Store@UnderfundedOCR": {
+        "algorithm": "OcrDetect",
+        "text": ["0"]
+    },
     "Store@Purchase": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
@@ -5085,7 +5089,10 @@
     },
     "GreenTicket@Store@ChooseMaxAmount": {
         "roi": [1027, 405, 79, 53],
-        "next": ["GreenTicket@Store@Purchase"]
+        "next": ["GreenTicket@Store@UnderfundedOCR", "GreenTicket@Store@Purchase"]
+    },
+    "GreenTicket@Store@UnderfundedOCR": {
+        "roi": [876, 405, 85, 51]
     },
     "GreenTicket@Store@Purchase": {
         "next": ["GreenTicket@Store@PurchasedConfirm"]
