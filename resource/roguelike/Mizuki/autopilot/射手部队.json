@@ -24,6 +24,11 @@
             "direction": "left"
         },
         {
+            "groups": ["益达"],
+            "location": [5, 2],
+            "direction": "down"
+        },
+        {
             "groups": ["召唤", "高台C", "控制", "术师", "狙击", "辅助"],
             "location": [6, 3],
             "direction": "right"

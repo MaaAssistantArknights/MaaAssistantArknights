@@ -23,9 +23,14 @@
             "direction": "left"
         },
         {
+            "groups": ["益达"],
+            "location": [6, 3],
+            "direction": "left"
+        },
+        {
             "groups": ["召唤", "高台C", "控制", "术师", "狙击", "辅助"],
-            "location": [3, 4],
-            "direction": "right"
+            "location": [7, 5],
+            "direction": "left"
         },
         {
             "groups": ["百嘉", "基石", "地面C", "玛恩纳", "号角", "地刺", "刺客", "重装", "挡人先锋"],
