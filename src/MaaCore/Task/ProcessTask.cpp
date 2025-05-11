@@ -157,19 +157,23 @@ ProcessTask::HitDetail ProcessTask::find_first(const TaskList& list) /* const, e
 
     auto res_opt = analyzer.analyze();
     if (!res_opt) {
-        return { .task_ptr = nullptr };
+        return { .image = std::move(image), .task_ptr = nullptr };
     }
 
     task_ptr = std::move(res_opt->task_ptr);
 
     if (task_ptr->algorithm == AlgorithmType::MatchTemplate) {
         auto& raw_result = std::get<Matcher::Result>(res_opt->result);
-        return { .rect = res_opt->rect, .reco_detail = { { "score", raw_result.score } }, .task_ptr = task_ptr };
+        return { .image = std::move(image),
+                 .rect = res_opt->rect,
+                 .reco_detail = json::object { { "score", raw_result.score } },
+                 .task_ptr = task_ptr };
     }
 
     if (task_ptr->algorithm == AlgorithmType::OcrDetect) {
         auto& raw_result = std::get<OCRer::Result>(res_opt->result);
-        return { .rect = res_opt->rect,
+        return { .image = std::move(image),
+                 .rect = res_opt->rect,
                  .reco_detail = { { "score", raw_result.score }, { "text", raw_result.text } },
                  .task_ptr = task_ptr };
     }
@@ -179,7 +183,7 @@ ProcessTask::HitDetail ProcessTask::find_first(const TaskList& list) /* const, e
         return { .rect = res_opt->rect, .reco_detail = { { "count", raw_result.count } }, .task_ptr = task_ptr };
     }
 
-    return { .rect = res_opt->rect, .task_ptr = task_ptr };
+    return { .image = std::move(image), .rect = res_opt->rect, .task_ptr = task_ptr };
 }
 
 // action 为 Stop 时返回 Interrupted, 其它返回 Success
@@ -338,6 +342,7 @@ std::pair<ProcessTask::NodeStatus, TaskConstPtr> ProcessTask::find_and_run_task(
     }
 
     m_pre_task_name = std::move(m_last_task_name);
+    m_hit_image = cv::Mat();
 
     HitDetail hits;
     for (int cur_retry = 0; cur_retry <= m_retry_times; ++cur_retry) {
@@ -354,6 +359,7 @@ std::pair<ProcessTask::NodeStatus, TaskConstPtr> ProcessTask::find_and_run_task(
         }
         if (hits = find_first(list); hits.task_ptr != nullptr) {
             m_last_task_name = hits.task_ptr->name;
+            m_hit_image = std::move(hits.image);
             break;
         }
     }
