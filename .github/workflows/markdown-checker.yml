@@ -35,20 +35,12 @@ jobs:
         with:
           show-progress: false
 
-      - name: Cache Primes
-        id: cache-primes
-        uses: actions/cache@v4
-        with:
-          path: .lycheecache
-          key: lychee-cache
-
       - name: Check dead links
         uses: lycheeverse/lychee-action@v2
         with:
-          # 仅检查内部链接和 Github 相关链接
+          # 仅检查内部链接，排除所有外部链接
           args: >
             --verbose --no-progress
-            --cache --max-cache-age 1d --cache-exclude-status '429, 500..599'
             --exclude 'https?://.*'
             --exclude-path 'docs/zh-tw/manual/introduction/introduction_old.md'
             --exclude-path 'docs/ja-jp/manual/introduction/introduction_old.md'
