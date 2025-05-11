@@ -113,7 +113,7 @@ bool asst::InfrastAbstractTask::match_operator_groups()
                         Log.error("already retried");
                         break;
                     }
-                    swipe_to_the_left_of_operlist();
+                    swipe_to_the_left_of_operlist(swipe_times + 1);
                     swipe_times = 0;
                     retried = true;
                 }
@@ -130,7 +130,7 @@ bool asst::InfrastAbstractTask::match_operator_groups()
             swipe_times++;
         }
     }
-    swipe_to_the_left_of_operlist();
+    swipe_to_the_left_of_operlist(swipe_times + 1);
     swipe_times = 0;
     Log.info(__FUNCTION__, "available operators for group size:", opers.size());
     // 筛选第一个满足要求的干员组
@@ -292,7 +292,7 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
                     Log.error("already retring");
                     break;
                 }
-                swipe_to_the_left_of_operlist();
+                swipe_to_the_left_of_operlist(swipe_times + 1);
                 swipe_times = 0;
                 retried = true;
             }
@@ -320,7 +320,7 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
     }
 
     if (swipe_times) {
-        swipe_to_the_left_of_operlist();
+        swipe_to_the_left_of_operlist(swipe_times + 1);
         swipe_times = 0;
     }
     // 如果只选了一个人没必要排序
@@ -690,25 +690,27 @@ void asst::InfrastAbstractTask::swipe_of_operlist()
     ProcessTask(*this, { "InfrastOperListSlowlySwipeToTheRight" }).run();
 }
 
-void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist()
+void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
 {
-    /*
-    if (loop_times < 0) {
-        loop_times = operlist_swipe_times();
-    }
-    for (int i = 0; i < loop_times; ++i) {
-        ProcessTask(*this, { "InfrastOperListSwipeToTheLeft" }).run();
-    }
-    ProcessTask(*this, { "SleepAfterOperListQuickSwipe" }).run();
-    */
-
     // 通过切换职业栏来实现回正
-    ProcessTask(*this, { "BattleQuickFormationExpandRole", "BattleQuickFormationRole-All-OCR" }).run();
-    ProcessTask(*this, { "BattleQuickFormationRole-Caster" }).run();
-    ProcessTask(*this, { "BattleQuickFormationRole-All" }).run();
-    // 基建默认收起
-    ProcessTask(*this, { "InfrastCloseQuickFormationExpandRole" }).run();
-    sleep(500);
+    bool ret = ProcessTask(*this, { "BattleQuickFormationExpandRole", "BattleQuickFormationRole-All-OCR" })
+                   .set_retry_times(3)
+                   .run();
+    if (ret) {
+        ProcessTask(*this, { "BattleQuickFormationRole-Caster" }).run();
+        ProcessTask(*this, { "BattleQuickFormationRole-All" }).run();
+        // 基建默认收起
+        close_quick_formation_expand_role();
+    }
+    else {
+        if (loop_times < 0) {
+            loop_times = operlist_swipe_times();
+        }
+        for (int i = 0; i < loop_times; ++i) {
+            ProcessTask(*this, { "InfrastOperListSwipeToTheLeft" }).run();
+        }
+        ProcessTask(*this, { "SleepAfterOperListQuickSwipe" }).run();
+    }
 }
 
 void asst::InfrastAbstractTask::swipe_to_the_left_of_main_ui()
