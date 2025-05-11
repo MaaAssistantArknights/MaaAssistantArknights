@@ -5048,7 +5048,7 @@
     },
     "Store@UnderfundedOCR": {
         "algorithm": "OcrDetect",
-        "text": ["0"]
+        "text": ["0", "o", "O"]
     },
     "Store@Purchase": {
         "algorithm": "OcrDetect",
