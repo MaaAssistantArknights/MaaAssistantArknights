@@ -128,8 +128,8 @@ icon: material-symbols:view-quilt-rounded
             }
         },
         {
-        "name": "晚班"
-        // ...
+            "name": "晚班"
+            // ...
         }
     ]
 }
