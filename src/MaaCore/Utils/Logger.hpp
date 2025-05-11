@@ -603,7 +603,6 @@ public:
         }
 
     private:
-        const static std::size_t NewLineSize = 1; // \n;
         char ch = 0;
         std::filebuf* dest;
         std::streamsize count = 0;
