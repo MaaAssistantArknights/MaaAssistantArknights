@@ -575,6 +575,7 @@ public:
         int_type overflow(int_type c) override
         {
             if (c != traits_type::eof()) {
+                ch = static_cast<char>(c);
                 count++;
                 if (dest) {
                     dest->sputc(ch);
