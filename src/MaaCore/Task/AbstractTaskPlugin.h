@@ -4,6 +4,7 @@
 
 #include "AbstractTask.h"
 #include "Common/AsstMsg.h"
+#include "Utils/NoWarningCVMat.h"
 
 namespace asst
 {
@@ -27,6 +28,8 @@ public:
     bool operator==(const AbstractTaskPlugin& rhs) const;
 
 protected:
+    cv::Mat get_process_image() const;
+
     AbstractTask* m_task_ptr = nullptr;
     int m_priority = 0;
     bool m_block = false;

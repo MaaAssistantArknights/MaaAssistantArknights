@@ -1,5 +1,7 @@
 #include "AbstractTaskPlugin.h"
 
+#include "ProcessTask.h"
+
 int asst::AbstractTaskPlugin::priority() const
 {
     return m_priority;
@@ -33,4 +35,12 @@ std::strong_ordering asst::AbstractTaskPlugin::operator<=>(const asst::AbstractT
 bool asst::AbstractTaskPlugin::operator==(const AbstractTaskPlugin& rhs) const
 {
     return priority() == rhs.priority();
+}
+
+cv::Mat asst::AbstractTaskPlugin::get_process_image() const
+{
+    if (auto ptr = dynamic_cast<ProcessTask*>(m_task_ptr)) {
+        return ptr->get_result_image();
+    }
+    return cv::Mat();
 }
