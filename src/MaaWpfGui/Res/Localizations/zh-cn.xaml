@@ -391,6 +391,8 @@
     <system:String x:Key="EnableWatchdog">请小刻过来重启冻结的模拟器（Watchdog）</system:String>
     <system:String x:Key="WatchdogIntervalSec">小刻检查间隔（秒）</system:String>
     <system:String x:Key="WatchdogThreshold">模拟器冻结阈值（次）</system:String>
+    <system:String x:Key="FreezeStop">冻结时直接停止</system:String>
+    <system:String x:Key="FreezeExtNotify">冻结时发送外部通知</system:String>
     <system:String x:Key="FreezeStartWithScript">重启时使用开始前脚本</system:String>
     <system:String x:Key="FreezeEndWithScript">重启时使用结束后脚本</system:String>
     <system:String x:Key="FreezeDetected">模拟器冻结，正在尝试重启</system:String>

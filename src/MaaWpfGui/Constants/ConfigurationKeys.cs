@@ -233,6 +233,8 @@ namespace MaaWpfGui.Constants
         public const string EnableWatchdog = "Watchdog.Enable";
         public const string WatchdogIntervalSec = "Watchdog.IntervalSec";
         public const string WatchdogThreshold = "Watchdog.Threshold";
+        public const string FreezeStop = "Watchdog.Freeze.Stop";
+        public const string FreezeExtNotify = "Watchdog.Freeze.ExtNotify";
         public const string FreezeStartWithScript = "Watchdog.Freeze.StartWithScript";
         public const string FreezeEndWithScript = "Watchdog.Freeze.EndWithScript";
 

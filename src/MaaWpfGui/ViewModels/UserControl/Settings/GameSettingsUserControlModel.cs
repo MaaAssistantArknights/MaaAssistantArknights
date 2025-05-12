@@ -407,6 +407,30 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    private bool _freezeStop = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.FreezeStop, bool.FalseString));
+
+    public bool FreezeStop
+    {
+        get => _freezeStop;
+        set
+        {
+            SetAndNotify(ref _freezeStop, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.FreezeStop, value.ToString());
+        }
+    }
+
+    private bool _freezeExtNotify = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.FreezeExtNotify, bool.FalseString));
+
+    public bool FreezeExtNotify
+    {
+        get => _freezeExtNotify;
+        set
+        {
+            SetAndNotify(ref _freezeExtNotify, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.FreezeExtNotify, value.ToString());
+        }
+    }
+
     private bool _freezeStartWithScript = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.FreezeStartWithScript, bool.TrueString));
 
     public bool FreezeStartWithScript
