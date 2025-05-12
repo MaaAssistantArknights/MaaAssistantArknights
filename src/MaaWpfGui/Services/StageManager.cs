@@ -21,7 +21,6 @@ using System.Text;
 using System.Threading.Tasks;
 using HandyControl.Controls;
 using HandyControl.Data;
-using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Utilities.ValueType;
@@ -146,7 +145,13 @@ namespace MaaWpfGui.Services
             await Task.WhenAll(activityTask, tasksTask);
             if (File.Exists(TasksApi))
             {
-                File.Move(TasksApi, "resource/tasks/tasks.json");
+                try
+                {
+                    File.Move(TasksApi, "resource/tasks/tasks.json", true);
+                }
+                catch
+                {// ignore
+                }
             }
 
             JObject activity = await activityTask;
@@ -162,7 +167,13 @@ namespace MaaWpfGui.Services
                 await Instances.MaaApiService.RequestMaaApiWithCache(tasksPath);
                 if (File.Exists(tasksPath))
                 {
-                    File.Move(TasksApi, $"resource/global/{clientType}/resource/tasks/tasks.json");
+                    try
+                    {
+                        File.Move(TasksApi, $"resource/global/{clientType}/resource/tasks/tasks.json", true);
+                    }
+                    catch
+                    {// ignore
+                    }
                 }
             }
 
