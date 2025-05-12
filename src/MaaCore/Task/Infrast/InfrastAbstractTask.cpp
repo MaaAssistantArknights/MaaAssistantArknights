@@ -697,7 +697,17 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
                    .set_retry_times(3)
                    .run();
     if (ret) {
-        ProcessTask(*this, { "BattleQuickFormationRole-Caster" }).run();
+        ProcessTask(
+            *this,
+            { "BattleQuickFormationRole-Pioneer",
+              "BattleQuickFormationRole-Warrior",
+              "BattleQuickFormationRole-Tank",
+              "BattleQuickFormationRole-Caster",
+              "BattleQuickFormationRole-Medic",
+              "BattleQuickFormationRole-Sniper",
+              "BattleQuickFormationRole-Special",
+              "BattleQuickFormationRole-Support" })
+            .run();
         ProcessTask(*this, { "BattleQuickFormationRole-All" }).run();
         // 基建默认收起
         close_quick_formation_expand_role();
