@@ -391,8 +391,12 @@ jobs:
       - name: Install Dependencies
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
-          brew install graphicsmagick imagemagick
+          brew install graphicsmagick imagemagick pandoc
           npm install -g create-dmg
+      - name: Convert Terms of Service to RTF
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          pandoc terms-of-service.md -o license.rtf
 
       - name: Fetch submodules
         run: |
@@ -488,6 +492,7 @@ jobs:
       - name: Create Disk Image
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
+          mv license.rtf Export/license.rtf
           create-dmg Export/MAA.app
           mv MAA*.dmg MAA.dmg
         working-directory: src/MaaMacGui
