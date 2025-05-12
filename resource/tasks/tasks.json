@@ -4950,7 +4950,7 @@
     },
     "GreenTicket@Store@ClickFirstFloor": {
         "algorithm": "OcrDetect",
-        "text": ["1", "T", "I"],
+        "text": ["1", "T", "I", "亻"],
         "action": "ClickSelf",
         "roi": [263, 196, 35, 73],
         "sub": ["SlowlySwipeToTheLeft"],
