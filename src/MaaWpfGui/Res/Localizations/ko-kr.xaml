@@ -389,10 +389,12 @@
     <system:String x:Key="EnableYituliu">Yituliu 보고</system:String>
     <system:String x:Key="EnableWatchdog">감시 스레드 활성화</system:String>
     <system:String x:Key="WatchdogIntervalSec">감시 확인 간격(초)</system:String>
-    <system:String x:Key="WatchdogThreshold">중단 감지 임계값</system:String>
-    <system:String x:Key="FreezeStartWithScript">중단 발생 시, 위 스크립트로 재시작</system:String>
-    <system:String x:Key="FreezeEndWithScript">중단 발생 시, 위 스크립트로 종료</system:String>
-    <system:String x:Key="FreezeDetected">중단 감지됨, 재시작 중</system:String>
+    <system:String x:Key="WatchdogThreshold">프리즈 감지 임계값</system:String>
+    <system:String x:Key="FreezeStartWithScript">프리즈 발생 시, 시작 전 스크립트 실행</system:String>
+    <system:String x:Key="FreezeEndWithScript">프리즈 발생 시, 종료 후 스크립트 실행</system:String>
+    <system:String x:Key="FreezeDetected">프리즈 감지됨, 재시작 중</system:String>
+    <system:String x:Key="FreezeStop">프리즈 시 직접 정지</system:String>
+    <system:String x:Key="FreezeExtNotify">프리즈 시, 외부 알림 전송</system:String>
     <system:String x:Key="DrGrandet">그랑데 영감 모드</system:String>
     <system:String x:Key="DrGrandetTip">회복제나 순오리지늄 사용 시 이성이 자연 회복될 때까지 기다렸다가 회복되는 즉시 사용합니다.</system:String>
     <system:String x:Key="OnlyOnceADay">하루에 한 번만 실행</system:String>

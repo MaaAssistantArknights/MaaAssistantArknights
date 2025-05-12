@@ -389,10 +389,12 @@
     <system:String x:Key="EnableYituliu">上報一圖流</system:String>
     <system:String x:Key="EnableWatchdog">啟用看門狗</system:String>
     <system:String x:Key="WatchdogIntervalSec">看門狗檢查間隔（秒）</system:String>
-    <system:String x:Key="WatchdogThreshold">當機偵測門檻值</system:String>
-    <system:String x:Key="FreezeStartWithScript">發生當機時，啟用上述啟動腳本</system:String>
-    <system:String x:Key="FreezeEndWithScript">發生當機時，啟用上述結束腳本</system:String>
-    <system:String x:Key="FreezeDetected">偵測到當機，正在重新啟動</system:String>
+    <system:String x:Key="WatchdogThreshold">凍結偵測門檻值</system:String>
+    <system:String x:Key="FreezeStartWithScript">凍結時，執行開始前腳本</system:String>
+    <system:String x:Key="FreezeEndWithScript">凍結時，執行結束後腳本</system:String>
+    <system:String x:Key="FreezeDetected">偵測到凍結，正在重新啟動</system:String>
+    <system:String x:Key="FreezeStop">凍結時直接停止</system:String>
+    <system:String x:Key="FreezeExtNotify">凍結時傳送外部通知</system:String>
     <system:String x:Key="DrGrandet">博朗台模式</system:String>
     <system:String x:Key="DrGrandetTip">在恢復理智確認介面等待，直到當前的 1 點理智恢復完成再立即確認。</system:String>
     <system:String x:Key="SocialPtShop">信用購物</system:String>
