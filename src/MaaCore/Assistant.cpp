@@ -521,8 +521,10 @@ void Assistant::monitor_proc()
             task_ptr->run();
             m_restart_condvar.notify_one();
             m_monitor_restarting = false;
+            m_monitor_image = cv::Mat();
         }
     };
+    cv::Mat diff, gray;
     while (true) {
         std::unique_lock<std::mutex> lock(m_monitor_mutex);
         if (m_thread_exit) {
@@ -560,18 +562,20 @@ void Assistant::monitor_proc()
             }
             else { // 游戏在跑, 检查一下画面
                 auto image = ctrler()->get_image();
-                cv::Mat diff;
-                cv::subtract(m_monitor_image, image, diff);
-                int count = cv::countNonZero(diff);
-                double percent = static_cast<double>(count) / (diff.rows * diff.cols); // 计算差异百分比
-                Log.debug("Assistant::monitor_proc | diff count:", count, "percent:", percent);
-                if (percent > MonitorImageThreshold) {
-                    m_monitor_retry_count = 0;
-                    m_monitor_image = std::move(image);
+                if (!m_monitor_image.empty() && !image.empty()) {
+                    cv::subtract(m_monitor_image, image, diff);
+                    cv::cvtColor(diff, gray, cv::COLOR_BGR2GRAY);
+                    int count = cv::countNonZero(gray);
+                    double percent = static_cast<double>(count) / (diff.rows * diff.cols); // 计算差异百分比
+                    Log.debug("Assistant::monitor_proc | diff count:", count, "percent:", percent);
+                    if (percent > MonitorImageThreshold) {
+                        m_monitor_retry_count = 0;
+                    }
+                    else {
+                        m_monitor_retry_count++;
+                    }
                 }
-                else {
-                    m_monitor_retry_count++;
-                }
+                m_monitor_image = std::move(image);
                 if (m_monitor_retry_count >= MonitorRetryLimit) {
                     LogWarn << __FUNCTION__ << "game blocked, restarting";
                     restart_game();
@@ -579,7 +583,7 @@ void Assistant::monitor_proc()
                 }
             }
         }
-        m_monitor_condvar.wait_for(lock, std::chrono::seconds(60));
+        m_monitor_condvar.wait_for(lock, std::chrono::seconds(5));
     }
 }
 
