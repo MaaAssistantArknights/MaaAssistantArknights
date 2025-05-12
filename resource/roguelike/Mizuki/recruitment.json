@@ -19,13 +19,7 @@
             "name": "蕾缪安",
             "opers": [
                 {
-                    "name": "蕾缪安",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "is_key": true,
-                    "is_start": true,
-                    "recruit_priority": 998,
-                    "promote_priority": 1000
+                    "name": "蕾缪安"
                 }
             ]
         },
