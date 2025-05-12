@@ -599,7 +599,7 @@ The primary instance is 0, and other instances are the numbers after the version
     <system:String x:Key="Pormpt2">It's Sunday: don't forget about Annihilation</system:String>
     <!--  !FightSettings  -->
     <!--  Logs  -->
-    <system:String x:Key="VersionMismatch">UI and Core versions mismatch: {0} and {1}, which may cause unpredictable behavior. Please do not manually replace files or occupy files during updates.\n\nPlease download the full package and overwrite the contents of the current folder.</system:String>
+    <system:String x:Key="VersionMismatch">UI and Core versions mismatch: {0} and {1}, which may cause unpredictable behavior. Please do not manually replace files or occupy files during updates.\n\nPlease download the full package and extract it to a new folder. You may copy the original config folder into the new folder to retain your existing settings.</system:String>
     <system:String x:Key="ConnectingToEmulator">Connecting to emulator……</system:String>
     <system:String x:Key="UnselectedTask">Unselected task</system:String>
     <system:String x:Key="Running">Running……</system:String>
