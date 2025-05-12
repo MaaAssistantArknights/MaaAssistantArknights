@@ -168,7 +168,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LoadResourceWithTemplAndCheckRet(TaskData, "tasks"_p, "template"_p);
 
     // 热更是旧格式，现在这个实现很屎，但是可以利用一下屎
-    if (m_loaded) {
+    if (m_loaded && !exists(path / "tasks"_p)) {
         LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
     }
 
