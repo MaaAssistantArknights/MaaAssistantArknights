@@ -1312,18 +1312,23 @@
         "text": ["サ.*ート", "サポー", "招集", "召集", "確定"]
     },
     "Store@EnterTicketStore": {
-        "text": ["Certificate"]
+        "text": ["資格交換所"]
     },
     "Store@ChooseMaxAmount": {
-        "text": ["Max"]
+        "text": ["Mаx"]
     },
     "Store@Purchase": {
-        "text": ["Buy"]
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["購入"]
     },
     "GreenTicket@Store@ChooseTicketType": {
-        "text": ["Commendations"]
+        "text": ["般資格証"]
+    },
+    "GreenTicket@Store@ChooseMaxAmount": {
+        "roi": [1027, 405, 79, 53]
     },
     "YellowTicket@Store@ChooseTicketType": {
-        "text": ["Distinctions"]
+        "text": ["上級資格証"]
     }
 }

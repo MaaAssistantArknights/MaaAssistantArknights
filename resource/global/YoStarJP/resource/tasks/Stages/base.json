@@ -1,5 +1,6 @@
 {
     "SS@Store@Purchase": {
-        "text": ["Pay", "Total", "Cost"]
+        "text": ["購入"],
+        "roi": [772, 476, 292, 144]
     }
 }
