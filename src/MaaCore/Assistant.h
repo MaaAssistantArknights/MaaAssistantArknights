@@ -174,7 +174,7 @@ private:
     inline static TaskId m_task_id = 0; // 进程级唯一
     ApiCallback m_callback = nullptr;
     void* m_callback_arg = nullptr;
-    std::optional<std::string> m_game_activity_name;
+    std::optional<std::string> m_game_package_name;
 
     std::atomic_bool m_thread_idle = true;
     std::atomic_bool m_running = false;

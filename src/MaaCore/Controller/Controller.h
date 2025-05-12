@@ -66,6 +66,7 @@ public:
     bool start_game(const std::string& client_type);
     bool start_activity(const std::string& activity_name);
     bool stop_game(const std::string& client_type);
+    bool stop_activity(const std::string& activity_name);
 
     bool click(const Point& p);
     bool click(const Rect& rect);

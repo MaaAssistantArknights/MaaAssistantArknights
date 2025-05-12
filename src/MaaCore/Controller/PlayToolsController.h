@@ -32,9 +32,10 @@ public:
 
     virtual bool screencap(cv::Mat& image_payload, bool allow_reconnect = false) override;
 
-    virtual bool start_game(const std::string& client_type) override;
+    virtual bool start_game([[maybe_unused]] const std::string& client_type) override;
     virtual bool start_activity([[maybe_unused]] const std::string& activity_name) override;
-    virtual bool stop_game(const std::string& client_type) override;
+    virtual bool stop_game([[maybe_unused]] const std::string& client_type) override;
+    virtual bool stop_activity([[maybe_unused]] const std::string& activity_name) override;
 
     virtual bool click(const Point& p) override;
 

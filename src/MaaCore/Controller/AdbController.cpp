@@ -336,6 +336,16 @@ bool asst::AdbController::stop_game(const std::string& client_type)
     return ret;
 }
 
+bool asst::AdbController::stop_activity(const std::string& activity_name)
+{
+    if (activity_name.empty()) {
+        return false;
+    }
+    std::string cur_cmd = utils::string_replace_all(m_adb.stop, "[PackageName]", activity_name);
+    bool ret = call_command(cur_cmd).has_value();
+    return ret;
+}
+
 bool asst::AdbController::click(const Point& p)
 {
     if (p.x < 0 || p.x >= m_width || p.y < 0 || p.y >= m_height) {

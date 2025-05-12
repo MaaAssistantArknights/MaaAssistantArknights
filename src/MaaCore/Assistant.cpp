@@ -513,9 +513,14 @@ void Assistant::monitor_proc()
     LogTraceFunction;
 
     const auto& restart_game = [&]() {
-        if (m_game_activity_name) {
+        if (m_game_package_name) {
             m_monitor_restarting = true;
-            m_ctrler->start_activity(*m_game_activity_name);
+            if (!m_ctrler->stop_activity(*m_game_package_name)) {
+                Log.error("Assistant::monitor_proc | stop activity failed");
+            }
+            if (!m_ctrler->start_activity(*m_game_package_name)) {
+                Log.error("Assistant::monitor_proc | start activity failed");
+            }
             std::this_thread::sleep_for(std::chrono::seconds(120));
             auto task_ptr = std::make_shared<StartUpTask>(append_callback_for_inst, this);
             task_ptr->run();
@@ -533,7 +538,7 @@ void Assistant::monitor_proc()
 
         if (m_thread_idle || m_tasks_list.empty()) {
             m_monitor_condvar.wait(lock);
-            m_game_activity_name.reset();
+            m_game_package_name.reset();
             continue;
         }
 
@@ -549,19 +554,19 @@ void Assistant::monitor_proc()
                 Log.warn("Assistant::monitor_proc | activity died");
                 restart_game();
             }
-            else if (!m_game_activity_name.has_value()) { // 第一次拿到activity, 存一下
+            else if (!m_game_package_name.has_value()) { // 第一次拿到activity, 存一下
                 const auto& loc = activities->rfind("ACTIVITY ");
                 if (loc == std::string::npos) [[unlikely]] {
                     Log.warn("Assistant::guard_proc | activity not found");
                 }
                 else {
-                    m_game_activity_name = activities->substr(loc + 9, activities->find(' ', loc + 9) - loc - 9);
-                    Log.info("Assistant::guard_proc | activity_name:", *m_game_activity_name);
-                    m_monitor_image = ctrler()->get_image();
+                    m_game_package_name = activities->substr(loc + 9, activities->find('/', loc + 9) - loc - 9);
+                    Log.info("Assistant::guard_proc | activity_name:", *m_game_package_name);
+                    m_monitor_image = m_ctrler->get_image();
                 }
             }
             else { // 游戏在跑, 检查一下画面
-                auto image = ctrler()->get_image();
+                auto image = m_ctrler->get_image();
                 if (!m_monitor_image.empty() && !image.empty()) {
                     cv::subtract(m_monitor_image, image, diff);
                     cv::cvtColor(diff, gray, cv::COLOR_BGR2GRAY);

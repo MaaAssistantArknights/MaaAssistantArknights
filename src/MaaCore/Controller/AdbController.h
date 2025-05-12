@@ -42,6 +42,7 @@ public:
     virtual bool start_game(const std::string& client_type) override;
     virtual bool start_activity(const std::string& activity_name) override;
     virtual bool stop_game(const std::string& client_type) override;
+    virtual bool stop_activity(const std::string& activity_name) override;
 
     virtual bool click(const Point& p) override;
 
