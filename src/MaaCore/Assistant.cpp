@@ -511,7 +511,6 @@ void Assistant::msg_proc()
 void Assistant::monitor_proc()
 {
     LogTraceFunction;
-
     const auto& restart_game = [&]() {
         if (m_game_package_name) {
             m_monitor_restarting = true;
@@ -524,10 +523,10 @@ void Assistant::monitor_proc()
             std::this_thread::sleep_for(std::chrono::seconds(120));
             auto task_ptr = std::make_shared<StartUpTask>(append_callback_for_inst, this);
             task_ptr->run();
-            m_restart_condvar.notify_one();
-            m_monitor_restarting = false;
-            m_monitor_image = cv::Mat();
         }
+        m_restart_condvar.notify_one();
+        m_monitor_restarting = false;
+        m_monitor_image = cv::Mat();
     };
     cv::Mat diff, gray;
     while (true) {
@@ -588,7 +587,7 @@ void Assistant::monitor_proc()
                 }
             }
         }
-        m_monitor_condvar.wait_for(lock, std::chrono::seconds(5));
+        m_monitor_condvar.wait_for(lock, std::chrono::seconds(60), [&]() -> bool { return m_thread_idle; });
     }
 }
 
