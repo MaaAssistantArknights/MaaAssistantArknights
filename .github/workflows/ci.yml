@@ -393,6 +393,7 @@ jobs:
         run: |
           brew install graphicsmagick imagemagick pandoc
           npm install -g create-dmg
+          
       - name: Convert Terms of Service to RTF
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
