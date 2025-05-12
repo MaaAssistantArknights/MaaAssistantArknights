@@ -694,6 +694,13 @@ C:\\leidian\\LDPlayer9。\n
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">小遊戲名稱</system:String>
     <system:String x:Key="MiniGameNameGreenGrass">爭鋒頻道：青草城</system:String>
+    <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">手動跳過教程對話，然後可以直接退出。&#10;在活動主界面（右下角有「加入賽事」處）開始任務。&#10;&#10;跟著鴨總喝口湯。</system:String>
+    <system:String x:Key="MiniGameNameGreenTicketStore">綠票商店</system:String>
+    <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1層全買。&#10;2層買尋訪憑證和招聘許可。</system:String>
+    <system:String x:Key="MiniGameNameYellowTicketStore">黃票商店</system:String>
+    <system:String x:Key="MiniGameNameYellowTicketStoreTip" xml:space="preserve">請確保自己至少有258張黃票。</system:String>
+    <system:String x:Key="MiniGameNameSsStore">活動商店</system:String>
+    <system:String x:Key="MiniGameNameSsStoreTip" xml:space="preserve">請在活動商店頁面開始。&#10;不購買無限量物品。</system:String>
     <!--  !小游戏  -->
     <!--  日誌  -->
     <system:String x:Key="Identifying">正在辨識……</system:String>

@@ -277,9 +277,6 @@
     <None Include="..\..\resource\tasks\Stages\SN.json">
       <Filter>Resource\tasks\base\Stages</Filter>
     </None>
-    <None Include="..\..\resource\tasks\Stages\SS.json">
-      <Filter>Resource\tasks\base\Stages</Filter>
-    </None>
     <None Include="..\..\resource\tasks\Stages\Supplies.json">
       <Filter>Resource\tasks\base\Stages</Filter>
     </None>
@@ -701,6 +698,9 @@
       <Filter>Resource\tasks\YoStarKR\RA</Filter>
     </None>
     <None Include="..\..\resource\tasks\Stages\MT.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\base.json">
       <Filter>Resource\tasks\base\Stages</Filter>
     </None>
   </ItemGroup>
