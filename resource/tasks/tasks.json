@@ -4932,7 +4932,8 @@
     },
     "Store@UnderfundedOCR": {
         "algorithm": "OcrDetect",
-        "text": ["0", "o", "O"]
+        "text": ["0", "o", "O"],
+        "fullMatch": true
     },
     "Store@Purchase": {
         "algorithm": "OcrDetect",
