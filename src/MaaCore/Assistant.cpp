@@ -661,12 +661,18 @@ bool asst::Assistant::back_to_home() const
 bool Assistant::start_watchdog(int matchIntervalSec, int freezeThreshold)
 {
     if (m_watchdog_thread.joinable()) {
+        if (m_watchdog_active) {
+            Log.error("Assistant::start_watchdog | currently running, reset should not be called");
+            return false;
+        }
         Log.info("Assistant::start_watchdog | reset, interval:", matchIntervalSec, "thres:", freezeThreshold);
         m_watchdog->reset(matchIntervalSec, freezeThreshold);
+        m_watchdog_active = true;
         m_watchdog_condvar.notify_one();
     }
     else {
         Log.info("Assistant::start_watchdog | start, interval:", matchIntervalSec, "thres:", freezeThreshold);
+        m_watchdog_active = true;
         m_watchdog_thread = std::thread(&Assistant::watchdog_proc, this);
         m_watchdog = std::make_unique<Watchdog>(matchIntervalSec, freezeThreshold, append_callback_for_inst, this);
     }
@@ -679,9 +685,11 @@ void Assistant::watchdog_proc()
     while (true) {
         std::unique_lock<std::mutex> lock(m_watchdog_mutex);
         if (m_thread_exit) {
+            m_watchdog_active = false;
             return;
         }
         if (m_thread_idle) {
+            m_watchdog_active = false;
             m_watchdog_condvar.wait(lock);
         }
 

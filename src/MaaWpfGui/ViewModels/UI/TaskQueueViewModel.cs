@@ -1855,27 +1855,51 @@ namespace MaaWpfGui.ViewModels.UI
 
             AddLog(LocalizationHelper.GetString("FreezeDetected"));
 
+            if (GameSettingsUserControlModel.Instance.FreezeExtNotify)
+            {
+                ExternalNotificationService.Send(LocalizationHelper.GetString("FreezeDetected"), taskRec);
+            }
+
+            if (GameSettingsUserControlModel.Instance.FreezeStop)
+            {
+                await Stop();
+                SetStopped();
+                return;
+            }
+
             if (!EmulatorHelper.KillEmulatorModeSwitcher())
             {
                 AddLog(LocalizationHelper.GetString("ExitEmulatorFailed"), UiLogColor.Error);
                 return;
             }
 
-            CheckStop();
+            if (Stopping)
+            {
+                SetStopped();
+                return;
+            }
 
             if (GameSettingsUserControlModel.Instance.FreezeEndWithScript)
             {
                 await Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
             }
 
-            CheckStop();
+            if (Stopping)
+            {
+                SetStopped();
+                return;
+            }
 
             if (GameSettingsUserControlModel.Instance.FreezeStartWithScript)
             {
                 await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript"));
             }
 
-            CheckStop();
+            if (Stopping)
+            {
+                SetStopped();
+                return;
+            }
 
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
             if (!await ConnectToEmulator())
@@ -1883,7 +1907,11 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            CheckStop();
+            if (Stopping)
+            {
+                SetStopped();
+                return;
+            }
 
             bool taskRet = true;
             bool recRet = true;
@@ -1996,15 +2024,6 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(LocalizationHelper.GetString("UnknownErrorOccurs"));
                 await Stop();
                 SetStopped();
-            }
-
-            void CheckStop()
-            {
-                if (Stopping)
-                {
-                    SetStopped();
-                    return;
-                }
             }
         }
     }

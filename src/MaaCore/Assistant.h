@@ -10,7 +10,7 @@
 
 #include "Common/AsstMsg.h"
 #include "Common/AsstTypes.h"
-#include "Vision/Watchdog.h"
+#include "Watchdog.h"
 
 struct AsstExtAPI
 {
@@ -205,6 +205,7 @@ private:
     std::unique_ptr<Watchdog> m_watchdog;
     std::mutex m_watchdog_mutex;
     std::condition_variable m_watchdog_condvar;
+    std::atomic_bool m_watchdog_active = false;
     json::value m_last_task_json = json::value();
 };
 } // namespace asst
