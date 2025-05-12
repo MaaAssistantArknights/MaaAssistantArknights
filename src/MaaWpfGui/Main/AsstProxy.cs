@@ -260,16 +260,19 @@ namespace MaaWpfGui.Main
             string mainCache = Directory.GetCurrentDirectory() + @"\cache";
             string globalCache = mainCache + @"\resource\global\" + clientType;
 
+
             bool loaded;
             if (clientType is "" or "Official" or "Bilibili")
             {
                 // Read resources first, then read cache
+                MoveTasks(mainCache);
                 loaded = LoadResIfExists(mainRes);
                 loaded &= LoadResIfExists(mainCache);
             }
             else
-            {
-                // Read resources first, then read cache
+            {// Read resources first, then read cache
+                MoveTasks(mainCache);
+                MoveTasks(globalCache);
                 loaded = LoadResIfExists(mainRes) && LoadResIfExists(mainCache);
                 loaded &= LoadResIfExists(globalResource) && LoadResIfExists(globalCache);
             }
@@ -287,6 +290,14 @@ namespace MaaWpfGui.Main
 
                 _logger.Information($"Load resource: {path + Resource}");
                 return AsstLoadResource(path);
+            }
+
+            static void MoveTasks(string oldPath)
+            { // 铲资源更新的屎
+                if (!Directory.Exists(oldPath + @"\resource\tasks.json"))
+                {
+                    File.Move(oldPath + @"\resource\tasks.json", oldPath + @"\resource\tasks\tasks.json", true);
+                }
             }
         }
 
