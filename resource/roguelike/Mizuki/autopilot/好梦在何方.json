@@ -24,19 +24,14 @@
     ],
     "deploy_plan": [
         {
-            "groups": ["益达"],
-            "location": [6, 7],
-            "direction": "up"
-        },
-        {
-            "groups": ["蕾缪安"],
-            "location": [6, 2],
-            "direction": "up"
-        },
-        {
             "groups": ["领主", "地面远程", "挡人先锋"],
             "location": [6, 6],
             "direction": "left"
+        },
+        {
+            "groups": ["益达"],
+            "location": [6, 7],
+            "direction": "up"
         },
         {
             "groups": ["挡人先锋"],
