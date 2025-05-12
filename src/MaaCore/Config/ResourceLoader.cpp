@@ -165,7 +165,15 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LoadCacheWithoutRet(AvatarCacheManager, "avatars"_p);
 
     // 重要的资源，实时加载（图片还是惰性的）
-    LoadResourceWithTemplAndCheckRet(TaskData, "tasks"_p, "template"_p);
+    if (std::filesystem::is_directory(path / "tasks"_p)) {
+        LoadResourceWithTemplAndCheckRet(TaskData, "tasks"_p, "template"_p);
+    }
+    else if (std::filesystem::is_regular_file(path / "tasks.json"_p)) {
+        Log.warn("================  DEPRECATED  ================");
+        Log.warn(__FUNCTION__, "resource/tasks.json has been deprecated since");
+        Log.warn("================  DEPRECATED  ================");
+        LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
+    } // v5.16.4
 
     // 下面这几个资源都是会带OTA功能的，路径不能动
     LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
