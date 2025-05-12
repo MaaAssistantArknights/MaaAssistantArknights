@@ -107,7 +107,7 @@ public:
 
     std::shared_ptr<Status> status() const { return m_status; }
 
-    bool need_exit() const { return m_thread_idle && m_running; }
+    bool need_exit() const { return (m_thread_idle || m_monitor_restarting) && m_running; }
 
 private:
     void append_callback(AsstMsg msg, const json::value& detail);
@@ -195,7 +195,7 @@ private:
     std::condition_variable m_completed_call_condvar;
 
     std::mutex m_monitor_mutex;
-    std::condition_variable m_monitor_condvar;
+    std::condition_variable m_monitor_condvar, m_restart_condvar;
     cv::Mat m_monitor_image;
     bool m_monitor_restarting = false;
     int m_monitor_retry_count = 0, MonitorRetryLimit = 3;

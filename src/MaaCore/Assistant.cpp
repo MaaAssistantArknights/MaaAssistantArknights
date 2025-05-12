@@ -445,6 +445,12 @@ void Assistant::working_proc()
         bool ret = task_ptr->run();
         finished_tasks.emplace_back(id);
 
+        if (m_monitor_restarting) {
+            Log.debug("Assistant::working_proc | monitor restarting");
+            m_restart_condvar.wait(lock);
+            Log.debug("Assistant::working_proc | monitor restart finish");
+        }
+
         lock.lock();
         if (!m_tasks_list.empty()) {
             m_tasks_list.pop_front();
@@ -508,9 +514,13 @@ void Assistant::monitor_proc()
 
     const auto& restart_game = [&]() {
         if (m_game_activity_name) {
+            m_monitor_restarting = true;
             m_ctrler->start_activity(*m_game_activity_name);
             std::this_thread::sleep_for(std::chrono::seconds(120));
-            m_working_thread.join();
+            auto task_ptr = std::make_shared<StartUpTask>(append_callback_for_inst, this);
+            task_ptr->run();
+            m_restart_condvar.notify_one();
+            m_monitor_restarting = false;
         }
     };
     while (true) {
@@ -563,7 +573,7 @@ void Assistant::monitor_proc()
                     m_monitor_retry_count++;
                 }
                 if (m_monitor_retry_count >= MonitorRetryLimit) {
-                    LogWarn << __FUNCTION__ << "游戏卡死, 执行重启";
+                    LogWarn << __FUNCTION__ << "game blocked, restarting";
                     restart_game();
                     m_monitor_retry_count = 0;
                 }
