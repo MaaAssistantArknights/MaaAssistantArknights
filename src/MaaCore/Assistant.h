@@ -10,6 +10,7 @@
 
 #include "Common/AsstMsg.h"
 #include "Common/AsstTypes.h"
+#include "Utils/NoWarningCVMat.h"
 
 struct AsstExtAPI
 {
@@ -196,6 +197,9 @@ private:
     std::mutex m_monitor_mutex;
     std::condition_variable m_monitor_condvar;
     cv::Mat m_monitor_image;
+    bool m_monitor_restarting = false;
+    int m_monitor_retry_count = 0, MonitorRetryLimit = 3;
+    double MonitorImageThreshold = 0.02;
 
     std::thread m_msg_thread;
     std::thread m_call_thread;

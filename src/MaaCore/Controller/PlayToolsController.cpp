@@ -101,6 +101,12 @@ bool asst::PlayToolsController::start_game(const std::string& client_type [[mayb
     return true;
 }
 
+bool asst::PlayToolsController::start_activity([[maybe_unused]] const std::string& activity_name)
+{
+    Log.info("start_activity is not supported on iOS");
+    return true;
+}
+
 bool asst::PlayToolsController::stop_game(const std::string& client_type [[maybe_unused]])
 {
     try {

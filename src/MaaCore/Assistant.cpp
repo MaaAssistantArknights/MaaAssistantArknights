@@ -540,7 +540,7 @@ void Assistant::monitor_proc()
             else if (!m_game_activity_name.has_value()) { // 第一次拿到activity, 存一下
                 const auto& loc = activities->rfind("ACTIVITY ");
                 if (loc == std::string::npos) [[unlikely]] {
-                    Log.warn("not found");
+                    Log.warn("Assistant::guard_proc | activity not found");
                 }
                 else {
                     m_game_activity_name = activities->substr(loc + 9, activities->find(' ', loc + 9) - loc - 9);
@@ -554,9 +554,18 @@ void Assistant::monitor_proc()
                 cv::subtract(m_monitor_image, image, diff);
                 int count = cv::countNonZero(diff);
                 double percent = static_cast<double>(count) / (diff.rows * diff.cols); // 计算差异百分比
-                if (percent < 0.02) {
+                Log.debug("Assistant::monitor_proc | diff count:", count, "percent:", percent);
+                if (percent > MonitorImageThreshold) {
+                    m_monitor_retry_count = 0;
+                    m_monitor_image = std::move(image);
+                }
+                else {
+                    m_monitor_retry_count++;
+                }
+                if (m_monitor_retry_count >= MonitorRetryLimit) {
                     LogWarn << __FUNCTION__ << "游戏卡死, 执行重启";
                     restart_game();
+                    m_monitor_retry_count = 0;
                 }
             }
         }
