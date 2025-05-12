@@ -47,14 +47,14 @@
     ],
     "deploy_plan": [
         {
-            "groups": ["益达"],
-            "location": [1, 3],
-            "direction": "right"
-        },
-        {
             "groups": ["挡人先锋", "基石", "地面C", "重装", "其他地面", "号角", "百嘉"],
             "location": [2, 1],
             "direction": "up"
+        },
+        {
+            "groups": ["益达"],
+            "location": [1, 3],
+            "direction": "right"
         },
         {
             "groups": ["投锋"],
