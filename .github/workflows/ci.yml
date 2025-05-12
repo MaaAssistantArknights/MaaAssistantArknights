@@ -389,12 +389,11 @@ jobs:
           show-progress: false
 
       - name: Install Dependencies
-        if: startsWith(github.ref, 'refs/tags/v')
         run: |
           brew install graphicsmagick imagemagick pandoc
           npm install -g create-dmg
+
       - name: Convert Terms of Service to RTF
-        if: startsWith(github.ref, 'refs/tags/v')
         run: |
           pandoc terms-of-service.md -o license.rtf
 
@@ -484,27 +483,28 @@ jobs:
         working-directory: src/MaaMacGui
 
       - name: Export MAA
-        if: startsWith(github.ref, 'refs/tags/v')
         run: |
-          xcodebuild -exportArchive -archivePath MAA.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath Export
+          if ${{ startsWith(github.ref, 'refs/tags/v') }}; then
+            xcodebuild -exportArchive -archivePath MAA.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath Export
+          else
+            mkdir Export
+            mv MAA.xcarchive/Products/Applications/MAA.app Export
+          fi
         working-directory: src/MaaMacGui
 
       - name: Create Disk Image
-        if: startsWith(github.ref, 'refs/tags/v')
         run: |
-          mv license.rtf Export/license.rtf
+          mv ../../license.rtf Export/license.rtf
           create-dmg Export/MAA.app
           mv MAA*.dmg MAA.dmg
         working-directory: src/MaaMacGui
 
       - name: Archive Debug Symbols
-        if: startsWith(github.ref, 'refs/tags/v')
         run: |
           ditto -c -k --keepParent MAA.app.dSYM MAA.app.dSYM.zip
         working-directory: src/MaaMacGui/MAA.xcarchive/dSYMs
 
       - name: Place Packages
-        if: startsWith(github.ref, 'refs/tags/v')
         run: |
           GIT_TAG=${{ needs.meta.outputs.tag }}
           APP_DMG=MAA-${GIT_TAG}-macos-universal.dmg
@@ -540,7 +540,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: MAA-macos-universal
-          path: ${{ startsWith(github.ref, 'refs/tags/v') && 'release/MAA*' || 'src/MaaMacGui/MAA.xcarchive/**' }}
+          path: 'release/MAA*'
 
   release:
     # Prevent duplicate runs on organization branches with PRs
