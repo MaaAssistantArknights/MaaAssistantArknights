@@ -447,7 +447,7 @@ void Assistant::working_proc()
 
         if (m_monitor_restarting) {
             Log.debug("Assistant::working_proc | monitor restarting");
-            m_restart_condvar.wait(lock);
+            m_restart_condvar.wait(lock, [&]() -> bool { return m_thread_idle; });
             Log.debug("Assistant::working_proc | monitor restart finish");
         }
 
