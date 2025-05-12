@@ -26,6 +26,11 @@
             "direction": "up"
         },
         {
+            "groups": ["益达"],
+            "location": [6, 3],
+            "direction": "down"
+        },
+        {
             "groups": ["单奶", "群奶"],
             "location": [5, 6],
             "direction": "up"

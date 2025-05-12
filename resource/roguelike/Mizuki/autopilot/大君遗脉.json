@@ -29,6 +29,11 @@
             "direction": "up"
         },
         {
+            "groups": ["益达"],
+            "location": [6, 4],
+            "direction": "left"
+        },
+        {
             "groups": ["玛恩纳", "百嘉", "基石", "挡人先锋", "地面C", "号角", "重装"],
             "location": [4, 5],
             "direction": "up"

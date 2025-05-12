@@ -13,6 +13,11 @@
             "direction": "left"
         },
         {
+            "groups": ["益达"],
+            "location": [9, 3],
+            "direction": "left"
+        },
+        {
             "groups": ["百嘉", "基石"],
             "location": [8, 3],
             "direction": "left"

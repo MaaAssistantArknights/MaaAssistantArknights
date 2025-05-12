@@ -15,6 +15,11 @@
     ],
     "deploy_plan": [
         {
+            "groups": ["益达"],
+            "location": [5, 4],
+            "direction": "right"
+        },
+        {
             "groups": ["投锋", "挡人先锋"],
             "location": [2, 5],
             "direction": "right"
