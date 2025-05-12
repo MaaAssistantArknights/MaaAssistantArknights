@@ -252,7 +252,7 @@ void asst::AdbController::set_mumu_package(const std::string& client_type)
 #endif
 }
 
-void asst::AdbController::init_ld_extras(const AdbCfg& adb_cfg)
+void asst::AdbController::init_ld_extras([[maybe_unused]] const AdbCfg& adb_cfg)
 {
 #if !ASST_WITH_EMULATOR_EXTRAS
     Log.error("MaaCore is not compiled with ASST_WITH_EMULATOR_EXTRAS");
