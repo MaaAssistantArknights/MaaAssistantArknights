@@ -161,6 +161,12 @@ bool asst::Controller::start_game(const std::string& client_type)
     return m_controller->start_game(client_type);
 }
 
+bool asst::Controller::start_activity(const std::string& activity_name)
+{
+    CHECK_EXIST(m_controller, false);
+    return m_controller->start_game(activity_name);
+}
+
 bool asst::Controller::stop_game(const std::string& client_type)
 {
     CHECK_EXIST(m_controller, false);

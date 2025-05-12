@@ -173,7 +173,7 @@ private:
     inline static TaskId m_task_id = 0; // 进程级唯一
     ApiCallback m_callback = nullptr;
     void* m_callback_arg = nullptr;
-    std::optional<std::string> m_guard_activity_name;
+    std::optional<std::string> m_game_activity_name;
 
     std::atomic_bool m_thread_idle = true;
     std::atomic_bool m_running = false;
@@ -195,6 +195,7 @@ private:
 
     std::mutex m_monitor_mutex;
     std::condition_variable m_monitor_condvar;
+    cv::Mat m_monitor_image;
 
     std::thread m_msg_thread;
     std::thread m_call_thread;

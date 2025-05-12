@@ -506,6 +506,13 @@ void Assistant::monitor_proc()
 {
     LogTraceFunction;
 
+    const auto& restart_game = [&]() {
+        if (m_game_activity_name) {
+            m_ctrler->start_activity(*m_game_activity_name);
+            std::this_thread::sleep_for(std::chrono::seconds(120));
+            m_working_thread.join();
+        }
+    };
     while (true) {
         std::unique_lock<std::mutex> lock(m_monitor_mutex);
         if (m_thread_exit) {
@@ -514,7 +521,7 @@ void Assistant::monitor_proc()
 
         if (m_thread_idle || m_tasks_list.empty()) {
             m_monitor_condvar.wait(lock);
-            m_guard_activity_name.reset();
+            m_game_activity_name.reset();
             continue;
         }
 
@@ -528,22 +535,29 @@ void Assistant::monitor_proc()
             }
             else if (activities->empty()) { // 突然没activity了, 游戏没掉了
                 Log.warn("Assistant::monitor_proc | activity died");
-                m_ctrler->start_game("Official");
-                std::this_thread::sleep_for(std::chrono::seconds(120));
-                m_working_thread.
+                restart_game();
             }
-            else if (!m_guard_activity_name.has_value()) { // 第一次拿到activity, 存一下
+            else if (!m_game_activity_name.has_value()) { // 第一次拿到activity, 存一下
                 const auto& loc = activities->rfind("ACTIVITY ");
                 if (loc == std::string::npos) [[unlikely]] {
                     Log.warn("not found");
                 }
                 else {
-                    m_guard_activity_name = activities->substr(loc + 9, activities->find(' ', loc + 9) - loc - 9);
-                    Log.info("Assistant::guard_proc | activity_name:", *m_guard_activity_name);
+                    m_game_activity_name = activities->substr(loc + 9, activities->find(' ', loc + 9) - loc - 9);
+                    Log.info("Assistant::guard_proc | activity_name:", *m_game_activity_name);
+                    m_monitor_image = ctrler()->get_image();
                 }
             }
             else { // 游戏在跑, 检查一下画面
-
+                auto image = ctrler()->get_image();
+                cv::Mat diff;
+                cv::subtract(m_monitor_image, image, diff);
+                int count = cv::countNonZero(diff);
+                double percent = static_cast<double>(count) / (diff.rows * diff.cols); // 计算差异百分比
+                if (percent < 0.02) {
+                    LogWarn << __FUNCTION__ << "游戏卡死, 执行重启";
+                    restart_game();
+                }
             }
         }
         m_monitor_condvar.wait_for(lock, std::chrono::seconds(60));
