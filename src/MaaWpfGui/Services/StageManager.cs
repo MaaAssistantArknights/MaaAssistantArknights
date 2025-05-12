@@ -62,7 +62,6 @@ namespace MaaWpfGui.Services
 
         public async Task UpdateStageWeb()
         {
-
             if (!await CheckWebUpdate())
             {
                 return;

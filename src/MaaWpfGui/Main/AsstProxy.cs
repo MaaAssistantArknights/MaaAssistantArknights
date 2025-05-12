@@ -260,7 +260,6 @@ namespace MaaWpfGui.Main
             string mainCache = Directory.GetCurrentDirectory() + @"\cache";
             string globalCache = mainCache + @"\resource\global\" + clientType;
 
-
             bool loaded;
             if (clientType is "" or "Official" or "Bilibili")
             {
@@ -270,7 +269,8 @@ namespace MaaWpfGui.Main
                 loaded &= LoadResIfExists(mainCache);
             }
             else
-            {// Read resources first, then read cache
+            {
+                // Read resources first, then read cache
                 MoveTasks(mainCache);
                 MoveTasks(globalCache);
                 loaded = LoadResIfExists(mainRes) && LoadResIfExists(mainCache);
@@ -293,12 +293,33 @@ namespace MaaWpfGui.Main
             }
 
             static void MoveTasks(string oldPath)
-            { // 铲资源更新的屎
-                if (!Directory.Exists(oldPath + @"\resource\tasks.json"))
+            {
+                try
                 {
-                    File.Move(oldPath + @"\resource\tasks.json", oldPath + @"\resource\tasks\tasks.json", true);
+                    string tasksJsonPath = Path.Combine(oldPath, @"resource\tasks.json");
+                    string tasksFolderPath = Path.Combine(oldPath, @"resource\tasks");
+                    string newTasksJsonPath = Path.Combine(tasksFolderPath, "tasks.json");
+
+                    if (!File.Exists(tasksJsonPath))
+                    {
+                        return;
+                    }
+
+                    if (!Directory.Exists(tasksFolderPath))
+                    {
+                        Directory.CreateDirectory(tasksFolderPath);
+                        _logger.Information($"Created directory: {tasksFolderPath}");
+                    }
+
+                    File.Move(tasksJsonPath, newTasksJsonPath, true);
+                    _logger.Information($"Moved {tasksJsonPath} to {newTasksJsonPath}");
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error($"Failed to move tasks.json: {ex.Message}");
                 }
             }
+
         }
 
         /// <summary>
