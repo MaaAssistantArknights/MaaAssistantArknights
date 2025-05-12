@@ -894,5 +894,20 @@
     },
     "RecruitSupportConfirm": {
         "text": ["招募助戰", "控募助戰", "招蔓訪戰", "社助戰"]
+    },
+    "Store@EnterTicketStore": {
+        "text": ["Certificate"]
+    },
+    "Store@ChooseMaxAmount": {
+        "text": ["Max"]
+    },
+    "Store@Purchase": {
+        "text": ["Buy"]
+    },
+    "GreenTicket@Store@ChooseTicketType": {
+        "text": ["Commendations"]
+    },
+    "YellowTicket@Store@ChooseTicketType": {
+        "text": ["Distinctions"]
     }
 }
