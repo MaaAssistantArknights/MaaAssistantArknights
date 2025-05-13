@@ -1469,13 +1469,16 @@
     "Store@ChooseMaxAmount": {
         "text": ["Max"]
     },
-    "Store@Purchase": {
-        "text": ["Buy"]
-    },
     "GreenTicket@Store@ChooseTicketType": {
         "text": ["Commendations"]
     },
+    "GreenTicket@Store@Purchase": {
+        "text": ["Buy"]
+    },
     "YellowTicket@Store@ChooseTicketType": {
         "text": ["Distinctions"]
+    },
+    "YellowTicket@Store@Purchase": {
+        "text": ["Buy"]
     }
 }
