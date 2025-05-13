@@ -4931,8 +4931,8 @@
         "action": "ClickSelf"
     },
     "Store@UnderfundedOCR": {
-        "algorithm": "OcrDetect",
-        "text": ["0", "o", "O", "c"],
+        "baseTask": "NumberOcrReplace",
+        "text": ["0"],
         "fullMatch": true
     },
     "Store@Purchase": {
