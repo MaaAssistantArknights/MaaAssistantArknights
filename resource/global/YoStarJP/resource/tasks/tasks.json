@@ -1317,18 +1317,16 @@
     "Store@ChooseMaxAmount": {
         "text": ["Mаx"]
     },
-    "Store@Purchase": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["購入"]
-    },
     "GreenTicket@Store@ChooseTicketType": {
         "text": ["般資格証"]
     },
-    "GreenTicket@Store@ChooseMaxAmount": {
-        "roi": [1027, 405, 79, 53]
+    "GreenTicket@Store@Purchase": {
+        "text": ["購入"]
     },
     "YellowTicket@Store@ChooseTicketType": {
         "text": ["上級資格証"]
+    },
+    "YellowTicket@Store@Purchase": {
+        "text": ["購入"]
     }
 }
