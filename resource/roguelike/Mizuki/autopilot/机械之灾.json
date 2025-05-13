@@ -37,6 +37,12 @@
             "location": [9, 3],
             "direction": "left"
         },
+
+        {
+            "groups": ["基石", "挡人先锋", "地面C", "重装", "地刺", "其他地面"],
+            "location": [8, 4],
+            "direction": "left"
+        },
         {
             "groups": ["异德", "刺客", "其他地面"],
             "location": [5, 3],
