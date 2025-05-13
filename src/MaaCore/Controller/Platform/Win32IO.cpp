@@ -150,7 +150,7 @@ std::optional<int> asst::Win32IO::call_command(
         }
     }
 
-    while (!need_exit()) {
+    while ((!need_exit() || is_restarting())) {
         wait_handles.clear();
         if (process_running) {
             wait_handles.push_back(process_info.hProcess);

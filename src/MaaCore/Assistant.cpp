@@ -511,26 +511,29 @@ void Assistant::msg_proc()
 void Assistant::monitor_proc()
 {
     LogTraceFunction;
+    std::unique_lock<std::mutex> lock(m_monitor_mutex);
     const auto& restart_game = [&]() {
+        m_monitor_restarting = true;
         if (m_game_package_name) {
-            m_monitor_restarting = true;
             if (!m_ctrler->stop_activity(*m_game_package_name)) {
                 Log.error("Assistant::monitor_proc | stop activity failed");
             }
             if (!m_ctrler->start_activity(*m_game_package_name)) {
                 Log.error("Assistant::monitor_proc | start activity failed");
             }
-            std::this_thread::sleep_for(std::chrono::seconds(120));
-            auto task_ptr = std::make_shared<StartUpTask>(append_callback_for_inst, this);
-            task_ptr->run();
         }
-        m_restart_condvar.notify_one();
         m_monitor_restarting = false;
+        std::condition_variable waiting;
+        waiting.wait_for(lock, std::chrono::seconds(30), [&]() -> bool { return m_thread_idle; });
+        auto start = std::make_shared<StartUpTask>(append_callback_for_inst, this);
+        start->set_enable(true);
+        start->set_params(json::value());
+        start->run();
+        m_restart_condvar.notify_one();
         m_monitor_image = cv::Mat();
     };
     cv::Mat diff, gray;
     while (true) {
-        std::unique_lock<std::mutex> lock(m_monitor_mutex);
         if (m_thread_exit) {
             return;
         }

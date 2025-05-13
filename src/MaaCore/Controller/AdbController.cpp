@@ -67,18 +67,18 @@ std::optional<std::string> asst::AdbController::reconnect(const std::string& cmd
     };
     static constexpr int ReconnectTimes = 5;
     for (int i = 0; i < ReconnectTimes; ++i) {
-        if (need_exit()) {
+        if (!is_restarting() && need_exit()) {
             break;
         }
         reconnect_info["details"]["times"] = i;
         callback(AsstMsg::ConnectionInfo, reconnect_info);
 
         sleep(10 * 1000);
-        if (need_exit()) {
+        if (!is_restarting() && need_exit()) {
             break;
         }
         auto reconnect_ret = call_command(m_adb.connect, 60LL * 1000, false /* 禁止重连避免无限递归 */);
-        if (need_exit()) {
+        if (!is_restarting() && need_exit()) {
             break;
         }
         bool is_reconnect_success = false;
@@ -163,7 +163,7 @@ std::optional<std::string> asst::AdbController::call_command(
     }
     // 直接 return，避免走到下面的 else if 里的 m_inited = false) 关闭 adb 连接，
     // 导致停止后再开始任务还需要重连一次
-    if (need_exit()) {
+    if (!is_restarting() && need_exit()) {
         return std::nullopt;
     }
 
@@ -846,7 +846,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
             });
     };
 
-    if (need_exit()) {
+    if (!is_restarting() && need_exit()) {
         return false;
     }
 
@@ -904,7 +904,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         }
     }
 
-    if (need_exit()) {
+    if (!is_restarting() && need_exit()) {
         return false;
     }
 
@@ -948,7 +948,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         m_version = std::stoul(version_str);
     }
 
-    if (need_exit()) {
+    if (!is_restarting() && need_exit()) {
         return false;
     }
 
@@ -971,7 +971,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         display_id.pop_back();
     }
 
-    if (need_exit()) {
+    if (!is_restarting() && need_exit()) {
         return false;
     }
 
@@ -1015,7 +1015,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         m_screen_size = { m_width, m_height };
     }
 
-    if (need_exit()) {
+    if (!is_restarting() && need_exit()) {
         return false;
     }
 
@@ -1068,7 +1068,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         }
     }
 
-    if (need_exit()) {
+    if (!is_restarting() && need_exit()) {
         return false;
     }
 
@@ -1079,7 +1079,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         init_ld_extras(adb_cfg);
     }
 
-    if (need_exit()) {
+    if (!is_restarting() && need_exit()) {
         return false;
     }
 

@@ -109,6 +109,8 @@ public:
 
     bool need_exit() const { return (m_thread_idle || m_monitor_restarting) && m_running; }
 
+    bool is_restarting() const { return m_monitor_restarting; }
+
 private:
     void append_callback(AsstMsg msg, const json::value& detail);
     static void append_callback_for_inst(AsstMsg msg, const json::value& detail, Assistant* inst);
