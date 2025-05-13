@@ -294,7 +294,7 @@
                     "promote_priority": 981,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["高台C", "玛恩纳", "号角"],
+                            "groups": ["高台C", "益达", "玛恩纳", "号角"],
                             "threshold": 3,
                             "offset": -200
                         }
@@ -305,11 +305,11 @@
                     "skill": 3,
                     "alternate_skill": 1,
                     "is_key": true,
-                    "recruit_priority": 950,
+                    "recruit_priority": 850,
                     "promote_priority": 980,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["高台C", "玛恩纳", "号角"],
+                            "groups": ["高台C", "益达", "玛恩纳", "号角"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -324,7 +324,7 @@
                     "promote_priority": 950,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["高台C", "益达"],
+                            "groups": ["高台C", "益达", "玛恩纳", "号角"],
                             "threshold": 1,
                             "offset": -200
                         }
@@ -335,11 +335,11 @@
                     "skill": 2,
                     "is_key": true,
                     "is_start": true,
-                    "recruit_priority": 850,
+                    "recruit_priority": 900,
                     "promote_priority": 900,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["高台C", "益达"],
+                            "groups": ["高台C", "益达", "玛恩纳", "号角"],
                             "threshold": 1,
                             "offset": -200
                         }
@@ -353,7 +353,7 @@
                     "promote_priority": 901,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["高台C", "玛恩纳", "号角"],
+                            "groups": ["高台C", "益达", "玛恩纳", "号角"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -368,9 +368,15 @@
                     "promote_priority": 932,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["高台C", "玛恩纳", "号角"],
-                            "threshold": 2,
-                            "offset": -300
+                            "groups": ["高台C", "益达", "玛恩纳", "号角"],
+                            "threshold": 1,
+                            "offset": -200
+                        }
+                    ],
+                    "collection_priority_offsets": [
+                        {
+                            "collection": "波纹之手",
+                            "offset": 300
                         }
                     ]
                 },
@@ -383,7 +389,7 @@
                     "promote_priority": 832,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["高台C", "玛恩纳", "号角"],
+                            "groups": ["高台C", "益达", "玛恩纳", "号角"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -398,9 +404,9 @@
                     "promote_priority": 900,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["术师"],
+                            "groups": ["高台C", "益达", "玛恩纳", "号角"],
                             "threshold": 1,
-                            "offset": -120
+                            "offset": -200
                         }
                     ],
                     "collection_priority_offsets": [
@@ -419,7 +425,7 @@
                     "promote_priority": 700,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["高台C", "玛恩纳", "号角"],
+                            "groups": ["高台C", "益达", "玛恩纳", "号角"],
                             "threshold": 2,
                             "offset": -200
                         }
@@ -433,7 +439,7 @@
                     "promote_priority": 700,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["高台C", "玛恩纳", "号角"],
+                            "groups": ["高台C", "益达", "玛恩纳", "号角"],
                             "threshold": 2,
                             "offset": -200
                         }
@@ -448,7 +454,7 @@
                     "promote_priority": 950,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["高台C", "玛恩纳", "号角"],
+                            "groups": ["高台C", "益达", "玛恩纳", "号角"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -462,7 +468,7 @@
                     "promote_priority": 850,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["高台C", "玛恩纳", "号角"],
+                            "groups": ["高台C", "益达", "玛恩纳", "号角"],
                             "threshold": 2,
                             "offset": -300
                         },
