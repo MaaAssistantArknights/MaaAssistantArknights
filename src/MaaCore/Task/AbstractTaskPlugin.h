@@ -24,7 +24,7 @@ public:
 
     virtual bool verify(AsstMsg msg, const json::value& details) const = 0;
 
-    std::strong_ordering operator<=>(const AbstractTaskPlugin& rhs) const;
+    std::strong_ordering operator<=>(const asst::AbstractTaskPlugin& rhs) const;
     bool operator==(const AbstractTaskPlugin& rhs) const;
 
 protected:

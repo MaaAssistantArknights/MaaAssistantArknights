@@ -1,5 +1,6 @@
 #include "AbstractTaskPlugin.h"
 
+#include "Controller/Controller.h"
 #include "ProcessTask.h"
 
 int asst::AbstractTaskPlugin::priority() const
@@ -40,7 +41,10 @@ bool asst::AbstractTaskPlugin::operator==(const AbstractTaskPlugin& rhs) const
 cv::Mat asst::AbstractTaskPlugin::get_process_image() const
 {
     if (auto ptr = dynamic_cast<ProcessTask*>(m_task_ptr)) {
-        return ptr->get_result_image();
+        auto image = ptr->get_result_image();
+        if (!image.empty()) {
+            return image;
+        }
     }
-    return cv::Mat();
+    return ctrler()->get_image();
 }
