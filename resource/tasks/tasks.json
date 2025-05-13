@@ -4938,6 +4938,7 @@
     "Store@Purchase": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
+        "text": [],
         "postDelay": 1000
     },
     "GreenTicket@Store@ChooseTicketType": {
