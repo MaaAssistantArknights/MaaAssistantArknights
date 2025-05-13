@@ -896,21 +896,21 @@
         "text": ["招募助戰", "控募助戰", "招蔓訪戰", "社助戰"]
     },
     "Store@EnterTicketStore": {
-        "text": ["Certificate"]
+        "text": ["憑證交易所"]
     },
     "Store@ChooseMaxAmount": {
-        "text": ["Max"]
+        "text": ["最多"]
     },
     "GreenTicket@Store@ChooseTicketType": {
-        "text": ["Commendations"]
+        "text": ["資質憑證區"]
     },
     "GreenTicket@Store@Purchase": {
-        "text": ["Buy"]
+        "text": ["購買物品"]
     },
     "YellowTicket@Store@ChooseTicketType": {
-        "text": ["Distinctions"]
+        "text": ["高級憑證區"]
     },
     "YellowTicket@Store@Purchase": {
-        "text": ["Buy"]
+        "text": ["購買物品"]
     }
 }
