@@ -4932,7 +4932,7 @@
     },
     "Store@UnderfundedOCR": {
         "algorithm": "OcrDetect",
-        "text": ["0", "o", "O"],
+        "text": ["0", "o", "O", "c"],
         "fullMatch": true
     },
     "Store@Purchase": {
