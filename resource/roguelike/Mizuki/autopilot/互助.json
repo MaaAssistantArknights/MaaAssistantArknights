@@ -9,7 +9,8 @@
     "deploy_plan": [
         {
             "groups": ["益达"],
-            "location": [5, 1],
+            "doc": "往右一格不然无法开启技能",
+            "location": [6, 1],
             "direction": "down"
         },
         {
