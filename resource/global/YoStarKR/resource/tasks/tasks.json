@@ -1468,18 +1468,21 @@
         "text": ["지원 유닛 모집"]
     },
     "Store@EnterTicketStore": {
-        "text": ["Certificate"]
+        "text": ["증명서"]
     },
     "Store@ChooseMaxAmount": {
-        "text": ["Max"]
-    },
-    "Store@Purchase": {
-        "text": ["Buy"]
+        "text": ["최대"]
     },
     "GreenTicket@Store@ChooseTicketType": {
-        "text": ["Commendations"]
+        "text": ["자격증명서"]
+    },
+    "GreenTicket@Store@Purchase": {
+        "text": ["물품", "구매"]
     },
     "YellowTicket@Store@ChooseTicketType": {
-        "text": ["Distinctions"]
+        "text": ["고급증명서"]
+    },
+    "YellowTicket@Store@Purchase": {
+        "text": ["물품", "구매"]
     }
 }
