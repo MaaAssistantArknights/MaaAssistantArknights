@@ -1466,5 +1466,23 @@
     "RecruitSupportConfirm": {
         "ocrReplace": [[".?(원|운).?(유|우).+", "지원 유닛 모집"]],
         "text": ["지원 유닛 모집"]
+    },
+    "Store@EnterTicketStore": {
+        "text": ["증명서"]
+    },
+    "Store@ChooseMaxAmount": {
+        "text": ["최대"]
+    },
+    "GreenTicket@Store@ChooseTicketType": {
+        "text": ["자격증명서"]
+    },
+    "GreenTicket@Store@Purchase": {
+        "text": ["물품", "구매"]
+    },
+    "YellowTicket@Store@ChooseTicketType": {
+        "text": ["고급증명서"]
+    },
+    "YellowTicket@Store@Purchase": {
+        "text": ["물품", "구매"]
     }
 }
