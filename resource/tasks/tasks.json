@@ -4938,8 +4938,6 @@
     "Store@Purchase": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["购买物品"],
-        "roi": [872, 556, 137, 48],
         "postDelay": 1000
     },
     "GreenTicket@Store@ChooseTicketType": {
@@ -4951,7 +4949,7 @@
     },
     "GreenTicket@Store@ClickFirstFloor": {
         "algorithm": "OcrDetect",
-        "text": ["1", "T", "I"],
+        "text": ["1", "T", "I", "亻"],
         "action": "ClickSelf",
         "roi": [263, 196, 35, 73],
         "sub": ["SlowlySwipeToTheLeft"],
@@ -4980,6 +4978,8 @@
         "roi": [876, 405, 85, 51]
     },
     "GreenTicket@Store@Purchase": {
+        "roi": [872, 556, 137, 48],
+        "text": ["购买物品"],
         "next": ["GreenTicket@Store@PurchasedConfirm"]
     },
     "GreenTicket@Store@PurchasedConfirm": {
@@ -5025,6 +5025,8 @@
         "next": ["YellowTicket@Store@Purchase"]
     },
     "YellowTicket@Store@Purchase": {
+        "roi": [872, 556, 137, 48],
+        "text": ["购买物品"],
         "next": ["YellowTicket@Store@PurchasedConfirm"]
     },
     "YellowTicket@Store@PurchasedConfirm": {

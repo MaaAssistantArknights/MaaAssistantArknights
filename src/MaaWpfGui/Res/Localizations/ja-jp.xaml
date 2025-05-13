@@ -252,6 +252,7 @@
     <system:String x:Key="NoAutoNavigation">このオプションは、対応するステージに自動的に移動するものではありません</system:String>
     <system:String x:Key="StartupUpdateCheck">起動時の更新チェック</system:String>
     <system:String x:Key="UpdateAutoCheck">定期的な更新チェック</system:String>
+    <system:String x:Key="UpdateAutoCheckTip">04:00 / 22:00 Server Time</system:String>
     <system:String x:Key="UpdateAutoDownload">自動アップデート</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">自動インストール更新</system:String>
     <system:String x:Key="UpdateCheckStable">安定版</system:String>
@@ -697,11 +698,11 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGameNameGreenGrass">対決チャンネル：グリーングラスシティ（非公式）</system:String>
     <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">手動でチュートリアルの会話をスキップし、直接退出することができます。&#10;イベント画面（右下角に｢イベントに参加｣ボタンがあります）でタスクを開始します。&#10;&#10;ダック卿の選択をフォローする。</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">緑チケット商店</system:String>
-    <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1階は全部購入。&#10;2階は訪問証と募集許可を購入。</system:String>
+    <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1階は全部購入。&#10;2階はスカウト券と求人票を購入のみ。</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">黄チケット商店</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStoreTip" xml:space="preserve">少なくとも258枚の黄チケットを持っていることを確認してください。</system:String>
     <system:String x:Key="MiniGameNameSsStore">イベントショップ</system:String>
-    <system:String x:Key="MiniGameNameSsStoreTip" xml:space="preserve">イベントのショップページからのみ始めてください。&#10;購入数量無制限のアイテムは購入しないでください。</system:String>
+    <system:String x:Key="MiniGameNameSsStoreTip" xml:space="preserve">イベントのショップページからのみ始めてください。&#10;購入数量無制限のアイテムは購入することはありません。</system:String>
     <!--  !小游戏  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">認識中……</system:String>

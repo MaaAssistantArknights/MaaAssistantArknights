@@ -1310,5 +1310,23 @@
     },
     "RecruitSupportConfirm": {
         "text": ["サ.*ート", "サポー", "招集", "召集", "確定"]
+    },
+    "Store@EnterTicketStore": {
+        "text": ["資格交換所"]
+    },
+    "Store@ChooseMaxAmount": {
+        "text": ["Mаx"]
+    },
+    "GreenTicket@Store@ChooseTicketType": {
+        "text": ["般資格証"]
+    },
+    "GreenTicket@Store@Purchase": {
+        "text": ["購入"]
+    },
+    "YellowTicket@Store@ChooseTicketType": {
+        "text": ["上級資格証"]
+    },
+    "YellowTicket@Store@Purchase": {
+        "text": ["購入"]
     }
 }

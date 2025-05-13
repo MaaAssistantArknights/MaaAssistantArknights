@@ -894,5 +894,23 @@
     },
     "RecruitSupportConfirm": {
         "text": ["招募助戰", "控募助戰", "招蔓訪戰", "社助戰"]
+    },
+    "Store@EnterTicketStore": {
+        "text": ["憑證交易所"]
+    },
+    "Store@ChooseMaxAmount": {
+        "text": ["最多"]
+    },
+    "GreenTicket@Store@ChooseTicketType": {
+        "text": ["資質憑證區"]
+    },
+    "GreenTicket@Store@Purchase": {
+        "text": ["購買物品"]
+    },
+    "YellowTicket@Store@ChooseTicketType": {
+        "text": ["高級憑證區"]
+    },
+    "YellowTicket@Store@Purchase": {
+        "text": ["購買物品"]
     }
 }
