@@ -100,6 +100,7 @@ Assistant::~Assistant()
     {
         std::unique_lock<std::mutex> lock(m_monitor_mutex);
         m_monitor_condvar.notify_all();
+        m_restart_condvar.notify_all();
     }
 
     if (m_working_thread.joinable()) {
@@ -426,6 +427,7 @@ void Assistant::working_proc()
             m_thread_idle = true;
             m_running = false;
             Log.flush();
+            m_restart_condvar.notify_all();
             m_condvar.wait(lock);
             m_monitor_condvar.notify_one();
             continue;
@@ -446,9 +448,27 @@ void Assistant::working_proc()
         finished_tasks.emplace_back(id);
 
         if (m_monitor_restarting) {
-            Log.debug("Assistant::working_proc | monitor restarting");
-            m_restart_condvar.wait(lock, [&]() -> bool { return m_thread_idle; });
-            Log.debug("Assistant::working_proc | monitor restart finish");
+            lock.lock();
+            Log.debug(__FUNCTION__, "| monitor restarting");
+
+            if (m_game_package_name) {
+                if (!m_ctrler->stop_activity(*m_game_package_name)) {
+                    Log.warn(__FUNCTION__, "| stop activity failed");
+                }
+                if (!m_ctrler->start_activity(*m_game_package_name)) {
+                    Log.error(__FUNCTION__, "| start activity failed");
+                }
+            }
+            std::condition_variable waiting;
+            waiting.wait_for(lock, std::chrono::seconds(30), [&]() -> bool { return m_thread_idle; });
+            m_monitor_restarting = false; // 理论上应该放在StartUpTask后合理一点
+            auto start = std::make_shared<StartUpTask>(append_callback_for_inst, this);
+            start->set_enable(true);
+            start->set_params(json::value());
+            start->run();
+            Log.debug(__FUNCTION__, "| monitor restart finish");
+            m_restart_condvar.notify_one();
+            lock.unlock();
         }
 
         lock.lock();
@@ -511,29 +531,16 @@ void Assistant::msg_proc()
 void Assistant::monitor_proc()
 {
     LogTraceFunction;
-    std::unique_lock<std::mutex> lock(m_monitor_mutex);
     const auto& restart_game = [&]() {
         m_monitor_restarting = true;
-        if (m_game_package_name) {
-            if (!m_ctrler->stop_activity(*m_game_package_name)) {
-                Log.error("Assistant::monitor_proc | stop activity failed");
-            }
-            if (!m_ctrler->start_activity(*m_game_package_name)) {
-                Log.error("Assistant::monitor_proc | start activity failed");
-            }
-        }
-        m_monitor_restarting = false;
-        std::condition_variable waiting;
-        waiting.wait_for(lock, std::chrono::seconds(30), [&]() -> bool { return m_thread_idle; });
-        auto start = std::make_shared<StartUpTask>(append_callback_for_inst, this);
-        start->set_enable(true);
-        start->set_params(json::value());
-        start->run();
-        m_restart_condvar.notify_one();
+        std::mutex restart_mutex;
+        std::unique_lock<std::mutex> lock(restart_mutex);
+        m_restart_condvar.wait(lock);
         m_monitor_image = cv::Mat();
     };
     cv::Mat diff, gray;
     while (true) {
+        std::unique_lock<std::mutex> lock(m_monitor_mutex);
         if (m_thread_exit) {
             return;
         }
