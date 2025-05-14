@@ -1132,7 +1132,13 @@ namespace MaaWpfGui.Main
                                 }
                                 else
                                 {
-                                    missionStartLogBuilder.AppendLine(LocalizationHelper.GetString("MissionStart") + $" {FightTimes.TimesFinished + 1}~{FightTimes.TimesFinished + FightTimes.Series} {LocalizationHelper.GetString("UnitTime")} (-{FightTimes.SanityCost}{LocalizationHelper.GetString("Sanity")})");
+                                    missionStartLogBuilder.AppendLine(
+                                        $"{LocalizationHelper.GetString("MissionStart")} " +
+                                        (FightTimes.Series == 1
+                                            ? $"{FightTimes.TimesFinished + 1}"
+                                            : $"{FightTimes.TimesFinished + 1}~{FightTimes.TimesFinished + FightTimes.Series}") +
+                                        $"{LocalizationHelper.GetString("UnitTime")} " +
+                                        $"(-{FightTimes.SanityCost}{LocalizationHelper.GetString("Sanity")})");
                                 }
 
                                 if (SanityReport is not null)
