@@ -319,7 +319,6 @@ namespace MaaWpfGui.Main
                     _logger.Error($"Failed to move tasks.json: {ex.Message}");
                 }
             }
-
         }
 
         /// <summary>
@@ -1716,7 +1715,7 @@ namespace MaaWpfGui.Main
                 case "SanityBeforeStage":
                     {
                         SanityReport = null;
-                        if (subTaskDetails?.ToObject<FightSettingsUserControlModel.SanityInfo>() is FightSettingsUserControlModel.SanityInfo report && report.SanityMax > 0)
+                        if (subTaskDetails?.ToObject<FightSettingsUserControlModel.SanityInfo>() is { SanityMax: > 0 } report)
                         {
                             SanityReport = report;
                         }
@@ -1727,9 +1726,9 @@ namespace MaaWpfGui.Main
                 case "FightTimes":
                     {
                         FightTimes = null;
-                        if (subTaskDetails?.Children().Count() > 0)
+                        if ((subTaskDetails?.Children())?.Any() ?? false)
                         {
-                            FightTimes = subTaskDetails?.ToObject<FightSettingsUserControlModel.FightTimes>()!;
+                            FightTimes = subTaskDetails.ToObject<FightSettingsUserControlModel.FightTimes>()!;
                         }
 
                         break;
