@@ -152,7 +152,7 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding RoguelikeStartWithEliteTwo}"
-                Visibility="{c:Binding 'RoguelikeMode == 4 and RoguelikeTheme != task:RoguelikeTheme.Phantom and RoguelikeSquad == &quot;突击战术分队&quot; or RoguelikeSquad == &quot;堡垒战术分队&quot; or RoguelikeSquad == &quot;远程战术分队&quot; or RoguelikeSquad == &quot;破坏战术分队&quot;'}">
+                Visibility="{c:Binding 'RoguelikeMode == 4 and RoguelikeTheme != task:RoguelikeTheme.Phantom and (RoguelikeSquad == &quot;突击战术分队&quot; or RoguelikeSquad == &quot;堡垒战术分队&quot; or RoguelikeSquad == &quot;远程战术分队&quot; or RoguelikeSquad == &quot;破坏战术分队&quot;)'}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource RoguelikeStartWithEliteTwo}"
