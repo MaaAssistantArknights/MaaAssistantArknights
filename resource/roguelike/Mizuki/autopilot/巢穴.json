@@ -27,8 +27,8 @@
         },
         {
             "groups": ["益达"],
-            "location": [6, 3],
-            "direction": "down"
+            "location": [4, 3],
+            "direction": "right"
         },
         {
             "groups": ["单奶", "群奶"],
