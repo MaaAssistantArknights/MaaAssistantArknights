@@ -318,6 +318,7 @@ std::optional<int> asst::FightTimesTaskPlugin::analyze_stage_series(const cv::Ma
     LogTraceFunction;
     const auto& task = Task.get("FightSeries-Icon");
 
+    cv::normalize(image, image, 0, 255, cv::NORM_MINMAX);
     Matcher match(image);
     match.set_task_info(task);
     if (!match.analyze()) {
