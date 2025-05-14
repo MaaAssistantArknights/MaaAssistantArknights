@@ -16,14 +16,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using MaaWpfGui.Configuration;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
-using DarkModeType = MaaWpfGui.Configuration.GUI.DarkModeType;
+using DarkModeType = MaaWpfGui.Configuration.Global.GUI.DarkModeType;
 
 namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
