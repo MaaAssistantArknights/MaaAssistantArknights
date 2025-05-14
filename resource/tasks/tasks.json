@@ -4912,14 +4912,15 @@
             "MallGaming.png",
             "MallDahuangCity.png"
         ],
-        "next": ["Store@EnterTicketStore"]
+        "next": ["Store@EnterTicketStore@LoadingIcon", "Store@EnterTicketStore"]
     },
     "Store@EnterTicketStore": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["凭证交易所"],
         "roi": [730, 38, 215, 134],
-        "next": ["Store@ChooseTicketType"]
+        "postDelay": 1000,
+        "next": ["Store@EnterTicketStore@LoadingIcon", "Store@ChooseTicketType"]
     },
     "Store@ChooseTicketType": {
         "algorithm": "JustReturn",
@@ -4946,7 +4947,7 @@
         "action": "ClickSelf",
         "text": ["资质凭证区"],
         "roi": [108, 163, 124, 56],
-        "next": ["GreenTicket@Store@ClickFirstFloor"]
+        "next": ["Store@EnterTicketStore@LoadingIcon", "GreenTicket@Store@ClickFirstFloor"]
     },
     "GreenTicket@Store@ClickFirstFloor": {
         "algorithm": "OcrDetect",
@@ -5012,6 +5013,7 @@
         "next": [
             "YellowTicket@Store@ClickItem_Headhunting_Permit",
             "YellowTicket@Store@ClickItem_Ten-roll_Headhunting_Permit",
+            "Store@EnterTicketStore@LoadingIcon",
             "YellowTicket@Store@Swipe"
         ]
     },
