@@ -7,9 +7,9 @@
 
 #include "Common/AsstTypes.h"
 
+#include "Vision/FeatureMatcher.h"
 #include "Vision/Matcher.h"
 #include "Vision/OCRer.h"
-#include "Vision/FeatureMatcher.h"
 
 namespace asst
 {
