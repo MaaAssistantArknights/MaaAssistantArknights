@@ -806,8 +806,21 @@ asst::TaskPtr asst::TaskData::generate_feature_match_task_info(
         })) { // 隐式 Template Task 时继承，其它时默认值使用任务名
         return nullptr;
     }
+    m_templ_required.insert(task_info_ptr->templ_names);
     utils::get_and_check_value_or(name, task_json, "count", task_info_ptr->count, default_ptr->count);
-    utils::get_and_check_value_or(name, task_json, "detector", task_info_ptr->detector, default_ptr->detector);
+    auto detector_opt = task_json.find("detector");
+    if (!detector_opt) {
+        task_info_ptr->detector = default_ptr->detector;
+    }
+    else if (detector_opt->is_string()) {
+        if (auto detector = get_feature_detector(detector_opt->as_string())) {
+            task_info_ptr->detector = *detector;
+        }
+    }
+    else {
+        Log.error("Invalid detector type in task", name);
+        return nullptr;
+    }
     utils::get_and_check_value_or(name, task_json, "ratio", task_info_ptr->ratio, default_ptr->ratio);
 
     return task_info_ptr;
@@ -1052,7 +1065,7 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
               "next",          "onErrorNext", "postDelay",       "preDelay",     "reduceOtherTimes",
               "specialParams", "sub",         "subErrorIgnored",
               // specific
-              "count",         "ratio",       "detector",
+              "template",      "count",         "ratio",       "detector",
           } },
         { AlgorithmType::JustReturn,
           {

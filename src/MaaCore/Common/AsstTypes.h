@@ -4,6 +4,7 @@
 #include <climits>
 #include <cmath>
 #include <functional>
+#include <optional>
 #include <ostream>
 #include <string>
 #include <unordered_map>
@@ -433,16 +434,6 @@ enum class MatchMethod
     HSVCount,
 };
 
-enum class FeatureDetector
-{
-    SIFT,  // 计算复杂度高，具有尺度不变性、旋转不变性。效果最好。
-    SURF,
-    ORB,   // 计算速度非常快，具有旋转不变性。但不具有尺度不变性。
-    BRISK, // 计算速度非常快，具有尺度不变性、旋转不变性。
-    KAZE,  // 适用于2D和3D图像，具有尺度不变性、旋转不变性。
-    AKAZE, // 计算速度较快，具有尺度不变性、旋转不变性。
-};
-
 inline MatchMethod get_match_method(std::string method_str)
 {
     utils::tolowers(method_str);
@@ -470,6 +461,30 @@ inline std::string enum_to_string(MatchMethod method)
     }
     return "Invalid";
 }
+
+enum class FeatureDetector
+{
+    SIFT,  // 计算复杂度高，具有尺度不变性、旋转不变性。效果最好。
+    SURF,
+    ORB,   // 计算速度非常快，具有旋转不变性。但不具有尺度不变性。
+    BRISK, // 计算速度非常快，具有尺度不变性、旋转不变性。
+    KAZE,  // 适用于2D和3D图像，具有尺度不变性、旋转不变性。
+    AKAZE, // 计算速度较快，具有尺度不变性、旋转不变性。
+};
+
+inline std::optional<FeatureDetector> get_feature_detector(std::string method_str)
+{
+    utils::touppers(method_str);
+    static const std::unordered_map<std::string, FeatureDetector> method_map = {
+        { "SIFT", FeatureDetector::SIFT },   { "SURF", FeatureDetector::SURF }, { "ORB", FeatureDetector::ORB },
+        { "BRISK", FeatureDetector::BRISK }, { "KAZE", FeatureDetector::KAZE }, { "AKAZE", FeatureDetector::AKAZE },
+    };
+    if (auto it = method_map.find(method_str); it != method_map.end()) {
+        return it->second;
+    }
+    return std::nullopt;
+}
+
 } // namespace asst
 
 namespace asst
