@@ -3319,7 +3319,9 @@
         "roi": [150, 620, 365, 35],
         "ocrReplace": [
             ["^\\[", ""],
-            ["\\]", "\n"]
+            ["\\]", "\n"],
+            [" ", ""],
+            ["·", ""]
         ]
     },
     "InfrastTrainingLevel": {
@@ -3348,6 +3350,10 @@
     "InfrastTrainingChooseSkillRec": {
         "algorithm": "OcrDetect",
         "text": [],
+        "ocrReplace": [
+            [" ", ""],
+            ["·", ""]
+        ],
         "roi": [470, 80, 145, 615]
     },
     "InfrastTrainingContinue1": {
