@@ -104,7 +104,7 @@ icon: material-symbols:task
                                             // 然後設定 "maskRange" 的範圍為 [ 1, 255 ]，匹配的時候立刻忽略塗黑的部分
 
         "colorScales": [                    // 當 method 為 HSVCount 或 RGBCount 時有效且必選，數色掩碼範圍。
-            [                               // list<array<array<int, 3>, 2> | array<int, 2>>
+            [                               // list<array<array<int, 3>, 2>> / list<array<int, 2>>
                 [23, 150, 40],              // 結構為 [[lower1, upper1], [lower2, upper2], ...]
                 [25, 230, 150]              //     內層為 int 時是灰度，
             ],                              //     　　為 array<int, 3> 時是三通道顏色，method 決定其是 RGB 或 HSV；

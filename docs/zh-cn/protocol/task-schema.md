@@ -103,7 +103,7 @@ icon: material-symbols:task
                                             // 然后设置为 [ 1, 255 ], 匹配的时候即忽略涂黑的部分
 
         "colorScales": [                    // 当 method 为 HSVCount 或 RGBCount 时有效且必选，数色掩码范围。 
-            [                               // list<array<array<int, 3>, 2> | array<int, 2>>
+            [                               // list<array<array<int, 3>, 2>> / list<array<int, 2>>
                 [23, 150, 40],              // 结构为 [[lower1, upper1], [lower2, upper2], ...]
                 [25, 230, 150]              //     内层为 int 时是灰度，
             ],                              //     　　为 array<int, 3> 时是三通道颜色，method 决定其是 RGB 或 HSV；
