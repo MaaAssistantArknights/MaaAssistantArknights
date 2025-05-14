@@ -39,6 +39,8 @@ public:
 
     const std::string& get_last_task_name() const noexcept { return m_last_task_name; }
 
+    const auto& get_result_image() const noexcept { return m_hit_image; }
+
 protected:
     enum class NodeStatus
     {
@@ -51,6 +53,7 @@ protected:
 
     struct HitDetail
     {
+        cv::Mat image;
         Rect rect;
         json::value reco_detail;
         TaskConstPtr task_ptr = nullptr;
@@ -85,6 +88,6 @@ protected:
     std::unordered_map<std::string, int> m_exec_times;
     static constexpr int TaskDelayUnsetted = -1;
     int m_task_delay = TaskDelayUnsetted;
-    cv::Mat m_reusable;
+    cv::Mat m_reusable, m_hit_image;
 };
 }
