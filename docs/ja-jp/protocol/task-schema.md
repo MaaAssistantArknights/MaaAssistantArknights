@@ -104,7 +104,7 @@ JSONファイルはコメントをサポートしていません。テキスト�
                                             // その場合、 "maskRange" を [ 1, 255 ] に設定して、マッチング時に黒く塗りつぶされた部分を瞬時に無視できます。
 
         "colorScales": [                    // method が HSVCount または RGBCount の場合に有効で必須、色マスク範囲。
-            [                               // list<array<array<int, 3>, 2> | array<int, 2>>
+            [                               // list<array<array<int, 3>, 2>> / list<array<int, 2>>
                 [23, 150, 40],              // 構造は [[lower1, upper1], [lower2, upper2], ...]
                 [25, 230, 150]              //     内側が int の場合はグレースケール、
             ],                              //     　　array<int, 3> の場合は三チャネルの色で、method によって RGB または HSV かが決まります；

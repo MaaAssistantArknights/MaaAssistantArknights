@@ -21,7 +21,6 @@ using System.Text;
 using System.Threading.Tasks;
 using HandyControl.Controls;
 using HandyControl.Data;
-using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Utilities.ValueType;

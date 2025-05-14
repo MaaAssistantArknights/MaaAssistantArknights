@@ -127,7 +127,8 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
         // 从下往上点
         for (int i = max_time; i > 0; --i) {
             // 判断是否因为任何原因返回了Stages管辖范围
-            bool ret = ProcessTask(*this, { "Roguelike@TutorialButton" }).set_reusable_image(image).run();
+            bool ret =
+                ProcessTask(*this, { "Roguelike@TutorialButton" }).set_reusable_image(image).set_retry_times(3).run();
             if (ret) {
                 return true;
             }

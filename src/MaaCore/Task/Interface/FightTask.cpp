@@ -76,7 +76,7 @@ bool asst::FightTask::set_params(const json::value& params)
         Log.warn("series = 1000, 已弃用");
         Log.warn("================  DEPRECATED  ================");
         m_fight_times_prt->set_series(0);
-    }
+    } // v5.16.0
     else if (series < -1 || series > 6) {
         Log.error("Invalid series");
         return false;

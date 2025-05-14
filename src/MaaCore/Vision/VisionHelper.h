@@ -6,6 +6,10 @@
 #include "Utils/Platform.hpp"
 #include "Utils/Ranges.hpp"
 
+#if __has_include(<opencv2/xfeatures2d.hpp>)
+#define MAA_VISION_HAS_XFEATURES2D
+#endif
+
 // #ifndef  ASST_DEBUG
 // #define ASST_DEBUG
 // #endif // ! ASST_DEBUG
@@ -41,6 +45,9 @@ protected:
 
 protected:
     static Rect correct_rect(const Rect& rect, const cv::Mat& image);
+    static cv::Mat create_mask(const cv::Mat& image, bool green_mask);
+    static cv::Mat create_mask(const cv::Mat& image, const cv::Rect& roi);
+    cv::Mat draw_roi(const cv::Rect& roi, const cv::Mat& base) const;
 
     cv::Mat m_image;
 #ifdef ASST_DEBUG

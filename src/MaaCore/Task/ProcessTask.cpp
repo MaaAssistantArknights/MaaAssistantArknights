@@ -163,14 +163,14 @@ ProcessTask::HitDetail ProcessTask::find_first(const TaskList& list) /* const, e
     task_ptr = std::move(res_opt->task_ptr);
 
     if (task_ptr->algorithm == AlgorithmType::MatchTemplate) {
-        auto& raw_result = std::get<0>(res_opt->result);
+        auto& raw_result = std::get<Matcher::Result>(res_opt->result);
         return { .rect = res_opt->rect,
                  .reco_detail = json::object { { "score", raw_result.score } },
                  .task_ptr = task_ptr };
     }
 
     if (task_ptr->algorithm == AlgorithmType::OcrDetect) {
-        auto& raw_result = std::get<1>(res_opt->result);
+        auto& raw_result = std::get<OCRer::Result>(res_opt->result);
         return { .rect = res_opt->rect,
                  .reco_detail = json::object { { "score", raw_result.score }, { "text", raw_result.text } },
                  .task_ptr = task_ptr };

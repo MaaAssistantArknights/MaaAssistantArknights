@@ -165,10 +165,13 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LoadCacheWithoutRet(AvatarCacheManager, "avatars"_p);
 
     // 重要的资源，实时加载（图片还是惰性的）
-    LoadResourceWithTemplAndCheckRet(TaskData, "tasks"_p, "template"_p);
-
-    // 热更是旧格式，现在这个实现很屎，但是可以利用一下屎
-    if (m_loaded) {
+    if (std::filesystem::is_directory(path / "tasks"_p)) {
+        LoadResourceWithTemplAndCheckRet(TaskData, "tasks"_p, "template"_p);
+    }
+    else if (std::filesystem::is_regular_file(path / "tasks.json"_p)) {
+        Log.warn("================  DEPRECATED  ================");
+        Log.warn(__FUNCTION__, "resource/tasks.json has been deprecated since v5.15.4");
+        Log.warn("================  DEPRECATED  ================");
         LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
     }
 

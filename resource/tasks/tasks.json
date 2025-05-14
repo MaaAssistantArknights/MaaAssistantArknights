@@ -2139,6 +2139,7 @@
         "next": ["Mall@ReturnButtons#next", "Mall", "Mall@CloseAnnos#next"]
     },
     "Mall": {
+        "doc": "请同步更新 Store@EnterStore 的 template",
         "template": [
             "Mall.png",
             "MallDark.png",
@@ -4892,6 +4893,199 @@
         "roi": [1010, 611, 212, 109],
         "text": ["返回主页"],
         "next": ["GreenGrass@DuelChannel@Begin", "GreenGrass@DuelChannel@End"]
+    },
+    "Store@Begin": {
+        "doc": "绿票、黄票商店",
+        "algorithm": "JustReturn",
+        "next": ["Store@EnterStore", "Store@EnterTicketStore"]
+    },
+    "Store@EnterStore": {
+        "baseTask": "Mall",
+        "template": [
+            "Mall.png",
+            "MallDark.png",
+            "MallSami.png",
+            "MallMistCity.png",
+            "MallSiege.png",
+            "MallSarkaz.png",
+            "MallDelicious.png",
+            "MallGaming.png",
+            "MallDahuangCity.png"
+        ],
+        "next": ["Store@EnterTicketStore@LoadingIcon", "Store@EnterTicketStore"]
+    },
+    "Store@EnterTicketStore": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["凭证交易所"],
+        "roi": [730, 38, 215, 134],
+        "postDelay": 1000,
+        "next": ["Store@EnterTicketStore@LoadingIcon", "Store@ChooseTicketType"]
+    },
+    "Store@ChooseTicketType": {
+        "algorithm": "JustReturn",
+        "doc": "base_task"
+    },
+    "Store@ChooseMaxAmount": {
+        "algorithm": "OcrDetect",
+        "text": ["最多"],
+        "action": "ClickSelf"
+    },
+    "Store@UnderfundedOCR": {
+        "baseTask": "NumberOcrReplace",
+        "text": ["0"],
+        "fullMatch": true
+    },
+    "Store@Purchase": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [],
+        "postDelay": 1000
+    },
+    "GreenTicket@Store@ChooseTicketType": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["资质凭证区"],
+        "roi": [108, 163, 124, 56],
+        "next": ["Store@EnterTicketStore@LoadingIcon", "GreenTicket@Store@ClickFirstFloor"]
+    },
+    "GreenTicket@Store@ClickFirstFloor": {
+        "algorithm": "OcrDetect",
+        "text": ["1", "T", "I", "亻"],
+        "action": "ClickSelf",
+        "roi": [263, 196, 35, 73],
+        "sub": ["SlowlySwipeToTheLeft"],
+        "postDelay": 1000,
+        "next": ["GreenTicket@Store@ClickItem", "GreenTicket@Store@ClickSecondFloor"]
+    },
+    "GreenTicket@Store@ClickItem": {
+        "template": [
+            "GreenTicket@Store@ClickItem_Headhunting_Permit",
+            "GreenTicket@Store@ClickItem_Orundum",
+            "GreenTicket@Store@ClickItem_LMD",
+            "GreenTicket@Store@ClickItem_Furniture_Part",
+            "GreenTicket@Store@ClickItem_Recruitment_Permit",
+            "GreenTicket@Store@ClickItem_Tactical_Battle_Record",
+            "GreenTicket@Store@ClickItem_Pure_Gold"
+        ],
+        "action": "ClickSelf",
+        "roi": [318, 139, 956, 484],
+        "next": ["GreenTicket@Store@ChooseMaxAmount"]
+    },
+    "GreenTicket@Store@ChooseMaxAmount": {
+        "roi": [1027, 405, 79, 53],
+        "next": ["GreenTicket@Store@UnderfundedOCR", "GreenTicket@Store@Purchase"]
+    },
+    "GreenTicket@Store@UnderfundedOCR": {
+        "roi": [876, 405, 85, 51]
+    },
+    "GreenTicket@Store@Purchase": {
+        "roi": [872, 556, 137, 48],
+        "text": ["购买物品"],
+        "next": ["GreenTicket@Store@PurchasedConfirm"]
+    },
+    "GreenTicket@Store@PurchasedConfirm": {
+        "baseTask": "CreditShop-Bought",
+        "template": "CreditShop-Bought.png",
+        "next": [
+            "GreenTicket@Store@PurchasedConfirm",
+            "GreenTicket@Store@ClickItem",
+            "GreenTicket@Store@ClickSecondFloor",
+            "Stop"
+        ]
+    },
+    "GreenTicket@Store@ClickSecondFloor": {
+        "algorithm": "OcrDetect",
+        "text": ["2"],
+        "action": "ClickSelf",
+        "roi": [262, 364, 38, 58],
+        "maxTimes": 1,
+        "sub": ["SlowlySwipeToTheLeft*3"],
+        "postDelay": 1000,
+        "next": ["GreenTicket@Store@ClickItem", "Stop"]
+    },
+    "YellowTicket@Store@ChooseTicketType": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["高级凭证区"],
+        "roi": [108, 267, 124, 47],
+        "postDelay": 1000,
+        "next": [
+            "YellowTicket@Store@ClickItem_Headhunting_Permit",
+            "YellowTicket@Store@ClickItem_Ten-roll_Headhunting_Permit",
+            "Store@EnterTicketStore@LoadingIcon",
+            "YellowTicket@Store@Swipe"
+        ]
+    },
+    "YellowTicket@Store@Swipe": {
+        "algorithm": "JustReturn",
+        "sub": ["SlowlySwipeToTheLeft*6"],
+        "next": [
+            "YellowTicket@Store@ClickItem_Headhunting_Permit",
+            "YellowTicket@Store@ClickItem_Ten-roll_Headhunting_Permit",
+            "Stop"
+        ]
+    },
+    "YellowTicket@Store@ClickItem_Headhunting_Permit": {
+        "method": "RGBCount",
+        "doc_colorScales": "右部黄色、右部蓝字、左部灰字、左部黑色",
+        "colorScales": [
+            [
+                [200, 200, 0],
+                [255, 255, 40]
+            ],
+            [
+                [0, 0, 170],
+                [80, 80, 255]
+            ],
+            [
+                [170, 170, 170],
+                [255, 255, 255]
+            ],
+            [
+                [0, 0, 0],
+                [30, 30, 30]
+            ]
+        ],
+        "action": "ClickSelf",
+        "roi": [318, 139, 956, 484],
+        "next": ["YellowTicket@Store@Purchase"]
+    },
+    "YellowTicket@Store@ClickItem_Ten-roll_Headhunting_Permit": {
+        "method": "RGBCount",
+        "doc_colorScales": "左部亮色+右部亮字、左部蓝字、右部黑色",
+        "colorScales": [
+            [
+                [190, 150, 70],
+                [250, 230, 140]
+            ],
+            [
+                [10, 50, 90],
+                [50, 100, 170]
+            ],
+            [
+                [0, 0, 0],
+                [30, 30, 30]
+            ]
+        ],
+        "action": "ClickSelf",
+        "roi": [318, 139, 956, 484],
+        "next": ["YellowTicket@Store@Purchase"]
+    },
+    "YellowTicket@Store@Purchase": {
+        "roi": [872, 556, 137, 48],
+        "text": ["购买物品"],
+        "next": ["YellowTicket@Store@PurchasedConfirm"]
+    },
+    "YellowTicket@Store@PurchasedConfirm": {
+        "baseTask": "CreditShop-Bought",
+        "template": "CreditShop-Bought.png",
+        "next": [
+            "YellowTicket@Store@PurchasedConfirm",
+            "YellowTicket@Store@ClickItem_Headhunting_Permit",
+            "YellowTicket@Store@ClickItem_Ten-roll_Headhunting_Permit",
+            "Stop"
+        ]
     },
     "UseSupportUnit-Cancel": {
         "doc": "若识别到 <招募助战> 文字就点击屏幕下方取消选择",
