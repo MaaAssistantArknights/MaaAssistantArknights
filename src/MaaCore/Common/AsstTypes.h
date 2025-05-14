@@ -327,6 +327,7 @@ enum class AlgorithmType
     JustReturn,
     MatchTemplate,
     OcrDetect,
+    FeatureMatch,
 };
 
 inline AlgorithmType get_algorithm_type(std::string algorithm_str)
@@ -336,6 +337,7 @@ inline AlgorithmType get_algorithm_type(std::string algorithm_str)
         { "matchtemplate", AlgorithmType::MatchTemplate },
         { "justreturn", AlgorithmType::JustReturn },
         { "ocrdetect", AlgorithmType::OcrDetect },
+        { "featurematch", AlgorithmType::FeatureMatch },
     };
     if (algorithm_map.contains(algorithm_str)) {
         return algorithm_map.at(algorithm_str);
@@ -350,6 +352,7 @@ inline std::string enum_to_string(AlgorithmType algo)
         { AlgorithmType::JustReturn, "JustReturn" },
         { AlgorithmType::MatchTemplate, "MatchTemplate" },
         { AlgorithmType::OcrDetect, "OcrDetect" },
+        { AlgorithmType::FeatureMatch, "FeatureMatch" },
     };
     if (auto it = algorithm_map.find(algo); it != algorithm_map.end()) {
         return it->second;
@@ -428,6 +431,16 @@ enum class MatchMethod
     Ccoeff = 0,
     RGBCount,
     HSVCount,
+};
+
+enum class FeatureDetector
+{
+    SIFT,  // 计算复杂度高，具有尺度不变性、旋转不变性。效果最好。
+    SURF,
+    ORB,   // 计算速度非常快，具有旋转不变性。但不具有尺度不变性。
+    BRISK, // 计算速度非常快，具有尺度不变性、旋转不变性。
+    KAZE,  // 适用于2D和3D图像，具有尺度不变性、旋转不变性。
+    AKAZE, // 计算速度较快，具有尺度不变性、旋转不变性。
 };
 
 inline MatchMethod get_match_method(std::string method_str)
@@ -573,6 +586,23 @@ struct MatchTaskInfo : public TaskInfo
 
 using MatchTaskPtr = std::shared_ptr<MatchTaskInfo>;
 using MatchTaskConstPtr = std::shared_ptr<const MatchTaskInfo>;
+
+struct FeatureMatchTaskInfo : public TaskInfo
+{
+    constexpr FeatureMatchTaskInfo() = default;
+    constexpr virtual ~FeatureMatchTaskInfo() override = default;
+    constexpr FeatureMatchTaskInfo(const FeatureMatchTaskInfo&) = default;
+    constexpr FeatureMatchTaskInfo(FeatureMatchTaskInfo&&) noexcept = default;
+    constexpr FeatureMatchTaskInfo& operator=(const FeatureMatchTaskInfo&) = default;
+    constexpr FeatureMatchTaskInfo& operator=(FeatureMatchTaskInfo&&) noexcept = default;
+    std::string templ_names;                          // 匹配模板图片文件名
+    FeatureDetector detector = FeatureDetector::SIFT; // 特征检测器
+    int count = 4;                                    // 匹配特征点的阈值
+    double ratio = 0.6;                               // KNN 匹配算法的距离比值
+};
+
+using FeatureMatchTaskPtr = std::shared_ptr<FeatureMatchTaskInfo>;
+using FeatureMatchTaskConstPtr = std::shared_ptr<const FeatureMatchTaskInfo>;
 
 inline static const std::string UploadDataSource = "MaaAssistantArknights";
 } // namespace asst
