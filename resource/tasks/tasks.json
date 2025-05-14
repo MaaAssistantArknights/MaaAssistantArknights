@@ -5009,17 +5009,62 @@
         "text": ["高级凭证区"],
         "roi": [108, 267, 124, 47],
         "postDelay": 1000,
-        "next": ["YellowTicket@Store@ClickItem", "YellowTicket@Store@Swipe"]
+        "next": [
+            "YellowTicket@Store@ClickItem_Headhunting_Permit",
+            "YellowTicket@Store@ClickItem_Ten-roll_Headhunting_Permit",
+            "YellowTicket@Store@Swipe"
+        ]
     },
     "YellowTicket@Store@Swipe": {
         "algorithm": "JustReturn",
         "sub": ["SlowlySwipeToTheLeft*6"],
-        "next": ["YellowTicket@Store@ClickItem", "Stop"]
-    },
-    "YellowTicket@Store@ClickItem": {
-        "template": [
+        "next": [
             "YellowTicket@Store@ClickItem_Headhunting_Permit",
-            "YellowTicket@Store@ClickItem_Ten-roll_Headhunting_Permit"
+            "YellowTicket@Store@ClickItem_Ten-roll_Headhunting_Permit",
+            "Stop"
+        ]
+    },
+    "YellowTicket@Store@ClickItem_Headhunting_Permit": {
+        "method": "RGBCount",
+        "doc_colorScales": "右部黄色、右部蓝字、左部灰字、左部黑色",
+        "colorScales": [
+            [
+                [200, 200, 0],
+                [255, 255, 40]
+            ],
+            [
+                [0, 0, 170],
+                [80, 80, 255]
+            ],
+            [
+                [170, 170, 170],
+                [255, 255, 255]
+            ],
+            [
+                [0, 0, 0],
+                [30, 30, 30]
+            ]
+        ],
+        "action": "ClickSelf",
+        "roi": [318, 139, 956, 484],
+        "next": ["YellowTicket@Store@Purchase"]
+    },
+    "YellowTicket@Store@ClickItem_Ten-roll_Headhunting_Permit": {
+        "method": "RGBCount",
+        "doc_colorScales": "左部亮色+右部亮字、左部蓝字、右部黑色",
+        "colorScales": [
+            [
+                [190, 150, 70],
+                [250, 230, 140]
+            ],
+            [
+                [10, 50, 90],
+                [50, 100, 170]
+            ],
+            [
+                [0, 0, 0],
+                [30, 30, 30]
+            ]
         ],
         "action": "ClickSelf",
         "roi": [318, 139, 956, 484],
@@ -5033,7 +5078,12 @@
     "YellowTicket@Store@PurchasedConfirm": {
         "baseTask": "CreditShop-Bought",
         "template": "CreditShop-Bought.png",
-        "next": ["YellowTicket@Store@PurchasedConfirm", "YellowTicket@Store@ClickItem", "Stop"]
+        "next": [
+            "YellowTicket@Store@PurchasedConfirm",
+            "YellowTicket@Store@ClickItem_Headhunting_Permit",
+            "YellowTicket@Store@ClickItem_Ten-roll_Headhunting_Permit",
+            "Stop"
+        ]
     },
     "UseSupportUnit-Cancel": {
         "doc": "若识别到 <招募助战> 文字就点击屏幕下方取消选择",
