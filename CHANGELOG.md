@@ -41,7 +41,7 @@
 * 再次调整官网细节 @MistEO
 * 调整官网标题 @MistEO
 * Revert "fix: github change string to int (#12574)" @Daydreamer114
-* 绿票、黄票、活动商店 (#12674) @Daydreamer114
+* 绿票、黄票、活动商店-国际服适配 (#12674) @Daydreamer114
 * mark @status102
 * 调整 UI 与 Core 版本不一致的解决方案提示 @ABA2396
 * 点击任意职业回正列表 @ABA2396
