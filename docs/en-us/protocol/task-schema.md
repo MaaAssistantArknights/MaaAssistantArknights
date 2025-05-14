@@ -7,13 +7,17 @@ icon: material-symbols:task
 
 Usage of `resource/tasks` and description of each field
 
+::: tip
+Please note that JSON files do not support comments. The comments in the text are for demonstration purposes only and should NOT be copied directly.
+:::
+
 ## Overview
 
 ```json
 {
-    "TaskName" : {                          // Task name
+    "TaskName" : {                          // Task name, when it has @ it may be a special task, default field values may differ, see Special Task Types below for details
 
-        "baseTask": "xxx",                  // use xxx task as a template to generate tasks, see Base Task in the special task type below for details
+        "baseTask": "xxx",                  // Use xxx task as a template to generate tasks, see Base Task in the special task type section below
 
         "algorithm": "MatchTemplate",       // Optional, indicating the type of recognition algorithm
                                             // defaults to MatchTemplate when not filled in
@@ -25,136 +29,138 @@ Usage of `resource/tasks` and description of each field
         "action": "ClickSelf",              // Optional, indicates the action after recognition
                                             // defaults to DoNothing if not filled in
                                             // - ClickSelf: Click on the recognized location (a random point within the recognized target range)
-                                            // - ClickRand: Click on a random position in the whole screen
-                                            // - ClickRect: Click on the specified area, that corresponds to the specificRect field, not recommended to use this option
+                                            // - ClickRect: Click on the specified area, corresponds to the specificRect field, not recommended to use this option
                                             // - DoNothing: Do nothing
                                             // - Stop: Stop the current task
                                             // - Swipe: slide, corresponds to the specificRect and rectMove fields
+                                            // - Input: Input text, requires algorithm to be JustReturn, corresponds to the inputText field
 
-        "sub": [ "SubTaskName1", "SubTaskName2" ],
-                                            // Optional, subtasks. Will execute each subtask in turn after the current task is executed
-                                            // Optional, sub-tasks and then sub-tasks. But be careful not to write a dead loop
+        "sub": ["SubTaskName1", "SubTaskName2"],
+                                            // Optional, subtasks, not recommended. Will execute each subtask in turn after the current task is executed
+                                            // Can be nested, subtasks can have their own subtasks. But be careful not to create a dead loop
 
-        "subErrorIgnored": true,            // Optional, if or not to ignore subtask errors.
+        "subErrorIgnored": true,            // Optional, whether to ignore subtask errors.
                                             // default false if not filled
                                             // If false, if a subtask has an error, it will not continue to execute subsequent tasks (equivalent to this task having an error)
                                             // When true, it does not affect whether a subtask has an error or not
 
-        "next": [ "OtherTaskName1", "OtherTaskName2" ],
+        "next": ["OtherTaskName1", "OtherTaskName2"],
                                             // Optional, indicating the next task to be executed after the current task and the subtask are executed
                                             // will be identified from front to back, and the first matching one will be executed
-                                            // default stop after the current task is executed
-                                            // For the same task, the second time will not be recognized after the first recognition.
-                                            // "next": [ "A", "B", "A", "A" ] -> "next": [ "A", "B" ]
-                                            // Do not allow JustReturn type tasks to be located in a non-last item
+                                            // default stop after the current task is executed if not filled in
+                                            // For the same task, the second time will not be recognized after the first recognition:
+                                            //     "next": [ "A", "B", "A", "A" ] -> "next": [ "A", "B" ]
+                                            // Do not allow JustReturn type tasks to be located in non-last positions
 
         "maxTimes": 10,                     // Optional, indicates the maximum number of times the task can be executed
                                             // default infinite if not filled
-                                            // When the maximum number of times is reached, if the exceededNext field exists, the task will be executed as exceededNext; otherwise, the task will be stopped.
+                                            // When the maximum number of times is reached, if the exceededNext field exists, execute exceededNext; otherwise, stop the task directly
 
-        "exceededNext": [ "OtherTaskName1", "OtherTaskName2" ],
+        "exceededNext": ["OtherTaskName1", "OtherTaskName2"],
                                             // Optional, indicates the task to be executed when the maximum number of executions is reached
-                                            // If not filled in, it will stop when the maximum number of executions is reached; if filled in, it will be executed here, not in next
-        "onErrorNext": [ "OtherTaskName1", "OtherTaskName2" ],
+                                            // If not filled in, it will stop when the maximum number of executions is reached; if filled in, it will execute these tasks instead of those in next
+
+        "onErrorNext": ["OtherTaskName1", "OtherTaskName2"],
                                             // Optional, indicating the subsequent tasks to be performed in case of execution errors
 
-        "preDelay": 1000,                   // Optional, indicates how long the action will be executed after it is recognized, in milliseconds; default 0 if not filled in
-        "postDelay": 1000,                  // Optional, indicates how long the action is delayed after execution before it is recognized next, in milliseconds; default 0 if not filled in
+        "preDelay": 1000,                   // Optional, indicates how long to delay after recognition before executing the action, in milliseconds; default 0 if not filled in
+        "postDelay": 1000,                  // Optional, indicates how long to delay after executing the action before recognizing next, in milliseconds; default 0 if not filled in
 
-        "roi": [ 0, 0, 1280, 720 ],         // Optional, indicating the range of recognition, in the format [ x, y, width, height ]
-                                            // Auto-scaling to 1280x720; default when not filled [ 0, 0, 1280, 720 ]
-                                            // Fill in as much as possible, reducing the recognition range can reduce performance consumption and speed up recognition
+        "roi": [0, 0, 1280, 720],           // Optional, indicating the range of recognition, in the format [ x, y, width, height ]
+                                            // Auto-scaling based on 1280 * 720; default [ 0, 0, 1280, 720 ] if not filled in
+                                            // Try to fill this in, reducing the recognition range can reduce performance consumption and speed up recognition
 
-        "cache": false,                      // Optional, indicates whether the task uses caching or not, default is false;
-                                            // After the first recognition, only the first recognized position will be recognized forever, enable to save performance significantly
-                                            // but only for tasks where the location of the target to be recognized will not change at all, set to false if the location of the target to be recognized will change
+        "cache": false,                     // Optional, indicates whether the task uses caching, default is false;
+                                            // After the first recognition, only the first recognized position will be used for recognition from then on, enabling this can significantly save performance
+                                            // but only suitable for tasks where the target position to be recognized never changes, set to false if the target position may change
 
-        "rectMove": [ 0, 0, 0, 0 ],         // Optional, target movement after recognition, not recommended Auto-scaling with 1280 * 720 as base
-                                            // For example, if A is recognized, but the actual location to be clicked is somewhere in the 10 pixel 5 * 2 area below A.
-                                            //Then you can fill in [ 0, 10, 5, 2 ], and try to recognize the position to be clicked directly if you can, this option is not recommended
-                                            // Additional, valid and mandatory when action is Swipe, indicates the end of the slide.
+        "rectMove": [0, 0, 0, 0],           // Optional, target movement after recognition, not recommended to use this option. Auto-scaling based on 1280 * 720
+                                            // For example, if A is recognized, but you actually want to click somewhere in the 5 * 2 area 10 pixels below A,
+                                            // you could fill in [ 0, 10, 5, 2 ], if possible try to directly recognize the position to be clicked, not recommended to use this option
+                                            // Additionally, when action is Swipe this is required and indicates the swipe end point.
 
-        "reduceOtherTimes": [ "OtherTaskName1", "OtherTaskName2" ],
-                                            // Optional; executes to reduce the execution count of other tasks.
-                                            // For example, if you take a sanity pill, it means that the last click on the blue start action button did not take effect, so the blue start action is -1
+        "reduceOtherTimes": ["OtherTaskName1", "OtherTaskName2"],
+                                            // Optional, reduces the execution count of other tasks after execution.
+                                            // For example, if a sanity potion was used, it means the last click on the blue start button didn't work, so the blue start action count needs to be reduced by 1
 
-        "specificRect": [ 100, 100, 50, 50 ],
-                                            // Valid and mandatory when action is ClickRect, indicates the specified click position (a random point in the range).
-                                            // Valid and mandatory when action is Swipe, it means the starting point of swipe.
-                                            // Auto-scaling with 1280 * 720 as base
-                                            // When the algorithm is "OcrDetect", specificRect[0] and specificRect[1] represent the grayscale upper and lower threshold values.
+        "specificRect": [100, 100, 50, 50],
+                                            // Required when action is ClickRect, indicates the specified click position (a random point within the range).
+                                            // Required when action is Swipe, indicates the swipe starting point.
+                                            // Auto-scaling based on 1280 * 720
+                                            // When algorithm is "OcrDetect", specificRect[0] and specificRect[1] represent the grayscale lower and upper threshold values.
 
-        "specialParams": [ int, ... ],      // Parameters needed for some special recognizers
-                                            // extra, optional when action is Swipe, [0] for duration, [1] for whether to enable extra sliding
+        "specialParams": [int, ...],        // Parameters needed for some special recognizers
+                                            // Additionally, optional when action is Swipe, [0] indicates duration, [1] indicates whether to enable extra swipe
 
-        /* The following fields are only valid if the algorithm is MatchTemplate */
+        /* The following fields are only valid when algorithm is MatchTemplate */
 
-        "template": "xxx.png",              // Optional, the name of the image file to be matched
-                                            // default "TaskName.png"
+        "template": "xxx.png",              // Optional, the name of the image file to match, can be a string or list of strings
+                                            // Default is "TaskName.png"
 
-        "templThreshold": 0.8,              // Optional, a threshold value for image template matching score, above which the image is considered recognized.
-                                            // default 0.8, you can check the actual score according to the log
+        "templThreshold": 0.8,              // Optional, threshold value for image template matching score, recognition is considered successful if above this threshold, can be a number or list of numbers
+                                            // Default is 0.8, you can check the actual score in the logs
 
-        "maskRange": [ 1, 255 ],            // Optional, the grayscale mask range.
-                                            // For example, the part of the image that does not need to be recognized will be painted black (grayscale value of 0)
-                                            // Then set "maskRange" to [ 1, 255 ], to instantly ignore the blacked-out parts when matching
+        "maskRange": [1, 255],              // Optional, grayscale mask range for matching. array<int, 2>
+                                            // For example, parts of the image that don't need to be recognized can be painted black (grayscale value 0)
+                                            // Then setting this to [ 1, 255 ] will ignore the black parts during matching
 
-        "colorScales": [                    // Effective and required when method is HSVCount or RGBCount, color mask range. 
+        "colorScales": [                    // Required when method is HSVCount or RGBCount, color mask range. 
             [                               // list<array<array<int, 3>, 2> | array<int, 2>>
                 [23, 150, 40],              // Structure is [[lower1, upper1], [lower2, upper2], ...]
-                [25, 230, 150]              //     Inner layer is int if grayscale,
-            ],                              //     　　is array<int, 3> if three-channel color, method determines whether it is RGB or HSV;
+                [25, 230, 150]              //     Inner layer is int for grayscale,
+            ],                              //     　　is array<int, 3> for three-channel color, method determines whether it is RGB or HSV;
             ...                             //     Middle layer array<*, 2> is the color (or grayscale) lower and upper limits:
-        ],                                  //     Outer layer represents different color ranges, the region to be identified is the union of their corresponding masks on the template image.
+        ],                                  //     Outermost layer represents different color ranges, region to be recognized is the union of their corresponding masks on the template image.
 
         "colorWithClose": true,             // Optional, effective when method is HSVCount or RGBCount, default is true
-                                            // Whether to first apply morphological closing to the mask range when counting colors.
-                                            // Morphological closing can fill small black spots, generally improving color counting matching results, but if the image contains text, it is recommended to set it to false
+                                            // Whether to use morphological closing to process the mask range when counting colors.
+                                            // Closing operation can fill small black dots, generally improving color counting match results, but if the image contains text, setting to false is recommended
 
         "method": "Ccoeff",                 // Optional, template matching algorithm, can be a list
                                             // Default is Ccoeff if not specified
                                             //      - Ccoeff:       Template matching algorithm insensitive to color, corresponds to cv::TM_CCOEFF_NORMED
-                                            //      - RGBCount:     Template matching algorithm sensitive to color,
-                                            //                      First binarize the region to be matched and the template image based on colorScales,
-                                            //                      Calculate the similarity in RGB color space using F1-score as the indicator,
-                                            //                      Then dot the result with the Ccoeff result
-                                            //      - HSVCount:     Similar to RGBCount, but the color space is changed to HSV
+                                            //      - RGBCount:     Color-sensitive template matching algorithm,
+                                            //                      First binarizes the region to be matched and template image based on colorScales,
+                                            //                      Calculates similarity in RGB color space using F1-score as metric,
+                                            //                      Then dot products the result with Ccoeff result
+                                            //      - HSVCount:     Similar to RGBCount, but uses HSV color space
 
-        /* The following fields are only valid if the algorithm is OcrDetect */
+        /* The following fields are only valid when algorithm is OcrDetect */
 
-        "text": [ "接管作战", "代理指挥" ],  // Required, the text content to be recognized, as long as any match is considered to be recognized
+        "text": [ "Take over", "Auto Deploy" ],  // Required, text content to recognize, considered successful if any match
 
-        "ocrReplace": [                     // Optional, a replacement for commonly misidentified text (regular support)
-            [ "千员", "干员" ],
-            [ ".+击干员", "狙击干员" ]
+        "ocrReplace": [                     // Optional, replacements for commonly misrecognized text (supports regex)
+            [ "Ooerator", "Operator" ],
+            [ ".+iper", "Sniper" ]
         ],
 
-        "fullMatch": false,                 // optional, whether the text recognition needs to match all words (not multiple words), default is false
-                                            // false, as long as it is a substring: for example, text: [ "start" ], the actual recognition to "start action", is also considered successful.
-                                            //If true, "start" must be recognized, not one more word
+        "fullMatch": false,                 // Optional, whether text recognition requires exact matching (no extra characters), default is false
+                                            // When false, substring matching is sufficient: e.g., if text: [ "Start" ], recognition of "Start Action" is considered successful;
+                                            // When true, must recognize exactly "Start", not even one extra character
 
-        "isAscii": false,                   // optional, whether the text content to be recognized is ASCII characters
-                                            // default false if not filled
+        "isAscii": false,                   // Optional, whether the text content to recognize is ASCII characters
+                                            // Default false if not filled in
 
-        "withoutDet": false                 // Optional, whether to not use the detection model
-                                            // default false if not filled
+        "withoutDet": false,                // Optional, whether to not use the detection model
+                                            // Default false if not filled in
 
-        /* The following fields are only valid when the algorithm is Hash */
-        // The algorithm is not mature, and is only used in some special cases, so it is not recommended for now
-        // Todo
+        /* The following fields are only valid when algorithm is JustReturn and action is Input */
+
+        "inputText": "A string text."       // Required, the text to input, as a string
+
     }
 }
 ```
 
-## Special Task Type
+## Special Task Types
 
-### Template Task(`@` Type Task)
+### Template Task (`@` Type Task)
 
-Template task and base task are collectively called **Template task**.
+Template task and base task are collectively called **Template tasks**.
 
-Allows a task "A" to be used as a template, and then "B@A" to represent the task generated by "A".
+Allows a task "A" to be used as a template, and then "B@A" represents the task generated from "A".
 
-- If task "B@A" is not explicitly defined in `tasks.json`, then add `B@` prefix to the `sub`, `next`, `onErrorNext`, `exceededNext`, `reduceOtherTimes` fields (or `B` if the task name starts with `#`) and the rest of the parameters are the same as for task "A". That is, if task "A" has the following parameters.
+- If task "B@A" is not explicitly defined in `tasks.json`, then add `B@` prefix to the `sub`, `next`, `onErrorNext`, `exceededNext`, `reduceOtherTimes` fields (or `B` if the task name starts with `#`) and the rest of the parameters are the same as task "A". That is, if task "A" has the following parameters:
 
     ```json
     "A": {
@@ -164,7 +170,7 @@ Allows a task "A" to be used as a template, and then "B@A" to represent the task
     }
     ```
 
-    is equivalent to defining both
+    It's equivalent to also defining:
 
     ```json
     "B@A": {
@@ -174,59 +180,59 @@ Allows a task "A" to be used as a template, and then "B@A" to represent the task
     }
     ```
 
-- If task "B@A" is defined in `tasks.json`, then
-    1. if the `algorithm` field of `B@A` is different from that of `A`, the derived class parameters are not inherited (only the parameters defined by `TaskInfo` are inherited)
-    2. for image matching task, `template` is `B@A.png` if not explicitly defined (instead of inheriting the `template` name of "A"), otherwise any derived class parameters are inherited directly from "A" task if not explicitly defined
-    3. for the parameters defined in the `TaskInfo` base class (any type of task parameters, such as `algorithm`, `roi`, `next`, etc.), if not explicitly defined in "B@A", all parameters are inherited directly from the "A" task parameters, except for the five fields mentioned above, such as `sub`, which will be prefixed with "B@" when inherited
+- If task "B@A" is defined in `tasks.json`, then:
+    1. If "B@A" has a different `algorithm` field from "A", derived class parameters are not inherited (only the parameters defined by `TaskInfo` are inherited)
+    2. For image matching tasks, if `template` is not explicitly defined it becomes `B@A.png` (rather than inheriting "A"'s `template` name), in other cases any derived class parameters not explicitly defined are inherited directly from task "A"
+    3. For parameters defined in the `TaskInfo` base class (parameters common to all task types, such as `algorithm`, `roi`, `next`, etc.), if not explicitly defined in "B@A", all parameters are inherited directly from task "A" except the five fields mentioned above like `sub`, which will have "B@" prefix added when inherited
 
 ### Base Task
 
-Base task and template task are collectively called **template task**.
+Base task and template task are collectively called **template tasks**.
 
-A task with the field `baseTask` is a base task.
+A task with the `baseTask` field is a base task.
 
-Base task takes precedence over template task. This means that `"B@A": { "baseTask": "C", ... }` has no relevance to task A.
+Base task logic takes precedence over template task. This means that `"B@A": { "baseTask": "C", ... }` has no relation to task A.
 
-Any parameter that is not explicitly defined uses the value of the `baseTask` parameter for the corresponding task without a prefix, except for `template` which remains `"taskName.png"` if it is not explicitly defined.
+Any parameter not explicitly defined will directly use the corresponding parameter from the `baseTask` without adding a prefix, except for `template` which remains `"TaskName.png"` if not explicitly defined.
 
-#### Multi-File Task
+#### Multi-File Tasks
 
-If a task defined in a later loaded task file (e.g. `tasks.json` for foreign services; hereinafter called File 2) also has a task of the same name defined in a earlier loaded task file (e.g. `tasks.json` for official services; hereinafter called File 1), then.
+If a task defined in a later loaded task file (e.g., foreign server `tasks.json`; referred to as file two) is also defined in a previously loaded task file (e.g., official server `tasks.json`; referred to as file one), then:
 
-- if the task in File 2 does not have a `baseTask` field, then it inherits the fields of the task with the same name in File 1 directly.
-- If the task in File 2 has a `baseTask` field, then it does not inherit the fields of the task with the same name in File 1, but overwrites them.
+- If the task in file two does not have a `baseTask` field, it directly inherits the fields from the same-named task in file one.
+- If the task in file two has a `baseTask` field, it does not inherit the fields from the same-named task in file one, but directly overwrites them.
 
 ### Virtual Task
 
 Virtual task is also called sharp task (`#` type task).
 
-A task with `#` in its name is a virtual task. `#` can be followed by `next`, `back`, `self`, `sub`, `on_error_next`, `exceeded_next`, `reduce_other_times`。
+A task with `#` in its name is a virtual task. `#` can be followed by `next`, `back`, `self`, `sub`, `on_error_next`, `exceeded_next`, `reduce_other_times`.
 
-| Virtual Task Type | Meaning | Simple example |
+| Virtual Task Type | Meaning | Simple Example |
 |:---------:|:---:|:--------:|
-| self | Parent Task Name | `"A": {"next": "#self"}` in `"#self"` is interpreted as `"A"`<br>`"B": {"next": "A@B@C#self"}` in `"A@B@C#self"` is interpreted as `"B"`.<sup>1</sup> |
-| back | # Preceding task name | `"A@B#back"` is interpreted as `"A@B"`<br>`"#back"` will be skipped if it appears directly |
-| next, sub, etc. | # The field corresponding to the previous task name | Take `next` for example:<br>`"A#next"` is interpreted as `Task.get("A")->next`<br>`"#next"` will be skipped if it appears directly |
+| self | Parent task name | In `"A": {"next": "#self"}`, `"#self"` is interpreted as `"A"`<br>In `"B": {"next": "A@B@C#self"}`, `"A@B@C#self"` is interpreted as `"B"`.<sup>1</sup> |
+| back | Task name before # | `"A@B#back"` is interpreted as `"A@B"`<br>`"#back"` appearing directly will be skipped |
+| next, sub, etc. | Field corresponding to the task name before # | Taking `next` as an example:<br>`"A#next"` is interpreted as `Task.get("A")->next`<br>`"#next"` appearing directly will be skipped |
 
 _Note<sup>1</sup>: `"XXX#self"` has the same meaning as `"#self"`._
 
-#### Simple example
+#### Simple Example
 
 ```json
 {
-    "A": { "next": [ "N1", "N2" ] },
-    "C": { "next": [ "B@A#next" ] },
+    "A": { "next": ["N1", "N2"] },
+    "C": { "next": ["B@A#next"] },
 
     "Loading": {
-        "next": [ "#self", "#next", "#back" ]
+        "next": ["#self", "#next", "#back"]
     },
     "B": {
-        "next": [ "Other", "B@Loading" ]
+        "next": ["Other", "B@Loading"]
     }
 }
 ```
 
-Available.
+This gives:
 
 ```cpp
 Task.get("C")->next = { "B@N1", "B@N2" };
@@ -236,26 +242,26 @@ Task.get("Loading")->next = { "Loading" };
 Task.get_raw("B@Loading")->next = { "B#self", "B#next", "B#back" };
 ```
 
-#### Some uses
+#### Some Uses
 
-- When several tasks have `"next": [ "#back" ]`, `"Task1@Task2@Task3"` represents the sequential execution of `Task3`, `Task2`, `Task1`。
+- When several tasks have `"next": [ "#back" ]`, `"Task1@Task2@Task3"` represents executing `Task3`, `Task2`, `Task1` in that order.
 
-#### Other related
+#### Other Related Examples
 
 ```json
 {
-    "A": { "next": [ "N0" ] },
-    "B": { "next": [ "A#next" ] },
-    "C@A": { "next": [ "N1" ] }
+    "A": { "next": ["N0"] },
+    "B": { "next": ["A#next"] },
+    "C@A": { "next": ["N1"] }
 }
 ```
 
-In this case above, `"C@B" -> next` (i.e. `C@A#next`) is `["N1"]` instead of `["C@N0"]`.
+In this case, `"C@B" -> next` (i.e., `C@A#next`) is `[ "N1" ]` not `[ "C@N0" ]`.
 
-## Runtime task modification
+## Runtime Task Modification
 
-- `Task.lazy_parse()` loads the json task configuration file at runtime. The lazy_parse rules are the same as for [multi-file task](#multi-file task).
-- `Task.set_task_base()` modifies the `baseTask` field of a task.
+- `Task.lazy_parse()` can load JSON task configuration files at runtime. The lazy_parse rules are the same as for [Multi-File Tasks](#multi-file-tasks).
+- `Task.set_task_base()` can modify a task's `baseTask` field.
 
 ### Usage Example
 
@@ -267,23 +273,23 @@ Suppose you have the following task configuration file:
         "baseTask": "A_default"
     },
     "A_default": {
-        "next": [ "xxx" ]
+        "next": ["xxx"]
     },
     "A_mode1": {
-        "next": [ "yyy" ]
+        "next": ["yyy"]
     },
     "A_mode2": {
-        "next": [ "zzz" ]
+        "next": ["zzz"]
     }
 }
 ```
 
-The following code enables changing task "A" based on the value of `mode`, and will also change other tasks that depend on task "A", e.g. "B@A":
+The following code can change task "A" based on the value of mode, and will also change other tasks that depend on task "A", such as "B@A":
 
 ```cpp
 switch (mode) {
 case 1:
-    Task.set_task_base("A", "A_mode1");  // This is basically the same as replacing A with the contents of A_mode1, as follows
+    Task.set_task_base("A", "A_mode1");  // Essentially equivalent to directly replacing A with A_mode1's content, same below
     break;
 case 2:
     Task.set_task_base("A", "A_mode2");
@@ -302,19 +308,19 @@ default:
 | `#` (unary) | Virtual task | `#self` |
 | `#` (binary) | Virtual task | `StartUpThemes#next` |
 | `*` | Repeat tasks | `(ClickCornerAfterPRTS+ClickCorner)*5` |
-| `+` | Task list merge | `A+B` |
-| `^` | Task list difference (in the former but not in the latter, the order remains the same) | `(A+A+B+C)^(A+B+D)` (= `C`) |
+| `+` | Task list merge (in next series properties, only the leftmost occurrence of the same task is kept) | `A+B` |
+| `^` | Task list difference (in the former but not in the latter, order preserved) | `(A+A+B+C)^(A+B+D)` (result is `C`) |
 
-The operators `@`, `#`, `*`, `+`, `^` have priority: `#` (unary) > `@` = `#` (binary) > `*` > `+` = `^`.
+Operators `@`, `#`, `*`, `+`, `^` have precedence: `#` (unary) > `@` = `#` (binary) > `*` > `+` = `^`.
 
-## Schema Check
+## Schema Validation
 
-This project configures a json schema check for `tasks.json`, the schema file is `docs/maa_tasks_schema.json`.
+This project has configured JSON schema validation for `tasks.json`, the schema file is `docs/maa_tasks_schema.json`.
 
 ### Visual Studio
 
-It is configured in `MaaCore.vcxporj` and works right out of the box. The hint effect is more obscure and some information is missing.
+It has been configured in `MaaCore.vcxproj`, ready to use out of the box. The hints are somewhat cryptic and some information is missing.
 
 ### Visual Studio Code
 
-It is configured in `.vscode/settings.json`, open that **project folder** with vscode and you are ready to use it. The hint works better.
+It has been configured in `.vscode/settings.json`, just open the **project folder** with VSCode to use it. The hints are better.
