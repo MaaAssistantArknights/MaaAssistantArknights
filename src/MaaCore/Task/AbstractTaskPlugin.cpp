@@ -41,10 +41,23 @@ bool asst::AbstractTaskPlugin::operator==(const AbstractTaskPlugin& rhs) const
 cv::Mat asst::AbstractTaskPlugin::get_process_image() const
 {
     if (auto ptr = dynamic_cast<ProcessTask*>(m_task_ptr)) {
-        auto image = ptr->get_result_image();
+        auto image = ptr->get_last_hit()->image;
         if (!image.empty()) {
             return image;
         }
     }
     return ctrler()->get_image();
+}
+
+template <typename T>
+requires std::derived_from<T, asst::AnalyzerResult>
+std::shared_ptr<T> asst::AbstractTaskPlugin::get_hit_detail() const
+{
+    if (auto ptr = dynamic_cast<ProcessTask*>(m_task_ptr)) {
+        if (auto detail = std::dynamic_pointer_cast<T>(ptr->get_last_hit()->reco_detail)) {
+            return detail;
+        }
+    }
+    Log.error(__FUNCTION__, "| Unable to get hit detail of type:", typeid(T).name());
+    return nullptr;
 }

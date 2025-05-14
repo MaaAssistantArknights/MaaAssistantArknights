@@ -186,7 +186,7 @@ asst::FeatureMatcher::ResultsVec asst::FeatureMatcher::feature_postproc(
             break;
         }
 
-        results.emplace_back(Result { .rect = make_rect<asst::Rect>(box), .count = static_cast<int>(count) });
+        results.emplace_back(Result(make_rect<asst::Rect>(box), static_cast<int>(count)));
 
         // remove inside points
         size_t compact_idx = 0;

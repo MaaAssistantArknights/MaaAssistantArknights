@@ -4,6 +4,7 @@
 #include <climits>
 #include <cmath>
 #include <concepts>
+#include <format>
 #include <functional>
 #include <optional>
 #include <ostream>
@@ -14,6 +15,7 @@
 #include <vector>
 
 #include "Utils/StringMisc.hpp"
+#include "meojson/json.hpp"
 
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -259,36 +261,91 @@ inline constexpr To make_rect(const From& rect)
     return To { rect.x, rect.y, rect.width, rect.height };
 }
 
-struct TextRect
+struct AnalyzerResult
 {
-    std::string to_string() const
-    {
-        return "{ " + text + ": " + rect.to_string() + ", score: " + std::to_string(score) + " }";
-    }
+    virtual ~AnalyzerResult() = default;
+
+    virtual std::string to_string() const { return {}; };
 
     explicit operator std::string() const { return to_string(); }
+
+    virtual json::object to_json() const { return {}; };
+
+    explicit operator json::object() const { return to_json(); }
+};
+
+struct TextRect : public AnalyzerResult
+{
+    TextRect() = default;
+
+    TextRect(Rect r, double s, std::string t) :
+        rect(r),
+        score(s),
+        text(std::move(t))
+    {
+    }
+
+    std::string to_string() const override
+    {
+        return std::format("{{ rect: {}, score: {}, text: {} }}", rect.to_string(), score, text);
+    }
+
+    json::object to_json() const override
+    {
+        return { { "rect", json::array { rect.x, rect.y, rect.width, rect.height } },
+                 { "score", score },
+                 { "text", text } };
+    }
 
     Rect rect;
     double score = 0.0;
     std::string text;
 };
 
-struct MatchRect
+struct MatchRect : public AnalyzerResult
 {
-    std::string to_string() const { return "{ rect: " + rect.to_string() + ", score: " + std::to_string(score) + " }"; }
+    MatchRect() = default;
 
-    explicit operator std::string() const { return to_string(); }
+    MatchRect(Rect r, double s, std::string t) :
+        rect(r),
+        score(s),
+        templ_name(std::move(t))
+    {
+    }
+
+    std::string to_string() const override
+    {
+        return std::format("{{ rect: {}, score: {},template: {} }}", rect.to_string(), score, templ_name);
+    }
+
+    json::object to_json() const override
+    {
+        return { { "rect", json::array { rect.x, rect.y, rect.width, rect.height } },
+                 { "score", score },
+                 { "template", templ_name } };
+    }
 
     Rect rect;
     double score = 0.0;
     std::string templ_name;
 };
 
-struct FeatureMatchRect
+struct FeatureMatchRect : public AnalyzerResult
 {
-    std::string to_string() const { return "{ rect: " + rect.to_string() + ", count: " + std::to_string(count) + " }"; }
+    FeatureMatchRect() = default;
 
-    explicit operator std::string() const { return to_string(); }
+    FeatureMatchRect(Rect r, int c) :
+        rect(r),
+        count(c)
+    {
+    }
+
+    std::string to_string() const override { return std::format("{{ rect: {}, count: {} }}", rect.to_string(), count); }
+
+    json::object to_json() const override
+    {
+        return { { "rect", json::array { rect.x, rect.y, rect.width, rect.height } }, { "count", count } };
+    }
 
     Rect rect;
     int count = 0;

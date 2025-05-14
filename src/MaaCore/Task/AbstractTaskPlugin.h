@@ -4,7 +4,8 @@
 
 #include "AbstractTask.h"
 #include "Common/AsstMsg.h"
-#include "Utils/NoWarningCVMat.h"
+#include "Common/AsstTypes.h"
+#include "MaaUtils/NoWarningCVMat.hpp"
 
 namespace asst
 {
@@ -24,11 +25,15 @@ public:
 
     virtual bool verify(AsstMsg msg, const json::value& details) const = 0;
 
-    std::strong_ordering operator<=>(const asst::AbstractTaskPlugin& rhs) const;
+    std::strong_ordering operator<=>(const AbstractTaskPlugin& rhs) const;
     bool operator==(const AbstractTaskPlugin& rhs) const;
 
 protected:
     cv::Mat get_process_image() const;
+
+    template <typename T>
+    requires std::derived_from<T, AnalyzerResult>
+    std::shared_ptr<T> get_hit_detail() const;
 
     AbstractTask* m_task_ptr = nullptr;
     int m_priority = 0;
