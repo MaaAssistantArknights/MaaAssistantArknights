@@ -602,7 +602,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Pormpt2">일요일입니다. 섬멸 작전을 잊지 마세요~</system:String>
     <!--  !작전 설정  -->
     <!--  로그  -->
-    <system:String x:Key="VersionMismatch">UI와 Core 버전이 일치하지 않습니다: {0} 및 {1}, 예측할 수 없는 동작을 유발할 수 있습니다. 파일을 수동으로 교체하거나 업데이트 중에 파일을 점유하지 마십시오.\n\n전체 패키지를 다운로드하여 현재 폴더의 내용을 덮어쓰십시오.</system:String>
+    <system:String x:Key="VersionMismatch">UI와 Core 버전이 일치하지 않습니다: {0} 및 {1}, 예측할 수 없는 동작을 유발할 수 있습니다. 파일을 수동으로 교체하거나 업데이트 중에 파일을 점유하지 마십시오.\n\n전체 패키지를 다운로드하여 새 폴더에 압축을 푼 후, 기존 config 폴더를 새 폴더로 복사하면 기존 설정을 유지할 수 있습니다.</system:String>
     <system:String x:Key="ConnectingToEmulator">에뮬레이터에 연결 중……</system:String>
     <system:String x:Key="UnselectedTask">선택된 작업이 없습니다</system:String>
     <system:String x:Key="Running">실행 중……</system:String>
@@ -696,6 +696,12 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGameName">미니 게임 이름</system:String>
     <system:String x:Key="MiniGameNameGreenGrass">대결 채널: 그린그래스 시티 (비공식)</system:String>
     <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">튜토리얼 대화를 수동으로 건너뛴 후, 바로 종료할 수 있습니다.&#10;이벤트 메인 화면(오른쪽 아래에 ｢이벤트 참가｣ 표시 있음)에서 임무를 시작하세요.&#10;&#10;덕로드만 믿고 따라가면 손해는 없을거에요.</system:String>
+    <system:String x:Key="MiniGameNameGreenTicketStore">녹색 티켓 상점</system:String>
+    <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1층은 전부 구매.&#10;2층은 방문 증서와 모집 허가를 구매.</system:String>
+    <system:String x:Key="MiniGameNameYellowTicketStore">황색 티켓 상점</system:String>
+    <system:String x:Key="MiniGameNameYellowTicketStoreTip" xml:space="preserve">최소한 258장의 노란색 티켓을 가지고 있는지 확인하세요.</system:String>
+    <system:String x:Key="MiniGameNameSsStore">이벤트 상점</system:String>
+    <system:String x:Key="MiniGameNameSsStoreTip" xml:space="preserve">이벤트 상점 페이지에서만 시작하세요.&#10;구매 수량이 무제한인 아이템은 구매하지 마세요.</system:String>
     <!--  !小游戏  -->
     <!--  로그  -->
     <system:String x:Key="Identifying">인식 중……</system:String>

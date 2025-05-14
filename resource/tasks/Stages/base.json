@@ -14,5 +14,64 @@
         "action": "ClickSelf",
         "postDelay": 2000,
         "roi": [505, 57, 462, 628]
+    },
+    "SS@Store@Begin": {
+        "doc": "当期活动商店",
+        "algorithm": "JustReturn",
+        "next": ["SS@Store@ClickItem", "SS@Store@Swipe"]
+    },
+    "SS@Store@ClickItem": {
+        "action": "ClickSelf",
+        "doc": "匹配物品用的模板, 用roi排除最后一列",
+        "roi": [0, 200, 1200, 520],
+        "maskRange": [1, 255],
+        "next": ["SS@Store@ChooseMaxAmount", "SS@Store@Purchase"]
+    },
+    "SS@Store@ChooseMaxAmount": {
+        "roi": [986, 352, 164, 139],
+        "next": ["SS@Store@UnderfundedOCR", "SS@Store@Purchase"]
+    },
+    "SS@Store@UnderfundedOCR": {
+        "roi": [878, 397, 82, 48]
+    },
+    "SS@Store@Purchase": {
+        "text": ["支付"],
+        "roi": [772, 476, 292, 144],
+        "next": ["SS@Store@PurchasedConfirm", "SS@Store@RecruitSkip", "SS@Store@Underfunded"]
+    },
+    "SS@Store@Underfunded": {
+        "template": "ReceivedAllMail.png",
+        "roi": [909, 33, 166, 165],
+        "method": "HSVCount",
+        "colorScales": [[250, 255]],
+        "next": ["Stop"]
+    },
+    "SS@Store@RecruitSkip": {
+        "roi": [1143, 0, 137, 150],
+        "next": ["SS@Store@RecruitSkipClick"]
+    },
+    "SS@Store@RecruitSkipClick": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1197, 23, 53, 45],
+        "next": ["SS@Store@RecruitSkipped", "SS@Store@RecruitSkipClick"]
+    },
+    "SS@Store@RecruitSkipped": {
+        "algorithm": "OcrDetect",
+        "text": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+        "roi": [1160, 16, 97, 42],
+        "next": ["SS@Store@ClickItem", "SS@Store@Swipe"]
+    },
+    "SS@Store@PurchasedConfirm": {
+        "baseTask": "CreditShop-Bought",
+        "template": "CreditShop-Bought.png",
+        "next": ["SS@Store@PurchasedConfirm", "SS@Store@ClickItem", "SS@Store@Swipe"]
+    },
+    "SS@Store@Swipe": {
+        "baseTask": "SlowlySwipeToTheRight",
+        "postDelay": 1000,
+        "next": ["SS@Store@ClickItem", "#self"],
+        "maxTimes": 10,
+        "exceededNext": ["Stop"]
     }
 }

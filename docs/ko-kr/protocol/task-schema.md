@@ -107,7 +107,7 @@ icon: material-symbols:task
 
 
         "colorScales": [                    // method가 HSVCount 또는 RGBCount일 때 유효하고 필수, 색상 마스크 범위.
-            [                               // list<array<array<int, 3>, 2> | array<int, 2>>
+            [                               // list<array<array<int, 3>, 2>> / list<array<int, 2>>
                 [23, 150, 40],              // 구조는 [[lower1, upper1], [lower2, upper2], ...]
                 [25, 230, 150]              //     내측이 int일 경우는 그레이스케일,
             ],                              //     　　array<int, 3>일 경우는 삼채널 색상으로, method에 따라 RGB 또는 HSV로 결정됩니다；

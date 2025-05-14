@@ -277,9 +277,6 @@
     <None Include="..\..\resource\tasks\Stages\SN.json">
       <Filter>Resource\tasks\base\Stages</Filter>
     </None>
-    <None Include="..\..\resource\tasks\Stages\SS.json">
-      <Filter>Resource\tasks\base\Stages</Filter>
-    </None>
     <None Include="..\..\resource\tasks\Stages\Supplies.json">
       <Filter>Resource\tasks\base\Stages</Filter>
     </None>
@@ -701,6 +698,9 @@
       <Filter>Resource\tasks\YoStarKR\RA</Filter>
     </None>
     <None Include="..\..\resource\tasks\Stages\MT.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\base.json">
       <Filter>Resource\tasks\base\Stages</Filter>
     </None>
   </ItemGroup>
@@ -1286,6 +1286,12 @@
     <ClInclude Include="Task\Roguelike\RoguelikeInvestTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Vision\FeatureMatcher.h">
+      <Filter>Source\Vision</Filter>
+    </ClInclude>
+    <ClInclude Include="Vision\Config\FeatureMatcherConfig.h">
+      <Filter>Source\Vision\Config</Filter>
+    </ClInclude>
     <ClInclude Include="Controller\MumuExtras.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
@@ -1790,6 +1796,12 @@
     </ClCompile>
     <ClCompile Include="Config\TaskData\TaskDataSymbolStream.cpp">
       <Filter>Source\Resource\TaskData</Filter>
+    </ClCompile>
+    <ClCompile Include="Vision\FeatureMatcher.cpp">
+      <Filter>Source\Vision</Filter>
+    </ClCompile>
+    <ClCompile Include="Vision\Config\FeatureMatcherConfig.cpp">
+      <Filter>Source\Vision\Config</Filter>
     </ClCompile>
     <ClCompile Include="Task\Infrast\InfrastTrainingTask.cpp">
       <Filter>Source\Task\Infrast</Filter>

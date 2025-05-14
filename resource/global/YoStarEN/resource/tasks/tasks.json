@@ -1462,5 +1462,23 @@
     },
     "RecruitSupportConfirm": {
         "text": ["Recruit support", "Recruit Support"]
+    },
+    "Store@EnterTicketStore": {
+        "text": ["Certificate"]
+    },
+    "Store@ChooseMaxAmount": {
+        "text": ["Max"]
+    },
+    "GreenTicket@Store@ChooseTicketType": {
+        "text": ["Commendations"]
+    },
+    "GreenTicket@Store@Purchase": {
+        "text": ["Buy"]
+    },
+    "YellowTicket@Store@ChooseTicketType": {
+        "text": ["Distinctions"]
+    },
+    "YellowTicket@Store@Purchase": {
+        "text": ["Buy"]
     }
 }

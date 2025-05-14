@@ -264,12 +264,15 @@ namespace MaaWpfGui.Main
             if (clientType is "" or "Official" or "Bilibili")
             {
                 // Read resources first, then read cache
+                MoveTasks(mainCache);
                 loaded = LoadResIfExists(mainRes);
                 loaded &= LoadResIfExists(mainCache);
             }
             else
             {
                 // Read resources first, then read cache
+                MoveTasks(mainCache);
+                MoveTasks(globalCache);
                 loaded = LoadResIfExists(mainRes) && LoadResIfExists(mainCache);
                 loaded &= LoadResIfExists(globalResource) && LoadResIfExists(globalCache);
             }
@@ -287,6 +290,34 @@ namespace MaaWpfGui.Main
 
                 _logger.Information($"Load resource: {path + Resource}");
                 return AsstLoadResource(path);
+            }
+
+            static void MoveTasks(string oldPath)
+            {
+                try
+                {
+                    string tasksJsonPath = Path.Combine(oldPath, @"resource\tasks.json");
+                    string tasksFolderPath = Path.Combine(oldPath, @"resource\tasks");
+                    string newTasksJsonPath = Path.Combine(tasksFolderPath, "tasks.json");
+
+                    if (!File.Exists(tasksJsonPath))
+                    {
+                        return;
+                    }
+
+                    if (!Directory.Exists(tasksFolderPath))
+                    {
+                        Directory.CreateDirectory(tasksFolderPath);
+                        _logger.Information($"Created directory: {tasksFolderPath}");
+                    }
+
+                    File.Move(tasksJsonPath, newTasksJsonPath, true);
+                    _logger.Information($"Moved {tasksJsonPath} to {newTasksJsonPath}");
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error($"Failed to move tasks.json: {ex.Message}");
+                }
             }
         }
 
@@ -1101,7 +1132,13 @@ namespace MaaWpfGui.Main
                                 }
                                 else
                                 {
-                                    missionStartLogBuilder.AppendLine(LocalizationHelper.GetString("MissionStart") + $" {FightTimes.TimesFinished + 1}~{FightTimes.TimesFinished + FightTimes.Series} {LocalizationHelper.GetString("UnitTime")} (-{FightTimes.SanityCost}{LocalizationHelper.GetString("Sanity")})");
+                                    missionStartLogBuilder.AppendLine(
+                                        $"{LocalizationHelper.GetString("MissionStart")} " +
+                                        (FightTimes.Series == 1
+                                            ? $"{FightTimes.TimesFinished + 1}"
+                                            : $"{FightTimes.TimesFinished + 1}~{FightTimes.TimesFinished + FightTimes.Series}") +
+                                        $"{LocalizationHelper.GetString("UnitTime")} " +
+                                        $"(-{FightTimes.SanityCost}{LocalizationHelper.GetString("Sanity")})");
                                 }
 
                                 if (SanityReport is not null)
@@ -1684,7 +1721,7 @@ namespace MaaWpfGui.Main
                 case "SanityBeforeStage":
                     {
                         SanityReport = null;
-                        if (subTaskDetails?.ToObject<FightSettingsUserControlModel.SanityInfo>() is FightSettingsUserControlModel.SanityInfo report && report.SanityMax > 0)
+                        if (subTaskDetails?.ToObject<FightSettingsUserControlModel.SanityInfo>() is { SanityMax: > 0 } report)
                         {
                             SanityReport = report;
                         }
@@ -1695,9 +1732,9 @@ namespace MaaWpfGui.Main
                 case "FightTimes":
                     {
                         FightTimes = null;
-                        if (subTaskDetails?.Children().Count() > 0)
+                        if ((subTaskDetails?.Children())?.Any() ?? false)
                         {
-                            FightTimes = subTaskDetails?.ToObject<FightSettingsUserControlModel.FightTimes>()!;
+                            FightTimes = subTaskDetails.ToObject<FightSettingsUserControlModel.FightTimes>()!;
                         }
 
                         break;

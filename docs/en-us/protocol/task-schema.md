@@ -100,7 +100,7 @@ Usage of `resource/tasks` and description of each field
                                             // Then set "maskRange" to [ 1, 255 ], to instantly ignore the blacked-out parts when matching
 
         "colorScales": [                    // Effective and required when method is HSVCount or RGBCount, color mask range. 
-            [                               // list<array<array<int, 3>, 2> | array<int, 2>>
+            [                               // list<array<array<int, 3>, 2>> / list<array<int, 2>>
                 [23, 150, 40],              // Structure is [[lower1, upper1], [lower2, upper2], ...]
                 [25, 230, 150]              //     Inner layer is int if grayscale,
             ],                              //     　　is array<int, 3> if three-channel color, method determines whether it is RGB or HSV;

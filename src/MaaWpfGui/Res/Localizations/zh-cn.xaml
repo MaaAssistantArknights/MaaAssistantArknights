@@ -603,7 +603,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Pormpt2">周日了，记得打剿灭哦~</system:String>
     <!--  !战斗设置  -->
     <!--  日志  -->
-    <system:String x:Key="VersionMismatch">UI 和 Core 版本不一致: {0} 和 {1}，可能导致不可预测的行为，请勿手动替换文件或者在更新时占用文件。\n\n请下载完整包并覆盖当前文件夹下的内容。</system:String>
+    <system:String x:Key="VersionMismatch">UI 和 Core 版本不一致: {0} 和 {1}，可能导致不可预测的行为，请勿手动替换文件或者在更新时占用文件。\n\n请下载完整包并解压到新文件夹，可将原有的 config 文件夹复制到新文件夹中，以保留原有配置。</system:String>
     <system:String x:Key="ConnectingToEmulator">正在连接模拟器……</system:String>
     <system:String x:Key="UnselectedTask">未选择任务</system:String>
     <system:String x:Key="Running">正在运行中……</system:String>
@@ -697,6 +697,12 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="MiniGameName">小游戏名称</system:String>
     <system:String x:Key="MiniGameNameGreenGrass">争锋频道：青草城</system:String>
     <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">手动跳过教程对话，然后可以直接退出。&#10;在活动主界面（右下角有 ｢加入赛事｣ 处）开始任务。&#10;&#10;跟着鸭总喝口汤。</system:String>
+    <system:String x:Key="MiniGameNameGreenTicketStore">绿票商店</system:String>
+    <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1层全买。&#10;2层买寻访凭证和招聘许可。</system:String>
+    <system:String x:Key="MiniGameNameYellowTicketStore">黄票商店</system:String>
+    <system:String x:Key="MiniGameNameYellowTicketStoreTip" xml:space="preserve">请确保自己至少有258张黄票。</system:String>
+    <system:String x:Key="MiniGameNameSsStore">活动商店</system:String>
+    <system:String x:Key="MiniGameNameSsStoreTip" xml:space="preserve">请在活动商店页面开始。&#10;不买无限池。</system:String>
     <!--  !小游戏  -->
     <!--  日志  -->
     <system:String x:Key="Identifying">正在识别……</system:String>
