@@ -1,4 +1,11 @@
 {
+    "Test": {
+        "algorithm": "FeatureMatch",
+        "template": "items/3141.png",
+        "detector": "ORB",
+        "count": 5,
+        "ratio": 0.5
+    },
     "Block": {
         "Doc": "base_task",
         "algorithm": "JustReturn",
