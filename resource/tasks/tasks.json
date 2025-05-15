@@ -3043,6 +3043,7 @@
         "rectMove": [0, -95, 70, 50]
     },
     "InfrastCloseQuickFormationExpandRole": {
+        "template": "BattleQuickFormationCollapseRole.png",
         "action": "ClickSelf",
         "roi": [1163, 0, 117, 133],
         "next": ["Stop"]
@@ -4274,13 +4275,14 @@
     },
     "OperBoxRoleTabSelect": {
         "action": "ClickSelf",
-        "roi": [1200, 20, 80, 50],
-        "next": ["OperBoxRoleTab"],
-        "maxTimes": 3
+        "template": "BattleQuickFormationCollapseRole.png",
+        "roi": [1152, 0, 128, 138],
+        "next": ["OperBoxRoleTab"]
     },
     "OperBoxRoleTab": {
-        "action": "Stop",
-        "roi": [1195, 15, 80, 50]
+        "template": "BattleQuickFormationExpandRole.png",
+        "baseTask": "BattleQuickFormationExpandRole",
+        "action": "Stop"
     },
     "OperBoxSlowlySwipeToTheRight": {
         "doc": "6个横向干员防止识别不全990px",
