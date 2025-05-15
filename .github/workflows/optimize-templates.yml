@@ -55,16 +55,17 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Cache Python packages
-        id: cache_python
-        if: steps.check_push.outputs.is_pr != 'True' && always()
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.pythonLocation }}/lib/python3.11/site-packages
-          key: ${{ runner.os }}-pip-optimize-templates-${{ hashFiles('./tools/OptimizeTemplates/requirements.txt') }}
+      # - name: Cache Python packages
+      #   id: cache_python
+      #   if: steps.check_push.outputs.is_pr != 'True' && always()
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: ${{ env.pythonLocation }}/lib/python3.11/site-packages
+      #     key: ${{ runner.os }}-pip-optimize-templates-${{ hashFiles('./tools/OptimizeTemplates/requirements.txt') }}
 
       - name: Install dependencies
-        if: steps.check_push.outputs.is_pr != 'True' && steps.cache_python.outputs.cache-hit != 'true'
+        # if: steps.check_push.outputs.is_pr != 'True' && steps.cache_python.outputs.cache-hit != 'true'
+        if: steps.check_push.outputs.is_pr != 'True'
         run: |
           pip install -r tools/OptimizeTemplates/requirements.txt
 
