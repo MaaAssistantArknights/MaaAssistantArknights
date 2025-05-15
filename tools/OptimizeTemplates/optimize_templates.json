@@ -3314,5 +3314,6 @@
     "YoStarEN/BattleQuickFormationRole-Caster": "079fefd1c416dac68d1eb9f7e7163d56187b9412e6b30761eeaf561e94380b26",
     "YoStarJP/InfrastCloseQuickFormationExpandRole": "b5f06214e10f70d2716ad6a3dba9dfdba47ca3f35a4c39f291149c2fdc466fc9",
     "YoStarEN/InfrastCloseQuickFormationExpandRole": "e3443ac94ce6156461394dcb7210a0b3ad898f1a08df37457fe475bc8fcd3bba",
-    "official/InfrastCloseQuickFormationExpandRole": "e512e8f4f23c5625ec8dbf9de791eee41708233a28c9b85f154919b237b35dc1"
+    "official/InfrastCloseQuickFormationExpandRole": "e512e8f4f23c5625ec8dbf9de791eee41708233a28c9b85f154919b237b35dc1",
+    "resource/template/items/act1break_milestone_point": "f974c7d0c8b73648fdf5563c7be953d17dc24d3ca408802ccb6c91815210ddaa"
 }

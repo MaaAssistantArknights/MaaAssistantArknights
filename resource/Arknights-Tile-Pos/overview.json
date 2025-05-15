@@ -5840,6 +5840,186 @@
         "stageId": "act1bossrush_tm04",
         "width": 33
     },
+    "act1break_01-activities/act1break/level_act1break_01": {
+        "code": "VEC-01",
+        "filename": "act1break_01-activities-act1break-level_act1break_01.json",
+        "height": 7,
+        "levelId": "activities/act1break/level_act1break_01",
+        "name": "横冲直进",
+        "stageId": "act1break_01",
+        "width": 9
+    },
+    "act1break_02-activities/act1break/level_act1break_02": {
+        "code": "VEC-02",
+        "filename": "act1break_02-activities-act1break-level_act1break_02.json",
+        "height": 7,
+        "levelId": "activities/act1break/level_act1break_02",
+        "name": "交通拦截",
+        "stageId": "act1break_02",
+        "width": 9
+    },
+    "act1break_03-activities/act1break/level_act1break_03": {
+        "code": "VEC-03",
+        "filename": "act1break_03-activities-act1break-level_act1break_03.json",
+        "height": 8,
+        "levelId": "activities/act1break/level_act1break_03",
+        "name": "潮声轰鸣",
+        "stageId": "act1break_03",
+        "width": 12
+    },
+    "act1break_04-activities/act1break/level_act1break_04": {
+        "code": "VEC-04",
+        "filename": "act1break_04-activities-act1break-level_act1break_04.json",
+        "height": 8,
+        "levelId": "activities/act1break/level_act1break_04",
+        "name": "机械概括谬误",
+        "stageId": "act1break_04",
+        "width": 10
+    },
+    "act1break_05-activities/act1break/level_act1break_05": {
+        "code": "VEC-05",
+        "filename": "act1break_05-activities-act1break-level_act1break_05.json",
+        "height": 6,
+        "levelId": "activities/act1break/level_act1break_05",
+        "name": "止步即死",
+        "stageId": "act1break_05",
+        "width": 11
+    },
+    "act1break_06-activities/act1break/level_act1break_06": {
+        "code": "VEC-06",
+        "filename": "act1break_06-activities-act1break-level_act1break_06.json",
+        "height": 8,
+        "levelId": "activities/act1break/level_act1break_06",
+        "name": "二次烧成",
+        "stageId": "act1break_06",
+        "width": 12
+    },
+    "act1break_07-activities/act1break/level_act1break_07": {
+        "code": "VEC-07",
+        "filename": "act1break_07-activities-act1break-level_act1break_07.json",
+        "height": 8,
+        "levelId": "activities/act1break/level_act1break_07",
+        "name": "果蔬乱炖",
+        "stageId": "act1break_07",
+        "width": 10
+    },
+    "act1break_08-activities/act1break/level_act1break_08": {
+        "code": "VEC-08",
+        "filename": "act1break_08-activities-act1break-level_act1break_08.json",
+        "height": 8,
+        "levelId": "activities/act1break/level_act1break_08",
+        "name": "结构化思维",
+        "stageId": "act1break_08",
+        "width": 10
+    },
+    "act1break_09-activities/act1break/level_act1break_09": {
+        "code": "VEC-09",
+        "filename": "act1break_09-activities-act1break-level_act1break_09.json",
+        "height": 8,
+        "levelId": "activities/act1break/level_act1break_09",
+        "name": "心碎沙堡",
+        "stageId": "act1break_09",
+        "width": 12
+    },
+    "act1break_10-activities/act1break/level_act1break_10": {
+        "code": "VEC-10",
+        "filename": "act1break_10-activities-act1break-level_act1break_10.json",
+        "height": 7,
+        "levelId": "activities/act1break/level_act1break_10",
+        "name": "夹道欢迎",
+        "stageId": "act1break_10",
+        "width": 11
+    },
+    "act1break_11-activities/act1break/level_act1break_11": {
+        "code": "VEC-11",
+        "filename": "act1break_11-activities-act1break-level_act1break_11.json",
+        "height": 8,
+        "levelId": "activities/act1break/level_act1break_11",
+        "name": "寒暑不分",
+        "stageId": "act1break_11",
+        "width": 12
+    },
+    "act1break_12-activities/act1break/level_act1break_12": {
+        "code": "VEC-12",
+        "filename": "act1break_12-activities-act1break-level_act1break_12.json",
+        "height": 8,
+        "levelId": "activities/act1break/level_act1break_12",
+        "name": "存在性论证",
+        "stageId": "act1break_12",
+        "width": 11
+    },
+    "act1break_sp01-activities/act1break/level_act1break_sp01": {
+        "code": "VEC-SP01",
+        "filename": "act1break_sp01-activities-act1break-level_act1break_sp01.json",
+        "height": 6,
+        "levelId": "activities/act1break/level_act1break_sp01",
+        "name": "何必匆忙",
+        "stageId": "act1break_sp01",
+        "width": 8
+    },
+    "act1break_sp02-activities/act1break/level_act1break_sp02": {
+        "code": "VEC-SP02",
+        "filename": "act1break_sp02-activities-act1break-level_act1break_sp02.json",
+        "height": 7,
+        "levelId": "activities/act1break/level_act1break_sp02",
+        "name": "无暇分心",
+        "stageId": "act1break_sp02",
+        "width": 8
+    },
+    "act1break_sp03-activities/act1break/level_act1break_sp03": {
+        "code": "VEC-SP03",
+        "filename": "act1break_sp03-activities-act1break-level_act1break_sp03.json",
+        "height": 6,
+        "levelId": "activities/act1break/level_act1break_sp03",
+        "name": "火力掩护",
+        "stageId": "act1break_sp03",
+        "width": 9
+    },
+    "act1break_sp04-activities/act1break/level_act1break_sp04": {
+        "code": "VEC-SP04",
+        "filename": "act1break_sp04-activities-act1break-level_act1break_sp04.json",
+        "height": 8,
+        "levelId": "activities/act1break/level_act1break_sp04",
+        "name": "啮齿出洞",
+        "stageId": "act1break_sp04",
+        "width": 11
+    },
+    "act1break_sp05-activities/act1break/level_act1break_sp05": {
+        "code": "VEC-SP05",
+        "filename": "act1break_sp05-activities-act1break-level_act1break_sp05.json",
+        "height": 8,
+        "levelId": "activities/act1break/level_act1break_sp05",
+        "name": "啮齿狂潮",
+        "stageId": "act1break_sp05",
+        "width": 11
+    },
+    "act1break_sp06-activities/act1break/level_act1break_sp06": {
+        "code": "VEC-SP06",
+        "filename": "act1break_sp06-activities-act1break-level_act1break_sp06.json",
+        "height": 7,
+        "levelId": "activities/act1break/level_act1break_sp06",
+        "name": "择人而噬",
+        "stageId": "act1break_sp06",
+        "width": 9
+    },
+    "act1break_sp07-activities/act1break/level_act1break_sp07": {
+        "code": "VEC-SP07",
+        "filename": "act1break_sp07-activities-act1break-level_act1break_sp07.json",
+        "height": 7,
+        "levelId": "activities/act1break/level_act1break_sp07",
+        "name": "投资回报",
+        "stageId": "act1break_sp07",
+        "width": 9
+    },
+    "act1break_sp08-activities/act1break/level_act1break_sp08": {
+        "code": "VEC-SP08",
+        "filename": "act1break_sp08-activities-act1break-level_act1break_sp08.json",
+        "height": 7,
+        "levelId": "activities/act1break/level_act1break_sp08",
+        "name": "风险投资",
+        "stageId": "act1break_sp08",
+        "width": 9
+    },
     "act1enemyduel_01a-activities/act1enemyduel/level_act1enemyduel_01a": {
         "code": "VS-1",
         "filename": "act1enemyduel_01a-activities-act1enemyduel-level_act1enemyduel_01a.json",
@@ -13119,6 +13299,96 @@
         "levelId": "activities/act42side/level_act42side_ex08",
         "name": "“拉特兰拼图”",
         "stageId": "act42side_ex08",
+        "width": 13
+    },
+    "act42side_s01#f#-activities/act42side/level_act42side_sub-1-1": {
+        "code": "MT-S-1",
+        "filename": "act42side_s01#f#-activities-act42side-level_act42side_sub-1-1.json",
+        "height": 8,
+        "levelId": "activities/act42side/level_act42side_sub-1-1",
+        "name": "甜品展会",
+        "stageId": "act42side_s01#f#",
+        "width": 12
+    },
+    "act42side_s01-activities/act42side/level_act42side_sub-1-1": {
+        "code": "MT-S-1",
+        "filename": "act42side_s01-activities-act42side-level_act42side_sub-1-1.json",
+        "height": 8,
+        "levelId": "activities/act42side/level_act42side_sub-1-1",
+        "name": "甜品展会",
+        "stageId": "act42side_s01",
+        "width": 12
+    },
+    "act42side_s02#f#-activities/act42side/level_act42side_sub-1-2": {
+        "code": "MT-S-2",
+        "filename": "act42side_s02#f#-activities-act42side-level_act42side_sub-1-2.json",
+        "height": 8,
+        "levelId": "activities/act42side/level_act42side_sub-1-2",
+        "name": "布道演习",
+        "stageId": "act42side_s02#f#",
+        "width": 11
+    },
+    "act42side_s02-activities/act42side/level_act42side_sub-1-2": {
+        "code": "MT-S-2",
+        "filename": "act42side_s02-activities-act42side-level_act42side_sub-1-2.json",
+        "height": 8,
+        "levelId": "activities/act42side/level_act42side_sub-1-2",
+        "name": "布道演习",
+        "stageId": "act42side_s02",
+        "width": 11
+    },
+    "act42side_s03#f#-activities/act42side/level_act42side_sub-1-3": {
+        "code": "MT-S-3",
+        "filename": "act42side_s03#f#-activities-act42side-level_act42side_sub-1-3.json",
+        "height": 8,
+        "levelId": "activities/act42side/level_act42side_sub-1-3",
+        "name": "全民阅兵",
+        "stageId": "act42side_s03#f#",
+        "width": 12
+    },
+    "act42side_s03-activities/act42side/level_act42side_sub-1-3": {
+        "code": "MT-S-3",
+        "filename": "act42side_s03-activities-act42side-level_act42side_sub-1-3.json",
+        "height": 8,
+        "levelId": "activities/act42side/level_act42side_sub-1-3",
+        "name": "全民阅兵",
+        "stageId": "act42side_s03",
+        "width": 12
+    },
+    "act42side_s04#f#-activities/act42side/level_act42side_sub-1-4": {
+        "code": "MT-S-4",
+        "filename": "act42side_s04#f#-activities-act42side-level_act42side_sub-1-4.json",
+        "height": 8,
+        "levelId": "activities/act42side/level_act42side_sub-1-4",
+        "name": "万国峰会",
+        "stageId": "act42side_s04#f#",
+        "width": 13
+    },
+    "act42side_s04-activities/act42side/level_act42side_sub-1-4": {
+        "code": "MT-S-4",
+        "filename": "act42side_s04-activities-act42side-level_act42side_sub-1-4.json",
+        "height": 8,
+        "levelId": "activities/act42side/level_act42side_sub-1-4",
+        "name": "万国峰会",
+        "stageId": "act42side_s04",
+        "width": 13
+    },
+    "act42side_s05#f#-activities/act42side/level_act42side_sub-1-5": {
+        "code": "MT-S-5",
+        "filename": "act42side_s05#f#-activities-act42side-level_act42side_sub-1-5.json",
+        "height": 9,
+        "levelId": "activities/act42side/level_act42side_sub-1-5",
+        "name": "授律圣事",
+        "stageId": "act42side_s05#f#",
+        "width": 13
+    },
+    "act42side_s05-activities/act42side/level_act42side_sub-1-5": {
+        "code": "MT-S-5",
+        "filename": "act42side_s05-activities-act42side-level_act42side_sub-1-5.json",
+        "height": 9,
+        "levelId": "activities/act42side/level_act42side_sub-1-5",
+        "name": "授律圣事",
+        "stageId": "act42side_s05",
         "width": 13
     },
     "act42side_tr01-activities/act42side/level_act42side_tr01": {
