@@ -198,7 +198,7 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 
 ## 광고
 
-사용자 그룹: [Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ 그룹](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
+사용자 그룹: [Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ 그룹](https://api.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
 Discord 서버: [Discord 링크](https://discord.gg/23DfZ9uA4V)  
 [전략 JSON 공유](https://prts.plus)  
 Bilibili 라이브 방송: [MrEO 방송](https://live.bilibili.com/2808861) 코딩 방송 & [MAA-Official 방송](https://live.bilibili.com/27548877) 게임/잡담  

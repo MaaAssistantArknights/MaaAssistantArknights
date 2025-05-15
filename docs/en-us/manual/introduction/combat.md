@@ -50,7 +50,7 @@ icon: hugeicons:brain-02
   - Chip stages. The input must be complete with stage number, such as `PR-A-1`.
   - Annihilation. The input must be `Annihilation`.
   - Some side story stages, now contains `OF-1`, `OF-F3` and `GT-5`.
-  - The last three stages of the current SS event. This is available after downloading updates automatically from the [API](https://ota.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) when the event is on. The prompt will be shown on the main page when this is available.
+  - The last three stages of the current SS event. This is available after downloading updates automatically from the [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) when the event is on. The prompt will be shown on the main page when this is available.
   - For the SS event rerun, you can enter `SSReopen-XX` to clear XX-1 ~ XX-9 levels once. Example `SSReopen-IC`.
 
 ::: details Example

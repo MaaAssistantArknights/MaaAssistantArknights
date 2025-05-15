@@ -172,7 +172,7 @@ public class VersionUpdateViewModel : Screen
     private const string InfoRequestUrl = "repos/MaaAssistantArknights/MaaAssistantArknights/releases/tags/";
     */
 
-    private const string MaaUpdateApi = "https://ota.maa.plus/MaaAssistantArknights/api/version/summary.json";
+    private const string MaaUpdateApi = "https://api.maa.plus/MaaAssistantArknights/api/version/summary.json";
 
     private JObject? _latestJson;
     private JObject? _assetsObject;

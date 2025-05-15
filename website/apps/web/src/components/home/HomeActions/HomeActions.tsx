@@ -52,7 +52,7 @@ export const HomeActions: FC<HomeActionsProps> = ({ toggleLinks, showLinks }) =>
           </div>
         </GlowButton>
         
-        <GlowButton translucent href="https://ota.maa.plus/MaaAssistantArknights/api/qqgroup">
+        <GlowButton translucent href="https://api.maa.plus/MaaAssistantArknights/api/qqgroup">
           <div className="flex items-center -ml-1 text-sm">
             <Icon icon={mdiQqchat} fontSize="20px" />
             <span className="ml-2">QQ 群</span>
