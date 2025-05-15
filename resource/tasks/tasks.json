@@ -1267,7 +1267,7 @@
         "text": ["开始行动", "开始作战", "开始推演"],
         "preDelay": 500,
         "postDelay": 1000,
-        "roi": [1038, 625, 206, 61],
+        "roi": [1010, 625, 260, 61],
         "exceededNext": ["StageSNReturnFlag", "Stop"],
         "reduceOtherTimes": ["(ClickCornerAfterPRTS+ClickCorner)*5"],
         "next": [
