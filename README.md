@@ -202,7 +202,7 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 
 ## 广告
 
-用户交流 QQ 群：[MAA 使用 & 粥游交流 QQ 群](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
+用户交流 QQ 群：[MAA 使用 & 粥游交流 QQ 群](https://api.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
 Discord 服务器: [邀请链接](https://discord.gg/23DfZ9uA4V)  
 用户交流 TG 群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)  
 自动战斗 JSON 作业分享：[prts.plus](https://prts.plus)  

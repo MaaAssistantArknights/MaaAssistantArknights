@@ -16,7 +16,7 @@ from . import downloader
 
 class Updater:
     # API的地址
-    Mirrors = ["https://ota.maa.plus"]
+    Mirrors = ["https://api.maa.plus"]
     Summary_json = "/MaaAssistantArknights/api/version/summary.json"
 
     @staticmethod
@@ -79,15 +79,15 @@ class Updater:
                 {
                   "alpha": {
                     "version": "v4.24.0-beta.1.d006.g27dee653d",
-                    "detail": "https://ota.maa.plus/MaaAssistantArknights/api/version/alpha.json"
+                    "detail": "https://api.maa.plus/MaaAssistantArknights/api/version/alpha.json"
                   },
                   "beta": {
                     "version": "v4.24.0-beta.1",
-                    "detail": "https://ota.maa.plus/MaaAssistantArknights/api/version/beta.json"
+                    "detail": "https://api.maa.plus/MaaAssistantArknights/api/version/beta.json"
                   },
                   "stable": {
                     "version": "v4.23.3",
-                    "detail": "https://ota.maa.plus/MaaAssistantArknights/api/version/stable.json"
+                    "detail": "https://api.maa.plus/MaaAssistantArknights/api/version/stable.json"
                   }
                 }
                 """
@@ -131,7 +131,7 @@ class Updater:
             else:
                 # Windows ARM64
                 system_platform = "win-arm64"
-        # 请求的是https://ota.maa.plus/MaaAssistantArknights/api/version/stable.json，或其他版本类型对应的url
+        # 请求的是https://api.maa.plus/MaaAssistantArknights/api/version/stable.json，或其他版本类型对应的url
         detail_json = request.urlopen(detail)
         detail_data = json.loads(detail_json.read().decode("utf-8"))
         assets_list = detail_data["details"]["assets"]     # 列表，子元素为字典

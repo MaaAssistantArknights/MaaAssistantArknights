@@ -193,7 +193,7 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 
 ## 広告
 
-ユーザー研究グループQQグループ：[QQグループ](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
+ユーザー研究グループQQグループ：[QQグループ](https://api.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
 Discord サーバー: [Discord 招待リンク](https://discord.gg/23DfZ9uA4V)  
 ユーザー研究グループTGグループ：[Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1)  
 自動作戦JSON作業シェア：[prts.plus](https://prts.plus)  
