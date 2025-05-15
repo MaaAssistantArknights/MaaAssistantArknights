@@ -911,11 +911,8 @@
     "BattleStartOCR": {
         "text": ["行動", "開始"]
     },
-    "BattleStartSimulation": {
-        "Doc": "Delete the template and remove this modified roi task when paradox update comes PR#10439",
-        "roi": [417, 567, 444, 153],
-        "method": "Ccoeff",
-        "colorScales": []
+    "BattleStartSimulationForTwo": {
+        "text": ["開始", "模擬"]
     },
     "StageDrops-TimesCheck": {
         "text": ["連續", "成功", "代理", "作戰"]
