@@ -693,9 +693,7 @@ void asst::InfrastAbstractTask::swipe_of_operlist()
 void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
 {
     // 通过切换职业栏来实现回正
-    bool ret = ProcessTask(*this, { "BattleQuickFormationExpandRole" })
-                   .set_retry_times(3)
-                   .run();
+    bool ret = ProcessTask(*this, { "BattleQuickFormationExpandRole" }).set_retry_times(3).run();
     if (ret) {
         ProcessTask(
             *this,
