@@ -554,7 +554,7 @@ namespace MaaWpfGui.ViewModels.UI
                     return _operBoxPotential;
                 }
 
-                _operBoxPotential = new Dictionary<string, int>();
+                _operBoxPotential = new();
                 foreach (JObject operBoxData in OperBoxDataArray.OfType<JObject>())
                 {
                     var id = (string?)operBoxData["id"];
@@ -569,8 +569,10 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public class Operator(string name, int rarity)
+        public class Operator(string id, string name, int rarity)
         {
+            public string Id { get; } = id;
+
             public string Name { get; } = name;
 
             public int Rarity { get; } = rarity;
@@ -579,7 +581,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             public override bool Equals(object? obj) => obj is Operator other && Equals(other);
 
-            public override int GetHashCode() => HashCode.Combine(Name, Rarity);
+            public override int GetHashCode() => HashCode.Combine(Id, Name, Rarity);
 
             public override string ToString() => $"{Name} (★{Rarity})";
         }
@@ -611,41 +613,39 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool OperBoxParse(JObject? details)
         {
-            var operBoxes = (JArray?)details?["all_opers"];
+            var allOpers = (details?["all_opers"] as JArray)?.Cast<JObject>().Where(o => o["id"] != null).ToList();
+            var ownOpers = (details?["own_opers"] as JArray)?.Cast<JObject>().Where(o => o["id"] != null).ToList();
 
-            if (operBoxes == null)
+            if (allOpers == null || ownOpers == null)
             {
                 return false;
             }
 
             bool done = (bool)(details?["done"] ?? false);
-
-            (string Name, int Rarity) tuple = ("???", -1);
-            foreach (JObject operBox in operBoxes.Cast<JObject>())
+            var ownOperDict = ownOpers.ToDictionary(o => (string)o["id"]!);
+            var allOperDict = allOpers.ToDictionary(o => (string)o["id"]!);
+            foreach (var operBox in allOpers)
             {
-                tuple.Name = DataHelper.GetLocalizedCharacterName((string?)operBox["name"]) ?? "???";
-                tuple.Rarity = (int)(operBox["rarity"] ?? -1);
-
-                if (_virtuallyOpers.Contains((string?)operBox["id"]))
+                var id = operBox["id"]?.ToString();
+                if (string.IsNullOrEmpty(id) || _virtuallyOpers.Contains(id))
                 {
                     continue;
                 }
 
+                var name = DataHelper.GetLocalizedCharacterName((string?)operBox["name"]) ?? "???";
+                var rarity = (int)(operBox["rarity"] ?? -1);
+                var oper = new Operator(id, name, rarity);
+
                 if ((bool)(operBox["own"] ?? false))
                 {
-                    // 已拥有干员
-                    if (_tempHaveSet.Add(new(tuple.Name, tuple.Rarity)))
+                    if (_tempHaveSet.Add(oper))
                     {
-                        OperBoxHaveList.Add(new(tuple.Name, tuple.Rarity));
+                        OperBoxHaveList.Add(oper);
                     }
                 }
-                else if (done)
+                else if (done && DataHelper.IsCharacterAvailableInClient(name, SettingsViewModel.GameSettings.ClientType))
                 {
-                    // 未拥有干员
-                    if (DataHelper.IsCharacterAvailableInClient(tuple.Name, SettingsViewModel.GameSettings.ClientType))
-                    {
-                        OperBoxNotHaveList.Add(new(tuple.Name, tuple.Rarity));
-                    }
+                    OperBoxNotHaveList.Add(oper);
                 }
             }
 
@@ -654,10 +654,23 @@ namespace MaaWpfGui.ViewModels.UI
                 return true;
             }
 
-            OperBoxInfo = LocalizationHelper.GetString("IdentificationCompleted") + "\n" + LocalizationHelper.GetString("OperBoxRecognitionTip");
-            OperBoxExportData = details?["own_opers"]?.ToString() ?? string.Empty;
-            OperBoxDataArray = (JArray)(details?["own_opers"] ?? new JArray());
+            OperBoxInfo = $"{LocalizationHelper.GetString("IdentificationCompleted")}\n{LocalizationHelper.GetString("OperBoxRecognitionTip")}";
+            OperBoxDataArray = new(ownOpers);
 
+            var exportList = new JArray();
+            foreach (var oper in OperBoxHaveList.Concat(OperBoxNotHaveList))
+            {
+                if (ownOperDict.TryGetValue(oper.Id, out var ownJ))
+                {
+                    exportList.Add(ownJ);
+                }
+                else if (allOperDict.TryGetValue(oper.Id, out var allJ))
+                {
+                    exportList.Add(allJ);
+                }
+            }
+
+            OperBoxExportData = exportList.ToString(Formatting.Indented);
             _runningState.SetIdle(true);
 
             return true;
