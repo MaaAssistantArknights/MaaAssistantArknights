@@ -396,6 +396,11 @@ bool Assistant::stop(bool block)
     m_tasks_list.clear();
 
     clear_cache();
+
+    if (m_watchdog_active) {
+        m_watchdog_condvar.notify_one();
+    }
+
     return true;
 }
 
@@ -682,17 +687,22 @@ void Assistant::watchdog_proc()
 {
     LogTraceFunction;
     while (true) {
-        std::unique_lock<std::mutex> lock(m_watchdog_mutex);
+        std::unique_lock<std::mutex> wlock(m_watchdog_mutex);
         if (m_thread_exit) {
             m_watchdog_active = false;
             return;
         }
-        if (m_thread_idle) {
+
+        std::unique_lock<std::mutex> mlock(m_mutex);
+        bool thread_idle = m_thread_idle;
+        mlock.unlock();
+
+        if (thread_idle) {
             m_watchdog_active = false;
-            m_watchdog_condvar.wait(lock);
+            m_watchdog_condvar.wait(wlock);
         }
 
-        std::cv_status status = m_watchdog_condvar.wait_until(lock, m_watchdog->next_wakeup_time());
+        std::cv_status status = m_watchdog_condvar.wait_until(wlock, m_watchdog->next_wakeup_time());
         if (status != std::cv_status::timeout) {
             continue;
         }
