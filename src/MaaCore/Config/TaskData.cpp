@@ -1065,7 +1065,7 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
               "next",          "onErrorNext", "postDelay",       "preDelay",     "reduceOtherTimes",
               "specialParams", "sub",         "subErrorIgnored",
               // specific
-              "template",      "count",         "ratio",       "detector",
+              "template",      "roi",         "count",         "ratio",          "detector",
           } },
         { AlgorithmType::JustReturn,
           {
