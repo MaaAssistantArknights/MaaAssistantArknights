@@ -4976,6 +4976,7 @@
         "next": ["GreenTicket@Store@ChooseMaxAmount"]
     },
     "GreenTicket@Store@ClickItemList": {
+        "algorithm": "JustReturn",
         "next": [
             "GreenTicket@Store@ClickItem_Headhunting_Permit",
             "GreenTicket@Store@ClickItem_Orundum",
