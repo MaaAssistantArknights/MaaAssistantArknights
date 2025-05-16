@@ -8,7 +8,7 @@
         "action": "ClickRect",
         "specificRect": [1144, 472, 78, 24],
         "postDelay": 800,
-        "template": "Mizuki@Roguelike@StartExplore.png",
+        "template": "Roguelike/Mizuki/StartExplore.png",
         "roi": [1026, 470, 254, 248],
         "sub": ["SwipeToTheUp*2"]
     },
@@ -16,7 +16,7 @@
         "action": "ClickRect",
         "specificRect": [1144, 472, 78, 24],
         "postDelay": 800,
-        "template": "Mizuki@Roguelike@StartExplore.png",
+        "template": "Roguelike/Mizuki/StartExplore.png",
         "roi": [1026, 470, 254, 248],
         "sub": ["SwipeToTheDown*2"]
     },
@@ -62,7 +62,7 @@
         "specificRect": [619, 615, 41, 17]
     },
     "Mizuki@Roguelike@CloseInterview": {
-        "template": "Mizuki@Roguelike@CloseCollectionClose.png"
+        "template": "Roguelike/Mizuki/CloseCollectionClose.png"
     },
     "Mizuki@Roguelike@CommissionedMissionCompleted": {
         "action": "ClickRect",
@@ -112,12 +112,12 @@
     },
     "Mizuki@Roguelike@DiceConfirmAfterNextLevel": {
         "baseTask": "Mizuki@Roguelike@DiceConfirm",
-        "template": "Mizuki@Roguelike@DiceConfirm.png",
+        "template": "Roguelike/Mizuki/DiceConfirm.png",
         "next": ["Mizuki@Roguelike@StrategyChange"]
     },
     "Mizuki@Roguelike@DiceConfirmThenAbandon": {
         "baseTask": "Mizuki@Roguelike@DiceConfirm",
-        "template": "Mizuki@Roguelike@DiceConfirm.png",
+        "template": "Roguelike/Mizuki/DiceConfirm.png",
         "postDelay": 0,
         "next": ["Mizuki@Roguelike@ExitThenAbandon"]
     },
@@ -193,7 +193,7 @@
     "Mizuki@Roguelike@GetDropRecruit": {},
     "Mizuki@Roguelike@GetDropSelect": {},
     "Mizuki@Roguelike@GetDropSelectRecruit": {
-        "template": "Mizuki@Roguelike@GetDropRecruit.png"
+        "template": "Roguelike/Mizuki/GetDropRecruit.png"
     },
     "Mizuki@Roguelike@GetDropSelectReward": {},
     "Mizuki@Roguelike@GetDrops": {
@@ -255,7 +255,6 @@
         "template": "Roguelike@MonthlySquad.png"
     },
     "Mizuki@Roguelike@MonthlySquadComms": {
-        "template": "Mizuki@Roguelike@MonthlySquadComms.png",
         "roi": [530, 420, 200, 60]
     },
     "Mizuki@Roguelike@MonthlySquadCommsCompleted": {
@@ -275,10 +274,10 @@
         ]
     },
     "Mizuki@Roguelike@RecruitMain": {
-        "template": "Mizuki@Roguelike@Recruit.png"
+        "template": "Roguelike/Mizuki/Recruit.png"
     },
     "Mizuki@Roguelike@RecruitOther": {
-        "template": "Mizuki@Roguelike@Recruit.png"
+        "template": "Roguelike/Mizuki/Recruit.png"
     },
     "Mizuki@Roguelike@RecruitWithoutButton": {
         "next": [
@@ -294,14 +293,14 @@
         ]
     },
     "Mizuki@Roguelike@RolesConfirm": {
-        "template": "Mizuki@Roguelike@LastRewardConfirm.png"
+        "template": "Roguelike/Mizuki/LastRewardConfirm.png"
     },
     "Mizuki@Roguelike@RolesDefault": {},
     "Mizuki@Roguelike@SelectTheme": {
         "text": ["生态谱系"]
     },
     "Mizuki@Roguelike@SquadConfirm": {
-        "template": "Mizuki@Roguelike@LastRewardConfirm.png",
+        "template": "Roguelike/Mizuki/LastRewardConfirm.png",
         "next": [
             "Mizuki@Roguelike@LastReward-EnterPoint",
             "Mizuki@Roguelike@RolesDefault",
@@ -490,7 +489,7 @@
     },
     "Mizuki@Roguelike@StartExplore": {},
     "Mizuki@Roguelike@StartExplore-EnterCheck": {
-        "template": "Mizuki@Roguelike@StartExplore.png"
+        "template": "Roguelike/Mizuki/StartExplore.png"
     },
     "Mizuki@Roguelike@StrategyChange_mode0": {
         "text": ["_aggressive", "_pragmatic", "_default"],

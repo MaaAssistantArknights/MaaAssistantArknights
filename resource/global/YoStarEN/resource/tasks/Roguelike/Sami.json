@@ -165,9 +165,7 @@
             ["Cry", "呼救"]
         ]
     },
-    "Sami@Roguelike@GetDropSelectRecruit": {
-        "template": "Sami@Roguelike@GetDropSelectRecruit.png"
-    },
+    "Sami@Roguelike@GetDropSelectRecruit": {},
     "Sami@Roguelike@NextLevel": {
         "text": ["Obtain after", "this floor", "Collapse will trigger", "no next floor"],
         "roi": [218, 600, 247, 78]

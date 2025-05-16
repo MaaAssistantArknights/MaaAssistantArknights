@@ -6,8 +6,7 @@
         "text": ["進化系図", "進化", "系図"]
     },
     "Mizuki@Roguelike@MissionFailedFlag2": {
-        "roi": [400, 7, 485, 203],
-        "template": "Mizuki@Roguelike@MissionFailedFlag2.png"
+        "roi": [400, 7, 485, 203]
     },
     "Mizuki@Roguelike@NextLevel": {
         "ocrReplace": [["迫.*来る波濤", "迫り来る波濤"]],
@@ -17,8 +16,7 @@
         "text": ["進化の系譜", "進化", "系譜"]
     },
     "Mizuki@Roguelike@StageEncounterLeaveConfirm": {
-        "roi": [1063, 0, 217, 700],
-        "template": "Mizuki@Roguelike@StageEncounterLeaveConfirm.png"
+        "roi": [1063, 0, 217, 700]
     },
     "Mizuki@Roguelike@StageSafeHouseReuse": {
         "text": ["セーフハウスを利用する"]
