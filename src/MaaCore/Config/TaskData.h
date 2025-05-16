@@ -15,11 +15,14 @@ class TaskData final : public SingletonHolder<TaskData>, public AbstractConfigWi
 private:
     static MatchTaskConstPtr _default_match_task_info();
     static OcrTaskConstPtr _default_ocr_task_info();
+    static FeatureMatchTaskConstPtr _default_feature_match_task_info();
     static TaskConstPtr _default_task_info();
 
     // 从模板任务生成
     static inline const MatchTaskConstPtr default_match_task_info_ptr = _default_match_task_info();
     static inline const OcrTaskConstPtr default_ocr_task_info_ptr = _default_ocr_task_info();
+    static inline const FeatureMatchTaskConstPtr default_feature_match_task_info_ptr =
+        _default_feature_match_task_info();
     static inline const TaskConstPtr default_task_info_ptr = _default_task_info();
 
     static std::string append_prefix(std::string_view task_name, std::string_view task_prefix);
@@ -63,6 +66,11 @@ private:
         MatchTaskConstPtr default_ptr,
         TaskDerivedType derived_type);
     TaskPtr generate_ocr_task_info(std::string_view name, const json::value&, OcrTaskConstPtr default_ptr);
+    TaskPtr generate_feature_match_task_info(
+        std::string_view name,
+        const json::value& task_json,
+        FeatureMatchTaskConstPtr default_ptr,
+        TaskDerivedType derived_type);
 
     decltype(auto) insert_or_assign_raw_task(std::string_view task_name, TaskDerivedPtr task_info_ptr)
     {

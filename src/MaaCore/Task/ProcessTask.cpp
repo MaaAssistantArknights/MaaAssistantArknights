@@ -176,6 +176,13 @@ ProcessTask::HitDetail ProcessTask::find_first(const TaskList& list) /* const, e
                  .task_ptr = task_ptr };
     }
 
+    if (task_ptr->algorithm == AlgorithmType::FeatureMatch) {
+        auto& raw_result = std::get<FeatureMatcher::Result>(res_opt->result);
+        return { .rect = res_opt->rect,
+                 .reco_detail = json::object { { "count", raw_result.count } },
+                 .task_ptr = task_ptr };
+    }
+
     return { .rect = res_opt->rect, .task_ptr = task_ptr };
 }
 
