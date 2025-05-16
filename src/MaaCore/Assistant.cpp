@@ -106,9 +106,9 @@ Assistant::~Assistant()
     if (m_msg_thread.joinable()) {
         m_msg_thread.join();
     }
-        if (m_watchdog_thread.joinable()) {
-            m_watchdog_thread.join();
-        }
+    if (m_watchdog_thread.joinable()) {
+        m_watchdog_thread.join();
+    }
     if (m_callback) {
         m_callback(static_cast<AsstMsgId>(AsstMsg::Destroyed), "{}", m_callback_arg);
     }
