@@ -477,6 +477,13 @@ asst::TaskPtr asst::TaskData::generate_task_info(std::string_view name)
     case AlgorithmType::OcrDetect:
         task = generate_ocr_task_info(name, json, std::dynamic_pointer_cast<const OcrTaskInfo>(base));
         break;
+    case AlgorithmType::FeatureMatch:
+        task = generate_feature_match_task_info(
+            name,
+            json,
+            std::dynamic_pointer_cast<const FeatureMatchTaskInfo>(base),
+            raw->type);
+        break;
     case AlgorithmType::JustReturn:
         task = std::make_shared<TaskInfo>();
         break;
@@ -784,6 +791,41 @@ asst::TaskPtr asst::TaskData::generate_ocr_task_info(
     return ocr_task_info_ptr;
 }
 
+asst::TaskPtr asst::TaskData::generate_feature_match_task_info(
+    std::string_view name,
+    const json::value& task_json,
+    FeatureMatchTaskConstPtr default_ptr,
+    TaskDerivedType derived_type)
+{
+    if (default_ptr == nullptr) {
+        default_ptr = default_feature_match_task_info_ptr;
+    }
+    auto task_info_ptr = std::make_shared<FeatureMatchTaskInfo>();
+    if (!utils::get_and_check_value_or(name, task_json, "template", task_info_ptr->templ_names, [&]() {
+            return derived_type == TaskDerivedType::Implicit ? default_ptr->templ_names : std::string(name) + ".png";
+        })) { // 隐式 Template Task 时继承，其它时默认值使用任务名
+        return nullptr;
+    }
+    m_templ_required.insert(task_info_ptr->templ_names);
+    utils::get_and_check_value_or(name, task_json, "count", task_info_ptr->count, default_ptr->count);
+    auto detector_opt = task_json.find("detector");
+    if (!detector_opt) {
+        task_info_ptr->detector = default_ptr->detector;
+    }
+    else if (detector_opt->is_string()) {
+        if (auto detector = get_feature_detector(detector_opt->as_string())) {
+            task_info_ptr->detector = *detector;
+        }
+    }
+    else {
+        Log.error("Invalid detector type in task", name);
+        return nullptr;
+    }
+    utils::get_and_check_value_or(name, task_json, "ratio", task_info_ptr->ratio, default_ptr->ratio);
+
+    return task_info_ptr;
+}
+
 asst::ResultOrError<asst::TaskData::RawCompileResult> asst::TaskData::compile_raw_tasklist(
     const TaskList& raw_tasks,
     std::string_view self_name,
@@ -957,6 +999,17 @@ asst::OcrTaskConstPtr asst::TaskData::_default_ocr_task_info()
     return ocr_task_info_ptr;
 }
 
+asst::FeatureMatchTaskConstPtr asst::TaskData::_default_feature_match_task_info()
+{
+    // btw, 为啥还要默认值再设一遍?
+    auto task_info_ptr = std::make_shared<FeatureMatchTaskInfo>();
+    // task_info_ptr->count = 4;
+    // task_info_ptr->ratio = 0.6;
+    // task_info_ptr->detector = FeatureDetector::SIFT;
+
+    return task_info_ptr;
+}
+
 asst::TaskConstPtr asst::TaskData::_default_task_info()
 {
     auto task_info_ptr = std::make_shared<TaskInfo>();
@@ -1004,6 +1057,15 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
               // specific
               "cache",         "fullMatch",   "isAscii",         "ocrReplace",   "rectMove",
               "replaceFull",   "roi",         "text",            "withoutDet",
+          } },
+        { AlgorithmType::FeatureMatch,
+          {
+              // common
+              "action",        "algorithm",   "baseTask",        "exceededNext", "maxTimes",
+              "next",          "onErrorNext", "postDelay",       "preDelay",     "reduceOtherTimes",
+              "specialParams", "sub",         "subErrorIgnored",
+              // specific
+              "template",      "count",         "ratio",       "detector",
           } },
         { AlgorithmType::JustReturn,
           {

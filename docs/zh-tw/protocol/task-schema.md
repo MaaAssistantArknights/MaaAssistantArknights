@@ -140,12 +140,28 @@ icon: material-symbols:task
         "isAscii": false,                   // 可選項，要辨識的文字內容是否為 ASCII 碼字元
                                             // 不填寫預設 false
 
-        "withoutDet": false                 // 可選項，是否不使用檢測模型
+        "withoutDet": false,                // 可選項，是否不使用檢測模型
                                             // 不填寫預設 false
 
         /* 以下欄位僅當 algorithm 為 Hash 時有效 */
         // 演算法不成熟，僅部分特例情況中用到了，暫不推薦使用
         // Todo
+
+        /* 以下欄位僅當 algorithm 為 FeatureMatch 時有效 */
+
+        "template": "xxx.png",              // 可選項，要符合的圖片檔案名，可以是字串或字串列表
+                                            // 預設 "任務名稱.png"
+
+        "count": 4,                         // 匹配的特徵點的數量要求 (閾值), 預設值 = 4
+
+        "ratio": 0.6,                       // KNN 匹配演算法的距離比值, [0 - 1.0], 越大則匹配越寬鬆, 更容易連線. 預設0.6
+
+        "detector": "SIFT",                 // 特徵點偵測器類型, 可選值為 SIFT, ORB, AKAZE, SURF; 預設值 = SIFT
+                                            // SIFT: 計算複雜度高，具有尺度不變性、旋轉不變性。效果最好。 
+                                            // ORB: 計算速度非常快，具有旋轉不變性。但不具有尺度不變性。 
+                                            // BRISK: 計算速度非常快，具有尺度不變性、旋轉不變性。 
+                                            // KAZE: 適用於2D和3D影像，具有尺度不變性、旋轉不變性。 
+                                            // AKAZE: 計算速度較快，具有尺度不變性、旋轉不變性。
     }
 }
 ```
