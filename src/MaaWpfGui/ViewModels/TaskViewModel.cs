@@ -11,9 +11,11 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
-using System;
+using System.Linq;
+using System.Reflection;
 using MaaWpfGui.Main;
 using MaaWpfGui.Services;
+using MaaWpfGui.Utilities;
 using Newtonsoft.Json.Linq;
 using Stylet;
 
@@ -21,6 +23,35 @@ namespace MaaWpfGui.ViewModels;
 
 public abstract class TaskViewModel : PropertyChangedBase
 {
+    protected TaskViewModel()
+    {
+        InitializePropertyDependencies();
+    }
+
+    /// <summary>
+    /// 初始化属性依赖关系
+    /// </summary>
+    private void InitializePropertyDependencies()
+    {
+        var type = GetType();
+        var properties = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+
+        foreach (var property in properties)
+        {
+            var dependsOnAttributes = property.GetCustomAttributes<PropertyDependsOnAttribute>(true);
+            foreach (var attribute in dependsOnAttributes.Where(i => i.PropertyNames.Length > 0))
+            {
+                PropertyChanged += (sender, e) =>
+                {
+                    if (attribute.PropertyNames.Contains(e.PropertyName))
+                    {
+                        NotifyOfPropertyChange(property.Name);
+                    }
+                };
+            }
+        }
+    }
+
     public virtual void ProcSubTaskMsg(AsstMsg msg, JObject details)
     {
     }
