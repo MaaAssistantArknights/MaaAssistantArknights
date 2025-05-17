@@ -4965,10 +4965,20 @@
         "roi": [263, 196, 35, 73],
         "sub": ["SlowlySwipeToTheLeft"],
         "postDelay": 1000,
-        "next": ["GreenTicket@Store@ClickItem", "GreenTicket@Store@ClickSecondFloor"]
+        "next": ["GreenTicket@Store@ClickItemList#next", "GreenTicket@Store@ClickSecondFloor"]
     },
     "GreenTicket@Store@ClickItem": {
-        "template": [
+        "algorithm": "FeatureMatch",
+        "template": "empty.png",
+        "detector": "BRISK",
+        "count": 20,
+        "action": "ClickSelf",
+        "roi": [ 318, 139, 956, 484 ],
+        "next": [ "GreenTicket@Store@ChooseMaxAmount" ]
+    },
+    "GreenTicket@Store@ClickItemList": {
+        "algorithm": "JustReturn",
+        "next": [
             "GreenTicket@Store@ClickItem_Headhunting_Permit",
             "GreenTicket@Store@ClickItem_Orundum",
             "GreenTicket@Store@ClickItem_LMD",
@@ -4976,10 +4986,42 @@
             "GreenTicket@Store@ClickItem_Recruitment_Permit",
             "GreenTicket@Store@ClickItem_Tactical_Battle_Record",
             "GreenTicket@Store@ClickItem_Pure_Gold"
-        ],
-        "action": "ClickSelf",
-        "roi": [318, 139, 956, 484],
-        "next": ["GreenTicket@Store@ChooseMaxAmount"]
+        ]
+    },
+    "GreenTicket@Store@ClickItem_Headhunting_Permit": {
+        "doc": "单抽",
+        "baseTask": "GreenTicket@Store@ClickItem",
+        "template": "items/7003.png"
+    },
+    "GreenTicket@Store@ClickItem_Orundum": {
+        "doc": "合成玉",
+        "baseTask": "GreenTicket@Store@ClickItem",
+        "template": "items/4003.png"
+    },
+    "GreenTicket@Store@ClickItem_LMD": {
+        "doc": "龙门币",
+        "baseTask": "GreenTicket@Store@ClickItem",
+        "template": "items/4001.png"
+    },
+    "GreenTicket@Store@ClickItem_Furniture_Part": {
+        "doc": "家具部件",
+        "baseTask": "GreenTicket@Store@ClickItem",
+        "template": "items/3401.png"
+    },
+    "GreenTicket@Store@ClickItem_Recruitment_Permit": {
+        "doc": "招募许可",
+        "baseTask": "GreenTicket@Store@ClickItem",
+        "template": "items/7001.png"
+    },
+    "GreenTicket@Store@ClickItem_Tactical_Battle_Record": {
+        "doc": "战斗记录",
+        "baseTask": "GreenTicket@Store@ClickItem",
+        "template": "items/2003.png"
+    },
+    "GreenTicket@Store@ClickItem_Pure_Gold": {
+        "doc": "赤金",
+        "baseTask": "GreenTicket@Store@ClickItem",
+        "template": "items/3003.png"
     },
     "GreenTicket@Store@ChooseMaxAmount": {
         "roi": [1027, 405, 79, 53],
@@ -4998,7 +5040,7 @@
         "template": "CreditShop-Bought.png",
         "next": [
             "GreenTicket@Store@PurchasedConfirm",
-            "GreenTicket@Store@ClickItem",
+            "GreenTicket@Store@ClickItemList#next",
             "GreenTicket@Store@ClickSecondFloor",
             "Stop"
         ]
@@ -5012,7 +5054,7 @@
         "maxTimes": 1,
         "sub": ["SlowlySwipeToTheLeft*3"],
         "postDelay": 1000,
-        "next": ["GreenTicket@Store@ClickItem", "Stop"]
+        "next": ["GreenTicket@Store@ClickItemList#next", "Stop"]
     },
     "YellowTicket@Store@ChooseTicketType": {
         "algorithm": "OcrDetect",
@@ -5038,25 +5080,10 @@
     },
     "YellowTicket@Store@ClickItem_Headhunting_Permit": {
         "doc": "单抽卷",
-        "doc_colorScales": "右部黄色、右部蓝字、左部灰字、左部黑色",
-        "colorScales": [
-            [
-                [200, 200, 0],
-                [255, 255, 40]
-            ],
-            [
-                [0, 0, 170],
-                [80, 80, 255]
-            ],
-            [
-                [170, 170, 170],
-                [255, 255, 255]
-            ],
-            [
-                [0, 0, 0],
-                [30, 30, 30]
-            ]
-        ],
+        "algorithm": "FeatureMatch",
+        "template": "items/7003.png",
+        "detector": "BRISK",
+        "count": 20,
         "action": "ClickSelf",
         "roi": [318, 139, 956, 484],
         "next": ["YellowTicket@Store@Purchase"]
@@ -5064,20 +5091,7 @@
     "YellowTicket@Store@ClickItem_Ten-roll_Headhunting_Permit": {
         "doc": "十连",
         "baseTask": "YellowTicket@Store@ClickItem_Headhunting_Permit",
-        "colorScales": [
-            [
-                [190, 150, 70],
-                [250, 230, 140]
-            ],
-            [
-                [10, 50, 90],
-                [50, 100, 170]
-            ],
-            [
-                [0, 0, 0],
-                [30, 30, 30]
-            ]
-        ]
+        "template": "items/7004.png"
     },
     "YellowTicket@Store@Purchase": {
         "roi": [872, 556, 137, 48],
