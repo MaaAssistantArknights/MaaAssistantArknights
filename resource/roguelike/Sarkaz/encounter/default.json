@@ -65,8 +65,8 @@
         },
         {
             "name": "竣工仪式",
-            "option_num": 1,
-            "choose": 1,
+            "option_num": 2,
+            "choose": 2,
             "choices": [
                 {
                     "name": "我们是来参加研讨会的",
