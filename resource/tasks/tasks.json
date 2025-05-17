@@ -4973,8 +4973,8 @@
         "detector": "BRISK",
         "count": 20,
         "action": "ClickSelf",
-        "roi": [ 318, 139, 956, 484 ],
-        "next": [ "GreenTicket@Store@ChooseMaxAmount" ]
+        "roi": [318, 139, 956, 484],
+        "next": ["GreenTicket@Store@ChooseMaxAmount"]
     },
     "GreenTicket@Store@ClickItemList": {
         "algorithm": "JustReturn",
