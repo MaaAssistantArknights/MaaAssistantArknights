@@ -209,6 +209,8 @@
     <None Include="..\..\resource\tasks\Stages\Supplies.json" />
     <None Include="..\..\resource\tasks\Stages\WB.json" />
     <None Include="..\..\resource\tasks\Stages\ZT.json" />
+    <None Include="..\..\resource\tasks\Utilies\DuelChannelGreenGrass.json" />
+    <None Include="..\..\resource\tasks\Utilies\Store.json" />
     <None Include="..\..\resource\tasks\tasks.json" />
   </ItemGroup>
   <ItemGroup>
