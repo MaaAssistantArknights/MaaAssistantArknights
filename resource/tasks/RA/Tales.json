@@ -12,7 +12,7 @@
     "Tales@RA@CancelCraft": {
         "doc": "模板任务: 在组装数量选择界面, 点击空白处取消组装",
         "baseTask": "Tales@RA@Craft",
-        "template": "Tales@RA@Craft.png",
+        "template": "RA/Tales/Craft.png",
         "action": "ClickRect",
         "specificRect": [1200, 360, 0, 0]
     },
@@ -39,7 +39,7 @@
     },
     "Tales@RA@ClickHeadquartersButton": {
         "doc": "模板任务: 点击左下角驻扎地图标",
-        "template": "Tales@RA@HeadquartersButton.png",
+        "template": "RA/Tales/HeadquartersButton.png",
         "roi": [36, 634, 68, 76],
         "action": "ClickSelf"
     },
@@ -118,7 +118,7 @@
     },
     "Tales@RA@MissionResults": {
         "doc": "模板任务: 在行动结束界面点击左下角 <物资将送往仓库> 图标返回, 注意战利品列表加载期间点击无效",
-        "template": "Tales@RA@SentToWarehouse.png",
+        "template": "RA/Tales/SentToWarehouse.png",
         "roi": [48, 469, 87, 51],
         "action": "ClickSelf"
     },
@@ -136,7 +136,7 @@
     },
     "Tales@RA@Origin": {
         "doc": "模板任务: 确认地图视图已经重置到原始位置",
-        "template": "Tales@RA@Headquarters.png",
+        "template": "RA/Tales/Headquarters.png",
         "roi": [559, 262, 162, 153]
     },
     "Tales@RA@PIS-ClickTool": {
@@ -150,7 +150,7 @@
     "Tales@RA@PIS-Craft": {
         "doc": "点击开始组装图标",
         "baseTask": "Tales@RA@Craft",
-        "template": "Tales@RA@Craft.png",
+        "template": "RA/Tales/Craft.png",
         "next": ["Tales@RA@PIS-ResourceGained", "Tales@RA@PIS-Craft@NextAfterLoadingText"]
     },
     "Tales@RA@PIS-CraftAmountOcr": {
@@ -159,7 +159,7 @@
     },
     "Tales@RA@PIS-CraftTool": {
         "doc": "调用 ReclamationCraftTaskPlugin 组装支援道具",
-        "template": "Tales@RA@WorkbenchIcon.png",
+        "template": "RA/Tales/WorkbenchIcon.png",
         "roi": [50, 5, 60, 60],
         "next": ["Tales@RA@PIS-LeaveWorkbench"]
     },
@@ -172,7 +172,7 @@
     "Tales@RA@PIS-LeaveWorkbench": {
         "doc": "点击左上角深色箭头退出组装台",
         "baseTask": "Tales@RA@BackDark",
-        "template": "Tales@RA@BackDark.png",
+        "template": "RA/Tales/BackDark.png",
         "next": ["Tales@RA@PIS-SkipToCalc"]
     },
     "Tales@RA@PIS-Navigation": {
@@ -191,13 +191,13 @@
     "Tales@RA@PIS-ProsperityBelowLimit-Dots": {
         "doc": "生息点数未达到上限, 点击右下角 Dots",
         "baseTask": "Tales@RA@Dots",
-        "template": "Tales@RA@Dots.png",
+        "template": "RA/Tales/Dots.png",
         "next": ["Tales@RA@PIS-ProsperityBelowLimit-LoadSave", "#self"]
     },
     "Tales@RA@PIS-ProsperityBelowLimit-LoadSave": {
         "doc": "生息点数未达到上限, 点击右下角读取存档图标, 选择从右往左第二个存档或仅存的存档, 点击 <点击确认> 文字位置确认读取存档",
         "baseTask": "Tales@RA@LoadSave",
-        "template": "Tales@RA@LoadSave.png",
+        "template": "RA/Tales/LoadSave.png",
         "sub": ["Tales@RA@SelectSecondLastSave", "Tales@RA@ConfirmToLoadSave"],
         "next": [
             "Tales@RA@PIS-ProsperityBelowLimit-StartTodayAfterLoadSave",
@@ -228,7 +228,7 @@
     "Tales@RA@PIS-ProsperityReachLimit": {
         "doc": "已完成生存周期, 生息点数达到上限, 点击 MAX 图案位置",
         "baseTask": "Tales@RA@ProsperityReachLimit",
-        "template": "Tales@RA@Max",
+        "template": "RA/Tales/Max",
         "next": [
             "Tales@RA@PIS-ProsperityReachLimit-StartToday",
             "Tales@RA@PIS-ProsperityReachLimit@NextAfterMerelyWaiting"
@@ -237,13 +237,13 @@
     "Tales@RA@PIS-ProsperityReachLimit-Dots": {
         "doc": "生息点数达到上限, 点击右下角 Dots",
         "baseTask": "Tales@RA@Dots",
-        "template": "Tales@RA@Dots.png",
+        "template": "RA/Tales/Dots.png",
         "next": ["Tales@RA@PIS-ProsperityReachLimit-LoadSave", "#self"]
     },
     "Tales@RA@PIS-ProsperityReachLimit-LoadSave": {
         "doc": "生息点数达到上限, 点击右下角读取存档图标, 选择从右往左第二个存档或仅存的存档, 点击 <点击确认> 文字位置确认读取存档",
         "baseTask": "Tales@RA@LoadSave",
-        "template": "Tales@RA@LoadSave.png",
+        "template": "RA/Tales/LoadSave.png",
         "sub": ["Tales@RA@SelectSecondLastSave", "Tales@RA@ConfirmToLoadSave"],
         "next": [
             "Tales@RA@PIS-ProsperityReachLimit-StartTodayAfterLoadSave",
@@ -292,7 +292,7 @@
     },
     "Tales@RA@PIS-SelectTool": {
         "doc": "选择要组装的道具",
-        "template": "Tales@RA@WorkbenchIcon.png",
+        "template": "RA/Tales/WorkbenchIcon.png",
         "roi": [50, 5, 60, 60],
         "next": ["Tales@RA@PIS-ClickTool", "Tales@RA@PIS-ScrollDown"]
     },
@@ -315,13 +315,13 @@
     "Tales@RA@PIS-SkipToCalc-ConfirmToSkipDay": {
         "doc": "确认跳过这一日",
         "baseTask": "Tales@RA@DialogConfirmYellow",
-        "template": "Tales@RA@DialogConfirmYellow.png",
+        "template": "RA/Tales/DialogConfirmYellow.png",
         "next": ["Tales@RA@PIS-SkipToCalc-NextDay", "Tales@RA@PIS-SkipToCalc-ConfirmToSkipDay@NextAfterLoadingText"]
     },
     "Tales@RA@PIS-SkipToCalc-NextDay": {
         "doc": "点击右上角箭头进入下一个生息日, 若在量定日则进行量定结算",
         "baseTask": "Tales@RA@NextDay",
-        "template": "Tales@RA@NextDay.png",
+        "template": "RA/Tales/NextDay.png",
         "next": [
             "Tales@RA@PIS-SkipToCalc-NextDay@NextAfterLoadingText",
             "Tales@RA@PIS-SkipToCalc-NextDay",
@@ -337,7 +337,7 @@
     "Tales@RA@PIS-SkipToCalc-SkipDay": {
         "doc": "点击右上角 <消磨时间> 箭头",
         "baseTask": "Tales@RA@SkipDay",
-        "template": "Tales@RA@SkipDay.png",
+        "template": "RA/Tales/SkipDay.png",
         "next": ["Tales@RA@PIS-SkipToCalc-ConfirmToSkipDay"]
     },
     "Tales@RA@PIS-SkipToCalc-StartToday": {
@@ -349,7 +349,7 @@
     "Tales@RA@PIS-Workbench": {
         "doc": "点击进入组装台",
         "baseTask": "Tales@RA@Workbench",
-        "template": "Tales@RA@WorkbenchButton.png",
+        "template": "RA/Tales/WorkbenchButton.png",
         "next": ["Tales@RA@PIS-CraftTool"]
     },
     "Tales@RA@PNS-ClearSquadIfSizeGE7": {
@@ -395,7 +395,7 @@
     "Tales@RA@PNS-ConfirmToLeaveBaseCamp": {
         "doc": "确认离开 <后舍: 众人会聚之地>",
         "baseTask": "Tales@RA@DialogConfirmYellow",
-        "template": "Tales@RA@DialogConfirmYellow.png",
+        "template": "RA/Tales/DialogConfirmYellow.png",
         "next": [
             "Tales@RA@PNS-ConfirmToLeaveBaseCamp@NextAfterLoadingIcon",
             "Tales@RA@PNS-ConfirmToLeaveBaseCamp@NextAfterLoadingText",
@@ -406,7 +406,7 @@
     "Tales@RA@PNS-ConfirmToLeaveNode": {
         "doc": "确认离开当前区块，注意，可能会在没有 <正在提交反馈至神经> 文字的情况下卡住一小会儿",
         "baseTask": "Tales@RA@DialogConfirmYellow",
-        "template": "Tales@RA@DialogConfirmYellow.png",
+        "template": "RA/Tales/DialogConfirmYellow.png",
         "next": [
             "Tales@RA@PNS-MissionResults",
             "Tales@RA@PNS-ConfirmToLeaveNode@NextAfterLoadingText",
@@ -486,19 +486,19 @@
     "Tales@RA@PNS-LeaveBaseCamp": {
         "doc": "在行动中点击左上角离开 <后舍: 众人会聚之地>",
         "baseTask": "Tales@RA@LeaveCurrentZone",
-        "template": "Tales@RA@LeaveCurrentZone.png",
+        "template": "RA/Tales/LeaveCurrentZone.png",
         "next": ["Tales@RA@PNS-ConfirmToLeaveBaseCamp", "Tales@RA@PNS-LeaveBaseCamp"]
     },
     "Tales@RA@PNS-LeaveNode": {
         "doc": "在行动中点击左上角离开当前区块, 注意左上角离开按钮渐变出现, 期间点击无效",
         "baseTask": "Tales@RA@LeaveCurrentZone",
-        "template": "Tales@RA@LeaveCurrentZone.png",
+        "template": "RA/Tales/LeaveCurrentZone.png",
         "next": ["Tales@RA@PNS-ConfirmToLeaveNode", "Tales@RA@PNS-LeaveNode"]
     },
     "Tales@RA@PNS-MissionResults": {
         "doc": "在行动结束界面点击左下角 <物资将送往仓库> 图标返回, 注意战利品列表加载期间点击无效",
         "baseTask": "Tales@RA@MissionResults",
-        "template": "Tales@RA@SentToWarehouse.png",
+        "template": "RA/Tales/SentToWarehouse.png",
         "next": ["Tales@RA@PNS-MissionResults", "Stop"]
     },
     "Tales@RA@PNS-Navigation": {
@@ -535,7 +535,7 @@
     "Tales@RA@PNS-ProsperityBelowLimit-Dots": {
         "doc": "生息点数未达到上限, 点击右下角 Dots, 跳过可能的对话事件",
         "baseTask": "Tales@RA@Dots",
-        "template": "Tales@RA@Dots.png",
+        "template": "RA/Tales/Dots.png",
         "next": ["Tales@RA@PNS-ProsperityBelowLimit-SwipeSave", "Tales@RA@PNS-ProsperityBelowLimit-Dots"]
     },
     "Tales@RA@PNS-ProsperityBelowLimit-StartToday": {
@@ -556,7 +556,7 @@
             "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/10957"
         ],
         "baseTask": "Tales@RA@SwipeSave",
-        "template": "Tales@RA@SwipeSave.png",
+        "template": "RA/Tales/SwipeSave.png",
         "sub": ["Tales@RA@DialogConfirmRed*2"],
         "subErrorIgnored": true,
         "next": [
@@ -568,7 +568,7 @@
     "Tales@RA@PNS-ProsperityReachLimit": {
         "doc": "已完成生存周期, 生息点数达到上限, 点击 MAX 图案位置",
         "baseTask": "Tales@RA@ProsperityReachLimit",
-        "template": "Tales@RA@Max",
+        "template": "RA/Tales/Max",
         "next": [
             "Tales@RA@PNS-ProsperityReachLimit-StartToday",
             "Tales@RA@PNS-ProsperityReachLimit@NextAfterMerelyWaiting"
@@ -577,7 +577,7 @@
     "Tales@RA@PNS-ProsperityReachLimit-Dots": {
         "doc": "生息点数达到上限, 点击右下角 Dots, 跳过可能的对话事件",
         "baseTask": "Tales@RA@Dots",
-        "template": "Tales@RA@Dots.png",
+        "template": "RA/Tales/Dots.png",
         "next": ["Tales@RA@PNS-ProsperityReachLimit-SwipeSave", "Tales@RA@PNS-ProsperityReachLimit-Dots"]
     },
     "Tales@RA@PNS-ProsperityReachLimit-StartToday": {
@@ -593,13 +593,13 @@
     "Tales@RA@PNS-ProsperityReachLimit-SwipeSave": {
         "doc": "生息点数达到上限, 点击右下角删除存档图标, 确认删除存档, 仍要删除存档",
         "baseTask": "Tales@RA@SwipeSave",
-        "template": "Tales@RA@SwipeSave.png",
+        "template": "RA/Tales/SwipeSave.png",
         "sub": ["Tales@RA@DialogConfirmRed*2"]
     },
     "Tales@RA@PNS-RecogniseHeadquartersButton": {
         "doc": "识别到左下角驻扎地图标",
         "baseTask": "Tales@RA@ClickHeadquartersButton",
-        "template": "Tales@RA@HeadquartersButton.png",
+        "template": "RA/Tales/HeadquartersButton.png",
         "action": "DoNothing"
     },
     "Tales@RA@PNS-SkipToCalc": {
@@ -621,13 +621,13 @@
     "Tales@RA@PNS-SkipToCalc-ConfirmToSkipDay": {
         "doc": "确认跳过这一日",
         "baseTask": "Tales@RA@DialogConfirmYellow",
-        "template": "Tales@RA@DialogConfirmYellow.png",
+        "template": "RA/Tales/DialogConfirmYellow.png",
         "next": ["Tales@RA@PNS-SkipToCalc-NextDay", "Tales@RA@PNS-SkipToCalc-ConfirmToSkipDay@NextAfterLoadingText"]
     },
     "Tales@RA@PNS-SkipToCalc-NextDay": {
         "doc": "点击右上角箭头进入下一个生息日, 若在量定日则进行量定结算",
         "baseTask": "Tales@RA@NextDay",
-        "template": "Tales@RA@NextDay.png",
+        "template": "RA/Tales/NextDay.png",
         "next": [
             "Tales@RA@PNS-SkipToCalc-NextDay@NextAfterLoadingText",
             "Tales@RA@PNS-SkipToCalc-NextDay",
@@ -643,7 +643,7 @@
     "Tales@RA@PNS-SkipToCalc-SkipDay": {
         "doc": "点击右上角 <消磨时间> 箭头",
         "baseTask": "Tales@RA@SkipDay",
-        "template": "Tales@RA@SkipDay.png",
+        "template": "RA/Tales/SkipDay.png",
         "next": ["Tales@RA@PNS-SkipToCalc-ConfirmToSkipDay"]
     },
     "Tales@RA@PNS-SkipToCalc-StartToday": {
@@ -669,7 +669,7 @@
     },
     "Tales@RA@ProsperityReachLimit": {
         "doc": "模板任务: 已完成生存周期, 生息点数达到上限, 点击 MAX 图案位置",
-        "template": "Tales@RA@Max",
+        "template": "RA/Tales/Max",
         "roi": [836, 516, 59, 40],
         "action": "ClickSelf"
     },
@@ -688,7 +688,7 @@
     "Tales@RA@ReturnToOrigin": {
         "doc": "让地图视图重置到原始位置",
         "baseTask": "Tales@RA@ClickHeadquartersButton",
-        "template": "Tales@RA@HeadquartersButton.png",
+        "template": "RA/Tales/HeadquartersButton.png",
         "postDelay": 500,
         "next": ["Tales@RA@ReturnToOrigin-CancelEnterBuildMode", "Tales@RA@Origin", "Tales@RA@ReturnToOrigin"]
     },
@@ -699,19 +699,19 @@
     },
     "Tales@RA@SelectLeftSave": {
         "doc": "模板任务: 选择左侧的存档读取",
-        "template": "Tales@RA@ActsLeft2.png",
+        "template": "RA/Tales/ActsLeft2.png",
         "roi": [317, 488, 196, 32],
         "action": "ClickSelf"
     },
     "Tales@RA@SelectMiddleSave": {
         "doc": "模板任务: 选择中间的存档读取",
-        "template": "Tales@RA@ActsLeft2.png",
+        "template": "RA/Tales/ActsLeft2.png",
         "roi": [617, 488, 46, 32],
         "action": "ClickSelf"
     },
     "Tales@RA@SelectRightSave": {
         "doc": "模板任务: 选择右侧的存档读取",
-        "template": "Tales@RA@ActsLeft2.png",
+        "template": "RA/Tales/ActsLeft2.png",
         "roi": [767, 488, 196, 32],
         "action": "ClickSelf"
     },
@@ -727,7 +727,7 @@
     },
     "Tales@RA@SquadSizeLE6": {
         "doc": "模板任务: 当前编队规模小于等于6人",
-        "template": "Tales@RA@SquadSizeIndicator0.png",
+        "template": "RA/Tales/SquadSizeIndicator0.png",
         "roi": [811, 647, 60, 60]
     },
     "Tales@RA@StartToday": {
@@ -743,7 +743,7 @@
     },
     "Tales@RA@Workbench": {
         "doc": "模板任务: 点击进入组装台",
-        "template": "Tales@RA@WorkbenchButton.png",
+        "template": "RA/Tales/WorkbenchButton.png",
         "roi": [615, 645, 133, 55],
         "action": "ClickSelf"
     }

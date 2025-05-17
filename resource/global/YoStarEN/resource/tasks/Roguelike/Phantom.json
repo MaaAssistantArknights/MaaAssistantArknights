@@ -3,8 +3,7 @@
         "text": ["Castle", "Notes"]
     },
     "Phantom@Roguelike@GetDropSelectRecruit": {
-        "templThreshold": 0.8,
-        "template": "Phantom@Roguelike@GetDropSelectRecruit.png"
+        "templThreshold": 0.8
     },
     "Phantom@Roguelike@NextLevel": {
         "text": [

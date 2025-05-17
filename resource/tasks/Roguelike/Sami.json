@@ -79,7 +79,7 @@
         "action": "ClickRect",
         "specificRect": [1119, 479, 80, 22],
         "postDelay": 800,
-        "template": "Sami@Roguelike@StartExplore.png",
+        "template": "Roguelike/Sami/StartExplore.png",
         "roi": [958, 530, 322, 189],
         "sub": ["SwipeToTheUp*2"]
     },
@@ -87,7 +87,7 @@
         "action": "ClickRect",
         "specificRect": [1119, 479, 80, 22],
         "postDelay": 800,
-        "template": "Sami@Roguelike@StartExplore.png",
+        "template": "Roguelike/Sami/StartExplore.png",
         "roi": [958, 530, 322, 189],
         "sub": ["SwipeToTheDown*2"]
     },
@@ -129,7 +129,7 @@
     },
     "Sami@Roguelike@CloseEvent": {},
     "Sami@Roguelike@CloseInterview": {
-        "template": "Sami@Roguelike@CloseCollectionClose.png"
+        "template": "Roguelike/Sami/CloseCollectionClose.png"
     },
     "Sami@Roguelike@Collapsal": {
         "algorithm": "OcrDetect",
@@ -463,7 +463,7 @@
         ]
     },
     "Sami@Roguelike@GetDropSelectRecruit": {
-        "template": "Sami@Roguelike@Recruit.png"
+        "template": "Roguelike/Sami/Recruit.png"
     },
     "Sami@Roguelike@GetDropSelectReward": {},
     "Sami@Roguelike@GetDropSelectReward2": {
@@ -555,10 +555,10 @@
         "next": ["Sami@Roguelike@NextLevelThenExit", "Sami@Roguelike@ExitThenAbandon"]
     },
     "Sami@Roguelike@RecruitMain": {
-        "template": "Sami@Roguelike@Recruit.png"
+        "template": "Roguelike/Sami/Recruit.png"
     },
     "Sami@Roguelike@RecruitOther": {
-        "template": "Sami@Roguelike@Recruit.png",
+        "template": "Roguelike/Sami/Recruit.png",
         "templThreshold": 0.8
     },
     "Sami@Roguelike@RecruitWithoutButton": {
@@ -574,7 +574,7 @@
         ]
     },
     "Sami@Roguelike@RolesConfirm": {
-        "template": "Sami@Roguelike@LastRewardConfirm.png"
+        "template": "Roguelike/Sami/LastRewardConfirm.png"
     },
     "Sami@Roguelike@RolesDefault": {},
     "Sami@Roguelike@SelectTheme": {
@@ -585,7 +585,7 @@
         "text": []
     },
     "Sami@Roguelike@SquadConfirm": {
-        "template": "Sami@Roguelike@LastRewardConfirm.png",
+        "template": "Roguelike/Sami/LastRewardConfirm.png",
         "next": [
             "Sami@Roguelike@LastReward-EnterPoint",
             "Sami@Roguelike@GetLUD",
@@ -607,7 +607,7 @@
         "next": ["Sami@Roguelike@StageBoonsEnter", "Sami@Roguelike@Stages#next"]
     },
     "Sami@Roguelike@StageBoonsEnter": {
-        "template": "Sami@Roguelike@StageTraderEnter.png",
+        "template": "Roguelike/Sami/StageTraderEnter.png",
         "baseTask": "Sami@Roguelike@StageEnter",
         "next": [
             "Sami@Roguelike@StageVerticalConfirmBoons",
@@ -854,17 +854,17 @@
         "exceededNext": ["Sami@Roguelike@ExitThenAbandon", "Sami@Roguelike@NextLevelThenExit"]
     },
     "Sami@Roguelike@StageVerticalConfirmBoons": {
-        "template": "Sami@Roguelike@StageVerticalConfirm.png",
+        "template": "Roguelike/Sami/StageVerticalConfirm.png",
         "baseTask": "Sami@Roguelike@StageVerticalConfirm",
         "next": ["Sami@Roguelike@StageBoonsEnter", "Sami@Roguelike@StageEncounterJudgeClick"]
     },
     "Sami@Roguelike@StageVerticalConfirmBoskyPassage": {
-        "template": "Sami@Roguelike@StageVerticalConfirm.png",
+        "template": "Roguelike/Sami/StageVerticalConfirm.png",
         "baseTask": "Sami@Roguelike@StageVerticalConfirm",
         "next": ["Sami@Roguelike@StageBoskyPassageEnter", "Sami@Roguelike@StageEncounterJudgeClick"]
     },
     "Sami@Roguelike@StageVerticalConfirmSafeHouse": {
-        "template": "Sami@Roguelike@StageVerticalConfirm.png",
+        "template": "Roguelike/Sami/StageVerticalConfirm.png",
         "baseTask": "Sami@Roguelike@StageVerticalConfirm",
         "next": [
             "Sami@Roguelike@StageSafeHouseEnter",
@@ -874,7 +874,7 @@
     },
     "Sami@Roguelike@StageVerticalConfirmStartButtonClicked": {
         "baseTask": "Sami@Roguelike@StageVerticalConfirm",
-        "template": "Sami@Roguelike@StageVerticalConfirm.png",
+        "template": "Roguelike/Sami/StageVerticalConfirm.png",
         "next": ["Sami@Roguelike@WaitForStartButtonClicked"]
     },
     "Sami@Roguelike@StageVerticalEmergencyDps": {
@@ -1251,7 +1251,7 @@
         "roi": [958, 530, 322, 189]
     },
     "Sami@Roguelike@StartExplore-EnterCheck": {
-        "template": "Sami@Roguelike@StartExplore.png",
+        "template": "Roguelike/Sami/StartExplore.png",
         "roi": [958, 530, 322, 189]
     },
     "Sami@Roguelike@StrategyChange_mode0": {

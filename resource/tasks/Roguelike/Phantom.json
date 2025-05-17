@@ -16,11 +16,11 @@
     },
     "Phantom@Roguelike@CloseEvent": {},
     "Phantom@Roguelike@CloseInterview": {
-        "template": "Phantom@Roguelike@StageEncounterSpecialClose.png"
+        "template": "Roguelike/Phantom/StageEncounterSpecialClose.png"
     },
     "Phantom@Roguelike@Continue": {},
     "Phantom@Roguelike@DeepExploration": {
-        "template": "Phantom@Roguelike@DeepExploration.png"
+        "template": "Roguelike/Phantom/DeepExploration.png"
     },
     "Phantom@Roguelike@DeepExplorationEnd": {
         "template": "Roguelike@DeepExplorationEnd.png"
@@ -41,7 +41,6 @@
     },
     "Phantom@Roguelike@DialogTimeout": {
         "doc": "傀影肉鸽的小队对话会自动跳过stage导致一卡卡一串，进skip的时候已经读完对话只剩一个叉了，放一个timeout在这里抓一下",
-        "template": "Phantom@Roguelike@DialogTimeout.png",
         "action": "ClickSelf",
         "roi": [500, 590, 300, 100],
         "next": ["Phantom@Roguelike@Stages#next"]
@@ -76,7 +75,7 @@
     "Phantom@Roguelike@GetDropRecruit": {},
     "Phantom@Roguelike@GetDropSelect": {},
     "Phantom@Roguelike@GetDropSelectRecruit": {
-        "template": "Phantom@Roguelike@GetDropRecruit.png"
+        "template": "Roguelike/Phantom/GetDropRecruit.png"
     },
     "Phantom@Roguelike@GetDropSelectReward": {},
     "Phantom@Roguelike@GetDrops": {
@@ -117,15 +116,11 @@
         "roi": [450, 163, 540, 267]
     },
     "Phantom@Roguelike@MissionFailedFlag2": {},
-    "Phantom@Roguelike@MonthlySquad": {
-        "template": "Phantom@Roguelike@MonthlySquad.png"
-    },
-    "Phantom@Roguelike@MonthlySquadComms": {
-        "template": "Phantom@Roguelike@MonthlySquadComms.png"
-    },
+    "Phantom@Roguelike@MonthlySquad": {},
+    "Phantom@Roguelike@MonthlySquadComms": {},
     "Phantom@Roguelike@MonthlySquadCommsCompleted": {
         "templThreshold": 0.92,
-        "template": "Phantom@Roguelike@CommsCompleted.png"
+        "template": "Roguelike/Phantom/CommsCompleted.png"
     },
     "Phantom@Roguelike@MonthlySquadRewardCompleted": {
         "template": "Roguelike@RewardCompleted.png"
@@ -140,10 +135,10 @@
         "onErrorNext": ["Phantom@Roguelike@DialogTimeout", "Phantom@Roguelike@Stages#next"]
     },
     "Phantom@Roguelike@RecruitMain": {
-        "template": "Phantom@Roguelike@Recruit.png"
+        "template": "Roguelike/Phantom/Recruit.png"
     },
     "Phantom@Roguelike@RecruitOther": {
-        "template": "Phantom@Roguelike@Recruit.png"
+        "template": "Roguelike/Phantom/Recruit.png"
     },
     "Phantom@Roguelike@RecruitWithoutButton": {
         "next": [
@@ -158,14 +153,14 @@
         ]
     },
     "Phantom@Roguelike@RolesConfirm": {
-        "template": "Phantom@Roguelike@LastRewardConfirm.png"
+        "template": "Roguelike/Phantom/LastRewardConfirm.png"
     },
     "Phantom@Roguelike@RolesDefault": {},
     "Phantom@Roguelike@SelectTheme": {
         "text": ["古堡笔记"]
     },
     "Phantom@Roguelike@SquadConfirm": {
-        "template": "Phantom@Roguelike@LastRewardConfirm.png",
+        "template": "Roguelike/Phantom/LastRewardConfirm.png",
         "next": [
             "Phantom@Roguelike@LastReward-EnterPoint",
             "Phantom@Roguelike@RolesDefault",
@@ -274,7 +269,7 @@
     },
     "Phantom@Roguelike@StartExplore": {},
     "Phantom@Roguelike@StartExplore-EnterCheck": {
-        "template": "Phantom@Roguelike@StartExplore.png"
+        "template": "Roguelike/Phantom/StartExplore.png"
     },
     "Phantom@Roguelike@StrategyChange_mode0": {
         "text": ["_aggressive", "_pragmatic", "_default"],

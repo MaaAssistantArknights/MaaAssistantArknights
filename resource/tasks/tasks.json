@@ -4875,7 +4875,7 @@
     },
     "GreenGrass@DuelChannel@ChooseLeft": {
         "algorithm": "MatchTemplate",
-        "template": "GreenGrass@DuelChannel@duck.png",
+        "template": "DuelChannel/GreenGrass/duck.png",
         "roi": [13, 118, 54, 394],
         "action": "ClickRect",
         "specificRect": [65, 608, 44, 63],
@@ -4883,7 +4883,7 @@
     },
     "GreenGrass@DuelChannel@ChooseRight": {
         "algorithm": "MatchTemplate",
-        "template": "GreenGrass@DuelChannel@duck.png",
+        "template": "DuelChannel/GreenGrass/duck.png",
         "roi": [1201, 117, 58, 386],
         "action": "ClickRect",
         "specificRect": [1156, 596, 56, 84],

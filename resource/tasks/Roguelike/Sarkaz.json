@@ -64,7 +64,7 @@
         "action": "ClickRect",
         "specificRect": [1119, 479, 80, 22],
         "postDelay": 800,
-        "template": "Sarkaz@Roguelike@StartExplore.png",
+        "template": "Roguelike/Sarkaz/StartExplore.png",
         "roi": [958, 530, 322, 189],
         "sub": ["SwipeToTheUp*2"]
     },
@@ -72,7 +72,7 @@
         "action": "ClickRect",
         "specificRect": [1119, 479, 80, 22],
         "postDelay": 800,
-        "template": "Sarkaz@Roguelike@StartExplore.png",
+        "template": "Roguelike/Sarkaz/StartExplore.png",
         "roi": [958, 530, 322, 189],
         "sub": ["SwipeToTheDown*2"]
     },
@@ -158,7 +158,7 @@
         "specificRect": [153, 79, 63, 29]
     },
     "Sarkaz@Roguelike@CloseInterview": {
-        "template": "Sarkaz@Roguelike@CloseCollectionClose.png"
+        "template": "Roguelike/Sarkaz/CloseCollectionClose.png"
     },
     "Sarkaz@Roguelike@Continue": {},
     "Sarkaz@Roguelike@DecreaseBurdenAbandon": {
@@ -173,7 +173,7 @@
         ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenAbandonThought": {
-        "template": "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1.png",
+        "template": "Roguelike/Sarkaz/DecreaseBurdenSwapUiToDefault1.png",
         "roi": [1101, 51, 179, 137],
         "templThreshold": 0.95,
         "action": "ClickRect",
@@ -280,7 +280,7 @@
         "template": "Roguelike@DeepExploration.png"
     },
     "Sarkaz@Roguelike@DeepExplorationEnd": {
-        "template": "Sarkaz@Roguelike@Confirm.png"
+        "template": "Roguelike/Sarkaz/Confirm.png"
     },
     "Sarkaz@Roguelike@DeepExplorationNotUnlockedComplain": {
         "template": "Roguelike@DeepExplorationNotUnlocked.png"
@@ -350,7 +350,7 @@
     },
     "Sarkaz@Roguelike@GamePassSkip2": {},
     "Sarkaz@Roguelike@GamePassTheEndConfirm": {
-        "template": "Sarkaz@Roguelike@Confirm.png"
+        "template": "Roguelike/Sarkaz/Confirm.png"
     },
     "Sarkaz@Roguelike@GetDrop1": {},
     "Sarkaz@Roguelike@GetDrop2": {},
@@ -386,7 +386,7 @@
         ]
     },
     "Sarkaz@Roguelike@InitialDrop": {
-        "template": "Sarkaz@Roguelike@Confirm.png"
+        "template": "Roguelike/Sarkaz/Confirm.png"
     },
     "Sarkaz@Roguelike@LastReward": {},
     "Sarkaz@Roguelike@LastReward-EnterPoint": {
@@ -446,10 +446,10 @@
         "roi": [550, 564, 184, 64]
     },
     "Sarkaz@Roguelike@RecruitMain": {
-        "template": "Sarkaz@Roguelike@Recruit.png"
+        "template": "Roguelike/Sarkaz/Recruit.png"
     },
     "Sarkaz@Roguelike@RecruitOther": {
-        "template": "Sarkaz@Roguelike@Recruit.png"
+        "template": "Roguelike/Sarkaz/Recruit.png"
     },
     "Sarkaz@Roguelike@RecruitWithoutButton": {
         "next": [
@@ -464,7 +464,7 @@
         ]
     },
     "Sarkaz@Roguelike@RolesConfirm": {
-        "template": "Sarkaz@Roguelike@LastRewardConfirm.png"
+        "template": "Roguelike/Sarkaz/LastRewardConfirm.png"
     },
     "Sarkaz@Roguelike@RolesDefault": {},
     "Sarkaz@Roguelike@Routing": {
@@ -496,7 +496,7 @@
     "Sarkaz@Roguelike@Routing-CombatOps": {
         "doc": "点击普通战斗节点",
         "baseTask": "Sarkaz@Roguelike@StageCombatDps",
-        "template": "Sarkaz@Roguelike@StageCombatDps.png",
+        "template": "Roguelike/Sarkaz/StageCombatDps.png",
         "next": []
     },
     "Sarkaz@Roguelike@Routing-FastInvestment": {
@@ -537,7 +537,7 @@
         "specialParams": [321, 341, 586, 138, 47, 450, 32, 15, 7]
     },
     "Sarkaz@Roguelike@RoutingContinue": {
-        "template": "Sarkaz@Roguelike@Continue.png",
+        "template": "Roguelike/Sarkaz/Continue.png",
         "roi": [1050, 550, 210, 100],
         "action": "ClickSelf",
         "next": ["Sarkaz@Roguelike@RoutingContinueConfirm"]
@@ -606,7 +606,7 @@
         "roi": [848, 686, 46, 26]
     },
     "Sarkaz@Roguelike@SquadConfirm": {
-        "template": "Sarkaz@Roguelike@LastRewardConfirm.png",
+        "template": "Roguelike/Sarkaz/LastRewardConfirm.png",
         "next": [
             "Sarkaz@Roguelike@LastReward-EnterPoint",
             "Sarkaz@Roguelike@RolesDefault",
@@ -622,7 +622,7 @@
         "next": ["Sarkaz@Roguelike@StageBoonsEnter", "Sarkaz@Roguelike@Stages#next"]
     },
     "Sarkaz@Roguelike@StageBoonsEnter": {
-        "template": "Sarkaz@Roguelike@StageTraderEnter.png",
+        "template": "Roguelike/Sarkaz/StageTraderEnter.png",
         "baseTask": "Sarkaz@Roguelike@StageEnter",
         "next": ["Sarkaz@Roguelike@StageBoonsEnter", "Sarkaz@Roguelike@StageEncounterJudgeClick"]
     },
@@ -831,12 +831,12 @@
     "Sarkaz@Roguelike@StageFilterTruthChooseCollection": {
         "Doc": "合成出现藏品二选一",
         "baseTask": "Sarkaz@Roguelike@GetDrop3",
-        "template": "Sarkaz@Roguelike@GetDrop3.png",
+        "template": "Roguelike/Sarkaz/GetDrop3.png",
         "next": ["Sarkaz@Roguelike@StageFilterTruthTryCombine1", "Sarkaz@Roguelike@StageFilterTruthCannotCombine"]
     },
     "Sarkaz@Roguelike@StageFilterTruthCloseCollection": {
         "baseTask": "Sarkaz@Roguelike@CloseCollectionClose",
-        "template": "Sarkaz@Roguelike@CloseCollectionClose.png",
+        "template": "Roguelike/Sarkaz/CloseCollectionClose.png",
         "next": ["Sarkaz@Roguelike@StageFilterTruthTryCombine1", "Sarkaz@Roguelike@StageFilterTruthLeave"]
     },
     "Sarkaz@Roguelike@StageFilterTruthConfirm": {
@@ -929,7 +929,7 @@
     },
     "Sarkaz@Roguelike@StageRefreshClickLeft": {
         "action": "ClickRect",
-        "template": "Sarkaz@Roguelike@StageTraderEnter.png",
+        "template": "Roguelike/Sarkaz/StageTraderEnter.png",
         "roi": [1035, 370, 226, 300],
         "specificRect": [153, 79, 63, 29],
         "next": ["Sarkaz@Roguelike@Stages#next"]
@@ -1028,12 +1028,12 @@
         ]
     },
     "Sarkaz@Roguelike@StageTraderEnter-CloseCollectionClose": {
-        "template": "Sarkaz@Roguelike@CloseCollectionClose.png",
+        "template": "Roguelike/Sarkaz/CloseCollectionClose.png",
         "baseTask": "Sarkaz@Roguelike@CloseCollectionClose",
         "next": ["Sarkaz@Roguelike@StageTraderEnter#next"]
     },
     "Sarkaz@Roguelike@StageTraderEnter-CloseCollectionContinue": {
-        "template": "Sarkaz@Roguelike@CloseCollectionContinue.png",
+        "template": "Roguelike/Sarkaz/CloseCollectionContinue.png",
         "baseTask": "Sarkaz@Roguelike@CloseCollectionContinue",
         "next": ["Sarkaz@Roguelike@StageTraderEnter#next"]
     },
@@ -1203,7 +1203,7 @@
         "roi": [1014, 481, 266, 219]
     },
     "Sarkaz@Roguelike@StartExplore-EnterCheck": {
-        "template": "Sarkaz@Roguelike@StartExplore.png",
+        "template": "Roguelike/Sarkaz/StartExplore.png",
         "roi": [1014, 481, 266, 219]
     },
     "Sarkaz@Roguelike@StartExploreWithSeed-ClickPen": {},
@@ -1312,6 +1312,6 @@
         "action": "ClickSelf"
     },
     "Sarkaz@RoguelikeSettlementConfirm": {
-        "template": "Sarkaz@Roguelike@Confirm.png"
+        "template": "Roguelike/Sarkaz/Confirm.png"
     }
 }
