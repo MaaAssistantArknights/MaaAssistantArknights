@@ -24,12 +24,23 @@
         },
         {
             "groups": ["障碍物"],
+            "location": [2, 2],
+            "direction": "right"
+        },
+        {
+            "groups": ["障碍物"],
             "location": [5, 4],
             "direction": "right"
         },
         {
             "groups": ["障碍物"],
             "location": [6, 3],
+            "direction": "right"
+        },
+        {
+            "Doc": "没有维什戴尔大人的话就完蛋了喵",
+            "groups": ["益达"],
+            "location": [3, 2],
             "direction": "right"
         },
         {

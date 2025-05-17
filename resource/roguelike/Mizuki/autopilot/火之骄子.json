@@ -31,6 +31,11 @@
             "direction": "right"
         },
         {
+            "groups": ["益达"],
+            "location": [4, 3],
+            "direction": "right"
+        },
+        {
             "groups": ["基石", "地面C", "号角", "挡人先锋", "重装", "其他地面", "异德", "刺客"],
             "location": [5, 2],
             "direction": "right"
