@@ -56,7 +56,8 @@
     },
     "GreenTicket@Store@ClickFirstFloor": {
         "algorithm": "OcrDetect",
-        "text": ["1", "T", "I", "亻"],
+        "text": ["1", "T", "I"],
+        "isAscii": true,
         "action": "ClickSelf",
         "roi": [263, 196, 35, 73],
         "sub": ["SlowlySwipeToTheLeft"],
@@ -103,6 +104,7 @@
         "algorithm": "OcrDetect",
         "text": ["2"],
         "action": "ClickSelf",
+        "isAscii": false,
         "roi": [262, 364, 38, 58],
         "maxTimes": 1,
         "sub": ["SlowlySwipeToTheLeft*3"],
@@ -132,7 +134,7 @@
         ]
     },
     "YellowTicket@Store@ClickItem_Headhunting_Permit": {
-        "method": "RGBCount",
+        "doc": "单抽卷",
         "doc_colorScales": "右部黄色、右部蓝字、左部灰字、左部黑色",
         "colorScales": [
             [
@@ -157,8 +159,8 @@
         "next": ["YellowTicket@Store@Purchase"]
     },
     "YellowTicket@Store@ClickItem_Ten-roll_Headhunting_Permit": {
-        "method": "RGBCount",
-        "doc_colorScales": "左部亮色+右部亮字、左部蓝字、右部黑色",
+        "doc": "十连",
+        "baseTask": "YellowTicket@Store@ClickItem_Headhunting_Permit",
         "colorScales": [
             [
                 [190, 150, 70],
@@ -172,10 +174,7 @@
                 [0, 0, 0],
                 [30, 30, 30]
             ]
-        ],
-        "action": "ClickSelf",
-        "roi": [318, 139, 956, 484],
-        "next": ["YellowTicket@Store@Purchase"]
+        ]
     },
     "YellowTicket@Store@Purchase": {
         "roi": [872, 556, 137, 48],
