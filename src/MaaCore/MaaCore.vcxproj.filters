@@ -1334,6 +1334,9 @@
     <ClInclude Include="Task\Roguelike\RoguelikeInputSeedTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Watchdog.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1850,6 +1853,9 @@
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeInputSeedTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Watchdog.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

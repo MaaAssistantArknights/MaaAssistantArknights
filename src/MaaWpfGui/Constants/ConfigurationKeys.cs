@@ -230,6 +230,14 @@ namespace MaaWpfGui.Constants
         public const string TaskTimeoutMinutes = "TimeOut.Timer.TaskTimeoutMinutes";
         public const string ReminderIntervalMinutes = "TimeOut.Timer.ReminderIntervalMinutes";
 
+        public const string EnableWatchdog = "Watchdog.Enable";
+        public const string WatchdogIntervalSec = "Watchdog.IntervalSec";
+        public const string WatchdogThreshold = "Watchdog.Threshold";
+        public const string FreezeStop = "Watchdog.Freeze.Stop";
+        public const string FreezeExtNotify = "Watchdog.Freeze.ExtNotify";
+        public const string FreezeStartWithScript = "Watchdog.Freeze.StartWithScript";
+        public const string FreezeEndWithScript = "Watchdog.Freeze.EndWithScript";
+
         public const string BluestacksConfigPath = "Bluestacks.Config.Path";
         public const string BluestacksConfigKeyword = "Bluestacks.Config.Keyword";
         public const string BluestacksConfigError = "Bluestacks.Config.Error";

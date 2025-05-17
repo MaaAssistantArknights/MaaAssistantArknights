@@ -183,5 +183,57 @@
                 Minimum="1"
                 Value="{Binding ReminderIntervalMinutes}" />
         </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <CheckBox
+                Margin="10"
+                Content="{DynamicResource EnableWatchdog}"
+                IsChecked="{Binding EnableWatchdog}" />
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <hc:NumericUpDown
+                Margin="5"
+                hc:InfoElement.Title="{DynamicResource WatchdogIntervalSec}"
+                hc:TitleElement.TitlePlacement="Left"
+                InputMethod.IsInputMethodEnabled="False"
+                Minimum="1"
+                Value="{Binding WatchdogIntervalSec}" />
+            <hc:NumericUpDown
+                Margin="5"
+                hc:InfoElement.Title="{DynamicResource WatchdogThreshold}"
+                hc:TitleElement.TitlePlacement="Left"
+                InputMethod.IsInputMethodEnabled="False"
+                Minimum="3"
+                Value="{Binding WatchdogThreshold}" />
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="{DynamicResource FreezeStop}"
+                IsChecked="{Binding FreezeStop}" />
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="{DynamicResource FreezeExtNotify}"
+                IsChecked="{Binding FreezeExtNotify}" />
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="{DynamicResource FreezeStartWithScript}"
+                IsChecked="{Binding FreezeStartWithScript}"
+                Visibility="{c:Binding '!FreezeStop'}"/>
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="{DynamicResource FreezeEndWithScript}"
+                IsChecked="{Binding FreezeEndWithScript}"
+                Visibility="{c:Binding '!FreezeStop'}"/>
+        </StackPanel>
     </StackPanel>
 </UserControl>

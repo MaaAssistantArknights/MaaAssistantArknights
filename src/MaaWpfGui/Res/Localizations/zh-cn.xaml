@@ -388,6 +388,14 @@
     <system:String x:Key="PenguinId">企鹅物流汇报ID（仅数字部分）</system:String>
     <system:String x:Key="EnablePenguin">上报企鹅物流</system:String>
     <system:String x:Key="EnableYituliu">上报一图流</system:String>
+    <system:String x:Key="EnableWatchdog">请小刻过来重启冻结的模拟器（Watchdog）</system:String>
+    <system:String x:Key="WatchdogIntervalSec">小刻检查间隔（秒）</system:String>
+    <system:String x:Key="WatchdogThreshold">模拟器冻结阈值（次）</system:String>
+    <system:String x:Key="FreezeStop">冻结时直接停止</system:String>
+    <system:String x:Key="FreezeExtNotify">冻结时发送外部通知</system:String>
+    <system:String x:Key="FreezeStartWithScript">重启时使用开始前脚本</system:String>
+    <system:String x:Key="FreezeEndWithScript">重启时使用结束后脚本</system:String>
+    <system:String x:Key="FreezeDetected">模拟器冻结，正在尝试重启</system:String>
     <system:String x:Key="DrGrandet">博朗台模式</system:String>
     <system:String x:Key="DrGrandetTip">在恢复理智确认界面等待，直到当前的 1 点理智恢复完成再立即确认。</system:String>
     <system:String x:Key="SocialPtShop">信用交易所自动购物</system:String>

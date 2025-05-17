@@ -72,6 +72,8 @@ extern "C"
     ASSTAPI_PORT const char* ASST_CALL AsstGetVersion();
     void ASSTAPI AsstLog(const char* level, const char* message);
 
+    AsstBool ASSTAPI AsstStartWatchdog(AsstHandle handle, int32_t matchIntervalSec, int32_t freezeThreshold);
+
 #ifdef __cplusplus
 }
 #endif
