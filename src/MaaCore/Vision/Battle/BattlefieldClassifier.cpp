@@ -153,7 +153,7 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
         need_save = true;
     }
     // y 或者 c
-    else if (class_id == 2 || class_id == 0) {
+    else if ((class_id == 2 || class_id == 0) && duration_since_last_save > 5) {
         Log.trace("Class is", static_cast<int>(class_id));
         need_save = true;
     }
@@ -170,8 +170,13 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
     }
 
     if (need_save) {
-        auto format_float = [](float val) {
-            return std::format("{:.3f}", val);
+        auto format_float = [](const float val, const int precision = 3) {
+            char buffer[32];
+            if (const int len = snprintf(buffer, sizeof(buffer), "%.*f", precision, val);
+                len < 0 || static_cast<size_t>(len) >= sizeof(buffer)) {
+                return std::string("_err");
+            }
+            return std::string(buffer);
         };
         std::string subfolder = [class_id] {
             switch (class_id) {
