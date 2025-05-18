@@ -358,34 +358,55 @@ namespace MaaWpfGui.Services
         /// <returns>Open stages</returns>
         public string GetStageTips(DayOfWeek dayOfWeek)
         {
-            var builder = new StringBuilder();
-            var sideStoryFlags = new Dictionary<string, bool>();
-            foreach (var item in _stages.Where(item => item.Value.IsStageOpen(dayOfWeek)))
+            var lines = new List<string>();
+            var shownSideStories = new HashSet<string>();
+            bool resourceTipShown = false;
+            DateTime now = DateTime.UtcNow;
+
+            foreach (var stage in _stages.Values.Where(s => s.IsStageOpen(dayOfWeek)))
             {
-                if (!string.IsNullOrEmpty(item.Value.Activity?.StageName)
-                    && !sideStoryFlags.ContainsKey(item.Value.Activity.StageName))
+                var activity = stage.Activity;
+
+                // Resource collection tip - only show one
+                if (!resourceTipShown && activity is { IsResourceCollection: true, BeingOpen: true })
                 {
-                    DateTime dateTime = DateTime.UtcNow;
-                    var daysLeftOpen = (item.Value.Activity.UtcExpireTime - dateTime).Days;
-                    builder.AppendLine(item.Value.Activity.StageName
-                        + " "
-                        + LocalizationHelper.GetString("DaysLeftOpen")
-                        + (daysLeftOpen > 0 ? daysLeftOpen.ToString() : LocalizationHelper.GetString("LessThanOneDay")));
-                    sideStoryFlags[item.Value.Activity.StageName] = true;
+                    // 插入到第一行
+                    lines.Insert(0, $"｢{activity.Tip}｣ {LocalizationHelper.GetString("DaysLeftOpen")}{GetDaysLeftText(activity.UtcExpireTime, now)}");
+                    resourceTipShown = true;
                 }
 
-                if (!string.IsNullOrEmpty(item.Value.Tip))
+                // Side story tips
+                if (!string.IsNullOrEmpty(activity?.StageName) && shownSideStories.Add(activity.StageName))
                 {
-                    builder.AppendLine(item.Value.Tip);
+                    lines.Add($"｢{activity.StageName}｣ {LocalizationHelper.GetString("DaysLeftOpen")}{GetDaysLeftText(activity.UtcExpireTime, now)}");
                 }
 
-                if (!string.IsNullOrEmpty(item.Value.Drop))
+                // Side story Drop item tips
+                if (!string.IsNullOrEmpty(stage.Drop))
                 {
-                    builder.AppendLine(item.Value.Display + ": " + ItemListHelper.GetItemName(item.Value.Drop));
+                    lines.Add($"{stage.Display}: {ItemListHelper.GetItemName(stage.Drop)}");
+                }
+
+                // Normal stage tips
+                if (!string.IsNullOrEmpty(stage.Tip))
+                {
+                    lines.Add(stage.Tip);
                 }
             }
 
-            return builder.ToString();
+            return lines.Count > 0 ? string.Join(Environment.NewLine, lines) : string.Empty;
+        }
+
+        /// <summary>
+        /// Gets the days left text
+        /// </summary>
+        /// <param name="expireTime">活动结束时间</param>
+        /// <param name="now">当前时间</param>
+        /// <returns>活动剩余日期</returns>
+        private static string GetDaysLeftText(DateTime expireTime, DateTime now)
+        {
+            int daysLeft = (expireTime - now).Days;
+            return daysLeft > 0 ? daysLeft.ToString() : LocalizationHelper.GetString("LessThanOneDay");
         }
 
         /// <summary>
