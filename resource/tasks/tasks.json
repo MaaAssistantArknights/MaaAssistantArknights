@@ -3638,6 +3638,7 @@
         "text": ["开始行动", "开始作战", "开始推演", "开始突袭", "开始试炼", "开始测试"],
         "roi": [1000, 600, 280, 120],
         "action": "ClickSelf",
+        "preDelay": 500,
         "postDelay": 1000
     },
     "BattleStartPre@UseMedicine": {
