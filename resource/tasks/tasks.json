@@ -1544,7 +1544,7 @@
         "action": "ClickRect",
         "specificRect": [0, 200, 300, 400],
         "exceededNext": ["CloseStonePageExceeded"],
-        "maxTimes": 1,
+        "maxTimes": 2,
         "next": ["StartButton1"]
     },
     "CloseStonePageExceeded": {
