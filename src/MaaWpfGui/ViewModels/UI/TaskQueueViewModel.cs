@@ -1902,6 +1902,14 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
+            AddLog(LocalizationHelper.GetString("TryToStartEmulator"));
+            await Task.Run(() => SettingsViewModel.StartSettings.TryToStartEmulator());
+            if (Stopping)
+            {
+                SetStopped();
+                return;
+            }
+
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
             if (!await ConnectToEmulator())
             {
