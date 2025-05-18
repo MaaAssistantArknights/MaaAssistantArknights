@@ -450,11 +450,13 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
             ctrler()->click(SkillRectArray.at(skill - 1ULL));
             sleep(delay);
         }
+        auto group_name = iter->first;
         groups.erase(iter);
 
         json::value info = basic_info_with_what("BattleFormationSelected");
         auto& details = info["details"];
         details["selected"] = name;
+        details["group_name"] = std::move(group_name);
         callback(AsstMsg::SubTaskExtraInfo, info);
     }
 
