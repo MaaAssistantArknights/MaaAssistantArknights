@@ -137,7 +137,7 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
         std::chrono::steady_clock::time_point last_save_time;
     };
 
-   static std::unordered_map<Point, point_state> point_states;
+    static std::unordered_map<Point, point_state> point_states;
 
     // 获取当前坐标点的状态
     auto& [last_class, last_save_time] = point_states[m_base_point];
