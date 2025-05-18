@@ -3600,7 +3600,7 @@
         "algorithm": "OcrDetect",
         "fullMatch": true,
         "text": [],
-        "roi": [9, 232, 107, 20],
+        "roi": [-1, 233, 117, 22],
         "postDelay": 200,
         "specialParams_Doc": "Added for the YostarEN client. Used in BattleFormationTask.cpp for OCR manipulation. CN values are from OCRerConfig.h",
         "specialParams": [140, 2, 0, 0]
