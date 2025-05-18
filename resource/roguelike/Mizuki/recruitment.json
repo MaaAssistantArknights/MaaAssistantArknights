@@ -1433,6 +1433,9 @@
                 },
                 {
                     "name": "野鬃"
+                },
+                {
+                    "name": "伊内丝"
                 }
             ]
         },
@@ -1508,8 +1511,7 @@
                 },
                 {
                     "name": "伊内丝",
-                    "skill": 3,
-                    "alternate_skill": 2,
+                    "skill": 2,
                     "is_key": true,
                     "recruit_priority": 709,
                     "promote_priority": 830,

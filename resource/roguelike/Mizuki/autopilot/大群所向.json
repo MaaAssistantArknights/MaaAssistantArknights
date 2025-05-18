@@ -8,14 +8,20 @@
     ],
     "deploy_plan": [
         {
-            "groups": ["投锋"],
-            "location": [7, 1],
-            "direction": "left"
+            "groups": ["挡人先锋", "百嘉", "基石", "地面C", "重装", "其他地面"],
+            "doc": "卡住大蒂",
+            "location": [6, 2],
+            "direction": "down"
         },
         {
-            "groups": ["挡人先锋"],
-            "location": [7, 2],
-            "direction": "left"
+            "groups": ["益达"],
+            "location": [7, 3],
+            "direction": "up"
+        },
+        {
+            "groups": ["召唤", "高台C", "控制", "狙击", "术师", "辅助"],
+            "location": [3, 3],
+            "direction": "right"
         },
         {
             "groups": ["玛恩纳"],
