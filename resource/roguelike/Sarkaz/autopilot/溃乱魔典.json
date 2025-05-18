@@ -3,11 +3,11 @@
     "replacement_home": [
         {
             "location": [1, 1],
-            "direction": "left"
+            "direction": "right"
         },
         {
             "location": [2, 2],
-            "direction": "left"
+            "direction": "right"
         },
         {
             "location": [9, 1],
@@ -15,7 +15,7 @@
         },
         {
             "location": [7, 1],
-            "direction": "left"
+            "direction": "down"
         }
     ],
     "deploy_plan": [
