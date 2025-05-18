@@ -376,7 +376,7 @@ std::vector<asst::BattleFormationTask::QuickFormationOper>
 
             bin = bin.adjustROI(0, -2, 0, 0); // 底部收缩排除白线
             int width = 5;
-            for (int r = bin.cols - width - 1; r >= 0; --r) { 
+            for (int r = bin.cols - width - 1; r >= 0; --r) {
                 if (!cv::hasNonZero(bin.colRange(r, r + width))) { // 左边界排除无文字区域
                     ocr = ocr.adjustROI(0, 0, -r - 3, 0);
                     break;
