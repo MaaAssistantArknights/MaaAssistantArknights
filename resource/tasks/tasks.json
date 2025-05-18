@@ -4974,6 +4974,7 @@
         "algorithm": "FeatureMatch",
         "template": "empty.png",
         "detector": "BRISK",
+        "count": 20,
         "action": "ClickSelf",
         "roi": [318, 139, 956, 484],
         "next": ["GreenTicket@Store@ChooseMaxAmount"]
@@ -5085,6 +5086,7 @@
         "algorithm": "FeatureMatch",
         "template": "items/7003.png",
         "detector": "BRISK",
+        "count": 20,
         "action": "ClickSelf",
         "roi": [318, 139, 956, 484],
         "next": ["YellowTicket@Store@Purchase"]
