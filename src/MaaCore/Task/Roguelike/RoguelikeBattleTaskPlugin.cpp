@@ -376,11 +376,13 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
         // 获取会用到该干员的干员组[干员组1序号,干员组2序号,...]
         std::vector<int> group_ids = RoguelikeRecruit.get_group_ids_of_oper(m_config->get_theme(), oper_name);
 
+        bool is_in_group = false;
         for (const auto& group_id : group_ids) {
             // 当前干员组名,string类型
             std::string group_name = groups[group_id];
             Log.debug(m_stage_name, "group_name", group_name);
             if (m_deploy_plan.contains(group_name)) {
+                is_in_group = true;
                 for (const auto& info : m_deploy_plan[group_name]) {
                     if (m_kills < info.kill_lower_bound || m_kills > info.kill_upper_bound) {
                         Log.debug("    deploy info", oper.name, "in group", group_name, "is waiting.");
@@ -411,8 +413,11 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
                 }
             }
             else {
-                Log.trace(m_stage_name, "operator", oper.name, "is not in the deploy plan.");
+                Log.debug(m_stage_name, "group_name", group_name, "operator", oper.name, "is not in the deploy plan.");
             }
+        }
+        if (!is_in_group) {
+            Log.trace(m_stage_name, "operator", oper.name, "is not in ALL deploy plan.");
         }
     }
     std::sort(deploy_plan_list.begin(), deploy_plan_list.end());
