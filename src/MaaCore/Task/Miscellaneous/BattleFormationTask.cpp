@@ -378,7 +378,12 @@ std::vector<asst::BattleFormationTask::QuickFormationOper> asst::BattleFormation
             if (find_it != opers_result.end() || res.text.empty()) {
                 continue;
             }
-            QuickFormationOper oper(res);
+            QuickFormationOper oper;
+            oper.flag_rect = res.flag_rect;
+            oper.flag_score = res.flag_score;
+            oper.text = res.text;
+            oper.rect = res.rect;
+            oper.score = res.score;
             select = make_roi(image, res.flag_rect.move({ 0, -10, 5, 4 }));
             cv::inRange(select, cv::Scalar(200, 140, 0), cv::Scalar(255, 180, 100), select);
             oper.is_selected = cv::hasNonZero(select);
