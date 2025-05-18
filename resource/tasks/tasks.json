@@ -3727,6 +3727,7 @@
         "baseTask": "BattleStart",
         "algorithm": "OcrDetect",
         "text": ["开始", "行动"],
+        "ocrReplace": [["干始", "开始"]],
         "roi": [999, 398, 222, 237]
     },
     "BattleStartSimulation": {
