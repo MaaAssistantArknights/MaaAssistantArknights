@@ -19,6 +19,11 @@
             "direction": "up"
         },
         {
+            "groups": ["号角", "基石", "地面C", "地刺", "挡人先锋", "投锋", "重装", "刺客", "异德", "其他地面"],
+            "location": [7, 2],
+            "direction": "left"
+        },
+        {
             "groups": ["召唤", "高台C", "控制", "狙击", "术师", "辅助"],
             "location": [3, 3],
             "direction": "right"
