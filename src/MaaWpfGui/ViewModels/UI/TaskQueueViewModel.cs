@@ -38,6 +38,7 @@ using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static MaaWpfGui.Main.AsstProxy;
 using Application = System.Windows.Application;
 using IContainer = StyletIoC.IContainer;
@@ -1913,10 +1914,18 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
+            if (!Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, AsstTaskType.StartUp))
+            {
+                AddLog($"{LocalizationHelper.GetString("WakeUp")} task append error", UiLogColor.Error);
+                await Stop();
+                SetStopped();
+                return;
+            }
+
             bool taskRet = true;
             bool recRet = true;
 
-            int count = 0;
+            int count = 1;
             foreach (var item in TaskItemViewModels)
             {
                 if (item.IsChecked == false || (GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && item.IsCheckedWithNull == null))
