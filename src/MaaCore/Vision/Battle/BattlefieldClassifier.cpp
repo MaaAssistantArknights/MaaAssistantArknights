@@ -99,7 +99,7 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
     SkillReadyResult::Prob prob = softmax(raw_results);
     Log.info(__FUNCTION__, "prob:", prob);
     // 类别顺序为 c, n, y
-    int8_t class_id = static_cast<int8_t>(ranges::max_element(prob) - prob.begin());
+    int class_id = static_cast<int>(ranges::max_element(prob) - prob.begin());
     bool ready = class_id == 2; // 只有当class_id为2（代表y）时，才认为是ready
     float score = prob[class_id];
 
@@ -133,14 +133,14 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
     // 为重新训练模型截图
     struct point_state
     {
-        int8_t last_class = -1;
+        int last_class = -1;
         std::chrono::steady_clock::time_point last_save_time;
     };
 
-    static std::vector<point_state> point_states(921600);
+   static std::unordered_map<Point, point_state> point_states;
 
     // 获取当前坐标点的状态
-    auto& [last_class, last_save_time] = point_states[y * 1280 + x];
+    auto& [last_class, last_save_time] = point_states[m_base_point];
     const auto now = std::chrono::steady_clock::now();
     const auto duration_since_last_save =
         std::chrono::duration_cast<std::chrono::seconds>(now - last_save_time).count();
@@ -149,12 +149,12 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
 
     // 判断当前类别是否与上次保存的类别不同
     if (last_class != class_id) {
-        Log.trace("Class changed", static_cast<int>(last_class), static_cast<int>(class_id));
+        Log.trace("Class changed", last_class, class_id);
         need_save = true;
     }
     // y 或者 c
     else if ((class_id == 2 || class_id == 0) && duration_since_last_save > 5) {
-        Log.trace("Class is", static_cast<int>(class_id));
+        Log.trace("Class is", class_id);
         need_save = true;
     }
     // 长时间没变化，可能是被遮挡了
