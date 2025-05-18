@@ -11,7 +11,7 @@
         },
         {
             "location": [2, 5],
-            "direction": "left"
+            "direction": "up"
         }
     ],
     "deploy_plan": [
