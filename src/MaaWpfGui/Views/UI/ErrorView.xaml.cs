@@ -114,7 +114,7 @@ namespace MaaWpfGui.Views.UI
                 return LocalizationHelper.GetString("ErrorSolutionCrash");
             }
 
-            if (details.Contains("CheckAndUpdateNow()") && details.Contains("MoveFile"))
+            if (details.Contains("CheckAndUpdateNow()") && (details.Contains("MoveFile") || details.Contains("DeleteFile")))
             {
                 return LocalizationHelper.GetString("ErrorSolutionUpdatePackageExtractionFailed");
             }
