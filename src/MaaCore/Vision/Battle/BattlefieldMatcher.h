@@ -10,7 +10,7 @@ class BattlefieldMatcher : public VisionHelper
 public:
     struct ObjectOfInterest
     {
-        bool pause_button_init = false;// 暂停按钮是否按战斗开始判断 (高阈值要求
+        bool pause_button_init = false; // 暂停按钮是否按战斗开始判断 (高阈值要求
         bool flag = true;
         bool deployment = false;
         bool kills = false;
