@@ -549,7 +549,7 @@ bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
 
     BattlefieldMatcher battle_flag_analyzer_2(image);
     auto battle_result_opt = battle_flag_analyzer_2.analyze();
-    ret &= battle_result_opt && battle_result_opt->pause_button && battle_result_opt->is_pasuing;
+    ret &= battle_result_opt && battle_result_opt->pause_button && !battle_result_opt->is_pasuing;
     return ret;
 }
 
