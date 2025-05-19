@@ -3786,6 +3786,11 @@
     "BattleTutorialDialog": {
         "maskRange": [1, 255]
     },
+    "BattleDialogueLog": {
+        "template": "DialogueLog.png",
+        "roi": [27, 14, 64, 51]
+    },
+    "BattleResume": {},
     "BattlePause": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
@@ -4603,8 +4608,8 @@
     "BattleHasStarted": {
         "template": "empty.png",
         "roi": [1178, 33, 49, 39],
-        "specialParams_Doc": "亮度阈值; 点的数量; 存在剧情提示时备用阈值",
-        "specialParams": [245, 200, 125, 130]
+        "specialParams_Doc": "亮度阈值; 点的数量",
+        "specialParams": [245, 200]
     },
     "BattleSpeedButton": {
         "template": "empty.png",

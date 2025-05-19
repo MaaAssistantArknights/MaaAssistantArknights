@@ -429,29 +429,40 @@ bool asst::BattleProcessTask::check_in_battle(const cv::Mat& reusable, bool weak
     LogTraceFunction;
 
     cv::Mat image = reusable.empty() ? ctrler()->get_image() : reusable;
-
-    if (weak) {
-        BattlefieldMatcher analyzer(image);
-        auto result = analyzer.analyze();
-        m_in_battle = result.has_value();
-        if (m_in_battle && !result->pause_button) {
-            if (check_skip_plot_button(image) && check_in_speed_up(image)) {
+    bool in_battle = true;
+    if (!weak) { // init时, weak = false
+        check_skip_plot_button(image);
+        in_battle &= check_pause_button(image);
+    }
+    BattlefieldMatcher analyzer(image);
+    analyzer.set_object_of_interest({ .pause_button_init = !weak });
+    auto result = analyzer.analyze();
+    in_battle &= result.has_value() && (weak || result->pause_button);
+    if (in_battle) {
+        if (!result->pause_button) {
+            if (check_skip_plot_button(image) && check_in_speed_up(image)) { // 带右上角skip的关卡剧情
                 speed_up(); // 跳过剧情后, 方舟会自动恢复1倍速, 如果是2倍速就恢复一下
             }
         }
-        else if (
-            m_in_battle && result->pause_button && result->is_pasuing && check_in_tutorial(image)) { // 关卡内教程暂停
+        else if (result->is_pasuing && check_in_tutorial(image)) { // 关卡内教程暂停
             Log.info(__FUNCTION__, "In tutorial pause");
             while (!need_exit() && check_in_tutorial(image)) {
                 cancel_oper_selection();
                 image = ctrler()->get_image();
             }
-            Log.info(__FUNCTION__, "out tutorial pause");
+            Log.info(__FUNCTION__, "Out tutorial pause");
         }
     }
-    else { // init时, weak = false
-        check_skip_plot_button(image);
-        m_in_battle = check_pause_button(image);
+    else if (check_in_dialogue(image)) {
+        Log.info(__FUNCTION__, "In dialogue pause");
+        while (!need_exit() && check_in_dialogue(image)) {
+            cancel_oper_selection();
+            image = ctrler()->get_image();
+        }
+        Log.info(__FUNCTION__, "Out dialogue pause");
+        in_battle = m_in_battle; // 战斗开始/战斗中剧情, 不变更战斗状态
     }
+
+    m_in_battle = in_battle;
     return m_in_battle;
 }

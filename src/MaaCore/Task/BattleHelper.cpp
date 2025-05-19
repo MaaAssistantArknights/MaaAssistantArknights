@@ -258,7 +258,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
             pause();
             // 在刚进入游戏的时候（画面刚刚完全亮起来的时候），点暂停是没反应的
             // 所以这里一直点，直到真的点上了为止
-            if (!init || !check_pause_button()) {
+            if (!init || !check_pause_button() || !check_in_battle()) {
                 break;
             }
             std::this_thread::yield();
@@ -545,12 +545,7 @@ bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     Matcher battle_flag_analyzer(image);
     battle_flag_analyzer.set_task_info("BattleOfficiallyBegin");
-    bool ret = battle_flag_analyzer.analyze().has_value();
-
-    BattlefieldMatcher battle_flag_analyzer_2(image);
-    auto battle_result_opt = battle_flag_analyzer_2.analyze();
-    ret &= battle_result_opt && battle_result_opt->pause_button && !battle_result_opt->is_pasuing;
-    return ret;
+    return battle_flag_analyzer.analyze().has_value();
 }
 
 bool asst::BattleHelper::check_skip_plot_button(const cv::Mat& reusable)
@@ -581,17 +576,24 @@ bool asst::BattleHelper::check_in_tutorial(const cv::Mat& image)
     return analyzer.analyze().has_value();
 }
 
+bool asst::BattleHelper::check_in_dialogue(const cv::Mat& image)
+{
+    Matcher analyzer(image);
+    analyzer.set_task_info("BattleDialogueLog");
+    return analyzer.analyze().has_value();
+}
+
 bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
-    if (weak) {
-        BattlefieldMatcher analyzer(image);
-        m_in_battle = analyzer.analyze().has_value();
-    }
-    else { // init时, weak = false
+    bool in_battle = true;
+    if (!weak) { // init时, weak = false
         check_skip_plot_button(image);
-        m_in_battle = check_pause_button(image);
+        in_battle &= check_pause_button(image);
     }
+    BattlefieldMatcher analyzer(image);
+    in_battle &= analyzer.analyze().has_value();
+    m_in_battle = in_battle;
     return m_in_battle;
 }
 

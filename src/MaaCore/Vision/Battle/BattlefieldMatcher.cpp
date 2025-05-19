@@ -357,27 +357,20 @@ std::optional<int> BattlefieldMatcher::costs_analyze() const
 bool BattlefieldMatcher::pause_button_analyze(bool& is_pausing) const
 {
     auto task_ptr = Task.get("BattleHasStarted");
-    cv::Mat roi = m_image(make_rect<cv::Rect>(task_ptr->roi));
-    cv::Mat roi_gray, bin;
-    cv::cvtColor(roi, roi_gray, cv::COLOR_BGR2GRAY);
-
-    double min_val = 0.0, max_val = 0.0;
-    cv::Point min_loc, max_loc;
-    cv::minMaxLoc(roi_gray, &min_val, &max_val, &min_loc, &max_loc);
-
     const int value_threshold = task_ptr->special_params[0];
     const int count_threshold = task_ptr->special_params[1];
+    cv::Mat roi = m_image(make_rect<cv::Rect>(task_ptr->roi));
+    cv::Mat roi_gray, bin;
     int count;
-    if (max_val > value_threshold) {
+
+    if (m_object_of_interest.pause_button_init) {
+        cv::cvtColor(roi, roi_gray, cv::COLOR_BGR2GRAY);
         cv::threshold(roi_gray, bin, value_threshold, 255, cv::THRESH_BINARY);
         count = cv::countNonZero(bin);
     }
     else {
-        cv::inRange(
-            roi_gray,
-            cv::Scalar::all(task_ptr->special_params[2]),
-            cv::Scalar::all(task_ptr->special_params[3]),
-            bin);
+        cv::cvtColor(roi, roi_gray, cv::COLOR_BGR2HSV);
+        cv::inRange(roi_gray, cv::Scalar { 0, 0, 120 }, cv::Scalar { 130, 30, 255 }, bin);
         count = cv::countNonZero(bin);
     }
 
@@ -401,10 +394,13 @@ bool BattlefieldMatcher::pause_button_analyze(bool& is_pausing) const
     // 左右两边都有较多点，可能是暂停按钮（两条竖线）
     // 左边点较少，右边点较多，可能是恢复按钮（三角形）
     if (count > count_threshold) {
-        // 阈值roi强关联, 2025.05.19 测试值: 暂停按钮0.99, 恢复按钮>3.0
-        is_pausing = left_right_ratio > 1.2f;
+        // 阈值roi强关联, 2025.05.19 测试值: 暂停按钮0.99, 恢复按钮>3.3
+        is_pausing = left_right_ratio > 2.0f;
     }
 
+    if (count > 800) {
+        Log.warn("怪怪的");
+    }
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(task_ptr->roi), cv::Scalar(0, 0, 255), 2);
     cv::putText(
