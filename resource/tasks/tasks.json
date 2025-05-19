@@ -4600,8 +4600,8 @@
     "BattleHasStarted": {
         "template": "empty.png",
         "roi": [1178, 33, 49, 39],
-        "specialParams_Doc": "亮度阈值；点的数量",
-        "specialParams": [245, 200]
+        "specialParams_Doc": "亮度阈值; 点的数量; 存在剧情提示时备用阈值",
+        "specialParams": [245, 200, 125, 130]
     },
     "BattleSpeedButton": {
         "template": "empty.png",

@@ -30,7 +30,7 @@ public:
 
         // bool in_detail = false;
         bool speed_button = false;
-        bool pause_button = false;
+        bool pause_button = false; // 是否有暂停/恢复按钮
     };
 
     using ResultOpt = std::optional<Result>;
@@ -47,6 +47,7 @@ public:
 protected:
     bool hp_flag_analyze() const;
     bool kills_flag_analyze() const;
+    // 判断是否存在暂停/恢复按钮
     bool pause_button_analyze() const;
 
     std::vector<battle::DeploymentOper> deployment_analyze() const; // 识别干员

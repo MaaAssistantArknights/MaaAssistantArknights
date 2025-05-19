@@ -354,14 +354,28 @@ bool BattlefieldMatcher::pause_button_analyze() const
 {
     auto task_ptr = Task.get("BattleHasStarted");
     cv::Mat roi = m_image(make_rect<cv::Rect>(task_ptr->roi));
-    cv::Mat roi_gray;
+    cv::Mat roi_gray, bin;
     cv::cvtColor(roi, roi_gray, cv::COLOR_BGR2GRAY);
-    cv::Mat bin;
+
+    double min_val = 0.0, max_val = 0.0;
+    cv::Point min_loc, max_loc;
+    cv::minMaxLoc(roi_gray, &min_val, &max_val, &min_loc, &max_loc);
+
     const int value_threshold = task_ptr->special_params[0];
-    cv::threshold(roi_gray, bin, value_threshold, 255, cv::THRESH_BINARY);
-    int count = cv::countNonZero(bin);
     const int count_threshold = task_ptr->special_params[1];
-    Log.trace(__FUNCTION__, "count", count, "threshold", count_threshold);
+    int count;
+    if (max_val > value_threshold) {
+    cv::threshold(roi_gray, bin, value_threshold, 255, cv::THRESH_BINARY);
+        count = cv::countNonZero(bin);
+    }
+    else {
+        cv::inRange(
+            roi_gray,
+            cv::Scalar::all(task_ptr->special_params[2]),
+            cv::Scalar::all(task_ptr->special_params[3]),
+            bin);
+        count = cv::countNonZero(bin);
+    }
 
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(task_ptr->roi), cv::Scalar(0, 0, 255), 2);
