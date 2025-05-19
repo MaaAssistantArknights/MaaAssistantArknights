@@ -549,7 +549,7 @@ bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
 
     BattlefieldMatcher battle_flag_analyzer_2(image);
     auto battle_result_opt = battle_flag_analyzer_2.analyze();
-    ret &= battle_result_opt && battle_result_opt->pause_button;
+    ret &= battle_result_opt && battle_result_opt->pause_button && battle_result_opt->is_pasuing;
     return ret;
 }
 
@@ -571,6 +571,13 @@ bool asst::BattleHelper::check_in_speed_up(const cv::Mat& reusable)
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     Matcher analyzer(image);
     analyzer.set_task_info("BattleSpeedUpCheck");
+    return analyzer.analyze().has_value();
+}
+
+bool asst::BattleHelper::check_in_tutorial(const cv::Mat& image)
+{
+    Matcher analyzer(image);
+    analyzer.set_task_info("BattleTutorialDialog");
     return analyzer.analyze().has_value();
 }
 

@@ -439,8 +439,17 @@ bool asst::BattleProcessTask::check_in_battle(const cv::Mat& reusable, bool weak
                 speed_up(); // 跳过剧情后, 方舟会自动恢复1倍速, 如果是2倍速就恢复一下
             }
         }
+        else if (
+            m_in_battle && result->pause_button && result->is_pasuing && check_in_tutorial(image)) { // 关卡内教程暂停
+            Log.info(__FUNCTION__, "In tutorial pause");
+            while (!need_exit() && check_in_tutorial(image)) {
+                cancel_oper_selection();
+                image = ctrler()->get_image();
+            }
+            Log.info(__FUNCTION__, "out tutorial pause");
+        }
     }
-    else {
+    else { // init时, weak = false
         check_skip_plot_button(image);
         m_in_battle = check_pause_button(image);
     }

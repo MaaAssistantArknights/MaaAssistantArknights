@@ -68,6 +68,7 @@ protected:
     bool check_pause_button(const cv::Mat& reusable = cv::Mat());
     bool check_skip_plot_button(const cv::Mat& reusable = cv::Mat());
     bool check_in_speed_up(const cv::Mat& reusable = cv::Mat());
+    bool check_in_tutorial(const cv::Mat& reusable = cv::Mat());
     virtual bool check_in_battle(const cv::Mat& reusable = cv::Mat(), bool weak = true);
     virtual bool wait_until_start(bool weak = true);
     bool wait_until_end(bool weak = true);

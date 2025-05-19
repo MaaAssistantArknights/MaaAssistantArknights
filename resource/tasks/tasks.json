@@ -3783,6 +3783,9 @@
         "roi": [1060, 20, 80, 70],
         "maskRange": [170, 220]
     },
+    "BattleTutorialDialog": {
+        "maskRange": [1, 255]
+    },
     "BattlePause": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
