@@ -365,7 +365,7 @@ bool BattlefieldMatcher::pause_button_analyze() const
     const int count_threshold = task_ptr->special_params[1];
     int count;
     if (max_val > value_threshold) {
-    cv::threshold(roi_gray, bin, value_threshold, 255, cv::THRESH_BINARY);
+        cv::threshold(roi_gray, bin, value_threshold, 255, cv::THRESH_BINARY);
         count = cv::countNonZero(bin);
     }
     else {
