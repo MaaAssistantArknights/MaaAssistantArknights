@@ -3,6 +3,7 @@
 
 #include "Common/AsstBattleDef.h"
 #include "Task/AbstractTask.h"
+#include "Utils/NoWarningCVMat.h"
 #include "Vision/TemplDetOCRer.h"
 
 namespace asst
@@ -103,7 +104,7 @@ protected:
     bool select_random_support_unit();
     void report_missing_operators(std::vector<OperGroup>& groups);
 
-    std::vector<QuickFormationOper> analyzer_opers();
+    std::vector<QuickFormationOper> analyzer_opers(const cv::Mat& image);
 
     std::string m_stage_name;
     std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation;
