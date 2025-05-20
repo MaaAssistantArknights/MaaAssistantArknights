@@ -572,7 +572,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="UnsupportedStages">不支持的关卡</system:String>
     <system:String x:Key="LowVersion">版本过低</system:String>
     <system:String x:Key="MinimumRequirements" xml:space="preserve">最低需求: </system:String>
-    <system:String x:Key="DaysLeftOpen" xml:space="preserve">剩余开放天数: </system:String>
+    <system:String x:Key="DaysLeftOpen" xml:space="preserve">剩余天数: </system:String>
     <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龙门币-6/5</system:String>

@@ -693,9 +693,7 @@ void asst::InfrastAbstractTask::swipe_of_operlist()
 void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
 {
     // 通过切换职业栏来实现回正
-    bool ret = ProcessTask(*this, { "BattleQuickFormationExpandRole", "BattleQuickFormationRole-All-OCR" })
-                   .set_retry_times(3)
-                   .run();
+    bool ret = ProcessTask(*this, { "BattleQuickFormationExpandRole" }).set_retry_times(3).run();
     if (ret) {
         ProcessTask(
             *this,
@@ -708,7 +706,7 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
               "BattleQuickFormationRole-Special",
               "BattleQuickFormationRole-Support" })
             .run();
-        ProcessTask(*this, { "BattleQuickFormationRole-All" }).run();
+        ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).run();
         // 基建默认收起
         close_quick_formation_expand_role();
     }

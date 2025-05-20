@@ -347,13 +347,13 @@ void asst::BattleFormationTask::report_missing_operators(std::vector<OperGroup>&
     callback(AsstMsg::SubTaskError, info);
 }
 
-std::vector<asst::TemplDetOCRer::Result> asst::BattleFormationTask::analyzer_opers()
+std::vector<asst::BattleFormationTask::QuickFormationOper> asst::BattleFormationTask::analyzer_opers()
 {
     auto formation_task_ptr = Task.get("BattleQuickFormationOCR");
     auto image = ctrler()->get_image();
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
-    std::vector<TemplDetOCRer::Result> opers_result;
-
+    std::vector<QuickFormationOper> opers_result;
+    cv::Mat select;
     for (int i = 0; i < 8; ++i) {
         std::string task_name = "BattleQuickFormation-OperNameFlag" + std::to_string(i);
 
@@ -378,7 +378,16 @@ std::vector<asst::TemplDetOCRer::Result> asst::BattleFormationTask::analyzer_ope
             if (find_it != opers_result.end() || res.text.empty()) {
                 continue;
             }
-            opers_result.emplace_back(std::move(res));
+            QuickFormationOper oper;
+            oper.flag_rect = res.flag_rect;
+            oper.flag_score = res.flag_score;
+            oper.text = res.text;
+            oper.rect = res.rect;
+            oper.score = res.score;
+            select = make_roi(image, res.flag_rect.move({ 0, -10, 5, 4 }));
+            cv::inRange(select, cv::Scalar(200, 140, 0), cv::Scalar(255, 180, 100), select);
+            oper.is_selected = cv::hasNonZero(select);
+            opers_result.emplace_back(std::move(oper));
         }
     }
 
@@ -417,7 +426,8 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
 
     int delay = Task.get("BattleQuickFormationOCR")->post_delay;
     int skill = 0;
-    for (const auto& res : opers_result) {
+    for (const auto& res :
+         opers_result | views::filter([](const QuickFormationOper& oper) { return !oper.is_selected; })) {
         const std::string& name = res.text;
         bool found = false;
         auto iter = groups.begin();
@@ -450,11 +460,13 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
             ctrler()->click(SkillRectArray.at(skill - 1ULL));
             sleep(delay);
         }
+        auto group_name = iter->first;
         groups.erase(iter);
 
         json::value info = basic_info_with_what("BattleFormationSelected");
         auto& details = info["details"];
         details["selected"] = name;
+        details["group_name"] = std::move(group_name);
         callback(AsstMsg::SubTaskExtraInfo, info);
     }
 

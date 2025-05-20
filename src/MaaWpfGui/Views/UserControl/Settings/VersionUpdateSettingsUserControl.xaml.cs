@@ -124,7 +124,7 @@ namespace MaaWpfGui.Views.UserControl.Settings
                 Message = LocalizationHelper.GetString("EasterEggsRules"),
                 Caption = LocalizationHelper.GetString("EmployeeGuidelines"),
                 IconKey = "EasterEggsRulesIcon",
-                IconBrushKey = "TextIconBrush",
+                IconBrushKey = "PrimaryTextBrush",
                 ConfirmContent = LocalizationHelper.GetString("ConfirmExitText"),
             };
             MessageBoxHelper.Show(info);

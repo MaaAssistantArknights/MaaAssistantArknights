@@ -323,20 +323,12 @@ jobs:
           branch: ${{ github.ref }}
           github_token: ${{ secrets.MAA_RESOURCE_SYNC }}
 
-      - name: Update OTA resource
-        if: steps.update_version.outputs.update_resources == 'True'
-        env:
-          GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
-        run: |
-          gh workflow --repo MaaAssistantArknights/MaaRelease run update-resource.yml
-
-      # - name: Delete cache
-      #   if: always()
+      # - name: Update OTA resource
+      #   if: steps.update_version.outputs.update_resources == 'True'
       #   env:
-      #     GH_TOKEN: ${{ github.token }}
+      #     GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
       #   run: |
-      #     echo "Deleting the cache..."
-      #     gh cache delete
+      #     gh workflow --repo MaaAssistantArknights/MaaRelease run update-resource.yml
 
       - name: Add cancelled status
         if: steps.update_version.outputs.changes != 'True' || steps.add_files.outputs.have_commits != 'True'

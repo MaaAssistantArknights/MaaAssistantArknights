@@ -93,6 +93,8 @@ namespace MaaWpfGui.Helper
                 characterNamesLangAdd.Invoke(value);
                 characterNamesClientAdd.Invoke(value);
             }
+
+            _nameToCharacterMap = BuildNameIndex();
         }
 
         private static void InitRecruitTag()
@@ -195,11 +197,35 @@ namespace MaaWpfGui.Helper
             };
         }
 
+        private static Dictionary<string, CharacterInfo> _nameToCharacterMap = BuildNameIndex();
+
+        private static Dictionary<string, CharacterInfo> BuildNameIndex()
+        {
+            var dict = new Dictionary<string, CharacterInfo>(StringComparer.OrdinalIgnoreCase);
+            foreach (var character in Characters.Values)
+            {
+                TryAdd(character.Name);
+                TryAdd(character.NameEn);
+                TryAdd(character.NameJp);
+                TryAdd(character.NameKr);
+                TryAdd(character.NameTw);
+                continue;
+
+                void TryAdd(string? name)
+                {
+                    if (!string.IsNullOrWhiteSpace(name))
+                    {
+                        dict.TryAdd(name, character);
+                    }
+                }
+            }
+
+            return dict;
+        }
+
         public static CharacterInfo? GetCharacterByNameOrAlias(string characterName)
         {
-            return Characters.Values.FirstOrDefault(
-                character => new[] { character.Name, character.NameEn, character.NameJp, character.NameKr, character.NameTw, }
-                    .Any(name => name?.Equals(characterName, StringComparison.OrdinalIgnoreCase) ?? false));
+            return _nameToCharacterMap.GetValueOrDefault(characterName);
         }
 
         public static string? GetLocalizedCharacterName(string? characterName, string? language = null)

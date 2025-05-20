@@ -49,4 +49,3 @@ jobs:
           git status
           git commit -m "$commit_msg" || exit 0
           git push
-

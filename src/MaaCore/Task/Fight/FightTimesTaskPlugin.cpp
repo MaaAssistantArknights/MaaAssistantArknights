@@ -189,7 +189,7 @@ bool asst::FightTimesTaskPlugin::select_series(int times)
         Log.error(__FUNCTION__, "unable to open series list");
         return false;
     }
-    int fight_times_remain = std::min(m_fight_times_max - m_fight_times, times);
+
     auto image = ctrler()->get_image();
     auto list = analyze_series_list(image);
     if (list.empty()) {
@@ -198,7 +198,7 @@ bool asst::FightTimesTaskPlugin::select_series(int times)
         return false;
     }
     for (const auto& item : list) {
-        if (item.times == fight_times_remain) {
+        if (item.times == times) {
             ctrler()->click(item.rect);
             sleep(Config.get_options().task_delay);
             return true;
