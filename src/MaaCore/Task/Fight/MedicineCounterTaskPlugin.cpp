@@ -7,6 +7,7 @@
 #include "Controller/Controller.h"
 #include "InstHelper.h"
 #include "Task/Fight/DrGrandetTaskPlugin.h"
+#include "Task/Fight/FightTimesTaskPlugin.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
@@ -125,14 +126,20 @@ bool asst::MedicineCounterTaskPlugin::_run()
                     break;
                 }
             }
+                if (auto ptr = m_task_ptr->find_plugin<FightTimesTaskPlugin>()) {
+                    ptr->set_has_used_medicine();
         }
     }
+        }
 
     if (!ProcessTask(*this, { "MedicineConfirm" }).set_retry_times(5).run()) {
         Log.error(__FUNCTION__, "unable to run medicine confirm");
         return false;
     }
 
+    if (auto ptr = m_task_ptr->find_plugin<FightTimesTaskPlugin>()) {
+        ptr->set_has_used_medicine();
+    }
     auto info = basic_info_with_what("UseMedicine");
     info["details"]["is_expiring"] = m_used_count > m_max_count;
     info["details"]["count"] = using_medicine->using_count;
