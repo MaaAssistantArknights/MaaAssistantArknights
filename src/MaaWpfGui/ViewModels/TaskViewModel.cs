@@ -56,7 +56,7 @@ public abstract class TaskViewModel : PropertyChangedBase
 
                     if (_propertyDependencies.TryGetValue(property.Name, out var values) && values.Contains(key))
                     {
-                        throw new ArgumentException($"属性 {property.Name} 依赖于属性 {key}，但它们之间存在循环依赖关系");
+                        throw new ArgumentException($"属性 {key} 依赖于属性 {property.Name}, 但它们之间存在循环依赖关系");
                     }
 
                     value.Add(property.Name);
