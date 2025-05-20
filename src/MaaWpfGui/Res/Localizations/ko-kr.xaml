@@ -276,7 +276,7 @@
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 글로벌 소스 사용:
     ● 소프트웨어 버전: MAA Team이 제공하는 API를 통해 업데이트를 확인하며, GitHub 또는 MAA Team이 제공하는 중국 미러에서 자동으로 업데이트 패키지를 받아옵니다.
-    ● 리소스 버전: MirrorChyan이 무료로 업데이트 감지를 제공하며, 설정의 ｢리소스 업데이트｣를 클릭하여 GitHub에서 수동으로 다운로드할 수 있습니다.
+    ● 리소스 버전: MirrorChyan이 무료로 업데이트 감지를 제공하며, 설정의 ｢리소스 업데이트｣ 를 클릭하여 GitHub에서 수동으로 다운로드할 수 있습니다.
 
 🔑 MirrorChyan 사용:
     ● 소프트웨어와 리소스는 MirrorChyan을 통해 고속 다운로드가 우선적으로 지원됩니다.
@@ -286,8 +286,8 @@
     <system:String x:Key="ForceGithubGlobalSource">GitHub 강제 사용</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">소스 전환 후 입력</system:String>
-    <system:String x:Key="MirrorChyanSoftwareUpdateTip">소프트웨어 업데이트가 감지되었습니다. ｢설정 - 업데이트 설정｣으로 이동하여 MirrorChyan CDK를 구성하거나 글로벌 소스로 전환하세요.</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">리소스 업데이트 {0}이 감지되었습니다. ｢설정 - 업데이트 설정 - 리소스 업데이트｣로 이동하여 수동으로 업데이트하거나, MirrorChyan CDK를 입력하여 자동으로 업데이트하세요.</system:String>
+    <system:String x:Key="MirrorChyanSelectedButNoCdk">｢설정 - 업데이트 설정｣ 으로 이동하여 MirrorChyan CDK를 구성하거나 글로벌 소스로 전환하세요.</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">리소스 업데이트 {0}이 감지되었습니다. ｢설정 - 업데이트 설정 - 리소스 업데이트｣ 로 이동하여 수동으로 업데이트하거나, MirrorChyan CDK를 입력하여 자동으로 업데이트하세요.</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateShortTip">리소스 업데이트 {0}이 감지되었습니다</system:String>
     <system:String x:Key="MirrorChyanCdkExpired">CDK가 만료되었습니다. 새 CDK로 인증해 주세요.</system:String>
     <system:String x:Key="MirrorChyanCdkInvalid">CDK가 유효하지 않습니다. 입력값이 올바른지 확인해 주세요.</system:String>

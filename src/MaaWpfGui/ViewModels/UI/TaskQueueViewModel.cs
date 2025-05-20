@@ -480,12 +480,12 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void HandleCheckForUpdates()
         {
-            if (!NeedToCheckForUpdates() || _isCheckingForUpdates)
+            if (!SettingsViewModel.VersionUpdateSettings.UpdateAutoCheck)
             {
                 return;
             }
 
-            if (!SettingsViewModel.VersionUpdateSettings.UpdateAutoCheck)
+            if (!NeedToCheckForUpdates() || _isCheckingForUpdates)
             {
                 return;
             }
