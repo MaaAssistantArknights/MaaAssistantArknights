@@ -81,7 +81,8 @@ if (BUILD_TEST)
     target_link_libraries(test MaaCore)
 endif (BUILD_TEST)
 
-find_package(OpenCV REQUIRED COMPONENTS core imgproc imgcodecs videoio)
+find_package(OpenCV REQUIRED COMPONENTS core imgproc imgcodecs videoio features2d)
+find_package(OpenCV QUIET COMPONENTS xfeatures2d)
 find_package(ZLIB REQUIRED)
 find_package(cpr CONFIG REQUIRED)
 

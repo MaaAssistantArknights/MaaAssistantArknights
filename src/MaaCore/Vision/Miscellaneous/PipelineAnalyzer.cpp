@@ -43,6 +43,12 @@ PipelineAnalyzer::ResultOpt PipelineAnalyzer::analyze() const
                 return Result { .task_ptr = task_ptr, .result = ocr_opt->front(), .rect = ocr_opt->front().rect };
             }
             break;
+        case AlgorithmType::FeatureMatch:
+            if (auto match_opt = feature_match(task_ptr)) {
+                Log.trace(__FUNCTION__, "| FeatureMatch", task_ptr->name);
+                return Result { .task_ptr = task_ptr, .result = match_opt->front(), .rect = match_opt->front().rect };
+            }
+            break;
         default:
             break;
         }
@@ -126,4 +132,30 @@ OCRer::ResultsVecOpt PipelineAnalyzer::ocr(const std::shared_ptr<TaskInfo>& task
     }
 
     return result_vec;
+}
+
+FeatureMatcher::ResultsVecOpt asst::PipelineAnalyzer::feature_match(const std::shared_ptr<TaskInfo>& task_ptr) const
+{
+    FeatureMatcher match_analyzer(m_image, m_roi);
+
+    const auto match_task_ptr = std::dynamic_pointer_cast<FeatureMatchTaskInfo>(task_ptr);
+    match_analyzer.set_task_info(match_task_ptr);
+
+    bool use_cache = m_inst && match_task_ptr->cache;
+    if (use_cache) {
+        auto cache_opt = status()->get_rect(match_task_ptr->name);
+        if (cache_opt) {
+            match_analyzer.set_roi(*cache_opt);
+        }
+    }
+
+    const auto& result_opt = match_analyzer.analyze();
+    if (!result_opt) {
+        return std::nullopt;
+    }
+    if (use_cache && !result_opt->empty()) {
+        status()->set_rect(match_task_ptr->name, result_opt->front().rect);
+    }
+
+    return result_opt;
 }

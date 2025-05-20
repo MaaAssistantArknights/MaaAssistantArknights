@@ -47,7 +47,7 @@ icon: hugeicons:brain-02
   - 所有芯片本。必须输入完整关卡编号，如 `PR-A-1`。
   - 剿灭作战。必须输入 `Annihilation`。
   - 别传中的 `OF-1` / `OF-F3` / `GT-5`。
-  - 当期 SS 活动 后三关。在自动访问 [API](https://ota.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) 下载更新后会在界面下方显示。
+  - 当期 SS 活动 后三关。在自动访问 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) 下载更新后会在界面下方显示。
   - 复刻的 SS 活动。输入 `SSReopen-<关卡前缀>` ，可一次性刷完 XX-1 ~ XX-9 关，如 `SSReopen-IC`。
 
 ::: details 示例画面

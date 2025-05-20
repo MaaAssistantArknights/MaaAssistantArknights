@@ -1415,6 +1415,14 @@
         "sortId": -10000,
         "usage": "羅德島為外勤幹員頒發的配給證書，附有票卷，可在羅德島本艦、各地羅德島分部及安全屋兌換資源。"
     },
+    "act17mini_token_ash": {
+        "classifyType": "NONE",
+        "description": "出於未知原因而從魂靈熔爐中噴出的熔渣巨塊，在被飛空艇轟擊後分裂為無數碎片。雖然此類爐渣中含有少量源石和異鐵成分，但一般人難以安全地將其提煉出來。",
+        "icon": "act17mini_token_ash.png",
+        "name": "爐渣",
+        "sortId": -10000,
+        "usage": "從天空砸落的煙火碎片。據說某個節點爐的看守人正在大量回收這種東西，但具體能換到些什麼，似乎總是因人而異。"
+    },
     "act17side_token_compass": {
         "classifyType": "NONE",
         "description": "曾經的伊比利亞人以羅盤為自己指引航向，旋轉的指標中承載著他們磅礴的野心、金色的夢想。如今這不過是舊時代的囈語，指針已折斷，黃銅已蒙塵，巨艦不知所終，唯餘寂靜的海。",
@@ -2404,6 +2412,14 @@
         "description": null,
         "icon": "rogue_3_token_bp.png",
         "name": "生態標本",
+        "sortId": -10000,
+        "usage": null
+    },
+    "rogue_4_token_bp": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_4_token_bp.png",
+        "name": "魂靈書籤",
         "sortId": -10000,
         "usage": null
     },

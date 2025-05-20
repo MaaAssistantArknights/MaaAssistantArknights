@@ -15,8 +15,6 @@
 asst::FeatureMatcher::ResultsVecOpt asst::FeatureMatcher::analyze() const
 {
     auto start_time = std::chrono::steady_clock::now();
-    const auto& image = m_image;
-
     const auto& templ_ptr = m_params.templs;
     cv::Mat templ;
     std::string templ_name;
@@ -41,8 +39,8 @@ asst::FeatureMatcher::ResultsVecOpt asst::FeatureMatcher::analyze() const
 #endif
     }
 
-    if (templ.cols > image.cols || templ.rows > image.rows) {
-        LogError << "templ size is too large" << templ_name << "image size:" << image.cols << image.rows
+    if (templ.cols > m_image.cols || templ.rows > m_image.rows) {
+        LogError << "templ size is too large" << templ_name << "image size:" << m_image.cols << m_image.rows
                  << "templ size:" << templ.cols << templ.rows;
         return std::nullopt;
     }
@@ -51,16 +49,19 @@ asst::FeatureMatcher::ResultsVecOpt asst::FeatureMatcher::analyze() const
 
     auto results = feature_match(templ, keypoints_1, descriptors_1);
     std::erase_if(results, [&](const auto& res) { return res.count < m_params.count; });
-    m_result = std::move(results);
     auto cost = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time);
+    if (results.empty()) {
+        return std::nullopt;
+    }
 
-    for (const auto& r : m_result) {
-        Log.debug("feature_match |", templ_name, "count:", r.count, "rect:", r.rect, "roi:", m_roi);
+    for (const auto& r : results) {
+        Log.trace("feature_match |", templ_name, "count:", r.count, "rect:", r.rect, "roi:", m_roi);
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(r.rect), cv::Scalar(0, 0, 255), 2);
 #endif
     }
-    Log.trace("count:", m_result.size(), ", cost:", cost.count());
+    Log.trace("count:", results.size(), ", cost:", cost.count(), "ms");
+    m_result = std::move(results);
     return m_result;
 }
 

@@ -99,8 +99,8 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
     SkillReadyResult::Prob prob = softmax(raw_results);
     Log.info(__FUNCTION__, "prob:", prob);
     // 类别顺序为 c, n, y
-    size_t class_id = ranges::max_element(prob) - prob.begin();
-    bool ready = (class_id == 2); // 只有当class_id为2（代表y）时，才认为是ready
+    int class_id = static_cast<int>(ranges::max_element(prob) - prob.begin());
+    bool ready = class_id == 2; // 只有当class_id为2（代表y）时，才认为是ready
     float score = prob[class_id];
 
 #ifdef ASST_DEBUG
@@ -131,52 +131,75 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
     }
 
     // 为重新训练模型截图
-    static Point last_base_point = { -1, -1 };
-    static int last_class = -1; // 记录上一次的分类结果
-    static auto last_save_time = std::chrono::steady_clock::now();
+    struct point_state
+    {
+        int last_class = -1;
+        std::chrono::steady_clock::time_point last_save_time;
+    };
+
+    static std::unordered_map<Point, point_state> point_states;
+
+    // 获取当前坐标点的状态
+    auto& [last_class, last_save_time] = point_states[m_base_point];
     const auto now = std::chrono::steady_clock::now();
     const auto duration_since_last_save =
         std::chrono::duration_cast<std::chrono::seconds>(now - last_save_time).count();
 
-    auto need_save = false;
-    // 如果相同点且分类结果变化了，则保存
-    if (last_base_point == m_base_point && last_class != static_cast<int>(class_id)) {
+    bool need_save = false;
+
+    // 判断当前类别是否与上次保存的类别不同
+    if (last_class != class_id) {
+        Log.trace("Class changed", last_class, class_id);
         need_save = true;
     }
-    // 如果检测到新的基准点且结果为ready（y）或c类别，也保存
-    else if (last_base_point != m_base_point && (class_id == 2 || class_id == 0)) {
+    // y 或者 c
+    else if ((class_id == 2 || class_id == 0) && duration_since_last_save > 5) {
+        Log.trace("Class is", class_id);
         need_save = true;
     }
-    // 来点随机截图
-    else if (duration_since_last_save > 10) {
-        last_save_time = now;
+    // 长时间没变化，可能是被遮挡了
+    else if (duration_since_last_save > 30) {
+        Log.trace("Long time no change", duration_since_last_save);
+        need_save = true;
+    }
+
+    // 新增：如果最高得分低于阈值，则保存
+    if (score < 0.8f) {
+        Log.trace("Low score", score);
         need_save = true;
     }
 
     if (need_save) {
-        std::string base_filename = utils::get_time_filestem() + "_" + std::to_string(m_base_point.x) + "_" +
-                                    std::to_string(m_base_point.y) + "(c" + std::to_string(prob[0]) + ")(n" +
-                                    std::to_string(prob[1]) + ")(y" + std::to_string(prob[2]) + ").png";
-        std::string subfolder;
-        switch (class_id) {
-        case 2:
-            subfolder = "y";
-            break;
-        case 1:
-            subfolder = "n";
-            break;
-        case 0:
-            subfolder = "c";
-            break;
-        default:
-            subfolder = "unknown";
-            break;
-        }
+        auto format_float = [](const float val, const int precision = 3) {
+            char buffer[32];
+            if (const int len = snprintf(buffer, sizeof(buffer), "%.*f", precision, val);
+                len < 0 || static_cast<size_t>(len) >= sizeof(buffer)) {
+                return std::string("_err");
+            }
+            return std::string(buffer);
+        };
+        std::string subfolder = [class_id] {
+            switch (class_id) {
+            case 2:
+                return "y";
+            case 1:
+                return "n";
+            case 0:
+                return "c";
+            default:
+                return "unknown";
+            }
+        }();
 
-        std::filesystem::path relative_path =
-            utils::path("debug") / utils::path("skill_ready") / utils::path(subfolder) / base_filename;
-        last_base_point = m_base_point;
-        last_class = static_cast<int>(class_id);
+        std::string base_filename = utils::get_time_filestem() + "_" + std::to_string(m_base_point.x) + "_" +
+                                    std::to_string(m_base_point.y) + "(c" + format_float(prob[0]) + ")(n" +
+                                    format_float(prob[1]) + ")(y" + format_float(prob[2]) + ").png";
+
+        std::filesystem::path relative_path = utils::path("debug") / "skill_ready" / subfolder / base_filename;
+
+        last_class = class_id;
+        last_save_time = now;
+
         Log.trace("Save image", relative_path);
         asst::imwrite(relative_path, image);
     }

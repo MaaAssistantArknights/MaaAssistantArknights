@@ -7,6 +7,7 @@
 
 #include "Common/AsstTypes.h"
 
+#include "Vision/FeatureMatcher.h"
 #include "Vision/Matcher.h"
 #include "Vision/OCRer.h"
 
@@ -18,7 +19,7 @@ public:
     struct Result
     {
         std::shared_ptr<TaskInfo> task_ptr;
-        std::variant<Matcher::Result, OCRer::Result> result;
+        std::variant<Matcher::Result, OCRer::Result, FeatureMatcher::Result> result;
         Rect rect;
     };
 
@@ -35,6 +36,7 @@ public:
 private:
     Matcher::ResultOpt match(const std::shared_ptr<TaskInfo>& task_ptr) const;
     OCRer::ResultsVecOpt ocr(const std::shared_ptr<TaskInfo>& task_ptr) const;
+    FeatureMatcher::ResultsVecOpt feature_match(const std::shared_ptr<TaskInfo>& task_ptr) const;
 
     std::vector<std::string> m_tasks_name;
 };

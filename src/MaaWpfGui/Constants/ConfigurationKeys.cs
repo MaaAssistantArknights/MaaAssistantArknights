@@ -111,7 +111,7 @@ namespace MaaWpfGui.Constants
         public const string InfrastReceptionMessageBoardReceive = "Infrast.ReceptionMessageBoardReceive";
         public const string ContinueTraining = "Infrast.ContinueTraining";
         public const string DefaultInfrast = "Infrast.DefaultInfrast";
-        public const string IsCustomInfrastFileReadOnly = "Infrast.IsCustomInfrastFileReadOnly";
+        public const string IsCustomInfrastFileReadOnly = "Infrast.IsCustomInfrastFileReadOnly"; // 已废弃
         public const string DormFilterNotStationedEnabled = "Infrast.DormFilterNotStationedEnabled";
         public const string DormTrustEnabled = "Infrast.DormTrustEnabled";
         public const string OriginiumShardAutoReplenishment = "Infrast.OriginiumShardAutoReplenishment";

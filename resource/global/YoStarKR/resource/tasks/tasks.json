@@ -1377,8 +1377,8 @@
         "text": ["작전개시", "하드모드개시"]
     },
     "BattleStartOCR": {
-        "ocrReplace": [["개.+", "개시"]],
         "text": ["작전", "개시"],
+        "ocrReplace": [["개.+", "개시"]],
         "roi": [1020, 410, 170, 210]
     },
     "BattleStartSimulationForTwo": {
