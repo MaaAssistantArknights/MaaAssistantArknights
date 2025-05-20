@@ -59,7 +59,7 @@ private:
     bool m_dr_grandet = false;
     int m_used_count = 0;
     int m_max_count = 0;
-    mutable bool m_has_opened_medicine = false; // 是否开过药品页面
-    bool m_reduce_when_exceed = false;          // 第一次开药品页面时, 超理智上限减少用药
+    mutable bool m_has_used_medicine = false; // 是否开过药品页面
+    bool m_reduce_when_exceed = false;        // 第一次开药品页面时, 超理智上限减少用药
 };
 }
