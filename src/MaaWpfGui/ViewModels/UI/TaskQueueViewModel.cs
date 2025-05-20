@@ -480,12 +480,12 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void HandleCheckForUpdates()
         {
-            if (!NeedToCheckForUpdates() || _isCheckingForUpdates)
+            if (!SettingsViewModel.VersionUpdateSettings.UpdateAutoCheck)
             {
                 return;
             }
 
-            if (!SettingsViewModel.VersionUpdateSettings.UpdateAutoCheck)
+            if (!NeedToCheckForUpdates() || _isCheckingForUpdates)
             {
                 return;
             }
@@ -1266,9 +1266,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             var uiVersion = VersionUpdateSettingsUserControlModel.UiVersion;
             var coreVersion = VersionUpdateSettingsUserControlModel.CoreVersion;
-            if (uiVersion != coreVersion &&
-                Instances.VersionUpdateViewModel.IsStdVersion(uiVersion) &&
-                Instances.VersionUpdateViewModel.IsStdVersion(coreVersion))
+            if (!Instances.VersionUpdateViewModel.IsDebugVersion() && uiVersion != coreVersion)
             {
                 AddLog(string.Format(LocalizationHelper.GetString("VersionMismatch"), uiVersion, coreVersion), UiLogColor.Error);
                 return;

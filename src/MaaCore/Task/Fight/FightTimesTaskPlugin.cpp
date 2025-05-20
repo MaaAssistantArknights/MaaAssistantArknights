@@ -16,7 +16,7 @@ bool asst::FightTimesTaskPlugin::verify(AsstMsg msg, const json::value& details)
     }
 
     const std::string task = details.get("details", "task", "");
-    if (task.ends_with("MedicineConfirm") || task.ends_with("StoneConfirm")) {
+    if (/* task.ends_with("MedicineConfirm") 走插件调用 */ task.ends_with("StoneConfirm")) {
         m_has_used_medicine = true;
     }
     else if (task.ends_with("StartButton2")) {
@@ -134,22 +134,25 @@ std::optional<int> asst::FightTimesTaskPlugin::change_series(int sanity_current,
     int fight_times_remain = std::min(m_fight_times_max - m_fight_times, 6);
     if (!m_has_used_medicine && !m_is_medicine_exhausted) {
         if (fight_times_remain != series) {
-            // 调整到剩余次数
-            return select_series(false);
+            return select_series(false); // 调整到剩余次数
         }
         return series;
     }
 
-    // 用过药品, 认为已选择最大可用次数
-    if (m_has_used_medicine && sanity_cost <= sanity_current) { // 吃药前一般选择最大可用次数, 吃完药已经够理智了
-        return series;
+    if (m_has_used_medicine) {               // 用过药品, 认为已选择最大可用次数
+        if (sanity_cost <= sanity_current) { // 吃药前一般选择最大可用次数, 吃完药已经够理智了
+            return series;
+        }
+        // 吃药后理智超限, 减少了吃药量, 选择剩余次数
     }
 
     auto ret = select_series(true);
     if (!ret && m_is_medicine_exhausted) { // 药品用完, 且没有次数可用, 刷理智结束
         m_task_ptr->set_enable(false);
     }
-
+    else if (!ret) {
+        ret = select_series(1);
+    }
     return ret;
 }
 
