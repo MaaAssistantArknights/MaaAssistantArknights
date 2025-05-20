@@ -714,29 +714,19 @@ void asst::BattleHelper::save_map(const cv::Mat& image)
     using namespace asst::utils::path_literals;
     const auto& MapRelativeDir = "debug"_p / "map"_p;
 
-    constexpr float scale_factor = 0.5;
-    cv::Mat resized;
-    cv::resize(image, resized, cv::Size(), scale_factor, scale_factor, cv::INTER_AREA);
+    auto draw = image.clone();
 
     for (const auto& [loc, info] : m_normal_tile_info) {
-        cv::Point scaled_pos(static_cast<int>(info.pos.x * scale_factor), static_cast<int>(info.pos.y * scale_factor));
-        cv::circle(resized, scaled_pos, static_cast<int>(5 * scale_factor), cv::Scalar(0, 255, 0), -1);
-        cv::putText(
-            resized,
-            loc.to_string(),
-            cv::Point(static_cast<int>(scaled_pos.x - (40 * scale_factor)), scaled_pos.y),
-            1,
-            1.5 * scale_factor,
-            cv::Scalar(0, 0, 255),
-            static_cast<int>(2 * scale_factor));
+        cv::circle(draw, cv::Point(info.pos.x, info.pos.y), 5, cv::Scalar(0, 255, 0), -1);
+        cv::putText(draw, loc.to_string(), cv::Point(info.pos.x - 30, info.pos.y), 1, 1.5, cv::Scalar(0, 0, 255), 2);
     }
 
     std::string suffix;
     if (++m_camera_count > 1) {
         suffix = "-" + std::to_string(m_camera_count);
     }
-    std::vector<int> png_params = { cv::IMWRITE_PNG_COMPRESSION, 9 };
-    asst::imwrite(MapRelativeDir / asst::utils::path(m_stage_name + suffix + ".png"), resized, png_params);
+    std::vector<int> jpeg_params = { cv::IMWRITE_JPEG_QUALITY, 50, cv::IMWRITE_JPEG_OPTIMIZE, 1 };
+    asst::imwrite(MapRelativeDir / asst::utils::path(m_stage_name + suffix + ".jpeg"), draw, jpeg_params);
 }
 
 bool asst::BattleHelper::click_oper_on_deployment(const std::string& name)
