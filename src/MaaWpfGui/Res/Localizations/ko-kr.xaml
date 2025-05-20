@@ -75,7 +75,7 @@
     <system:String x:Key="UseGpuForInference">추론 가속화를 위해 GPU 사용</system:String>
     <system:String x:Key="GpuOptionDisable">사용안함</system:String>
     <system:String x:Key="GpuOptionSystemDefault">시스템 기본 GPU</system:String>
-    <system:String x:Key="GpuDeprecatedMessage">추론 가속을 위해 현재 선택된 GPU({0})의 사용이 권장되지 않습니다\n\n｢설정 - 성능 설정｣에서 다른 GPU를 선택하거나 이 메시지를 비활성화할 수 있습니다</system:String>
+    <system:String x:Key="GpuDeprecatedMessage">추론 가속을 위해 현재 선택된 GPU({0})의 사용이 권장되지 않습니다\n\n｢설정 - 성능 설정｣ 에서 다른 GPU를 선택하거나 이 메시지를 비활성화할 수 있습니다</system:String>
     <system:String x:Key="GpuAllowDeprecated">권장되지 않는 GPU 사용 허용</system:String>
     <!--  설정 가이드  -->
     <system:String x:Key="TaskSettings">작업 설정</system:String>
@@ -166,9 +166,9 @@
     <system:String x:Key="RoguelikeStartWithTwoIdeas">구상 2개로 시작할 때 까지 반복</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">1층 암호판 획득 반복, 전투 X</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">생존지상 분대 목표 암호판 설정</system:String>
-    <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">최대 3개까지 지원하며｢;｣로 구분합니다</system:String>
+    <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">최대 3개까지 지원하며 ｢;｣ 로 구분합니다</system:String>
     <system:String x:Key="RoguelikeCollapseList">붕괴 패러다임 목록</system:String>
-    <system:String x:Key="RoguelikeCollapseListTip">세미콜론 ｢;｣으로 구분, 비워 두면 기본 목록이 사용됩니다.</system:String>
+    <system:String x:Key="RoguelikeCollapseListTip">세미콜론 ｢;｣ 으로 구분, 비워 두면 기본 목록이 사용됩니다.</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">시작 오퍼레이터로 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">친구가 아니어도 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">통합전략 중지 시 전투 클리어 후 작업 종료</system:String>
@@ -295,8 +295,8 @@
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">해당 CDK의 일일 다운로드 횟수가 제한에 도달했습니다. 내일 다시 시도해 주세요.</system:String>
     <system:String x:Key="MirrorChyanCdkMismatched">CDK 유형이 다운로드할 리소스와 일치하지 않습니다. CDK의 적용 범위를 확인해 주세요.</system:String>
     <system:String x:Key="NewVersionFoundTitle">새로운 버전 확인</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">｢글로벌 소스｣에서 다운로드 중...</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">｢MirrorChyan｣에서 다운로드 중...</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">｢글로벌 소스｣ 에서 다운로드 중...</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">｢MirrorChyan｣ 에서 다운로드 중...</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">버전: </system:String>
     <system:String x:Key="NewVersionFoundDescInfo" xml:space="preserve">정보: </system:String>
     <system:String x:Key="NewVersionFoundButtonGoWebpage">웹사이트로 가기</system:String>
@@ -397,8 +397,8 @@
 이 작업은 하루에 한 번만 실행할 수 있습니다.
 현재 스테이지가 현재/최근으로 설정되어 있을 경우, 이 기능은 작동하지 않습니다.
 OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</system:String>
-    <system:String x:Key="HighPriority">구매 우선 항목 (｢;｣로 구분)</system:String>
-    <system:String x:Key="Blacklist">무시 항목 (｢;｣로 구분)</system:String>
+    <system:String x:Key="HighPriority">구매 우선 항목 (｢;｣ 로 구분)</system:String>
+    <system:String x:Key="Blacklist">무시 항목 (｢;｣ 로 구분)</system:String>
     <system:String x:Key="HighPriorityDefault">모집 허가증</system:String>
     <system:String x:Key="BlacklistDefault">카본;가구 부품;즉시 완료 허가증</system:String>
     <system:String x:Key="Drink">술 한잔은 어떠십니까🍷? 박사님</system:String>
@@ -412,7 +412,7 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="ReceiveMail">모든 메일 보상 받기</system:String>
     <system:String x:Key="ReceiveFreeRecruit">한정 가챠에서 일일 무료 뽑기 진행</system:String>
     <system:String x:Key="ReceiveFreeRecruitTip">무료 단챠가 없는 경우 가챠를 하지 않습니다</system:String>
-    <system:String x:Key="GachaWarning">이 기능은 위험한 기능이며 문제가 발생할 수 있습니다\n｢확인｣버튼을 누름으로써 귀하는 발생 가능한 위험성을 인지하였음을 확인합니다</system:String>
+    <system:String x:Key="GachaWarning">이 기능은 위험한 기능이며 문제가 발생할 수 있습니다\n｢확인｣ 버튼을 누름으로써 귀하는 발생 가능한 위험성을 인지하였음을 확인합니다</system:String>
     <system:String x:Key="ReceiveOrundum">복권방에서 일일 합성옥 받기</system:String>
     <system:String x:Key="ReceiveMining">한정 채굴에서 일일 합성옥 받기</system:String>
     <system:String x:Key="ReceiveSpecialAccess">스페셜 액세스 보상 받기</system:String>
@@ -444,7 +444,7 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="MainViewButtonFeature">메인 화면 버튼의 기능</system:String>
     <system:String x:Key="CustomStageCode">스테이지 코드 수동 입력</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">대부분의 기본 스테이지 이름과 원래 스테이지 이름 목록 지원 (예: 4-10, AP-5, H10-1-Hard)
-스테이지 이름 끝에 ｢Normal/Hard｣를 입력하여 일반 난이도와 하드 난이도 사이를 전환해야 하는 것을 표시할 수 있습니다
+스테이지 이름 끝에 ｢Normal/Hard｣ 를 입력하여 일반 난이도와 하드 난이도 사이를 전환해야 하는 것을 표시할 수 있습니다
 ｢SSReopen-XX｣ 일회성 프록시 SS 포크의 일반 수준을 입력할 수 있습니다</system:String>
     <system:String x:Key="AutoDetectConnection">연결 자동 감지</system:String>
     <system:String x:Key="AutoDetectConnectionNotSupported">이 연결 구성에서는 자동 연결 감지가 지원되지 않습니다. 수동으로 포트 번호를 입력해보세요</system:String>
@@ -453,7 +453,7 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="AccountSwitch">계정 전환</system:String>
     <system:String x:Key="AccountSwitchManualRun">수동 스위치</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">전환할 계정을 입력하고, 계정 전환을 종료하려면 공백으로 남겨두세요.
-｢123****4567｣과 같이 로그인 인터페이스에 표시된 내용을 입력하세요. ｢123****4567｣, ｢4567｣ 또는 ｢23****45｣를 입력할 수 있습니다.
+｢123****4567｣ 과 같이 로그인 인터페이스에 표시된 내용을 입력하세요. ｢123****4567｣, ｢4567｣ 또는 ｢23****45｣ 를 입력할 수 있습니다.
 공식(CN) 및 Bilibili 서버만 지원합니다. 로그인 계정은 지원되지 않습니다.</system:String>
     <system:String x:Key="AdbPath">ADB 경로 (상대/절대)</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">선택한 파일 이름에 ADB가 포함되어 있지 않습니다.\n잘못된 파일/에뮬레이터를 선택한 것은 아닌지 확인하세요.</system:String>
@@ -500,7 +500,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="LdExtrasNotEnabledMessage">LD 스크린샷 강화 기능이 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
     <system:String x:Key="RetryOnDisconnected">연결 실패 시 에뮬레이터 재시작 시도</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">재연결을 20회 시도해도 실패하면 에뮬레이터를 다시 시작합니다. 백그라운드 예약을 사용하고 작업이 완료되면 에뮬레이터가 종료되도록 설정하려면 반드시 선택해야 합니다</system:String>
-    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">에뮬레이터 경로가 비어 있습니다!｢연결 설정/에뮬레이터 경로｣를 입력한 후 다시 선택하세요.</system:String>
+    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">에뮬레이터 경로가 비어 있습니다! ｢연결 설정/에뮬레이터 경로｣ 를 입력한 후 다시 선택하세요.</system:String>
     <system:String x:Key="AllowAdbRestart">연결 실패 후 ADB 서버 재시작 시도</system:String>
     <system:String x:Key="AllowAdbHardRestart">연결 실패 후 ADB 프로세스 재시작 시도</system:String>
     <!--  !설정  -->
@@ -545,9 +545,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Sleep">절전 모드</system:String>
     <system:String x:Key="Shutdown">시스템 종료</system:String>
     <system:String x:Key="Once">한 번만*</system:String>
-    <system:String x:Key="PostActionOnceTip" xml:space="preserve">한 번만 실행하려면 ｢한 번만*｣를 먼저 체크하세요.
-｢한 번만*｣이 체크되면 실행 후 ｢한 번만*｣가 체크되기 전 상태로 작업이 복원됩니다.
-아래 작업을 마우스 오른쪽 버튼으로 클릭하면 선택한 ｢한 번만*｣상태가 동기적으로 활성화/취소됩니다.</system:String>
+    <system:String x:Key="PostActionOnceTip" xml:space="preserve">한 번만 실행하려면 ｢한 번만*｣ 를 먼저 체크하세요.
+｢한 번만*｣ 이 체크되면 실행 후 ｢한 번만*｣ 가 체크되기 전 상태로 작업이 복원됩니다.
+아래 작업을 마우스 오른쪽 버튼으로 클릭하면 선택한 ｢한 번만*｣ 상태가 동기적으로 활성화/취소됩니다.</system:String>
     <system:String x:Key="IfNoOtherMaa">다른 MAA가 없는 경우</system:String>
     <system:String x:Key="BackToAndroidHome">에뮬레이터 홈 화면으로 이동</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
@@ -648,7 +648,7 @@ C:\\leidian\\LDPlayer9
     <!--  !창고 인식  -->
     <!--  오퍼레이터 인식  -->
     <system:String x:Key="OperBoxRecognition">오퍼레이터 인식</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">시작하기 전에 등록된 ｢선호｣오퍼레이터를 등록 해제하세요.</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">시작하기 전에 등록된 ｢선호｣ 오퍼레이터를 등록 해제하세요.</system:String>
     <system:String x:Key="OperBoxHaveList">보유: {0}</system:String>
     <system:String x:Key="OperBoxNotHaveList">미보유: {0}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">인식 시작</system:String>
@@ -658,7 +658,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="VideoRecognition">영상 인식</system:String>
     <system:String x:Key="StartToVideoRecognition">인식 시작</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">폴더 열기</system:String>
-    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">｢자동지휘｣화면에서 영상 파일을 드래그하여 시작하세요.
+    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">｢자동지휘｣ 화면에서 영상 파일을 드래그하여 시작하세요.
 동영상의 해상도 비율은 16:9에 게임화면만 나와야 하며, 화면 보정 등의 방해 요소가 없어야 합니다.</system:String>
     <!--  영상 인식  -->
     <!--  헤드헌팅  -->
@@ -721,10 +721,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FailedToLikeWebJson">오류로 인해 평가에 실패했습니다: &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">감사합니다!\n웹사이트에 댓글을 남길 수도 있으니 의견을 남겨 주세요!</system:String>
     <system:String x:Key="AutoSquad">자동 편성</system:String>
-    <system:String x:Key="AutoSquadTip">자동 편성은 ｢선호｣설정 된 오퍼레이터를 인식할 수 없습니다</system:String>
+    <system:String x:Key="AutoSquadTip">자동 편성은 ｢선호｣ 설정 된 오퍼레이터를 인식할 수 없습니다</system:String>
     <system:String x:Key="AddTrust">신뢰도가 낮은 오퍼레이터 추가</system:String>
     <system:String x:Key="AddUserAdditional">커스텀 오퍼레이터 추가</system:String>
-    <system:String x:Key="AddUserAdditionalTip">｢;｣로 오퍼레이터를 구분하고,｢,｣로 스킬을 구분합니다. 예시: W, 3; Ash, 2</system:String>
+    <system:String x:Key="AddUserAdditionalTip">｢;｣ 로 오퍼레이터를 구분하고, ｢,｣ 로 스킬을 구분합니다. 예시: W, 3; Ash, 2</system:String>
     <system:String x:Key="UseCopilotList">전투 목록</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">챕터 간 이동은 지원하지 않습니다.
 지원: 메인 스토리의 동일 챕터, 사이드 스토리(EX 챕터에서 S 챕터로의 이동은 지원하지 않습니다.)
@@ -745,11 +745,11 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotTip">
         팁:\n\n
         1. 이 기능은 메인 스테이지, 에피소드 및 사이드 스토리에서 ｢작전 개시｣ 버튼이 표시될 때에만 사용해주세요 \n\n
-        2. 패러독스 시뮬레이션의 경우 ｢자동 편성｣을 끄고, 수동으로 스킬을 선택한 후에 시작해주세요\n\n
+        2. 패러독스 시뮬레이션의 경우 ｢자동 편성｣ 을 끄고, 수동으로 스킬을 선택한 후에 시작해주세요\n\n
         3. 보안파견의 Copilot 파일의 경우 MAA 내의 ｢resource/copilot｣ 폴더에 있습니다 \n
-        수동 편성 후 ｢작전 개시｣ 버튼이 있는 화면에서 시작하세요. (｢반복횟수｣와 함께 사용 가능)\n\n
-        4. 지원 유닛을 사용할 때에는 반드시 ｢자동 편성｣을 끄고, 지원 유닛을 선택한 후에 시작해야 합니다\n\n
-        5. ｢선호｣ 기능을 활성화하면 ｢자동 편성｣의 오퍼레이터 선택에 영향을 미칠 수 있습니다. ｢자동 편성｣을 사용할 때 ｢선호｣을 끄거나, 누락된 오퍼레이터를 수동으로 추가하여 편성을 완료하는 것을 권장합니다.\n\n
+        수동 편성 후 ｢작전 개시｣ 버튼이 있는 화면에서 시작하세요. (｢반복횟수｣ 와 함께 사용 가능)\n\n
+        4. 지원 유닛을 사용할 때에는 반드시 ｢자동 편성｣ 을 끄고, 지원 유닛을 선택한 후에 시작해야 합니다\n\n
+        5. ｢선호｣ 기능을 활성화하면 ｢자동 편성｣ 의 오퍼레이터 선택에 영향을 미칠 수 있습니다. ｢자동 편성｣을 사용할 때 ｢선호｣ 을 끄거나, 누락된 오퍼레이터를 수동으로 추가하여 편성을 완료하는 것을 권장합니다.\n\n
         6. Copilot 작업 스테이션에서 입력란 오른쪽의 붙여넣기 버튼을 클릭하여 신비한 코드를 붙여넣을 수 있습니다. 왼쪽 클릭으로 단일 작업을 붙여넣고, 오른쪽 클릭으로 작업 세트 전체를 붙여넣습니다.\n\n
         7. 전투 목록:\n
         작업을 선택한 후 목록 아래의 스테이지 이름이 올바른지 확인하세요 (예: CV-EX-1).\n
@@ -777,7 +777,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">업데이트 패키지 압축 해제에 실패했습니다. 루트 디렉토리에 있는 업데이트 패키지를 수동으로 압축 해제해 보세요.</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">에뮬레이터와 ADB를 종료하거나 컴퓨터를 재시작하고 관리자 권한으로 MAA를 실행해 주세요.</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">파일이 사용 중입니다. 컴퓨터를 다시 시작하고 다시 시도하세요.</system:String>
-    <system:String x:Key="ErrorSolutionSelectDefaultBrowser">링크 열기 실패. ｢Windows 설정｣으로 이동하여 기본 브라우저를 선택하세요.</system:String>
+    <system:String x:Key="ErrorSolutionSelectDefaultBrowser">링크 열기 실패. ｢Windows 설정｣ 으로 이동하여 기본 브라우저를 선택하세요.</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">GitHub에 issue 생성</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">QQ 그룹 가입</system:String>
     <system:String x:Key="CopyErrorMessage">오류 메시지 복사</system:String>
@@ -902,7 +902,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormation">편성 시작</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">오퍼레이터를 선택: </system:String>
     <system:String x:Key="CurrentSteps">현재 단계: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">지원되지 않는 스테이지입니다. 스테이지 이름을 확인하거나 ｢설정 - 소프트웨어 업데이트 - 리소스 업데이트｣로 이동하여 리소스 버전을 업데이트해 보세요!</system:String>
+    <system:String x:Key="UnsupportedLevel">지원되지 않는 스테이지입니다. 스테이지 이름을 확인하거나 ｢설정 - 소프트웨어 업데이트 - 리소스 업데이트｣ 로 이동하여 리소스 버전을 업데이트해 보세요!</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">인식 결과: </system:String>
     <system:String x:Key="ConnectFailed">연결 실패</system:String>
     <system:String x:Key="TryToReconnectByAdb">재접속을 시도하고 있습니다</system:String>
@@ -953,7 +953,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Level1Tip">체크 시, ★1 태그를 인식할 때 이번 모집을 건너뜁니다. 체크하지 않으면 ★1 태그를 무시합니다.</system:String>
     <!--  !AutoRecruitSettings  -->
     <!--  EasterEggs  -->
-    <system:String x:Key="BuyWineOnAprilFoolsDay">의사님, Ms. Closure의 가게에서 ｢술｣의 새로운 상품 목록을 들어보셨나요? 함께 확인해 볼까요?</system:String>
+    <system:String x:Key="BuyWineOnAprilFoolsDay">의사님, Ms. Closure의 가게에서 ｢술｣ 의 새로운 상품 목록을 들어보셨나요? 함께 확인해 볼까요?</system:String>
     <system:String x:Key="Burping">으…… 우웁</system:String>
     <system:String x:Key="DrunkAndStaggering">어머, 박사님. 왜 그렇게 비틀비틀 걷고 계시나요?</system:String>
     <system:String x:Key="Hangover">다, 다음엔 적당히 마셔야지……</system:String>
@@ -961,10 +961,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="EasterEggsRules" xml:space="preserve">1. MAA 정식 버전에는 디버그 모드가 없습니다. 실행 중에 디버그 옵션이 표시되면 소프트웨어를 즉시 닫고 클릭하지 말고 가까운 MAA 개발자에게 문의하세요.\n
 2. 인프라 교대 근무는 자동입니다. 작업자가 72시간 이상 연속으로 작업하는 경우 수동으로 교대를 조정하고 시스템 시간이 올바른지 확인하세요.\n
 3. 공개 모집 태그는 변경되지 않습니다. 카운트다운이 끝나기 전에 태그가 변경된 것을 발견하면 모집을 계속하지 말고 MAA를 다시 시작한 후 작업하세요.\n
-4. MAA는 친구 요청을 보내지 않습니다. ｢MAA_System｣으로부터 친구 요청을 받으면 수락하지 말고 해당 계정을 삭제하세요.\n
+4. MAA는 친구 요청을 보내지 않습니다. ｢MAA_System｣ 으로부터 친구 요청을 받으면 수락하지 말고 해당 계정을 삭제하세요.\n
 5. 로그라이크 지원은 제안만 제공합니다. 게임이 존재하지 않는 옵션을 자동으로 선택한 경우 강제로 종료하고 클라이언트를 다시 시작하세요.\n
 6. MAA의 로그 파일에는 깨진 문자가 포함되어 있지 않아야 합니다. ｢ERROR: 데이터 분석 실패｣ 외의 오류 정보가 로그에 표시되면 로그를 삭제하고 소프트웨어를 다시 설치하세요.\n
-7. 야간 모드는 안전합니다. 그러나 MAA가 오전 3시 33분에 자동으로 시작되어 ｢알 수 없는 작업｣을 실행하는 경우 전원을 뽑고 해가 뜰 때까지 기다렸다가 다시 사용하세요.\n
+7. 야간 모드는 안전합니다. 그러나 MAA가 오전 3시 33분에 자동으로 시작되어 ｢알 수 없는 작업｣ 을 실행하는 경우 전원을 뽑고 해가 뜰 때까지 기다렸다가 다시 사용하세요.\n
 8. 마지막 규칙은 존재하지 않습니다. 이 규칙을 본 경우 잊어버리고 MAA를 정상적으로 사용하세요.\n
 9. MAA에서炒...锟斤拷拷拷拷喜报拷拷拷饭을 클릭하지 마세요.\n
 10. MirrorChyan는 안전합니다. 약간의 대가를 지불하면 그녀의 보호를 받을 수 있습니다.\n
@@ -986,7 +986,7 @@ C:\\leidian\\LDPlayer9
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">핫 업데이트 데이터를 성공적으로 가져왔습니다</system:String>
     <system:String x:Key="GameResourceUpdating">게임 리소스가 업데이트 중입니다.</system:String>
-    <system:String x:Key="GameResourceUpdatingMirrorChyan">｢MirrorChyan｣에서 리소스 {0}을(를) 업데이트하는 중...</system:String>
+    <system:String x:Key="GameResourceUpdatingMirrorChyan">｢MirrorChyan｣ 에서 리소스 {0}을(를) 업데이트하는 중...</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">색인 작성 중</system:String>
     <system:String x:Key="GameResourceNotModified">게임 리소스가 업데이트되었습니다.</system:String>
     <system:String x:Key="GameResourceUpdated">게임 리소스가 업데이트되었습니다.</system:String>
