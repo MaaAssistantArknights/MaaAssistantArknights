@@ -286,6 +286,7 @@
     <system:String x:Key="ForceGithubGlobalSource">強制使用 GitHub</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">切換更新源後填寫</system:String>
+    <system:String x:Key="MirrorChyanCdkPlaceholder2">請輸入 CDK</system:String>
     <system:String x:Key="MirrorChyanSelectedButNoCdk">請前往 ｢設定-更新設定｣ 設定 MirrorChyan CDK 或切換到全域來源。</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">偵測到資源更新: {0}。請前往 ｢設定-更新設定-資源更新｣ 手動更新，或設定 MirrorChayn CDK 以自動更新。</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateShortTip">偵測到資源更新: {0}</system:String>

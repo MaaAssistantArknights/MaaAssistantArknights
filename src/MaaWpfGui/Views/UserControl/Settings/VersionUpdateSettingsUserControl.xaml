@@ -137,7 +137,7 @@
                                 Width="150"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
-                                hc:InfoElement.Placeholder="{DynamicResource MirrorChyanCdkPlaceholder}"
+                                hc:InfoElement.Placeholder="{Binding MirrorChyanCdkPlaceholder}"
                                 IsEnabled="{c:Binding 'UpdateSource == &quot;MirrorChyan&quot;'}"
                                 IsSafeEnabled="False"
                                 ShowEyeButton="True"
