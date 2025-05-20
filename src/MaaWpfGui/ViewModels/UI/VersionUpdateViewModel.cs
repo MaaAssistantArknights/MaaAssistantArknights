@@ -829,7 +829,7 @@ public class VersionUpdateViewModel : Screen
             try
             {
                 var ret = await CheckUpdateByMirrorChyan();
-                if (ret is CheckUpdateRetT.OK or CheckUpdateRetT.AlreadyLatest or CheckUpdateRetT.NoMirrorChyanCdk)
+                if (ret is CheckUpdateRetT.OK or CheckUpdateRetT.AlreadyLatest)
                 {
                     return (ret, AppUpdateSource.MirrorChyan);
                 }
@@ -1188,6 +1188,7 @@ public class VersionUpdateViewModel : Screen
 
     public bool IsDebugVersion(string? version = null)
     {
+        return false;
         version ??= _curVersion;
 
         // match case 1: DEBUG VERSION
