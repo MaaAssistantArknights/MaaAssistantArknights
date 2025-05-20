@@ -19,7 +19,7 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
     Log.info("load", path.lexically_relative(UserDir.get()));
 
     std::vector<std::filesystem::path> search_paths = { path };
-    
+
     for (const auto& entry : std::filesystem::recursive_directory_iterator(path)) {
         if (entry.is_directory()) {
             search_paths.push_back(entry.path());
@@ -42,7 +42,7 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
             if (!filepath.has_extension()) {
                 filepath.replace_extension(asst::utils::path(".png"));
             }
-            
+
             if (std::filesystem::exists(filepath)) {
                 m_templs.erase(name);
                 m_templ_paths.insert_or_assign(name, filepath);
@@ -50,7 +50,7 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
                 break;
             }
         }
-        
+
         if (!found) {
             Log.error("Templ load failed, file not exists in all directories:", name);
 #ifdef ASST_DEBUG
