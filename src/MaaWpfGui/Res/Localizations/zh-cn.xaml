@@ -277,7 +277,7 @@
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 使用海外源：
     ● 软件版本：由 MAA Team 提供 API 检查更新，从 GitHub 或由 MAA Team 提供的国内镜像自动拉取更新包
-    ● 资源版本：由 Mirror酱 提供免费的更新检测，可手动在设置中点击｢资源更新｣从 GitHub 下载
+    ● 资源版本：由 Mirror酱 提供免费的更新检测，可手动在设置中点击 ｢资源更新｣ 从 GitHub 下载
 
 🔑 使用 Mirror酱：
     ● 软件与资源优先通过 Mirror酱 高速下载
@@ -287,8 +287,8 @@
     <system:String x:Key="ForceGithubGlobalSource">强制使用 GitHub</system:String>
     <system:String x:Key="MirrorChyan">Mirror酱</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">切换更新源后填写</system:String>
-    <system:String x:Key="MirrorChyanSoftwareUpdateTip">检测到软件更新。请前往｢设置-更新设置｣配置 Mirror酱 CDK 或切换海外源。</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">检测到资源更新: {0}。请前往｢设置-更新设置-资源更新｣手动更新，或配置 Mirror酱 CDK 以自动更新。</system:String>
+    <system:String x:Key="MirrorChyanSelectedButNoCdk">请前往 ｢设置-更新设置｣ 配置 Mirror酱 CDK 或切换海外源。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">检测到资源更新: {0}。请前往 ｢设置-更新设置-资源更新｣ 手动更新，或配置 Mirror酱 CDK 以自动更新。</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateShortTip">检测到资源更新: {0}</system:String>
     <system:String x:Key="MirrorChyanCdkExpired">CDK 已过期，请使用新的 CDK 进行授权。</system:String>
     <system:String x:Key="MirrorChyanCdkInvalid">CDK 无效，请检查输入是否正确。</system:String>
@@ -900,7 +900,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BattleFormation">开始编队</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">选择干员: </system:String>
     <system:String x:Key="CurrentSteps">当前步骤: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查关卡名或前往｢设置 - 更新设置 - 资源更新｣尝试更新资源版本！</system:String>
+    <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查关卡名或前往 ｢设置 - 更新设置 - 资源更新｣ 尝试更新资源版本！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">识别结果: </system:String>
     <system:String x:Key="ConnectFailed">连接失败</system:String>
     <system:String x:Key="TryToReconnectByAdb">正在尝试重连</system:String>

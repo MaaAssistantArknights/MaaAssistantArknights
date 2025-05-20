@@ -105,6 +105,7 @@ namespace MaaWpfGui.Models
         /// <list type="bullet">
         /// <item><description><see cref="CheckUpdateRetT.AlreadyLatest"/>：已是最新版本。</description></item>
         /// <item><description><see cref="CheckUpdateRetT.OK"/>：有新版本。</description></item>
+        /// <item><description><see cref="CheckUpdateRetT.NoMirrorChyanCdk"/>：有新版本，但未填写 cdk</description></item>
         /// <item><description><see cref="CheckUpdateRetT.NetworkError"/>：网络错误。</description></item>
         /// <item><description><see cref="CheckUpdateRetT.UnknownError"/>：其他错误。</description></item>
         /// </list></returns>
@@ -209,8 +210,7 @@ namespace MaaWpfGui.Models
 
             if (string.IsNullOrEmpty(cdk))
             {
-                ToastNotification.ShowDirect(string.Format(LocalizationHelper.GetString("MirrorChyanResourceUpdateTip"), releaseNote));
-                return (CheckUpdateRetT.OK, null, releaseNote);
+                return (CheckUpdateRetT.NoMirrorChyanCdk, null, releaseNote);
             }
 
             var uri = data["data"]?["url"]?.ToString();
@@ -295,33 +295,33 @@ namespace MaaWpfGui.Models
         /// </list></returns>
         public static async Task<CheckUpdateRetT> CheckAndDownloadResourceUpdate()
         {
-            SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = true;
-
-            // 可以用 MirrorChyan 资源更新了喵
-            var (ret, uri, releaseNote) = await CheckFromMirrorChyanAsync();
-            if (ret != CheckUpdateRetT.OK || string.IsNullOrEmpty(uri))
+            try
             {
-                SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
+                SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = true;
+
+                var (ret, uri, releaseNote) = await CheckFromMirrorChyanAsync();
+                if (ret == CheckUpdateRetT.NoMirrorChyanCdk)
+                {
+                    ToastNotification.ShowDirect(string.Format(LocalizationHelper.GetString("MirrorChyanResourceUpdateTip"), releaseNote));
+                }
+
+                if (ret != CheckUpdateRetT.OK)
+                {
+                    return ret;
+                }
+
+                if (SettingsViewModel.VersionUpdateSettings.UpdateSource == "MirrorChyan" &&
+                    await DownloadFromMirrorChyanAsync(uri, releaseNote))
+                {
+                    return CheckUpdateRetT.OnlyGameResourceUpdated;
+                }
+
                 return ret;
             }
-
-            switch (SettingsViewModel.VersionUpdateSettings.UpdateSource)
+            finally
             {
-                case "Github":
-                    break;
-
-                case "MirrorChyan":
-                    if (await DownloadFromMirrorChyanAsync(uri, releaseNote))
-                    {
-                        SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
-                        return CheckUpdateRetT.OnlyGameResourceUpdated;
-                    }
-
-                    break;
+                SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
             }
-
-            SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
-            return ret;
         }
 
         public static async Task ResourceUpdateAndReloadAsync()
