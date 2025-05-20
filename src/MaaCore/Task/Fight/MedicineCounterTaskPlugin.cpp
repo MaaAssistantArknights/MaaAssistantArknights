@@ -22,11 +22,11 @@ bool asst::MedicineCounterTaskPlugin::verify(AsstMsg msg, const json::value& det
     }
 
     const std::string task = details.get("details", "task", "");
-    if (task.ends_with("MedicineConfirm") || task.ends_with("StoneConfirm")) {
-        m_has_opened_medicine = true;
+    if (/*task.ends_with("MedicineConfirm") 走插件 */ task.ends_with("StoneConfirm")) {
+        m_has_used_medicine = true;
     }
     else if (task.ends_with("StartButton2")) {
-        m_has_opened_medicine = false;
+        m_has_used_medicine = false;
     }
     return task.ends_with("UseMedicine");
 }
@@ -119,7 +119,7 @@ bool asst::MedicineCounterTaskPlugin::_run()
                 sleep(waitTime);
             }
         }
-        else if (!m_has_opened_medicine && m_reduce_when_exceed) { // 直接减少药品使用
+        else if (!m_has_used_medicine && m_reduce_when_exceed) { // 直接减少药品使用
             while (*sanity_target >= *sanity_max) {
                 reduce_excess(*using_medicine, 1);
                 if (!refresh_medicine_count() || !analyze_sanity() || using_medicine->using_count <= 0) {
@@ -130,6 +130,7 @@ bool asst::MedicineCounterTaskPlugin::_run()
                 if (auto ptr = m_task_ptr->find_plugin<FightTimesTaskPlugin>()) {
                     ptr->set_has_used_medicine();
                 }
+                m_has_used_medicine = true;
                 ProcessTask(*this, { "CloseStonePage" })
                     .set_times_limit("CloseStonePage", 1, asst::ProcessTask::TimesLimitType::Post)
                     .set_times_limit("CloseStonePageExceeded", 0)
@@ -147,6 +148,7 @@ bool asst::MedicineCounterTaskPlugin::_run()
     if (auto ptr = m_task_ptr->find_plugin<FightTimesTaskPlugin>()) {
         ptr->set_has_used_medicine();
     }
+    m_has_used_medicine = true;
     auto info = basic_info_with_what("UseMedicine");
     info["details"]["is_expiring"] = m_used_count > m_max_count;
     info["details"]["count"] = using_medicine->using_count;
