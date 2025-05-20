@@ -35,7 +35,7 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst) :
     m_subtasks.emplace_back(m_change_difficulty_task_ptr);
 
     auto start_1_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
-    start_1_tp->set_tasks({ "BattleStartPre" }).set_retry_times(0).set_ignore_error(true);
+    start_1_tp->set_tasks({ "BattleStartPre" }).set_retry_times(3).set_ignore_error(true);
     m_subtasks.emplace_back(start_1_tp);
 
     m_medicine_task_ptr = std::make_shared<ProcessTask>(callback, inst, TaskType);
@@ -47,7 +47,7 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst) :
     m_subtasks.emplace_back(m_formation_task_ptr)->set_retry_times(0);
 
     auto start_2_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
-    start_2_tp->set_tasks({ "BattleStartAll" }).set_ignore_error(false);
+    start_2_tp->set_tasks({ "BattleStartAll" }).set_retry_times(3).set_ignore_error(false);
     m_subtasks.emplace_back(start_2_tp);
 
     // 跳过“以下干员出战后将被禁用，是否继续？”对话框
