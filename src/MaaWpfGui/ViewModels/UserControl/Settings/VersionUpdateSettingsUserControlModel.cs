@@ -272,6 +272,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         {
             SetAndNotify(ref _updateSource, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateSource, value);
+            NotifyOfPropertyChange(nameof(MirrorChyanCdkPlaceholder));
         }
     }
 
@@ -312,6 +313,11 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MirrorChyanCdk, value);
         }
     }
+
+    public string MirrorChyanCdkPlaceholder =>
+        UpdateSource != "MirrorChyan"
+            ? LocalizationHelper.GetString("MirrorChyanCdkPlaceholder")
+            : LocalizationHelper.GetString("MirrorChyanCdkPlaceholder2");
 
     private bool _startupUpdateCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.StartupUpdateCheck, bool.TrueString));
 

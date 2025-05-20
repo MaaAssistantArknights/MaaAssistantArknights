@@ -286,6 +286,7 @@ You can cancel this popup by clicking the Settings - Issue Report link. Thank yo
     <system:String x:Key="ForceGithubGlobalSource">Force using GitHub</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">Fill after switching source</system:String>
+    <system:String x:Key="MirrorChyanCdkPlaceholder2">Please enter CDK</system:String>
     <system:String x:Key="MirrorChyanSelectedButNoCdk">Please go to ｢Settings - Update Settings｣ to configure MirrorChyan CDK or switch to Global Source.</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">Resource update {0} detected. Please go to ｢Settings- Update Settings - Resource Update｣ to update manually, or fill in MirrorChayn CDK to update automatically.</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateShortTip">Resource update {0} detected</system:String>
