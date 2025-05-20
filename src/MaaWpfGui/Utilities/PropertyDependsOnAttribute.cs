@@ -16,7 +16,7 @@ using System;
 
 namespace MaaWpfGui.Utilities;
 
-[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
 public class PropertyDependsOnAttribute : Attribute
 {
     public PropertyDependsOnAttribute(string propertyName)

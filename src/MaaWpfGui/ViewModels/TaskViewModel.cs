@@ -11,6 +11,9 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using MaaWpfGui.Main;
@@ -23,6 +26,8 @@ namespace MaaWpfGui.ViewModels;
 
 public abstract class TaskViewModel : PropertyChangedBase
 {
+    private readonly Dictionary<string, List<string>> _propertyDependencies = []; // 属性依赖关系, key为被订阅的属性名, value为依赖于该属性的属性名列表
+
     protected TaskViewModel()
     {
         InitializePropertyDependencies();
@@ -41,14 +46,37 @@ public abstract class TaskViewModel : PropertyChangedBase
             var dependsOnAttributes = property.GetCustomAttributes<PropertyDependsOnAttribute>(true);
             foreach (var attribute in dependsOnAttributes.Where(i => i.PropertyNames.Length > 0))
             {
-                PropertyChanged += (sender, e) =>
+                foreach (var key in attribute.PropertyNames)
                 {
-                    if (attribute.PropertyNames.Contains(e.PropertyName))
+                    if (!_propertyDependencies.TryGetValue(key, out var value))
                     {
-                        NotifyOfPropertyChange(property.Name);
+                        value = [];
+                        _propertyDependencies[key] = value;
                     }
-                };
+
+                    if (_propertyDependencies.TryGetValue(property.Name, out var values) && values.Contains(key))
+                    {
+                        throw new ArgumentException($"属性 {property.Name} 依赖于属性 {key}，但它们之间存在循环依赖关系");
+                    }
+
+                    value.Add(property.Name);
+                }
             }
+        }
+
+        PropertyChanged += OnPropertyChanged;
+    }
+
+    private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (string.IsNullOrEmpty(e.PropertyName) || !_propertyDependencies.TryGetValue(e.PropertyName, out var value))
+        {
+            return;
+        }
+
+        foreach (var dependentProperty in value)
+        {
+            NotifyOfPropertyChange(dependentProperty);
         }
     }
 
