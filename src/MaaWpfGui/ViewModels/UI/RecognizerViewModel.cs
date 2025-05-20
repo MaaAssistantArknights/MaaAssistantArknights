@@ -318,7 +318,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region Depot
 
-        private string _depotInfo = LocalizationHelper.GetString("DepotRecognitionTip");
+        private string _depotInfo = string.Empty;
 
         /// <summary>
         /// Gets or sets the depot info.
