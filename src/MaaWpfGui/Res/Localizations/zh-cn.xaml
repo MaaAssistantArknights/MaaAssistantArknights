@@ -728,7 +728,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="AddUserAdditionalTip">以英文｢;｣为分隔符，英文｢,｣分隔干员名与技能，例: 史尔特尔,3;艾雅法拉,1</system:String>
     <system:String x:Key="LoopTimes">循环次数</system:String>
     <system:String x:Key="UseCopilotList">战斗列表</system:String>
-    <system:String x:Key="UseCopilotListTip">开始前请切换至关卡选择页面</system:String>
+    <system:String x:Key="UseCopilotListTip" xml:space="preserve">不支持跨章节导航
+仅支持: 主线关同一章节, SideStory (不支持从EX章跳转S章)
+开始前请切换至关卡选择页面</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(突袭)</system:String>
     <system:String x:Key="CopilotAddTask">右键添加突袭难度</system:String>
     <system:String x:Key="CopilotClearTask">右键清除未激活任务</system:String>
