@@ -122,15 +122,22 @@ bool asst::MedicineCounterTaskPlugin::_run()
         else if (!m_has_opened_medicine && m_reduce_when_exceed) { // 直接减少药品使用
             while (*sanity_target >= *sanity_max) {
                 reduce_excess(*using_medicine, 1);
-                if (!refresh_medicine_count()) {
+                if (!refresh_medicine_count() || !analyze_sanity() || using_medicine->using_count <= 0) {
                     break;
                 }
             }
+            if (using_medicine->using_count <= 0) { // 糊个屎, 假装吃了药, FightTimes后续选择不吃药的次数
                 if (auto ptr = m_task_ptr->find_plugin<FightTimesTaskPlugin>()) {
                     ptr->set_has_used_medicine();
+                }
+                ProcessTask(*this, { "CloseStonePage" })
+                    .set_times_limit("CloseStonePage", 1, asst::ProcessTask::TimesLimitType::Post)
+                    .set_times_limit("CloseStonePageExceeded", 0)
+                    .run();
+                return true;
+            }
         }
     }
-        }
 
     if (!ProcessTask(*this, { "MedicineConfirm" }).set_retry_times(5).run()) {
         Log.error(__FUNCTION__, "unable to run medicine confirm");
