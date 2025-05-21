@@ -7,6 +7,10 @@
 * 自动编队roi溢出闪退 @status102
 * 修复roi超限 @status102
 
+### 其他 | Other
+
+* 别再把 maa 放在 Program Files 里了 @ABA2396
+
 ## v5.16.7
 
 ### 改进 | Improved
