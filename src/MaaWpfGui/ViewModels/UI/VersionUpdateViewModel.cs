@@ -172,7 +172,7 @@ public class VersionUpdateViewModel : Screen
     private const string InfoRequestUrl = "repos/MaaAssistantArknights/MaaAssistantArknights/releases/tags/";
     */
 
-    private const string MaaUpdateApi = "https://ota.maa.plus/MaaAssistantArknights/api/version/summary.json";
+    private const string MaaUpdateApi = "https://api.maa.plus/MaaAssistantArknights/api/version/summary.json";
 
     private JObject? _latestJson;
     private JObject? _assetsObject;
@@ -483,6 +483,17 @@ public class VersionUpdateViewModel : Screen
 
             if (!IsDebugVersion())
             {
+                if (SettingsViewModel.VersionUpdateSettings.UpdateSource == "MirrorChyan" && string.IsNullOrEmpty(SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk))
+                {
+                    _ = Task.Run(() =>
+                        MessageBoxHelper.Show(
+                            LocalizationHelper.GetString("MirrorChyanSelectedButNoCdk"),
+                            "cdk is empty!",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Warning,
+                            ok: LocalizationHelper.GetString("Ok")));
+                }
+
                 await VersionUpdateAndAskToRestartAsync();
                 await ResourceUpdater.ResourceUpdateAndReloadAsync();
             }
@@ -501,15 +512,15 @@ public class VersionUpdateViewModel : Screen
     /// <returns>Task</returns>
     public async Task VersionUpdateAndAskToRestartAsync()
     {
-        var ret = await CheckAndDownloadVersionUpdate();
-        switch (ret)
+        if (SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates)
         {
-            case CheckUpdateRetT.OK:
-                _ = AskToRestart();
-                break;
-            case CheckUpdateRetT.NoMirrorChyanCdk:
-                ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanSoftwareUpdateTip"));
-                break;
+            return;
+        }
+
+        var ret = await CheckAndDownloadVersionUpdate();
+        if (ret == CheckUpdateRetT.OK)
+        {
+            _ = AskToRestart();
         }
     }
 
@@ -519,22 +530,27 @@ public class VersionUpdateViewModel : Screen
     /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
     public async Task<CheckUpdateRetT> CheckAndDownloadVersionUpdate()
     {
-        SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = true;
-        var (checkRet, source) = await CheckUpdate();
-        if (checkRet != CheckUpdateRetT.OK)
+        try
+        {
+            SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = true;
+
+            var (checkRet, source) = await CheckUpdate();
+            if (checkRet != CheckUpdateRetT.OK)
+            {
+                return checkRet;
+            }
+
+            return source switch
+            {
+                AppUpdateSource.MaaApi => await HandleUpdateFromMaaApi(),
+                AppUpdateSource.MirrorChyan => await HandleUpdateFromMirrorChyan(),
+                _ => CheckUpdateRetT.UnknownError,
+            };
+        }
+        finally
         {
             SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
-            return checkRet;
         }
-
-        var ret = source switch
-        {
-            AppUpdateSource.MaaApi => await HandleUpdateFromMaaApi(),
-            AppUpdateSource.MirrorChyan => await HandleUpdateFromMirrorChyan(),
-            _ => CheckUpdateRetT.UnknownError,
-        };
-        SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
-        return ret;
     }
 
     private async Task<CheckUpdateRetT> HandleUpdateFromMaaApi()
@@ -813,7 +829,7 @@ public class VersionUpdateViewModel : Screen
             try
             {
                 var ret = await CheckUpdateByMirrorChyan();
-                if (ret is CheckUpdateRetT.OK or CheckUpdateRetT.AlreadyLatest or CheckUpdateRetT.NoMirrorChyanCdk)
+                if (ret is CheckUpdateRetT.OK or CheckUpdateRetT.AlreadyLatest)
                 {
                     return (ret, AppUpdateSource.MirrorChyan);
                 }

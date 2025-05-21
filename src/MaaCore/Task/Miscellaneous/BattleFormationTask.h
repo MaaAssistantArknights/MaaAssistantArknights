@@ -3,6 +3,7 @@
 
 #include "Common/AsstBattleDef.h"
 #include "Task/AbstractTask.h"
+#include "Utils/NoWarningCVMat.h"
 #include "Vision/TemplDetOCRer.h"
 
 namespace asst
@@ -27,6 +28,11 @@ public:
         Filter filter = Filter::None;
         bool double_click_filter = true;
         battle::RoleCounts role_counts;
+    };
+
+    struct QuickFormationOper : public asst::TemplDetOCRer::Result
+    {
+        bool is_selected = false; // 是否选中
     };
 
     void append_additional_formation(AdditionalFormation formation) { m_additional.emplace_back(std::move(formation)); }
@@ -98,7 +104,7 @@ protected:
     bool select_random_support_unit();
     void report_missing_operators(std::vector<OperGroup>& groups);
 
-    std::vector<asst::TemplDetOCRer::Result> analyzer_opers();
+    std::vector<QuickFormationOper> analyzer_opers(const cv::Mat& image);
 
     std::string m_stage_name;
     std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation;

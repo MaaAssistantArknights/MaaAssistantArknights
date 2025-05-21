@@ -715,16 +715,18 @@ void asst::BattleHelper::save_map(const cv::Mat& image)
     const auto& MapRelativeDir = "debug"_p / "map"_p;
 
     auto draw = image.clone();
+
     for (const auto& [loc, info] : m_normal_tile_info) {
         cv::circle(draw, cv::Point(info.pos.x, info.pos.y), 5, cv::Scalar(0, 255, 0), -1);
-        cv::putText(draw, loc.to_string(), cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
+        cv::putText(draw, loc.to_string(), cv::Point(info.pos.x - 30, info.pos.y), 1, 1.5, cv::Scalar(0, 0, 255), 2);
     }
 
     std::string suffix;
     if (++m_camera_count > 1) {
         suffix = "-" + std::to_string(m_camera_count);
     }
-    asst::imwrite(MapRelativeDir / asst::utils::path(m_stage_name + suffix + ".png"), draw);
+    std::vector<int> jpeg_params = { cv::IMWRITE_JPEG_QUALITY, 50, cv::IMWRITE_JPEG_OPTIMIZE, 1 };
+    asst::imwrite(MapRelativeDir / asst::utils::path(m_stage_name + suffix + ".jpeg"), draw, jpeg_params);
 }
 
 bool asst::BattleHelper::click_oper_on_deployment(const std::string& name)

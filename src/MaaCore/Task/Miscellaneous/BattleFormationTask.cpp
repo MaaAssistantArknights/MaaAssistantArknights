@@ -13,6 +13,7 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/MultiMatcher.h"
+#include "Vision/RegionOCRer.h"
 
 asst::BattleFormationTask::BattleFormationTask(
     const AsstCallback& callback,
@@ -256,7 +257,7 @@ bool asst::BattleFormationTask::add_additional()
             // unknown role means "all"
             click_role_table(role);
 
-            auto opers_result = analyzer_opers();
+            auto opers_result = analyzer_opers(ctrler()->get_image());
 
             // TODO 这里要识别一下干员之前有没有被选中过
             for (size_t i = 0; i < static_cast<size_t>(number) && i < opers_result.size(); ++i) {
@@ -347,41 +348,91 @@ void asst::BattleFormationTask::report_missing_operators(std::vector<OperGroup>&
     callback(AsstMsg::SubTaskError, info);
 }
 
-std::vector<asst::TemplDetOCRer::Result> asst::BattleFormationTask::analyzer_opers()
+std::vector<asst::BattleFormationTask::QuickFormationOper>
+    asst::BattleFormationTask::analyzer_opers(const cv::Mat& image)
 {
-    auto formation_task_ptr = Task.get("BattleQuickFormationOCR");
-    auto image = ctrler()->get_image();
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
-    std::vector<TemplDetOCRer::Result> opers_result;
-
+    std::vector<asst::BattleFormationTask::QuickFormationOper> opers_result;
+    cv::Mat select, ocr, gray, bin;
     for (int i = 0; i < 8; ++i) {
         std::string task_name = "BattleQuickFormation-OperNameFlag" + std::to_string(i);
 
-        const auto& params = Task.get("BattleQuickFormationOCR")->special_params;
-        TemplDetOCRer name_analyzer(image);
-
-        name_analyzer.set_task_info(task_name, "BattleQuickFormationOCR");
-        name_analyzer.set_bin_threshold(params[0]);
-        name_analyzer.set_bin_expansion(params[1]);
-        name_analyzer.set_bin_trim_threshold(params[2], params[3]);
-        name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
-        auto cur_opt = name_analyzer.analyze();
-        if (!cur_opt) {
+        const auto& ocr_task = Task.get("BattleQuickFormationOCR");
+        MultiMatcher multi(image);
+        multi.set_task_info(task_name);
+        if (!multi.analyze()) [[unlikely]] {
             continue;
         }
-        for (auto& res : *cur_opt) {
+        for (const auto& flag : multi.get_result()) {
+            auto roi = flag.rect.move(ocr_task->rect_move);
+            if (roi.x < 0) {
+                roi.x = 0;
+                roi.width = roi.width + roi.x;
+            }
+            if (roi.y < 0) {
+                roi.y = 0;
+                roi.height = roi.height + roi.y;
+            }
+            if (roi.x + roi.width > image.cols) {
+                roi.width = image.cols - roi.x;
+            }
+            if (roi.y + roi.height > image.rows) {
+                roi.height = image.rows - roi.y;
+            }
+            ocr = make_roi(image, roi);
+            cv::cvtColor(ocr, gray, cv::COLOR_BGR2GRAY);
+            cv::inRange(gray, ocr_task->special_params[0], 255, bin);
+            for (int r = bin.cols - 1; r >= 0; --r) {
+                if (cv::hasNonZero(bin.col(r))) { // 右边界向左收缩
+                    bin = bin.adjustROI(0, 0, 0, -(bin.cols - r - 1));
+                    break;
+                }
+            }
+
+            bin = bin.adjustROI(0, ocr_task->special_params[4], 0, 0); // 底部收缩排除白线
+            int width = ocr_task->special_params[5];
+            for (int r = bin.cols - width - 1; r >= 0; --r) {
+                if (!cv::hasNonZero(bin.colRange(r, r + width))) { // 左边界排除无文字区域
+                    ocr = ocr.adjustROI(0, 0, -r - 3, 0);
+                    break;
+                }
+            }
+
+            RegionOCRer region(ocr);
+            region.set_task_info(ocr_task);
+            region.set_roi(asst::Rect(0, 0, ocr.cols, ocr.rows));
+            region.set_bin_threshold(ocr_task->special_params[0]);
+            region.set_bin_expansion(ocr_task->special_params[1]);
+            region.set_bin_trim_threshold(ocr_task->special_params[2], ocr_task->special_params[3]);
+            region.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
+            region.set_use_raw(true);
+            if (!region.analyze()) [[unlikely]] {
+                continue;
+            }
+
+            const auto& ocr_result = region.get_result();
+            asst::BattleFormationTask::QuickFormationOper res;
+            res.text = ocr_result.text;
+            res.rect = ocr_result.rect;
+            res.score = ocr_result.score;
+            res.flag_rect = flag.rect;
+            res.flag_score = flag.score;
+
             constexpr int kMinDistance = 5;
-            auto find_it = ranges::find_if(opers_result, [&res](const TemplDetOCRer::Result& pre) {
-                return std::abs(pre.flag_rect.x - res.flag_rect.x) < kMinDistance &&
-                       std::abs(pre.flag_rect.y - res.flag_rect.y) < kMinDistance;
-            });
+            auto find_it =
+                ranges::find_if(opers_result, [&res](const asst::BattleFormationTask::QuickFormationOper& pre) {
+                    return std::abs(pre.flag_rect.x - res.flag_rect.x) < kMinDistance &&
+                           std::abs(pre.flag_rect.y - res.flag_rect.y) < kMinDistance;
+                });
             if (find_it != opers_result.end() || res.text.empty()) {
                 continue;
             }
+            select = make_roi(image, res.flag_rect.move({ 0, -10, 5, 4 }));
+            cv::inRange(select, cv::Scalar(200, 140, 0), cv::Scalar(255, 180, 100), select);
+            res.is_selected = cv::hasNonZero(select);
             opers_result.emplace_back(std::move(res));
         }
     }
-
     if (opers_result.empty()) {
         Log.error("BattleFormationTask: no oper found");
         return {};
@@ -399,7 +450,7 @@ bool asst::BattleFormationTask::enter_selection_page(const cv::Mat& img)
 
 bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>& groups)
 {
-    auto opers_result = analyzer_opers();
+    auto opers_result = analyzer_opers(ctrler()->get_image());
 
     static const std::array<Rect, 3> SkillRectArray = {
         Task.get("BattleQuickFormationSkill1")->specific_rect,
@@ -417,7 +468,8 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
 
     int delay = Task.get("BattleQuickFormationOCR")->post_delay;
     int skill = 0;
-    for (const auto& res : opers_result) {
+    for (const auto& res :
+         opers_result | views::filter([](const QuickFormationOper& oper) { return !oper.is_selected; })) {
         const std::string& name = res.text;
         bool found = false;
         auto iter = groups.begin();
@@ -450,11 +502,13 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
             ctrler()->click(SkillRectArray.at(skill - 1ULL));
             sleep(delay);
         }
+        auto group_name = iter->first;
         groups.erase(iter);
 
         json::value info = basic_info_with_what("BattleFormationSelected");
         auto& details = info["details"];
         details["selected"] = name;
+        details["group_name"] = std::move(group_name);
         callback(AsstMsg::SubTaskExtraInfo, info);
     }
 

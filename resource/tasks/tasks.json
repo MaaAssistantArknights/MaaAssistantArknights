@@ -707,7 +707,6 @@
             ["^c(?!ast)", ""],
             ["^\\^一", ""],
             ["^_(?=.)", ""],
-            ["^令.+", "令"],
             [".*弦惊.*", "“弦惊”"],
             [".*亚梅塔", "菲亚梅塔"],
             [".*逍遥.*", "“逍遥”"],
@@ -719,20 +718,23 @@
             ["^重岳.+", "重岳"],
             ["(麒.+夜刀|.*麟.*夜刀)$", "麒麟R夜刀"],
             [".*龙.*黑角$", "火龙S黑角"],
-            [".*大陆调查团$", "泰拉大陆调查团"],
             ["[Uu]-[O0o]f{1,2}icial", "U-Official"],
             [".*威龙陈", "假日威龙陈"],
-            ["^(夕.*|H$)", "夕"],
             ["青积", "青枳"],
             [".*烬艾雅法.*", "纯烬艾雅法拉"],
             ["^(山.+|一山$)", "山"],
+            ["^一余$", "余"],
+            ["^一锏$", "锏"],
+            ["^(煌.*|一煌$)", "煌"],
+            ["^(年.?|一年)$", "年"],
+            ["^(委|泰|一黍)$", "黍"],
+            ["^(令.+|一令$)", "令"],
+            ["^(夕.*|H$|一夕$)", "夕"],
             ["12E", "12F"],
             ["归.*幽灵鲨", "归溟幽灵鲨"],
             ["(临六$|^临光.*)", "临光"],
-            ["^(煌.*|一煌$)", "煌"],
             [".*甜蜜狂搅.*", "“甜蜜狂搅”"],
             ["^尖端研究成果共享.*", "尖端研究成果共享终端"],
-            ["^年.?$", "年"],
             ["^w$", "W"],
             ["维获", "维荻"],
             [".*ancet-2", "Lancet-2"],
@@ -746,7 +748,6 @@
             ["^预备干员-狙.*", "预备干员-狙击"],
             ["^预备干员-重.*", "预备干员-重装"],
             ["^折光.*", "折光"],
-            ["^(委|泰)$", "黍"],
             ["^红集$", "红隼"],
             ["小.?满", "小满"],
             [".*夹子.*", "“夹子”"],
@@ -758,10 +759,10 @@
             ["^华琳$", "华法琳"],
             ["^宝箱的肉.*", "宝箱的肉？"],
             [".*维多利亚$", "维娜·维多利亚"],
-            [".*芜拉普兰德$", "荒芜拉普兰德"],
             ["^盥心$", "塑心"],
             ["^钳铅$", "钼铅"],
-            [".*NFESS-47$", "CONFESS-47"]
+            [".*NFESS-47$", "CONFESS-47"],
+            ["^焰影苇.*", "焰影苇草"]
         ]
     },
     "SwitchAccount@StartUpBegin": {
@@ -1267,7 +1268,7 @@
         "text": ["开始行动", "开始作战", "开始推演"],
         "preDelay": 500,
         "postDelay": 1000,
-        "roi": [1038, 625, 206, 61],
+        "roi": [1010, 625, 260, 61],
         "exceededNext": ["StageSNReturnFlag", "Stop"],
         "reduceOtherTimes": ["(ClickCornerAfterPRTS+ClickCorner)*5"],
         "next": [
@@ -1541,7 +1542,7 @@
         "action": "ClickRect",
         "specificRect": [0, 200, 300, 400],
         "exceededNext": ["CloseStonePageExceeded"],
-        "maxTimes": 1,
+        "maxTimes": 2,
         "next": ["StartButton1"]
     },
     "CloseStonePageExceeded": {
@@ -2468,7 +2469,7 @@
     },
     "InfrastRotationClick": {
         "template": "InfrastQueueRotation.png",
-        "roi": [1020, 600, 150, 130],
+        "roi": [1020, 600, 150, 120],
         "action": "ClickSelf",
         "next": ["InfrastEnterTrim"]
     },
@@ -2480,7 +2481,7 @@
     },
     "InfrastTrimClick": {
         "template": "InfrastOperatorTrim.png",
-        "roi": [1020, 600, 150, 130],
+        "roi": [1020, 600, 150, 120],
         "postDelay": 1000,
         "action": "ClickSelf",
         "next": ["InfrastRotationReturn"]
@@ -3043,6 +3044,7 @@
         "rectMove": [0, -95, 70, 50]
     },
     "InfrastCloseQuickFormationExpandRole": {
+        "template": "BattleQuickFormationCollapseRole.png",
         "action": "ClickSelf",
         "roi": [1163, 0, 117, 133],
         "next": ["Stop"]
@@ -3596,10 +3598,18 @@
         "algorithm": "OcrDetect",
         "fullMatch": true,
         "text": [],
-        "roi": [9, 232, 107, 20],
+        "rectMove": [-2, 233, 118, 22],
         "postDelay": 200,
         "specialParams_Doc": "Added for the YostarEN client. Used in BattleFormationTask.cpp for OCR manipulation. CN values are from OCRerConfig.h",
-        "specialParams": [140, 2, 0, 0]
+        "specialParams_doc": [
+            "bin_threshold",
+            "bin_expansion",
+            "trim_threshold_low",
+            "trim_threshold_high",
+            "左侧收缩时检测图的底部收缩",
+            "左侧收缩时连续n像素低于bin_thresh"
+        ],
+        "specialParams": [140, 2, 0, 0, -3, 10]
     },
     "BattleQuickFormationSkill1": {
         "algorithm": "JustReturn",
@@ -3634,6 +3644,7 @@
         "text": ["开始行动", "开始作战", "开始推演", "开始突袭", "开始试炼", "开始测试"],
         "roi": [1000, 600, 280, 120],
         "action": "ClickSelf",
+        "preDelay": 500,
         "postDelay": 1000
     },
     "BattleStartPre@UseMedicine": {
@@ -3723,6 +3734,7 @@
         "baseTask": "BattleStart",
         "algorithm": "OcrDetect",
         "text": ["开始", "行动"],
+        "ocrReplace": [["干始", "开始"]],
         "roi": [999, 398, 222, 237]
     },
     "BattleStartSimulation": {
@@ -4274,13 +4286,14 @@
     },
     "OperBoxRoleTabSelect": {
         "action": "ClickSelf",
-        "roi": [1200, 20, 80, 50],
-        "next": ["OperBoxRoleTab"],
-        "maxTimes": 3
+        "template": "BattleQuickFormationCollapseRole.png",
+        "roi": [1152, 0, 128, 138],
+        "next": ["OperBoxRoleTab"]
     },
     "OperBoxRoleTab": {
-        "action": "Stop",
-        "roi": [1195, 15, 80, 50]
+        "template": "BattleQuickFormationExpandRole.png",
+        "baseTask": "BattleQuickFormationExpandRole",
+        "action": "Stop"
     },
     "OperBoxSlowlySwipeToTheRight": {
         "doc": "6个横向干员防止识别不全990px",
@@ -4957,15 +4970,26 @@
     },
     "GreenTicket@Store@ClickFirstFloor": {
         "algorithm": "OcrDetect",
-        "text": ["1", "T", "I", "亻"],
+        "text": ["1", "T", "I"],
+        "isAscii": true,
         "action": "ClickSelf",
         "roi": [263, 196, 35, 73],
         "sub": ["SlowlySwipeToTheLeft"],
         "postDelay": 1000,
-        "next": ["GreenTicket@Store@ClickItem", "GreenTicket@Store@ClickSecondFloor"]
+        "next": ["GreenTicket@Store@ClickItemList#next", "GreenTicket@Store@ClickSecondFloor"]
     },
     "GreenTicket@Store@ClickItem": {
-        "template": [
+        "algorithm": "FeatureMatch",
+        "template": "empty.png",
+        "detector": "BRISK",
+        "count": 20,
+        "action": "ClickSelf",
+        "roi": [318, 139, 956, 484],
+        "next": ["GreenTicket@Store@ChooseMaxAmount"]
+    },
+    "GreenTicket@Store@ClickItemList": {
+        "algorithm": "JustReturn",
+        "next": [
             "GreenTicket@Store@ClickItem_Headhunting_Permit",
             "GreenTicket@Store@ClickItem_Orundum",
             "GreenTicket@Store@ClickItem_LMD",
@@ -4973,10 +4997,42 @@
             "GreenTicket@Store@ClickItem_Recruitment_Permit",
             "GreenTicket@Store@ClickItem_Tactical_Battle_Record",
             "GreenTicket@Store@ClickItem_Pure_Gold"
-        ],
-        "action": "ClickSelf",
-        "roi": [318, 139, 956, 484],
-        "next": ["GreenTicket@Store@ChooseMaxAmount"]
+        ]
+    },
+    "GreenTicket@Store@ClickItem_Headhunting_Permit": {
+        "doc": "单抽",
+        "baseTask": "GreenTicket@Store@ClickItem",
+        "template": "items/7003.png"
+    },
+    "GreenTicket@Store@ClickItem_Orundum": {
+        "doc": "合成玉",
+        "baseTask": "GreenTicket@Store@ClickItem",
+        "template": "items/4003.png"
+    },
+    "GreenTicket@Store@ClickItem_LMD": {
+        "doc": "龙门币",
+        "baseTask": "GreenTicket@Store@ClickItem",
+        "template": "items/4001.png"
+    },
+    "GreenTicket@Store@ClickItem_Furniture_Part": {
+        "doc": "家具部件",
+        "baseTask": "GreenTicket@Store@ClickItem",
+        "template": "items/3401.png"
+    },
+    "GreenTicket@Store@ClickItem_Recruitment_Permit": {
+        "doc": "招募许可",
+        "baseTask": "GreenTicket@Store@ClickItem",
+        "template": "items/7001.png"
+    },
+    "GreenTicket@Store@ClickItem_Tactical_Battle_Record": {
+        "doc": "战斗记录",
+        "baseTask": "GreenTicket@Store@ClickItem",
+        "template": "items/2003.png"
+    },
+    "GreenTicket@Store@ClickItem_Pure_Gold": {
+        "doc": "赤金",
+        "baseTask": "GreenTicket@Store@ClickItem",
+        "template": "items/3003.png"
     },
     "GreenTicket@Store@ChooseMaxAmount": {
         "roi": [1027, 405, 79, 53],
@@ -4995,7 +5051,7 @@
         "template": "CreditShop-Bought.png",
         "next": [
             "GreenTicket@Store@PurchasedConfirm",
-            "GreenTicket@Store@ClickItem",
+            "GreenTicket@Store@ClickItemList#next",
             "GreenTicket@Store@ClickSecondFloor",
             "Stop"
         ]
@@ -5004,11 +5060,12 @@
         "algorithm": "OcrDetect",
         "text": ["2"],
         "action": "ClickSelf",
+        "isAscii": false,
         "roi": [262, 364, 38, 58],
         "maxTimes": 1,
         "sub": ["SlowlySwipeToTheLeft*3"],
         "postDelay": 1000,
-        "next": ["GreenTicket@Store@ClickItem", "Stop"]
+        "next": ["GreenTicket@Store@ClickItemList#next", "Stop"]
     },
     "YellowTicket@Store@ChooseTicketType": {
         "algorithm": "OcrDetect",
@@ -5033,50 +5090,19 @@
         ]
     },
     "YellowTicket@Store@ClickItem_Headhunting_Permit": {
-        "method": "RGBCount",
-        "doc_colorScales": "右部黄色、右部蓝字、左部灰字、左部黑色",
-        "colorScales": [
-            [
-                [200, 200, 0],
-                [255, 255, 40]
-            ],
-            [
-                [0, 0, 170],
-                [80, 80, 255]
-            ],
-            [
-                [170, 170, 170],
-                [255, 255, 255]
-            ],
-            [
-                [0, 0, 0],
-                [30, 30, 30]
-            ]
-        ],
+        "doc": "单抽卷",
+        "algorithm": "FeatureMatch",
+        "template": "items/7003.png",
+        "detector": "BRISK",
+        "count": 20,
         "action": "ClickSelf",
         "roi": [318, 139, 956, 484],
         "next": ["YellowTicket@Store@Purchase"]
     },
     "YellowTicket@Store@ClickItem_Ten-roll_Headhunting_Permit": {
-        "method": "RGBCount",
-        "doc_colorScales": "左部亮色+右部亮字、左部蓝字、右部黑色",
-        "colorScales": [
-            [
-                [190, 150, 70],
-                [250, 230, 140]
-            ],
-            [
-                [10, 50, 90],
-                [50, 100, 170]
-            ],
-            [
-                [0, 0, 0],
-                [30, 30, 30]
-            ]
-        ],
-        "action": "ClickSelf",
-        "roi": [318, 139, 956, 484],
-        "next": ["YellowTicket@Store@Purchase"]
+        "doc": "十连",
+        "baseTask": "YellowTicket@Store@ClickItem_Headhunting_Permit",
+        "template": "items/7004.png"
     },
     "YellowTicket@Store@Purchase": {
         "roi": [872, 556, 137, 48],

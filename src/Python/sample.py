@@ -36,7 +36,7 @@ if __name__ == "__main__":
     #   2. 加载活动关卡资源（需先下载）：
     #      首先下载活动关卡的任务数据：
     #      import urllib.request
-    #      ota_tasks_url = 'https://ota.maa.plus/MaaAssistantArknights/api/resource/tasks.json'
+    #      ota_tasks_url = 'https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json'
     #      ota_tasks_path = path / 'cache' / 'resource' / 'tasks.json'
     #      ota_tasks_path.parent.mkdir(parents=True, exist_ok=True)
     #      with open(ota_tasks_path, 'w', encoding='utf-8') as f:

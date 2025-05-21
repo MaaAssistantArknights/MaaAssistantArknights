@@ -20,6 +20,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Windows;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -271,6 +272,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         {
             SetAndNotify(ref _updateSource, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateSource, value);
+            NotifyOfPropertyChange(nameof(MirrorChyanCdkPlaceholder));
         }
     }
 
@@ -311,6 +313,11 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MirrorChyanCdk, value);
         }
     }
+
+    public string MirrorChyanCdkPlaceholder =>
+        UpdateSource != "MirrorChyan"
+            ? LocalizationHelper.GetString("MirrorChyanCdkPlaceholder")
+            : LocalizationHelper.GetString("MirrorChyanCdkPlaceholder2");
 
     private bool _startupUpdateCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.StartupUpdateCheck, bool.TrueString));
 
@@ -426,6 +433,12 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     /// ReSharper disable once UnusedMember.Global
     public async Task ManualUpdate()
     {
+        if (SettingsViewModel.VersionUpdateSettings.UpdateSource == "MirrorChyan" && string.IsNullOrEmpty(SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk))
+        {
+            ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanSelectedButNoCdk"));
+            return;
+        }
+
         var ret = await Instances.VersionUpdateViewModel.CheckAndDownloadVersionUpdate();
 
         var toastMessage = ret switch
@@ -457,21 +470,20 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     // ReSharper disable once UnusedMember.Global
     public async Task ManualUpdateResource()
     {
+        if (SettingsViewModel.VersionUpdateSettings.UpdateSource == "MirrorChyan" && string.IsNullOrEmpty(SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk))
+        {
+            ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanSelectedButNoCdk"));
+            return;
+        }
+
         IsCheckingForUpdates = true;
 
         var (ret, uri, releaseNote) = await ResourceUpdater.CheckFromMirrorChyanAsync();
         var toastMessage = ret switch
         {
-            VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdate => string.Empty,
-            VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdateDebugVersion => LocalizationHelper.GetString("NoNeedToUpdateDebugVersion"),
             VersionUpdateViewModel.CheckUpdateRetT.AlreadyLatest => LocalizationHelper.GetString("AlreadyLatest"),
             VersionUpdateViewModel.CheckUpdateRetT.UnknownError => LocalizationHelper.GetString("NewVersionDetectFailedTitle"),
             VersionUpdateViewModel.CheckUpdateRetT.NetworkError => LocalizationHelper.GetString("CheckNetworking"),
-            VersionUpdateViewModel.CheckUpdateRetT.FailedToGetInfo => LocalizationHelper.GetString("GetReleaseNoteFailed"),
-            VersionUpdateViewModel.CheckUpdateRetT.OK => string.Empty,
-            VersionUpdateViewModel.CheckUpdateRetT.NewVersionIsBeingBuilt => LocalizationHelper.GetString("NewVersionIsBeingBuilt"),
-            VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated => LocalizationHelper.GetString("GameResourceUpdated"),
-            VersionUpdateViewModel.CheckUpdateRetT.NoMirrorChyanCdk => LocalizationHelper.GetString("MirrorChyanSoftwareUpdateTip"),
             _ => string.Empty,
         };
 
@@ -482,7 +494,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
         if (ret == VersionUpdateViewModel.CheckUpdateRetT.AlreadyLatest)
         {
-            SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
+            IsCheckingForUpdates = false;
             return;
         }
 

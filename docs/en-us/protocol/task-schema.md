@@ -136,12 +136,28 @@ Usage of `resource/tasks` and description of each field
         "isAscii": false,                   // optional, whether the text content to be recognized is ASCII characters
                                             // default false if not filled
 
-        "withoutDet": false                 // Optional, whether to not use the detection model
+        "withoutDet": false,                // Optional, whether to not use the detection model
                                             // default false if not filled
 
         /* The following fields are only valid when the algorithm is Hash */
         // The algorithm is not mature, and is only used in some special cases, so it is not recommended for now
         // Todo
+
+        /* The following fields are valid only when algorithm is FeatureMatch */
+
+        "template": "xxx.png",              // Optional, the image file name to match, can be a string or a string list
+                                            // Default "taskname.png"
+
+        "count": 4,                         // The number of feature points to match (threshold), default value = 4
+
+        "ratio": 0.6,                       // The distance ratio of the KNN matching algorithm, [0 - 1.0], the larger the ratio, the looser the match and the easier it is to connect. Default 0.6
+
+        "detector": "SIFT",                 // Feature point detector type, optional values ​​are SIFT, ORB, BRISK, KAZE, AKAZE, SURF; default value = SIFT
+                                            // SIFT: High computational complexity, scale invariance, rotation invariance. Best effect.
+                                            // ORB: Very fast computational speed, rotation invariance. But not scale invariance.
+                                            // BRISK: Very fast computational speed, scale invariance, rotation invariance.
+                                            // KAZE: Applicable to 2D and 3D images, with scale invariance and rotation invariance.
+                                            // AKAZE: Fast calculation speed, with scale invariance and rotation invariance.
     }
 }
 ```

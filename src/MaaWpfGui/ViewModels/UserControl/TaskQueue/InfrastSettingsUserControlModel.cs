@@ -301,7 +301,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
 
     private string _defaultInfrast = ConfigurationHelper.GetValue(ConfigurationKeys.DefaultInfrast, UserDefined);
 
-    private const string UserDefined = "user_defined";
+    public const string UserDefined = "user_defined";
 
     /// <summary>
     /// Gets or sets the uses of drones.
@@ -315,31 +315,14 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             if (_defaultInfrast != UserDefined)
             {
                 CustomInfrastFile = @"resource\custom_infrast\" + value;
-                IsCustomInfrastFileReadOnly = true;
-            }
-            else
-            {
-                IsCustomInfrastFileReadOnly = false;
             }
 
+            NotifyOfPropertyChange(nameof(IsCustomInfrastFileReadOnly));
             ConfigurationHelper.SetValue(ConfigurationKeys.DefaultInfrast, value);
         }
     }
 
-    private bool _isCustomInfrastFileReadOnly = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.IsCustomInfrastFileReadOnly, bool.FalseString));
-
-    /// <summary>
-    /// Gets or sets a value indicating whether  CustomInfrastFile is read-only
-    /// </summary>
-    public bool IsCustomInfrastFileReadOnly
-    {
-        get => _isCustomInfrastFileReadOnly;
-        set
-        {
-            SetAndNotify(ref _isCustomInfrastFileReadOnly, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.IsCustomInfrastFileReadOnly, value.ToString());
-        }
-    }
+    public bool IsCustomInfrastFileReadOnly => _defaultInfrast != UserDefined;
 
     private bool _dormFilterNotStationedEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DormFilterNotStationedEnabled, bool.TrueString));
 

@@ -286,7 +286,8 @@ You can cancel this popup by clicking the Settings - Issue Report link. Thank yo
     <system:String x:Key="ForceGithubGlobalSource">Force using GitHub</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">Fill after switching source</system:String>
-    <system:String x:Key="MirrorChyanSoftwareUpdateTip">Software update detected. Please go to ｢Settings - Update Settings｣ to configure MirrorChyan CDK or switch to Global Source.</system:String>
+    <system:String x:Key="MirrorChyanCdkPlaceholder2">Please enter CDK</system:String>
+    <system:String x:Key="MirrorChyanSelectedButNoCdk">Please go to ｢Settings - Update Settings｣ to configure MirrorChyan CDK or switch to Global Source.</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">Resource update {0} detected. Please go to ｢Settings- Update Settings - Resource Update｣ to update manually, or fill in MirrorChayn CDK to update automatically.</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateShortTip">Resource update {0} detected</system:String>
     <system:String x:Key="MirrorChyanCdkExpired">The CDK has expired. Please use a new CDK for authorization.</system:String>
@@ -722,7 +723,9 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="AddUserAdditional">Add custom operators</system:String>
     <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the operator name and skills, for example: W, 3; Ash, 2</system:String>
     <system:String x:Key="UseCopilotList">Battle list</system:String>
-    <system:String x:Key="UseCopilotListTip">Please switch to the stage selection page before starting</system:String>
+    <system:String x:Key="UseCopilotListTip" xml:space="preserve">Does not support cross-chapter navigation
+Only supports: the same chapter of the main story, SideStory (does not support jumping from EX chapter to S chapter)
+Please switch to the stage selection page before starting</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(Challenge)</system:String>
     <system:String x:Key="CopilotAddTask">Right click to add challenge difficulty</system:String>
     <system:String x:Key="CopilotClearTask">Right click to clear inactive tasks</system:String>
@@ -1047,6 +1050,7 @@ Click "OK" to execute the installation script and exit MAA. Click "Cancel" to ex
 Only one instance can be launched under the same path!
 If you want to run multiple MAA at the same time, please copy the whole MAA and start under different path with the same adb and different connect address.
     </system:String>
+    <system:String x:Key="SoftwareLocationWarning">The current software location cannot save data, which may cause settings loss or runtime errors. Please move the software to a writable directory. Do not place it in system-protected directories (e.g., Program Files, System32, or Windows directories).</system:String>
     <!--  !Boot  -->
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">Encryption and decryption failed, please reconfigure the relevant settings, otherwise the encrypted content will be stored in plain text in the configuration file.</system:String>

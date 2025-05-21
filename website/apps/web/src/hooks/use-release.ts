@@ -15,7 +15,7 @@ export type Release = Omit<
 export const useRelease = () => {
   const { data, ...rest } = useSWR<{
     details: Release
-  }>('https://ota.maa.plus/MaaAssistantArknights/api/version/stable.json')
+  }>('https://api.maa.plus/MaaAssistantArknights/api/version/stable.json')
   return {
     data: data?.details,
     ...rest,

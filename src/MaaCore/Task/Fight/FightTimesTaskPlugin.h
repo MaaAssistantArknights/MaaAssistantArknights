@@ -41,6 +41,8 @@ public:
 
     void finish_fight() { m_fight_times += m_series_current; }
 
+    void set_has_used_medicine() { m_has_used_medicine = true; }
+
     // 获取 当前理智/最大理智
     static std::optional<asst::SanityResult> analyze_sanity_remain(const cv::Mat& image);
     // 获取 连战次数
@@ -56,8 +58,9 @@ protected:
 private:
     bool open_series_list(const cv::Mat& image = cv::Mat());
     void close_series_list(const cv::Mat& image = cv::Mat());
-    // 计算并调整连续战斗次数, 返回是否修改了次数
+    // 计算并调整连续战斗次数; 返回是否修改了次数
     std::optional<int> change_series(int sanity_remain, int sanity_cost, int series);
+    // 选择连战次数, available_only: 是否选择当前可用的次数; 返回调整到的次数
     std::optional<int> select_series(bool available_only);
     bool select_series(int times);
 

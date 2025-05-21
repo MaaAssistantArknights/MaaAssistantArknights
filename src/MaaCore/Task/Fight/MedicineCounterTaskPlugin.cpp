@@ -7,6 +7,7 @@
 #include "Controller/Controller.h"
 #include "InstHelper.h"
 #include "Task/Fight/DrGrandetTaskPlugin.h"
+#include "Task/Fight/FightTimesTaskPlugin.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
@@ -20,7 +21,14 @@ bool asst::MedicineCounterTaskPlugin::verify(AsstMsg msg, const json::value& det
         return false;
     }
 
-    return details.get("details", "task", "").ends_with("UseMedicine");
+    const std::string task = details.get("details", "task", "");
+    if (/*task.ends_with("MedicineConfirm") 走插件 */ task.ends_with("StoneConfirm")) {
+        m_has_used_medicine = true;
+    }
+    else if (task.ends_with("StartButton2")) {
+        m_has_used_medicine = false;
+    }
+    return task.ends_with("UseMedicine");
 }
 
 bool asst::MedicineCounterTaskPlugin::_run()
@@ -68,7 +76,7 @@ bool asst::MedicineCounterTaskPlugin::_run()
     };
 
     if (m_used_count < m_max_count && using_medicine->using_count + m_used_count > m_max_count) {
-        reduce_excess(*using_medicine);
+        reduce_excess(*using_medicine, m_used_count + using_medicine->using_count - m_max_count);
         if (!refresh_medicine_count()) {
             return false;
         }
@@ -94,24 +102,53 @@ bool asst::MedicineCounterTaskPlugin::_run()
 
     m_used_count += using_medicine->using_count;
 
-    // 博朗台：如果溢出则等待
-    if (m_dr_grandet) {
-        auto sanity_target = get_target_of_sanity(image);
-        auto sanity_max = get_maximun_of_sanity(image);
-        if (!sanity_target || !sanity_max) [[unlikely]] {
-            return false;
-        }
+    std::optional<int> sanity_target, sanity_max;
+    auto analyze_sanity = [&]() {
+        sanity_target = get_target_of_sanity(image);
+        sanity_max = get_maximun_of_sanity(image);
+        return sanity_target && sanity_max;
+    };
 
-        if (*sanity_target >= *sanity_max) [[unlikely]] {
+    if (!analyze_sanity()) [[unlikely]] {
+        Log.error(__FUNCTION__, "unable to analyze sanity");
+    }
+    else if (*sanity_target >= *sanity_max) [[unlikely]] {
+        if (m_dr_grandet) { // 博朗台: 如果溢出则等待
             auto waitTime = DrGrandetTaskPlugin::analyze_time_left(image);
             if (waitTime > 0) {
                 sleep(waitTime);
             }
         }
+        else if (!m_has_used_medicine && m_reduce_when_exceed) { // 直接减少药品使用
+            while (*sanity_target >= *sanity_max) {
+                reduce_excess(*using_medicine, 1);
+                if (!refresh_medicine_count() || !analyze_sanity() || using_medicine->using_count <= 0) {
+                    break;
+                }
+            }
+            if (using_medicine->using_count <= 0) { // 糊个屎, 假装吃了药, FightTimes后续选择不吃药的次数
+                if (auto ptr = m_task_ptr->find_plugin<FightTimesTaskPlugin>()) {
+                    ptr->set_has_used_medicine();
+                }
+                m_has_used_medicine = true;
+                ProcessTask(*this, { "CloseStonePage" })
+                    .set_times_limit("CloseStonePage", 1, asst::ProcessTask::TimesLimitType::Post)
+                    .set_times_limit("CloseStonePageExceeded", 0)
+                    .run();
+                return true;
+            }
+        }
     }
 
-    ProcessTask(*this, { "MedicineConfirm" }).set_retry_times(5).run();
+    if (!ProcessTask(*this, { "MedicineConfirm" }).set_retry_times(5).run()) {
+        Log.error(__FUNCTION__, "unable to run medicine confirm");
+        return false;
+    }
 
+    if (auto ptr = m_task_ptr->find_plugin<FightTimesTaskPlugin>()) {
+        ptr->set_has_used_medicine();
+    }
+    m_has_used_medicine = true;
     auto info = basic_info_with_what("UseMedicine");
     info["details"]["is_expiring"] = m_used_count > m_max_count;
     info["details"]["count"] = using_medicine->using_count;
@@ -195,9 +232,9 @@ std::optional<asst::MedicineCounterTaskPlugin::MedicineResult>
     return MedicineResult { .using_count = use, .medicines = medicines };
 }
 
-void asst::MedicineCounterTaskPlugin::reduce_excess(const MedicineResult& using_medicine)
+void asst::MedicineCounterTaskPlugin::reduce_excess(const MedicineResult& using_medicine, int reduce)
 {
-    auto reduce = m_used_count + using_medicine.using_count - m_max_count;
+    Log.info(__FUNCTION__, "reduce excess medicine count, current:", using_medicine.using_count, ", reduce:", reduce);
     for (const auto& [use, inventory, rect, is_expiring] : using_medicine.medicines | views::reverse) {
         ctrler()->click(rect);
         sleep(Config.get_options().task_delay);
@@ -210,6 +247,10 @@ void asst::MedicineCounterTaskPlugin::reduce_excess(const MedicineResult& using_
             reduce++;
         }
         if (reduce == 0) {
+            break;
+        }
+        else if (reduce < 0) {
+            Log.error(__FUNCTION__, "reduce count is less than 0");
             break;
         }
     }
