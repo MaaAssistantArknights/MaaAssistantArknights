@@ -56,7 +56,7 @@ BattlefieldMatcher::ResultOpt BattlefieldMatcher::analyze() const
 
     if (m_object_of_interest.costs) {
         result.costs = costs_analyze();
-        if (result.costs.status == MatchStatus::Success) {
+        if (result.costs.status == MatchStatus::Invalid) {
             return std::nullopt;
         }
     }
