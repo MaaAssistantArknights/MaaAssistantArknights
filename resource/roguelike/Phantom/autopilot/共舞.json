@@ -42,10 +42,10 @@
     ],
     "deploy_plan": [
         {
-            "groups": ["维什戴尔"], 
+            "groups": ["维什戴尔"],
             "location": [3, 2],
             "direction": "right"
-        }, 
+        },
         {
             "groups": ["高台C"],
             "location": [5, 4],
