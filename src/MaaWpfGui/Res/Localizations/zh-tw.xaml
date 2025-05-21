@@ -1054,6 +1054,7 @@ C:\\leidian\\LDPlayer9。\n
 同一路徑下只能啟動一個實例！
 如需多開MAA，請複製一份新的MAA到其他資料夾下，並設定使用不同的 MAA，相同的 adb 和不同的模擬器地址進行多開操作。
     </system:String>
+    <system:String x:Key="SoftwareLocationWarning">當前軟體所在的位置無法儲存資料，可能會導致設定遺失或執行異常。建議將軟體移動到可寫入的目錄中執行，請勿放置在系統保護目錄（如 Program Files、System32 或 Windows 目錄）中。</system:String>
     <!--  !Boot  -->
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">加解密失敗，請重新配置相關設置，否則加密內容將以明文形式存儲在配置文件中。</system:String>

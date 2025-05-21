@@ -88,6 +88,21 @@ namespace MaaWpfGui.Main
             }
         }
 
+        public static bool IsWritable(string path)
+        {
+            try
+            {
+                string testFile = Path.Combine(path, "write_test.tmp");
+                File.WriteAllText(testFile, "test");
+                File.Delete(testFile);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         /// <inheritdoc/>
         /// <remarks>初始化些啥自己加。</remarks>
         protected override void OnStart()
@@ -219,6 +234,11 @@ namespace MaaWpfGui.Main
             {
                 Shutdown();
                 return;
+            }
+
+            if (!IsWritable(AppDomain.CurrentDomain.BaseDirectory))
+            {
+                Task.Run(() => MessageBoxHelper.Show(LocalizationHelper.GetString("SoftwareLocationWarning"), LocalizationHelper.GetString("Warning"), MessageBoxButton.OK, MessageBoxImage.Error));
             }
 
             base.OnStart();
