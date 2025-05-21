@@ -2469,7 +2469,7 @@
     },
     "InfrastRotationClick": {
         "template": "InfrastQueueRotation.png",
-        "roi": [1020, 600, 150, 130],
+        "roi": [1020, 600, 150, 120],
         "action": "ClickSelf",
         "next": ["InfrastEnterTrim"]
     },
@@ -2481,7 +2481,7 @@
     },
     "InfrastTrimClick": {
         "template": "InfrastOperatorTrim.png",
-        "roi": [1020, 600, 150, 130],
+        "roi": [1020, 600, 150, 120],
         "postDelay": 1000,
         "action": "ClickSelf",
         "next": ["InfrastRotationReturn"]
