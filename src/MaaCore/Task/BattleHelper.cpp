@@ -346,16 +346,27 @@ bool asst::BattleHelper::update_kills(const cv::Mat& reusable)
     return true;
 }
 
-bool asst::BattleHelper::update_cost(const cv::Mat& reusable)
+bool asst::BattleHelper::update_cost(const cv::Mat& image, const cv::Mat& image_prev)
 {
-    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     BattlefieldMatcher analyzer(image);
     analyzer.set_object_of_interest({ .costs = true });
+    analyzer.set_image_cache(image_prev);
     auto result_opt = analyzer.analyze();
-    if (!result_opt || !result_opt->costs) {
+    if (!result_opt) {
         return false;
     }
-    m_cost = result_opt->costs.value();
+    else if (std::holds_alternative<int>(result_opt->costs)) {
+        m_cost = std::get<int>(result_opt->costs);
+    }
+    else if (std::holds_alternative<BattlefieldMatcher::MatchStatus>(result_opt->costs)) {
+        auto status = std::get<BattlefieldMatcher::MatchStatus>(result_opt->costs);
+        if (status == BattlefieldMatcher::MatchStatus::Invalid) {
+            return false;
+        }
+        else {
+            Log.debug("costs hit cache:", m_cost);
+        }
+    }
     return true;
 }
 

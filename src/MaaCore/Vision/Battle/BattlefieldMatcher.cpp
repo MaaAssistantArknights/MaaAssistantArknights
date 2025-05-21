@@ -51,7 +51,7 @@ BattlefieldMatcher::ResultOpt BattlefieldMatcher::analyze() const
 
     if (m_object_of_interest.costs) {
         result.costs = costs_analyze();
-        if (!result.costs) {
+        if (std::holds_alternative<asst::BattlefieldMatcher::MatchStatus>(result.costs)) {
             return std::nullopt;
         }
     }
@@ -332,22 +332,41 @@ bool BattlefieldMatcher::cost_symbol_analyze() const
     return flag_analyzer.analyze().has_value();
 }
 
-std::optional<int> BattlefieldMatcher::costs_analyze() const
+std::variant<int, asst::BattlefieldMatcher::MatchStatus> BattlefieldMatcher::costs_analyze() const
 {
+    if (!m_image_cache.empty() && m_image.cols == m_image_cache.cols && m_image.rows == m_image_cache.rows) {
+        const auto task = Task.get("BattleCostData");
+
+        cv::Mat cost_image_cache = make_roi(m_image_cache, task->roi);
+        cv::Mat cost_image = make_roi(m_image, task->roi);
+        cv::cvtColor(cost_image_cache, cost_image_cache, cv::COLOR_BGR2GRAY);
+        cv::cvtColor(cost_image, cost_image, cv::COLOR_BGR2GRAY);
+        cv::normalize(cost_image_cache, cost_image_cache, 0, 255, cv::NORM_MINMAX);
+        cv::normalize(cost_image, cost_image, 0, 255, cv::NORM_MINMAX);
+        cv::Mat match;
+        cv::matchTemplate(cost_image, cost_image_cache, match, cv::TM_CCOEFF_NORMED);
+        double mark;
+        cv::minMaxLoc(match, nullptr, &mark);
+
+        const double threshold = static_cast<double>(task->special_params[0]) / 100;
+        if (mark > threshold) {           // 正常在 0.997-1 之间波动, 少有0.995
+            return MatchStatus::HitCache; // _5->_6 的分数最高, 0.85上下
+        }
+    }
+
     RegionOCRer cost_analyzer(m_image);
     cost_analyzer.set_task_info("BattleCostData");
-    cost_analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
 
     auto cost_opt = cost_analyzer.analyze();
     if (!cost_opt) {
-        return std::nullopt;
+        return MatchStatus::Invalid;
     }
-    const std::string& cost_str = cost_opt->text;
 
-    if (cost_str.empty() || !ranges::all_of(cost_str, [](const char& c) -> bool { return std::isdigit(c); })) {
-        return std::nullopt;
+    int cost = 0;
+    if (utils::chars_to_number(cost_opt->text, cost)) {
+        return cost;
     }
-    return std::stoi(cost_str);
+    return MatchStatus::Invalid;
 }
 
 bool BattlefieldMatcher::pause_button_analyze() const
