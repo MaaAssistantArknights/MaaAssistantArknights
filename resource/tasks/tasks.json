@@ -2469,7 +2469,7 @@
     },
     "InfrastRotationClick": {
         "template": "InfrastQueueRotation.png",
-        "roi": [1020, 600, 150, 130],
+        "roi": [1020, 600, 150, 120],
         "action": "ClickSelf",
         "next": ["InfrastEnterTrim"]
     },
@@ -2481,7 +2481,7 @@
     },
     "InfrastTrimClick": {
         "template": "InfrastOperatorTrim.png",
-        "roi": [1020, 600, 150, 130],
+        "roi": [1020, 600, 150, 120],
         "postDelay": 1000,
         "action": "ClickSelf",
         "next": ["InfrastRotationReturn"]
@@ -3598,10 +3598,18 @@
         "algorithm": "OcrDetect",
         "fullMatch": true,
         "text": [],
-        "roi": [-2, 233, 118, 22],
+        "rectMove": [-2, 233, 118, 22],
         "postDelay": 200,
         "specialParams_Doc": "Added for the YostarEN client. Used in BattleFormationTask.cpp for OCR manipulation. CN values are from OCRerConfig.h",
-        "specialParams": [140, 2, 0, 0]
+        "specialParams_doc": [
+            "bin_threshold",
+            "bin_expansion",
+            "trim_threshold_low",
+            "trim_threshold_high",
+            "左侧收缩时检测图的底部收缩",
+            "左侧收缩时连续n像素低于bin_thresh"
+        ],
+        "specialParams": [140, 2, 0, 0, -3, 10]
     },
     "BattleQuickFormationSkill1": {
         "algorithm": "JustReturn",

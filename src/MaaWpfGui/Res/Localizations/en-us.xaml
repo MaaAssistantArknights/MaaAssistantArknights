@@ -1050,6 +1050,7 @@ Click "OK" to execute the installation script and exit MAA. Click "Cancel" to ex
 Only one instance can be launched under the same path!
 If you want to run multiple MAA at the same time, please copy the whole MAA and start under different path with the same adb and different connect address.
     </system:String>
+    <system:String x:Key="SoftwareLocationWarning">The current software location cannot save data, which may cause settings loss or runtime errors. Please move the software to a writable directory. Do not place it in system-protected directories (e.g., Program Files, System32, or Windows directories).</system:String>
     <!--  !Boot  -->
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">Encryption and decryption failed, please reconfigure the relevant settings, otherwise the encrypted content will be stored in plain text in the configuration file.</system:String>

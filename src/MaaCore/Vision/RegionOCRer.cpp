@@ -38,6 +38,7 @@ RegionOCRer::ResultOpt RegionOCRer::analyze() const
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(new_roi), cv::Scalar(0, 0, 255), 1);
 #endif // ASST_DEBUG
+    new_roi = correct_rect(new_roi, m_roi);
 
     OCRer ocr_analyzer;
     if (m_use_raw) {
