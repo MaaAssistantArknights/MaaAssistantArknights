@@ -21,8 +21,8 @@ public:
 
     enum MatchStatus
     {
-        Invalid = 0,  // 匹配错误
-        Match = 1,  // 匹配成功
+        Invalid = 0,  // 识别失败
+        Success = 1,  // 识别成功
         HitCache = 2, // 图像命中缓存, 不进行识别
     };
 
@@ -30,16 +30,14 @@ public:
     struct MatchResult
     {
         T value;
-        MatchStatus status;
+        MatchStatus status = MatchStatus::Invalid;
     };
 
     struct Result
     {
         ObjectOfInterest object_of_interest;
-
         std::vector<battle::DeploymentOper> deployment;
-        // kills / total_kills
-        std::optional<std::pair<int, int>> kills;
+        std::optional<std::pair<int, int>> kills; // kills / total_kills
         MatchResult<int> costs;
 
         // bool in_detail = false;

@@ -355,7 +355,7 @@ bool asst::BattleHelper::update_cost(const cv::Mat& image, const cv::Mat& image_
     if (!result_opt || result_opt->costs.status == BattlefieldMatcher::MatchStatus::Invalid) {
         return false;
     }
-    else if (result_opt->costs.status == BattlefieldMatcher::MatchStatus::Match) {
+    else if (result_opt->costs.status == BattlefieldMatcher::MatchStatus::Success) {
         m_cost = result_opt->costs.value;
     }
     return true;

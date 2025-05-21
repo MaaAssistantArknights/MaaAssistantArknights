@@ -848,7 +848,7 @@ json::object asst::CombatRecordRecognitionTask::analyze_action_condition(ClipInf
     BattlefieldMatcher analyzer(pre_clip_ptr->end_frame); // 开始执行这次操作的画面
     analyzer.set_object_of_interest({ .costs = true });
     auto end_result_opt = analyzer.analyze();
-    if (!end_result_opt || end_result_opt->costs.status != BattlefieldMatcher::MatchStatus::Match) {
+    if (!end_result_opt || end_result_opt->costs.status != BattlefieldMatcher::MatchStatus::Success) {
         m_pre_action_costs = -1;
         return condition;
     }
@@ -860,7 +860,7 @@ json::object asst::CombatRecordRecognitionTask::analyze_action_condition(ClipInf
 
     analyzer.set_image(clip.start_frame); // 这次操作执行完了的画面
     auto start_result_opt = analyzer.analyze();
-    m_pre_action_costs = (start_result_opt && end_result_opt->costs.status == BattlefieldMatcher::MatchStatus::Match)
+    m_pre_action_costs = (start_result_opt && end_result_opt->costs.status == BattlefieldMatcher::MatchStatus::Success)
                              ? end_result_opt->costs.value
                              : start_costs;
 

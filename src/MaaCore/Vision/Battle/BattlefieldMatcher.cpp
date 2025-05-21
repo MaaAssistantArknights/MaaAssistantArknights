@@ -51,7 +51,7 @@ BattlefieldMatcher::ResultOpt BattlefieldMatcher::analyze() const
 
     if (m_object_of_interest.costs) {
         result.costs = costs_analyze();
-        if (result.costs.status == MatchStatus::Match) {
+        if (result.costs.status == MatchStatus::Success) {
             return std::nullopt;
         }
     }
@@ -346,10 +346,10 @@ BattlefieldMatcher::MatchResult<int> BattlefieldMatcher::costs_analyze() const
         cv::matchTemplate(cost_image, cost_image_cache, match, cv::TM_CCOEFF_NORMED);
         double mark;
         cv::minMaxLoc(match, nullptr, &mark);
-
+        // 正常在 0.997-1 之间波动, 少有0.995
+        // _5->_6 的分数最高, 0.85上下
         const double threshold = static_cast<double>(task->special_params[0]) / 100;
-        if (mark > threshold) { // 正常在 0.997-1 之间波动, 少有0.995
-            // _5->_6 的分数最高, 0.85上下
+        if (mark > threshold) {
             return BattlefieldMatcher::MatchResult<int> { .status = MatchStatus::HitCache };
         }
     }
@@ -363,7 +363,7 @@ BattlefieldMatcher::MatchResult<int> BattlefieldMatcher::costs_analyze() const
 
     int cost = 0;
     if (utils::chars_to_number(cost_opt->text, cost)) {
-        return BattlefieldMatcher::MatchResult<int> { .value = cost, .status = MatchStatus::Match };
+        return BattlefieldMatcher::MatchResult<int> { .value = cost, .status = MatchStatus::Success };
     }
     return BattlefieldMatcher::MatchResult<int> {};
 }
