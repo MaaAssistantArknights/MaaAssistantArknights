@@ -1333,8 +1333,8 @@
         "text": ["All"]
     },
     "BattleQuickFormationOCR": {
-        "roi": [0, 231, 116, 22],
-        "specialParams": [105, 2, 7, 0]
+        "rectMove": [0, 231, 116, 22],
+        "specialParams": [105, 2, 7, 0, -3, 10]
     },
     "BattleStartPre": {
         "text": ["Start", "Start Challenge"]
