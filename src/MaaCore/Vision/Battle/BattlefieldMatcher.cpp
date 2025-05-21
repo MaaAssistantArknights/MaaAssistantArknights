@@ -26,6 +26,11 @@ void BattlefieldMatcher::set_total_kills_prompt(int prompt)
     m_total_kills_prompt = prompt;
 }
 
+void asst::BattlefieldMatcher::set_image_prev(const cv::Mat& image)
+{
+    m_image_prev = image;
+}
+
 BattlefieldMatcher::ResultOpt BattlefieldMatcher::analyze() const
 {
     Result result;
@@ -70,8 +75,8 @@ BattlefieldMatcher::ResultOpt BattlefieldMatcher::analyze() const
 
 std::vector<battle::DeploymentOper> BattlefieldMatcher::deployment_analyze() const
 {
-    MultiMatcher flags_analyzer(m_image);
     const auto& flag_task_ptr = Task.get("BattleOpersFlag");
+    MultiMatcher flags_analyzer(m_image);
     flags_analyzer.set_task_info(flag_task_ptr);
 
 #ifndef ASST_DEBUG
@@ -335,8 +340,8 @@ bool BattlefieldMatcher::cost_symbol_analyze() const
 BattlefieldMatcher::MatchResult<int> BattlefieldMatcher::costs_analyze() const
 {
     const auto& task = Task.get("BattleCostData");
-    if (!m_image_cache.empty() && m_image.cols == m_image_cache.cols && m_image.rows == m_image_cache.rows) {
-        cv::Mat cost_image_cache = make_roi(m_image_cache, task->roi);
+    if (!m_image_prev.empty() && m_image.cols == m_image_prev.cols && m_image.rows == m_image_prev.rows) {
+        cv::Mat cost_image_cache = make_roi(m_image_prev, task->roi);
         cv::Mat cost_image = make_roi(m_image, task->roi);
         cv::cvtColor(cost_image_cache, cost_image_cache, cv::COLOR_BGR2GRAY);
         cv::cvtColor(cost_image, cost_image, cv::COLOR_BGR2GRAY);

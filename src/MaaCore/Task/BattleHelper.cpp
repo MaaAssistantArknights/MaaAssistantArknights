@@ -350,7 +350,7 @@ bool asst::BattleHelper::update_cost(const cv::Mat& image, const cv::Mat& image_
 {
     BattlefieldMatcher analyzer(image);
     analyzer.set_object_of_interest({ .costs = true });
-    analyzer.set_image_cache(image_prev);
+    analyzer.set_image_prev(image_prev);
     auto result_opt = analyzer.analyze();
     if (!result_opt || result_opt->costs.status == BattlefieldMatcher::MatchStatus::Invalid) {
         return false;

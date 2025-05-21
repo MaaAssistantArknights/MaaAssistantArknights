@@ -53,9 +53,7 @@ public:
 
     void set_object_of_interest(ObjectOfInterest obj);
     void set_total_kills_prompt(int prompt);
-
-    void set_image_cache(const cv::Mat& image) { m_image_cache = image; }
-
+    void set_image_prev(const cv::Mat& image);
     ResultOpt analyze() const;
 
 protected:
@@ -77,6 +75,6 @@ protected:
 
     ObjectOfInterest m_object_of_interest;                    // 待识别的目标
     int m_total_kills_prompt = 0; // 之前的击杀总数，因为击杀数经常识别不准所以依赖外部传入作为参考
-    cv::Mat m_image_cache;        // 缓存图像, 用于判断费用, 击杀数是否变化. 无变化则不重新识别
+    cv::Mat m_image_prev;         // 缓存图像, 用于判断费用, 击杀数是否变化. 无变化则不重新识别
 };
 } // namespace asst
