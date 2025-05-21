@@ -364,7 +364,7 @@ std::vector<asst::BattleFormationTask::QuickFormationOper>
             continue;
         }
         for (const auto& flag : multi.get_result()) {
-            auto roi = flag.rect.move(ocr_task->roi);
+            auto roi = flag.rect.move(ocr_task->rect_move);
             if (roi.x < 0) {
                 roi.x = 0;
                 roi.width = roi.width + roi.x;
@@ -389,8 +389,8 @@ std::vector<asst::BattleFormationTask::QuickFormationOper>
                 }
             }
 
-            bin = bin.adjustROI(0, -2, 0, 0); // 底部收缩排除白线
-            int width = 5;
+            bin = bin.adjustROI(0, ocr_task->special_params[4], 0, 0); // 底部收缩排除白线
+            int width = ocr_task->special_params[5];
             for (int r = bin.cols - width - 1; r >= 0; --r) {
                 if (!cv::hasNonZero(bin.colRange(r, r + width))) { // 左边界排除无文字区域
                     ocr = ocr.adjustROI(0, 0, -r - 3, 0);
