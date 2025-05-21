@@ -211,6 +211,22 @@ bool asst::Assistant::ctrl_screencap()
     return m_ctrler->screencap();
 }
 
+bool asst::Assistant::restart_game()
+{
+    if (!m_game_package_name) {
+        Log.warn(__FUNCTION__, "| game package not record");
+        return false;
+    }
+    if (!m_ctrler->stop_activity(*m_game_package_name)) {
+        Log.warn(__FUNCTION__, "| stop activity failed");
+    }
+    if (!m_ctrler->start_activity(*m_game_package_name)) {
+        Log.error(__FUNCTION__, "| start activity failed");
+        return false;
+    }
+    return true;
+}
+
 asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, const std::string& params)
 {
     Log.info(__FUNCTION__, type, params);
@@ -447,26 +463,31 @@ void Assistant::working_proc()
         bool ret = task_ptr->run();
         finished_tasks.emplace_back(id);
 
-        if (m_monitor_restarting) {
+        if (m_game_restarting) {
             lock.lock();
-            Log.debug(__FUNCTION__, "| monitor restarting");
+            Log.trace(__FUNCTION__, "| game restarting");
 
-            if (m_game_package_name) {
-                if (!m_ctrler->stop_activity(*m_game_package_name)) {
-                    Log.warn(__FUNCTION__, "| stop activity failed");
-                }
-                if (!m_ctrler->start_activity(*m_game_package_name)) {
-                    Log.error(__FUNCTION__, "| start activity failed");
+            bool game_restart_ret = false;
+            if (restart_game()) {
+                for (int retry = 0; !m_thread_idle && retry < 3; retry++) {
+                    std::condition_variable waiting;
+                    waiting.wait_for(lock, std::chrono::seconds(30), [&]() -> bool { return m_thread_idle; });
+                    m_game_restarting = false; // 理论上应该放在StartUpTask后合理一点
+                    auto start = std::make_shared<StartUpTask>(append_callback_for_inst, this);
+                    start->set_enable(true);
+                    start->set_params(json::value());
+                    game_restart_ret = start->run();
+                    if (game_restart_ret) {
+                        break;
+                    }
                 }
             }
-            std::condition_variable waiting;
-            waiting.wait_for(lock, std::chrono::seconds(30), [&]() -> bool { return m_thread_idle; });
-            m_monitor_restarting = false; // 理论上应该放在StartUpTask后合理一点
-            auto start = std::make_shared<StartUpTask>(append_callback_for_inst, this);
-            start->set_enable(true);
-            start->set_params(json::value());
-            start->run();
-            Log.debug(__FUNCTION__, "| monitor restart finish");
+            if (game_restart_ret) {
+                Log.trace(__FUNCTION__, "| game restart finish");
+            }
+            else {
+                Log.trace(__FUNCTION__, "| game restart failed, try to restart emulator");
+            }
             m_restart_condvar.notify_one();
             lock.unlock();
         }
@@ -532,7 +553,7 @@ void Assistant::monitor_proc()
 {
     LogTraceFunction;
     const auto& restart_game = [&]() {
-        m_monitor_restarting = true;
+        m_game_restarting = true;
         std::mutex restart_mutex;
         std::unique_lock<std::mutex> lock(restart_mutex);
         m_restart_condvar.wait(lock);
