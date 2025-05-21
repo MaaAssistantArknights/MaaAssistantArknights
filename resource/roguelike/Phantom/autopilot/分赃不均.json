@@ -30,6 +30,11 @@
             "direction": "right"
         },
         {
+            "groups": ["维什戴尔", "空弦", "迷迭香"],
+            "location": [1, 4],
+            "direction": "right"
+        }, 
+        {
             "groups": ["奶", "凯尔希", "浊心斯卡蒂"],
             "location": [2, 2],
             "direction": "right"

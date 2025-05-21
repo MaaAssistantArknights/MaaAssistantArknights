@@ -41,6 +41,11 @@
             "direction": "right"
         },
         {
+            "groups": ["维什戴尔", "空弦", "迷迭香"], 
+            "location": [10, 4],
+            "direction": "left"
+        }, 
+        {
             "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
             "location": [6, 4],
             "direction": "right"
