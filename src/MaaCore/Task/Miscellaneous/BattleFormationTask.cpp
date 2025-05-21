@@ -364,7 +364,22 @@ std::vector<asst::BattleFormationTask::QuickFormationOper>
             continue;
         }
         for (const auto& flag : multi.get_result()) {
-            ocr = make_roi(image, flag.rect.move(ocr_task->roi));
+            auto roi = flag.rect.move(ocr_task->roi);
+            if (roi.x < 0) {
+                roi.x = 0;
+                roi.width = roi.width + roi.x;
+            }
+            if (roi.y < 0) {
+                roi.y = 0;
+                roi.height = roi.height + roi.y;
+            }
+            if (roi.x + roi.width > image.cols) {
+                roi.width = image.cols - roi.x;
+            }
+            if (roi.y + roi.height > image.rows) {
+                roi.height = image.rows - roi.y;
+            }
+            ocr = make_roi(image, roi);
             cv::cvtColor(ocr, gray, cv::COLOR_BGR2GRAY);
             cv::inRange(gray, ocr_task->special_params[0], 255, bin);
             for (int r = bin.cols - 1; r >= 0; --r) {
