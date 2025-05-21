@@ -35,6 +35,7 @@ public:
     virtual void set_log_tracing(bool enable);
 
     bool save_img(const std::filesystem::path& relative_dir = utils::path("debug"));
+    static Rect correct_rect(const Rect& rect, const Rect& main_roi);
 
 #ifdef ASST_DEBUG
     const cv::Mat& get_draw() const { return m_image_draw; }
