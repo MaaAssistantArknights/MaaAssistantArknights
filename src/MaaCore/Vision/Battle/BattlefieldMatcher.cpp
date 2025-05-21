@@ -51,7 +51,7 @@ BattlefieldMatcher::ResultOpt BattlefieldMatcher::analyze() const
 
     if (m_object_of_interest.costs) {
         result.costs = costs_analyze();
-        if (std::holds_alternative<asst::BattlefieldMatcher::MatchStatus>(result.costs)) {
+        if (result.costs.status == MatchStatus::Match) {
             return std::nullopt;
         }
     }
@@ -332,11 +332,10 @@ bool BattlefieldMatcher::cost_symbol_analyze() const
     return flag_analyzer.analyze().has_value();
 }
 
-std::variant<int, asst::BattlefieldMatcher::MatchStatus> BattlefieldMatcher::costs_analyze() const
+BattlefieldMatcher::MatchResult<int> BattlefieldMatcher::costs_analyze() const
 {
+    const auto& task = Task.get("BattleCostData");
     if (!m_image_cache.empty() && m_image.cols == m_image_cache.cols && m_image.rows == m_image_cache.rows) {
-        const auto task = Task.get("BattleCostData");
-
         cv::Mat cost_image_cache = make_roi(m_image_cache, task->roi);
         cv::Mat cost_image = make_roi(m_image, task->roi);
         cv::cvtColor(cost_image_cache, cost_image_cache, cv::COLOR_BGR2GRAY);
@@ -349,24 +348,24 @@ std::variant<int, asst::BattlefieldMatcher::MatchStatus> BattlefieldMatcher::cos
         cv::minMaxLoc(match, nullptr, &mark);
 
         const double threshold = static_cast<double>(task->special_params[0]) / 100;
-        if (mark > threshold) {           // 正常在 0.997-1 之间波动, 少有0.995
-            return MatchStatus::HitCache; // _5->_6 的分数最高, 0.85上下
+        if (mark > threshold) { // 正常在 0.997-1 之间波动, 少有0.995
+            // _5->_6 的分数最高, 0.85上下
+            return BattlefieldMatcher::MatchResult<int> { .status = MatchStatus::HitCache };
         }
     }
 
     RegionOCRer cost_analyzer(m_image);
-    cost_analyzer.set_task_info("BattleCostData");
-
+    cost_analyzer.set_task_info(task);
     auto cost_opt = cost_analyzer.analyze();
     if (!cost_opt) {
-        return MatchStatus::Invalid;
+        return BattlefieldMatcher::MatchResult<int> {};
     }
 
     int cost = 0;
     if (utils::chars_to_number(cost_opt->text, cost)) {
-        return cost;
+        return BattlefieldMatcher::MatchResult<int> { .value = cost, .status = MatchStatus::Match };
     }
-    return MatchStatus::Invalid;
+    return BattlefieldMatcher::MatchResult<int> {};
 }
 
 bool BattlefieldMatcher::pause_button_analyze() const

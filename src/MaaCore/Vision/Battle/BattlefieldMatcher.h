@@ -21,9 +21,16 @@ public:
 
     enum MatchStatus
     {
-        Invalid = 0, // 匹配错误
-        // Match = 1,    // 匹配成功
+        Invalid = 0,  // 匹配错误
+        Match = 1,  // 匹配成功
         HitCache = 2, // 图像命中缓存, 不进行识别
+    };
+
+    template <typename T>
+    struct MatchResult
+    {
+        T value;
+        MatchStatus status;
     };
 
     struct Result
@@ -33,7 +40,7 @@ public:
         std::vector<battle::DeploymentOper> deployment;
         // kills / total_kills
         std::optional<std::pair<int, int>> kills;
-        std::variant<int, MatchStatus> costs;
+        MatchResult<int> costs;
 
         // bool in_detail = false;
         bool speed_button = false;
@@ -64,14 +71,14 @@ protected:
     int oper_cost_analyze(const Rect& roi) const;
     bool oper_available_analyze(const Rect& roi) const;
 
-    std::optional<std::pair<int, int>> kills_analyze() const;                       // 识别击杀数
-    bool cost_symbol_analyze() const;                                               // 识别费用左侧图标
-    std::variant<int, asst::BattlefieldMatcher::MatchStatus> costs_analyze() const; // 识别费用
-    bool in_detail_analyze() const;                                                 // 识别是否在详情页
-    bool speed_button_analyze() const;     // 识别是否有加速按钮（在详情页就没有）
+    std::optional<std::pair<int, int>> kills_analyze() const; // 识别击杀数
+    bool cost_symbol_analyze() const;                         // 识别费用左侧图标
+    MatchResult<int> costs_analyze() const;                   // 识别费用
+    bool in_detail_analyze() const;                           // 识别是否在详情页
+    bool speed_button_analyze() const;                        // 识别是否有加速按钮（在详情页就没有）
 
-    ObjectOfInterest m_object_of_interest; // 待识别的目标
-    int m_total_kills_prompt = 0;          // 之前的击杀总数，因为击杀数经常识别不准所以依赖外部传入作为参考
-    cv::Mat m_image_cache;                 // 缓存图像, 用于判断费用, 击杀数是否变化. 无变化则不重新识别
+    ObjectOfInterest m_object_of_interest;                    // 待识别的目标
+    int m_total_kills_prompt = 0; // 之前的击杀总数，因为击杀数经常识别不准所以依赖外部传入作为参考
+    cv::Mat m_image_cache;        // 缓存图像, 用于判断费用, 击杀数是否变化. 无变化则不重新识别
 };
 } // namespace asst
