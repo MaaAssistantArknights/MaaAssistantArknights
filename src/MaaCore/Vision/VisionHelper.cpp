@@ -41,6 +41,38 @@ void VisionHelper::set_log_tracing(bool enable)
     m_log_tracing = enable;
 }
 
+Rect asst::VisionHelper::correct_rect(const Rect& rect, const Rect& main_roi)
+{
+    if (main_roi.empty()) {
+        return { 0, 0, 0, 0 };
+    }
+
+    Rect res = rect;
+    if (res.x < 0) {
+        res.x = 0;
+        res.width = rect.width + rect.x;
+    }
+    if (res.y < 0) {
+        res.y = 0;
+        res.height = rect.height + rect.y;
+    }
+    if (res.x < main_roi.x) {
+        res.x = main_roi.x;
+        res.width = res.width - (main_roi.x - res.x);
+    }
+    if (res.y < main_roi.y) {
+        res.y = main_roi.y;
+        res.height = res.height - (main_roi.y - res.y);
+    }
+    if (res.x + res.width > main_roi.x + main_roi.width) {
+        res.width = main_roi.x + main_roi.width - res.x;
+    }
+    if (res.y + res.height > main_roi.y + main_roi.height) {
+        res.height = main_roi.y + main_roi.height - res.y;
+    }
+    return res;
+}
+
 Rect VisionHelper::correct_rect(const Rect& rect, const cv::Mat& image)
 {
     if (image.empty()) {
