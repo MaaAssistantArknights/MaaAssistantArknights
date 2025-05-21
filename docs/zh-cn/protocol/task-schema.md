@@ -156,7 +156,7 @@ icon: material-symbols:task
 
         "ratio": 0.6,                       // KNN 匹配算法的距离比值, [0 - 1.0], 越大则匹配越宽松, 更容易连线. 默认0.6
 
-        "detector": "SIFT",                 // 特征点检测器类型, 可选值为 SIFT, ORB, AKAZE, SURF; 默认值 = SIFT
+        "detector": "SIFT",                 // 特征点检测器类型, 可选值为 SIFT, ORB, BRISK, KAZE, AKAZE, SURF; 默认值 = SIFT
                                             // SIFT: 计算复杂度高，具有尺度不变性、旋转不变性。效果最好。
                                             // ORB: 计算速度非常快，具有旋转不变性。但不具有尺度不变性。
                                             // BRISK: 计算速度非常快，具有尺度不变性、旋转不变性。

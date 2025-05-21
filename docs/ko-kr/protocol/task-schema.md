@@ -159,7 +159,7 @@ icon: material-symbols:task
 
         "ratio": 0.6,                       // KNN 일치 알고리즘의 거리 비율, [0 - 1.0]. 비율이 클수록 일치가 느슨해지고 연결하기가 더 쉽습니다. 기본값: 0.6
 
-        "detector": "SIFT",                 // 특징점 검출기 유형, 선택 사항: SIFT, ORB, AKAZE, SURF; 기본값: SIFT
+        "detector": "SIFT",                 // 특징점 검출기 유형, 선택 사항: SIFT, ORB, BRISK, KAZE, AKAZE, SURF; 기본값: SIFT
                                             // SIFT: 높은 계산 복잡도, 스케일 불변성, 회전 불변성. 최상의 효과.
                                             // ORB: 매우 빠른 계산 속도, 회전 불변성. 하지만 스케일 불변성은 없습니다.
                                             // BRISK: 매우 빠른 계산 속도, 스케일 불변성, 회전 불변성을 가집니다.
