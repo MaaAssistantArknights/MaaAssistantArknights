@@ -27,19 +27,9 @@ public partial class TooltipBlock : UserControl
         DataContext = this;
     }
 
-    public static readonly DependencyProperty TooltipTextProperty =
-        DependencyProperty.Register(
-            nameof(TooltipText),
-            typeof(string),
-            typeof(TooltipBlock),
-            new PropertyMetadata(string.Empty));
+    public static readonly DependencyProperty TooltipTextProperty = DependencyProperty.Register(nameof(TooltipText), typeof(string), typeof(TooltipBlock), new PropertyMetadata(string.Empty));
 
-    public static readonly DependencyProperty TooltipMaxWidthProperty =
-        DependencyProperty.Register(
-            nameof(TooltipMaxWidth),
-            typeof(double),
-            typeof(TooltipBlock),
-            new PropertyMetadata(double.MaxValue));
+    public static readonly DependencyProperty TooltipMaxWidthProperty = DependencyProperty.Register(nameof(TooltipMaxWidth), typeof(double), typeof(TooltipBlock), new PropertyMetadata(double.MaxValue));
 
     public string TooltipText
     {

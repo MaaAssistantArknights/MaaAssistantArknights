@@ -13,7 +13,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
     xmlns:vm="clr-namespace:MaaWpfGui"
@@ -103,27 +102,8 @@
                         HorizontalAlignment="Center"
                         Content="{DynamicResource UseCopilotList}"
                         IsChecked="{Binding UseCopilotList}"
-                        IsEnabled="{Binding Idle}"/>
-                    <Border
-                        Width="15"
-                        Height="15"
-                        Margin="5,0,0,0"
-                        Background="{DynamicResource MouseOverRegionBrush}"
-                        Style="{StaticResource BorderCircular}"
-                        ToolTipService.InitialShowDelay="0">
-                        <Border.ToolTip>
-                            <TextBlock
-                                MaxWidth="350"
-                                Text="{DynamicResource UseCopilotListTip}"
-                                TextWrapping="Wrap" />
-                        </Border.ToolTip>
-                        <TextBlock
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontSize="10"
-                            Foreground="{DynamicResource PrimaryTextBrush}"
-                            Text="?" />
-                    </Border>
+                        IsEnabled="{Binding Idle}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource UseCopilotListTip}" />
                 </StackPanel>
                 <StackPanel
                     Height="30"
