@@ -943,6 +943,11 @@ namespace MaaWpfGui.Main
                         Instances.TaskQueueViewModel.CheckAfterCompleted();
                     }
 
+                    if (isCopilotTaskChain)
+                    {
+                        ToastNotification.ShowDirect(LocalizationHelper.GetString("CompleteTask") + taskChain);
+                    }
+
                     if (buyWine)
                     {
                         Instances.SettingsViewModel.LastBuyWineTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
