@@ -1,6 +1,5 @@
 $hasChanges = $false
 $hasPngChanges = $false
-$hasVersionChanges = $false
 
 git add .
 
@@ -45,7 +44,6 @@ else {
             $jsonFormatted = $jsonFormatted -replace "  ", "    "
             $jsonFormatted | Set-Content -Path $versionFile
             
-            $hasVersionChanges = $true
             Write-Output "Updated: $versionFile"
         }
     }
@@ -58,7 +56,5 @@ else {
 
 Write-Output "Changes: $hasChanges"
 Write-Output "PNG Changes: $hasPngChanges"
-Write-Output "Update Resources: $hasVersionChanges"
 Write-Output "changes=$hasChanges" >> $env:GITHUB_OUTPUT
 Write-Output "contains_png=$hasPngChanges" >> $env:GITHUB_OUTPUT
-Write-Output "update_resources=$hasVersionChanges" >> $env:GITHUB_OUTPUT

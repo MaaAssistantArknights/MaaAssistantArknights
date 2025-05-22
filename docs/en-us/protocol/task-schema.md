@@ -152,7 +152,7 @@ Usage of `resource/tasks` and description of each field
 
         "ratio": 0.6,                       // The distance ratio of the KNN matching algorithm, [0 - 1.0], the larger the ratio, the looser the match and the easier it is to connect. Default 0.6
 
-        "detector": "SIFT",                 // Feature point detector type, optional values ​​are SIFT, ORB, AKAZE, SURF; default value = SIFT
+        "detector": "SIFT",                 // Feature point detector type, optional values ​​are SIFT, ORB, BRISK, KAZE, AKAZE, SURF; default value = SIFT
                                             // SIFT: High computational complexity, scale invariance, rotation invariance. Best effect.
                                             // ORB: Very fast computational speed, rotation invariance. But not scale invariance.
                                             // BRISK: Very fast computational speed, scale invariance, rotation invariance.
