@@ -100,8 +100,6 @@ bool asst::MedicineCounterTaskPlugin::_run()
         return true;
     }
 
-    m_used_count += using_medicine->using_count;
-
     std::optional<int> sanity_target, sanity_max;
     auto analyze_sanity = [&]() {
         sanity_target = get_target_of_sanity(image);
@@ -144,6 +142,8 @@ bool asst::MedicineCounterTaskPlugin::_run()
         Log.error(__FUNCTION__, "unable to run medicine confirm");
         return false;
     }
+
+    m_used_count += using_medicine->using_count;
 
     if (auto ptr = m_task_ptr->find_plugin<FightTimesTaskPlugin>()) {
         ptr->set_has_used_medicine();

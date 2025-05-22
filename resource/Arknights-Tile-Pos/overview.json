@@ -5948,6 +5948,42 @@
         "stageId": "act1break_12",
         "width": 11
     },
+    "act1break_h01-activities/act1break/level_act1break_13": {
+        "code": "VEC-A",
+        "filename": "act1break_h01-activities-act1break-level_act1break_13.json",
+        "height": 8,
+        "levelId": "activities/act1break/level_act1break_13",
+        "name": "热情逼人",
+        "stageId": "act1break_h01",
+        "width": 10
+    },
+    "act1break_h02-activities/act1break/level_act1break_14": {
+        "code": "VEC-B",
+        "filename": "act1break_h02-activities-act1break-level_act1break_14.json",
+        "height": 8,
+        "levelId": "activities/act1break/level_act1break_14",
+        "name": "车轮滚滚",
+        "stageId": "act1break_h02",
+        "width": 12
+    },
+    "act1break_h03-activities/act1break/level_act1break_15": {
+        "code": "VEC-C",
+        "filename": "act1break_h03-activities-act1break-level_act1break_15.json",
+        "height": 7,
+        "levelId": "activities/act1break/level_act1break_15",
+        "name": "思绪倒影",
+        "stageId": "act1break_h03",
+        "width": 11
+    },
+    "act1break_h04-activities/act1break/level_act1break_16": {
+        "code": "VEC-D",
+        "filename": "act1break_h04-activities-act1break-level_act1break_16.json",
+        "height": 9,
+        "levelId": "activities/act1break/level_act1break_16",
+        "name": "有限性原理",
+        "stageId": "act1break_h04",
+        "width": 11
+    },
     "act1break_sp01-activities/act1break/level_act1break_sp01": {
         "code": "VEC-SP01",
         "filename": "act1break_sp01-activities-act1break-level_act1break_sp01.json",
@@ -6019,6 +6055,78 @@
         "name": "风险投资",
         "stageId": "act1break_sp08",
         "width": 9
+    },
+    "act1break_sp09-activities/act1break/level_act1break_sp09": {
+        "code": "VEC-SP09",
+        "filename": "act1break_sp09-activities-act1break-level_act1break_sp09.json",
+        "height": 7,
+        "levelId": "activities/act1break/level_act1break_sp09",
+        "name": "风尘仆仆",
+        "stageId": "act1break_sp09",
+        "width": 8
+    },
+    "act1break_sp10-activities/act1break/level_act1break_sp10": {
+        "code": "VEC-SP10",
+        "filename": "act1break_sp10-activities-act1break-level_act1break_sp10.json",
+        "height": 7,
+        "levelId": "activities/act1break/level_act1break_sp10",
+        "name": "行色匆匆",
+        "stageId": "act1break_sp10",
+        "width": 10
+    },
+    "act1break_sp11-activities/act1break/level_act1break_sp11": {
+        "code": "VEC-SP11",
+        "filename": "act1break_sp11-activities-act1break-level_act1break_sp11.json",
+        "height": 8,
+        "levelId": "activities/act1break/level_act1break_sp11",
+        "name": "爆炸现场",
+        "stageId": "act1break_sp11",
+        "width": 9
+    },
+    "act1break_sp12-activities/act1break/level_act1break_sp12": {
+        "code": "VEC-SP12",
+        "filename": "act1break_sp12-activities-act1break-level_act1break_sp12.json",
+        "height": 8,
+        "levelId": "activities/act1break/level_act1break_sp12",
+        "name": "巫术排练",
+        "stageId": "act1break_sp12",
+        "width": 10
+    },
+    "act1break_sp13-activities/act1break/level_act1break_sp13": {
+        "code": "VEC-SP13",
+        "filename": "act1break_sp13-activities-act1break-level_act1break_sp13.json",
+        "height": 8,
+        "levelId": "activities/act1break/level_act1break_sp13",
+        "name": "巫术汇演",
+        "stageId": "act1break_sp13",
+        "width": 11
+    },
+    "act1break_sp14-activities/act1break/level_act1break_sp14": {
+        "code": "VEC-SP14",
+        "filename": "act1break_sp14-activities-act1break-level_act1break_sp14.json",
+        "height": 7,
+        "levelId": "activities/act1break/level_act1break_sp14",
+        "name": "绝人之路",
+        "stageId": "act1break_sp14",
+        "width": 10
+    },
+    "act1break_sp15-activities/act1break/level_act1break_sp15": {
+        "code": "VEC-SP15",
+        "filename": "act1break_sp15-activities-act1break-level_act1break_sp15.json",
+        "height": 7,
+        "levelId": "activities/act1break/level_act1break_sp15",
+        "name": "墙开一面",
+        "stageId": "act1break_sp15",
+        "width": 10
+    },
+    "act1break_sp16-activities/act1break/level_act1break_sp16": {
+        "code": "VEC-SP16",
+        "filename": "act1break_sp16-activities-act1break-level_act1break_sp16.json",
+        "height": 7,
+        "levelId": "activities/act1break/level_act1break_sp16",
+        "name": "活路一条",
+        "stageId": "act1break_sp16",
+        "width": 10
     },
     "act1enemyduel_01a-activities/act1enemyduel/level_act1enemyduel_01a": {
         "code": "VS-1",
