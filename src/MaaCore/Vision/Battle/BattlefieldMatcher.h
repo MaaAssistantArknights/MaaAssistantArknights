@@ -29,7 +29,7 @@ public:
     template <typename T>
     struct MatchResult
     {
-        T value;
+        T value {};
         MatchStatus status = MatchStatus::Invalid;
     };
 
