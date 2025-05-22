@@ -355,7 +355,7 @@ BattlefieldMatcher::MatchResult<int> BattlefieldMatcher::costs_analyze() const
         // _5->_6 的分数最高, 0.85上下
         const double threshold = static_cast<double>(task->special_params[0]) / 100;
         if (mark > threshold) {
-            return MatchResult<int> { .status = MatchStatus::HitCache };
+            return BattlefieldMatcher::MatchResult<int> { .status = MatchStatus::HitCache };
         }
     }
 
@@ -363,14 +363,14 @@ BattlefieldMatcher::MatchResult<int> BattlefieldMatcher::costs_analyze() const
     cost_analyzer.set_task_info(task);
     auto cost_opt = cost_analyzer.analyze();
     if (!cost_opt) {
-        return MatchResult<int> {};
+        return BattlefieldMatcher::MatchResult<int> {};
     }
 
     int cost = 0;
     if (utils::chars_to_number(cost_opt->text, cost)) {
-        return MatchResult { .value = cost, .status = MatchStatus::Success };
+        return BattlefieldMatcher::MatchResult { .value = cost, .status = MatchStatus::Success };
     }
-    return MatchResult<int> {};
+    return BattlefieldMatcher::MatchResult<int> {};
 }
 
 bool BattlefieldMatcher::pause_button_analyze() const
