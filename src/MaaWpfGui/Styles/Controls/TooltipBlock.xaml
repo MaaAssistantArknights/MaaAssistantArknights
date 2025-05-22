@@ -11,14 +11,13 @@
         Width="15"
         Height="15"
         Margin="5,0,0,0"
-        Tag="12333"
         Background="{DynamicResource MouseOverRegionBrush}"
         Style="{StaticResource BorderCircular}"
         ToolTipService.InitialShowDelay="0">
         <Border.ToolTip>
             <TextBlock
-                MaxWidth="{Binding ToolTipService.InitialShowDelay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border}}"
-                Text="{Binding Tag, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border}}"
+                MaxWidth="{Binding TooltipMaxWidth}"
+                Text="{Binding TooltipText}"
                 TextWrapping="Wrap" />
         </Border.ToolTip>
         <TextBlock

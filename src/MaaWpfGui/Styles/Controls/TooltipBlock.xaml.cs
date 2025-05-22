@@ -24,6 +24,7 @@ public partial class TooltipBlock : UserControl
     public TooltipBlock()
     {
         InitializeComponent();
+        DataContext = this;
     }
 
     public static readonly DependencyProperty TooltipTextProperty =
