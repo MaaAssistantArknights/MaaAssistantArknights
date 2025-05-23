@@ -302,15 +302,17 @@ void asst::BattleProcessTask::notify_action(const battle::copilot::Action& actio
 
 bool asst::BattleProcessTask::wait_condition(const Action& action)
 {
-    cv::Mat image;
+    cv::Mat image, image_prev;
     auto update_image_if_empty = [&]() {
         if (image.empty()) {
+            image_prev = cv::Mat();
             image = ctrler()->get_image();
             check_in_battle(image);
         }
     };
     auto do_strategy_and_update_image = [&]() {
         do_strategic_action(image);
+        image_prev = std::move(image);
         image = ctrler()->get_image();
     };
 
@@ -320,7 +322,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
         int pre_cost = m_cost;
 
         while (!need_exit()) {
-            update_cost(image);
+            update_cost(image, image_prev);
             if (action.cost_changes != 0) {
                 if ((pre_cost + action.cost_changes < 0) ? (m_cost <= pre_cost + action.cost_changes)
                                                          : (m_cost >= pre_cost + action.cost_changes)) {
@@ -350,8 +352,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
 
     if (action.costs) {
         update_image_if_empty();
+        update_cost(image); // 保证 m_cost 是最新的
         while (!need_exit()) {
-            update_cost(image);
+            update_cost(image, image_prev);
             if (m_cost >= action.costs) {
                 break;
             }
