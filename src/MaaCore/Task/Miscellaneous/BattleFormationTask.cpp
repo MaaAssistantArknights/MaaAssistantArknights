@@ -263,7 +263,7 @@ bool asst::BattleFormationTask::add_additional()
             // TODO 这里要识别一下干员之前有没有被选中过
             for (size_t i = 0; i < static_cast<size_t>(number) && i < opers_result.size(); ++i) {
                 const auto& oper = opers_result.at(i);
-                ctrler()->click(oper.rect);
+                ctrler()->click(oper.flag_rect);
             }
         }
     }
