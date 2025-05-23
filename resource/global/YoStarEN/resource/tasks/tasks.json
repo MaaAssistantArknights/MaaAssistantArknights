@@ -1386,6 +1386,8 @@
         "roi": [1166, 0, 114, 124]
     },
     "OperBoxNameOCR": {
+        "rectMove_doc": "for overwidth",
+        "rectMove": [0, 265, 128, 22],
         "specialParams": [160, 4, 0, 0, 3, 10]
     },
     "SSSBegin": {
