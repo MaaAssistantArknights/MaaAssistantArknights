@@ -36,7 +36,8 @@ public:
     struct Result
     {
         ObjectOfInterest object_of_interest;
-        std::vector<battle::DeploymentOper> deployment;
+
+        BattlefieldMatcher::MatchResult<std::vector<battle::DeploymentOper>> deployment;
         std::optional<std::pair<int, int>> kills; // kills / total_kills
         MatchResult<int> costs;
 
@@ -61,7 +62,7 @@ protected:
     bool kills_flag_analyze() const;
     bool pause_button_analyze() const;
 
-    std::vector<battle::DeploymentOper> deployment_analyze() const; // 识别干员
+    MatchResult<std::vector<battle::DeploymentOper>> deployment_analyze() const; // 识别干员
     battle::Role oper_role_analyze(const Rect& roi) const;
     bool oper_cooling_analyze(const Rect& roi) const;
     int oper_cost_analyze(const Rect& roi) const;

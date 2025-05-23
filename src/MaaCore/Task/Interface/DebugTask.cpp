@@ -23,6 +23,19 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
 
 bool asst::DebugTask::run()
 {
+    test_drops();
+    test_drops();
+    auto cd1 = imread(utils::path("C:\\Users\\status102\\desktop/deploy_cost0.png"));
+    auto cd2 = imread(utils::path("C:\\Users\\status102\\desktop/deploy_cost1.png"));
+    BattlefieldMatcher match(cd2);
+    match.set_image_prev(cd1);
+    match.set_object_of_interest({ .deployment = true });
+    if (match.analyze()) {
+        Log.info("active");
+    }
+    else {
+        Log.info("inactive");
+    }
     return true;
 }
 
