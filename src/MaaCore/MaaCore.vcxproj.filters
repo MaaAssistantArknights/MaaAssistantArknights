@@ -1334,6 +1334,9 @@
     <ClInclude Include="Task\Roguelike\RoguelikeInputSeedTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Vision\Miscellaneous\OperNameAnalyzer.h">
+      <Filter>Source\Vision\Miscellaneous</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1850,6 +1853,9 @@
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeInputSeedTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Vision\Miscellaneous\OperNameAnalyzer.cpp">
+      <Filter>Source\Vision\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
