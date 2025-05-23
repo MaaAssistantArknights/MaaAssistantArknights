@@ -215,6 +215,35 @@ struct Rect
 
     Rect move(Rect move) const { return { x + move.x, y + move.y, move.width, move.height }; }
 
+    // 创建一个包含所有传入Rect的最小包围盒
+    static Rect bounding_box(const std::vector<Rect>& rects)
+    {
+        if (rects.empty()) {
+            return {};
+        }
+
+        int min_x = INT_MAX;
+        int min_y = INT_MAX;
+        int max_x = INT_MIN;
+        int max_y = INT_MIN;
+
+        for (const auto& rect : rects) {
+            min_x = std::min<int>(min_x, rect.x);
+            min_y = std::min<int>(min_y, rect.y);
+            max_x = std::max<int>(max_x, rect.x + rect.width);
+            max_y = std::max<int>(max_y, rect.y + rect.height);
+        }
+
+        return { min_x, min_y, max_x - min_x, max_y - min_y };
+    }
+
+    template <typename... Args>
+    static Rect bounding_box(const Rect& first, const Args&... args)
+    {
+        std::vector<Rect> rects = { first, args... };
+        return bounding_box(rects);
+    }
+
     int x = 0;
     int y = 0;
     int width = 0;
