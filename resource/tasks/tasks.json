@@ -4344,7 +4344,7 @@
     "OperBoxNameOCR": {
         "baseTask": "CharsNameOcrReplace",
         "text": [],
-        "rectMove": [3, 265, 125, 22],
+        "rectMove": [3, 265, 123, 22],
         "specialParams": [160, 4, 0, 0, 3, 10]
     },
     "OperBoxLevelOCR": {
