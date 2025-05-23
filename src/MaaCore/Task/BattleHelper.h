@@ -47,9 +47,10 @@ protected:
     bool speed_up();
     bool abandon();
 
+    // 获取并分析部署区的干员
     bool update_deployment(bool init = false, const cv::Mat& reusable = cv::Mat(), bool need_oper_cost = false);
-    // 更新部署区的干员，仅当存在未识别干员且不处于冷却中return false
-    bool update_deployment_(
+    // 分析部署区的干员, 拿到名字, 仅当存在未识别干员且不处于冷却中return false
+    bool analyze_deployment(
         std::vector<battle::DeploymentOper>& cur_opers,
         const std::vector<battle::DeploymentOper>& old_deployment_opers,
         bool stop_on_unknown);
@@ -96,10 +97,11 @@ protected:
     std::string analyze_detail_page_oper_name(const cv::Mat& image);
     std::optional<Rect> get_oper_rect_on_deployment(const std::string& name) const;
 
+    // 从干员头像list中, 匹配干员
     template <typename T>
     requires asst::ranges::range<T> && OperAvatarPair<asst::ranges::range_value_t<T>>
     std::optional<asst::BestMatcher::Result>
-        analyze_oper_with_cache(const battle::DeploymentOper& oper, T&& avatar_cache);
+        match_oper_with_avatar(const battle::DeploymentOper& oper, T&& avatar_cache);
 
     // 从场上干员和已占用格子中移除冷却中的干员
     void remove_cooling_from_battlefield(const battle::DeploymentOper& oper);
@@ -116,6 +118,7 @@ protected:
     std::unordered_map<std::string, std::chrono::steady_clock::time_point> m_last_use_skill_time;
     int m_camera_count = 0;
     std::pair<double, double> m_camera_shift = { 0., 0. };
+    cv::Mat m_image_prev_for_deploy; // 缓存图像, 用于判断部署区干员是否变化, 仅用于更新部署区
 
     /* 实时更新的数据 */
     bool m_in_battle = false;

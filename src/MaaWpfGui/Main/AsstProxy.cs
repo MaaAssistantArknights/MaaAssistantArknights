@@ -1353,6 +1353,12 @@ namespace MaaWpfGui.Main
             string what = details["what"]?.ToString() ?? string.Empty;
             switch (what)
             {
+                case "BattleCacheTest":
+                    {
+                        Instances.CopilotViewModel.AddLog($"hit cache: {subTaskDetails["hit"]}, score: [{string.Join(",", subTaskDetails["score"].Select(i => i.ToString()))}]", UiLogColor.Info);
+                        break;
+                    }
+
                 case "StageDrops":
                     {
                         string allDrops = string.Empty;

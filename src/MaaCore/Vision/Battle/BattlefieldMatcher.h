@@ -36,7 +36,8 @@ public:
     struct Result
     {
         ObjectOfInterest object_of_interest;
-        std::vector<battle::DeploymentOper> deployment;
+
+        BattlefieldMatcher::MatchResult<std::vector<battle::DeploymentOper>> deployment;
         MatchResult<std::pair<int, int>> kills; // kills / total_kills
         MatchResult<int> costs;
 
@@ -54,6 +55,9 @@ public:
     void set_object_of_interest(ObjectOfInterest obj);
     void set_total_kills_prompt(int prompt);
     void set_image_prev(const cv::Mat& image);
+
+    std::vector<double> get_score() const { return m_score; }
+
     ResultOpt analyze() const;
 
 protected:
@@ -61,7 +65,7 @@ protected:
     bool kills_flag_analyze() const;
     bool pause_button_analyze() const;
 
-    std::vector<battle::DeploymentOper> deployment_analyze() const; // 识别干员
+    MatchResult<std::vector<battle::DeploymentOper>> deployment_analyze() const; // 识别干员
     battle::Role oper_role_analyze(const Rect& roi) const;
     bool oper_cooling_analyze(const Rect& roi) const;
     int oper_cost_analyze(const Rect& roi) const;
@@ -79,6 +83,7 @@ protected:
 
     ObjectOfInterest m_object_of_interest; // 待识别的目标
     int m_total_kills_prompt = 0;          // 之前的击杀总数，因为击杀数经常识别不准所以依赖外部传入作为参考
-    cv::Mat m_image_prev;                  // 缓存图像, 用于判断费用, 击杀数是否变化. 无变化则不重新识别
+    cv::Mat m_image_prev;                  // 缓存图像, 用于判断费用, 击杀数, 待部署区是否变化. 无变化则不重新识别
+    mutable std::vector<double> m_score; // 识别分数, 测试代码
 };
 } // namespace asst

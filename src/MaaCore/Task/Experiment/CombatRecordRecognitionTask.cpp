@@ -259,7 +259,7 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
         show_img(oper_analyzer);
         if (analyzed) {
             m_battle_start_frame = i;
-            deployment = std::move(oper_result_opt->deployment);
+            deployment = std::move(oper_result_opt->deployment.value);
             break;
         }
     }
@@ -389,8 +389,8 @@ bool asst::CombatRecordRecognitionTask::slice_video()
         const auto& cur_opers = result_opt->deployment;
         bool continuity = true;
         int pre_distance = 0;
-        for (auto iter = cur_opers.begin(); iter != cur_opers.end(); ++iter) {
-            if (iter == cur_opers.begin()) {
+        for (auto iter = cur_opers.value.begin(); iter != cur_opers.value.end(); ++iter) {
+            if (iter == cur_opers.value.begin()) {
                 continue;
             }
             int distance = std::abs(iter->rect.x - (iter - 1)->rect.x);
@@ -402,7 +402,7 @@ bool asst::CombatRecordRecognitionTask::slice_video()
 
         bool oper_is_clicked = !result_opt->speed_button || !result_opt->pause_button;
         bool oper_auto_retreat =
-            in_segment && continuity && !m_clips.empty() && cur_opers.size() != m_clips.back().deployment.size();
+            in_segment && continuity && !m_clips.empty() && cur_opers.value.size() != m_clips.back().deployment.size();
 
         if (oper_is_clicked || oper_auto_retreat) {
             if (m_clips.empty()) {
@@ -429,7 +429,7 @@ bool asst::CombatRecordRecognitionTask::slice_video()
             ClipInfo info;
             info.start_frame_index = i; // 后处理会加个 offset
             info.end_frame_index = i;
-            info.deployment = cur_opers;
+            info.deployment = cur_opers.value;
             info.start_frame = frame;
             m_clips.emplace_back(std::move(info));
 
