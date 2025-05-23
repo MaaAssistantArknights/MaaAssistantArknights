@@ -1,8 +1,8 @@
 #pragma once
-#include <optional>
 #include "Vision/Config/OCRerConfig.h"
-#include "Vision/VisionHelper.h"
 #include "Vision/OCRer.h"
+#include "Vision/VisionHelper.h"
+#include <optional>
 
 namespace asst
 {
