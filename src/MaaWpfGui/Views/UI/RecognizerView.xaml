@@ -311,7 +311,7 @@
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <DataGrid.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <WrapPanel HorizontalAlignment="Center" />
+                            <vwp:VirtualizingWrapPanel HorizontalAlignment="Center" />
                         </ItemsPanelTemplate>
                     </DataGrid.ItemsPanel>
                     <DataGrid.Columns>
