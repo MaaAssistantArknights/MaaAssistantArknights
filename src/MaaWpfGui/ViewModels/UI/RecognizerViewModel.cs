@@ -54,6 +54,7 @@ namespace MaaWpfGui.ViewModels.UI
             _peepImageTimer.Elapsed += RefreshPeepImageAsync;
             _peepImageTimer.Interval = 1000d / PeepTargetFps;
             _gachaTimer.Tick += RefreshGachaTip;
+            LoadDepotDetails();
         }
 
         private void RunningState_IdleChanged(object? sender, bool e)
@@ -351,6 +352,31 @@ namespace MaaWpfGui.ViewModels.UI
             public string? Count { get; set; }
         }
 
+        private void SaveDepotDetails(JObject details)
+        {
+            var json = details.ToString(Formatting.None);
+            ConfigurationHelper.SetValue(ConfigurationKeys.DepotResult, json);
+        }
+
+        private void LoadDepotDetails()
+        {
+            var json = ConfigurationHelper.GetValue(ConfigurationKeys.DepotResult, string.Empty);
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return;
+            }
+
+            try
+            {
+                var details = JObject.Parse(json);
+                DepotParse(details);
+            }
+            catch
+            {
+                // 兼容老数据或异常时忽略
+            }
+        }
+
         /// <summary>
         /// Gets or sets the ArkPlanner result.
         /// </summary>
@@ -424,6 +450,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             DepotInfo = LocalizationHelper.GetString("IdentificationCompleted");
+            SaveDepotDetails(details);
 
             return true;
         }
