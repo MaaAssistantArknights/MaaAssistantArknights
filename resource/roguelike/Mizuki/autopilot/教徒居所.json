@@ -43,6 +43,12 @@
     ],
     "deploy_plan": [
         {
+            "Doc": "先把我无敌的维什戴尔大人摆上去再说",
+            "groups": ["益达"],
+            "location": [9, 3],
+            "direction": "left"
+        },
+        {
             "Doc": "加入了无玛打法",
             "groups": ["投锋", "挡人先锋"],
             "location": [2, 2],
