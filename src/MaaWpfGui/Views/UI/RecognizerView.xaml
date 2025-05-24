@@ -220,7 +220,8 @@
                             IsReadOnly="True"
                             ItemsSource="{Binding OperBoxNotHaveList}"
                             ScrollViewer.CanContentScroll="True"
-                            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            VirtualizingPanel.ScrollUnit="Pixel">
                             <DataGrid.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <vwp:VirtualizingWrapPanel HorizontalAlignment="Center" />
@@ -244,7 +245,8 @@
                             IsReadOnly="True"
                             ItemsSource="{Binding OperBoxHaveList}"
                             ScrollViewer.CanContentScroll="True"
-                            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            VirtualizingPanel.ScrollUnit="Pixel">
                             <DataGrid.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <vwp:VirtualizingWrapPanel HorizontalAlignment="Center" />
@@ -308,7 +310,8 @@
                     IsReadOnly="True"
                     ItemsSource="{Binding DepotResult}"
                     ScrollViewer.CanContentScroll="True"
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    VirtualizingPanel.ScrollUnit="Pixel">
                     <DataGrid.ItemsPanel>
                         <ItemsPanelTemplate>
                             <vwp:VirtualizingWrapPanel HorizontalAlignment="Center" />
