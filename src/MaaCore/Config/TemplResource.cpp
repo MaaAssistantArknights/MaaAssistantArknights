@@ -18,27 +18,41 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
     LogTraceFunction;
     Log.info("load", path.lexically_relative(UserDir.get()));
 
+    std::vector<std::filesystem::path> search_paths = { path };
+
+    for (const auto& entry : std::filesystem::recursive_directory_iterator(path)) {
+        if (entry.is_directory()) {
+            search_paths.push_back(entry.path());
+            Log.debug("TemplResource::load", "Loading directory:", entry.path());
+        }
+    }
+
 #ifdef ASST_DEBUG
     bool some_file_not_exists = false;
 #endif
     for (const std::string& name : m_load_required) {
-        std::filesystem::path filepath(path / asst::utils::path(name));
-        if (!filepath.has_extension()) {
-            filepath.replace_extension(asst::utils::path(".png"));
-        }
-
-        if (std::filesystem::exists(filepath)) {
-            if (auto path_iter = m_templ_paths.find(name);
-                path_iter == m_templ_paths.end() || path_iter->second != filepath) {
-                m_templs.erase(name);
-                m_templ_paths.insert_or_assign(name, filepath);
-            }
-        }
-        else if (m_templ_paths.contains(name)) {
+        if (m_templ_paths.contains(name)) {
             continue;
         }
-        else {
-            Log.error("Templ load failed, file not exists", filepath.lexically_relative(UserDir.get()));
+
+        bool found = false;
+
+        for (const auto& dir : search_paths) {
+            std::filesystem::path filepath(dir / asst::utils::path(name));
+            if (!filepath.has_extension()) {
+                filepath.replace_extension(asst::utils::path(".png"));
+            }
+
+            if (std::filesystem::exists(filepath)) {
+                m_templs.erase(name);
+                m_templ_paths.insert_or_assign(name, filepath);
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            Log.error("Templ load failed, file not exists in all directories:", name);
 #ifdef ASST_DEBUG
             some_file_not_exists = true;
 #else
