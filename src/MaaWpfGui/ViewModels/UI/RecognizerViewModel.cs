@@ -724,8 +724,6 @@ namespace MaaWpfGui.ViewModels.UI
             OperBoxExportData = exportList.ToString(Formatting.Indented);
             SaveOperBoxDetails(details);
 
-            _runningState.SetIdle(true);
-
             return true;
         }
 
