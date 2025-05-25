@@ -96,6 +96,14 @@ maa-cli 只提供了一个命令行界面，它需要 MaaCore 和资源来运行
 maa install
 ```
 
+对于 Windows 平台用户，在运行 `maa install` 命令前，请以管理员身份在命令提示符或PowerShell中运行以下命令，以安装必要工具组VC++
+
+- Windows:
+
+  ```bat
+  winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --uninstall-previous --accept-package-agreements --force
+  ```
+
 对于使用包管理器安装的用户，可以通过包管理器安装 MaaCore：
 
 - Homebrew：
