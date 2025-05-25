@@ -31,10 +31,6 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
     bool some_file_not_exists = false;
 #endif
     for (const std::string& name : m_load_required) {
-        if (m_templ_paths.contains(name)) {
-            continue;
-        }
-
         bool found = false;
 
         for (const auto& dir : search_paths) {
@@ -44,14 +40,17 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
             }
 
             if (std::filesystem::exists(filepath)) {
-                m_templs.erase(name);
-                m_templ_paths.insert_or_assign(name, filepath);
+                auto path_iter = m_templ_paths.find(name);
+                if (path_iter == m_templ_paths.end() || path_iter->second != filepath) {
+                    m_templs.erase(name);
+                    m_templ_paths.insert_or_assign(name, filepath);
+                }
                 found = true;
                 break;
             }
         }
 
-        if (!found) {
+        if (!found && !m_templ_paths.contains(name)) {
             Log.error("Templ load failed, file not exists in all directories:", name);
 #ifdef ASST_DEBUG
             some_file_not_exists = true;
