@@ -300,7 +300,7 @@ namespace MaaWpfGui.Main
                     string tasksFolderPath = Path.Combine(oldPath, @"resource\tasks");
                     string newTasksJsonPath = Path.Combine(tasksFolderPath, "tasks.json");
 
-                    if (!File.Exists(tasksJsonPath))
+                    if (File.Exists(newTasksJsonPath) || !File.Exists(tasksJsonPath))
                     {
                         return;
                     }

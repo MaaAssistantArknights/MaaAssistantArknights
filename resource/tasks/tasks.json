@@ -3606,10 +3606,10 @@
             "bin_expansion",
             "trim_threshold_low",
             "trim_threshold_high",
-            "左侧收缩时检测图的底部收缩",
+            "左侧收缩时检测图的底部屏蔽高度",
             "左侧收缩时连续n像素低于bin_thresh"
         ],
-        "specialParams": [140, 2, 0, 0, -3, 10]
+        "specialParams": [140, 2, 0, 0, 3, 10]
     },
     "BattleQuickFormationSkill1": {
         "algorithm": "JustReturn",
@@ -3867,10 +3867,10 @@
         "roi": [50, 0, 100, 40]
     },
     "BattleCostData": {
-        "algorithm": "OcrDetect",
-        "isAscii": true,
-        "text": [],
-        "roi": [1199, 494, 80, 44]
+        "baseTask": "NumberOcrReplace",
+        "roi": [1199, 494, 80, 44],
+        "specialParams_doc": "Cost数字变化阈值, 模板匹配, 100=1.0; 正常在 0.997-1 之间波动, 少有0.995; _5->_6 的分数最高, 0.85上下",
+        "specialParams": [98]
     },
     "BattleSkillReady": {
         "rectMove": [-28, -140, 64, 64]
@@ -4344,8 +4344,8 @@
     "OperBoxNameOCR": {
         "baseTask": "CharsNameOcrReplace",
         "text": [],
-        "roi": [4, 269, 122, 14],
-        "specialParams": [160, 4, 4, 0]
+        "rectMove": [0, 265, 128, 22],
+        "specialParams": [160, 4, 0, 0, 3, 10]
     },
     "OperBoxLevelOCR": {
         "algorithm": "OcrDetect",

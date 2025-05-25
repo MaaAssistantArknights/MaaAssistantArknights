@@ -297,6 +297,7 @@
     <ClInclude Include="Vision\FeatureMatcher.h" />
     <ClInclude Include="Utils\LibraryHolder.hpp" />
     <ClInclude Include="Vision\Battle\SupportListAnalyzer.h" />
+    <ClInclude Include="Vision\Miscellaneous\OperNameAnalyzer.h" />
     <ClInclude Include="Vision\Roguelike\RoguelikeParameterAnalyzer.h" />
     <ClInclude Include="Vision\VisionHelper.h" />
     <ClInclude Include="Vision\Battle\BattleFormationAnalyzer.h" />
@@ -492,6 +493,7 @@
     <ClCompile Include="Vision\Battle\SupportListAnalyzer.cpp" />
     <ClCompile Include="Vision\Config\FeatureMatcherConfig.cpp" />
     <ClCompile Include="Vision\FeatureMatcher.cpp" />
+    <ClCompile Include="Vision\Miscellaneous\OperNameAnalyzer.cpp" />
     <ClCompile Include="Vision\Roguelike\RoguelikeParameterAnalyzer.cpp" />
     <ClCompile Include="Vision\VisionHelper.cpp" />
     <ClCompile Include="Vision\Battle\BattleFormationAnalyzer.cpp" />

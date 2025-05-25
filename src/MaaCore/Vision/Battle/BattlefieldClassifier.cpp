@@ -158,13 +158,13 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
         need_save = true;
     }
     // 长时间没变化，可能是被遮挡了
-    else if (duration_since_last_save > 30) {
+    else if (duration_since_last_save > 10) {
         Log.trace("Long time no change", duration_since_last_save);
         need_save = true;
     }
 
     // 新增：如果最高得分低于阈值，则保存
-    if (score < 0.8f) {
+    if (score < 0.9f) {
         Log.trace("Low score", score);
         need_save = true;
     }

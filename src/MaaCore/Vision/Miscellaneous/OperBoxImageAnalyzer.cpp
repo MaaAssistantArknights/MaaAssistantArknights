@@ -1,13 +1,14 @@
 #include "OperBoxImageAnalyzer.h"
 
-#include "Utils/NoWarningCV.h"
-
+#include "Common/AsstTypes.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
+#include "Utils/NoWarningCV.h"
 #include "Vision/BestMatcher.h"
 #include "Vision/Matcher.h"
+#include "Vision/Miscellaneous/OperNameAnalyzer.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
 #include "Vision/TemplDetOCRer.h"
@@ -19,7 +20,6 @@ bool asst::OperBoxImageAnalyzer::analyze()
     m_result.clear();
 
     bool ret = analyzer_oper_box();
-
     if (m_result.size() != 16 && m_result.size() != 14) { // 完整的一页是14或16个，有可能是识别错了
         save_img(utils::path("debug") / utils::path("oper"));
     }
@@ -60,31 +60,57 @@ bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
 
 bool asst::OperBoxImageAnalyzer::opers_analyze()
 {
-    TemplDetOCRer oper_name_analyzer(m_image);
-
+    const auto& name_task = Task.get("OperBoxNameOCR");
     const auto& params = Task.get("OperBoxNameOCR")->special_params;
-    oper_name_analyzer.set_bin_threshold(params[0]);
-    oper_name_analyzer.set_bin_expansion(params[1]);
-    oper_name_analyzer.set_bin_trim_threshold(params[2], params[3]);
+    const auto& all_opers = BattleData.get_all_oper_names();
+    const auto& analyze_task = [&](const std::string& task,
+                                   const asst::Rect& roi) -> std::optional<TemplDetOCRer::ResultsVec> {
+        MultiMatcher matcher(m_image);
+        matcher.set_task_info(task);
+        matcher.set_roi(roi);
+        if (!matcher.analyze()) {
+            return std::nullopt;
+        }
+        asst::TemplDetOCRer::ResultsVec list;
+        for (const auto& flag : matcher.get_result()) {
+            OperNameAnalyzer name_analyzer(m_image);
+            name_analyzer.set_task_info(name_task);
+            name_analyzer.set_required(std::vector(all_opers.begin(), all_opers.end()));
+            name_analyzer.set_roi(flag.rect.move(name_task->rect_move));
+            name_analyzer.set_bin_threshold(params[0]);
+            name_analyzer.set_bin_expansion(params[1]);
+            name_analyzer.set_bin_trim_threshold(params[2], params[3]);
+            name_analyzer.set_bottom_line_height(params[4]);
+            name_analyzer.set_width_threshold(params[5]);
+            [[maybe_unused]] cv::Mat debug_img = make_roi(m_image, flag.rect.move(name_task->rect_move));
+            if (auto ocr_opt = name_analyzer.analyze()) {
+                asst::TemplDetOCRer::Result ocr { .flag_rect = flag.rect, .flag_score = flag.score };
+                ocr.rect = ocr_opt->rect;
+                ocr.text = ocr_opt->text;
+                ocr.score = ocr_opt->score;
+                list.emplace_back(std::move(ocr));
+            }
+            else {
+                Log.error("OperNameAnalyzer analyze failed");
+            }
+        }
+        if (list.empty()) {
+            return std::nullopt;
+        }
+        return list;
+    };
 
     TemplDetOCRer::ResultsVec results;
-
-    const auto& all_opers = BattleData.get_all_oper_names();
 
     Rect roi_top = Task.get("OperBoxFlagRoleTopROI")->roi;
     Rect roi_bottom = Task.get("OperBoxFlagRoleBottomROI")->roi;
 
     for (int i = 1; i < 10; ++i) {
-        oper_name_analyzer.set_task_info("OperBoxFlagRole" + std::to_string(i), "OperBoxNameOCR");
-        oper_name_analyzer.set_required(std::vector(all_opers.begin(), all_opers.end()));
-
-        oper_name_analyzer.set_roi(roi_top);
-        if (auto top_result_opt = oper_name_analyzer.analyze()) {
+        if (auto top_result_opt = analyze_task("OperBoxFlagRole" + std::to_string(i), roi_top)) {
             ranges::move(*top_result_opt, std::back_inserter(results));
         }
 
-        oper_name_analyzer.set_roi(roi_bottom);
-        if (auto bottom_result_opt = oper_name_analyzer.analyze()) {
+        if (auto bottom_result_opt = analyze_task("OperBoxFlagRole" + std::to_string(i), roi_bottom)) {
             ranges::move(*bottom_result_opt, std::back_inserter(results));
         }
     }
