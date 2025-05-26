@@ -105,6 +105,8 @@ namespace MaaWpfGui.Constants
         public const string AutoSetTime = "Recruit.AutoSetTime";
         public const string RecruitmentShowPotential = "Recruit.ShowPotential";
 
+        public const string DepotResult = "Depot.DepotResult";
+
         public const string InfrastMode = "Infrast.InfrastMode";
         public const string DormThreshold = "Infrast.DormThreshold";
         public const string UsesOfDrones = "Infrast.UsesOfDrones";
