@@ -116,6 +116,8 @@ BattlefieldMatcher::MatchResult<std::vector<battle::DeploymentOper>> Battlefield
         sort_by_horizontal_(flags_prev);
         bool is_same = true;
         cv::Mat mask = cv::Mat(m_image.rows, m_image.cols, CV_8UC1, cv::Scalar(0));
+        cv::Mat avai_image, avai_image_prev;
+        cv::Scalar avg, avg_prev;
         for (int i = 0; i < flags.size(); ++i) {
             if (dist(flags[i].rect, flags_prev[i].rect) > 3) {
                 is_same = false;
@@ -125,10 +127,19 @@ BattlefieldMatcher::MatchResult<std::vector<battle::DeploymentOper>> Battlefield
             const auto& flag_res = flags[i];
             const auto& avatar_rect = flag_res.rect.move(click_move).move(avatar_move);
             mask(make_rect<cv::Rect>(avatar_rect)).setTo(cv::Scalar(255));
-            const auto& flag_rect = asst::Rect::bounding_box(
-                flag_res.rect.move(role_move),  // 职业区域
-                flag_res.rect.move(cost_move)); // 费用区域
+            const auto& flag_rect = asst::Rect::bounding_box(flag_res.rect.move(cost_move)); // 费用区域
             mask(make_rect<cv::Rect>(flag_rect)).setTo(cv::Scalar(255));
+            avai_image = m_image(make_rect<cv::Rect>(flag_res.rect.move(avlb_move))).clone();
+            avai_image_prev = m_image_prev(make_rect<cv::Rect>(flag_res.rect.move(avlb_move))).clone();
+            cv::cvtColor(avai_image, avai_image, cv::COLOR_BGR2HSV);
+            cv::cvtColor(avai_image_prev, avai_image_prev, cv::COLOR_BGR2HSV);
+            avg = cv::mean(avai_image);
+            avg_prev = cv::mean(avai_image_prev);
+            if (abs(avg[2] - avg_prev[2]) > 20) { // 新图干员可用状态和上一帧不一致
+                Log.info(__FUNCTION__, "oper available changed, avg:", avg, avg_prev);
+                is_same = false;
+                break;
+            }
         }
         if (!is_same) {
             break;
