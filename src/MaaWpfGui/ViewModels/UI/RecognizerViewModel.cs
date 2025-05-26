@@ -54,6 +54,8 @@ namespace MaaWpfGui.ViewModels.UI
             _peepImageTimer.Elapsed += RefreshPeepImageAsync;
             _peepImageTimer.Interval = 1000d / PeepTargetFps;
             _gachaTimer.Tick += RefreshGachaTip;
+            LoadDepotDetails();
+            LoadOperBoxDetails();
         }
 
         private void RunningState_IdleChanged(object? sender, bool e)
@@ -351,6 +353,31 @@ namespace MaaWpfGui.ViewModels.UI
             public string? Count { get; set; }
         }
 
+        private void SaveDepotDetails(JObject details)
+        {
+            var json = details.ToString(Formatting.None);
+            ConfigurationHelper.SetValue(ConfigurationKeys.DepotResult, json);
+        }
+
+        private void LoadDepotDetails()
+        {
+            var json = ConfigurationHelper.GetValue(ConfigurationKeys.DepotResult, string.Empty);
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return;
+            }
+
+            try
+            {
+                var details = JObject.Parse(json);
+                DepotParse(details);
+            }
+            catch
+            {
+                // 兼容老数据或异常时忽略
+            }
+        }
+
         /// <summary>
         /// Gets or sets the ArkPlanner result.
         /// </summary>
@@ -424,6 +451,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             DepotInfo = LocalizationHelper.GetString("IdentificationCompleted");
+            SaveDepotDetails(details);
 
             return true;
         }
@@ -530,7 +558,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public string OperBoxExportData { get; set; } = string.Empty;
 
-        private JArray _operBoxDataArray = (JArray)(JsonConvert.DeserializeObject(ConfigurationHelper.GetValue(ConfigurationKeys.OperBoxData, new JArray().ToString())) ?? new JArray());
+        private JArray _operBoxDataArray = [];
 
         public JArray OperBoxDataArray
         {
@@ -538,7 +566,6 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _operBoxDataArray, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.OperBoxData, value.ToString());
                 _operBoxPotential = null; // reset
             }
         }
@@ -591,10 +618,7 @@ namespace MaaWpfGui.ViewModels.UI
         public ObservableCollection<Operator> OperBoxHaveList
         {
             get => _operBoxHaveList;
-            set
-            {
-                SetAndNotify(ref _operBoxHaveList, value);
-            }
+            set => SetAndNotify(ref _operBoxHaveList, value);
         }
 
         private ObservableCollection<Operator> _operBoxNotHaveList = [];
@@ -602,9 +626,31 @@ namespace MaaWpfGui.ViewModels.UI
         public ObservableCollection<Operator> OperBoxNotHaveList
         {
             get => _operBoxNotHaveList;
-            set
+            set => SetAndNotify(ref _operBoxNotHaveList, value);
+        }
+
+        private void SaveOperBoxDetails(JObject details)
+        {
+            var json = details.ToString(Formatting.None);
+            ConfigurationHelper.SetValue(ConfigurationKeys.OperBoxData, json);
+        }
+
+        private void LoadOperBoxDetails()
+        {
+            var json = ConfigurationHelper.GetValue(ConfigurationKeys.OperBoxData, string.Empty);
+            if (string.IsNullOrWhiteSpace(json))
             {
-                SetAndNotify(ref _operBoxNotHaveList, value);
+                return;
+            }
+
+            try
+            {
+                var details = JObject.Parse(json);
+                OperBoxParse(details);
+            }
+            catch
+            {
+                // 兼容老数据或异常时忽略
             }
         }
 
@@ -613,15 +659,20 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool OperBoxParse(JObject? details)
         {
-            var allOpers = (details?["all_opers"] as JArray)?.Cast<JObject>().Where(o => o["id"] != null).ToList();
-            var ownOpers = (details?["own_opers"] as JArray)?.Cast<JObject>().Where(o => o["id"] != null).ToList();
+            if (details == null)
+            {
+                return false;
+            }
+
+            var allOpers = (details["all_opers"] as JArray)?.Cast<JObject>().Where(o => o["id"] != null).ToList();
+            var ownOpers = (details["own_opers"] as JArray)?.Cast<JObject>().Where(o => o["id"] != null).ToList();
 
             if (allOpers == null || ownOpers == null)
             {
                 return false;
             }
 
-            bool done = (bool)(details?["done"] ?? false);
+            bool done = (bool)(details["done"] ?? false);
             var ownOperDict = ownOpers.ToDictionary(o => (string)o["id"]!);
             var allOperDict = allOpers.ToDictionary(o => (string)o["id"]!);
             foreach (var operBox in allOpers)
@@ -671,7 +722,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             OperBoxExportData = exportList.ToString(Formatting.Indented);
-            _runningState.SetIdle(true);
+            SaveOperBoxDetails(details);
 
             return true;
         }
