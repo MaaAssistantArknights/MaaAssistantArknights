@@ -39,7 +39,7 @@ BattlefieldMatcher::ResultOpt BattlefieldMatcher::analyze() const
         result.pause_button = pause_button_analyze();
         if (!result.pause_button && !hp_flag_analyze() && !kills_flag_analyze() && !cost_symbol_analyze()) {
             // flag 表明当前画面是在战斗场景的，不在的就没必要识别了
-            return std::nullopt; //测试时注释
+            return std::nullopt; // 测试时注释
         }
     }
 
@@ -115,52 +115,53 @@ BattlefieldMatcher::MatchResult<std::vector<battle::DeploymentOper>> Battlefield
         }
         sort_by_horizontal_(flags_prev);
         bool is_same = true;
+        cv::Mat mask = cv::Mat(m_image.rows, m_image.cols, CV_8UC1, cv::Scalar(0));
         for (int i = 0; i < flags.size(); ++i) {
             if (dist(flags[i].rect, flags_prev[i].rect) > 3) {
                 is_same = false;
                 break; // 新图干员位置和上一帧不一致
             }
 
-            cv::Mat mask = cv::Mat(m_image.rows, m_image.cols, CV_8UC1, cv::Scalar(0));
             const auto& flag_res = flags[i];
             const auto& avatar_rect = flag_res.rect.move(click_move).move(avatar_move);
             mask(make_rect<cv::Rect>(avatar_rect)).setTo(cv::Scalar(255));
-            const auto& flag_rect =
-                asst::Rect::bounding_box(flag_res.rect.move(role_move), flag_res.rect.move(cost_move));
+            const auto& flag_rect = asst::Rect::bounding_box(
+                flag_res.rect.move(role_move),  // 职业区域
+                flag_res.rect.move(cost_move)); // 费用区域
             mask(make_rect<cv::Rect>(flag_rect)).setTo(cv::Scalar(255));
-
-            cv::Mat match;
-#ifdef ASST_DEBUG
-            [[maybe_unused]] cv::Mat image_mask;
-            cv::bitwise_and(m_image, m_image, image_mask, mask);
-#endif // ASST_DEBUG
-            /*
-            const auto& deploy_rect = Rect::bounding_box(
-                flags.front().rect,                                    // 首干员c标
-                flags.front().rect.move(click_move).move(avatar_move), // 首干员头像
-                flags.back().rect.move(click_move).move(avatar_move)); // 尾干员头像
-            mask(make_rect<cv::Rect>(deploy_rect)).setTo(cv::Scalar(255));
-            mask.rowRange(60, 84).setTo(cv::Scalar(0));                // 剔除cd时间的区域
-            */
-            cv::Mat cut, cut_prev;
-            cv::Rect cut_rect = make_rect<cv::Rect>(Rect::bounding_box(flag_rect, avatar_rect));
-            cv::matchTemplate(m_image(cut_rect), m_image_prev(cut_rect), match, cv::TM_SQDIFF_NORMED, mask(cut_rect));
-            double score;
-            cv::minMaxLoc(match, nullptr, &score);
-            m_score.emplace_back(score);
-            if (score < 0.02) { // 当有一个干员从不可用变为可用时, score为0.96
-                Log.info(__FUNCTION__, "hit cache, score:", score);
-            }
-            else {
-                Log.info(__FUNCTION__, "miss cache, score:", score);
-                is_same = false;
-#ifndef ASST_DEBUG
-                break;
-#endif // ASST_DEBUG
-            }
         }
-        if (is_same) {
+        if (!is_same) {
+            break;
+        }
+
+        cv::Mat match;
+#ifdef ASST_DEBUG
+        [[maybe_unused]] cv::Mat image_mask;
+        cv::bitwise_and(m_image, m_image, image_mask, mask);
+#endif // ASST_DEBUG
+        /*
+        const auto& deploy_rect = Rect::bounding_box(
+            flags.front().rect,                                    // 首干员c标
+            flags.front().rect.move(click_move).move(avatar_move), // 首干员头像
+            flags.back().rect.move(click_move).move(avatar_move)); // 尾干员头像
+        mask(make_rect<cv::Rect>(deploy_rect)).setTo(cv::Scalar(255));
+        mask.rowRange(60, 84).setTo(cv::Scalar(0));                // 剔除cd时间的区域
+        */
+        cv::Rect cut_rect = cv::boundingRect(mask);
+        cv::matchTemplate(m_image(cut_rect), m_image_prev(cut_rect), match, cv::TM_SQDIFF_NORMED, mask(cut_rect));
+        double score;
+        cv::minMaxLoc(match, nullptr, &score);
+        m_score.emplace_back(score);
+        if (score < 0.02) { // 当有一个干员从不可用变为可用时, score为0.96
+            Log.info(__FUNCTION__, "hit cache, score:", score);
             return { .status = MatchStatus::HitCache };
+        }
+        else {
+            Log.info(__FUNCTION__, "miss cache, score:", score);
+            is_same = false;
+#ifndef ASST_DEBUG
+            break;
+#endif // ASST_DEBUG
         }
 
         break;

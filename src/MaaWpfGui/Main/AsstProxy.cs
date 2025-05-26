@@ -1355,7 +1355,7 @@ namespace MaaWpfGui.Main
             {
                 case "BattleCacheTest":
                     {
-                        Instances.CopilotViewModel.AddLog($"hit cache: {subTaskDetails["hit"]}, score: [{string.Join(",", subTaskDetails["score"].Select(i => i.ToString()))}]", UiLogColor.Info);
+                        Instances.CopilotViewModel.AddLog($"hit cache: {subTaskDetails["hit"]}, score: [{string.Join(",", subTaskDetails["score"].Select(i => i.ToObject<double>().ToString("0.######")))}]", UiLogColor.Info);
                         break;
                     }
 
