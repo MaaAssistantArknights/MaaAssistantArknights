@@ -377,16 +377,17 @@ namespace MaaWpfGui.Main
         /// <summary>
         /// 重启，不带参数
         /// </summary>
-        public static void ShutdownAndRestartWithoutArgs()
+        /// <param name="caller">Caller Member Name</param>
+        public static void ShutdownAndRestartWithoutArgs([CallerMemberName] string caller = "")
         {
             _isRestartingWithoutArgs = true;
-            _logger.Information("Shutdown and restart without Args");
+            _logger.Information($"Shutdown and restart without Args, call by `{caller}`");
             Execute.OnUIThread(Application.Current.Shutdown);
         }
 
         public static void Shutdown([CallerMemberName] string caller = "")
         {
-            _logger.Information($"Shutdown called by {caller}");
+            _logger.Information($"Shutdown called by `{caller}`");
             Execute.OnUIThread(Application.Current.Shutdown);
         }
 
