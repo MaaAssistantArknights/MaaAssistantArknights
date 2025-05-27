@@ -192,10 +192,10 @@
     <system:String x:Key="IS4NewSquad2">博聞廣記分隊</system:String>
     <system:String x:Key="IS4NewSquad3">藍圖測繪分隊</system:String>
     <system:String x:Key="IS4NewSquad4">因地制宜分隊</system:String>
-    <system:String x:Key="IS4NewSquad5">異想天開分隊</system:String>
-    <system:String x:Key="IS4NewSquad6">點刺成錠分隊</system:String>
-    <system:String x:Key="IS4NewSquad7">擬態學者分隊</system:String>
-    <system:String x:Key="IS4NewSquad8">專業人士分隊（待開放）</system:String>
+    <system:String x:Key="IS4NewSquad5">異想天開分隊（待 DLC 更新）</system:String>
+    <system:String x:Key="IS4NewSquad6">點刺成錠分隊（待 DLC 更新）</system:String>
+    <system:String x:Key="IS4NewSquad7">擬態學者分隊（待 DLC 更新）</system:String>
+    <system:String x:Key="IS4NewSquad8">專業人士分隊（待 DLC 更新）</system:String>
     <system:String x:Key="IS3NewSquad4">特訓分隊</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集群分隊</system:String>
