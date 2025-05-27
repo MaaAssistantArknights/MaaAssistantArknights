@@ -175,9 +175,9 @@
     <system:String x:Key="RoguelikeStopAtFinalBoss">在第五層 BOSS 前暫停</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">滿級後自動停止</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">启用刷钱种子</system:String>
-    <system:String x:Key="RoguelikeMonthlySquadAutoIterate">月度小队自动切换</system:String>
-    <system:String x:Key="RoguelikeMonthlySquadCheckComms">月度小队通讯</system:String>
-    <system:String x:Key="RoguelikeDeepExplorationAutoIterate">深入调查自动切换</system:String>
+    <system:String x:Key="RoguelikeMonthlySquadAutoIterate">月度小隊自動切換</system:String>
+    <system:String x:Key="RoguelikeMonthlySquadCheckComms">月度小隊通訊</system:String>
+    <system:String x:Key="RoguelikeDeepExplorationAutoIterate">深入調查自動切換</system:String>
     <system:String x:Key="DeploymentWithPause">暫停下幹員（自動戰鬥相關）（不穩定, 暫不推薦開啟）</system:String>
     <system:String x:Key="AdbLiteEnabled">使用 ADB Lite（實驗性功能）</system:String>
     <system:String x:Key="KillAdbOnExit">退出時釋放 ADB</system:String>
@@ -192,10 +192,10 @@
     <system:String x:Key="IS4NewSquad2">博聞廣記分隊</system:String>
     <system:String x:Key="IS4NewSquad3">藍圖測繪分隊</system:String>
     <system:String x:Key="IS4NewSquad4">因地制宜分隊</system:String>
-    <system:String x:Key="IS4NewSquad5">异想天开分队（占位）</system:String>
-    <system:String x:Key="IS4NewSquad6">点刺成锭分队（占位）</system:String>
-    <system:String x:Key="IS4NewSquad7">拟态学者分队（占位）</system:String>
-    <system:String x:Key="IS4NewSquad8">专业人士分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad5">異想天開分隊</system:String>
+    <system:String x:Key="IS4NewSquad6">點刺成錠分隊</system:String>
+    <system:String x:Key="IS4NewSquad7">擬態學者分隊</system:String>
+    <system:String x:Key="IS4NewSquad8">專業人士分隊（待開放）</system:String>
     <system:String x:Key="IS3NewSquad4">特訓分隊</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集群分隊</system:String>
