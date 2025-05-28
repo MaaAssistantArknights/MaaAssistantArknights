@@ -26,11 +26,11 @@ enum class SkillUsage // 技能用法
 // 干员练度需求
 struct OperatorRequirements
 {
-    int elite = -1;           // 精英化等级
-    int level = -1;           // 干员等级
-    int skill_level = -1;     // 技能等级
-    int module = -1;          // 模组编号 0 -> 不需要模组 , 1 -> 模组 Χ , 2 -> 模组 Y , 3 -> 模组 α , 4 -> 模组 δ
-    int potentiality = -1;    // 潜能要求
+    int elite = -1;        // 精英化等级
+    int level = -1;        // 干员等级
+    int skill_level = -1;  // 技能等级
+    int module = -1;       // 模组编号 0 -> 不需要模组 , 1 -> 模组 Χ , 2 -> 模组 Y , 3 -> 模组 α , 4 -> 模组 δ
+    int potentiality = -1; // 潜能要求
 };
 
 struct OperUsage // 干员用法
