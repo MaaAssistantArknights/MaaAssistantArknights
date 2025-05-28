@@ -113,7 +113,7 @@ asst::battle::copilot::OperUsageGroups asst::CopilotConfig::parse_groups(const j
                 oper.skill = oper_info.get("skill", 1);
                 oper.skill_usage = static_cast<battle::SkillUsage>(oper_info.get("skill_usage", 0));
                 oper.skill_times = oper_info.get("skill_times", 1); // 使用技能的次数，默认为 1，兼容曾经的作业
-                
+
                 // 解析练度需求
                 if (auto req_opt = oper_info.find("requirements")) {
                     oper.requirements.elite = req_opt->get("elite", 0);
@@ -122,7 +122,7 @@ asst::battle::copilot::OperUsageGroups asst::CopilotConfig::parse_groups(const j
                     oper.requirements.module = req_opt->get("module", 0);
                     oper.requirements.potentiality = req_opt->get("potentiality", 0);
                 }
-                
+
                 oper_vec.emplace_back(std::move(oper));
             }
             groups.emplace_back(OperUsageGroup { std::move(group_name), std::move(oper_vec) });

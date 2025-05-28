@@ -478,8 +478,9 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
             ProcessTask(*this, { "BattleQuickFormationModulePage" }).run();
             module_error = !ProcessTask(*this, { "BattleQuickFormationModule" + std::to_string(module) }).run();
             if (module_error) {
-                Log.error("BattleQuickFormationModule" + std::to_string(module),
-                          "| Module not found, please check the module number");
+                Log.error(
+                    "BattleQuickFormationModule" + std::to_string(module),
+                    "| Module not found, please check the module number");
                 return false;
             }
             sleep(delay);
