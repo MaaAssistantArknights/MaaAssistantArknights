@@ -3626,6 +3626,47 @@
         "action": "ClickRect",
         "specificRect": [15, 650, 80, 30]
     },
+    "BattleQuickFormationModulePage":{
+        "algorithm": "OcrDetect",
+        "action":"ClickSelf",
+        "fullMatch": true,
+        "text": ["分支","分支+"],
+        "roi": [185, 276, 169, 128],
+        "postDelay": 500
+    },
+    "BattleQuickFormationModule0":{
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [0, 336, 147, 145]
+    },
+    "BattleQuickFormationModule1":{
+        "template": "Module1.png",
+        "action":"ClickSelf",
+        "templThreshold": 0.9,
+        "roi": [0, 396, 179, 324],
+        "postDelay": 300
+    },
+    "BattleQuickFormationModule2":{
+        "template": "Module2.png",
+        "action":"ClickSelf",
+        "templThreshold": 0.9,
+        "roi": [0, 396, 179, 324],
+        "postDelay": 300
+    },
+    "BattleQuickFormationModule3":{
+        "template": "Module3.png",
+        "action":"ClickSelf",
+        "templThreshold": 0.9,
+        "roi": [0, 396, 179, 324],
+        "postDelay": 300
+    },
+    "BattleQuickFormationModule4":{
+        "template": "Module4.png",
+        "action":"ClickSelf",
+        "templThreshold": 0.9,
+        "roi": [0, 396, 179, 324],
+        "postDelay": 300
+    },
     "BattleQuickFormationSkill-SwipeToTheDown": {
         "algorithm": "JustReturn",
         "action": "Swipe",
