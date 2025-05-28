@@ -741,6 +741,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Start">开始</system:String>
     <system:String x:Key="VideoLink">视频链接</system:String>
     <system:String x:Key="CopilotSkill">技能</system:String>
+    <system:String x:Key="CopilotModule">模组</system:String>
+    <system:String x:Key="CopilotWithoutModule">模组关闭</system:String>
     <system:String x:Key="TotalOperatorsCount">共 {0} 名干员</system:String>
     <system:String x:Key="DirectiveECTerm">导能原件：</system:String>
     <system:String x:Key="OtherOperators">编队工具人：</system:String>

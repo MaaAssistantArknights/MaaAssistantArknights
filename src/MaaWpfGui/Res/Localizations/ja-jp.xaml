@@ -741,6 +741,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">映像へのハイパーリンク</system:String>
     <system:String x:Key="CopilotSkill">スキル</system:String>
+    <system:String x:Key="CopilotModule">モジュール</system:String>
+    <system:String x:Key="CopilotWithoutModule">モジュールなし</system:String>
     <system:String x:Key="TotalOperatorsCount">合計 {0} 名のオペレーター</system:String>
     <system:String x:Key="DirectiveECTerm">拡張式戦術ユニット：</system:String>
     <system:String x:Key="OtherOperators">その他のオペレーター：</system:String>
