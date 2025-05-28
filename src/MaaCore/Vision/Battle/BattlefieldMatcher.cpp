@@ -49,7 +49,7 @@ BattlefieldMatcher::ResultOpt BattlefieldMatcher::analyze() const
 
     if (m_object_of_interest.kills) {
         result.kills = kills_analyze();
-        if (!result.kills) {
+        if (result.kills.status == MatchStatus::Invalid) {
             return std::nullopt;
         }
     }
@@ -271,15 +271,18 @@ bool BattlefieldMatcher::kills_flag_analyze() const
     return flag_analyzer.analyze().has_value();
 }
 
-std::optional<std::pair<int, int>> BattlefieldMatcher::kills_analyze() const
+BattlefieldMatcher::MatchResult<std::pair<int, int>> BattlefieldMatcher::kills_analyze() const
 {
+    if (hit_kills_cache()) {
+        return { .status = MatchStatus::HitCache };
+    }
     TemplDetOCRer kills_analyzer(m_image);
     kills_analyzer.set_task_info("BattleKillsFlag", "BattleKills");
     kills_analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
 
     auto kills_opt = kills_analyzer.analyze();
     if (!kills_opt) {
-        return std::nullopt;
+        return {};
     }
     const std::string& kills_text = kills_opt->front().text;
 
@@ -292,7 +295,7 @@ std::optional<std::pair<int, int>> BattlefieldMatcher::kills_analyze() const
             // 第一次识别就识别错了，识别成了 "0141"
             if (kills_text.at(0) != '0') {
                 Log.error("m_total_kills_prompt is zero");
-                return std::nullopt;
+                return {};
             }
             pos = 1;
         }
@@ -300,7 +303,7 @@ std::optional<std::pair<int, int>> BattlefieldMatcher::kills_analyze() const
             size_t pre_pos = kills_text.find(std::to_string(m_total_kills_prompt));
             if (pre_pos == std::string::npos || pre_pos == 0) {
                 Log.error("can't get pre_pos");
-                return std::nullopt;
+                return {};
             }
             Log.trace("pre total kills pos:", pre_pos);
             pos = pre_pos - 1;
@@ -310,7 +313,7 @@ std::optional<std::pair<int, int>> BattlefieldMatcher::kills_analyze() const
     // 例子中的"0"
     std::string kills_count = kills_text.substr(0, pos);
     if (kills_count.empty() || !ranges::all_of(kills_count, [](char c) -> bool { return std::isdigit(c); })) {
-        return std::nullopt;
+        return {};
     }
     int kills = std::stoi(kills_count);
 
@@ -327,7 +330,35 @@ std::optional<std::pair<int, int>> BattlefieldMatcher::kills_analyze() const
     total_kills = std::max(total_kills, m_total_kills_prompt);
 
     Log.trace("Kills:", kills, "/", total_kills);
-    return std::make_pair(kills, total_kills);
+    return { .value = std::make_pair(kills, total_kills), .status = MatchStatus::Success };
+}
+
+bool asst::BattlefieldMatcher::hit_kills_cache() const
+{
+    if (m_image_prev.empty() || m_image.cols != m_image_prev.cols || m_image.rows != m_image_prev.rows) {
+        return false;
+    }
+    Matcher flag_match(m_image);
+    flag_match.set_task_info("BattleKillsFlag");
+    if (!flag_match.analyze()) {
+        return false;
+    }
+    const auto& flag_rect = flag_match.get_result().rect;
+    const auto& task = Task.get("BattleKills");
+    const auto& roi = flag_rect.move(task->roi);
+
+    cv::Mat kills_image_cache = make_roi(m_image_prev, roi);
+    cv::Mat kills_image = make_roi(m_image, roi);
+    cv::cvtColor(kills_image_cache, kills_image_cache, cv::COLOR_BGR2GRAY);
+    cv::cvtColor(kills_image, kills_image, cv::COLOR_BGR2GRAY);
+    cv::Mat match;
+    cv::matchTemplate(kills_image, kills_image_cache, match, cv::TM_CCOEFF_NORMED);
+    double mark;
+    cv::minMaxLoc(match, nullptr, &mark);
+    // 正常在 0.997-1 之间波动, 少有0.995
+    // _5->_6 的分数最高, 可达0.94
+    const double threshold = static_cast<double>(task->special_params[0]) / 100;
+    return mark > threshold;
 }
 
 bool BattlefieldMatcher::cost_symbol_analyze() const

@@ -330,19 +330,21 @@ cv::Mat asst::BattleHelper::get_top_view(const cv::Mat& cam_img, bool side)
     return result;
 }
 
-bool asst::BattleHelper::update_kills(const cv::Mat& reusable)
+bool asst::BattleHelper::update_kills(const cv::Mat& image, const cv::Mat& image_prev)
 {
-    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     BattlefieldMatcher analyzer(image);
     analyzer.set_object_of_interest({ .kills = true });
+    analyzer.set_image_prev(image_prev);
     if (m_total_kills) {
         analyzer.set_total_kills_prompt(m_total_kills);
     }
     auto result_opt = analyzer.analyze();
-    if (!result_opt || !result_opt->kills) {
+    if (!result_opt || result_opt->kills.status == BattlefieldMatcher::MatchStatus::Invalid) {
         return false;
     }
-    std::tie(m_kills, m_total_kills) = result_opt->kills.value();
+    if (result_opt->kills.status == BattlefieldMatcher::MatchStatus::Success) {
+        std::tie(m_kills, m_total_kills) = result_opt->kills.value;
+    }
     return true;
 }
 
@@ -924,7 +926,7 @@ bool asst::BattleHelper::move_camera(const std::pair<double, double>& delta)
     LogTraceFunction;
     Log.info("move", delta.first, delta.second);
 
-    update_kills();
+    update_kills(m_inst_helper.ctrler()->get_image());
 
     // 还没转场的时候
     if (m_kills != 0) {
