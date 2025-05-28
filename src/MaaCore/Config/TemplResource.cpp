@@ -29,6 +29,7 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
 
 #ifdef ASST_DEBUG
     bool some_file_not_exists = false;
+    bool file_dumplicate = false;
 #endif
     for (const std::string& name : m_load_required) {
         bool found = false;
@@ -40,13 +41,20 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
             }
 
             if (std::filesystem::exists(filepath)) {
+                if (found) {
+                    Log.error("Templ file exists in multiple directories:", m_templ_paths.at(name), filepath);
+#ifdef ASST_DEBUG
+                    file_dumplicate = true;
+#else
+                    return false;
+#endif
+                }
                 auto path_iter = m_templ_paths.find(name);
                 if (path_iter == m_templ_paths.end() || path_iter->second != filepath) {
                     m_templs.erase(name);
                     m_templ_paths.insert_or_assign(name, filepath);
                 }
                 found = true;
-                break;
             }
         }
 
@@ -60,7 +68,7 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
         }
     }
 #ifdef ASST_DEBUG
-    if (some_file_not_exists) {
+    if (some_file_not_exists || file_dumplicate) {
         return false;
     }
 #endif
