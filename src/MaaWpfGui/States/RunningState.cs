@@ -17,12 +17,15 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
+using Serilog;
+using Serilog.Core;
 
 namespace MaaWpfGui.States
 {
     public class RunningState
     {
         private static RunningState _instance;
+        private static ILogger _logger = Logger.None;
 
         private RunningState()
         {
@@ -161,13 +164,40 @@ namespace MaaWpfGui.States
         /// <summary>
         /// 等待状态变为闲置
         /// </summary>
-        /// <param name="time">查询间隔</param>
+        /// <param name="time">查询间隔(ms)</param>
+        /// <param name="confirmInterval">确认间隔(ms)</param>
+        /// <param name="confirmTimes">确认次数</param>
         /// <returns>Task</returns>
-        public async Task UntilIdleAsync(int time = 1000)
+        public async Task UntilIdleAsync(int time = 1000, int confirmInterval = 1000, int confirmTimes = 3)
         {
-            while (!GetIdle())
+            while (true)
             {
-                await Task.Delay(time);
+                while (!GetIdle())
+                {
+                    await Task.Delay(time);
+                }
+
+                int confirmed = 0;
+                while (confirmed < confirmTimes)
+                {
+                    await Task.Delay(confirmInterval);
+
+                    if (GetIdle())
+                    {
+                        confirmed++;
+                    }
+                    else
+                    {
+                        _logger.Information("Idle state changed during confirmation, resetting confirmation count.");
+                        break;
+                    }
+                }
+
+                if (confirmed >= confirmTimes)
+                {
+                    _logger.Information($"Idle state confirmed after {confirmTimes} checks.");
+                    return;
+                }
             }
         }
     }

@@ -20,7 +20,7 @@ openfiles >nul 2>&1
 if %errorlevel% neq 0 (
     echo %YELLOW%正在获取管理员权限...%RESET%
     echo %YELLOW%Obtaining administrator privileges...%RESET%
-    powershell -Command "Start-Process cmd.exe -ArgumentList '/c %~dpnx0' -Verb RunAs"
+    powershell -Command "Start-Process cmd.exe -ArgumentList '/c %~f0' -Verb RunAs"
     exit /b
 )
 

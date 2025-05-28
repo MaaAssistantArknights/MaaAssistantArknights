@@ -1,0 +1,91 @@
+{
+    "Sarkaz@Roguelike@CheckLevel": {
+        "text": ["假說輯錄", "假說", "輯錄"]
+    },
+    "Sarkaz@Roguelike@NextLevel": {
+        "text": ["熔魂之始", "鍛鐵根須", "灰鑄迷城", "或然歧域", "虛實疆界", "輝光天頂", "詭譎斷章"]
+    },
+    "Sarkaz@Roguelike@RoutingRefreshNodeConfirm": {
+        "text": ["確定"]
+    },
+    "Sarkaz@Roguelike@SelectTheme": {
+        "text": ["假說輯錄", "假說", "輯錄"]
+    },
+    "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
+        "ocrReplace": [
+            ["熔魂之始", "_fastInvestment"],
+            ["鍛鐵根須", "_exit"],
+            ["灰鑄迷城", "_exit"],
+            ["或然歧域", "_exit"],
+            ["虛實疆界", "_exit"],
+            ["輝光天頂", "_exit"],
+            ["詭譎斷章", "_exit"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode0": {
+        "ocrReplace": [
+            ["熔魂之始", "_default"],
+            ["鍛鐵根須", "_default"],
+            ["灰鑄迷城", "_default"],
+            ["或然歧域", "_default"],
+            ["虛實疆界", "_default"],
+            ["輝光天頂", "_default"],
+            ["詭譎斷章", "_SKIP_"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
+        "ocrReplace": [
+            ["熔魂之始", "_aggressive"],
+            ["鍛鐵根須", "_aggressive"],
+            ["灰鑄迷城", "_pragmatic"],
+            ["或然歧域", "_pragmatic"],
+            ["虛實疆界", "_default"],
+            ["輝光天頂", "_default"],
+            ["詭譎斷章", "_SKIP_"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode10001": {
+        "ocrReplace": [
+            ["熔魂之始", "_routing"],
+            ["鍛鐵根須", "_exit"],
+            ["灰鑄迷城", "_exit"],
+            ["或然歧域", "_exit"],
+            ["虛實疆界", "_exit"],
+            ["輝光天頂", "_exit"],
+            ["詭譎斷章", "_exit"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode4": {
+        "ocrReplace": [
+            ["熔魂之始", "_default"],
+            ["鍛鐵根須", "_default"],
+            ["灰鑄迷城", "_exit"],
+            ["或然歧域", "_exit"],
+            ["虛實疆界", "_exit"],
+            ["輝光天頂", "_exit"],
+            ["詭譎斷章", "_exit"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode6": {
+        "ocrReplace": [
+            ["熔魂之始", "_default"],
+            ["鍛鐵根須", "_default"],
+            ["灰鑄迷城", "_default"],
+            ["或然歧域", "_default"],
+            ["虛實疆界", "_default"],
+            ["輝光天頂", "_default"],
+            ["詭譎斷章", "_SKIP_"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode7": {
+        "ocrReplace": [
+            ["熔魂之始", "_default"],
+            ["鍛鐵根須", "_default"],
+            ["灰鑄迷城", "_default"],
+            ["或然歧域", "_default"],
+            ["虛實疆界", "_default"],
+            ["輝光天頂", "_default"],
+            ["詭譎斷章", "_SKIP_"]
+        ]
+    }
+}

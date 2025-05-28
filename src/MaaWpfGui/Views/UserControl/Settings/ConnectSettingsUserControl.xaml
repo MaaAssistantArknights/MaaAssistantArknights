@@ -23,6 +23,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -179,27 +180,32 @@
                         Visibility="{c:Binding LdPlayerExtras.Enable}" />
                 </StackPanel>
             </StackPanel>
-            <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
-                <Button
-                    Height="30"
-                    Margin="5"
-                    HorizontalAlignment="Center"
-                    Command="{s:Action TestLinkAndGetImage}"
-                    Content="{DynamicResource ScreenshotTest}" />
-                <controls:TextBlock
-                    Margin="5"
-                    HorizontalAlignment="Center"
-                    Text="{Binding TestLinkInfo}"
-                    Visibility="{c:Binding 'TestLinkInfo!=&quot;&quot;'}" />
-            </StackPanel>
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="4"
+            HorizontalAlignment="Center"
+            Orientation="Vertical">
+            <Button
+                Height="30"
+                Margin="5"
+                HorizontalAlignment="Center"
+                Command="{s:Action TestLinkAndGetImage}"
+                Content="{DynamicResource ScreenshotTest}" />
+            <controls:TextBlock
+                Margin="5"
+                HorizontalAlignment="Center"
+                Text="{Binding TestLinkInfo}"
+                Visibility="{c:Binding 'TestLinkInfo!=&quot;&quot;'}" />
         </StackPanel>
 
         <controls:TextBlock
-            Grid.Row="4"
+            Grid.Row="5"
             Margin="10"
             HorizontalAlignment="Center"
             Text="{c:Binding ScreencapCost}" />
-        <StackPanel Grid.Row="5" HorizontalAlignment="Center">
+
+        <StackPanel Grid.Row="6" HorizontalAlignment="Center">
             <CheckBox
                 Margin="20,10"
                 Content="{DynamicResource RetryOnDisconnected}"
@@ -216,7 +222,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="6"
+            Grid.Row="7"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <hc:ComboBox
@@ -237,7 +243,7 @@
                 Content="{DynamicResource ForcedReplaceAdb}" />
         </StackPanel>
 
-        <StackPanel Grid.Row="7">
+        <StackPanel Grid.Row="8">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <CheckBox
                     Margin="20,10"
@@ -255,7 +261,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="8"
+            Grid.Row="9"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal" />
