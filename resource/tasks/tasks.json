@@ -3905,6 +3905,17 @@
             "将干员滑动到场上的 最小滑动 duration"
         ]
     },
+    "BattleOperCache": {
+        "template": "empty.png",
+        "rectMove": [-38, 7, 55, 23],
+        "specialParams_doc": [
+            "前后帧干员role+cost区域RGB像素变化阈值",
+            "变化像素数量阈值",
+            "干员头像区域RGB变化阈值",
+            "变化像素数量"
+        ],
+        "specialParams": [10, 10, 10, 100]
+    },
     "BattleOpersFlag": {
         "templThreshold": 0.65,
         "roi": [0, 588, 1280, 18],

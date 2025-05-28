@@ -100,6 +100,7 @@ BattlefieldMatcher::MatchResult<std::vector<battle::DeploymentOper>> Battlefield
     const Rect& cooling_move = Task.get("BattleOperCooling")->rect_move;
     const Rect& avatar_move = Task.get("BattleOperAvatar")->rect_move;
     const Rect& cost_move = Task.get("BattleOperCost")->rect_move;
+    const auto& cache_task = Task.get("BattleOperCache");
 
     while (!m_image_prev.empty() && m_image.cols == m_image_prev.cols && m_image.rows == m_image_prev.rows) {
         MultiMatcher flags_prev_ana(m_image_prev);
@@ -127,18 +128,18 @@ BattlefieldMatcher::MatchResult<std::vector<battle::DeploymentOper>> Battlefield
             const auto& flag_res = flags[i];
             const auto& avatar_rect = flag_res.rect.move(click_move).move(avatar_move);
             mask(make_rect<cv::Rect>(avatar_rect)).setTo(cv::Scalar(255));
-            const auto& flag_rect = asst::Rect::bounding_box(flag_res.rect.move(cost_move)); // 费用区域
-            mask(make_rect<cv::Rect>(flag_rect)).setTo(cv::Scalar(255));
-            avai_image = m_image(make_rect<cv::Rect>(flag_res.rect.move(avlb_move))).clone();
-            avai_image_prev = m_image_prev(make_rect<cv::Rect>(flag_res.rect.move(avlb_move))).clone();
-            cv::cvtColor(avai_image, avai_image, cv::COLOR_BGR2HSV);
-            cv::cvtColor(avai_image_prev, avai_image_prev, cv::COLOR_BGR2HSV);
-            avg = cv::mean(avai_image);
-            avg_prev = cv::mean(avai_image_prev);
-            if (abs(avg[2] - avg_prev[2]) > 20) { // 新图干员可用状态和上一帧不一致
-                Log.info(__FUNCTION__, "oper available changed, avg:", avg, avg_prev);
+
+            cv::Mat cache_det;
+            cv::absdiff(
+                m_image(make_rect<cv::Rect>(flag_res.rect.move(cache_task->rect_move))),
+                m_image_prev(make_rect<cv::Rect>(flag_res.rect.move(cache_task->rect_move))),
+                cache_det);
+            cv::inRange(cache_det, cv::Scalar::all(cache_task->special_params[0]), cv::Scalar::all(255), cache_det);
+            int count = cv::countNonZero(cache_det);
+            if (count > cache_task->special_params[1]) {
+                Log.info(__FUNCTION__, "oper cache changed, count:", count);
                 is_same = false;
-                break;
+                break; // 新图干员缓存和上一帧不一致
             }
         }
         if (!is_same) {
