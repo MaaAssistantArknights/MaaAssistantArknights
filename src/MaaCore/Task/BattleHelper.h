@@ -53,7 +53,7 @@ protected:
         std::vector<battle::DeploymentOper>& cur_opers,
         const std::vector<battle::DeploymentOper>& old_deployment_opers,
         bool stop_on_unknown);
-    bool update_kills(const cv::Mat& reusable = cv::Mat());
+    bool update_kills(const cv::Mat& image, const cv::Mat& image_prev = cv::Mat());
     bool update_cost(const cv::Mat& image, const cv::Mat& image_prev = cv::Mat());
 
     cv::Mat get_top_view(const cv::Mat& cam_img, bool side = true);
