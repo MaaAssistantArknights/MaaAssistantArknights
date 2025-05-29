@@ -116,11 +116,16 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
 
     if (count_limit - count <= 0) {
         Log.info(__FUNCTION__, "投资达到设置上限,", m_maximum);
+        auto cb = basic_info_with_what("RoguelikeInvestmentReachLimit");
+        cb["details"]["limit"] = m_maximum;
+        callback(AsstMsg::SubTaskExtraInfo, cb);
         stop_roguelike();
         return true;
     }
     if (deposit.value_or(0) == 999 && m_stop_when_full) {
         Log.info(__FUNCTION__, "存款已满");
+        auto cb = basic_info_with_what("RoguelikeInvestmentReachFull");
+        callback(AsstMsg::SubTaskExtraInfo, cb);
         stop_roguelike();
         return true;
     }

@@ -863,6 +863,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="EncounterOcrError">事件名識別錯誤</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">預見:</system:String>
     <system:String x:Key="RoguelikeInvestment">已投資 {1}(+{0}), 存款: {2}</system:String>
+    <system:String x:Key="RoguelikeInvestmentReachLimit">投資源石錠達到設定次數({0}), 停止探索</system:String>
+    <system:String x:Key="RoguelikeInvestmentReachFull">投資源石錠存滿, 停止探索</system:String>
     <system:String x:Key="RoguelikeSettlement">肉鴿結算: {0}\n探索: {1} 层 {2} 步\n戰鬥: {3}/{4} 緊急/{5} BOSS\n招募: {6}   收藏品: {7}\n難度: {8}   得分: {9}\nExp: {10}  Skill: {11}</system:String>
     <system:String x:Key="RoguelikeGainParadigm">坍縮範式加深: {0}</system:String>
     <system:String x:Key="RoguelikeDeepenParadigm">坍縮範式 {0} 加深為 {1}</system:String>
