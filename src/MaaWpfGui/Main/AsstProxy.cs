@@ -1521,33 +1521,6 @@ namespace MaaWpfGui.Main
                         break;
                     }
 
-                case "RoguelikeInvestment":
-                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeInvestment"), subTaskDetails!["count"], subTaskDetails["total"], subTaskDetails["deposit"]), UiLogColor.Info);
-                    break;
-
-                case "RoguelikeSettlement":
-                    {// 肉鸽结算
-                        var report = subTaskDetails;
-                        var pass = (bool)report!["game_pass"]!;
-                        var roguelikeInfo = string.Format(
-                            LocalizationHelper.GetString("RoguelikeSettlement"),
-                            pass ? "✓" : "✗",
-                            report["floor"],
-                            report["step"],
-                            report["combat"],
-                            report["emergency"],
-                            report["boss"],
-                            report["recruit"],
-                            report["collection"],
-                            report["difficulty"],
-                            report["score"],
-                            report["exp"],
-                            report["skill"]);
-
-                        Instances.TaskQueueViewModel.AddLog(roguelikeInfo, UiLogColor.Message);
-                        break;
-                    }
-
                 /* Roguelike */
                 case "StageInfo":
                     {
@@ -1562,31 +1535,6 @@ namespace MaaWpfGui.Main
 
                 case "StageInfoError":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageInfoError"), UiLogColor.Error);
-                    break;
-
-                case "RoguelikeCombatEnd":
-                    // 肉鸽战斗结束，无论成功与否
-                    Instances.TaskQueueViewModel.RoguelikeInCombatAndShowWait = false;
-                    break;
-
-                case "RoguelikeEvent":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeEvent") + $" {subTaskDetails!["name"]}", UiLogColor.EventIS);
-                    break;
-
-                case "EncounterOcrError":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("EncounterOcrError"), UiLogColor.Error);
-                    break;
-
-                case "FoldartalGainOcrNextLevel":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FoldartalGainOcrNextLevel") + $" {subTaskDetails!["foldartal"]}");
-                    break;
-
-                case "MonthlySquadCompleted":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MonthlySquadCompleted"), UiLogColor.RareOperator);
-                    break;
-
-                case "DeepExplorationCompleted":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DeepExplorationCompleted"), UiLogColor.RareOperator);
                     break;
 
                 case "PenguinId":
@@ -1788,34 +1736,6 @@ namespace MaaWpfGui.Main
 
                 case "StageQueueMissionCompleted":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails!["stage_code"]} - {subTaskDetails["stars"]} ★", UiLogColor.Info);
-                    break;
-
-                case "RoguelikeCollapsalParadigms":
-                    string deepen_or_weaken_str = subTaskDetails!["deepen_or_weaken"]?.ToString() ?? "Unknown";
-                    if (!int.TryParse(deepen_or_weaken_str, out int deepen_or_weaken))
-                    {
-                        break;
-                    }
-
-                    string cur = subTaskDetails["cur"]?.ToString() ?? "UnKnown";
-                    string prev = subTaskDetails["prev"]?.ToString() ?? "UnKnown";
-                    if (deepen_or_weaken == 1 && prev == string.Empty)
-                    {
-                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeGainParadigm"), cur), UiLogColor.Info);
-                    }
-                    else if (deepen_or_weaken == 1 && prev != string.Empty)
-                    {
-                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeDeepenParadigm"), cur, prev), UiLogColor.Info);
-                    }
-                    else if (deepen_or_weaken == -1 && cur == string.Empty)
-                    {
-                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeLoseParadigm"), string.Empty, prev), UiLogColor.Info);
-                    }
-                    else if (deepen_or_weaken == -1 && cur != string.Empty)
-                    {
-                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeWeakenParadigm"), cur, prev), UiLogColor.Info);
-                    }
-
                     break;
             }
         }
