@@ -163,7 +163,7 @@ namespace MaaWpfGui.Helper
                 var result = HandyControl.Controls.MessageBox.Show(info);
 
                 var duration = DateTime.Now - startTime;
-                if (duration.TotalSeconds <= 3)
+                if (duration.TotalSeconds <= 1)
                 {
                     AchievementTrackerHelper.Instance.Unlock("QuickCloser");
                 }
