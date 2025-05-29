@@ -872,6 +872,14 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         var subTaskDetails = details["details"];
         switch (details["what"]?.ToString() ?? string.Empty)
         {
+            case "RoguelikeInvestmentReachFull":
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeInvestmentReachFull"), UiLogColor.Info);
+                break;
+
+            case "RoguelikeInvestmentReachLimit":
+                Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeInvestmentReachLimit"), subTaskDetails!["limit"]), UiLogColor.Info);
+                break;
+
             case "RoguelikeInvestment":
                 Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeInvestment"), subTaskDetails!["count"], subTaskDetails["total"], subTaskDetails["deposit"]), UiLogColor.Info);
                 break;

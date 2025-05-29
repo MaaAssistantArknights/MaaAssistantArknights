@@ -861,6 +861,8 @@ Please switch to the stage selection page before starting</system:String>
     <system:String x:Key="EncounterOcrError">Event Name OCR Failed</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">Foldartal Foresee:&#160;</system:String>
     <system:String x:Key="RoguelikeInvestment">Invested {1}(+{0}), deposit: {2}</system:String>
+    <system:String x:Key="RoguelikeInvestmentReachLimit">Coins reach limit({0}), Stop exploring</system:String>
+    <system:String x:Key="RoguelikeInvestmentReachFull">Coins reach full, Stop exploring</system:String>
     <system:String x:Key="RoguelikeSettlement">Roguelike Settlement: {0}\nExplore: {1} Floor {2} Step\nCombat: {3} / {4} Emergency / {5} BOSS\nRecruit: {6}\nCollectibles: {7}\nDifficulty: {8}\nScore: {9}  Exp: {10}  Skill: {11}</system:String>
     <system:String x:Key="RoguelikeGainParadigm">Collapsal Paradigm Deepening: {0}</system:String>
     <system:String x:Key="RoguelikeDeepenParadigm">Collapsal Paradigm {0} Deepened to {1}</system:String>
