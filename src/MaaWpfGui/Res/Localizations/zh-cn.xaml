@@ -1064,4 +1064,11 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ReminderIntervalMinutes">提醒间隔时间（分钟）</system:String>
     <system:String x:Key="TaskTimeoutWarning">任务已运行超过 {0} 分钟（当前已运行 {1} 分钟）。如果长时间无进一步日志更新，可能需要手动干预。</system:String>
     <!--  !TimeOutTimer  -->
+    <!--  Achievement  -->
+    <system:String x:Key="AchievementCelebrate">🎉 成就达成：</system:String>
+    <system:String x:Key="Achievement.SanitySpender1.Title">刷理智狂魔（x</system:String>
+    <system:String x:Key="Achievement.SanitySpender1.Description">累计消耗 500 理智</system:String>
+    <system:String x:Key="Achievement.QuickCloser.Title">YOLO!（不看弹窗直接关闭）</system:String>
+    <system:String x:Key="Achievement.QuickCloser.Description">“我知道我在做什么。”——某用户在点击之前</system:String>
+    <!--  !Achievement  -->
 </ResourceDictionary>

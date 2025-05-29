@@ -157,7 +157,18 @@ namespace MaaWpfGui.Helper
                     YesContent = yes,
                     NoContent = no,
                 };
-                return HandyControl.Controls.MessageBox.Show(info);
+
+                DateTime startTime = DateTime.Now;
+
+                var result = HandyControl.Controls.MessageBox.Show(info);
+
+                var duration = DateTime.Now - startTime;
+                if (duration.TotalSeconds <= 3)
+                {
+                    AchievementTrackerHelper.Instance.Unlock("QuickCloser");
+                }
+
+                return result;
             }
         }
 
