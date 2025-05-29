@@ -864,6 +864,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="EncounterOcrError">이벤트 인식 오류</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">암호판:</system:String>
     <system:String x:Key="RoguelikeInvestment">각뿔 투자: {1}(+{0}), 예금: {2}</system:String>
+    <system:String x:Key="RoguelikeInvestmentReachLimit">오리지늄 잉곳에 대한 투자 수가 설정된 수({0})에 도달하여 탐사가 중단되었습니다.</system:String>
+    <system:String x:Key="RoguelikeInvestmentReachFull">투자원석괴가 가득차면 탐사를 중단하세요</system:String>
     <system:String x:Key="RoguelikeSettlement">로그라이크 종착점: {0}\n클리어 : {1} 구역 {2} 노드\n전투 횟수: {3} 일반 / {4} 정예 / {5} 리더\n모집 횟수 : {6} 회\n수집: {7}\n난이도: {8}\n점수: {9}\n경험치: {10}, 스킬: {11}</system:String>
     <system:String x:Key="RoguelikeGainParadigm">붕괴 패러다임 심화: {0}</system:String>
     <system:String x:Key="RoguelikeDeepenParadigm">붕괴 패러다임 {0}가 {1}로 심화되었습니다</system:String>
