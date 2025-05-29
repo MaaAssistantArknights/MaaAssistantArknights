@@ -942,8 +942,7 @@ namespace MaaWpfGui.Main
                         // Instances.TaskQueueViewModel.CheckAndShutdown();
                         Instances.TaskQueueViewModel.CheckAfterCompleted();
                     }
-
-                    if (isCopilotTaskChain)
+                    else if (isCopilotTaskChain)
                     {
                         ToastNotification.ShowDirect(LocalizationHelper.GetString("CompleteTask") + taskChain);
                     }
