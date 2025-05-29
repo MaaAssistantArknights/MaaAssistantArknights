@@ -355,13 +355,17 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void SaveDepotDetails(JObject details)
         {
-            var json = details.ToString(Formatting.None);
-            ConfigurationHelper.SetValue(ConfigurationKeys.DepotResult, json);
+            // var json = details.ToString(Formatting.None);
+            // ConfigurationHelper.SetValue(ConfigurationKeys.DepotResult, json);
+            JsonDataHelper.Set(JsonDataKey.DepotData, details);
         }
 
         private void LoadDepotDetails()
         {
-            var json = ConfigurationHelper.GetValue(ConfigurationKeys.DepotResult, string.Empty);
+            // TODO: 删除老数据节省 gui.json 的大小，后续版本可以删除
+            // var json = ConfigurationHelper.GetValue(ConfigurationKeys.DepotResult, string.Empty);
+            ConfigurationHelper.DeleteValue(ConfigurationKeys.DepotResult, out _);
+            var json = JsonDataHelper.Get(JsonDataKey.DepotData, string.Empty);
             if (string.IsNullOrWhiteSpace(json))
             {
                 return;
@@ -629,15 +633,19 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _operBoxNotHaveList, value);
         }
 
-        private void SaveOperBoxDetails(JObject details)
+        private static void SaveOperBoxDetails(JObject details)
         {
-            var json = details.ToString(Formatting.None);
-            ConfigurationHelper.SetValue(ConfigurationKeys.OperBoxData, json);
+            // var json = details.ToString(Formatting.None);
+            // ConfigurationHelper.SetValue(ConfigurationKeys.OperBoxData, json);
+            JsonDataHelper.Set(JsonDataKey.OperBoxData, details);
         }
 
         private void LoadOperBoxDetails()
         {
-            var json = ConfigurationHelper.GetValue(ConfigurationKeys.OperBoxData, string.Empty);
+            // TODO: 删除老数据节省 gui.json 的大小，后续版本可以删除
+            // var json = ConfigurationHelper.GetValue(ConfigurationKeys.OperBoxData, string.Empty);
+            ConfigurationHelper.DeleteValue(ConfigurationKeys.OperBoxData, out _);
+            var json = JsonDataHelper.Get(JsonDataKey.OperBoxData, string.Empty);
             if (string.IsNullOrWhiteSpace(json))
             {
                 return;
