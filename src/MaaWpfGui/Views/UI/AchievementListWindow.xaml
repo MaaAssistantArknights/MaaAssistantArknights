@@ -39,7 +39,7 @@
                             Visibility="{c:Binding IsProgressive}"
                             Value="{Binding Progress}" />
                         <TextBlock
-                            Text="{Binding UnlockedTime, StringFormat=解锁于：{0:G}}"
+                            Text="{Binding UnlockedTimeLocal, StringFormat=解锁于：{0:G}}"
                             TextWrapping="Wrap"
                             Visibility="{c:Binding IsUnlocked}" />
                     </VirtualizingStackPanel>
