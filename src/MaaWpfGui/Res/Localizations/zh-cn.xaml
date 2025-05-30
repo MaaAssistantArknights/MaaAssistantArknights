@@ -1087,10 +1087,23 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.TacticalRetreat.Title">临阵脱逃</system:String>
     <system:String x:Key="Achievement.TacticalRetreat.Description">我不是放弃，是战术性撤退！</system:String>
-    <system:String x:Key="Achievement.TacticalRetreat.Conditions">手动中止一次正在运行的代理</system:String>
+    <system:String x:Key="Achievement.TacticalRetreat.Conditions">手动中止一次正在运行的代理。</system:String>
 
     <system:String x:Key="Achievement.FirstLaunch.Title">初来乍到</system:String>
-    <system:String x:Key="Achievement.FirstLaunch.Description">欢迎使用 MaaAssistantArknights</system:String>
-    <system:String x:Key="Achievement.FirstLaunch.Conditions">第一次启动软件</system:String>
+    <system:String x:Key="Achievement.FirstLaunch.Description">欢迎使用 MaaAssistantArknights.</system:String>
+    <system:String x:Key="Achievement.FirstLaunch.Conditions">第一次启动软件。</system:String>
+
+    <system:String x:Key="Achievement.SanitySaver1.Title">精打细算</system:String>
+    <system:String x:Key="Achievement.SanitySaver1.Description">每点理智都用得恰到好处。</system:String>
+    <system:String x:Key="Achievement.SanitySaver1.Conditions">使用理智回复功能 1 次。</system:String>
+
+    <system:String x:Key="Achievement.SanitySaver2.Title">补给大师</system:String>
+    <system:String x:Key="Achievement.SanitySaver2.Description">你对药剂的使用炉火纯青。</system:String>
+    <system:String x:Key="Achievement.SanitySaver2.Conditions">使用理智回复功能 10 次。</system:String>
+
+    <system:String x:Key="Achievement.SanitySaver3.Title">永动机</system:String>
+    <system:String x:Key="Achievement.SanitySaver3.Description">你的理智似乎永远用不完。</system:String>
+    <system:String x:Key="Achievement.SanitySaver3.Conditions">使用理智回复功能 50 次。</system:String>
+
     <!--  !Achievement  -->
 </ResourceDictionary>

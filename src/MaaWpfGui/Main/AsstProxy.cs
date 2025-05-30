@@ -1725,11 +1725,13 @@ namespace MaaWpfGui.Main
                     {
                         MedicineUsedTimes += medicineCount;
                         medicineLog = LocalizationHelper.GetString("MedicineUsed") + $" {MedicineUsedTimes}(+{medicineCount})";
+                        AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySaver, medicineCount);
                     }
                     else
                     {
                         ExpiringMedicineUsedTimes += medicineCount;
                         medicineLog = LocalizationHelper.GetString("ExpiringMedicineUsed") + $" {ExpiringMedicineUsedTimes}(+{medicineCount})";
+                        AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySaver, medicineCount);
                     }
 
                     Instances.TaskQueueViewModel.AddLog(medicineLog, UiLogColor.Info);
