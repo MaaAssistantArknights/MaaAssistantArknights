@@ -23,13 +23,20 @@ namespace MaaWpfGui.Constants
         public const string SanitySpender2 = "SanitySpender2";
         public const string SanitySpender3 = "SanitySpender3";
 
-        public const string SanitySaver = "SanitySaver";
+        public const string SanitySaverGroup = "SanitySaverGroup";
         public const string SanitySaver1 = "SanitySaver1";
         public const string SanitySaver2 = "SanitySaver2";
         public const string SanitySaver3 = "SanitySaver3";
 
         public const string FirstLaunch = "FirstLaunch";
 
+        #endregion
+
+        #region 功能探索类
+
+        public const string ScheduleMasterGroup = "ScheduleMaster";
+        public const string ScheduleMaster1 = "ScheduleMaster1";
+        public const string ScheduleMaster2 = "ScheduleMaster2";
 
         #endregion
 

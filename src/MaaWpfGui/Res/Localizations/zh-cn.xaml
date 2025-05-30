@@ -1105,5 +1105,12 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.SanitySaver3.Description">你的理智似乎永远用不完。</system:String>
     <system:String x:Key="Achievement.SanitySaver3.Conditions">使用理智回复功能 50 次。</system:String>
 
+    <system:String x:Key="Achievement.ScheduleMaster1.Title">××管理大师</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster1.Description">更有效的规划</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster1.Conditions">定时执行 1 次</system:String>
+
+    <system:String x:Key="Achievement.ScheduleMaster2.Title">泛用型自动化解决方案0.3.2.9f2</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster2.Description">您已熟知PRTS的自动化部署</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster2.Conditions">定时执行 100 次</system:String>
     <!--  !Achievement  -->
 </ResourceDictionary>
