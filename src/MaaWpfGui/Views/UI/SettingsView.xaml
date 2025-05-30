@@ -17,7 +17,7 @@
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
-    d:DesignHeight="4000"
+    d:DesignHeight="5000"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid Margin="20">
@@ -114,12 +114,18 @@
                     DataContext="{Binding VersionUpdateSettings}" />
 
                 <hc:Divider Content="{Binding ListTitle[12]}" />
+                <settingsViews:AchievementSettingsUserControl
+                    Margin="0,20"
+                    HorizontalAlignment="Center"
+                    DataContext="{Binding AchievementSettings}" />
+
+                <hc:Divider Content="{Binding ListTitle[13]}" />
                 <settingsViews:IssueReportUserControl
                     Margin="0,20"
                     HorizontalAlignment="Center"
                     DataContext="{Binding IssueReportSettings}" />
 
-                <hc:Divider Content="{Binding ListTitle[13]}" />
+                <hc:Divider Content="{Binding ListTitle[14]}" />
                 <settingsViews:AboutUserControl Margin="0,20" HorizontalAlignment="Center" />
                 <!--<Rectangle HorizontalAlignment="Stretch" Fill="{DynamicResource BorderBrush}" Height="1" />-->
             </StackPanel>

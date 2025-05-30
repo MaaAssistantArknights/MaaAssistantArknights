@@ -25,12 +25,13 @@ namespace MaaWpfGui.Models
         public string Id { get; set; } = string.Empty;
 
         [JsonIgnore]
-        public string Title => LocalizationHelper.GetString($"Achievement.{Id}.Title");
+        public string Title => CanShow ? LocalizationHelper.GetString($"Achievement.{Id}.Title") : "???";
 
         [JsonIgnore]
-        public string Description => LocalizationHelper.GetString($"Achievement.{Id}.Description");
+        public string Description => CanShow ? LocalizationHelper.GetString($"Achievement.{Id}.Description") : "???";
 
-        public string Conditions => LocalizationHelper.GetString($"Achievement.{Id}.Conditions");
+        [JsonIgnore]
+        public string Conditions => CanShow ? LocalizationHelper.GetString($"Achievement.{Id}.Conditions") : "???";
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool IsUnlocked { get; set; } = false;
@@ -39,9 +40,18 @@ namespace MaaWpfGui.Models
         public DateTime? UnlockedTime { get; set; } = null;
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int Progress { get; set; } = 0; // 用于累计型成就
+        public bool IsHidden { get; set; } = false;
+
+        [JsonIgnore]
+        public bool CanShow => !IsHidden || IsUnlocked;
+
+        [JsonIgnore]
+        public bool IsProgressive => Target != null;
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? Target { get; set; } = null; // 可选目标值
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int Progress { get; set; } = 0; // 用于累计型成就
     }
 }

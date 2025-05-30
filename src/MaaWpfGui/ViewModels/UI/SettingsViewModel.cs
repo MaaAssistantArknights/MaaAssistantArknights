@@ -110,6 +110,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public static IssueReportUserControlModel IssueReportSettings { get; } = IssueReportUserControlModel.Instance;
 
+        /// <summary>
+        /// Gets 成就model
+        /// </summary>
+        public static AchievementSettingsUserControlModel AchievementSettings { get; } = AchievementSettingsUserControlModel.Instance;
+
         #endregion 设置界面Model
 
         /// <summary>
@@ -142,6 +147,7 @@ namespace MaaWpfGui.ViewModels.UI
             LocalizationHelper.GetString("ExternalNotificationSettings"),
             LocalizationHelper.GetString("HotKeySettings"),
             LocalizationHelper.GetString("UpdateSettings"),
+            LocalizationHelper.GetString("AchievementSettings"),
             LocalizationHelper.GetString("IssueReport"),
             LocalizationHelper.GetString("AboutUs"),
         ];
