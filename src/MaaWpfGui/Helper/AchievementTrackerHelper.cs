@@ -35,6 +35,10 @@ namespace MaaWpfGui.Helper
         {
             Load();
             InitializeAchievements();
+            Instances.MainWindowManager.WindowRestored += (_, _) =>
+            {
+                TryShowPendingGrowls();
+            };
         }
 
         private void Load()
@@ -96,7 +100,31 @@ namespace MaaWpfGui.Helper
                 IconKey = "HangoverGeometry",
                 IconBrushKey = "PallasBrush",
             };
-            Growl.Info(growlInfo);
+            ShowInfo(growlInfo);
+        }
+
+        private static readonly List<GrowlInfo> _pending = [];
+
+        public static void ShowInfo(GrowlInfo info)
+        {
+            var win = Instances.MainWindowManager.GetWindowIfVisible();
+            if (win == null)
+            {
+                _pending.Add(info);
+                return;
+            }
+
+            Growl.Info(info);
+        }
+
+        public static void TryShowPendingGrowls()
+        {
+            foreach (var info in _pending)
+            {
+                Growl.Info(info);
+            }
+
+            _pending.Clear();
         }
 
         private void CheckProgressUnlock(Achievement achievement)

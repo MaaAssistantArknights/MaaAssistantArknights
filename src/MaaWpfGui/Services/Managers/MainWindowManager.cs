@@ -100,6 +100,8 @@ namespace MaaWpfGui.Services.Managers
             ((RootView)MainWindow).NotifyIcon.notifyIcon.Visibility = useTrayIcon ? Visibility.Visible : Visibility.Collapsed;
         }
 
+        private WindowState _previousState = WindowState.Normal;
+
         /// <summary>
         /// Handle the main window's state changed event
         /// </summary>
@@ -107,10 +109,20 @@ namespace MaaWpfGui.Services.Managers
         /// <param name="e">The event arguments.</param>
         private void MainWindowStateChanged(object sender, EventArgs e)
         {
+            var currentState = MainWindow.WindowState;
+
             if (ShouldMinimizeToTray && ShouldUseTrayIcon)
             {
-                ChangeVisibility(MainWindow.WindowState != WindowState.Minimized);
+                ChangeVisibility(currentState != WindowState.Minimized);
             }
+
+            // 触发事件：从 Minimized 恢复
+            if (_previousState == WindowState.Minimized && currentState != WindowState.Minimized)
+            {
+                WindowRestored?.Invoke(this, EventArgs.Empty);
+            }
+
+            _previousState = currentState;
         }
 
         /// <summary>
@@ -144,5 +156,10 @@ namespace MaaWpfGui.Services.Managers
 
             return MainWindow;
         }
+
+        /// <summary>
+        /// 在窗口从最小化恢复时触发
+        /// </summary>
+        public event EventHandler WindowRestored;
     }
 }
