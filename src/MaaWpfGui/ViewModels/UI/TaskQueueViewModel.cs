@@ -1621,7 +1621,7 @@ namespace MaaWpfGui.ViewModels.UI
         public void SetFightParams()
         {
             var type = TaskType.Fight;
-            var id = Instances.AsstProxy.TaskStatus.ToList().FirstOrDefault(t => t.Value == type).Key;
+            var id = Instances.AsstProxy.TaskStatus.FirstOrDefault(t => t.Value == type).Key;
             if (!EnableSetFightParams || id == default)
             {
                 return;
@@ -1634,7 +1634,7 @@ namespace MaaWpfGui.ViewModels.UI
         public static void SetFightRemainingSanityParams()
         {
             var type = TaskType.FightRemainingSanity;
-            var id = Instances.AsstProxy.TaskStatus.ToList().FirstOrDefault(t => t.Value == type).Key;
+            var id = Instances.AsstProxy.TaskStatus.FirstOrDefault(t => t.Value == type).Key;
             if (id == default)
             {
                 return;
@@ -1661,7 +1661,7 @@ namespace MaaWpfGui.ViewModels.UI
         public static void SetInfrastParams()
         {
             const TaskType Type = TaskType.Infrast;
-            int id = Instances.AsstProxy.TaskStatus.ToList().FirstOrDefault(i => i.Value == Type).Key;
+            int id = Instances.AsstProxy.TaskStatus.FirstOrDefault(i => i.Value == Type).Key;
             if (id == default)
             {
                 return;
