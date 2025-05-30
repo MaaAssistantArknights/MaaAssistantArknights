@@ -1093,6 +1093,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.PeekScreen.Description">喜欢盯着看是吧.jpg</system:String>
     <system:String x:Key="Achievement.PeekScreen.Conditions">使用一次牛牛监控</system:String>
 
+    <system:String x:Key="Achievement.CongratulationError.Title">喜报</system:String>
+    <system:String x:Key="Achievement.CongratulationError.Description">我的MAA怎么用不了了？</system:String>
+    <system:String x:Key="Achievement.CongratulationError.Conditions">触发过MAA的报错</system:String>
+
     <system:String x:Key="Achievement.RealGacha.Title">真正的抽卡</system:String>
     <system:String x:Key="Achievement.RealGacha.Description">不是模拟抽卡吗？怎么真抽了</system:String>
     <system:String x:Key="Achievement.RealGacha.Conditions">使用一次牛牛抽卡</system:String>

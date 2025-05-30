@@ -92,6 +92,8 @@ namespace MaaWpfGui.Views.UI
 
             var isZhCn = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage) == "zh-cn";
             ErrorQqGroupLink.Visibility = isZhCn ? Visibility.Visible : Visibility.Collapsed;
+
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.CongratulationError);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

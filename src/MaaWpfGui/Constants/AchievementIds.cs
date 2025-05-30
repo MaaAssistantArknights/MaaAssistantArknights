@@ -53,6 +53,9 @@ namespace MaaWpfGui.Constants
         #endregion
 
         #region BUG 相关
+
+        public const string CongratulationError = "CongratulationError";
+
         #endregion
 
         #region 用户行为习惯类

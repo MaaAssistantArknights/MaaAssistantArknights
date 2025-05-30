@@ -196,6 +196,9 @@ namespace MaaWpfGui.Helper
                 new Achievement { Id = AchievementIds.TacticalRetreat, IsHidden = true }, // 停止任务
                 new Achievement { Id = AchievementIds.RealGacha, IsHidden = true }, // 真正的抽卡
                 new Achievement { Id = AchievementIds.PeekScreen, IsHidden = true }, // 窥屏
+
+                // BUG 相关
+                new Achievement { Id = AchievementIds.CongratulationError, IsHidden = true }, // 喜报
             };
 
             foreach (var achievement in achievements)
