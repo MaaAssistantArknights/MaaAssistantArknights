@@ -21,7 +21,7 @@ namespace MaaWpfGui.Extensions
     {
         private static readonly ILogger _logger = Serilog.Log.ForContext("SourceContext", "HttpResponseLoggingExtension");
 
-        public static void Log(this HttpResponseMessage response, bool logQuery = true)
+        public static void Log(this HttpResponseMessage response, UriPartial uriPartial = UriPartial.Query)
         {
             var method = response?.RequestMessage?.Method;
             var uri = response?.RequestMessage?.RequestUri;
@@ -29,11 +29,11 @@ namespace MaaWpfGui.Extensions
 
             if (response is { IsSuccessStatusCode: true })
             {
-                _logger.Information("HTTP: {StatusCode} {Method} {Url}", statusCode, method, uri?.GetLeftPart(logQuery ? UriPartial.Query : UriPartial.Path));
+                _logger.Information("HTTP: {StatusCode} {Method} {Url}", statusCode, method, uri?.GetLeftPart(uriPartial));
             }
             else
             {
-                _logger.Warning("HTTP: {StatusCode} {Method} {Url}", statusCode, method, uri?.GetLeftPart(logQuery ? UriPartial.Query : UriPartial.Path));
+                _logger.Warning("HTTP: {StatusCode} {Method} {Url}", statusCode, method, uri?.GetLeftPart(uriPartial));
             }
         }
     }

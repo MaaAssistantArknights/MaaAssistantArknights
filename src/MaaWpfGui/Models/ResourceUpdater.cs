@@ -126,7 +126,7 @@ namespace MaaWpfGui.Models
             HttpResponseMessage? response = null;
             try
             {
-                response = await Instances.HttpService.GetAsync(new(url), logQuery: false);
+                response = await Instances.HttpService.GetAsync(new(url), uriPartial: UriPartial.Path);
             }
             catch (Exception e)
             {

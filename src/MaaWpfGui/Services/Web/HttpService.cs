@@ -145,7 +145,7 @@ namespace MaaWpfGui.Services.Web
             }
         }
 
-        public async Task<HttpResponseMessage> GetAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseHeadersRead, bool logQuery = true)
+        public async Task<HttpResponseMessage> GetAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseHeadersRead, UriPartial uriPartial = UriPartial.Query)
         {
             var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Get, Version = HttpVersion.Version20, };
             if (extraHeader != null)
@@ -157,7 +157,7 @@ namespace MaaWpfGui.Services.Web
             }
 
             var response = await _client.SendAsync(request, httpCompletionOption);
-            response.Log(logQuery);
+            response.Log(uriPartial);
             return response;
         }
 
@@ -189,7 +189,7 @@ namespace MaaWpfGui.Services.Web
             }
         }
 
-        public async Task<HttpResponseMessage> PostAsync(Uri uri, HttpContent content, Dictionary<string, string>? extraHeader = null)
+        public async Task<HttpResponseMessage> PostAsync(Uri uri, HttpContent content, Dictionary<string, string>? extraHeader = null, UriPartial uriPartial = UriPartial.Query)
         {
             var message = new HttpRequestMessage(HttpMethod.Post, uri) { Version = HttpVersion.Version20 };
             if (extraHeader is not null)
@@ -203,7 +203,7 @@ namespace MaaWpfGui.Services.Web
             message.Headers.Accept.ParseAdd("application/json");
             message.Content = content;
             var response = await _client.SendAsync(message);
-            response.Log();
+            response.Log(uriPartial);
             return response;
         }
 
