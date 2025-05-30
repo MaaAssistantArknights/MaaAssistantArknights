@@ -1117,5 +1117,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.SanityExpire.Description">赶紧冲哇！！！</system:String>
     <system:String x:Key="Achievement.SanityExpire.Conditions">单次消耗 48 小时内过期的理智药水超过 8 瓶</system:String>
 
+    <system:String x:Key="Achievement.OverLimitAgent.Title">超限代理</system:String>
+    <system:String x:Key="Achievement.OverLimitAgent.Description">你进行了一次能将大道磨灭的代理任务</system:String>
+    <system:String x:Key="Achievement.OverLimitAgent.Conditions">在单次任务中，进行超过 100 次代理指挥作战</system:String>
     <!--  !Achievement  -->
 </ResourceDictionary>

@@ -31,6 +31,8 @@ namespace MaaWpfGui.Constants
 
         public const string SanityExpire = "SanityExpire";
 
+        public const string OverLimitAgent = "OverLimitAgent";
+
         #endregion
 
         #region 功能探索类

@@ -207,6 +207,7 @@ namespace MaaWpfGui.Helper
 
                 new Achievement { Id = AchievementIds.FirstLaunch }, // 首次启动
                 new Achievement { Id = AchievementIds.SanityExpire, Target = 8, IsHidden = true }, // 单次消耗 8 瓶快过期的理智药
+                new Achievement { Id = AchievementIds.OverLimitAgent, Target = 100, IsHidden = true }, // 单次代理 100 关
 
                 // 功能探索类
                 new Achievement { Id = AchievementIds.ScheduleMaster1, Target = 1 }, // 定时执行
