@@ -10,11 +10,12 @@
     Height="400"
     MinWidth="250">
     <Grid>
-        <ListView
+        <ListBox
             ItemsSource="{Binding Achievements}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
             VirtualizingPanel.ScrollUnit="Pixel">
-            <ListView.ItemTemplate>
+            <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="8" HorizontalAlignment="Left">
                         <TextBlock
@@ -22,11 +23,11 @@
                             Text="{Binding Title}"
                             TextWrapping="Wrap" />
                         <TextBlock
-                            Foreground="Gray"
+                            Foreground="{DynamicResource TraceLogBrush}"
                             Text="{Binding Description}"
                             TextWrapping="Wrap" />
                         <TextBlock
-                            Foreground="DarkGreen"
+                            Foreground="{DynamicResource InfoLogBrush}"
                             Text="{Binding Conditions}"
                             TextWrapping="Wrap" />
                         <ProgressBar
@@ -43,7 +44,7 @@
                             Visibility="{c:Binding IsUnlocked}" />
                     </StackPanel>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </hc:Window>
