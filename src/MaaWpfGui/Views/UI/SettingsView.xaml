@@ -107,17 +107,18 @@
                 <hc:Divider Content="{Binding ListTitle[10]}" />
                 <userControl:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
 
-                <hc:Divider Content="{Binding ListTitle[11]}" />
-                <settingsViews:VersionUpdateSettingsUserControl
-                    Margin="0,20"
-                    HorizontalAlignment="Center"
-                    DataContext="{Binding VersionUpdateSettings}" />
 
-                <hc:Divider Content="{Binding ListTitle[12]}" />
+                <hc:Divider Content="{Binding ListTitle[11]}" />
                 <settingsViews:AchievementSettingsUserControl
                     Margin="0,20"
                     HorizontalAlignment="Center"
                     DataContext="{Binding AchievementSettings}" />
+
+                <hc:Divider Content="{Binding ListTitle[12]}" />
+                <settingsViews:VersionUpdateSettingsUserControl
+                    Margin="0,20"
+                    HorizontalAlignment="Center"
+                    DataContext="{Binding VersionUpdateSettings}" />
 
                 <hc:Divider Content="{Binding ListTitle[13]}" />
                 <settingsViews:IssueReportUserControl

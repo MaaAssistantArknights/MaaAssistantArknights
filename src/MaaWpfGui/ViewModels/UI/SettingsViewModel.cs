@@ -146,8 +146,8 @@ namespace MaaWpfGui.ViewModels.UI
             LocalizationHelper.GetString("BackgroundSettings"),
             LocalizationHelper.GetString("ExternalNotificationSettings"),
             LocalizationHelper.GetString("HotKeySettings"),
-            LocalizationHelper.GetString("UpdateSettings"),
             LocalizationHelper.GetString("AchievementSettings"),
+            LocalizationHelper.GetString("UpdateSettings"),
             LocalizationHelper.GetString("IssueReport"),
             LocalizationHelper.GetString("AboutUs"),
         ];
