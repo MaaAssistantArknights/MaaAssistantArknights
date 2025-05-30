@@ -15,9 +15,32 @@ namespace MaaWpfGui.Constants
 {
     public static class AchievementIds
     {
+
+        #region 基础使用类
+
         public const string SanitySpenderGroup = "SanitySpender";
         public const string SanitySpender1 = "SanitySpender1";
         public const string SanitySpender2 = "SanitySpender2";
+
+        #endregion
+
+        #region 代理关卡类
+        #endregion
+
+        #region 搞笑/梗成就
+
         public const string QuickCloser = "QuickCloser";
+        public const string TacticalRetreat = "TacticalRetreat";
+
+        #endregion
+
+        #region BUG 相关
+        #endregion
+
+        #region 用户行为习惯类
+        #endregion
+
+        #region 彩蛋类
+        #endregion
     }
 }

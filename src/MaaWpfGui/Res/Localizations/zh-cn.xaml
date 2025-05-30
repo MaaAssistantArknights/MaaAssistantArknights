@@ -26,6 +26,7 @@
     <system:String x:Key="UiTheme">界面主题</system:String>
     <system:String x:Key="HotKeySettings">热键设置</system:String>
     <system:String x:Key="UpdateSettings">更新设置</system:String>
+    <system:String x:Key="AchievementSettings">成就设置</system:String>
     <system:String x:Key="AboutUs">关于我们</system:String>
     <system:String x:Key="IssueReport">问题反馈</system:String>
     <system:String x:Key="MaaVersion">MAA 版本</system:String>
@@ -1065,7 +1066,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="TaskTimeoutWarning">任务已运行超过 {0} 分钟（当前已运行 {1} 分钟）。如果长时间无进一步日志更新，可能需要手动干预。</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->
-    <system:String x:Key="AchievementCelebrate" xml:space="preserve">🎉 达成成就: </system:String>
+    <system:String x:Key="AchievementCelebrate">🎉 达成成就</system:String>
     <system:String x:Key="AchievementConditions" xml:space="preserve">达成条件: </system:String>
 
     <system:String x:Key="Achievement.SanitySpender1.Title">战术实战</system:String>
@@ -1079,5 +1080,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.QuickCloser.Title">YOLO!</system:String>
     <system:String x:Key="Achievement.QuickCloser.Description">“我知道我在做什么。”——某用户在点击之前</system:String>
     <system:String x:Key="Achievement.QuickCloser.Conditions">1s 内关闭弹窗（你大概是没看吧）</system:String>
+
+    <system:String x:Key="Achievement.TacticalRetreat.Title">临阵脱逃</system:String>
+    <system:String x:Key="Achievement.TacticalRetreat.Description">战术性撤退</system:String>
+    <system:String x:Key="Achievement.TacticalRetreat.Conditions">手动中止一次正在运行的代理</system:String>
     <!--  !Achievement  -->
 </ResourceDictionary>

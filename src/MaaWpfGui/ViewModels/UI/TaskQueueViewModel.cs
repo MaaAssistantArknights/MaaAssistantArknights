@@ -1411,6 +1411,12 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        public void ManualStop()
+        {
+            _ = Stop();
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.TacticalRetreat);
+        }
+
         /// <summary>
         /// <para>通常要和 <see cref="SetStopped()"/> 一起使用，除非能保证回调消息能收到 `AsstMsg.TaskChainStopped`</para>
         /// <para>This is usually done with <see cref="SetStopped()"/> Unless you are guaranteed to receive the callback message `AsstMsg.TaskChainStopped`</para>
