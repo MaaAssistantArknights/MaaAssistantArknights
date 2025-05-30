@@ -30,6 +30,8 @@ namespace MaaWpfGui.Models
         [JsonIgnore]
         public string Description => LocalizationHelper.GetString($"Achievement.{Id}.Description");
 
+        public string Conditions => LocalizationHelper.GetString($"Achievement.{Id}.Conditions");
+
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool IsUnlocked { get; set; } = false;
 
