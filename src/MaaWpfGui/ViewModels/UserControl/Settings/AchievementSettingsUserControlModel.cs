@@ -89,6 +89,7 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
                     .ToList(),
             },
             Owner = Application.Current.MainWindow,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
         };
         win.ShowDialog();
     }
