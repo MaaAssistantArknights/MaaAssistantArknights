@@ -53,5 +53,86 @@
         "roi": [908, 54, 372, 500],
         "maskRange": [1, 255],
         "next": ["RA@Navigation#next"]
+    },
+    "RA@Store@Begin": {
+        "doc": "生息演算商店",
+        "algorithm": "JustReturn",
+        "next": ["RA@Store@ClickItem", "RA@Store@Swipe"]
+    },
+    "RA@Store@ClickItem": {
+        "action": "ClickSelf",
+        "method": "RGBCount",
+        "roi": [0, 336, 1280, 367],
+        "colorScales": [
+            [
+                [0, 0, 0],
+                [255, 255, 110]
+            ]
+        ],
+        "next": ["RA@Store@ChooseMaxAmount", "RA@Store@Purchase"]
+    },
+    "RA@Store@ChooseMaxAmount": {
+        "roi": [986, 352, 164, 139],
+        "next": ["RA@Store@UnderfundedOCR", "RA@Store@Purchase"]
+    },
+    "RA@Store@UnderfundedOCR": {
+        "roi": [878, 397, 82, 48]
+    },
+    "RA@Store@Purchase": {
+        "text": ["支付"],
+        "roi": [640, 400, 424, 220],
+        "next": ["RA@Store@PurchasedConfirm", "RA@Store@RecruitSkip", "RA@Store@Underfunded"]
+    },
+    "RA@Store@Underfunded": {
+        "template": "ReceivedAllMail.png",
+        "roi": [909, 33, 166, 165],
+        "method": "HSVCount",
+        "colorScales": [[250, 255]],
+        "next": ["Stop"]
+    },
+    "RA@Store@RecruitSkip": {
+        "template": "SS@Store@RecruitSkip.png",
+        "roi": [1143, 0, 137, 150],
+        "next": ["RA@Store@RecruitSkipClick"]
+    },
+    "RA@Store@RecruitSkipClick": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1197, 23, 53, 45],
+        "next": ["RA@Store@RecruitSkipped", "RA@Store@RecruitSkipClick"]
+    },
+    "RA@Store@RecruitSkipped": {
+        "algorithm": "OcrDetect",
+        "text": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+        "roi": [1160, 16, 97, 42],
+        "next": ["RA@Store@ClickItem", "RA@Store@Swipe"]
+    },
+    "RA@Store@PurchasedConfirm": {
+        "baseTask": "CreditShop-Bought",
+        "template": "CreditShop-Bought.png",
+        "next": ["RA@Store@PurchasedConfirm", "RA@Store@ClickItem", "RA@Store@Swipe"]
+    },
+    "RA@Store@Swipe": {
+        "baseTask": "SlowlySwipeToTheRight",
+        "postDelay": 1000,
+        "next": ["RA@Store@ClickItem", "RA@Store@End1", "RA@Store@Swipe"]
+    },
+    "RA@Store@End1": {
+        "algorithm": "OcrDetect",
+        "text": ["OUT OF STOCK"],
+        "roi": [1165, 301, 115, 16],
+        "next": ["RA@Store@End2", "RA@Store@ClickItem"]
+    },
+    "RA@Store@End2": {
+        "algorithm": "OcrDetect",
+        "text": ["OUT OF STOCK"],
+        "roi": [1165, 461, 115, 18],
+        "next": ["RA@Store@End3", "RA@Store@ClickItem"]
+    },
+    "RA@Store@End3": {
+        "algorithm": "OcrDetect",
+        "text": ["OUT OF STOCK"],
+        "roi": [1165, 622, 115, 17],
+        "next": ["Stop"]
     }
 }

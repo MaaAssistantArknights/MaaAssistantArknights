@@ -704,6 +704,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGameNameYellowTicketStoreTip" xml:space="preserve">少なくとも258枚の黄チケットを持っていることを確認してください。</system:String>
     <system:String x:Key="MiniGameNameSsStore">イベントショップ</system:String>
     <system:String x:Key="MiniGameNameSsStoreTip" xml:space="preserve">イベントのショップページからのみ始めてください。&#10;購入数量無制限のアイテムは購入することはありません。</system:String>
+    <system:String x:Key="MiniGameNameRAStore">生息演算商店</system:String>
+    <system:String x:Key="MiniGameNameRAStoreTip" xml:space="preserve">イベントのショップページからのみ始めてください。</system:String>
     <!--  !小游戏  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">認識中……</system:String>

@@ -703,6 +703,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGameNameYellowTicketStoreTip" xml:space="preserve">최소한 258장의 노란색 티켓을 가지고 있는지 확인하세요.</system:String>
     <system:String x:Key="MiniGameNameSsStore">이벤트 상점</system:String>
     <system:String x:Key="MiniGameNameSsStoreTip" xml:space="preserve">이벤트 상점 페이지에서만 시작하세요.&#10;구매 수량이 무제한인 아이템은 구매하지 마세요.</system:String>
+    <system:String x:Key="MiniGameNameRAStore">생존연산 상점</system:String>
+    <system:String x:Key="MiniGameNameRAStoreTip" xml:space="preserve">이벤트 상점 페이지에서만 시작하세요.</system:String>
     <!--  !小游戏  -->
     <!--  로그  -->
     <system:String x:Key="Identifying">인식 중……</system:String>

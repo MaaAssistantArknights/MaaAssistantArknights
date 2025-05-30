@@ -700,6 +700,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="MiniGameNameYellowTicketStoreTip" xml:space="preserve">Please ensure you have at least 258 yellow tickets.</system:String>
     <system:String x:Key="MiniGameNameSsStore">Event Shop</system:String>
     <system:String x:Key="MiniGameNameSsStoreTip" xml:space="preserve">Please start from the event shop page.&#10;Won't buy items with unlimited purchase quantities.</system:String>
+    <system:String x:Key="MiniGameNameRAStore">Reclamation Algorithm Shop</system:String>
+    <system:String x:Key="MiniGameNameRAStoreTip" xml:space="preserve">Please start from the event shop page.</system:String>
     <!--  !小游戏  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">Identifying……</system:String>
