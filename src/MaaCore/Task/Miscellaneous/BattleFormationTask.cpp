@@ -480,6 +480,8 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
             if (!ret) {
                 LogError << __FUNCTION__ << "| Module " << std::to_string(module)
                          << "not found, please check the module number";
+                ctrler()->click(res.flag_rect); // 选择模组失败时反选干员
+                sleep(delay);
                 return false;
             }
             sleep(delay);
