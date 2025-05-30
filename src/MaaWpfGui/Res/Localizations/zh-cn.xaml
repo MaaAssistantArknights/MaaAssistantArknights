@@ -1075,7 +1075,11 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.SanitySpender2.Title">代理先锋</system:String>
     <system:String x:Key="Achievement.SanitySpender2.Description">比我还熟练</system:String>
-    <system:String x:Key="Achievement.SanitySpender2.Conditions">完成 50 次代理通关</system:String>
+    <system:String x:Key="Achievement.SanitySpender2.Conditions">完成 100 次代理通关</system:String>
+
+    <system:String x:Key="Achievement.SanitySpender3.Title">ZOOT</system:String>
+    <system:String x:Key="Achievement.SanitySpender3.Description">可露希尔代理程序正常运转中</system:String>
+    <system:String x:Key="Achievement.SanitySpender3.Conditions">完成 1000 次代理通关</system:String>
 
     <system:String x:Key="Achievement.QuickCloser.Title">YOLO!</system:String>
     <system:String x:Key="Achievement.QuickCloser.Description">“我知道我在做什么。”——某用户在点击之前</system:String>
