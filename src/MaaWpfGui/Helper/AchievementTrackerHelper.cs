@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HandyControl.Controls;
 using HandyControl.Data;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Models;
 
 namespace MaaWpfGui.Helper
@@ -90,7 +91,7 @@ namespace MaaWpfGui.Helper
             var growlInfo = new GrowlInfo
             {
                 IsCustom = true,
-                Message = $"{LocalizationHelper.GetString("AchievementCelebrate")}{achievement.Title}\n\n{achievement.Description}\n\n{LocalizationHelper.GetString("AchievementConditions")}{achievement.Conditions}",
+                Message = $"{LocalizationHelper.GetString("AchievementCelebrate")}: {achievement.Title}\n{achievement.Description}",
                 StaysOpen = true,
                 IconKey = "HangoverGeometry",
                 IconBrushKey = "PallasBrush",
@@ -139,11 +140,12 @@ namespace MaaWpfGui.Helper
             var achievements = new[]
             {
                 // 基础使用类
-                new Achievement { Id = "SanitySpender1", Target = 10 }, // 刷理智次数
-                new Achievement { Id = "SanitySpender2", Target = 100 },
+                new Achievement { Id = AchievementIds.SanitySpender1, Target = 10 }, // 刷理智次数
+                new Achievement { Id = AchievementIds.SanitySpender2, Target = 100 },
 
                 // 搞笑/梗类成就
-                new Achievement { Id = "QuickCloser" }, // 快速关闭弹窗
+                new Achievement { Id = AchievementIds.QuickCloser }, // 快速关闭弹窗
+                new Achievement { Id = AchievementIds.TacticalRetreat }, // 停止任务
             };
 
             foreach (var achievement in achievements)
