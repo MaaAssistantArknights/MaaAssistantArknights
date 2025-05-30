@@ -53,7 +53,31 @@ namespace MaaWpfGui.Helper
                 return;
             }
 
+            // 尝试从相同组的成就中找最大已达成进度
+            var similarProgress = _achievements.Values
+                .Where(a => a.Id != achievement.Id && a.Id.StartsWith(GetGroupPrefix(achievement.Id)))
+                .Select(a => a.Progress)
+                .DefaultIfEmpty(0)
+                .Max();
+
+            // 如果新成就进度是0，且存在类似成就的进度，就追溯赋值
+            if (achievement.Progress == 0 && similarProgress > 0)
+            {
+                achievement.Progress = similarProgress;
+                if (achievement is { IsUnlocked: false, Target: not null } &&
+                    achievement.Progress >= achievement.Target.Value)
+                {
+                    Unlock(achievement.Id);
+                }
+            }
+
             Save();
+        }
+
+        private static string GetGroupPrefix(string id)
+        {
+            // 例如 SanitySpender1 => SanitySpender
+            return new(id.TakeWhile(char.IsLetter).ToArray());
         }
 
         public void Unlock(string id)
