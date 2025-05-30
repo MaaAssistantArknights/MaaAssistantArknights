@@ -23,6 +23,8 @@ namespace MaaWpfGui.Constants
         public const string SanitySpender2 = "SanitySpender2";
         public const string SanitySpender3 = "SanitySpender3";
 
+        public const string FirstLaunch = "FirstLaunch";
+
         #endregion
 
         #region 代理关卡类
