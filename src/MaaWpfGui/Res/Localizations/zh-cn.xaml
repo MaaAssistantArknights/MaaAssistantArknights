@@ -1101,6 +1101,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.UnexpectedCrash.Description">你触发了未知的领域</system:String>
     <system:String x:Key="Achievement.UnexpectedCrash.Conditions">出现未处理异常并被崩溃日志记录</system:String>
 
+    <system:String x:Key="Achievement.CustomizationMaster.Title">自定义达人</system:String>
+    <system:String x:Key="Achievement.CustomizationMaster.Description">咱就是二次元！</system:String>
+    <system:String x:Key="Achievement.CustomizationMaster.Conditions">更换一次背景图片</system:String>
+
     <system:String x:Key="Achievement.RealGacha.Title">真正的抽卡</system:String>
     <system:String x:Key="Achievement.RealGacha.Description">不是模拟抽卡吗？怎么真抽了</system:String>
     <system:String x:Key="Achievement.RealGacha.Conditions">使用一次牛牛抽卡</system:String>
