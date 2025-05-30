@@ -1082,7 +1082,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.QuickCloser.Conditions">1s 内关闭弹窗（你大概是没看吧）</system:String>
 
     <system:String x:Key="Achievement.TacticalRetreat.Title">临阵脱逃</system:String>
-    <system:String x:Key="Achievement.TacticalRetreat.Description">战术性撤退</system:String>
+    <system:String x:Key="Achievement.TacticalRetreat.Description">我不是放弃，是战术性撤退！</system:String>
     <system:String x:Key="Achievement.TacticalRetreat.Conditions">手动中止一次正在运行的代理</system:String>
     <!--  !Achievement  -->
 </ResourceDictionary>
