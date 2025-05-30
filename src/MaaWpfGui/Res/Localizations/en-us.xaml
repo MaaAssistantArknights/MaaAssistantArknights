@@ -26,6 +26,7 @@
     <system:String x:Key="UiTheme">UI Theme</system:String>
     <system:String x:Key="HotKeySettings">HotKeys</system:String>
     <system:String x:Key="UpdateSettings">Update</system:String>
+    <system:String x:Key="AchievementSettings">Achievements</system:String>
     <system:String x:Key="AboutUs">About us</system:String>
     <system:String x:Key="IssueReport">Issue Report</system:String>
     <system:String x:Key="MaaVersion">MAA Version</system:String>
@@ -1060,4 +1061,23 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
     <system:String x:Key="ReminderIntervalMinutes">Reminder interval (minutes)</system:String>
     <system:String x:Key="TaskTimeoutWarning">The task has been running for more than {0} minutes (currently running for {1} minutes). If there are no further log updates for a long time, manual intervention may be required.</system:String>
     <!--  !TimeOutTimer  -->
+    <!--  Achievement  -->
+    <system:String x:Key="AchievementCelebrate">🎉 Achievement Unlocked</system:String>
+    <system:String x:Key="AchievementConditions" xml:space="preserve">Unlock Condition: </system:String>
+
+    <system:String x:Key="Achievement.SanitySpender1.Title">Tactical Practice</system:String>
+    <system:String x:Key="Achievement.SanitySpender1.Description">You've got the hang of it</system:String>
+    <system:String x:Key="Achievement.SanitySpender1.Conditions">Complete 10 auto-battle operations</system:String>
+
+    <system:String x:Key="Achievement.SanitySpender2.Title">Auto-Battle Pioneer</system:String>
+    <system:String x:Key="Achievement.SanitySpender2.Description">Even more skilled than me</system:String>
+    <system:String x:Key="Achievement.SanitySpender2.Conditions">Complete 50 auto-battle operations</system:String>
+
+    <system:String x:Key="Achievement.QuickCloser.Title">YOLO!</system:String>
+    <system:String x:Key="Achievement.QuickCloser.Description">"I know what I'm doing!" —A user, moments before clicking</system:String>    <system:String x:Key="Achievement.QuickCloser.Conditions">Close popup within 1 second (you probably didn't read it)</system:String>
+
+    <system:String x:Key="Achievement.TacticalRetreat.Title">Tactical Retreat</system:String>
+    <system:String x:Key="Achievement.TacticalRetreat.Description">I'm not giving up, it's a tactical retreat!</system:String>
+    <system:String x:Key="Achievement.TacticalRetreat.Conditions">Manually stop a running auto-battle operation</system:String>
+    <!--  !Achievement  -->
 </ResourceDictionary>
