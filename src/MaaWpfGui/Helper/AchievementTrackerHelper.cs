@@ -143,6 +143,9 @@ namespace MaaWpfGui.Helper
                 new Achievement { Id = AchievementIds.SanitySpender1, Target = 10 }, // 刷理智次数
                 new Achievement { Id = AchievementIds.SanitySpender2, Target = 100 },
                 new Achievement { Id = AchievementIds.SanitySpender3, Target = 1000 },
+                new Achievement { Id = AchievementIds.SanitySaver1, Target = 1 }, // 刷理智次数
+                new Achievement { Id = AchievementIds.SanitySaver2, Target = 10 },
+                new Achievement { Id = AchievementIds.SanitySaver3, Target = 50 },
 
                 new Achievement { Id = AchievementIds.FirstLaunch },
 
