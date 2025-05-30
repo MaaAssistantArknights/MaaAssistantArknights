@@ -3641,9 +3641,7 @@
         "postDelay": 300
     },
     "BattleQuickFormationModule-0": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [0, 336, 147, 145]
+        "baseTask": "BattleQuickFormationModule-Item"
     },
     "BattleQuickFormationModule-1": {
         "baseTask": "BattleQuickFormationModule-Item"
