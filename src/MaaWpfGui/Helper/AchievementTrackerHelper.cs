@@ -20,6 +20,7 @@ using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Models;
+using Stylet;
 
 namespace MaaWpfGui.Helper
 {
@@ -48,7 +49,13 @@ namespace MaaWpfGui.Helper
 
         private void Save()
         {
-            JsonDataHelper.Set("Achievement", _achievements);
+            var sorted = _achievements
+                .OrderByDescending(kv => kv.Value.IsUnlocked) // 已解锁优先
+                .ThenBy(kv => kv.Value.IsHidden) // 隐藏排后面
+                .ThenBy(kv => kv.Value.Id) // 最后按 Id
+                .ToDictionary(kv => kv.Key, kv => kv.Value);
+
+            JsonDataHelper.Set("Achievement", sorted);
         }
 
         public void RegisterAchievement(Achievement achievement)
@@ -107,14 +114,17 @@ namespace MaaWpfGui.Helper
 
         public static void ShowInfo(GrowlInfo info)
         {
-            var win = Instances.MainWindowManager.GetWindowIfVisible();
-            if (win == null)
+            Execute.OnUIThread(() =>
             {
-                _pending.Add(info);
-                return;
-            }
+                var win = Instances.MainWindowManager.GetWindowIfVisible();
+                if (win == null)
+                {
+                    _pending.Add(info);
+                    return;
+                }
 
-            Growl.Info(info);
+                Growl.Info(info);
+            });
         }
 
         public static void TryShowPendingGrowls()
@@ -176,6 +186,10 @@ namespace MaaWpfGui.Helper
                 new Achievement { Id = AchievementIds.SanitySaver3, Target = 50 },
 
                 new Achievement { Id = AchievementIds.FirstLaunch },
+
+                // 功能探索类
+                new Achievement { Id = AchievementIds.ScheduleMaster1, Target = 1 }, // 定时执行
+                new Achievement { Id = AchievementIds.ScheduleMaster2, Target = 100 },
 
                 // 搞笑/梗类成就
                 new Achievement { Id = AchievementIds.QuickCloser, IsHidden = true }, // 快速关闭弹窗
