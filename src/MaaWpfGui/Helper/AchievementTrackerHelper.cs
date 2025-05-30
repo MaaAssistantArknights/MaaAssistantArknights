@@ -64,11 +64,7 @@ namespace MaaWpfGui.Helper
             if (achievement.Progress == 0 && similarProgress > 0)
             {
                 achievement.Progress = similarProgress;
-                if (achievement is { IsUnlocked: false, Target: not null } &&
-                    achievement.Progress >= achievement.Target.Value)
-                {
-                    Unlock(achievement.Id);
-                }
+                CheckProgressUnlock(achievement);
             }
 
             Save();
@@ -102,22 +98,28 @@ namespace MaaWpfGui.Helper
             Growl.Info(growlInfo);
         }
 
+        private void CheckProgressUnlock(Achievement achievement)
+        {
+            if (achievement.IsUnlocked ||
+                !achievement.Target.HasValue ||
+                achievement.Progress < achievement.Target.Value)
+            {
+                return;
+            }
+
+            Unlock(achievement.Id);
+        }
+
         public void AddProgress(string id, int amount)
         {
-            if (!_achievements.TryGetValue(id, out var achievement) || achievement.IsUnlocked)
+            if (!_achievements.TryGetValue(id, out var achievement))
             {
                 return;
             }
 
             achievement.Progress += amount;
-            if (achievement.Target.HasValue && achievement.Progress >= achievement.Target.Value)
-            {
-                Unlock(id);
-            }
-            else
-            {
-                Save();
-            }
+            CheckProgressUnlock(achievement);
+            Save();
         }
 
         public void AddProgressToGroup(string groupPrefix, int amount)
