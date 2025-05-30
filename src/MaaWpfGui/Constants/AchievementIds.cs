@@ -48,6 +48,7 @@ namespace MaaWpfGui.Constants
         public const string QuickCloser = "QuickCloser";
         public const string TacticalRetreat = "TacticalRetreat";
         public const string RealGacha = "RealGacha";
+        public const string PeekScreen = "PeekScreen";
 
         #endregion
 

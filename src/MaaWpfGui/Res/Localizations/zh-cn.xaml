@@ -1089,6 +1089,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.TacticalRetreat.Description">我不是放弃，是战术性撤退！</system:String>
     <system:String x:Key="Achievement.TacticalRetreat.Conditions">手动中止一次正在运行的代理。</system:String>
 
+    <system:String x:Key="Achievement.PeekScreen.Title">窥屏</system:String>
+    <system:String x:Key="Achievement.PeekScreen.Description">喜欢盯着看是吧.jpg</system:String>
+    <system:String x:Key="Achievement.PeekScreen.Conditions">使用一次牛牛监控</system:String>
+
     <system:String x:Key="Achievement.RealGacha.Title">真正的抽卡</system:String>
     <system:String x:Key="Achievement.RealGacha.Description">不是模拟抽卡吗？怎么真抽了</system:String>
     <system:String x:Key="Achievement.RealGacha.Conditions">使用一次牛牛抽卡</system:String>
