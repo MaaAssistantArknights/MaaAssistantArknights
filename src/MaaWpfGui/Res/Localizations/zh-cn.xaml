@@ -440,7 +440,7 @@
     <system:String x:Key="UseRemainingSanityStageTip">在完成主任务后刷取指定关卡，不使用理智药/碎石</system:String>
     <system:String x:Key="UseExpiringMedicine">无限吃48小时内过期的理智药</system:String>
     <system:String x:Key="HideUnavailableStage">隐藏当日不开放关卡</system:String>
-    <system:String x:Key="HideSeries">隐藏连战次数</system:String>
+    <system:String x:Key="HideSeries">隐藏代理倍率</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">显示基建计划</system:String>
     <system:String x:Key="MainViewButtonFeature">主界面可选择按钮功能</system:String>
     <system:String x:Key="CustomStageCode">手动输入关卡名</system:String>
@@ -560,7 +560,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="PerformBattles">指定次数</system:String>
     <system:String x:Key="AssignedMaterial">指定材料</system:String>
     <system:String x:Key="Quantity">刷取数量</system:String>
-    <system:String x:Key="Series">连战次数</system:String>
+    <system:String x:Key="Series">代理倍率</system:String>
     <system:String x:Key="StageSelect">关卡选择</system:String>
     <system:String x:Key="StageSelect2">备选</system:String>
     <system:String x:Key="RemainingSanityStage">剩余理智</system:String>
