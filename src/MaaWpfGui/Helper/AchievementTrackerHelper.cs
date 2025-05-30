@@ -194,6 +194,7 @@ namespace MaaWpfGui.Helper
                 // 搞笑/梗类成就
                 new Achievement { Id = AchievementIds.QuickCloser, IsHidden = true }, // 快速关闭弹窗
                 new Achievement { Id = AchievementIds.TacticalRetreat, IsHidden = true }, // 停止任务
+                new Achievement { Id = AchievementIds.RealGacha, IsHidden = true }, // 真正的抽卡
             };
 
             foreach (var achievement in achievements)

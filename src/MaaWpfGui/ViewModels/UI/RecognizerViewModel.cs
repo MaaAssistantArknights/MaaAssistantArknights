@@ -895,6 +895,8 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.RealGacha);
+
             GachaShowDisclaimer = false;
         }
 
