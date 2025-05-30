@@ -169,6 +169,26 @@ namespace MaaWpfGui.Helper
             }
         }
 
+        public void SetProgress(string id, int progress)
+        {
+            if (!_achievements.TryGetValue(id, out var achievement))
+            {
+                return;
+            }
+
+            achievement.Progress = progress;
+            CheckProgressUnlock(achievement);
+            Save();
+        }
+
+        public void SetProgressToGroup(string groupPrefix, int progress)
+        {
+            foreach (var achievement in _achievements.Values.Where(achievement => achievement.Id.StartsWith(groupPrefix)))
+            {
+                SetProgress(achievement.Id, progress);
+            }
+        }
+
         public bool IsUnlocked(string id) => _achievements.TryGetValue(id, out var a) && a.IsUnlocked;
 
         public Achievement? Get(string id) => _achievements.GetValueOrDefault(id);
@@ -185,7 +205,8 @@ namespace MaaWpfGui.Helper
                 new Achievement { Id = AchievementIds.SanitySaver2, Target = 10 },
                 new Achievement { Id = AchievementIds.SanitySaver3, Target = 50 },
 
-                new Achievement { Id = AchievementIds.FirstLaunch },
+                new Achievement { Id = AchievementIds.FirstLaunch }, // 首次启动
+                new Achievement { Id = AchievementIds.SanityExpire, Target = 8, IsHidden = true }, // 单次消耗 8 瓶快过期的理智药
 
                 // 功能探索类
                 new Achievement { Id = AchievementIds.ScheduleMaster1, Target = 1 }, // 定时执行

@@ -1110,7 +1110,12 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.ScheduleMaster1.Conditions">定时执行 1 次</system:String>
 
     <system:String x:Key="Achievement.ScheduleMaster2.Title">泛用型自动化解决方案0.3.2.9f2</system:String>
-    <system:String x:Key="Achievement.ScheduleMaster2.Description">您已熟知PRTS的自动化部署。</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster2.Description">您已熟知 PRTS 的自动化部署。</system:String>
     <system:String x:Key="Achievement.ScheduleMaster2.Conditions">定时执行 100 次</system:String>
+
+    <system:String x:Key="Achievement.SanityExpire.Title">要过期了</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Description">赶紧冲哇！！！</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Conditions">单次消耗 48 小时内过期的理智药水超过 8 瓶</system:String>
+
     <!--  !Achievement  -->
 </ResourceDictionary>
