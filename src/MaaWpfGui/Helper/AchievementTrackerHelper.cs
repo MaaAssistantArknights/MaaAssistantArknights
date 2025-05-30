@@ -142,6 +142,7 @@ namespace MaaWpfGui.Helper
                 // 基础使用类
                 new Achievement { Id = AchievementIds.SanitySpender1, Target = 10 }, // 刷理智次数
                 new Achievement { Id = AchievementIds.SanitySpender2, Target = 100 },
+                new Achievement { Id = AchievementIds.SanitySpender3, Target = 1000 },
 
                 // 搞笑/梗类成就
                 new Achievement { Id = AchievementIds.QuickCloser, IsHidden = true }, // 快速关闭弹窗

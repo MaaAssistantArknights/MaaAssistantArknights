@@ -21,6 +21,7 @@ namespace MaaWpfGui.Constants
         public const string SanitySpenderGroup = "SanitySpender";
         public const string SanitySpender1 = "SanitySpender1";
         public const string SanitySpender2 = "SanitySpender2";
+        public const string SanitySpender3 = "SanitySpender3";
 
         #endregion
 
