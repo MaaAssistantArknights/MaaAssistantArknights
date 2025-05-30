@@ -1391,6 +1391,7 @@ namespace MaaWpfGui.Main
                             $"{allDrops}{(curTimes >= 0
                                 ? $"\n{LocalizationHelper.GetString("CurTimes")} : {curTimes}"
                                 : string.Empty)}");
+                        AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySpenderGroup, curTimes);
                         break;
                     }
 
