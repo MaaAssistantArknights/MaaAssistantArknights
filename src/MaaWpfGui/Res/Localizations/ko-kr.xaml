@@ -764,6 +764,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotJsonError">Copilot 파일 분석 중 오류가 발생했습니다!</system:String>
     <system:String x:Key="NotCopilotJson">Copilot 파일이 아닙니다</system:String>
     <system:String x:Key="CheckTheFile">파일 내용을 확인해주세요!</system:String>
+    <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">부조종사 작업을 파일에 저장할 수 없습니다.: </system:String>
+    <system:String x:Key="CopilotSingleTaskWarning">전투 목록을 사용하여 단일 작업을 실행하고 있습니다. 권장하지 않습니다. 단일 작업을 직접 실행하세요.</system:String>
     <!--  !로그  -->
     <!--  !Copilot  -->
     <!--  ErrorView  -->

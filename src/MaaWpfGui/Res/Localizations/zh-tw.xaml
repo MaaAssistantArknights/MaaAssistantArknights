@@ -763,6 +763,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CopilotJsonError">解析作業檔案錯誤！</system:String>
     <system:String x:Key="NotCopilotJson">非作業檔案</system:String>
     <system:String x:Key="CheckTheFile">請檢查檔案內容！</system:String>
+    <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">無法儲存作業文件到: </system:String>
+    <system:String x:Key="CopilotSingleTaskWarning">正在使用戰鬥清單執行單一作業, 不建議此行為. 單一作業請直接運行</system:String>
     <!--  !日誌  -->
     <!--  !Copilot  -->
     <!--  ErrorView  -->
