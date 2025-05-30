@@ -24,11 +24,18 @@ using Stylet;
 
 namespace MaaWpfGui.Helper
 {
-    public class AchievementTrackerHelper
+    public class AchievementTrackerHelper : PropertyChangedBase
     {
         private Dictionary<string, Achievement> _achievements = new();
 
-        public IReadOnlyDictionary<string, Achievement> Achievements => _achievements;
+        public Dictionary<string, Achievement> Achievements
+        {
+            get => _achievements;
+            set
+            {
+                SetAndNotify(ref _achievements, value);
+            }
+        }
 
         public static AchievementTrackerHelper Instance { get; } = new();
 
@@ -49,13 +56,13 @@ namespace MaaWpfGui.Helper
 
         private void Save()
         {
-            var sorted = _achievements
+            Achievements = _achievements
                 .OrderByDescending(kv => kv.Value.IsUnlocked) // 已解锁优先
                 .ThenBy(kv => kv.Value.IsHidden) // 隐藏排后面
                 .ThenBy(kv => kv.Value.Id) // 最后按 Id
                 .ToDictionary(kv => kv.Key, kv => kv.Value);
 
-            JsonDataHelper.Set("Achievement", sorted);
+            JsonDataHelper.Set("Achievement", _achievements);
         }
 
         public void RegisterAchievement(Achievement achievement)
@@ -206,7 +213,7 @@ namespace MaaWpfGui.Helper
                 new Achievement { Id = AchievementIds.SanitySaver3, Target = 50 },
 
                 new Achievement { Id = AchievementIds.FirstLaunch }, // 首次启动
-                new Achievement { Id = AchievementIds.SanityExpire, Target = 8, IsHidden = true }, // 单次消耗 8 瓶快过期的理智药
+                new Achievement { Id = AchievementIds.SanityExpire, Target = 8 }, // 单次消耗 8 瓶快过期的理智药
                 new Achievement { Id = AchievementIds.OverLimitAgent, Target = 100, IsHidden = true }, // 单次代理 100 关
 
                 // 功能探索类

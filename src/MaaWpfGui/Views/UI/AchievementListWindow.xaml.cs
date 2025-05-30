@@ -11,16 +11,20 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System.Collections.Generic;
+using System.Linq;
 using HandyControl.Controls;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Models;
 
 namespace MaaWpfGui.Views.UI
 {
-    public partial class AchievementListWindow : Window
+    public partial class AchievementListWindow
     {
         public AchievementListWindow()
         {
             InitializeComponent();
+            DataContext = AchievementTrackerHelper.Instance;
         }
     }
 }
