@@ -1695,6 +1695,10 @@ namespace MaaWpfGui.Main
                         if ((subTaskDetails?.Children())?.Any() is true)
                         {
                             FightTimes = subTaskDetails.ToObject<FightSettingsUserControlModel.FightTimes>()!;
+                            if (FightTimes.TimesFinished > 0)
+                            {
+                                AchievementTrackerHelper.Instance.SetProgress(AchievementIds.OverLimitAgent, FightTimes.TimesFinished);
+                            }
                         }
 
                         break;

@@ -1254,6 +1254,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public async void LinkStart()
         {
+            return;
             if (!_runningState.GetIdle())
             {
                 _logger.Information("Not idle, return.");
