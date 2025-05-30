@@ -17,7 +17,7 @@
             VirtualizingPanel.ScrollUnit="Pixel">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Margin="8" HorizontalAlignment="Left">
+                    <VirtualizingStackPanel Margin="8" HorizontalAlignment="Left">
                         <TextBlock
                             FontWeight="Bold"
                             Text="{Binding Title}"
@@ -42,7 +42,7 @@
                             Text="{Binding UnlockedTime, StringFormat=解锁于：{0:G}}"
                             TextWrapping="Wrap"
                             Visibility="{c:Binding IsUnlocked}" />
-                    </StackPanel>
+                    </VirtualizingStackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
