@@ -438,7 +438,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
     int delay = Task.get("BattleQuickFormationOCR")->post_delay;
     int skill = 0;
     int module = -1;
-    bool module_error = false;
+    bool ret = true;
     for (const auto& res :
          opers_result | views::filter([](const QuickFormationOper& oper) { return !oper.is_selected; })) {
         const std::string& name = res.text;
@@ -474,13 +474,12 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
             ctrler()->click(SkillRectArray.at(skill - 1ULL));
             sleep(delay);
         }
-        if (module >= 0) {
-            ProcessTask(*this, { "BattleQuickFormationModulePage" }).run();
-            module_error = !ProcessTask(*this, { "BattleQuickFormationModule" + std::to_string(module) }).run();
-            if (module_error) {
-                Log.error(
-                    "BattleQuickFormationModule" + std::to_string(module),
-                    "| Module not found, please check the module number");
+        if (module >= 0 && module <= 4) {
+            ret = ProcessTask(*this, { "BattleQuickFormationModulePage" }).run();
+            ret = ret && ProcessTask(*this, { "BattleQuickFormationModule-" + std::to_string(module) }).run();
+            if (!ret) {
+                LogError << __FUNCTION__ << "| Module " << std::to_string(module)
+                         << "not found, please check the module number";
                 return false;
             }
             sleep(delay);
