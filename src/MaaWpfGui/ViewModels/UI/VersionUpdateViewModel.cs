@@ -809,6 +809,7 @@ public class VersionUpdateViewModel : Screen
             return CheckUpdateRetT.NoNeedToUpdate;
         }
 
+        AchievementTrackerHelper.Instance.Unlock(AchievementIds.MirrorChyanFirstUse);
         return CheckUpdateRetT.OK;
     }
 
@@ -1051,6 +1052,7 @@ public class VersionUpdateViewModel : Screen
                     break;
                 case Enums.MirrorChyanErrorCode.KeyInvalid:
                     ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkInvalid"));
+                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.MirrorChyanCdkError);
                     break;
                 case Enums.MirrorChyanErrorCode.ResourceQuotaExhausted:
                     ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkQuotaExhausted"));

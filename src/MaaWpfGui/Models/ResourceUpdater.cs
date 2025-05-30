@@ -169,6 +169,7 @@ namespace MaaWpfGui.Models
                         break;
                     case Enums.MirrorChyanErrorCode.KeyInvalid:
                         ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkInvalid"));
+                        AchievementTrackerHelper.Instance.Unlock(AchievementIds.MirrorChyanCdkError);
                         break;
                     case Enums.MirrorChyanErrorCode.ResourceQuotaExhausted:
                         ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkQuotaExhausted"));
@@ -279,6 +280,7 @@ namespace MaaWpfGui.Models
 
             SettingsViewModel.VersionUpdateSettings.NewResourceFoundInfo = string.Empty;
 
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.MirrorChyanFirstUse);
             return true;
         }
 
