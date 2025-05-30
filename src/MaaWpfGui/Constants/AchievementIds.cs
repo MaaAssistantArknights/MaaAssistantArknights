@@ -15,7 +15,6 @@ namespace MaaWpfGui.Constants
 {
     public static class AchievementIds
     {
-
         #region 基础使用类
 
         public const string SanitySpenderGroup = "SanitySpender";
@@ -29,6 +28,8 @@ namespace MaaWpfGui.Constants
         public const string SanitySaver3 = "SanitySaver3";
 
         public const string FirstLaunch = "FirstLaunch";
+
+        public const string SanityExpire = "SanityExpire";
 
         #endregion
 
