@@ -2030,7 +2030,7 @@ namespace MaaWpfGui.Main
 
         private readonly Dictionary<AsstTaskId, TaskType> _taskStatus = [];
 
-        public IReadOnlyDictionary<AsstTaskId, TaskType> TaskStatus => _taskStatus;
+        public IReadOnlyDictionary<AsstTaskId, TaskType> TaskStatus => new Dictionary<AsstTaskId, TaskType>(_taskStatus);
 
         public bool AsstAppendCloseDown(string clientType)
         {
