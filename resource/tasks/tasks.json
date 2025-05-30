@@ -3629,9 +3629,8 @@
     "BattleQuickFormationModulePage": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "fullMatch": true,
-        "text": ["分支", "分支+"],
-        "roi": [185, 276, 169, 128],
+        "text": ["分支"],
+        "roi": [185, 320, 180, 40],
         "postDelay": 500
     },
     "BattleQuickFormationModule-Item": {
