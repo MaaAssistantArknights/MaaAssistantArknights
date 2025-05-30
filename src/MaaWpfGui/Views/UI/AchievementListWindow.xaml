@@ -3,15 +3,15 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     Title="成就列表"
     Width="600"
     Height="400"
     MinWidth="250">
     <Grid>
         <ListBox
-            ItemsSource="{Binding Achievements}"
+            ItemsSource="{Binding Achievements.Values, Source={x:Static helper:AchievementTrackerHelper.Instance}}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
             VirtualizingPanel.ScrollUnit="Pixel">
@@ -39,6 +39,7 @@
                             Visibility="{c:Binding '!IsUnlocked and IsProgressive'}"
                             Value="{Binding Progress}" />
                         <TextBlock
+                            Foreground="{DynamicResource RareOperatorLogBrush}"
                             Text="{Binding UnlockedTimeLocal, StringFormat=解锁于：{0:G}}"
                             TextWrapping="Wrap"
                             Visibility="{c:Binding IsUnlocked}" />
