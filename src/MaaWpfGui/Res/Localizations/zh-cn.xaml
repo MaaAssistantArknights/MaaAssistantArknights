@@ -1065,10 +1065,19 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="TaskTimeoutWarning">任务已运行超过 {0} 分钟（当前已运行 {1} 分钟）。如果长时间无进一步日志更新，可能需要手动干预。</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->
-    <system:String x:Key="AchievementCelebrate">🎉 成就达成：</system:String>
-    <system:String x:Key="Achievement.SanitySpender1.Title">刷理智狂魔（x</system:String>
-    <system:String x:Key="Achievement.SanitySpender1.Description">累计消耗 500 理智</system:String>
-    <system:String x:Key="Achievement.QuickCloser.Title">YOLO!（不看弹窗直接关闭）</system:String>
+    <system:String x:Key="AchievementCelebrate" xml:space="preserve">🎉 达成成就: </system:String>
+    <system:String x:Key="AchievementConditions" xml:space="preserve">达成条件: </system:String>
+
+    <system:String x:Key="Achievement.SanitySpender1.Title">战术实战</system:String>
+    <system:String x:Key="Achievement.SanitySpender1.Description">你已经上手了</system:String>
+    <system:String x:Key="Achievement.SanitySpender1.Conditions">完成 10 次代理通关</system:String>
+
+    <system:String x:Key="Achievement.SanitySpender2.Title">代理先锋</system:String>
+    <system:String x:Key="Achievement.SanitySpender2.Description">比我还熟练</system:String>
+    <system:String x:Key="Achievement.SanitySpender2.Conditions">完成 50 次代理通关</system:String>
+
+    <system:String x:Key="Achievement.QuickCloser.Title">YOLO!</system:String>
     <system:String x:Key="Achievement.QuickCloser.Description">“我知道我在做什么。”——某用户在点击之前</system:String>
+    <system:String x:Key="Achievement.QuickCloser.Conditions">1s 内关闭弹窗（你大概是没看吧）</system:String>
     <!--  !Achievement  -->
 </ResourceDictionary>

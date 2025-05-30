@@ -134,22 +134,20 @@ namespace MaaWpfGui.Helper
 
         private void InitializeAchievements()
         {
-            RegisterAchievement(new()
+            var achievements = new[]
             {
-                Id = "SanitySpender1",
-                Target = 500,
-            });
+                // 基础使用类
+                new Achievement { Id = "SanitySpender1", Target = 10 }, // 刷理智次数
+                new Achievement { Id = "SanitySpender2", Target = 100 },
 
-            RegisterAchievement(new()
-            {
-                Id = "SanitySpender2",
-                Target = 1000,
-            });
+                // 搞笑/梗类成就
+                new Achievement { Id = "QuickCloser" }, // 快速关闭弹窗
+            };
 
-            RegisterAchievement(new()
+            foreach (var achievement in achievements)
             {
-                Id = "QuickCloser",
-            });
+                RegisterAchievement(achievement);
+            }
         }
     }
 }
