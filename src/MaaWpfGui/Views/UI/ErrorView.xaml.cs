@@ -132,6 +132,8 @@ namespace MaaWpfGui.Views.UI
                 return LocalizationHelper.GetString("ErrorSolutionFailedToMove");
             }
 
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.UnexpectedCrash);
+
             return LocalizationHelper.GetString("UnknownErrorOccurs");
         }
 

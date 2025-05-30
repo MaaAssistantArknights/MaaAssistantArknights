@@ -199,6 +199,7 @@ namespace MaaWpfGui.Helper
 
                 // BUG 相关
                 new Achievement { Id = AchievementIds.CongratulationError, IsHidden = true }, // 喜报
+                new Achievement { Id = AchievementIds.UnexpectedCrash, IsHidden = true }, // 不速之客
             };
 
             foreach (var achievement in achievements)
