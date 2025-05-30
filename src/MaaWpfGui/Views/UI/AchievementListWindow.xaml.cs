@@ -11,14 +11,13 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System.Collections.Generic;
-using System.Linq;
-using HandyControl.Controls;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Models;
 
 namespace MaaWpfGui.Views.UI
 {
+    /// <summary>
+    /// AchievementListWindow.xaml 的交互逻辑
+    /// </summary>
     public partial class AchievementListWindow
     {
         public AchievementListWindow()
