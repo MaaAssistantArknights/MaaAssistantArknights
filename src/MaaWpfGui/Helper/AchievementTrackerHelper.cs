@@ -94,7 +94,7 @@ namespace MaaWpfGui.Helper
             var growlInfo = new GrowlInfo
             {
                 IsCustom = true,
-                Message = $"{LocalizationHelper.GetString("AchievementCelebrate")}\n{achievement.Title}\n{achievement.Description}",
+                Message = $"{LocalizationHelper.GetString("AchievementCelebrate")}{achievement.Title}\n\n{achievement.Description}\n\n{LocalizationHelper.GetString("AchievementConditions")}{achievement.Conditions}",
                 StaysOpen = true,
                 IconKey = "HangoverGeometry",
                 IconBrushKey = "PallasBrush",
