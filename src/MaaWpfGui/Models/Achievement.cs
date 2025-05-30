@@ -39,6 +39,9 @@ namespace MaaWpfGui.Models
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public DateTime? UnlockedTime { get; set; } = null;
 
+        [JsonIgnore]
+        public DateTime? UnlockedTimeLocal => UnlockedTime?.ToLocalTime();
+
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool IsHidden { get; set; } = false;
 
