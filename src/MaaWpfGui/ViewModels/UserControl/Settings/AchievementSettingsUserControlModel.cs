@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using HandyControl.Controls;
 using MaaWpfGui.Helper;
@@ -81,7 +82,11 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
         {
             DataContext = new
             {
-                Achievements = AchievementTrackerHelper.Instance.Achievements.Values,
+                Achievements = AchievementTrackerHelper.Instance.Achievements.Values
+                    .OrderByDescending(a => a.IsUnlocked) // 已解锁优先显示
+                    .ThenBy(a => a.IsHidden) // 隐藏的排后面
+                    .ThenBy(a => a.Id) // 最后按 Id 排序
+                    .ToList(),
             },
             Owner = Application.Current.MainWindow,
         };

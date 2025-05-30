@@ -25,10 +25,10 @@ namespace MaaWpfGui.Models
         public string Id { get; set; } = string.Empty;
 
         [JsonIgnore]
-        public string Title => CanShow ? LocalizationHelper.GetString($"Achievement.{Id}.Title") : "???";
+        public string Title => IsUnlocked ? LocalizationHelper.GetString($"Achievement.{Id}.Title") : "???";
 
         [JsonIgnore]
-        public string Description => CanShow ? LocalizationHelper.GetString($"Achievement.{Id}.Description") : "???";
+        public string Description => IsUnlocked ? LocalizationHelper.GetString($"Achievement.{Id}.Description") : "???";
 
         [JsonIgnore]
         public string Conditions => CanShow ? LocalizationHelper.GetString($"Achievement.{Id}.Conditions") : "???";
