@@ -212,6 +212,8 @@ namespace MaaWpfGui.Helper
                 // 功能探索类
                 new Achievement { Id = AchievementIds.ScheduleMaster1, Target = 1 }, // 定时执行
                 new Achievement { Id = AchievementIds.ScheduleMaster2, Target = 100 },
+                new Achievement { Id = AchievementIds.MirrorChyanFirstUse, IsHidden = true }, // 第一次成功使用 MirrorChyan 下载
+                new Achievement { Id = AchievementIds.MirrorChyanCdkError, IsHidden = true }, // MirrorChyan CDK 错误
 
                 // 搞笑/梗类成就
                 new Achievement { Id = AchievementIds.QuickCloser, IsHidden = true }, // 快速关闭弹窗

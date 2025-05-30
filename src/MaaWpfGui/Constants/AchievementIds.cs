@@ -41,6 +41,9 @@ namespace MaaWpfGui.Constants
         public const string ScheduleMaster1 = "ScheduleMaster1";
         public const string ScheduleMaster2 = "ScheduleMaster2";
 
+        public const string MirrorChyanFirstUse = "MirrorChyanFirstUse";
+        public const string MirrorChyanCdkError = "MirrorChyanCdkError";
+
         #endregion
 
         #region 代理关卡类

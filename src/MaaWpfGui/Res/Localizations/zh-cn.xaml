@@ -1120,5 +1120,13 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.OverLimitAgent.Title">超限代理</system:String>
     <system:String x:Key="Achievement.OverLimitAgent.Description">你进行了一次能将大道磨灭的代理任务</system:String>
     <system:String x:Key="Achievement.OverLimitAgent.Conditions">在单次任务中，进行超过 100 次代理指挥作战</system:String>
+
+    <system:String x:Key="Achievement.MirrorChyanFirstUse.Title">Mirror～～☆</system:String>
+    <system:String x:Key="Achievement.MirrorChyanFirstUse.Description">是 Mirror酱！我们有救了！</system:String>
+    <system:String x:Key="Achievement.MirrorChyanFirstUse.Conditions">初次成功使用 Mirror酱</system:String>
+
+    <system:String x:Key="Achievement.MirrorChyanCdkError.Title">这……对吗？</system:String>
+    <system:String x:Key="Achievement.MirrorChyanCdkError.Description">谁偷吃了我的字母饼干？</system:String>
+    <system:String x:Key="Achievement.MirrorChyanCdkError.Conditions">Mirror酱 CDK 填写错误</system:String>
     <!--  !Achievement  -->
 </ResourceDictionary>
