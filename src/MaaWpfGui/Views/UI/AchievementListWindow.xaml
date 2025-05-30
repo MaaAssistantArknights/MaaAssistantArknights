@@ -36,7 +36,7 @@
                             BorderThickness="1"
                             Maximum="{Binding Target}"
                             Minimum="0"
-                            Visibility="{c:Binding IsProgressive}"
+                            Visibility="{c:Binding '!IsUnlocked and IsProgressive'}"
                             Value="{Binding Progress}" />
                         <TextBlock
                             Text="{Binding UnlockedTimeLocal, StringFormat=解锁于：{0:G}}"
