@@ -29,7 +29,7 @@ struct OperatorRequirements
     // int elite = -1;        // 精英化等级
     // int level = -1;        // 干员等级
     // int skill_level = -1;  // 技能等级
-    int module = -1; // 模组编号 -1 -> 不切换模组, 0 -> 不使用模组, 1 -> 模组Χ, 2 -> 模组Y, 3 -> 模组α, 4 -> 模组Δ
+    int module = -1; // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组Χ, 2: 模组Y, 3: 模组α, 4: 模组Δ
     // int potentiality = -1; // 潜能要求
 };
 

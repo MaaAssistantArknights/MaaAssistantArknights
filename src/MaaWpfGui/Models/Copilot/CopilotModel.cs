@@ -77,7 +77,7 @@ public class CopilotModel : CopilotBase
             {
                 if (oper.Requirements.Module >= 0)
                 {
-                    // 模组编号 0 -> 不需要模组 , 1 -> 模组 Χ , 2 -> 模组 Y , 3 -> 模组 α , 4 -> 模组 Δ
+                    // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组Χ, 2: 模组Y, 3: 模组α, 4: 模组Δ
                     log += oper.Requirements.Module switch
                     {
                         0 => $" {LocalizationHelper.GetString("CopilotWithoutModule")}",
@@ -85,10 +85,11 @@ public class CopilotModel : CopilotBase
                         2 => $" {LocalizationHelper.GetString("CopilotModule")} Y",
                         3 => $" {LocalizationHelper.GetString("CopilotModule")} α",
                         4 => $" {LocalizationHelper.GetString("CopilotModule")} Δ",
-                        _ => string.Empty
+                        _ => string.Empty,
                     };
                 }
             }
+
             output.Add((log, UiLogColor.Message));
         }
 
