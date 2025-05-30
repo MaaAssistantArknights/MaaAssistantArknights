@@ -100,7 +100,7 @@ namespace MaaWpfGui.Services.Managers
             ((RootView)MainWindow).NotifyIcon.notifyIcon.Visibility = useTrayIcon ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private WindowState _previousState = WindowState.Normal;
+        private WindowState? _previousState = null;
 
         /// <summary>
         /// Handle the main window's state changed event
@@ -117,7 +117,7 @@ namespace MaaWpfGui.Services.Managers
             }
 
             // 触发事件：从 Minimized 恢复
-            if (_previousState == WindowState.Minimized && currentState != WindowState.Minimized)
+            if (_previousState is null || (_previousState == WindowState.Minimized && currentState != WindowState.Minimized))
             {
                 WindowRestored?.Invoke(this, EventArgs.Empty);
             }
