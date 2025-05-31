@@ -54,7 +54,7 @@ namespace MaaWpfGui.Helper
             _achievements = JsonDataHelper.Get("Achievement", new Dictionary<string, Achievement>()) ?? new Dictionary<string, Achievement>();
         }
 
-        private void Save()
+        public void Save()
         {
             Achievements = _achievements
                 .OrderByDescending(kv => kv.Value.IsUnlocked) // 已解锁优先

@@ -68,6 +68,7 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
                 existing.UnlockedTime = pair.Value.UnlockedTime;
             }
 
+            AchievementTrackerHelper.Instance.Save();
             Growl.Success("已恢复成就进度");
         }
         else
