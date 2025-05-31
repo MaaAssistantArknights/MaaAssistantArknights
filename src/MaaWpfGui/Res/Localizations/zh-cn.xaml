@@ -833,8 +833,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="StageQueue">关卡队列:</system:String>
     <system:String x:Key="UnableToAgent">无法使用代理指挥</system:String>
     <system:String x:Key="MissionStart">已开始行动</system:String>
+    <system:String x:Key="MissionStart.FightTask">开始行动 {0} 次, -{1}理智</system:String>
     <system:String x:Key="UnitTime">次</system:String>
-    <system:String x:Key="Sanity">理智</system:String>
     <system:String x:Key="CurrentSanity" xml:space="preserve">理智: {0}/{1}  </system:String>
     <system:String x:Key="MedicineUsedTimes" xml:space="preserve">药: {0}  </system:String>
     <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">药: {0},{1}(临期)  </system:String>
