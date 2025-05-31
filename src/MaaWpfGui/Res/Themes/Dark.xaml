@@ -45,6 +45,11 @@
     <!--  标题背景     没用到（建议和主题色一致）  -->
     <SolidColorBrush x:Key="TitleBrush" Color="#326cf3" />
 
+    <!--  普通勋章（银色）  -->
+    <SolidColorBrush x:Key="NormalMedalBrush" Color="#D8D8D8" />
+    <!--  隐藏勋章（金色）  -->
+    <SolidColorBrush x:Key="HiddenMedalBrush" Color="#FFD700" />
+
     <!--  MdXaml Brush  -->
     <SolidColorBrush x:Key="MdXamlBackground" Color="#2d2d30" />
     <SolidColorBrush x:Key="MdXamlCodeBackground" Color="#161b22" />

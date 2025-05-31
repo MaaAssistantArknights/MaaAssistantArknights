@@ -33,16 +33,27 @@
                         <ProgressBar
                             Width="200"
                             Height="12"
+                            HorizontalAlignment="Left"
                             BorderThickness="1"
                             Maximum="{Binding Target}"
                             Minimum="0"
                             Visibility="{c:Binding '!IsUnlocked and IsProgressive'}"
                             Value="{Binding Progress}" />
                         <TextBlock
-                            Foreground="{DynamicResource RareOperatorLogBrush}"
                             Text="{Binding UnlockedTimeLocal, StringFormat=解锁于：{0:G}}"
                             TextWrapping="Wrap"
-                            Visibility="{c:Binding IsUnlocked}" />
+                            Visibility="{c:Binding IsUnlocked}">
+                            <TextBlock.Style>
+                                <Style BasedOn="{StaticResource TextBlockDefault}" TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="{DynamicResource NormalMedalBrush}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsHidden}" Value="True">
+                                            <Setter Property="Foreground" Value="{DynamicResource HiddenMedalBrush}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                     </VirtualizingStackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
