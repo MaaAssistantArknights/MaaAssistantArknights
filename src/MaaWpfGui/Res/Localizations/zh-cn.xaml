@@ -1169,5 +1169,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.MirrorChyanCdkError.Title">这……对吗？</system:String>
     <system:String x:Key="Achievement.MirrorChyanCdkError.Description">谁偷吃了我的字母饼干？</system:String>
     <system:String x:Key="Achievement.MirrorChyanCdkError.Conditions">Mirror酱 CDK 填写错误</system:String>
+
+    <system:String x:Key="Achievement.ProblemFeedback.Title">隐患勘察</system:String>
+    <system:String x:Key="Achievement.ProblemFeedback.Description">一定要杜绝的是，来自内部的风险。</system:String>
+    <system:String x:Key="Achievement.ProblemFeedback.Conditions">进行一次问题反馈</system:String>
+
     <!--  !Achievement  -->
 </ResourceDictionary>
