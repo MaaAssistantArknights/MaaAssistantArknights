@@ -1098,9 +1098,41 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.TacticalRetreat.Description">我不是放弃，是战术性撤退！</system:String>
     <system:String x:Key="Achievement.TacticalRetreat.Conditions">手动中止一次正在运行的代理</system:String>
 
+    <system:String x:Key="Achievement.PeekScreen.Title">窥屏</system:String>
+    <system:String x:Key="Achievement.PeekScreen.Description">喜欢盯着看是吧.jpg</system:String>
+    <system:String x:Key="Achievement.PeekScreen.Conditions">使用一次牛牛监控</system:String>
+
+    <system:String x:Key="Achievement.CongratulationError.Title">喜报</system:String>
+    <system:String x:Key="Achievement.CongratulationError.Description">我的MAA怎么用不了了？</system:String>
+    <system:String x:Key="Achievement.CongratulationError.Conditions">触发过MAA的报错</system:String>
+
+    <system:String x:Key="Achievement.UnexpectedCrash.Title">不速之客</system:String>
+    <system:String x:Key="Achievement.UnexpectedCrash.Description">你触发了未知的领域</system:String>
+    <system:String x:Key="Achievement.UnexpectedCrash.Conditions">出现未处理异常并被崩溃日志记录</system:String>
+
+    <system:String x:Key="Achievement.CustomizationMaster.Title">自定义达人</system:String>
+    <system:String x:Key="Achievement.CustomizationMaster.Description">咱就是二次元！</system:String>
+    <system:String x:Key="Achievement.CustomizationMaster.Conditions">更换一次背景图片</system:String>
+
+    <system:String x:Key="Achievement.RealGacha.Title">真正的抽卡</system:String>
+    <system:String x:Key="Achievement.RealGacha.Description">不是模拟抽卡吗？怎么真抽了</system:String>
+    <system:String x:Key="Achievement.RealGacha.Conditions">使用一次牛牛抽卡</system:String>
+
     <system:String x:Key="Achievement.FirstLaunch.Title">初来乍到</system:String>
     <system:String x:Key="Achievement.FirstLaunch.Description">欢迎使用 MaaAssistantArknights.</system:String>
     <system:String x:Key="Achievement.FirstLaunch.Conditions">第一次启动软件</system:String>
+
+    <system:String x:Key="Achievement.Martian.Title">火星人</system:String>
+    <system:String x:Key="Achievement.Martian.Description">远古版本好用吗？</system:String>
+    <system:String x:Key="Achievement.Martian.Conditions">资源时间或版本时间距今超过 3 个月</system:String>
+
+    <system:String x:Key="Achievement.Rules.Title">严重错讠</system:String>
+    <system:String x:Key="Achievement.Rules.Description">我会一直注视着你</system:String>
+    <system:String x:Key="Achievement.Rules.Conditions">MAA员工守则</system:String>
+
+    <system:String x:Key="Achievement.VersionClick.Title">这也能点？</system:String>
+    <system:String x:Key="Achievement.VersionClick.Description">这是什么？版本号，点一下</system:String>
+    <system:String x:Key="Achievement.VersionClick.Conditions">点击设置页的版本号徽章</system:String>
 
     <system:String x:Key="Achievement.SanitySaver1.Title">精打细算</system:String>
     <system:String x:Key="Achievement.SanitySaver1.Description">每点理智都用得恰到好处。</system:String>

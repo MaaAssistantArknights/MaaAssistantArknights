@@ -47,6 +47,8 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
             SetAndNotify(ref _backgroundImagePath, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.BackgroundImagePath, value);
             BackgroundImage = RefreshBackgroundImage(value);
+
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.CustomizationMaster);
         }
     }
 
