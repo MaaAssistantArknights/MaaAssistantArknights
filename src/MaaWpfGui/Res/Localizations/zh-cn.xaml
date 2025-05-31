@@ -1113,6 +1113,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.FirstLaunch.Description">欢迎使用 MaaAssistantArknights.</system:String>
     <system:String x:Key="Achievement.FirstLaunch.Conditions">第一次启动软件。</system:String>
 
+    <system:String x:Key="Achievement.Martian.Title">火星人</system:String>
+    <system:String x:Key="Achievement.Martian.Description">远古版本好用吗？</system:String>
+    <system:String x:Key="Achievement.Martian.Conditions">资源时间或版本时间距今超过 3 个月</system:String>
+
     <system:String x:Key="Achievement.SanitySaver1.Title">精打细算</system:String>
     <system:String x:Key="Achievement.SanitySaver1.Description">每点理智都用得恰到好处。</system:String>
     <system:String x:Key="Achievement.SanitySaver1.Conditions">使用理智回复功能 1 次。</system:String>

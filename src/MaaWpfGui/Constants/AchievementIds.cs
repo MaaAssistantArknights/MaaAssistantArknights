@@ -50,6 +50,7 @@ namespace MaaWpfGui.Constants
         public const string RealGacha = "RealGacha";
         public const string PeekScreen = "PeekScreen";
         public const string CustomizationMaster = "CustomizationMaster";
+        public const string Martian = "Martian";
 
         #endregion
 

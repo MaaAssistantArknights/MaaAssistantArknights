@@ -197,6 +197,7 @@ namespace MaaWpfGui.Helper
                 new Achievement { Id = AchievementIds.RealGacha, IsHidden = true }, // 真正的抽卡
                 new Achievement { Id = AchievementIds.PeekScreen, IsHidden = true }, // 窥屏
                 new Achievement { Id = AchievementIds.CustomizationMaster, IsHidden = true }, // 自定义达人
+                new Achievement { Id = AchievementIds.Martian, IsHidden = true }, // 火星人
 
                 // BUG 相关
                 new Achievement { Id = AchievementIds.CongratulationError, IsHidden = true }, // 喜报
