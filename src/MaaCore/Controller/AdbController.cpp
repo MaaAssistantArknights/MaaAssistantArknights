@@ -67,18 +67,18 @@ std::optional<std::string> asst::AdbController::reconnect(const std::string& cmd
     };
     static constexpr int ReconnectTimes = 5;
     for (int i = 0; i < ReconnectTimes; ++i) {
-        if (need_exit()) {
+        if (!is_restarting() && need_exit()) {
             break;
         }
         reconnect_info["details"]["times"] = i;
         callback(AsstMsg::ConnectionInfo, reconnect_info);
 
         sleep(10 * 1000);
-        if (need_exit()) {
+        if (!is_restarting() && need_exit()) {
             break;
         }
         auto reconnect_ret = call_command(m_adb.connect, 60LL * 1000, false /* 禁止重连避免无限递归 */);
-        if (need_exit()) {
+        if (!is_restarting() && need_exit()) {
             break;
         }
         bool is_reconnect_success = false;
@@ -163,7 +163,7 @@ std::optional<std::string> asst::AdbController::call_command(
     }
     // 直接 return，避免走到下面的 else if 里的 m_inited = false) 关闭 adb 连接，
     // 导致停止后再开始任务还需要重连一次
-    if (need_exit()) {
+    if (!is_restarting() && need_exit()) {
         return std::nullopt;
     }
 
@@ -310,6 +310,17 @@ bool asst::AdbController::start_game(const std::string& client_type)
     return ret;
 }
 
+bool asst::AdbController::start_activity(const std::string& activity_name)
+{
+    if (activity_name.empty()) {
+        return false;
+    }
+
+    std::string cur_cmd = utils::string_replace_all(m_adb.start, "[PackageName]", activity_name);
+    bool ret = call_command(cur_cmd).has_value();
+    return ret;
+}
+
 bool asst::AdbController::stop_game(const std::string& client_type)
 {
     if (client_type.empty()) {
@@ -322,6 +333,16 @@ bool asst::AdbController::stop_game(const std::string& client_type)
     std::string cur_cmd = utils::string_replace_all(m_adb.stop, "[PackageName]", package_name.value());
     bool ret = call_command(cur_cmd).has_value();
 
+    return ret;
+}
+
+bool asst::AdbController::stop_activity(const std::string& activity_name)
+{
+    if (activity_name.empty()) {
+        return false;
+    }
+    std::string cur_cmd = utils::string_replace_all(m_adb.stop, "[PackageName]", activity_name);
+    bool ret = call_command(cur_cmd).has_value();
     return ret;
 }
 
@@ -825,7 +846,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
             });
     };
 
-    if (need_exit()) {
+    if (!is_restarting() && need_exit()) {
         return false;
     }
 
@@ -883,7 +904,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         }
     }
 
-    if (need_exit()) {
+    if (!is_restarting() && need_exit()) {
         return false;
     }
 
@@ -927,7 +948,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         m_version = std::stoul(version_str);
     }
 
-    if (need_exit()) {
+    if (!is_restarting() && need_exit()) {
         return false;
     }
 
@@ -950,7 +971,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         display_id.pop_back();
     }
 
-    if (need_exit()) {
+    if (!is_restarting() && need_exit()) {
         return false;
     }
 
@@ -994,7 +1015,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         m_screen_size = { m_width, m_height };
     }
 
-    if (need_exit()) {
+    if (!is_restarting() && need_exit()) {
         return false;
     }
 
@@ -1014,6 +1035,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
     m_adb.screencap_encode = cmd_replace(adb_cfg.screencap_encode);
     m_adb.start = cmd_replace(adb_cfg.start);
     m_adb.stop = cmd_replace(adb_cfg.stop);
+    m_adb.get_activities = cmd_replace(adb_cfg.get_activities);
     m_adb.back_to_home = cmd_replace(adb_cfg.back_to_home);
 
     if (m_support_socket && !m_server_started) {
@@ -1046,7 +1068,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         }
     }
 
-    if (need_exit()) {
+    if (!is_restarting() && need_exit()) {
         return false;
     }
 
@@ -1057,7 +1079,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         init_ld_extras(adb_cfg);
     }
 
-    if (need_exit()) {
+    if (!is_restarting() && need_exit()) {
         return false;
     }
 
@@ -1078,4 +1100,9 @@ void asst::AdbController::back_to_home() noexcept
 {
     call_command(m_adb.back_to_home);
     return;
+}
+
+std::optional<std::string> asst::AdbController::get_activities()
+{
+    return call_command(m_adb.get_activities);
 }
