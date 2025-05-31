@@ -1136,6 +1136,7 @@ namespace MaaWpfGui.ViewModels.UI
             new() { Display = LocalizationHelper.GetString("MiniGameNameGreenTicketStore"), Value = "GreenTicket@Store@Begin" },
             new() { Display = LocalizationHelper.GetString("MiniGameNameYellowTicketStore"), Value = "YellowTicket@Store@Begin" },
             new() { Display = LocalizationHelper.GetString("MiniGameNameSsStore"), Value = "SS@Store@Begin" },
+            new() { Display = LocalizationHelper.GetString("MiniGameNameRAStore"), Value = "RA@Store@Begin" },
         ];
 
         private string _miniGameTaskName = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MiniGameTaskName, "Stop");
@@ -1171,6 +1172,7 @@ namespace MaaWpfGui.ViewModels.UI
                 "GreenTicket@Store@Begin" => LocalizationHelper.GetString("MiniGameNameGreenTicketStoreTip"),
                 "YellowTicket@Store@Begin" => LocalizationHelper.GetString("MiniGameNameYellowTicketStoreTip"),
                 "SS@Store@Begin" => LocalizationHelper.GetString("MiniGameNameSsStoreTip"),
+                "RA@Store@Begin" => LocalizationHelper.GetString("MiniGameNameRAStoreTip"),
                 _ => string.Empty,
             };
         }

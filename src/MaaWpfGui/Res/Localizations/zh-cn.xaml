@@ -526,6 +526,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ReclamationIncrementModeClick">连点</system:String>
     <system:String x:Key="ReclamationIncrementModeHold">长按</system:String>
     <system:String x:Key="ReclamationMaxCraftCountPerRound">单次最大组装轮数</system:String>
+    <system:String x:Key="ReclamationClearStore">任务完成后购买商店</system:String>
     <system:String x:Key="OperNameLanguage">干员名称显示语言</system:String>
     <system:String x:Key="OperNameLanguageMAA">跟随 MAA</system:String>
     <system:String x:Key="OperNameLanguageClient">跟随游戏客户端</system:String>
@@ -704,6 +705,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="MiniGameNameYellowTicketStoreTip" xml:space="preserve">请确保自己至少有258张黄票。</system:String>
     <system:String x:Key="MiniGameNameSsStore">活动商店</system:String>
     <system:String x:Key="MiniGameNameSsStoreTip" xml:space="preserve">请在活动商店页面开始。&#10;不买无限池。</system:String>
+    <system:String x:Key="MiniGameNameRAStore">生息演算商店</system:String>
+    <system:String x:Key="MiniGameNameRAStoreTip" xml:space="preserve">请在活动商店页面开始。</system:String>
     <!--  !小游戏  -->
     <!--  日志  -->
     <system:String x:Key="Identifying">正在识别……</system:String>

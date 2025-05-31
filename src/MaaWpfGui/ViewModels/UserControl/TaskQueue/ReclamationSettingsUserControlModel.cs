@@ -136,6 +136,18 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
         }
     }
 
+    private bool _reclamationClearStore = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationClearStore, bool.FalseString));
+
+    public bool ReclamationClearStore
+    {
+        get => _reclamationClearStore;
+        set
+        {
+            SetAndNotify(ref _reclamationClearStore, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationClearStore, value.ToString());
+        }
+    }
+
     /// <summary>
     /// 自动生息演算。
     /// </summary>
@@ -156,6 +168,7 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
     /// <param name="increment_mode">点击类型：0 连点；1 长按</param>
     /// <param name="num_craft_batches">单次最大制造轮数</param>
     /// <param name="tools_to_craft">要组装的支援道具。</param>
+    /// <param name="clear_store">刷完点数后是否清空商店。</param>
     /// <returns>返回(Asst任务类型, 参数)</returns>
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
@@ -166,6 +179,7 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
             IncrementMode = ReclamationIncrementMode,
             MaxCraftCountPerRound = ReclamationMaxCraftCountPerRound,
             ToolToCraft = ReclamationToolToCraft.Split(';').Select(s => s.Trim()).ToList(),
+            ClearStore = ReclamationClearStore,
         }.Serialize();
     }
 }

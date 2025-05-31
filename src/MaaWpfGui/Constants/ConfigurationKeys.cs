@@ -164,6 +164,7 @@ namespace MaaWpfGui.Constants
         public const string ReclamationToolToCraft = "Reclamation.ToolToCraft";
         public const string ReclamationIncrementMode = "Reclamation.ReclamationIncrementMode";
         public const string ReclamationMaxCraftCountPerRound = "Reclamation.ReclamationMaxCraftCountPerRound";
+        public const string ReclamationClearStore = "Reclamation.ReclamationClearStore";
 
         public const string RecruitMaxTimes = "AutoRecruit.MaxTimes";
         public const string AutoRecruitFirstList = "AutoRecruit.AutoRecruitFirstList";
