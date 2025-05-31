@@ -225,6 +225,18 @@ namespace MaaWpfGui.Helper
                 // 搞笑/梗类成就
                 new Achievement { Id = AchievementIds.QuickCloser, IsHidden = true }, // 快速关闭弹窗
                 new Achievement { Id = AchievementIds.TacticalRetreat, IsHidden = true }, // 停止任务
+                new Achievement { Id = AchievementIds.RealGacha, IsHidden = true }, // 真正的抽卡
+                new Achievement { Id = AchievementIds.PeekScreen, IsHidden = true }, // 窥屏
+                new Achievement { Id = AchievementIds.CustomizationMaster, IsHidden = true }, // 自定义达人
+                new Achievement { Id = AchievementIds.Martian, IsHidden = true }, // 火星人
+
+                // BUG 相关
+                new Achievement { Id = AchievementIds.CongratulationError, IsHidden = true }, // 喜报
+                new Achievement { Id = AchievementIds.UnexpectedCrash, IsHidden = true }, // 不速之客
+
+                // 彩蛋类
+                new Achievement { Id = AchievementIds.Rules, IsHidden = true }, // 我会一直注视着你
+                new Achievement { Id = AchievementIds.VersionClick, IsHidden = true }, // 这也能点？
             };
 
             foreach (var achievement in achievements)

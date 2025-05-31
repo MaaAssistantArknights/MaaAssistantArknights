@@ -53,16 +53,28 @@ namespace MaaWpfGui.Constants
 
         public const string QuickCloser = "QuickCloser";
         public const string TacticalRetreat = "TacticalRetreat";
+        public const string RealGacha = "RealGacha";
+        public const string PeekScreen = "PeekScreen";
+        public const string CustomizationMaster = "CustomizationMaster";
+        public const string Martian = "Martian";
 
         #endregion
 
         #region BUG 相关
+
+        public const string CongratulationError = "CongratulationError";
+        public const string UnexpectedCrash = "UnexpectedCrash";
+
         #endregion
 
         #region 用户行为习惯类
         #endregion
 
         #region 彩蛋类
+
+        public const string Rules = "Rules";
+        public const string VersionClick = "VersionClick";
+
         #endregion
     }
 }

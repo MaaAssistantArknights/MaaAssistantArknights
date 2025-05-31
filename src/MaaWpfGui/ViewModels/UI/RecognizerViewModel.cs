@@ -895,6 +895,8 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.RealGacha);
+
             GachaShowDisclaimer = false;
         }
 
@@ -1097,6 +1099,8 @@ namespace MaaWpfGui.ViewModels.UI
 
                 // 点击按钮开始 Peep
                 Peeping = true;
+
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.PeekScreen);
 
                 // 如果没任务在运行，需要先连接，并标记是由 Peep() 方法启动的 Peep
                 if (Idle)
