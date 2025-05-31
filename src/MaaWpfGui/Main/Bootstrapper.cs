@@ -27,6 +27,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using GlobalHotKey;
 using MaaWpfGui.Configuration;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Properties;
 using MaaWpfGui.Services;
@@ -300,6 +301,7 @@ namespace MaaWpfGui.Main
         {
             Instances.WindowManager.ShowWindow(rootViewModel);
             Instances.InstantiateOnRootViewDisplayed(Container);
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.FirstLaunch);
         }
 
         /// <inheritdoc/>
