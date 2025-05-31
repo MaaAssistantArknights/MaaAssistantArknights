@@ -65,6 +65,9 @@ namespace MaaWpfGui.Constants
         #endregion
 
         #region 彩蛋类
+
+        public const string Rules = "Rules";
+
         #endregion
     }
 }

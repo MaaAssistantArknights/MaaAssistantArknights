@@ -1117,6 +1117,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.Martian.Description">远古版本好用吗？</system:String>
     <system:String x:Key="Achievement.Martian.Conditions">资源时间或版本时间距今超过 3 个月</system:String>
 
+    <system:String x:Key="Achievement.Rules.Title">严重错讠</system:String>
+    <system:String x:Key="Achievement.Rules.Description">我会一直注视着你</system:String>
+    <system:String x:Key="Achievement.Rules.Conditions">MAA员工守则</system:String>
+
     <system:String x:Key="Achievement.SanitySaver1.Title">精打细算</system:String>
     <system:String x:Key="Achievement.SanitySaver1.Description">每点理智都用得恰到好处。</system:String>
     <system:String x:Key="Achievement.SanitySaver1.Conditions">使用理智回复功能 1 次。</system:String>
