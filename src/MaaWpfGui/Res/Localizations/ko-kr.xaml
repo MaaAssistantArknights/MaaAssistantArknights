@@ -525,6 +525,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationIncrementModeClick">연타</system:String>
     <system:String x:Key="ReclamationIncrementModeHold">길게 누르기</system:String>
     <system:String x:Key="ReclamationMaxCraftCountPerRound">한 번의 최대 제작 횟수</system:String>
+    <system:String x:Key="ReclamationClearStore">Clear Store after finished</system:String>
     <system:String x:Key="OperNameLanguage">오퍼레이터 이름 표시 언어</system:String>
     <system:String x:Key="OperNameLanguageMAA">MAA 언어 따라가기</system:String>
     <system:String x:Key="OperNameLanguageClient">게임 클라이언트 따라가기</system:String>

@@ -526,6 +526,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationIncrementModeClick">連打</system:String>
     <system:String x:Key="ReclamationIncrementModeHold">長押し</system:String>
     <system:String x:Key="ReclamationMaxCraftCountPerRound">1回の最大クラフト回数</system:String>
+    <system:String x:Key="ReclamationClearStore">Clear Store after finished</system:String>
     <system:String x:Key="OperNameLanguage">オペレーター名の表示言語</system:String>
     <system:String x:Key="OperNameLanguageMAA">MAA をフォローする</system:String>
     <system:String x:Key="OperNameLanguageClient">ゲームクライアントをフォローする</system:String>

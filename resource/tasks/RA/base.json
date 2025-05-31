@@ -54,8 +54,21 @@
         "maskRange": [1, 255],
         "next": ["RA@Navigation#next"]
     },
+    "RA@Store@WaitEnterStore": {
+        "algorithm": "JustReturn",
+        "doc": "等动画",
+        "postDelay": 5000,
+        "next": ["RA@Store@EnterStore", "Stop"]
+    },
+    "RA@Store@EnterStore": {
+        "doc": "进入 <生息演算商店> 界面",
+        "action": "ClickSelf",
+        "roi": [3, 581, 132, 132],
+        "postDelay": 3000,
+        "next": ["RA@Store@Begin"]
+    },
     "RA@Store@Begin": {
-        "doc": "生息演算商店",
+        "doc": "生息演算商店，小游戏入口",
         "algorithm": "JustReturn",
         "next": ["RA@Store@ClickItem", "RA@Store@Swipe"]
     },

@@ -524,6 +524,7 @@ The primary instance is 0, and other instances are the numbers after the version
     <system:String x:Key="ReclamationIncrementModeClick">Click</system:String>
     <system:String x:Key="ReclamationIncrementModeHold">Hold</system:String>
     <system:String x:Key="ReclamationMaxCraftCountPerRound">Max Craft Count Per Round</system:String>
+    <system:String x:Key="ReclamationClearStore">Clear Store after finished</system:String>
     <system:String x:Key="OperNameLanguage">Operator display language</system:String>
     <system:String x:Key="OperNameLanguageMAA">Follow MAA</system:String>
     <system:String x:Key="OperNameLanguageClient">Follow game client</system:String>
