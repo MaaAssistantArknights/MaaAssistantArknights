@@ -15,7 +15,6 @@ namespace MaaWpfGui.Constants
 {
     public static class AchievementIds
     {
-
         #region 基础使用类
 
         public const string SanitySpenderGroup = "SanitySpender";
@@ -30,6 +29,10 @@ namespace MaaWpfGui.Constants
 
         public const string FirstLaunch = "FirstLaunch";
 
+        public const string SanityExpire = "SanityExpire";
+
+        public const string OverLimitAgent = "OverLimitAgent";
+
         #endregion
 
         #region 功能探索类
@@ -37,6 +40,9 @@ namespace MaaWpfGui.Constants
         public const string ScheduleMasterGroup = "ScheduleMaster";
         public const string ScheduleMaster1 = "ScheduleMaster1";
         public const string ScheduleMaster2 = "ScheduleMaster2";
+
+        public const string MirrorChyanFirstUse = "MirrorChyanFirstUse";
+        public const string MirrorChyanCdkError = "MirrorChyanCdkError";
 
         #endregion
 

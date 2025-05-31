@@ -359,14 +359,6 @@ namespace MaaWpfGui.Main
             AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, SettingsViewModel.GameSettings.DeploymentWithPause ? "1" : "0");
             AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, SettingsViewModel.ConnectSettings.AdbLiteEnabled ? "1" : "0");
 
-            AchievementTrackerHelper.Instance.Unlock(AchievementIds.FirstLaunch);
-
-            if ((DateTime.Now - VersionUpdateSettingsUserControlModel.BuildDateTime).TotalDays > 90
-                || (DateTime.Now - SettingsViewModel.VersionUpdateSettings.ResourceDateTime).TotalDays > 90)
-            {
-                AchievementTrackerHelper.Instance.Unlock(AchievementIds.Martian);
-            }
-
             // TODO: 之后把这个 OnUIThread 拆出来
             // ReSharper disable once AsyncVoidLambda
             Execute.OnUIThread(
@@ -1706,6 +1698,10 @@ namespace MaaWpfGui.Main
                         if ((subTaskDetails?.Children())?.Any() ?? false)
                         {
                             FightTimes = subTaskDetails.ToObject<FightSettingsUserControlModel.FightTimes>()!;
+                            if (FightTimes.TimesFinished > 0)
+                            {
+                                AchievementTrackerHelper.Instance.SetProgress(AchievementIds.OverLimitAgent, FightTimes.TimesFinished);
+                            }
                         }
 
                         break;
@@ -1739,6 +1735,7 @@ namespace MaaWpfGui.Main
                         ExpiringMedicineUsedTimes += medicineCount;
                         medicineLog = LocalizationHelper.GetString("ExpiringMedicineUsed") + $" {ExpiringMedicineUsedTimes}(+{medicineCount})";
                         AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySaverGroup, medicineCount);
+                        AchievementTrackerHelper.Instance.SetProgress(AchievementIds.SanityExpire, ExpiringMedicineUsedTimes);
                     }
 
                     Instances.TaskQueueViewModel.AddLog(medicineLog, UiLogColor.Info);

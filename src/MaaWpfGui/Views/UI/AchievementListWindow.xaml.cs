@@ -11,16 +11,19 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using HandyControl.Controls;
 using MaaWpfGui.Helper;
 
 namespace MaaWpfGui.Views.UI
 {
-    public partial class AchievementListWindow : Window
+    /// <summary>
+    /// AchievementListWindow.xaml 的交互逻辑
+    /// </summary>
+    public partial class AchievementListWindow
     {
         public AchievementListWindow()
         {
             InitializeComponent();
+            DataContext = AchievementTrackerHelper.Instance;
         }
     }
 }

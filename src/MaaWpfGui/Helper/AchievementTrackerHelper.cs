@@ -24,11 +24,18 @@ using Stylet;
 
 namespace MaaWpfGui.Helper
 {
-    public class AchievementTrackerHelper
+    public class AchievementTrackerHelper : PropertyChangedBase
     {
         private Dictionary<string, Achievement> _achievements = new();
 
-        public IReadOnlyDictionary<string, Achievement> Achievements => _achievements;
+        public Dictionary<string, Achievement> Achievements
+        {
+            get => _achievements;
+            set
+            {
+                SetAndNotify(ref _achievements, value);
+            }
+        }
 
         public static AchievementTrackerHelper Instance { get; } = new();
 
@@ -47,15 +54,15 @@ namespace MaaWpfGui.Helper
             _achievements = JsonDataHelper.Get("Achievement", new Dictionary<string, Achievement>()) ?? new Dictionary<string, Achievement>();
         }
 
-        private void Save()
+        public void Save()
         {
-            var sorted = _achievements
+            Achievements = _achievements
                 .OrderByDescending(kv => kv.Value.IsUnlocked) // 已解锁优先
                 .ThenBy(kv => kv.Value.IsHidden) // 隐藏排后面
                 .ThenBy(kv => kv.Value.Id) // 最后按 Id
                 .ToDictionary(kv => kv.Key, kv => kv.Value);
 
-            JsonDataHelper.Set("Achievement", sorted);
+            JsonDataHelper.Set("Achievement", _achievements);
         }
 
         public void RegisterAchievement(Achievement achievement)
@@ -169,6 +176,26 @@ namespace MaaWpfGui.Helper
             }
         }
 
+        public void SetProgress(string id, int progress)
+        {
+            if (!_achievements.TryGetValue(id, out var achievement))
+            {
+                return;
+            }
+
+            achievement.Progress = progress;
+            CheckProgressUnlock(achievement);
+            Save();
+        }
+
+        public void SetProgressToGroup(string groupPrefix, int progress)
+        {
+            foreach (var achievement in _achievements.Values.Where(achievement => achievement.Id.StartsWith(groupPrefix)))
+            {
+                SetProgress(achievement.Id, progress);
+            }
+        }
+
         public bool IsUnlocked(string id) => _achievements.TryGetValue(id, out var a) && a.IsUnlocked;
 
         public Achievement? Get(string id) => _achievements.GetValueOrDefault(id);
@@ -185,11 +212,15 @@ namespace MaaWpfGui.Helper
                 new Achievement { Id = AchievementIds.SanitySaver2, Target = 10 },
                 new Achievement { Id = AchievementIds.SanitySaver3, Target = 50 },
 
-                new Achievement { Id = AchievementIds.FirstLaunch },
+                new Achievement { Id = AchievementIds.FirstLaunch }, // 首次启动
+                new Achievement { Id = AchievementIds.SanityExpire, Target = 8 }, // 单次消耗 8 瓶快过期的理智药
+                new Achievement { Id = AchievementIds.OverLimitAgent, Target = 100, IsHidden = true }, // 单次代理 100 关
 
                 // 功能探索类
                 new Achievement { Id = AchievementIds.ScheduleMaster1, Target = 1 }, // 定时执行
                 new Achievement { Id = AchievementIds.ScheduleMaster2, Target = 100 },
+                new Achievement { Id = AchievementIds.MirrorChyanFirstUse, IsHidden = true }, // 第一次成功使用 MirrorChyan 下载
+                new Achievement { Id = AchievementIds.MirrorChyanCdkError, IsHidden = true }, // MirrorChyan CDK 错误
 
                 // 搞笑/梗类成就
                 new Achievement { Id = AchievementIds.QuickCloser, IsHidden = true }, // 快速关闭弹窗
