@@ -128,24 +128,6 @@
     "RA@Store@Swipe": {
         "baseTask": "SlowlySwipeToTheRight",
         "postDelay": 1000,
-        "next": ["RA@Store@ClickItem", "RA@Store@End1", "RA@Store@Swipe"]
-    },
-    "RA@Store@End1": {
-        "algorithm": "OcrDetect",
-        "text": ["OUT OF STOCK"],
-        "roi": [1165, 301, 115, 16],
-        "next": ["RA@Store@End2", "RA@Store@ClickItem"]
-    },
-    "RA@Store@End2": {
-        "algorithm": "OcrDetect",
-        "text": ["OUT OF STOCK"],
-        "roi": [1165, 461, 115, 18],
-        "next": ["RA@Store@End3", "RA@Store@ClickItem"]
-    },
-    "RA@Store@End3": {
-        "algorithm": "OcrDetect",
-        "text": ["OUT OF STOCK"],
-        "roi": [1165, 622, 115, 17],
-        "next": ["Stop"]
+        "next": ["RA@Store@ClickItem", "Stop"]
     }
 }
