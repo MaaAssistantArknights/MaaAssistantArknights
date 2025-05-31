@@ -712,6 +712,7 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(LocalizationHelper.GetString("UnsupportedStages") + $"  {copilot.StageName}", UiLogColor.Error, showTime: false);
                 navigateName = FindStageName(copilot.Documentation?.Title ?? string.Empty);
                 _ = Task.Run(ResourceUpdater.ResourceUpdateAndReloadAsync);
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.MapOutdated);
             }
 
             CopilotTaskName = navigateName;
@@ -778,6 +779,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 AddLog(LocalizationHelper.GetString("UnsupportedStages") + $"  {copilot.StageName}", UiLogColor.Error, showTime: false);
                 _ = Task.Run(ResourceUpdater.ResourceUpdateAndReloadAsync);
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.MapOutdated);
             }
 
             if (writeToCache)
@@ -1358,6 +1360,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     AddLog(LocalizationHelper.GetString("UnsupportedStages") + $"  {name}", UiLogColor.Error, showTime: false);
                     _ = Task.Run(ResourceUpdater.ResourceUpdateAndReloadAsync);
+                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.MapOutdated);
                     return false;
                 }
             }

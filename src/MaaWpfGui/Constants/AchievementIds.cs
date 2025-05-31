@@ -47,6 +47,9 @@ namespace MaaWpfGui.Constants
         #endregion
 
         #region 代理关卡类
+
+        public const string MapOutdated = "MapOutdated";
+
         #endregion
 
         #region 搞笑/梗成就

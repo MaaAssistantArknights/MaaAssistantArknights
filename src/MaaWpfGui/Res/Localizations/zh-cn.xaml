@@ -1174,5 +1174,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.ProblemFeedback.Description">一定要杜绝的是，来自内部的风险。</system:String>
     <system:String x:Key="Achievement.ProblemFeedback.Conditions">进行一次问题反馈</system:String>
 
+    <system:String x:Key="Achievement.MapOutdated.Title">急急国王</system:String>
+    <system:String x:Key="Achievement.MapOutdated.Description">我知道你很急，但你先别急。</system:String>
+    <system:String x:Key="Achievement.MapOutdated.Conditions">在未更新资源的情况下使用自动战斗</system:String>
+
     <!--  !Achievement  -->
 </ResourceDictionary>

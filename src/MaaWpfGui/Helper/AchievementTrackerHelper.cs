@@ -227,6 +227,9 @@ namespace MaaWpfGui.Helper
                 new Achievement { Id = AchievementIds.MirrorChyanFirstUse, IsHidden = true }, // 第一次成功使用 MirrorChyan 下载
                 new Achievement { Id = AchievementIds.MirrorChyanCdkError, IsHidden = true }, // MirrorChyan CDK 错误
 
+                // 自动战斗
+                new Achievement { Id = AchievementIds.MapOutdated }, // 提示需要更新地图资源
+
                 // 搞笑/梗类成就
                 new Achievement { Id = AchievementIds.QuickCloser, IsHidden = true }, // 快速关闭弹窗
                 new Achievement { Id = AchievementIds.TacticalRetreat, IsHidden = true }, // 停止任务
