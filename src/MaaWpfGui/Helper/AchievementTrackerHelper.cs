@@ -205,6 +205,7 @@ namespace MaaWpfGui.Helper
 
                 // 彩蛋类
                 new Achievement { Id = AchievementIds.Rules, IsHidden = true }, // 我会一直注视着你
+                new Achievement { Id = AchievementIds.VersionClick, IsHidden = true }, // 这也能点？
             };
 
             foreach (var achievement in achievements)

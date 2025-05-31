@@ -114,6 +114,8 @@ namespace MaaWpfGui.Views.UserControl.Settings
                 _timer.IsEnabled = true;
             }
 
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.VersionClick);
+
             if (_easterEggsCount < 5)
             {
                 ++_easterEggsCount;

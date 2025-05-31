@@ -1121,6 +1121,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.Rules.Description">我会一直注视着你</system:String>
     <system:String x:Key="Achievement.Rules.Conditions">MAA员工守则</system:String>
 
+    <system:String x:Key="Achievement.VersionClick.Title">这也能点？</system:String>
+    <system:String x:Key="Achievement.VersionClick.Description">这是什么？版本号，点一下</system:String>
+    <system:String x:Key="Achievement.VersionClick.Conditions">点击设置页的版本号徽章</system:String>
+
     <system:String x:Key="Achievement.SanitySaver1.Title">精打细算</system:String>
     <system:String x:Key="Achievement.SanitySaver1.Description">每点理智都用得恰到好处。</system:String>
     <system:String x:Key="Achievement.SanitySaver1.Conditions">使用理智回复功能 1 次。</system:String>
