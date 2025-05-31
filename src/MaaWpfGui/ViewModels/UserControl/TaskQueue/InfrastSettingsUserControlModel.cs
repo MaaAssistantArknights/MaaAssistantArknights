@@ -22,6 +22,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Microsoft.Win32;
@@ -317,11 +318,11 @@ public class InfrastSettingsUserControlModel : TaskViewModel
                 CustomInfrastFile = @"resource\custom_infrast\" + value;
             }
 
-            NotifyOfPropertyChange(nameof(IsCustomInfrastFileReadOnly));
             ConfigurationHelper.SetValue(ConfigurationKeys.DefaultInfrast, value);
         }
     }
 
+    [PropertyDependsOn(nameof(DefaultInfrast))]
     public bool IsCustomInfrastFileReadOnly => _defaultInfrast != UserDefined;
 
     private bool _dormFilterNotStationedEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DormFilterNotStationedEnabled, bool.TrueString));
