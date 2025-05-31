@@ -49,6 +49,10 @@ namespace MaaWpfGui.Constants
         #region 代理关卡类
 
         public const string MapOutdated = "MapOutdated";
+        public const string UseCopilotGroup = "UseCopilot";
+        public const string UseCopilot1 = "UseCopilot1";
+        public const string UseCopilot2 = "UseCopilot2";
+        public const string UseCopilot3 = "UseCopilot3";
 
         #endregion
 

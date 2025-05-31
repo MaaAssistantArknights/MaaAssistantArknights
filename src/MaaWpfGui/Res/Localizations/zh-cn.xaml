@@ -433,14 +433,14 @@
     <system:String x:Key="UseLogItemDateFormat">自选日志日期格式</system:String>
     <system:String x:Key="LogItemDateFormatString">日期格式字符串</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">是否立刻重启应用更改？</system:String>
-    <system:String x:Key="SwitchResolutionTip">将模拟器分辨率更改为1920x1080！</system:String>
-    <system:String x:Key="ResolutionInfoYoStarEN">确保模拟器设置为1920x1080</system:String>
+    <system:String x:Key="SwitchResolutionTip">将模拟器分辨率更改为 1920x1080！</system:String>
+    <system:String x:Key="ResolutionInfoYoStarEN">确保模拟器设置为 1920x1080</system:String>
     <system:String x:Key="AllowUseStoneSave">允许吃源石保存状态</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">该功能属于危险功能。按下 ｢确认｣ 键即视为你了解并愿意承担可能出现的风险。</system:String>
     <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
     <system:String x:Key="UseRemainingSanityStage">使用剩余理智</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">在完成主任务后刷取指定关卡，不使用理智药/碎石</system:String>
-    <system:String x:Key="UseExpiringMedicine">无限吃48小时内过期的理智药</system:String>
+    <system:String x:Key="UseExpiringMedicine">无限吃 48 小时内过期的理智药</system:String>
     <system:String x:Key="HideUnavailableStage">隐藏当日不开放关卡</system:String>
     <system:String x:Key="HideSeries">隐藏代理倍率</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">显示基建计划</system:String>
@@ -1156,7 +1156,7 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.SanityExpire.Title">要过期了</system:String>
     <system:String x:Key="Achievement.SanityExpire.Description">赶紧冲哇！！！</system:String>
-    <system:String x:Key="Achievement.SanityExpire.Conditions">单次消耗 48 小时内过期的理智药水超过 8 瓶</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Conditions">使用「无限吃 48 小时内过期的理智药」，单次任务使用 8 瓶以上临期理智药</system:String>
 
     <system:String x:Key="Achievement.OverLimitAgent.Title">超限代理</system:String>
     <system:String x:Key="Achievement.OverLimitAgent.Description">你进行了一次能将大道磨灭的代理任务</system:String>
@@ -1177,6 +1177,19 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.MapOutdated.Title">急急国王</system:String>
     <system:String x:Key="Achievement.MapOutdated.Description">我知道你很急，但你先别急。</system:String>
     <system:String x:Key="Achievement.MapOutdated.Conditions">在未更新资源的情况下使用自动战斗</system:String>
+
+    <system:String x:Key="Achievement.UseCopilot1.Title">抄作业</system:String>
+    <system:String x:Key="Achievement.UseCopilot1.Description">真正的摆完挂机。</system:String>
+    <system:String x:Key="Achievement.UseCopilot1.Conditions">使用 ｢自动战斗｣ 功能通关 1 次</system:String>
+
+    <system:String x:Key="Achievement.UseCopilot2.Title">一摆到底</system:String>
+    <system:String x:Key="Achievement.UseCopilot2.Description">活动全交给牛牛打。</system:String>
+    <system:String x:Key="Achievement.UseCopilot2.Conditions">使用 ｢自动战斗｣ 功能通关 10 次</system:String>
+
+    <system:String x:Key="Achievement.UseCopilot3.Title">下次还填非常简单</system:String>
+    <system:String x:Key="Achievement.UseCopilot3.Description">到最后也不知道关底 boss 什么机制。</system:String>
+    <system:String x:Key="Achievement.UseCopilot3.Conditions">使用 ｢自动战斗｣ 功能通关 100 次</system:String>
+
 
     <!--  !Achievement  -->
 </ResourceDictionary>
