@@ -23,12 +23,23 @@ enum class SkillUsage // 技能用法
     TimesUsed         // 已经使用了 X 次
 };
 
+// 干员练度需求
+struct OperatorRequirements
+{
+    // int elite = -1;        // 精英化等级
+    // int level = -1;        // 干员等级
+    // int skill_level = -1;  // 技能等级
+    int module = -1; // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组Χ, 2: 模组Y, 3: 模组α, 4: 模组Δ
+    // int potentiality = -1; // 潜能要求
+};
+
 struct OperUsage // 干员用法
 {
     std::string name;
     int skill = 0;       // 技能序号，取值范围 [0, 3]，0时使用默认技能 或 上次编队时使用的技能
     SkillUsage skill_usage = SkillUsage::NotUse;
     int skill_times = 1; // 使用技能的次数，默认为 1，兼容曾经的作业
+    asst::battle::OperatorRequirements requirements; // 练度需求
 };
 
 enum class DeployDirection
