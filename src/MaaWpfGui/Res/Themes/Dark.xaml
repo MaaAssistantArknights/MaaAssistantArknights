@@ -49,6 +49,8 @@
     <SolidColorBrush x:Key="NormalMedalBrush" Color="#D8D8D8" />
     <!--  隐藏勋章（金色）  -->
     <SolidColorBrush x:Key="HiddenMedalBrush" Color="#FFD700" />
+    <!--  未解锁  -->
+    <SolidColorBrush x:Key="LockedMedalBrush" Color="#4B3118" />
 
     <!--  MdXaml Brush  -->
     <SolidColorBrush x:Key="MdXamlBackground" Color="#2d2d30" />

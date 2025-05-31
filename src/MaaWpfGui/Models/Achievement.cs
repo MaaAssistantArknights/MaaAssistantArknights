@@ -14,6 +14,8 @@
 #nullable enable
 
 using System;
+using System.Windows;
+using System.Windows.Media;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 
@@ -56,5 +58,23 @@ namespace MaaWpfGui.Models
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Progress { get; set; } = 0; // 用于累计型成就
+
+        [JsonIgnore]
+        public SolidColorBrush MedalBrush
+        {
+            get
+            {
+                var key = !IsUnlocked ? "LockedMedalBrush"
+                    : IsHidden ? "HiddenMedalBrush"
+                    : "NormalMedalBrush";
+
+                if (Application.Current.Resources[key] is SolidColorBrush brush)
+                {
+                    return brush;
+                }
+
+                return new(Colors.Transparent);
+            }
+        }
     }
 }
