@@ -2,6 +2,9 @@
   "FirstLaunch": {
     "Id": "FirstLaunch"
   },
+  "ProblemFeedback": {
+    "Id": "ProblemFeedback"
+  },
   "SanityExpire": {
     "Id": "SanityExpire",
     "Target": 8

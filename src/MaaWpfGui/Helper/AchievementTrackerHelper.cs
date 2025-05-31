@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using HandyControl.Controls;
 using HandyControl.Data;
@@ -36,6 +37,8 @@ namespace MaaWpfGui.Helper
                 SetAndNotify(ref _achievements, value);
             }
         }
+
+        public int UnlockedCount => Achievements.Count(a => a.Value.IsUnlocked);
 
         public static AchievementTrackerHelper Instance { get; } = new();
 
@@ -105,6 +108,8 @@ namespace MaaWpfGui.Helper
             achievement.IsUnlocked = true;
             achievement.UnlockedTime = DateTime.UtcNow;
             Save();
+
+            NotifyOfPropertyChange(nameof(UnlockedCount));
 
             var growlInfo = new GrowlInfo
             {
