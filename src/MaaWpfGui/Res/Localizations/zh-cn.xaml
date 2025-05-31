@@ -768,6 +768,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CopilotJsonError">解析作业文件错误！</system:String>
     <system:String x:Key="NotCopilotJson">非作业文件</system:String>
     <system:String x:Key="CheckTheFile">请检查文件内容！</system:String>
+    <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">无法保存作业文件到: </system:String>
+    <system:String x:Key="CopilotSingleTaskWarning">正在使用战斗列表执行单个作业, 不推荐此行为. 单个作业请直接运行</system:String>
     <!--  !日志  -->
     <!--  !自动战斗  -->
     <!--  ErrorView  -->

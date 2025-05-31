@@ -764,6 +764,8 @@ Please switch to the stage selection page before starting</system:String>
     <system:String x:Key="CopilotJsonError">Copilot Json Error!</system:String>
     <system:String x:Key="NotCopilotJson">Malformed file!</system:String>
     <system:String x:Key="CheckTheFile">Malformed Copilot Json!</system:String>
+    <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">Could not save copilot task to file: </system:String>
+    <system:String x:Key="CopilotSingleTaskWarning">A single job is being executed using the Copilot List. It is not recommended. Please run the single job directly.</system:String>
     <!--  !Logs  -->
     <!--  !Copilot  -->
     <!--  ErrorView  -->
