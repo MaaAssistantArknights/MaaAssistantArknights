@@ -818,6 +818,7 @@ namespace MaaWpfGui.Main
                             }
 
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info);
+                            AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.UseCopilotGroup, 1);
                         }
                     }
 
