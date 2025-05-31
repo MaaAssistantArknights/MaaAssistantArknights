@@ -1,0 +1,94 @@
+{
+  "FirstLaunch": {
+    "Id": "FirstLaunch"
+  },
+  "SanityExpire": {
+    "Id": "SanityExpire",
+    "Target": 8
+  },
+  "SanitySaver1": {
+    "Id": "SanitySaver1",
+    "Target": 1
+  },
+  "SanitySaver2": {
+    "Id": "SanitySaver2",
+    "Target": 10
+  },
+  "SanitySaver3": {
+    "Id": "SanitySaver3",
+    "Target": 50
+  },
+  "SanitySpender1": {
+    "Id": "SanitySpender1",
+    "Target": 10
+  },
+  "SanitySpender2": {
+    "Id": "SanitySpender2",
+    "Target": 100
+  },
+  "SanitySpender3": {
+    "Id": "SanitySpender3",
+    "Target": 1000
+  },
+  "ScheduleMaster1": {
+    "Id": "ScheduleMaster1",
+    "Target": 1
+  },
+  "ScheduleMaster2": {
+    "Id": "ScheduleMaster2",
+    "Target": 100
+  },
+  "CongratulationError": {
+    "Id": "CongratulationError",
+    "IsHidden": true
+  },
+  "CustomizationMaster": {
+    "Id": "CustomizationMaster",
+    "IsHidden": true
+  },
+  "Martian": {
+    "Id": "Martian",
+    "IsHidden": true
+  },
+  "MirrorChyanCdkError": {
+    "Id": "MirrorChyanCdkError",
+    "IsHidden": true
+  },
+  "MirrorChyanFirstUse": {
+    "Id": "MirrorChyanFirstUse",
+    "IsHidden": true
+  },
+  "OverLimitAgent": {
+    "Id": "OverLimitAgent",
+    "IsHidden": true,
+    "Target": 100
+  },
+  "PeekScreen": {
+    "Id": "PeekScreen",
+    "IsHidden": true
+  },
+  "QuickCloser": {
+    "Id": "QuickCloser",
+    "IsHidden": true
+  },
+  "RealGacha": {
+    "Id": "RealGacha",
+    "IsHidden": true
+  },
+  "Rules": {
+    "Id": "Rules",
+    "IsHidden": true
+  },
+  "TacticalRetreat": {
+    "Id": "TacticalRetreat",
+    "IsHidden": true
+  },
+  "UnexpectedCrash": {
+    "Id": "UnexpectedCrash",
+    "IsHidden": true
+  },
+  "VersionClick": {
+    "Id": "VersionClick",
+    "IsHidden": true
+  }
+}

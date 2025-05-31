@@ -25,6 +25,11 @@
         Opacity="0.75"
         Color="#eeeeee" />
 
+    <!--  普通成就（银色）  -->
+    <SolidColorBrush x:Key="NormalMedalBrush" Color="#B0B0B0" />
+    <!--  隐藏成就（金色）  -->
+    <SolidColorBrush x:Key="HiddenMedalBrush" Color="#D4AF37" />
+
     <!--  MdXaml Brush  -->
     <SolidColorBrush x:Key="MdXamlBackground" Color="#ffffff" />
     <SolidColorBrush x:Key="MdXamlCodeBackground" Color="#f6f8fa" />
