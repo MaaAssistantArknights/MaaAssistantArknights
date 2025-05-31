@@ -27,6 +27,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using GlobalHotKey;
 using MaaWpfGui.Configuration;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Properties;
 using MaaWpfGui.Services;
@@ -36,6 +37,7 @@ using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.Views.UI;
 using MaaWpfGui.WineCompat;
 using Serilog;
@@ -321,6 +323,12 @@ namespace MaaWpfGui.Main
         {
             Instances.WindowManager.ShowWindow(rootViewModel);
             Instances.InstantiateOnRootViewDisplayed(Container);
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.FirstLaunch);
+            if ((DateTime.Now - VersionUpdateSettingsUserControlModel.BuildDateTime).TotalDays > 90 ||
+                (DateTime.Now - SettingsViewModel.VersionUpdateSettings.ResourceDateTime).TotalDays > 90)
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.Martian);
+            }
         }
 
         /// <inheritdoc/>

@@ -35,6 +35,7 @@ using MaaWpfGui.Services;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -817,6 +818,7 @@ namespace MaaWpfGui.Main
                             }
 
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info);
+                            AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.UseCopilotGroup, 1);
                         }
                     }
 
@@ -1386,6 +1388,9 @@ namespace MaaWpfGui.Main
                             $"{allDrops}{(curTimes >= 0
                                 ? $"\n{LocalizationHelper.GetString("CurTimes")} : {curTimes}"
                                 : string.Empty)}");
+
+                        AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySpenderGroup, curTimes > 0 ? curTimes : 1);
+
                         break;
                     }
 
@@ -1689,6 +1694,10 @@ namespace MaaWpfGui.Main
                         if ((subTaskDetails?.Children())?.Any() ?? false)
                         {
                             FightTimes = subTaskDetails.ToObject<FightSettingsUserControlModel.FightTimes>()!;
+                            if (FightTimes.TimesFinished > 0)
+                            {
+                                AchievementTrackerHelper.Instance.SetProgress(AchievementIds.OverLimitAgent, FightTimes.TimesFinished);
+                            }
                         }
 
                         break;
@@ -1715,11 +1724,14 @@ namespace MaaWpfGui.Main
                     {
                         MedicineUsedTimes += medicineCount;
                         medicineLog = LocalizationHelper.GetString("MedicineUsed") + $" {MedicineUsedTimes}(+{medicineCount})";
+                        AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySaverGroup, medicineCount);
                     }
                     else
                     {
                         ExpiringMedicineUsedTimes += medicineCount;
                         medicineLog = LocalizationHelper.GetString("ExpiringMedicineUsed") + $" {ExpiringMedicineUsedTimes}(+{medicineCount})";
+                        AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySaverGroup, medicineCount);
+                        AchievementTrackerHelper.Instance.SetProgress(AchievementIds.SanityExpire, ExpiringMedicineUsedTimes);
                     }
 
                     Instances.TaskQueueViewModel.AddLog(medicineLog, UiLogColor.Info);

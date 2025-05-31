@@ -829,7 +829,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             Width = 800,
             Height = 481, // (800 - 1 - 1) * 9 / 16 + 32 + 1,
             Content = new Image { Source = TestLinkImage, },
-            WindowStartupLocation = WindowStartupLocation.CenterScreen,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            Owner = Application.Current.MainWindow,
         };
         popupWindow.ShowDialog();
     }

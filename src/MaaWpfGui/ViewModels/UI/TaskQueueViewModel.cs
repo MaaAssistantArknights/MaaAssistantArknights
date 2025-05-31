@@ -629,6 +629,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             LinkStart();
+
+            AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.ScheduleMasterGroup, 1);
         }
 
         private static async Task<bool> TimerCanceledAsync(string content = "", string tipContent = "", string buttonContent = "", int seconds = 10)
@@ -1409,6 +1411,12 @@ namespace MaaWpfGui.ViewModels.UI
                 await Stop();
                 SetStopped();
             }
+        }
+
+        public void ManualStop()
+        {
+            _ = Stop();
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.TacticalRetreat);
         }
 
         /// <summary>
