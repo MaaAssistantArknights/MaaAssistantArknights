@@ -38,7 +38,6 @@ using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.Views.UI;
 using MaaWpfGui.WineCompat;
-using Microsoft.Toolkit.Uwp.Notifications;
 using Serilog;
 using Serilog.Core;
 using Stylet;
@@ -258,12 +257,6 @@ namespace MaaWpfGui.Main
 
         private static bool HandleMultipleInstances()
         {
-            if (ToastNotificationManagerCompat.WasCurrentProcessToastActivated())
-            {
-                _logger.Information("Current process was activated by a toast notification.");
-                return false;
-            }
-
             // 设置互斥量的名称
             string mutexName = "MAA_" + Directory.GetCurrentDirectory().Replace("\\", "_").Replace(":", string.Empty);
             _mutex = new Mutex(true, mutexName, out var isOnlyInstance);
