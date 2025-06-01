@@ -45,6 +45,9 @@ namespace MaaWpfGui.Constants
         public const string MirrorChyanCdkError = "MirrorChyanCdkError";
 
         public const string MosquitoLeg = "MosquitoLeg";
+        public const string TestPioneer = "TestPioneer";
+        public const string SuperTestPioneer = "SuperTestPioneer";
+        public const string DebugPioneer = "DebugPioneer";
 
         #endregion
 

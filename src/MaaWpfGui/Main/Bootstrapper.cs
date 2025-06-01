@@ -308,6 +308,19 @@ namespace MaaWpfGui.Main
             {
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.Martian);
             }
+
+            if (Instances.VersionUpdateViewModel.IsDebugVersion())
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.DebugPioneer);
+            }
+            else if (Instances.VersionUpdateViewModel.IsBetaVersion())
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.TestPioneer);
+            }
+            else if (!Instances.VersionUpdateViewModel.IsStdVersion()) // 内测版要传入 SemVersion 判断，这里就取反判断了
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SuperTestPioneer);
+            }
         }
 
         /// <inheritdoc/>

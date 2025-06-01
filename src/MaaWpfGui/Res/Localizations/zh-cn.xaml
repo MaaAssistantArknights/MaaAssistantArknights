@@ -1212,5 +1212,17 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.MosquitoLeg.Description">您深刻理解了积少成多的道理。</system:String>
     <system:String x:Key="Achievement.MosquitoLeg.Conditions">使用 ｢借助战打 OF-1｣ 功能超过 5 次</system:String>
 
+    <system:String x:Key="Achievement.TestPioneer.Title">测试先锋</system:String>
+    <system:String x:Key="Achievement.TestPioneer.Description">您率先体验了处于测试中的版本。</system:String>
+    <system:String x:Key="Achievement.TestPioneer.Conditions">将 MAA 更新至公测版</system:String>
+
+    <system:String x:Key="Achievement.SuperTestPioneer.Title">超级测试先锋</system:String>
+    <system:String x:Key="Achievement.SuperTestPioneer.Description">您使用了最新的测试版本（出现任何新的问题请前往问题反馈！）</system:String>
+    <system:String x:Key="Achievement.SuperTestPioneer.Conditions">将 MAA 更新至内测版</system:String>
+
+    <system:String x:Key="Achievement.DebugPioneer.Title">DEBUG 急先锋</system:String>
+    <system:String x:Key="Achievement.DebugPioneer.Description">能下到这个版本的都不是一般人。</system:String>
+    <system:String x:Key="Achievement.DebugPioneer.Conditions">使用未发布版本的 MAA</system:String>
+
     <!--  !Achievement  -->
 </ResourceDictionary>

@@ -704,7 +704,7 @@ public class VersionUpdateViewModel : Screen
 
         string? ComparableHash(string version)
         {
-            if (IsStdVersion(version))
+            if (IsStdVersion(version) || IsBetaVersion(version))
             {
                 return version;
             }
@@ -1260,7 +1260,29 @@ public class VersionUpdateViewModel : Screen
             return false;
         }
 
-        return !IsNightlyVersion(semVersion);
+        return !semVersion.IsPrerelease;
+    }
+
+    public bool IsBetaVersion(string? version = null)
+    {
+        version ??= _curVersion;
+
+        if (IsDebugVersion(version))
+        {
+            return false;
+        }
+
+        if (version.StartsWith('c') || version.StartsWith("20") || version.Contains("Local"))
+        {
+            return false;
+        }
+
+        if (!SemVersion.TryParse(version, SemVersionStyles.AllowLowerV, out var semVersion))
+        {
+            return false;
+        }
+
+        return semVersion.IsPrerelease && !IsNightlyVersion(semVersion);
     }
 
     public static bool IsNightlyVersion(SemVersion version)
