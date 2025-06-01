@@ -135,6 +135,7 @@ asst::FeatureMatcher::ResultsVec asst::FeatureMatcher::feature_postproc(
 {
     std::vector<cv::Point2d> obj;
     std::vector<cv::Point2d> scene;
+    std::vector<cv::DMatch> matches;
 
     for (const auto& point : match_points) {
         if (point.size() != 2) {
@@ -145,41 +146,53 @@ asst::FeatureMatcher::ResultsVec asst::FeatureMatcher::feature_postproc(
         if (point[0].distance > threshold) {
             continue;
         }
-        good_matches.emplace_back(point[0]);
+        matches.emplace_back(point[0]);
         obj.emplace_back(keypoints_1[point[0].trainIdx].pt);
         scene.emplace_back(keypoints_2[point[0].queryIdx].pt);
     }
-
+    good_matches = matches;
     LogDebug << "Match:" << VAR(good_matches.size()) << VAR(match_points.size()) << VAR(m_params.distance_ratio);
 
-    if (good_matches.size() < 4) {
-        return {};
+    const std::array<cv::Point2d, 4> obj_corners = {
+        cv::Point2d(0, 0),
+        cv::Point2d(templ_cols, 0),
+        cv::Point2d(templ_cols, templ_rows),
+        cv::Point2d(0, templ_rows),
+    };
+
+    ResultsVec results;
+    while (matches.size() >= m_params.count) {
+        cv::Mat homography = cv::findHomography(obj, scene, cv::RANSAC);
+        if (homography.empty()) {
+            break;
+        }
+
+        std::array<cv::Point2d, 4> scene_corners;
+        cv::perspectiveTransform(obj_corners, scene_corners, homography);
+
+        double x = std::min({ scene_corners[0].x, scene_corners[1].x, scene_corners[2].x, scene_corners[3].x });
+        double y = std::min({ scene_corners[0].y, scene_corners[1].y, scene_corners[2].y, scene_corners[3].y });
+        double w = std::max({ scene_corners[0].x, scene_corners[1].x, scene_corners[2].x, scene_corners[3].x }) - x;
+        double h = std::max({ scene_corners[0].y, scene_corners[1].y, scene_corners[2].y, scene_corners[3].y }) - y;
+        cv::Rect scene_box { static_cast<int>(x), static_cast<int>(y), static_cast<int>(w), static_cast<int>(h) };
+
+        cv::Rect box = scene_box & make_rect<cv::Rect>(m_roi);
+        size_t count = std::ranges::count_if(scene, [&box](const auto& point) { return box.contains(point); });
+        results.emplace_back(Result { .rect = make_rect<asst::Rect>(box), .count = static_cast<int>(count) });
+
+        for (size_t i = 0; i < scene.size();) {
+            if (scene.at(i).inside(scene_box)) {
+                scene.erase(scene.begin() + i);
+                obj.erase(obj.begin() + i);
+                matches.erase(matches.begin() + i);
+            }
+            else {
+                ++i;
+            }
+        }
     }
 
-    cv::Mat homography = cv::findHomography(obj, scene, cv::RHO);
-
-    if (homography.empty()) {
-        LogDebug << "Homography is empty";
-        return {};
-    }
-
-    std::array<cv::Point2d, 4> obj_corners = { cv::Point2d(0, 0),
-                                               cv::Point2d(templ_cols, 0),
-                                               cv::Point2d(templ_cols, templ_rows),
-                                               cv::Point2d(0, templ_rows) };
-    std::array<cv::Point2d, 4> scene_corners;
-    cv::perspectiveTransform(obj_corners, scene_corners, homography);
-
-    double x = std::min({ scene_corners[0].x, scene_corners[1].x, scene_corners[2].x, scene_corners[3].x });
-    double y = std::min({ scene_corners[0].y, scene_corners[1].y, scene_corners[2].y, scene_corners[3].y });
-    double w = std::max({ scene_corners[0].x, scene_corners[1].x, scene_corners[2].x, scene_corners[3].x }) - x;
-    double h = std::max({ scene_corners[0].y, scene_corners[1].y, scene_corners[2].y, scene_corners[3].y }) - y;
-    cv::Rect box { static_cast<int>(x), static_cast<int>(y), static_cast<int>(w), static_cast<int>(h) };
-    box &= make_rect<cv::Rect>(m_roi);
-
-    size_t count = std::ranges::count_if(scene, [&box](const auto& point) { return box.contains(point); });
-
-    return { Result { .rect = make_rect<asst::Rect>(box), .count = static_cast<int>(count) } };
+    return results;
 }
 
 cv::Ptr<cv::Feature2D> asst::FeatureMatcher::create_detector() const
