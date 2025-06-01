@@ -667,15 +667,14 @@ public:
     template <typename... Args>
     inline void debug([[maybe_unused]] Args&&... args)
     {
-#ifdef ASST_DEBUG
-        constexpr bool need_log = true;
-#else
+#ifndef ASST_DEBUG
         static const bool need_log = std::filesystem::exists("DEBUG.txt");
-#endif
-        if (need_log) {
-            std::unique_lock lock { m_trace_mutex };
-            log(std::move(lock), level::debug, m_scopes.next(), std::forward<Args>(args)...);
+        if (!need_log) {
+            return;
         }
+#endif
+        std::unique_lock lock { m_trace_mutex };
+        log(std::move(lock), level::debug, m_scopes.next(), std::forward<Args>(args)...);
     }
 
 #undef LOGGER_FUNC_WITH_LEVEL
