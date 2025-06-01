@@ -1071,120 +1071,120 @@ Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거�
     <system:String x:Key="TaskTimeoutWarning">작업 실행 시간이 {0}분을 초과했습니다(현재 {1}분 동안 실행 중입니다). 장시간 추가 로그 업데이트가 없을 경우 수동 조치가 필요할 수 있습니다.</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->
-    <system:String x:Key="AchievementCelebrate">🎉 达成成就</system:String>
-    <system:String x:Key="AchievementConditions" xml:space="preserve">达成条件: </system:String>
+    <system:String x:Key="AchievementCelebrate">🎉 도전과제 달성</system:String>
+    <system:String x:Key="AchievementConditions" xml:space="preserve">달성 조건: </system:String>
 
-    <system:String x:Key="Achievement.SanitySpender1.Title">战术实战</system:String>
-    <system:String x:Key="Achievement.SanitySpender1.Description">你已经上手了。</system:String>
-    <system:String x:Key="Achievement.SanitySpender1.Conditions">完成 10 次代理通关</system:String>
+    <system:String x:Key="Achievement.SanitySpender1.Title">뉴비</system:String>
+    <system:String x:Key="Achievement.SanitySpender1.Description">이제 감이 잡혔네요</system:String>
+    <system:String x:Key="Achievement.SanitySpender1.Conditions">대리 지휘 10회 완료</system:String>
 
-    <system:String x:Key="Achievement.SanitySpender2.Title">代理先锋</system:String>
-    <system:String x:Key="Achievement.SanitySpender2.Description">比我还熟练。</system:String>
-    <system:String x:Key="Achievement.SanitySpender2.Conditions">完成 100 次代理通关</system:String>
+    <system:String x:Key="Achievement.SanitySpender2.Title">전문가</system:String>
+    <system:String x:Key="Achievement.SanitySpender2.Description">저보다 더 능숙하네요</system:String>
+    <system:String x:Key="Achievement.SanitySpender2.Conditions">대리 지휘 100회 완료</system:String>
 
-    <system:String x:Key="Achievement.SanitySpender3.Title">ZOOT</system:String>
-    <system:String x:Key="Achievement.SanitySpender3.Description">可露希尔代理程序正常运转中。</system:String>
-    <system:String x:Key="Achievement.SanitySpender3.Conditions">完成 1000 次代理通关</system:String>
+    <system:String x:Key="Achievement.SanitySpender3.Title">고인물</system:String>
+    <system:String x:Key="Achievement.SanitySpender3.Description">클로저 대리 프로그램이 가동 중입니다</system:String>
+    <system:String x:Key="Achievement.SanitySpender3.Conditions">대리 지휘 1000회 완료</system:String>
 
     <system:String x:Key="Achievement.QuickCloser.Title">YOLO!</system:String>
-    <system:String x:Key="Achievement.QuickCloser.Description">“我知道我在做什么。”——某用户在点击之前。</system:String>
-    <system:String x:Key="Achievement.QuickCloser.Conditions">1s 内关闭弹窗（你大概是没看吧）</system:String>
+    <system:String x:Key="Achievement.QuickCloser.Description">"내가 뭘 하는지 알고 있어요" ㅡ클릭하기 전 어떤 유저의 말</system:String>
+    <system:String x:Key="Achievement.QuickCloser.Conditions">1초 내에 팝업 닫기 (못 보셨죠?)</system:String>
 
-    <system:String x:Key="Achievement.TacticalRetreat.Title">临阵脱逃</system:String>
-    <system:String x:Key="Achievement.TacticalRetreat.Description">我不是放弃，是战术性撤退！</system:String>
-    <system:String x:Key="Achievement.TacticalRetreat.Conditions">手动中止一次正在运行的代理</system:String>
+    <system:String x:Key="Achievement.TacticalRetreat.Title">전술적 후퇴</system:String>
+    <system:String x:Key="Achievement.TacticalRetreat.Description">포기하는게 아니라 전술적 후퇴에요!</system:String>
+    <system:String x:Key="Achievement.TacticalRetreat.Conditions">실행 중인 대리 지휘를 수동으로 중단</system:String>
 
-    <system:String x:Key="Achievement.PeekScreen.Title">窥屏</system:String>
-    <system:String x:Key="Achievement.PeekScreen.Description">喜欢盯着看是吧.jpg</system:String>
-    <system:String x:Key="Achievement.PeekScreen.Conditions">使用一次牛牛监控</system:String>
+    <system:String x:Key="Achievement.PeekScreen.Title">엿보기 구멍</system:String>
+    <system:String x:Key="Achievement.PeekScreen.Description">계속 쳐다보는 걸 좋아하는군요.jpg</system:String>
+    <system:String x:Key="Achievement.PeekScreen.Conditions">MAA 모니터링 기능 1회 사용</system:String>
 
-    <system:String x:Key="Achievement.CongratulationError.Title">喜报</system:String>
-    <system:String x:Key="Achievement.CongratulationError.Description">我的MAA怎么用不了了？</system:String>
-    <system:String x:Key="Achievement.CongratulationError.Conditions">触发过MAA的报错</system:String>
+    <system:String x:Key="Achievement.CongratulationError.Title">축하합니다 ㅎㅎ</system:String>
+    <system:String x:Key="Achievement.CongratulationError.Description">어? 제 MAA가 왜 안 되죠?</system:String>
+    <system:String x:Key="Achievement.CongratulationError.Conditions">MAA 오류 1회 발생</system:String>
 
-    <system:String x:Key="Achievement.UnexpectedCrash.Title">不速之客</system:String>
-    <system:String x:Key="Achievement.UnexpectedCrash.Description">你触发了未知的领域</system:String>
-    <system:String x:Key="Achievement.UnexpectedCrash.Conditions">出现未处理异常并被崩溃日志记录</system:String>
+    <system:String x:Key="Achievement.UnexpectedCrash.Title">불청객</system:String>
+    <system:String x:Key="Achievement.UnexpectedCrash.Description">미지의 영역에 발을 들였군요...</system:String>
+    <system:String x:Key="Achievement.UnexpectedCrash.Conditions">처리되지 않은 예외가 발생으로 크래시 로그 기록</system:String>
 
-    <system:String x:Key="Achievement.CustomizationMaster.Title">自定义达人</system:String>
-    <system:String x:Key="Achievement.CustomizationMaster.Description">咱就是二次元！</system:String>
-    <system:String x:Key="Achievement.CustomizationMaster.Conditions">更换一次背景图片</system:String>
+    <system:String x:Key="Achievement.CustomizationMaster.Title">커스터마이징의 달인</system:String>
+    <system:String x:Key="Achievement.CustomizationMaster.Description">내 아내임 ㅎ</system:String>
+    <system:String x:Key="Achievement.CustomizationMaster.Conditions">배경 이미지 1회 변경</system:String>
 
-    <system:String x:Key="Achievement.RealGacha.Title">真正的抽卡</system:String>
-    <system:String x:Key="Achievement.RealGacha.Description">不是模拟抽卡吗？怎么真抽了</system:String>
-    <system:String x:Key="Achievement.RealGacha.Conditions">使用一次牛牛抽卡</system:String>
+    <system:String x:Key="Achievement.RealGacha.Title">진짜 가챠</system:String>
+    <system:String x:Key="Achievement.RealGacha.Description">시뮬레이션 아니었어요? 내 재화가 어디갔어요?</system:String>
+    <system:String x:Key="Achievement.RealGacha.Conditions">MAA 뽑기 기능 1회 사용</system:String>
 
-    <system:String x:Key="Achievement.FirstLaunch.Title">初来乍到</system:String>
-    <system:String x:Key="Achievement.FirstLaunch.Description">欢迎使用 MaaAssistantArknights.</system:String>
-    <system:String x:Key="Achievement.FirstLaunch.Conditions">第一次启动软件</system:String>
+    <system:String x:Key="Achievement.FirstLaunch.Title">잘 부탁드려요</system:String>
+    <system:String x:Key="Achievement.FirstLaunch.Description">MaaAssistantArknights 사용을 환영합니다</system:String>
+    <system:String x:Key="Achievement.FirstLaunch.Conditions">소프트웨어 첫 실행</system:String>
 
-    <system:String x:Key="Achievement.Martian.Title">火星人</system:String>
-    <system:String x:Key="Achievement.Martian.Description">远古版本好用吗？</system:String>
-    <system:String x:Key="Achievement.Martian.Conditions">资源时间或版本时间距今超过 3 个月</system:String>
+    <system:String x:Key="Achievement.Martian.Title">화성인</system:String>
+    <system:String x:Key="Achievement.Martian.Description">혹시 과거에 살고 계신가요?</system:String>
+    <system:String x:Key="Achievement.Martian.Conditions">리소스 또는 버전이 현재로부터 3개월 초과</system:String>
 
-    <system:String x:Key="Achievement.Rules.Title">严重错讠</system:String>
-    <system:String x:Key="Achievement.Rules.Description">我会一直注视着你</system:String>
-    <system:String x:Key="Achievement.Rules.Conditions">MAA员工守则</system:String>
+    <system:String x:Key="Achievement.Rules.Title">규정</system:String>
+    <system:String x:Key="Achievement.Rules.Description">제가 계속 지켜보고 있을게요</system:String>
+    <system:String x:Key="Achievement.Rules.Conditions">MAA 이용 약관</system:String>
 
-    <system:String x:Key="Achievement.VersionClick.Title">这也能点？</system:String>
-    <system:String x:Key="Achievement.VersionClick.Description">这是什么？版本号，点一下</system:String>
-    <system:String x:Key="Achievement.VersionClick.Conditions">点击设置页的版本号徽章</system:String>
+    <system:String x:Key="Achievement.VersionClick.Title">이건 무슨 버튼이지?</system:String>
+    <system:String x:Key="Achievement.VersionClick.Description">한번 눌러볼까??</system:String>
+    <system:String x:Key="Achievement.VersionClick.Conditions">설정의 버전 뱃지를 클릭</system:String>
 
-    <system:String x:Key="Achievement.SanitySaver1.Title">精打细算</system:String>
-    <system:String x:Key="Achievement.SanitySaver1.Description">每点理智都用得恰到好处。</system:String>
-    <system:String x:Key="Achievement.SanitySaver1.Conditions">使用理智回复功能 1 次</system:String>
+    <system:String x:Key="Achievement.SanitySaver1.Title">알뜰살뜰</system:String>
+    <system:String x:Key="Achievement.SanitySaver1.Description">이성 하나하나가 아까워요</system:String>
+    <system:String x:Key="Achievement.SanitySaver1.Conditions">이성 회복 기능 1회 사용</system:String>
 
-    <system:String x:Key="Achievement.SanitySaver2.Title">补给大师</system:String>
-    <system:String x:Key="Achievement.SanitySaver2.Description">你对药剂的使用炉火纯青。</system:String>
-    <system:String x:Key="Achievement.SanitySaver2.Conditions">使用理智回复功能 10 次</system:String>
+    <system:String x:Key="Achievement.SanitySaver2.Title">보급 마스터</system:String>
+    <system:String x:Key="Achievement.SanitySaver2.Description">약물 사용이 수준급이시네요</system:String>
+    <system:String x:Key="Achievement.SanitySaver2.Conditions">이성 회복 기능 10회 사용</system:String>
 
-    <system:String x:Key="Achievement.SanitySaver3.Title">永动机</system:String>
-    <system:String x:Key="Achievement.SanitySaver3.Description">你的理智似乎永远用不完。</system:String>
-    <system:String x:Key="Achievement.SanitySaver3.Conditions">使用理智回复功能 50 次</system:String>
+    <system:String x:Key="Achievement.SanitySaver3.Title">영구기관</system:String>
+    <system:String x:Key="Achievement.SanitySaver3.Description">이성이 마르지 않는 것 같아요</system:String>
+    <system:String x:Key="Achievement.SanitySaver3.Conditions">이성 회복 기능 50회 사용</system:String>
 
-    <system:String x:Key="Achievement.ScheduleMaster1.Title">××管理大师</system:String>
-    <system:String x:Key="Achievement.ScheduleMaster1.Description">更有效的规划。</system:String>
-    <system:String x:Key="Achievement.ScheduleMaster1.Conditions">定时执行 1 次</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster1.Title">XX관리 마스터</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster1.Description">더욱 효율적인 계획</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster1.Conditions">예약 실행 1회 사용</system:String>
 
-    <system:String x:Key="Achievement.ScheduleMaster2.Title">泛用型自动化解决方案0.3.2.9f2</system:String>
-    <system:String x:Key="Achievement.ScheduleMaster2.Description">您已熟知 PRTS 的自动化部署。</system:String>
-    <system:String x:Key="Achievement.ScheduleMaster2.Conditions">定时执行 100 次</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster2.Title">범용 자동화 솔루션 0.3.2.9f2</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster2.Description">PRTS의 자동화 배치를 완전히 마스터했습니다</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster2.Conditions">예약 실행 100회 사용</system:String>
 
-    <system:String x:Key="Achievement.SanityExpire.Title">要过期了</system:String>
-    <system:String x:Key="Achievement.SanityExpire.Description">赶紧冲哇！！！</system:String>
-    <system:String x:Key="Achievement.SanityExpire.Conditions">使用「无限吃 48 小时内过期的理智药」，单次任务使用 8 瓶以上临期理智药</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Title">겜안분</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Description">박사님, 쉬시면 안돼요!!!</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Conditions">「48시간 미만 남은 이성 회복제 사용」으로 한 번에 8개 이상의 이성 회복제 사용</system:String>
 
-    <system:String x:Key="Achievement.OverLimitAgent.Title">超限代理</system:String>
-    <system:String x:Key="Achievement.OverLimitAgent.Description">你进行了一次能将大道磨灭的代理任务</system:String>
-    <system:String x:Key="Achievement.OverLimitAgent.Conditions">在单次任务中，进行超过 100 次代理指挥作战</system:String>
+    <system:String x:Key="Achievement.OverLimitAgent.Title">특이점 돌파</system:String>
+    <system:String x:Key="Achievement.OverLimitAgent.Description">스테이지를 소멸시킬 정도의 대리 지휘를 수행했어요</system:String>
+    <system:String x:Key="Achievement.OverLimitAgent.Conditions">단일 스테이지에서 100회 이상 대리 지휘 진행</system:String>
 
-    <system:String x:Key="Achievement.MirrorChyanFirstUse.Title">Mirror～～☆</system:String>
-    <system:String x:Key="Achievement.MirrorChyanFirstUse.Description">是 Mirror酱！我们有救了！</system:String>
-    <system:String x:Key="Achievement.MirrorChyanFirstUse.Conditions">初次成功使用 Mirror酱</system:String>
+    <system:String x:Key="Achievement.MirrorChyanFirstUse.Title">Mirror~~☆</system:String>
+    <system:String x:Key="Achievement.MirrorChyanFirstUse.Description">MirrorChyan이다! 우리가 살았어!</system:String>
+    <system:String x:Key="Achievement.MirrorChyanFirstUse.Conditions">MirrorChyan 첫 사용 성공</system:String>
 
-    <system:String x:Key="Achievement.MirrorChyanCdkError.Title">这……对吗？</system:String>
-    <system:String x:Key="Achievement.MirrorChyanCdkError.Description">谁偷吃了我的字母饼干？</system:String>
-    <system:String x:Key="Achievement.MirrorChyanCdkError.Conditions">Mirror酱 CDK 填写错误</system:String>
+    <system:String x:Key="Achievement.MirrorChyanCdkError.Title">이게... 맞나요?</system:String>
+    <system:String x:Key="Achievement.MirrorChyanCdkError.Description">누가 제 키보드 키를 빼먹었나요?</system:String>
+    <system:String x:Key="Achievement.MirrorChyanCdkError.Conditions">MirrorChyan CDK 입력 오류</system:String>
 
-    <system:String x:Key="Achievement.ProblemFeedback.Title">隐患勘察</system:String>
-    <system:String x:Key="Achievement.ProblemFeedback.Description">一定要杜绝的是，来自内部的风险。</system:String>
-    <system:String x:Key="Achievement.ProblemFeedback.Conditions">进行一次问题反馈</system:String>
+    <system:String x:Key="Achievement.ProblemFeedback.Title">공익제보</system:String>
+    <system:String x:Key="Achievement.ProblemFeedback.Description">가장 위험한 것은 내부의 적이에요</system:String>
+    <system:String x:Key="Achievement.ProblemFeedback.Conditions">이슈 제보 1회 진행</system:String>
 
-    <system:String x:Key="Achievement.MapOutdated.Title">急急国王</system:String>
-    <system:String x:Key="Achievement.MapOutdated.Description">我知道你很急，但你先别急。</system:String>
-    <system:String x:Key="Achievement.MapOutdated.Conditions">在未更新资源的情况下使用自动战斗</system:String>
+    <system:String x:Key="Achievement.MapOutdated.Title">혹시 한국인?</system:String>
+    <system:String x:Key="Achievement.MapOutdated.Description">급한건 알겠지만 잠시만요</system:String>
+    <system:String x:Key="Achievement.MapOutdated.Conditions">리소스 업데이트 없이 「자동 전투」 기능 사용</system:String>
 
-    <system:String x:Key="Achievement.UseCopilot1.Title">抄作业</system:String>
-    <system:String x:Key="Achievement.UseCopilot1.Description">真正的摆完挂机。</system:String>
-    <system:String x:Key="Achievement.UseCopilot1.Conditions">使用 ｢自动战斗｣ 功能通关 1 次</system:String>
+    <system:String x:Key="Achievement.UseCopilot1.Title">컨닝 페이퍼</system:String>
+    <system:String x:Key="Achievement.UseCopilot1.Description">진정한 방치 플레이</system:String>
+    <system:String x:Key="Achievement.UseCopilot1.Conditions">「자동 전투」 기능으로 1회 클리어</system:String>
 
-    <system:String x:Key="Achievement.UseCopilot2.Title">一摆到底</system:String>
-    <system:String x:Key="Achievement.UseCopilot2.Description">活动全交给牛牛打。</system:String>
-    <system:String x:Key="Achievement.UseCopilot2.Conditions">使用 ｢自动战斗｣ 功能通关 10 次</system:String>
+    <system:String x:Key="Achievement.UseCopilot2.Title">끝까지 방치</system:String>
+    <system:String x:Key="Achievement.UseCopilot2.Description">MAA야 너만 믿고 있을게</system:String>
+    <system:String x:Key="Achievement.UseCopilot2.Conditions">「자동 전투」 기능으로 10회 클리어</system:String>
 
-    <system:String x:Key="Achievement.UseCopilot3.Title">下次还填非常简单</system:String>
-    <system:String x:Key="Achievement.UseCopilot3.Description">到最后也不知道关底 boss 什么机制。</system:String>
-    <system:String x:Key="Achievement.UseCopilot3.Conditions">使用 ｢自动战斗｣ 功能通关 100 次</system:String>
+    <system:String x:Key="Achievement.UseCopilot3.Title">딸깍</system:String>
+    <system:String x:Key="Achievement.UseCopilot3.Description">보스 기믹이 뭔가요?</system:String>
+    <system:String x:Key="Achievement.UseCopilot3.Conditions">「자동 전투」 기능으로 100회 클리어</system:String>
 
 
     <!--  !Achievement  -->
