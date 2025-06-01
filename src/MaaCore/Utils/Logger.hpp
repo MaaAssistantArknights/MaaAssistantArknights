@@ -679,6 +679,36 @@ public:
 
 #undef LOGGER_FUNC_WITH_LEVEL
 
+    template <typename... args_t>
+    auto error_(args_t&&... args)
+    {
+        return stream(level::error, m_scopes.next(), std::forward<args_t>(args)...);
+    }
+
+    template <typename... args_t>
+    auto warn_(args_t&&... args)
+    {
+        return stream(level::warn, m_scopes.next(), std::forward<args_t>(args)...);
+    }
+
+    template <typename... args_t>
+    auto info_(args_t&&... args)
+    {
+        return stream(level::info, m_scopes.next(), std::forward<args_t>(args)...);
+    }
+
+    template <typename... args_t>
+    auto debug_(args_t&&... args)
+    {
+        return stream(level::debug, m_scopes.next(), std::forward<args_t>(args)...);
+    }
+
+    template <typename... args_t>
+    auto trace_(args_t&&... args)
+    {
+        return stream(level::trace, m_scopes.next(), std::forward<args_t>(args)...);
+    }
+
     template <typename... Args>
     inline int push(Args&&... args)
     {
@@ -826,6 +856,20 @@ private:
         trace("-----------------------------");
     }
 
+    template <typename... args_t>
+    auto stream(level lv, args_t&&... args)
+    {
+#ifdef ASST_DEBUG
+        return LogStream(
+            std::unique_lock { m_trace_mutex },
+            ostreams { console_ostream(std::cout), m_of },
+            lv,
+            std::forward<args_t>(args)...);
+#else
+        return LogStream(std::unique_lock { m_trace_mutex }, m_of, lv, std::forward<args_t>(args)...);
+#endif
+    }
+
     detail::scope_slice m_scopes;
 
     std::filesystem::path m_directory;
@@ -898,11 +942,11 @@ private:
 #define _CatVarNameWithLine(Var) _Cat(Var, __LINE__)
 
 #define Log asst::Logger::get_instance()
-#define LogDebug Log << asst::Logger::level::debug
-#define LogTrace Log << asst::Logger::level::trace
-#define LogInfo Log << asst::Logger::level::info
-#define LogWarn Log << asst::Logger::level::warn
-#define LogError Log << asst::Logger::level::error
+#define LogDebug Log.debug_()
+#define LogTrace Log.trace_()
+#define LogInfo Log.info_()
+#define LogWarn Log.warn_()
+#define LogError Log.error_()
 
 #define LogTraceScope LoggerAux _CatVarNameWithLine(_func_aux_)
 
