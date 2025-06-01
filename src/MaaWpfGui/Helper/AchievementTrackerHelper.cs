@@ -99,7 +99,7 @@ namespace MaaWpfGui.Helper
             return new(id.TakeWhile(char.IsLetter).ToArray());
         }
 
-        public void Unlock(string id)
+        public void Unlock(string id, bool staysOpen = true)
         {
             if (!_achievements.TryGetValue(id, out var achievement) || achievement.IsUnlocked)
             {
@@ -116,25 +116,20 @@ namespace MaaWpfGui.Helper
             {
                 IsCustom = true,
                 Message = $"{LocalizationHelper.GetString("AchievementCelebrate")}: {achievement.Title}\n{achievement.Description}",
-                StaysOpen = true,
+                StaysOpen = staysOpen,
                 IconKey = "HangoverGeometry",
                 IconBrushKey = achievement.IsHidden ? "HiddenMedalBrush" : "NormalMedalBrush",
             };
             ShowInfo(growlInfo);
         }
 
-        public void UnlockAll()
+        public async Task UnlockAll()
         {
             foreach (var achievement in _achievements.Values.Where(a => !a.IsUnlocked))
             {
-                Unlock(achievement.Id);
+                await Task.Delay(100);
+                Unlock(achievement.Id, false);
             }
-
-            Execute.OnUIThread(async () =>
-            {
-                await Task.Delay(5000);
-                Growl.Clear();
-            });
         }
 
         public void Lock(string id)

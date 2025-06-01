@@ -9,6 +9,9 @@
     "Id": "MosquitoLeg",
     "Target": 5
   },
+  "PioneerTest": {
+    "Id": "PioneerTest"
+  },
   "ProblemFeedback": {
     "Id": "ProblemFeedback"
   },
@@ -98,6 +101,14 @@
   },
   "PeekScreen": {
     "Id": "PeekScreen",
+    "IsHidden": true
+  },
+  "PioneerDebug": {
+    "Id": "PioneerDebug",
+    "IsHidden": true
+  },
+  "PioneerSuperTest": {
+    "Id": "PioneerSuperTest",
     "IsHidden": true
   },
   "QuickCloser": {

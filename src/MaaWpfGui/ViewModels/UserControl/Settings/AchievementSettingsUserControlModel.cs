@@ -87,26 +87,51 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
         win.ShowDialog();
     }
 
-    private int _clickCount = 0;
-
     private static readonly SolidColorBrush _hiddenMedalBrush = Application.Current.Resources["HiddenMedalBrush"] is SolidColorBrush brush ? brush : new(Colors.Gold);
 
     private static readonly SolidColorBrush _normalMedalBrush = Application.Current.Resources["NormalMedalBrush"] is SolidColorBrush brush ? brush : new(Colors.Silver);
 
+    private int _clickCount = 0;
+    private static readonly Random _random = new();
+    private bool _isTriggered = false;
+
     public void OnDebugClick()
     {
-        _clickCount++;
-        if (_clickCount >= 10)
+        NotifyOfPropertyChange(nameof(Tip));
+        if (_isTriggered)
         {
-            _clickCount = 0;
-            IsDebugVersion = true;
-            MedalBrush = _hiddenMedalBrush;
+            ResetDebugState();
+            return;
         }
-        else
+
+        if (++_clickCount < 10)
         {
-            IsDebugVersion = false;
-            MedalBrush = _normalMedalBrush;
+            return;
         }
+
+        _clickCount = 0;
+
+        bool shouldTriggerDebug = _random.NextDouble() < 0.1 || Instances.VersionUpdateViewModel.IsDebugVersion();
+        if (shouldTriggerDebug)
+        {
+            EnableDebugMode();
+        }
+    }
+
+    public string Tip => LocalizationHelper.GetPallasString(1, 10);
+
+    private void ResetDebugState()
+    {
+        IsDebugVersion = false;
+        MedalBrush = _normalMedalBrush;
+        _isTriggered = false;
+    }
+
+    private void EnableDebugMode()
+    {
+        IsDebugVersion = true;
+        MedalBrush = _hiddenMedalBrush;
+        _isTriggered = true;
     }
 
     private SolidColorBrush _medalBrush = _normalMedalBrush;
@@ -125,14 +150,6 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
         set => SetAndNotify(ref _isDebugVersion, value);
     }
 
-    private string _debugUnlockString = string.Empty;
-
-    public string DebugUnlockString
-    {
-        get => _debugUnlockString;
-        set => SetAndNotify(ref _debugUnlockString, value);
-    }
-
     public void UnlockAll()
     {
         AchievementTrackerHelper.Instance.UnlockAll();
@@ -141,23 +158,5 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
     public void LockAll()
     {
         AchievementTrackerHelper.Instance.LockAll();
-    }
-
-    public void DebugUnlock()
-    {
-        var achievement = AchievementTrackerHelper.Instance.Get(DebugUnlockString);
-        if (achievement is not null)
-        {
-            AchievementTrackerHelper.Instance.Unlock(achievement.Id);
-        }
-    }
-
-    public void DebugLock()
-    {
-        var achievement = AchievementTrackerHelper.Instance.Get(DebugUnlockString);
-        if (achievement is not null)
-        {
-            AchievementTrackerHelper.Instance.Lock(achievement.Id);
-        }
     }
 }

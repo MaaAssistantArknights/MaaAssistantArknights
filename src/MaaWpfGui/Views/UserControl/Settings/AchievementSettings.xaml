@@ -5,6 +5,7 @@
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
@@ -37,10 +38,11 @@
             Width="100"
             Height="100"
             Margin="5"
+            hc:FloatingBlock.Content="{Binding Tip}"
             Background="{DynamicResource MouseOverRegionBrush}"
             BorderBrush="{Binding MedalBrush}"
             BorderThickness="1"
-            MouseLeftButtonDown="{s:Action OnDebugClick}"
+            PreviewMouseLeftButtonDown="{s:Action OnDebugClick}"
             Style="{StaticResource BorderCircular}">
             <Path
                 Margin="4"
@@ -60,19 +62,6 @@
                     Margin="5"
                     Command="{s:Action LockAll}"
                     Content="Lock All" />
-            </StackPanel>
-            <StackPanel>
-                <TextBox Text="{Binding DebugUnlockString}" />
-                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                    <Button
-                        Margin="10"
-                        Command="{s:Action DebugUnlock}"
-                        Content="Unlock" />
-                    <Button
-                        Margin="10"
-                        Command="{s:Action DebugLock}"
-                        Content="Lock" />
-                </StackPanel>
             </StackPanel>
         </StackPanel>
     </StackPanel>
