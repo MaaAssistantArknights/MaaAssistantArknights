@@ -526,7 +526,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationIncrementModeClick">連打</system:String>
     <system:String x:Key="ReclamationIncrementModeHold">長押し</system:String>
     <system:String x:Key="ReclamationMaxCraftCountPerRound">1回の最大クラフト回数</system:String>
-    <system:String x:Key="ReclamationClearStore">Clear Store after finished</system:String>
+    <system:String x:Key="ReclamationClearStore">完成後、商店を空にする</system:String>
     <system:String x:Key="OperNameLanguage">オペレーター名の表示言語</system:String>
     <system:String x:Key="OperNameLanguageMAA">MAA をフォローする</system:String>
     <system:String x:Key="OperNameLanguageClient">ゲームクライアントをフォローする</system:String>
@@ -870,8 +870,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="EncounterOcrError">イベント名認識失敗</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">予見啓示板:</system:String>
     <system:String x:Key="RoguelikeInvestment">投資しました: {1}(+{0})、貯蓄: {2}</system:String>
-    <system:String x:Key="RoguelikeInvestmentReachLimit">オリジニウムインゴットへの投資数が設定数（{0}）に達したため、探査が停止しました。</system:String>
-    <system:String x:Key="RoguelikeInvestmentReachFull">投資源となる石のインゴットがいっぱいになったら探索を中止する</system:String>
+    <system:String x:Key="RoguelikeInvestmentReachLimit">源石錐の投資数が設定数（{0}）に達していた、探索を中止する</system:String>
+    <system:String x:Key="RoguelikeInvestmentReachFull">源石錐の投資数が上限に達していた、探索を中止する</system:String>
     <system:String x:Key="RoguelikeSettlement">ローグライクスコア: {0}\n探索: {1} 階層 {2} ステップ\n戦闘: {3} / {4} 緊急 / {5} BOSS\n人材招集数: {6}\nアイテム入手数: {7}\n難度: {8}\nスコア: {9}\n経験値: {10}, スキル: {11}</system:String>
     <system:String x:Key="RoguelikeGainParadigm">パラダイムロストの深化: {0}</system:String>
     <system:String x:Key="RoguelikeDeepenParadigm">パラダイムロスト {0} が {1} に深化した</system:String>
