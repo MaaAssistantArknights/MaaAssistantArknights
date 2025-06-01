@@ -1208,7 +1208,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.RecruitNoSixStarStreak.Description">乆乆乆乆乆乆乆乆乆乆！</system:String>
     <system:String x:Key="Achievement.RecruitNoSixStarStreak.Conditions">公招中连续 100 次没出现六星 tag</system:String>
 
-
+    <system:String x:Key="Achievement.MosquitoLeg.Title">蚊子腿也是肉！</system:String>
+    <system:String x:Key="Achievement.MosquitoLeg.Description">您深刻理解了积少成多的道理。</system:String>
+    <system:String x:Key="Achievement.MosquitoLeg.Conditions">使用 ｢借助战打 OF-1｣ 功能超过 5 次</system:String>
 
     <!--  !Achievement  -->
 </ResourceDictionary>

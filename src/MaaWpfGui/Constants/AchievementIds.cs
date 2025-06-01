@@ -44,6 +44,8 @@ namespace MaaWpfGui.Constants
         public const string MirrorChyanFirstUse = "MirrorChyanFirstUse";
         public const string MirrorChyanCdkError = "MirrorChyanCdkError";
 
+        public const string MosquitoLeg = "MosquitoLeg";
+
         #endregion
 
         #region 代理关卡类

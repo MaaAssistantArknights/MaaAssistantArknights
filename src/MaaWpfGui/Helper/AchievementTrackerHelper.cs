@@ -226,6 +226,7 @@ namespace MaaWpfGui.Helper
                 new Achievement { Id = AchievementIds.ScheduleMaster2, Target = 100 },
                 new Achievement { Id = AchievementIds.MirrorChyanFirstUse, IsHidden = true }, // 第一次成功使用 MirrorChyan 下载
                 new Achievement { Id = AchievementIds.MirrorChyanCdkError, IsHidden = true }, // MirrorChyan CDK 错误
+                new Achievement { Id = AchievementIds.MosquitoLeg, Target = 5 }, // 使用「借助战打 OF-1」功能超过5次
 
                 // 自动战斗
                 new Achievement { Id = AchievementIds.MapOutdated, IsHidden = true }, // 提示需要更新地图资源

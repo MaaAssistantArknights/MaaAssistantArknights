@@ -1311,6 +1311,7 @@ namespace MaaWpfGui.Main
                                     case "EndOfActionThenStop":
                                         TaskQueueViewModel.MallTask.LastCreditFightTaskTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
                                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("CreditFight"));
+                                        AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.MosquitoLeg, 1);
                                         break;
                                     case "VisitLimited" or "VisitNextBlack":
                                         TaskQueueViewModel.MallTask.LastCreditVisitFriendsTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
