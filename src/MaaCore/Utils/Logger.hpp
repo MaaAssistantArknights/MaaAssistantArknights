@@ -710,15 +710,13 @@ public:
             return;
         }
         rotate();
-        (LogStream(
-             std::move(lock),
 #ifdef ASST_DEBUG
-             ostreams { console_ostream(std::cout), m_of },
-#else
-             m_of,
-#endif
-             lv)
+        (LogStream(std::move(lock), ostreams { console_ostream(std::cout), m_of }, lv)
          << ... << std::forward<Args>(args));
+#else
+        (LogStream(std::move(lock), m_of, lv) << ... << std::forward<Args>(args));
+
+#endif
     }
 
     void flush()
