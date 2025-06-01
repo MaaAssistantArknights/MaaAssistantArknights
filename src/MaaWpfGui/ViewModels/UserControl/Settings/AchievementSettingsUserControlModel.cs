@@ -14,7 +14,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using HandyControl.Controls;
 using MaaWpfGui.Helper;
@@ -37,7 +36,7 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
     {
         var path = $"Achievement_{DateTime.UtcNow:yyyyMMdd_HHmmss}";
         JsonDataHelper.Set(path, AchievementTrackerHelper.Instance.Achievements);
-        Growl.Success($"已备份到 data/{path}.json");
+        Growl.Success($"{LocalizationHelper.GetString("AchievementBackupSuccess")} data/{path}.json");
     }
 
     public void RestoreAchievements()
@@ -69,11 +68,11 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
             }
 
             AchievementTrackerHelper.Instance.Save();
-            Growl.Success("已恢复成就进度");
+            Growl.Success(LocalizationHelper.GetString("AchievementRestoreSuccess"));
         }
         else
         {
-            Growl.Error("恢复失败，文件格式无效");
+            Growl.Error(LocalizationHelper.GetString("AchievementRestoreFailed"));
         }
     }
 

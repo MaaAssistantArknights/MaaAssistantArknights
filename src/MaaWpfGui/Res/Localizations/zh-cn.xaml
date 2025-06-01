@@ -1077,6 +1077,16 @@ C:\\leidian\\LDPlayer9。\n
     <!--  Achievement  -->
     <system:String x:Key="AchievementCelebrate">🎉 达成成就</system:String>
     <system:String x:Key="AchievementConditions" xml:space="preserve">达成条件: </system:String>
+    <system:String x:Key="AchievementLevel" xml:space="preserve">成就等级：</system:String>
+    <system:String x:Key="AchievementView">查看成就</system:String>
+    <system:String x:Key="AchievementBackup">备份成就</system:String>
+    <system:String x:Key="AchievementRestore">加载备份</system:String>
+    <system:String x:Key="AchievementUnlockedAt" xml:space="preserve">解锁于：</system:String>
+    <system:String x:Key="AchievementList">成就列表</system:String>
+    <system:String x:Key="AchievementBackupSuccess">已备份到</system:String>
+    <system:String x:Key="AchievementRestoreSuccess">已恢复成就进度</system:String>
+    <system:String x:Key="AchievementRestoreFailed">恢复失败，文件格式无效</system:String>
+
 
     <system:String x:Key="Achievement.SanitySpender1.Title">战术实战</system:String>
     <system:String x:Key="Achievement.SanitySpender1.Description">你已经上手了。</system:String>

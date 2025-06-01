@@ -3,24 +3,14 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
-    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
-    Title="成就列表"
+    Title="{DynamicResource AchievementList}"
     Width="600"
     Height="400"
     MinWidth="250">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-            <controls:TextBlock Text="成就等级：" />
-            <controls:TextBlock Text="{Binding UnlockedCount, Source={x:Static helper:AchievementTrackerHelper.Instance}}" />
-        </StackPanel>
         <ListBox
-            Grid.Row="1"
             ItemsSource="{Binding Achievements.Values, Source={x:Static helper:AchievementTrackerHelper.Instance}}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
@@ -56,11 +46,16 @@
                                 Minimum="0"
                                 Visibility="{c:Binding '!IsUnlocked and IsProgressive'}"
                                 Value="{Binding Progress}" />
-                            <TextBlock
-                                Foreground="{Binding MedalBrush}"
-                                Text="{Binding UnlockedTimeLocal, StringFormat=解锁于：{0:G}}"
-                                TextWrapping="Wrap"
-                                Visibility="{c:Binding IsUnlocked}" />
+                            <VirtualizingStackPanel Orientation="Horizontal" Visibility="{c:Binding IsUnlocked}">
+                                <TextBlock
+                                    Foreground="{Binding MedalBrush}"
+                                    Text="{DynamicResource AchievementUnlockedAt}"
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    Foreground="{Binding MedalBrush}"
+                                    Text="{Binding UnlockedTimeLocal, StringFormat={}{0:G}}"
+                                    TextWrapping="Wrap" />
+                            </VirtualizingStackPanel>
                         </VirtualizingStackPanel>
                     </VirtualizingStackPanel>
                 </DataTemplate>
