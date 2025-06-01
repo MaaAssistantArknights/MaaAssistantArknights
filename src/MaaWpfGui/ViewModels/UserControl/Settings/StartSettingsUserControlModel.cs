@@ -474,38 +474,41 @@ public class StartSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        // This allows for SQL injection, but since it is not on a real database nothing horrible would happen.
-        // The following query string does what I want, but WMI does not accept it.
-        // var wmiQueryString = string.Format("SELECT ProcessId, CommandLine FROM Win32_Process WHERE ExecutablePath='{0}'", adbPath);
-        const string WmiQueryString = "SELECT ProcessId, ExecutablePath, CommandLine FROM Win32_Process";
-        using var searcher = new ManagementObjectSearcher(WmiQueryString);
-        using var results = searcher.Get();
-        var query = from p in Process.GetProcesses()
-                    join mo in results.Cast<ManagementObject>()
-                        on p.Id equals (int)(uint)mo["ProcessId"]
-                    select new
-                    {
-                        Process = p,
-                        Path = (string)mo["ExecutablePath"],
-                    };
-        foreach (var item in query)
+        try
         {
-            if (item.Path != adbPath)
+            // This allows for SQL injection, but since it is not on a real database nothing horrible would happen.
+            // The following query string does what I want, but WMI does not accept it.
+            // var wmiQueryString = string.Format("SELECT ProcessId, CommandLine FROM Win32_Process WHERE ExecutablePath='{0}'", adbPath);
+            const string WmiQueryString = "SELECT ProcessId, ExecutablePath, CommandLine FROM Win32_Process";
+            using var searcher = new ManagementObjectSearcher(WmiQueryString);
+            using var results = searcher.Get();
+            var query = from p in Process.GetProcesses()
+                        join mo in results.Cast<ManagementObject>()
+                            on p.Id equals (int)(uint)mo["ProcessId"]
+                        select new { Process = p, Path = (string)mo["ExecutablePath"], };
+            foreach (var item in query)
             {
-                continue;
-            }
+                if (item.Path != adbPath)
+                {
+                    continue;
+                }
 
-            // Some emulators start their ADB with administrator privilege.
-            // Not sure if this is necessary
-            try
-            {
-                item.Process.Kill();
-                item.Process.WaitForExit();
+                // Some emulators start their ADB with administrator privilege.
+                // Not sure if this is necessary
+                try
+                {
+                    item.Process.Kill();
+                    item.Process.WaitForExit();
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error($"Error in HardRestartAdb: {ex.Message}");
+                }
             }
-            catch
-            {
-                // ignored
-            }
+        }
+        catch (Exception ex)
+        {
+            _logger.Error($"Error in HardRestartAdb: {ex.Message}");
         }
     }
 
