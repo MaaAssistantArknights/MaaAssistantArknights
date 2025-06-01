@@ -103,6 +103,16 @@ MAA will fight according to the number of consecutive battles set by the user:
   - Do not adjust the number of consecutive battles in the game
   - If the sanity is not enough to complete the current set number of times in the game, directly end the task and enter the `Remaining Sanity` process (if set)
 
+### Perform Battles
+
+MAA will execute a maximum of the specified number of battles
+
+Example: Assuming the current sanity is 100, and the level consumes 6 sanity
+
+- Set the `Perform Battles` to 10, and the proxy multiplier to 4: 2 (start actions) x 4 (multiple proxy) = 8 operations will be executed (2 x floor(10 / 4) = 8), consuming 8 x 6 = 48 sanity. At this time, if another 4x proxy is performed, it will reach 12 operations, which exceeds the set 10 times, so it will not be performed again, and the mission will end with 8 operations
+
+- Set the `Perform Battles` to 10, and the proxy multiplier to AUTO: 1 6x proxy + 1 4x proxy = 10 operations will be executed (6 * floor(10 / 6) + (10 % 6) = 10), consuming 10 x 6 = 60 sanity
+
 ### Drop Recognition
 
 - Material drops are automatically recognized and printed to the program log. The data also gets uploaded to [Penguin Stats](https://penguin-stats.io/) and [Yituliu](https://ark.yituliu.cn/).
