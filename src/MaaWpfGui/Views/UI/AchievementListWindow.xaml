@@ -27,6 +27,7 @@
                         <VirtualizingStackPanel Margin="8" HorizontalAlignment="Left">
                             <TextBlock
                                 FontWeight="Bold"
+                                Foreground="{DynamicResource MessageLogBrush}"
                                 Text="{Binding Title}"
                                 TextWrapping="Wrap" />
                             <TextBlock

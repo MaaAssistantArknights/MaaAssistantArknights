@@ -1117,7 +1117,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.CongratulationError.Conditions">触发过MAA的报错</system:String>
 
     <system:String x:Key="Achievement.UnexpectedCrash.Title">不速之客</system:String>
-    <system:String x:Key="Achievement.UnexpectedCrash.Description">你触发了未知的领域</system:String>
+    <system:String x:Key="Achievement.UnexpectedCrash.Description">你触发了未知的领域。</system:String>
     <system:String x:Key="Achievement.UnexpectedCrash.Conditions">出现未处理异常并被崩溃日志记录</system:String>
 
     <system:String x:Key="Achievement.CustomizationMaster.Title">自定义达人</system:String>
@@ -1125,7 +1125,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.CustomizationMaster.Conditions">更换一次背景图片</system:String>
 
     <system:String x:Key="Achievement.RealGacha.Title">真正的抽卡</system:String>
-    <system:String x:Key="Achievement.RealGacha.Description">不是模拟抽卡吗？怎么真抽了</system:String>
+    <system:String x:Key="Achievement.RealGacha.Description">不是模拟抽卡吗？怎么真抽了？？？</system:String>
     <system:String x:Key="Achievement.RealGacha.Conditions">使用一次牛牛抽卡</system:String>
 
     <system:String x:Key="Achievement.FirstLaunch.Title">初来乍到</system:String>
@@ -1137,11 +1137,11 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.Martian.Conditions">资源时间或版本时间距今超过 3 个月</system:String>
 
     <system:String x:Key="Achievement.Rules.Title">严重错讠</system:String>
-    <system:String x:Key="Achievement.Rules.Description">我会一直注视着你</system:String>
+    <system:String x:Key="Achievement.Rules.Description">我会一直注视着你。</system:String>
     <system:String x:Key="Achievement.Rules.Conditions">MAA员工守则</system:String>
 
     <system:String x:Key="Achievement.VersionClick.Title">这也能点？</system:String>
-    <system:String x:Key="Achievement.VersionClick.Description">这是什么？版本号，点一下</system:String>
+    <system:String x:Key="Achievement.VersionClick.Description">这是什么？版本号，点一下。</system:String>
     <system:String x:Key="Achievement.VersionClick.Conditions">点击设置页的版本号徽章</system:String>
 
     <system:String x:Key="Achievement.SanitySaver1.Title">精打细算</system:String>
@@ -1169,7 +1169,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.SanityExpire.Conditions">使用「无限吃 48 小时内过期的理智药」，单次任务使用 8 瓶以上临期理智药</system:String>
 
     <system:String x:Key="Achievement.OverLimitAgent.Title">超限代理</system:String>
-    <system:String x:Key="Achievement.OverLimitAgent.Description">你进行了一次能将大道磨灭的代理任务</system:String>
+    <system:String x:Key="Achievement.OverLimitAgent.Description">你进行了一次能将大道磨灭的代理任务。</system:String>
     <system:String x:Key="Achievement.OverLimitAgent.Conditions">在单次任务中，进行超过 100 次代理指挥作战</system:String>
 
     <system:String x:Key="Achievement.MirrorChyanFirstUse.Title">Mirror～～☆</system:String>
@@ -1212,17 +1212,17 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.MosquitoLeg.Description">您深刻理解了积少成多的道理。</system:String>
     <system:String x:Key="Achievement.MosquitoLeg.Conditions">使用 ｢借助战打 OF-1｣ 功能超过 5 次</system:String>
 
-    <system:String x:Key="Achievement.TestPioneer.Title">测试先锋</system:String>
-    <system:String x:Key="Achievement.TestPioneer.Description">您率先体验了处于测试中的版本。</system:String>
-    <system:String x:Key="Achievement.TestPioneer.Conditions">将 MAA 更新至公测版</system:String>
+    <system:String x:Key="Achievement.PioneerTest.Title">测试先锋</system:String>
+    <system:String x:Key="Achievement.PioneerTest.Description">您率先体验了处于测试中的版本。</system:String>
+    <system:String x:Key="Achievement.PioneerTest.Conditions">将 MAA 更新至公测版</system:String>
 
-    <system:String x:Key="Achievement.SuperTestPioneer.Title">超级测试先锋</system:String>
-    <system:String x:Key="Achievement.SuperTestPioneer.Description">您使用了最新的测试版本（出现任何新的问题请前往问题反馈！）</system:String>
-    <system:String x:Key="Achievement.SuperTestPioneer.Conditions">将 MAA 更新至内测版</system:String>
+    <system:String x:Key="Achievement.PioneerSuperTest.Title">超级测试先锋</system:String>
+    <system:String x:Key="Achievement.PioneerSuperTest.Description">您使用了最新的测试版本（出现任何新的问题请前往问题反馈！）</system:String>
+    <system:String x:Key="Achievement.PioneerSuperTest.Conditions">将 MAA 更新至内测版</system:String>
 
-    <system:String x:Key="Achievement.DebugPioneer.Title">DEBUG 急先锋</system:String>
-    <system:String x:Key="Achievement.DebugPioneer.Description">能下到这个版本的都不是一般人。</system:String>
-    <system:String x:Key="Achievement.DebugPioneer.Conditions">使用未发布版本的 MAA</system:String>
+    <system:String x:Key="Achievement.PioneerDebug.Title">DEBUG 急先锋</system:String>
+    <system:String x:Key="Achievement.PioneerDebug.Description">能下到这个版本的都不是一般人。</system:String>
+    <system:String x:Key="Achievement.PioneerDebug.Conditions">使用未发布版本的 MAA</system:String>
 
     <!--  !Achievement  -->
 </ResourceDictionary>

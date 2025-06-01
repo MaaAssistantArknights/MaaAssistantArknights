@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
+using System.Windows.Media;
 using HandyControl.Controls;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
@@ -84,5 +85,79 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
         };
         win.ShowDialog();
+    }
+
+    private int _clickCount = 0;
+
+    private static readonly SolidColorBrush _hiddenMedalBrush = Application.Current.Resources["HiddenMedalBrush"] is SolidColorBrush brush ? brush : new(Colors.Gold);
+
+    private static readonly SolidColorBrush _normalMedalBrush = Application.Current.Resources["NormalMedalBrush"] is SolidColorBrush brush ? brush : new(Colors.Silver);
+
+    public void OnDebugClick()
+    {
+        _clickCount++;
+        if (_clickCount >= 10)
+        {
+            _clickCount = 0;
+            IsDebugVersion = true;
+            MedalBrush = _hiddenMedalBrush;
+        }
+        else
+        {
+            IsDebugVersion = false;
+            MedalBrush = _normalMedalBrush;
+        }
+    }
+
+    private SolidColorBrush _medalBrush = _normalMedalBrush;
+
+    public SolidColorBrush MedalBrush
+    {
+        get => _medalBrush;
+        set => SetAndNotify(ref _medalBrush, value);
+    }
+
+    private bool _isDebugVersion = false;
+
+    public bool IsDebugVersion
+    {
+        get => _isDebugVersion;
+        set => SetAndNotify(ref _isDebugVersion, value);
+    }
+
+    private string _debugUnlockString = string.Empty;
+
+    public string DebugUnlockString
+    {
+        get => _debugUnlockString;
+        set => SetAndNotify(ref _debugUnlockString, value);
+    }
+
+    public void UnlockAll()
+    {
+        AchievementTrackerHelper.Instance.UnlockAll();
+    }
+
+    public void LockAll()
+    {
+        AchievementTrackerHelper.Instance.LockAll();
+    }
+
+    public void DebugUnlock()
+    {
+        var achievement = AchievementTrackerHelper.Instance.Get(DebugUnlockString);
+        if (achievement is not null)
+        {
+            AchievementTrackerHelper.Instance.Unlock(achievement.Id);
+        }
+    }
+
+    public void DebugLock()
+    {
+        var achievement = AchievementTrackerHelper.Instance.Get(DebugUnlockString);
+        if (achievement is not null)
+        {
+            AchievementTrackerHelper.Instance.Lock(achievement.Id);
+        }
     }
 }

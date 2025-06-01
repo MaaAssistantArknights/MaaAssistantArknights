@@ -311,15 +311,15 @@ namespace MaaWpfGui.Main
 
             if (Instances.VersionUpdateViewModel.IsDebugVersion())
             {
-                AchievementTrackerHelper.Instance.Unlock(AchievementIds.DebugPioneer);
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.PioneerDebug);
             }
             else if (Instances.VersionUpdateViewModel.IsBetaVersion())
             {
-                AchievementTrackerHelper.Instance.Unlock(AchievementIds.TestPioneer);
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.PioneerTest);
             }
             else if (!Instances.VersionUpdateViewModel.IsStdVersion()) // 内测版要传入 SemVersion 判断，这里就取反判断了
             {
-                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SuperTestPioneer);
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.PioneerSuperTest);
             }
         }
 

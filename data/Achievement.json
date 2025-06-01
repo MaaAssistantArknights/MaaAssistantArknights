@@ -5,6 +5,10 @@
   "MapOutdated": {
     "Id": "MapOutdated"
   },
+  "MosquitoLeg": {
+    "Id": "MosquitoLeg",
+    "Target": 5
+  },
   "ProblemFeedback": {
     "Id": "ProblemFeedback"
   },
@@ -48,6 +52,9 @@
     "Id": "ScheduleMaster2",
     "Target": 100
   },
+  "TestPioneer": {
+    "Id": "TestPioneer"
+  },
   "UseCopilot1": {
     "Id": "UseCopilot1",
     "Target": 1
@@ -66,6 +73,10 @@
   },
   "CustomizationMaster": {
     "Id": "CustomizationMaster",
+    "IsHidden": true
+  },
+  "DebugPioneer": {
+    "Id": "DebugPioneer",
     "IsHidden": true
   },
   "Martian": {
@@ -104,6 +115,10 @@
   },
   "Rules": {
     "Id": "Rules",
+    "IsHidden": true
+  },
+  "SuperTestPioneer": {
+    "Id": "SuperTestPioneer",
     "IsHidden": true
   },
   "TacticalRetreat": {

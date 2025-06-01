@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Constants;
@@ -120,6 +121,41 @@ namespace MaaWpfGui.Helper
                 IconBrushKey = achievement.IsHidden ? "HiddenMedalBrush" : "NormalMedalBrush",
             };
             ShowInfo(growlInfo);
+        }
+
+        public void UnlockAll()
+        {
+            foreach (var achievement in _achievements.Values.Where(a => !a.IsUnlocked))
+            {
+                Unlock(achievement.Id);
+            }
+
+            Execute.OnUIThread(async () =>
+            {
+                await Task.Delay(5000);
+                Growl.Clear();
+            });
+        }
+
+        public void Lock(string id)
+        {
+            if (!_achievements.TryGetValue(id, out var achievement) || !achievement.IsUnlocked)
+            {
+                return;
+            }
+
+            achievement.IsUnlocked = false;
+            achievement.UnlockedTime = null;
+            Save();
+            NotifyOfPropertyChange(nameof(UnlockedCount));
+        }
+
+        public void LockAll()
+        {
+            foreach (var achievement in _achievements.Values.Where(a => a.IsUnlocked))
+            {
+                Lock(achievement.Id);
+            }
         }
 
         private static readonly List<GrowlInfo> _pending = [];
@@ -227,10 +263,9 @@ namespace MaaWpfGui.Helper
                 new Achievement { Id = AchievementIds.MirrorChyanFirstUse, IsHidden = true }, // 第一次成功使用 MirrorChyan 下载
                 new Achievement { Id = AchievementIds.MirrorChyanCdkError, IsHidden = true }, // MirrorChyan CDK 错误
                 new Achievement { Id = AchievementIds.MosquitoLeg, Target = 5 }, // 使用「借助战打 OF-1」功能超过5次
-                new Achievement { Id = AchievementIds.TestPioneer }, // 将 MAA 更新至公测版
-                new Achievement { Id = AchievementIds.SuperTestPioneer, IsHidden = true }, // 将 MAA 更新至内测版（隐藏）
-                new Achievement { Id = AchievementIds.DebugPioneer, IsHidden = true }, // 使用未发布版本的 MAA（隐藏）
-
+                new Achievement { Id = AchievementIds.PioneerTest }, // 将 MAA 更新至公测版
+                new Achievement { Id = AchievementIds.PioneerSuperTest, IsHidden = true }, // 将 MAA 更新至内测版（隐藏）
+                new Achievement { Id = AchievementIds.PioneerDebug, IsHidden = true }, // 使用未发布版本的 MAA（隐藏）
 
                 // 自动战斗
                 new Achievement { Id = AchievementIds.MapOutdated, IsHidden = true }, // 提示需要更新地图资源
