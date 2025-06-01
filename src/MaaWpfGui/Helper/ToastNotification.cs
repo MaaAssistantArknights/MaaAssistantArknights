@@ -22,7 +22,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Interop;
 using HandyControl.Controls;
-using HandyControl.Data;
 using MaaWpfGui.Configuration;
 using MaaWpfGui.Helper.Notification;
 using MaaWpfGui.WineCompat;
