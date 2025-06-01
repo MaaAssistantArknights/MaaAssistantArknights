@@ -1463,6 +1463,16 @@ namespace MaaWpfGui.Main
                             Instances.TaskQueueViewModel.AddLog(level + " ★ Tags", UiLogColor.Info);
                         }
 
+                        if (level == 6)
+                        {
+                            AchievementTrackerHelper.Instance.SetProgress(AchievementIds.RecruitNoSixStarStreak, 1);
+                        }
+                        else
+                        {
+                            AchievementTrackerHelper.Instance.AddProgress(AchievementIds.RecruitNoSixStar, 1); // 累计
+                            AchievementTrackerHelper.Instance.AddProgress(AchievementIds.RecruitNoSixStarStreak, 1); // 连续
+                        }
+
                         /*
                         bool robot = (bool)subTaskDetails["robot"];
                         if (robot)

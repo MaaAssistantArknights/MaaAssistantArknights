@@ -65,6 +65,9 @@ namespace MaaWpfGui.Constants
         public const string CustomizationMaster = "CustomizationMaster";
         public const string Martian = "Martian";
 
+        public const string RecruitNoSixStar = "RecruitNoSixStar";
+        public const string RecruitNoSixStarStreak = "RecruitNoSixStarStreak";
+
         #endregion
 
         #region BUG 相关

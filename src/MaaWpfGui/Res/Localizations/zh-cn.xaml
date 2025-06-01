@@ -1190,6 +1190,15 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.UseCopilot3.Description">到最后也不知道关底 boss 什么机制。</system:String>
     <system:String x:Key="Achievement.UseCopilot3.Conditions">使用 ｢自动战斗｣ 功能通关 100 次</system:String>
 
+    <system:String x:Key="Achievement.RecruitNoSixStar.Title">玄学无效</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStar.Description">事已至此，先睡觉吧。</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStar.Conditions">公招中累计 100 次没出现六星 tag</system:String>
+
+    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Title">一定是 MAA 干的！</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Description">乆乆乆乆乆乆乆乆乆乆！</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Conditions">公招中连续 100 次没出现六星 tag</system:String>
+
+
 
     <!--  !Achievement  -->
 </ResourceDictionary>

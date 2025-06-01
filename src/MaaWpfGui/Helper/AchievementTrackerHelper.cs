@@ -238,8 +238,10 @@ namespace MaaWpfGui.Helper
                 new Achievement { Id = AchievementIds.TacticalRetreat, IsHidden = true }, // 停止任务
                 new Achievement { Id = AchievementIds.RealGacha, IsHidden = true }, // 真正的抽卡
                 new Achievement { Id = AchievementIds.PeekScreen, IsHidden = true }, // 窥屏
-                new Achievement { Id = AchievementIds.CustomizationMaster, IsHidden = true }, // 自定义达人
-                new Achievement { Id = AchievementIds.Martian, IsHidden = true }, // 火星人
+                new Achievement { Id = AchievementIds.CustomizationMaster, IsHidden = true }, // 自定义背景
+                new Achievement { Id = AchievementIds.Martian, IsHidden = true }, // 90 天没更新
+                new Achievement { Id = AchievementIds.RecruitNoSixStar, Target = 100 }, // 公招中累计 100 次没出现六星tag
+                new Achievement { Id = AchievementIds.RecruitNoSixStarStreak, Target = 100, IsHidden = true }, // 公招中连续 100 次没出现六星tag
 
                 // BUG 相关
                 new Achievement { Id = AchievementIds.CongratulationError, IsHidden = true }, // 喜报

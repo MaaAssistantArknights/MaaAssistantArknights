@@ -2,8 +2,15 @@
   "FirstLaunch": {
     "Id": "FirstLaunch"
   },
+  "MapOutdated": {
+    "Id": "MapOutdated"
+  },
   "ProblemFeedback": {
     "Id": "ProblemFeedback"
+  },
+  "RecruitNoSixStar": {
+    "Id": "RecruitNoSixStar",
+    "Target": 100
   },
   "SanityExpire": {
     "Id": "SanityExpire",
@@ -39,6 +46,18 @@
   },
   "ScheduleMaster2": {
     "Id": "ScheduleMaster2",
+    "Target": 100
+  },
+  "UseCopilot1": {
+    "Id": "UseCopilot1",
+    "Target": 1
+  },
+  "UseCopilot2": {
+    "Id": "UseCopilot2",
+    "Target": 10
+  },
+  "UseCopilot3": {
+    "Id": "UseCopilot3",
     "Target": 100
   },
   "CongratulationError": {
@@ -77,6 +96,11 @@
   "RealGacha": {
     "Id": "RealGacha",
     "IsHidden": true
+  },
+  "RecruitNoSixStarStreak": {
+    "Id": "RecruitNoSixStarStreak",
+    "IsHidden": true,
+    "Target": 100
   },
   "Rules": {
     "Id": "Rules",
