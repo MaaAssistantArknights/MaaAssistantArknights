@@ -668,10 +668,10 @@ public class VersionUpdateViewModel : Screen
         {
             OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
             {
-                var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
+                using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
                 toast.AppendContentText(LocalizationHelper.GetString("NewVersionDownloadFailedDesc"))
-                     .AddButton(LocalizationHelper.GetString("NewVersionFoundButtonGoWebpage"), ToastNotification.GetActionTagForOpenWeb(UpdateUrl))
-                     .Show();
+                    .AddButton(LocalizationHelper.GetString("NewVersionFoundButtonGoWebpage"), ToastNotification.GetActionTagForOpenWeb(UpdateUrl))
+                    .Show();
             }
 
             return CheckUpdateRetT.NoNeedToUpdate;
@@ -778,7 +778,7 @@ public class VersionUpdateViewModel : Screen
         {
             OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
             {
-                var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
+                using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
                 toast.AppendContentText(LocalizationHelper.GetString("NewVersionDownloadFailedDesc"))
                      .Show();
             }
