@@ -188,13 +188,11 @@ asst::FeatureMatcher::ResultsVec asst::FeatureMatcher::feature_postproc(
             if (i != compact_idx) {
                 std::swap(scene[compact_idx], scene[i]);
                 std::swap(obj[compact_idx], obj[i]);
-                std::swap(matches[compact_idx], matches[i]);
             }
             ++compact_idx;
         }
         scene.resize(compact_idx);
         obj.resize(compact_idx);
-        matches.resize(compact_idx);
     }
 
     return results;
