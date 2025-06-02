@@ -1,0 +1,49 @@
+name: Auto close not reading issues
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  check-and-close:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+
+    steps:
+    - name: Check checkbox status
+      id: checkbox-check
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const texts = [
+          '我已在未仔细阅读这些内容的情况下勾选所有选项，并相信这不会影响问题的处理',
+          'I have checked all the options without carefully reading the content and believe this will not affect issue resolution.'];
+          return texts.some(text => new RegExp(`- \\[x\\]\\s*${text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`).test(context.payload.issue.body));
+
+    - name: Close and lock issue
+      if: steps.checkbox-check.outputs.result == 'true'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          await github.rest.issues.update({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+            state: 'closed',
+            state_reason: 'not_planned'
+          });
+
+          await github.rest.issues.createComment({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+            body: 'This issue has been automatically closed and locked due to the selection of "I did not read carefully."\n\n此 Issue 因勾选"我未仔细阅读"已被自动关闭并锁定'
+          });
+          
+          await github.rest.issues.lock({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number
+          });
+        
