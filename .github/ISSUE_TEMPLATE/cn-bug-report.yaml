@@ -17,7 +17,7 @@ body:
           required: true
         - label: 我已查看版本发布至今的 [Pull Requests](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pulls) 中尚未发布的更新内容并未提及该 Bug 已被修复的情况
           required: true
-        - label: 我已在未仔细阅读上述内容的情况下勾选所有选项，并相信这不会影响问题的处理
+        - label: 我已在未仔细阅读这些内容的情况下勾选所有选项，并相信这不会影响问题的处理
           required: false
         - label: 我已检查了[常见问题](https://maa.plus/docs/zh-cn/manual/faq.html)，确认我的问题未被提及
           required: true

@@ -22,7 +22,7 @@ body:
           required: true
         - label: I have reviewed the [Pull Requests](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pulls) and there is no mention of the bug being fixed.
           required: true
-        - label: I have checked all options without carefully reading the above content and believe this will not affect issue resolution.
+        - label: I have checked all the options without carefully reading the content and believe this will not affect issue resolution.
           required: false
         - label: I have reviewed the [FAQs](https://maa.plus/docs/en-us/manual/faq.html) to ensure that my issue/bug has not been mentioned.
           required: true
