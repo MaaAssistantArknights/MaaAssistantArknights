@@ -11,8 +11,6 @@ body:
           required: true
         - label: 我填写了简短且清晰明确的标题，以便开发者在翻阅 Issue 列表时能快速确定大致问题。而不是“一个建议”、“卡住了”等
           required: true
-        - label: 我没有仔细阅读这些选项而是直接乱选的
-          required: false
         - label: 我已检查了[公告](/MaaAssistantArknights/MaaAssistantArknights/issues/7732)、[活跃议题](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues)、[已关闭议题](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues?q=is%3Aissue%20state%3Aclosed)，确认我的问题未被提及
           required: true
         - label: 我正在使用最新的 MAA 公测版本和最新的官版雷电 9 模拟器
@@ -20,6 +18,8 @@ body:
         - label: 我已参考文档确定安装路径、实例编号填写正确，并确认在关闭截图增强模式后问题消失
           required: true
         - label: 我未开启高帧率，且模拟器帧数设置为 60
+          required: false
+        - label: 我已在未阅读上述内容的情况下勾选所有选项，并相信这不会影响问题的处理
           required: false
   - type: textarea
     id: describe
