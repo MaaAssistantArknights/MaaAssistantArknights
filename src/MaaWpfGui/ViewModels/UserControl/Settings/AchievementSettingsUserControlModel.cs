@@ -152,7 +152,7 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
 
     public void UnlockAll()
     {
-        AchievementTrackerHelper.Instance.UnlockAll();
+        _ = AchievementTrackerHelper.Instance.UnlockAll();
     }
 
     public void LockAll()
