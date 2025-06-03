@@ -76,6 +76,12 @@ namespace MaaWpfGui.Constants
         public const string RecruitNoSixStar = "RecruitNoSixStar";
         public const string RecruitNoSixStarStreak = "RecruitNoSixStarStreak";
 
+        public const string SnapshotChallenge999 = "SnapshotChallenge999";
+        public const string SnapshotChallenge800 = "SnapshotChallenge800";
+        public const string SnapshotChallenge400 = "SnapshotChallenge400";
+        public const string SnapshotChallenge100 = "SnapshotChallenge100";
+        public const string SnapshotChallenge10 = "SnapshotChallenge10";
+
         #endregion
 
         #region BUG 相关

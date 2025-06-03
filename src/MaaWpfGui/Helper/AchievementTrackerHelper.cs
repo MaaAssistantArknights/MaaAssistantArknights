@@ -281,6 +281,12 @@ namespace MaaWpfGui.Helper
                 new Achievement { Id = AchievementIds.RecruitNoSixStar, Target = 100 }, // 公招中累计 100 次没出现六星tag
                 new Achievement { Id = AchievementIds.RecruitNoSixStarStreak, Target = 100, IsHidden = true }, // 公招中连续 100 次没出现六星tag
 
+                new Achievement { Id = AchievementIds.SnapshotChallenge999 }, // 平均截图用时超过 800ms（高 ping 战士）
+                new Achievement { Id = AchievementIds.SnapshotChallenge800 }, // 平均截图用时在 400ms 到 800ms 之间（是不是有点太慢了）
+                new Achievement { Id = AchievementIds.SnapshotChallenge400 }, // 平均截图用时小于 400ms（截图挑战 · Normal）
+                new Achievement { Id = AchievementIds.SnapshotChallenge100 }, // 平均截图用时小于 100ms（截图挑战 · Fast）
+                new Achievement { Id = AchievementIds.SnapshotChallenge10 }, // 平均截图用时小于 10ms（截图挑战 · Ultra）
+
                 // BUG 相关
                 new Achievement { Id = AchievementIds.CongratulationError, IsHidden = true }, // 喜报
                 new Achievement { Id = AchievementIds.UnexpectedCrash, IsHidden = true }, // 不速之客

@@ -1228,5 +1228,25 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.Irreplaceable.Description">或许我应该换一份作业？</system:String>
     <system:String x:Key="Achievement.Irreplaceable.Conditions">使用 ｢自动战斗 - 自动编队｣ 时，缺少至少两名干员</system:String>
 
+    <system:String x:Key="Achievement.SnapshotChallenge999.Title">高 ping 战士</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge999.Description">“kale”</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge999.Conditions">平均截图用时超过 800ms</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge800.Title">是不是有点太慢了</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge800.Description">截图显得有点吃力。</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge800.Conditions">平均截图用时在 400ms 到 800ms 之间</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge400.Title">截图挑战 · Normal</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge400.Description">要不试试截图增强？</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge400.Conditions">平均截图用时小于 400ms</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge100.Title">截图挑战 · Fast</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge100.Description">截图快得我都没反应过来。</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge100.Conditions">平均截图用时小于 100ms</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge10.Title">截图挑战 · Ultra</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge10.Description">截图速度击败了 99% 的 MAA 用户。</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge10.Conditions">平均截图用时小于 10ms</system:String>
+
     <!--  !Achievement  -->
 </ResourceDictionary>

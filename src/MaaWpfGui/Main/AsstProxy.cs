@@ -647,13 +647,31 @@ namespace MaaWpfGui.Main
 
                         switch (screencapCostAvgInt)
                         {
+                            // 日志提示
                             case >= 800:
                                 AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"), screencapCostAvgInt), UiLogColor.Warning);
+                                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge999);
                                 break;
-
                             case >= 400:
                                 AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"), screencapCostAvgInt), UiLogColor.Warning);
+                                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge800);
                                 break;
+                            default:
+                            {
+                                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge400);
+
+                                if (screencapCostAvgInt < 100)
+                                {
+                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge100);
+                                }
+
+                                if (screencapCostAvgInt < 10)
+                                {
+                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge10);
+                                }
+
+                                break;
+                            }
                         }
                     }
 
