@@ -5017,7 +5017,9 @@
     "GreenTicket@Store@ClickItem_Furniture_Part": {
         "doc": "家具部件",
         "baseTask": "GreenTicket@Store@ClickItem",
-        "template": "items/3401.png"
+        "template": "items/3401.png",
+        "detector": "SIFT",
+        "count": 15
     },
     "GreenTicket@Store@ClickItem_Recruitment_Permit": {
         "doc": "招募许可",
@@ -5032,7 +5034,9 @@
     "GreenTicket@Store@ClickItem_Pure_Gold": {
         "doc": "赤金",
         "baseTask": "GreenTicket@Store@ClickItem",
-        "template": "items/3003.png"
+        "template": "items/3003.png",
+        "detector": "SIFT",
+        "count": 12
     },
     "GreenTicket@Store@ChooseMaxAmount": {
         "roi": [1027, 405, 79, 53],
