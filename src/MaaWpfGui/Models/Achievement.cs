@@ -80,6 +80,7 @@ namespace MaaWpfGui.Models
         [JsonIgnore]
         public bool IsRare => Category == AchievementCategory.Rare;
 
+        [JsonIgnore]
         public string MedalBrushKey
         {
             get
