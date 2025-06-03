@@ -193,9 +193,9 @@
     <system:String x:Key="IS4NewSquad2">Erudite Squad</system:String>
     <system:String x:Key="IS4NewSquad3">Blueprint Squad</system:String>
     <system:String x:Key="IS4NewSquad4">Improvisation Squad</system:String>
-    <system:String x:Key="IS4NewSquad5">Ingots Squad</system:String>
-    <system:String x:Key="IS4NewSquad6">Collection Squad</system:String>
-    <system:String x:Key="IS4NewSquad7">Mimic Squad</system:String>
+    <system:String x:Key="IS4NewSquad5">Mimic Squad</system:String>
+    <system:String x:Key="IS4NewSquad6">Ingots Squad</system:String>
+    <system:String x:Key="IS4NewSquad7">Collection Squad</system:String>
     <system:String x:Key="IS4NewSquad8">专业人士分队 (Wait global)</system:String>
     <system:String x:Key="LeaderSquad">Leader Squad</system:String>
     <system:String x:Key="GatheringSquad">Gathering Squad</system:String>
