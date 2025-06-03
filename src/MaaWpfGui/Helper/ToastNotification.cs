@@ -18,6 +18,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Media;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Interop;
@@ -132,14 +133,16 @@ namespace MaaWpfGui.Helper
 
         private static void OnActionActivated(object sender, string tag)
         {
-            if (tag.StartsWith(_openUrlPrefix))
+            string decodedTag = WebUtility.UrlDecode(tag);
+
+            if (decodedTag.StartsWith(_openUrlPrefix))
             {
-                var url = tag.Substring(_openUrlPrefix.Length);
+                var url = decodedTag[_openUrlPrefix.Length..];
                 Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
             }
             else
             {
-                ActionActivated?.Invoke(sender, tag);
+                ActionActivated?.Invoke(sender, decodedTag);
             }
         }
 
