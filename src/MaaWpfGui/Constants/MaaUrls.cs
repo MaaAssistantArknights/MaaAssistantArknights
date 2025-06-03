@@ -90,6 +90,6 @@ namespace MaaWpfGui.Constants
         public const string MirrorChyanWebsite = $"{MirrorChyanDomain}?source=maawpfgui-settings";
         public const string MirrorChyanAppUpdate = $"{MirrorChyanDomain}/api/resources/MAA/latest";
         public const string MirrorChyanResourceUpdate = $"{MirrorChyanDomain}/api/resources/MaaResource/latest";
-        public const string MirrorChyanManualUpdate = $"{MirrorChyanDomain}/zh/projects?source=maawpfgui-manualupdate";
+        public const string MirrorChyanManualUpdate = $"{MirrorChyanDomain}/zh/projects?rid=MAA&source=maawpfgui-manualupdate";
     }
 }
