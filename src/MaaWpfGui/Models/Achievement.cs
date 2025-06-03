@@ -87,7 +87,7 @@ namespace MaaWpfGui.Models
             {
                 if (IsRare)
                 {
-                    return "AchievementBrush.Rare";
+                    return "AchievementBrush.Rare.LinearGradientBrush";
                 }
 
                 if (!IsUnlocked)
@@ -105,41 +105,16 @@ namespace MaaWpfGui.Models
         }
 
         [JsonIgnore]
-        public SolidColorBrush MedalBrush
+        public Brush MedalBrush
         {
             get
             {
-                if (Application.Current.Resources[MedalBrushKey] is SolidColorBrush brush)
+                if (Application.Current.Resources[MedalBrushKey] is Brush brush)
                 {
                     return brush;
                 }
 
-                return new(Colors.Transparent);
-            }
-        }
-
-        [JsonIgnore]
-        public LinearGradientBrush RareBrush
-        {
-            get
-            {
-                var linearGradientBrush = new LinearGradientBrush { StartPoint = new(0, 0), EndPoint = new(1, 1) };
-                var categories = Enum.GetValues<AchievementCategory>().ToArray();
-                int count = categories.Length;
-
-                for (int i = 0; i < count; i++)
-                {
-                    var category = categories[i];
-                    if (Application.Current.Resources[$"AchievementBrush.{category}"] is not SolidColorBrush brush)
-                    {
-                        continue;
-                    }
-
-                    double offset = (double)i / (count - 1);
-                    linearGradientBrush.GradientStops.Add(new(brush.Color, offset));
-                }
-
-                return linearGradientBrush;
+                return new SolidColorBrush(Colors.Transparent);
             }
         }
     }

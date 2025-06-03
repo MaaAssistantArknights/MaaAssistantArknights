@@ -59,6 +59,15 @@
     <SolidColorBrush x:Key="AchievementBrush.BugRelated" Color="#EF9A9A" />
     <SolidColorBrush x:Key="AchievementBrush.EasterEgg" Color="#FFF176" />
     <SolidColorBrush x:Key="AchievementBrush.Rare" Color="#F48FB1" />
+    <LinearGradientBrush x:Key="AchievementBrush.Rare.LinearGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Offset="0.0" Color="#90CAF9" />
+        <GradientStop Offset="0.17" Color="#A5D6A7" />
+        <GradientStop Offset="0.33" Color="#FFCC80" />
+        <GradientStop Offset="0.5" Color="#CE93D8" />
+        <GradientStop Offset="0.67" Color="#EF9A9A" />
+        <GradientStop Offset="0.83" Color="#FFF176" />
+        <GradientStop Offset="1" Color="#F48FB1" />
+    </LinearGradientBrush>
 
     <!--  MdXaml Brush  -->
     <SolidColorBrush x:Key="MdXamlBackground" Color="#2d2d30" />
