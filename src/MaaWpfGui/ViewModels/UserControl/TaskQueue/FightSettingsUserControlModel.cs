@@ -540,7 +540,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     /// <summary>
     /// Gets the list of all drops.
     /// </summary>
-    private List<CombinedData> AllDrops { get; } = new();
+    private List<CombinedData> AllDrops { get; } = [];
 
     /// <summary>
     /// 关卡不可掉落的材料
@@ -583,7 +583,7 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
 
         AllDrops.Sort((a, b) => string.Compare(a.Value, b.Value, StringComparison.Ordinal));
-        DropsList = new ObservableCollection<CombinedData>(AllDrops);
+        DropsList = [.. AllDrops];
     }
 
     /// <summary>

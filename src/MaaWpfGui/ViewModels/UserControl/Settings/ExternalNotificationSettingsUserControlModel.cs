@@ -197,6 +197,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     }
 
     private bool _customWebhookEnabled = false;
+
     public bool CustomWebhookEnabled
     {
         get => _customWebhookEnabled;
