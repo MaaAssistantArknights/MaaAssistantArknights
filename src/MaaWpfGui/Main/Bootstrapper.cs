@@ -300,6 +300,11 @@ namespace MaaWpfGui.Main
         /// <inheritdoc/>
         protected override void DisplayRootView(object rootViewModel)
         {
+            if (Application.Current.IsShuttingDown())
+            {
+                return;
+            }
+
             Instances.WindowManager.ShowWindow(rootViewModel);
             Instances.InstantiateOnRootViewDisplayed(Container);
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.FirstLaunch);
@@ -320,6 +325,12 @@ namespace MaaWpfGui.Main
             else if (!Instances.VersionUpdateViewModel.IsStdVersion()) // 内测版要传入 SemVersion 判断，这里就取反判断了
             {
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.PioneerSuperTest);
+            }
+
+            // 0.066% 概率触发
+            if (new Random().NextDouble() < 0.00066)
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.Lucky);
             }
         }
 

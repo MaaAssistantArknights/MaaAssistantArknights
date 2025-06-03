@@ -99,6 +99,7 @@ namespace MaaWpfGui.Constants
 
         public const string Rules = "Rules";
         public const string VersionClick = "VersionClick";
+        public const string Lucky = "Lucky";
 
         #endregion
     }

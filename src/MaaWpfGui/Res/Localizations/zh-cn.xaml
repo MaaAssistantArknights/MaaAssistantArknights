@@ -1248,5 +1248,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.SnapshotChallenge10.Description">截图速度击败了 99% 的 MAA 用户。</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge10.Conditions">平均截图用时小于 10ms</system:String>
 
+    <system:String x:Key="Achievement.Lucky.Title">Lucky</system:String>
+    <system:String x:Key="Achievement.Lucky.Description">据说能看到这条成就的人都三连金了。</system:String>
+    <system:String x:Key="Achievement.Lucky.Conditions">启动 MAA 时有极！小！概率触发</system:String>
+
+
     <!--  !Achievement  -->
 </ResourceDictionary>

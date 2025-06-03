@@ -318,7 +318,8 @@ namespace MaaWpfGui.Helper
 
             #region 彩蛋类
             new() { Id = AchievementIds.Rules, IsHidden = true }, // 我会一直注视着你
-            new() { Id = AchievementIds.VersionClick, IsHidden = true } // 这也能点？
+            new() { Id = AchievementIds.VersionClick, IsHidden = true }, // 这也能点？
+            new() { Id = AchievementIds.Lucky, IsHidden = true }, // 启动 MAA 时有极小概率触发
             #endregion
         ];
 
