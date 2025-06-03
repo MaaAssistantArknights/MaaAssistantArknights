@@ -19,6 +19,8 @@ body:
           required: true
         - label: 我未开启高帧率，且模拟器帧数设置为 60
           required: false
+        - label: 我已在未仔细阅读这些内容的情况下勾选所有选项，并相信这不会影响问题的处理
+          required: false
   - type: textarea
     id: describe
     attributes:
