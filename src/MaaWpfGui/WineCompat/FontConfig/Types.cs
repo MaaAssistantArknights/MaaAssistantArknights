@@ -2,7 +2,7 @@
 // MaaWpfGui - A part of the MAA project
 // Copyright (C) 2021 MistEO and Contributors
 // </copyright>
-#pragma warning disable CS0649
+#pragma warning disable CS0649, SA1307, SA1602, SA1649
 using System;
 using System.Runtime.InteropServices;
 
@@ -14,7 +14,7 @@ internal enum FcResult
     NoMatch,
     TypeMismatch,
     NoId,
-    OutOfMemory
+    OutOfMemory,
 }
 
 internal enum FcMatchKind
@@ -23,7 +23,7 @@ internal enum FcMatchKind
     Font,
     Scan,
     FcMatchKindEnd,
-    FcMatchKindBegin = Pattern
+    FcMatchKindBegin = Pattern,
 }
 
 internal unsafe struct FcFontSet
@@ -33,13 +33,21 @@ internal unsafe struct FcFontSet
     public FcPattern** fonts;
 }
 
-internal struct FcConfig { }
-internal struct FcPattern { }
-internal struct FcCharSet { }
+internal struct FcConfig
+{
+}
+
+internal struct FcPattern
+{
+}
+
+internal struct FcCharSet
+{
+}
 
 internal enum FcBool
 {
     False,
     True,
-    DontCare
+    DontCare,
 }

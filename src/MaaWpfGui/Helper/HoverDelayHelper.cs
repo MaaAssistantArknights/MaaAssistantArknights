@@ -16,7 +16,6 @@ using System.Windows;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 
-
 namespace MaaWpfGui.Helper
 {
     public static class HoverDelayHelper
