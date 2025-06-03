@@ -94,9 +94,10 @@ std::optional<cv::Mat> MumuExtras::screencap()
 bool MumuExtras::load_mumu_library()
 {
     auto lib_path = mumu_path_ / "shell/sdk/external_renderer_ipc";
+    auto new_lib_path = mumu_path_ / "nx_device/12.0/shell/sdk/external_renderer_ipc"; // MuMu 5.0+
 
-    if (!load_library(lib_path)) {
-        LogError << "Failed to load library" << VAR(lib_path);
+    if (!load_library(lib_path) && !load_library(new_lib_path)) {
+        LogError << "Failed to load library" << VAR(lib_path) << "or" << VAR(new_lib_path);
         return false;
     }
 
