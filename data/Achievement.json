@@ -1,147 +1,162 @@
 {
   "FirstLaunch": {
-    "Id": "FirstLaunch"
+    "Id": "FirstLaunch",
+    "CustomData": {}
   },
-  "MapOutdated": {
-    "Id": "MapOutdated"
+  "Irreplaceable": {
+    "Id": "Irreplaceable",
+    "CustomData": {}
   },
   "MosquitoLeg": {
     "Id": "MosquitoLeg",
-    "Target": 5
+    "CustomData": {}
   },
   "PioneerTest": {
-    "Id": "PioneerTest"
+    "Id": "PioneerTest",
+    "CustomData": {}
   },
   "ProblemFeedback": {
-    "Id": "ProblemFeedback"
+    "Id": "ProblemFeedback",
+    "CustomData": {}
   },
   "RecruitNoSixStar": {
     "Id": "RecruitNoSixStar",
-    "Target": 100
+    "CustomData": {}
   },
   "SanityExpire": {
     "Id": "SanityExpire",
-    "Target": 8
+    "CustomData": {}
   },
   "SanitySaver1": {
     "Id": "SanitySaver1",
-    "Target": 1
+    "CustomData": {}
   },
   "SanitySaver2": {
     "Id": "SanitySaver2",
-    "Target": 10
+    "CustomData": {}
   },
   "SanitySaver3": {
     "Id": "SanitySaver3",
-    "Target": 50
+    "CustomData": {}
   },
   "SanitySpender1": {
     "Id": "SanitySpender1",
-    "Target": 10
+    "CustomData": {}
   },
   "SanitySpender2": {
     "Id": "SanitySpender2",
-    "Target": 100
+    "CustomData": {}
   },
   "SanitySpender3": {
     "Id": "SanitySpender3",
-    "Target": 1000
+    "CustomData": {}
   },
   "ScheduleMaster1": {
     "Id": "ScheduleMaster1",
-    "Target": 1
+    "CustomData": {}
   },
   "ScheduleMaster2": {
     "Id": "ScheduleMaster2",
-    "Target": 100
+    "CustomData": {}
   },
-  "TestPioneer": {
-    "Id": "TestPioneer"
+  "SnapshotChallenge10": {
+    "Id": "SnapshotChallenge10",
+    "CustomData": {}
+  },
+  "SnapshotChallenge100": {
+    "Id": "SnapshotChallenge100",
+    "CustomData": {}
+  },
+  "SnapshotChallenge400": {
+    "Id": "SnapshotChallenge400",
+    "CustomData": {}
+  },
+  "SnapshotChallenge800": {
+    "Id": "SnapshotChallenge800",
+    "CustomData": {}
+  },
+  "SnapshotChallenge999": {
+    "Id": "SnapshotChallenge999",
+    "CustomData": {}
   },
   "UseCopilot1": {
     "Id": "UseCopilot1",
-    "Target": 1
+    "CustomData": {}
   },
   "UseCopilot2": {
     "Id": "UseCopilot2",
-    "Target": 10
+    "CustomData": {}
   },
   "UseCopilot3": {
     "Id": "UseCopilot3",
-    "Target": 100
+    "CustomData": {}
   },
   "CongratulationError": {
     "Id": "CongratulationError",
-    "IsHidden": true
+    "CustomData": {}
   },
   "CustomizationMaster": {
     "Id": "CustomizationMaster",
-    "IsHidden": true
+    "CustomData": {}
   },
-  "DebugPioneer": {
-    "Id": "DebugPioneer",
-    "IsHidden": true
+  "MapOutdated": {
+    "Id": "MapOutdated",
+    "CustomData": {}
   },
   "Martian": {
     "Id": "Martian",
-    "IsHidden": true
+    "CustomData": {}
   },
   "MirrorChyanCdkError": {
     "Id": "MirrorChyanCdkError",
-    "IsHidden": true
+    "CustomData": {}
   },
   "MirrorChyanFirstUse": {
     "Id": "MirrorChyanFirstUse",
-    "IsHidden": true
+    "CustomData": {}
   },
   "OverLimitAgent": {
     "Id": "OverLimitAgent",
-    "IsHidden": true,
-    "Target": 100
+    "CustomData": {}
   },
   "PeekScreen": {
     "Id": "PeekScreen",
-    "IsHidden": true
+    "CustomData": {}
   },
   "PioneerDebug": {
     "Id": "PioneerDebug",
-    "IsHidden": true
+    "CustomData": {}
   },
   "PioneerSuperTest": {
     "Id": "PioneerSuperTest",
-    "IsHidden": true
+    "CustomData": {}
   },
   "QuickCloser": {
     "Id": "QuickCloser",
-    "IsHidden": true
+    "CustomData": {}
   },
   "RealGacha": {
     "Id": "RealGacha",
-    "IsHidden": true
+    "CustomData": {}
   },
   "RecruitNoSixStarStreak": {
     "Id": "RecruitNoSixStarStreak",
-    "IsHidden": true,
-    "Target": 100
+    "CustomData": {}
   },
   "Rules": {
     "Id": "Rules",
-    "IsHidden": true
-  },
-  "SuperTestPioneer": {
-    "Id": "SuperTestPioneer",
-    "IsHidden": true
+    "CustomData": {}
   },
   "TacticalRetreat": {
     "Id": "TacticalRetreat",
-    "IsHidden": true
+    "CustomData": {}
   },
   "UnexpectedCrash": {
     "Id": "UnexpectedCrash",
-    "IsHidden": true
+    "CustomData": {}
   },
   "VersionClick": {
     "Id": "VersionClick",
-    "IsHidden": true
+    "CustomData": {}
   }
 }

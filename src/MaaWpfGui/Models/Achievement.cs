@@ -14,10 +14,12 @@
 #nullable enable
 
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.Models
 {
@@ -25,6 +27,26 @@ namespace MaaWpfGui.Models
     {
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Id { get; set; } = string.Empty;
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool IsUnlocked { get; set; } = false;
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public DateTime? UnlockedTime { get; set; } = null;
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int Progress { get; set; } = 0; // 用于累计型成就
+
+        // 用法示例
+        // 记录上次打开时间
+        // achievement.CustomData["LastLaunchTime"] = DateTime.UtcNow;
+        // 读取时
+        // if (achievement.CustomData.TryGetValue("LastLaunchTime", out var token))
+        // {
+        //     var lastTime = token.ToObject<DateTime>();
+        // }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public Dictionary<string, JToken>? CustomData { get; set; } = null;
 
         [JsonIgnore]
         public string Title => IsUnlocked ? LocalizationHelper.GetString($"Achievement.{Id}.Title") : "???";
@@ -35,16 +57,10 @@ namespace MaaWpfGui.Models
         [JsonIgnore]
         public string Conditions => CanShow ? LocalizationHelper.GetString($"Achievement.{Id}.Conditions") : "???";
 
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool IsUnlocked { get; set; } = false;
-
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public DateTime? UnlockedTime { get; set; } = null;
-
         [JsonIgnore]
         public DateTime? UnlockedTimeLocal => UnlockedTime?.ToLocalTime();
 
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonIgnore]
         public bool IsHidden { get; set; } = false;
 
         [JsonIgnore]
@@ -53,11 +69,8 @@ namespace MaaWpfGui.Models
         [JsonIgnore]
         public bool IsProgressive => Target != null;
 
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonIgnore]
         public int? Target { get; set; } = null; // 可选目标值
-
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int Progress { get; set; } = 0; // 用于累计型成就
 
         [JsonIgnore]
         public SolidColorBrush MedalBrush
