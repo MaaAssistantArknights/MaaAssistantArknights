@@ -1,162 +1,206 @@
 {
   "FirstLaunch": {
     "Id": "FirstLaunch",
-    "CustomData": {}
-  },
-  "Irreplaceable": {
-    "Id": "Irreplaceable",
-    "CustomData": {}
-  },
-  "MosquitoLeg": {
-    "Id": "MosquitoLeg",
-    "CustomData": {}
-  },
-  "PioneerTest": {
-    "Id": "PioneerTest",
-    "CustomData": {}
-  },
-  "ProblemFeedback": {
-    "Id": "ProblemFeedback",
-    "CustomData": {}
-  },
-  "RecruitNoSixStar": {
-    "Id": "RecruitNoSixStar",
-    "CustomData": {}
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
   "SanityExpire": {
     "Id": "SanityExpire",
-    "CustomData": {}
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
   "SanitySaver1": {
     "Id": "SanitySaver1",
-    "CustomData": {}
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
   "SanitySaver2": {
     "Id": "SanitySaver2",
-    "CustomData": {}
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
   "SanitySaver3": {
     "Id": "SanitySaver3",
-    "CustomData": {}
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
   "SanitySpender1": {
     "Id": "SanitySpender1",
-    "CustomData": {}
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
   "SanitySpender2": {
     "Id": "SanitySpender2",
-    "CustomData": {}
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
   "SanitySpender3": {
     "Id": "SanitySpender3",
-    "CustomData": {}
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
+  },
+  "MosquitoLeg": {
+    "Id": "MosquitoLeg",
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
+  },
+  "PioneerTest": {
+    "Id": "PioneerTest",
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
   "ScheduleMaster1": {
     "Id": "ScheduleMaster1",
-    "CustomData": {}
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
   "ScheduleMaster2": {
     "Id": "ScheduleMaster2",
-    "CustomData": {}
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
-  "SnapshotChallenge10": {
-    "Id": "SnapshotChallenge10",
-    "CustomData": {}
-  },
-  "SnapshotChallenge100": {
-    "Id": "SnapshotChallenge100",
-    "CustomData": {}
-  },
-  "SnapshotChallenge400": {
-    "Id": "SnapshotChallenge400",
-    "CustomData": {}
-  },
-  "SnapshotChallenge800": {
-    "Id": "SnapshotChallenge800",
-    "CustomData": {}
-  },
-  "SnapshotChallenge999": {
-    "Id": "SnapshotChallenge999",
-    "CustomData": {}
+  "Irreplaceable": {
+    "Id": "Irreplaceable",
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
   "UseCopilot1": {
     "Id": "UseCopilot1",
-    "CustomData": {}
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
   "UseCopilot2": {
     "Id": "UseCopilot2",
-    "CustomData": {}
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
   "UseCopilot3": {
     "Id": "UseCopilot3",
-    "CustomData": {}
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
-  "CongratulationError": {
-    "Id": "CongratulationError",
-    "CustomData": {}
+  "RecruitNoSixStar": {
+    "Id": "RecruitNoSixStar",
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
-  "CustomizationMaster": {
-    "Id": "CustomizationMaster",
-    "CustomData": {}
+  "SnapshotChallenge10": {
+    "Id": "SnapshotChallenge10",
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
-  "MapOutdated": {
-    "Id": "MapOutdated",
-    "CustomData": {}
+  "SnapshotChallenge100": {
+    "Id": "SnapshotChallenge100",
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
-  "Martian": {
-    "Id": "Martian",
-    "CustomData": {}
+  "SnapshotChallenge400": {
+    "Id": "SnapshotChallenge400",
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
-  "MirrorChyanCdkError": {
-    "Id": "MirrorChyanCdkError",
-    "CustomData": {}
-  },
-  "MirrorChyanFirstUse": {
-    "Id": "MirrorChyanFirstUse",
-    "CustomData": {}
+  "ProblemFeedback": {
+    "Id": "ProblemFeedback",
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
   "OverLimitAgent": {
     "Id": "OverLimitAgent",
-    "CustomData": {}
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
-  "PeekScreen": {
-    "Id": "PeekScreen",
-    "CustomData": {}
+  "MirrorChyanCdkError": {
+    "Id": "MirrorChyanCdkError",
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
+  },
+  "MirrorChyanFirstUse": {
+    "Id": "MirrorChyanFirstUse",
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
   "PioneerDebug": {
     "Id": "PioneerDebug",
-    "CustomData": {}
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
   "PioneerSuperTest": {
     "Id": "PioneerSuperTest",
-    "CustomData": {}
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
+  },
+  "MapOutdated": {
+    "Id": "MapOutdated",
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
+  },
+  "CustomizationMaster": {
+    "Id": "CustomizationMaster",
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
+  },
+  "Martian": {
+    "Id": "Martian",
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
+  },
+  "PeekScreen": {
+    "Id": "PeekScreen",
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
   "QuickCloser": {
     "Id": "QuickCloser",
-    "CustomData": {}
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
   "RealGacha": {
     "Id": "RealGacha",
-    "CustomData": {}
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
   "RecruitNoSixStarStreak": {
     "Id": "RecruitNoSixStarStreak",
-    "CustomData": {}
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
-  "Rules": {
-    "Id": "Rules",
-    "CustomData": {}
+  "SnapshotChallenge800": {
+    "Id": "SnapshotChallenge800",
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
+  },
+  "SnapshotChallenge999": {
+    "Id": "SnapshotChallenge999",
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
   "TacticalRetreat": {
     "Id": "TacticalRetreat",
-    "CustomData": {}
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
+  },
+  "CongratulationError": {
+    "Id": "CongratulationError",
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
   "UnexpectedCrash": {
     "Id": "UnexpectedCrash",
-    "CustomData": {}
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
+  },
+  "Rules": {
+    "Id": "Rules",
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
   },
   "VersionClick": {
     "Id": "VersionClick",
-    "CustomData": {}
+    "CustomData": {},
+    "MedalColor": "#FF6B4C2B"
+  },
+  "Lucky": {
+    "Id": "Lucky",
+    "MedalColor": "#FF6B4C2B"
   }
 }

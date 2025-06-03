@@ -72,5 +72,43 @@ namespace MaaWpfGui.Constants
             /// </summary>
             Undivided = 1,
         }
+
+        public enum AchievementCategory
+        {
+            /// <summary>
+            /// 基础使用类
+            /// </summary>
+            BasicUsage,
+
+            /// <summary>
+            /// 功能探索类
+            /// </summary>
+            FeatureExploration,
+
+            /// <summary>
+            /// 自动战斗
+            /// </summary>
+            AutoBattle,
+
+            /// <summary>
+            /// 搞笑/梗类成就
+            /// </summary>
+            Humor,
+
+            /// <summary>
+            /// BUG 相关
+            /// </summary>
+            BugRelated,
+
+            /// <summary>
+            /// 彩蛋类
+            /// </summary>
+            EasterEgg,
+
+            /// <summary>
+            /// 超级稀有！
+            /// </summary>
+            Rare,
+        }
     }
 }

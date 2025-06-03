@@ -21,8 +21,8 @@ using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Models;
-using Newtonsoft.Json.Linq;
 using Stylet;
+using static MaaWpfGui.Constants.Enums;
 
 namespace MaaWpfGui.Helper
 {
@@ -82,6 +82,7 @@ namespace MaaWpfGui.Helper
             Achievements = _achievements
                 .OrderByDescending(kv => kv.Value.IsUnlocked) // 已解锁优先
                 .ThenBy(kv => kv.Value.IsHidden) // 隐藏排后面
+                .ThenBy(kv => kv.Value.Category) // 按类别分组
                 .ThenBy(kv => kv.Value.Id) // 最后按 Id
                 .ToDictionary(kv => kv.Key, kv => kv.Value);
 
@@ -135,7 +136,7 @@ namespace MaaWpfGui.Helper
                 Message = $"{LocalizationHelper.GetString("AchievementCelebrate")}: {achievement.Title}\n{achievement.Description}",
                 StaysOpen = staysOpen,
                 IconKey = "HangoverGeometry",
-                IconBrushKey = achievement.IsHidden ? "HiddenMedalBrush" : "NormalMedalBrush",
+                IconBrushKey = $"AchievementBrush.{achievement.Category}",
             };
             ShowInfo(growlInfo);
         }
@@ -253,73 +254,99 @@ namespace MaaWpfGui.Helper
 
         public Achievement? Get(string id) => _achievements.GetValueOrDefault(id);
 
+        #region 工厂函数
+
+        private static Achievement BasicUsage(string id, int? target = null, bool isHidden = false)
+           => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.BasicUsage };
+
+        private static Achievement FeatureExploration(string id, int? target = null, bool isHidden = false)
+            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.FeatureExploration };
+
+        private static Achievement AutoBattle(string id, int? target = null, bool isHidden = false)
+            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.AutoBattle };
+
+        private static Achievement Humor(string id, int? target = null, bool isHidden = false)
+            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.Humor };
+
+        private static Achievement BugRelated(string id, int? target = null, bool isHidden = false)
+            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.BugRelated };
+
+        private static Achievement EasterEgg(string id, int? target = null, bool isHidden = false)
+            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.EasterEgg };
+
+        private static Achievement Rare(string id, int? target = null, bool isHidden = false)
+            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.Rare };
+
+        #endregion
+
         private readonly Achievement[] _allAchievements =
         [
 
             #region 基础使用类
-            new() { Id = AchievementIds.SanitySpender1, Target = 10 }, // 刷理智次数
-            new() { Id = AchievementIds.SanitySpender2, Target = 100 },
-            new() { Id = AchievementIds.SanitySpender3, Target = 1000 },
+            BasicUsage(id: AchievementIds.SanitySpender1, target: 10), // 刷理智次数
+            BasicUsage(id: AchievementIds.SanitySpender2, target: 100),
+            BasicUsage(id: AchievementIds.SanitySpender3, target: 1000),
 
-            new() { Id = AchievementIds.SanitySaver1, Target = 1 }, // 刷理智次数
-            new() { Id = AchievementIds.SanitySaver2, Target = 10 },
-            new() { Id = AchievementIds.SanitySaver3, Target = 50 },
+            BasicUsage(id: AchievementIds.SanitySaver1, target: 1), // 刷理智次数
+            BasicUsage(id: AchievementIds.SanitySaver2, target: 10),
+            BasicUsage(id: AchievementIds.SanitySaver3, target: 50),
 
-            new() { Id = AchievementIds.FirstLaunch }, // 首次启动
-            new() { Id = AchievementIds.SanityExpire, Target = 8 }, // 单次消耗 8 瓶快过期的理智药
-            new() { Id = AchievementIds.OverLimitAgent, Target = 100, IsHidden = true }, // 单次代理 100 关
+            BasicUsage(id: AchievementIds.FirstLaunch), // 首次启动
+            BasicUsage(id: AchievementIds.SanityExpire, target: 8), // 单次消耗 8 瓶快过期的理智药
+            BasicUsage(id: AchievementIds.OverLimitAgent, target: 100, isHidden: true), // 单次代理 100 关
             #endregion
 
             #region 功能探索类
-            new() { Id = AchievementIds.ScheduleMaster1, Target = 1 }, // 定时执行
-            new() { Id = AchievementIds.ScheduleMaster2, Target = 100 },
+            FeatureExploration(id: AchievementIds.ScheduleMaster1, target: 1), // 定时执行
+            FeatureExploration(id: AchievementIds.ScheduleMaster2, target: 100),
 
-            new() { Id = AchievementIds.MirrorChyanFirstUse, IsHidden = true }, // 第一次成功使用 MirrorChyan 下载
-            new() { Id = AchievementIds.MirrorChyanCdkError, IsHidden = true }, // MirrorChyan CDK 错误
+            FeatureExploration(id: AchievementIds.MirrorChyanFirstUse, isHidden: true), // 第一次成功使用 MirrorChyan 下载
+            FeatureExploration(id: AchievementIds.MirrorChyanCdkError, isHidden: true), // MirrorChyan CDK 错误
 
-            new() { Id = AchievementIds.PioneerTest }, // 将 MAA 更新至公测版
-            new() { Id = AchievementIds.PioneerSuperTest, IsHidden = true }, // 将 MAA 更新至内测版（隐藏）
-            new() { Id = AchievementIds.PioneerDebug, IsHidden = true }, // 使用未发布版本的 MAA（隐藏）
+            FeatureExploration(id: AchievementIds.PioneerTest), // 将 MAA 更新至公测版
+            FeatureExploration(id: AchievementIds.PioneerSuperTest, isHidden: true), // 将 MAA 更新至内测版（隐藏）
+            FeatureExploration(id: AchievementIds.PioneerDebug, isHidden: true), // 使用未发布版本的 MAA（隐藏）
 
-            new() { Id = AchievementIds.MosquitoLeg, Target = 5 }, // 使用「借助战打 OF-1」功能超过5次
+            FeatureExploration(id: AchievementIds.MosquitoLeg, target: 5), // 使用「借助战打 OF-1」功能超过5次
             #endregion
 
             #region 自动战斗
-            new() { Id = AchievementIds.UseCopilot1, Target = 1 }, // 自动战斗
-            new() { Id = AchievementIds.UseCopilot2, Target = 10 },
-            new() { Id = AchievementIds.UseCopilot3, Target = 100 },
+            AutoBattle(id: AchievementIds.UseCopilot1, target: 1), // 自动战斗
+            AutoBattle(id: AchievementIds.UseCopilot2, target: 10),
+            AutoBattle(id: AchievementIds.UseCopilot3, target: 100),
 
-            new() { Id = AchievementIds.MapOutdated, IsHidden = true }, // 提示需要更新地图资源
-            new() { Id = AchievementIds.Irreplaceable }, // 自动编队缺少至少两名干员
+            AutoBattle(id: AchievementIds.MapOutdated, isHidden: true), // 提示需要更新地图资源
+            AutoBattle(id: AchievementIds.Irreplaceable), // 自动编队缺少至少两名干员
             #endregion
 
             #region 搞笑/梗类成就
-            new() { Id = AchievementIds.SnapshotChallenge999, IsHidden = true }, // 平均截图用时超过 800ms（高 ping 战士）
-            new() { Id = AchievementIds.SnapshotChallenge800, IsHidden = true }, // 平均截图用时在 400ms 到 800ms 之间（是不是有点太慢了）
-            new() { Id = AchievementIds.SnapshotChallenge400 }, // 平均截图用时小于 400ms（截图挑战 · Normal）
-            new() { Id = AchievementIds.SnapshotChallenge100 }, // 平均截图用时小于 100ms（截图挑战 · Fast）
-            new() { Id = AchievementIds.SnapshotChallenge10 }, // 平均截图用时小于 10ms（截图挑战 · Ultra）
+            Humor(id: AchievementIds.SnapshotChallenge999, isHidden: true), // 平均截图用时超过 800ms（高 ping 战士）
+            Humor(id: AchievementIds.SnapshotChallenge800, isHidden: true), // 平均截图用时在 400ms 到 800ms 之间（是不是有点太慢了）
+            Humor(id: AchievementIds.SnapshotChallenge400), // 平均截图用时小于 400ms（截图挑战 · Normal）
+            Humor(id: AchievementIds.SnapshotChallenge100), // 平均截图用时小于 100ms（截图挑战 · Fast）
+            Humor(id: AchievementIds.SnapshotChallenge10), // 平均截图用时小于 10ms（截图挑战 · Ultra）
 
-            new() { Id = AchievementIds.QuickCloser, IsHidden = true }, // 快速关闭弹窗
-            new() { Id = AchievementIds.TacticalRetreat, IsHidden = true }, // 停止任务
-            new() { Id = AchievementIds.RealGacha, IsHidden = true }, // 真正的抽卡
-            new() { Id = AchievementIds.PeekScreen, IsHidden = true }, // 窥屏
-            new() { Id = AchievementIds.CustomizationMaster, IsHidden = true }, // 自定义背景
-            new() { Id = AchievementIds.Martian, IsHidden = true }, // 90 天没更新
-            new() { Id = AchievementIds.RecruitNoSixStar, Target = 100 }, // 公招中累计 100 次没出现六星tag
-            new() { Id = AchievementIds.RecruitNoSixStarStreak, Target = 100, IsHidden = true }, // 公招中连续 100 次没出现六星tag
+            Humor(id: AchievementIds.QuickCloser, isHidden: true), // 快速关闭弹窗
+            Humor(id: AchievementIds.TacticalRetreat, isHidden: true), // 停止任务
+            Humor(id: AchievementIds.RealGacha, isHidden: true), // 真正的抽卡
+            Humor(id: AchievementIds.PeekScreen, isHidden: true), // 窥屏
+            Humor(id: AchievementIds.CustomizationMaster, isHidden: true), // 自定义背景
+            Humor(id: AchievementIds.Martian, isHidden: true), // 90 天没更新
+            Humor(id: AchievementIds.RecruitNoSixStar, target: 100), // 公招中累计 100 次没出现六星tag
+            Humor(id: AchievementIds.RecruitNoSixStarStreak, target: 100, isHidden: true), // 公招中连续 100 次没出现六星tag
             #endregion
 
             #region BUG 相关
-            new() { Id = AchievementIds.CongratulationError, IsHidden = true }, // 喜报
-            new() { Id = AchievementIds.UnexpectedCrash, IsHidden = true }, // 不速之客
-            new() { Id = AchievementIds.ProblemFeedback }, // 问题反馈
+            BugRelated(id: AchievementIds.CongratulationError, isHidden: true), // 喜报
+            BugRelated(id: AchievementIds.UnexpectedCrash, isHidden: true), // 不速之客
+            BugRelated(id: AchievementIds.ProblemFeedback), // 问题反馈
             #endregion
 
             #region 彩蛋类
-            new() { Id = AchievementIds.Rules, IsHidden = true }, // 我会一直注视着你
-            new() { Id = AchievementIds.VersionClick, IsHidden = true }, // 这也能点？
-            new() { Id = AchievementIds.Lucky, IsHidden = true }, // 启动 MAA 时有极小概率触发
+            EasterEgg(id: AchievementIds.Rules, isHidden: true), // 我会一直注视着你
+            EasterEgg(id: AchievementIds.VersionClick, isHidden: true), // 这也能点？
+
+            Rare(id: AchievementIds.Lucky, isHidden: true), // 启动 MAA 时有极小概率触发
             #endregion
         ];
 

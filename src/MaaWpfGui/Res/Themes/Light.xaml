@@ -31,6 +31,13 @@
     <SolidColorBrush x:Key="HiddenMedalBrush" Color="#D4AF37" />
     <!--  未解锁  -->
     <SolidColorBrush x:Key="LockedMedalBrush" Color="#6B4C2B" />
+    <SolidColorBrush x:Key="AchievementBrush.BasicUsage" Color="#42A5F5" />
+    <SolidColorBrush x:Key="AchievementBrush.FeatureExploration" Color="#66BB6A" />
+    <SolidColorBrush x:Key="AchievementBrush.AutoBattle" Color="#FFA726" />
+    <SolidColorBrush x:Key="AchievementBrush.Humor" Color="#AB47BC" />
+    <SolidColorBrush x:Key="AchievementBrush.BugRelated" Color="#EF5350" />
+    <SolidColorBrush x:Key="AchievementBrush.EasterEgg" Color="#FFEB3B" />
+    <SolidColorBrush x:Key="AchievementBrush.Rare" Color="#EC407A" />
 
     <!--  MdXaml Brush  -->
     <SolidColorBrush x:Key="MdXamlBackground" Color="#ffffff" />

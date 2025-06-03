@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -73,13 +74,33 @@ namespace MaaWpfGui.Models
         public int? Target { get; set; } = null; // 可选目标值
 
         [JsonIgnore]
+        public Enums.AchievementCategory Category { get; set; } // 分组
+
+        [JsonIgnore]
+        public bool IsRare => Category == Enums.AchievementCategory.Rare;
+
+        [JsonIgnore]
         public SolidColorBrush MedalBrush
         {
             get
             {
-                var key = !IsUnlocked ? "LockedMedalBrush"
-                    : IsHidden ? "HiddenMedalBrush"
-                    : "NormalMedalBrush";
+                string key;
+                if (IsRare)
+                {
+                    key = "AchievementBrush.Rare";
+                }
+                else if (!IsUnlocked)
+                {
+                    key = "LockedMedalBrush";
+                }
+                else if (IsHidden)
+                {
+                    key = "HiddenMedalBrush";
+                }
+                else
+                {
+                    key = $"AchievementBrush.{Category}";
+                }
 
                 if (Application.Current.Resources[key] is SolidColorBrush brush)
                 {
