@@ -1224,5 +1224,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.PioneerDebug.Description">能下到这个版本的都不是一般人。</system:String>
     <system:String x:Key="Achievement.PioneerDebug.Conditions">使用未发布版本的 MAA</system:String>
 
+    <system:String x:Key="Achievement.Irreplaceable.Title">无可替代</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Description">或许我应该换一份作业？</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Conditions">使用 ｢自动战斗 - 自动编队｣ 时，缺少至少两名干员</system:String>
+
     <!--  !Achievement  -->
 </ResourceDictionary>

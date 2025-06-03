@@ -264,9 +264,12 @@ namespace MaaWpfGui.Helper
 
                 // 自动战斗
                 new Achievement { Id = AchievementIds.MapOutdated, IsHidden = true }, // 提示需要更新地图资源
+
                 new Achievement { Id = AchievementIds.UseCopilot1, Target = 1 }, // 自动战斗
                 new Achievement { Id = AchievementIds.UseCopilot2, Target = 10 },
                 new Achievement { Id = AchievementIds.UseCopilot3, Target = 100 },
+
+                new Achievement { Id = AchievementIds.Irreplaceable }, // 自动编队缺少至少两名干员
 
                 // 搞笑/梗类成就
                 new Achievement { Id = AchievementIds.QuickCloser, IsHidden = true }, // 快速关闭弹窗
