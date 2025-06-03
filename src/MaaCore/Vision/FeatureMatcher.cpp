@@ -190,6 +190,11 @@ asst::FeatureMatcher::ResultsVec asst::FeatureMatcher::feature_postproc(
 
         cv::Rect box = scene_box & make_rect<cv::Rect>(m_roi);
         size_t count = std::ranges::count_if(scene, [&box](const auto& point) { return box.contains(point); });
+        if (count == 0) {
+            LogTrace << "No points in box" << VAR(box) << VAR(scene_box) << VAR(m_roi);
+            break;
+        }
+
         results.emplace_back(Result { .rect = make_rect<asst::Rect>(box), .count = static_cast<int>(count) });
 
         // remove inside points
