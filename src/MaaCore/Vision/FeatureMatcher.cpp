@@ -109,12 +109,10 @@ asst::FeatureMatcher::ResultsVec asst::FeatureMatcher::feature_match(
     std::vector<cv::DMatch> good_matches;
     ResultsVec results = feature_postproc(match_points, keypoints_1, keypoints_2, templ.cols, templ.rows, good_matches);
 
-    /*
-    if (debug_draw_) {
-        auto draw = draw_result(templ, keypoints_1, keypoints_2, good_matches, results);
-        handle_draw(draw);
-    }
-    */
+#ifdef ASST_DEBUG
+    cv::Mat matches_draw;
+    cv::drawMatches(m_image_draw, keypoints_2, templ, keypoints_1, good_matches, matches_draw);
+#endif // ASST_DEBUG
     return results;
 }
 
