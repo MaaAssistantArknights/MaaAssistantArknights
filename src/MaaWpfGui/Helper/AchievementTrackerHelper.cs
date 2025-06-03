@@ -294,8 +294,8 @@ namespace MaaWpfGui.Helper
             #endregion
 
             #region 搞笑/梗类成就
-            new() { Id = AchievementIds.SnapshotChallenge999 }, // 平均截图用时超过 800ms（高 ping 战士）
-            new() { Id = AchievementIds.SnapshotChallenge800 }, // 平均截图用时在 400ms 到 800ms 之间（是不是有点太慢了）
+            new() { Id = AchievementIds.SnapshotChallenge999, IsHidden = true }, // 平均截图用时超过 800ms（高 ping 战士）
+            new() { Id = AchievementIds.SnapshotChallenge800, IsHidden = true }, // 平均截图用时在 400ms 到 800ms 之间（是不是有点太慢了）
             new() { Id = AchievementIds.SnapshotChallenge400 }, // 平均截图用时小于 400ms（截图挑战 · Normal）
             new() { Id = AchievementIds.SnapshotChallenge100 }, // 平均截图用时小于 100ms（截图挑战 · Fast）
             new() { Id = AchievementIds.SnapshotChallenge10 }, // 平均截图用时小于 10ms（截图挑战 · Ultra）
