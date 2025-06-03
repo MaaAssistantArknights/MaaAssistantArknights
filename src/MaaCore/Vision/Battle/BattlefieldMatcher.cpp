@@ -339,28 +339,11 @@ bool BattlefieldMatcher::cost_symbol_analyze() const
 
 BattlefieldMatcher::MatchResult<int> BattlefieldMatcher::costs_analyze() const
 {
-    const auto& task = Task.get("BattleCostData");
-    if (!m_image_prev.empty() && m_image.cols == m_image_prev.cols && m_image.rows == m_image_prev.rows) {
-        cv::Mat cost_image_cache = make_roi(m_image_prev, task->roi);
-        cv::Mat cost_image = make_roi(m_image, task->roi);
-        cv::cvtColor(cost_image_cache, cost_image_cache, cv::COLOR_BGR2GRAY);
-        cv::cvtColor(cost_image, cost_image, cv::COLOR_BGR2GRAY);
-        cv::normalize(cost_image_cache, cost_image_cache, 0, 255, cv::NORM_MINMAX);
-        cv::normalize(cost_image, cost_image, 0, 255, cv::NORM_MINMAX);
-        cv::Mat match;
-        cv::matchTemplate(cost_image, cost_image_cache, match, cv::TM_CCOEFF_NORMED);
-        double mark;
-        cv::minMaxLoc(match, nullptr, &mark);
-        // 正常在 0.997-1 之间波动, 少有0.995
-        // _5->_6 的分数最高, 0.85上下
-        const double threshold = static_cast<double>(task->special_params[0]) / 100;
-        if (mark > threshold) {
-            return { .status = MatchStatus::HitCache };
-        }
+    if (hit_costs_cache()) {
+        return { .status = MatchStatus::HitCache };
     }
-
     RegionOCRer cost_analyzer(m_image);
-    cost_analyzer.set_task_info(task);
+    cost_analyzer.set_task_info("BattleCostData");
     auto cost_opt = cost_analyzer.analyze();
     if (!cost_opt) {
         return {};
@@ -371,6 +354,28 @@ BattlefieldMatcher::MatchResult<int> BattlefieldMatcher::costs_analyze() const
         return { .value = cost, .status = MatchStatus::Success };
     }
     return {};
+}
+
+bool asst::BattlefieldMatcher::hit_costs_cache() const
+{
+    if (m_image_prev.empty() || m_image.cols != m_image_prev.cols || m_image.rows != m_image_prev.rows) {
+        return false;
+    }
+    const auto& task = Task.get("BattleCostData");
+    cv::Mat cost_image_cache = make_roi(m_image_prev, task->roi);
+    cv::Mat cost_image = make_roi(m_image, task->roi);
+    cv::cvtColor(cost_image_cache, cost_image_cache, cv::COLOR_BGR2GRAY);
+    cv::cvtColor(cost_image, cost_image, cv::COLOR_BGR2GRAY);
+    cv::normalize(cost_image_cache, cost_image_cache, 0, 255, cv::NORM_MINMAX);
+    cv::normalize(cost_image, cost_image, 0, 255, cv::NORM_MINMAX);
+    cv::Mat match;
+    cv::matchTemplate(cost_image, cost_image_cache, match, cv::TM_CCOEFF_NORMED);
+    double mark;
+    cv::minMaxLoc(match, nullptr, &mark);
+    // 正常在 0.997-1 之间波动, 少有0.995
+    // _5->_6 的分数最高, 0.85上下
+    const double threshold = static_cast<double>(task->special_params[0]) / 100;
+    return mark > threshold;
 }
 
 bool BattlefieldMatcher::pause_button_analyze() const
