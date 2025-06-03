@@ -48,18 +48,34 @@ asst::FeatureMatcher::ResultsVecOpt asst::FeatureMatcher::analyze() const
     auto [keypoints_1, descriptors_1] = detect(templ, create_mask(templ, m_params.green_mask));
 
     auto results = feature_match(templ, keypoints_1, descriptors_1);
+#ifdef ASST_DEBUG
+    const auto& color = cv::Scalar(0, 0, 255);
+#endif
+    for (const auto& r : results) {
+        if (r.count < m_params.count) {
+            Log.debug("feature_match |", templ_name, "count:", r.count, "rect:", r.rect, "roi:", m_roi);
+        }
+        else {
+            Log.trace("feature_match |", templ_name, "count:", r.count, "rect:", r.rect, "roi:", m_roi);
+        }
+#ifdef ASST_DEBUG
+        cv::putText(
+            m_image_draw,
+            "count: " + std::to_string(r.count),
+            cv::Point(r.rect.x, r.rect.y - 5),
+            cv::FONT_HERSHEY_PLAIN,
+            1.2,
+            color,
+            1);
+        cv::rectangle(m_image_draw, make_rect<cv::Rect>(r.rect), cv::Scalar(0, 0, 255), 2);
+#endif
+    }
     std::erase_if(results, [&](const auto& res) { return res.count < m_params.count; });
     auto cost = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time);
     if (results.empty()) {
         return std::nullopt;
     }
 
-    for (const auto& r : results) {
-        Log.trace("feature_match |", templ_name, "count:", r.count, "rect:", r.rect, "roi:", m_roi);
-#ifdef ASST_DEBUG
-        cv::rectangle(m_image_draw, make_rect<cv::Rect>(r.rect), cv::Scalar(0, 0, 255), 2);
-#endif
-    }
     Log.trace("count:", results.size(), ", cost:", cost.count(), "ms");
     m_result = std::move(results);
     return m_result;
