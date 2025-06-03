@@ -136,7 +136,7 @@ namespace MaaWpfGui.Helper
                 Message = $"{LocalizationHelper.GetString("AchievementCelebrate")}: {achievement.Title}\n{achievement.Description}",
                 StaysOpen = staysOpen,
                 IconKey = "HangoverGeometry",
-                IconBrushKey = $"AchievementBrush.{achievement.Category}",
+                IconBrushKey = achievement.MedalBrushKey,
             };
             ShowInfo(growlInfo);
         }

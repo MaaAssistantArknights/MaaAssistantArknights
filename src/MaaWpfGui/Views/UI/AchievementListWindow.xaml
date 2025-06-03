@@ -21,8 +21,16 @@
                         <Path
                             Width="40"
                             Height="40"
+                            Visibility="{c:Binding !IsRare}"
                             Data="{DynamicResource HangoverGeometry}"
                             Fill="{Binding MedalBrush}"
+                            Stretch="Uniform" />
+                        <Path
+                            Width="40"
+                            Height="40"
+                            Visibility="{c:Binding IsRare}"
+                            Data="{DynamicResource HangoverGeometry}"
+                            Fill="{Binding RareBrush}"
                             Stretch="Uniform" />
                         <VirtualizingStackPanel Margin="8" HorizontalAlignment="Left">
                             <TextBlock

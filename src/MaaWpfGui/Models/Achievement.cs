@@ -15,12 +15,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
-using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using static MaaWpfGui.Constants.Enums;
 
 namespace MaaWpfGui.Models
 {
@@ -74,40 +75,70 @@ namespace MaaWpfGui.Models
         public int? Target { get; set; } = null; // 可选目标值
 
         [JsonIgnore]
-        public Enums.AchievementCategory Category { get; set; } // 分组
+        public AchievementCategory Category { get; set; } // 分组
 
         [JsonIgnore]
-        public bool IsRare => Category == Enums.AchievementCategory.Rare;
+        public bool IsRare => Category == AchievementCategory.Rare;
+
+        public string MedalBrushKey
+        {
+            get
+            {
+                if (IsRare)
+                {
+                    return "AchievementBrush.Rare";
+                }
+
+                if (!IsUnlocked)
+                {
+                    return "LockedMedalBrush";
+                }
+
+                if (IsHidden)
+                {
+                    return "HiddenMedalBrush";
+                }
+
+                return $"AchievementBrush.{Category}";
+            }
+        }
 
         [JsonIgnore]
         public SolidColorBrush MedalBrush
         {
             get
             {
-                string key;
-                if (IsRare)
-                {
-                    key = "AchievementBrush.Rare";
-                }
-                else if (!IsUnlocked)
-                {
-                    key = "LockedMedalBrush";
-                }
-                else if (IsHidden)
-                {
-                    key = "HiddenMedalBrush";
-                }
-                else
-                {
-                    key = $"AchievementBrush.{Category}";
-                }
-
-                if (Application.Current.Resources[key] is SolidColorBrush brush)
+                if (Application.Current.Resources[MedalBrushKey] is SolidColorBrush brush)
                 {
                     return brush;
                 }
 
                 return new(Colors.Transparent);
+            }
+        }
+
+        [JsonIgnore]
+        public LinearGradientBrush RareBrush
+        {
+            get
+            {
+                var linearGradientBrush = new LinearGradientBrush { StartPoint = new(0, 0), EndPoint = new(1, 1) };
+                var categories = Enum.GetValues<AchievementCategory>().ToArray();
+                int count = categories.Length;
+
+                for (int i = 0; i < count; i++)
+                {
+                    var category = categories[i];
+                    if (Application.Current.Resources[$"AchievementBrush.{category}"] is not SolidColorBrush brush)
+                    {
+                        continue;
+                    }
+
+                    double offset = (double)i / (count - 1);
+                    linearGradientBrush.GradientStops.Add(new(brush.Color, offset));
+                }
+
+                return linearGradientBrush;
             }
         }
     }
