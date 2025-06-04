@@ -1493,8 +1493,8 @@ namespace MaaWpfGui.Main
                         }
                         else
                         {
-                            AchievementTrackerHelper.Instance.AddProgress(AchievementIds.RecruitNoSixStar, 1); // 累计
-                            AchievementTrackerHelper.Instance.AddProgress(AchievementIds.RecruitNoSixStarStreak, 1); // 连续
+                            AchievementTrackerHelper.Instance.AddProgress(AchievementIds.RecruitNoSixStar); // 累计
+                            AchievementTrackerHelper.Instance.AddProgress(AchievementIds.RecruitNoSixStarStreak); // 连续
                         }
 
                         /*

@@ -210,7 +210,7 @@ namespace MaaWpfGui.Helper
             Unlock(achievement.Id);
         }
 
-        public void AddProgress(string id, int amount)
+        public void AddProgress(string id, int amount = 1)
         {
             if (!_achievements.TryGetValue(id, out var achievement))
             {
@@ -222,7 +222,7 @@ namespace MaaWpfGui.Helper
             Save();
         }
 
-        public void AddProgressToGroup(string groupPrefix, int amount)
+        public void AddProgressToGroup(string groupPrefix, int amount = 1)
         {
             foreach (var achievement in _achievements.Values.Where(achievement => achievement.Id.StartsWith(groupPrefix)))
             {
@@ -340,6 +340,7 @@ namespace MaaWpfGui.Helper
             BugRelated(id: AchievementIds.CongratulationError, isHidden: true), // 喜报
             BugRelated(id: AchievementIds.UnexpectedCrash, isHidden: true), // 不速之客
             BugRelated(id: AchievementIds.ProblemFeedback), // 问题反馈
+            BugRelated(id: AchievementIds.CdnTorture, target: 3), // 下载资源失败超过3次
             #endregion
 
             #region 彩蛋类

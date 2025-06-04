@@ -89,6 +89,7 @@ namespace MaaWpfGui.Constants
         public const string CongratulationError = "CongratulationError";
         public const string UnexpectedCrash = "UnexpectedCrash";
         public const string ProblemFeedback = "ProblemFeedback";
+        public const string CdnTorture = "CdnTorture";
 
         #endregion
 
