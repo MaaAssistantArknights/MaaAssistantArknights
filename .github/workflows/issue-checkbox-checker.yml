@@ -47,24 +47,18 @@ jobs:
       with:
         script: |
           const originalBody = context.payload.issue.body;
-          const checkboxSection =
-          `### 请确认自己完成了下列必选项之后再进行勾选，若未完成必选项或勾选了"我未仔细阅读"选项将视为自愿接受被直接关闭 Issue
-
-          - [x] 我理解 Issue 是用于反馈和解决问题的，而非吐槽评论区，将尽可能提供更多信息帮助问题解决
-          - [x] 我填写了简短且清晰明确的标题，以便开发者在翻阅 Issue 列表时能快速确定大致问题。而不是“一个建议”、“卡住了”等
-          - [x] 我使用的是当前更新版本的最新版
-          - [x] 我已查看版本发布至今的 [更新内容](https://github.com/MaaAssistantArknights/MaaAssistantArknights/commits/dev/) 中尚未发布的更新内容并未提及该 Bug 已被修复的情况
-          - [x] 我已查看版本发布至今的 [Pull Requests](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pulls) 中尚未发布的更新内容并未提及该 Bug 已被修复的情况
-          - [ ] 我已在未仔细阅读这些内容的情况下勾选所有选项，并相信这不会影响问题的处理
-          - [x] 我已检查了[常见问题](https://maa.plus/docs/zh-cn/manual/faq.html)，确认我的问题未被提及
-          - [x] 我已检查了[公告](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/7732)，确认我的问题未被提及
-          - [x] 我已检查了[活跃议题](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues)，确认我的问题未被提及
-          - [x] 我已检查了[已关闭议题](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues?q=is%3Aissue%20state%3Aclosed)，确认我的问题未被提及`;
+          const checkboxSectionRegex_cn = /([\s\S]*?)(### 问题描述\n\n)/;
+          const checkboxSectionRegex_en = /([\s\S]*?)(### Description\n\n)/;
           
-          const foldedBody = originalBody.replace(
-            checkboxSection,
-            `<details><summary>Checkboxes</summary>\n\n${checkboxSection}\n\n</details>`
+          const foldedBody_cn = originalBody.replace(
+            checkboxSectionRegex_cn,
+            `<details><summary>Checkboxes</summary>\n\n$1\n\n</details>\n\n$2`
           );
+          const foldedBody = foldedBody_cn.replace(
+            checkboxSectionRegex_en,
+            `<details><summary>Checkboxes</summary>\n\n$1\n\n</details>\n\n$2`
+          );
+          
           await github.rest.issues.update({
             owner: context.repo.owner,
             repo: context.repo.repo,
