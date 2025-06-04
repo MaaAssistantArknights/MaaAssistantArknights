@@ -340,7 +340,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
     if (m_kills < action.kills) {
         update_image_if_empty();
         while (!need_exit() && m_kills < action.kills) {
-            update_kills(image);
+            update_kills(image, image_prev);
             if (m_kills >= action.kills) {
                 break;
             }
