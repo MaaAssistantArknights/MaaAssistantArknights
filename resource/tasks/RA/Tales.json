@@ -552,19 +552,23 @@
         "baseTask": "Tales@RA@SwipeSave",
         "template": "Tales@RA@SwipeSave.png",
         "next": [
-            "Tales@RA@PNS-ProsperityBelowLimit-SwipeSaveConfirm",
+            "Tales@RA@PNS-ProsperityBelowLimit-SwipeSaveConfirm1",
             "Tales@RA@PNS-ProsperityBelowLimit-SwipeSave",
-            "Tales@RA@PNS-ProsperityBelowLimit-SwipeSave@NextAfterLoadingText",
-            "Tales@RA@ProsperityNoSave"
+            "Tales@RA@PNS-ProsperityBelowLimit-SwipeSave@NextAfterLoadingText"
         ]
     },
-    "Tales@RA@PNS-ProsperityBelowLimit-SwipeSaveConfirm": {
+    "Tales@RA@PNS-ProsperityBelowLimit-SwipeSaveConfirm1": {
         "baseTask": "Tales@RA@DialogConfirmRed",
         "template": "Tales@RA@DialogConfirmRed.png",
+        "next": ["Tales@RA@PNS-ProsperityBelowLimit-SwipeSaveConfirm2"]
+    },
+    "Tales@RA@PNS-ProsperityBelowLimit-SwipeSaveConfirm2": {
+        "baseTask": "Tales@RA@DialogConfirmRed",
+        "template": "Tales@RA@DialogConfirmRed.png",
+        "postDelay": 1000,
         "next": [
-            "Tales@RA@PNS-ProsperityBelowLimit-SwipeSaveConfirm",
-            "Tales@RA@PNS-ProsperityBelowLimit-SwipeSave",
-            "Tales@RA@PNS-ProsperityBelowLimit-SwipeSave@NextAfterLoadingText",
+            "Tales@RA@PNS-ProsperityBelowLimit-SwipeSaveConfirm2",
+            "Tales@RA@PNS-ProsperityBelowLimit-SwipeSaveConfirm2@NextAfterLoadingText",
             "Tales@RA@ProsperityNoSave"
         ]
     },
@@ -597,18 +601,23 @@
         "baseTask": "Tales@RA@SwipeSave",
         "template": "Tales@RA@SwipeSave.png",
         "next": [
-            "Tales@RA@PNS-ProsperityReachLimit-SwipeSaveConfirm",
+            "Tales@RA@PNS-ProsperityReachLimit-SwipeSaveConfirm1",
             "Tales@RA@PNS-ProsperityReachLimit-SwipeSave",
             "Tales@RA@PNS-ProsperityReachLimit-SwipeSave@NextAfterLoadingText"
         ]
     },
-    "Tales@RA@PNS-ProsperityReachLimit-SwipeSaveConfirm": {
+    "Tales@RA@PNS-ProsperityReachLimit-SwipeSaveConfirm1": {
         "baseTask": "Tales@RA@DialogConfirmRed",
         "template": "Tales@RA@DialogConfirmRed.png",
+        "next": ["Tales@RA@PNS-ProsperityReachLimit-SwipeSaveConfirm2"]
+    },
+    "Tales@RA@PNS-ProsperityReachLimit-SwipeSaveConfirm2": {
+        "baseTask": "Tales@RA@DialogConfirmRed",
+        "template": "Tales@RA@DialogConfirmRed.png",
+        "postDelay": 1000,
         "next": [
-            "Tales@RA@PNS-ProsperityReachLimit-SwipeSaveConfirm",
-            "Tales@RA@PNS-ProsperityReachLimit-SwipeSave",
-            "Tales@RA@PNS-ProsperityReachLimit-SwipeSave@NextAfterLoadingText",
+            "Tales@RA@PNS-ProsperityReachLimit-SwipeSaveConfirm2",
+            "Tales@RA@PNS-ProsperityReachLimit-SwipeSaveConfirm2@NextAfterLoadingText",
             "RA@Store@WaitEnterStore"
         ]
     },
