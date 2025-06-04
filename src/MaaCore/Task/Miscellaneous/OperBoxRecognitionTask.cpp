@@ -82,7 +82,7 @@ void asst::OperBoxRecognitionTask::callback_analyze_result(bool done)
                 { "name_kr", BattleData.get_kr(name) },
                 { "name_tw", BattleData.get_tw(name) },
                 { "rarity", BattleData.get_rarity(name) },
-                { "own", own },
+                { "own", own }, // 在m_own_opers中重复
             });
     }
     for (const auto& [name, box_info] : m_own_opers) {
