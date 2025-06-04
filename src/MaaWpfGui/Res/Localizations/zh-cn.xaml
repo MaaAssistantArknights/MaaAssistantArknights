@@ -1253,7 +1253,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.Lucky.Conditions">启动 MAA 时有极！小！概率触发</system:String>
 
     <system:String x:Key="Achievement.CdnTorture.Title">网络折磨人</system:String>
-    <system:String x:Key="Achievement.CdnTorture.Description">CDN 是真的在南极吗？</system:String>
+    <system:String x:Key="Achievement.CdnTorture.Description">比宇宙更远的地方，是 Github 的服务器。</system:String>
     <system:String x:Key="Achievement.CdnTorture.Conditions">下载资源失败超过 3 次</system:String>
 
     <!--  !Achievement  -->
