@@ -169,6 +169,7 @@ namespace MaaWpfGui.Helper
 
             achievement.IsUnlocked = false;
             achievement.UnlockedTime = null;
+            achievement.Progress = 0;
             Save();
             NotifyOfPropertyChange(nameof(UnlockedCount));
         }
