@@ -364,7 +364,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             // TODO: 删除老数据节省 gui.json 的大小，后续版本可以删除
             // var json = ConfigurationHelper.GetValue(ConfigurationKeys.DepotResult, string.Empty);
-            ConfigurationHelper.DeleteValue(ConfigurationKeys.DepotResult, out _);
+            ConfigurationHelper.DeleteValue(ConfigurationKeys.DepotResult);
             var json = JsonDataHelper.Get(JsonDataKey.DepotData, string.Empty);
             if (string.IsNullOrWhiteSpace(json))
             {
@@ -644,7 +644,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             // TODO: 删除老数据节省 gui.json 的大小，后续版本可以删除
             // var json = ConfigurationHelper.GetValue(ConfigurationKeys.OperBoxData, string.Empty);
-            ConfigurationHelper.DeleteValue(ConfigurationKeys.OperBoxData, out _);
+            ConfigurationHelper.DeleteValue(ConfigurationKeys.OperBoxData);
             var json = JsonDataHelper.Get(JsonDataKey.OperBoxData, string.Empty);
             if (string.IsNullOrWhiteSpace(json))
             {
