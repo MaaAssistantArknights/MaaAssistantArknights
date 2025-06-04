@@ -1260,5 +1260,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.AfkWatcher.Description">你是在挂机，还是忘了关？</system:String>
     <system:String x:Key="Achievement.AfkWatcher.Conditions">窗口最小化后长时间不操作</system:String>
 
+    <system:String x:Key="Achievement.MissionStartCount.Title">不离不弃</system:String>
+    <system:String x:Key="Achievement.MissionStartCount.Description">是信任，也是依赖。</system:String>
+    <system:String x:Key="Achievement.MissionStartCount.Conditions">一天内开始任务超过 3 次</system:String>
+
     <!--  !Achievement  -->
 </ResourceDictionary>

@@ -318,6 +318,8 @@ namespace MaaWpfGui.Helper
             FeatureExploration(id: AchievementIds.PioneerDebug, isHidden: true), // 使用未发布版本的 MAA（隐藏）
 
             FeatureExploration(id: AchievementIds.MosquitoLeg, target: 5), // 使用「借助战打 OF-1」功能超过5次
+            BasicUsage(id: AchievementIds.MissionStartCount, target: 3), // 一天内开始任务超过 3 次
+
             #endregion
 
             #region 自动战斗

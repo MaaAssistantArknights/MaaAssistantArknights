@@ -22,6 +22,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -1410,6 +1411,27 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(LocalizationHelper.GetString("UnknownErrorOccurs"));
                 await Stop();
                 SetStopped();
+            }
+
+            const string Id = AchievementIds.MissionStartCount;
+            const string Key = "LastStartDate";
+
+            var achievement = AchievementTrackerHelper.Instance.Get(Id);
+            var today = DateTime.UtcNow.ToYjDate().Date;
+            DateTime? lastDate = null;
+            if ((achievement.CustomData ??= new()).TryGetValue(Key, out var token))
+            {
+                lastDate = token.ToObject<DateTime>();
+            }
+
+            if (lastDate.HasValue && lastDate.Value == today)
+            {
+                AchievementTrackerHelper.Instance.AddProgress(Id);
+            }
+            else
+            {
+                achievement.CustomData[Key] = JToken.FromObject(today);
+                AchievementTrackerHelper.Instance.SetProgress(Id, 1);
             }
         }
 

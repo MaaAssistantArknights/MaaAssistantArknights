@@ -48,6 +48,7 @@ namespace MaaWpfGui.Constants
         public const string PioneerTest = "PioneerTest";
         public const string PioneerSuperTest = "PioneerSuperTest";
         public const string PioneerDebug = "PioneerDebug";
+        public const string MissionStartCount = "MissionStartCount";
 
         #endregion
 
