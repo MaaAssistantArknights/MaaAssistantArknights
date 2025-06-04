@@ -37,7 +37,7 @@ public:
     {
         ObjectOfInterest object_of_interest;
         std::vector<battle::DeploymentOper> deployment;
-        std::optional<std::pair<int, int>> kills; // kills / total_kills
+        MatchResult<std::pair<int, int>> kills; // kills / total_kills
         MatchResult<int> costs;
 
         // bool in_detail = false;
@@ -67,9 +67,11 @@ protected:
     int oper_cost_analyze(const Rect& roi) const;
     bool oper_available_analyze(const Rect& roi) const;
 
-    std::optional<std::pair<int, int>> kills_analyze() const; // 识别击杀数
-    bool cost_symbol_analyze() const;                         // 识别费用左侧图标
-    MatchResult<int> costs_analyze() const;                   // 识别费用
+    MatchResult<std::pair<int, int>> kills_analyze() const; // 识别击杀数
+    // 识别是否持有费用是否命中缓存
+    bool hit_kills_cache() const;
+    bool cost_symbol_analyze() const;       // 识别费用左侧图标
+    MatchResult<int> costs_analyze() const; // 识别费用
     // 识别是否持有费用是否命中缓存
     bool hit_costs_cache() const;
     bool in_detail_analyze() const;        // 识别是否在详情页

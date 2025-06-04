@@ -377,8 +377,8 @@ bool asst::CombatRecordRecognitionTask::slice_video()
         m_battle_end_frame = 0;
         not_in_battle_count = 0;
 
-        if (result_opt->kills) {
-            auto& [cur_kills, cur_total_kills] = *result_opt->kills;
+        if (result_opt->kills.status == BattlefieldMatcher::MatchStatus::Success) {
+            auto& [cur_kills, cur_total_kills] = result_opt->kills.value;
             if (cur_kills != latest_kills) {
                 m_frame_kills.emplace_back(std::make_pair(i, cur_kills));
             }
