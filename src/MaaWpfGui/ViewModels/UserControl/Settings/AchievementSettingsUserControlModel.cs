@@ -21,6 +21,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Views.UI;
 using Stylet;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 
 namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
@@ -104,6 +105,12 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
+        if (Instances.VersionUpdateViewModel.IsDebugVersion())
+        {
+            EnableDebugMode();
+            return;
+        }
+
         if (++_clickCount < 10)
         {
             return;
@@ -111,7 +118,7 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
 
         _clickCount = 0;
 
-        bool shouldTriggerDebug = _random.NextDouble() < 0.1 || Instances.VersionUpdateViewModel.IsDebugVersion();
+        bool shouldTriggerDebug = _random.NextDouble() < 0.1;
         if (shouldTriggerDebug)
         {
             EnableDebugMode();
