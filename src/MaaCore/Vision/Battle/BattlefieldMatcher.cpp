@@ -279,7 +279,7 @@ BattlefieldMatcher::MatchResult<std::pair<int, int>> BattlefieldMatcher::kills_a
     TemplDetOCRer kills_analyzer(m_image);
     kills_analyzer.set_task_info("BattleKillsFlag", "BattleKills");
     kills_analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
-
+    kills_analyzer.set_ocr_use_raw(true);
     auto kills_opt = kills_analyzer.analyze();
     if (!kills_opt) {
         return {};
