@@ -36,7 +36,17 @@ namespace MaaWpfGui.Helper
             set
             {
                 SetAndNotify(ref _achievements, value);
+                NotifyOfPropertyChange(nameof(UnlockedCount));
+                NotifyOfPropertyChange(nameof(VisibleAchievements));
             }
+        }
+
+        // 已解锁及非隐藏的未解锁成就
+        public Dictionary<string, Achievement> VisibleAchievements
+        {
+            get => Achievements
+                .Where(kv => kv.Value.IsUnlocked || !kv.Value.IsHidden)
+                .ToDictionary(kv => kv.Key, kv => kv.Value);
         }
 
         public int UnlockedCount => Achievements.Count(a => a.Value.IsUnlocked);
@@ -129,8 +139,6 @@ namespace MaaWpfGui.Helper
             achievement.UnlockedTime = DateTime.UtcNow;
             achievement.IsNewUnlock = true;
             Save();
-
-            NotifyOfPropertyChange(nameof(UnlockedCount));
 
             var growlInfo = new GrowlInfo
             {
@@ -318,7 +326,7 @@ namespace MaaWpfGui.Helper
             AutoBattle(id: AchievementIds.UseCopilot3, target: 100),
 
             AutoBattle(id: AchievementIds.MapOutdated, isHidden: true), // 提示需要更新地图资源
-            AutoBattle(id: AchievementIds.Irreplaceable), // 自动编队缺少至少两名干员
+            AutoBattle(id: AchievementIds.Irreplaceable, isHidden: true), // 自动编队缺少至少两名干员
             #endregion
 
             #region 搞笑/梗类成就

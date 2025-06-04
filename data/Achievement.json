@@ -35,9 +35,6 @@
   "ScheduleMaster2": {
     "Id": "ScheduleMaster2"
   },
-  "Irreplaceable": {
-    "Id": "Irreplaceable"
-  },
   "UseCopilot1": {
     "Id": "UseCopilot1"
   },
@@ -79,6 +76,9 @@
   },
   "PioneerSuperTest": {
     "Id": "PioneerSuperTest"
+  },
+  "Irreplaceable": {
+    "Id": "Irreplaceable"
   },
   "MapOutdated": {
     "Id": "MapOutdated"

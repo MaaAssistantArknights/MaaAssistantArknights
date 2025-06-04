@@ -11,13 +11,13 @@
     MinWidth="250">
     <Grid>
         <ListBox
-            ItemsSource="{Binding Achievements.Values, Source={x:Static helper:AchievementTrackerHelper.Instance}}"
+            ItemsSource="{Binding VisibleAchievements.Values, Source={x:Static helper:AchievementTrackerHelper.Instance}}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
             VirtualizingPanel.ScrollUnit="Pixel">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <VirtualizingStackPanel Orientation="Horizontal">
+                    <VirtualizingStackPanel Orientation="Horizontal" Visibility="{c:Binding 'IsUnlocked or !IsHidden'}">
                         <Path
                             Width="40"
                             Height="40"
