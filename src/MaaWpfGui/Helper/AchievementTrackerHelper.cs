@@ -81,6 +81,7 @@ namespace MaaWpfGui.Helper
         {
             Achievements = _achievements
                 .OrderByDescending(kv => kv.Value.IsUnlocked) // 已解锁优先
+                .ThenBy(kv => !kv.Value.IsNewUnlock) // 新解锁的排前面
                 .ThenBy(kv => kv.Value.IsHidden) // 隐藏排后面
                 .ThenBy(kv => kv.Value.Category) // 按类别分组
                 .ThenBy(kv => kv.Value.Id) // 最后按 Id
@@ -126,6 +127,7 @@ namespace MaaWpfGui.Helper
 
             achievement.IsUnlocked = true;
             achievement.UnlockedTime = DateTime.UtcNow;
+            achievement.IsNewUnlock = true;
             Save();
 
             NotifyOfPropertyChange(nameof(UnlockedCount));

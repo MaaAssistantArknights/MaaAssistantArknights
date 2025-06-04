@@ -23,13 +23,16 @@
                             Height="40"
                             Data="{DynamicResource HangoverGeometry}"
                             Fill="{Binding MedalBrush}"
-                            Stretch="Uniform"/>
+                            Stretch="Uniform" />
                         <VirtualizingStackPanel Margin="8" HorizontalAlignment="Left">
-                            <TextBlock
-                                FontWeight="Bold"
-                                Foreground="{DynamicResource MessageLogBrush}"
-                                Text="{Binding Title}"
-                                TextWrapping="Wrap" />
+                            <VirtualizingStackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                <TextBlock
+                                    FontWeight="Bold"
+                                    Foreground="{DynamicResource MessageLogBrush}"
+                                    Text="{Binding Title}"
+                                    TextWrapping="Wrap" />
+                                <TextBlock Text=" (NEW)" Visibility="{c:Binding IsNewUnlock}" />
+                            </VirtualizingStackPanel>
                             <TextBlock
                                 Foreground="{DynamicResource TraceLogBrush}"
                                 Text="{Binding Description}"

@@ -117,5 +117,9 @@ namespace MaaWpfGui.Models
                 return new SolidColorBrush(Colors.Transparent);
             }
         }
+
+        // 新解锁的成就放前面，仅本次关闭前生效
+        [JsonIgnore]
+        public bool IsNewUnlock { get; set; } = false;
     }
 }
