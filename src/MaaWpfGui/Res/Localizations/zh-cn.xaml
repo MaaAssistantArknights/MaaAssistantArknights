@@ -1256,5 +1256,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.CdnTorture.Description">比宇宙更远的地方，是 Github 的服务器。</system:String>
     <system:String x:Key="Achievement.CdnTorture.Conditions">下载资源失败超过 3 次</system:String>
 
+    <system:String x:Key="Achievement.AfkWatcher.Title">摇人挂机党</system:String>
+    <system:String x:Key="Achievement.AfkWatcher.Description">你是在挂机，还是忘了关？</system:String>
+    <system:String x:Key="Achievement.AfkWatcher.Conditions">窗口最小化后长时间不操作</system:String>
+
     <!--  !Achievement  -->
 </ResourceDictionary>

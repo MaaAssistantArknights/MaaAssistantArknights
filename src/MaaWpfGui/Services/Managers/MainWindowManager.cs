@@ -49,6 +49,12 @@ namespace MaaWpfGui.Services.Managers
 
             bool useTrayIcon = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UseTray, bool.TrueString));
             SetUseTrayIcon(useTrayIcon);
+
+            _previousState = GetWindowState();
+            if (_previousState == WindowState.Minimized)
+            {
+                _minimizedSince = DateTime.Now;
+            }
         }
 
         /// <inheritdoc/>
@@ -101,6 +107,7 @@ namespace MaaWpfGui.Services.Managers
         }
 
         private WindowState? _previousState = null;
+        private DateTime? _minimizedSince = null;
 
         /// <summary>
         /// Handle the main window's state changed event
@@ -116,9 +123,24 @@ namespace MaaWpfGui.Services.Managers
                 ChangeVisibility(currentState != WindowState.Minimized);
             }
 
-            // 触发事件：从 Minimized 恢复
-            if (_previousState is null || (_previousState == WindowState.Minimized && currentState != WindowState.Minimized))
+            // 检测进入 Minimized
+            if (_previousState != WindowState.Minimized && currentState == WindowState.Minimized)
             {
+                _minimizedSince = DateTime.Now;
+            }
+
+            // 触发事件：从 Minimized 恢复
+            if (_previousState == WindowState.Minimized && currentState != WindowState.Minimized)
+            {
+                if (_minimizedSince != null)
+                {
+                    var duration = DateTime.Now - _minimizedSince.Value;
+                    if (duration.TotalHours >= 1)
+                    {
+                        AchievementTrackerHelper.Instance.Unlock(AchievementIds.AfkWatcher);
+                    }
+                }
+
                 WindowRestored?.Invoke(this, EventArgs.Empty);
             }
 
