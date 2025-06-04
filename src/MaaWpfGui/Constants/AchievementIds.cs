@@ -27,6 +27,13 @@ namespace MaaWpfGui.Constants
         public const string SanitySaver2 = "SanitySaver2";
         public const string SanitySaver3 = "SanitySaver3";
 
+        public const string RoguelikeGamePassGroup = "RoguelikeGamePass";
+        public const string RoguelikeGamePass1 = "RoguelikeGamePass1";
+        public const string RoguelikeGamePass2 = "RoguelikeGamePass2";
+        public const string RoguelikeGamePass3 = "RoguelikeGamePass3";
+        public const string RoguelikeRetreat = "RoguelikeCowRetreat";
+        public const string RoguelikeGoldMax = "RoguelikeGoldMax";
+
         public const string FirstLaunch = "FirstLaunch";
 
         public const string SanityExpire = "SanityExpire";

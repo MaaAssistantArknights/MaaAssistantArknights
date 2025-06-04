@@ -305,6 +305,14 @@ namespace MaaWpfGui.Helper
             BasicUsage(id: AchievementIds.FirstLaunch), // 首次启动
             BasicUsage(id: AchievementIds.SanityExpire, target: 8), // 单次消耗 8 瓶快过期的理智药
             BasicUsage(id: AchievementIds.OverLimitAgent, target: 100, isHidden: true), // 单次代理 100 关
+            BasicUsage(id: AchievementIds.MissionStartCount, target: 3), // 一天内开始任务超过 3 次
+
+            BasicUsage(id: AchievementIds.RoguelikeGamePass1, target: 1), // 使用牛牛通关肉鸽
+            BasicUsage(id: AchievementIds.RoguelikeGamePass2, target: 5),
+            BasicUsage(id: AchievementIds.RoguelikeGamePass3, target: 10),
+            BasicUsage(id: AchievementIds.RoguelikeRetreat, target: 1000), // 牛牛放弃探索 1000 次
+            BasicUsage(id: AchievementIds.RoguelikeGoldMax, target: 999), // 肉鸽源石锭到达 999
+
             #endregion
 
             #region 功能探索类
@@ -318,8 +326,7 @@ namespace MaaWpfGui.Helper
             FeatureExploration(id: AchievementIds.PioneerSuperTest, isHidden: true), // 将 MAA 更新至内测版（隐藏）
             FeatureExploration(id: AchievementIds.PioneerDebug, isHidden: true), // 使用未发布版本的 MAA（隐藏）
 
-            FeatureExploration(id: AchievementIds.MosquitoLeg, target: 5), // 使用「借助战打 OF-1」功能超过5次
-            BasicUsage(id: AchievementIds.MissionStartCount, target: 3), // 一天内开始任务超过 3 次
+            FeatureExploration(id: AchievementIds.MosquitoLeg, target: 5), // 使用「借助战打 OF-1」功能超过 5 次
 
             #endregion
 

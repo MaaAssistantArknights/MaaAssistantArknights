@@ -1264,5 +1264,26 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.MissionStartCount.Description">是信任，也是依赖。</system:String>
     <system:String x:Key="Achievement.MissionStartCount.Conditions">一天内开始任务超过 3 次</system:String>
 
+    <system:String x:Key="Achievement.RoguelikeGamePass1.Title">只要能到达那个地方</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass1.Description">只要能到达...只要能到达...那个地方...嗯...嗯！</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass1.Conditions">使用牛牛通关肉鸽 1 次</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeGamePass2.Title">只要能到达那个地方</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass2.Description">只要能到达...只要能到达...那个地方...嗯...嗯！</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass2.Conditions">使用牛牛通关肉鸽 5 次</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeGamePass3.Title">只要能到达那个地方</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass3.Description">只要能到达...只要能到达...那个地方...嗯...嗯！</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass3.Conditions">使用牛牛通关肉鸽 10 次</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeRetreat.Title">失败是成功之母</system:String>
+    <system:String x:Key="Achievement.RoguelikeRetreat.Description">终有一天，我们会到达成功的彼岸，失败是成功的阶梯。</system:String>
+    <system:String x:Key="Achievement.RoguelikeRetreat.Conditions">牛牛放弃探索 100 次</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeGoldMax.Title">满了满了</system:String>
+    <system:String x:Key="Achievement.RoguelikeGoldMax.Description">坎诺特，把你店里最贵的端出来！</system:String>
+    <system:String x:Key="Achievement.RoguelikeGoldMax.Conditions">肉鸽源石锭到达 999</system:String>
+
+
     <!--  !Achievement  -->
 </ResourceDictionary>

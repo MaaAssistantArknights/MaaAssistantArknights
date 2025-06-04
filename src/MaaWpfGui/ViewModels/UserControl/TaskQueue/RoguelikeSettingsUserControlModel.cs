@@ -874,6 +874,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         {
             case "RoguelikeInvestmentReachFull":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeInvestmentReachFull"), UiLogColor.Info);
+                AchievementTrackerHelper.Instance.SetProgress(AchievementIds.RoguelikeGoldMax, 999);
                 break;
 
             case "RoguelikeInvestmentReachLimit":
@@ -882,6 +883,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
             case "RoguelikeInvestment":
                 Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeInvestment"), subTaskDetails!["count"], subTaskDetails["total"], subTaskDetails["deposit"]), UiLogColor.Info);
+                AchievementTrackerHelper.Instance.SetProgress(AchievementIds.RoguelikeGoldMax, (int)subTaskDetails["deposit"]!);
                 break;
 
             case "RoguelikeSettlement":
