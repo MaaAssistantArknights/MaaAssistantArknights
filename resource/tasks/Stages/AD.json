@@ -1,0 +1,57 @@
+{
+    "AD-8": {
+      "algorithm": "JustReturn",
+      "sub": ["AD-OpenOpt"],
+      "next": ["AD-8@SideStoryStage", "AD-8@SwipeToStage"]
+    },
+    "AD-8@SideStoryStage": {
+      "text": ["AD-8"]
+    },
+    "AD-7": {
+      "algorithm": "JustReturn",
+      "sub": ["AD-OpenOpt"],
+      "next": ["AD-7@SideStoryStage", "AD-7@SwipeToStage"]
+    },
+    "AD-7@SideStoryStage": {
+      "text": ["AD-7"]
+    },
+    "AD-6": {
+      "algorithm": "JustReturn",
+      "sub": ["AD-OpenOpt"],
+      "next": ["AD-6@SideStoryStage", "AD-6@SwipeToStage"]
+    },
+    "AD-6@SideStoryStage": {
+      "text": ["AD-6"]
+    },
+    "AD-3": {
+      "algorithm": "JustReturn",
+      "sub": ["AD-OpenOpt"],
+      "next": ["AD-3@SideStoryStage", "AD-3@SwipeToStage"]
+    },
+    "AD-3@SideStoryStage": {
+      "text": ["AD-3"]
+    },
+    "AD-OpenOpt": {
+      "algorithm": "JustReturn",
+      "next": ["AD-OpenOcr", "AD-Open"]
+    },
+    "AD-Open": {
+      "baseTask": "SS-Open",
+      "template": ["StageSideStory.png", "StageActivity.png"],
+      "next": ["ADChapterToAD"]
+    },
+    "AD-OpenOcr": {
+      "baseTask": "SS-OpenOcr",
+      "text": ["红丝绒", "为戏剧", "为永恒"],
+      "next": ["ADChapterToAD"]
+    },
+    "ADChapterToAD": {
+      "algorithm": "OcrDetect",
+      "action": "ClickSelf",
+      "text": ["演出开始"],
+      "preDelay": 4000,
+      "roi": [1053, 402, 200, 127],
+      "next": ["#self", "ChapterSwipeToTheRight"]
+    }
+  }
+  
