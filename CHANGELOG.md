@@ -2,20 +2,14 @@
 
 ### 新增 | New
 
-* 日志压缩包打包 cache/resource @ABA2396
 * SideStory「红丝绒」 @SherkeyXD
 * 清理 map 中的 png 类型截图 @ABA2396
-* 自动战斗费用击杀数缓存, 减少性能消耗 (#12879) @status102
-* FeatureMatcher muplti results @status102 @MistEO
 * 不允许通过吐司通知启动应用 @ABA2396 @status102
-* RA store (#12833) @Daydreamer114
-* 新增 JsonDataHelper，抽离 gui.json 中巨大的 data 类型数据到 data 文件夹中 (#12795) @ABA2396
-* template 重复检查 @status102
-* 繁中服 薩卡茲肉鴿 (#12800) @momomochi987 @pre-commit-ci[bot]
-* 更新识别工具逻辑与显示效果 (#12791) @ABA2396
-* 模板图允许从子文件夹加载 (#12717) @SherkeyXD @pre-commit-ci[bot]
 * 截图测试可以在自动检测的情况下使用 @ABA2396
+* 自动战斗费用击杀数缓存, 减少性能消耗 (#12879) @status102
 * 自动战斗费用识别缓存, 减少性能消耗 (#12765) @status102
+* RA store (#12833) @Daydreamer114
+* 繁中服 薩卡茲肉鴿 (#12800) @momomochi987 @pre-commit-ci[bot]
 
 ### 改进 | Improved
 
@@ -70,6 +64,12 @@
 
 ### 其他 | Other
 
+* 新增 JsonDataHelper，抽离 gui.json 中巨大的 data 类型数据到 data 文件夹中 (#12795) @ABA2396
+* template 重复检查 @status102
+* 更新识别工具逻辑与显示效果 (#12791) @ABA2396
+* 模板图允许从子文件夹加载 (#12717) @SherkeyXD @pre-commit-ci[bot]
+* FeatureMatcher muplti results @status102 @MistEO
+* 日志压缩包打包 cache/resource @ABA2396
 * 调整 tasks 移动逻辑 @ABA2396
 * 红丝绒 地图 @status102
 * blank @status102
