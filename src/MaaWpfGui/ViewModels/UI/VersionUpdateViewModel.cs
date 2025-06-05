@@ -1065,6 +1065,14 @@ public class VersionUpdateViewModel : Screen
             return CheckUpdateRetT.UnknownError;
         }
 
+        if (data["data"]?["update_type"]?.ToObject<string>() == "full")
+        {
+            using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionNoOtaPackage"));
+            toast.Show(30);
+            _logger.Warning("No OTA package found, but full package found.");
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("NewVersionNoOtaPackage"), UiLogColor.Warning);
+        }
+
         var version = data["data"]?["version_name"]?.ToString();
         if (string.IsNullOrEmpty(version))
         {
