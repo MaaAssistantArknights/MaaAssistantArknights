@@ -350,8 +350,7 @@
         },
         "char_1039_thorn2": {
             "name": "引星棘刺",
-            "name_en": "引星棘刺",
-            "name_en_unavailable": true,
+            "name_en": "Thorns the Lodestar",
             "name_jp": "引星ソーンズ",
             "name_kr": "쏜즈 더 로드스타",
             "name_tw": "引星棘刺",
@@ -3454,8 +3453,7 @@
         },
         "char_4163_rosesa": {
             "name": "瑰盐",
-            "name_en": "瑰盐",
-            "name_en_unavailable": true,
+            "name_en": "Rose Salt",
             "name_jp": "ローズソルト",
             "name_kr": "로즈솔트",
             "name_tw": "瑰盐",
@@ -3467,8 +3465,7 @@
         },
         "char_4164_tecno": {
             "name": "特克诺",
-            "name_en": "特克诺",
-            "name_en_unavailable": true,
+            "name_en": "Tecno",
             "name_jp": "テクノ",
             "name_kr": "테크노",
             "name_tw": "特克诺",
@@ -5085,8 +5082,7 @@
         },
         "token_10042_tecno_puppet": {
             "name": "木偶舞者",
-            "name_en": "木偶舞者",
-            "name_en_unavailable": true,
+            "name_en": "Puppet Dancer",
             "name_jp": "パペットダンサー",
             "name_kr": "인형 댄서",
             "name_tw": "木偶舞者",
@@ -7896,8 +7892,7 @@
         },
         "trap_187_arcgacha": {
             "name": "扭蛋机",
-            "name_en": "扭蛋机",
-            "name_en_unavailable": true,
+            "name_en": "Gacha Machine",
             "name_jp": "カプセルマシン",
             "name_kr": "가챠머신",
             "name_tw": "扭蛋机",
@@ -7909,8 +7904,7 @@
         },
         "trap_188_arcsum1": {
             "name": "街边电话亭",
-            "name_en": "街边电话亭",
-            "name_en_unavailable": true,
+            "name_en": "Street Telephone Booth",
             "name_jp": "道端の電話ボックス",
             "name_kr": "길가의 전화부스",
             "name_tw": "街边电话亭",
@@ -7922,8 +7916,7 @@
         },
         "trap_189_arcsum2": {
             "name": "军营电话亭",
-            "name_en": "军营电话亭",
-            "name_en_unavailable": true,
+            "name_en": "Camp Telephone Booth",
             "name_jp": "軍営の電話ボックス",
             "name_kr": "군부대 전화부스",
             "name_tw": "军营电话亭",
@@ -7935,8 +7928,7 @@
         },
         "trap_190_arcsum3": {
             "name": "超时空电话亭",
-            "name_en": "超时空电话亭",
-            "name_en_unavailable": true,
+            "name_en": "Timey-Wimey Telephone Booth",
             "name_jp": "次元超越電話ボックス",
             "name_kr": "초시공 전화부스",
             "name_tw": "超时空电话亭",
@@ -7948,8 +7940,7 @@
         },
         "trap_191_arcexpd": {
             "name": "菜单电话机",
-            "name_en": "菜单电话机",
-            "name_en_unavailable": true,
+            "name_en": "Menu Telephone",
             "name_jp": "注文用電話機",
             "name_kr": "다이얼 전화기",
             "name_tw": "菜单电话机",
@@ -7961,8 +7952,7 @@
         },
         "trap_192_archook": {
             "name": "勾爪",
-            "name_en": "勾爪",
-            "name_en_unavailable": true,
+            "name_en": "Hook",
             "name_jp": "アーム",
             "name_kr": "갈고리",
             "name_tw": "勾爪",
@@ -7974,8 +7964,7 @@
         },
         "trap_193_arctoll": {
             "name": "大战记分站",
-            "name_en": "大战记分站",
-            "name_en_unavailable": true,
+            "name_en": "Scoring Station",
             "name_jp": "得点集計所",
             "name_kr": "점수 기록판",
             "name_tw": "大战记分站",
@@ -7987,8 +7976,7 @@
         },
         "trap_194_arcsoda": {
             "name": "口渴乐乐",
-            "name_en": "口渴乐乐",
-            "name_en_unavailable": true,
+            "name_en": "Quenchy Cola",
             "name_jp": "コカ・ラーラ",
             "name_kr": "크크콜라",
             "name_tw": "口渴乐乐",
@@ -8000,8 +7988,7 @@
         },
         "trap_195_arcpw": {
             "name": "大力拳套",
-            "name_en": "大力拳套",
-            "name_en_unavailable": true,
+            "name_en": "Power Gauntlet",
             "name_jp": "怪力グローブ",
             "name_kr": "파워 글러브",
             "name_tw": "大力拳套",
@@ -8013,8 +8000,7 @@
         },
         "trap_196_cnnon": {
             "name": "盐坨子炮",
-            "name_en": "盐坨子炮",
-            "name_en_unavailable": true,
+            "name_en": "Saltheap Cannon",
             "name_jp": "ソルトキャノン",
             "name_kr": "염괴포",
             "name_tw": "盐坨子炮",
@@ -8206,8 +8192,7 @@
         },
         "trap_210_arcgrg": {
             "name": "两栖码头",
-            "name_en": "两栖码头",
-            "name_en_unavailable": true,
+            "name_en": "Amphibious Dock",
             "name_jp": "水陸両用埠頭",
             "name_kr": "수륙 양용 런처",
             "name_tw": "两栖码头",
@@ -10651,8 +10636,7 @@
         },
         "trap_777_giacan": {
             "name": "“留声机”底座",
-            "name_en": "“留声机”底座",
-            "name_en_unavailable": true,
+            "name_en": "Gramophone Pedestal",
             "name_jp": "「蓄音機」の台座",
             "name_kr": "'축음기' 받침대",
             "name_tw": "“留声机”底座",
@@ -10664,8 +10648,7 @@
         },
         "trap_778_giatow": {
             "name": "L-44\"留声机\"",
-            "name_en": "L-44\"留声机\"",
-            "name_en_unavailable": true,
+            "name_en": "L-44 'Gramophone'",
             "name_jp": "L-44「蓄音機」",
             "name_kr": "L-44 '축음기'",
             "name_tw": "L-44\"留声机\"",
