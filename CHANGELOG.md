@@ -4,14 +4,13 @@
 
 * 日志压缩包打包 cache/resource @ABA2396
 * SideStory「红丝绒」 @SherkeyXD
-* 跨10版本的情况下不提供自动更新 @ABA2396
 * 清理 map 中的 png 类型截图 @ABA2396
 * 自动战斗费用击杀数缓存, 减少性能消耗 (#12879) @status102
 * FeatureMatcher muplti results @status102 @MistEO
-* 不允许通过吐司通知启动应用 @ABA2396
+* 不允许通过吐司通知启动应用 @ABA2396 @status102
 * RA store (#12833) @Daydreamer114
 * 新增 JsonDataHelper，抽离 gui.json 中巨大的 data 类型数据到 data 文件夹中 (#12795) @ABA2396
-* template重复检查 @status102
+* template 重复检查 @status102
 * 繁中服 薩卡茲肉鴿 (#12800) @momomochi987 @pre-commit-ci[bot]
 * 更新识别工具逻辑与显示效果 (#12791) @ABA2396
 * 模板图允许从子文件夹加载 (#12717) @SherkeyXD @pre-commit-ci[bot]
@@ -21,14 +20,11 @@
 ### 改进 | Improved
 
 * 使用系统回收站替代强制删除 @status102
-* MirrorChyan更新支持判断完整包 @status102
-* MirrorChyan更新支持判断完整包 @status102
-* 允许无OTA包更新 @status102
-* MirrorChyan更新支持判断完整包 @ABA2396
-* 旧config移除简化 @status102
-* 特征匹配ASST_DEBUG增加匹配点位绘制 @status102
-* Log.debug是否写入判断优化 @status102
-* 阻止WinRT下Toast主体点击时的启动行为 @status102
+* 无 OTA 更新包更新逻辑 @status102 @ABA2396
+* MirrorChyan 更新支持判断完整包 @ABA2396 @status102
+* 旧 config 移除简化 @status102
+* 特征匹配 ASST_DEBUG 增加匹配点位绘制 @status102
+* Log.debug 是否写入判断优化 @status102
 * 刷理智任务每次开始行动时的文本优化 @status102
 * 自动战斗使用战斗列表执行单作业时, 增加一条警告; 追加部分提示的i18n (#12832) @status102
 * 肉鸽投资达限时, 增加输出提示 (#12818) @status102
@@ -37,8 +33,6 @@
 ### 修复 | Fix
 
 * WebStages加载临时补救 @status102
-* 补回遗漏的WebStages移动的path @status102
-* 补回遗漏的WebStages移动 @status102
 * 基建又双叒叕改了 @ABA2396
 * 自动更新无ota包时, 残留旧版本文件 @status102
 * Toast死锁 @status102
@@ -47,7 +41,7 @@
 * RA2 swipe save @Daydreamer114
 * 放弃与驮兽同行，等谁想加识别了再改回来） @ABA2396
 * 绿票商店跳过赤金及家具灵茧 @status102
-* 修复feature match sence内无特征点时的死循环问题 @status102
+* 修复 feature match sence 内无特征点时的死循环问题 @status102
 * 界面窗口标题滚动失效 @ABA2396
 * 繁中服 薩卡茲肉鴿 月度小隊無法開始探索 (#12871) @momomochi987 @pre-commit-ci[bot]
 * EN IS4 Squad Name @Daydreamer114
@@ -62,10 +56,8 @@
 * KR 驮兽旅行家 OCR @Daydreamer114
 * global templates are not loaded (#12787) @HX3N
 * BattleQuickFormationOCR in EN @status102
-* OperBox Roi for EN @status102
-* OperBox Roi for EN @status102
+* OperBox Roi @status102
 * 自动编队添加自定义干员时, 点击位置错误 @status102
-* OperBox ROI 更正 @status102
 
 ### 文档 | Docs
 
@@ -92,17 +84,11 @@
 * 持有费用缓存判定拆分 @status102
 * 增加“我未仔细阅读”陷阱选项 (#12864) @Lemon-miaow @Daydreamer114
 * LogDebug, LogTrace, LogInfo, LogWarn, LogError补上scope输出 (#12855) @status102
-* YostarEN EP navigation @Constrat
-* YostarKR EP navigation (#12852) @HX3N
-* YostarJP EP navigation and i18n changes (#12849) @Manicsteiner
-* using ToastNotification @ABA2396
-* Revert "feat: 不允许通过吐司通知启动应用" @status102
+* YostarEN/KR/JP EP navigation @Constrat @HX3N @Manicsteiner
 * HttpService日志中uri统一使用UriPartial限制 @status102
 * wpf CN 修改描述`连战次数` -> `代理倍率` (#12827) @status102
 * 生成时清理template, tasks, global缓存 @status102
 * 迁移肉鸽任务部分回调 @status102
-* Release v5.17.0-beta.1 (#12812) @ABA2396
-* Release v5.17.0-beta.1 (#12785) @ABA2396
 * 还原 RA/Fire.json @ABA2396
 * 重启函数添加 CallerMemberName，UntilIdleAsync 添加消抖 @ABA2396
 * YostarJP roguelike ocr edit (#12789) @Manicsteiner
@@ -110,8 +96,6 @@
 * 防止缓存的任务文件被意外覆盖 @status102
 * YostarJP FormationOCR params (#12783) @Manicsteiner
 * 调整技能识别保存截图的阈值 @ABA2396
-* Revert "fix: OperBox Roi for EN" @status102
 * 干员名识别封装 @status102
 * EN tweak @Constrat
 * TooltipBlock封装 (#12773) @status102 @ABA2396
-* Revert "chore: 还原 RA/Fire.json" @ABA2396
