@@ -1202,7 +1202,7 @@ public class VersionUpdateViewModel : Screen
 
     public bool IsDebugVersion(string? version = null)
     {
-        return false;
+        // return false;
         version ??= _curVersion;
 
         // match case 1: DEBUG VERSION
