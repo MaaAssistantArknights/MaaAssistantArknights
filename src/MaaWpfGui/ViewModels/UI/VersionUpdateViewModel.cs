@@ -1065,11 +1065,6 @@ public class VersionUpdateViewModel : Screen
             return CheckUpdateRetT.UnknownError;
         }
 
-        if (data["data"]?["update_type"]?.ToObject<string>() == "full")
-        {
-            return CheckUpdateRetT.NewVersionNoOtaPackage;
-        }
-
         var version = data["data"]?["version_name"]?.ToString();
         if (string.IsNullOrEmpty(version))
         {
