@@ -32,11 +32,13 @@ using MaaWpfGui.Services;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UserControl.Settings;
+using Microsoft.VisualBasic.FileIO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Semver;
 using Serilog;
 using Stylet;
+using SearchOption = System.IO.SearchOption;
 
 namespace MaaWpfGui.ViewModels.UI;
 
@@ -287,19 +289,23 @@ public class VersionUpdateViewModel : Screen
         }
         else
         {
+            List<Task> deleteTasks = [];
             foreach (var dir in Directory.GetDirectories(extractDir))
             {
-                try
+                deleteTasks.Add(Task.Run(() =>
                 {
-                    if (Directory.Exists(dir.Replace(extractDir, curDir)))
+                    try
                     {
-                        Directory.Delete(dir.Replace(extractDir, curDir), true);
+                        FileSystem.DeleteDirectory(dir, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                     }
-                }
-                catch
-                { // ignore
-                }
+                    catch
+                    { // ignore
+                        _logger.Error($"delete directory error, dir: {dir}");
+                    }
+                }));
             }
+
+            Task.WaitAll([.. deleteTasks]);
         }
 
         Directory.CreateDirectory(oldFileDir);

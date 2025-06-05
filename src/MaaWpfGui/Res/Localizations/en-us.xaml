@@ -311,7 +311,7 @@ You can cancel this popup by clicking the Settings - Issue Report link. Thank yo
     <system:String x:Key="CheckNetworking">Please check your network connection or proxy.</system:String>
     <system:String x:Key="GetReleaseNoteFailed">Failed to get release note.</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">The new version is being built, please try again later</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">A new version has been detected. Since the current version is too old, no OTA incremental update package is available. The full package will be downloaded and the folders in the update package will be removed. Please back up manually if necessary.</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">A new version has been detected. Since the current version is too old, no OTA incremental update package is available. The complete package will be downloaded and the resource folder will be moved to the recycle bin and .old. Please back up manually if necessary.</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">Preparing to download update package……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">Download of Update Package Failed</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">Please download the zip file manually and place it in the directory</system:String>
