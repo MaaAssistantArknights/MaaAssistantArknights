@@ -143,6 +143,16 @@ namespace MaaWpfGui.Services
             var tasksTask = Instances.MaaApiService.RequestMaaApiWithCache(TasksApi);
 
             await Task.WhenAll(activityTask, tasksTask);
+            if (File.Exists(TasksApi))
+            {
+                try
+                {
+                    File.Move(TasksApi, "resource/tasks/tasks.json", true);
+                }
+                catch
+                {// ignore
+                }
+            }
 
             JObject activity = await activityTask;
             JObject tasksJson = await tasksTask;
@@ -155,6 +165,16 @@ namespace MaaWpfGui.Services
                 // TODO: There may be an issue when the CN resource is loaded from cache (e.g. network down) while global resource is downloaded (e.g. network up again)
                 // var tasksJsonClient = fromWeb ? WebService.RequestMaaApiWithCache(tasksPath) : WebService.RequestMaaApiWithCache(tasksPath);
                 await Instances.MaaApiService.RequestMaaApiWithCache(tasksPath);
+                if (File.Exists(tasksPath))
+                {
+                    try
+                    {
+                        File.Move(TasksApi, $"resource/global/{clientType}/resource/tasks/tasks.json", true);
+                    }
+                    catch
+                    {// ignore
+                    }
+                }
             }
 
             await Task.Run(() =>
